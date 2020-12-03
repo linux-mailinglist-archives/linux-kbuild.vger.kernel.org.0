@@ -2,61 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 156812CD1A2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 09:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A914F2CD1D3
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 09:55:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729990AbgLCIqH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 03:46:07 -0500
-Received: from mail.boldwhite24.com ([80.211.42.67]:48312 "EHLO
-        mail.boldwhite24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729979AbgLCIqH (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 03:46:07 -0500
-Received: by mail.boldwhite24.com (Postfix, from userid 1001)
-        id C68F8A2CDB; Thu,  3 Dec 2020 08:45:15 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldwhite24.com;
-        s=mail; t=1606985122;
-        bh=hS3ibs4caZkahrzgcMN2TAJo2B2H5Muwb2NidDYlIzQ=;
-        h=Date:From:To:Subject:From;
-        b=EuVQDNLQqsb2QaAqkD1XIc8N655KBujx8HZKT1WcskDGkdOohZnUAV/E968QsLjZB
-         YhFhGo0AD5zpxUMOm6KMM2bRDL+96tM9aqvjQTTvzZPeRRqBBNjzzHPD5c9r63eVvX
-         z/EZVeYa2fUQXoWy4SlG4e/zeZtvmsDBauJzGokSqkHscZ9FJODWePYGB6V+WlTMc2
-         mplVxcEfGnZM2fnQkKieDB0r/VkRvaELLtpxrwzhO8iyFNdlCWJQojuB7AJftrmPgS
-         VsgnTUi2zMz17dPm5iAtDMyqGUl3m28EgEF+7Wyz/28lODsFENFmwWCeKX+0WBdfBg
-         FiX5lNFKG8FSw==
-Received: by mail.boldwhite24.com for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 08:45:13 GMT
-Message-ID: <20201203074501-0.1.2m.amgy.0.5fi6itnsl3@boldwhite24.com>
-Date:   Thu,  3 Dec 2020 08:45:13 GMT
-From:   =?UTF-8?Q? "Diego_S=C3=A1nchez" ?= <diego.sanchez@boldwhite24.com>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: Disinfection
-X-Mailer: mail.boldwhite24.com
+        id S1730001AbgLCIwj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 03:52:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33618 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729947AbgLCIwi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 3 Dec 2020 03:52:38 -0500
+X-Gm-Message-State: AOAM530gGc3YZhI+fM6k+0eIZox6/6tJB7GTrqYZpnuydhMgArhhXGF5
+        lY+2jsIxXMsyhvsA3uNcd88hMsU2whj1ocAn0CY=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1606985517;
+        bh=a+yWvdSDdE24FX9vt8IOCe36Vtka+wQtK+114SX022M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ErTTATeZKbJjFhiphL0HIFp4bCRlFwWs66KSdKMr6YCy5y1Q6mWOJK0gDZSqidDp2
+         F3tIoSYZV3thvyafVZHCnC+IJxl6MLHOmsAh7zX80HTMcMFLDD7jooPzP1+/5FNVRv
+         CdhLbuyvXpQypxYoC9mpv79pPKwPwn9Wy9G9Hhbi9kjZaeu2Q2QAlC5YIhkg26xBUJ
+         QrrHnq6HwbMd5TSHi4fmVH0zb8LdkbX4pMGotg4rWx2Q+Z3KsiWEqBj+4pNVvZxwg8
+         tp9pxJVnofjz/luDuNoMUOzc3hHyIKJaqN+OPzm9AL5l1QrATyaPtkjZdvSwiwJiJI
+         1MaEXtgwrz/mQ==
+X-Google-Smtp-Source: ABdhPJwqlFh25Vd2LWewK1tFkHa0IexqR/iEcj0p/vayAtATNnza5AAw65FicXja6uAVRpV8qxCkg9JUOsft8wUYtHI=
+X-Received: by 2002:a9d:be1:: with SMTP id 88mr1415604oth.210.1606985516770;
+ Thu, 03 Dec 2020 00:51:56 -0800 (PST)
 MIME-Version: 1.0
+References: <20201203004437.389959-1-keescook@chromium.org> <20201203004437.389959-6-keescook@chromium.org>
+In-Reply-To: <20201203004437.389959-6-keescook@chromium.org>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Thu, 3 Dec 2020 09:51:40 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
+Message-ID: <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] ubsan: Enable for all*config builds
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marco Elver <elver@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        George Popescu <georgepope@android.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Good morning,
+On Thu, Dec 3, 2020 at 1:44 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> With UBSAN_OBJECT_SIZE disabled for GCC, only UBSAN_ALIGNMENT remained
+> a noisy UBSAN option. Disable it for COMPILE_TEST so the rest of UBSAN
+> can be used for full all*config builds or other large combinations.
+>
+> Link: https://lore.kernel.org/lkml/CAHk-=wgXW=YLxGN0QVpp-1w5GDd2pf1W-FqY15poKzoVfik2qA@mail.gmail.com/
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-looking for companies interested in raising additional capital by diversi=
-fying their offer in soaps, liquids and gels for hand disinfection and co=
-smetics for body and hair care.
+Have you checked if this has a notable impact on allmodconfig compile speed
+with gcc or clang? I think I've seen significant increases in build times before
+with this, but I don't remember the actual magnitude.
 
-The distribution of innovative products corresponding to the current pref=
-erences of customers in the field of hygiene and preventive healthcare al=
-lows our partners to gain new markets and achieve better economic results=
-=2E
+Making it 20% slower would probably be ok, but making it twice as slow might
+be too much.
 
-In addition to products with bactericidal action, our range includes show=
-er gels, shampoos and hair conditioners, as well as efficient, concentrat=
-ed detergents.
-
-The versatility (suitable for all skin types) combined with an affordable=
- price means that customers make an informed choice of a product among ot=
-hers available on the market.
-
-Are you interested in cooperation?
-
-Diego S=C3=A1nchez
+       Arnd
