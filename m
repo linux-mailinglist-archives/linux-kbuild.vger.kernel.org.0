@@ -2,125 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D29412CDD4A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 19:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD92D2CDDF6
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 19:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729629AbgLCSXl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 13:23:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53654 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729508AbgLCSXk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 13:23:40 -0500
-Date:   Thu, 3 Dec 2020 18:22:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607019780;
-        bh=5a8ME2oAXsKqPoeqJfEFvJGi2qwglFd3HcH42x+ZJqE=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j4tuv3canVKeGWPc00whrPf+yMo+rCeJBSSu9hQ8JKopGOeh22g/l4jLBxki+Q3S4
-         GSy6xiQfH2GEr5ORIucdbbEVNr0+FmT1NytvINuFt62ibIHSwQQe+XYxmKQbFUBoQm
-         Pe3O1nyWoKMJPEEb4rf10UT8GM0TMsNCoKs0CA1Y6VDqMD3Fa15DWO2+8KzDpouaH/
-         jk1NY9n6DPz7lGFPTSZZ3NhJoqHMrLxT9UBGdtIKfzs7C+/Z/dfeNnE5pmTpJgadKr
-         WuTbKHZQrQHeug6qVN5E7eo5w7WLqpt9nlELvChtCWZI3JyjnMxiQXEC4zYRHhnct0
-         /Nj+EdgBLhJYA==
-From:   Will Deacon <will@kernel.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-Message-ID: <20201203182252.GA32011@willie-the-truck>
-References: <20201201213707.541432-1-samitolvanen@google.com>
- <20201203112622.GA31188@willie-the-truck>
- <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
+        id S1729293AbgLCSrA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 13:47:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbgLCSrA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 3 Dec 2020 13:47:00 -0500
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A28DC061A4E
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 10:46:20 -0800 (PST)
+Received: by mail-vs1-xe43.google.com with SMTP id u7so1808743vsq.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 10:46:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H0DcdlycUl8yD+PFJ+dKHHIvXlHjuiMGa/ykP4hbRMk=;
+        b=da7qVXXSLDQ2p2jRS6Ay6LvWkADrz1pjmMSfUY5JoNoD6S0+nvwLJUu/OzoYW9kPJm
+         SahUKy8OLBHhCyot6Fcd1y5Hyrn8vIgpy5rkoRF1QVybMy9tBq+Rux9rGrmXjUrHkoES
+         M11nYapPeUjRwzDjvtfW+E+HEwQIAYYILTYyTN2CR3uELL/nSI6AE0lQF/0KHxcPWO/e
+         hiomMyCQ9/s73vJbm3xhh5pfjSchi37qwg5//frxEi+cK96Q+SFJOJAq9TBVv54GmgGD
+         b+nu8I84BMZH5QOHaZLfdbLlk6KduXkLa7PrWqbZ1Cz/4W6SBQGpb+pwX9MyimZfoAdh
+         pw6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H0DcdlycUl8yD+PFJ+dKHHIvXlHjuiMGa/ykP4hbRMk=;
+        b=LA2gIy5zuMpH5EcfK4ujwMj0Ia6xX5A/dGOSDgFmUPpkFqRMqmTtE/mTKfPow1Nr90
+         +Ojt3c3Xpk7zX6l6aDtTXXKsMEQuZyYFaoHO9QeqHiAtEM4qyKT1nz+HSrjfiSjutvd4
+         om3AnEVjVuBi2f2uk0NK/BdAOO0MEmVhE9g0Q6iX01k1KiZKuJuEFynIwSTPoRkrWvq7
+         pnyO1v+12ceqZhsXVU0LjWgX5tE9Js+dRsiNuIyFtaE4lojUPzx/hkh+mfhp3RaukEPq
+         cIN4pCUfxLo8st5QJOby1P61T7+qqi1J0hH4k8JPJ8RpET2YrGlFa6f1COx67GrcqOYK
+         si+w==
+X-Gm-Message-State: AOAM533QfbTHCFww3nvQh4oLIyDK2byjUdsM7rmaFI1xWwrue+KYHcKw
+        XsGg64qW8gOujU0zGQcZGB4zNDkuVJBrtSrJFNtKC0fMKmc=
+X-Google-Smtp-Source: ABdhPJxLrdUujsVsIE/v7rlctaN1xk5i13lGSJAo1gNk4C8Qzv+u6urvtjWPQsxxUfK6HuGqN3ryjrtE4pvXvKJSDiI=
+X-Received: by 2002:a67:80c8:: with SMTP id b191mr213218vsd.36.1607021178886;
+ Thu, 03 Dec 2020 10:46:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20201203175551.573123-1-masahiroy@kernel.org>
+In-Reply-To: <20201203175551.573123-1-masahiroy@kernel.org>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Thu, 3 Dec 2020 10:46:07 -0800
+Message-ID: <CABCJKufyBcN-foh0kj5kUsn-wiZMJ_a8ZjB72jaTmN2GEVzVNA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: avoid split lines in .mod files
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 03, 2020 at 09:07:30AM -0800, Sami Tolvanen wrote:
-> On Thu, Dec 3, 2020 at 3:26 AM Will Deacon <will@kernel.org> wrote:
-> > On Tue, Dec 01, 2020 at 01:36:51PM -0800, Sami Tolvanen wrote:
-> > > This patch series adds support for building the kernel with Clang's
-> > > Link Time Optimization (LTO). In addition to performance, the primary
-> > > motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
-> > > to be used in the kernel. Google has shipped millions of Pixel
-> > > devices running three major kernel versions with LTO+CFI since 2018.
-> > >
-> > > Most of the patches are build system changes for handling LLVM
-> > > bitcode, which Clang produces with LTO instead of ELF object files,
-> > > postponing ELF processing until a later stage, and ensuring initcall
-> > > ordering.
-> > >
-> > > Note that arm64 support depends on Will's memory ordering patches
-> > > [1]. I will post x86_64 patches separately after we have fixed the
-> > > remaining objtool warnings [2][3].
-> >
-> > I took this series for a spin, with my for-next/lto branch merged in but
-> > I see a failure during the LTO stage with clang 11.0.5 because it doesn't
-> > understand the '.arch_extension rcpc' directive we throw out in READ_ONCE().
-> 
-> I just tested this with Clang 11.0.0, which I believe is the latest
-> 11.x version, and the current Clang 12 development branch, and both
-> work for me. Godbolt confirms that '.arch_extension rcpc' is supported
-> by the integrated assembler starting with Clang 11 (the example fails
-> with 10.0.1):
-> 
-> https://godbolt.org/z/1csGcT
-> 
-> What does running clang --version and ld.lld --version tell you?
+Hi Masahiro,
 
-I'm using some Android prebuilts I had kicking around:
+On Thu, Dec 3, 2020 at 9:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> "xargs echo" is not a safe way to remove line breaks because the input
+> may exceed the command line limit and xargs may break it up into
+> multiple invocations of echo. This should never happen because
+> scripts/gen_autoksyms.sh expects all undefined symbols are placed in
+> the second line of .mod files.
+>
+> One possible way is to replace "xargs echo" with
+> "sed ':x;N;$!bx;s/\n/ /g'" or something, but I rewrote the code by
+> using awk because it is more readable.
+>
+> This issue was reported by Sami Tolvanen; in his Clang LTO patch set,
+> $(multi-used-m) is no longer an ELF object, but a thin archive that
+> contains LLVM bitcode files. llvm-nm prints out symbols for each
+> archive member separately, which results a lot of dupications, in some
+> places, beyond the system-defined limit.
+>
+> This problem must be fixed irrespective of LTO, and we must ensure
+> zero possibility of having this issue.
+>
+> Link: https://lkml.org/lkml/2020/12/1/1658
+> Reported-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/Makefile.build | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index ae647379b579..4c058f12dd73 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -252,6 +252,9 @@ objtool_dep = $(objtool_obj)                                        \
+>  ifdef CONFIG_TRIM_UNUSED_KSYMS
+>  cmd_gen_ksymdeps = \
+>         $(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-target).cmd
+> +
+> +# List module undefined symbols
+> +undefined_syms = $(NM) $< | $(AWK) '$$1 == "U" { printf("%s%s", x++ ? " " : "", $$2) }';
+>  endif
+>
+>  define rule_cc_o_c
+> @@ -271,13 +274,6 @@ define rule_as_o_S
+>         $(call cmd,modversions_S)
+>  endef
+>
+> -# List module undefined symbols (or empty line if not enabled)
+> -ifdef CONFIG_TRIM_UNUSED_KSYMS
+> -cmd_undef_syms = $(NM) $< | sed -n 's/^  *U //p' | xargs echo
+> -else
+> -cmd_undef_syms = echo
+> -endif
+> -
+>  # Built-in and composite module parts
+>  $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+>         $(call if_changed_rule,cc_o_c)
+> @@ -285,7 +281,7 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+>
+>  cmd_mod = { \
+>         echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
+> -       $(cmd_undef_syms); \
+> +       $(undefined_syms) echo; \
+>         } > $@
+>
+>  $(obj)/%.mod: $(obj)/%.o FORCE
 
-Android (6875598, based on r399163b) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-InstalledDir: /usr/local/google/home/willdeacon/work/android/repo/android-kernel/prebuilts-master/clang/host/linux-x86/clang-r399163b/bin
+Thanks for the patch! I confirmed that this works with llvm-nm and
+bitcode files, but it does still produce plenty of duplicates, even
+though they now stay on one line. I'm not sure if the readability of
+the .mod file matters though. Please feel free to add:
 
-and:
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
 
-LLD 11.0.5 (/buildbot/tmp/tmpx1DlI_ 87f1315dfbea7c137aa2e6d362dbb457e388158d) (compatible with GNU linkers)
-
-> > We actually check that this extension is available before using it in
-> > the arm64 Kconfig:
-> >
-> >         config AS_HAS_LDAPR
-> >                 def_bool $(as-instr,.arch_extension rcpc)
-> >
-> > so this shouldn't happen. I then realised, I wasn't passing LLVM_IAS=1
-> > on my Make command line; with that, then the detection works correctly
-> > and the LTO step succeeds.
-> >
-> > Why is it necessary to pass LLVM_IAS=1 if LTO is enabled? I think it
-> > would be _much_ better if this was implicit (or if LTO depended on it).
-> 
-> Without LLVM_IAS=1, Clang uses two different assemblers when LTO is
-> enabled: the external GNU assembler for stand-alone assembly, and
-> LLVM's integrated assembler for inline assembly. as-instr tests the
-> external assembler and makes an admittedly reasonable assumption that
-> the test is also valid for inline assembly.
-> 
-> I agree that it would reduce confusion in future if we just always
-> enabled IAS with LTO. Nick, Nathan, any thoughts about this?
-
-That works for me, although I'm happy with anything which means that the
-assembler checks via as-instr apply to the assembler which will ultimately
-be used.
-
-Will
+Sami
