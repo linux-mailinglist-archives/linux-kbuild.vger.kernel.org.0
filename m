@@ -2,76 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A914F2CD1D3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 09:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B93B22CD489
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 12:27:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730001AbgLCIwj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 03:52:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33618 "EHLO mail.kernel.org"
+        id S1728774AbgLCL1L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 06:27:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729947AbgLCIwi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 03:52:38 -0500
-X-Gm-Message-State: AOAM530gGc3YZhI+fM6k+0eIZox6/6tJB7GTrqYZpnuydhMgArhhXGF5
-        lY+2jsIxXMsyhvsA3uNcd88hMsU2whj1ocAn0CY=
+        id S1725985AbgLCL1L (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 3 Dec 2020 06:27:11 -0500
+Date:   Thu, 3 Dec 2020 11:26:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1606985517;
-        bh=a+yWvdSDdE24FX9vt8IOCe36Vtka+wQtK+114SX022M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ErTTATeZKbJjFhiphL0HIFp4bCRlFwWs66KSdKMr6YCy5y1Q6mWOJK0gDZSqidDp2
-         F3tIoSYZV3thvyafVZHCnC+IJxl6MLHOmsAh7zX80HTMcMFLDD7jooPzP1+/5FNVRv
-         CdhLbuyvXpQypxYoC9mpv79pPKwPwn9Wy9G9Hhbi9kjZaeu2Q2QAlC5YIhkg26xBUJ
-         QrrHnq6HwbMd5TSHi4fmVH0zb8LdkbX4pMGotg4rWx2Q+Z3KsiWEqBj+4pNVvZxwg8
-         tp9pxJVnofjz/luDuNoMUOzc3hHyIKJaqN+OPzm9AL5l1QrATyaPtkjZdvSwiwJiJI
-         1MaEXtgwrz/mQ==
-X-Google-Smtp-Source: ABdhPJwqlFh25Vd2LWewK1tFkHa0IexqR/iEcj0p/vayAtATNnza5AAw65FicXja6uAVRpV8qxCkg9JUOsft8wUYtHI=
-X-Received: by 2002:a9d:be1:: with SMTP id 88mr1415604oth.210.1606985516770;
- Thu, 03 Dec 2020 00:51:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20201203004437.389959-1-keescook@chromium.org> <20201203004437.389959-6-keescook@chromium.org>
-In-Reply-To: <20201203004437.389959-6-keescook@chromium.org>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Thu, 3 Dec 2020 09:51:40 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
-Message-ID: <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] ubsan: Enable for all*config builds
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+        s=k20201202; t=1606994790;
+        bh=Z6fRxajiQsjMgIcL2B8U6vdSMQSDFY19TKRTAoS5XwM=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BmIBlbUTavBbJSA9SMVKb3tOHpXr6pmjMIykJxf8ysFQLdGr4NcG39u+tYjgBM15e
+         ND0gIZQk/Z9Q2lye0p54KpIoxeRbEo86wBhS+sakJ/LTeGH97qgsHZUNuhciXa3sjH
+         Sdap/WsTwkwgmaDLJvxtIbvdHONV85FJ/NQJoTHO+D6r6+nGzh+djD8BmVCZPcr1UA
+         9KjdS0id2HpEqXYn1f4KtDSfcRnH9mLEjtLYqQpbDQNvRQtx3PhNUaVOjUSpg7p1Fx
+         +aW7XBdMBvjBOcwlwLm9jvoC5FZG3oy1RfqNQMCD7k9DXou+nfkgGL9P6MIG326q2n
+         FxiM1lHhq2TrA==
+From:   Will Deacon <will@kernel.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Marco Elver <elver@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        George Popescu <georgepope@android.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+Message-ID: <20201203112622.GA31188@willie-the-truck>
+References: <20201201213707.541432-1-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201213707.541432-1-samitolvanen@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 3, 2020 at 1:44 AM Kees Cook <keescook@chromium.org> wrote:
->
-> With UBSAN_OBJECT_SIZE disabled for GCC, only UBSAN_ALIGNMENT remained
-> a noisy UBSAN option. Disable it for COMPILE_TEST so the rest of UBSAN
-> can be used for full all*config builds or other large combinations.
->
-> Link: https://lore.kernel.org/lkml/CAHk-=wgXW=YLxGN0QVpp-1w5GDd2pf1W-FqY15poKzoVfik2qA@mail.gmail.com/
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Hi Sami,
 
-Have you checked if this has a notable impact on allmodconfig compile speed
-with gcc or clang? I think I've seen significant increases in build times before
-with this, but I don't remember the actual magnitude.
+On Tue, Dec 01, 2020 at 01:36:51PM -0800, Sami Tolvanen wrote:
+> This patch series adds support for building the kernel with Clang's
+> Link Time Optimization (LTO). In addition to performance, the primary
+> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+> to be used in the kernel. Google has shipped millions of Pixel
+> devices running three major kernel versions with LTO+CFI since 2018.
+> 
+> Most of the patches are build system changes for handling LLVM
+> bitcode, which Clang produces with LTO instead of ELF object files,
+> postponing ELF processing until a later stage, and ensuring initcall
+> ordering.
+> 
+> Note that arm64 support depends on Will's memory ordering patches
+> [1]. I will post x86_64 patches separately after we have fixed the
+> remaining objtool warnings [2][3].
 
-Making it 20% slower would probably be ok, but making it twice as slow might
-be too much.
+I took this series for a spin, with my for-next/lto branch merged in but
+I see a failure during the LTO stage with clang 11.0.5 because it doesn't
+understand the '.arch_extension rcpc' directive we throw out in READ_ONCE().
 
-       Arnd
+We actually check that this extension is available before using it in
+the arm64 Kconfig:
+
+	config AS_HAS_LDAPR
+		def_bool $(as-instr,.arch_extension rcpc)
+
+so this shouldn't happen. I then realised, I wasn't passing LLVM_IAS=1
+on my Make command line; with that, then the detection works correctly
+and the LTO step succeeds.
+
+Why is it necessary to pass LLVM_IAS=1 if LTO is enabled? I think it
+would be _much_ better if this was implicit (or if LTO depended on it).
+
+Cheers,
+
+Will
