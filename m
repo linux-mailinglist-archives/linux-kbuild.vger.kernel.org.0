@@ -2,127 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADA732CD64E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 14:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E91AD2CDBE4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 18:09:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730438AbgLCM7L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 07:59:11 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:53614 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730341AbgLCM7K (ORCPT
+        id S1731454AbgLCRIZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 12:08:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731451AbgLCRIY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 07:59:10 -0500
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0B3CvCTZ012509;
-        Thu, 3 Dec 2020 21:57:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0B3CvCTZ012509
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1607000233;
-        bh=4LEowQvA7xjRCrLhVDoyfxqY/ZOsWCHa7kvgy3K/tZY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=utJkJDnBRTSN6PtYSPJeDEwQcuM+VJnE2ke5PXJLGn+oit67fPC+R+iTazU3+/mY8
-         LVVGIq36ErkcoBzKccRygYST+r76vpn8O++gPQKATc0ad6iUlLTAF9gtEgKGtDNEkI
-         2701SeLnZIvuq/RL9J131MqK574AnldM40QNh1i0MERr7lrDQpNfYXzZSO5HuspLnF
-         C79Au3LXp3R5jaxZRHYgX0T2jV+4o69OIkrKw31LPlWAtk2aHAnkziKaU8BOrWvtjQ
-         9xl8kpOnPtjyENOnrIiBxaDhtwTQcZVZyEDQBhbyb19uzMn++eTI5+1xHEiubKYp7p
-         iyylJTo0/jRYw==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        linux-hardening@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] gcc-plugins: simplify GCC plugin-dev capability test
-Date:   Thu,  3 Dec 2020 21:57:00 +0900
-Message-Id: <20201203125700.161354-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Thu, 3 Dec 2020 12:08:24 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6174DC061A4F
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 09:07:44 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id d20so3754212lfe.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 09:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+MQyiUOcMt6gFRBNfnN0H07pYjhZgF4qm1+bZjvfjTY=;
+        b=Cx6oEw3asYjWnT8nYuCvr3UMa7sC7zqGfjZH+6NM/LRsctzlYBq4jWYT5t+CTuzy81
+         ufA/35gbWjoyI3GR4sHKJJ/dXIYNWsy/BxrQVF9OwKV8d6p4mG8Br2zZ9qAR1jhR1sR5
+         XFtBts/povF4EP6Ny/d1T5ZXYf5b7sm8jc1Iq+39jvlvaKhZ804pJUPhzTdzV+xw97qN
+         T4REXRSQqTMIj7T7Nw8GXA7uRLUe6tmfZ+hAOZ2AadWxtejiV4KjYgBy29l+9CK6RmgP
+         /m7bEmZBumCr+ghR9RTNKJtACi6yZ1mK18q6oD/IvZz6axncMy9glbpDQAxZ3Bj+bHAk
+         275w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+MQyiUOcMt6gFRBNfnN0H07pYjhZgF4qm1+bZjvfjTY=;
+        b=A0QnXM/Y7HGQ5dkZQKwhoyXC9qP11Bh+gpUnf2E9QImK+3kMSaFuJRoWwP5+oQxd8o
+         zRbxGdgwy9cHKpYN800accwQ0ZRS/pGHArMZ4R6CDzq088IEOSYIOMz8H47Mor2MsHao
+         RRPKH1HM7L4YZxTEOLT9SSAbI6pcvmhH1mU84/bciEnPJNJqJs1aoMVbxEbmiXm1aruJ
+         67Kdbu6yvwpPPVjE3rzr3vfegB2QO/yTwLbTzs1XICUCgZ+SIZn3zYy4Vxa+84VkY/5N
+         izM1JfAAsEmuqJh49xX/d53A+ke7mNBlWGTtSyeqCadBlMkg6XNbU7Kl1PdyJjJIDFEp
+         slbA==
+X-Gm-Message-State: AOAM530S2E7GUx7Q5ro8oCQwsmbrQ0kIP9uUHkyfiRCQ5VigSkArRO+y
+        tPChXR6h6czkUjQsPebNkgE1upk/gASpvzGcvH7epw==
+X-Google-Smtp-Source: ABdhPJyeNpRimBzFqDhGioLOrE5ouq1kJk4Pby6GpAHMXjB75Cnj+2lIjlrUJWt+qddSs9EdyIaV3e9wcFRpPEdvaH8=
+X-Received: by 2002:a19:c815:: with SMTP id y21mr1656793lff.589.1607015262357;
+ Thu, 03 Dec 2020 09:07:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201201213707.541432-1-samitolvanen@google.com> <20201203112622.GA31188@willie-the-truck>
+In-Reply-To: <20201203112622.GA31188@willie-the-truck>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Thu, 3 Dec 2020 09:07:30 -0800
+Message-ID: <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+To:     Will Deacon <will@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Linus pointed out a third of the time in the Kconfig parse stage comes
-from the single invocation of cc1plus in scripts/gcc-plugin.sh [1],
-and directly testing plugin-version.h for existence cuts down the
-overhead a lot. [2]
+On Thu, Dec 3, 2020 at 3:26 AM Will Deacon <will@kernel.org> wrote:
+>
+> Hi Sami,
+>
+> On Tue, Dec 01, 2020 at 01:36:51PM -0800, Sami Tolvanen wrote:
+> > This patch series adds support for building the kernel with Clang's
+> > Link Time Optimization (LTO). In addition to performance, the primary
+> > motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+> > to be used in the kernel. Google has shipped millions of Pixel
+> > devices running three major kernel versions with LTO+CFI since 2018.
+> >
+> > Most of the patches are build system changes for handling LLVM
+> > bitcode, which Clang produces with LTO instead of ELF object files,
+> > postponing ELF processing until a later stage, and ensuring initcall
+> > ordering.
+> >
+> > Note that arm64 support depends on Will's memory ordering patches
+> > [1]. I will post x86_64 patches separately after we have fixed the
+> > remaining objtool warnings [2][3].
+>
+> I took this series for a spin, with my for-next/lto branch merged in but
+> I see a failure during the LTO stage with clang 11.0.5 because it doesn't
+> understand the '.arch_extension rcpc' directive we throw out in READ_ONCE().
 
-This commit takes one step further to kill the build test entirely.
+I just tested this with Clang 11.0.0, which I believe is the latest
+11.x version, and the current Clang 12 development branch, and both
+work for me. Godbolt confirms that '.arch_extension rcpc' is supported
+by the integrated assembler starting with Clang 11 (the example fails
+with 10.0.1):
 
-The small piece of code was probably intended to test the C++ designated
-initializer, which was not supported until C++20.
+https://godbolt.org/z/1csGcT
 
-In fact, with -pedantic option given, both GCC and Clang emit a warning.
+What does running clang --version and ld.lld --version tell you?
 
-$ echo 'class test { public: int test; } test = { .test = 1 };' | g++ -x c++ -pedantic - -fsyntax-only
-<stdin>:1:43: warning: C++ designated initializers only available with '-std=c++2a' or '-std=gnu++2a' [-Wpedantic]
-$ echo 'class test { public: int test; } test = { .test = 1 };' | clang++ -x c++ -pedantic - -fsyntax-only
-<stdin>:1:43: warning: designated initializers are a C++20 extension [-Wc++20-designator]
-class test { public: int test; } test = { .test = 1 };
-                                          ^
-1 warning generated.
+> We actually check that this extension is available before using it in
+> the arm64 Kconfig:
+>
+>         config AS_HAS_LDAPR
+>                 def_bool $(as-instr,.arch_extension rcpc)
+>
+> so this shouldn't happen. I then realised, I wasn't passing LLVM_IAS=1
+> on my Make command line; with that, then the detection works correctly
+> and the LTO step succeeds.
+>
+> Why is it necessary to pass LLVM_IAS=1 if LTO is enabled? I think it
+> would be _much_ better if this was implicit (or if LTO depended on it).
 
-Otherwise, modern C++ compilers should be able to build the code, and
-hopefully skipping this test should not make any practical problem.
+Without LLVM_IAS=1, Clang uses two different assemblers when LTO is
+enabled: the external GNU assembler for stand-alone assembly, and
+LLVM's integrated assembler for inline assembly. as-instr tests the
+external assembler and makes an admittedly reasonable assumption that
+the test is also valid for inline assembly.
 
-Checking the existence of plugin-version.h is still needed to ensure
-the plugin-dev package is installed. The test code is now small enough
-to be embedded in scripts/gcc-plugins/Kconfig.
+I agree that it would reduce confusion in future if we just always
+enabled IAS with LTO. Nick, Nathan, any thoughts about this?
 
-[1] https://lore.kernel.org/lkml/CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com/
-[2] https://lore.kernel.org/lkml/CAHk-=whK0aQxs6Q5ijJmYF1n2ch8cVFSUzU5yUM_HOjig=+vnw@mail.gmail.com/
-
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/gcc-plugin.sh       | 19 -------------------
- scripts/gcc-plugins/Kconfig |  2 +-
- 2 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100755 scripts/gcc-plugin.sh
-
-diff --git a/scripts/gcc-plugin.sh b/scripts/gcc-plugin.sh
-deleted file mode 100755
-index b79fd0bea838..000000000000
---- a/scripts/gcc-plugin.sh
-+++ /dev/null
-@@ -1,19 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--
--set -e
--
--srctree=$(dirname "$0")
--
--gccplugins_dir=$($* -print-file-name=plugin)
--
--# we need a c++ compiler that supports the designated initializer GNU extension
--$HOSTCC -c -x c++ -std=gnu++98 - -fsyntax-only -I $srctree/gcc-plugins -I $gccplugins_dir/include 2>/dev/null <<EOF
--#include "gcc-common.h"
--class test {
--public:
--	int test;
--} test = {
--	.test = 1
--};
--EOF
-diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-index ae19fb0243b9..ab9eb4cbe33a 100644
---- a/scripts/gcc-plugins/Kconfig
-+++ b/scripts/gcc-plugins/Kconfig
-@@ -9,7 +9,7 @@ menuconfig GCC_PLUGINS
- 	bool "GCC plugins"
- 	depends on HAVE_GCC_PLUGINS
- 	depends on CC_IS_GCC
--	depends on $(success,$(srctree)/scripts/gcc-plugin.sh $(CC))
-+	depends on $(success,test -e $(shell,$(CC) -print-file-name=plugin)/include/plugin-version.h)
- 	default y
- 	help
- 	  GCC plugins are loadable modules that provide extra features to the
--- 
-2.27.0
-
+Sami
