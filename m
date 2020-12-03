@@ -2,149 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B81DD2CCA5D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 00:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35FCE2CCAD0
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 01:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387607AbgLBXNn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Dec 2020 18:13:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39634 "EHLO
+        id S1728516AbgLCACN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Dec 2020 19:02:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387622AbgLBXNn (ORCPT
+        with ESMTP id S1726562AbgLCACM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Dec 2020 18:13:43 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AF1C0617A7
-        for <linux-kbuild@vger.kernel.org>; Wed,  2 Dec 2020 15:12:57 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id s21so2202891pfu.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 02 Dec 2020 15:12:57 -0800 (PST)
+        Wed, 2 Dec 2020 19:02:12 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FDEC0617A7
+        for <linux-kbuild@vger.kernel.org>; Wed,  2 Dec 2020 16:01:32 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id 131so73036pfb.9
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Dec 2020 16:01:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=j9jFBwpHjkjyo4ON7zUJq2rQs7RnEAe0e25us37bEaw=;
-        b=exzlbbkaw56WbUsNK/eHHzFl8U9wTTNchC8o6x9JHbIH1rQFaYFF22hWzycxg1xxVI
-         aQ1hKL8u3RFzKE6lA3RYT9MwPRZwLkjyPegGh7T/5McSDDYQElKyQ33cOapjMU/hNuj3
-         ybTkjxVQEgZhNcWdX3QxJTyAOk8FCeKe5vv/PZtLpcv3VupcLn/3pU1aexs5E64wUEvM
-         VgdUH1BcvMWeWTzOcGlWZjR4l+qK9UMztipccXMzF5CyYRFC1lgyl7uL2L19hegHtxAm
-         Y++vCdnGgkQYVB3SxyfZA1Z7qEMW+RPfMmG/k2/LL9+KfLiG9YaU+0adYuS7n7mYhD8A
-         pPyQ==
+        bh=TfjgZXZpIq5fZzABqVm3ochfUst+vG1roSThKbX3esM=;
+        b=aKU+Elxn2oMCSfhsrlmIncnG+eVufUmT2zZGZTURg6obiMVmWLv2CQrsZALP8JHr6v
+         80wrfU2Kj3rw9JzGE1+ad3sYmQZQVz6coBP/qWBA1CluJ2fZQ9zFZ4l6/vlEm63POXgw
+         PoXOTvefcAuxzcoYa6jNF36cSIGxuqPsczhvBBhEyt1it/5x6Z9UoRq1nyzo8Q/oPO6y
+         8tFie1CBzkzTNDEZnK/uXLIeFNGsuWQZQvA6FlTiEpIBKkZpLzj9c+okfN8BIcEDQF66
+         yCFvYhAsRmLuryGfPwmqK9NiVqvG5a5hjCVx77mxrjmWl+oxa/bmaXsQ2vt2BC7OXv3G
+         fQ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=j9jFBwpHjkjyo4ON7zUJq2rQs7RnEAe0e25us37bEaw=;
-        b=aXKU44Z04XuXwGq39AmAsB3Ak7ir/3c6EEvX6Arc/Rr31lAZdl/IaDCyUveBgkvp3H
-         rFt4BI9BOta1wCcFBUYTCAih0yjhRV01YDmrwocsMLYIVxekOv2rGrZhNpKhuMrTMFkG
-         LiRPn3lwQob/24t2inGJI8CZMaB7KvWRj+u4bA2tS58EvY5AZHiLSCY5/zyNdBZ4IZYb
-         i0zJ1+zZ8QliIPnryh5IhCseYZW2MDQe/vGvbR0/GiVLCh3ruI9clj3amM9uxaK9FCVX
-         wCqCtTUb/KvZjXGSl1H9Ww0+pFtfiE0Pre46GQDSkUfKsYU0MlbIQih2GbLNXl2HrnrO
-         qOXQ==
-X-Gm-Message-State: AOAM533XvJG8ZXoweqp9z9YfVtrYGNxQLEhNag0lEgFtNREJPcEp8wgT
-        axVKHrBeSbf9VnPGtgJNk/2thpi876YmKqn/3xAh+A==
-X-Google-Smtp-Source: ABdhPJxcjV4ywb3gx45tNhBGfWVwO1w2o1UKf0CTm2YylEz+tPKF6+CHVGu/enwaRsReTLo/JKSf2eJvdIua4HudhBM=
-X-Received: by 2002:a63:8f4f:: with SMTP id r15mr488662pgn.381.1606950776375;
- Wed, 02 Dec 2020 15:12:56 -0800 (PST)
+        bh=TfjgZXZpIq5fZzABqVm3ochfUst+vG1roSThKbX3esM=;
+        b=CNNQYjamAiVSrVANEOQfPT6f6LK2Mcgo+n4Siw7SnqUxC00cYPDJbXO+Ps8TXTiLpm
+         P7mToEH8Euqru64MH1neWhsLyfPy/21G5HuPJtp62YmHv0r/C15R3HhyFZE/O279i97W
+         rSUm0uuUMzkIErXlAtOOCtcLAWlyT8RVpFZnxXTc7OC5w6H/YSyDaE6d2NQMa41VJOvW
+         QNSf6jqAmiGVxEdm0NcYxDdrpLDTwqSJ9rEn1QK4Pe2/H04LMHIR9vZHZvqypwepPc6x
+         P2o4xyoqlpnQPizNn9YTIeqS2JeVRpkzsXNFo/Lb9hTFxZba0TkiuVzHJar1PRqNc69t
+         0rLA==
+X-Gm-Message-State: AOAM530fpFgzOd4ZuBUbFrWaPyJ5qm2b8r8I+a1pHP5yvsISKd1TgCy6
+        ptRIfJ0qn/G6XTn4Bo1kB2E+lksjsuhfeii+h36IWw==
+X-Google-Smtp-Source: ABdhPJzlujdkqv4BrCfZTRRGmpK19lQ/Z9l2aUuOfXxVaHuxefVyErqf509JoPqL0nZR4gxpFozulWm1c0trs5O9RLg=
+X-Received: by 2002:a62:7905:0:b029:197:f300:5a2a with SMTP id
+ u5-20020a6279050000b0290197f3005a2amr614586pfc.30.1606953691833; Wed, 02 Dec
+ 2020 16:01:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201032748.486928-1-masahiroy@kernel.org> <CAK7LNAR+rWTku5Lz+by3vEzsWNsdOpO30phkdwCvzJf28aXiUw@mail.gmail.com>
-In-Reply-To: <CAK7LNAR+rWTku5Lz+by3vEzsWNsdOpO30phkdwCvzJf28aXiUw@mail.gmail.com>
+References: <20201201213707.541432-1-samitolvanen@google.com>
+In-Reply-To: <20201201213707.541432-1-samitolvanen@google.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 2 Dec 2020 15:12:44 -0800
-Message-ID: <CAKwvOdnRDC8tYx4H4ueTv44-+rdwevv+PNyEifzUcjqOjQTA8w@mail.gmail.com>
-Subject: Re: [PATCH] Remove $(cc-option,-gdwarf-4) dependency from CONFIG_DEBUG_INFO_DWARF4
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
+Date:   Wed, 2 Dec 2020 16:01:20 -0800
+Message-ID: <CAKwvOdnJvGR9L8n+w3E6idCXkGyykkycqbjiPQNNQSoCHrabLg@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 30, 2020 at 7:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Dec 1, 2020 at 1:37 PM Sami Tolvanen <samitolvanen@google.com> wrote:
 >
-> On Tue, Dec 1, 2020 at 12:29 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > The -gdwarf-4 flag is supported by GCC 4.5+, and also by Clang.
-> >
-> > You can see it at https://godbolt.org/z/6ed1oW
-
-(this link misses -gdwarf-4 for clang, but I think that's ok)
-
-> >
-> >   For gcc 4.5.3 pane,    line 37:    .value 0x4
-> >   For clang 10.0.1 pane, line 117:   .short 4
-> >
-> > Given Documentation/process/changes.rst stating GCC 4.9 is the minimal
-> > version, this cc-option is unneeded.
-> >
-> > Note
-> > ----
-> >
-> > CONFIG_DEBUG_INFO_DWARF4 controls the DWARF version only for C files.
-> >
-> > As you can see in the top Makefile, -gdwarf-4 is only passed to CFLAGS.
-> >
-> >   ifdef CONFIG_DEBUG_INFO_DWARF4
-> >   DEBUG_CFLAGS    += -gdwarf-4
-> >   endif
-> >
-> > This flag is used when compiling *.c files.
-> >
-> > On the other hand, the assembler is always given -gdwarf-2.
-> >
-> >   KBUILD_AFLAGS   += -Wa,-gdwarf-2
-> >
-> > Hence, the debug info that comes from *.S files is always DWARF v2.
-> > This is simply because GAS supported only -gdwarf-2 for a long time.
-> >
-> > Recently, GAS gained the support for --dwarf-[3|4|5] options. [1]
-> > And, also we have Clang integrated assembler. So, the debug info
-> > for *.S files might be improved if we want.
-> >
-> > In my understanding, the current code is intentional, not a bug.
-> >
-> > [1] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=31bf18645d98b4d3d7357353be840e320649a67d
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  lib/Kconfig.debug | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index cb8ef4fd0d02..7f80c25497a1 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -258,7 +258,6 @@ config DEBUG_INFO_SPLIT
-> >
-> >  config DEBUG_INFO_DWARF4
-> >         bool "Generate dwarf4 debuginfo"
-> > -       depends on $(cc-option,-gdwarf-4)
-> >         help
-> >           Generate dwarf4 debug info. This requires recent versions
-> >           of gcc and gdb. It makes the debug information larger.
-> > --
-> > 2.27.
+> This patch series adds support for building the kernel with Clang's
+> Link Time Optimization (LTO). In addition to performance, the primary
+> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+> to be used in the kernel. Google has shipped millions of Pixel
+> devices running three major kernel versions with LTO+CFI since 2018.
 >
+> Most of the patches are build system changes for handling LLVM
+> bitcode, which Clang produces with LTO instead of ELF object files,
+> postponing ELF processing until a later stage, and ensuring initcall
+> ordering.
 >
-> Maybe, this can be squashed into Nick's patch.
+> Note that arm64 support depends on Will's memory ordering patches
+> [1]. I will post x86_64 patches separately after we have fixed the
+> remaining objtool warnings [2][3].
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
+> [2] https://lore.kernel.org/lkml/20201120040424.a3wctajzft4ufoiw@treble/
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool-vmlinux
+>
+> You can also pull this series from
+>
+>   https://github.com/samitolvanen/linux.git lto-v8
+>
+> ---
+> Changes in v8:
+>
+>   - Cleaned up the LTO Kconfig options based on suggestions from
+>     Nick and Kees.
 
-I have no preference.
+Thanks Sami, for the series:
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 
-(I'll reroll this into my DWARFv5 series either way, but when/how you
-merge this doesn't matter to me)
+(build and boot tested under emulation with
+https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
+additionally rebased on top).
 
+As with v7, if the series changes drastically for v9, please consider
+dropping my tested by tag for the individual patches that change and I
+will help re-test them.
 -- 
 Thanks,
 ~Nick Desaulniers
