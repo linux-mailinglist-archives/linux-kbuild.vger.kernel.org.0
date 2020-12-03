@@ -2,131 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E91AD2CDBE4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 18:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D74632CDC8A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 18:38:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731454AbgLCRIZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 12:08:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
+        id S1728890AbgLCRiI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 12:38:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731451AbgLCRIY (ORCPT
+        with ESMTP id S1726875AbgLCRiH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 12:08:24 -0500
+        Thu, 3 Dec 2020 12:38:07 -0500
 Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6174DC061A4F
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 09:07:44 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id d20so3754212lfe.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 09:07:44 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2768FC061A4E
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 09:37:21 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id r24so3908337lfm.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 09:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+MQyiUOcMt6gFRBNfnN0H07pYjhZgF4qm1+bZjvfjTY=;
-        b=Cx6oEw3asYjWnT8nYuCvr3UMa7sC7zqGfjZH+6NM/LRsctzlYBq4jWYT5t+CTuzy81
-         ufA/35gbWjoyI3GR4sHKJJ/dXIYNWsy/BxrQVF9OwKV8d6p4mG8Br2zZ9qAR1jhR1sR5
-         XFtBts/povF4EP6Ny/d1T5ZXYf5b7sm8jc1Iq+39jvlvaKhZ804pJUPhzTdzV+xw97qN
-         T4REXRSQqTMIj7T7Nw8GXA7uRLUe6tmfZ+hAOZ2AadWxtejiV4KjYgBy29l+9CK6RmgP
-         /m7bEmZBumCr+ghR9RTNKJtACi6yZ1mK18q6oD/IvZz6axncMy9glbpDQAxZ3Bj+bHAk
-         275w==
+        bh=IAYzt5aWmV7k8rYu1oRqo0Iimqerq25dwLnLWK087IQ=;
+        b=g0RuxTC/9WXibSwY5+tIOu4MFx49cSGSc9R6BBeB0r2N/EwzO3l5hiz5zRhoRxTjkr
+         /6iZvATcu++ZOkyFOL9z5bNa8MptTxwO92Sq8SlrhC4i9hnYgcuER2QESiIS5hyddN64
+         7B+S6BMI/TOidGb4AUDbKQSxvIkDJJJ/NGFPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+MQyiUOcMt6gFRBNfnN0H07pYjhZgF4qm1+bZjvfjTY=;
-        b=A0QnXM/Y7HGQ5dkZQKwhoyXC9qP11Bh+gpUnf2E9QImK+3kMSaFuJRoWwP5+oQxd8o
-         zRbxGdgwy9cHKpYN800accwQ0ZRS/pGHArMZ4R6CDzq088IEOSYIOMz8H47Mor2MsHao
-         RRPKH1HM7L4YZxTEOLT9SSAbI6pcvmhH1mU84/bciEnPJNJqJs1aoMVbxEbmiXm1aruJ
-         67Kdbu6yvwpPPVjE3rzr3vfegB2QO/yTwLbTzs1XICUCgZ+SIZn3zYy4Vxa+84VkY/5N
-         izM1JfAAsEmuqJh49xX/d53A+ke7mNBlWGTtSyeqCadBlMkg6XNbU7Kl1PdyJjJIDFEp
-         slbA==
-X-Gm-Message-State: AOAM530S2E7GUx7Q5ro8oCQwsmbrQ0kIP9uUHkyfiRCQ5VigSkArRO+y
-        tPChXR6h6czkUjQsPebNkgE1upk/gASpvzGcvH7epw==
-X-Google-Smtp-Source: ABdhPJyeNpRimBzFqDhGioLOrE5ouq1kJk4Pby6GpAHMXjB75Cnj+2lIjlrUJWt+qddSs9EdyIaV3e9wcFRpPEdvaH8=
-X-Received: by 2002:a19:c815:: with SMTP id y21mr1656793lff.589.1607015262357;
- Thu, 03 Dec 2020 09:07:42 -0800 (PST)
+        bh=IAYzt5aWmV7k8rYu1oRqo0Iimqerq25dwLnLWK087IQ=;
+        b=G1lfIAO96SxDx+8XhIJcJxwm14SXjJ4PdtLzFHkdWzdOaQ/EFa1TDYEMVuLyDM/MBo
+         qxjiSXYBaF3JsX61n7Dbu7Xch9Eecf5yEiZ9MRJEe9zRYSWhO+7D2XIwDPVn6Y7qspPf
+         6+JRWVT4472wF6o7nBLdUiEBjRJw4A+CD7uOuWTQei86ZoTFNT6IBGCIhtHRgU/QRWNT
+         h2wLuuQv9ilAhepxzSy4vY1/+RFZ5VtuM5UmTT4CmNmn8vQfRhpePWv01kV/PBOtM+Da
+         yKwAue6BepBW2FSmCl3D7CiFJXPXRLgzUqVw2HGn/k56mnYIIFq8eYH/TeIiEwYcWQtF
+         b5eA==
+X-Gm-Message-State: AOAM533R9FMscd5KOuKThrj5A3M9OxgkaBkb5TGFZ/8TMiSxZQWh6nsf
+        3/UAGkbdjwUy9mi5d622WLLTH8e/wM/c+A==
+X-Google-Smtp-Source: ABdhPJw5Fc9l7LQfq/Dh+jdzhsVOcNdD9B5DbolhJbrc0WwptL6qUKRT1TZTLv2x9w9TWXNu+YeYJw==
+X-Received: by 2002:a05:6512:3245:: with SMTP id c5mr1756423lfr.405.1607017039393;
+        Thu, 03 Dec 2020 09:37:19 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id a16sm744581lfg.16.2020.12.03.09.37.18
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Dec 2020 09:37:18 -0800 (PST)
+Received: by mail-lj1-f182.google.com with SMTP id o24so3461325ljj.6
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 09:37:18 -0800 (PST)
+X-Received: by 2002:a2e:a543:: with SMTP id e3mr1691756ljn.421.1607017037787;
+ Thu, 03 Dec 2020 09:37:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201213707.541432-1-samitolvanen@google.com> <20201203112622.GA31188@willie-the-truck>
-In-Reply-To: <20201203112622.GA31188@willie-the-truck>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Thu, 3 Dec 2020 09:07:30 -0800
-Message-ID: <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-To:     Will Deacon <will@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+References: <20201203125700.161354-1-masahiroy@kernel.org>
+In-Reply-To: <20201203125700.161354-1-masahiroy@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 3 Dec 2020 09:37:01 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgRV9VHO2RVwn+iMfH_WFjQV1dsZtEQhgrUBQfM9QBPmQ@mail.gmail.com>
+Message-ID: <CAHk-=wgRV9VHO2RVwn+iMfH_WFjQV1dsZtEQhgrUBQfM9QBPmQ@mail.gmail.com>
+Subject: Re: [PATCH] gcc-plugins: simplify GCC plugin-dev capability test
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Kees Cook <keescook@chromium.org>,
+        Emese Revfy <re.emese@gmail.com>,
+        linux-hardening@vger.kernel.org,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 3, 2020 at 3:26 AM Will Deacon <will@kernel.org> wrote:
+On Thu, Dec 3, 2020 at 5:03 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi Sami,
->
-> On Tue, Dec 01, 2020 at 01:36:51PM -0800, Sami Tolvanen wrote:
-> > This patch series adds support for building the kernel with Clang's
-> > Link Time Optimization (LTO). In addition to performance, the primary
-> > motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
-> > to be used in the kernel. Google has shipped millions of Pixel
-> > devices running three major kernel versions with LTO+CFI since 2018.
-> >
-> > Most of the patches are build system changes for handling LLVM
-> > bitcode, which Clang produces with LTO instead of ELF object files,
-> > postponing ELF processing until a later stage, and ensuring initcall
-> > ordering.
-> >
-> > Note that arm64 support depends on Will's memory ordering patches
-> > [1]. I will post x86_64 patches separately after we have fixed the
-> > remaining objtool warnings [2][3].
->
-> I took this series for a spin, with my for-next/lto branch merged in but
-> I see a failure during the LTO stage with clang 11.0.5 because it doesn't
-> understand the '.arch_extension rcpc' directive we throw out in READ_ONCE().
+> Checking the existence of plugin-version.h is still needed to ensure
+> the plugin-dev package is installed. The test code is now small enough
+> to be embedded in scripts/gcc-plugins/Kconfig.
 
-I just tested this with Clang 11.0.0, which I believe is the latest
-11.x version, and the current Clang 12 development branch, and both
-work for me. Godbolt confirms that '.arch_extension rcpc' is supported
-by the integrated assembler starting with Clang 11 (the example fails
-with 10.0.1):
+Ack. I think the "plugin" directory name should be quoted, but that's
+a pre-existing bug.
 
-https://godbolt.org/z/1csGcT
-
-What does running clang --version and ld.lld --version tell you?
-
-> We actually check that this extension is available before using it in
-> the arm64 Kconfig:
->
->         config AS_HAS_LDAPR
->                 def_bool $(as-instr,.arch_extension rcpc)
->
-> so this shouldn't happen. I then realised, I wasn't passing LLVM_IAS=1
-> on my Make command line; with that, then the detection works correctly
-> and the LTO step succeeds.
->
-> Why is it necessary to pass LLVM_IAS=1 if LTO is enabled? I think it
-> would be _much_ better if this was implicit (or if LTO depended on it).
-
-Without LLVM_IAS=1, Clang uses two different assemblers when LTO is
-enabled: the external GNU assembler for stand-alone assembly, and
-LLVM's integrated assembler for inline assembly. as-instr tests the
-external assembler and makes an admittedly reasonable assumption that
-the test is also valid for inline assembly.
-
-I agree that it would reduce confusion in future if we just always
-enabled IAS with LTO. Nick, Nathan, any thoughts about this?
-
-Sami
+          Linus
