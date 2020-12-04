@@ -2,104 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 422BE2CF68D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 23:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2DBD2CF71C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 23:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729490AbgLDWDO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Dec 2020 17:03:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51334 "EHLO
+        id S1726369AbgLDWxe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Dec 2020 17:53:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726441AbgLDWDN (ORCPT
+        with ESMTP id S1725966AbgLDWxe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Dec 2020 17:03:13 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8048C061A52
-        for <linux-kbuild@vger.kernel.org>; Fri,  4 Dec 2020 14:02:27 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id hk16so3974223pjb.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 04 Dec 2020 14:02:27 -0800 (PST)
+        Fri, 4 Dec 2020 17:53:34 -0500
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D38C0613D1
+        for <linux-kbuild@vger.kernel.org>; Fri,  4 Dec 2020 14:52:54 -0800 (PST)
+Received: by mail-vs1-xe41.google.com with SMTP id p7so4164352vsf.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 04 Dec 2020 14:52:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=enW7VRg0zeMyiDIIOokOnpbP5Go5lgWeBVKjANCM8QE=;
-        b=WSBivQGw0NWLYaFd2OPXxdWfo5/ZEqUNT+h7R43nqoDXNRmh7641AbBNX9GjdmhVaP
-         ovd+v6GiD5CTuIZenDiMSBDlxmYd6x6o7x8tQbNsw8CbHcRoBB6wz5dQbLh0Hrq4yA8c
-         RoGXszwIKaMlZbIQYlcz0HrYcstfZkVfTomvk=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=APDwfrMJO9jpMmlvJs1QQfYlFxkBjLtMOQGI8Flupio=;
+        b=vlYT2PP85xGxgcq4Dr0LjAqfSnHTJbDN9Qw9s716INhVlK2qIKh97cH0so65YWekJV
+         ZkCddAaWBBeVyc79V1Qsk0bwBXFOYV/fbRRVmb3hqZ90wFkxjB6PyGd9Fl/4pFQAhhjZ
+         AM6IB7GFEBqHL1Jg9yyWo4W0Nb7mb6UJHeOQir6VApItA3LGKTPi0G3m3U6izolVWg8S
+         lneowIrUY4bLqR7zyKu8N2F2ZMtJSwvpwOZjKssZqamx23Iv78VtDQw/lQdiC6Po0aWG
+         caBNxURcOkyiTRCfZKEEQPiFtZ4Uo4eYHfBI8tK9v8an2dHQPAwNADLFINV3H5bQRJ9b
+         cZUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=enW7VRg0zeMyiDIIOokOnpbP5Go5lgWeBVKjANCM8QE=;
-        b=jBDPCyyXnbTeIR8gUnIHxAOPh0pnkuWiCSwxM/5y0pA1rObHHY+tJjhGCRr+zhwpU/
-         Xw7gNNiCyxwDr/10ZpfobSKipgDS7WdXm03OiJG8SD40ebhjuZDIwV1z9zO7vLHZw6ld
-         LvEO/qsGqS7CQqbqUeJQ0uXwT+wtHqzv5As6JjXfPpFdcuzjeqHe36ccbQfKb/nInd5F
-         QWMGUV/ikwfe8mnb/C/Qq/7P/mtY04q4k2yNQD2TSGk8D7+8kbMBE+LA2dy9zycbrO3I
-         fCjI3YppFlhN4jfKV48uHx9wivEhqEI1t8hGPKZLWQTWZ6OMot27dM0+tTWB2EBUigVZ
-         eCug==
-X-Gm-Message-State: AOAM532PDQhb1HNjaWiIfLMUp3ZtA0sZ6D2UGHF9nzKTGWjHEW8RCFFh
-        G9nPvn0Rv/Hlox6yjPPoNYlZlw==
-X-Google-Smtp-Source: ABdhPJwU6a9D2gVWjKe1CROF33gGSIaZEj8/GDUhF/uRcH+xF+acQH0ncmbYv1G3SVC4Cka04+puNw==
-X-Received: by 2002:a17:902:6b:b029:da:725b:fcea with SMTP id 98-20020a170902006bb02900da725bfceamr5727914pla.16.1607119347328;
-        Fri, 04 Dec 2020 14:02:27 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f92sm3353946pjk.54.2020.12.04.14.02.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 14:02:26 -0800 (PST)
-Date:   Fri, 4 Dec 2020 14:02:25 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Emese Revfy <re.emese@gmail.com>,
-        linux-hardening@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gcc-plugins: simplify GCC plugin-dev capability test
-Message-ID: <202012041402.97F582B00C@keescook>
-References: <20201203125700.161354-1-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=APDwfrMJO9jpMmlvJs1QQfYlFxkBjLtMOQGI8Flupio=;
+        b=cWCHGqv/58ZXGT6kFzC4ZtrRStJHomlgqJPA1tsG9YO9OISL390fXkyYzYQ66I4ePd
+         wrblWwJdKTxmmVpmR+bVKe/RP71mmHl5fAAUFsal8mL9MazLXn9jsL/2eZrTRGDZoC8a
+         kcQOr35EdXRToxSzrGLw2zGIj9960lPQ8252YP+GFNGTQOW6TKp1W/aDvrzOhGl7LdNs
+         YditQ1nWzDNh75F8f8omV0U+0tEZgsn4BbPAvT/TikO+Yz2MnXr2ekz2EBL9oCZ1ZNID
+         HDCKfo65pX6FaLkFSdZNDUVk42mfHGFTXKB/3N6xswrDS8Ipz22ZbA2IUrPlmULER3a/
+         Epvw==
+X-Gm-Message-State: AOAM532A3Kyq6LWislIJC0o+/5ALA9wgJN4Bp047WzSwLaEdyREDOhJ1
+        rOlcJAC2l7ofcwY+A4ZPxBjJIYa33XfpSL84vxV3VA==
+X-Google-Smtp-Source: ABdhPJyEOufu1IYsUQg6fXqokcGK+WOlACM5vK4uRoSLdaEQytBNywFXfXG2M7YwyvYjCJIK/G4zrq6Skn/z29jgixU=
+X-Received: by 2002:a67:ec3:: with SMTP id 186mr6679107vso.14.1607122373106;
+ Fri, 04 Dec 2020 14:52:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201203125700.161354-1-masahiroy@kernel.org>
+References: <20201201213707.541432-1-samitolvanen@google.com>
+ <20201203112622.GA31188@willie-the-truck> <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
+ <20201203182252.GA32011@willie-the-truck> <CAKwvOdnvq=L=gQMv9MHaStmKMOuD5jvffzMedhp3gytYB6R7TQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdnvq=L=gQMv9MHaStmKMOuD5jvffzMedhp3gytYB6R7TQ@mail.gmail.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Fri, 4 Dec 2020 14:52:41 -0800
+Message-ID: <CABCJKufgkq+k0DeYaXrzjXniy=T_N4sN1bxoK9=cUxTZN5xSVQ@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Will Deacon <will@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>, Jian Cai <jiancai@google.com>,
+        Kristof Beyls <Kristof.Beyls@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 03, 2020 at 09:57:00PM +0900, Masahiro Yamada wrote:
-> Linus pointed out a third of the time in the Kconfig parse stage comes
-> from the single invocation of cc1plus in scripts/gcc-plugin.sh [1],
-> and directly testing plugin-version.h for existence cuts down the
-> overhead a lot. [2]
-> 
-> This commit takes one step further to kill the build test entirely.
-> 
-> The small piece of code was probably intended to test the C++ designated
-> initializer, which was not supported until C++20.
-> 
-> In fact, with -pedantic option given, both GCC and Clang emit a warning.
-> 
-> $ echo 'class test { public: int test; } test = { .test = 1 };' | g++ -x c++ -pedantic - -fsyntax-only
-> <stdin>:1:43: warning: C++ designated initializers only available with '-std=c++2a' or '-std=gnu++2a' [-Wpedantic]
-> $ echo 'class test { public: int test; } test = { .test = 1 };' | clang++ -x c++ -pedantic - -fsyntax-only
-> <stdin>:1:43: warning: designated initializers are a C++20 extension [-Wc++20-designator]
-> class test { public: int test; } test = { .test = 1 };
->                                           ^
-> 1 warning generated.
-> 
-> Otherwise, modern C++ compilers should be able to build the code, and
-> hopefully skipping this test should not make any practical problem.
-> 
-> Checking the existence of plugin-version.h is still needed to ensure
-> the plugin-dev package is installed. The test code is now small enough
-> to be embedded in scripts/gcc-plugins/Kconfig.
-> 
-> [1] https://lore.kernel.org/lkml/CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com/
-> [2] https://lore.kernel.org/lkml/CAHk-=whK0aQxs6Q5ijJmYF1n2ch8cVFSUzU5yUM_HOjig=+vnw@mail.gmail.com/
-> 
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Thu, Dec 3, 2020 at 2:32 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> So I'd recommend to Sami to simply make the Kconfig also depend on
+> clang's integrated assembler (not just llvm-nm and llvm-ar).
 
-Acked-by: Kees Cook <keescook@chromium.org>
+Sure, sounds good to me. What's the preferred way to test for this in Kconfig?
 
--- 
-Kees Cook
+It looks like actually trying to test if we have an LLVM assembler
+(e.g. using $(as-instr,.section
+".linker-options","e",@llvm_linker_options)) doesn't work as Kconfig
+doesn't pass -no-integrated-as to clang here. I could do something
+simple like $(success,echo $(LLVM) $(LLVM_IAS) | grep -q "1 1").
+
+Thoughts?
+
+Sami
