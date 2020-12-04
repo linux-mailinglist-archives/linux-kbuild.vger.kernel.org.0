@@ -2,128 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF9D2CE7B2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 06:47:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4F82CE8D4
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 08:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728152AbgLDFpT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Dec 2020 00:45:19 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:36204 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728110AbgLDFpT (ORCPT
+        id S1728152AbgLDHwu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Dec 2020 02:52:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728006AbgLDHwu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Dec 2020 00:45:19 -0500
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 0B45iOHK014725;
-        Fri, 4 Dec 2020 14:44:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0B45iOHK014725
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1607060664;
-        bh=GxQOUZTbjpTLY9LjOb5fkHKriTuvaD4ieHcqMtD0zU0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=R/YJZpM2TUDt4msXhrrmCenmQFK0SPqfC9vbu3g9nS1uDiYEMIty1jmuSbtOd2vYq
-         oEYaisN/8FFUyC5kXvxyzAADam3yAGSM8Jv4U9iTASPKnyjhyopf5Q+b39tIHTGSCU
-         KZ7J4dN8tnT06VbKOQ2ZprJsDd8Cv5pswud7Nh/uWxRgxXts+naYIWjIADLIcO7s5K
-         Ej8G5+pa9LOo7URiBg4yREvuAij+MGPvFS5oXHYYGpclLh27KCxc8ZZUlGKiQWf522
-         EHVl1iaoIuUMext3AHN9LGrV0uf0SPa8lD1TjlonnkYekjiibvR+J9arhCRKRvkC19
-         33escYa1CP/5Q==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id x24so2944563pfn.6;
-        Thu, 03 Dec 2020 21:44:24 -0800 (PST)
-X-Gm-Message-State: AOAM532j3L5ujb0DxJ0+eDemsbIyiqWVmXq3grIzkhgMm+7hust/FdBR
-        Zxjv1Ss0sQDVJMP8aFNMHg6/6SKLcPDAcHvCZq4=
-X-Google-Smtp-Source: ABdhPJwSYF2cWdLfL5qZiKxAtQSsH8nHXtNTwO15tGB6CNOA8wl/q/O5NzJ1suMu/FAzPoErqTxsjO3rMshMsV8gl/4=
-X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id
- n25-20020a62e5190000b0290197bcec7c0cmr2396899pff.63.1607060663618; Thu, 03
- Dec 2020 21:44:23 -0800 (PST)
+        Fri, 4 Dec 2020 02:52:50 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C88C061A4F;
+        Thu,  3 Dec 2020 23:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=U3za3mThxq3YYOxHiwd5Gzm48LmhZiPsDZQkzmDPyCA=; b=tjKW3HJNjfaWoWPfzh5gg5vkg/
+        9QFeqR7kUp3uEEKIqx3S0lAE2bqyS2LdUQkATmGzAE1koDYxoFFArOlb+xosCG+RGKCPAX872w6Db
+        JNUYPhs/FMXOtG/YTPDPLMLFTx3SbbbMMcNfpfQF2srrtaLeTTQT2F6QnvJnp5dV9T2Ss1QtGMy4t
+        bdhMSLLjs3ztgSJAsXBTzHEe7xkSCRcGbt15+9mrI2LvxljaxIkYUNeViizWfZJSXbHj7qf8uX26A
+        nJZSqMb8m+pwMl8s0YcKE3XKE1dOf1caSvZBv5jW3zaLJ7pVoTLjasaHSy1/iRoviAW+KWgeDH44U
+        JVKJED5Q==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kl5sm-0007nf-1e; Fri, 04 Dec 2020 07:52:00 +0000
+Date:   Fri, 4 Dec 2020 07:51:59 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     William Mcvicker <willmcvicker@google.com>
+Cc:     Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Saravana Kannan <saravanak@google.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v2 0/2] Adds support to capture module's SCM version
+Message-ID: <20201204075159.GA29752@infradead.org>
+References: <CAGETcx8unBFUHxM67VdOoaWRENGXYoc4qWq2Oir=2rUyJ7F5nA@mail.gmail.com>
+ <20201125010541.309848-1-willmcvicker@google.com>
+ <X8mEhIeYeMjZc/+7@google.com>
 MIME-Version: 1.0
-References: <20200829051524.706585-1-masahiroy@kernel.org>
-In-Reply-To: <20200829051524.706585-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 4 Dec 2020 14:43:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARL88XGMuNSxAVKsTw+s74PY2GCU+QNJCh02ZKG5s9TNw@mail.gmail.com>
-Message-ID: <CAK7LNARL88XGMuNSxAVKsTw+s74PY2GCU+QNJCh02ZKG5s9TNw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ia64: clean-up header dependency and build process,
- fix build warning
-To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
-        linux-ia64@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        afzal mohammed <afzal.mohd.ma@gmail.com>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X8mEhIeYeMjZc/+7@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi, IA64 maintainers,
-
-Could you check this series, please?
-The build warning is still remaining.
-
-
-
-On Sat, Aug 29, 2020 at 2:16 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->
-> Randy Dunlap reports the following warning with CONFIG_IA64_PALINFO=m:
->
-> ../scripts/Makefile.build:68: 'arch/ia64/kernel/palinfo.ko' will not be built even though obj-m is specified.
-> ../scripts/Makefile.build:69: You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.
->
-> This comes from the fact Kbuild descends into arch/ia64/kernel/ twice.
->
-> First, to generate <generated/nr-irqs.h>,
-> Second, to build kernel and module objects.
->
-> The warning is emitted in the first descend because it is not the
-> intended usage.
->
-> I looked into the code closely, and noticed arch/ia64/kernel/nr-irqs.c
-> was not needed in the first place.
->
-> It was separated out of arch/ia64/kernel/asm-offsets.c just because
-> <asm/mca.h> was including too many bogus headers.
->
-> IA64 is not actively maintained, and there exists unneeded obsolete code.
->
-> The first two patches are the outcome when I played with ARCH=ia64 builds,
-> but not prerequisites for 3/3. Anyway I believe they are nice cleanups
-> and folded in this patch set.
->
-> 3/3 is the important one to fix the false positive warning,
-> and it is a nice cleanup too.
->
->
->
-> Masahiro Yamada (3):
->   ia64: do not typedef struct pal_min_state_area_s
->   ia64: remove unneeded header includes from <asm/mca.h>
->   ia64: remove generated/nr-irqs.h generation to fix build warning
->
->  arch/ia64/Makefile             |  6 ------
->  arch/ia64/include/asm/irq.h    |  4 +++-
->  arch/ia64/include/asm/mca.h    | 11 ++++-------
->  arch/ia64/include/asm/pal.h    |  4 ++--
->  arch/ia64/include/asm/sal.h    |  2 +-
->  arch/ia64/kernel/Makefile      |  5 -----
->  arch/ia64/kernel/asm-offsets.c | 18 +++++++++---------
->  arch/ia64/kernel/efi.c         |  1 +
->  arch/ia64/kernel/mca.c         |  5 +++--
->  arch/ia64/kernel/mca_drv.c     |  2 +-
->  arch/ia64/kernel/nr-irqs.c     | 22 ----------------------
->  11 files changed, 24 insertions(+), 56 deletions(-)
->  delete mode 100644 arch/ia64/kernel/nr-irqs.c
->
-> --
-> 2.25.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+I think your decription still shows absolutely no benefit for the
+kernel, so I'not sure why anyone would want to waste time on this.
