@@ -2,166 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE5502CE4DF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 02:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF9D2CE7B2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Dec 2020 06:47:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730013AbgLDBTa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 20:19:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728568AbgLDBTa (ORCPT
+        id S1728152AbgLDFpT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Dec 2020 00:45:19 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:36204 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728110AbgLDFpT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 20:19:30 -0500
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27426C061A51
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 17:18:50 -0800 (PST)
-Received: by mail-pj1-x1042.google.com with SMTP id v1so2129437pjr.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 17:18:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yQuebzesxwMf25Xr/dPzPPrev+UQ6caZgGfIyyfOgUQ=;
-        b=AdkoRN88dIF1YoC+j+aM1MY8e4XAHgHr6Qm5ePGGxeJct5eWZOVDW4q1D9C3LLa8zH
-         RxD3jXqbRv5xVOt4NKZl2X85VY5mDaNFE137cL5vRPDT2YIwl3XP02aPJnOzuMiEfFCJ
-         O2TNDBVmha6FCUh+WQdrQlptKhjeZpCVpH73ZXoybiTe/PlYuwNJCwp2VrH53850FJH2
-         515PbH93kp5tcNbwWioEzPCr6SkI3K2AM3MZJNXulV6TKLA75OeqUeP/IdZHXyGpg2cN
-         mECH8bNGs2Ccbo/RE7qyO/wLu3aIg5949CJ/5j5iRyVF3VvBW8JViOTw7u21du6GrAF3
-         +3hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yQuebzesxwMf25Xr/dPzPPrev+UQ6caZgGfIyyfOgUQ=;
-        b=MUkaO/srvvfxGhhC3tapR8ChOxFdcM8KpwkYx6QpikH9MYo56RVWkirmcculoQz3vH
-         hzLa8EKpoy5Ms2E1hRKcm4YO+WyE5ZDFedo2W0AMFnfom87XOOPVD/Na6G4P+J7fEWFX
-         wrv6Xh9lxFEfrj9z6emx6GX5KRKsTThvPRX3aGM+fbtpghF3q+R7sE7OnrD2IHehaUp0
-         JmOi6gvo0TKNoemh5OsaJlnsnE58fZwp0dMt90tRs4BFI8D1LH+EkkhNcqJXKjlawwat
-         guOCDH5HoEAZjUg+H2Z+KUosJagBlAfUijwzCBn16JLOK5eW0PdM/RXSLu/VyM6q4k6S
-         0xIw==
-X-Gm-Message-State: AOAM532Y+qOukn2KHTkIXjJdxKkXvR0N4DqXZkvIAjXYITzFAnr2M1QT
-        k48rd4wO6GlfF4qKqNlbjAv+2+nQcEU9sxVyxhNPew==
-X-Google-Smtp-Source: ABdhPJxAPcbI+OagIFgVil1xtoTesXiqZ4HHblGMTwSpODVAZ4Hx3JK5B4cAfBjOSJNFeeL+sVqWNXjR9yrFBsLuFe8=
-X-Received: by 2002:a17:90a:6fa1:: with SMTP id e30mr1854582pjk.32.1607044729507;
- Thu, 03 Dec 2020 17:18:49 -0800 (PST)
+        Fri, 4 Dec 2020 00:45:19 -0500
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0B45iOHK014725;
+        Fri, 4 Dec 2020 14:44:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0B45iOHK014725
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1607060664;
+        bh=GxQOUZTbjpTLY9LjOb5fkHKriTuvaD4ieHcqMtD0zU0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=R/YJZpM2TUDt4msXhrrmCenmQFK0SPqfC9vbu3g9nS1uDiYEMIty1jmuSbtOd2vYq
+         oEYaisN/8FFUyC5kXvxyzAADam3yAGSM8Jv4U9iTASPKnyjhyopf5Q+b39tIHTGSCU
+         KZ7J4dN8tnT06VbKOQ2ZprJsDd8Cv5pswud7Nh/uWxRgxXts+naYIWjIADLIcO7s5K
+         Ej8G5+pa9LOo7URiBg4yREvuAij+MGPvFS5oXHYYGpclLh27KCxc8ZZUlGKiQWf522
+         EHVl1iaoIuUMext3AHN9LGrV0uf0SPa8lD1TjlonnkYekjiibvR+J9arhCRKRvkC19
+         33escYa1CP/5Q==
+X-Nifty-SrcIP: [209.85.210.179]
+Received: by mail-pf1-f179.google.com with SMTP id x24so2944563pfn.6;
+        Thu, 03 Dec 2020 21:44:24 -0800 (PST)
+X-Gm-Message-State: AOAM532j3L5ujb0DxJ0+eDemsbIyiqWVmXq3grIzkhgMm+7hust/FdBR
+        Zxjv1Ss0sQDVJMP8aFNMHg6/6SKLcPDAcHvCZq4=
+X-Google-Smtp-Source: ABdhPJwSYF2cWdLfL5qZiKxAtQSsH8nHXtNTwO15tGB6CNOA8wl/q/O5NzJ1suMu/FAzPoErqTxsjO3rMshMsV8gl/4=
+X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id
+ n25-20020a62e5190000b0290197bcec7c0cmr2396899pff.63.1607060663618; Thu, 03
+ Dec 2020 21:44:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201204011129.2493105-1-ndesaulniers@google.com>
-In-Reply-To: <20201204011129.2493105-1-ndesaulniers@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 3 Dec 2020 17:18:37 -0800
-Message-ID: <CAKwvOdnmhguTTt7_xJJXH=m+JwEaZK1=hFhso3FF1Co+u8wkhw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] Kbuild: make DWARF version a choice
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nick Clifton <nickc@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+References: <20200829051524.706585-1-masahiroy@kernel.org>
+In-Reply-To: <20200829051524.706585-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 4 Dec 2020 14:43:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARL88XGMuNSxAVKsTw+s74PY2GCU+QNJCh02ZKG5s9TNw@mail.gmail.com>
+Message-ID: <CAK7LNARL88XGMuNSxAVKsTw+s74PY2GCU+QNJCh02ZKG5s9TNw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ia64: clean-up header dependency and build process,
+ fix build warning
+To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-ia64@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        afzal mohammed <afzal.mohd.ma@gmail.com>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(minus Chengbin due to bounces)
+Hi, IA64 maintainers,
 
-On Thu, Dec 3, 2020 at 5:11 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice. Adds an
-> explicit CONFIG_DEBUG_INFO_DWARF2, which is the default. Does so in a
-> way that's forward compatible with existing configs, and makes adding
-> future versions more straightforward.
->
-> Suggested-by: Fangrui Song <maskray@google.com>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  Makefile          | 14 ++++++++------
->  lib/Kconfig.debug | 21 ++++++++++++++++-----
->  2 files changed, 24 insertions(+), 11 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index a2ded5029084..2430e1ee7c44 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -826,12 +826,14 @@ else
->  DEBUG_CFLAGS   += -g
->  endif
->
-> -ifneq ($(LLVM_IAS),1)
-> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> -endif
-> -
-> -ifdef CONFIG_DEBUG_INFO_DWARF4
-> -DEBUG_CFLAGS   += -gdwarf-4
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> +ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
-> +# Binutils 2.35+ required for -gdwarf-4+ support.
-> +dwarf-aflag    := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
-> +DEBUG_CFLAGS   += $(dwarf-aflag)
-> +KBUILD_AFLAGS  += $(dwarf-aflag)
->  endif
->
->  ifdef CONFIG_DEBUG_INFO_REDUCED
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 0c7380e36370..04719294a7a3 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -256,14 +256,25 @@ config DEBUG_INFO_SPLIT
->           to know about the .dwo files and include them.
->           Incompatible with older versions of ccache.
->
-> +choice
-> +       prompt "DWARF version"
-> +       help
-> +         Which version of DWARF debug info to emit.
-> +
-> +config DEBUG_INFO_DWARF2
-> +       bool "Generate DWARF Version 2 debuginfo"
-> +       help
-> +         Generate DWARF v2 debug info.
-> +
->  config DEBUG_INFO_DWARF4
-> -       bool "Generate dwarf4 debuginfo"
-> +       bool "Generate DWARF Version 4 debuginfo"
->         depends on $(cc-option,-gdwarf-4)
->         help
-> -         Generate dwarf4 debug info. This requires recent versions
-> -         of gcc and gdb. It makes the debug information larger.
-> -         But it significantly improves the success of resolving
-> -         variables in gdb on optimized code.
-> +         Generate DWARF v4 debug info. This requires gcc 4.5+ and gdb 7.0+.
-> +         It makes the debug information larger, but it significantly
-> +         improves the success of resolving variables in gdb on optimized code.
+Could you check this series, please?
+The build warning is still remaining.
 
-^ I kept the previous help text, but while this may have been the case
-when DWARF v4 support was first introduced in GCC, by my (lone)
-measure of x86_64 defconfig with gcc 10.2, this doesn't or no longer
-seems to be the case. See patch 2 for measurements:
-https://lore.kernel.org/lkml/20201204011129.2493105-2-ndesaulniers@google.com/.
-(also, missed the cover letter, here it is:
-https://lore.kernel.org/lkml/CAKwvOdkZEiHK01OD420USb0j=F0LcrnRbauv9Yw26tu-GRbYkg@mail.gmail.com/)
 
-> +
-> +endchoice # "DWARF version"
+
+On Sat, Aug 29, 2020 at 2:16 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
->  config DEBUG_INFO_BTF
->         bool "Generate BTF typeinfo"
+>
+> Randy Dunlap reports the following warning with CONFIG_IA64_PALINFO=m:
+>
+> ../scripts/Makefile.build:68: 'arch/ia64/kernel/palinfo.ko' will not be built even though obj-m is specified.
+> ../scripts/Makefile.build:69: You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.
+>
+> This comes from the fact Kbuild descends into arch/ia64/kernel/ twice.
+>
+> First, to generate <generated/nr-irqs.h>,
+> Second, to build kernel and module objects.
+>
+> The warning is emitted in the first descend because it is not the
+> intended usage.
+>
+> I looked into the code closely, and noticed arch/ia64/kernel/nr-irqs.c
+> was not needed in the first place.
+>
+> It was separated out of arch/ia64/kernel/asm-offsets.c just because
+> <asm/mca.h> was including too many bogus headers.
+>
+> IA64 is not actively maintained, and there exists unneeded obsolete code.
+>
+> The first two patches are the outcome when I played with ARCH=ia64 builds,
+> but not prerequisites for 3/3. Anyway I believe they are nice cleanups
+> and folded in this patch set.
+>
+> 3/3 is the important one to fix the false positive warning,
+> and it is a nice cleanup too.
+>
+>
+>
+> Masahiro Yamada (3):
+>   ia64: do not typedef struct pal_min_state_area_s
+>   ia64: remove unneeded header includes from <asm/mca.h>
+>   ia64: remove generated/nr-irqs.h generation to fix build warning
+>
+>  arch/ia64/Makefile             |  6 ------
+>  arch/ia64/include/asm/irq.h    |  4 +++-
+>  arch/ia64/include/asm/mca.h    | 11 ++++-------
+>  arch/ia64/include/asm/pal.h    |  4 ++--
+>  arch/ia64/include/asm/sal.h    |  2 +-
+>  arch/ia64/kernel/Makefile      |  5 -----
+>  arch/ia64/kernel/asm-offsets.c | 18 +++++++++---------
+>  arch/ia64/kernel/efi.c         |  1 +
+>  arch/ia64/kernel/mca.c         |  5 +++--
+>  arch/ia64/kernel/mca_drv.c     |  2 +-
+>  arch/ia64/kernel/nr-irqs.c     | 22 ----------------------
+>  11 files changed, 24 insertions(+), 56 deletions(-)
+>  delete mode 100644 arch/ia64/kernel/nr-irqs.c
+>
 > --
-> 2.29.2.576.ga3fc446d84-goog
+> 2.25.1
 >
 
 
 -- 
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
