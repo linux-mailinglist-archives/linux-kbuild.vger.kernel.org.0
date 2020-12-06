@@ -2,109 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2912D0406
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 12:51:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4A12D04E4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 13:49:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbgLFLmm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Dec 2020 06:42:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41810 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728958AbgLFLmk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Dec 2020 06:42:40 -0500
-Date:   Sun, 6 Dec 2020 13:41:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607254920;
-        bh=oK2tHJvsR7FkpksxiOu5pP3zU4wD5WM5i2YAFE0jUOc=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E3EMXSgLaNW2HpBJow79E7MmJleXSizShtNmtAAZm0iDwAxmPwB8lWqyTj4JCsyT4
-         NxQsnKFfWDUkODEXqkaGQ9hG9yVFPAFWNCXFlsyceF4UB97f8TiWhdlELpEcsYEzFB
-         hAhK9lUFT0JVonyjQVnzDN4rwu+jidoDbYSr+5TISi1z/3z8Qci6BGgkFyfH4/PFnB
-         EYi+ntUD/kxFbaWsGX1yGGzmXSqWR2jd/WhIQ8NWyZhba6BANR3jQ1DMb0xUoLFKUn
-         6i+1bWwMH16bH0pbKSjo//95FkaqiiGpp6DAsQMlYVZDPxmLOrHRc/BGUjNv1eYou9
-         P7Ck8CUTKfRUA==
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Dorian Stoll <dorian.stoll@tmsp.io>,
-        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
- Aggregator Module
-Message-ID: <20201206114153.GD693271@unreal>
-References: <20201203212640.663931-1-luzmaximilian@gmail.com>
- <20201206070705.GA686270@unreal>
- <052ecf4d-9e08-2c08-8a06-c30ba2b28d82@redhat.com>
- <20201206085631.GE210929@unreal>
- <f76b329a-b6f5-486d-b06a-452ec4c51979@redhat.com>
- <20201206103339.GB693271@unreal>
- <f2511463-3bb8-a640-7863-b206db136109@redhat.com>
+        id S1727842AbgLFMs7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Dec 2020 07:48:59 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:28146 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725767AbgLFMs7 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 6 Dec 2020 07:48:59 -0500
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 0B6ClomE010606;
+        Sun, 6 Dec 2020 21:47:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0B6ClomE010606
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1607258871;
+        bh=YwHXyPtK+HFXMHSx6oDim2DCEMYz76YcSZXPvyNul4s=;
+        h=From:Date:Subject:To:Cc:From;
+        b=AfEjDZ66GQxV77yPbWsQd5vkZG8ccG/6dUaiJB3AkIm2PFXf2bkvvvJV3Z7C0gRbj
+         bu5S9r/jnh3PJHXNv6lOGtfqfs043Pi1LfBRbe4aVWLKIi+Z3R9+R8YpKIi8gxo5M1
+         dwXU06KlKnSC9dEVkxYMFxVmErJl1j8VcbMaMsw34wd4AHWJML4nGYaSH4hnKFqX6T
+         byiOMzPRhDErqhiHiC+s851DdG0I+d3hz5eb3r6F2cjp68sfaB9BQmmAPnr6Fbv05/
+         Q6q3yoq7FrZpafjmm/DWV70Umw7J/0E/8poewPGDoFPZreLac/SMk3Iuy0hHMivd5X
+         xlz2d7aUciZIQ==
+X-Nifty-SrcIP: [209.85.210.171]
+Received: by mail-pf1-f171.google.com with SMTP id w6so7161682pfu.1;
+        Sun, 06 Dec 2020 04:47:50 -0800 (PST)
+X-Gm-Message-State: AOAM532WOK9zXoUHRBciyY7qRKzvuse/4aTGuwoK4yHf43darp5VKTWr
+        EA0uAJFXCkEyRRh5Hqd1kmqNbtfdRn1+gmk9drU=
+X-Google-Smtp-Source: ABdhPJy0P34g+6OA1pp9WNupdF9zdDELDIrMTd6GRiwBF7BfCDXveAHCD1U/kj+9EI6AXbm+rrYE0RmXF6RfMN442WY=
+X-Received: by 2002:aa7:9606:0:b029:198:14c4:4f44 with SMTP id
+ q6-20020aa796060000b029019814c44f44mr11910291pfg.80.1607258869977; Sun, 06
+ Dec 2020 04:47:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2511463-3bb8-a640-7863-b206db136109@redhat.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 6 Dec 2020 21:47:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASVM_r0q6vQzjzTivu-bhOxgDwm4rsJzT5j7TFJmwOViA@mail.gmail.com>
+Message-ID: <CAK7LNASVM_r0q6vQzjzTivu-bhOxgDwm4rsJzT5j7TFJmwOViA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.10-rc6
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Dec 06, 2020 at 11:41:46AM +0100, Hans de Goede wrote:
-> Hi,
->
-> On 12/6/20 11:33 AM, Leon Romanovsky wrote:
-> > On Sun, Dec 06, 2020 at 11:04:06AM +0100, Hans de Goede wrote:
->
-> <snip>
->
-> >> But there is a difference between being careful and just nacking
-> >> it because no new UAPI may be added at all (also see GKH's response).
-> >
-> > I saw, the author misunderstood the Greg's comments.
->
-> Quoting from patch 8/9:
->
-> "
-> +==============================
-> +User-Space EC Interface (cdev)
-> +==============================
-> +
-> +The ``surface_aggregator_cdev`` module provides a misc-device for the SSAM
-> +controller to allow for a (more or less) direct connection from user-space to
-> +the SAM EC. It is intended to be used for development and debugging, and
-> +therefore should not be used or relied upon in any other way. Note that this
-> +module is not loaded automatically, but instead must be loaded manually.
-> "
->
-> If I'm not mistaken that seems to be pretty much what Greg asked for.
+Hi Linus,
 
-Right, unless you forget the end of his request.
- "
-  The "joy" of creating a user api is that no matter how much you tell
-  people "do not depend on this", they will, so no matter the file being
-  in debugfs, or a misc device, you might be stuck with it for forever,
-  sorry.
- "
+Please pull some more Kbuild fixes for v5.10
+Thanks.
 
-So I still think that exposing user api for a development and debug of device
-that has no future is wrong thing to do.
 
-Thanks
 
->
-> Regards,
->
-> Hans
->
+The following changes since commit 418baf2c28f3473039f2f7377760bd8f6897ae18:
+
+  Linux 5.10-rc5 (2020-11-22 15:36:08 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.10-2
+
+for you to fetch changes up to 7d32358be8acb119dcfe39b6cf67ec6d94bf1fe7:
+
+  kbuild: avoid split lines in .mod files (2020-12-06 21:09:28 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v5.10 (2nd)
+
+ - Move -Wcast-align to W=3, which tends to be false-positive and there
+   is no tree-wide solution.
+
+ - Pass -fmacro-prefix-map to KBUILD_CPPFLAGS because it is a preprocessor
+   option and makes sense for .S files as well.
+
+ - Disable -gdwarf-2 for Clang's integrated assembler to avoid warnings.
+
+ - Disable --orphan-handling=warn for LLD 10.0.1 to avoid warnings.
+
+ - Fix undesirable line breaks in *.mod files.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      Makefile.extrawarn: move -Wcast-align to W=3
+
+Denys Zagorui (1):
+      kbuild: use -fmacro-prefix-map for .S sources
+
+Masahiro Yamada (1):
+      kbuild: avoid split lines in .mod files
+
+Nathan Chancellor (2):
+      kbuild: Hoist '--orphan-handling' into Kconfig
+      kbuild: Disable CONFIG_LD_ORPHAN_WARN for ld.lld 10.0.1
+
+Nick Desaulniers (1):
+      Kbuild: do not emit debug info for assembly with LLVM_IAS=1
+
+ MAINTAINERS                       |  1 +
+ Makefile                          | 10 +++++++++-
+ arch/Kconfig                      |  9 +++++++++
+ arch/arm/Kconfig                  |  1 +
+ arch/arm/Makefile                 |  4 ----
+ arch/arm/boot/compressed/Makefile |  4 +++-
+ arch/arm64/Kconfig                |  1 +
+ arch/arm64/Makefile               |  4 ----
+ arch/powerpc/Kconfig              |  1 +
+ arch/powerpc/Makefile             |  1 -
+ arch/x86/Kconfig                  |  1 +
+ arch/x86/Makefile                 |  3 ---
+ arch/x86/boot/compressed/Makefile |  4 +++-
+ init/Kconfig                      | 10 ++++++++++
+ scripts/Makefile.build            | 12 ++++--------
+ scripts/Makefile.extrawarn        |  2 +-
+ scripts/lld-version.sh            | 20 ++++++++++++++++++++
+ 17 files changed, 64 insertions(+), 24 deletions(-)
+ create mode 100755 scripts/lld-version.sh
+
+
+-- 
+Best Regards
+Masahiro Yamada
