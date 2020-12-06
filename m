@@ -2,55 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F002D0683
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 19:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 884C72D070B
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 21:10:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbgLFSjS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Dec 2020 13:39:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56528 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726440AbgLFSjS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Dec 2020 13:39:18 -0500
-Subject: Re: [GIT PULL] Kbuild fixes for v5.10-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607279918;
-        bh=9kz/T5VNGKZat3jcXKOkLQBr62dtPjhQN46YU5TFzgI=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=gr65CecgT2I3B5+mWRsI3MQzioUcbOHXaE6nanAJhCgvP2NaRQ5vqsNoDohoF7s/o
-         6uOmER3Mos1UW1Nq4dr38aF1U8hGruEiOep5PGQg7hZO5CDn8w5WwkiTgBhFolax7+
-         xl9lFATwQee38jihdGdlFNVM7gLoa87kA1WBs9pS408PoZ2PHyynfQYupfk0J7+aOD
-         OH6zZ8Vla16NzwdsqAthvKBUECO89WXFdsweL4Qs4DiRmIGruo1mPsU/iTjIzwzoJ6
-         4qnd0oX38yhhn13E4t5Y2GLQ8nUz95r6z3TB4pcE4KmgvtB1kcVWOnKYcDBKbpb7hz
-         ZqUktvi8hdeCw==
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNASVM_r0q6vQzjzTivu-bhOxgDwm4rsJzT5j7TFJmwOViA@mail.gmail.com>
-References: <CAK7LNASVM_r0q6vQzjzTivu-bhOxgDwm4rsJzT5j7TFJmwOViA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNASVM_r0q6vQzjzTivu-bhOxgDwm4rsJzT5j7TFJmwOViA@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.10-2
-X-PR-Tracked-Commit-Id: 7d32358be8acb119dcfe39b6cf67ec6d94bf1fe7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e6585a493921991653be1fd65c3aa3fb90b000ae
-Message-Id: <160727991780.20057.18241976319057303872.pr-tracker-bot@kernel.org>
-Date:   Sun, 06 Dec 2020 18:38:37 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        id S1727659AbgLFUKY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Dec 2020 15:10:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727009AbgLFUKY (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 6 Dec 2020 15:10:24 -0500
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE07C0613D2
+        for <linux-kbuild@vger.kernel.org>; Sun,  6 Dec 2020 12:09:43 -0800 (PST)
+Received: by mail-ua1-x944.google.com with SMTP id k12so3786736uae.13
+        for <linux-kbuild@vger.kernel.org>; Sun, 06 Dec 2020 12:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iz05We4T6eIjQaXBvxz0eSpPimwSlGMKW8WGflLLLgw=;
+        b=iS/yxV/uv33bWygYcp3w94mm68WCg/cooZBDHGRBRFCb+HEVGfBEws+dpr/6P25Mqk
+         CGF0txaBIDtDjqi1yLxaRHzbKNu312tAIiWry1c6H2XUemwifDXDJ3xgms3nJQh018Ju
+         tSfem3j42gdxUipuE2UCBGdP6HbCXjgyA35rk3ybR2x5sUXsvaX34+w/11PCnDP3wUw3
+         VXU3d3GrfxpXDM3mNsWNN8WzS04oerefikrSUgI3Sa41DzU+d/SyYsbVuDLVrcBbBAFd
+         TPfpfk+LViEDwCmkthUfnAh26cBtd4O/zl0ILiNY2vgWj3ccwdwRthGGUZbaHtAB4IuL
+         4E/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iz05We4T6eIjQaXBvxz0eSpPimwSlGMKW8WGflLLLgw=;
+        b=DrpBb7Di5NeFeQvYfi8+7sfr5mu3Ba/4jYeXl84Qzp+n1VJPUf/mG3LRuRIltHhdaw
+         31a/7EjkFIMtRGCvnsJ4QXEtvfmdLPL1+leK78MsJrtkwy/6kjwFh72oO7VQxoI43e9c
+         7q7J8AX2fPFzAGFs9ZfoEwOaxQ9q13NMqo20ZXRup6WEpA8yrNxQEn1tkcN+4l16oJUL
+         19PLUaLhmBKR5AMi8JaALMbmrv4cqHSGx4mZruWLVEuiX9ClExaq7y4XkOiaZThLBYD7
+         j+EwxbsBtyI7gEQruQ8wEg7DsphG1ozJ37Dr9pMpnZ8srTiwPprz2YyLhWU8tFwnjPEi
+         W7NQ==
+X-Gm-Message-State: AOAM53171u8LvpXrlIcAg7ywE67H88RIEVYfveVgtG4qWxXd/IgQx4Ys
+        JVCS4H8iyiQeX1x8K0RlsLSVMT1mIQg4VWYU33isXg==
+X-Google-Smtp-Source: ABdhPJyKCb8VYAdpRAyuT9QnDEa4WUbLFAwf7yIvP0eytyeCFIBxggFhwRm1Itv8d1sjhOU4I4dMU+iMqgn79bJuOn0=
+X-Received: by 2002:ab0:6f0f:: with SMTP id r15mr3484878uah.52.1607285382144;
+ Sun, 06 Dec 2020 12:09:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20201201213707.541432-1-samitolvanen@google.com>
+ <20201203112622.GA31188@willie-the-truck> <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
+ <20201203182252.GA32011@willie-the-truck> <CAKwvOdnvq=L=gQMv9MHaStmKMOuD5jvffzMedhp3gytYB6R7TQ@mail.gmail.com>
+ <CABCJKufgkq+k0DeYaXrzjXniy=T_N4sN1bxoK9=cUxTZN5xSVQ@mail.gmail.com> <20201206065028.GA2819096@ubuntu-m3-large-x86>
+In-Reply-To: <20201206065028.GA2819096@ubuntu-m3-large-x86>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Sun, 6 Dec 2020 12:09:31 -0800
+Message-ID: <CABCJKue9TJnhge6TVPj9vfZXPGD4RW2JYiN3kNwVKNovTCq8ZA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Will Deacon <will@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>, Jian Cai <jiancai@google.com>,
+        Kristof Beyls <Kristof.Beyls@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 6 Dec 2020 21:47:13 +0900:
+On Sat, Dec 5, 2020 at 10:50 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Fri, Dec 04, 2020 at 02:52:41PM -0800, Sami Tolvanen wrote:
+> > On Thu, Dec 3, 2020 at 2:32 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
+> > >
+> > > So I'd recommend to Sami to simply make the Kconfig also depend on
+> > > clang's integrated assembler (not just llvm-nm and llvm-ar).
+> >
+> > Sure, sounds good to me. What's the preferred way to test for this in Kconfig?
+> >
+> > It looks like actually trying to test if we have an LLVM assembler
+> > (e.g. using $(as-instr,.section
+> > ".linker-options","e",@llvm_linker_options)) doesn't work as Kconfig
+> > doesn't pass -no-integrated-as to clang here.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.10-2
+After a closer look, that's actually not correct, this seems to work
+with Clang+LLD no matter which assembler is used. I suppose we could
+test for .gasversion. to detect GNU as, but that's hardly ideal.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e6585a493921991653be1fd65c3aa3fb90b000ae
+> >I could do something
+> > simple like $(success,echo $(LLVM) $(LLVM_IAS) | grep -q "1 1").
+> >
+> > Thoughts?
+> >
+> > Sami
+>
+> I think
+>
+>     depends on $(success,test $(LLVM_IAS) -eq 1)
+>
+> should work, at least according to my brief test.
 
-Thank you!
+Sure, looks good to me. However, I think we should also test for
+LLVM=1 to avoid possible further issues with mismatched toolchains
+instead of only checking for llvm-nm and llvm-ar.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Sami
