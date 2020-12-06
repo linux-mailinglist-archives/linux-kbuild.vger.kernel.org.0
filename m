@@ -2,111 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F80B2D0158
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 07:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2FB2D0161
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Dec 2020 08:08:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726572AbgLFGvT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Dec 2020 01:51:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725867AbgLFGvS (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Dec 2020 01:51:18 -0500
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAA8C0613D0;
-        Sat,  5 Dec 2020 22:50:32 -0800 (PST)
-Received: by mail-io1-xd41.google.com with SMTP id r9so10168285ioo.7;
-        Sat, 05 Dec 2020 22:50:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xEFX9m1tSvdSJQ3/EiaRpiuUqPA/jqJsIXCgLkJIHTI=;
-        b=DzK6LtMphXGVMKUPACceGTUsVVmN1cNs/QClR/+YjCKMnWe4BnLQBIJsKr7tKxkNyY
-         w8fYOkrp4AJry9LpefYGu1ZK0PRDfStCJRHpd340BZOhkyFknzV9Qv1a8xkVOdyY9zFf
-         gj6zMq1tQBs9MJGB2si/iNyk8qcAPb1OkxqdQ0kknvb2P9OxzdM9jt0tLWQNa3/KRgUW
-         26EXDEONiip05JtUgT3RheVciiRVzO2cil6qzk6OBDikvUihqXg+enkPIQLrcSwu//N1
-         F9oG7BK1bIa+jJndHBOVysL6/gUrP1m+nsgJWeLkzCRdImG92pho9jGdEKn0kHXouQT4
-         KWgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xEFX9m1tSvdSJQ3/EiaRpiuUqPA/jqJsIXCgLkJIHTI=;
-        b=U7GtvkKDm7TRWA95HV5KbJYsyVb4eET/SBEyYuQLmyureDm5cZADZuMXbBgmIYXBzZ
-         Tse6wUSKxXp7ymv3aS2rEwRPj7FvZZ0nEq4zKclEixBKBypaYe84eTWsCB3sD20X1o/k
-         cA5Cj/mo6A1HqWx+B4NPis5EEuvvLa44XxVqom8UrznYcFORrPus3tMPWM25FuWaPd/E
-         jOWkC+GWS7HMeK/BpmYSUn+H+cB5G8aGFu79QLKSDCom76sutIV4eLrDG/BCCDHbOXKz
-         ahdxoS2XzW/skNbjSgtrqZQ6bLtgxSSTGrgEpXxgdtbhyl7dTqPTdZeGImOcktzHazCf
-         BSHQ==
-X-Gm-Message-State: AOAM533MFKHfzni8Ou4ZDNIP/0pIL9jOZxihVn0KYQp4A0JH13aZTyP5
-        FpnsihFuMpI2HrqphV8xPkI=
-X-Google-Smtp-Source: ABdhPJwZVi5tRrvxZ13o7P0VRkdeEgYwBAdwWzBfj6NClRTOtnOrrhmD5vISX/qn43sceqJ+Sz+PdQ==
-X-Received: by 2002:a5d:958b:: with SMTP id a11mr13034197ioo.160.1607237432100;
-        Sat, 05 Dec 2020 22:50:32 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id v23sm4068308iol.21.2020.12.05.22.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Dec 2020 22:50:30 -0800 (PST)
-Date:   Sat, 5 Dec 2020 23:50:28 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Will Deacon <will@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1725800AbgLFHHu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Dec 2020 02:07:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725772AbgLFHHu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 6 Dec 2020 02:07:50 -0500
+Date:   Sun, 6 Dec 2020 09:07:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607238429;
+        bh=frMp0i5OpTH7HSUYeC01Dasv3H7b3wML3u9DwCjWj3w=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bwMT/cW+KW6zqLO3YOCneaKPvDm56TNcQtB9kMsKrNH49p2tA6QkEpdod8LjgHEOM
+         GQBH/7BUBG4rL1nhbt0fTApg/ZBaPO7DZsXGJAsxCYTL7edTnEF7a65AbM3brxKGtH
+         G/wXtdHhkarYMJhplyFCDFQ77HQ50w7UeZNzDQKRu6xeB0/wC/XS+DLkWIm5eM8EMo
+         hXpaydi6gFWNL4q+I2rHsAwJWXnfycJXP4Dxfps6VB8+a/LDC7noWfknLcWqiMbfxg
+         /4KhkQUFjmQKoI5kMiCdUpZptE+HrWC+pLgwnVL+zADX4WvRXHfBpeliVI7fQiTX+1
+         kSJ7PskK8V6rA==
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>, Jian Cai <jiancai@google.com>,
-        Kristof Beyls <Kristof.Beyls@arm.com>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-Message-ID: <20201206065028.GA2819096@ubuntu-m3-large-x86>
-References: <20201201213707.541432-1-samitolvanen@google.com>
- <20201203112622.GA31188@willie-the-truck>
- <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
- <20201203182252.GA32011@willie-the-truck>
- <CAKwvOdnvq=L=gQMv9MHaStmKMOuD5jvffzMedhp3gytYB6R7TQ@mail.gmail.com>
- <CABCJKufgkq+k0DeYaXrzjXniy=T_N4sN1bxoK9=cUxTZN5xSVQ@mail.gmail.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+Message-ID: <20201206070705.GA686270@unreal>
+References: <20201203212640.663931-1-luzmaximilian@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABCJKufgkq+k0DeYaXrzjXniy=T_N4sN1bxoK9=cUxTZN5xSVQ@mail.gmail.com>
+In-Reply-To: <20201203212640.663931-1-luzmaximilian@gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 04, 2020 at 02:52:41PM -0800, Sami Tolvanen wrote:
-> On Thu, Dec 3, 2020 at 2:32 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> >
-> > So I'd recommend to Sami to simply make the Kconfig also depend on
-> > clang's integrated assembler (not just llvm-nm and llvm-ar).
-> 
-> Sure, sounds good to me. What's the preferred way to test for this in Kconfig?
-> 
-> It looks like actually trying to test if we have an LLVM assembler
-> (e.g. using $(as-instr,.section
-> ".linker-options","e",@llvm_linker_options)) doesn't work as Kconfig
-> doesn't pass -no-integrated-as to clang here. I could do something
-> simple like $(success,echo $(LLVM) $(LLVM_IAS) | grep -q "1 1").
-> 
-> Thoughts?
-> 
-> Sami
+On Thu, Dec 03, 2020 at 10:26:31PM +0100, Maximilian Luz wrote:
+> Hello,
+>
+> Here is version two of the Surface System Aggregator Module (SAM/SSAM)
+> driver series, adding initial support for the embedded controller on 5th
+> and later generation Microsoft Surface devices. Initial support includes
+> the ACPI interface to the controller, via which battery and thermal
+> information is provided on some of these devices.
+>
+> The previous version and cover letter detailing what this series is
+> about can be found at
+>
+>   https://lore.kernel.org/platform-driver-x86/20201115192143.21571-1-luzmaximilian@gmail.com/
+>
+> This patch-set can also be found at the following repository and
+> reference, if you prefer to look at a kernel tree instead of these
+> emails:
+>
+>   https://github.com/linux-surface/kernel tags/s/surface-aggregator/v2
+>
+> Thank you all for the feedback to v1, I hope I have addressed all
+> comments.
 
-I think
 
-    depends on $(success,test $(LLVM_IAS) -eq 1)
+I think that it is too far fetched to attempt and expose UAPI headers
+for some obscure char device that we are all know won't be around in
+a couple of years from now due to the nature of how this embedded world
+works.
 
-should work, at least according to my brief test.
+More on that, the whole purpose of proposed interface is to debug and
+not intended to be used by any user space code.
 
-Cheers,
-Nathan
+Also the idea that you are creating new bus just for this device doesn't
+really sound right. I recommend you to take a look on auxiliary bus and
+use it or come with very strong justifications why it is not fit yet.
+
+I'm sorry to say, but this series is not ready to be merged yet.
+
+NAK: Leon Romanovsky <leon@kernel.org>
+
+Thanks
