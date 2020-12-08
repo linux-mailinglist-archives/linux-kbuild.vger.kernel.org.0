@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BEDA2D2A8C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 13:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A3052D2C4F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 14:56:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728497AbgLHMQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Dec 2020 07:16:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52558 "EHLO mail.kernel.org"
+        id S1729510AbgLHNzw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Dec 2020 08:55:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727550AbgLHMQa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Dec 2020 07:16:30 -0500
-X-Gm-Message-State: AOAM531pCNf3+pt4/gxI7ev0HTiugt+kVRX+mWEA0Xc3ccWL5NzuNlxw
-        Q5DMJzmliyrBsBbl/PytXnxnVlcQgL24/EPkz3M=
+        id S1726338AbgLHNzw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 8 Dec 2020 08:55:52 -0500
+X-Gm-Message-State: AOAM531vd5GLJ17BIhllutjkE+6n48AniZDMzZN4ItSIvtDTIS7W8Z9L
+        5oWC82bBr16v2Ax/S/G/pXGTP2skjhWDLM+BhGQ=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607429749;
-        bh=K94MQ6q50UGiEvhj+VB0lG6N0jZujxUWTttppsr8gwM=;
+        s=k20201202; t=1607435711;
+        bh=aMUeJmcHjLR1mxPMY4lSg5wm08l9vr2Dq3J8KhZCHss=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ns4p/v7H7ScAMGSZF+uiL0GLrzuK92X4fsakgAnSLuAme/K5fEsEi38bY3jw803Wy
-         audkXq/WYB7RTMZ3yOuTK6onrxqVBtnoYqkkvLnvpNRPrQxrYcO6XAo70lbZp3Wa4T
-         9qu4teHx4OR4D7tI19aZUR6LPG7nQ4wU5rtl2vcxyqBk81XPqwKBpVKsGaiwHXIJuy
-         PuNNq9XDDyWTO1GKhaqTq1XoK2qrf9wdaOmxVotAI6FaDwC0nVzQIN5BYHWvkh+7Pl
-         TIDC46XqhgPtl/QkCcf02gs7jdiOHkHzlufEr692R+gOJKVmFAwvvzdy3POnIF8teL
-         9TV0RUdUG0tPw==
-X-Google-Smtp-Source: ABdhPJwYXzEbw5wojirREdrWvTDFdS68u6lSRc1TxQHV80oZ08BdPpLLWGJpTl+WAoAqOweiNLoKVC/CXI7Rr5nYmRU=
-X-Received: by 2002:a05:6808:9a9:: with SMTP id e9mr2451121oig.4.1607429748222;
- Tue, 08 Dec 2020 04:15:48 -0800 (PST)
+        b=N6+VRiKj1w/sHG04FJYJajgruVEl0d0kXpByOymHxPthCNLPJiukFzJ0fV2Fks4F3
+         f3OYCjwUjrh0Mlf1Q4sJGjiuG+CSXHTbFZTkrqCv+RKCMWkLCdkoGeXDRPUxmeCutZ
+         PvCcGNK3GKImyzLMtrB2yTw7+GoV0yDqsIR4dn7IMy5VKyojDA4DfYN2ZEygwOrw5h
+         yf899Lyg8XrtlHlrasiYJQpQD5/jtisPkmLxhy3aBeoCxaov7xm4Im/ELWLRl42Ocw
+         cizq88EGMi2nzasl/XChEgEAvqZzmNujCnkYUHPFgAM4zpJ9J9XBeHGGlR89vy8Yhi
+         rTnMXtxRGJrBQ==
+X-Google-Smtp-Source: ABdhPJw84bKjNW6pc9lV2J+47WEe1njStGFQFPiO39biuyycOb/7NnBSKOzxngL0mEe4vYZqUHtN+LSV3ssbam6y5lc=
+X-Received: by 2002:a1c:b4c4:: with SMTP id d187mr3984205wmf.38.1607435710266;
+ Tue, 08 Dec 2020 05:55:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201213707.541432-1-samitolvanen@google.com>
-In-Reply-To: <20201201213707.541432-1-samitolvanen@google.com>
+References: <20201201213707.541432-1-samitolvanen@google.com> <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
+In-Reply-To: <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
 From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Tue, 8 Dec 2020 13:15:31 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
-Message-ID: <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
+Date:   Tue, 8 Dec 2020 14:54:28 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0AyciKoHzrgtaLxP9boo8WqZCe8YfPBzGPQ14PW_2KgQ@mail.gmail.com>
+Message-ID: <CAK8P3a0AyciKoHzrgtaLxP9boo8WqZCe8YfPBzGPQ14PW_2KgQ@mail.gmail.com>
 Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
 To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -56,101 +56,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 10:37 PM 'Sami Tolvanen' via Clang Built Linux
-<clang-built-linux@googlegroups.com> wrote:
+On Tue, Dec 8, 2020 at 1:15 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> On Tue, Dec 1, 2020 at 10:37 PM 'Sami Tolvanen' via Clang Built Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> This patch series adds support for building the kernel with Clang's
-> Link Time Optimization (LTO). In addition to performance, the primary
-> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
-> to be used in the kernel. Google has shipped millions of Pixel
-> devices running three major kernel versions with LTO+CFI since 2018.
->
-> Most of the patches are build system changes for handling LLVM
-> bitcode, which Clang produces with LTO instead of ELF object files,
-> postponing ELF processing until a later stage, and ensuring initcall
-> ordering.
->
-> Note that arm64 support depends on Will's memory ordering patches
-> [1]. I will post x86_64 patches separately after we have fixed the
-> remaining objtool warnings [2][3].
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
-> [2] https://lore.kernel.org/lkml/20201120040424.a3wctajzft4ufoiw@treble/
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool-vmlinux
->
-> You can also pull this series from
->
->   https://github.com/samitolvanen/linux.git lto-v8
+> - many builds complain about thousands of duplicate symbols in the kernel, e.g.
+>   ld.lld: error: duplicate symbol: qrtr_endpoint_post
+>  >>> defined in net/qrtr/qrtr.lto.o
+>  >>> defined in net/qrtr/qrtr.o
+>  ld.lld: error: duplicate symbol: init_module
+>  >>> defined in crypto/842.lto.o
+>  >>> defined in crypto/842.o
+>  ld.lld: error: duplicate symbol: init_module
+>  >>> defined in net/netfilter/nfnetlink_log.lto.o
+>  >>> defined in net/netfilter/nfnetlink_log.o
+>  ld.lld: error: duplicate symbol: vli_from_be64
+>  >>> defined in crypto/ecc.lto.o
+>  >>> defined in crypto/ecc.o
+>  ld.lld: error: duplicate symbol: __mod_of__plldig_clk_id_device_table
+>  >>> defined in drivers/clk/clk-plldig.lto.o
+>  >>> defined in drivers/clk/clk-plldig.o
 
-I've tried pull this into my randconfig test tree to give it a spin.
-So far I have
-not managed to get a working build out of it, the main problem so far being
-that it is really slow to build because the link stage only uses one CPU.
-These are the other issues I've seen so far:
+A small update here: I see this behavior with every single module
+build, including 'tinyconfig' with one module enabled, and 'defconfig'.
 
-- one build seems to take even longer to link. It's currently at 35GB RAM
-  usage and 40 minutes into the final link, but I'm worried it might
-not complete
-  before it runs out of memory.  I only have 128GB installed, and google-chrome
-  uses another 30GB of that, and I'm also doing some other builds in parallel.
-  Is there a minimum recommended amount of memory for doing LTO builds?
+I tuned the randconfig setting using KCONFIG_PROBABILITY=2:2:1
+now, which only enables a few symbols. With this I see faster build
+times (obvioulsy), aroudn 30 seconds per kernel, and all small builds
+with CONFIG_MODULES disabled so far succeed.
+It appears that the problems I saw originally only happen for larger
+configurations, or possibly a combination of Kconfig options that don't
+happen that often on randconfig builds with low
+KCONFIG_PROBABILITY.
 
-- One build failed with
- ld.lld -EL -maarch64elf -mllvm -import-instr-limit=5 -r -o vmlinux.o
--T .tmp_initcalls.lds --whole-archive arch/arm64/kernel/head.o
-init/built-in.a usr/built-in.a arch/arm64/built-in.a kernel/built-in.a
-certs/built-in.a mm/built-in.a fs/built-in.a ipc/built-in.a
-security/built-in.a crypto/built-in.a block/built-in.a
-arch/arm64/lib/built-in.a lib/built-in.a drivers/built-in.a
-sound/built-in.a net/built-in.a virt/built-in.a --no-whole-archive
---start-group arch/arm64/lib/lib.a lib/lib.a
-./drivers/firmware/efi/libstub/lib.a --end-group
-  "ld.lld: error: arch/arm64/kernel/head.o: invalid symbol index"
-  after about 30 minutes
-
-- CONFIG_CPU_BIG_ENDIAN doesn't seem to work with lld, and LTO
-  doesn't work with ld.bfd.
-  I've added a CPU_LITTLE_ENDIAN dependency to
-  ARCH_SUPPORTS_LTO_CLANG{,THIN}
-
-- one build failed with
-  "ld.lld: error: Never resolved function from blockaddress (Producer:
-'LLVM12.0.0' Reader: 'LLVM 12.0.0')"
-  Not sure how to debug this
-
-- one build seems to have dropped all symbols the string operations
-from vmlinux,
-  so while the link goes through, modules cannot be loaded:
- ERROR: modpost: "memmove" [drivers/media/rc/rc-core.ko] undefined!
- ERROR: modpost: "memcpy" [net/wireless/cfg80211.ko] undefined!
- ERROR: modpost: "memcpy" [net/8021q/8021q.ko] undefined!
- ERROR: modpost: "memset" [net/8021q/8021q.ko] undefined!
- ERROR: modpost: "memcpy" [net/unix/unix.ko] undefined!
- ERROR: modpost: "memset" [net/sched/cls_u32.ko] undefined!
- ERROR: modpost: "memcpy" [net/sched/cls_u32.ko] undefined!
- ERROR: modpost: "memset" [net/sched/sch_skbprio.ko] undefined!
- ERROR: modpost: "memcpy" [net/802/garp.ko] undefined!
- I first thought this was related to a clang-12 bug I saw the other day, but
- this also happens with clang-11
-
-- many builds complain about thousands of duplicate symbols in the kernel, e.g.
-  ld.lld: error: duplicate symbol: qrtr_endpoint_post
- >>> defined in net/qrtr/qrtr.lto.o
- >>> defined in net/qrtr/qrtr.o
- ld.lld: error: duplicate symbol: init_module
- >>> defined in crypto/842.lto.o
- >>> defined in crypto/842.o
- ld.lld: error: duplicate symbol: init_module
- >>> defined in net/netfilter/nfnetlink_log.lto.o
- >>> defined in net/netfilter/nfnetlink_log.o
- ld.lld: error: duplicate symbol: vli_from_be64
- >>> defined in crypto/ecc.lto.o
- >>> defined in crypto/ecc.o
- ld.lld: error: duplicate symbol: __mod_of__plldig_clk_id_device_table
- >>> defined in drivers/clk/clk-plldig.lto.o
- >>> defined in drivers/clk/clk-plldig.o
-
-Not sure if these are all known issues. If there is one you'd like me try
-take a closer look at for finding which config options break it, I can try
-
-     Arnd
+      Arnd
