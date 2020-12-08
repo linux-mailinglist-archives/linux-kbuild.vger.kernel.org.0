@@ -2,87 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 222DD2D3054
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 17:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A8C2D3354
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 21:27:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728830AbgLHQ5M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Dec 2020 11:57:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50816 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728752AbgLHQ5L (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Dec 2020 11:57:11 -0500
-X-Gm-Message-State: AOAM5323WPJTvM6NiM3KhThKK95sHjoVMCgGZdMcCNRYtI/+c087nc5T
-        s9An5cgP2lkMPkJiSDZJmgXGzc22w4nzHNT4j3w=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607446591;
-        bh=B1Ufsz/HjvgeN7kz3QDMw7S3GkByLm0NCuUVzAQn1Nk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rKCUm2Ck4ZHiGtV3Faw/xe/XwRxizs0Y1E8mPa2BPGo+iAQuGAACvB1lE17EvxzKg
-         sdJSkWu621PR6JmuUkZx6X8EHHlXlnOsdG0rDzeO7AVEOFzr87aOubmE2c7gzWt3aK
-         eNJx8xYeGVKWGGDahCTTMnavuRRk2BKfmjTZ/05LYvPKiXmaLW2bTmwopmaLfdSvc0
-         23Vwwr+wxXb8d34MTPd7sKBTslRqgRAlCPdSJcelZFlAj4eFwgUY33mKDeCsiWNeEd
-         r4UMsDp/eQJwFwFv7h6XQMlireK6JR/Smu8K5arF+Eg7NP6qod4JmTEKKPd5LR/6hD
-         7j/SxXQTXGltQ==
-X-Google-Smtp-Source: ABdhPJxgNl1Gj/l80SMEy+MnjbFlb4NpqPf4LKadCXveKp8gHoY+X2lTRnRws8sedD5yQTo7/pGCxoCJogqbCbMdTLQ=
-X-Received: by 2002:a9d:be1:: with SMTP id 88mr17705895oth.210.1607446590334;
- Tue, 08 Dec 2020 08:56:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20201201213707.541432-1-samitolvanen@google.com>
- <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
- <CAK8P3a0AyciKoHzrgtaLxP9boo8WqZCe8YfPBzGPQ14PW_2KgQ@mail.gmail.com> <CABCJKudbCD3s0RcSVzbnn4MV=DadKOxOxar3jfiPWucX4JGxCg@mail.gmail.com>
-In-Reply-To: <CABCJKudbCD3s0RcSVzbnn4MV=DadKOxOxar3jfiPWucX4JGxCg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Tue, 8 Dec 2020 17:56:13 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a32HwzZYDK3i68fY0JLGCj18RH1iDMq70OZpTrsopyCcw@mail.gmail.com>
-Message-ID: <CAK8P3a32HwzZYDK3i68fY0JLGCj18RH1iDMq70OZpTrsopyCcw@mail.gmail.com>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
+        id S1731360AbgLHUQM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Dec 2020 15:16:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731107AbgLHUNB (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 8 Dec 2020 15:13:01 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2A8C061793
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Dec 2020 12:12:13 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id l8so3121268ybj.16
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Dec 2020 12:12:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=iPNyURoyyg37PtP5buaF7be4u+mklyusgvVkQ9lf5c4=;
+        b=d8kI5DC6RP4DJ49rtv3HRDmO4lX8xauTeqDg/yxTGOoLSDqV4wdfCyFv+CcWvtjldX
+         4ejQ3sBafhcxKGySlAHEv1lExckfO6zdtRI3cxmx+Ps0/PWoqXlh3RLRpjVB8eeFRVTq
+         5BuqliT5XjXJdQBUHIet86bv4wvG53o48LmzyhRCFmL5UfX9v3Z1Dmh5U1T2edPYRjYL
+         Gq0RyizZJ+a2Das9vAKJIf17GswbLZ/KzC9s/vsYO/GA5lZko3lLclFbZ0k7yRwaHg0S
+         g7jUg2MRJ7776jHriyV4cRG32UwIwgIKjnpRF2H/P7xImiQdCgVrcUHZFHZC3xzUylYD
+         PfDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=iPNyURoyyg37PtP5buaF7be4u+mklyusgvVkQ9lf5c4=;
+        b=DIk/SmbJe+Dz2aYE7LSY3iVR8SVjvLwd0lVrL9i0qurvVABmi1U91xLFBpzvJbee5r
+         gg60TcJh/fDkzeK9cp7YIuhgMnaIUKN+zMyo+0NDoMWQkb2MBr3bdR7rPtwvnqvBM0wS
+         Ddo3dUY8rEai9uZNq5XGTVpJna2wLSp9qE1SlMLn+RPdisvSB9Kz/O1jGq3hR1hRBceq
+         lLJ7wcq5fte1sNKX9cNC1W5O1y9t50Rp5cTgBoKdJPCZMb64JlDgf7snrCVc9YWgM20l
+         I59Znj7g7HrglgwSLvgr/Nr0Ru0E0WMikqE+XIAeMkXWjwLVoMZduxbG4WZIRB+5mCMD
+         DOrw==
+X-Gm-Message-State: AOAM530DUT8FZJN5PuqVhYjR8BGDjjR7QNjmFKLeoYkSAdPoxnTDHMRA
+        y66scNL58ErpzvaSo9Wg1oXD4zp7eg9ONWsaVvw=
+X-Google-Smtp-Source: ABdhPJwMJgfuO061kxGkmUoA9VEBMsGmQvj/8WZA4Ev6G7KxHkHqqvemJJmaP6cJeK0oakrTQPUUr/G0FMzTPMjrftk=
+Sender: "willmcvicker via sendgmr" <willmcvicker@willmcvicker.c.googlers.com>
+X-Received: from willmcvicker.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:2dd0])
+ (user=willmcvicker job=sendgmr) by 2002:a25:cb45:: with SMTP id
+ b66mr27002244ybg.185.1607457914395; Tue, 08 Dec 2020 12:05:14 -0800 (PST)
+Date:   Tue,  8 Dec 2020 20:05:06 +0000
+In-Reply-To: <20201207153116.GA15772@linux-8ccs>
+Message-Id: <20201208200508.4107399-1-willmcvicker@google.com>
+Mime-Version: 1.0
+References: <20201207153116.GA15772@linux-8ccs>
+X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
+Subject: [PATCH v3 0/2] modules: add scmversion field
+From:   Will McVicker <willmcvicker@google.com>
+To:     Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Saravana Kannan <saravanak@google.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        kernel-team@android.com, Will McVicker <willmcvicker@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 8, 2020 at 5:53 PM 'Sami Tolvanen' via Clang Built Linux
-<clang-built-linux@googlegroups.com> wrote:
->
-> > A small update here: I see this behavior with every single module
-> > build, including 'tinyconfig' with one module enabled, and 'defconfig'.
->
-> The .o file here is a thin archive of the bitcode files for the
-> module. We compile .lto.o from that before modpost, because we need an
-> ELF binary to process, and then reuse the .lto.o file when linking the
-> final module.
->
-> At no point should we link the .o file again, especially not with
-> .lto.o, because that would clearly cause every symbol to be
-> duplicated, so I'm not sure what goes wrong here. Here's the relevant
-> part of scripts/Makefile.modfinal:
->
-> ifdef CONFIG_LTO_CLANG
-> # With CONFIG_LTO_CLANG, reuse the object file we compiled for modpost to
-> # avoid a second slow LTO link
-> prelink-ext := .lto
-> ...
-> $(modules): %.ko: %$(prelink-ext).o %.mod.o scripts/module.lds FORCE
->         +$(call if_changed,ld_ko_o)
+Hi All,
 
-Ah, it's probably a local problem now, as I had a merge conflict against
-linux-next in this Makefile and I must have resolved the conflict incorrectly.
+Thanks Jessica for the feedback! I have updated the commit message to
+include the justification and common use cases for the patch series. I
+have also added the config MODULE_SCMVERSION so that this is not enabled
+by default.
 
-        Arnd
+Please take a look and let me know of any concerns or issues found.
+
+Thanks,
+Will
+
+Will McVicker (2):
+  scripts/setlocalversion: allow running in a subdir
+  modules: introduce the MODULE_SCMVERSION config
+
+ Documentation/ABI/stable/sysfs-module | 18 ++++++++++++++++++
+ include/linux/module.h                |  1 +
+ init/Kconfig                          | 12 ++++++++++++
+ kernel/module.c                       |  2 ++
+ scripts/Makefile.modpost              | 22 ++++++++++++++++++++++
+ scripts/mod/modpost.c                 | 24 +++++++++++++++++++++++-
+ scripts/setlocalversion               |  5 ++---
+ 7 files changed, 80 insertions(+), 4 deletions(-)
+
+-- 
+2.29.2.576.ga3fc446d84-goog
+
