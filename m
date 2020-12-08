@@ -2,161 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1E32D2766
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 10:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BEDA2D2A8C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Dec 2020 13:16:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728593AbgLHJVv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Dec 2020 04:21:51 -0500
-Received: from m9785.mail.qiye.163.com ([220.181.97.85]:8979 "EHLO
-        m9785.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgLHJVu (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Dec 2020 04:21:50 -0500
-Received: from localhost (unknown [117.48.120.186])
-        by m9785.mail.qiye.163.com (Hmail) with ESMTPA id 779595C1D0C;
-        Tue,  8 Dec 2020 17:20:38 +0800 (CST)
-Date:   Tue, 8 Dec 2020 17:20:35 +0800
-From:   WANG Chao <chao.wang@ucloud.cn>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        artem.savkov@gmail.com, joe.lawrence@redhat.com
-Subject: Re: [PATCH] kbuild: add extra-y to targets-for-modules
-Message-ID: <20201208092035.GA96434@MacBook-Pro-2.local>
-References: <20201103054425.59251-1-chao.wang@ucloud.cn>
- <CAK7LNARnmJRy1NPBDkgNsoe_TqpD=HJhmri4YHjXjscGZ-neWw@mail.gmail.com>
- <20201123150452.GA68187@MacBook-Pro-2>
- <CAK7LNASH7Pj9eUdxF-sp1_Ap+uA9jEtsXa--pUDDw_pNVLtviA@mail.gmail.com>
+        id S1728497AbgLHMQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Dec 2020 07:16:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727550AbgLHMQa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 8 Dec 2020 07:16:30 -0500
+X-Gm-Message-State: AOAM531pCNf3+pt4/gxI7ev0HTiugt+kVRX+mWEA0Xc3ccWL5NzuNlxw
+        Q5DMJzmliyrBsBbl/PytXnxnVlcQgL24/EPkz3M=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607429749;
+        bh=K94MQ6q50UGiEvhj+VB0lG6N0jZujxUWTttppsr8gwM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ns4p/v7H7ScAMGSZF+uiL0GLrzuK92X4fsakgAnSLuAme/K5fEsEi38bY3jw803Wy
+         audkXq/WYB7RTMZ3yOuTK6onrxqVBtnoYqkkvLnvpNRPrQxrYcO6XAo70lbZp3Wa4T
+         9qu4teHx4OR4D7tI19aZUR6LPG7nQ4wU5rtl2vcxyqBk81XPqwKBpVKsGaiwHXIJuy
+         PuNNq9XDDyWTO1GKhaqTq1XoK2qrf9wdaOmxVotAI6FaDwC0nVzQIN5BYHWvkh+7Pl
+         TIDC46XqhgPtl/QkCcf02gs7jdiOHkHzlufEr692R+gOJKVmFAwvvzdy3POnIF8teL
+         9TV0RUdUG0tPw==
+X-Google-Smtp-Source: ABdhPJwYXzEbw5wojirREdrWvTDFdS68u6lSRc1TxQHV80oZ08BdPpLLWGJpTl+WAoAqOweiNLoKVC/CXI7Rr5nYmRU=
+X-Received: by 2002:a05:6808:9a9:: with SMTP id e9mr2451121oig.4.1607429748222;
+ Tue, 08 Dec 2020 04:15:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASH7Pj9eUdxF-sp1_Ap+uA9jEtsXa--pUDDw_pNVLtviA@mail.gmail.com>
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
-        oVCBIfWUFZSEgdHk8aTEMYH0lPVkpNS0xPSkJJSENNTk9VGRETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS09ISVVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PSo6Tjo5Cj04Nio3C1YqGi0W
-        NzkKChxVSlVKTUtMT0pCSUhDQ0hMVTMWGhIXVRgTGhRVDBoVHDsOGBcUDh9VGBVFWVdZEgtZQVlK
-        SkxVT0NVSklLVUpDTVlXWQgBWUFPQkJDNwY+
-X-HM-Tid: 0a7641a7188e2087kuqy779595c1d0c
+References: <20201201213707.541432-1-samitolvanen@google.com>
+In-Reply-To: <20201201213707.541432-1-samitolvanen@google.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Tue, 8 Dec 2020 13:15:31 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
+Message-ID: <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Sorry for the late reply.
+On Tue, Dec 1, 2020 at 10:37 PM 'Sami Tolvanen' via Clang Built Linux
+<clang-built-linux@googlegroups.com> wrote:
+>
+> This patch series adds support for building the kernel with Clang's
+> Link Time Optimization (LTO). In addition to performance, the primary
+> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+> to be used in the kernel. Google has shipped millions of Pixel
+> devices running three major kernel versions with LTO+CFI since 2018.
+>
+> Most of the patches are build system changes for handling LLVM
+> bitcode, which Clang produces with LTO instead of ELF object files,
+> postponing ELF processing until a later stage, and ensuring initcall
+> ordering.
+>
+> Note that arm64 support depends on Will's memory ordering patches
+> [1]. I will post x86_64 patches separately after we have fixed the
+> remaining objtool warnings [2][3].
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
+> [2] https://lore.kernel.org/lkml/20201120040424.a3wctajzft4ufoiw@treble/
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool-vmlinux
+>
+> You can also pull this series from
+>
+>   https://github.com/samitolvanen/linux.git lto-v8
 
-On 11/25/20 at 10:42P, Masahiro Yamada wrote:
-> On Tue, Nov 24, 2020 at 12:05 AM WANG Chao <chao.wang@ucloud.cn> wrote:
-> >
-> > On 11/23/20 at 02:23P, Masahiro Yamada wrote:
-> > > On Tue, Nov 3, 2020 at 3:23 PM WANG Chao <chao.wang@ucloud.cn> wrote:
-> > > >
-> > > > extra-y target doesn't build for 'make M=...' since commit 6212804f2d78
-> > > > ("kbuild: do not create built-in objects for external module builds").
-> > > >
-> > > > This especially breaks kpatch, which is using 'extra-y := kpatch.lds'
-> > > > and 'make M=...' to build livepatch patch module.
-> > > >
-> > > > Add extra-y to targets-for-modules so that such kind of build works
-> > > > properly.
-> > > >
-> > > > Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
-> > > > ---
-> > > >  scripts/Makefile.build | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > > index ae647379b579..0113a042d643 100644
-> > > > --- a/scripts/Makefile.build
-> > > > +++ b/scripts/Makefile.build
-> > > > @@ -86,7 +86,7 @@ ifdef need-builtin
-> > > >  targets-for-builtin += $(obj)/built-in.a
-> > > >  endif
-> > > >
-> > > > -targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> > > > +targets-for-modules := $(extra-y) $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> > > >
-> > > >  ifdef need-modorder
-> > > >  targets-for-modules += $(obj)/modules.order
-> > > > --
-> > > > 2.29.1
-> > > >
-> > >
-> > > NACK.
-> > >
-> > > Please fix your Makefile.
-> > >
-> > > Hint:
-> > > https://patchwork.kernel.org/project/linux-kbuild/patch/20201123045403.63402-6-masahiroy@kernel.org/
-> > >
-> > >
-> > > Probably what you should use is 'targets'.
-> >
-> > I tried with 'targets' and 'always-y'. Both doesn't work for me.
-> >
-> > I narraw it down to the following example:
-> >
-> > cat > Makefile << _EOF_
-> > obj-m += foo.o
-> >
-> > ldflags-y += -T $(src)/kpatch.lds
-> > always-y += kpatch.lds
-> >
-> > foo-objs += bar.o
-> >
-> > all:
-> >         make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
-> > clean:
-> >         make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-> > _EOF_
-> >
-> > Take a look into scripts/Makefile.build:488:
-> >
-> > __build: $(if $(KBUILD_BUILTIN), $(targets-for-builtin)) \
-> >          $(if $(KBUILD_MODULES), $(targets-for-modules)) \
-> >          $(subdir-ym) $(always-y)
-> >         @:
-> >
-> > 'always-y' is built after 'targets-for-modules'. This makes
-> > 'targets-for-modules' fails because kpatch.lds isn't there.
-> 
-> 
-> Heh, you rely on the targets built from left to right,
-> and you have never thought Make supports the parallel option -j.
+I've tried pull this into my randconfig test tree to give it a spin.
+So far I have
+not managed to get a working build out of it, the main problem so far being
+that it is really slow to build because the link stage only uses one CPU.
+These are the other issues I've seen so far:
 
-You're right. I missed that.
+- one build seems to take even longer to link. It's currently at 35GB RAM
+  usage and 40 minutes into the final link, but I'm worried it might
+not complete
+  before it runs out of memory.  I only have 128GB installed, and google-chrome
+  uses another 30GB of that, and I'm also doing some other builds in parallel.
+  Is there a minimum recommended amount of memory for doing LTO builds?
 
-> 
-> 
-> You need to specify the dependency if you expect objects
-> are built in the particular order.
-> 
-> However, in this case, using ldflags-y looks wrong
-> in the first place.
-> 
-> The linker script is used when combining the object
-> as well as the final link of *.ko
+- One build failed with
+ ld.lld -EL -maarch64elf -mllvm -import-instr-limit=5 -r -o vmlinux.o
+-T .tmp_initcalls.lds --whole-archive arch/arm64/kernel/head.o
+init/built-in.a usr/built-in.a arch/arm64/built-in.a kernel/built-in.a
+certs/built-in.a mm/built-in.a fs/built-in.a ipc/built-in.a
+security/built-in.a crypto/built-in.a block/built-in.a
+arch/arm64/lib/built-in.a lib/built-in.a drivers/built-in.a
+sound/built-in.a net/built-in.a virt/built-in.a --no-whole-archive
+--start-group arch/arm64/lib/lib.a lib/lib.a
+./drivers/firmware/efi/libstub/lib.a --end-group
+  "ld.lld: error: arch/arm64/kernel/head.o: invalid symbol index"
+  after about 30 minutes
 
-I don't have a clean fix to kpatch right now.
+- CONFIG_CPU_BIG_ENDIAN doesn't seem to work with lld, and LTO
+  doesn't work with ld.bfd.
+  I've added a CPU_LITTLE_ENDIAN dependency to
+  ARCH_SUPPORTS_LTO_CLANG{,THIN}
 
-I'm looping kpatch forks in. They're also looking at this right now:
+- one build failed with
+  "ld.lld: error: Never resolved function from blockaddress (Producer:
+'LLVM12.0.0' Reader: 'LLVM 12.0.0')"
+  Not sure how to debug this
 
-https://github.com/dynup/kpatch/pull/1149
+- one build seems to have dropped all symbols the string operations
+from vmlinux,
+  so while the link goes through, modules cannot be loaded:
+ ERROR: modpost: "memmove" [drivers/media/rc/rc-core.ko] undefined!
+ ERROR: modpost: "memcpy" [net/wireless/cfg80211.ko] undefined!
+ ERROR: modpost: "memcpy" [net/8021q/8021q.ko] undefined!
+ ERROR: modpost: "memset" [net/8021q/8021q.ko] undefined!
+ ERROR: modpost: "memcpy" [net/unix/unix.ko] undefined!
+ ERROR: modpost: "memset" [net/sched/cls_u32.ko] undefined!
+ ERROR: modpost: "memcpy" [net/sched/cls_u32.ko] undefined!
+ ERROR: modpost: "memset" [net/sched/sch_skbprio.ko] undefined!
+ ERROR: modpost: "memcpy" [net/802/garp.ko] undefined!
+ I first thought this was related to a clang-12 bug I saw the other day, but
+ this also happens with clang-11
 
-Thanks
-WANG Chao
+- many builds complain about thousands of duplicate symbols in the kernel, e.g.
+  ld.lld: error: duplicate symbol: qrtr_endpoint_post
+ >>> defined in net/qrtr/qrtr.lto.o
+ >>> defined in net/qrtr/qrtr.o
+ ld.lld: error: duplicate symbol: init_module
+ >>> defined in crypto/842.lto.o
+ >>> defined in crypto/842.o
+ ld.lld: error: duplicate symbol: init_module
+ >>> defined in net/netfilter/nfnetlink_log.lto.o
+ >>> defined in net/netfilter/nfnetlink_log.o
+ ld.lld: error: duplicate symbol: vli_from_be64
+ >>> defined in crypto/ecc.lto.o
+ >>> defined in crypto/ecc.o
+ ld.lld: error: duplicate symbol: __mod_of__plldig_clk_id_device_table
+ >>> defined in drivers/clk/clk-plldig.lto.o
+ >>> defined in drivers/clk/clk-plldig.o
 
-> 
-> 
-> > For 'targets', in case of OOT, does not seem to be useful.
-> >
-> > What change do you suggest to make to fix this kind of Makefile?
-> >
-> > Thanks,
-> > WANG Chao
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
-> 
+Not sure if these are all known issues. If there is one you'd like me try
+take a closer look at for finding which config options break it, I can try
+
+     Arnd
