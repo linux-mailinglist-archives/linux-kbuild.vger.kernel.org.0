@@ -2,128 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1BC2D467C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Dec 2020 17:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 241512D46A4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Dec 2020 17:22:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731168AbgLIQME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Dec 2020 11:12:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52258 "EHLO
+        id S1728404AbgLIQWO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Dec 2020 11:22:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730963AbgLIQLz (ORCPT
+        with ESMTP id S1730054AbgLIQWI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Dec 2020 11:11:55 -0500
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 963C1C0613D6
-        for <linux-kbuild@vger.kernel.org>; Wed,  9 Dec 2020 08:11:14 -0800 (PST)
-Received: by mail-ua1-x942.google.com with SMTP id n18so656711ual.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 09 Dec 2020 08:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RAzf84xm2mgxYvHDSz3COzuojd6IcnSxMMVRpqKMx58=;
-        b=gIACvSNIaNgfk8yYU6S+oPUv61DEJWlMah84jEakzPWNcyXSQgGfZRUQCmTA2z2H68
-         OBzeyFblbpXMDN4KMc97LtU39WqbsHFa8AfAomXUSKTieYHPNM7GEZ6ZC1XAJfkKWHDD
-         N/rGmO7I1HBChFKlMvhDUHT+DD0u7soRUGjQ6XTsXx6XX9hNVWvtKbx0EmKVXSx0x63q
-         uSx0K2QC6qZIjcT/Vy+GTkse17WcJ35wK97vuG6odXGIYTCqk24f8kQwlYGGa1smU8sB
-         zozuG5IW1kXDMdiObqppDeT7967KYlhg+uX66AupNL004gGWmHXS7ElwVjsdgyVqwHeF
-         qKYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RAzf84xm2mgxYvHDSz3COzuojd6IcnSxMMVRpqKMx58=;
-        b=nJrs1SnJT4XRAtsHgy1jyU7kbC1KGMksUvx/jx1NU9xB9fMb9HA+bZ5YNt7sVRzE3r
-         43mScQO4k/00HUADKDBpmDNXJFRtu86vBrh5X5SHSHg7CX5uae98SmfB0uj7QZITlNp5
-         u12tuPavlrL6I6uevgqsl1qSt/oA5qoF/UEMEQqizkxzOOTX4gxhydr+vXjE1IiZilu/
-         +EFRfNb90tXTyXgrcKyMmrO6gbad92hoW2Zt971X7ml9OtTcv1dNWZi49qlG47MbpDPW
-         ZNhCTxKIaSKcJfJ2O3PHNAbfcdReEqskIBCX3fLlABOA91JaHEuabvU1gNgle2wyStJo
-         0ubg==
-X-Gm-Message-State: AOAM530bgK3e//oj/bDVBFmH8jUt/F3fX9tby9YbEYV6itkFJEhy5R2X
-        KzfXo4KCNwnVFdSpikhV9bWc6LIlRF1yIGWBl0o93Q==
-X-Google-Smtp-Source: ABdhPJxCOtYM6wE6I23ECIs2Qe4RqO9Fsld+KWhukNaUvLqxacy6A4k/Hk6QX5PPXhxx/JBHh4wZPl2Wms4urz4X8pg=
-X-Received: by 2002:ab0:1c0a:: with SMTP id a10mr2343531uaj.89.1607530273519;
- Wed, 09 Dec 2020 08:11:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20201201213707.541432-1-samitolvanen@google.com>
- <CAK8P3a1WEAo2SEgKUEs3SB7n7QeeHa0=cx_nO==rDK0jjDArow@mail.gmail.com>
- <CABCJKueCHo2RYfx_A21m+=d1gQLR9QsOOxCsHFeicCqyHkb-Kg@mail.gmail.com>
- <CAK8P3a1Xfpt7QLkvxjtXKcgzcWkS8g9bmxD687+rqjTafTzKrg@mail.gmail.com>
- <CAKwvOd=hL=Vt1ATYqky9jmv+tM5hpTnLRuZudG-7ki0EYoFGJQ@mail.gmail.com> <CAK8P3a1k_cq3NOUeuQC4-uKDBaGq49GSjAMSiS_M9AVMBxv51g@mail.gmail.com>
-In-Reply-To: <CAK8P3a1k_cq3NOUeuQC4-uKDBaGq49GSjAMSiS_M9AVMBxv51g@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Wed, 9 Dec 2020 08:11:02 -0800
-Message-ID: <CABCJKucn6HnOw+oonjGU8q7w3uC0H727JZ30LzTbXx9BVLb0Zg@mail.gmail.com>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Wed, 9 Dec 2020 11:22:08 -0500
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738A7C061793
+        for <linux-kbuild@vger.kernel.org>; Wed,  9 Dec 2020 08:21:28 -0800 (PST)
+Received: by nautica.notk.org (Postfix, from userid 1001)
+        id 33C14C009; Wed,  9 Dec 2020 17:20:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1607530835; bh=keyoWzApK04/Bs9zCELFJu/kJwHnZGUNf7oCPH/UEoU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=yZWf3cTDPiCpzyz1E21AfgwszWxOKRIc3SGpOdKG92wbSuOqyswoELlXOhBA9x6wz
+         i2qmRj5vltbWK/V/hMBJe1ug4F1XqoNY+ENI9oBUBeYVKWCrG4YtulddGBN/3OMNDf
+         zA4VkSni3oSfPc9F3+160zuFkaNh+QdVljP6LH+b1MFaFZnEoS5uGNWgRzM8mhN6BY
+         1ij9Z2KoluBQ/odFJcQd/yV2Elzqig2GfZ3p1gqlgQhGc/LyszqId3pnI4qswt4Bbz
+         2Xt/Z0pWnEP0W+OO3Gg92N/qP3m7XuRIyejvR7k88I3HASK6eU/QURwBFnhcz5uaNp
+         xEU5BrD7MLTrw==
+Date:   Wed, 9 Dec 2020 17:20:20 +0100
+From:   Dominique Martinet <asmadeus@codewreck.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: Broken /usr/bin/env (invalid option)
+Message-ID: <20201209162020.GA15684@nautica>
+References: <20201209122437.GA26815@kozik-lap>
+ <20201209130709.GB15469@nautica>
+ <CAJKOXPfXkZdVUuunpvLOCEim0TfRwG62hvrZu_R8vGkA+ZOapQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPfXkZdVUuunpvLOCEim0TfRwG62hvrZu_R8vGkA+ZOapQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 8, 2020 at 2:20 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> On Tue, Dec 8, 2020 at 10:10 PM 'Nick Desaulniers' via Clang Built
-> Linux <clang-built-linux@googlegroups.com> wrote:
-> >
-> > On Tue, Dec 8, 2020 at 1:00 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> > >
-> > > On Tue, Dec 8, 2020 at 5:43 PM 'Sami Tolvanen' via Clang Built Linux
-> > > <clang-built-linux@googlegroups.com> wrote:
-> > > >
-> > > > On Tue, Dec 8, 2020 at 4:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > > > >
-> > > > > - one build seems to take even longer to link. It's currently at 35GB RAM
-> > > > >   usage and 40 minutes into the final link, but I'm worried it might
-> > > > > not complete
-> > > > >   before it runs out of memory.  I only have 128GB installed, and google-chrome
-> > > > >   uses another 30GB of that, and I'm also doing some other builds in parallel.
-> > > > >   Is there a minimum recommended amount of memory for doing LTO builds?
-> > > >
-> > > > When building arm64 defconfig, the maximum memory usage I measured
-> > > > with ThinLTO was 3.5 GB, and with full LTO 20.3 GB. I haven't measured
-> > > > larger configurations, but I believe LLD can easily consume 3-4x that
-> > > > much with full LTO allyesconfig.
-> > >
-> > > Ok, that's not too bad then. Is there actually a reason to still
-> > > support full-lto
-> > > in your series? As I understand it, full LTO was the initial approach and
-> > > used to work better, but thin LTO is actually what we want to use in the
-> > > long run. Perhaps dropping the full LTO option from your series now
-> > > that thin LTO works well enough and uses less resources would help
-> > > avoid some of the problems.
-> >
-> > While all developers agree that ThinLTO is a much more palatable
-> > experience than full LTO; our product teams prefer the excessive build
-> > time and memory high water mark (at build time) costs in exchange for
-> > slightly better performance than ThinLTO in <benchmarks that I've been
-> > told are important>.  Keeping support for full LTO in tree would help
-> > our product teams reduce the amount of out of tree code they have.  As
-> > long as <benchmarks that I've been told are important> help
-> > sell/differentiate phones, I suspect our product teams will continue
-> > to ship full LTO in production.
->
-> Ok, fair enough. How about marking FULL_LTO as 'depends on
-> !COMPILE_TEST' then? I'll do that locally for my randconfig tests,
-> but it would help the other build bots that also force-enable
-> COMPILE_TEST.
+Krzysztof Kozlowski wrote on Wed, Dec 09, 2020:
+> > Hm, what version of env is that?
+> > I only checked on a couple of systems that env -S exists, but it might
+> > not be available (e.g. now I'm looking, at least busybox env does not
+> > provide -S)
+> 
+> $ env --version
+> env (GNU coreutils) 8.25
 
-Sure, that sounds reasonable to me. I'll add it in v9.
+Ok, so this is a much newer option than I thought it was, sorry for my
+lack of checking.
+I know we no longer support older gccs but it's probably best to keep
+supporting this.
 
-Sami
+> > I don't see any way to make this work out of the box for me (awk not in
+> > /usr/bin) and you (env not supporting -S), but I guess I can keep that
+> > patch around locally...
+> 
+> You could add a wrapper which uses PATH or searches for the awk...
+> kind of reimplement other tools. Another solution is to clearly
+> document the requirements for the build system and explicitly say that
+> older systems like four-year Ubuntu are not supported.
+
+Well there definitely are ways, but I'm not sure it's worth it...
+For example another idea is just to use /bin/sh (which is mandated to
+exist) and have it invoke awk, the script is short enough to just quote
+it.
+
+
+Yamada-san, how about this instead?
+But to be honest I'm fine with dropping my patch altogether, I'll work
+around it locally if it's too much.
+---
+From d53ef3b4c55aa2ea5f9ae887b3e1ace368f30f66 Mon Sep 17 00:00:00 2001
+From: Dominique Martinet <asmadeus@codewreck.org>
+Date: Wed, 15 Jul 2020 16:00:13 +0200
+Subject: [PATCH] ld-version: use /bin/sh then awk for shebank
+
+/usr/bin/awk is not garanteed to exist (and doesn't on e.g. nixos),
+using /bin/sh and invoking awk to have it look in PATH is more robust.
+
+Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
+
+diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+index f2be0ff9a738..02dbad7b5613 100755
+--- a/scripts/ld-version.sh
++++ b/scripts/ld-version.sh
+@@ -1,11 +1,11 @@
+-#!/usr/bin/awk -f
++#!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0
+ # extract linker version number from stdin and turn into single number
+-       {
++awk '{
+        gsub(".*\\)", "");
+        gsub(".*version ", "");
+        gsub("-.*", "");
+        split($1,a, ".");
+        print a[1]*100000000 + a[2]*1000000 + a[3]*10000;
+        exit
+-       }
++}'
+
