@@ -2,116 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46F2B2D48DC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Dec 2020 19:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F7972D4960
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Dec 2020 19:47:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730901AbgLISXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Dec 2020 13:23:06 -0500
-Received: from gproxy5-pub.mail.unifiedlayer.com ([67.222.38.55]:50663 "EHLO
-        gproxy5-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728099AbgLISXC (ORCPT
+        id S1731823AbgLISrG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Dec 2020 13:47:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733267AbgLISrF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Dec 2020 13:23:02 -0500
-Received: from cmgw14.unifiedlayer.com (unknown [10.9.0.14])
-        by gproxy5.mail.unifiedlayer.com (Postfix) with ESMTP id DC89A1404B0
-        for <linux-kbuild@vger.kernel.org>; Wed,  9 Dec 2020 11:22:09 -0700 (MST)
-Received: from bh-25.webhostbox.net ([208.91.199.152])
-        by cmsmtp with ESMTP
-        id n46LkcVOowNNln46LknPdl; Wed, 09 Dec 2020 11:22:09 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=A7FCwZeG c=1 sm=1 tr=0
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
- a=zTNgK-yGK50A:10:nop_rcvd_month_year
- a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=BaYeErv0AAAA:8
- a=hvDuBlm12bxQwZt2C7QA:9 a=CjuIK1q_8ugA:10:nop_charset_2
- a=bGQ4bMmlmPoowcvdo74j:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=I8GmfP6hpRJ1e9IcmORUcQZIbZU+pUVsAZcRYdV366o=; b=2owOs5slhd2Er91GDytGijQzhG
-        ql02CyIKfBEmDVeDfLbOvmdRxcHGFtfWyH1TjWHq2LyU9kd7VS5GcdPmmSdIPQH1W/b4IkEl54tYr
-        umG1kgsEQsnFfHDf9Fua1FOxWOrW75fAGjujja+diQFjkYs5i7VuaR5O5dJ79NK2Vj6PiE/FxP80O
-        XSIwrzlKGFyiSTA2rYGftSao2d+KGzx2g82Ec/MwAvtIhEGQmXlI5DULDUgtggX1ewwft7QNuagL6
-        tORV/R3k312LbFUgWOwl8XiPaQc+z1lKyBY7rjwR/WabmLD9NxcpH8f5jwJ2rjIzlokIKqnBHbiCG
-        ChMaxPsg==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:49884 helo=localhost)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <linux@roeck-us.net>)
-        id 1kn46K-003bYP-UD; Wed, 09 Dec 2020 18:22:09 +0000
-Date:   Wed, 9 Dec 2020 10:22:07 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Dominique Martinet <asmadeus@codewreck.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 9 Dec 2020 13:47:05 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D787FC0613D6
+        for <linux-kbuild@vger.kernel.org>; Wed,  9 Dec 2020 10:46:24 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id t8so1592696pfg.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 09 Dec 2020 10:46:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SLck9T+fSmc7a2TIjVWcYDoy5sXjzN2t3Wk/7vfAiNU=;
+        b=bhK6iE8+kmUpXazU8RtlUQWQoj/gYhhd10dZE+8+sfMSvHRbFPAuMemfMZJpCk7KLo
+         qxI34DHiizH6q+cv+JjdskR2bDrHOJERUYjVOoU/koSNLjgctg0ASc+O/d+o5Fy0r+DH
+         P5qzC/WyE2Q1lPKJXmbTIwcCv4Kq6A5+KZNJ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SLck9T+fSmc7a2TIjVWcYDoy5sXjzN2t3Wk/7vfAiNU=;
+        b=L1kezUDvVQ8qfeZAobVxElllYQgmUH0aya9Z5s4/v5O2qDzYj2ij0En3KdlpdpF4FW
+         lo8oWAcYJdVVHLK5BRbm+ykLKf/IzgwxXnX9dWsufdeAYYRSU7cuhy6Mkomeut9RerA7
+         CaJGHDEE1ebmaRrO5zqDXMxzQihsNTxbUpE5RpgayGbQGevIbJPgLsjjZkiR21RRe+yn
+         L8XR8saqfacHrtkViX+EmpJrQ1P6WgCO07VrLuYu1/yMLq0WbU4NfovHV7J3j+Ay5Pc4
+         lVqDOMpe0xd2GHfkm80q496vvOg8tbY23NEBR3s8vGLWs4/TEWxFc+l9N2fz7XQCjp3S
+         5yIw==
+X-Gm-Message-State: AOAM530fdLpWchAQDoXYjheLO3UWJkMYfACEIfLyfG+upCaz+BzmUIU2
+        ZmZmg5L0xdVXmARA+shH+tE7Zw==
+X-Google-Smtp-Source: ABdhPJxsOMJXYHgO++DFsy46q+XDaL5LbfNiKSXWrHsgDpx4L/Vpg9szW4GEOZ4o6Z++CZWZM+WnLA==
+X-Received: by 2002:a62:84ca:0:b029:19e:6f95:11b1 with SMTP id k193-20020a6284ca0000b029019e6f9511b1mr3534614pfd.68.1607539584427;
+        Wed, 09 Dec 2020 10:46:24 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w70sm3499919pfd.65.2020.12.09.10.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Dec 2020 10:46:23 -0800 (PST)
+Date:   Wed, 9 Dec 2020 10:46:22 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ld-version: use /usr/bin/env awk for shebank
-Message-ID: <20201209182207.GA143260@roeck-us.net>
-References: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marco Elver <elver@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        George Popescu <georgepope@android.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 5/7] ubsan: Enable for all*config builds
+Message-ID: <202012091045.34E3CC3FA@keescook>
+References: <20201203004437.389959-1-keescook@chromium.org>
+ <20201203004437.389959-6-keescook@chromium.org>
+ <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1kn46K-003bYP-UD
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:49884
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 2
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+In-Reply-To: <CAK8P3a1Br8JFJX2PxyjVxMPMhi-y8mxf+vdEAZQq_Wm2wYP7ZA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 02:17:29PM +0100, Dominique Martinet wrote:
-> /usr/bin/awk is not garanteed to exist (and doesn't on e.g. nixos),
-> using /usr/bin/env to have it look in PATH is more robust
+On Thu, Dec 03, 2020 at 09:51:40AM +0100, Arnd Bergmann wrote:
+> On Thu, Dec 3, 2020 at 1:44 AM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > With UBSAN_OBJECT_SIZE disabled for GCC, only UBSAN_ALIGNMENT remained
+> > a noisy UBSAN option. Disable it for COMPILE_TEST so the rest of UBSAN
+> > can be used for full all*config builds or other large combinations.
+> >
+> > Link: https://lore.kernel.org/lkml/CAHk-=wgXW=YLxGN0QVpp-1w5GDd2pf1W-FqY15poKzoVfik2qA@mail.gmail.com/
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
 > 
-> Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
-> Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
-> ---
-> I've been carrying these two patchs for local kernel development on
-> nixos for a while, I don't think it'd break anything for anyone so
-> might as well submit these -- please consider it :)
+> Have you checked if this has a notable impact on allmodconfig compile speed
+> with gcc or clang? I think I've seen significant increases in build times before
+> with this, but I don't remember the actual magnitude.
 > 
->  scripts/ld-version.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-> index f2be0ff9a738..05476b8f8925 100755
-> --- a/scripts/ld-version.sh
-> +++ b/scripts/ld-version.sh
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/awk -f
-> +#!/usr/bin/env -S awk -f
+> Making it 20% slower would probably be ok, but making it twice as slow might
+> be too much.
 
-This patch results in:
+And for Clang, it's about 7m40s before and 8m30s after, so roughly 12% slower.
 
-/usr/bin/env: invalid option -- 'S'
-Try '/usr/bin/env --help' for more information.
-init/Kconfig:39: syntax error
-init/Kconfig:38: invalid statement
-scripts/kconfig/Makefile:80: recipe for target 'defconfig' failed
-
-when using:
-
-env (GNU coreutils) 8.28
-
-or any other version of "env" which doesn't support "-S".
-
-Guenter
+-- 
+Kees Cook
