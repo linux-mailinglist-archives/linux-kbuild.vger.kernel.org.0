@@ -2,169 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF182D61E7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Dec 2020 17:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A98532D6B3C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 00:38:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392309AbgLJQac (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Dec 2020 11:30:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54358 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392278AbgLJQaY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Dec 2020 11:30:24 -0500
-Date:   Thu, 10 Dec 2020 17:29:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607617783;
-        bh=wKoP18O5gMPLwquu/buxQ4EvFVAv2YOC8QSG6GaC+jQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Oh2ptG4ZVLCMhVKtFV4GX1Gr3/bKm6NIJvSboVEyeZe8uQ6hHt+N5rAoM6rTaduxl
-         HBY/f7WQvd8dGxp7rx23DFyZvq88hR0kzzYMIih8BJkGprPE1CD86gtYhYH89Fx1DJ
-         IMagpqVjLXGhdAvmefQ+Mt5yMPxbzdltgskX9uuEt4moX1l7Q4dJ6QpI+ZzCfGJoaz
-         UlHTa7aAni8ENe685aHLxDw1KIk+XFDpx/zx5jguM7xY8yo3ZZHPd/zmLN4z2+C7Z/
-         dZcf2NkEnqo8uLifUlVUC7moDPP4zQYh5J9ys9/4VC7Owhv/8l6YSuF/KxfzKku3ZU
-         /+zpsr0pxkbYg==
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Jonathan Corbet" <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S1727950AbgLJW56 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Dec 2020 17:57:58 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:59637 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727022AbgLJW5i (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 10 Dec 2020 17:57:38 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-141-It5R_dMHNwKIf0Xeoz5iHA-1; Thu, 10 Dec 2020 22:43:29 +0000
+X-MC-Unique: It5R_dMHNwKIf0Xeoz5iHA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 10 Dec 2020 22:43:28 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Thu, 10 Dec 2020 22:43:28 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Dominique Martinet' <asmadeus@codewreck.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>
+CC:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201210172938.3b3086b6@coco.lan>
-In-Reply-To: <a29b97f95cae490cb83da28410fade13d880f365.1607616056.git.mchehab+huawei@kernel.org>
-References: <20201210074845.4eb67f22@lwn.net>
-        <a29b97f95cae490cb83da28410fade13d880f365.1607616056.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: RE: [PATCH 1/2] ld-version: use /usr/bin/env awk for shebank
+Thread-Topic: [PATCH 1/2] ld-version: use /usr/bin/env awk for shebank
+Thread-Index: AQHWzlMiS9jNVW0o7U6RgrmdYSfLQqnvTUdggAD1DgqAAKpa0A==
+Date:   Thu, 10 Dec 2020 22:43:28 +0000
+Message-ID: <a9bc168cd2b84cc29e6cd4d25387a4f4@AcuMS.aculab.com>
+References: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
+ <69c82aee-59ec-f8d8-9546-b38f85bf08c0@arm.com>
+ <20201209174252.GA27721@nautica>
+ <5ca5c3bb23614af0a35f01f1e3a84ead@AcuMS.aculab.com>
+ <a68a09ce-f172-bfb4-6422-b1776d798f5f@arm.com>
+ <20201210122202.GA8323@nautica>
+In-Reply-To: <20201210122202.GA8323@nautica>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Thu, 10 Dec 2020 17:01:19 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+RnJvbTogJ0RvbWluaXF1ZSBNYXJ0aW5ldCcNCj4gU2VudDogMTAgRGVjZW1iZXIgMjAyMCAxMjoy
+Mg0KPiANCj4gVmluY2Vuem8gRnJhc2Npbm8gd3JvdGUgb24gVGh1LCBEZWMgMTAsIDIwMjA6DQo+
+ID4gT24gMTIvOS8yMCAxMDowMyBQTSwgRGF2aWQgTGFpZ2h0IHdyb3RlOg0KPiA+PiBXaHkgYm90
+aGVyIHdpdGggYXdrPw0KPiANCj4gSSB3YW50ZWQgdG8ga2VlcCB0aGUgcGF0Y2ggbWluaW1hbCwg
+SSdtIG5vdCBvcHBvc2VkIHRvIHJld3JpdGluZyBidXQNCj4gdGhhdCBhbHdheXMgcG90ZW50aWFs
+bHkgaGFzIG1vcmUgaW1wYWN0IChhbHRob3VnaCBhcyB5b3Ugc2F5LCB0aGlzDQo+IHNjcmlwdCBp
+cyBzaW1wbGUgZW5vdWdoKQ0KPiANCj4gPiA+IEkgdGhpbmsgeW91IGNhbiBkbyBpdCBhbGwgaW4g
+YSBzaGVsbCBmdW5jdGlvbi4NCj4gPiA+IFNvbWV0aGluZyBsaWtlOg0KPiA+ID4gCXJlYWQgbGlu
+ZQ0KPiA+ID4gCWxpbmU9JHtsaW5lIyMqKX0NCj4gPiA+IAlsaW5lPSR7bGluZSMjKnZlcnNpb24g
+fQ0KPiA+ID4gCUlGUz0nLi0nDQo+ID4gPiAJc2V0ICRsaW5lDQo+ID4gPiAJZWNobyAkKCgkMSox
+MDAwMDAwMDAgKyAkMioxMDAwMDAwICsgJDMqMTAwMDApKQ0KPiA+ID4NCj4gPiA+IFRoYXQgd2ls
+bCB3b3JrIG9uIGFueSByZWNlbnQgc2hlbGwuDQo+IA0KPiBXb3JrcyBmb3IgbWUuDQoNClRoYXQg
+d2FzIGEgdmVyeSBxdWljayByZXdyaXRlIG9mIHdoYXQgSSB0aGluayB0aGUgYXdrIHNjcmlwdCBk
+aWQuDQpIb3dldmVyIEkgdGhpbmsgdGhlIHZlcnNpb24gaXMgaW4gdGhlIGxhc3Qgc3BhY2Utc2Vw
+YXJhdGVkIHdvcmQuDQpTbyB5b3UgY2FuIGRvICh1bnRlc3RlZCk6DQoJcmVhZCBsaW5lDQoJc2V0
+IGxpbmUNCglzaGlmdCAkKCgkIy0xKSkNCglPSUZTPSIkSUZTIg0KCUlGUz0nLi0nDQoJc2V0ICQx
+DQoJSUZTPSIkT0lGUyINCgllY2hvICQoKCQxKjEwMDAwMDAwMCArICQyKjEwMDAwMDAgKyAkMyox
+MDAwMCkpDQoNCk5vdywgaWYgeW91IHdhbnQgYSB2ZXJzaW9uIHRoYXQgd2lsbCB3b3JrIHdpdGgg
+YSByZWFsIGJvdXJuZSBzaGVsbA0KKHRoYXQgZG9lc24ndCBzdXBwb3J0ICQoKGV4cHIpKSBvciAk
+KHgjI2J9IGl0IGdldHMgbW9yZSBpbnRlcmVzdGluZy4NCg0KWWVzLCBidXQgZm9yIG5vdywgcmV2
+ZXJ0IGZpcnN0Lg0KSXQgbWlnaHQgZXZlbiBiZSB0aGF0IHRoZSB3aG9sZSBmaWxlIGlzbid0IG5l
+ZWRlZC4NCklmIGl0IG9ubHkgdXNlZCBmcm9tIGEgTWFrZWZpbGUgaXQgY2FuIGJlIGdvbmUgd2l0
+aCBnbWFrZSBjb21tYW5kcy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtl
+c2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBV
+Sw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-> Add an experimental PDF builder using rst2pdf
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-I opened an issue at:
-
-https://github.com/rst2pdf/rst2pdf/issues/958
-
-Let's hope someone at rst2pdf could help fixing this ;-)
-
-Regards,
-Mauro
-
-
-> ---
->  Documentation/Makefile                     |  5 +++++
->  Documentation/conf.py                      | 21 +++++++++++++++------
->  Documentation/userspace-api/media/Makefile |  1 +
->  Makefile                                   |  4 ++--
->  4 files changed, 23 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 61a7310b49e0..c3c8fb10f94e 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -115,6 +115,10 @@ pdfdocs: latexdocs
->  
->  endif # HAVE_PDFLATEX
->  
-> +rst2pdf:
-> +	@$(srctree)/scripts/sphinx-pre-install --version-check
-> +	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
-> +
->  epubdocs:
->  	@$(srctree)/scripts/sphinx-pre-install --version-check
->  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
-> @@ -140,6 +144,7 @@ dochelp:
->  	@echo  '  htmldocs        - HTML'
->  	@echo  '  latexdocs       - LaTeX'
->  	@echo  '  pdfdocs         - PDF'
-> +	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
->  	@echo  '  epubdocs        - EPUB'
->  	@echo  '  xmldocs         - XML'
->  	@echo  '  linkcheckdocs   - check for broken external links'
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 66e121df59cd..6f2788aac81e 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
->  else:
->      extensions.append("sphinx.ext.pngmath")
->  
-> +# Enable experimental rst2pdf, if available
-> +try:
-> +    extensions.append("rst2pdf.pdfbuilder")
-> +except:
-> +    sys.stderr.write('rst2pdf extension not available.\n')
-> +
->  # Add any paths that contain templates here, relative to this directory.
->  templates_path = ['_templates']
->  
-> @@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
->  #
->  # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
->  #
-> -# FIXME: Do not add the index file here; the result will be too big. Adding
-> -# multiple PDF files here actually tries to get the cross-referencing right
-> -# *between* PDF files.
-> -pdf_documents = [
-> -    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
-> -]
-> +
-> +# Add all LaTeX files to PDF documents as well
-> +pdf_documents = []
-> +for l in latex_documents:
-> +    doc = l[0]
-> +    fn = l[1].replace(".tex", "")
-> +    name = l[2]
-> +    authors = l[3]
-> +    pdf_documents.append((doc, fn, name, authors))
->  
->  # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
->  # the Docs). In a normal build, these are supplied from the Makefile via command
-> diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-> index 81a4a1a53bce..8c6b3ac4ecb0 100644
-> --- a/Documentation/userspace-api/media/Makefile
-> +++ b/Documentation/userspace-api/media/Makefile
-> @@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
->  html: all
->  epub: all
->  xml: all
-> +pdf: all
->  latex: $(IMGPDF) all
->  linkcheck:
->  
-> diff --git a/Makefile b/Makefile
-> index 43ecedeb3f02..db4043578eec 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
->  			 cscope gtags TAGS tags help% %docs check% coccicheck \
->  			 $(version_h) headers headers_% archheaders archscripts \
->  			 %asm-generic kernelversion %src-pkg dt_binding_check \
-> -			 outputmakefile
-> +			 outputmakefile rst2pdf
->  no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
->  single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
->  
-> @@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
->  
->  # Documentation targets
->  # ---------------------------------------------------------------------------
-> -DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-> +DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
->  	       linkcheckdocs dochelp refcheckdocs
->  PHONY += $(DOC_TARGETS)
->  $(DOC_TARGETS):
-
-
-
-Thanks,
-Mauro
