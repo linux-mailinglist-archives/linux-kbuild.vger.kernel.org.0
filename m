@@ -2,133 +2,281 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D942D7980
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 16:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E93C92D7E73
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 19:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728580AbgLKPfF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Dec 2020 10:35:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730079AbgLKPep (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Dec 2020 10:34:45 -0500
-Date:   Fri, 11 Dec 2020 16:33:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607700844;
-        bh=V6euIGjpFbG3ZT48QbLoiaF+ZrDMFbL3Wr7KCGHwzVI=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lVAO/leFuK8L41XdTiw9Cza07i5iu+XdTVRTMrFw1UT1EBM+C1o0AbAxSXoW3PDls
-         6zFnmNaHeZbS22TeyetT0eRxHOIU2Gm8701Vg7WlqaVJVojxgruci9Hzr+0W9MdnXx
-         JzCV/b4Ed7eNjeyWYPseDzL904/rs3WBD2n7FyE7ELLsq5nFYRLrXb8CCLLXNdFgJr
-         nv9NRZmNBtK1ETsNmZMzUAVx8ykfcoRVcT3230TS+lXPA6/bpH2eXs+OUWyGmwLts8
-         02GMfXnZsL/2S//GcSXJ7N5RMP2X8KzWM9q5+fhm4G1lIftYVCL8dVD4Gd4mMBMJ9d
-         LFp6NGRttGgNA==
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Will McVicker <willmcvicker@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        id S2390368AbgLKSri (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Dec 2020 13:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389635AbgLKSrQ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 11 Dec 2020 13:47:16 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13052C061794
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:36 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id n186so11794809ybg.17
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=9znxVvQ/9PAVTHgEOV292+fDBKHMlDcfsU9d9H/6O4k=;
+        b=dDPDz2owZCXqbcbTzyDFDHaLvLysHx0+EojIIsUxOE+4+nVDQN3cySzJWf+v38GzE6
+         itt4delaGLVPa1agOcoLlx6yvf8/Rvpbx90SpVAfQWw4Gienn1eBmn3U01FJOI8ozMIr
+         oMwqy/QUN545CHIweR5daxLHf67HQMOOpqjFZBTDMYiIgeSPbYC+HR2Mp72lyQexsgH2
+         le8MqKN1R49giFoPdbvq5e2AAwJFmKDPhtJK56jSZ1yU84DMqlwnkKWfajf4PJtMFRlg
+         MB4gCztbRGqrOceiEJjc4NYhFy6Vpnx8PltpWjcUUixEZtuM8A1KmPcSyof8U8uYsIsl
+         LJDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=9znxVvQ/9PAVTHgEOV292+fDBKHMlDcfsU9d9H/6O4k=;
+        b=rkbSGMbVZ0tovXnxtAQ80LKM6IX4o7CePbWZHy0gOpgYBn7dd20t2Y+yDcii224gH7
+         VauhdNkv3TzNd7MRKJHxWIGtvRZNjqym3pORjLByx7Zy0FbL1TXEd9OyvqTOMOxhjNMA
+         EdTDPoCGLB4VFW+o9zqAH2lEldHZr6CFvBcXEkNQRlAzned5PM4HyUoUU6kxtKtu3YMu
+         vqwYYC4ObRuseNnUomqaRelb41oEpApfVFw8htP9AWO3vZUpqxom/fWgN0/raa6ba63X
+         xHlNeeaJtdZzCw9nOLANuwcWkQzxbXJtYGQzgkfolm/whHs2dvTr4lH0i5E2dIhawq4m
+         nj9w==
+X-Gm-Message-State: AOAM532ek3IjvyD/XmJrFOP7VG+LzFRyM3rCTwEJt0s05CH3czpGFIov
+        W/aCNhW014p8YDK79BiYI+kFxx7qr30yc9rJCLY=
+X-Google-Smtp-Source: ABdhPJz0ek2SN2U3fjfWQhqwMXyCIcZwDvklDVCCSVaJyxuiJlfb7KJJKz1h/PtZ4xu/S0R9tK22wDIg3yDTEgQwy4E=
+Sender: "samitolvanen via sendgmr" 
+        <samitolvanen@samitolvanen1.mtv.corp.google.com>
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+ (user=samitolvanen job=sendgmr) by 2002:a25:22d5:: with SMTP id
+ i204mr22729999ybi.0.1607712395089; Fri, 11 Dec 2020 10:46:35 -0800 (PST)
+Date:   Fri, 11 Dec 2020 10:46:17 -0800
+Message-Id: <20201211184633.3213045-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
+Subject: [PATCH v9 00/16] Add support for Clang LTO
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v3 1/2] scripts/setlocalversion: allow running in a subdir
-Message-ID: <20201211153359.GA19348@linux-8ccs>
-References: <20201207153116.GA15772@linux-8ccs>
- <20201208200508.4107399-1-willmcvicker@google.com>
- <20201208200508.4107399-2-willmcvicker@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20201208200508.4107399-2-willmcvicker@google.com>
-X-OS:   Linux linux-8ccs 4.12.14-lp150.12.61-default x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Will,
+This patch series adds support for building the kernel with Clang's
+Link Time Optimization (LTO). In addition to performance, the primary
+motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+to be used in the kernel. Google has shipped millions of Pixel
+devices running three major kernel versions with LTO+CFI since 2018.
 
-+++ Will McVicker [08/12/20 20:05 +0000]:
->Getting the scmversion using scripts/setlocalversion currently only
->works when run at the root of a git or mecurial project. This was
->introduced in commit 8558f59edf93 ("setlocalversion: Ignote SCMs above
->the linux source tree") so that if one is building within a subdir of
->a git tree that isn't the kernel git project, then the vermagic wouldn't
->include that git sha1. However, the proper solution to that is to just
->set this config in your defconfig:
->
->  # CONFIG_LOCALVERSION_AUTO is not set
->
->which is already the default in many defconfigs:
->
->  $ grep -r "CONFIG_LOCALVERSION_AUTO is not set" arch/* | wc -l
->  89
->
->So let's bring back this functionality so that we can use
->scripts/setlocalversion to capture the SCM version of external modules
->that reside within subdirectories of an SCM project.
+Most of the patches are build system changes for handling LLVM
+bitcode, which Clang produces with LTO instead of ELF object files,
+postponing ELF processing until a later stage, and ensuring initcall
+ordering.
 
-Hm, this seems to essentially be a revert of commit 8558f59edf93.
-AFAICT from light testing it also reintroduces the issue it was
-originally trying to fix, no?
+Note that arm64 support depends on Will's memory ordering patches
+[1]. I will post x86_64 patches separately after we have fixed the
+remaining objtool warnings [2][3].
 
-From the reporter:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
+[2] https://lore.kernel.org/lkml/20201120040424.a3wctajzft4ufoiw@treble/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool-vmlinux
 
-    Dan McGee <dpmcgee@gmail.com> writes:
-    > Note that when in git, you get the appended "+" sign. If
-    > LOCALVERSION_AUTO is set, you will get something like
-    > "eee-gb01b08c-dirty" (whereas the copy of the tree in /tmp still
-    > returns "eee"). It doesn't matter whether the working tree is dirty or
-    > clean.
-    >
-    > Is there a way to disable this? I'm building from a clean tarball that
-    > just happens to be unpacked inside a git repository. One would think
-    > setting LOCALVERSION_AUTO to false would do it, but no such luck...
+You can also pull this series from
 
-Correct me if I'm wrong, but what I'm understanding is that the
-original reporter was having trouble with setlocalversion appending
-unwanted strings ("+" or "gXXXXXXX-dirty" etc) when building from a
-clean tarball that happens to live inside a git repo. Even if
-LOCALVERSION_AUTO is disabled it still appends the "+" string if the
-SCM above the linux source tree is not at an annotated tag. Since
-setlocalversion is getting confused by the presence of a different scm
-that commit fixed this by confining the checks to the root of the
-(possibly git managed) kernel source tree. Masahiro can probably
-better comment since he maintains scripts/*.
+  https://github.com/samitolvanen/linux.git lto-v9
 
-In any case, this patch isn't of interest to in-tree modules, since we
-can generate the scmversion perfectly fine without it, so I doubt it's
-going to get any support here. Would you be fine with dropping the
-first patch or would that pose issues?
+---
+Changes in v9:
 
->Signed-off-by: Will McVicker <willmcvicker@google.com>
->---
-> scripts/setlocalversion | 5 ++---
-> 1 file changed, 2 insertions(+), 3 deletions(-)
->
->diff --git a/scripts/setlocalversion b/scripts/setlocalversion
->index bb709eda96cd..cd42009e675b 100755
->--- a/scripts/setlocalversion
->+++ b/scripts/setlocalversion
->@@ -44,8 +44,7 @@ scm_version()
-> 	fi
->
-> 	# Check for git and a git repo.
->-	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
->-	   head=$(git rev-parse --verify HEAD 2>/dev/null); then
->+	if head=$(git rev-parse --verify HEAD 2>/dev/null); then
->
-> 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
-> 		# it, because this version is defined in the top level Makefile.
->@@ -102,7 +101,7 @@ scm_version()
-> 	fi
->
-> 	# Check for mercurial and a mercurial repo.
->-	if test -d .hg && hgid=$(hg id 2>/dev/null); then
->+	if hgid=$(hg id 2>/dev/null); then
-> 		# Do we have an tagged version?  If so, latesttagdistance == 1
-> 		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
-> 			id=$(hg log -r . --template '{latesttag}')
->-- 
->2.29.2.576.ga3fc446d84-goog
->
+  - Added HAS_LTO_CLANG dependencies to LLVM=1 and LLVM_IAS=1 to avoid
+    issues with mismatched toolchains.
+
+  - Dropped the .mod patch as Masahiro landed a better solution to
+    the split line issue in commit 7d32358be8ac ("kbuild: avoid split
+    lines in .mod files").
+
+  - Updated CC_FLAGS_LTO to use -fvisibility=hidden to avoid weak symbol
+    visibility issues with ThinLTO on x86.
+
+  - Changed LTO_CLANG_FULL to depend on !COMPILE_TEST to prevent
+    timeouts in automated testing.
+
+  - Added a dependency to CPU_LITTLE_ENDIAN to ARCH_SUPPORTS_LTO_CLANG
+    in arch/arm64/Kconfig.
+
+  - Added a default symbol list to fix an issue with TRIM_UNUSED_KSYMS.
+
+  Changes in v8:
+
+  - Cleaned up the LTO Kconfig options based on suggestions from
+    Nick and Kees.
+
+  - Dropped the patch to disable LTO for the arm64 nVHE KVM code as
+    David pointed out it's not needed anymore.
+
+Changes in v7:
+
+  - Rebased to master again.
+
+  - Added back arm64 patches as the prerequisites are now staged,
+    and dropped x86_64 support until the remaining objtool issues
+    are resolved.
+
+  - Dropped ifdefs from module.lds.S.
+
+Changes in v6:
+
+  - Added the missing --mcount flag to patch 5.
+
+  - Dropped the arm64 patches from this series and will repost them
+    later.
+
+Changes in v5:
+
+  - Rebased on top of tip/master.
+
+  - Changed the command line for objtool to use --vmlinux --duplicate
+    to disable warnings about retpoline thunks and to fix .orc_unwind
+    generation for vmlinux.o.
+
+  - Added --noinstr flag to objtool, so we can use --vmlinux without
+    also enabling noinstr validation.
+
+  - Disabled objtool's unreachable instruction warnings with LTO to
+    disable false positives for the int3 padding in vmlinux.o.
+
+  - Added ANNOTATE_RETPOLINE_SAFE annotations to the indirect jumps
+    in x86 assembly code to fix objtool warnings with retpoline.
+
+  - Fixed modpost warnings about missing version information with
+    CONFIG_MODVERSIONS.
+
+  - Included Makefile.lib into Makefile.modpost for ld_flags. Thanks
+    to Sedat for pointing this out.
+
+  - Updated the help text for ThinLTO to better explain the trade-offs.
+
+  - Updated commit messages with better explanations.
+
+Changes in v4:
+
+  - Fixed a typo in Makefile.lib to correctly pass --no-fp to objtool.
+
+  - Moved ftrace configs related to generating __mcount_loc to Kconfig,
+    so they are available also in Makefile.modfinal.
+
+  - Dropped two prerequisite patches that were merged to Linus' tree.
+
+Changes in v3:
+
+  - Added a separate patch to remove the unused DISABLE_LTO treewide,
+    as filtering out CC_FLAGS_LTO instead is preferred.
+
+  - Updated the Kconfig help to explain why LTO is behind a choice
+    and disabled by default.
+
+  - Dropped CC_FLAGS_LTO_CLANG, compiler-specific LTO flags are now
+    appended directly to CC_FLAGS_LTO.
+
+  - Updated $(AR) flags as KBUILD_ARFLAGS was removed earlier.
+
+  - Fixed ThinLTO cache handling for external module builds.
+
+  - Rebased on top of Masahiro's patch for preprocessing modules.lds,
+    and moved the contents of module-lto.lds to modules.lds.S.
+
+  - Moved objtool_args to Makefile.lib to avoid duplication of the
+    command line parameters in Makefile.modfinal.
+
+  - Clarified in the commit message for the initcall ordering patch
+    that the initcall order remains the same as without LTO.
+
+  - Changed link-vmlinux.sh to use jobserver-exec to control the
+    number of jobs started by generate_initcall_ordering.pl.
+
+  - Dropped the x86/relocs patch to whitelist L4_PAGE_OFFSET as it's
+    no longer needed with ToT kernel.
+
+  - Disabled LTO for arch/x86/power/cpu.c to work around a Clang bug
+    with stack protector attributes.
+
+Changes in v2:
+
+  - Fixed -Wmissing-prototypes warnings with W=1.
+
+  - Dropped cc-option from -fsplit-lto-unit and added .thinlto-cache
+    scrubbing to make distclean.
+
+  - Added a comment about Clang >=11 being required.
+
+  - Added a patch to disable LTO for the arm64 KVM nVHE code.
+
+  - Disabled objtool's noinstr validation with LTO unless enabled.
+
+  - Included Peter's proposed objtool mcount patch in the series
+    and replaced recordmcount with the objtool pass to avoid
+    whitelisting relocations that are not calls.
+
+  - Updated several commit messages with better explanations.
+
+
+Sami Tolvanen (16):
+  tracing: move function tracer options to Kconfig
+  kbuild: add support for Clang LTO
+  kbuild: lto: fix module versioning
+  kbuild: lto: limit inlining
+  kbuild: lto: merge module sections
+  kbuild: lto: add a default list of used symbols
+  init: lto: ensure initcall ordering
+  init: lto: fix PREL32 relocations
+  PCI: Fix PREL32 relocations for LTO
+  modpost: lto: strip .lto from module names
+  scripts/mod: disable LTO for empty.c
+  efi/libstub: disable LTO
+  drivers/misc/lkdtm: disable LTO for rodata.o
+  arm64: vdso: disable LTO
+  arm64: disable recordmcount with DYNAMIC_FTRACE_WITH_REGS
+  arm64: allow LTO to be selected
+
+ .gitignore                            |   1 +
+ Makefile                              |  45 +++--
+ arch/Kconfig                          |  90 +++++++++
+ arch/arm64/Kconfig                    |   4 +
+ arch/arm64/kernel/vdso/Makefile       |   3 +-
+ drivers/firmware/efi/libstub/Makefile |   2 +
+ drivers/misc/lkdtm/Makefile           |   1 +
+ include/asm-generic/vmlinux.lds.h     |  11 +-
+ include/linux/init.h                  |  79 +++++++-
+ include/linux/pci.h                   |  19 +-
+ init/Kconfig                          |   1 +
+ kernel/trace/Kconfig                  |  16 ++
+ scripts/Makefile.build                |  48 ++++-
+ scripts/Makefile.lib                  |   6 +-
+ scripts/Makefile.modfinal             |   9 +-
+ scripts/Makefile.modpost              |  25 ++-
+ scripts/generate_initcall_order.pl    | 270 ++++++++++++++++++++++++++
+ scripts/link-vmlinux.sh               |  70 ++++++-
+ scripts/lto-used-symbollist           |   5 +
+ scripts/mod/Makefile                  |   1 +
+ scripts/mod/modpost.c                 |  16 +-
+ scripts/mod/modpost.h                 |   9 +
+ scripts/mod/sumversion.c              |   6 +-
+ scripts/module.lds.S                  |  24 +++
+ 24 files changed, 696 insertions(+), 65 deletions(-)
+ create mode 100755 scripts/generate_initcall_order.pl
+ create mode 100644 scripts/lto-used-symbollist
+
+
+base-commit: 33dc9614dc208291d0c4bcdeb5d30d481dcd2c4c
+-- 
+2.29.2.576.ga3fc446d84-goog
+
