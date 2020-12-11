@@ -2,61 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F7452D6BCA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 00:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 741BF2D6C9A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 01:57:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394322AbgLJXTw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Dec 2020 18:19:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45858 "EHLO
+        id S2404011AbgLKAaQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Dec 2020 19:30:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393160AbgLJXTi (ORCPT
+        with ESMTP id S1730504AbgLKAaG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Dec 2020 18:19:38 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DB29C0613CF
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Dec 2020 15:18:58 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id c12so5638343pfo.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Dec 2020 15:18:58 -0800 (PST)
+        Thu, 10 Dec 2020 19:30:06 -0500
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349A0C0613CF;
+        Thu, 10 Dec 2020 16:29:14 -0800 (PST)
+Received: by mail-qt1-x841.google.com with SMTP id b9so5288183qtr.2;
+        Thu, 10 Dec 2020 16:29:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cuo3hOaqklmDAlFeyNMO9tK7FfLVT9BZ8OlP4OtCFqU=;
-        b=loFvrO8ObA/6GshmdsKH7qoI9iCisWk9O7eMVsEDDZ7795PK+dK/Q+MwLj0jnH2RFz
-         vH6+g/5LTdZhvhkEFVoIddq3QyjSAE3in4aK+MoNY+uX1lEgr3aoFQXm+PzxS5sajEEA
-         tByw4b/yDS3LOmXy1Fag/9bVMqWF75R3JnSNCZ9MIe7dxlBFqTnDaRd/X/eWIOzlB56o
-         DiOCxZOKFuuoao5akTG99bCddkdqOFHs+sIWXA+IqBtcNvihhXQAnQnyrFdCjPSEjhcx
-         PYnf4I2cmhjEEB8BpxDv4p7d05/5F3UEPkaYM19XqyMZGGUjGGnVp1aCmldrS1pBtQQV
-         R9Wg==
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Rmf7XBQbFrTt9I7PMZkiNuKnWeN4JeUQNc3H8Tyzf/U=;
+        b=JS2eCDheJmAIEiKWoMPrlBYMlF4uI6GfILrKJhp5qEkVz7WR8fk9fDCcD66wJbwEho
+         dSn8vCEzr59Ks/qKJZrMsYK38ZLe8wLeP5+PtzuBKPZ5YQCc35ZoIpDvX5xx38wx4CJw
+         LvGc8ovG1GDmjthfRFCavlMMbxE/Wm3Etx6N/nYgmW9JEaPC6Lm6pcBcCjWIPpPqVFZx
+         pX/DZQf3NuIbGRzTrC9G5gM3qPBGwaDzCMwQwwt6J3/0Bj7IaQ1lRNbndxpqm95j2hQH
+         DZEJFFormfcKujczKC4B/0J5krQmSULUMHAeE6NJooB5ApUdgU6ZEHg18JNt6hOF1mXu
+         tJTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cuo3hOaqklmDAlFeyNMO9tK7FfLVT9BZ8OlP4OtCFqU=;
-        b=tI+02EiVDIqyMMKpoH0GBsHPyq6OMvJ3GFL41VmhTMHS/XMH5toipWTBrvybxEsVqd
-         ES9VTju3hTOJhhVu60VHpV0Rg3Op+p8K8JNCdGs2hagkbCVYKuBrNoE0/R4DWmF3vLMW
-         FLtM5iINTkBTpQlWkvGXWHhTNPyMcsTJluW8WVdFFdIFt2/H1InMNoPge7gWkRXWa9Cs
-         DqPZSUFnhnz82o89+C8LQwvXOIhhUg5WB+qLZf5nIDp0esxi9Je3wdUyjcOK7Bnub0j4
-         RcQt+RpWtf9BtHJ1naJZoBQUd2LEtpaRH4w8gU3tGmFs/g9PiQyRcPmdSV2rW2XYaIjP
-         HM+g==
-X-Gm-Message-State: AOAM530TcxknBDoXOrXSEiq2zRQGXJ2TeW+YgXslwdn7YQNuawlhstfk
-        LPhwxNNS8ObvW6BaPQotDYUK1YTKsf41m0pFfFgLIQ==
-X-Google-Smtp-Source: ABdhPJyDDDi9Z5GVLzojZF2EUUtYtg8RykVb977GkQUKX/ddOlgF60hTUp1sYQqTLza67iQBIC/HbF23QhwfBnvUYp4=
-X-Received: by 2002:a63:184c:: with SMTP id 12mr1370518pgy.381.1607642337689;
- Thu, 10 Dec 2020 15:18:57 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
- <20201104005343.4192504-1-ndesaulniers@google.com> <20201104005343.4192504-5-ndesaulniers@google.com>
- <20201124172836.GA346213@rani.riverdale.lan> <CAKwvOdkGvLrPr4pHi4LKCF5t74+wencdy7r38d3k_4pC9pQYwQ@mail.gmail.com>
- <CAKwvOdmEVM67v8PqPWHP-VyGTkQpkWv8FdOTbxQ-7ebvSummMA@mail.gmail.com> <X8psgMuL4jMjP/Oy@rani.riverdale.lan>
-In-Reply-To: <X8psgMuL4jMjP/Oy@rani.riverdale.lan>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 10 Dec 2020 15:18:45 -0800
-Message-ID: <CAKwvOd=SbbJptBbv3y39_ZCeTbO0vb_fa5ZbQQ2LUquegzLycg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] Kbuild: implement support for DWARF v5
-To:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jakub Jelinek <jakub@redhat.com>,
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=Rmf7XBQbFrTt9I7PMZkiNuKnWeN4JeUQNc3H8Tyzf/U=;
+        b=XOybh65Wb3C2ybWIcTWvkLUs+gAM0tOPbp/pdz8oNlrSgiYBR34zHD80/fouAmQrLv
+         CMLNN75Nc9KaJ4OzznotzJ12+KyvOp9aAYMEPr5/+5YhtMUWwJRXUOAb2WE9wvQiB0hS
+         aT4QZkUrIOxwN699TZRNezM4DrnPZIpTylGPcvG1HuwinWTfmsia5CZ3GDwEbSMX9eyf
+         S6bxGhCmKwfRqFI3J/KPt32mr0P1ItN6D1F15SblKlog+kD/c64r4JJDaEMqM+YboSnU
+         8sR40dmd+hPppUmXsE+Tg6kZod+AfCHyy0inxR8Bv0WOilNPOlBSC3UXPjLUKT2T+HNE
+         Pwbw==
+X-Gm-Message-State: AOAM530IKRq5eFA4buM8l6eUPsNBXKKnNyAjvS0RumS3VlMI2lKl/iBW
+        F98FdEOB0CnTdDw/dwjWuzo=
+X-Google-Smtp-Source: ABdhPJxlVnHQcyltUBp1hIXfbZzTL8eN/sJknHOx44slguNjI07wFsWVrcRVE1HLjTDvH4Paonwxjw==
+X-Received: by 2002:aed:3025:: with SMTP id 34mr12349937qte.39.1607646553220;
+        Thu, 10 Dec 2020 16:29:13 -0800 (PST)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id 187sm5646082qki.38.2020.12.10.16.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 16:29:12 -0800 (PST)
+Sender: Arvind Sankar <niveditas98@gmail.com>
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Thu, 10 Dec 2020 19:29:10 -0500
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-toolchains@vger.kernel.org,
@@ -66,71 +65,63 @@ Cc:     Jakub Jelinek <jakub@redhat.com>,
         Sedat Dilek <sedat.dilek@gmail.com>,
         Dmitry Golovin <dima@golovin.in>,
         Alistair Delva <adelva@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 4/4] Kbuild: implement support for DWARF v5
+Message-ID: <X9K9VrHkcgMhG4zc@rani.riverdale.lan>
+References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+ <20201104005343.4192504-1-ndesaulniers@google.com>
+ <20201104005343.4192504-5-ndesaulniers@google.com>
+ <20201124172836.GA346213@rani.riverdale.lan>
+ <CAKwvOdkGvLrPr4pHi4LKCF5t74+wencdy7r38d3k_4pC9pQYwQ@mail.gmail.com>
+ <CAKwvOdmEVM67v8PqPWHP-VyGTkQpkWv8FdOTbxQ-7ebvSummMA@mail.gmail.com>
+ <X8psgMuL4jMjP/Oy@rani.riverdale.lan>
+ <CAKwvOd=SbbJptBbv3y39_ZCeTbO0vb_fa5ZbQQ2LUquegzLycg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=SbbJptBbv3y39_ZCeTbO0vb_fa5ZbQQ2LUquegzLycg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 4, 2020 at 9:06 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
->
-> On Thu, Dec 03, 2020 at 03:28:14PM -0800, Nick Desaulniers wrote:
-> > On Thu, Dec 3, 2020 at 3:22 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> > >
-> > > On Tue, Nov 24, 2020 at 9:28 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
-> > > >
-> > > > On Tue, Nov 03, 2020 at 04:53:43PM -0800, Nick Desaulniers wrote:
-> > > > > DWARF v5 is the latest standard of the DWARF debug info format.
-> > > > >
-> > > > > Feature detection of DWARF5 is onerous, especially given that we've
-> > > > > removed $(AS), so we must query $(CC) for DWARF5 assembler directive
-> > > > > support.  GNU `as` only recently gained support for specifying
-> > > > > -gdwarf-5.
-> > > >
-> > > > With gcc, using -gdwarf-5 even without -Wa,--gdwarf-5 results in
-> > > > considerably smaller debug info. gcc does not seem to generate the .file 0
-> > > > directive that causes older GNU as to barf.
-> > > >
-> > > > Should the assembler support check be restricted to CC_IS_CLANG?
-> > >
-> > > No, because if LLVM_IAS=1 then the assembler support need not be checked.
+On Thu, Dec 10, 2020 at 03:18:45PM -0800, Nick Desaulniers wrote:
+> On Fri, Dec 4, 2020 at 9:06 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
 > >
-> > Also, if your version of GCC supports DWARF Version 5, but your
-> > version of GAS does not, then I'm more inclined to not allow
-> > CONFIG_DEBUG_INFO_DWARF5 to be selectable, rather than mix and match
-> > or partially support this for one but not the other.  Either all tools
-> > used support DWARF 5, or you don't get to use DWARF 5.
+> > Why? Does this actually cause any problems?
 > >
->
-> Why? Does this actually cause any problems?
->
-> It seems like the options for gcc can actually be very straightforward:
-> you just need a cc-option check, and then add -gdwarf-N to both CFLAGS
-> and AFLAGS and you're done.  Adding the -Wa flag is superfluous and
-> carries the risk of interfering with what the compiler driver does. Just
-> let the gcc driver handle the details.
->
-> Clang/IAS is almost as straightforward, with the only additional edge
-> case being that for assembler files, DWARF 2 doesn't work, so the CFLAGS
-> is the same -gdwarf-N, but AFLAGS gets -gdwarf-N only if N > 2.
->
-> The messy case is only Clang/IAS=0, which needs to check the support
-> from the external assembler, and needs CFLAGS of -gdwarf-N and AFLAGS of
-> -Wa,--gdwarf-N, because Clang doesn't pass that option on to an external
-> assembler. This is why I was asking if the assembler support check can
-> be restricted to CC_IS_CLANG: nothing but Clang/IAS=0 actually requires
-> that check.
+> > It seems like the options for gcc can actually be very straightforward:
+> > you just need a cc-option check, and then add -gdwarf-N to both CFLAGS
+> > and AFLAGS and you're done.  Adding the -Wa flag is superfluous and
+> > carries the risk of interfering with what the compiler driver does. Just
+> > let the gcc driver handle the details.
+> >
+> > Clang/IAS is almost as straightforward, with the only additional edge
+> > case being that for assembler files, DWARF 2 doesn't work, so the CFLAGS
+> > is the same -gdwarf-N, but AFLAGS gets -gdwarf-N only if N > 2.
+> >
+> > The messy case is only Clang/IAS=0, which needs to check the support
+> > from the external assembler, and needs CFLAGS of -gdwarf-N and AFLAGS of
+> > -Wa,--gdwarf-N, because Clang doesn't pass that option on to an external
+> > assembler. This is why I was asking if the assembler support check can
+> > be restricted to CC_IS_CLANG: nothing but Clang/IAS=0 actually requires
+> > that check.
+> 
+> Oh, I see. Yeah, that might be a nicer approach.  What should we do in
+> the case of gcc < 7 though, where -gdwarf-5 won't produce DWARF v5?
+> Maybe that's ok, but the intent behind the Kconfig check was to
+> prevent the option from being selectable if the tools do not support
+> it.  Maybe it's more flexible to pass the arguments along, and hope
+> for the best?
+> 
+> As a gcc-5 user, I might be surprised if I chose
+> CONFIG_DEBUG_INFO_DWARF5 if what I got was not actually DWARF v5; it
+> does violate the principle of least surprise.  Maybe that doesn't
+> matter though?
 
-Oh, I see. Yeah, that might be a nicer approach.  What should we do in
-the case of gcc < 7 though, where -gdwarf-5 won't produce DWARF v5?
-Maybe that's ok, but the intent behind the Kconfig check was to
-prevent the option from being selectable if the tools do not support
-it.  Maybe it's more flexible to pass the arguments along, and hope
-for the best?
+Even the current gcc documentation still says "DWARF Version 5 is only
+experimental".  If the user wants to try it out, I think it's fine to
+let them get whatever subset their tool chain produces, as long as it's
+not completely broken. Your latest help text does say that gcc 7+ is
+required, maybe add another sentence saying that gcc 5+ only has partial
+support for some draft DWARF 5 features?
 
-As a gcc-5 user, I might be surprised if I chose
-CONFIG_DEBUG_INFO_DWARF5 if what I got was not actually DWARF v5; it
-does violate the principle of least surprise.  Maybe that doesn't
-matter though?
--- 
-Thanks,
-~Nick Desaulniers
+Thanks.
