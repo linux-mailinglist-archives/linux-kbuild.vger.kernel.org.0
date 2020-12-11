@@ -2,52 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0782D2D7F85
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 20:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EC1D2D7F8E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 20:42:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392323AbgLKTjY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Dec 2020 14:39:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        id S2393808AbgLKTlb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Dec 2020 14:41:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390790AbgLKTjQ (ORCPT
+        with ESMTP id S2394056AbgLKTlP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Dec 2020 14:39:16 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FDAC0613D3
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 11:38:35 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id 11so7610655pfu.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 11:38:35 -0800 (PST)
+        Fri, 11 Dec 2020 14:41:15 -0500
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E2CC0613D6
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 11:40:35 -0800 (PST)
+Received: by mail-vs1-xe44.google.com with SMTP id s85so5417168vsc.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 11:40:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VNfUmoHugTzMNVPlGX+wnRh5Cf/stQAzYSuLpPo56Do=;
-        b=FEC9uEup9Neav9R+6U+sr3qeNh7Pg8WcbZYYXZwTn8O8CiG2ftP1IPYk0zCyjiYFSF
-         c94oFOC9/6e94fHGubU93cGjPF1HGZHYHPragsSfEBUJ7FdZnpViexh6U4PPA/zRRum+
-         eJUlsS8wc4R+iMPuouzj/+4aQfrfbSeOVoqX8=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1nS5LJe0V9gmSV6AI/CjiJWRU085g+HSabHeZYnNbME=;
+        b=qsqg3dEZdz6yTY0b8lWmwlvvFlCl6x/6RcbpcNM5RjlQi43vCEWHYEvpvNFMgtwSJf
+         92LLLXxQ2DMnh4n9P483SaIxEmprkCDc/K+JgapPX/ZZKy6aK5r4eyyfdBCtEQJhwn4x
+         ouvYwbD1s6MDLHCs5KHgP2Xw3/OELzfJnu8FvoDrq3GDDw87fJYBXVbaSaOYc+0Nu1UD
+         fiQbuk0q8gz7/5IDoWj0ON2iPNs+pAeF9Qty6DbvjfFV/8Wzmt8DsLQLeqTz1ozLVtyQ
+         R0+WXz2Fbj8SqfTG7PiaJGfy0Ipx3UtxFa3GxMJFuDwuXo9nyWaQPdc+rxYInzhIXbQ8
+         nCbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VNfUmoHugTzMNVPlGX+wnRh5Cf/stQAzYSuLpPo56Do=;
-        b=kIq696y9L1hhRpSVDKXk7uxRuFd2eZcrhDACw0ERR+IjG0eSmf1wUr0q/V0LY2sqWF
-         x4FhnrtEhRa4MW2qxQuF+RHIZegejvAZVeQ697xuWDv0H47PzuQQ4DUBMu1MEpcY5Y8R
-         Ke56ngJ1NCa5H4aesBWNuUafHKjrb3wXx4cpKlmhIUYY5JZqwrMdWGD5DUzQrUPV+ACL
-         m19uf7iRS+BAAfSEFw+/oXWZMFJZ/HlnJcVjGt7ruD4luxGuwBFHYb4vAp9aScbamG3i
-         997RRuv26VdKrQlEb/7ctg19PyUQCrw47D9DqOd1UeVpRCeVyTcbTsw4x7fW5TdLbPxO
-         OvRQ==
-X-Gm-Message-State: AOAM532hHgugA7t/M1lfA9K1+90BalUkzItRkwUEYK7wWRmSClVnkQ/i
-        Z6zKr2l+Jhcqfi4vLVT6V3VCqw==
-X-Google-Smtp-Source: ABdhPJyVEoQImRCMu3zSXvZnm5dHPPI8XqAV4RWpzzfXPBlCN0XEN9HOeEk46yg5rZ5bTGUzmtXFMg==
-X-Received: by 2002:a63:f456:: with SMTP id p22mr13270729pgk.360.1607715515417;
-        Fri, 11 Dec 2020 11:38:35 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h11sm11456024pjg.46.2020.12.11.11.38.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 11:38:34 -0800 (PST)
-Date:   Fri, 11 Dec 2020 11:38:33 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1nS5LJe0V9gmSV6AI/CjiJWRU085g+HSabHeZYnNbME=;
+        b=TR8tru+BrInnWDu90mT6AnGDVGGF62rDRU9KaarUpJOEKEGdvxLjjNCuAzqWEzmdXM
+         fZKm73mPhurjcym9sxj0EHmtfgDfxLP06TwK9ni31UyuahA4f0id3/80E9GNlKcEqNfj
+         M3o5Kv2eU1wfV7IKT2r6TvB/JhqDQ5s4xFPx1XKJ//cphRwTi36u9+sW84dLAYk4vQH0
+         tQKMLekb1D2DeWB3sTBeiQcBeE8zyATzVnZbfci/yPT+4SwF6rXc3ilc7Sw60tUKjr1z
+         GmT7hhhDJGF/itmzHThbJv9TSCzS55bSu8EOPzgJ3h/wOS9I1HZppeI9jNeP3C654MQH
+         FOfA==
+X-Gm-Message-State: AOAM530QQPfpMoQT3gI2TPON79fsg1eeo1lg69v7ST3SBnJjpoGOeDA0
+        tBtR8A/nzPHaC2mSrZuSSFdxu/UTj37i0HIVvimJIw==
+X-Google-Smtp-Source: ABdhPJwTNai3fHjKtb9PFnSMalWQiVwNiqLsoEASGl1SfmNeaqyA+50KfMn1XqggqOylimJDfCS3u1qZ+Mz6kJGjBMs=
+X-Received: by 2002:a67:80c8:: with SMTP id b191mr15432571vsd.36.1607715634310;
+ Fri, 11 Dec 2020 11:40:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20201211184633.3213045-1-samitolvanen@google.com>
+ <20201211184633.3213045-7-samitolvanen@google.com> <202012111131.E41AFFCDB@keescook>
+In-Reply-To: <202012111131.E41AFFCDB@keescook>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Fri, 11 Dec 2020 11:40:23 -0800
+Message-ID: <CABCJKueCJhwRL1T1k6EYpUy_-Rj85K98iz5FO6K+dZLY25z8_Q@mail.gmail.com>
+Subject: Re: [PATCH v9 06/16] kbuild: lto: add a default list of used symbols
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Will Deacon <will@kernel.org>,
@@ -56,74 +61,73 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v9 00/16] Add support for Clang LTO
-Message-ID: <202012111134.209A6D311@keescook>
-References: <20201211184633.3213045-1-samitolvanen@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201211184633.3213045-1-samitolvanen@google.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 10:46:17AM -0800, Sami Tolvanen wrote:
-> This patch series adds support for building the kernel with Clang's
-> Link Time Optimization (LTO). In addition to performance, the primary
-> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
-> to be used in the kernel. Google has shipped millions of Pixel
-> devices running three major kernel versions with LTO+CFI since 2018.
-> 
-> Most of the patches are build system changes for handling LLVM
-> bitcode, which Clang produces with LTO instead of ELF object files,
-> postponing ELF processing until a later stage, and ensuring initcall
-> ordering.
-> 
-> Note that arm64 support depends on Will's memory ordering patches
-> [1]. I will post x86_64 patches separately after we have fixed the
-> remaining objtool warnings [2][3].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/lto
-> [2] https://lore.kernel.org/lkml/20201120040424.a3wctajzft4ufoiw@treble/
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool-vmlinux
-> 
-> You can also pull this series from
-> 
->   https://github.com/samitolvanen/linux.git lto-v9
-> 
-> ---
-> Changes in v9:
-> 
->   - Added HAS_LTO_CLANG dependencies to LLVM=1 and LLVM_IAS=1 to avoid
->     issues with mismatched toolchains.
-> 
->   - Dropped the .mod patch as Masahiro landed a better solution to
->     the split line issue in commit 7d32358be8ac ("kbuild: avoid split
->     lines in .mod files").
-> 
->   - Updated CC_FLAGS_LTO to use -fvisibility=hidden to avoid weak symbol
->     visibility issues with ThinLTO on x86.
-> 
->   - Changed LTO_CLANG_FULL to depend on !COMPILE_TEST to prevent
->     timeouts in automated testing.
-> 
->   - Added a dependency to CPU_LITTLE_ENDIAN to ARCH_SUPPORTS_LTO_CLANG
->     in arch/arm64/Kconfig.
-> 
->   - Added a default symbol list to fix an issue with TRIM_UNUSED_KSYMS.
+On Fri, Dec 11, 2020 at 11:32 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Dec 11, 2020 at 10:46:23AM -0800, Sami Tolvanen wrote:
+> > With CONFIG_LTO_CLANG, LLVM bitcode has not yet been compiled into a
+> > binary when the .mod files are generated, which means they don't yet
+> > contain references to certain symbols that will be present in the final
+> > binaries. This includes intrinsic functions, such as memcpy, memmove,
+> > and memset [1], and stack protector symbols [2]. This change adds a
+> > default symbol list to use with CONFIG_TRIM_UNUSED_KSYMS when Clang's
+> > LTO is used.
+> >
+> > [1] https://llvm.org/docs/LangRef.html#standard-c-c-library-intrinsics
+> > [2] https://llvm.org/docs/LangRef.html#llvm-stackprotector-intrinsic
+> >
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> > ---
+> >  init/Kconfig                | 1 +
+> >  scripts/lto-used-symbollist | 5 +++++
+> >  2 files changed, 6 insertions(+)
+> >  create mode 100644 scripts/lto-used-symbollist
+> >
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 0872a5a2e759..e88c919c1bf1 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -2297,6 +2297,7 @@ config TRIM_UNUSED_KSYMS
+> >  config UNUSED_KSYMS_WHITELIST
+> >       string "Whitelist of symbols to keep in ksymtab"
+> >       depends on TRIM_UNUSED_KSYMS
+> > +     default "scripts/lto-used-symbollist" if LTO_CLANG
+> >       help
+> >         By default, all unused exported symbols will be un-exported from the
+> >         build when TRIM_UNUSED_KSYMS is selected.
+> > diff --git a/scripts/lto-used-symbollist b/scripts/lto-used-symbollist
+> > new file mode 100644
+> > index 000000000000..38e7bb9ebaae
+> > --- /dev/null
+> > +++ b/scripts/lto-used-symbollist
+> > @@ -0,0 +1,5 @@
+> > +memcpy
+> > +memmove
+> > +memset
+> > +__stack_chk_fail
+> > +__stack_chk_guard
+> > --
+> > 2.29.2.576.ga3fc446d84-goog
+> >
+>
+> bikeshed: Should this filename use some kind of extension, like
+> lto-user-symbols.txt or .list, to make it more human-friendly?
 
-This continues to look good to me. I'd like to see it in -next ASAP so
-we can continue to find any little needed tweaks. Since it works in the
-general case, we can add on top of this series once it's in -next.
+Sure, I can rename this in the next version. Does anyone have strong
+opinions about the name and/or extension?
 
-Masahiro, let me know if you'd rather I not carry this in -next. AFAICT,
-the bulk of the changes in the build system continue to be confined to
-the LTO-only cases, so it should not be disruptive to anyone doing
-non-LTO builds.
-
--- 
-Kees Cook
+Sami
