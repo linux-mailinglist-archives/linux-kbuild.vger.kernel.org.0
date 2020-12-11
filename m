@@ -2,178 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA892D71D6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 09:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D942D7980
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 16:36:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391207AbgLKIeh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Dec 2020 03:34:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34638 "EHLO mail.kernel.org"
+        id S1728580AbgLKPfF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Dec 2020 10:35:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49734 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391068AbgLKIeT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Dec 2020 03:34:19 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S1730079AbgLKPep (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 11 Dec 2020 10:34:45 -0500
+Date:   Fri, 11 Dec 2020 16:33:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607700844;
+        bh=V6euIGjpFbG3ZT48QbLoiaF+ZrDMFbL3Wr7KCGHwzVI=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lVAO/leFuK8L41XdTiw9Cza07i5iu+XdTVRTMrFw1UT1EBM+C1o0AbAxSXoW3PDls
+         6zFnmNaHeZbS22TeyetT0eRxHOIU2Gm8701Vg7WlqaVJVojxgruci9Hzr+0W9MdnXx
+         JzCV/b4Ed7eNjeyWYPseDzL904/rs3WBD2n7FyE7ELLsq5nFYRLrXb8CCLLXNdFgJr
+         nv9NRZmNBtK1ETsNmZMzUAVx8ykfcoRVcT3230TS+lXPA6/bpH2eXs+OUWyGmwLts8
+         02GMfXnZsL/2S//GcSXJ7N5RMP2X8KzWM9q5+fhm4G1lIftYVCL8dVD4Gd4mMBMJ9d
+         LFp6NGRttGgNA==
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Will McVicker <willmcvicker@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Date:   Fri, 11 Dec 2020 09:33:32 +0100
-Message-Id: <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201210172938.3b3086b6@coco.lan>
-References: <20201210172938.3b3086b6@coco.lan>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Saravana Kannan <saravanak@google.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v3 1/2] scripts/setlocalversion: allow running in a subdir
+Message-ID: <20201211153359.GA19348@linux-8ccs>
+References: <20201207153116.GA15772@linux-8ccs>
+ <20201208200508.4107399-1-willmcvicker@google.com>
+ <20201208200508.4107399-2-willmcvicker@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201208200508.4107399-2-willmcvicker@google.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.61-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add an experimental PDF builder using rst2pdf
+Hi Will,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
++++ Will McVicker [08/12/20 20:05 +0000]:
+>Getting the scmversion using scripts/setlocalversion currently only
+>works when run at the root of a git or mecurial project. This was
+>introduced in commit 8558f59edf93 ("setlocalversion: Ignote SCMs above
+>the linux source tree") so that if one is building within a subdir of
+>a git tree that isn't the kernel git project, then the vermagic wouldn't
+>include that git sha1. However, the proper solution to that is to just
+>set this config in your defconfig:
+>
+>  # CONFIG_LOCALVERSION_AUTO is not set
+>
+>which is already the default in many defconfigs:
+>
+>  $ grep -r "CONFIG_LOCALVERSION_AUTO is not set" arch/* | wc -l
+>  89
+>
+>So let's bring back this functionality so that we can use
+>scripts/setlocalversion to capture the SCM version of external modules
+>that reside within subdirectories of an SCM project.
 
-Please notice that 18 documents (of a total of 71) won't build with 
-rst2pdf. There's an opened issue about that at:
+Hm, this seems to essentially be a revert of commit 8558f59edf93.
+AFAICT from light testing it also reintroduces the issue it was
+originally trying to fix, no?
 
-    https://github.com/rst2pdf/rst2pdf/issues/958
+From the reporter:
 
-v2: usage of SPHINXDIRS was fixed.
+    Dan McGee <dpmcgee@gmail.com> writes:
+    > Note that when in git, you get the appended "+" sign. If
+    > LOCALVERSION_AUTO is set, you will get something like
+    > "eee-gb01b08c-dirty" (whereas the copy of the tree in /tmp still
+    > returns "eee"). It doesn't matter whether the working tree is dirty or
+    > clean.
+    >
+    > Is there a way to disable this? I'm building from a clean tarball that
+    > just happens to be unpacked inside a git repository. One would think
+    > setting LOCALVERSION_AUTO to false would do it, but no such luck...
 
+Correct me if I'm wrong, but what I'm understanding is that the
+original reporter was having trouble with setlocalversion appending
+unwanted strings ("+" or "gXXXXXXX-dirty" etc) when building from a
+clean tarball that happens to live inside a git repo. Even if
+LOCALVERSION_AUTO is disabled it still appends the "+" string if the
+SCM above the linux source tree is not at an annotated tag. Since
+setlocalversion is getting confused by the presence of a different scm
+that commit fixed this by confining the checks to the root of the
+(possibly git managed) kernel source tree. Masahiro can probably
+better comment since he maintains scripts/*.
 
- Documentation/Makefile                     |  5 +++++
- Documentation/conf.py                      | 21 +++++++++++++++------
- Documentation/sphinx/load_config.py        | 12 ++++++++++++
- Documentation/userspace-api/media/Makefile |  1 +
- Makefile                                   |  4 ++--
- 5 files changed, 35 insertions(+), 8 deletions(-)
+In any case, this patch isn't of interest to in-tree modules, since we
+can generate the scmversion perfectly fine without it, so I doubt it's
+going to get any support here. Would you be fine with dropping the
+first patch or would that pose issues?
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 61a7310b49e0..c3c8fb10f94e 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -115,6 +115,10 @@ pdfdocs: latexdocs
- 
- endif # HAVE_PDFLATEX
- 
-+rst2pdf:
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
-+
- epubdocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
-@@ -140,6 +144,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
-+	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
- 	@echo  '  epubdocs        - EPUB'
- 	@echo  '  xmldocs         - XML'
- 	@echo  '  linkcheckdocs   - check for broken external links'
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 66e121df59cd..6f2788aac81e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
- else:
-     extensions.append("sphinx.ext.pngmath")
- 
-+# Enable experimental rst2pdf, if available
-+try:
-+    extensions.append("rst2pdf.pdfbuilder")
-+except:
-+    sys.stderr.write('rst2pdf extension not available.\n')
-+
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
- 
-@@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
- #
- # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
- #
--# FIXME: Do not add the index file here; the result will be too big. Adding
--# multiple PDF files here actually tries to get the cross-referencing right
--# *between* PDF files.
--pdf_documents = [
--    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
--]
-+
-+# Add all LaTeX files to PDF documents as well
-+pdf_documents = []
-+for l in latex_documents:
-+    doc = l[0]
-+    fn = l[1].replace(".tex", "")
-+    name = l[2]
-+    authors = l[3]
-+    pdf_documents.append((doc, fn, name, authors))
- 
- # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
- # the Docs). In a normal build, these are supplied from the Makefile via command
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index eeb394b39e2c..8266afd438aa 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -43,6 +43,18 @@ def loadConfig(namespace):
- 
-             namespace['latex_documents'] = new_latex_docs
- 
-+            new_pdf_docs = []
-+            pdf_documents = namespace['pdf_documents']
-+
-+            for l in pdf_documents:
-+                if l[0].find(dir + '/') == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
-+                    break
-+
-+            namespace['pdf_documents'] = new_pdf_docs
-+
-         # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 81a4a1a53bce..8c6b3ac4ecb0 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
- html: all
- epub: all
- xml: all
-+pdf: all
- latex: $(IMGPDF) all
- linkcheck:
- 
-diff --git a/Makefile b/Makefile
-index 43ecedeb3f02..db4043578eec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile
-+			 outputmakefile rst2pdf
- no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
- single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
- 
-@@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
- 
- # Documentation targets
- # ---------------------------------------------------------------------------
--DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-+DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
- 	       linkcheckdocs dochelp refcheckdocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
--- 
-2.29.2
-
-
+>Signed-off-by: Will McVicker <willmcvicker@google.com>
+>---
+> scripts/setlocalversion | 5 ++---
+> 1 file changed, 2 insertions(+), 3 deletions(-)
+>
+>diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+>index bb709eda96cd..cd42009e675b 100755
+>--- a/scripts/setlocalversion
+>+++ b/scripts/setlocalversion
+>@@ -44,8 +44,7 @@ scm_version()
+> 	fi
+>
+> 	# Check for git and a git repo.
+>-	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+>-	   head=$(git rev-parse --verify HEAD 2>/dev/null); then
+>+	if head=$(git rev-parse --verify HEAD 2>/dev/null); then
+>
+> 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+> 		# it, because this version is defined in the top level Makefile.
+>@@ -102,7 +101,7 @@ scm_version()
+> 	fi
+>
+> 	# Check for mercurial and a mercurial repo.
+>-	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+>+	if hgid=$(hg id 2>/dev/null); then
+> 		# Do we have an tagged version?  If so, latesttagdistance == 1
+> 		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
+> 			id=$(hg log -r . --template '{latesttag}')
+>-- 
+>2.29.2.576.ga3fc446d84-goog
+>
