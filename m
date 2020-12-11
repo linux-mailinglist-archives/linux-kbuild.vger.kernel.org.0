@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9C22D7ECB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 19:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E5F2D7ECD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Dec 2020 19:52:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436840AbgLKStd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Dec 2020 13:49:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56260 "EHLO
+        id S2389233AbgLKSth (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Dec 2020 13:49:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394257AbgLKSsO (ORCPT
+        with ESMTP id S2391122AbgLKSsO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Fri, 11 Dec 2020 13:48:14 -0500
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17A6FC0619D2
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:46 -0800 (PST)
-Received: by mail-pj1-x1049.google.com with SMTP id c1so2903339pjo.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:46 -0800 (PST)
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F10DC0619D5
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:48 -0800 (PST)
+Received: by mail-pl1-x649.google.com with SMTP id x11so5806519plo.19
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Dec 2020 10:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=IWPxRCPjFejanLxpgRG3fapg45p9YOPZWT66lZNPqfI=;
-        b=NmW10Ys2Tgg9pvNOzRC87vTxzQN/QNTXAjHd7AFTV8ok00h9tGhhYMLsRuxKeNhXDl
-         iMPagwzzegEY0NAWkP8VdeyEnPICgOM5AE4FTcCbPPAinuDjGz68sbCLgXPYhkRq1Pep
-         /oDzt2sWciOe12Hb0BMOoaCF9qAfZgz+jdivhEhkTAz3ohV7gcdM13QrPXPixLmDjCSe
-         nTPKcCoKQq0gq3xcii2Dkj1W1xDXw/X3VKykyVsM1VgUoEe62p+1hemZShAFUHpH1Tsi
-         8OfLqN3hCowWbgVvrwWk8fm6stKJ1NblXBwjNE+NVf/Ofnn3fkAOASnNgDC94IzGVftK
-         2nnw==
+        bh=D6dzW9Nv9PxzQobvhFlQDWUjMujzTJKPO9b+q7PtBxA=;
+        b=j80QiI4Ul6UgEkfC+jupmsvTxkEELd8wbgUjUZ6N8GZBz3X4UojppIFANKFCwEcr0b
+         hjg7atDwt+r6dl376cixss8x61cmNs3p6kdE0NH0HxFb1RFB4vQfxhmnXPW46RXzb3jX
+         w/C2Yv2wPOS6QjdjcS5NeKPbqbdp8shMph/o4hHfNZ5sJb5N3Ar0+qPkmusVLmg+5im/
+         FXu/NZwu9TMocoPetDYE2QWKb90ZDlr4lbZ3N2VjoMkHvJaSPTfqO5DKNCfYjLKaMtOp
+         PjFKT07Sh00XUoerVDLql1CWKexmWjEKEMlFf7a6DuR4Wtg99akEQhhQl7HctgCVr2eD
+         quKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=IWPxRCPjFejanLxpgRG3fapg45p9YOPZWT66lZNPqfI=;
-        b=dZ3eL0o9QGEjoYSkGzpXXqqwtzJnrzj3zr+R+ZFmPRXWb7S2jKik6I2a8LkecT0xV0
-         BfHNq1HdTnKeTlw5ieIbmeyIj62MW9G+Nz1JBnEcKmFKVwblwAQKXDglj5tnU6sSkwwX
-         NjTy+6V4VbA0wf2+EzbDpUp+kFcLPYOmCjxpOuGbj/3a1j89B/5eXiiin8bCTQPjpQzX
-         sH9Ba2QGlrvTqlXpIoYqfdCqABOvGqmVe1iS52V0z0OPIFNumnTXyRiY1Bm6jcCkFGIx
-         nAR9ZVHWglNjzRQhWwKBXVtocwLyogyk6xdi43yiRng0rP4akbKQuv1D9DtFtIv9t38y
-         5zNA==
-X-Gm-Message-State: AOAM5320tq1S4fHH+Q0ytx4s2RvNBrc7jK/aK6m3ROzb1Y9gbCh/43bN
-        4WXkPhjOyB4A8/NyZICvbL+C3jYV4hhYabvdQh0=
-X-Google-Smtp-Source: ABdhPJzm7bBo2qDvtUgK6v6rrLGQ/0dJj/ATzhcF3Fgu3P9N3k/LVow1+5c7Y8w8YkEUkh1r4Djckvq7KIZM8TNXHU4=
+        bh=D6dzW9Nv9PxzQobvhFlQDWUjMujzTJKPO9b+q7PtBxA=;
+        b=Tz9a4uVL82DIBUdArcKH1ysdZcmYIFDmm37M1K4rDKaWb7uetllk45cKzLjVtsGosh
+         NPdIIkp6gFGD1w0mLr2pHtVw7Oi9OPTZrUtZDOyiF0YcLTzMGYMW321qSKGfrA2QTTF1
+         kNckHhsLEutvMD3UfXXtGc1RtJ66OJxjgxR2jN2wdT8B65DQhchqPRX3F0AST/X/26Mt
+         wCEtrrz5/NtGHLgD1BDaZTUG49vLy6FsE8Cb3ET9Q4wGvQs/85ckA/Jouro5huZZ5Our
+         MvILodRGIdvP5OuSpHhN6hh2pZj9S2CaqZPwIa16xUQlS3rncCZBkKAKaoThM6WFqUop
+         nOyA==
+X-Gm-Message-State: AOAM533lgQgOJN6ifYQAAobd2QriuWx695rq5ko6mmxVgTlyQV5BTT89
+        d7pEsOrrhRhCrjpLWZh9gGhcoFmId7cMEs08evc=
+X-Google-Smtp-Source: ABdhPJzTxDOAZu/cl6nSaAjpW3k/LNI+wnG91vRp8xhL+7QirY0I3Vi1skb6ONtaVKsVxERXnDfxMhqkc0oDgftg5yE=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a17:90a:8b94:: with SMTP id
- z20mr136813pjn.1.1607712405109; Fri, 11 Dec 2020 10:46:45 -0800 (PST)
-Date:   Fri, 11 Dec 2020 10:46:22 -0800
+ (user=samitolvanen job=sendgmr) by 2002:a17:902:bb8c:b029:d9:261:5809 with
+ SMTP id m12-20020a170902bb8cb02900d902615809mr3908181pls.29.1607712407508;
+ Fri, 11 Dec 2020 10:46:47 -0800 (PST)
+Date:   Fri, 11 Dec 2020 10:46:23 -0800
 In-Reply-To: <20201211184633.3213045-1-samitolvanen@google.com>
-Message-Id: <20201211184633.3213045-6-samitolvanen@google.com>
+Message-Id: <20201211184633.3213045-7-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20201211184633.3213045-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
-Subject: [PATCH v9 05/16] kbuild: lto: merge module sections
+Subject: [PATCH v9 06/16] kbuild: lto: add a default list of used symbols
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
@@ -74,52 +75,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-LLD always splits sections with LTO, which increases module sizes. This
-change adds linker script rules to merge the split sections in the final
-module.
+With CONFIG_LTO_CLANG, LLVM bitcode has not yet been compiled into a
+binary when the .mod files are generated, which means they don't yet
+contain references to certain symbols that will be present in the final
+binaries. This includes intrinsic functions, such as memcpy, memmove,
+and memset [1], and stack protector symbols [2]. This change adds a
+default symbol list to use with CONFIG_TRIM_UNUSED_KSYMS when Clang's
+LTO is used.
 
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+[1] https://llvm.org/docs/LangRef.html#standard-c-c-library-intrinsics
+[2] https://llvm.org/docs/LangRef.html#llvm-stackprotector-intrinsic
+
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- scripts/module.lds.S | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ init/Kconfig                | 1 +
+ scripts/lto-used-symbollist | 5 +++++
+ 2 files changed, 6 insertions(+)
+ create mode 100644 scripts/lto-used-symbollist
 
-diff --git a/scripts/module.lds.S b/scripts/module.lds.S
-index 69b9b71a6a47..18d5b8423635 100644
---- a/scripts/module.lds.S
-+++ b/scripts/module.lds.S
-@@ -23,6 +23,30 @@ SECTIONS {
- 	.init_array		0 : ALIGN(8) { *(SORT(.init_array.*)) *(.init_array) }
- 
- 	__jump_table		0 : ALIGN(8) { KEEP(*(__jump_table)) }
-+
-+	__patchable_function_entries : { *(__patchable_function_entries) }
-+
-+	/*
-+	 * With CONFIG_LTO_CLANG, LLD always enables -fdata-sections and
-+	 * -ffunction-sections, which increases the size of the final module.
-+	 * Merge the split sections in the final binary.
-+	 */
-+	.bss : {
-+		*(.bss .bss.[0-9a-zA-Z_]*)
-+		*(.bss..L*)
-+	}
-+
-+	.data : {
-+		*(.data .data.[0-9a-zA-Z_]*)
-+		*(.data..L*)
-+	}
-+
-+	.rodata : {
-+		*(.rodata .rodata.[0-9a-zA-Z_]*)
-+		*(.rodata..L*)
-+	}
-+
-+	.text : { *(.text .text.[0-9a-zA-Z_]*) }
- }
- 
- /* bring in arch-specific sections */
+diff --git a/init/Kconfig b/init/Kconfig
+index 0872a5a2e759..e88c919c1bf1 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2297,6 +2297,7 @@ config TRIM_UNUSED_KSYMS
+ config UNUSED_KSYMS_WHITELIST
+ 	string "Whitelist of symbols to keep in ksymtab"
+ 	depends on TRIM_UNUSED_KSYMS
++	default "scripts/lto-used-symbollist" if LTO_CLANG
+ 	help
+ 	  By default, all unused exported symbols will be un-exported from the
+ 	  build when TRIM_UNUSED_KSYMS is selected.
+diff --git a/scripts/lto-used-symbollist b/scripts/lto-used-symbollist
+new file mode 100644
+index 000000000000..38e7bb9ebaae
+--- /dev/null
++++ b/scripts/lto-used-symbollist
+@@ -0,0 +1,5 @@
++memcpy
++memmove
++memset
++__stack_chk_fail
++__stack_chk_guard
 -- 
 2.29.2.576.ga3fc446d84-goog
 
