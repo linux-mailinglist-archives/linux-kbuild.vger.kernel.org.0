@@ -2,28 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0248C2D82F7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 00:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28C772D8333
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 01:06:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407187AbgLKXzj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Dec 2020 18:55:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52758 "EHLO mail.kernel.org"
+        id S2391635AbgLLAEn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Dec 2020 19:04:43 -0500
+Received: from ms.lwn.net ([45.79.88.28]:48070 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404293AbgLKXzV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Dec 2020 18:55:21 -0500
-Date:   Sat, 12 Dec 2020 00:54:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607730881;
-        bh=SCz8bzPsELDUq0lGSB7IHwi2nUf6eCFNm8SUjmyOLOI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZEHV91Um2wvOW33SMCUsi/9yIfdGDU2ugjj4kQyE0l1pnHF7WaR1ez/vGMvlRgJ5U
-         LPn2ZHoZoSy951pnGE/4G9Rm6bCvVm/ebLXFcxHfWdjVjW/8/xG1hLQyNwWY5Ij0Da
-         TIlEnlVIK7bsecL32JA/kUUv7nr1+8vehp6qPReUnWkSio5fgBAWHvGCRvp/WbKY61
-         viCkMcHkeJvxHU7i2XIuZoqhOXJTLNYu7LoSMxKaXk22mOnN9lnijwJ0cW7h/WC9zo
-         J4kg+jZVQQ2NeeODD88csRTTjIc+u3JzP/c2ORoBKaXEJrJuEN4Vaf6vNLD00mbuzR
-         TE5gTw5Hm1rRA==
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S2393137AbgLLAEc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 11 Dec 2020 19:04:32 -0500
+X-Greylist: delayed 11692 seconds by postgrey-1.27 at vger.kernel.org; Fri, 11 Dec 2020 19:04:32 EST
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B39E67C0;
+        Sat, 12 Dec 2020 00:03:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B39E67C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1607731432; bh=o++ZPZqcqfuEVZJsJirVpVOijN/mx4tZnsSRtY15qIk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qBh0TvjL2YDOaZBh9ywPwJCPKqhfTLFImC/0QxbXsfldcSbB/waTdnk2GRSV7JqWC
+         6Sz1G8nL8rGZMDCI1aE6iEjsM6rdnmfkPojETyrSKina6bX00opP9MqIGIsUHXl2gj
+         MgWv+LzF913n+ZzFPJ+f+mRA6SmPZESH8iKSrGyv02Ew2TxlXh91/6x0PE3OM8Q0f+
+         W2iiM+WgTqRdMiihOq/V6x0WfvEbfEo3VGnyYqD+UFkn+v+Jwu+PpqRGOiu0wWJ953
+         Qj/9UrT+WXrLzJBBbRAlTFftCl9v13x+x3bKKlWWIPufSRHuFGDeGG55oLsTp1mLlr
+         PF0Hkf3Nb9Q5w==
+Date:   Fri, 11 Dec 2020 17:03:50 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -31,103 +37,59 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
 Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201212005435.0e1a0871@coco.lan>
-In-Reply-To: <20201211134859.5ab8e0c2@lwn.net>
+Message-ID: <20201211170350.4f27ad8d@lwn.net>
+In-Reply-To: <20201212005435.0e1a0871@coco.lan>
 References: <20201210172938.3b3086b6@coco.lan>
         <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
         <20201211134859.5ab8e0c2@lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        <20201212005435.0e1a0871@coco.lan>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Fri, 11 Dec 2020 13:48:59 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Sat, 12 Dec 2020 00:54:35 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> On Fri, 11 Dec 2020 09:33:32 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> I'm not an usual python programmer, so, don't know much about its 
+> specifics... Yet, I would be expecting that something like this:
 > 
-> > Add an experimental PDF builder using rst2pdf
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> > 
-> > Please notice that 18 documents (of a total of 71) won't build with 
-> > rst2pdf. There's an opened issue about that at:
-> > 
-> >     https://github.com/rst2pdf/rst2pdf/issues/958
-> > 
-> > v2: usage of SPHINXDIRS was fixed.
-> > 
-> > 
-> >  Documentation/Makefile                     |  5 +++++
-> >  Documentation/conf.py                      | 21 +++++++++++++++------
-> >  Documentation/sphinx/load_config.py        | 12 ++++++++++++
-> >  Documentation/userspace-api/media/Makefile |  1 +
-> >  Makefile                                   |  4 ++--
-> >  5 files changed, 35 insertions(+), 8 deletions(-)  
+> 	try:
+> 	    extensions.append("rst2pdf.pdfbuilder")
+> 	except:
+> 	    sys.stderr.write('rst2pdf extension not available.\n')
+> 	
 > 
-> So I would dearly love to have rst2pdf working.
-> 
-> I applied this, then tried to see what would happen if I ran a build
-> without having rst2pdf installed:
-> 
-> > 1108 meer kernel: make htmldocs
-> >   SPHINX  htmldocs --> file:///stuff/k/git/kernel/Documentation/output
-> > make[2]: Nothing to be done for 'html'.
-> > WARNING: The kernel documentation build process
-> >         support for Sphinx v3.0 and above is brand new. Be prepared for
-> >         possible issues in the generated output.
-> >         enabling CJK for LaTeX builder
-> > 
-> > Extension error:
-> > Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
-> > make[1]: *** [Documentation/Makefile:91: htmldocs] Error 2
-> > make: *** [Makefile:1663: htmldocs] Error 2  
-> 
-> Methinks it's perhaps not quite ready for linux-next yet :)
+> Would avoid it to crash, if the extension is not available.
+> Silly me :-)
 
-Well, I haven't test this.
+No, that's not going to do it, for a couple of reasons.  First being that
+all it's doing is appending a string to a list, which pretty much always
+succeeds.  The attempt to actually import the module happens later.
 
-I'm not an usual python programmer, so, don't know much about its 
-specifics... Yet, I would be expecting that something like this:
+...and you won't catch that either because it isn't actually throwing an
+exception, it's just noting the problem and giving up.
+
+The right solution is probably something like this:
 
 	try:
-	    extensions.append("rst2pdf.pdfbuilder")
-	except:
-	    sys.stderr.write('rst2pdf extension not available.\n')
-	
+	    import rst2pdf
+	    extensions.append('rst2pdf.pdfbuilder')
+	except ModuleNotFoundError:
+	    pass # no rst2pdf for you
 
-Would avoid it to crash, if the extension is not available.
-Silly me :-)
+This is totally untested, of course.
 
-Still, I suspect that it should not be hard to modify the above to
-avoid the crash. 
+[Incidentally, a blank "except:" clause like the one you had is, in my
+experience, a bad idea.  That will catch *anything*, leading to hiding all
+kinds of bugs.  Not that I've ever committed such a faux pas and suffered
+the consequences myself...no...never...honest...]
 
-I shouldn't be doing much development those days, as I'm taking
-some vacations, after sending media stuff for 5.11. 
-
-So, if you have a better idea about how to optionally probe an
-extension, feel free to modify my patch.
-
-
-> With rst2pdf installed I get a bunch of zero-length files, as promised.
-> Pretty much none of the larger "books" make it through.  
-
-Yeah. I guess one of the issues is with tables that don't fit into
-a single page.
-
-Yet, devicetree book is empty. That sounds really weird, as there are
-few files on it, and I didn't see anything uncommon on the rst files.
-
-> It's a start,
-> though.  I'll happily apply this as a step forward once it doesn't break
-> the docs build if rst2pdf is missing.
-
-Sounds like a plan.
+I'll mess with this a bit more later.
 
 Thanks,
-Mauro
+
+jon
