@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CFAB2D87A9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 17:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CC062D87B8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 17:25:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439414AbgLLQKB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Dec 2020 11:10:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57718 "EHLO mail.kernel.org"
+        id S2439479AbgLLQKl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Dec 2020 11:10:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59550 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439400AbgLLQJ4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Dec 2020 11:09:56 -0500
+        id S2439468AbgLLQKi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 12 Dec 2020 11:10:38 -0500
 From:   Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 22/23] kbuild: avoid split lines in .mod files
-Date:   Sat, 12 Dec 2020 11:08:03 -0500
-Message-Id: <20201212160804.2334982-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 14/14] kbuild: avoid split lines in .mod files
+Date:   Sat, 12 Dec 2020 11:08:31 -0500
+Message-Id: <20201212160831.2335172-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201212160804.2334982-1-sashal@kernel.org>
-References: <20201212160804.2334982-1-sashal@kernel.org>
+In-Reply-To: <20201212160831.2335172-1-sashal@kernel.org>
+References: <20201212160831.2335172-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,10 +64,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b93234424..80953d5cce80f 100644
+index 24a33c01bbf7c..9c689d011bced 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -252,6 +252,9 @@ objtool_dep = $(objtool_obj)					\
+@@ -234,6 +234,9 @@ objtool_dep = $(objtool_obj)					\
  ifdef CONFIG_TRIM_UNUSED_KSYMS
  cmd_gen_ksymdeps = \
  	$(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-target).cmd
@@ -77,7 +77,7 @@ index a467b93234424..80953d5cce80f 100644
  endif
  
  define rule_cc_o_c
-@@ -271,13 +274,6 @@ define rule_as_o_S
+@@ -253,13 +256,6 @@ define rule_as_o_S
  	$(call cmd,modversions_S)
  endef
  
@@ -90,8 +90,8 @@ index a467b93234424..80953d5cce80f 100644
 -
  # Built-in and composite module parts
  $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
- 	$(call if_changed_rule,cc_o_c)
-@@ -285,7 +281,7 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+ 	$(call cmd,force_checksrc)
+@@ -267,7 +263,7 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
  
  cmd_mod = { \
  	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
