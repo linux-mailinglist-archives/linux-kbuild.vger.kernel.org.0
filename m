@@ -2,119 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D65A2D88A4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 18:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3982D88C5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 18:50:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgLLRbC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Dec 2020 12:31:02 -0500
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:6123 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2407639AbgLLRav (ORCPT
+        id S1732158AbgLLRte (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Dec 2020 12:49:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725996AbgLLRt0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Dec 2020 12:30:51 -0500
-X-IronPort-AV: E=Sophos;i="5.78,414,1599516000"; 
-   d="scan'208";a="482633059"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2020 18:30:06 +0100
-Date:   Sat, 12 Dec 2020 18:30:06 +0100 (CET)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
+        Sat, 12 Dec 2020 12:49:26 -0500
+Received: from nautica.notk.org (ipv6.notk.org [IPv6:2001:41d0:1:7a93::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02F06C0613CF;
+        Sat, 12 Dec 2020 09:48:46 -0800 (PST)
+Received: by nautica.notk.org (Postfix, from userid 1001)
+        id 7FECBC009; Sat, 12 Dec 2020 18:48:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+        t=1607795323; bh=6jNxUhafw80XJW0WSZExsgVli3qWFNDqo5FolrVmiRY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fMijNZFQAEDU1akj6LT6eWxrqxHtibNpYRWAePwkhu5MFby7/RtOtUopfEi+i6YHg
+         Jd0Ymtj/vmEzT8mCiH09TSKXxbJN/GF0m1Y690d8nEKeK3ZsJNcUsaunO98/Zp8UdS
+         nnw4vxkwLu7Gwhd6frUCqT4J9W9ajJHYIrLkDSzf/ud9eAVcboQbQnNCKrjO7r6uxa
+         cOKDWxYlwWLHC1kUiMiy25yLvygOs4FGFRfXER2S1bek9PyrQCCpHKeYHEijNPCCtZ
+         6dw5StAd5xGwLqmhAt1O12uvBAHwIpcE3AOzpL6HgHzvi6qwfOYJo1OYSNq53E9pUm
+         WMQ79mHkkkakw==
+Date:   Sat, 12 Dec 2020 18:48:28 +0100
+From:   Dominique Martinet <asmadeus@codewreck.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-cc:     linux-kbuild@vger.kernel.org,
+Cc:     linux-kbuild@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kernel@vger.kernel.org, cocci@systeme.lip6.fr
-Subject: Re: [Cocci] [PATCH 1/3] kbuild: do not use scripts/ld-version.sh
- for    checking spatch version
-In-Reply-To: <20201212165431.150750-1-masahiroy@kernel.org>
-Message-ID: <alpine.DEB.2.22.394.2012121829560.3058@hadrien>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] kbuild: rewrite ld-version.sh in shell script
+Message-ID: <20201212174828.GA17179@nautica>
 References: <20201212165431.150750-1-masahiroy@kernel.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ <20201212165431.150750-3-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201212165431.150750-3-masahiroy@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Masahiro Yamada wrote on Sun, Dec 13, 2020:
+> This script was written in awk in spite of the file extension '.sh'.
+> Rewrite it as a shell script.
+
+Wow! I wasn't expecting so much, would have sent some rework after the
+upcoming merge window.
+Thank you.
+
+Some comments below that you can probably ignore, this works for me.
 
 
-On Sun, 13 Dec 2020, Masahiro Yamada wrote:
+> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> index 0f8a2c0f9502..c214aeb3200d 100755
+> --- a/scripts/ld-version.sh
+> +++ b/scripts/ld-version.sh
+> @@ -1,11 +1,22 @@
+> -#!/usr/bin/awk -f
+> +#!/bin/sh
+>  # SPDX-License-Identifier: GPL-2.0
+> -# extract linker version number from stdin and turn into single number
+> -	{
+> -	gsub(".*\\)", "");
+> -	gsub(".*version ", "");
+> -	gsub("-.*", "");
+> -	split($1,a, ".");
+> -	print a[1]*10000 + a[2]*100 + a[3];
+> -	exit
+> -	}
+> +#
+> +# Usage: $ ./scripts/ld-version.sh ld
+> +#
+> +# Print the linker version of `ld' in a 5 or 6-digit form
+> +# such as `23501' for GNU ld 2.35.1 etc.
+> +
+> +first_line="$($* --version | head -n 1)"
 
-> scripts/ld-version.sh was, as its file name implies, originally intended
-> for the GNU ld version, but is (ab)used for the spatch version too.
->
-> Use 'sort -CV' for the version comparison, then coccicheck does not need
-> to use scripts/ld-version.sh. Fix nsdeps as well.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Just nitpicking: this ($*) would fail if the argument contains spaces,
+it's generally better to use "$@" or "$1" (with quotes)
 
-Applied, thanks.
+Probably doesn't matter here as gcc/clang-version scripts have the same
+problem, so if someone had a problem with that they probably would have
+reported it there.
 
-julia
+> +
+> +if ! ( echo $first_line | grep -q "GNU ld"); then
+> +	echo 0
+> +	exit 1
+> +fi
+> +
+> +# Distributions may append an extra string like 2.35-15.fc33
+> +# Take the part that consists of numbers and dots.
+> +VERSION=$(echo $first_line | sed 's/.* \([^ ]*\)$/\1/' | sed 's/^\(^[0-9.]*\).*/\1/')
+> +MAJOR=$(echo $VERSION | cut -d . -f 1)
+> +MINOR=$(echo $VERSION | cut -d . -f 2)
+> +PATCHLEVEL=$(echo $VERSION | cut -d . -f 3)
+> +printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
 
-> ---
->
->  scripts/coccicheck | 14 +++++---------
->  scripts/nsdeps     |  4 +---
->  2 files changed, 6 insertions(+), 12 deletions(-)
->
-> diff --git a/scripts/coccicheck b/scripts/coccicheck
-> index 209bb0427b43..d7f6b7ff130a 100755
-> --- a/scripts/coccicheck
-> +++ b/scripts/coccicheck
-> @@ -16,7 +16,6 @@ if [ ! -x "$SPATCH" ]; then
->  fi
->
->  SPATCH_VERSION=$($SPATCH --version | head -1 | awk '{print $3}')
-> -SPATCH_VERSION_NUM=$(echo $SPATCH_VERSION | ${DIR}/scripts/ld-version.sh)
->
->  USE_JOBS="no"
->  $SPATCH --help | grep "\-\-jobs" > /dev/null && USE_JOBS="yes"
-> @@ -186,14 +185,11 @@ coccinelle () {
->
->      OPT=`grep "Options:" $COCCI | cut -d':' -f2`
->      REQ=`grep "Requires:" $COCCI | cut -d':' -f2 | sed "s| ||"`
-> -    REQ_NUM=$(echo $REQ | ${DIR}/scripts/ld-version.sh)
-> -    if [ "$REQ_NUM" != "0" ] ; then
-> -	    if [ "$SPATCH_VERSION_NUM" -lt "$REQ_NUM" ] ; then
-> -		    echo "Skipping coccinelle SmPL patch: $COCCI"
-> -		    echo "You have coccinelle:           $SPATCH_VERSION"
-> -		    echo "This SmPL patch requires:      $REQ"
-> -		    return
-> -	    fi
-> +    if [ -n "$REQ" ] && ! { echo "$REQ"; echo "$SPATCH_VERSION"; } | sort -CV ; then
-> +	    echo "Skipping coccinelle SmPL patch: $COCCI"
-> +	    echo "You have coccinelle:           $SPATCH_VERSION"
-> +	    echo "This SmPL patch requires:      $REQ"
-> +	    return
->      fi
->
->  #   The option '--parse-cocci' can be used to syntactically check the SmPL files.
-> diff --git a/scripts/nsdeps b/scripts/nsdeps
-> index dab4c1a0e27d..e8ce2a4d704a 100644
-> --- a/scripts/nsdeps
-> +++ b/scripts/nsdeps
-> @@ -12,11 +12,9 @@ if [ ! -x "$SPATCH" ]; then
->  	exit 1
->  fi
->
-> -SPATCH_REQ_VERSION_NUM=$(echo $SPATCH_REQ_VERSION | ${DIR}/scripts/ld-version.sh)
->  SPATCH_VERSION=$($SPATCH --version | head -1 | awk '{print $3}')
-> -SPATCH_VERSION_NUM=$(echo $SPATCH_VERSION | ${DIR}/scripts/ld-version.sh)
->
-> -if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
-> +if ! { echo "$SPATCH_REQ_VERSION"; echo "$SPATCH_VERSION"; } | sort -CV ; then
->  	echo "spatch needs to be version $SPATCH_REQ_VERSION or higher"
->  	exit 1
->  fi
-> --
-> 2.27.0
->
-> _______________________________________________
-> Cocci mailing list
-> Cocci@systeme.lip6.fr
-> https://systeme.lip6.fr/mailman/listinfo/cocci
->
+There is a bug if there is no dot at all (e.g. if binutils ever releases
+a version 3 and call it version 3 and not 3.0, the script would print
+30303 because cut when no delimiter is found always returns the whole
+string)
+This can be fixed by artificially appending a dot to VERSION:
+VERSION=$(echo $first_line | sed 's/.* \([^ ]*\)$/\1/' | sed 's/^\(^[0-9.]*\).*/\1./')
+
+I'm not sure it's worth worrying about either.
+
+
+Thanks again,
+-- 
+Dominique
