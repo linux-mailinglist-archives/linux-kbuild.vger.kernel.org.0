@@ -2,95 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA9E2D8A35
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Dec 2020 22:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF2F52D941B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Dec 2020 09:23:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395521AbgLLVtT convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 12 Dec 2020 16:49:19 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:30785 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393039AbgLLVtT (ORCPT
+        id S2439205AbgLNIWn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Dec 2020 03:22:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439194AbgLNIWh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Dec 2020 16:49:19 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-19-lcDaBSusM8WSczU6TB4oZA-1; Sat, 12 Dec 2020 21:47:40 +0000
-X-MC-Unique: lcDaBSusM8WSczU6TB4oZA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Sat, 12 Dec 2020 21:47:40 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Sat, 12 Dec 2020 21:47:40 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Masahiro Yamada' <masahiroy@kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-CC:     Dominique Martinet <asmadeus@codewreck.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 3/3] kbuild: rewrite ld-version.sh in shell script
-Thread-Topic: [PATCH 3/3] kbuild: rewrite ld-version.sh in shell script
-Thread-Index: AQHW0KfRQeCeMjpix0eG5Uz36Tqg2qnz/UVA
-Date:   Sat, 12 Dec 2020 21:47:40 +0000
-Message-ID: <ff1adc79f7884ba1a1dcbdd806e81d7b@AcuMS.aculab.com>
-References: <20201212165431.150750-1-masahiroy@kernel.org>
- <20201212165431.150750-3-masahiroy@kernel.org>
-In-Reply-To: <20201212165431.150750-3-masahiroy@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Mon, 14 Dec 2020 03:22:37 -0500
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2037C0613CF
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Dec 2020 00:21:56 -0800 (PST)
+Received: by mail-vs1-xe41.google.com with SMTP id u7so8530802vsg.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Dec 2020 00:21:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=MgM3pkEsL1Mi0tpGy+KueqxXpvZ/ZcT7AAnI7FkeiUU=;
+        b=OAwFQOyeMoN0i462DHGlhdqyMlvO4cAkF04y3OKYpP0zupEe0Ia0Mjqnmy22bbgZzU
+         Oc+WCDNLZ1a1+GXbexcS3V4a0tO2nMKuobEsPZif0tsUbRSnHWuVKIyNfB7CWlKvZZSp
+         MnnSsUD287EEYnunW9HY8BlXgcOWOuugT0cBfUcXghUs3r2kBcfouGjAeSNa5BfHWfN+
+         Yuu/cHhGYh1aoeXbtppwi5W4gqZkWS+l5cu/bqntyh3tb3vQe4XHusTJ9siFqfy9hYlb
+         Z5apOF1VxKM4xpmlA/TQYj1+q5TdPFwJyPF3/NbNRTJhYMNB1W4jHWpPxZ1LYVQrdwjC
+         ZaqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=MgM3pkEsL1Mi0tpGy+KueqxXpvZ/ZcT7AAnI7FkeiUU=;
+        b=rSg2tZBqSJSzUHkkT+HOktasJRIlj2qIciP3R9hY+q27Mr41gQIvBw+s3xAvuZ4YmU
+         jq/TxGfdgkICIj85GZkOcTiXgIK/eeNZb7oEMzt0TUlgBd9fG2/9rUQYEYllPgpZdP7c
+         SEdLBy4S+X3tqTBW50H4BJpboNAGmuox0qfhCF218dnvrCgthS7UioLsCrrvIO/NJU0b
+         efBP15IcP8PdDS4IcuG1MzshSKH6T/dZ9SgUizD8nLPM4C0jLk9TaH2oI2hpY91Hd7iO
+         oRyCOID2r3sOU8mFrWabfPzIr7+lJXtP4TtZYV8PuBIrORzcvxnQLVhzK0Oc5OPNfVU0
+         Q0ww==
+X-Gm-Message-State: AOAM532AR6c3b3+sZFz0TYcTtFlwxbTWAzLhUD5k82cTjvHR60bbaF/L
+        WjexDkD4U5vt5NGyosjYAWHnbKMktLJw7rvFjnE=
+X-Google-Smtp-Source: ABdhPJw+tLYZMugdjoe1XmE5CBT8qq6A21Ekcedv8h3RoHkpvKlktLcMUQntMQHiZdvYuh1MXyKKCe29xtId2WA+2Hk=
+X-Received: by 2002:a67:32d4:: with SMTP id y203mr22025246vsy.30.1607934115862;
+ Mon, 14 Dec 2020 00:21:55 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+From:   John Millikin <jmillikin@gmail.com>
+Date:   Mon, 14 Dec 2020 17:21:45 +0900
+Message-ID: <CAL1ky9r9FutN2baRhV_WO-stV1FHKq-par4uv-VfCdofcGhSVg@mail.gmail.com>
+Subject: [PATCH] lib/raid6: Let $(UNROLL) rules work with BSD userland.
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada
-> Sent: 12 December 2020 16:55
-> 
-> This script was written in awk in spite of the file extension '.sh'.
-> Rewrite it as a shell script.
-...
-> +#
-> +# Usage: $ ./scripts/ld-version.sh ld
-> +#
-> +# Print the linker version of `ld' in a 5 or 6-digit form
-> +# such as `23501' for GNU ld 2.35.1 etc.
-> +
-> +first_line="$($* --version | head -n 1)"
-> +
-> +if ! ( echo $first_line | grep -q "GNU ld"); then
-> +	echo 0
-> +	exit 1
-> +fi
-> +
-> +# Distributions may append an extra string like 2.35-15.fc33
-> +# Take the part that consists of numbers and dots.
-> +VERSION=$(echo $first_line | sed 's/.* \([^ ]*\)$/\1/' | sed 's/^\(^[0-9.]*\).*/\1/')
-> +MAJOR=$(echo $VERSION | cut -d . -f 1)
-> +MINOR=$(echo $VERSION | cut -d . -f 2)
-> +PATCHLEVEL=$(echo $VERSION | cut -d . -f 3)
-> +printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
+BSD awk is fussy about the order of '-v' and '-f' flags, and it requires
+a space after the flag name. GNU awk is fine with both forms, so the
+definition of 'cmd_unroll' can be trivially tweaked to let the lib/raid6
+Makefile work with either awk.
 
+Signed-off-by: John Millikin <john@john-millikin.com>
+---
+ lib/raid6/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hmmmm.....
-You've managed to convert an awk script into something that requires
-sh, head, grep, sed (twice), and cut (thrice).
-Plus (probably) a few sub-shells.
+diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
+index b4c0df6d706d..c770570bfe4f 100644
+--- a/lib/raid6/Makefile
++++ b/lib/raid6/Makefile
+@@ -48,7 +48,7 @@ endif
+ endif
 
-It is quite ease to do it all in all in the shell.
+ quiet_cmd_unroll = UNROLL  $@
+-      cmd_unroll = $(AWK) -f$(srctree)/$(src)/unroll.awk -vN=$* < $< > $@
++      cmd_unroll = $(AWK) -v N=$* -f $(srctree)/$(src)/unroll.awk < $< > $@
 
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+ targets += int1.c int2.c int4.c int8.c int16.c int32.c
+ $(obj)/int%.c: $(src)/int.uc $(src)/unroll.awk FORCE
+-- 
+2.24.3 (Apple Git-128)
