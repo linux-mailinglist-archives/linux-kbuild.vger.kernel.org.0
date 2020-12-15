@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A77382DAF74
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Dec 2020 15:53:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EAB52DAF70
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Dec 2020 15:53:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730067AbgLOOvE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Dec 2020 09:51:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49503 "EHLO
+        id S1729793AbgLOOwz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Dec 2020 09:52:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42436 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729753AbgLOOu7 (ORCPT
+        by vger.kernel.org with ESMTP id S1730060AbgLOOvj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Dec 2020 09:50:59 -0500
+        Tue, 15 Dec 2020 09:51:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1608043771;
+        s=mimecast20190719; t=1608043808;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
         bh=g82W2NDlb3F/2nkwu09WA/WIdR3504dMkGJCwJPAUrc=;
-        b=Oe1hBmI6lR+aDrHWNvm3mlRF54cLCCNZVZAOmUV2yIyAbAYmdhaBg3ha6vrNxeoQp+GY64
-        C5RdC6TBTyWZtlt1WcR/miqVP5EEFvcTnN1eMLDj8PA/UjshV7xG9KXFYpBf8YNh4NieLq
-        ZneYUrUjJTCRGSn1myhSWf8suRH/QAc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-vN0INSP-MTKi4MKtuRG6ow-1; Tue, 15 Dec 2020 09:49:28 -0500
-X-MC-Unique: vN0INSP-MTKi4MKtuRG6ow-1
-Received: by mail-ed1-f70.google.com with SMTP id h5so10120776edq.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 15 Dec 2020 06:49:28 -0800 (PST)
+        b=azIbYM/ZBnR2Q7qIKalu02jzqj3gjorTtWtu0vRi0es/iL3qWrK2jSFEVlLcpxdiG39eT7
+        3mpIPwGbbPjo3QGno7kHae5sAxpSeMg394YihODnVizrnY/2al52y67arOK5e0appM5QPo
+        qmo0cYFK+QNpycXN8udMlS6RCpWGKxY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-pTo0uH0_MU6soswNjsO9gA-1; Tue, 15 Dec 2020 09:50:06 -0500
+X-MC-Unique: pTo0uH0_MU6soswNjsO9gA-1
+Received: by mail-ej1-f72.google.com with SMTP id n17so6126809eja.23
+        for <linux-kbuild@vger.kernel.org>; Tue, 15 Dec 2020 06:50:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=g82W2NDlb3F/2nkwu09WA/WIdR3504dMkGJCwJPAUrc=;
-        b=Ciak+K5P9q9+FidCWLLEBZ8vuif3kqLGJ3qxxFCreaX/jgif3nhVbQYcjAiEQk17EW
-         J+zfMjZFVGJcyS6VQwRQgCv8vBP6KKNYT8IVcnlFR6U5qVEZc1p/B1guUd04KUbEcMxN
-         f372ULqyuoFPjirbAYWxd+p+8WoyidTpZ8s85UYkgbhYPV5+E2eJ+he3PUc2cCa/AwDE
-         olLjCV3CUc2l50P+vlDlfehdefkBM7QGzuhs7CzKMylq1/JjlrzyQM4ZoE/wdUIikUjj
-         5WHh1OvOIzMhiNEP90OHXSfcJJomK75yV4yrmsYPaoeFbwhFXJeHUyeCNhhuPXv7GHTa
-         PpcA==
-X-Gm-Message-State: AOAM531GyPD1OWy7bTtYhEDkd+pIp9XxQRZwiSwxrOCNIyeYKctNEVJt
-        O7vAWrR9+C/T2Pz5G+vPnQsQNgzvMdlAORkNT6YBU6nOPa8WPUHah6Wc6KOB0e2Rkoq1iOE/1Bd
-        ryW7JNeeqddQR5yY+QpbLIb4CwI1hflvVmUhXTm2NKwlyMdhKwzn6uZdPtCr3TTHK8yAKfj4f+P
-        2D
-X-Received: by 2002:a17:906:52d9:: with SMTP id w25mr26439198ejn.504.1608043766302;
-        Tue, 15 Dec 2020 06:49:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynqyujrPnrTPV5tSo4rm+iAKS1BPy6QptDeHUniBMDvhMDAyyjVVCGGP97a0aElN4Sm1ZK7A==
-X-Received: by 2002:a17:906:52d9:: with SMTP id w25mr26439139ejn.504.1608043765534;
-        Tue, 15 Dec 2020 06:49:25 -0800 (PST)
+        b=YTOWHzw/maOpGB9GegncihKs5IEyaEHpxqy2vqFp0l91Uy0sClW4ZnCfvCW4yToWaY
+         Fw1tTeVZoR4bV6Vg7eWP3ed/0BBDr3tmACUd/E7ozx237tvu0sYqN35dWtN5vZOFtQBV
+         OaZHUOyuairIzz2btyiGbreka03bqOmhL1HEhCh+U8Y6jMXn8nSFb9PiiQ0RdHCg6vfC
+         LewH+Szj2VT02/pTcLboM7Bz8rZLB0VpTANF2lUYMMjeCFk1MztSzdmrah+OR/5vGPXr
+         UEfwKsUNghDa5TjKv8rE/P2opIbq7HasgYbXapJ9JqO2W4MCOynDA5MfXWyC8Oui1vgA
+         0iRQ==
+X-Gm-Message-State: AOAM530OH/6NJkuTUnYocPXWLF+z5tinn9G+pSPR1Th3u21ZRryQyUyX
+        ZuPbnbwUl3UbJZ+vm+lCN4O5sek4sjR0XUgJvx7fjk4MXejW9zEkoD2b5VlJPcf0y466wDBnyly
+        ifE06gxE+Lg7mM7PJZ/BFJZu5NH0BVmFnzEnrHN2l+gzfKzf9OCTC93p0BdglnQaywlYuCeyU6p
+        SO
+X-Received: by 2002:a50:c315:: with SMTP id a21mr2765223edb.50.1608043804035;
+        Tue, 15 Dec 2020 06:50:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw75S876+jgCh53DT4YG8YIqhLJ4RhgtyERhagsNiAsZkJamWfkHbNZeOFamL9hRs06DzPinQ==
+X-Received: by 2002:a50:c315:: with SMTP id a21mr2765144edb.50.1608043803034;
+        Tue, 15 Dec 2020 06:50:03 -0800 (PST)
 Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id j7sm19166716edp.52.2020.12.15.06.49.24
+        by smtp.gmail.com with ESMTPSA id cb14sm1588179ejb.105.2020.12.15.06.50.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 06:49:24 -0800 (PST)
+        Tue, 15 Dec 2020 06:50:02 -0800 (PST)
 Subject: Re: [PATCH v2 6/9] platform/surface: aggregator: Add dedicated bus
  and device type
 To:     Maximilian Luz <luzmaximilian@gmail.com>,
@@ -70,8 +70,8 @@ Cc:     Mark Gross <mgross@linux.intel.com>,
 References: <20201203212640.663931-1-luzmaximilian@gmail.com>
  <20201203212640.663931-7-luzmaximilian@gmail.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <c6b47bf5-a15b-acc0-f4be-799bda0cd36f@redhat.com>
-Date:   Tue, 15 Dec 2020 15:49:24 +0100
+Message-ID: <8caa011f-a3b8-4f93-306e-fe4e8792a31b@redhat.com>
+Date:   Tue, 15 Dec 2020 15:50:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
