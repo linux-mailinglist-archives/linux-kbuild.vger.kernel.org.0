@@ -2,100 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4DFF2DBB28
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D89742DBB31
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:29:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbgLPGVy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Dec 2020 01:21:54 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:29484 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725274AbgLPGVy (ORCPT
+        id S1725837AbgLPG3H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Dec 2020 01:29:07 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:39937 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725812AbgLPG3H (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Dec 2020 01:21:54 -0500
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0BG6KhPM015053;
-        Wed, 16 Dec 2020 15:20:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0BG6KhPM015053
+        Wed, 16 Dec 2020 01:29:07 -0500
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0BG6Rpx8005555;
+        Wed, 16 Dec 2020 15:27:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0BG6Rpx8005555
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608099643;
-        bh=RzVHFM8iY76lZlDdNWArl3gO6UPVSG6umbPbfFwlJEQ=;
+        s=dec2015msa; t=1608100071;
+        bh=gpPjJysJvaYX+2trqIsbs8noZs8c0RM6aINeItaGmPw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NTneXKdgdVgkNQ41o6nYYRcE+rF58eiFSKQdLgn7O9dkt6RduT6kt9mNrPlHOAGCk
-         8/Zg0cvqExw92vJu3uQk3soXuCK6rXXU0h4YNHCY341NiDuSIv5z/lp/QO0oQImYWj
-         Do2No12q/PUajq572/sTO+nlIhzepEtP+gsBs6IojuFOrdS9a8hHZYaox1yINk1w3H
-         C8f8Js+JMf8UpIe+jVaERFvImb0CphJhHzhpk7iauzNkMQJQeOX3o/iAnbdmZb7Uj5
-         BQQBNV8xzbQAaaj3ujKRNZUdVK5Z8SF3KnS+I0vIYQY7YX254n47IgnbnTKGDJXsmO
-         Ju0CqcgOQMKqQ==
-X-Nifty-SrcIP: [209.85.215.177]
-Received: by mail-pg1-f177.google.com with SMTP id c12so16422050pgm.4;
-        Tue, 15 Dec 2020 22:20:43 -0800 (PST)
-X-Gm-Message-State: AOAM530jZaCbGztRIlvBluyPvB7QfYC6AJh1WKFJHePwuQgYjoisa0ur
-        X05OkHmzqjz2F0mbEZ2Z3RfH6r9FQl3Cf9Rv9hQ=
-X-Google-Smtp-Source: ABdhPJxQlvJPe4n1EYyD3lIQ683f0pdbFlLmJE05qn+5mc0dAIDw2pHO53kvOmBoNmnKyrGE6JFfZ9vFB1Ne5+oEIm8=
-X-Received: by 2002:a62:d142:0:b029:19e:62a0:ca1a with SMTP id
- t2-20020a62d1420000b029019e62a0ca1amr30519520pfl.80.1608099642801; Tue, 15
- Dec 2020 22:20:42 -0800 (PST)
+        b=0c+nKeAQjjbSB++0kQUYMHQpU9UW2GCAGu7KnG9yXVMEE6ezXEq3ujrRSicv4tuqL
+         HZi8cKRd6RKRTKeZj9pAmKQJbvuWU9Ul6RzEvhONegK3zJARWxard8pLxUun/cvEWr
+         2YOQsTea3NmpjNryFqPEoBhxVai/1jaHnTcKXh/tAnBIrPPznwuDxG7L4vhKcy+P4h
+         VvFwU3vTZsKNk1mVP20lX21kvwXaaF7VUuMG6N4a5Rlw3c4WVpOTY6NZURgB49/HPX
+         H8dGCCOxIPYpO6tz1DEwY2N2DQMyBGZKyF81Op5vAaA2jE7BuXvjV+aVKaIX+dmRfl
+         f7RypZy50cWjQ==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id h186so5492939pfe.0;
+        Tue, 15 Dec 2020 22:27:51 -0800 (PST)
+X-Gm-Message-State: AOAM530aGKc8C9xIBB3IEIEK0uZsD1VQnoY6pxk735ykaj+Jq/ns9Ihq
+        NXZPKsP+1ogii0ZQ/FZRDP+ud6J6REHvY6zGgmI=
+X-Google-Smtp-Source: ABdhPJwth77/SETECJKEfVmNAa0dfNH92VGQl4pH/8wML5QfD2H392sTXSa/KkknYFgE4i1vMyDcAxRaS93kJVAUNxE=
+X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id
+ n25-20020a62e5190000b0290197bcec7c0cmr31336197pff.63.1608100070724; Tue, 15
+ Dec 2020 22:27:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201165222.2001985-1-qperret@google.com>
-In-Reply-To: <20201201165222.2001985-1-qperret@google.com>
+References: <20201201103418.675850-1-masahiroy@kernel.org>
+In-Reply-To: <20201201103418.675850-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 16 Dec 2020 15:20:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARaPZP0FkOCzq0M+9uA6TOL-TDPi4+rOjRBTsTefP_3Zw@mail.gmail.com>
-Message-ID: <CAK7LNARaPZP0FkOCzq0M+9uA6TOL-TDPi4+rOjRBTsTefP_3Zw@mail.gmail.com>
-Subject: Re: [PATCH v2] modpost: turn static exports into error
-To:     Quentin Perret <qperret@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Matthias Maennich <maennich@google.com>
+Date:   Wed, 16 Dec 2020 15:27:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQQwFY75fqfzU4EFJLbTP1KUmAAnL8iJfSMwV7pjhvF+A@mail.gmail.com>
+Message-ID: <CAK7LNAQQwFY75fqfzU4EFJLbTP1KUmAAnL8iJfSMwV7pjhvF+A@mail.gmail.com>
+Subject: Re: [PATCH 1/5] modpost: rename merror() to error()
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Quentin Perret <qperret@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 2, 2020 at 1:52 AM Quentin Perret <qperret@google.com> wrote:
+On Tue, Dec 1, 2020 at 7:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
-> Modpost currently reports that as a warning, but clearly this is not a
-> pattern we should allow, and all in-tree occurences should have been
-> fixed by now. So, promote the warn() message to error() to make sure
-> this never happens again.
+> The log function names, warn(), merror(), fatal() are inconsistent.
 >
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Matthias Maennich <maennich@google.com>
-> Signed-off-by: Quentin Perret <qperret@google.com>
+> Commit 2a11665945d5 ("kbuild: distinguish between errors and warnings
+> in modpost") intentionally chose merror() to avoid the conflict with
+> the library function error(). See man page of error(3).
 >
+> But, we are already causing the conflict with warn() because it is also
+> a library function. See man page of warn(3). err() would be a problem
+> for the same reason.
+>
+> The common technique to work around name conflicts is to use macros.
+>
+>     #define error __error
+>     void __error(const char *fmt, ...)
+>     {
+>             <our own implementation>
+>     }
+>
+>     #define warn __warn
+>     void __warn(const char *fmt, ...)
+>     {
+>             <our own implementation>
+>     }
+>
+> In this way, we can implement our own warn() and error(), still we can
+> include <error.h> and <err.h> with no problem.
+>
+> And, commit 93c95e526a4e ("modpost: rework and consolidate logging
+> interface") already did that.
+>
+> Since the log functions are all macros, we can use error() without
+> causing "conflicting types" errors.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+This series, applied to linux-kbuild.
+
+
 > ---
-> v2: now depends on 20201201103418.675850-2-masahiroy@kernel.org
-
-Applied to linux-kbuild. Thanks.
-
-
-> ---
->  scripts/mod/modpost.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+>  scripts/mod/modpost.c | 10 +++++-----
+>  scripts/mod/modpost.h |  2 +-
+>  2 files changed, 6 insertions(+), 6 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 43e00867623a..5562526c8c32 100644
+> index f882ce0d9327..337f6ca4bda3 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -2648,9 +2648,9 @@ int main(int argc, char **argv)
->
->                 for (s = symbolhash[n]; s; s = s->next) {
->                         if (s->is_static)
-> -                               warn("\"%s\" [%s] is a static %s\n",
-> -                                    s->name, s->module->name,
-> -                                    export_str(s->export));
-> +                               error("\"%s\" [%s] is a static %s\n",
-> +                                     s->name, s->module->name,
-> +                                     export_str(s->export));
->                 }
+> @@ -403,8 +403,8 @@ static void sym_update_namespace(const char *symname, const char *namespace)
+>          * actually an assertion.
+>          */
+>         if (!s) {
+> -               merror("Could not update namespace(%s) for symbol %s\n",
+> -                      namespace, symname);
+> +               error("Could not update namespace(%s) for symbol %s\n",
+> +                     namespace, symname);
+>                 return;
 >         }
 >
+> @@ -2226,7 +2226,7 @@ static int check_modname_len(struct module *mod)
+>         else
+>                 mod_name++;
+>         if (strlen(mod_name) >= MODULE_NAME_LEN) {
+> -               merror("module name is too long [%s.ko]\n", mod->name);
+> +               error("module name is too long [%s.ko]\n", mod->name);
+>                 return 1;
+>         }
+>
+> @@ -2319,8 +2319,8 @@ static int add_versions(struct buffer *b, struct module *mod)
+>                         continue;
+>                 }
+>                 if (strlen(s->name) >= MODULE_NAME_LEN) {
+> -                       merror("too long symbol \"%s\" [%s.ko]\n",
+> -                              s->name, mod->name);
+> +                       error("too long symbol \"%s\" [%s.ko]\n",
+> +                             s->name, mod->name);
+>                         err = 1;
+>                         break;
+>                 }
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index 3aa052722233..f453504ad4df 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -202,5 +202,5 @@ enum loglevel {
+>  void modpost_log(enum loglevel loglevel, const char *fmt, ...);
+>
+>  #define warn(fmt, args...)     modpost_log(LOG_WARN, fmt, ##args)
+> -#define merror(fmt, args...)   modpost_log(LOG_ERROR, fmt, ##args)
+> +#define error(fmt, args...)    modpost_log(LOG_ERROR, fmt, ##args)
+>  #define fatal(fmt, args...)    modpost_log(LOG_FATAL, fmt, ##args)
 > --
-> 2.29.2.454.gaff20da3a2-goog
+> 2.27.0
 >
 
 
