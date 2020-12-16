@@ -2,218 +2,157 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFF492DBB1B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABEB02DBB22
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:21:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbgLPGQC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Dec 2020 01:16:02 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:42618 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbgLPGQC (ORCPT
+        id S1725819AbgLPGVB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Dec 2020 01:21:01 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:25431 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725812AbgLPGVB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Dec 2020 01:16:02 -0500
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 0BG6F2b9021987;
-        Wed, 16 Dec 2020 15:15:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0BG6F2b9021987
+        Wed, 16 Dec 2020 01:21:01 -0500
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 0BG6JqRC015239;
+        Wed, 16 Dec 2020 15:19:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0BG6JqRC015239
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608099302;
-        bh=WjYvYBHitWTl78hIJ3zpsk8+geyugv5xaYAU/C+Iltk=;
+        s=dec2015msa; t=1608099592;
+        bh=6pI3W5aqoviNIdAK6AlX95XTyAmFY6eJRLasDg8LFA8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Al75i2o+35o7BMmAxrL4DX8/JLEG5aqVScYUXhGnKAgiufOCvlEoF/biQbXoIEnqT
-         4g4qwZiIE9XUHzuaRedq3NTOFOZLgrhiSJrCXFRH63DSSPiC2OCTPShQl7KC7i5mhJ
-         Ls5O1rupTGM0kgYOgIOrF16nCB7Wf7Niw2QbTNOn1zgTItD4kvcw1jD9wi4UUjfrve
-         H9t3mVWQYKgFRUI7TH8SQM11hD8CZeVnjPH9mlYuKk1GjeMFrgW+ccnjnWAz7Md84Z
-         VAVkbRgqW/+GsoDyMXRbQlAMjF0XU6xLrACYTQpngh13MWge5yaeU7L0Wtc0yO/pQr
-         0YG3W8Yjzlo4g==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id w1so1089097pjc.0;
-        Tue, 15 Dec 2020 22:15:02 -0800 (PST)
-X-Gm-Message-State: AOAM532xL1sruQbDny+Mw4elEVVD333lUyUl8ZrEumRpdXljQvBVsfvk
-        wini5MkozGQkzgD7Rsr0OYY5rDGpoykYTcoSTc8=
-X-Google-Smtp-Source: ABdhPJzMbOqtMu4h/lRssX+FuNaooydGLAxY5ciJFVepXuyQsojuWJBbLcE0reF1NdmjyDJauqav0v+sBjipNmwvP0s=
-X-Received: by 2002:a17:902:9b91:b029:db:f003:c5eb with SMTP id
- y17-20020a1709029b91b02900dbf003c5ebmr18091027plp.1.1608099301714; Tue, 15
- Dec 2020 22:15:01 -0800 (PST)
+        b=Gx6OXDgdCPfRd0u1dkmsE8LkbtpmP0DDLYZZCnyUQVQfPXFSr5Jxzqj4/K7UppHJ+
+         4mAhy6F/t3Cj4OLzmJr7e8O9sZi615ifalv/r67nBtDGVSiv6MxuL+l/kCBI1LX2dA
+         LWO+X4lkbyZH+LIQM7j/gTGCOE4j4JSwAbrpby+JoVxLjp0bjsPSk9I0iQqBsYgkET
+         g2hNh3037wGUCh2rhnUFZVXMdm/nR2/q6wAhERjC5vf+MTI7TPBMBYf0eJixfLTuXJ
+         ZaA6pVkeRbjtK2kfpgWclelAQcQlrt7TTdefPrPbvKK6x6llsu602ZD2XIGhsoQCOa
+         KupNgTFCagMdA==
+X-Nifty-SrcIP: [209.85.215.175]
+Received: by mail-pg1-f175.google.com with SMTP id c22so1464087pgg.13;
+        Tue, 15 Dec 2020 22:19:52 -0800 (PST)
+X-Gm-Message-State: AOAM533BwVO5bYMJ18nRZ6/dLITNZBtUfAK2rFt2vuC5miB6+TaBErpj
+        h7FQK7pjOgvULN+YNJ0boLUUBMoMU4KWUY8neOA=
+X-Google-Smtp-Source: ABdhPJymRTWbp/4FZLaBMbqJiLTjYwk+ckfIymQ7g6q+gyKMR31IEUWMymgU8echz8AHO5aWmFmFC0gXO/Gn6kZkh10=
+X-Received: by 2002:a65:6a16:: with SMTP id m22mr32080061pgu.175.1608099591440;
+ Tue, 15 Dec 2020 22:19:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103054425.59251-1-chao.wang@ucloud.cn> <CAK7LNARnmJRy1NPBDkgNsoe_TqpD=HJhmri4YHjXjscGZ-neWw@mail.gmail.com>
- <20201123150452.GA68187@MacBook-Pro-2> <CAK7LNASH7Pj9eUdxF-sp1_Ap+uA9jEtsXa--pUDDw_pNVLtviA@mail.gmail.com>
- <20201208092035.GA96434@MacBook-Pro-2.local> <20201208143117.GA3333762@wtfbox.lan>
-In-Reply-To: <20201208143117.GA3333762@wtfbox.lan>
+References: <20201203175551.573123-1-masahiroy@kernel.org> <CABCJKufyBcN-foh0kj5kUsn-wiZMJ_a8ZjB72jaTmN2GEVzVNA@mail.gmail.com>
+In-Reply-To: <CABCJKufyBcN-foh0kj5kUsn-wiZMJ_a8ZjB72jaTmN2GEVzVNA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 16 Dec 2020 15:14:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS=wdCObfX3x8CQmXf8HsrKAjz+v+XVUCxVg63pxy8MXg@mail.gmail.com>
-Message-ID: <CAK7LNAS=wdCObfX3x8CQmXf8HsrKAjz+v+XVUCxVg63pxy8MXg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add extra-y to targets-for-modules
-To:     Artem Savkov <artem.savkov@gmail.com>
-Cc:     WANG Chao <chao.wang@ucloud.cn>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>
+Date:   Wed, 16 Dec 2020 15:19:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQmSOhGqB-MRnpxVXPF0=cftvZGWrgRZtjcxCOX7E+ZoQ@mail.gmail.com>
+Message-ID: <CAK7LNAQmSOhGqB-MRnpxVXPF0=cftvZGWrgRZtjcxCOX7E+ZoQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: avoid split lines in .mod files
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 8, 2020 at 11:31 PM Artem Savkov <artem.savkov@gmail.com> wrote:
+On Fri, Dec 4, 2020 at 3:46 AM 'Sami Tolvanen' via Clang Built Linux
+<clang-built-linux@googlegroups.com> wrote:
 >
-> On Tue, Dec 08, 2020 at 05:20:35PM +0800, WANG Chao wrote:
-> > Sorry for the late reply.
-> >
-> > On 11/25/20 at 10:42P, Masahiro Yamada wrote:
-> > > On Tue, Nov 24, 2020 at 12:05 AM WANG Chao <chao.wang@ucloud.cn> wrote:
-> > > >
-> > > > On 11/23/20 at 02:23P, Masahiro Yamada wrote:
-> > > > > On Tue, Nov 3, 2020 at 3:23 PM WANG Chao <chao.wang@ucloud.cn> wrote:
-> > > > > >
-> > > > > > extra-y target doesn't build for 'make M=...' since commit 6212804f2d78
-> > > > > > ("kbuild: do not create built-in objects for external module builds").
-> > > > > >
-> > > > > > This especially breaks kpatch, which is using 'extra-y := kpatch.lds'
-> > > > > > and 'make M=...' to build livepatch patch module.
-> > > > > >
-> > > > > > Add extra-y to targets-for-modules so that such kind of build works
-> > > > > > properly.
-> > > > > >
-> > > > > > Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
-> > > > > > ---
-> > > > > >  scripts/Makefile.build | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > > > > index ae647379b579..0113a042d643 100644
-> > > > > > --- a/scripts/Makefile.build
-> > > > > > +++ b/scripts/Makefile.build
-> > > > > > @@ -86,7 +86,7 @@ ifdef need-builtin
-> > > > > >  targets-for-builtin += $(obj)/built-in.a
-> > > > > >  endif
-> > > > > >
-> > > > > > -targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> > > > > > +targets-for-modules := $(extra-y) $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> > > > > >
-> > > > > >  ifdef need-modorder
-> > > > > >  targets-for-modules += $(obj)/modules.order
-> > > > > > --
-> > > > > > 2.29.1
-> > > > > >
-> > > > >
-> > > > > NACK.
-> > > > >
-> > > > > Please fix your Makefile.
-> > > > >
-> > > > > Hint:
-> > > > > https://patchwork.kernel.org/project/linux-kbuild/patch/20201123045403.63402-6-masahiroy@kernel.org/
-> > > > >
-> > > > >
-> > > > > Probably what you should use is 'targets'.
-> > > >
-> > > > I tried with 'targets' and 'always-y'. Both doesn't work for me.
-> > > >
-> > > > I narraw it down to the following example:
-> > > >
-> > > > cat > Makefile << _EOF_
-> > > > obj-m += foo.o
-> > > >
-> > > > ldflags-y += -T $(src)/kpatch.lds
-> > > > always-y += kpatch.lds
-> > > >
-> > > > foo-objs += bar.o
-> > > >
-> > > > all:
-> > > >         make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
-> > > > clean:
-> > > >         make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-> > > > _EOF_
-> > > >
-> > > > Take a look into scripts/Makefile.build:488:
-> > > >
-> > > > __build: $(if $(KBUILD_BUILTIN), $(targets-for-builtin)) \
-> > > >          $(if $(KBUILD_MODULES), $(targets-for-modules)) \
-> > > >          $(subdir-ym) $(always-y)
-> > > >         @:
-> > > >
-> > > > 'always-y' is built after 'targets-for-modules'. This makes
-> > > > 'targets-for-modules' fails because kpatch.lds isn't there.
-> > >
-> > >
-> > > Heh, you rely on the targets built from left to right,
-> > > and you have never thought Make supports the parallel option -j.
-> >
-> > You're right. I missed that.
-> >
-> > >
-> > >
-> > > You need to specify the dependency if you expect objects
-> > > are built in the particular order.
-> > >
-> > > However, in this case, using ldflags-y looks wrong
-> > > in the first place.
-> > >
-> > > The linker script is used when combining the object
-> > > as well as the final link of *.ko
+> Hi Masahiro,
 >
-> We want linker script to be used on both those steps, otherwise modpost
-> fails.
-
-
-In that case, does the following work?
-(untested)
-
-
-
-diff --git a/kmod/patch/Makefile b/kmod/patch/Makefile
-index e017b17..02d4c66 100644
---- a/kmod/patch/Makefile
-+++ b/kmod/patch/Makefile
-@@ -12,7 +12,9 @@ endif
-
- obj-m += $(KPATCH_NAME).o
- ldflags-y += -T $(src)/kpatch.lds
--extra-y := kpatch.lds
-+targets += kpatch.lds
-+
-+$(obj)/$(KPATCH_NAME).o: $(obj)/kpatch.lds
-
- $(KPATCH_NAME)-objs += patch-hook.o output.o
-
-
-
-
-
+> On Thu, Dec 3, 2020 at 9:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > "xargs echo" is not a safe way to remove line breaks because the input
+> > may exceed the command line limit and xargs may break it up into
+> > multiple invocations of echo. This should never happen because
+> > scripts/gen_autoksyms.sh expects all undefined symbols are placed in
+> > the second line of .mod files.
+> >
+> > One possible way is to replace "xargs echo" with
+> > "sed ':x;N;$!bx;s/\n/ /g'" or something, but I rewrote the code by
+> > using awk because it is more readable.
+> >
+> > This issue was reported by Sami Tolvanen; in his Clang LTO patch set,
+> > $(multi-used-m) is no longer an ELF object, but a thin archive that
+> > contains LLVM bitcode files. llvm-nm prints out symbols for each
+> > archive member separately, which results a lot of dupications, in some
+> > places, beyond the system-defined limit.
+> >
+> > This problem must be fixed irrespective of LTO, and we must ensure
+> > zero possibility of having this issue.
+> >
+> > Link: https://lkml.org/lkml/2020/12/1/1658
+> > Reported-by: Sami Tolvanen <samitolvanen@google.com>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/Makefile.build | 12 ++++--------
+> >  1 file changed, 4 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index ae647379b579..4c058f12dd73 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -252,6 +252,9 @@ objtool_dep = $(objtool_obj)                                        \
+> >  ifdef CONFIG_TRIM_UNUSED_KSYMS
+> >  cmd_gen_ksymdeps = \
+> >         $(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-target).cmd
+> > +
+> > +# List module undefined symbols
+> > +undefined_syms = $(NM) $< | $(AWK) '$$1 == "U" { printf("%s%s", x++ ? " " : "", $$2) }';
+> >  endif
+> >
+> >  define rule_cc_o_c
+> > @@ -271,13 +274,6 @@ define rule_as_o_S
+> >         $(call cmd,modversions_S)
+> >  endef
+> >
+> > -# List module undefined symbols (or empty line if not enabled)
+> > -ifdef CONFIG_TRIM_UNUSED_KSYMS
+> > -cmd_undef_syms = $(NM) $< | sed -n 's/^  *U //p' | xargs echo
+> > -else
+> > -cmd_undef_syms = echo
+> > -endif
+> > -
+> >  # Built-in and composite module parts
+> >  $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+> >         $(call if_changed_rule,cc_o_c)
+> > @@ -285,7 +281,7 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+> >
+> >  cmd_mod = { \
+> >         echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
+> > -       $(cmd_undef_syms); \
+> > +       $(undefined_syms) echo; \
+> >         } > $@
+> >
+> >  $(obj)/%.mod: $(obj)/%.o FORCE
 >
-> It looks like the right thing to do here is leave ldflags-y in, get rid
-> of always-y/extra-y altogether and specify our linker script as a
-> dependency for the object.
+> Thanks for the patch! I confirmed that this works with llvm-nm and
+> bitcode files, but it does still produce plenty of duplicates,
+
+Actually, the duplication does not matter
+because scripts/gen_autoksyms.sh line 46
+calls 'sort -u' anyway.
+Only the problem is we have bigger .mod files, though.
+
+We do not have a good reason
+to move 'sort -u' for now.
+
+
+
+
+> even
+> though they now stay on one line. I'm not sure if the readability of
+> the .mod file matters though. Please feel free to add:
 >
-> > I don't have a clean fix to kpatch right now.
-> >
-> > I'm looping kpatch forks in. They're also looking at this right now:
-> >
-> > https://github.com/dynup/kpatch/pull/1149
-> >
-> > Thanks
-> > WANG Chao
-> >
-> > >
-> > >
-> > > > For 'targets', in case of OOT, does not seem to be useful.
-> > > >
-> > > > What change do you suggest to make to fix this kind of Makefile?
-> > > >
-> > > > Thanks,
-> > > > WANG Chao
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > > Masahiro Yamada
-> > >
-> >
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+>
+> Sami
 >
 > --
-> Regards,
->   Artem Savkov
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CABCJKufyBcN-foh0kj5kUsn-wiZMJ_a8ZjB72jaTmN2GEVzVNA%40mail.gmail.com.
 
 
 
