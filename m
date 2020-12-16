@@ -2,151 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D89742DBB31
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C9932DBB59
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Dec 2020 07:44:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725837AbgLPG3H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Dec 2020 01:29:07 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:39937 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbgLPG3H (ORCPT
+        id S1725829AbgLPGoM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Dec 2020 01:44:12 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:37143 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725824AbgLPGoM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Dec 2020 01:29:07 -0500
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0BG6Rpx8005555;
-        Wed, 16 Dec 2020 15:27:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0BG6Rpx8005555
+        Wed, 16 Dec 2020 01:44:12 -0500
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0BG6h8gp005768
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Dec 2020 15:43:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0BG6h8gp005768
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608100071;
-        bh=gpPjJysJvaYX+2trqIsbs8noZs8c0RM6aINeItaGmPw=;
+        s=dec2015msa; t=1608100989;
+        bh=/MPzK9zwfCfzRXuQ/4uA2kQi/dY74KHG/tN8xcPYXTw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0c+nKeAQjjbSB++0kQUYMHQpU9UW2GCAGu7KnG9yXVMEE6ezXEq3ujrRSicv4tuqL
-         HZi8cKRd6RKRTKeZj9pAmKQJbvuWU9Ul6RzEvhONegK3zJARWxard8pLxUun/cvEWr
-         2YOQsTea3NmpjNryFqPEoBhxVai/1jaHnTcKXh/tAnBIrPPznwuDxG7L4vhKcy+P4h
-         VvFwU3vTZsKNk1mVP20lX21kvwXaaF7VUuMG6N4a5Rlw3c4WVpOTY6NZURgB49/HPX
-         H8dGCCOxIPYpO6tz1DEwY2N2DQMyBGZKyF81Op5vAaA2jE7BuXvjV+aVKaIX+dmRfl
-         f7RypZy50cWjQ==
-X-Nifty-SrcIP: [209.85.210.181]
-Received: by mail-pf1-f181.google.com with SMTP id h186so5492939pfe.0;
-        Tue, 15 Dec 2020 22:27:51 -0800 (PST)
-X-Gm-Message-State: AOAM530aGKc8C9xIBB3IEIEK0uZsD1VQnoY6pxk735ykaj+Jq/ns9Ihq
-        NXZPKsP+1ogii0ZQ/FZRDP+ud6J6REHvY6zGgmI=
-X-Google-Smtp-Source: ABdhPJwth77/SETECJKEfVmNAa0dfNH92VGQl4pH/8wML5QfD2H392sTXSa/KkknYFgE4i1vMyDcAxRaS93kJVAUNxE=
-X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id
- n25-20020a62e5190000b0290197bcec7c0cmr31336197pff.63.1608100070724; Tue, 15
- Dec 2020 22:27:50 -0800 (PST)
+        b=Nch+uGlyCRL2FKI3NZVcn4rWKF0LJmhcNuCmNPYjEJiXpZxuTwabOol2VtulhpdF8
+         o28WqgnYtU7FSeNgYrDOyq009spqqcHghono0XfpNPIqwce2+M2DXXfwn4pylhWOGn
+         +sTFbGOd95X1pDBTxBqkI3LzVBXovr/PZem4u0zSyBDOjwPiLt5qkefj0UQquYkoHx
+         5Th1ceJFkzizL4t9b9aO4wG9Dd/RuH2/ZreZ1Elyxtzdsxuunght10odMj/ARD3Vnk
+         wnqXNKVk1dPyfhlyKIlLs5qMW11hw+Qt+GLjWGz3VMYPOVYbNvD5bmAn8VKxjD6nQW
+         s2RMbdn2NZmyg==
+X-Nifty-SrcIP: [209.85.210.178]
+Received: by mail-pf1-f178.google.com with SMTP id h186so5514335pfe.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 15 Dec 2020 22:43:08 -0800 (PST)
+X-Gm-Message-State: AOAM532VaOucxWmpXWnts/A97oxDJh851ysZKPuVwySIDngKFifmPksv
+        J1+eggkNDFjovcN/Z2eeg7YYEJonApCkj2cI0fk=
+X-Google-Smtp-Source: ABdhPJxyrgUay851vCfle9WXgK3QIO/u8A7BBYc2nHyZx45dKSIMoDNv8VVKz6kDBdb7Iwjq1Pt14OK6i4cA5J89C9s=
+X-Received: by 2002:a63:4821:: with SMTP id v33mr32071486pga.7.1608100988069;
+ Tue, 15 Dec 2020 22:43:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201103418.675850-1-masahiroy@kernel.org>
-In-Reply-To: <20201201103418.675850-1-masahiroy@kernel.org>
+References: <CAL1ky9qQtFnJ0+2BBu6OwafaZex9_i+DQJgs3Nij2J06tge26w@mail.gmail.com>
+In-Reply-To: <CAL1ky9qQtFnJ0+2BBu6OwafaZex9_i+DQJgs3Nij2J06tge26w@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 16 Dec 2020 15:27:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQQwFY75fqfzU4EFJLbTP1KUmAAnL8iJfSMwV7pjhvF+A@mail.gmail.com>
-Message-ID: <CAK7LNAQQwFY75fqfzU4EFJLbTP1KUmAAnL8iJfSMwV7pjhvF+A@mail.gmail.com>
-Subject: Re: [PATCH 1/5] modpost: rename merror() to error()
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Quentin Perret <qperret@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 16 Dec 2020 15:42:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS53U1rFycYdm9skPdTEoeYgh--eioYLV_8KYKqPDJ==Q@mail.gmail.com>
+Message-ID: <CAK7LNAS53U1rFycYdm9skPdTEoeYgh--eioYLV_8KYKqPDJ==Q@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Support building mconf with vendor sysroot ncurses.
+To:     John Millikin <jmillikin@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 7:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Dec 14, 2020 at 6:30 PM John Millikin <jmillikin@gmail.com> wrote:
 >
-> The log function names, warn(), merror(), fatal() are inconsistent.
+> Adds a new fallback path in the ncurses locator for mconf to support
+> host compilers with a non-default sysroot.
 >
-> Commit 2a11665945d5 ("kbuild: distinguish between errors and warnings
-> in modpost") intentionally chose merror() to avoid the conflict with
-> the library function error(). See man page of error(3).
+> This is similar to the hardcoded search for ncurses under
+> '/usr/include', but can support compilers that keep their default
+> header and library directories elsewhere.
 >
-> But, we are already causing the conflict with warn() because it is also
-> a library function. See man page of warn(3). err() would be a problem
-> for the same reason.
+> For nconfig, do nothing because the only vendor compiler I'm aware
+> of with this layout (Apple Clang) ships an ncurses version that's too
+> old for nconfig anyway.
 >
-> The common technique to work around name conflicts is to use macros.
->
->     #define error __error
->     void __error(const char *fmt, ...)
->     {
->             <our own implementation>
->     }
->
->     #define warn __warn
->     void __warn(const char *fmt, ...)
->     {
->             <our own implementation>
->     }
->
-> In this way, we can implement our own warn() and error(), still we can
-> include <error.h> and <err.h> with no problem.
->
-> And, commit 93c95e526a4e ("modpost: rework and consolidate logging
-> interface") already did that.
->
-> Since the log functions are all macros, we can use error() without
-> causing "conflicting types" errors.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-This series, applied to linux-kbuild.
-
-
+> Signed-off-by: John Millikin <john@john-millikin.com>
 > ---
+>  scripts/kconfig/mconf-cfg.sh | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
->  scripts/mod/modpost.c | 10 +++++-----
->  scripts/mod/modpost.h |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
+> diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
+> index aa68ec95620d..d38f44976418 100755
+> --- a/scripts/kconfig/mconf-cfg.sh
+> +++ b/scripts/kconfig/mconf-cfg.sh
+> @@ -39,6 +39,15 @@ if [ -f /usr/include/ncurses.h ]; then
+>   exit 0
+>  fi
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index f882ce0d9327..337f6ca4bda3 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -403,8 +403,8 @@ static void sym_update_namespace(const char *symname, const char *namespace)
->          * actually an assertion.
->          */
->         if (!s) {
-> -               merror("Could not update namespace(%s) for symbol %s\n",
-> -                      namespace, symname);
-> +               error("Could not update namespace(%s) for symbol %s\n",
-> +                     namespace, symname);
->                 return;
->         }
->
-> @@ -2226,7 +2226,7 @@ static int check_modname_len(struct module *mod)
->         else
->                 mod_name++;
->         if (strlen(mod_name) >= MODULE_NAME_LEN) {
-> -               merror("module name is too long [%s.ko]\n", mod->name);
-> +               error("module name is too long [%s.ko]\n", mod->name);
->                 return 1;
->         }
->
-> @@ -2319,8 +2319,8 @@ static int add_versions(struct buffer *b, struct module *mod)
->                         continue;
->                 }
->                 if (strlen(s->name) >= MODULE_NAME_LEN) {
-> -                       merror("too long symbol \"%s\" [%s.ko]\n",
-> -                              s->name, mod->name);
-> +                       error("too long symbol \"%s\" [%s.ko]\n",
-> +                             s->name, mod->name);
->                         err = 1;
->                         break;
->                 }
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 3aa052722233..f453504ad4df 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -202,5 +202,5 @@ enum loglevel {
->  void modpost_log(enum loglevel loglevel, const char *fmt, ...);
->
->  #define warn(fmt, args...)     modpost_log(LOG_WARN, fmt, ##args)
-> -#define merror(fmt, args...)   modpost_log(LOG_ERROR, fmt, ##args)
-> +#define error(fmt, args...)    modpost_log(LOG_ERROR, fmt, ##args)
->  #define fatal(fmt, args...)    modpost_log(LOG_FATAL, fmt, ##args)
+> +# As a final fallback before giving up, check if $HOSTCC knows of a default
+> +# ncurses installation (e.g. from a vendor-specific sysroot).
+> +echo '#include <ncurses.h>' | "${HOSTCC}" -E - >/dev/null 2>&1
+> +if [ $? -eq 0 ]; then
+> + echo cflags=\"-D_GNU_SOURCE\"
+> + echo libs=\"-lncurses\"
+> + exit 0
+> +fi
+> +
+
+
+I think this is a nicer check
+than the hard-coded /usr/include/ncurses.h.
+
+
+Could you replace the last one in the current code?
+
+if [ -f /usr/include/ncurses.h ]; then
+        echo cflags=\"-D_GNU_SOURCE\"
+        echo libs=\"-lncurses\"
+        exit 0
+fi
+
+
+
+
+
+>  echo >&2 "*"
+>  echo >&2 "* Unable to find the ncurses package."
+>  echo >&2 "* Install ncurses (ncurses-devel or libncurses-dev"
 > --
-> 2.27.0
->
+> 2.24.3 (Apple Git-128)
+
 
 
 -- 
