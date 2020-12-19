@@ -2,68 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2922DF09E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Dec 2020 18:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF3422DF0FC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Dec 2020 19:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727007AbgLSRI4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Dec 2020 12:08:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727005AbgLSRI4 (ORCPT
+        id S1727137AbgLSSUD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Dec 2020 13:20:03 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:51190 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgLSSUD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Dec 2020 12:08:56 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18309C0613CF;
-        Sat, 19 Dec 2020 09:08:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=qv/T8Toe5nTIZxsEH1wMT7B0R1sHjwEhpjO/fE+3g+w=; b=X7hKRXle7Nny7BVmrZS28oYThK
-        a5vWZBz0FBFZV+2FATlBmYnSZOiTI20+tbQE/PKQ15KmgA8EZ7CDPQYmnRDS4MOvxUPsiL5BlL9EY
-        SA7XQ7B1CLIzji9TcP2AwXnQq8NlXuZJ7TKth6hzwskg/mWP3stsIlyykyM5JAypS6U6E43DhxqwQ
-        lc8PV3V6W9Qy1fnxxnHVapcHFtfvrAil7D0aEv9JcDrMVA5fLWsraeZ/8sJWiP3YVMC2Fby8RPYWh
-        Kbtdc5cw917HqfQjxfJtS9SAirDbi0N5uyKbrUtsTLQ8+3z8p2Iw+nmOThv5tECcDoy6hxfn83Ed+
-        SuXiApYg==;
-Received: from [2601:1c0:6280:3f0::64ea] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kqfiF-0005OP-FY; Sat, 19 Dec 2020 17:08:12 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH v2] kconfig: config script: add a little user help
-Date:   Sat, 19 Dec 2020 09:08:05 -0800
-Message-Id: <20201219170805.7151-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        Sat, 19 Dec 2020 13:20:03 -0500
+Received: from localhost.localdomain (softbank126090214151.bbtec.net [126.90.214.151]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 0BJIIhEV028815;
+        Sun, 20 Dec 2020 03:18:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 0BJIIhEV028815
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1608401924;
+        bh=e6qPy+YG7dYZrKoEmX4k3IHv2jDogsg6ZSVDKuXRsUo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vFlMFF/Kuekhl7G98TelzAPTnBcKX4325+ydFmMqUQiTrcerNir386jXDyLsHWQBm
+         BJdxqiJD/OjcBGxTgfqYiz6b+n+AXSRNb8vsM0v9ylAbngBTesmeskpCvgXJUKlAEo
+         Cj0o0Izr4SW26YviZvtCgiEORZoz4v1Xhk5cccpLhqk4Ydu2O9+r4O8wmMl5lSsubZ
+         +x+ccPxf/+SF/1aBP58+YSVPGgeX1CyPuTyqQBT+NZwmMRXYiLHF8mDxQ3yFhMhSsR
+         /rCZkwkDNdGANvwPd1C2ZBj78kY8V++M+niwXiNAi+/dRG5KNciFvVttCUmxEz8/W+
+         KfUvtc/cuQYAQ==
+X-Nifty-SrcIP: [126.90.214.151]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: fix return value of do_error_if()
+Date:   Sun, 20 Dec 2020 03:18:42 +0900
+Message-Id: <20201219181842.178250-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Give the user a clue about the problem along with the 35 lines of
-usage/help text.
+Kconfig expands a macro to a string. $(error-if,...) should be expanded
+to an empty string, not NULL.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
+Fixes: 1d6272e6fe43 ("kconfig: add 'info', 'warning-if', and 'error-if' built-in functions")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
-v2: spell out "command" & send to STDERR; (Yamada-san)
 
- scripts/config |    1 +
- 1 file changed, 1 insertion(+)
+ scripts/kconfig/preprocess.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20201218.orig/scripts/config
-+++ linux-next-20201218/scripts/config
-@@ -223,6 +223,7 @@ while [ "$1" != "" ] ; do
- 		;;
+diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+index 0243086fb168..0590f86df6e4 100644
+--- a/scripts/kconfig/preprocess.c
++++ b/scripts/kconfig/preprocess.c
+@@ -114,7 +114,7 @@ static char *do_error_if(int argc, char *argv[])
+ 	if (!strcmp(argv[0], "y"))
+ 		pperror("%s", argv[1]);
  
- 	*)
-+		echo "bad command: $CMD" >&2
- 		usage
- 		;;
- 	esac
+-	return NULL;
++	return xstrdup("");
+ }
+ 
+ static char *do_filename(int argc, char *argv[])
+-- 
+2.27.0
+
