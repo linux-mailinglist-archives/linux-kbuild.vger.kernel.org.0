@@ -2,106 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD52C2DF113
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Dec 2020 19:41:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ADCD2DF891
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Dec 2020 06:16:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbgLSSlC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Dec 2020 13:41:02 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:53113 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726028AbgLSSlB (ORCPT
+        id S1726325AbgLUFP5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Dec 2020 00:15:57 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:46646 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726160AbgLUFP4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Dec 2020 13:41:01 -0500
-Received: from grover.flets-west.jp (softbank126090214151.bbtec.net [126.90.214.151]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 0BJIdHYR000742;
-        Sun, 20 Dec 2020 03:39:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0BJIdHYR000742
+        Mon, 21 Dec 2020 00:15:56 -0500
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0BL5EeSX023952;
+        Mon, 21 Dec 2020 14:14:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0BL5EeSX023952
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608403158;
-        bh=9EIh4HZRK+rRK1kW5rgDbqNLvdcmDjAI8StlrS+ZySY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Kp/kwqHMvQuwqg2GzjiKB0+0TpZtqseK44IIyLFRj4HabKLmsAfrcjLUJ5IYxessF
-         CFS561oKhUSv7qwvwXKFK0x7qs9kgvIgiGCkbKmZSdpaTPoZlu3CwH2rRqNbWTj7/S
-         CtH7NMd0KanhB9uuPL5eZ2W6TJtk3G/fVDNOj2uwZsA01Ry3d31/zp62HFcEBS6PQN
-         us5Vf3GVwFzxl31oRP9vBqYXLCVjx9s9ubOrM1/D8ac9Ad4PVuXN8bx9qQuBVXOAHc
-         vIB+s+UdjFHWjs15Plmx7Wl2E98uN20mF+48cDp34YyM1tBMJ0Sj7QYUtu+EtodlgQ
-         AYl5gKkNjqbdg==
-X-Nifty-SrcIP: [126.90.214.151]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Marco Elver <elver@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "kbuild: avoid static_assert for genksyms"
-Date:   Sun, 20 Dec 2020 03:39:10 +0900
-Message-Id: <20201219183911.181442-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1608527681;
+        bh=ec7zDCE2Dssaie5MJIXt/edY86azQA8fYkqB1mvUQRU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nDVovfx5qMpZt3zefhtaPGUOjQnfOm/YNvgykE0XFWP7RRIV+Cx4efNJKyN54UAvi
+         t1u2VR8CwGBMz3x5kZC5oit5ID+vDaKtohduI82tGn9DfqKhiYdBCVhwr7Gut1Q2Rk
+         ZGYSvENnV3w936KeVwaJy3jl/5hZgkQ/IneWqn0Wcx1URKBDx0O6mRKf5oPBKUtfqx
+         ZnWhy2e0qeGu6tRrscrMkoKduyvLMtehrzx5tUXViOVyMqKzN1TfFQOVyHnDVjNywI
+         zmz9titAC5EWmNR+XbwAe7kpnTC25ldhXKts7bWG0nWMvhOoisIhIeKy62BHnjOc40
+         An9rtoj0xRBUQ==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id t22so5821109pfl.3;
+        Sun, 20 Dec 2020 21:14:41 -0800 (PST)
+X-Gm-Message-State: AOAM533z5/ZQadyleJKKaVF/AelF7Q7ucNF+jZZhINOWT72/XUpWKVY8
+        yg/ljoi4+H0L8cNmZ+3mGH2/ETMykDEq6/Z+ewE=
+X-Google-Smtp-Source: ABdhPJwMPKvV6Pfj0mrBv31yEQ/gpjj5UdGwLmSKck4pffiVQMK5iIh27Qu0P+H9ae/P9zjIHaDlnZvrJFHjxgaA2P0=
+X-Received: by 2002:aa7:9501:0:b029:155:3b11:d5c4 with SMTP id
+ b1-20020aa795010000b02901553b11d5c4mr13893878pfp.76.1608527680375; Sun, 20
+ Dec 2020 21:14:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201219162456.19790-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20201219162456.19790-1-lukas.bulwahn@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 21 Dec 2020 14:14:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAStP=W5fjO6RMck3+07VKqopBgYgACjryjEwin9kiABWA@mail.gmail.com>
+Message-ID: <CAK7LNAStP=W5fjO6RMck3+07VKqopBgYgACjryjEwin9kiABWA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: adjust GCC PLUGINS after gcc-plugin.sh removal
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit 14dc3983b5dff513a90bd5a8cc90acaf7867c3d0.
+On Sun, Dec 20, 2020 at 1:25 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+> Commit 1e860048c53e ("gcc-plugins: simplify GCC plugin-dev capability test")
+> removed ./scripts/gcc-plugin.sh, but missed to adjust MAINTAINERS.
+>
+> Hence, ./scripts/get_maintainers.pl --self-test=patterns warns:
+>
+>   warning: no file matches    F:    scripts/gcc-plugin.sh
+>
+> Adjust entries in GGC PLUGINS section after this file removal.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Macro Elver had sent a fix proper fix earlier, and also pointed out
-corner cases:
 
-"I guess what you propose is simpler, but might still have corner cases
-where we still get warnings. In particular, if some file (for whatever
-reason) does not include build_bug.h and uses a raw _Static_assert(),
-then we still get warnings. E.g. I see 1 user of raw _Static_assert()
-(drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h )."
-
-I believe the raw use of _Static_assert() should be allowed, so this
-should be fixed in genksyms.
-
-Even after commit 14dc3983b5df ("kbuild: avoid static_assert for
-genksyms"), I confirmed the following test code emits the warning.
-
-  ---------------->8----------------
-  #include <linux/export.h>
-
-  _Static_assert((1 ?: 0), "");
-
-  void foo(void) { }
-  EXPORT_SYMBOL(foo);
-  ---------------->8----------------
-
-  WARNING: modpost: EXPORT symbol "foo" [vmlinux] version generation failed, symbol will not be versioned.
-
-Now that commit 869b91992bce ("genksyms: Ignore module scoped
-_Static_assert()") fixed this issue properly, the workaround should
-be reverted.
-
-Link: https://lkml.org/lkml/2020/12/10/845
-Cc: Marco Elver <elver@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-I will apply this after Macro's patch is pulled.
+Applied to linux-kbuild. Thanks.
 
 
 
- include/linux/build_bug.h | 5 -----
- 1 file changed, 5 deletions(-)
+> ---
+> applies cleanly on next-20201218
+>
+> Masahiro-san, please pick this minor cleanup patch on your -next tree.
+>
+>  MAINTAINERS | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f5eafee83bc6..fd3b06636c5b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7371,7 +7371,6 @@ L:        linux-hardening@vger.kernel.org
+>  S:     Maintained
+>  F:     Documentation/kbuild/gcc-plugins.rst
+>  F:     scripts/Makefile.gcc-plugins
+> -F:     scripts/gcc-plugin.sh
+>  F:     scripts/gcc-plugins/
+>
+>  GCOV BASED KERNEL PROFILING
+> --
+> 2.17.1
+>
 
-diff --git a/include/linux/build_bug.h b/include/linux/build_bug.h
-index 7bb66e15b481..e3a0be2c90ad 100644
---- a/include/linux/build_bug.h
-+++ b/include/linux/build_bug.h
-@@ -77,9 +77,4 @@
- #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
- #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
- 
--#ifdef __GENKSYMS__
--/* genksyms gets confused by _Static_assert */
--#define _Static_assert(expr, ...)
--#endif
--
- #endif	/* _LINUX_BUILD_BUG_H */
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
