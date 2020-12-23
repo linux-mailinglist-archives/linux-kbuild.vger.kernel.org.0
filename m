@@ -2,104 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 234672E18C5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Dec 2020 07:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A43C2E18D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Dec 2020 07:17:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbgLWGKe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Dec 2020 01:10:34 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:51256 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbgLWGKd (ORCPT
+        id S1726611AbgLWGRH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Dec 2020 01:17:07 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:59329 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726069AbgLWGRH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Dec 2020 01:10:33 -0500
+        Wed, 23 Dec 2020 01:17:07 -0500
 Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 0BN69JDr031671
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Dec 2020 15:09:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0BN69JDr031671
+        by conssluserg-05.nifty.com with ESMTP id 0BN6G2T7012500;
+        Wed, 23 Dec 2020 15:16:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0BN6G2T7012500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608703760;
-        bh=T0pbFrAHJ4PDrxOeHbOrYEGn4/YswM66O1dpryDRACE=;
+        s=dec2015msa; t=1608704163;
+        bh=YcR9XCdTcqEdPIBqd1+ulUn0LN4dKqfLsym+wZS9IJ8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0OZ8E+Bhe+1alxO/aCVp5Arnf6w+NppoipNhvspLS/qxwRN65hI/QcaI0WLsgJeTE
-         TwokJFwO7VxZ49B8FVVpZVofICjX7UOKK/f1Y9KqpPzmdgnw9R2mQmfXu54XP+SCuW
-         ybheC7HD9jTHYlPOl+qMFTMMuq2T3iTPzYaPD6L1nlJIeKAUd45gb7nFIszv00xvzy
-         MvGphlu3PUhjQncvXpjDydvsaJw3fZJkDrCV883OwIk284ZxbXva6aj0lKDICGtrGS
-         whBSgLmEVCNqByS3X6oCTbR7JRdl89b2stx6Jypb4YFoYgPsIZzoFSvY65VUvUZF9b
-         gXf7ou+XirMDg==
+        b=1m7EDcDHobE5H/KYAAsy2pQehm3uLRDdG+Ic38XpRNtdBScA2Oo2fVKtqcfCr5nUF
+         Hpsc+9RFTw3vWh3tmfGdjJRK+0WLToAD71RYkgD3/mKpjjxj6PuJRxhT1xqf7VDMVH
+         jqRjH/k2npHGh0ULa+qZ13nbbIqvH0WbMiWs2OdgUqXRt/4mqVm4mWO4Pa5cPnO/Wn
+         LpCgdV1XpHJi4GUjEExos6vRPuoN56oAMYrDUcILNX2NerQ4ZLTHXvW7pUo8Ijy2AD
+         sITMOJf4r4JLW8hxUXRh8Ps1TQNIUXQa79G98ApNUQjIk+gm1PDTlXPHMkrMNuI1T/
+         2J0JNEBTtPS5g==
 X-Nifty-SrcIP: [209.85.216.45]
-Received: by mail-pj1-f45.google.com with SMTP id j13so2627026pjz.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Dec 2020 22:09:20 -0800 (PST)
-X-Gm-Message-State: AOAM531H7DJQ1Hg3q9MNoB+L5ZIRQDD6R05VmRjnUZspvWYF8u1LfC2O
-        1G5zCm3TO+rpLbdXrWVGYsFsHwxPVCnIeCwRY1s=
-X-Google-Smtp-Source: ABdhPJykgm4Xv3FiAwZrVCPFt9yZrfWo3PXpZK5vDAqja4Kh5B35G8Pc4ct7GI+V2qiTvILlStFdZne7u+t0gr/KOl8=
-X-Received: by 2002:a17:90a:c910:: with SMTP id v16mr25117479pjt.198.1608703759336;
- Tue, 22 Dec 2020 22:09:19 -0800 (PST)
+Received: by mail-pj1-f45.google.com with SMTP id w1so627588pjc.0;
+        Tue, 22 Dec 2020 22:16:03 -0800 (PST)
+X-Gm-Message-State: AOAM5335T6aLpp5GkX2fhIjrAqlHqzvSJjRoVk+kmlPK2EbYQGH75A+V
+        Y9fvGmBLiHcS9RG8DVeJ4pCNw6aX2QZRE3PZT+k=
+X-Google-Smtp-Source: ABdhPJxXleNbJxvpk4Em/2AF/EVUORw/dVXOcMx78a3SwYfTsZrJwKoLZyNiS5JUCfGHp631zKu9R2XtkgyT3C3mKyw=
+X-Received: by 2002:a17:90a:d18c:: with SMTP id fu12mr24488813pjb.153.1608704161762;
+ Tue, 22 Dec 2020 22:16:01 -0800 (PST)
 MIME-Version: 1.0
-References: <CAL1ky9r9FutN2baRhV_WO-stV1FHKq-par4uv-VfCdofcGhSVg@mail.gmail.com>
- <CAK7LNAQRa18QWQep=Tj9Due_TvAotD4_v0GX83yP0SKX=jUQSQ@mail.gmail.com> <CAL1ky9orK39qmvPPk05SoUHWByTwL-kSkgTsbZEvh1vUR4+hXw@mail.gmail.com>
-In-Reply-To: <CAL1ky9orK39qmvPPk05SoUHWByTwL-kSkgTsbZEvh1vUR4+hXw@mail.gmail.com>
+References: <20201219183911.181442-1-masahiroy@kernel.org>
+In-Reply-To: <20201219183911.181442-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 23 Dec 2020 15:08:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARnoU6GFCxNTEzOqj1J2hYZVNJKTtEb81b_VtRz6jswiQ@mail.gmail.com>
-Message-ID: <CAK7LNARnoU6GFCxNTEzOqj1J2hYZVNJKTtEb81b_VtRz6jswiQ@mail.gmail.com>
-Subject: Re: [PATCH] lib/raid6: Let $(UNROLL) rules work with BSD userland.
-To:     John Millikin <jmillikin@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Wed, 23 Dec 2020 15:15:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARhCdhpniwXzd1a9H-OpgksBqxakOjiDEAHiwWTmrStoQ@mail.gmail.com>
+Message-ID: <CAK7LNARhCdhpniwXzd1a9H-OpgksBqxakOjiDEAHiwWTmrStoQ@mail.gmail.com>
+Subject: Re: [PATCH] Revert "kbuild: avoid static_assert for genksyms"
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 1:24 PM John Millikin <jmillikin@gmail.com> wrote:
+On Sun, Dec 20, 2020 at 3:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, Dec 16, 2020 at 2:46 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Does it depend on the awk version?
-> >
-> > I tried this in FreeBSD 12.
-> >
-> > masahiro@:~ $ cat test.awk
-> > BEGIN {  print N }
-> > masahiro@:~ $ awk --version
-> > awk version 20121220 (FreeBSD)
-> > masahiro@:~ $ awk -ftest.awk -vN=1
-> > 1
-> >
-> > It worked for me.
-> >
+> This reverts commit 14dc3983b5dff513a90bd5a8cc90acaf7867c3d0.
 >
-> Yes, it appears to be version dependent. Apologies for the confusion
-> -- I didn't realize there were multiple dialects of BSD awk.
+> Macro Elver had sent a fix proper fix earlier, and also pointed out
+> corner cases:
 >
-> On FreeBSD and OpenBSD awk works with the existing command. On NetBSD
-> and macOS awk fails with the following error:
+> "I guess what you propose is simpler, but might still have corner cases
+> where we still get warnings. In particular, if some file (for whatever
+> reason) does not include build_bug.h and uses a raw _Static_assert(),
+> then we still get warnings. E.g. I see 1 user of raw _Static_assert()
+> (drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h )."
 >
-> $ touch unroll.awk input.c
-> $ awk -f./unroll.awk -vN=0 < input.c
-> awk: can't open file -vN=0
->  source line number 1 source file -vN=0
->  context is
-> >>>  <<<
-> $
+> I believe the raw use of _Static_assert() should be allowed, so this
+> should be fixed in genksyms.
 >
-> My patch lets the $(UNROLL) command support the NetBSD/macOS variant
-> -- this is needed to support building the Linux kernel on a macOS host
-> machine.
+> Even after commit 14dc3983b5df ("kbuild: avoid static_assert for
+> genksyms"), I confirmed the following test code emits the warning.
+>
+>   ---------------->8----------------
+>   #include <linux/export.h>
+>
+>   _Static_assert((1 ?: 0), "");
+>
+>   void foo(void) { }
+>   EXPORT_SYMBOL(foo);
+>   ---------------->8----------------
+>
+>   WARNING: modpost: EXPORT symbol "foo" [vmlinux] version generation failed, symbol will not be versioned.
+>
+> Now that commit 869b91992bce ("genksyms: Ignore module scoped
+
+I updated the commit id in the mainline.
+
+     9ab55d7f240f
+
+
+Now, applied to linux-kbuild.
 
 
 
-I see, the default awk on macOS is quite old.
-
-$ awk --version
-awk version 20070501
-
-
-
-Please update the commit description
-to mention this issue happens on NetBSD/macOS.
-
-
+> _Static_assert()") fixed this issue properly, the workaround should
+> be reverted.
+>
+> Link: https://lkml.org/lkml/2020/12/10/845
+> Cc: Marco Elver <elver@google.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> I will apply this after Macro's patch is pulled.
+>
+>
+>
+>  include/linux/build_bug.h | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/include/linux/build_bug.h b/include/linux/build_bug.h
+> index 7bb66e15b481..e3a0be2c90ad 100644
+> --- a/include/linux/build_bug.h
+> +++ b/include/linux/build_bug.h
+> @@ -77,9 +77,4 @@
+>  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>
+> -#ifdef __GENKSYMS__
+> -/* genksyms gets confused by _Static_assert */
+> -#define _Static_assert(expr, ...)
+> -#endif
+> -
+>  #endif /* _LINUX_BUILD_BUG_H */
+> --
+> 2.27.0
+>
 
 
 -- 
