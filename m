@@ -2,130 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92EAD2E69A7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Dec 2020 18:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB092E6C1F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Dec 2020 00:18:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgL1RUH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Dec 2020 12:20:07 -0500
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:37043 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728125AbgL1RUH (ORCPT
+        id S1730396AbgL1Wzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Dec 2020 17:55:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729310AbgL1TlX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Dec 2020 12:20:07 -0500
-Date:   Mon, 28 Dec 2020 17:19:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1609175964;
-        bh=leLQ7HLOOBAi96gGzZ6lvQ1zwU5ypDUPyx8uomLDoZU=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=owzcvxZoYmH6GH6qBht0MRdwycosO+m3EClz9L2BwFJ6YUKGyav9wa+6bTOWNxVOj
-         zLNFA2FnmwvyibgCn2XXc8jvK0dPbxhqc2KICloFMk7ETmoGMEamdbsD3OWZrtkJK9
-         TM5DR3BH52g27kH0uGavOJyIJiekVnf0KkDfH2p8=
-To:     corbet@lwn.net
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        masahiroy@kernel.org, mchehab+huawei@kernel.org,
-        mchehab@kernel.org, michal.lkml@markovi.net
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201228171907.159028-1-nfraprado@protonmail.com>
+        Mon, 28 Dec 2020 14:41:23 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1664C061793
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Dec 2020 11:40:41 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id m25so26129816lfc.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Dec 2020 11:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KC0IvukBXrMezsZLkepZEAdyw/KWhE6PVpb9k71bqjU=;
+        b=B5N91RmLSyl9z2bK12UgU1zpbdLtQxsgPSz4HhqBb9TfajaOGwZrI8UJBfFq8CG5Jm
+         tx1oGbxKN/CRscqeYPn3lRrzLrhMTi2xOebdgNBSM727I2YAEZNpDNrrg4X44B6SpCeM
+         r4zaG0pelWFqnRT3uIdt5HGySYHoAWwJBezk0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KC0IvukBXrMezsZLkepZEAdyw/KWhE6PVpb9k71bqjU=;
+        b=Jk8AX0nXmSXgEeLQGgFQ3u/HOVer30HLpjXHF9nCSQbigRuFnQ8jQKpHdZStqFLoZD
+         47i0lmb1SQOXPxsKnb28W413iVZfnXF0zdfR08DEAxMw4zl5viSSN0XpEulvDDqcOWcK
+         xcBJ0ZLwxrd9i6aDsvnATfQPsXiTSAZlFb4ro2kNH5ieRZIBGMfkcvA7h3i+JUun0AUv
+         sHAuonTb0nDxa/sCrJvwNp6rQJwEUZiSN79SIEkg0dvvOVDTUh6+gW4uAqrsDkN/MQUv
+         ZuOHC6zcyS0nKULrpu+DHvqYOYsPtWsh3EUXQhWEmwEc91i7CsrelPaiW8qR4mDJRcBG
+         +4MQ==
+X-Gm-Message-State: AOAM533D3GujglDWKAG6GPKOxqJRduV8b0Ykvw1o8AICeGWMSKmIipcz
+        9nYeiGTewu90smfqg23W8+pEAB8YDpnLqw==
+X-Google-Smtp-Source: ABdhPJzfNOeTsdcfEb2ictcItZW8JYisGtKE0HRtEUgxceVf3wjucsFL3MR88IhdTNE8h3EwmwxdLQ==
+X-Received: by 2002:ac2:5685:: with SMTP id 5mr21145080lfr.325.1609184439860;
+        Mon, 28 Dec 2020 11:40:39 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id l205sm5387391lfd.284.2020.12.28.11.40.38
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Dec 2020 11:40:39 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id h205so26167525lfd.5
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Dec 2020 11:40:38 -0800 (PST)
+X-Received: by 2002:a2e:6f17:: with SMTP id k23mr23617958ljc.411.1609184438626;
+ Mon, 28 Dec 2020 11:40:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+References: <CA+icZUUQRKuZzN0ZbaG6vprRWcKPKYVYTryiMFac7q_PRcBvgA@mail.gmail.com>
+ <CA+icZUWHiCu9=+80Z8OV+Q3r-TJ4Vm0t62P_Qgck5bRzjrtaWg@mail.gmail.com>
+In-Reply-To: <CA+icZUWHiCu9=+80Z8OV+Q3r-TJ4Vm0t62P_Qgck5bRzjrtaWg@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 28 Dec 2020 11:40:22 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wh3AsdUVZ8GKNCdUmY0_nGmoiOVTwy7rR5QM7K31QiSqw@mail.gmail.com>
+Message-ID: <CAHk-=wh3AsdUVZ8GKNCdUmY0_nGmoiOVTwy7rR5QM7K31QiSqw@mail.gmail.com>
+Subject: Re: Linux 5.11-rc1
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 05:03:50PM -0700, Jonathan Corbet wrote:
-> The right solution is probably something like this:
->=20
-> =09try:
-> =09    import rst2pdf
-> =09    extensions.append('rst2pdf.pdfbuilder')
-> =09except ModuleNotFoundError:
-> =09    pass # no rst2pdf for you
+On Mon, Dec 28, 2020 at 12:04 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> > $ dpkg -L kmod | grep bin | grep depmod
+> > /sbin/depmod
+> >
+> > $ which depmod
+> > [ empty ]
+> >
+> > $ echo $PATH
+> > /opt/proxychains-ng/bin:/home/dileks/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
-I tested it, but it still fails, and the error message is even more cryptic=
-:
+Ok, I think this is a broken setup that has a separate /sbin but does
+not have it in the PATH.
 
-=09Sphinx error:
-=09Builder name pdf not registered or available through entry point
-=09make[1]: *** [Documentation/Makefile:120: rst2pdf] Error 2
-=09make: *** [Makefile:1663: rst2pdf] Error 2
+As you noticed, you can fix it with
 
-It seems to me that the missing dependency should be treated in the Makefil=
-e
-target rather than in Sphinx. Looking through the Makefile, I took inspirat=
-ion
-from the latex version and did the following:
+   DEPMOD=/sbin/depmod
 
-=09HAVE_RST2PDF :=3D $(shell if python -c "import rst2pdf" >/dev/null 2>&1;=
- then echo 1; else echo 0; fi)
+or you could just make /sbin part of your PATH.
 
-=09=20
-=09ifeq ($(HAVE_RST2PDF),0)
+It looks like on your distro, /sbin is restricted to just the
+super-user PATH, which is odd, but I guess there's at least _some_
+logic to it.
 
-=09rst2pdf:
-=09       $(warning The 'rst2pdf' python module was not found. Make sure yo=
-u have it installed to produce PDF output.)
-=09       @echo "  SKIP    Sphinx $@ target."
+I guess we could have some compatibility thing in scripts/depmod.sh,
+something like
 
-=09else # HAVE_RST2PDF
+  diff --git a/scripts/depmod.sh b/scripts/depmod.sh
+  index e083bcae343f..a93261207453 100755
+  --- a/scripts/depmod.sh
+  +++ b/scripts/depmod.sh
+  @@ -15,6 +15,8 @@ if ! test -r System.map ; then
+        exit 0
+   fi
 
-=09rst2pdf:
-=09       @$(srctree)/scripts/sphinx-pre-install --version-check
-=09       @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),p=
-df,$(var)))
+  +# legacy behavior: "depmod" in /sbin
+  +PATH="$PATH:/sbin"
+   if [ -z $(command -v $DEPMOD) ]; then
+        echo "Warning: 'make modules_install' requires $DEPMOD. Please
+install it." >&2
+        echo "This is probably in the kmod package." >&2
 
-=09endif # HAVE_RST2PDF
+or similar. Does that work for you?
 
-With this, the following message is shown in case it isn't installed:
-
-=09Documentation/Makefile:122: The 'rst2pdf' python module was not found. M=
-ake sure you have it installed to produce PDF output.
-=09  SKIP    Sphinx rst2pdf target.
-
-But with that check on the Makefile in place, on the Sphinx side, we can in=
-deed
-just do Jon's snippet to only add the extension if it is installed. Another
-option would be to split the 'try' into 'try' and 'else', where the 'else' =
-only
-executes if the 'try' is succesful. The benefit is that this makes it clear=
-er
-that only the import is being "tried":
-
-=09# Enable experimental rst2pdf, if available
-=09try:
-=09    import rst2pdf
-=09except ModuleNotFoundError:
-=09    pass
-=09else:
-=09    extensions.append("rst2pdf.pdfbuilder")
-
-Something interesting I noticed is that when building with Sphinx 3, and if
-rst2pdf is installed, even when building other targets, like htmldocs, (sin=
-ce
-the rst2pdf extension is added based on rst2pdf being installed and not if =
-it is
-being used) the following is printed:
-
-=09WARNING: the rst2pdf.pdfbuilder extension is not safe for parallel writi=
-ng
-=09WARNING: doing serial write
-
-Looking into rst2pdf's pdfbuilder.py, indeed 'parallel_write_safe' is False=
-, so
-we should probably make sure rst2pdf isn't negatively impacting build time =
-for
-other formats before merging this patch.
-
-Thanks,
-N=C3=ADcolas
-
+                Linus
