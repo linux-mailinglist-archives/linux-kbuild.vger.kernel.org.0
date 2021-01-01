@@ -2,57 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 957892E8565
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Jan 2021 19:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E4812E85D2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Jan 2021 23:32:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbhAAS43 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Jan 2021 13:56:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54222 "EHLO
+        id S1727284AbhAAWcJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Jan 2021 17:32:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727138AbhAAS43 (ORCPT
+        with ESMTP id S1727147AbhAAWcJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Jan 2021 13:56:29 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C93FC061573;
-        Fri,  1 Jan 2021 10:55:49 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id q137so19574232iod.9;
-        Fri, 01 Jan 2021 10:55:48 -0800 (PST)
+        Fri, 1 Jan 2021 17:32:09 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED778C061573;
+        Fri,  1 Jan 2021 14:31:28 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id w17so20107011ilj.8;
+        Fri, 01 Jan 2021 14:31:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=6/ykjH+apusSMmJMKlvQel2Pw6wfvKOwrmw7/8sOzbI=;
-        b=uptNUX0esdgUkxig3Wl8BGG4AJakniu8L72oDW9dGukN0+WdqjFPwuiWbZfX71UI7w
-         Bq1dJlhZHDviBRodc9jMjxyAW8V1mJTqzN9mdtAOP5l0c7kZAvVKMB5XUYauh9IGG6Y+
-         Z/vFdlSC22ftFLMpSYHEzhTPffIGdqIKjaKT5gM5fOyrQ+/71IkYI6B40ICxFhb4CBeA
-         QUQJzctXsZK2GXFRA/mX+QfBaeVUuYh1PBqa3Hrs1XD4oyVMJ2Z/dW69FjuS2Ymmz3wS
-         WiTMgIMnx3axvAN0kNiHGCS0Ue0Dp2gNOJnr+RNhJom6VfvZZwEdz7cF6LeFvQR1+Nhz
-         brNg==
+        bh=jztGCgEhZcyHZnfVt3Ftdbo2JqWYXrffl5TxWTjnd6E=;
+        b=k/duNVksiGSVSP6ioL4e95+kgOS3C+j+XttQ9eUQ23IU8PzN0JwmRQ1/uBHfHiPKyM
+         A97Tu0nEBMXB1qhy+YtPD5E+bl8YRNpAQ5yaR39W9oaNElavDcfxdcV6Gh0ctOz7teOz
+         EomtdaP+5CX3znpDnFzJQzZRf0cUCvgD0jhBKxGTvj1jiwbGUVH1IAtoWtw+8RvERX4y
+         9qP3Ag3Pg3UpEG8Dxj1DVqkrGTDV05/BOK04Rocj+MDGmRGG+aPAo1cY4BFahY40T4g5
+         iv9UwYdHFzaiXAFb1pxSAniIemJm24P2dsp6E51PFV/Zxp7a18I+SSYREjItVbNLK4Mv
+         yUqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=6/ykjH+apusSMmJMKlvQel2Pw6wfvKOwrmw7/8sOzbI=;
-        b=g+pWbU3egi9E0C2/UKM1zliAo1gv1YjifynO1Fqt+GleMjrtz8sRyWA55aOAqufkpa
-         8qbjZDUMIS9PFQsAbAFz10Umatz62/Hi2XfL0sTGOqmVNcgh+58GeeyYUaYV8Pcp0+lI
-         wUW7hepbUb2klTVmm9D69tEd5eF5rjzRmNzNdfwREvAr1CPW1pclpACWTHp81UQpnz80
-         wClkoHQQS2SEfAAnWrnefv7WvxmhfJiq38pCZ45IS3I0IGIGQHftoQKBOTjLwI3bdmU0
-         KgsysN4Eyar0GdxCLSasA9bzt4257aw7LBK5ymFXVIB/UzN8kikv8NhxJMh0lZ9ul4b+
-         F6qQ==
-X-Gm-Message-State: AOAM530SZeUfzxJI6Svbt8RrTSXo5KEFdwfAESXUiBF3A1T7GRP1HWWt
-        79tO6k+l91WHjsrdUrjicwZoAPEmoEHPunfuvUo=
-X-Google-Smtp-Source: ABdhPJw4rQbUMyUiS1wQY7JminUWLbkJjk94Jib1q0DY/FFzBgiT5OPNd8X1KQo/+ua3itIGVbHaNh+NoFrQT7NbdFg=
-X-Received: by 2002:a02:a304:: with SMTP id q4mr52620242jai.97.1609527347177;
- Fri, 01 Jan 2021 10:55:47 -0800 (PST)
+        bh=jztGCgEhZcyHZnfVt3Ftdbo2JqWYXrffl5TxWTjnd6E=;
+        b=nFJxCLRUrCEb4sVR3e/xaPakRw+XXq263W67ZL0Cgkl3NTj1eIltFd6hvJht9nPbA6
+         gFXznmvbBnWVCjEIiVkIAJ/X+3tc2BLXbX3/gRjzwT3kDu7t4OzieSoE3vZjIfBaPIWa
+         lJyKTrFVq44zLSySCCwgqPTQhm2C0/eVWoOcZDXz0YcL3T8kdd9u/6O3ZNktDT58lc76
+         LHP+IYbNWLTxhRUhYcKo6ty007Pbb5vdS9JIGis0tG2lyPvngyHl9rKUAEX4zmPl1Ojw
+         gXEXob6PaIaff8R3pdvY5UxYEuSSQuS4+X5FBT/DS1++uSN87ZUCQFxYvVQZ0YEz04hs
+         wzZg==
+X-Gm-Message-State: AOAM530A4Joqtb02SOxeh/jE6qeQhxfgksnrvF66+0v8263BXnvGs8tP
+        s8n6hWzTaAAOHkcuaWbHjJ1lOawfVsx3EsJCOmA=
+X-Google-Smtp-Source: ABdhPJzDxwN33E6yBsB3JmSWq5AQLevbKew7W7ks3jPowciJ/BSDL+U/7gm5yjty7EJZPIy9Esyrg1azP+r9ViaVxYU=
+X-Received: by 2002:a92:d1cd:: with SMTP id u13mr44320065ilg.186.1609540288350;
+ Fri, 01 Jan 2021 14:31:28 -0800 (PST)
 MIME-Version: 1.0
 References: <CA+icZUUQRKuZzN0ZbaG6vprRWcKPKYVYTryiMFac7q_PRcBvgA@mail.gmail.com>
  <CA+icZUWHiCu9=+80Z8OV+Q3r-TJ4Vm0t62P_Qgck5bRzjrtaWg@mail.gmail.com>
- <CAHk-=wh3AsdUVZ8GKNCdUmY0_nGmoiOVTwy7rR5QM7K31QiSqw@mail.gmail.com> <20210101161435.GA344@duo.ucw.cz>
-In-Reply-To: <20210101161435.GA344@duo.ucw.cz>
+ <CAHk-=wh3AsdUVZ8GKNCdUmY0_nGmoiOVTwy7rR5QM7K31QiSqw@mail.gmail.com>
+ <20210101161435.GA344@duo.ucw.cz> <CA+icZUXKXt3NfgVxZN+m+3d_dqBi+o0EyJH53h-sXU8buaUe7g@mail.gmail.com>
+In-Reply-To: <CA+icZUXKXt3NfgVxZN+m+3d_dqBi+o0EyJH53h-sXU8buaUe7g@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 1 Jan 2021 19:55:36 +0100
-Message-ID: <CA+icZUXKXt3NfgVxZN+m+3d_dqBi+o0EyJH53h-sXU8buaUe7g@mail.gmail.com>
+Date:   Fri, 1 Jan 2021 23:31:17 +0100
+Message-ID: <CA+icZUUdHz1mqTy4AD7-ja6Y8w9bXB-Cc_5g3OeUSRu4zRxcUA@mail.gmail.com>
 Subject: Re: Linux 5.11-rc1
 To:     Pavel Machek <pavel@ucw.cz>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
@@ -64,34 +65,43 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 1, 2021 at 5:14 PM Pavel Machek <pavel@ucw.cz> wrote:
+On Fri, Jan 1, 2021 at 7:55 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> Hi!
-> > >
-> > > > $ dpkg -L kmod | grep bin | grep depmod
-> > > > /sbin/depmod
-> > > >
-> > > > $ which depmod
-> > > > [ empty ]
-> > > >
-> > > > $ echo $PATH
-> > > > /opt/proxychains-ng/bin:/home/dileks/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+> On Fri, Jan 1, 2021 at 5:14 PM Pavel Machek <pavel@ucw.cz> wrote:
 > >
-> > Ok, I think this is a broken setup that has a separate /sbin but does
-> > not have it in the PATH.
+> > Hi!
+> > > >
+> > > > > $ dpkg -L kmod | grep bin | grep depmod
+> > > > > /sbin/depmod
+> > > > >
+> > > > > $ which depmod
+> > > > > [ empty ]
+> > > > >
+> > > > > $ echo $PATH
+> > > > > /opt/proxychains-ng/bin:/home/dileks/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+> > >
+> > > Ok, I think this is a broken setup that has a separate /sbin but does
+> > > not have it in the PATH.
+> >
+> > That's how it is supposed to work, AFAICT. It is so on Debian here,
+> > for example.
+> >
+> > /sbin is for management commands, why would I have it in PATH when
+> > running as normal user?
+> >
 >
-> That's how it is supposed to work, AFAICT. It is so on Debian here,
-> for example.
+> I am here on Debian/testing AMD64 and waiting for feedback [2].
 >
-> /sbin is for management commands, why would I have it in PATH when
-> running as normal user?
+> For now I have applied the diff from [1].
 >
+> - Sedat -
+>
+> [1] https://marc.info/?l=linux-kbuild&m=160919738006768&w=2
+> [2] https://marc.info/?l=linux-kernel&m=160919729606750&w=2
 
-I am here on Debian/testing AMD64 and waiting for feedback [2].
-
-For now I have applied the diff from [1].
+Fixed upstream, see "depmod: handle the case of /sbin/depmod without
+/sbin in PATH".
 
 - Sedat -
 
-[1] https://marc.info/?l=linux-kbuild&m=160919738006768&w=2
-[2] https://marc.info/?l=linux-kernel&m=160919729606750&w=2
+[1] https://git.kernel.org/linus/cedd1862be7e666be87ec824dabc6a2b05618f36
