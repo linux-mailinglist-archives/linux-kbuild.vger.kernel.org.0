@@ -2,62 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E4812E85D2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Jan 2021 23:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5592E86B6
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Jan 2021 08:52:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727284AbhAAWcJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Jan 2021 17:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727147AbhAAWcJ (ORCPT
+        id S1726308AbhABHwk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 2 Jan 2021 02:52:40 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:45969 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726210AbhABHwk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Jan 2021 17:32:09 -0500
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED778C061573;
-        Fri,  1 Jan 2021 14:31:28 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id w17so20107011ilj.8;
-        Fri, 01 Jan 2021 14:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=jztGCgEhZcyHZnfVt3Ftdbo2JqWYXrffl5TxWTjnd6E=;
-        b=k/duNVksiGSVSP6ioL4e95+kgOS3C+j+XttQ9eUQ23IU8PzN0JwmRQ1/uBHfHiPKyM
-         A97Tu0nEBMXB1qhy+YtPD5E+bl8YRNpAQ5yaR39W9oaNElavDcfxdcV6Gh0ctOz7teOz
-         EomtdaP+5CX3znpDnFzJQzZRf0cUCvgD0jhBKxGTvj1jiwbGUVH1IAtoWtw+8RvERX4y
-         9qP3Ag3Pg3UpEG8Dxj1DVqkrGTDV05/BOK04Rocj+MDGmRGG+aPAo1cY4BFahY40T4g5
-         iv9UwYdHFzaiXAFb1pxSAniIemJm24P2dsp6E51PFV/Zxp7a18I+SSYREjItVbNLK4Mv
-         yUqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=jztGCgEhZcyHZnfVt3Ftdbo2JqWYXrffl5TxWTjnd6E=;
-        b=nFJxCLRUrCEb4sVR3e/xaPakRw+XXq263W67ZL0Cgkl3NTj1eIltFd6hvJht9nPbA6
-         gFXznmvbBnWVCjEIiVkIAJ/X+3tc2BLXbX3/gRjzwT3kDu7t4OzieSoE3vZjIfBaPIWa
-         lJyKTrFVq44zLSySCCwgqPTQhm2C0/eVWoOcZDXz0YcL3T8kdd9u/6O3ZNktDT58lc76
-         LHP+IYbNWLTxhRUhYcKo6ty007Pbb5vdS9JIGis0tG2lyPvngyHl9rKUAEX4zmPl1Ojw
-         gXEXob6PaIaff8R3pdvY5UxYEuSSQuS4+X5FBT/DS1++uSN87ZUCQFxYvVQZ0YEz04hs
-         wzZg==
-X-Gm-Message-State: AOAM530A4Joqtb02SOxeh/jE6qeQhxfgksnrvF66+0v8263BXnvGs8tP
-        s8n6hWzTaAAOHkcuaWbHjJ1lOawfVsx3EsJCOmA=
-X-Google-Smtp-Source: ABdhPJzDxwN33E6yBsB3JmSWq5AQLevbKew7W7ks3jPowciJ/BSDL+U/7gm5yjty7EJZPIy9Esyrg1azP+r9ViaVxYU=
-X-Received: by 2002:a92:d1cd:: with SMTP id u13mr44320065ilg.186.1609540288350;
- Fri, 01 Jan 2021 14:31:28 -0800 (PST)
+        Sat, 2 Jan 2021 02:52:40 -0500
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 1027pfKm015162;
+        Sat, 2 Jan 2021 16:51:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1027pfKm015162
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1609573901;
+        bh=P8vdX/CdQBZr5DGs31enHkcYQr+98zYEQ5FMO2kYpqs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wVvdtwcDM/KIfhXuoirH5mecGv9YPGMYnhuVxPWEjF1vP0pagUl2QHRui8w9h3wyn
+         EIrMUEyCt9anLjKcsfVF6h2oG3cR26RIOfn951tAfKSEh6LAyxhhAaUtV0UVf+OW9T
+         j67Wo4BIwd0Eeyto0DHCN3fVIMqnM2aWlma2PcV7RN6JvgTpwVJ/3F1EzVlL3DQMjD
+         U+9jFgLUcQO8CQwVWrOIh/yg1v3G5NsvW0grFNa/6uUILY1Z4TKaHFmnQMDTEbTeJc
+         jZG0auziw4dui4qoz0YH8qI8akuI0f2/pbNpz+Me9vhobteKm7FhPnA0kTLyt5rpR5
+         A1F+ArMMu+zuQ==
+X-Nifty-SrcIP: [209.85.210.178]
+Received: by mail-pf1-f178.google.com with SMTP id 11so13353186pfu.4;
+        Fri, 01 Jan 2021 23:51:41 -0800 (PST)
+X-Gm-Message-State: AOAM53040wZJDJgsq6nHA4gbUBGc9eVY2Mr7H617F0oqw8TxKTHQMcZG
+        7RlZDwXLSiNlH+YTvUhbwQ1tJ7S0YIyzqYjkE00=
+X-Google-Smtp-Source: ABdhPJwkeCFXUaZLryelFjlauQzCSGSVwCLph3npOK3qeZmZQRLd51UaAX/Weo6156cwHXnNbbcnRaeB3NJ7p/T6Z10=
+X-Received: by 2002:a62:820d:0:b029:1ad:d810:6805 with SMTP id
+ w13-20020a62820d0000b02901add8106805mr40038143pfd.63.1609573900636; Fri, 01
+ Jan 2021 23:51:40 -0800 (PST)
 MIME-Version: 1.0
 References: <CA+icZUUQRKuZzN0ZbaG6vprRWcKPKYVYTryiMFac7q_PRcBvgA@mail.gmail.com>
  <CA+icZUWHiCu9=+80Z8OV+Q3r-TJ4Vm0t62P_Qgck5bRzjrtaWg@mail.gmail.com>
  <CAHk-=wh3AsdUVZ8GKNCdUmY0_nGmoiOVTwy7rR5QM7K31QiSqw@mail.gmail.com>
  <20210101161435.GA344@duo.ucw.cz> <CA+icZUXKXt3NfgVxZN+m+3d_dqBi+o0EyJH53h-sXU8buaUe7g@mail.gmail.com>
 In-Reply-To: <CA+icZUXKXt3NfgVxZN+m+3d_dqBi+o0EyJH53h-sXU8buaUe7g@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 1 Jan 2021 23:31:17 +0100
-Message-ID: <CA+icZUUdHz1mqTy4AD7-ja6Y8w9bXB-Cc_5g3OeUSRu4zRxcUA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 2 Jan 2021 16:51:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQZ7SWrAykdH71iq6SyLj=gG-EGhCy8SHkDz_bdq2BMw@mail.gmail.com>
+Message-ID: <CAK7LNASQZ7SWrAykdH71iq6SyLj=gG-EGhCy8SHkDz_bdq2BMw@mail.gmail.com>
 Subject: Re: Linux 5.11-rc1
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -65,7 +56,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 1, 2021 at 7:55 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+On Sat, Jan 2, 2021 at 3:55 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
 > On Fri, Jan 1, 2021 at 5:14 PM Pavel Machek <pavel@ucw.cz> wrote:
 > >
@@ -99,9 +90,36 @@ On Fri, Jan 1, 2021 at 7:55 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 > [1] https://marc.info/?l=linux-kbuild&m=160919738006768&w=2
 > [2] https://marc.info/?l=linux-kernel&m=160919729606750&w=2
 
-Fixed upstream, see "depmod: handle the case of /sbin/depmod without
-/sbin in PATH".
 
-- Sedat -
+PATH for the root on Debian is
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-[1] https://git.kernel.org/linus/cedd1862be7e666be87ec824dabc6a2b05618f36
+
+depmod is used from 'make module_install'.
+
+For the native module installation to the host machine,
+module_install is run after 'su -'
+or 'sudo', which successfully finds depmod in /sbin.
+
+
+I also tested 'make deb-pkg' with/without
+rootless builds. It also successfully found depmod
+in /sbin, presumably dpkg tools automatically tweak
+PATH env variable.
+
+
+Maybe, the problem is when we run 'make modules_install'
+for cross compilation, which we do not necessarily
+require the root permission.
+
+Users can still adjust PATH in ~/.profile, but
+somebody may think breaking the legacy behavior
+is annoying.
+
+So, after some consideration, the workaround by Linus
+looks good to me.
+
+
+--
+Best Regards
+Masahiro Yamada
