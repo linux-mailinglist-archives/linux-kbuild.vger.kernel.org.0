@@ -2,152 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD412E8DBA
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Jan 2021 19:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3895A2E8DC9
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Jan 2021 19:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbhACSVC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 3 Jan 2021 13:21:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42898 "EHLO
+        id S1726999AbhACSfc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 3 Jan 2021 13:35:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbhACSVB (ORCPT
+        with ESMTP id S1726718AbhACSfb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 3 Jan 2021 13:21:01 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013A8C0613C1
-        for <linux-kbuild@vger.kernel.org>; Sun,  3 Jan 2021 10:20:20 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id v3so13189392plz.13
-        for <linux-kbuild@vger.kernel.org>; Sun, 03 Jan 2021 10:20:20 -0800 (PST)
+        Sun, 3 Jan 2021 13:35:31 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2FBC0613C1
+        for <linux-kbuild@vger.kernel.org>; Sun,  3 Jan 2021 10:34:51 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id 22so21704043qkf.9
+        for <linux-kbuild@vger.kernel.org>; Sun, 03 Jan 2021 10:34:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=apUPhe8XGFmm+Bi43EU6C/xYFjQp2KMTqbnzxE/Prgo=;
-        b=Hx7USmsWC6rsYBwFOAOs3KB4jnSIdXfa1hxNJgxQnIRTiKPsNOQ20ub3xbGhGtvFFe
-         z4CAxghIGF+Dyi+skjVLYGw5M0fFf/ZuTfVHrBUQ8QWPXBZOfrsxUPXGLutzXg0y1yr7
-         AV/0FK2Kd2eRm/wjnygRqY+I8zTGl/FfBf+z+4osxlnEXR5j7jTrNCoz7MIkcblT1hm0
-         t5nszwGrARVOMQfo3yyZEKytwP56uVdLirCgrS4YfYEBd4IbMpTZIOBXAs5oKFoZUmkd
-         iVOhAjMd5ZXVvrrYWDwi8ygUfGz5jrhS2y+ilw/9Ij8t2Qy2mJKOo2xwypqdr/plcI/y
-         Sh8A==
+        d=vt-edu.20150623.gappssmtp.com; s=20150623;
+        h=sender:from:to:cc:subject:in-reply-to:references:mime-version
+         :content-transfer-encoding:date:message-id;
+        bh=MmTjkRuj793Lrb7TSe0lB3EZ2poUQhlcldBZ+7guGy8=;
+        b=ObsHT6yRPjvpQyoB176eIqNs/b944Z1hmrvwlu4sCeKFl/Yx4rfbNRL0YwLpZ/t2GS
+         wIdGtIgEJVuklbOT9VygG35QHBoNmaAUFYayOdSlzA9+WFGS5UxFh2aVk/YUHLQp0HiT
+         sm0F25bhtYm2MdpXfacjiQ3kDgQAP3YTd636zrK5o0V0P94MNB9WdIHoagZ84NsxUUjV
+         G0wVFeYo60QK+bJHZjjSXMOEGyzh6QQBAbV85UQM5ExcE0MkveIIAfM3C2p6DUwgM0Jw
+         wIlD/WJfrVNQEIE72mTSKWVzntRygGOIBtUiGeOSB6QPwoAFBja7q/45N+XarIxhYlOh
+         lftA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=apUPhe8XGFmm+Bi43EU6C/xYFjQp2KMTqbnzxE/Prgo=;
-        b=ZwJ3ZOmhLkH9+slb/4165YzSpX19I/Fy2+1iRWX6Tuoj1A5LjNGRxhIzxgll0EKfma
-         7olLU0LgCX8TK6MNbWMVUNXDSO7+vhFjF5xvEL0Kv4Hdt8ocVWpyAnAU8gx9h3RlE5SG
-         2DztQhV3KJ/UdQOsfkEXp6GNSLLR7ds3j+6irZqN4b4MCN3V7jmqAltD7wy0Ld9jZpQH
-         SVBPq1pw1z7NP6SepFJYFkDyKFbuH7/dI+d7Qc806f3Gc4hgh652xUTwuoqL1RYwVvEc
-         QpDVNv8uxO4LU0+/TIHf9nmzUrDGUL6VML63Ts5JANN/1mPkNZaotkGbBcE3NvwCaSn0
-         Qo8w==
-X-Gm-Message-State: AOAM533FUHVYxxhBo+Qls0VWu+yC+S0On9wEMMHWlnzay2sr3w7TKM1f
-        AljvJsdxU/pS5gtXUYq1TxzyVw==
-X-Google-Smtp-Source: ABdhPJwXW4yEo4w8egwTb3K4A3pdigp+VHONUW2bOiDCwEGCqE724OK97nQ+XP6vrLf2zgic7GYmug==
-X-Received: by 2002:a17:90a:d790:: with SMTP id z16mr26805961pju.88.1609698020326;
-        Sun, 03 Jan 2021 10:20:20 -0800 (PST)
-Received: from hermes.local (204-195-22-127.wavecable.com. [204.195.22.127])
-        by smtp.gmail.com with ESMTPSA id f64sm55342846pfb.146.2021.01.03.10.20.19
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :mime-version:content-transfer-encoding:date:message-id;
+        bh=MmTjkRuj793Lrb7TSe0lB3EZ2poUQhlcldBZ+7guGy8=;
+        b=CuGG0qt7f/MjgTU32F/4D3HY0yAfKDlE4y0xXC61ZE6/ahRbJufk5d+blLNAoZq1uw
+         QGIdjGTaL9UXSS1FI7LvNGfDr84eyEAkndRkasgH3rymO06MgzwXswupXLwIjxLY+EiT
+         zGGKPiJ471YFF4zsTRWZleIHjInFA9sP3Ub0v28+5uxkb8Xsxx3WGYzsonbEluwx/QE2
+         xHPE/lfHZ9w0znuHKfv4Z1kVWX/uOnUtExiCfxTzWYxEa+Yu+kQg+gqMD968yYXzf+o4
+         ir5dEyAH4go5pX6+XIex6LYQdLYJdsw1ix4LkxkgyfZ2yV+HAmu5KqPF2KJ5uJr6MgyJ
+         MvuA==
+X-Gm-Message-State: AOAM531ApNebC8Mg1KdA3uHcHhzNBtwiJUnzfDrD8vf1PO5Gd29CHF4D
+        qMnuzSEiljpQyJuUjqTnHWvmlw==
+X-Google-Smtp-Source: ABdhPJzmksCghBQCKNUBUmWlNysGW6rkbkGmA4QvcvxUcU/tQjHH6fMS1vLzcMc45tAo4kLSaFbWzg==
+X-Received: by 2002:a37:4394:: with SMTP id q142mr67683739qka.113.1609698890469;
+        Sun, 03 Jan 2021 10:34:50 -0800 (PST)
+Received: from turing-police ([2601:5c0:c380:d61::359])
+        by smtp.gmail.com with ESMTPSA id c7sm35839738qtm.60.2021.01.03.10.34.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jan 2021 10:20:19 -0800 (PST)
-Date:   Sun, 3 Jan 2021 10:20:11 -0800
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Valdis =?UTF-8?B?S2zEk3RuaWVrcw==?= <valdis.kletnieks@vt.edu>,
+        Sun, 03 Jan 2021 10:34:49 -0800 (PST)
+Sender: Valdis Kletnieks <valdis@vt.edu>
+From:   "Valdis Kl=?utf-8?Q?=c4=93?=tnieks" <valdis.kletnieks@vt.edu>
+X-Google-Original-From: "Valdis Kl=?utf-8?Q?=c4=93?=tnieks" <Valdis.Kletnieks@vt.edu>
+X-Mailer: exmh version 2.9.0 11/07/2018 with nmh-1.7+dev
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         "David S. Miller" <davem@davemloft.net>,
         Networking <netdev@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: Kconfig, DEFAULT_NETSCH, and shooting yourself in the foot..
-Message-ID: <20210103102011.444ecaa4@hermes.local>
-In-Reply-To: <CAK7LNAQU61eccDfh_jX_cnZHnyxfbfgBGu1845QM8XbBTJPnsw@mail.gmail.com>
-References: <16871.1609618487@turing-police>
-        <CAK7LNAQU61eccDfh_jX_cnZHnyxfbfgBGu1845QM8XbBTJPnsw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210103102011.444ecaa4@hermes.local>
+References: <16871.1609618487@turing-police> <CAK7LNAQU61eccDfh_jX_cnZHnyxfbfgBGu1845QM8XbBTJPnsw@mail.gmail.com>
+ <20210103102011.444ecaa4@hermes.local>
+Mime-Version: 1.0
+Content-Type: multipart/signed; boundary="==_Exmh_1609698888_2273P";
+         micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 03 Jan 2021 13:34:48 -0500
+Message-ID: <76815.1609698888@turing-police>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, 3 Jan 2021 15:30:30 +0900
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+--==_Exmh_1609698888_2273P
+Content-Type: text/plain; charset=us-ascii
 
-> On Sun, Jan 3, 2021 at 5:14 AM Valdis Kl=C4=93tnieks <valdis.kletnieks@vt=
-.edu> wrote:
-> >
-> > Consider the following own goal I just discovered I scored:
-> >
-> > [~] zgrep -i fq_codel /proc/config.gz
-> > CONFIG_NET_SCH_FQ_CODEL=3Dm
-> > CONFIG_DEFAULT_FQ_CODEL=3Dy
-> > CONFIG_DEFAULT_NET_SCH=3D"fq_codel"
-> >
-> > Obviously, fq_codel didn't get set as the default, because that happens
-> > before the module gets loaded (which may never happen if the sysadmin
-> > thinks the DEFAULT_NET_SCH already made it happen)
-> >
-> > Whoops. My bad, probably - but....
-> >
-> > The deeper question, part 1:
-> >
-> > There's this chunk in net/sched/Kconfig:
-> >
-> > config DEFAULT_NET_SCH
-> >         string
-> >         default "pfifo_fast" if DEFAULT_PFIFO_FAST
-> >         default "fq" if DEFAULT_FQ
-> >         default "fq_codel" if DEFAULT_FQ_CODEL
-> >         default "fq_pie" if DEFAULT_FQ_PIE
-> >         default "sfq" if DEFAULT_SFQ
-> >         default "pfifo_fast"
-> > endif
-> >
-> > (And a similar chunk right above it with a similar issue)
-> >
-> > Should those be "if (foo=3Dy)" so =3Dm can't be chosen? (I'll be
-> > happy to write the patch if that's what we want)
-> >
-> > Deeper question, part 2:
-> >
-> > Should there be a way in the Kconfig language to ensure that
-> > these two chunks can't accidentally get out of sync?  There's other
-> > places in the kernel where similar issues arise - a few days ago I was
-> > chasing a CPU governor issue where it looked like it was possible
-> > to set a default that was a module and thus possibly not actually loade=
-d.
-> > =20
->=20
->=20
-> If there is a restriction where a modular discipline cannot be the defaul=
-t,
-> I think you can add 'depends on FOO =3D y'.
->=20
->=20
->=20
-> For example,
->=20
->=20
-> choice
->            prompt "Default"
->=20
->            config DEFAULT_FOO
->                   bool "Use foo for default"
->                   depends on FOO =3D y
->=20
->            config DEFAULT_BAR
->                   bool "Use bar for default"
->                   depends on BAR =3D y
->=20
->            config DEFAULT_FALLBACK
->                   bool "fallback when nothing else is builtin"
->=20
-> endchoice
->=20
->=20
->=20
->=20
->=20
+On Sun, 03 Jan 2021 10:20:11 -0800, Stephen Hemminger said:
+> You can use a qdisc that is a module, it just has to be available when device
+> is loaded. Typically that means putting it in initramfs.
 
-You can use a qdisc that is a module, it just has to be available when devi=
-ce
-is loaded. Typically that means putting it in initramfs.
+Apparently, that's not *quite* true regarding the default qdisc, because I
+hit this situation (copying from another email):
+
+---
+[/proc/sys/net] cat core/default_qdisc
+fq_codel
+
+[/proc/sys/net] tc -s qdisc show
+qdisc noqueue 0: dev lo root refcnt 2
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap 1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+qdisc noqueue 0: dev wlan0 root refcnt 2
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+
+But if I give it a kick in the head...
+
+[/proc/sys/net] tc qdisc add dev wlan0 root fq_codel
+[/proc/sys/net] tc -s qdisc show dev wlan0
+qdisc fq_codel 8001: root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn
+drop_batch 64
+ Sent 812 bytes 12 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+  maxpacket 0 drop_overlimit 0 new_flow_count 0 ecn_mark 0
+  new_flows_len 0 old_flows_len 0
+---
+
+Note that wlan0 doesn't actually get plumbed up until after the initramfs
+has done its thing and we're quite late in the boot process and the /lib/modules
+on the production system is accessible, so it doesn't look like an implicit modprobe
+gets done in that case - fq_codel.ko was very much available when the device
+was brought up.
+
+--==_Exmh_1609698888_2273P
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Comment: Exmh version 2.9.0 11/07/2018
+
+iQIVAwUBX/IORwdmEQWDXROgAQLm3A/+MSlQovP8k9Gxrq0QufB4K1mYoHnEhr/x
+/gD3Nc7RAijmmBnO1fD3eOSyH2vjy6ONhGldU+wiuzRirWG9aP1soCqY6X3l7ZNK
+aPS+Gy8yKa2B9nNNHhiDp41CiF9pFkZiGefS+btFiZsE+hSRi/e+UA4GGPL158ce
+85xrgtsBzV6/HHubwFyaGeQyxFovcrZhxnjAbVvN6yszlNVAmTrVMgYB2RqlZO9p
+PKv+n5p9NjDrLY6newLJFSgocVl2U6sKB0VGg+tLvaUvE2E0LdFu5lO61RRjs9a7
+Rd8bgvLFZSjoC5XA4Sp7IATSxLjWeMe2ErAOe89MlZmT8NNtNKITCRNP9YcH3zhA
+dJL3l32euWMxI4/Cim7bAq6s8an5jOwfsy2hUJhMNGePo6MqKUr109BodUHSf9ie
+1T1/I0S7CzN8ZRGOySjDhpvp9tt/LdWYn9tMK3wtZMsenk8FZ1REOqAybu50IWdo
+jVyS5hzg1MdIZJQRMDnFwUmDb36yya9flfkYe7b8px3rYsUFkQQQ1+6YXkFWyyGJ
+K4bVx/Lc8OX6gq6+YWKLbv1HBwQ/4Ed/2d6xCdnddAtc925byMcODd+77zAQXLPw
+Q1aiUsCOBzvjyPq15Pa1Jrb5OTX6ysdb/oxvzDYASBSOR0OcbvtzViIMYbmmhXco
+YU0wERhKQTk=
+=vJbt
+-----END PGP SIGNATURE-----
+
+--==_Exmh_1609698888_2273P--
