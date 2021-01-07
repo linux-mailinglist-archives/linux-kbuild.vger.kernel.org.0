@@ -2,152 +2,292 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 029EE2EC753
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 01:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B642EC7FC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 03:15:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726143AbhAGA2V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Jan 2021 19:28:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37822 "EHLO
+        id S1726865AbhAGCO1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Jan 2021 21:14:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbhAGA2U (ORCPT
+        with ESMTP id S1726477AbhAGCO0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Jan 2021 19:28:20 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7AAC061370
-        for <linux-kbuild@vger.kernel.org>; Wed,  6 Jan 2021 16:27:40 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id t6so2449523plq.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Jan 2021 16:27:39 -0800 (PST)
+        Wed, 6 Jan 2021 21:14:26 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3463BC0612EF;
+        Wed,  6 Jan 2021 18:13:46 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id d26so4095997wrb.12;
+        Wed, 06 Jan 2021 18:13:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=d1HllX+KtQtz6uyvQIwE/awff9RMW4+mqkr5aW+j+Tw=;
-        b=p/vwm3Duik4bQdTDjz2xqCA+BDXh7KK0s4g7fauuXwfGXdylB08Y60QI54BETKY0yb
-         zqoHglDuFnhIMplW1r8cSYFrH06rSRRui+9COIrLsM/X6r4tZxrmUMz+64InAew90dIr
-         MRDzwCoFEr8uM3oPIEsghaV2scpdgyusYzfG8bO+5iPx7Tfx5L1Mbq0K6WJnMkm2e02i
-         RjeAfQSzEnFWMR4OtHDXcwZcQjOGjIx2+1mSIqmY0S51gPSZMDE1MO3NxjceahMkS9RI
-         2vsRMYh7rNlIc9Tj/uadgWQmoQojNGWviI/WSOhonBRqmtjfoxAwQDCFtK2QGPY/tJ1D
-         HhXg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bJDw9JDYbmOYtzTxqCVs0wTxFfjfaWDxhSvBrZylkBw=;
+        b=VUH1J2ZcGu38nWhZo9cmG7Sfq824N015IUNJy5FdqcMPS3HA+508M6evzsWAblY8oP
+         qPmYVMnQGxH0+W+Y7oSCd4+dtXyPOUOxXayQf3iqNfdOnU1ivrk39Ny6zU5gBXxcgA7O
+         ODK729Xa9OboVkhYrW/mrkdcmBoUKaSFeM2OsR95uDJpFtTrnAsY/Lo0rKrt61JTttLS
+         BLOk3r7pWQJ0HbOY09Qn+zGSUiAoeb6I1blKRZFhduafh1drVT72anOLjIAGsZxUCejd
+         XeMBhrBza7VTAmB8pdNsI9OOQTzKelzAVM2nI+jt4SsyUT/j5m07qOfcIkOVc+dNIDXc
+         GhIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=d1HllX+KtQtz6uyvQIwE/awff9RMW4+mqkr5aW+j+Tw=;
-        b=TcslobOQ1+Z8Ixy+kffehDNxttdr581CEE5Zx8Iit/ETsPxKKA8nu0hPDdQ5JWZAop
-         1xddPDt73jc49VD5HNo12fPowAbvWSfXL4slejfDpxPOgWPsBztxRoJJwBYh+cvCzySK
-         PDIXGlJ9KRt9umDJ4gGGRgGWEy2zozckOyBgjfdZAtBMGdj39RMRGiiKVSGHqpW4OxgG
-         u4YvoK4M6eywsMae9poS2dbq5IWwP+2C5jHz2cCQ7W59aahEL9I2Eyql+QGGsPO66MYF
-         vx5bpMr4tuyjtw+MtKPyct06Ki8CfJnDAG4wDYF3ildgqHW0vhr/V5ctBjMo87piojHZ
-         rBeg==
-X-Gm-Message-State: AOAM533MK3ryda6JQ82YtqCGj3e1fbowc96JY5HFp3U7MHrXotr0Vv55
-        WjeM6mVIXRfHa9o8vqaYxzxJzw==
-X-Google-Smtp-Source: ABdhPJyYd1hpcq1ueeESiQ2frIkYJ43FoqoMQNRDlDef/HiQfTVGN6SsaSPDhQLmjUVsHCewWlTAlA==
-X-Received: by 2002:a17:902:7d94:b029:da:f673:18b9 with SMTP id a20-20020a1709027d94b02900daf67318b9mr6692465plm.37.1609979259406;
-        Wed, 06 Jan 2021 16:27:39 -0800 (PST)
-Received: from google.com ([2620:15c:2ce:0:a6ae:11ff:fe11:4abb])
-        by smtp.gmail.com with ESMTPSA id z28sm3748257pfr.140.2021.01.06.16.27.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 16:27:38 -0800 (PST)
-Date:   Wed, 6 Jan 2021 16:27:34 -0800
-From:   Fangrui Song <maskray@google.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bJDw9JDYbmOYtzTxqCVs0wTxFfjfaWDxhSvBrZylkBw=;
+        b=c6xSuRMRXLXKoWjxSvbGVES1vyHtypqyFOBD2vXqgor9D+t/TFZHj6RiRg3OnU7Z7W
+         pi+on22C+BTk8LtopMk54Xo/opMR02fUNrNNpjV7yyW13V4dZD9vRG53ymCzV5MoC2WW
+         tiFhbIwoDHvQJEHPi7QSC6v+luMMrzZVCBwatIoKS4q+1fS4DLvSs5pVAbLR7DDFD7K8
+         TL8cO2iIa7+rkSZKpwbmz3pUOX698TLOHjMoatUML+Jqkh28Y6tOPsgcn0X0YLbqDJJk
+         s/6m3SM0FGv9QXzMVo8dXr9Wqws+TYsJtJ84768BMvMkfY/S3QnWE9rDWiab2B41P1iR
+         PlNA==
+X-Gm-Message-State: AOAM531Lz8EnaIIqWk+GWOU8jow2JZvGdiUu0QaLRIakKNO/3rLwkcTJ
+        KKpr2Xt4dPXLeO3WrGUrQKWKO7MUIH8F5Vmk
+X-Google-Smtp-Source: ABdhPJxmvVq4g5gSzyRvr97AmGj8vLy4drCgPYmoKISNVC12hT94oR+GEI5AxCUlrTw+rzmqRtGoww==
+X-Received: by 2002:adf:c449:: with SMTP id a9mr6679455wrg.281.1609985624443;
+        Wed, 06 Jan 2021 18:13:44 -0800 (PST)
+Received: from [10.19.0.3] ([37.58.58.229])
+        by smtp.gmail.com with ESMTPSA id i16sm5403605wrx.89.2021.01.06.18.13.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jan 2021 18:13:43 -0800 (PST)
+Subject: Re: [PATCH v3 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+To:     Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Joe Perches <joe@perches.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
-        Andi Kleen <ak@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-Subject: Re: [PATCH 4/4] x86: don't build CONFIG_X86_32 as -ffreestanding
-Message-ID: <20210107002734.p62fsyhuo75psta4@google.com>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <20200817220212.338670-5-ndesaulniers@google.com>
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201221183959.1186143-1-luzmaximilian@gmail.com>
+ <a47f9739-0d6f-4e1d-c436-3ec272144d87@redhat.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <f2d63f35-e4cc-e365-1b81-a7d1f35f0cd3@gmail.com>
+Date:   Thu, 7 Jan 2021 03:13:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200817220212.338670-5-ndesaulniers@google.com>
+In-Reply-To: <a47f9739-0d6f-4e1d-c436-3ec272144d87@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2020-08-17, Nick Desaulniers wrote:
->-ffreestanding typically inhibits "libcall optimizations" where calls to
->certain library functions can be replaced by the compiler in certain
->cases to calls to other library functions that may be more efficient.
->This can be problematic for embedded targets that don't provide full
->libc implementations.
->
->-ffreestanding inhibits all such optimizations, which is the safe
->choice, but generally we want the optimizations that are performed. The
->Linux kernel does implement a fair amount of libc routines. Instead of
->-ffreestanding (which makes more sense in smaller images like kexec's
->purgatory image), prefer -fno-builtin-* flags to disable the compiler
->from emitting calls to functions which may not be defined.
->
->If you see a linkage failure due to a missing symbol that's typically
->defined in a libc, and not explicitly called from the source code, then
->the compiler may have done such a transform.  You can either implement
->such a function (ie. in lib/string.c) or disable the transform outright
->via -fno-builtin-* flag (where * is the name of the library routine, ie.
->-fno-builtin-bcmp).
->
->i386_defconfig build+boot tested with GCC and Clang. Removes a pretty
->old TODO from the codebase.
->
->Fixes: 6edfba1b33c7 ("x86_64: Don't define string functions to builtin")
->Suggested-by: Arvind Sankar <nivedita@alum.mit.edu>
->Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->Reviewed-by: Kees Cook <keescook@chromium.org>
->---
-> arch/x86/Makefile | 3 ---
-> 1 file changed, 3 deletions(-)
->
->diff --git a/arch/x86/Makefile b/arch/x86/Makefile
->index 4346ffb2e39f..2383a96cf4fd 100644
->--- a/arch/x86/Makefile
->+++ b/arch/x86/Makefile
->@@ -80,9 +80,6 @@ ifeq ($(CONFIG_X86_32),y)
->         # CPU-specific tuning. Anything which can be shared with UML should go here.
->         include arch/x86/Makefile_32.cpu
->         KBUILD_CFLAGS += $(cflags-y)
->-
->-        # temporary until string.h is fixed
->-        KBUILD_CFLAGS += -ffreestanding
-> else
->         BITS := 64
->         UTS_MACHINE := x86_64
->-- 
->2.28.0.220.ged08abb693-goog
+On 1/7/21 12:40 AM, Hans de Goede wrote:
+> Hi,
+> 
+> On 12/21/20 7:39 PM, Maximilian Luz wrote:
+>> Hello,
+>>
+>> Here is version three of the Surface System Aggregator Module (SAM/SSAM)
+>> driver series, adding initial support for the embedded controller on 5th
+>> and later generation Microsoft Surface devices. Initial support includes
+>> the ACPI interface to the controller, via which battery and thermal
+>> information is provided on some of these devices.
+>>
+>> The first version and cover letter detailing what this series is about
+>> can be found at
+>>
+>>    https://lore.kernel.org/platform-driver-x86/20201115192143.21571-1-luzmaximilian@gmail.com/
+>>
+>> the previous version (v2) at
+>>
+>>    https://lore.kernel.org/platform-driver-x86/20201203212640.663931-1-luzmaximilian@gmail.com/
+>>
+>> This patch-set can also be found at the following repository and
+>> reference, if you prefer to look at a kernel tree instead of these
+>> emails:
+>>
+>>    https://github.com/linux-surface/kernel tags/s/surface-aggregator/v3
+>>
+>> Thank you all for the feedback to and reviews of the previous versions,
+>> I hope I have addressed all comments.
+> 
+> Thank you for your patch-series, I've applied the series to my
+> review-hans branch:
+> https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+> 
+> This has been applied on top of:
+> "platform/surface: SURFACE_PLATFORMS should depend on ACPI"
+> 
+> As requested. Since my review-hans branch has been fast-forwarded to 5.11-rc1
+> there where some conflicts:
+> 
+> 6/9 "platform/surface: aggregator: Add dedicated bus and device type" had conflicts in:
+> scripts/mod/devicetable-offsets.c
+> scripts/mod/file2alias.c
+> 
+> 8/9 "platform/surface: Add Surface Aggregator user-space interface" had a conflict in:
+> Documentation/userspace-api/ioctl/ioctl-number.rst
+> 
+> This conflict was caused by the addition of documentation of the sgx ioctls, these use
+> 0xA4 as "Code" byte (shared with uapi/linux/tee.h), so the 0xA5 code for the sam cdev
+> ioctl is still unique.
+> 
+> I'm pretty sure that I've properly resolved the conflicts, but please double-check.
 
-Reviewed-by: Fangrui Song <maskray@google.com>
+Everything looks good to me. I'll compile your branch and run some tests
+just in case, but I really don't expect there to be any problems. In the
+unlikely event that I find anything, I'll submit a patch.
 
-But dropping -ffreestanding causes compiler produced declarations which
-require
-https://lore.kernel.org/lkml/20210107001739.1321725-1-maskray@google.com/
-"x86: Treat R_386_PLT32 as R_386_PC32" as a prerequisite
-to build with trunk Clang https://github.com/ClangBuiltLinux/linux/issues/1210
+> Once I've run some tests on this branch the patches there will be
+> added to the platform-drivers-x86/for-next branch and eventually
+> will be included in the pdx86 pull-request to Linus for the next
+> merge-window.
 
-Since there have been more than 4 months, it seems that something else
-regressed the non -ffreestanding build. Maybe another -fno-builtin-* is
-needed somewhere.
+Thank you (and all others involved in reviewing this).
+
+Regards,
+Max
+  
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>> Note: In v3, I have dropped the explicit dependency of the core module
+>> and driver on CONFIG_ACPI due to the incoming
+>>
+>>    [PATCH] platform/surface: SURFACE_PLATFORMS should depend on ACPI
+>>
+>> Thus, this series depends on said patch. This patch can be found at
+>>
+>>    https://www.spinics.net/lists/platform-driver-x86/msg23929.html
+>>
+>>
+>> Changes in v1 (from RFC, overview):
+>>   - move to platform/surface
+>>   - add copyright lines
+>>   - change SPDX identifier to GPL-2.0+ (was GPL-2.0-or-later)
+>>   - change user-space interface from debugfs to misc-device
+>>   - address issues in user-space interface
+>>   - fix typos in commit messages and documentation
+>>   - fix some bugs, address other issues
+>>
+>> Changes in v2 (overview):
+>>   - simplify some code, mostly with regards to concurrency
+>>   - add architectural overview to documentation
+>>   - improve comments for documentation
+>>   - use printk specifier for hex prefix instead of hard-coding it
+>>   - spell check comments and strings, fix typos
+>>   - unify comment style
+>>   - run checkpatch --strict, fix these and other style issues
+>>
+>> Changes in v3 (overview):
+>>   - remove explicit dependency on ACPI as this is going to be covered by
+>>     CONFIG_SURFACE_PLATFORMS
+>>   - simplify locking requirements
+>>   - help enforce locking requirements via lockdep assertions
+>>   - fix false-positive lockdep warning
+>>   - warn on event enablement reference counter exhaustion
+>>   - don't warn about unhandled event if event handling failed
+>>   - validate flags on request initialization
+>>   - improve documentation/add comments
+>>   - replace 'iff' with 'if' in documentation and comments
+>>
+>> Changes regarding specific patches (and more details) can be found on
+>> the individual patch.
+>>
+>>
+>> Maximilian Luz (9):
+>>    platform/surface: Add Surface Aggregator subsystem
+>>    platform/surface: aggregator: Add control packet allocation caching
+>>    platform/surface: aggregator: Add event item allocation caching
+>>    platform/surface: aggregator: Add trace points
+>>    platform/surface: aggregator: Add error injection capabilities
+>>    platform/surface: aggregator: Add dedicated bus and device type
+>>    docs: driver-api: Add Surface Aggregator subsystem documentation
+>>    platform/surface: Add Surface Aggregator user-space interface
+>>    platform/surface: Add Surface ACPI Notify driver
+>>
+>>   Documentation/driver-api/index.rst            |    1 +
+>>   .../surface_aggregator/client-api.rst         |   38 +
+>>   .../driver-api/surface_aggregator/client.rst  |  393 +++
+>>   .../surface_aggregator/clients/cdev.rst       |   87 +
+>>   .../surface_aggregator/clients/index.rst      |   21 +
+>>   .../surface_aggregator/clients/san.rst        |   44 +
+>>   .../driver-api/surface_aggregator/index.rst   |   21 +
+>>   .../surface_aggregator/internal-api.rst       |   67 +
+>>   .../surface_aggregator/internal.rst           |  577 ++++
+>>   .../surface_aggregator/overview.rst           |   77 +
+>>   .../driver-api/surface_aggregator/ssh.rst     |  344 +++
+>>   .../userspace-api/ioctl/ioctl-number.rst      |    2 +
+>>   MAINTAINERS                                   |   13 +
+>>   drivers/platform/surface/Kconfig              |   38 +
+>>   drivers/platform/surface/Makefile             |    3 +
+>>   drivers/platform/surface/aggregator/Kconfig   |   68 +
+>>   drivers/platform/surface/aggregator/Makefile  |   17 +
+>>   drivers/platform/surface/aggregator/bus.c     |  415 +++
+>>   drivers/platform/surface/aggregator/bus.h     |   27 +
+>>   .../platform/surface/aggregator/controller.c  | 2579 +++++++++++++++++
+>>   .../platform/surface/aggregator/controller.h  |  285 ++
+>>   drivers/platform/surface/aggregator/core.c    |  839 ++++++
+>>   .../platform/surface/aggregator/ssh_msgb.h    |  205 ++
+>>   .../surface/aggregator/ssh_packet_layer.c     | 2057 +++++++++++++
+>>   .../surface/aggregator/ssh_packet_layer.h     |  190 ++
+>>   .../platform/surface/aggregator/ssh_parser.c  |  228 ++
+>>   .../platform/surface/aggregator/ssh_parser.h  |  154 +
+>>   .../surface/aggregator/ssh_request_layer.c    | 1264 ++++++++
+>>   .../surface/aggregator/ssh_request_layer.h    |  143 +
+>>   drivers/platform/surface/aggregator/trace.h   |  632 ++++
+>>   .../platform/surface/surface_acpi_notify.c    |  886 ++++++
+>>   .../surface/surface_aggregator_cdev.c         |  303 ++
+>>   include/linux/mod_devicetable.h               |   18 +
+>>   include/linux/surface_acpi_notify.h           |   39 +
+>>   include/linux/surface_aggregator/controller.h |  824 ++++++
+>>   include/linux/surface_aggregator/device.h     |  423 +++
+>>   include/linux/surface_aggregator/serial_hub.h |  672 +++++
+>>   include/uapi/linux/surface_aggregator/cdev.h  |   78 +
+>>   scripts/mod/devicetable-offsets.c             |    8 +
+>>   scripts/mod/file2alias.c                      |   23 +
+>>   40 files changed, 14103 insertions(+)
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/client-api.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/client.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/clients/cdev.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/clients/index.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/clients/san.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/index.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/internal-api.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/internal.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/overview.rst
+>>   create mode 100644 Documentation/driver-api/surface_aggregator/ssh.rst
+>>   create mode 100644 drivers/platform/surface/aggregator/Kconfig
+>>   create mode 100644 drivers/platform/surface/aggregator/Makefile
+>>   create mode 100644 drivers/platform/surface/aggregator/bus.c
+>>   create mode 100644 drivers/platform/surface/aggregator/bus.h
+>>   create mode 100644 drivers/platform/surface/aggregator/controller.c
+>>   create mode 100644 drivers/platform/surface/aggregator/controller.h
+>>   create mode 100644 drivers/platform/surface/aggregator/core.c
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_msgb.h
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.c
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.h
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_parser.c
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_parser.h
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.c
+>>   create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.h
+>>   create mode 100644 drivers/platform/surface/aggregator/trace.h
+>>   create mode 100644 drivers/platform/surface/surface_acpi_notify.c
+>>   create mode 100644 drivers/platform/surface/surface_aggregator_cdev.c
+>>   create mode 100644 include/linux/surface_acpi_notify.h
+>>   create mode 100644 include/linux/surface_aggregator/controller.h
+>>   create mode 100644 include/linux/surface_aggregator/device.h
+>>   create mode 100644 include/linux/surface_aggregator/serial_hub.h
+>>   create mode 100644 include/uapi/linux/surface_aggregator/cdev.h
+>>
+> 
