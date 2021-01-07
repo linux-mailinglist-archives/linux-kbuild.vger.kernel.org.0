@@ -2,104 +2,201 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C12612EC9E9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 06:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E5022ECA26
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 06:30:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbhAGFQO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Jan 2021 00:16:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726482AbhAGFQN (ORCPT
+        id S1725974AbhAGF3v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Jan 2021 00:29:51 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:32619 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbhAGF3v (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Jan 2021 00:16:13 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA2FC0612F8
-        for <linux-kbuild@vger.kernel.org>; Wed,  6 Jan 2021 21:15:30 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id n3so3524166pjm.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Jan 2021 21:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=veLiPLptQPatfIKZ55m17NpOdTlfTsyV4zGOGB1KjD0=;
-        b=GZTm+0fKGDN75n1VaB2xqy6SPEh0CpZxMX24JMwAozI8QJGbQb/ygcQ8W34NCvbqTt
-         MGv90E8rxhdjg9hkTpAOxMwF234gOE2ooYEtQdzBLgcVxBD3Hz/O8zWpyxLQu3WWrmDT
-         AXBWgG3/SlPMT7O5TyRom38Dq6hbZrtDRxZ20Mp0I2jZzVwYqBLl2nJeEs3GHHmv7bi8
-         GMlLC3c1I6OReyi2bulptuGc58ZZAsHgwjZsWywZM1ZB+G5Ru60Db0ij/0dwUu9b9yhv
-         JMAJim0oOWFFS+5jDvFQjO0Rxpz+XSSwk/n+K1qRGumeIZA3Wku4qW97jyyezfa0jtsa
-         gfSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=veLiPLptQPatfIKZ55m17NpOdTlfTsyV4zGOGB1KjD0=;
-        b=mAJC6hIev9Hr7yzXIFHRr/x4EiBYtKk8BPid8Rht44V+YVsDQAlNeE+t4jrUhMcWFs
-         RWCqxtXq0CiVm08S+pdVXeog4GyD8gJ0QNXAcRRiUMGVHVQbLYt00eKOiUB9m2NtemRR
-         mhoiNAntkdZLWmhnkwr+GJyvMk4YiKL5HmXoOqgaVrNIQejJt1iNe00HH8xFF7SxtBTN
-         AxohkAUQzvXtWX201JJy9W9n5ph3GfHN5c3IQqs09I7MwAPZU8tKWT9fiuyJj128Ajoi
-         TVX/Sbg/gtqgXU7toDN9ZpEJwd6AtvVyI+eYrFy4rq2OTSvwkhrT0rF5IFpQQ5Trnpp2
-         eViQ==
-X-Gm-Message-State: AOAM531PAZ2TL0zdF4vck7aLp0sldPFjDOHEne7K+nUiDm6ob0EefBtU
-        5hcqEnFh0KjOfS8pZoRT+WMWdg==
-X-Google-Smtp-Source: ABdhPJwEaQDf/oNyjrW67E9uvdaxm0yeBtQtn0qsc5+sZVNaVTHprnnAaiUlR/CS3sa0MkhiDQCGww==
-X-Received: by 2002:a17:903:22ca:b029:dc:9882:1f79 with SMTP id y10-20020a17090322cab02900dc98821f79mr7383369plg.33.1609996530149;
-        Wed, 06 Jan 2021 21:15:30 -0800 (PST)
-Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id ds24sm3559263pjb.30.2021.01.06.21.15.29
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Jan 2021 21:15:29 -0800 (PST)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org
-Subject: [PATCH V2 2/2] scripts: dtc: Build fdtoverlay and fdtdump tools
-Date:   Thu,  7 Jan 2021 10:45:20 +0530
-Message-Id: <d6e4edd213433d24a2a5c7e6a816bc40b0ada32d.1609996381.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+        Thu, 7 Jan 2021 00:29:51 -0500
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 1075ScAO022423;
+        Thu, 7 Jan 2021 14:28:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 1075ScAO022423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1609997319;
+        bh=lvPP/ovJSzu/fFkNuqkFGmuMHuzmmi/KupX+Somo4Tk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ftfyjNRqlB3xR4s/fn9hHp0Zhbeyi54WZTvfFonqaRoV45wTu1B06gJr9qFKN7Mjo
+         /sVDpsdTXXrCq/fwd87AMyZjS90aXa3cvEVvjAr+ZKFbMvZ5Q31+aDk/6KRBx8PTVT
+         wQ6yywdyHS2g8SwPDMlZhER8h1f1nhPUKf5ZA81dIgT7LRswqGBWAqN3fcEJrG+JsX
+         rQvBmhINzhGnRKlTzKWgxga3BfM5rHlEehtGdWMn4mEuPD7yw3m5yJEdKQaORNJYC3
+         KwwThb0hvRtFpB3mEJDkyqi5OH94RciDRohLzRZisCHDHdRCqdNc72CAKWiObNt5mH
+         flTUSL9vt0RrQ==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id y8so2903976plp.8;
+        Wed, 06 Jan 2021 21:28:38 -0800 (PST)
+X-Gm-Message-State: AOAM533ck1/j7X5Ssg20nCKORrBSCVwvTQpncpLMHWtoUKXZk6JbN+/H
+        b1iTtzOcK7PnY+B7Pp6bg/f5oWLrPt1vm0R7kKo=
+X-Google-Smtp-Source: ABdhPJyqieTynTjtxOoQxrDCON3gMFLOBlYhUZzKbpbFKt+1C8c/pAXPUwmKwIbRKppuzO6KfEEXXk/JvebLVaIAAfk=
+X-Received: by 2002:a17:90a:c910:: with SMTP id v16mr7675125pjt.198.1609997318210;
+ Wed, 06 Jan 2021 21:28:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1609844956.git.viresh.kumar@linaro.org> <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
+In-Reply-To: <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 7 Jan 2021 14:28:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
+Message-ID: <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
+Subject: Re: [RFC 0/2] kbuild: Add support to build overlays (%.dtbo)
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>, tero.kristo@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We will start building overlays for platforms soon in the kernel and
-would need these tools going forward. Lets start building them.
+On Wed, Jan 6, 2021 at 12:21 AM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Tue, Jan 5, 2021 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> >
+> > Hello,
+> >
+> > Here is an attempt to make some changes in the kernel to allow building
+> > of device tree overlays.
+> >
+> > While at it, I would also like to discuss about how we should mention
+> > the base DT blobs in the Makefiles for the overlays, so they can be
+> > build tested to make sure the overlays apply properly.
+> >
+> > A simple way is to mention that with -base extension, like this:
+> >
+> > $(overlay-file)-base := platform-base.dtb
+> >
+> > Any other preference ?
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- scripts/dtc/Makefile | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 4852bf44e913..c607980a5c17 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -1,12 +1,18 @@
- # SPDX-License-Identifier: GPL-2.0
- # scripts/dtc makefile
- 
--hostprogs-always-$(CONFIG_DTC)		+= dtc
-+hostprogs-always-$(CONFIG_DTC)		+= dtc fdtdump fdtoverlay
- hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
- 
- dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
- 		   srcpos.o checks.o util.o
- dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
-+fdtdump-objs	:= fdtdump.o util.o
-+
-+libfdt_dir	= libfdt
-+libfdt-objs	:= fdt.o fdt_ro.o fdt_wip.o fdt_sw.o fdt_rw.o fdt_strerror.o fdt_empty_tree.o fdt_addresses.o fdt_overlay.o
-+libfdt		= $(addprefix $(libfdt_dir)/,$(libfdt-objs))
-+fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
- 
- # Source files need to get at the userspace version of libfdt_env.h to compile
- HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
--- 
-2.25.0.rc1.19.g042ed3e048af
 
+Viresh's patch is not enough.
+
+We will need to change .gitignore
+and scripts/Makefile.dtbinst as well.
+
+
+In my understanding, the build rule is completely the same
+between .dtb and .dtbo
+As Rob mentioned, I am not sure if we really need/want
+a separate extension.
+
+
+A counter approach is to use an extension like '.ovl.dtb'
+It clarifies it is an overlay fragment without changing
+anything in our build system or the upstream DTC project.
+
+We use chained extension in some places, for example,
+.dt.yaml for schema yaml files.
+
+
+
+dtb-$(CONFIG_ARCH_FOO) += \
+    foo-board.dtb \
+    foo-overlay1.ovl.dtb \
+    foo-overlay2.ovl.dtb
+
+
+Overlay DT source file names must end with '.ovl.dts'
+
+
+
+
+>
+> I think we'll want something similar to how '-objs' works for modules:
+>
+> foo-board-1-dtbs := foo-board.dtb foo-overlay1.dtbo
+> foo-board-2-dtbs := foo-board.dtb foo-overlay2.dtbo
+> foo-board-1-2-dtbs := foo-board.dtb foo-overlay1.dtbo foo-overlay2.dtbo
+> dtbs-y += foo-board-1.dtb foo-board-2.dtb foo-board-1-2.dtb
+>
+> (One difference here is we will want all the intermediate targets
+> unlike .o files.)
+>
+> You wouldn't necessarily have all the above combinations, but you have
+> to allow for them. I'm not sure how we'd handle applying any common
+> overlays where the base and overlay are in different directories.
+
+
+I guess the motivation for supporting -dtbs is to
+add per-board -@ option only when it contains *.dtbo pattern.
+
+But, as you notice, if the overlay files are located
+under drivers/, it is difficult to add -@ per board.
+
+Another scenario is, some people may want to compile
+downstream overlay files (i.e. similar concept as external modules),
+then we have no idea which base board should be given with the -@ flag.
+
+
+I'd rather be tempted to add it globally
+
+
+ifdef CONFIG_OF_OVERLAY
+DTC_FLAGS += -@
+endif
+
+
+
+
+
+
+
+>
+> Another thing here is adding all the above is not really going to
+> scale on arm32 where we have a single dts directory. We need to move
+> things to per vendor/soc family directories. I have the script to do
+> this. We just need to agree on the vendor names and get Arnd/Olof to
+> run it. I also want that so we can enable schema checks by default
+> once a vendor is warning free (the whole tree is going to take
+> forever).
+
+
+If this is a big churn, perhaps we could make it extreme
+to decouple DT and Linux-arch.
+
+
+
+arch/*/boot/dts/*.dts
+ ->  dts/<vendor>/*.dts
+
+Documentation/devicetree/bindings
+ -> dts/Bindings/
+
+include/dt-bindings/
+ -> dts/include/dt-bindings/
+
+
+
+Then, other project can take dts/
+to reuse for them.
+
+
+
+
+
+
+
+> > Also fdtoverlay is an external entity right now, and is not part of the
+> > kernel. Do we need to make it part of the kernel ? Or keep using the
+> > external entity ?
+>
+> Part of the kernel. We just need to add it to the dtc sync script and
+> makefile I think.
+>
+> Rob
+
+
+
+--
+Best Regards
+Masahiro Yamada
