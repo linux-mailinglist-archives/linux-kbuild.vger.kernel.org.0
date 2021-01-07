@@ -2,118 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 457272ECA80
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 07:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAB8D2ECAEF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 08:29:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbhAGG0Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Jan 2021 01:26:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
+        id S1726482AbhAGH15 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Jan 2021 02:27:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbhAGG0P (ORCPT
+        with ESMTP id S1726154AbhAGH15 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Jan 2021 01:26:15 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A923C0612F4
-        for <linux-kbuild@vger.kernel.org>; Wed,  6 Jan 2021 22:25:35 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id 11so3245509pfu.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Jan 2021 22:25:35 -0800 (PST)
+        Thu, 7 Jan 2021 02:27:57 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFE6EC0612F6
+        for <linux-kbuild@vger.kernel.org>; Wed,  6 Jan 2021 23:27:16 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id q7so2343331pgm.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 06 Jan 2021 23:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=v2Yn25XHl+ymzY6Sqqp8UyYBl8VsyNvH90saFA5KVqE=;
-        b=CFWiH0vHlQlCWzZ6uoudGfqkjTG6FuRGE+oehRL8JLVPg5kEFaayNmKPJDaKYSepwx
-         asWdl+k4sLZZUf40Llz/JCQQbEIZVILztGZmUoEPJRvHLGIYlulJg3hv1GdYzibEYH3+
-         OL8cdUaVgPMbhN/hBw+MDKfIgOPdsVzbOCeuuPMPpxRCcyqr3hAGRsVesIs1HYQ8gP8p
-         dZz7FsHBlYNDXRuARxZNoRr4lznWhNGrTPuhbBAHugkyY4IwOPZO+LJh8qzCFusu39eD
-         XcDUUvVWe2uiJ52FRDUv8/T0Hurmx+uAHKsQU3s5RMbVBpCP3vOUQGtxMNFrDRf9yCXL
-         dBVA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vTGhjHR1vsg+Mr43HN4cyueuEjB0/vHkOdTIvdJMuEI=;
+        b=N33IJmbkbnKTgBru1x+Bc6gzjJkYSr4kISEarysGplTh5RD8yJhsRm+T+a0RXU98lh
+         iItU7n6DmJGPUikqEuuIxWJXIFayZK9DM977/7K1ChuWeyDUgQTzNncPVDbcpr7jxLhb
+         yzJW24grUhNRXERPvP/FmMdVBSe6SvOONqQu644NxxibMpUiKAUoWt7h/Cc1+MGEOEH2
+         lT4kYtJykr08jOA39hiYKmdPD58tKFfGboJOs5UsK4XJuYKs6xhkgj/pIGwy2CI5P87p
+         UlCyoSOGozI9H54eesz5b8IlLKG225aw6AZ9uEgAoLkkE2NS6ULVhpzJ1vTtkN9/bgE9
+         PHrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=v2Yn25XHl+ymzY6Sqqp8UyYBl8VsyNvH90saFA5KVqE=;
-        b=MA5zD3uM1oHXLGNqX1+4+W25gN4gZVlDiUQuErhnLjE8Ul1SBOKHKvsc+ODweZr3Hc
-         WP0IimroMUVhukBSWukC8red5hLQeT+oFs+80RkyuJMKkAkVtqwmeaCLHOMobBxUlB5n
-         PoBnAby9WAs6sng7pEE1hiNvbLNdf5Lupcnss8oOwraqe21m8+hk2utFix0VfO4903k4
-         3IiybArDwd2WAa21J5jEaRBiJNimajZ1zWzBteDj8eI9+6uKc86qYhaR5lTIMfKqMYE0
-         CwdLUZxSWvqRBynmrXxsuryunHRKc4/WeYb6qllePQGa/8VTeAjN0cgJpzYHMay1mVpo
-         Higw==
-X-Gm-Message-State: AOAM533YjFc3H6845UWwR4Nbpxi+0fCgadSj05X9WIdguW9t+nUt+LY1
-        UNce/K5qOa73MkeD8dchwM/Jyw==
-X-Google-Smtp-Source: ABdhPJx+9DCdLWEGE2j0i/7q95jblzmahtAd7GMBvwYIilUL0Sl5xhOn5xANSXK9MFPrau1CKWxiUA==
-X-Received: by 2002:a63:8c15:: with SMTP id m21mr355344pgd.396.1610000735086;
-        Wed, 06 Jan 2021 22:25:35 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vTGhjHR1vsg+Mr43HN4cyueuEjB0/vHkOdTIvdJMuEI=;
+        b=YlGBqkVO1zqsfNBiFcbXVOlBcZpCHqeOKuVL4e4zDIZEmDrjv5ui9w0VaFbbdi/Iqi
+         t0GeKubWqM3IPmhQAylRWLCv1uXb78XZKm9AtxNtFceK0J3kY62mbmvVrVCwdez8czh1
+         jReUFmAv7s5CMf/bbTcR5psGT0t3Zn+HK/MAjZtJeJqt6j4bxEY1c/0DtvxJVON5mfiv
+         d4QycfRuBlItipMsF9PXuaGpNPc6tCGe8THPeO8UVNjHOqSDl+PClTD0GuGRvPYtxkRu
+         fuJAD9w2hvoxuace9V5GqaslqGImhA6ZJvIN5aW8rM7RFHBFvdf6GLi8nHdS/SyqdT5d
+         dt5A==
+X-Gm-Message-State: AOAM531wDs0U8vUcDynfZlE5nHkgPboP7VLJLZqhRwxj0tk68NZobxbA
+        Pm3lYd78HLFqstGlYejwtojQk9lzw+62AQ==
+X-Google-Smtp-Source: ABdhPJwWCXkCtc9Ql0FAXoIcgCxNwxWJcNJRgjQZQ3Djqh8Dx1vdHZm2bTzQIVbLeDk7XK8/WxnxCg==
+X-Received: by 2002:a63:2b42:: with SMTP id r63mr552559pgr.316.1610004436040;
+        Wed, 06 Jan 2021 23:27:16 -0800 (PST)
 Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id n4sm4326020pfu.150.2021.01.06.22.25.33
+        by smtp.gmail.com with ESMTPSA id c10sm4182974pjn.22.2021.01.06.23.27.14
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Jan 2021 22:25:34 -0800 (PST)
+        Wed, 06 Jan 2021 23:27:15 -0800 (PST)
+Date:   Thu, 7 Jan 2021 12:57:12 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
         Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH V3 2/2] scripts: dtc: Build fdtoverlay and fdtdump tools
-Date:   Thu,  7 Jan 2021 11:55:10 +0530
-Message-Id: <72c3a4f63dde3c172c11153e9a5b19fb6cdb4498.1610000585.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <CAK7LNAQT5nVHGAZDhj4dct0v8UMzQ+-mdfBXJsfedR-7mZTnyA@mail.gmail.com>
-References: <CAK7LNAQT5nVHGAZDhj4dct0v8UMzQ+-mdfBXJsfedR-7mZTnyA@mail.gmail.com>
+        Bill Mills <bill.mills@linaro.org>, tero.kristo@gmail.com
+Subject: Re: [RFC 0/2] kbuild: Add support to build overlays (%.dtbo)
+Message-ID: <20210107072712.si2pdaatbqkpizhb@vireshk-i7>
+References: <cover.1609844956.git.viresh.kumar@linaro.org>
+ <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
+ <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We will start building overlays for platforms soon in the kernel and
-would need these tools going forward. Lets start building them.
+On 07-01-21, 14:28, Masahiro Yamada wrote:
+> On Wed, Jan 6, 2021 at 12:21 AM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Tue, Jan 5, 2021 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > > Here is an attempt to make some changes in the kernel to allow building
+> > > of device tree overlays.
+> > >
+> > > While at it, I would also like to discuss about how we should mention
+> > > the base DT blobs in the Makefiles for the overlays, so they can be
+> > > build tested to make sure the overlays apply properly.
+> > >
+> > > A simple way is to mention that with -base extension, like this:
+> > >
+> > > $(overlay-file)-base := platform-base.dtb
+> > >
+> > > Any other preference ?
+> 
+> Viresh's patch is not enough.
+> 
+> We will need to change .gitignore
+> and scripts/Makefile.dtbinst as well.
 
-The fdtoverlay program applies (or merges) one ore more overlay dtb
-blobs to a base dtb blob. The kernel build system would later use
-fdtoverlay to generate the overlaid blobs based on platform specific
-configurations.
-
-The fdtdump program prints a readable version of a flat device-tree
-file. This is a very useful tool to analyze the details of the overlay's
-dtb and the final dtb produced by fdtoverlay after applying the
-overlay's dtb to a base dtb.
-
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
-V3:
-- Updated log
-- Remove libfdt_dir
-
- scripts/dtc/Makefile | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 4852bf44e913..472ab8cd590c 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -1,12 +1,17 @@
- # SPDX-License-Identifier: GPL-2.0
- # scripts/dtc makefile
+Thanks.
  
--hostprogs-always-$(CONFIG_DTC)		+= dtc
-+hostprogs-always-$(CONFIG_DTC)		+= dtc fdtdump fdtoverlay
- hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
- 
- dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
- 		   srcpos.o checks.o util.o
- dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
-+fdtdump-objs	:= fdtdump.o util.o
-+
-+libfdt-objs	:= fdt.o fdt_ro.o fdt_wip.o fdt_sw.o fdt_rw.o fdt_strerror.o fdt_empty_tree.o fdt_addresses.o fdt_overlay.o
-+libfdt		= $(addprefix libfdt/,$(libfdt-objs))
-+fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
- 
- # Source files need to get at the userspace version of libfdt_env.h to compile
- HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
+> In my understanding, the build rule is completely the same
+> between .dtb and .dtbo
+
+Right.
+
+> As Rob mentioned, I am not sure if we really need/want
+> a separate extension.
+> 
+> 
+> A counter approach is to use an extension like '.ovl.dtb'
+> It clarifies it is an overlay fragment without changing
+> anything in our build system or the upstream DTC project.
+> 
+> We use chained extension in some places, for example,
+> .dt.yaml for schema yaml files.
+> 
+> 
+> 
+> dtb-$(CONFIG_ARCH_FOO) += \
+>     foo-board.dtb \
+>     foo-overlay1.ovl.dtb \
+>     foo-overlay2.ovl.dtb
+> 
+> 
+> Overlay DT source file names must end with '.ovl.dts'
+
+I am fine with any approach that you guys feel is better, .dts or .ovl.dts. I
+wanted to start a discussion where we can resolve this and be done with it.
+
+Thanks.
+
 -- 
-2.25.0.rc1.19.g042ed3e048af
-
+viresh
