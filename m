@@ -2,174 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFAA2ED2B0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 15:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C842ED715
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Jan 2021 20:03:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728273AbhAGOgc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Jan 2021 09:36:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46396 "EHLO mail.kernel.org"
+        id S1727058AbhAGTDB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Jan 2021 14:03:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41050 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729289AbhAGOcT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Jan 2021 09:32:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2491A2333E;
-        Thu,  7 Jan 2021 14:31:14 +0000 (UTC)
+        id S1726326AbhAGTDB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 7 Jan 2021 14:03:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45AB723435;
+        Thu,  7 Jan 2021 19:02:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610029877;
-        bh=USX+2TpBUoiVKLv8nPZdH7ewWdDApeo2U7DhVBNhRjU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RZH25cGJx/88oQyPhBFR8c1wnkXYfb6eScg1CVBVUNQzBscuJDX8LfAXJMVZSSrRZ
-         7rJBo4O38ooluwjCJdHOgNoBATY9JyCRjgZMKapBa+BYwxFfoAhQaBgRFm6/58mJpd
-         1Eqkwp8hEuIvAVtBULVc78CtUvN8YNrIWsW+gDAXEjMUGQHLA7BbPUiEKbl3v6cnJ6
-         A3ixb7vvbb/xK4rN/9eg1QyNSQf3pt+UUFvnec3XXKGHY44ImSF8gN7Oz4ooi1b36G
-         66gwHgDiePqd7zfSEfXDRumUKc8oKwOQNAQ1fEMLUwq8BvJif2jJX/oMoUgX4Y+JGo
-         D2571O3jAI48Q==
-Date:   Thu, 7 Jan 2021 15:31:12 +0100
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Will McVicker <willmcvicker@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v4] modules: introduce the MODULE_SCMVERSION config
-Message-ID: <20210107143111.GA30412@linux-8ccs>
-References: <20201216220850.659584-1-willmcvicker@google.com>
- <20201218120138.GA5265@linux-8ccs>
- <CABYd82bf+RACxboKCxoV=N63ynKwPspGhb6G5yYPiCFKnOk9Hw@mail.gmail.com>
+        s=k20201202; t=1610046140;
+        bh=TZFc2uhAUvgMw7NBM7C6fXOSdHM+P8snV02JquEUOw4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BTS3AwKfTR0dYLwq+62mTag8GjfkQE4fBld0gDTblX2L/0l7ze+dHXhHSb/zorx27
+         qQSR+bQ9VC8Jxqcs84UA4jEfxK7bfRAKN41BLnUHXdzn1cd+9ZN80AJyTlmdOelPUD
+         vhuisk5IUBEXTtvBNXs9dyJNd/VVSMST+In3X4PzJl1+GpXhEHJL4MqcJaRXguuIqx
+         AH1sYsCSyxB9uXi1DPb9oomF6U4lH7Q1gvKa7xX6o9rO+QxIHduKhyNf908nAX1ueP
+         kbAY+J2mr03glNJPEpgT97PwdaGqHC+OnYJeqrYYXHR65gyuhfXEV6OmoACBEiSzfK
+         rttUvOPqo/jZA==
+Received: by mail-ej1-f50.google.com with SMTP id jx16so11115579ejb.10;
+        Thu, 07 Jan 2021 11:02:20 -0800 (PST)
+X-Gm-Message-State: AOAM530fWx557vdWBUtW3JVQqqEcCxT5rr+/5LOUeN8oq2xnw09fnufj
+        FVj/LWNwiZ9EHvSQK/sBIYaMuuKXn3PcZ1spBQ==
+X-Google-Smtp-Source: ABdhPJzSOhiLtuwC0AOfF/dJCQPjohzs36dVzzBpRAyXqzab3yXw9Q53sB/TVrj7BjS+gNHtCNXY41OIMTOKGMhEoyo=
+X-Received: by 2002:a17:906:4146:: with SMTP id l6mr138538ejk.341.1610046138784;
+ Thu, 07 Jan 2021 11:02:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CABYd82bf+RACxboKCxoV=N63ynKwPspGhb6G5yYPiCFKnOk9Hw@mail.gmail.com>
-X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1609844956.git.viresh.kumar@linaro.org> <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
+ <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 7 Jan 2021 12:02:06 -0700
+X-Gmail-Original-Message-ID: <CAL_Jsq+DFF0tRv61XCAGLJYYu=ow8Ah8prd6su=6dpoU_AyMXw@mail.gmail.com>
+Message-ID: <CAL_Jsq+DFF0tRv61XCAGLJYYu=ow8Ah8prd6su=6dpoU_AyMXw@mail.gmail.com>
+Subject: Re: [RFC 0/2] kbuild: Add support to build overlays (%.dtbo)
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>, tero.kristo@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+++ Will McVicker [06/01/21 10:44 -0800]:
->Thanks for the vacation notice Jessica! I'm just letting you know I'm
->back as well and am happy to respond to any concerns regarding v4 when
->you get all caught up.
+On Wed, Jan 6, 2021 at 10:35 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
->I hope you had a relaxing holiday :)
+> On Wed, Jan 6, 2021 at 12:21 AM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Tue, Jan 5, 2021 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > > Here is an attempt to make some changes in the kernel to allow building
+> > > of device tree overlays.
+> > >
+> > > While at it, I would also like to discuss about how we should mention
+> > > the base DT blobs in the Makefiles for the overlays, so they can be
+> > > build tested to make sure the overlays apply properly.
+> > >
+> > > A simple way is to mention that with -base extension, like this:
+> > >
+> > > $(overlay-file)-base := platform-base.dtb
+> > >
+> > > Any other preference ?
+>
+>
+>
+> Viresh's patch is not enough.
+>
+> We will need to change .gitignore
+> and scripts/Makefile.dtbinst as well.
+>
+>
+> In my understanding, the build rule is completely the same
+> between .dtb and .dtbo
+> As Rob mentioned, I am not sure if we really need/want
+> a separate extension.
+>
+>
+> A counter approach is to use an extension like '.ovl.dtb'
+> It clarifies it is an overlay fragment without changing
+> anything in our build system or the upstream DTC project.
+>
+> We use chained extension in some places, for example,
+> .dt.yaml for schema yaml files.
+>
+>
+>
+> dtb-$(CONFIG_ARCH_FOO) += \
+>     foo-board.dtb \
+>     foo-overlay1.ovl.dtb \
+>     foo-overlay2.ovl.dtb
+>
+>
+> Overlay DT source file names must end with '.ovl.dts'
 
-Hi Will - thanks, same to you!
+I like that suggestion as then it's also clear looking at the source
+files which ones are overlays. Or we'd need .dtso to be consistent.
 
->On Fri, Dec 18, 2020 at 4:01 AM Jessica Yu <jeyu@kernel.org> wrote:
->>
->> +++ Will McVicker [16/12/20 22:08 +0000]:
->> >Config MODULE_SCMVERSION introduces a new module attribute --
->> >`scmversion` -- which can be used to identify a given module's SCM
->> >version.  This is very useful for developers that update their kernel
->> >independently from their kernel modules or vice-versa since the SCM
->> >version provided by UTS_RELEASE (`uname -r`) will now differ from the
->> >module's vermagic attribute.
->> >
->> >For example, we have a CI setup that tests new kernel changes on the
->> >hikey960 and db845c devices without updating their kernel modules. When
->> >these tests fail, we need to be able to identify the exact device
->> >configuration the test was using. By including MODULE_SCMVERSION, we can
->> >identify the exact kernel and modules' SCM versions for debugging the
->> >failures.
->> >
->> >Additionally, by exposing the SCM version via the sysfs node
->> >/sys/module/MODULENAME/scmversion, one can also verify the SCM versions
->> >of the modules loaded from the initramfs. Currently, modinfo can only
->> >retrieve module attributes from the module's ko on disk and not from the
->> >actual module that is loaded in RAM.
->> >
->> >You can retrieve the SCM version in two ways,
->> >
->> >1) By using modinfo:
->> >    > modinfo -F scmversion MODULENAME
->> >2) By module sysfs node:
->> >    > cat /sys/module/MODULENAME/scmversion
->> >
->> >Signed-off-by: Will McVicker <willmcvicker@google.com>
->> >---
-[ added back diff ]
->> >Changelog since v3:
->> >- Dropped [PATCH v2 1/2] scripts/setlocalversion: allow running in a subdir
->> >
->> > Documentation/ABI/stable/sysfs-module | 18 ++++++++++++++++++
->> > include/linux/module.h                |  1 +
->> > init/Kconfig                          | 12 ++++++++++++
->> > kernel/module.c                       |  2 ++
->> > scripts/Makefile.modpost              | 22 ++++++++++++++++++++++
->> > scripts/mod/modpost.c                 | 24 +++++++++++++++++++++++-
->> > 6 files changed, 78 insertions(+), 1 deletion(-)
->> >
->> >diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
->> >index 6272ae5fb366..2ba731767737 100644
->> >--- a/Documentation/ABI/stable/sysfs-module
->> >+++ b/Documentation/ABI/stable/sysfs-module
->> >@@ -32,3 +32,21 @@ Description:
->> > 		Note: If the module is built into the kernel, or if the
->> > 		CONFIG_MODULE_UNLOAD kernel configuration value is not enabled,
->> > 		this file will not be present.
->> >+
->> >+What:		/sys/module/MODULENAME/scmversion
->> >+Date:		November 2020
->> >+KernelVersion:	5.11
 
-I guess we'll have to bump KernelVersion now (sorry about the timing!)
+> > I think we'll want something similar to how '-objs' works for modules:
+> >
+> > foo-board-1-dtbs := foo-board.dtb foo-overlay1.dtbo
+> > foo-board-2-dtbs := foo-board.dtb foo-overlay2.dtbo
+> > foo-board-1-2-dtbs := foo-board.dtb foo-overlay1.dtbo foo-overlay2.dtbo
+> > dtbs-y += foo-board-1.dtb foo-board-2.dtb foo-board-1-2.dtb
+> >
+> > (One difference here is we will want all the intermediate targets
+> > unlike .o files.)
+> >
+> > You wouldn't necessarily have all the above combinations, but you have
+> > to allow for them. I'm not sure how we'd handle applying any common
+> > overlays where the base and overlay are in different directories.
+>
+>
+> I guess the motivation for supporting -dtbs is to
+> add per-board -@ option only when it contains *.dtbo pattern.
 
->> >+Contact:	Will McVicker <willmcvicker@google.com>
->> >+Description:	This read-only file will appear if modpost was supplied with an
->> >+		SCM version for the module. It can be enabled with the config
->> >+		MODULE_SCMVERSION. The SCM version is retrieved by
->> >+		scripts/setlocalversion, which means that the presence of this
->> >+		file depends on CONFIG_LOCALVERSION_AUTO=y or LOCALVERSION=.
+I hadn't thought that far, but yeah, that would be good. Really, I
+just want it to be controlled per SoC family at least.
 
-I think the "or LOCALVERSION=" part is inaccurate, right? We need
-just LOCALVERSION_AUTO for the full scm string for this to work.
+> But, as you notice, if the overlay files are located
+> under drivers/, it is difficult to add -@ per board.
 
->> >+		When read, the SCM version that the module was compiled with is
->> >+		returned. The SCM version is returned in the following format::
->> >+
->> >+		===
->> >+		Git:		g[a-f0-9]\+(-dirty)\?
->> >+		Mercurial:	hg[a-f0-9]\+(-dirty)\?
->> >+		Subversion:	svn[0-9]\+
->> >+		===
->> >diff --git a/include/linux/module.h b/include/linux/module.h
->> >index c4e7a887f469..6bd710308863 100644
->> >--- a/include/linux/module.h
->> >+++ b/include/linux/module.h
->> >@@ -372,6 +372,7 @@ struct module {
->> > 	struct module_attribute *modinfo_attrs;
->> > 	const char *version;
->> > 	const char *srcversion;
->> >+	const char *scmversion;
->> > 	struct kobject *holders_dir;
->> >
->> > 	/* Exported symbols */
->> >diff --git a/init/Kconfig b/init/Kconfig
->> >index b77c60f8b963..d9ae12f16ba2 100644
->> >--- a/init/Kconfig
->> >+++ b/init/Kconfig
->> >@@ -2131,6 +2131,18 @@ config MODULE_SRCVERSION_ALL
->> > 	  the version).  With this option, such a "srcversion" field
->> > 	  will be created for all modules.  If unsure, say N.
->> >
->> >+config MODULE_SCMVERSION
->> >+	bool "SCM version for modules"
->> >+	depends on LOCALVERSION_AUTO
->> >+	help
->> >+	  This enables the module attribute "scmversion" which can be used
->> >+	  by developers to identify the SCM version of a given module, e.g.
->> >+	  git sha1 or hg sha1. The SCM version can be queried by modinfo or
->> >+	  via the sysfs node: /sys/modules/MODULENAME/scmversion. This is
->> >+	  useful when the kernel or kernel modules are updated separately
->> >+	  since that causes the vermagic of the kernel and the module to
->> >+	  differ.
+Generally, they shouldn't be. The exceptions are what we already have
+there which are old dt fixups and unittests.
 
-Since I consider this a debug/developer option, let's add a "If
-unsure, say N." at the end of this, similar to the other
-module options.
+We want the stripped DT repo (devicetree-rebasing) to have all this
+and drivers/ is stripped out. (Which reminds me, the DT repo will need
+some work to support all this. It's a different build sys.)
 
-Thanks!
+> Another scenario is, some people may want to compile
+> downstream overlay files (i.e. similar concept as external modules),
+> then we have no idea which base board should be given with the -@ flag.
+>
+>
+> I'd rather be tempted to add it globally
+>
+>
+> ifdef CONFIG_OF_OVERLAY
+> DTC_FLAGS += -@
+> endif
 
-Jessica
+We've already rejected doing that. Turning on '-@' can grow the dtb
+size by a significant amount which could be problematic for some
+boards.
+
+
+> > Another thing here is adding all the above is not really going to
+> > scale on arm32 where we have a single dts directory. We need to move
+> > things to per vendor/soc family directories. I have the script to do
+> > this. We just need to agree on the vendor names and get Arnd/Olof to
+> > run it. I also want that so we can enable schema checks by default
+> > once a vendor is warning free (the whole tree is going to take
+> > forever).
+>
+>
+> If this is a big churn, perhaps we could make it extreme
+> to decouple DT and Linux-arch.
+
+I would be fine with that, but I don't think we'll get agreement
+there. With that amount of change, we'll be discussing git submodule
+again.
+
+Rereading the thread on vendor directories[1], we may just move boards
+one vendor at a time. We could just make that a prerequisite for
+vendor supporting overlays.
+
+> arch/*/boot/dts/*.dts
+>  ->  dts/<vendor>/*.dts
+>
+> Documentation/devicetree/bindings
+>  -> dts/Bindings/
+>
+> include/dt-bindings/
+>  -> dts/include/dt-bindings/
+>
+>
+>
+> Then, other project can take dts/
+> to reuse for them.
+
+This is already possible with devicetree-rebasing.git. Though it is
+still by arch.
+
+Rob
+
+[1] https://lore.kernel.org/linux-devicetree/20181204183649.GA5716@bogus/
