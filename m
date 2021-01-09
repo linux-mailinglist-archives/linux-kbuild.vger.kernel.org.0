@@ -2,142 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 598F62EEEB8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Jan 2021 09:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E332EFC25
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Jan 2021 01:30:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbhAHImN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Jan 2021 03:42:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57374 "EHLO
+        id S1726028AbhAIA3t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Jan 2021 19:29:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727511AbhAHImN (ORCPT
+        with ESMTP id S1725905AbhAIA3t (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Jan 2021 03:42:13 -0500
+        Fri, 8 Jan 2021 19:29:49 -0500
 Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CECC5C0612F5
-        for <linux-kbuild@vger.kernel.org>; Fri,  8 Jan 2021 00:41:32 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id t6so5324188plq.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 08 Jan 2021 00:41:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 150FDC061757
+        for <linux-kbuild@vger.kernel.org>; Fri,  8 Jan 2021 16:29:09 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id s15so6523723plr.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 08 Jan 2021 16:29:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5YW50Ah03cn2qpITNLfaRsXD4PDGBQyXlcG2G1/LKtg=;
-        b=CvsP4jxX8IdJOfZqoADc6APWHfTrnbb4YDQ8/D9XHeFZTvFrPC6BQURCTw8A/MdFxt
-         xwxrQX9aGXqNpW5FDCmpb4h/2txCkELIINMpfXkv7JfnJDd60a1Jcij7JMpEVQdjBmOE
-         R0ylNEbBYp9Uiyey3dutCWTdpGHPulnnNdHy3rkUJgu8U0nwB9aziLcqODRoIccQjHtM
-         xFLL3OYcjF0ZP3unUG8fmK3XL0DxqfoE1dR0k2k5VdpRWMSvYz7tO1QYBhRee7UMdljP
-         Coz4z0j8lBzMuoaX/h/LDHeXxqcC9B9qenOEfovKY8FPeW15E0rbhMHRH1fBxLhdzCIj
-         V/kg==
+        bh=eveSrO3foL1YR94SADi/xGNY6RU/HiTPaoR//1jI2bc=;
+        b=cemTR8rQ+v7aAc1j8X9bSjTtMv/2eIij1J0jQdOW7eNBqbQFCd58aSYpax3rZVT2eY
+         aoIsHA/4koMVUbI+TLf/cwAkcwY2XCmvpLcT//0ZhklFs+Yz+KCOHvj4iDKgepwwDCy2
+         psVcFqYTpa0VlbUiLHsCrmO18jt6/WbjHzn9c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5YW50Ah03cn2qpITNLfaRsXD4PDGBQyXlcG2G1/LKtg=;
-        b=iXpqX8OJEaxSqYOLuSWhb2p8+fsbMVISB/HV150+Xe8vahSj5gvP/mnkVAOWu4Zf3W
-         MoWPdaOSSFX5B6fAjT6yM84341DHRh1u3mU+TY8i2G9bn5OluFQso9sI3N7wRT5sjJ/p
-         45xj6FLk+bxdteDjh6jo2C4zpuKN9HdykbYMLcZcvWsgvaaWtMtlhdyz098opvnw7fX8
-         I/dZHmqFTZJwjQeOK4AOPw38z+VxSenaMkY5uyml5N3I/Tw277UsYlG+FRHlqLDZ3Veq
-         wQXx5PqB1Qz26NIZAeLuxSFD+IzSkn1bHgwVEhmHy5ce61mphXD2eshRZo+xZ74KR3R9
-         K0Jg==
-X-Gm-Message-State: AOAM530OVo+xVGDLZdN1Sq6YyVxIRtV3mvYF5HQ/VPCjiPW29k2OzQjq
-        FtiKDcfqEHbhK8X+Zps2q2+VaA==
-X-Google-Smtp-Source: ABdhPJxURUQK4OfLPAV2tJmJ/OaEPV8xqk6SEh+SIZHFSg3frcbKUp34+oZhmVq913w3ZytX4WXxeA==
-X-Received: by 2002:a17:90a:450c:: with SMTP id u12mr2715278pjg.93.1610095292255;
-        Fri, 08 Jan 2021 00:41:32 -0800 (PST)
-Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id m15sm8393768pfa.72.2021.01.08.00.41.30
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Jan 2021 00:41:31 -0800 (PST)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
+        bh=eveSrO3foL1YR94SADi/xGNY6RU/HiTPaoR//1jI2bc=;
+        b=YpS5Cj0Osp7md83QWcRQJZS/SY2760okAAjEKaN4KNwg7vi9WJ5g5rwysAttb+N7uF
+         XTzNgfQgH1jIiBd8jtVei6IRneMqBKiARHoB4ShCUwDpbBD0GrKbxdmkQAA78YqBCK/6
+         ZdSZvkgq126db5cKU8UQHuTrsE3pvvbF5+oS2iPeajJRfuFox/f8/lxNY48kep52Fevq
+         7Hvvm5q1QzxdbVN69Nm9riNGDSoaWrHpntNcBkJnGO8l5Ie0PjW+02OlKaWGVuvUkQpH
+         3NEh+tRSjEW4zFF1T8QXvkdh4oj7Z5mx8ot4WZO90UBvhU8cazmz1XS9S1r6+cqQ2veq
+         tEOw==
+X-Gm-Message-State: AOAM531io/XZtZb0zuwjMUndlGfGt9OsSjgujx4FHzLPUtG20Z3HDi1U
+        BoPV06h3LhfgLyL7a5oF1MSNxg==
+X-Google-Smtp-Source: ABdhPJxOK52D16pcAwbT6jFjbq8GC4r4IJlAOsTNR/onet1CRy5aKa4cGbW3hXo1Ls7QfN7irIfQYg==
+X-Received: by 2002:a17:90a:db08:: with SMTP id g8mr6363172pjv.163.1610152148560;
+        Fri, 08 Jan 2021 16:29:08 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p16sm9332768pju.47.2021.01.08.16.29.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jan 2021 16:29:07 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Will Deacon <will@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-Date:   Fri,  8 Jan 2021 14:11:20 +0530
-Message-Id: <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        clang-built-linux@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-pci@vger.kernel.org,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel-hardening@lists.openwall.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v9 00/16] Add support for Clang LTO
+Date:   Fri,  8 Jan 2021 16:27:13 -0800
+Message-Id: <161015202326.2511797.6087273163265436487.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201211184633.3213045-1-samitolvanen@google.com>
+References: <20201211184633.3213045-1-samitolvanen@google.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that fdtoverlay is part of the kernel build, start using it to test
-the unitest overlays we have by applying them statically.
+On Fri, 11 Dec 2020 10:46:17 -0800, Sami Tolvanen wrote:
+> This patch series adds support for building the kernel with Clang's
+> Link Time Optimization (LTO). In addition to performance, the primary
+> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI)
+> to be used in the kernel. Google has shipped millions of Pixel
+> devices running three major kernel versions with LTO+CFI since 2018.
+> 
+> Most of the patches are build system changes for handling LLVM
+> bitcode, which Clang produces with LTO instead of ELF object files,
+> postponing ELF processing until a later stage, and ensuring initcall
+> ordering.
+> 
+> [...]
 
-The file overlay_base.dtb have symbols of its own and we need to apply
-overlay.dtb to overlay_base.dtb alone first to make it work, which gives
-us intermediate-overlay.dtb file.
+Applied to kspp/lto/v5.11-rc2, thanks!
 
-The intermediate-overlay.dtb file along with all other overlays is them
-applied to testcases.dtb to generate the master.dtb file.
+I'll let 0-day grind on this over the weekend and toss it in -next on
+Monday if there aren't any objections.
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+[01/16] tracing: move function tracer options to Kconfig
+        https://git.kernel.org/kees/c/3b15cdc15956
+[02/16] kbuild: add support for Clang LTO
+        https://git.kernel.org/kees/c/833174494976
+[03/16] kbuild: lto: fix module versioning
+        https://git.kernel.org/kees/c/6eb20c5338a0
+[04/16] kbuild: lto: limit inlining
+        https://git.kernel.org/kees/c/f6db4eff0691
+[05/16] kbuild: lto: merge module sections
+        https://git.kernel.org/kees/c/d03e46783689
+[06/16] kbuild: lto: add a default list of used symbols
+        https://git.kernel.org/kees/c/81bfbc27b122
+[07/16] init: lto: ensure initcall ordering
+        https://git.kernel.org/kees/c/7918ea64195d
+[08/16] init: lto: fix PREL32 relocations
+        https://git.kernel.org/kees/c/a51d9615ffb5
+[09/16] PCI: Fix PREL32 relocations for LTO
+        https://git.kernel.org/kees/c/dc83615370e7
+[10/16] modpost: lto: strip .lto from module names
+        https://git.kernel.org/kees/c/5c0312ef3ca0
+[11/16] scripts/mod: disable LTO for empty.c
+        https://git.kernel.org/kees/c/3d05432db312
+[12/16] efi/libstub: disable LTO
+        https://git.kernel.org/kees/c/b12eba00cb87
+[13/16] drivers/misc/lkdtm: disable LTO for rodata.o
+        https://git.kernel.org/kees/c/ed02e86f1752
+[14/16] arm64: vdso: disable LTO
+        https://git.kernel.org/kees/c/d73692f0f527
+[15/16] arm64: disable recordmcount with DYNAMIC_FTRACE_WITH_REGS
+        https://git.kernel.org/kees/c/09b812ac146f
+[16/16] arm64: allow LTO to be selected
+        https://git.kernel.org/kees/c/1354b8946c46
 
----
-Depends on:
-
-https://lore.kernel.org/lkml/be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org/
-
-I have kept the .dtb naming for overlays for now, lets see how we do it
-eventually.
-
-Rob/Frank, this doesn't work properly right now. Maybe I missed how
-these overlays must be applied or there is a bug in fdtoverlay.
-
-The master.dtb doesn't include any nodes from overlay_base.dtb or
-overlay.dtb probably because 'testcase-data-2' node isn't present in
-testcases.dtb and fdtoverlay doesn't allow applying new nodes to the
-root node, i.e. allows new sub-nodes once it gets phandle to the parent
-but nothing can be added to the root node itself. Though I get a feel
-that it works while applying the nodes dynamically and it is expected to
-work here as well.
-
-(And yeah, this is my first serious attempt at updating Makefiles, I am
-sure there is a scope of improvement here :))
-
----
- drivers/of/unittest-data/Makefile | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
-index 009f4045c8e4..f17bce85f65f 100644
---- a/drivers/of/unittest-data/Makefile
-+++ b/drivers/of/unittest-data/Makefile
-@@ -38,3 +38,26 @@ DTC_FLAGS_testcases += -@
- 
- # suppress warnings about intentional errors
- DTC_FLAGS_testcases += -Wno-interrupts_property
-+
-+# Apply overlays statically with fdtoverlay
-+intermediate-overlay	:= overlay.dtb
-+master			:= overlay_0.dtb overlay_1.dtb overlay_2.dtb \
-+			   overlay_3.dtb overlay_4.dtb overlay_5.dtb \
-+			   overlay_6.dtb overlay_7.dtb overlay_8.dtb \
-+			   overlay_9.dtb overlay_10.dtb overlay_11.dtb \
-+			   overlay_12.dtb overlay_13.dtb overlay_15.dtb \
-+			   overlay_gpio_01.dtb overlay_gpio_02a.dtb \
-+			   overlay_gpio_02b.dtb overlay_gpio_03.dtb \
-+			   overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
-+			   intermediate-overlay.dtb
-+
-+quiet_cmd_fdtoverlay = fdtoverlay $@
-+      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
-+
-+$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
-+	$(call if_changed,fdtoverlay)
-+
-+$(obj)/master.dtb: $(obj)/testcases.dtb $(addprefix $(obj)/,$(master))
-+	$(call if_changed,fdtoverlay)
-+
-+always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
 -- 
-2.25.0.rc1.19.g042ed3e048af
+Kees Cook
 
