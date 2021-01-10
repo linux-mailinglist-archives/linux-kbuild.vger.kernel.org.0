@@ -2,109 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8754E2F09B5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Jan 2021 21:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B76B2F09DD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Jan 2021 22:27:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726346AbhAJUbM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 10 Jan 2021 15:31:12 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:45037 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbhAJUbM (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 10 Jan 2021 15:31:12 -0500
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 10AKU7bt014421;
-        Mon, 11 Jan 2021 05:30:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 10AKU7bt014421
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1610310608;
-        bh=AhCDVhmRfaca1ufeJsiXcwnl8shZXxBKRbDxaNWQgUk=;
-        h=From:Date:Subject:To:Cc:From;
-        b=g+b2H1miGo5Kb8gA/lbD9Fi41aukFhx57sJbEFZ31E26N0Xg/pDHFT5mv8Z/m5pdE
-         zUXClqDBpfRXwtfZgm5ZE4wncZswx4Bq1lPtx6YwLe5F1Iiw3HykqiKwFjVtTa8Nv+
-         MYj71WowDzoDrlCV3BVBwdz+ipTVxkEWRpgnhWJOqg5excjCB6sgPaJgEwwVVm1Sz+
-         IULvY+YGsQPlfEHZZ4PrY8nOOUoUept6wQigiRgccX66nPH01/mlanx8//R2tYX3lz
-         Abvr3WKOJV9Rdzs1krxdM8M7M97sZTI012DgBQJgQsOd9Af7XO+K+RtEK+Bdf/t2gG
-         713pzGxnW/mVQ==
-X-Nifty-SrcIP: [209.85.214.177]
-Received: by mail-pl1-f177.google.com with SMTP id be12so8417637plb.4;
-        Sun, 10 Jan 2021 12:30:08 -0800 (PST)
-X-Gm-Message-State: AOAM531eseqtKrPZ4S/TkFqGkRV+WqL67hMpAE31I4Eq8VbplkqPHYbV
-        IbKFkmAteLNQQj606o80LLM+yUJh6im5qK/UedQ=
-X-Google-Smtp-Source: ABdhPJyL7Uqs5OEcmW3q93ue0CTf+DEZmz9j/SDnbl/t+kvhKofQYJ2rzKNKMlqlDLdiPAI5qspAgzJ5lUW+6DVOlxw=
-X-Received: by 2002:a17:902:b415:b029:dc:42b1:9b26 with SMTP id
- x21-20020a170902b415b02900dc42b19b26mr13420259plr.71.1610310607343; Sun, 10
- Jan 2021 12:30:07 -0800 (PST)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 11 Jan 2021 05:29:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR6zJnAo7KwdeghJZk8x8BivXWb2F5Gpxb90LDgP9D4dg@mail.gmail.com>
-Message-ID: <CAK7LNAR6zJnAo7KwdeghJZk8x8BivXWb2F5Gpxb90LDgP9D4dg@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.11-rc3
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1726517AbhAJV1B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 10 Jan 2021 16:27:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54570 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726303AbhAJV1A (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 10 Jan 2021 16:27:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6E2FC22AAB;
+        Sun, 10 Jan 2021 21:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610313980;
+        bh=mln3FfAAd5WBUYr9Umnz24wIoPoEvWPJrWDHXSW8TSA=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=r4QeSQrgmTcRxQuArLi4fXI7APJu7uhc0jYrcd82w/afOhEJbws/9cD5RWWGvpIiK
+         JM9GhqhehsIh67COng+4XnN2gs+KlHTnB8lNb60SuVSu7yrvjN2I2Y9jveHDSOOhdz
+         RJqCxKzGqc4TN7K2jShkBZHNzKFZz/KkjSTHOfMuXa6iNFekKdonA4Bn2srYI/kR3i
+         UlXjAFIr+LJ0en6V11mosHmy45qx8oUa1ylhNZGqTMt0PS+EQA5U+7AYLarLhPmwNi
+         GAkkUAv0Y6tjo4mxtLqaBF482ZoN+rd56VGfz/ib2TsqV0uHXM61YPPdpr/OO0Lzg5
+         PHa070mLRRZJA==
+Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id 5AD4460140;
+        Sun, 10 Jan 2021 21:26:20 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v5.11-rc3
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAR6zJnAo7KwdeghJZk8x8BivXWb2F5Gpxb90LDgP9D4dg@mail.gmail.com>
+References: <CAK7LNAR6zJnAo7KwdeghJZk8x8BivXWb2F5Gpxb90LDgP9D4dg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAR6zJnAo7KwdeghJZk8x8BivXWb2F5Gpxb90LDgP9D4dg@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.11
+X-PR-Tracked-Commit-Id: 5625dcfbbcf892e40e8d60abbb5f56701a1d031c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 20210a98463e2abac31676ee141459fc23252927
+Message-Id: <161031398029.31317.18317995013715136211.pr-tracker-bot@kernel.org>
+Date:   Sun, 10 Jan 2021 21:26:20 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Mon, 11 Jan 2021 05:29:30 +0900:
 
-Please pull some Kbuild fixes for v5.11-rc3
-Thanks.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.11
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/20210a98463e2abac31676ee141459fc23252927
 
+Thank you!
 
-The following changes since commit e71ba9452f0b5b2e8dc8aa5445198cd9214a6a62:
-
-  Linux 5.11-rc2 (2021-01-03 15:55:30 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.11
-
-for you to fetch changes up to 5625dcfbbcf892e40e8d60abbb5f56701a1d031c:
-
-  Documentation: kbuild: Fix section reference (2021-01-11 05:14:38 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.11
-
- - Search for <ncurses.h> in the default header path of HOSTCC
-
- - Tweak the option order to be kind to old BSD awk
-
- - Remove 'kvmconfig' and 'xenconfig' shorthands
-
- - Fix documentation
-
-----------------------------------------------------------------
-John Millikin (2):
-      kconfig: Support building mconf with vendor sysroot ncurses
-      lib/raid6: Let $(UNROLL) rules work with macOS userland
-
-Lukas Bulwahn (1):
-      MAINTAINERS: adjust GCC PLUGINS after gcc-plugin.sh removal
-
-Masahiro Yamada (1):
-      kconfig: remove 'kvmconfig' and 'xenconfig' shorthands
-
-Randy Dunlap (1):
-      kconfig: config script: add a little user help
-
-Viresh Kumar (1):
-      Documentation: kbuild: Fix section reference
-
- Documentation/kbuild/makefiles.rst |  2 +-
- MAINTAINERS                        |  1 -
- lib/raid6/Makefile                 |  2 +-
- scripts/config                     |  1 +
- scripts/kconfig/Makefile           | 10 ----------
- scripts/kconfig/mconf-cfg.sh       |  4 +++-
- 6 files changed, 6 insertions(+), 14 deletions(-)
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
