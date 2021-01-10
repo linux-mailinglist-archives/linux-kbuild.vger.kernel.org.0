@@ -2,164 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E77672F0470
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Jan 2021 00:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F0E22F0949
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Jan 2021 20:09:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726080AbhAIXpt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 9 Jan 2021 18:45:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbhAIXps (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 9 Jan 2021 18:45:48 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9D3C061786;
-        Sat,  9 Jan 2021 15:45:08 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id x15so14456278ilq.1;
-        Sat, 09 Jan 2021 15:45:08 -0800 (PST)
+        id S1726655AbhAJTJG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 10 Jan 2021 14:09:06 -0500
+Received: from mail-eopbgr760073.outbound.protection.outlook.com ([40.107.76.73]:16772
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726267AbhAJTJF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 10 Jan 2021 14:09:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HxdkSrGS0zgVNscors/Cs/S9zzCcIyzmbvCIIhFgVVduDDeMN2fEN2qp7F/9119mm+uOBnrNLFWNsvtb5NYpPK2joO1tQ7/d2X21ajUQb/el/s/07VvHfoy0/re8blK+5dK/G8DNvBNuN8dxy1XSDPAxi+2igepI6u+hGgunMX/S6mVkn7ifSu4fa2eFYCJEPxT//zx3L3caIgw09d5Q5fWZNwQLIJYhRvAA6OBUMceMARCLT4Aw8OvCjEZCIzeMQyQ5wzrG2zPeFRTMMtlAoMfWYuHg5bmZQBy/sBzBOS4Z77E41ecfguOMuHjQQbTcrwV4gKttTqI0oGG3UFrtHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g0mcHViaGUoM4fhvPIYQJti5KcJtJsflLOYgjCAHaw0=;
+ b=Pd4nWinsWyvN1EhYd0ldf2cr8K91GxZMwDn9XG9FhcQy9NgY/h6IiWyj6veMslQxDf885lMvEA4CMzVcJS4aIuqpSZYm9jVEWDj5o8FDWoyrrXdMx5MJkv2iZgH/I70O+F+Pg89IHq9T6cQ6xu+FotLoKW3eGU6XBeAcK1bSxblIb2SBQLhxysE/D+eK94Fp0sTNkpGd0ib1227CZ6Lmmfbkzz+Oh0yHOgqZHwChPaTOTxj2rPrJmYRy/EESXmMqcZCh+U2e/5V2mRtX89sCyWmuGzQ5z++Cyqp4ZCXnvW3/POrFTLWirZAwXao8u14F/d2AI6rR+UcIQYK3P+orpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=+RrrtQj8SC/rvlP5LlORUe5YEU0RLqpKs9/GxE+Y/3s=;
-        b=UOX+83msyY0c9zbWi3lYQYT+DWm3pxfGQCmxDKZPWRz9aNa0fJmFuyJAoTAa/G4p7p
-         SfNMBUVFInFsSss6Hai+8E7R2dRPkeMJSuuqPKYrSgxVvPznCQuX0c2x7pK0ziYUnGZu
-         C/dqYRW3yn3mK0faEKPwVBExadp8Kgslh3Ifx3qEtRAOxZYLp3wJrsmwNVogv2Xvn8YT
-         DVM8yO3ktn4mQBz3CJwUaGYDKRVh9+pk89SZhcMQUvemteqhM0YjjcAszrwEuZ3YQsOL
-         +z0ZOj3P4MtB6Y0w3VDW2nsmUA/2XYGMxtK5IxtSgUVZaBmlLr3bxkan/kkyZN9N4cu3
-         RmgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=+RrrtQj8SC/rvlP5LlORUe5YEU0RLqpKs9/GxE+Y/3s=;
-        b=OFV3OyOAg0obWFCwp1sLAbrE3ECZLl7SYTUr9dG1BC5+7xUOx8FUmAnOJVqpw7wjln
-         fx/WghkwXJ9sccqLfbkB5noz/dhA0FpcH+u3RW1lENnxUzZPl81YPObewNMz6Vs64k+B
-         QGuxfQ4yqnA2GFIAxGlbK5se0MxGb14SuuvhSPgMpIrJ4JR4svSYUsWka6M25UzsDkbR
-         t1JtDy28MVFnzhiBLibuxLTKYZZVzfWSVjMpw6pO/CVrpiILDIEw4OUVN6H+Xg+nkbqf
-         A/rJzp49EJADtT92uU3ps6w35TzEwixVaCMF3MCmqpKzs7iALazrMgT7468OIQSmQVR5
-         SS6w==
-X-Gm-Message-State: AOAM531hDmgOBC55VZ1fryac+uvCL9zdon+yBJ7z9M/cv5/wx+yO+Ne7
-        EMJcuxl4UmeQhqs7u1HmPdgFA8LwkYEky6AQyog=
-X-Google-Smtp-Source: ABdhPJzWsen+1bFKw+cuUM+1jT3nRAdUJAbnO8/1z/3RJ3vKQKxWxm92cFnz6xMw+Un/kDcSMfb/nu/s13W2lsXa7/g=
-X-Received: by 2002:a92:c002:: with SMTP id q2mr10229657ild.186.1610235907552;
- Sat, 09 Jan 2021 15:45:07 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g0mcHViaGUoM4fhvPIYQJti5KcJtJsflLOYgjCAHaw0=;
+ b=jEbkNEQnhbryDIc5KbUR4jijc32NCRhZZv+1ZW+ItuKXAal60ylCbkKUh2uVNdiOXIU8iT+7rwMe7/bD6S+ZzqEBGtwIJQX71Y4uyY8V4Wu+UvQJdUee9MMPj/sY19EsgGziqpZa6+BDzGdEJNo/OEB5jV70+aB+sSsS3OWfw7A=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=windriver.com;
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
+ by DM6PR11MB4491.namprd11.prod.outlook.com (2603:10b6:5:204::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Sun, 10 Jan
+ 2021 19:08:23 +0000
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d]) by DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d%6]) with mapi id 15.20.3742.012; Sun, 10 Jan 2021
+ 19:08:23 +0000
+From:   Paul Gortmaker <paul.gortmaker@windriver.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Will Deacon <will@kernel.org>
+Subject: [PATCH] kbuild: partial revert of "remove cc-option test of -Werror=date-time"
+Date:   Sun, 10 Jan 2021 14:08:07 -0500
+Message-Id: <20210110190807.134996-1-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YTXPR0101CA0046.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::23) To DM6PR11MB4545.namprd11.prod.outlook.com
+ (2603:10b6:5:2ae::14)
 MIME-Version: 1.0
-References: <20201211184633.3213045-1-samitolvanen@google.com>
- <CA+icZUWYxO1hHW-_vrJid7EstqQRYQphjO3Xn6pj6qfEYEONbA@mail.gmail.com>
- <20210109153646.zrmglpvr27f5zd7m@treble> <CA+icZUUiucbsQZtJKYdD7Y7Cq8hJZdBwsF0U0BFbaBtnLY3Nsw@mail.gmail.com>
- <20210109160709.kqqpf64klflajarl@treble> <CA+icZUU=sS2xfzo9qTUTPQ0prbbQcj29tpDt1qK5cYZxarXuxg@mail.gmail.com>
- <20210109163256.3sv3wbgrshbj72ik@treble> <CA+icZUUszOHkJ8Acx2mDowg3StZw9EureDQ7YYkJkcAnpLBA+g@mail.gmail.com>
- <20210109170353.litivfvc4zotnimv@treble> <20210109170558.meufvgwrjtqo5v3i@treble>
-In-Reply-To: <20210109170558.meufvgwrjtqo5v3i@treble>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sun, 10 Jan 2021 00:44:54 +0100
-Message-ID: <CA+icZUVS_CbbxG-V0RZxqxcY7E__QUrVxgC1VRmTLN4wrz=E5w@mail.gmail.com>
-Subject: Re: [PATCH v9 00/16] Add support for Clang LTO
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from sc2600cp.corp.ad.wrs.com (128.224.252.2) by YTXPR0101CA0046.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Sun, 10 Jan 2021 19:08:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5709ffa-b1de-4235-50de-08d8b59b19de
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4491:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR11MB449167261F926B353E17825D83AC0@DM6PR11MB4491.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /UDYyldvvTwTYxRK/9vFb4scgpAmFnmN2FMy3Ig220TDB4WsThi7pFqoIlYSwWirxgvO94VDH1O6waG7ANEZtPpdchPurfD+C16uiCAztM602Ym9YV6/l0j0o/dzPToU2W/BTGQ2ziz2mqi5rQJmWYfOWYg2GfdzuoA8THWffc0q2KSqJBHdo9azTTw+V6DzS4dsdidL/aX1r+DfHYCYyq4+gf0Ru82x2Lm9z5tbwHNoUVIT/v77gu+lgadqTXMPa3nIg+9sehiZmc/KJEWrQvxmv+eck0B5v0rheBY1QnMOvQ3l9s38odR1EJFl7NFsyTiT/CST1zXUTnVQf5QvsOkFVxoZUem/bUn//7R8/UAGWCQPwYFHH1QE6OWamOxoIGM4OT9WN+/aSFzHj0nAOA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4545.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39840400004)(136003)(366004)(66946007)(52116002)(54906003)(1076003)(110136005)(5660300002)(316002)(956004)(36756003)(44832011)(16526019)(66556008)(66476007)(2616005)(26005)(478600001)(6486002)(8936002)(83380400001)(2906002)(8676002)(186003)(86362001)(6512007)(6666004)(4326008)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?UZwP1aWunGRZQOWmr9HJBtTNUKHke4O8+AcpsO3aAUx8ZVMtLQ29se6eQRNa?=
+ =?us-ascii?Q?SklTlkbQVoEmZyTyZBNIaUb9mpYAg1lmF3SrPjfmcGXjI+R+CHcyDfhOT3Zr?=
+ =?us-ascii?Q?o2ZAvzI/DpOByIlxNs0sd5NRZj5SqJwby7iYp4o7RX+utj3Vl0E+JF+S8TpU?=
+ =?us-ascii?Q?Un1MwDisGesAeLSz9bjpDs55QiAUnfwEfB76mauNHuT+YbVGppK8nan8gca1?=
+ =?us-ascii?Q?JKB4prU7IJCYPPgVBryMlsilt2VrHsIErTSAVuf6UlGml64LB2CUoUVqPlA5?=
+ =?us-ascii?Q?wBFH/6KUz7D3okHOORF1az9yWUuJPtQnoH+4o7iTYxhB1l8l42PFeqKwwBoz?=
+ =?us-ascii?Q?qZ7VfkELkOBGxyIlhMMUF/jdM29SN8RVl+BrDgJr74b29BvroPvVm8A6p2pw?=
+ =?us-ascii?Q?IuXGhj1VmxuiJlnjiywtavfzsUcJMQ6UzhSDjwO7QRi52TibNotVrTejvviw?=
+ =?us-ascii?Q?Z7NMMJnLx+8gL9/n0KYzAIay5jtuIc26liTlzb8TsRjDO4d6p8FSmZ9t9Znt?=
+ =?us-ascii?Q?W9Q7dWQI+5TLhKHGAg3TfF6vnA/JSugkDbOTO0xwv/5K/46l84Ir6gQE5vso?=
+ =?us-ascii?Q?3dF02iuJUG/v7VLbbN+i//t0u7Tn4D1ApYxjTPplK2xH8ZVl9odhvfvF5bwc?=
+ =?us-ascii?Q?tddDVZPQX423Z5k7RJSpfavO/u0jM8Jh3H2fPKhwWEnb5YsmNMyJjCGlHLWx?=
+ =?us-ascii?Q?PIAdE8TuEfJn0vDJuxTPvcRc35++kuegsssMo+/l+IaCD//nHIgbN/vBZqM3?=
+ =?us-ascii?Q?0KCG9FufeTUWpMHWM4Z09zzMnQ+RE4T5p2ztBR23xegEdCk/bl5fQ9IqTrj5?=
+ =?us-ascii?Q?2p5G3PMkyuczaeMJLQjrJ7B2mPcthyPVIPXhOIgD4kFcTPNUIhvFTP60kAV1?=
+ =?us-ascii?Q?YdE0KFOk7ryB2uqHMm0bm7lSvmAgqHv2sXx65e2qqHZMPcM80RxCJPpb97K1?=
+ =?us-ascii?Q?mGiwlZrt2bzB756mWZ2zmiwevjBekik0adVt0/McjdIwAuEhkVgMZFg2MvUs?=
+ =?us-ascii?Q?X21H?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4545.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2021 19:08:23.0268
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5709ffa-b1de-4235-50de-08d8b59b19de
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qcgRnyoqLaiPBbBTMoMTBFMPriJ4cHT775GGWj+vqAca2DG79EV8e9yOaRFHdif2RAavYUATdFwRGAWdBv+5Qmpn1/HHvLcA1HS7I457Yu0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4491
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 9, 2021 at 6:06 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Sat, Jan 09, 2021 at 11:03:57AM -0600, Josh Poimboeuf wrote:
-> > On Sat, Jan 09, 2021 at 05:45:47PM +0100, Sedat Dilek wrote:
-> > > I tried merging with clang-cfi Git which is based on Linux v5.11-rc2+
-> > > with a lot of merge conflicts.
-> > >
-> > > Did you try on top of cfi-10 Git tag which is based on Linux v5.10?
-> > >
-> > > Whatever you successfully did... Can you give me a step-by-step instruction?
-> >
-> > Oops, my bad.  My last three commits (which I just added) do conflict.
-> > Sorry for the confusion.
-> >
-> > Just drop my last three commits:
-> >
-> > git fetch https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-vmlinux
-> > git checkout -B tmp FETCH_HEAD
-> > git reset --hard HEAD~~~
-> > git fetch https://github.com/samitolvanen/linux clang-lto
-> > git rebase --onto FETCH_HEAD 79881bfc57be
->
-> Last one should be:
->
-> git rebase --onto FETCH_HEAD 2c85ebc57b3e
->
+In commit 87de84c9140e1ccb221c68bb7e4939e880b3f2bb ("kbuild: remove
+cc-option test of -Werror=date-time") the check for support of the
+date-time option was removed.
 
-Hi Josh,
+However, by removing it from the top level Makefile, it breaks all
+the normal compiler version checks, because GCC fails at the command
+line parsing, and never gets to the CPP #error check in the headers.
 
-as said I tried your latest changes on top of Linux v5.10.6 + cfi-5.10.
-This reduces the objtool-warnings in vmlinux.o from 15 down to 2.
+So for gcc-4.8 (now unsupported) you get the confusing:
 
-Without your latest changes:
+   cc1: error: -Werror=date-time: no option -Wdate-time
 
-$ grep 'vmlinux.o: warning: objtool:'
-build-log_5.10.4-3-amd64-clang11-cfi.txt | wc -l
-15
+instead of the previous and expected error message of:
 
-$ grep 'vmlinux.o: warning: objtool:'
-build-log_5.10.4-3-amd64-clang11-cfi.txt
-vmlinux.o: warning: objtool: wakeup_long64()+0x61: indirect jump found
-in RETPOLINE build
-vmlinux.o: warning: objtool: .text+0x408a: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool: .text+0x40c5: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool: .head.text+0x298: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool: __switch_to_asm()+0x0: undefined stack state
-vmlinux.o: warning: objtool: .entry.text+0xf91: sibling call from
-callable instruction with modified stack frame
-vmlinux.o: warning: objtool: .entry.text+0x16c4: unsupported
-instruction in callable function
-vmlinux.o: warning: objtool: .entry.text+0x15a4: redundant CLD
-vmlinux.o: warning: objtool: do_suspend_lowlevel()+0x116: sibling call
-from callable instruction with modified stack frame
-vmlinux.o: warning: objtool: kretprobe_trampoline()+0x49: return with
-modified stack frame
-vmlinux.o: warning: objtool: machine_real_restart()+0x85: unsupported
-instruction in callable function
-vmlinux.o: warning: objtool: __x86_retpoline_rdi()+0x0: stack state
-mismatch: cfa1=7+8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x48: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x156d: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x15fc: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
+   # error Sorry, your version of GCC is too old - please use 4.9 or newer.
 
-With your latest changes in <jpoimboe.git#objtool-vmlinux>:
+Restore the check in the top level Makefile so the longstanding GCC
+arch independent version check works again for v4.8 and older.
 
-$ grep 'vmlinux.o: warning: objtool:'
-build-log_5.10.6-1-amd64-clang11-cfi.txt | wc -l
-2
+Fixes: 87de84c9140e ("kbuild: remove cc-option test of -Werror=date-time")
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <natechancellor@gmail.com>
+Cc: Will Deacon <will@kernel.org>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-$ grep 'vmlinux.o: warning: objtool:' build-log_5.10.6-1-amd64-clang11-cfi.txt
-vmlinux.o: warning: objtool: kretprobe_trampoline()+0x49: return with
-modified stack frame
-vmlinux.o: warning: objtool: machine_real_restart()+0x85: unsupported
-instruction in callable function
+diff --git a/Makefile b/Makefile
+index e30cf02da8b8..e2f9e6582a10 100644
+--- a/Makefile
++++ b/Makefile
+@@ -937,7 +937,7 @@ KBUILD_CFLAGS  += -fno-stack-check
+ KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
+ 
+ # Prohibit date/time macros, which would make the build non-deterministic
+-KBUILD_CFLAGS   += -Werror=date-time
++KBUILD_CFLAGS   += $(call cc-option,-Werror=date-time)
+ 
+ # enforce correct pointer usage
+ KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
+-- 
+2.17.1
 
-Awesome.
-
-If you need further information, please let me know.
-
-Regards,
-- Sedat -
