@@ -2,173 +2,199 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C3D12F21A9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 22:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4C2A2F21BB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 22:25:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730008AbhAKVSq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 16:18:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41196 "EHLO
+        id S1730286AbhAKVYy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 16:24:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727525AbhAKVSp (ORCPT
+        with ESMTP id S1725917AbhAKVYy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 16:18:45 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93A6C06179F
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 13:18:04 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id p12so293486pju.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 13:18:04 -0800 (PST)
+        Mon, 11 Jan 2021 16:24:54 -0500
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66A1C061786;
+        Mon, 11 Jan 2021 13:24:13 -0800 (PST)
+Received: by mail-yb1-xb34.google.com with SMTP id d37so180733ybi.4;
+        Mon, 11 Jan 2021 13:24:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0qOSbOIoHdN2DZPTqNutcK6F4X/pENnDZjQfdlW5H0c=;
-        b=j2/sB7/RU5nL76Pa1L1dp1gCmPW9RtgnhlOkU9CiPL/vgEu0AzN3MnegQM25nqbFZO
-         GdzCzXY3KfqY40y9YoRy4JUZ/j60yRTN/7zwg7Uo3PdHlEJS7blWtkjbjnUjohiO+2i5
-         HxQ6qaRIV8v12rY/kSwUVK9q2Vd9+FdUTrxewc2nzJ0P1GV2EVo+ansDYxAFpMBtk14/
-         NwBf5ewSGbABgg5tXfSizs6Hsx00LlHf8+58gz3epX9LGeFudhkSvXxU59RoDpeIowwK
-         uKu61pD7h2broKNQKMpLvxQqdRr4+avLzxtK4epTmhvB//XOnXGXuNuwFI8WOewkw7hy
-         OLRA==
+        bh=oBdVyCE2HN+vpEpmvaUmM7gpHjvI8cKVGXfiI8pp0I0=;
+        b=ioQM036GEhCVStlE/8p5hnAz1ltPE4XAT6DY5EUZy2JTLfLmA4IP+38eDcFGPvpJga
+         eoNApfGlnWCwdRXWHAQM2rt3O1Le5fTS8gCeGB61elcD7c7rezo8daukKHWvsWZaPPak
+         umAR/33jmk+OiBJW3ow5jPb+AUsdD71YSuwH9vyGQD6xatFTDNqwvKvBSEwGRkFiwGwP
+         TObRpMakHd/oUI6ZF1kKRJldcooK5V7QIar3cGJpfOHa5CxM2i7rw+RRn6Gqprl1Rzv3
+         iMg94DZDdirpCqw1KBx4T0K9JPn9d4hlv+KO2OBdIk8+g1F+mC1Bf6vjTc3v/tvrl+Ff
+         nFVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0qOSbOIoHdN2DZPTqNutcK6F4X/pENnDZjQfdlW5H0c=;
-        b=lfCIVwPVdJTVIT31xbaa4YSmLSYTWlKvMQc9wLLHiarJg2lYTRHvrzfA7papHeT3cK
-         rfRhPaa83/Tb5q9HDbqZvA36XSi9jB/gvTyvDQCDH9ONxwFcD7puvTzRG6xg/6gTE9DX
-         FK688ryHDrCfDNTt4DI/3v9sSI3EXKeR0PCVekLj142om+Nax8R/9TFl0Y8kIsAa+FE6
-         25B1G/Rj0ojUL81DNp2KgBhMxTgwbZRN5cwqi0ywgKNGp+CoI+RKJvED7zs3t2JmsZEj
-         rnejRV9zhb42K/WKeHi9ROqiobD3/XIBglMH6+OOIlCOyNFwVbY8neadSGgnSwvFXWbA
-         +1qg==
-X-Gm-Message-State: AOAM5313SzdHnnyOa/sguAgVU8xuji1tZdDGEk4RmQEuSjEYFr4KE7qn
-        8IhtzIztwf2KnHQt7aQYrr+9mOr+LeupVsX0T0NU/A==
-X-Google-Smtp-Source: ABdhPJyYZpgnU/gvEartMbBN+7Sn5P8XKvPTxtPvXdocg5hO3oXk45vtvgeULsI39ZYVL2M1L1TiMCvHdHZ/Z9j7/pg=
-X-Received: by 2002:a17:90a:cb0b:: with SMTP id z11mr786374pjt.101.1610399884135;
- Mon, 11 Jan 2021 13:18:04 -0800 (PST)
+        bh=oBdVyCE2HN+vpEpmvaUmM7gpHjvI8cKVGXfiI8pp0I0=;
+        b=ucTHb6Z1dH7xb/891DTL07h1FuC2BVygzngnS/8/1Ey83YwtIDUR/VszN3fOSMXK5d
+         YnSs0X+po3MaCpXwwIm21wcl2rz09t189yjMsq2+WbXdax05UcFuPhhnHp5d5knDzEg4
+         3VoIzWhYxyymUJptyQIBnHW0RmeSnJP3Vn682DX9r9gNcmmA/BDnnr9MipGwtE+Tuz4U
+         31GY0w7U8UvuHfB68CWM/VQrXq2Cs+gzmEGEbqVaqh19p76FJsDaAm7lvllkxfMtkDtn
+         kwhSwijvnREZ1KLlMEpNtXH0aoT+cKfpTOnvPVaMyyRCC6mpBWMYvZMQuH+6TkMRsI+A
+         4AZQ==
+X-Gm-Message-State: AOAM532WGRF7UYqXtAhXhqBrg5HjsS1UABVRv4UXUcmVUVDM6UzoiD0O
+        8edBuABT5SKAbBpXwqruUEwwsM4c+NugbD/3fAI=
+X-Google-Smtp-Source: ABdhPJyKV/u5WB8kkd1V58UPEfiVgu7oFJJaT6fi9MI8b6GouYgos/rSiWyAs2pJtMGuE7UNvCq1wwLJNWBfsDXvi4M=
+X-Received: by 2002:a25:4107:: with SMTP id o7mr2430493yba.459.1610400253047;
+ Mon, 11 Jan 2021 13:24:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210111210418.GA3660906@ubuntu-m3-large-x86>
-In-Reply-To: <20210111210418.GA3660906@ubuntu-m3-large-x86>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 11 Jan 2021 13:17:52 -0800
-Message-ID: <CAKwvOdnssY=CV4daRQvGa659AzGvMT+Kb10g5-DDuZjqbp-J5A@mail.gmail.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
+References: <20210111180609.713998-1-natechancellor@gmail.com>
+ <CAK7LNAQ=38BUi-EG5v2UiuAF-BOsVe5BTd-=jVYHHHPD7ikS5A@mail.gmail.com>
+ <20210111193400.GA1343746@ubuntu-m3-large-x86> <CAK7LNASZuWp=aPOCKo6QkdHwM5KG6MUv8305v3x-2yR7cKEX-w@mail.gmail.com>
+ <20210111200010.GA3635011@ubuntu-m3-large-x86>
+In-Reply-To: <20210111200010.GA3635011@ubuntu-m3-large-x86>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Mon, 11 Jan 2021 13:24:02 -0800
+Message-ID: <CAEf4BzaL18a2+j3EYaD7jcnbJzqwG2MuBxXR2iRZ3KV9Jwrj6w@mail.gmail.com>
+Subject: Re: [PATCH] bpf: Hoise pahole version checks into Kconfig
 To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sami Tolvanen <samitolvanen@google.com>
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 1:04 PM Nathan Chancellor
+On Mon, Jan 11, 2021 at 12:00 PM Nathan Chancellor
 <natechancellor@gmail.com> wrote:
 >
-> On Mon, Jan 11, 2021 at 12:18:21AM -0800, Bill Wendling wrote:
-> > From: Sami Tolvanen <samitolvanen@google.com>
+> On Tue, Jan 12, 2021 at 04:50:50AM +0900, Masahiro Yamada wrote:
+> > On Tue, Jan 12, 2021 at 4:34 AM Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > >
+> > > On Tue, Jan 12, 2021 at 04:19:01AM +0900, Masahiro Yamada wrote:
+> > > > On Tue, Jan 12, 2021 at 3:06 AM Nathan Chancellor
+> > > > <natechancellor@gmail.com> wrote:
+> > > > >
+> > > > > After commit da5fb18225b4 ("bpf: Support pre-2.25-binutils objcopy for
+> > > > > vmlinux BTF"), having CONFIG_DEBUG_INFO_BTF enabled but lacking a valid
+> > > > > copy of pahole results in a kernel that will fully compile but fail to
+> > > > > link. The user then has to either install pahole or disable
+> > > > > CONFIG_DEBUG_INFO_BTF and rebuild the kernel but only after their build
+> > > > > has failed, which could have been a significant amount of time depending
+> > > > > on the hardware.
+> > > > >
+> > > > > Avoid a poor user experience and require pahole to be installed with an
+> > > > > appropriate version to select and use CONFIG_DEBUG_INFO_BTF, which is
+> > > > > standard for options that require a specific tools version.
+> > > > >
+> > > > > Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> > > > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> > > >
+> > > >
+> > > >
+> > > > I am not sure if this is the right direction.
+> > > >
+> > > >
+> > > > I used to believe moving any tool test to the Kconfig
+> > > > was the right thing to do.
+> > > >
+> > > > For example, I tried to move the libelf test to Kconfig,
+> > > > and make STACK_VALIDATION depend on it.
+> > > >
+> > > > https://patchwork.kernel.org/project/linux-kbuild/patch/1531186516-15764-1-git-send-email-yamada.masahiro@socionext.com/
+> > > >
+> > > > It was rejected.
+> > > >
+> > > >
+> > > > In my understanding, it is good to test target toolchains
+> > > > in Kconfig (e.g. cc-option, ld-option, etc).
+> > > >
+> > > > As for host tools, in contrast, it is better to _intentionally_
+> > > > break the build in order to let users know that something needed is missing.
+> > > > Then, they will install necessary tools or libraries.
+> > > > It is just a one-time setup, in most cases,
+> > > > just running 'apt install' or 'dnf install'.
+> > > >
+> > > >
+> > > >
+> > > > Recently, a similar thing happened to GCC_PLUGINS
+> > > > https://patchwork.kernel.org/project/linux-kbuild/patch/20201203125700.161354-1-masahiroy@kernel.org/#23855673
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > Following this pattern, if a new pahole is not installed,
+> > > > it might be better to break the build instead of hiding
+> > > > the CONFIG option.
+> > > >
+> > > > In my case, it is just a matter of 'apt install pahole'.
+> > > > On some distributions, the bundled pahole is not new enough,
+> > > > and people may end up with building pahole from the source code.
+> > >
+> > > This is fair enough. However, I think that parts of this patch could
+> > > still be salvaged into something that fits this by making it so that if
+> > > pahole is not installed (CONFIG_PAHOLE_VERSION=0) or too old, the build
+> > > errors at the beginning, rather at the end. I am not sure where the best
+> > > place to put that check would be though.
 > >
-> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > profile, the kernel is instrumented with PGO counters, a representative
-> > workload is run, and the raw profile data is collected from
-> > /sys/kernel/debug/pgo/profraw.
+> > Me neither.
 > >
-> > The raw profile data must be processed by clang's "llvm-profdata" tool before
-> > it can be used during recompilation:
 > >
-> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> > Collecting tool checks to the beginning would be user-friendly.
+> > However, scattering the related code to multiple places is not
+> > nice from the developer point of view.
 > >
-> > Multiple raw profiles may be merged during this step.
+> > How big is it a problem if the build fails
+> > at the very last stage?
 > >
-> > The data can be used either by the compiler if LTO isn't enabled:
+> > You can install pahole, then resume "make".
 > >
-> >     ... -fprofile-use=vmlinux.profdata ...
-> >
-> > or by LLD if LTO is enabled:
-> >
-> >     ... -lto-cs-profile-file=vmlinux.profdata ...
-> >
-> > This initial submission is restricted to x86, as that's the platform we know
-> > works. This restriction can be lifted once other platforms have been verified
-> > to work with PGO.
-> >
-> > Note that this method of profiling the kernel is clang-native and isn't
-> > compatible with clang's gcov support in kernel/gcov.
-> >
-> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Co-developed-by: Bill Wendling <morbo@google.com>
-> > Signed-off-by: Bill Wendling <morbo@google.com>
+> > Kbuild skips unneeded building, then you will
+> > be able to come back to the last build stage shortly.
 >
-> I took this for a spin against x86_64_defconfig and ran into two issues:
+> There will often be times where I am testing multiple configurations in
+> a row serially and the longer that a build takes to fail, the longer it
+> takes for me to get a "real" result. That is my motivation behind this
+> change. If people are happy with the current state of things, I will
+> just stick with universally disabling CONFIG_DEBUG_INFO_BTF in my test
+> framework.
 >
-> 1. https://github.com/ClangBuiltLinux/linux/issues/1252
 
-"Cannot split an edge from a CallBrInst"
-Looks like that should be fixed first, then we should gate this
-feature on clang-12.
+I see where Masahiro is coming from. Not seeing CONFIG_DEBUG_INFO_BTF
+option because pahole is not installed (or is not new enough) is, I
+believe, for the majority of users, a much bigger confusion. Currently
+they will get a specific and helpful message at the link time, which
+is much more actionable, IMO. Once you fix pahole dependency, running
+make again would skip all the already compiled code and would start
+linking almost immediately, so if you are doing build locally there is
+a very little downside.
 
->
->    There is also one in drivers/gpu/drm/i915/i915_query.c. For the time
->    being, I added PGO_PROFILE_... := n for those two files.
->
-> 2. After doing that, I run into an undefined function error with ld.lld.
->
-> How I tested:
->
-> $ make -skj"$(nproc)" LLVM=1 defconfig
->
-> $ scripts/config -e PGO_CLANG
->
-> $ make -skj"$(nproc)" LLVM=1 olddefconfig vmlinux all
-> ld.lld: error: undefined symbol: __llvm_profile_instrument_memop
+I understand your situation is a bit different in that you are
+building from scratch every single time (probably some sort of CI
+setup, right?). But it's a rarer and more power-user use case. And
+fixing pahole dependency is a one-time fix, so it's frustrating, but
+fixable on your side.
 
-Err...that seems like it should be implemented in
-kernel/pgo/instrument.c in this patch in a v2?
+As for disabling CONFIG_DEBUG_INFO_BTF. It's up to you and depends on
+what you are after, but major distros now enable it by default, so if
+you want to resemble common kernel configs, it's probably better to
+stick with it.
 
-> >>> referenced by head64.c
-> >>>               arch/x86/kernel/head64.o:(__early_make_pgtable)
-> >>> referenced by head64.c
-> >>>               arch/x86/kernel/head64.o:(x86_64_start_kernel)
-> >>> referenced by head64.c
-> >>>               arch/x86/kernel/head64.o:(copy_bootdata)
-> >>> referenced 2259 more times
->
-> Local diff:
->
-> diff --git a/drivers/char/Makefile b/drivers/char/Makefile
-> index ffce287ef415..4b2f238770b5 100644
-> --- a/drivers/char/Makefile
-> +++ b/drivers/char/Makefile
-> @@ -4,6 +4,7 @@
->  #
->
->  obj-y                          += mem.o random.o
-> +PGO_PROFILE_random.o           := n
->  obj-$(CONFIG_TTY_PRINTK)       += ttyprintk.o
->  obj-y                          += misc.o
->  obj-$(CONFIG_ATARI_DSP56K)     += dsp56k.o
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index e5574e506a5c..d83cacc79b1a 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -168,6 +168,7 @@ i915-y += \
->           i915_vma.o \
->           intel_region_lmem.o \
->           intel_wopcm.o
-> +PGO_PROFILE_i915_query.o := n
->
->  # general-purpose microcontroller (GuC) support
->  i915-y += gt/uc/intel_uc.o \
+Ideally, I'd love for Kconfig to have a way to express tool
+dependencies in such a way that it's still possible to choose desired
+options and if the build environment is lacking dependencies then it
+would be communicated early on. I have no idea if that's doable and
+how much effort it'd take, though.
 
-I'd rather have these both sorted out before landing with PGO disabled
-on these files.
 
--- 
-Thanks,
-~Nick Desaulniers
+> Cheers,
+> Nathan
