@@ -2,136 +2,202 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6410E2F20DC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 21:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B052F2170
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 22:04:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726570AbhAKUcG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 15:32:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
+        id S1728396AbhAKVEO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 16:04:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727207AbhAKUcF (ORCPT
+        with ESMTP id S1727057AbhAKVEN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 15:32:05 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 073FAC061795
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 12:31:25 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id lj6so243363pjb.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 12:31:25 -0800 (PST)
+        Mon, 11 Jan 2021 16:04:13 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04462C061794;
+        Mon, 11 Jan 2021 13:03:33 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id b64so116034ybg.7;
+        Mon, 11 Jan 2021 13:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BZbWJMckP7KnFzgMzYjv6b0GUK1slDkOJ3IpYhCUuJM=;
-        b=ZmSjWT7fgSd1h2QCqYkfefvC7EBMF1WXYaFlU/v6xYDyebfJ3A4MtqB5B9R9QoJZdr
-         zwOkX46YznqaaTwRUsjKhbu/FTJce0XchX3Dg38w4d2PJ78QBFiXRDYnLVddUQPZXii6
-         w1MIlAW7XLcq/wIvIcumiEkGdcHd1/N4oQg63J9ONYBGGCvtmkdgYKdY9EivNstrRP6C
-         UcXE7ajSI/3Z4OVHWC4dl4c9Vfila5c9BIabdkWEkgYCM7Ti8QeQDSM2DJBievQ1Efwu
-         HMMhPtCEikIiUF7Yx4UrhQK+CrOLwJUyjvTrJYRZJmxR9tmkl9AGvjbIcU86JCWmlfdM
-         J+xw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sr6/zdAN1ePdPU/u9jwgN3xFE95QXTOcFpupXWfT+mc=;
+        b=k7e1fhegsMbKukxiKcEfhfFbsgCGor0Zac/03/SXCx5ptcQkBKEMXJTVYsMQzGVo/V
+         BH7LG+9mn8tioBxzlsyp3JXlm90ebuQxev6ojf65v490SyDlik1EUwHIwA/gy90kMoNw
+         e3Dy2+2ZX0KZLB+liIPlhNDbDO63uvCnJGrs3rKWsG9oG75s67ggKWTBqbm8hIqPkRLa
+         w0LyhVv2mCMKAW/4VjLRj7e7tSDjHFlUBQyDcRViRZI5tpwY3TdXv6py00oyybHpNS+D
+         21Bs9lx0DxXbyo3Z8NGvRD7I3+rRzHXYfebfh3oPyMS4ze6n5/mKVRnmWOcDaBLxp2jV
+         cs/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BZbWJMckP7KnFzgMzYjv6b0GUK1slDkOJ3IpYhCUuJM=;
-        b=gomUu4ZoEyDRIohsN4+3saahy9mYbXUjyS4m7sK4Yz8JXqGEPYlXm/dsOyoNmrGXVa
-         ejBewoVPMFtsTs3tx9/T0OshxBhKLh5D4W8ghpdZ3W2I1CDPsSfbC+mUIw68T3u6tO1g
-         fOdJCR5NUjun3LjdjebbXWckEFPtMNhlV1Ua+X+9Jc8KpmysmnSrDuXjiW9eF1hXFDL5
-         mpukQIGLKcMSDzvUXHInbk8UP6POkIAWfMnpiDeF3N8nboiDC9SoVEu6FBS0ufpL13x7
-         qCeUc40EOBkNG9i6x+cKJc/4ip2kmyRYVwNQ3idCxdwc/wBiGOq8+1oSEqOjB/7MgIsO
-         VTvQ==
-X-Gm-Message-State: AOAM531On0k0lodVScY2IAA+fY3ilegmvDYRGcHEQcGOYzYO3i0W+KMy
-        MfRQ2TaKm9ETjhIUu+DKFdZcMg==
-X-Google-Smtp-Source: ABdhPJxYNzGpmQg8oZE5NeZyx+bJ73huRA+dBmzVz8D+rUMN7YQUX4wwdcr0btxqP/PRS0wXW4Ugrg==
-X-Received: by 2002:a17:90b:23d6:: with SMTP id md22mr638840pjb.206.1610397084289;
-        Mon, 11 Jan 2021 12:31:24 -0800 (PST)
-Received: from google.com ([2620:15c:2ce:0:a6ae:11ff:fe11:4abb])
-        by smtp.gmail.com with ESMTPSA id t23sm538631pfc.0.2021.01.11.12.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 12:31:23 -0800 (PST)
-Date:   Mon, 11 Jan 2021 12:31:20 -0800
-From:   Fangrui Song <maskray@google.com>
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <20210111203120.daeef4yuwgmk5em4@google.com>
-References: <20210111081821.3041587-1-morbo@google.com>
- <20210111201224.l5r2zxuyd7ayszke@google.com>
- <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sr6/zdAN1ePdPU/u9jwgN3xFE95QXTOcFpupXWfT+mc=;
+        b=Y1noMr5PPNL5QKsvlGACRenxMamnDB6p5Z4+M+w/8haufEiHSMsrnNfA3yptheuh2L
+         6u5g5wrAQTQLo73NOiG+7mcWphdf1IvKytulQSOeR96sSKA+mi5PVz/Z+jN6GyS3iwrT
+         4HFlnRzl3H8H6kXZkwMa2/dQxgyHTmJX6Ot936lyE+ArpAu+LUVuJeTKG+9QTTb31ncs
+         PRAwLYh08udKO/sYVTLVUAYsI7hRSkQz4ZcJstyqIYPhA52IpHpdGbf/YCHMhKzNYHLn
+         y37Gz2K5aWmEohnC/jFmO7+j1PhiiRqdtKS7iy8HWWACiebab3Q4btcrvmFN7TfDjSbG
+         37Dw==
+X-Gm-Message-State: AOAM533EA1ZiP4R8i5J7HdS9JeY7NoRrvgY28EDCuI8dslB2OoafEzgW
+        FiDOKAQFcv5k/d56tZKkttEfWRGA9QYJvAoSTrIrB1Cj4N0=
+X-Google-Smtp-Source: ABdhPJxF5h5Q6I72PcbYxRlDwsPmwKWhV/fChmjgneTuNgu77ckz8JQzADnDNv9SpAlcjRJau/9T+qjFVD6CKIsZfIs=
+X-Received: by 2002:a25:aea8:: with SMTP id b40mr2357439ybj.347.1610399012161;
+ Mon, 11 Jan 2021 13:03:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com>
+References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
+ <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com> <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+In-Reply-To: <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Mon, 11 Jan 2021 13:03:21 -0800
+Message-ID: <CAEf4BzaEA5aWeCCvHp7ASo9TdfotcBtqNGexirEynHDSo7ufgg@mail.gmail.com>
+Subject: Re: Check pahole availibity and BPF support of toolchain before
+ starting a Linux kernel build
+To:     sedat.dilek@gmail.com, Jiri Olsa <jolsa@kernel.org>
+Cc:     Yonghong Song <yhs@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tom Stellard <tstellar@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2021-01-11, Bill Wendling wrote:
->On Mon, Jan 11, 2021 at 12:12 PM Fangrui Song <maskray@google.com> wrote:
->>
->> On 2021-01-11, 'Bill Wendling' via Clang Built Linux wrote:
->> >From: Sami Tolvanen <samitolvanen@google.com>
->> >
->> >Enable the use of clang's Profile-Guided Optimization[1]. To generate a
->> >profile, the kernel is instrumented with PGO counters, a representative
->> >workload is run, and the raw profile data is collected from
->> >/sys/kernel/debug/pgo/profraw.
->> >
->> >The raw profile data must be processed by clang's "llvm-profdata" tool before
->> >it can be used during recompilation:
->> >
->> >  $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
->> >  $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
->> >
->> >Multiple raw profiles may be merged during this step.
->> >
->> >The data can be used either by the compiler if LTO isn't enabled:
->> >
->> >    ... -fprofile-use=vmlinux.profdata ...
->> >
->> >or by LLD if LTO is enabled:
->> >
->> >    ... -lto-cs-profile-file=vmlinux.profdata ...
->>
->> This LLD option does not exist.
->> LLD does have some `--lto-*` options but the `-lto-*` form is not supported
->> (it clashes with -l) https://reviews.llvm.org/D79371
->>
->That's strange. I've been using that option for years now. :-) Is this
->a recent change?
-
-The more frequently used options (specifyed by the clang driver) are
--plugin-opt=... (options implemented by LLVMgold.so).
-`-lto-*` is rare.
-
->> (There is an earlier -fprofile-instr-generate which does
->> instrumentation in Clang, but the option does not have broad usage.
->> It is used more for code coverage, not for optimization.
->> Noticeably, it does not even implement the Kirchhoff's current law
->> optimization)
->>
->Right. I've been told outside of this email that -fprofile-generate is
->the prefered flag to use.
+On Mon, Jan 11, 2021 at 9:56 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
->> -fprofile-use= is used by both regular PGO and context-sensitive PGO (CSPGO).
->>
->> clang -flto=thin -fprofile-use= passes -plugin-opt=cs-profile-path= to the linker.
->> For regular PGO, this option is effectively a no-op (confirmed with CSPGO main developer).
->>
->> So I think the "or by LLD if LTO is enabled:" part should be removed.
+> On Mon, Jan 11, 2021 at 5:05 PM Yonghong Song <yhs@fb.com> wrote:
+> >
+> >
+> >
+> > On 1/11/21 4:48 AM, Sedat Dilek wrote:
+> > > Hi BPF maintainers and Mashiro,
+> > >
+> > > Debian started to use CONFIG_DEBUG_INFO_BTF=y.
+> > >
+> > > My kernel-build fails like this:
+> > >
+> > > + info BTFIDS vmlinux
+> > > + [  != silent_ ]
+> > > + printf   %-7s %s\n BTFIDS vmlinux
+> > >   BTFIDS  vmlinux
+> > > + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> > > FAILED: load BTF from vmlinux: Invalid argument
+> > >
+> > > The root cause is my selfmade LLVM toolchain has no BPF support.
+> >
+> > linux build should depend on LLVM toolchain unless you use LLVM to build
+> > kernel.
+> >
+> > >
+> > > $ which llc
+> > > /home/dileks/src/llvm-toolchain/install/bin/llc
+> > >
+> > > $ llc --version
+> > > LLVM (http://llvm.org/ ):
+> > >   LLVM version 11.0.1
+> > >   Optimized build.
+> > >   Default target: x86_64-unknown-linux-gnu
+> > >   Host CPU: sandybridge
+> > >
+> > >   Registered Targets:
+> > >     x86    - 32-bit X86: Pentium-Pro and above
+> > >     x86-64 - 64-bit X86: EM64T and AMD64
+> > >
+> > > Debian's llc-11 shows me BPF support is built-in.
+> > >
+> > > I see the breakag approx. 3 hours after the start of my kernel-build -
+> > > in the stage "vmlinux".
+> > > After 2 faulures in my build (2x 3 hours of build-time) I have still
+> > > no finished Linux v5.11-rc3 kernel.
+> > > This is a bit frustrating.
+> >
+> > You mean "BTFIDS  vmlinux" takes more than 3 hours here?
+> > Maybe a bug in resolve_btfids due to somehow different ELF format
+> > resolve_btfids need to handle?
+> >
 >
->But what if you specify the linking step explicitly? Linux doesn't
->call "clang" when linking, but "ld.lld".
+> [ CC Tom ]
+>
+> OMG no.
+>
+> 3 hours up to running scripts/link-vmlinux.sh.
+>
+> In the meantime I have built a LLVM toolchain with BPF support.
+>
+> $ llc --version
+> LLVM (http://llvm.org/):
+>  LLVM version 11.0.1
+>  Optimized build.
+>  Default target: x86_64-unknown-linux-gnu
+>  Host CPU: sandybridge
+>
+>  Registered Targets:
+>    bpf    - BPF (host endian)
+>    bpfeb  - BPF (big endian)
+>    bpfel  - BPF (little endian)
 
-Regular PGO+LTO does not need -plugin-opt=cs-profile-path=
-CSPGO+LTO needs it.
-Because -fprofile-use= may be used by both, Clang driver adds it.
-CSPGO is relevant in this this patch, so the linker option does not need to be mentioned.
+As Yonghong mentioned, you don't need BPF target support in Clang to
+build the kernel, so the issue is elsewhere. It's somewhere between
+generated DWARF (we've seen multiple bugs in DWARF over time),
+pahole's BTF output and resolve_btfids's handling of that BTF. I've
+CC'ed Jiri, who can help with resolve_btfids.
+
+Meanwhile, if you can provide SHA from which you built Clang, kernel
+config you used, and probably exact invocation of the build you used,
+it would help reproduce the issue.
+
+>    x86    - 32-bit X86: Pentium-Pro and above
+>    x86-64 - 64-bit X86: EM64T and AMD64
+>
+> Tom reported BTF issues with pahole v1.19 (see [2] and [3]):
+> "I ran into this same bug trying to build the Fedora kernel. The
+> problem is that pahole segfaults at: scripts/link-vmlinux.sh:131. This
+> looks to me like a bug in pahole."
+>
+> pahole ToT (post v1.19) offers some BTF fixes - I have manually build
+> and use it.
+>
+> Building a new Linux-kernel...
+>
+> - Sedat -
+>
+> [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
+> [2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
+> [3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
+
+There are no significant bug fixes between pahole 1.19 and master that
+would solve this problem, so let's try to repro this.
+
+>
+>
+>
+> > >
+> > > What about doing pre-checks - means before doing a single line of
+> > > compilation - to check for:
+> > > 1. Required binaries
+> > > 2. Required support of whatever feature in compiler, linker, toolchain etc.
+> > >
+> > > Recently, I fell over depmod binary not found in my PATH - in one of
+> > > the last steps (modfinal) of the kernel build.
+> > >
+> > > Any ideas to improve the situation?
+> > > ( ...and please no RTFM, see links below. )
+> > >
+> > > Thanks.
+> > >
+> > > Regards,
+> > > - Sedat -
+> > >
+> > >
+> > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/link-vmlinux.sh#n144
+> > > [1] https://salsa.debian.org/kernel-team/linux/-/commit/929891281c61ce4403ddd869664c949692644a2f
+> > > [2] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html?highlight=pahole#llvm
+> > > [3] https://www.kernel.org/doc/html/latest/bpf/btf.html?highlight=pahole#btf-generation
+> > >
