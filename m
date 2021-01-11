@@ -2,122 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E38B22F2281
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 23:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2A862F22DA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 23:34:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732176AbhAKWOd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 17:14:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730805AbhAKWOd (ORCPT
+        id S2389439AbhAKWdU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 17:33:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48197 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387685AbhAKWdU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 17:14:33 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C4BC061786;
-        Mon, 11 Jan 2021 14:13:53 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id w79so301935qkb.5;
-        Mon, 11 Jan 2021 14:13:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nUSuOLEwKddwqAGQmUtdt1EL4PjE5423SzZtxcSveBk=;
-        b=n0RinPCSd6PDjjzBzNAePmt0rFKjNgZ2Rq8UadvjZBjYbsggF2cF0kca77n9CBFXGS
-         pwPQWwNXUbQZcr9Dm0JK4idGhlnTYPUFPHg4MehE+ZPn4Hyn8+5jzqP3IghHxR9aNcIo
-         EdBQUbhUxNJrmQ2bIodk3y6JL9NdesS3OsWXA7N2ZYP06Myd+rqDs0xvE/IPq1jBxoU/
-         ARLiLVRrKdfXyI2bUHPSHFZQnGwjywwgnLOOfk3ggYiIs377YDGa+qg9QcCzPtqe/Ome
-         AVTnDNF4zKZbH2nnIUEuWfp4EkaQV/jZMgfEp9j2nAssEn0f1chKRcIX72Fi15sdfrNW
-         FH3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nUSuOLEwKddwqAGQmUtdt1EL4PjE5423SzZtxcSveBk=;
-        b=flGxXcNw5XQ+5TyZYv8xnPucoCFieqNIpwqjU56+eai0l8/ymto5DWCauVGB+brIFa
-         0D/F9lXrKWwdqZkZQ0ausGFT05wns/s+7pdhAQDBwHvAflrC3fs0Ukd66u5ARCtEAp1B
-         fO62f/KB58uA8mWvGptUaRBAwsR3SQCBgm6j1cQdk62+GKowWcRlhrkTnrVZEoYtt7F5
-         ZoQr3gcuRurvU3PocBkZ1P8pJmft3uwyp9VJA9X+UyVak3eyW01+Qln5OfIYcbbUJZb/
-         gvwUkU5lXmkAwYvfVKTXeF3uU7iOpKWkby7aH+4CsvxkNBygrFYa2DW5ld/CxE511umk
-         ixiA==
-X-Gm-Message-State: AOAM532aOfmWdira3FERnMbEhvTUxiRtjr12p/MSGAQEZRZnEpgvOB21
-        PQlUpzO+UEapWbpIUBJEBVg=
-X-Google-Smtp-Source: ABdhPJzHX0z0hgj/Frp8oQS6zmOwwhR0jVYTmjM7pSi5J6S3ezg+zjKEQLsV+8HEEXzyhajNaZVcMg==
-X-Received: by 2002:a37:4d8e:: with SMTP id a136mr1454492qkb.317.1610403232586;
-        Mon, 11 Jan 2021 14:13:52 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id a194sm590265qkc.70.2021.01.11.14.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 14:13:52 -0800 (PST)
-Subject: Re: [PATCH V2 1/2] scripts: dtc: Add fdtoverlay.c and fdtdump.c to
- DTC_SOURCE
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <f346aea6-b97f-484f-6371-965831fc06fc@gmail.com>
-Date:   Mon, 11 Jan 2021 16:13:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 11 Jan 2021 17:33:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610404313;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Wnlkg0g7e1YrcYGzfxmDxEbKCTeITWcoDDln+owCI50=;
+        b=RIEKwmRhNUQ/uWOQMWAmP+2A3ZFerJBYvvJ5kA0iuJ59lyevs6uumRffcEQFm9hR+gbT76
+        1E6PJ54uQOSi9oVAX7ptX3YwQ7uOJfzIbktVsIrjhpJ08VaBqkB7xJ7ukZfRC68jcS9qMD
+        9wT+orsLRkr2rglcxRXo2lO174SZxek=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-b6nLIsbPN4OWS0SdgOsH9g-1; Mon, 11 Jan 2021 17:31:51 -0500
+X-MC-Unique: b6nLIsbPN4OWS0SdgOsH9g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8743DF8A4;
+        Mon, 11 Jan 2021 22:31:48 +0000 (UTC)
+Received: from krava (unknown [10.40.192.185])
+        by smtp.corp.redhat.com (Postfix) with SMTP id B5BCB60BE2;
+        Mon, 11 Jan 2021 22:31:45 +0000 (UTC)
+Date:   Mon, 11 Jan 2021 23:31:44 +0100
+From:   Jiri Olsa <jolsa@redhat.com>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        Jiri Olsa <jolsa@kernel.org>, Yonghong Song <yhs@fb.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tom Stellard <tstellar@redhat.com>
+Subject: Re: Check pahole availibity and BPF support of toolchain before
+ starting a Linux kernel build
+Message-ID: <20210111223144.GA1250730@krava>
+References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
+ <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com>
+ <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+ <CAEf4BzaEA5aWeCCvHp7ASo9TdfotcBtqNGexirEynHDSo7ufgg@mail.gmail.com>
+ <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Viresh,
+On Mon, Jan 11, 2021 at 10:30:22PM +0100, Sedat Dilek wrote:
 
-On 1/6/21 11:15 PM, Viresh Kumar wrote:
-> We will start building overlays for platforms soon in the kernel and
-> would need these tools going forward. Lets start fetching them.
-> 
-> Note that a copy of fdtdump.c was already copied back in the year 2012,
-> but was never updated or built for some reason.
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
-> V2: Separate out this change from Makefile one.
-> 
-> This needs to be followed by invocation of the ./update-dtc-source.sh
-> script so the relevant files can be copied before the Makefile is
-> updated in the next patch.
+SNIP
 
-Just an FYI that Rob will do the ./update-dtc-source.sh step at the appropriate
-time, creating a commit to be submitted in his pull request to Linus.
-
-That way Rob will ensure that all of the updates from the parent project are
-updated in a careful manner.
-
--Frank
-
+> > >
+> > > Building a new Linux-kernel...
+> > >
+> > > - Sedat -
+> > >
+> > > [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
+> > > [2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
+> > > [3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
+> >
+> > There are no significant bug fixes between pahole 1.19 and master that
+> > would solve this problem, so let's try to repro this.
+> >
 > 
->  scripts/dtc/update-dtc-source.sh | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> You are right pahole fom latest Git does not solve the issue.
 > 
-> diff --git a/scripts/dtc/update-dtc-source.sh b/scripts/dtc/update-dtc-source.sh
-> index bc704e2a6a4a..9bc4afb71415 100755
-> --- a/scripts/dtc/update-dtc-source.sh
-> +++ b/scripts/dtc/update-dtc-source.sh
-> @@ -31,9 +31,9 @@ set -ev
->  DTC_UPSTREAM_PATH=`pwd`/../dtc
->  DTC_LINUX_PATH=`pwd`/scripts/dtc
->  
-> -DTC_SOURCE="checks.c data.c dtc.c dtc.h flattree.c fstree.c livetree.c srcpos.c \
-> -		srcpos.h treesource.c util.c util.h version_gen.h yamltree.c \
-> -		dtc-lexer.l dtc-parser.y"
-> +DTC_SOURCE="checks.c data.c dtc.c dtc.h fdtdump.c fdtoverlay.c flattree.c \
-> +		fstree.c livetree.c srcpos.c srcpos.h treesource.c util.c \
-> +		util.h version_gen.h yamltree.c dtc-lexer.l dtc-parser.y"
->  LIBFDT_SOURCE="fdt.c fdt.h fdt_addresses.c fdt_empty_tree.c \
->  		fdt_overlay.c fdt_ro.c fdt_rw.c fdt_strerror.c fdt_sw.c \
->  		fdt_wip.c libfdt.h libfdt_env.h libfdt_internal.h"
-> 
+> + info BTFIDS vmlinux
+> + [  != silent_ ]
+> + printf   %-7s %s\n BTFIDS vmlinux
+>  BTFIDS  vmlinux
+> + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> FAILED: load BTF from vmlinux: Invalid argument
+
+hm, is there a .BTF section in vmlinux?
+
+is this working over vmlinux:
+ $ bpftool btf dump file ./vmlinux
+
+do you have a verbose build output? I'd think pahole scream first..
+
+jirka
 
