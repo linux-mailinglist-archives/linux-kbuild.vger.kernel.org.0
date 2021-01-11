@@ -2,226 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA44D2F1C51
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 18:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BBA72F1D30
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Jan 2021 18:57:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389531AbhAKR2W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 12:28:22 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:21638 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732924AbhAKR2W (ORCPT
+        id S1732509AbhAKR5P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 12:57:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727658AbhAKR5P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 12:28:22 -0500
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 10BHRJjA021933;
-        Tue, 12 Jan 2021 02:27:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 10BHRJjA021933
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1610386040;
-        bh=zHsgjQ+d0Jh9QA9SxHCmXDhgqkszADIFlqp7wpTZyFU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=efqhad3rgWDVbhuqRNstJOLSSePdYG684zoKuQ4ft+kVT5N+HTXbejJ4HJFr95g/Z
-         /6880+z3HytUwLegtIEZGp2vCpP1OFI4THl9KqNiXbnzWxlDMLbHPfcYd7lMGifMvT
-         DxrysMA+QHNSQbOzGOfDX7a50cbliquxsZhoZFiUwASkOXWkFQ2nSixLFdAzmpnmBr
-         bVE4FljHZKSmZ7RSmtGpu6hCeWUAG/EmUD7pmY+sCTENYxhtyv4mCYPWQ8WQxyQGkn
-         vPwjQsfmoIjrCqMaai9ZCKLaRd50qvrT833zHHVcgaLXyehsvYY+RcCiObbvxZopxh
-         VGJIrd9qEHGPg==
-X-Nifty-SrcIP: [209.85.215.172]
-Received: by mail-pg1-f172.google.com with SMTP id g15so90522pgu.9;
-        Mon, 11 Jan 2021 09:27:20 -0800 (PST)
-X-Gm-Message-State: AOAM53121AnML1JqZrqBVzgvkdzEBZwAl1LfWaHKnibmTBC1giysOh+I
-        I106zgj37cYoQsmbXSnyGM9bgEWFtYPPJSinR0I=
-X-Google-Smtp-Source: ABdhPJwCHFfCjtdNSGA/7Wf9BJPLiWnZBTudc7GDzA7ko9n2DbU++QgJDyhybdeBstxXcnxsUZ0d61nz647CQvbRPA0=
-X-Received: by 2002:a63:eb0c:: with SMTP id t12mr556694pgh.7.1610386039159;
- Mon, 11 Jan 2021 09:27:19 -0800 (PST)
+        Mon, 11 Jan 2021 12:57:15 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28868C061794;
+        Mon, 11 Jan 2021 09:56:35 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id x15so452208ilq.1;
+        Mon, 11 Jan 2021 09:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=cEH5d4sSAKnEhpBNXXBVw3jPQh/cz1wtGrgSWX+H6mU=;
+        b=WjNx3F3zs5pFJD1qGm4zfO38ChpEbRUW7XaxQwcOl6jlLsJGNBCS3q5Os7aAIFlSsl
+         6TlnUiwX6jPufm9acYbo+wQ09tKyacufSdpsUMJHFdT5szDnJvnGEElRFXHCUrBxjy8p
+         eoL1TK8DsTuTFsSODDt7XeM/+hpTgeozfwFcro1N4pXipB2gzaxStX5+Mfd9Rh1qmbj9
+         6WM+8pBsEziJOv8Os/XL6OgyWvJ6NEy5Y/tqbYYI5+Y3/JPM/9BCW1vkXT4s086MbsBN
+         2JDZf+TWdleqgalAOkAdjKOpISH2nMWe99mZXxigxSfRFfzOaO3u/5To/ZThesX+dScp
+         Ip+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=cEH5d4sSAKnEhpBNXXBVw3jPQh/cz1wtGrgSWX+H6mU=;
+        b=e9UvjOsOAk7+G0Mwx4RG//MWe+PdPVZt2Qx2rmU4ExVuiJM9broIa+mkTp7c0ic9ER
+         mCeWgXwwn6v9BLc45uZCX7EYRTvUQU+2jhAY9jZnRr+1bqpFSW3ezfhzxh34O3Ia1nhy
+         ZZwjWCpJf75zoocWQDeVgpDY5F9sjICwh8B6fL+cA+pyGzsS9NSRhp/63PTw2pE3O3E4
+         gGMQVqfc8Uu3oUZGXqlShmKLHg9IHoMGYHJrw8WyKCGD2t1O2mnCdEsy7ByV0Scy77P8
+         ZLraZ92g64n6PTQMRbJo+sGDZHp1kmCDwBE5Pph62JFDvR5hcJxxjE2qiSGLK4smYzYG
+         E/bA==
+X-Gm-Message-State: AOAM5334p8MRYbSazNSW9XiTbjImm/BMegNQqKPZehWTbxavTL4pkxhe
+        b8lmT/r9MYznn0TuJKXf2mwDpnE0Pe6IWGacM8E=
+X-Google-Smtp-Source: ABdhPJydoKJpXHnkEVK9HPmA7WHJ8Nf3o/Zv07gD6MtJLoxi7dkMsRI5eWScePYSO39ig9hrMU/ZABTVuWYbdZ/SCfk=
+X-Received: by 2002:a92:9e57:: with SMTP id q84mr334072ili.112.1610387794410;
+ Mon, 11 Jan 2021 09:56:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1609844956.git.viresh.kumar@linaro.org> <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
- <CAK7LNAR9fdjZ7iWKSWvJ9etGZkd+n87cmXKN-Hah8DBDYbuAwA@mail.gmail.com> <CAL_Jsq+DFF0tRv61XCAGLJYYu=ow8Ah8prd6su=6dpoU_AyMXw@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+DFF0tRv61XCAGLJYYu=ow8Ah8prd6su=6dpoU_AyMXw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 12 Jan 2021 02:26:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASVb6k9CZ+5Y4zzoRasqU7av193Jvv-aX0uD4=y4V8t9A@mail.gmail.com>
-Message-ID: <CAK7LNASVb6k9CZ+5Y4zzoRasqU7av193Jvv-aX0uD4=y4V8t9A@mail.gmail.com>
-Subject: Re: [RFC 0/2] kbuild: Add support to build overlays (%.dtbo)
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        DTML <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, tero.kristo@gmail.com
+References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
+ <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com>
+In-Reply-To: <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Mon, 11 Jan 2021 18:56:22 +0100
+Message-ID: <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+Subject: Re: Check pahole availibity and BPF support of toolchain before
+ starting a Linux kernel build
+To:     Yonghong Song <yhs@fb.com>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, bpf@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Tom Stellard <tstellar@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 8, 2021 at 4:02 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Wed, Jan 6, 2021 at 10:35 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Wed, Jan 6, 2021 at 12:21 AM Rob Herring <robh+dt@kernel.org> wrote:
-> > >
-> > > On Tue, Jan 5, 2021 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > Here is an attempt to make some changes in the kernel to allow building
-> > > > of device tree overlays.
-> > > >
-> > > > While at it, I would also like to discuss about how we should mention
-> > > > the base DT blobs in the Makefiles for the overlays, so they can be
-> > > > build tested to make sure the overlays apply properly.
-> > > >
-> > > > A simple way is to mention that with -base extension, like this:
-> > > >
-> > > > $(overlay-file)-base := platform-base.dtb
-> > > >
-> > > > Any other preference ?
-> >
-> >
-> >
-> > Viresh's patch is not enough.
-> >
-> > We will need to change .gitignore
-> > and scripts/Makefile.dtbinst as well.
-> >
-> >
-> > In my understanding, the build rule is completely the same
-> > between .dtb and .dtbo
-> > As Rob mentioned, I am not sure if we really need/want
-> > a separate extension.
-> >
-> >
-> > A counter approach is to use an extension like '.ovl.dtb'
-> > It clarifies it is an overlay fragment without changing
-> > anything in our build system or the upstream DTC project.
-> >
-> > We use chained extension in some places, for example,
-> > .dt.yaml for schema yaml files.
-> >
-> >
-> >
-> > dtb-$(CONFIG_ARCH_FOO) += \
-> >     foo-board.dtb \
-> >     foo-overlay1.ovl.dtb \
-> >     foo-overlay2.ovl.dtb
-> >
-> >
-> > Overlay DT source file names must end with '.ovl.dts'
->
-> I like that suggestion as then it's also clear looking at the source
-> files which ones are overlays. Or we'd need .dtso to be consistent.
+On Mon, Jan 11, 2021 at 5:05 PM Yonghong Song <yhs@fb.com> wrote:
 >
 >
-> > > I think we'll want something similar to how '-objs' works for modules:
-> > >
-> > > foo-board-1-dtbs := foo-board.dtb foo-overlay1.dtbo
-> > > foo-board-2-dtbs := foo-board.dtb foo-overlay2.dtbo
-> > > foo-board-1-2-dtbs := foo-board.dtb foo-overlay1.dtbo foo-overlay2.dtbo
-> > > dtbs-y += foo-board-1.dtb foo-board-2.dtb foo-board-1-2.dtb
-> > >
-> > > (One difference here is we will want all the intermediate targets
-> > > unlike .o files.)
-> > >
-> > > You wouldn't necessarily have all the above combinations, but you have
-> > > to allow for them. I'm not sure how we'd handle applying any common
-> > > overlays where the base and overlay are in different directories.
-> >
-> >
-> > I guess the motivation for supporting -dtbs is to
-> > add per-board -@ option only when it contains *.dtbo pattern.
 >
-> I hadn't thought that far, but yeah, that would be good. Really, I
-> just want it to be controlled per SoC family at least.
->
-> > But, as you notice, if the overlay files are located
-> > under drivers/, it is difficult to add -@ per board.
->
-> Generally, they shouldn't be. The exceptions are what we already have
-> there which are old dt fixups and unittests.
->
-> We want the stripped DT repo (devicetree-rebasing) to have all this
-> and drivers/ is stripped out. (Which reminds me, the DT repo will need
-> some work to support all this. It's a different build sys.)
->
-> > Another scenario is, some people may want to compile
-> > downstream overlay files (i.e. similar concept as external modules),
-> > then we have no idea which base board should be given with the -@ flag.
+> On 1/11/21 4:48 AM, Sedat Dilek wrote:
+> > Hi BPF maintainers and Mashiro,
 > >
+> > Debian started to use CONFIG_DEBUG_INFO_BTF=y.
 > >
-> > I'd rather be tempted to add it globally
+> > My kernel-build fails like this:
 > >
+> > + info BTFIDS vmlinux
+> > + [  != silent_ ]
+> > + printf   %-7s %s\n BTFIDS vmlinux
+> >   BTFIDS  vmlinux
+> > + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> > FAILED: load BTF from vmlinux: Invalid argument
 > >
-> > ifdef CONFIG_OF_OVERLAY
-> > DTC_FLAGS += -@
-> > endif
+> > The root cause is my selfmade LLVM toolchain has no BPF support.
 >
-> We've already rejected doing that. Turning on '-@' can grow the dtb
-> size by a significant amount which could be problematic for some
-> boards.
+> linux build should depend on LLVM toolchain unless you use LLVM to build
+> kernel.
 >
+> >
+> > $ which llc
+> > /home/dileks/src/llvm-toolchain/install/bin/llc
+> >
+> > $ llc --version
+> > LLVM (http://llvm.org/ ):
+> >   LLVM version 11.0.1
+> >   Optimized build.
+> >   Default target: x86_64-unknown-linux-gnu
+> >   Host CPU: sandybridge
+> >
+> >   Registered Targets:
+> >     x86    - 32-bit X86: Pentium-Pro and above
+> >     x86-64 - 64-bit X86: EM64T and AMD64
+> >
+> > Debian's llc-11 shows me BPF support is built-in.
+> >
+> > I see the breakag approx. 3 hours after the start of my kernel-build -
+> > in the stage "vmlinux".
+> > After 2 faulures in my build (2x 3 hours of build-time) I have still
+> > no finished Linux v5.11-rc3 kernel.
+> > This is a bit frustrating.
 >
-> > > Another thing here is adding all the above is not really going to
-> > > scale on arm32 where we have a single dts directory. We need to move
-> > > things to per vendor/soc family directories. I have the script to do
-> > > this. We just need to agree on the vendor names and get Arnd/Olof to
-> > > run it. I also want that so we can enable schema checks by default
-> > > once a vendor is warning free (the whole tree is going to take
-> > > forever).
-> >
-> >
-> > If this is a big churn, perhaps we could make it extreme
-> > to decouple DT and Linux-arch.
+> You mean "BTFIDS  vmlinux" takes more than 3 hours here?
+> Maybe a bug in resolve_btfids due to somehow different ELF format
+> resolve_btfids need to handle?
 >
-> I would be fine with that, but I don't think we'll get agreement
-> there. With that amount of change, we'll be discussing git submodule
-> again.
->
-> Rereading the thread on vendor directories[1], we may just move boards
-> one vendor at a time. We could just make that a prerequisite for
-> vendor supporting overlays.
->
-> > arch/*/boot/dts/*.dts
-> >  ->  dts/<vendor>/*.dts
-> >
-> > Documentation/devicetree/bindings
-> >  -> dts/Bindings/
-> >
-> > include/dt-bindings/
-> >  -> dts/include/dt-bindings/
-> >
-> >
-> >
-> > Then, other project can take dts/
-> > to reuse for them.
->
-> This is already possible with devicetree-rebasing.git. Though it is
-> still by arch.
 
+[ CC Tom ]
 
-Yes, I know this project.
+OMG no.
 
-There are still cross-references between arm and arm64.
+3 hours up to running scripts/link-vmlinux.sh.
 
-Associating DT with Linux-arch is not good
-because it is possible to boot the 32-bit kernel (arch/arm/)
-on the 64-bit boards (arch/arm64/boot/dts/).
+In the meantime I have built a LLVM toolchain with BPF support.
+
+$ llc --version
+LLVM (http://llvm.org/):
+ LLVM version 11.0.1
+ Optimized build.
+ Default target: x86_64-unknown-linux-gnu
+ Host CPU: sandybridge
+
+ Registered Targets:
+   bpf    - BPF (host endian)
+   bpfeb  - BPF (big endian)
+   bpfel  - BPF (little endian)
+   x86    - 32-bit X86: Pentium-Pro and above
+   x86-64 - 64-bit X86: EM64T and AMD64
+
+Tom reported BTF issues with pahole v1.19 (see [2] and [3]):
+"I ran into this same bug trying to build the Fedora kernel. The
+problem is that pahole segfaults at: scripts/link-vmlinux.sh:131. This
+looks to me like a bug in pahole."
+
+pahole ToT (post v1.19) offers some BTF fixes - I have manually build
+and use it.
+
+Building a new Linux-kernel...
+
+- Sedat -
+
+[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
+[2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
+[3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
 
 
 
-
-
-
-> Rob
->
-> [1] https://lore.kernel.org/linux-devicetree/20181204183649.GA5716@bogus/
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+> >
+> > What about doing pre-checks - means before doing a single line of
+> > compilation - to check for:
+> > 1. Required binaries
+> > 2. Required support of whatever feature in compiler, linker, toolchain etc.
+> >
+> > Recently, I fell over depmod binary not found in my PATH - in one of
+> > the last steps (modfinal) of the kernel build.
+> >
+> > Any ideas to improve the situation?
+> > ( ...and please no RTFM, see links below. )
+> >
+> > Thanks.
+> >
+> > Regards,
+> > - Sedat -
+> >
+> >
+> > [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/link-vmlinux.sh#n144
+> > [1] https://salsa.debian.org/kernel-team/linux/-/commit/929891281c61ce4403ddd869664c949692644a2f
+> > [2] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html?highlight=pahole#llvm
+> > [3] https://www.kernel.org/doc/html/latest/bpf/btf.html?highlight=pahole#btf-generation
+> >
