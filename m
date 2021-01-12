@@ -2,252 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D6582F2A11
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 09:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADC22F2A20
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 09:38:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405243AbhALIab (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Jan 2021 03:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44190 "EHLO
+        id S1731670AbhALIhr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Jan 2021 03:37:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404959AbhALIaa (ORCPT
+        with ESMTP id S1728462AbhALIhr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Jan 2021 03:30:30 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E0CC0617A7
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 00:29:18 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id v19so942000pgj.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 00:29:18 -0800 (PST)
+        Tue, 12 Jan 2021 03:37:47 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6969C061794
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 00:37:06 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id b5so1220601pjl.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 00:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9FnCdmEEGSQX+RKqefc8hvZ3CGNJpcGjSObBIm4DdhU=;
-        b=hrulJ76Tv91s7SpdhYOy9jmlFw1Fhw/qiYTAMrHBR79CBwvq6sAzjtxv5hEnUF1yXq
-         Vn+MH/2OzfXdLH4R5B1XZsBVJ0NF9pFu4OqX5CCiPhTgaxCnUygFwsq6cQb8M69Z2dyK
-         pD/Lzt2kiEq0cmqq31x5zlDCPAzScU/o7M6hec8Aw2HP2CX98MfZStjEgwGw+Ly7W0IU
-         CPle+X0NZ6EvnErCZiFMbIneBrc1cWVTjm5Q7QflQ0bGrMRX8nbv5UcU812AzKU6r9DB
-         idwrnlwnDMOYRaKg9IqNcNJuMCcT0M54mgFiZECjX7MzThKAJwsDMQU/xzBhUrkscUMS
-         GU4A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sNacm9ehhXHDD+E+vM/v4BSvqULuhqFVBF88cmNDIFo=;
+        b=DDMq/obY0QRg81EH+vwR4Kgm7tPTFPl/QX9l02SSYrbXsJ99XvqoZTeFYfzkiZpX+U
+         lZsNY3XGyTFluu9B6DC0Ysf0LMEg3zK3rWzqePz34pghQ8c/qAEI0yYfNPX1VkfnPiWB
+         96vjwX9nlQ0wF95bAc0MLMNYyfiP1htNj59GdGbkfoALVg9ZFCojWWNkg83OlEU+NycE
+         8tVX76MB6J1ONXV51AcASm4IWBtL6zuECHYdo1Prwq+UaSYLC6RLq4Th2hSrtGSmLbVt
+         ifCq5JIBU/PaUXj++wHGKfmhC5XNtwjxIqsIje5q6ZfDOpzSNo5fGxScY3VLW+q54nyK
+         do7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9FnCdmEEGSQX+RKqefc8hvZ3CGNJpcGjSObBIm4DdhU=;
-        b=fkp1yX2QfUuUWlJPt/rEhUQvV+krlvz+xHrhsPLkrHV6FnvIHkaV4BjOElLv2B2L05
-         tFwJuJfuio8k2FqGKqf+LvHX9snNWYW+Na65kqnFtyCTzMWHRix59+rzqC/xqU/wMB42
-         5CIlgqQEkN5EqBal00D2xALgO/fNPOpbbOMWbTrNjPiw+nUrajnr04wtqsaIgQ+tgmF9
-         K6aWttHNiwvmbidKfGb4E6D0Bv/qnilZngwsUPnCDXSPMtmOvMXJknhBThvaPAi3VcDw
-         rFXzv7QqBRkYa3pwHD4nZRUi/vbBCOD87JoMcy+u83qsiTcMeS0ZYrbHlszZRvMMb2fR
-         p56Q==
-X-Gm-Message-State: AOAM530tZA/d6Kty6AID00TMVnGmtG3THgOJ9oU+AP5ncnyYuM4Z2i8h
-        1/Jz2fiXPkA4GNJSvF+TCUatcQ==
-X-Google-Smtp-Source: ABdhPJy3+Z6QgkpOKB9CLurMPFoM5R15S4+aImyXeHZ/86rBAV3ZUmQwtDYFMyCYzPlSEIAQZKpKYw==
-X-Received: by 2002:aa7:843a:0:b029:19d:b279:73c9 with SMTP id q26-20020aa7843a0000b029019db27973c9mr3843688pfn.3.1610440158277;
-        Tue, 12 Jan 2021 00:29:18 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sNacm9ehhXHDD+E+vM/v4BSvqULuhqFVBF88cmNDIFo=;
+        b=lXUyuXyzWDSGvJFZMvkZ4BRDC+jnuRyjPD3xkTKM95S9a1fWyjp3HbjZMeBjYbkLEy
+         oUAqyZNEUPebrRJYK2fEOJY9C21YnC7G/A3q2KRGkGPOJ/Io7lh+GWNZh5X8BnbHxy6G
+         od9gHxxSqfgzBRUtLh0zfnamHzQYGAaOPgRNn4lVOea7XzGs6tdvxPRPbeWmV+o/0hze
+         qLG4aU+JXeTrqflkAy4vTGlK9q5rCGZmJ3beqfC8K06VpAs/wwR5ffIAEI2h88DXg0QI
+         SqA3QXbCrUqPhcvis9uk9fvfecroFR/qN0r+RzfBtPC8IwAWGsj8+jkFGQbAhL4QcvQ5
+         ppDA==
+X-Gm-Message-State: AOAM5330nvT20xohDivoKNJgbcQ1FWk435lQbO00Y3b5JNltdBqufTd4
+        W+H+v+IVGwbfvJkmKzU5cUZtuQ==
+X-Google-Smtp-Source: ABdhPJz3clZ59bT//pRKzHW2VM+sQQyK+EpOtnrH1NFu1PVlACLYTXzKe57v+JEyGW6un9EttLrJOw==
+X-Received: by 2002:a17:902:8203:b029:dc:3371:6b04 with SMTP id x3-20020a1709028203b02900dc33716b04mr3692078pln.81.1610440626102;
+        Tue, 12 Jan 2021 00:37:06 -0800 (PST)
 Received: from localhost ([122.172.85.111])
-        by smtp.gmail.com with ESMTPSA id t7sm2143478pfe.179.2021.01.12.00.29.17
+        by smtp.gmail.com with ESMTPSA id b1sm2112101pjh.54.2021.01.12.00.37.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 12 Jan 2021 00:29:17 -0800 (PST)
+        Tue, 12 Jan 2021 00:37:05 -0800 (PST)
+Date:   Tue, 12 Jan 2021 14:07:03 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+To:     Bill Mills <bill.mills@linaro.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH V4 3/3] scripts: dtc: Remove the unused fdtdump.c file
-Date:   Tue, 12 Jan 2021 13:59:02 +0530
-Message-Id: <25d98b2fe9bea3fe784f8392a73b88a253c8b97a.1610431620.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <cover.1610431620.git.viresh.kumar@linaro.org>
-References: <cover.1610431620.git.viresh.kumar@linaro.org>
+        anmar.oueja@linaro.org, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+Message-ID: <20210112083703.yfpicoi4zrddeykd@vireshk-i7>
+References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+ <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
+ <31611390-eded-d290-36a7-0b1e8465f71e@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <31611390-eded-d290-36a7-0b1e8465f71e@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This was copied from external DTC repository long back and isn't used
-anymore. Over that the dtc tool can be used to generate the dts source
-back from the dtb. Remove the unused fdtdump.c file.
+On 11-01-21, 20:22, Bill Mills wrote:
+> On 1/11/21 5:06 PM, Frank Rowand wrote:
+> > NACK to this specific patch, in its current form.
+> > 
+> > There are restrictions on applying an overlay at runtime that do not apply
+> > to applying an overlay to an FDT that will be loaded by the kernel during
+> > early boot.  Thus the unittest overlays _must_ be applied using the kernel
+> > overlay loading methods to test the kernel runtime overlay loading feature.
+> > 
+> > I agree that testing fdtoverlay is a good idea.  I have not looked at the
+> > parent project to see how much testing of fdtoverlay occurs there, but I
+> > would prefer that fdtoverlay tests reside in the parent project if practical
+> > and reasonable.  If there is some reason that some fdtoverlay tests are
+> > more practical in the Linux kernel repository then I am open to adding
+> > them to the Linux kernel tree.
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- scripts/dtc/fdtdump.c | 163 ------------------------------------------
- 1 file changed, 163 deletions(-)
- delete mode 100644 scripts/dtc/fdtdump.c
+I wasn't looking to add any testing for fdtoverlay in the kernel, but
+then I stumbled upon unit-tests here and thought it would be a good
+idea to get this built using static tools as well, as we aren't
+required to add any new source files for this and the existing tests
+already cover a lot of nodes.
 
-diff --git a/scripts/dtc/fdtdump.c b/scripts/dtc/fdtdump.c
-deleted file mode 100644
-index 7d460a50b513..000000000000
---- a/scripts/dtc/fdtdump.c
-+++ /dev/null
-@@ -1,163 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * fdtdump.c - Contributed by Pantelis Antoniou <pantelis.antoniou AT gmail.com>
-- */
--
--#include <stdint.h>
--#include <stdio.h>
--#include <stdlib.h>
--#include <string.h>
--#include <ctype.h>
--
--#include <fdt.h>
--#include <libfdt_env.h>
--
--#include "util.h"
--
--#define ALIGN(x, a)	(((x) + ((a) - 1)) & ~((a) - 1))
--#define PALIGN(p, a)	((void *)(ALIGN((unsigned long)(p), (a))))
--#define GET_CELL(p)	(p += 4, *((const uint32_t *)(p-4)))
--
--static void print_data(const char *data, int len)
--{
--	int i;
--	const char *p = data;
--
--	/* no data, don't print */
--	if (len == 0)
--		return;
--
--	if (util_is_printable_string(data, len)) {
--		printf(" = \"%s\"", (const char *)data);
--	} else if ((len % 4) == 0) {
--		printf(" = <");
--		for (i = 0; i < len; i += 4)
--			printf("0x%08x%s", fdt32_to_cpu(GET_CELL(p)),
--			       i < (len - 4) ? " " : "");
--		printf(">");
--	} else {
--		printf(" = [");
--		for (i = 0; i < len; i++)
--			printf("%02x%s", *p++, i < len - 1 ? " " : "");
--		printf("]");
--	}
--}
--
--static void dump_blob(void *blob)
--{
--	struct fdt_header *bph = blob;
--	uint32_t off_mem_rsvmap = fdt32_to_cpu(bph->off_mem_rsvmap);
--	uint32_t off_dt = fdt32_to_cpu(bph->off_dt_struct);
--	uint32_t off_str = fdt32_to_cpu(bph->off_dt_strings);
--	struct fdt_reserve_entry *p_rsvmap =
--		(struct fdt_reserve_entry *)((char *)blob + off_mem_rsvmap);
--	const char *p_struct = (const char *)blob + off_dt;
--	const char *p_strings = (const char *)blob + off_str;
--	uint32_t version = fdt32_to_cpu(bph->version);
--	uint32_t totalsize = fdt32_to_cpu(bph->totalsize);
--	uint32_t tag;
--	const char *p, *s, *t;
--	int depth, sz, shift;
--	int i;
--	uint64_t addr, size;
--
--	depth = 0;
--	shift = 4;
--
--	printf("/dts-v1/;\n");
--	printf("// magic:\t\t0x%x\n", fdt32_to_cpu(bph->magic));
--	printf("// totalsize:\t\t0x%x (%d)\n", totalsize, totalsize);
--	printf("// off_dt_struct:\t0x%x\n", off_dt);
--	printf("// off_dt_strings:\t0x%x\n", off_str);
--	printf("// off_mem_rsvmap:\t0x%x\n", off_mem_rsvmap);
--	printf("// version:\t\t%d\n", version);
--	printf("// last_comp_version:\t%d\n",
--	       fdt32_to_cpu(bph->last_comp_version));
--	if (version >= 2)
--		printf("// boot_cpuid_phys:\t0x%x\n",
--		       fdt32_to_cpu(bph->boot_cpuid_phys));
--
--	if (version >= 3)
--		printf("// size_dt_strings:\t0x%x\n",
--		       fdt32_to_cpu(bph->size_dt_strings));
--	if (version >= 17)
--		printf("// size_dt_struct:\t0x%x\n",
--		       fdt32_to_cpu(bph->size_dt_struct));
--	printf("\n");
--
--	for (i = 0; ; i++) {
--		addr = fdt64_to_cpu(p_rsvmap[i].address);
--		size = fdt64_to_cpu(p_rsvmap[i].size);
--		if (addr == 0 && size == 0)
--			break;
--
--		printf("/memreserve/ %llx %llx;\n",
--		       (unsigned long long)addr, (unsigned long long)size);
--	}
--
--	p = p_struct;
--	while ((tag = fdt32_to_cpu(GET_CELL(p))) != FDT_END) {
--
--		/* printf("tag: 0x%08x (%d)\n", tag, p - p_struct); */
--
--		if (tag == FDT_BEGIN_NODE) {
--			s = p;
--			p = PALIGN(p + strlen(s) + 1, 4);
--
--			if (*s == '\0')
--				s = "/";
--
--			printf("%*s%s {\n", depth * shift, "", s);
--
--			depth++;
--			continue;
--		}
--
--		if (tag == FDT_END_NODE) {
--			depth--;
--
--			printf("%*s};\n", depth * shift, "");
--			continue;
--		}
--
--		if (tag == FDT_NOP) {
--			printf("%*s// [NOP]\n", depth * shift, "");
--			continue;
--		}
--
--		if (tag != FDT_PROP) {
--			fprintf(stderr, "%*s ** Unknown tag 0x%08x\n", depth * shift, "", tag);
--			break;
--		}
--		sz = fdt32_to_cpu(GET_CELL(p));
--		s = p_strings + fdt32_to_cpu(GET_CELL(p));
--		if (version < 16 && sz >= 8)
--			p = PALIGN(p, 8);
--		t = p;
--
--		p = PALIGN(p + sz, 4);
--
--		printf("%*s%s", depth * shift, "", s);
--		print_data(t, sz);
--		printf(";\n");
--	}
--}
--
--
--int main(int argc, char *argv[])
--{
--	char *buf;
--
--	if (argc < 2) {
--		fprintf(stderr, "supply input filename\n");
--		return 5;
--	}
--
--	buf = utilfdt_read(argv[1]);
--	if (buf)
--		dump_blob(buf);
--	else
--		return 10;
--
--	return 0;
--}
+And so I am fine if we don't want to do this stuff in kernel.
+
+> I thought we were aligned that any new overlays into the kernel today would
+> only be for boot loader applied case.  Applying overlays at kernel runtime
+> was out of scope at your request.
+> 
+> Rob had requested that the overlays be test applied at build time.  I don't
+> think there is any way to test the kernel runtime method at build time
+> correct?
+> 
+> Please clarify your concern and your suggested way forward.
+
+The kernel does some overlay testing currently (at kernel boot only,
+not later), to see if the overlays get applied correctly or not, these
+are the unit tests.
+
+What Frank is probably saying is that the unit-tests dtbs shouldn't
+get used for testing fdtoverlay stuff. He isn't asking to support
+runtime application of overlays, but to not do fdtoverlay testing in
+the kernel.
+
 -- 
-2.25.0.rc1.19.g042ed3e048af
-
+viresh
