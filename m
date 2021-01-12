@@ -2,136 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE0D2F2423
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 01:34:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9EED2F2502
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 02:18:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728797AbhALAdb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 19:33:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53096 "EHLO
+        id S1726859AbhALAjZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 19:39:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405517AbhALAZm (ORCPT
+        with ESMTP id S1728959AbhALAiq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 19:25:42 -0500
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A21BC061575;
-        Mon, 11 Jan 2021 16:25:05 -0800 (PST)
-Received: by mail-qk1-x732.google.com with SMTP id f26so552784qka.0;
-        Mon, 11 Jan 2021 16:25:05 -0800 (PST)
+        Mon, 11 Jan 2021 19:38:46 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F7A7C061794
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 16:38:06 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id q22so1044863eja.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 16:38:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hvGe1An1yw/BFTMsS0krviHSfzdBwIfCXLUTiKIE1V4=;
-        b=M+LH5yFyuEpMDk2otKP2Q9Cc1rdPc5RM7G1Zgdwe3dIcuU7eFcAi8rugqwwec0yseV
-         gCSyD/H76B2RdPcUg/JMxsuMOZx3bUapReBH3DQenIFpCuukHlRk38EtXmr1jC3ua+00
-         FiRKvwhVcoNylEuiNGZCufc5OfHXGkYQvP1+fZG6rgoDxL++u4lu74X76DjOBeYtcPo3
-         JTD45dAQH+WwMC3bYYjKofnrMaxEK1phT54/iw07cRxdL6gz718ib+Gq+ux2bXSbPIZc
-         k6OBLqf0/u17tZtAWWc2rp5Ey6TQGt6cqIekaXbB+0vHLHt9W49hTyO/VZQAttVVVjYk
-         Zu1g==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AAGK7QJnpAigixBsDwJOzFarQpa+uBn1LCtFQ6nqZOg=;
+        b=Zj+qOLhHhCXzhbKC6BIAew+AX4ps5bw/ov5suzZPwzPwiHyKHAlZpPGpfXEv10EV0C
+         f+u28iptdt6p3p/fA/LMgRUvZ0kd2jfsUajM6UJUSBoPn2lAtcEaVibSRudyHVAG4Dsh
+         5wbu9vfoEfHtNNaSfcndmEfzD+b2I4KevWgCKhp795ZOltdJO0dx3nFQahcQtqyMYYOD
+         C+m5v5SJZNDC8hJ4kQip8/63FIZVNzGX83A1ZZhSRmCpE6039rjwpXxqRHRMtjE9QYc0
+         9ucW1UVi0j32EE9Iam8Z1bs/Sa6LKBX/qLkboU4v1MA6+NRGJrzDgARi25KLBaPpYdf+
+         oFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hvGe1An1yw/BFTMsS0krviHSfzdBwIfCXLUTiKIE1V4=;
-        b=WNXNiD24MEUD3LaugvqE9dEoMvgBJzQdJxsRME+VlxQVGoakNKYSidHG8RrhQimXob
-         enRDoJD78v092dfIXxH+HS2ilGm3Q2mJObTnAqK8e5MEv6Fz//sTp4SHppGRrQ6y3ddy
-         XJiInZ8BfgIGNHxdVDTLkuLMHuiF1BcvswE6BXd4rvr0UnZFMvlgHfDe3pv33cK8L58X
-         vdb/y0OfXZmm488hgvBWh50Hh3sDZCLrlBW8h/MpvxpT9e16oa4ybotIkw7m8MO5i9+a
-         sZwkUcErLoM5v5sGR+ouzmOQmYRO8BGxFCHer0hqbUnzPYK6l3sM0xJL4kNfBV/uoqDm
-         QoTw==
-X-Gm-Message-State: AOAM530bS7bmFYJeEoC71EIGy1MeTTU/upiqwlkrvnkqh82Qi61VHhqT
-        YukLOhmmLGR9r8/HenQe/A0skmfoUrEu1g==
-X-Google-Smtp-Source: ABdhPJxW2jv5ZDgwMJqnCssVvZyyojKvPcIWGh7trhlz5XVg/4E8nS6V6vzLibM6NN1hqEkU7scG0A==
-X-Received: by 2002:a37:4a82:: with SMTP id x124mr1958071qka.458.1610411104783;
-        Mon, 11 Jan 2021 16:25:04 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id o10sm549610qtg.37.2021.01.11.16.25.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 16:25:04 -0800 (PST)
-Subject: Re: [RFC 0/2] kbuild: Add support to build overlays (%.dtbo)
-To:     Rob Herring <robh+dt@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, tero.kristo@gmail.com
-References: <cover.1609844956.git.viresh.kumar@linaro.org>
- <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <1cbefc63-4185-def5-2afa-d929a44e4e1f@gmail.com>
-Date:   Mon, 11 Jan 2021 18:25:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AAGK7QJnpAigixBsDwJOzFarQpa+uBn1LCtFQ6nqZOg=;
+        b=AhyRVQRsed3f9Xb+bJ/S3vNfRJm0j2WHBsTa1T0X3x4hyOcKtS+i7SmfRolruFlkzs
+         IcWOeNFbhLnTbeYs2VMp4CU/8rznIDYx4PzeVvWw8JDwjl9Tk7aC+uD3rh1lcEV0xGL8
+         vTynK3egi/A+gMWPGn3mBCVUmpsg9wAwlA1AZ9sHduJqe6x4IB4DQ90EXznANHnx0+F5
+         UIezustqdzST2PmBX1LOpzjXW0IWFHL0V7B7ADNOYS+WKALEPdxAIOFZBFpzerPF4Yln
+         UwiWWLwmDu+MM3XU2KfPhMQmVkNJoj5Ol9Xp3BTgHja5CHPJWPc2jet4TdEWay3igZ2t
+         Ycdw==
+X-Gm-Message-State: AOAM530oQplVsbUodT4sUmqLDCaoiKOgTa7bnyxtKDSwj+xdeCELTRgr
+        fxPVa0MISIBriskrFqMw4MTW3Oq/arbnAj127MGB
+X-Google-Smtp-Source: ABdhPJxzGLv08AscXEmZjjVg2gsLIwKeoO6Prumvngl5LoIbvGS5MQiYEFtsPvhL3T6YwqPt/MFDm1VJuygtgOcJAMM=
+X-Received: by 2002:a17:906:1194:: with SMTP id n20mr1301510eja.269.1610411884658;
+ Mon, 11 Jan 2021 16:38:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqJMr3vfz2B29vzvFALCt_5-J__eJv2TZHJ0sR9nM=xXaw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210111081821.3041587-1-morbo@google.com> <20210111201224.l5r2zxuyd7ayszke@google.com>
+ <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com> <20210111203120.daeef4yuwgmk5em4@google.com>
+In-Reply-To: <20210111203120.daeef4yuwgmk5em4@google.com>
+From:   Bill Wendling <morbo@google.com>
+Date:   Mon, 11 Jan 2021 16:37:53 -0800
+Message-ID: <CAGG=3QVs8dUaqcnuHYiaqccMhp7OmkxewZ_PAhAr96todNJhfQ@mail.gmail.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Fangrui Song <maskray@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 1/5/21 9:21 AM, Rob Herring wrote:
-> On Tue, Jan 5, 2021 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>
->> Hello,
->>
->> Here is an attempt to make some changes in the kernel to allow building
->> of device tree overlays.
->>
->> While at it, I would also like to discuss about how we should mention
->> the base DT blobs in the Makefiles for the overlays, so they can be
->> build tested to make sure the overlays apply properly.
->>
->> A simple way is to mention that with -base extension, like this:
->>
->> $(overlay-file)-base := platform-base.dtb
->>
->> Any other preference ?
-> 
-> I think we'll want something similar to how '-objs' works for modules:
-> 
-> foo-board-1-dtbs := foo-board.dtb foo-overlay1.dtbo
-> foo-board-2-dtbs := foo-board.dtb foo-overlay2.dtbo
-> foo-board-1-2-dtbs := foo-board.dtb foo-overlay1.dtbo foo-overlay2.dtbo
-> dtbs-y += foo-board-1.dtb foo-board-2.dtb foo-board-1-2.dtb
+On Mon, Jan 11, 2021 at 12:31 PM Fangrui Song <maskray@google.com> wrote:
+> On 2021-01-11, Bill Wendling wrote:
+> >On Mon, Jan 11, 2021 at 12:12 PM Fangrui Song <maskray@google.com> wrote:
+> >>
+> >> On 2021-01-11, 'Bill Wendling' via Clang Built Linux wrote:
+> >> >From: Sami Tolvanen <samitolvanen@google.com>
+> >> >
+> >> >Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> >> >profile, the kernel is instrumented with PGO counters, a representative
+> >> >workload is run, and the raw profile data is collected from
+> >> >/sys/kernel/debug/pgo/profraw.
+> >> >
+> >> >The raw profile data must be processed by clang's "llvm-profdata" tool before
+> >> >it can be used during recompilation:
+> >> >
+> >> >  $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> >> >  $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> >> >
+> >> >Multiple raw profiles may be merged during this step.
+> >> >
+> >> >The data can be used either by the compiler if LTO isn't enabled:
+> >> >
+> >> >    ... -fprofile-use=vmlinux.profdata ...
+> >> >
+> >> >or by LLD if LTO is enabled:
+> >> >
+> >> >    ... -lto-cs-profile-file=vmlinux.profdata ...
+> >>
+> >> This LLD option does not exist.
+> >> LLD does have some `--lto-*` options but the `-lto-*` form is not supported
+> >> (it clashes with -l) https://reviews.llvm.org/D79371
+> >>
+> >That's strange. I've been using that option for years now. :-) Is this
+> >a recent change?
+>
+> The more frequently used options (specifyed by the clang driver) are
+> -plugin-opt=... (options implemented by LLVMgold.so).
+> `-lto-*` is rare.
+>
+> >> (There is an earlier -fprofile-instr-generate which does
+> >> instrumentation in Clang, but the option does not have broad usage.
+> >> It is used more for code coverage, not for optimization.
+> >> Noticeably, it does not even implement the Kirchhoff's current law
+> >> optimization)
+> >>
+> >Right. I've been told outside of this email that -fprofile-generate is
+> >the prefered flag to use.
+> >
+> >> -fprofile-use= is used by both regular PGO and context-sensitive PGO (CSPGO).
+> >>
+> >> clang -flto=thin -fprofile-use= passes -plugin-opt=cs-profile-path= to the linker.
+> >> For regular PGO, this option is effectively a no-op (confirmed with CSPGO main developer).
+> >>
+> >> So I think the "or by LLD if LTO is enabled:" part should be removed.
+> >
+> >But what if you specify the linking step explicitly? Linux doesn't
+> >call "clang" when linking, but "ld.lld".
+>
+> Regular PGO+LTO does not need -plugin-opt=cs-profile-path=
+> CSPGO+LTO needs it.
+> Because -fprofile-use= may be used by both, Clang driver adds it.
+> CSPGO is relevant in this this patch, so the linker option does not need to be mentioned.
 
-(Thinking ahead....) I'm not sure how to fit connector nodes and the
-corresponding plugin overlays into this model.  A single plugin .dtbo
-will need to be relocated onto one or more connector nodes.  fdtoverlay
-and the run time overlay apply code do not know how to do this yet.
+I'm still a bit confused. Are you saying that when clang uses
+`-flto=thin -fprofile-use=foo` that the profile file "foo" is embedded
+into the bitcode file so that when the linker's run it'll be used?
 
--Frank
+This is the workflow:
 
-> 
-> (One difference here is we will want all the intermediate targets
-> unlike .o files.)
-> 
-> You wouldn't necessarily have all the above combinations, but you have
-> to allow for them. I'm not sure how we'd handle applying any common
-> overlays where the base and overlay are in different directories.
-> 
-> Another thing here is adding all the above is not really going to
-> scale on arm32 where we have a single dts directory. We need to move
-> things to per vendor/soc family directories. I have the script to do
-> this. We just need to agree on the vendor names and get Arnd/Olof to
-> run it. I also want that so we can enable schema checks by default
-> once a vendor is warning free (the whole tree is going to take
-> forever).
-> 
->> Also fdtoverlay is an external entity right now, and is not part of the
->> kernel. Do we need to make it part of the kernel ? Or keep using the
->> external entity ?
-> 
-> Part of the kernel. We just need to add it to the dtc sync script and
-> makefile I think.
-> 
-> Rob
-> 
+clang ... -fprofile-use=vmlinux.profdata ... -c -o foo.o foo.c
+clang ... -fprofile-use=vmlinux.profdata ... -c -o bar.o bar.c
+ld.lld ... <output file> foo.o bar.o
 
+Are you saying that we don't need to have
+"-plugin-opt=cs-profile-path=vmlinux.profdata" on the "ld.lld ..."
+line?
+
+-bw
