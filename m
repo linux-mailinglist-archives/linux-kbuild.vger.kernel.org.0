@@ -2,137 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFDB92F3779
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 18:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 936912F386D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 19:19:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730185AbhALRqK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Jan 2021 12:46:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51182 "EHLO
+        id S2390926AbhALSSH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Jan 2021 13:18:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727513AbhALRqK (ORCPT
+        with ESMTP id S2389601AbhALSSH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Jan 2021 12:46:10 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA64C061786
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 09:45:30 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id c13so1802696pfi.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 09:45:30 -0800 (PST)
+        Tue, 12 Jan 2021 13:18:07 -0500
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3177AC061575;
+        Tue, 12 Jan 2021 10:17:27 -0800 (PST)
+Received: by mail-qv1-xf31.google.com with SMTP id a13so1340495qvv.0;
+        Tue, 12 Jan 2021 10:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kp8U52XQRpl24mM7G2RDldHnlK7yV2a+H4JiRS6waC0=;
-        b=s1TmDllNcfHa8938jvmhvPAjJZWqwEjtTyoDnQZPsMSJznW7XTmhxVP5QdM+VgFQfg
-         GX4fndU3z6c3ACC6H4qbwKDzKyqZAhxRUrFNFDQKv0jWwSJmzyAWn6zDf3S0k1PxzE+f
-         zPPPtxqBgqLvQILOQcmZ1vLXO2wQOK+JHC67fhNpUOjFsdRZP+oG/CqUd407IoMSYKlO
-         V6dgnHUKIDSi7JGpq8exTW/MIFI65W1O4bc/DtreEikPrmXag2mYo57+lEMg+xln9z75
-         FTwQfrHHHTqAFde7sPnMaD61o3HSCMHTFC5fbqgZdzK9WUpMEmtM5iPH7CbaeMnLAjCe
-         rhog==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/qE1B43O7lkcKdAWcDlQHeKRkyrYTiA3CVvGiUbnnHY=;
+        b=q5hdyT0zl2fyZyzZCip6ggpBXIEIXSRFloKdT89+J1WmpQB0MtqHm/NG/a3lE05dzc
+         YZWa9ioJhnOC1tfMeONtSIqSdvYxWux2e9cuZWNH7fqLXnptAGeL5TOyEvKla/dNVGFK
+         att5IVs4uM8UBDaRUaXIB90U6l+BVcmFTi3hYUKJLdX3w5WBguVj9v7uYlYDSEHI4eKm
+         oKnPxXzCE2FCUEVNVZQraUElwl83c3vg5PdcyxGle5KfbI8ZuAqscfKQcrJYKdLELvVe
+         NpaUWSvH84LPbJUk2B454tbmS4/Xvt6tRbaF7ZUVcesi9cyrboZcql9f2jMDsaCsHmsZ
+         UHEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kp8U52XQRpl24mM7G2RDldHnlK7yV2a+H4JiRS6waC0=;
-        b=SwvkvwZ8JF7kwWo9bO/aGwRvz1ogTis9BAValIGYFm4YoH4VluIu6Euq/chU0Zob8n
-         rqRGsjg667CcoW0uL1KK7PqckcEtmPFfFFJ+UW+9kyQuqZspDAOYGggKxHQ7Ld9H+MD6
-         g6Qh9ik7oNYpaGNQ/tSlb2m8Dawfr5Id+2inc+7pHGqBYHLzfh9UDod1kgJSO9GBvSs4
-         G4omqwatye1Bh/5w0CYfDqXpn3uW8bGwjMoHuOTajH6gPkVQe12OiwR4JpoHhgdLGtW1
-         0lb0Vjxa6naRJFgg2WL3D05Me+DwTLVxIkCSfy+fnzqo1LVBeIZdgBoV6rUsrPKDmBDc
-         ojJw==
-X-Gm-Message-State: AOAM53011HWYosV5MdUldU77K1M8UwIIg42XoqVyBiLhpaBCy9vU4yIL
-        PcLocBhYvBGQunZBL9C8ox2IqGA9Sp29XVnZddrA/Q==
-X-Google-Smtp-Source: ABdhPJyL7OrY+b1LIuAu9suY0afpSNd4lx3LHIi9FgBh9f/K/AUZnnmRSwCYB6DM54QwVU7/1JHfcI8EHgMCtk27m4w=
-X-Received: by 2002:a65:48cb:: with SMTP id o11mr164747pgs.121.1610473529429;
- Tue, 12 Jan 2021 09:45:29 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/qE1B43O7lkcKdAWcDlQHeKRkyrYTiA3CVvGiUbnnHY=;
+        b=ufeC7nptQ70PHg2wpnS6UTR722l4MJpqpfl+eiJF4HECIpcujnYmtVIq0TNJKlXF81
+         WTqgGelI/Nf8r11H2uQyQq5I0N3tDOaQ2cWEb+s9wnpPmM/9GAiaaZiKgwtUymg5RRqR
+         knYyaTkFH35wBcABvoijJ995L2xAWrQwTQj4aGlceAnvESHlDWvmla7G6vSPKX41Sv2/
+         5jSw9N6ukFO29elS7OKqftwGqPbTc26Ur9kP7qnjwliNrt2igHuMM69GRTWjF5WKZcpc
+         731r8mnFSpGU18SWYkfjzitittpxcuS12IOwYmJSJYgstYT0Nf3r1aswrQreU0e3OvKt
+         o1FQ==
+X-Gm-Message-State: AOAM530CbULMRXDkgP8UYAtWcVhasaM1y2uDloKbRMN1Rh5KqM7KMcwH
+        LTth5n7b+a0eqa30kCiYx2I=
+X-Google-Smtp-Source: ABdhPJx+1IPTskfpt36UK5tDFxGSfOt+OwCDy8n6in+IOp0Ciaglc8m9dIw02vjUMq0B3a/dOb4TzQ==
+X-Received: by 2002:a0c:f2cd:: with SMTP id c13mr328749qvm.11.1610475446445;
+        Tue, 12 Jan 2021 10:17:26 -0800 (PST)
+Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id u26sm1720132qke.57.2021.01.12.10.17.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Jan 2021 10:17:26 -0800 (PST)
+Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+To:     Bill Mills <bill.mills@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        anmar.oueja@linaro.org, Masahiro Yamada <masahiroy@kernel.org>
+References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+ <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
+ <31611390-eded-d290-36a7-0b1e8465f71e@linaro.org>
+ <20210112083703.yfpicoi4zrddeykd@vireshk-i7>
+ <4a8bbbaa-9303-8a8c-1de4-38499b8151dd@linaro.org>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <f78ea9a4-7bed-aa76-8a84-c979214ed69b@gmail.com>
+Date:   Tue, 12 Jan 2021 12:17:25 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210112051428.4175583-1-morbo@google.com>
- <CAKwvOdk+NqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdk+NqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ@mail.gmail.com>
-From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Date:   Tue, 12 Jan 2021 09:45:17 -0800
-Message-ID: <CAFP8O3J+85x2S+9T2vM+iem=t45MdJt+D1houpqKGhDRfcHu-w@mail.gmail.com>
-Subject: Re: [PATCH v2] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Alistair Delva <adelva@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <4a8bbbaa-9303-8a8c-1de4-38499b8151dd@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 9:37 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> On Mon, Jan 11, 2021 at 9:14 PM Bill Wendling <morbo@google.com> wrote:
-> >
-> > From: Sami Tolvanen <samitolvanen@google.com>
-> >
-> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > profile, the kernel is instrumented with PGO counters, a representative
-> > workload is run, and the raw profile data is collected from
-> > /sys/kernel/debug/pgo/profraw.
-> >
-> > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > before it can be used during recompilation:
-> >
-> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> >
-> > Multiple raw profiles may be merged during this step.
-> >
-> > The data can now be used by the compiler:
-> >
-> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> >
-> > This initial submission is restricted to x86, as that's the platform we
->
-> Please drop all changes to arch/* that are not to arch/x86/ then; we
-> can cross that bridge when we get to each arch. For example, there's
-> no point disabling PGO for architectures LLVM doesn't even have a
-> backend for.
->
-> > know works. This restriction can be lifted once other platforms have
-> > been verified to work with PGO.
-> >
-> > Note that this method of profiling the kernel is clang-native and isn't
-> > compatible with clang's gcov support in kernel/gcov.
->
-> Then the Kconfig option should depend on !GCOV so that they are
-> mutually exclusive and can't be selected together accidentally; such
-> as by bots doing randconfig tests.
+On 1/12/21 4:16 AM, Bill Mills wrote:
+> 
+> 
+> On 1/12/21 3:37 AM, Viresh Kumar wrote:
+>> On 11-01-21, 20:22, Bill Mills wrote:
+>>> On 1/11/21 5:06 PM, Frank Rowand wrote:
+>>>> NACK to this specific patch, in its current form.
+>>>>
+>>>> There are restrictions on applying an overlay at runtime that do not apply
+>>>> to applying an overlay to an FDT that will be loaded by the kernel during
+>>>> early boot.  Thus the unittest overlays _must_ be applied using the kernel
+>>>> overlay loading methods to test the kernel runtime overlay loading feature.
+>>>>
+>>>> I agree that testing fdtoverlay is a good idea.  I have not looked at the
+>>>> parent project to see how much testing of fdtoverlay occurs there, but I
+>>>> would prefer that fdtoverlay tests reside in the parent project if practical
+>>>> and reasonable.  If there is some reason that some fdtoverlay tests are
+>>>> more practical in the Linux kernel repository then I am open to adding
+>>>> them to the Linux kernel tree.
+>>
+>> I wasn't looking to add any testing for fdtoverlay in the kernel, but
+>> then I stumbled upon unit-tests here and thought it would be a good
+>> idea to get this built using static tools as well, as we aren't
+>> required to add any new source files for this and the existing tests
+>> already cover a lot of nodes.
+>>
+>> And so I am fine if we don't want to do this stuff in kernel.
+>>
+>>> I thought we were aligned that any new overlays into the kernel today would
+>>> only be for boot loader applied case.  Applying overlays at kernel runtime
+>>> was out of scope at your request.
+>>>
+>>> Rob had requested that the overlays be test applied at build time.  I don't
+>>> think there is any way to test the kernel runtime method at build time
+>>> correct?
+>>>
+>>> Please clarify your concern and your suggested way forward.
+>>
+>> The kernel does some overlay testing currently (at kernel boot only,
+>> not later), to see if the overlays get applied correctly or not, these
+>> are the unit tests.
+>>
+>> What Frank is probably saying is that the unit-tests dtbs shouldn't
+>> get used for testing fdtoverlay stuff. He isn't asking to support
+>> runtime application of overlays, but to not do fdtoverlay testing in
+>> the kernel.
 
-The profile formats (Clang PGO, Clang gcov, GCC gcov/PGO) are
-different but Clang PGO can be used with Clang's gcov implementation:
-clang -fprofile-generate --coverage a.cc; ./a.out => default*.profraw + a.gcda
+Yes, Viresh is understanding my point.
 
-> <large snip>
->
-> > +static inline int inst_prof_popcount(unsigned long long value)
-> > +{
-> > +       value = value - ((value >> 1) & 0x5555555555555555ULL);
-> > +       value = (value & 0x3333333333333333ULL) +
-> > +               ((value >> 2) & 0x3333333333333333ULL);
-> > +       value = (value + (value >> 4)) & 0x0F0F0F0F0F0F0F0FULL;
-> > +
-> > +       return (int)((unsigned long long)(value * 0x0101010101010101ULL) >> 56);
-> > +}
->
-> The kernel has a portable popcnt implementation called hweight64 if
-> you #include <asm-generic/bitops/hweight.h>; does that work here?
-> https://en.wikipedia.org/wiki/Hamming_weight
-> --
-> Thanks,
-> ~Nick Desaulniers
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdk%2BNqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ%40mail.gmail.com.
+>>
+> 
+> Thanks Viresh, that makes sense.  Sorry for the confusion Frank.
+
+No problem Bill, communication by email is hard, and we end up
+spending a lot of time getting to the point of common understanding,
+it is the nature of the process.
+
+-Frank
+
