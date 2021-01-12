@@ -2,126 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C7282F36FA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 18:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 636B02F3758
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 18:39:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392009AbhALRXV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Jan 2021 12:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46208 "EHLO
+        id S1726831AbhALRhy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Jan 2021 12:37:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391167AbhALRXV (ORCPT
+        with ESMTP id S1725890AbhALRhx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Jan 2021 12:23:21 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52B8C061786;
-        Tue, 12 Jan 2021 09:22:40 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id 19so2513716qkm.8;
-        Tue, 12 Jan 2021 09:22:40 -0800 (PST)
+        Tue, 12 Jan 2021 12:37:53 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8641FC06179F
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 09:37:13 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id b5so2137182pjk.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Jan 2021 09:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Cekwa6Gg8tFAQMdvQMX54ozrri2M75odcKtK/zwsgg0=;
-        b=dm6lBlHFrKWfvEFQDoGKdvc8cGFBVbyku1WFw7oWjrIWT9iA9Uv7hEr7klthM8iI8V
-         Jqmds2eSlencuXDnTe6vOf0sG7ZEupGgYbjt7HRQyUDXiFSqmm7pGGKKU+bF78vNe1Tt
-         aoJIFzfjFvYPJwgsjih3xIo8bsf2b/gwcfu/zBaBzq5+zCRSLPYBRyto+8M2p1vehT/Y
-         OeJLwQPPtHl04LNdTNj0K0WaIVtrSixICog5eHOENN0Ny2OCKMtVxIloBVlX0rYDDB41
-         bB+09QjiiXmTi8l2P0XXvKbwJgtCMbEuVwOWak+47L29fXqltJp0oyqE11RwyBA36/Iu
-         CNdA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RmYwXjpSpSGJIaBI6nXMPcfre/G2OFN7SFzhgu7QxWw=;
+        b=a2RPjzDNhO8HodYXLbDa3bberc83Qk9BDEkIp/TLIvN9CDQNWmkgfktCTAGNqUegMk
+         M4OYxj1CNE+s9lezxe9nSsk/oHP0K6ZieMYbU/IP79dqY1Gdi3Obdu8WvUe8sx6IExWs
+         4/D0P4EXagL2fgNP9DY3Ua9h4Me5MQT1dPAO/y2zwcwt8PvCLB18hSJjTEBLIdaCeLuY
+         0n6VC/xTSY7jOuhSF++Syldf/QvI/zSrvQMRZcATD0oCp3CGIeb0shYFH8y67v4vnbKj
+         oZ37YoGufFmaH50CBJiFMua8GLd1gknoMbC7dewfpS5aCmxjd4uA/oRcPZEHIeKkVRp3
+         aSuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Cekwa6Gg8tFAQMdvQMX54ozrri2M75odcKtK/zwsgg0=;
-        b=IP2I33ntToO+iOs7IUVgzpWaDBJ06G5bvPizQzwPQHq2TDOTHwKGZO0NqfJWCARLsb
-         sZE/TpxhlEfDBfnYgYud+yfvsoEylVdekYm/Ehxkvtj6F27tiTpstnvWwfxcZGFS50/B
-         J3OyBAHykik1fWWfClxoGt14xMZGXwnbQy5dApKQuYsZvLXIdON4MG4Lz1y4afd1ckoP
-         MSDJ6kPcAGUP1Upu0t/HP+XDJUWo3hXXUqiOXSDaGtxd3BxqM4isci7nEYae1xMcQ/PP
-         a5a7rEehvo8zJ/OsDcIppkM13RVjj+ROnn4p+yEHRqopb8+EnJye+j+sMNytEcF3xmrq
-         0njA==
-X-Gm-Message-State: AOAM532JMQKtHojGBQ01NHTX2iuYWxmJyLo5SeIdpGQXitkyWFSDOkyc
-        VlHrsvYm4RrkkSWAAuLeSrc=
-X-Google-Smtp-Source: ABdhPJxR9EN4Bi/GC/cHsHL0Wklo8RdvqQuhoTzQlheMI5t1BVqMwTVoYpHa3hRgayKDRCupixQOIw==
-X-Received: by 2002:ae9:c010:: with SMTP id u16mr352562qkk.346.1610472159841;
-        Tue, 12 Jan 2021 09:22:39 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id d1sm1628462qkf.102.2021.01.12.09.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 09:22:38 -0800 (PST)
-Date:   Tue, 12 Jan 2021 10:22:37 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <20210112172237.GA1792840@ubuntu-m3-large-x86>
-References: <20210112053113.4180271-1-morbo@google.com>
- <202101121755.pyYoRozB-lkp@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RmYwXjpSpSGJIaBI6nXMPcfre/G2OFN7SFzhgu7QxWw=;
+        b=t9dNKt6SAJNW2WoqCc9Kfax5H2gfnOv2feSbehZJQRLxfeOOdHwkwGuTHAU5cKdNv6
+         Ogrt4eraSpMq/FEmvcyqNt38sPGkIlG1VBU3hCXuen8sXj/j9cBfQa7jyCCSRXmqZeAF
+         06vXd4R8j9/lE3rLOuUnPt0YzhMJAsNReeIPRz89Vdf7MhGkEZbzvdo1IdSSTolvFm6r
+         cDuKVkbR2KlIQhlVDvvj5to/ZseUz+Cr4eqCF49oeoqMF6pX5HU0/qbQJ31YI3lL4r7c
+         MQj4oZ7nYMC/52HMrA4YFDhDvGyPjjMheK4RBrL+o70cKnUAUo7sfPl2rSAWRTs7zeIg
+         jIaQ==
+X-Gm-Message-State: AOAM531Nz/nKKSNXYvRSsrQ4LHSFv13Bay6zO0ecOXEL/KwRmZFtxM7c
+        1JV8gBqW2YZhueiRSUWVYgUf1kbfVuvbvCYHF3A14VFfPPemqQ==
+X-Google-Smtp-Source: ABdhPJwAPFwDq9d2WMBQzi19UoUazjXQg5G5k4rgucgpkEDrok/VSE4U5iX7SMqqWm0KAqvZWQC4gzYEe3k/cn8/POI=
+X-Received: by 2002:a17:90a:cb0b:: with SMTP id z11mr170236pjt.101.1610473032865;
+ Tue, 12 Jan 2021 09:37:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202101121755.pyYoRozB-lkp@intel.com>
+References: <20210111081821.3041587-1-morbo@google.com> <20210112051428.4175583-1-morbo@google.com>
+In-Reply-To: <20210112051428.4175583-1-morbo@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 12 Jan 2021 09:37:01 -0800
+Message-ID: <CAKwvOdk+NqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ@mail.gmail.com>
+Subject: Re: [PATCH v2] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Bill Wendling <morbo@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Alistair Delva <adelva@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 05:10:04PM +0800, kernel test robot wrote:
-> Hi Bill,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v5.11-rc3]
-> [cannot apply to powerpc/next s390/features tip/x86/core next-20210111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Bill-Wendling/pgo-add-clang-s-Profile-Guided-Optimization-infrastructure/20210112-133315
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a0d54b4f5b219fb31f0776e9f53aa137e78ae431
-> config: x86_64-allyesconfig (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+On Mon, Jan 11, 2021 at 9:14 PM Bill Wendling <morbo@google.com> wrote:
+>
+> From: Sami Tolvanen <samitolvanen@google.com>
+>
+> Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> profile, the kernel is instrumented with PGO counters, a representative
+> workload is run, and the raw profile data is collected from
+> /sys/kernel/debug/pgo/profraw.
+>
+> The raw profile data must be processed by clang's "llvm-profdata" tool
+> before it can be used during recompilation:
+>
+>   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+>   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+>
+> Multiple raw profiles may be merged during this step.
+>
+> The data can now be used by the compiler:
+>
+>   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
+>
+> This initial submission is restricted to x86, as that's the platform we
 
-Hmmm... This should probably be gated on CC_IS_CLANG? Or even better
-CLANG_VERSION >= 120000 due to
-https://github.com/ClangBuiltLinux/linux/issues/1252?
+Please drop all changes to arch/* that are not to arch/x86/ then; we
+can cross that bridge when we get to each arch. For example, there's
+no point disabling PGO for architectures LLVM doesn't even have a
+backend for.
 
-> reproduce (this is a W=1 build):
->         # https://github.com/0day-ci/linux/commit/6ab85bae7667afd0aa68c6442b7ca5c369fa1088
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Bill-Wendling/pgo-add-clang-s-Profile-Guided-Optimization-infrastructure/20210112-133315
->         git checkout 6ab85bae7667afd0aa68c6442b7ca5c369fa1088
->         # save the attached .config to linux build tree
->         make W=1 ARCH=x86_64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    kernel/pgo/instrument.c:72:6: warning: no previous prototype for '__llvm_profile_instrument_target' [-Wmissing-prototypes]
->       72 | void __llvm_profile_instrument_target(u64 target_value, void *data, u32 index)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/pgo/instrument.c:135:6: warning: no previous prototype for '__llvm_profile_instrument_range' [-Wmissing-prototypes]
->      135 | void __llvm_profile_instrument_range(u64 target_value, void *data,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/pgo/instrument.c:179:6: warning: no previous prototype for '__llvm_profile_instrument_memop' [-Wmissing-prototypes]
->      179 | void __llvm_profile_instrument_memop(u64 target_value, void *data,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
+> know works. This restriction can be lifted once other platforms have
+> been verified to work with PGO.
+>
+> Note that this method of profiling the kernel is clang-native and isn't
+> compatible with clang's gcov support in kernel/gcov.
 
-I still think that this warning will show up with clang at W=1. Given
-that these are compiler inserted functions, the prototypes don't matter
-but we could shut it up by just putting the prototypes right above the
-functions like was done in commit 1e1b6d63d634 ("lib/string.c: implement
-stpcpy").
+Then the Kconfig option should depend on !GCOV so that they are
+mutually exclusive and can't be selected together accidentally; such
+as by bots doing randconfig tests.
 
-Cheers,
-Nathan
+<large snip>
+
+> +static inline int inst_prof_popcount(unsigned long long value)
+> +{
+> +       value = value - ((value >> 1) & 0x5555555555555555ULL);
+> +       value = (value & 0x3333333333333333ULL) +
+> +               ((value >> 2) & 0x3333333333333333ULL);
+> +       value = (value + (value >> 4)) & 0x0F0F0F0F0F0F0F0FULL;
+> +
+> +       return (int)((unsigned long long)(value * 0x0101010101010101ULL) >> 56);
+> +}
+
+The kernel has a portable popcnt implementation called hweight64 if
+you #include <asm-generic/bitops/hweight.h>; does that work here?
+https://en.wikipedia.org/wiki/Hamming_weight
+-- 
+Thanks,
+~Nick Desaulniers
