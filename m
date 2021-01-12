@@ -2,153 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9845E2F30D1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 14:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 123542F3294
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 15:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730771AbhALNLw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Jan 2021 08:11:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33353 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728355AbhALNLt (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Jan 2021 08:11:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610457022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wr8CnqvgUjiddjHdSAdz1133yKSaodcwKywtgCq5eKg=;
-        b=WQ7pNL7e7xHpS8EkgDVR2E0D7uSfoRhkdnC0n0bZydh87YTrnWx/wK7rzlHCjJPzWOeW0i
-        CjwRYW/iY4pTUtvJ6pwKeuVeUXfxclpCaC68njA3YV1qDrHxVz2pijixP59alZq7jtEjG2
-        HYqFjOvcK7FSqVpBBwWiR1E/LgAhuPo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-_pqsbvhvPfGggUOzF8nyqQ-1; Tue, 12 Jan 2021 08:10:19 -0500
-X-MC-Unique: _pqsbvhvPfGggUOzF8nyqQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9EF71DDE2;
-        Tue, 12 Jan 2021 13:10:16 +0000 (UTC)
-Received: from krava (unknown [10.40.195.50])
-        by smtp.corp.redhat.com (Postfix) with SMTP id BD1775C1B4;
-        Tue, 12 Jan 2021 13:10:13 +0000 (UTC)
-Date:   Tue, 12 Jan 2021 14:10:12 +0100
-From:   Jiri Olsa <jolsa@redhat.com>
-To:     Tom Stellard <tstellar@redhat.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-        Jiri Olsa <jolsa@kernel.org>, Yonghong Song <yhs@fb.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: Check pahole availibity and BPF support of toolchain before
- starting a Linux kernel build
-Message-ID: <20210112131012.GA1286331@krava>
-References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
- <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com>
- <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
- <CAEf4BzaEA5aWeCCvHp7ASo9TdfotcBtqNGexirEynHDSo7ufgg@mail.gmail.com>
- <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com>
- <20210111223144.GA1250730@krava>
- <ed779f29-18b9-218f-a937-878328a769fe@redhat.com>
- <20210112104622.GA1283572@krava>
+        id S1729714AbhALOFu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Jan 2021 09:05:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48920 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727954AbhALOFu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 12 Jan 2021 09:05:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4EFF423102;
+        Tue, 12 Jan 2021 14:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610460309;
+        bh=hEyF8u1jTp1PdY2BgjCeEQOjkCa4GQKBP+Ai0lRFwnI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZAkvt9t8Aor96P99OppfBioEuqN08bN/qqHnCLPzBFsvHwmv+TS5L8y1SfDjvkb6Z
+         XFZX5vBv7oYPhEdmv8k5dra3x9f96FoJg4SPVBSKq/f8uJKTa26JsEUf3UDBvCdSt8
+         8i4IOG28IJ62lXksW63gSRG5A0QTggaL/riLMgJE6f6WqZMHx7yMvtNPCMAwYdDz7F
+         LO5NUok+6iBA7bs1wo0ggXTchXqxQEUm5k1mNuiXRj0bv1JXHa48RH6GnQ3GDZjsaf
+         hEU76Wzmzvelqd7vTZ2wVCp2qRXE4QAGzB6Uzbpzzt8j7JVJ1CUp0O6zAlNDNCAzAA
+         FtrPayBvBq32w==
+Received: by mail-ed1-f44.google.com with SMTP id b2so2439674edm.3;
+        Tue, 12 Jan 2021 06:05:09 -0800 (PST)
+X-Gm-Message-State: AOAM53316nN7HgC7KDeycUKipurB+TP2owX5sEGSKLRWTdJWChSp7zdU
+        xIaqTYV4IxcUX05D3SfV4rA/Al8KmkCDGlrL9Q==
+X-Google-Smtp-Source: ABdhPJzjVbF8BgyTS7DJvzisOGRLdNi2IpAmco42wRjcHhwS40VmHg7+FIb+DgXEMB/Ze3HWtm2nQceT3ldNB4rsaeE=
+X-Received: by 2002:a50:f404:: with SMTP id r4mr3569989edm.62.1610460307833;
+ Tue, 12 Jan 2021 06:05:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210112104622.GA1283572@krava>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+ <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
+In-Reply-To: <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 12 Jan 2021 08:04:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKqSVGCjcue=ka2=bB1Os9pczNTCqDeaoFPFfRxnvsteQ@mail.gmail.com>
+Message-ID: <CAL_JsqKqSVGCjcue=ka2=bB1Os9pczNTCqDeaoFPFfRxnvsteQ@mail.gmail.com>
+Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 11:46:22AM +0100, Jiri Olsa wrote:
-> On Mon, Jan 11, 2021 at 02:34:04PM -0800, Tom Stellard wrote:
-> > On 1/11/21 2:31 PM, Jiri Olsa wrote:
-> > > On Mon, Jan 11, 2021 at 10:30:22PM +0100, Sedat Dilek wrote:
-> > > 
-> > > SNIP
-> > > 
-> > > > > > 
-> > > > > > Building a new Linux-kernel...
-> > > > > > 
-> > > > > > - Sedat -
-> > > > > > 
-> > > > > > [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
-> > > > > > [2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
-> > > > > > [3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
-> > > > > 
-> > > > > There are no significant bug fixes between pahole 1.19 and master that
-> > > > > would solve this problem, so let's try to repro this.
-> > > > > 
-> > > > 
-> > > > You are right pahole fom latest Git does not solve the issue.
-> > > > 
-> > > > + info BTFIDS vmlinux
-> > > > + [  != silent_ ]
-> > > > + printf   %-7s %s\n BTFIDS vmlinux
-> > > >   BTFIDS  vmlinux
-> > > > + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
-> > > > FAILED: load BTF from vmlinux: Invalid argument
-> > > 
-> > > hm, is there a .BTF section in vmlinux?
-> > > 
-> > > is this working over vmlinux:
-> > >   $ bpftool btf dump file ./vmlinux
-> > > 
-> > > do you have a verbose build output? I'd think pahole scream first..
-> > > 
-> > 
-> > It does.  For me, pahole segfaults at scripts/link-vmlinux.sh:131.  This is
-> > pretty easy for me to reproduce.  I have logs, what other information would
-> > be helpful?  How about a pahole backtrace?
-> 
-> that'd be great.. I'll try to reproduce, but with the latest clang
-> it will take me some time
+On Mon, Jan 11, 2021 at 4:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>
+> On 1/8/21 2:41 AM, Viresh Kumar wrote:
+> > Now that fdtoverlay is part of the kernel build, start using it to test
+> > the unitest overlays we have by applying them statically.
+> >
+> > The file overlay_base.dtb have symbols of its own and we need to apply
+> > overlay.dtb to overlay_base.dtb alone first to make it work, which gives
+> > us intermediate-overlay.dtb file.
+> >
+> > The intermediate-overlay.dtb file along with all other overlays is them
+> > applied to testcases.dtb to generate the master.dtb file.
+> >
+> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+>
+> NACK to this specific patch, in its current form.
+>
+> There are restrictions on applying an overlay at runtime that do not apply
+> to applying an overlay to an FDT that will be loaded by the kernel during
+> early boot.  Thus the unittest overlays _must_ be applied using the kernel
+> overlay loading methods to test the kernel runtime overlay loading feature.
 
-reproduced, attached pahole patch fixes it for me,
+This patch doesn't take away from any of that and it completely orthogonal.
 
-looks like gcc never left function without name,
-which does not seem to be the case for clang
+> I agree that testing fdtoverlay is a good idea.  I have not looked at the
+> parent project to see how much testing of fdtoverlay occurs there, but I
+> would prefer that fdtoverlay tests reside in the parent project if practical
+> and reasonable.  If there is some reason that some fdtoverlay tests are
+> more practical in the Linux kernel repository then I am open to adding
+> them to the Linux kernel tree.
 
-I'll send full patch later today
+If you (or more importantly someone else sending us patches) make
+changes to the overlays, you can test that they apply at build time
+rather than runtime. I'll take it! So please help on fixing the issue
+because I want to apply this.
 
-jirka
+And yes, dtc has fdtoverlay tests. But this patch shows there's at
+least 2 issues. fdtoverlay can't apply overlays to the root and using
+an overlay as the base tree in UML is odd IMO.
 
-
----
-diff --git a/btf_encoder.c b/btf_encoder.c
-index c40f059580da..781fb35a2646 100644
---- a/btf_encoder.c
-+++ b/btf_encoder.c
-@@ -70,6 +70,8 @@ static int collect_function(struct btf_elf *btfe, GElf_Sym *sym)
- 		return 0;
- 	if (!elf_sym__value(sym))
- 		return 0;
-+	if (!elf_sym__name(sym, btfe->symtab))
-+		return 0;
- 
- 	if (functions_cnt == functions_alloc) {
- 		functions_alloc = max(1000, functions_alloc * 3 / 2);
-@@ -620,9 +622,11 @@ int cu__encode_btf(struct cu *cu, int verbose, bool force,
- 		if (!has_arg_names(cu, &fn->proto))
- 			continue;
- 		if (functions_cnt) {
--			struct elf_function *func;
-+			const char *name = function__name(fn, cu);
-+			struct elf_function *func = NULL;
- 
--			func = find_function(btfe, function__name(fn, cu));
-+			if (name)
-+				func = find_function(btfe, name);
- 			if (!func || func->generated)
- 				continue;
- 			func->generated = true;
-
+Rob
