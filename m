@@ -2,154 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9DA72F250B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 02:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B492F250E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 02:18:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728370AbhALAp2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 19:45:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57508 "EHLO
+        id S1731037AbhALAqA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 19:46:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728207AbhALAp1 (ORCPT
+        with ESMTP id S1731052AbhALAp6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 19:45:27 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD78C061795
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 16:44:46 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id c132so289731pga.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 16:44:46 -0800 (PST)
+        Mon, 11 Jan 2021 19:45:58 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F006C0617A3;
+        Mon, 11 Jan 2021 16:44:57 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id z20so597182qtq.3;
+        Mon, 11 Jan 2021 16:44:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dPK8pNH4QCaFIUUZrNoOKMv2joVCl+mHPXFylSDuRyY=;
-        b=YYZM3nC4hqQi8K3u2YEghUOFWSp0FudnKJQjHHjiXbYDWf5IBbeiuTdLklLvfbn/1J
-         I/7XeAxo9NGSa2DgDNEJEess0Hv/TD7PjwXe6TVYuO4D2z/QbcC7iIBGWsJRlNwnrdFW
-         wIeOx31f/jqTl1IUALwJLpeqpkBRMQbt7zODBGO0KwTZi7FCQxXRx2dZ2l3MqwHNX6Ab
-         Mqed2aDgr2OddzqXikVgh0iy6Ci1vHR+bOcnnUhsCpj5nbt8gP3y7Kp+E1n24vSxhjOo
-         +8PMmsMQYd+sUx+SCoqjtEmdW68go5RWEpCftxCH7j13OQXSFBpiKuT5l6pQlpRrDuP/
-         Y3mw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WkdvFf9Kvj9q6SdxxyiGqDsjHoA0pygDOy1ejbafjew=;
+        b=a9RRO5NAwOw7Pv2CG8C9Ec88Bps6J2PLj48v+WgWFwr9lFZCOUKTrqgIXgBiV7BS9n
+         ZJJrPOl/+/4Fx9iRXziLdd40VjLKqNkUzYuLenD/rubXmwanygZC+DS/3DV+raYt97pO
+         4XgwF5BG3n9L3pQraPGey/6b6gG/Kbt0zqvjo7L7f1jdHJGmrKpBE29pjKP8Ht1HkIcO
+         dT5pb8u1Jve+vWqUb8prcKuMQXgXatIFsm7tZE/7uCXlFmjU4NjqUxjuUAXiR5pV+cs+
+         MQxKgjpI3/rg1FkJl8kc8GhEB275G7qbpKDKWchnMHz0W9H0wbIYSlbvmvXPecr7YI1e
+         7yeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dPK8pNH4QCaFIUUZrNoOKMv2joVCl+mHPXFylSDuRyY=;
-        b=mhhKXgt4wxnQl9+PMC5NAsYts9zMMBajIzXsyAPtS+sadiOlZGafEZpr4eXEKn+KjG
-         jSXrD5HCLZkHyDutMuOTccQbyOolEH+SYe3ZM3scKisE2vDUdJketuJA8C0Es9xdKxzX
-         XIuk/ahq0wFPTnmZThTo3NPPOSz6gI+zs1tUFzz3hBSnKzsbZuq25/1IKibLtq5TDUH/
-         U/Xytp8u2ra+wtMYZ7iw8+GgizwuYaPQ54axET5qHUbJ8hJTc5gttAQ0CTxQ5nyvWM5D
-         Aa4iQc50pEciX5qqMxq2wMJaw/qVTuEDGDm+Krr5SZIo/RmQjbrCuuhJgptMytwraC4i
-         3/nQ==
-X-Gm-Message-State: AOAM533kWO39Qc1+NrnoNqmIzAjRmx5+RdHV3RdLHrb+Dnr/LE2J+l6Y
-        rYf/++rAD+dGy1w9uLA5IK5AEwFGySqC6nxC7ocA7g==
-X-Google-Smtp-Source: ABdhPJyUgt2aK/qEK75FZJTwrK4geThG9TgZIvV8yVMdaHJ9s1TRxET7l03tQOHfyl5cXnSua/lKZ6tmizdHX6/XmRs=
-X-Received: by 2002:a63:5a08:: with SMTP id o8mr2065138pgb.118.1610412285888;
- Mon, 11 Jan 2021 16:44:45 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WkdvFf9Kvj9q6SdxxyiGqDsjHoA0pygDOy1ejbafjew=;
+        b=UzT8CsPkvF/jowrFlkvZIHVZ1VNTd7ufaLNdcI/VxseLYWQ/Sa1n4BLXC5t3JpsY2w
+         DoDdmoXzyiPHxGcuTFHry1/ngr2883WIe5VwgnA4KIjl3hPDIXzFWMI6P6kV7Z2IW8Rs
+         /F54v0MXu8PNEws0LomoFnG8YnnQxCvh9bLli/BwUMs9Sz+qYb1Q0QWLtVkFUsdWezO7
+         6+BP8YO2my+Px9ZTE1A/KrqmEwe+1Utmp1hq67PxvbDY8xemzAzPatUugPXjJAx1lADq
+         9DIhgBFvl5Lq4NYmNlv0kRxp63Zu2dbCnf4+oqqkGK2p2M6Aj9R1srO/cuIkGfAgwOdH
+         0GDQ==
+X-Gm-Message-State: AOAM533vN2GgQ4Xe2uu/UpVaX1gl0S4fx6+/9KUFjN9hT4eLGCDiLL1B
+        fAyEJ8ouOW8HhlTrSY5qBouKLR7oh86iKQ==
+X-Google-Smtp-Source: ABdhPJyYm3C7psPQvWFjASOwuELMRIuHugkTaXJer2geMuJLQNiPkHoVisNLQS+oJdKdPwOc1sHQaA==
+X-Received: by 2002:aed:3462:: with SMTP id w89mr2191880qtd.265.1610412296445;
+        Mon, 11 Jan 2021 16:44:56 -0800 (PST)
+Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id k7sm566316qtg.65.2021.01.11.16.44.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jan 2021 16:44:56 -0800 (PST)
+Subject: Re: [PATCH V3 2/2] scripts: dtc: Build fdtoverlay and fdtdump tools
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <CAK7LNAQT5nVHGAZDhj4dct0v8UMzQ+-mdfBXJsfedR-7mZTnyA@mail.gmail.com>
+ <72c3a4f63dde3c172c11153e9a5b19fb6cdb4498.1610000585.git.viresh.kumar@linaro.org>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <1d9369aa-b7aa-6d06-0d44-6ef21bc639e3@gmail.com>
+Date:   Mon, 11 Jan 2021 18:44:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210111201224.l5r2zxuyd7ayszke@google.com>
- <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com>
- <20210111203120.daeef4yuwgmk5em4@google.com> <CAGG=3QVs8dUaqcnuHYiaqccMhp7OmkxewZ_PAhAr96todNJhfQ@mail.gmail.com>
-In-Reply-To: <CAGG=3QVs8dUaqcnuHYiaqccMhp7OmkxewZ_PAhAr96todNJhfQ@mail.gmail.com>
-From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Date:   Mon, 11 Jan 2021 16:44:34 -0800
-Message-ID: <CAFP8O3+knLmtt1M-wqdr0XGDFNbocz+1gmfTVUTtwDk5mS1FEA@mail.gmail.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <72c3a4f63dde3c172c11153e9a5b19fb6cdb4498.1610000585.git.viresh.kumar@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 4:38 PM Bill Wendling <morbo@google.com> wrote:
->
-> On Mon, Jan 11, 2021 at 12:31 PM Fangrui Song <maskray@google.com> wrote:
-> > On 2021-01-11, Bill Wendling wrote:
-> > >On Mon, Jan 11, 2021 at 12:12 PM Fangrui Song <maskray@google.com> wrote:
-> > >>
-> > >> On 2021-01-11, 'Bill Wendling' via Clang Built Linux wrote:
-> > >> >From: Sami Tolvanen <samitolvanen@google.com>
-> > >> >
-> > >> >Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > >> >profile, the kernel is instrumented with PGO counters, a representative
-> > >> >workload is run, and the raw profile data is collected from
-> > >> >/sys/kernel/debug/pgo/profraw.
-> > >> >
-> > >> >The raw profile data must be processed by clang's "llvm-profdata" tool before
-> > >> >it can be used during recompilation:
-> > >> >
-> > >> >  $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > >> >  $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > >> >
-> > >> >Multiple raw profiles may be merged during this step.
-> > >> >
-> > >> >The data can be used either by the compiler if LTO isn't enabled:
-> > >> >
-> > >> >    ... -fprofile-use=vmlinux.profdata ...
-> > >> >
-> > >> >or by LLD if LTO is enabled:
-> > >> >
-> > >> >    ... -lto-cs-profile-file=vmlinux.profdata ...
-> > >>
-> > >> This LLD option does not exist.
-> > >> LLD does have some `--lto-*` options but the `-lto-*` form is not supported
-> > >> (it clashes with -l) https://reviews.llvm.org/D79371
-> > >>
-> > >That's strange. I've been using that option for years now. :-) Is this
-> > >a recent change?
-> >
-> > The more frequently used options (specifyed by the clang driver) are
-> > -plugin-opt=... (options implemented by LLVMgold.so).
-> > `-lto-*` is rare.
-> >
-> > >> (There is an earlier -fprofile-instr-generate which does
-> > >> instrumentation in Clang, but the option does not have broad usage.
-> > >> It is used more for code coverage, not for optimization.
-> > >> Noticeably, it does not even implement the Kirchhoff's current law
-> > >> optimization)
-> > >>
-> > >Right. I've been told outside of this email that -fprofile-generate is
-> > >the prefered flag to use.
-> > >
-> > >> -fprofile-use= is used by both regular PGO and context-sensitive PGO (CSPGO).
-> > >>
-> > >> clang -flto=thin -fprofile-use= passes -plugin-opt=cs-profile-path= to the linker.
-> > >> For regular PGO, this option is effectively a no-op (confirmed with CSPGO main developer).
-> > >>
-> > >> So I think the "or by LLD if LTO is enabled:" part should be removed.
-> > >
-> > >But what if you specify the linking step explicitly? Linux doesn't
-> > >call "clang" when linking, but "ld.lld".
-> >
-> > Regular PGO+LTO does not need -plugin-opt=cs-profile-path=
-> > CSPGO+LTO needs it.
-> > Because -fprofile-use= may be used by both, Clang driver adds it.
-> > CSPGO is relevant in this this patch, so the linker option does not need to be mentioned.
->
-> I'm still a bit confused. Are you saying that when clang uses
-> `-flto=thin -fprofile-use=foo` that the profile file "foo" is embedded
-> into the bitcode file so that when the linker's run it'll be used?
->
-> This is the workflow:
->
-> clang ... -fprofile-use=vmlinux.profdata ... -c -o foo.o foo.c
-> clang ... -fprofile-use=vmlinux.profdata ... -c -o bar.o bar.c
-> ld.lld ... <output file> foo.o bar.o
->
-> Are you saying that we don't need to have
-> "-plugin-opt=cs-profile-path=vmlinux.profdata" on the "ld.lld ..."
-> line?
->
-> -bw
+On 1/7/21 12:25 AM, Viresh Kumar wrote:
+> We will start building overlays for platforms soon in the kernel and
+> would need these tools going forward. Lets start building them.
+> 
+> The fdtoverlay program applies (or merges) one ore more overlay dtb
+> blobs to a base dtb blob. The kernel build system would later use
+> fdtoverlay to generate the overlaid blobs based on platform specific
+> configurations.
+> 
+> The fdtdump program prints a readable version of a flat device-tree
+> file. This is a very useful tool to analyze the details of the overlay's
+> dtb and the final dtb produced by fdtoverlay after applying the
+> overlay's dtb to a base dtb.
 
-The backend compile step -flto=thin -fprofile-use=foo has all the information.
+You can calso dump an FDT with:
 
--plugin-opt=cs-profile-path=vmlinux.profdata is not needed for regular PGO.
+   dtc -O dts XXX.dtb
+
+Is this sufficient for the desired functionality, or is there something
+additional in fdtdump that is needed?
+
+If nothing additional needed, and there is no other justification for adding
+another program, I would prefer to leave fdtdump out.
+
+-Frank
+
+> 
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+> V3:
+> - Updated log
+> - Remove libfdt_dir
+> 
+>  scripts/dtc/Makefile | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+> index 4852bf44e913..472ab8cd590c 100644
+> --- a/scripts/dtc/Makefile
+> +++ b/scripts/dtc/Makefile
+> @@ -1,12 +1,17 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  # scripts/dtc makefile
+>  
+> -hostprogs-always-$(CONFIG_DTC)		+= dtc
+> +hostprogs-always-$(CONFIG_DTC)		+= dtc fdtdump fdtoverlay
+>  hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
+>  
+>  dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
+>  		   srcpos.o checks.o util.o
+>  dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
+> +fdtdump-objs	:= fdtdump.o util.o
+> +
+> +libfdt-objs	:= fdt.o fdt_ro.o fdt_wip.o fdt_sw.o fdt_rw.o fdt_strerror.o fdt_empty_tree.o fdt_addresses.o fdt_overlay.o
+> +libfdt		= $(addprefix libfdt/,$(libfdt-objs))
+> +fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
+>  
+>  # Source files need to get at the userspace version of libfdt_env.h to compile
+>  HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
+> 
+
