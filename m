@@ -2,192 +2,254 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF102F2579
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 02:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 726702F26EA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Jan 2021 05:10:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729424AbhALBX3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Jan 2021 20:23:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37450 "EHLO
+        id S1726718AbhALEKK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Jan 2021 23:10:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728893AbhALBX3 (ORCPT
+        with ESMTP id S1726564AbhALEKK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Jan 2021 20:23:29 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB3DFC061786
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 17:22:48 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id w17so1314863ilj.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Jan 2021 17:22:48 -0800 (PST)
+        Mon, 11 Jan 2021 23:10:10 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A85D0C061786;
+        Mon, 11 Jan 2021 20:09:29 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id p187so1308833iod.4;
+        Mon, 11 Jan 2021 20:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=X5i4D9jR11SBYz3y55+E1w1NYwNaVL+6Wk6o8NeIFEs=;
-        b=lSBCzUpfxCGa7fHd/UTfeQPT5ga5DbG8DzTHKak7OA+UatUuHUbB8sWSZgG6BlfOQp
-         35+y3AGXVvtmMpi1QuOmtjAMayUhpUxfUcawtw9WJdpp2EBcZg76jpFlro8esxgGCKcD
-         IKj+KZoDavhTfoTP5U7neLXHShCvo4R8uu9GcSNVmxwfPaxEqxNLo9sGzgdOfpAq48da
-         TlQyH7JlWOoE1FwVkm91+OJ24bqPhcwqc5fSCtkpvh7Ku1BH4n/zNN0/LcVIFP8PM9kc
-         hDqg5oFes7iiWsvZAWUovEYWT1hsHQcMNFL10QXNqcl/lO1hQT+ZWuDcL7bkviv+mZYb
-         7Epw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=21DSZhIADyM80UXtZ6t3GJQcw6jBTaBnuujNVrs2BiY=;
+        b=LAD2/Alh9gICYvjjs3FCFJEUfRBT65BauB0F3mecxbXjaRZ0teKJZfXz6O7hfhTU6Q
+         5YXUTOOGuQ72nCjWE/6PLeUZagUWaYGwUogavL0cKaVDftRIUB9zbw/SGVsLMLPcVm2f
+         XAx9k99vuEfL/mu1woYRwSXF7oDG9eXdH0SI8DYmDuK4kMjf61gQxPgUlp1U9nQ+Ec9B
+         iP0cgu+SNOuSAkGVr7AuqhPYNfPSR2kZVeCmnNnH+4t9RSAs4J57jUsaeLBX3WZSRggp
+         W2v9V1vDUZVk3I19UkmsTCrzmRhR7ltA9U1wKWO+I9v+uEV7frPZ5l9k7V5ur55l63AZ
+         Vdpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=X5i4D9jR11SBYz3y55+E1w1NYwNaVL+6Wk6o8NeIFEs=;
-        b=BjnU6IbUIFeAbknNi3DxZFzZmNhlyKntAKi/4h4hOT02fRGW28UxYZg0DrP43oxU6v
-         H/d4d0pCYS2RJNA3Yhti269k+TO+/T+CZfbz5cjVUCwAVY7du3iUiRO1cf4B5A4oQLxG
-         7k8P0E7LNYVxc5SGe4cyNQ8Ij65vqdArL9oGBbkezyGs28Ry80xbDbHS3gzVAuHxqc5c
-         zs1Cx67Hjy2XPbT2hQRiW9AaYkmfNVZmvlNyJ69pZpOb/oFXO05kn+4iizX/7X5Yj/UL
-         iEL2uiisEh2rH31XsAtBfvU3MovYQq6KuBvANIA7umg/kJvOwLpM7DntYrp2DidMyjFo
-         O+OQ==
-X-Gm-Message-State: AOAM5338HpqnlqViXT8eJWISyRPIEKfUEc+0FQBIwydB9DUHlaVxHBTy
-        /UhpodHqrIJgM7FmjjbkkxbKVg==
-X-Google-Smtp-Source: ABdhPJwGv4lqU6ZTGrC1I+ginL4JReSOkj1daCH+crR/WVqjpyr2z335yZXgwOyeWEWDiLcFlmQBWw==
-X-Received: by 2002:a05:6e02:1806:: with SMTP id a6mr1758251ilv.8.1610414568079;
-        Mon, 11 Jan 2021 17:22:48 -0800 (PST)
-Received: from ?IPv6:2601:144:4100:fd1:12bf:48ff:fed7:9537? ([2601:144:4100:fd1:12bf:48ff:fed7:9537])
-        by smtp.gmail.com with ESMTPSA id b6sm1021405ilv.79.2021.01.11.17.22.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 17:22:47 -0800 (PST)
-Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-To:     Frank Rowand <frowand.list@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        anmar.oueja@linaro.org, Masahiro Yamada <masahiroy@kernel.org>
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
- <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
- <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
-From:   Bill Mills <bill.mills@linaro.org>
-Message-ID: <31611390-eded-d290-36a7-0b1e8465f71e@linaro.org>
-Date:   Mon, 11 Jan 2021 20:22:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=21DSZhIADyM80UXtZ6t3GJQcw6jBTaBnuujNVrs2BiY=;
+        b=d/vM42duO+EgeXjTc1yjDu1pgH5fv+gkbriNBPeOhVcZA/+fxyXImZ8VTlsOg5OZ7x
+         lzEQ29h7kBbI/zPGJln82pzoG9cC8gw3Og6ausLQNjs6cT6jbYYx+736kHnrh5xlWlwm
+         +wzyBP+eTEuVVo9TdlT6us9Orwp4uJCiZH3bYtS+itd7qNnMpR4gvahX/7IPEMdNMVF6
+         cLKKKM8BV2xhiCb8RQzyB3wo2neg/UpSqKg5c/bSjUrTrGFsiARnwyL6v+y6YWs2JhfG
+         gsxjd+mPI0JV5V+zyY1fxj1/x0RireLTUcQR9WIbFa9nDu6U3jufcyCq7iJapk8nU61/
+         eXtw==
+X-Gm-Message-State: AOAM532kxsttRuqMbg8+nJDnQkPTmjl/qGBDwv5v+UiOsdXL70rZGy3A
+        HkYc8HkKSzjKqYm7n6K0vcgwmZU/CUO6TG37NYZvsRKxIn+hCg==
+X-Google-Smtp-Source: ABdhPJzKhhErzBBN2Z80DOboIFZ3ILIpKklBM7XUz4FkQ3HlJBoqbCkH+LZMVF0CmGj3btK9b4RP28vvffLM4AJeT1k=
+X-Received: by 2002:a5e:9b06:: with SMTP id j6mr1842525iok.171.1610424569019;
+ Mon, 11 Jan 2021 20:09:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
+ <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com> <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+ <CAEf4BzaEA5aWeCCvHp7ASo9TdfotcBtqNGexirEynHDSo7ufgg@mail.gmail.com>
+ <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com> <cb37bffa-b2c7-4395-40eb-2d39f5570214@fb.com>
+In-Reply-To: <cb37bffa-b2c7-4395-40eb-2d39f5570214@fb.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 12 Jan 2021 05:09:17 +0100
+Message-ID: <CA+icZUV5dP8Fjj2NhTKJnnumKZd2-gYHwSo3samscHz7LZCx4w@mail.gmail.com>
+Subject: Re: Check pahole availibity and BPF support of toolchain before
+ starting a Linux kernel build
+To:     Yonghong Song <yhs@fb.com>
+Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tom Stellard <tstellar@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Jan 12, 2021 at 1:57 AM Yonghong Song <yhs@fb.com> wrote:
+>
+>
+>
+> On 1/11/21 1:30 PM, Sedat Dilek wrote:
+> > On Mon, Jan 11, 2021 at 10:03 PM Andrii Nakryiko
+> > <andrii.nakryiko@gmail.com> wrote:
+> >>
+> >> On Mon, Jan 11, 2021 at 9:56 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >>>
+> >>> On Mon, Jan 11, 2021 at 5:05 PM Yonghong Song <yhs@fb.com> wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 1/11/21 4:48 AM, Sedat Dilek wrote:
+> >>>>> Hi BPF maintainers and Mashiro,
+> >>>>>
+> >>>>> Debian started to use CONFIG_DEBUG_INFO_BTF=y.
+> >>>>>
+> >>>>> My kernel-build fails like this:
+> >>>>>
+> >>>>> + info BTFIDS vmlinux
+> >>>>> + [  != silent_ ]
+> >>>>> + printf   %-7s %s\n BTFIDS vmlinux
+> >>>>>    BTFIDS  vmlinux
+> >>>>> + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> >>>>> FAILED: load BTF from vmlinux: Invalid argument
+> >>>>>
+> >>>>> The root cause is my selfmade LLVM toolchain has no BPF support.
+> >>>>
+> >>>> linux build should depend on LLVM toolchain unless you use LLVM to build
+> >>>> kernel.
+> >>>>
+> >>>>>
+> >>>>> $ which llc
+> >>>>> /home/dileks/src/llvm-toolchain/install/bin/llc
+> >>>>>
+> >>>>> $ llc --version
+> >>>>> LLVM (http://llvm.org/  ):
+> >>>>>    LLVM version 11.0.1
+> >>>>>    Optimized build.
+> >>>>>    Default target: x86_64-unknown-linux-gnu
+> >>>>>    Host CPU: sandybridge
+> >>>>>
+> >>>>>    Registered Targets:
+> >>>>>      x86    - 32-bit X86: Pentium-Pro and above
+> >>>>>      x86-64 - 64-bit X86: EM64T and AMD64
+> >>>>>
+> >>>>> Debian's llc-11 shows me BPF support is built-in.
+> >>>>>
+> >>>>> I see the breakag approx. 3 hours after the start of my kernel-build -
+> >>>>> in the stage "vmlinux".
+> >>>>> After 2 faulures in my build (2x 3 hours of build-time) I have still
+> >>>>> no finished Linux v5.11-rc3 kernel.
+> >>>>> This is a bit frustrating.
+> >>>>
+> >>>> You mean "BTFIDS  vmlinux" takes more than 3 hours here?
+> >>>> Maybe a bug in resolve_btfids due to somehow different ELF format
+> >>>> resolve_btfids need to handle?
+> >>>>
+> >>>
+> >>> [ CC Tom ]
+> >>>
+> >>> OMG no.
+> >>>
+> >>> 3 hours up to running scripts/link-vmlinux.sh.
+> >>>
+> >>> In the meantime I have built a LLVM toolchain with BPF support.
+> >>>
+> >>> $ llc --version
+> >>> LLVM (http://llvm.org/ ):
+> >>>   LLVM version 11.0.1
+> >>>   Optimized build.
+> >>>   Default target: x86_64-unknown-linux-gnu
+> >>>   Host CPU: sandybridge
+> >>>
+> >>>   Registered Targets:
+> >>>     bpf    - BPF (host endian)
+> >>>     bpfeb  - BPF (big endian)
+> >>>     bpfel  - BPF (little endian)
+> >>
+> >> As Yonghong mentioned, you don't need BPF target support in Clang to
+> >> build the kernel, so the issue is elsewhere. It's somewhere between
+> >> generated DWARF (we've seen multiple bugs in DWARF over time),
+> >> pahole's BTF output and resolve_btfids's handling of that BTF. I've
+> >> CC'ed Jiri, who can help with resolve_btfids.
+> >>
+> >> Meanwhile, if you can provide SHA from which you built Clang, kernel
+> >> config you used, and probably exact invocation of the build you used,
+> >> it would help reproduce the issue.
+> >>
+> >
+> > OK, I see I have here DWARF v5 support patchset applied and enabled.
+> >
+> > Furthermore: I applied latest clang-cfi.
+> >
+> > This is with LLVM v11.0.1 final aka 43ff75f2c3feef64f9d73328230d34dac8832a91.
+>
+> Did you use llvm to compile kernel? If this is the case, latest pahole
+> will segfault. I am using latest trunk llvm. It is possible that
+> generated dwarf with llvm is different from generated dwarf with gcc
+> and pahole did not process it correctly. I did not get time to
+> debug this though.
+>
 
+Yes, I used LLVM/Clang to compile the kernel.
 
-On 1/11/21 5:06 PM, Frank Rowand wrote:
-> On 1/8/21 2:41 AM, Viresh Kumar wrote:
->> Now that fdtoverlay is part of the kernel build, start using it to test
->> the unitest overlays we have by applying them statically.
->>
->> The file overlay_base.dtb have symbols of its own and we need to apply
->> overlay.dtb to overlay_base.dtb alone first to make it work, which gives
->> us intermediate-overlay.dtb file.
->>
->> The intermediate-overlay.dtb file along with all other overlays is them
->> applied to testcases.dtb to generate the master.dtb file.
->>
->> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> 
-> NACK to this specific patch, in its current form.
-> 
-> There are restrictions on applying an overlay at runtime that do not apply
-> to applying an overlay to an FDT that will be loaded by the kernel during
-> early boot.  Thus the unittest overlays _must_ be applied using the kernel
-> overlay loading methods to test the kernel runtime overlay loading feature.
-> 
-> I agree that testing fdtoverlay is a good idea.  I have not looked at the
-> parent project to see how much testing of fdtoverlay occurs there, but I
-> would prefer that fdtoverlay tests reside in the parent project if practical
-> and reasonable.  If there is some reason that some fdtoverlay tests are
-> more practical in the Linux kernel repository then I am open to adding
-> them to the Linux kernel tree.
-> 
+- Sedat -
 
-Frank,
-
-I thought we were aligned that any new overlays into the kernel today 
-would only be for boot loader applied case.  Applying overlays at kernel 
-runtime was out of scope at your request.
-
-Rob had requested that the overlays be test applied at build time.  I 
-don't think there is any way to test the kernel runtime method at build 
-time correct?
-
-Please clarify your concern and your suggested way forward.
-
-Thanks,
-Bill
-
-> -Frank
-> 
-> 
->>
->> ---
->> Depends on:
->>
->> https://lore.kernel.org/lkml/be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org/
->>
->> I have kept the .dtb naming for overlays for now, lets see how we do it
->> eventually.
->>
->> Rob/Frank, this doesn't work properly right now. Maybe I missed how
->> these overlays must be applied or there is a bug in fdtoverlay.
->>
->> The master.dtb doesn't include any nodes from overlay_base.dtb or
->> overlay.dtb probably because 'testcase-data-2' node isn't present in
->> testcases.dtb and fdtoverlay doesn't allow applying new nodes to the
->> root node, i.e. allows new sub-nodes once it gets phandle to the parent
->> but nothing can be added to the root node itself. Though I get a feel
->> that it works while applying the nodes dynamically and it is expected to
->> work here as well.
->>
->> (And yeah, this is my first serious attempt at updating Makefiles, I am
->> sure there is a scope of improvement here :))
->>
->> ---
->>   drivers/of/unittest-data/Makefile | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
->> index 009f4045c8e4..f17bce85f65f 100644
->> --- a/drivers/of/unittest-data/Makefile
->> +++ b/drivers/of/unittest-data/Makefile
->> @@ -38,3 +38,26 @@ DTC_FLAGS_testcases += -@
->>   
->>   # suppress warnings about intentional errors
->>   DTC_FLAGS_testcases += -Wno-interrupts_property
->> +
->> +# Apply overlays statically with fdtoverlay
->> +intermediate-overlay	:= overlay.dtb
->> +master			:= overlay_0.dtb overlay_1.dtb overlay_2.dtb \
->> +			   overlay_3.dtb overlay_4.dtb overlay_5.dtb \
->> +			   overlay_6.dtb overlay_7.dtb overlay_8.dtb \
->> +			   overlay_9.dtb overlay_10.dtb overlay_11.dtb \
->> +			   overlay_12.dtb overlay_13.dtb overlay_15.dtb \
->> +			   overlay_gpio_01.dtb overlay_gpio_02a.dtb \
->> +			   overlay_gpio_02b.dtb overlay_gpio_03.dtb \
->> +			   overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
->> +			   intermediate-overlay.dtb
->> +
->> +quiet_cmd_fdtoverlay = fdtoverlay $@
->> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
->> +
->> +$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
->> +	$(call if_changed,fdtoverlay)
->> +
->> +$(obj)/master.dtb: $(obj)/testcases.dtb $(addprefix $(obj)/,$(master))
->> +	$(call if_changed,fdtoverlay)
->> +
->> +always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
->>
-> 
-
--- 
-Bill Mills
-Principal Technical Consultant, Linaro
-+1-240-643-0836
-TZ: US Eastern
-Work Schedule:  Tues/Wed/Thur
+> >
+> > My kernel-config is attached.
+> >
+> > [1] https://patchwork.kernel.org/project/linux-kbuild/patch/20201204011129.2493105-1-ndesaulniers@google.com/
+> > [2] https://patchwork.kernel.org/project/linux-kbuild/patch/20201204011129.2493105-2-ndesaulniers@google.com/
+> > [3] https://github.com/samitolvanen/linux/commits/clang-cfi
+> >
+> >>>     x86    - 32-bit X86: Pentium-43ff75f2c3feef64f9d73328230d34dac8832a91
+> > Pro and above
+> >>>     x86-64 - 64-bit X86: EM64T and AMD64
+> >>>
+> >>> Tom reported BTF issues with pahole v1.19 (see [2] and [3]):
+> >>> "I ran into this same bug trying to build the Fedora kBROKEN_5-11-rc3-CONFIG_DEBUG_INFO_BTF-y-FAILED-load-BTF-from-vmlinux.txt
+> > ernel. The
+> >>> problem is that pahole segfaults at: scripts/link-vmlinux.sh:131. This
+> >>> looks to me like a bug in pahole."
+> >>>
+> >>> pahole ToT (post v1.19) offers some BTF fixes - I have manually build
+> >>> and use it.
+> >>>
+> >>> Building a new Linux-kernel...
+> >>>
+> >>> - Sedat -
+> >>>
+> >>> [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
+> >>> [2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
+> >>> [3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
+> >>
+> >> There are no significant bug fixes between pahole 1.19 and master that
+> >> would solve this problem, so let's try to repro this.
+> >>
+> >
+> > You are right pahole fom latest Git does not solve the issue.
+> >
+> > + info BTFIDS vmlinux
+> > + [  != silent_ ]
+> > + printf   %-7s %s\n BTFIDS vmlinux
+> >   BTFIDS  vmlinux
+> > + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> > FAILED: load BTF from vmlinux: Invalid argument
+> >
+> > - Sedat -
+> >
+> >>>
+> >>>
+> >>>
+> >>>>>
+> >>>>> What about doing pre-checks - means before doing a single line of
+> >>>>> compilation - to check for:
+> >>>>> 1. Required binaries
+> >>>>> 2. Required support of whatever feature in compiler, linker, toolchain etc.
+> >>>>>
+> >>>>> Recently, I fell over depmod binary not found in my PATH - in one of
+> >>>>> the last steps (modfinal) of the kernel build.
+> >>>>>
+> >>>>> Any ideas to improve the situation?
+> >>>>> ( ...and please no RTFM, see links below. )
+> >>>>>
+> >>>>> Thanks.
+> >>>>>
+> >>>>> Regards,
+> >>>>> - Sedat -
+> >>>>>
+> >>>>>
+> >>>>> [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/link-vmlinux.sh#n144
+> >>>>> [1] https://salsa.debian.org/kernel-team/linux/-/commit/929891281c61ce4403ddd869664c949692644a2f
+> >>>>> [2] https://www.kernel.org/doc/html/latest/bpf/bpf_devel_QA.html?highlight=pahole#llvm
+> >>>>> [3] https://www.kernel.org/doc/html/latest/bpf/btf.html?highlight=pahole#btf-generation
+> >>>>>
