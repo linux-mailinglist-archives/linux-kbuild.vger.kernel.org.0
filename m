@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D071F2F3DB0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 01:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E79D02F3D8A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 01:44:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437035AbhALVhJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Jan 2021 16:37:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34284 "EHLO
+        id S1727711AbhALVmU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Jan 2021 16:42:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437038AbhALUsX (ORCPT
+        with ESMTP id S2437141AbhALVhc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Jan 2021 15:48:23 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D570C061575;
-        Tue, 12 Jan 2021 12:47:43 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id e22so7006641iom.5;
-        Tue, 12 Jan 2021 12:47:43 -0800 (PST)
+        Tue, 12 Jan 2021 16:37:32 -0500
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C95CC06179F;
+        Tue, 12 Jan 2021 13:36:52 -0800 (PST)
+Received: by mail-io1-xd33.google.com with SMTP id n4so7254337iow.12;
+        Tue, 12 Jan 2021 13:36:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=PUnqZbs5+Royz4WGHui/7WAHJXMTS7Yr1QlZSxAOkYg=;
-        b=XF2eQt+aj4MbJYA3MK9Dcw0P2tJt46wXh4kVKOKsCFDScxCQ/K3olTWbx2UvkE8NAr
-         LT6N5InHvjeNbn3iHCuCGqYoyaYr7XN/ZU2I7ppLsiyVF5H8fUyJwpALOPGFH+DjUfMa
-         44JjBPC8nL6YLrRx6ZB2dMKe1UTHpMsqotqrL4xFNikb4YyiWorwmHv2WbsiUk4ydMd2
-         LWJuMq1Vl1LFAXWSqEmtTckxZuacMbDzPT20MKx63TcvwUqugIxNgZPYtpvvWSAqt2xr
-         Lkzdbb06wKBt2VSMEVbs7CYB1RU9+zGrSsG4+OQsniB5V42Z0i0tpV7joUszMsTQs6W6
-         E1Mw==
+        bh=//9wmAe5hjhXgDXmV0ehQ+2oLUsZoz/EaOcTrmY2gvU=;
+        b=pcfdxpiYPbTUd7zoF2kkzcBx/UuO9nmAF6f03LJM7mrkMpU4rIpO+BZSFevhRaCfur
+         oeVEQKQwkZCH5TOPP/VK2bjw98vzfiVhl6b4egZda+yddxCgw5wxM//Y+Oa+vlEjBaMg
+         g/1LF3KJwZ3n/gxG43MCAL5IMFFoielTMBMP3+psoC4Wpkb7ucPGhC54cjMUMsofJeht
+         NsLSApOKO+U3+DgSMvyiHyfHCslMDOWv//pPCzPMNfIAjlthAASIizwnCDGK0Em3/miP
+         SL9NizSwA7NJdJ5QgEVoPNiAidLtYpxzV0A/IWq6Vt2ma/aJVRo86qsWTS29SF+SGsOj
+         zT/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=PUnqZbs5+Royz4WGHui/7WAHJXMTS7Yr1QlZSxAOkYg=;
-        b=rpaOCdEtLEnWi5WqkZ1o/Gdv9GvkXL4UrQa4w1OMA/7BrzN68JIGvfCunHZE8zBHy6
-         TNM76UwNk6OvTKef7HBroDkD62RthcF7FacyuSdctm3unOhIekkusKJOU4dovFVQFJS1
-         uwuewD5XkwO0TmfoJOQXLH5tXP4pAlW8B36iJ0VqT7HSQJhcmiQ+CsVtm+NV7tq6pX3i
-         EXNo7Eg7g795mDw0cU1B10MnQm/JZh9n42+s03NvMAZ553WuK3WRrT+jcrYzs2iY3XKJ
-         hA5b+OkKiUXnRSkt5FfXStG1IDrZcXL6db5a+FiDvbHnQNUWMQWQ0+KrNMVEIPr3rsd6
-         bgjA==
-X-Gm-Message-State: AOAM530JgfFrSnDEMdct4xE8tiawUT4RT/T+e91t0i4J+fds0G7q/rPK
-        H/GPgEZBqM+L5lAYk8AJDg5Q571qTGCS0ECnqWQ=
-X-Google-Smtp-Source: ABdhPJx1AwNsufN9566bzX52HSPhB8f5jrJzB0w0PQjcfYygiNosQ5/Unl59qeyxFQRmhCHH4P73UNzSFZTEu4e69Ds=
-X-Received: by 2002:a5e:d70e:: with SMTP id v14mr679967iom.75.1610484462528;
- Tue, 12 Jan 2021 12:47:42 -0800 (PST)
+        bh=//9wmAe5hjhXgDXmV0ehQ+2oLUsZoz/EaOcTrmY2gvU=;
+        b=Ue24EEZLzbCt4NsQZ4HPTizELvBdEWGyxm2bXQOi7G4M3MZfaVut4LNckAEal7TEXZ
+         mqbZQe9gN1sTeb4yLuU8qjyvlBwLyty/dzchJWjgXJwgJqBuPf9Vmda09ZN2adDFNczL
+         qXdA3c4UjvtwJuDQjvZgU2/E4sxInNwjSbOTIxHU3FhQGHnK6E+BEFe2Okusn9VkBlym
+         PY6JXIiosDRsbiwgbPGJN0bjzQbnQ9Xtb50QCB0El2hoKYMynyKiqbLA0p5d+477uqnA
+         XoZiZvAwt4Hd9V+uzEigMv8vRhVNs0ADSjUq3tReMhi1Jz40/ZhaOLwZKmSqtmDMUncS
+         QUMg==
+X-Gm-Message-State: AOAM530/GdZM0g7YnUCZ6u42eMTjWZVtN/Pe0aZPrkkZr30gt7WDhi7I
+        rzNH3wONNFfF8MrgyXyQRrnmN3egjEYlFAZiu44=
+X-Google-Smtp-Source: ABdhPJzDkV9k36iPJVYoKGfBufews67nedQUdLpb+tG8eMwULCsIntR/Tx0F9JMkEhe8+mO1qiNKdOxR00jukDOIYYw=
+X-Received: by 2002:a92:9e57:: with SMTP id q84mr1148874ili.112.1610487411649;
+ Tue, 12 Jan 2021 13:36:51 -0800 (PST)
 MIME-Version: 1.0
 References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
  <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com> <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
@@ -51,12 +51,13 @@ References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
  <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com>
  <20210111223144.GA1250730@krava> <ed779f29-18b9-218f-a937-878328a769fe@redhat.com>
  <20210112104622.GA1283572@krava> <20210112131012.GA1286331@krava>
- <CA+icZUXNEFyW-fKH_hNLd+s7PB3z=o+xe=B=ud7eA5T3SW6QFg@mail.gmail.com> <20210112162156.GA1291051@krava>
-In-Reply-To: <20210112162156.GA1291051@krava>
+ <CA+icZUXNEFyW-fKH_hNLd+s7PB3z=o+xe=B=ud7eA5T3SW6QFg@mail.gmail.com>
+ <20210112162156.GA1291051@krava> <CA+icZUU8MFFJMqFRAN7ekRzupPrS6WS5xGChUaFcjq2hfqW_wg@mail.gmail.com>
+In-Reply-To: <CA+icZUU8MFFJMqFRAN7ekRzupPrS6WS5xGChUaFcjq2hfqW_wg@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 12 Jan 2021 21:47:30 +0100
-Message-ID: <CA+icZUU8MFFJMqFRAN7ekRzupPrS6WS5xGChUaFcjq2hfqW_wg@mail.gmail.com>
+Date:   Tue, 12 Jan 2021 22:36:40 +0100
+Message-ID: <CA+icZUV8ZASGp2pCy12fSjnYun5+DyR4D+OdNwz_+fjGU64KZg@mail.gmail.com>
 Subject: Re: Check pahole availibity and BPF support of toolchain before
  starting a Linux kernel build
 To:     Jiri Olsa <jolsa@redhat.com>
@@ -78,59 +79,23 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Is it possible that someone tests with Nick Desaulniers's DWARF v5 patchset?
+On Tue, Jan 12, 2021 at 9:47 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 
-With b4 tool installed:
+> En plus, I tried pahole with Jirka "Convulted" Olsa (JCO) fix by passing...
+>    PAHOLE=/opt/pahole/bin/pahole
+> ...to my make line.
+>
 
-link="https://lore.kernel.org/r/CAKwvOdkZEiHK01OD420USb0j=F0LcrnRbauv9Yw26tu-GRbYkg@mail.gmail.com"
-b4 -d am $link
+Grrr, my selfmade pahole misses that patch.
 
-...should give you a file which you can directly apply with git tool.
+How can I re-invoke make ... with new really fixed pahole version?
 
-File: v3_20201203_ndesaulniers_kbuild_make_dwarf_version_a_choice.mbx
-
-As my selfmade LLVM toolchain seems to be no good choice I jumped to gcc-10.
-
-I see gazillions of DW_AT_ and DW_TAG_INVALID (0x48) warnings:
-
-die__process_inline_expansion: DW_TAG_INVALID (0x48) @ <0x1c2a25e> not handled!
-
-This might be due to DWARF version 5 patchset.
-I did not check DWARF v2 (default) or DWARF v4 choices.
-
-Beyond this, I noticed:
-
-$ git grep LLVM_OBJCOPY scripts/ tools/
-scripts/Makefile.modfinal:              LLVM_OBJCOPY=$(OBJCOPY)
-$(PAHOLE) -J --btf_base vmlinux $@; \
-scripts/link-vmlinux.sh:        LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${1}
-tools/testing/selftests/bpf/Makefile:LLVM_OBJCOPY       ?= llvm-objcopy
-
-When only passing gcc-10 as compiler and ld.bfd as linker -
-LLVM_OBJCOPY=objcopy is passed.
-Means objcopy from GNU/binutils is used.
-As far as I understand the code you want here llvm-objcopy
-(scripts/Makefile.modfinal)?
-
-I did a next tryout with gcc-10 and LLVM=1 means use all equivalent
-LLVM tools to GNU/binutils.
-Means use llvm-objcopy, llvm-nm, llvm-ar, llvm-objdump, etc.
-Please see the link below under [1].
-
-En plus, I tried pahole with Jirka "Convulted" Olsa (JCO) fix by passing...
-   PAHOLE=/opt/pahole/bin/pahole
-...to my make line.
-
-Again I see that DW_TAG_INVALID (0x48) warnings.
-Can someone enlighten me what that means?
-
-Finally, with all that warnings observed I could "successfully"
-generate Linux-kernel Debian packages.
-I do NOT install software I do NOT trust - not booted - NoNoNo...
-
-Thanks.
-
-In the dark,
+Fallen into a (pa)hole,
 - Sedat -
 
-[1] https://www.kernel.org/doc/html/latest/kbuild/llvm.html#llvm-utilities
+P.S.: Download Jiri's patch
+
+link="https://lore.kernel.org/bpf/20210112194724.GB1291051@krava/T/#t"
+b4 -d am $link
+
+- EOT -
