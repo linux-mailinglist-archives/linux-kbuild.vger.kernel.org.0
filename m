@@ -2,154 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 141852F5753
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 03:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A722F575B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 04:00:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729115AbhAMV0P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Jan 2021 16:26:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
+        id S1729249AbhAMWCN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Jan 2021 17:02:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729113AbhAMVZA (ORCPT
+        with ESMTP id S1729232AbhAMWAx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jan 2021 16:25:00 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDD0C061575;
-        Wed, 13 Jan 2021 13:24:11 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id u17so7143621iow.1;
-        Wed, 13 Jan 2021 13:24:11 -0800 (PST)
+        Wed, 13 Jan 2021 17:00:53 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F7FBC061575
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 14:00:11 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id u19so3608891edx.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 14:00:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=UpKWiYtPM8GQXk0Is548IYPtxVA4MVO0jtllMXNFedg=;
-        b=jFEd2NzQHJicdAZJpSO86WQL6Pyz2KLdPuF8gwRjoQQgJKSKRe6pCzzGGUKWKcJYTE
-         ifUpvBaRYrR6JiJCG55Hn9fCX3MmshplyXTqOEWaKP/8v1XMEaLmaOC7Lpd9DC2fG9c3
-         EpM1Ct01OjUjbiQKE1fvog7ROEKzTXclee0JK56J4/D+3qy32gAQZ/MAorp7wfgw1HU5
-         rPBnTryqXb7odcD54fVwqaoTocn80+gH5FIN537N4C/6f1VGo7mALSRqso3T7Xyeyqkr
-         yV2sN3uwcOnqMZSaaRYstiIqEr705vf/gjaKF6kGk69a1dqoaaK4denn/0OitJ1lKtzc
-         fhWg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
+        b=uT51003CLT7E627tBqLkwWrU1PVJGq2/ZMQqORYgP/O2pHjSbQU/+++0TXmm4i8is6
+         OARUSIgqWunXkWiEvn7QA6CKb35uF8Ku1QQbQxnLocI54fY87d1EbdIGaxJQgPGPPNpG
+         sKynEK0BQxUKiAsyo3I9mUReOW0Yrn9p14437+A6dsPP1Ah98uXS0jQMFvcovol60ZyS
+         mpErIteohbvU2Vbc+tBEoTDcHUGjD8plBHS/VvZ8bC2qUmYs/Fh4YqJFb8PwkbC7S/Rl
+         h50qDhicSqelFiRP/M/ZqC6YzDMO9fwpdFAwGPpyDIkmBqB7cEsEmSgmsxP3cOFv8Hau
+         BwqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=UpKWiYtPM8GQXk0Is548IYPtxVA4MVO0jtllMXNFedg=;
-        b=RlGBckSXjzSQ8uXMW4jOKDak3FAEHVo0ECNCFEu2+F0lMbmcvtAk2hEyoZxZL4UCvL
-         3H0UmMnKMqaNBiRYTdJxK4JSzWyRN56e4GU/kSxmDKU6Qxsufj75BcTYs0GzZpPb7XLQ
-         rmAPffnoaCuSKvuLg5ctCMAIoWTfzCwFShOPbQVDX/sT8bIGs8++lTSQffOzZROb4k/u
-         7IUrL7hv3h5iJuFOJ0Ob3sdaXn5h9TzIKsCDUtr8LAVZrA06tMFZteNz5LUHIMBztGtG
-         PAunoqmlxdd1W1kO+9UfYxfaLAORNu66Co5auvuRWIMYIcjHH+BOo7/dUznuEakTTb0U
-         Tqxw==
-X-Gm-Message-State: AOAM530x/OCAbeDQcz0o811xTFbNvWcVzARM6HTdgMuel886R7yGOTRG
-        2h0bp4WgZ3+T+KbeCBh90SWdRJd+57gWT9licoib2i3jwvSQlQ==
-X-Google-Smtp-Source: ABdhPJxpzXvUeRTDVlh68s3DvLQRddSvhHnzpvRehHrff3t/TZydCewnwIbSh5Lgu35UYmUNvALR+oyfjq3o7c0wSjY=
-X-Received: by 2002:a05:6e02:eb0:: with SMTP id u16mr3977808ilj.209.1610573051220;
- Wed, 13 Jan 2021 13:24:11 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
+        b=rRNK+SOFcHTI0o9Q3ALBIfmobDWeyZqYFXkubMIIHWdaUj+DqkuABNq2oOx6oHg169
+         Egk/hp7/lxGlrRRaw4GLxQ9zqFp9G/pRtTu3c6yDPD4XIfp9BVQGr8AA4GE2/D52w3C8
+         AYshI1f2TdFTsgeXxpXSSOsLC/d/NG9Hxk/wcJmR3BIYZ9HM7Wyi9wr++YTpd08as7KE
+         ZJdjQke0K9hiBCwpkjQIRA8JzIzrYZAl+mgmto4JjlLWsG3Jrsyv0qxNNiZBJ5HRvfbI
+         c8Hk47NgNrsXtwxTZ73bcTkme4Vkw3rvtTst6mZPvTG+VUSS9IDv+3hZyA7/UPci+zig
+         aZOA==
+X-Gm-Message-State: AOAM532YgJA5aYL8lyVUNlDllKwLd2sGVhW6nfHiVYF2MhBNY9JTiQaE
+        Thi2RZjQoyVJCcfCvbVPJdxtqnx0Qon79Gq2NFdY
+X-Google-Smtp-Source: ABdhPJyE5JEDE4oM6JhTLtfMhJ6qJ3TrnMrYS6u1lrad/w+TvlD7eZ8Y1v59rsqWDpKMCpdfypcrgKeOBUbXOvRRpc4=
+X-Received: by 2002:a05:6402:513:: with SMTP id m19mr3469396edv.244.1610575209296;
+ Wed, 13 Jan 2021 14:00:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20210113003235.716547-1-ndesaulniers@google.com> <20210113003235.716547-3-ndesaulniers@google.com>
-In-Reply-To: <20210113003235.716547-3-ndesaulniers@google.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 13 Jan 2021 22:24:00 +0100
-Message-ID: <CA+icZUV6pNP1AN_JEhqon6Hgk3Yfq0_VNghvRX0N9mw6pGtpVw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] Kbuild: make DWARF version a choice
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
+ <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+In-Reply-To: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+From:   Bill Wendling <morbo@google.com>
+Date:   Wed, 13 Jan 2021 13:59:57 -0800
+Message-ID: <CAGG=3QVK9KvxDi7b51Fyh=NLKVQka8ZxJeWzchaiDM=78_X3Tw@mail.gmail.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 1:32 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice. Adds an
-> explicit CONFIG_DEBUG_INFO_DWARF2, which is the default. Does so in a
-> way that's forward compatible with existing configs, and makes adding
-> future versions more straightforward.
+> Hi Bill,
 >
-> Suggested-by: Fangrui Song <maskray@google.com>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  Makefile          | 14 +++++++++-----
->  lib/Kconfig.debug | 21 ++++++++++++++++-----
->  2 files changed, 25 insertions(+), 10 deletions(-)
+> On Tue, Jan 12, 2021 at 10:19:58PM -0800, Bill Wendling wrote:
+> > From: Sami Tolvanen <samitolvanen@google.com>
+> >
+> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> > profile, the kernel is instrumented with PGO counters, a representative
+> > workload is run, and the raw profile data is collected from
+> > /sys/kernel/debug/pgo/profraw.
+> >
+> > The raw profile data must be processed by clang's "llvm-profdata" tool
+> > before it can be used during recompilation:
+> >
+> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> >
+> > Multiple raw profiles may be merged during this step.
+> >
+> > The data can now be used by the compiler:
+> >
+> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
+> >
+> > This initial submission is restricted to x86, as that's the platform we
+> > know works. This restriction can be lifted once other platforms have
+> > been verified to work with PGO.
+> >
+> > Note that this method of profiling the kernel is clang-native, unlike
+> > the clang support in kernel/gcov.
+> >
+> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> >
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > Co-developed-by: Bill Wendling <morbo@google.com>
+> > Signed-off-by: Bill Wendling <morbo@google.com>
+> > Change-Id: Ic78e69c682286d3a44c4549a0138578c98138b77
 >
-> diff --git a/Makefile b/Makefile
-> index d49c3f39ceb4..656fff17b331 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -826,12 +826,16 @@ else
->  DEBUG_CFLAGS   += -g
->  endif
+> Small nit: This should be removed.
 >
-> -ifneq ($(LLVM_IAS),1)
-> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> +ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
-> +# Binutils 2.35+ required for -gdwarf-4+ support.
-> +dwarf-aflag    := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
-> +ifdef CONFIG_CC_IS_CLANG
-> +DEBUG_CFLAGS   += $(dwarf-aflag)
->  endif
+Grrr....The git hook keeps adding it in there. :-(
 
-Why is that "ifdef CONFIG_CC_IS_CLANG"?
-When I use GCC v10.2.1 DEBUG_CFLAGS are not set.
+> I applied this patch on top of v5.11-rc3, built it with LLVM 12
+> (f1d5cbbdee5526bc86eac0a5652b115d9bc158e5 + D94470) with Microsoft's
+> WSL 5.4 config [1] + CONFIG_PGO_CLANG=y, and ran it on WSL2.
+>
+> $ zgrep PGO /proc/config.gz
+> # Profile Guided Optimization (PGO) (EXPERIMENTAL)
+> CONFIG_ARCH_SUPPORTS_PGO_CLANG=y
+> CONFIG_PGO_CLANG=y
+> # end of Profile Guided Optimization (PGO) (EXPERIMENTAL)
+>
+> However, I see an issue with actually using the data:
+>
+> $ sudo -s
+> # mount -t debugfs none /sys/kernel/debug
+> # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> # chown nathan:nathan vmlinux.profraw
+> # exit
+> $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+> error: No profiles could be merged.
+>
+> Am I holding it wrong? :) Note, this is virtualized, I do not have any
+> "real" x86 hardware that I can afford to test on right now.
+>
+> [1]: https://github.com/microsoft/WSL2-Linux-Kernel/raw/linux-msft-wsl-5.4.y/Microsoft/config-wsl
+>
+Could you send me the vmlinux.profraw file? (Don't CC this list.)
 
-- Sedat -
-
-> -
-> -ifdef CONFIG_DEBUG_INFO_DWARF4
-> -DEBUG_CFLAGS   += -gdwarf-4
-> +KBUILD_AFLAGS  += $(dwarf-aflag)
->  endif
->
->  ifdef CONFIG_DEBUG_INFO_REDUCED
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index dd7d8d35b2a5..e80770fac4f0 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -256,13 +256,24 @@ config DEBUG_INFO_SPLIT
->           to know about the .dwo files and include them.
->           Incompatible with older versions of ccache.
->
-> +choice
-> +       prompt "DWARF version"
-> +       help
-> +         Which version of DWARF debug info to emit.
-> +
-> +config DEBUG_INFO_DWARF2
-> +       bool "Generate DWARF Version 2 debuginfo"
-> +       help
-> +         Generate DWARF v2 debug info.
-> +
->  config DEBUG_INFO_DWARF4
-> -       bool "Generate dwarf4 debuginfo"
-> +       bool "Generate DWARF Version 4 debuginfo"
->         help
-> -         Generate dwarf4 debug info. This requires recent versions
-> -         of gcc and gdb. It makes the debug information larger.
-> -         But it significantly improves the success of resolving
-> -         variables in gdb on optimized code.
-> +         Generate DWARF v4 debug info. This requires gcc 4.5+ and gdb 7.0+.
-> +         It makes the debug information larger, but it significantly
-> +         improves the success of resolving variables in gdb on optimized code.
-> +
-> +endchoice # "DWARF version"
->
->  config DEBUG_INFO_BTF
->         bool "Generate BTF typeinfo"
-> --
-> 2.30.0.284.gd98b1dd5eaa7-goog
->
+-bw
