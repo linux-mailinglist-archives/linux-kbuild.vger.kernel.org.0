@@ -2,31 +2,31 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0689A2F4BA5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 13:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A3712F4BB0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 13:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbhAMMt4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 13 Jan 2021 07:49:56 -0500
-Received: from mx1.emlix.com ([136.243.223.33]:34712 "EHLO mx1.emlix.com"
+        id S1725902AbhAMMww convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 13 Jan 2021 07:52:52 -0500
+Received: from mx1.emlix.com ([136.243.223.33]:34728 "EHLO mx1.emlix.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725809AbhAMMtz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jan 2021 07:49:55 -0500
+        id S1725895AbhAMMwv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 13 Jan 2021 07:52:51 -0500
 Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
         (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.emlix.com (Postfix) with ESMTPS id 5386F5FA09;
-        Wed, 13 Jan 2021 13:49:13 +0100 (CET)
+        by mx1.emlix.com (Postfix) with ESMTPS id B47375FAF2;
+        Wed, 13 Jan 2021 13:52:09 +0100 (CET)
 From:   Rolf Eike Beer <eb@emlix.com>
-To:     David Woodhouse <dwmw2@infradead.org>
-Cc:     Linux Kernel Developers List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+To:     linux-acpi@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        Markus Mayer <mmayer@broadcom.com>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH v5] scripts: use pkg-config to locate libcrypto
-Date:   Wed, 13 Jan 2021 13:49:12 +0100
-Message-ID: <3394639.6NgGvCfkNl@devpool47>
+Subject: [PATCH 1/2 RESEND] tools/thermal: tmon: simplify Makefile
+Date:   Wed, 13 Jan 2021 13:52:09 +0100
+Message-ID: <14779641.hJt11lCqPI@devpool47>
 Organization: emlix GmbH
-In-Reply-To: <2278760.8Yd83Mgoko@devpool35>
-References: <20538915.Wj2CyUsUYa@devpool35> <2278760.8Yd83Mgoko@devpool35>
+In-Reply-To: <3551127.BzHy4GdJBa@devpool21>
+References: <3551127.BzHy4GdJBa@devpool21>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Type: text/plain; charset="UTF-8"
@@ -34,48 +34,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Otherwise build fails if the headers are not in the default location. While at
-it also ask pkg-config for the libs, with fallback to the existing value.
-
 Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-Cc: stable@vger.kernel.org # 5.6.x
 ---
- scripts/Makefile | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tools/thermal/tmon/Makefile | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-This has been sent multiple times since more than 2 year, please pick it up 
-through whatever tree. I need to patch every new stable kernel version to 
-make them build in our chrooted environment.
-
-
-diff --git a/scripts/Makefile b/scripts/Makefile
-index b5418ec587fb..7553692d241f 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -3,6 +3,11 @@
- # scripts contains sources for various helper programs used throughout
- # the kernel for the build process.
+diff --git a/tools/thermal/tmon/Makefile b/tools/thermal/tmon/Makefile
+index 59e417ec3e13..36dc70497066 100644
+--- a/tools/thermal/tmon/Makefile
++++ b/tools/thermal/tmon/Makefile
+@@ -13,7 +13,6 @@ CC?= $(CROSS_COMPILE)gcc
+ PKG_CONFIG?= pkg-config
  
-+PKG_CONFIG ?= pkg-config
-+
-+CRYPTO_LIBS = $(shell $(PKG_CONFIG) --libs libcrypto 2> /dev/null || echo -lcrypto)
-+CRYPTO_CFLAGS = $(shell $(PKG_CONFIG) --cflags libcrypto 2> /dev/null)
-+
- hostprogs-always-$(CONFIG_BUILD_BIN2C)			+= bin2c
- hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
- hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
-@@ -14,8 +19,9 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+ override CFLAGS+=-D VERSION=\"$(VERSION)\"
+-LDFLAGS+=
+ TARGET=tmon
  
- HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
- HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
--HOSTLDLIBS_sign-file = -lcrypto
--HOSTLDLIBS_extract-cert = -lcrypto
-+HOSTLDLIBS_sign-file = $(CRYPTO_LIBS)
-+HOSTCFLAGS_extract-cert.o = $(CRYPTO_CFLAGS)
-+HOSTLDLIBS_extract-cert = $(CRYPTO_LIBS)
+ INSTALL_PROGRAM=install -m 755 -p
+@@ -33,7 +32,6 @@ override CFLAGS += $(shell $(PKG_CONFIG) --cflags $(STATIC) panelw ncursesw 2> /
+ 		     $(PKG_CONFIG) --cflags $(STATIC) panel ncurses 2> /dev/null)
  
- ifdef CONFIG_UNWINDER_ORC
- ifeq ($(ARCH),x86_64)
+ OBJS = tmon.o tui.o sysfs.o pid.o
+-OBJS +=
+ 
+ tmon: $(OBJS) Makefile tmon.h
+ 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS)  -o $(TARGET) $(TMON_LIBS)
+@@ -42,15 +40,13 @@ valgrind: tmon
+ 	 sudo valgrind -v --track-origins=yes --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./$(TARGET)  1> /dev/null
+ 
+ install:
+-	- mkdir -p $(INSTALL_ROOT)/$(BINDIR)
+-	- $(INSTALL_PROGRAM) "$(TARGET)" "$(INSTALL_ROOT)/$(BINDIR)/$(TARGET)"
++	- $(INSTALL_PROGRAM) -D "$(TARGET)" "$(INSTALL_ROOT)/$(BINDIR)/$(TARGET)"
+ 
+ uninstall:
+ 	$(DEL_FILE) "$(INSTALL_ROOT)/$(BINDIR)/$(TARGET)"
+ 
+ clean:
+-	find . -name "*.o" | xargs $(DEL_FILE)
+-	rm -f $(TARGET)
++	rm -f $(TARGET) $(OBJS)
+ 
+ dist:
+ 	git tag v$(VERSION)
 -- 
 2.29.2
 -- 
