@@ -2,277 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F19D2F510B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 18:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EFE92F5166
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Jan 2021 18:50:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbhAMRVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Jan 2021 12:21:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
+        id S1728011AbhAMRtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Jan 2021 12:49:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbhAMRVw (ORCPT
+        with ESMTP id S1727984AbhAMRtY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jan 2021 12:21:52 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54EAC061575;
-        Wed, 13 Jan 2021 09:21:11 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id h19so1582512qtq.13;
-        Wed, 13 Jan 2021 09:21:11 -0800 (PST)
+        Wed, 13 Jan 2021 12:49:24 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C2BC061575;
+        Wed, 13 Jan 2021 09:48:44 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id bd6so1132362qvb.9;
+        Wed, 13 Jan 2021 09:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7drr7gv5qw+0+9H3NcIbloUrI6aPTRZRmM4LiRGpDNk=;
-        b=qHvG+w/PV0/ZQkFEZaIh+xK/vu6qAs7xevxPs+AWoWdjLqOEh+SyyY7sU8/NLgQRv5
-         gqksElMhM948pnJtcikQV9kAPvEYqJUib0p1SXIWaOYADwKgNKklBAxidQeIL44pZw7n
-         dKcXSiKUpGDi+c+RHY+B1gHT6C7xSb0Xp3OgKvWaqxwpwUKF/5BkgavAwLUFTnd5Eo3Q
-         lafSB+rxAHaDcEhAjmQ3INdWsJBEPaqGp2ZS8dlrTeTP+CovVmW7WlqmKAf6yqfO+0xa
-         y3WS2UvJLjCWsV4K83K6SO27v0EM+Q8dPVcYG/C+ryTb70uZrKF4Dcggmr8tfQPw1yFt
-         BASw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9b8V5ldrJPxRBHqA53wu0d+Zi8BaxVZ6cd708HjPwiQ=;
+        b=od8zfmMRP96FRdSxJkv8qPbEH28oasOOMIcp/S8CghoHLT9j9dTarMQaJY2wnukZ1q
+         tbvEYsjanXVAo/ov3R0UzRgACnSszGVrkoUE1K6FMn1onySdJvC51PJcwXXQlRRH8qu5
+         ShH0lpfWXMiYFYCsyFPfB1M+PVT0yKXkMhDNjncxfChbQu2/BazbtCIB3XxOLC4HkjBl
+         5z8U1EcNCeMPJKlLVqEh5qQ0A9r6PkXQCY9C22gSRmdT3caXo4fGrutJIg1nbPXWWOPS
+         mC3ET4D8he+0nk9bl/XlAO5GEu/3vPMHYlYa41kfWTQ/ZBjY1AkBPGjSvfMo9eOeF5J+
+         Z+ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7drr7gv5qw+0+9H3NcIbloUrI6aPTRZRmM4LiRGpDNk=;
-        b=HGZu09vOm598rtZxKcvVqrOLJcVH2er4s3pXMeY06TexGFtTmUnp/mQS9HF3bWjxHf
-         CKo12aNCFBVGoa7e9CVI6xXg2XauEYid9nAJBZ+JyJldo4JSQHeNhXNnuJspjUdJ7mb9
-         fTpcGxls44T8bRw1d+dIZZE4LYZmMPxWtIp0Zy9BfBW+9wH1LpTgrAweZR3ln/p4ZpWc
-         fajArOUA+kj1dLbV3UzE7thx89L01gqThMX/et61cWjtvJjc7cmcGvUq1T3Yy+eTl5VV
-         CqS4l3HFuLFQhMM+pjcG+Oogfok/rIjOnRl0SJwdnDPdOgmX3aOcw3Ps3nx8lx9BKlPn
-         AHfA==
-X-Gm-Message-State: AOAM530wWr4zKuzRqWPMYgwyaAHs+r6uglmyi2B5rAKRql86DlxXVgKy
-        rBgs+MM+zVX5mfeTLyl4yzu/X+Hqt275DQ==
-X-Google-Smtp-Source: ABdhPJxBLItvcRm/yKTbEVeNrnThLAl5LA3qrKENCRfM6yzZwjfH+73ScJvj40qH5YJTL+9QeMxZag==
-X-Received: by 2002:ac8:72c1:: with SMTP id o1mr3232426qtp.35.1610558470948;
-        Wed, 13 Jan 2021 09:21:10 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id v196sm1421750qkb.84.2021.01.13.09.21.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 09:21:10 -0800 (PST)
-Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
- <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
- <23e16d20-36eb-87d9-4473-142504ad8a95@gmail.com>
- <CAL_JsqKqSVGCjcue=ka2=bB1Os9pczNTCqDeaoFPFfRxnvsteQ@mail.gmail.com>
- <e549c7ce-d01e-08a3-9ed0-7325a34e9c29@gmail.com>
- <CAL_Jsq+W4X5H2myCzX1bGTEqJG9dpwLXdmqbpq6oGm5wpF7WMQ@mail.gmail.com>
- <de50f7a5-d0d7-86b0-a1eb-84a91438b586@gmail.com>
- <CAL_JsqLMeX_f-TpX4j5tgxJOxDafP9tiunvcF_Ed4MGV90982A@mail.gmail.com>
- <5a243fb8-b264-0529-4213-ffd47799f873@gmail.com>
- <CAL_JsqL-HgQ__sVR4hL85AT0DC7e0SCNy3gnrzu4=CuX2f8xMw@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <0eefd73f-0bde-e13a-8d8c-e8149184021e@gmail.com>
-Date:   Wed, 13 Jan 2021 11:21:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9b8V5ldrJPxRBHqA53wu0d+Zi8BaxVZ6cd708HjPwiQ=;
+        b=QepsfhmkQUyGqAJF28eHTk/pJpd94zI6d/ruwWhkr7sAT7pxRJlKkZsRQE0FlbC4HE
+         ID4tNk5AveupWqiqx/jnxdaxtFkvZAERaf1fm+JbJsQxOZ/YmiSNU/XAMm+S6TY7ya4f
+         pn7t6roaIzfUuTNafZ8thRs3PdPh6yiZIh8bV1swWxapb2wg5RfnkMpnN8bI+kbVJ+P7
+         WJtwsFxkeEmWbnXjPRQ3NLwE2xjs4AkI2RB1/HBFef632RJRpaMpLfQXb6f0OInxZCUG
+         wmSRF2vtGP6mPXpmrA5JOukYCIgBAVZcTN2Xj3asstQri0bimrgmKiWXm+6asBquz/EG
+         9syA==
+X-Gm-Message-State: AOAM530aRZmPeI08jmNCi2Ad4l1TYA5qytLBf4O/JwuJ+H0a8CnB1N2F
+        C+vyt3YrJ61lK7XigiXwtPs=
+X-Google-Smtp-Source: ABdhPJxx5TejvJ1UMbb6Ox5G2kWXTyvjq873WXc0CXR+MyuirCugiGPfDe7uTD981oW+3ZnIYM16fQ==
+X-Received: by 2002:ad4:5187:: with SMTP id b7mr3300492qvp.2.1610560123462;
+        Wed, 13 Jan 2021 09:48:43 -0800 (PST)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
+        by smtp.gmail.com with ESMTPSA id f22sm1464173qkl.65.2021.01.13.09.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 09:48:42 -0800 (PST)
+Date:   Wed, 13 Jan 2021 10:48:41 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>
+Subject: Re: [PATCH v4 1/3] Remove $(cc-option,-gdwarf-4) dependency from
+ CONFIG_DEBUG_INFO_DWARF4
+Message-ID: <20210113174841.GA4158893@ubuntu-m3-large-x86>
+References: <20210113003235.716547-1-ndesaulniers@google.com>
+ <20210113003235.716547-2-ndesaulniers@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqL-HgQ__sVR4hL85AT0DC7e0SCNy3gnrzu4=CuX2f8xMw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210113003235.716547-2-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 1/13/21 9:05 AM, Rob Herring wrote:
-> On Tue, Jan 12, 2021 at 8:20 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>
->> On 1/12/21 2:46 PM, Rob Herring wrote:
->>> On Tue, Jan 12, 2021 at 2:05 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>>>
->>>> On 1/12/21 1:41 PM, Rob Herring wrote:
->>>>> On Tue, Jan 12, 2021 at 1:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>>>>>
->>>>>> On 1/12/21 8:04 AM, Rob Herring wrote:
->>>>>>> On Mon, Jan 11, 2021 at 4:06 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>>>>>>>
->>>>>>>> On 1/8/21 2:41 AM, Viresh Kumar wrote:
->>>>>>>>> Now that fdtoverlay is part of the kernel build, start using it to test
->>>>>>>>> the unitest overlays we have by applying them statically.
->>>>>>>>>
->>>>>>>>> The file overlay_base.dtb have symbols of its own and we need to apply
->>>>>>>>> overlay.dtb to overlay_base.dtb alone first to make it work, which gives
->>>>>>>>> us intermediate-overlay.dtb file.
->>>>>>>>>
->>>>>>>>> The intermediate-overlay.dtb file along with all other overlays is them
->>>>>>>>> applied to testcases.dtb to generate the master.dtb file.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
->>>>>>>>
->>>>>>>> NACK to this specific patch, in its current form.
->>>>>>>>
->>>>>>>> There are restrictions on applying an overlay at runtime that do not apply
->>>>>>>> to applying an overlay to an FDT that will be loaded by the kernel during
->>>>>>>> early boot.  Thus the unittest overlays _must_ be applied using the kernel
->>>>>>>> overlay loading methods to test the kernel runtime overlay loading feature.
->>>>>>>
->>>>>>> This patch doesn't take away from any of that and it completely orthogonal.
->>>>>>
->>>>>> Mea culpa.  I took the patch header comment at face value, and read more into
->>>>>> the header comment than what was written there.  I then skimmed the patch
->>>>>> instead of actually reading what it was doing.
->>>>>>
->>>>>> I incorrectly _assumed_ (bad!) that the intent was to replace applying the
->>>>>> individual overlay dtb's with the master.dtb.  Reading more closely, I see
->>>>>> that the assumed final step of actually _using_ master.dtb does not exist.
->>>>>>
->>>>>> So, yes, I agree that the patch as written is orthogonal to my concern.
->>>>>>
->>>>>> My updated understanding is that this patch is attempting to use the existing
->>>>>> unittest overlay dts files as source to test fdtoverlay.  And that the resulting
->>>>>> dtb from fdtoverlay is not intended to be consumed by the kernel unittest.
->>>>>
->>>>> The goal is not to test fdtoverlay. dtc unittests do that. The goal is
->>>>> testing overlays we expect to be able to apply can actually apply and
->>>>> doing this at build time. That's also the goal for all the 'real'
->>>>> overlays which get added.
->>>>>
->>>>>> I do not agree that this is a good approach to testing fdtoverlay.  The
->>>>>> unittest overlay dts files are constructed specifically to test various
->>>>>> parts of the kernel overlay code and dynamic OF code.  Some of the content
->>>>>> of the overlays is constructed to trigger error conditions in that code,
->>>>>> and thus will not be able to be processed without error by fdtoverlay.
->>>>>
->>>>> Then those should be omitted.
->>>>>
->>>>>> Trying to use overlay dts files that are constructed to test runtime kernel
->>>>>> code as fdtoverlay input data mixes two different test environments and
->>>>>> objectives.  If fdtoverlay test cases are desired, then fdtoverlay specific
->>>>>> dts files should be created.
->>>>>>
->>>>>>>
->>>>>>>> I agree that testing fdtoverlay is a good idea.  I have not looked at the
->>>>>>>> parent project to see how much testing of fdtoverlay occurs there, but I
->>>>>>>> would prefer that fdtoverlay tests reside in the parent project if practical
->>>>>>>> and reasonable.  If there is some reason that some fdtoverlay tests are
->>>>>>>> more practical in the Linux kernel repository then I am open to adding
->>>>>>>> them to the Linux kernel tree.
->>>>>>>
->>>>>>> If you (or more importantly someone else sending us patches) make
->>>>>>> changes to the overlays, you can test that they apply at build time
->>>>>>> rather than runtime. I'll take it! So please help on fixing the issue
->>>>>>> because I want to apply this.
->>>>>>
->>>>>> If the tests can be added to the upstream project, I would much prefer
->>>>>> they reside there.  If there is some reason a certain test is more
->>>>>> suited to be in the Linux kernel source tree then I also would like
->>>>>> it to be accepted here.
->>>>>
->>>>> Again, this is just about doing sanity checks at build time rather
->>>>> than *only* rely on runtime.
->>>>
->>>> I'm fine with adding tests for applying overlays at build time (in
->>>> other words, tests of fdtoverlay).
->>>
->>
->>> Again, it's not tests of fdtoverlay. It's a test of the dts files. We
->>> are testing that an overlay dts can apply to the base dts we claim it
->>> applies. If the overlay dts has crap then we'll catch it.
->>>
->>> We shouldn't accept overlays that can't apply to a base in the kernel
->>> tree. That's either because it's broken or because the base doesn't
->>> exist. With the exception of overlays designed to fail for tests,
->>> unittest overlays should not be any different.
->>
->> I understood the goal to be testing fdtoverlay.  I'll switch my mind
->> set to the goal being a test of dts files.
->>
->> We already know that unittest overlays that are expected to be valid
->> can apply successfully.  The run time unittests already check for that.
+On Tue, Jan 12, 2021 at 04:32:33PM -0800, Nick Desaulniers wrote:
+> From: Masahiro Yamada <masahiroy@kernel.org>
 > 
-> As soon as I apply a patch to one I don't know it's valid or can apply anymore.
+> The -gdwarf-4 flag is supported by GCC 4.5+, and also by Clang.
 > 
->> I don't see any value in adding a build time test for the same thing
->> _for unittest overlay dts files_.  And I do see an ongoing maintenance
->> cost for _unittest overlay dts files_.
+> You can see it at https://godbolt.org/z/6ed1oW
 > 
-> 0-day, kernelci, etc. will all build time test it. Actually, everyone
-> doing allmodconfig builds will. Runtime testing requires *my* time.
+>   For gcc 4.5.3 pane,    line 37:    .value 0x4
+>   For clang 10.0.1 pane, line 117:   .short 4
+> 
+> Given Documentation/process/changes.rst stating GCC 4.9 is the minimal
+> version, this cc-option is unneeded.
+> 
+> Note
+> ----
+> 
+> CONFIG_DEBUG_INFO_DWARF4 controls the DWARF version only for C files.
+> 
+> As you can see in the top Makefile, -gdwarf-4 is only passed to CFLAGS.
+> 
+>   ifdef CONFIG_DEBUG_INFO_DWARF4
+>   DEBUG_CFLAGS    += -gdwarf-4
+>   endif
+> 
+> This flag is used when compiling *.c files.
+> 
+> On the other hand, the assembler is always given -gdwarf-2.
+> 
+>   KBUILD_AFLAGS   += -Wa,-gdwarf-2
+> 
+> Hence, the debug info that comes from *.S files is always DWARF v2.
+> This is simply because GAS supported only -gdwarf-2 for a long time.
+> 
+> Recently, GAS gained the support for --dwarf-[3|4|5] options. [1]
+> And, also we have Clang integrated assembler. So, the debug info
+> for *.S files might be improved if we want.
+> 
+> In my understanding, the current code is intentional, not a bug.
+> 
+> [1] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=31bf18645d98b4d3d7357353be840e320649a67d
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> I'd like to say runtime testing is part of my highly automated
-> workflow and unittests get run all the time, but they don't.
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-I would like to think that if you apply a patch _to a unittest overlay_
-that you would run the unittests afterward.  But I can also see that applying
-a random patch to devicetree code could also unexpectedly result in a unittest
-failing.
-
-OK, I would say that helping your workflow is sufficient positive value to
-more than offset the slightly negative that I was noting.  A simple one
-line comment at the list of unittest overlays static tested saying that some
-other overlays are not tested because they are designed to intentionally fail
-to apply would make me happy.
-
-And fortunately I do run the unittests, normally for each major release and
-each -rc1 at a minimum so at least that much unittest coverage is present.
-My big unittest gap is that I don't test all architectures.
-
-I withdraw my NACK.
-
--Frank
-
+> ---
+>  lib/Kconfig.debug | 1 -
+>  1 file changed, 1 deletion(-)
 > 
->> If you want to add build time tests for all (or some) non-unittest overlay
->> dts files, then I am not particularly opposed to that (but being aware that
->> an overlay dtb could apply on top of more than one base dtb, so there
->> is a possibility of an "explosion" of combinations to be maintained
->> in the build system).
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 78361f0abe3a..dd7d8d35b2a5 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -258,7 +258,6 @@ config DEBUG_INFO_SPLIT
+>  
+>  config DEBUG_INFO_DWARF4
+>  	bool "Generate dwarf4 debuginfo"
+> -	depends on $(cc-option,-gdwarf-4)
+>  	help
+>  	  Generate dwarf4 debug info. This requires recent versions
+>  	  of gcc and gdb. It makes the debug information larger.
+> -- 
+> 2.30.0.284.gd98b1dd5eaa7-goog
 > 
-> Yes, that could be a problem. I think reality is most overlays we're
-> willing to accept will be board specific.
-> 
->> I see value in having build time testing that overlay dtbs apply cleanly
->> on a base dtb.  I have heard frustration from the out of tree users of
->> overlays that apply the overlays via the bootloader, because if the
->> bootloader fails to apply an overlay it can be difficult to debug or
->> fix on the target computer.  Having a mechanism to specify what overlays
->> are intended to be applied to a base dtb, and verify that they do
->> apply would resolve some of those issues, assuming the boot loader
->> and fdtoverlay are consistent with each other.
-> 
-> Yes, that's one main reason to require applying them at build time.
-> 
-> The other is if people want to refactor a current dtb into a base and
-> overlay, then we should still produce the original combined dtb.
-> 
->>>> But the constraints on applying an overlay at build time are different
->>>> than the runtime constraints.
->>>
->>> Like what specifically? Runtime is more constrained than build time.
->>> Or at least it should be. It's not really and that's why we have
->>> limited runtime applied overlay support.
->>>
->>>> The existing unittest overlay dts files are not designed to test applying
->>>> overlays at build time.  Tests for fdtoverlay should be designed to test
->>>> that overlays that meet the build time constraints can be applied
->>>> properly by fdtoverlay, and that overlays that fail to meet those
->>>> constraints are rejected by fdtoverlay.
->>>>
->>>> Trying to use the same data (dts) files for tests that have different
->>>> constraints is likely to make both tests more fragile when a data file
->>>> is modified for one environment without careful consideration of the
->>>> other environment.
->>>
->>> We're not changing nor constraining the data files. Just adding
->>> another sanity test on them.
->>
->> For _unittest_ dts files, I see no value add.  And the cost of needing
->> to track _in the build system_ which unittest dts files are expected fail
->> to apply and which are expected to succeed.
-> 
-> It costs nothing to add it (well, it would have been before this
-> thread). If it becomes problematic, then we can drop it.
-> 
-> Rob
-> 
-
