@@ -2,102 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 435BD2F6D83
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 22:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE2C2F6EF2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Jan 2021 00:30:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726311AbhANVvH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jan 2021 16:51:07 -0500
-Received: from m43-15.mailgun.net ([69.72.43.15]:39884 "EHLO
-        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727105AbhANVvE (ORCPT
+        id S1730776AbhANX32 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jan 2021 18:29:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725863AbhANX31 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jan 2021 16:51:04 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610661038; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=bDsVTj2cKX1cZoU2AYambzFFPeSqYwzNNDgdqAFQBTs=; b=WLNz2fVhhIukf7LRLpZ/HNVyRC8WT7B1gMl1MpKnMcfxzJ3mCHgbTAFov4gmMUkNQf1TiqQ4
- YmZ/U1qIimyXgmLnph1gHl8I2gADngK1+bxPwaCygDbUg19kvOuvfb0sv6OiBneQZljVcb65
- gIDxTk7KonocOp/2EH4wFH2bBMM=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 6000bc948fb3cda82f2c6e0f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 14 Jan 2021 21:50:12
- GMT
-Sender: jjohnson=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id D45C4C433ED; Thu, 14 Jan 2021 21:50:11 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jjohnson)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5FD8EC433CA;
-        Thu, 14 Jan 2021 21:50:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5FD8EC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jjohnson@codeaurora.org
-From:   Jeff Johnson <jjohnson@codeaurora.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     psodagud@quicinc.com, eberman@quicinc.com, ndesaulniers@google.com,
-        Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>,
-        Jeff Johnson <jjohnson@codeaurora.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 14 Jan 2021 18:29:27 -0500
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59719C061757
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 15:28:47 -0800 (PST)
+Received: by mail-vs1-xe2b.google.com with SMTP id o19so4097483vsn.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 15:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=YNkuzh3cue5mJB344uZoSt9d7S7ZdoN0+r7iVu02sns=;
+        b=T93v+xokqOUqINukDwyKMsRBhfSoHpLvOHzUZ75sCVP+oadOwz0bG/vgs1+Zl5dwUd
+         zmWttY74fDpIMEcN3+9xxEITxiYMAEuXXrNtDVoYI7Kj5p4RT6Y+iRXnkl9EYL2YEZxi
+         Jn20VdbZW+mfjK82ZXfBuhH4KRaxJTQ8m7OYyybjm2jCP9U39HmylE14FIRRJ7MQwXHT
+         xjYCJ8B/cBA3vYwq00y309V8AYiHWyPR7VS6Ob3SpnCIPIhhWKvdQqHahC67GmuSiWYc
+         ZpURGu5nrlgEJtBx5oT/i1oy9dTd555AGD4cJhCZOAYRZiJUo2YWr3E2dOL4EXHPhF3f
+         3PbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=YNkuzh3cue5mJB344uZoSt9d7S7ZdoN0+r7iVu02sns=;
+        b=lRG+H+mM0EaZ/+yRicjLbA2nu75Smbwjp5FvdRai5lXSX9Ej5jM2P3wyxttQO6rh3s
+         nTWUkYC1oeOSAy/YKjxq8zQla2vd+VnubMDR2Dv3c9tidHcSkwinx3ABy5bDH/h93leg
+         7Ax99MnhyT71Aim2/9hxDNJwfxZ7QfHLFWyYI2yhtomkcig71olzYu/OIXRpVwIPSRbH
+         AMjoRy81c6PnUdGuNagj8FGlMTVozKqEb8QP/ouM4ks9hxfseOdPbcL0mPG9eSM/WKKm
+         VOhKGC3UqGCFRtGWjy7UR7VIfs4WfTuBxqnax9m1TXW1NJXZgFwxcCMwENN6NBoh7CXL
+         Ltrw==
+X-Gm-Message-State: AOAM532KaF6ihDsCuGD+o7Q5+8KGn8H1uSJYuOXUCGyMCH+kAEiR3IVF
+        +pagKHrRONNp3y8JRgVOftF4FXM3HEpFvZlvf+E=
+X-Google-Smtp-Source: ABdhPJwXaouC7VD8NbxptzIrTvokSjLArkoU7lnJ3AJhJXIswJIhZ4NtFVrQYwZL8FQIsY6zLSKAwNrgl5GFOE8hixk=
+X-Received: by 2002:a67:f550:: with SMTP id z16mr9317514vsn.20.1610666925966;
+ Thu, 14 Jan 2021 15:28:45 -0800 (PST)
+MIME-Version: 1.0
+From:   Michel Lespinasse <walken.cr@gmail.com>
+Date:   Thu, 14 Jan 2021 15:28:35 -0800
+Message-ID: <CAL36u31HRhkYJ-QFjx0tCzRnj0CXSQEW2LqZeGK6fnyt7Z18Zg@mail.gmail.com>
+Subject: Fast target for debian linux-image package creation
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] kbuild: handle excessively long argument lists
-Date:   Thu, 14 Jan 2021 13:49:50 -0800
-Message-Id: <1610660990-18812-1-git-send-email-jjohnson@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610500731-30960-2-git-send-email-jjohnson@codeaurora.org>
-References: <1610500731-30960-2-git-send-email-jjohnson@codeaurora.org>
+        Riku Voipio <riku.voipio@linaro.org>
+Cc:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>
+Hi,
 
-Modules with a large number of compilation units may be
-exceeding AR and LD command argument list. Handle this gracefully by
-writing the long argument list in a file. The command line options
-read from file are inserted in place of the original @file option.
+I am looking for a fast target to build debian linux-image packages,
+to be used for quickly testing things (dev/test cycle) rather than for
+full proper releases.
 
-The usage is well documented at
-https://www.gnu.org/software/make/manual/html_node/File-Function.html
+The current bindeb-pkg almost does what I want, but not quite:
+- It still creates linux-headers and linux-libc-dev packages; overall
+taking about 3x the time than would be needed for just the linux-image
+package;
+- It places packages in .. ; I would prefer to have them in a the root
+of my kernel tree or in a subdirectory thereof.
 
-Signed-off-by: Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>
-Signed-off-by: Jeff Johnson <jjohnson@codeaurora.org>
----
+(I figure these goals are probably similar to those of the fastdeb-pkg
+target that was proposed in
+https://patchwork.kernel.org/project/linux-kbuild/patch/20170331130941.5250-4-riku.voipio@linaro.org/
+; I am not sure if there is any ongoing discussion about that)
 
-Changes in v2:
-  - Remove spurious endif
-  
-scripts/Makefile.build | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The following change to the builddeb script implements both of the
+desired goals:
+- builds only the linux-image package if NO_HEADER_PACKAGES is set;
+- creates packages in $UPLOAD_DIR instead of .. if set
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 252b7d2..787dca2 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -425,7 +425,10 @@ $(obj)/lib.a: $(lib-y) FORCE
- # module is turned into a multi object module, $^ will contain header file
- # dependencies recorded in the .*.cmd file.
- quiet_cmd_link_multi-m = LD [M]  $@
--      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
-+      cmd_link_multi-m =					\
-+	$(file >$@.in,$(filter %.o,$^))				\
-+	$(LD) $(ld_flags) -r -o $@ @$@.in;			\
-+	rm -f $@.in
- 
- $(multi-used-m): FORCE
- 	$(call if_changed,link_multi-m)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+diff --git scripts/package/builddeb scripts/package/builddeb
+index 91a502bb97e8..b83a4a09a75d 100755
+--- scripts/package/builddeb
++++ scripts/package/builddeb
+@@ -50,7 +50,7 @@ create_package() {
 
+        # Create the package
+        dpkg-gencontrol -p$pname -P"$pdir"
+-       dpkg-deb $dpkg_deb_opts ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS}
+--build "$pdir" ..
++       dpkg-deb $dpkg_deb_opts ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS}
+--build "$pdir" "${UPLOAD_DIR:-..}"
+ }
+
+ deploy_kernel_headers () {
+@@ -208,7 +208,7 @@ EOF
+        chmod 755 "$tmpdir/DEBIAN/$script"
+ done
+
+-if [ "$ARCH" != "um" ]; then
++if [ "$ARCH" != "um" -a -z "$NO_HEADER_PACKAGES" ]; then
+        if is_enabled CONFIG_MODULES; then
+                deploy_kernel_headers debian/linux-headers
+                create_package linux-headers-$version debian/linux-headers
+
+Even with this, the .changes and .buildinfo files are still created in
+.., though.
+
+I am using the following target in Makefile.package to drive this:
+
+diff --git scripts/Makefile.package scripts/Makefile.package
+index f952fb64789d..304073f5fbcd 100644
+--- scripts/Makefile.package
++++ scripts/Makefile.package
+@@ -82,6 +82,13 @@ bindeb-pkg:
+        $(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
+        +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat
+debian/arch) $(DPKG_FLAGS) -b -nc -uc
+
++PHONY += bindeb-kpkg
++bindeb-kpkg:
++       KDEB_PKGVERSION=1 $(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
++       @if test ! -e pkgs; then mkdir pkgs; echo "*" > pkgs/.gitignore; fi
++       +UPLOAD_DIR=pkgs NO_HEADER_PACKAGES=1 dpkg-buildpackage
+-r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -b -nc -uc
+--buildinfo-option=-upkgs --changes-option=-q --changes-option=-upkgs
++       @version="$(KERNELRELEASE)_1_$$(cat debian/arch)" && rm -f
+"pkgs/linux-$${version}.buildinfo" "../linux-$${version}.changes" &&
+ln -sf "linux-image-$${version}.deb" "pkgs/LATEST.deb"
++
+ PHONY += intdeb-pkg
+ intdeb-pkg:
+        +$(CONFIG_SHELL) $(srctree)/scripts/package/builddeb
+
+This is as clean as I was able to make it, though still not perfect -
+I think it would be much nicer if it was possible not to create the
+.buildinfo and .changes files at all in the first place.
+
+Would anyone have suggestions as to how to clean up those bits, and
+also, would there be any interest in integrating this upstream ?
+
+Thanks,
