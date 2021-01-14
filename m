@@ -2,116 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6173D2F5A1D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 06:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 909D22F5A25
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 06:04:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbhANFBi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jan 2021 00:01:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55776 "EHLO
+        id S1726363AbhANFD6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jan 2021 00:03:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbhANFBi (ORCPT
+        with ESMTP id S1725943AbhANFD6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jan 2021 00:01:38 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFC7C061786
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 21:00:58 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id v3so2298567plz.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 21:00:58 -0800 (PST)
+        Thu, 14 Jan 2021 00:03:58 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959C3C061575
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 21:03:12 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id t6so2327956plq.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 21:03:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=cE42hFVWguryUlCy208ZPD2cycUw1CkNT9EoleozTcg=;
-        b=T+xOhJjkUwkFDehOd5lqfyjQlHhT1i8lTPkAHdt7hR/Mc9HxU1ffN8TCrfP6Cg3vfT
-         04w4O7r+q7p9+mYR2sTVgqmVPXYkNP29UpjJhYaSC2CLkUj9ByqX0yfFxWjhFCxglc4F
-         9265lD9q0OJZF/BX+ofCrZXoEL9deZaEqYLCF42nJiZFYH20bZId3xFcrZjbJjg9eKrw
-         lwDGzGT4G979NSEMf1NRb9ytA/vhjSPPPO3YK6XWh2z1OWRr2hFTstAKjkdNAw1OxG+J
-         bhBkl3FfQYjvFUqpZeSbNRg92j6DOSjA5Zc5AI8diKdusrneAUJ5VgTq+I6DOqnH7Jl8
-         ZLcg==
+        bh=V92Nts5/LO1MQK5AF4Md88e71CzExZyVy0PrsnyGWp0=;
+        b=ZIxkgSKOQxF2SnlRPa6ijaMDFwCzAMhvi1F3o319zniXgVzkIhhfQgrrHJ0pWESuh5
+         pu+fIo2h9He99+kKwwSaMt9yTh5j9j4MizNabPeRPUONTUAqxB/oUntpS402Q9BUSoRP
+         om6412OmHNrqDBcu7c28PCw8Dq/Z0u2ZNNcbHj+GbJkM9AcPg5oVB+BMHF8d7fsgSQnx
+         22NWxfglaksP+upjqXHyTtlvAnXn5mkPv1JvKQAkZkC65KSCf5NLtaG60ExjmvkRthpC
+         RwT6WkKEXfwIwrlK9xBgN18XTT5XjKtj/pSzbUb6k0YhGx0a2X6kMvEDckvFyt9Cb7fH
+         fVzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cE42hFVWguryUlCy208ZPD2cycUw1CkNT9EoleozTcg=;
-        b=uOtxNMyh4IrHFwujfzPWZ1nhQAtEZCsQcvWJhXbX7ZxDAe3h/44fPgbLNc+aZedyf9
-         3dlKXVmFwFm5JYIErL+lETHDounIYEYPYc5roGRwkX1SVPzk6jKHJ2XdBIvS44OKs9Ol
-         NIK5FbisSUj9E7bb5OA8Ry8MicfHtaGnnfC/IO+np+57gXEkHBoKmqrC5a3Z3G2s8WR3
-         dnmZjCGL20t2ul7RG5SVN2ti2X5kMnMHe3RKaXSlnyM+PK8BAsy+qxLvgAqIf4OTZsFT
-         eNGLGYefptjW04Lskr1VzTl91ns1KHjP9fTi9T9OwAPZwqT6QZ2hi7+vjL36d5Om2fyg
-         WAHA==
-X-Gm-Message-State: AOAM530YQuqcPVgDHr8HF7VY9XCEecka4lNHxvRfnmk6Ziue6Qv7VY5F
-        7sGkTEt+ozi/VC9tmO3woUciINqbqmJBCQ==
-X-Google-Smtp-Source: ABdhPJxmovMsDDzMfYod9jPsoYrPikEBudEzDVbQ7NJePchZ7rsR/uQyoELD5H7C/+Q8y9eUaMHQng==
-X-Received: by 2002:a17:90a:ee8f:: with SMTP id i15mr3056399pjz.82.1610600457673;
-        Wed, 13 Jan 2021 21:00:57 -0800 (PST)
+        bh=V92Nts5/LO1MQK5AF4Md88e71CzExZyVy0PrsnyGWp0=;
+        b=WXyUnAZrckJsK1NBHQ6voC6BN3/ON1liP+ZXRM0ScXCfbxQfWBTCtRjkCTlCO638kc
+         8y0fs3zkx11/YDrh46Ai7XAemdh5aU+zyMwdHBk1RNsx63OindPSLxrC03six6ETn6cg
+         XK57234YNytJhIrCjsjPH/IaGqdyln1aj2kk4H8UkjpoSIOvcQcTqr7NuBsz0yE7kroI
+         9leF+jqrAUEwbrheZ/CcEY9cFCcME85oFV5Qx1Vpq5LnxiM81qhac6KvpcqKMBIYOiQu
+         8cDKIoY0XL+/nkuEd6gFq3Xw0/sI0jkohgv83fr9Bm/K3enHMmXn40VycG5Hqunm2t1g
+         qvTA==
+X-Gm-Message-State: AOAM53114OzbNDfSTBFDuNcxhRiS0lkLVShMENvmllS+zp4SgmqRRJza
+        ppV2OgBdUAbzo7wiNJh7JSsp5A==
+X-Google-Smtp-Source: ABdhPJxX5ENfqzDWGtwN0g0Mu9zNq2fqM69el2/2b6RDTGqJ2Ab91yOr9QgqkUUcG4WPLZzQKWye4w==
+X-Received: by 2002:a17:902:b587:b029:de:23ed:88b1 with SMTP id a7-20020a170902b587b02900de23ed88b1mr5978581pls.61.1610600592151;
+        Wed, 13 Jan 2021 21:03:12 -0800 (PST)
 Received: from localhost ([122.172.85.111])
-        by smtp.gmail.com with ESMTPSA id gz5sm4294731pjb.15.2021.01.13.21.00.56
+        by smtp.gmail.com with ESMTPSA id x125sm4083867pgb.35.2021.01.13.21.03.11
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 Jan 2021 21:00:56 -0800 (PST)
-Date:   Thu, 14 Jan 2021 10:30:54 +0530
+        Wed, 13 Jan 2021 21:03:11 -0800 (PST)
+Date:   Thu, 14 Jan 2021 10:33:09 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
         Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
+        Bill Mills <bill.mills@linaro.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
         Masahiro Yamada <masahiroy@kernel.org>
 Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-Message-ID: <20210114050054.gfkllnr45pgvwcd7@vireshk-i7>
+Message-ID: <20210114050309.wokrhw4o3cjxj5uo@vireshk-i7>
 References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
  <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <CAL_JsqLpbSOk-OST8Oi7uyFVjekX-15713F1FbDCQWfVWgikMw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+In-Reply-To: <CAL_JsqLpbSOk-OST8Oi7uyFVjekX-15713F1FbDCQWfVWgikMw@mail.gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Frank/Rob.
+On 11-01-21, 09:46, Rob Herring wrote:
+> On Fri, Jan 8, 2021 at 2:41 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> >
+> > Now that fdtoverlay is part of the kernel build, start using it to test
+> > the unitest overlays we have by applying them statically.
+> 
+> Nice idea.
+> 
+> > The file overlay_base.dtb have symbols of its own and we need to apply
+> > overlay.dtb to overlay_base.dtb alone first to make it work, which gives
+> > us intermediate-overlay.dtb file.
+> 
+> Okay? If restructuring things helps we should do that. Frank?
 
-On 08-01-21, 14:11, Viresh Kumar wrote:
-> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
-> index 009f4045c8e4..f17bce85f65f 100644
-> --- a/drivers/of/unittest-data/Makefile
-> +++ b/drivers/of/unittest-data/Makefile
-> @@ -38,3 +38,26 @@ DTC_FLAGS_testcases += -@
->  
->  # suppress warnings about intentional errors
->  DTC_FLAGS_testcases += -Wno-interrupts_property
-> +
-> +# Apply overlays statically with fdtoverlay
-
-I will update this part to mention about the dtbs we are not using in the build
-as they will fail (as per Frank's comment).
-
-Is there anything else you guys want me to change before I send the next version
-?
-
-> +intermediate-overlay	:= overlay.dtb
-> +master			:= overlay_0.dtb overlay_1.dtb overlay_2.dtb \
-> +			   overlay_3.dtb overlay_4.dtb overlay_5.dtb \
-> +			   overlay_6.dtb overlay_7.dtb overlay_8.dtb \
-> +			   overlay_9.dtb overlay_10.dtb overlay_11.dtb \
-> +			   overlay_12.dtb overlay_13.dtb overlay_15.dtb \
-> +			   overlay_gpio_01.dtb overlay_gpio_02a.dtb \
-> +			   overlay_gpio_02b.dtb overlay_gpio_03.dtb \
-> +			   overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
-> +			   intermediate-overlay.dtb
-> +
-> +quiet_cmd_fdtoverlay = fdtoverlay $@
-> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
-> +
-> +$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
-> +	$(call if_changed,fdtoverlay)
-> +
-> +$(obj)/master.dtb: $(obj)/testcases.dtb $(addprefix $(obj)/,$(master))
-> +	$(call if_changed,fdtoverlay)
-> +
-> +always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
+Frank, do we want to do something about it ? Maybe make overlay_base.dts an dtsi
+and include it from testcases.dts like the other ones ?
 
 -- 
 viresh
