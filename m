@@ -2,168 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1215C2F5B73
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 08:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7EB2F5BC1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 08:58:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727379AbhANHkE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jan 2021 02:40:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33226 "EHLO
+        id S1727457AbhANHzo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jan 2021 02:55:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727377AbhANHkD (ORCPT
+        with ESMTP id S1726951AbhANHzo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jan 2021 02:40:03 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2390C061786;
-        Wed, 13 Jan 2021 23:39:22 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id o6so9347296iob.10;
-        Wed, 13 Jan 2021 23:39:22 -0800 (PST)
+        Thu, 14 Jan 2021 02:55:44 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E57C061575;
+        Wed, 13 Jan 2021 23:55:03 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id h205so6730628lfd.5;
+        Wed, 13 Jan 2021 23:55:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=pDkl50wKKXvlnFEMyoCOA4eiXkVtCkofqFa11F/2prs=;
-        b=LZyONW5l41afxbiMWOMOs2HO+Ycvj/ZhU6K3xVqaHgQmQgTGvC1VQ1gc6kVTsnGFKJ
-         cmL7EHu+N03GO+52M3MV2CNuYp5od3c08tcT4hFsrAZpMZ3bmTUxl8b+L7yv4UNwPdU+
-         TvSw9dtuJ/2nVUNZlFoy1x22WzDToEqa8CQB8oUIaZRUkFbzU51MT90mThiwyeodhDZM
-         0f2nX0dcifQEi3DsWP81K2g5pcFZpilE/644iPlx2Ie6SraPNbekg18NWSylqf0BSYCt
-         /zrNRyt0B9abhw5pPdskxkXdremW4yHbcGPAr1aOBU+8Q9SfhmmByiTZ45JdMzj+IzMQ
-         pJTA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pP/ngkC2SUBvu5ZyykKyP1Wg6ESrX20r51brPw8EwXQ=;
+        b=TzY9Q2KP6JTchYjg9Kiwl+HUS4cUiIuPDf6Bt4DxgC/mUAD7urumN/er4+4H6kea2o
+         5D6ZXs5SUQ4QRowzfjaYFpP5AX1xq5ict92POI8QFdfGwJQXRO/NjUp1UZwLqAuXlPzP
+         aqSKKHz737D9zGk7iVm4Paw0noFzR3PbeJl9S3M2Eyk82mMrxI9IWKRLCQiGeAtU4+Uv
+         WAy8Chd03tclC/Ey/0YpntLXbd9JmiA80V4pmWfpkNpBQQJlwrc3a5+d/Ow5HsQNFk10
+         NrV7aqjPqiyQpAnJpJQDuNcSxfC8ktwWHbD4PpRaDxaRMlBCpHT4Fr2U2p/gmwqdFIsp
+         WVLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=pDkl50wKKXvlnFEMyoCOA4eiXkVtCkofqFa11F/2prs=;
-        b=SMXAXCxx2a9ipsBYY9Fw+bNmiyoR2HgGBuVUcjdkLKQo2AXb9xM3itEqUI7ptHhG58
-         XJdsT9ntvH6ORA4owA5YBawiSTZQuxhOPX/8KyqEHK+Blv+wWnh53neF4wMRjSdaVfdG
-         NyByoa2JgoG/IS9TEFhXkKCflRxH01O+Qgzbz+ZKQv63wsbrA2Dk7p/BYSXA30KMiTkS
-         1kNH4r8d/czRl4ifGQ4Xl3F+F6BVUr073nC5Q2ttOF/spPLA2BSVHVpJTLJB1StvCgNR
-         zVia1aSMI6uzyT/VEWi+eZigYISGXjmUlu1O2Ahp/V2yFvtgmXZ0psuJmeHbyRn1ZTK0
-         x5MA==
-X-Gm-Message-State: AOAM5337QjXeKf3nFZpEZJNw19wStoy9J3UiIwcIKEmLF9nDds/XVdiS
-        kC0YuZT1uEzXv7lj6t69tazX+QAbZP8cBHtfB2I=
-X-Google-Smtp-Source: ABdhPJybXK0BLNSRQ7Ixe4ZXs/7KsiW13lw8MOehz5t9ImRNCgGZwZITi4quK9lNA4M+jLD8VYG7wr74zmhPCg8g1f8=
-X-Received: by 2002:a92:d990:: with SMTP id r16mr5718971iln.10.1610609962241;
- Wed, 13 Jan 2021 23:39:22 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pP/ngkC2SUBvu5ZyykKyP1Wg6ESrX20r51brPw8EwXQ=;
+        b=PJwklCy+SntJL8bx5Z4a9adTmboyaa6dXLNsf703LCPJMGmFtwKdmYhV/B9tLJttzS
+         Y6YVw6Ai05LZkztqRtL9tENell0vKZzR8L5/9D/u2qf0KHmy/xeETLTknWY7zM9MQnO3
+         SLHaiqA9d38KAB7+ee+mPfwPsoquUdoof/LCTed9WOGPwX6KEhDoEbyGU4HhMDC7172C
+         zAZwNcwCWBh6q0zSFx3ayyyoKOJKZwSsBW3ixI+qKJHBTadJJ01ABJi/6MvQ4l51fcbs
+         VsXkUWOHgLflWEW689R6ysUjqaFcjAp080vJXiLhEuVe6IUyVH13LtO8F50+YRtYD+cW
+         TfKg==
+X-Gm-Message-State: AOAM533EuOcKpJ0y8jM7n1+ZHtigy0ievYfCi4tj/F219tMFsTimgULx
+        2XRIjrrPv05aw627AhVGXmJoCsqKWdpkKUmjuNs=
+X-Google-Smtp-Source: ABdhPJwJlynOZL4zvvuKRWSDOV1NV4x9Chd95rncr4YiH5Yfdx6QFK7BJDKsJUUjYRxCDSwIZO/kNCmv9kz2dqYdf0Y=
+X-Received: by 2002:a19:8557:: with SMTP id h84mr2571151lfd.201.1610610902380;
+ Wed, 13 Jan 2021 23:55:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20210114003447.7363-1-natechancellor@gmail.com>
-In-Reply-To: <20210114003447.7363-1-natechancellor@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 14 Jan 2021 08:39:11 +0100
-Message-ID: <CA+icZUXyqRH_bR5xjwZ_GvHp8xoWOqJtCORBX34NX0y9u2JYcQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: Add a section about supported architectures
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
+References: <20210114042420.229524-1-masahiroy@kernel.org>
+In-Reply-To: <20210114042420.229524-1-masahiroy@kernel.org>
+From:   Ilie Halip <ilie.halip@gmail.com>
+Date:   Thu, 14 Jan 2021 09:54:51 +0200
+Message-ID: <CAHFW8PRr6kjEE=7BSzWo7itSZgAhy_dhmnSe1yq5wMfDwEyJ9g@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: check the minimum compiler version in Kconfig
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 1:35 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> The most common question around building the Linux kernel with clang is
-> "does it work?" and the answer has always been "it depends on your
-> architecture, configuration, and LLVM version" with no hard answers for
-> users wanting to experiment. LLVM support has significantly improved
-> over the past couple of years, resulting in more architectures and
-> configurations supported, and continuous integration has made it easier
-> to see what works and what does not.
->
-> Add a section that goes over what architectures are supported in the
-> current kernel version, how they should be built (with just clang or the
-> LLVM utilities as well), and the level of support they receive. This
-> will make it easier for people to try out building their kernel with
-> LLVM and reporting issues that come about from it.
->
+Hi Masahiro,
 
-Thanks, this was overdue and is definitely helpful for users and developers.
+> +       #elif defined(__INTEL_COMPILER)
+> +       /* How to get the version of intel compiler? */
+> +       ICC     0               0               0
 
-For x86 64bit:
+According to Intel documentation[1], this should do the trick:
 
-   Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+    ICC     __INTEL_COMPILER  __INTEL_COMPILER_UPDATE
+__INTEL_COMPILER_BUILD_DATE
 
-Together with "[PATCH] kbuild: check the minimum compiler version in
-Kconfig" this looks very good to me.
+I don't have the compiler installed, but I tested this on godbolt[2] and
+looks fine to me. What do you think?
 
-/o\
-- Sedat -
+[1] https://software.intel.com/content/www/us/en/develop/documentation/cpp-compiler-developer-guide-and-reference/top/compiler-reference/macros/additional-predefined-macros.html
+[2] https://godbolt.org/z/E5PE6f
 
-[1] https://marc.info/?t=161059811000001&r=1&w=2
-
-> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
->  Documentation/kbuild/llvm.rst | 44 +++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 21c847890d03..b18401d2ba82 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -63,6 +63,50 @@ They can be enabled individually. The full list of the parameters: ::
->  Currently, the integrated assembler is disabled by default. You can pass
->  ``LLVM_IAS=1`` to enable it.
->
-> +Supported Architectures
-> +-----------------------
-> +
-> +LLVM does not target all of the architectures that Linux supports and
-> +just because a target is supported in LLVM does not mean that the kernel
-> +will build or work without any issues. Below is a general summary of
-> +architectures that currently work with ``CC=clang`` or ``LLVM=1``. Level
-> +of support corresponds to "S" values in the MAINTAINERS files. If an
-> +architecture is not present, it either means that LLVM does not target
-> +it or there are known issues. Using the latest stable version of LLVM or
-> +even the development tree will generally yield the best results.
-> +An architecture's ``defconfig`` is generally expected to work well,
-> +certain configurations may have problems that have not been uncovered
-> +yet. Bug reports are always welcome at the issue tracker below!
-> +
-> +.. list-table::
-> +   :widths: 10 10 10
-> +   :header-rows: 1
-> +
-> +   * - Architecture
-> +     - Level of support
-> +     - ``make`` command
-> +   * - arm
-> +     - Supported
-> +     - ``LLVM=1``
-> +   * - arm64
-> +     - Supported
-> +     - ``LLVM=1``
-> +   * - mips
-> +     - Maintained
-> +     - ``CC=clang``
-> +   * - powerpc
-> +     - Maintained
-> +     - ``CC=clang``
-> +   * - riscv
-> +     - Maintained
-> +     - ``CC=clang``
-> +   * - s390
-> +     - Maintained
-> +     - ``CC=clang``
-> +   * - x86
-> +     - Supported
-> +     - ``LLVM=1``
-> +
->  Getting Help
->  ------------
->
->
-> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
-> --
-> 2.30.0
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210114003447.7363-1-natechancellor%40gmail.com.
+I.H.
