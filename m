@@ -2,123 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57C5B2F56EE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 02:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 507712F5691
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 02:58:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727143AbhANBzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Jan 2021 20:55:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45352 "EHLO
+        id S1728556AbhANBtW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Jan 2021 20:49:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729618AbhAMXuZ (ORCPT
+        with ESMTP id S1727834AbhANAfn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jan 2021 18:50:25 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08268C0617A5
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 15:27:22 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id p18so2476386pgm.11
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 15:27:22 -0800 (PST)
+        Wed, 13 Jan 2021 19:35:43 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0205EC061786;
+        Wed, 13 Jan 2021 16:35:03 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id x126so2310733pfc.7;
+        Wed, 13 Jan 2021 16:35:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rhh6w6PnAshqzzDi7tIorGSnjSwjXHOfLfkdJH6Oxgk=;
-        b=UsAe64kOAc8ogK7jOBzOesd7Gj13f2B4Po8m+3R3dmVXJk6pEq3gYcmuaRd7El09bO
-         Pp9zCxf2v08t8ZWzssQTx0k0WdOnBcT3jgcHctNfwEtJoZYm3e3My7kUgzf5amFidX7U
-         3RAcgUTqJ/nW4n7VBXamre7h42HseZwdwLdsy8OXsvbzJcBMowDxF2ZoCDZz1+kzzXJv
-         j704xO1uL9COVu3l3LUelEPeCyK9q/+k0NcEh72F2vqTVL5V6wFlhm4hKS66EXiGDsqT
-         OIP8nNh5erhaKpw9pbAOhJIe0W3K8OMJi6dJhV32YQQE5oiccvLsW6hzifztteos5F4h
-         cXyw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9a07HwA8hrHoGWjqCa9LIGmpHo9wPiO5hANO4XpbneU=;
+        b=QuGjfVfi20kU6iytMLkRF5hq73PukNbSStaPBz9RkC2qsnTr9gGdZdrObgaetKGqpw
+         F+N8E1B+u9sBA3LR6Awko7WzdqYuX+lKgIKtHAig8yURCMfxtVubQhEqLEMBRRmqx0SH
+         LJVNgdY79TEktoczw1JFw6XGaif/5a5kMQ8WCUNwX+Bz3kuJ2JnAWDzru3vtSG4OXUnu
+         W/86vFLS2L3f7AUVFJt6nQ793duG8cGaOWc4gxzJHZqirv/ue3LsD7D4IAbfk7rYS59v
+         kJeLa3wxL/q9CIvXWbvUIZXLONJ3QRLM2YNthvfxDJdmKpIvnjPFpqWMwH+VEQUaDz0L
+         tmAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rhh6w6PnAshqzzDi7tIorGSnjSwjXHOfLfkdJH6Oxgk=;
-        b=W/ZjAppFdfV5jtUJ7h4dp0DRN99IMTDwX0frMzqYUPC0rwuUXfcuuLM+4n7XhQBP2n
-         LqjDtpyjpHs6scsm/ZEAb5xSURd6JrfFfY1LPVbozfrhlbKcZfOc/3LvtaquUu8ajR9f
-         /A4UEMQ7Ab5/b5bPzfpklzyLcd37rbKbSGFflfiW4Pbxxrttb4VFKkwj02qPFvWvXFyY
-         CEINfUVDWwji5zvVSmWfAiCf3mP0szyZLT5PcJk0G/AoqAxoQDezWMUi3AFyhG5wcHas
-         KB37VOGP0M7rvwzAFJX6ppImtASvwteqTi0xqQJDmhGyu5JIUeUYvd0ymLs/Zw5b+Gks
-         g9rA==
-X-Gm-Message-State: AOAM530VHfhP0ZKzVmkENF1whorkn0ZphYLYAJ818Ji3pfCrdNx5j61C
-        0/LYnHhLVROQVRIJL64hEiGBfCnxjGXRLsl32UTKoA==
-X-Google-Smtp-Source: ABdhPJynbg/QsB8oO89RHz2rLF3RFS5Hrqec+YsAoymztXcghiURgnIYfZbNXYr16Sz5/nfz/+3mrTX2fRX2z2LbEqI=
-X-Received: by 2002:a63:1142:: with SMTP id 2mr4397001pgr.263.1610580441323;
- Wed, 13 Jan 2021 15:27:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20210113003235.716547-1-ndesaulniers@google.com>
- <20210113003235.716547-3-ndesaulniers@google.com> <CA+icZUV6pNP1AN_JEhqon6Hgk3Yfq0_VNghvRX0N9mw6pGtpVw@mail.gmail.com>
-In-Reply-To: <CA+icZUV6pNP1AN_JEhqon6Hgk3Yfq0_VNghvRX0N9mw6pGtpVw@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 13 Jan 2021 15:27:09 -0800
-Message-ID: <CAKwvOdm40Z3YutxwWyV922XdchN7Dz+v9kJNjF13vKxNUXrJnQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] Kbuild: make DWARF version a choice
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9a07HwA8hrHoGWjqCa9LIGmpHo9wPiO5hANO4XpbneU=;
+        b=ae51WK0jfGEDMKjHIMJVHnLvSa6fD0dkAGp+kTdvqebkdS0hJJXhjY/njbBAF5Rl9w
+         l2eiQG0vEKt1f7a0kzWyM5Wuk/pXr6MhwlRS3pdERhBcK9y6hZRHSgwPyD1EO6zEoPPw
+         K7XUPQK5mKFOID07Nm8NoG0AqZ24WnBBptSIq2uIIkDC/BqlfIrqEqmaFRJBSRus8rRg
+         BLwB8An768uPvdrcgGLFJcEKuVTeOPb7jTfCNX8iG5JHD6H2FEXg9wbvPqPwITtuvL/Y
+         HtuS55T1igbbFh1S4t+fwZEaw8JFpigPGCl2ZFox9sM2Ai4+oqmYVlMyfC5nOLVnSfEr
+         ZPnw==
+X-Gm-Message-State: AOAM533cKE3uZa0/ATHO4VCvphOdrZA0Gmcjr2/5YST+GNwMlV/lzCx7
+        8xygd4qojXv634k/ZSvxwi8=
+X-Google-Smtp-Source: ABdhPJzu6D6O4GmQFu0dJCINRH3MLi6q/D9VJn7pPW7Inzy/Pnif67lrA7r7iD0g8jS96bSp0peRSQ==
+X-Received: by 2002:a62:7651:0:b029:1a5:929b:1681 with SMTP id r78-20020a6276510000b02901a5929b1681mr4709294pfc.27.1610584502401;
+        Wed, 13 Jan 2021 16:35:02 -0800 (PST)
+Received: from Ryzen-9-3900X.localdomain (ip68-104-204-241.ph.ph.cox.net. [68.104.204.241])
+        by smtp.gmail.com with ESMTPSA id 82sm3667890pfv.117.2021.01.13.16.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 16:35:01 -0800 (PST)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH] Documentation/llvm: Add a section about supported architectures
+Date:   Wed, 13 Jan 2021 17:34:47 -0700
+Message-Id: <20210114003447.7363-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Sedat,
-Thanks for testing, and congrats on https://lwn.net/Articles/839772/.
-I always appreciate you taking the time to help test my work, and
-other Clang+Linux kernel patches!
+The most common question around building the Linux kernel with clang is
+"does it work?" and the answer has always been "it depends on your
+architecture, configuration, and LLVM version" with no hard answers for
+users wanting to experiment. LLVM support has significantly improved
+over the past couple of years, resulting in more architectures and
+configurations supported, and continuous integration has made it easier
+to see what works and what does not.
 
-On Wed, Jan 13, 2021 at 1:24 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Wed, Jan 13, 2021 at 1:32 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -826,12 +826,16 @@ else
-> >  DEBUG_CFLAGS   += -g
-> >  endif
-> >
-> > -ifneq ($(LLVM_IAS),1)
-> > -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
-> > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> > +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+Add a section that goes over what architectures are supported in the
+current kernel version, how they should be built (with just clang or the
+LLVM utilities as well), and the level of support they receive. This
+will make it easier for people to try out building their kernel with
+LLVM and reporting issues that come about from it.
 
-^ DEBUG_CFLAGS are set for everyone (all toolchains) if
-CONFIG_DEBUG_INFO is defined.
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ Documentation/kbuild/llvm.rst | 44 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-> > +ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index 21c847890d03..b18401d2ba82 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -63,6 +63,50 @@ They can be enabled individually. The full list of the parameters: ::
+ Currently, the integrated assembler is disabled by default. You can pass
+ ``LLVM_IAS=1`` to enable it.
+ 
++Supported Architectures
++-----------------------
++
++LLVM does not target all of the architectures that Linux supports and
++just because a target is supported in LLVM does not mean that the kernel
++will build or work without any issues. Below is a general summary of
++architectures that currently work with ``CC=clang`` or ``LLVM=1``. Level
++of support corresponds to "S" values in the MAINTAINERS files. If an
++architecture is not present, it either means that LLVM does not target
++it or there are known issues. Using the latest stable version of LLVM or
++even the development tree will generally yield the best results.
++An architecture's ``defconfig`` is generally expected to work well,
++certain configurations may have problems that have not been uncovered
++yet. Bug reports are always welcome at the issue tracker below!
++
++.. list-table::
++   :widths: 10 10 10
++   :header-rows: 1
++
++   * - Architecture
++     - Level of support
++     - ``make`` command
++   * - arm
++     - Supported
++     - ``LLVM=1``
++   * - arm64
++     - Supported
++     - ``LLVM=1``
++   * - mips
++     - Maintained
++     - ``CC=clang``
++   * - powerpc
++     - Maintained
++     - ``CC=clang``
++   * - riscv
++     - Maintained
++     - ``CC=clang``
++   * - s390
++     - Maintained
++     - ``CC=clang``
++   * - x86
++     - Supported
++     - ``LLVM=1``
++
+ Getting Help
+ ------------
+ 
 
-^ "If not using dwarf 2 and LLVM_IAS=1", ie. CONFIG_DEBUG_INFO_DWARF5
-&& CONFIG_CC_IS_GCC
-
-> > +# Binutils 2.35+ required for -gdwarf-4+ support.
-> > +dwarf-aflag    := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
-> > +ifdef CONFIG_CC_IS_CLANG
-
-^ "if clang"
-
-> > +DEBUG_CFLAGS   += $(dwarf-aflag)
-> >  endif
->
-> Why is that "ifdef CONFIG_CC_IS_CLANG"?
-
-That's what Arvind requested on v2, IIUC:
-https://lore.kernel.org/lkml/X8psgMuL4jMjP%2FOy@rani.riverdale.lan/
-
-> When I use GCC v10.2.1 DEBUG_CFLAGS are not set.
-
-You should have -gdwarf-4 (and not -Wa,-gwarf-4) set for DEBUG_CFLAGS
-when compiling with GCC and enabling CONFIG_DEBUG_INFO_DWARF4. Can you
-please confirm? (Perhaps you may have accidentally disabled
-CONFIG_DEBUG_INFO by rerunning `make defconfig`?)
+base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
 -- 
-Thanks,
-~Nick Desaulniers
+2.30.0
+
