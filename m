@@ -2,325 +2,375 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 183432F6967
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 19:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B1A82F6977
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 19:28:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726778AbhANSVA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jan 2021 13:21:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
+        id S1727637AbhANSWu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jan 2021 13:22:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbhANSU7 (ORCPT
+        with ESMTP id S1727460AbhANSWu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jan 2021 13:20:59 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D099C061575
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 10:20:19 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id e7so7531176ljg.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 10:20:19 -0800 (PST)
+        Thu, 14 Jan 2021 13:22:50 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4B3C061757
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 10:22:10 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id l23so3684567pjg.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Jan 2021 10:22:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Nl2K+65qiPQ7NBwOhTKfEFzNBgY0OpkYBTvFpg1lWiY=;
-        b=blaKuIv3gucKGErQJUliFiOniZXiS3vTP2e0PHzABNC+MfByF23bfo/K9HJ3uOY8zn
-         r9/cfMnzlhNNNT54v9BxDkjhnVv4HLFDgJn745gu99MHiBq50hXFp8UU0Hw4fSFYBobA
-         8BYD9BfgfX/LJ47mL0cuFeDxjDMJRbpfUx8gH6UoiHy+f/o32N6jZjEBow0azWtjUkt8
-         714X1TKQxav85vWnZRStY69UJXn5OG8bbuRDuBF+iRuhfRWInwyiihMG2t6Xb1sfeAdf
-         JaXwBGC06nnM8SQ9vVZaYqymNz8GbKluseAqA9ucSzpi7RyPg/4EuMXqjZvnX1J9so3d
-         G6nQ==
+        bh=bULt0dq+AS3HVqO2DLBDnkmIsNAeO5H5Kul/NL6dUfo=;
+        b=e1e0toEF/2fpIUFwKtjggyZl87FF2K/mBqScLE8ayiwn7hjH0S3N+9AMCprntVGvtY
+         LMOjNBTSLzQ2AIS8iGMmMVzNYygSRqrqgbt7VeOGzKOvkpMJJLj31TzlMZ3x2+wDy1zn
+         PdpRF2BANTnD6d/2qlLIdJrag8P4fVdCFSgk6uLlmGtsoZ1Z0EKvcJ5bKCUZOd/XDlF4
+         M3HZQqgf3y8s+AIsvS1q1yyT1nRxtetRcQim8qABEJL32MPuL7uPt1L1+KWkCw3aQxQ+
+         smawhO/RMqcPBdj6kSayh/dj588dXeoNWIvyyKaLmfaAPUAd5Tp/FYJuMJS6Zf0nzK/R
+         G2eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Nl2K+65qiPQ7NBwOhTKfEFzNBgY0OpkYBTvFpg1lWiY=;
-        b=FllaKCav3qE5XYM/NYs3b0Bz0QJelAuiykP7gxCIxaxzdoqZRUA3Tfhwan6+k/YQXr
-         9Pxjc4JqKQUOgW4QKhhJNiRcd29YL729VzAuXaopXPyTJPZO3FuzQ2mJekfR2e+I9aUR
-         WLRxLhsS/+zpSOwxeIzSjdXrsLzsxt4eP70NSQqPa4oT7PnTYLYdstndQX7Yr4OtYT4S
-         oHyq7NPPf8PxAd+0rzpvpHBprR2b7psuP5msRWCC57emSMifVMwPSTeBAqGqkgT/B9PA
-         3q3IGYbFQzn9yIh99mzyf5FNE61+BkHfOhmGhlUXpS7+rlSIgyGED9qO1zYMy4ROxEhk
-         Pp/w==
-X-Gm-Message-State: AOAM5310DAkcaPKKsEYYSWGhNvLR5JuNbdr3ZNKO/0kHN2okwPJVfG3D
-        d046GS2YV2C9CXs+N4j8xDFv9Tjg7GoySJtfHkKP6Q==
-X-Google-Smtp-Source: ABdhPJzKIXZoF2HDVwMDZibuypAIAVddYULZwYwzG7Ah56qKoJP+ZntQ96EcY2Nldch4fUL9QLNlADt5Gshd7kOsyVw=
-X-Received: by 2002:a2e:b0d5:: with SMTP id g21mr3615458ljl.372.1610648417764;
- Thu, 14 Jan 2021 10:20:17 -0800 (PST)
+        bh=bULt0dq+AS3HVqO2DLBDnkmIsNAeO5H5Kul/NL6dUfo=;
+        b=lTWUYoX9dy7V2L4itv3YvJSOCzTV2W0HDh778Agp3v6E7LUn8W6+A7HB223JM352TE
+         NT2sC4GMEvsnaKx37Jp/JO0qut7ooI6/ew+1cpDNmCPEcnYaKev/uAwSOiRqdeDNW0eQ
+         A2XfDVi4fjRWUDeGWgEaF0e5Z5/znScT75TDBp7xHA/s4+HleJA2X0wKV92tpqluCPiv
+         +vMTMweAdbsmfstiwtqy71FxHdxP3olE8egMdPs5TDmMw4qzh5N9jeXBihMYpcDQLEMt
+         kVUoEsh24Ez0lxgWS3Ez+LlNFDla0i1StsiS3aVqyQbl1DRXczpuXjG5LmjwRN3SoCP9
+         ZSSQ==
+X-Gm-Message-State: AOAM5338o0tVDFm5b94XocMzxyZZe1bhP3JWsH6RJr3h9WCsdnkiuvdb
+        g5tgVvPdVEKQQJvE5UbaDCSwCx1yKylYt5LLRZiXPg==
+X-Google-Smtp-Source: ABdhPJxuYCzRU38TqbjiFWYCkiJZUoqZfYXnX37X/PSbJei1XYXEzGVtFETDtmvyIeK4EDf2nps3h3P8/WjG/9iJne0=
+X-Received: by 2002:a17:90a:6ba4:: with SMTP id w33mr6336413pjj.32.1610648529244;
+ Thu, 14 Jan 2021 10:22:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20210108003035.1930475-1-willmcvicker@google.com> <20210112155456.GB26122@linux-8ccs>
-In-Reply-To: <20210112155456.GB26122@linux-8ccs>
-From:   Will McVicker <willmcvicker@google.com>
-Date:   Thu, 14 Jan 2021 10:20:01 -0800
-Message-ID: <CABYd82bda4yxpNJ4dXt_xXEy+ngMEYO6XD==nfstgpe1krBkUw@mail.gmail.com>
-Subject: Re: [PATCH v5] modules: introduce the MODULE_SCMVERSION config
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com
+References: <20210114180709.303370-1-masahiroy@kernel.org>
+In-Reply-To: <20210114180709.303370-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 14 Jan 2021 10:21:58 -0800
+Message-ID: <CAKwvOdnn5jNv5RKN713YNE+kWtSf+sCQUaPyvWK7hWijf8Oj8A@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: check the minimum compiler version in Kconfig
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thanks Jessica for the reviews!
+On Thu, Jan 14, 2021 at 10:07 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Paul Gortmaker reported a regression in the GCC version check [1].
+> If you use GCC 4.8, the build breaks before showing the error message
+> "error Sorry, your version of GCC is too old - please use 4.9 or newer."
+>
+> I do not want to apply his fix-up since it implies we would not be able
+> to remove any cc-option test. Anyway, I admit checking the GCC version
+> in <linux/compiler-gcc.h> is too late.
+>
+> Almost at the same time, Linus also suggested to move the compiler
+> version error to Kconfig time. [2]
+>
+> I unified the similar two scripts, gcc-version.sh and clang-version.sh
+> into the new cc-version.sh. The old scripts invoked the compiler multiple
+> times (3 times for gcc-version.sh, 4 times for clang-version.sh). I
+> refactored the code so the new one invokes the compiler just once, and
+> also tried my best to use shell-builtin commands where possible.
+>
+> The new script runs faster.
+>
+>   $ time ./scripts/clang-version.sh clang
+>   120000
+>
+>   real    0m0.029s
+>   user    0m0.012s
+>   sys     0m0.021s
+>
+>   $ time ./scripts/cc-version.sh clang
+>   Clang 120000
+>
+>   real    0m0.009s
+>   user    0m0.006s
+>   sys     0m0.004s
+>
+> The cc-version.sh also shows the error if the compiler is old:
+>
+>   $ make defconfig CC=clang-9
+>   *** Default configuration is based on 'x86_64_defconfig'
+>   ***
+>   *** Compiler is too old.
+>   ***   Your Clang version:    9.0.1
+>   ***   Minimum Clang version: 10.0.1
+>   ***
+>   scripts/Kconfig.include:46: Sorry, this compiler is not supported.
+>   make[1]: *** [scripts/kconfig/Makefile:81: defconfig] Error 1
+>   make: *** [Makefile:602: defconfig] Error 2
+>
+> I removed the clang version check from <linux/compiler-clang.h>
+>
+> For now, I did not touch <linux/compiler-gcc.h> in order to avoid
+> merge conflict with [3], which has been queued up in the arm64 tree.
+> We will be able to clean it up later.
+>
+> The new script takes care of ICC because we have <linux/compiler-intel.h>
+> although I am not sure if building the kernel with ICC is well-supported.
+>
+> [1] https://lkml.org/lkml/2021/1/10/250
+> [2] https://lkml.org/lkml/2021/1/12/1708
+> [3] https://lkml.org/lkml/2021/1/12/1533
 
---Will
+Consider Nathan's request to use lore links rather than lkml.org links.
+https://lore.kernel.org/lkml/20210114170710.GA259754@ubuntu-m3-large-x86/
+But I don't think that requires a v4 just for that.
 
-On Tue, Jan 12, 2021 at 7:55 AM Jessica Yu <jeyu@kernel.org> wrote:
+Thanks for the patch.
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+
 >
-> +++ Will McVicker [08/01/21 00:30 +0000]:
-> >Config MODULE_SCMVERSION introduces a new module attribute --
-> >`scmversion` -- which can be used to identify a given module's SCM
-> >version.  This is very useful for developers that update their kernel
-> >independently from their kernel modules or vice-versa since the SCM
-> >version provided by UTS_RELEASE (`uname -r`) will now differ from the
-> >module's vermagic attribute.
-> >
-> >For example, we have a CI setup that tests new kernel changes on the
-> >hikey960 and db845c devices without updating their kernel modules. When
-> >these tests fail, we need to be able to identify the exact device
-> >configuration the test was using. By including MODULE_SCMVERSION, we can
-> >identify the exact kernel and modules' SCM versions for debugging the
-> >failures.
-> >
-> >Additionally, by exposing the SCM version via the sysfs node
-> >/sys/module/MODULENAME/scmversion, one can also verify the SCM versions
-> >of the modules loaded from the initramfs. Currently, modinfo can only
-> >retrieve module attributes from the module's ko on disk and not from the
-> >actual module that is loaded in RAM.
-> >
-> >You can retrieve the SCM version in two ways,
-> >
-> >1) By using modinfo:
-> >    > modinfo -F scmversion MODULENAME
-> >2) By module sysfs node:
-> >    > cat /sys/module/MODULENAME/scmversion
-> >
-> >Signed-off-by: Will McVicker <willmcvicker@google.com>
+> Fixes: 87de84c9140e ("kbuild: remove cc-option test of -Werror=date-time")
+> Reported-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> Hi Will,
+> Changes in v3:
+>   - add $(srctree)/ to fix out-of-tree build
+>   - support ICC version
 >
-> Thanks for v5, I'm fine with this patch now that we've made it a
-> configurable developer/debug option to supply an scmversion field for
-> in-tree modules (although, this currently works for out-of-tree
-> modules too since we based module_srcpath on KBUILD_EXTMOD in the
-> external module case). I basically see this option as an alternative
-> to CONFIG_MODULE_SRCVERSION_ALL to aid distro developers debug issues
-> when the kernel and in-tree modules are updated separately.
+> Changes in v2:
+>   - fix the function name
 >
-> In any case, since there was pushback in our earlier discussions, I'd
-> like to ask if there are any remaining objections to this patch.
+>  include/linux/compiler-clang.h | 10 -----
+>  init/Kconfig                   |  9 ++--
+>  scripts/Kconfig.include        |  6 +++
+>  scripts/cc-version.sh          | 76 ++++++++++++++++++++++++++++++++++
+>  scripts/clang-version.sh       | 19 ---------
+>  scripts/gcc-version.sh         | 20 ---------
+>  6 files changed, 87 insertions(+), 53 deletions(-)
+>  create mode 100755 scripts/cc-version.sh
+>  delete mode 100755 scripts/clang-version.sh
+>  delete mode 100755 scripts/gcc-version.sh
 >
-> Masahiro, are you fine with the Makefile and modpost changes?
+> diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+> index 98cff1b4b088..04c0a5a717f7 100644
+> --- a/include/linux/compiler-clang.h
+> +++ b/include/linux/compiler-clang.h
+> @@ -3,16 +3,6 @@
+>  #error "Please don't include <linux/compiler-clang.h> directly, include <linux/compiler.h> instead."
+>  #endif
 >
-> Thanks,
+> -#define CLANG_VERSION (__clang_major__ * 10000 \
+> -                    + __clang_minor__ * 100    \
+> -                    + __clang_patchlevel__)
+> -
+> -#if CLANG_VERSION < 100001
+> -#ifndef __BPF_TRACING__
+> -# error Sorry, your version of Clang is too old - please use 10.0.1 or newer.
+> -#endif
+> -#endif
+> -
+>  /* Compiler specific definitions for Clang compiler */
 >
-> Jessica
+>  /* same as gcc, this was present in clang-2.6 so we can assume it works
+> diff --git a/init/Kconfig b/init/Kconfig
+> index b77c60f8b963..01108dd1318b 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -26,11 +26,11 @@ config CC_VERSION_TEXT
+>             and then every file will be rebuilt.
 >
-> >---
-> > Documentation/ABI/stable/sysfs-module | 18 ++++++++++++++++++
-> > include/linux/module.h                |  1 +
-> > init/Kconfig                          | 14 ++++++++++++++
-> > kernel/module.c                       |  2 ++
-> > scripts/Makefile.modpost              | 22 ++++++++++++++++++++++
-> > scripts/mod/modpost.c                 | 24 +++++++++++++++++++++++-
-> > 6 files changed, 80 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
-> >index 6272ae5fb366..a75d137e79f4 100644
-> >--- a/Documentation/ABI/stable/sysfs-module
-> >+++ b/Documentation/ABI/stable/sysfs-module
-> >@@ -32,3 +32,21 @@ Description:
-> >               Note: If the module is built into the kernel, or if the
-> >               CONFIG_MODULE_UNLOAD kernel configuration value is not enabled,
-> >               this file will not be present.
-> >+
-> >+What:         /sys/module/MODULENAME/scmversion
-> >+Date:         November 2020
-> >+KernelVersion:        5.12
-> >+Contact:      Will McVicker <willmcvicker@google.com>
-> >+Description:  This read-only file will appear if modpost was supplied with an
-> >+              SCM version for the module. It can be enabled with the config
-> >+              MODULE_SCMVERSION. The SCM version is retrieved by
-> >+              scripts/setlocalversion, which means that the presence of this
-> >+              file depends on CONFIG_LOCALVERSION_AUTO=y. When read, the SCM
-> >+              version that the module was compiled with is returned. The SCM
-> >+              version is returned in the following format::
-> >+
-> >+              ===
-> >+              Git:            g[a-f0-9]\+(-dirty)\?
-> >+              Mercurial:      hg[a-f0-9]\+(-dirty)\?
-> >+              Subversion:     svn[0-9]\+
-> >+              ===
-> >diff --git a/include/linux/module.h b/include/linux/module.h
-> >index 7a0bcb5b1ffc..3b1612193cf9 100644
-> >--- a/include/linux/module.h
-> >+++ b/include/linux/module.h
-> >@@ -372,6 +372,7 @@ struct module {
-> >       struct module_attribute *modinfo_attrs;
-> >       const char *version;
-> >       const char *srcversion;
-> >+      const char *scmversion;
-> >       struct kobject *holders_dir;
-> >
-> >       /* Exported symbols */
-> >diff --git a/init/Kconfig b/init/Kconfig
-> >index b77c60f8b963..3d9dac3c4e8f 100644
-> >--- a/init/Kconfig
-> >+++ b/init/Kconfig
-> >@@ -2131,6 +2131,20 @@ config MODULE_SRCVERSION_ALL
-> >         the version).  With this option, such a "srcversion" field
-> >         will be created for all modules.  If unsure, say N.
-> >
-> >+config MODULE_SCMVERSION
-> >+      bool "SCM version for modules"
-> >+      depends on LOCALVERSION_AUTO
-> >+      help
-> >+        This enables the module attribute "scmversion" which can be used
-> >+        by developers to identify the SCM version of a given module, e.g.
-> >+        git sha1 or hg sha1. The SCM version can be queried by modinfo or
-> >+        via the sysfs node: /sys/modules/MODULENAME/scmversion. This is
-> >+        useful when the kernel or kernel modules are updated separately
-> >+        since that causes the vermagic of the kernel and the module to
-> >+        differ.
-> >+
-> >+        If unsure, say N.
-> >+
-> > config MODULE_SIG
-> >       bool "Module signature verification"
-> >       select MODULE_SIG_FORMAT
-> >diff --git a/kernel/module.c b/kernel/module.c
-> >index 4bf30e4b3eaa..d0b359c7e9c9 100644
-> >--- a/kernel/module.c
-> >+++ b/kernel/module.c
-> >@@ -837,6 +837,7 @@ static struct module_attribute modinfo_##field = {                    \
-> >
-> > MODINFO_ATTR(version);
-> > MODINFO_ATTR(srcversion);
-> >+MODINFO_ATTR(scmversion);
-> >
-> > static char last_unloaded_module[MODULE_NAME_LEN+1];
-> >
-> >@@ -1298,6 +1299,7 @@ static struct module_attribute *modinfo_attrs[] = {
-> >       &module_uevent,
-> >       &modinfo_version,
-> >       &modinfo_srcversion,
-> >+      &modinfo_scmversion,
-> >       &modinfo_initstate,
-> >       &modinfo_coresize,
-> >       &modinfo_initsize,
-> >diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> >index f54b6ac37ac2..f1126b60adb7 100644
-> >--- a/scripts/Makefile.modpost
-> >+++ b/scripts/Makefile.modpost
-> >@@ -66,6 +66,7 @@ ifeq ($(KBUILD_EXTMOD),)
-> >
-> > input-symdump := vmlinux.symvers
-> > output-symdump := Module.symvers
-> >+module_srcpath := $(srctree)
-> >
-> > else
-> >
-> >@@ -77,6 +78,17 @@ src := $(obj)
-> > include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
-> >              $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
-> >
-> >+# Get the external module's source path. KBUILD_EXTMOD could either be an
-> >+# absolute path or relative path from $(srctree). This makes sure that we
-> >+# aren't using a relative path from a separate working directory (O= or
-> >+# KBUILD_OUTPUT) since that may not be the actual module's SCM project path.
-> >+# So check the path relative to $(srctree) first.
-> >+ifneq ($(realpath $(srctree)/$(KBUILD_EXTMOD) 2>/dev/null),)
-> >+      module_srcpath := $(srctree)/$(KBUILD_EXTMOD)
-> >+else
-> >+      module_srcpath := $(KBUILD_EXTMOD)
-> >+endif
-> >+
-> > # modpost option for external modules
-> > MODPOST += -e
-> >
-> >@@ -85,6 +97,16 @@ output-symdump := $(KBUILD_EXTMOD)/Module.symvers
-> >
-> > endif
-> >
-> >+ifeq ($(CONFIG_MODULE_SCMVERSION),y)
-> >+# Get the SCM version of the module. Sed verifies setlocalversion returns
-> >+# a proper revision based on the SCM type, e.g. git, mercurial, or svn.
-> >+module_scmversion := $(shell $(srctree)/scripts/setlocalversion $(module_srcpath) | \
-> >+      sed -n 's/.*-\(\(g\|hg\)[a-fA-F0-9]\+\(-dirty\)\?\|svn[0-9]\+\).*/\1/p')
-> >+ifneq ($(module_scmversion),)
-> >+MODPOST += -v$(module_scmversion)
-> >+endif
-> >+endif
-> >+
-> > # modpost options for modules (both in-kernel and external)
-> > MODPOST += \
-> >       $(addprefix -i ,$(wildcard $(input-symdump))) \
-> >diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> >index d6c81657d695..489b65bc37de 100644
-> >--- a/scripts/mod/modpost.c
-> >+++ b/scripts/mod/modpost.c
-> >@@ -30,6 +30,8 @@ static int have_vmlinux = 0;
-> > static int all_versions = 0;
-> > /* If we are modposting external module set to 1 */
-> > static int external_module = 0;
-> >+#define MODULE_SCMVERSION_SIZE 64
-> >+static char module_scmversion[MODULE_SCMVERSION_SIZE];
-> > /* Only warn about unresolved symbols */
-> > static int warn_unresolved = 0;
-> > /* How a symbol is exported */
-> >@@ -2264,6 +2266,20 @@ static void add_intree_flag(struct buffer *b, int is_intree)
-> >               buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
-> > }
-> >
-> >+/**
-> >+ * add_scmversion() - Adds the MODULE_INFO macro for the scmversion.
-> >+ * @b: Buffer to append to.
-> >+ *
-> >+ * This function fills in the module attribute `scmversion` for the kernel
-> >+ * module. This is useful for determining a given module's SCM version on
-> >+ * device via /sys/modules/<module>/scmversion and/or using the modinfo tool.
-> >+ */
-> >+static void add_scmversion(struct buffer *b)
-> >+{
-> >+      if (module_scmversion[0] != '\0')
-> >+              buf_printf(b, "\nMODULE_INFO(scmversion, \"%s\");\n", module_scmversion);
-> >+}
-> >+
-> > /* Cannot check for assembler */
-> > static void add_retpoline(struct buffer *b)
-> > {
-> >@@ -2546,7 +2562,7 @@ int main(int argc, char **argv)
-> >       struct dump_list *dump_read_start = NULL;
-> >       struct dump_list **dump_read_iter = &dump_read_start;
-> >
-> >-      while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-> >+      while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:v:")) != -1) {
-> >               switch (opt) {
-> >               case 'e':
-> >                       external_module = 1;
-> >@@ -2584,6 +2600,11 @@ int main(int argc, char **argv)
-> >               case 'd':
-> >                       missing_namespace_deps = optarg;
-> >                       break;
-> >+              case 'v':
-> >+                      if (!optarg)
-> >+                              fatal("'-v' requires an argument defining the SCM version.");
-> >+                      strncpy(module_scmversion, optarg, sizeof(module_scmversion) - 1);
-> >+                      break;
-> >               default:
-> >                       exit(1);
-> >               }
-> >@@ -2630,6 +2651,7 @@ int main(int argc, char **argv)
-> >               add_depends(&buf, mod);
-> >               add_moddevtable(&buf, mod);
-> >               add_srcversion(&buf, mod);
-> >+              add_scmversion(&buf);
-> >
-> >               sprintf(fname, "%s.mod.c", mod->name);
-> >               write_if_changed(&buf, fname);
-> >--
-> >2.30.0.284.gd98b1dd5eaa7-goog
-> >
+>  config CC_IS_GCC
+> -       def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q gcc)
+> +       def_bool $(success,test $(cc-name) = GCC)
+>
+>  config GCC_VERSION
+>         int
+> -       default $(shell,$(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
+> +       default $(cc-version) if CC_IS_GCC
+>         default 0
+>
+>  config LD_VERSION
+> @@ -38,14 +38,15 @@ config LD_VERSION
+>         default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
+>
+>  config CC_IS_CLANG
+> -       def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
+> +       def_bool $(success,test $(cc-name) = Clang)
+>
+>  config LD_IS_LLD
+>         def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
+>
+>  config CLANG_VERSION
+>         int
+> -       default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
+> +       default $(cc-version) if CC_IS_CLANG
+> +       default 0
+>
+>  config LLD_VERSION
+>         int
+> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> index a5fe72c504ff..26c355a84c19 100644
+> --- a/scripts/Kconfig.include
+> +++ b/scripts/Kconfig.include
+> @@ -39,6 +39,12 @@ as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler
+>  $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+>  $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
+>
+> +# Get the compiler name, version, and error out if it is unsupported.
+> +cc-info := $(shell,$(srctree)/scripts/cc-version.sh $(CC))
+> +$(error-if,$(success,test -z "$(cc-info)"),Sorry$(comma) this compiler is not supported.)
+> +cc-name := $(shell,set -- $(cc-info) && echo $1)
+> +cc-version := $(shell,set -- $(cc-info) && echo $2)
+> +
+>  # Fail if the linker is gold as it's not capable of linking the kernel proper
+>  $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supported)
+>
+> diff --git a/scripts/cc-version.sh b/scripts/cc-version.sh
+> new file mode 100755
+> index 000000000000..818d233bb0ad
+> --- /dev/null
+> +++ b/scripts/cc-version.sh
+> @@ -0,0 +1,76 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Print the compiler name and its version in a 5 or 6-digit form.
+> +# Also, perform the minimum version check.
+> +
+> +set -e
+> +
+> +# When you raise the compiler version, please update
+> +# Documentation/process/changes.rst as well.
+> +gcc_min_version=4.9.0
+> +clang_min_version=10.0.1
+> +icc_min_version=16.0.3 # temporary
+> +
+> +# print the compiler name and versions
+> +get_compiler_info()
+> +{
+> +       cat <<- EOF | "$@" -E -P -x c - 2>/dev/null
+> +       #if defined(__clang__)
+> +       Clang   __clang_major__  __clang_minor__  __clang_patchlevel__
+> +       #elif defined(__INTEL_COMPILER)
+> +       ICC     __INTEL_COMPILER  __INTEL_COMPILER_UPDATE
+> +       #elif defined(__GNUC__)
+> +       GCC     __GNUC__  __GNUC_MINOR__  __GNUC_PATCHLEVEL__
+> +       #else
+> +       unknown
+> +       #endif
+> +       EOF
+> +}
+> +
+> +# convert the version string x.y.z to a canonical 5 or 6-digit form
+> +get_canonical_version()
+> +{
+> +       IFS=.
+> +       set -- $1
+> +       echo $((10000 * $1 + 100 * $2 + $3))
+> +}
+> +
+> +# $@ instead of $1 because multiple words might be given e.g. CC="ccache gcc"
+> +orig_args="$@"
+> +set -- $(get_compiler_info "$@")
+> +
+> +name=$1
+> +
+> +case "$name" in
+> +GCC)
+> +       version=$2.$3.$4
+> +       min_version=$gcc_min_version
+> +       ;;
+> +Clang)
+> +       version=$2.$3.$4
+> +       min_version=$clang_min_version
+> +       ;;
+> +ICC)
+> +       version=$(($2 / 100)).$(($2 % 100)).$3
+> +       min_version=$icc_min_version
+> +       ;;
+> +*)
+> +       echo "$orig_args: unknown compiler" >&2
+> +       exit 1
+> +       ;;
+> +esac
+> +
+> +cversion=$(get_canonical_version $version)
+> +min_cversion=$(get_canonical_version $min_version)
+> +
+> +if [ "$cversion" -lt "$min_cversion" ]; then
+> +       echo >&2 "***"
+> +       echo >&2 "*** Compiler is too old."
+> +       echo >&2 "***   Your $name version:    $version"
+> +       echo >&2 "***   Minimum $name version: $min_version"
+> +       echo >&2 "***"
+> +       exit 1
+> +fi
+> +
+> +echo $name $cversion
+> diff --git a/scripts/clang-version.sh b/scripts/clang-version.sh
+> deleted file mode 100755
+> index 6fabf0695761..000000000000
+> --- a/scripts/clang-version.sh
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -#
+> -# clang-version clang-command
+> -#
+> -# Print the compiler version of `clang-command' in a 5 or 6-digit form
+> -# such as `50001' for clang-5.0.1 etc.
+> -
+> -compiler="$*"
+> -
+> -if ! ( $compiler --version | grep -q clang) ; then
+> -       echo 0
+> -       exit 1
+> -fi
+> -
+> -MAJOR=$(echo __clang_major__ | $compiler -E -x c - | tail -n 1)
+> -MINOR=$(echo __clang_minor__ | $compiler -E -x c - | tail -n 1)
+> -PATCHLEVEL=$(echo __clang_patchlevel__ | $compiler -E -x c - | tail -n 1)
+> -printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
+> diff --git a/scripts/gcc-version.sh b/scripts/gcc-version.sh
+> deleted file mode 100755
+> index ae353432539b..000000000000
+> --- a/scripts/gcc-version.sh
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -#
+> -# gcc-version gcc-command
+> -#
+> -# Print the gcc version of `gcc-command' in a 5 or 6-digit form
+> -# such as `29503' for gcc-2.95.3, `30301' for gcc-3.3.1, etc.
+> -
+> -compiler="$*"
+> -
+> -if [ ${#compiler} -eq 0 ]; then
+> -       echo "Error: No compiler specified." >&2
+> -       printf "Usage:\n\t$0 <gcc-command>\n" >&2
+> -       exit 1
+> -fi
+> -
+> -MAJOR=$(echo __GNUC__ | $compiler -E -x c - | tail -n 1)
+> -MINOR=$(echo __GNUC_MINOR__ | $compiler -E -x c - | tail -n 1)
+> -PATCHLEVEL=$(echo __GNUC_PATCHLEVEL__ | $compiler -E -x c - | tail -n 1)
+> -printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
+> --
+> 2.27.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
