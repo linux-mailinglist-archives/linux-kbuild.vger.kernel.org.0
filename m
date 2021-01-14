@@ -2,120 +2,326 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14CB52F59C7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 05:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 110432F59DF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 05:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725902AbhANEID (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Jan 2021 23:08:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44368 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725871AbhANEIC (ORCPT
+        id S1726612AbhANESg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Jan 2021 23:18:36 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:47393 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbhANESg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Jan 2021 23:08:02 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2A6C061786
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 20:07:22 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id c79so2608477pfc.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Jan 2021 20:07:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X2Xl39y4Q4WYR391MlcCTCVyfvuGNcf13HwTIUJuHYU=;
-        b=Qb6XObXve5bZJco/bp7C8Mjv/jUKToZR7oH0hrrN2m1NNs2nsHtpYaKPU8fp/cA+20
-         bLvRGonHREkJib6ytNaAoIqyHFr2XurADR8NF0iNI1VXLBEVJYw76gRnsD/grgJgr9G2
-         gbNuEJF/9cLexUS9ligs4J8FqBnWPDLG7wp8txFacdnwuQ2/wWk6l3Se5UC95be8hoX7
-         Rc9cO7J4SFemacU7exfa8XDg2ruPhqFS4Di1vdhES6ue6g8kZWPhKPB+drMoQHXIAfDf
-         yHUCExT3lAW9QXVZXLtx9LHQUsoOkFjL75qrSa2KSvzeKIo9ow4Aeik9xn6qrm887Zta
-         iB2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X2Xl39y4Q4WYR391MlcCTCVyfvuGNcf13HwTIUJuHYU=;
-        b=XitrDL2jRj3bHEz+R6xJX4DkQ/9ixqpXGWUVXn74ymZdbOUScTKsNiO99c8g6VKaEN
-         z6HLnOJS/8G1+G2g+JmbRuwl5JixN/2y3L7glrvpz2xFdN85Xku5XSnD/char5YbSZJ5
-         fnvG5enVcEuL9zyLswY/MG5zEdK4/icQnTGsFGRqxiFSiLx+93unJsUdCQuZl61fmOmR
-         Q1+b/CNXXBquIhIicHqa7E79x83v1dkDbrq2ydlHSMeUAi+lYzMMrN0uWnHzKSmXvQqi
-         3rxdEc8xh9wRLBZO9L1pt2l90GTMCmE0L7Tp5vqyRy4vJ7mkGFOGSpGib5JIXxYAZ4FP
-         Qx4w==
-X-Gm-Message-State: AOAM531KUIgsocoASIfP2gEgdtiqpqOPi7OXEgj4AruEKTk9OHEcqNKv
-        bvw9mxUOP8rgIO7UC5jaJWgAIVWoI3sxuV3lCc1Vaw==
-X-Google-Smtp-Source: ABdhPJweqXyNdG41CizOvJ+7nIJrbD+fB/8boMpyXoL1a0C896awy91uQFO6JUsSaWfp+KbH5/IpEmP/QY+ntvhF6/0=
-X-Received: by 2002:a63:5701:: with SMTP id l1mr5424394pgb.381.1610597242082;
- Wed, 13 Jan 2021 20:07:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
- <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
-In-Reply-To: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 13 Jan 2021 20:07:10 -0800
-Message-ID: <CAKwvOd=0wWz4o652EoZNvfu1L+fuhuGZusqpxiJ+561DtCh7Eg@mail.gmail.com>
-Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Wed, 13 Jan 2021 23:18:36 -0500
+Received: from grover.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 10E4GUgk019534;
+        Thu, 14 Jan 2021 13:16:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 10E4GUgk019534
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1610597791;
+        bh=vXt3fQKlnIzjAfWl8omKqKrQwNJT0bJYQbc0iaRJj6U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WTePnO4W1EbPsEkaEecXJGq+I2pm7sSccAQUUjslnDHbwv3WOLjWMJCIlmT3IbK69
+         gS/tRiNZUK7R28gKdsT0Wn0R5W5Smkc/ZXzYeBLTOyS1EU9LJMwdlSWoFiBrqYwORz
+         IE2e2reipll6RNIcRY6dRfLiPY6uXF1b/Q+K0DKCSlCYRX7c2N93/Qwct7R9HS7oOB
+         VACZ83xntMTpyf6lZ55EqnlNYTvSyGXDc9D1O1AtrjBGqeY0AaGNX3SyHBgRPQVkc6
+         +TFCrNJNwH38YZ05f+lpF8MFXXOo0tyVxtMPQMTpSpsPwODcpD1tm7CFwR/0IfzUIb
+         Yru4FSNQdx0fw==
+X-Nifty-SrcIP: [126.26.94.251]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: check the minimum compiler version in Kconfig
+Date:   Thu, 14 Jan 2021 13:16:23 +0900
+Message-Id: <20210114041623.226419-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> However, I see an issue with actually using the data:
->
-> $ sudo -s
-> # mount -t debugfs none /sys/kernel/debug
-> # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> # chown nathan:nathan vmlinux.profraw
-> # exit
-> $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
-> error: No profiles could be merged.
->
-> Am I holding it wrong? :) Note, this is virtualized, I do not have any
-> "real" x86 hardware that I can afford to test on right now.
+Paul Gortmaker reported a regression in the GCC version check [1].
+If you use GCC 4.8, the build breaks before showing the error message
+"error Sorry, your version of GCC is too old - please use 4.9 or newer."
 
-Same.
+I do not want to apply his fix-up since it implies we would not be able
+to remove any cc-option test. Anyway, I admit checking the GCC version
+in <linux/compiler-gcc.h> is too late.
 
-I think the magic calculation in this patch may differ from upstream
-llvm: https://github.com/llvm/llvm-project/blob/49142991a685bd427d7e877c29c77371dfb7634c/llvm/include/llvm/ProfileData/SampleProf.h#L96-L101
+Almost at the same time, Linus also suggested to move the compiler
+version error to Kconfig time. [2]
 
-vs this patch:
+I unified the similar two scripts, gcc-version.sh and clang-version.sh
+into the new cc-version.sh. The old scripts invoked the compiler multiple
+times (3 times for gcc-version.sh, 4 times for clang-version.sh). I
+refactored the code so the new one invokes the compiler just once, and
+also tried my best to use shell-builtin commands where possible.
 
-+ * Note: These internal LLVM definitions must match the compiler version.
-+ * See llvm/include/llvm/ProfileData/InstrProfData.inc in LLVM's source code.
-+ */
+The new script runs faster.
+
+  $ time ./scripts/clang-version.sh clang
+  120000
+
+  real    0m0.029s
+  user    0m0.012s
+  sys     0m0.021s
+
+  $ time ./scripts/cc-version.sh clang
+  Clang 120000
+
+  real    0m0.009s
+  user    0m0.006s
+  sys     0m0.004s
+
+The cc-version.sh also shows the error if the compiler is old:
+
+  $ make defconfig CC=clang-9
+  *** Default configuration is based on 'x86_64_defconfig'
+  ***
+  *** Compiler is too old.
+  ***   Your Clang version:    9.0.1
+  ***   Minimum Clang version: 10.0.1
+  ***
+  scripts/Kconfig.include:46: Sorry, this compiler is unsupported.
+  make[1]: *** [scripts/kconfig/Makefile:81: defconfig] Error 1
+  make: *** [Makefile:602: defconfig] Error 2
+
+I removed the clang version check from <linux/compiler-clang.h>
+
+For now, I did not touch <linux/compiler-gcc.h> in order to avoid
+merge conflict with [3], which has been queued up in the arm64 tree.
+We will be able to clean it up later.
+
+I put the stub for ICC because I see <linux/compiler-intel.h> although
+I am not sure if building the kernel with ICC is well-supported.
+
+[1] https://lkml.org/lkml/2021/1/10/250
+[2] https://lkml.org/lkml/2021/1/12/1708
+[3] https://lkml.org/lkml/2021/1/12/1533
+
+Fixes: 87de84c9140e ("kbuild: remove cc-option test of -Werror=date-time")
+Reported-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ include/linux/compiler-clang.h | 10 -----
+ init/Kconfig                   |  9 +++--
+ scripts/Kconfig.include        |  6 +++
+ scripts/cc-version.sh          | 69 ++++++++++++++++++++++++++++++++++
+ scripts/clang-version.sh       | 19 ----------
+ scripts/gcc-version.sh         | 20 ----------
+ 6 files changed, 80 insertions(+), 53 deletions(-)
+ create mode 100755 scripts/cc-version.sh
+ delete mode 100755 scripts/clang-version.sh
+ delete mode 100755 scripts/gcc-version.sh
+
+diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+index 98cff1b4b088..04c0a5a717f7 100644
+--- a/include/linux/compiler-clang.h
++++ b/include/linux/compiler-clang.h
+@@ -3,16 +3,6 @@
+ #error "Please don't include <linux/compiler-clang.h> directly, include <linux/compiler.h> instead."
+ #endif
+ 
+-#define CLANG_VERSION (__clang_major__ * 10000	\
+-		     + __clang_minor__ * 100	\
+-		     + __clang_patchlevel__)
+-
+-#if CLANG_VERSION < 100001
+-#ifndef __BPF_TRACING__
+-# error Sorry, your version of Clang is too old - please use 10.0.1 or newer.
+-#endif
+-#endif
+-
+ /* Compiler specific definitions for Clang compiler */
+ 
+ /* same as gcc, this was present in clang-2.6 so we can assume it works
+diff --git a/init/Kconfig b/init/Kconfig
+index b77c60f8b963..01108dd1318b 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -26,11 +26,11 @@ config CC_VERSION_TEXT
+ 	    and then every file will be rebuilt.
+ 
+ config CC_IS_GCC
+-	def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q gcc)
++	def_bool $(success,test $(cc-name) = GCC)
+ 
+ config GCC_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
++	default $(cc-version) if CC_IS_GCC
+ 	default 0
+ 
+ config LD_VERSION
+@@ -38,14 +38,15 @@ config LD_VERSION
+ 	default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
+ 
+ config CC_IS_CLANG
+-	def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
++	def_bool $(success,test $(cc-name) = Clang)
+ 
+ config LD_IS_LLD
+ 	def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
+ 
+ config CLANG_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
++	default $(cc-version) if CC_IS_CLANG
++	default 0
+ 
+ config LLD_VERSION
+ 	int
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index a5fe72c504ff..cdc8726d2904 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -39,6 +39,12 @@ as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler
+ $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+ $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
+ 
++# Get the compiler name, version, and error out if it is unsupported.
++cc-info := $(shell,scripts/cc-version.sh $(CC))
++$(error-if,$(success,test -z "$(cc-info)"),Sorry$(comma) this compiler is unsupported.)
++cc-name := $(shell,set -- $(cc-info); echo $1)
++cc-version := $(shell,set -- $(cc-info); echo $2)
 +
-+#ifdef CONFIG_64BIT
-+ #define LLVM_PRF_MAGIC \
-+ ((u64)255 << 56 | \
-+ (u64)'l' << 48 | \
-+ (u64)'p' << 40 | \
-+ (u64)'r' << 32 | \
-+ (u64)'o' << 24 | \
-+ (u64)'f' << 16 | \
-+ (u64)'r' << 8  | \
-+ (u64)129)
-+#else
-+ #define LLVM_PRF_MAGIC \
-+ ((u64)255 << 56 | \
-+ (u64)'l' << 48 | \
-+ (u64)'p' << 40 | \
-+ (u64)'r' << 32 | \
-+ (u64)'o' << 24 | \
-+ (u64)'f' << 16 | \
-+ (u64)'R' << 8  | \
-+ (u64)129)
-+#endif
-
+ # Fail if the linker is gold as it's not capable of linking the kernel proper
+ $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supported)
+ 
+diff --git a/scripts/cc-version.sh b/scripts/cc-version.sh
+new file mode 100755
+index 000000000000..32df0e2940f5
+--- /dev/null
++++ b/scripts/cc-version.sh
+@@ -0,0 +1,69 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Print the compiler name and its version in a 5 or 6-digit form.
++# Also, perform the minimum version check.
++
++set -e
++
++# When you raise the compiler version, please update
++# Documentation/process/changes.rst as well.
++gcc_min_version=4.9.0
++clang_min_version=10.0.1
++
++# print the compiler name, major version, minor version, patchlevel version
++get_compiler_info()
++{
++	cat <<- EOF | "$@" -E -P -x c - 2>/dev/null
++	#if defined(__clang__)
++	Clang	__clang_major__	__clang_minor__	__clang_patchlevel__
++	#elif defined(__INTEL_COMPILER)
++	/* How to get the version of intel compiler? */
++	ICC	0		0		0
++	#elif defined(__GNUC__)
++	GCC	__GNUC__	__GNUC_MINOR__	__GNUC_PATCHLEVEL__
++	#else
++	unsupported	0		0		0
++	#endif
++	EOF
++}
++
++# convert the version to a canonical 5 or 6-digit form for numerical comparison
++get_canonical_version()
++{
++	IFS=.
++	set -- $1
++	echo $((10000 * $1 + 100 * $2 + $3))
++}
++
++# $@ instead of $1 because multiple words might be given e.g. CC="ccache gcc"
++orig_args="$@"
++set -- $(run_preprocessor "$@")
++
++name=$1
++version=$2.$3.$4
++
++case "$name" in
++GCC) min_version=$gcc_min_version;;
++Clang) min_version=$clang_min_version;;
++ICC) ;; # ICC min version undefined?
++*) echo "$orig_args: unknown compiler" >&2; exit 1;;
++esac
++
++cversion=$(get_canonical_version $version)
++
++if [ -n "$min_version" ]; then
++
++	min_cversion=$(get_canonical_version $min_version)
++
++	if [ "$cversion" -lt "$min_cversion" ]; then
++		echo >&2 "***"
++		echo >&2 "*** Compiler is too old."
++		echo >&2 "***   Your $name version:    $version"
++		echo >&2 "***   Minimum $name version: $min_version"
++		echo >&2 "***"
++		exit 1
++	fi
++fi
++
++echo $name $cversion
+diff --git a/scripts/clang-version.sh b/scripts/clang-version.sh
+deleted file mode 100755
+index 6fabf0695761..000000000000
+--- a/scripts/clang-version.sh
++++ /dev/null
+@@ -1,19 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# clang-version clang-command
+-#
+-# Print the compiler version of `clang-command' in a 5 or 6-digit form
+-# such as `50001' for clang-5.0.1 etc.
+-
+-compiler="$*"
+-
+-if ! ( $compiler --version | grep -q clang) ; then
+-	echo 0
+-	exit 1
+-fi
+-
+-MAJOR=$(echo __clang_major__ | $compiler -E -x c - | tail -n 1)
+-MINOR=$(echo __clang_minor__ | $compiler -E -x c - | tail -n 1)
+-PATCHLEVEL=$(echo __clang_patchlevel__ | $compiler -E -x c - | tail -n 1)
+-printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
+diff --git a/scripts/gcc-version.sh b/scripts/gcc-version.sh
+deleted file mode 100755
+index ae353432539b..000000000000
+--- a/scripts/gcc-version.sh
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# gcc-version gcc-command
+-#
+-# Print the gcc version of `gcc-command' in a 5 or 6-digit form
+-# such as `29503' for gcc-2.95.3, `30301' for gcc-3.3.1, etc.
+-
+-compiler="$*"
+-
+-if [ ${#compiler} -eq 0 ]; then
+-	echo "Error: No compiler specified." >&2
+-	printf "Usage:\n\t$0 <gcc-command>\n" >&2
+-	exit 1
+-fi
+-
+-MAJOR=$(echo __GNUC__ | $compiler -E -x c - | tail -n 1)
+-MINOR=$(echo __GNUC_MINOR__ | $compiler -E -x c - | tail -n 1)
+-PATCHLEVEL=$(echo __GNUC_PATCHLEVEL__ | $compiler -E -x c - | tail -n 1)
+-printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
 -- 
-Thanks,
-~Nick Desaulniers
+2.27.0
+
