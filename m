@@ -2,104 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B29B82F6098
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 12:57:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91B7A2F62D1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Jan 2021 15:14:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726815AbhANL5H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Jan 2021 06:57:07 -0500
-Received: from esgaroth.petrovitsch.at ([78.47.184.11]:4031 "EHLO
-        esgaroth.tuxoid.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726376AbhANL5E (ORCPT
+        id S1728814AbhANOOK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Jan 2021 09:14:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33314 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727283AbhANOOJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Jan 2021 06:57:04 -0500
-Received: from thorin.petrovitsch.priv.at (80-110-120-15.cgn.dynamic.surfer.at [80.110.120.15])
-        (authenticated bits=0)
-        by esgaroth.tuxoid.at (8.15.2/8.15.2) with ESMTPSA id 10EBtQms024298
-        (version=TLSv1 cipher=AES256-SHA bits=256 verify=NO);
-        Thu, 14 Jan 2021 12:55:27 +0100
-Message-ID: <53fccf6d59938e94f71a823d704e26903b98fb7d.camel@petrovitsch.priv.at>
-Subject: Re: Toolchain-dependent config options
-From:   Bernd Petrovitsch <bernd@petrovitsch.priv.at>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Thu, 14 Jan 2021 12:55:26 +0100
-In-Reply-To: <CAK7LNASbYiZ+UVTmUwRDGMMHQXO-oE-3a4RxbEqX+=dCG2U6dw@mail.gmail.com>
-References: <20210113222112.ej4rrd5xw2pwegvw@treble>
-         <CAK7LNASbYiZ+UVTmUwRDGMMHQXO-oE-3a4RxbEqX+=dCG2U6dw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        Thu, 14 Jan 2021 09:14:09 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25FDC061575;
+        Thu, 14 Jan 2021 06:13:29 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id z5so11316426iob.11;
+        Thu, 14 Jan 2021 06:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=fbtwZM+uKeBRUOgD7mvL1INeuyd+8TFMde/KmwBC0jY=;
+        b=nsMgpBpB2BuEMBBvDhB4ISzRmWXJUH1soL35AhJHtAFfb1XdYFYqo6SZtXJ9X7bnqi
+         mTCXJU+dnOGYtnKeXx8EzlT9bL2Iqj7oQbd6rRWU70NXDe+DBMgblMfl58gVeKh5J1Vl
+         sgtiqjIDqG9qgGh1/94phAB0z0Otrjd9VsgDtCutBB4m4bWGV5MPOkiuFPwFoMfog82p
+         hsR+CkzQWVoMqxbPmmkdVitb8VwwiKs3vnpl9aT2E2ftWXq/TsKxHSh35weSWn9iX7UT
+         0ZbMC+biSljAUZME9aLX8RVFQ0aJBo0d5APqrMWIrg05MeG089Yxss8BqoN2ooNjQCZM
+         X9fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=fbtwZM+uKeBRUOgD7mvL1INeuyd+8TFMde/KmwBC0jY=;
+        b=oAoBl6hiP3GUo7bVuXM2nXA7PNJwmQ/J/pMpxPFYngofbFQdvAKyTe+9GEgcHGVxyq
+         0paNgRN7vbtNBl3BX9oXWiefGPMb8dDwdVJHoP1pv7uahAQ1WpLygVl38LwXIkf5Gw1o
+         Q8yVymiNBJO1sqMH0uxsI3dhVIcKpz/4Wq2vlIJkxbsJOO7rRsVGJK9QUH/uHkaVD2u7
+         Tg5fq8bGGl04Bhj9xkYypAv6RUoiR2T9gXWKCKSrhksLSJYkdp8XJsgUQmVIamt6sQzk
+         sb1YdtZAbjP6M7d5Pes+SDZbIr8meUKdKakHXxp/P36eD4QgTOvtzbkG36p99fPkEQ7T
+         oKFQ==
+X-Gm-Message-State: AOAM531S/rfMOOQ5+qH1TtdyJt36njbd06EOtNWQeHjmiff+TUgQTZPb
+        nHMd+w71qFZ9dBUdF6/588njic0by55wblc1/VA=
+X-Google-Smtp-Source: ABdhPJx9R+87WqA2lLUol3MapdgzAdocSQI8+F0kw3wfU9ejIh3raCJFhJ331jeGBp6ycL6sTQsSW9+ZBP3GKRkMa/Q=
+X-Received: by 2002:a05:6e02:eb0:: with SMTP id u16mr6683229ilj.209.1610633608924;
+ Thu, 14 Jan 2021 06:13:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-DCC--Metrics: esgaroth.tuxoid.at 1481; Body=4 Fuz1=4 Fuz2=4
-X-Virus-Scanned: clamav-milter 0.97 at esgaroth.tuxoid.at
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-0.7 required=5.0 tests=AWL,BAYES_05,
-        UNPARSEABLE_RELAY autolearn=unavailable version=3.3.1
-X-Spam-Report: * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
-        *      [score: 0.0319]
-        *  0.0 UNPARSEABLE_RELAY Informational: message has unparseable relay lines
-        * -0.2 AWL AWL: Adjusted score from AWL reputation of From: address
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on esgaroth.tuxoid.at
+References: <CA+icZUVuk5PVY4_HoCoY2ymd27UjuDi6kcAmFb_3=dqkvOA_Qw@mail.gmail.com>
+ <fa019010-9d7c-206c-d2c6-0893381f5913@fb.com> <CA+icZUVm6ZZveqVoS83SVXe1nqkqZVRjLO+SK1_nXHKkgh4yPQ@mail.gmail.com>
+ <CAEf4BzaEA5aWeCCvHp7ASo9TdfotcBtqNGexirEynHDSo7ufgg@mail.gmail.com>
+ <CA+icZUVrF_LCVhELbNLA7=FzEZK4=jk3QLD9XT2w5bQNo=nnOA@mail.gmail.com> <20210111223144.GA1250730@krava>
+In-Reply-To: <20210111223144.GA1250730@krava>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 14 Jan 2021 15:13:18 +0100
+Message-ID: <CA+icZUWaMktPBYy9P-gbgL-AD7EEPrrvS4jenahJ-3HkxOOC0g@mail.gmail.com>
+Subject: Re: Check pahole availibity and BPF support of toolchain before
+ starting a Linux kernel build
+To:     Jiri Olsa <jolsa@redhat.com>
+Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        Jiri Olsa <jolsa@kernel.org>, Yonghong Song <yhs@fb.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tom Stellard <tstellar@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi all!
+On Mon, Jan 11, 2021 at 11:31 PM Jiri Olsa <jolsa@redhat.com> wrote:
+>
+> On Mon, Jan 11, 2021 at 10:30:22PM +0100, Sedat Dilek wrote:
+>
+> SNIP
+>
+> > > >
+> > > > Building a new Linux-kernel...
+> > > >
+> > > > - Sedat -
+> > > >
+> > > > [1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/
+> > > > [2] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758026878
+> > > > [3] https://github.com/ClangBuiltLinux/tc-build/issues/129#issuecomment-758056553
+> > >
+> > > There are no significant bug fixes between pahole 1.19 and master that
+> > > would solve this problem, so let's try to repro this.
+> > >
+> >
+> > You are right pahole fom latest Git does not solve the issue.
+> >
+> > + info BTFIDS vmlinux
+> > + [  != silent_ ]
+> > + printf   %-7s %s\n BTFIDS vmlinux
+> >  BTFIDS  vmlinux
+> > + ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+> > FAILED: load BTF from vmlinux: Invalid argument
+>
+> hm, is there a .BTF section in vmlinux?
+>
+> is this working over vmlinux:
+>  $ bpftool btf dump file ./vmlinux
+>
 
-On Thu, 2021-01-14 at 13:56 +0900, Masahiro Yamada wrote:
-> On Thu, Jan 14, 2021 at 7:21 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-[...]
-> > If I copy a config with CONFIG_GCC_PLUGINS to another system which
-> > doesn't have the gcc-plugin-devel package, it gets silently disabled by
-> > "make olddefconfig".
-> > 
-> > I've seen multiple cases lately where this is causing confusion.  I
-> > suspect the problem is getting worse with recent added support for a
-> > variety of toolchains and toolchain-dependent features.
-> > 
-> > Would it be possible to have an error (or at least a warning) in this
-> > case?
-> > 
-> > For example, a "depends-error" which triggers an error if its failure
-> > would disable a feature?
-[...]
-> We disable any feature that is unsupported by the compiler in use.
-> 
-> Conventionally, we did that in the top Makefile
-> by using $(call cc-option, ) macro or by running some scripts.
-> 
-> Recently, we are moving such compiler tests to the Kconfig stage.
-> 
-> Anyway, we disable unsupported features so any combination
-> of CONFIG options builds successfully.
-> This will ease randconfg and allmodconfig tests.
+I switched to LLVM v12 from <apt.llvm.org> and saw the same FAILED line.
 
-For options of $CC, that makes sense since there are different
-compilers and lots of versions of them out there.
+The generated vmlinux file is cleaned on failure.
 
-> A lot of people and CI systems are running allmodconfig tests
-> for various architectures and toolchains.
++ info BTFIDS vmlinux
++ [  != silent_ ]
++ printf   %-7s %s\n BTFIDS vmlinux
+ BTFIDS  vmlinux
++ ./tools/bpf/resolve_btfids/resolve_btfids vmlinux
+FAILED: load BTF from vmlinux: Invalid argument
++ on_exit
++ [ 255 -ne 0 ]
++ cleanup
++ rm -f .btf.vmlinux.bin.o
++ rm -f .tmp_System.map
++ rm -f .tmp_initcalls.lds
++ rm -f .tmp_symversions.lds
++ rm -f .tmp_vmlinux.btf .tmp_vmlinux.kallsyms1
+.tmp_vmlinux.kallsyms1.S .tmp_vmlinux.kallsyms1.o
+.tmp_vmlinux.kallsyms2 .tmp_vmlinux.kallsyms2.S .tmp_vmlinux.kallsyms
+2.o
++ rm -f System.map
++ rm -f vmlinux
++ rm -f vmlinux.o
 
-Isn't some kind of defying (or more killing) the usefulness
-of regression compile runs if one does `make allmodconfig`
-and some (lots?) of stuff gets automatically configured
-out just because some
--dev(|el) package is missing?
+Dunno, how to suppress this.
 
-Aren't there some kernel-build meta packages for various
-distributions out there that pull all necessary in?
+- Sedat -
 
-> Introducing the build breakage is annoying.
-
-Yes, update/install the necessary package to fix it.
-
-MfG,
-	Bernd
--- 
-Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
-There is no cloud, just other people computers. - FSFE
-                     LUGA : http://www.luga.at
-
-
+> do you have a verbose build output? I'd think pahole scream first..
+>
+> jirka
+>
