@@ -2,123 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D90F2F898A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jan 2021 00:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C02A2F8996
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jan 2021 00:45:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728422AbhAOXnj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Jan 2021 18:43:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbhAOXni (ORCPT
+        id S1728073AbhAOXod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Jan 2021 18:44:33 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:64013 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727468AbhAOXod (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Jan 2021 18:43:38 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B91FC061757;
-        Fri, 15 Jan 2021 15:42:58 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id w127so6594447ybw.8;
-        Fri, 15 Jan 2021 15:42:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2F29hULLcdjxbbHgzXktPmVGYBC0Y8dyyq9NoQsYzh8=;
-        b=ruZ8RBfUjCYDk5g71LaZonLr9SanFa+9ZvtOKwn7AVkcKasgPV+s6tLvVqkN4xmMd1
-         mxfHOb5mH/1iHveJRn1Eow/yXNXr3CxEkiGbgr2+s05vXnhpb8CB0yfukPbfN6P1zVzi
-         GoLB/w9SYrdM/fLqixWUiPn4a5y8JB/xD4M/8ymJFraik/8JjnSuRHw6IopKHBYS7dz8
-         wnmGfHX6zNdihG/eNc20eRvzszXw/mEaFHC8W7kgc552pUHrir6rQcd3xUL94bugP3Wf
-         1YvZqcAOVbk0PNJrmOT8Le0/gEt8bmGPQc4qg1STz+1SykT1Y7+5B7UptBPLywaTSp2Z
-         nZHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2F29hULLcdjxbbHgzXktPmVGYBC0Y8dyyq9NoQsYzh8=;
-        b=qjyCPaPf2P+inCyGTO5tB9gP5WmeBGsiZ/R55ba/bqhXOF7MFyuhaGuT202Dx/k2P8
-         TeDYbaSz5iMxsvXkWTjp20pJUZ+R88Q4q0T6G7d2mnEtZhP3g3Cd3lYDxUm7bEf98W4u
-         JNGJXDW4kmD5RvE5+GkYHu3vtZq+9A5xLVszKvkxkK5jg/AjeyQDSTpAZWUPnWv5p0Z8
-         IEepjTyJuTWNEiQ4MvKFW9xsAckJeVGSSnQW81PQm444FiEbNKh03RQfnqQhsb2viGGh
-         3wpxdu07MjP/KBwOSD4OVMd3CrqAGcX5YMUACZHORaqeqDQIyjUreL6S8rsLcBwHjrDR
-         RDAA==
-X-Gm-Message-State: AOAM533PRr3M4QzQ061qWO+dbCCDlv9LSNVI727cURvIkxqPD4SDV5BQ
-        JF7nufw9zBU2TwqrV6uEFtucnwDAA1sA06Jd+lDFAZIdtlY=
-X-Google-Smtp-Source: ABdhPJyUZh6YD/vIb/sAZ0PFxW8PZ1mh3UlMjBGw67gYNpc8/5BM04oB3c6VWYOqnlM1cS4x8AsWv/3pgMdece0t0qA=
-X-Received: by 2002:a25:d6d0:: with SMTP id n199mr20593271ybg.27.1610754177664;
- Fri, 15 Jan 2021 15:42:57 -0800 (PST)
+        Fri, 15 Jan 2021 18:44:33 -0500
+Received: from grover.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 10FNhKIA008447;
+        Sat, 16 Jan 2021 08:43:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 10FNhKIA008447
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1610754201;
+        bh=X95nt+nStFbSXLK82H480Vb9TvXIBPghJobLO+NTN6U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qkgKHE7okjmUZ2Ed4FEUsvU7atpHr4/dyXrRuq5oDX09nZ9ZaGd6Uu/eVyyAmcgxT
+         IFzGb2EV2DwNinx76b/by03XB8921QlldajHXuRwU3I0XkFkmLlM4SRXeN1w0AjiZu
+         xaA6tHOBe50GQbrSlx3cTSy8xCuzMX0vHSNymBjbYFD/HYE3cPGynV8tmwS6Kz6cvr
+         QTjLnQAu3rRZ2bUi5c1yYD1TjHhvIh+c+v2ejSBWYeCIRkOoAN6TVGhReA5HW6An+d
+         ctfVfUtLvmPwH58TB5QPyZtIxRauJgK+X/KQtbNTGuTfyWsPZoQEMbVi4fIkHNrYeP
+         HAc7dSB/sEqzw==
+X-Nifty-SrcIP: [126.26.94.251]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Marco Elver <elver@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] genksyms: make source_file a local variable in lexer
+Date:   Sat, 16 Jan 2021 08:43:02 +0900
+Message-Id: <20210115234305.87205-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210115210616.404156-1-ndesaulniers@google.com>
- <CA+icZUVp+JNq89uc_DyWC6zh5=kLtUr7eOxHizfFggnEVGJpqw@mail.gmail.com>
- <7354583d-de40-b6b9-6534-a4f4c038230f@fb.com> <CAKwvOd=5iR0JONwDb6ypD7dzzjOS3Uj0CjcyYqPF48eK4Pi90Q@mail.gmail.com>
-In-Reply-To: <CAKwvOd=5iR0JONwDb6ypD7dzzjOS3Uj0CjcyYqPF48eK4Pi90Q@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Fri, 15 Jan 2021 15:42:46 -0800
-Message-ID: <CAEf4BzZ7y84+oe9CD4g3r19qGup=kYnm8+f+5K4YQ=6gqTWtcQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] Kbuild: DWARF v5 support
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>, Yonghong Song <yhs@fb.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>, Jiri Olsa <jolsa@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 3:34 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Fri, Jan 15, 2021 at 3:24 PM Yonghong Song <yhs@fb.com> wrote:
-> >
-> >
-> >
-> > On 1/15/21 1:53 PM, Sedat Dilek wrote:
-> > > En plus, I encountered breakage with GCC v10.2.1 and LLVM=1 and
-> > > CONFIG_DEBUG_INFO_DWARF4.
-> > > So might be good to add a "depends on !DEBUG_INFO_BTF" in this combination.
->
-> Can you privately send me your configs that repro? Maybe I can isolate
-> it to a set of configs?
+This is only used in yylex() in lex.l
 
-Why privately? To reproduce and fix the issue we (BPF and pahole
-community) would need the config as well.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/genksyms/genksyms.c | 2 +-
+ scripts/genksyms/genksyms.h | 2 +-
+ scripts/genksyms/lex.l      | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
->
-> >
-> > I suggested not to add !DEBUG_INFO_BTF to CONFIG_DEBUG_INFO_DWARF4.
-> > It is not there before and adding this may suddenly break some users.
-> >
-> > If certain combination of gcc/llvm does not work for
-> > CONFIG_DEBUG_INFO_DWARF4 with pahole, this is a bug bpf community
-> > should fix.
->
-> Is there a place I should report bugs?
+diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
+index 23eff234184f..4827c5abe5b7 100644
+--- a/scripts/genksyms/genksyms.c
++++ b/scripts/genksyms/genksyms.c
+@@ -29,7 +29,7 @@ static struct symbol *symtab[HASH_BUCKETS];
+ static FILE *debugfile;
+ 
+ int cur_line = 1;
+-char *cur_filename, *source_file;
++char *cur_filename;
+ int in_source_file;
+ 
+ static int flag_debug, flag_dump_defs, flag_reference, flag_dump_types,
+diff --git a/scripts/genksyms/genksyms.h b/scripts/genksyms/genksyms.h
+index 2bcdb9bebab4..21ed2ec2d98c 100644
+--- a/scripts/genksyms/genksyms.h
++++ b/scripts/genksyms/genksyms.h
+@@ -47,7 +47,7 @@ typedef struct string_list **yystype;
+ #define YYSTYPE yystype
+ 
+ extern int cur_line;
+-extern char *cur_filename, *source_file;
++extern char *cur_filename;
+ extern int in_source_file;
+ 
+ struct symbol *find_symbol(const char *name, enum symbol_type ns, int exact);
+diff --git a/scripts/genksyms/lex.l b/scripts/genksyms/lex.l
+index ae76472efc43..9e88c100fc28 100644
+--- a/scripts/genksyms/lex.l
++++ b/scripts/genksyms/lex.l
+@@ -125,6 +125,7 @@ yylex(void)
+ 
+   static int suppress_type_lookup, dont_want_brace_phrase;
+   static struct string_list *next_node;
++  static char *source_file;
+ 
+   int token, count = 0;
+   struct string_list *cur_node;
+-- 
+2.27.0
 
-bpf@vger.kernel.org (BPF in general) and dwarves@vger.kernel.org
-(pahole, which seems to be emitting these warnings and having problems
-with DWARF5).
-
-
->
-> >
-> > >
-> > > I had some other small nits commented in the single patches.
-> > >
-> > > As requested in your previous patch-series, feel free to add my:
-> > >
-> > > Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
->
-> Yeah, I'll keep it if v6 is just commit message changes.
->
-> --
-> Thanks,
-> ~Nick Desaulniers
