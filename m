@@ -2,110 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C9D2F8670
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Jan 2021 21:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 227C22F872D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Jan 2021 22:07:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387494AbhAOUQZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Jan 2021 15:16:25 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:14037 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730515AbhAOUQY (ORCPT
+        id S1730360AbhAOVHD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Jan 2021 16:07:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37264 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729312AbhAOVHA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Jan 2021 15:16:24 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610741766; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=mBXeczvmNbWOnHiothAx6TK2fNcMOH0snmzHQ8eDIS4=;
- b=saagm9h2riIYWuNVO0uYD2B1Pd08pG8Gm2PXAW2Gjvsa5f2wbboc5AgapfbftLTL1TJm3ADh
- UphZAfcCXZw+XjZxl38xYxiwhCFHh96/1S3sadAS53NCv/1+GlIG79+NUqC9Z8Gh3I1BnYdK
- CTWJKLJnemX8/MSHeHoaMFGWOqg=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6001f7df21210999ed0f3b6a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 20:15:27
- GMT
-Sender: jjohnson=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 29F1AC43461; Fri, 15 Jan 2021 20:15:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: jjohnson)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3950DC433ED;
-        Fri, 15 Jan 2021 20:15:26 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 15 Jan 2021 12:15:26 -0800
-From:   jjohnson@codeaurora.org
+        Fri, 15 Jan 2021 16:07:00 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6439EC061793
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Jan 2021 13:06:20 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id h75so8043253ybg.18
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Jan 2021 13:06:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=ZbInGrM8DQpEvZpcv+BH44NrN/in7NktHoThO/+hjn0=;
+        b=fTf4GrnRn3rHcZiqqJ3n4RDpL4htAC4GKILeEvMx9YIwYeaCdF0u0YZFa65oByW2MJ
+         vuebTsSmoY54pAF/stdeDILEdoVgV8y++f3KQ617fYgz9ufXJdX4v1clDE7VjOp3KnZp
+         Gpyzcpd300ndhov7N5kjnC+sr7nlXpM3k3wqes+fD0R9Da14q0KdxH/FN3xLAdIhiK1y
+         VkZdjPmq7AZ9m0yF3+Me+HN1A5UsShNPWWrHn3RPhY7UyUs7YA+mgaOE/hrPsQ3c88AA
+         EUVGL5n4F4wF2sv6YxNNtJ8pTdoqUmeUEwWrINqlCsn/NTunNo0d8b2RvtbH5ScxlTGP
+         z1iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=ZbInGrM8DQpEvZpcv+BH44NrN/in7NktHoThO/+hjn0=;
+        b=HDYJSqJLVYpUB8okuHR6a7Qbcwakisz7CQDhtjkjaKvOMPk+1tDerH3l85FKqKsb7/
+         gdzNKgCTVsVmzFXtfh4/W4cuqWooe/PLIHCr5RkNr7GBTDO3j9xxQd7SUla3vLszhmvG
+         FCsqrcLBKeLld9oJ/ze6zREjACnQXRkB2lw1CDaJbZ3momCkD1uPDY4qJt8RktFZGkIY
+         zUV7NEYi3kfinEGvedk+OZEb7qfFBSltBDEfYicZDihsfuZD1zsPPY9zcT/4xrq3SRu3
+         n6kgWfMIRujS9iqvdBcsMF8/Ww1veEJJNC8zyGCa+qYBuj69+XFbDiOr61R+VVEVqZC3
+         a2FQ==
+X-Gm-Message-State: AOAM532K3MEiyWrqn+9AQ7f9ntuGjV2ZQxVujTnwvvnIIyTDZ4xvqqs+
+        uBqws86NNIBFmTbeklNX2IvuDgLmvlJq0igv7Cc=
+X-Google-Smtp-Source: ABdhPJyCJsv5sa6GTOA0Ua9jGRg1Lvl3d6yJ4eg9TKI7QsjVEKnRO5iFLPKsu3uDFWveQhYCj5Tjl5TTMNn9uLPgTIQ=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:ef47:: with SMTP id
+ w7mr19625123ybm.509.1610744779507; Fri, 15 Jan 2021 13:06:19 -0800 (PST)
+Date:   Fri, 15 Jan 2021 13:06:13 -0800
+Message-Id: <20210115210616.404156-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH v5 0/3] Kbuild: DWARF v5 support
+From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Prasad Sodagudi <psodagud@quicinc.com>, eberman@quicinc.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] kbuild: handle excessively long argument lists
-In-Reply-To: <CAK7LNASHC5sNWxL0Ve8=f6=Gpf8ekVS41ETacBCTv5p72SVkNA@mail.gmail.com>
-References: <1610500731-30960-2-git-send-email-jjohnson@codeaurora.org>
- <1610660990-18812-1-git-send-email-jjohnson@codeaurora.org>
- <CAK7LNASHC5sNWxL0Ve8=f6=Gpf8ekVS41ETacBCTv5p72SVkNA@mail.gmail.com>
-Message-ID: <4c02050c4e95e4cb8cc04282695f8404@codeaurora.org>
-X-Sender: jjohnson@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2021-01-14 17:12, Masahiro Yamada wrote:
-> On Fri, Jan 15, 2021 at 6:50 AM Jeff Johnson <jjohnson@codeaurora.org> 
-> wrote:
->> 
->> From: Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>
->> 
->> Modules with a large number of compilation units may be
->> exceeding AR and LD command argument list. Handle this gracefully by
->> writing the long argument list in a file. The command line options
->> read from file are inserted in place of the original @file option.
->> 
->> The usage is well documented at
->> https://www.gnu.org/software/make/manual/html_node/File-Function.html
->> 
->> Signed-off-by: Mahesh Kumar Kalikot Veetil <mkalikot@codeaurora.org>
->> Signed-off-by: Jeff Johnson <jjohnson@codeaurora.org>
->> ---
-> 
-> 
-> 
-> 
-> First, is this a real problem?
-> If so, which module is exceeding the command line limit?
+DWARF v5 is the latest standard of the DWARF debug info format.
 
-On 2021-01-14 17:12, Masahiro Yamada wrote:
-> First, is this a real problem?
-> If so, which module is exceeding the command line limit?
+DWARF5 wins significantly in terms of size when mixed with compression
+(CONFIG_DEBUG_INFO_COMPRESSED).
 
-Mahesh & I appreciate all of the feedback.
+Link: http://www.dwarfstd.org/doc/DWARF5.pdf
 
-The issue is seen in an Android environment with an out-of-tree
-driver. The combination of long path names and a large number
-of source files is leading to the issue.
+Patch 1 is a cleanup from Masahiro and isn't DWARF v5 specific.
+Patch 2 is a cleanup that lays the ground work and isn't DWARF
+v5 specific.
+Patch 3 implements Kconfig and Kbuild support for DWARFv5.
 
-Since Mahesh & I are not Kbuild gurus, is there an alternative
-solution to this issue?
+Changes from v4:
+* drop set -e from script as per Nathan.
+* add dependency on !CONFIG_DEBUG_INFO_BTF for DWARF v5 as per Sedat.
+* Move LLVM_IAS=1 complexity from patch 2 to patch 3 as per Arvind and
+  Masahiro. Sorry it took me a few tries to understand the point (I
+  might still not), but it looks much cleaner this way. Sorry Nathan, I
+  did not carry forward your previous reviews as a result, but I would
+  appreciate if you could look again.
+* Add Nathan's reviewed by tag to patch 1.
+* Reword commit message for patch 3 to mention LLVM_IAS=1 and -gdwarf-5
+  binutils addition later, and BTF issue.
+* I still happen to see a pahole related error spew for the combination
+  of:
+  * LLVM=1
+  * LLVM_IAS=1
+  * CONFIG_DEBUG_INFO_DWARF4
+  * CONFIG_DEBUG_INFO_BTF
+  Though they're non-fatal to the build. I'm not sure yet why removing
+  any one of the above prevents the warning spew. Maybe we'll need a v6.
 
-Jeff
+Changes from v3:
 
---
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
-Forum,
-a Linux Foundation Collaborative Project
+Changes as per Arvind:
+* only add -Wa,-gdwarf-5 for (LLVM=1|CC=clang)+LLVM_IAS=0 builds.
+* add -gdwarf-5 to Kconfig shell script.
+* only run Kconfig shell script for Clang.
+
+Apologies to Sedat and Nathan; I appreciate previous testing/review, but
+I did no carry forward your Tested-by and Reviewed-by tags, as the
+patches have changed too much IMO.
+
+Changes from v2:
+* Drop two of the earlier patches that have been accepted already.
+* Add measurements with GCC 10.2 to commit message.
+* Update help text as per Arvind with help from Caroline.
+* Improve case/wording between DWARF Versions as per Masahiro.
+
+Changes from the RFC:
+* split patch in 3 patch series, include Fangrui's patch, too.
+* prefer `DWARF vX` format, as per Fangrui.
+* use spaces between assignment in Makefile as per Masahiro.
+* simplify setting dwarf-version-y as per Masahiro.
+* indent `prompt` in Kconfig change as per Masahiro.
+* remove explicit default in Kconfig as per Masahiro.
+* add comments to test_dwarf5_support.sh.
+* change echo in test_dwarf5_support.sh as per Masahiro.
+* remove -u from test_dwarf5_support.sh as per Masahiro.
+* add a -gdwarf-5 cc-option check to Kconfig as per Jakub.
+
+*** BLURB HERE ***
+
+Masahiro Yamada (1):
+  Remove $(cc-option,-gdwarf-4) dependency from CONFIG_DEBUG_INFO_DWARF4
+
+Nick Desaulniers (2):
+  Kbuild: make DWARF version a choice
+  Kbuild: implement support for DWARF v5
+
+ Makefile                          | 13 +++++++---
+ include/asm-generic/vmlinux.lds.h |  6 ++++-
+ lib/Kconfig.debug                 | 42 +++++++++++++++++++++++++------
+ scripts/test_dwarf5_support.sh    |  8 ++++++
+ 4 files changed, 57 insertions(+), 12 deletions(-)
+ create mode 100755 scripts/test_dwarf5_support.sh
+
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
+
