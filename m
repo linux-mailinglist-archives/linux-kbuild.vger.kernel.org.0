@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF972F8B2E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jan 2021 05:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2998D2F8B66
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Jan 2021 06:14:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729455AbhAPEay (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Jan 2021 23:30:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47466 "EHLO
+        id S1726156AbhAPFIr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Jan 2021 00:08:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbhAPEax (ORCPT
+        with ESMTP id S1725899AbhAPFIr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Jan 2021 23:30:53 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FBDEC061757;
-        Fri, 15 Jan 2021 20:30:13 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id n4so22247770iow.12;
-        Fri, 15 Jan 2021 20:30:12 -0800 (PST)
+        Sat, 16 Jan 2021 00:08:47 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DD2C061757;
+        Fri, 15 Jan 2021 21:08:06 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id q2so20741665iow.13;
+        Fri, 15 Jan 2021 21:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=hQ6bkRNdpq7h6cTCMQlmiqIilS7nPd3l2RGWspGdUK4=;
-        b=O3zI93s9j7MnFsfbXsKwiyQb7h1Ec3axsUEzgvww5OrOh7hXBbNzDaH6qqs0HAFlAa
-         RYpaYDsTE2nZNDayk8VqRvddMbiCAUyX3CuAoxRwueQOXHNxMSxmNAsl2B0qUdhc+6C9
-         ZIr/1mBUSLi2NXA5Dz26s2WipaN6LJuRS3M1HmfusAsLvlpdUGMGKXakP1u9UK05BImR
-         Ekjk3iIfC3mFuoeNCYP6yzAgAaQoHqadB2NgnVLM7GqVTfJ6VZRhvMGSBTXh0EmU7RTR
-         +2tM/QiSynPU1W70bl6UmNJQjbXtw8h5gX4ryJJwDpQwMUFQ039AtbaMKNij1LIb5TWv
-         9YtQ==
+        bh=nIQUS/B/jxToiqnwVuNwCI5mEHFlIKg/uOPqX0C2Wtw=;
+        b=BCEzZ30PpAdSDzvGeBNvIxjLUhqvauhhAl08F+tQoLc59jXBr1FvyFXf2eo3W/BYiE
+         3cIW6Dgr2xcqCjktlH3uGVpPq2sEsqEpa1SCF6vUCgqGGS/j3jhvtI7PqWTAiW7NqSzU
+         QtUg/wD0ASrA38VhyTUxa5gcEZnFmV9V8DAIKwvvZplU5kNlL7UGB9NWQ6RKC7dRUEu8
+         naxvkB1mwnLk/0AMJDMjQzDCGWq3ykhc+lTDyooONYwI/rvpHtXYgm7FlNsCuwL1hdPQ
+         DoM/OJHebKbfCYW3oQLXMLuB0SQOxJB5yb07dSWJPAOnSZlRlqquIJLLSTGAFamOaBV8
+         n8Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=hQ6bkRNdpq7h6cTCMQlmiqIilS7nPd3l2RGWspGdUK4=;
-        b=VKbl58fb8o0mQlLi4W+QgGb6gZTUyf/RgMl/q0G67RKPSc05mrROVKDg45Shzeb0GL
-         QTb6TSP8idnOnSAyE8D618FanyMqbmnSPekmwi2R6vev1/zNFsMmdlr4LpkQ5UKA9ROE
-         JFrr8HFGig7nrCQCHs9aCKMVPvu1fXiAa9tsbC8mrT6/6At4vO7p15xPVXr8kfCnBnMK
-         pHpgKpBS8Kkij4X9Densvvs1RNdid6mLp51T9OAAcEGXSDAxv4DgFiO9QgLAsRoDt2iF
-         D47P7zsu8EjMQdKva1u4+8AEx+oCTXVREFWTJYt6Hdlh2nn+F57akFsiEGKz2MnAi7LK
-         O/eg==
-X-Gm-Message-State: AOAM531qAmgHXBxBenetH071RNuPrUOoZkKkVZOocaVnk5lQ6gHyR7nP
-        qj6cKaZ4xXQdaMu5G02PJxdHI1PnWB6LodCyWBg=
-X-Google-Smtp-Source: ABdhPJxEjk0ia9GS+FonXf7vJgjI8Cg/+NDOf/4PEI2M8xJLPQki5Xf5k8OR55D5jzNvYmZlu2EAEnI51YfN+eFK7+w=
-X-Received: by 2002:a5e:9b06:: with SMTP id j6mr10921789iok.171.1610771412146;
- Fri, 15 Jan 2021 20:30:12 -0800 (PST)
+        bh=nIQUS/B/jxToiqnwVuNwCI5mEHFlIKg/uOPqX0C2Wtw=;
+        b=tzrG70KG5s8FIDIm7ejwLPhyLRLXNzjc0yNybFj1B/2zlbBtcsNctXqOai7dwo7X/v
+         ILUS/MYjlDzWhy/mY+NkRlsOhCNn6qAg8MCy+f+WOs2eXtyL/2/YBc3aK0ZJiPhzDBBl
+         ZolcRPZDnYvM9MAwIHrQH12tcvSPzmSRqGVjH7TWqOvNGyvSAYgDv/mW+LBncC21k0Hx
+         q6qtTtQZ2ElR3khQQ0Xhmq0vC3Smkl1GyDZ8En8+E15/4A0oqDeL1kkbckq8+zFaB4qF
+         tUgTH2QmQos2NTNsA50759nr+1HquFfb8lXMuhP4XZBZUdGM0OLhZwcPuhIRC9Yaa3HN
+         GKTg==
+X-Gm-Message-State: AOAM531npuaIRTBohxD3W/gpAWTcoejWOroBq3x7Apjwh6e/tODpC0Dz
+        XG9pRBddJdT7+1oEiKbruv+cI6Ggf/EebYmSgZ4=
+X-Google-Smtp-Source: ABdhPJyPjV1sBVYh8T4dGG+mSL9ZbpSIEQVKTLnhQsLRDQrWB9TFmTVeAnntknYImejmwyotyR0/9/qNPDrdm+x1Pis=
+X-Received: by 2002:a92:8593:: with SMTP id f141mr9063480ilh.112.1610773685903;
+ Fri, 15 Jan 2021 21:08:05 -0800 (PST)
 MIME-Version: 1.0
 References: <CAKwvOd=rEngs-8DR6pagynYc5-=a06brTOOx5TT1TC+v7-3m2Q@mail.gmail.com>
  <20210116001324.2865-1-nick.desaulniers@gmail.com>
 In-Reply-To: <20210116001324.2865-1-nick.desaulniers@gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sat, 16 Jan 2021 05:30:00 +0100
-Message-ID: <CA+icZUVEc9Uo7TArGKBwk6rv7tPjXB94o=S_hW2y736_OQ-KkA@mail.gmail.com>
+Date:   Sat, 16 Jan 2021 06:07:54 +0100
+Message-ID: <CA+icZUW-H4LjVhJHSr2W3UJotvB6Eq1bFO_bQWT8=GQqcB4A1A@mail.gmail.com>
 Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
 To:     Nick Desaulniers <nick.desaulniers@gmail.com>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -110,13 +110,14 @@ On Sat, Jan 16, 2021 at 1:13 AM Nick Desaulniers
 > good!
 >
 
-I love cat videos on youtube and do find parallelly...
+Is that the latest status of Bill's patch?
 
-I must try this :-)!
-
-Might be good to write up an instruction (README) for followers?
+Or do you have me a lore link?
 
 - Sedat -
+
+[1] https://github.com/gwelymernans/linux/commits/gwelymernans/linux
+
 
 > >
 > > $ llvm-profdata show -topn=20 /tmp/vmlinux.profraw
