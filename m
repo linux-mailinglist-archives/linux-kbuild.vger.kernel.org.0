@@ -2,143 +2,219 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 797F52F97DA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jan 2021 03:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C21942F9864
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jan 2021 04:55:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730919AbhARCdT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 17 Jan 2021 21:33:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41394 "EHLO
+        id S1731229AbhARDz2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 17 Jan 2021 22:55:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726859AbhARCdS (ORCPT
+        with ESMTP id S1730417AbhARDz1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 17 Jan 2021 21:33:18 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 117A5C061573
-        for <linux-kbuild@vger.kernel.org>; Sun, 17 Jan 2021 18:32:38 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id g1so15213216edu.4
-        for <linux-kbuild@vger.kernel.org>; Sun, 17 Jan 2021 18:32:37 -0800 (PST)
+        Sun, 17 Jan 2021 22:55:27 -0500
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5CCC061573;
+        Sun, 17 Jan 2021 19:54:46 -0800 (PST)
+Received: by mail-qv1-xf31.google.com with SMTP id a1so6926314qvd.13;
+        Sun, 17 Jan 2021 19:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
-        b=fu01MN1RBBEK4GjqxdZtdRWsxoe0l9gdxKc7VAXhfUw+tqXVYw6Oq+GVUbZqZioYee
-         N9PAsxghkj2YFg/oY2Kfd/aPAMevD0MMkPFwZVCRANgHNcOdnY9IYshUJI2yRtFJ64hW
-         Gkza/6nurwrZt6HTmS4djj7qoivCSpusIfO5NOPpDqePuVN+rSCRwwJ9ohen352cj+bR
-         LTuMgBLYNGITa5YwWJarpdUlAoXhDOrb8/ZjE5lwtaUmUPsdgglKrX+aendAxoUyz1L5
-         uBmgzrjKmHlNFy/MSMTacEjHvNPV+Ajgz13VDTg1/a5kATrlpS3NpWIivAhwrRC9XCY5
-         e4ew==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5BTudEWeQhsyGD6rQdf9+i7qatpyX9MeRCEJpkHogz0=;
+        b=oXXIQRVPqUN92jSmF+JJ7yfiXB619LC0G8Ajp2Ks2dCStINnIspZmGbC1XvlO0syAD
+         YY0Z45V+6dqJGg8M/bk6RhyZfzUNFSgLEu0of4Hcfu13FLm9vVShdaw68XaId9gBkTvp
+         YlOInBWRoMjDRoeF/ql1z4O0R1b1PlhmylQ6otxDInSDi7LE7gm0W3rlr/KEF7SSUiBW
+         h6K8H1k759fX4/JFYaa+ckGNrsnLS3l8/8EUy1dC8voMZLeYpOV0W2yKmNrikT8mQIPW
+         Kh4TtsBS2YsWZxXaou2peyiNr81K5LmpHB3/dzCxHE7QEMmGAIwO3WDSqIn1yh+ccFVB
+         +ZEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
-        b=a95l9JfNoVr/yrZa0VqgyXeC+cDj6ER3yQfGjX2oVusphbsct02Dw49SFPfJEXD6Tj
-         6FZrN+4qmSo7PPlSxZBbM8b0WW1XFmh7qgUEzaGCr6pIIrP4iMPR/USnau/ZGXs1up2S
-         JALRzT/IRQdnmolJfjkzqS4JxV11N4dlDAAAileBW+zLIslD+Y3cHsWJuVO7/t9sOXIW
-         ne4RQfVWVPj4uC3wB6FFqyR08tfLnIOG83GdOnAlj2uBFODHKsRJZOKqdwvO06pzuB2W
-         OVni2mBRw7JNhQOaAWP0+u0cdVSi0ctRZtU5zcXYyWJcbberJyVHtlEVjvn8DvfcL/zt
-         8rMA==
-X-Gm-Message-State: AOAM532DomnmvpW+e7M+rhn86LL6VDWlCVay5XB69z/w2iVSSnpqOowI
-        kP4/P05iXfhwtZ1ShYTe/bLr2hLIPS6LPpSI9HHY
-X-Google-Smtp-Source: ABdhPJxghPKKFZfXRuqyf/ln2g2Vde9pBNxDQQMA4R+VxhCfUyDEYpwL6BrmysI20US1jRAcr454zHk78k+JbFhQuRg=
-X-Received: by 2002:aa7:c719:: with SMTP id i25mr13208470edq.197.1610937156426;
- Sun, 17 Jan 2021 18:32:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com> <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
-In-Reply-To: <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sun, 17 Jan 2021 18:32:25 -0800
-Message-ID: <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5BTudEWeQhsyGD6rQdf9+i7qatpyX9MeRCEJpkHogz0=;
+        b=P3N3geM55U86B8Fakab90YFYBF25geSMFBghksVyPMPUkadXhKopuA1V6vuDjEpdmp
+         btYmNuV2OLy3pQUToCgMWRNcpltDSI5n3PqWFHl7EDeoI8kvGa6c63ukbAyoVa1LktHu
+         yNDmsZnPp9K9chTTFXHaJ4eoulcEHln2zEm0ubNQgX4OylWndnyGYVk6EqUWNNlqT2YB
+         1/lb+1DR7+T1gkRWMfauJQSxmVIsM4CiuMyMEJQvt7SwOh+qCmKZao3Q96YaFZ3+7IE5
+         WnMHyFEBkHIsrPtaeA8KPd2NVdoRuybdie+R9RSLUfTZ+cpFf6GAaJfLchirw9p0KVFl
+         7aUw==
+X-Gm-Message-State: AOAM533UyVn6lyqBWIzmtbhvdRdw/CEWMNL2lN0JGk7px0h3MzFuQ91v
+        RapzC4nEVcdrKtEuYXwCdbzCRkuVLnCmZQ==
+X-Google-Smtp-Source: ABdhPJzwa/i6HwdHglzIDlbqFnlBwmwdSottqlL7+4lcI67x/Jo95N2BL+uuwzJI9KGNv8ou8T8e1w==
+X-Received: by 2002:ad4:42a5:: with SMTP id e5mr22807830qvr.37.1610942086050;
+        Sun, 17 Jan 2021 19:54:46 -0800 (PST)
+Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id k187sm10106991qkc.74.2021.01.17.19.54.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Jan 2021 19:54:45 -0800 (PST)
+Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+To:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        David Gibson <david@gibson.dropbear.id.au>
+Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
+ <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <CAL_JsqLpbSOk-OST8Oi7uyFVjekX-15713F1FbDCQWfVWgikMw@mail.gmail.com>
+ <20210114050309.wokrhw4o3cjxj5uo@vireshk-i7>
+ <CAL_JsqJ=jxBo2JsjNTcBnV_8OrGjUc4ZQEpdVWsfFwWb9YzyFQ@mail.gmail.com>
+ <20210115054450.ab2xrohlxg7nnzpn@vireshk-i7>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <310774b2-1df6-b219-1b6d-70b8bdbb2e26@gmail.com>
+Date:   Sun, 17 Jan 2021 21:54:44 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210115054450.ab2xrohlxg7nnzpn@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> [ big snip ]
+Hi Viresh,
 
-[More snippage.]
+On 1/14/21 11:44 PM, Viresh Kumar wrote:
+> +David,
+> 
+> On 14-01-21, 09:01, Rob Herring wrote:
+>> On Wed, Jan 13, 2021 at 11:03 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>
+>>> On 11-01-21, 09:46, Rob Herring wrote:
+>>>> On Fri, Jan 8, 2021 at 2:41 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>>>
+>>>>> Now that fdtoverlay is part of the kernel build, start using it to test
+>>>>> the unitest overlays we have by applying them statically.
+>>>>
+>>>> Nice idea.
+>>>>
+>>>>> The file overlay_base.dtb have symbols of its own and we need to apply
+>>>>> overlay.dtb to overlay_base.dtb alone first to make it work, which gives
+>>>>> us intermediate-overlay.dtb file.
+>>>>
+>>>> Okay? If restructuring things helps we should do that. Frank?
+>>>
+>>> Frank, do we want to do something about it ? Maybe make overlay_base.dts an dtsi
+>>> and include it from testcases.dts like the other ones ?
 
-> [ CC Fangrui ]
->
-> With the attached...
->
->    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> undefined symbols
->
-> ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> _GLOBAL_OFFSET_TABLE_ loading kernel modules".
->
-Thanks for confirming that this works with the above patch.
+I was not able to look at this until tonight.  The unittest world is somewhat
+convoluted and complex.  Not at all a normal OF environment since it is directly
+using both dynamic OF code and overlay apply/remove code.  Not to mention
+deliberately misformed devicetree (.dts) data.  And totally hacking the loading
+of FDTs in additional ways.
 
-> @ Bill Nick Sami Nathan
->
-> 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
+It is late Sunday night here (almost 10:00pm), so I am going to look at this
+first thing Monday morning.
 
-The integrated assembler and this option are more-or-less orthogonal
-to each other. One can still use the GNU assembler with PGO. If you're
-having an issue, it may be related to ClangBuiltLinux issue #1250.
+>>
+>> No, because overlay_base.dts is an overlay dt.
+> 
+> What property of a file makes it an overlay ? Just the presence of /plugin/; ?
 
-> 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
->
-I know Nick did several tests with PGO. He may have looked into it
-already, but we can check.
+The "/plugin/;" in a dts file is what tells the dtc compiler to process the source
+file as an overlay instead of as a base.
 
-> I would like to know what the impact of the Clang's Integrated
-> Assembler and DWARF v5 are.
->
-> I dropped both means...
->
-> 1. Do not pass "LLVM_IAS=1" to make.
-> 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
->
-> ...for a successfull build and boot on bare metal.
->
+> 
+> David, we are talking about the overlay base[1] file here. The fdtoverlay tool
+> fails to apply it to testcases.dts file (in the same directory) because none of
+> its nodes have the __overlay__ label and the dtc routine overlay_merge() [2]
+> skips them intentionally.
+> 
+>> I think we need an
+>> empty, minimal base.dtb to apply overlay_base.dtbo to.
+> 
+> One way out is adding an (almost-empty) testcase-data-2 in testcases.dtb, that
+> will make it work.
+> 
+>> And then fdtoverlay needs a fix to apply overlays to the root node?
+> 
+> It isn't just root node I think, but any node for which the __overlay__ label
+> isn't there.
+> 
+> So this can make it all work if everyone is fine with it:
 
-[Next message]
+I'll look this over Monday morning to see what the side effects are in the
+bizarre world of unittest.
 
-> On each rebuild I need to pass to make ...?
->
->   LLVM=1 -fprofile-use=vmlinux.profdata
->
-Yes.
+> 
+> diff --git a/drivers/of/unittest-data/overlay_base.dts b/drivers/of/unittest-data/overlay_base.dts
+> index 99ab9d12d00b..59172c4c9e5a 100644
+> --- a/drivers/of/unittest-data/overlay_base.dts
+> +++ b/drivers/of/unittest-data/overlay_base.dts
+> @@ -11,8 +11,7 @@
+>   * dtc will create nodes "/__symbols__" and "/__local_fixups__".
+>   */
+>  
+> -/ {
+> -       testcase-data-2 {
+> +       &overlay_base {
+>                 #address-cells = <1>;
+>                 #size-cells = <1>;
+>  
+> @@ -89,5 +88,3 @@ retail_1: vending@50000 {
+>                 };
+>  
+>         };
+> -};
+> -
+> diff --git a/drivers/of/unittest-data/testcases.dts b/drivers/of/unittest-data/testcases.dts
+> index a85b5e1c381a..539dc7d9eddc 100644
+> --- a/drivers/of/unittest-data/testcases.dts
+> +++ b/drivers/of/unittest-data/testcases.dts
+> @@ -11,6 +11,11 @@ node-remove {
+>                         };
+>                 };
+>         };
+> +
+> +       overlay_base: testcase-data-2 {
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +       };
+> 
+> -------------------------8<-------------------------
+> 
+> And then we can do this to the Makefile over my changes.
+> 
+> -------------------------8<-------------------------
+> 
+> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
+> index 9f3eb30b78f1..8cc23311b778 100644
+> --- a/drivers/of/unittest-data/Makefile
+> +++ b/drivers/of/unittest-data/Makefile
+> @@ -41,7 +41,6 @@ DTC_FLAGS_testcases += -Wno-interrupts_property
+>  
+>  # Apply all overlays (except overlay_bad_* as they are not supposed to apply and
+>  # fail build) statically with fdtoverlay
+> -intermediate-overlay   := overlay.dtb
+>  master                 := overlay_0.dtb overlay_1.dtb overlay_2.dtb \
+>                            overlay_3.dtb overlay_4.dtb overlay_5.dtb \
+>                            overlay_6.dtb overlay_7.dtb overlay_8.dtb \
+> @@ -50,15 +49,12 @@ master                      := overlay_0.dtb overlay_1.dtb overlay_2.dtb \
+>                            overlay_gpio_01.dtb overlay_gpio_02a.dtb \
+>                            overlay_gpio_02b.dtb overlay_gpio_03.dtb \
+>                            overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
+> -                          intermediate-overlay.dtb
+> +                          overlay_base.dtb overlay.dtb
+>  
+>  quiet_cmd_fdtoverlay = fdtoverlay $@
+>        cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
+>  
+> -$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
+> -       $(call if_changed,fdtoverlay)
+> -
+>  $(obj)/master.dtb: $(obj)/testcases.dtb $(addprefix $(obj)/,$(master))
+>         $(call if_changed,fdtoverlay)
+>  
+> -always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
+> +always-$(CONFIG_OF_OVERLAY) += master.dtb
+> 
 
-> Did you try together with passing LLVM_IAS=1 to make?
-
-One of my tests was with the integrated assembler enabled. Are you
-finding issues with it?
-
-The problem with using top-of-tree clang is that it's not necessarily
-stable. You could try using the clang 11.x release (changing the
-"CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
-110000").
-
--bw
