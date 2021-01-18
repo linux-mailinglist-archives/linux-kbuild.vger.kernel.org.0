@@ -2,179 +2,227 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 785812FA795
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jan 2021 18:32:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8512A2FAABD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Jan 2021 20:58:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393415AbhARRbm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Jan 2021 12:31:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393711AbhARR1M (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Jan 2021 12:27:12 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90921C061757;
-        Mon, 18 Jan 2021 09:26:31 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id e22so10526767iog.6;
-        Mon, 18 Jan 2021 09:26:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=/PCeIqOYxF8DBChe/FqeIpuGpAycN06Z+LtSWgqflkc=;
-        b=j9j46G0XZfqSofwk4Dsv+ueKyn3hfButfT4eS5RoqR9b8au7bOzQV/fIvkp+6ghhRW
-         9csqyLm9Wo4MEsUVV751MX+8ijKvaQ5Y0L2dxSC8DdUQNYAfScH7ZXYbTMFOC26Ws747
-         /e/gOQeVXrDREYchVzBB8Ol2FbWZ6HMHZruoHa1bgY8f3tO+XBKzm95aRLFE8/x14TGb
-         WG5xYfNbflssucQEaSQZmctBfC3dIEcS5q/+70XuxE//n2OqfYkg2QQM8xAO1I2lQq/t
-         nEgxhxXaPZ5JhFZJvex4c3W4FpgBgy8+hAbY6x80Qmmc1QT0bvQAor6rQMzufRMct+9M
-         vQ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=/PCeIqOYxF8DBChe/FqeIpuGpAycN06Z+LtSWgqflkc=;
-        b=swK7JBWJU9qO9UYIiQvZkXAaYwjN7/ERebzjY/ih53oRz82uFmj4E4qMiogxysGEFN
-         ppe5pptBiZ1s6dcBrToqvgTVYYA62Rhatw7ASixVulhd5VBJMXQS4kNAkGufkZb4m3Cg
-         82huZq+yltBduM/hDvph7zXuU/xk5JWX9pDdbOY2ygwukgQnj7a77JCrrZm7XaTCDf4D
-         8vuzssRnIgIiY2W58TpjxPIZlmrunY9a7b4Y5pS0nBQq7HOySmrDfRH3SxieJdwyWilJ
-         a9KLfUb8lwGs71OOwFZuW+MiDj6RP3OtRPkk3hLSzH9PyGl3P19JhuwhsKaZjWgkrLIM
-         VGDg==
-X-Gm-Message-State: AOAM532WspZLY5MlvVtyinx/U4vurOMX2a+3hWG3yVQ2VgOMUIUnR+gu
-        KDMtXUel6YnQwlPJ7tb0GJQVKoghQpNS0GIXAOM=
-X-Google-Smtp-Source: ABdhPJzNK3OvXGnwUMifX5fOt7Y8Kkq0tBzsOGNOWpg36vArYV7bZaW7nP8Zit8FiWvO5BxtAJQIh5Arj6jUqpSSPHc=
-X-Received: by 2002:a92:d990:: with SMTP id r16mr290889iln.10.1610990790846;
- Mon, 18 Jan 2021 09:26:30 -0800 (PST)
+        id S2390462AbhART5V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Jan 2021 14:57:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50066 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437705AbhARTz4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 18 Jan 2021 14:55:56 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9752722B49;
+        Mon, 18 Jan 2021 19:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610999703;
+        bh=1Q1hvGAJ1AQ1LSuhU8FC0F5hJb4xVqDfCJ3UaGiXHdA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hobP6JgMPXwRcyEaM5jf9N+XSgWaSFNlnb3gSVXZqM5E+vTJ8sFXLw1lx/q03+/T7
+         p9GKYE5q4+D1vBILED+sB8T+E0zJ6+qMDkX2ue7b2OFTLsYLxCSIpEmK6s2HgUsxOB
+         eL23Tao25//dBaObN8eO+xI3Q71qHTZZXoLihMkJW7D7HAIwJH3JVFpCukE1ZSjsHc
+         MbIdgOlIREefEeOhVjIyL01mFMY40irrUcVnfTcEG+q9NR+vFw/4ZZZIMQd9mmPUTS
+         t+x66YkdZVB9J9rCSgWCn2aMUgBcCRbwDPlMcvck+iLSzVvVz1SpqVIVhpwQ5UQJZ1
+         SiMyIfVi5tohA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        torvalds@linux-foundation.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, Sasha Levin <sashal@kernel.org>,
+        stable@kernel.org
+Subject: [PATCH v2] kbuild: give the SUBLEVEL more room in KERNEL_VERSION
+Date:   Mon, 18 Jan 2021 14:54:53 -0500
+Message-Id: <20210118195453.761623-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
- <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
- <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com> <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
-In-Reply-To: <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 18 Jan 2021 18:26:19 +0100
-Message-ID: <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
-> >
-> > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > [ big snip ]
-> >
-> > [More snippage.]
-> >
-> > > [ CC Fangrui ]
-> > >
-> > > With the attached...
-> > >
-> > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> > > undefined symbols
-> > >
-> > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
-> > >
-> > Thanks for confirming that this works with the above patch.
-> >
-> > > @ Bill Nick Sami Nathan
-> > >
-> > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
-> >
-> > The integrated assembler and this option are more-or-less orthogonal
-> > to each other. One can still use the GNU assembler with PGO. If you're
-> > having an issue, it may be related to ClangBuiltLinux issue #1250.
-> >
-> > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
-> > >
-> > I know Nick did several tests with PGO. He may have looked into it
-> > already, but we can check.
-> >
->
-> Reproducible.
->
-> LLVM_IAS=1 + DWARF5 = Not bootable
->
-> I will try:
->
-> LLVM_IAS=1 + DWARF4
->
+SUBLEVEL only has 8 bits of space, which means that we'll overflow it
+once it reaches 256.
 
-I was not able to boot into such a built Linux-kernel.
+Few of the stable branches will imminently overflow SUBLEVEL while
+there's no risk of overflowing VERSION.
 
-For me worked: DWARF2 and LLVM_IAS=1 *not* set.
+Thus, give SUBLEVEL 8 more bits which will be stolen from VERSION, this
+should create a better balance between the different version numbers we
+use.
 
-Of course, this could be an issue with my system's LLVM/Clang.
+The downside here is that Linus will have 8 bits less to play with, but
+given our current release cadence (~10 weeks), the number of Linus's
+fingers & toes (20), and the current VERSION (5) we can calculate that
+VERSION will overflow in just over 1,000 years, so I'm kicking this can
+down the road.
 
-Debian clang version
-12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
+Cc: stable@kernel.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-Can you give me a LLVM commit-id where you had success with LLVM_IAS=1
-and especially CONFIG_DEBUG_INFO_DWARF5=y?
-Success means I was able to boot in QEMU and/or bare metal.
+Changes in v2:
 
-Thanks.
+ - Fix code that attempted to reverse LINUX_VERSION_CODE back into
+   individual version components.
 
-Regards,
-- Sedat -
+ Makefile                                       | 7 +++++--
+ drivers/net/ethernet/mellanox/mlx5/core/main.c | 4 ++--
+ drivers/scsi/gdth.c                            | 6 +++---
+ drivers/usb/core/hcd.c                         | 4 ++--
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c       | 4 ++--
+ include/linux/usb/composite.h                  | 4 ++--
+ kernel/sys.c                                   | 2 +-
+ tools/perf/tests/bpf-script-example.c          | 2 +-
+ tools/perf/tests/bpf-script-test-kbuild.c      | 2 +-
+ tools/perf/tests/bpf-script-test-prologue.c    | 2 +-
+ 10 files changed, 20 insertions(+), 17 deletions(-)
 
->
-> > > I would like to know what the impact of the Clang's Integrated
-> > > Assembler and DWARF v5 are.
-> > >
-> > > I dropped both means...
-> > >
-> > > 1. Do not pass "LLVM_IAS=1" to make.
-> > > 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
-> > >
-> > > ...for a successfull build and boot on bare metal.
-> > >
-> >
-> > [Next message]
-> >
-> > > On each rebuild I need to pass to make ...?
-> > >
-> > >   LLVM=1 -fprofile-use=vmlinux.profdata
-> > >
-> > Yes.
-> >
-> > > Did you try together with passing LLVM_IAS=1 to make?
-> >
-> > One of my tests was with the integrated assembler enabled. Are you
-> > finding issues with it?
-> >
-> > The problem with using top-of-tree clang is that it's not necessarily
-> > stable. You could try using the clang 11.x release (changing the
-> > "CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
-> > 110000").
-> >
-> > -bw
+diff --git a/Makefile b/Makefile
+index 9e73f82e0d863..23d0494e48bc7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1252,8 +1252,11 @@ endef
+ 
+ define filechk_version.h
+ 	echo \#define LINUX_VERSION_CODE $(shell                         \
+-	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL)); \
+-	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))'
++	expr $(VERSION) \* 16777216 + 0$(PATCHLEVEL) \* 65536 + 0$(SUBLEVEL)); \
++	echo \#define LINUX_VERSION_MAJOR $(VERSION); \
++	echo \#define LINUX_VERSION_PATCHLEVEL $(PATCHLEVEL); \
++	echo \#define LINUX_VERSION_SUBLEVEL $(SUBLEVEL); \
++	echo '#define KERNEL_VERSION(a,b,c) (((a) << 24) + ((b) << 16) + (c))'
+ endef
+ 
+ $(version_h): FORCE
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+index ca6f2fc39ea0a..5c520214385cd 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+@@ -235,8 +235,8 @@ static void mlx5_set_driver_version(struct mlx5_core_dev *dev)
+ 	remaining_size = max_t(int, 0, driver_ver_sz - strlen(string));
+ 
+ 	snprintf(string + strlen(string), remaining_size, "%u.%u.%u",
+-		 (u8)((LINUX_VERSION_CODE >> 16) & 0xff), (u8)((LINUX_VERSION_CODE >> 8) & 0xff),
+-		 (u16)(LINUX_VERSION_CODE & 0xffff));
++		(u8)(LINUX_VERSION_MAJOR), (u8)(LINUX_VERSION_PATCHLEVEL),
++		(u16)(LINUX_VERSION_SUBLEVEL));
+ 
+ 	/*Send the command*/
+ 	MLX5_SET(set_driver_version_in, in, opcode,
+diff --git a/drivers/scsi/gdth.c b/drivers/scsi/gdth.c
+index 5d801388680b0..f43bd53f7a1e6 100644
+--- a/drivers/scsi/gdth.c
++++ b/drivers/scsi/gdth.c
+@@ -3830,9 +3830,9 @@ static int gdth_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+       { 
+         gdth_ioctl_osvers osv; 
+ 
+-        osv.version = (u8)(LINUX_VERSION_CODE >> 16);
+-        osv.subversion = (u8)(LINUX_VERSION_CODE >> 8);
+-        osv.revision = (u16)(LINUX_VERSION_CODE & 0xff);
++        osv.version = LINUX_VERSION_MAJOR;
++        osv.subversion = LINUX_VERSION_PATCHLEVEL;
++        osv.revision = LINUX_VERSION_SUBLEVEL;
+         if (copy_to_user(argp, &osv, sizeof(gdth_ioctl_osvers)))
+                 return -EFAULT;
+         break;
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index ad5a0f405a75c..3f0381344221e 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -111,8 +111,8 @@ DECLARE_WAIT_QUEUE_HEAD(usb_kill_urb_queue);
+  */
+ 
+ /*-------------------------------------------------------------------------*/
+-#define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
+-#define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
++#define KERNEL_REL	bin2bcd(LINUX_VERSION_MAJOR)
++#define KERNEL_VER	bin2bcd(LINUX_VERSION_PATCHLEVEL)
+ 
+ /* usb 3.1 root hub device descriptor */
+ static const u8 usb31_rh_dev_descriptor[18] = {
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+index 6497185ec4e7a..396a7d8393cf6 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+@@ -46,8 +46,8 @@
+  *    - Make vid/did overridable
+  *    - make it look like usb1 if usb1 mode forced
+  */
+-#define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
+-#define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
++#define KERNEL_REL	bin2bcd(LINUX_VERSION_MAJOR)
++#define KERNEL_VER	bin2bcd(LINUX_VERSION_PATCHLEVEL)
+ 
+ enum {
+ 	AST_VHUB_STR_INDEX_MAX = 4,
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index a2d229ab63ba5..7531ce7233747 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -573,8 +573,8 @@ static inline u16 get_default_bcdDevice(void)
+ {
+ 	u16 bcdDevice;
+ 
+-	bcdDevice = bin2bcd((LINUX_VERSION_CODE >> 16 & 0xff)) << 8;
+-	bcdDevice |= bin2bcd((LINUX_VERSION_CODE >> 8 & 0xff));
++	bcdDevice = bin2bcd(LINUX_VERSION_MAJOR) << 8;
++	bcdDevice |= bin2bcd(LINUX_VERSION_PATCHLEVEL);
+ 	return bcdDevice;
+ }
+ 
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 51f00fe20e4d1..c2225bd405d58 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1243,7 +1243,7 @@ static int override_release(char __user *release, size_t len)
+ 				break;
+ 			rest++;
+ 		}
+-		v = ((LINUX_VERSION_CODE >> 8) & 0xff) + 60;
++		v = LINUX_VERSION_PATCHLEVEL + 60;
+ 		copy = clamp_t(size_t, len, 1, sizeof(buf));
+ 		copy = scnprintf(buf, copy, "2.6.%u%s", v, rest);
+ 		ret = copy_to_user(release, buf, copy + 1);
+diff --git a/tools/perf/tests/bpf-script-example.c b/tools/perf/tests/bpf-script-example.c
+index ab4b98b3165db..a56bf381335e9 100644
+--- a/tools/perf/tests/bpf-script-example.c
++++ b/tools/perf/tests/bpf-script-example.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
+ #endif
+ #define BPF_ANY 0
+ #define BPF_MAP_TYPE_ARRAY 2
+diff --git a/tools/perf/tests/bpf-script-test-kbuild.c b/tools/perf/tests/bpf-script-test-kbuild.c
+index 219673aa278fb..21663295d5b5a 100644
+--- a/tools/perf/tests/bpf-script-test-kbuild.c
++++ b/tools/perf/tests/bpf-script-test-kbuild.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
+ #endif
+ #define SEC(NAME) __attribute__((section(NAME), used))
+ 
+diff --git a/tools/perf/tests/bpf-script-test-prologue.c b/tools/perf/tests/bpf-script-test-prologue.c
+index bd83d364cf30d..8db19e70813cc 100644
+--- a/tools/perf/tests/bpf-script-test-prologue.c
++++ b/tools/perf/tests/bpf-script-test-prologue.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
+ #endif
+ #define SEC(NAME) __attribute__((section(NAME), used))
+ 
+-- 
+2.27.0
+
