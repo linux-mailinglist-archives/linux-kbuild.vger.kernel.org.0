@@ -2,229 +2,688 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE1662FAEC6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jan 2021 03:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A2B2FB3BB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jan 2021 09:08:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436916AbhASCbZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Jan 2021 21:31:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
+        id S1726302AbhASIH1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Jan 2021 03:07:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436904AbhASCbY (ORCPT
+        with ESMTP id S1730640AbhASIGg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Jan 2021 21:31:24 -0500
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1262CC061573;
-        Mon, 18 Jan 2021 18:30:44 -0800 (PST)
-Received: by mail-qv1-xf34.google.com with SMTP id l14so8498954qvh.2;
-        Mon, 18 Jan 2021 18:30:44 -0800 (PST)
+        Tue, 19 Jan 2021 03:06:36 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FDDC061574
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jan 2021 00:05:51 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id c132so12524757pga.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jan 2021 00:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tcGRKxC+8RSf5VOLfan6hcx4fCQW3bMFK5frePWxInE=;
-        b=UkkX9IyfmqDSnqHeydSmTi8+ggVmaGmI5v1YRTKBVjrSMUq7wwITYaNlqAbaagmvJ/
-         ajm2aipxA93kzbU1Z6DfunVJi1Y5aNw3cZ2cmMPfyRWo2Dy+FE9DSLC7/YOq5JqsyZ5i
-         BU1b/7s70sPm55Hjl8cHZ9RyjOmkEmNTw202u0F+q8Sgl2kCw79H7/k3EGwEvjqE5X9M
-         AEJT/EpMW+KlQ+k7OPvz/K127IzL5rbovR68FnFoamtpTZv1Iuickh+RXVlKlWjUAibP
-         vWJL2m86IS4VTnILC3nRiI8joSjMbyZ2GMg8O9RxpZO5cvyqwYx3Mra06xv/YdO7gbP5
-         Vh4w==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=B9av3c9EVDy0Kp7r5oWtAX7MDNulotTKI6zgoCnrCLA=;
+        b=FajaDMZ1sBx3t1sO/boGkvNs4bf9z1J0Dp762By3mg+E/owcv3tvxG3kQ2E87JFqMV
+         WW5b/AwRRR9NCNrtor5emC238Ns25VQHtaL2wRfBlwuXzvd+gYzOLItRiZC+TWl5z5yp
+         YOTNEQ8Ri2wnB/265BmV0rt/8JEG0xT9cW6IYuWMVvAy/0dyOeYX2NvS2f1W/3K0pmPI
+         euEJsNJMfn+k0wB0GW6zUV7NcYgy+5eVpNWdUNyJZS0RadXeA0TjBplD6hzu593HZrQN
+         /lJL3BX1dT67iHZv+noB5wOJQMKnALU4DCklbaHAA8u0/U6gAcJ7Fv821tVaPwCFx8kB
+         QUBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tcGRKxC+8RSf5VOLfan6hcx4fCQW3bMFK5frePWxInE=;
-        b=hWmaJJr3/KIe9tJrIXnCRenWyRRpO4eNl8FtFFocNK/8HrQWwDHMRr1/PcE5nfCvaf
-         r7TE2NLJO663GmxvjzysALZYYvt9ihPCOfa9cOlsKm4qtkkvdXWOYxikLQf+mMNA8RUS
-         LQITouwuyCYRL1zBAK1IPA+QJ26B4esZEk6MrZoQ64PKksgZa6SgkcW5GjoHYBMHv5Bf
-         H2Kl3ROLdrpP0R11h2SRr0XLvYjl5c1af9ePVhl4KX37ViQrErH0PIEROSNh2rF2jo+v
-         kyPXN/bGL8WKpsECfw/Mo7O+6wzbo9o2QBpZFcrakY/Jc5iAzItgEd/f0f8HBLYVmfft
-         t6Cw==
-X-Gm-Message-State: AOAM530eFtHv6vw6+5r3aPAESnLiTQPsX9dwpZDT/zkhog6SmY9rK3hY
-        oyugR3oXJa1356meqHQjb/0=
-X-Google-Smtp-Source: ABdhPJwlZCWbQAujD45z0a44DYJLF+mfnKokiIa5wAQGuwALEKZz/d6tRYATwq6Ood3DycWSjdH49g==
-X-Received: by 2002:a05:6214:622:: with SMTP id a2mr2251498qvx.57.1611023443173;
-        Mon, 18 Jan 2021 18:30:43 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id x49sm11899683qtx.6.2021.01.18.18.30.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jan 2021 18:30:42 -0800 (PST)
-Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        David Gibson <david@gibson.dropbear.id.au>
-Cc:     Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=B9av3c9EVDy0Kp7r5oWtAX7MDNulotTKI6zgoCnrCLA=;
+        b=fOd/TyZvanPiS+8fEM/PZnkaCaHxkxBdy+WKsRgCrlHYcInj38Zg2p0g7e0xOiO+b5
+         2TqkOq3WjCp4p/c9/grwdlJvBE9FDL2K5lkvVZnK8iMvoO2lznM56Q8BX9qXFe9n5WeW
+         Ao+DbXJwVLyUoyjKWxt7Mhw3fQn9uyyjzZE+SsKoSafKvzquNauCsXLLVeS7YLMAPJMM
+         rfqebyEPkS1fH81vLtFRgsYMnc1aBHv8/81rEvALKben4WpjkQT4IpxmyFnzUsHEPEGL
+         XeZk95fZxR1Z43KlWQFsaa+rSX2TewUk3PZH9iapWqaDwjHatS46ynaBcIK1h5oOpdOl
+         OjVw==
+X-Gm-Message-State: AOAM531w3ecVbHW7JbknqWYplRwAzrgQ5uJSIWsTt8uu0bIJkNkmOs/l
+        cnNQBfZcOZT6C9LvokQaLTBK0w==
+X-Google-Smtp-Source: ABdhPJy8ans4r1xvTNqv2emVB8l4EFTrotYo0HKZxGKiL5K5oYJRNpfpzHxDavY+pGdYcOV6+8YTsQ==
+X-Received: by 2002:a63:4851:: with SMTP id x17mr3298027pgk.451.1611043549830;
+        Tue, 19 Jan 2021 00:05:49 -0800 (PST)
+Received: from localhost ([122.172.59.240])
+        by smtp.gmail.com with ESMTPSA id b13sm18397199pfi.162.2021.01.19.00.05.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Jan 2021 00:05:48 -0800 (PST)
+Date:   Tue, 19 Jan 2021 13:35:46 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     frowand.list@gmail.com
+Cc:     Rob Herring <robh+dt@kernel.org>, pantelis.antoniou@konsulko.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
         Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
         Masahiro Yamada <masahiroy@kernel.org>
-References: <be5cb12a68d9ac2c35ad9dd50d6b168f7cad6837.1609996381.git.viresh.kumar@linaro.org>
- <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
- <CAL_JsqLpbSOk-OST8Oi7uyFVjekX-15713F1FbDCQWfVWgikMw@mail.gmail.com>
- <20210114050309.wokrhw4o3cjxj5uo@vireshk-i7>
- <CAL_JsqJ=jxBo2JsjNTcBnV_8OrGjUc4ZQEpdVWsfFwWb9YzyFQ@mail.gmail.com>
- <20210115054450.ab2xrohlxg7nnzpn@vireshk-i7>
- <310774b2-1df6-b219-1b6d-70b8bdbb2e26@gmail.com>
-Message-ID: <86f817a0-0114-94a5-997e-33fbc750abb3@gmail.com>
-Date:   Mon, 18 Jan 2021 20:30:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+Message-ID: <20210119080546.dzec3jatsz2662qs@vireshk-i7>
+References: <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
+ <20210119022154.2338781-1-frowand.list@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <310774b2-1df6-b219-1b6d-70b8bdbb2e26@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210119022154.2338781-1-frowand.list@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 1/17/21 9:54 PM, Frank Rowand wrote:
-> Hi Viresh,
+On 18-01-21, 20:21, frowand.list@gmail.com wrote:
+> From: Frank Rowand <frank.rowand@sony.com>
 > 
-> On 1/14/21 11:44 PM, Viresh Kumar wrote:
->> +David,
->>
->> On 14-01-21, 09:01, Rob Herring wrote:
->>> On Wed, Jan 13, 2021 at 11:03 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>>
->>>> On 11-01-21, 09:46, Rob Herring wrote:
->>>>> On Fri, Jan 8, 2021 at 2:41 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>>>>
->>>>>> Now that fdtoverlay is part of the kernel build, start using it to test
->>>>>> the unitest overlays we have by applying them statically.
->>>>>
->>>>> Nice idea.
->>>>>
->>>>>> The file overlay_base.dtb have symbols of its own and we need to apply
->>>>>> overlay.dtb to overlay_base.dtb alone first to make it work, which gives
->>>>>> us intermediate-overlay.dtb file.
->>>>>
->>>>> Okay? If restructuring things helps we should do that. Frank?
->>>>
->>>> Frank, do we want to do something about it ? Maybe make overlay_base.dts an dtsi
->>>> and include it from testcases.dts like the other ones ?
+> These changes apply on top of the patches in:
 > 
-> I was not able to look at this until tonight.  The unittest world is somewhat
-> convoluted and complex.  Not at all a normal OF environment since it is directly
-> using both dynamic OF code and overlay apply/remove code.  Not to mention
-> deliberately misformed devicetree (.dts) data.  And totally hacking the loading
-> of FDTs in additional ways.
+>   [PATCH] of: unittest: Statically apply overlays using fdtoverlay
+>   Message-Id: <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
 > 
-> It is late Sunday night here (almost 10:00pm), so I am going to look at this
-> first thing Monday morning.
+> There are still some issues to be cleaned up, so not ready for acceptance.
 
-I sent comments in the form of a patch to the original patch email.
+Are you talking about the missing __overlay__ thing ? (more below)
 
--Frank
+> I have not used the construct "always-$(CONFIG_OF_OVERLAY)" before, and
+> have not looked into the proper usage of it.
 
-> 
->>>
->>> No, because overlay_base.dts is an overlay dt.
->>
->> What property of a file makes it an overlay ? Just the presence of /plugin/; ?
-> 
-> The "/plugin/;" in a dts file is what tells the dtc compiler to process the source
-> file as an overlay instead of as a base.
-> 
->>
->> David, we are talking about the overlay base[1] file here. The fdtoverlay tool
->> fails to apply it to testcases.dts file (in the same directory) because none of
->> its nodes have the __overlay__ label and the dtc routine overlay_merge() [2]
->> skips them intentionally.
->>
->>> I think we need an
->>> empty, minimal base.dtb to apply overlay_base.dtbo to.
->>
->> One way out is adding an (almost-empty) testcase-data-2 in testcases.dtb, that
->> will make it work.
->>
->>> And then fdtoverlay needs a fix to apply overlays to the root node?
->>
->> It isn't just root node I think, but any node for which the __overlay__ label
->> isn't there.
->>
->> So this can make it all work if everyone is fine with it:
-> 
-> I'll look this over Monday morning to see what the side effects are in the
-> bizarre world of unittest.
-> 
->>
->> diff --git a/drivers/of/unittest-data/overlay_base.dts b/drivers/of/unittest-data/overlay_base.dts
->> index 99ab9d12d00b..59172c4c9e5a 100644
->> --- a/drivers/of/unittest-data/overlay_base.dts
->> +++ b/drivers/of/unittest-data/overlay_base.dts
->> @@ -11,8 +11,7 @@
->>   * dtc will create nodes "/__symbols__" and "/__local_fixups__".
->>   */
->>  
->> -/ {
->> -       testcase-data-2 {
->> +       &overlay_base {
->>                 #address-cells = <1>;
->>                 #size-cells = <1>;
->>  
->> @@ -89,5 +88,3 @@ retail_1: vending@50000 {
->>                 };
->>  
->>         };
->> -};
->> -
->> diff --git a/drivers/of/unittest-data/testcases.dts b/drivers/of/unittest-data/testcases.dts
->> index a85b5e1c381a..539dc7d9eddc 100644
->> --- a/drivers/of/unittest-data/testcases.dts
->> +++ b/drivers/of/unittest-data/testcases.dts
->> @@ -11,6 +11,11 @@ node-remove {
->>                         };
->>                 };
->>         };
->> +
->> +       overlay_base: testcase-data-2 {
->> +               #address-cells = <1>;
->> +               #size-cells = <1>;
->> +       };
->>
->> -------------------------8<-------------------------
->>
->> And then we can do this to the Makefile over my changes.
->>
->> -------------------------8<-------------------------
->>
->> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
->> index 9f3eb30b78f1..8cc23311b778 100644
->> --- a/drivers/of/unittest-data/Makefile
->> +++ b/drivers/of/unittest-data/Makefile
->> @@ -41,7 +41,6 @@ DTC_FLAGS_testcases += -Wno-interrupts_property
->>  
->>  # Apply all overlays (except overlay_bad_* as they are not supposed to apply and
->>  # fail build) statically with fdtoverlay
->> -intermediate-overlay   := overlay.dtb
->>  master                 := overlay_0.dtb overlay_1.dtb overlay_2.dtb \
->>                            overlay_3.dtb overlay_4.dtb overlay_5.dtb \
->>                            overlay_6.dtb overlay_7.dtb overlay_8.dtb \
->> @@ -50,15 +49,12 @@ master                      := overlay_0.dtb overlay_1.dtb overlay_2.dtb \
->>                            overlay_gpio_01.dtb overlay_gpio_02a.dtb \
->>                            overlay_gpio_02b.dtb overlay_gpio_03.dtb \
->>                            overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
->> -                          intermediate-overlay.dtb
->> +                          overlay_base.dtb overlay.dtb
->>  
->>  quiet_cmd_fdtoverlay = fdtoverlay $@
->>        cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
->>  
->> -$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
->> -       $(call if_changed,fdtoverlay)
->> -
->>  $(obj)/master.dtb: $(obj)/testcases.dtb $(addprefix $(obj)/,$(master))
->>         $(call if_changed,fdtoverlay)
->>  
->> -always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
->> +always-$(CONFIG_OF_OVERLAY) += master.dtb
->>
-> 
-> .
-> 
+I wasn't sure either, maybe Masahiro can suggest the best fit.
 
+> I tested this using a hand build libfdt and fdtoverlay from the dtc-compiler
+> upstream project.  For my testing I added LD_LIBRARY_PATH to the body of
+> "cmd_fdtoverlay" to reference my hand built libfdt.  The kernel build
+> system will have to instead use a libfdt that is built in the kernel
+> tree.
+
+I tested it with this patchset:
+
+https://lore.kernel.org/lkml/cover.1610431620.git.viresh.kumar@linaro.org/
+
+> I have not run this through checkpatch, or my checks for build warnings.
+> I have not run unittests on my target with these patches applied.
+> 
+> ---
+>  drivers/of/unittest-data/Makefile | 67 ++++++++++++++++++++++---------
+>  1 file changed, 48 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
+> index f17bce85f65f..28614a123d1e 100644
+> --- a/drivers/of/unittest-data/Makefile
+> +++ b/drivers/of/unittest-data/Makefile
+> @@ -39,25 +39,54 @@ DTC_FLAGS_testcases += -@
+>  # suppress warnings about intentional errors
+>  DTC_FLAGS_testcases += -Wno-interrupts_property
+>  
+> -# Apply overlays statically with fdtoverlay
+> -intermediate-overlay	:= overlay.dtb
+> -master			:= overlay_0.dtb overlay_1.dtb overlay_2.dtb \
+> -			   overlay_3.dtb overlay_4.dtb overlay_5.dtb \
+> -			   overlay_6.dtb overlay_7.dtb overlay_8.dtb \
+> -			   overlay_9.dtb overlay_10.dtb overlay_11.dtb \
+> -			   overlay_12.dtb overlay_13.dtb overlay_15.dtb \
+> -			   overlay_gpio_01.dtb overlay_gpio_02a.dtb \
+> -			   overlay_gpio_02b.dtb overlay_gpio_03.dtb \
+> -			   overlay_gpio_04a.dtb overlay_gpio_04b.dtb \
+> -			   intermediate-overlay.dtb
+> -
+> -quiet_cmd_fdtoverlay = fdtoverlay $@
+> -      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $^
+> -
+> -$(obj)/intermediate-overlay.dtb: $(obj)/overlay_base.dtb $(addprefix $(obj)/,$(intermediate-overlay))
+> -	$(call if_changed,fdtoverlay)
+> +# Apply overlays statically with fdtoverlay.  This is a build time test that
+> +# the overlays can be applied successfully by fdtoverlay.  This does not
+> +# guarantee that the overlays can be applied successfully at run time by
+> +# unittest, but it provides a bit of build time test coverage for those
+> +# who do not execute unittest.
+> +#
+> +# The overlays are applied on top of testcases.dtb to create static_test.dtb
+> +# If fdtoverlay detects an error than the kernel build will fail.
+> +# static_test.dtb is not consumed by unittest.
+> +#
+> +# Some unittest overlays deliberately contain errors that unittest checks for.
+> +# These overlays will cause fdtoverlay to fail, and are thus not included
+> +# in the static test:
+> +#			overlay.dtb \
+> +#			overlay_bad_add_dup_node.dtb \
+> +#			overlay_bad_add_dup_prop.dtb \
+> +#			overlay_bad_phandle.dtb \
+> +#			overlay_bad_symbol.dtb \
+> +
+> +apply_static_overlay := overlay_base.dtb \
+
+This won't work because of the issues I mentioned earlier. This file
+doesn't have __overlay__. One way to fix that is to do this:
+
+diff --git a/drivers/of/unittest-data/overlay_base.dts b/drivers/of/unittest-data/overlay_base.dts
+index 99ab9d12d00b..59172c4c9e5a 100644
+--- a/drivers/of/unittest-data/overlay_base.dts
++++ b/drivers/of/unittest-data/overlay_base.dts
+@@ -11,8 +11,7 @@
+  * dtc will create nodes "/__symbols__" and "/__local_fixups__".
+  */
+
+-/ {
+-       testcase-data-2 {
++       &overlay_base {
+                #address-cells = <1>;
+                #size-cells = <1>;
+
+@@ -89,5 +88,3 @@ retail_1: vending@50000 {
+                };
+
+        };
+-};
+-
+diff --git a/drivers/of/unittest-data/testcases.dts b/drivers/of/unittest-data/testcases.dts
+index a85b5e1c381a..539dc7d9eddc 100644
+--- a/drivers/of/unittest-data/testcases.dts
++++ b/drivers/of/unittest-data/testcases.dts
+@@ -11,6 +11,11 @@ node-remove {
+                        };
+                };
+        };
++
++       overlay_base: testcase-data-2 {
++               #address-cells = <1>;
++               #size-cells = <1>;
++       };
+
+> -always-$(CONFIG_OF_OVERLAY) += intermediate-overlay.dtb master.dtb
+> +always-$(CONFIG_OF_OVERLAY) += static_test.dtb
+
+This is how static_test.dtb looks now with fdtdump
+
+/dts-v1/;
+// magic:		0xd00dfeed
+// totalsize:		0x261b (9755)
+// off_dt_struct:	0x38
+// off_dt_strings:	0x22dc
+// off_mem_rsvmap:	0x28
+// version:		17
+// last_comp_version:	16
+// boot_cpuid_phys:	0x0
+// size_dt_strings:	0x33f
+// size_dt_struct:	0x22a4
+
+/ {
+    #address-cells = <0x00000001>;
+    #size-cells = <0x00000001>;
+    testcase-data {
+        security-password = "password";
+        duplicate-name = "duplicate";
+        #address-cells = <0x00000001>;
+        #size-cells = <0x00000001>;
+        ranges;
+        phandle = <0x0000000b>;
+        changeset {
+            prop-update = "hello";
+            prop-remove = "world";
+            node-remove {
+            };
+        };
+        duplicate-name {
+        };
+        phandle-tests {
+            provider0 {
+                #phandle-cells = <0x00000000>;
+                phandle = <0x00000002>;
+            };
+            provider1 {
+                #phandle-cells = <0x00000001>;
+                phandle = <0x00000001>;
+            };
+            provider2 {
+                #phandle-cells = <0x00000002>;
+                phandle = <0x00000004>;
+            };
+            provider3 {
+                #phandle-cells = <0x00000003>;
+                phandle = <0x00000003>;
+            };
+            provider4 {
+                #phandle-cells = <0x00000002>;
+                phandle-map = <0x00000000 0x00000001 0x00000001 0x00000003 0x00000004 0x00000000 0x00000002 0x00000010 0x00000005 0x00000003 0x00000003 0x00000005 0x00000000 0x000000c8 0x00000008 0x00000004 0x00000017 0x00000006 0x00000013 0x00000000 0x00000004 0x0000000f 0x00000000 0x00000002 0x00000003 0x00000003 0x00000002 0x00000005 0x00000003>;
+                phandle-map-mask = <0x000000ff 0x0000000f>;
+                phandle-map-pass-thru = <0x00000000 0x000000f0>;
+                phandle = <0x00000005>;
+            };
+            consumer-a {
+                phandle-list = <0x00000001 0x00000001 0x00000004 0x00000002 0x00000000 0x00000000 0x00000003 0x00000004 0x00000004 0x00000003 0x00000004 0x00000005 0x00000064 0x00000002 0x00000001 0x00000007>;
+                phandle-list-names = "first", "second", "third";
+                phandle-list-bad-phandle = <0x00bc614e 0x00000000 0x00000000>;
+                phandle-list-bad-args = <0x00000004 0x00000001 0x00000000 0x00000003 0x00000000>;
+                empty-property;
+                string-property = "foobar";
+                unterminated-string = <0x40414243>;
+                unterminated-string-list = [66 69 72 73 74 00 73 65 63 6f 6e 64 00 40 41 42 43];
+            };
+            consumer-b {
+                phandle-list = <0x00000001 0x00000001 0x00000005 0x00000002 0x00000003 0x00000000 0x00000005 0x00000004 0x00000100 0x00000005 0x00000000 0x00000061 0x00000002 0x00000005 0x00000013 0x00000020>;
+                phandle-list-bad-phandle = <0x00bc614e 0x00000000 0x00000000>;
+                phandle-list-bad-args = <0x00000004 0x00000001 0x00000000 0x00000005 0x00000000>;
+            };
+        };
+        interrupts {
+            #address-cells = <0x00000001>;
+            #size-cells = <0x00000001>;
+            intc0 {
+                interrupt-controller;
+                #interrupt-cells = <0x00000001>;
+                phandle = <0x00000006>;
+            };
+            intc1 {
+                interrupt-controller;
+                #interrupt-cells = <0x00000003>;
+                phandle = <0x00000007>;
+            };
+            intc2 {
+                interrupt-controller;
+                #interrupt-cells = <0x00000002>;
+                phandle = <0x00000008>;
+            };
+            intmap0 {
+                #interrupt-cells = <0x00000001>;
+                #address-cells = <0x00000000>;
+                interrupt-map = <0x00000001 0x00000006 0x00000009 0x00000002 0x00000007 0x0000000a 0x0000000b 0x0000000c 0x00000003 0x00000008 0x0000000d 0x0000000e 0x00000004 0x00000008 0x0000000f 0x00000010>;
+                phandle = <0x00000009>;
+            };
+            intmap1 {
+                #interrupt-cells = <0x00000002>;
+                interrupt-map = <0x00005000 0x00000001 0x00000002 0x00000006 0x0000000f>;
+                phandle = <0x0000000a>;
+            };
+            interrupts0 {
+                interrupt-parent = <0x00000006>;
+                interrupts = <0x00000001 0x00000002 0x00000003 0x00000004>;
+            };
+            interrupts1 {
+                interrupt-parent = <0x00000009>;
+                interrupts = <0x00000001 0x00000002 0x00000003 0x00000004>;
+            };
+            interrupts-extended0 {
+                reg = <0x00005000 0x00000100>;
+                interrupts-extended = <0x00000006 0x00000001 0x00000007 0x00000002 0x00000003 0x00000004 0x00000008 0x00000005 0x00000006 0x00000009 0x00000001 0x00000009 0x00000002 0x00000009 0x00000003 0x0000000a 0x00000001 0x00000002>;
+            };
+        };
+        testcase-device1 {
+            compatible = "testcase-device";
+            interrupt-parent = <0x00000006>;
+            interrupts = <0x00000001>;
+        };
+        testcase-device2 {
+            compatible = "testcase-device";
+            interrupt-parent = <0x00000008>;
+            interrupts = <0x00000001>;
+        };
+        match-node {
+            name0 {
+            };
+            name1 {
+                device_type = "type1";
+            };
+            a {
+                name2 {
+                    device_type = "type1";
+                };
+            };
+            b {
+                name2 {
+                };
+            };
+            c {
+                name2 {
+                    device_type = "type2";
+                };
+            };
+            name3 {
+                compatible = "compat3";
+            };
+            name4 {
+                compatible = "compat2", "compat3";
+            };
+            name5 {
+                compatible = "compat2", "compat3";
+            };
+            name6 {
+                compatible = "compat1", "compat2", "compat3";
+            };
+            name7 {
+                compatible = "compat2";
+                device_type = "type1";
+            };
+            name8 {
+                compatible = "compat2";
+                device_type = "type1";
+            };
+            name9 {
+                compatible = "compat2";
+            };
+        };
+        address-tests {
+            #address-cells = <0x00000001>;
+            #size-cells = <0x00000001>;
+            ranges = <0x70000000 0x70000000 0x40000000 0x00000000 0xd0000000 0x20000000>;
+            dma-ranges = <0x00000000 0x20000000 0x40000000>;
+            device@70000000 {
+                reg = <0x70000000 0x00001000>;
+            };
+            bus@80000000 {
+                #address-cells = <0x00000002>;
+                #size-cells = <0x00000002>;
+                ranges = <0x00000000 0x00000000 0x80000000 0x00000000 0x00100000>;
+                dma-ranges = <0x00000001 0x00000000 0x00000000 0x00000020 0x00000000>;
+                device@1000 {
+                    reg = <0x00000000 0x00001000 0x00000000 0x00001000>;
+                };
+            };
+            pci@90000000 {
+                device_type = "pci";
+                #address-cells = <0x00000003>;
+                #size-cells = <0x00000002>;
+                reg = <0x90000000 0x00001000>;
+                ranges = <0x42000000 0x00000000 0x40000000 0x40000000 0x00000000 0x10000000>;
+                dma-ranges = <0x42000000 0x00000000 0x80000000 0x00000000 0x00000000 0x10000000 0x42000000 0x00000000 0xc0000000 0x20000000 0x00000000 0x10000000>;
+            };
+        };
+        platform-tests {
+            #address-cells = <0x00000001>;
+            #size-cells = <0x00000000>;
+            test-device@0 {
+                compatible = "test-device";
+                reg = <0x00000000>;
+                #address-cells = <0x00000001>;
+                #size-cells = <0x00000000>;
+                dev@100 {
+                    compatible = "test-sub-device";
+                    reg = <0x00000100>;
+                };
+            };
+            test-device@1 {
+                compatible = "test-device";
+                reg = <0x00000001>;
+                #address-cells = <0x00000001>;
+                #size-cells = <0x00000000>;
+                dev@100 {
+                    compatible = "test-sub-device", "test-compat2", "test-compat3";
+                    reg = <0x00000100>;
+                };
+            };
+        };
+        overlay-node {
+            test-bus {
+                compatible = "simple-bus";
+                #address-cells = <0x00000001>;
+                #size-cells = <0x00000000>;
+                phandle = <0x0000000c>;
+                gpio@4 {
+                    gpio-line-names = "line-A", "line-B", "line-C", "line-D";
+                    ngpios = <0x00000002>;
+                    #gpio-cells = <0x00000002>;
+                    gpio-controller;
+                    reg = <0x00000004>;
+                    compatible = "unittest-gpio";
+                    line-c {
+                        line-name = "line-C-input";
+                        input;
+                        gpios = <0x00000003 0x00000000>;
+                        gpio-hog;
+                    };
+                };
+                gpio@3 {
+                    gpio-line-names = "line-A", "line-B", "line-C", "line-D";
+                    ngpios = <0x00000002>;
+                    #gpio-cells = <0x00000002>;
+                    gpio-controller;
+                    reg = <0x00000003>;
+                    compatible = "unittest-gpio";
+                    line-d {
+                        line-name = "line-D-input";
+                        input;
+                        gpios = <0x00000004 0x00000000>;
+                        gpio-hog;
+                    };
+                };
+                gpio@2 {
+                    gpio-line-names = "line-A", "line-B";
+                    ngpios = <0x00000002>;
+                    #gpio-cells = <0x00000002>;
+                    gpio-controller;
+                    reg = <0x00000002>;
+                    compatible = "unittest-gpio";
+                    line-a {
+                        line-name = "line-A-input";
+                        input;
+                        gpios = <0x00000001 0x00000000>;
+                        gpio-hog;
+                    };
+                };
+                gpio@0 {
+                    gpio-line-names = "line-A", "line-B";
+                    ngpios = <0x00000002>;
+                    #gpio-cells = <0x00000002>;
+                    gpio-controller;
+                    reg = <0x00000000>;
+                    compatible = "unittest-gpio";
+                    line-b {
+                        line-name = "line-B-input";
+                        input;
+                        gpios = <0x00000002 0x00000000>;
+                        gpio-hog;
+                    };
+                };
+                test-unittest11 {
+                    #size-cells = <0x00000000>;
+                    #address-cells = <0x00000001>;
+                    reg = <0x0000000b>;
+                    status = "okay";
+                    compatible = "unittest";
+                    test-unittest111 {
+                        reg = <0x00000001>;
+                        status = "okay";
+                        compatible = "unittest";
+                    };
+                };
+                test-unittest10 {
+                    #size-cells = <0x00000000>;
+                    #address-cells = <0x00000001>;
+                    reg = <0x0000000a>;
+                    status = "okay";
+                    compatible = "unittest";
+                    test-unittest101 {
+                        reg = <0x00000001>;
+                        status = "okay";
+                        compatible = "unittest";
+                    };
+                };
+                test-unittest4 {
+                    reg = <0x00000004>;
+                    status = "okay";
+                    compatible = "unittest";
+                };
+                test-unittest100 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000064>;
+                    phandle = <0x0000000d>;
+                };
+                test-unittest101 {
+                    compatible = "unittest";
+                    status = "disabled";
+                    reg = <0x00000065>;
+                    phandle = <0x0000000e>;
+                };
+                test-unittest0 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000000>;
+                    phandle = <0x0000000f>;
+                };
+                test-unittest1 {
+                    compatible = "unittest";
+                    status = "disabled";
+                    reg = <0x00000001>;
+                    phandle = <0x00000010>;
+                };
+                test-unittest2 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000002>;
+                    phandle = <0x00000011>;
+                };
+                test-unittest3 {
+                    compatible = "unittest";
+                    status = "disabled";
+                    reg = <0x00000003>;
+                    phandle = <0x00000012>;
+                };
+                test-unittest5 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000005>;
+                    phandle = <0x00000013>;
+                };
+                test-unittest6 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000006>;
+                    phandle = <0x00000014>;
+                };
+                test-unittest7 {
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000007>;
+                    phandle = <0x00000015>;
+                };
+                test-unittest8 {
+                    property-foo = "bar";
+                    compatible = "unittest";
+                    status = "okay";
+                    reg = <0x00000008>;
+                    phandle = <0x00000016>;
+                };
+                i2c-test-bus {
+                    compatible = "unittest-i2c-bus";
+                    status = "okay";
+                    reg = <0x00000032>;
+                    #address-cells = <0x00000001>;
+                    #size-cells = <0x00000000>;
+                    phandle = <0x00000017>;
+                    test-unittest15 {
+                        #size-cells = <0x00000000>;
+                        #address-cells = <0x00000001>;
+                        status = "okay";
+                        compatible = "unittest-i2c-mux";
+                        reg = <0x0000000b>;
+                        i2c@0 {
+                            reg = <0x00000000>;
+                            #size-cells = <0x00000000>;
+                            #address-cells = <0x00000001>;
+                            test-mux-dev@20 {
+                                status = "okay";
+                                compatible = "unittest-i2c-dev";
+                                reg = <0x00000020>;
+                            };
+                        };
+                    };
+                    test-unittest12 {
+                        reg = <0x00000008>;
+                        compatible = "unittest-i2c-dev";
+                        status = "okay";
+                    };
+                    test-unittest13 {
+                        reg = <0x00000009>;
+                        compatible = "unittest-i2c-dev";
+                        status = "disabled";
+                    };
+                    test-unittest14 {
+                        reg = <0x0000000a>;
+                        compatible = "unittest-i2c-mux";
+                        status = "okay";
+                        #address-cells = <0x00000001>;
+                        #size-cells = <0x00000000>;
+                        i2c@0 {
+                            #address-cells = <0x00000001>;
+                            #size-cells = <0x00000000>;
+                            reg = <0x00000000>;
+                            test-mux-dev@20 {
+                                reg = <0x00000020>;
+                                compatible = "unittest-i2c-dev";
+                                status = "okay";
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+    aliases {
+        testcase-alias = "/testcase-data";
+    };
+    __symbols__ {
+        testcase = "/testcase-data";
+        provider0 = "/testcase-data/phandle-tests/provider0";
+        provider1 = "/testcase-data/phandle-tests/provider1";
+        provider2 = "/testcase-data/phandle-tests/provider2";
+        provider3 = "/testcase-data/phandle-tests/provider3";
+        provider4 = "/testcase-data/phandle-tests/provider4";
+        test_intc0 = "/testcase-data/interrupts/intc0";
+        test_intc1 = "/testcase-data/interrupts/intc1";
+        test_intc2 = "/testcase-data/interrupts/intc2";
+        test_intmap0 = "/testcase-data/interrupts/intmap0";
+        test_intmap1 = "/testcase-data/interrupts/intmap1";
+        unittest_test_bus = "/testcase-data/overlay-node/test-bus";
+        unittest100 = "/testcase-data/overlay-node/test-bus/test-unittest100";
+        unittest101 = "/testcase-data/overlay-node/test-bus/test-unittest101";
+        unittest0 = "/testcase-data/overlay-node/test-bus/test-unittest0";
+        unittest1 = "/testcase-data/overlay-node/test-bus/test-unittest1";
+        unittest2 = "/testcase-data/overlay-node/test-bus/test-unittest2";
+        unittest3 = "/testcase-data/overlay-node/test-bus/test-unittest3";
+        unittest5 = "/testcase-data/overlay-node/test-bus/test-unittest5";
+        unittest6 = "/testcase-data/overlay-node/test-bus/test-unittest6";
+        unittest7 = "/testcase-data/overlay-node/test-bus/test-unittest7";
+        unittest8 = "/testcase-data/overlay-node/test-bus/test-unittest8";
+        unittest_i2c_test_bus = "/testcase-data/overlay-node/test-bus/i2c-test-bus";
+    };
+    __local_fixups__ {
+        testcase-data {
+            phandle-tests {
+                provider4 {
+                    phandle-map = <0x00000008 0x00000018 0x00000024 0x0000003c 0x00000050 0x00000064>;
+                };
+                consumer-a {
+                    phandle-list = <0x00000000 0x00000008 0x00000018 0x00000028 0x00000034 0x00000038>;
+                    phandle-list-bad-args = <0x00000000 0x0000000c>;
+                };
+                consumer-b {
+                    phandle-list = <0x00000000 0x00000008 0x00000018 0x00000024 0x00000030 0x00000034>;
+                    phandle-list-bad-args = <0x00000000 0x0000000c>;
+                };
+            };
+            interrupts {
+                intmap0 {
+                    interrupt-map = <0x00000004 0x00000010 0x00000024 0x00000034>;
+                };
+                intmap1 {
+                    interrupt-map = <0x0000000c>;
+                };
+                interrupts0 {
+                    interrupt-parent = <0x00000000>;
+                };
+                interrupts1 {
+                    interrupt-parent = <0x00000000>;
+                };
+                interrupts-extended0 {
+                    interrupts-extended = <0x00000000 0x00000008 0x00000018 0x00000024 0x0000002c 0x00000034 0x0000003c>;
+                };
+            };
+            testcase-device1 {
+                interrupt-parent = <0x00000000>;
+            };
+            testcase-device2 {
+                interrupt-parent = <0x00000000>;
+            };
+        };
+    };
+};
+
+-- 
+viresh
