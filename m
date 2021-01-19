@@ -2,54 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0EDA2FBCAB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jan 2021 17:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CDA92FBD42
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Jan 2021 18:13:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732794AbhASQi2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Jan 2021 11:38:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52028 "EHLO
+        id S2390786AbhASRNF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Jan 2021 12:13:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732565AbhASQhr (ORCPT
+        with ESMTP id S2390680AbhASRMy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Jan 2021 11:37:47 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0BB4C061575;
-        Tue, 19 Jan 2021 08:37:06 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id e15so14102565qte.9;
-        Tue, 19 Jan 2021 08:37:06 -0800 (PST)
+        Tue, 19 Jan 2021 12:12:54 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EC9C061573;
+        Tue, 19 Jan 2021 09:12:13 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id v5so14199831qtv.7;
+        Tue, 19 Jan 2021 09:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bCSZ3cFgDncczjOTQzrLh3KhFyorQ6+1KD0+f0P1dME=;
-        b=FM397utP+4/o8rUBWPME1wIrAYgGf43fXWuy1hyuw0mWNEHQrxsFVvf1bG1ZmCaBno
-         AyIE5jOqNsxpfWzaUcpZhEihFeV0KP0oEnPoohl8fY7y3E8QYOrRfq5cFnOWFzMhz89E
-         M4tfC6q64IEJD56nZBIL4rGiwv9BxmRvOOGisyWSTGqKu5JDbyqA64j0nnpisk8APiDi
-         8trQRBpfRh7jmJ3EdC2PPt71xl9XpLQtWjX1y+mOv13kzTfVLhTlvwDQ2oZOq6LPDfJv
-         CsBdZq9rhFpLXC6ALA6CA+4cOIbTKMLIq3S8PdM9NLB+dvkJxJBPiVWWP+3a43AuX6cS
-         B74w==
+        bh=8ZydUd6iysbYazKads1ipIIW9R1NAHfYqDDc67KX+ok=;
+        b=GUDFIcbbkZ0IKIM4c9iEcy1neGW1Am8AUsPJaK5r+I0x8/XC+qJ6nYm3gtQT7I7rTm
+         oLGRvD0Mwza9JzaPlkt+gSugq+ltoro+jO/Q2yMEBAU0Ea8cwM1lPfatTuoW2x40vhFf
+         f17G5DKs6UpamngxVSM02PtXFwA1KrGZN/f847VB29EZIdE1zgOSa5g9skse6P62x60W
+         iceQoQyyFtru7OzdGAzm7sCqJ7/VYs7xi7DR4NRWjZRctUd83LRJadIvFEv+vEHYkhCb
+         /r456Iiat+2ErGvhEjsUVHSGSaebp36nT7hh72DnOxAVZMg9j6INS4YJ795MSUSWZMXa
+         wQqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=bCSZ3cFgDncczjOTQzrLh3KhFyorQ6+1KD0+f0P1dME=;
-        b=ID/Agr1Mhm2s2+9cbNUD1Q/WQfbrDegL6uwvPuNqtq+B1E0jS+vqawbfxS6RGEeHT/
-         bm4GAkTKRPuBiwb7XAYx/Yn5XWrHVbiO1sTKkkqkm+k0mmznqBZXxszXBoxSwEtMu+Oq
-         hXuIEiRYtYzBVrpM0/G9E2op0bR7AzTzZmTkcpP32qnsU01luKJUccAvSD0nuOaFyTqJ
-         7uAViCHHI/9eGPgvAmchQJesfymN72yhFMhaT6pk4GnFM+FvwwWwH2yPfbTKA5wQXz9/
-         PMgTlVwYHa6owqX2B27IT3oiDukp0vOCG5jZznsnQMz9CVvSkWO8/7t+St5vzSa/9nvo
-         3N8Q==
-X-Gm-Message-State: AOAM531y38AN7CrUHoG3GxLajaG8AEaqVGFRmoW8xvt8izDmIx/NeQGk
-        0plCEw52d3/1OOxvHx3yudHka4dinl30/g==
-X-Google-Smtp-Source: ABdhPJwaCSQVQJ5qmH28RmEa7+Y91MTcWHElNc3H0KIU+KNdhebpBpYrO1rymfA4b4kF6Bt8EfU15A==
-X-Received: by 2002:ac8:59cb:: with SMTP id f11mr5052769qtf.70.1611074226273;
-        Tue, 19 Jan 2021 08:37:06 -0800 (PST)
+        bh=8ZydUd6iysbYazKads1ipIIW9R1NAHfYqDDc67KX+ok=;
+        b=nUQ+t3rJ8ZZGF5eKMduGbM2gmnZfccks3LoNrUUXquhPkKvCLwBkOG3FyoW3U6s2aJ
+         9WiiLVBOE2A/9RnNroS2yxJKRmlXpjKRKOwitHifWP6+D+uPuCz654V1/puD5TfLVqY3
+         /xTePq5OA/Uk+fmx+ut6iHw5oerEczIVlUnRUREC6S2i1IpYImDF/1iIil3qVYiffL6Q
+         I3rtJpU9jVp3k58VxLqbpq2sZy9RHQYkAb9RGf2PxG4xi9dtDAgiKjryEXatO38m+ggs
+         Go1VfSlAvF2C9GnVySXQv9//JwBsynXksNBaU1aFUWTMqWkLpiaiPZBAW0gznyp7G6mp
+         E4xA==
+X-Gm-Message-State: AOAM531vzu2zvuK0hmlYRBzGtgZYgK3+kzsX5aT63WlNIGxgKOuqpzwS
+        wFKb2B/FWo/ZFgE8onWHnAQ=
+X-Google-Smtp-Source: ABdhPJwtroIpxWtBHKcJeF05ADTjF0q/OCbvAPWrC+faW3VgLBMJHBUy/U1Ri2mRYv4Wi61jkGQBRw==
+X-Received: by 2002:aed:2f67:: with SMTP id l94mr5244724qtd.201.1611076333155;
+        Tue, 19 Jan 2021 09:12:13 -0800 (PST)
 Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id z78sm13264930qkb.0.2021.01.19.08.37.05
+        by smtp.gmail.com with ESMTPSA id j66sm495062qkf.78.2021.01.19.09.12.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jan 2021 08:37:05 -0800 (PST)
-Subject: Re: [PATCH V4 2/3] scripts: dtc: Build fdtoverlay tool
+        Tue, 19 Jan 2021 09:12:12 -0800 (PST)
+Subject: Re: [PATCH V4 0/3] scripts: dtc: Build fdtoverlay
 To:     Viresh Kumar <viresh.kumar@linaro.org>,
         Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
         Rob Herring <robh+dt@kernel.org>
@@ -59,14 +59,13 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
         Masahiro Yamada <masahiroy@kernel.org>
 References: <cover.1610431620.git.viresh.kumar@linaro.org>
- <facca66aba8070ef8bdb075ec442287c81e7d23e.1610431620.git.viresh.kumar@linaro.org>
 From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <c77e66ee-5553-123a-7ec7-bf3d9e3cebd1@gmail.com>
-Date:   Tue, 19 Jan 2021 10:37:05 -0600
+Message-ID: <74f8aa8f-ffab-3b0f-186f-31fb7395ebbb@gmail.com>
+Date:   Tue, 19 Jan 2021 11:12:11 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <facca66aba8070ef8bdb075ec442287c81e7d23e.1610431620.git.viresh.kumar@linaro.org>
+In-Reply-To: <cover.1610431620.git.viresh.kumar@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,63 +73,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Viresh,
-
-I made these comments in the v2 patch series.  I am copying them here since
-this is the current version.
-
-On 1/12/21 2:29 AM, Viresh Kumar wrote:
+On 1/12/21 2:28 AM, Viresh Kumar wrote:
 > We will start building overlays for platforms soon in the kernel and
-> would need fdtoverlay going forward. Lets start building it.
+> would need fdtoverlay tool going forward. Lets start fetching and
+> building it.
 > 
-> The fdtoverlay program applies (or merges) one ore more overlay dtb
-> blobs to a base dtb blob. The kernel build system would later use
-> fdtoverlay to generate the overlaid blobs based on platform specific
-> configurations.
+> While at it, also remove fdtdump.c file, which isn't used by the kernel.
 > 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  scripts/dtc/Makefile | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> V4:
+> - Don't fetch and build fdtdump.c
+> - Remove fdtdump.c
 > 
-> diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-> index 4852bf44e913..5f19386a49eb 100644
-> --- a/scripts/dtc/Makefile
-> +++ b/scripts/dtc/Makefile
-> @@ -1,13 +1,17 @@
->  # SPDX-License-Identifier: GPL-2.0
->  # scripts/dtc makefile
->  
-> -hostprogs-always-$(CONFIG_DTC)		+= dtc
-> +hostprogs-always-$(CONFIG_DTC)		+= dtc fdtoverlay
->  hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
->  
->  dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
->  		   srcpos.o checks.o util.o
->  dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
->  
-
-# The upstream project builds libfdt as a separate library.  We are choosing to
-# instead directly link the libfdt object files into fdtoverly
-
-> +libfdt-objs	:= fdt.o fdt_ro.o fdt_wip.o fdt_sw.o fdt_rw.o fdt_strerror.o fdt_empty_tree.o fdt_addresses.o fdt_overlay.o
-> +libfdt		= $(addprefix libfdt/,$(libfdt-objs))
-> +fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
-> +
->  # Source files need to get at the userspace version of libfdt_env.h to compile
->  HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
->  
+> Viresh Kumar (3):
+>   scripts: dtc: Add fdtoverlay.c to DTC_SOURCE
+>   scripts: dtc: Build fdtoverlay tool
+>   scripts: dtc: Remove the unused fdtdump.c file
+> 
+>  scripts/dtc/Makefile             |   6 +-
+>  scripts/dtc/fdtdump.c            | 163 -------------------------------
+>  scripts/dtc/update-dtc-source.sh |   6 +-
+>  3 files changed, 8 insertions(+), 167 deletions(-)
+>  delete mode 100644 scripts/dtc/fdtdump.c
 > 
 
-In general, I am a proponent of using shared libraries (which the upstream project
-builds by default) because if a security bug in the library is fixed, it is fixed
-for all users of the library.
+My first inclination was to accept fdtoverlay, as is, from the upstream
+project.
 
-In this specific case, I actually prefer the implementation that the patch provides
-(directly linking the library object files into fdtoverlay, which uses the library)
-because it is the only user of the library _and_ fdtoverlay will not inadvertently
-use the system wide libfdt if it happens to be installed (as it is on my system).
+But my experiences debugging use of fdtoverlay against the existing
+unittest overlay files has me very wary of accepting fdtoverlay in
+it's current form.
 
-Any thoughts on this Rob?
+As an exmple, adding an overlay that fails to reply results in the
+following build messages:
+
+   linux--5.11-rc> make zImage
+   make[1]: Entering directory '/local/frowand_nobackup/src/git_linus/build/dragon_linus_5.11-rc'
+     GEN     Makefile
+     CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc/scripts/checksyscalls.sh
+     CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc/scripts/atomic/check-atomics.sh
+     CHK     include/generated/compile.h
+     FDTOVERLAY drivers/of/unittest-data/static_test.dtb
+
+   Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ERR_NOTFOUND
+   make[4]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/drivers/of/unittest-data/Makefile:96: drivers/of/unittest-data/static_test.dtb] Error 1
+   make[3]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/scripts/Makefile.build:496: drivers/of/unittest-data] Error 2
+   make[2]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/scripts/Makefile.build:496: drivers/of] Error 2
+   make[1]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/Makefile:1805: drivers] Error 2
+   make[1]: Leaving directory '/local/frowand_nobackup/src/git_linus/build/dragon_linus_5.11-rc'
+   make: *** [Makefile:185: __sub-make] Error 2
+
+
+The specific error message (copied from above) is:
+
+   Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ERR_NOTFOUND
+
+which is cryptic and does not even point to the location in the overlay that
+is problematic.  If you look at the source of fdtoverlay / libfdt, you will
+find that FDT_ERR_NOTFOUND may be generated in one of many places.
+
+I do _not_ want to do a full review of fdtoverlay, but I think that it is
+reasonable to request enhancing fdtoverlay in the parent project to generate
+usable error messages before enabling fdtoverlay in the Linux kernel tree.
+
+fdtoverlay in it's current form adds a potential maintenance burden to me
+(as the overlay maintainer).  I now have the experience of how difficult it
+was to debug the use of fdtoverlay in the context of the proposed patch to
+use it with the devicetree unittest overlay .dtb files.
 
 -Frank
