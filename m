@@ -2,143 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 065B82FCB14
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Jan 2021 07:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB5A32FCB43
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Jan 2021 08:08:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728907AbhATGbe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Jan 2021 01:31:34 -0500
-Received: from conuserg-10.nifty.com ([210.131.2.77]:39180 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729641AbhATGZ7 (ORCPT
+        id S1726794AbhATHIX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Jan 2021 02:08:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbhATHIU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Jan 2021 01:25:59 -0500
-Received: from oscar.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 10K6Nskv000951;
-        Wed, 20 Jan 2021 15:23:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 10K6Nskv000951
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611123835;
-        bh=1JrYU8+EbJufEwrJi23/GxY2VE/PHExCTFg+NH0kfF8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pQthdvoM7RX8d6r5+I7dpdk0z0OAI33IVQgRjIYNHskv+uiNyGJRuaYkNrLCL61/v
-         PKjMVOWdBkefCKjHqL7eLPuKNRBeigvyLUu9m/iE0YmLU1v0Cq64ziBBveazsCo328
-         d5kqkp/shU4dAN3/kw3/68GjX+fxG8mYhy5rf2b1LPHT0vDXvCa1nxIht6eG3wqMjI
-         keAY8LNL/CHObN8jK1Wyl5zTYc/oSQmAtBeHmIOlfvBQAsV3LNb5vs0cBztCYMCycL
-         yBW4wbhvi2dDrjje4cLwUJP0ISPzWtXalHFW+OdG5kqvZ6YWf57o6VSDwFyLwRk/LV
-         Bkv9fkAxAa7Pg==
-X-Nifty-SrcIP: [126.26.94.251]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Wed, 20 Jan 2021 02:08:20 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 240B4C061757
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jan 2021 23:07:40 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id o20so5522930pfu.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Jan 2021 23:07:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9smo0xuaPm7gfHG1uvtUQgG4c1Mt5zbBVDBw98pRJd0=;
+        b=XzW+00TuT50HE4l265/PY4mooymj9tShL6kJ4Y59thj3dfuUohyGcUAs3VTwDS+cmW
+         45h64uIwLytvu890QRFBxqB9u73d1fO51lXdodCWzm45ATnQEcT1wvfo0XT1oChLQRhU
+         E4QvgIATATDVQk9fF9J/uBxCVgdpLJSyYbMiwL3xpNzGncOORVR+4NWFO44BMv7/A+LR
+         qhlB7RIvUyy6ZWmt+xDA6zlYXOh0yhg46EP/puldooroBUpy+PnceCTtPw5G+QG+cb1y
+         xH76S6OKFQgc12glvV+95vm7h8pwNMuyfMoqsjydjrrmhWfW8Fz0QOULJ16wVkSOiC9E
+         nEYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9smo0xuaPm7gfHG1uvtUQgG4c1Mt5zbBVDBw98pRJd0=;
+        b=i41L3ixDY4kPYcceH2+aCUzNpcIaBcqsQ0xzUip5qAT10Sv9icg6jeD9ER+Z8kvrHC
+         jTXSBwrceGPHen3MV+XDAQF0i/DJS4Qxd3fkVlqDnUxs+rJQL7zYBJ1LNQ3b+nC0ikL8
+         Sp04ygEtMw2LG8ia9MIaLSH43pHZu9Y01Whfw8/wNXNVVom8jXx6ojsj1ZnsnGzZgUBs
+         NkxiX6sJOoQLUeOg9dzZlR2pF3vF9yNsxDi8ZVGq7kVIq2dTUBgTMjJ915xvg2CsxzY2
+         AlFOnQNz5CXlcMDky/XJQlWd+0AP8FnK8GQ2iU8G6ZEKRdBfaC7oNNAzWYpNp1+47+G+
+         v6IQ==
+X-Gm-Message-State: AOAM531hazbx0pWHLj+6Ra5U8+ZYY248idbWBEn8xTMNL805g+DuBwLZ
+        xKJ9LW8YCB3jtXTcAH7l67unAg==
+X-Google-Smtp-Source: ABdhPJwGqpBdM988Q6vHDKu/RDWzUrXvL064DnDiT4hBd0PAr/oHn86c94kzcZVOTl57yz1p4pVbtw==
+X-Received: by 2002:a63:5d3:: with SMTP id 202mr8010895pgf.286.1611126459450;
+        Tue, 19 Jan 2021 23:07:39 -0800 (PST)
+Received: from localhost ([122.172.59.240])
+        by smtp.gmail.com with ESMTPSA id h11sm1122242pjg.46.2021.01.19.23.07.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Jan 2021 23:07:38 -0800 (PST)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Frank Rowand <frowand.list@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: use always-y instead of extra-y
-Date:   Wed, 20 Jan 2021 15:23:51 +0900
-Message-Id: <20210120062351.3011786-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH V5 0/5] dt: build overlays
+Date:   Wed, 20 Jan 2021 12:36:42 +0530
+Message-Id: <cover.1611124778.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As commit d0e628cd817f ("kbuild: doc: clarify the difference between
-extra-y and always-y") explained, extra-y should be used for listing
-the prerequsites of vmlinux. always-y is a better fix here.
+Hi Frank/Rob,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I have picked all the related patches together into a single patchset,
+so they can be properly reviewed/tested.
 
- Documentation/devicetree/bindings/Makefile |  8 ++++----
- drivers/gpu/drm/i915/Makefile              |  2 +-
- scripts/Makefile.lib                       | 10 +++++-----
- scripts/gdb/linux/Makefile                 |  2 +-
- 4 files changed, 11 insertions(+), 11 deletions(-)
+This patchset makes necessary changes to the kernel to add support for
+building overlays (%.dtbo) and the required fdtoverlay tool. This also
+builds static_test.dtb using some of the existing overlay tests present
+in drivers/of/unittest-data/ for better test coverage.
 
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 8f2b054bec5a..90fcad98984d 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -78,10 +78,10 @@ $(obj)/processed-schema.json: $(DT_SCHEMA_FILES) check_dtschema_version FORCE
- 
- endif
- 
--extra-$(CHECK_DT_BINDING) += processed-schema-examples.json
--extra-$(CHECK_DTBS) += processed-schema.json
--extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
--extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
-+always-$(CHECK_DT_BINDING) += processed-schema-examples.json
-+always-$(CHECK_DTBS)       += processed-schema.json
-+always-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-+always-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
- 
- # Hack: avoid 'Argument list too long' error for 'make clean'. Remove most of
- # build artifacts here before they are processed by scripts/Makefile.clean
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 6d9e81ea67f4..938221894d0c 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -294,7 +294,7 @@ no-header-test := \
- 	gvt/mpt.h \
- 	gvt/scheduler.h
- 
--extra-$(CONFIG_DRM_I915_WERROR) += \
-+always-$(CONFIG_DRM_I915_WERROR) += \
- 	$(patsubst %.h,%.hdrtest, $(filter-out $(no-header-test), \
- 		$(shell cd $(srctree)/$(src) && find * -name '*.h')))
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 4612a887f28e..b8e587a17dcc 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -64,12 +64,12 @@ always-y += $(userprogs-always-y) $(userprogs-always-m)
- 
- # DTB
- # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
--extra-y				+= $(dtb-y)
--extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
-+always-y			+= $(dtb-y)
-+always-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
- 
- ifneq ($(CHECK_DTBS),)
--extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
--extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
-+always-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
-+always-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
- endif
- 
- # Add subdir path
-@@ -230,7 +230,7 @@ $(obj)/%: $(src)/%_shipped
- #	target: source(s) FORCE
- #		$(if_changed,ld/objcopy/gzip)
- #
--#	and add target to extra-y so that we know we have to
-+#	and add target to 'targets' so that we know we have to
- #	read in the saved command line
- 
- # Linking
-diff --git a/scripts/gdb/linux/Makefile b/scripts/gdb/linux/Makefile
-index 124755087510..13903073cbff 100644
---- a/scripts/gdb/linux/Makefile
-+++ b/scripts/gdb/linux/Makefile
-@@ -18,7 +18,7 @@ quiet_cmd_gen_constants_py = GEN     $@
- 	$(CPP) -E -x c -P $(c_flags) $< > $@ ;\
- 	sed -i '1,/<!-- end-c-headers -->/d;' $@
- 
--extra-y += constants.py
-+always-y += constants.py
- $(obj)/constants.py: $(src)/constants.py.in FORCE
- 	$(call if_changed_dep,gen_constants_py)
- 
+Note that in order for anyone to test this stuff, you need to manually
+run the ./update-dtc-source.sh script once to fetch the necessary
+changes from the external DTC project (i.e. fdtoverlay.c and this[1]
+patch).
+
+Also note that Frank has already shared his concerns towards the error
+reporting done by fdtoverlay tool [2], I have still included the patch
+in this series for completeness, will see how to get that sorted out.
+
+V5:
+
+- Don't reuse DTC_SOURCE for fdtoverlay.c in patch 1/5 (Frank).
+
+- Update .gitignore and scripts/Makefile.dtbinst, drop dtbo-y syntax and
+  DTC_FLAGS += -@ in patch 4/5 (Masahiro).
+
+- Remove the intermediate dtb, rename output to static_test.dtb, don't
+  use overlay.dtb and overlay_base.dtb for static builds, improved
+  layout/comments in Makefile for patch 5/5 (Frank).
+
+--
+Viresh
+
+[1] https://github.com/dgibson/dtc/commit/163f0469bf2ed8b2fe5aa15bc796b93c70243ddc
+[2] https://lore.kernel.org/lkml/74f8aa8f-ffab-3b0f-186f-31fb7395ebbb@gmail.com/
+
+Viresh Kumar (5):
+  scripts: dtc: Fetch fdtoverlay.c from external DTC project
+  scripts: dtc: Build fdtoverlay tool
+  scripts: dtc: Remove the unused fdtdump.c file
+  kbuild: Add support to build overlays (%.dtbo)
+  of: unittest: Statically apply overlays using fdtoverlay
+
+ .gitignore                        |   3 +-
+ Makefile                          |   4 +-
+ drivers/of/unittest-data/Makefile |  50 +++++++++
+ scripts/Makefile.dtbinst          |   3 +
+ scripts/Makefile.lib              |   4 +-
+ scripts/dtc/Makefile              |   6 +-
+ scripts/dtc/fdtdump.c             | 163 ------------------------------
+ scripts/dtc/update-dtc-source.sh  |   3 +-
+ 8 files changed, 66 insertions(+), 170 deletions(-)
+ delete mode 100644 scripts/dtc/fdtdump.c
+
 -- 
-2.27.0
+2.25.0.rc1.19.g042ed3e048af
 
