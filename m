@@ -2,181 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF422FE13C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 05:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27CBD2FE13D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 05:59:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728511AbhAUDwn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Jan 2021 22:52:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
+        id S1727723AbhAUDwp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Jan 2021 22:52:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393193AbhAUCWf (ORCPT
+        with ESMTP id S1726983AbhAUCfw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Jan 2021 21:22:35 -0500
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C068C061757;
-        Wed, 20 Jan 2021 18:21:55 -0800 (PST)
-Received: by mail-io1-xd35.google.com with SMTP id p72so1033523iod.12;
-        Wed, 20 Jan 2021 18:21:55 -0800 (PST)
+        Wed, 20 Jan 2021 21:35:52 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8230EC061575;
+        Wed, 20 Jan 2021 18:35:12 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id e22so1153062iog.6;
+        Wed, 20 Jan 2021 18:35:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=Vp+AOE092k68RqEbMcBCp9/Ukm2GwYnsZJxTSLbTqcQ=;
-        b=fk76+8fpscXt1+UtR91rPJtqdpvBCfunS2NPWqFQX9XISsq0PZ8sH/qv3WZdswrS9q
-         DBvz/hwuLuOnz6LxyrR7Yg2cPoY4IKujYQXSSn49u8Kkkg6rP2pKxo/xivj/vVkCUvaX
-         GE4dNzLplqnAjW6YqsjmA4/fcWuv7lVhMETdXXNpzjr+coY5QFZXIM+yX7an5C0WMM6V
-         DMIOD4AF9DbkiQn2A4iZLTa7HwNCn4jHMABDokxaHtRcA19scknWYvHCZnbWMqRfCCi0
-         LusnYl4D191C2qNGhOnqQ5GiFFD3u9ED0FlIKYxc5Y8Z2zVkUsrC6c+cRQ001FE1AmYf
-         snAw==
+        bh=9Y9DUxx2myNtOWxI8K8XFn16xIEClBVha4uIv+X/2uY=;
+        b=G9zQ7C/dYMxCwX6DVkBH3ICgyCY4aGmrIFquM4790TChdjhRqne0p9WhLI4S47G5OB
+         3FzeRHSYojNH+F5GIAzkJQx4pfSYPvYyfUO29pQP+tKxI5TBIKjz8ep3qlBaekXmi69j
+         90alngIigKBTBT80wJg2a3CSo+hhrrZOIglAIFq5qEcOiNmNO+70qysaj1mnOLkiJpK0
+         3Zz7Kd6mJHUHC8LfzK8gZ/9AsARZP5FUsxtKELbbhnQXbd9YoS7m74b9kZUwafkmz+SO
+         3MWpZddeBq6ciIwx1CycV+3v9Oz6qyguw5Kerpd3ct7ej99+UYHNaijM0XJ1+NQnr5DG
+         fXmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=Vp+AOE092k68RqEbMcBCp9/Ukm2GwYnsZJxTSLbTqcQ=;
-        b=Nl7CwRVBADKK7a/Dj6HEDBeS3S/AGLR1R6TMgf3MNIlujO9CEBMUfFIg+xBTkGHXku
-         VcDRTATZGk/jPyJzIe9CHEQr5mzXXaczn1XR5zuj+mm7s/+YsS0ugmfmHdLlVUDGyQiV
-         bYRwEuTzaj4vLj0k6zz/iDF7Wmz1eNY1J8TLpTTBqdvc88KRaMIN1FfHBo8+sYgISF5W
-         RBkZem4GDXzF48WE8bFw6WxV20a4wv7BAvHslB368stqCTzdWV1AoIGg8BKhJs+MFUVi
-         abEYyrSCZqbFQ+vGWWYZ3f4AV2kW2eoYp8xhW1h5c3yauc8zVb9y0HCdoc3E/+wL2RZL
-         9J9w==
-X-Gm-Message-State: AOAM532bBpgxnM/A1WNaa/2clePiLnPOmhzFFxvub0ga9CubOCD0eOUc
-        6PjXOnHa6Hm0hBTvJJNMGAve3gHdsuL0Lh2zpvY=
-X-Google-Smtp-Source: ABdhPJxqCkgCdrYcxYFCtLfGMFZ/MHc8v+nNvK72BdWKJAS/FL85R1C2E6kKD/X0Qh7o4tQw39V9m84rZ4g5W4c4iAo=
-X-Received: by 2002:a02:2ace:: with SMTP id w197mr10061595jaw.132.1611195714793;
- Wed, 20 Jan 2021 18:21:54 -0800 (PST)
+        bh=9Y9DUxx2myNtOWxI8K8XFn16xIEClBVha4uIv+X/2uY=;
+        b=ev857kMl4ar69G7EZDIBtjvEplnfsCzCjwIiolSaCnVxEMmlOoHQzia36UVvjLRzss
+         GUubY/37hVFTFIew2C9n+EHpW4Q3TZ334s8SlPknGs7EuFd3ANKa2IMu2y9CrMxlEr8n
+         FDf7U31Uxx0bnONiHDIzMkxHEtg+x6cEQO2HWbFnSaUSiJgEJKmE8SKMvcWOayyu2Nl/
+         Udoz/Xcp7daqgtnYcdIV1SAOG5tpcW1QXJ9SI+uBs6hRVLkrfryLT4XhGQEJYQAwg8+y
+         Ee3Yss2aMgQgbm42xhefICr9XHbiJMRaGkTDwA9Ee9L4eeKQNHtwrHUVvkOXMMyZLB3k
+         oZyQ==
+X-Gm-Message-State: AOAM5309wtG69H8JvBE8V27IqAkN7uWV8g4+O+ijs3ZjTbMiFLl9EcY2
+        MsD8SNMNbkh4adz21gjsE5CI0xFXcpqhej/xSRrmKCQ1/PHwEA==
+X-Google-Smtp-Source: ABdhPJybd2r+DInglVk4ksQjnieup8BbWJTKCidmKe5EfE3N1syRZJU8VeDL8JZY3HBjB4NkHv2KTHhKrdLOU8S/cnM=
+X-Received: by 2002:a05:6602:2f93:: with SMTP id u19mr8996301iow.110.1611196511863;
+ Wed, 20 Jan 2021 18:35:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com>
-In-Reply-To: <20210111081821.3041587-1-morbo@google.com>
+References: <20210115210616.404156-1-ndesaulniers@google.com>
+ <20210115210616.404156-3-ndesaulniers@google.com> <20210120204025.GA548985@ubuntu-m3-large-x86>
+In-Reply-To: <20210120204025.GA548985@ubuntu-m3-large-x86>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 21 Jan 2021 03:21:43 +0100
-Message-ID: <CA+icZUW63tP7kzWCKofJH0E0xA7yLCYpSOYz_aw1D4mkhNhW=w@mail.gmail.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+Date:   Thu, 21 Jan 2021 03:35:00 +0100
+Message-ID: <CA+icZUXycvAE4uVDcaVQfeiSCaHCxP8ZBUMccHxXES1E7RNjRw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] Kbuild: make DWARF version a choice
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: multipart/mixed; boundary="0000000000003e955e05b95fbcbc"
+        linux-kernel@vger.kernel.org,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---0000000000003e955e05b95fbcbc
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Jan 20, 2021 at 9:40 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Fri, Jan 15, 2021 at 01:06:15PM -0800, Nick Desaulniers wrote:
+> > Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice. Adds an
+> > explicit CONFIG_DEBUG_INFO_DWARF2, which is the default. Does so in a
+> > way that's forward compatible with existing configs, and makes adding
+> > future versions more straightforward.
+> >
+> > Suggested-by: Arvind Sankar <nivedita@alum.mit.edu>
+> > Suggested-by: Fangrui Song <maskray@google.com>
+> > Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > ---
+> >  Makefile          | 13 ++++++-------
+> >  lib/Kconfig.debug | 21 ++++++++++++++++-----
+> >  2 files changed, 22 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index d49c3f39ceb4..4eb3bf7ee974 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -826,13 +826,12 @@ else
+> >  DEBUG_CFLAGS += -g
+> >  endif
+> >
+> > -ifneq ($(LLVM_IAS),1)
+> > -KBUILD_AFLAGS        += -Wa,-gdwarf-2
+> > -endif
+>
+> Aren't you regressing this with this patch? Why is the hunk from 3/3
+> that adds
+>
+> ifdef CONFIG_CC_IS_CLANG
+> ifneq ($(LLVM_IAS),1)
+>
+> not in this patch?
+>
 
-Hi,
+Nice catch Nathan.
 
-When I looked through the code I wondered why we do not add a
-"CONFIG_PGO_CLANG_PROFDATA" which can be helpful when doing the PGO
-rebuild with a vmlinux.profdata.
+Just FYI:
 
-This introduces a "PGO_PROFDATA" to turn on/off to pass
-"-fprofile-use=vmlinux.profdata" (see CFLAGS_PGO_CLANG_PROFDATA in
-top-level Makefile).
+The patch...
 
-If we turn off via "PGO_PROFILE := n" in several Makefiles - we should
-do the same and add "PGO_PROFDATA := n" to the same Makefiles?
+"kbuild: Remove $(cc-option,-gdwarf-4) dependency from DEBUG_INFO_DWARF4"
 
-Please see the attached diff.
+... has now entered kbuild-next.
+( This patch is included in this patch-series. )
 
-Regards,
+So should we point to this one and add a comment?
+Thinking of a next version of this DWARF5 support patch-series.
+
 - Sedat -
 
---0000000000003e955e05b95fbcbc
-Content-Type: text/x-patch; charset="US-ASCII"; name="CONFIG_PGO_CLANG_PROFDATA.diff"
-Content-Disposition: attachment; filename="CONFIG_PGO_CLANG_PROFDATA.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kk689dua0>
-X-Attachment-Id: f_kk689dua0
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?h=kbuild&id=3f4d8ce271c7082be75bacbcbd2048aa78ce2b44
 
-ZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggZGQ1OGZjYTY1YzlmLi5kOWE0
-ODI3OWM0ZDUgMTAwNjQ0Ci0tLSBhL01ha2VmaWxlCisrKyBiL01ha2VmaWxlCkBAIC02NjAsNyAr
-NjYwLDggQEAgZW5kaWYgIyBLQlVJTERfRVhUTU9ECiBhbGw6IHZtbGludXgKIAogQ0ZMQUdTX1BH
-T19DTEFORyA6PSAtZnByb2ZpbGUtZ2VuZXJhdGUKLWV4cG9ydCBDRkxBR1NfUEdPX0NMQU5HCitD
-RkxBR1NfUEdPX0NMQU5HX1BST0ZEQVRBIDo9IC1mcHJvZmlsZS11c2U9dm1saW51eC5wcm9mZGF0
-YQorZXhwb3J0IENGTEFHU19QR09fQ0xBTkcgQ0ZMQUdTX1BHT19DTEFOR19QUk9GREFUQQogCiBD
-RkxBR1NfR0NPVgk6PSAtZnByb2ZpbGUtYXJjcyAtZnRlc3QtY292ZXJhZ2UgXAogCSQoY2FsbCBj
-Yy1vcHRpb24sLWZuby10cmVlLWxvb3AtaW0pIFwKZGlmZiAtLWdpdCBhL2FyY2gveDg2L2Jvb3Qv
-TWFrZWZpbGUgYi9hcmNoL3g4Ni9ib290L01ha2VmaWxlCmluZGV4IDM4Mzg1M2UzMmY2Ny4uMzI2
-OGQxZWU2ZTQ1IDEwMDY0NAotLS0gYS9hcmNoL3g4Ni9ib290L01ha2VmaWxlCisrKyBiL2FyY2gv
-eDg2L2Jvb3QvTWFrZWZpbGUKQEAgLTcyLDYgKzcyLDcgQEAgS0JVSUxEX0NGTEFHUwkrPSAkKGNh
-bGwgY2Mtb3B0aW9uLC1mbWFjcm8tcHJlZml4LW1hcD0kKHNyY3RyZWUpLz0pCiBLQlVJTERfQ0ZM
-QUdTCSs9IC1mbm8tYXN5bmNocm9ub3VzLXVud2luZC10YWJsZXMKIEdDT1ZfUFJPRklMRSA6PSBu
-CiBQR09fUFJPRklMRSA6PSBuCitQR09fUFJPRkRBVEEgOj0gbgogVUJTQU5fU0FOSVRJWkUgOj0g
-bgogCiAkKG9iaikvYnpJbWFnZTogYXNmbGFncy15ICA6PSAkKFNWR0FfTU9ERSkKZGlmZiAtLWdp
-dCBhL2FyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC9NYWtlZmlsZSBiL2FyY2gveDg2L2Jvb3QvY29t
-cHJlc3NlZC9NYWtlZmlsZQppbmRleCBlZDEyYWI2NWY2MDYuLjcwN2M0MDM0YWVmNyAxMDA2NDQK
-LS0tIGEvYXJjaC94ODYvYm9vdC9jb21wcmVzc2VkL01ha2VmaWxlCisrKyBiL2FyY2gveDg2L2Jv
-b3QvY29tcHJlc3NlZC9NYWtlZmlsZQpAQCAtNTUsNiArNTUsNyBAQCBDRkxBR1Nfc2V2LWVzLm8g
-Kz0gLUkkKG9ianRyZWUpL2FyY2gveDg2L2xpYi8KIEtCVUlMRF9BRkxBR1MgIDo9ICQoS0JVSUxE
-X0NGTEFHUykgLURfX0FTU0VNQkxZX18KIEdDT1ZfUFJPRklMRSA6PSBuCiBQR09fUFJPRklMRSA6
-PSBuCitQR09fUFJPRkRBVEEgOj0gbgogVUJTQU5fU0FOSVRJWkUgOj1uCiAKIEtCVUlMRF9MREZM
-QUdTIDo9IC1tIGVsZl8kKFVUU19NQUNISU5FKQpkaWZmIC0tZ2l0IGEvYXJjaC94ODYvY3J5cHRv
-L01ha2VmaWxlIGIvYXJjaC94ODYvY3J5cHRvL01ha2VmaWxlCmluZGV4IGJhYTE0ZjgzZWRhZS4u
-MWIyY2I5MTQyNjcyIDEwMDY0NAotLS0gYS9hcmNoL3g4Ni9jcnlwdG8vTWFrZWZpbGUKKysrIGIv
-YXJjaC94ODYvY3J5cHRvL01ha2VmaWxlCkBAIC01LDYgKzUsNyBAQAogT0JKRUNUX0ZJTEVTX05P
-Tl9TVEFOREFSRCA6PSB5CiAKIFBHT19QUk9GSUxFX2N1cnZlMjU1MTkteDg2XzY0Lm8gOj0gbgor
-UEdPX1BST0ZEQVRBX2N1cnZlMjU1MTkteDg2XzY0Lm8gOj0gbgogCiBvYmotJChDT05GSUdfQ1JZ
-UFRPX1RXT0ZJU0hfNTg2KSArPSB0d29maXNoLWk1ODYubwogdHdvZmlzaC1pNTg2LXkgOj0gdHdv
-ZmlzaC1pNTg2LWFzbV8zMi5vIHR3b2Zpc2hfZ2x1ZS5vCmRpZmYgLS1naXQgYS9hcmNoL3g4Ni9l
-bnRyeS92ZHNvL01ha2VmaWxlIGIvYXJjaC94ODYvZW50cnkvdmRzby9NYWtlZmlsZQppbmRleCBm
-NzQyMWU0NDcyNWEuLjY3ODYwZWNkZTU0MiAxMDA2NDQKLS0tIGEvYXJjaC94ODYvZW50cnkvdmRz
-by9NYWtlZmlsZQorKysgYi9hcmNoL3g4Ni9lbnRyeS92ZHNvL01ha2VmaWxlCkBAIC0xODEsNiAr
-MTgxLDcgQEAgVkRTT19MREZMQUdTID0gLXNoYXJlZCAtLWhhc2gtc3R5bGU9Ym90aCAtLWJ1aWxk
-LWlkPXNoYTEgXAogCSQoY2FsbCBsZC1vcHRpb24sIC0tZWgtZnJhbWUtaGRyKSAtQnN5bWJvbGlj
-CiBHQ09WX1BST0ZJTEUgOj0gbgogUEdPX1BST0ZJTEUgOj0gbgorUEdPX1BST0ZEQVRBIDo9IG4K
-IAogcXVpZXRfY21kX3Zkc29fYW5kX2NoZWNrID0gVkRTTyAgICAkQAogICAgICAgY21kX3Zkc29f
-YW5kX2NoZWNrID0gJChjbWRfdmRzbyk7ICQoY21kX3Zkc29fY2hlY2spCmRpZmYgLS1naXQgYS9h
-cmNoL3g4Ni9wbGF0Zm9ybS9lZmkvTWFrZWZpbGUgYi9hcmNoL3g4Ni9wbGF0Zm9ybS9lZmkvTWFr
-ZWZpbGUKaW5kZXggNWYyMmIzMTQ0NmFkLi41ZDY0YjcyOGEwYTAgMTAwNjQ0Ci0tLSBhL2FyY2gv
-eDg2L3BsYXRmb3JtL2VmaS9NYWtlZmlsZQorKysgYi9hcmNoL3g4Ni9wbGF0Zm9ybS9lZmkvTWFr
-ZWZpbGUKQEAgLTMsNiArMyw3IEBAIE9CSkVDVF9GSUxFU19OT05fU1RBTkRBUkRfZWZpX3RodW5r
-XyQoQklUUykubyA6PSB5CiBLQVNBTl9TQU5JVElaRSA6PSBuCiBHQ09WX1BST0ZJTEUgOj0gbgog
-UEdPX1BST0ZJTEUgOj0gbgorUEdPX1BST0ZEQVRBIDo9IG4KIAogb2JqLSQoQ09ORklHX0VGSSkg
-CQkrPSBxdWlya3MubyBlZmkubyBlZmlfJChCSVRTKS5vIGVmaV9zdHViXyQoQklUUykubwogb2Jq
-LSQoQ09ORklHX0VGSV9NSVhFRCkJCSs9IGVmaV90aHVua18kKEJJVFMpLm8KZGlmZiAtLWdpdCBh
-L2FyY2gveDg2L3B1cmdhdG9yeS9NYWtlZmlsZSBiL2FyY2gveDg2L3B1cmdhdG9yeS9NYWtlZmls
-ZQppbmRleCAzNmYyMGU5OWRhMGIuLjk5ZjJlNGMxODg2ZSAxMDA2NDQKLS0tIGEvYXJjaC94ODYv
-cHVyZ2F0b3J5L01ha2VmaWxlCisrKyBiL2FyY2gveDg2L3B1cmdhdG9yeS9NYWtlZmlsZQpAQCAt
-MjQsNiArMjQsNyBAQCB0YXJnZXRzICs9IHB1cmdhdG9yeS5ybyBwdXJnYXRvcnkuY2hrCiAjIFNh
-bml0aXplciwgZXRjLiBydW50aW1lcyBhcmUgdW5hdmFpbGFibGUgYW5kIGNhbm5vdCBiZSBsaW5r
-ZWQgaGVyZS4KIEdDT1ZfUFJPRklMRQk6PSBuCiBQR09fUFJPRklMRQk6PSBuCitQR09fUFJPRkRB
-VEEJOj0gbgogS0FTQU5fU0FOSVRJWkUJOj0gbgogVUJTQU5fU0FOSVRJWkUJOj0gbgogS0NTQU5f
-U0FOSVRJWkUJOj0gbgpkaWZmIC0tZ2l0IGEvYXJjaC94ODYvcmVhbG1vZGUvcm0vTWFrZWZpbGUg
-Yi9hcmNoL3g4Ni9yZWFsbW9kZS9ybS9NYWtlZmlsZQppbmRleCAyMTc5NzE5MmY5NTguLmE0OTU4
-OTBlOWIxMSAxMDA2NDQKLS0tIGEvYXJjaC94ODYvcmVhbG1vZGUvcm0vTWFrZWZpbGUKKysrIGIv
-YXJjaC94ODYvcmVhbG1vZGUvcm0vTWFrZWZpbGUKQEAgLTc3LDQgKzc3LDUgQEAgS0JVSUxEX0FG
-TEFHUwk6PSAkKEtCVUlMRF9DRkxBR1MpIC1EX19BU1NFTUJMWV9fCiBLQlVJTERfQ0ZMQUdTCSs9
-IC1mbm8tYXN5bmNocm9ub3VzLXVud2luZC10YWJsZXMKIEdDT1ZfUFJPRklMRSA6PSBuCiBQR09f
-UFJPRklMRSA6PSBuCitQR09fUFJPRkRBVEEgOj0gbgogVUJTQU5fU0FOSVRJWkUgOj0gbgpkaWZm
-IC0tZ2l0IGEvYXJjaC94ODYvdW0vdmRzby9NYWtlZmlsZSBiL2FyY2gveDg2L3VtL3Zkc28vTWFr
-ZWZpbGUKaW5kZXggNTRmNTc2OGY1ODUzLi4yZTljZGMxMzdhZGUgMTAwNjQ0Ci0tLSBhL2FyY2gv
-eDg2L3VtL3Zkc28vTWFrZWZpbGUKKysrIGIvYXJjaC94ODYvdW0vdmRzby9NYWtlZmlsZQpAQCAt
-NjUsNiArNjUsNyBAQCBxdWlldF9jbWRfdmRzbyA9IFZEU08gICAgJEAKIFZEU09fTERGTEFHUyA9
-IC1mUElDIC1zaGFyZWQgLVdsLC0taGFzaC1zdHlsZT1zeXN2CiBHQ09WX1BST0ZJTEUgOj0gbgog
-UEdPX1BST0ZJTEUgOj0gbgorUEdPX1BST0ZEQVRBIDo9IG4KIAogIwogIyBJbnN0YWxsIHRoZSB1
-bnN0cmlwcGVkIGNvcHkgb2YgdmRzbyouc28gbGlzdGVkIGluICQodmRzby1pbnN0YWxsLXkpLgpk
-aWZmIC0tZ2l0IGEva2VybmVsL3Bnby9LY29uZmlnIGIva2VybmVsL3Bnby9LY29uZmlnCmluZGV4
-IDVmZTk2MzVhYzY0Yy4uY2UxZTFjMDYxYTk4IDEwMDY0NAotLS0gYS9rZXJuZWwvcGdvL0tjb25m
-aWcKKysrIGIva2VybmVsL3Bnby9LY29uZmlnCkBAIC0zMiw0ICszMiw4IEBAIGNvbmZpZyBQR09f
-Q0xBTkcKIAkgIE5vdGUgdGhhdCB0aGUgZGVidWdmcyBmaWxlc3lzdGVtIGhhcyB0byBiZSBtb3Vu
-dGVkIHRvIGFjY2VzcwogCSAgcHJvZmlsaW5nIGRhdGEuCiAKK2NvbmZpZyBQR09fQ0xBTkdfUFJP
-RkRBVEEKKwlib29sICJVc2Ugdm1saW51eC5wcm9mZGF0YSBwcm9maWxlIGZpbGUiCisJZGVwZW5k
-cyBvbiAhUEdPX0NMQU5HCisKIGVuZG1lbnUKZGlmZiAtLWdpdCBhL3NjcmlwdHMvTWFrZWZpbGUu
-bGliIGIvc2NyaXB0cy9NYWtlZmlsZS5saWIKaW5kZXggMTJmZWQ4MjVhYjRiLi4xNDE2OWE1NzVi
-NjQgMTAwNjQ0Ci0tLSBhL3NjcmlwdHMvTWFrZWZpbGUubGliCisrKyBiL3NjcmlwdHMvTWFrZWZp
-bGUubGliCkBAIC0xNTQsNiArMTU0LDEyIEBAIF9jX2ZsYWdzICs9ICQoaWYgJChwYXRzdWJzdCBu
-JSwsIFwKIAkJJChQR09fUFJPRklMRV8kKGJhc2V0YXJnZXQpLm8pJChQR09fUFJPRklMRSl5KSwg
-XAogCQkkKENGTEFHU19QR09fQ0xBTkcpKQogZW5kaWYKKyMgVXNlIHZtbGludXgucHJvZmRhdGEg
-cHJvZmlsZSBmaWxlCitpZmVxICgkKENPTkZJR19QR09fQ0xBTkdfUFJPRkRBVEEpLHkpCitfY19m
-bGFncyArPSAkKGlmICQocGF0c3Vic3QgbiUsLCBcCisJCSQoUEdPX1BST0ZEQVRBXyQoYmFzZXRh
-cmdldCkubykkKFBHT19QUk9GREFUQSl5KSwgXAorCQkkKENGTEFHU19QR09fQ0xBTkdfUFJPRkRB
-VEEpKQorZW5kaWYKIAogIwogIyBFbmFibGUgYWRkcmVzcyBzYW5pdGl6ZXIgZmxhZ3MgZm9yIGtl
-cm5lbCBleGNlcHQgc29tZSBmaWxlcyBvciBkaXJlY3Rvcmllcwo=
---0000000000003e955e05b95fbcbc--
+> > -ifdef CONFIG_DEBUG_INFO_DWARF4
+> > -DEBUG_CFLAGS += -gdwarf-4
+> > -endif
+> > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
+> > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> > +DEBUG_CFLAGS += -gdwarf-$(dwarf-version-y)
+> > +# Binutils 2.35+ required for -gdwarf-4+ support.
+> > +dwarf-aflag  := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
+> > +KBUILD_AFLAGS        += $(dwarf-aflag)
+> >
+> >  ifdef CONFIG_DEBUG_INFO_REDUCED
+> >  DEBUG_CFLAGS += $(call cc-option, -femit-struct-debug-baseonly) \
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index dd7d8d35b2a5..e80770fac4f0 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -256,13 +256,24 @@ config DEBUG_INFO_SPLIT
+> >         to know about the .dwo files and include them.
+> >         Incompatible with older versions of ccache.
+> >
+> > +choice
+> > +     prompt "DWARF version"
+> > +     help
+> > +       Which version of DWARF debug info to emit.
+> > +
+> > +config DEBUG_INFO_DWARF2
+> > +     bool "Generate DWARF Version 2 debuginfo"
+> > +     help
+> > +       Generate DWARF v2 debug info.
+> > +
+> >  config DEBUG_INFO_DWARF4
+> > -     bool "Generate dwarf4 debuginfo"
+> > +     bool "Generate DWARF Version 4 debuginfo"
+> >       help
+> > -       Generate dwarf4 debug info. This requires recent versions
+> > -       of gcc and gdb. It makes the debug information larger.
+> > -       But it significantly improves the success of resolving
+> > -       variables in gdb on optimized code.
+> > +       Generate DWARF v4 debug info. This requires gcc 4.5+ and gdb 7.0+.
+> > +       It makes the debug information larger, but it significantly
+> > +       improves the success of resolving variables in gdb on optimized code.
+> > +
+> > +endchoice # "DWARF version"
+> >
+> >  config DEBUG_INFO_BTF
+> >       bool "Generate BTF typeinfo"
+> > --
+> > 2.30.0.284.gd98b1dd5eaa7-goog
+> >
