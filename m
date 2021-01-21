@@ -2,32 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2E02FF5FA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 21:36:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEACF2FF5F6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 21:35:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbhAUUe7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jan 2021 15:34:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51704 "EHLO
+        id S1725911AbhAUUWn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jan 2021 15:22:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbhAUHyQ (ORCPT
+        with ESMTP id S1727332AbhAUHyY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jan 2021 02:54:16 -0500
+        Thu, 21 Jan 2021 02:54:24 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1CAC0613C1;
-        Wed, 20 Jan 2021 23:53:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3EB9C061575;
+        Wed, 20 Jan 2021 23:53:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=UGANRP/KM5q83XfobVV7DWx5ZvtoCTKMobbFGMONdGw=; b=lEUjKYCeFs939aYUT/oDk6x8Y8
-        cQ3mrs840LqXWpjhVo/H1r9njWTQ2UPMp9vFEXNfezGdicLLr/cpJYuAIPKokMcQdsrz5ps+wCZNK
-        nZ2RUpOEkYuO5olwBDJmnGrb7/ILlsTg617y335c8QBpy3BbsWSMBVQgNHVcD3kQsM+HbV3hK4fA9
-        oqMsrTu5NsH9B5ZNHX/iQUwurf1JG18BrQ4usaMdfm8xeUK3jmKB47YIhmvEp4W3VqZRJ+yOtCKrq
-        95e+rD3HXbyxkwd44BUDiR7XtNG/my8cZkRGEyei9qwBKaHcXWITUTwK8+IKHsYEr6qESVUJyPNHu
-        1BsbRzLQ==;
-Received: from 089144206130.atnat0015.highway.bob.at ([89.144.206.130] helo=localhost)
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=ONID8gyRp4D9LboqpnEB5JYovGYChIbNg2MDOx4Yqrs=; b=T6cm3ehW9rEwrCZeH7coydp9rd
+        OywS7RMVA+H/yjIPo3Pbc5aU94bgMFH/85dZrDUn2R91HDRElis1VQSFCF4A94flMwa7f4J2Kacop
+        lZsl7aKgDr+nhZHQytsIu2GpzY6eXIZkNnQaakRBRpoQUTkmhWhrNullFS7owS//1+1xpAI2m3jWK
+        ANEjDej31QQM3eUYwZOCpVNHDEzDkykwcjyHVQ+K6eS/l0yQ72S9CIZg65akaCu74Tgpx88mq26ln
+        Ly3kQ48c2/5Lgk70JRsBHASD17utaXqjVbEuV3IlxoEzh70Q055ozUNYF/o/xMbgmTTILtRCwERHo
+        ouNoDBPA==;
+Received: from [2001:4bb8:188:1954:d5b3:2657:287:e45f] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l2UlI-00Gm22-Ef; Thu, 21 Jan 2021 07:52:17 +0000
+        id 1l2Uld-00Gm2M-4T; Thu, 21 Jan 2021 07:52:37 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Frederic Barrat <fbarrat@linux.ibm.com>,
         Andrew Donnellan <ajd@linux.ibm.com>,
@@ -46,10 +46,12 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
         dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Subject: module loader dead code removal and cleanusp
-Date:   Thu, 21 Jan 2021 08:49:46 +0100
-Message-Id: <20210121074959.313333-1-hch@lst.de>
+Subject: [PATCH 01/13] powerpc/powernv: remove get_cxl_module
+Date:   Thu, 21 Jan 2021 08:49:47 +0100
+Message-Id: <20210121074959.313333-2-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210121074959.313333-1-hch@lst.de>
+References: <20210121074959.313333-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -57,43 +59,44 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi all,
+The static inline get_cxl_module function is entirely unused,
+remove it.
 
-this series removes support for long term unused export types and
-cleans up various loose ends in the module loader.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/powerpc/platforms/powernv/pci-cxl.c | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
-Diffstat:
- arch/arm/configs/bcm2835_defconfig          |    1 
- arch/arm/configs/mxs_defconfig              |    1 
- arch/mips/configs/nlm_xlp_defconfig         |    1 
- arch/mips/configs/nlm_xlr_defconfig         |    1 
- arch/parisc/configs/generic-32bit_defconfig |    1 
- arch/parisc/configs/generic-64bit_defconfig |    1 
- arch/powerpc/configs/ppc6xx_defconfig       |    1 
- arch/powerpc/platforms/powernv/pci-cxl.c    |   22 -
- arch/s390/configs/debug_defconfig           |    1 
- arch/s390/configs/defconfig                 |    1 
- arch/sh/configs/edosk7760_defconfig         |    1 
- arch/sh/configs/sdk7780_defconfig           |    1 
- arch/x86/configs/i386_defconfig             |    1 
- arch/x86/configs/x86_64_defconfig           |    1 
- arch/x86/tools/relocs.c                     |    4 
- drivers/gpu/drm/drm_crtc_helper_internal.h  |   10 
- drivers/gpu/drm/drm_fb_helper.c             |   21 -
- drivers/gpu/drm/drm_kms_helper_common.c     |   26 +-
- include/asm-generic/vmlinux.lds.h           |   42 ---
- include/linux/export.h                      |    9 
- include/linux/kallsyms.h                    |   17 -
- include/linux/module.h                      |   42 ---
- init/Kconfig                                |   17 -
- kernel/kallsyms.c                           |    8 
- kernel/livepatch/core.c                     |   61 +----
- kernel/module.c                             |  319 ++++++++++------------------
- kernel/trace/trace_kprobe.c                 |    4 
- lib/bug.c                                   |    3 
- scripts/checkpatch.pl                       |    6 
- scripts/mod/modpost.c                       |   50 ----
- scripts/mod/modpost.h                       |    3 
- scripts/module.lds.S                        |    6 
- tools/include/linux/export.h                |    3 
- 33 files changed, 181 insertions(+), 505 deletions(-)
+diff --git a/arch/powerpc/platforms/powernv/pci-cxl.c b/arch/powerpc/platforms/powernv/pci-cxl.c
+index 8c739c94ed28d6..53172862d23bd3 100644
+--- a/arch/powerpc/platforms/powernv/pci-cxl.c
++++ b/arch/powerpc/platforms/powernv/pci-cxl.c
+@@ -150,25 +150,3 @@ int pnv_cxl_ioda_msi_setup(struct pci_dev *dev, unsigned int hwirq,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(pnv_cxl_ioda_msi_setup);
+-
+-#if IS_MODULE(CONFIG_CXL)
+-static inline int get_cxl_module(void)
+-{
+-	struct module *cxl_module;
+-
+-	mutex_lock(&module_mutex);
+-
+-	cxl_module = find_module("cxl");
+-	if (cxl_module)
+-		__module_get(cxl_module);
+-
+-	mutex_unlock(&module_mutex);
+-
+-	if (!cxl_module)
+-		return -ENODEV;
+-
+-	return 0;
+-}
+-#else
+-static inline int get_cxl_module(void) { return 0; }
+-#endif
+-- 
+2.29.2
+
