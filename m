@@ -2,176 +2,193 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E433E2FE328
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 07:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B12482FE471
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 08:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbhAUGpK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jan 2021 01:45:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
+        id S1727935AbhAUH4Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jan 2021 02:56:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726793AbhAUGog (ORCPT
+        with ESMTP id S1727928AbhAUHzt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jan 2021 01:44:36 -0500
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83514C0613C1;
-        Wed, 20 Jan 2021 22:43:56 -0800 (PST)
-Received: by ozlabs.org (Postfix, from userid 1007)
-        id 4DLtCC2807z9sWg; Thu, 21 Jan 2021 17:43:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=gibson.dropbear.id.au; s=201602; t=1611211431;
-        bh=f/xtaWh7e4rADud+eV43gL9MZJQJ41Y2/cBit7jRpIc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I/REnNaGaKdk+/b6ZmtFkTbr5jOK3tGbva5+dwrA7QkZ48I6wuyrm5KmlfxvPak39
-         zzvWkjA3waR/CDX/f+zjzaNeD/2bvHn/IbZWLgzXEnlQBFc3UywuSEvWnJec6xNSOE
-         deRsySiupsqu58XEfCUbX1ZlYs05QxYQ0sgeDOXc=
-Date:   Thu, 21 Jan 2021 17:41:24 +1100
-From:   David Gibson <david@gibson.dropbear.id.au>
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        pantelis.antoniou@konsulko.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH] of: unittest: Statically apply overlays using fdtoverlay
-Message-ID: <20210121064124.GM5174@yekko.fritz.box>
-References: <1e42183ccafa1afba33b3e79a4e3efd3329fd133.1610095159.git.viresh.kumar@linaro.org>
- <20210119022154.2338781-1-frowand.list@gmail.com>
- <20210119080546.dzec3jatsz2662qs@vireshk-i7>
- <f7133d16-510b-f730-a43b-89edab08aabe@gmail.com>
- <20210120050606.b2m4jssh73wexybx@vireshk-i7>
- <95cfc497-3d12-fd46-6e42-2a77612236ea@gmail.com>
+        Thu, 21 Jan 2021 02:55:49 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45E2C061757;
+        Wed, 20 Jan 2021 23:55:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=gbaHlbn72p0Nalk61HD6pekBXGvUAG7W8zs4TF0KE2o=; b=jiZJQzTm8Ce71EgMfidscH1ePD
+        ehUUxCHo/Qc7j8bEAmNWg4n2JGtmg8Dgkj99z3TQd792yUWpvsNEAmUd7uyzy77YaC1bIEFOKVOC3
+        fYIGn2SstpDdAoqaqkQdSAXU53DwFQWSwRe7LQJgJdp4ER3bRYhcubRSV8nElHjlxLltO/KbcjReH
+        NcIXnLQpQETYU8RNrSaDFwnaQkBzPTKIfIp03r4m6TFMM/U4nYhIK8SJlsaLbfzNGuKJxNhzB1Gop
+        a9Nxz0lPcBT0yISxIk1L/51SPdHFyA9EAzYFqzOnabUiYjyF8uHQmYhAwh9PeKjrwIAJbmrktxl7a
+        JB1NHZYg==;
+Received: from [2001:4bb8:188:1954:d5b3:2657:287:e45f] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l2UnT-00Gm8J-Sz; Thu, 21 Jan 2021 07:54:34 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Jessica Yu <jeyu@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH 06/13] kallsyms: only build {,module_}kallsyms_on_each_symbol when required
+Date:   Thu, 21 Jan 2021 08:49:52 +0100
+Message-Id: <20210121074959.313333-7-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210121074959.313333-1-hch@lst.de>
+References: <20210121074959.313333-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bZ2MuwyI/0uB8yuJ"
-Content-Disposition: inline
-In-Reply-To: <95cfc497-3d12-fd46-6e42-2a77612236ea@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+kallsyms_on_each_symbol and module_kallsyms_on_each_symbol are only used
+by the livepatching code, so don't build them if livepatching is not
+enabled.
 
---bZ2MuwyI/0uB8yuJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/kallsyms.h | 17 ++++-------------
+ include/linux/module.h   | 16 ++++------------
+ kernel/kallsyms.c        |  2 ++
+ kernel/module.c          |  2 ++
+ 4 files changed, 12 insertions(+), 25 deletions(-)
 
-On Wed, Jan 20, 2021 at 11:00:17PM -0600, Frank Rowand wrote:
->=20
-> +David
->=20
-> so I don't have to repeat this in another thread
->=20
-> On 1/19/21 11:06 PM, Viresh Kumar wrote:
-> > On 19-01-21, 09:44, Frank Rowand wrote:
-> >> No.  overlay_base.dts is intentionally compiled into a base FDT, not
-> >> an overlay.  Unittest intentionally unflattens this FDT in early boot,
-> >> in association with unflattening the system FDT.  One key intent
-> >> behind this is to use the same memory allocation method that is
-> >> used for the system FDT.
-> >>
-> >> Do not try to convert overlay_base.dts into an overlay.
-> >=20
-> > Okay, but why does it have /plugin/; specified in it then ?
->=20
-> OK, so I sortof lied about overlay_base.dts not being an overlay.  It is
-> a Frankenstein monster or a Schrodinger's dts/dtb.  It is not a normal
-> object.  Nobody who is not looking at how it is abused inside unittest.c
-> should be trying to touch it or understand it.
+diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+index 481273f0c72d42..465060acc9816f 100644
+--- a/include/linux/kallsyms.h
++++ b/include/linux/kallsyms.h
+@@ -71,15 +71,14 @@ static inline void *dereference_symbol_descriptor(void *ptr)
+ 	return ptr;
+ }
+ 
+-#ifdef CONFIG_KALLSYMS
+-/* Lookup the address for a symbol. Returns 0 if not found. */
+-unsigned long kallsyms_lookup_name(const char *name);
+-
+-/* Call a function on each kallsyms symbol in the core kernel */
+ int kallsyms_on_each_symbol(int (*fn)(void *, const char *, struct module *,
+ 				      unsigned long),
+ 			    void *data);
+ 
++#ifdef CONFIG_KALLSYMS
++/* Lookup the address for a symbol. Returns 0 if not found. */
++unsigned long kallsyms_lookup_name(const char *name);
++
+ extern int kallsyms_lookup_size_offset(unsigned long addr,
+ 				  unsigned long *symbolsize,
+ 				  unsigned long *offset);
+@@ -108,14 +107,6 @@ static inline unsigned long kallsyms_lookup_name(const char *name)
+ 	return 0;
+ }
+ 
+-static inline int kallsyms_on_each_symbol(int (*fn)(void *, const char *,
+-						    struct module *,
+-						    unsigned long),
+-					  void *data)
+-{
+-	return 0;
+-}
+-
+ static inline int kallsyms_lookup_size_offset(unsigned long addr,
+ 					      unsigned long *symbolsize,
+ 					      unsigned long *offset)
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 8588482bde4116..695f127745af10 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -610,10 +610,6 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
+ /* Look for this name: can be of form module:name. */
+ unsigned long module_kallsyms_lookup_name(const char *name);
+ 
+-int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
+-					     struct module *, unsigned long),
+-				   void *data);
+-
+ extern void __noreturn __module_put_and_exit(struct module *mod,
+ 			long code);
+ #define module_put_and_exit(code) __module_put_and_exit(THIS_MODULE, code)
+@@ -797,14 +793,6 @@ static inline unsigned long module_kallsyms_lookup_name(const char *name)
+ 	return 0;
+ }
+ 
+-static inline int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
+-							   struct module *,
+-							   unsigned long),
+-						 void *data)
+-{
+-	return 0;
+-}
+-
+ static inline int register_module_notifier(struct notifier_block *nb)
+ {
+ 	/* no events will happen anyway, so this can always succeed */
+@@ -893,4 +881,8 @@ static inline bool module_sig_ok(struct module *module)
+ }
+ #endif	/* CONFIG_MODULE_SIG */
+ 
++int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
++					     struct module *, unsigned long),
++				   void *data);
++
+ #endif /* _LINUX_MODULE_H */
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index a0d3f0865916f9..8043a90aa50ed3 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -177,6 +177,7 @@ unsigned long kallsyms_lookup_name(const char *name)
+ 	return module_kallsyms_lookup_name(name);
+ }
+ 
++#ifdef CONFIG_LIVEPATCH
+ /*
+  * Iterate over all symbols in vmlinux.  For symbols from modules use
+  * module_kallsyms_on_each_symbol instead.
+@@ -198,6 +199,7 @@ int kallsyms_on_each_symbol(int (*fn)(void *, const char *, struct module *,
+ 	}
+ 	return 0;
+ }
++#endif /* CONFIG_LIVEPATCH */
+ 
+ static unsigned long get_symbol_pos(unsigned long addr,
+ 				    unsigned long *symbolsize,
+diff --git a/kernel/module.c b/kernel/module.c
+index 885feec64c1b6f..e141e5d1d7beaf 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -4399,6 +4399,7 @@ unsigned long module_kallsyms_lookup_name(const char *name)
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_LIVEPATCH
+ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
+ 					     struct module *, unsigned long),
+ 				   void *data)
+@@ -4429,6 +4430,7 @@ int module_kallsyms_on_each_symbol(int (*fn)(void *, const char *,
+ 	mutex_unlock(&module_mutex);
+ 	return ret;
+ }
++#endif /* CONFIG_LIVEPATCH */
+ #endif /* CONFIG_KALLSYMS */
+ 
+ /* Maximum number of characters written by module_flags() */
+-- 
+2.29.2
 
-In that case, it absolutely should not be used as your standard base
-dtb.
-
-Note that overlays in general rely on particular details of the base
-dtb they apply to - they'll need certain symbols and expect certain
-paths to be there.  So applying random overlays to a "standard" base
-dtb sounds destined to failure anyway.
-
-Also, whatever they hell you're doing with testcases.dts sounds like a
-terrible idea to begin with.
-
-> unittest.c first unflattens overlay_base.dtb during early boot.  Then lat=
-er
-> it does some phandle resolution using the overlay metadata from overlay_b=
-ase.
-> Then it removes the overlay metadata from the in kernel devicetree data
-> structure.  It is a hack, it is ugly, but it enables some overlay unit
-> tests.
->=20
-> Quit trying to change overlay_base.dts.
->=20
-> In my suggested changes to the base patch I put overlay_base.dtb in the
-> list of overlays for fdtoverlay to apply (apply_static_overlay in the
-> Makefile) because overlay_base.dts is compiled as an overlay into
-> overlay_base.dtb and it can be applied on top of the base tree
-> testcases.dtb.  This gives a little bit more testcase data for
-> fdtoverlay from an existing dtb.
->=20
-> If you keep trying to change overlay_base.dts I will just tell you
-> to remove overlay_base.dtb from apply_static_overlay, and then the
-> test coverage will become smaller.  I do not see that as a good change.
->=20
-> If you want more extensive testing of fdtoverlay, then create your
-> own specific test cases from scratch and submit patches for them
-> to the kernel or to the dtc compiler project.
->=20
-> >=20
-> > And shouldn't we create two separate dtb-s now, static_test.dtb and
-> > static_overlay_test.dtb ? As fdtoverlay will not be able to merge it wi=
-th
-> > testcase.dtb anyway.
-> >=20
-> > Or maybe we can create another file static_overlay.dts (like testcases.=
-dts)
-> > which can include both testcases.dts and overlay_base.dts, and then we =
-can
-> > create static_test.dtb out of it ? That won't impact the runtime tests =
-at all.
-> >=20
->=20
-> Stop trying to use all of the unittest .dts test data files.  It is conve=
-nient
-> that so many of them can be used in their current form.  That is goodness
-> and nice leveraging.  Just ignore the .dts test data files that are not
-> easily consumed by fdtoverlay.
->=20
-> The email threads around the various versions of this patch series show h=
-ow
-> normal devicetree knowledgeable people look at the contents of some of the
-> .dts test data files and think that they are incorrect.  That is because
-> the way that unittest uses them is not normal.  Trying to modify one or t=
-wo
-> of the many unittest .dts test data files so that they are usable by both
-> the static fdtoverlay and the run time unittest is not worth it.
->=20
-> -Frank
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---bZ2MuwyI/0uB8yuJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAJIhQACgkQbDjKyiDZ
-s5KQug//WNZC6if+14D8n0zTFBT4SyEOFDoTExrCjdJo9q5TfxwOAFKP0M9dEPPO
-hd4F+sKIPR76qRuNpjCT0EmtUi28M4HeWN4yXA9saGh/7S5trpoRnvAhzvwvIUmM
-m5TdwgU1F2kYpYMDMYBAzPVZoR7Hcuck/8qFtd69KhPNBXjqtP4GB4mb9vnnlKmc
-vifyu+YyCoqmJ2qXYLAnFgyBfzLBTIzZwjRiBXSOuQT8G3F9ytZgS/Y2sztYVia9
-VusSecQeYDViKV1WrwDPFrjMN4ZmqD4StSQyeoF3DlBkNmVCLqyTHAAqfwjhkOgG
-u1KoCZBzxT0HGyNomqy4Ss5e05rbZ+q4E4tLt/22wUFZ8apwU3TBXg8tXHqjZDyO
-ObdnPtZsFMWeMwxA2Qi5CwoqZIKpz6zmNrAz7srSVGBGzpUcWn7ZqUdcUh/ow5Sy
-ucSGletYuaXhBwp2vgfoZqseShOtWBVqNZ8vhc205b4jTPgT8poHGqYwskdQx8mj
-t2vS8Szt5e8HoPnSifU6gCH9KFWIFleTiuVRm7eJ8u/DBtc765Kgvdw56j5OsBV8
-/FLSjx9Y/4bGoApF1/UqFjX/sK+7ngX8gSIKojFc6URDTokR6/2gNCTPt0sqI6XM
-Q5K3x4s1S2xVKVuNPqci78TSvUEt3jkjb0jLqHdFx14SYMns7lM=
-=GnG+
------END PGP SIGNATURE-----
-
---bZ2MuwyI/0uB8yuJ--
