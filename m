@@ -2,81 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF50B2FF4D6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 20:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 592462FF5BD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Jan 2021 21:22:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbhAUTkn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jan 2021 14:40:43 -0500
-Received: from mail-03.mail-europe.com ([91.134.188.129]:37310 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbhAUSs2 (ORCPT
+        id S1726963AbhAUUVv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jan 2021 15:21:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbhAUHyj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:48:28 -0500
-Date:   Thu, 21 Jan 2021 18:45:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
-        t=1611254762; bh=1Awk2X9LSHOQQZek4o1ELWbmO0BY+pTltTaN3f2WBw4=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=CrQodZ1xZM2FLIl9dUu8OGQbAxk8pFD5PDH+MeGcVSm7yNrjJgMYceYpJ4DtZ6Sz9
-         G/sT2qYGM4zcgSHo9UI6KRunrCt2lTG0vIvGYhsz9kz4rNQgA4Ezy7jbPUVTNIcVJL
-         f6IRqw8gtdbvMnVWdzcFu1tb0zBq5sC+tjaJTl8RpxB5H9BAOGuxyp8vDr83yRf18S
-         HymS15rUgb8k/enkIRmNlOLFHj/PGIhv7Xf2pJrkpU55bodYBCL52/62XlNDcz9v/P
-         fg25BXyyT2dj95PJUi7CWskvbskXafSVA27y9dZV8ER7go6NBgPOxEdr4deCWYFAdG
-         Tb+Pk1nLNANug==
-To:     Kees Cook <keescook@chromium.org>
-From:   Alexander Lobakin <alobakin@pm.me>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 21 Jan 2021 02:54:39 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD727C061757;
+        Wed, 20 Jan 2021 23:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=CBn0nIvzF4lsJIlmcNwvI6PwAlNBtY57zO+JFTdIDBA=; b=wILKHrE7zJ5ukZC9RHuI0Uk3fe
+        EiDCI/52xf99CaCWMXlzY0E74cAz6IXo4v2Mu6qm6hpykxhDEoPz4TqKYKZxGxXpznewjH7NJXIhm
+        3wwDBW9PxX/8Ls3odBp8+swR/7BGL44uzxP4UCWiIBU1t0Gniwi5nL/pVazEPwP3ucRVGnz8LH3JS
+        aRn0VX7Ip3Hx9YvdI1cdwznnGnyhpjrLbdLbHLOnDc49Eu3Mc+6a4xIuxYiCHUjyxDVBBBE+HRSZD
+        MI38XZRZXTIz9bbpTPfhcUyG6pEQ08XubgPMvqPcgIgikuuTk5lY4R3EhePGY35H1ubDwdprJFg10
+        D6cBk3ag==;
+Received: from [2001:4bb8:188:1954:d5b3:2657:287:e45f] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l2UmN-00Gm5Z-VJ; Thu, 21 Jan 2021 07:53:25 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Jessica Yu <jeyu@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Alexander Lobakin <alobakin@pm.me>,
-        kernel-hardening@lists.openwall.com,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Reply-To: Alexander Lobakin <alobakin@pm.me>
-Subject: [PATCH kspp-next] kbuild: prevent CC_FLAGS_LTO self-bloating on recursive rebuilds
-Message-ID: <20210121184544.659998-1-alobakin@pm.me>
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH 02/13] module: add a module_loaded helper
+Date:   Thu, 21 Jan 2021 08:49:48 +0100
+Message-Id: <20210121074959.313333-3-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210121074959.313333-1-hch@lst.de>
+References: <20210121074959.313333-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CC_FLAGS_LTO gets initialized only via +=3D, never with :=3D or =3D.
-When building with CONFIG_TRIM_UNUSED_KSYMS, Kbuild may perform
-several kernel rebuilds to satisfy symbol dependencies. In this
-case, value of CC_FLAGS_LTO is concatenated each time, which
-triggers a full rebuild.
-Initialize it with :=3D to fix this.
+Add a helper that takes modules_mutex and uses find_module to check if a
+given module is loaded.  This provides a better abstraction for the two
+callers, and allows to unexport modules_mutex and find_module.
 
-Fixes: dc5723b02e52 ("kbuild: add support for Clang LTO")
-Signed-off-by: Alexander Lobakin <alobakin@pm.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c |  7 +------
+ include/linux/module.h          |  3 +++
+ kernel/module.c                 | 14 ++++++++++++--
+ kernel/trace/trace_kprobe.c     |  4 +---
+ 4 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 668909e7a460..2233951666f7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -895,10 +895,10 @@ endif
-=20
- ifdef CONFIG_LTO_CLANG
- ifdef CONFIG_LTO_CLANG_THIN
--CC_FLAGS_LTO=09+=3D -flto=3Dthin -fsplit-lto-unit
-+CC_FLAGS_LTO=09:=3D -flto=3Dthin -fsplit-lto-unit
- KBUILD_LDFLAGS=09+=3D --thinlto-cache-dir=3D$(extmod-prefix).thinlto-cache
- else
--CC_FLAGS_LTO=09+=3D -flto
-+CC_FLAGS_LTO=09:=3D -flto
- endif
- CC_FLAGS_LTO=09+=3D -fvisibility=3Dhidden
-=20
---=20
-2.30.0
-
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 4b81195106875d..ce6d63ca75c32a 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -2508,13 +2508,8 @@ int __init drm_fb_helper_modinit(void)
+ {
+ #if defined(CONFIG_FRAMEBUFFER_CONSOLE_MODULE) && !defined(CONFIG_EXPERT)
+ 	const char name[] = "fbcon";
+-	struct module *fbcon;
+ 
+-	mutex_lock(&module_mutex);
+-	fbcon = find_module(name);
+-	mutex_unlock(&module_mutex);
+-
+-	if (!fbcon)
++	if (!module_loaded(name))
+ 		request_module_nowait(name);
+ #endif
+ 	return 0;
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 7a0bcb5b1ffccd..b4654f8a408134 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -589,6 +589,9 @@ static inline bool within_module(unsigned long addr, const struct module *mod)
+ /* Search for module by name: must hold module_mutex. */
+ struct module *find_module(const char *name);
+ 
++/* Check if a module is loaded. */
++bool module_loaded(const char *name);
++
+ struct symsearch {
+ 	const struct kernel_symbol *start, *stop;
+ 	const s32 *crcs;
+diff --git a/kernel/module.c b/kernel/module.c
+index 4bf30e4b3eaaa1..619ea682e64cd1 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -88,7 +88,6 @@
+  * (delete and add uses RCU list operations).
+  */
+ DEFINE_MUTEX(module_mutex);
+-EXPORT_SYMBOL_GPL(module_mutex);
+ static LIST_HEAD(modules);
+ 
+ /* Work queue for freeing init sections in success case */
+@@ -672,7 +671,18 @@ struct module *find_module(const char *name)
+ 	module_assert_mutex();
+ 	return find_module_all(name, strlen(name), false);
+ }
+-EXPORT_SYMBOL_GPL(find_module);
++
++bool module_loaded(const char *name)
++{
++	bool ret;
++
++	mutex_lock(&module_mutex);
++	ret = !!find_module(name);
++	mutex_unlock(&module_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(module_loaded);
+ 
+ #ifdef CONFIG_SMP
+ 
+diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
+index e6fba1798771b4..c2e453f88bce70 100644
+--- a/kernel/trace/trace_kprobe.c
++++ b/kernel/trace/trace_kprobe.c
+@@ -124,9 +124,7 @@ static nokprobe_inline bool trace_kprobe_module_exist(struct trace_kprobe *tk)
+ 	if (!p)
+ 		return true;
+ 	*p = '\0';
+-	mutex_lock(&module_mutex);
+-	ret = !!find_module(tk->symbol);
+-	mutex_unlock(&module_mutex);
++	ret = module_loaded(tk->symbol);
+ 	*p = ':';
+ 
+ 	return ret;
+-- 
+2.29.2
 
