@@ -2,63 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F07C2FF9FB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jan 2021 02:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 923142FFA02
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jan 2021 02:37:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbhAVBai (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jan 2021 20:30:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
+        id S1726110AbhAVBfX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Jan 2021 20:35:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbhAVBaf (ORCPT
+        with ESMTP id S1726324AbhAVBfV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jan 2021 20:30:35 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5060C06174A
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:29:52 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id n7so2603446pgg.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:29:52 -0800 (PST)
+        Thu, 21 Jan 2021 20:35:21 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C136EC061756
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:34:40 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id p15so2788854pjv.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=xevnePlqkoJPc/gVx/RFwj12UYNRMR5SpPrBczxYlwU=;
-        b=FAaMN6AyqXOw4wBmmhNtwxoT6KGu6JihNZn+M+CLJmuNa/lpE8D88XnxfKOLemwyHz
-         TI5aKcgt1SVzfkXaJs/3nWef0FXiHqTH70dPrea3jrhHlNnnI5380+pLqgQN+d8AFjGz
-         ZyIHY70PZX052b4pCrh19ltUyBOszpEr5+ocfkRMZ/mV1a6Cx2MyXMG1wDEFkfm2rLvn
-         8LsP51l5ke7HdGwWcRlanQ2FPrAPNyt1E2l664oclu4QV/nAhkkJBkVav18vjoZa4jk9
-         dXZNVYxEWXhgxwuZrbF7yZIlGYcqVVbkbQg0J3Ck36wlk07OaYx+GO5Ry5J0kB7ngJ5g
-         XQFQ==
+        bh=J3zUPc3/QcY2myKFIxXj5SI3ce2GEipGTyEZDOPm3Z0=;
+        b=fDlBOFIQ1ZnIVITy+QSWWFAgO/YYu9cZvfCQeBRQWNapdMdNMFUSRhiuMZPLC3UJ8d
+         L3lnVtSYU9/1oToby46J2Cw0y+z9UPOfzmw/DJKKR/8CdR4L2LPivctZvjXtuIhsqzx8
+         +Az0FIzLer9VTAgpYLKXVKCQ8+6ELlpXrDVmfmj8F4u7wmj8xQ4/DrB9Xip0qJcolohq
+         biILhYvr0lMgqw6d2tEv4qLaAQFqlShtNx5Jt11TC9qiqvlfdfQF0a0jkMFngmFiwfin
+         017QeCZdJRcIJao6QzHFCOkFNuF62eHAIfmsvRpgRZ8edinalxw4u7/eEnUPRH8uhuFR
+         CcZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xevnePlqkoJPc/gVx/RFwj12UYNRMR5SpPrBczxYlwU=;
-        b=O8HMqWzqrSkLauVL2PV/VvqDCmPZ0oBVTpVFBVr31Q/hYdzlSYsVoy/XloaHb+hL7m
-         ArDB50yXEvPRiHeaumF5KeXDg+LMaXUhxS63cySg5+cuUuy46SW0cucupP4Pab/wWbTO
-         OhhZlYRbHKOdv3MZr5An2wrxxjOXMsV1V4oNo1IxuK5rVqJBSTZngUYbCIdE7ELl7w52
-         YfL4IHNRnXfbrVr2GEvoKQ3lHRiegRQOeCHrGOsDVRiU/iJThFTKZqW7/OOI7/cyHRq1
-         qwKKw/CowpriCeTMUX5uEj+DX6wMrIwynXcCb56klWH9n36qrvfyfAIBC19jiYV/dUlJ
-         9Kog==
-X-Gm-Message-State: AOAM530EH8RyEXi0N0a0BcV9dN0cvAS6xRrH6ecCEx+2jU0IOzmWavjW
-        pZUWirnXV9gH/eYcdc3/ccXYRvvD6XdqLfYq0GI6Lg==
-X-Google-Smtp-Source: ABdhPJxkOo4l83vnl92ZQpYM5r+6B7BNXCAyHRCfWpPglFoyIk3UZ0hV69WA4xzR5J+LTI0hFIEBeIyGLnH/r3vR7dM=
-X-Received: by 2002:a62:838d:0:b029:1ba:9b85:2eac with SMTP id
- h135-20020a62838d0000b02901ba9b852eacmr2251542pfe.36.1611278991948; Thu, 21
- Jan 2021 17:29:51 -0800 (PST)
+        bh=J3zUPc3/QcY2myKFIxXj5SI3ce2GEipGTyEZDOPm3Z0=;
+        b=T3OZ5h5E5kM0MXlcPQjrYqF7uq+ytE0qo3EW/XAnzG0+CVgGilz3vsHvsGdKNc7nX+
+         FgdODES4LJhcHD5lHMc1jNstnG3VhuUhT3ttKaCHjlcPzVg4pUPKwguu5gLwsoRUB6cL
+         jFvvpZWvaQNVI6FUyYGc8FqWzlbJd1lqRODAOwg1ySSiozPaokXGZI8AQajpFKu4Xlky
+         2jddXrox2Vd4iQ+vTtDEASviKc9kaZvQpFyKphWlhm0cAQG2NfwtW/EkSyJZMmkmkjP+
+         xQnUs+ZGmcmE2gOQ3UeibF8uG6Owx6Q5SdEx4Cf7hliSC2d8UVIZ4PobtI82kaNME69s
+         aBdw==
+X-Gm-Message-State: AOAM5313ECamFZgmEdh1e6ku/8ghJV4rmSbtdzgZa7JKNBn1K28l353T
+        MP8zwr/ynb1cooPc8nEqJoPR53h32iOs/Dz6XwI80A==
+X-Google-Smtp-Source: ABdhPJymYGUU8oGmr6qrmeZ9fqTCbSmRgNuSYGskKCO6E7NWrPXmrTdbVqmTHt695NI72UklVVgWfgD4zTJtiM2zlik=
+X-Received: by 2002:a17:90b:228f:: with SMTP id kx15mr2605248pjb.32.1611279280043;
+ Thu, 21 Jan 2021 17:34:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20210116094357.3620352-1-morbo@google.com> <20210121082451.2240540-1-morbo@google.com>
-In-Reply-To: <20210121082451.2240540-1-morbo@google.com>
+References: <20210111081821.3041587-1-morbo@google.com> <CA+icZUW63tP7kzWCKofJH0E0xA7yLCYpSOYz_aw1D4mkhNhW=w@mail.gmail.com>
+In-Reply-To: <CA+icZUW63tP7kzWCKofJH0E0xA7yLCYpSOYz_aw1D4mkhNhW=w@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 21 Jan 2021 17:29:40 -0800
-Message-ID: <CAKwvOdn+tEFcFaDPmbubigf2gqoc+NT=uwvoqNi3-enQjHqTRw@mail.gmail.com>
-Subject: Re: [PATCH v6] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+Date:   Thu, 21 Jan 2021 17:34:29 -0800
+Message-ID: <CAKwvOd==OfKHKzhWVGAQs5bFJ9qSbm8WRkX7qDF+FQd-p1gdNQ@mail.gmail.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Sami Tolvanen <samitolvanen@google.com>
@@ -67,58 +66,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 12:24 AM Bill Wendling <morbo@google.com> wrote:
+On Wed, Jan 20, 2021 at 6:21 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> From: Sami Tolvanen <samitolvanen@google.com>
+> Hi,
 >
-> Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> profile, the kernel is instrumented with PGO counters, a representative
-> workload is run, and the raw profile data is collected from
-> /sys/kernel/debug/pgo/profraw.
+> When I looked through the code I wondered why we do not add a
+> "CONFIG_PGO_CLANG_PROFDATA" which can be helpful when doing the PGO
+> rebuild with a vmlinux.profdata.
 >
-> The raw profile data must be processed by clang's "llvm-profdata" tool
-> before it can be used during recompilation:
+> This introduces a "PGO_PROFDATA" to turn on/off to pass
+> "-fprofile-use=vmlinux.profdata" (see CFLAGS_PGO_CLANG_PROFDATA in
+> top-level Makefile).
 >
->   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
->   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> If we turn off via "PGO_PROFILE := n" in several Makefiles - we should
+> do the same and add "PGO_PROFDATA := n" to the same Makefiles?
 >
-> Multiple raw profiles may be merged during this step.
->
-> The data can now be used by the compiler:
->
->   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
->
-> This initial submission is restricted to x86, as that's the platform we
-> know works. This restriction can be lifted once other platforms have
-> been verified to work with PGO.
->
-> Note that this method of profiling the kernel is clang-native, unlike
-> the clang support in kernel/gcov.
->
-> [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Co-developed-by: Bill Wendling <morbo@google.com>
-> Signed-off-by: Bill Wendling <morbo@google.com>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> v2: - Added "__llvm_profile_instrument_memop" based on Nathan Chancellor's
->       testing.
->     - Corrected documentation, re PGO flags when using LTO, based on Fangrui
->       Song's comments.
-> v3: - Added change log section based on Sedat Dilek's comments.
-> v4: - Remove non-x86 Makfile changes and se "hweight64" instead of using our
->       own popcount implementation, based on Nick Desaulniers's comment.
-> v5: - Correct padding calculation, discovered by Nathan Chancellor.
-> v6: - Add better documentation about the locking scheme and other things.
->     - Rename macros to better match the same macros in LLVM's source code.
+> Please see the attached diff.
 
-This is a major win for readability and comparing it against LLVM's
-compiler-rt implementation! Thank you for doing that.  It looks like
-it addresses most of my concerns.  I'm not against following up on
-little details in subsequent patches on top.  However Sedat is right
-about the small issue that v6 doesn't compile.  If you were to roll
-his fixup into a v7 I'd be happy to sign off on it at this point.
+This is a good idea; something that I brought up in initial code
+review (on github).  Would it be ok with you to land the core first,
+then follow up with this suggestion?
+
+Also, AutoFDO production builds are so incredibly similar to PGO
+builds that I could see a possible path forward:
+1. land PGO upstream
+2. adds docs for AutoFDO
+3. consider a config for hardcoding the location of the profiling data
+so that we don't need to specify it at the command line invocation of
+make.
 -- 
 Thanks,
 ~Nick Desaulniers
