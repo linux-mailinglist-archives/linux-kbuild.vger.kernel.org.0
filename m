@@ -2,197 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD012FFA36
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jan 2021 02:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5C6B2FFCF7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Jan 2021 07:50:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbhAVBx3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Jan 2021 20:53:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726367AbhAVBx0 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Jan 2021 20:53:26 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47BB2C061756
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:52:46 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id lw17so5696584pjb.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Jan 2021 17:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vf1YWMphq7IfDQQZ2byHu6e71SFyteLzACu9Oza6zmY=;
-        b=tb5wF3uXiUdTbE6BLyQLy5kvrs957kxDCHIzkbtPRzumfJR373zp+3Dzh3LUQJrxrr
-         aqJggpQHp0JxZBOMJPoNzW9upIYVz38x+C+Osa8wigYdMjAnI1Sj6EgnArsY4+8xs9mm
-         KIt6OeefkuC1IeslgLSi11/+dHA9h0L1RzkmZ3GAdrNbcVtTHT/NWekbU/1wkU9yZTRE
-         9aX0TOg/xLP8SwgEhVeIqt4yXlaDb64VrKZpDQl0cPaMPBQ0D2Fxg9KU9CX2mDFzJ9AO
-         ruflRRY7FdksdohDGZgiudasVbrM7YuzneEnFMxPamnmCZsjNzuYCtLd3aXA0NFPT5Nf
-         Dzmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vf1YWMphq7IfDQQZ2byHu6e71SFyteLzACu9Oza6zmY=;
-        b=oyTs+sfUVFJM3VSrnab7xeSCPvUc9VhWi8Ok5KEF//LgV/Gk9sv7uI/ht2rYv/xG5d
-         w0KNwlpF6nZOl2b/hE+lQmhGbRGIhXK2bHHqOHCKabhmiJDKOjliPFQAY5sKvBW0UEAO
-         NZDZ0J5dFcDEENygJaNMZMiiFU3Qzchec6x9Qo/ZxYWHxXAjV0H8YGMBD25lFciYs7qX
-         tpnCpxxiJbeGgMvXNfPfWkLmeWDPEbCF7pxNVAURs4BU+Ms8B/oRgwNGNgze91QgXJDj
-         8qr45wRHzxLE7hfvLErhsh2f+sIDWE8wC4P+mgYXBGdP+piOAibG8OoyYjq+hTDb1cI7
-         rIhQ==
-X-Gm-Message-State: AOAM5312dxCXufiSg5kYhKRu9SjGNJ1ER7kCKKxr1uOP5RekqqNvaa/l
-        uFAcVYPTV80XOELqqrsG6q2SqCKkCjSq3D1SQSSpeg==
-X-Google-Smtp-Source: ABdhPJxmTUWx8uIcPZ3F6Um1ghqWYda9bzza9YgD/Mu07BxAsd1t4hHgtpjTvODP8ozFJUBkIYDbHvtv1DzUD9FXkIk=
-X-Received: by 2002:a17:90a:9915:: with SMTP id b21mr2540454pjp.101.1611280365695;
- Thu, 21 Jan 2021 17:52:45 -0800 (PST)
+        id S1726129AbhAVGuF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Jan 2021 01:50:05 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43065 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725854AbhAVGt5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 22 Jan 2021 01:49:57 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+        id 4DMVGz2TNGz9sVF; Fri, 22 Jan 2021 17:49:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=gibson.dropbear.id.au; s=201602; t=1611298155;
+        bh=oQR2S4ROGJ/SaMWvZTeUe6GZ+oSDsT/AQoYniKUVQZc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o9eBv5tgJMz7YuomxAo5VrRMT4+M67ZLPz9Z+u2qab/N5f29uTDXdbaFaNPTuvVdr
+         MHBasgVyKS7MxTYUY2Apik9qKvgGpVQP7qoff/8JliSuj1DTQNHnlwq6BX5XoJXIck
+         lFLAl/Fdm1JaEhLbY9/y4oTtGNx7ERxxuZiDSFYc=
+Date:   Fri, 22 Jan 2021 17:34:55 +1100
+From:   David Gibson <david@gibson.dropbear.id.au>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>, anmar.oueja@linaro.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH V4 0/3] scripts: dtc: Build fdtoverlay
+Message-ID: <20210122063455.GE4400@yekko.fritz.box>
+References: <cover.1610431620.git.viresh.kumar@linaro.org>
+ <74f8aa8f-ffab-3b0f-186f-31fb7395ebbb@gmail.com>
+ <20210120051740.yph4v7zldvs7szdz@vireshk-i7>
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
- <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
- <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
- <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
- <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
- <CAGG=3QUcaY1wzJhBD4ZGhPSNPik-kL0PuoE1SJqkFJEM_mkGYA@mail.gmail.com>
- <CA+icZUU+OWW46CVq4Co-y7hckGjoV5bbqxS-G+HDqUDci_AzHw@mail.gmail.com>
- <CAKwvOdkOOjDo+zFFz_T63FphZn2Lg7MW8vd7qd-yS_eB_yYdmA@mail.gmail.com> <CA+icZUUWtKqEhaJSbbQomC+Mz+uRgkWu72vyxPbif0nG1Vvr3g@mail.gmail.com>
-In-Reply-To: <CA+icZUUWtKqEhaJSbbQomC+Mz+uRgkWu72vyxPbif0nG1Vvr3g@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 21 Jan 2021 17:52:34 -0800
-Message-ID: <CAKwvOdmKRzE8s1zrs4ApcJSn9SzCpGhaoFqqeKsn67SpH6OVgQ@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="RpqchZ26BWispMcB"
+Content-Disposition: inline
+In-Reply-To: <20210120051740.yph4v7zldvs7szdz@vireshk-i7>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 5:49 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Fri, Jan 22, 2021 at 2:43 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Wed, Jan 20, 2021 at 6:03 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Mon, Jan 18, 2021 at 10:56 PM Bill Wendling <morbo@google.com> wrote:
-> > > >
-> > > > On Mon, Jan 18, 2021 at 9:26 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > >
-> > > > > > On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
-> > > > > > >
-> > > > > > > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > [ big snip ]
-> > > > > > >
-> > > > > > > [More snippage.]
-> > > > > > >
-> > > > > > > > [ CC Fangrui ]
-> > > > > > > >
-> > > > > > > > With the attached...
-> > > > > > > >
-> > > > > > > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> > > > > > > > undefined symbols
-> > > > > > > >
-> > > > > > > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> > > > > > > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> > > > > > > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
-> > > > > > > >
-> > > > > > > Thanks for confirming that this works with the above patch.
-> > > > > > >
-> > > > > > > > @ Bill Nick Sami Nathan
-> > > > > > > >
-> > > > > > > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
-> > > > > > >
-> > > > > > > The integrated assembler and this option are more-or-less orthogonal
-> > > > > > > to each other. One can still use the GNU assembler with PGO. If you're
-> > > > > > > having an issue, it may be related to ClangBuiltLinux issue #1250.
-> > > > > > >
-> > > > > > > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> > > > > > > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
-> > > > > > > >
-> > > > > > > I know Nick did several tests with PGO. He may have looked into it
-> > > > > > > already, but we can check.
-> > > > > > >
-> > > > > >
-> > > > > > Reproducible.
-> > > > > >
-> > > > > > LLVM_IAS=1 + DWARF5 = Not bootable
-> > > > > >
-> > > > > > I will try:
-> > > > > >
-> > > > > > LLVM_IAS=1 + DWARF4
-> > > > > >
-> > > > >
-> > > > > I was not able to boot into such a built Linux-kernel.
-> > > > >
-> > > > PGO will have no effect on debugging data. If this is an issue with
-> > > > DWARF, then it's likely orthogonal to the PGO patch.
-> > > >
-> > > > > For me worked: DWARF2 and LLVM_IAS=1 *not* set.
-> > > > >
-> > > > > Of course, this could be an issue with my system's LLVM/Clang.
-> > > > >
-> > > > > Debian clang version
-> > > > > 12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
-> > > > >
-> > > > Please use the official clang 11.0.1 release
-> > > > (https://releases.llvm.org/download.html), modifying the
-> > > > kernel/pgo/Kconfig as I suggested above. The reason we specify clang
-> > > > 12 for the minimal version is because of an issue that was recently
-> > > > fixed.
-> > > >
-> > >
-> > > I downgraded to clang-11.1.0-rc1.
-> > > ( See attachment. )
-> > >
-> > > Doing the first build with PGO enabled plus DWARF5 and LLVM_IAS=1 works.
-> > >
-> > > But again after generating vmlinux.profdata and doing the PGO-rebuild
-> > > - the resulting Linux-kernel does NOT boot in QEMU or on bare metal.
-> > > With GNU/as I can boot.
-> > >
-> > > So this is independent of DWARF v4 or DWARF v5 (LLVM_IAS=1 and DWARF
-> > > v2 is not allowed).
-> > > There is something wrong (here) with passing LLVM_IAS=1 to make when
-> > > doing the PGO-rebuild.
-> > >
-> > > Can someone please verify and confirm that the PGO-rebuild with
-> > > LLVM_IAS=1 boots or boots not?
-> >
-> > I was able to build+boot with LLVM_IAS=1 on my personal laptop (no
-> > dwarf 5, just mainline+v5).
-> >
->
-> To clarify:
->
-> I can build a PGO-enabled Linux-kernel and boot it.
-> Afterwards generate a vmlinux.profdata.
-> In a next step: A rebuild without PGO-Kconfig disabled + LLVM_IAS=1
-> does not boot.
 
-Does the rebuild produce the hash warnings previously reported?
+--RpqchZ26BWispMcB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you send your .config for this?
--- 
-Thanks,
-~Nick Desaulniers
+On Wed, Jan 20, 2021 at 10:47:40AM +0530, Viresh Kumar wrote:
+> +David.
+>=20
+> On 19-01-21, 11:12, Frank Rowand wrote:
+> > On 1/12/21 2:28 AM, Viresh Kumar wrote:
+> > > We will start building overlays for platforms soon in the kernel and
+> > > would need fdtoverlay tool going forward. Lets start fetching and
+> > > building it.
+> > >=20
+> > > While at it, also remove fdtdump.c file, which isn't used by the kern=
+el.
+> > >=20
+> > > V4:
+> > > - Don't fetch and build fdtdump.c
+> > > - Remove fdtdump.c
+> > >=20
+> > > Viresh Kumar (3):
+> > >   scripts: dtc: Add fdtoverlay.c to DTC_SOURCE
+> > >   scripts: dtc: Build fdtoverlay tool
+> > >   scripts: dtc: Remove the unused fdtdump.c file
+> > >=20
+> > >  scripts/dtc/Makefile             |   6 +-
+> > >  scripts/dtc/fdtdump.c            | 163 -----------------------------=
+--
+> > >  scripts/dtc/update-dtc-source.sh |   6 +-
+> > >  3 files changed, 8 insertions(+), 167 deletions(-)
+> > >  delete mode 100644 scripts/dtc/fdtdump.c
+> > >=20
+> >=20
+> > My first inclination was to accept fdtoverlay, as is, from the upstream
+> > project.
+> >=20
+> > But my experiences debugging use of fdtoverlay against the existing
+> > unittest overlay files has me very wary of accepting fdtoverlay in
+> > it's current form.
+> >=20
+> > As an exmple, adding an overlay that fails to reply results in the
+> > following build messages:
+> >=20
+> >    linux--5.11-rc> make zImage
+> >    make[1]: Entering directory '/local/frowand_nobackup/src/git_linus/b=
+uild/dragon_linus_5.11-rc'
+> >      GEN     Makefile
+> >      CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc/scrip=
+ts/checksyscalls.sh
+> >      CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc/scrip=
+ts/atomic/check-atomics.sh
+> >      CHK     include/generated/compile.h
+> >      FDTOVERLAY drivers/of/unittest-data/static_test.dtb
+> >=20
+> >    Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ERR_NOTF=
+OUND
+> >    make[4]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/d=
+rivers/of/unittest-data/Makefile:96: drivers/of/unittest-data/static_test.d=
+tb] Error 1
+> >    make[3]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/s=
+cripts/Makefile.build:496: drivers/of/unittest-data] Error 2
+> >    make[2]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/s=
+cripts/Makefile.build:496: drivers/of] Error 2
+> >    make[1]: *** [/local/frowand_nobackup/src/git_linus/linux--5.11-rc/M=
+akefile:1805: drivers] Error 2
+> >    make[1]: Leaving directory '/local/frowand_nobackup/src/git_linus/bu=
+ild/dragon_linus_5.11-rc'
+> >    make: *** [Makefile:185: __sub-make] Error 2
+> >=20
+> >=20
+> > The specific error message (copied from above) is:
+> >=20
+> >    Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ERR_NOTF=
+OUND
+> >=20
+> > which is cryptic and does not even point to the location in the overlay=
+ that
+> > is problematic.  If you look at the source of fdtoverlay / libfdt, you =
+will
+> > find that FDT_ERR_NOTFOUND may be generated in one of many places.
+> >=20
+> > I do _not_ want to do a full review of fdtoverlay, but I think that it =
+is
+> > reasonable to request enhancing fdtoverlay in the parent project to gen=
+erate
+> > usable error messages before enabling fdtoverlay in the Linux kernel tr=
+ee.
+
+That's... actually much harder than it sounds.  fdtoverlay is
+basically a trivial wrapper around the fdt_overlay_apply() function in
+libfdt.  Matching the conventions of the rest of the library, really
+it's only way to report errors is a single error code.
+
+Returning richer errors is not an easy problem in a C library,
+especially one designed to be usable in embedded systems, without an
+allocator or much else available.
+
+Of course it would be possible to write a friendly command line tool
+specifically for applying overlays, which could give better errors.
+fdtoverlay as it stands isn't really that - it was pretty much written
+just to invoke fdt_overlay_apply() in testcases.
+
+> > fdtoverlay in it's current form adds a potential maintenance burden to =
+me
+> > (as the overlay maintainer).  I now have the experience of how difficul=
+t it
+> > was to debug the use of fdtoverlay in the context of the proposed patch=
+ to
+> > use it with the devicetree unittest overlay .dtb files.
+> >=20
+> > -Frank
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--RpqchZ26BWispMcB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAKcg8ACgkQbDjKyiDZ
+s5K7OQ/+IyVyWMa/f4/HD38/TgC7EzN+DMeEtHZK8A1z93dhGsJ2GTyOkU0Cx1yI
+PsrLdCR5lxoo3zJkMys+Qe0gvPvfM++K3AQZ7UD70GmIgfE24RpbwUbbiZLJHTOR
+e/bjllZjyc2PNcWjgbJNhCOop9uwg+Ff5iBfj/Opk4Kmms5U3ng5utRhXSf3y9yq
+hUXQC1B3u3/C20qKAIM3DqAaLqChkK2BqQDm8dWQgcnWln3LtCrVUjyH2N+g3Pl3
+8P8RofdUKJC5GhyMlPyZaFVsOZqp07K47A6nmzFyk7LuH8MnsJLpCsCtrO7hbL0S
+t3LhqNd+EjsT2+xGNfSDTmi1gQwgpD5DHHGhcuXkr7NxcdbWbaLj+OMeuf44/c2q
+q4h+ucL/Fc0gRSdme/xMcHSM/mPcHa20kaHrt9a6z/XKu5HnHka14fmMV4DssCqX
+gIITEXmtIfxAXOhH3C0lTyWDxzw5Y/ez+KckKkDF25M/HL8t0WDJPa7MFQmGAnvl
+f/GP9oFDakGtTtNcUXpXTfq4pKwPrDRQNq4teZKrjzjthZNoZYwqb+p6Rwn24NYb
+jnIw9Xr7JVjR5iXoG2GL5+HhpLD9bouhdurfZMi9zeSU09UXuhze6wJZ0NdSuFqj
+ngGc6yHLqoPfNCsHBKfhDkBXEh5WLiHsNqtZKs+xo3ZbehNWQhc=
+=NJeB
+-----END PGP SIGNATURE-----
+
+--RpqchZ26BWispMcB--
