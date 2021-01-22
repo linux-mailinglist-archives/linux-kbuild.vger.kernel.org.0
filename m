@@ -2,102 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88451305858
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2425D305882
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:34:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233322AbhA0K0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Jan 2021 05:26:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S314204AbhAZXAk (ORCPT
+        id S314152AbhAZW7u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 17:59:50 -0500
+Received: from ip4d17989f.dynamic.kabel-deutschland.de ([77.23.152.159]:47616
+        "EHLO kolabdeb.mail.riedlb.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728881AbhAZFRY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 18:00:40 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EB7C061788
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jan 2021 14:59:59 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id o16so236098pgg.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jan 2021 14:59:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=v4vLMnE79I5H4BnynTTOoA+/hZLJz2auYrPML1aX3qo=;
-        b=Y8/ezfvkoAt+Zv1miXw4RTWhl+j87Mf7SfwiJlLpIBYP3EkeDaGdtkiq+c1+uOIImD
-         sIpkEj2JvabE8/tJMIdj2Bs/sfcNrSumUuIQdHpvJeTZXf7G4xKB3GFUdKeBQ/dn3evm
-         S9F3TMkc+7WC25HJeiKQJDMssxuJZ53Jpn9cQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=v4vLMnE79I5H4BnynTTOoA+/hZLJz2auYrPML1aX3qo=;
-        b=UtIl6GV4GZrb37Y3f+5HIoVwG3gYrcchLUfThXA64IrJVtp7LNsnZYbTKdl+bWaKiC
-         dza1ow4XNGLXMMejAtwfmMPiUMtckyxu8vBhweRt8BE75U6O/0+qZ/ZcSVhIZMTQWGPO
-         0GeDYi5lbEoZZvANTXfHWkQrrLv2+4iEObRKyjr/GUBiAHhbuKu5B5nbYlS1LbPijoz4
-         KlfpXAcGtoVQcBUTrOQ4SopzfFfvtuHpxrveMP+ocX8geYu4tlT2kgxszB4sqpkdFwOF
-         m+yfttMUzqI0ko8jiWXQOqQ73eOQ35bgsNnLpPPTFBQnElr0zBTIp8oSs02Auu6VCe+d
-         CH5A==
-X-Gm-Message-State: AOAM531N2MxKaQbBpYjzFsqp1+6cWpzGilcqUs5MPeXX0zTSR9OjvK0t
-        gi/PPc76UFsVNwayxtcNojCTQA==
-X-Google-Smtp-Source: ABdhPJzptUM+GfHxvz2Hj8TNGijHu7CJwFy+CWJ6D4Qp/44KIYDHOsDBy1RsJyotEUll8V8ms7LqCg==
-X-Received: by 2002:aa7:9a48:0:b029:1b7:bb17:38c9 with SMTP id x8-20020aa79a480000b02901b7bb1738c9mr7461264pfj.51.1611701999000;
-        Tue, 26 Jan 2021 14:59:59 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w20sm61139pga.90.2021.01.26.14.59.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 14:59:58 -0800 (PST)
-Date:   Tue, 26 Jan 2021 14:59:57 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
- modules
-Message-ID: <202101261459.C90E9F97D@keescook>
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
- <202101251401.F18409FDD1@keescook>
- <20210125221953.wng3gk3qc32eahil@treble>
- <202101260955.F83D191B@keescook>
- <20210126184316.hpcy6gqp5vsq6ckq@treble>
+        Tue, 26 Jan 2021 00:17:24 -0500
+X-Virus-Scanned: Debian amavisd-new at mail.riedlb.de
+Received: from User (OpenWrt.mail.riedlb.de [192.168.0.1])
+ by kolabdeb.mail.riedlb.de (Postfix) with SMTP id 7A3B324C3B83;
+ Fri, 22 Jan 2021 14:52:13 +0100 (CET)
+Reply-To: <uekunio3@gmail.com>
+From:   "Kunio Uematsu" <admin@gardesh-gar.ir>
+Subject: Dearest Beloved !!!   
+Date:   Fri, 22 Jan 2021 08:52:25 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210126184316.hpcy6gqp5vsq6ckq@treble>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20210122174544.6FADB24D458E@kolabdeb.mail.riedlb.de>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 12:43:16PM -0600, Josh Poimboeuf wrote:
-> On Tue, Jan 26, 2021 at 09:56:10AM -0800, Kees Cook wrote:
-> > On Mon, Jan 25, 2021 at 04:19:53PM -0600, Josh Poimboeuf wrote:
-> > > On Mon, Jan 25, 2021 at 02:03:07PM -0800, Kees Cook wrote:
-> > > > On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
-> > > > > When a GCC version mismatch is detected, print a warning and disable the
-> > > > > plugin.  The only exception is the RANDSTRUCT plugin which needs all
-> > > > > code to see the same struct layouts.  In that case print an error.
-> > > > 
-> > > > I prefer this patch as-is: only randstruct needs a hard failure. The
-> > > > others likely work (in fact, randstruct likely works too).
-> > > 
-> > > I'm curious about this last statement, why would randstruct likely work?
-> > > 
-> > > Even struct module has '__randomize_layout', wouldn't basic module init
-> > > go splat?
-> > 
-> > No; the seed is part of the generate includes -- you'll get the same
-> > layout with the same seed.
-> 
-> Right, but don't you need the plugin enabled to make use of that seed,
-> so the structs get interpreted properly by the module?  Or am I
-> completely misunderstanding how this plugin works?
+Dearest Beloved,
 
-Having the plugin enabled or not is part of the Kconfig ... you can't
-build anything if you change Kconfig. I feel like I'm missing
-something...
+As you read this, I don't want you to feel sorry for
+me.......because......I believe everyone will die someday. I have been
+diagnosed with esophageal cancer. It has defiled all forms of medical
+treatment, and right now I have only about a few months to live,
+according to medical experts. The situation has gotten complicated
+recently with my inability to hear or speak (being deaf and dump now).
+I have not particularly lived my life so well, as I never really cared
+for anyone (not even myself) but my business. Though I am very rich, I
+was never generous, I was always hostile to people and only focused on
+my business as that was the only thing I cared for. But now I regret
+all this as I now know that there is more to life than just wanting to
+have or make all the money in the world.
 
--- 
-Kees Cook
+I have willed and given most of my property and assets to my immediate
+and extended family members as well as a few close friends. I have
+decided to give also to charity organizations, as I want this to be
+one of the last good deeds I do on earth.
+
+So far, I have distributed money to some charity organizations in the U.A.E, Algeria, Malaysia
+and some countries in Africa. Now that my health has deteriorated so
+badly, I cannot do this myself anymore. I once asked members of my
+family to close one of my accounts and distribute the money which I
+have there to charity organization in Europe; they refused and kept
+the money to themselves. Hence, I do not trust them anymore, as they
+seem not to be contended with what I have left for them. The last of
+my money which no one knows of is the huge cash sum of Forty-Five
+Million US Dollars (US$45,000,000.00) that I deposited sometime ago in
+an offshore account as I operated my business there before my
+sickness. I will want you to help me collect these deposited funds and
+use the funds to help the orphans, less privileged, handicapped
+persons, homeless, refugees, other charity organizations and do other
+good humanitarian works. You shall only collect 25% of the funds for
+your reward for your time and also any expenses that you might incur
+during this great task.
+
+PLEASE SEND YOUR RESPONSE TO ME WITH YOUR
+DETAILED INFORMATION AND IDENTIFICATION SO THAT I CAN FORWARD TO THE
+BANK WHERE FUND IS DEPOSITED.
+
+Regards,
+Kunio Uematsu
+(Japan)
+Email:uekunio3@gmail.com
