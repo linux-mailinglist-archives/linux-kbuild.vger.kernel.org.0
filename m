@@ -2,128 +2,183 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E34D301561
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Jan 2021 14:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE272301570
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Jan 2021 14:36:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725275AbhAWNTo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 23 Jan 2021 08:19:44 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:34188 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbhAWNTk (ORCPT
+        id S1725320AbhAWNfz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 23 Jan 2021 08:35:55 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:24478 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725294AbhAWNfy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 23 Jan 2021 08:19:40 -0500
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 10NDIaIu009979;
-        Sat, 23 Jan 2021 22:18:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 10NDIaIu009979
+        Sat, 23 Jan 2021 08:35:54 -0500
+Received: from localhost.localdomain (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 10NDXZc0024236;
+        Sat, 23 Jan 2021 22:33:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 10NDXZc0024236
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611407917;
-        bh=BsXABPqSsfwyI8JjxHLwT894VXh5W81H6GxbMMgw6hQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S2Qg/F3EiYOyVc/okgqTrK+eF0j68FztPPPSWDaK+ANqes9k5Pmx5h69JX+OcX2Vg
-         TiYVJNbaaxsJivTjna1ta2kWzyMDw+P7S+zV81NpI9oQCs3nkPVX/ERyHHm2al1br5
-         LLCiFBdnZ5KfeNhNK+M8tiCgIYm2nCgtC3EjPQAHnXbLCOJprqVOesWMd6bx/GXJRC
-         elrJbYzDUqEh0SLqW3uWDvTcA/ysgprL13iNi5hZopS63+rIgJllrqUKlcB5LKX92U
-         TugkODq+U9+MwStH1HDlqXIfCrC1qDNttlDnsiUv3d7SdWqt73hiXd8QaUk/gi2clK
-         lxl+PtSEyll/g==
-X-Nifty-SrcIP: [209.85.214.182]
-Received: by mail-pl1-f182.google.com with SMTP id q2so2095943plk.4;
-        Sat, 23 Jan 2021 05:18:36 -0800 (PST)
-X-Gm-Message-State: AOAM530lMffXERp70eB/xTtwf1MOSYHpvL5vrcsueKLEc2MqWfikcynV
-        IE9yphhT7VZ4soMjaUzAR0s65jqW0qsye2iAEQc=
-X-Google-Smtp-Source: ABdhPJx2aWPg0u0hq0ZmOms1hWXB+FffylGFd92yC5K4zLQukQi3+ZDjGYOUeQ/5ybwiP6AzlhwPABZu9k9e6YVN6Ow=
-X-Received: by 2002:a17:902:ed93:b029:de:84d2:9ce1 with SMTP id
- e19-20020a170902ed93b02900de84d29ce1mr56550plj.47.1611407916180; Sat, 23 Jan
- 2021 05:18:36 -0800 (PST)
-MIME-Version: 1.0
-References: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
-In-Reply-To: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
+        s=dec2015msa; t=1611408817;
+        bh=DGvM3I3BmHsVYFSEZSnbjTe9JRbMp/dTjTb3DAh2UqM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Hx9Hz4R+DBToaPSugDtvoww3gYQDPMO+wlOHZe8aeyL1zFpZXzTHOzY/xcK5K1Lxw
+         PpabTkzRX6ehwAgZPobGLGIgcdsyBKElG6/7H7g6X+ffANMQh+zhfZ/SKDzqTwEUHz
+         rdUI3KqlByEjmY9k324Z8/2lLYexuGgqBgWQoaAD350wKymFfvlD0BA2P4XFIdLAs4
+         6xzu5c51Ge9FjqaS3Xj9Et5zLO2H5dADm6bMAJj0NuhNnr7/+U+RBFMp0jlPwf74JT
+         UQbWvEcGFYrNTS84yfO7krWVEhmHJYEKruU7+VJyIVrLWzoEKj0rs76PYctjZrfn+x
+         D7DA+elXrLprg==
+X-Nifty-SrcIP: [126.26.94.251]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 23 Jan 2021 22:17:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARn6yhYqA7bm_ExLH5HVvz0gsW_QonX-LXuqYP6q4SDeg@mail.gmail.com>
-Message-ID: <CAK7LNARn6yhYqA7bm_ExLH5HVvz0gsW_QonX-LXuqYP6q4SDeg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/Kbuild: Remove references to gcc-plugin.sh
-To:     Robert Karszniewicz <r.karszniewicz@phytec.de>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Robert Karszniewicz <r.karszniewicz@phytec.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philipp Rudo <prudo@linux.ibm.com>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Robert Karszniewicz <avoidr@posteo.de>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH v2] doc: gcc-plugins: drop more stale information
+Date:   Sat, 23 Jan 2021 22:33:33 +0900
+Message-Id: <20210123133333.736453-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 23, 2021 at 3:19 AM Robert Karszniewicz
-<r.karszniewicz@phytec.de> wrote:
->
-> gcc-plugin.sh has been removed in commit
-> 1e860048c53e ("gcc-plugins: simplify GCC plugin-dev capability test").
->
-> Signed-off-by: Robert Karszniewicz <r.karszniewicz@phytec.de>
-> ---
->  Documentation/kbuild/gcc-plugins.rst |  6 ------
->  scripts/dummy-tools/gcc              | 15 ---------------
->  2 files changed, 21 deletions(-)
->
-> diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
-> index 4b1c10f88e30..63379d0150e3 100644
-> --- a/Documentation/kbuild/gcc-plugins.rst
-> +++ b/Documentation/kbuild/gcc-plugins.rst
-> @@ -47,12 +47,6 @@ Files
->         This is a compatibility header for GCC plugins.
->         It should be always included instead of individual gcc headers.
->
-> -**$(src)/scripts/gcc-plugin.sh**
-> -
-> -       This script checks the availability of the included headers in
-> -       gcc-common.h and chooses the proper host compiler to build the plugins
-> -       (gcc-4.7 can be built by either gcc or g++).
-> -
->  **$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
->  $(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
->  $(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
-> diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
-> index 33487e99d83e..a484de576e6f 100755
-> --- a/scripts/dummy-tools/gcc
-> +++ b/scripts/dummy-tools/gcc
-> @@ -74,18 +74,3 @@ if arg_contain -S "$@"; then
->                 exit 0
->         fi
->  fi
-> -
-> -# For scripts/gcc-plugin.sh
-> -if arg_contain -print-file-name=plugin "$@"; then
-> -       plugin_dir=$(mktemp -d)
-> -
-> -       sed -n 's/.*#include "\(.*\)"/\1/p' $(dirname $0)/../gcc-plugins/gcc-common.h |
-> -       while read header
-> -       do
-> -               mkdir -p $plugin_dir/include/$(dirname $header)
-> -               touch $plugin_dir/include/$header
-> -       done
-> -
-> -       echo $plugin_dir
-> -       exit 0
-> -fi
+[1] Drop the version information
 
+The range of the supported GCC versions are always changing. The
+current minimal GCC version is 4.9, and commit 1e860048c53e
+("gcc-plugins: simplify GCC plugin-dev capability test") removed the
+old code accordingly.
 
-Well, it is wrong to remove this hunk entirely.
-It would break the ability to enable GCC_PLUGINS.
+We do not need to mention specific version ranges like "all gcc versions
+from 4.5 to 6.0" since we forget to update the documentation when we
+raise the minimal compiler version.
 
-I will simplify this part.
-https://lore.kernel.org/patchwork/patch/1369968/
+[2] Drop the C compiler statements
 
+Since commit 77342a02ff6e ("gcc-plugins: drop support for GCC <= 4.7")
+the GCC plugin infrastructure only supports g++.
 
-I took the only change to Documentation/kbuild/gcc-plugins.rst
-from your patch but this document contains more stale info.
+[3] Drop supported architectures
 
-https://lore.kernel.org/patchwork/patch/1370008/
+As of v5.11-rc4, the infrastructure supports more architectures;
+arm, arm64, mips, powerpc, riscv, s390, um, and x86. (just grep
+"select HAVE_GCC_PLUGINS") Again, we miss to update this document when a
+new architecture is supported. Let's just say "only some architectures".
 
+[4] Update the apt-get example
 
+We are now discussing to bump the minimal version to GCC 5. The GCC 4.9
+support will be removed sooner or later. Change the package example to
+gcc-10-plugin-dev while we are here.
+
+[5] Update the build target
+
+Since commit ce2fd53a10c7 ("kbuild: descend into scripts/gcc-plugins/
+via scripts/Makefile"), "make gcc-plugins" is not supported.
+"make scripts" builds all the enabled plugins, including some other
+tools.
+
+[6] Update the steps for adding a new plugin
+
+At first, all CONFIG options for GCC plugins were located in arch/Kconfig.
+After commit 45332b1bdfdc ("gcc-plugins: split out Kconfig entries to
+scripts/gcc-plugins/Kconfig"), scripts/gcc-plugins/Kconfig became the
+central place to collect plugin CONFIG options. In my understanding,
+this requirement no longer exists because commit 9f671e58159a ("security:
+Create "kernel hardening" config area") moved some of plugin CONFIG
+options to another file. Find an appropriate place to add the new CONFIG.
+
+The sub-directory support was never used by anyone, and removed by
+commit c17d6179ad5a ("gcc-plugins: remove unused GCC_PLUGIN_SUBDIR").
+
+Remove the useless $(src)/ prefix.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v2:
+  - Remove the info about sub-directory support
+
+ Documentation/kbuild/gcc-plugins.rst | 31 +++++++++++++---------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+index 63379d0150e3..979887558e72 100644
+--- a/Documentation/kbuild/gcc-plugins.rst
++++ b/Documentation/kbuild/gcc-plugins.rst
+@@ -11,16 +11,13 @@ compiler [1]_. They are useful for runtime instrumentation and static analysis.
+ We can analyse, change and add further code during compilation via
+ callbacks [2]_, GIMPLE [3]_, IPA [4]_ and RTL passes [5]_.
+ 
+-The GCC plugin infrastructure of the kernel supports all gcc versions from
+-4.5 to 6.0, building out-of-tree modules, cross-compilation and building in a
+-separate directory.
+-Plugin source files have to be compilable by both a C and a C++ compiler as well
+-because gcc versions 4.5 and 4.6 are compiled by a C compiler,
+-gcc-4.7 can be compiled by a C or a C++ compiler,
+-and versions 4.8+ can only be compiled by a C++ compiler.
++The GCC plugin infrastructure of the kernel supports building out-of-tree
++modules, cross-compilation and building in a separate directory.
++Plugin source files have to be compilable by a C++ compiler.
+ 
+-Currently the GCC plugin infrastructure supports only the x86, arm, arm64 and
+-powerpc architectures.
++Currently the GCC plugin infrastructure supports only some architectures.
++Grep "select HAVE_GCC_PLUGINS" to find out which architectures support
++GCC plugins.
+ 
+ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
+ 
+@@ -53,8 +50,7 @@ $(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
+ $(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
+ 
+ 	These headers automatically generate the registration structures for
+-	GIMPLE, SIMPLE_IPA, IPA and RTL passes. They support all gcc versions
+-	from 4.5 to 6.0.
++	GIMPLE, SIMPLE_IPA, IPA and RTL passes.
+ 	They should be preferred to creating the structures by hand.
+ 
+ 
+@@ -62,9 +58,9 @@ Usage
+ =====
+ 
+ You must install the gcc plugin headers for your gcc version,
+-e.g., on Ubuntu for gcc-4.9::
++e.g., on Ubuntu for gcc-10::
+ 
+-	apt-get install gcc-4.9-plugin-dev
++	apt-get install gcc-10-plugin-dev
+ 
+ Or on Fedora::
+ 
+@@ -76,7 +72,7 @@ Enable a GCC plugin based feature in the kernel config::
+ 
+ To compile only the plugin(s)::
+ 
+-	make gcc-plugins
++	make scripts
+ 
+ or just run the kernel make and compile the whole kernel with
+ the cyclomatic complexity GCC plugin.
+@@ -85,7 +81,8 @@ the cyclomatic complexity GCC plugin.
+ 4. How to add a new GCC plugin
+ ==============================
+ 
+-The GCC plugins are in $(src)/scripts/gcc-plugins/. You can use a file or a directory
+-here. It must be added to $(src)/scripts/gcc-plugins/Makefile,
+-$(src)/scripts/Makefile.gcc-plugins and $(src)/arch/Kconfig.
++The GCC plugins are in scripts/gcc-plugins/. You need to put plugin source files
++right under scripts/gcc-plugins/. Creating subdirectories is not supported.
++It must be added to scripts/gcc-plugins/Makefile, scripts/Makefile.gcc-plugins
++and a relevant Kconfig file.
+ See the cyc_complexity_plugin.c (CONFIG_GCC_PLUGIN_CYC_COMPLEXITY) GCC plugin.
 -- 
-Best Regards
-Masahiro Yamada
+2.27.0
+
