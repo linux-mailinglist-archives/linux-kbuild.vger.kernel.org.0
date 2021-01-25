@@ -2,154 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC59302E41
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jan 2021 22:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 767B0302E70
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jan 2021 22:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732350AbhAYVrj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jan 2021 16:47:39 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:51450 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732685AbhAYVql (ORCPT
+        id S1733013AbhAYVzZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jan 2021 16:55:25 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:49124 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733001AbhAYVzO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jan 2021 16:46:41 -0500
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 10PLjDno004170;
-        Tue, 26 Jan 2021 06:45:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 10PLjDno004170
+        Mon, 25 Jan 2021 16:55:14 -0500
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 10PLs0AX013560;
+        Tue, 26 Jan 2021 06:54:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 10PLs0AX013560
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611611113;
-        bh=jwaaWfOLyNeFlQAnNSQKJK+MaHiqrQ7LlTnPQQHpVeo=;
+        s=dec2015msa; t=1611611640;
+        bh=UX6b6pUkVV6T/bQ7SMCRjpyfBhS2L4xJkhyy+qmYCFU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Qks7wY5aADVmF4XYs8OlPjdaDH3h5ka6z5dhbv7EP02zWHjZUTwRO31ezHou7DVnV
-         94Os2PewULekRpL7uxIc32AZj2biTHQ197L3zWJ09CHxN0BYKk5eve9841THtS6UKn
-         +D1VVvRJN61oE29syEoqRXZIEGlY88UNt6q9aFaZuNqWMtJME3qp0BwNXCfhfirUHE
-         F3uwgToQhJ3K2n8x9WubXsRObVlJavqRNdzR83DCg+9m0ZPjc5mgTIHY4MkFTjmKsJ
-         VoCpxO/y63nufFpS6B1LOnf/95fsav2yPIyVmYWja89yL2jby54ngEqxr4H826Rm0z
-         i4gtLs2qTHzrg==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id a20so427653pjs.1;
-        Mon, 25 Jan 2021 13:45:13 -0800 (PST)
-X-Gm-Message-State: AOAM531kMSxyyCztv9bTQCgrqJRA4uAO/u/+UNJsnRFFsaRF4Fx4sNlk
-        S97zqW5Ju3kKhSIUoO+KX9aa62m+WwPUHbv3pxg=
-X-Google-Smtp-Source: ABdhPJzArtU/O7ywAiPmBA5GRCqetdanMADrFD0e9FqMwPtkjTxCHaH0WbHO1m+jZ1FA3ho5HzgHUCEaWEgU3bTf6oI=
-X-Received: by 2002:a17:90a:9a84:: with SMTP id e4mr2273222pjp.87.1611611112750;
- Mon, 25 Jan 2021 13:45:12 -0800 (PST)
+        b=qEMwILEWC1D9Pv3cg/I6TFtkrEBWBKr00cJU7PSwWioOtRKzYNcGE73cD9ISVxeKB
+         jjmUc+25p/1SkUv9I9dZbRb8YWdszSbRKrnvBu1YAYXAnVUxEkALMEOslDpQ2V6pyq
+         mrIIUIrD4r3HcrgM+X0ARPZqsURqxi3+7ZbUJD6XGCKPoHH3OCjX05eXgYxrL3Xos4
+         JFplKKvX3B/ti7SmVEmdikdJdAf3swJSilMsD1IwlknkZFTsmRro8VLZ/ExOjJ7I0J
+         DmOla6W1TS8nJt2tF6iISuAxrG9/uPLPoCUBeOHCs/g3gOsEZMLFoJSdRWWpfNlvbp
+         c40P9pU0AhJYQ==
+X-Nifty-SrcIP: [209.85.215.182]
+Received: by mail-pg1-f182.google.com with SMTP id o16so247094pgg.5;
+        Mon, 25 Jan 2021 13:54:00 -0800 (PST)
+X-Gm-Message-State: AOAM533hkSnF/qLAiHm5vpB2/KTS4MymyX0NVjV0VE7ejGm7uMAdC89j
+        eWIGypeYvosh9Cp0tVuxSNN4wFbp/BQnPK9Y9oE=
+X-Google-Smtp-Source: ABdhPJz7jVDUCqkHiYZmSxVfXQ2QVujb2/QrlRWGngD0SSPGjQ4ZtlwG1VPt/V++hNbbdBerKFQCeMW2DEksR/gGNHo=
+X-Received: by 2002:a62:2f07:0:b029:1bb:5f75:f985 with SMTP id
+ v7-20020a622f070000b02901bb5f75f985mr2194842pfv.76.1611611639601; Mon, 25 Jan
+ 2021 13:53:59 -0800 (PST)
 MIME-Version: 1.0
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
- <CAK7LNAS=uOi=8xJU=NiKnXQW2iCazbErg_TX0gL9oayBiDffiA@mail.gmail.com> <20210125212755.jfwlqogpcarmxdgt@treble>
-In-Reply-To: <20210125212755.jfwlqogpcarmxdgt@treble>
+References: <20210125105757.661240-1-uwe@kleine-koenig.org>
+In-Reply-To: <20210125105757.661240-1-uwe@kleine-koenig.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Jan 2021 06:44:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS+EG9doX3qUmu4M3=mRNmdybSv4180Xnuubiwmsq0Agw@mail.gmail.com>
-Message-ID: <CAK7LNAS+EG9doX3qUmu4M3=mRNmdybSv4180Xnuubiwmsq0Agw@mail.gmail.com>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT modules
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org,
+Date:   Tue, 26 Jan 2021 06:53:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS5t1wew0MMFjdB5HGCAMerhU7pAGiFhcTtCRUAAjGLpw@mail.gmail.com>
+Message-ID: <CAK7LNAS5t1wew0MMFjdB5HGCAMerhU7pAGiFhcTtCRUAAjGLpw@mail.gmail.com>
+Subject: Re: [PATCH] cmd_dtc: Enable generation of device tree symbols
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        cyril@debamax.com, Arnd Bergmann <arnd@arndb.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        DTML <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 6:28 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+On Mon, Jan 25, 2021 at 8:07 PM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.or=
+g> wrote:
 >
-> On Tue, Jan 26, 2021 at 06:16:01AM +0900, Masahiro Yamada wrote:
-> > On Tue, Jan 26, 2021 at 5:42 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-> > >
-> > > When building out-of-tree kernel modules, the build system doesn't
-> > > require the GCC version to match the version used to build the original
-> > > kernel.  That's probably [1] fine.
-> > >
-> > > In fact, for many distros, the version of GCC used to build the latest
-> > > kernel doesn't necessarily match the latest released GCC, so a GCC
-> > > mismatch turns out to be pretty common.  And with CONFIG_MODVERSIONS
-> > > it's probably more common.
-> > >
-> > > So a lot of users have come to rely on being able to use a different
-> > > version of GCC when building OOT modules.
-> > >
-> > > But with GCC plugins enabled, that's no longer allowed:
-> > >
-> > >   cc1: error: incompatible gcc/plugin versions
-> > >   cc1: error: failed to initialize plugin ./scripts/gcc-plugins/structleak_plugin.so
-> > >
-> > > That error comes from the plugin's call to
-> > > plugin_default_version_check(), which strictly enforces the GCC version.
-> > > The strict check makes sense, because there's nothing to prevent the GCC
-> > > plugin ABI from changing -- and it often does.
-> > >
-> > > But failing the build isn't necessary.  For most plugins, OOT modules
-> > > will otherwise work just fine without the plugin instrumentation.
-> > >
-> > > When a GCC version mismatch is detected, print a warning and disable the
-> > > plugin.  The only exception is the RANDSTRUCT plugin which needs all
-> > > code to see the same struct layouts.  In that case print an error.
-> > >
-> > > [1] Ignoring, for the moment, that the kernel now has
-> > >     toolchain-dependent kconfig options, which can silently disable
-> > >     features and cause havoc when compiler versions differ, or even when
-> > >     certain libraries are missing.  This is a separate problem which
-> > >     also needs to be addressed.
-> > >
-> > > Reported-by: Ondrej Mosnacek <omosnace@redhat.com>
-> > > Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> > > ---
-> >
-> >
-> > We are based on the assumption that we use the same
-> > compiler for in-tree and out-of-tree.
+> Adding the -@ switch to dtc results in the binary devicetrees containing
+> a list of symbolic references and their paths. This is necessary to
+> apply device tree overlays e.g. on Raspberry Pi as described on
+> https://www.raspberrypi.org/documentation/configuration/device-tree.md.
 >
-> Sorry, but that assumption isn't based in reality.  And it's not
-> enforced.
+> Obviously the downside of this change is an increas of the size of the
+> generated dtbs, for an arm out-of-tree build (multi_v7_defconfig):
 >
-> > If people use a different compiler, they must be
-> > prepared for any possible problem.
-> >
-> > Using different compiler flags for in-tree and out-of-tree
-> > is even more dangerous.
-> >
-> > For example, CONFIG_GCC_PLUGIN_RANDSTRUCT is enabled
-> > for in-tree build, and then disabled for out-of-tree modules,
-> > the struct layout will mismatch, won't it?
+>         $ du -s arch/arm/boot/dts*
+>         101380  arch/arm/boot/dts-pre
+>         114308  arch/arm/boot/dts-post
 >
-> If you read the patch you'll notice that it handles that case, when it's
-> caused by GCC mismatch.
+> so this is in average an increase of 12.8% in size.
 >
-> However, as alluded to in the [1] footnote, it doesn't handle the case
-> where the OOT build system doesn't have gcc-plugin-devel installed.
-> Then CONFIG_GCC_PLUGIN_RANDSTRUCT gets silently disabled and the build
-> succeeds!  That happens even without a GCC mismatch.
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
 
 
-Ah, sorry.
-
-I responded too early before reading the patch fully.
-
-But, I do not like to make RANDSTRUCT a special case.
-
-I'd rather want to stop building for any plugin.
+(CCing DT ML.)
 
 
+https://www.spinics.net/lists/linux-kbuild/msg27904.html
 
+See Rob's comment:
+
+"We've already rejected doing that. Turning on '-@' can grow the dtb
+size by a significant amount which could be problematic for some
+boards."
 
 
 
 
-> > This patch is ugly, and not doing the right thing.
+
+
+
+
+> ---
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Maybe, but I doubt the solution is to make assumptions.
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 213677a5ed33..0683a5808f7f 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -319,7 +319,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
 >
+>  quiet_cmd_dtc =3D DTC     $@
+>  cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc=
+-tmp) $< ; \
+> -       $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+> +       $(DTC) -@ -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+>                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+>                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+>         cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
 > --
-> Josh
+> 2.29.2
 >
 
 
--- 
+--
 Best Regards
+
 Masahiro Yamada
