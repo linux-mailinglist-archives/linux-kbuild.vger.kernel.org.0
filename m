@@ -2,98 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA8B302EED
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jan 2021 23:26:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFEC3302E9F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jan 2021 23:04:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732769AbhAYV6t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jan 2021 16:58:49 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:16863 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733030AbhAYV4r (ORCPT
+        id S1732909AbhAYWD5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jan 2021 17:03:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733206AbhAYWDt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jan 2021 16:56:47 -0500
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 10PLtVuv010003;
-        Tue, 26 Jan 2021 06:55:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 10PLtVuv010003
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611611732;
-        bh=MveyNhX/Q55BK5TLqNfAZkfF+yHw/qazmwfJNs3YUFQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=K1q4ibmji9cgyLczPPDOd/kGDPeGCQnoaywDs3oY2NNKJsfjHRAAd2qK1JXBfh+Y1
-         VxUnxk6h08mNQG7v7rF+B4GlWFzBNYvhEMVQrw+PG2gylCkWuCDESv/3X9wU/Tr4z4
-         UZaFvqgs3hDdpYsY3OWchNBscpqSVKSptywk4B/LtjHvEBBF348FVTYg8mp1pigcsd
-         svz4zOybb9sdQal8cFns8vvHAVldiegt9xYUGIvSu1YCpZfsOo7SnaC2yZgOIamAt4
-         apQSovqzXiBMaUyUlwU+b92rSiDTZMVcIoEinauPOjUYlnCKUVOlWBATnhGoS6z9Ws
-         a3X+RAudXzf3A==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id kx7so440916pjb.2;
-        Mon, 25 Jan 2021 13:55:31 -0800 (PST)
-X-Gm-Message-State: AOAM530bsZXWj9ZXKGX26pLfYkJGv9WIiLfN2Lsi2CKEJZmlxtQF+aYQ
-        6Ff4QalWK3cPHjmm8w6q4HcO8s88QZEnwxyH8+k=
-X-Google-Smtp-Source: ABdhPJwhZb6x1b4UxKLwPs9cja3rm1ktMGQrT/2LvmPOdOPBPLNVG1bEO2b/KFoRx721rPIVTVOZ0zSXnvJGyvP+g3M=
-X-Received: by 2002:a17:903:248e:b029:de:b329:ffaa with SMTP id
- p14-20020a170903248eb02900deb329ffaamr2685673plw.71.1611611730923; Mon, 25
- Jan 2021 13:55:30 -0800 (PST)
+        Mon, 25 Jan 2021 17:03:49 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A612C061574
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jan 2021 14:03:09 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id o20so9230027pfu.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Jan 2021 14:03:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9uTkelnkgdH1/h1qSEC3+KB2ZZOMZMIqxRYnkoanZM4=;
+        b=e48pg2fnQuL945QN5H8Vqv7bjX7l4CQIY5iNiZMX75XZLI2m+HxbhLqfsgNifpr/SZ
+         qaR8nCtuU+N+h4snOkvPLNyDR8PxaMl8kXfvWPiXP/auSxLP+ru06vivV0yQ5r/mJqDh
+         Pq1GsRCAqqvXIL7IvnbcFpPZJMU3JssEpiHKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9uTkelnkgdH1/h1qSEC3+KB2ZZOMZMIqxRYnkoanZM4=;
+        b=bhHkEyMkqTFkclhcc6lT1RPBWLCvEvItb8+jrAzeYEhP1Ea/bnGFnSlxtzPuhHBGnH
+         +3Vu96oTvuIr/qRls4CZyTgIlEXLrE8+Te8b0qDpbx/8ac3jYwyrpwXTZ5d+95Ax4LVK
+         uEzt528OHC9CBYXrodEuZEUVTB04+P3TYADFrXn2AYCxokNnAofdYiSsrizpk0fUFL97
+         cHq3HnEw/6izPQ9Qh+N7ZMcIw9YtCbc3BpBz7JwzmhnzLVAIeVNb08wWQVy3RuHBP06+
+         fbBTJpp+Nq5xSki/IajzVUvuxsqQEV1gOqWW38F99qoFrcgIdakxTrcbfoSRqiyWIDIt
+         VvvQ==
+X-Gm-Message-State: AOAM532WxiWxVi2oEbTbX+Ibb78UAmcgJWW18nAulcFK1X4E+eQEImVT
+        E6xLh34Ne23AN8XvRrHikLh1Iw==
+X-Google-Smtp-Source: ABdhPJxELKHojiOS5LE+ZaEcSNUqh2aAeWOTc0igtRFBcAtlACI3x+7qSajwJcaRvf2ETtq/yQ/s3A==
+X-Received: by 2002:a63:5d5f:: with SMTP id o31mr2597849pgm.295.1611612189024;
+        Mon, 25 Jan 2021 14:03:09 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a131sm18614270pfd.171.2021.01.25.14.03.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 14:03:08 -0800 (PST)
+Date:   Mon, 25 Jan 2021 14:03:07 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <202101251401.F18409FDD1@keescook>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
 MIME-Version: 1.0
-References: <20210123091631.716794-1-masahiroy@kernel.org>
-In-Reply-To: <20210123091631.716794-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Jan 2021 06:54:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATsEURRtV0Rcmm3KctA6je5yRfYAhe10Y4Gj5rbwULxNQ@mail.gmail.com>
-Message-ID: <CAK7LNATsEURRtV0Rcmm3KctA6je5yRfYAhe10Y4Gj5rbwULxNQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: simplify GCC_PLUGINS enablement in dummy-tools/gcc
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Philipp Rudo <prudo@linux.ibm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 23, 2021 at 6:16 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> With commit 1e860048c53e ("gcc-plugins: simplify GCC plugin-dev
-> capability test") applied, this check can be way simpler because
-> now scripts/gcc-plugins/Kconfig only checks plugin-version.h
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/dummy-tools/gcc | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
-> index 33487e99d83e..5c113cad5601 100755
-> --- a/scripts/dummy-tools/gcc
-> +++ b/scripts/dummy-tools/gcc
-> @@ -75,16 +75,12 @@ if arg_contain -S "$@"; then
->         fi
->  fi
->
-> -# For scripts/gcc-plugin.sh
-> +# To set GCC_PLUGINS
->  if arg_contain -print-file-name=plugin "$@"; then
->         plugin_dir=$(mktemp -d)
->
-> -       sed -n 's/.*#include "\(.*\)"/\1/p' $(dirname $0)/../gcc-plugins/gcc-common.h |
-> -       while read header
-> -       do
-> -               mkdir -p $plugin_dir/include/$(dirname $header)
-> -               touch $plugin_dir/include/$header
-> -       done
-> +       mkdir -p $plugin_dir/include
-> +       touch $plugin_dir/include/plugin-version.h
->
->         echo $plugin_dir
->         exit 0
-> --
-> 2.27.0
->
+On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> When a GCC version mismatch is detected, print a warning and disable the
+> plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> code to see the same struct layouts.  In that case print an error.
 
-Applied to linux-kbuild.
+I prefer this patch as-is: only randstruct needs a hard failure. The
+others likely work (in fact, randstruct likely works too).
 
+Masahiro, are you suggesting to be a hard-failure for all plugins?
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
