@@ -2,75 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8E3302EDC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Jan 2021 23:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82EAC302FFA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 00:19:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbhAYWVa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Jan 2021 17:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20622 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732315AbhAYWV0 (ORCPT
+        id S1732890AbhAYXTZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Jan 2021 18:19:25 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:45862 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732660AbhAYXTW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Jan 2021 17:21:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611613200;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=m3GTxAXy/n7abTboCl2AAMZcR1+hfsyo/eH4M6+Glow=;
-        b=IIcm8Y1TApBt0mBMfWYOFquB3xPHKHvynElJ/lK0nfC9aF1C+qPf88tWnkFpuIhAuwgXnb
-        Mb55wbkC1DPFAohIU6cq/goQInSLXKI7V1e+kr6PoGJAiBQpOdnls50N40Mhb+eLYJrQQl
-        Yl9xlE7UCc10vT1OzueNpGmszRVLfts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-_TXAzB81MEO-MvEgpRfhAA-1; Mon, 25 Jan 2021 17:19:59 -0500
-X-MC-Unique: _TXAzB81MEO-MvEgpRfhAA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C327AFA83;
-        Mon, 25 Jan 2021 22:19:57 +0000 (UTC)
-Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 74C7860C62;
-        Mon, 25 Jan 2021 22:19:55 +0000 (UTC)
-Date:   Mon, 25 Jan 2021 16:19:53 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 25 Jan 2021 18:19:22 -0500
+Received: from localhost.localdomain (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 10PNHDrD029059;
+        Tue, 26 Jan 2021 08:17:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 10PNHDrD029059
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611616634;
+        bh=xwIb0oqMknXVdymXEZ6iq/BFlhwRA9qFCQ7anGrVqGg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KzyJpXCJXKnGOOfVfP7oeCny6KI2hL5T3EDgyMyAb+lYn3rwWdPjwK9PvjZFtKYcU
+         bA4VVOSCpV8WTjKjxQEu2XIxwqBVLoss4P8n1F5j5agQr+x3v8y6V9dU4MB2Cxoh2p
+         GiSZ2TlgyFpVHkQCSPG8ooIziLm7DWLXMQHUJ6sqPpS2MstSTEjSjOVxoAx5LFvGf9
+         DRJScYKPhBqD1DNmTfsn76fg83DAOIDo+bdUVK3+7miCW5jiWU4HDhXrouMRfzITBe
+         NMDZXItfH4c7BkZSzAio/ps7SEx7YETugX0ZtUyQEs4FT8xlmsyT1R9U43ZW/WzFs2
+         CAaZfTYhldI+w==
+X-Nifty-SrcIP: [126.26.94.251]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     netdev@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
- modules
-Message-ID: <20210125221953.wng3gk3qc32eahil@treble>
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
- <202101251401.F18409FDD1@keescook>
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] net: move CONFIG_NET guard to top Makefile
+Date:   Tue, 26 Jan 2021 08:16:55 +0900
+Message-Id: <20210125231659.106201-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202101251401.F18409FDD1@keescook>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:03:07PM -0800, Kees Cook wrote:
-> On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
-> > When a GCC version mismatch is detected, print a warning and disable the
-> > plugin.  The only exception is the RANDSTRUCT plugin which needs all
-> > code to see the same struct layouts.  In that case print an error.
-> 
-> I prefer this patch as-is: only randstruct needs a hard failure. The
-> others likely work (in fact, randstruct likely works too).
+When CONFIG_NET is disabled, nothing under the net/ directory is
+compiled. Move the CONFIG_NET guard to the top Makefile so the net/
+directory is entirely skipped.
 
-I'm curious about this last statement, why would randstruct likely work?
+When Kbuild visits net/Makefile, CONFIG_NET is obvioulsy 'y' because
+CONFIG_NET is a bool option. Clean up net/Makefile.
 
-Even struct module has '__randomize_layout', wouldn't basic module init
-go splat?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile     |  3 ++-
+ net/Makefile | 11 ++++-------
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index b0e4767735dc..61357f7eb55f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -649,7 +649,8 @@ ifeq ($(KBUILD_EXTMOD),)
+ core-y		:= init/ usr/
+ drivers-y	:= drivers/ sound/
+ drivers-$(CONFIG_SAMPLES) += samples/
+-drivers-y	+= net/ virt/
++drivers-$(CONFIG_NET) += net/
++drivers-y	+= virt/
+ libs-y		:= lib/
+ endif # KBUILD_EXTMOD
+ 
+diff --git a/net/Makefile b/net/Makefile
+index d96b0aa8f39f..6fa3b2e26cab 100644
+--- a/net/Makefile
++++ b/net/Makefile
+@@ -6,20 +6,19 @@
+ # Rewritten to use lists instead of if-statements.
+ #
+ 
+-obj-$(CONFIG_NET)		:= devres.o socket.o core/
++obj-y				:= devres.o socket.o core/
+ 
+-tmp-$(CONFIG_COMPAT) 		:= compat.o
+-obj-$(CONFIG_NET)		+= $(tmp-y)
++obj-$(CONFIG_COMPAT)		+= compat.o
+ 
+ # LLC has to be linked before the files in net/802/
+ obj-$(CONFIG_LLC)		+= llc/
+-obj-$(CONFIG_NET)		+= ethernet/ 802/ sched/ netlink/ bpf/ ethtool/
++obj-y				+= ethernet/ 802/ sched/ netlink/ bpf/ ethtool/
+ obj-$(CONFIG_NETFILTER)		+= netfilter/
+ obj-$(CONFIG_INET)		+= ipv4/
+ obj-$(CONFIG_TLS)		+= tls/
+ obj-$(CONFIG_XFRM)		+= xfrm/
+ obj-$(CONFIG_UNIX_SCM)		+= unix/
+-obj-$(CONFIG_NET)		+= ipv6/
++obj-y				+= ipv6/
+ obj-$(CONFIG_BPFILTER)		+= bpfilter/
+ obj-$(CONFIG_PACKET)		+= packet/
+ obj-$(CONFIG_NET_KEY)		+= key/
+@@ -63,9 +62,7 @@ obj-$(CONFIG_6LOWPAN)		+= 6lowpan/
+ obj-$(CONFIG_IEEE802154)	+= ieee802154/
+ obj-$(CONFIG_MAC802154)		+= mac802154/
+ 
+-ifeq ($(CONFIG_NET),y)
+ obj-$(CONFIG_SYSCTL)		+= sysctl_net.o
+-endif
+ obj-$(CONFIG_DNS_RESOLVER)	+= dns_resolver/
+ obj-$(CONFIG_CEPH_LIB)		+= ceph/
+ obj-$(CONFIG_BATMAN_ADV)	+= batman-adv/
 -- 
-Josh
+2.27.0
 
