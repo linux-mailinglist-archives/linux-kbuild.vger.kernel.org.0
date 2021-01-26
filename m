@@ -2,131 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7C16304CFF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 00:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C46A6304D01
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 00:01:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731363AbhAZXAj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 18:00:39 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:28614 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394577AbhAZSSb (ORCPT
+        id S1731422AbhAZXA5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 18:00:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39706 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390738AbhAZSov (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 13:18:31 -0500
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 10QIHaHi032508;
-        Wed, 27 Jan 2021 03:17:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 10QIHaHi032508
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611685056;
-        bh=7tljXjQsNuev2v37BYuqJOM0jeTlpNcM2yL5Elu3JGE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KQujx/bdocMevef+yC9nmNWMoTHCcY9KbDGg82TZ+hSU6KBu9S9sK6rNB8IAsc9Qg
-         X/Cd5ht5NIvpC8VVCHqMJ9txgoE3xScs1ApA9yszMJqGY6zyLDXU1Aa5UOGYl1RUho
-         RfmwTRug5iZV/2MFuETqrpbxaDpaVNBcYYSc5Y2Sok/rRQQCusHmPdbhUKwpcFpo3K
-         COzAdRXY/to2uoJnFIr/tvFbCSNnrKUly8VrXE/zAFygi2xFPYduOXUbkQfI5pzrdS
-         kFQTRaGW4L9wuxHFAEmt7YntvfH1BMNU22XuhnZSqhXRYdRKi6yXnQiTLLxmt/LGH0
-         Yn0wcq6dmfbhQ==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id p15so2477446pjv.3;
-        Tue, 26 Jan 2021 10:17:36 -0800 (PST)
-X-Gm-Message-State: AOAM531Z2zPUNtiFWqWUZZCAzA+ZiGBHsFJ22bNZxPIynzCG2zuMWr4s
-        wlZ2S9YdUM62AwJ6tJntPfK5wRSCNexFgUxyNGk=
-X-Google-Smtp-Source: ABdhPJyXIJbPd31WVVw4B7jaubRTUgL+rizWhKKm5x0X96w7h3rapE8ZF7rZIGNMp7EZ/2ysInRNGOAyi7aOT8UL9G4=
-X-Received: by 2002:a17:90a:9a84:: with SMTP id e4mr1063642pjp.87.1611685055872;
- Tue, 26 Jan 2021 10:17:35 -0800 (PST)
+        Tue, 26 Jan 2021 13:44:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611686605;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=yMVM7jzABhWKKzh8hHr/9KIVGtxgSH9kKvoBCQuc4S0=;
+        b=anXpDQ19uCh/xfTtBYdFq+Xt2Hy+5Zg0mR4EOHoLNdplyQzaMq9BWPE2KVFGqvCg0h8c2V
+        S2LTnAvreyQE7bnZYPib7WytLYll7IhdfE70hwOaBMMFf01BbAt/4Qh6HAXhpI6oxTGenN
+        fas+mz8AiKHUxqCJUJ0XYbzcPyQ5M5Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-X-LITH48PKSeuToFmu0dYg-1; Tue, 26 Jan 2021 13:43:21 -0500
+X-MC-Unique: X-LITH48PKSeuToFmu0dYg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20336802B42;
+        Tue, 26 Jan 2021 18:43:20 +0000 (UTC)
+Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 736855D6AD;
+        Tue, 26 Jan 2021 18:43:18 +0000 (UTC)
+Date:   Tue, 26 Jan 2021 12:43:16 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <20210126184316.hpcy6gqp5vsq6ckq@treble>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <202101251401.F18409FDD1@keescook>
+ <20210125221953.wng3gk3qc32eahil@treble>
+ <202101260955.F83D191B@keescook>
 MIME-Version: 1.0
-References: <20210114100216.11787-1-info@metux.net> <CAK7LNARE2nGgRGgux9jRcv1ogfFBgBzxKygHxeHwy_GcnZO7sg@mail.gmail.com>
-In-Reply-To: <CAK7LNARE2nGgRGgux9jRcv1ogfFBgBzxKygHxeHwy_GcnZO7sg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 27 Jan 2021 03:16:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbnm+M4STsNFHrnNymA75G96aLQOMO22mXxsC8chEwtA@mail.gmail.com>
-Message-ID: <CAK7LNATbnm+M4STsNFHrnNymA75G96aLQOMO22mXxsC8chEwtA@mail.gmail.com>
-Subject: Re: [PATCH] scripts: kconfig: fix HOSTCC call
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202101260955.F83D191B@keescook>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 4:00 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Thu, Jan 14, 2021 at 7:05 PM Enrico Weigelt, metux IT consult
-> <info@metux.net> wrote:
-> >
->
-> Thanks for catching this.
->
->
-> > The change c0f975af1745391749e4306aa8081b9a4d2cced8 introduces a bug when
->
-> Please use 12-digit hash ("subject") style.
->
->
-> Commit c0f975af1745 ("kconfig: Support building mconf with vendor
-> sysroot ncurses")
->
->
->
-> > HOSTCC contains parameters: the whole command line is treated as the program
-> > name (with spaces in it). Therefore, we have to remove the quotes.
-> >
-> > Fixes: c0f975af1745391749e4306aa8081b9a4d2cced8
->
-> Ditto.
->
-> Fixes: c0f975af1745 ("kconfig: Support building mconf with vendor
-> sysroot ncurses")
->
->
->
-> > Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> > ---
-> >  scripts/kconfig/mconf-cfg.sh | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
-> > index fcd4acd4e9cb..40fa449ed049 100755
-> > --- a/scripts/kconfig/mconf-cfg.sh
-> > +++ b/scripts/kconfig/mconf-cfg.sh
-> > @@ -35,7 +35,7 @@ fi
-> >
-> >  # As a final fallback before giving up, check if $HOSTCC knows of a default
-> >  # ncurses installation (e.g. from a vendor-specific sysroot).
-> > -if echo '#include <ncurses.h>' | "${HOSTCC}" -E - >/dev/null 2>&1; then
-> > +if echo '#include <ncurses.h>' | ${HOSTCC} -E - >/dev/null ; then
->
->
-> Please keep 2>&1.
->
-> This script will display the enough error message at the end.
->
->
->
-> >         echo cflags=\"-D_GNU_SOURCE\"
-> >         echo libs=\"-lncurses\"
-> >         exit 0
-> > --
-> > 2.11.0
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+On Tue, Jan 26, 2021 at 09:56:10AM -0800, Kees Cook wrote:
+> On Mon, Jan 25, 2021 at 04:19:53PM -0600, Josh Poimboeuf wrote:
+> > On Mon, Jan 25, 2021 at 02:03:07PM -0800, Kees Cook wrote:
+> > > On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> > > > When a GCC version mismatch is detected, print a warning and disable the
+> > > > plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> > > > code to see the same struct layouts.  In that case print an error.
+> > > 
+> > > I prefer this patch as-is: only randstruct needs a hard failure. The
+> > > others likely work (in fact, randstruct likely works too).
+> > 
+> > I'm curious about this last statement, why would randstruct likely work?
+> > 
+> > Even struct module has '__randomize_layout', wouldn't basic module init
+> > go splat?
+> 
+> No; the seed is part of the generate includes -- you'll get the same
+> layout with the same seed.
 
-
-I did not get v2.
-
-I fixed them up by myself and applied it to linux-kbuild/fixes.
-
-
-
-
-
-
+Right, but don't you need the plugin enabled to make use of that seed,
+so the structs get interpreted properly by the module?  Or am I
+completely misunderstanding how this plugin works?
 
 -- 
-Best Regards
-Masahiro Yamada
+Josh
+
