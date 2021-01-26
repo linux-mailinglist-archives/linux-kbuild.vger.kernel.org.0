@@ -2,115 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF72303F35
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 14:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCEB9303F51
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 14:52:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404939AbhAZNnp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 08:43:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46498 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404748AbhAZNnm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 08:43:42 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7816A2223D;
-        Tue, 26 Jan 2021 13:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611668581;
-        bh=gZmSYgI/wa2/JnuwHcpAdHOfBP02jfH9AVoTNyQbgPc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nWwXoa8f5j/f3gLzJfb7C9m7/sFDrLHniZrrgAr3k2Zu3c66CVjRNMxSWU5xSb82l
-         xkhszdemIvKTLDQEn/CA3Prn09unXNPsfylBVtz0NWF3xhFUXP6/xNwbeEb4x2nHAm
-         iEauYN0wy4xpv3vvbtmFWBixLfgryqrihSe9YIGeNFLbszkFD3WISoI/eGC8gN77VG
-         WP4VXgt+jg3IslYG6sSXafeRZvIxj6IdlyD/5lzQ6XslXEZR/dLn9wP5PzVInhrUds
-         8U6PrAPO0jaaVWObpmUklbMTVpVSiUKZG5E1AhSmm3pWa2M4cGUKOq5gdYy0zEysqE
-         mKV/13nCeXk+Q==
-Received: by mail-ed1-f50.google.com with SMTP id s11so19790292edd.5;
-        Tue, 26 Jan 2021 05:43:01 -0800 (PST)
-X-Gm-Message-State: AOAM531ztYVgbFC7mYXKPFi4ClaRRBRgZz4lns3RNcteLNyVkKNB0CQe
-        vZgzmJK1dZgaGHU5l0iYB/vtSIv6T7hpTadaJA==
-X-Google-Smtp-Source: ABdhPJyedjeaKb7Y7yFDeXhCNsA7wEgX8BmR5Dj0sgd1WrT81hG16uP3pAjOTds7G2dy9MdFeUk38Ykxu3sHpbfk3lQ=
-X-Received: by 2002:a50:fc04:: with SMTP id i4mr4670026edr.137.1611668580145;
- Tue, 26 Jan 2021 05:43:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20210125105757.661240-1-uwe@kleine-koenig.org>
- <CAK7LNAS5t1wew0MMFjdB5HGCAMerhU7pAGiFhcTtCRUAAjGLpw@mail.gmail.com> <9d9bb0f6-d4f4-b1b9-a4c4-786987578085@kleine-koenig.org>
-In-Reply-To: <9d9bb0f6-d4f4-b1b9-a4c4-786987578085@kleine-koenig.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 26 Jan 2021 07:42:48 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJQjnNULke5uyNbrj5kkS=3MSxug2BFXAia1ucyaDhx5Q@mail.gmail.com>
-Message-ID: <CAL_JsqJQjnNULke5uyNbrj5kkS=3MSxug2BFXAia1ucyaDhx5Q@mail.gmail.com>
-Subject: Re: [PATCH] cmd_dtc: Enable generation of device tree symbols
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S2405443AbhAZNwZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 08:52:25 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:42721 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2405000AbhAZNwV (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 26 Jan 2021 08:52:21 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id BBD105C0114;
+        Tue, 26 Jan 2021 08:51:31 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 26 Jan 2021 08:51:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=VKiELK44/clfmPnkaIaZL4Nw3WJ
+        m8IoUYvNKtK5zkDM=; b=lxj2Iicf5HYw5jsMZHILmC1AdXAc8psIN6EGe49AINU
+        AkPzShEEOPU4dPsRYvHkTR12UIQ5C7/BSY5Asmv778Um34rNXkCTeB3ooEj4CVpJ
+        QXdusUrJunHKxaaViPKkFEaWOtw4ME/JSQyfydbmwUEFaj1+3Frn2G17rSv1kL3B
+        7vOTH/teNwHK+9OSez3qhvbcNv4CUhUthGZdfWyRUkvVUzvRrvvK4n9vuMr+Fo/x
+        hPQgPioyDUqe2SSzrkSBOxiA5y8jnpbAJRjp2lzx0Gnj7q0yv9QNCiamx02lGQzr
+        DLNv2IejI10E9wa15ol95Y1IwVdCTdBoi55hnklup2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VKiELK
+        44/clfmPnkaIaZL4Nw3WJm8IoUYvNKtK5zkDM=; b=NFrD6SIqFfPIwvf9YMFyQp
+        Mv9mubkf64Er0dqpA83l1j63Co2IaZOE8/864vEHE9Jbr3CziUp+vImv77VCZ/rC
+        akNGSCy/DnTGhvy8xWL/9wQga7ATsMzoRZ/xg0Qld1hXudjCKPxZtBuVkFG9PxuD
+        JWSlEOcZvzf7Zb87nqCeVRsKOeCZ72ALITQBr0Vk17HXx31KEFEGt+0a/T3mVf3g
+        sOgVhi91k3dKQEsPPZehVsE6zzj9xw6s2deSqpCWkjhW86RhNfKlcwdWvbQBfd1N
+        y3PnS4PB9RuqSiULqGpkus1W0DMmHjF3bkHiWFnFmNmxFvWxALZ2UI4iezrvm9nw
+        ==
+X-ME-Sender: <xms:Yh4QYDzmJ-0emHPEMq1-TYQJqCarpQvpZo467mQfGjA95EqriM_F1g>
+    <xme:Yh4QYLQLHWK2HrZs7pZT-ZtqmtcfNOoPXu_DwYcGmzBA-ar9f30CPVdeX7UdYd9xD
+    7O4UWoazYNTvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehgdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:Yx4QYNULMrijJqLEnXWG89WcCZjSK3yDD-REk6caGDYMehDOPc58VA>
+    <xmx:Yx4QYNjTL0dJkBzI6hSD3u4RnRt9sQYenes0U1LgFAIiZIOCMRzUXQ>
+    <xmx:Yx4QYFAHFR8oz23cWU1u2m5Yh3vNeDUj1A40U6-OnEUj6kriNGi4Xg>
+    <xmx:Yx4QYPDqcOMYpSAiFtNreykdH8M3fzvmxsAZkyXCImU3DPj8bb5uQA>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 8E0C31080057;
+        Tue, 26 Jan 2021 08:51:30 -0500 (EST)
+Date:   Tue, 26 Jan 2021 14:51:29 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Justin Forbes <jforbes@redhat.com>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        cyril@debamax.com, Arnd Bergmann <arnd@arndb.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <YBAeYaDReAc9VscA@kroah.com>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <CAK7LNAS=uOi=8xJU=NiKnXQW2iCazbErg_TX0gL9oayBiDffiA@mail.gmail.com>
+ <20210125212755.jfwlqogpcarmxdgt@treble>
+ <CAK7LNAS+EG9doX3qUmu4M3=mRNmdybSv4180Xnuubiwmsq0Agw@mail.gmail.com>
+ <20210125220757.vxdsf6sttpy46cq7@treble>
+ <YA/PLdX5m9f4v+Yl@kroah.com>
+ <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 1:27 AM Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.or=
-g> wrote:
->
-> Hello Masahiro,
->
-> On 1/25/21 10:53 PM, Masahiro Yamada wrote:
-> > On Mon, Jan 25, 2021 at 8:07 PM Uwe Kleine-K=C3=B6nig <uwe@kleine-koeni=
-g.org> wrote:
-> >>
-> >> Adding the -@ switch to dtc results in the binary devicetrees containi=
-ng
-> >> a list of symbolic references and their paths. This is necessary to
-> >> apply device tree overlays e.g. on Raspberry Pi as described on
-> >> https://www.raspberrypi.org/documentation/configuration/device-tree.md=
-.
-> >>
-> >> Obviously the downside of this change is an increas of the size of the
-> >> generated dtbs, for an arm out-of-tree build (multi_v7_defconfig):
-> >>
-> >>          $ du -s arch/arm/boot/dts*
-> >>          101380  arch/arm/boot/dts-pre
-> >>          114308  arch/arm/boot/dts-post
-> >>
-> >> so this is in average an increase of 12.8% in size.
-> >>
-> >> Signed-off-by: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
+On Tue, Jan 26, 2021 at 06:44:44AM -0600, Justin Forbes wrote:
+> On Tue, Jan 26, 2021 at 2:21 AM Greg KH <greg@kroah.com> wrote:
 > >
+> > On Mon, Jan 25, 2021 at 04:07:57PM -0600, Josh Poimboeuf wrote:
+> > > On Tue, Jan 26, 2021 at 06:44:35AM +0900, Masahiro Yamada wrote:
+> > > > > > If people use a different compiler, they must be
+> > > > > > prepared for any possible problem.
+> > > > > >
+> > > > > > Using different compiler flags for in-tree and out-of-tree
+> > > > > > is even more dangerous.
+> > > > > >
+> > > > > > For example, CONFIG_GCC_PLUGIN_RANDSTRUCT is enabled
+> > > > > > for in-tree build, and then disabled for out-of-tree modules,
+> > > > > > the struct layout will mismatch, won't it?
+> > > > >
+> > > > > If you read the patch you'll notice that it handles that case, when it's
+> > > > > caused by GCC mismatch.
+> > > > >
+> > > > > However, as alluded to in the [1] footnote, it doesn't handle the case
+> > > > > where the OOT build system doesn't have gcc-plugin-devel installed.
+> > > > > Then CONFIG_GCC_PLUGIN_RANDSTRUCT gets silently disabled and the build
+> > > > > succeeds!  That happens even without a GCC mismatch.
+> > > >
+> > > >
+> > > > Ah, sorry.
+> > > >
+> > > > I responded too early before reading the patch fully.
+> > > >
+> > > > But, I do not like to make RANDSTRUCT a special case.
+> > > >
+> > > > I'd rather want to stop building for any plugin.
+> > >
+> > > Other than RANDSTRUCT there doesn't seem to be any problem with
+> > > disabling them (and printing a warning) in the OOT build.  Why not give
+> > > users that option?  It's harmless, and will make distro's (and their
+> > > users') lives easier.
+> > >
+> > > Either GCC mismatch is ok, or it's not.  Let's not half-enforce it.
 > >
-> > (CCing DT ML.)
->
-> makes sense, thanks.
->
-> > https://www.spinics.net/lists/linux-kbuild/msg27904.html
+> > As I said earlier, it's not ok, we can not support it at all.
 > >
-> > See Rob's comment:
-> >
-> > "We've already rejected doing that. Turning on '-@' can grow the dtb
-> > size by a significant amount which could be problematic for some
-> > boards."
->
-> The patch was created after some conversation on irc which continued
-> after I sent the patch. I added the participating parties to Cc:.
->
-> The (relevant) followups were:
->
-> Geert suggested to always generate the symbols and provide a way to
-> strip the symbols for installation if and when they are not needed.
->
-> Rob said: "I'm less concerned with the size increases, but rather that
-> labels go from purely source syntax to an ABI. I'd rather see some
-> decision as to which labels are enabled or not."
+> 
+> Support and enforce are 2 completely different things.  To shed a bit
+> more light on this, the real issue that prompted this was breaking CI
+> systems.  As we enabled gcc plugins in Fedora, and the toolchain folks
+> went through 3 different snapshots of gcc 11 in a week. Any CI process
+> that built an out of tree module failed. I don't think this is nearly
+> as much of a concern for stable distros, as it is for CI in
+> development cycles.
 
-I've also said move the arm32 dts files to family subdirectories and
-enable '-@' per directory. I've posted a script to do the whole thing,
-but I think the preference is one-by-one. This is needed anyways if
-we're going to start adding overlays which Viresh is working on.
+It's better to have an obvious break like this than to silently accept
+things and then have a much harder issue to debug at runtime, right?
 
-Rob
+Don't allow things that we know we will not support, this sounds like an
+issue with your CI systems, not with the kernel build system, why not
+just fix that?  :)
+
+thnaks,
+
+greg k-h
