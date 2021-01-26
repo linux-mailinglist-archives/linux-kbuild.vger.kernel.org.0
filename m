@@ -2,78 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36BDB304D03
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 00:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CEA305166
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 05:49:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731434AbhAZXBA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 18:01:00 -0500
-Received: from conuserg-11.nifty.com ([210.131.2.78]:18627 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730380AbhAZTRG (ORCPT
+        id S239653AbhA0EtT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 23:49:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50348 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390085AbhA0APE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 14:17:06 -0500
-Received: from localhost.localdomain (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 10QJFlBF030360;
-        Wed, 27 Jan 2021 04:15:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 10QJFlBF030360
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611688547;
-        bh=sQhsCQI2eSZz/5i9fu05fR07HjBcNUyDmzcgAe3KfDI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=aUAlmyfQRQxdRNlNCeRb0FVMb1DaNVxc/m1EHFDOBX1KdYCEHycs4RsvZgVZ7WBYK
-         oSfRlfesf0hkWwZawu0yN3GIVkfF3+E2NQtrIQJTWAf0Z0TCvhvo7FaAXeKLPY1EBu
-         n2vx+Lj6Q+fxuRfV2rEYLqy+pvNyi4jWAIGUBKnkS+E3peJBlq3Cw09osHyXaCJDmx
-         geDB16BdSH2wM0uraNNZwzifbiWuqm18eN6MYHCdVGOrz3uzILpKdekyLtlVUU+DWT
-         x1i1R171tOn7E/oKjbDFCPNvn2eC1X+caU2CFbBMitTill3m1ZqLycFj0YWB2O+RMq
-         nDFLYYii6YrNg==
-X-Nifty-SrcIP: [126.26.94.251]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Joe Perches <joe@perches.com>, Christoph Jaeger <cj@linux.com>,
+        Tue, 26 Jan 2021 19:15:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611706417;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CUzFQG64yqGa/8ahfKwuvvtiCy8mmgeGisnMAQFkYkU=;
+        b=GTunh/xh3Fn3NGz2lAKZHlPV1u1P+w+Bw+wIaV5+kW62sE5u2Z2aFizlrLVtMDEjDSUtDp
+        6djwBmI4+R01QfAOwo5A19fDsR1z3Bv+Q4W9r8gA12sy6EU9Qmcp3Wz9m9UOeDiZxcde1U
+        eFsUA+iUUdnFVjlMzOAJgJDvdGlo8EY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-DqrecdCmNo-vpsIFIAnlHQ-1; Tue, 26 Jan 2021 18:32:53 -0500
+X-MC-Unique: DqrecdCmNo-vpsIFIAnlHQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30752802B40;
+        Tue, 26 Jan 2021 23:32:52 +0000 (UTC)
+Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 10AB810013C1;
+        Tue, 26 Jan 2021 23:32:50 +0000 (UTC)
+Date:   Tue, 26 Jan 2021 17:32:49 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "checkpatch: add check for keyword 'boolean' in Kconfig definitions"
-Date:   Wed, 27 Jan 2021 04:15:40 +0900
-Message-Id: <20210126191541.210168-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <20210126233249.ewgdsiazdwbzykqj@treble>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <202101251401.F18409FDD1@keescook>
+ <20210125221953.wng3gk3qc32eahil@treble>
+ <202101260955.F83D191B@keescook>
+ <20210126184316.hpcy6gqp5vsq6ckq@treble>
+ <202101261459.C90E9F97D@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202101261459.C90E9F97D@keescook>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit 327953e9af6c59ad111b28359e59e3ec0cbd71b6.
+On Tue, Jan 26, 2021 at 02:59:57PM -0800, Kees Cook wrote:
+> On Tue, Jan 26, 2021 at 12:43:16PM -0600, Josh Poimboeuf wrote:
+> > On Tue, Jan 26, 2021 at 09:56:10AM -0800, Kees Cook wrote:
+> > > On Mon, Jan 25, 2021 at 04:19:53PM -0600, Josh Poimboeuf wrote:
+> > > > On Mon, Jan 25, 2021 at 02:03:07PM -0800, Kees Cook wrote:
+> > > > > On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> > > > > > When a GCC version mismatch is detected, print a warning and disable the
+> > > > > > plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> > > > > > code to see the same struct layouts.  In that case print an error.
+> > > > > 
+> > > > > I prefer this patch as-is: only randstruct needs a hard failure. The
+> > > > > others likely work (in fact, randstruct likely works too).
+> > > > 
+> > > > I'm curious about this last statement, why would randstruct likely work?
+> > > > 
+> > > > Even struct module has '__randomize_layout', wouldn't basic module init
+> > > > go splat?
+> > > 
+> > > No; the seed is part of the generate includes -- you'll get the same
+> > > layout with the same seed.
+> > 
+> > Right, but don't you need the plugin enabled to make use of that seed,
+> > so the structs get interpreted properly by the module?  Or am I
+> > completely misunderstanding how this plugin works?
+> 
+> Having the plugin enabled or not is part of the Kconfig ... you can't
+> build anything if you change Kconfig. I feel like I'm missing
+> something...
 
-You cannot use 'boolean' since commit b92d804a5179 ("kconfig: drop
-'boolean' keyword").
+I guess we crossed wires somehow.  Backing up :-)
 
-This check is no longer needed.
+The patch disables plugins when there's a GCC mismatch in the OOT module
+build, with the exception of RANDSTRUCT, for which it just errors out.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+When you said "randstruct likely works too" I thought you meant that
+RANDSTRUCT would likely work even if it were disabled in the OOT module
+build (i.e. if we removed the RANDSTRUCT special case from the patch).
 
- scripts/checkpatch.pl | 7 -------
- 1 file changed, 7 deletions(-)
+Or did you mean something else?  Like using RANDSTRUCT with a different
+version of GCC would likely work?
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 92e888ed939f..1afe3af1cc09 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3390,13 +3390,6 @@ sub process {
- 			}
- 		}
- 
--# discourage the use of boolean for type definition attributes of Kconfig options
--		if ($realfile =~ /Kconfig/ &&
--		    $line =~ /^\+\s*\bboolean\b/) {
--			WARN("CONFIG_TYPE_BOOLEAN",
--			     "Use of boolean is deprecated, please use bool instead.\n" . $herecurr);
--		}
--
- 		if (($realfile =~ /Makefile.*/ || $realfile =~ /Kbuild.*/) &&
- 		    ($line =~ /\+(EXTRA_[A-Z]+FLAGS).*/)) {
- 			my $flag = $1;
+(I'm definitely not proposing we allow GCC mismatches for plugins, as I
+was told that plugins can break from one build to the next).
+
 -- 
-2.27.0
+Josh
 
