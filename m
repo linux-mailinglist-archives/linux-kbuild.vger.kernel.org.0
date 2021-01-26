@@ -2,42 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B4A304234
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 16:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B46F304315
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 16:55:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406233AbhAZPUi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 10:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390639AbhAZPU3 (ORCPT
+        id S2392664AbhAZPtX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 10:49:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45869 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2392670AbhAZPsb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:20:29 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF415C061A29;
-        Tue, 26 Jan 2021 07:19:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9IyfDUY9gRwkXrwY1oV4vu/+hGxopMEms5A7OVkxUio=; b=Y2BMhbsgvYx926tj96xAEKz7yz
-        8jK7gNSal72u30y2DwQWb+Kh2GIL7BjjMkXXz/C7hV2sc0mk+f7AZAi0P0XdwTOi8rcsO486yidly
-        sBLkNALeLzZjVbAQDmG3A9dgLDiUyCdFHA+joVrTqcwapPjjG4dB32JW+wdBYH+SugaFIGcqHZ225
-        BPxFf2GuXXbKens4VxEsDwXEDnzYg18z3zg4dV0QtS0xhhsvAn9wnLtsczmDHNtlw4jfkH5ogkYxI
-        LtezdWH92r8nEgY0X/QOBUDkxsfrAbfF+Vhdj2ciCK55TaGET3hZ4x1ilVLgtw4o6VVJiHRk6p71k
-        an8Dagng==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l4Q4A-005oH1-8h; Tue, 26 Jan 2021 15:16:38 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 69F683019CE;
-        Tue, 26 Jan 2021 16:15:37 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4CA882144C091; Tue, 26 Jan 2021 16:15:37 +0100 (CET)
-Date:   Tue, 26 Jan 2021 16:15:37 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
+        Tue, 26 Jan 2021 10:48:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611676025;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qzu8Yi9XdW/qKp/+NlwEE61olqGo5JkdqMwkmHc/Mx0=;
+        b=VGgXxlDYkXXwdT8UwDSlYt49a9UM+R4StEWMBITLB37u9DLFwnj9/m94oAzhdCmhujgWHT
+        ZcbWSXq6L0KncOM24nCSDbq8lRXJaQy4Hw/j7U9SMBArouzLD0U4+WdrKrlweoF9vWr99K
+        HaJ/0j6r818D1UQ4/rpw1FzfuWp5q+Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-segurc8MMgCOFb4JYAA6kg-1; Tue, 26 Jan 2021 10:47:03 -0500
+X-MC-Unique: segurc8MMgCOFb4JYAA6kg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF276107B45B;
+        Tue, 26 Jan 2021 15:47:00 +0000 (UTC)
+Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F447770E;
+        Tue, 26 Jan 2021 15:46:53 +0000 (UTC)
+Date:   Tue, 26 Jan 2021 09:46:51 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Greg KH <greg@kroah.com>, Justin Forbes <jforbes@redhat.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -48,7 +46,7 @@ Cc:     Greg KH <greg@kroah.com>, Justin Forbes <jforbes@redhat.com>,
         Ondrej Mosnacek <omosnace@redhat.com>
 Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
  modules
-Message-ID: <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
+Message-ID: <20210126154651.itfrnhwfistia3ss@treble>
 References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
  <CAK7LNAS=uOi=8xJU=NiKnXQW2iCazbErg_TX0gL9oayBiDffiA@mail.gmail.com>
  <20210125212755.jfwlqogpcarmxdgt@treble>
@@ -58,24 +56,39 @@ References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@re
  <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
  <YBAeYaDReAc9VscA@kroah.com>
  <20210126145155.kcfbnzfqg5qugvcl@treble>
+ <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210126145155.kcfbnzfqg5qugvcl@treble>
+In-Reply-To: <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 08:51:55AM -0600, Josh Poimboeuf wrote:
-> User space mixes compiler versions all the time.  The C ABI is stable.
+On Tue, Jan 26, 2021 at 04:15:37PM +0100, Peter Zijlstra wrote:
+> On Tue, Jan 26, 2021 at 08:51:55AM -0600, Josh Poimboeuf wrote:
+> > User space mixes compiler versions all the time.  The C ABI is stable.
+> > 
+> > What specifically is the harder issue you're referring to?
 > 
-> What specifically is the harder issue you're referring to?
+> I don't think the C ABI captures nearly enough. Imagine trying to mix a
+> compiler with and without asm-goto support (ok, we fail to build without
+> by now, but just imagine).
+> 
+> No C ABI violated, but having that GCC extention vs not having it
+> radically changes the kernel ABI.
+> 
+> I think I'm with Greg here, just don't do it.
 
-I don't think the C ABI captures nearly enough. Imagine trying to mix a
-compiler with and without asm-goto support (ok, we fail to build without
-by now, but just imagine).
+Ok, thank you for an actual example.  asm goto is a good one.
 
-No C ABI violated, but having that GCC extention vs not having it
-radically changes the kernel ABI.
+But it's not a cut-and-dry issue.  Otherwise how could modversions
+possibly work?
 
-I think I'm with Greg here, just don't do it.
+So yes, we should enforce GCC versions, but I still haven't seen a
+reason it should be more than just "same compiler and *major* version".
+
+-- 
+Josh
+
