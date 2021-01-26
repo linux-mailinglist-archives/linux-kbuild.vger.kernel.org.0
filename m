@@ -2,93 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B46F304315
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 16:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58353304359
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 17:05:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392664AbhAZPtX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 10:49:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45869 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2392670AbhAZPsb (ORCPT
+        id S2391436AbhAZQFX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 11:05:23 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:18922 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404815AbhAZQE0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:48:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611676025;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qzu8Yi9XdW/qKp/+NlwEE61olqGo5JkdqMwkmHc/Mx0=;
-        b=VGgXxlDYkXXwdT8UwDSlYt49a9UM+R4StEWMBITLB37u9DLFwnj9/m94oAzhdCmhujgWHT
-        ZcbWSXq6L0KncOM24nCSDbq8lRXJaQy4Hw/j7U9SMBArouzLD0U4+WdrKrlweoF9vWr99K
-        HaJ/0j6r818D1UQ4/rpw1FzfuWp5q+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-segurc8MMgCOFb4JYAA6kg-1; Tue, 26 Jan 2021 10:47:03 -0500
-X-MC-Unique: segurc8MMgCOFb4JYAA6kg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF276107B45B;
-        Tue, 26 Jan 2021 15:47:00 +0000 (UTC)
-Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 27F447770E;
-        Tue, 26 Jan 2021 15:46:53 +0000 (UTC)
-Date:   Tue, 26 Jan 2021 09:46:51 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Greg KH <greg@kroah.com>, Justin Forbes <jforbes@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ondrej Mosnacek <omosnace@redhat.com>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
- modules
-Message-ID: <20210126154651.itfrnhwfistia3ss@treble>
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
- <CAK7LNAS=uOi=8xJU=NiKnXQW2iCazbErg_TX0gL9oayBiDffiA@mail.gmail.com>
- <20210125212755.jfwlqogpcarmxdgt@treble>
- <CAK7LNAS+EG9doX3qUmu4M3=mRNmdybSv4180Xnuubiwmsq0Agw@mail.gmail.com>
- <20210125220757.vxdsf6sttpy46cq7@treble>
- <YA/PLdX5m9f4v+Yl@kroah.com>
- <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
- <YBAeYaDReAc9VscA@kroah.com>
- <20210126145155.kcfbnzfqg5qugvcl@treble>
- <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
+        Tue, 26 Jan 2021 11:04:26 -0500
+X-Greylist: delayed 34348 seconds by postgrey-1.27 at vger.kernel.org; Tue, 26 Jan 2021 11:04:13 EST
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 10QG3AXH031750;
+        Wed, 27 Jan 2021 01:03:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 10QG3AXH031750
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611676991;
+        bh=Gp5wucTUhPUQty6GR8f7UIG+jue6LBq9QX+xmaU1YYU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wUEyqvtznc/E42rfaUwJXINJP5WJSl+qk7R0X36X6WPctBzw/WjYgDQrEHrHLbX75
+         W4IgdH0OL4C3xfXovhomSi6Xxv4Gie0wI45oPuP4IKNyzY6CRR5HSOQN2uoVurFlT4
+         vP+RJMvt5qtk9OTyv6ljoAU6Il4I0pIZQJTXNBjsw4P2yn8CsnPhvOBrJx2lqwOvBK
+         3zYYU1qeAgXKWPMGznsxAjpuq7UW5qdvEyBlFUWAv5yt5C81QJlia4DdqVuUynmWdS
+         T1RuJalfzxEyQ5S4nHeKHnp//z++8nz9eAcA5TnzZILFNcwjxIOdxzhOSc8E240FTx
+         rybA0TLiG/I5g==
+X-Nifty-SrcIP: [209.85.214.171]
+Received: by mail-pl1-f171.google.com with SMTP id h15so7525689pli.8;
+        Tue, 26 Jan 2021 08:03:10 -0800 (PST)
+X-Gm-Message-State: AOAM530XTjR1Gpy3/VbYs1N9H+jtElzKfAgDLrDqCp6Yqw/bkEndLVAV
+        OqcB3ukE9vpAygQPowmIoGkafyCgNRyqciqEK7A=
+X-Google-Smtp-Source: ABdhPJxZYzwgnmeNFlAEI1rCQW/OqM+5EYQP/ZNPNPsMV7gV7nA1637Dk6q6gAqi4iufU5LzZz5IUQxBBbhqSXyp6vs=
+X-Received: by 2002:a17:90a:9a84:: with SMTP id e4mr458003pjp.87.1611676989939;
+ Tue, 26 Jan 2021 08:03:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20538915.Wj2CyUsUYa@devpool35> <2525730.a3zTd9XyL1@devpool47>
+ <CAK7LNAQykaDV4DfOv2xzK1fQLEK_hVY3CamAWNXn+-ELJOJdiA@mail.gmail.com> <2384276.IbH9z7ADXJ@devpool47>
+In-Reply-To: <2384276.IbH9z7ADXJ@devpool47>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 27 Jan 2021 01:02:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT8-jpAbkjA-pvy4nM+QX9uxVpnjnjW0n+hyyqwX09=7Q@mail.gmail.com>
+Message-ID: <CAK7LNAT8-jpAbkjA-pvy4nM+QX9uxVpnjnjW0n+hyyqwX09=7Q@mail.gmail.com>
+Subject: Re: [PATCH v5] scripts: use pkg-config to locate libcrypto
+To:     Rolf Eike Beer <eb@emlix.com>
+Cc:     David Woodhouse <dwmw2@infradead.org>,
+        Linux Kernel Developers List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 04:15:37PM +0100, Peter Zijlstra wrote:
-> On Tue, Jan 26, 2021 at 08:51:55AM -0600, Josh Poimboeuf wrote:
-> > User space mixes compiler versions all the time.  The C ABI is stable.
-> > 
-> > What specifically is the harder issue you're referring to?
-> 
-> I don't think the C ABI captures nearly enough. Imagine trying to mix a
-> compiler with and without asm-goto support (ok, we fail to build without
-> by now, but just imagine).
-> 
-> No C ABI violated, but having that GCC extention vs not having it
-> radically changes the kernel ABI.
-> 
-> I think I'm with Greg here, just don't do it.
+On Tue, Jan 26, 2021 at 5:01 PM Rolf Eike Beer <eb@emlix.com> wrote:
+>
+> Am Dienstag, 26. Januar 2021, 07:30:03 CET schrieb Masahiro Yamada:
+> > On Tue, Jan 26, 2021 at 2:42 PM Rolf Eike Beer <eb@emlix.com> wrote:
+> > > Am Mittwoch, 13. Januar 2021, 13:49:12 CET schrieb Rolf Eike Beer:
+> > > > Otherwise build fails if the headers are not in the default locatio=
+n.
+> > > > While
+> > > > at it also ask pkg-config for the libs, with fallback to the existi=
+ng
+> > > > value.
+> > >
+> > > Can someone please take this through the kbuild-tree? Noone seems to =
+be
+> > > interested in picking this up so far.
+>
+> > Is 'PKG_CONFIG' necessary?
+> >
+> > I see many Makefiles hard-coding 'pkg-config'.
+>
+> Well, it depends ;)
+>
+> When people use pkgconf then this usually installs a pkg-config alias, to=
+o, so
+> that would be no problem. The problem comes when other places in the kern=
+el
+> start copying that code over, and then hardcode pkg-config for stuff that
+> needs a prefixed pkg-config because it is about target code.
+>
+> Given that I would prefer it this way, but YMMV. If it is that variable t=
+hat
+> blocks integrating I'll change it.
+>
+> Eike
+> --
+> Rolf Eike Beer, emlix GmbH, http://www.emlix.com
+> Fon +49 551 30664-0, Fax +49 551 30664-11
+> Gothaer Platz 3, 37083 G=C3=B6ttingen, Germany
+> Sitz der Gesellschaft: G=C3=B6ttingen, Amtsgericht G=C3=B6ttingen HR B 31=
+60
+> Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-Id=
+Nr.: DE 205 198 055
+>
+> emlix - smart embedded open source
 
-Ok, thank you for an actual example.  asm goto is a good one.
 
-But it's not a cut-and-dry issue.  Otherwise how could modversions
-possibly work?
+What I understood from commit a8a5cd8b472c is
+the cross-compile prefix is needed
+only for the target CC.
 
-So yes, we should enforce GCC versions, but I still haven't seen a
-reason it should be more than just "same compiler and *major* version".
 
--- 
-Josh
+$(CC)      ->  $(CROSS_COMPILE)pkg-config  (i.e. $(PKG_CONFIG))
+$(HOSTCC)  ->  pkg-config
 
+
+For cross-compiling, the prefixing makes sense
+because $(CC) !=3D $(HOSTCC)
+
+
+In this case, scripts/extract-cert is a host tool
+compiled by $(HOSTCC), so I do not see
+a good reason to use $(PKG_CONFIG).
+
+
+If somebody copy-pastes the code without understanding it,
+that is their problem.
+
+Let's do proper engineering. :-)
+
+
+
+--
+Best Regards
+Masahiro Yamada
