@@ -2,121 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E169D304CFD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 00:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C16304CFF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 00:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731349AbhAZXAg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 18:00:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731380AbhAZSEi (ORCPT
+        id S1731363AbhAZXAj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 18:00:39 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:28614 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394577AbhAZSSb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 13:04:38 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8101DC061574;
-        Tue, 26 Jan 2021 10:03:58 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id t14so9267884qto.8;
-        Tue, 26 Jan 2021 10:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nXCZHlDeOu1W7tWclqY0N0hv7zg7bY3yXMrnGLStIvU=;
-        b=BRypEvXZJOSvc/4OoNIoKvVKY7lcy0RcPA1Uxj+sYjR/icWTpCxaPgtJLRJLBFI51h
-         XW9R/DsDI+cavfet8ggWAxY8E+DmLFcXEKN2/NqmyueWwZSu6yPInhsdvya9sFvpVuV6
-         j8y/6IX2LY989AkHwptxbHPpr5FaAbPiER/gPeN6gS65LyPpw6yO6pzU/uTerfNJyawu
-         Q19FmdtIAvIhFJDEs1J1CumQYmb7g2wGve2pSgBUpRF3omE3sHtGFaviwjntlDAYOcks
-         uQ0JtxkoGK9A5hA4mjRnfb7zr0ANMTQq3KU9EwszhN0SoZn+1xwxqbu7NNplZDqJsHrn
-         RrdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nXCZHlDeOu1W7tWclqY0N0hv7zg7bY3yXMrnGLStIvU=;
-        b=kqvdBNjlTvRhYeKYrtKtvU/etNyFTLsKxWt2SUHq39uXI0AYKTnSw4gaZD58IYMMOC
-         mPqjOiHnZ/PvFjT+0xiOTU5K2RjBO179yC1dbKYQe8y8p4ceh3v9AUznzz5K4ZwUIbLO
-         XtFUJ9+cF2lk21hWOlaxMgsEUaZPGV7Y3ql0fHfXbq0dmGr3LFQxbekVjZBlmxf54mmX
-         wYcRqdVtVhffS0SeYebJQUCLrE2vyqc0kNJGqxVA7gW7nnxoq/i/QMclUCClHwSikSvu
-         H+l+P6hWjDGCuT3mpIGrXpO8tiRx+nn0a6qpaBP8v16l8uRDBHYBmrpGjMuR936YEAOD
-         YvKw==
-X-Gm-Message-State: AOAM533ZbMjznvkofTPOZDQkhcbIvGnFv0LltF/CdceX3h3h7MubNbiy
-        O+DHdZx2bSe1+mNTARVHKvg=
-X-Google-Smtp-Source: ABdhPJwqnhIgbfRIEpY87vK45ovcVlNAgTl1yo1q7eoeQGm9MdIW7+1ziE7jWa+gK6R3QPyRcbdtuA==
-X-Received: by 2002:ac8:5d45:: with SMTP id g5mr6236171qtx.247.1611684237696;
-        Tue, 26 Jan 2021 10:03:57 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id d26sm13496164qtw.58.2021.01.26.10.03.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jan 2021 10:03:57 -0800 (PST)
-Subject: Re: [PATCH] cmd_dtc: Enable generation of device tree symbols
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Maxime Ripard <mripard@kernel.org>, cyril@debamax.com,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20210125105757.661240-1-uwe@kleine-koenig.org>
- <CAK7LNAS5t1wew0MMFjdB5HGCAMerhU7pAGiFhcTtCRUAAjGLpw@mail.gmail.com>
- <9d9bb0f6-d4f4-b1b9-a4c4-786987578085@kleine-koenig.org>
- <CAMuHMdUmtMxucQ9DWvROVPVv2uGEzpRmtv1=jrjm09xU=gHHyw@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <1e713129-db54-64c3-59e3-fc0dba0e0f19@gmail.com>
-Date:   Tue, 26 Jan 2021 12:03:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 26 Jan 2021 13:18:31 -0500
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 10QIHaHi032508;
+        Wed, 27 Jan 2021 03:17:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 10QIHaHi032508
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611685056;
+        bh=7tljXjQsNuev2v37BYuqJOM0jeTlpNcM2yL5Elu3JGE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KQujx/bdocMevef+yC9nmNWMoTHCcY9KbDGg82TZ+hSU6KBu9S9sK6rNB8IAsc9Qg
+         X/Cd5ht5NIvpC8VVCHqMJ9txgoE3xScs1ApA9yszMJqGY6zyLDXU1Aa5UOGYl1RUho
+         RfmwTRug5iZV/2MFuETqrpbxaDpaVNBcYYSc5Y2Sok/rRQQCusHmPdbhUKwpcFpo3K
+         COzAdRXY/to2uoJnFIr/tvFbCSNnrKUly8VrXE/zAFygi2xFPYduOXUbkQfI5pzrdS
+         kFQTRaGW4L9wuxHFAEmt7YntvfH1BMNU22XuhnZSqhXRYdRKi6yXnQiTLLxmt/LGH0
+         Yn0wcq6dmfbhQ==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id p15so2477446pjv.3;
+        Tue, 26 Jan 2021 10:17:36 -0800 (PST)
+X-Gm-Message-State: AOAM531Z2zPUNtiFWqWUZZCAzA+ZiGBHsFJ22bNZxPIynzCG2zuMWr4s
+        wlZ2S9YdUM62AwJ6tJntPfK5wRSCNexFgUxyNGk=
+X-Google-Smtp-Source: ABdhPJyXIJbPd31WVVw4B7jaubRTUgL+rizWhKKm5x0X96w7h3rapE8ZF7rZIGNMp7EZ/2ysInRNGOAyi7aOT8UL9G4=
+X-Received: by 2002:a17:90a:9a84:: with SMTP id e4mr1063642pjp.87.1611685055872;
+ Tue, 26 Jan 2021 10:17:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUmtMxucQ9DWvROVPVv2uGEzpRmtv1=jrjm09xU=gHHyw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210114100216.11787-1-info@metux.net> <CAK7LNARE2nGgRGgux9jRcv1ogfFBgBzxKygHxeHwy_GcnZO7sg@mail.gmail.com>
+In-Reply-To: <CAK7LNARE2nGgRGgux9jRcv1ogfFBgBzxKygHxeHwy_GcnZO7sg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 27 Jan 2021 03:16:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATbnm+M4STsNFHrnNymA75G96aLQOMO22mXxsC8chEwtA@mail.gmail.com>
+Message-ID: <CAK7LNATbnm+M4STsNFHrnNymA75G96aLQOMO22mXxsC8chEwtA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: kconfig: fix HOSTCC call
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+frank
+On Fri, Jan 15, 2021 at 4:00 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Thu, Jan 14, 2021 at 7:05 PM Enrico Weigelt, metux IT consult
+> <info@metux.net> wrote:
+> >
+>
+> Thanks for catching this.
+>
+>
+> > The change c0f975af1745391749e4306aa8081b9a4d2cced8 introduces a bug when
+>
+> Please use 12-digit hash ("subject") style.
+>
+>
+> Commit c0f975af1745 ("kconfig: Support building mconf with vendor
+> sysroot ncurses")
+>
+>
+>
+> > HOSTCC contains parameters: the whole command line is treated as the program
+> > name (with spaces in it). Therefore, we have to remove the quotes.
+> >
+> > Fixes: c0f975af1745391749e4306aa8081b9a4d2cced8
+>
+> Ditto.
+>
+> Fixes: c0f975af1745 ("kconfig: Support building mconf with vendor
+> sysroot ncurses")
+>
+>
+>
+> > Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+> > ---
+> >  scripts/kconfig/mconf-cfg.sh | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
+> > index fcd4acd4e9cb..40fa449ed049 100755
+> > --- a/scripts/kconfig/mconf-cfg.sh
+> > +++ b/scripts/kconfig/mconf-cfg.sh
+> > @@ -35,7 +35,7 @@ fi
+> >
+> >  # As a final fallback before giving up, check if $HOSTCC knows of a default
+> >  # ncurses installation (e.g. from a vendor-specific sysroot).
+> > -if echo '#include <ncurses.h>' | "${HOSTCC}" -E - >/dev/null 2>&1; then
+> > +if echo '#include <ncurses.h>' | ${HOSTCC} -E - >/dev/null ; then
+>
+>
+> Please keep 2>&1.
+>
+> This script will display the enough error message at the end.
+>
+>
+>
+> >         echo cflags=\"-D_GNU_SOURCE\"
+> >         echo libs=\"-lncurses\"
+> >         exit 0
+> > --
+> > 2.11.0
+> >
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
-On 1/26/21 2:43 AM, Geert Uytterhoeven wrote:
-> Hi Uwe,
-> 
-> On Tue, Jan 26, 2021 at 8:21 AM Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
->> And then I learned with hints from Rob and Geert that symbols are not
->> really necessary for overlays, you just cannot use named labels. But
->> using
->>
->>         target-path = "/soc/i2c@23473245";
->>
->> or
->>
->>         target = <&{/soc/i2c@23473245}>;
->>
->> instead of
->>
->>         target = <&i2c1>;
->>
->> works fine. (And if you need to add a phandle the &{/path/to/node}
->> construct should work, too (but I didn't test).) Using labels is a tad
->> nicer, but the problem I wanted to address with my patch now has a known
->> different solution.
-> 
-> Please don't use "target" and "target-path".  Since the introduction of
-> sugar syntax support in v4.15[1], you can just use "&label", like in a normal
-> DTS file.  Paths do need the special "&{/path/to/node}" syntax instead
-> of "/path/to/node", though.
-> 
-> As usual, you can find lots of examples of DT overlays in my repo[2].
-> 
-> [1] commit 4201d057ea91c3d6 ("scripts/dtc: Update to upstream version
-> v1.4.5-3-gb1a60033c110")
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/renesas-overlays
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
 
+I did not get v2.
+
+I fixed them up by myself and applied it to linux-kbuild/fixes.
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
