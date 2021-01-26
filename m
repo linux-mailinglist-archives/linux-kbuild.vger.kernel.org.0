@@ -2,80 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2425D305882
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C728305884
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:34:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314152AbhAZW7u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 17:59:50 -0500
-Received: from ip4d17989f.dynamic.kabel-deutschland.de ([77.23.152.159]:47616
-        "EHLO kolabdeb.mail.riedlb.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728881AbhAZFRY (ORCPT
+        id S313235AbhAZW75 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 17:59:57 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:49989 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726310AbhAZRIg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 00:17:24 -0500
-X-Virus-Scanned: Debian amavisd-new at mail.riedlb.de
-Received: from User (OpenWrt.mail.riedlb.de [192.168.0.1])
- by kolabdeb.mail.riedlb.de (Postfix) with SMTP id 7A3B324C3B83;
- Fri, 22 Jan 2021 14:52:13 +0100 (CET)
-Reply-To: <uekunio3@gmail.com>
-From:   "Kunio Uematsu" <admin@gardesh-gar.ir>
-Subject: Dearest Beloved !!!   
-Date:   Fri, 22 Jan 2021 08:52:25 -0800
+        Tue, 26 Jan 2021 12:08:36 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 690C55C0150;
+        Tue, 26 Jan 2021 12:06:59 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 26 Jan 2021 12:06:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=qwfFt3bxRXewj3Ji7WJCSpm5uW3
+        lIyqrwINNBr23TDE=; b=LY1MvYt3ENkqtV6DMKveGCYcFZVS9myFqWYKZj9iUMF
+        xvVilvSjuUcevCa0oPex8V4sXLAIxT0cT2SxzAHWfo+irTBuybkq6o0XiMlJDtbj
+        qh9kZkxgUeWc7ELSv3PJTBR1PAJpvtuA9k2k73Mhd5HxOAs0o/hvjRByjVxe9hcT
+        rccpM1I9fMhy2Dhp0takF1F2PdV6Ys19zLWckZcHPlb9NAy5gVDdnvQD4HvoBZ3P
+        5AHd6OnoCABpZoR5d5k0Vmr4cUSu7vQAKlW/AXi0/iaS0p4tfrmMS+a04lkdfdmC
+        2jOCll1khnre4DFkEIVc99HiC2fc0qs1b0lufojMOzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qwfFt3
+        bxRXewj3Ji7WJCSpm5uW3lIyqrwINNBr23TDE=; b=DaHDUfNO92aMLUDoEC6Pij
+        IWA9jq76jtSSd5Fb4UgczheRT6/ku/u6KISIeiLbjtZFyPQp2kl9soEv8pnPSzg7
+        bMZiU9S5Uum1C241WPT7hgGhXdba4TsZf59+emsiI1yw5CkZx2wTxdaU68aeKnny
+        Dsn56SIfQGSzi/aGlwF7dsTVrFrrb1M6UqnFjigylswwvIfcpYDWWENAEopo74CN
+        F9qgc8nCBItBh2RPkEW1w54QlNKAc+b7Vsxg+Zi923I2+XZBtd92ES81LiqPYpQY
+        Wr6inGJjukF1hsmRmQMluWzkM9AXFob1T+k2+rMxALF8EB4agFB1cML5XR8sPM5g
+        ==
+X-ME-Sender: <xms:MkwQYPe37qAJXFKwS3G_wET_QD0Xg9apJgr3YlWSr2RNYbUWySuACQ>
+    <xme:MkwQYFNalhDK2BRvi1-9nOJrxDJaxrv7Ywyay8P6BXWzB3l6hintD26A77-FmSdzw
+    3I0O0FeuQ9CBw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeigdefhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:MkwQYIhfD1tbo2j9y-JjSNT22JjZqi4xK4b9uDDipiUPywXStIivZg>
+    <xmx:MkwQYA9Jo9sNvsLe9ihhXsajhgqPcFjlBmX8-EkFa1lsPVw8KE4RUg>
+    <xmx:MkwQYLtZQdDQ7qcgrI9wuZ-j0rwZ9ExdH5wHjQiJZBfbPSsMJvIJTQ>
+    <xmx:M0wQYE8f52L-vUsl34iZvxR7ojnClQRkd6AOFB0lkdIgdDsqYnjdhQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D434A24005C;
+        Tue, 26 Jan 2021 12:06:57 -0500 (EST)
+Date:   Tue, 26 Jan 2021 18:06:55 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Justin Forbes <jforbes@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <YBBML2eB/IXcTvcn@kroah.com>
+References: <20210125220757.vxdsf6sttpy46cq7@treble>
+ <YA/PLdX5m9f4v+Yl@kroah.com>
+ <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
+ <YBAeYaDReAc9VscA@kroah.com>
+ <20210126145155.kcfbnzfqg5qugvcl@treble>
+ <YBAyGU7H8E98xKng@hirez.programming.kicks-ass.net>
+ <20210126154651.itfrnhwfistia3ss@treble>
+ <YBA9r13+1uuyDYuR@hirez.programming.kicks-ass.net>
+ <CAFbkSA1CibJ6sp+LPLy3hpchLLH2B5__Lk31TLeVThXi5eZV7Q@mail.gmail.com>
+ <20210126161934.z6sng4irl5teonvj@treble>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20210122174544.6FADB24D458E@kolabdeb.mail.riedlb.de>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126161934.z6sng4irl5teonvj@treble>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dearest Beloved,
+On Tue, Jan 26, 2021 at 10:19:34AM -0600, Josh Poimboeuf wrote:
+> On Tue, Jan 26, 2021 at 10:15:52AM -0600, Justin Forbes wrote:
+> > On Tue, Jan 26, 2021 at 10:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > >
+> > > On Tue, Jan 26, 2021 at 09:46:51AM -0600, Josh Poimboeuf wrote:
+> > > > On Tue, Jan 26, 2021 at 04:15:37PM +0100, Peter Zijlstra wrote:
+> > > > > On Tue, Jan 26, 2021 at 08:51:55AM -0600, Josh Poimboeuf wrote:
+> > > > > > User space mixes compiler versions all the time.  The C ABI is stable.
+> > > > > >
+> > > > > > What specifically is the harder issue you're referring to?
+> > > > >
+> > > > > I don't think the C ABI captures nearly enough. Imagine trying to mix a
+> > > > > compiler with and without asm-goto support (ok, we fail to build without
+> > > > > by now, but just imagine).
+> > > > >
+> > > > > No C ABI violated, but having that GCC extention vs not having it
+> > > > > radically changes the kernel ABI.
+> > > > >
+> > > > > I think I'm with Greg here, just don't do it.
+> > > >
+> > > > Ok, thank you for an actual example.  asm goto is a good one.
+> > > >
+> > > > But it's not a cut-and-dry issue.  Otherwise how could modversions
+> > > > possibly work?
+> > > >
+> > > > So yes, we should enforce GCC versions, but I still haven't seen a
+> > > > reason it should be more than just "same compiler and *major* version".
+> > >
+> > > Why bother? rebuilding the kernel and all modules is a matter of 10
+> > > minutes at most on a decently beefy build box.
+> > >
+> > > What actual problem are we trying to solve here?
+> > 
+> > This is true for those of us used to working with source and building
+> > by hand. For users who want everything packaged, rebuilding a kernel
+> > package for install is considerably longer, and for distros providing
+> > builds for multiple arches, we are looking at a couple of hours at
+> > best.  From a Fedora standpoint, I am perfectly fine with it failing
+> > if someone tries to build a module on gcc10 when the kernel was built
+> > with gcc11.  It's tedious when the kernel was built with gcc11
+> > yesterday, and a new gcc11 build today means that kernel needs to be
+> > rebuilt.
+> 
+> Right.  It's a problem for distro users.  The compiler and kernel are in
+> separate packages, with separate release cadences.  The latest compiler
+> version may not exactly match what was used to build the latest kernel.
 
-As you read this, I don't want you to feel sorry for
-me.......because......I believe everyone will die someday. I have been
-diagnosed with esophageal cancer. It has defiled all forms of medical
-treatment, and right now I have only about a few months to live,
-according to medical experts. The situation has gotten complicated
-recently with my inability to hear or speak (being deaf and dump now).
-I have not particularly lived my life so well, as I never really cared
-for anyone (not even myself) but my business. Though I am very rich, I
-was never generous, I was always hostile to people and only focused on
-my business as that was the only thing I cared for. But now I regret
-all this as I now know that there is more to life than just wanting to
-have or make all the money in the world.
+Given that distros _should_ be updating their kernel faster than the
+compiler updates, what's the real issue here?  You build a kernel, and
+all external modules, at the same time.  If you want to build them at
+different times, you make your build system ensure they were the same
+compiler so that you are "bug compatible".
 
-I have willed and given most of my property and assets to my immediate
-and extended family members as well as a few close friends. I have
-decided to give also to charity organizations, as I want this to be
-one of the last good deeds I do on earth.
+And yes, it might be a pain if gcc11 gets updated every other day, but
+as someone living with a "rolling-distro" you get used to it, otherwise
+you just "pin" the build tools and keep that from happening.
 
-So far, I have distributed money to some charity organizations in the U.A.E, Algeria, Malaysia
-and some countries in Africa. Now that my health has deteriorated so
-badly, I cannot do this myself anymore. I once asked members of my
-family to close one of my accounts and distribute the money which I
-have there to charity organization in Europe; they refused and kept
-the money to themselves. Hence, I do not trust them anymore, as they
-seem not to be contended with what I have left for them. The last of
-my money which no one knows of is the huge cash sum of Forty-Five
-Million US Dollars (US$45,000,000.00) that I deposited sometime ago in
-an offshore account as I operated my business there before my
-sickness. I will want you to help me collect these deposited funds and
-use the funds to help the orphans, less privileged, handicapped
-persons, homeless, refugees, other charity organizations and do other
-good humanitarian works. You shall only collect 25% of the funds for
-your reward for your time and also any expenses that you might incur
-during this great task.
+This isn't a new thing, we've been doing this for decades, why is this
+surprising?
 
-PLEASE SEND YOUR RESPONSE TO ME WITH YOUR
-DETAILED INFORMATION AND IDENTIFICATION SO THAT I CAN FORWARD TO THE
-BANK WHERE FUND IS DEPOSITED.
+thanks,
 
-Regards,
-Kunio Uematsu
-(Japan)
-Email:uekunio3@gmail.com
+greg k-h
