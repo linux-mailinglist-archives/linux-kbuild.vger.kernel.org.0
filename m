@@ -2,96 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B6A9305852
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88451305858
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:26:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314214AbhAZXAm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 18:00:42 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:17200 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727923AbhAZShh (ORCPT
+        id S233322AbhA0K0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Jan 2021 05:26:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S314204AbhAZXAk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 13:37:37 -0500
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 10QIaGw3020487;
-        Wed, 27 Jan 2021 03:36:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 10QIaGw3020487
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611686177;
-        bh=jdWLcQFJpvkL7fnNbIXEjnV5zSV4ldy1W6fJJer0SS0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vZ/bW+lTZyrd1ERgU+miNz8+GOlqwTLVOxxzyQasaF86h98Ay6qOjXhWuULGJqKM5
-         4z0X+NPL3o3SXxb8sugDW+V96GjyO8LJGIbkTltMuPaaexC7hTuXQymVd9kVXx3xIt
-         M59p3RVAhxPGJIbLGtDIMcTEHzCk3AuPUHHNzVXWI4h8HM9cXZOXZD1KbO7F0Xuq+O
-         IDejtgYMTP+WsY2imeqglLzgoFd263QtQdDQft8FNDcAwrztsHTgHzlDmNfWkXy7sZ
-         gHs/PaHuMLLlXqWAx95l8qKaJof9ym1H10wBL2jg72B+onuMC65bDq1FCmdLPAfw3K
-         ZwGcG9UUQ2o+g==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id l18so2751623pji.3;
-        Tue, 26 Jan 2021 10:36:17 -0800 (PST)
-X-Gm-Message-State: AOAM532JH5rHQWuJ1wk8pqRPf/4+Y7+rlW6Ah8pXVbw1sRTqkzUqYtDd
-        F9PFlzGJkbhzJAl0UAi4uoQcDbd0rt3uOjcqz54=
-X-Google-Smtp-Source: ABdhPJzm8VWDgbWt/Qh9yT3e9UPSeoJupJWOrfVdaMJGhEFCxF7zQGgkjL8RLxx7C1vvctvqdHBbnBzSIJslbdB9RU8=
-X-Received: by 2002:a17:902:a5c5:b029:de:30b0:f1d with SMTP id
- t5-20020a170902a5c5b02900de30b00f1dmr7207458plq.1.1611686176307; Tue, 26 Jan
- 2021 10:36:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20210120062351.3011786-1-masahiroy@kernel.org> <20210120213929.GA875847@robh.at.kernel.org>
-In-Reply-To: <20210120213929.GA875847@robh.at.kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 27 Jan 2021 03:35:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQe9Vq4KEZJwqL=3etTedGVnieKA5vyVoXFr7-a03Nwgg@mail.gmail.com>
-Message-ID: <CAK7LNAQe9Vq4KEZJwqL=3etTedGVnieKA5vyVoXFr7-a03Nwgg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use always-y instead of extra-y
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Kieran Bingham <kbingham@kernel.org>,
+        Tue, 26 Jan 2021 18:00:40 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EB7C061788
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jan 2021 14:59:59 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id o16so236098pgg.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Jan 2021 14:59:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=v4vLMnE79I5H4BnynTTOoA+/hZLJz2auYrPML1aX3qo=;
+        b=Y8/ezfvkoAt+Zv1miXw4RTWhl+j87Mf7SfwiJlLpIBYP3EkeDaGdtkiq+c1+uOIImD
+         sIpkEj2JvabE8/tJMIdj2Bs/sfcNrSumUuIQdHpvJeTZXf7G4xKB3GFUdKeBQ/dn3evm
+         S9F3TMkc+7WC25HJeiKQJDMssxuJZ53Jpn9cQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=v4vLMnE79I5H4BnynTTOoA+/hZLJz2auYrPML1aX3qo=;
+        b=UtIl6GV4GZrb37Y3f+5HIoVwG3gYrcchLUfThXA64IrJVtp7LNsnZYbTKdl+bWaKiC
+         dza1ow4XNGLXMMejAtwfmMPiUMtckyxu8vBhweRt8BE75U6O/0+qZ/ZcSVhIZMTQWGPO
+         0GeDYi5lbEoZZvANTXfHWkQrrLv2+4iEObRKyjr/GUBiAHhbuKu5B5nbYlS1LbPijoz4
+         KlfpXAcGtoVQcBUTrOQ4SopzfFfvtuHpxrveMP+ocX8geYu4tlT2kgxszB4sqpkdFwOF
+         m+yfttMUzqI0ko8jiWXQOqQ73eOQ35bgsNnLpPPTFBQnElr0zBTIp8oSs02Auu6VCe+d
+         CH5A==
+X-Gm-Message-State: AOAM531N2MxKaQbBpYjzFsqp1+6cWpzGilcqUs5MPeXX0zTSR9OjvK0t
+        gi/PPc76UFsVNwayxtcNojCTQA==
+X-Google-Smtp-Source: ABdhPJzptUM+GfHxvz2Hj8TNGijHu7CJwFy+CWJ6D4Qp/44KIYDHOsDBy1RsJyotEUll8V8ms7LqCg==
+X-Received: by 2002:aa7:9a48:0:b029:1b7:bb17:38c9 with SMTP id x8-20020aa79a480000b02901b7bb1738c9mr7461264pfj.51.1611701999000;
+        Tue, 26 Jan 2021 14:59:59 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w20sm61139pga.90.2021.01.26.14.59.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jan 2021 14:59:58 -0800 (PST)
+Date:   Tue, 26 Jan 2021 14:59:57 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        DTML <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        intel-gfx@lists.freedesktop.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <202101261459.C90E9F97D@keescook>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <202101251401.F18409FDD1@keescook>
+ <20210125221953.wng3gk3qc32eahil@treble>
+ <202101260955.F83D191B@keescook>
+ <20210126184316.hpcy6gqp5vsq6ckq@treble>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126184316.hpcy6gqp5vsq6ckq@treble>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 6:39 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Jan 20, 2021 at 03:23:51PM +0900, Masahiro Yamada wrote:
-> > As commit d0e628cd817f ("kbuild: doc: clarify the difference between
-> > extra-y and always-y") explained, extra-y should be used for listing
-> > the prerequsites of vmlinux. always-y is a better fix here.
->
-> prerequisites
+On Tue, Jan 26, 2021 at 12:43:16PM -0600, Josh Poimboeuf wrote:
+> On Tue, Jan 26, 2021 at 09:56:10AM -0800, Kees Cook wrote:
+> > On Mon, Jan 25, 2021 at 04:19:53PM -0600, Josh Poimboeuf wrote:
+> > > On Mon, Jan 25, 2021 at 02:03:07PM -0800, Kees Cook wrote:
+> > > > On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> > > > > When a GCC version mismatch is detected, print a warning and disable the
+> > > > > plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> > > > > code to see the same struct layouts.  In that case print an error.
+> > > > 
+> > > > I prefer this patch as-is: only randstruct needs a hard failure. The
+> > > > others likely work (in fact, randstruct likely works too).
+> > > 
+> > > I'm curious about this last statement, why would randstruct likely work?
+> > > 
+> > > Even struct module has '__randomize_layout', wouldn't basic module init
+> > > go splat?
+> > 
+> > No; the seed is part of the generate includes -- you'll get the same
+> > layout with the same seed.
+> 
+> Right, but don't you need the plugin enabled to make use of that seed,
+> so the structs get interpreted properly by the module?  Or am I
+> completely misunderstanding how this plugin works?
 
-Thanks.
-
-I fixed it up, and applied to linux-kbuild.
-
-
-
-> Glad to see this clarified. I think just tried both and picked one.
->
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  Documentation/devicetree/bindings/Makefile |  8 ++++----
-> >  drivers/gpu/drm/i915/Makefile              |  2 +-
-> >  scripts/Makefile.lib                       | 10 +++++-----
-> >  scripts/gdb/linux/Makefile                 |  2 +-
-> >  4 files changed, 11 insertions(+), 11 deletions(-)
-
-
+Having the plugin enabled or not is part of the Kconfig ... you can't
+build anything if you change Kconfig. I feel like I'm missing
+something...
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
