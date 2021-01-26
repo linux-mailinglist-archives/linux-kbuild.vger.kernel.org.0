@@ -2,135 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DFFD30404D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 15:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFD373040F9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Jan 2021 15:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405479AbhAZO2x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 09:28:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54964 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405512AbhAZO0I (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 09:26:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6961222D58;
-        Tue, 26 Jan 2021 14:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611671122;
-        bh=zHnnr84X+sq4MJebqrUFKLvmgQBWczP8DyHjmXerqPg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AwWJCyWMMlFIlbu/JtuoYt7B++r72LxtstkUf4QFYfAtgvNAJcO+WUudPI+0YAm7X
-         6+fXHHEIDTMTt6kZg6TDZE3I494pl2x+zX+0+Z3zEqrei25Exd4peOX9KjXbAQhMZW
-         Xa3bV03H1QYILOE5MzIPVTXLt6G2TfZkhII8H/n8NeE44Jcp4oDH6zKlyiiGpcSKVc
-         WuVOo/vdgulzezm729DrHzj9hm6nPGrcz0PM9LaYzOPQKp4Sd2o9i+pM1Kp8WLmR0+
-         U2mB0+m3dKee3MVHvNpv99t3i1c1nsU5sjIS0dr1L4bsBmwPtOHhYgrpk2Li8EKP+Y
-         WcqC3Dro3fjsw==
-Date:   Tue, 26 Jan 2021 15:25:16 +0100
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1731223AbhAZOxd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Jan 2021 09:53:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56621 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391262AbhAZOxa (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 26 Jan 2021 09:53:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611672722;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JYmGL08JF+gArRQ9p5k0wHfnv2GHvkk5CmReF6hsoP4=;
+        b=gLTsYT5tXl7cYR3lptw28rmQghstxPXNbKb6TxqKx4rX+6PeE7GaYPE1j4akkEB37bZ9nv
+        V/w19cxO6C4FyPS+k1NpIwTcrm1lxj/+gxyWXJOfteXNcXR4ZbWhr+1coV81VZBcfUOCya
+        DBiUM/vGmThwe7KO5eWLJAmPWN6nr/c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-Fy7Ek9dBP26p1I4vvyZkDg-1; Tue, 26 Jan 2021 09:52:00 -0500
+X-MC-Unique: Fy7Ek9dBP26p1I4vvyZkDg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B63A515722;
+        Tue, 26 Jan 2021 14:51:58 +0000 (UTC)
+Received: from treble (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 79B3260CD1;
+        Tue, 26 Jan 2021 14:51:57 +0000 (UTC)
+Date:   Tue, 26 Jan 2021 08:51:55 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Greg KH <greg@kroah.com>
+Cc:     Justin Forbes <jforbes@redhat.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 04/13] livepatch: move klp_find_object_module to module.c
-Message-ID: <YBAmTAsT3S01kU1x@gunter>
-References: <20210121074959.313333-1-hch@lst.de>
- <20210121074959.313333-5-hch@lst.de>
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ondrej Mosnacek <omosnace@redhat.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <20210126145155.kcfbnzfqg5qugvcl@treble>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <CAK7LNAS=uOi=8xJU=NiKnXQW2iCazbErg_TX0gL9oayBiDffiA@mail.gmail.com>
+ <20210125212755.jfwlqogpcarmxdgt@treble>
+ <CAK7LNAS+EG9doX3qUmu4M3=mRNmdybSv4180Xnuubiwmsq0Agw@mail.gmail.com>
+ <20210125220757.vxdsf6sttpy46cq7@treble>
+ <YA/PLdX5m9f4v+Yl@kroah.com>
+ <CAFbkSA0m1pqmXh29j6wJ9fG05yC72T1kNC0QU3rF7Oh2NoMwYQ@mail.gmail.com>
+ <YBAeYaDReAc9VscA@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210121074959.313333-5-hch@lst.de>
-X-OS:   Linux gunter 5.10.7-1-default x86_64
+In-Reply-To: <YBAeYaDReAc9VscA@kroah.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+++ Christoph Hellwig [21/01/21 08:49 +0100]:
->To uncouple the livepatch code from module loader internals move a
->slightly refactored version of klp_find_object_module to module.c
->This allows to mark find_module static and removes one of the last
->users of module_mutex outside of module.c.
->
->Signed-off-by: Christoph Hellwig <hch@lst.de>
->---
-> include/linux/module.h  |  3 +--
-> kernel/livepatch/core.c | 39 +++++++++++++--------------------------
-> kernel/module.c         | 17 ++++++++++++++++-
-> 3 files changed, 30 insertions(+), 29 deletions(-)
->
->diff --git a/include/linux/module.h b/include/linux/module.h
->index b4654f8a408134..8588482bde4116 100644
->--- a/include/linux/module.h
->+++ b/include/linux/module.h
->@@ -586,8 +586,7 @@ static inline bool within_module(unsigned long addr, const struct module *mod)
-> 	return within_module_init(addr, mod) || within_module_core(addr, mod);
-> }
->
->-/* Search for module by name: must hold module_mutex. */
->-struct module *find_module(const char *name);
->+struct module *find_klp_module(const char *name);
->
-> /* Check if a module is loaded. */
-> bool module_loaded(const char *name);
->diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
->index a7f625dc24add3..878759baadd81c 100644
->--- a/kernel/livepatch/core.c
->+++ b/kernel/livepatch/core.c
->@@ -49,30 +49,6 @@ static bool klp_is_module(struct klp_object *obj)
-> 	return obj->name;
-> }
->
->-/* sets obj->mod if object is not vmlinux and module is found */
->-static void klp_find_object_module(struct klp_object *obj)
->-{
->-	struct module *mod;
->-
->-	mutex_lock(&module_mutex);
->-	/*
->-	 * We do not want to block removal of patched modules and therefore
->-	 * we do not take a reference here. The patches are removed by
->-	 * klp_module_going() instead.
->-	 */
->-	mod = find_module(obj->name);
->-	/*
->-	 * Do not mess work of klp_module_coming() and klp_module_going().
->-	 * Note that the patch might still be needed before klp_module_going()
->-	 * is called. Module functions can be called even in the GOING state
->-	 * until mod->exit() finishes. This is especially important for
->-	 * patches that modify semantic of the functions.
->-	 */
->-	if (mod && mod->klp_alive)
->-		obj->mod = mod;
->-	mutex_unlock(&module_mutex);
->-}
+On Tue, Jan 26, 2021 at 02:51:29PM +0100, Greg KH wrote:
+> On Tue, Jan 26, 2021 at 06:44:44AM -0600, Justin Forbes wrote:
+> > On Tue, Jan 26, 2021 at 2:21 AM Greg KH <greg@kroah.com> wrote:
+> > >
+> > > On Mon, Jan 25, 2021 at 04:07:57PM -0600, Josh Poimboeuf wrote:
+> > > > On Tue, Jan 26, 2021 at 06:44:35AM +0900, Masahiro Yamada wrote:
+> > > > > > > If people use a different compiler, they must be
+> > > > > > > prepared for any possible problem.
+> > > > > > >
+> > > > > > > Using different compiler flags for in-tree and out-of-tree
+> > > > > > > is even more dangerous.
+> > > > > > >
+> > > > > > > For example, CONFIG_GCC_PLUGIN_RANDSTRUCT is enabled
+> > > > > > > for in-tree build, and then disabled for out-of-tree modules,
+> > > > > > > the struct layout will mismatch, won't it?
+> > > > > >
+> > > > > > If you read the patch you'll notice that it handles that case, when it's
+> > > > > > caused by GCC mismatch.
+> > > > > >
+> > > > > > However, as alluded to in the [1] footnote, it doesn't handle the case
+> > > > > > where the OOT build system doesn't have gcc-plugin-devel installed.
+> > > > > > Then CONFIG_GCC_PLUGIN_RANDSTRUCT gets silently disabled and the build
+> > > > > > succeeds!  That happens even without a GCC mismatch.
+> > > > >
+> > > > >
+> > > > > Ah, sorry.
+> > > > >
+> > > > > I responded too early before reading the patch fully.
+> > > > >
+> > > > > But, I do not like to make RANDSTRUCT a special case.
+> > > > >
+> > > > > I'd rather want to stop building for any plugin.
+> > > >
+> > > > Other than RANDSTRUCT there doesn't seem to be any problem with
+> > > > disabling them (and printing a warning) in the OOT build.  Why not give
+> > > > users that option?  It's harmless, and will make distro's (and their
+> > > > users') lives easier.
+> > > >
+> > > > Either GCC mismatch is ok, or it's not.  Let's not half-enforce it.
+> > >
+> > > As I said earlier, it's not ok, we can not support it at all.
+> > >
+> > 
+> > Support and enforce are 2 completely different things.  To shed a bit
+> > more light on this, the real issue that prompted this was breaking CI
+> > systems.  As we enabled gcc plugins in Fedora, and the toolchain folks
+> > went through 3 different snapshots of gcc 11 in a week. Any CI process
+> > that built an out of tree module failed. I don't think this is nearly
+> > as much of a concern for stable distros, as it is for CI in
+> > development cycles.
+> 
+> It's better to have an obvious break like this than to silently accept
+> things and then have a much harder issue to debug at runtime, right?
 
-Hmm, I am not a huge fan of moving more livepatch code into module.c, I
-wonder if we can keep them separate.
+User space mixes compiler versions all the time.  The C ABI is stable.
 
-Why not have module_is_loaded() kill two birds with one stone? That
-is, just have it return a module pointer to signify that the module is
-loaded, NULL if not. Then we don't need an extra find_klp_module()
-function just to call find_module() and return a pointer, as
-module_is_loaded() can just do that for us.
+What specifically is the harder issue you're referring to?
 
-As for the mod->klp_alive check, I believe this function
-(klp_find_object_module()) is called with klp_mutex held, and
-mod->klp_alive is only modified under klp_mutex. Also, if klp_alive is
-true, the module is at least COMING and cannot be GOING until it
-acquires the klp_mutex again in klp_module_going(). So does that hunk
-really need to be under module_mutex? It has been a long time since
-I've looked at livepatch code so it would be great if someone could
-double check.
+-- 
+Josh
 
-Jessica
