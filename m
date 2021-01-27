@@ -2,155 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B947E30587C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 11:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD78E305A7E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 12:59:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314191AbhAZXAe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Jan 2021 18:00:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392481AbhAZSEA (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 13:04:00 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B6AC061573;
-        Tue, 26 Jan 2021 10:03:17 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id z22so12876624qto.7;
-        Tue, 26 Jan 2021 10:03:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HtLia3tqHgEA0fRcdYJwmH1U27RukYWW2gTi/zikuJ8=;
-        b=Vzsj/7J9KgidbhduxBCJF0BaKx0+VqkhE7gIWstP4odzRZTtBuyZidDGwwEykIKqSp
-         JR7PLPwLd25jzgJqdeZgZkR5AZ9+/BcRr1cpNaqOMIPol02NTFzPyVN8GX8N2S1l+AXw
-         8zWiPXPbGnJnIw2vqLZBPvzj7YPl1BFmPAOfxTlQ+4tFbUUr5p3yJT9eHgDnwUJMropL
-         iCmuWsvfLtclGiZP23oWA7FPSAo2WJfWdMZxBCQHGe96nNFDQ5W8vc3ezPCaOVKa8qfQ
-         7fGi9wd9P6slTOTfLKEbpAqunoyQ6VqtKU6/Gux1in45U9qhs8rAi/ceMg9cbisI+Nc8
-         cVUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HtLia3tqHgEA0fRcdYJwmH1U27RukYWW2gTi/zikuJ8=;
-        b=KG+IVdcqN8SjswdKklELWIFBBV2iY5P4avmwVgVQJwFK8igu06QQhRn6EhJGqpY/b1
-         JGzuwdAQI6HmUSCmpj1Le9O5GVs0EktsycviyLZLZjrqcBl7xaQFNew+XBlz+8+oVZL3
-         R8RKHrktIJxOooE/zTfARks1JnAuIPlCMBV0lafbxPS40tYnp89+IfzHEgDCay5MnSxe
-         0rL0OxxGWEOooN9XanHYzg2urPQt0RD6yPpMBAS4Ol1dF1Jxb3WoG+hCUJJc7bNxA4Y+
-         ARwXeZqx95OwJH8jfwa9SzpLNvsoLibyc37XPMGBXoiyEKB2XnwnbxgRZlGvzZEKyTlY
-         2xPw==
-X-Gm-Message-State: AOAM530hKS6rAQ6Z4Ihvb+TenUs4VDnUYG44/1c8VjobxFcL7mSKoQpi
-        YqYT1ofu6mfVofDJVp9IuDs=
-X-Google-Smtp-Source: ABdhPJyMtMMMqrLeE5xLSnj9c88fGXDMBwgQdtWPVEpqvVgIpvL/YbNgfRhVRuw0zkTsfe3cF1Lqyg==
-X-Received: by 2002:ac8:59cb:: with SMTP id f11mr6261381qtf.70.1611684196510;
-        Tue, 26 Jan 2021 10:03:16 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id y67sm14700409qka.68.2021.01.26.10.03.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jan 2021 10:03:16 -0800 (PST)
-Subject: Re: [PATCH] cmd_dtc: Enable generation of device tree symbols
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
+        id S236973AbhA0L61 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Jan 2021 06:58:27 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34026 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236685AbhA0L4A (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 27 Jan 2021 06:56:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1611748514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lwuc+jSkD82sotlNHJidx8xja/Bw1JYQcR061EVrMxA=;
+        b=VqvtxSgmJ5cfSryecsAWZnhhs5uilRcndo5u4Gvp2ENukoxoKJsr+mTPjc4n9b02HE5zd2
+        tNiYkZOsfUa2IE/eO+Ngsze83nqq8S0L9O25uNbLapCDnMcbQVY3lblEQhhKn8OhgSez7d
+        hI+RKBYuVTq7jTQ+3zuaVTVbMniYl0A=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 6B807AD2B;
+        Wed, 27 Jan 2021 11:55:14 +0000 (UTC)
+Date:   Wed, 27 Jan 2021 12:55:13 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     DTML <devicetree@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Maxime Ripard <mripard@kernel.org>, cyril@debamax.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20210125105757.661240-1-uwe@kleine-koenig.org>
- <CAK7LNAS5t1wew0MMFjdB5HGCAMerhU7pAGiFhcTtCRUAAjGLpw@mail.gmail.com>
- <9d9bb0f6-d4f4-b1b9-a4c4-786987578085@kleine-koenig.org>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <5e552b57-4e8b-6774-577d-4fa7a8d440ba@gmail.com>
-Date:   Tue, 26 Jan 2021 12:03:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 04/13] livepatch: move klp_find_object_module to module.c
+Message-ID: <YBFUoYxHjRTmKOEn@alley>
+References: <20210121074959.313333-1-hch@lst.de>
+ <20210121074959.313333-5-hch@lst.de>
+ <YBAmTAsT3S01kU1x@gunter>
 MIME-Version: 1.0
-In-Reply-To: <9d9bb0f6-d4f4-b1b9-a4c4-786987578085@kleine-koenig.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YBAmTAsT3S01kU1x@gunter>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+frank
+On Tue 2021-01-26 15:25:16, Jessica Yu wrote:
+> +++ Christoph Hellwig [21/01/21 08:49 +0100]:
+> > To uncouple the livepatch code from module loader internals move a
+> > slightly refactored version of klp_find_object_module to module.c
+> > This allows to mark find_module static and removes one of the last
+> > users of module_mutex outside of module.c.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> > include/linux/module.h  |  3 +--
+> > kernel/livepatch/core.c | 39 +++++++++++++--------------------------
+> > kernel/module.c         | 17 ++++++++++++++++-
+> > 3 files changed, 30 insertions(+), 29 deletions(-)
+> > 
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index b4654f8a408134..8588482bde4116 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -586,8 +586,7 @@ static inline bool within_module(unsigned long addr, const struct module *mod)
+> > 	return within_module_init(addr, mod) || within_module_core(addr, mod);
+> > }
+> > 
+> > -/* Search for module by name: must hold module_mutex. */
+> > -struct module *find_module(const char *name);
+> > +struct module *find_klp_module(const char *name);
+> > 
+> > /* Check if a module is loaded. */
+> > bool module_loaded(const char *name);
+> > diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+> > index a7f625dc24add3..878759baadd81c 100644
+> > --- a/kernel/livepatch/core.c
+> > +++ b/kernel/livepatch/core.c
+> > @@ -49,30 +49,6 @@ static bool klp_is_module(struct klp_object *obj)
+> > 	return obj->name;
+> > }
+> > 
+> > -/* sets obj->mod if object is not vmlinux and module is found */
+> > -static void klp_find_object_module(struct klp_object *obj)
+> > -{
+> > -	struct module *mod;
+> > -
+> > -	mutex_lock(&module_mutex);
+> > -	/*
+> > -	 * We do not want to block removal of patched modules and therefore
+> > -	 * we do not take a reference here. The patches are removed by
+> > -	 * klp_module_going() instead.
+> > -	 */
+> > -	mod = find_module(obj->name);
+> > -	/*
+> > -	 * Do not mess work of klp_module_coming() and klp_module_going().
+> > -	 * Note that the patch might still be needed before klp_module_going()
+> > -	 * is called. Module functions can be called even in the GOING state
+> > -	 * until mod->exit() finishes. This is especially important for
+> > -	 * patches that modify semantic of the functions.
+> > -	 */
+> > -	if (mod && mod->klp_alive)
+> > -		obj->mod = mod;
+> > -	mutex_unlock(&module_mutex);
+> > -}
+> 
+> Hmm, I am not a huge fan of moving more livepatch code into module.c, I
+> wonder if we can keep them separate.
+> 
+> Why not have module_is_loaded() kill two birds with one stone? That
+> is, just have it return a module pointer to signify that the module is
+> loaded, NULL if not. Then we don't need an extra find_klp_module()
+> function just to call find_module() and return a pointer, as
+> module_is_loaded() can just do that for us.
+> 
+> As for the mod->klp_alive check, I believe this function
+> (klp_find_object_module()) is called with klp_mutex held, and
+> mod->klp_alive is only modified under klp_mutex. Also, if klp_alive is
+> true, the module is at least COMING and cannot be GOING until it
+> acquires the klp_mutex again in klp_module_going(). So does that hunk
+> really need to be under module_mutex? It has been a long time since
+> I've looked at livepatch code so it would be great if someone could
+> double check.
 
-On 1/26/21 1:20 AM, Uwe Kleine-König wrote:
-> Hello Masahiro,
-> 
-> On 1/25/21 10:53 PM, Masahiro Yamada wrote:
->> On Mon, Jan 25, 2021 at 8:07 PM Uwe Kleine-König <uwe@kleine-koenig.org> wrote:
->>>
->>> Adding the -@ switch to dtc results in the binary devicetrees containing
->>> a list of symbolic references and their paths. This is necessary to
->>> apply device tree overlays e.g. on Raspberry Pi as described on
->>> https://www.raspberrypi.org/documentation/configuration/device-tree.md.
->>>
->>> Obviously the downside of this change is an increas of the size of the
->>> generated dtbs, for an arm out-of-tree build (multi_v7_defconfig):
->>>
->>>          $ du -s arch/arm/boot/dts*
->>>          101380  arch/arm/boot/dts-pre
->>>          114308  arch/arm/boot/dts-post
->>>
->>> so this is in average an increase of 12.8% in size.
->>>
->>> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
->>
->>
->> (CCing DT ML.)
-> 
-> makes sense, thanks.
-> 
->> https://www.spinics.net/lists/linux-kbuild/msg27904.html
->>
->> See Rob's comment:
->>
->> "We've already rejected doing that. Turning on '-@' can grow the dtb
->> size by a significant amount which could be problematic for some
->> boards."
-> 
-> The patch was created after some conversation on irc which continued
-> after I sent the patch. I added the participating parties to Cc:.
-> 
-> The (relevant) followups were:
-> 
-> Geert suggested to always generate the symbols and provide a way to
-> strip the symbols for installation if and when they are not needed.
-> 
-> Rob said: "I'm less concerned with the size increases, but rather that
-> labels go from purely source syntax to an ABI. I'd rather see some
-> decision as to which labels are enabled or not."
-> 
-> And then I learned with hints from Rob and Geert that symbols are not
-> really necessary for overlays, you just cannot use named labels. But
-> using
-> 
->     target-path = "/soc/i2c@23473245";
-> 
-> or
-> 
->     target = <&{/soc/i2c@23473245}>;
-> 
-> instead of
-> 
->     target = <&i2c1>;
-> 
-> works fine. (And if you need to add a phandle the &{/path/to/node}
-> construct should work, too (but I didn't test).) Using labels is a tad nicer, but the problem I wanted to address with my patch now has a known different solution.
-> 
-> Best regards
-> Uwe
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+We need to make sure that the module is not freed before we manipulate
+mod->klp_alive.
 
+One solution would be to take the reference and block it during this
+operation.
+
+Alternatively it might be to rely on RCU. It seems that the struct
+is protected by RCU because of kallsyms. But I am not sure if it
+is safe in all module states. But it should be. We find the module
+via the same list like kallsyms.
+
+Best Regards,
+Petr
