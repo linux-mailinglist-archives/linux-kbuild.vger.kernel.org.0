@@ -2,80 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49F4305346
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 07:35:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 932D730553C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Jan 2021 09:07:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbhA0GdW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Jan 2021 01:33:22 -0500
-Received: from smtprelay0209.hostedemail.com ([216.40.44.209]:48334 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S233742AbhA0DMJ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Jan 2021 22:12:09 -0500
-X-Greylist: delayed 525 seconds by postgrey-1.27 at vger.kernel.org; Tue, 26 Jan 2021 22:12:09 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave08.hostedemail.com (Postfix) with ESMTP id 9C8041803738F
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Jan 2021 03:05:08 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id BDA5318224D68;
-        Wed, 27 Jan 2021 03:02:23 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:982:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2197:2198:2199:2200:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3653:3865:3866:3871:3873:4321:4362:5007:7652:10004:10400:10848:11026:11232:11473:11658:11914:12043:12297:12438:12555:12740:12895:13069:13255:13311:13357:13439:13894:14181:14659:14721:21080:21221:21451:21627:21889:30054:30062:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: arch06_0e14db527593
-X-Filterd-Recvd-Size: 1821
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 27 Jan 2021 03:02:22 +0000 (UTC)
-Message-ID: <c973355e545bcdc52b619f2d13bfa41915074307.camel@perches.com>
-Subject: Re: [PATCH] Revert "checkpatch: add check for keyword 'boolean' in
- Kconfig definitions"
-From:   Joe Perches <joe@perches.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        id S234167AbhA0IFn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 27 Jan 2021 03:05:43 -0500
+Received: from mx1.emlix.com ([136.243.223.33]:47834 "EHLO mx1.emlix.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234295AbhA0IDY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 27 Jan 2021 03:03:24 -0500
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.emlix.com (Postfix) with ESMTPS id 98AAE5FCE6;
+        Wed, 27 Jan 2021 08:50:55 +0100 (CET)
+From:   Rolf Eike Beer <eb@emlix.com>
+To:     David Woodhouse <dwmw2@infradead.org>
+Cc:     Linux Kernel Developers List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Cc:     Christoph Jaeger <cj@linux.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 26 Jan 2021 19:02:20 -0800
-In-Reply-To: <20210126191541.210168-1-masahiroy@kernel.org>
-References: <20210126191541.210168-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+Subject: [PATCH v6] scripts: use pkg-config to locate libcrypto
+Date:   Wed, 27 Jan 2021 08:50:55 +0100
+Message-ID: <3207945.kN7qQvqmsI@devpool47>
+Organization: emlix GmbH
+In-Reply-To: <3394639.6NgGvCfkNl@devpool47>
+References: <20538915.Wj2CyUsUYa@devpool35> <2278760.8Yd83Mgoko@devpool35> <3394639.6NgGvCfkNl@devpool47>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 2021-01-27 at 04:15 +0900, Masahiro Yamada wrote:
-> This reverts commit 327953e9af6c59ad111b28359e59e3ec0cbd71b6.
-> 
-> You cannot use 'boolean' since commit b92d804a5179 ("kconfig: drop
-> 'boolean' keyword").
-> 
-> This check is no longer needed.
+From f467f251e44cd406c9556ea7d68d131f56e0d832 Mon Sep 17 00:00:00 2001
+From: Rolf Eike Beer <eb@emlix.com>
+Date: Thu, 22 Nov 2018 16:40:49 +0100
+Subject: [PATCH] scripts: use pkg-config to locate libcrypto
 
-Thanks.
+Otherwise build fails if the headers are not in the default location. While at
+it also ask pkg-config for the libs, with fallback to the existing value.
 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Rolf Eike Beer <eb@emlix.com>
+Cc: stable@vger.kernel.org # 5.6.x
+---
+ scripts/Makefile | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Acked-by: Joe Perches <joe@perches.com>
+Changes in v6:
+ - hardcode pkg-config
 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -3390,13 +3390,6 @@ sub process {
-> †			}
-> †		}
-> †
-> -# discourage the use of boolean for type definition attributes of Kconfig options
-> -		if ($realfile =~ /Kconfig/ &&
-> -		    $line =~ /^\+\s*\bboolean\b/) {
-> -			WARN("CONFIG_TYPE_BOOLEAN",
-> -			     "Use of boolean is deprecated, please use bool instead.\n" . $herecurr);
-> -		}
-> -
-> †		if (($realfile =~ /Makefile.*/ || $realfile =~ /Kbuild.*/) &&
-> †		    ($line =~ /\+(EXTRA_[A-Z]+FLAGS).*/)) {
-> †			my $flag = $1;
+diff --git a/scripts/Makefile b/scripts/Makefile
+index b5418ec587fb..9de3c03b94aa 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -3,6 +3,9 @@
+ # scripts contains sources for various helper programs used throughout
+ # the kernel for the build process.
+ 
++CRYPTO_LIBS = $(shell pkg-config --libs libcrypto 2> /dev/null || echo -lcrypto)
++CRYPTO_CFLAGS = $(shell pkg-config --cflags libcrypto 2> /dev/null)
++
+ hostprogs-always-$(CONFIG_BUILD_BIN2C)			+= bin2c
+ hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+@@ -14,8 +17,9 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+ 
+ HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
+ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+-HOSTLDLIBS_sign-file = -lcrypto
+-HOSTLDLIBS_extract-cert = -lcrypto
++HOSTLDLIBS_sign-file = $(CRYPTO_LIBS)
++HOSTCFLAGS_extract-cert.o = $(CRYPTO_CFLAGS)
++HOSTLDLIBS_extract-cert = $(CRYPTO_LIBS)
+ 
+ ifdef CONFIG_UNWINDER_ORC
+ ifeq ($(ARCH),x86_64)
+-- 
+2.30.0
+
+-- 
+Rolf Eike Beer, emlix GmbH, http://www.emlix.com
+Fon +49 551 30664-0, Fax +49 551 30664-11
+Gothaer Platz 3, 37083 G√∂ttingen, Germany
+Sitz der Gesellschaft: G√∂ttingen, Amtsgericht G√∂ttingen HR B 3160
+Gesch√§ftsf√ºhrung: Heike Jordan, Dr. Uwe Kracke ‚Äì Ust-IdNr.: DE 205 198 055
+
+emlix - smart embedded open source
+
 
 
