@@ -2,97 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E9FC306DB7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 07:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8D33070A2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 09:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbhA1Gkx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Jan 2021 01:40:53 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:57438 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbhA1Gks (ORCPT
+        id S231916AbhA1ICl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Jan 2021 03:02:41 -0500
+Received: from mail-ot1-f51.google.com ([209.85.210.51]:45872 "EHLO
+        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232210AbhA1IAJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Jan 2021 01:40:48 -0500
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 10S6diXZ023874;
-        Thu, 28 Jan 2021 15:39:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 10S6diXZ023874
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611815985;
-        bh=QW6uNmeQIM4CerhvKxJ/Ngyr94ilzVVhkE/KVozLC/c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NzLwkNDmFNAcHTOKrYy4/aS2N+HKNvl/Sj+ezN5hcrru+G7xS32UMlU0+rJHSpX6C
-         OnCr6bYcUv76Vj36puJYvYHRQlFHM3lULrxFZqBbjl5euTMzlGt1W5viGX3+Ml8qs1
-         txdji8D6C3scT3FQ5Le6UcgZn0m/qsK41Xbd0td0tOSQ0PhNmhhVAEAmPez5f43ZrY
-         FQP8qXdSOHYZpWyQi/5UJoTl+O3hPwNtJ7O4SES+Mss+IKNd9YaElP2HdifvDJfUf+
-         Y56I2Z5W2kceQrTw4EUAgHwse1/zTv/bvcuj1CLIgkvGThAxGCFG1kDG+9L1j4R1JB
-         JJAvVYkljkQ6A==
-X-Nifty-SrcIP: [209.85.215.174]
-Received: by mail-pg1-f174.google.com with SMTP id i7so3635226pgc.8;
-        Wed, 27 Jan 2021 22:39:44 -0800 (PST)
-X-Gm-Message-State: AOAM532NLBF0XWpgppoRpZWyvM5ixAEesNNLS8Qk3JivE+GZ87STeQui
-        F8eDiq6UTlGubAzZyV8f1T0chd+fAX2F+vRSjuE=
-X-Google-Smtp-Source: ABdhPJxsorSQja4rHTNzxS+Qf3tljiWpChBj7qIY9yjq78uw2gZhnn8dz3m0KUUWbeGNa+CDN0KP+X9tBGHKpQ5DW34=
-X-Received: by 2002:a63:ff09:: with SMTP id k9mr15229613pgi.175.1611815984111;
- Wed, 27 Jan 2021 22:39:44 -0800 (PST)
+        Thu, 28 Jan 2021 03:00:09 -0500
+Received: by mail-ot1-f51.google.com with SMTP id n42so4358238ota.12;
+        Wed, 27 Jan 2021 23:59:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VFvlavdQj3vCTWkwoAVwJZYrgCNBuE8sgIQdKiGhY+w=;
+        b=V569t6Aun8zU7H8/nsKR/dXIhorUn/YIB/XD30A81SMdT3I+cIolhedJOzH30a+EZy
+         G+VVkNtLZwPZs/1LQUKvKnq6fJx+vc2x5mx18R2ASbBwBw1tx2ub/pMB5NNPFMjqjNX7
+         XnWxqIIbgMR5VpTDPZC3ASjpIx5LzkD2GKOlgEh+NHUvQwPxLPtdA2yAUfxIyTSGDjMd
+         KUKVD+ZtqouxMAj/yasQFRpBnPPG5F2iaxyq4qIBYni37s+nBggNf9Q5BUAC5KWcMbC6
+         ICcQzFFwKzyj/1065FUmexZPcuW3nOSNG0hh5sODdCgxvAd0D2IDZta7Q7JCBp/iTEz+
+         EckQ==
+X-Gm-Message-State: AOAM531enlXV19QvsrjOBYL6D9eIkEkaBZIbgI5JI4QvMYdtU82ON2Ai
+        i75IwbUgF52l8bcP2NOp7xaCePuDyS+6PT5fW5l+Y4LO
+X-Google-Smtp-Source: ABdhPJznIX8Ez5rT0eH2kPu8lo8LgYhmVvO6LoHIL5yF3kdkazjNHo5u99kdHiTbtJ4IH8g890LINaHfxGpj5ywaFPQ=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr10464911otr.107.1611820723093;
+ Wed, 27 Jan 2021 23:58:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20210126191541.210168-1-masahiroy@kernel.org> <c973355e545bcdc52b619f2d13bfa41915074307.camel@perches.com>
-In-Reply-To: <c973355e545bcdc52b619f2d13bfa41915074307.camel@perches.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 28 Jan 2021 15:39:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR6HQaj0LPe1whPvcX7yebKg5puZ1q=CsQNp1J1Nw6eCQ@mail.gmail.com>
-Message-ID: <CAK7LNAR6HQaj0LPe1whPvcX7yebKg5puZ1q=CsQNp1J1Nw6eCQ@mail.gmail.com>
-Subject: Re: [PATCH] Revert "checkpatch: add check for keyword 'boolean' in
- Kconfig definitions"
-To:     Joe Perches <joe@perches.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Christoph Jaeger <cj@linux.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210128005110.2613902-1-masahiroy@kernel.org> <20210128005110.2613902-12-masahiroy@kernel.org>
+In-Reply-To: <20210128005110.2613902-12-masahiroy@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 28 Jan 2021 08:58:32 +0100
+Message-ID: <CAMuHMdWTK7Xa-6E2yLHxv8sGkD-VYgDF2SMRCj4_tDTVS2Uw1A@mail.gmail.com>
+Subject: Re: [PATCH 11/27] m68k: add missing FORCE and fix 'targets' to make
+ if_changed work
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux-Arch <linux-arch@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-um <linux-um@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 12:02 PM Joe Perches <joe@perches.com> wrote:
+On Thu, Jan 28, 2021 at 1:54 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> The rules in this Makefile cannot detect the command line change because
+> the prerequisite 'FORCE' is missing.
 >
-> On Wed, 2021-01-27 at 04:15 +0900, Masahiro Yamada wrote:
-> > This reverts commit 327953e9af6c59ad111b28359e59e3ec0cbd71b6.
-> >
-> > You cannot use 'boolean' since commit b92d804a5179 ("kconfig: drop
-> > 'boolean' keyword").
-> >
-> > This check is no longer needed.
+> Adding 'FORCE' will result in the headers being rebuilt every time
+> because the 'targets' addition is also wrong; the file paths in
+> 'targets' must be relative to the current Makefile.
 >
+> Fix all of them so the if_changed rules work correctly.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Applied to linux-kbuild.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
+Gr{oetje,eeting}s,
 
-> Thanks.
->
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Acked-by: Joe Perches <joe@perches.com>
->
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
-> > @@ -3390,13 +3390,6 @@ sub process {
-> >                       }
-> >               }
-> >
-> > -# discourage the use of boolean for type definition attributes of Kconfig options
-> > -             if ($realfile =~ /Kconfig/ &&
-> > -                 $line =~ /^\+\s*\bboolean\b/) {
-> > -                     WARN("CONFIG_TYPE_BOOLEAN",
-> > -                          "Use of boolean is deprecated, please use bool instead.\n" . $herecurr);
-> > -             }
-> > -
-> >               if (($realfile =~ /Makefile.*/ || $realfile =~ /Kbuild.*/) &&
-> >                   ($line =~ /\+(EXTRA_[A-Z]+FLAGS).*/)) {
-> >                       my $flag = $1;
->
->
-
+                        Geert
 
 -- 
-Best Regards
-Masahiro Yamada
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
