@@ -2,72 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2253A307818
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 15:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C46307963
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 16:18:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231460AbhA1Oav (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Jan 2021 09:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231438AbhA1Oak (ORCPT
+        id S231649AbhA1PSQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Jan 2021 10:18:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42185 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231174AbhA1PSN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Jan 2021 09:30:40 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64CBDC061573;
-        Thu, 28 Jan 2021 06:30:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=z72LpoxZZhEjQSjvA+zDb9r+inOH6Yghk71zYmjuIfM=; b=mW54jTGnHMJZipQZTAjofQ/Zd9
-        RWx8RWtJXHJxneBzMyhqI0uDM6MilsL+YrvUEHbMofDMIP9ZrhJ2xbNtukEuuJVo18pjMAn7101H6
-        +EZkogGbBcFgwgywJ7UR/kJwu2geeh7ovTpSLqpJgzXsSllZ6xu7iM8jP64H6UVUY8nVoSBYNeYl7
-        MZhQoQWveSd1+d4a/5fbnSLwam+YvYPcN8kLRIWCjk6Dl8NE3dsf2UFlXx3aruqlNRBxOeePQ0kWx
-        /EHZY0mn1jRO+4mq5eCsGHm6B52HKS8xoz7EMXIPH+g2uYZzzwio5rvU4UCQYBvB8gGHnAcSxHyUa
-        WRTWurOQ==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1l58Iy-008ZAB-1r; Thu, 28 Jan 2021 14:29:52 +0000
-Date:   Thu, 28 Jan 2021 14:29:52 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
- modules
-Message-ID: <20210128142952.GA2041496@infradead.org>
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
- <20210127180215.GA1745339@infradead.org>
- <20210127183856.moe3p5pxw6bbtunk@treble>
- <20210127184327.GA1755516@infradead.org>
- <20210127185113.c3est2vssf5tlyyq@treble>
+        Thu, 28 Jan 2021 10:18:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611847007;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4Fg7udZXlvfLLHzwve4X1QMdCahnQwMs0ZSOV+O7j8M=;
+        b=A6bLGC/Kl2KSrz0cf6dkLorRcyASqFiQf1FfdL6dacuW1EZT+IJaBmZF02IESe938aB3zT
+        AyvIByOfFTeLsnBputCHWoE0T5+btPPaeq0792muWvOWb4zuegdAu3qM+VBXBwGjZ+eDnb
+        dGV0L7EcyBPe/VVQ8CawUevT/5uh+BA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-5RdBc43ROIK6zvjrJxsEGw-1; Thu, 28 Jan 2021 10:16:46 -0500
+X-MC-Unique: 5RdBc43ROIK6zvjrJxsEGw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6D4B80A5C6;
+        Thu, 28 Jan 2021 15:16:43 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 038FD1DB;
+        Thu, 28 Jan 2021 15:16:37 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20210122181054.32635-1-eric.snowberg@oracle.com>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+To:     Eric Snowberg <eric.snowberg@oracle.com>
+Cc:     dhowells@redhat.com, dwmw2@infradead.org, jarkko@kernel.org,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
+        javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for dbx/mokx entries
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210127185113.c3est2vssf5tlyyq@treble>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3568164.1611846997.1@warthog.procyon.org.uk>
+Date:   Thu, 28 Jan 2021 15:16:37 +0000
+Message-ID: <3568165.1611846997@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 12:51:13PM -0600, Josh Poimboeuf wrote:
-> Is this a joke?  I've never met anybody who builds OOT modules as a
-> development aid...
+Which tree do you envision this going through?  EFI or keyrings - or are you
+going to ask Linus to pull it directly?  I can pull it if it should go through
+the keyrings tree.
 
-I'm pretty sure you've met me before.
+David
 
-> On the other hand I know of several very popular distros (some paid,
-> some not) who rely on allowing users/partners to build OOT modules as
-> part of their ecosystem.  To say it's not supported is a farce.
-
-This is not a farce.  The kernel only supports infrastructure for the
-kernel itself, not for any external consumers.  If you have a business
-model that relies on something else you should think hard if you are in
-the right business.
