@@ -2,100 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABAB307E32
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 19:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEC58307F49
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 21:14:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232221AbhA1Sie (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Jan 2021 13:38:34 -0500
-Received: from spe8-2.ucebox.co.za ([197.242.156.207]:33013 "EHLO
-        spe8-2.ucebox.co.za" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231730AbhA1ShI (ORCPT
+        id S231228AbhA1UNA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Jan 2021 15:13:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42478 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231193AbhA1UJ4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Jan 2021 13:37:08 -0500
-X-Greylist: delayed 1090 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 Jan 2021 13:36:34 EST
-Received: from cornucopia.aserv.co.za ([154.0.175.203])
-        by spe8.ucebox.co.za with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <manornutgrovemanor@gmail.com>)
-        id 1l5Bpi-0007LJ-Au; Thu, 28 Jan 2021 20:16:15 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by cornucopia.aserv.co.za (Postfix) with ESMTPA id CF403C1250;
-        Thu, 28 Jan 2021 20:14:51 +0200 (SAST)
+        Thu, 28 Jan 2021 15:09:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611864509;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xAaYmkPI3SgxXv9WICFqFagDyxX9PqaHRD1OB+S1ECg=;
+        b=jHQOydcXdIpZHozHthUYa4EJ2aGGi36+mQlfCW7xM+hA/X6c7ivepB9xRPptFmbQVFwkjT
+        hwJKIvuTxiz8uwxIRvi3TYBlWDXOk7W2ctouqkbBjHZZ76uf5JKgO4kZzVtSt/OBkNTlM7
+        ylax9zclCKT7KtStnYlQrKWc6SykhkI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-NR2Tp5ecMk2VgnEgGOS_mA-1; Thu, 28 Jan 2021 15:08:26 -0500
+X-MC-Unique: NR2Tp5ecMk2VgnEgGOS_mA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EEE5803622;
+        Thu, 28 Jan 2021 20:08:24 +0000 (UTC)
+Received: from treble.redhat.com (ovpn-120-118.rdu2.redhat.com [10.10.120.118])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CF98260C13;
+        Thu, 28 Jan 2021 20:08:22 +0000 (UTC)
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Jessica Yu <jeyu@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH RFC] kbuild: Prevent compiler mismatch with external modules
+Date:   Thu, 28 Jan 2021 14:08:02 -0600
+Message-Id: <fff056a7c9e6050c2d60910f70b6d99602f3bec4.1611863075.git.jpoimboe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 28 Jan 2021 20:14:51 +0200
-From:   Nut Grove Manor <manornutgrovemanor@gmail.com>
-To:     undisclosed-recipients:;
-Subject: Invitation To Quote
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <f4df241716ca77b03e15c5275364cf84@gmail.com>
-X-Sender: manornutgrovemanor@gmail.com
-X-Originating-IP: 154.0.175.203
-X-Afrihost-Domain: pesci.aserv.co.za
-X-Afrihost-Username: 154.0.175.203
-Authentication-Results: ucebox.co.za; auth=pass smtp.auth=154.0.175.203@pesci.aserv.co.za
-X-Afrihost-Outgoing-Class: unsure
-X-Afrihost-Outgoing-Evidence: Combined (0.71)
-X-Recommended-Action: accept
-X-Filter-ID: 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
-X-Report-Abuse-To: spam@spe1.ucebox.co.za
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Good Day Sir
+When building an external module, if the compiler version differs from
+what the kernel was built with, bad things can happen.  Many kernel
+features change based on available compiler features.  Silently removing
+a compiler-dependent feature in the external module build can cause
+unpredictable behavior.  Right now there are no checks to help prevent
+such mismatches.
 
-We are please to invite you/your company to quote the following item
-listed
-below:
+On the other hand, when a user is building an external module against a
+distro kernel, the exact compiler version may not be installed, or in
+some cases not even released yet.  In fact it's quite common for
+external modules to be built with a slightly different version of GCC
+than the kernel.
 
-Product/Model No: TM9653 PRESSURE REGULATOR
-Product Name:MEKO
-Qty. 30 units
+A minor version mismatch should be ok.  User space does it all the time.
+New compiler features aren't added within a major version.
 
-Compulsory,Kindly send your quotation
-for immediate approval.
+Add a check for compiler mismatch, but only check the major version.
 
-Kind Regards,
-Albert Bourla
-PFIZER B.V Supply Chain Manager
-Tel: +31(0)208080 880
-ADDRESS: Rivium Westlaan 142, 2909 LD
-Capelle aan den IJssel, Netherlands
+Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+---
+This is related to the previous RFC I posted:
+
+  https://lkml.kernel.org/r/efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com
+
+The discussion revealed gaps between developer perceptions and distro
+realities with respect to external (out-of-tree) modules...
+
+Backing up a bit, let's please decide on what exactly is supported (or
+not supported) with respect to mismatched compiler versions.  Then let's
+try to enforce and/or document the decision.
+
+Please stick to technical arguments...
+
+
+ Makefile | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index b0e4767735dc..f281d2587fa5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1744,6 +1744,14 @@ help:
+ # no-op for external module builds
+ PHONY += prepare modules_prepare
+ 
++# External module compiler (major) version must match the kernel
++ifneq ($(shell echo $(CONFIG_GCC_VERSION) | cut -c-2), $(shell $(srctree)/scripts/gcc-version.sh $(CC) | cut -c-2))
++  $(error ERROR: Compiler version mismatch in external module build)
++endif
++ifneq ($(shell echo $(CONFIG_CLANG_VERSION) | cut -c-2), $(shell $(srctree)/scripts/clang-version.sh $(CC) | cut -c-2))
++  $(error ERROR: Compiler version mismatch in external module build)
++endif
++
+ endif # KBUILD_EXTMOD
+ 
+ # Single targets
+-- 
+2.29.2
+
