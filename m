@@ -2,194 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C036D3080A5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 22:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 014BA3080B9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 22:47:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231534AbhA1Vj4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Jan 2021 16:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
+        id S231547AbhA1Vqz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Jan 2021 16:46:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbhA1Vjx (ORCPT
+        with ESMTP id S229866AbhA1Vqv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Jan 2021 16:39:53 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF8BC061573;
-        Thu, 28 Jan 2021 13:39:12 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id y19so7193030iov.2;
-        Thu, 28 Jan 2021 13:39:12 -0800 (PST)
+        Thu, 28 Jan 2021 16:46:51 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1695FC061573
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Jan 2021 13:46:11 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id q8so9619825lfm.10
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Jan 2021 13:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=/CjtAu+M0Wiwb7WvO8Hl9jt0o2jkZcEdDdnm/nslick=;
-        b=cNJfHShSZNqv2p1/RS1cbidNNc1ZHk7+hWQ/pXoPuGzIFWn7//JcP9pjRelwaPuM8n
-         8MtbrLmWlBBmlRTFa6II47YAzv8VnDcyJlOCcKNukl66+mn6MkFCQ2494/2o9BFbbQPT
-         cVbWsDKdnEB/oJ4jeZL9gZfLTnGo6HgPAWJZ10nCxf3swM0pilVP4C217MqUiPSgIM3w
-         RcKPHbVuhHPmIYVlN0S+OmnUB1d/h0N/s9/vsiIghA9g4QZyM/QeYYDKU8sBuqy0qep2
-         9X/oDW1TfnK85pI/mnfDIQDOxWkJWyO7GaE6ziQVokC4TFiZ98JNvk/FYWe5zUUTCxZF
-         jh8g==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aulEyvePMTpx/72fW0hN1PIWw4ZHfny70yTPEo93PYU=;
+        b=EltLr0XGGrfIy4QTWkG2B3ar+vWLaQrnqB5//XwlmUzMK7AbvbR3Fvsi/PLk6LXnAP
+         39t+8Aq5fgrYmP/03KD8K0WUDa6Jeo8fWJP1i+c2XHl1g/zAYPwmeQzSrhjfA4MH0ozt
+         WrbO52L591kyaFSGgd/9ste+nBDt1KFlJkMhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=/CjtAu+M0Wiwb7WvO8Hl9jt0o2jkZcEdDdnm/nslick=;
-        b=nRs4x8g2s0UGkw3T1NwjO1um6jqvt60UGofH9zSKCj8pVw76C7YSHPxNsd30XfhkUl
-         ihtqRU60Z2IfzDDecN7kp+4b7OtH1VEp0viO+ZpqC7/6+SmwS/yhxqiAv438E7GOAWiY
-         amOWZxw8dMouRZPFbjZlLWJqeweTd42+VCjH8ocFDnPzuBFFbNjQf6q5KIv4AV/A5FI+
-         MDV9Oy/rxGR8JZLAtFFVnLepq4+OHLU0cq7B/Df+u1++nl4TIe6NeOmPCGyAhhU5rKVE
-         Q4Osk2AnTAJhq3yRmFWpT+eJWDdKAMnOdyvDhJtiWyKVYULv6iykwnLnCBYs8FQBngQE
-         N+vQ==
-X-Gm-Message-State: AOAM531YQLDMTeQL0jXkP+lw7Wo4RcuAY6xj0ZPLbdfotQxbIfaK0PCQ
-        RPeLMVenuYcwq7TLIKYgdy0QGB6rsr4FfaEV+1N1O3osT20b8kGf
-X-Google-Smtp-Source: ABdhPJzMFqDbTyZ0mbvOAHSV8w+9kchEZ3F2bXMGeWdudZ253jzU13J5Bx3IMtxekV7DyA8uNTmcBV9o3a9ji+LKnAk=
-X-Received: by 2002:a05:6602:2b01:: with SMTP id p1mr1647556iov.156.1611869951999;
- Thu, 28 Jan 2021 13:39:11 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aulEyvePMTpx/72fW0hN1PIWw4ZHfny70yTPEo93PYU=;
+        b=AAfFt0OPA2Byk/t3QOP6J8uyQYr2VX7EX2FrpEgBnbzHi652qFHMmDb5qmtj3e31Lb
+         khZ1dufqKSVN4LzC3BTNKU9d9zw3oecFdzdLf6S+yul091EtypDo8ln44rk5A5764ctt
+         UT7OEWUQyMhd5uOMPPV6xjsEI0SWg5RxdWFD5G/nxQIa2R4thUFtNdjgJRrbYhT8daWb
+         si1xjoydVKB/dfoLwf82soB/kjjkCFJyPITXvKHB6lH/SOEDCZBxFh4ZRJstj+Cb953r
+         EIV6ynIPdn9VdBZjewQkpq8ul5Dn+zf8HOc3wMWwY/NFl3p5sm5Lzh5yWaE+vHSImSQj
+         h5Fg==
+X-Gm-Message-State: AOAM5326sKgnmbv1CNrgqtbcD2qH0eoNiyeYvXt0mSkUdakkAB10qLEW
+        1rcoOG4NNx1jvmiLrEFZ0jf/YZvUBRrdQw==
+X-Google-Smtp-Source: ABdhPJwAH2ddnAcjfe+SceTIZs7j4FSq0qpcZ7Mh1fQX9gt7akrLgvMJ7KshReikL9oFy7dr/HgyKA==
+X-Received: by 2002:a05:6512:202c:: with SMTP id s12mr482927lfs.221.1611870369201;
+        Thu, 28 Jan 2021 13:46:09 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id f20sm1804044lfm.71.2021.01.28.13.46.07
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jan 2021 13:46:08 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id b2so9677627lfq.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Jan 2021 13:46:07 -0800 (PST)
+X-Received: by 2002:a05:6512:516:: with SMTP id o22mr147014lfb.487.1611870367595;
+ Thu, 28 Jan 2021 13:46:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20210121082451.2240540-1-morbo@google.com> <20210122101156.3257143-1-morbo@google.com>
- <CAKwvOdm+3o8z2GivPjSJRa=c=UKdfkiY-79s6yn2BxJkFnoFTw@mail.gmail.com>
- <CA+icZUU=XfwqMcXYonQKcD4QgqTBW-mA+d_84b7cU2R3HYPOSQ@mail.gmail.com>
- <CAKwvOdnUm2FqC0CEF3qFuMCaWoqiUMqr7ddMjA2UNsJugA9DNQ@mail.gmail.com>
- <CA+icZUWJu0FWdRY0DMQxpYwjqq1WTB87y9u1-6t3YMmkR3UsBQ@mail.gmail.com> <CAKwvOdnVic2MiVSkiTQGGKPFKtJrf=kt1LgjWejOK6mMtMiX3Q@mail.gmail.com>
-In-Reply-To: <CAKwvOdnVic2MiVSkiTQGGKPFKtJrf=kt1LgjWejOK6mMtMiX3Q@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 28 Jan 2021 22:39:00 +0100
-Message-ID: <CA+icZUUVpUban7Fka6xE9fXzgZT+SuFWeMfLELMNdKVD4O0TXA@mail.gmail.com>
-Subject: Re: [PATCH v7] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Bill Wendling <morbo@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+References: <fff056a7c9e6050c2d60910f70b6d99602f3bec4.1611863075.git.jpoimboe@redhat.com>
+ <CAHk-=wih0rLHsPXodpXJw_0F3bJqu=Pb_YNmPCSsYU_huoMwZA@mail.gmail.com>
+ <20210128205207.awdbh4bmx56pxxjl@treble> <CAHk-=wgh4DaZvTcFfBcDMKc1QXkKjwny_Z0H5JfzdwMTNTBkSw@mail.gmail.com>
+ <CAHk-=wh+3PWi2NuoQ0hbSyLpOHjaBWKcgX6N7+PfPkXzNAfMwA@mail.gmail.com> <20210128213409.qxnclchjyq6v23up@treble>
+In-Reply-To: <20210128213409.qxnclchjyq6v23up@treble>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 28 Jan 2021 13:45:51 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgjwhDy-y4mQh34L+2aF=n6BjzHdqAW2=8wri5x7O04pA@mail.gmail.com>
+Message-ID: <CAHk-=wgjwhDy-y4mQh34L+2aF=n6BjzHdqAW2=8wri5x7O04pA@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: Prevent compiler mismatch with external modules
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        David Laight <David.Laight@aculab.com>,
+        Jessica Yu <jeyu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 10:24 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Jan 28, 2021 at 1:34 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
 >
-> On Thu, Jan 28, 2021 at 1:19 PM Sedat Dilek <sedat.dilek@gmail.com> wrote=
-:
-> >
-> > On Thu, Jan 28, 2021 at 10:12 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Thu, Jan 28, 2021 at 12:46 PM Sedat Dilek <sedat.dilek@gmail.com> =
-wrote:
-> > > >
-> > > > [ LLVM ]
-> > > >
-> > > > Today, I switched over to LLVM version 12.0.0-rc1.
-> > > >
-> > > >
-> > > > [ Step #1: 5.11.0-rc5-5-amd64-clang12-pgo ]
-> > > >
-> > > > My first kernel was built with CONFIG_PGO_CLANG=3Dy and LLVM=3D1 pl=
-us LLVM_IAS=3D1.
-> > > >
-> > > > [ start-build_5.11.0-rc5-5-amd64-clang12-pgo.txt ]
-> > > > dileks    193090  193065  0 06:54 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld LLVM=3D1 LLVM_IAS=3D1 PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-5-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-5~bullseye+dileks1
-> > > >
-> > > > Config: config-5.11.0-rc5-5-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Step #2: x86-64 defconfig & vmlinux.profdata ]
-> > > >
-> > > > Booted into 5.11.0-rc5-5-amd64-clang12-pgo and built an x86-64
-> > > > defconfig to generate/merge a vmlinux.profdata file.
-> > > >
-> > > > [ start-build_x86-64-defconfig.txt ]
-> > > > dileks     18430   15640  0 11:15 pts/2    00:00:00 make V=3D1 -j4
-> > > > HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.lld CC=3Dclang LD=3Dld=
-.lld LLVM=3D1
-> > > > LLVM_IAS=3D1
-> > > >
-> > > > Script: profile_clang-pgo.sh
-> > > > Config: dot-config.x86-64-defconfig
-> > > >
-> > > >
-> > > > [ Step #3.1: 5.11.0-rc5-6-amd64-clang12-pgo & GNU-AS ]
-> > > >
-> > > > The first rebuild with CONFIG_PGO_CLANG=3Dn and "LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata".
-> > > > I was able to boot into this one.
-> > > > Used assembler: GNU-AS 2.35.1
-> > > >
-> > > > [ start-build_5.11.0-rc5-6-amd64-clang12-pgo.txt ]
-> > > > dileks     65734   65709  0 11:54 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-6-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-6~bullseye+dileks1 LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata
-> > > >
-> > > > Config: config-5.11.0-rc5-6-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Step #3.2: 5.11.0-rc5-7-amd64-clang12-pgo & Clang-IAS ]
-> > > >
-> > > > The second rebuild with CONFIG_PGO_CLANG=3Dn and "LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata" plus LLVM_IAS=3D1.
-> > > > Compilable but NOT bootable in QEMU and on bare metal.
-> > > > Used assembler: Clang-IAS v12.0.0-rc1
-> > > >
-> > > > [ start-build_5.11.0-rc5-7-amd64-clang12-pgo.txt ]
-> > > > dileks      6545    6520  0 16:31 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-7-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-7~bullseye+dileks1 LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata LLVM_IAS=3D1
-> > > >
-> > > > Config: config-5.11.0-rc5-7-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Conclusion ]
-> > > >
-> > > > The only statement I can tell you is a "PGO optimized" rebuild with
-> > > > LLVM_IAS=3D1 is compilable but NOT bootable.
-> > >
-> > > Thanks for the extensive testing and report. Can you compress, upload=
-,
-> > > and post a link to your kernel image? I would like to take it for a
-> > > spin in QEMU and see if I can find what it's doing, then work
-> > > backwards from there.
-> > >
-> >
-> > Which files do you need?
-> > For QEMU: bzImage and initrd.img enough?
+> On Thu, Jan 28, 2021 at 01:23:11PM -0800, Linus Torvalds wrote:
+> > THAT workaround is long gone, but I didn't check what other ones we
+> > might have now. But the gcc version checks we _do_ have are not
+> > necessarily about major versions at all (ie I trivially found checks
+> > for 4.9, 4.9.2, 5.1, 7.2 and 9.1).
 >
-> bzImage should be enough; I'll use my own initrd.  If that boots for
-> me, maybe then I'll take a look with the initrd added.
->
+> Then maybe the check should be same major.minor?
 
-You should receive an email with a link to my dropbox shared-folder
-"clang-pgo > for-nick".
-Please let me know if you were able to download.
+Well, how many of them are actually about things that generate
+incompatible object code?
 
-Thanks, Sedat
-=EF=BF=BC
+The main one I can think of is the KASAN ABI version checks, but
+honestly, I think that's irrelevant. I really hope no distros enable
+KASAN in user kernels.
+
+Another version check I looked at was the one that just checks whether
+the compiler natively supports __builtin_mul_overflow() or not - it
+doesn't generate incompatible object code, it just takes advantage of
+a compiler feature if one exists. You can mix and match those kinds of
+things well enough.
+
+So I'd really like to hear actual hard technical reasons with
+examples, for why you'd want to add this test in the first place.
+
+No hand-waving "different compiler versions don't work together".
+Because that's simply not true.
+
+> And convert it to a strongly worded warning/disclaimer?
+
+A warning might be better for the simple reason that it wouldn't cause
+people to just fix it with "make oldconfig".
+
+Maybe you haven't looked at people who compile external modules, but
+they always have various "this is how to work around issues with
+version XYZ". That "make oldconfig" would simply just become the
+workaround for any build errors.
+
+And a warning might be more palatable even if different compiler
+version work fine together. Just a heads up on "it looks like you
+might be mixing compiler versions" is a valid note, and isn't
+necessarily wrong. Even when they work well together, maybe you want
+to have people at least _aware_ of it.
+
+              Linus
