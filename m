@@ -2,81 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6309C307A2A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 16:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 848A9307A55
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Jan 2021 17:11:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbhA1P7m (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Jan 2021 10:59:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33359 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231220AbhA1P7m (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Jan 2021 10:59:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611849496;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Be25vmGqRhkmgPL4pLFQDcyJCsUHDsc9RcG0TdvFtds=;
-        b=K85BIQB1OflnNsugxDaOPIs7cq9EsURHzbGxCqgfh2t5vr4WhzY5+8NIKL47WYSnju8MFE
-        xXOl90IyD0grZQOHzAPEvC8fgu7IHZm2DF/mRRpX1MDVoLxsRPg/gxoB5q/DCaOeNIDk/7
-        9eQr43i5mHgc1Gh3V/xeE4o2bhjbID8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-zf5yUEjJOB2hIravAJ_WXA-1; Thu, 28 Jan 2021 10:58:14 -0500
-X-MC-Unique: zf5yUEjJOB2hIravAJ_WXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D4AB180A096;
-        Thu, 28 Jan 2021 15:58:12 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 056845D9F4;
-        Thu, 28 Jan 2021 15:58:03 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <8f0c3b88-872a-bbae-eaa2-1467b6f386a0@linux.vnet.ibm.com>
-References: <8f0c3b88-872a-bbae-eaa2-1467b6f386a0@linux.vnet.ibm.com> <20210122181054.32635-1-eric.snowberg@oracle.com> <20210122181054.32635-2-eric.snowberg@oracle.com> <399024a1-59fb-12b8-9ea9-9bbee843dbc8@linux.vnet.ibm.com> <13EE0575-2F90-4C49-AF5D-365B63D2CB64@oracle.com>
-To:     Nayna <nayna@linux.vnet.ibm.com>
-Cc:     dhowells@redhat.com, Eric Snowberg <eric.snowberg@oracle.com>,
-        dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
-        javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] certs: Add EFI_CERT_X509_GUID support for dbx entries
+        id S232185AbhA1QKo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Jan 2021 11:10:44 -0500
+Received: from verein.lst.de ([213.95.11.211]:57915 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232072AbhA1QKm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 28 Jan 2021 11:10:42 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id A3B7068AFE; Thu, 28 Jan 2021 17:09:57 +0100 (CET)
+Date:   Thu, 28 Jan 2021 17:09:57 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 13/13] module: remove EXPORY_UNUSED_SYMBOL*
+Message-ID: <20210128160957.GA2504@lst.de>
+References: <20210121074959.313333-1-hch@lst.de> <20210121074959.313333-14-hch@lst.de> <YBFvcmUiHRjkucbf@gunter>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3579294.1611849483.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Thu, 28 Jan 2021 15:58:03 +0000
-Message-ID: <3579295.1611849483@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YBFvcmUiHRjkucbf@gunter>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Nayna <nayna@linux.vnet.ibm.com> wrote:
+On Wed, Jan 27, 2021 at 02:49:38PM +0100, Jessica Yu wrote:
+>> #ifdef CONFIG_MODULE_SIG
+>> 	/* Signature was verified. */
+>> 	bool sig_ok;
+>> @@ -592,7 +580,6 @@ struct symsearch {
+>> 		GPL_ONLY,
+>> 		WILL_BE_GPL_ONLY,
+>> 	} license;
+>> -	bool unused;
+>> };
 
-> Thanks Eric for clarifying. I was confusing it with with the broader mea=
-ning
-> of revocation i.e. certificate revocation list. To avoid similar confusi=
-on in
-> the future, I wonder if we should call it as 'blocklist' or 'denylist' a=
-s
-> suggested in the document. This is to avoid conflicts with actual CRL su=
-pport
-> if added in the future. I also wonder if we should add the clarification=
- in
-> the patch description.
+> Thanks for the cleanups. While we're here, I noticed that struct
+> symsearch is only used internally in kernel/module.c, so I don't think
+> it actually needs to be in include/linux/module.h. I don't see it used
+> anywhere else. We could move maybe that to kernel/module-internal.h.
 
-Reject-list might be better.
-
-David
-
+I've added a patch to just move it directly into module.c.
