@@ -2,137 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48823309020
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jan 2021 23:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4E8309036
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jan 2021 23:47:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232848AbhA2WcH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Jan 2021 17:32:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59698 "EHLO
+        id S229676AbhA2Wlo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Jan 2021 17:41:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbhA2Wbw (ORCPT
+        with ESMTP id S229683AbhA2Wlf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Jan 2021 17:31:52 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48285C061573
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Jan 2021 14:31:12 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id jx18so7108670pjb.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Jan 2021 14:31:12 -0800 (PST)
+        Fri, 29 Jan 2021 17:41:35 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8BCFC061574
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Jan 2021 14:40:55 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id 8so801058plc.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Jan 2021 14:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mEuUNTLPjyCKU+1m6bFPUEO4cIWG2fR+kA7IEzmsiA0=;
-        b=MXQ3szzyutAJwpx9freM5P5nZtBdbzPRo9DqX45Y+eAKATqPcrdQ8wG5Cl5YJ/rm/D
-         X2E4zfRQqwpyQuRxesyxK6FL/smz/4zcdNBQ88GzDjV8VW2ci5WrKiKdTxCYWYA7+o2B
-         2P9y/wRdwIglbjUpEVC3bLxRXlzvalIG8Mc58ABIuLGso/xNT1XiFDiN4Y2YQ3zPDT4b
-         8+gzTn7RmCMg+xftHFBOifOW5zsiX7BLXZ42olQ1a5itnwUl2dEggiBQkgugVgGLEBgW
-         1Mymw9wHEVVblcehWi40xNb3k8GqVDiLpO2ABVf9WcYBaby+4QY45RsdK9JjTPnJzOiE
-         dLpw==
+        bh=1UeqBHRfeHjW15Sm624b1sYTdp/IVH05rFvVMr6lwzw=;
+        b=XDPPMVweGFsPiqUYCdU0BDmKm9HJrsAxkWJhV6oiNOLzQqE+AcjzCOXKmC2hHVUl0Q
+         tuV4pXeSe9wN16C92uURLv3+qULeweJxkF5TXe0xc7ZSWYPjDRtwUOnXeqxk4xTDLnBV
+         IaCA0IS1PA13d6TVp3OZP/+4iOA2qnLkR0HY1EkWdcoql+6O4+pJla8zCg3jAfyM4+b5
+         17gDhXMiIi55wo/piDuJ+ZFUdw3vvbleGTe/kQDrCDg3hGMjFLNJcnPA8VONTwndKlMq
+         rtNJgSfyKZy4YmKedLsOgNp0MeTPFfmSIO86uyC2B38XkBjvsYNAk4e703cBvNBk4htq
+         mFqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mEuUNTLPjyCKU+1m6bFPUEO4cIWG2fR+kA7IEzmsiA0=;
-        b=MuVJJzdW6iMe3Ew/dmvV2K8PljWWLAldiJ5sxZWTD2ZvxtmJ8Axgaiylq13OPwR8HN
-         u3sM5FldGnAIrQu4Svk+XPPUkphouzU9aMzBhW338ZPgI7NBv0FWXBjug3BtWlXvM9Zb
-         /KAKN9jhp/mzbITpM3lm0AXjVdrKvNR6dBh+QLPuGl/1riDVAeJWFdcbfOP1QQKuwMjH
-         yQ2ME2wk/xy7/pi61Gvo2Fv5Qg+drcvr32ZwNatkaYprYNTzhaC40xWgxQl3aurSGUel
-         ZaNghTCQ4Lc+4N6DC/9NEjfV0ZasbZrE8qVDSlM2xWs82pfTX0KhzCXEA7DGp8AI8pqT
-         taFA==
-X-Gm-Message-State: AOAM532lqminFvLzVcCtMyngKbc0Q+5v9k/op0ImRtQ4b2F5yG4jrUtm
-        g2Fgj9r6mWCytv+dvRj5/SxyWpt9BLIY34Iei2zfwg==
-X-Google-Smtp-Source: ABdhPJwZsd7PybQkVmrkiSQDc4U0xVvSfLsYOJxZuikVsd6WthzvrApfmvev2Zuw72TEGqzKpkNH/e4Nv7e7QE9S2ow=
-X-Received: by 2002:a17:90a:8b82:: with SMTP id z2mr6462674pjn.25.1611959471740;
- Fri, 29 Jan 2021 14:31:11 -0800 (PST)
+        bh=1UeqBHRfeHjW15Sm624b1sYTdp/IVH05rFvVMr6lwzw=;
+        b=d4jkQPYUd2zdf1h5ihVHJFi+8jrp/uzRkHCmwb22/9u0hDJUPgWU7HyiGgiPu787CX
+         dygzq4AvlS2UD9GcFkeKZawrAX83ePexY4RnnLdT+XO9Oazy8v9BQjkJusQpopY6weMw
+         SSYwY9It4jEe2Ez5h6L/Qq9Yxzo1zX68N0jZBL+NsmKvfeFpn4mJ+O3TEGBXZQEQTxra
+         9XqaC4QfKAcRDoVZzs493Z54jr4dehwRXTB31nf0ffRIpz8mSOxyTM2iLhfslxUl0Qzf
+         g2/FNRQgvwtqGkNZWJtd7NHnsQydl49P8EER2KJHzJ8wlJAnsEA3hEwslzMB2kXeLBLq
+         HETQ==
+X-Gm-Message-State: AOAM531beo2DtHQS4PfsxlJj2N0rxlE5T+Kmt5WjF0WFILwaCU1ytaqn
+        NPzSIE//O9LzshVjHwROTOdzO2S4QqIYRycJ1cjjXw==
+X-Google-Smtp-Source: ABdhPJxxqSWmcS2u0GdRlUBZpwrKoGLxA4dwIVSLbDnrhVI7puVsnxjoZIe1FiW6E1ctsbz3NZwyDgh7L6bez8tFCrg=
+X-Received: by 2002:a17:902:ed94:b029:de:8844:a650 with SMTP id
+ e20-20020a170902ed94b02900de8844a650mr6426596plj.56.1611960055108; Fri, 29
+ Jan 2021 14:40:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20210129194318.2125748-1-ndesaulniers@google.com>
- <20210129194318.2125748-3-ndesaulniers@google.com> <CA+icZUX4q-JhCo+UZ9T3FhbC_gso-oaB0OR9KdH5iEpoGZyqVw@mail.gmail.com>
- <CAKwvOdnj1Np62+eOiTOCRXSW6GLSv4hmvtWaz=0aTZEEot_dhw@mail.gmail.com>
- <CA+icZUWsyjDY58ZZ0MAVfWqBJ8FUSpM6=_5aqPcRTfX2W8Y-+Q@mail.gmail.com>
- <CAKwvOd=mHvEtto37rzFMfsFYe2e-Cp2MAiyRYxHWPdc-HbT8EA@mail.gmail.com>
- <CA+icZUWxK9fdV8PNGqbQrOFmSZ2Ts4nNqfVMMNUh5u79Ld7hjA@mail.gmail.com>
- <CA+icZUUo6URpxHh6_Tppv9_Z1dyhGDB2OqSCY3yRw72aA0EbMQ@mail.gmail.com>
- <CAKwvOdmWx0reabY-S3nXfTZuhs-_SP7pbb0uHyGeaNSQnm8eRQ@mail.gmail.com>
- <CA+icZUWsncyKvxPZ5g=a3ssWy=cYahsU6hprM3n=jFUmnjPC6w@mail.gmail.com>
- <CAKwvOdk4kG-_c3inNj9ry_xUU9SQE-2AqQp40YL_V=6SHU6E=Q@mail.gmail.com> <CA+icZUX576Rt7HJ4hvrwRTCC2pTmoH-Yu-haU+MDb8B6yADAYA@mail.gmail.com>
-In-Reply-To: <CA+icZUX576Rt7HJ4hvrwRTCC2pTmoH-Yu-haU+MDb8B6yADAYA@mail.gmail.com>
+ <20210129194318.2125748-2-ndesaulniers@google.com> <20210129201712.GQ4020736@tucnak>
+ <CAKwvOdkqcWOn6G7U6v37kc6gxZ=xbiZ1JtCd4XyCggMe=0v8iQ@mail.gmail.com>
+ <CAKwvOdk0zxewEOaFuqK0aSMz3vKNzDOgmez=-Dae4+bodsSg5w@mail.gmail.com>
+ <YBR+8KLWnjnMfP6i@rani.riverdale.lan> <20210129214137.GW4020736@tucnak>
+In-Reply-To: <20210129214137.GW4020736@tucnak>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 29 Jan 2021 14:31:01 -0800
-Message-ID: <CAKwvOdmq=L_ob-WpNBE-fSc3oYXT10ZvttfiXiZw3+SxaWWy-A@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] Kbuild: implement support for DWARF v5
-To:     Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 29 Jan 2021 14:40:44 -0800
+Message-ID: <CAKwvOdmqHs6xra3gD27XzbJ4DP2PiTipigmboV712bRqdVoo2g@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] Kbuild: make DWARF version a choice
+To:     Jakub Jelinek <jakub@redhat.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
         LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
         Fangrui Song <maskray@google.com>,
         Caroline Tice <cmtice@google.com>,
         Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
         Jiri Olsa <jolsa@kernel.org>,
         Andrii Nakryiko <andrii@kernel.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 2:23 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+On Fri, Jan 29, 2021 at 1:41 PM Jakub Jelinek <jakub@redhat.com> wrote:
 >
-> On Fri, Jan 29, 2021 at 11:21 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Fri, Jan 29, 2021 at 2:11 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Fri, Jan 29, 2021 at 11:09 PM Nick Desaulniers
-> > > <ndesaulniers@google.com> wrote:
-> > > >
-> > > > On Fri, Jan 29, 2021 at 1:20 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > >
-> > > > > On Fri, Jan 29, 2021 at 10:13 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > >
-> > > > > > On Fri, Jan 29, 2021 at 10:09 PM Nick Desaulniers
-> > > > > > <ndesaulniers@google.com> wrote:
-> > > > > > >
-> > > > > > > Can you tell me please what is the precise command line invocation of
-> > > > > > > make and which source file you observed this on so that I can
-> > > > > > > reproduce?
-> > > >
-> > > > If you don't send me your invocation of `make`, I cannot help you.
-> > > >
-> > >
-> > > /usr/bin/perf_5.10 stat make V=1 -j4 LLVM=1 LLVM_IAS=1
-> > > PAHOLE=/opt/pahole/bin/pahole LOCALVERSION=-10-amd64-clang12
-> > > -lto-pgo KBUILD_VERBOSE=1 KBUILD_BUILD_HOST=iniza
-> > > KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > > KBUILD_BUILD_TIMESTAMP=2021-01-29 bindeb-pkg
-> > > KDEB_PKGVERSION=5.11.0~rc5-10~bullseye+dileks1
-> >
-> > $ make LLVM=1 LLVM_IAS=1 -j72 defconfig
-> > $ make LLVM=1 LLVM_IAS=1 -j72 menuconfig
-> > <enable CONFIG_DEBUG_INFO and CONFIG_DEBUG_INFO_DWARF5>
-> > $ make LLVM=1 LLVM_IAS=1 -j72 V=1 &> log.txt
-> > $ grep '\-g -gdwarf-5 -g -gdwarf-5' log.txt | wc -l
-> > 0
-> > $ grep '\-g -gdwarf-5' log.txt | wc -l
-> > 2517
-> >
-> > Do have the patch applied twice, perhaps?
-> >
+> On Fri, Jan 29, 2021 at 04:32:32PM -0500, Arvind Sankar wrote:
+> > Given what Jakub is saying, i.e. it was previously impossible to get
+> > dwarf2 with gcc, and you get dwarf4 whether or not DEBUG_INFO_DWARF4 was
 >
-> Switched to my v6 local Git branch and invoked above make line I gave you.
-> I still see that double.
-> Looks like I need some "undrunken" switch.
+> It isn't impossible to get it, -gdwarf-2 works, it is just not a very good
+> choice (at least unless one knows some debug info consumer is not DWARF3 or
+> later ready).
+> Though, even gcc -gdwarf-2 will use many extensions from DWARF3 and later,
+> as long as there is no way to describe stuff in DWARF2.  -gstrict-dwarf
+> option requests that no DWARF extensions are used.
 
-Can you follow my steps precisely to see whether it's your .config?
-Perhaps there is a config that duplicates DEBUG_CFLAGS that is not set
-in the defconfig?  If so, it's still harmless to specify the same
-commands twice, and likely isn't introduced by this patch set if so;
-so I'm not sure how much more effort is worth pursuing.
+Playing with this in godbolt, it looks like the implicit default dwarf
+version changed from 2 to 4 in somewhere between the GCC 4.7.4 and
+4.8.1 release. The precise version, and whether it was strictly that
+version or not doesn't matter much; the minimum supported version of
+GCC for building the kernel currently being 4.9 means that without
+specifying DEBUG_INFO_DWARF4, that all kernel developers regardless of
+toolchain and supported toolchain version have been building as DWARF
+v4 (implicitly, or explicitly). DWARF v2 is quite irrelevant then.
+
+Ok, so I think Arvind's suggestion of "make DEBUG_INFO_DWARF4 a menu
+option, just don't add a DEBUG_INFO_DWARF2" makes a lot of sense.
+Will drop DEBUG_INFO_DWARF2 in v7.
 -- 
 Thanks,
 ~Nick Desaulniers
