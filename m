@@ -2,104 +2,157 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22D63308F19
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jan 2021 22:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDAA8308F23
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Jan 2021 22:16:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233199AbhA2VMm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Jan 2021 16:12:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28056 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232808AbhA2VMl (ORCPT
+        id S233345AbhA2VOw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Jan 2021 16:14:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232918AbhA2VOu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Jan 2021 16:12:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611954675;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:in-reply-to:in-reply-to:  references:references;
-        bh=shT0OeZAFzbhZjSLEQmMeSn6z+pT7stkEH8f+xcX918=;
-        b=TMoakqykxbPhoaASeZHbOhc0j5W9CCw7soGjg1xVkO3VuDe6G84fhw4lhIY40JMTyWzdiE
-        DGk1cxhxi73vOcL+X3+DLzepdpCZ5IMl0lhDHXA53eCbqEkpa49QNF6UOEQxdv/ZHGv381
-        IQ4gsh3E2hHhmZx0WXpV/I6TsYBFufQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-Vw16BpxQMgqiuTPKuage9A-1; Fri, 29 Jan 2021 16:11:11 -0500
-X-MC-Unique: Vw16BpxQMgqiuTPKuage9A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCB9B802B46;
-        Fri, 29 Jan 2021 21:11:08 +0000 (UTC)
-Received: from tucnak.zalov.cz (ovpn-112-64.ams2.redhat.com [10.36.112.64])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F05C5C257;
-        Fri, 29 Jan 2021 21:11:08 +0000 (UTC)
-Received: from tucnak.zalov.cz (localhost [127.0.0.1])
-        by tucnak.zalov.cz (8.16.1/8.16.1) with ESMTPS id 10TLB4Bq2565520
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Fri, 29 Jan 2021 22:11:05 +0100
-Received: (from jakub@localhost)
-        by tucnak.zalov.cz (8.16.1/8.16.1/Submit) id 10TLB3RH2565499;
-        Fri, 29 Jan 2021 22:11:03 +0100
-Date:   Fri, 29 Jan 2021 22:11:02 +0100
-From:   Jakub Jelinek <jakub@redhat.com>
+        Fri, 29 Jan 2021 16:14:50 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF12EC061573;
+        Fri, 29 Jan 2021 13:14:10 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id y17so9792297ili.12;
+        Fri, 29 Jan 2021 13:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=Y5eleuovVYlYGhKSgobmMAxGgubqmiuAwZoAc4FZso8=;
+        b=ISXN4hx2Gb+uZoyP/IDkD+TXSfBx+Sts9bwVtz1KNBTGkoy2x4WU2rrRdR2At2Cik0
+         RtNRPkBvws+CnAOF+d8RP98qdDNk3HfDkStF4tONnWFOvGiV9fNJN3YCVvuWjoZGJfqD
+         uviJ3cQhwc9ZVbgQjMYTV5yxwC+zETEqY6aWNpTy6a3WKY5gGm2FgSJnHND2fPhXkDzg
+         vTAWRVmnej3mSFxVVG6XodJBr8aCveuQOVB92doX3C+ws7vFPgw6mQRP2AnICAatnJh7
+         ZaeV3LjbSe6EgtkOKTufJpkRNazoxCD8q5DrKY983in+8lYO5YWLz366VS1G7sWOYQWP
+         GAhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=Y5eleuovVYlYGhKSgobmMAxGgubqmiuAwZoAc4FZso8=;
+        b=seLCI0bUMPpdHFyzJ/pRZBG7jKJTn24qebCI7I4GyCwR1WwPLOSkSgoklcE0VPrEVU
+         laJHUoaFNQZe7zXsuAZ7yvUHxP6htgzPUd87C06wuT8jA53uFc4b3gKv1mglnrRk3Fai
+         aelsZ3KMkCGHNv9B7kN1qFDT9iopg36Chs/hRtRU+Pd9Dmlmg6yjfR6O+Yrm0xkl1ixM
+         lC8ddPrfRHhB127fcKATLoJuXej+IyarWt9gVyPjQkN/QjspvuofTKkhigAsjWCP50w3
+         0KUCQ0EcleTL2FRYbP4KCFHmButhxaTF4qUeaHWB9tFdgGf5+83Bx265LazyFeazYhO4
+         UWBw==
+X-Gm-Message-State: AOAM532ioYE90U6TSQyd10uS8g7Q1ESVo6c2/y52xdbxD+elhrQvhC5t
+        jgOG+xBZUiBoG9yRTzCKBAv34m+vx7VVBgeum/Y=
+X-Google-Smtp-Source: ABdhPJwJ6YvdtSJmGOgGXc7eehbuIqJGc/L8RmzRBCZGMXyDZS3mYPvwZ8vCT/qVRXihwuzMdaekc319iXawi07dmkE=
+X-Received: by 2002:a92:c80b:: with SMTP id v11mr4425537iln.215.1611954850115;
+ Fri, 29 Jan 2021 13:14:10 -0800 (PST)
+MIME-Version: 1.0
+References: <20210129194318.2125748-1-ndesaulniers@google.com>
+ <20210129194318.2125748-3-ndesaulniers@google.com> <CA+icZUX4q-JhCo+UZ9T3FhbC_gso-oaB0OR9KdH5iEpoGZyqVw@mail.gmail.com>
+ <CAKwvOdnj1Np62+eOiTOCRXSW6GLSv4hmvtWaz=0aTZEEot_dhw@mail.gmail.com>
+ <CA+icZUWsyjDY58ZZ0MAVfWqBJ8FUSpM6=_5aqPcRTfX2W8Y-+Q@mail.gmail.com> <CAKwvOd=mHvEtto37rzFMfsFYe2e-Cp2MAiyRYxHWPdc-HbT8EA@mail.gmail.com>
+In-Reply-To: <CAKwvOd=mHvEtto37rzFMfsFYe2e-Cp2MAiyRYxHWPdc-HbT8EA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 29 Jan 2021 22:13:58 +0100
+Message-ID: <CA+icZUWxK9fdV8PNGqbQrOFmSZ2Ts4nNqfVMMNUh5u79Ld7hjA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] Kbuild: implement support for DWARF v5
 To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nick Clifton <nickc@redhat.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
         Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>, Yonghong Song <yhs@fb.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
         Jiri Olsa <jolsa@kernel.org>,
         Andrii Nakryiko <andrii@kernel.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Arvind Sankar <nivedita@alum.mit.edu>
-Subject: Re: [PATCH v6 2/2] Kbuild: implement support for DWARF v5
-Message-ID: <20210129211102.GT4020736@tucnak>
-Reply-To: Jakub Jelinek <jakub@redhat.com>
-References: <20210129194318.2125748-1-ndesaulniers@google.com>
- <20210129194318.2125748-3-ndesaulniers@google.com>
- <CA+icZUX4q-JhCo+UZ9T3FhbC_gso-oaB0OR9KdH5iEpoGZyqVw@mail.gmail.com>
- <CAKwvOdnj1Np62+eOiTOCRXSW6GLSv4hmvtWaz=0aTZEEot_dhw@mail.gmail.com>
- <20210129205702.GS4020736@tucnak>
- <CAKwvOdmuSaf28dOdP8Yo6+RyiviMNKcq8JY=-qgbwjbPVwHmLw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmuSaf28dOdP8Yo6+RyiviMNKcq8JY=-qgbwjbPVwHmLw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 01:05:56PM -0800, Nick Desaulniers wrote:
-> > Wasn't that fixed in GAS?
-> > https://sourceware.org/bugzilla/show_bug.cgi?id=27195
-> 
-> $ make LLVM=1 -j72 defconfig
-> $ ./scripts/config -e DEBUG_INFO -e DEBUG_INFO_DWARF5
-> $ make LLVM=1 -j72
+On Fri, Jan 29, 2021 at 10:09 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Fri, Jan 29, 2021 at 12:55 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >
+> > On Fri, Jan 29, 2021 at 9:48 PM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > >
+> > > On Fri, Jan 29, 2021 at 12:41 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > >
+> > > > On Fri, Jan 29, 2021 at 8:43 PM Nick Desaulniers
+> > > > <ndesaulniers@google.com> wrote:
+> > > > >
+> > > > > diff --git a/Makefile b/Makefile
+> > > > > index 20141cd9319e..bed8b3b180b8 100644
+> > > > > --- a/Makefile
+> > > > > +++ b/Makefile
+> > > > > @@ -832,8 +832,20 @@ endif
+> > > > >
+> > > > >  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
+> > > > >  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> > > > > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+> > > > >  DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> > > > >
+> > > > > +# If using clang without the integrated assembler, we need to explicitly tell
+> > > > > +# GAS that we will be feeding it DWARF v5 assembler directives. Kconfig should
+> > > > > +# detect whether the version of GAS supports DWARF v5.
+> > > > > +ifdef CONFIG_CC_IS_CLANG
+> > > > > +ifneq ($(LLVM_IAS),1)
+> > > > > +ifeq ($(dwarf-version-y),5)
+> > > > > +DEBUG_CFLAGS   += -Wa,-gdwarf-5
+> > > >
+> > > > I noticed double "-g -gdwarf-5 -g -gdwarf-5" (a different issue) and
+> > > > that's why I looked again into the top-level Makefile.
+> > >
+> > > That's...unexpected.  I don't see where that could be coming from.
+> > > Can you tell me please what is the precise command line invocation of
+> > > make and which source file you observed this on so that I can
+> > > reproduce?
+> > >
+> >
+> > That's everywhere...
+> >
+> > $ zstdgrep --color '\-g -gdwarf-5 -g -gdwarf-5'
+> > build-log_5.11.0-rc5-8-amd64-clang12-lto.txt.zst
+> > | wc -l
+> > 29529
+>
+> I'm not able to reproduce.
+>
+> $ make LLVM=1 -j72 V=1 2>&1 | grep dwarf
 > ...
-> /tmp/init-d50d89.s: Assembler messages:
-> /tmp/init-d50d89.s:10: Error: file number less than one
-> /tmp/init-d50d89.s:11: Error: junk at end of line, first unrecognized
-> character is `m'
-> 
-> which is https://sourceware.org/bugzilla/show_bug.cgi?id=25611.
-> 
-> $ as --version | head -n1
-> GNU assembler (GNU Binutils for Debian) 2.35.1
-> 
-> Maybe GAS should not need to be told -gdwarf-5 to parse these?  Then
-> we would not need to pass -Wa,-gdwarf-5 via clang with
-> -no-integrated-as.
+> clang ... -g -gdwarf-5 -Wa,-gdwarf-5 ...
+> ...
+>
+> $ make LLVM=1 LLVM_IAS=1 -j72 V=1 2>&1 | grep dwarf
+> ...
+> clang ... -g -gdwarf-5 ...
+> ...
+>
 
-That is what sw#27195 is about, just try current binutils 2.35, 2.36 or
-trunk branches.
+Hmm...
 
-	Jakub
+I do not see in my current build "-Wa,-gdwarf-5" is passed with v6.
 
+$ grep '\-Wa,-gdwarf-5' build-log_5.11.0-rc5-10-amd64-clang12-lto-pgo.txt
+[ empty ]
+
+
+- Sedat
+
+
+
+
+> Can you tell me please what is the precise command line invocation of
+> make and which source file you observed this on so that I can
+> reproduce?
+> --
+> Thanks,
+> ~Nick Desaulniers
