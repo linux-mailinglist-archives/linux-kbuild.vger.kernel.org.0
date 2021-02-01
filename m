@@ -2,64 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79B5030CF23
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Feb 2021 23:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC715309FD3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Feb 2021 02:02:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235774AbhBBWeZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Feb 2021 17:34:25 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhBBWeU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:34:20 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
-        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:14:15 +0000
-Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:14:13 -0000
+        id S229840AbhBABCP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 31 Jan 2021 20:02:15 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:50861 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229769AbhBABCK (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 31 Jan 2021 20:02:10 -0500
+Received: from grover.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 11110Q7l020883;
+        Mon, 1 Feb 2021 10:00:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 11110Q7l020883
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612141227;
+        bh=Yn+Tf3HGAEioYc6JBIVmwGi6Ax6MoFt5q/WinIF06PA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uC8zR0gbsiiLQZBhgtMoIFYNL4dvk52zmJb9h03m5R6qx/cwHE2ZHwMw1taHZGhBH
+         VuvXgT/2yxBw0CidydiigRXV9tqC9Tews/2yU+xuVzErFZ77/QFhTIwCEamehesMIZ
+         PaQHSqEIbdgsEPEAd4QVelLjQyI+TCIxQCFs/V9ahTli4IQtvt6f0BJs/QFil89aNY
+         h++Jew3tjRLm9UjgoCH+6Eh1ud/LniQVX9eYhrr1Wc1ZXWxFWmdzmIb44oFUT6lEW2
+         Ydm2chp2OBe7jCe4/ErzTo5aNYuhpTveHGqzPsLBRIyaRFekq/bcVz0aTQ0Vk07wvd
+         aBt0JHpDxB7gw==
+X-Nifty-SrcIP: [126.26.94.251]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tony Luck <tony.luck@intel.com>, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove PYTHON variable
+Date:   Mon,  1 Feb 2021 10:00:24 +0900
+Message-Id: <20210201010024.654526-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+Python retired in 2020, and some distributions do not provide the
+'python' command any more.
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+As in commit 51839e29cb59 ("scripts: switch explicitly to Python 3"),
+we need to use more specific 'python3' to invoke scripts even if they
+are written in a way compatible with both Python 2 and 3.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+This commit removes the variable 'PYTHON', and switches the existing
+users to 'PYTHON3'.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+BTW, PEP 394 (https://www.python.org/dev/peps/pep-0394/) is a helpful
+material.
 
-Regards,
-Ms. Reem.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/Makefile             | 2 +-
+ Documentation/kbuild/makefiles.rst | 2 +-
+ Makefile                           | 3 +--
+ arch/ia64/Makefile                 | 2 +-
+ arch/ia64/scripts/unwcheck.py      | 2 +-
+ scripts/jobserver-exec             | 2 +-
+ 6 files changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 61a7310b49e0..9c42dde97671 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -75,7 +75,7 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+       cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
+ 	PYTHONDONTWRITEBYTECODE=1 \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+-	$(PYTHON) $(srctree)/scripts/jobserver-exec \
++	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+ 	$(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+ 	$(SPHINXBUILD) \
+ 	-b $2 \
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 9f6a11881951..300d8edcb994 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -755,7 +755,7 @@ more details, with real examples.
+ 	bits on the scripts nonetheless.
+ 
+ 	Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
+-	$(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
++	and $(PYTHON3) to refer to interpreters for the respective
+ 	scripts.
+ 
+ 	Example::
+diff --git a/Makefile b/Makefile
+index b0e4767735dc..89217e4e68c6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -452,7 +452,6 @@ AWK		= awk
+ INSTALLKERNEL  := installkernel
+ DEPMOD		= depmod
+ PERL		= perl
+-PYTHON		= python
+ PYTHON3		= python3
+ CHECK		= sparse
+ BASH		= bash
+@@ -508,7 +507,7 @@ CLANG_FLAGS :=
+ 
+ export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
+ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+-export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
++export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+ export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+ 
+diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+index 703b1c4f6d12..45d5368d6a99 100644
+--- a/arch/ia64/Makefile
++++ b/arch/ia64/Makefile
+@@ -69,7 +69,7 @@ vmlinux.bin: vmlinux FORCE
+ 	$(call if_changed,objcopy)
+ 
+ unwcheck: vmlinux
+-	-$(Q)READELF=$(READELF) $(PYTHON) $(srctree)/arch/ia64/scripts/unwcheck.py $<
++	-$(Q)READELF=$(READELF) $(PYTHON3) $(srctree)/arch/ia64/scripts/unwcheck.py $<
+ 
+ archclean:
+ 
+diff --git a/arch/ia64/scripts/unwcheck.py b/arch/ia64/scripts/unwcheck.py
+index bfd1b671e35f..9581742f0db2 100644
+--- a/arch/ia64/scripts/unwcheck.py
++++ b/arch/ia64/scripts/unwcheck.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ # Usage: unwcheck.py FILE
+diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
+index 0fdb31a790a8..48d141e3ec56 100755
+--- a/scripts/jobserver-exec
++++ b/scripts/jobserver-exec
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0+
+ #
+ # This determines how many parallel tasks "make" is expecting, as it is
+-- 
+2.27.0
 
