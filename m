@@ -2,81 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBCBA315453
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 17:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2800D31595B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 23:24:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233086AbhBIQtg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 11:49:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47667 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233200AbhBIQrw (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 11:47:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612889186;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9bKjwgbZ1EP33vL7JsMvHcw8xSOrDL2Zn14AJKji9VU=;
-        b=R+RjCt/NJDlo9uyxze+EHMXseJGc7qULXCph8rscMJv0RJwvefik0Z6VSyjGZ08pBuGv4m
-        kbPAtzWLQppiNwWzt7nlJLyGP8IOTGLppfPWJiW5WyfVe4lwsw6kI8Z4O7JSZ9WtevdCX9
-        aVyl8Z3SXYNj7Af3gfqFAMaY7/0NQK4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-alYt63OcOQKjNdkohcNTEQ-1; Tue, 09 Feb 2021 11:46:23 -0500
-X-MC-Unique: alYt63OcOQKjNdkohcNTEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A03107ACE8;
-        Tue,  9 Feb 2021 16:46:21 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C58A5D705;
-        Tue,  9 Feb 2021 16:46:14 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <5055b9b4-2808-8816-d50c-e651bd88a7c3@digikod.net>
-References: <5055b9b4-2808-8816-d50c-e651bd88a7c3@digikod.net> <74EC102D-BD18-4863-A7FB-C88439654C8C@oracle.com> <20210122181054.32635-1-eric.snowberg@oracle.com> <1103491.1612369600@warthog.procyon.org.uk> <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net> <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com> <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net> <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com> <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net> <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com> <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net> <525705.1612876446@warthog.procyon.org.uk>
-To:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FMicka=3Dc3=3Dabl=5FSala=3Dc3=3Dbcn=3F?=
-         =?us-ascii?Q?=3D?= <mic@digikod.net>,
-        Eric Snowberg <eric.snowberg@oracle.com>
-Cc:     dhowells@redhat.com, dwmw2@infradead.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-Subject: Re: Re: Conflict with =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn's?=
- blacklist patches [was [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for
- dbx/mokx entries]
+        id S234306AbhBIWWd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 17:22:33 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:50631 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S233932AbhBIWKw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 9 Feb 2021 17:10:52 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
+        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Mon, 1 Feb 2021 08:50:14 +0000
+Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Mon, 1 Feb 2021 08:50:13 -0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date:   Tue, 09 Feb 2021 16:46:13 +0000
-Message-ID: <595105.1612889173@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> wrote:
+Hello,
 
-> The only commit causing issues is commit f78e50c8f750 ("certs: Factor
-> out the blacklist hash creation"). I think my last patch fix the issue,
-> and I'm testing with the UEFI DBX, but I don't understand why this
-> change would have an impact. In the meantime you can push Eric's commits
-> first, I'll adapt my changes.
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-Okay.  In that case, I've dropped your branch from my keys-next branch for =
-the
-moment and remerged Eric's branch.
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-David
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
+
+Regards,
+Ms. Reem.
 
