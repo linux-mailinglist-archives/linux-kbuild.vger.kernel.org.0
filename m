@@ -2,104 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A3230C5AA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Feb 2021 17:29:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD75B30C81B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Feb 2021 18:44:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236450AbhBBQ3N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Feb 2021 11:29:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52626 "EHLO
+        id S233870AbhBBRlf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Feb 2021 12:41:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236284AbhBBQ04 (ORCPT
+        with ESMTP id S236850AbhBBRjb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Feb 2021 11:26:56 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792A9C06178B;
-        Tue,  2 Feb 2021 08:26:15 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id z18so19339511ile.9;
-        Tue, 02 Feb 2021 08:26:15 -0800 (PST)
+        Tue, 2 Feb 2021 12:39:31 -0500
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC70C061786;
+        Tue,  2 Feb 2021 09:38:51 -0800 (PST)
+Received: by mail-vs1-xe2b.google.com with SMTP id k9so2083658vsr.3;
+        Tue, 02 Feb 2021 09:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uUPSf5IONoMjH7eJPdjOKIHOgkvLOpGL4eqwWCbjGqQ=;
-        b=VnsLZMaMRaxj7WfTbrUjXcfUBtOJvRdty0dDO+U2Eh9+5DIogmRJs8nsGV+0p1ppBm
-         z53Se1utHs8QgVHjuWDH6rTIxGRNUl4Mwgt1m+FGzRCurII7IoX6z7a3Y+10kvzwPBTG
-         6czCsyV3zX4mKbUm1CvSJKZGeVwiJz9fqC80p7FSf5H4cX972oCrZqMOYWwynmDyR6Ks
-         mgl3jSagE26iDArQM9FzC4fuys07ib4rGC7RG13HIeD8lxBioUz7JWft/P5hGRY7fyeW
-         NjF4CTpfGSmzygDz+72Cwva1CxHj68LV54H02Hb8MKc1kJ6j7NIIkibSG0U0vVgj8vnT
-         Bf6g==
+        bh=eHAW1mrB7zvHhh97f0tcropb/e113NgWFEAjP6gLbCQ=;
+        b=P5+gYqPz5l2mFlVKQREHmz6Kr0fA/RiH9maBRKb+UIPpLrmJCqO0uZtlprkvOcVC7R
+         zfLNlUQD86NkP+ifjcEWmIBbuauC+qpY41TpCmhwHtmog0l7nn9JmHrn+u+THmtLIdRH
+         0KnCTzdZzCy8vq0biUzKHV1wh4EBiZ9oAhpnAVrPJLt++k/V0XTB8bMDbd3Qdhisf4xn
+         zldT4XKEDyVCBwD/nZj1eNAdMGt3Bg7tXjS8x0Jxcv2kvkr0eEq97P/HBzukApwh349g
+         hMt5JK//cZJtHt8GTmxsjoMa4oHwEaTmQsEBjy8RLtIA7UYf87pdqgL7wYkBBpfw2voR
+         5vXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uUPSf5IONoMjH7eJPdjOKIHOgkvLOpGL4eqwWCbjGqQ=;
-        b=C7oAh5lAqj4BjyEefMbWelr/dm0B1nj0rPOVfZ4WHRe3Zx3q3KdL/mbtp//GLURP7m
-         X1jRzU2xmrX5oWAfwUkZxZnFGHi+GMRlAUs2UQRa0wEYQ3CTuh2rQWQte1h0IOcbDpQn
-         NIwFE1AnKmZMlsRpl/vXhmApW9nsXs1gW3su47LGO3PUQ2Z+OnCe+BVjStHnnbCv9/F3
-         ogt1/VoPQk0dYce22Ztc5KeUJI02V4cMdtJMtFP+lbvhQNltd2Jt0X8JPH2oqJbdw878
-         qUfJU0mnZfa4FIkmfEU/fdKc+PaT6WXCtAXHIz4P9rq3z3kCceaf4jaC/qE/lfhIYQFx
-         gj+A==
-X-Gm-Message-State: AOAM5313JU+AyQf9ng+rmgE5uCWHJfuhIihFcsIQg7kEaJ/V6DCAMAMJ
-        ZwnYbD9lwVhYHmJAc0jCSjtGXsAKx+kuFhRaqFJcpdXqMz8=
-X-Google-Smtp-Source: ABdhPJzce812e00lFV/98GezeHMsK91BtHrPg83M1U807OvDlwrIfgM7Kzat6SmzGT6F4/pLAaLB1/wCSDCDotAxpuw=
-X-Received: by 2002:a05:6e02:1343:: with SMTP id k3mr530712ilr.102.1612283174756;
- Tue, 02 Feb 2021 08:26:14 -0800 (PST)
+        bh=eHAW1mrB7zvHhh97f0tcropb/e113NgWFEAjP6gLbCQ=;
+        b=EEPLiruZAjwDyUNhI3I0Aq4rxZzHGpOR48riK5CymnbhOiI4SJ5LlMu3E21H/vHNs2
+         4f2uWrVnonZI+uTNTOdcnE2pcbEm0YGJr3/KqSfnSERwhntFKF5ntw2IszhvXxiTtUL4
+         f+duxiSQ2tRyW+m9Gz+GOSGjw9ArEH4LKTXhejKqHhERM2NSu+BS76Iy66mFGwvPG/jv
+         W1aQcDTF8PJ6zrJwvgKxziVtKAnHiZwbjyGzqOV0xpBloeS6N7FiYYZ5v+pp7EbZUBUK
+         btloJpylj/SRlmPn2rq1J5fJkqb+6/SalZ8eLHZUxsDI693ii0mYdZs0CzLA8h6lqVBH
+         TlSg==
+X-Gm-Message-State: AOAM531abkMtLsc5c1kX24uRJ7VmlyLQS8jCOaKNLlwcuDRjpXt90GXW
+        gbXqJnYWZJf16Gi7jsEtnbfV9Zni3eCYtp96Ick=
+X-Google-Smtp-Source: ABdhPJxr6UuPLfiTQWU0PtI4KjGAd7lT5wP47Eg2A5ysqKhDWcwimMgCtP8JDHk8rXFO/C2SX4AsHulH76L2ZXyS3BI=
+X-Received: by 2002:a05:6102:96:: with SMTP id t22mr13599418vsp.22.1612287530852;
+ Tue, 02 Feb 2021 09:38:50 -0800 (PST)
 MIME-Version: 1.0
-References: <CAE1WUT6mp80yFDgAirZcKvc31O23ynpLGcsdPaa8qd1dsXiXhg@mail.gmail.com>
- <20210202053307.GB28542@1wt.eu>
-In-Reply-To: <20210202053307.GB28542@1wt.eu>
-From:   Amy Parker <enbyamy@gmail.com>
-Date:   Tue, 2 Feb 2021 08:26:02 -0800
-Message-ID: <CAE1WUT4r1oNmu_7y6AMMSNyNmt8LYo6DXa2DPR=wOGb27XErZA@mail.gmail.com>
-Subject: Re: Alternative compilers to GCC/Clang
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-gcc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20210202121334.1361503-1-hch@lst.de> <YBljkDgMFcqKcH8H@gunter>
+In-Reply-To: <YBljkDgMFcqKcH8H@gunter>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Tue, 2 Feb 2021 17:38:39 +0000
+Message-ID: <CACvgo50f0d9fYZ+n4nSBOCgaGpe=x6_tfXPPGB2FiDVwGgaAJA@mail.gmail.com>
+Subject: Re: module loader dead code removal and cleanups v3
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     Christoph Hellwig <hch@lst.de>, Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        linux-kbuild@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 1, 2021 at 9:33 PM Willy Tarreau <w@1wt.eu> wrote:
+Hi Jessica,
+
+On Tue, 2 Feb 2021 at 14:37, Jessica Yu <jeyu@kernel.org> wrote:
 >
-> Hi Amy,
+> +++ Christoph Hellwig [02/02/21 13:13 +0100]:
+> >Hi all,
+> >
+> >this series removes support for long term unused export types and
+> >cleans up various loose ends in the module loader.
+> >
+> >Changes since v2:
+> > - clean up klp_find_object_symbol a bit
+> > - remove the now unused module_assert_mutex helper
+> >
+> >Changes since v1:
+> > - move struct symsearch to module.c
+> > - rework drm to not call find_module at all
+> > - allow RCU-sched locking for find_module
+> > - keep find_module as a public API instead of module_loaded
+> > - update a few comments and commit logs
 >
-> On Mon, Feb 01, 2021 at 03:31:49PM -0800, Amy Parker wrote:
-> > Hello! My name's Amy. I'm really impressed by the work done to make
-> > Clang (and the LLVM toolchain overall) able to compile the kernel.
-> > Figured I might as well donate my monkey hours to helping make it run
-> > on other compilers as well. I haven't been able to find any that use
-> > the same arguments structure as GCC and Clang (read: you can pass it
-> > in as CC=compilername in your $MAKEOPTS). Any compilers along that
-> > route anyone here has worked with that I could work with?
+> Thanks Christoph for cleaning up all that aged cruft, and thanks everyone
+> for the reviews.
 >
-> If you're interested, you should have a look at TCC (tiny CC) :
+> I was curious about EXPORT_SYMBOL_GPL_FUTURE and EXPORT_UNUSED_SYMBOL
+> variants, and found that most of that stuff was introduced between
+> 2006 - 2008. All the of the unused symbols were removed and gpl future
+> symbols were converted to gpl quite a long time ago, and I don't
+> believe these export types have been used ever since. So I
+> think it's safe to retire those export types now.
 >
->      https://repo.or.cz/tinycc.git
+I believe you're spot on - based on reading through git log and
+checking the ML archives.
 
-Thank you for linking this! Wasn't able to find this git repository
-for it - only binaries for nonfree operating systems (yuck).
+Shame I didn't get to finish a similar series I had locally. Patches
+11-13 match what I have here so:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
->
-> It compiles extremely fast, implements some subsets of gcc (a few
-> attributes for example), but is far from being able to compile a kernel
-
-Well, we'll see what I can do with that. :)
-
-> (at least last time I checked). Its speed makes it very convenient for
-> development. I made some efforts to make haproxy support it (and provided
-> some fixes to tcc) as it compiles the whole project in 0.5 second instead
-> of ~10 seconds with a modern gcc. It could probably compile a kernel in
-> 15-20 seconds if properly supported, and this could be particularly handy
-> for development and testing.
-
-Oh wow, yeah, that would be great. Thank you for pointing this out!
-Compiling the kernel in 15-20 seconds instead of the current *couple
-minutes* would definitely be great.
-
->
-> Regards,
-> Willy
-
-Best regards,
-Amy Parker
-(she/her/hers)
+HTH
+-Emil
