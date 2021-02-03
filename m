@@ -2,96 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC90730DEE7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 16:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 237A330DFBA
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 17:29:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234577AbhBCP5Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Feb 2021 10:57:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33148 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234668AbhBCPzz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 10:55:55 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B71AA64E3D;
-        Wed,  3 Feb 2021 15:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612367681;
-        bh=6klP67F/eJlyfcD5sePw8yJKwGPDEhrxwWlDTcc1Z80=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=w2sF7j3dmDgddukSnhCXQQ1UlATkp2X+YrR5kJ6m86eC6Mzl4ybjK6B7tJzqwEl7o
-         c/WwMbQyUqo7xIkcPDy5GnH3BcXBGuvn3Dp7HLVe9+crZMvMzr30/LTzaauXja2/rm
-         vsJK0Voe/naMBeP58LHZwFutjZHV8XbcfVd6xbbw=
-Date:   Wed, 3 Feb 2021 16:54:38 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Will McVicker <willmcvicker@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
+        id S234104AbhBCQ2Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 11:28:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52504 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232516AbhBCQ2V (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 3 Feb 2021 11:28:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612369614;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TJ27nuib/BMh125sOPWVUK4Tvaq9/Z2cw9xS+xjyBBk=;
+        b=IxH4EDpJRB30krIyyHqtjGx0Pr0Dgl+ZyzGGZ7gSLtaGlHKdiT9NTGcbR+fwK/3eawlxjt
+        H7hEv4f6hdW4dMxIN+pLQFz0h+FywIk1LRur6JaRisQTrw1a2XWW2pTABsG5FMLaSXSgM3
+        mnlHz0YHecuOtoKxyHQCaqC6drL1bOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-YscSzPlHPqmodnkxCaSjFQ-1; Wed, 03 Feb 2021 11:26:53 -0500
+X-MC-Unique: YscSzPlHPqmodnkxCaSjFQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B0AA100C61B;
+        Wed,  3 Feb 2021 16:26:50 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A3875B4A1;
+        Wed,  3 Feb 2021 16:26:41 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20210122181054.32635-1-eric.snowberg@oracle.com>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+To:     Eric Snowberg <eric.snowberg@oracle.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc:     dhowells@redhat.com, dwmw2@infradead.org, jarkko@kernel.org,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
+        javierm@redhat.com, keyrings@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v6] modules: introduce the MODULE_SCMVERSION config
-Message-ID: <YBrHPqlQHppzBPpn@kroah.com>
-References: <20210121213641.3477522-1-willmcvicker@google.com>
- <YBrFSLASG5yiqtZT@gunter>
+        linux-security-module@vger.kernel.org
+Subject: Conflict with =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn's?= blacklist
+ patches [was [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for dbx/mokx
+ entries]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBrFSLASG5yiqtZT@gunter>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date:   Wed, 03 Feb 2021 16:26:40 +0000
+Message-ID: <1103491.1612369600@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 04:46:16PM +0100, Jessica Yu wrote:
-> +++ Will McVicker [21/01/21 21:36 +0000]:
-> > Config MODULE_SCMVERSION introduces a new module attribute --
-> > `scmversion` -- which can be used to identify a given module's SCM
-> > version.  This is very useful for developers that update their kernel
-> > independently from their kernel modules or vice-versa since the SCM
-> > version provided by UTS_RELEASE (`uname -r`) will now differ from the
-> > module's vermagic attribute.
-> > 
-> > For example, we have a CI setup that tests new kernel changes on the
-> > hikey960 and db845c devices without updating their kernel modules. When
-> > these tests fail, we need to be able to identify the exact device
-> > configuration the test was using. By including MODULE_SCMVERSION, we can
-> > identify the exact kernel and modules' SCM versions for debugging the
-> > failures.
-> > 
-> > Additionally, by exposing the SCM version via the sysfs node
-> > /sys/module/MODULENAME/scmversion, one can also verify the SCM versions
-> > of the modules loaded from the initramfs. Currently, modinfo can only
-> > retrieve module attributes from the module's ko on disk and not from the
-> > actual module that is loaded in RAM.
-> > 
-> > You can retrieve the SCM version in two ways,
-> > 
-> > 1) By using modinfo:
-> >    > modinfo -F scmversion MODULENAME
-> > 2) By module sysfs node:
-> >    > cat /sys/module/MODULENAME/scmversion
-> 
-> Hi Will,
-> 
-> First off, thanks for being patient and being responsive throughout the patch
-> review process.
-> 
-> Personally, I am rather neutral towards this feature. We already provide
-> CONFIG_MODULE_SRCVERSION to provide a checksum of a module's source files and I
-> think the SCMVERSION is a nicer alternative. I can see how an optional
-> scmversion field might be helpful information for distro developers in testing
-> environments and in situations where it is possible for the kernel and modules
-> to be updated/packaged separately (for instance, the kernel selftest modules
-> under lib/ are in-tree modules that are provided as a separate kernel module
-> package in SLE).
-> 
-> Generally, out of principle, I do not want to merge a patch that's been NAK'd
-> repeatedly; even if I take the patch it'd likely be contested all the way up to
-> the merge window. So this boils down to whether Christoph (and maybe Greg) are
-> fine with this being a debug option that's not enabled by default.
 
-I am neutral on this, I don't care one way or the other.
+Eric Snowberg <eric.snowberg@oracle.com> wrote:
 
-thanks,
+> This is the fifth patch series for adding support for=20
+> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
+> dbx entries but also entries in the mokx.  Additionally my series to
+> preload these certificate [2] has also been included.
 
-greg k-h
+Okay, I've tentatively applied this to my keys-next branch.  However, it
+conflicts minorly with Micka=C3=ABl Sala=C3=BCn's patches that I've previou=
+sly merged on
+the same branch.  Can you have a look at the merge commit
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/comm=
+it/?h=3Dkeys-next&id=3Dfdbbe7ceeb95090d09c33ce0497e0394c82aa33d
+
+	(the top patch of my keys-next branch)
+
+to see if that is okay by both of you?  If so, can you give it a whirl?
+
+Thanks,
+David
+
