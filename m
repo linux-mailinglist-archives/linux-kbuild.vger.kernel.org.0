@@ -2,88 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A984030CFD6
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 00:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5309030DB40
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 14:30:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236364AbhBBXVn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Feb 2021 18:21:43 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41120 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232756AbhBBXVm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Feb 2021 18:21:42 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 787CAB125;
-        Tue,  2 Feb 2021 23:20:59 +0000 (UTC)
-Date:   Tue, 2 Feb 2021 23:20:59 +0000 (UTC)
-From:   Michael Matz <matz@suse.de>
-To:     linux-kbuild@vger.kernel.org
-cc:     Willy Tarreau <w@1wt.eu>, Amy Parker <enbyamy@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, linux-kernel@vger.kernel.org,
-        linux-gcc@vger.kernel.org
-Subject: Re: Alternative compilers to GCC/Clang
-In-Reply-To: <20210202212048.GG18075@zn.tnic>
-Message-ID: <alpine.LSU.2.20.2102022304070.10104@wotan.suse.de>
-References: <CAE1WUT6mp80yFDgAirZcKvc31O23ynpLGcsdPaa8qd1dsXiXhg@mail.gmail.com> <20210202053307.GB28542@1wt.eu> <CAE1WUT4r1oNmu_7y6AMMSNyNmt8LYo6DXa2DPR=wOGb27XErZA@mail.gmail.com> <CAE1WUT7zprk-3naBGwZk=bsVR8Od=PT0kqNO6EVBQUOG+F1h3w@mail.gmail.com>
- <20210202201920.GA18106@zn.tnic> <20210202210039.GB29751@1wt.eu> <20210202212048.GG18075@zn.tnic>
-User-Agent: Alpine 2.20 (LSU 67 2015-01-07)
+        id S231905AbhBCN2E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 08:28:04 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:51174 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231886AbhBCN2C (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 3 Feb 2021 08:28:02 -0500
+X-Greylist: delayed 21682 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 08:27:03 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=oR9DBi73zWrpNptVGG8joD1q3D
+        a2vFVnixMQAUcmehD6fgJOQ9JP9N27NiM2NuC8HmaSTuyc4tIbd8kMLlSjPNy8b19j5i4Yecn4k41
+        d2L53GGQ3KAYNm9cTjTcF00G/e0wgveF66KZo4CFoHY+VyQWZpnDvHs7YXjdM1k0LGC10SnlZJnOf
+        hyfuxn41TeLbFp37bqri+jK8o3wb0VHiGKRxBfijUx18MCanoqvAna1IaS7ccBxFfbvZdTXygBXlc
+        j3LFBSU0eQazmqTdBY+jvtCMEdlAV/WbBykAUBZA45AnMWlIO1A8LzPVfVBXCEwNqNeODasQNIR6+
+        B0GfR5SA==;
+Received: from [127.0.0.1] (port=46664 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVp-0005bM-9S; Wed, 03 Feb 2021 01:23:41 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date:   Wed, 03 Feb 2021 01:23:40 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <02cc13f2661d3cb7582fa6695be089c9@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
-
-On Tue, 2 Feb 2021, Borislav Petkov wrote:
-
-> + Micha.
-
-Huh, someone found my video ;-)
-
-> > > > > > attributes for example), but is far from being able to compile 
-> > > > > > a kernel
-
-A _current_ kernel maybe :)  Some 4.6 x86-64 kernel in qemu in a certain 
-config plus a little patches definitely does work.  Slowly, but usable.  
-See the repo Boris mentioned.
-
-> > > > It's definitely something to work towards - but I don't know if kernel
-> > > > advancements requiring newer GCC versions will go slow enough to allow
-> > > > TCC improvements to arise. This isn't just something like with Clang
-> > > > where a few tweaks to files and to Clang itself did the trick.
-> > > 
-> > > Maybe this'll help you find something to do:
-> > > 
-> > > https://www.youtube.com/watch?v=iU0Z0vBKrtQ
-> > > 
-> > > Yes, it would be lovely to be able to compile the kernel with tcc but it
-> > > is not going to be trivial.
-
-As tcc is so simple it's actually not too much hassle, the biggest 
-roadblocks should be gone; the usage of inline asm in the kernel is ... 
-creative ... and hence the single pass nature of TCC and the C-asm 
-integration pose some challenges ;)  Also anything that requires inlining 
-to remove dead but non-conforming code (like calling undefined functions) 
-needs an alternative like macros expanding to zero, instead of a function 
-returning zero.  (I even have an limited inliner for tcc, but I didn't 
-like it too much)
-
-(My interest was tcc, not kernel development, which is why I never did 
-anything with that 4.6 kernel, I wanted to retain a stable and big known 
-source base for tcc hackery.  If someone is interested in kernel compiling 
-that can change the picture of course; I think I at least remember most of 
-the reasons for the kernel patches I had to do to make my tcc hackery 
-easier :) ).
-
-> It would be good to start forward-porting and integrating some of the 
-> fixes and even extend tcc to handle some of the gnuisms we're using in 
-> the kernel so that we can build the kernel with it too.
-> 
-> I can imagine having CONFIG_TCC - as long as that doesn't get too 
-> intrusive and get in the way of things - and those who wanna build the 
-> kernel with it, can enable it. For example...
 
 
-Ciao,
-Michael.
+-- 
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
+
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
+
+Mit freundlichen Grüßen,
+Herr Francois Pinault
