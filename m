@@ -2,87 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 237A330DFBA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 17:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB28F30E140
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 18:39:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234104AbhBCQ2Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Feb 2021 11:28:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52504 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232516AbhBCQ2V (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 11:28:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612369614;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TJ27nuib/BMh125sOPWVUK4Tvaq9/Z2cw9xS+xjyBBk=;
-        b=IxH4EDpJRB30krIyyHqtjGx0Pr0Dgl+ZyzGGZ7gSLtaGlHKdiT9NTGcbR+fwK/3eawlxjt
-        H7hEv4f6hdW4dMxIN+pLQFz0h+FywIk1LRur6JaRisQTrw1a2XWW2pTABsG5FMLaSXSgM3
-        mnlHz0YHecuOtoKxyHQCaqC6drL1bOw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-YscSzPlHPqmodnkxCaSjFQ-1; Wed, 03 Feb 2021 11:26:53 -0500
-X-MC-Unique: YscSzPlHPqmodnkxCaSjFQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B0AA100C61B;
-        Wed,  3 Feb 2021 16:26:50 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A3875B4A1;
-        Wed,  3 Feb 2021 16:26:41 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20210122181054.32635-1-eric.snowberg@oracle.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
-To:     Eric Snowberg <eric.snowberg@oracle.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc:     dhowells@redhat.com, dwmw2@infradead.org, jarkko@kernel.org,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
-        javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Conflict with =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn's?= blacklist
- patches [was [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for dbx/mokx
- entries]
+        id S231388AbhBCRjU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 12:39:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50762 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229731AbhBCRjT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 3 Feb 2021 12:39:19 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CCC2C64F8C;
+        Wed,  3 Feb 2021 17:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612373918;
+        bh=Aur/j6fTeQV4UkRiilIagFzYZdsU9nYyikcJSjSuE60=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JyBWrrOl9vRKGkC/DEPmppNz7GIVgFe8GyZiqR3daGBx03/z3R+UQQ/DrZyx9kpow
+         uwCsjkVMGp0/c/cDXw1nohvWxUwl600GV/s80sXG6Ld6TXGeXrHagaT8UPetUOosNR
+         1qCp31+9mCk8lGoUVOCARRWxQUgEwFc661vdxBSxTPOJeEowbFA9AmA1pUp90E9N5Z
+         1M01CKvNkJL3UyD9lH4yehXguU866+aMJKTTaonPSYsTOB4leVVY0nY/qWvJxTJhDa
+         ttKrkmUOtxyGP3Jy+hJIl7veeC9I7thublswqLMvIeaFcLzRZXtOFIaA3RZTBRpLUS
+         3fQ7DrshDs3mg==
+Date:   Wed, 3 Feb 2021 10:38:35 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Sedat Dilek <sedat.dilek@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andi Kleen <andi@firstfloor.org>,
+        Ian Rogers <irogers@google.com>,
+        Mark Wielaard <mark@klomp.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: fix duplicated flags in DEBUG_CFLAGS
+Message-ID: <20210203173835.GA765175@localhost>
+References: <20210203075239.5505-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date:   Wed, 03 Feb 2021 16:26:40 +0000
-Message-ID: <1103491.1612369600@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210203075239.5505-1-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, Feb 03, 2021 at 04:52:39PM +0900, Masahiro Yamada wrote:
+> Sedat Dilek noticed duplicated debug flags passed when building C
+> files with CONFIG_DEBUG_INFO.
+> 
+> I do not know much about his build environment, but yes, Kbuild
+> recurses to the top Makefile with some build targets. For example,
+> 'make CC=clang bindeb-pkg' reproduces the issue.
+> 
+> With commit 121c5d08d53c ("kbuild: Only add -fno-var-tracking-assignments
+> for old GCC versions") applied, DEBUG_CFLAGS is now reset only when
+> CONFIG_CC_IS_GCC=y.
+> 
+> Fix it to reset DEBUG_CFLAGS also when using Clang.
+> 
+> Fixes: 121c5d08d53c ("kbuild: Only add -fno-var-tracking-assignments for old GCC versions")
+> Reported-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Eric Snowberg <eric.snowberg@oracle.com> wrote:
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-> This is the fifth patch series for adding support for=20
-> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
-> dbx entries but also entries in the mokx.  Additionally my series to
-> preload these certificate [2] has also been included.
-
-Okay, I've tentatively applied this to my keys-next branch.  However, it
-conflicts minorly with Micka=C3=ABl Sala=C3=BCn's patches that I've previou=
-sly merged on
-the same branch.  Can you have a look at the merge commit
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/comm=
-it/?h=3Dkeys-next&id=3Dfdbbe7ceeb95090d09c33ce0497e0394c82aa33d
-
-	(the top patch of my keys-next branch)
-
-to see if that is okay by both of you?  If so, can you give it a whirl?
-
-Thanks,
-David
-
+> ---
+> 
+>  Makefile | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 3d3f67b98ca2..769a38ee81b9 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -811,10 +811,12 @@ KBUILD_CFLAGS	+= -ftrivial-auto-var-init=zero
+>  KBUILD_CFLAGS	+= -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+>  endif
+>  
+> +DEBUG_CFLAGS	:=
+> +
+>  # Workaround for GCC versions < 5.0
+>  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61801
+>  ifdef CONFIG_CC_IS_GCC
+> -DEBUG_CFLAGS	:= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
+> +DEBUG_CFLAGS	+= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
+>  endif
+>  
+>  ifdef CONFIG_DEBUG_INFO
+> -- 
+> 2.27.0
+> 
