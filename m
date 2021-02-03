@@ -2,92 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB28F30E140
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 18:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 578A630E2F8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 20:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbhBCRjU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Feb 2021 12:39:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50762 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229731AbhBCRjT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 12:39:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CCC2C64F8C;
-        Wed,  3 Feb 2021 17:38:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612373918;
-        bh=Aur/j6fTeQV4UkRiilIagFzYZdsU9nYyikcJSjSuE60=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JyBWrrOl9vRKGkC/DEPmppNz7GIVgFe8GyZiqR3daGBx03/z3R+UQQ/DrZyx9kpow
-         uwCsjkVMGp0/c/cDXw1nohvWxUwl600GV/s80sXG6Ld6TXGeXrHagaT8UPetUOosNR
-         1qCp31+9mCk8lGoUVOCARRWxQUgEwFc661vdxBSxTPOJeEowbFA9AmA1pUp90E9N5Z
-         1M01CKvNkJL3UyD9lH4yehXguU866+aMJKTTaonPSYsTOB4leVVY0nY/qWvJxTJhDa
-         ttKrkmUOtxyGP3Jy+hJIl7veeC9I7thublswqLMvIeaFcLzRZXtOFIaA3RZTBRpLUS
-         3fQ7DrshDs3mg==
-Date:   Wed, 3 Feb 2021 10:38:35 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Sedat Dilek <sedat.dilek@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andi Kleen <andi@firstfloor.org>,
-        Ian Rogers <irogers@google.com>,
-        Mark Wielaard <mark@klomp.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: fix duplicated flags in DEBUG_CFLAGS
-Message-ID: <20210203173835.GA765175@localhost>
-References: <20210203075239.5505-1-masahiroy@kernel.org>
+        id S232464AbhBCS7h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 13:59:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232173AbhBCS7f (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 3 Feb 2021 13:59:35 -0500
+X-Greylist: delayed 551 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 03 Feb 2021 10:58:47 PST
+Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [IPv6:2001:1600:4:17::190c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC682C061573
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 10:58:47 -0800 (PST)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DW9hX688NzMpssv;
+        Wed,  3 Feb 2021 19:49:32 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DW9hV18r8zlh8TC;
+        Wed,  3 Feb 2021 19:49:30 +0100 (CET)
+Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
+ =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
+ =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
+To:     David Howells <dhowells@redhat.com>,
+        Eric Snowberg <eric.snowberg@oracle.com>
+Cc:     dwmw2@infradead.org, jarkko@kernel.org,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
+        javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+ <1103491.1612369600@warthog.procyon.org.uk>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
+Date:   Wed, 3 Feb 2021 19:49:31 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210203075239.5505-1-masahiroy@kernel.org>
+In-Reply-To: <1103491.1612369600@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 04:52:39PM +0900, Masahiro Yamada wrote:
-> Sedat Dilek noticed duplicated debug flags passed when building C
-> files with CONFIG_DEBUG_INFO.
-> 
-> I do not know much about his build environment, but yes, Kbuild
-> recurses to the top Makefile with some build targets. For example,
-> 'make CC=clang bindeb-pkg' reproduces the issue.
-> 
-> With commit 121c5d08d53c ("kbuild: Only add -fno-var-tracking-assignments
-> for old GCC versions") applied, DEBUG_CFLAGS is now reset only when
-> CONFIG_CC_IS_GCC=y.
-> 
-> Fix it to reset DEBUG_CFLAGS also when using Clang.
-> 
-> Fixes: 121c5d08d53c ("kbuild: Only add -fno-var-tracking-assignments for old GCC versions")
-> Reported-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+This looks good to me, and it still works for my use case. Eric's
+patchset only looks for asymmetric keys in the blacklist keyring, so
+even if we use the same keyring we don't look for the same key types. My
+patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
+to be added by user space (if authenticated), but because Eric's
+asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
+be OK for his use case.  There should be no interference between the two
+new features, but I find it a bit confusing to have such distinct use of
+keys from the same keyring depending on their type.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Regards,
+ Mickaël
 
-> ---
+
+On 03/02/2021 17:26, David Howells wrote:
 > 
->  Makefile | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Eric Snowberg <eric.snowberg@oracle.com> wrote:
 > 
-> diff --git a/Makefile b/Makefile
-> index 3d3f67b98ca2..769a38ee81b9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -811,10 +811,12 @@ KBUILD_CFLAGS	+= -ftrivial-auto-var-init=zero
->  KBUILD_CFLAGS	+= -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
->  endif
->  
-> +DEBUG_CFLAGS	:=
-> +
->  # Workaround for GCC versions < 5.0
->  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61801
->  ifdef CONFIG_CC_IS_GCC
-> -DEBUG_CFLAGS	:= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
-> +DEBUG_CFLAGS	+= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
->  endif
->  
->  ifdef CONFIG_DEBUG_INFO
-> -- 
-> 2.27.0
+>> This is the fifth patch series for adding support for 
+>> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
+>> dbx entries but also entries in the mokx.  Additionally my series to
+>> preload these certificate [2] has also been included.
+> 
+> Okay, I've tentatively applied this to my keys-next branch.  However, it
+> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
+> the same branch.  Can you have a look at the merge commit
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
+> 
+> 	(the top patch of my keys-next branch)
+> 
+> to see if that is okay by both of you?  If so, can you give it a whirl?
+> 
+> Thanks,
+> David
 > 
