@@ -2,77 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0FB530D7BA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 11:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFE5D30D7A4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 11:36:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233938AbhBCKhs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 3 Feb 2021 05:37:48 -0500
-Received: from wildebeest.demon.nl ([212.238.236.112]:37974 "EHLO
-        gnu.wildebeest.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233731AbhBCKhp (ORCPT
+        id S233753AbhBCKfh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 05:35:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233658AbhBCKff (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 05:37:45 -0500
-X-Greylist: delayed 355 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 05:37:45 EST
-Received: from tarox.wildebeest.org (tarox.wildebeest.org [172.31.17.39])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by gnu.wildebeest.org (Postfix) with ESMTPSA id 28BF9304481E;
-        Wed,  3 Feb 2021 11:31:08 +0100 (CET)
-Received: by tarox.wildebeest.org (Postfix, from userid 1000)
-        id 16C714000C6A; Wed,  3 Feb 2021 11:31:08 +0100 (CET)
-Message-ID: <544278979063fbee59f7e8d82c88ba3293380d57.camel@klomp.org>
-Subject: Re: [PATCH] kbuild: fix duplicated flags in DEBUG_CFLAGS
-From:   Mark Wielaard <mark@klomp.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andi Kleen <andi@firstfloor.org>,
-        Ian Rogers <irogers@google.com>,
+        Wed, 3 Feb 2021 05:35:35 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25ADBC0613D6
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 02:34:55 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id 190so4958169wmz.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Feb 2021 02:34:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
+        b=M75pCStwd1CD5X+AE8fVhstTS+X4mKfTg66UmMyLV/4dbGEYA6QHxZzUVBaPMOz7xx
+         F9+edfLoc2Vlmx1emXKW6xZgu7oWNOjz1WTgd2M5J2gnXE54FmGLbHHBb8oKBNcpCTS4
+         6/gH/3v5zILbDOnuxcfqarN4OjvcB8d9ja9AA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=ucutE9tVrKg8bG1XX/lcHYR1DORerY7wTTSfiDErO4Y=;
+        b=UC1jNwa02svNCR4m9AIS7SAKPvY/smG03eLpzGIBG4RZJbd8RZnYh62w/p6abgmf2a
+         cP0miDadIqdbXFQV4nvtQzxyIicbpKIF6WtZdaZTAMdJCOXk9BorfVfmb6MqyWmCL55x
+         PnZ/YM4uhq8IA0Bf9eV4nuQDQ4oEv+F2k2jyo4C9dz224BSYW84TUzC6Da4WNKq5DoNR
+         m18ykU/rricfa1hV5fnYWQR7c7LoFdE+d8jLmw9csVVQlp4K+5yw22BAi6C4F918X+La
+         ceEgZWMP9a1dkCp4MhKkf6KeYJpliLEvl+VsSbWForqLMbL8Jx3ymrZYm/wyGrjSDK70
+         Tc+A==
+X-Gm-Message-State: AOAM5310HV9akQniX+bX+JGt8nFtVi0ZtjlBu2Nz+yPfs/6jDY53Zn5V
+        2SphQPGpsPY2tTvPNelTULS7kA==
+X-Google-Smtp-Source: ABdhPJz4SARPNc66CChB2hShzHi2iGX8D1M1gjyOuRd3fn77dLJW2FXa5gHf0Q6IrbHt0pXvjzsdvQ==
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr2203893wme.154.1612348493733;
+        Wed, 03 Feb 2021 02:34:53 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b11sm2957419wrp.60.2021.02.03.02.34.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 02:34:53 -0800 (PST)
+Date:   Wed, 3 Feb 2021 11:34:50 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Jessica Yu <jeyu@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Date:   Wed, 03 Feb 2021 11:31:07 +0100
-In-Reply-To: <20210203075239.5505-1-masahiroy@kernel.org>
-References: <20210203075239.5505-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
-X-Spam-Flag: NO
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=ham autolearn_force=no version=3.4.0
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 02/13] drm: remove drm_fb_helper_modinit
+Message-ID: <YBp8ShiKbQSPCcRx@phenom.ffwll.local>
+Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>, Jessica Yu <jeyu@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+References: <20210128181421.2279-1-hch@lst.de>
+ <20210128181421.2279-3-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210128181421.2279-3-hch@lst.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Thu, Jan 28, 2021 at 07:14:10PM +0100, Christoph Hellwig wrote:
+> drm_fb_helper_modinit has a lot of boilerplate for what is not very
+> simple functionality.  Just open code it in the only caller using
+> IS_ENABLED and IS_MODULE, and skip the find_module check as a
+> request_module is harmless if the module is already loaded (and not
+> other caller has this find_module check either).
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-On Wed, 2021-02-03 at 16:52 +0900, Masahiro Yamada wrote:
-> With commit 121c5d08d53c ("kbuild: Only add -fno-var-tracking-
-> assignments
-> for old GCC versions") applied, DEBUG_CFLAGS is now reset only when
-> CONFIG_CC_IS_GCC=y.
+Hm I thought I've acked this one already somewhere for merging through
+your tree.
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/drm_crtc_helper_internal.h | 10 ---------
+>  drivers/gpu/drm/drm_fb_helper.c            | 21 ------------------
+>  drivers/gpu/drm/drm_kms_helper_common.c    | 25 +++++++++++-----------
+>  3 files changed, 12 insertions(+), 44 deletions(-)
 > 
-> Fix it to reset DEBUG_CFLAGS also when using Clang.
-> 
-> [...] 
-> +DEBUG_CFLAGS	:=
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index 25ce42e799952c..61e09f8a8d0ff0 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -32,16 +32,6 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_modes.h>
+>  
+> -/* drm_fb_helper.c */
+> -#ifdef CONFIG_DRM_FBDEV_EMULATION
+> -int drm_fb_helper_modinit(void);
+> -#else
+> -static inline int drm_fb_helper_modinit(void)
+> -{
+> -	return 0;
+> -}
+> -#endif
+> -
+>  /* drm_dp_aux_dev.c */
+>  #ifdef CONFIG_DRM_DP_AUX_CHARDEV
+>  int drm_dp_aux_dev_init(void);
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 4b81195106875d..0b9f1ae1b7864c 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -2499,24 +2499,3 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+>  	drm_client_register(&fb_helper->client);
+>  }
+>  EXPORT_SYMBOL(drm_fbdev_generic_setup);
+> -
+> -/* The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> - * but the module doesn't depend on any fb console symbols.  At least
+> - * attempt to load fbcon to avoid leaving the system without a usable console.
+> - */
+> -int __init drm_fb_helper_modinit(void)
+> -{
+> -#if defined(CONFIG_FRAMEBUFFER_CONSOLE_MODULE) && !defined(CONFIG_EXPERT)
+> -	const char name[] = "fbcon";
+> -	struct module *fbcon;
+> -
+> -	mutex_lock(&module_mutex);
+> -	fbcon = find_module(name);
+> -	mutex_unlock(&module_mutex);
+> -
+> -	if (!fbcon)
+> -		request_module_nowait(name);
+> -#endif
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_modinit);
+> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+> index 221a8528c9937a..f933da1656eb52 100644
+> --- a/drivers/gpu/drm/drm_kms_helper_common.c
+> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
+> @@ -64,19 +64,18 @@ MODULE_PARM_DESC(edid_firmware,
+>  
+>  static int __init drm_kms_helper_init(void)
+>  {
+> -	int ret;
+> -
+> -	/* Call init functions from specific kms helpers here */
+> -	ret = drm_fb_helper_modinit();
+> -	if (ret < 0)
+> -		goto out;
+> -
+> -	ret = drm_dp_aux_dev_init();
+> -	if (ret < 0)
+> -		goto out;
+> -
+> -out:
+> -	return ret;
+> +	/*
+> +	 * The Kconfig DRM_KMS_HELPER selects FRAMEBUFFER_CONSOLE (if !EXPERT)
+> +	 * but the module doesn't depend on any fb console symbols.  At least
+> +	 * attempt to load fbcon to avoid leaving the system without a usable
+> +	 * console.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_DRM_FBDEV_EMULATION) &&
+> +	    IS_MODULE(CONFIG_FRAMEBUFFER_CONSOLE) &&
+> +	    !IS_ENABLED(CONFIG_EXPERT))
+> +		request_module_nowait("fbcon");
 > +
->  # Workaround for GCC versions < 5.0
->  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61801
->  ifdef CONFIG_CC_IS_GCC
-> -DEBUG_CFLAGS	:= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
-> +DEBUG_CFLAGS	+= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
->  endif
+> +	return drm_dp_aux_dev_init();
+>  }
+>  
+>  static void __exit drm_kms_helper_exit(void)
+> -- 
+> 2.29.2
+> 
 
-Yes, this makes sense given that the original code, before commit
-121c5d08d53c did always set DEBUG_CFLAGS without checking for
-CONFIG_CC_IS_GCC. So it behaved like the above code does.
-
-Reviewed-by: Mark Wielaard <mark@klomp.org>
-
-Thanks,
-
-Mark
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
