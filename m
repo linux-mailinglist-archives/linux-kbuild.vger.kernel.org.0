@@ -2,87 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 578A630E2F8
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 20:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD62C30E5B6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Feb 2021 23:09:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232464AbhBCS7h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Feb 2021 13:59:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
+        id S232491AbhBCWIT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 17:08:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232173AbhBCS7f (ORCPT
+        with ESMTP id S231968AbhBCWIR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 13:59:35 -0500
-X-Greylist: delayed 551 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 03 Feb 2021 10:58:47 PST
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [IPv6:2001:1600:4:17::190c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC682C061573
-        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 10:58:47 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DW9hX688NzMpssv;
-        Wed,  3 Feb 2021 19:49:32 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DW9hV18r8zlh8TC;
-        Wed,  3 Feb 2021 19:49:30 +0100 (CET)
-Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
- =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
- =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
-To:     David Howells <dhowells@redhat.com>,
-        Eric Snowberg <eric.snowberg@oracle.com>
-Cc:     dwmw2@infradead.org, jarkko@kernel.org,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, zohar@linux.ibm.com, lszubowi@redhat.com,
-        javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
- <1103491.1612369600@warthog.procyon.org.uk>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
-Date:   Wed, 3 Feb 2021 19:49:31 +0100
-User-Agent: 
+        Wed, 3 Feb 2021 17:08:17 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AD0C0613D6
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 14:07:37 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id u11so602521plg.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Feb 2021 14:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O6nZdZyk4cH0guJm7TA6JaoVqo+CNeeIlXeJNiI+3dI=;
+        b=MDAP/eOyJy2lLRV2njIwZye57EAfQn1v33TuV0rUk3u5svfE2hlXs/aC/RkJkGb8Wh
+         tfybo+8vff3Q2vA82M6DfxqrTjJ5he4k1vw6IkYyQKbtbtxZKiFWoYSOmef4fyxTLN9E
+         gVzPEKF0+DqI2WeLEMc5uurPlld/oYdLePCpgm2fMM8aClQz2g7HDORwJ8KL/DNZ6K3b
+         7LLfPzz0x1Mza6inYgy04szuCR6vmgp7duYjR5sMcdx7n8erWYxLIhRR1ijOzZ3WMlU8
+         8vypav5+NYE0btO/oLLEiPLZl8O78JQmcjksUfIURRZgA/D6mwHoexZh9bo2HK0zDVtP
+         Lm6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O6nZdZyk4cH0guJm7TA6JaoVqo+CNeeIlXeJNiI+3dI=;
+        b=c+9FJHGMGpreXGKsieGJ41TAlx+a8BZiIWqR55o4te22G/DIW7fibqSYaj5F8EIqDm
+         m3ZdF7c5xuxPtomcIYj73hU4rOLxGYc+cWsh4mBGCCi6Fxtf4d9eCwvAeZxNEy7W2q4F
+         AYjTqdlExSc6n4rcCDIuYEp9h0B/wW/IA4pR12f3u4vPEAjg44pQU3Bmkrk9O+8KTjUf
+         doAk1P4eGijmT5JRp46Wr5pQX3AwFu0CSfX5eR7aD84uAm6EZuE1320xeRxdsSxhbBVo
+         usvICMPWqh046BdDpYmT3ZoDVaQOHwnsP9GhDcCJ8V5iewf8u2MFbqiFLmlOZTxebwp7
+         S25A==
+X-Gm-Message-State: AOAM533+J8ATDR9mvHVbESpnFt2ibgOwCHRJjS6OSaN96FCuf7SI7wQ4
+        PxBBQfyM4vENbZuWCwvQXQTXwJkVMoaSTA3dwEIVkA==
+X-Google-Smtp-Source: ABdhPJx5PbI0c93PY14tyfKbVB1kPb7dTK1+9x0Mb901n15BRLBlw78ekqBQ8sYp7yU1lz08DLbVL8zmFAB6igqi5SY=
+X-Received: by 2002:a17:90a:db05:: with SMTP id g5mr5288285pjv.32.1612390056670;
+ Wed, 03 Feb 2021 14:07:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1103491.1612369600@warthog.procyon.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210202060604.711160-1-masahiroy@kernel.org>
+In-Reply-To: <20210202060604.711160-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 3 Feb 2021 14:07:24 -0800
+Message-ID: <CAKwvOdkA7q-n4uwK3u3tvgMmVhypsE4xSCBcd-oFY0XHLnQ7Qw@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts/clang-tools: switch explicitly to Python 3
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This looks good to me, and it still works for my use case. Eric's
-patchset only looks for asymmetric keys in the blacklist keyring, so
-even if we use the same keyring we don't look for the same key types. My
-patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
-to be added by user space (if authenticated), but because Eric's
-asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
-be OK for his use case.  There should be no interference between the two
-new features, but I find it a bit confusing to have such distinct use of
-keys from the same keyring depending on their type.
+On Mon, Feb 1, 2021 at 10:06 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> For the same reason as commit 51839e29cb59 ("scripts: switch explicitly
+> to Python 3"), switch some more scripts, which I tested and confirmed
+> working on Python 3.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
 
-Regards,
- Mickaël
+Thanks Masahiro.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>
+> Changes in v2:
+>  - Drop the spdxcheck.py change. The same fix exists in linux-next.
+>
+>  scripts/clang-tools/gen_compile_commands.py | 2 +-
+>  scripts/clang-tools/run-clang-tools.py      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index 19963708bcf8..8ddb5d099029 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Copyright (C) Google LLC, 2018
+> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+> index fa7655c7cec0..f754415af398 100755
+> --- a/scripts/clang-tools/run-clang-tools.py
+> +++ b/scripts/clang-tools/run-clang-tools.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Copyright (C) Google LLC, 2020
+> --
+> 2.27.0
+>
 
 
-On 03/02/2021 17:26, David Howells wrote:
-> 
-> Eric Snowberg <eric.snowberg@oracle.com> wrote:
-> 
->> This is the fifth patch series for adding support for 
->> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
->> dbx entries but also entries in the mokx.  Additionally my series to
->> preload these certificate [2] has also been included.
-> 
-> Okay, I've tentatively applied this to my keys-next branch.  However, it
-> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
-> the same branch.  Can you have a look at the merge commit
-> 
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
-> 
-> 	(the top patch of my keys-next branch)
-> 
-> to see if that is okay by both of you?  If so, can you give it a whirl?
-> 
-> Thanks,
-> David
-> 
+-- 
+Thanks,
+~Nick Desaulniers
