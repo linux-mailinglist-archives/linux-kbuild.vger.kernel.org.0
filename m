@@ -2,297 +2,208 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39DBC30F821
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 17:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F0B30FB0D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 19:18:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237163AbhBDQiH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 11:38:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47458 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238150AbhBDQeK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 11:34:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 520B964DEC;
-        Thu,  4 Feb 2021 16:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612456404;
-        bh=ClwfZ4bh/g+nDNHgsihWdg81VOoI6Tov34mfQwcVTiQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FXJLCgVbcsBwD/eZ2udPLpIYTL9uP8O29EGdVxivSMxmjmE0GO9EcpugGPE/QJiEV
-         zKIpmSXdsrxzwDZbAg85DQz4oAJx3r9PuJtDGPTSk/k2KuCwRlwZ0VRCfNUJ1rVUvB
-         hySWqBMjpK+QxNB5KE203FEA/r7zsENWQUsFmfPrTf1FdgokpLN0+3TtXwfME3POLf
-         wEssOD76gxpUHRU0MOnpr2G+zJe12xs4FGJ1aD17oGpLNF5brMaT5P6BHoIxtlI8LI
-         gMdO4X41HVyQVaXgHIUuidkSfoJaqViMnCATdTDeB0WNxegWqjx4nIakKv7v6Jcr7E
-         F/wVGxToP0j+A==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id F3F6840513; Thu,  4 Feb 2021 13:33:19 -0300 (-03)
-Date:   Thu, 4 Feb 2021 13:33:19 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Chris Murphy <lists@colorremedies.com>
-Cc:     bpf <bpf@vger.kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-        dwarves@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>
-Subject: [FIXED] Re: 5:11: in-kernel BTF is malformed
-Message-ID: <20210204163319.GD910119@kernel.org>
-References: <CAJCQCtSQLc0VHqO4BY_-YB2OmCNNmHCS6fNdQKmMWGn2v=Jpdw@mail.gmail.com>
- <CAJCQCtRHOidM7Vps1JQSpZA14u+B5fR860FwZB=eb1wYjTpqDw@mail.gmail.com>
- <CAEf4BzZ4oTB0-JizHe1VaCk2V+Jb9jJoTznkgh6CjE5VxNVqbg@mail.gmail.com>
- <CAJCQCtRw6UWGGvjn0x__godYKYQXXmtyQys4efW2Pb84Q5q8Eg@mail.gmail.com>
- <20210204010038.GA854763@kernel.org>
- <CAJCQCtQfgRp78_WSrSHLNUUYNCyOCH=vo10nVZW_cyMjpZiNJg@mail.gmail.com>
- <CAEf4Bza4XQxpS7VTNWGk6Rz-iUwZemF6+iAVBA_yvrWnV0k8Qg@mail.gmail.com>
- <CAJCQCtRDJ_uiJcanP_p+y6Kz76c4P-EmndMyfHN5f4rtkgYhjA@mail.gmail.com>
- <20210204132625.GB910119@kernel.org>
+        id S238891AbhBDSMc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 13:12:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238952AbhBDSMV (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 4 Feb 2021 13:12:21 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51FA4C061788;
+        Thu,  4 Feb 2021 10:11:41 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id n2so4202658iom.7;
+        Thu, 04 Feb 2021 10:11:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=mX+HVztL7COZOVg08FHszVvmk8CCQMV0ipmWEw65Bsc=;
+        b=II6mxEEra02hOipf+IprgYlfYGMxNWO3p1CvehqKhNyJJFq8mhYc0KZ4gbnmAGYd08
+         O8lfTLDZu4rRBrzpc7wM9ZRERAFYfcgwY4vtQqskffHAA6kgQYe4oBarP1GIZE6PUGpN
+         KsAWjykgkrzSYQHRsKnVRuXwZUFvGpO+XB/ZxOpJovRiEPUNlLK/lQgqNqjtL3HAuSRP
+         M/xwAIVlRs6+tCepphYjZvwUtXwe0Ebbc9h9Dp6QjmerUZleUymSmWZ4/LKwyeG3sbWY
+         pavDpjgZucQ8NvYTH85/EXVmGoNko8pkmb6KNOeKgQHhfsHLFOqnnrTe9AFS1f4get/x
+         vhtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=mX+HVztL7COZOVg08FHszVvmk8CCQMV0ipmWEw65Bsc=;
+        b=IGU5aQjIHoqjZTcd+Eo2fpCqVn/zW32VVorqn12/r8emLUkl2sKU3vbfHPZx8zuw4+
+         76Va51qWHEP8x+kKrE4g6mMAO10Gy9+2jHm+KGw8jeLdflB6isky/4/Bkqt4qIFmmyuT
+         RIDcaNjrFrxgSrwqccjorKoqc14STWiX5kEBp8fMuCsb6wMvLcQfHrjuegocCKWaurX8
+         JvdtW0ZedJDb5fGBm3Nq5EZUNPqzlHt2jkmqxPB7p5KkNOccqu1EqRH4oo/yiMq5MswL
+         MEQ976q1sg4qXv8eZ6rikxsiOTeX35uzCU6AZMx0KVWAzafNNdd0gab+4MIGM7PoKUbQ
+         EUwA==
+X-Gm-Message-State: AOAM532hQjDswgzHJIDLd/InRoV7cKDUcMRMOZv++ik+CzTF4Waqxdeu
+        IdZSMa4BkqKIbRPSPPlfrXRFsSv1AyYeELqBnN8=
+X-Google-Smtp-Source: ABdhPJzooRkc7eG40RJB52QRYKk/HMotDMOmGbS0wDPNAKH3EL1UbtP4q3R8P2YVNB7VduLIvGu7VG0HrhDPCa2nz+g=
+X-Received: by 2002:a02:1649:: with SMTP id a70mr724319jaa.97.1612462300646;
+ Thu, 04 Feb 2021 10:11:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210204132625.GB910119@kernel.org>
-X-Url:  http://acmel.wordpress.com
+References: <20210111180609.713998-1-natechancellor@gmail.com>
+In-Reply-To: <20210111180609.713998-1-natechancellor@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 4 Feb 2021 19:11:28 +0100
+Message-ID: <CA+icZUXztrp2Ow4VtXa6rwpzVzD71x-rVKd2Y09d-99VdtYV6Q@mail.gmail.com>
+Subject: Re: [PATCH] bpf: Hoise pahole version checks into Kconfig
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Thu, Feb 04, 2021 at 10:26:25AM -0300, Arnaldo Carvalho de Melo escreveu:
-> Em Wed, Feb 03, 2021 at 07:10:52PM -0700, Chris Murphy escreveu:
-> > On Wed, Feb 3, 2021 at 7:05 PM Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
-> > > So it's a bitfield offset breakage that should be fixed in pahole 1.20.
- 
-> > Rawhide is currently still on
-> > dwarves-1.19-2.fc34.x86_64
- 
-> > This might also be related:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1922707#c9
- 
-> With about to be released pahole v1.20 it all seems to work, tldr;
- 
-> [root@seventh ~]# ~acme/git/pahole/btfdiff /lib/modules/`uname -r`/build/vmlinux
-> [root@seventh ~]#
- 
-> Same thing. I'll do more tests after some errands, but I've put the pre-release
-> rpm packages for 1.20 at:
- 
-> http://vger.kernel.org/~acme/pahole/rpms/1.20-0/RPMS/x86_64/Packages/
- 
-> Can you please try it with gcc 11?
+On Mon, Jan 11, 2021 at 7:06 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> After commit da5fb18225b4 ("bpf: Support pre-2.25-binutils objcopy for
+> vmlinux BTF"), having CONFIG_DEBUG_INFO_BTF enabled but lacking a valid
+> copy of pahole results in a kernel that will fully compile but fail to
+> link. The user then has to either install pahole or disable
+> CONFIG_DEBUG_INFO_BTF and rebuild the kernel but only after their build
+> has failed, which could have been a significant amount of time depending
+> on the hardware.
+>
+> Avoid a poor user experience and require pahole to be installed with an
+> appropriate version to select and use CONFIG_DEBUG_INFO_BTF, which is
+> standard for options that require a specific tools version.
+>
+> Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+>  MAINTAINERS               |  1 +
+>  init/Kconfig              |  4 ++++
+>  lib/Kconfig.debug         |  6 ++----
+>  scripts/link-vmlinux.sh   | 13 -------------
+>  scripts/pahole-version.sh | 16 ++++++++++++++++
+>  5 files changed, 23 insertions(+), 17 deletions(-)
+>  create mode 100755 scripts/pahole-version.sh
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b8db7637263a..6f6e24285a94 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3282,6 +3282,7 @@ F:        net/core/filter.c
+>  F:     net/sched/act_bpf.c
+>  F:     net/sched/cls_bpf.c
+>  F:     samples/bpf/
+> +F:     scripts/pahole-version.sh
+>  F:     tools/bpf/
+>  F:     tools/lib/bpf/
+>  F:     tools/testing/selftests/bpf/
+> diff --git a/init/Kconfig b/init/Kconfig
+> index b77c60f8b963..872c61b5d204 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -74,6 +74,10 @@ config TOOLS_SUPPORT_RELR
+>  config CC_HAS_ASM_INLINE
+>         def_bool $(success,echo 'void foo(void) { asm inline (""); }' | $(CC) -x c - -c -o /dev/null)
+>
+> +config PAHOLE_VERSION
+> +       int
+> +       default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE))
+> +
+>  config CONSTRUCTORS
+>         bool
+>         depends on !UML
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 7937265ef879..70c446af9664 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -267,6 +267,7 @@ config DEBUG_INFO_DWARF4
+>
+>  config DEBUG_INFO_BTF
+>         bool "Generate BTF typeinfo"
+> +       depends on PAHOLE_VERSION >= 116
+>         depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
+>         depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
+>         help
+> @@ -274,12 +275,9 @@ config DEBUG_INFO_BTF
+>           Turning this on expects presence of pahole tool, which will convert
+>           DWARF type info into equivalent deduplicated BTF type info.
+>
+> -config PAHOLE_HAS_SPLIT_BTF
+> -       def_bool $(success, test `$(PAHOLE) --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'` -ge "119")
+> -
+>  config DEBUG_INFO_BTF_MODULES
+>         def_bool y
+> -       depends on DEBUG_INFO_BTF && MODULES && PAHOLE_HAS_SPLIT_BTF
+> +       depends on DEBUG_INFO_BTF && MODULES && PAHOLE_VERSION >= 119
+>         help
+>           Generate compact split BTF type information for kernel modules.
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 6eded325c837..eef40fa9485d 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -139,19 +139,6 @@ vmlinux_link()
+>  # ${2} - file to dump raw BTF data into
+>  gen_btf()
+>  {
+> -       local pahole_ver
+> -
+> -       if ! [ -x "$(command -v ${PAHOLE})" ]; then
+> -               echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
+> -               return 1
+> -       fi
+> -
+> -       pahole_ver=$(${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
+> -       if [ "${pahole_ver}" -lt "116" ]; then
+> -               echo >&2 "BTF: ${1}: pahole version $(${PAHOLE} --version) is too old, need at least v1.16"
+> -               return 1
+> -       fi
+> -
+>         vmlinux_link ${1}
+>
+>         info "BTF" ${2}
+> diff --git a/scripts/pahole-version.sh b/scripts/pahole-version.sh
+> new file mode 100755
+> index 000000000000..6de6f734a345
+> --- /dev/null
+> +++ b/scripts/pahole-version.sh
+> @@ -0,0 +1,16 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Usage: $ ./scripts/pahole-version.sh pahole
+> +#
+> +# Print the pahole version as a three digit string
+> +# such as `119' for pahole v1.19 etc.
+> +
+> +pahole="$*"
+> +
+> +if ! [ -x "$(command -v $pahole)" ]; then
+> +    echo 0
+> +    exit 1
+> +fi
+> +
+> +$pahole --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'
+>
 
-Looking at the original source code in the kernel:
+Cannot say if all supported pahole in the Linux kernel have that feature/option:
 
-        /* Used for emulating ABI behavior of previous Linux versions: */
-        unsigned int                    personality;
+$ /opt/pahole/bin/pahole --numeric_version
+120
 
-        /* Scheduler bits, serialized by scheduler locks: */
-        unsigned                        sched_reset_on_fork:1;
-        unsigned                        sched_contributes_to_load:1;
-        unsigned                        sched_migrated:1;
-#ifdef CONFIG_PSI
-        unsigned                        sched_psi_wake_requeue:1;
-#endif
+- Sedat -
 
-        /* Force alignment to the next boundary: */
-        unsigned                        :0;
-
-        /* Unserialized, strictly 'current' */
-
-        /*
-         * This field must not be in the scheduler word above due to wakelist
-         * queueing no longer being serialized by p->on_cpu. However:
-         *
-         * p->XXX = X;                  ttwu()
-         * schedule()                     if (p->on_rq && ..) // false
-         *   smp_mb__after_spinlock();    if (smp_load_acquire(&p->on_cpu) && //true
-         *   deactivate_task()                ttwu_queue_wakelist())
-         *     p->on_rq = 0;                    p->sched_remote_wakeup = Y;
-         *
-         * guarantees all stores of 'current' are visible before
-         * ->sched_remote_wakeup gets used, so it can be in this word.
-         */
-        unsigned                        sched_remote_wakeup:1;
-
-        /* Bit to tell LSMs we're in execve(): */
-        unsigned                        in_execve:1;
-        unsigned                        in_iowait:1;
-
-Then the 'struct task_struct' as reconstructed by pahole from:
-  
-  $ ls -la /sys/kernel/btf/vmlinux
-  -r--r--r--. 1 root root 4560322 Feb  4 10:16 /sys/kernel/btf/vmlinux
-  $ ls -lah /sys/kernel/btf/vmlinux
-  -r--r--r--. 1 root root 4.4M Feb  4 10:16 /sys/kernel/btf/vmlinux
-  $
-
-That was generated by 'pahole -J' from the default DWARF version
-generated by gcc 11, we see that 'unsigned :0;' preserved (and that
-isn't directly encoded in DWARF, so, to produce source code from it the
-tool needs to add that "manually") and the byte offset (not
-DW_AT_data_member_location isn't provided in such case) calculated from
-the DW_AT_bit_offset (DWARF4/5 only stuff):
-
-[acme@seventh perf]$ readelf -wi ../build/v5.11.0-rc6+/vmlinux | grep -m1 sched_reset_on_fork -A40 | grep -v DW_AT_decl_
-    <1149>   DW_AT_name        : (indirect string, offset: 0x53da): sched_reset_on_fork
-    <1151>   DW_AT_type        : <0x69>
-    <1155>   DW_AT_bit_size    : 1
-    <1155>   DW_AT_data_bit_offset: 18208
- <2><1157>: Abbrev Number: 29 (DW_TAG_member)
-    <1158>   DW_AT_name        : (indirect string, offset: 0x3940): sched_contributes_to_load
-    <1160>   DW_AT_type        : <0x69>
-    <1164>   DW_AT_bit_size    : 1
-    <1164>   DW_AT_data_bit_offset: 18209
- <2><1166>: Abbrev Number: 29 (DW_TAG_member)
-    <1167>   DW_AT_name        : (indirect string, offset: 0x4883): sched_migrated
-    <116f>   DW_AT_type        : <0x69>
-    <1173>   DW_AT_bit_size    : 1
-    <1173>   DW_AT_data_bit_offset: 18210
- <2><1175>: Abbrev Number: 29 (DW_TAG_member)
-    <1176>   DW_AT_name        : (indirect string, offset: 0x3245): sched_psi_wake_requeue
-    <117e>   DW_AT_type        : <0x69>
-    <1182>   DW_AT_bit_size    : 1
-    <1182>   DW_AT_data_bit_offset: 18211
- <2><1184>: Abbrev Number: 29 (DW_TAG_member)
-    <1185>   DW_AT_name        : (indirect string, offset: 0xe4b): sched_remote_wakeup
-    <118d>   DW_AT_type        : <0x69>
-    <1191>   DW_AT_bit_size    : 1
-    <1191>   DW_AT_data_bit_offset: 18240
- <2><1193>: Abbrev Number: 29 (DW_TAG_member)
-    <1194>   DW_AT_name        : (indirect string, offset: 0x3ad4): in_execve
-[acme@seventh perf]$ 
-
-Looking at the options passed to gcc:
-
-[acme@seventh perf]$ readelf -wi ../build/v5.11.0-rc6+/vmlinux | grep DW_AT_producer -m2
-    <1c>   DW_AT_producer    : (indirect string, offset: 0x51): GNU AS 2.35.1
-    <2f>   DW_AT_producer    : (indirect string, offset: 0x124a): GNU C89 11.0.0 20210123 (Red Hat 11.0.0-0) -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -mindirect-branch=thunk-extern -mindirect-branch-register -mrecord-mcount -mfentry -march=x86-64 -g -O2 -std=gnu90 -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE -falign-jumps=1 -falign-loops=1 -fno-asynchronous-unwind-tables -fno-jump-tables -fno-delete-null-pointer-checks -fno-allow-store-data-races -fno-strict-overflow -fstack-check=no -fconserve-stack -fcf-protection=none -fno-stack-protector -fno-builtin
-[acme@seventh perf]$
-
-its just plain '-g'
-
-Also using pahole's friend, fullcircle, we can see that it uses pfunct
-to generate a compileable .c file from the DWARF thing, building it with
-the same set of options used to build a .o file and then compares the
-degugging info in the .c generated from the debugging info and checks
-it matches, i.e. full circle.
-
-[acme@seventh tmp]$ cp ~/git/build/v5.11.0-rc6+/net/ipv4/tcp.o .
-[acme@seventh tmp]$ pahole -C task_struct tcp.o | tail
-
-	/* --- cacheline 194 boundary (12416 bytes) --- */
-	struct thread_struct       thread __attribute__((__aligned__(64))); /* 12416  4352 */
-
-	/* size: 16768, cachelines: 262, members: 252 */
-	/* sum members: 16579, holes: 22, sum holes: 173 */
-	/* sum bitfield members: 77 bits, bit holes: 2, sum bit holes: 51 bits */
-	/* paddings: 4, sum paddings: 21 */
-	/* forced alignments: 8, forced holes: 2, sum forced holes: 96 */
-} __attribute__((__aligned__(64)));
-[acme@seventh tmp]$
-[acme@seventh tmp]$ ~acme/git/pahole/fullcircle tcp.o
-[acme@seventh tmp]$
-
-For reference, here is the script:
-
-  https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/fullcircle
-
-Then the next test is to build and use tools/bpf/runqslower/ that uses
-CO-RE, i.e. it touches task_struct fields, etc, after building it:
-
-[root@seventh linux]# tools/bpf/runqslower/.output/runqslower
-Tracing run queue latency higher than 10000 us
-TIME     COMM             PID           LAT(us)
-
-And on the other terminal:
-
-[root@seventh ~]# bpftool prog | grep handle__sched -A3
-93: type 26  name handle__sched_w  tag 77e6e21acbdbb0f6  gpl
-	loaded_at 2021-02-04T13:22:32-0300  uid 0
-	xlated 152B  jited 93B  memlock 4096B  map_ids 23,21
-	btf_id 194
-95: type 26  name handle__sched_w  tag 77e6e21acbdbb0f6  gpl
-	loaded_at 2021-02-04T13:22:32-0300  uid 0
-	xlated 152B  jited 93B  memlock 4096B  map_ids 23,21
-	btf_id 194
-96: type 26  name handle__sched_s  tag 1c25b248d7358175  gpl
-	loaded_at 2021-02-04T13:22:32-0300  uid 0
-	xlated 560B  jited 332B  memlock 4096B  map_ids 23,21,22
-	btf_id 194
-[root@seventh ~]#
-
-Ok, system is running smoothly, lets try with a lower threshold:
-
-[root@seventh linux]# tools/bpf/runqslower/.output/runqslower 1000
-Tracing run queue latency higher than 1000 us
-TIME     COMM             PID           LAT(us)
-13:24:31 swapper/3        5070             1405
-13:24:31 swapper/2        2037             1369
-13:24:31 swapper/3        5070             1263
-13:24:32 swapper/0        645              1384
-13:24:32 swapper/1        881              1384
-13:24:32 abrt-dump-journ  5070             2064
-13:24:32 systemd-journal  882              2135
-13:24:32 abrt-dump-journ  645              2240
-13:24:32 runqslower       2947             1317
-13:24:32 iceccd           3839             1451
-13:24:32 runqslower       241              1500
-13:24:32 rcu_sched        5070             1794
-13:24:32 swapper/2        176              1369
-^C
-[root@seventh linux]#
-
-And furthermore:
-
-[root@seventh linux]# file tools/bpf/runqslower/.output/runqslower.bpf.o
-tools/bpf/runqslower/.output/runqslower.bpf.o: ELF 64-bit LSB relocatable, eBPF, version 1 (SYSV), not stripped
-[root@seventh linux]# eu-readelf -winfo tools/bpf/runqslower/.output/runqslower.bpf.o
-eu-readelf: cannot get debug context descriptor: No DWARF information found
-[root@seventh linux]#
-[root@seventh linux]# pahole -C task_struct tools/bpf/runqslower/.output/runqslower.bpf.o > BTF.generated-by-clang-for-a-BPF.target
-[root@seventh linux]# pahole task_struct > BTF.generated-by-pahole-J-from-default-DWWARF-generated-by-gcc11-for-a-x86_64.target
-[root@seventh linux]# diff -u BTF.generated-by-clang-for-a-BPF.target BTF.generated-by-pahole-J-from-default-DWWARF-generated-by-gcc11-for-a-x86_64.target
---- BTF.generated-by-clang-for-a-BPF.target	2021-02-04 13:26:16.215883852 -0300
-+++ BTF.generated-by-pahole-J-from-default-DWWARF-generated-by-gcc11-for-a-x86_64.target	2021-02-04 13:27:07.483184784 -0300
-@@ -49,8 +49,8 @@
- 	/* --- cacheline 30 boundary (1920 bytes) was 56 bytes ago --- */
- 	void *                     migration_pending;    /*  1976     8 */
- 	/* --- cacheline 31 boundary (1984 bytes) --- */
--	unsigned short             migration_disabled;   /*  1984     2 */
--	unsigned short             migration_flags;      /*  1986     2 */
-+	short unsigned int         migration_disabled;   /*  1984     2 */
-+	short unsigned int         migration_flags;      /*  1986     2 */
-
- 	/* XXX 4 bytes hole, try to pack */
-
-@@ -284,8 +284,8 @@
- 	struct list_head           perf_event_list;      /*  7016    16 */
- 	struct mempolicy *         mempolicy;            /*  7032     8 */
- 	/* --- cacheline 110 boundary (7040 bytes) --- */
--	short                      il_prev;              /*  7040     2 */
--	short                      pref_node_fork;       /*  7042     2 */
-+	short int                  il_prev;              /*  7040     2 */
-+	short int                  pref_node_fork;       /*  7042     2 */
- 	int                        numa_scan_seq;        /*  7044     4 */
- 	unsigned int               numa_scan_period;     /*  7048     4 */
- 	unsigned int               numa_scan_period_max; /*  7052     4 */
-[root@seventh linux]#
-
-Not really a difference, but I'll check if I can remove this annoyance
-in > 1.20 :-)
-
-[root@seventh linux]# clang -v |& head -1
-clang version 12.0.0 (https://github.com/llvm/llvm-project 87369c626114ae17f4c637635c119e6de0856a9a)
-[root@seventh linux]#
-
-So I think that for the problems related to building the kernel with gcc
-11 in Fedora Rawhide using the default that is now DWARF5, pahole 1.20
-is good to go and I'll tag it now.
-
-- Arnaldo
+> base-commit: e22d7f05e445165e58feddb4e40cc9c0f94453bc
+> --
+> 2.30.0
+>
