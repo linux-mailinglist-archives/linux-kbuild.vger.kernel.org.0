@@ -2,99 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5DE230EE52
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A607A30EEAF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234953AbhBDI1T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 03:27:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
+        id S234658AbhBDInH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 03:43:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234919AbhBDI1P (ORCPT
+        with ESMTP id S234513AbhBDInF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 03:27:15 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597FFC0613D6
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 00:26:34 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id fa16so844894pjb.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 00:26:34 -0800 (PST)
+        Thu, 4 Feb 2021 03:43:05 -0500
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D45C061573;
+        Thu,  4 Feb 2021 00:42:25 -0800 (PST)
+Received: by mail-il1-x130.google.com with SMTP id z18so1836504ile.9;
+        Thu, 04 Feb 2021 00:42:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
-        b=l37v/+IQCeAuiHht2ANiOQJ57lx2wA7Uo/VmPusIzyN4Onk0lptvEpl+jQLu/UN74Y
-         iFsl/tLthfjfPVMAx6HeFrFGRvuycZofEIay6tH3M1eudbiOHgSvGvycv9Fxl07cIg9B
-         cmrgtgWxt/QD2eCWsm885BFvXjBFYTnEm05SSFzOrCC5Xny4n2cSVdL8omzsC9K96imA
-         yekGtUViFFD+nlLsP2oqAfA9hrKiwfgqmyvRxfYTUMCs9t3XXx879qOQ7qc5vU4fzh3b
-         /hw9yW3a1q7OBde9GarC4MQAQPIEJAHSm/cxclo01bRP67oNtfFyv6eEqU3+tqslqD4X
-         EU9g==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=oQO+dQVEX2nOVug2QIeMZE1dpbuWM/CVbjcmZ9bpCUE=;
+        b=Z7Xo2oAA5nuPR5Cu+jm+MS1yDW+liykjtfrBoJkHljt4zOURA9hxqGB7s/5x+14a73
+         I5xL09vs/4So6S3YzS4GPbBLYbtg+gpHiPTRz9HFfI9QkyEr6VayNEnIwQCsarRuIl9Y
+         CeMlk8lY8vg/l88Dg/hGuh2DY/qY9IzQgDBODHRhqAsFpAvTqRKFDFPO2ksd/0hY41LX
+         HBzgCYxxBuxs9lcBpV66kaufKBYNtLWGBls9ayUivCeGfZWsQeJKOXpXd1umrSvt2oFF
+         LoxGX5OQpM2OJysfobtG+nm7qVLAwdY1NVplB5rwZ4ObOgIYvM5u27aQ0Fv1KkvWTLzN
+         D+nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
-        b=jezNX7u5vfRF1LXDYwQeeseRGMFNsCSn9rFC48wm4dfG+ZrpN20pXyBBgU1C4SPjX8
-         JJvjWS3OdjOPGlN1aSm1iu1wlKHRykrLz9jWdHRapgA/bsbaxbw/nPIso5f/66HjXqCl
-         JqfW5nylwN1x01NMRI+C6SPAw7mPjS10alK4BL6hhAgZTGgt5zcIK2oymQ/TWEUP7+Lo
-         E0hwihNE2cAOWm+q/0eGc7KZ9xnPfXUv+wzuBIGg6STuhbAqogTiOX42i7uX8DhLFy06
-         44MRMgZWyO+4/UvN28dnVNTmave1ifKmbOkOOOFAyrBEUBU7pbQ4YSZyDkRJBY45UCTh
-         nNzA==
-X-Gm-Message-State: AOAM530/tOcV4/RrMXMLcxgsZFwCW4ujBkXb79ABu2qxM280Tb2zS+jK
-        lNP5EURoET+cpypQdUoORECXLJU2fvkqAHOTgoE=
-X-Google-Smtp-Source: ABdhPJzusEya84UEZMFzRQ2jsnWwcUWbQ5gcbeWzx/p19KMW6BEmWzzxRkB5wPAKmjLrJrl6yJcyAO8uCeAV6CoDGIo=
-X-Received: by 2002:a17:902:e5cc:b029:df:bc77:3aba with SMTP id
- u12-20020a170902e5ccb02900dfbc773abamr7041186plf.72.1612427193466; Thu, 04
- Feb 2021 00:26:33 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=oQO+dQVEX2nOVug2QIeMZE1dpbuWM/CVbjcmZ9bpCUE=;
+        b=ImvTsKq35TLHJ8xzt29CDHhennv5DBQbOTgWPXMq14AhPJ1GDfQA2IIxHV9qKiKJil
+         CgbuMd8aKecXnIH/M9ssQFMid1dElqunfpIZ5W2Mi2GZU3EUTUKrKvBimKohmZQI6njC
+         lbX7GmC+br5CLDRzWw6520zWcaUfcMLZ1SH4rU0xVIjV1RZUTYsz/QzK80exfE/1+qCr
+         zcyhVS9Bsx8yeSYquxec4jiDfzFKtJF6J+tk9w3GKD7qTeD3MCF4q3MFTXjFTPfx8l/d
+         N9DkxGyOklRruanObHDOogp+IGVdt5xaLlJf4Gg65vnesx0LZ9vSq+RV9sjzeMJpBS4j
+         xIpg==
+X-Gm-Message-State: AOAM532MGE0v+MUS6jlQ+SuASduQ13GTI5ykFOWp151hQFwRFipuEJko
+        SjmLosv6x3ALmVKY+pBuIm02/ZPdTSEkHChRTIM=
+X-Google-Smtp-Source: ABdhPJwPjBdke0BPHIreGsISS0Ms+a10HPCcQOSFItEwDHcq+us+v49rU7LGR1/qqkmMz9riZmCipmR/HBsTC7PWCS8=
+X-Received: by 2002:a05:6e02:d0:: with SMTP id r16mr6059065ilq.112.1612428144646;
+ Thu, 04 Feb 2021 00:42:24 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:90b:4b0f:0:0:0:0 with HTTP; Thu, 4 Feb 2021 00:26:32
- -0800 (PST)
-Reply-To: ayishagddafio@mail.ru
-From:   AISHA GADDAFI <vijairaja789@gmail.com>
-Date:   Thu, 4 Feb 2021 00:26:32 -0800
-Message-ID: <CAGZ0r_+M24a3vuyZPEw69xFecBNkVqRoiVRR=AtSpFnA+OW61Q@mail.gmail.com>
-Subject: Lieber Freund (Assalamu Alaikum),
-To:     undisclosed-recipients:;
+References: <20210115210616.404156-1-ndesaulniers@google.com>
+ <CA+icZUVp+JNq89uc_DyWC6zh5=kLtUr7eOxHizfFggnEVGJpqw@mail.gmail.com>
+ <7354583d-de40-b6b9-6534-a4f4c038230f@fb.com> <CAKwvOd=5iR0JONwDb6ypD7dzzjOS3Uj0CjcyYqPF48eK4Pi90Q@mail.gmail.com>
+ <12b6c2ca-4cf7-4edd-faf2-72e3cb59c00e@fb.com> <20210117201500.GO457607@kernel.org>
+ <CAKwvOdmniAMZD0LiFdr5N8eOwHqNFED2Pd=pwOFF2Y8eSRXUHA@mail.gmail.com> <CAEf4Bzbn1app3LZ1oah5ARn81j5RMNxRRHPVAkeY3h_0q7+7fg@mail.gmail.com>
+In-Reply-To: <CAEf4Bzbn1app3LZ1oah5ARn81j5RMNxRRHPVAkeY3h_0q7+7fg@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 4 Feb 2021 09:42:13 +0100
+Message-ID: <CA+icZUW2omV581KN0Qv=nGsk=6a-GG2Cm2OYeRxETrZP_obwEQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Kbuild: DWARF v5 support
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, dwarves@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---=20
-Lieber Freund (Assalamu Alaikum),
+On Thu, Feb 4, 2021 at 3:58 AM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+...
+>
+> Is there another (easy) way to get your patch set without the b4 tool?
+> Is your patch set present in some patchworks instance, so that I can
+> download it in mbox format, for example?
+>
 
-Ich bin vor einer privaten Suche auf Ihren E-Mail-Kontakt gesto=C3=9Fen
-Ihre Hilfe. Mein Name ist Aisha Al-Qaddafi, eine alleinerziehende
-Mutter und eine Witwe
-mit drei Kindern. Ich bin die einzige leibliche Tochter des Sp=C3=A4tlibysc=
-hen
-Pr=C3=A4sident (verstorbener Oberst Muammar Gaddafi).
+Just to promote the b4 tool - we have some cool wiki in [1].
 
-Ich habe Investmentfonds im Wert von siebenundzwanzig Millionen
-f=C3=BCnfhunderttausend
-United State Dollar ($ 27.500.000.00) und ich brauche eine
-vertrauensw=C3=BCrdige Investition
-Manager / Partner aufgrund meines aktuellen Fl=C3=BCchtlingsstatus bin ich =
-jedoch
-M=C3=B6glicherweise interessieren Sie sich f=C3=BCr die Unterst=C3=BCtzung =
-von
-Investitionsprojekten in Ihrem Land
-Von dort aus k=C3=B6nnen wir in naher Zukunft Gesch=C3=A4ftsbeziehungen auf=
-bauen.
+Personally, I got in touch with b4 when dealing with the
+ClangBuiltLinux project.
 
-Ich bin bereit, mit Ihnen =C3=BCber das Verh=C3=A4ltnis zwischen Investitio=
-n und
-Unternehmensgewinn zu verhandeln
-Basis f=C3=BCr die zuk=C3=BCnftige Investition Gewinne zu erzielen.
+Note: Sometimes it takes a bit for the patch(set) to be available from
+the LORE link.
 
-Wenn Sie bereit sind, dieses Projekt in meinem Namen zu bearbeiten,
-antworten Sie bitte dringend
-Damit ich Ihnen mehr Informationen =C3=BCber die Investmentfonds geben kann=
-.
+- Sedat -
 
-Ihre dringende Antwort wird gesch=C3=A4tzt. schreibe mir an diese email adr=
-esse (
-ayishagddafio@mail.ru ) zur weiteren Diskussion.
-
-Freundliche Gr=C3=BC=C3=9Fe
-Frau Aisha Al-Qaddafi
+[1] https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tricks#fetching-a-single-patch-or-series-from-lkml
