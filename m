@@ -2,130 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4E3530EE43
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C56430EE4F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234566AbhBDIXw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 03:23:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233305AbhBDIXu (ORCPT
+        id S234924AbhBDI1J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 03:27:09 -0500
+Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:59433 "EHLO
+        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234909AbhBDI1I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 03:23:50 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C398DC061573;
-        Thu,  4 Feb 2021 00:23:10 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id e7so1792394ile.7;
-        Thu, 04 Feb 2021 00:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=hVeXu8KDTq3DcUZSmabKugyarvvt6HgXml5jIs81yZA=;
-        b=J4jdqH29EWjzwxj8O4BYgFQYMFw43/R6LpNPswF14vLt4c3Q8jaPEw83y04iCIykbf
-         TuJFjxbcw82Wt906eBpQcvKDOfqQ02cd2NGOw3xUbGcLJZ0hhexBXnLf+V73MdLApygy
-         bf4HcuV4buKX+ZyuCCqro6cjEHpeP692877FRRGJz8rzxgWB1sTAEezE8mec5FWHWxB4
-         8uPn/2c92cRcdp9Qa9HFSViaRqi/PNj55cyYS0ZDTyL2DcGhHYXgDk0bQDXFGP0/8ERq
-         +js67Si1Mk4y9PjX0HGwIAcxFVmJMiQOgogqkejgjH6CFYnCwIWdeXKsM6hKM23OAM0s
-         JOVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=hVeXu8KDTq3DcUZSmabKugyarvvt6HgXml5jIs81yZA=;
-        b=q929B93y/d7tEI2kzSlJjLanePbTf1V2GWoqTQgbXeN/+DU9+KbZLK8x+lGJ7AgU9W
-         Z8TgzG9MHDiFGMGfjr0qxVJ4RwyghTN2mC6fFmMVDPPcm/IobAY5s+HfAuU41Ru/CrGn
-         NIkRNGBXK6WhlJfuitK62pP4/M5h5sUlW2fPb8GhIXXpsRh899wZPs2oE8ib/sw0us3Y
-         AyEPJmQ82wsfxr3P7TCRONPG6EVCjVwHVgup0LvwuGbSKo6oEfhX0eD7SXJdX4gZ15cs
-         0wsWKxSg4uhhiFNgKSdSsGqh/i8tXMg/KX8XXe4PWBKvHhiScNQWF6s+dGVu5sXyNXDe
-         Pbmw==
-X-Gm-Message-State: AOAM532bf4bpLAJomar3qQZZH7MEnQyxp7pTiZJLBLOr2VptDXAubnXI
-        wOosPBIRGltSSXarvHSr3yB4W1yJtiQedPpq/pg=
-X-Google-Smtp-Source: ABdhPJzFyrelCLssK4mjz7QTMk/Ny6rVLYMgECQwdMRSLXkif6netDe09NB4Etwlb4Wx0ckNLVQ0fdU0PA2sRzXpfXI=
-X-Received: by 2002:a92:ce46:: with SMTP id a6mr6255144ilr.10.1612426989999;
- Thu, 04 Feb 2021 00:23:09 -0800 (PST)
+        Thu, 4 Feb 2021 03:27:08 -0500
+X-Greylist: delayed 49002 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Feb 2021 03:27:06 EST
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DWWpy3ZwNzMqWB2;
+        Thu,  4 Feb 2021 09:26:18 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DWWpv3gtrzlpq06;
+        Thu,  4 Feb 2021 09:26:15 +0100 (CET)
+Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
+ =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
+ =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
+To:     Eric Snowberg <eric.snowberg@oracle.com>,
+        David Howells <dhowells@redhat.com>
+Cc:     dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+ <1103491.1612369600@warthog.procyon.org.uk>
+ <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
+ <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
+Date:   Thu, 4 Feb 2021 09:26:19 +0100
+User-Agent: 
 MIME-Version: 1.0
-References: <20210204064037.1281726-1-ndesaulniers@google.com>
- <CA+icZUVVcP5MSUSDM18Wab46n-20eskRE59akdwfxXKpKXDOFg@mail.gmail.com> <CAKwvOdkYkgViVfzAn1J+SoSfzWn4aYVi+O3uwHhTsV92CVEeJQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdkYkgViVfzAn1J+SoSfzWn4aYVi+O3uwHhTsV92CVEeJQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 4 Feb 2021 09:22:58 +0100
-Message-ID: <CA+icZUVFrk4L+CUo+o3pdsOjaJPKCqnP0zmTuaOoYLg4wyHkbw@mail.gmail.com>
-Subject: Re: [PATCH v8 0/2] Kbuild: DWARF v5 support
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Chris Murphy <bugzilla@colorremedies.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 8:45 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Wed, Feb 3, 2021 at 10:58 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > I guess I need to test harder to get a Tested-by credit :-)?
->
-> You're right Sedat, I'm sorry.  Your testing is invaluable; thank you
-> for taking the time to help and credit is a powerful incentive.
->
-> It can be difficult to know whether to carry forward tags or not when
-> a patch is revised.
->
-> Keeping track whether someone sent an explicit Tested By vs including
-> it based on feedback that implied they tried it.  If you've tested v7
-> or v8, please reply explicitly with tested by tags, or perhaps
-> Masahiro can apply those for you.
->
 
-Unfortunately, some recent patches around CBL and kbuild miss my
-Tested-by's and are already queued up in the remote Git's.
-Maybe, I was simply pissed off this fact when writing my response to you.
+On 04/02/2021 04:53, Eric Snowberg wrote:
+> 
+>> On Feb 3, 2021, at 11:49 AM, Mickaël Salaün <mic@digikod.net> wrote:
+>>
+>> This looks good to me, and it still works for my use case. Eric's
+>> patchset only looks for asymmetric keys in the blacklist keyring, so
+>> even if we use the same keyring we don't look for the same key types. My
+>> patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
+>> to be added by user space (if authenticated), but because Eric's
+>> asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
+>> be OK for his use case.  There should be no interference between the two
+>> new features, but I find it a bit confusing to have such distinct use of
+>> keys from the same keyring depending on their type.
+> 
+> I agree, it is a bit confusing.  What is the thought of having a dbx 
+> keyring, similar to how the platform keyring works?
+> 
+> https://www.spinics.net/lists/linux-security-module/msg40262.html
+> 
+> 
+>> On 03/02/2021 17:26, David Howells wrote:
+>>>
+>>> Eric Snowberg <eric.snowberg@oracle.com> wrote:
+>>>
+>>>> This is the fifth patch series for adding support for 
+>>>> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
+>>>> dbx entries but also entries in the mokx.  Additionally my series to
+>>>> preload these certificate [2] has also been included.
+>>>
+>>> Okay, I've tentatively applied this to my keys-next branch.  However, it
+>>> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
+>>> the same branch.  Can you have a look at the merge commit
+>>>
+>>> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
+>>>
+>>> 	(the top patch of my keys-next branch)
+>>>
+>>> to see if that is okay by both of you?  If so, can you give it a whirl?
+> 
+> 
+> I’m seeing a build error within blacklist_hashes_checked with
+> one of my configs.
+> 
+> The config is as follows:
+> 
+> $ grep CONFIG_SYSTEM_BLACKLIST_HASH_LIST .config
+> CONFIG_SYSTEM_BLACKLIST_HASH_LIST=“revocation_list"
+> 
+> $ cat certs/revocation_list
+> "tbs:1e125ea4f38acb7b29b0c495fd8e7602c2c3353b913811a9da3a2fb505c08a32”
+> 
+> make[1]: *** No rule to make target 'revocation_list', needed by 'certs/blacklist_hashes_checked'.  Stop.
 
-Feel free to add my...
+It requires an absolute path. This is to align with other variables
+using the config_filename macro: CONFIG_SYSTEM_TRUSTED_KEYS,
+CONFIG_MODULE_SIG_KEY and now CONFIG_SYSTEM_REVOCATION_KEYS.
+Cf. https://lore.kernel.org/lkml/1221725.1607515111@warthog.procyon.org.uk/
 
-   Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # v1-v8 with
-LLVM/Clang v11.0.1+ & v12.0.0-rc1 amd64
-
-Looking at the (git) diff v7 -> v8 - seen from the code - nothing changed.
-
-Feel free to add the links to thread(s) and patch(es) I gave as a
-feedback in my other response.
-
-One reason for missed Tested-by's I see is I am NOT subscribed to some
-mailing-list.
-
-> It can be difficult to know what's broken if you apply too many out of
-> tree patches though.
->
-
-"Nicht verkomplifizieren."
-In English: "R(e)D(u)C(e) complexity" is normally one of my life philosophies.
-
-Fighting with... "As usual: It has to work in my development
-environment - first."
-
-Sorry, I insisted that it *has* to work in my environment.
-It has no secrets - all patches I have queued up in my custom patchset
-is publically available.
-That does not mean all of them are or will be upstreamed.
-
-Bonne chance with the Linux-BPF folks and send my apologies to have fooled them.
-It's one of my """strength of character""" (note 3 quotes) :-).
-
-- Sedat -
+We may want to patch scripts/kconfig/streamline_config.pl for both
+CONFIG_SYSTEM_REVOCATION_KEYS and CONFIG_SYSTEM_BLACKLIST_HASH_LIST, to
+warn user (and exit with an error) if such files are not found.
