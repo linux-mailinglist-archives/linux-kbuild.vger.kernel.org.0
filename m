@@ -2,91 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90ADC30E898
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 01:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A6EB30E978
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 02:32:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234115AbhBDAfi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Feb 2021 19:35:38 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:23509 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234102AbhBDAfh (ORCPT
+        id S232478AbhBDBcB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Feb 2021 20:32:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234349AbhBDBb7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Feb 2021 19:35:37 -0500
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 1140YYJq030064;
-        Thu, 4 Feb 2021 09:34:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 1140YYJq030064
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1612398875;
-        bh=d0o4oX2TkUWeKmRsE9flKYZWBAGhmf97FwyHDWzgr/A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ShGXNxreLHQW5f1+twhsUG4wSBHBsa/ay1IzNed0iCRMnz7dA9cFTrFDH4GyrnLpv
-         o2cP7haRc+ONN82gcuMreWFb1BJKMHA6TM3McDG84BwImnAD7p4Yq15cFdcmg95yBg
-         oeXfLROr1ngDb6N26lYTbm8nE9NzjC4ys8Kn/Zc9XQ5E09iAE7tunl6v8muo1VrS10
-         eNXq3xu1T/6pLHaLadl9wqHrThWmQSbRZh/KDYwxLBZy5azuikmnZD4TT6pgMq4bvq
-         0cb73QI3RQTb4UXUR2eR25Gy/5gNcWBChoMH6KAWQdupdYCbk4nmFhaG9PGT7VQXsC
-         uAIDcJmNbApMA==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id e9so811056plh.3;
-        Wed, 03 Feb 2021 16:34:34 -0800 (PST)
-X-Gm-Message-State: AOAM5314TvDG6rRnYiLhWKehrRtAPa+oPB+VH5XN+QBOkbHiVgIQJmrY
-        Dd+pWvyji5x41Ri9pjoYXXR+4PnmhQbfu7SM4ro=
-X-Google-Smtp-Source: ABdhPJywLXWIXwRxXn00ckjTNurhyTCKD83iX+A98c9Nnl0vw8rLbVicidnRxkOw8CKW1IXlEYC6riMa9VCf6TSxhh4=
-X-Received: by 2002:a17:90a:184:: with SMTP id 4mr5642894pjc.87.1612398873991;
- Wed, 03 Feb 2021 16:34:33 -0800 (PST)
+        Wed, 3 Feb 2021 20:31:59 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63D8C061786
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 17:31:18 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id c132so1019436pga.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Feb 2021 17:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PJqnhB5HVj5MI8qvIgTsWnsv8A6arsvgFZ5dYqMe6qM=;
+        b=m+Eh59y2xsdnp+1LpDbiAgN0Kzvnz4LwOWrCOwMQg3rsSpuXecVX+c1HBeBVr6S2Ao
+         9P3QyLUTCSZfNOALC3KN63xy1dyBzY4lx3oroHYhH8zaJWS2zd87L/lSPLiUIlteDF+a
+         6EbAS21kqksqw6D3A84SVgapYHnnJc7SRlqThvIb35YmuckaDP3XEg5D/rumXJHIHgaK
+         AcbXBhKhX4s8wev9BG72pyRux0z6Px5kp8IxBMAh41/zwu2HF6hqu8JWvt4qExAWP4/X
+         0IXOSI1zLWpIF/kn98J6ibyAYEcZEVj8o0agQb2JlrsDHSJrbWybHuPDVSSxeAp5Ekp/
+         RYSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PJqnhB5HVj5MI8qvIgTsWnsv8A6arsvgFZ5dYqMe6qM=;
+        b=N4vgqL2W6p/WmrFMQjugNhJ+pjc+a0GK3VMKkFncyEoFCcX9267G6fElLp2NO3MSGJ
+         QCE2y1BDuN33PkT8Sdw+kU+M1rJer71VM3FSVX0azK3a3Fpbdkj90sH2fyHJU2hPgqZ2
+         rq5wbn8V4m+hIteUDbqtWOnrRSRsDHaSg0q8tW8KrIbXANKLrnBFzHlXuhtHd5U8Q5wL
+         hZ6wkyhFecU3u+kdGTfPBxJnmXMMXa5rztnjDCF/SvAn1exaw40c1UjW93PqDYanaJFr
+         4ywxdY4c40GGEq4EmCw3doKg3jG5QHPwtwKKrPYbaeBTbasrCcWBHm0XTVfd1BWR6MKJ
+         wz+w==
+X-Gm-Message-State: AOAM532JiVYNCWx9HwVoS0w7iYAgVByIUVPV0QJpcmm025IlmsMOtinj
+        UHAOvJToox5XnBz8HIw59tvc8CaSXZ+JiBUwVkTsXQ==
+X-Google-Smtp-Source: ABdhPJxr3rLB/E1G8S1nW2JPZMVdN7cLT+ZjzmaMOGnRre01XJb9SALC+eAJ6fFfxsy7ER8je1Qa0RSQEYA4XtApfTg=
+X-Received: by 2002:a63:7e10:: with SMTP id z16mr6561848pgc.263.1612402277804;
+ Wed, 03 Feb 2021 17:31:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20210130004401.2528717-1-ndesaulniers@google.com>
- <20210130004401.2528717-3-ndesaulniers@google.com> <CAK7LNAQW3XtBGAg6u+86wGc0tizDyezZ_f61JjkT15QH5BtGjA@mail.gmail.com>
- <20210203233607.GI4020736@tucnak>
-In-Reply-To: <20210203233607.GI4020736@tucnak>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 4 Feb 2021 09:33:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQH==pU73=tF+wHNKPn4J1WvGoxo3trZ9pBU7d-qFK6Yw@mail.gmail.com>
-Message-ID: <CAK7LNAQH==pU73=tF+wHNKPn4J1WvGoxo3trZ9pBU7d-qFK6Yw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] Kbuild: implement support for DWARF v5
-To:     Jakub Jelinek <jakub@redhat.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+References: <20210115210616.404156-1-ndesaulniers@google.com>
+ <CA+icZUVp+JNq89uc_DyWC6zh5=kLtUr7eOxHizfFggnEVGJpqw@mail.gmail.com>
+ <7354583d-de40-b6b9-6534-a4f4c038230f@fb.com> <CAKwvOd=5iR0JONwDb6ypD7dzzjOS3Uj0CjcyYqPF48eK4Pi90Q@mail.gmail.com>
+ <12b6c2ca-4cf7-4edd-faf2-72e3cb59c00e@fb.com> <20210117201500.GO457607@kernel.org>
+In-Reply-To: <20210117201500.GO457607@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 3 Feb 2021 17:31:05 -0800
+Message-ID: <CAKwvOdmniAMZD0LiFdr5N8eOwHqNFED2Pd=pwOFF2Y8eSRXUHA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Kbuild: DWARF v5 support
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>
+Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
         Fangrui Song <maskray@google.com>,
         Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>
+        Nick Clifton <nickc@redhat.com>, dwarves@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 8:36 AM Jakub Jelinek <jakub@redhat.com> wrote:
+On Sun, Jan 17, 2021 at 12:14 PM Arnaldo Carvalho de Melo
+<acme@kernel.org> wrote:
 >
-> On Thu, Feb 04, 2021 at 08:06:12AM +0900, Masahiro Yamada wrote:
-> > GCC never outputs '.file 0', which is why
-> > this test is only needed for Clang, correct?
+> Em Fri, Jan 15, 2021 at 03:43:06PM -0800, Yonghong Song escreveu:
+> >
+> >
+> > On 1/15/21 3:34 PM, Nick Desaulniers wrote:
+> > > On Fri, Jan 15, 2021 at 3:24 PM Yonghong Song <yhs@fb.com> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On 1/15/21 1:53 PM, Sedat Dilek wrote:
+> > > > > En plus, I encountered breakage with GCC v10.2.1 and LLVM=1 and
+> > > > > CONFIG_DEBUG_INFO_DWARF4.
+> > > > > So might be good to add a "depends on !DEBUG_INFO_BTF" in this combination.
+> > >
+> > > Can you privately send me your configs that repro? Maybe I can isolate
+> > > it to a set of configs?
+> > >
+> > > >
+> > > > I suggested not to add !DEBUG_INFO_BTF to CONFIG_DEBUG_INFO_DWARF4.
+> > > > It is not there before and adding this may suddenly break some users.
+> > > >
+> > > > If certain combination of gcc/llvm does not work for
+> > > > CONFIG_DEBUG_INFO_DWARF4 with pahole, this is a bug bpf community
+> > > > should fix.
+> > >
+> > > Is there a place I should report bugs?
+> >
+> > You can send bug report to Arnaldo Carvalho de Melo <acme@kernel.org>,
+> > dwarves@vger.kernel.org and bpf@vger.kernel.org.
 >
-> No, GCC outputs .file 0 if it during configure time detected assembler that
-> supports it and doesn't have any of the known bugs related to it.
-> But that means kernel doesn't need to care because GCC already took care of
-> that.
+> I'm coming back from vacation, will try to read the messages and see if
+> I can fix this.
+
+IDK about DWARF v4; that seems to work for me.  I was previously observing
+https://bugzilla.redhat.com/show_bug.cgi?id=1922698
+with DWARF v5.  I just re-pulled the latest pahole, rebuilt, and no
+longer see that warning.
+
+I now observe a different set.  I plan on attending "BPF office hours
+tomorrow morning," but if anyone wants a sneak peak of the errors and
+how to reproduce:
+https://gist.github.com/nickdesaulniers/ae8c9efbe4da69b1cf0dce138c1d2781
 
 
-OK, then I am fine with the current code.
-
-Thanks for the clarification.
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+(FWIW: some other folks are hitting issues now with kernel's lack of
+DWARF v5 support: https://bugzilla.redhat.com/show_bug.cgi?id=1922707)
+-- 
+Thanks,
+~Nick Desaulniers
