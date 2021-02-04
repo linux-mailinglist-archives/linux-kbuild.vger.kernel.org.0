@@ -2,112 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C56430EE4F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5DE230EE52
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:30:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234924AbhBDI1J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 03:27:09 -0500
-Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:59433 "EHLO
-        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234909AbhBDI1I (ORCPT
+        id S234953AbhBDI1T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 03:27:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234919AbhBDI1P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 03:27:08 -0500
-X-Greylist: delayed 49002 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Feb 2021 03:27:06 EST
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DWWpy3ZwNzMqWB2;
-        Thu,  4 Feb 2021 09:26:18 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DWWpv3gtrzlpq06;
-        Thu,  4 Feb 2021 09:26:15 +0100 (CET)
-Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
- =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
- =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
-To:     Eric Snowberg <eric.snowberg@oracle.com>,
-        David Howells <dhowells@redhat.com>
-Cc:     dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
- <1103491.1612369600@warthog.procyon.org.uk>
- <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
- <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
-Date:   Thu, 4 Feb 2021 09:26:19 +0100
-User-Agent: 
+        Thu, 4 Feb 2021 03:27:15 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597FFC0613D6
+        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 00:26:34 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id fa16so844894pjb.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 00:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
+        b=l37v/+IQCeAuiHht2ANiOQJ57lx2wA7Uo/VmPusIzyN4Onk0lptvEpl+jQLu/UN74Y
+         iFsl/tLthfjfPVMAx6HeFrFGRvuycZofEIay6tH3M1eudbiOHgSvGvycv9Fxl07cIg9B
+         cmrgtgWxt/QD2eCWsm885BFvXjBFYTnEm05SSFzOrCC5Xny4n2cSVdL8omzsC9K96imA
+         yekGtUViFFD+nlLsP2oqAfA9hrKiwfgqmyvRxfYTUMCs9t3XXx879qOQ7qc5vU4fzh3b
+         /hw9yW3a1q7OBde9GarC4MQAQPIEJAHSm/cxclo01bRP67oNtfFyv6eEqU3+tqslqD4X
+         EU9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=zdxUWMWXTEs/zs0LJh1bxLoOHpDg1k5nkLimqXptzik=;
+        b=jezNX7u5vfRF1LXDYwQeeseRGMFNsCSn9rFC48wm4dfG+ZrpN20pXyBBgU1C4SPjX8
+         JJvjWS3OdjOPGlN1aSm1iu1wlKHRykrLz9jWdHRapgA/bsbaxbw/nPIso5f/66HjXqCl
+         JqfW5nylwN1x01NMRI+C6SPAw7mPjS10alK4BL6hhAgZTGgt5zcIK2oymQ/TWEUP7+Lo
+         E0hwihNE2cAOWm+q/0eGc7KZ9xnPfXUv+wzuBIGg6STuhbAqogTiOX42i7uX8DhLFy06
+         44MRMgZWyO+4/UvN28dnVNTmave1ifKmbOkOOOFAyrBEUBU7pbQ4YSZyDkRJBY45UCTh
+         nNzA==
+X-Gm-Message-State: AOAM530/tOcV4/RrMXMLcxgsZFwCW4ujBkXb79ABu2qxM280Tb2zS+jK
+        lNP5EURoET+cpypQdUoORECXLJU2fvkqAHOTgoE=
+X-Google-Smtp-Source: ABdhPJzusEya84UEZMFzRQ2jsnWwcUWbQ5gcbeWzx/p19KMW6BEmWzzxRkB5wPAKmjLrJrl6yJcyAO8uCeAV6CoDGIo=
+X-Received: by 2002:a17:902:e5cc:b029:df:bc77:3aba with SMTP id
+ u12-20020a170902e5ccb02900dfbc773abamr7041186plf.72.1612427193466; Thu, 04
+ Feb 2021 00:26:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:90b:4b0f:0:0:0:0 with HTTP; Thu, 4 Feb 2021 00:26:32
+ -0800 (PST)
+Reply-To: ayishagddafio@mail.ru
+From:   AISHA GADDAFI <vijairaja789@gmail.com>
+Date:   Thu, 4 Feb 2021 00:26:32 -0800
+Message-ID: <CAGZ0r_+M24a3vuyZPEw69xFecBNkVqRoiVRR=AtSpFnA+OW61Q@mail.gmail.com>
+Subject: Lieber Freund (Assalamu Alaikum),
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+--=20
+Lieber Freund (Assalamu Alaikum),
 
-On 04/02/2021 04:53, Eric Snowberg wrote:
-> 
->> On Feb 3, 2021, at 11:49 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>
->> This looks good to me, and it still works for my use case. Eric's
->> patchset only looks for asymmetric keys in the blacklist keyring, so
->> even if we use the same keyring we don't look for the same key types. My
->> patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
->> to be added by user space (if authenticated), but because Eric's
->> asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
->> be OK for his use case.  There should be no interference between the two
->> new features, but I find it a bit confusing to have such distinct use of
->> keys from the same keyring depending on their type.
-> 
-> I agree, it is a bit confusing.  What is the thought of having a dbx 
-> keyring, similar to how the platform keyring works?
-> 
-> https://www.spinics.net/lists/linux-security-module/msg40262.html
-> 
-> 
->> On 03/02/2021 17:26, David Howells wrote:
->>>
->>> Eric Snowberg <eric.snowberg@oracle.com> wrote:
->>>
->>>> This is the fifth patch series for adding support for 
->>>> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
->>>> dbx entries but also entries in the mokx.  Additionally my series to
->>>> preload these certificate [2] has also been included.
->>>
->>> Okay, I've tentatively applied this to my keys-next branch.  However, it
->>> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
->>> the same branch.  Can you have a look at the merge commit
->>>
->>> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
->>>
->>> 	(the top patch of my keys-next branch)
->>>
->>> to see if that is okay by both of you?  If so, can you give it a whirl?
-> 
-> 
-> I’m seeing a build error within blacklist_hashes_checked with
-> one of my configs.
-> 
-> The config is as follows:
-> 
-> $ grep CONFIG_SYSTEM_BLACKLIST_HASH_LIST .config
-> CONFIG_SYSTEM_BLACKLIST_HASH_LIST=“revocation_list"
-> 
-> $ cat certs/revocation_list
-> "tbs:1e125ea4f38acb7b29b0c495fd8e7602c2c3353b913811a9da3a2fb505c08a32”
-> 
-> make[1]: *** No rule to make target 'revocation_list', needed by 'certs/blacklist_hashes_checked'.  Stop.
+Ich bin vor einer privaten Suche auf Ihren E-Mail-Kontakt gesto=C3=9Fen
+Ihre Hilfe. Mein Name ist Aisha Al-Qaddafi, eine alleinerziehende
+Mutter und eine Witwe
+mit drei Kindern. Ich bin die einzige leibliche Tochter des Sp=C3=A4tlibysc=
+hen
+Pr=C3=A4sident (verstorbener Oberst Muammar Gaddafi).
 
-It requires an absolute path. This is to align with other variables
-using the config_filename macro: CONFIG_SYSTEM_TRUSTED_KEYS,
-CONFIG_MODULE_SIG_KEY and now CONFIG_SYSTEM_REVOCATION_KEYS.
-Cf. https://lore.kernel.org/lkml/1221725.1607515111@warthog.procyon.org.uk/
+Ich habe Investmentfonds im Wert von siebenundzwanzig Millionen
+f=C3=BCnfhunderttausend
+United State Dollar ($ 27.500.000.00) und ich brauche eine
+vertrauensw=C3=BCrdige Investition
+Manager / Partner aufgrund meines aktuellen Fl=C3=BCchtlingsstatus bin ich =
+jedoch
+M=C3=B6glicherweise interessieren Sie sich f=C3=BCr die Unterst=C3=BCtzung =
+von
+Investitionsprojekten in Ihrem Land
+Von dort aus k=C3=B6nnen wir in naher Zukunft Gesch=C3=A4ftsbeziehungen auf=
+bauen.
 
-We may want to patch scripts/kconfig/streamline_config.pl for both
-CONFIG_SYSTEM_REVOCATION_KEYS and CONFIG_SYSTEM_BLACKLIST_HASH_LIST, to
-warn user (and exit with an error) if such files are not found.
+Ich bin bereit, mit Ihnen =C3=BCber das Verh=C3=A4ltnis zwischen Investitio=
+n und
+Unternehmensgewinn zu verhandeln
+Basis f=C3=BCr die zuk=C3=BCnftige Investition Gewinne zu erzielen.
+
+Wenn Sie bereit sind, dieses Projekt in meinem Namen zu bearbeiten,
+antworten Sie bitte dringend
+Damit ich Ihnen mehr Informationen =C3=BCber die Investmentfonds geben kann=
+.
+
+Ihre dringende Antwort wird gesch=C3=A4tzt. schreibe mir an diese email adr=
+esse (
+ayishagddafio@mail.ru ) zur weiteren Diskussion.
+
+Freundliche Gr=C3=BC=C3=9Fe
+Frau Aisha Al-Qaddafi
