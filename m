@@ -2,59 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A607A30EEAF
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 09:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C5A30EF24
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 10:00:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234658AbhBDInH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 03:43:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
+        id S235098AbhBDJAs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 04:00:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234513AbhBDInF (ORCPT
+        with ESMTP id S234712AbhBDJAr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 03:43:05 -0500
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D45C061573;
-        Thu,  4 Feb 2021 00:42:25 -0800 (PST)
-Received: by mail-il1-x130.google.com with SMTP id z18so1836504ile.9;
-        Thu, 04 Feb 2021 00:42:25 -0800 (PST)
+        Thu, 4 Feb 2021 04:00:47 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D3EC0613D6;
+        Thu,  4 Feb 2021 01:00:07 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id u8so2337588ior.13;
+        Thu, 04 Feb 2021 01:00:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=oQO+dQVEX2nOVug2QIeMZE1dpbuWM/CVbjcmZ9bpCUE=;
-        b=Z7Xo2oAA5nuPR5Cu+jm+MS1yDW+liykjtfrBoJkHljt4zOURA9hxqGB7s/5x+14a73
-         I5xL09vs/4So6S3YzS4GPbBLYbtg+gpHiPTRz9HFfI9QkyEr6VayNEnIwQCsarRuIl9Y
-         CeMlk8lY8vg/l88Dg/hGuh2DY/qY9IzQgDBODHRhqAsFpAvTqRKFDFPO2ksd/0hY41LX
-         HBzgCYxxBuxs9lcBpV66kaufKBYNtLWGBls9ayUivCeGfZWsQeJKOXpXd1umrSvt2oFF
-         LoxGX5OQpM2OJysfobtG+nm7qVLAwdY1NVplB5rwZ4ObOgIYvM5u27aQ0Fv1KkvWTLzN
-         D+nA==
+        bh=DKhv9NF2UmnAO56AelLaqcZWNnODX+nZTlqSUT21pa0=;
+        b=E25oz5qwcF6KOmf3fgAISjxsTmW5LdAMjmOoD/PbFlXMcZpd496dtOrNrtbVjtIFiX
+         YuvF2Y/AAXmmVLKl+TRI94MNxS6MqF7KC9nOAIJ4hL1e0Mkd3aRF0WcUSh6mFLtIzNyp
+         mXynfFPVILFdpDNbTGlQDIAyJELfKGw/e2KHUOzMPEnrF/eAex5khxD/oSV5gLYYzbO0
+         +B+ModsFT0L8CfiUW0+5H4vHH8PbN85Vj6Dk1f1oURWyPQOSBLm24i2omzh3ZvIK0G3h
+         E2H+SIFilzzTklSlLySl/nKniKQoOO3AFfLNqC2/MA+QlI6ZNMIRszhygkRjvNCnMOk9
+         71kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=oQO+dQVEX2nOVug2QIeMZE1dpbuWM/CVbjcmZ9bpCUE=;
-        b=ImvTsKq35TLHJ8xzt29CDHhennv5DBQbOTgWPXMq14AhPJ1GDfQA2IIxHV9qKiKJil
-         CgbuMd8aKecXnIH/M9ssQFMid1dElqunfpIZ5W2Mi2GZU3EUTUKrKvBimKohmZQI6njC
-         lbX7GmC+br5CLDRzWw6520zWcaUfcMLZ1SH4rU0xVIjV1RZUTYsz/QzK80exfE/1+qCr
-         zcyhVS9Bsx8yeSYquxec4jiDfzFKtJF6J+tk9w3GKD7qTeD3MCF4q3MFTXjFTPfx8l/d
-         N9DkxGyOklRruanObHDOogp+IGVdt5xaLlJf4Gg65vnesx0LZ9vSq+RV9sjzeMJpBS4j
-         xIpg==
-X-Gm-Message-State: AOAM532MGE0v+MUS6jlQ+SuASduQ13GTI5ykFOWp151hQFwRFipuEJko
-        SjmLosv6x3ALmVKY+pBuIm02/ZPdTSEkHChRTIM=
-X-Google-Smtp-Source: ABdhPJwPjBdke0BPHIreGsISS0Ms+a10HPCcQOSFItEwDHcq+us+v49rU7LGR1/qqkmMz9riZmCipmR/HBsTC7PWCS8=
-X-Received: by 2002:a05:6e02:d0:: with SMTP id r16mr6059065ilq.112.1612428144646;
- Thu, 04 Feb 2021 00:42:24 -0800 (PST)
+        bh=DKhv9NF2UmnAO56AelLaqcZWNnODX+nZTlqSUT21pa0=;
+        b=AzslEqI4PSNnf9ywTqky9jNK3gymDravMJl3cS4dIl7JUJN6N3tM/i1QMeMFPeUEo+
+         ab6Phfl1HDwB/0AjCJTnn9Gsggw6sMkbY+uwQdH/7Tsfz17FuE5AHOi9bap9mFVcmpIr
+         qapqEqanRpeaJZGOWkB3p1neoTQk0CMNAEN+KzJXEHv/RPD5hdAmiY0RPAdfXbH/22JL
+         JJErOJaHgioiXthGYam9uFZYP1lupkzSm5dl5R/94/UirNtV55KxEFO15SPOtVmfHDY2
+         2ccRpiZAaAAD6GqXVJzMGKDBMDicYeoL88M+DU38/opyFSuNWQujlgcHNnx0Wcv1CET4
+         3XNQ==
+X-Gm-Message-State: AOAM5319TmKZKW4I0l39JKWtze6aDeA5+qKCFE3UYp6P6PS4pvaPhsp1
+        2ytWQEPm+EAqzDF27US6ZNWZGg2XpHjj4IaCYNA=
+X-Google-Smtp-Source: ABdhPJyX59d6m2BlHhqPgcB/inYd3R2sbvAArSwzrPdLzkZYgbF/hmpLKY4z6BeKxPSpcRFOcc8Mnyt6XOxtQZVGbzI=
+X-Received: by 2002:a05:6602:1541:: with SMTP id h1mr5821865iow.171.1612429206784;
+ Thu, 04 Feb 2021 01:00:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20210115210616.404156-1-ndesaulniers@google.com>
  <CA+icZUVp+JNq89uc_DyWC6zh5=kLtUr7eOxHizfFggnEVGJpqw@mail.gmail.com>
  <7354583d-de40-b6b9-6534-a4f4c038230f@fb.com> <CAKwvOd=5iR0JONwDb6ypD7dzzjOS3Uj0CjcyYqPF48eK4Pi90Q@mail.gmail.com>
  <12b6c2ca-4cf7-4edd-faf2-72e3cb59c00e@fb.com> <20210117201500.GO457607@kernel.org>
- <CAKwvOdmniAMZD0LiFdr5N8eOwHqNFED2Pd=pwOFF2Y8eSRXUHA@mail.gmail.com> <CAEf4Bzbn1app3LZ1oah5ARn81j5RMNxRRHPVAkeY3h_0q7+7fg@mail.gmail.com>
-In-Reply-To: <CAEf4Bzbn1app3LZ1oah5ARn81j5RMNxRRHPVAkeY3h_0q7+7fg@mail.gmail.com>
+ <CAKwvOdmniAMZD0LiFdr5N8eOwHqNFED2Pd=pwOFF2Y8eSRXUHA@mail.gmail.com>
+ <CAEf4Bzbn1app3LZ1oah5ARn81j5RMNxRRHPVAkeY3h_0q7+7fg@mail.gmail.com> <CA+icZUW2omV581KN0Qv=nGsk=6a-GG2Cm2OYeRxETrZP_obwEQ@mail.gmail.com>
+In-Reply-To: <CA+icZUW2omV581KN0Qv=nGsk=6a-GG2Cm2OYeRxETrZP_obwEQ@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 4 Feb 2021 09:42:13 +0100
-Message-ID: <CA+icZUW2omV581KN0Qv=nGsk=6a-GG2Cm2OYeRxETrZP_obwEQ@mail.gmail.com>
+Date:   Thu, 4 Feb 2021 09:59:55 +0100
+Message-ID: <CA+icZUU=p9SP+xFh=RP3d39DTWG-6BsETOucJ7OMJtSbqOO-CA@mail.gmail.com>
 Subject: Re: [PATCH v5 0/3] Kbuild: DWARF v5 support
 To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -79,23 +80,33 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 3:58 AM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
-...
+On Thu, Feb 4, 2021 at 9:42 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> Is there another (easy) way to get your patch set without the b4 tool?
-> Is your patch set present in some patchworks instance, so that I can
-> download it in mbox format, for example?
+> On Thu, Feb 4, 2021 at 3:58 AM Andrii Nakryiko
+> <andrii.nakryiko@gmail.com> wrote:
+> ...
+> >
+> > Is there another (easy) way to get your patch set without the b4 tool?
+> > Is your patch set present in some patchworks instance, so that I can
+> > download it in mbox format, for example?
+> >
 >
+> Just to promote the b4 tool - we have some cool wiki in [1].
+>
+> Personally, I got in touch with b4 when dealing with the
+> ClangBuiltLinux project.
+>
+> Note: Sometimes it takes a bit for the patch(set) to be available from
+> the LORE link.
+>
+> - Sedat -
+>
+> [1] https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tricks#fetching-a-single-patch-or-series-from-lkml
 
-Just to promote the b4 tool - we have some cool wiki in [1].
+Honestly, when behind a proxy-server I did not find a trick to use b4
+here (DNS resolution problems).
+I tried with proxychains-ng - NOPE.
 
-Personally, I got in touch with b4 when dealing with the
-ClangBuiltLinux project.
-
-Note: Sometimes it takes a bit for the patch(set) to be available from
-the LORE link.
+In the meantime I updated the CBL-wiki page and added v8 as an example :-).
 
 - Sedat -
-
-[1] https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tricks#fetching-a-single-patch-or-series-from-lkml
