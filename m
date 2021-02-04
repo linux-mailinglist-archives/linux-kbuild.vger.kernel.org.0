@@ -2,117 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B54630ED3C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 08:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 130ED30EDA4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 08:47:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234312AbhBDHWy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 02:22:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47488 "EHLO
+        id S234606AbhBDHpu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 02:45:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233803AbhBDHWx (ORCPT
+        with ESMTP id S230270AbhBDHpu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 02:22:53 -0500
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7EF8C0613D6;
-        Wed,  3 Feb 2021 23:22:13 -0800 (PST)
-Received: by mail-il1-x12c.google.com with SMTP id p15so1670525ilq.8;
-        Wed, 03 Feb 2021 23:22:13 -0800 (PST)
+        Thu, 4 Feb 2021 02:45:50 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEC5C0613D6
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Feb 2021 23:45:09 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id d13so1328887plg.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Feb 2021 23:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=J0Hhokg7bb4w32rTwE6DeGStp3ax7fi3VK+om+D8gps=;
-        b=vMbwPTWjoKKn4UtoCX2tY5RiZb8B7vThyDlUBBZW7TE26y4IOifKk7KPkgxvbmOHO0
-         6KVYtzuqS5f9z6GpXiY8YOl4ZaIAegheScHkXqduRs1pZGUOuzPljUxOlDkx02Uf44WK
-         HB6eqZPFkS5u7kveVWMZQWdgXOnOdxLw835vb/fgHoP4AJKZ8adYhcHOoqa5YCPvChIM
-         eXYUUNnNs4QxbES6nKSm3fCRYDzT3CptnNPL7wzUrIVi+q2jabNksuyTiIo0AHz+O55i
-         9/v/OIqQJ6H1fTlBqtgRm8VrEzAHrniGZZxOrISnXsMbjNgS4JWc1upqYaxdYYtRGmzL
-         hJFg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lgxkPUBlJj+m7PzcHNu0RuzFBoZ+BL1D5oU26v/3jtc=;
+        b=dEOb1Bs1sP3/z5oYFbnSNfK2PIZUlSSt2acWLQ/74zn9vY+wUqfW/TAPGV3XtEGzKl
+         1gsyUYF5VFvM5Rq20Z+yqr5sGHc97qGIVURk4P/y7NDwf6YsFrzysu6LaNlWuumgoWSe
+         sYxTmRtMGnNJbKKJ+vAO2ZeUVPyayz8PvPwXfEQkdrXyh9k42Nsi9HxApzh2I4qzGuNd
+         3vj6ysacX/ZnO63MNKDdq1Ue6U+jsit095NG/XgKhoRbfinXa5tOu20V4Vrqd0fAORvC
+         gmPRw5PNOeGLLkQcCh+nEeezKc0NixIL/1WT/kKZrZKE5fEa77I6lnb7e7sV1D56PYwG
+         JXWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=J0Hhokg7bb4w32rTwE6DeGStp3ax7fi3VK+om+D8gps=;
-        b=AXUFLnMxrKlt/rKe65v6rMVdEMnTYQcpIsNziuFxgaLWFlB9JyYpMbBA8iyJfs50le
-         1Z+eEK8W7pDTOdcyXWqqW+tp20ss/iP7xqwsGWojHJ4FHLsbeT7r2NSMc6G0Vfj7fZFd
-         38h0pSulshTpAcdOsOLPoCTcvv8EuowcmjaGvaymMflseVzCi4Mpb53kz6be5wo6FGOm
-         hSnLCwCf8WplFD6gBNU6x9Ve1HtLXB6V4nCYZ6usfqExfpXe/ecvhuFghPWBw9qCxU/u
-         DWhOb5MteAhIkhuUYL2OhMO9FByaOzYPqJOuASXP525enJsoqkWYxTJ2oY+Dbae0C1+W
-         1kqw==
-X-Gm-Message-State: AOAM533OIoXMA0gN26wR351LE9snfyS+XTVeOMEO8t6AR0y05HrdxkP/
-        NP87JBbS9Jj6SGQ1B+jPUwAHdtJFbT4Y3q0q+nU=
-X-Google-Smtp-Source: ABdhPJy/vmxig/W9Nw0gIHMoujn1aKGJuGQ4ghVxjXftdO9e/CK0p+9mzgPsiVHUi0Ph+DK34s+6mm6T4lDcs7oFmng=
-X-Received: by 2002:a92:444e:: with SMTP id a14mr5831856ilm.215.1612423333162;
- Wed, 03 Feb 2021 23:22:13 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lgxkPUBlJj+m7PzcHNu0RuzFBoZ+BL1D5oU26v/3jtc=;
+        b=lsua8aIEq4nMr+tMXjEmDkUOr+Knv7rJi10OX/nZkLZjfaS+iPKpi82x/Dh0rEUVty
+         RRblweLuiqWxtnk2NV1n1naVruOe50iUtO/hUzP5h/XxE1oNvbJ5mkLzUepE1gdIdzIX
+         fmUIp0/27LOmPS5pC/wSZGTxwB0Jm+T3kYLe4fhhW+ZPGqvBSufJfso1K9tAGnTKCllQ
+         SufVo0vOkKPYmWanb7qwdBEofSbaxg+xCBH9PkDRLc208fyO/i4CXSHtrsZha19+2vKx
+         Ce1oh1f8lDtmd+Ix5JdWSjbTHfsJyy6eXkVWTOa/I4stkhdRoSlude4+vehhhZK5DNeo
+         Q0zw==
+X-Gm-Message-State: AOAM531JW531Emi4+wyoFqX6YI/CnUW0LGahZiSx8/AHWLncAyxH7bGF
+        xWQOGLxZA9OYH8tr7mF5dVDA2MU5MyxUnha9opXzug==
+X-Google-Smtp-Source: ABdhPJy05vgBYJxOXEdbRDVra76zNpviLVb46Q+2BWJB9L+q8Mdow/Rorl074tN+Fu/zU47B4SSfh0lp9AvwWaQHirY=
+X-Received: by 2002:a17:90a:bf10:: with SMTP id c16mr7104915pjs.101.1612424709320;
+ Wed, 03 Feb 2021 23:45:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20210111180609.713998-1-natechancellor@gmail.com>
- <CAK7LNAQ=38BUi-EG5v2UiuAF-BOsVe5BTd-=jVYHHHPD7ikS5A@mail.gmail.com>
- <20210111193400.GA1343746@ubuntu-m3-large-x86> <CAK7LNASZuWp=aPOCKo6QkdHwM5KG6MUv8305v3x-2yR7cKEX-w@mail.gmail.com>
- <20210111200010.GA3635011@ubuntu-m3-large-x86> <CAEf4BzaL18a2+j3EYaD7jcnbJzqwG2MuBxXR2iRZ3KV9Jwrj6w@mail.gmail.com>
- <CAEf4Bzbv6nrJNxbZAvFx4Djvf1zbWnrV_i90vPGHtV-W7Tz=bQ@mail.gmail.com> <20210113230739.GA22747@Ryzen-9-3900X.localdomain>
-In-Reply-To: <20210113230739.GA22747@Ryzen-9-3900X.localdomain>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 4 Feb 2021 08:22:01 +0100
-Message-ID: <CA+icZUVfznOpAQK=6GWoF6XmzHyXjdUgNG5HeoQw3Dwb4wW9uA@mail.gmail.com>
-Subject: Re: [PATCH] bpf: Hoise pahole version checks into Kconfig
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+References: <20210204064037.1281726-1-ndesaulniers@google.com> <CA+icZUVVcP5MSUSDM18Wab46n-20eskRE59akdwfxXKpKXDOFg@mail.gmail.com>
+In-Reply-To: <CA+icZUVVcP5MSUSDM18Wab46n-20eskRE59akdwfxXKpKXDOFg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 3 Feb 2021 23:44:56 -0800
+Message-ID: <CAKwvOdkYkgViVfzAn1J+SoSfzWn4aYVi+O3uwHhTsV92CVEeJQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] Kbuild: DWARF v5 support
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Chris Murphy <bugzilla@colorremedies.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 12:07 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Wed, Feb 3, 2021 at 10:58 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> On Wed, Jan 13, 2021 at 02:38:27PM -0800, Andrii Nakryiko wrote:
-> > Hm.. Just saw Linus proposing using $(error-if) in Kconfig for an
-> > unrelated issue ([0]). If we can make this work, then it would catch
-> > such issue early on, yet won't have any downsides of hiding
-> > CONFIG_DEBUG_INFO_BTF if pahole is too old. WDYT?
-> >
-> >   [0] https://lore.kernel.org/lkml/CAHk-=wh-+TMHPTFo1qs-MYyK7tZh-OQovA=pP3=e06aCVp6_kA@mail.gmail.com/
->
-> Yes, I think that would be exactly what we want because DEBUG_INFO_BTF
-> could cause the build to error if PAHOLE_VERSION is not >= 116. I will
-> try to keep an eye on that thread to see how it goes then respin this
-> based on anything that comes from it.
->
+> I guess I need to test harder to get a Tested-by credit :-)?
 
-For BPF/pahole testing (see [1]) with CONFIG_DEBUG_INFO_DWARF5=y I did:
+You're right Sedat, I'm sorry.  Your testing is invaluable; thank you
+for taking the time to help and credit is a powerful incentive.
 
-$ git diff
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index b0840d192e95..f15b37143165 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -272,7 +272,7 @@ config DEBUG_INFO_DWARF5
-       bool "Generate DWARF Version 5 debuginfo"
-       depends on GCC_VERSION >= 50000 || CC_IS_CLANG
-       depends on CC_IS_GCC ||
-$(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC)
-$(CLANG_FLAGS))
--       depends on !DEBUG_INFO_BTF
-+       depends on !DEBUG_INFO_BTF || (DEBUG_INFO_BTF && PAHOLE_VERSION >= 120)
-       help
-         Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
-         5.0+ accepts the -gdwarf-5 flag but only had partial support for some
+It can be difficult to know whether to carry forward tags or not when
+a patch is revised.
 
-Thanks again for that patch.
+Keeping track whether someone sent an explicit Tested By vs including
+it based on feedback that implied they tried it.  If you've tested v7
+or v8, please reply explicitly with tested by tags, or perhaps
+Masahiro can apply those for you.
 
-- Sedat -
-
-[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/log/?h=tmp.1.20
+It can be difficult to know what's broken if you apply too many out of
+tree patches though.
+-- 
+Thanks,
+~Nick Desaulniers
