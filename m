@@ -2,133 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F391E30FDBC
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 21:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2250F30FE17
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 21:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239929AbhBDUFz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 15:05:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239888AbhBDUFo (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 15:05:44 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0CDC06178A
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 12:05:04 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id z9so2449159pjl.5
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 12:05:04 -0800 (PST)
+        id S240052AbhBDUWc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 15:22:32 -0500
+Received: from mail-eopbgr00058.outbound.protection.outlook.com ([40.107.0.58]:16259
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S240038AbhBDUWZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 4 Feb 2021 15:22:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wr9VtnR02dKxE2sJ1SdxVTXe37NO33EcdxCFpoDdTbFyKU7HR/nkfaiyQTVEo1Z4O+D5QnJz9Pj3P8/dvALglnBRh3EyKIT7twguEyX3Tat9gwzBDigLK4qWFNwQy5ew5h8a0w6Ijd1G9WLD5yXknqJEf1fhp/gmiLwGRgs2rf9A3Dxdpbs0ASTtUb1yu9j1JGH7CJuTZP77yppB87sAY1gw4NZ5i9EbpiyinbXOVq59IJ2EnUITH0Um7R+fz7TM3hexQ0aam2Ohm4yeS4/1NRVf9tvgOd/tjarutRP8Q/14+c2hrCCMnS49ZmzhUyroRgUvzaKGqGwqRP54AFdE0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XGPU55OFfOf8CZBS79tMR5QGuIhZxAPUUAd31w1UbXU=;
+ b=JeT59jeBOSGOoRhO0v5JzXxvVQ+rRs5NAbD3kNBLLvQa96rguVGEmVa46jDb+aoYA9WNlfeygI3uAHtWSOT2AVxiKjO7zMQWu62hhuocG7cx0T/pozhr69FwesH1NHL9QYRQxXi5ZGOKzgm3Nczsh69iAtwIdLBfgDBIuaQy8N64spdPuEPd/ba1mTlGvoLMSST0mK+BQpslroCp44ThykUJBdk3FJUGytnR0e6c7Blj83er6kJXqi3vNoKpuQEjqmr62oxNItQ+thaCAULMr0d12CvwvnlLok2hNjN79IZeSmvuRCMMdjiFRyZUJ5ZjC5uCEiQk2HMGCWKmx49u6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O8yTv9yXpLpwpmF6h6vJLjNPBqLU4fLmK2RwFD/j9hc=;
-        b=KitKv59S0KZUVykZ6ItTKBrIPA93df0eb38/9t4KUTgKq2uh7behhmwlQVq8qfnJSe
-         sjX0Q7FVpceYLH8jY8jMexr3/MRkR+ZpXmPfWn7xr/okoGAjNJ3F7qBnHkH/v3/jpMJA
-         ILJUujFRQUun1191Q8JTDOst7DFbvAp4ijkK+WgvcFzTrg9nD+gVU7xLfeyLbXovNF1A
-         D9wx5Gy9BqcYOR+f5CHDDjq53WflJalYd6p0KVsotSm954Bf+9EpWosWGcJDXFgjrW8J
-         L3u5U86qLj2M4UPNDF2lHcni4iom+j8Uyu5y6PnOSDo1y9dJjzW2oPUc18ATk7WMRwY6
-         9jGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O8yTv9yXpLpwpmF6h6vJLjNPBqLU4fLmK2RwFD/j9hc=;
-        b=EKJpPx3tAuh2oTK8w6VJiWMri1V9ucvRchLdatqJZamqrtYUVUS1dN/ihUEB4f1zr0
-         iDZZ9LOaZwbZmJKmOBbnQFEd6sF6f8pDdPXKnbj+atXZ9yDsOT8FmPmCvynlWpwHtvAL
-         4bhkLRLNV6V4QRUhqQKnwtW697PoD6vzRxntUgLT8o43ATqQTBIN3HdfOAjRgsyzRWt1
-         0em+6TruI2XcxF45PTdr/CqPu0t26k/a33L9e1lcsXE7uWg7qQlgkzSRfF0vTHdPKY46
-         0hWB/98WHsZdD6bMwk8tmYXtY85h+jUCscYHw9DKxgfN7NMesv+qQnD8TI9hvzOjK1AW
-         6cCg==
-X-Gm-Message-State: AOAM530elqMJqsafmzSdWVQS+MfwTG9DA2ca57UVmwJHwXrzoLYODdF+
-        t+COpVByZsMmjhzLu+oG8CEBO/l2cfF44J8a6aDbhg==
-X-Google-Smtp-Source: ABdhPJymonr564jWd60HeZPzi21O7agS59fEjGXM1aY4oS+3LPBPNbmofim316VEKfxahSGaLOFhWZ9LbIytWGjWiWc=
-X-Received: by 2002:a17:90a:bf10:: with SMTP id c16mr595707pjs.101.1612469103596;
- Thu, 04 Feb 2021 12:05:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20210130004401.2528717-1-ndesaulniers@google.com>
- <20210130004401.2528717-2-ndesaulniers@google.com> <20210204103946.GA14802@wildebeest.org>
- <CAKwvOdm0O8m_+mxy7Z91Lu=Hzf6-DyCdAjMOsCRiMmNis4Pd2A@mail.gmail.com> <20fdd20fe067dba00b349407c4a0128c97c1a707.camel@klomp.org>
-In-Reply-To: <20fdd20fe067dba00b349407c4a0128c97c1a707.camel@klomp.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 4 Feb 2021 12:04:51 -0800
-Message-ID: <CAKwvOdmT4t==akMN7eHWgD_XdpN--PLpUj8vgujGJ4TpREvteQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] Kbuild: make DWARF version a choice
-To:     Mark Wielaard <mark@klomp.org>
+ d=secospa.onmicrosoft.com; s=selector2-secospa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XGPU55OFfOf8CZBS79tMR5QGuIhZxAPUUAd31w1UbXU=;
+ b=3cmS1alU3zdeJAaf3WqEu22TKz6HVuRkHeZe2UMqKSSWzqaWxZuHtx5fwWe9By8UGirnHNC4E2iisegKBI3Yb1QjsynW1WFQSVO7vuuuMete602AlmwqgzrRsI5KPmxOnpeoJ4pcZEx5lEAgqsAylZeT0OQpXfocEbQGyGF0ysc=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=seco.com;
+Received: from AM9PR03MB7251.eurprd03.prod.outlook.com (2603:10a6:20b:26e::16)
+ by AM0PR03MB6132.eurprd03.prod.outlook.com (2603:10a6:20b:145::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17; Thu, 4 Feb
+ 2021 20:21:37 +0000
+Received: from AM9PR03MB7251.eurprd03.prod.outlook.com
+ ([fe80::a8f2:7dd:46e5:8526]) by AM9PR03MB7251.eurprd03.prod.outlook.com
+ ([fe80::a8f2:7dd:46e5:8526%6]) with mapi id 15.20.3825.019; Thu, 4 Feb 2021
+ 20:21:37 +0000
+From:   Sean Anderson <sean.anderson@seco.com>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Michal Marek <michal.lkml@markovi.net>,
+        Sean Anderson <sean.anderson@seco.com>
+Subject: [PATCH] builddeb: Don't look for a missing Module.symvers
+Date:   Thu,  4 Feb 2021 15:20:53 -0500
+Message-Id: <20210204202054.1608664-1-sean.anderson@seco.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [50.195.82.171]
+X-ClientProxiedBy: BL1PR13CA0328.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::33) To AM9PR03MB7251.eurprd03.prod.outlook.com
+ (2603:10a6:20b:26e::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from plantagenet.inhand.com (50.195.82.171) by BL1PR13CA0328.namprd13.prod.outlook.com (2603:10b6:208:2c1::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.11 via Frontend Transport; Thu, 4 Feb 2021 20:21:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1fe80c7b-43c3-46cd-5441-08d8c94a7903
+X-MS-TrafficTypeDiagnostic: AM0PR03MB6132:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR03MB6132FDD5378CDF25EB344EF996B39@AM0PR03MB6132.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tgQbBnhUXfndfYTVgqs3yDS9/DRi+GnMYXmpLAx5QSeFgji18w8A+06upWYs+c1DYBEICGaY6gDNXFT4s2vBd63w70QVV0IE2tDJbqULAfLTFoXMKyHFdzMl87NBYdaGRw/So6fgltbATpQUSqMiXnBQSFcd70WaacM2w5bpr6UNw1GfBCsFssKWDUDpVTWW/bAmHzwqfZgK90iTH3EuQvO3uU+AwbHH31qttWaSXozKF55s74qFiVPA2jVIjkV/XwPEWBi8W/UcLndh1ePjkyVvvkRg3zJ8cFzftUX7o/twASLdNEFsRNJ9diMrjv61hhlTB8hE2fqGIuBqm0L66M5OqWna1QlzvlzdDiTLObSVOLPLbaV3OWX5NY2pgI2XG6WGtCRcQfbs6hkIGhyvRDB02QnCX88NQPVQwvzMD87mxpIS5PkEvRful5FXKOsAy1lX61vffmXrYwXfBoYlf8VA0slSLlpPQ3Ie5GyHUa9+RRTFxEQYFJmKUaAeN5y03JH+Tox3Cb6tZtwKOtiJPw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR03MB7251.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(376002)(136003)(396003)(39840400004)(346002)(16526019)(44832011)(54906003)(6486002)(5660300002)(2906002)(2616005)(1076003)(6506007)(316002)(956004)(36756003)(478600001)(26005)(4744005)(6666004)(86362001)(107886003)(66476007)(4326008)(83380400001)(186003)(52116002)(8676002)(8936002)(66556008)(6512007)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cmpBMEpzbDU4N1E4MlhxV1d2NUhDYkJRQnJtbWpSTVJENUNRK3NvSmEzdlM3?=
+ =?utf-8?B?N1h4V0J2YS85U3YxUmlpdlhLbndXWmRXQks3VE9keGQyY0NRVndDczZhMlV1?=
+ =?utf-8?B?RDRFaHJVSC9SQTJiSTdDQlVDTktZcVFUL3ZDYWJxaG9wZERRRFdQc1FwUEla?=
+ =?utf-8?B?RitmaVI2TXFNQ1RCN2xBZy9YSGpjK2JGSU8rcGRlQXkybTl2eTBVc2xDVnVx?=
+ =?utf-8?B?TDJuUndSMGxDL2dibUxwRXJpbDF1UHRDOEs5V3dFQTVYL2tkNDE4ZXE0QVc0?=
+ =?utf-8?B?MlN3SDYyVkpmUUdZWWF6cEIwWFNiNzFHY21JdVYrMXRqbyt5dDdpYUZBaE5F?=
+ =?utf-8?B?SkhMOVRvRXBOSHZFcWNPRUJLVEFpaWErM0hNOGt6SzFxVi9FU2lvQ3h2U3JH?=
+ =?utf-8?B?bDdiSTI0MXlXc3p2WjQ4Y00yODl3azAySktvR3AyWVdUcXlyY251a0xQQ1pa?=
+ =?utf-8?B?eWFYNjUzMmlJVVM2NzdhUzJ2cXNBZ2ZLSUJTWGVsQ2prSFZLaFVkNjNzeVp5?=
+ =?utf-8?B?VDV2OGZXcTg5K25uSHByL0h4S2xacFZKeDEySmFpVmd3c2lnNkVJYzhaSzZv?=
+ =?utf-8?B?Yk1lU3dZQjdRODlQR2FMSE1uVTRqbDFVZkpLL3hjRHRveExVdFM4b0d6dHZl?=
+ =?utf-8?B?cDE0SkYydG5oRWcxM2IzUkcvSmlZNmwwdkNzQXo0bDljZGtKb0U3MnFUdStk?=
+ =?utf-8?B?MXhUZ1BzaEpMTkkvVjRkZERta2IybHR5aE1tMG0zTk5yZFp5Y1hkUGsvelpq?=
+ =?utf-8?B?QlI2bjBBS3A2czF4cURLSXI2OXFMRlhuMlJPa0w4SDkxOHY1Q012ZytLRmFB?=
+ =?utf-8?B?UlVZd2RxWHpmMlVkK1FKM3kvNUorQkg1YkEvd1daU0c5WlU4ZjZUR09qWGpT?=
+ =?utf-8?B?TVJJanpJNjRlR21XcXNpdCtLZmxydFFRMTNCNTVIK1M2Lys4TWxqN2xaYVRx?=
+ =?utf-8?B?bnVDQVFYTUZET2svM3A0Tyt2UG9jdEhkbmp5U252NCthMldXRnljdzRhTXNa?=
+ =?utf-8?B?Q2l3eWpiUUZvMjJqQVRNSjJrTEF6U3F1Q2dTcFdia25jYnFtcmprWEI4eUlF?=
+ =?utf-8?B?MnY3U1pycm5sNHJKOTFvT3VBd2JFa0M5TzdWcHhYcTRwU2tFd01vMWc0WFlw?=
+ =?utf-8?B?SEtqc3JJam90cm1rUWFOZU96V1Y4NlZsamI4VDlzRzlaRVgrcnNnVTRrNk1F?=
+ =?utf-8?B?eS8yTGZadndVa0VOZEQ2N2lHMjFNS2txL2pZRTA0bm5yeXUxa2NsZzZDeTE1?=
+ =?utf-8?B?VC9kQnpWSFVwL0F5YS8xcUk5RmNpUlFtNFcybFJyNFdVK0NTS251M1NmYzhK?=
+ =?utf-8?B?TWpONi93R2xKeURXMjI5UzczelZVK0JtQ2VvSGF4N0pRZkxpSjRpMGVENFZ3?=
+ =?utf-8?B?MmhSa0hqWWxVOEVwWHZJRWpDaG0xZ2dSWGJhditiQWZESUhraUFXVCtoZ3Jv?=
+ =?utf-8?Q?2TYxbI8T?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fe80c7b-43c3-46cd-5441-08d8c94a7903
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR03MB7251.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2021 20:21:37.0109
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tN6rxnyc9kIFh9GojQVKP1V7AXqZke+JRpIn/X80HI3XK74Q80tvL2sBCyjmk9fMcquNAD6ZXF43n+M1yuInwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB6132
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 11:56 AM Mark Wielaard <mark@klomp.org> wrote:
->
-> On Thu, 2021-02-04 at 11:18 -0800, Nick Desaulniers wrote:
-> > On Thu, Feb 4, 2021 at 2:41 AM Mark Wielaard <mark@klomp.org> wrote:
-> > > On Fri, Jan 29, 2021 at 04:44:00PM -0800, Nick Desaulniers wrote:
-> > > > Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice which is
-> > > > the default. Does so in a way that's forward compatible with existing
-> > > > configs, and makes adding future versions more straightforward.
-> > > >
-> > > > GCC since ~4.8 has defaulted to this DWARF version implicitly.
-> > >
-> > > And since GCC 11 it defaults to DWARF version 5.
-> > >
-> > > It would be better to set the default to the DWARF version that the
-> > > compiler generates. So if the user doesn't select any version then it
-> > > should default to just -g (or -gdwarf).
-> >
-> > I disagree.
-> >
-> > https://lore.kernel.org/lkml/CAKwvOdk0zxewEOaFuqK0aSMz3vKNzDOgmez=-Dae4+bodsSg5w@mail.gmail.com/
-> > """
-> > I agree that this patch takes away the compiler vendor's choice as to
-> > what the implicit default choice is for dwarf version for the kernel.
-> > (We, the Linux kernel, do so already for implicit default -std=gnuc*
-> > as well). ...
-> > But I'm
-> > going to suggest we follow the Zen of Python: explicit is better than
-> > implicit.
-> > """
-> > We have a number of in tree and out of tree DWARF consumers that
-> > aren't ready for DWARF v5.  Kernel developers need a way to disable
-> > DWARF v5 until their dependencies are deployed or more widely
-> > available.
->
-> I agree with Jakub. Now that GCC has defaulted to DWARF5 all the tools
-> have adopted to the new default version. And DWARF5 has been out for
+If deb-pkg is run with CONFIG_MODULES disabled, then make fails with
 
-"all of the tools" ?
+find: ‘Module.symvers’: No such file or directory
+make[4]: *** [scripts/Makefile.package:87: intdeb-pkg] Error 1
+make[3]: *** [Makefile:1523: intdeb-pkg] Error 2
+make[2]: *** [debian/rules:9: binary-arch] Error 2
 
-> more than 4 years already. It isn't unreasonable to assume that people
-> using GCC11 will also be using the rest of the toolchain that has moved
-> on. Which DWARF consumers are you concerned about not being ready for
-> GCC defaulting to DWARF5 once GCC11 is released?
+Only add it to headerobjfiles if we actually have modules.
 
-Folks who don't have top of tree pahole or binutils are the two that
-come to mind.  I don't have specifics on out of tree consumers, but
-some Aarch64 extensions which had some changes to DWARF for ARMv8.3
-PAC support broke some debuggers.
+Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+---
 
-I don't doubt a lot of work has gone into fixing many downstream
-projects and then when building everything from ToT that there are no
-issues with DWARF v5.  The issue is getting upgrades into developers
-hands, and what to default to until then.
+ scripts/package/builddeb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 91a502bb97e8..19d44704832b 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -71,7 +71,11 @@ deploy_kernel_headers () {
+ 			echo tools/objtool/objtool
+ 		fi
+ 
+-		find arch/$SRCARCH/include Module.symvers include scripts -type f
++		if is_enabled CONFIG_MODULES; then
++			echo Module.symvers
++		fi
++
++		find arch/$SRCARCH/include include scripts -type f
+ 
+ 		if is_enabled CONFIG_GCC_PLUGINS; then
+ 			find scripts/gcc-plugins -name \*.so
 -- 
-Thanks,
-~Nick Desaulniers
+2.25.1
+
