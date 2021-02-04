@@ -2,91 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C382C30EF69
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 10:17:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C1F030F112
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 11:43:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234811AbhBDJNg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 04:13:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52225 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235100AbhBDJNO (ORCPT
+        id S234895AbhBDKli (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 05:41:38 -0500
+Received: from wildebeest.demon.nl ([212.238.236.112]:33972 "EHLO
+        gnu.wildebeest.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234873AbhBDKlh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 04:13:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612429907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=83YswTIVs8A+BvG5Cq0qVYxzgxFpUOkWSz7G7FevllY=;
-        b=IG1zvvL1JQ87DuPmWExMtlgsBiCTWFWXx61rZAi2LlOY8izKGih+X5T7jha02vfWq4ARP9
-        d3oPUDqooLgmc91SAFQkkWAt7/+B7LO7CxR2bh2vlCLyYTO5c1REl4lwP4/WIS1btASj2j
-        MlfEfM+PZKnegy41kJpRsoKkXcvu/ok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-DN2S4fUUNAmCJnuiVqh5Kw-1; Thu, 04 Feb 2021 04:11:45 -0500
-X-MC-Unique: DN2S4fUUNAmCJnuiVqh5Kw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 4 Feb 2021 05:41:37 -0500
+Received: from librem (ip-213-127-54-204.ip.prioritytelecom.net [213.127.54.204])
+        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AABC95B364;
-        Thu,  4 Feb 2021 09:11:42 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 771C171C9D;
-        Thu,  4 Feb 2021 09:11:36 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
-References: <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com> <20210122181054.32635-1-eric.snowberg@oracle.com> <1103491.1612369600@warthog.procyon.org.uk> <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
-To:     Eric Snowberg <eric.snowberg@oracle.com>
-Cc:     dhowells@redhat.com,
-        =?us-ascii?Q?=3D=3Futf-8=3FQ=3FMicka=3DC3=3DABl?=
-         =?us-ascii?Q?=5FSala=3DC3=3DBCn=3F=3D?= <mic@digikod.net>,
-        dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-Subject: Re: Re: Conflict with =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn's?=
- blacklist patches [was [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for
- dbx/mokx entries]
+        by gnu.wildebeest.org (Postfix) with ESMTPSA id 0B649300097B;
+        Thu,  4 Feb 2021 11:40:54 +0100 (CET)
+Received: by librem (Postfix, from userid 1000)
+        id 13BE3C14A7; Thu,  4 Feb 2021 11:39:46 +0100 (CET)
+Date:   Thu, 4 Feb 2021 11:39:46 +0100
+From:   Mark Wielaard <mark@klomp.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH v7 1/2] Kbuild: make DWARF version a choice
+Message-ID: <20210204103946.GA14802@wildebeest.org>
+References: <20210130004401.2528717-1-ndesaulniers@google.com>
+ <20210130004401.2528717-2-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date:   Thu, 04 Feb 2021 09:11:35 +0000
-Message-ID: <1352221.1612429895@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210130004401.2528717-2-ndesaulniers@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Flag: NO
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Eric Snowberg <eric.snowberg@oracle.com> wrote:
+Hi Nick,
 
-> > On Feb 3, 2021, at 11:49 AM, Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
- wrote:
-> >=20
-> > This looks good to me, and it still works for my use case. Eric's
-> > patchset only looks for asymmetric keys in the blacklist keyring, so
-> > even if we use the same keyring we don't look for the same key types. My
-> > patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
-> > to be added by user space (if authenticated), but because Eric's
-> > asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
-> > be OK for his use case.  There should be no interference between the two
-> > new features, but I find it a bit confusing to have such distinct use of
-> > keys from the same keyring depending on their type.
->=20
-> I agree, it is a bit confusing.  What is the thought of having a dbx=20
-> keyring, similar to how the platform keyring works?
->=20
-> https://www.spinics.net/lists/linux-security-module/msg40262.html
+On Fri, Jan 29, 2021 at 04:44:00PM -0800, Nick Desaulniers wrote:
+> Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice which is
+> the default. Does so in a way that's forward compatible with existing
+> configs, and makes adding future versions more straightforward.
+> 
+> GCC since ~4.8 has defaulted to this DWARF version implicitly.
 
-That would be fine by me.
+And since GCC 11 it defaults to DWARF version 5.
 
-David
+It would be better to set the default to the DWARF version that the
+compiler generates. So if the user doesn't select any version then it
+should default to just -g (or -gdwarf).
 
+Thanks,
+
+Mark
