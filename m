@@ -2,57 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05E0C30FC7B
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 20:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 186A930FD79
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Feb 2021 20:58:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239788AbhBDTTq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 14:19:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239591AbhBDTTg (ORCPT
+        id S239881AbhBDT5w convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Thu, 4 Feb 2021 14:57:52 -0500
+Received: from wildebeest.demon.nl ([212.238.236.112]:37446 "EHLO
+        gnu.wildebeest.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239790AbhBDT46 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 14:19:36 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9F0C06178A
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 11:18:56 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id d2so2382065pjs.4
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 11:18:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gpuC+d2FUOI/ZHg93wQH+r85JDI4pp/FX9Ub2W2auJA=;
-        b=IeotN/9b8v5XKf4EhKYsx0kfJDGFixxFAbgIG7uuE5tnabLRIRh0tUk3+MzaseOpkO
-         MGOfJLn/t0mNBWKilsOO0R1ZgJ6TjREJeV04mMuqVPU0OoeZfGS3dqy0VbE+EvvmXJgg
-         ra34agXgJ5zd5/OLk3jfRChhcNS4ABtu9mHgG8ARfKSTgC/4vLvvrSay2qoLL3Gzr3Dd
-         HAdmCEbXZErEAO0aPLwRJ+qLYZN2w7HXPO6aKm0qC4+1SK+wu7rNYvqDwzUbY9GsiJ51
-         NPYomZ2yLP+eL9f0GUvcJMzbF+QnmE0YujcWl0QGEnpL1s/uI3nJkw08iQvzzN3jBl/q
-         xS8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gpuC+d2FUOI/ZHg93wQH+r85JDI4pp/FX9Ub2W2auJA=;
-        b=j5+DgTOfJkW5IWb4wL0LVNYeB0A1JLiG0XMa76Pz65cOBsx7P3OkAjnvkgQ2lPzLTg
-         tTk/XqhHatu8uD3uA0mtOdgvjXmBkBBN6l+WVi8CNwcdsml23yJX4n6Ca+Tg8LyOitH6
-         fCDI12IaBHB6m2AHzNnI7VnE/TFJnboiFJD7i5zDPBE++hlL4ipbEH4RFpgosSLgqMFp
-         TC54Z+pqfLYlx1ERIMOoMHprYLcFD4noiF5ZMFIGzIIP6du5URn+BIBEdIlrUihDYWHS
-         f9NmGo66VAXzDDjhNWo+DwEmBdPNouA+1oXRiF+VoRh0DgvEYzjV3/dAtU2V7miOY6zn
-         Esmw==
-X-Gm-Message-State: AOAM532EeypQ2vEJxKXCyaQyGnfBe4y6pQBL6zdtxTvo7NYSYxn30HqH
-        l5JFW1hp/e7vS3WyqQPZHeRyqYYi5SyaPB/qZH8W2Q==
-X-Google-Smtp-Source: ABdhPJzl7LAFaClTjRx4s2bi9MKyf3s0L375hLNeyyqodeJV4B0xlBdb5b8nigoIhDlFSEWostsGA+rxdrWqOWCmz5U=
-X-Received: by 2002:a17:90a:bf10:: with SMTP id c16mr435444pjs.101.1612466335618;
- Thu, 04 Feb 2021 11:18:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20210130004401.2528717-1-ndesaulniers@google.com>
- <20210130004401.2528717-2-ndesaulniers@google.com> <20210204103946.GA14802@wildebeest.org>
-In-Reply-To: <20210204103946.GA14802@wildebeest.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 4 Feb 2021 11:18:44 -0800
-Message-ID: <CAKwvOdm0O8m_+mxy7Z91Lu=Hzf6-DyCdAjMOsCRiMmNis4Pd2A@mail.gmail.com>
+        Thu, 4 Feb 2021 14:56:58 -0500
+Received: from tarox.wildebeest.org (tarox.wildebeest.org [172.31.17.39])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by gnu.wildebeest.org (Postfix) with ESMTPSA id DA19930278CD;
+        Thu,  4 Feb 2021 20:56:05 +0100 (CET)
+Received: by tarox.wildebeest.org (Postfix, from userid 1000)
+        id 880BF40C9DA3; Thu,  4 Feb 2021 20:56:05 +0100 (CET)
+Message-ID: <20fdd20fe067dba00b349407c4a0128c97c1a707.camel@klomp.org>
 Subject: Re: [PATCH v7 1/2] Kbuild: make DWARF version a choice
-To:     Mark Wielaard <mark@klomp.org>
+From:   Mark Wielaard <mark@klomp.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -70,49 +40,63 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Nathan Chancellor <nathan@kernel.org>
+Date:   Thu, 04 Feb 2021 20:56:05 +0100
+In-Reply-To: <CAKwvOdm0O8m_+mxy7Z91Lu=Hzf6-DyCdAjMOsCRiMmNis4Pd2A@mail.gmail.com>
+References: <20210130004401.2528717-1-ndesaulniers@google.com>
+         <20210130004401.2528717-2-ndesaulniers@google.com>
+         <20210204103946.GA14802@wildebeest.org>
+         <CAKwvOdm0O8m_+mxy7Z91Lu=Hzf6-DyCdAjMOsCRiMmNis4Pd2A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+X-Spam-Flag: NO
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 2:41 AM Mark Wielaard <mark@klomp.org> wrote:
->
-> Hi Nick,
->
-> On Fri, Jan 29, 2021 at 04:44:00PM -0800, Nick Desaulniers wrote:
-> > Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice which is
-> > the default. Does so in a way that's forward compatible with existing
-> > configs, and makes adding future versions more straightforward.
-> >
-> > GCC since ~4.8 has defaulted to this DWARF version implicitly.
->
-> And since GCC 11 it defaults to DWARF version 5.
->
-> It would be better to set the default to the DWARF version that the
-> compiler generates. So if the user doesn't select any version then it
-> should default to just -g (or -gdwarf).
+On Thu, 2021-02-04 at 11:18 -0800, Nick Desaulniers wrote:
+> On Thu, Feb 4, 2021 at 2:41 AM Mark Wielaard <mark@klomp.org> wrote:
+> > On Fri, Jan 29, 2021 at 04:44:00PM -0800, Nick Desaulniers wrote:
+> > > Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice which is
+> > > the default. Does so in a way that's forward compatible with existing
+> > > configs, and makes adding future versions more straightforward.
+> > > 
+> > > GCC since ~4.8 has defaulted to this DWARF version implicitly.
+> > 
+> > And since GCC 11 it defaults to DWARF version 5.
+> > 
+> > It would be better to set the default to the DWARF version that the
+> > compiler generates. So if the user doesn't select any version then it
+> > should default to just -g (or -gdwarf).
+> 
+> I disagree.
+> 
+> https://lore.kernel.org/lkml/CAKwvOdk0zxewEOaFuqK0aSMz3vKNzDOgmez=-Dae4+bodsSg5w@mail.gmail.com/
+> """
+> I agree that this patch takes away the compiler vendor's choice as to
+> what the implicit default choice is for dwarf version for the kernel.
+> (We, the Linux kernel, do so already for implicit default -std=gnuc*
+> as well). ...
+> But I'm
+> going to suggest we follow the Zen of Python: explicit is better than
+> implicit.
+> """
+> We have a number of in tree and out of tree DWARF consumers that
+> aren't ready for DWARF v5.  Kernel developers need a way to disable
+> DWARF v5 until their dependencies are deployed or more widely
+> available.
 
-I disagree.
+I agree with Jakub. Now that GCC has defaulted to DWARF5 all the tools
+have adopted to the new default version. And DWARF5 has been out for
+more than 4 years already. It isn't unreasonable to assume that people
+using GCC11 will also be using the rest of the toolchain that has moved
+on. Which DWARF consumers are you concerned about not being ready for
+GCC defaulting to DWARF5 once GCC11 is released?
 
-https://lore.kernel.org/lkml/CAKwvOdk0zxewEOaFuqK0aSMz3vKNzDOgmez=-Dae4+bodsSg5w@mail.gmail.com/
-"""
-I agree that this patch takes away the compiler vendor's choice as to
-what the implicit default choice is for dwarf version for the kernel.
-(We, the Linux kernel, do so already for implicit default -std=gnuc*
-as well). ...
-But I'm
-going to suggest we follow the Zen of Python: explicit is better than
-implicit.
-"""
-We have a number of in tree and out of tree DWARF consumers that
-aren't ready for DWARF v5.  Kernel developers need a way to disable
-DWARF v5 until their dependencies are deployed or more widely
-available.
-
-I'm happy to consider eventually moving the default DWARF version for
-the kernel to v5, and ideas for how to wean developers off of v4, but
-I don't think forcing v5 on kernel developers right now is the most
-delicate approach.
--- 
 Thanks,
-~Nick Desaulniers
+
+Mark
