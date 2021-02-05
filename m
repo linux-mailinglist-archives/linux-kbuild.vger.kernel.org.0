@@ -2,127 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F81B3118DF
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94066311953
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 04:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhBFCs5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 21:48:57 -0500
-Received: from condef-05.nifty.com ([202.248.20.70]:64831 "EHLO
-        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbhBFCkf (ORCPT
+        id S230363AbhBFDCL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 22:02:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232060AbhBFCuv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 21:40:35 -0500
-X-Greylist: delayed 439 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Feb 2021 21:40:27 EST
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-05.nifty.com with ESMTP id 1161oMY8006119;
-        Sat, 6 Feb 2021 10:50:22 +0900
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 1161nRBC018896;
-        Sat, 6 Feb 2021 10:49:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 1161nRBC018896
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1612576168;
-        bh=gpqQwaTvQcIqHtmt2nFODRlCdmq9NF34DAVw/eO4LAI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xYLjqAKAFhZ7L8wWrUHU+f+rp9RE+9j96zr5TzdVyUtlVyPZKa57vlv/nGOhe06Jd
-         u/2vChzUiemzJAIZRtihqPnysW5SVDOQlF8yJovsKbm0ZFQh2R7qmbJ2rS7Az7orN3
-         ImD6agICIWZISkrkJXFjxEg44/z6+pvesHPTTglDuaSuD4yOKOpj4wR6H5RLBUCWH/
-         iES7fa+4xRyExlCyJnvDd5q0DNskyqMNxuYoV5OJJGFuYXBe2j0kxaCPiymDLoFNIY
-         STUAG51U3uW6vtSG6J4OFNGbUn0W02b4R+QX91NlLVqt6FoofQslICCAs8ROSMeT1u
-         mq/81Sum/A+vw==
-X-Nifty-SrcIP: [209.85.215.173]
-Received: by mail-pg1-f173.google.com with SMTP id r38so5757555pgk.13;
-        Fri, 05 Feb 2021 17:49:27 -0800 (PST)
-X-Gm-Message-State: AOAM532VwZVWFDxm/lTTN05yzODKa8kB932pzg7Fnt63m16X0MZbTWVR
-        sL8A69u5rMUndSh7wAKf3KBbryTyzdDmViB7huo=
-X-Google-Smtp-Source: ABdhPJzY87ngLMxF79uzibs1VF2FhW8F8uzZsWLUNAu8V4Bgg5khj0mUN7eHENn7VCuiLIGBtO6iBpmDzuYnFLO/Tlg=
-X-Received: by 2002:a63:ff09:: with SMTP id k9mr7335315pgi.175.1612576167170;
- Fri, 05 Feb 2021 17:49:27 -0800 (PST)
+        Fri, 5 Feb 2021 21:50:51 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E2BC0698C6;
+        Fri,  5 Feb 2021 14:25:16 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id c3so8291979ybi.3;
+        Fri, 05 Feb 2021 14:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hYUg3hUYLhRgtIvFTbD2VmRbiO8E/oS3HEcH+2mdLys=;
+        b=D/3Szo3U0J1VcnkFYVHbqwjGp20STlNB4R1cBtjGpJ3Pe/kU/JgKGkAYcdQFg1oyeH
+         EFwqKYd0FfjGc/aJEK7kezMmBkJOQFoyMbP1X4O7qqFBnTnJB/pv6oWNiehS1ycSK8ZS
+         fO77QvpCHiX42uE03qFBinL40qgQPWhz+r//HGZaSOesmEM3z4UKLJWxQk+Uw9Ow1wLf
+         IOPeAdTfZZi0ohvdCHS4Wo0m9YKvAtkxhytEDe0ZOguQh4S2Lol9v3YgrbyFbTu9Zca0
+         zHwsn7Rmhm660asec3AV/x5tBA56CSt/j/w5FdmBjOYpqQhXf8JLfYG5zgNxnx/DYAMf
+         1PmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hYUg3hUYLhRgtIvFTbD2VmRbiO8E/oS3HEcH+2mdLys=;
+        b=fbT7IFOTyBDNwxFvNYNEqawfSpazV4xkWGP6WrCCnlxadMPOFP5SVPP+ZPRyG/NLI1
+         E2viHDSDXeDapZwgIjrTteeIiJIcDoyzsmsE/TPnwghvJu2Jc/TnpwzGSIq2pqDo44v9
+         KGZq7/2lGZSRG6dzVERnrFFJO4yGg0ZYEsEwvehCNcemDFUPnf7YqBZ8c2u0mJTQLh6d
+         DmAJeFeQ3PwZUO5BHqCsdWrni6r3t2rQF+LFUIbn099g/l4EvCEj+pz+APjhVD4c+Q1c
+         19ZEGQxiX8ZwyMofvFexkuy/8MU7KsNbpSLeqDrzPnvDX+jItmbfcvODTAI1tk9DgDZe
+         stIA==
+X-Gm-Message-State: AOAM533m3bSw3vMkPWRBU/i+yzHiEBxTItDEwDjlXOJy1useiMtmJHCI
+        QAi1OwKCh8LMYZX3RXCHUptxgsTtN9y/6OyFczk=
+X-Google-Smtp-Source: ABdhPJxPvMF+GPOj/8IjoyGkasonxz/I6RMZw8DMRUyvUJ14OqNyfV/+HbUj0a2/lwXZGicPrAZWNrbkKKSo7ekzHN0=
+X-Received: by 2002:a5b:3c4:: with SMTP id t4mr8617231ybp.510.1612563915723;
+ Fri, 05 Feb 2021 14:25:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205220125.2931504-1-ndesaulniers@google.com>
-In-Reply-To: <20210205220125.2931504-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 6 Feb 2021 10:48:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKHvjTcnic=ZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w@mail.gmail.com>
-Message-ID: <CAK7LNARKHvjTcnic=ZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: reuse CC_VERSION_TEXT
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+References: <20210205124020.683286-1-jolsa@kernel.org> <20210205124020.683286-4-jolsa@kernel.org>
+In-Reply-To: <20210205124020.683286-4-jolsa@kernel.org>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 5 Feb 2021 14:25:04 -0800
+Message-ID: <CAEf4BzYPOmS9=cuF9BkUcWv1MNZ0OEyi-bT6KUwm60PxXivS2Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 3/4] tools/resolve_btfids: Set srctree variable unconditionally
+To:     Jiri Olsa <jolsa@kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 6, 2021 at 7:01 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
+On Fri, Feb 5, 2021 at 4:46 AM Jiri Olsa <jolsa@kernel.org> wrote:
 >
-> I noticed we're invoking $(CC) via $(shell) more than once to check the
-> version.  Let's reuse the first string captured in $CC_VERSION_TEXT.
+> We want this clean to be called from tree's root Makefile,
+> which defines same srctree variable and that will screw
+> the make setup.
 >
-> Fixes: 315bab4e972d ("kbuild: fix endless syncconfig in case arch Makefile sets CROSS_COMPILE")
-
-
-I did not touch this hunk because I have a plan
-for different refactoring, but I have never got
-around to do it.
-
-Anyway, you beat me, and I will pick this up.
-But, the Fixes tag is questionable because
-this is code refactoring.
-
-
-
-
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> We actually do not use srctree being passed from outside,
+> so we can solve this by setting current srctree value
+> directly.
+>
+> Also changing the way how srctree is initialized as suggested
+> by Andrri.
+>
+> Also root Makefile does not define the implicit RM variable,
+> so adding RM initialization.
+>
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
 > ---
->  Makefile | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
+
+>  tools/bpf/resolve_btfids/Makefile | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index a85535eb6a7d..70034d7c1051 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -557,7 +557,13 @@ ifdef building_out_of_srctree
->         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
->  endif
+> diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
+> index be09ec4f03ff..bb9fa8de7e62 100644
+> --- a/tools/bpf/resolve_btfids/Makefile
+> +++ b/tools/bpf/resolve_btfids/Makefile
+> @@ -2,11 +2,7 @@
+>  include ../../scripts/Makefile.include
+>  include ../../scripts/Makefile.arch
 >
-> -ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> +# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> +# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> +# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> +# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> +CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
-> +
-> +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
->  ifneq ($(CROSS_COMPILE),)
->  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
->  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> @@ -576,12 +582,6 @@ KBUILD_AFLAGS      += $(CLANG_FLAGS)
->  export CLANG_FLAGS
->  endif
+> -ifeq ($(srctree),)
+> -srctree := $(patsubst %/,%,$(dir $(CURDIR)))
+> -srctree := $(patsubst %/,%,$(dir $(srctree)))
+> -srctree := $(patsubst %/,%,$(dir $(srctree)))
+> -endif
+> +srctree := $(abspath $(CURDIR)/../../../)
 >
-> -# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> -# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> -# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> -# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> -CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
-> -
->  ifdef config-build
->  # ===========================================================================
->  # *config targets only - make sure prerequisites are updated, and descend
-> --
-> 2.30.0.478.g8a0d178c01-goog
+>  ifeq ($(V),1)
+>    Q =
+> @@ -22,6 +18,7 @@ AR       = $(HOSTAR)
+>  CC       = $(HOSTCC)
+>  LD       = $(HOSTLD)
+>  ARCH     = $(HOSTARCH)
+> +RM      ?= rm
+>
+>  OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
 >
 > --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210205220125.2931504-1-ndesaulniers%40google.com.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+> 2.26.2
+>
