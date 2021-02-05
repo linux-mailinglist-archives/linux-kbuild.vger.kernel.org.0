@@ -2,99 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D87C31035D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 04:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 010BD31066F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 09:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbhBEDMN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 22:12:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbhBEDL5 (ORCPT
+        id S231504AbhBEIQ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 03:16:29 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:34982 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231400AbhBEIQ2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 22:11:57 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11D1C061786
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 19:11:10 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id q7so5924724wre.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 19:11:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorremedies-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I+kAjuceqQaSn6CnDxq1eGCe6jIuci9QzOZjaAOHZZ4=;
-        b=ald/6GB4cU/3OuNhAVzbLnuB6xvz4CPgony9VaCQPVAgc7KGFZXRVKtLWkWvFIcbYd
-         fMoXq9EJebve6kpGLHdl/w0AUUwuW7oacXEQoWjA30ozOJ+x+mVh8qRFxJQF0LJFrDil
-         Akbv/F/+Kbtk1c+wxZK0UJ2dYzsBC1cTWH2j20Ikolmf0u/r1vmv5xeGSTnzIeTgGfqZ
-         xWwPsD4wEGWXILFenXn9Eqzx0EG1rPKqONAh4AqJyPRRWEXCh4X7gS+K07mTjG4RsM7m
-         icO7WbGydnhB1YktuWBYsIdj5nyLNo6LBRRCB2GKBsbx7zUtL6UqbUxa0wHGPy/lYrIe
-         dmnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I+kAjuceqQaSn6CnDxq1eGCe6jIuci9QzOZjaAOHZZ4=;
-        b=BkTNRIztcAuUKSVSyK7Ep08o6KyqDdZ8ybq3MlijcID9/MCEzUzda8v43W+O+ufSpd
-         5LmU5RgWvnz0P6YVSJBVAOQxBWbworzoOqb2BQzhPzSHqhXMla4YBME/yGtHvmENEAgN
-         c49bKFMDeCzPTeG2hZ2FtdGyweSYKPq8dR9/D38GA7ZkRbpmmQ3Yg+ljt1rGM7w8L2lE
-         xVkx2nzLiwi88RGDyuVckdhU64Yc9Uxj7WOBJ5KG+ZCAfSFdBY3MgJeN/DJUJeZXTC0J
-         fCcvhiI+L9crw3I1J4JpY1Fs71TssUGrvg1uBWGothow75zH6FtDoY6DMDngRQkspePO
-         egDA==
-X-Gm-Message-State: AOAM532ipsm7g4HsShwBiBixXWf/uhP+4B+RsGJ3eeKfcIvBAy/jGfgO
-        38Drh2jS+TEwB3mu2uQdrdOeOAgWZrR5BOsiUm43uA==
-X-Google-Smtp-Source: ABdhPJxNqWdyIThhWcNYJ7sQC/LTzehMjhlXl+bGyYf5G8tr28thHPvS5ccpVRoPl/gmT6DrKtDpm3RQXJLhoNGKvkw=
-X-Received: by 2002:a5d:6686:: with SMTP id l6mr2478909wru.236.1612494669505;
- Thu, 04 Feb 2021 19:11:09 -0800 (PST)
+        Fri, 5 Feb 2021 03:16:28 -0500
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1158FVrm015129;
+        Fri, 5 Feb 2021 17:15:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1158FVrm015129
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612512931;
+        bh=+466j/DCiKIThD/BdltYirFPy86aGxUTe/lVNI/SkZ0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=x4baPLwJ8gPMgXylHvH8SUqFkTsfFQI9JKph5lVyYWMPdzU5sX6bY7DIIPPxW1pym
+         YjiSejcEwIghm1jF5eUGjW7qGjLBaqKWTA34sv+0rHf1h4KqC/JXmKWQQEqbVwGN8C
+         Q7/4Kb9JnnCtf7Qvti0c4/iUrPL50EniXjgQ5j+vv5sE4dkzcOEkeiPk4AzJ2gs+rK
+         7GP83pQHbaRq0wzmVEtW8nQYlcLwNJr7u7LDVIJDe9RMYkVTylin2+gpUnQf+BxIjB
+         HmjRGIdlmY1pU/Udt8mp3DHkPL3ZJ1p5HB+txLna6HLuaVJhGKyIqLw7XjgCPyGMcZ
+         mZuhAj4Yw1xDQ==
+X-Nifty-SrcIP: [209.85.216.48]
+Received: by mail-pj1-f48.google.com with SMTP id l18so3358371pji.3;
+        Fri, 05 Feb 2021 00:15:31 -0800 (PST)
+X-Gm-Message-State: AOAM531zE6J9T2vb9/h55FntLBQwnQrPApQ4jH3mNw1LDGlhdBUAIRPW
+        gtp4SYl16yqsjlsh4ao/n8ZBFnaohiaTaBBpRQA=
+X-Google-Smtp-Source: ABdhPJzXxIFsbTssin1UtFmmSm7ZCRaMX4ww/Sa2IRta+CnfpuWKelfFbb8sHCjIWFCP07XrAQW0KDtyud0N5iVKkEA=
+X-Received: by 2002:a17:90a:184:: with SMTP id 4mr3057945pjc.87.1612512930722;
+ Fri, 05 Feb 2021 00:15:30 -0800 (PST)
 MIME-Version: 1.0
-References: <CAJCQCtSQLc0VHqO4BY_-YB2OmCNNmHCS6fNdQKmMWGn2v=Jpdw@mail.gmail.com>
- <CAJCQCtRHOidM7Vps1JQSpZA14u+B5fR860FwZB=eb1wYjTpqDw@mail.gmail.com>
- <CAEf4BzZ4oTB0-JizHe1VaCk2V+Jb9jJoTznkgh6CjE5VxNVqbg@mail.gmail.com>
- <CAJCQCtRw6UWGGvjn0x__godYKYQXXmtyQys4efW2Pb84Q5q8Eg@mail.gmail.com>
- <20210204010038.GA854763@kernel.org> <CAJCQCtQfgRp78_WSrSHLNUUYNCyOCH=vo10nVZW_cyMjpZiNJg@mail.gmail.com>
- <CAEf4Bza4XQxpS7VTNWGk6Rz-iUwZemF6+iAVBA_yvrWnV0k8Qg@mail.gmail.com>
- <CAJCQCtRDJ_uiJcanP_p+y6Kz76c4P-EmndMyfHN5f4rtkgYhjA@mail.gmail.com>
- <20210204132625.GB910119@kernel.org> <20210204163319.GD910119@kernel.org>
-In-Reply-To: <20210204163319.GD910119@kernel.org>
-From:   Chris Murphy <lists@colorremedies.com>
-Date:   Thu, 4 Feb 2021 20:10:52 -0700
-Message-ID: <CAJCQCtT-i0Lv2zxUDko3XuiHpUqOnYPeND5LzD=zgrB1-GNvAg@mail.gmail.com>
-Subject: Re: [FIXED] Re: 5:11: in-kernel BTF is malformed
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     Chris Murphy <lists@colorremedies.com>, bpf <bpf@vger.kernel.org>,
-        Jiri Olsa <jolsa@kernel.org>, dwarves@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Yonghong Song <yhs@fb.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+References: <20210204202054.1608664-1-sean.anderson@seco.com>
+In-Reply-To: <20210204202054.1608664-1-sean.anderson@seco.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 5 Feb 2021 17:14:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATi=4_ieMdi9OKXSF1yBiBDmtddG7ioYhre=hq988UePw@mail.gmail.com>
+Message-ID: <CAK7LNATi=4_ieMdi9OKXSF1yBiBDmtddG7ioYhre=hq988UePw@mail.gmail.com>
+Subject: Re: [PATCH] builddeb: Don't look for a missing Module.symvers
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 4, 2021 at 9:33 AM Arnaldo Carvalho de Melo <acme@kernel.org> wrote:
+On Fri, Feb 5, 2021 at 5:21 AM Sean Anderson <sean.anderson@seco.com> wrote=
+:
 >
-> So I think that for the problems related to building the kernel with gcc
-> 11 in Fedora Rawhide using the default that is now DWARF5, pahole 1.20
-> is good to go and I'll tag it now.
+> If deb-pkg is run with CONFIG_MODULES disabled, then make fails with
+>
+> find: =E2=80=98Module.symvers=E2=80=99: No such file or directory
+> make[4]: *** [scripts/Makefile.package:87: intdeb-pkg] Error 1
+> make[3]: *** [Makefile:1523: intdeb-pkg] Error 2
+> make[2]: *** [debian/rules:9: binary-arch] Error 2
+>
+> Only add it to headerobjfiles if we actually have modules.
+>
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+> ---
 
-dwarves-1.20-1.fc34.x86_64
-libdwarves1-1.20-1.fc34.x86_64
 
-Fixes both "failed to validate module [?????] BTF: -22" type errors,
-and 'in-kernel BTF is malformed" with qemu-kvm and libvirt.
+I do not see this error any more after
+the following commit was merged.
 
-Is that expected? Or maybe the second issue was fixed by
-gcc-11.0.0-0.18.fc34.x86_64 [(GCC) 11.0.0 20210130]? This is what I
-get for changing more than one thing at once.
 
---
-Chris Murphy
+commit bac977cbc0d6731fb8e67c2be0e4acbd959e10b3
+Author: Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed Oct 14 03:38:19 2020 +0900
+
+    kbuild: deb-pkg: do not build linux-headers package if CONFIG_MODULES=
+=3Dn
+
+
+
+
+
+
+
+>  scripts/package/builddeb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 91a502bb97e8..19d44704832b 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -71,7 +71,11 @@ deploy_kernel_headers () {
+>                         echo tools/objtool/objtool
+>                 fi
+>
+> -               find arch/$SRCARCH/include Module.symvers include scripts=
+ -type f
+> +               if is_enabled CONFIG_MODULES; then
+> +                       echo Module.symvers
+> +               fi
+> +
+> +               find arch/$SRCARCH/include include scripts -type f
+>
+>                 if is_enabled CONFIG_GCC_PLUGINS; then
+>                         find scripts/gcc-plugins -name \*.so
+> --
+> 2.25.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
