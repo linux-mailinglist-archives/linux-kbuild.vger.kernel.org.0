@@ -2,104 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E62D13118AE
+	by mail.lfdr.de (Postfix) with ESMTP id 74B533118AD
 	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231322AbhBFCoP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 21:44:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37494 "EHLO
+        id S229745AbhBFCoH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 21:44:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbhBFCcj (ORCPT
+        with ESMTP id S230104AbhBFCcW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 21:32:39 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E225C0617AA
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 14:05:28 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id h7so12045201lfc.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 14:05:28 -0800 (PST)
+        Fri, 5 Feb 2021 21:32:22 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BDE8C0698D0;
+        Fri,  5 Feb 2021 14:24:22 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id v123so8213517yba.13;
+        Fri, 05 Feb 2021 14:24:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zeFCuwPyZrQo30fqoMpBAnSm+mAPzDuy2Hx9cst86mA=;
-        b=bqFTieNLJSzgASCm+qRTv5VPQzBzJflsUPTmvMYITq+CMaUk1U2kxmNhYkquuPxutl
-         jywknFAktNdU32+LTgxHZNBwwCD7MMb4SAj8DG15KA9DW6Cc2lhlIYfi9qz7g9LAZ/JF
-         Fjzv68Fh7fqq7jTH4AAKZPV6uV38r9qtcC9bFbNCWutSyV+9fm9f08kHC6U0xrb/jmkn
-         3105/o8wtobqVora5JDwdbKnT6RaC+ieOfW+O+vhmxbhYAiab5ZS/JKXXiGXjZUcx2k5
-         F5ZyZ9VZQr9uN0lgEHYk1drHfl8MrtxqBAK7/wBqYb1vyyyAjmz1ffXO5Vs7rcv3xv8r
-         HhQg==
+        bh=uQykqIICKTbhMjXss2MdZxSh7LZznNksmMLb9c4zDc4=;
+        b=Ay28IZ3EsBl/gjG2R8wQSaUcxtl6QcUdqz5eD9wkDmwXZMxVicrSdYLMYmmx+yVEZN
+         ESfE6FRI7xmODJHf7tYejQJCD0REH/Je5d41OAgah7qGX1fOShnYtRpcMN/Q05LVk3L+
+         dx3u929XHqvFSCMw4f5ycfOgED9nXxPd7hv0t7eBRxdgs2ixnJub256N+O6iSza7CYWp
+         FwweYQSBbkgoUNx12rUD0PzYXOYXyGwZtoOyqNAUJkpzBQnXiWkWzDSEqW+giBCwW/UM
+         4lxZjdao/MABtm7gIfbuAUQ5K3x1/ViOoitrxijIZh5prwkOljMAkaR2m68PqU2STif+
+         shnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zeFCuwPyZrQo30fqoMpBAnSm+mAPzDuy2Hx9cst86mA=;
-        b=jUG7hH2wefQP8+JMkFJ+8tJ1FsaxWr/0YnVSS5JDsHyPDwm8Kn3/TQBZQAUkCrEOPO
-         i77xsm9+NfRB8ZM9whc/M7ELsL9vuGnxOiMAwHODQ1+CrZlx9Gr+cZjWwud7FCny9+oB
-         BPUA21k9/Ny2pk7cIyTNS3PX5h3dnm+AC8yog42cBuzo/d1C1FNcfLURRtHV8lMg0Gh2
-         JmmD66EaWpFBIX3C2M8wMch/QgcLjbQdZI9xCTFGlvfe/YmxferUIDOJiAAy0A5NXyeT
-         TeaHtWLxyRyExBZHMREh+aeztW1pRCCYPySkpIX6HOtkde8gelxSFiZkLySbcib4whpL
-         0/mg==
-X-Gm-Message-State: AOAM530X3vosk1Aur1WQBfSAw6T2jmtRIWffUljssLBmNrwqqg71x0+v
-        ghQUfiIQjLZvcnwQX3MQiU+Zjt7KrhWuBmvuNFKXXOIsrqY=
-X-Google-Smtp-Source: ABdhPJzsjJ86jybD6y4WMLruoHNnVkApRHddRhG7luk0yUOW1YF202j7pwGy+HVaAh2p2jkLiW8+ttkzvy4LfmWHk4M=
-X-Received: by 2002:ac2:5e90:: with SMTP id b16mr3477340lfq.122.1612562726417;
- Fri, 05 Feb 2021 14:05:26 -0800 (PST)
+        bh=uQykqIICKTbhMjXss2MdZxSh7LZznNksmMLb9c4zDc4=;
+        b=L24SkP7JnyaKZKs1DTHGqmF7lm9aM25s0ksoF4LXIWShNZByXXhddOUULPok58+1th
+         i49gMAgrJ6I9WNG7SVu6OF47E/UtTEP8dZavy9KKBmZ90bZpaX1UEoVuWSWNs1RcfB71
+         zOJVfroLRRmDdisWSsYya8HxZJvsFnjIT0oWPkcRcbwuWglZHl7GtS/JrvanhDhYwVIY
+         aTRljw/A+x/izJ2hlp96C1yV3UcoCTEYibN3BhbvtrDBnx2LjM6sv0ooBXqowkMPNvdq
+         j7LzyUFmSW7ZBtOYHL/VOmeTHemeMeLGA3J8lLkBVCTWHI1ev6XHgHocoH9B43SwJ7T5
+         bcuQ==
+X-Gm-Message-State: AOAM531wZjt/9iXEVYbIDI8w8jRMBJIUCxwBjLDMaO4e/G98lBmDt7ad
+        pHpbHTnBR6ZE+r/0o2cTN325xRw7eI264MD64ss=
+X-Google-Smtp-Source: ABdhPJxnBFgFM492SdCHWsGVGLaqGC/D15+x7dV47Dl81Nrb6e1r0coQitDT1CNXG/CqpyDLOFuBlX2m3U86YDmPvYQ=
+X-Received: by 2002:a25:4b86:: with SMTP id y128mr9295890yba.403.1612563861495;
+ Fri, 05 Feb 2021 14:24:21 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+icZUUjb_71mWwWFMYN_OPZir2vStLq1kDY1O+JCFjtmEEBjA@mail.gmail.com>
- <20210205213651.GA16907@Ryzen-5-4500U.localdomain> <CAKwvOdk8vp5z71pQHG04REENSy15Z3DvY1MehS_GGVxnhXx_cg@mail.gmail.com>
- <20210205215531.GA8294@ubuntu-m3-large-x86>
-In-Reply-To: <20210205215531.GA8294@ubuntu-m3-large-x86>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 5 Feb 2021 14:05:13 -0800
-Message-ID: <CAKwvOdk51GZ9HtBCNUCKX4mp7NSHvKv_4i_DgtdKciHU6CfiSw@mail.gmail.com>
-Subject: Re: Using GNU AS from a selfmade binutils v2.35.2
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+References: <20210205124020.683286-1-jolsa@kernel.org> <20210205124020.683286-2-jolsa@kernel.org>
+In-Reply-To: <20210205124020.683286-2-jolsa@kernel.org>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 5 Feb 2021 14:24:10 -0800
+Message-ID: <CAEf4BzYKq+Z1T6+yfM0dfuGMvZB1TRaqT-jWpPzUvgPdXh=Y0g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/4] tools/resolve_btfids: Build libbpf and
+ libsubcmd in separate directories
+To:     Jiri Olsa <jolsa@kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 1:55 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Fri, Feb 5, 2021 at 4:46 AM Jiri Olsa <jolsa@kernel.org> wrote:
 >
-> On Fri, Feb 05, 2021 at 01:44:44PM -0800, 'Nick Desaulniers' via Clang Built Linux wrote:
-> > On Fri, Feb 5, 2021 at 1:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > It is entirely possible that '--prefix=' should always be present though:
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index f5842126e89d..409822f45bfd 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -562,10 +562,10 @@ endif
-> > >  ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> > >  ifneq ($(CROSS_COMPILE),)
-> > >  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> > > +endif
-> > >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > >  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> > >  GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
-> > > -endif
-> > >  ifneq ($(GCC_TOOLCHAIN),)
-> > >  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
-> > >  endif
-> >
-> > I'm unsure. Consider the case where I'm building with `LLVM=1
-> > LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu`, ie. no GNU binutils and
-> > am cross compiling.  In that case, we should not be setting any
-> > --prefix or --gcc-toolchain, and yet today we are.  Perhaps that is
-> > orthogonal though?
+> Setting up separate build directories for libbpf and libpsubcmd,
+> so it's separated from other objects and we don't get them mixed
+> in the future.
 >
-> Yes, we could probably move the 'ifneq ($(LLVM_IAS),1)' block up because
-> all other build tools should be called directly (really, just "$(LD)")
-> but I do think that is orthogonal to the issue that is going on here.
+> It also simplifies cleaning, which is now simple rm -rf.
 >
-> I am happy to send patches if you feel this is worthwhile.
+> Also there's no need for FEATURE-DUMP.libbpf and bpf_helper_defs.h
+> files in .gitignore anymore.
+>
+> Acked-by: Song Liu <songliubraving@fb.com>
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> ---
 
-It would be the capstone to hermetic builds, I suspect.
--- 
-Thanks,
-~Nick Desaulniers
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
+
+>  tools/bpf/resolve_btfids/.gitignore |  2 --
+>  tools/bpf/resolve_btfids/Makefile   | 26 +++++++++++---------------
+>  2 files changed, 11 insertions(+), 17 deletions(-)
+>
+> diff --git a/tools/bpf/resolve_btfids/.gitignore b/tools/bpf/resolve_btfids/.gitignore
+> index a026df7dc280..25f308c933cc 100644
+> --- a/tools/bpf/resolve_btfids/.gitignore
+> +++ b/tools/bpf/resolve_btfids/.gitignore
+> @@ -1,4 +1,2 @@
+> -/FEATURE-DUMP.libbpf
+> -/bpf_helper_defs.h
+>  /fixdep
+>  /resolve_btfids
+> diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
+> index bf656432ad73..1d46a247ec95 100644
+> --- a/tools/bpf/resolve_btfids/Makefile
+> +++ b/tools/bpf/resolve_btfids/Makefile
+> @@ -28,22 +28,22 @@ OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
+>  LIBBPF_SRC := $(srctree)/tools/lib/bpf/
+>  SUBCMD_SRC := $(srctree)/tools/lib/subcmd/
+>
+> -BPFOBJ     := $(OUTPUT)/libbpf.a
+> -SUBCMDOBJ  := $(OUTPUT)/libsubcmd.a
+> +BPFOBJ     := $(OUTPUT)/libbpf/libbpf.a
+> +SUBCMDOBJ  := $(OUTPUT)/libsubcmd/libsubcmd.a
+>
+>  BINARY     := $(OUTPUT)/resolve_btfids
+>  BINARY_IN  := $(BINARY)-in.o
+>
+>  all: $(BINARY)
+>
+> -$(OUTPUT):
+> +$(OUTPUT) $(OUTPUT)/libbpf $(OUTPUT)/libsubcmd:
+>         $(call msg,MKDIR,,$@)
+> -       $(Q)mkdir -p $(OUTPUT)
+> +       $(Q)mkdir -p $(@)
+>
+> -$(SUBCMDOBJ): fixdep FORCE
+> -       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(OUTPUT)
+> +$(SUBCMDOBJ): fixdep FORCE | $(OUTPUT)/libsubcmd
+> +       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(abspath $(dir $@))/ $(abspath $@)
+>
+> -$(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPUT)
+> +$(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPUT)/libbpf
+>         $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC)  OUTPUT=$(abspath $(dir $@))/ $(abspath $@)
+>
+>  CFLAGS := -g \
+> @@ -57,23 +57,19 @@ LIBS = -lelf -lz
+>  export srctree OUTPUT CFLAGS Q
+>  include $(srctree)/tools/build/Makefile.include
+>
+> -$(BINARY_IN): fixdep FORCE
+> +$(BINARY_IN): fixdep FORCE | $(OUTPUT)
+>         $(Q)$(MAKE) $(build)=resolve_btfids
+>
+>  $(BINARY): $(BPFOBJ) $(SUBCMDOBJ) $(BINARY_IN)
+>         $(call msg,LINK,$@)
+>         $(Q)$(CC) $(BINARY_IN) $(LDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+>
+> -libsubcmd-clean:
+> -       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(OUTPUT) clean
+> -
+> -libbpf-clean:
+> -       $(Q)$(MAKE) -C $(LIBBPF_SRC) OUTPUT=$(OUTPUT) clean
+> -
+> -clean: libsubcmd-clean libbpf-clean fixdep-clean
+> +clean: fixdep-clean
+>         $(call msg,CLEAN,$(BINARY))
+>         $(Q)$(RM) -f $(BINARY); \
+>         $(RM) -rf $(if $(OUTPUT),$(OUTPUT),.)/feature; \
+> +       $(RM) -rf $(OUTPUT)/libbpf; \
+> +       $(RM) -rf $(OUTPUT)/libsubcmd; \
+>         find $(if $(OUTPUT),$(OUTPUT),.) -name \*.o -or -name \*.o.cmd -or -name \*.o.d | xargs $(RM)
+>
+>  tags:
+> --
+> 2.26.2
+>
