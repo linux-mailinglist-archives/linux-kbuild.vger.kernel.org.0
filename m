@@ -2,153 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB2CF310945
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 11:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9F1E310957
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 11:43:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbhBEKiP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 05:38:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbhBEKgJ (ORCPT
+        id S231220AbhBEKmV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 05:42:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39566 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231439AbhBEKgo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 05:36:09 -0500
-X-Greylist: delayed 500 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 Feb 2021 02:35:22 PST
-Received: from smtp-bc0b.mail.infomaniak.ch (smtp-bc0b.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4003C0617A7
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 02:35:22 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DXBRj2YVDzMqWkX;
-        Fri,  5 Feb 2021 11:26:57 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DXBRf1R7Xzlh8TK;
-        Fri,  5 Feb 2021 11:26:54 +0100 (CET)
-Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
- =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
- =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
-To:     Eric Snowberg <eric.snowberg@oracle.com>
-Cc:     David Howells <dhowells@redhat.com>, dwmw2@infradead.org,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
- <1103491.1612369600@warthog.procyon.org.uk>
- <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
- <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
- <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
- <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net>
-Date:   Fri, 5 Feb 2021 11:27:02 +0100
-User-Agent: 
+        Fri, 5 Feb 2021 05:36:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612521317;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QJCCgzFVl3igOoCKJCJw9qlTMRXU0EBO0JvhKR9cbr4=;
+        b=Nqo64f/M5NEgucfwgKE25EWJ+8333kMekSRz0MsWwyFhuG/Oxk2uLbFASHFcfq4D8qHlKs
+        JN0dD3dksrNogCL/nFMgaMPRYS9dW5aJp3TBgnFJXqYaxUqEdxeOL2Rukw/+66+Q72qR4R
+        DqSCDougZKczUcfmUlOlI4pKlXZU7nw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-30aKlXhpNzqfdjB4BQeMvg-1; Fri, 05 Feb 2021 05:35:14 -0500
+X-MC-Unique: 30aKlXhpNzqfdjB4BQeMvg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9620E15720;
+        Fri,  5 Feb 2021 10:35:11 +0000 (UTC)
+Received: from krava (unknown [10.40.195.59])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 81A315C648;
+        Fri,  5 Feb 2021 10:35:08 +0000 (UTC)
+Date:   Fri, 5 Feb 2021 11:35:07 +0100
+From:   Jiri Olsa <jolsa@redhat.com>
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH bpf-next 1/4] tools/resolve_btfids: Build libbpf and
+ libsubcmd in separate directories
+Message-ID: <YB0fW+zEPHa/XKsq@krava>
+References: <20210129134855.195810-1-jolsa@redhat.com>
+ <20210204211825.588160-1-jolsa@kernel.org>
+ <20210204211825.588160-2-jolsa@kernel.org>
+ <CAEf4BzYhnm2tfnuGWXDOAZZmYBnboSZ3JsWjDHM5ortCbaeEjw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEf4BzYhnm2tfnuGWXDOAZZmYBnboSZ3JsWjDHM5ortCbaeEjw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-On 05/02/2021 01:24, Eric Snowberg wrote:
+On Thu, Feb 04, 2021 at 04:39:38PM -0800, Andrii Nakryiko wrote:
+> On Thu, Feb 4, 2021 at 1:20 PM Jiri Olsa <jolsa@kernel.org> wrote:
+> >
+> > Setting up separate build directories for libbpf and libpsubcmd,
+> > so it's separated from other objects and we don't get them mixed
+> > in the future.
+> >
+> > It also simplifies cleaning, which is now simple rm -rf.
+> >
+> > Also there's no need for FEATURE-DUMP.libbpf and bpf_helper_defs.h
+> > files in .gitignore anymore.
+> >
+> > Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> > ---
+> >  tools/bpf/resolve_btfids/.gitignore |  2 --
+> >  tools/bpf/resolve_btfids/Makefile   | 26 +++++++++++---------------
+> >  2 files changed, 11 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/tools/bpf/resolve_btfids/.gitignore b/tools/bpf/resolve_btfids/.gitignore
+> > index a026df7dc280..25f308c933cc 100644
+> > --- a/tools/bpf/resolve_btfids/.gitignore
+> > +++ b/tools/bpf/resolve_btfids/.gitignore
+> > @@ -1,4 +1,2 @@
+> > -/FEATURE-DUMP.libbpf
+> > -/bpf_helper_defs.h
+> >  /fixdep
+> >  /resolve_btfids
+> > diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
+> > index bf656432ad73..b780b3a9fb07 100644
+> > --- a/tools/bpf/resolve_btfids/Makefile
+> > +++ b/tools/bpf/resolve_btfids/Makefile
+> > @@ -28,22 +28,22 @@ OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
+> >  LIBBPF_SRC := $(srctree)/tools/lib/bpf/
+> >  SUBCMD_SRC := $(srctree)/tools/lib/subcmd/
+> >
+> > -BPFOBJ     := $(OUTPUT)/libbpf.a
+> > -SUBCMDOBJ  := $(OUTPUT)/libsubcmd.a
+> > +BPFOBJ     := $(OUTPUT)/libbpf/libbpf.a
+> > +SUBCMDOBJ  := $(OUTPUT)/libsubcmd/libsubcmd.a
+> >
+> >  BINARY     := $(OUTPUT)/resolve_btfids
+> >  BINARY_IN  := $(BINARY)-in.o
+> >
+> >  all: $(BINARY)
+> >
+> > -$(OUTPUT):
+> > +$(OUTPUT) $(OUTPUT)/libbpf $(OUTPUT)/libsubcmd:
+> >         $(call msg,MKDIR,,$@)
+> > -       $(Q)mkdir -p $(OUTPUT)
+> > +       $(Q)mkdir -p $(@)
+> >
+> > -$(SUBCMDOBJ): fixdep FORCE
+> > -       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(OUTPUT)
+> > +$(SUBCMDOBJ): fixdep FORCE | $(OUTPUT)/libsubcmd
+> > +       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(abspath $(dir $@))/ $(abspath $@)
+> >
+> > -$(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPUT)
+> > +$(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPUT)/libbpf
+> >         $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC)  OUTPUT=$(abspath $(dir $@))/ $(abspath $@)
+> >
+> >  CFLAGS := -g \
+> > @@ -57,23 +57,19 @@ LIBS = -lelf -lz
+> >  export srctree OUTPUT CFLAGS Q
+> >  include $(srctree)/tools/build/Makefile.include
+> >
+> > -$(BINARY_IN): fixdep FORCE
+> > +$(BINARY_IN): fixdep FORCE | $(OUTPUT)
+> >         $(Q)$(MAKE) $(build)=resolve_btfids
+> >
+> >  $(BINARY): $(BPFOBJ) $(SUBCMDOBJ) $(BINARY_IN)
+> >         $(call msg,LINK,$@)
+> >         $(Q)$(CC) $(BINARY_IN) $(LDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+> >
+> > -libsubcmd-clean:
+> > -       $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(OUTPUT) clean
+> > -
+> > -libbpf-clean:
+> > -       $(Q)$(MAKE) -C $(LIBBPF_SRC) OUTPUT=$(OUTPUT) clean
+> > -
+> > -clean: libsubcmd-clean libbpf-clean fixdep-clean
+> > +clean: fixdep-clean
+> >         $(call msg,CLEAN,$(BINARY))
+> >         $(Q)$(RM) -f $(BINARY); \
+> >         $(RM) -rf $(if $(OUTPUT),$(OUTPUT),.)/feature; \
+> > +       $(RM) -rf $(OUTPUT)libbpf; \
+> > +       $(RM) -rf $(OUTPUT)libsubcmd; \
 > 
->> On Feb 4, 2021, at 1:26 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>
->>
->> On 04/02/2021 04:53, Eric Snowberg wrote:
->>>
->>>> On Feb 3, 2021, at 11:49 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>>>
->>>> This looks good to me, and it still works for my use case. Eric's
->>>> patchset only looks for asymmetric keys in the blacklist keyring, so
->>>> even if we use the same keyring we don't look for the same key types. My
->>>> patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
->>>> to be added by user space (if authenticated), but because Eric's
->>>> asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
->>>> be OK for his use case.  There should be no interference between the two
->>>> new features, but I find it a bit confusing to have such distinct use of
->>>> keys from the same keyring depending on their type.
->>>
->>> I agree, it is a bit confusing.  What is the thought of having a dbx 
->>> keyring, similar to how the platform keyring works?
->>>
->>> https://www.spinics.net/lists/linux-security-module/msg40262.html
->>>
->>>
->>>> On 03/02/2021 17:26, David Howells wrote:
->>>>>
->>>>> Eric Snowberg <eric.snowberg@oracle.com> wrote:
->>>>>
->>>>>> This is the fifth patch series for adding support for 
->>>>>> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
->>>>>> dbx entries but also entries in the mokx.  Additionally my series to
->>>>>> preload these certificate [2] has also been included.
->>>>>
->>>>> Okay, I've tentatively applied this to my keys-next branch.  However, it
->>>>> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
->>>>> the same branch.  Can you have a look at the merge commit
->>>>>
->>>>> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
->>>>>
->>>>> 	(the top patch of my keys-next branch)
->>>>>
->>>>> to see if that is okay by both of you?  If so, can you give it a whirl?
->>>
->>>
->>> I’m seeing a build error within blacklist_hashes_checked with
->>> one of my configs.
->>>
->>> The config is as follows:
->>>
->>> $ grep CONFIG_SYSTEM_BLACKLIST_HASH_LIST .config
->>> CONFIG_SYSTEM_BLACKLIST_HASH_LIST=“revocation_list"
->>>
->>> $ cat certs/revocation_list
->>> "tbs:1e125ea4f38acb7b29b0c495fd8e7602c2c3353b913811a9da3a2fb505c08a32”
->>>
->>> make[1]: *** No rule to make target 'revocation_list', needed by 'certs/blacklist_hashes_checked'.  Stop.
->>
->> It requires an absolute path.
-> 
-> Ok, if I use an absolute path now with CONFIG_SYSTEM_BLACKLIST_HASH_LIST 
-> it works.
-> 
->> This is to align with other variables
->> using the config_filename macro: CONFIG_SYSTEM_TRUSTED_KEYS,
->> CONFIG_MODULE_SIG_KEY and now CONFIG_SYSTEM_REVOCATION_KEYS.
-> 
-> I just did a quick test with CONFIG_SYSTEM_TRUSTED_KEYS. It looks like we 
-> can use either a relative or absolute path with CONFIG_SYSTEM_TRUSTED_KEYS. 
-> Shouldn’t this be consistent?
+> If someone specifies OUTPUT=bla, you will attempt to delete blalibbpf,
+> not bla/libbpf
 
-CONFIG_SYSTEM_TRUSTED_KEYS (and similar config) works with relative path
-to $(srctree) not $(srctree)/certs as in your example.
+will add missing '/', thanks
 
-We can make CONFIG_SYSTEM_BLACKLIST_HASH_LIST works with $(srctree) with
-this patch:
+jirka
 
-diff --git a/certs/Makefile b/certs/Makefile
-index eb45407ff282..92a233eaa926 100644
---- a/certs/Makefile
-+++ b/certs/Makefile
-@@ -14,6 +14,8 @@ $(eval $(call config_filename,SYSTEM_BLACKLIST_HASH_LIST))
-
- $(obj)/blacklist_hashes.o: $(obj)/blacklist_hashes_checked
-
-+CFLAGS_blacklist_hashes.o += -I$(srctree)
-+
- targets += blacklist_hashes_checked
-
-
-> 
->> Cf. https://lore.kernel.org/lkml/1221725.1607515111@warthog.procyon.org.uk/
->>
->> We may want to patch scripts/kconfig/streamline_config.pl for both
->> CONFIG_SYSTEM_REVOCATION_KEYS and CONFIG_SYSTEM_BLACKLIST_HASH_LIST, to
->> warn user (and exit with an error) if such files are not found.
-> 
