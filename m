@@ -2,107 +2,216 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E45283111F5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 21:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 316A6311260
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 21:26:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233120AbhBES13 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 13:27:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34770 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233706AbhBES1S (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 13:27:18 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC17364FBA;
-        Fri,  5 Feb 2021 20:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612555742;
-        bh=beiP1QVTcTtnz/28je3Db2hFbKVGRBpJgYPrzRQ3FJY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=HiHatxkiTqo19TZ7agC6KDqUsgXV67Li8ly2L0wqDAIgO/TnRxAG2RsEVs5oqP6c+
-         UaOzHqagc4QJeLih2kXFAEt5d7GhSEhvjlhL3gH10/QCgaTVU1AQai8Mn1NFjTiezP
-         i1wgd9CTA84LgzCyhkwn5/kx2hr1+O0JvExsTupHij3anIzI/f4gsgHmz14r0nXCYL
-         l0+YcKZuoB+EBsv5ijeTNTCycIDJJ3bqKmtNaMYKKxf/lWGat0JwJxc2r6hSYJ80aS
-         IrqB6hXBSMagUQ342uqUdCGIfPNEt/aJJPrbGL+JfG1RPWW1Icry7tJhu+BlO9Wj7x
-         cGUyryDyXIy7Q==
-Date:   Fri, 5 Feb 2021 14:08:59 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Yicong Yang <yangyicong@hisilicon.com>, gregkh@linuxfoundation.org,
-        jdelvare@suse.com, giometti@enneenne.com, abbotti@mev.co.uk,
-        hsweeten@visionengravers.com, kw@linux.com,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, prime.zeng@huawei.com,
-        linuxarm@openeuler.org
-Subject: Re: [PATCH 2/4] hwmon: Use subdir-ccflags-* to inherit debug flag
-Message-ID: <20210205200859.GA193526@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210205182832.GA186268@roeck-us.net>
+        id S233244AbhBESl4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 13:41:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233231AbhBESkq (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 5 Feb 2021 13:40:46 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E9FC061786
+        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 12:22:31 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id dh16so5884486qvb.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 12:22:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=JkiU6LubiRQMiRTUkzQ3xqlvscsZlRnvwncDVkGj4+8=;
+        b=rRrebpAL4dPbI8AaS2ldSzHnzsLzMqVHOKpPxQ6HCIgGLFfsCX+3l9oKDT0/RNXj0I
+         jpn7PrLJ6s/aXTSB81qSw/Yvrh2JcB07gt/TccdR6O21J/+CkBXlfgcfLn5Z23J9B+qU
+         9lK+mBQEwoW6LtRMXQwPKyr8Yh+3nC7nK3VD3Jr44Vwq0yQHiH/2yogmTZ5UmHJHSN62
+         AMIm/X7p0G04XK+GbxT3h6n3fiLNHfdAs4lwNOCh9u7wIBeMxaxxjlrwzvvlwXVSXz1n
+         mjQVjpVeNT+x9tlzTj6sbwfxqnKPchVV6trcpuDSIiHRugFo2i48ClTaGvuDFX+IR3e9
+         NP6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=JkiU6LubiRQMiRTUkzQ3xqlvscsZlRnvwncDVkGj4+8=;
+        b=rFgZNOMgn4egVUi7jGFMbyQ7EiRrNeOCQqnDK+yGViz8TPgAIDkNw/y0WFGHo0Ahpo
+         mrIJdSIQtW8pNHvfSuShitGiC2B+7GO3gNlmuesQI2MHmMa7pZOa6KmQK5C6W146HI6m
+         oQ9iGL6RrAI6MWZZGD4xapudX6iBxXwf/Urjaa2MIQz1v14Hj9cBFD7pRr0RxSrAoZNr
+         8XYxpSGpg1VuU8mZ4M/eQrCvY9wx407EZefQjQIkZtt6/bEgiUoO+I2p/EwXHe0ilJ27
+         UFkCZBGLymv7zlmkUFEy6aIe/jRGaRp0aulqZAJ+dVLBfZn6eutCCZUQRVQNxMQLpPlC
+         YPuA==
+X-Gm-Message-State: AOAM532d6GrU+Yf6OiQIvKbeOGKxUG/gjFgFzFXY7mEpJmQIaObRAcZo
+        tiaLJBn5suPe99wYqrrPp9MgMclRtNTB8TJf2PY=
+X-Google-Smtp-Source: ABdhPJxjyhQcTVKXyi8QxMs0J/iUleLIs8/Q7zrtBiY36TrxxBeGn8chzArDZJ1st/J1z8x1RkCfNhb7fXw+3rczCfg=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:fce9:1439:f67f:bf26])
+ (user=ndesaulniers job=sendgmr) by 2002:a0c:abce:: with SMTP id
+ k14mr6218548qvb.23.1612556550018; Fri, 05 Feb 2021 12:22:30 -0800 (PST)
+Date:   Fri,  5 Feb 2021 12:22:17 -0800
+Message-Id: <20210205202220.2748551-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v9 0/3] Kbuild: DWARF v5 support
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Chris Murphy <bugzilla@colorremedies.com>,
+        Mark Wielaard <mark@klomp.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 10:28:32AM -0800, Guenter Roeck wrote:
-> On Fri, Feb 05, 2021 at 05:44:13PM +0800, Yicong Yang wrote:
-> > From: Junhao He <hejunhao2@hisilicon.com>
-> > 
-> > Use subdir-ccflags-* instead of ccflags-* to inherit the debug
-> > settings from Kconfig when traversing subdirectories.
-> > 
-> > Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
-> > Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
-> > Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> What problem does this fix ? Maybe I am missing it, but I don't see
-> DEBUG being used in a subdirectory of drivers/hwmon.
+DWARF v5 is the latest standard of the DWARF debug info format.
 
-It's my fault for raising this question [1].  Yicong fixed a real
-problem in drivers/pci, where we are currently using
+DWARF5 wins significantly in terms of size and especially so when mixed
+with compression (CONFIG_DEBUG_INFO_COMPRESSED).
 
-  ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+Link: http://www.dwarfstd.org/doc/DWARF5.pdf
 
-so CONFIG_PCI_DEBUG=y turns on debug in drivers/pci, but not in the
-subdirectories.  That's surprising to users.
+Patch 1 places the DWARF v5 sections explicitly in the kernel linker
+script.
+Patch 2 modifies Kconfig for DEBUG_INFO_DWARF4 to be used as a fallback.
+Patch 3 adds an explicit Kconfig for DWARF v5 for clang and older GCC
+where the implicit default DWARF version is not 5.
 
-So my question was whether we should default to using subdir-ccflags
-for -DDEBUG in general, and only use ccflags when we have
-subdirectories that have their own debug options, e.g.,
+Changes from v8:
+* Separate out the linker script changes (from v7 0002). Put those
+  first. Carry Reviewed by and tested by tags.  Least contentious part
+  of the series. Tagged for stable; otherwise users upgrading to GCC 11
+  may find orphan section warnings from the implicit default DWARF
+  version changing and generating the new debug info sections.
+* Add CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT in 0002, make it the
+  default rather than CONFIG_DEBUG_INFO_DWARF4, as per Mark, Jakub,
+  Arvind.
+* Drop reviewed by and tested by tags for 0002 and 0003; sorry
+  reviewers/testers, but I view that as a big change. I will buy you
+  beers if you're fatigued, AND for the help so far. I appreciate you.
+* Rework commit one lines, and commit messages somewhat.
+* Remove Kconfig help text about v4 being "bigger."
+* I didn't touch the BTF config from v8, but suggest the BTF folks
+  consider
+  https://lore.kernel.org/bpf/20210111180609.713998-1-natechancellor@gmail.com/
+  that way we can express via Kconfig that older version of pahole are
+  in conflict with other Kconfig options.
 
-  drivers/i2c/Makefile:ccflags-$(CONFIG_I2C_DEBUG_CORE) := -DDEBUG
-  drivers/i2c/algos/Makefile:ccflags-$(CONFIG_I2C_DEBUG_ALGO) := -DDEBUG
-  drivers/i2c/busses/Makefile:ccflags-$(CONFIG_I2C_DEBUG_BUS) := -DDEBUG
-  drivers/i2c/muxes/Makefile:ccflags-$(CONFIG_I2C_DEBUG_BUS) := -DDEBUG
+Changes from v7:
+(Strictly commit message changes)
+* Pick up Nathan's reviewed by tags for both patches.
+* Add note about only modifying compiler dwarf info, not assembler dwarf
+  info, as per Nathan.
+* Add link to Red Hat bug report and Chris' reported by on patch 2.
+* Add more info from Jakub on patch 2 commit message.
+* Reorder info about validating version, noting the tree is not "clean"
+  in the sense that parts mess up existing CFLAGS, or don't use
+  DEBUG_CFLAGS. I will not be adding such cleanups to this series. They
+  can be done AFTER.
+* Update note about 2.35.2 (rather than include the full text Jakub
+  wrote on it in https://patchwork.kernel.org/project/linux-kbuild/patch/20201022012106.1875129-1-ndesaulniers@google.com/#23727667).
+* Add note that GCC 11 has changed the implicit default version.
 
-I mentioned drivers/hwmon along with a few others that have
-subdirectories, do not have per-subdirectory debug options, and use
-ccflags.  I didn't try to determine whether those subdirectories
-currently use -DDEBUG.
+Changes from v6:
+* Reorder sections from linker script to match order from BFD's internal
+  linker script.
+* Add .debug_names section, as per Fangrui.
+* Drop CONFIG_DEBUG_INFO_DWARF2. Patch 0001 becomes a menu with 1
+  choice. GCC's implicit default version of DWARF has been DWARF v4
+  since ~4.8.
+* Modify the test script to check for the presence of
+  https://sourceware.org/bugzilla/show_bug.cgi?id=27195.
+* Drop the clang without integrated assembler block in
+  0002. Bumps the version requirement for GAS to 2.35.2, which isn't
+  released yet (but should be released soon).  Folks looking to test
+  with clang but without the integrated assembler should fetch
+  binutils-gdb, build it from source, add a symlink to
+  binutils-gdb/gas/as-new to binutils-gdb/gas/as, then prefix
+  binutils-gdb/gas/as to their $PATH when building the kernel.
 
-In the case of drivers/hwmon, several drivers do use pr_debug(),
-and CONFIG_HWMON_DEBUG_CHIP=y turns those on.  But if somebody
-were to add pr_debug() to drivers/hwmon/occ/common.c, for example,
-CONFIG_HWMON_DEBUG_CHIP=y would *not* turn it on.  That sounds
-surprising to me, but if that's what you intend, that's totally fine.
+Changes from v5:
+* Drop previous patch 1, it has been accepted into kbuild:
+  https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?h=kbuild&id=3f4d8ce271c7082be75bacbcbd2048aa78ce2b44
+* Trying to set -Wa,-gdwarf-4 in the earlier patch was the source of
+  additional complexity. Drop it that part of the patch. We can revisit
+  clang without the integrated assembler setting -Wa,-gdwarf-4 later.
+  That is a separate problem from generally supporting DWARF v5.
+* Rework the final patch for clang without the integrated assembler.
+  -Wa,-gdwarf-5 is required for DWARF5 in that case otherwise GAS will
+  not accept the assembler directives clang produces from C code when
+  generating asm.
 
-[1] https://lore.kernel.org/r/20210204161048.GA68790@bjorn-Precision-5520
+Changes from v4:
+* drop set -e from script as per Nathan.
+* add dependency on !CONFIG_DEBUG_INFO_BTF for DWARF v5 as per Sedat.
+* Move LLVM_IAS=1 complexity from patch 2 to patch 3 as per Arvind and
+  Masahiro. Sorry it took me a few tries to understand the point (I
+  might still not), but it looks much cleaner this way. Sorry Nathan, I
+  did not carry forward your previous reviews as a result, but I would
+  appreciate if you could look again.
+* Add Nathan's reviewed by tag to patch 1.
+* Reword commit message for patch 3 to mention LLVM_IAS=1 and -gdwarf-5
+  binutils addition later, and BTF issue.
+* I still happen to see a pahole related error spew for the combination
+  of:
+  * LLVM=1
+  * LLVM_IAS=1
+  * CONFIG_DEBUG_INFO_DWARF4
+  * CONFIG_DEBUG_INFO_BTF
+  Though they're non-fatal to the build. I'm not sure yet why removing
+  any one of the above prevents the warning spew. Maybe we'll need a v6.
 
-> > ---
-> >  drivers/hwmon/Makefile | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 09a86c5..1c0c089 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -201,5 +201,5 @@ obj-$(CONFIG_SENSORS_XGENE)	+= xgene-hwmon.o
-> >  obj-$(CONFIG_SENSORS_OCC)	+= occ/
-> >  obj-$(CONFIG_PMBUS)		+= pmbus/
-> >  
-> > -ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
-> > +subdir-ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
-> >  
-> > -- 
-> > 2.8.1
-> > 
+Changes from v3:
+
+Changes as per Arvind:
+* only add -Wa,-gdwarf-5 for (LLVM=1|CC=clang)+LLVM_IAS=0 builds.
+* add -gdwarf-5 to Kconfig shell script.
+* only run Kconfig shell script for Clang.
+
+Apologies to Sedat and Nathan; I appreciate previous testing/review, but
+I did no carry forward your Tested-by and Reviewed-by tags, as the
+patches have changed too much IMO.
+
+Changes from v2:
+* Drop two of the earlier patches that have been accepted already.
+* Add measurements with GCC 10.2 to commit message.
+* Update help text as per Arvind with help from Caroline.
+* Improve case/wording between DWARF Versions as per Masahiro.
+
+Changes from the RFC:
+* split patch in 3 patch series, include Fangrui's patch, too.
+* prefer `DWARF vX` format, as per Fangrui.
+* use spaces between assignment in Makefile as per Masahiro.
+* simplify setting dwarf-version-y as per Masahiro.
+* indent `prompt` in Kconfig change as per Masahiro.
+* remove explicit default in Kconfig as per Masahiro.
+* add comments to test_dwarf5_support.sh.
+* change echo in test_dwarf5_support.sh as per Masahiro.
+* remove -u from test_dwarf5_support.sh as per Masahiro.
+* add a -gdwarf-5 cc-option check to Kconfig as per Jakub.
+
+Nick Desaulniers (3):
+  vmlinux.lds.h: add DWARF v5 sections
+  Kbuild: make DWARF version a choice
+  Kconfig: allow explicit opt in to DWARF v5
+
+ Makefile                          |  6 ++--
+ include/asm-generic/vmlinux.lds.h |  7 ++++-
+ lib/Kconfig.debug                 | 48 +++++++++++++++++++++++++++----
+ scripts/test_dwarf5_support.sh    |  8 ++++++
+ 4 files changed, 61 insertions(+), 8 deletions(-)
+ create mode 100755 scripts/test_dwarf5_support.sh
+
+-- 
+2.30.0.365.g02bc693789-goog
+
