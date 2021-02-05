@@ -2,55 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0AB3107D8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 10:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2AB31081A
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 10:44:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbhBEJ22 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 04:28:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44300 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbhBEJZw (ORCPT
+        id S229963AbhBEJoL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 04:44:11 -0500
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:37902 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229691AbhBEJmK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 04:25:52 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E4BC0617AA
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 01:25:10 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id u11so3234460plg.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 01:25:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=s43rqcddTJ2FeEIu7EODes4JBPptootjcXSiKSYA+pM=;
-        b=nKGabKVcenfJ68yBGA4Cc1EN4/QAYBP1kedi7EXt1QRkZDCnBMYkya7hIRNrT8vu4y
-         6z2Tk4LrWTYqOQ1StYLP0NWwJDlx85r+FMLu7oLT5AqrmYIzrl16EolcnA6/wBM3qc19
-         4EUXCz22M7XJeLIgUgJvDoZc/jMrm49M5u3YYQskhWxBegoWFG0cZiYyEjxmMbhFX+co
-         pYzejteh+Coolv2koO0iFHp1PcpbEsMNj+yc2nkpxtvEAM1SbyR+TjpGdLek60Dg7TKy
-         /AGB+2Na4B7b6vqtN0WPukvqwUSz3IQaafy9ZA4o4QzlzAzG78qK19HJWa24rjkoAE0w
-         VoHg==
+        Fri, 5 Feb 2021 04:42:10 -0500
+Received: by mail-oi1-f174.google.com with SMTP id h6so6846244oie.5;
+        Fri, 05 Feb 2021 01:41:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=s43rqcddTJ2FeEIu7EODes4JBPptootjcXSiKSYA+pM=;
-        b=fGWVWhaf8nF+ZgrfLZogFw97Llf77q2EmlAgHvoOkt7ybsVZPhHgALwLlgP2ZRDV88
-         502J5Wye02xO7eqM+LQHbY3ncw7Sh5cnmxG4J1m9Hm33pMc1ZCvojMw0bD6LjgE/zmWy
-         HRSsFsv/4zRSAgslqaxfaPU09JlHWItgyURlV3gdfGMFoaOu1DPKVT7qWmpKrzxpfBzE
-         0kFLS2Aa4sByJ0i1HJZsdNUlY2sOMe8Zxpt6p2wwUiHBt1PIggOQKLQxiUVIdf+r3x1F
-         tsJeDsP0jU95c+0wZfVoksVf8+03sagGUd1wOmkYKuFsB3LlV8RQ3Jd++AI1hcrLsi8W
-         OAGg==
-X-Gm-Message-State: AOAM533RvF95dgjRePu/Bc4GmiY8x9wk0FXT6wNxLGBdLAHuTDUKbx6p
-        a3qG0oGAlkIqh5Aoceo7igus1Q==
-X-Google-Smtp-Source: ABdhPJwfTj6udKE++Vdr5D1T2JL/RACP9w/++Lia17Nb/xJ1InWWnOvdZVtkzaWin1IaH1TkWgonlg==
-X-Received: by 2002:a17:90a:470b:: with SMTP id h11mr3314883pjg.186.1612517109869;
-        Fri, 05 Feb 2021 01:25:09 -0800 (PST)
-Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id 141sm8685022pfa.65.2021.02.05.01.25.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Feb 2021 01:25:09 -0800 (PST)
-Date:   Fri, 5 Feb 2021 14:55:07 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X86OL3/hbCQrJ8xgX2v+ArjApLh9Q7Yw/+9Tlt92YD4=;
+        b=aCagv7asn7nm+a121fo0W8uLqby0HKbV1clqy5cQ1flska21aSLQSmfsNcoGHdhCqy
+         MwBydOl6yZADW77Fr3dPMF/hodJdHsPvkuW17Z0Lr+2VCuVeNzU1liBmk+eaXwado/MF
+         IL8Iz9aWpSWAZ/cs/uo1JtzUaRRwcueV3iGAS2j37zdQWpH7IEw6p8kHWSWCkQVo6gpE
+         QG36pY8j9LKCCoc9BvpaHHZ0kWugK+c9P5lYVoMp+yeyLegdADm/hHdSlVNFLnHzEEar
+         E40ur1Sy5NL5adFfHD6ZkbA2sNtQrWvbp1Xj+a4/toOzN/J82pXpWKNy9et8K39RozEE
+         kIog==
+X-Gm-Message-State: AOAM532ke5hhC7viG0tufQCvgGN+KjCa+qaNCq0iS/bbV6sqJuonVtHH
+        YYib1YYMZTCTZxxi4RL5svg4Ewp0Ii5cMqs5Euk=
+X-Google-Smtp-Source: ABdhPJxSnoP8RioWsMCPBleqdC2yOoTIRmik+PHy9f6Y0fPuC7LwyXFU1vIvp1sFgMyAkM8McEHeeX3V7aq29nOG25I=
+X-Received: by 2002:aca:d8c6:: with SMTP id p189mr350862oig.54.1612518089115;
+ Fri, 05 Feb 2021 01:41:29 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1611904394.git.viresh.kumar@linaro.org> <434ba2467dd0cd011565625aeb3450650afe0aae.1611904394.git.viresh.kumar@linaro.org>
+ <CAMuHMdVp0vGMqoEoP9A7Y7-ph-DYUWdddtChdq_eZcROYTBMHg@mail.gmail.com> <20210205092507.fdxotdjlq5rjs2yh@vireshk-i7>
+In-Reply-To: <20210205092507.fdxotdjlq5rjs2yh@vireshk-i7>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 5 Feb 2021 10:41:17 +0100
+Message-ID: <CAMuHMdWUMcMcJxnC+oML8P0+r72_+d6RWGY50dOWCUECdJGWPA@mail.gmail.com>
+Subject: Re: [PATCH V7 4/6] kbuild: Add support to build overlays (%.dtbo)
+To:     Viresh Kumar <viresh.kumar@linaro.org>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
@@ -63,39 +51,42 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH V7 4/6] kbuild: Add support to build overlays (%.dtbo)
-Message-ID: <20210205092507.fdxotdjlq5rjs2yh@vireshk-i7>
-References: <cover.1611904394.git.viresh.kumar@linaro.org>
- <434ba2467dd0cd011565625aeb3450650afe0aae.1611904394.git.viresh.kumar@linaro.org>
- <CAMuHMdVp0vGMqoEoP9A7Y7-ph-DYUWdddtChdq_eZcROYTBMHg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVp0vGMqoEoP9A7Y7-ph-DYUWdddtChdq_eZcROYTBMHg@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 05-02-21, 10:02, Geert Uytterhoeven wrote:
-> Hi Viresh,
-> 
-> Thanks for your patch
-> (which I only noticed because it appeared in dt-rh/for-next ;-)
-> 
-> On Fri, Jan 29, 2021 at 8:31 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > Add support for building DT overlays (%.dtbo). The overlay's source file
-> > will have the usual extension, i.e. .dts, though the blob will have
-> 
-> Why use .dts and not .dtso for overlays?
-> Because you originally (until v5) had a single rule for building .dtb
-> and .dtbo files?
+Hi Viresh,
 
-I am fine with doing that as well if Rob and David agree to it. Rob
-did suggest that at one point but we didn't do much about it later on
-for some reason.
+On Fri, Feb 5, 2021 at 10:25 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> On 05-02-21, 10:02, Geert Uytterhoeven wrote:
+> > Thanks for your patch
+> > (which I only noticed because it appeared in dt-rh/for-next ;-)
+> >
+> > On Fri, Jan 29, 2021 at 8:31 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > > Add support for building DT overlays (%.dtbo). The overlay's source file
+> > > will have the usual extension, i.e. .dts, though the blob will have
+> >
+> > Why use .dts and not .dtso for overlays?
+> > Because you originally (until v5) had a single rule for building .dtb
+> > and .dtbo files?
+>
+> I am fine with doing that as well if Rob and David agree to it. Rob
+> did suggest that at one point but we didn't do much about it later on
+> for some reason.
+>
+> FWIW, this will also require a change in the DTC compiler.
 
-FWIW, this will also require a change in the DTC compiler.
+Care to explain why? I've been using .dtsi for ages in
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/renesas-overlays
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-viresh
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
