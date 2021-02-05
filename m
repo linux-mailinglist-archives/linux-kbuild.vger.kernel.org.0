@@ -2,68 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65A74310339
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 04:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D87C31035D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 04:14:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbhBEDJ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Feb 2021 22:09:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S229934AbhBEDMN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Feb 2021 22:12:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbhBEDJT (ORCPT
+        with ESMTP id S230197AbhBEDL5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Feb 2021 22:09:19 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7C6DC06178C;
-        Thu,  4 Feb 2021 19:08:32 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id q7so5920372wre.13;
-        Thu, 04 Feb 2021 19:08:32 -0800 (PST)
+        Thu, 4 Feb 2021 22:11:57 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B11D1C061786
+        for <linux-kbuild@vger.kernel.org>; Thu,  4 Feb 2021 19:11:10 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id q7so5924724wre.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Feb 2021 19:11:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:sender:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=hqf55dXwvcYwwL4sAkoYuOM6RPu6wxeec88n5sMRYiY=;
-        b=roDmxtRhMkm/M+rdoEt0Qt78NoV1kl723S0gA19soHTB6CWkiIDz2T11aOwbrMDY6V
-         Ys2/9vOeWv0+zEvNti813WvpHKjfnE0XfvI3o55lzYSr7FMS9pqd3g90b02x1u3JMwXv
-         jwm7vt6Z5cCdgHjJVZQwTlk6jYycGN4lmXW15t7CnWab1V8QrKNEtUGg2nxWlBFTAb7g
-         3tyTndX449mYvfhCtAQiOPotE52eq+ceAAEmtvrmiAYxXOt34ojhq72eC7aXSQbxViap
-         14gtHDNN0EAX6KfZDbdhAlBz6Ul96E/1Nt5Hdqk/v8F1BxcgEjoKqQSFFp4cmx1z4bPG
-         xWXA==
+        d=colorremedies-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I+kAjuceqQaSn6CnDxq1eGCe6jIuci9QzOZjaAOHZZ4=;
+        b=ald/6GB4cU/3OuNhAVzbLnuB6xvz4CPgony9VaCQPVAgc7KGFZXRVKtLWkWvFIcbYd
+         fMoXq9EJebve6kpGLHdl/w0AUUwuW7oacXEQoWjA30ozOJ+x+mVh8qRFxJQF0LJFrDil
+         Akbv/F/+Kbtk1c+wxZK0UJ2dYzsBC1cTWH2j20Ikolmf0u/r1vmv5xeGSTnzIeTgGfqZ
+         xWwPsD4wEGWXILFenXn9Eqzx0EG1rPKqONAh4AqJyPRRWEXCh4X7gS+K07mTjG4RsM7m
+         icO7WbGydnhB1YktuWBYsIdj5nyLNo6LBRRCB2GKBsbx7zUtL6UqbUxa0wHGPy/lYrIe
+         dmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:sender:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=hqf55dXwvcYwwL4sAkoYuOM6RPu6wxeec88n5sMRYiY=;
-        b=ebnRiC+XjDenmt3AvTWTyBPhL5wQxLY6XCu+Qf1r+7DH2IIlSgIQVbsxCiAB29J1yl
-         cf8WTyLO7J72aK1dtXBnH6HbOYZ6ZyZEggh0dvtiLZGNWtUS4yH8ivojHASUkXXXy/Bx
-         ge2vCjBTLK5oPbQ3kmtxfhahKSBaskx8C4HX2h5mcKmGPlsei9J/VZUyfYAveXS1n88y
-         rRU8Kxnfup4DLI/37n/AfhpIbxU/2c/pG9wIVNZ9YUUqdWlbUg9Q9A4i7R2mHfAmH66n
-         DsuaorOrIJmfSzQkEURu+enaECbvEbu0NpMbMAFeDm19Riug/6MO0h/Kph9u966nGExU
-         u1tg==
-X-Gm-Message-State: AOAM530AkMpoPqjroYTgZUgmTMai1vckbIDjx2/em0kdtLBWU7p1IMvP
-        s8kVIuknV7tYQoIm+X2AWsESY2cY2xdJNg==
-X-Google-Smtp-Source: ABdhPJx+5Qj2S9+z9ZpQu+EcE/DBxvDG3vinreZmPAS2rLR2ZAQah3cfUjrD6KET2IrCGEWluPw78w==
-X-Received: by 2002:adf:dd0a:: with SMTP id a10mr2434359wrm.424.1612494511485;
-        Thu, 04 Feb 2021 19:08:31 -0800 (PST)
-Received: from [192.168.1.6] ([154.124.28.35])
-        by smtp.gmail.com with ESMTPSA id n9sm10836813wrq.41.2021.02.04.19.08.29
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Thu, 04 Feb 2021 19:08:30 -0800 (PST)
-Message-ID: <601cb6ae.1c69fb81.5ea54.2eaa@mx.google.com>
-Sender: Skylar Anderson <barr.markimmbayie@gmail.com>
-From:   calantha camara <sgt.andersonskylar0@gmail.com>
-X-Google-Original-From: calantha camara
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I+kAjuceqQaSn6CnDxq1eGCe6jIuci9QzOZjaAOHZZ4=;
+        b=BkTNRIztcAuUKSVSyK7Ep08o6KyqDdZ8ybq3MlijcID9/MCEzUzda8v43W+O+ufSpd
+         5LmU5RgWvnz0P6YVSJBVAOQxBWbworzoOqb2BQzhPzSHqhXMla4YBME/yGtHvmENEAgN
+         c49bKFMDeCzPTeG2hZ2FtdGyweSYKPq8dR9/D38GA7ZkRbpmmQ3Yg+ljt1rGM7w8L2lE
+         xVkx2nzLiwi88RGDyuVckdhU64Yc9Uxj7WOBJ5KG+ZCAfSFdBY3MgJeN/DJUJeZXTC0J
+         fCcvhiI+L9crw3I1J4JpY1Fs71TssUGrvg1uBWGothow75zH6FtDoY6DMDngRQkspePO
+         egDA==
+X-Gm-Message-State: AOAM532ipsm7g4HsShwBiBixXWf/uhP+4B+RsGJ3eeKfcIvBAy/jGfgO
+        38Drh2jS+TEwB3mu2uQdrdOeOAgWZrR5BOsiUm43uA==
+X-Google-Smtp-Source: ABdhPJxNqWdyIThhWcNYJ7sQC/LTzehMjhlXl+bGyYf5G8tr28thHPvS5ccpVRoPl/gmT6DrKtDpm3RQXJLhoNGKvkw=
+X-Received: by 2002:a5d:6686:: with SMTP id l6mr2478909wru.236.1612494669505;
+ Thu, 04 Feb 2021 19:11:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: hi dear
-To:     Recipients <calantha@vger.kernel.org>
-Date:   Fri, 05 Feb 2021 03:08:24 +0000
-Reply-To: calanthac20@gmail.com
-X-Mailer: cdcaafe51be8cdb99a1c85906066cad3d0e60e273541515a58395093a7c4e1f0eefb01d7fc4e6278706e9fb8c4dad093c3263345202970888b6b4d817f9e998c032e7d59
+References: <CAJCQCtSQLc0VHqO4BY_-YB2OmCNNmHCS6fNdQKmMWGn2v=Jpdw@mail.gmail.com>
+ <CAJCQCtRHOidM7Vps1JQSpZA14u+B5fR860FwZB=eb1wYjTpqDw@mail.gmail.com>
+ <CAEf4BzZ4oTB0-JizHe1VaCk2V+Jb9jJoTznkgh6CjE5VxNVqbg@mail.gmail.com>
+ <CAJCQCtRw6UWGGvjn0x__godYKYQXXmtyQys4efW2Pb84Q5q8Eg@mail.gmail.com>
+ <20210204010038.GA854763@kernel.org> <CAJCQCtQfgRp78_WSrSHLNUUYNCyOCH=vo10nVZW_cyMjpZiNJg@mail.gmail.com>
+ <CAEf4Bza4XQxpS7VTNWGk6Rz-iUwZemF6+iAVBA_yvrWnV0k8Qg@mail.gmail.com>
+ <CAJCQCtRDJ_uiJcanP_p+y6Kz76c4P-EmndMyfHN5f4rtkgYhjA@mail.gmail.com>
+ <20210204132625.GB910119@kernel.org> <20210204163319.GD910119@kernel.org>
+In-Reply-To: <20210204163319.GD910119@kernel.org>
+From:   Chris Murphy <lists@colorremedies.com>
+Date:   Thu, 4 Feb 2021 20:10:52 -0700
+Message-ID: <CAJCQCtT-i0Lv2zxUDko3XuiHpUqOnYPeND5LzD=zgrB1-GNvAg@mail.gmail.com>
+Subject: Re: [FIXED] Re: 5:11: in-kernel BTF is malformed
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     Chris Murphy <lists@colorremedies.com>, bpf <bpf@vger.kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>, dwarves@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Yonghong Song <yhs@fb.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jakub Jelinek <jakub@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Caroline Tice <cmtice@google.com>,
+        Nick Clifton <nickc@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-do you speak Eglish
+On Thu, Feb 4, 2021 at 9:33 AM Arnaldo Carvalho de Melo <acme@kernel.org> wrote:
+>
+> So I think that for the problems related to building the kernel with gcc
+> 11 in Fedora Rawhide using the default that is now DWARF5, pahole 1.20
+> is good to go and I'll tag it now.
+
+dwarves-1.20-1.fc34.x86_64
+libdwarves1-1.20-1.fc34.x86_64
+
+Fixes both "failed to validate module [?????] BTF: -22" type errors,
+and 'in-kernel BTF is malformed" with qemu-kvm and libvirt.
+
+Is that expected? Or maybe the second issue was fixed by
+gcc-11.0.0-0.18.fc34.x86_64 [(GCC) 11.0.0 20210130]? This is what I
+get for changing more than one thing at once.
+
+--
+Chris Murphy
