@@ -2,108 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B0843118E0
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:51:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E62D13118AE
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231778AbhBFCsm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 21:48:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38620 "EHLO
+        id S231322AbhBFCoP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 21:44:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230097AbhBFCkF (ORCPT
+        with ESMTP id S230171AbhBFCcj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 21:40:05 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4308DC0613D6
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 14:01:29 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id w11so3280286ybq.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 14:01:29 -0800 (PST)
+        Fri, 5 Feb 2021 21:32:39 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E225C0617AA
+        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 14:05:28 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id h7so12045201lfc.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 14:05:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=vfoNqgpFnWRNHkVjKwQ8AkyS8YshOlfTiuGJMTgmnlQ=;
-        b=dp4CNzNONIwItj/Vy/dbeHXrpuLQnLCG4XA3mFtrmRoEaXpPY7zxYvX7Djotz41aSn
-         quumVyPpvuJMXkTz2EzkS/ft5SNINKzLHe5QchX2SP0KDTDrutv0mYZ4aEKKOnDcwAWA
-         xiT495jp84bZXz64FXT7FkpCdbbYizxTIWPwIs+xbnqGVbgm+82j61rmJDip10DkgQnc
-         YbDcL+NBbcT6F7YbHf0Yn297PCOBmsqI4QekarKu9j1FRdhBC4h5rlqAViuTZ2VG/UVZ
-         Vp6A9FvKrlEhvShlfkeoUVj9Y0PSfbz6w9GG7XPhqkVLT2r4wBkDApitjRUBg4o+n85f
-         YmhQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zeFCuwPyZrQo30fqoMpBAnSm+mAPzDuy2Hx9cst86mA=;
+        b=bqFTieNLJSzgASCm+qRTv5VPQzBzJflsUPTmvMYITq+CMaUk1U2kxmNhYkquuPxutl
+         jywknFAktNdU32+LTgxHZNBwwCD7MMb4SAj8DG15KA9DW6Cc2lhlIYfi9qz7g9LAZ/JF
+         Fjzv68Fh7fqq7jTH4AAKZPV6uV38r9qtcC9bFbNCWutSyV+9fm9f08kHC6U0xrb/jmkn
+         3105/o8wtobqVora5JDwdbKnT6RaC+ieOfW+O+vhmxbhYAiab5ZS/JKXXiGXjZUcx2k5
+         F5ZyZ9VZQr9uN0lgEHYk1drHfl8MrtxqBAK7/wBqYb1vyyyAjmz1ffXO5Vs7rcv3xv8r
+         HhQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=vfoNqgpFnWRNHkVjKwQ8AkyS8YshOlfTiuGJMTgmnlQ=;
-        b=Y1vXlXomL5QZ8pFbZnXytqXYGRjyAwHxkaBU8tS6K3zo2vmb1RkVbuMDwZTL5gP6ys
-         O7xyNivQ6LbRQii54ykwYqyDBpdwqbbqffVFVFdMzFHuIYatqrxE+I87LbIueHNCcLo9
-         jac11zdcx4D2CIE2MTj2JO4/6+QFADj2XvsU9i1d6YA1h2t2q1iapPMWHqJYxDDk9Ron
-         OHPvSqX6QY4NbVvNWs45BDJQmMp7rQpal/VM4RwZMcSDDHremk7/cOzvXfru/O+A4ErW
-         oh+kI3jobSXoWFIDX/O+VfJUOqk2I1vsZaK6ZFzGsQFRNtkmAVWodWAdSMKWCQNupXUY
-         /Hrw==
-X-Gm-Message-State: AOAM533AzXmrTevPJNQQckSt8FnhVWF+9h7EJ68w7+oEMMl9XgGo80Mn
-        ljLVHWP/mayOsZtt/qXVDwXsk9PNmOS5ZKt7bCU=
-X-Google-Smtp-Source: ABdhPJwmXa8T2NxOoAX4Ie67xVdkuZ+8Bst4zffqBopO0QAY71XQaJAt9x8A/lAcZ4s04uiSF1XDQ6tnumbxrshBkyc=
-Sender: "ndesaulniers via sendgmr" 
-        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:fce9:1439:f67f:bf26])
- (user=ndesaulniers job=sendgmr) by 2002:a25:df48:: with SMTP id
- w69mr9484024ybg.85.1612562488516; Fri, 05 Feb 2021 14:01:28 -0800 (PST)
-Date:   Fri,  5 Feb 2021 14:01:25 -0800
-Message-Id: <20210205220125.2931504-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
-Subject: [PATCH] Makefile: reuse CC_VERSION_TEXT
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zeFCuwPyZrQo30fqoMpBAnSm+mAPzDuy2Hx9cst86mA=;
+        b=jUG7hH2wefQP8+JMkFJ+8tJ1FsaxWr/0YnVSS5JDsHyPDwm8Kn3/TQBZQAUkCrEOPO
+         i77xsm9+NfRB8ZM9whc/M7ELsL9vuGnxOiMAwHODQ1+CrZlx9Gr+cZjWwud7FCny9+oB
+         BPUA21k9/Ny2pk7cIyTNS3PX5h3dnm+AC8yog42cBuzo/d1C1FNcfLURRtHV8lMg0Gh2
+         JmmD66EaWpFBIX3C2M8wMch/QgcLjbQdZI9xCTFGlvfe/YmxferUIDOJiAAy0A5NXyeT
+         TeaHtWLxyRyExBZHMREh+aeztW1pRCCYPySkpIX6HOtkde8gelxSFiZkLySbcib4whpL
+         0/mg==
+X-Gm-Message-State: AOAM530X3vosk1Aur1WQBfSAw6T2jmtRIWffUljssLBmNrwqqg71x0+v
+        ghQUfiIQjLZvcnwQX3MQiU+Zjt7KrhWuBmvuNFKXXOIsrqY=
+X-Google-Smtp-Source: ABdhPJzsjJ86jybD6y4WMLruoHNnVkApRHddRhG7luk0yUOW1YF202j7pwGy+HVaAh2p2jkLiW8+ttkzvy4LfmWHk4M=
+X-Received: by 2002:ac2:5e90:: with SMTP id b16mr3477340lfq.122.1612562726417;
+ Fri, 05 Feb 2021 14:05:26 -0800 (PST)
+MIME-Version: 1.0
+References: <CA+icZUUjb_71mWwWFMYN_OPZir2vStLq1kDY1O+JCFjtmEEBjA@mail.gmail.com>
+ <20210205213651.GA16907@Ryzen-5-4500U.localdomain> <CAKwvOdk8vp5z71pQHG04REENSy15Z3DvY1MehS_GGVxnhXx_cg@mail.gmail.com>
+ <20210205215531.GA8294@ubuntu-m3-large-x86>
+In-Reply-To: <20210205215531.GA8294@ubuntu-m3-large-x86>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
+Date:   Fri, 5 Feb 2021 14:05:13 -0800
+Message-ID: <CAKwvOdk51GZ9HtBCNUCKX4mp7NSHvKv_4i_DgtdKciHU6CfiSw@mail.gmail.com>
+Subject: Re: Using GNU AS from a selfmade binutils v2.35.2
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I noticed we're invoking $(CC) via $(shell) more than once to check the
-version.  Let's reuse the first string captured in $CC_VERSION_TEXT.
+On Fri, Feb 5, 2021 at 1:55 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Fri, Feb 05, 2021 at 01:44:44PM -0800, 'Nick Desaulniers' via Clang Built Linux wrote:
+> > On Fri, Feb 5, 2021 at 1:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > It is entirely possible that '--prefix=' should always be present though:
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index f5842126e89d..409822f45bfd 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -562,10 +562,10 @@ endif
+> > >  ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+> > >  ifneq ($(CROSS_COMPILE),)
+> > >  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> > > +endif
+> > >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+> > >  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> > >  GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+> > > -endif
+> > >  ifneq ($(GCC_TOOLCHAIN),)
+> > >  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+> > >  endif
+> >
+> > I'm unsure. Consider the case where I'm building with `LLVM=1
+> > LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu`, ie. no GNU binutils and
+> > am cross compiling.  In that case, we should not be setting any
+> > --prefix or --gcc-toolchain, and yet today we are.  Perhaps that is
+> > orthogonal though?
+>
+> Yes, we could probably move the 'ifneq ($(LLVM_IAS),1)' block up because
+> all other build tools should be called directly (really, just "$(LD)")
+> but I do think that is orthogonal to the issue that is going on here.
+>
+> I am happy to send patches if you feel this is worthwhile.
 
-Fixes: 315bab4e972d ("kbuild: fix endless syncconfig in case arch Makefile sets CROSS_COMPILE")
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Makefile | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index a85535eb6a7d..70034d7c1051 100644
---- a/Makefile
-+++ b/Makefile
-@@ -557,7 +557,13 @@ ifdef building_out_of_srctree
- 	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
- endif
- 
--ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-+# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-+# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-+# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-+# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-+CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
-+
-+ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
- ifneq ($(CROSS_COMPILE),)
- CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
- GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-@@ -576,12 +582,6 @@ KBUILD_AFLAGS	+= $(CLANG_FLAGS)
- export CLANG_FLAGS
- endif
- 
--# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
--# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
--# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
--# and from include/config/auto.conf.cmd to detect the compiler upgrade.
--CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
--
- ifdef config-build
- # ===========================================================================
- # *config targets only - make sure prerequisites are updated, and descend
+It would be the capstone to hermetic builds, I suspect.
 -- 
-2.30.0.478.g8a0d178c01-goog
-
+Thanks,
+~Nick Desaulniers
