@@ -2,143 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B1D53113B4
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 22:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC3353113C6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Feb 2021 22:46:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231701AbhBEViI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 16:38:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47730 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230332AbhBEVhr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 16:37:47 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E964064FB2;
-        Fri,  5 Feb 2021 21:37:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612561027;
-        bh=gJsWhexY6Rt+DKU7bIDjsohhXAKuTggz7inIKLaEf4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XmbAcAaErPzq1dFO179ekXUFmhjO54uMQcGyw0EfgCZJx1W7PXeIzENKZAQhwSiKh
-         1/5cLMYrLLziXK0Gri+dRvWmRrzDdLmIfvfjDsgLeE5lJLl2iETtQWGt9Ff3wzYp6I
-         bOVVGfmP9i2JsJT7FfuQThNSqr0vsu/Ljeu+YImSBs6b1hYAth4Db8AeQnSk9ObZKy
-         Dg+kHdKbfVcgWmRiveqaUX6aAradkX6tV6QvSQXFm3mgLJRfHQOyRnSFqybbG7CBm3
-         96+zsMqpioLw7djfciJf/qn4ew8YAq2OIAoDt1Zvs48Jjg0xrPkP2WigDXutqOvWs7
-         8TpYI9dMlvcrQ==
-Date:   Fri, 5 Feb 2021 14:36:51 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: Using GNU AS from a selfmade binutils v2.35.2
-Message-ID: <20210205213651.GA16907@Ryzen-5-4500U.localdomain>
-References: <CA+icZUUjb_71mWwWFMYN_OPZir2vStLq1kDY1O+JCFjtmEEBjA@mail.gmail.com>
+        id S231699AbhBEVpx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 16:45:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232748AbhBEVpk (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 5 Feb 2021 16:45:40 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DC17C06174A
+        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 13:44:59 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id m22so11955774lfg.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 13:44:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XsbuJM9sF8LMh+2PIYZcanGAWJaYjpFJ9kTMXGBhvxw=;
+        b=F5jyzMKui4wZBfF1J60bgf+A7lVcbglMLEdaDcNc433j49B9KMNwOzGSEFpOH04Ads
+         DGf+7QuvLAwPTjg4/ZRKbEAOAhsXhwKLz01G3BedZkP/oEmCxQY4b8TRQn/3638dKlXy
+         tXtO+ORcmubYd71UREljQawwVv66a2d8BHc0FoW8chwffmjzdT4E+Eq8JlIen73plHVW
+         GNryaHuibOo63buk5s366UHzc0LmYdBt9M+dqQ9WQHBv36nzSB9JG+cv1wQtHORzQ5RJ
+         yHZggmPb9AoxmyKluZ/0gzLmiaCdgaE6uwd2vDWn+D0Iup4ixHHbl6vIMs4B4aWqg74p
+         QICw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XsbuJM9sF8LMh+2PIYZcanGAWJaYjpFJ9kTMXGBhvxw=;
+        b=Qd74+gyCG3qfSFSQeqbjGpJ6QGm2Iy3vjzvHwOeHhaj+aZLvz3mGFJrR4Kliji6gdA
+         F5EMOVHEl/yRIKSLLXBLW5CP2e9GY4rQhSHfZY2wy7NhzldGfWQY24d07a1A3b6dWeM1
+         t6DC/3wRK6/5btbBsuTa5fehaZHweNWci+JV9J3zePGm0VAKzux/GGLf1qDIrrcFbUcR
+         jZI3dySI7YhT6wVG02guT1ugYPUcXVCrcukjj3Ryn0HKoeBUdE4YSTsM4OKlXr1dBjNi
+         Ieib58n/187eUz64iG8oeLiGkQWriAlrNrBcZBkCgO6q3p+T9tV6YgvBTgbMT4qwums8
+         RikA==
+X-Gm-Message-State: AOAM5308UusZfhpkJrjLyDaxNYmbjgtPHst9gw16AqUIg7NVSjQJCGOz
+        88x9q/luV3L5jC6pEItQVTCbX9q5m6B/ryQ8NCZgLA==
+X-Google-Smtp-Source: ABdhPJxohx8plN1mO6lnzh3vQrSXDcBIrLEGG/Q0NqWeOluo8U2IKELwp2WPdhfv12rp8VX6x9o6Y9gV1PL2+KE00o0=
+X-Received: by 2002:a2e:8541:: with SMTP id u1mr3940752ljj.0.1612561497332;
+ Fri, 05 Feb 2021 13:44:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUUjb_71mWwWFMYN_OPZir2vStLq1kDY1O+JCFjtmEEBjA@mail.gmail.com>
+References: <CA+icZUUjb_71mWwWFMYN_OPZir2vStLq1kDY1O+JCFjtmEEBjA@mail.gmail.com>
+ <20210205213651.GA16907@Ryzen-5-4500U.localdomain>
+In-Reply-To: <20210205213651.GA16907@Ryzen-5-4500U.localdomain>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 5 Feb 2021 13:44:44 -0800
+Message-ID: <CAKwvOdk8vp5z71pQHG04REENSy15Z3DvY1MehS_GGVxnhXx_cg@mail.gmail.com>
+Subject: Re: Using GNU AS from a selfmade binutils v2.35.2
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 11:56:55AM +0100, Sedat Dilek wrote:
-> Hi Masahiro and ClangBuiltLinux folks,
-> 
-> I am trying to use binaries from GNU/binutils v2.35.2 for my
-> Linux-kernel builds.
-> 
-> Background is I am doing some testing for BTF + pahole with GCC-10 and LLVM-12.
+On Fri, Feb 5, 2021 at 1:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> It is entirely possible that '--prefix=' should always be present though:
+>
+> diff --git a/Makefile b/Makefile
+> index f5842126e89d..409822f45bfd 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -562,10 +562,10 @@ endif
+>  ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+>  ifneq ($(CROSS_COMPILE),)
+>  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +endif
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+>  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+>  GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+> -endif
+>  ifneq ($(GCC_TOOLCHAIN),)
+>  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+>  endif
 
-TL;DR: GCC will use the first "as" that is found in your PATH while
-clang will:
-1. Use the "as" present in the folder that it is installed in.
-2. Use the first "as" that is found in your PATH.
-
-To override clang's behavior, you can pass '--prefix=' to it.
-
-GCC:
-
-$ echo | gcc -### -c -x assembler -o /dev/null -
-...
- as --64 -o /dev/null -
-...
-
-You can prove that this works with a symlink to /bin/false.
-
-$ cd "$(mktemp -d)"
-
-$ ln -s /bin/false as
-
-$ echo | gcc -c -x assembler -o /dev/null -
-
-$ echo ${?}
-0
-
-$ echo | PATH=${PWD}:${PATH} gcc -c -x assembler -o /dev/null -
-
-$ echo ${?}
-1
-
-As you will notice, PATH has no affect when there is an "as" binary in
-the same location as "clang":
-
-$ which clang
-/usr/bin/clang
-
-$ which as
-/usr/bin/as
-
-$ echo | clang -### -no-integrated-as -c -x assembler -o /dev/null -
-...
- "/usr/bin/as" "--64" "-o" "/dev/null" "-"
-
-$ echo | PATH=${PWD}:${PATH} clang -### -no-integrated-as -c -x assembler -o /dev/null -
-...
- "/usr/bin/as" "--64" "-o" "/dev/null" "-"
-
-But '--prefix=' does:
-
-$ echo | clang -### --prefix=${PWD} -no-integrated-as -c -x assembler -o /dev/null -
-...
- "/tmp/tmp.B8BdCWZJTL/as" "--64" "-o" "/dev/null" "-"
-
-When there is no "as" binary in the same location as "clang", PATH works:
-
-$ echo | /usr/lib/llvm-10/bin/clang -### -no-integrated-as -c -x assembler -o /dev/null -
-...
- "/usr/bin/as" "--64" "-o" "/dev/null" "-"
-
-$ echo | PATH=${PWD}:${PATH} /usr/lib/llvm-10/bin/clang -### -no-integrated-as -c -x assembler -o /dev/null -
-...
- "/tmp/tmp.B8BdCWZJTL/as" "--64" "-o" "/dev/null" "-"
-
-If you want to use a separate binutils while building the kernel with
-clang, you can:
-
-1. Symlink your LLVM and binutils binaries into one folder.
-2. Pass '--prefix=' via KCFLAGS:
-
-make KCFLAGS=--prefix=<binutils_bin_folder>
-
-It is entirely possible that '--prefix=' should always be present though:
-
-diff --git a/Makefile b/Makefile
-index f5842126e89d..409822f45bfd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -562,10 +562,10 @@ endif
- ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
- ifneq ($(CROSS_COMPILE),)
- CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-+endif
- GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
- CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
- GCC_TOOLCHAIN	:= $(realpath $(GCC_TOOLCHAIN_DIR)/..)
--endif
- ifneq ($(GCC_TOOLCHAIN),)
- CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
- endif
-
-Hopefully that helps.
-
-Cheers,
-Nathan
+I'm unsure. Consider the case where I'm building with `LLVM=1
+LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu`, ie. no GNU binutils and
+am cross compiling.  In that case, we should not be setting any
+--prefix or --gcc-toolchain, and yet today we are.  Perhaps that is
+orthogonal though?
+-- 
+Thanks,
+~Nick Desaulniers
