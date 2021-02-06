@@ -2,107 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 755F63118E4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E063118AF
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 03:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhBFCtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 21:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231438AbhBFCnX (ORCPT
+        id S230178AbhBFCoZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 21:44:25 -0500
+Received: from condef-02.nifty.com ([202.248.20.67]:32514 "EHLO
+        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231660AbhBFClX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 21:43:23 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69662C08EE12
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Feb 2021 16:03:13 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id d3so12441759lfg.10
-        for <linux-kbuild@vger.kernel.org>; Fri, 05 Feb 2021 16:03:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NWPbrqSGD6rR+HAkD4dteJHXvU5H2qHvAqzNOoE/AX4=;
-        b=Q9wbjEdeHc4TeNxJ/V+vcdkXrft7Hdvxxn+SIjZxu8PZsrwK5feK1ppXy1XqnE28Ro
-         D4ok3CLhopKZbW5fYvBwYj1OZxnIx1dNO+j/IUzx9eM1ch5hzGzmxEydedxC76cWDlf8
-         vavb1T9si/T+EQjB+UhwvM+HTrxgBeGiY4jchmvvqyRbZ7E1tkbi4bGuJI010NTymG1W
-         KmVVl1eMaq4TdUrh/rsBFGcVys2kY3z/YQiM0T97plSvPSfTXUzx6jFYonOe57z75kmY
-         mapTq2Rquh3dM65g/II/UgJxQnA238NhsBg8vg+nUry3YhUuPw3/eRvpW50is8E+69vI
-         Ey4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NWPbrqSGD6rR+HAkD4dteJHXvU5H2qHvAqzNOoE/AX4=;
-        b=jjduRpjyIKX+oFAyT9ZUpeSGp6g1jztrz80FTuhEDPlMALlgmZJGbs0QMjOKXcxZLM
-         llQEdt9hxxuAtSZhGZCBwGgGppvD8rqrazfA4Gln30mbVcGxvB0oVOP2+vE+ivDMc/Wz
-         wN/OUFgzSZXQlRPrb16zXLuS2V5e27eF+qFC4qRtjqaC7iEbtJlUFlw17bHDcfXwEIEG
-         7HW679t+0vzxJg8X8ccba9nAGJaY+5Sh/5FjK79qDw6LSjeE/BRXal9ViUgqoOE1VLcv
-         gE0ojlU01adkCqvC1iIFglWGf4zaFnDABk/e7shNcw0E55u4tagRehEq4cpY7aCbK4Oi
-         IChg==
-X-Gm-Message-State: AOAM533YrT+NVdntASDktSS9cyJJrPaM3ofsVDN7xI3Zy8m6w3Ns8Eo4
-        Y/Vl2GGvuayKf2iydFWoRl1262Ihh4kvv3IVRJhK8w==
-X-Google-Smtp-Source: ABdhPJwFLIr/GH5BZQINZQllHE4paJG7suSjTbzOFq6WfqnMVkh1s9cjISJEvl7WKkrsrv8vLH+/5AkJ3PEobamJQ4I=
-X-Received: by 2002:a2e:7d11:: with SMTP id y17mr4129417ljc.116.1612569791666;
- Fri, 05 Feb 2021 16:03:11 -0800 (PST)
+        Fri, 5 Feb 2021 21:41:23 -0500
+X-Greylist: delayed 502 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Feb 2021 21:41:18 EST
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-02.nifty.com with ESMTP id 1160sDqm007252;
+        Sat, 6 Feb 2021 09:54:13 +0900
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 1160r6ML013051;
+        Sat, 6 Feb 2021 09:53:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1160r6ML013051
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612572787;
+        bh=GPySi5FWUUgt3Nf/zevYzreQ14QCHC7dq4Gj7Iu6PdM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KzoShgNcKgDb7aRIUtJmJ1rx2FCzGlFX5m421RSg8KaR+ZHU8DcZFfkcqCpImJ9Se
+         20oACGiCEzq35ncdGVLdFr6G1HYhyWy3yG5j/x9hhHGP5NxMYVrw8h5YL8Obo6YLgf
+         0JL+92QeKSoxYEWm/F+wV2qZUWoO7N4oDG5iKl1+/QwFmgAkEuLBfJn6y9tjzrDebn
+         CkTvpcRmcekx+4ZSrH5eVn29+qe268TkYo2LZ43I6TRxiQJVDMNn33AogXk8F6sYKx
+         vh58eyX+5U0MuKjD6MMyeih7AS0CJ0J0dJLiYuJsou+U3K8BZAAhnwrtxQ+ZftcYw/
+         XzdXCJifY0GFQ==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id nm1so4543652pjb.3;
+        Fri, 05 Feb 2021 16:53:06 -0800 (PST)
+X-Gm-Message-State: AOAM530vi38FgUq3BStni3+djPmsdCkMkd75APd+ouP2CUqitGa9qRye
+        8vhfsDS++evyT1BiAfd2zU/jnAdQ25D8Yun4xHI=
+X-Google-Smtp-Source: ABdhPJy2iadLfW+f/QGkcC2eqfoUOehXlU0LObloB/V5zjeO+YCzFrx6L4Mi1lzQVdV+RNvC/ncuPB1ZZ0t1rSii5I8=
+X-Received: by 2002:a17:902:bb87:b029:e1:d1f:2736 with SMTP id
+ m7-20020a170902bb87b02900e10d1f2736mr6360693pls.1.1612572786057; Fri, 05 Feb
+ 2021 16:53:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205202220.2748551-1-ndesaulniers@google.com>
- <20210205202220.2748551-2-ndesaulniers@google.com> <20210205160034.a0e0ba06752bef03e60f91f8@linux-foundation.org>
-In-Reply-To: <20210205160034.a0e0ba06752bef03e60f91f8@linux-foundation.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 5 Feb 2021 16:02:58 -0800
-Message-ID: <CAKwvOdmkx=+MGkc5uCB=0TssnHNQXb0E+x=CqbGs6gGZc5GH7Q@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] vmlinux.lds.h: add DWARF v5 sections
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+References: <1612518255-23052-1-git-send-email-yangyicong@hisilicon.com>
+ <1612518255-23052-5-git-send-email-yangyicong@hisilicon.com> <YB0VxBrYM3BSoxrc@kroah.com>
+In-Reply-To: <YB0VxBrYM3BSoxrc@kroah.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 6 Feb 2021 09:52:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQoUZYxswxT9zkq=G_2A4tdkhkedMyQhj8eHkBeqz7+Lw@mail.gmail.com>
+Message-ID: <CAK7LNAQoUZYxswxT9zkq=G_2A4tdkhkedMyQhj8eHkBeqz7+Lw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] staging: comedi: Use subdir-ccflags-* to inherit
+ debug flag
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Yicong Yang <yangyicong@hisilicon.com>, jdelvare@suse.com,
+        Guenter Roeck <linux@roeck-us.net>, giometti@enneenne.com,
+        Ian Abbott <abbotti@mev.co.uk>,
+        Hartley Sweeten <hsweeten@visionengravers.com>, kw@linux.com,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM mailing list <linux-pm@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Caroline Tice <cmtice@google.com>,
-        Nick Clifton <nickc@redhat.com>, Yonghong Song <yhs@fb.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Chris Murphy <bugzilla@colorremedies.com>,
-        Mark Wielaard <mark@klomp.org>,
-        "# 3.4.x" <stable@vger.kernel.org>,
-        Chris Murphy <lists@colorremedies.com>,
-        Nathan Chancellor <nathan@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>, linuxarm@openeuler.org,
+        prime.zeng@huawei.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 4:00 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Fri, Feb 5, 2021 at 6:54 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> On Fri,  5 Feb 2021 12:22:18 -0800 Nick Desaulniers <ndesaulniers@google.com> wrote:
+> On Fri, Feb 05, 2021 at 05:44:15PM +0800, Yicong Yang wrote:
+> > From: Junhao He <hejunhao2@hisilicon.com>
+> >
+> > Use subdir-ccflags-* instead of ccflags-* to inherit the debug
+> > settings from Kconfig when traversing subdirectories.
 >
-> > We expect toolchains to produce these new debug info sections as part of
-> > DWARF v5. Add explicit placements to prevent the linker warnings from
-> > --orphan-section=warn.
-> >
-> > Compilers may produce such sections with explicit -gdwarf-5, or based on
-> > the implicit default version of DWARF when -g is used via DEBUG_INFO.
-> > This implicit default changes over time, and has changed to DWARF v5
-> > with GCC 11.
-> >
-> > .debug_sup was mentioned in review, but without compilers producing it
-> > today, let's wait to add it until it becomes necessary.
-> >
+> Again, explain _why_.
 >
-> There isn't anything in this changelog which explains why a -stable
-> backport was requested?  Or is there?  Irritating linker warnings?
-> More than that?
+> Please read the section entitled "The canonical patch format" in the
+> kernel file, Documentation/SubmittingPatches for what a proper changelog
+> should look like.
+>
+> thanks,
+>
+> greg k-h
 
-Users adopting GCC 11 will start to see warnings from the linker due
-to --orphan-section=warn when building the branches of the stable
-tree.  Stable has IME accepted patches for permitting newer toolchains
-to continue to compile warning free.
+
+I think this is a good clean-up,
+assuming CONFIG_COMEDI_DEBUG intends to
+give the DEBUG flag to all source files
+under drivers/staging/comedi/.
+
+
+
 -- 
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
