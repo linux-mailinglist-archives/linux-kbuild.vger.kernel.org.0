@@ -2,151 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E05B6311A77
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 04:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D76311A85
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 04:53:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231939AbhBFDsq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Feb 2021 22:48:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbhBFDqk (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Feb 2021 22:46:40 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D6EC06174A;
-        Fri,  5 Feb 2021 19:45:59 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id f6so9347924ioz.5;
-        Fri, 05 Feb 2021 19:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=AW3d2EZmFwj/kF7+VA9cGyGtPmF7ePTt8chozcmo2aM=;
-        b=FSKKfuQNBPTymnP4iaQy28xuLZ6etaLvVhCH1dNlf8zOJ3fZ1yO9/LBicwnua+goJD
-         w5NTJrbEgZGXfMl0Sz5F9GPVE9QpAQcm86HuQNn5gfiDYUNSLLSU7G3+N8uSnyvRKsNh
-         wkgxaKKIdmeC5vR0ukpybUcbcY4UjehW6rCh0OtQ2MVNE1l4iT0PR8LtU/nH6sOpHNuq
-         i41XNiCsE0GPI0wNlXZcwfmQar6WPgVHcXXzJYCQMxspp71z+xfWHefcm9YzlTULldVq
-         OscQc39aMOUsJlJUVQGmKUymR5PZLZJxXK9VOBK/qiIngrhUTXvzzUgexg7S7h8lEWA6
-         jVVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=AW3d2EZmFwj/kF7+VA9cGyGtPmF7ePTt8chozcmo2aM=;
-        b=eyysIiYCER8xhen9yYF5wJtWbBlpEtaaOreRUOwlXBAug2zpPvUIrEm/O8Ub7wMOET
-         QwXz2M1nixIpoSgcIcpIwHedP4C/CmEYnt/unYfq3j1e8SqKQLTdQRGnKDJ6vo1P0vvu
-         xn7is/uq4YCt1eYXqa9kMjTymEAMArA2wtdcfNL9Zxi8z4/WGnI8Bj2IwjjHlo9U+u8N
-         QamnMrg+CTLuCz0pWPiDvLfKbK8MDrbdRNmk0gggh4hhP+DrJcRymQPOXqNr1rvo9Z2P
-         SJTbe43Ct2DWseLZ4JAGUlX+IvPXdMsoHkuEWMjY+hFwDf4Fw1oNWgu00VzR2B9fJbwr
-         4yPQ==
-X-Gm-Message-State: AOAM533KtfQAMHlk0xLBudksqgYaDX3pVaoluKe5ro2PxkhN9JxgyEF8
-        c3gKbm708g6Wm9tiunxGkSIVhn0MLK5mg32z0NY=
-X-Google-Smtp-Source: ABdhPJxLVCB73CNF9AtRl0MXyHsreCEI6oTI0DqaNpHELjeOGoqs4jp778XQVAfEJsF7+i/FoizEiwIQWjLbI5E8m6g=
-X-Received: by 2002:a02:1649:: with SMTP id a70mr7800030jaa.97.1612583159323;
- Fri, 05 Feb 2021 19:45:59 -0800 (PST)
+        id S231186AbhBFDxZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Feb 2021 22:53:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48414 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232323AbhBFDvR (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 5 Feb 2021 22:51:17 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C62F64DDB;
+        Sat,  6 Feb 2021 03:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612583435;
+        bh=Be6cz7XSPCTqmUkl9cL/X0+MyLpvaaW5b8rKEobK8H8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NE/324nc743CPhf4m6XWb/fRti3hzzeHMSbV9rQ9xbgaFwUkkq7QtZq09BskHAnyP
+         CeT1a2nM1JySGPHpxVdeg26d3SYf2qBziZpJ08F2vXUeTZt7Bfjef8laX9hPkFcM1i
+         BVZfXCHXtDG5NDGzaFKtk2Xo4fyfznzaAX8pXLFdae+N/WpNPYr6ONRBQZZjMNHH+o
+         xiYRFQqr+Gj3HiECcNS8rZ3w36/gl3lutzGCyjBdkpeZlX/JhtRFc0QrQdUOANpFdG
+         Ev7FH8nL3apSM/4YfrnF70+TN+uzSd+cCOsHg1uLK+j5B+3cUL2kEqV7iJf/tXqICf
+         AofY4QvohPrSg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        torvalds@linux-foundation.org, gregkh@linuxfoundation.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 1/3] Revert "kbuild: give the SUBLEVEL more room in KERNEL_VERSION"
+Date:   Fri,  5 Feb 2021 22:50:31 -0500
+Message-Id: <20210206035033.2036180-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210205220125.2931504-1-ndesaulniers@google.com> <CAK7LNARKHvjTcnic=ZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w@mail.gmail.com>
-In-Reply-To: <CAK7LNARKHvjTcnic=ZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sat, 6 Feb 2021 04:45:47 +0100
-Message-ID: <CA+icZUVkFOZq=5K=dKsQAFJPTmEE2gr_hVmYM=Q+rn70bSOh2w@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: reuse CC_VERSION_TEXT
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 6, 2021 at 2:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Sat, Feb 6, 2021 at 7:01 AM 'Nick Desaulniers' via Clang Built
-> Linux <clang-built-linux@googlegroups.com> wrote:
-> >
-> > I noticed we're invoking $(CC) via $(shell) more than once to check the
-> > version.  Let's reuse the first string captured in $CC_VERSION_TEXT.
-> >
-> > Fixes: 315bab4e972d ("kbuild: fix endless syncconfig in case arch Makefile sets CROSS_COMPILE")
->
->
-> I did not touch this hunk because I have a plan
-> for different refactoring, but I have never got
-> around to do it.
->
-> Anyway, you beat me, and I will pick this up.
-> But, the Fixes tag is questionable because
-> this is code refactoring.
->
+This reverts commit 537896fabed11f8d9788886d1aacdb977213c7b3.
 
-When I see this... and hear refactoring... As a suggestion/improvement...
+This turns out to be a bad idea: userspace has coded the structure of
+KERNEL_VERSION on it's own and assumes the 2-1-1 byte split, making it
+userspace ABI we can't break.
 
-Can we have LD_VERSION_TEXT analogue to CC_VERSION_TEXT?
-Both are shown when doing a `cat /proc/version` (and IIRC in file
-include/generated/compile.h).
+The reverted patch didn't make it past linux-next, so no userspace was
+hurt in the process.
 
-Thanks.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Makefile                                       | 7 ++-----
+ drivers/net/ethernet/mellanox/mlx5/core/main.c | 4 ++--
+ drivers/usb/core/hcd.c                         | 4 ++--
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c       | 4 ++--
+ include/linux/usb/composite.h                  | 4 ++--
+ kernel/sys.c                                   | 2 +-
+ tools/perf/tests/bpf-script-example.c          | 2 +-
+ tools/perf/tests/bpf-script-test-kbuild.c      | 2 +-
+ tools/perf/tests/bpf-script-test-prologue.c    | 2 +-
+ 9 files changed, 14 insertions(+), 17 deletions(-)
 
-- Sedat -
+diff --git a/Makefile b/Makefile
+index 28019532e55ac..49ac1b7fe8e99 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1259,11 +1259,8 @@ endef
+ 
+ define filechk_version.h
+ 	echo \#define LINUX_VERSION_CODE $(shell                         \
+-	expr $(VERSION) \* 16777216 + 0$(PATCHLEVEL) \* 65536 + 0$(SUBLEVEL)); \
+-	echo \#define LINUX_VERSION_MAJOR $(VERSION); \
+-	echo \#define LINUX_VERSION_PATCHLEVEL $(PATCHLEVEL); \
+-	echo \#define LINUX_VERSION_SUBLEVEL $(SUBLEVEL); \
+-	echo '#define KERNEL_VERSION(a,b,c) (((a) << 24) + ((b) << 16) + (c))'
++	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL)); \
++	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))'
+ endef
+ 
+ $(version_h): FORCE
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+index 989f15d9aa7d4..e4c9627485aa5 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+@@ -237,8 +237,8 @@ static void mlx5_set_driver_version(struct mlx5_core_dev *dev)
+ 	remaining_size = max_t(int, 0, driver_ver_sz - strlen(string));
+ 
+ 	snprintf(string + strlen(string), remaining_size, "%u.%u.%u",
+-		(u8)(LINUX_VERSION_MAJOR), (u8)(LINUX_VERSION_PATCHLEVEL),
+-		(u16)(LINUX_VERSION_SUBLEVEL));
++		 (u8)((LINUX_VERSION_CODE >> 16) & 0xff), (u8)((LINUX_VERSION_CODE >> 8) & 0xff),
++		 (u16)(LINUX_VERSION_CODE & 0xffff));
+ 
+ 	/*Send the command*/
+ 	MLX5_SET(set_driver_version_in, in, opcode,
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index 3f0381344221e..ad5a0f405a75c 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -111,8 +111,8 @@ DECLARE_WAIT_QUEUE_HEAD(usb_kill_urb_queue);
+  */
+ 
+ /*-------------------------------------------------------------------------*/
+-#define KERNEL_REL	bin2bcd(LINUX_VERSION_MAJOR)
+-#define KERNEL_VER	bin2bcd(LINUX_VERSION_PATCHLEVEL)
++#define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
++#define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
+ 
+ /* usb 3.1 root hub device descriptor */
+ static const u8 usb31_rh_dev_descriptor[18] = {
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+index 5c7dea5e0ff16..bfd8e77788e29 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+@@ -46,8 +46,8 @@
+  *    - Make vid/did overridable
+  *    - make it look like usb1 if usb1 mode forced
+  */
+-#define KERNEL_REL	bin2bcd(LINUX_VERSION_MAJOR)
+-#define KERNEL_VER	bin2bcd(LINUX_VERSION_PATCHLEVEL)
++#define KERNEL_REL	bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
++#define KERNEL_VER	bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
+ 
+ enum {
+ 	AST_VHUB_STR_INDEX_MAX = 4,
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index c71150f2c6390..5646dad886e61 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -575,8 +575,8 @@ static inline u16 get_default_bcdDevice(void)
+ {
+ 	u16 bcdDevice;
+ 
+-	bcdDevice = bin2bcd(LINUX_VERSION_MAJOR) << 8;
+-	bcdDevice |= bin2bcd(LINUX_VERSION_PATCHLEVEL);
++	bcdDevice = bin2bcd((LINUX_VERSION_CODE >> 16 & 0xff)) << 8;
++	bcdDevice |= bin2bcd((LINUX_VERSION_CODE >> 8 & 0xff));
+ 	return bcdDevice;
+ }
+ 
+diff --git a/kernel/sys.c b/kernel/sys.c
+index b09fe21e88ff5..8bb46e50f02d4 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1242,7 +1242,7 @@ static int override_release(char __user *release, size_t len)
+ 				break;
+ 			rest++;
+ 		}
+-		v = LINUX_VERSION_PATCHLEVEL + 60;
++		v = ((LINUX_VERSION_CODE >> 8) & 0xff) + 60;
+ 		copy = clamp_t(size_t, len, 1, sizeof(buf));
+ 		copy = scnprintf(buf, copy, "2.6.%u%s", v, rest);
+ 		ret = copy_to_user(release, buf, copy + 1);
+diff --git a/tools/perf/tests/bpf-script-example.c b/tools/perf/tests/bpf-script-example.c
+index a56bf381335e9..ab4b98b3165db 100644
+--- a/tools/perf/tests/bpf-script-example.c
++++ b/tools/perf/tests/bpf-script-example.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
+ #endif
+ #define BPF_ANY 0
+ #define BPF_MAP_TYPE_ARRAY 2
+diff --git a/tools/perf/tests/bpf-script-test-kbuild.c b/tools/perf/tests/bpf-script-test-kbuild.c
+index 21663295d5b5a..219673aa278fb 100644
+--- a/tools/perf/tests/bpf-script-test-kbuild.c
++++ b/tools/perf/tests/bpf-script-test-kbuild.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
+ #endif
+ #define SEC(NAME) __attribute__((section(NAME), used))
+ 
+diff --git a/tools/perf/tests/bpf-script-test-prologue.c b/tools/perf/tests/bpf-script-test-prologue.c
+index 8db19e70813cc..bd83d364cf30d 100644
+--- a/tools/perf/tests/bpf-script-test-prologue.c
++++ b/tools/perf/tests/bpf-script-test-prologue.c
+@@ -5,7 +5,7 @@
+  */
+ #ifndef LINUX_VERSION_CODE
+ # error Need LINUX_VERSION_CODE
+-# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x4020000" into llvm section of ~/.perfconfig'
++# error Example: for 4.2 kernel, put 'clang-opt="-DLINUX_VERSION_CODE=0x40200" into llvm section of ~/.perfconfig'
+ #endif
+ #define SEC(NAME) __attribute__((section(NAME), used))
+ 
+-- 
+2.27.0
 
->
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> >  Makefile | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index a85535eb6a7d..70034d7c1051 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -557,7 +557,13 @@ ifdef building_out_of_srctree
-> >         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
-> >  endif
-> >
-> > -ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> > +# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> > +# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> > +# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> > +# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> > +CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
-> > +
-> > +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> >  ifneq ($(CROSS_COMPILE),)
-> >  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > @@ -576,12 +582,6 @@ KBUILD_AFLAGS      += $(CLANG_FLAGS)
-> >  export CLANG_FLAGS
-> >  endif
-> >
-> > -# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> > -# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> > -# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> > -# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> > -CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
-> > -
-> >  ifdef config-build
-> >  # ===========================================================================
-> >  # *config targets only - make sure prerequisites are updated, and descend
-> > --
-> > 2.30.0.478.g8a0d178c01-goog
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210205220125.2931504-1-ndesaulniers%40google.com.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAK7LNARKHvjTcnic%3DZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w%40mail.gmail.com.
