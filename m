@@ -2,195 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 467BA311F60
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Feb 2021 19:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0943120EF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Feb 2021 03:35:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbhBFScD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 6 Feb 2021 13:32:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45028 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbhBFSb7 (ORCPT
+        id S229522AbhBGCer (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 6 Feb 2021 21:34:47 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63615 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhBGCen (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 6 Feb 2021 13:31:59 -0500
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05569C06174A
-        for <linux-kbuild@vger.kernel.org>; Sat,  6 Feb 2021 10:31:14 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DY17143fgzMpp8q;
-        Sat,  6 Feb 2021 19:30:21 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DY16z0VSqzlh8TQ;
-        Sat,  6 Feb 2021 19:30:18 +0100 (CET)
-Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
- =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
- =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
-To:     Eric Snowberg <eric.snowberg@oracle.com>,
-        David Howells <dhowells@redhat.com>
-Cc:     dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
- <1103491.1612369600@warthog.procyon.org.uk>
- <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
- <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
- <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
- <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
- <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net>
- <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net>
-Date:   Sat, 6 Feb 2021 19:30:33 +0100
-User-Agent: 
+        Sat, 6 Feb 2021 21:34:43 -0500
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 1172XUn8025107;
+        Sun, 7 Feb 2021 11:33:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 1172XUn8025107
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612665210;
+        bh=Wsx9AjZ8nfSMi43+AlZogOVqS+tL0gpCUD7h/QNUJ/M=;
+        h=From:Date:Subject:To:Cc:From;
+        b=XzZ00G/mcr47bY71E3O39Djt6YEjhDDLpY0CVbR9Nziunb3beXu78MKuQjFoHMzDk
+         vW0AyYtb9vNdrJ1Nyz4sG7pe8f95JKJP6L+Chjvh+1RX9dUYttPKSeIOYFJNoyTsV5
+         La7sTFWFtYpP8r85frByjCQZK9Vy72NtqeFtVgmftWZNBJKbyaJX1LV5XsS8QaL5mj
+         eiB16wXHlmZpqACGO5BTrTUz5yx+KeXmxMFRPsEDavigQycwF4eBEx3dmWsnAJpXCm
+         YcPZzelELAFUJZTRiRbAB37i9kv3MLO6L+RZ9EBqA1uYS4ybKhb868rVu+c4hCtVHR
+         1dQHxZwYJCopw==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id m6so7449547pfk.1;
+        Sat, 06 Feb 2021 18:33:30 -0800 (PST)
+X-Gm-Message-State: AOAM531PIWKtqiPehS126BtHt1DYKu7yKHO5ffVV2YE194wd+gBYSU77
+        1rw7i3wPtpTtY1ZOVbq8dWJnY+QiV6OSlOal7Bw=
+X-Google-Smtp-Source: ABdhPJwQOBxrbyVC3jCZJxaWVnN/ukJqTQUeOdznL0JUiTI37q5X9BTw/KPLSLp3feqCm7ifpZJhGco9MBuMb7shfRE=
+X-Received: by 2002:aa7:8602:0:b029:1bb:4dfd:92fc with SMTP id
+ p2-20020aa786020000b02901bb4dfd92fcmr12018363pfn.63.1612665209611; Sat, 06
+ Feb 2021 18:33:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 7 Feb 2021 11:32:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQsGyFpJcXYoeH7_vAzsw+9K1w0tDdHN=vxKDO+a-v70A@mail.gmail.com>
+Message-ID: <CAK7LNAQsGyFpJcXYoeH7_vAzsw+9K1w0tDdHN=vxKDO+a-v70A@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.11-rc7
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Linus,
 
-On 06/02/2021 02:14, Eric Snowberg wrote:
-> 
->> On Feb 5, 2021, at 3:27 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>
->>
->> On 05/02/2021 01:24, Eric Snowberg wrote:
->>>
->>>> On Feb 4, 2021, at 1:26 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>>>
->>>>
->>>> On 04/02/2021 04:53, Eric Snowberg wrote:
->>>>>
->>>>>> On Feb 3, 2021, at 11:49 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>>>>>
->>>>>> This looks good to me, and it still works for my use case. Eric's
->>>>>> patchset only looks for asymmetric keys in the blacklist keyring, so
->>>>>> even if we use the same keyring we don't look for the same key types. My
->>>>>> patchset only allows blacklist keys (i.e. hashes, not asymmetric keys)
->>>>>> to be added by user space (if authenticated), but because Eric's
->>>>>> asymmetric keys are loaded with KEY_ALLOC_BYPASS_RESTRICTION, it should
->>>>>> be OK for his use case.  There should be no interference between the two
->>>>>> new features, but I find it a bit confusing to have such distinct use of
->>>>>> keys from the same keyring depending on their type.
->>>>>
->>>>> I agree, it is a bit confusing.  What is the thought of having a dbx 
->>>>> keyring, similar to how the platform keyring works?
->>>>>
->>>>> https://www.spinics.net/lists/linux-security-module/msg40262.html
->>>>>
->>>>>
->>>>>> On 03/02/2021 17:26, David Howells wrote:
->>>>>>>
->>>>>>> Eric Snowberg <eric.snowberg@oracle.com> wrote:
->>>>>>>
->>>>>>>> This is the fifth patch series for adding support for 
->>>>>>>> EFI_CERT_X509_GUID entries [1].  It has been expanded to not only include
->>>>>>>> dbx entries but also entries in the mokx.  Additionally my series to
->>>>>>>> preload these certificate [2] has also been included.
->>>>>>>
->>>>>>> Okay, I've tentatively applied this to my keys-next branch.  However, it
->>>>>>> conflicts minorly with Mickaël Salaün's patches that I've previously merged on
->>>>>>> the same branch.  Can you have a look at the merge commit
->>>>>>>
->>>>>>> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/commit/?h=keys-next&id=fdbbe7ceeb95090d09c33ce0497e0394c82aa33d
->>>>>>>
->>>>>>> 	(the top patch of my keys-next branch)
->>>>>>>
->>>>>>> to see if that is okay by both of you?  If so, can you give it a whirl?
->>>>>
->>>>>
->>>>> I’m seeing a build error within blacklist_hashes_checked with
->>>>> one of my configs.
->>>>>
->>>>> The config is as follows:
->>>>>
->>>>> $ grep CONFIG_SYSTEM_BLACKLIST_HASH_LIST .config
->>>>> CONFIG_SYSTEM_BLACKLIST_HASH_LIST=“revocation_list"
->>>>>
->>>>> $ cat certs/revocation_list
->>>>> "tbs:1e125ea4f38acb7b29b0c495fd8e7602c2c3353b913811a9da3a2fb505c08a32”
->>>>>
->>>>> make[1]: *** No rule to make target 'revocation_list', needed by 'certs/blacklist_hashes_checked'.  Stop.
->>>>
->>>> It requires an absolute path.
->>>
->>> Ok, if I use an absolute path now with CONFIG_SYSTEM_BLACKLIST_HASH_LIST 
->>> it works.
->>>
->>>> This is to align with other variables
->>>> using the config_filename macro: CONFIG_SYSTEM_TRUSTED_KEYS,
->>>> CONFIG_MODULE_SIG_KEY and now CONFIG_SYSTEM_REVOCATION_KEYS.
->>>
->>> I just did a quick test with CONFIG_SYSTEM_TRUSTED_KEYS. It looks like we 
->>> can use either a relative or absolute path with CONFIG_SYSTEM_TRUSTED_KEYS. 
->>> Shouldn’t this be consistent?
->>
->> CONFIG_SYSTEM_TRUSTED_KEYS (and similar config) works with relative path
->> to $(srctree) not $(srctree)/certs as in your example.
-> 
-> Correct, I had "certs" in my relative path.
-> 
->> We can make CONFIG_SYSTEM_BLACKLIST_HASH_LIST works with $(srctree) with
->> this patch:
->>
->> diff --git a/certs/Makefile b/certs/Makefile
->> index eb45407ff282..92a233eaa926 100644
->> --- a/certs/Makefile
->> +++ b/certs/Makefile
->> @@ -14,6 +14,8 @@ $(eval $(call config_filename,SYSTEM_BLACKLIST_HASH_LIST))
->>
->> $(obj)/blacklist_hashes.o: $(obj)/blacklist_hashes_checked
->>
->> +CFLAGS_blacklist_hashes.o += -I$(srctree)
->> +
->> targets += blacklist_hashes_checked
-> 
-> After applying this patch, CONFIG_SYSTEM_BLACKLIST_HASH_LIST now works
-> like the other filename macros.  It seems like this would be a good
-> addition.
-
-I'll send a patch with this.
-
-> 
-> I have done some additional testing, I am seeing a regression. The blacklist 
-> keyring is no longer picking up any of the hashes from the dbx during boot. 
-> I backed out the merge with my changes  (fdbbe7ceeb95090d09c33ce0497e0394c82aa33d) 
-> and still see the regression.  I then backed out Mickaël merge
-> (5bf1adccf5c41dbdd51d1f4de220d335d9548598) and it fixes the regression.
-> 
-> On a x86 with the updated dbx from uefi.org, I’d expect to see 234 bin hash entries
-> in the blacklist keyring.  With the current merged code, there is none.
-
-Hum, I missed a part in refactoring (commit
-f78e50c8f750c0ac6767ac1ed006360cf77c56c4). :/
-Could you please test the following patch?
-
-diff --git a/certs/blacklist.c b/certs/blacklist.c
-index 07c592ae5307..f998a2e85ddc 100644
---- a/certs/blacklist.c
-+++ b/certs/blacklist.c
-@@ -197,13 +197,16 @@ int mark_hash_blacklisted(const u8 *hash, size_t
-hash_len,
-                enum blacklist_hash_type hash_type)
- {
-        const char *buffer;
-+       int err;
-
-        buffer = get_raw_hash(hash, hash_len, hash_type);
-        if (IS_ERR(buffer))
-                return PTR_ERR(buffer);
-+       err = mark_raw_hash_blacklisted(buffer);
-        kfree(buffer);
--       return 0;
-+       return err;
- }
+Please pull some Kbuild fixes.
+Thanks.
 
 
-Is it possible to test these kind of dbx blacklist with Qemu?
+
+
+
+
+The following changes since commit 19c329f6808995b142b3966301f217c831e7cf31:
+
+  Linux 5.11-rc4 (2021-01-17 16:37:05 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.11-2
+
+for you to fetch changes up to efe6e3068067212b85c2d0474b5ee3b2d0c7adab:
+
+  kallsyms: fix nonconverging kallsyms table with lld (2021-02-05
+17:53:28 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v5.11 (2nd)
+
+ - Use the 'python3' command to invoke python scripts because some
+   distributions do not provide the 'python' command any more.
+
+ - Clean-up and update documents
+
+ - Use pkg-config to search libcrypto
+
+ - Fix duplicated debug flags
+
+ - Ignore some more stubs in scripts/kallsyms.c
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      scripts: switch explicitly to Python 3
+
+Arnd Bergmann (1):
+      kallsyms: fix nonconverging kallsyms table with lld
+
+Enrico Weigelt, metux IT consult (1):
+      kconfig: mconf: fix HOSTCC call
+
+Masahiro Yamada (6):
+      kbuild: simplify GCC_PLUGINS enablement in dummy-tools/gcc
+      doc: gcc-plugins: update gcc-plugins.rst
+      Revert "checkpatch: add check for keyword 'boolean' in Kconfig
+definitions"
+      kbuild: remove PYTHON variable
+      scripts/clang-tools: switch explicitly to Python 3
+      kbuild: fix duplicated flags in DEBUG_CFLAGS
+
+Nathan Chancellor (1):
+      Documentation/llvm: Add a section about supported architectures
+
+Robert Karszniewicz (1):
+      Documentation/Kbuild: Remove references to gcc-plugin.sh
+
+Rolf Eike Beer (1):
+      scripts: use pkg-config to locate libcrypto
+
+ Documentation/Makefile                      |  2 +-
+ Documentation/kbuild/gcc-plugins.rst        | 47
++++++++++++++++++---------------------
+ Documentation/kbuild/llvm.rst               | 44
++++++++++++++++++++++++++++++++++++
+ Documentation/kbuild/makefiles.rst          |  2 +-
+ Makefile                                    |  7 +++---
+ arch/ia64/Makefile                          |  2 +-
+ arch/ia64/scripts/unwcheck.py               |  2 +-
+ scripts/Makefile                            |  8 +++++--
+ scripts/bloat-o-meter                       |  2 +-
+ scripts/checkpatch.pl                       |  7 ------
+ scripts/clang-tools/gen_compile_commands.py |  2 +-
+ scripts/clang-tools/run-clang-tools.py      |  2 +-
+ scripts/diffconfig                          |  2 +-
+ scripts/dummy-tools/gcc                     | 10 +++-----
+ scripts/jobserver-exec                      |  2 +-
+ scripts/kallsyms.c                          |  6 +++++
+ scripts/kconfig/mconf-cfg.sh                |  2 +-
+ 17 files changed, 94 insertions(+), 55 deletions(-)
+
+
+--
+Best Regards
+Masahiro Yamada
