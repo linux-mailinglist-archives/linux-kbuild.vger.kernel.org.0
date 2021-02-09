@@ -2,104 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56ADE314BB3
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 10:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B62314E04
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 12:14:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbhBIJez (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 04:34:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47889 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229716AbhBIJcb (ORCPT
+        id S231553AbhBILOE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 06:14:04 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:12882 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229984AbhBILLx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 04:32:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612863064;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=viYH64kE+WC0LkmBd6WghQDv2YxKbctUtjEzyPFmzQQ=;
-        b=QcC0zYeJFTsGR5rXp8W/CP5LalyUONDCyD3/lh5DSQHZoI3ajH2nRHFAeW+3bvw4O1VKmo
-        jaatZpvmyOy9zw2Gy3odOBZAU/p6QcMCZr4iwAPYfNFO0bB+6vakF1V+lIlem9Zdt28U1J
-        4SZfARi1SzAe9FIixjkXaVmb9h8eOkM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-AYRTBPTpNaCmWw_qqyDD0A-1; Tue, 09 Feb 2021 04:31:00 -0500
-X-MC-Unique: AYRTBPTpNaCmWw_qqyDD0A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EFC63FD6;
-        Tue,  9 Feb 2021 09:30:57 +0000 (UTC)
-Received: from krava (unknown [10.40.195.89])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 9FE0060CCF;
-        Tue,  9 Feb 2021 09:30:53 +0000 (UTC)
-Date:   Tue, 9 Feb 2021 10:30:52 +0100
-From:   Jiri Olsa <jolsa@redhat.com>
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCHv2 bpf-next 0/4] kbuild/resolve_btfids: Invoke
- resolve_btfids clean in root Makefile
-Message-ID: <YCJWTCdAjoc+N70A@krava>
-References: <20210205124020.683286-1-jolsa@kernel.org>
- <CAEf4Bza09-H+-iE8Ksd15GjXGArDubOrHorvdwBN=yh9TwTpKA@mail.gmail.com>
+        Tue, 9 Feb 2021 06:11:53 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DZgC819fdz7jJr;
+        Tue,  9 Feb 2021 19:09:40 +0800 (CST)
+Received: from localhost.localdomain (10.67.165.24) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 9 Feb 2021 19:10:57 +0800
+From:   Yicong Yang <yangyicong@hisilicon.com>
+To:     <gregkh@linuxfoundation.org>, <jdelvare@suse.com>,
+        <linux@roeck-us.net>, <giometti@enneenne.com>, <abbotti@mev.co.uk>,
+        <hsweeten@visionengravers.com>, <kw@linux.com>,
+        <helgaas@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
+        <devel@driverdev.osuosl.org>, <linux-kbuild@vger.kernel.org>,
+        <masahiroy@kernel.org>, <michal.lkml@markovi.net>
+CC:     <prime.zeng@huawei.com>, <yangyicong@hisilicon.com>,
+        <linuxarm@openeuler.org>
+Subject: [PATCH v2 0/4] Use subdir-ccflags-* to inherit debug flag
+Date:   Tue, 9 Feb 2021 19:08:15 +0800
+Message-ID: <1612868899-9185-1-git-send-email-yangyicong@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEf4Bza09-H+-iE8Ksd15GjXGArDubOrHorvdwBN=yh9TwTpKA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain
+X-Originating-IP: [10.67.165.24]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 08, 2021 at 09:36:40PM -0800, Andrii Nakryiko wrote:
-> On Fri, Feb 5, 2021 at 4:45 AM Jiri Olsa <jolsa@kernel.org> wrote:
-> >
-> > hi,
-> > resolve_btfids tool is used during the kernel build,
-> > so we should clean it on kernel's make clean.
-> >
-> > v2 changes:
-> >   - add Song's acks on patches 1 and 4 (others changed) [Song]
-> >   - add missing / [Andrii]
-> >   - change srctree variable initialization [Andrii]
-> >   - shifted ifdef for clean target [Andrii]
-> >
-> > thanks,
-> > jirka
-> >
-> >
-> > ---
-> > Jiri Olsa (4):
-> >       tools/resolve_btfids: Build libbpf and libsubcmd in separate directories
-> >       tools/resolve_btfids: Check objects before removing
-> >       tools/resolve_btfids: Set srctree variable unconditionally
-> >       kbuild: Add resolve_btfids clean to root clean target
-> >
-> >  Makefile                            |  7 ++++++-
-> >  tools/bpf/resolve_btfids/.gitignore |  2 --
-> >  tools/bpf/resolve_btfids/Makefile   | 44 ++++++++++++++++++++++----------------------
-> >  3 files changed, 28 insertions(+), 25 deletions(-)
-> >
-> 
-> I've applied the changes to the bpf-next tree. Thanks.
-> 
-> Next time please make sure that each patch in the series has a v2 tag
-> in [PATCH] section, it was a bit confusing to figure out which one is
-> the actual v2 version. Our tooling (CI) also expects the format [PATCH
-> v2 bpf-next], so try not to merge v2 with PATCH.
-> 
+Few drivers use ccflags-* in their top directory to enable
+-DDEBUG, but don't have config options to enable debug
+in the sub-directories, or they use per subdirectory
+ccflags-* to have DEBUG with the same kconfig option.
 
-will do, thanks
+Considering they intends to enable debug for all the files
+under the directory with the same kconfig option, it will
+be clearer to use subdir-ccflags-* instead of ccflags-*
+to inherit the debug settings from Kconfig when traversing
+subdirectories.
 
-jirka
+We primarily find this issue when debugging PCIe and thought
+other drivers may also have this issues. Previous discussion
+can be find at
+https://lore.kernel.org/linux-pci/1612438215-33105-1-git-send-email-yangyicong@hisilicon.com/
+
+Change since v1:
+- reword the commits to illustrate the reasons of the change and the benefits.
+v1: https://lore.kernel.org/lkml/1612518255-23052-1-git-send-email-yangyicong@hisilicon.com/
+
+Junhao He (4):
+  driver core: Use subdir-ccflags-* to inherit debug flag
+  hwmon: Use subdir-ccflags-* to inherit debug flag
+  pps: Use subdir-ccflags-* to inherit debug flag
+  staging: comedi: Use subdir-ccflags-* to inherit debug flag
+
+ drivers/base/Makefile                         | 2 +-
+ drivers/base/power/Makefile                   | 2 --
+ drivers/hwmon/Makefile                        | 2 +-
+ drivers/pps/Makefile                          | 2 +-
+ drivers/staging/comedi/Makefile               | 2 +-
+ drivers/staging/comedi/drivers/Makefile       | 1 -
+ drivers/staging/comedi/drivers/tests/Makefile | 2 --
+ drivers/staging/comedi/kcomedilib/Makefile    | 2 --
+ 8 files changed, 4 insertions(+), 11 deletions(-)
+
+-- 
+2.8.1
 
