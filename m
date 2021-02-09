@@ -2,122 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BF9A315AB3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 01:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19673315AB4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 01:10:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233901AbhBJAI7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 19:08:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233728AbhBIWHM (ORCPT
+        id S234735AbhBJAJ0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 19:09:26 -0500
+Received: from mail-lf1-f49.google.com ([209.85.167.49]:46666 "EHLO
+        mail-lf1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233534AbhBIXo1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 17:07:12 -0500
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [IPv6:2001:1600:3:17::1909])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10BFC08EB24
-        for <linux-kbuild@vger.kernel.org>; Tue,  9 Feb 2021 13:53:18 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DZxTf2FcKzMqGbp;
-        Tue,  9 Feb 2021 22:53:10 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DZxTc3C9Szlh8TK;
-        Tue,  9 Feb 2021 22:53:08 +0100 (CET)
-Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
- =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
- =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
-To:     Eric Snowberg <eric.snowberg@oracle.com>,
-        David Howells <dhowells@redhat.com>
-Cc:     dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
-        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
-        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
-        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Tyler Hicks <tyhicks@linux.microsoft.com>
-References: <20210122181054.32635-1-eric.snowberg@oracle.com>
- <1103491.1612369600@warthog.procyon.org.uk>
- <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
- <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
- <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
- <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
- <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net>
- <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com>
- <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net>
- <74EC102D-BD18-4863-A7FB-C88439654C8C@oracle.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <456712ef-1349-ffe2-9e34-7d49848980ff@digikod.net>
-Date:   Tue, 9 Feb 2021 22:53:34 +0100
-User-Agent: 
+        Tue, 9 Feb 2021 18:44:27 -0500
+Received: by mail-lf1-f49.google.com with SMTP id v5so84846lft.13;
+        Tue, 09 Feb 2021 15:44:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=yGmWhoja/hQOYUa2PNDucYo9KJYqOoWVC1/FBOW7ZLs=;
+        b=CSwu8RNl0F3aLFNUa2Zhqv/aqOr5LKZ/7NneX13EyvlbISAlqrLqBhJJJ7UJZwfvI+
+         quS89wObQiz7ojngCi7DM6T1jhylHQ+3XWcBSnVAZ01C4E0m29wEPc2lZDcW/Y4PPIgj
+         Ed+riKLtmJ/w0egBe6Fl2kBCYicFdUj3zXYSdcrTD0bV+BuxOFh1lSlbK4bSqNCyr+Zr
+         6vxTkKRcP49eVDXmEZhzL2lesOGyuY3FZAzp4583OpXKBd2/cQzuy9xfvmQkbKlaxs+y
+         1YY45uwPdPHt4Ie5OGc+I4YVy/5AJXOOJdrs2IYwIjMa1PXanRmjlQhXnQXYL8A35VGG
+         nQuw==
+X-Gm-Message-State: AOAM530yQyCHG82gFfpTcdg633sDyv2vKJlhv6/9F2IzsgNc+1VYcVPt
+        fcfEWP7xYbEkJLY4Epoaof8=
+X-Google-Smtp-Source: ABdhPJxx6hda2CiPB5yiesOFRVWCjUTcZerPAMRTqgFm5S+ShAghK/pTP616i1cMawpsbVKWyUk2/w==
+X-Received: by 2002:ac2:544c:: with SMTP id d12mr172177lfn.585.1612914223533;
+        Tue, 09 Feb 2021 15:43:43 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id u6sm21519lji.63.2021.02.09.15.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 15:43:42 -0800 (PST)
+Date:   Wed, 10 Feb 2021 00:43:41 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Yicong Yang <yangyicong@hisilicon.com>, linux-pci@vger.kernel.org,
+        prime.zeng@huawei.com, linuxarm@openeuler.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: Use subdir-ccflags-* to inherit debug flag
+Message-ID: <YCMeLS1Vd2YQuWmQ@rocinante>
+References: <1612438215-33105-1-git-send-email-yangyicong@hisilicon.com>
+ <20210209212510.GA513360@bjorn-Precision-5520>
 MIME-Version: 1.0
-In-Reply-To: <74EC102D-BD18-4863-A7FB-C88439654C8C@oracle.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210209212510.GA513360@bjorn-Precision-5520>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Bjorn,
 
-On 09/02/2021 00:05, Eric Snowberg wrote:
-> 
->> On Feb 6, 2021, at 11:30 AM, Mickaël Salaün <mic@digikod.net> wrote:
->>
->> On 06/02/2021 02:14, Eric Snowberg wrote:
->>
->>> I have done some additional testing, I am seeing a regression. The blacklist 
->>> keyring is no longer picking up any of the hashes from the dbx during boot. 
->>> I backed out the merge with my changes  (fdbbe7ceeb95090d09c33ce0497e0394c82aa33d) 
->>> and still see the regression.  I then backed out Mickaël merge
->>> (5bf1adccf5c41dbdd51d1f4de220d335d9548598) and it fixes the regression.
->>>
->>> On a x86 with the updated dbx from uefi.org, I’d expect to see 234 bin hash entries
->>> in the blacklist keyring.  With the current merged code, there is none.
->>
->> Hum, I missed a part in refactoring (commit
->> f78e50c8f750c0ac6767ac1ed006360cf77c56c4). :/
->> Could you please test the following patch?
->>
->> diff --git a/certs/blacklist.c b/certs/blacklist.c
->> index 07c592ae5307..f998a2e85ddc 100644
->> --- a/certs/blacklist.c
->> +++ b/certs/blacklist.c
->> @@ -197,13 +197,16 @@ int mark_hash_blacklisted(const u8 *hash, size_t
->> hash_len,
->>                enum blacklist_hash_type hash_type)
->> {
->>        const char *buffer;
->> +       int err;
->>
->>        buffer = get_raw_hash(hash, hash_len, hash_type);
->>        if (IS_ERR(buffer))
->>                return PTR_ERR(buffer);
->> +       err = mark_raw_hash_blacklisted(buffer);
->>        kfree(buffer);
->> -       return 0;
->> +       return err;
->> }
-> 
-> I applied this patch, it works better, but there is still a regression. 
-> Most of the hashes show up in the blacklist keyring now.  However some 
-> do not, here is what I see in the log during boot:
-> 
-> [    2.321876] blacklist: Problem blacklisting hash (-13)
-> [    2.322729] blacklist: Problem blacklisting hash (-13)
-> [    2.323549] blacklist: Problem blacklisting hash (-13)
-> [    2.324369] blacklist: Problem blacklisting hash (-13)
-> 
->> Is it possible to test these kind of dbx blacklist with Qemu?
-> 
-> Yes, just use OVMF. 
-> 
+Thank you!  This looks great!
 
-My changes (with the fix) don't change the previous semantic. I just
-tested without my changes and with my changes (and the fix), and I get
-the same result: 184 bin hashes with
-https://uefi.org/sites/default/files/resources/dbxupdate_x64.bin
+[...]
+> commit e8e9aababe60 ("PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy")
+> Author: Junhao He <hejunhao2@hisilicon.com>
+> Date:   Thu Feb 4 19:30:15 2021 +0800
+> 
+>     PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy
+>     
+>     CONFIG_PCI_DEBUG=y adds -DDEBUG to CFLAGS, which enables things like
+>     pr_debug() and dev_dbg() (and hence pci_dbg()).  Previously we added
+>     -DDEBUG for files in drivers/pci/, but not files in subdirectories of
+>     drivers/pci/.
+>     
+>     Add -DDEBUG to CFLAGS for all files below drivers/pci/ so CONFIG_PCI_DEBUG
+>     applies to the entire hierarchy.
+>     
+>     [bhelgaas: commit log]
+>     Link: https://lore.kernel.org/r/1612438215-33105-1-git-send-email-yangyicong@hisilicon.com
+>     Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+>     Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+>     Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+> 
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 11cc79411e2d..d62c4ac4ae1b 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -36,4 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+>  obj-y				+= controller/
+>  obj-y				+= switch/
+>  
+> -ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+> +subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
 
-Could you please re-test and if there is still an issue bisect and share
-the certificates causing this issue?
+And thank you again, Yicong, for fixing this.  Much appreciated.
 
-David, do you want me to send the two new patches or an updated full
-patch series?
+Krzysztof
