@@ -2,130 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8103314502
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 01:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A383145F8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 03:01:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbhBIAm3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Feb 2021 19:42:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbhBIAm1 (ORCPT
+        id S229999AbhBICAD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Feb 2021 21:00:03 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:58418 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229587AbhBICAB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Feb 2021 19:42:27 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63779C061786
-        for <linux-kbuild@vger.kernel.org>; Mon,  8 Feb 2021 16:41:47 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id j19so5485577lfr.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Feb 2021 16:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hnyQftUsUdmfOLazvXtPW1VO1AUg/vKYWfKvMCCcu6w=;
-        b=U6awMA4cXNtdet7bCDrR3Qk6BJBJ2ztV1rTJfubntFbyiL1QD1RXNk09yJh5/+OGbp
-         foNv37aNd+SZMKQrJlDtlBVGy2WP0tS8b35RGtpzxLhYsVtwiIvBFf/rT763ScDdJB6C
-         apGR0PqUc1TwgCUaZYL+eg+9A7ea4WyrU+6cIu/kyjyHympM3GvBKGUvL2rsVUfLXTyp
-         FyjKrMSgdIWH/8C1EKc1m5yP0/WqouD9ba3g5OsEthm9asktTbQBoHQkGlNNryrXpvBu
-         VFVk5DG0aZrSwRwqR37T5xWx6oOYuCBjdeDMZsSYuuwATOK8SY1FiYfSYEMrBwPKD7b2
-         YU+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hnyQftUsUdmfOLazvXtPW1VO1AUg/vKYWfKvMCCcu6w=;
-        b=c2QkaaAGkdEnH4D9NXAMlJqYwMXEGOzuzBsoh/phRpfiLg8EUZpDI7SD18PSyJy1l/
-         +IvstN2wQ6cl7M3v/PAZyvmw7p+Nop//g5ri0X4ha5O3Lh47awVMOZnLIAuM8RaDf7+P
-         3A3v4o7O1PFr5uQE0Oq6qqIHIfK1Nk3RSY/QjXSZumHBoHGPQPegFXJfh3YIYpMml3F6
-         T84vNlPQQ0J0ly3Hf5Dzd9DwZshB6JEkjoFCTyRZ8aGJOwNP9AyDHG0c0ycNxCO50HmV
-         h0zgyYtV5arUVW60yqMZA328hMENlWE+Q58qfCVwHtOzXGcR3fYgRRkUjZh3ZTRstIeK
-         JMhQ==
-X-Gm-Message-State: AOAM530YcBCdznXGv66CytN6dIAKQVTyv5MZM3ehFt7M2Pz9lY1O5o1l
-        fCwppik8tyAMADP5Y01oRFuU1Ac05ZCJNB2DxgC6UA==
-X-Google-Smtp-Source: ABdhPJxmvREYZe/j/mTilj3dXr4kXQEEgQvJ9oEP19f5WVJ+wvbVOuUZyBzc0YCy4VkLcvv4ywulg04905i8ILzhwmc=
-X-Received: by 2002:a05:6512:38af:: with SMTP id o15mr1388887lft.70.1612831305577;
- Mon, 08 Feb 2021 16:41:45 -0800 (PST)
+        Mon, 8 Feb 2021 21:00:01 -0500
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1191x2xo032373;
+        Tue, 9 Feb 2021 10:59:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1191x2xo032373
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612835944;
+        bh=rkuFABRQ1YCSp/qNK4UblSQCDbPbTo38udmlFYYW5l0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hwGEI5xNO1wf/5Zquiz3x3xBNMGppVm1NAat+25eX4mhCaOEF7075PtVFRpX1/1V+
+         MROQh84R52cfwNrpItBUnk9Vc2+zf+eFKtxcdTksd/Rt//XFAzem69fVDEl16Da2Nf
+         HCpiepOgS6xRqpcjcTGqRaLyLBpqCCyQdqU7Q9UATSMfLA1qV/JmrDXqp1jCf+Nq25
+         CR2NtIePCDYNCURASOHsoQGD2pPMV00rPz6JgowcDTl53uCKFBCwUDLd4tBHSPLQeo
+         7A7+9lJ4CmZy/J8DsH8+kK2PITE30BksU/N3I1p3t4xNc0ToiA2w7FqZIKsQaDQGge
+         4We4Aj00/W3yw==
+X-Nifty-SrcIP: [209.85.167.50]
+Received: by mail-lf1-f50.google.com with SMTP id r65so2547812lff.6;
+        Mon, 08 Feb 2021 17:59:03 -0800 (PST)
+X-Gm-Message-State: AOAM5317Lyl57fHt+7HEvvLOE2j3mI8UW7YluYXdUJdhSwoMxDwHg6Ra
+        XwQADzzkx3TPk7DkdwQswZEVLvLth0Bk99/ABXU=
+X-Google-Smtp-Source: ABdhPJwZCPVt7aSG/IAG6aD42AKXKWfZkFsl9WcFbcFQa+g1MvNb8wUgw7RX9fwee8xhlBaZdXr3suSCTkqBuJk/szE=
+X-Received: by 2002:a19:f20f:: with SMTP id q15mr8398441lfh.227.1612835942027;
+ Mon, 08 Feb 2021 17:59:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20210121213641.3477522-1-willmcvicker@google.com>
- <YBrFSLASG5yiqtZT@gunter> <YBrHPqlQHppzBPpn@kroah.com>
-In-Reply-To: <YBrHPqlQHppzBPpn@kroah.com>
-From:   Will McVicker <willmcvicker@google.com>
-Date:   Mon, 8 Feb 2021 16:41:29 -0800
-Message-ID: <CABYd82bb-BiY2pQ3ghNYV3wtPeR8vJR5-nH6GH=oHB+ALFAw5w@mail.gmail.com>
-Subject: Re: [PATCH v6] modules: introduce the MODULE_SCMVERSION config
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jessica Yu <jeyu@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>
+References: <20210206035033.2036180-1-sashal@kernel.org> <20210206035033.2036180-2-sashal@kernel.org>
+ <f8aa21157d0848cda0775a174bba05b2@AcuMS.aculab.com>
+In-Reply-To: <f8aa21157d0848cda0775a174bba05b2@AcuMS.aculab.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 9 Feb 2021 10:58:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDts980vwwUOHV4V-HcrYgXMZueFCYzL6ayP3LZegqNA@mail.gmail.com>
+Message-ID: <CAK7LNATDts980vwwUOHV4V-HcrYgXMZueFCYzL6ayP3LZegqNA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: clamp SUBLEVEL to 255
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Sasha Levin <sashal@kernel.org>,
+        "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thanks Jessica for all the reviews. I guess we can let this die here
-and I'll carry it downstream. At least it's all here for others to
-see.
+On Mon, Feb 8, 2021 at 10:48 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> From: Sasha Levin
+> > Sent: 06 February 2021 03:51
+> >
+> > Right now if SUBLEVEL becomes larger than 255 it will overflow into the
+> > territory of PATCHLEVEL, causing havoc in userspace that tests for
+> > specific kernel version.
+> >
+> > While userspace code tests for MAJOR and PATCHLEVEL, it doesn't test
+> > SUBLEVEL at any point as ABI changes don't happen in the context of
+> > stable tree.
+> >
+> > Thus, to avoid overflows, simply clamp SUBLEVEL to it's maximum value in
+> > the context of LINUX_VERSION_CODE. This does not affect "make
+> > kernelversion" and such.
+> >
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> > ---
+> >  Makefile | 12 +++++++++---
+> >  1 file changed, 9 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 49ac1b7fe8e99..157be50c691e5 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1258,9 +1258,15 @@ define filechk_utsrelease.h
+> >  endef
+> >
+> >  define filechk_version.h
+> > -     echo \#define LINUX_VERSION_CODE $(shell                         \
+> > -     expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL)); \
+> > -     echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))'
+> > +     if [ $(SUBLEVEL) -gt 255 ]; then                                 \
+> > +             echo \#define LINUX_VERSION_CODE $(shell                 \
+> > +             expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 255); \
+> > +     else                                                             \
+> > +             echo \#define LINUX_VERSION_CODE $(shell                 \
+> > +             expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + $(SUBLEVEL)); \
+> > +     fi;                                                              \
+> > +     echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) +  \
+> > +     ((c) > 255 ? 255 : (c)))'
+> >  endef
+>
+> Why not use KERNEL_VERSION to define LINUX_VERSION_CODE ?
+> Basically just:
+>         echo '#define LINUX_VERSION_CODE KERNEL_VERSION($(VERSION), $(PATCHLEVEL)+0, $(SUBLEVEL)+0)'
 
-Thanks,
-Will
 
-On Wed, Feb 3, 2021 at 7:54 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+
+
+It was not possible to macrofy LINUX_VERSION_CODE.
+(build error when CONFIG_KALLSYMS is disabled)
+
+
+Presumably, this restriction will go away
+with the following commit in linux-next.
+
+
+
+commit e06af0b2ba02fc0cc2219a14c4c04ff0296a6f9f
+Author: Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu Jan 28 18:42:30 2021 +1100
+
+    init/version.c: remove Version_<LINUX_VERSION_CODE> symbol
+
+
+
+
+
+My plan is to refactor LINUX_VERSION_CODE in the next
+development cycle.
+
+
+
+
+
+
+> If PATCHLEVEL and SUBLEVEL are guaranteed to be non-empty the +0
+> can be removed.
+> The patch assumes they are non-empty, the original pre-prended 0
+> to stop syntax error for empty version strings.
 >
-> On Wed, Feb 03, 2021 at 04:46:16PM +0100, Jessica Yu wrote:
-> > +++ Will McVicker [21/01/21 21:36 +0000]:
-> > > Config MODULE_SCMVERSION introduces a new module attribute --
-> > > `scmversion` -- which can be used to identify a given module's SCM
-> > > version.  This is very useful for developers that update their kernel
-> > > independently from their kernel modules or vice-versa since the SCM
-> > > version provided by UTS_RELEASE (`uname -r`) will now differ from the
-> > > module's vermagic attribute.
-> > >
-> > > For example, we have a CI setup that tests new kernel changes on the
-> > > hikey960 and db845c devices without updating their kernel modules. When
-> > > these tests fail, we need to be able to identify the exact device
-> > > configuration the test was using. By including MODULE_SCMVERSION, we can
-> > > identify the exact kernel and modules' SCM versions for debugging the
-> > > failures.
-> > >
-> > > Additionally, by exposing the SCM version via the sysfs node
-> > > /sys/module/MODULENAME/scmversion, one can also verify the SCM versions
-> > > of the modules loaded from the initramfs. Currently, modinfo can only
-> > > retrieve module attributes from the module's ko on disk and not from the
-> > > actual module that is loaded in RAM.
-> > >
-> > > You can retrieve the SCM version in two ways,
-> > >
-> > > 1) By using modinfo:
-> > >    > modinfo -F scmversion MODULENAME
-> > > 2) By module sysfs node:
-> > >    > cat /sys/module/MODULENAME/scmversion
-> >
-> > Hi Will,
-> >
-> > First off, thanks for being patient and being responsive throughout the patch
-> > review process.
-> >
-> > Personally, I am rather neutral towards this feature. We already provide
-> > CONFIG_MODULE_SRCVERSION to provide a checksum of a module's source files and I
-> > think the SCMVERSION is a nicer alternative. I can see how an optional
-> > scmversion field might be helpful information for distro developers in testing
-> > environments and in situations where it is possible for the kernel and modules
-> > to be updated/packaged separately (for instance, the kernel selftest modules
-> > under lib/ are in-tree modules that are provided as a separate kernel module
-> > package in SLE).
-> >
-> > Generally, out of principle, I do not want to merge a patch that's been NAK'd
-> > repeatedly; even if I take the patch it'd likely be contested all the way up to
-> > the merge window. So this boils down to whether Christoph (and maybe Greg) are
-> > fine with this being a debug option that's not enabled by default.
+> Note that the expr version will process 08 and 09.
+> gcc will treat them as octal, and may error them.
 >
-> I am neutral on this, I don't care one way or the other.
+>         David
 >
-> thanks,
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 >
-> greg k-h
+--
+Best Regards
+Masahiro Yamada
