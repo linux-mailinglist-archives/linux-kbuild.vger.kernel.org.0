@@ -2,110 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8E2314DFB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 12:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A460B314F0A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 13:38:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231271AbhBILN4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 06:13:56 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:12902 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232367AbhBILLz (ORCPT
+        id S230125AbhBIMhw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 07:37:52 -0500
+Received: from smtpcmd0872.aruba.it ([62.149.156.72]:46461 "EHLO
+        smtpcmd0872.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230122AbhBIMhv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 06:11:55 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DZgCX5gBPzjKK8;
-        Tue,  9 Feb 2021 19:10:00 +0800 (CST)
-Received: from localhost.localdomain (10.67.165.24) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 9 Feb 2021 19:10:58 +0800
-From:   Yicong Yang <yangyicong@hisilicon.com>
-To:     <gregkh@linuxfoundation.org>, <jdelvare@suse.com>,
-        <linux@roeck-us.net>, <giometti@enneenne.com>, <abbotti@mev.co.uk>,
-        <hsweeten@visionengravers.com>, <kw@linux.com>,
-        <helgaas@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <devel@driverdev.osuosl.org>, <linux-kbuild@vger.kernel.org>,
-        <masahiroy@kernel.org>, <michal.lkml@markovi.net>
-CC:     <prime.zeng@huawei.com>, <yangyicong@hisilicon.com>,
-        <linuxarm@openeuler.org>
-Subject: [PATCH v2 4/4] staging: comedi: Use subdir-ccflags-* to inherit debug flag
-Date:   Tue, 9 Feb 2021 19:08:19 +0800
-Message-ID: <1612868899-9185-5-git-send-email-yangyicong@hisilicon.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1612868899-9185-1-git-send-email-yangyicong@hisilicon.com>
+        Tue, 9 Feb 2021 07:37:51 -0500
+Received: from [192.168.1.56] ([79.0.204.227])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id 9S6Slz4POHTby9S6Sl0V2E; Tue, 09 Feb 2021 13:26:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1612873613; bh=mDUswk8o3BSLtbN9FBZukK6zJHlk4RbhcvaAExyA0nw=;
+        h=Subject:To:From:Date:MIME-Version:Content-Type;
+        b=Kzl1EYSpnas8XmF09hgxgzzlq2cQfYNdikTV0R866v6FMi18rsR2jWVgS6ccBui0q
+         gu/2VBPSRuxNS3lgMEbTkGPRrXRGRpmUJIpU8OHOj7OUqzy/o8lfidC5a1IVHy9fUM
+         ifOzehfJ+swDJDepMjKUkMl/t5TLwkCGCF8VvMGb1LyCcywhjMeUBK28Q4njRQxsad
+         0jkbGPw7zasSDzwI+CIP46O5RDOafo5UjAXFJttwfb2OzRSmlB08ORdiroaLqs85Ju
+         kuFmKTN9jCV9f6jHyTt/4MLwX8PcDuEjJwfSaq5+3DPIc0QcH0oVkEme3g6U8tidQL
+         D279Xfw9JloGg==
+Subject: Re: [PATCH v2 3/4] pps: Use subdir-ccflags-* to inherit debug flag
+To:     Yicong Yang <yangyicong@hisilicon.com>, gregkh@linuxfoundation.org,
+        jdelvare@suse.com, linux@roeck-us.net, abbotti@mev.co.uk,
+        hsweeten@visionengravers.com, kw@linux.com, helgaas@kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net
+Cc:     prime.zeng@huawei.com, linuxarm@openeuler.org
 References: <1612868899-9185-1-git-send-email-yangyicong@hisilicon.com>
+ <1612868899-9185-4-git-send-email-yangyicong@hisilicon.com>
+From:   Rodolfo Giometti <giometti@enneenne.com>
+Message-ID: <36b30ed8-a930-d1c3-2725-c6653f23490c@enneenne.com>
+Date:   Tue, 9 Feb 2021 13:26:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.165.24]
-X-CFilter-Loop: Reflected
+In-Reply-To: <1612868899-9185-4-git-send-email-yangyicong@hisilicon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJOtvfcS9SDUIzmTBtbnLxCn9w5jBVsknznaedOo9e7Vr0rIPrGhQrxsiBlKpKQMo8p9WoIyfGExvxm3eRi5IThCUTGOTOoVORppicdkKLU7ntqvJoHq
+ QPY+Q4cFW3Qlnf7BXKIc2bDD9sR81IdWZPdqhWl/yG48Ze9YsxPcF4EaYAPM6n3pKPXeSqxq5W1TIuiAFAd+LM0Ova77sJiY6RuiBeRT09UY9W4NVDKR9Hkg
+ a+qYxNAviyYwMOQiB2hPv+rhKM7AMAmDD2DbOV3UaW+NIxAFUrCK/7wn4arJAwvL20rc7Plqq6DOaoxQW0IeazmOynuZjtKG7vOWanwkDv8Dy81kUXJz2TRw
+ A98aGs49XrGCwUBoSyPANKkVLIThLhFOpbFjHXJigrI56FCF4i5CPE/sW+9yft4Fzsw4/OWCNlVYtFGUPjthKo3eN1ifKBIoZCFk8NEVZgcz+/qXlqFRgWLk
+ fvmyn/dQzshzuqGfxjd+GEWY4GymmulB0+7tZhyPHgUVBJghPfRKUNyhhcq2Xu/rU808RhuuLRpvDsskEfKDqfYhLAVimMMdoa6tVgHW2u7qAUURgcKCchUZ
+ 2JbWhCTFJW3iPgCh7EQYmY8Q2NzEZomvywfunnw8/O3EJ30YCuMdQHUYzwrJkjGmuBwVkcM50nXNQsldL103nFTq8x/GsuzwHACgBRF3vE7So7UKAAsHJffY
+ D8C8+hAeAqXWlXGr71ctDJ2XrJBTtwqP
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Junhao He <hejunhao2@hisilicon.com>
+On 09/02/21 12:08, Yicong Yang wrote:
+> From: Junhao He <hejunhao2@hisilicon.com>
+> 
+> We use ccflags-$(CONFIG_PPS_DEBUG) for the debug
+> message in drivers/pps, but the DEBUG flag will not pass to
+> the subdirectory.
+> 
+> Considering CONFIG_HWMON_DEBUG_CHIP intends to turn on debug
+> recursively under driver/pps, so it will be clearer to use
+> subdir-ccflags-* instead of ccflags-* to inherit
+> the debug settings from Kconfig when traversing subdirectories.
+> 
+> Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
+> Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> ---
+>  drivers/pps/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pps/Makefile b/drivers/pps/Makefile
+> index ceaf65c..7a2d3f7 100644
+> --- a/drivers/pps/Makefile
+> +++ b/drivers/pps/Makefile
+> @@ -8,4 +8,4 @@ pps_core-$(CONFIG_NTP_PPS)	+= kc.o
+>  obj-$(CONFIG_PPS)		:= pps_core.o
+>  obj-y				+= clients/ generators/
+>  
+> -ccflags-$(CONFIG_PPS_DEBUG) := -DDEBUG
+> +subdir-ccflags-$(CONFIG_PPS_DEBUG) := -DDEBUG
+> 
 
-As CONFIG_COMEDI_DEBUG intends to have the DEBUG flag
-recursively under drivers/staging/comedi, use
-subdir-ccflags-* instead of ccflags-* will make it
-clearer as the DEBUG flag will be inherited when
-traversing subdirectories.
+Acked-by: Rodolfo Giometti <giometti@enneenne.com>
 
-Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- drivers/staging/comedi/Makefile               | 2 +-
- drivers/staging/comedi/drivers/Makefile       | 1 -
- drivers/staging/comedi/drivers/tests/Makefile | 2 --
- drivers/staging/comedi/kcomedilib/Makefile    | 2 --
- 4 files changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/staging/comedi/Makefile b/drivers/staging/comedi/Makefile
-index 072ed83..f51cc14 100644
---- a/drivers/staging/comedi/Makefile
-+++ b/drivers/staging/comedi/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--ccflags-$(CONFIG_COMEDI_DEBUG)		:= -DDEBUG
-+subdir-ccflags-$(CONFIG_COMEDI_DEBUG)	:= -DDEBUG
- 
- comedi-y				:= comedi_fops.o range.o drivers.o \
- 					   comedi_buf.o
-diff --git a/drivers/staging/comedi/drivers/Makefile b/drivers/staging/comedi/drivers/Makefile
-index b24ac00..7cafc36 100644
---- a/drivers/staging/comedi/drivers/Makefile
-+++ b/drivers/staging/comedi/drivers/Makefile
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for individual comedi drivers
- #
--ccflags-$(CONFIG_COMEDI_DEBUG)		:= -DDEBUG
- 
- # Comedi "helper" modules
- obj-$(CONFIG_COMEDI_8254)		+= comedi_8254.o
-diff --git a/drivers/staging/comedi/drivers/tests/Makefile b/drivers/staging/comedi/drivers/tests/Makefile
-index b5d8e13..44ac13d 100644
---- a/drivers/staging/comedi/drivers/tests/Makefile
-+++ b/drivers/staging/comedi/drivers/tests/Makefile
-@@ -1,7 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for comedi drivers unit tests
- #
--ccflags-$(CONFIG_COMEDI_DEBUG)		:= -DDEBUG
--
- obj-$(CONFIG_COMEDI_TESTS)		+= example_test.o ni_routes_test.o
- CFLAGS_ni_routes_test.o			:= -DDEBUG
-diff --git a/drivers/staging/comedi/kcomedilib/Makefile b/drivers/staging/comedi/kcomedilib/Makefile
-index 8031142..9f20318 100644
---- a/drivers/staging/comedi/kcomedilib/Makefile
-+++ b/drivers/staging/comedi/kcomedilib/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--ccflags-$(CONFIG_COMEDI_DEBUG)		:= -DDEBUG
--
- obj-$(CONFIG_COMEDI_KCOMEDILIB)	+= kcomedilib.o
- 
- kcomedilib-objs := kcomedilib_main.o
 -- 
-2.8.1
-
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming                     skype:  rodolfo.giometti
