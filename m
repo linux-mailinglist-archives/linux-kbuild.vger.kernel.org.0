@@ -2,151 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7A383145F8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 03:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 107973147C3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 06:02:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbhBICAD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Feb 2021 21:00:03 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:58418 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhBICAB (ORCPT
+        id S229631AbhBIFCO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 00:02:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhBIFCN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Feb 2021 21:00:01 -0500
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 1191x2xo032373;
-        Tue, 9 Feb 2021 10:59:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1191x2xo032373
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1612835944;
-        bh=rkuFABRQ1YCSp/qNK4UblSQCDbPbTo38udmlFYYW5l0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hwGEI5xNO1wf/5Zquiz3x3xBNMGppVm1NAat+25eX4mhCaOEF7075PtVFRpX1/1V+
-         MROQh84R52cfwNrpItBUnk9Vc2+zf+eFKtxcdTksd/Rt//XFAzem69fVDEl16Da2Nf
-         HCpiepOgS6xRqpcjcTGqRaLyLBpqCCyQdqU7Q9UATSMfLA1qV/JmrDXqp1jCf+Nq25
-         CR2NtIePCDYNCURASOHsoQGD2pPMV00rPz6JgowcDTl53uCKFBCwUDLd4tBHSPLQeo
-         7A7+9lJ4CmZy/J8DsH8+kK2PITE30BksU/N3I1p3t4xNc0ToiA2w7FqZIKsQaDQGge
-         4We4Aj00/W3yw==
-X-Nifty-SrcIP: [209.85.167.50]
-Received: by mail-lf1-f50.google.com with SMTP id r65so2547812lff.6;
-        Mon, 08 Feb 2021 17:59:03 -0800 (PST)
-X-Gm-Message-State: AOAM5317Lyl57fHt+7HEvvLOE2j3mI8UW7YluYXdUJdhSwoMxDwHg6Ra
-        XwQADzzkx3TPk7DkdwQswZEVLvLth0Bk99/ABXU=
-X-Google-Smtp-Source: ABdhPJwZCPVt7aSG/IAG6aD42AKXKWfZkFsl9WcFbcFQa+g1MvNb8wUgw7RX9fwee8xhlBaZdXr3suSCTkqBuJk/szE=
-X-Received: by 2002:a19:f20f:: with SMTP id q15mr8398441lfh.227.1612835942027;
- Mon, 08 Feb 2021 17:59:02 -0800 (PST)
+        Tue, 9 Feb 2021 00:02:13 -0500
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E683C06178A
+        for <linux-kbuild@vger.kernel.org>; Mon,  8 Feb 2021 21:01:33 -0800 (PST)
+Received: by mail-ot1-x331.google.com with SMTP id q4so6766474otm.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Feb 2021 21:01:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPCpkVfjovuH2xLzjNVIxVsQ7nWqp6967gETifn4yFs=;
+        b=jkkHHFNNSBV/BmiP/s2hQdSjYrydl3P2pNC2VeHDwm1yhKAjgxIEgrJG1dlEU/p1E0
+         PoKFBHEvt1yK1Dzk6zwoMXEv8Kovl0MVm1a1VKR242c/OE/sgqN4wV8DY6e0to7KK9KH
+         MOm8jpmXs39ZPeNNDRCjM1eUwBQjgD3V7sqTGEaKsYltPIS37T2bX8sJF0pSO6huK2ei
+         CQYH3Or4S9ZbCSb9os1F559uylmPUH5PeJEKrbQBCrvOfKHAaA268Rg5bNOqAFun2dn8
+         1EmzBgwO2VDp6orPXbfXT2QWu1wRW/BIn/ZV9enmI0dS0e25rZovR7BXwJTBZ4jxyT5T
+         TmVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPCpkVfjovuH2xLzjNVIxVsQ7nWqp6967gETifn4yFs=;
+        b=ePPbJSoaAYUnWmsWlhJZ1sI5b4OaMu1Y1I6wcHgOd4UoKce7c/CwC1M81kpCXgNyrR
+         azVwu7PcE7W3xtejjJk9Ax1C1lg2UQw35a/elYhJiuifj4KWTJYcLhAwnTsm9ROrd4mO
+         74wqDdO750BumP3+r1h51LcdtR9LgZgyIDbwpvqucXGiUzTIBK+viL8q+bCT5GoiXt/+
+         876yEJ+XVS3k1Up0uWUgLdab2jSQgPrP+krJ/MJ/AMJop03lgXZweVM13NDlgwn0Jv7T
+         6iD3VFEKWxhVnRJ0AWgggMxy104eI9BjXGFfYae3PEbPj7NSq7dTMVCvPqPr5CwltSdD
+         Wptg==
+X-Gm-Message-State: AOAM532xDYO4v/1l8epyTd+TVOsQeWSoEYi8WKBLDsb9vl9SholbUyFz
+        VsgPr9CgcSMT2atrt16Vv6H3elXC0Ir8gw==
+X-Google-Smtp-Source: ABdhPJx7LAMxCgyYafmO+tqrCg4OiyhIKIMStx1wd2Jc0UfhSVchmsvBakWI7k5MCXJL/3XVD7EuDA==
+X-Received: by 2002:a05:6830:1110:: with SMTP id w16mr14772313otq.326.1612846892406;
+        Mon, 08 Feb 2021 21:01:32 -0800 (PST)
+Received: from alago.cortijodelrio.net (CableLink-189-219-72-83.Hosts.InterCable.net. [189.219.72.83])
+        by smtp.googlemail.com with ESMTPSA id o14sm3338831otl.68.2021.02.08.21.01.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 21:01:31 -0800 (PST)
+From:   =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rolf Eike Beer <eb@emlix.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org (open list)
+Cc:     =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
+        stable@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>
+Subject: [PATCH] scripts: Fix linking extract-cert against libcrypto
+Date:   Mon,  8 Feb 2021 22:59:56 -0600
+Message-Id: <20210209050047.1958473-1-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210206035033.2036180-1-sashal@kernel.org> <20210206035033.2036180-2-sashal@kernel.org>
- <f8aa21157d0848cda0775a174bba05b2@AcuMS.aculab.com>
-In-Reply-To: <f8aa21157d0848cda0775a174bba05b2@AcuMS.aculab.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 9 Feb 2021 10:58:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATDts980vwwUOHV4V-HcrYgXMZueFCYzL6ayP3LZegqNA@mail.gmail.com>
-Message-ID: <CAK7LNATDts980vwwUOHV4V-HcrYgXMZueFCYzL6ayP3LZegqNA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: clamp SUBLEVEL to 255
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Sasha Levin <sashal@kernel.org>,
-        "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 8, 2021 at 10:48 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Sasha Levin
-> > Sent: 06 February 2021 03:51
-> >
-> > Right now if SUBLEVEL becomes larger than 255 it will overflow into the
-> > territory of PATCHLEVEL, causing havoc in userspace that tests for
-> > specific kernel version.
-> >
-> > While userspace code tests for MAJOR and PATCHLEVEL, it doesn't test
-> > SUBLEVEL at any point as ABI changes don't happen in the context of
-> > stable tree.
-> >
-> > Thus, to avoid overflows, simply clamp SUBLEVEL to it's maximum value in
-> > the context of LINUX_VERSION_CODE. This does not affect "make
-> > kernelversion" and such.
-> >
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  Makefile | 12 +++++++++---
-> >  1 file changed, 9 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 49ac1b7fe8e99..157be50c691e5 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1258,9 +1258,15 @@ define filechk_utsrelease.h
-> >  endef
-> >
-> >  define filechk_version.h
-> > -     echo \#define LINUX_VERSION_CODE $(shell                         \
-> > -     expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL)); \
-> > -     echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))'
-> > +     if [ $(SUBLEVEL) -gt 255 ]; then                                 \
-> > +             echo \#define LINUX_VERSION_CODE $(shell                 \
-> > +             expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 255); \
-> > +     else                                                             \
-> > +             echo \#define LINUX_VERSION_CODE $(shell                 \
-> > +             expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + $(SUBLEVEL)); \
-> > +     fi;                                                              \
-> > +     echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) +  \
-> > +     ((c) > 255 ? 255 : (c)))'
-> >  endef
->
-> Why not use KERNEL_VERSION to define LINUX_VERSION_CODE ?
-> Basically just:
->         echo '#define LINUX_VERSION_CODE KERNEL_VERSION($(VERSION), $(PATCHLEVEL)+0, $(SUBLEVEL)+0)'
+When compiling under OpenEmbedded, the following error is seen
+as of recently:
 
+  /srv/oe/build/tmp/hosttools/ld: cannot find /lib/libc.so.6 inside /
+  /srv/oe/build/tmp/hosttools/ld: cannot find /usr/lib/libc_nonshared.a inside /
+  /srv/oe/build/tmp/hosttools/ld: cannot find /lib/ld-linux-x86-64.so.2 inside /
+  collect2: error: ld returned 1 exit status
+  make[2]: *** [scripts/Makefile.host:95: scripts/extract-cert] Error 1
 
+This is because 2cea4a7a1885 ("scripts: use pkg-config to
+locate libcrypto") now calls for `pkg-config --libs libcrypto`
+and inserts that into the Makefile rules as LDLIBS when
+building extract-cert.c.
 
+The problem is that --libs will include both -l and -L, which
+will be out of order when compiling/linking.
 
-It was not possible to macrofy LINUX_VERSION_CODE.
-(build error when CONFIG_KALLSYMS is disabled)
+This (very ugly) command is what's produced with OpenEmbedded:
 
+  gcc -Wp,-MMD,scripts/.extract-cert.d -Wall -Wmissing-prototypes -Wstrict-prototypes \
+    -O2 -fomit-frame-pointer -std=gnu89 \
+    -isystem/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/usr/include \
+    -O2 -pipe -L/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/usr/lib \
+    -L/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/lib \
+    -Wl,-rpath-link,/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/usr/lib \
+    -Wl,-rpath-link,/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/lib \
+    -Wl,-rpath,/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/usr/lib \
+    -Wl,-rpath,/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/lib \
+    -Wl,-O1 -I/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot-native/usr/include \
+    -I ./scripts -o scripts/extract-cert \
+    /oe/build/tmp/work-shared/intel-corei7-64/kernel-source/scripts/extract-cert.c \
+    -L/oe/build/tmp/work/MACHINE/linux/5.10+gitAUTOINC+b01f250d83-r0/recipe-sysroot/usr//lib \
+    -lcrypto
 
-Presumably, this restriction will go away
-with the following commit in linux-next.
+As per `make`'s documentation:
 
+  LDFLAGS
+    Extra flags to give to compilers when they are supposed to
+    invoke the linker, ‘ld’, such as -L. Libraries (-lfoo)
+    should be added to the LDLIBS variable instead.
 
+  LDLIBS
+    Library flags or names given to compilers when they are
+    supposed to invoke the linker, ‘ld’. LOADLIBES is a
+    deprecated (but still supported) alternative to LDLIBS.
+    Non-library linker flags, such as -L, should go in the
+    LDFLAGS variable.
 
-commit e06af0b2ba02fc0cc2219a14c4c04ff0296a6f9f
-Author: Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu Jan 28 18:42:30 2021 +1100
+Fixes: 2cea4a7a1885 ("scripts: use pkg-config to locate libcrypto")
+Cc: stable@vger.kernel.org # 5.6.x
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+ scripts/Makefile | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-    init/version.c: remove Version_<LINUX_VERSION_CODE> symbol
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 9de3c03b94aa..4b4e938b4ba7 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -3,7 +3,8 @@
+ # scripts contains sources for various helper programs used throughout
+ # the kernel for the build process.
+ 
+-CRYPTO_LIBS = $(shell pkg-config --libs libcrypto 2> /dev/null || echo -lcrypto)
++CRYPTO_LDFLAGS = $(shell pkg-config --libs-only-L libcrypto 2> /dev/null)
++CRYPTO_LDLIBS = $(shell pkg-config --libs-only-l libcrypto 2> /dev/null || echo -lcrypto)
+ CRYPTO_CFLAGS = $(shell pkg-config --cflags libcrypto 2> /dev/null)
+ 
+ hostprogs-always-$(CONFIG_BUILD_BIN2C)			+= bin2c
+@@ -17,9 +18,11 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+ 
+ HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
+ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+-HOSTLDLIBS_sign-file = $(CRYPTO_LIBS)
++HOSTLDFLAGS_sign-file = $(CRYPTO_LDFLAGS)
++HOSTLDLIBS_sign-file = $(CRYPTO_LDLIBS)
+ HOSTCFLAGS_extract-cert.o = $(CRYPTO_CFLAGS)
+-HOSTLDLIBS_extract-cert = $(CRYPTO_LIBS)
++HOSTLDFLAGS_extract-cert = $(CRYPTO_LDFLAGS)
++HOSTLDLIBS_extract-cert = $(CRYPTO_LDLIBS)
+ 
+ ifdef CONFIG_UNWINDER_ORC
+ ifeq ($(ARCH),x86_64)
+-- 
+2.25.1
 
-
-
-
-
-My plan is to refactor LINUX_VERSION_CODE in the next
-development cycle.
-
-
-
-
-
-
-> If PATCHLEVEL and SUBLEVEL are guaranteed to be non-empty the +0
-> can be removed.
-> The patch assumes they are non-empty, the original pre-prended 0
-> to stop syntax error for empty version strings.
->
-> Note that the expr version will process 08 and 09.
-> gcc will treat them as octal, and may error them.
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
->
---
-Best Regards
-Masahiro Yamada
