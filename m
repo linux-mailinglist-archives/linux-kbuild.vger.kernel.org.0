@@ -2,118 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98312315260
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 16:08:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBCBA315453
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 17:50:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232060AbhBIPHo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 10:07:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49656 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232014AbhBIPHm (ORCPT
+        id S233086AbhBIQtg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 11:49:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47667 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233200AbhBIQrw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 10:07:42 -0500
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64E3C06178A;
-        Tue,  9 Feb 2021 07:07:01 -0800 (PST)
-Received: by mail-oo1-xc2d.google.com with SMTP id 123so4311658ooi.13;
-        Tue, 09 Feb 2021 07:07:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bjxmsAAlaEuDY9+PSLnzX23gCEFtWGdplw8kECzDAe0=;
-        b=j0Lv1K0lAyO/aXssmrb2JSZHcKCXRO4dHOzcsVMzGZ65kKP2JFgGXgG/PaJsPQmWyL
-         PH8Szb7vv3OS37Av5B78PgUF9qUpBk+6szQZ0Mfc8jSxBierincFetlK43SpuOzrUSix
-         JDDATP8QCbQ/aXeHyIJqqZd7pJSUDfMkAMtY2cLwiTzpZBSQR2VGEVrGoEiA/22eFBBo
-         +2ZJvXCwq/arwcW35AZo8Y99RUJ3pHuVD2TUi39R4P3fZW+D3AHUywDpJIcez+2zvwAw
-         fDD91rMnpF03sjoHuA3XsLqaWXEjraCCqrggCHNCij4oj5FWSNRnCtWAs9gcs4N0aJNk
-         ZQ/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bjxmsAAlaEuDY9+PSLnzX23gCEFtWGdplw8kECzDAe0=;
-        b=YJIY52PEM4ulXD/cjpIJtQfHfoIPkiYCOukIwyFI4G/+FxhMVrs51yjRk5sQDco0iz
-         pLzXaKIpLSq7yQZ257pRcGzizqprQmAiTYOiFQ2o8uzflnEoqiGYKAL42DLOY0EQhS/z
-         +XFLy6Ck4IWtnLqVRs8ZodsxW7WmKPXFPzKcCorvcf/3/1rK4yK7mZ4tE0wniSm8rPr5
-         qD+tK3EWaPPGGJnxlIPgHAbOKTwbxKDyAVN3e1hr6TECp5FlLStbQJryHDjk11Q9g3Sg
-         cgJSkTxeIhjnnyzw58HyBbUhNPzAUFxBMJg0eNmFD8los4gYCiof/3AUlkn4lVZwqaKh
-         tk3w==
-X-Gm-Message-State: AOAM532ZyTEl8RsS3B/kVAaNRyYBXgIc9vrVHUYsHaw9adMndNOHblzF
-        pJ7fuUa1r2/NHQ1cfcRiJVg=
-X-Google-Smtp-Source: ABdhPJzdEtSfPGrXG09x+Nc8Hru0U15ym9pUPhGZOCl+C3Q5W19I9KAYsqOfSP9595rJ8B9hyn1HDA==
-X-Received: by 2002:a4a:97a7:: with SMTP id w36mr1076981ooi.64.1612883221140;
-        Tue, 09 Feb 2021 07:07:01 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p23sm4534821otk.51.2021.02.09.07.06.59
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 09 Feb 2021 07:07:00 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 9 Feb 2021 07:06:58 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Yicong Yang <yangyicong@hisilicon.com>
-Cc:     gregkh@linuxfoundation.org, jdelvare@suse.com,
-        giometti@enneenne.com, abbotti@mev.co.uk,
-        hsweeten@visionengravers.com, kw@linux.com, helgaas@kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, prime.zeng@huawei.com,
-        linuxarm@openeuler.org
-Subject: Re: [PATCH v2 2/4] hwmon: Use subdir-ccflags-* to inherit debug flag
-Message-ID: <20210209150658.GA31002@roeck-us.net>
-References: <1612868899-9185-1-git-send-email-yangyicong@hisilicon.com>
- <1612868899-9185-3-git-send-email-yangyicong@hisilicon.com>
+        Tue, 9 Feb 2021 11:47:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612889186;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9bKjwgbZ1EP33vL7JsMvHcw8xSOrDL2Zn14AJKji9VU=;
+        b=R+RjCt/NJDlo9uyxze+EHMXseJGc7qULXCph8rscMJv0RJwvefik0Z6VSyjGZ08pBuGv4m
+        kbPAtzWLQppiNwWzt7nlJLyGP8IOTGLppfPWJiW5WyfVe4lwsw6kI8Z4O7JSZ9WtevdCX9
+        aVyl8Z3SXYNj7Af3gfqFAMaY7/0NQK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-alYt63OcOQKjNdkohcNTEQ-1; Tue, 09 Feb 2021 11:46:23 -0500
+X-MC-Unique: alYt63OcOQKjNdkohcNTEQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A03107ACE8;
+        Tue,  9 Feb 2021 16:46:21 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-115-23.rdu2.redhat.com [10.10.115.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7C58A5D705;
+        Tue,  9 Feb 2021 16:46:14 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <5055b9b4-2808-8816-d50c-e651bd88a7c3@digikod.net>
+References: <5055b9b4-2808-8816-d50c-e651bd88a7c3@digikod.net> <74EC102D-BD18-4863-A7FB-C88439654C8C@oracle.com> <20210122181054.32635-1-eric.snowberg@oracle.com> <1103491.1612369600@warthog.procyon.org.uk> <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net> <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com> <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net> <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com> <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net> <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com> <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net> <525705.1612876446@warthog.procyon.org.uk>
+To:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FMicka=3Dc3=3Dabl=5FSala=3Dc3=3Dbcn=3F?=
+         =?us-ascii?Q?=3D?= <mic@digikod.net>,
+        Eric Snowberg <eric.snowberg@oracle.com>
+Cc:     dhowells@redhat.com, dwmw2@infradead.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+Subject: Re: Re: Conflict with =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn's?=
+ blacklist patches [was [PATCH v5 0/4] Add EFI_CERT_X509_GUID support for
+ dbx/mokx entries]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1612868899-9185-3-git-send-email-yangyicong@hisilicon.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date:   Tue, 09 Feb 2021 16:46:13 +0000
+Message-ID: <595105.1612889173@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 07:08:17PM +0800, Yicong Yang wrote:
-> From: Junhao He <hejunhao2@hisilicon.com>
-> 
-> We use ccflags-$(CONFIG_HWMON_DEBUG_CHIP) for the debug
-> message in drivers/hwmon, but the DEBUG flag will not pass to
-> the subdirectory.
-> 
-> Considering CONFIG_HWMON_DEBUG_CHIP intends to have DEBUG
-> recursively in driver/hwmon. It will be clearer
-> to use subdir-ccflags-* instead of ccflags-* to inherit
-> the debug settings from Kconfig when traversing subdirectories,
-> and it will avoid omittance of DEBUG define when debug messages
-> added in the subdirectories.
-> 
+Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> wrote:
 
-The above paragraph doesn't add clarity and may as well be dropped.
-On the other side, the commit message still doesn't mention that
-pr_debug depends on DEBUG, which I am sure many people don't know
-or remember. This is the prime reason why this patch is acceptable,
-so it most definitely needs to be mentioned here.
+> The only commit causing issues is commit f78e50c8f750 ("certs: Factor
+> out the blacklist hash creation"). I think my last patch fix the issue,
+> and I'm testing with the UEFI DBX, but I don't understand why this
+> change would have an impact. In the meantime you can push Eric's commits
+> first, I'll adapt my changes.
 
-Guenter
+Okay.  In that case, I've dropped your branch from my keys-next branch for =
+the
+moment and remerged Eric's branch.
 
-> Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
-> Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->  drivers/hwmon/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index 09a86c5..1c0c089 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -201,5 +201,5 @@ obj-$(CONFIG_SENSORS_XGENE)	+= xgene-hwmon.o
->  obj-$(CONFIG_SENSORS_OCC)	+= occ/
->  obj-$(CONFIG_PMBUS)		+= pmbus/
->  
-> -ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
-> +subdir-ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
->  
-> -- 
-> 2.8.1
-> 
+David
+
