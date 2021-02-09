@@ -2,64 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2800D31595B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Feb 2021 23:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C791A3159F3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 00:21:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234306AbhBIWWd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Feb 2021 17:22:33 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:50631 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S233932AbhBIWKw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Feb 2021 17:10:52 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
-        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Mon, 1 Feb 2021 08:50:14 +0000
-Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Mon, 1 Feb 2021 08:50:13 -0000
+        id S234284AbhBIXUH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Feb 2021 18:20:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33420 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234349AbhBIWq5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 9 Feb 2021 17:46:57 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 92F1664E8B;
+        Tue,  9 Feb 2021 21:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612905913;
+        bh=3l1Lx2Zsd3+a58rOtqbr6Ig2BO03fAiJHekglj/tm5I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=oU9cIGGZ9+lvTz3ixoLQmevdhcqk5X5fN7zKiSKQ9km0FZCUZTRPHvOTCIzbD6M1W
+         vnXE7cYSpKccas23kLuH6Wzm/8zSNH+onxHtt3UcPAj45dzkspoajXUixWJewEyJcV
+         kOpAOQYYtuAuT/KyCLv7SWI8f46g/QkS6iar7Bg1GoH1e4n0uNJ78gI9Z7EDkafhlF
+         N3k8hhiGuc7Rd28WV7BRooYCOpOPs7RNOIgJ2NYsuRiCMumVKv29td6rVNfiX87xdh
+         Mp+OIUhUbzvT7WZHChGByhuK99QBjCHzvcLR4uhgnVvJH4mJZgKjwKkFD9lbErj1E4
+         pKVsL82XoRPBQ==
+Date:   Tue, 9 Feb 2021 15:25:10 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yicong Yang <yangyicong@hisilicon.com>
+Cc:     linux-pci@vger.kernel.org, prime.zeng@huawei.com,
+        linuxarm@openeuler.org, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: Use subdir-ccflags-* to inherit debug flag
+Message-ID: <20210209212510.GA513360@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1612438215-33105-1-git-send-email-yangyicong@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+[+cc Masahiro, Michal, linux-kbuild, linux-kernel]
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+On Thu, Feb 04, 2021 at 07:30:15PM +0800, Yicong Yang wrote:
+> From: Junhao He <hejunhao2@hisilicon.com>
+> 
+> Use subdir-ccflags-* instead of ccflags-* to inherit the debug
+> settings from Kconfig when traversing subdirectories.
+> 
+> Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+I applied this with Krzysztof's reviewed-by and the commit log below
+to pci/misc for v5.12, thanks!
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Feel free to copy or improve the commit log for use elsewhere.
 
-Regards,
-Ms. Reem.
+> ---
+>  drivers/pci/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 11cc794..d62c4ac 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -36,4 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+>  obj-y				+= controller/
+>  obj-y				+= switch/
+>  
+> -ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+> +subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
 
+commit e8e9aababe60 ("PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy")
+Author: Junhao He <hejunhao2@hisilicon.com>
+Date:   Thu Feb 4 19:30:15 2021 +0800
+
+    PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy
+    
+    CONFIG_PCI_DEBUG=y adds -DDEBUG to CFLAGS, which enables things like
+    pr_debug() and dev_dbg() (and hence pci_dbg()).  Previously we added
+    -DDEBUG for files in drivers/pci/, but not files in subdirectories of
+    drivers/pci/.
+    
+    Add -DDEBUG to CFLAGS for all files below drivers/pci/ so CONFIG_PCI_DEBUG
+    applies to the entire hierarchy.
+    
+    [bhelgaas: commit log]
+    Link: https://lore.kernel.org/r/1612438215-33105-1-git-send-email-yangyicong@hisilicon.com
+    Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+    Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+    Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+    Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+
+diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+index 11cc79411e2d..d62c4ac4ae1b 100644
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -36,4 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+ obj-y				+= controller/
+ obj-y				+= switch/
+ 
+-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
++subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
