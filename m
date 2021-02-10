@@ -2,31 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D261B316DD4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 19:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 771FA316E52
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 19:19:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233896AbhBJSFX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Feb 2021 13:05:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233790AbhBJSC7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Feb 2021 13:02:59 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D03E64DD6;
-        Wed, 10 Feb 2021 18:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612980137;
-        bh=bpdU7SzB+UU1APn0byqAKfJjordQigirM2QSD7DDDK0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IruwRr6Regxi3btAXsedZ4NszJ3zi6NV+nAJnRO3QV5znXCxEDkbNtImFER74BUQd
-         DVFiWMOi3gf7g/9FlSTD8Oie0a90lhUZaa9XByKfZhpgBP3/QkhdayyBEbcrBsI8rI
-         KnTHE0+SP2GNPxIeavlUKbRmhiDk0d6anZMh5/rWQFcdPy4P7ji9CuTmPSvroEd4vV
-         ZpXbLO9T42GVXwAwg06/aUezAsrC+rZFd/3AcP2m+shndGjXobhMMVeTaPRdx0ngE2
-         9onvJQH7DAyHsjjbPAe8If6T4o3tSNixyfUl/fTgry68gqFRnY9hf4IAPy4DCUd475
-         +IYL03jU50Mzw==
-Date:   Wed, 10 Feb 2021 11:02:15 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
+        id S233779AbhBJSRk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Feb 2021 13:17:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60275 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233932AbhBJSPm (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 10 Feb 2021 13:15:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612980853;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8BHhQnnib6OW3euOQVL0avOgwILgxfcY0AqmDLBpsB4=;
+        b=fjgcuVu+5A5gPGU5fZy1YDuHfCDRZxmdwtcW/GYWLlf002JZAyCdEuaE45h7WaXKwk0vh1
+        AsKMVMTyBreXeNQ/OBeRocr6LMTLClxu8OJm8ehw5pSYQ+UkCC8D48TGh3YqX7+NgzbzoZ
+        lpAjx9YT42y1z6DYqPyLVEbyjV489eo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-_F92rimjN8OXypxoHJ_Exg-1; Wed, 10 Feb 2021 13:14:09 -0500
+X-MC-Unique: _F92rimjN8OXypxoHJ_Exg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC322100CCC0;
+        Wed, 10 Feb 2021 18:14:06 +0000 (UTC)
+Received: from krava (unknown [10.40.195.206])
+        by smtp.corp.redhat.com (Postfix) with SMTP id C0FDB60657;
+        Wed, 10 Feb 2021 18:14:02 +0000 (UTC)
+Date:   Wed, 10 Feb 2021 19:14:01 +0100
+From:   Jiri Olsa <jolsa@redhat.com>
 To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andriin@fb.com>,
         Song Liu <songliubraving@fb.com>,
@@ -39,7 +51,7 @@ Cc:     Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Subject: Re: [PATCH bpf-next 4/4] kbuild: Add resolve_btfids clean to root
  clean target
-Message-ID: <20210210180215.GA2374611@ubuntu-m3-large-x86>
+Message-ID: <YCQiaRNQFAq4lw79@krava>
 References: <20210205124020.683286-1-jolsa@kernel.org>
  <20210205124020.683286-5-jolsa@kernel.org>
  <20210210174451.GA1943051@ubuntu-m3-large-x86>
@@ -48,6 +60,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAEf4BzZvz4-STv3OQxyNDiFKkrFM-+GOM-yXURzoDtXiRiuT_g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -107,21 +120,18 @@ On Wed, Feb 10, 2021 at 09:52:42AM -0800, Andrii Nakryiko wrote:
 > Can't reproduce it. It works in all kinds of variants (relative and
 > absolute O=, clean and not clean trees, etc). Jiri, please check as
 > well.
-> 
 
-Odd, this reproduces for me on a completely clean checkout of bpf-next:
+I can reproduce if I set O=XXX to directory that does not contain kernel build
 
-$ git clone --depth=1 https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/
+	$ mkdir /tmp/krava
+	$ make O=/tmp/krava distclean
+	make[1]: Entering directory '/tmp/krava'
+	../../scripts/Makefile.include:4: *** O=/tmp/krava/tools/bpf/resolve_btfids does not exist.  Stop.
+	make[1]: *** [/home/jolsa/linux/Makefile:1092: resolve_btfids_clean] Error 2
+	make[1]: Leaving directory '/tmp/krava'
+	make: *** [Makefile:185: __sub-make] Error 2
 
-$ cd bpf-next
+will check on fix
 
-$ make -s O=build distclean
-../../scripts/Makefile.include:4: *** O=/tmp/bpf-next/build/tools/bpf/resolve_btfids does not exist.  Stop.
+jirka
 
-I do not really see how this could be environment related. It seems like
-this comes from tools/scripts/Makefile.include, where there is no
-guarantee that $(O) is created before being used like in the main
-Makefile?
-
-Cheers,
-Nathan
