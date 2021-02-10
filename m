@@ -2,178 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A993164EA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 12:17:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B183931656F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 12:45:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbhBJLRZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Feb 2021 06:17:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56156 "EHLO
+        id S229789AbhBJLoy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Feb 2021 06:44:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230295AbhBJLPI (ORCPT
+        with ESMTP id S230268AbhBJLmg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Feb 2021 06:15:08 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515E3C061356
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:13:49 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id j12so1028692pfj.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:13:49 -0800 (PST)
+        Wed, 10 Feb 2021 06:42:36 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A98C061222
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:42:07 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id i9so1572715wmq.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QRU7LnSUwsy2J1LUcByliifcDkevWGi1e/7l1FGxdFY=;
-        b=g7X4InNpSo7NEg4suX2BeSEGrpDV26yKM5BqqZkeSr/4o8ywcQXQzv0aC+/MBYnZd0
-         fC+ipxMjsvmPhwCK0C5bZtf687ZxDgvraWUybv5VE2h69zapWBR6go6VRRNMfnqFedzm
-         i/jJeZqWKTKdiikUrO6ZTVg93qXjEOyw+Rvxgk1qkRAhjygrQCm/a6SeduOz2oMzyuA9
-         WsmEEcrFAQ1ROZED540Fi9yBr2c2iM3gTEnogjMHya+lLRRWSszNqIGT7To5jU9lLCA3
-         0LOprTGRy5auRvpHEzViCdbWROCyc4uyiV54ILrBfgk/R2xVaEEUY2OifQVQuN7e4eJI
-         5ksw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=IN+db2cORNt7VkGGcBYrI5DAOlBAd7luCiB6c6UTORg=;
+        b=A+lqcb1Mco2IH4sWZvbvEORyp44FjHIA2kKgYhWKHPRcBkihslWgY+eyCxjObLl4xM
+         IJdLu77vzz0H46AfAyGLrLZ3P1y6a5z1GwgMJhI4clGjeFf+PyAsCenM3g5U2vflKhew
+         Ju+igjclW8aHFZvW5zgCxQyfWMS4Xu5pD9ywx63JFAYNlS4WSR6nbO70ZKcfoghRGb4z
+         Rf0JtLIheyrZWr3WvWIiahz7R05/j8oqaJTIUkNIo+kjiEWRTPpEAZUcmb+bwwR3TthY
+         w8gny9neoDuQOvARwJ0yj7al35enKLxoqYkPmwR0BkgrFFw+H8Knypppuo27DmWcolMY
+         g6AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QRU7LnSUwsy2J1LUcByliifcDkevWGi1e/7l1FGxdFY=;
-        b=mQ7ctk9h1q7mY3js7nE+quzcIGbi2YiTRMNnZPNqzRANwqjVSXLodrXArAPV0xDry9
-         dar9ZAZLdXVoybJUf7a8OOxQRYPLJTuY27FImcLbBkC/G9Cs/LAqkYOpeu1u5SLMpgVq
-         f1gm5IJcVgIOCw7OWUziZAuz9MQEKuvcun4wvqaLpC3EGUNJYFXoHaxVmWcnDhFKBsX+
-         z1BUkvpCWxkZV28Nt4wESYvOPT5b8vmlK+VznBScZijK0nAS4M1+JEwV2rsL5Rq7i5TS
-         5FUWLyojC4heO2s6k2hXdOOwvT5k2X003Y5XMOEvHd6MAoSYjbrtVkSKXqwXUCqBb7tl
-         /HBg==
-X-Gm-Message-State: AOAM531LjtkGqsJvViRvyUMZxQ2UavOGuJjDEGOa1HiGFa7R1XxZUfmM
-        Fu4h794pTGVDwFGCE7PyUp9oHQ==
-X-Google-Smtp-Source: ABdhPJzBP3OqpqSZEkEdtiGKaG9/SUHfEWELDMOS7uSdecD3j4DWi5Q3ln5ROFTnJM+FPHtphI9LuA==
-X-Received: by 2002:a63:c741:: with SMTP id v1mr2603957pgg.316.1612955628899;
-        Wed, 10 Feb 2021 03:13:48 -0800 (PST)
-Received: from localhost ([122.172.59.240])
-        by smtp.gmail.com with ESMTPSA id e26sm2108659pfm.87.2021.02.10.03.13.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Feb 2021 03:13:48 -0800 (PST)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        anmar.oueja@linaro.org, Bill Mills <bill.mills@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: [PATCH V7 3/3] of: unittest: Statically apply overlays using fdtoverlay
-Date:   Wed, 10 Feb 2021 16:43:30 +0530
-Message-Id: <72f0396f0eeed6dad25527368ee9e471312f9a59.1612955268.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <cover.1612955268.git.viresh.kumar@linaro.org>
-References: <cover.1612955268.git.viresh.kumar@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IN+db2cORNt7VkGGcBYrI5DAOlBAd7luCiB6c6UTORg=;
+        b=kIqd8eWjwUynZZ3rOb6Tg+y6FtyKH8EKxx9ODPpQp1NhAHkZf6zKxazWBdIF4MOzdU
+         6l12pCXiIn7P12rGhvtVqwOLsQrm49/Im7lde9ntaJBHmSB21bRr9JiLBMEzWECr51dV
+         TanD+eix60h5sTBaYSyOk2oG18cT03Ajqwiz3YW1oc5CFDKU8fj+12q5UocqKjU9vSYZ
+         fZ/yTiGGNkjwVv7G4y49Pv+bOMGSd0MmKrCQDKJ6t6rK96kuPXqW1y4NRLNaQI/peLas
+         qC74WSdD356TcDrAXkhQQU9wmNIZnpviqQUdqMIj4cIIHYR5NK98JU/wsy1S39d8f2J8
+         HPHw==
+X-Gm-Message-State: AOAM532iDfPXj9NfTkAGJd5M1gr+UgMRmupdqCI7YxsBAvHlG23SxfIj
+        beiZyeoOFuyk4d5PdM/uGR1sqQ==
+X-Google-Smtp-Source: ABdhPJzcqeZvzBcu69WDOYa0AXEj+jkTjIK/0ivShR9A511clPVo2aBOAWDwimsl6o1C8uR6vnac8Q==
+X-Received: by 2002:a7b:c215:: with SMTP id x21mr2619209wmi.61.1612957326535;
+        Wed, 10 Feb 2021 03:42:06 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id y63sm2154970wmd.21.2021.02.10.03.42.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 03:42:05 -0800 (PST)
+Date:   Wed, 10 Feb 2021 11:42:03 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Yicong Yang <yangyicong@hisilicon.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, jdelvare@suse.com,
+        linux@roeck-us.net, giometti@enneenne.com, abbotti@mev.co.uk,
+        hsweeten@visionengravers.com, kw@linux.com, helgaas@kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linuxarm@openeuler.org,
+        prime.zeng@huawei.com
+Subject: Re: [PATCH 1/4] driver core: Use subdir-ccflags-* to inherit debug
+ flag
+Message-ID: <20210210114203.jvhst2veqbx73r5g@maple.lan>
+References: <1612518255-23052-1-git-send-email-yangyicong@hisilicon.com>
+ <1612518255-23052-2-git-send-email-yangyicong@hisilicon.com>
+ <YB0Vk6ERJ3lFc3WD@kroah.com>
+ <08017751-a1be-ea07-50de-73d14ab6d57e@hisilicon.com>
+ <YCEWtxYgbRPET4Sr@kroah.com>
+ <1f0b2f37-db56-c220-dfe1-8c376031404f@hisilicon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f0b2f37-db56-c220-dfe1-8c376031404f@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that fdtoverlay is part of the kernel build, start using it to test
-the unitest overlays we have by applying them statically. Create two new
-base files static_base_1.dts and static_base_2.dts which includes other
-.dtsi files.
+On Mon, Feb 08, 2021 at 09:09:20PM +0800, Yicong Yang wrote:
+> On 2021/2/8 18:47, Greg KH wrote:
+> > On Mon, Feb 08, 2021 at 06:44:52PM +0800, Yicong Yang wrote:
+> >> On 2021/2/5 17:53, Greg KH wrote:
+> >>> What does this offer in benefit of the existing way?  What is it fixing?
+> >>> Why do this "churn"?
+> >>
+> >> currently we have added ccflags-$(CONFIG_DEBUG_DRIVER) := -DDEBUG in the Makefile
+> >> of driver/base and driver/base/power, but not in the subdirectory
+> >> driver/base/firmware_loader. we cannot turn the debug on for subdirectory
+> >> firmware_loader if we config DEBUG_DRIVER and there is no kconfig option
+> >> for the it.
+> > 
+> > Is that necessary?  Does that directory need it?
+> 
+> there are several debug prints in firmware_loader/main.c:
+> 
+> ./main.c:207:   pr_debug("%s: fw-%s fw_priv=%p\n", __func__, fw_name, fw_priv);
+> ./main.c:245:                   pr_debug("batched request - sharing the same struct fw_priv and lookup for multiple requests\n");
+> <snip>
 
-Some unittest overlays deliberately contain errors that unittest checks
-for. These overlays will cause fdtoverlay to fail, and are thus not
-included for static builds.
+Even if these are not in scope for CONFIG_DEBUG_DRVIER there is a
+config option that would allow you to observe them without changing
+any code (CONFIG_DYNAMIC_DEBUG).
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/of/unittest-data/Makefile          | 50 ++++++++++++++++++++++
- drivers/of/unittest-data/static_base_1.dts |  4 ++
- drivers/of/unittest-data/static_base_2.dts |  4 ++
- 3 files changed, 58 insertions(+)
- create mode 100644 drivers/of/unittest-data/static_base_1.dts
- create mode 100644 drivers/of/unittest-data/static_base_2.dts
 
-diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
-index 009f4045c8e4..1d6029e722c0 100644
---- a/drivers/of/unittest-data/Makefile
-+++ b/drivers/of/unittest-data/Makefile
-@@ -34,7 +34,57 @@ DTC_FLAGS_overlay += -@
- DTC_FLAGS_overlay_bad_phandle += -@
- DTC_FLAGS_overlay_bad_symbol += -@
- DTC_FLAGS_overlay_base += -@
-+DTC_FLAGS_static_base_1 += -@
-+DTC_FLAGS_static_base_2 += -@
- DTC_FLAGS_testcases += -@
- 
- # suppress warnings about intentional errors
- DTC_FLAGS_testcases += -Wno-interrupts_property
-+
-+# Apply overlays statically with fdtoverlay.  This is a build time test that
-+# the overlays can be applied successfully by fdtoverlay.  This does not
-+# guarantee that the overlays can be applied successfully at run time by
-+# unittest, but it provides a bit of build time test coverage for those
-+# who do not execute unittest.
-+#
-+# The overlays are applied on top of static_base_1.dtb and static_base_2.dtb to
-+# create static_test_1.dtb and static_test_2.dtb.  If fdtoverlay detects an
-+# error than the kernel build will fail.  static_test_1.dtb and
-+# static_test_2.dtb are not consumed by unittest.
-+#
-+# Some unittest overlays deliberately contain errors that unittest checks for.
-+# These overlays will cause fdtoverlay to fail, and are thus not included
-+# in the static test:
-+#			  overlay_bad_add_dup_node.dtb \
-+#			  overlay_bad_add_dup_prop.dtb \
-+#			  overlay_bad_phandle.dtb \
-+#			  overlay_bad_symbol.dtb \
-+
-+apply_static_overlay_1 := overlay_0.dtbo \
-+			  overlay_1.dtbo \
-+			  overlay_2.dtbo \
-+			  overlay_3.dtbo \
-+			  overlay_4.dtbo \
-+			  overlay_5.dtbo \
-+			  overlay_6.dtbo \
-+			  overlay_7.dtbo \
-+			  overlay_8.dtbo \
-+			  overlay_9.dtbo \
-+			  overlay_10.dtbo \
-+			  overlay_11.dtbo \
-+			  overlay_12.dtbo \
-+			  overlay_13.dtbo \
-+			  overlay_15.dtbo \
-+			  overlay_gpio_01.dtbo \
-+			  overlay_gpio_02a.dtbo \
-+			  overlay_gpio_02b.dtbo \
-+			  overlay_gpio_03.dtbo \
-+			  overlay_gpio_04a.dtbo \
-+			  overlay_gpio_04b.dtbo
-+
-+apply_static_overlay_2 := overlay.dtbo
-+
-+static_test_1-dtbs := static_base_1.dtb $(apply_static_overlay_1)
-+static_test_2-dtbs := static_base_2.dtb $(apply_static_overlay_2)
-+
-+overlay-$(CONFIG_OF_OVERLAY) += static_test_1.dtb static_test_2.dtb
-diff --git a/drivers/of/unittest-data/static_base_1.dts b/drivers/of/unittest-data/static_base_1.dts
-new file mode 100644
-index 000000000000..10556cb3f01f
---- /dev/null
-+++ b/drivers/of/unittest-data/static_base_1.dts
-@@ -0,0 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/dts-v1/;
-+
-+#include "testcases_common.dtsi"
-diff --git a/drivers/of/unittest-data/static_base_2.dts b/drivers/of/unittest-data/static_base_2.dts
-new file mode 100644
-index 000000000000..b0ea9504d6f3
---- /dev/null
-+++ b/drivers/of/unittest-data/static_base_2.dts
-@@ -0,0 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/dts-v1/;
-+
-+#include "overlay_common.dtsi"
--- 
-2.25.0.rc1.19.g042ed3e048af
-
+Daniel.
