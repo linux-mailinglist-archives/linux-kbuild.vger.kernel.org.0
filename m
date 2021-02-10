@@ -2,79 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00FE63160B1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 09:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C5BC316269
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 10:37:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbhBJINM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 10 Feb 2021 03:13:12 -0500
-Received: from spam.auroraoh.com ([24.56.89.101]:55152 "EHLO
-        barracuda.auroraoh.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233741AbhBJIMU (ORCPT
+        id S229679AbhBJJgv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Feb 2021 04:36:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:13340 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229761AbhBJJeq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Feb 2021 03:12:20 -0500
-X-ASG-Debug-ID: 1612944670-112c0d6a799cb90001-Th18ZX
-Received: from COASRV-MAIL2.auroraoh.loc (coasrv-mail2.auroraoh.loc [10.3.1.15]) by barracuda.auroraoh.com with ESMTP id jJ81a9DkExpcgPkc; Wed, 10 Feb 2021 03:11:10 -0500 (EST)
-X-Barracuda-Envelope-From: JanuskaD@auroraoh.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.3.1.15
-Received: from [172.20.10.5] (197.210.29.8) by COASRV-MAIL2.auroraoh.loc
- (10.3.1.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 9 Feb 2021
- 02:45:33 -0500
-Content-Type: text/plain; charset="iso-8859-1"
-X-Barracuda-RBL-Trusted-Forwarder: 172.20.10.5
+        Wed, 10 Feb 2021 04:34:46 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DbF021LFbz7jXq;
+        Wed, 10 Feb 2021 17:32:02 +0800 (CST)
+Received: from [127.0.0.1] (10.69.38.196) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Wed, 10 Feb 2021
+ 17:33:18 +0800
+Subject: Re: [PATCH] PCI: Use subdir-ccflags-* to inherit debug flag
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@openeuler.org>, Masahiro Yamada <masahiroy@kernel.org>,
+        "Michal Marek" <michal.lkml@markovi.net>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20210209212510.GA513360@bjorn-Precision-5520>
+From:   Yicong Yang <yangyicong@hisilicon.com>
+Message-ID: <f65c648d-fdce-b4e9-b4bf-17c7543d1c5b@hisilicon.com>
+Date:   Wed, 10 Feb 2021 17:33:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-To:     Recipients <januskad@auroraoh.com>
-X-ASG-Orig-Subj: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-From:   <januskad@auroraoh.com>
-Date:   Tue, 9 Feb 2021 15:44:47 +0800
-Reply-To: <cfolimiited@gmail.com>
-X-Priority: 1 (High)
-X-Antivirus: Avast (VPS 210207-2, 02/07/2021), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <04dad0e2-2f3b-46a3-bb30-cab23ca007d4@COASRV-MAIL2.auroraoh.loc>
-X-Originating-IP: [197.210.29.8]
-X-ClientProxiedBy: COASRV-MAIL3.auroraoh.loc (10.3.1.13) To
- COASRV-MAIL2.auroraoh.loc (10.3.1.15)
-X-Barracuda-Connect: coasrv-mail2.auroraoh.loc[10.3.1.15]
-X-Barracuda-Start-Time: 1612944670
-X-Barracuda-URL: https://10.3.1.12:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at auroraoh.com
-X-Barracuda-Scan-Msg-Size: 755
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 1.61
-X-Barracuda-Spam-Status: No, SCORE=1.61 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=5.0 tests=BSF_SC0_SA609_NRN, BSF_SC0_SA912_RP_FR, BSF_SC0_SA_TO_FROM_ADDR_MATCH, NO_REAL_NAME
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.87880
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.00 NO_REAL_NAME           From: does not include a real name
-        0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
-        0.50 BSF_SC0_SA_TO_FROM_ADDR_MATCH Sender Address Matches Recipient
-                                   Address
-        1.10 BSF_SC0_SA609_NRN      Custom Rule SA609_NRN
+In-Reply-To: <20210209212510.GA513360@bjorn-Precision-5520>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.38.196]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We are seeking for beneficiaries who source for fund to expand/relocating their business interest abroad. We are ready to fund projects outside Turkey and United Kingdom in the form of Soft Loan. We grant loans to both corporate and private entities at a low interest rate of 2% R.O.I per annul.
+On 2021/2/10 5:25, Bjorn Helgaas wrote:
+> [+cc Masahiro, Michal, linux-kbuild, linux-kernel]
+> 
+> On Thu, Feb 04, 2021 at 07:30:15PM +0800, Yicong Yang wrote:
+>> From: Junhao He <hejunhao2@hisilicon.com>
+>>
+>> Use subdir-ccflags-* instead of ccflags-* to inherit the debug
+>> settings from Kconfig when traversing subdirectories.
+>>
+>> Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> I applied this with Krzysztof's reviewed-by and the commit log below
+> to pci/misc for v5.12, thanks!
+> 
+> Feel free to copy or improve the commit log for use elsewhere.
+> 
 
-We like to grant loan in the following sectors: oil/Gas, banking, real estate, stock speculation and mining, transportation, health sector and tobacco, Communication Services, Agriculture Forestry & Fishing, thus any sector. The terms are very flexible and interesting.
+thanks for improving the commit. i admit that i didn't make the it
+clear enough. it's much better now.
 
-Please contact us for more details;
+Thanks,
+Yicong
 
-
-Kind regards,
-
-Paul McCann
-
--- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+>> ---
+>>  drivers/pci/Makefile | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+>> index 11cc794..d62c4ac 100644
+>> --- a/drivers/pci/Makefile
+>> +++ b/drivers/pci/Makefile
+>> @@ -36,4 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+>>  obj-y				+= controller/
+>>  obj-y				+= switch/
+>>  
+>> -ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+>> +subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+> 
+> commit e8e9aababe60 ("PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy")
+> Author: Junhao He <hejunhao2@hisilicon.com>
+> Date:   Thu Feb 4 19:30:15 2021 +0800
+> 
+>     PCI: Apply CONFIG_PCI_DEBUG to entire drivers/pci hierarchy
+>     
+>     CONFIG_PCI_DEBUG=y adds -DDEBUG to CFLAGS, which enables things like
+>     pr_debug() and dev_dbg() (and hence pci_dbg()).  Previously we added
+>     -DDEBUG for files in drivers/pci/, but not files in subdirectories of
+>     drivers/pci/.
+>     
+>     Add -DDEBUG to CFLAGS for all files below drivers/pci/ so CONFIG_PCI_DEBUG
+>     applies to the entire hierarchy.
+>     
+>     [bhelgaas: commit log]
+>     Link: https://lore.kernel.org/r/1612438215-33105-1-git-send-email-yangyicong@hisilicon.com
+>     Signed-off-by: Junhao He <hejunhao2@hisilicon.com>
+>     Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+>     Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+> 
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 11cc79411e2d..d62c4ac4ae1b 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -36,4 +36,4 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+>  obj-y				+= controller/
+>  obj-y				+= switch/
+>  
+> -ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+> +subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+> 
+> .
+> 
 
