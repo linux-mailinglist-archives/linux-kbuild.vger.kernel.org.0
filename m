@@ -2,104 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B183931656F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 12:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D686316659
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Feb 2021 13:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbhBJLoy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Feb 2021 06:44:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33330 "EHLO
+        id S231479AbhBJMPD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Feb 2021 07:15:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230268AbhBJLmg (ORCPT
+        with ESMTP id S231759AbhBJMMv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Feb 2021 06:42:36 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A98C061222
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:42:07 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id i9so1572715wmq.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Feb 2021 03:42:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IN+db2cORNt7VkGGcBYrI5DAOlBAd7luCiB6c6UTORg=;
-        b=A+lqcb1Mco2IH4sWZvbvEORyp44FjHIA2kKgYhWKHPRcBkihslWgY+eyCxjObLl4xM
-         IJdLu77vzz0H46AfAyGLrLZ3P1y6a5z1GwgMJhI4clGjeFf+PyAsCenM3g5U2vflKhew
-         Ju+igjclW8aHFZvW5zgCxQyfWMS4Xu5pD9ywx63JFAYNlS4WSR6nbO70ZKcfoghRGb4z
-         Rf0JtLIheyrZWr3WvWIiahz7R05/j8oqaJTIUkNIo+kjiEWRTPpEAZUcmb+bwwR3TthY
-         w8gny9neoDuQOvARwJ0yj7al35enKLxoqYkPmwR0BkgrFFw+H8Knypppuo27DmWcolMY
-         g6AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IN+db2cORNt7VkGGcBYrI5DAOlBAd7luCiB6c6UTORg=;
-        b=kIqd8eWjwUynZZ3rOb6Tg+y6FtyKH8EKxx9ODPpQp1NhAHkZf6zKxazWBdIF4MOzdU
-         6l12pCXiIn7P12rGhvtVqwOLsQrm49/Im7lde9ntaJBHmSB21bRr9JiLBMEzWECr51dV
-         TanD+eix60h5sTBaYSyOk2oG18cT03Ajqwiz3YW1oc5CFDKU8fj+12q5UocqKjU9vSYZ
-         fZ/yTiGGNkjwVv7G4y49Pv+bOMGSd0MmKrCQDKJ6t6rK96kuPXqW1y4NRLNaQI/peLas
-         qC74WSdD356TcDrAXkhQQU9wmNIZnpviqQUdqMIj4cIIHYR5NK98JU/wsy1S39d8f2J8
-         HPHw==
-X-Gm-Message-State: AOAM532iDfPXj9NfTkAGJd5M1gr+UgMRmupdqCI7YxsBAvHlG23SxfIj
-        beiZyeoOFuyk4d5PdM/uGR1sqQ==
-X-Google-Smtp-Source: ABdhPJzcqeZvzBcu69WDOYa0AXEj+jkTjIK/0ivShR9A511clPVo2aBOAWDwimsl6o1C8uR6vnac8Q==
-X-Received: by 2002:a7b:c215:: with SMTP id x21mr2619209wmi.61.1612957326535;
-        Wed, 10 Feb 2021 03:42:06 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id y63sm2154970wmd.21.2021.02.10.03.42.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Feb 2021 03:42:05 -0800 (PST)
-Date:   Wed, 10 Feb 2021 11:42:03 +0000
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Yicong Yang <yangyicong@hisilicon.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, jdelvare@suse.com,
-        linux@roeck-us.net, giometti@enneenne.com, abbotti@mev.co.uk,
-        hsweeten@visionengravers.com, kw@linux.com, helgaas@kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linuxarm@openeuler.org,
-        prime.zeng@huawei.com
-Subject: Re: [PATCH 1/4] driver core: Use subdir-ccflags-* to inherit debug
- flag
-Message-ID: <20210210114203.jvhst2veqbx73r5g@maple.lan>
-References: <1612518255-23052-1-git-send-email-yangyicong@hisilicon.com>
- <1612518255-23052-2-git-send-email-yangyicong@hisilicon.com>
- <YB0Vk6ERJ3lFc3WD@kroah.com>
- <08017751-a1be-ea07-50de-73d14ab6d57e@hisilicon.com>
- <YCEWtxYgbRPET4Sr@kroah.com>
- <1f0b2f37-db56-c220-dfe1-8c376031404f@hisilicon.com>
+        Wed, 10 Feb 2021 07:12:51 -0500
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD5FC061756;
+        Wed, 10 Feb 2021 04:07:34 -0800 (PST)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DbJRS2vZ7zMpnnY;
+        Wed, 10 Feb 2021 13:07:32 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DbJRP6qQzzlh8TJ;
+        Wed, 10 Feb 2021 13:07:29 +0100 (CET)
+Subject: =?UTF-8?Q?Re=3a_Conflict_with_Micka=c3=abl_Sala=c3=bcn=27s_blacklis?=
+ =?UTF-8?Q?t_patches_=5bwas_=5bPATCH_v5_0/4=5d_Add_EFI=5fCERT=5fX509=5fGUID_?=
+ =?UTF-8?Q?support_for_dbx/mokx_entries=5d?=
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+To:     Eric Snowberg <eric.snowberg@oracle.com>,
+        David Howells <dhowells@redhat.com>
+Cc:     dwmw2@infradead.org, Jarkko Sakkinen <jarkko@kernel.org>,
+        James.Bottomley@HansenPartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+ <1103491.1612369600@warthog.procyon.org.uk>
+ <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
+ <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
+ <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
+ <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
+ <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net>
+ <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com>
+ <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net>
+ <74EC102D-BD18-4863-A7FB-C88439654C8C@oracle.com>
+ <456712ef-1349-ffe2-9e34-7d49848980ff@digikod.net>
+Message-ID: <999f0763-b1c1-a9ad-0efe-d3e148663ced@digikod.net>
+Date:   Wed, 10 Feb 2021 13:07:59 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f0b2f37-db56-c220-dfe1-8c376031404f@hisilicon.com>
+In-Reply-To: <456712ef-1349-ffe2-9e34-7d49848980ff@digikod.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 08, 2021 at 09:09:20PM +0800, Yicong Yang wrote:
-> On 2021/2/8 18:47, Greg KH wrote:
-> > On Mon, Feb 08, 2021 at 06:44:52PM +0800, Yicong Yang wrote:
-> >> On 2021/2/5 17:53, Greg KH wrote:
-> >>> What does this offer in benefit of the existing way?  What is it fixing?
-> >>> Why do this "churn"?
-> >>
-> >> currently we have added ccflags-$(CONFIG_DEBUG_DRIVER) := -DDEBUG in the Makefile
-> >> of driver/base and driver/base/power, but not in the subdirectory
-> >> driver/base/firmware_loader. we cannot turn the debug on for subdirectory
-> >> firmware_loader if we config DEBUG_DRIVER and there is no kconfig option
-> >> for the it.
-> > 
-> > Is that necessary?  Does that directory need it?
+
+On 09/02/2021 22:53, Mickaël Salaün wrote:
 > 
-> there are several debug prints in firmware_loader/main.c:
+> On 09/02/2021 00:05, Eric Snowberg wrote:
+>>
+>>> On Feb 6, 2021, at 11:30 AM, Mickaël Salaün <mic@digikod.net> wrote:
+>>>
+>>> On 06/02/2021 02:14, Eric Snowberg wrote:
+>>>
+>>>> I have done some additional testing, I am seeing a regression. The blacklist 
+>>>> keyring is no longer picking up any of the hashes from the dbx during boot. 
+>>>> I backed out the merge with my changes  (fdbbe7ceeb95090d09c33ce0497e0394c82aa33d) 
+>>>> and still see the regression.  I then backed out Mickaël merge
+>>>> (5bf1adccf5c41dbdd51d1f4de220d335d9548598) and it fixes the regression.
+>>>>
+>>>> On a x86 with the updated dbx from uefi.org, I’d expect to see 234 bin hash entries
+>>>> in the blacklist keyring.  With the current merged code, there is none.
+>>>
+>>> Hum, I missed a part in refactoring (commit
+>>> f78e50c8f750c0ac6767ac1ed006360cf77c56c4). :/
+>>> Could you please test the following patch?
+>>>
+>>> diff --git a/certs/blacklist.c b/certs/blacklist.c
+>>> index 07c592ae5307..f998a2e85ddc 100644
+>>> --- a/certs/blacklist.c
+>>> +++ b/certs/blacklist.c
+>>> @@ -197,13 +197,16 @@ int mark_hash_blacklisted(const u8 *hash, size_t
+>>> hash_len,
+>>>                enum blacklist_hash_type hash_type)
+>>> {
+>>>        const char *buffer;
+>>> +       int err;
+>>>
+>>>        buffer = get_raw_hash(hash, hash_len, hash_type);
+>>>        if (IS_ERR(buffer))
+>>>                return PTR_ERR(buffer);
+>>> +       err = mark_raw_hash_blacklisted(buffer);
+>>>        kfree(buffer);
+>>> -       return 0;
+>>> +       return err;
+>>> }
+>>
+>> I applied this patch, it works better, but there is still a regression. 
+>> Most of the hashes show up in the blacklist keyring now.  However some 
+>> do not, here is what I see in the log during boot:
+>>
+>> [    2.321876] blacklist: Problem blacklisting hash (-13)
+>> [    2.322729] blacklist: Problem blacklisting hash (-13)
+>> [    2.323549] blacklist: Problem blacklisting hash (-13)
+>> [    2.324369] blacklist: Problem blacklisting hash (-13)
+>>
+>>> Is it possible to test these kind of dbx blacklist with Qemu?
+>>
+>> Yes, just use OVMF. 
+>>
 > 
-> ./main.c:207:   pr_debug("%s: fw-%s fw_priv=%p\n", __func__, fw_name, fw_priv);
-> ./main.c:245:                   pr_debug("batched request - sharing the same struct fw_priv and lookup for multiple requests\n");
-> <snip>
+> My changes (with the fix) don't change the previous semantic. I just
+> tested without my changes and with my changes (and the fix), and I get
+> the same result: 184 bin hashes with
+> https://uefi.org/sites/default/files/resources/dbxupdate_x64.bin
+> 
+> Could you please re-test and if there is still an issue bisect and share
+> the certificates causing this issue?
+> 
+> David, do you want me to send the two new patches or an updated full
+> patch series?
+> 
 
-Even if these are not in scope for CONFIG_DEBUG_DRVIER there is a
-config option that would allow you to observe them without changing
-any code (CONFIG_DYNAMIC_DEBUG).
-
-
-Daniel.
+I found the issue and fixed it in a new patch series:
+https://lore.kernel.org/lkml/20210210120410.471693-1-mic@digikod.net/
