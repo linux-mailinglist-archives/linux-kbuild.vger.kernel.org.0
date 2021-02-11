@@ -2,97 +2,206 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 031743191E4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 19:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E419319248
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 19:33:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbhBKSJe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Feb 2021 13:09:34 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:45357 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232490AbhBKSH0 (ORCPT
+        id S231363AbhBKSbT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Feb 2021 13:31:19 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:37872 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229707AbhBKS3K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Feb 2021 13:07:26 -0500
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 11BI68ph007158;
-        Fri, 12 Feb 2021 03:06:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 11BI68ph007158
+        Thu, 11 Feb 2021 13:29:10 -0500
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 11BIS0xX020916;
+        Fri, 12 Feb 2021 03:28:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 11BIS0xX020916
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613066769;
-        bh=aS3nyEL/blW5wl23rHjvf+MLUviMkrYPfXwTmR8wSjY=;
+        s=dec2015msa; t=1613068081;
+        bh=Hbd1jHEJ4+0Y3UNlpXUZ2xllNrQK93rgVJKBwvGVmL4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S9kLixX3pD9FKGMhONjpCHVDG75yKZ74Txol3Cn0AjuwMtTh0TJ6ATylA9FAa9DMy
-         DqC1QnFzpnoRgp9NMmwa+RMmQeXWDxOhxGWPLOFS6M+rCF64KssgHZLTl5SNgSFZ6M
-         8A7a8gZqdjzUgnmZq5hiUSp1uTc5+pSgc+HIrhdLM6Agm38Ha2NA9paC9lb7OQw7DP
-         8uw45aa2PZLCSsSF+DJJTYpKu4fmXuiNZ4cVgDmpktHh+tLjWm+dfZt/KfUIbp8CrF
-         q6hrGdTISGbOBAtCmeCt2f8bgxb43jer/ooS0QvsZdMNWY8XMfBpJ2yjb76Jpu8/Q0
-         vQqwtED9eB/Ng==
-X-Nifty-SrcIP: [209.85.210.171]
-Received: by mail-pf1-f171.google.com with SMTP id c11so4157368pfp.10;
-        Thu, 11 Feb 2021 10:06:09 -0800 (PST)
-X-Gm-Message-State: AOAM53339D35ytcJxSq0m3rQ7Rtjn0tLvTbBoILv0enhtj6lXkNilr0u
-        BmC+3AOAyF0wJQ24bdbiiCTy9Zm2TCXiUKydZoM=
-X-Google-Smtp-Source: ABdhPJymrPJ4TnzIzA6fnOCPyy8ei4axUeafKAFXotWbnBd8ynLlFgfGCbZg4JDAwoq8DGKqnLOxw4gaaHyISNxJUgw=
-X-Received: by 2002:a62:2f07:0:b029:1bb:5f75:f985 with SMTP id
- v7-20020a622f070000b02901bb5f75f985mr8783784pfv.76.1613066768263; Thu, 11 Feb
- 2021 10:06:08 -0800 (PST)
+        b=miTs4Pey9xkNLrJ2iWuNzoQNU9S2BxtyRuYzf27ztbI74N7hG/hA+9Qa2Qrq5yh1C
+         BAk/UXxEmqOmtrClLGUsX8y7LRuEIPEb8UbheNKhWYwkGa84s17uaRQQgfYn0mMeTj
+         +b4mWiPASD6moydGDqYozZQ0mShu+fLUH6l1/Z5mxucS+QOpKFPo+cwy82OJHdvGNb
+         bO+swK3Y9h7P6FtJDAbNYLgyj7wSZgS3QhaVcuXueLO73E56hYhMRYyvrYjVmJ5hQT
+         UMNMv3uC1aT64x3AKbGl92VtJkgBrJtZ5dvtVDod2KqsM0nGIMPmPK7yc6a2ueIcq3
+         X48yrgMOs8jww==
+X-Nifty-SrcIP: [209.85.215.180]
+Received: by mail-pg1-f180.google.com with SMTP id j5so4478477pgb.11;
+        Thu, 11 Feb 2021 10:28:00 -0800 (PST)
+X-Gm-Message-State: AOAM530wA1hfMI9DvO2M325NlPo1oVeWEH7ZLv3xIWjauuOQIW9PfJyB
+        YqGSVM6g9/Yzj9qPfZf+Sgt64BbYaXMnggzazAg=
+X-Google-Smtp-Source: ABdhPJySHBd6FtH0OZ1WIyS/vX7OAJIXGGAN3M0cbxk7sYoN2HS/yMkjc3bsSAuUa15koo8k803PqJbDR5RWBtdAKms=
+X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
+ h22-20020a62b4160000b02901e4fb5a55bbmr8972253pfn.80.1613068079796; Thu, 11
+ Feb 2021 10:27:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20210211061416.3747231-1-masahiroy@kernel.org> <YCUKVyMcVoNDAYJv@gunter>
-In-Reply-To: <YCUKVyMcVoNDAYJv@gunter>
+References: <cover.1612955268.git.viresh.kumar@linaro.org> <44dad578df8a848fc378cd358f03b071f44c9a5b.1612955268.git.viresh.kumar@linaro.org>
+In-Reply-To: <44dad578df8a848fc378cd358f03b071f44c9a5b.1612955268.git.viresh.kumar@linaro.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 Feb 2021 03:05:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARa11O-N_q=m57He7G6-2tmemmhtkwN5UQu6cnf7MtZog@mail.gmail.com>
-Message-ID: <CAK7LNARa11O-N_q=m57He7G6-2tmemmhtkwN5UQu6cnf7MtZog@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix CONFIG_TRIM_UNUSED_KSYMS build for ppc64
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Fri, 12 Feb 2021 03:27:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARa8GzhhvZWV_KAW=MC0DRcSsfPsQ-KTBRRpbBgBqY=ig@mail.gmail.com>
+Message-ID: <CAK7LNARa8GzhhvZWV_KAW=MC0DRcSsfPsQ-KTBRRpbBgBqY=ig@mail.gmail.com>
+Subject: Re: [PATCH V7 1/3] kbuild: Add generic rule to apply fdtoverlay
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 7:43 PM Jessica Yu <jeyu@kernel.org> wrote:
+On Wed, Feb 10, 2021 at 8:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >
-> +++ Masahiro Yamada [11/02/21 15:14 +0900]:
-> >Stephen Rothwell reported a build error on ppc64 when
-> >CONFIG_TRIM_UNUSED_KSYMS is enabled.
-> >
-> >Jessica Yu pointed out the cause of the error with the reference to the
-> >ppc64 elf ABI:
-> >  "Symbol names with a dot (.) prefix are reserved for holding entry
-> >   point addresses. The value of a symbol named ".FN", if it exists,
-> >   is the entry point of the function "FN".
-> >
-> >As it turned out, CONFIG_TRIM_UNUSED_KSYMS has never worked for ppc64,
-> >which has been unnoticed until recently because this option depends on
-> >!UNUSED_SYMBOLS hence is disabled by all{mod,yes}config. (Then, it was
-> >uncovered by another patch removing UNUSED_SYMBOLS.)
-> >
-> >Removing the dot prefix in scripts/gen_autoksyms.sh fixes the issue.
-> >Please note it must be done before 'sort -u', because modules have
-> >both ._mcount and _mcount undefined when CONFIG_FUNCTION_TRACER=y.
-> >
-> >Link: https://lore.kernel.org/lkml/20210209210843.3af66662@canb.auug.org.au/
-> >Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> >Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> From: Rob Herring <robh@kernel.org>
 >
-> Thanks a lot for the quick fix. This fixes the ppc64 build issue on my end:
+> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
+> platform doesn't need to carry the complex rule.
 >
->     Tested-by: Jessica Yu <jeyu@kernel.org>
+> The platform's Makefile only needs to have this now:
 >
-> Do you plan to take this through the kbuild tree? If so, please let me
-> know when you've applied it, then I can undo the temporary workaround
-> I currently have in modules-next.
->
-> Thank you!
->
-> Jessica
+>  DTC_FLAGS_foo_base += -@
+>  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+>  overlay-y := foo.dtb
 
 
-Applied to linux-kbuild/fixes.
+Please reuse dtb-y instead of introducing the new
+overlay-y syntax, that is,
+
+foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+dtb-y := foo.dtb
 
 
--- 
+
+This resembles to composite modules.
+
+foo-objs := foo1.o foo2.o foo3.o
+obj-m := foo.o
+
+
+
+
+
+> Rearrange Makefile.lib to keep DT specific stuff together.
+>
+> The files from overlay-y (i.e. files generated by fdtoverlay) aren't
+> added to dtb-y here, as dtb-y is later used to generate .dt.yaml files
+> and the files in overlay-y don't have a corresponding dts file and make
+> dtbs_check fails for them.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> [ Viresh: Add commit log and replace dtb-y with overlay-y, handle
+>           CONFIG_OF_ALL_DTBS case, rearrange Makefile, don't add
+>           overlay-y to dtb-y to skip dtbs_check for them. ]
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  scripts/Makefile.lib | 39 +++++++++++++++++++++++++++------------
+>  1 file changed, 27 insertions(+), 12 deletions(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index b00855b247e0..a6e79e3be527 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -66,23 +66,16 @@ multi-used   := $(multi-used-y) $(multi-used-m)
+>  real-obj-y := $(foreach m, $(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)),$(m)))
+>  real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)),$(m)))
+>
+> -always-y += $(always-m)
+> -
+> -# hostprogs-always-y += foo
+> -# ... is a shorthand for
+> -# hostprogs += foo
+> -# always-y  += foo
+> -hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
+> -always-y += $(hostprogs-always-y) $(hostprogs-always-m)
+> -
+> -# userprogs-always-y is likewise.
+> -userprogs += $(userprogs-always-y) $(userprogs-always-m)
+> -always-y += $(userprogs-always-y) $(userprogs-always-m)
+> +# Add base dtb and overlay dtbo
+> +dtb-y += $(foreach m,$(overlay-y), $(if $(strip $($(m:.dtb=-dtbs))),$($(m:.dtb=-dtbs)),))
+> +dtb-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(overlay-), $(if $(strip $($(m:.dtb=-dtbs))),$($(m:.dtb=-dtbs)),))
+>
+>  # DTB
+>  # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
+>  extra-y                                += $(dtb-y)
+> +extra-y                                += $(overlay-y)
+>  extra-$(CONFIG_OF_ALL_DTBS)    += $(dtb-)
+> +extra-$(CONFIG_OF_ALL_DTBS)    += $(overlay-)
+>
+>  ifneq ($(CHECK_DTBS),)
+>  extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+> @@ -91,6 +84,19 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+>  extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtbo,%.dt.yaml, $(dtb-))
+>  endif
+>
+> +always-y += $(always-m)
+> +
+> +# hostprogs-always-y += foo
+> +# ... is a shorthand for
+> +# hostprogs += foo
+> +# always-y  += foo
+> +hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
+> +always-y += $(hostprogs-always-y) $(hostprogs-always-m)
+> +
+> +# userprogs-always-y is likewise.
+> +userprogs += $(userprogs-always-y) $(userprogs-always-m)
+> +always-y += $(userprogs-always-y) $(userprogs-always-m)
+> +
+>  # Add subdir path
+>
+>  extra-y                := $(addprefix $(obj)/,$(extra-y))
+> @@ -332,6 +338,15 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>         $(call if_changed_dep,dtc)
+>
+> +
+> +quiet_cmd_fdtoverlay = DTOVL   $@
+> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
+> +
+> +.SECONDEXPANSION:
+> +
+> +$(obj)/%.dtb: $$(addprefix $$(obj)/,$$(%-dtbs)) FORCE
+> +       $(call if_changed,fdtoverlay)
+> +
+
+
+
+Please do not use .SECONDEXPANSION.
+
+This will parse the Makefile twice
+in _all_ directories, while only a few
+directories use the overlay-y syntax.
+
+
+Use the multi_depend macro.
+
+
+
+
+
+
+>  DT_CHECKER ?= dt-validate
+>  DT_BINDING_DIR := Documentation/devicetree/bindings
+>  # DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
+> --
+> 2.25.0.rc1.19.g042ed3e048af
+>
+
+
+--
 Best Regards
 Masahiro Yamada
