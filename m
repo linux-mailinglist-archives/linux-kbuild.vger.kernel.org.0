@@ -2,20 +2,20 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50FF318649
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 09:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEBC1318834
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 11:33:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbhBKIY0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Feb 2021 03:24:26 -0500
-Received: from mx1.emlix.com ([136.243.223.33]:36656 "EHLO mx1.emlix.com"
+        id S230130AbhBKKco (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Feb 2021 05:32:44 -0500
+Received: from mx1.emlix.com ([136.243.223.33]:37006 "EHLO mx1.emlix.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229636AbhBKIYZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Feb 2021 03:24:25 -0500
-Received: from mailer.emlix.com (unknown [81.20.119.6])
+        id S229867AbhBKKaf (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 11 Feb 2021 05:30:35 -0500
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
         (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.emlix.com (Postfix) with ESMTPS id 6772A5F9C9;
-        Thu, 11 Feb 2021 09:23:28 +0100 (CET)
+        by mx1.emlix.com (Postfix) with ESMTPS id D0C965F9C9;
+        Thu, 11 Feb 2021 11:29:39 +0100 (CET)
 From:   Rolf Eike Beer <eb@emlix.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -24,25 +24,25 @@ To:     Masahiro Yamada <masahiroy@kernel.org>,
         Daniel =?ISO-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>
 Cc:     stable@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>
 Subject: Re: [PATCH] scripts: Fix linking extract-cert against libcrypto
-Date:   Thu, 11 Feb 2021 09:23:25 +0100
-Message-ID: <1703981.WaQNzpUyZo@mobilepool36.emlix.com>
+Date:   Thu, 11 Feb 2021 11:29:33 +0100
+Message-ID: <3314666.Em9qtOGRgX@mobilepool36.emlix.com>
 In-Reply-To: <6065587.C4oOSP4HzL@mobilepool36.emlix.com>
 References: <20210209050047.1958473-1-daniel.diaz@linaro.org> <6065587.C4oOSP4HzL@mobilepool36.emlix.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3171492.fxiCIuZd90"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: multipart/signed; boundary="nextPart1763431.qQEGOizavN"; micalg="pgp-sha256"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---nextPart3171492.fxiCIuZd90
+--nextPart1763431.qQEGOizavN
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
 From: Rolf Eike Beer <eb@emlix.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Michal Marek <michal.lkml@markovi.net>, linux-kbuild@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, Daniel =?ISO-8859-1?Q?D=EDaz?= <daniel.diaz@linaro.org>
 Cc: stable@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>
 Subject: Re: [PATCH] scripts: Fix linking extract-cert against libcrypto
-Date: Thu, 11 Feb 2021 09:23:25 +0100
-Message-ID: <1703981.WaQNzpUyZo@mobilepool36.emlix.com>
+Date: Thu, 11 Feb 2021 11:29:33 +0100
+Message-ID: <3314666.Em9qtOGRgX@mobilepool36.emlix.com>
 In-Reply-To: <6065587.C4oOSP4HzL@mobilepool36.emlix.com>
 References: <20210209050047.1958473-1-daniel.diaz@linaro.org> <6065587.C4oOSP4HzL@mobilepool36.emlix.com>
 
@@ -84,11 +84,42 @@ oo)
 >=20
 > Acked-by: Rolf Eike Beer <eb@emlix.com>
 
-Oh, scrap that. I misread your patch. I was actually using LDLIBS exclusive=
-ly,=20
-no LDFLAGS at all.
+Ok, now actually with proper testing: no, your patch doesn't work. When=20
+changing LDLIBS to LDFLAGS things do not show up on the commandline at all.
 
-I'll have to get my test setup ready for this, can take a moment.
+LDLIBS:
+
+  gcc -Wp,-MMD,scripts/.sign-file.d -Wall -Wmissing-prototypes -Wstrict-
+prototypes -O2 -fomit-frame-pointer -std=3Dgnu89      -I/opt/emlix/test/inc=
+lude=20
+=2DI ./scripts   -o scripts/sign-file /tmp/e2/build/linux-kernel/scripts/si=
+gn-
+file.c   -L/opt/emlix/test/lib -lcrypto -lz -ldl -pthread
+
+LDFLAGS:
+
+  gcc -Wp,-MMD,scripts/.sign-file.d -Wall -Wmissing-prototypes -Wstrict-
+prototypes -O2 -fomit-frame-pointer -std=3Dgnu89      -I/opt/emlix/test/inc=
+lude=20
+=2DI ./scripts   -o scripts/sign-file /tmp/e2/build/linux-kernel/scripts/si=
+gn-
+file.c  =20
+
+When looking closely you may notice that this is not entirely the same as=20
+current master would output: I missed the CFLAGS for sign-file in my patch.=
+=20
+When testing your patch I accidentially had a .config that had module=20
+signatures disabled, so I have not tested it actually, that's why I didn't=
+=20
+notice that it doesn't work.
+
+I'm just guessing, but your build error looks like you are also cross-build=
+ing=20
+the tools, which is wrong. You want them to be host-tools. So don't export=
+=20
+PKG_CONFIG_SYSROOT_DIR, it would then try to link target libraries into a h=
+ost =20
+binary.
 
 Eike
 =2D-=20
@@ -100,21 +131,21 @@ Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-IdNr=
 =2E: DE 205 198 055
 
 emlix - smart embedded open source
---nextPart3171492.fxiCIuZd90
+--nextPart1763431.qQEGOizavN
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iLMEAAEIAB0WIQQ/Uctzh31xzAxFCLur5FH7Xu2t/AUCYCTpfQAKCRCr5FH7Xu2t
-/GAlA/sGIXnM1yi4UcosLjEavPqHS79oPb3VT7h937qzOnb6HDawVB1i4NWfhnBQ
-ie9XfCm4wQpDQa9FqYKN1GWBGS0kgmtn+m56XjSgYzAMfch9Uvsk0a/EWP2JqUzj
-1tArm+5kywsa5mXHLf60QtNJim9HYfYEAsysnSMjcPViLAB3hg==
-=+cDF
+iLMEAAEIAB0WIQQ/Uctzh31xzAxFCLur5FH7Xu2t/AUCYCUHDQAKCRCr5FH7Xu2t
+/DlBA/wOmT/FOjxipuiCwOtBZgASLr30Dy6hPGnMuwoyu7rJzoBkWrvAKE/Q3XTN
+QCRTOcL/DTjJLjxTUBgyfQDgRSDIXCf6h1LYo5zBZV8YTYEeih9T1W4pNNNhD1yv
+LKnI1Pgku3dHQhHgcM+3SWY+Vfxb7u9WyoPsvf4o2qXOwJsKrQ==
+=hlG6
 -----END PGP SIGNATURE-----
 
---nextPart3171492.fxiCIuZd90--
+--nextPart1763431.qQEGOizavN--
 
 
 
