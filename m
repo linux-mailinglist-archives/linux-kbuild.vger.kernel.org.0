@@ -2,206 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E419319248
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 19:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37E9831930C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 20:26:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbhBKSbT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Feb 2021 13:31:19 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:37872 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbhBKS3K (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Feb 2021 13:29:10 -0500
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 11BIS0xX020916;
-        Fri, 12 Feb 2021 03:28:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 11BIS0xX020916
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613068081;
-        bh=Hbd1jHEJ4+0Y3UNlpXUZ2xllNrQK93rgVJKBwvGVmL4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=miTs4Pey9xkNLrJ2iWuNzoQNU9S2BxtyRuYzf27ztbI74N7hG/hA+9Qa2Qrq5yh1C
-         BAk/UXxEmqOmtrClLGUsX8y7LRuEIPEb8UbheNKhWYwkGa84s17uaRQQgfYn0mMeTj
-         +b4mWiPASD6moydGDqYozZQ0mShu+fLUH6l1/Z5mxucS+QOpKFPo+cwy82OJHdvGNb
-         bO+swK3Y9h7P6FtJDAbNYLgyj7wSZgS3QhaVcuXueLO73E56hYhMRYyvrYjVmJ5hQT
-         UMNMv3uC1aT64x3AKbGl92VtJkgBrJtZ5dvtVDod2KqsM0nGIMPmPK7yc6a2ueIcq3
-         X48yrgMOs8jww==
-X-Nifty-SrcIP: [209.85.215.180]
-Received: by mail-pg1-f180.google.com with SMTP id j5so4478477pgb.11;
-        Thu, 11 Feb 2021 10:28:00 -0800 (PST)
-X-Gm-Message-State: AOAM530wA1hfMI9DvO2M325NlPo1oVeWEH7ZLv3xIWjauuOQIW9PfJyB
-        YqGSVM6g9/Yzj9qPfZf+Sgt64BbYaXMnggzazAg=
-X-Google-Smtp-Source: ABdhPJySHBd6FtH0OZ1WIyS/vX7OAJIXGGAN3M0cbxk7sYoN2HS/yMkjc3bsSAuUa15koo8k803PqJbDR5RWBtdAKms=
-X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
- h22-20020a62b4160000b02901e4fb5a55bbmr8972253pfn.80.1613068079796; Thu, 11
- Feb 2021 10:27:59 -0800 (PST)
+        id S229886AbhBKTYf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Feb 2021 14:24:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42198 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229978AbhBKTY3 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 11 Feb 2021 14:24:29 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B82764DF3;
+        Thu, 11 Feb 2021 19:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613071428;
+        bh=q212lYt4ihrp76ADLXHJK6ZM1oxf7oDEPHFpC8j7mN8=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=O8Tfs1pEG2o3QsWaAKYQ20RF7SOR9YTFw+ljpvuTbsla77w7Er5ET1eCmg1otpjSH
+         omX+vbHYtajcHNYvObKGVNvSetIZDQs00avD2WA5VE556cGER6WMfy0gx/ExoH4P/P
+         6JYGzuGcm/qrb8mEFLVcosH6dbwRkr02XQlxI+p2Xh6Xm7Ysxjch9zwmFwo8eV4V3q
+         JcgXAkL1YkROEoOBbCkCnffHZKCPzFrmLnYnvLyHNDhJi+5kllYzreAQYy0s11KDdf
+         7zVEJf3TUDOs7Vwdut5UVrls8V2O+sVo+1c2PQF9W/CX+jRKocX9zZ3wwQJWRKeDtH
+         EHVRoPqc8wkNQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <cover.1612955268.git.viresh.kumar@linaro.org> <44dad578df8a848fc378cd358f03b071f44c9a5b.1612955268.git.viresh.kumar@linaro.org>
-In-Reply-To: <44dad578df8a848fc378cd358f03b071f44c9a5b.1612955268.git.viresh.kumar@linaro.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 Feb 2021 03:27:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARa8GzhhvZWV_KAW=MC0DRcSsfPsQ-KTBRRpbBgBqY=ig@mail.gmail.com>
-Message-ID: <CAK7LNARa8GzhhvZWV_KAW=MC0DRcSsfPsQ-KTBRRpbBgBqY=ig@mail.gmail.com>
-Subject: Re: [PATCH V7 1/3] kbuild: Add generic rule to apply fdtoverlay
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210126124540.3320214-9-lee.jones@linaro.org>
+References: <20210126124540.3320214-1-lee.jones@linaro.org> <20210126124540.3320214-9-lee.jones@linaro.org>
+Subject: Re: [PATCH 08/21] clk: clkdev: Ignore suggestion to use gnu_printf() as it's not appropriate here
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org
+To:     lee.jones@linaro.org
+Date:   Thu, 11 Feb 2021 11:23:47 -0800
+Message-ID: <161307142704.1254594.1986201109191269158@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 8:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> From: Rob Herring <robh@kernel.org>
->
-> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
-> platform doesn't need to carry the complex rule.
->
-> The platform's Makefile only needs to have this now:
->
->  DTC_FLAGS_foo_base += -@
->  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
->  overlay-y := foo.dtb
-
-
-Please reuse dtb-y instead of introducing the new
-overlay-y syntax, that is,
-
-foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
-dtb-y := foo.dtb
-
-
-
-This resembles to composite modules.
-
-foo-objs := foo1.o foo2.o foo3.o
-obj-m := foo.o
-
-
-
-
-
-> Rearrange Makefile.lib to keep DT specific stuff together.
->
-> The files from overlay-y (i.e. files generated by fdtoverlay) aren't
-> added to dtb-y here, as dtb-y is later used to generate .dt.yaml files
-> and the files in overlay-y don't have a corresponding dts file and make
-> dtbs_check fails for them.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> [ Viresh: Add commit log and replace dtb-y with overlay-y, handle
->           CONFIG_OF_ALL_DTBS case, rearrange Makefile, don't add
->           overlay-y to dtb-y to skip dtbs_check for them. ]
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+Quoting Lee Jones (2021-01-26 04:45:27)
+> Fixes the following W=3D1 kernel build warning(s):
+>=20
+>  drivers/clk/clkdev.c: In function =E2=80=98vclkdev_alloc=E2=80=99:
+>  drivers/clk/clkdev.c:173:3: warning: function =E2=80=98vclkdev_alloc=E2=
+=80=99 might be a candidate for =E2=80=98gnu_printf=E2=80=99 format attribu=
+te [-Wsuggest-attribute=3Dformat]
+>=20
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  scripts/Makefile.lib | 39 +++++++++++++++++++++++++++------------
->  1 file changed, 27 insertions(+), 12 deletions(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index b00855b247e0..a6e79e3be527 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -66,23 +66,16 @@ multi-used   := $(multi-used-y) $(multi-used-m)
->  real-obj-y := $(foreach m, $(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)),$(m)))
->  real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)),$(m)))
->
-> -always-y += $(always-m)
-> -
-> -# hostprogs-always-y += foo
-> -# ... is a shorthand for
-> -# hostprogs += foo
-> -# always-y  += foo
-> -hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
-> -always-y += $(hostprogs-always-y) $(hostprogs-always-m)
-> -
-> -# userprogs-always-y is likewise.
-> -userprogs += $(userprogs-always-y) $(userprogs-always-m)
-> -always-y += $(userprogs-always-y) $(userprogs-always-m)
-> +# Add base dtb and overlay dtbo
-> +dtb-y += $(foreach m,$(overlay-y), $(if $(strip $($(m:.dtb=-dtbs))),$($(m:.dtb=-dtbs)),))
-> +dtb-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(overlay-), $(if $(strip $($(m:.dtb=-dtbs))),$($(m:.dtb=-dtbs)),))
->
->  # DTB
->  # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
->  extra-y                                += $(dtb-y)
-> +extra-y                                += $(overlay-y)
->  extra-$(CONFIG_OF_ALL_DTBS)    += $(dtb-)
-> +extra-$(CONFIG_OF_ALL_DTBS)    += $(overlay-)
->
->  ifneq ($(CHECK_DTBS),)
->  extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
-> @@ -91,6 +84,19 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
->  extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtbo,%.dt.yaml, $(dtb-))
->  endif
->
-> +always-y += $(always-m)
+>  drivers/clk/clkdev.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/clk/clkdev.c b/drivers/clk/clkdev.c
+> index 0f2e3fcf0f19f..5e5f25d568724 100644
+> --- a/drivers/clk/clkdev.c
+> +++ b/drivers/clk/clkdev.c
+> @@ -153,6 +153,11 @@ struct clk_lookup_alloc {
+>         char    con_id[MAX_CON_ID];
+>  };
+> =20
+> +#pragma GCC diagnostic push
+> +#ifndef __clang__
+> +#pragma GCC diagnostic ignored "-Wsuggest-attribute=3Dformat"
+> +#endif
+
+Can this be some macro banished to compiler.h?
+
 > +
-> +# hostprogs-always-y += foo
-> +# ... is a shorthand for
-> +# hostprogs += foo
-> +# always-y  += foo
-> +hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
-> +always-y += $(hostprogs-always-y) $(hostprogs-always-m)
+>  static struct clk_lookup * __ref
+>  vclkdev_alloc(struct clk_hw *hw, const char *con_id, const char *dev_fmt,
+>         va_list ap)
+> @@ -177,6 +182,8 @@ vclkdev_alloc(struct clk_hw *hw, const char *con_id, =
+const char *dev_fmt,
+>         return &cla->cl;
+>  }
+> =20
+> +#pragma GCC diagnostic pop
 > +
-> +# userprogs-always-y is likewise.
-> +userprogs += $(userprogs-always-y) $(userprogs-always-m)
-> +always-y += $(userprogs-always-y) $(userprogs-always-m)
-> +
->  # Add subdir path
+>  static struct clk_lookup *
+>  vclkdev_create(struct clk_hw *hw, const char *con_id, const char *dev_fm=
+t,
+>         va_list ap)
+> --=20
+> 2.25.1
 >
->  extra-y                := $(addprefix $(obj)/,$(extra-y))
-> @@ -332,6 +338,15 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
->  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
->         $(call if_changed_dep,dtc)
->
-> +
-> +quiet_cmd_fdtoverlay = DTOVL   $@
-> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
-> +
-> +.SECONDEXPANSION:
-> +
-> +$(obj)/%.dtb: $$(addprefix $$(obj)/,$$(%-dtbs)) FORCE
-> +       $(call if_changed,fdtoverlay)
-> +
-
-
-
-Please do not use .SECONDEXPANSION.
-
-This will parse the Makefile twice
-in _all_ directories, while only a few
-directories use the overlay-y syntax.
-
-
-Use the multi_depend macro.
-
-
-
-
-
-
->  DT_CHECKER ?= dt-validate
->  DT_BINDING_DIR := Documentation/devicetree/bindings
->  # DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
-> --
-> 2.25.0.rc1.19.g042ed3e048af
->
-
-
---
-Best Regards
-Masahiro Yamada
