@@ -2,165 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D269318D2B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 15:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD846318FB1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 17:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbhBKOSp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Feb 2021 09:18:45 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:20837 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231604AbhBKOQw (ORCPT
+        id S230436AbhBKQQB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Feb 2021 11:16:01 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:26451 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229837AbhBKQN4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Feb 2021 09:16:52 -0500
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 11BEFoO9025222;
-        Thu, 11 Feb 2021 23:15:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 11BEFoO9025222
+        Thu, 11 Feb 2021 11:13:56 -0500
+Received: from oscar.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 11BGC1x7021970;
+        Fri, 12 Feb 2021 01:12:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 11BGC1x7021970
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613052951;
-        bh=5fMtClGpoOrpoSoRrTR5BZN+eGFqxHSGcW74p7s3slQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SAhz02vXs3HY3GenWTbdjLwoW/yrbaOKzaHQUoB9J1p31QBZAV/KtclQQoVIAKf9H
-         4MLwlxa3ldYyeTpnKg5aVfeYEU10dbw/j2tRZU/CyD4j22XEl+06g3aLWq+xPw77fF
-         yFSsGP4pn5ZmJOnJjw013mmuPctvSKVtlMMqotO9A5EPZ6NsjkTRhWUrrESxX8TLSJ
-         vdZkIhiyHZUN3/GUOOsPUn1lA42F375yzqhDQm9dqF7Lk2Pmx8G9vuCeGPng9DU9IW
-         WYENVvmREQcVN4WehpalSD2tyQAuocdect4inCjbPaX8tUFYr8nO6uxB0sx2K4G+oS
-         Iy+MgESuIVbAA==
-X-Nifty-SrcIP: [209.85.210.175]
-Received: by mail-pf1-f175.google.com with SMTP id k13so3743000pfh.13;
-        Thu, 11 Feb 2021 06:15:51 -0800 (PST)
-X-Gm-Message-State: AOAM531SVuxw+LScslYlhF/sPljCY3nqUA4MXU9lOohwcLW48QkLEr4m
-        jWGP/6J84kDqQpPlyiQxUN6kB3R0lhpyr2DgHsw=
-X-Google-Smtp-Source: ABdhPJzeXpxWnXbG4wYnw82AkDZ8f5UzbU5XglDNt7EcHb7u5OgQ4d6hgfmNs+nW+gaxrnJbEjXgrHSvuET/GatC9BU=
-X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
- h22-20020a62b4160000b02901e4fb5a55bbmr8068091pfn.80.1613052950036; Thu, 11
- Feb 2021 06:15:50 -0800 (PST)
-MIME-Version: 1.0
-References: <1612783737-3512-1-git-send-email-stephenzhangzsd@gmail.com>
- <20210208195439.GA1097868@ubuntu-m3-large-x86> <CALuz2=d-ENRbWgGYaO_ESEaw5eOVSwkQmkeYBJ-w0Vb3zZ+REg@mail.gmail.com>
- <20210209192729.GA820978@ubuntu-m3-large-x86> <CALuz2=dyA_ki98t8VNe2L1UcBXrSoJT1r6j1puEmLn7WrX87XQ@mail.gmail.com>
- <20210210182400.GA3502674@ubuntu-m3-large-x86> <CALuz2=eSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew@mail.gmail.com>
-In-Reply-To: <CALuz2=eSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew@mail.gmail.com>
+        s=dec2015msa; t=1613059922;
+        bh=3/hwJtYyqVNBvsoXcMoZWlx6opZT0eYugHUwt0TrPzA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p1+BosIh832dUiMNkkaFMFuhQ9cl3yVy+gi6iKWxgYlx/OnxC4B+M1yU8UkyUD9Yd
+         eEATrYFFlHJi9nDrSrlHUWTQEsbYitnU7xjbiMQaa/vC8IEOOpVQMvJpZlmAl69TCL
+         SI0k6YESbm7noHd682KMP2a/y3M2aAVyoNTCPIhv9DLkIIvPB/pzLrqz/i3F5+2Ru3
+         nNvChYaPFJXxpdIK0/v2h9yfhHj2Sz+i0Z8fahS/yILfAVvXr97FXVFo2SepYkKu5V
+         8vqymz8DJO7jrHFuo1E+UE4s40tE5dSHaRHxOnH3l4lFMUVH6ImnHlONVIiBT9yOFh
+         9tiDYr59KujXw==
+X-Nifty-SrcIP: [126.26.94.251]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 11 Feb 2021 23:15:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com>
-Message-ID: <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com>
-Subject: Re: [PATCH v1] clang_tools:gen_compile_commands: Change the default
- source directory
-To:     Stephen Zhang <stephenzhangzsd@gmail.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Tom Roeder <tmroeder@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] gen_compile_commands: prune some directories
+Date:   Fri, 12 Feb 2021 01:11:54 +0900
+Message-Id: <20210211161154.3892836-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 10:48 PM Stephen Zhang
-<stephenzhangzsd@gmail.com> wrote:
->
-> Nathan Chancellor <nathan@kernel.org> =E4=BA=8E2021=E5=B9=B42=E6=9C=8811=
-=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:24=E5=86=99=E9=81=93=EF=BC=
-=9A
-> >
-> > On Wed, Feb 10, 2021 at 08:15:27PM +0800, Stephen Zhang wrote:
-> > > Nathan Chancellor <nathan@kernel.org> =E4=BA=8E2021=E5=B9=B42=E6=9C=
-=8810=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=883:27=E5=86=99=E9=81=93=
-=EF=BC=9A
-> > >
-> > > > Just as an FYI, your email was HTML, which means it won't hit LKML.
-> > >
-> > >
-> > > Thanks for pointing that out. The existence of a GFW makes it difficu=
-lt for
-> > > me to connect
-> > > to the mail server.  so I use git client to send patches only and rep=
-ly to
-> > > emails with
-> > > gmail  web client.
-> >
-> > You can configure your Gmail web client to send text responses by
-> > default by clicking on the three dot menu in the compose window then
-> > chose the "plain text mode" option.
-> >
->
-> Thanks, this has always been a problem for me.
->
-> > The build directory needs to be involved because that is where the .cmd
-> > files will be but the source directory needs to be known because the
-> > source files in the .cmd files are relative to the source directory, no=
-t
-> > the build directory. This happens to work in most situations like I
-> > point out above but not always.
-> >
-> > I think that my patch is most likely the way to go unless others feel
-> > differently. It would be nice if you could give it a go.
-> >
-> > Cheers,
-> > Nathan
->
-> Do you mean  my patch's failure  in some cases  is because the build
-> directoty isn't involved after using "-d" to specify the source directory=
-?
->
-> Actually, the build directory has already been involved by the "path"
-> argument. See:
->
-> def main():
->     for path in paths:
->          ....
->         if os.path.isdir(path):
->             cmdfiles =3D cmdfiles_in_dir(path)
->         .....
->
-> where the value of paths  is passed by  the "path" argument. Do I miss
-> something?
->
-> Cheers,
-> Stephen
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/clang-built-linux/CALuz2%3DeSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew%4=
-0mail.gmail.com.
+If directories are passed to gen_compile_commands.py, os.walk() traverses
+all the subdirectories to search for .cmd files, but we know some of them
+are not worth traversing.
 
+Use the 'topdown' parameter of os.walk to prune them.
 
+Documentation about the 'topdown' option of os.walk:
+  When topdown is True, the caller can modify the dirnames list
+  in-place (perhaps using del or slice assignment), and walk() will
+  only recurse into the subdirectories whose names remain in dirnames;
+  this can be used to prune the search, impose a specific order of
+  visiting, or even to inform walk() about directories the caller
+  creates or renames before it resumes walk() again. Modifying
+  dirnames when topdown is False has no effect on the behavior of
+  the walk, because in bottom-up mode the directories in dirnames
+  are generated before dirpath itself is generated.
 
-Please stop.
+This commit prunes four directories, .git, Documentation, include, and
+tools.
 
+The first three do not contain any C files. My main motivation is the
+last one, tools/ directory.
 
-Commit 6ca4c6d25949117dc5b4845612e290b6d89e70a8
-removed the tools/ support.
+Commit 6ca4c6d25949 ("gen_compile_commands: do not support .cmd files
+under tools/ directory") stopped supporting the tools/ directory.
+The current code no longer picks up .cmd files from the tools/
+directory.
 
+If you run:
 
-There exist two build systems in the Linux source tree.
-Kbuild covers the entire tree except tools/.
-The tools/ directory adopts a different build system.
+  ./scripts/clang-tools/gen_compile_commands.py --log_level=INFO
 
-It is a pity that the tools/ directory
-went in a wrong direction, and people
-try to fix problems in a wrong layer.
+then, you will see several "File ... not found" log messages.
 
+This is expected, and I do not want to support the tools/ directory.
+However, without an explicit comment "do not support tools/", somebody
+might try to get it back. Clarify this.
 
-You are not the first person to send to
-tweak obj/source trees of this script.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-You can not do this correctly
-without terribly messing up the code.
+ scripts/clang-tools/gen_compile_commands.py | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Please do not try to support tools/.
+diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+index 19963708bcf8..eb5faefbdf74 100755
+--- a/scripts/clang-tools/gen_compile_commands.py
++++ b/scripts/clang-tools/gen_compile_commands.py
+@@ -20,7 +20,9 @@ _DEFAULT_LOG_LEVEL = 'WARNING'
+ _FILENAME_PATTERN = r'^\..*\.cmd$'
+ _LINE_PATTERN = r'^cmd_[^ ]*\.o := (.* )([^ ]*\.c)$'
+ _VALID_LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+-
++# The tools/ directory adopts a different build system, and produces .cmd
++# files in a different format. Do not support it.
++_EXCLUDE_DIRS = ['.git', 'Documentation', 'include', 'tools']
+ 
+ def parse_arguments():
+     """Sets up and parses command-line arguments.
+@@ -80,8 +82,14 @@ def cmdfiles_in_dir(directory):
+     """
+ 
+     filename_matcher = re.compile(_FILENAME_PATTERN)
++    exclude_dirs = [ os.path.join(directory, d) for d in _EXCLUDE_DIRS ]
++
++    for dirpath, dirnames, filenames in os.walk(directory, topdown=True):
++        # Prune unwanted directories.
++        if dirpath in exclude_dirs:
++            dirnames[:] = []
++            continue
+ 
+-    for dirpath, _, filenames in os.walk(directory):
+         for filename in filenames:
+             if filename_matcher.match(filename):
+                 yield os.path.join(dirpath, filename)
+-- 
+2.27.0
 
-
-
---=20
-Best Regards
-Masahiro Yamada
