@@ -2,95 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA43B319447
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Feb 2021 21:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAFF231989F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Feb 2021 04:09:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbhBKUU6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Feb 2021 15:20:58 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:24385 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231616AbhBKUUt (ORCPT
+        id S229716AbhBLDI5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Feb 2021 22:08:57 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:61173 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229573AbhBLDIy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Feb 2021 15:20:49 -0500
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 11BKJbjV004020;
-        Fri, 12 Feb 2021 05:19:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11BKJbjV004020
+        Thu, 11 Feb 2021 22:08:54 -0500
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 11C37d0w009910;
+        Fri, 12 Feb 2021 12:07:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11C37d0w009910
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613074777;
-        bh=3q85RvzHUnQVHf5EgSJ9LEngLtR72RZfrJmefS9Q5D0=;
+        s=dec2015msa; t=1613099260;
+        bh=I5mK3G+CjJ+ik2u7vLdWvYhGKvVsmh00OZqq6nOWAfo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EC+iBNh4mWXICOT952zRC4y2rDrSRY/Dr7Hf5V39cRFXg9BoYILqZ0n8H4sxHTQUm
-         pORJrWliZjy9acmlqzznYJQmi6kigO3vVV2W2IJiZymLH9+t7/s9TwATkI7CDZiTaB
-         eK+aga71NOzerbD1i2ah0WxGWxvwEMGzcsHhTiEdNaauKD9azQ0cPyzJ6hlXaGDXiO
-         0VKcoMGAoYCoTg2/HJ+4geAOAt7J5Yzwt+DA7mPKKv5MEFzOQa/3w6S6RbjvMlOmuR
-         HuLqMk1W7kk+5UKPKOU8s2qsmMf8YkBPZbK+2yf7iLV/GARRU9LyOwWt/HpOicmKne
-         6RJUcWcbfuvzg==
-X-Nifty-SrcIP: [209.85.210.174]
-Received: by mail-pf1-f174.google.com with SMTP id 189so4403423pfy.6;
-        Thu, 11 Feb 2021 12:19:37 -0800 (PST)
-X-Gm-Message-State: AOAM533Wt+31ysTwsAt90wwVPNKLiTfywGWPPoxbNklNImQj4EpZqLoQ
-        dbk9aA3XrrF0sLgpk2TCKl1STpo+hdyrLOYb05Y=
-X-Google-Smtp-Source: ABdhPJyippLQMQoQfn+gej5CZpaJxuwzIoVtjaNY/P5e7I73ipSgTgYqmXOayMt5lndNN96IFx1ib4JpGB0OPXBWX6I=
-X-Received: by 2002:a63:ff09:: with SMTP id k9mr9890788pgi.175.1613074776790;
- Thu, 11 Feb 2021 12:19:36 -0800 (PST)
+        b=oyrj/HrlI42UvZ/W4/qK01nOaTO1jKZ+Gj5Kwj/VE1NJ13/IXuJ2oniIoCC4t3Fpy
+         fD0fJ12sl0e/dNaFQ4QdjNgUq8agIlZKJsD3UFveynhKajmvsu+8biPfBeuFeCDdH3
+         hlTfyqy3Dzn413PNssEmhneLlehzw5s8h0RceZbyEcNtE7JF+BwE3lWuBgOHg4xlL9
+         1YUEZNSVmC8gMLfCb6YkHQxrm2nJSGvf35q9yl2Y/dA3jd1nv7X7//XEnp82+ynwro
+         2NPTUhovCbmXsDBlQDO2aKFLlCpryxI+uxYXHU0k2AX0ul30u7QzHctKXznSOZzxy+
+         UnZvMEz518kXg==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id c11so4963782pfp.10;
+        Thu, 11 Feb 2021 19:07:39 -0800 (PST)
+X-Gm-Message-State: AOAM5335C91fISp+5UC7w9984s+yOBl7aahfMv91TFO5wxPStJ8gYyjr
+        sz4Dmyx/Q0VEk2LrkkHo6JKNGk/9XHmeTOwdQJA=
+X-Google-Smtp-Source: ABdhPJx8OiSoNeZ/dmRG1leCMKTZJ1WHVjWadinf3/HxClDg13CKEIq42sKUnmjPj6qz2ebltPfCHfzmGNkzOzRQJVI=
+X-Received: by 2002:a62:2f07:0:b029:1bb:5f75:f985 with SMTP id
+ v7-20020a622f070000b02901bb5f75f985mr993540pfv.76.1613099258850; Thu, 11 Feb
+ 2021 19:07:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20210207161352.2044572-1-sashal@kernel.org> <20210208175007.GA1501867@infradead.org>
- <20210208182001.GA4035784@sasha-vm>
-In-Reply-To: <20210208182001.GA4035784@sasha-vm>
+References: <cover.1612955268.git.viresh.kumar@linaro.org> <44dad578df8a848fc378cd358f03b071f44c9a5b.1612955268.git.viresh.kumar@linaro.org>
+ <CAK7LNARa8GzhhvZWV_KAW=MC0DRcSsfPsQ-KTBRRpbBgBqY=ig@mail.gmail.com> <CAL_JsqKHUG6VvvpQ18YdzsOA_gZ59gFsc2tUzt1SxKHsO2A03g@mail.gmail.com>
+In-Reply-To: <CAL_JsqKHUG6VvvpQ18YdzsOA_gZ59gFsc2tUzt1SxKHsO2A03g@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 12 Feb 2021 05:18:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQtQTwGt4SCK88a=y4ydASXoR30cCCmcFFdsUk=WY7tfA@mail.gmail.com>
-Message-ID: <CAK7LNAQtQTwGt4SCK88a=y4ydASXoR30cCCmcFFdsUk=WY7tfA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: simplify access to the kernel's version
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
+Date:   Fri, 12 Feb 2021 12:07:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQH8hVwqGF+82j=38gi7VaixLhYS-K1uT1wdX4t07pJ6Q@mail.gmail.com>
+Message-ID: <CAK7LNAQH8hVwqGF+82j=38gi7VaixLhYS-K1uT1wdX4t07pJ6Q@mail.gmail.com>
+Subject: Re: [PATCH V7 1/3] kbuild: Add generic rule to apply fdtoverlay
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <michal.simek@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 9, 2021 at 3:20 AM Sasha Levin <sashal@kernel.org> wrote:
+On Fri, Feb 12, 2021 at 5:05 AM Rob Herring <robh+dt@kernel.org> wrote:
 >
-> On Mon, Feb 08, 2021 at 05:50:07PM +0000, Christoph Hellwig wrote:
-> >On Sun, Feb 07, 2021 at 11:13:52AM -0500, Sasha Levin wrote:
-> >> +            (u8)(LINUX_VERSION_MAJOR), (u8)(LINUX_VERSION_PATCHLEVEL),
-> >> +            (u16)(LINUX_VERSION_SUBLEVEL));
+> On Thu, Feb 11, 2021 at 12:28 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> >No need for the casts and braces.
+> > On Wed, Feb 10, 2021 at 8:13 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > >
+> > > From: Rob Herring <robh@kernel.org>
+> > >
+> > > Add a generic rule to apply fdtoverlay in Makefile.lib, so every
+> > > platform doesn't need to carry the complex rule.
+> > >
+> > > The platform's Makefile only needs to have this now:
+> > >
+> > >  DTC_FLAGS_foo_base += -@
+> > >  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+> > >  overlay-y := foo.dtb
 > >
-
-
-I agree.
-
-Shall I remove the casts when I apply this?
-
-
-
-
-> >Otherwise this looks good, but please also kill off KERNEL_VERSION
-> >and LINUX_KERNEL_VERSION entirely while you're at it.
+> >
+> > Please reuse dtb-y instead of introducing the new
+> > overlay-y syntax, that is,
+> >
+> > foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+> > dtb-y := foo.dtb
 >
-> I don't think there are in-tree users left?
->
-> We can't remove it completely because userspace is still using it, so if
-> we drop those userspace will be sad.
-
-
-Right.
-Once we export a macros to userspace, we cannot remove it.
+> That's what I had, but I believe Viresh changed this because we don't
+> want to run schema checks on foo.dtb (as foo.dts doesn't exist).
+> However, we should be able to filter those out using something similar
+> to technique used for multi-used-y and real-obj-y. We just need to
+> drop composite entries when creating the .dt.yaml list.
 
 
 
+Yes, I think this will work.
 
 
-> --
-> Thanks,
-> Sasha
+
+BTW, I do not know how to use overlay.
+Do we apply overlay in the build time?
+If so, I do not know what the benefit of overlay is.
+Or is this just for build testing?
+
+
+I just thought this was done in the boot time,
+for example, in U-Boot or something.
+
 
 
 
