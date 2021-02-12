@@ -2,111 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6939319D4B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Feb 2021 12:22:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C794E319D92
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Feb 2021 12:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229960AbhBLLWF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Feb 2021 06:22:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbhBLLUp (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Feb 2021 06:20:45 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C87AC061788;
-        Fri, 12 Feb 2021 03:20:30 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id i71so8683643ybg.7;
-        Fri, 12 Feb 2021 03:20:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=q1AsROKdOqecHVFM8xTf93PZvGwRiKKo+rKu3/qWAYU=;
-        b=Y4JItaRYX1iOcq6I6r/1PFSjqcUSYr9/kEVFYU+F+RR2Dg7lbrbq1eYaOel0nh6TYV
-         InK2A1Jv/Ftg7txiLUacnpMjNp8oKD7dv+EmWaBdbuQTKoFSrMP4XVEw3WRtBCoHaqOz
-         M1WjNVDH+vP+AnT3NgJXMxeiXrJloqvBDCpKrpqDII5DqRDFVG0uneTxrHp+VfnAEsT5
-         l/e3dUMbpEG+0ASiIg03GWEIXYFnLvVG881d/yaC0y5jgmzskt0tV/W2s6jkuiJ96szb
-         FPg+56psqAeanrGQqrt0dWdvdj28E5DPy+moIEQLoo8lJalP3B/I37YRwyGpgp1ZAxNZ
-         nMxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=q1AsROKdOqecHVFM8xTf93PZvGwRiKKo+rKu3/qWAYU=;
-        b=CNYrvAUIXZwfiTnsqb5p5pv1tWwPTKwpe33c6tpOLpgoBkmne+8RSt8iKlZeCe/+Yo
-         0KMwHElUQZJCCxvmSs78cPSHjFxpgPki/OL6gkdV3J7HnpV9yO9m3HyRsRQJHPOKLa2R
-         SxGBlYDnALnMESFgZEnhfwmtN4J31DTr/Bq/gELGg9UudW4KbfAR5awzzpDYH34YTqWf
-         VRAnwlyYMJyyuDulBQWvc9UkqgJzuKtFbRjxIOsK7iXxvryU5NL4rg8m1IdlO5bOmPMy
-         cJbLZK8CzA5nXdekaaSWAEXAUKRrWIgPInyrnMhBYj8c8/c7aBx9D5nyC9OLUVTo2HaW
-         BY4g==
-X-Gm-Message-State: AOAM530NspXzzbmn8yqnXC1+MFrApa8SOQvpd4nB/rQv7zoNP4FVW5LW
-        ssqRElm3Yxfny/1ungnctS9s+UZIcNzMUDNP4mr8W8SGeto=
-X-Google-Smtp-Source: ABdhPJwHPtXZFQND6/aMQkNdlns62owet2KZa+OlygbcrEaee1JMglLKT/X3GizKSXyoEty429BdXMXOHxNZunKWCx8=
-X-Received: by 2002:a25:7312:: with SMTP id o18mr3250196ybc.352.1613128829698;
- Fri, 12 Feb 2021 03:20:29 -0800 (PST)
+        id S230242AbhBLLuA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Feb 2021 06:50:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229650AbhBLLt6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 12 Feb 2021 06:49:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8633964E7D;
+        Fri, 12 Feb 2021 11:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613130558;
+        bh=cUvMxzXC600Efy1Ug6l8sauc/4u3co4Gf+va2XshCvE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aSs13cIq7GuWz4la26g7KDvDns60h8i6TO7pz+crFUB5hiD3sLK03X/gJXxDM5TR8
+         p/Nmqg+vOHdnav/2XRTTI8dijkgjE/DulY1q85tvCeGgaQbTDiziSNRnu4LF/lxS1/
+         1TD8RJDARTHUEWGwLdViOovu/J5qD4I85/ArYXDBfnHNuZJGL/rK+amUGbZOPvUedu
+         WY5OOARHu9RLjqy5HKwn5Z7I5Kj9G38/A5l8uw1TmpKASU2nE3P9TvI6kmygz0VnJ1
+         BacMEZmBIHZoSct8Ii0B0lQnLKaFm5Tr+JcjyvP58CZTjN3yCoagLd/zqJhAKbrZls
+         fVAQkr0JMkaIA==
+Date:   Fri, 12 Feb 2021 13:49:08 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Eric Snowberg <eric.snowberg@oracle.com>,
+        =?us-ascii?B?PT91dGYtOD9RP01pY2thPUMzPUFCbF9TYWxhPUMzPUJDbj89?= 
+        <mic@digikod.net>, dwmw2@infradead.org,
+        James.Bottomley@hansenpartnership.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, jmorris@namei.org, serge@hallyn.com,
+        ardb@kernel.org, Mimi Zohar <zohar@linux.ibm.com>,
+        lszubowi@redhat.com, javierm@redhat.com, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Tyler Hicks <tyhicks@linux.microsoft.com>
+Subject: Re: Re: Conflict with =?iso-8859-1?Q?Micka?=
+ =?iso-8859-1?Q?=EBl_Sala=FCn's_blacklist_patches_=5Bwas_=5BPATCH_v5_0=2F4?=
+ =?iso-8859-1?Q?=5D?= Add EFI_CERT_X509_GUID support for dbx/mokx entries]
+Message-ID: <YCZrNIecWpZGvbaw@kernel.org>
+References: <20210122181054.32635-1-eric.snowberg@oracle.com>
+ <1103491.1612369600@warthog.procyon.org.uk>
+ <10e6616e-0598-9f33-2de9-4a5268bba586@digikod.net>
+ <A5B5DEC0-E47A-4C3D-8E79-AF37B6C2E565@oracle.com>
+ <7924ce4c-ea94-9540-0730-bddae7c6af07@digikod.net>
+ <BFC930B3-7994-4C5B-A8EF-1DD1C73F5750@oracle.com>
+ <dc6a4524-3935-fda6-40a8-cebf80942cdf@digikod.net>
+ <188DE1AF-A011-4631-B88A-2C4324DA013B@oracle.com>
+ <99066eb7-53ac-41b0-46cf-36ea3d7f6590@digikod.net>
+ <525705.1612876446@warthog.procyon.org.uk>
 MIME-Version: 1.0
-References: <1612783737-3512-1-git-send-email-stephenzhangzsd@gmail.com>
- <20210208195439.GA1097868@ubuntu-m3-large-x86> <CALuz2=d-ENRbWgGYaO_ESEaw5eOVSwkQmkeYBJ-w0Vb3zZ+REg@mail.gmail.com>
- <20210209192729.GA820978@ubuntu-m3-large-x86> <CALuz2=dyA_ki98t8VNe2L1UcBXrSoJT1r6j1puEmLn7WrX87XQ@mail.gmail.com>
- <20210210182400.GA3502674@ubuntu-m3-large-x86> <CALuz2=eSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew@mail.gmail.com>
- <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com>
-From:   Stephen Zhang <stephenzhangzsd@gmail.com>
-Date:   Fri, 12 Feb 2021 19:20:18 +0800
-Message-ID: <CALuz2=ck_=M6Dd8oFgWxnRGdipWOsdL2KODZQSmodh2N7Z8T-w@mail.gmail.com>
-Subject: Re: [PATCH v1] clang_tools:gen_compile_commands: Change the default
- source directory
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Tom Roeder <tmroeder@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <525705.1612876446@warthog.procyon.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> =E4=BA=8E2021=E5=B9=B42=E6=9C=8811=
-=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8810:16=E5=86=99=E9=81=93=EF=BC=
-=9A
-> Please stop.
->
->
-> Commit 6ca4c6d25949117dc5b4845612e290b6d89e70a8
-> removed the tools/ support.
->
->
-> There exist two build systems in the Linux source tree.
-> Kbuild covers the entire tree except tools/.
-> The tools/ directory adopts a different build system.
->
-> It is a pity that the tools/ directory
-> went in a wrong direction, and people
-> try to fix problems in a wrong layer.
->
->
-> You are not the first person to send to
-> tweak obj/source trees of this script.
->
-> You can not do this correctly
-> without terribly messing up the code.
->
-> Please do not try to support tools/.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+On Tue, Feb 09, 2021 at 01:14:06PM +0000, David Howells wrote:
+> 
+> Hi Eric, Mickaël,
+> 
+> Do we have a consensus on this?  From what's written here, I don't think I can
+> ask Linus to pull the merge of your two branches.  I feel that I probably need
+> to push Eric's first as that fixes a CVE if I can't offer a merge.
+> 
+> David
 
-Thanks for the suggestion.But what we try to support is scripts/
-instead of tools/. 'tools/' here is to help explaining the problem.
-Or am I just misunderstanding your words?
+Would it be possible to compose a single unified patch set?
 
---
-Best Regards
-Stephen Zhang
+It's also somewhat distracting to review both separately.
+
+/Jarkko
