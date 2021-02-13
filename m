@@ -2,178 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1EAC31A9E4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Feb 2021 05:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 332C131A9E9
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Feb 2021 05:52:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231175AbhBMEmy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Feb 2021 23:42:54 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:53439 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbhBMEmx (ORCPT
+        id S231394AbhBMEwi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Feb 2021 23:52:38 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:47950 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229718AbhBMEwh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Feb 2021 23:42:53 -0500
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 11D4fXON003851;
-        Sat, 13 Feb 2021 13:41:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11D4fXON003851
+        Fri, 12 Feb 2021 23:52:37 -0500
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 11D4pUOw003083;
+        Sat, 13 Feb 2021 13:51:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11D4pUOw003083
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613191294;
-        bh=VtwzTs7t+yMIoTEyh6Ci+xZr/ph8zDWPG+WEC8xBy3U=;
+        s=dec2015msa; t=1613191891;
+        bh=F5rAstRKVcnldUmASCxQnLhZwn4DufsgGL1w1X7AFfs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=08hJff096gJ1QloTX3xJTuTm84m2BHZzepggAD9CQmbF/8pYZTonUkM+uwWCeW6b6
-         5U6HPDO4WGz4/lnvwPsC3s0Yii6HeLuQqRVyauLANRFiUrqhTlCbjtJcokaTJRHH5v
-         GC/+X3eQbdl+idgBDNtNuSPcfIof952+Ljqe4uWmKjsffY5HTzlzR5iKhACFBoSLqr
-         k0EznIKcOQJiibNjqOHSQoeJjrxHmGfXhNRzkAdyVK0cduVcPRXA33heIkVL82G9F5
-         RNVpNlLGZEvvBQlS6TFMI6sNowTWgW1rvt1g7/xh9xsVNHPA/BNgsV3E4tLEv/pHul
-         uvE0rsLiYaQog==
-X-Nifty-SrcIP: [209.85.216.44]
-Received: by mail-pj1-f44.google.com with SMTP id my11so1087482pjb.1;
-        Fri, 12 Feb 2021 20:41:33 -0800 (PST)
-X-Gm-Message-State: AOAM530WgR89OwoBkJvxdfvvzMoKIQeYTXr7A5HiCmDjuoLoZryNEFl8
-        T9G+lRaySCgxaRfMwF5AwAoeMk1IfLhnHxPvmhs=
-X-Google-Smtp-Source: ABdhPJzyYF/q+0I82mHrNqBdW/9veWQ/SloqeavOVWSS6qD21FRc7ApcWXMpu4R/UkndY2hOktTsy9Vl6Garz9KHzAc=
-X-Received: by 2002:a17:90b:1b50:: with SMTP id nv16mr5488947pjb.153.1613191292991;
- Fri, 12 Feb 2021 20:41:32 -0800 (PST)
+        b=kkpUarNaB20eqpe1Sati0y360f5NaP05pmUMhRh2z74rUlAuBzGGPvGts0tMiGDxH
+         qSp0FSF7x8GRxyH/WXBxFwabMNDJ6My79VbqdiyN5H7D+WCZEyGu74TZEBinkxrYG4
+         z5svoDqoJchN/M1jPULH3ICaSlvMECqrBsf5aE7VRPUL09VxgiAIETRsP1CNNxAjM/
+         JANmGUdPes12FIU6EhRCp4HV2xwFsyHqdSSL/XO0hlnJ6BSpJhy7pSi8uJb5JTtcye
+         9JrZXJHr66fMiSsGZ3uSZPpowjzlZ+XBRFvoMhX0KXVjS5D2jSrx4jUoVVzfogRk8i
+         KLabM4lfvq3FA==
+X-Nifty-SrcIP: [209.85.215.174]
+Received: by mail-pg1-f174.google.com with SMTP id o7so983003pgl.1;
+        Fri, 12 Feb 2021 20:51:30 -0800 (PST)
+X-Gm-Message-State: AOAM5339SzKTYHgSelGwai2DFq+51MpHUEN8Gcngc96FW2+U+CecZB9b
+        bT9+yGEZxzPHAE46aPSetKDIrREfreNdmyKkY8I=
+X-Google-Smtp-Source: ABdhPJxGK4piQo3raOfwhCR5hiwrOV0Bk+CO0QLPlsRqODDRAi7vh2nqSvYj3IqqOVwWAQ7JCcfvQ/q/fdUES0IZVz0=
+X-Received: by 2002:a63:575e:: with SMTP id h30mr6167948pgm.7.1613191889994;
+ Fri, 12 Feb 2021 20:51:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20210212162924.2269887-1-sashal@kernel.org>
-In-Reply-To: <20210212162924.2269887-1-sashal@kernel.org>
+References: <20210128005110.2613902-1-masahiroy@kernel.org>
+ <20210128005110.2613902-3-masahiroy@kernel.org> <41f7ad59-6ee7-db95-0e56-861c61e8318f@digikod.net>
+ <b47407f4-6c4c-1db3-f1ad-c569de315790@digikod.net>
+In-Reply-To: <b47407f4-6c4c-1db3-f1ad-c569de315790@digikod.net>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 13 Feb 2021 13:40:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKhxeV-41zENk7aBSmZDBZhAxDoN=SOH4yAgyrSjjVdA@mail.gmail.com>
-Message-ID: <CAK7LNARKhxeV-41zENk7aBSmZDBZhAxDoN=SOH4yAgyrSjjVdA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: simplify access to the kernel's version
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Sat, 13 Feb 2021 13:50:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS_xG6EAKf8o8wdBD5GBZzajW1P78GfwYgCZ3gO7xCqvg@mail.gmail.com>
+Message-ID: <CAK7LNAS_xG6EAKf8o8wdBD5GBZzajW1P78GfwYgCZ3gO7xCqvg@mail.gmail.com>
+Subject: Re: [PATCH 02/27] x86/syscalls: fix -Wmissing-prototypes warnings
+ from COND_SYSCALL()
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        kernel test robot <lkp@intel.com>,
+        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 13, 2021 at 1:29 AM Sasha Levin <sashal@kernel.org> wrote:
+On Sat, Feb 13, 2021 at 12:12 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
+ wrote:
 >
-> Instead of storing the version in a single integer and having various
-> kernel (and userspace) code how it's constructed, export individual
-> (major, patchlevel, sublevel) components and simplify kernel code that
-> uses it.
+> Could you please push this patch to Linus? Thanks.
 >
-> This should also make it easier on userspace.
->
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Makefile                                       | 5 ++++-
->  drivers/net/ethernet/mellanox/mlx5/core/main.c | 4 ++--
->  drivers/usb/core/hcd.c                         | 4 ++--
->  drivers/usb/gadget/udc/aspeed-vhub/hub.c       | 4 ++--
->  include/linux/usb/composite.h                  | 4 ++--
->  kernel/sys.c                                   | 2 +-
->  6 files changed, 13 insertions(+), 10 deletions(-)
+> On 04/02/2021 15:16, Micka=C3=ABl Sala=C3=BCn wrote:
+> >
+> > On 28/01/2021 01:50, Masahiro Yamada wrote:
+> >> Building kernel/sys_ni.c with W=3D1 omits tons of -Wmissing-prototypes
+> >> warnings.
+> >>
+> >> $ make W=3D1 kernel/sys_ni.o
+> >>   [ snip ]
+> >>   CC      kernel/sys_ni.o
+> >> In file included from kernel/sys_ni.c:10:
+> >> ./arch/x86/include/asm/syscall_wrapper.h:83:14: warning: no previous p=
+rototype for '__x64_sys_io_setup' [-Wmissing-prototypes]
+> >>    83 |  __weak long __##abi##_##name(const struct pt_regs *__unused) =
+\
+> >>       |              ^~
+> >> ./arch/x86/include/asm/syscall_wrapper.h:100:2: note: in expansion of =
+macro '__COND_SYSCALL'
+> >>   100 |  __COND_SYSCALL(x64, sys_##name)
+> >>       |  ^~~~~~~~~~~~~~
+> >> ./arch/x86/include/asm/syscall_wrapper.h:256:2: note: in expansion of =
+macro '__X64_COND_SYSCALL'
+> >>   256 |  __X64_COND_SYSCALL(name)     \
+> >>       |  ^~~~~~~~~~~~~~~~~~
+> >> kernel/sys_ni.c:39:1: note: in expansion of macro 'COND_SYSCALL'
+> >>    39 | COND_SYSCALL(io_setup);
+> >>       | ^~~~~~~~~~~~
+> >> ./arch/x86/include/asm/syscall_wrapper.h:83:14: warning: no previous p=
+rototype for '__ia32_sys_io_setup' [-Wmissing-prototypes]
+> >>    83 |  __weak long __##abi##_##name(const struct pt_regs *__unused) =
+\
+> >>       |              ^~
+> >> ./arch/x86/include/asm/syscall_wrapper.h:120:2: note: in expansion of =
+macro '__COND_SYSCALL'
+> >>   120 |  __COND_SYSCALL(ia32, sys_##name)
+> >>       |  ^~~~~~~~~~~~~~
+> >> ./arch/x86/include/asm/syscall_wrapper.h:257:2: note: in expansion of =
+macro '__IA32_COND_SYSCALL'
+> >>   257 |  __IA32_COND_SYSCALL(name)
+> >>       |  ^~~~~~~~~~~~~~~~~~~
+> >> kernel/sys_ni.c:39:1: note: in expansion of macro 'COND_SYSCALL'
+> >>    39 | COND_SYSCALL(io_setup);
+> >>       | ^~~~~~~~~~~~
+> >>   ...
+> >>
+> >> __SYS_STUB0() and __SYS_STUBx() defined a few lines above have forward
+> >> declarations. Let's do likewise for __COND_SYSCALL() to fix the
+> >> warnings.
+> >>
+> >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> >
+> > Tested-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> >
+> > Thanks to this patch we avoid multiple emails from Intel's bot when
+> > adding new syscalls. :)
+
+
+Thanks for the reminder.
+I will fix the typo "omits" -> "emits"
+and send v2 just in case.
 
 
 
-
-Applied to linux-kbuild. Thanks.
-
-
-
-
-
-> diff --git a/Makefile b/Makefile
-> index 12607d3891487..1fdd44fe16590 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1255,7 +1255,10 @@ define filechk_version.h
->                 expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + $(SUBLEVEL)); \
->         fi;                                                              \
->         echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) +  \
-> -       ((c) > 255 ? 255 : (c)))'
-> +       ((c) > 255 ? 255 : (c)))';                                       \
-> +       echo \#define LINUX_VERSION_MAJOR $(VERSION);                    \
-> +       echo \#define LINUX_VERSION_PATCHLEVEL $(PATCHLEVEL);            \
-> +       echo \#define LINUX_VERSION_SUBLEVEL $(SUBLEVEL)
->  endef
->
->  $(version_h): FORCE
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-> index ca6f2fc39ea0a..29f886263dc52 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-> @@ -235,8 +235,8 @@ static void mlx5_set_driver_version(struct mlx5_core_dev *dev)
->         remaining_size = max_t(int, 0, driver_ver_sz - strlen(string));
->
->         snprintf(string + strlen(string), remaining_size, "%u.%u.%u",
-> -                (u8)((LINUX_VERSION_CODE >> 16) & 0xff), (u8)((LINUX_VERSION_CODE >> 8) & 0xff),
-> -                (u16)(LINUX_VERSION_CODE & 0xffff));
-> +               LINUX_VERSION_MAJOR, LINUX_VERSION_PATCHLEVEL,
-> +               LINUX_VERSION_SUBLEVEL);
->
->         /*Send the command*/
->         MLX5_SET(set_driver_version_in, in, opcode,
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index ad5a0f405a75c..3f0381344221e 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -111,8 +111,8 @@ DECLARE_WAIT_QUEUE_HEAD(usb_kill_urb_queue);
->   */
->
->  /*-------------------------------------------------------------------------*/
-> -#define KERNEL_REL     bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
-> -#define KERNEL_VER     bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
-> +#define KERNEL_REL     bin2bcd(LINUX_VERSION_MAJOR)
-> +#define KERNEL_VER     bin2bcd(LINUX_VERSION_PATCHLEVEL)
->
->  /* usb 3.1 root hub device descriptor */
->  static const u8 usb31_rh_dev_descriptor[18] = {
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> index bfd8e77788e29..5c7dea5e0ff16 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> @@ -46,8 +46,8 @@
->   *    - Make vid/did overridable
->   *    - make it look like usb1 if usb1 mode forced
->   */
-> -#define KERNEL_REL     bin2bcd(((LINUX_VERSION_CODE >> 16) & 0x0ff))
-> -#define KERNEL_VER     bin2bcd(((LINUX_VERSION_CODE >> 8) & 0x0ff))
-> +#define KERNEL_REL     bin2bcd(LINUX_VERSION_MAJOR)
-> +#define KERNEL_VER     bin2bcd(LINUX_VERSION_PATCHLEVEL)
->
->  enum {
->         AST_VHUB_STR_INDEX_MAX = 4,
-> diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
-> index a2d229ab63ba5..7531ce7233747 100644
-> --- a/include/linux/usb/composite.h
-> +++ b/include/linux/usb/composite.h
-> @@ -573,8 +573,8 @@ static inline u16 get_default_bcdDevice(void)
->  {
->         u16 bcdDevice;
->
-> -       bcdDevice = bin2bcd((LINUX_VERSION_CODE >> 16 & 0xff)) << 8;
-> -       bcdDevice |= bin2bcd((LINUX_VERSION_CODE >> 8 & 0xff));
-> +       bcdDevice = bin2bcd(LINUX_VERSION_MAJOR) << 8;
-> +       bcdDevice |= bin2bcd(LINUX_VERSION_PATCHLEVEL);
->         return bcdDevice;
->  }
->
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index 51f00fe20e4d1..c2225bd405d58 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -1243,7 +1243,7 @@ static int override_release(char __user *release, size_t len)
->                                 break;
->                         rest++;
->                 }
-> -               v = ((LINUX_VERSION_CODE >> 8) & 0xff) + 60;
-> +               v = LINUX_VERSION_PATCHLEVEL + 60;
->                 copy = clamp_t(size_t, len, 1, sizeof(buf));
->                 copy = scnprintf(buf, copy, "2.6.%u%s", v, rest);
->                 ret = copy_to_user(release, buf, copy + 1);
-> --
-> 2.27.0
->
+> >
+> >
+> >> ---
+> >>
+> >>  arch/x86/include/asm/syscall_wrapper.h | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/arch/x86/include/asm/syscall_wrapper.h b/arch/x86/include=
+/asm/syscall_wrapper.h
+> >> index a84333adeef2..80c08c7d5e72 100644
+> >> --- a/arch/x86/include/asm/syscall_wrapper.h
+> >> +++ b/arch/x86/include/asm/syscall_wrapper.h
+> >> @@ -80,6 +80,7 @@ extern long __ia32_sys_ni_syscall(const struct pt_re=
+gs *regs);
+> >>      }
+> >>
+> >>  #define __COND_SYSCALL(abi, name)                                   \
+> >> +    __weak long __##abi##_##name(const struct pt_regs *__unused);   \
+> >>      __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+> >>      {                                                               \
+> >>              return sys_ni_syscall();                                \
+> >>
 
 
--- 
+
+--=20
 Best Regards
 Masahiro Yamada
