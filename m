@@ -2,152 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 332C131A9E9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Feb 2021 05:52:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA8C31AB68
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Feb 2021 13:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231394AbhBMEwi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Feb 2021 23:52:38 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:47950 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229718AbhBMEwh (ORCPT
+        id S229587AbhBMMq6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Feb 2021 07:46:58 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:22838 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229584AbhBMMq5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Feb 2021 23:52:37 -0500
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 11D4pUOw003083;
-        Sat, 13 Feb 2021 13:51:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11D4pUOw003083
+        Sat, 13 Feb 2021 07:46:57 -0500
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 11DCk1gw020296;
+        Sat, 13 Feb 2021 21:46:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 11DCk1gw020296
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613191891;
-        bh=F5rAstRKVcnldUmASCxQnLhZwn4DufsgGL1w1X7AFfs=;
+        s=dec2015msa; t=1613220362;
+        bh=KdXBt186v51HmgRvEE2352D3Kz6v3BiRQbc1mVmCOVk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kkpUarNaB20eqpe1Sati0y360f5NaP05pmUMhRh2z74rUlAuBzGGPvGts0tMiGDxH
-         qSp0FSF7x8GRxyH/WXBxFwabMNDJ6My79VbqdiyN5H7D+WCZEyGu74TZEBinkxrYG4
-         z5svoDqoJchN/M1jPULH3ICaSlvMECqrBsf5aE7VRPUL09VxgiAIETRsP1CNNxAjM/
-         JANmGUdPes12FIU6EhRCp4HV2xwFsyHqdSSL/XO0hlnJ6BSpJhy7pSi8uJb5JTtcye
-         9JrZXJHr66fMiSsGZ3uSZPpowjzlZ+XBRFvoMhX0KXVjS5D2jSrx4jUoVVzfogRk8i
-         KLabM4lfvq3FA==
-X-Nifty-SrcIP: [209.85.215.174]
-Received: by mail-pg1-f174.google.com with SMTP id o7so983003pgl.1;
-        Fri, 12 Feb 2021 20:51:30 -0800 (PST)
-X-Gm-Message-State: AOAM5339SzKTYHgSelGwai2DFq+51MpHUEN8Gcngc96FW2+U+CecZB9b
-        bT9+yGEZxzPHAE46aPSetKDIrREfreNdmyKkY8I=
-X-Google-Smtp-Source: ABdhPJxGK4piQo3raOfwhCR5hiwrOV0Bk+CO0QLPlsRqODDRAi7vh2nqSvYj3IqqOVwWAQ7JCcfvQ/q/fdUES0IZVz0=
-X-Received: by 2002:a63:575e:: with SMTP id h30mr6167948pgm.7.1613191889994;
- Fri, 12 Feb 2021 20:51:29 -0800 (PST)
+        b=O+cAFE31DZpGZ3jMpIA2p+4QZ4TO/TEyVpBEGczKjTykbC8GWur5rgzeQADU3XGBB
+         jRqJKm96BXdp+wb6W9o44fKBILeRzrqaPduwVQYXN+migUw1TuRnPyledBqQ1q9olN
+         eK9sVqLGW+Vwj9oEq/yd2bjfYKfB9dgJRL4gOvYd36dUAgPyHn1Ebun6R4zaPa75Ur
+         Cb15t107+2FbxAtefOQqQGF1KtNXFkt9pHyxtSqHR05+8hUT6xDkIPQ2ypzmz/sL9K
+         3RMNC4hJgTsY408i5MDwvKH2yYIpqQSLGDWR21ubccmKARAIi3EN7Cn1zHO+qg4QZ2
+         C8TBEFHKpCGuw==
+X-Nifty-SrcIP: [209.85.210.171]
+Received: by mail-pf1-f171.google.com with SMTP id z6so1320258pfq.0;
+        Sat, 13 Feb 2021 04:46:02 -0800 (PST)
+X-Gm-Message-State: AOAM532cVOntleqTCaMcquJagDjWiDuMU32SYbd6xogN9XnTlBkMRup2
+        8Tx9dLoxQuQBmUoYw6T4GQyn6kbs7x+zukKPtY0=
+X-Google-Smtp-Source: ABdhPJz99A7le2TYhlGfirnnIHVPF7lDpuc4jAZSS8YwXwPFfO++WtvKcSd9gLtFM9uQRJjFmqeM2ig+6UQKCPc4h+o=
+X-Received: by 2002:a62:e804:0:b029:1dd:cf18:bdee with SMTP id
+ c4-20020a62e8040000b02901ddcf18bdeemr7492308pfi.63.1613220361343; Sat, 13 Feb
+ 2021 04:46:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20210128005110.2613902-1-masahiroy@kernel.org>
- <20210128005110.2613902-3-masahiroy@kernel.org> <41f7ad59-6ee7-db95-0e56-861c61e8318f@digikod.net>
- <b47407f4-6c4c-1db3-f1ad-c569de315790@digikod.net>
-In-Reply-To: <b47407f4-6c4c-1db3-f1ad-c569de315790@digikod.net>
+References: <1612783737-3512-1-git-send-email-stephenzhangzsd@gmail.com>
+ <20210208195439.GA1097868@ubuntu-m3-large-x86> <CALuz2=d-ENRbWgGYaO_ESEaw5eOVSwkQmkeYBJ-w0Vb3zZ+REg@mail.gmail.com>
+ <20210209192729.GA820978@ubuntu-m3-large-x86> <CALuz2=dyA_ki98t8VNe2L1UcBXrSoJT1r6j1puEmLn7WrX87XQ@mail.gmail.com>
+ <20210210182400.GA3502674@ubuntu-m3-large-x86> <CALuz2=eSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew@mail.gmail.com>
+ <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com> <CALuz2=ck_=M6Dd8oFgWxnRGdipWOsdL2KODZQSmodh2N7Z8T-w@mail.gmail.com>
+In-Reply-To: <CALuz2=ck_=M6Dd8oFgWxnRGdipWOsdL2KODZQSmodh2N7Z8T-w@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 13 Feb 2021 13:50:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS_xG6EAKf8o8wdBD5GBZzajW1P78GfwYgCZ3gO7xCqvg@mail.gmail.com>
-Message-ID: <CAK7LNAS_xG6EAKf8o8wdBD5GBZzajW1P78GfwYgCZ3gO7xCqvg@mail.gmail.com>
-Subject: Re: [PATCH 02/27] x86/syscalls: fix -Wmissing-prototypes warnings
- from COND_SYSCALL()
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 13 Feb 2021 21:45:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR06H3Ue5SG3=6u1veyjg+kXXb2isEBsHVQEtMMJ3d2Tw@mail.gmail.com>
+Message-ID: <CAK7LNAR06H3Ue5SG3=6u1veyjg+kXXb2isEBsHVQEtMMJ3d2Tw@mail.gmail.com>
+Subject: Re: [PATCH v1] clang_tools:gen_compile_commands: Change the default
+ source directory
+To:     Stephen Zhang <stephenzhangzsd@gmail.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Tom Roeder <tmroeder@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 13, 2021 at 12:12 AM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>=
- wrote:
+On Fri, Feb 12, 2021 at 8:20 PM Stephen Zhang <stephenzhangzsd@gmail.com> w=
+rote:
 >
-> Could you please push this patch to Linus? Thanks.
+> Masahiro Yamada <masahiroy@kernel.org> =E4=BA=8E2021=E5=B9=B42=E6=9C=8811=
+=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8810:16=E5=86=99=E9=81=93=EF=BC=
+=9A
+> > Please stop.
+> >
+> >
+> > Commit 6ca4c6d25949117dc5b4845612e290b6d89e70a8
+> > removed the tools/ support.
+> >
+> >
+> > There exist two build systems in the Linux source tree.
+> > Kbuild covers the entire tree except tools/.
+> > The tools/ directory adopts a different build system.
+> >
+> > It is a pity that the tools/ directory
+> > went in a wrong direction, and people
+> > try to fix problems in a wrong layer.
+> >
+> >
+> > You are not the first person to send to
+> > tweak obj/source trees of this script.
+> >
+> > You can not do this correctly
+> > without terribly messing up the code.
+> >
+> > Please do not try to support tools/.
+> >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
 >
-> On 04/02/2021 15:16, Micka=C3=ABl Sala=C3=BCn wrote:
-> >
-> > On 28/01/2021 01:50, Masahiro Yamada wrote:
-> >> Building kernel/sys_ni.c with W=3D1 omits tons of -Wmissing-prototypes
-> >> warnings.
-> >>
-> >> $ make W=3D1 kernel/sys_ni.o
-> >>   [ snip ]
-> >>   CC      kernel/sys_ni.o
-> >> In file included from kernel/sys_ni.c:10:
-> >> ./arch/x86/include/asm/syscall_wrapper.h:83:14: warning: no previous p=
-rototype for '__x64_sys_io_setup' [-Wmissing-prototypes]
-> >>    83 |  __weak long __##abi##_##name(const struct pt_regs *__unused) =
-\
-> >>       |              ^~
-> >> ./arch/x86/include/asm/syscall_wrapper.h:100:2: note: in expansion of =
-macro '__COND_SYSCALL'
-> >>   100 |  __COND_SYSCALL(x64, sys_##name)
-> >>       |  ^~~~~~~~~~~~~~
-> >> ./arch/x86/include/asm/syscall_wrapper.h:256:2: note: in expansion of =
-macro '__X64_COND_SYSCALL'
-> >>   256 |  __X64_COND_SYSCALL(name)     \
-> >>       |  ^~~~~~~~~~~~~~~~~~
-> >> kernel/sys_ni.c:39:1: note: in expansion of macro 'COND_SYSCALL'
-> >>    39 | COND_SYSCALL(io_setup);
-> >>       | ^~~~~~~~~~~~
-> >> ./arch/x86/include/asm/syscall_wrapper.h:83:14: warning: no previous p=
-rototype for '__ia32_sys_io_setup' [-Wmissing-prototypes]
-> >>    83 |  __weak long __##abi##_##name(const struct pt_regs *__unused) =
-\
-> >>       |              ^~
-> >> ./arch/x86/include/asm/syscall_wrapper.h:120:2: note: in expansion of =
-macro '__COND_SYSCALL'
-> >>   120 |  __COND_SYSCALL(ia32, sys_##name)
-> >>       |  ^~~~~~~~~~~~~~
-> >> ./arch/x86/include/asm/syscall_wrapper.h:257:2: note: in expansion of =
-macro '__IA32_COND_SYSCALL'
-> >>   257 |  __IA32_COND_SYSCALL(name)
-> >>       |  ^~~~~~~~~~~~~~~~~~~
-> >> kernel/sys_ni.c:39:1: note: in expansion of macro 'COND_SYSCALL'
-> >>    39 | COND_SYSCALL(io_setup);
-> >>       | ^~~~~~~~~~~~
-> >>   ...
-> >>
-> >> __SYS_STUB0() and __SYS_STUBx() defined a few lines above have forward
-> >> declarations. Let's do likewise for __COND_SYSCALL() to fix the
-> >> warnings.
-> >>
-> >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >
-> > Tested-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
-> >
-> > Thanks to this patch we avoid multiple emails from Intel's bot when
-> > adding new syscalls. :)
-
-
-Thanks for the reminder.
-I will fix the typo "omits" -> "emits"
-and send v2 just in case.
+> Thanks for the suggestion.But what we try to support is scripts/
+> instead of tools/. 'tools/' here is to help explaining the problem.
+> Or am I just misunderstanding your words?
 
 
 
-> >
-> >
-> >> ---
-> >>
-> >>  arch/x86/include/asm/syscall_wrapper.h | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/arch/x86/include/asm/syscall_wrapper.h b/arch/x86/include=
-/asm/syscall_wrapper.h
-> >> index a84333adeef2..80c08c7d5e72 100644
-> >> --- a/arch/x86/include/asm/syscall_wrapper.h
-> >> +++ b/arch/x86/include/asm/syscall_wrapper.h
-> >> @@ -80,6 +80,7 @@ extern long __ia32_sys_ni_syscall(const struct pt_re=
-gs *regs);
-> >>      }
-> >>
-> >>  #define __COND_SYSCALL(abi, name)                                   \
-> >> +    __weak long __##abi##_##name(const struct pt_regs *__unused);   \
-> >>      __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-> >>      {                                                               \
-> >>              return sys_ni_syscall();                                \
-> >>
+You took 'tools/perf' as an example,
+so I just thought you were trying to fix the tools/.
+
+
+
+I can get scripts/ entries without any problem.
+
+If you do O=3D build, you can pass that directory
+to the -d option of gen_compile_commands.py
+
+  -d DIRECTORY, --directory DIRECTORY
+                        specify the output directory used for the
+kernel build (defaults to the working
+                        directory)
+
+
+This is the steps I tested.
+
+
+masahiro@oscar:~/ref/linux$ make O=3Dbuild  defconfig all -j24
+  [ snip ]
+masahiro@oscar:~/ref/linux$
+./scripts/clang-tools/gen_compile_commands.py  -d build
+masahiro@oscar:~/ref/linux$ grep '"file":' compile_commands.json |
+grep scripts/ | head -n5
+    "file": "/home/masahiro/ref/linux/scripts/mod/empty.c"
+    "file": "/home/masahiro/ref/linux/scripts/mod/sumversion.c"
+    "file": "/home/masahiro/ref/linux/scripts/mod/file2alias.c"
+    "file": "/home/masahiro/ref/linux/scripts/mod/modpost.c"
+    "file": "/home/masahiro/ref/linux/build/scripts/kconfig/parser.tab.c"
+
+
+
+
+
 
 
 
