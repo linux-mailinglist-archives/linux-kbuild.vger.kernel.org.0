@@ -2,119 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F38A231B046
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Feb 2021 12:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D66631B15D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Feb 2021 18:01:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbhBNLuP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Feb 2021 06:50:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbhBNLuO (ORCPT
+        id S229758AbhBNRA6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 14 Feb 2021 12:00:58 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:31207 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229637AbhBNRA5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Feb 2021 06:50:14 -0500
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1640CC061574;
-        Sun, 14 Feb 2021 03:49:34 -0800 (PST)
-Received: by mail-yb1-xb35.google.com with SMTP id 133so4367333ybd.5;
-        Sun, 14 Feb 2021 03:49:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=YbYZAdSVhVuJNoAtWccCf/rL4wPcvTLqCtelTv8zP+0=;
-        b=tIfW9jhPos2FN4wybEValTe3L0GwaS4QasOe7OesU6SBJKghvCL4FHbCN3D6d740Tp
-         XL+GfjnmGjBQUM7haFOs6T6LA2IJQDGHba5b5DrvIMl1bwzlb7XA/TzR4JBbdKK3u78E
-         nIJouAQSNb5qD7VMkhI5gMNXoYxPl7Gngp13t8Y3EnxaWwHj+0g9UHtp1/8Vlvd+vB64
-         E+Mzl+SkgvNVMx26CgR3DgeUsMpGN9Zdd2qEq1kcup8k9bhw+vR2a7T5nNZkla3Vnyi8
-         sEUwDnWPPinlkiGjWNStGmyGKYJMXk2rmn1mDMQ+3YC8p/pE0uNFFcNLfbSt38rjqLM/
-         IMTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YbYZAdSVhVuJNoAtWccCf/rL4wPcvTLqCtelTv8zP+0=;
-        b=DpjSxpiVCHdnYNJGkE1af4Tt2AEii8XG+887bRBs44+2Cn9G0m/kCvqVV/pXYB0gUP
-         CeWOLUwntDv81/U4VmDLD7iicMnpJEyUbUtnn+grhHKjPguVbpnX9pcyJnmDhwUGHaeP
-         0E357KEy6pm4sCrwwVWD4cA+jsLIIFN4n82cLXJpk9GJQ8Svn2BI8pa9gx5Lpr6TIR+t
-         GGmqXe2fyfur6J+btJM7ePp+1Y15L1XHxuNVtrfe3cswRaSC8rDlCur/PD16nH/CK7CF
-         M5LkpxuRWPxeghL02LkVo85SK4Uu6LNBnhpB+t1NPsQjhRb/goPzEdhAKv9/EhhZk138
-         GjLw==
-X-Gm-Message-State: AOAM531XSGIdmDAatZDjudxCKSWbQflHnvD60JshB7MLXXUCl86WosJa
-        +7KUrHEzlr7B6bXJQkhkvr3QXsO2x/EYE8IqPO0=
-X-Google-Smtp-Source: ABdhPJxBXprXfO+zHFZQa26UWH9ERnKFBq5or7C0kRpR48smN3Yt6/llKsTVLFlxS0b5Sv1xBBoD58Rt2xfUegBkY24=
-X-Received: by 2002:a25:7312:: with SMTP id o18mr16101845ybc.352.1613303373113;
- Sun, 14 Feb 2021 03:49:33 -0800 (PST)
+        Sun, 14 Feb 2021 12:00:57 -0500
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 11EGxtaE032141
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Feb 2021 01:59:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11EGxtaE032141
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1613321996;
+        bh=lumSVRR3HltoCz8ZTbWk/WUDbY2zydhkNfQEbVAGebU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=THfVqND8DNNV154p3DZq7rgWRuA9PI7gnCwPY+V7ligWxYdcDie8b13npjYVVIJQg
+         9ALBBOEo49UzDz8yxnpuNWEsUCgRL3AhKlGs2FwbimM7F6wm6zQt1HDO/FSFG7Ltq3
+         mNu0EiUEWs46CN5SR2iRRCtH/wtCM0sp8Bza3OzfnXR32WO1yqmrkrsdU3o25sT/oR
+         AA0hxjcYAArCUtR0hlw7OTKMtC0sXTAt7/K+0Cklej2dXi3N9IOTSxtX0lhioOEePe
+         f//NL+JB8oOrPEKqusBBjT6RqirJYjjQtxj9g6oHiJQ11DqVQNJMdRHfoUO7jA8MVo
+         018ceTf51aamw==
+X-Nifty-SrcIP: [209.85.214.174]
+Received: by mail-pl1-f174.google.com with SMTP id b8so2398534plh.12
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Feb 2021 08:59:56 -0800 (PST)
+X-Gm-Message-State: AOAM530+oN0orBGOXOpqfp8vGCBtefRcjZ/AyK4SzinKCAatUCcSZFYZ
+        Lx7C0bIOKhWsOj/reijrfHACMNVAhH5GFoGKVnE=
+X-Google-Smtp-Source: ABdhPJwO8gL7vUTXbrEInSfyyOWVIZTPNFEvmomg2lzv/mhhKf7OwkIFYBqPP3OzCIiCeRsGJE9aJvIOW4wFwX1vOJ4=
+X-Received: by 2002:a17:902:bb87:b029:e1:d1f:2736 with SMTP id
+ m7-20020a170902bb87b02900e10d1f2736mr11667283pls.1.1613321995405; Sun, 14 Feb
+ 2021 08:59:55 -0800 (PST)
 MIME-Version: 1.0
-References: <1612783737-3512-1-git-send-email-stephenzhangzsd@gmail.com>
- <20210208195439.GA1097868@ubuntu-m3-large-x86> <CALuz2=d-ENRbWgGYaO_ESEaw5eOVSwkQmkeYBJ-w0Vb3zZ+REg@mail.gmail.com>
- <20210209192729.GA820978@ubuntu-m3-large-x86> <CALuz2=dyA_ki98t8VNe2L1UcBXrSoJT1r6j1puEmLn7WrX87XQ@mail.gmail.com>
- <20210210182400.GA3502674@ubuntu-m3-large-x86> <CALuz2=eSv2N2Qp7GimLgdWjvWDwDh1Dj0Q7Czm4Br5a50rs4ew@mail.gmail.com>
- <CAK7LNAT+CG9zqPpYLoy9_1eA4caZWzxyQACcOrhbg9zfArEwPQ@mail.gmail.com>
- <CALuz2=ck_=M6Dd8oFgWxnRGdipWOsdL2KODZQSmodh2N7Z8T-w@mail.gmail.com> <CAK7LNAR06H3Ue5SG3=6u1veyjg+kXXb2isEBsHVQEtMMJ3d2Tw@mail.gmail.com>
-In-Reply-To: <CAK7LNAR06H3Ue5SG3=6u1veyjg+kXXb2isEBsHVQEtMMJ3d2Tw@mail.gmail.com>
-From:   Stephen Zhang <stephenzhangzsd@gmail.com>
-Date:   Sun, 14 Feb 2021 19:49:22 +0800
-Message-ID: <CALuz2=fHXZ=NrVdRNzyromD88wp9pAzYC9nffPt6y5YM=sJniw@mail.gmail.com>
-Subject: Re: [PATCH v1] clang_tools:gen_compile_commands: Change the default
- source directory
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Tom Roeder <tmroeder@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <17347583.e8QBZkc1Fl@mobilepool36.emlix.com>
+In-Reply-To: <17347583.e8QBZkc1Fl@mobilepool36.emlix.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 15 Feb 2021 01:59:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQV+E9CG-2xwRGsLLxjaGN0sdd3hAHYtgD9RYq56WoGPg@mail.gmail.com>
+Message-ID: <CAK7LNAQV+E9CG-2xwRGsLLxjaGN0sdd3hAHYtgD9RYq56WoGPg@mail.gmail.com>
+Subject: Re: [PATCH] scripts: set proper OpenSSL include dir also for sign-file
+To:     Rolf Eike Beer <eb@emlix.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> =E4=BA=8E2021=E5=B9=B42=E6=9C=8813=
-=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8B=E5=8D=888:46=E5=86=99=E9=81=93=EF=BC=
-=9A
-> This is the steps I tested.
+On Fri, Feb 12, 2021 at 4:22 PM Rolf Eike Beer <eb@emlix.com> wrote:
 >
+> Fixes: 2cea4a7a1885bd0c765089afc14f7ff0eb77864e
+> Signed-off-by: Rolf Eike Beer <eb@emlix.com>
+> Cc: stable@vger.kernel.org # 5.6.x
+> ---
+
+
+Applied to linux-kbuild/fixes. Thanks.
+
+
+>  scripts/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> masahiro@oscar:~/ref/linux$ make O=3Dbuild  defconfig all -j24
->   [ snip ]
-> masahiro@oscar:~/ref/linux$
-> ./scripts/clang-tools/gen_compile_commands.py  -d build
-> masahiro@oscar:~/ref/linux$ grep '"file":' compile_commands.json |
-> grep scripts/ | head -n5
->     "file": "/home/masahiro/ref/linux/scripts/mod/empty.c"
->     "file": "/home/masahiro/ref/linux/scripts/mod/sumversion.c"
->     "file": "/home/masahiro/ref/linux/scripts/mod/file2alias.c"
->     "file": "/home/masahiro/ref/linux/scripts/mod/modpost.c"
->     "file": "/home/masahiro/ref/linux/build/scripts/kconfig/parser.tab.c"
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index 9de3c03b94aa..c36106bce80e 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -17,6 +17,7 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)   +=
+=3D insert-sys-cert
+>
+>  HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include
+>  HOSTCFLAGS_asn1_compiler.o =3D -I$(srctree)/include
+> +HOSTCFLAGS_sign-file.o =3D $(CRYPTO_CFLAGS)
+>  HOSTLDLIBS_sign-file =3D $(CRYPTO_LIBS)
+>  HOSTCFLAGS_extract-cert.o =3D $(CRYPTO_CFLAGS)
+>  HOSTLDLIBS_extract-cert =3D $(CRYPTO_LIBS)
+> --
+> 2.30.0
+>
 >
 > --
-> Best Regards
-> Masahiro Yamada
-
-Thanks. Nathan had a detailed description about  this:
-
-> $ make O=3Dbuild
+> Rolf Eike Beer, emlix GmbH, http://www.emlix.com
+> Fon +49 551 30664-0, Fax +49 551 30664-11
+> Gothaer Platz 3, 37083 G=C3=B6ttingen, Germany
+> Sitz der Gesellschaft: G=C3=B6ttingen, Amtsgericht G=C3=B6ttingen HR B 31=
+60
+> Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-Id=
+Nr.: DE 205 198 055
 >
-> will work with '-d .' because the .cmd files are in '.' and the source
-> files will be placed relative to '.', which is correct. Your command
-> does not work for two reasons:
+> emlix - smart embedded open source
 >
-> 1. You are using a build directory that is not a subpath of the source
-> directory. In other words, this script would not work for
 >
-> $ make O=3D/tmp/build
->
-> because '-d /tmp/build' needs to be used to find the .cmd files but then
-> the relative path of the source files is messed up, as you point out.
 
-This may help you reproduce the problem. So you shoud try:
 
->masahiro@oscar:~/ref/linux$ make O=3D/tmp/build  defconfig all -j24
-
-where the build directory  is not a subpath of the source directory.
-
---
+--=20
 Best Regards
-Stephen Zhang
+Masahiro Yamada
