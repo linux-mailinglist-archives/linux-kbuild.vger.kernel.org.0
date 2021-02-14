@@ -2,103 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D66631B15D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Feb 2021 18:01:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7E231B15E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Feb 2021 18:02:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhBNRA6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Feb 2021 12:00:58 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:31207 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhBNRA5 (ORCPT
+        id S229772AbhBNRCQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 14 Feb 2021 12:02:16 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:58612 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229637AbhBNRCP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Feb 2021 12:00:57 -0500
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 11EGxtaE032141
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Feb 2021 01:59:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11EGxtaE032141
+        Sun, 14 Feb 2021 12:02:15 -0500
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 11EH1DmW022819;
+        Mon, 15 Feb 2021 02:01:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 11EH1DmW022819
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613321996;
-        bh=lumSVRR3HltoCz8ZTbWk/WUDbY2zydhkNfQEbVAGebU=;
+        s=dec2015msa; t=1613322074;
+        bh=SP1sGJk9Sz6Zv6lJ9Wi/Vff8sScxvUIuNUkChOHpFR8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=THfVqND8DNNV154p3DZq7rgWRuA9PI7gnCwPY+V7ligWxYdcDie8b13npjYVVIJQg
-         9ALBBOEo49UzDz8yxnpuNWEsUCgRL3AhKlGs2FwbimM7F6wm6zQt1HDO/FSFG7Ltq3
-         mNu0EiUEWs46CN5SR2iRRCtH/wtCM0sp8Bza3OzfnXR32WO1yqmrkrsdU3o25sT/oR
-         AA0hxjcYAArCUtR0hlw7OTKMtC0sXTAt7/K+0Cklej2dXi3N9IOTSxtX0lhioOEePe
-         f//NL+JB8oOrPEKqusBBjT6RqirJYjjQtxj9g6oHiJQ11DqVQNJMdRHfoUO7jA8MVo
-         018ceTf51aamw==
-X-Nifty-SrcIP: [209.85.214.174]
-Received: by mail-pl1-f174.google.com with SMTP id b8so2398534plh.12
-        for <linux-kbuild@vger.kernel.org>; Sun, 14 Feb 2021 08:59:56 -0800 (PST)
-X-Gm-Message-State: AOAM530+oN0orBGOXOpqfp8vGCBtefRcjZ/AyK4SzinKCAatUCcSZFYZ
-        Lx7C0bIOKhWsOj/reijrfHACMNVAhH5GFoGKVnE=
-X-Google-Smtp-Source: ABdhPJwO8gL7vUTXbrEInSfyyOWVIZTPNFEvmomg2lzv/mhhKf7OwkIFYBqPP3OzCIiCeRsGJE9aJvIOW4wFwX1vOJ4=
-X-Received: by 2002:a17:902:bb87:b029:e1:d1f:2736 with SMTP id
- m7-20020a170902bb87b02900e10d1f2736mr11667283pls.1.1613321995405; Sun, 14 Feb
- 2021 08:59:55 -0800 (PST)
+        b=eW5SCVd/ORO2ykDHxnNRrd0j5pNeofX24lJWfc1sAWEZK87VwCvlyBONkk1p+q0pw
+         n9urDcCM7JXO/83SDgjvjWIuq0kCzJpxghQ0kdEY/9lSUqF57fsB4kVM44LTekaoBL
+         2K5usgTVkdb+i9kzobmJV+tecZNrbgkAygUEWwX3cvMZxzFNtx08+4IWsN9L58B4V9
+         msLNld5lBI4A8trmLyO3EgTzKOINsLN5xgyvh+eWnDvPTyAVb6rNcHXCo6xnYQ8S9l
+         7hdmlhpR1RGeMV1AEHEn5ADueffOKPk44du6buIJ89LAEEs34fToTGEhTLY+vWrQY3
+         BiMMNZH6MaRbw==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id d26so2778301pfn.5;
+        Sun, 14 Feb 2021 09:01:13 -0800 (PST)
+X-Gm-Message-State: AOAM533clch37dk64kSPjlB2+UzCYJ2WwCkw3YGVARLYTXnzf3SZiAY5
+        Tzj3X9RmE4N8rzRkjvZlSrTCVbRotG+c+HSmbvQ=
+X-Google-Smtp-Source: ABdhPJynyvRuko2AvW0s/Rsmpz6hR6NWNFNxrImHm+1o7F+Y7g0dNzPk8oFZuEX0oJ2YCILzMn7MQK6BnXeqMrnP+x0=
+X-Received: by 2002:a63:1f1d:: with SMTP id f29mr11945438pgf.47.1613322073045;
+ Sun, 14 Feb 2021 09:01:13 -0800 (PST)
 MIME-Version: 1.0
-References: <17347583.e8QBZkc1Fl@mobilepool36.emlix.com>
-In-Reply-To: <17347583.e8QBZkc1Fl@mobilepool36.emlix.com>
+References: <20210128005110.2613902-1-masahiroy@kernel.org> <20210128005110.2613902-22-masahiroy@kernel.org>
+In-Reply-To: <20210128005110.2613902-22-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 15 Feb 2021 01:59:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQV+E9CG-2xwRGsLLxjaGN0sdd3hAHYtgD9RYq56WoGPg@mail.gmail.com>
-Message-ID: <CAK7LNAQV+E9CG-2xwRGsLLxjaGN0sdd3hAHYtgD9RYq56WoGPg@mail.gmail.com>
-Subject: Re: [PATCH] scripts: set proper OpenSSL include dir also for sign-file
-To:     Rolf Eike Beer <eb@emlix.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Mon, 15 Feb 2021 02:00:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQDcfqSCsCeG9+ytrJNfD5mS8OLS2uZS8WRBuTHRL1qRg@mail.gmail.com>
+Message-ID: <CAK7LNAQDcfqSCsCeG9+ytrJNfD5mS8OLS2uZS8WRBuTHRL1qRg@mail.gmail.com>
+Subject: Re: [PATCH 21/27] sparc: remove wrong comment from arch/sparc/include/asm/Kbuild
+To:     linux-arch <linux-arch@vger.kernel.org>, X86 ML <x86@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-alpha@vger.kernel.org,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-um@lists.infradead.org,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        sparclinux <sparclinux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 12, 2021 at 4:22 PM Rolf Eike Beer <eb@emlix.com> wrote:
+On Thu, Jan 28, 2021 at 9:52 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Fixes: 2cea4a7a1885bd0c765089afc14f7ff0eb77864e
-> Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-> Cc: stable@vger.kernel.org # 5.6.x
+> These are NOT exported to userspace.
+>
+> The headers listed in arch/sparc/include/uapi/asm/Kbuild are exported.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Applied to linux-kbuild/fixes.
+
+
 > ---
-
-
-Applied to linux-kbuild/fixes. Thanks.
-
-
->  scripts/Makefile | 1 +
->  1 file changed, 1 insertion(+)
 >
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index 9de3c03b94aa..c36106bce80e 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -17,6 +17,7 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)   +=
-=3D insert-sys-cert
+>  arch/sparc/include/asm/Kbuild | 2 --
+>  1 file changed, 2 deletions(-)
 >
->  HOSTCFLAGS_sorttable.o =3D -I$(srctree)/tools/include
->  HOSTCFLAGS_asn1_compiler.o =3D -I$(srctree)/include
-> +HOSTCFLAGS_sign-file.o =3D $(CRYPTO_CFLAGS)
->  HOSTLDLIBS_sign-file =3D $(CRYPTO_LIBS)
->  HOSTCFLAGS_extract-cert.o =3D $(CRYPTO_CFLAGS)
->  HOSTLDLIBS_extract-cert =3D $(CRYPTO_LIBS)
+> diff --git a/arch/sparc/include/asm/Kbuild b/arch/sparc/include/asm/Kbuild
+> index 3688fdae50e4..aec20406145e 100644
+> --- a/arch/sparc/include/asm/Kbuild
+> +++ b/arch/sparc/include/asm/Kbuild
+> @@ -1,6 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -# User exported sparc header files
+> -
+>  generated-y += syscall_table_32.h
+>  generated-y += syscall_table_64.h
+>  generated-y += syscall_table_c32.h
 > --
-> 2.30.0
->
->
-> --
-> Rolf Eike Beer, emlix GmbH, http://www.emlix.com
-> Fon +49 551 30664-0, Fax +49 551 30664-11
-> Gothaer Platz 3, 37083 G=C3=B6ttingen, Germany
-> Sitz der Gesellschaft: G=C3=B6ttingen, Amtsgericht G=C3=B6ttingen HR B 31=
-60
-> Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-Id=
-Nr.: DE 205 198 055
->
-> emlix - smart embedded open source
->
+> 2.27.0
 >
 
 
---=20
+-- 
 Best Regards
 Masahiro Yamada
