@@ -2,295 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA5AF31C5BC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Feb 2021 04:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E893931C68A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Feb 2021 07:42:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbhBPDMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Feb 2021 22:12:35 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:34374 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbhBPDMe (ORCPT
+        id S229662AbhBPGmZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Feb 2021 01:42:25 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:38728 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229635AbhBPGmY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Feb 2021 22:12:34 -0500
-Received: from grover.flets-west.jp (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 11G3A8ci028393;
-        Tue, 16 Feb 2021 12:10:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 11G3A8ci028393
+        Tue, 16 Feb 2021 01:42:24 -0500
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 11G6fSQu001971;
+        Tue, 16 Feb 2021 15:41:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11G6fSQu001971
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613445010;
-        bh=ySLd9Zjvney6DkpWkp4QsTkH/8N065eRejVtyKgK2/A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2OfBjeFlXLrxMjkLI4Mb+lc/HWrSDl2U7BhkylnZKZYtu+Liv28L5Q3fTqM56enhs
-         KjQoKBQSuswRyl+a9Ubq+TvhslLFoLnLqYO6yaVcw/dyxj2NT8aT4ac+eYPedGB3Xr
-         2hqzMIR2lhACVsWITYchNsvEtPqQoL6tHawWHpH3nkZxPOUSU0Csq14TdRt9IUY0RP
-         u8o385PwoGEeldJjtKOO7qEQexn8v0uB3HoyCUjeDo2lYwh6OZXQQomwMj7qldoGxY
-         ahAg5dsccS2eHXjFdIEsEv0paUWKAeTzAcWY6Pjca5UIKvQi75DFi1T4tYJVh2oXCU
-         +pAuOrZfrlsXQ==
-X-Nifty-SrcIP: [126.26.94.251]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     David Laight <david.laight@aculab.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        KP Singh <kpsingh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Quentin Perret <qperret@google.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: check the minimum linker version in Kconfig
-Date:   Tue, 16 Feb 2021 12:10:04 +0900
-Message-Id: <20210216031004.552417-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210216031004.552417-1-masahiroy@kernel.org>
-References: <20210216031004.552417-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1613457689;
+        bh=sfEE88E8zodGl9pgVL//ZMGChpopWqeKDKHn6Cpcy54=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PkvY1OsYFbDoHrMrTFk1iWkoCU6CzfhWm0+T7ju+7X5DNc0Gbv/dRZBWytpjZPxeX
+         9+Ur3FKFvOQsHHSxsQ3z1gYSPP+YMP2cpM6oLMrUs5zVNlWWNS8HJObnJyKs+finWl
+         XeYOA9dUDtQdVaDEmuaiC3p3C/ZM08w6/4AUK3HiGl+WiZ2Czn9wizT2yumJHZIaNG
+         HKkVw6o/UX2NFl1JCCHkik7dE+458UiJKnSyN5PuSGGTiLppwdjfijbYRzAZ1Mtopi
+         N/w0v2nkgl95EgMEkVDP52KTBuDqqwWtiWQWlZWKvOgwS3EImruhUz8Qo2mVjpX5gs
+         TuDNgsZ4+b52A==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id e9so4973068plh.3;
+        Mon, 15 Feb 2021 22:41:29 -0800 (PST)
+X-Gm-Message-State: AOAM533YjMySGlO+/2g3NuKr9Hx5fcVZtILLN6O5BeKBJVDiCTZhaqZG
+        z2NpLxAcDdrLtVNcxuOwNqk2FerbsDIftaizZpo=
+X-Google-Smtp-Source: ABdhPJxktul2aMlFBFsBcXxpJLNBs4w78dVlT+Nlq3vElgchqmiUh0YSY2itIW2Wvc00Fq9L/x5cgR2OPr0Nf5j8Cg8=
+X-Received: by 2002:a17:90b:1b50:: with SMTP id nv16mr2648284pjb.153.1613457688393;
+ Mon, 15 Feb 2021 22:41:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210211161154.3892836-1-masahiroy@kernel.org> <20210211171908.GA3820685@ubuntu-m3-large-x86>
+In-Reply-To: <20210211171908.GA3820685@ubuntu-m3-large-x86>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 16 Feb 2021 15:40:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATgjCtXT1ZmTs-nLpLBmpvQSLA+FQHazP+trBgQcvcqcQ@mail.gmail.com>
+Message-ID: <CAK7LNATgjCtXT1ZmTs-nLpLBmpvQSLA+FQHazP+trBgQcvcqcQ@mail.gmail.com>
+Subject: Re: [PATCH] gen_compile_commands: prune some directories
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Unify the two scripts/ld-version.sh and scripts/lld-version.sh, and
-check the minimum linker version like scripts/cc-version.sh did.
+On Fri, Feb 12, 2021 at 2:19 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Fri, Feb 12, 2021 at 01:11:54AM +0900, Masahiro Yamada wrote:
+> > If directories are passed to gen_compile_commands.py, os.walk() traverses
+> > all the subdirectories to search for .cmd files, but we know some of them
+> > are not worth traversing.
+> >
+> > Use the 'topdown' parameter of os.walk to prune them.
+> >
+> > Documentation about the 'topdown' option of os.walk:
+> >   When topdown is True, the caller can modify the dirnames list
+> >   in-place (perhaps using del or slice assignment), and walk() will
+> >   only recurse into the subdirectories whose names remain in dirnames;
+> >   this can be used to prune the search, impose a specific order of
+> >   visiting, or even to inform walk() about directories the caller
+> >   creates or renames before it resumes walk() again. Modifying
+> >   dirnames when topdown is False has no effect on the behavior of
+> >   the walk, because in bottom-up mode the directories in dirnames
+> >   are generated before dirpath itself is generated.
+> >
+> > This commit prunes four directories, .git, Documentation, include, and
+> > tools.
+> >
+> > The first three do not contain any C files. My main motivation is the
+> > last one, tools/ directory.
+> >
+> > Commit 6ca4c6d25949 ("gen_compile_commands: do not support .cmd files
+> > under tools/ directory") stopped supporting the tools/ directory.
+> > The current code no longer picks up .cmd files from the tools/
+> > directory.
+> >
+> > If you run:
+> >
+> >   ./scripts/clang-tools/gen_compile_commands.py --log_level=INFO
+> >
+> > then, you will see several "File ... not found" log messages.
+> >
+> > This is expected, and I do not want to support the tools/ directory.
+> > However, without an explicit comment "do not support tools/", somebody
+> > might try to get it back. Clarify this.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> Sorry, I did not realize that gen_compile_commands.py did not intend to
+> support. I was only looking at the history for the current location, not
+> the former one of scripts/gen_compile_commands.py.
+>
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
+>
 
-I tested this script for some corner cases reported in the past:
+Applied to linux-kbuild.
 
- - GNU ld version 2.25-15.fc23
-   as reported by commit 8083013fc320 ("ld-version: Fix it on Fedora")
 
- - GNU ld (GNU Binutils) 2.20.1.20100303
-   as reported by commit 0d61ed17dd30 ("ld-version: Drop the 4th and
-   5th version components")
 
-This script show an error message if the linker is too old:
-
-  $ make LD=ld.lld-9
-    SYNC    include/config/auto.conf
-  ***
-  *** Linker is too old.
-  ***   Your LLD version:    9.0.1
-  ***   Minimum LLD version: 10.0.1
-  ***
-  scripts/Kconfig.include:50: Sorry, this linker is not supported.
-  make[2]: *** [scripts/kconfig/Makefile:71: syncconfig] Error 1
-  make[1]: *** [Makefile:600: syncconfig] Error 2
-  make: *** [Makefile:708: include/config/auto.conf] Error 2
-
-I also moved the check for gold to this script, so gold is still rejected:
-
-  $ make LD=gold
-    SYNC    include/config/auto.conf
-  gold linker is not supported as it is not capable of linking the kernel proper.
-  scripts/Kconfig.include:50: Sorry, this linker is not supported.
-  make[2]: *** [scripts/kconfig/Makefile:71: syncconfig] Error 1
-  make[1]: *** [Makefile:600: syncconfig] Error 2
-  make: *** [Makefile:708: include/config/auto.conf] Error 2
-
-Thanks to David Laight for suggesting shell script improvements.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- MAINTAINERS             |  1 -
- init/Kconfig            | 21 +++++++----
- scripts/Kconfig.include |  7 +++-
- scripts/ld-version.sh   | 82 ++++++++++++++++++++++++++++++++++++-----
- scripts/lld-version.sh  | 20 ----------
- 5 files changed, 90 insertions(+), 41 deletions(-)
- delete mode 100755 scripts/lld-version.sh
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index df820969be1f..6b82ad6990b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4314,7 +4314,6 @@ C:	irc://chat.freenode.net/clangbuiltlinux
- F:	Documentation/kbuild/llvm.rst
- F:	include/linux/compiler-clang.h
- F:	scripts/clang-tools/
--F:	scripts/lld-version.sh
- K:	\b(?i:clang|llvm)\b
- 
- CLEANCACHE API
-diff --git a/init/Kconfig b/init/Kconfig
-index 7bcfa24524c2..42b69ee29dca 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -33,24 +33,29 @@ config GCC_VERSION
- 	default $(cc-version) if CC_IS_GCC
- 	default 0
- 
--config LD_VERSION
--	int
--	default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
--
- config CC_IS_CLANG
- 	def_bool $(success,test "$(cc-name)" = Clang)
- 
--config LD_IS_LLD
--	def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
--
- config CLANG_VERSION
- 	int
- 	default $(cc-version) if CC_IS_CLANG
- 	default 0
- 
-+config LD_IS_BFD
-+	def_bool $(success,test "$(ld-name)" = BFD)
-+
-+config LD_VERSION
-+	int
-+	default $(ld-version) if LD_IS_BFD
-+	default 0
-+
-+config LD_IS_LLD
-+	def_bool $(success,test "$(ld-name)" = LLD)
-+
- config LLD_VERSION
- 	int
--	default $(shell,$(srctree)/scripts/lld-version.sh $(LD))
-+	default $(ld-version) if LD_IS_LLD
-+	default 0
- 
- config CC_CAN_LINK
- 	bool
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 0228cb9c74aa..58fdb5308725 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -45,8 +45,11 @@ $(error-if,$(success,test -z "$(cc-info)"),Sorry$(comma) this compiler is not su
- cc-name := $(shell,set -- $(cc-info) && echo $1)
- cc-version := $(shell,set -- $(cc-info) && echo $2)
- 
--# Fail if the linker is gold as it's not capable of linking the kernel proper
--$(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supported)
-+# Get the linker name, version, and error out if it is not supported.
-+ld-info := $(shell,$(srctree)/scripts/ld-version.sh $(LD))
-+$(error-if,$(success,test -z "$(ld-info)"),Sorry$(comma) this linker is not supported.)
-+ld-name := $(shell,set -- $(ld-info) && echo $1)
-+ld-version := $(shell,set -- $(ld-info) && echo $2)
- 
- # machine bit flags
- #  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
-diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-index 0f8a2c0f9502..a463273509b5 100755
---- a/scripts/ld-version.sh
-+++ b/scripts/ld-version.sh
-@@ -1,11 +1,73 @@
--#!/usr/bin/awk -f
-+#!/bin/sh
- # SPDX-License-Identifier: GPL-2.0
--# extract linker version number from stdin and turn into single number
--	{
--	gsub(".*\\)", "");
--	gsub(".*version ", "");
--	gsub("-.*", "");
--	split($1,a, ".");
--	print a[1]*10000 + a[2]*100 + a[3];
--	exit
--	}
-+#
-+# Print the linker name and its version in a 5 or 6-digit form.
-+# Also, perform the minimum version check.
-+
-+set -e
-+
-+# When you raise the minimum linker version, please update
-+# Documentation/process/changes.rst as well.
-+bfd_min_version=2.23.0
-+lld_min_version=10.0.1
-+
-+# Convert the version string x.y.z to a canonical 5 or 6-digit form.
-+get_canonical_version()
-+{
-+	IFS=.
-+	set -- $1
-+
-+	# If the 2nd or 3rd field is missing, fill it with a zero.
-+	#
-+	# The 4th field, if present, is ignored.
-+	# This occurs in development snapshots as in 2.35.1.20201116
-+	echo $((10000 * $1 + 100 * ${2:-0} + ${3:-0}))
-+}
-+
-+orig_args="$@"
-+
-+# Get the first line of the --version output.
-+IFS='
-+'
-+set -- $("$@" --version)
-+
-+# Split the line on spaces.
-+IFS=' '
-+set -- $1
-+
-+if [ "$1" = GNU -a "$2" = ld ]; then
-+	shift $(($# - 1))
-+	version=$1
-+	min_version=$bfd_min_version
-+	name=BFD
-+	disp_name="GNU ld"
-+elif [ "$1" = GNU -a "$2" = gold ]; then
-+	echo "gold linker is not supported as it is not capable of linking the kernel proper." >&2
-+	exit 1
-+elif [ "$1" = LLD ]; then
-+	version=$2
-+	min_version=$lld_min_version
-+	name=LLD
-+	disp_name=LLD
-+else
-+	echo "$orig_args: unknown linker" >&2
-+	exit 1
-+fi
-+
-+# Some distributions append a package release number, as in 2.34-4.fc32
-+# Trim the hyphen and any characters that follow.
-+version=${version%-*}
-+
-+cversion=$(get_canonical_version $version)
-+min_cversion=$(get_canonical_version $min_version)
-+
-+if [ "$cversion" -lt "$min_cversion" ]; then
-+	echo >&2 "***"
-+	echo >&2 "*** Linker is too old."
-+	echo >&2 "***   Your $disp_name version:    $version"
-+	echo >&2 "***   Minimum $disp_name version: $min_version"
-+	echo >&2 "***"
-+	exit 1
-+fi
-+
-+echo $name $cversion
-diff --git a/scripts/lld-version.sh b/scripts/lld-version.sh
-deleted file mode 100755
-index d70edb4d8a4f..000000000000
---- a/scripts/lld-version.sh
-+++ /dev/null
-@@ -1,20 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--#
--# Usage: $ ./scripts/lld-version.sh ld.lld
--#
--# Print the linker version of `ld.lld' in a 5 or 6-digit form
--# such as `100001' for ld.lld 10.0.1 etc.
--
--linker_string="$($* --version)"
--
--if ! ( echo $linker_string | grep -q LLD ); then
--	echo 0
--	exit 1
--fi
--
--VERSION=$(echo $linker_string | cut -d ' ' -f 2)
--MAJOR=$(echo $VERSION | cut -d . -f 1)
--MINOR=$(echo $VERSION | cut -d . -f 2)
--PATCHLEVEL=$(echo $VERSION | cut -d . -f 3)
--printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
--- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
