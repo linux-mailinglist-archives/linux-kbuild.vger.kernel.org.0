@@ -2,105 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1869B31D32D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Feb 2021 01:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66EB631D59A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Feb 2021 08:04:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbhBPXyX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Feb 2021 18:54:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbhBPXyX (ORCPT
+        id S229659AbhBQHD5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Feb 2021 02:03:57 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:49141 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhBQHD4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Feb 2021 18:54:23 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72C1C061574
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Feb 2021 15:53:42 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id v193so13096728oie.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Feb 2021 15:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7YZZZa0Z9sq8S0dHPnPa5oROFnkvvg200VC3qLVC1ME=;
-        b=RnSmnHbst8FK/8ck/1v044L3LQP7/uSxvm23Lzbc2rn4IGOkaXLgNd87nRHGzjPger
-         zlB8oYx9DP/gGdxrNeHurZy9bsGOofhri2hmjd0HjmRBd2VYc/IbWucJXVkZ4zzWIJ9d
-         jIAymqZAgxSXBAPLR3DfKgguFeup49ObfZrx8SiikL9Uj9nAAWEb134DBhTgCmNnKVCk
-         FJ+TLJrr1V6Wnq7c9nk7yO33Phel0tira/u/aAozMLqbKuF2Lvw45gf9QUZGL99zAjXj
-         SBs/Z//UG9o6qnaxZC5F56btUqnBbjjL8Miipmt0Az2S9Ruwft8qF3L0H1MijJ4zeHYB
-         B5YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7YZZZa0Z9sq8S0dHPnPa5oROFnkvvg200VC3qLVC1ME=;
-        b=FKe+gAgBayanwTYEjU3zqCQ/ctFxvKVvTZOd53oekO48+JwCKlHmJRqxSLRHJYEzxz
-         EYR4rPNGMcZ0YnAX1BBq4MPB0rApNOvL2ylM2RalMWoyIuiQNAPNgNQ9jNWKWchFFLgr
-         Vpna6tnMSrbZlPjPN0v9ge6eWcIzm6DbCS7ARclHWgmIn5e+kca3GHGrrvsueDcF6L38
-         /UUkGLa52rHiy/qZOwsYHs504YeTZwEMsNtKnAXKXAH9aGMviwt+hH0qnvhis1bkklwp
-         hr12q0FV1aByr7bG5w+w7w2wl2m6BkdmdctS4Ag9bLjvPkptN87X6AsNdeLNcNNsY2zK
-         r2eA==
-X-Gm-Message-State: AOAM530kuYAMoNB8QXzoADuol7FOHy1V2Jj8zpkB1NqqInJ/RtaZOIpd
-        daE2XrL9y0WI85m7/rZIEzgFp4CoGUQEZWgU7aaNQQ1kpuM=
-X-Google-Smtp-Source: ABdhPJzkxDyN7ezhP2Gl14bsnM7Bo+Uhwem0JKrjZQtkq1K6lm6ThCe3vJwUHiH4aCthz8yzmwyqCdjjtHg5YgYMUkk=
-X-Received: by 2002:aca:1a17:: with SMTP id a23mr4047592oia.172.1613519622217;
- Tue, 16 Feb 2021 15:53:42 -0800 (PST)
+        Wed, 17 Feb 2021 02:03:56 -0500
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 11H72lIm022478;
+        Wed, 17 Feb 2021 16:02:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 11H72lIm022478
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1613545368;
+        bh=E1RLv4/hlDSK/JAIVwLXtUV86s2XAsZpcBxtZyFWB18=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PfIBeEV2phEKnmhFmw+03MjCkyAWCCGR8KDP2uTuBQB3evYCeqqqeUyxpAxvc6di1
+         cNVedLMGWTeWCLHFuwvjYypcEBUr5Lv/IgIYJzbw2wWjx2OVGls1TUwTd7xLj7r6cJ
+         jvxHGUsJ4FdXd4l3J8HulI1Zt3YhQDEwImr6/Y1HPZhlyCqIrxGj+Jbm0hAekSKLR1
+         ivbUhg4q0TUfZKRo9UxoeMYtKnOo0ShtCKrtxgSzKwYrUCoNTOaydDY7HBJ4Z6IsrX
+         9mlDIJTE0WXuG/d+9rauZkQDsHt0D5fT93tpN91OazmmSwmsQnPUroMHiiu38p9Cuj
+         DOce2ighCj1sw==
+X-Nifty-SrcIP: [209.85.210.172]
+Received: by mail-pf1-f172.google.com with SMTP id w18so7823742pfu.9;
+        Tue, 16 Feb 2021 23:02:48 -0800 (PST)
+X-Gm-Message-State: AOAM5308Qn4ZdccmbHmJUl9n4bO6niFqiAeE+RRV2lu3Fq7HjWqy0tnD
+        pJ8dwIHtyNG23FusADafyuQXGg2pALjtrnO55cI=
+X-Google-Smtp-Source: ABdhPJxKDpcaYvfx0b/i7FFnrPbrcRu4r1etXIPAHil6i22L6iSu+cypHsxDAUNFxSo3WaZ/cip+05e3tgOIplb2loA=
+X-Received: by 2002:a63:575e:: with SMTP id h30mr22503796pgm.7.1613545367403;
+ Tue, 16 Feb 2021 23:02:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20210209050047.1958473-1-daniel.diaz@linaro.org>
- <6065587.C4oOSP4HzL@mobilepool36.emlix.com> <3314666.Em9qtOGRgX@mobilepool36.emlix.com>
- <5043253.pljLzkpU8D@mobilepool36.emlix.com>
-In-Reply-To: <5043253.pljLzkpU8D@mobilepool36.emlix.com>
-From:   =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date:   Tue, 16 Feb 2021 17:53:31 -0600
-Message-ID: <CAEUSe7-NA92bBDco_go6mwkdrtUsxk0H6OX0pUfpDZ0R7VKL=g@mail.gmail.com>
-Subject: Re: [PATCH] scripts: Fix linking extract-cert against libcrypto
-To:     Rolf Eike Beer <eb@emlix.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20210216213312.30462-1-nathan@kernel.org>
+In-Reply-To: <20210216213312.30462-1-nathan@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 17 Feb 2021 16:02:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARcy52b6aGtV1mgq3rehtnwo7sm7TkNHc9H4bGu9Qdu8Q@mail.gmail.com>
+Message-ID: <CAK7LNARcy52b6aGtV1mgq3rehtnwo7sm7TkNHc9H4bGu9Qdu8Q@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: Remove # characters from compiler string
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux- stable <stable@vger.kernel.org>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Michael Fuckner <michael@fuckner.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello!
+On Wed, Feb 17, 2021 at 6:33 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> When using AMD's Optimizing C/C++ Compiler (AOCC), the build fails due
+> to a # character in the version string, which is interpreted as a
+> comment:
+>
+> $ make CC=clang defconfig init/main.o
+> include/config/auto.conf.cmd:1374: *** invalid syntax in conditional. Stop.
+>
+> $ sed -n 1374p include/config/auto.conf.cmd
+> ifneq "$(CC_VERSION_TEXT)" "AMD clang version 11.0.0 (CLANG: AOCC_2.3.0-Build#85 2020_11_10) (based on LLVM Mirror.Version.11.0.0)"
+>
+> Remove all # characters in the version string so that the build does not
+> fail unexpectedly.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1298
+> Reported-by: Michael Fuckner <michael@fuckner.net>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
 
 
-On Fri, 12 Feb 2021 at 01:44, Rolf Eike Beer <eb@emlix.com> wrote:
->
-> Am Donnerstag, 11. Februar 2021, 11:29:33 CET schrieb Rolf Eike Beer:
->
-> > I'm just guessing, but your build error looks like you are also
-> > cross-building the tools, which is wrong. You want them to be host-tool=
-s.
-> > So don't export PKG_CONFIG_SYSROOT_DIR, it would then try to link targe=
-t
-> > libraries into a host binary.
->
-> I have looked again how I do it:
->
-> # this is for additional _host_ .pc files
-> export PKG_CONFIG_PATH=3D${prefix}/lib/pkgconfig
->
-> Then have a target-pkg-config, so this code inside several kernel Makefil=
-es
-> will work:
->
-> PKG_CONFIG ?=3D $(CROSS_COMPILE)pkg-config
->
-> And then export your PKG_CONFIG_SYSROOT_DIR and the like inside that. I b=
-et
-> you have all of this already in place, so just remove the SYSROOT_DIR fro=
-m
-> your kernel build script and things should work.
+After some thoughts, I decided to apply this as-is for now.
 
-Thank you for your comments! I will try this in our environment in the
-upcoming days.
 
-Greetings!
+Ideally, the part "AOCC_2.3.0-Build#85"
+could be escaped like "AOCC_2.3.0-Build\#85"
+so that the original version string is preserved.
 
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
+I know it is impossible because escape sequence
+handling in Kconfig is buggy.
+
+So, I accept dropping problematic '#' characters entirely,
+and I agree this is the safest fix.
+
+When I have time, I might want to revisit this with a Kconfig fix.
+
+
+Applied to linux-kbuild. Thanks.
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
