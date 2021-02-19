@@ -2,70 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E2C631EBE5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Feb 2021 16:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65FBF32033A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Feb 2021 03:48:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232738AbhBRPx5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Thu, 18 Feb 2021 10:53:57 -0500
-Received: from mx1.emlix.com ([136.243.223.33]:57290 "EHLO mx1.emlix.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232953AbhBRMee (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Feb 2021 07:34:34 -0500
-Received: from mailer.emlix.com (unknown [81.20.119.6])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.emlix.com (Postfix) with ESMTPS id 5E9626000C;
-        Thu, 18 Feb 2021 13:30:40 +0100 (CET)
-From:   Rolf Eike Beer <eb@emlix.com>
-To:     linux-acpi@vger.kernel.org
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        Markus Mayer <mmayer@broadcom.com>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH 2/2 RESEND] tools/thermal: tmon: default to prefixed pkg-config when crosscompiling
-Date:   Thu, 18 Feb 2021 13:30:39 +0100
-Message-ID: <5626379.Ia07YmbPEo@devpool47>
-Organization: emlix GmbH
-In-Reply-To: <1946777.uSh3co5Jvm@devpool47>
-References: <3551127.BzHy4GdJBa@devpool21> <6322266.jcO1KTHXCh@devpool21> <1946777.uSh3co5Jvm@devpool47>
+        id S229889AbhBTCsj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Feb 2021 21:48:39 -0500
+Received: from mail.mpcb.gov.in ([125.17.249.59]:50116 "EHLO
+        fortimail.email.mpcb.gov.in" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229796AbhBTCsi (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 19 Feb 2021 21:48:38 -0500
+X-Greylist: delayed 69771 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Feb 2021 21:48:31 EST
+Received: from User (rain-197-185-102-182.rain.network [197.185.102.182])
+        (user=feedback.consent@mpcb.gov.in mech=LOGIN bits=0)
+        by fortimail.email.mpcb.gov.in  with ESMTP id 11J7IVmK031284-11J7IVmM031284;
+        Fri, 19 Feb 2021 12:48:34 +0530
+Message-Id: <202102190718.11J7IVmK031284-11J7IVmM031284@fortimail.email.mpcb.gov.in>
+Reply-To: <brightwayfinanceloan01@protonmail.com>
+From:   "Brightway Finance Loan" <brightwayfinanceloan@gmail.com>
+Subject: Apply for loan at 5% interest rate per year
+Date:   Fri, 19 Feb 2021 09:18:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+X-FEAS-Auth-User: feedback.consent@mpcb.gov.in
+X-FE-Policy-ID: 0:1:2:SYSTEM
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This matches what other parts of the tools/ directory already do.
-
-Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-Cc: stable@vger.kernel.org
----
- tools/thermal/tmon/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/thermal/tmon/Makefile b/tools/thermal/tmon/Makefile
-index 36dc70497066..0a2fd593c65f 100644
---- a/tools/thermal/tmon/Makefile
-+++ b/tools/thermal/tmon/Makefile
-@@ -10,7 +10,7 @@ override CFLAGS+= $(call cc-option,-O3,-O1) ${WARNFLAGS}
- # Add "-fstack-protector" only if toolchain supports it.
- override CFLAGS+= $(call cc-option,-fstack-protector-strong)
- CC?= $(CROSS_COMPILE)gcc
--PKG_CONFIG?= pkg-config
-+PKG_CONFIG?= $(CROSS_COMPILE)pkg-config
- 
- override CFLAGS+=-D VERSION=\"$(VERSION)\"
- TARGET=tmon
--- 
-2.30.0
-
--- 
-Rolf Eike Beer, emlix GmbH, http://www.emlix.com
-Fon +49 551 30664-0, Fax +49 551 30664-11
-Gothaer Platz 3, 37083 Göttingen, Germany
-Sitz der Gesellschaft: Göttingen, Amtsgericht Göttingen HR B 3160
-Geschäftsführung: Heike Jordan, Dr. Uwe Kracke – Ust-IdNr.: DE 205 198 055
-
-emlix - smart embedded open source
+BrightWay Finance offers Loans ranging from (R10, 000.00 - R60, 000,000.00). Loan duration is from 1 to 20 years (Maximum) No collateral,
+No ITC CHECK and Blacklisted are welcome. If you wish to apply kindly send your full names, ID number, 
+email address and cellphone number to brightwayfinanceloan01@protonmail.com
 
 
+Yours in Service,
 
+Jane Cooper
+MARKETING TEAM
+Tel No: +27(0)622541582
+BrightWay Finance Loan(PTY) LTD.
+brightwayfinanceloan01@protonmail.com
