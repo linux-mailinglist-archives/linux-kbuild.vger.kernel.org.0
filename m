@@ -2,100 +2,186 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E2E7320C03
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 18:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A51DC320C0D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 18:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbhBURQY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 Feb 2021 12:16:24 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:33446 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbhBURQX (ORCPT
+        id S229844AbhBURUE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 Feb 2021 12:20:04 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:45981 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229685AbhBURUD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 Feb 2021 12:16:23 -0500
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 11LHFQMn029412;
-        Mon, 22 Feb 2021 02:15:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11LHFQMn029412
+        Sun, 21 Feb 2021 12:20:03 -0500
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 11LHIkDx022911;
+        Mon, 22 Feb 2021 02:18:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 11LHIkDx022911
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613927726;
-        bh=+E+JRgKeitH5eFBx4Z/rh8FyWasix1MSTNAEXqizMQU=;
+        s=dec2015msa; t=1613927927;
+        bh=Eqx+VxxafaM9Oj7G/aUK4ZQYypo41uDdqDY/LZ3A/iw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fY8q6G98uh1+un5PrwsG4Zb3rSAd52PO9NSoxDJ8nwquEkzuJdR6rBF5sZrJUQbe9
-         KWCT8wBjnWUfz7vheSDo+fWEVgovNo9SHlNVuFyQQj0HmV7nB2ApBNZANPZVurwuRE
-         OPvztrgFoeH+fOxkb4nxTbw8JucqU5hHRx4mF3+AMVhL15XIswHkujGL0xSI8cL6QI
-         Ii+CzdqSBbptV3imDDdvgz94e1uZBko1b579roKG6OFciJ/jTRWVIx1O7HbRt/m0Tc
-         pLkXdi0thvqyabjecA6KbCP/kR2SvsJ0NPIVn7afYMW4aobGgVsdv/ZSnZtoPqwJ1E
-         OSXLJ0vAyyr9A==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id u11so6119214plg.13;
-        Sun, 21 Feb 2021 09:15:26 -0800 (PST)
-X-Gm-Message-State: AOAM530f3OWgCXm+QZ167geaZY82/Uo9+39wdJo5pmm4HsKG5QmkcNNT
-        mL1vjaSkpRTYyM05el/V9QycQ4fsrEROqr66210=
-X-Google-Smtp-Source: ABdhPJxczjkYYwfFedULPavyehBQNlTo4yyE2oDz3aAz68ppY9EMF/VKLUDXMsDnW+fSNSL17VJtx2kpM0VX1zgRRK4=
-X-Received: by 2002:a17:90a:609:: with SMTP id j9mr19512007pjj.198.1613927724902;
- Sun, 21 Feb 2021 09:15:24 -0800 (PST)
+        b=tISy0uiFEkFoH5+1mpc3ZVAv0F3Yc6p89kW9iYoj6mv9+E5gdjqI260Z6DUoy8zjB
+         sgH4w8OrSnaZll1SQQ2YFNB4eb5Crb2X/1TpLuHQYxJPSQ8GQo7Dxij7GOdADkBNKW
+         KDEGV1YPwA1N3H96ESC3NT+0pqmL3n/9aXo95xQxvG1w8vuUWOnNBNA8JCu0thb/Ek
+         0soONOBKPbDfi7aYYHaZjf6+gIIw9nMh+lk1tSUygGbeCVyjqo68JNfFCoH7ryNuf0
+         D55rY9HYQz+nNc99bREU2hB4cplo9ePoJHwrYBGGCeco+aCH1UNrJ/oPt9cFuqkyey
+         9PPdHX1sj56Hw==
+X-Nifty-SrcIP: [209.85.210.179]
+Received: by mail-pf1-f179.google.com with SMTP id q20so5101233pfu.8;
+        Sun, 21 Feb 2021 09:18:46 -0800 (PST)
+X-Gm-Message-State: AOAM533cO5IjCiOYo/pW6YnR/2o78RZl1BwUOv0D1uOTG+D2lmk+WFUo
+        8SNFavhXuIiqUMEYQGBm5NMWaQNCocAQ15sw22Q=
+X-Google-Smtp-Source: ABdhPJwalkhBCvkAjpNZJFeiZ5ZMA3YgxFFO4ZhIHD73HQFbK2IonNyYIgbkcXcRNDfT2GEbgAIwQ7RygvbUP7eWxss=
+X-Received: by 2002:a63:575e:: with SMTP id h30mr16552262pgm.7.1613927926094;
+ Sun, 21 Feb 2021 09:18:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20210215004823.440102-1-masahiroy@kernel.org>
-In-Reply-To: <20210215004823.440102-1-masahiroy@kernel.org>
+References: <20210216020412.800836-1-masahiroy@kernel.org>
+In-Reply-To: <20210216020412.800836-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 22 Feb 2021 02:14:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
-Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arch: syscalls: add missing FORCE and fix 'targets'
- to make if_changed work
+Date:   Mon, 22 Feb 2021 02:18:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASaAX4VAO9ky+nAQ-BViFJxJkOJa7791bMcqC7Ev8PySQ@mail.gmail.com>
+Message-ID: <CAK7LNASaAX4VAO9ky+nAQ-BViFJxJkOJa7791bMcqC7Ev8PySQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] scripts: add generic syscalltbl.sh
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Chris Zankel <chris@zankel.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Simek <monstr@monstr.eu>,
-        Paul Mackerras <paulus@samba.org>,
-        Rich Felker <dalias@libc.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        sparclinux <sparclinux@vger.kernel.org>, X86 ML <x86@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 9:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Feb 16, 2021 at 11:04 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The rules in these Makefiles cannot detect the command line change
-> because the prerequisite 'FORCE' is missing.
+> Most of architectures generate syscall headers at the compile time
+> in a similar way.
 >
-> Adding 'FORCE' will result in the headers being rebuilt every time
-> because the 'targets' additions are also wrong; the file paths in
-> 'targets' must be relative to the current Makefile.
+> The syscall table has the same format for all architectures. Each line
+> has up to 5 fields; syscall number, ABI, syscall name, native entry
+> point, and compat entry point. The syscall table is processed by
+> syscalltbl.sh script into header files.
 >
-> Fix all of them so the if_changed rules work correctly.
+> Despite the same pattern, scripts are maintained per architecture,
+> which results in code duplication and bad maintainability.
+>
+> As of v5.11-rc1, 12 architectures duplicate similar shell scripts:
+>
+>   $ find arch -name syscalltbl.sh | sort
+>   arch/alpha/kernel/syscalls/syscalltbl.sh
+>   arch/arm/tools/syscalltbl.sh
+>   arch/ia64/kernel/syscalls/syscalltbl.sh
+>   arch/m68k/kernel/syscalls/syscalltbl.sh
+>   arch/microblaze/kernel/syscalls/syscalltbl.sh
+>   arch/mips/kernel/syscalls/syscalltbl.sh
+>   arch/parisc/kernel/syscalls/syscalltbl.sh
+>   arch/powerpc/kernel/syscalls/syscalltbl.sh
+>   arch/sh/kernel/syscalls/syscalltbl.sh
+>   arch/sparc/kernel/syscalls/syscalltbl.sh
+>   arch/x86/entry/syscalls/syscalltbl.sh
+>   arch/xtensa/kernel/syscalls/syscalltbl.sh
+>
+> My goal is to unify them into scripts/syscalltbl.sh.
+>
+> __SYSCALL_WITH_COMPAT should be defined as follows:
+>
+> 32-bit kernel:
+>   #define __SYSCALL_WITH_COMPAT(nr, native, compat) __SYSCALL(nr, native)
+>
+> 64-bit kernel:
+>
+>   #define __SYSCALL_WITH_COMPAT(nr, native, compat) __SYSCALL(nr, compat)
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
+> ---
+>
 
 Both applied to linux-kbuild.
+
+
+>  scripts/syscalltbl.sh | 73 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100755 scripts/syscalltbl.sh
+>
+> diff --git a/scripts/syscalltbl.sh b/scripts/syscalltbl.sh
+> new file mode 100755
+> index 000000000000..aa6ab156301c
+> --- /dev/null
+> +++ b/scripts/syscalltbl.sh
+> @@ -0,0 +1,73 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Generate a syscall table header.
+> +#
+> +# Each line of the syscall table should have the following format:
+> +#
+> +# NR ABI NAME [NATIVE] [COMPAT]
+> +#
+> +# NR       syscall number
+> +# ABI      ABI name
+> +# NAME     syscall name
+> +# NATIVE   native entry point (optional)
+> +# COMPAT   compat entry point (optional)
+> +
+> +set -e
+> +
+> +usage() {
+> +       echo >&2 "usage: $0 [--abis ABIS] INFILE OUTFILE" >&2
+> +       echo >&2
+> +       echo >&2 "  INFILE    input syscall table"
+> +       echo >&2 "  OUTFILE   output header file"
+> +       echo >&2
+> +       echo >&2 "options:"
+> +       echo >&2 "  --abis ABIS        ABI(s) to handle (By default, all lines are handled)"
+> +       exit 1
+> +}
+> +
+> +# default unless specified by options
+> +abis=
+> +
+> +while [ $# -gt 0 ]
+> +do
+> +       case $1 in
+> +       --abis)
+> +               abis=$(echo "($2)" | tr ',' '|')
+> +               shift 2;;
+> +       -*)
+> +               echo "$1: unknown option" >&2
+> +               usage;;
+> +       *)
+> +               break;;
+> +       esac
+> +done
+> +
+> +if [ $# -ne 2 ]; then
+> +       usage
+> +fi
+> +
+> +infile="$1"
+> +outfile="$2"
+> +
+> +nxt=0
+> +
+> +grep -E "^[0-9]+[[:space:]]+$abis" "$infile" | sort -n | {
+> +
+> +       while read nr abi name native compat ; do
+> +
+> +               while [ $nxt -lt $nr ]; do
+> +                       echo "__SYSCALL($nxt, sys_ni_syscall)"
+> +                       nxt=$((nxt + 1))
+> +               done
+> +
+> +               if [ -n "$compat" ]; then
+> +                       echo "__SYSCALL_WITH_COMPAT($nr, $native, $compat)"
+> +               elif [ -n "$native" ]; then
+> +                       echo "__SYSCALL($nr, $native)"
+> +               else
+> +                       echo "__SYSCALL($nr, sys_ni_syscall)"
+> +               fi
+> +               nxt=$((nr + 1))
+> +       done
+> +} > "$outfile"
+> --
+> 2.27.0
+>
 
 
 -- 
