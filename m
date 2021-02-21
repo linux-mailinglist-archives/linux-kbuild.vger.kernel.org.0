@@ -2,45 +2,44 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 338CF3209B9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 12:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 206243209C9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 12:24:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229914AbhBULJ5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 Feb 2021 06:09:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbhBULJy (ORCPT
+        id S229934AbhBULMV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 Feb 2021 06:12:21 -0500
+Received: from smtp-bc0e.mail.infomaniak.ch ([45.157.188.14]:52349 "EHLO
+        smtp-bc0e.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229902AbhBULMU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 Feb 2021 06:09:54 -0500
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F0AC061574
-        for <linux-kbuild@vger.kernel.org>; Sun, 21 Feb 2021 03:09:08 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Dk2cv5VJPzMqJfj;
-        Sun, 21 Feb 2021 12:09:03 +0100 (CET)
+        Sun, 21 Feb 2021 06:12:20 -0500
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Dk2gn0S83zMq6CJ;
+        Sun, 21 Feb 2021 12:11:33 +0100 (CET)
 Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Dk2cs5QSGzlh8TL;
-        Sun, 21 Feb 2021 12:09:01 +0100 (CET)
-Subject: Re: [PATCH v2 2/3] kconfig: Ask user if string needs to be changed
- when dependency changed
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Dk2gl6mnVzlh8TG;
+        Sun, 21 Feb 2021 12:11:31 +0100 (CET)
+Subject: Re: [PATCH v2 3/3] security: Add LSMs dependencies to CONFIG_LSM
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>
+        Ondrej Mosnacek <omosnace@redhat.com>
 Cc:     James Morris <jmorris@namei.org>,
         "Serge E . Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
         Nicolas Iooss <nicolas.iooss@m4x.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
+        Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+        Linux Security Module list 
+        <linux-security-module@vger.kernel.org>,
         =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
 References: <20210215181511.2840674-1-mic@digikod.net>
- <20210215181511.2840674-3-mic@digikod.net>
- <CAK7LNAS54Zw7d8Lp5BNs1JVktSLTFx0dNbLMA7W0U_sH2712_A@mail.gmail.com>
+ <20210215181511.2840674-4-mic@digikod.net>
+ <CAFqZXNsvqx-pbC+wzHB4aXX6h=buU3csM_a=By-zCOmx0n-xCQ@mail.gmail.com>
+ <CAK7LNAQDWxGJU41D4+AbjFiX63BiA+bsNzTHZsKKc-LPyO7oCQ@mail.gmail.com>
 From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <b3ea85ca-5c49-61ab-4769-f2e4557df3c7@digikod.net>
-Date:   Sun, 21 Feb 2021 12:10:14 +0100
+Message-ID: <8809a929-980a-95d1-42dc-576ff54e2923@digikod.net>
+Date:   Sun, 21 Feb 2021 12:12:44 +0100
 User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAS54Zw7d8Lp5BNs1JVktSLTFx0dNbLMA7W0U_sH2712_A@mail.gmail.com>
+In-Reply-To: <CAK7LNAQDWxGJU41D4+AbjFiX63BiA+bsNzTHZsKKc-LPyO7oCQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -49,116 +48,89 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-On 21/02/2021 09:47, Masahiro Yamada wrote:
-> On Tue, Feb 16, 2021 at 3:14 AM Mickaël Salaün <mic@digikod.net> wrote:
+On 21/02/2021 09:50, Masahiro Yamada wrote:
+> On Tue, Feb 16, 2021 at 4:03 AM Ondrej Mosnacek <omosnace@redhat.com> wrote:
 >>
->> From: Mickaël Salaün <mic@linux.microsoft.com>
+>> On Mon, Feb 15, 2021 at 7:17 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>> From: Mickaël Salaün <mic@linux.microsoft.com>
+>>>
+>>> Thanks to the previous commit, this gives the opportunity to users, when
+>>> running make oldconfig, to update the list of enabled LSMs at boot time
+>>> if an LSM has just been enabled or disabled in the build.  Moreover,
+>>> this list only makes sense if at least one LSM is enabled.
+>>>
+>>> Cc: Casey Schaufler <casey@schaufler-ca.com>
+>>> Cc: James Morris <jmorris@namei.org>
+>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>>> Cc: Serge E. Hallyn <serge@hallyn.com>
+>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>>> Link: https://lore.kernel.org/r/20210215181511.2840674-4-mic@digikod.net
+>>> ---
+>>>
+>>> Changes since v1:
+>>> * Add CONFIG_SECURITY as a dependency of CONFIG_LSM.  This prevent an
+>>>   error when building without any LSMs.
+>>> ---
+>>>  security/Kconfig | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/security/Kconfig b/security/Kconfig
+>>> index 7561f6f99f1d..addcc1c04701 100644
+>>> --- a/security/Kconfig
+>>> +++ b/security/Kconfig
+>>> @@ -277,6 +277,10 @@ endchoice
+>>>
+>>>  config LSM
+>>>         string "Ordered list of enabled LSMs"
+>>> +       depends on SECURITY || SECURITY_LOCKDOWN_LSM || SECURITY_YAMA || \
+>>> +               SECURITY_LOADPIN || SECURITY_SAFESETID || INTEGRITY || \
+>>> +               SECURITY_SELINUX || SECURITY_SMACK || SECURITY_TOMOYO || \
+>>> +               SECURITY_APPARMOR || BPF_LSM
 >>
->> Content of string configuration may depend on related kernel
->> configurations.  Modify oldconfig and syncconfig to inform users about
->> possible required configuration update and give them the opportunity to
->> update it:
->> * if dependencies of this string has changed (e.g. enabled or disabled),
->> * and if the current value of this string is different than the (new)
->>   default one.
->>
->> This is particularly relevant for CONFIG_LSM which contains a list of
->> LSMs enabled at boot, but users will not have a chance to update this
->> list with a make oldconfig.
+>> This looks really awkward, since all of these already depend on
+>> SECURITY (if not, it's a bug)... I guarantee you that after some time
+>> someone will come, see that the weird boolean expression is equivalent
+>> to just SECURITY, and simplify it.
 > 
-> If CONFIG_LSM already exists in the .config,
-> oldconfig does not show a prompt.
-> This is the expected behavior.
-
-It is not the behavior wished for LSM stacking.
-
 > 
-> You are trying to fix your problem in a wrong way.
-> NACK.
+> Currently, LSM does not depend on SECURITY.
+> So you can always define LSM irrespective of SECURITY,
+> which seems a bug.
+> 
+> So, I agree with adding 'depends on SECURITY'.
+> 
+> What he is trying to achieve in this series
+> seems wrong, of course.
 
-What do you suggest to ensure that users will be asked to update the
-CONFIG_LSM string if they add or remove an LSM?
-
-
+This may be wrong in the general case, but not for CONFIG_LSM.
 
 > 
 > 
-> 
+>> I assume the new mechanism wouldn't work as intended if there is just
+>> SECURITY? If not, then maybe you should rather specify this value
+>> dependency via some new  field rather than abusing "depends on" (say,
+>> "value depends on"?). The fact that a seemingly innocent change to the
+>> config definition breaks your mechanism suggests that the design is
+>> flawed.
+
+Masahiro, what do you think about this suggested "value depends on"?
+
+
 >>
->> Cc: Casey Schaufler <casey@schaufler-ca.com>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: Serge E. Hallyn <serge@hallyn.com>
->> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->> Link: https://lore.kernel.org/r/20210215181511.2840674-3-mic@digikod.net
->> ---
->>  scripts/kconfig/conf.c | 37 ++++++++++++++++++++++++++++++++++---
->>  1 file changed, 34 insertions(+), 3 deletions(-)
+>> I do think this would be a useful feature, but IMHO shouldn't be
+>> implemented like this.
 >>
->> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
->> index 18a233d27a8d..8633dacd39a9 100644
->> --- a/scripts/kconfig/conf.c
->> +++ b/scripts/kconfig/conf.c
->> @@ -82,6 +82,26 @@ static void xfgets(char *str, int size, FILE *in)
->>                 printf("%s", str);
->>  }
+>>>         default "lockdown,yama,loadpin,safesetid,integrity,smack,selinux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+>>>         default "lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+>>>         default "lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf" if DEFAULT_SECURITY_TOMOYO
+>>> --
+>>> 2.30.0
+>>>
 >>
->> +static bool may_need_string_update(struct symbol *sym, const char *def)
->> +{
->> +       const struct symbol *dep_sym;
->> +       const struct expr *e;
->> +
->> +       if (sym->type != S_STRING)
->> +               return false;
->> +       if (strcmp(def, sym_get_string_default(sym)) == 0)
->> +               return false;
->> +       /*
->> +        * The user may want to synchronize the content of a string related to
->> +        * changed dependencies (e.g. CONFIG_LSM).
->> +        */
->> +       expr_list_for_each_sym(sym->dir_dep.expr, e, dep_sym) {
->> +               if (dep_sym->flags & SYMBOL_CHANGED)
->> +                       return true;
->> +       }
->> +       return false;
->> +}
->> +
->>  static int conf_askvalue(struct symbol *sym, const char *def)
->>  {
->>         enum symbol_type type = sym_get_type(sym);
->> @@ -102,7 +122,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
->>         switch (input_mode) {
->>         case oldconfig:
->>         case syncconfig:
->> -               if (sym_has_value(sym)) {
->> +               if (sym_has_value(sym) && !may_need_string_update(sym, def)) {
->>                         printf("%s\n", def);
->>                         return 0;
->>                 }
->> @@ -137,8 +157,19 @@ static int conf_string(struct menu *menu)
->>                 printf("%*s%s ", indent - 1, "", menu->prompt->text);
->>                 printf("(%s) ", sym->name);
->>                 def = sym_get_string_value(sym);
->> -               if (def)
->> -                       printf("[%s] ", def);
->> +               if (def) {
->> +                       if (may_need_string_update(sym, def)) {
->> +                               indent += 2;
->> +                               printf("\n%*sDefault value is [%s]\n",
->> +                                               indent - 1, "",
->> +                                               sym_get_string_default(sym));
->> +                               printf("%*sCurrent value is [%s] ",
->> +                                               indent - 1, "", def);
->> +                               indent -= 2;
->> +                       } else {
->> +                               printf("[%s] ", def);
->> +                       }
->> +               }
->>                 if (!conf_askvalue(sym, def))
->>                         return 0;
->>                 switch (line[0]) {
 >> --
->> 2.30.0
+>> Ondrej Mosnacek
+>> Software Engineer, Linux Security - SELinux kernel
+>> Red Hat, Inc.
 >>
 > 
 > 
