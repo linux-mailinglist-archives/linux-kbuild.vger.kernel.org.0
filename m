@@ -2,112 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0CAE320BF3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 18:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2E7320C03
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Feb 2021 18:16:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbhBURMm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 Feb 2021 12:12:42 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:44442 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbhBURMm (ORCPT
+        id S230165AbhBURQY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 Feb 2021 12:16:24 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:33446 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229970AbhBURQX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 Feb 2021 12:12:42 -0500
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 11LHBZxQ028780;
-        Mon, 22 Feb 2021 02:11:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11LHBZxQ028780
+        Sun, 21 Feb 2021 12:16:23 -0500
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 11LHFQMn029412;
+        Mon, 22 Feb 2021 02:15:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11LHFQMn029412
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1613927495;
-        bh=DvvustrzqKtKLI6zhBqGHjkFSER50wKV1i/U9qk6bu8=;
+        s=dec2015msa; t=1613927726;
+        bh=+E+JRgKeitH5eFBx4Z/rh8FyWasix1MSTNAEXqizMQU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZEu9kZRKO2IVdqO8rr03PH2gFSU1JKQVYeg7iBkH3M+iGISLPb5ga9X2+3y7sq+u5
-         BvxE7HpLxI9CAu0wxlSVPKPKYigFY8FFX61bpWr8gpLoM96kTIeY0MDxg/jwoKKTbL
-         g7Lba9teuuS2IzA6IOKeGuy4c9ClHQzuITuI2ZKa3PJqTlRg8YXg7IiyFsU1qwiW30
-         PLTuu1K+vDg1JuSR7MQEHOiIvMhCMgqhjDyZ+1J6jMziMk79wLOjmtW5jezxmZ59uU
-         EmepU9W7sLcF73jX6ltH854Jk1FkEf0KuMYz1cD7TuyfqhlZKsmAd8sXNtZIjeo996
-         3EvwaXfG4RBKg==
-X-Nifty-SrcIP: [209.85.210.170]
-Received: by mail-pf1-f170.google.com with SMTP id x129so374365pfx.7;
-        Sun, 21 Feb 2021 09:11:35 -0800 (PST)
-X-Gm-Message-State: AOAM5312wg0/CjR4RcmyPQq3AhInqXbkz2UFpfo33HGhzPRZjuF++lsF
-        Nzl8y0DzZz3GVH8Hds3sPZPT3OFORZKcZMcmfhE=
-X-Google-Smtp-Source: ABdhPJzBtwmlHW4UhRXzXaVsco3d7YPNXCznKnDxzLBaDDk/xQP0zVZbSpy9P5oIEsA3U2iK74eXx+v3ED23ZQCSBjA=
-X-Received: by 2002:a63:575e:: with SMTP id h30mr16533332pgm.7.1613927494874;
- Sun, 21 Feb 2021 09:11:34 -0800 (PST)
+        b=fY8q6G98uh1+un5PrwsG4Zb3rSAd52PO9NSoxDJ8nwquEkzuJdR6rBF5sZrJUQbe9
+         KWCT8wBjnWUfz7vheSDo+fWEVgovNo9SHlNVuFyQQj0HmV7nB2ApBNZANPZVurwuRE
+         OPvztrgFoeH+fOxkb4nxTbw8JucqU5hHRx4mF3+AMVhL15XIswHkujGL0xSI8cL6QI
+         Ii+CzdqSBbptV3imDDdvgz94e1uZBko1b579roKG6OFciJ/jTRWVIx1O7HbRt/m0Tc
+         pLkXdi0thvqyabjecA6KbCP/kR2SvsJ0NPIVn7afYMW4aobGgVsdv/ZSnZtoPqwJ1E
+         OSXLJ0vAyyr9A==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id u11so6119214plg.13;
+        Sun, 21 Feb 2021 09:15:26 -0800 (PST)
+X-Gm-Message-State: AOAM530f3OWgCXm+QZ167geaZY82/Uo9+39wdJo5pmm4HsKG5QmkcNNT
+        mL1vjaSkpRTYyM05el/V9QycQ4fsrEROqr66210=
+X-Google-Smtp-Source: ABdhPJxczjkYYwfFedULPavyehBQNlTo4yyE2oDz3aAz68ppY9EMF/VKLUDXMsDnW+fSNSL17VJtx2kpM0VX1zgRRK4=
+X-Received: by 2002:a17:90a:609:: with SMTP id j9mr19512007pjj.198.1613927724902;
+ Sun, 21 Feb 2021 09:15:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20210216031004.552417-1-masahiroy@kernel.org> <20210216031004.552417-2-masahiroy@kernel.org>
-In-Reply-To: <20210216031004.552417-2-masahiroy@kernel.org>
+References: <20210215004823.440102-1-masahiroy@kernel.org>
+In-Reply-To: <20210215004823.440102-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 22 Feb 2021 02:10:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARD3FuBmFaNSw7wxSYxRmXheFbWXU-z2gxziP4PrLjEYg@mail.gmail.com>
-Message-ID: <CAK7LNARD3FuBmFaNSw7wxSYxRmXheFbWXU-z2gxziP4PrLjEYg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: check the minimum linker version in Kconfig
+Date:   Mon, 22 Feb 2021 02:14:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
+Message-ID: <CAK7LNATvCAyHSUQNTdSck3JM1MfHNFcanjn0i4835okWE9Km5w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arch: syscalls: add missing FORCE and fix 'targets'
+ to make if_changed work
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     David Laight <david.laight@aculab.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        KP Singh <kpsingh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Quentin Perret <qperret@google.com>,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Chris Zankel <chris@zankel.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Simek <monstr@monstr.eu>,
+        Paul Mackerras <paulus@samba.org>,
+        Rich Felker <dalias@libc.org>,
+        Richard Henderson <rth@twiddle.net>,
         Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        sparclinux <sparclinux@vger.kernel.org>, X86 ML <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 12:11 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Feb 15, 2021 at 9:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Unify the two scripts/ld-version.sh and scripts/lld-version.sh, and
-> check the minimum linker version like scripts/cc-version.sh did.
+> The rules in these Makefiles cannot detect the command line change
+> because the prerequisite 'FORCE' is missing.
 >
-> I tested this script for some corner cases reported in the past:
+> Adding 'FORCE' will result in the headers being rebuilt every time
+> because the 'targets' additions are also wrong; the file paths in
+> 'targets' must be relative to the current Makefile.
 >
->  - GNU ld version 2.25-15.fc23
->    as reported by commit 8083013fc320 ("ld-version: Fix it on Fedora")
->
->  - GNU ld (GNU Binutils) 2.20.1.20100303
->    as reported by commit 0d61ed17dd30 ("ld-version: Drop the 4th and
->    5th version components")
->
-> This script show an error message if the linker is too old:
->
->   $ make LD=ld.lld-9
->     SYNC    include/config/auto.conf
->   ***
->   *** Linker is too old.
->   ***   Your LLD version:    9.0.1
->   ***   Minimum LLD version: 10.0.1
->   ***
->   scripts/Kconfig.include:50: Sorry, this linker is not supported.
->   make[2]: *** [scripts/kconfig/Makefile:71: syncconfig] Error 1
->   make[1]: *** [Makefile:600: syncconfig] Error 2
->   make: *** [Makefile:708: include/config/auto.conf] Error 2
->
-> I also moved the check for gold to this script, so gold is still rejected:
->
->   $ make LD=gold
->     SYNC    include/config/auto.conf
->   gold linker is not supported as it is not capable of linking the kernel proper.
->   scripts/Kconfig.include:50: Sorry, this linker is not supported.
->   make[2]: *** [scripts/kconfig/Makefile:71: syncconfig] Error 1
->   make[1]: *** [Makefile:600: syncconfig] Error 2
->   make: *** [Makefile:708: include/config/auto.conf] Error 2
->
-> Thanks to David Laight for suggesting shell script improvements.
+> Fix all of them so the if_changed rules work correctly.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
+> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Applied to linux-kbuild.
+
+Both applied to linux-kbuild.
 
 
 -- 
