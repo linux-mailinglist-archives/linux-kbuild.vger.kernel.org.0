@@ -2,267 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF6903210C7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Feb 2021 07:18:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69B04321457
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Feb 2021 11:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhBVGSB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Feb 2021 01:18:01 -0500
-Received: from ozlabs.org ([203.11.71.1]:41957 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229961AbhBVGR5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Feb 2021 01:17:57 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
-        id 4DkX5j3XzHz9sRf; Mon, 22 Feb 2021 17:17:13 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=gibson.dropbear.id.au; s=201602; t=1613974633;
-        bh=hFMgpQbIDNA/vjq/9bMC+FNx+AbA//njIc4FudBaRz8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L79xAQolI/Vdh49QhB8h/LdmGui/Jab+e4Rn5vqG3v+6iTD/3Hq+7XvBSycpkfgNf
-         NCF/Mm/8RBPMYuIozwqSedeST/bZgp2B99S0hKeMXdQjSR5ZnxtS5ZjOrW8FhWpzfD
-         7d3Tza21bLhsfg0JCpwiPh9DrLDnSxH/NVQhQoWQ=
-Date:   Mon, 22 Feb 2021 17:17:08 +1100
-From:   David Gibson <david@gibson.dropbear.id.au>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S230338AbhBVKqy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Feb 2021 05:46:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230270AbhBVKqx (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 22 Feb 2021 05:46:53 -0500
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [IPv6:2001:1600:4:17::190e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22202C061574
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Feb 2021 02:46:08 -0800 (PST)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Dkf3y0rb3zMq8Xb;
+        Mon, 22 Feb 2021 11:46:06 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Dkf3v4nPyzlh8Tp;
+        Mon, 22 Feb 2021 11:46:03 +0100 (CET)
+Subject: Re: [PATCH v2 3/3] security: Add LSMs dependencies to CONFIG_LSM
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Ondrej Mosnacek <omosnace@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Nicolas Iooss <nicolas.iooss@m4x.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH V4 0/3] scripts: dtc: Build fdtoverlay
-Message-ID: <YDNMZMFJtiL5rZi5@yekko.fritz.box>
-References: <cover.1610431620.git.viresh.kumar@linaro.org>
- <74f8aa8f-ffab-3b0f-186f-31fb7395ebbb@gmail.com>
- <20210120051740.yph4v7zldvs7szdz@vireshk-i7>
- <20210122063455.GE4400@yekko.fritz.box>
- <83242f56-19a5-6d32-c050-8d9f63ac1e47@gmail.com>
- <20210201040748.GB2251@yekko.fritz.box>
- <CAL_JsqJjR7EknfnbA7RKckUtYVu9jmjf7L_DC=LmF=jMGfThgQ@mail.gmail.com>
+        Linux kernel mailing list <linux-kernel@vger.kernel.org>,
+        Linux Security Module list 
+        <linux-security-module@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+References: <20210215181511.2840674-1-mic@digikod.net>
+ <20210215181511.2840674-4-mic@digikod.net>
+ <CAFqZXNsvqx-pbC+wzHB4aXX6h=buU3csM_a=By-zCOmx0n-xCQ@mail.gmail.com>
+ <CAK7LNAQDWxGJU41D4+AbjFiX63BiA+bsNzTHZsKKc-LPyO7oCQ@mail.gmail.com>
+ <8809a929-980a-95d1-42dc-576ff54e2923@digikod.net>
+ <CAK7LNARq3YneLCVReHf8z34T7VKfv5zmkqwSiNZwgQGD64VMtA@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <12b27829-5db0-e9a4-0c74-896c53445da4@digikod.net>
+Date:   Mon, 22 Feb 2021 11:47:20 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="8LcDNZpJwHFkagdo"
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqJjR7EknfnbA7RKckUtYVu9jmjf7L_DC=LmF=jMGfThgQ@mail.gmail.com>
+In-Reply-To: <CAK7LNARq3YneLCVReHf8z34T7VKfv5zmkqwSiNZwgQGD64VMtA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---8LcDNZpJwHFkagdo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 21/02/2021 15:45, Masahiro Yamada wrote:
+> On Sun, Feb 21, 2021 at 8:11 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>
+>>
+>> On 21/02/2021 09:50, Masahiro Yamada wrote:
+>>> On Tue, Feb 16, 2021 at 4:03 AM Ondrej Mosnacek <omosnace@redhat.com> wrote:
+>>>>
+>>>> On Mon, Feb 15, 2021 at 7:17 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>>>> From: Mickaël Salaün <mic@linux.microsoft.com>
+>>>>>
+>>>>> Thanks to the previous commit, this gives the opportunity to users, when
+>>>>> running make oldconfig, to update the list of enabled LSMs at boot time
+>>>>> if an LSM has just been enabled or disabled in the build.  Moreover,
+>>>>> this list only makes sense if at least one LSM is enabled.
+>>>>>
+>>>>> Cc: Casey Schaufler <casey@schaufler-ca.com>
+>>>>> Cc: James Morris <jmorris@namei.org>
+>>>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>>>>> Cc: Serge E. Hallyn <serge@hallyn.com>
+>>>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>>>>> Link: https://lore.kernel.org/r/20210215181511.2840674-4-mic@digikod.net
+>>>>> ---
+>>>>>
+>>>>> Changes since v1:
+>>>>> * Add CONFIG_SECURITY as a dependency of CONFIG_LSM.  This prevent an
+>>>>>   error when building without any LSMs.
+>>>>> ---
+>>>>>  security/Kconfig | 4 ++++
+>>>>>  1 file changed, 4 insertions(+)
+>>>>>
+>>>>> diff --git a/security/Kconfig b/security/Kconfig
+>>>>> index 7561f6f99f1d..addcc1c04701 100644
+>>>>> --- a/security/Kconfig
+>>>>> +++ b/security/Kconfig
+>>>>> @@ -277,6 +277,10 @@ endchoice
+>>>>>
+>>>>>  config LSM
+>>>>>         string "Ordered list of enabled LSMs"
+>>>>> +       depends on SECURITY || SECURITY_LOCKDOWN_LSM || SECURITY_YAMA || \
+>>>>> +               SECURITY_LOADPIN || SECURITY_SAFESETID || INTEGRITY || \
+>>>>> +               SECURITY_SELINUX || SECURITY_SMACK || SECURITY_TOMOYO || \
+>>>>> +               SECURITY_APPARMOR || BPF_LSM
+>>>>
+>>>> This looks really awkward, since all of these already depend on
+>>>> SECURITY (if not, it's a bug)... I guarantee you that after some time
+>>>> someone will come, see that the weird boolean expression is equivalent
+>>>> to just SECURITY, and simplify it.
+>>>
+>>>
+>>> Currently, LSM does not depend on SECURITY.
+>>> So you can always define LSM irrespective of SECURITY,
+>>> which seems a bug.
+>>>
+>>> So, I agree with adding 'depends on SECURITY'.
+>>>
+>>> What he is trying to achieve in this series
+>>> seems wrong, of course.
+>>
+>> This may be wrong in the general case, but not for CONFIG_LSM.
+>>
+>>>
+>>>
+>>>> I assume the new mechanism wouldn't work as intended if there is just
+>>>> SECURITY? If not, then maybe you should rather specify this value
+>>>> dependency via some new  field rather than abusing "depends on" (say,
+>>>> "value depends on"?). The fact that a seemingly innocent change to the
+>>>> config definition breaks your mechanism suggests that the design is
+>>>> flawed.
+>>
+>> Masahiro, what do you think about this suggested "value depends on"?
+> 
+> 
+> Of course, no.
+> 
+> 
+> See the help text in init/Kconfig:
+> 
+>           This choice is there only for converting CONFIG_DEFAULT_SECURITY
+>           in old kernel configs to CONFIG_LSM in new kernel configs. Don't
+>           change this choice unless you are creating a fresh kernel config,
+>           for this choice will be ignored after CONFIG_LSM has been set.
+> 
+> 
+> When CONFIG_LSM is already set in the .config,
+> this choice is just ignored.
+> So, oldconfig is working as the help message says.
+> 
+> If you think 2623c4fbe2ad1341ff2d1e12410d0afdae2490ca
+> is a pointless commit, you should ask Kees about it.
 
-On Thu, Feb 04, 2021 at 08:25:23AM -0600, Rob Herring wrote:
-> On Sun, Jan 31, 2021 at 10:39 PM David Gibson
-> <david@gibson.dropbear.id.au> wrote:
-> >
-> > On Mon, Jan 25, 2021 at 09:42:21PM -0600, Frank Rowand wrote:
-> > > Hi David,
-> > >
-> > > On 1/22/21 12:34 AM, David Gibson wrote:
-> > > > On Wed, Jan 20, 2021 at 10:47:40AM +0530, Viresh Kumar wrote:
-> > > >> +David.
-> > > >>
-> > > >> On 19-01-21, 11:12, Frank Rowand wrote:
-> > > >>> On 1/12/21 2:28 AM, Viresh Kumar wrote:
-> > > >>>> We will start building overlays for platforms soon in the kernel=
- and
-> > > >>>> would need fdtoverlay tool going forward. Lets start fetching and
-> > > >>>> building it.
-> > > >>>>
-> > > >>>> While at it, also remove fdtdump.c file, which isn't used by the=
- kernel.
-> > > >>>>
-> > > >>>> V4:
-> > > >>>> - Don't fetch and build fdtdump.c
-> > > >>>> - Remove fdtdump.c
-> > > >>>>
-> > > >>>> Viresh Kumar (3):
-> > > >>>>   scripts: dtc: Add fdtoverlay.c to DTC_SOURCE
-> > > >>>>   scripts: dtc: Build fdtoverlay tool
-> > > >>>>   scripts: dtc: Remove the unused fdtdump.c file
-> > > >>>>
-> > > >>>>  scripts/dtc/Makefile             |   6 +-
-> > > >>>>  scripts/dtc/fdtdump.c            | 163 ------------------------=
--------
-> > > >>>>  scripts/dtc/update-dtc-source.sh |   6 +-
-> > > >>>>  3 files changed, 8 insertions(+), 167 deletions(-)
-> > > >>>>  delete mode 100644 scripts/dtc/fdtdump.c
-> > > >>>>
-> > > >>>
-> > > >>> My first inclination was to accept fdtoverlay, as is, from the up=
-stream
-> > > >>> project.
-> > > >>>
-> > > >>> But my experiences debugging use of fdtoverlay against the existi=
-ng
-> > > >>> unittest overlay files has me very wary of accepting fdtoverlay in
-> > > >>> it's current form.
-> > > >>>
-> > > >>> As an exmple, adding an overlay that fails to reply results in the
-> > > >>> following build messages:
-> > > >>>
-> > > >>>    linux--5.11-rc> make zImage
-> > > >>>    make[1]: Entering directory '/local/frowand_nobackup/src/git_l=
-inus/build/dragon_linus_5.11-rc'
-> > > >>>      GEN     Makefile
-> > > >>>      CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc=
-/scripts/checksyscalls.sh
-> > > >>>      CALL    /local/frowand_nobackup/src/git_linus/linux--5.11-rc=
-/scripts/atomic/check-atomics.sh
-> > > >>>      CHK     include/generated/compile.h
-> > > >>>      FDTOVERLAY drivers/of/unittest-data/static_test.dtb
-> > > >>>
-> > > >>>    Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ER=
-R_NOTFOUND
-> > > >>>    make[4]: *** [/local/frowand_nobackup/src/git_linus/linux--5.1=
-1-rc/drivers/of/unittest-data/Makefile:96: drivers/of/unittest-data/static_=
-test.dtb] Error 1
-> > > >>>    make[3]: *** [/local/frowand_nobackup/src/git_linus/linux--5.1=
-1-rc/scripts/Makefile.build:496: drivers/of/unittest-data] Error 2
-> > > >>>    make[2]: *** [/local/frowand_nobackup/src/git_linus/linux--5.1=
-1-rc/scripts/Makefile.build:496: drivers/of] Error 2
-> > > >>>    make[1]: *** [/local/frowand_nobackup/src/git_linus/linux--5.1=
-1-rc/Makefile:1805: drivers] Error 2
-> > > >>>    make[1]: Leaving directory '/local/frowand_nobackup/src/git_li=
-nus/build/dragon_linus_5.11-rc'
-> > > >>>    make: *** [Makefile:185: __sub-make] Error 2
-> > > >>>
-> > > >>>
-> > > >>> The specific error message (copied from above) is:
-> > > >>>
-> > > >>>    Failed to apply 'drivers/of/unittest-data/overlay.dtb': FDT_ER=
-R_NOTFOUND
-> > > >>>
-> > > >>> which is cryptic and does not even point to the location in the o=
-verlay that
-> > > >>> is problematic.  If you look at the source of fdtoverlay / libfdt=
-, you will
-> > > >>> find that FDT_ERR_NOTFOUND may be generated in one of many places.
-> > > >>>
-> > > >>> I do _not_ want to do a full review of fdtoverlay, but I think th=
-at it is
-> > > >>> reasonable to request enhancing fdtoverlay in the parent project =
-to generate
-> > > >>> usable error messages before enabling fdtoverlay in the Linux ker=
-nel tree.
-> > > >
-> > >
-> > > > That's... actually much harder than it sounds.  fdtoverlay is
-> > > > basically a trivial wrapper around the fdt_overlay_apply() function=
- in
-> > > > libfdt.  Matching the conventions of the rest of the library, really
-> > > > it's only way to report errors is a single error code.
-> > > >
-> > > > Returning richer errors is not an easy problem in a C library,
-> > > > especially one designed to be usable in embedded systems, without an
-> > > > allocator or much else available.
-> > > >
-> > > > Of course it would be possible to write a friendly command line tool
-> > > > specifically for applying overlays, which could give better errors.
-> > > > fdtoverlay as it stands isn't really that - it was pretty much writ=
-ten
-> > > > just to invoke fdt_overlay_apply() in testcases.
-> > >
-> > > Thank you for providing that context.
-> > >
-> > > I do not know if there is a way to enable the code that is currently =
-in libfdt
-> > > to both be useful as an embedded library (for example, U-boot seems t=
-o often
-> > > have a need to keep memory usage very small) and also be part of a to=
-ol with
-> > > effective warning and error messages.
-> >
-> > Yeah, I don't know either.
-> >
-> > > Before having looked at libfdt only at a cursory level while debuggin=
-g the proposed
-> > > use of fdtoverlay in Linux, my first thought was that maybe it would =
-be possible
-> > > to add warning and error messages within "#ifdef" blocks, or other wa=
-ys that
-> > > cause the error code to _not_ be compiled as part of library version =
-of libfdt,
-> > > but only be compiled as part of fdtoverlay _when built in the Linux k=
-ernel_
-> > > (noting that the proposed Linux patch builds the libfdt files as part=
- of
-> > > the fdtoverlay compile instead of as a discrete library).  After look=
-ing at
-> > > the libfdt source a tiny bit more carefully, I would probably shoot d=
-own this
-> > > suggestion, as it makes the source code uglier and harder to understa=
-nd and
-> > > maintain for the primary purpose of being an embedded library.
-> >
-> > Oof.  That sounds really ugly, but maybe it could be pulled off.
-> >
-> > > Do you have any thoughts on how warning and error messages could be a=
-dded,
-> > > or if it is even possible?  Or maybe your suggestion of writing a "fr=
-iendly
-> > > command line tool specifically for applying overlays" is the path that
-> > > Viresh should pursue?
-> >
-> > I think at this stage it's a matter of trying a few approaches and
-> > seeing what works out.
->=20
-> Another way would be applying overlays to dtc's live tree. This could
-> apply overlays from dts in addition to dtb. It could be a plug-in if
-> we ever get that finished up.
+This commit was for backward compatibility to not change the configured
+system behavior because of a new default configuration.
+Here I want to address a forward compatibility issue: when users want to
+enable an LSM, give them the opportunity to enable it at boot time too
+instead of silently ignoring this new configuration at boot time.
+Indeed, there is two kind of configurations: built time configuration
+with Kconfig, and boot time configuration with the content of
+CONFIG_LSM. However, there is no direct dependency between LSM toggles
+and CONFIG_LSM once it is set.
 
-This is actually a really interesting idea, because in a sense dtc
-already *does* apply overlays.  It's just that it effectively resolves
-as it is parsing, rather than realizing separate overlay objects then
-merging as a separate step.
+I think a better solution would be to add a new CONFIG_LSM_AUTO boolean
+to automatically generate the content of CONFIG_LSM according to the
+(build/kconfig) enabled LSMs, while letting users the ability to
+manually configure CONFIG_LSM otherwise. What do you think?
 
-I would actually like to change that, so that it *does* explicitly
-produce a chain of overlays internally.  That has advantages for the
-checking code, because some checks make sense to apply to individual
-overlay fragments, but some only make sense on a fully resolved tree.
-
-As a bonus, it could handle this use case.  Unlike libfdt, dtc is a
-much more normal userspace program and adding extra verbose debugging
-is no realy problem.
-
-It probably is more work in the short term, though.
-
-> The downside of this is not testing libfdt's code and possible
-> differences between 2 implementations.
-
-That can be mitigated by having a bunch of examples in the testsuite
-where we cross compare fdtoverlay's output with dtc's.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8LcDNZpJwHFkagdo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAzTGQACgkQbDjKyiDZ
-s5LrVQ/9Gju0d9kQazxGUx/IUTVUTPA5gHuyhv+eGPjzckyS7eHEgfr31loyj5p5
-bAVIIQtdikjI4nhD3elVI+M0AqU0sPmxZfsTxxmk4euuKnAT5o+M4muI5MeMW3Mr
-s4lqFxs1NDs2yuvJ6eyUq4mGjJUcfM5MbLmhL6zV+AV2xmDyVGETvMsMnM6K3pvB
-Ma9wBEXm1faQOa/HYIOPbDoIa8n3j8wA6pGTHrijB3QWXwk0z7ujLbtqrWwZAnjr
-/Dhxf3OggTdg8O4CHCtcwlWoi8RrrCCfdZgkgSxhiptq8jZDw3T+7lEpHBVOZDgw
-5g8dSti+MwlQ9W3cU5tr0Z76kjO4l1vN25tJ6J5c6jeiujyS9gB2Yl0740KmV0rF
-0rq9pefKNGzq0QObjkZBcJ8gspEacHBoiq6xb2QSyVq8w7xT/kLDzyYntGZ+EKEs
-feYdDpsFjtm9FqsxlHiIQmP2D+cqraN1Y9pFAsSnWNhg39bUmYAKu73MGKxjBxod
-t5IxYjI9c5oKbIQDjsFpRr6KrPbHZnMnBXOYxKYyvOB/Bay8S6mAEkR4gpj4b1+i
-jwpvVr6JejEJkYmdNBAu5wyvGT3TjduE5638DxJsKkO/IXphMXJvOA5Xp3xS47M0
-HE8WKm/S6tHeZ4JLMxr6EIDB8mrAC8mhEG1vPeJrmXm09ac0Et4=
-=oy4T
------END PGP SIGNATURE-----
-
---8LcDNZpJwHFkagdo--
+> 
+>>>>
+>>>> I do think this would be a useful feature, but IMHO shouldn't be
+>>>> implemented like this.
+>>>>
+>>>>>         default "lockdown,yama,loadpin,safesetid,integrity,smack,selinux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+>>>>>         default "lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+>>>>>         default "lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf" if DEFAULT_SECURITY_TOMOYO
+>>>>> --
+>>>>> 2.30.0
+>>>>>
+>>>>
+>>>> --
+>>>> Ondrej Mosnacek
+>>>> Software Engineer, Linux Security - SELinux kernel
+>>>> Red Hat, Inc.
+>>>>
+>>>
+>>>
+> --
+> Best Regards
+> Masahiro Yamada
+> 
