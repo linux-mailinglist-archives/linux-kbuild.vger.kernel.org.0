@@ -2,107 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55FDB32430D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Feb 2021 18:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3F29324518
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Feb 2021 21:19:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235220AbhBXRSY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Feb 2021 12:18:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234736AbhBXRSX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Feb 2021 12:18:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E7E664F0B;
-        Wed, 24 Feb 2021 17:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614187061;
-        bh=u8ZNuqYInVQANFsOD5T+PXy7b7+EOuQxFZ7y03PJ+gw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DPpJPlXn5B7lZRP7yQOHgAs3XfYC7RiXpIbnaySmOlYIIIKeMMBBrsVCSlZLIo/GN
-         zKRiqVGnlGlQN8lo2mhYsN1rxU3VDh/bG0Za0x06bXMhwjPGBJvOQBcjz7vkG/PEsD
-         IVIQP2jhjzBMH0ALPTXguGEBMfGBal/Kxey6XQOMeVLHtlgSti/gPT9xpdwJWKz+aw
-         D5hdb7P84eDsAsLS+MxZqDilZbmo8743PV8dnO/T/qn5hjqdKSjtpPvUSDZMTiL3xh
-         9LxWL8GFqibOP53lK6puYLabd4pFuV6gfw6lWY0fSEnLTHKqNz0+y8AX1oaDbGDryS
-         GJevlVIOBdulg==
-Date:   Wed, 24 Feb 2021 10:17:40 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        id S235526AbhBXUSz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Feb 2021 15:18:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235728AbhBXUSG (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 24 Feb 2021 15:18:06 -0500
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C529C061574;
+        Wed, 24 Feb 2021 12:17:26 -0800 (PST)
+Received: by mail-oi1-x22e.google.com with SMTP id 18so3715765oiz.7;
+        Wed, 24 Feb 2021 12:17:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ylNlgfdcvRYOD6kXq/95XnGE6RgCAMqXvQ1uBMMg7TU=;
+        b=RhNsZyzXgtTZGyid5j7nVxfjC5vdc5cxSATcD8rc+cg00YD/Uu1qopgE0wLckdrrfh
+         AMbMPE6l42p5jtO2qEMlB6RBoiy/u6oeOfBKxB9YDRU+CyIdVN+OqiFMfONkZ5OBUyJT
+         pYqWHcQ9YjSGTuxG6MK2ztRqiuOxyxd7MkbB895Aoxto9JgmmfUqRh2iu5hVc54oWKUI
+         Gq97bliEvUmmhPnIPYtuOBB/ESNbs1xmeQ5jhfh/sAVUw4iaxufO7htAed0SwH5o4oJe
+         scdddBN+FqryhHDKlk8OmTM346/xXlWpfcKrSkUNbd9PEEnxF6oU6vnbhOaAA+zbLoP9
+         RTHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ylNlgfdcvRYOD6kXq/95XnGE6RgCAMqXvQ1uBMMg7TU=;
+        b=YGC7euZ5PUqaO7Xk+uCvufUqnIKXA2RBj6FjYNmpe29GjRa9zcy2/91LbNfrlu8JJi
+         67FqRsz09rCaIFgAiQ/S+xAY98+cN0XNFbM/OPh1HvyKZ7jGRT/0iDF36yxQ4iRmnf5S
+         lIte+f2olPsa2VFMVQcE/Dq/2kLSdEhl57oEvaNh2zUCmqlGBBbs6AtqPmiQDHqEw822
+         FWhKKosySqiDZgQqLDBFzeJW7A0qRYFkOe1SBeU4qkY0i1TJqP4vPehIdyvEC9Ukf+so
+         TIQKUzBmHu5/dWOS/9FKuGp/fSZNaE31yhCC1sSxk16CRUC5iCv2H03jHRn189QmPola
+         tcMA==
+X-Gm-Message-State: AOAM5324hpkIL5vSocIcPEx6ITCxnKxoEZYpOrRU0V1rKz5GkL34DPKI
+        1xf+9oL08N+PB/xjSzdnRhI=
+X-Google-Smtp-Source: ABdhPJzDBcW556aZO7mgeeunZgHfhSVx/5GFriwJvwVEbAj9sOwTknCGBEak65KhGzHJp7g/DrTp8Q==
+X-Received: by 2002:aca:ad0d:: with SMTP id w13mr3743625oie.170.1614197845430;
+        Wed, 24 Feb 2021 12:17:25 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n93sm572233ota.37.2021.02.24.12.17.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 24 Feb 2021 12:17:24 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 24 Feb 2021 12:17:23 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH] Makefile: reuse CC_VERSION_TEXT
-Message-ID: <20210224171740.GA7180@24bbad8f3778>
-References: <20210205220125.2931504-1-ndesaulniers@google.com>
- <CAK7LNARKHvjTcnic=ZKntH3NY5meehQbJuBr34y9_tn8b-Ym0w@mail.gmail.com>
- <CA+icZUVkFOZq=5K=dKsQAFJPTmEE2gr_hVmYM=Q+rn70bSOh2w@mail.gmail.com>
- <CAK7LNAQGUnzLSOHAwF6ebH7oOuNETAyf3nrdNgNNq7JsDgiFkA@mail.gmail.com>
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v9 01/16] tracing: move function tracer options to
+ Kconfig (causing parisc build failures)
+Message-ID: <20210224201723.GA69309@roeck-us.net>
+References: <20201211184633.3213045-1-samitolvanen@google.com>
+ <20201211184633.3213045-2-samitolvanen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQGUnzLSOHAwF6ebH7oOuNETAyf3nrdNgNNq7JsDgiFkA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201211184633.3213045-2-samitolvanen@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 12:14:04PM +0900, Masahiro Yamada wrote:
-> On Sat, Feb 6, 2021 at 12:46 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Sat, Feb 6, 2021 at 2:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Sat, Feb 6, 2021 at 7:01 AM 'Nick Desaulniers' via Clang Built
-> > > Linux <clang-built-linux@googlegroups.com> wrote:
-> > > >
-> > > > I noticed we're invoking $(CC) via $(shell) more than once to check the
-> > > > version.  Let's reuse the first string captured in $CC_VERSION_TEXT.
-> > > >
-> > > > Fixes: 315bab4e972d ("kbuild: fix endless syncconfig in case arch Makefile sets CROSS_COMPILE")
-> > >
-> > >
-> > > I did not touch this hunk because I have a plan
-> > > for different refactoring, but I have never got
-> > > around to do it.
-> > >
-> > > Anyway, you beat me, and I will pick this up.
-> > > But, the Fixes tag is questionable because
-> > > this is code refactoring.
-> > >
-> >
-> > When I see this... and hear refactoring... As a suggestion/improvement...
-> >
-> > Can we have LD_VERSION_TEXT analogue to CC_VERSION_TEXT?
-> > Both are shown when doing a `cat /proc/version` (and IIRC in file
-> > include/generated/compile.h).
+On Fri, Dec 11, 2020 at 10:46:18AM -0800, Sami Tolvanen wrote:
+> Move function tracer options to Kconfig to make it easier to add
+> new methods for generating __mcount_loc, and to make the options
+> available also when building kernel modules.
 > 
-> Sorry, I had forgotten to answer this question.
+> Note that FTRACE_MCOUNT_USE_* options are updated on rebuild and
+> therefore, work even if the .config was generated in a different
+> environment.
 > 
-> Probably, we should do so.
-> 
-> Feeding it to Kconfig allows us to re-evaluate
-> config settings when tools are upgraded.
-> 
-> One question is where we should draw a line.
-> If we record the version text of CC, LD,
-> we should do that for more tools?
-> 
-> For LD, I will be probably OK because
-> some features rely on LD_VERSION or $(ld-option ).
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
-It probably makes sense to do this for tools that we depend on in
-Kconfig, like CC and LD. Those will usually paint a good enough picture
-for what tools were used on a whole since CC will tell us about the GCC
-or LLVM version used (as well as distribution usually) and LD will tell
-us about the binutils or LLVM version.
+With this patch in place, parisc:allmodconfig no longer builds.
 
-LTO does check $(AR) and $(NM) but it also depends on LLVM=1 LLVM_IAS=1,
-which would get covered by the $(CC) and $(LD) print outs.
+Error log:
+Arch parisc is not supported with CONFIG_FTRACE_MCOUNT_RECORD at scripts/recordmcount.pl line 405.
+make[2]: *** [scripts/mod/empty.o] Error 2
 
-Cheers,
-Nathan
+Due to this problem, CONFIG_FTRACE_MCOUNT_RECORD can no longer be
+enabled in parisc builds. Since that is auto-selected by DYNAMIC_FTRACE,
+DYNAMIC_FTRACE can no longer be enabled, and with it everything that
+depends on it.
+
+Bisect log attached.
+
+Guenter
+
+---
+# bad: [414eece95b98b209cef0f49cfcac108fd00b8ced] Merge tag 'clang-lto-v5.12-rc1-part2' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux
+# good: [b12b47249688915e987a9a2a393b522f86f6b7ab] Merge tag 'powerpc-5.12-1' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
+git bisect start '414eece95b98' 'b12b47249688'
+# bad: [f6e1e1d1e149802ed4062fa514c2d184d30aacdf] Merge tag 'gfs2-for-5.12' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2
+git bisect bad f6e1e1d1e149802ed4062fa514c2d184d30aacdf
+# bad: [79db4d2293eba2ce6265a341bedf6caecad5eeb3] Merge tag 'clang-lto-v5.12-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux
+git bisect bad 79db4d2293eba2ce6265a341bedf6caecad5eeb3
+# good: [9d5032f97e9e0655e8c507ab1f43237e31520b00] dt-bindings: mediatek: mt8192: Fix dt_binding_check warning
+git bisect good 9d5032f97e9e0655e8c507ab1f43237e31520b00
+# good: [f81f213850ca84b3d5e59e17d17acb2ecfc24076] Merge tag 'for-linus-5.12-1' of git://github.com/cminyard/linux-ipmi
+git bisect good f81f213850ca84b3d5e59e17d17acb2ecfc24076
+# bad: [112b6a8e038d793d016e330f53acb9383ac504b3] arm64: allow LTO to be selected
+git bisect bad 112b6a8e038d793d016e330f53acb9383ac504b3
+# bad: [3578ad11f3fba07e64c26d8db68cfd3dde28c59e] init: lto: fix PREL32 relocations
+git bisect bad 3578ad11f3fba07e64c26d8db68cfd3dde28c59e
+# bad: [22d429e75f24d114d99223389d6ba7047e952e32] kbuild: lto: limit inlining
+git bisect bad 22d429e75f24d114d99223389d6ba7047e952e32
+# bad: [dc5723b02e523b2c4a68667f7e28c65018f7202f] kbuild: add support for Clang LTO
+git bisect bad dc5723b02e523b2c4a68667f7e28c65018f7202f
+# bad: [3b15cdc15956673ba1551d79bceae471436ac6a9] tracing: move function tracer options to Kconfig
+git bisect bad 3b15cdc15956673ba1551d79bceae471436ac6a9
+# first bad commit: [3b15cdc15956673ba1551d79bceae471436ac6a9] tracing: move function tracer options to Kconfig
