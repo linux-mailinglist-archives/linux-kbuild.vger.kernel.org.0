@@ -2,103 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 420A23234DA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Feb 2021 02:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A08573234DD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Feb 2021 02:20:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbhBXBFq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Feb 2021 20:05:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57604 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234687AbhBXAFk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Feb 2021 19:05:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD45964EBA;
-        Tue, 23 Feb 2021 23:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614124771;
-        bh=d8bhfTDGI9W39QzlxnPPLrP0VWvKUzQ7BK1mYKgo9bA=;
+        id S232085AbhBXBGF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Feb 2021 20:06:05 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:28112 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234512AbhBXApE (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 23 Feb 2021 19:45:04 -0500
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 11O0i056013733;
+        Wed, 24 Feb 2021 09:44:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 11O0i056013733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614127441;
+        bh=gqVP6d2SKOXptycBAEkQVPJQ40imMk4X+NRYHoNFmDc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tyPZC6RjnjTj5pSU0VB5e1epmkPcWqFelbhkY5W/hh2lFen0FTZzCmFc5u17S2UCk
-         IUSj3R471D3GfQF/drgrtOjwe7spQ1LnOgtgOzfnMDBUQ2OGFkyfHqVYvrKXQZCiSB
-         eRxQSOkQP17CrQDHw7ddHEbq2DSmVh6i/dhiZFVf3otifw20icBRYDmZep5ju9LM2u
-         euuj2/2vGT/CBWoMf2XS1HiYHF9GO9uZirW5lFTyg2VyilW+BT9i6qDnYgiN/1uYMD
-         LNj0mMEZa+V0yE4oEd7A+yGNHhVoDIWWj8Ur2EBsMn3sjpWwuA83Ccp+0fj7cm7z8i
-         PkV5hwELppe5Q==
-Received: by mail-ed1-f42.google.com with SMTP id j9so475807edp.1;
-        Tue, 23 Feb 2021 15:59:30 -0800 (PST)
-X-Gm-Message-State: AOAM5301dM/ZRoxwJI9xTVMMbuO9CwTQ5ZyIFMKPaBWLIITLSpc2tbhz
-        hfrKqogjlmxpgbOGPP0h+V6/NvgubxiJJInyuw==
-X-Google-Smtp-Source: ABdhPJzy2WY+J2dV1PUUmZu/lKy62FdvqPm74QE245X5CUGwMtEVPr93/MqHapjUWaxZ7K8UKNyNqMBVEaiqnQR3nn4=
-X-Received: by 2002:a05:6402:164e:: with SMTP id s14mr17830402edx.62.1614124769468;
- Tue, 23 Feb 2021 15:59:29 -0800 (PST)
+        b=GZZZPYvB+xxwOXFzf1W/xgGJt0APRHozpU+eyvTHqhGodj3Z+mBOafmDJ8ogpYfl0
+         3FLmHpTWjcq032FQYR+R1COVFXeSK6yT2cszAvoBPeSYKR5azB+Mvt1Ktw+Ndk/RrY
+         ZqGzqtus7F4bIS9MRu6jtdMifvrOlEivPH2ctDv3eIsy9Ok8t0PYhayfl07aupXGF4
+         TErGqrzvHF93UMqqIbCHskdjFF6VQpSUl/srz2HzJT+niUQ6oc+jFaotaV3XGQhVGx
+         nPoAfP9igTjXRpsdidbDyA76pnuPJDweqeBskNv40w724yf3bdvPBkBeMFQRXdhzbb
+         6a8UUV6E5nORg==
+X-Nifty-SrcIP: [209.85.216.54]
+Received: by mail-pj1-f54.google.com with SMTP id kr16so126880pjb.2;
+        Tue, 23 Feb 2021 16:44:01 -0800 (PST)
+X-Gm-Message-State: AOAM5324Ru5qE6frcYaSAAAAL+Xg/8onhJY6ddQHpL5ZcBfW8TK+HAZv
+        e/5XcCqPf52UN6JoQ+IelcVR9zWMu77ybc58Ugw=
+X-Google-Smtp-Source: ABdhPJxoYbk4hKXDEekzKWVKkgxqUjdEcOWXSmH/qH7JhhT7xE0dmHFI7agXK9bpp2ZUa8y/LrCSMKFCUBFfWOaiX9Q=
+X-Received: by 2002:a17:90a:5510:: with SMTP id b16mr1448151pji.87.1614127440348;
+ Tue, 23 Feb 2021 16:44:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20210223181425.4010665-1-robh@kernel.org> <20210223181425.4010665-4-robh@kernel.org>
- <CAHk-=wiWoqUt5z0Phvr-0HQkohi2SkYRPuCGi0xefV0KE+t4kA@mail.gmail.com>
-In-Reply-To: <CAHk-=wiWoqUt5z0Phvr-0HQkohi2SkYRPuCGi0xefV0KE+t4kA@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 23 Feb 2021 17:59:17 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLNVy4KHSViVWePermXsG1K_W=Buj8a1wxQ1pdEVYFr3w@mail.gmail.com>
-Message-ID: <CAL_JsqLNVy4KHSViVWePermXsG1K_W=Buj8a1wxQ1pdEVYFr3w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] kbuild: Add a build check for missing gitignore entries
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20210223181425.4010665-1-robh@kernel.org> <20210223181425.4010665-2-robh@kernel.org>
+In-Reply-To: <20210223181425.4010665-2-robh@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 24 Feb 2021 09:43:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQYfMGTUehk4-=UGcT4Tc66fZ67vbJKr36YDpxB52mDJQ@mail.gmail.com>
+Message-ID: <CAK7LNAQYfMGTUehk4-=UGcT4Tc66fZ67vbJKr36YDpxB52mDJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: Make old-atomics and missing-syscalls phony targets
+To:     Rob Herring <robh@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 5:20 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Wed, Feb 24, 2021 at 3:14 AM Rob Herring <robh@kernel.org> wrote:
 >
-> On Tue, Feb 23, 2021 at 10:14 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > Any non-phony targets need to be in gitignore. The normal way to check
-> > this is doing an in-tree build and running git-status which is easy to
-> > miss. Git provides an easy way to check whether a file is ignored with
-> > git-check-ignore. Let's add a build time check using it.
+> The old-atomics and missing-syscalls targets are not files, so they
+> should be marked as PHONY.
 >
-> This looks ridiculously expensive with a shell and git invocation for
-> every single target just for this check.
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Kbuild | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Kbuild b/Kbuild
+> index fa441b98c9f6..032157c3ffd2 100644
+> --- a/Kbuild
+> +++ b/Kbuild
+> @@ -44,6 +44,7 @@ always-y += missing-syscalls
+>  quiet_cmd_syscalls = CALL    $<
+>        cmd_syscalls = $(CONFIG_SHELL) $< $(CC) $(c_flags) $(missing_syscalls_flags)
+>
+> +PHONY += missing-syscalls
+>  missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
+>         $(call cmd,syscalls)
+>
+> @@ -55,5 +56,6 @@ always-y += old-atomics
+>  quiet_cmd_atomics = CALL    $<
+>        cmd_atomics = $(CONFIG_SHELL) $<
+>
+> +PHONY += old-atomics
 
-I was a bit worried too initially, but casually didn't notice any
-difference so I didn't do any measurements. Now I have, and it looks
-like it adds about 2 sec on a rebuild with no changes. I probably can
-rework it to a single shell and git call per invocation of
-Makefile.lib. What I really need is git-check-ignore to take '-n'
-without '-v', but grep can solve that.
 
-Here's the raw data:
+I do not think this is the right fix.
 
-clean x86 defconfig:
-1805.08user 165.87system 5:05.15elapsed 645%CPU (0avgtext+0avgdata
-260180maxresident)k
-110536inputs+1390704outputs (11major+52491225minor)pagefaults 0swaps
+always-y (specified a few lines above) adds $(obj)/ prefix,
+and is not supposed to work with PHONY.
 
-rebuild with no changes:
-12.61user 3.56system 0:04.32elapsed 374%CPU (0avgtext+0avgdata
-38876maxresident)k
-0inputs+1984outputs (0major+755708minor)pagefaults 0swaps
 
-adding this commit and rebuild:
-14.90user 4.80system 0:06.50elapsed 303%CPU (0avgtext+0avgdata
-39160maxresident)k
-80inputs+1992outputs (0major+1402830minor)pagefaults 0swaps
+It is wrong to blindly eliminate
+the errors detected by your 3/3
 
-clean x86 defconfig with this commit:
-1799.10user 165.84system 5:06.19elapsed 641%CPU (0avgtext+0avgdata
-259932maxresident)k
-8inputs+1390712outputs (0major+53146757minor)pagefaults 0swaps
 
-another rebuild with this commit:
-14.55user 4.85system 0:06.14elapsed 315%CPU (0avgtext+0avgdata
-38664maxresident)k
-0inputs+1992outputs (0major+1402878minor)pagefaults 0swaps
 
-Rob
+>  old-atomics: scripts/atomic/check-atomics.sh FORCE
+>         $(call cmd,atomics)
+> --
+> 2.27.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
