@@ -2,112 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08C1032573A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Feb 2021 21:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0131E32574B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Feb 2021 21:08:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbhBYUDn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Feb 2021 15:03:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230386AbhBYUDe (ORCPT
+        id S233159AbhBYUIQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Feb 2021 15:08:16 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:29223 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231974AbhBYUIP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Feb 2021 15:03:34 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FAAFC061756
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Feb 2021 12:02:54 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id m6so4359535pfk.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Feb 2021 12:02:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LVMYBgKGd958d/iMPLHmMnrCcZl3qNsJjm0FQKo+4A8=;
-        b=bNflY5pod7RiRpbDP9rLxG6gbfGoCiH28u0XczC3Ygxb45JF8qUxEjdjW0t+MsrUPu
-         sJAmkoHvlssJPV6NG9nAvMchs+qOPWzgnnpRLVp3wlnl57AsgguY9G7ceD3TRNOx9GbB
-         ugMPkLJ/TsacjW87kp4RRhOvg3pjy77Tjq1UQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LVMYBgKGd958d/iMPLHmMnrCcZl3qNsJjm0FQKo+4A8=;
-        b=qy6v9rvXOJ2hNPuFatcIuMLmcWQ1OCzlhvOpGqn+TlPzuJW4LP4nvvpnBTYJX03g9v
-         oE8k67APl05GOn628B+7Q3tX66ulDBW8CYiuCo+4go0gz1Aw5m43qCCoE8ic1Wm4eDHE
-         GnNNl2AmaEOR4Bj7afIX/9sXQWZAvKvZgPEN6Ur87Ch2Gq6MKrLuTtVbbpDDK1NkVIVO
-         /9/JgEP84jszNK6IHkRp/JiwfHuRYTmTf5wi35/X7urMkHHb2kv7OQdBfFT25oCMkdQf
-         ZY/VPkXgkHiiikauAbr8UBhwI6ya5QAldvo9EVvh97NwfgJPKUg3JKUHB62vJAC7eapS
-         OpYQ==
-X-Gm-Message-State: AOAM530t2oh2YyhIBkaUODSDjZ2Md12am4jXzWqMSVqlxsnYBdbyVMe0
-        41GUjADBA4/Bqaqwex9DQmj6aw==
-X-Google-Smtp-Source: ABdhPJyQGxSFB5eIUxsc76+xMlFrnOwN1pun2oUYPQmeZSwhZ8dK6kftc3nkUHYW0ZwlFqOV8GqHJA==
-X-Received: by 2002:a65:4083:: with SMTP id t3mr4523429pgp.150.1614283373710;
-        Thu, 25 Feb 2021 12:02:53 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v16sm6522310pfu.76.2021.02.25.12.02.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 12:02:53 -0800 (PST)
-Date:   Thu, 25 Feb 2021 12:02:52 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH] kbuild: remove .thinlto-cache by 'make clean'
-Message-ID: <202102251201.F444E4E2@keescook>
-References: <20210225193912.3303604-1-masahiroy@kernel.org>
+        Thu, 25 Feb 2021 15:08:15 -0500
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 11PK7K7L022783;
+        Fri, 26 Feb 2021 05:07:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 11PK7K7L022783
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614283640;
+        bh=3xVOangCnFZp2qQC/3neIi3ttH7WXnHRc82C0C7KERI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nKvJwgyzHqw1X744v4wOdnskQVcWSaxr+0O9GxE4aRwuaBQxJdVwtzlbCJhTx+8zR
+         TR9+fF8IQPKz8LokLWq2n9DfPfGQ74PL8SShuDmR3F+Pxmp4sEgrnCsoOpJ44DNUOq
+         UuQZfXSOk44ikQfceMVW2yZ+KFDgV5HU6Zws52x9of5OHgDBM5HVXUdSY/flZIuXFN
+         hHmh4oPQDc+/Q4k+o1I+j9WMAvAlY1tjLKQMLYEUMPF2wuyDLRioQCf+Ca4sAmSWQ4
+         o8cFOIdpGGgxCOXkuIc4NRaBGAMudC9Z9s2mG0uLJvdH0An14hapXXh1JzmxdySHIx
+         9eboAAXHYag1Q==
+X-Nifty-SrcIP: [209.85.216.48]
+Received: by mail-pj1-f48.google.com with SMTP id b15so4197032pjb.0;
+        Thu, 25 Feb 2021 12:07:20 -0800 (PST)
+X-Gm-Message-State: AOAM53363KOAik83JsHYyKps1mlKtO6FZ7TTBn1mkHoWhX7vEqWGZIBZ
+        oyPTrsdaJ4KL2WsoTgcRDb/CtfNclXYD57/lgGc=
+X-Google-Smtp-Source: ABdhPJytSoow7skb1MRVCvHykNbEQNNnPYX5Ze/IuXX54Q0KLnGnXDwT+KH5SkD+nQXvJ46/ZknHf7m7w9VPFRpTCfo=
+X-Received: by 2002:a17:90b:315:: with SMTP id ay21mr88171pjb.198.1614283639851;
+ Thu, 25 Feb 2021 12:07:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210225193912.3303604-1-masahiroy@kernel.org>
+References: <20210225160247.2959903-5-masahiroy@kernel.org> <202102260245.2UUwdoDK-lkp@intel.com>
+In-Reply-To: <202102260245.2UUwdoDK-lkp@intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 26 Feb 2021 05:06:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ4gpD=wuASq42r+MznVeFo8wz0m=YMzmBLL67fdtOFpw@mail.gmail.com>
+Message-ID: <CAK7LNAQ4gpD=wuASq42r+MznVeFo8wz0m=YMzmBLL67fdtOFpw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] kbuild: re-implement CONFIG_TRIM_UNUSED_KSYMS to make
+ it work in one-pass
+To:     kernel test robot <lkp@intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kbuild-all@lists.01.org, Christoph Hellwig <hch@lst.de>,
+        Jessica Yu <jeyu@kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 04:39:12AM +0900, Masahiro Yamada wrote:
-> 'make clean' should remove build artifacts unneeded by external module
-> builds. Obviously, you do not need to keep this directory.
+On Fri, Feb 26, 2021 at 3:47 AM kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Masahiro,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on next-20210225]
+> [cannot apply to kbuild/for-next asm-generic/master arm64/for-next/core m68k/for-next openrisc/for-next hp-parisc/for-next arc/for-next uclinux-h8/h8300-next nios2/for-linus v5.11]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+>
+> url:    https://github.com/0day-ci/linux/commits/Masahiro-Yamada/kbuild-build-speed-improvment-of-CONFIG_TRIM_UNUSED_KSYMS/20210226-000929
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 29c395c77a9a514c5857c45ceae2665e9bd99ac7
+> config: powerpc-mpc8313_rdb_defconfig (attached as .config)
+> compiler: powerpc-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/0day-ci/linux/commit/014940331790a8cd9bee92c7201494ec3217201e
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-build-speed-improvment-of-CONFIG_TRIM_UNUSED_KSYMS/20210226-000929
+>         git checkout 014940331790a8cd9bee92c7201494ec3217201e
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=powerpc
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> scripts/module.lds.S:7:5: warning: "CONFIG_TRIM_UNUSED_KSYMS" is not defined, evaluates to 0 [-Wundef]
 
-As in, it should exist in the "clean" target, rather than "distclean"?
+Thanks. This should be #ifdef, of course.
 
-> 
-> Fixes: dc5723b02e52 ("kbuild: add support for Clang LTO")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-That works for me!
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
+>        7 | #if CONFIG_TRIM_UNUSED_KSYMS
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/CONFIG_TRIM_UNUSED_KSYMS +7 scripts/module.lds.S
+>
+>    > 7  #if CONFIG_TRIM_UNUSED_KSYMS
+>      8  #include <generated/keep-ksyms.h>
+>      9
+>
 > ---
-> 
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index b18dbc634690..8601a86ebe38 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1501,7 +1501,7 @@ endif # CONFIG_MODULES
->  # Directories & files removed with 'make clean'
->  CLEAN_FILES += include/ksym vmlinux.symvers \
->  	       modules.builtin modules.builtin.modinfo modules.nsdeps \
-> -	       compile_commands.json
-> +	       compile_commands.json .thinlto-cache
->  
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES += include/config include/generated          \
-> @@ -1515,7 +1515,7 @@ MRPROPER_FILES += include/config include/generated          \
->  		  *.spec
->  
->  # Directories & files removed with 'make distclean'
-> -DISTCLEAN_FILES += tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS .thinlto-cache
-> +DISTCLEAN_FILES += tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS
->  
->  # clean - Delete most, but leave enough to build external modules
->  #
-> -- 
-> 2.27.0
-> 
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
 
 -- 
-Kees Cook
+Best Regards
+Masahiro Yamada
