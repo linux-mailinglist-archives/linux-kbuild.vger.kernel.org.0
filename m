@@ -2,128 +2,195 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 657BD325E01
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Feb 2021 08:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B083B326009
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Feb 2021 10:29:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbhBZHGM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Feb 2021 02:06:12 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:48295 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbhBZHGA (ORCPT
+        id S230179AbhBZJ2z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Feb 2021 04:28:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42956 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229482AbhBZJ0n (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Feb 2021 02:06:00 -0500
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 11Q74khb013013;
-        Fri, 26 Feb 2021 16:04:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11Q74khb013013
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614323087;
-        bh=x/mGpk1ym04OHsIfCCiDKSuFig6JjVl/bLcEZ8JxD60=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Xkgdf5MvmR6hgS+8QPHNJl+H8QSjIvfT9Mwu8ClGIaUhJxVbfCbwamjymkXJzsgyS
-         LUKo0osm44bGDjIH/Wq1sLz8Pd1Prj4Zr3ZhC7Z5PSzFDlo03hzd0ccy1ziXl25HV2
-         akQXdin3Os4gvIe4DoUcbNBM2J8i9z17jmi6/JbDbBfZQezVIm8iDDO+4siycNH6x4
-         iAL34HjVQgApq6fL9n57LWbNV0WuiA+MvYtJ36uxgWddwzZWVB2zunMfXXZw1Tupyz
-         B4IG1b54gWbGvmOuj5zPPs63ao8pnQk4Csg0FXlnjsz3jo2xS/BKbIvq3gyC0DcRuE
-         8F++jiJHVRCiw==
-X-Nifty-SrcIP: [209.85.216.44]
-Received: by mail-pj1-f44.google.com with SMTP id t9so5449278pjl.5;
-        Thu, 25 Feb 2021 23:04:47 -0800 (PST)
-X-Gm-Message-State: AOAM533qPRbNTzRT+SnLdsbsr4mNkOrfhB7TajAuSn2mbAybNYb35MNg
-        KwDRPDy+w2YAwVTJd4cxU5BVGPc4umMLvxucXBA=
-X-Google-Smtp-Source: ABdhPJzp5pGZsGqBQHf0ap1RmLLZMw8yZd4cNsh1RkqQA4Uhk+8hUUC6gMR/ojA1XI0Cpoi+gVXJzr00cMyMWlIC1lM=
-X-Received: by 2002:a17:902:e891:b029:e4:20d3:3d5c with SMTP id
- w17-20020a170902e891b02900e420d33d5cmr2002613plg.71.1614323086227; Thu, 25
- Feb 2021 23:04:46 -0800 (PST)
+        Fri, 26 Feb 2021 04:26:43 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0632FC061786;
+        Fri, 26 Feb 2021 01:26:03 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id i8so8970415iog.7;
+        Fri, 26 Feb 2021 01:26:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=zYcif3lRZCjOeSRt7zkTKeI8391Ir8d0NUzmRV348z0=;
+        b=twcv2ssX5+sRxdZfvIE1M+bQ0IbfkjNi3ONEQ99kfPvujoTJR9X8ddfa1SVgp66L/h
+         /m1dv2HSBfPQHsyengbhHa5LPYhF70YP+bfWbYB4eRw/eLzhq3FcWeEGbkl9Nk2xyf+N
+         OtEcI0Q+RUeIfK0mGHOBa8vvPFX/ju5dOuxyu9gUpUvPErI8XVzP4FkPcJ+MobVRII/u
+         EnIXXYASOk7jftra63GLw5zEu4nZMBtoOd012RnG1Fd4OKO67LJmX3KA6fToU7SOLV5N
+         I+AuP+veX8CsRe9p67yPuMkda+ZH1r6uSB5DadYHgBI0XgPpffYEXCXVTvgqwmNGlJQl
+         KoVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=zYcif3lRZCjOeSRt7zkTKeI8391Ir8d0NUzmRV348z0=;
+        b=awvxTSyxERqzTsPTU+q6PSnp/MYSogYNShx1NINFvS13Q3pwJNSvn9mlnQc+5rm3vj
+         1QAC3nEPGCZ75IUAsCkp4TLkKvgvWoBas8O41/kFJMP61YfDAVZtq7wtU/G6e+F5uEP3
+         q9KD7980tzuNH4lJQwHMTD4zvtMzqgbS5+Qk8FyUXCo6CBcBbOEA+nh8zdWr6syQFAut
+         Ek/XWFXEvUUU0YEcy/5QCSDN8ueCOqiMJkmVDx3JPWiyBrjcVuLbpHu3Twn2Kwk7Jyjq
+         Cj79CEV0Xw39tlad2p5KHAsqdT/hcHiI0rei8sH27nT14WhOTpxFZu8z391QVXW7+/rV
+         p4pg==
+X-Gm-Message-State: AOAM530zDbhCUQm8nS9VX237ZTpISv72OHpjUUZew/34B/1Cjdw7sHn5
+        V5PiQoA6w/7k1h+ZCl0Uxspf9SZ9/4Sy1/cLC1Y=
+X-Google-Smtp-Source: ABdhPJxNbxj+HPg7Yb1IrdcdC1w/Z415O+2wl60kM+t2T5pBIdzcnFXh+bCAcGzgTvw00O0FPiWQDjPF/qqIzkICW6E=
+X-Received: by 2002:a5e:c10b:: with SMTP id v11mr2059128iol.75.1614331562170;
+ Fri, 26 Feb 2021 01:26:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20210225160247.2959903-5-masahiroy@kernel.org>
- <202102260245.2UUwdoDK-lkp@intel.com> <CAK7LNAQ4gpD=wuASq42r+MznVeFo8wz0m=YMzmBLL67fdtOFpw@mail.gmail.com>
- <CABCJKucvBBgi8zXe12+rCkv0p0ozpBGr5=9Q139k8EErMYUBwQ@mail.gmail.com>
-In-Reply-To: <CABCJKucvBBgi8zXe12+rCkv0p0ozpBGr5=9Q139k8EErMYUBwQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 26 Feb 2021 16:04:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT5hqdkkbuS3y=VYF4utTUMsvowOFzsgXimW6ZKBcYs5A@mail.gmail.com>
-Message-ID: <CAK7LNAT5hqdkkbuS3y=VYF4utTUMsvowOFzsgXimW6ZKBcYs5A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] kbuild: re-implement CONFIG_TRIM_UNUSED_KSYMS to make
- it work in one-pass
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     kernel test robot <lkp@intel.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kbuild-all@lists.01.org, Christoph Hellwig <hch@lst.de>,
-        Jessica Yu <jeyu@kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
+References: <20210226062548.3334081-1-masahiroy@kernel.org>
+In-Reply-To: <20210226062548.3334081-1-masahiroy@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 26 Feb 2021 10:25:50 +0100
+Message-ID: <CA+icZUXYLVjs-hXEu_5Vy=TdNvOHhyiXe=hc-jc7SAU04Dtstw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: fix UNUSED_KSYMS_WHITELIST for Clang LTO
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 6:20 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+On Fri, Feb 26, 2021 at 7:26 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi Masahiro,
+> Commit fbe078d397b4 ("kbuild: lto: add a default list of used symbols")
+> does not work as expected if the .config file has already specified
+> CONFIG_UNUSED_KSYMS_WHITELIST="my/own/white/list" before enabling
+> CONFIG_LTO_CLANG.
 >
-> On Thu, Feb 25, 2021 at 12:07 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Fri, Feb 26, 2021 at 3:47 AM kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Masahiro,
-> > >
-> > > I love your patch! Perhaps something to improve:
-> > >
-> > > [auto build test WARNING on linus/master]
-> > > [also build test WARNING on next-20210225]
-> > > [cannot apply to kbuild/for-next asm-generic/master arm64/for-next/core m68k/for-next openrisc/for-next hp-parisc/for-next arc/for-next uclinux-h8/h8300-next nios2/for-linus v5.11]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > > https://git-scm.com/docs/git-format-patch]
-> > >
-> > > url:    https://github.com/0day-ci/linux/commits/Masahiro-Yamada/kbuild-build-speed-improvment-of-CONFIG_TRIM_UNUSED_KSYMS/20210226-000929
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 29c395c77a9a514c5857c45ceae2665e9bd99ac7
-> > > config: powerpc-mpc8313_rdb_defconfig (attached as .config)
-> > > compiler: powerpc-linux-gcc (GCC) 9.3.0
-> > > reproduce (this is a W=1 build):
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # https://github.com/0day-ci/linux/commit/014940331790a8cd9bee92c7201494ec3217201e
-> > >         git remote add linux-review https://github.com/0day-ci/linux
-> > >         git fetch --no-tags linux-review Masahiro-Yamada/kbuild-build-speed-improvment-of-CONFIG_TRIM_UNUSED_KSYMS/20210226-000929
-> > >         git checkout 014940331790a8cd9bee92c7201494ec3217201e
-> > >         # save the attached .config to linux build tree
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=powerpc
-> > >
-> > > If you fix the issue, kindly add following tag as appropriate
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > > >> scripts/module.lds.S:7:5: warning: "CONFIG_TRIM_UNUSED_KSYMS" is not defined, evaluates to 0 [-Wundef]
-> >
-> > Thanks. This should be #ifdef, of course.
+> So, the user-supplied whitelist and LTO-specific white list must be
+> independent of each other.
 >
-> I applied this series and changed these from #if to #ifdef, but I
-> still see the following build error with TRIM_UNUSED_KSYMS +
-> OF_UNITTEST:
+> I refactored the shell script so CONFIG_MODVERSIONS and CONFIG_CLANG_LTO
+> handle whitelists in the same way.
 >
-> In file included from drivers/of/unittest-data/testcases.dtb.S:1:
-> ../include/asm-generic/vmlinux.lds.h:54:10: fatal error:
-> 'generated/keep-ksyms.h' file not found
-> #include <generated/keep-ksyms.h>
->          ^~~~~~~~~~~~~~~~~~~~~~~~
-> 1 error generated.
+> Fixes: fbe078d397b4 ("kbuild: lto: add a default list of used symbols")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> This is with x86_64_defconfig and scripts/config -e OF -e OF_UNITTEST
-> -e TRIM_UNUSED_KSYMS.
+> Changes in v2:
+>   - Rebase on top of Arnd's patch:
+>     https://lore.kernel.org/lkml/20210225143456.3829513-1-arnd@kernel.org/
 >
-> Sami
+>  init/Kconfig                    |  1 -
+>  scripts/gen_autoksyms.sh        | 35 ++++++++++++++++++++++++---------
+>  scripts/lto-used-symbollist.txt |  6 ------
 
-Thanks. I will fix it.
-I will come back with v2
-probably after v5.12-rc1 is tagged.
+People who want to use their own "white-listed" (allow-listed)
+symbollist-file can do that via
+CONFIG_UNUSED_KSYMS_WHITELIST="my/own/white/list".
+Correct?
 
+Why do you delete the default "scripts/lto-used-symbollist.txt" file
+and remove the default in the appropriate Kconfig for people who want
+to enable Clang-(Thin)LTO?
+These people should now use
+CONFIG_UNUSED_KSYMS_WHITELIST="scripts/lto-used-symbollist.txt"?
+But again - the file was deleted with your patch.
+Do I miss something?
 
+- Sedat -
 
-
-
--- 
-Best Regards
-Masahiro Yamada
+>  3 files changed, 26 insertions(+), 16 deletions(-)
+>  delete mode 100644 scripts/lto-used-symbollist.txt
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 719871f8727c..64c32300d1b4 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2283,7 +2283,6 @@ config TRIM_UNUSED_KSYMS
+>  config UNUSED_KSYMS_WHITELIST
+>         string "Whitelist of symbols to keep in ksymtab"
+>         depends on TRIM_UNUSED_KSYMS
+> -       default "scripts/lto-used-symbollist.txt" if LTO_CLANG
+>         help
+>           By default, all unused exported symbols will be un-exported from the
+>           build when TRIM_UNUSED_KSYMS is selected.
+> diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
+> index d54dfba15bf2..da320151e7c3 100755
+> --- a/scripts/gen_autoksyms.sh
+> +++ b/scripts/gen_autoksyms.sh
+> @@ -19,7 +19,26 @@ esac
+>  # We need access to CONFIG_ symbols
+>  . include/config/auto.conf
+>
+> -ksym_wl=/dev/null
+> +needed_symbols=
+> +
+> +# Special case for modversions (see modpost.c)
+> +if [ -n "$CONFIG_MODVERSIONS" ]; then
+> +       needed_symbols="$needed_symbols module_layout"
+> +fi
+> +
+> +# With CONFIG_LTO_CLANG, LLVM bitcode has not yet been compiled into a binary
+> +# when the .mod files are generated, which means they don't yet contain
+> +# references to certain symbols that will be present in the final binaries.
+> +if [ -n "$CONFIG_LTO_CLANG" ]; then
+> +       # intrinsic functions
+> +       needed_symbols="$needed_symbols memcpy memmove memset"
+> +       # ftrace
+> +       needed_symbols="$needed_symbols _mcount"
+> +       # stack protector symbols
+> +       needed_symbols="$needed_symbols __stack_chk_fail __stack_chk_guard"
+> +fi
+> +
+> +ksym_wl=
+>  if [ -n "$CONFIG_UNUSED_KSYMS_WHITELIST" ]; then
+>         # Use 'eval' to expand the whitelist path and check if it is relative
+>         eval ksym_wl="$CONFIG_UNUSED_KSYMS_WHITELIST"
+> @@ -40,16 +59,14 @@ cat > "$output_file" << EOT
+>  EOT
+>
+>  [ -f modules.order ] && modlist=modules.order || modlist=/dev/null
+> -sed 's/ko$/mod/' $modlist |
+> -xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
+> -cat - "$ksym_wl" |
+> +
+> +{
+> +       sed 's/ko$/mod/' $modlist | xargs -n1 sed -n -e '2p'
+> +       echo "$needed_symbols"
+> +       [ -n "$ksym_wl" ] && cat "$ksym_wl"
+> +} | sed -e 's/ /\n/g' | sed -n -e '/^$/!p' |
+>  # Remove the dot prefix for ppc64; symbol names with a dot (.) hold entry
+>  # point addresses.
+>  sed -e 's/^\.//' |
+>  sort -u |
+>  sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$output_file"
+> -
+> -# Special case for modversions (see modpost.c)
+> -if [ -n "$CONFIG_MODVERSIONS" ]; then
+> -       echo "#define __KSYM_module_layout 1" >> "$output_file"
+> -fi
+> diff --git a/scripts/lto-used-symbollist.txt b/scripts/lto-used-symbollist.txt
+> deleted file mode 100644
+> index 406ada65e926..000000000000
+> --- a/scripts/lto-used-symbollist.txt
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -memcpy
+> -memmove
+> -memset
+> -_mcount
+> -__stack_chk_fail
+> -__stack_chk_guard
+> --
+> 2.27.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210226062548.3334081-1-masahiroy%40kernel.org.
