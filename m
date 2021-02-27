@@ -2,91 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D0E326AF2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Feb 2021 02:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE79326B76
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Feb 2021 04:46:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbhB0BN1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Feb 2021 20:13:27 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:13382 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbhB0BN1 (ORCPT
+        id S229946AbhB0Dqy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Feb 2021 22:46:54 -0500
+Received: from toothrot.meleeweb.net ([62.210.131.231]:47020 "EHLO
+        toothrot.meleeweb.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229915AbhB0Dqy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Feb 2021 20:13:27 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DnT4907d3z7qtt;
-        Sat, 27 Feb 2021 09:11:05 +0800 (CST)
-Received: from [10.136.110.154] (10.136.110.154) by smtp.huawei.com
- (10.3.19.212) with Microsoft SMTP Server (TLS) id 14.3.498.0; Sat, 27 Feb
- 2021 09:12:40 +0800
-Subject: Re: [f2fs-dev] [PATCH v3] f2fs: compress: Allow modular
- (de)compression algorithms
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>
-References: <20210226155142.2909545-1-geert@linux-m68k.org>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <c77e72ad-fa15-db64-7348-7b1a34b6153f@huawei.com>
-Date:   Sat, 27 Feb 2021 09:12:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Fri, 26 Feb 2021 22:46:54 -0500
+X-Greylist: delayed 1136 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Feb 2021 22:46:54 EST
+Received: from [80.111.226.61] (port=39554 helo=lady-voodoo.scabb)
+        by toothrot.meleeweb.net with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+        id 1lFqDz-00Ae5m-B7; Sat, 27 Feb 2021 04:24:59 +0100
+Date:   Sat, 27 Feb 2021 03:24:57 +0000
+From:   Bertrand Jacquin <bertrand@jacquin.bzh>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] build: print short version command only for quiet build
+Message-ID: <YDm7iZFSxLypXRg5@lady-voodoo.scabb>
 MIME-Version: 1.0
-In-Reply-To: <20210226155142.2909545-1-geert@linux-m68k.org>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.136.110.154]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/mixed; boundary="A5t2lF4xRvxZvfGR"
+Content-Disposition: inline
+Jabber-ID: bertrand@jacquin.bzh
+X-GPG-Key: 0xA3B5C016618D9AAA
+X-GPG-Fingerprint: D71B FE62 F66F 3C8B 1A25  A461 A3B5 C016 618D 9AAA
+X-GPG-URL: https://sks-keyservers.net/pks/lookup?op=get&search=0xA3B5C016618D9AAA
+User-Agent: All mail clients suck. This one just sucks less.
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2021/2/26 23:51, Geert Uytterhoeven wrote:
-> If F2FS_FS is modular, enabling the compressions options
-> F2FS_FS_{LZ4,LZ4HZ,LZO,LZORLE,ZSTD} will make the (de)compression
-> algorithms {LZ4,LZ4HC,LZO,ZSTD}_{,DE}COMPRESS builtin instead of
-> modular, as the former depend on an intermediate boolean
-> F2FS_FS_COMPRESSION, which in-turn depends on tristate F2FS_FS.
-> 
-> Indeed, if a boolean symbol A depends directly on a tristate symbol B
-> and selects another tristate symbol C:
-> 
->      tristate B
-> 
->      tristate C
-> 
->      bool A
->        depends on B
->        select C
-> 
-> and B is modular, then C will also be modular.
-> 
-> However, if there is an intermediate boolean D in the dependency chain
-> between A and B:
-> 
->      tristate B
-> 
->      tristate C
-> 
->      bool D
->        depends on B
-> 
->      bool A
->        depends on D
->        select C
-> 
-> then the modular state won't propagate from B to C, and C will be
-> builtin instead of modular.
-> 
-> As modular dependency propagation through intermediate symbols is
-> obscure, fix this in a robust way by moving the selection of tristate
-> (de)compression algorithms from the boolean compression options to the
-> tristate main F2FS_FS option.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Reviewed-by: Chao Yu <yuchao0@huawei.com>
+--A5t2lF4xRvxZvfGR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Thanks,
+On verbose build, most shell scripts enable set -x making short version
+command output redundant. On silent build, no output is expected. Hence
+the short version should only be printed for quiet build.
+
+-- 
+Bertrand
+
+--A5t2lF4xRvxZvfGR
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-build-print-short-version-command-only-for-quiet-bui.patch"
+
+From d7c757172de9b9d426c5f55381d2dce7c39b0c94 Mon Sep 17 00:00:00 2001
+From: Bertrand Jacquin <bertrand@jacquin.bzh>
+Date: Sat, 27 Feb 2021 03:12:11 +0000
+Subject: [PATCH] build: print short version command only for quiet build
+
+On verbose build, most shell scripts enable set -x making short version
+command output redundant. On silent build, no output is expected. Hence
+the short version should only be printed for quiet build.
+---
+ kernel/gen_kheaders.sh      | 2 +-
+ scripts/adjust_autoksyms.sh | 2 +-
+ scripts/link-vmlinux.sh     | 2 +-
+ scripts/mkcompile_h         | 2 +-
+ scripts/mkmakefile          | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index c1510f0ab3ea..8fdc74e3626e 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -56,7 +56,7 @@ if [ -f kernel/kheaders.md5 ] &&
+ 		exit
+ fi
+ 
+-if [ "${quiet}" != "silent_" ]; then
++if [ "${quiet}" = "quiet_" ]; then
+        echo "  GEN     $tarfile"
+ fi
+ 
+diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
+index 2b366d945ccb..b72d38200052 100755
+--- a/scripts/adjust_autoksyms.sh
++++ b/scripts/adjust_autoksyms.sh
+@@ -20,7 +20,7 @@ cur_ksyms_file="include/generated/autoksyms.h"
+ new_ksyms_file="include/generated/autoksyms.h.tmpnew"
+ 
+ info() {
+-	if [ "$quiet" != "silent_" ]; then
++	if [ "$quiet" = "quiet_" ]; then
+ 		printf "  %-7s %s\n" "$1" "$2"
+ 	fi
+ }
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 3b261b0f74f0..5bb49fa08cdc 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -38,7 +38,7 @@ LDFLAGS_vmlinux="$3"
+ # Will be supressed by "make -s"
+ info()
+ {
+-	if [ "${quiet}" != "silent_" ]; then
++	if [ "${quiet}" = "quiet_" ]; then
+ 		printf "  %-7s %s\n" "${1}" "${2}"
+ 	fi
+ }
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 4ae735039daf..8f453f7c12e1 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -9,7 +9,7 @@ PREEMPT_RT=$5
+ CC_VERSION="$6"
+ LD=$7
+ 
+-vecho() { [ "${quiet}" = "silent_" ] || echo "$@" ; }
++vecho() { [ "${quiet}" = "quiet_" ] && echo "$@" ; }
+ 
+ # Do not expand names
+ set -f
+diff --git a/scripts/mkmakefile b/scripts/mkmakefile
+index 1cb174751429..cf71c588036d 100755
+--- a/scripts/mkmakefile
++++ b/scripts/mkmakefile
+@@ -7,7 +7,7 @@
+ # Usage
+ # $1 - Kernel src directory
+ 
+-if [ "${quiet}" != "silent_" ]; then
++if [ "${quiet}" = "quiet_" ]; then
+ 	echo "  GEN     Makefile"
+ fi
+ 
+
+--A5t2lF4xRvxZvfGR--
