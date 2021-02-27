@@ -2,72 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9D5326BF7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Feb 2021 07:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63F6F326C0A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Feb 2021 07:56:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbhB0G1X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 27 Feb 2021 01:27:23 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:23578 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbhB0G1W (ORCPT
+        id S229967AbhB0G4T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Feb 2021 01:56:19 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:44448 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229554AbhB0G4T (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 27 Feb 2021 01:27:22 -0500
-Received: from oscar.flets-west.jp (softbank126026090165.bbtec.net [126.26.90.165]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 11R6QMHG007635;
-        Sat, 27 Feb 2021 15:26:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 11R6QMHG007635
+        Sat, 27 Feb 2021 01:56:19 -0500
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 11R6tHvD029484;
+        Sat, 27 Feb 2021 15:55:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 11R6tHvD029484
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614407183;
-        bh=aKY/yH1zHb7OPSoBCjjFTImuEDgWLl8bijXnPmZ+cNM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=o/A9YOc94Jz8rKw4xIr7Db38CnPxNjhpDVgZHgDyWEaFmR7l6qhe0jQNqjaldIGAB
-         IdGdZDSQZRlbQrJhZw0eJ2saWdAgjV/JjMhntEEmWDccyBs7VFuqw1dB8MZjNErJ91
-         cdtHhzhnV9NKC9s1I6OiAFyiTx9L8irJiJv9e6B0oobcFu3J7IVUHd9AHbKs83Cjop
-         wiXxkR/9w6GB0F78UuyuKepI18tUSFsmVmuLb86AgsELO8SFwglRlimxNhFk6yT3wV
-         5INNAwu8PM4jUIi+yz6zw/0fIvEwBYdotM/n/DPTB8xkF299XbzznkPDLqzYRr33rH
-         EJHXSOEAiaZgg==
-X-Nifty-SrcIP: [126.26.90.165]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH] kbuild: make -s option take precedence over V=
-Date:   Sat, 27 Feb 2021 15:26:20 +0900
-Message-Id: <20210227062620.44708-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1614408917;
+        bh=bHffv351LtHI0LzqaBGpYJnkjtPtn6I884Zf4L50dws=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=e6sy3FPUht0xrp+ulnLBX1ai8s9jAuI/wE0xaEkH2BYO+qcR1CfnVO7+6SVK3u6fv
+         8NZB2kjSjbkhZFqCi0PpfHayFzZtC62gTLjJVaWQdShYh31kVVfQKmzq4VdDTeQpPX
+         mp1SiLVHOcOldseHcw0DqqoTZO5knOpuAXcSz08a4O8DUlko9MkhO0AmZay0iP28jF
+         VYZhSB+WUpGGIpenv+0oalS/HG6UR7ntDETh7nMeHFnAbZfS2w833ndZSqVKyWuGco
+         pPC+WsUgtpf3QqeYixbyAfYlmCgqzi9oZvlFtQaN555Pi7zZTW/00asuAhAnFYlKaX
+         iePhUxvgKy4tA==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id 201so7774198pfw.5;
+        Fri, 26 Feb 2021 22:55:17 -0800 (PST)
+X-Gm-Message-State: AOAM532riPo1jg9lhisUIlBw1qa4iCY4+G5dX2pexnJ/Yi1M2sgo2J7a
+        WaCzn8r0Nn9CzQLBY0F0UZRlN5Dj2AOYMCe7DcY=
+X-Google-Smtp-Source: ABdhPJyZn4kUkkoqOs7sfR9iAupy1Oo7fwn/GRCA9/SQl0DFc80L7dqVoXZVyI06m3DD6jxn0Sipf4hpI2RFxephv7A=
+X-Received: by 2002:a62:1412:0:b029:1ec:bc11:31fd with SMTP id
+ 18-20020a6214120000b02901ecbc1131fdmr6450801pfu.76.1614408916611; Fri, 26 Feb
+ 2021 22:55:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210226062548.3334081-1-masahiroy@kernel.org> <CA+icZUXYLVjs-hXEu_5Vy=TdNvOHhyiXe=hc-jc7SAU04Dtstw@mail.gmail.com>
+In-Reply-To: <CA+icZUXYLVjs-hXEu_5Vy=TdNvOHhyiXe=hc-jc7SAU04Dtstw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 27 Feb 2021 15:54:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmQzJwUWcYPj9QKZatYpC6-gegTuJiAvyhR==8ezWdHg@mail.gmail.com>
+Message-ID: <CAK7LNARmQzJwUWcYPj9QKZatYpC6-gegTuJiAvyhR==8ezWdHg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: fix UNUSED_KSYMS_WHITELIST for Clang LTO
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-'make -s' should be really silent. However, 'make -s V=1' prints noisy
-log messages from some shell scripts.
+On Fri, Feb 26, 2021 at 6:26 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> On Fri, Feb 26, 2021 at 7:26 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Commit fbe078d397b4 ("kbuild: lto: add a default list of used symbols")
+> > does not work as expected if the .config file has already specified
+> > CONFIG_UNUSED_KSYMS_WHITELIST="my/own/white/list" before enabling
+> > CONFIG_LTO_CLANG.
+> >
+> > So, the user-supplied whitelist and LTO-specific white list must be
+> > independent of each other.
+> >
+> > I refactored the shell script so CONFIG_MODVERSIONS and CONFIG_CLANG_LTO
+> > handle whitelists in the same way.
+> >
+> > Fixes: fbe078d397b4 ("kbuild: lto: add a default list of used symbols")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >   - Rebase on top of Arnd's patch:
+> >     https://lore.kernel.org/lkml/20210225143456.3829513-1-arnd@kernel.org/
+> >
+> >  init/Kconfig                    |  1 -
+> >  scripts/gen_autoksyms.sh        | 35 ++++++++++++++++++++++++---------
+> >  scripts/lto-used-symbollist.txt |  6 ------
+>
+> People who want to use their own "white-listed" (allow-listed)
+> symbollist-file can do that via
+> CONFIG_UNUSED_KSYMS_WHITELIST="my/own/white/list".
+> Correct?
+>
+> Why do you delete the default "scripts/lto-used-symbollist.txt" file
+> and remove the default in the appropriate Kconfig for people who want
+> to enable Clang-(Thin)LTO?
+> These people should now use
+> CONFIG_UNUSED_KSYMS_WHITELIST="scripts/lto-used-symbollist.txt"?
+> But again - the file was deleted with your patch.
+> Do I miss something?
 
-Of course, the combination of -s and V=1 is odd, but the build system
-needs to do the right thing even if a user gives strange input.
+I think so.
 
-If -s is given, KBUILD_VERBOSE should be forced to 0.
+I moved those symbols to scripts/gen_autoksyms.sh
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Makefile b/Makefile
-index 6ecd0d22e608..0a655469cafb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -96,6 +96,7 @@ endif
- 
- ifneq ($(findstring s,$(filter-out --%,$(MAKEFLAGS))),)
-   quiet=silent_
-+  KBUILD_VERBOSE = 0
- endif
- 
- export quiet Q KBUILD_VERBOSE
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
