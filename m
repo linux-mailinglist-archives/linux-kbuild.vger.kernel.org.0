@@ -2,96 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAE523277E1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Mar 2021 07:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB80328098
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Mar 2021 15:21:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232193AbhCAG5M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Mar 2021 01:57:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232181AbhCAG5I (ORCPT
+        id S233004AbhCAOVS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Mar 2021 09:21:18 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:48889 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233043AbhCAOVM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Mar 2021 01:57:08 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32A3C061786
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 Feb 2021 22:56:28 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id u11so9238969plg.13
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 Feb 2021 22:56:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=T5dHTAB5KVLsF+Zkl0pxw75mdTE6mZ9uUArY/XRtpJg=;
-        b=dAVYjO8lDrbgJYoU6W0xdsFr0ZpZidvtQMr7lm5EJOR1KA5dqmM+0i1YW8HgyURTTH
-         TemL6YnJ6hxKXrs80Z37IZTDJwJeCjlJj2GNVZyr/JMJzEtsF07aUYP6iRbWwxdLcT8+
-         Ww/6wzL9keLO7uIi5SYdVriqVIwulazH0At35bl3AcOLvVgNpeowNpTd9kgxS5TgvScP
-         5WM/JIiUtda5QIod8cU3NL/5P4GkNtdHKYC/xxCt2LxBONfGGR3gLqUog1QI0ou1s1PH
-         +NIupK1SFHo8johHgO94azwYxJKms9kOF/hvFfjB6zuZ1SRBrQmMOhPbmBpfHF4iR31t
-         N8NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=T5dHTAB5KVLsF+Zkl0pxw75mdTE6mZ9uUArY/XRtpJg=;
-        b=URUmiyVPwUDW65mpvOzLyvgJhCjqZF35f8hslAEcYEcbAhwf4DlibAe3iaQwnxGPD5
-         RCTYas7m2bFqETDG7C08xmA78FGBbNUvEZuNwjM7NSikO/MO1zOPmT1fJFuYx6tz9SUx
-         Hp0DJRmCc5haDjPc4zTpGhgtI71GkIdr1KDivR6WSl4JtG4kr5n1gQfTU60nUzOW4D+I
-         c87BJ/YuMP7c+MVIn22rgecbYYLKKdCSrheKKH+zfXS0O51ACpf+rQwwAAVAot8V0H5C
-         P1u4NuejcKnkUYDu2Nkn3Xe+kkcQA05ZQfJP1KEP0WACOUYeN379C3NmrhcXo9Ru59fR
-         2zDg==
-X-Gm-Message-State: AOAM533uhSY3TCFc+2z/tFM+/Sp0nt7E2XGfOhMSomoTvYVmdIlssoRb
-        dyu9fBh4s9rQPmp2sFloS11BGQ==
-X-Google-Smtp-Source: ABdhPJzcsuR/3zc+q7gnIbMxLcKeElPaJb2qwlW0b4VrP2MxAWQ1qwZitz+UcL9BFNU/pHhk83NASw==
-X-Received: by 2002:a17:90a:fb8e:: with SMTP id cp14mr3644183pjb.52.1614581788251;
-        Sun, 28 Feb 2021 22:56:28 -0800 (PST)
-Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id m6sm2560912pff.197.2021.02.28.22.56.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Feb 2021 22:56:27 -0800 (PST)
-Date:   Mon, 1 Mar 2021 12:26:25 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Frank Rowand <frowand.list@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Mon, 1 Mar 2021 09:21:12 -0500
+Received: from oscar.flets-west.jp (softbank126026090165.bbtec.net [126.26.90.165]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 121EJkLJ020575;
+        Mon, 1 Mar 2021 23:19:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 121EJkLJ020575
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614608386;
+        bh=v4/dD668BG8OtkqVqave5CdCujhLX40yLgSLyf6hA4g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jaLj3mKwehGvrgUyFVgyb1JFi/nYGmxU5ZLw76vm5d9FlYpH39wQiEdV0EuYbZbQI
+         zUQkt4hujhz9E1LjdpZOccIbBi75agrcQb8gd30k82AzlNLTjUdBMH3vEVcdlBDyNX
+         Jz8ledw1w0Z0Sz6ZlY1ZZ/RrrfPkRHjXeQCyHj0EEepNjfKvSYH2Lggb5k8gLncZNw
+         x2qNUHOu37BJ8ZbhHjBQ0YGFmIbdaQGRUkgp6vcMjkFfPF4MNVUiuFlWOxrCJGyw8m
+         XZZdrEQlKtdXMNQXa8YGR1HCqyhh4lmGEj1r/bUEzC3aijMZLN3XHuDcQ3YkkonHN9
+         BkbvlAw/fEBjA==
+X-Nifty-SrcIP: [126.26.90.165]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-ia64@vger.kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Vincent Guittot <vincent.guittot@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        anmar.oueja@linaro.org, Bill Mills <bill.mills@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH V8 0/4] dt: Add fdtoverlay rule and statically build
- unittest
-Message-ID: <20210301065625.rgo2xvr7ol2vycyf@vireshk-i7>
-References: <cover.1613127681.git.viresh.kumar@linaro.org>
+        Mike Rapoport <rppt@kernel.org>
+Subject: [PATCH 1/2] ia64: syscalls: switch to generic syscalltbl.sh
+Date:   Mon,  1 Mar 2021 23:19:36 +0900
+Message-Id: <20210301141937.342604-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1613127681.git.viresh.kumar@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12-02-21, 16:48, Viresh Kumar wrote:
-> Hi,
-> 
-> This patchset adds a generic rule for applying overlays using fdtoverlay
-> tool and then updates unittests to get built statically using the same.
-> 
-> V7->V8:
-> - Patch 1 is new.
-> - Platforms need to use dtb-y += foo.dtb instead of overlay-y +=
->   foo.dtb.
-> - Use multi_depend instead of .SECONDEXPANSION.
-> - Use dtb-y for unittest instead of overlay-y.
-> - Rename the commented dtb filess in unittest Makefile as .dtbo.
-> - Improved Makefile code (I am learning a lot every day :)
+Many architectures duplicate similar shell scripts.
 
-Ping!
+This commit converts ia64 to use scripts/syscalltbl.sh.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ arch/ia64/kernel/entry.S                |  3 +--
+ arch/ia64/kernel/syscalls/Makefile      |  8 ++-----
+ arch/ia64/kernel/syscalls/syscalltbl.sh | 32 -------------------------
+ 3 files changed, 3 insertions(+), 40 deletions(-)
+ delete mode 100644 arch/ia64/kernel/syscalls/syscalltbl.sh
+
+diff --git a/arch/ia64/kernel/entry.S b/arch/ia64/kernel/entry.S
+index e98e3dafffd8..5eba3fb2e311 100644
+--- a/arch/ia64/kernel/entry.S
++++ b/arch/ia64/kernel/entry.S
+@@ -1420,10 +1420,9 @@ END(ftrace_stub)
+ 
+ #endif /* CONFIG_FUNCTION_TRACER */
+ 
+-#define __SYSCALL(nr, entry, nargs) data8 entry
++#define __SYSCALL(nr, entry) data8 entry
+ 	.rodata
+ 	.align 8
+ 	.globl sys_call_table
+ sys_call_table:
+ #include <asm/syscall_table.h>
+-#undef __SYSCALL
+diff --git a/arch/ia64/kernel/syscalls/Makefile b/arch/ia64/kernel/syscalls/Makefile
+index bf4bda0f63eb..2d2e420749b0 100644
+--- a/arch/ia64/kernel/syscalls/Makefile
++++ b/arch/ia64/kernel/syscalls/Makefile
+@@ -7,7 +7,7 @@ _dummy := $(shell [ -d '$(uapi)' ] || mkdir -p '$(uapi)')	\
+ 
+ syscall := $(src)/syscall.tbl
+ syshdr := $(srctree)/$(src)/syscallhdr.sh
+-systbl := $(srctree)/$(src)/syscalltbl.sh
++systbl := $(srctree)/scripts/syscalltbl.sh
+ 
+ quiet_cmd_syshdr = SYSHDR  $@
+       cmd_syshdr = $(CONFIG_SHELL) '$(syshdr)' '$<' '$@'	\
+@@ -16,16 +16,12 @@ quiet_cmd_syshdr = SYSHDR  $@
+ 		   '$(syshdr_offset_$(basetarget))'
+ 
+ quiet_cmd_systbl = SYSTBL  $@
+-      cmd_systbl = $(CONFIG_SHELL) '$(systbl)' '$<' '$@'	\
+-		   '$(systbl_abis_$(basetarget))'		\
+-		   '$(systbl_abi_$(basetarget))'		\
+-		   '$(systbl_offset_$(basetarget))'
++      cmd_systbl = $(CONFIG_SHELL) $(systbl) $< $@
+ 
+ syshdr_offset_unistd_64 := __NR_Linux
+ $(uapi)/unistd_64.h: $(syscall) $(syshdr) FORCE
+ 	$(call if_changed,syshdr)
+ 
+-systbl_offset_syscall_table := 1024
+ $(kapi)/syscall_table.h: $(syscall) $(systbl) FORCE
+ 	$(call if_changed,systbl)
+ 
+diff --git a/arch/ia64/kernel/syscalls/syscalltbl.sh b/arch/ia64/kernel/syscalls/syscalltbl.sh
+deleted file mode 100644
+index 85d78d9309ad..000000000000
+--- a/arch/ia64/kernel/syscalls/syscalltbl.sh
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
+-
+-in="$1"
+-out="$2"
+-my_abis=`echo "($3)" | tr ',' '|'`
+-my_abi="$4"
+-offset="$5"
+-
+-emit() {
+-	t_nxt="$1"
+-	t_nr="$2"
+-	t_entry="$3"
+-
+-	while [ $t_nxt -lt $t_nr ]; do
+-		printf "__SYSCALL(%s, sys_ni_syscall, )\n" "${t_nxt}"
+-		t_nxt=$((t_nxt+1))
+-	done
+-	printf "__SYSCALL(%s, %s, )\n" "${t_nxt}" "${t_entry}"
+-}
+-
+-grep -E "^[0-9A-Fa-fXx]+[[:space:]]+${my_abis}" "$in" | sort -n | (
+-	nxt=0
+-	if [ -z "$offset" ]; then
+-		offset=0
+-	fi
+-
+-	while read nr abi name entry ; do
+-		emit $((nxt+offset)) $((nr+offset)) $entry
+-		nxt=$((nr+1))
+-	done
+-) > "$out"
 -- 
-viresh
+2.27.0
+
