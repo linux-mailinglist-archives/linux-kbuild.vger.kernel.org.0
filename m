@@ -2,107 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FE7F32B059
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E94F232B068
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:43:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239511AbhCCBhi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Mar 2021 20:37:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
+        id S238277AbhCCBiI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Mar 2021 20:38:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378027AbhCBWee (ORCPT
+        with ESMTP id S1384504AbhCBWk6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Mar 2021 17:34:34 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4BCC06178A
-        for <linux-kbuild@vger.kernel.org>; Tue,  2 Mar 2021 14:33:52 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id y12so13173814ljj.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Mar 2021 14:33:52 -0800 (PST)
+        Tue, 2 Mar 2021 17:40:58 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763B7C061793
+        for <linux-kbuild@vger.kernel.org>; Tue,  2 Mar 2021 14:40:17 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id r23so26106218ljh.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Mar 2021 14:40:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aHp3sOBhNVG2z21fEC5nTsyRiHJNdtFKTVUSbILsbhc=;
-        b=ZS/VhMSd3AAuXIJcy+MFcS0NXV1EQ4IYXoq1/6lldjXI/rRvpGh0BThVrxwXFoiX0K
-         UKpRi0U2HUmyhBuDuRMlboovXP678k0wC4io8y964qYD2X0/g+vCr/TesHwpqfP/FnSJ
-         M0Yo3fDAIt63ruryZtsSlzqSSkuD2jhVmX6OZwYJcBoaOkt3O1ph4vuk1lHJ++IlpKWs
-         GtxfKtlHV9zGhqPCGT55XCKT5xu/X/UjhDtfZAcW9bZNDlU/iTXgRbclQZ5y9WcDqbw3
-         FLWpNpKEvCguEXvq0990sFhuL1MO5nmysQ2Fhtmjg9zLuQ+12VUDQplLx3oFsdaEzavG
-         VOjg==
+        bh=2p9MbOkqBnD2DL+deut9cepxGqhyX+A0rBZZTNWQu7U=;
+        b=THbki3q5Bp4Hza6tKAGvr356nc2IQUi/FzXVVUF+9DqkhIoafHNb5cKmfDO7uBy7W0
+         T6rLz3aQby44Qzw99tkZjBc8eKolwZy+91Aqmy754REY7u6io7wHfZi7Mvgnys6WguSY
+         mNl2EJDeK8n36QX80Iuk1Q3HqA1yFchHbYyldfbuL0bL0KxL7znB+wA2vowYqvPRqMJK
+         kV29Lz7TblJCIsjHI0D2emwHps3kXBQ0d3kSMGDWFptmR41zoL2d08JJ5rfmuEVzQqza
+         JVY2PoBETy9v5mzRy1aChGXHpS+4mST8cqbmSduSjD2PcYf0ZYnXygDQ4/mbVcR9kc9C
+         jTvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aHp3sOBhNVG2z21fEC5nTsyRiHJNdtFKTVUSbILsbhc=;
-        b=YCc6+12uBlnF/myrFuY8S2vx0WNhJMUUHOWatVm3aCgME2xd/NqA64ZulZ4mya66hU
-         d4qGtLa8r1+2QSvA/dp1hRv/987pGPnn0Og7kQEiCzjz9uSLoAxNmS0zGERwajFE+Yx0
-         m7TEW58Ws7pBrF4CUKSGKQsKFzYYlP7dFbZt4E9o4YruN9Ja+fdVoI7jQhu6zMX+4jsC
-         B9q94z5+STA11K/OZMYlU1AQjm9/ZONi83S3jj4te80nn4qU6+7PsGetrlA1Dhth2C8A
-         WsYX5BogWpFKqw79IRcu6U8+Q/ZiojcSmou5C66xDwz2Q2IUv3ZMD/BCgRQU/a1n1yVu
-         AiGQ==
-X-Gm-Message-State: AOAM532Uv/Wnnppc0er9P3UHHbKpfQJ0cDQ9LcPdD0+iAy1mwj8zCjXr
-        snjehsUydPkGY+7IEtssfdpzA747pOQlIT+UuODJfg==
-X-Google-Smtp-Source: ABdhPJww/wJF01NlHj2uUUXXZ3qb7y9gB9grBjIx9xxfrcRRhyi/ZmXUTOC8lBxHPcSNgwJlir4Q1+sRJRHe/MT0YoE=
-X-Received: by 2002:a2e:b008:: with SMTP id y8mr4382857ljk.233.1614724430576;
- Tue, 02 Mar 2021 14:33:50 -0800 (PST)
+        bh=2p9MbOkqBnD2DL+deut9cepxGqhyX+A0rBZZTNWQu7U=;
+        b=qeIE847M6Voq7mWHT/67T+t2MQovJe3ESSI2380G/5dSQGDVlCPfWHGr340jQ77Hop
+         eAujOv06afIAjFUjfWJw6dsOCl8Gudi4ZF7w6CNwBEoZpmgj4x12J+ExQX5akkX/sqf7
+         AFhaPhRq5RIlST7EXxJAsTagYifidBgKb3nVgZsBnQb4Trr2XcGr6PFIQo+8RwHG5LaX
+         uRmmJXi6BB6yZBJ2gV6vt0YUTdQgxDWCXvDmqer2ozEOSu95JmENKUGl2hdvRNPSkLdr
+         wVCba2JagBzrbcbbWngM9zaIDjn/MqNZ1+XmVi80CBy6CXLCdAetAh2nkx/lEEbVtqrp
+         Xjww==
+X-Gm-Message-State: AOAM533W8/M7ONNuW6t9PoLPYpNPh5l5J6zbf1dz1LZEsA2xQolsouiL
+        ePGi+IKSxhwmpBT/lQRDoO83Ekp4moDNwE7S013BaipsBSQfxw==
+X-Google-Smtp-Source: ABdhPJxyOjgfPzpPjSZIqvbg3mSVljJGyWV4WAh3zbHWxpadv5uLqI6KgnWGdm1tVE9Izc5wcrm9xNyqoBlaV2SZ3s0=
+X-Received: by 2002:a2e:b008:: with SMTP id y8mr4393794ljk.233.1614724815853;
+ Tue, 02 Mar 2021 14:40:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20210302210646.3044738-1-nathan@kernel.org>
-In-Reply-To: <20210302210646.3044738-1-nathan@kernel.org>
+References: <20210302210646.3044738-1-nathan@kernel.org> <20210302210646.3044738-2-nathan@kernel.org>
+ <20210302220252.ulvlsfyp4ordwrky@google.com> <CAKwvOdmR_p-zbrTUmbObmCVKBcuNLpg_V3NqLeYsEK4xNHfYOA@mail.gmail.com>
+In-Reply-To: <CAKwvOdmR_p-zbrTUmbObmCVKBcuNLpg_V3NqLeYsEK4xNHfYOA@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 2 Mar 2021 14:33:38 -0800
-Message-ID: <CAKwvOdn42+2bFOMvJpJUuvmM1cj3V6uNEJWfwBWCRFMXtvQfcA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Makefile: Remove '--gcc-toolchain' flag
+Date:   Tue, 2 Mar 2021 14:40:04 -0800
+Message-ID: <CAKwvOd=MXsvTBXvyqDXo8Fr1+-UdqnDGY8JzrD-wSxdQbvHJ5g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Makefile: Only specify '--prefix=' when building with
+ clang + GNU as
 To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 2, 2021 at 1:07 PM Nathan Chancellor <nathan@kernel.org> wrote:
+On Tue, Mar 2, 2021 at 2:09 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> This is not necessary anymore now that we specify '--prefix=', which
-> tells clang exactly where to find the GNU cross tools. This has been
-> verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as well as a
-> distribution version of LLVM 11.1.0 without binutils in the LLVM
-> toolchain locations.
+> On Tue, Mar 2, 2021 at 2:02 PM Fangrui Song <maskray@google.com> wrote:
+> >
+> > On 2021-03-02, Nathan Chancellor wrote:
+> > >When building with LLVM_IAS=1, there is no point to specifying
+> > >'--prefix=' because that flag is only used to find the cross assembler,
+> > >which is clang itself when building with LLVM_IAS=1. All of the other
+> > >tools are invoked directly from PATH or a full path specified via the
+> > >command line, which does not depend on the value of '--prefix='.
+> > >
+> > >Sharing commands to reproduce issues becomes a little bit easier without
+> > >a '--prefix=' value because that '--prefix=' value is specific to a
+> > >user's machine due to it being an absolute path.
+> > >
+> > >Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > Reviewed-by: Fangrui Song <maskray@google.com>
+> >
+> > clang can spawn GNU as (if -f?no-integrated-as is specified) and GNU
+> > objcopy (-f?no-integrated-as and -gsplit-dwarf and -g[123]).
 >
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> But -g get's set via CONFIG_DEBUG_INFO and -gsplit-dwarf by
+> DEBUG_INFO_SPLIT.  So if we say:
+> $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang LLVM_IAS=1
+>
+> So cross compile, use clang, use the integrated assembler (ie. with
+> this change, don't set --prefix), with either of the two above
+> configs, which objcopy get's exec'd?
 
-Thanks for the patch!
+Ok, I spoke to Fangrui more offline, and probably misread his
+response. From our chat:
+```
+Fangrui:
+objcopy is only used for GNU as assembled object files
+With integrated assembler, the object file streamer creates .o and
+.dwo simultaneously
+With GNU as, two objcopy commands are needed to extract .debug*.dwo to
+.dwo files &&& another command to remove .debug*.dwo sections
+```
+
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 
-I see this pattern still being used in
-arch/arm64/kernel/vdso32/Makefile, but that can be separate cleanups.
+I ran this series through a mix of LLVM=1 vs CC=clang, LLVM_IAS=1 vs
+unset, CROSS_COMPILE vs not, without issue.
 
-> ---
->  Makefile | 4 ----
->  1 file changed, 4 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index f9b54da2fca0..c20f0ad8be73 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
->  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
->  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
->  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> -GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
-> -endif
-> -ifneq ($(GCC_TOOLCHAIN),)
-> -CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
->  endif
->  ifneq ($(LLVM_IAS),1)
->  CLANG_FLAGS    += -no-integrated-as
+> >
+> > With LLVM_IAS=1, these cases are ruled out.
 >
-> base-commit: 7a7fd0de4a9804299793e564a555a49c1fc924cb
+>
+>
 > --
-> 2.31.0.rc0.75.gec125d1bc1
->
+> Thanks,
+> ~Nick Desaulniers
+
 
 
 -- 
