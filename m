@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC55B32B30D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EC7232B323
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:53:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbhCCB3P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Mar 2021 20:29:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46390 "EHLO mail.kernel.org"
+        id S233716AbhCCB3n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Mar 2021 20:29:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350240AbhCBMOO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Mar 2021 07:14:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD5A064F73;
-        Tue,  2 Mar 2021 11:57:30 +0000 (UTC)
+        id S1350347AbhCBMVD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 2 Mar 2021 07:21:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 32BD764F96;
+        Tue,  2 Mar 2021 11:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614686251;
-        bh=sV+0jxzMHLdVvX73z9/bfmOfp7Y/1hQS6IXemD7/Xdk=;
+        s=k20201202; t=1614686303;
+        bh=mb5XzPjVA/Wj9FalGbm9ViAa4f0b2wEYV8rnPIqdjVU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kWhun9Gtl/TGThqx46F58c62Ak9+dptjdfaCE18PUx4d8XCY5x/tidrK5xhdoQxr5
-         yVNDNyW9IsoKv0CJ16zhxK4bsvK5/xqn9t9Os1szd5tcuPrd+nzPd4oMpmywXEIPMT
-         p2DGbGRnqo16NMowqXmo22BgfcPsJIdA1tH5XVS3COrz/v+A3O0P0TzOvvlJk5jlZs
-         krZfwuMOt81MOYsF+7Rs6W/KPmVPGKD/S2OeVwZavHhGJsYg11qnZHlRoCK9YC7Dlw
-         qLyGbOYdPLrlE/AxKJS7Nb6djZFu+l5A7txoNXKtSr0CPV+k6Q5mmqw9rhXa07s49q
-         e6yl4+5w9hevw==
+        b=JQz2OYVnwaJsdoIs+/UTLJM2zR+5uGfaNC5n45pj+dEOa6DS1LGBJatv5dvLD9263
+         2WatUTNsLGFcWB65eNQKvCxRx2fhkTRgNMyaNov3X7Xi/gaQ2zXokh2DgNqAZOlKt/
+         SuqvRf0eidui5+8P6phhJjbOfotUcK9zPB8LzrNXYllfbFIEkjEdM4a7Vt46WjBjxW
+         8DSWfLEfMxeO+f+3LKm/LqL65EJ6CKQv7RlKj47y0+l3ByfT9f/Ql1KYrfLiSn21sc
+         O3EANf7X3c8IAV6YwhkKW9B1ycKbMz1ZKWwzw2umfach0MNGZgqSYUTpxM1UPKxD3g
+         TpAQS4hOszi+g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sasha Levin <sashal@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 36/47] kbuild: clamp SUBLEVEL to 255
-Date:   Tue,  2 Mar 2021 06:56:35 -0500
-Message-Id: <20210302115646.62291-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 25/33] kbuild: clamp SUBLEVEL to 255
+Date:   Tue,  2 Mar 2021 06:57:41 -0500
+Message-Id: <20210302115749.62653-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
-References: <20210302115646.62291-1-sashal@kernel.org>
+In-Reply-To: <20210302115749.62653-1-sashal@kernel.org>
+References: <20210302115749.62653-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,10 +64,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index f700bdea626d..006011904269 100644
+index f56442751d2c..e8a1989032bd 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1247,9 +1247,15 @@ define filechk_utsrelease.h
+@@ -1175,9 +1175,15 @@ define filechk_utsrelease.h
  endef
  
  define filechk_version.h
