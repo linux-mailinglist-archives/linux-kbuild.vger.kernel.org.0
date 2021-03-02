@@ -2,128 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E94F232B068
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6750132B06D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:43:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238277AbhCCBiI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Mar 2021 20:38:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384504AbhCBWk6 (ORCPT
+        id S239872AbhCCBiV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Mar 2021 20:38:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55224 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2361120AbhCBX2Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Mar 2021 17:40:58 -0500
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763B7C061793
-        for <linux-kbuild@vger.kernel.org>; Tue,  2 Mar 2021 14:40:17 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id r23so26106218ljh.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Mar 2021 14:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2p9MbOkqBnD2DL+deut9cepxGqhyX+A0rBZZTNWQu7U=;
-        b=THbki3q5Bp4Hza6tKAGvr356nc2IQUi/FzXVVUF+9DqkhIoafHNb5cKmfDO7uBy7W0
-         T6rLz3aQby44Qzw99tkZjBc8eKolwZy+91Aqmy754REY7u6io7wHfZi7Mvgnys6WguSY
-         mNl2EJDeK8n36QX80Iuk1Q3HqA1yFchHbYyldfbuL0bL0KxL7znB+wA2vowYqvPRqMJK
-         kV29Lz7TblJCIsjHI0D2emwHps3kXBQ0d3kSMGDWFptmR41zoL2d08JJ5rfmuEVzQqza
-         JVY2PoBETy9v5mzRy1aChGXHpS+4mST8cqbmSduSjD2PcYf0ZYnXygDQ4/mbVcR9kc9C
-         jTvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2p9MbOkqBnD2DL+deut9cepxGqhyX+A0rBZZTNWQu7U=;
-        b=qeIE847M6Voq7mWHT/67T+t2MQovJe3ESSI2380G/5dSQGDVlCPfWHGr340jQ77Hop
-         eAujOv06afIAjFUjfWJw6dsOCl8Gudi4ZF7w6CNwBEoZpmgj4x12J+ExQX5akkX/sqf7
-         AFhaPhRq5RIlST7EXxJAsTagYifidBgKb3nVgZsBnQb4Trr2XcGr6PFIQo+8RwHG5LaX
-         uRmmJXi6BB6yZBJ2gV6vt0YUTdQgxDWCXvDmqer2ozEOSu95JmENKUGl2hdvRNPSkLdr
-         wVCba2JagBzrbcbbWngM9zaIDjn/MqNZ1+XmVi80CBy6CXLCdAetAh2nkx/lEEbVtqrp
-         Xjww==
-X-Gm-Message-State: AOAM533W8/M7ONNuW6t9PoLPYpNPh5l5J6zbf1dz1LZEsA2xQolsouiL
-        ePGi+IKSxhwmpBT/lQRDoO83Ekp4moDNwE7S013BaipsBSQfxw==
-X-Google-Smtp-Source: ABdhPJxyOjgfPzpPjSZIqvbg3mSVljJGyWV4WAh3zbHWxpadv5uLqI6KgnWGdm1tVE9Izc5wcrm9xNyqoBlaV2SZ3s0=
-X-Received: by 2002:a2e:b008:: with SMTP id y8mr4393794ljk.233.1614724815853;
- Tue, 02 Mar 2021 14:40:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20210302210646.3044738-1-nathan@kernel.org> <20210302210646.3044738-2-nathan@kernel.org>
- <20210302220252.ulvlsfyp4ordwrky@google.com> <CAKwvOdmR_p-zbrTUmbObmCVKBcuNLpg_V3NqLeYsEK4xNHfYOA@mail.gmail.com>
-In-Reply-To: <CAKwvOdmR_p-zbrTUmbObmCVKBcuNLpg_V3NqLeYsEK4xNHfYOA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 2 Mar 2021 14:40:04 -0800
-Message-ID: <CAKwvOd=MXsvTBXvyqDXo8Fr1+-UdqnDGY8JzrD-wSxdQbvHJ5g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Makefile: Only specify '--prefix=' when building with
- clang + GNU as
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Tue, 2 Mar 2021 18:28:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614727617;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w8yXmYgKxvnjqvou08cqwubDp8xzbUl1Kzx0JAA4ffI=;
+        b=K4MXaKra/Uxw+2G4jKIMQNLwuBNQ3Wifl2bdioaAlGEH6w8ziqOFuxvtnZBKFJQo7m06ZY
+        JSqnZar0f1DIDxNrY2VEwtfNgPCDGuvgCmLlUR8TIXDF9FACY8r4mCaJeOki054mc6h+vm
+        9o30e+yDNQEFYBVG9LyTdvMrF5YcFJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-3-d5fVc9NP6eOJo2U9q4SA-1; Tue, 02 Mar 2021 18:26:56 -0500
+X-MC-Unique: 3-d5fVc9NP6eOJo2U9q4SA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D045107ACED;
+        Tue,  2 Mar 2021 23:26:54 +0000 (UTC)
+Received: from treble (ovpn-117-7.rdu2.redhat.com [10.10.117.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E651E60BFA;
+        Tue,  2 Mar 2021 23:26:51 +0000 (UTC)
+Date:   Tue, 2 Mar 2021 17:26:49 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Frank Eigler <fche@redhat.com>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
+ modules
+Message-ID: <20210302232649.y2tutffhxsblwqlb@treble>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 2, 2021 at 2:09 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Tue, Mar 2, 2021 at 2:02 PM Fangrui Song <maskray@google.com> wrote:
-> >
-> > On 2021-03-02, Nathan Chancellor wrote:
-> > >When building with LLVM_IAS=1, there is no point to specifying
-> > >'--prefix=' because that flag is only used to find the cross assembler,
-> > >which is clang itself when building with LLVM_IAS=1. All of the other
-> > >tools are invoked directly from PATH or a full path specified via the
-> > >command line, which does not depend on the value of '--prefix='.
-> > >
-> > >Sharing commands to reproduce issues becomes a little bit easier without
-> > >a '--prefix=' value because that '--prefix=' value is specific to a
-> > >user's machine due to it being an absolute path.
-> > >
-> > >Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> >
-> > Reviewed-by: Fangrui Song <maskray@google.com>
-> >
-> > clang can spawn GNU as (if -f?no-integrated-as is specified) and GNU
-> > objcopy (-f?no-integrated-as and -gsplit-dwarf and -g[123]).
->
-> But -g get's set via CONFIG_DEBUG_INFO and -gsplit-dwarf by
-> DEBUG_INFO_SPLIT.  So if we say:
-> $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang LLVM_IAS=1
->
-> So cross compile, use clang, use the integrated assembler (ie. with
-> this change, don't set --prefix), with either of the two above
-> configs, which objcopy get's exec'd?
+On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> When building out-of-tree kernel modules, the build system doesn't
+> require the GCC version to match the version used to build the original
+> kernel.  That's probably [1] fine.
+> 
+> In fact, for many distros, the version of GCC used to build the latest
+> kernel doesn't necessarily match the latest released GCC, so a GCC
+> mismatch turns out to be pretty common.  And with CONFIG_MODVERSIONS
+> it's probably more common.
+> 
+> So a lot of users have come to rely on being able to use a different
+> version of GCC when building OOT modules.
+> 
+> But with GCC plugins enabled, that's no longer allowed:
+> 
+>   cc1: error: incompatible gcc/plugin versions
+>   cc1: error: failed to initialize plugin ./scripts/gcc-plugins/structleak_plugin.so
+> 
+> That error comes from the plugin's call to
+> plugin_default_version_check(), which strictly enforces the GCC version.
+> The strict check makes sense, because there's nothing to prevent the GCC
+> plugin ABI from changing -- and it often does.
+> 
+> But failing the build isn't necessary.  For most plugins, OOT modules
+> will otherwise work just fine without the plugin instrumentation.
+> 
+> When a GCC version mismatch is detected, print a warning and disable the
+> plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> code to see the same struct layouts.  In that case print an error.
 
-Ok, I spoke to Fangrui more offline, and probably misread his
-response. From our chat:
-```
-Fangrui:
-objcopy is only used for GNU as assembled object files
-With integrated assembler, the object file streamer creates .o and
-.dwo simultaneously
-With GNU as, two objcopy commands are needed to extract .debug*.dwo to
-.dwo files &&& another command to remove .debug*.dwo sections
-```
+Hi Masahiro,
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+This problem is becoming more prevalent.  We will need to fix it one way
+or another, if we want to support distro adoption of these GCC
+plugin-based features.
 
-I ran this series through a mix of LLVM=1 vs CC=clang, LLVM_IAS=1 vs
-unset, CROSS_COMPILE vs not, without issue.
-
->
-> >
-> > With LLVM_IAS=1, these cases are ruled out.
->
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
+Frank suggested a possibly better idea: always rebuild the plugins when
+the GCC version changes.  What do you think?  Any suggestions on how to
+implement that?  Otherwise I can try to hack something together.
 
 -- 
-Thanks,
-~Nick Desaulniers
+Josh
+
