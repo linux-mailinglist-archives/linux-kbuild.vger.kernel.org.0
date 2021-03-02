@@ -2,77 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C290132B013
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4F532B019
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:42:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232855AbhCCBad (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Mar 2021 20:30:33 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:49029 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377916AbhCBO15 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Mar 2021 09:27:57 -0500
-Received: from oscar.flets-west.jp (softbank126026090165.bbtec.net [126.26.90.165]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 122EQHl6026843;
-        Tue, 2 Mar 2021 23:26:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 122EQHl6026843
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614695178;
-        bh=bLEqHI17Ar/SUMtdax+/xBfsUNtwhENj2/0NG79lDvo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=oooBct/xk1fbRtlHVwyg+ErdW47YEUgDt0S+faQnyruGtnHNq67wKjrNwFbJs9vEj
-         7y0TWRWFhZK8GTveTfr3WsTxxoZIfwuwQUudPn3Thn6Lg/B8TZEQUkRf+SKHDPBIVX
-         iJlr+ip6aGhofo0ms8iFv2r96/AD+gW+SBeMCciZYepR/Iw4mz6qQGpHg3y2I05IZI
-         lc5ZDspqZwKj9xj0DJH1+WQhRQf147O9HYKJ2Z7f4R4+AI3xjlAkBAsC8+U38xJBnh
-         Q18uJjXcxovrqKSBUSXHi0Pl618k4IXmdAjL0aDphpVx6348NuXoprHQB9O4LBoBUh
-         U4R1lPuWsTSSA==
-X-Nifty-SrcIP: [126.26.90.165]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH] kbuild: show warning for 'make headers_check'
-Date:   Tue,  2 Mar 2021 23:26:14 +0900
-Message-Id: <20210302142614.505888-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        id S233876AbhCCBbW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Mar 2021 20:31:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35664 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1580256AbhCBUSL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 2 Mar 2021 15:18:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA75464F38;
+        Tue,  2 Mar 2021 20:17:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614716236;
+        bh=tIYebdQOBUhRkZ+In7rw/tRl4yxyxN7IcGIa91jqkzo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lruYtSiI+tUmu8BTTkSHtSmBXa62yFfFgeFuMDDfVFYlaajEsU4IG3H8/LX8Yxxez
+         9sFT3rAGR1495Czy1CzO40ktfQxvcY97fA+JcLbi6ow0THXPxlRExLIQzFfQ7qWYlT
+         DW09aHTRSEbnfpKPPMR5kRUeP1d//jn+8CqBEYSi9WSv3flYHNWGfhhsFdDq2Cgq1Q
+         XeQx/jJQ/tE3iNMAINSjyi0ywQEni1P4F94B7+2XLI7ASMGjodGqHRGUySumlf+OVW
+         P4czf9kb+xDkLAh8pT96z1CojBEuKxVeTZXENdhLcj8edHJaDdER16CDl3JyuVaS3F
+         WPBpH7AzNYu7w==
+Received: by mail-ed1-f49.google.com with SMTP id c6so26942626ede.0;
+        Tue, 02 Mar 2021 12:17:15 -0800 (PST)
+X-Gm-Message-State: AOAM532CnT1mpbSmOYgrn8jzgf62G8KSxttlHHLT8PL5qKN2dj4qqdf/
+        H29nVyWTNTYIZTbiO2KkOeC9WtgFmGx1ccmdZA==
+X-Google-Smtp-Source: ABdhPJx08xQX0m7/aMZI3r+mpKrhViwcChF8LJASNAGO1eiAuWETR4ysi6zoX5cujOZwr4vjVFCHMLAsZFDcKyaKYYM=
+X-Received: by 2002:aa7:d385:: with SMTP id x5mr11110466edq.289.1614716234329;
+ Tue, 02 Mar 2021 12:17:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1613127681.git.viresh.kumar@linaro.org> <20210301065625.rgo2xvr7ol2vycyf@vireshk-i7>
+ <31cbc900-fad2-4838-21d2-7204f1029a81@gmail.com> <20210302040258.erg6mn4ykxvxhnqm@vireshk-i7>
+In-Reply-To: <20210302040258.erg6mn4ykxvxhnqm@vireshk-i7>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 2 Mar 2021 14:17:01 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKZrFh-7GPEQP-a411yF_2-nMz5iGp6vm4m0W8xxd+=Hw@mail.gmail.com>
+Message-ID: <CAL_JsqKZrFh-7GPEQP-a411yF_2-nMz5iGp6vm4m0W8xxd+=Hw@mail.gmail.com>
+Subject: Re: [PATCH V8 0/4] dt: Add fdtoverlay rule and statically build unittest
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        devicetree@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <michal.simek@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit 7ecaf069da52 ("kbuild: move headers_check rule to
-usr/include/Makefile"), the headers_check target is no-op.
+On Mon, Mar 1, 2021 at 10:03 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 01-03-21, 21:14, Frank Rowand wrote:
+> > Hi Viresh,
+> >
+> > On 3/1/21 12:56 AM, Viresh Kumar wrote:
+> > > On 12-02-21, 16:48, Viresh Kumar wrote:
+> > >> Hi,
+> > >>
+> > >> This patchset adds a generic rule for applying overlays using fdtoverlay
+> > >> tool and then updates unittests to get built statically using the same.
+> > >>
+> > >> V7->V8:
+> > >> - Patch 1 is new.
+> > >> - Platforms need to use dtb-y += foo.dtb instead of overlay-y +=
+> > >>   foo.dtb.
+> > >> - Use multi_depend instead of .SECONDEXPANSION.
+> > >> - Use dtb-y for unittest instead of overlay-y.
+> > >> - Rename the commented dtb filess in unittest Makefile as .dtbo.
+> > >> - Improved Makefile code (I am learning a lot every day :)
+> > >
+> > > Ping!
+> > >
+> >
+> > Please respin on 5.12-rc1, and pull in the change you said
+> > you would make in response to my post v8 comment about the
+> > v7 patches.
+>
+> Yes, I will do that.
+>
+> I must have been more explicit about the Ping I believe. It was
+> more for Masahiro and Rob to see if the kbuild stuff (which is
+> relatively new) makes sense or not before I respin this..
 
-This stub target is remaining here in case some scripts still invoke
-'make headers_check'. In order to prompt people to remove stale code,
-show a noisy warning message if used. The stub will be really removed
-after the Linux 5.15 release.
+LGTM, I was mainly waiting on Acks from Masahiro and Frank.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index f9b54da2fca0..a3336d9b4a22 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1339,7 +1339,11 @@ headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
- # Deprecated. It is no-op now.
- PHONY += headers_check
- headers_check:
--	@:
-+	@echo >&2 "=================== WARNING ==================="
-+	@echo >&2 "Since Linux 5.5, 'make headers_check' is no-op,"
-+	@echo >&2 "and will be removed after Linux 5.15 release."
-+	@echo >&2 "Please remove headers_check from your scripts."
-+	@echo >&2 "==============================================="
- 
- ifdef CONFIG_HEADERS_INSTALL
- prepare: headers
--- 
-2.27.0
-
+Rob
