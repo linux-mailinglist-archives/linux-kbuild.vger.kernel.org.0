@@ -2,137 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A364032C3B5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:51:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5CAC32C3B9
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbhCCX7h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Mar 2021 18:59:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59562 "EHLO
+        id S230452AbhCCX7i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 18:59:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388060AbhCCUsV (ORCPT
+        with ESMTP id S1388228AbhCCVG3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Mar 2021 15:48:21 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E592C06175F
-        for <linux-kbuild@vger.kernel.org>; Wed,  3 Mar 2021 12:47:41 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id r25so29499669ljk.11
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Mar 2021 12:47:41 -0800 (PST)
+        Wed, 3 Mar 2021 16:06:29 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FCAFC061756
+        for <linux-kbuild@vger.kernel.org>; Wed,  3 Mar 2021 12:57:11 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id u4so39416018lfs.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Mar 2021 12:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=24KhvMDb+89hqpiv9wi+VawtF0GyMftFsFrma/aYUMs=;
-        b=Zl/HI38KDrtJilTvcl7lr2IPBWLLsYYRmjGn0HjrQDShjMtfufPPc0aNfKypd3tsCB
-         MwUl4k7OuvxKG7NRUAkkcAnqIXp11ShogUgX5SA75DOfZ2x2yqQWznNGVxTngeBgF4+9
-         VM/KudWxxk5YLDV4xswMOM0fAPOizLrsuAq4jpCGVqsHCBKw8C/fVUCRg7zwxg5NJA9I
-         10h0s9BjMo33yEUC+7u0+VoKHm7tegIGzJpxAkdaNqU5f87h5Adk+mclH6qw9EXScMFN
-         qzavxTNjK5Zj3PY0Hsd8CVvncz3eW8LUwqDnh+6iqQZeet898rSFp813lLN3MBoOi3Wg
-         +MGQ==
+        bh=jRuDUUKixXJZDP0HjES33qad4zVN4t6lxUgDAY1T79Q=;
+        b=QNwL/lnQ6xUnUJftFOjYj8S9SK2GrudH3yjL3FFeYEI36t+HVCk0ahbgAXK7QMT1q/
+         d7s7AYb2jVr536dyDslgA1cJdUs4S/uosw+QeGO4MUiZh8yb3HqGGqPuVwKJQLGPWteM
+         NqzmXkjI8rx2WgJHgIn7NY19N0J8VPem+YCDg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=24KhvMDb+89hqpiv9wi+VawtF0GyMftFsFrma/aYUMs=;
-        b=G9RnLcTVdcHmbt8/SrdL1PGpsSBnNFtPhN2G5gwnwbIuvReF5s+xtmwrHPYlA7EUKF
-         g+gv/PGx24Sl2VYc/RsBUnIRmOB3n50NIKocsgSV69LI2A0v2AbNRUNvg/oxWFSc9ij4
-         17vTeQZ6HG4NPyrjemYW5gOFAaRzol+ds1mrvPD1BLcbyOSRgxtszPwK1j1MOrv+4Vew
-         kj9hwkVN+1QDgwvb6InrI/6aLMahT9Jq68huRyEj1N36vKX2uLei7ciWiDo6TB5kxA1R
-         1fLzka2l/MYTW5a4xVOHrU804U4a+vSfSPwcaiL7GgnTlxr8eI1ClaNEN7D6fBgCcRkR
-         sSsA==
-X-Gm-Message-State: AOAM533ca9JbW7iLQb3CF2pFjQjnah7trQuqaZ2bDY16zuzJOb7Q9xdJ
-        nLH+P/5wtsKm/qM4hKRK9b4VgTaBgdzzReLjc7i0cg==
-X-Google-Smtp-Source: ABdhPJxUmbxkkFZEVJfN4risvm7ty621iogBEJK4xDuAzpBtw9T3FMlhTvd/n1j8jnPB6FV9BAAWk7topgvKtb5q7qg=
-X-Received: by 2002:a2e:92d6:: with SMTP id k22mr427625ljh.244.1614804459313;
- Wed, 03 Mar 2021 12:47:39 -0800 (PST)
+        bh=jRuDUUKixXJZDP0HjES33qad4zVN4t6lxUgDAY1T79Q=;
+        b=CgCdvS4jES15PSkUQwVoGUshn8aByr0DXXMJtxNQaonyLoBlYaw4EHIx3JAYcRT96M
+         AWAd3RydksnYvXFQ7I4x8IvgKm9miVfPwkrvkUcndStckV4Rl0CDv7BDhIP3J/Ct0Qvg
+         cHUJZwzrz9OhTZ43pOcsoeoz5zvc/Vbt1a1QDZesJ7YiupHSF0LzY6pWL4BCILUZM3Cu
+         yEwUI41EfwrPt1wapFGw4K7HYZv78g5BZUHIXDey5wvgkB3KB2vLiT87FppQx0qS3JTd
+         Lm5CF1lFgKmxTB98Za4J9FthxdRswawJ2dbMCkBkUg/o0oagm2g70zHHI5w0voLsinSt
+         5j2w==
+X-Gm-Message-State: AOAM5328mngw2ohaW1RAYva5IZT/dOJRPxAOzZg0ICVtCE5GBGRi6lNm
+        nM3MbqEzWB8E5PLRu99Rm8cTw5SplMzmwQ==
+X-Google-Smtp-Source: ABdhPJwEWIydN9pybnOVxBlCgDLHfy9e/1x5OZkjIbXQfp6uzhsl+Sqfqb54hY15UbSWnCLoEcAcqw==
+X-Received: by 2002:a05:6512:3aa:: with SMTP id v10mr354130lfp.308.1614805029611;
+        Wed, 03 Mar 2021 12:57:09 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id d8sm3043986lfg.96.2021.03.03.12.57.08
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Mar 2021 12:57:09 -0800 (PST)
+Received: by mail-lf1-f41.google.com with SMTP id d3so39365419lfg.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Mar 2021 12:57:08 -0800 (PST)
+X-Received: by 2002:ac2:58fc:: with SMTP id v28mr305345lfo.201.1614805028665;
+ Wed, 03 Mar 2021 12:57:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20210303183333.46543-1-masahiroy@kernel.org>
-In-Reply-To: <20210303183333.46543-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 3 Mar 2021 12:47:27 -0800
-Message-ID: <CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E+GL3SyOk-jQ0kdXtMzg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] kbuild: remove LLVM=1 test from HAS_LTO_CLANG
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <20210302232649.y2tutffhxsblwqlb@treble> <CAK7LNAReuB5zUq_7S8ZG25+tdQowECDOK1rApYvkPCpHhPjK5w@mail.gmail.com>
+ <20210303191516.6ksxmng4pis7ue4p@treble> <CAHk-=wjR0CyaKU=6mXW9W+65L8h8DQuBdA2ZY2CfrPe6qurz3A@mail.gmail.com>
+ <20210303193806.oovupl4ubtkkyiih@treble> <CAHk-=whA6zru0BaNm4uu5KyZe+aQpRScOnmc9hdOpO3W+xN9Xw@mail.gmail.com>
+ <20210303202406.bxgdx5a25j6wc43b@treble>
+In-Reply-To: <20210303202406.bxgdx5a25j6wc43b@treble>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 3 Mar 2021 12:56:52 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi9J3mM8y+aH9e=HRo95giK4BRyyasayAimB0gdvbvDsQ@mail.gmail.com>
+Message-ID: <CAHk-=wi9J3mM8y+aH9e=HRo95giK4BRyyasayAimB0gdvbvDsQ@mail.gmail.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT modules
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Frank Eigler <fche@redhat.com>,
+        Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ Sami
+On Wed, Mar 3, 2021 at 12:24 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+>
+> Your nack is for a different reason: GCC plugins are second-class
+> citizens.  Fair enough...
 
-On Wed, Mar 3, 2021 at 10:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> This guarding is wrong. As Documentation/kbuild/llvm.rst notes, LLVM=1
-> switches the default of tools, but you can still override CC, LD, etc.
-> individually.
->
-> BTW, LLVM is not 1/0 flag. If LLVM is not passed in, it is empty.
+MNo, I didn't NAK it. Quite the reverser.
 
-Do we have the same problem with LLVM_IAS?  LGTM otherwise, but wanted
-to check that before signing off.
+I am ABSOLUTELY against rebuilding normal object files just because
+gcc versions change. A compiler version change makes zero difference
+for any normal object file.
 
-(Also, the rest of the patches in this series seem more related to
-DWARFv5 cleanups; this patch seems orthogonal while those are a
-visible progression).
+But the gcc plugins are different. They very much _are_ tied to a
+particular gcc version.
 
->
-> Non-zero return code is all treated as failure anyway.
->
-> So, $(success,test $(LLVM) -eq 1) and $(success,test "$(LLVM)" = 1)
-> works equivalently in the sense that both are expanded to 'n' if LLVM
-> is not given. The difference is that the former internally fails due
-> to syntax error.
->
->   $ test ${LLVM} -eq 1
->   bash: test: -eq: unary operator expected
->   $ echo $?
->   2
->
->   $ test "${LLVM}" -eq 1
->   bash: test: : integer expression expected
->   $ echo $?
->   2
->
->   $ test "${LLVM}" = 1
->   echo $?
->   1
->
->   $ test -n "${LLVM}"
->   $ echo $?
->   1
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 2bb30673d8e6..2af10ebe5ed0 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -632,7 +632,6 @@ config HAS_LTO_CLANG
->         def_bool y
->         # Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
->         depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
-> -       depends on $(success,test $(LLVM) -eq 1)
+Now, they are tied to a particular gcc version because they are
+horribly badly done, and bad technology, and I went off on a bit of a
+rant about just how bad they are, but the point is that gcc plugins
+depend on the exact gcc version in ways that normal object files do
+_not_.
 
-IIRC, we needed some other LLVM utilities like llvm-nm and llvm-ar,
-which are checked below. So I guess we can still support CC=clang
-AR=llvm-ar NM=llvm-nm, and this check is redundant.
-
->         depends on $(success,test $(LLVM_IAS) -eq 1)
->         depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
->         depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
-> --
-> 2.27.0
->
-
-
---
-Thanks,
-~Nick Desaulniers
+               Linus
