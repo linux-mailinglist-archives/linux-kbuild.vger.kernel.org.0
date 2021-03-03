@@ -2,102 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6750132B06D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Mar 2021 04:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67FB332C1BB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:03:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239872AbhCCBiV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Mar 2021 20:38:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55224 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2361120AbhCBX2Y (ORCPT
+        id S240053AbhCCT01 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 14:26:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233925AbhCCD1Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Mar 2021 18:28:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614727617;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=w8yXmYgKxvnjqvou08cqwubDp8xzbUl1Kzx0JAA4ffI=;
-        b=K4MXaKra/Uxw+2G4jKIMQNLwuBNQ3Wifl2bdioaAlGEH6w8ziqOFuxvtnZBKFJQo7m06ZY
-        JSqnZar0f1DIDxNrY2VEwtfNgPCDGuvgCmLlUR8TIXDF9FACY8r4mCaJeOki054mc6h+vm
-        9o30e+yDNQEFYBVG9LyTdvMrF5YcFJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-3-d5fVc9NP6eOJo2U9q4SA-1; Tue, 02 Mar 2021 18:26:56 -0500
-X-MC-Unique: 3-d5fVc9NP6eOJo2U9q4SA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D045107ACED;
-        Tue,  2 Mar 2021 23:26:54 +0000 (UTC)
-Received: from treble (ovpn-117-7.rdu2.redhat.com [10.10.117.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E651E60BFA;
-        Tue,  2 Mar 2021 23:26:51 +0000 (UTC)
-Date:   Tue, 2 Mar 2021 17:26:49 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>,
-        Frank Eigler <fche@redhat.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT
- modules
-Message-ID: <20210302232649.y2tutffhxsblwqlb@treble>
-References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+        Tue, 2 Mar 2021 22:27:24 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D2FC061756;
+        Tue,  2 Mar 2021 19:26:24 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id i18so20037117ilq.13;
+        Tue, 02 Mar 2021 19:26:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=MBQIh7nbzwXZfvcx1OJ6qsninMO70G/gAKxbffF9+cs=;
+        b=GdqfAoy8c9cJ4nFwxF4sCWIuWuINy4Ro4diYigvC63NvkfK4+mQcXYXVqlMN2WJinB
+         8zxC12P5KEvrf102AL+VZ5ml8S5+YIFedT8uEd0d8/74pABUu2omFFO9rZEoVQ/Qc4Ge
+         gX4xdPW0gqoq0ak3gPz9iA/UNLeMS67zTdclgdOKTLzpO6h6Z+r25Den4YLTUcTWrOev
+         ztyRspPmrFa8A5AW5LToH5F5lWQb0W6WxSpO+kwwv8rTJYS614PBdEER+IFeWPa1k8no
+         GhuUIAp9f427YVQnAmJWGVxdZww8KVDhRCZhw1JfEFnM2U2qTPwgUMiNlEsMJyse9Kpx
+         nkLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=MBQIh7nbzwXZfvcx1OJ6qsninMO70G/gAKxbffF9+cs=;
+        b=qendrCo3En68jtU2NMWPvaKSQFdJEslJFra1rYbIja5fO8RN3a2wlJCqtlS896e/90
+         9OLFYB0XWi6xzXdQMsMuqHEoDDKogVnnJS9njEQmqxXMgmjn3D4u5NWrTyWqZFl0qAx+
+         SedbPF/WwYLcb+DLoBuoRu13HrOD6ZrUjZdQhXcURjaf4PZ/PBx4iNnyB8lDAD2XUese
+         0g2L1hKWw+QKVzXKEFsdCHtfaQce8O/v1MxPYa7ThJOJRqrYAYcl8AqO0GDzmL6USUUO
+         OTaYp2EKDgplQT93Eoi8KZKl7q5yiaHLvqKU8/e+9pdcEc6CZ+LuDLGPvHOhyXcoE0C8
+         q+tA==
+X-Gm-Message-State: AOAM533UeBzapr0Aif4U/b2y0URDdnJTIPgYAIpglMXDvTYPJzgl5sd4
+        0DsTlg/H/ssytpecHVLlDWRaOX5ok+ESkm4xpQU=
+X-Google-Smtp-Source: ABdhPJw6mhK9cnJpzMfPkVOUxUTic2KGP9DyCmaf0xlPoLkL+d38XS+3vT/9QYJv0pyCnaOSKipx0yCeueagxn09RS4=
+X-Received: by 2002:a92:ce84:: with SMTP id r4mr2959615ilo.112.1614741983852;
+ Tue, 02 Mar 2021 19:26:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210302210646.3044738-1-nathan@kernel.org>
+In-Reply-To: <20210302210646.3044738-1-nathan@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 3 Mar 2021 04:25:47 +0100
+Message-ID: <CA+icZUWKZ+vVTqSkPP0D8MMWuZkNzL1zpm+EkWrNSMM-5H3d1w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Makefile: Remove '--gcc-toolchain' flag
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Behan Webster <behanw@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
-> When building out-of-tree kernel modules, the build system doesn't
-> require the GCC version to match the version used to build the original
-> kernel.  That's probably [1] fine.
-> 
-> In fact, for many distros, the version of GCC used to build the latest
-> kernel doesn't necessarily match the latest released GCC, so a GCC
-> mismatch turns out to be pretty common.  And with CONFIG_MODVERSIONS
-> it's probably more common.
-> 
-> So a lot of users have come to rely on being able to use a different
-> version of GCC when building OOT modules.
-> 
-> But with GCC plugins enabled, that's no longer allowed:
-> 
->   cc1: error: incompatible gcc/plugin versions
->   cc1: error: failed to initialize plugin ./scripts/gcc-plugins/structleak_plugin.so
-> 
-> That error comes from the plugin's call to
-> plugin_default_version_check(), which strictly enforces the GCC version.
-> The strict check makes sense, because there's nothing to prevent the GCC
-> plugin ABI from changing -- and it often does.
-> 
-> But failing the build isn't necessary.  For most plugins, OOT modules
-> will otherwise work just fine without the plugin instrumentation.
-> 
-> When a GCC version mismatch is detected, print a warning and disable the
-> plugin.  The only exception is the RANDSTRUCT plugin which needs all
-> code to see the same struct layouts.  In that case print an error.
+On Tue, Mar 2, 2021 at 10:07 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> This is not necessary anymore now that we specify '--prefix=', which
+> tells clang exactly where to find the GNU cross tools. This has been
+> verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as well as a
+> distribution version of LLVM 11.1.0 without binutils in the LLVM
+> toolchain locations.
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Hi Masahiro,
+[ CC Behan ]
 
-This problem is becoming more prevalent.  We will need to fix it one way
-or another, if we want to support distro adoption of these GCC
-plugin-based features.
+Hahaha, that is a change of a very early commit in times of the
+LLVM/Clang Linux-kernel development.
+So-to-say a historical change :-).
 
-Frank suggested a possibly better idea: always rebuild the plugins when
-the GCC version changes.  What do you think?  Any suggestions on how to
-implement that?  Otherwise I can try to hack something together.
+I will try this patchset later with latest Linux -v5.12-rc1+ and my
+custom patchset.
 
--- 
-Josh
+Thanks.
 
+- Sedat -
+
+
+> ---
+>  Makefile | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f9b54da2fca0..c20f0ad8be73 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
+>  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+>  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> -GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+> -endif
+> -ifneq ($(GCC_TOOLCHAIN),)
+> -CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+>  endif
+>  ifneq ($(LLVM_IAS),1)
+>  CLANG_FLAGS    += -no-integrated-as
+>
+> base-commit: 7a7fd0de4a9804299793e564a555a49c1fc924cb
+> --
+> 2.31.0.rc0.75.gec125d1bc1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210302210646.3044738-1-nathan%40kernel.org.
