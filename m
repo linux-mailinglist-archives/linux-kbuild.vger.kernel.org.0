@@ -2,189 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E96E832C1DE
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF73932C1E5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:03:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351283AbhCCT3q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Mar 2021 14:29:46 -0500
-Received: from condef-09.nifty.com ([202.248.20.74]:42478 "EHLO
-        condef-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442495AbhCCKTv (ORCPT
+        id S1351357AbhCCTaJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 14:30:09 -0500
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:43908 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351299AbhCCKrX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:19:51 -0500
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-09.nifty.com with ESMTP id 1238YN5D001486;
-        Wed, 3 Mar 2021 17:34:23 +0900
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 1238XsY6007279;
-        Wed, 3 Mar 2021 17:33:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 1238XsY6007279
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614760435;
-        bh=t2H8VyH9AVnFDudiJqpplvJKk6BW/2I4as+O7Wq1jKc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=W7ciNNT0uUj6UfNSR+M5+zqVbOAmQKEh9U2xE4w9wNq1sLvmCNWPHkcB68X9daG79
-         xydjdgq1N0CScuowhlmoUI+pXQQBiIsbyiAPsS61/SUEeUG2BtGnVDXpuMkWGLxv41
-         SoexK9EMpyiMYMjSNVBRsXglu3iAHnFvLt5zsi5g47iNoPP5OnI4Wy+HV5sNknLkdJ
-         N9lu7rspIliTjSy952UK2lRJaQHiTKIt8HDjhU4nFDrAUBSwjOt6SjW3Q6nt8dj8Fk
-         l3WJbtncsR0VHab8UGmyLQJeg/av2um0KU9M8zO8ewlRo8xH8yMiclSYmJ6hk8WuMP
-         d+8HjIhMbFGzA==
-X-Nifty-SrcIP: [209.85.216.44]
-Received: by mail-pj1-f44.google.com with SMTP id i4-20020a17090a7184b02900bfb60fbc6bso2555685pjk.0;
-        Wed, 03 Mar 2021 00:33:55 -0800 (PST)
-X-Gm-Message-State: AOAM532a6n9qOLUD2NFusU3AE/A7E+GWY740CoDKKGCH6vmA9Zc5moo5
-        W62c0IDRaHDOhtXTDbci42W3aOIj5Gxj48jdNGo=
-X-Google-Smtp-Source: ABdhPJzEdPJFAoBaGAUNdOQRUIFbCdsqtv45KKZHMfKPcSWckKo9UNwRa+AtuNniwWDUXUg5DYbDXw5DzpWuQPy4XhA=
-X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr8226925pjv.153.1614760434319;
- Wed, 03 Mar 2021 00:33:54 -0800 (PST)
+        Wed, 3 Mar 2021 05:47:23 -0500
+Received: by mail-ua1-f54.google.com with SMTP id v5so5794186uac.10;
+        Wed, 03 Mar 2021 02:45:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ydOaHK4WbXFZR/Zhm4NkRAdn9Nr1Up0uaDVYzRfkDGE=;
+        b=oGfauYt9a4Tml89VEyDwygGdh0xmooQMjmW3p6rMwOxTgv2+fQY6AW3eEe19AN+if2
+         7aALIdkeziWbhTrJ/GAXFM2G5cdRC1LmKPrEynT+vbM+Zs0XLlWV/jK3hipp8qLRG2w/
+         LtCeSysb83cfu90fHP30/c8Eo7lkYrLQCVJMhc0tp+RbPjbbYmW1bDdb/ectyt0C/TKo
+         u3CrLJ8PnLYwqQdJFpbydyy6qPeAWu1ZPsq30r4ou/ra3kFrOZhl0dwLl7A7d3sX7SrR
+         DVxumupbE1FtA0x9e8hTnIKWcL/4ieWeydCJcsA8WxCZXqBjLDrATGbn6SB0vh+4zKq+
+         8Mxg==
+X-Gm-Message-State: AOAM530gnSA0kf2DDlZnQSK+wlj9iwMvkByHdYV2Vsqw3cVSYiaN/vJ9
+        O63o9LRIQCNjPgTBjy2trjluEz5AmrkKfVBjFoY=
+X-Google-Smtp-Source: ABdhPJzaBHZHREi7ROkq8YvrZ+Ssc2Ml84xVjWNSIn/gKs58tawMwSkFs87Ta0tB/Zd2sjc7iTk3HqGuYlzDdbvWUFk=
+X-Received: by 2002:ab0:66c3:: with SMTP id d3mr14344471uaq.2.1614768301840;
+ Wed, 03 Mar 2021 02:45:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20210302210646.3044738-1-nathan@kernel.org> <20210302214358.qr6enl6majzplhij@google.com>
-In-Reply-To: <20210302214358.qr6enl6majzplhij@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 3 Mar 2021 17:33:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4Ri=K6M39hYU+17JVf0Z=hbRgSxuTdX5ZaVYLpmJRtA@mail.gmail.com>
-Message-ID: <CAK7LNAS4Ri=K6M39hYU+17JVf0Z=hbRgSxuTdX5ZaVYLpmJRtA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Makefile: Remove '--gcc-toolchain' flag
-To:     Fangrui Song <maskray@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+References: <cover.1611904394.git.viresh.kumar@linaro.org> <434ba2467dd0cd011565625aeb3450650afe0aae.1611904394.git.viresh.kumar@linaro.org>
+ <CAMuHMdVp0vGMqoEoP9A7Y7-ph-DYUWdddtChdq_eZcROYTBMHg@mail.gmail.com>
+ <20210205092507.fdxotdjlq5rjs2yh@vireshk-i7> <CAMuHMdWUMcMcJxnC+oML8P0+r72_+d6RWGY50dOWCUECdJGWPA@mail.gmail.com>
+ <20210205095545.woevnkxg3ar7ctys@vireshk-i7> <CAMuHMdXKT3LD3ojMJEg-oHsEKO5TN5P1BTJMyf2fYkhnC8PU=Q@mail.gmail.com>
+ <20210205210814.GA3707622@robh.at.kernel.org> <02728dac-5666-9c2b-bd46-9c2eabbb2ed8@gmail.com>
+ <20210303052125.uh32ndnu5d6mem7c@vireshk-i7>
+In-Reply-To: <20210303052125.uh32ndnu5d6mem7c@vireshk-i7>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 3 Mar 2021 11:44:50 +0100
+Message-ID: <CAMuHMdVJYNf+QQNPSmBvt3njEECY1SJHA9jLAESrTnVuD0cfWA@mail.gmail.com>
+Subject: Re: [PATCH V7 4/6] kbuild: Add support to build overlays (%.dtbo)
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
+Hi Viresh,
 
-On Wed, Mar 3, 2021 at 6:44 AM Fangrui Song <maskray@google.com> wrote:
+On Wed, Mar 3, 2021 at 6:21 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> On 24-02-21, 19:32, Frank Rowand wrote:
+> > I overlooked this and mistakenly thought that the move to .dtbo also
+> > involved changing to .dtso.  My bad.
+> >
+> > My favorite color here is to use .dtso for the source file that will
+> > be compiled to create a .dtbo.
+> >
+> > Linus has already accepted patch 4/6 to 5.12-rc1, so changing to .dtso
+> > will require another patch.
 >
-> Reviewed-by: Fangrui Song <maskray@google.com>
+> Looks like this is what many people desire, lets do it and make it a
+> standard even if it wasn't followed earlier.
 >
-> Thanks for the clean-up!
-> --gcc-toolchain= is an obsscure way searching for GCC installation prefixes (--prefix).
-> The logic is complex and different for different distributions/architectures.
+> What about this ?
+
+Thanks, looks good to me, and works for me, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -337,7 +337,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
 >
-> If we specify --prefix= (-B) explicitly, --gcc-toolchain is not needed.
+>  quiet_cmd_dtc = DTC     $@
+>  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+> -       $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+> +       $(DTC) -I dts -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+>                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+>                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+>         cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+> @@ -348,6 +348,9 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>         $(call if_changed_dep,dtc)
+>
+> +$(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
+> +       $(call if_changed_dep,dtc)
+> +
+>  overlay-y := $(addprefix $(obj)/, $(overlay-y))
+>
+>  quiet_cmd_fdtoverlay = DTOVL   $@
+> @@ -373,6 +376,9 @@ endef
+>  $(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+>         $(call if_changed_rule,dtc,yaml)
+>
+> +$(obj)/%.dt.yaml: $(src)/%.dtso $(DTC) $(DT_TMP_SCHEMA) FORCE
 
+I'm wondering if "dt.yaml" should be changed to "dto.yaml" (here and in
+the existing rule earlier in Makefile.lib), to avoid issues if both foo.dts and
+foo.dtso exist? Unlikely, but it might happen...
 
-I tested this, and worked for me too.
+> I had to keep the original line as is:
+>
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>
+> to support the unittest stuff as there are no dtso files there. There
+> are few things we can do here:
+>
+> - Don't follow the dtso/dtbo convention for unittest, build files as
+>   dtb only and everything will continue to work I suppose as
+>   fdtoverlay won't complain.
+>
+> - Keep the above line in Makefile, this doesn't sound right, isn't it
+>   ?
+>
+> - Make .dts links for unittest file, maybe from the Makefile itself.
+>
+> - Something else ?
 
-Before applying this patch, could you please
-help me understand the logic?
+Rename unittest .dts files to .dtso where applicable?
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I checked the manual
-(https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-b-dir)
-
-
-
--B<dir>, --prefix <arg>, --prefix=<arg>
-    Add <dir> to search path for binaries and object files used implicitly
-
---gcc-toolchain=<arg>, -gcc-toolchain <arg>
-    Use the gcc toolchain at the given directory
-
-
-Hmm, this description is too concise
-to understand how it works...
-
-
-
-I use Ubuntu 20.10.
-
-I use distro's default clang
-located in /usr/bin/clang.
-
-I place my aarch64 linaro toolchain in
-/home/masahiro/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-gcc,
-which is not in my PATH environment.
-
-
-
-
-From my some experiments,
-
-clang --target=aarch64-linux-gnu -no-integrated-as \
---prefix=/home/masahiro/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-  ...
-
-works almost equivalent to
-
-PATH=/home/masahiro/tools/aarch64-linaro-7.5/bin:$PATH \
-clang --target=aarch64-linux-gnu -no-integrated-as ...
-
-
-Then, clang will pick up aarch64-linux-gnu-as
-found in the search path.
-
-Is this correct?
-
-
-On the other hand, I could not understand
-what the purpose of --gcc-toolchain= is.
-
-
-Even if I add --gcc-toolchain=/home/masahiro/tools/aarch64-linaro-7.5,
-it does not make any difference, and it is completely useless.
-
-
-I read the comment from stephenhines:
-https://github.com/ClangBuiltLinux/linux/issues/78
-
-How could --gcc-toolchain be used
-in a useful way?
-
-
-
-
-
-
-
-
-
-> On 2021-03-02, Nathan Chancellor wrote:
-> >This is not necessary anymore now that we specify '--prefix=', which
-> >tells clang exactly where to find the GNU cross tools. This has been
-> >verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as well as a
-> >distribution version of LLVM 11.1.0 without binutils in the LLVM
-> >toolchain locations.
-> >
-> >Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> >---
-> > Makefile | 4 ----
-> > 1 file changed, 4 deletions(-)
-> >
-> >diff --git a/Makefile b/Makefile
-> >index f9b54da2fca0..c20f0ad8be73 100644
-> >--- a/Makefile
-> >+++ b/Makefile
-> >@@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
-> > CLANG_FLAGS   += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> > GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > CLANG_FLAGS   += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> >-GCC_TOOLCHAIN := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
-> >-endif
-> >-ifneq ($(GCC_TOOLCHAIN),)
-> >-CLANG_FLAGS   += --gcc-toolchain=$(GCC_TOOLCHAIN)
-> > endif
-> > ifneq ($(LLVM_IAS),1)
-> > CLANG_FLAGS   += -no-integrated-as
-> >
-> >base-commit: 7a7fd0de4a9804299793e564a555a49c1fc924cb
-> >--
-> >2.31.0.rc0.75.gec125d1bc1
-> >
-> >--
-> >You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> >To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> >To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210302210646.3044738-1-nathan%40kernel.org.
-
-
-
---
-Best Regards
-
-Masahiro Yamada
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
