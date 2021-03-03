@@ -2,96 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0068032C205
+	by mail.lfdr.de (Postfix) with ESMTP id F1ED132C20B
 	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387648AbhCCTcU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Mar 2021 14:32:20 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:63528 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1580818AbhCCSfQ (ORCPT
+        id S1387661AbhCCTcg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 14:32:36 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:35184 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234166AbhCCSyH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Mar 2021 13:35:16 -0500
-Received: from localhost.localdomain (122-103-140-163.kyoto.fdn.vectant.ne.jp [122.103.140.163]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 123IXcJf023524;
-        Thu, 4 Mar 2021 03:33:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 123IXcJf023524
+        Wed, 3 Mar 2021 13:54:07 -0500
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 123IoDLr006152;
+        Thu, 4 Mar 2021 03:50:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 123IoDLr006152
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614796420;
-        bh=15Gw1OMyTCRaFX0xouVnd9dK3+GD/W8zTLjDYa/3v+4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nlmwcihYvhHHhQfbIRm8Ub+D4LAi85osdDpldUd7eoMbK1J3dL7fVLi6k8UFQLyXX
-         E99np0tUwTTp7tGcHP7WunVzgLueNPzyy8m1vPmetZMNRxStlIJGyfwpO4NmSSzmqd
-         WA2FTn4/ThaLjmNZRwh+8t0iA0ZwHPU0570rVEqdZ+cqRseiFzaLr2Pj/8CFbiXEG2
-         T2CT79g0dwavGQqeNZoeTqo+pjZVSF06EYOCPrc0OsdBjwF01ODd62qfrXXVro9sPw
-         o4HubnYCPmBgocnALJQbakSgFa8qzJCsUpt/ECKqB6sYgLoTFbSbFOCZi0awcNoI34
-         Ny8eGxoep1Gkg==
-X-Nifty-SrcIP: [122.103.140.163]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     clang-built-linux@googlegroups.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: dwarf: use AS_VERSION instead of test_dwarf5_support.sh
-Date:   Thu,  4 Mar 2021 03:33:33 +0900
-Message-Id: <20210303183333.46543-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210303183333.46543-1-masahiroy@kernel.org>
-References: <20210303183333.46543-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1614797413;
+        bh=fvTDpDKpHB2RoYVt26aVSfRN8H+EkrwI+Rs0xBOTnaY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=x056maJ4bLhrtmh+om8k4pFwPKY7SUSf9fSjaV61pzOCe+r54ANja43k/dNlMyfKT
+         viwScA1dES2h6rSh+y8sxfXG50bhOUTFL50oo+aGXOopPxi1KGwpoxuXoGfiT/0XJn
+         K/HDajcgWeaxF79vOsyd1HbV/PXQxNf6tCJwPRSKb4kqI0g+2H04+Jiz4pjEUoaZ1G
+         VdnQuEAn3+bb3l8+b7TbVnr4hU8tij4eL24zMCrYmtb+BPNI8ZuquwvA0EJufn+93R
+         UZouzZ2hY5rr/81r8aLXZRR8oM17llg0B0UCDpp/2+T0ludvTD2Uf9yEdhS62DmQvP
+         Xo8EMzomXHMnQ==
+X-Nifty-SrcIP: [209.85.215.182]
+Received: by mail-pg1-f182.google.com with SMTP id t25so17053281pga.2;
+        Wed, 03 Mar 2021 10:50:13 -0800 (PST)
+X-Gm-Message-State: AOAM533Iy1qEQBUJU3+Iu8yHslbsYEvkWk3TspHToky1aKaonaVNDN0g
+        t0UC61vAQHBjah6nmQVr1FaHw/vt9p7/nOtq5u8=
+X-Google-Smtp-Source: ABdhPJxJeSO/hkm+twwtXdqQxYmlQhQvuY5QvILOCuJ2lY3fPjFUNkrsevggNJm/rQDa4DHuSRNV0XWfvtHG038rb6o=
+X-Received: by 2002:a65:428b:: with SMTP id j11mr292481pgp.47.1614797412617;
+ Wed, 03 Mar 2021 10:50:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <20210302232649.y2tutffhxsblwqlb@treble>
+In-Reply-To: <20210302232649.y2tutffhxsblwqlb@treble>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 4 Mar 2021 03:49:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAReuB5zUq_7S8ZG25+tdQowECDOK1rApYvkPCpHhPjK5w@mail.gmail.com>
+Message-ID: <CAK7LNAReuB5zUq_7S8ZG25+tdQowECDOK1rApYvkPCpHhPjK5w@mail.gmail.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT modules
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Frank Eigler <fche@redhat.com>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The test code in scripts/test_dwarf5_support.sh is somewhat difficult
-to understand, but after all, we want to check binutils >= 2.35.2
+On Wed, Mar 3, 2021 at 8:27 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+>
+> On Mon, Jan 25, 2021 at 02:42:10PM -0600, Josh Poimboeuf wrote:
+> > When building out-of-tree kernel modules, the build system doesn't
+> > require the GCC version to match the version used to build the original
+> > kernel.  That's probably [1] fine.
+> >
+> > In fact, for many distros, the version of GCC used to build the latest
+> > kernel doesn't necessarily match the latest released GCC, so a GCC
+> > mismatch turns out to be pretty common.  And with CONFIG_MODVERSIONS
+> > it's probably more common.
+> >
+> > So a lot of users have come to rely on being able to use a different
+> > version of GCC when building OOT modules.
+> >
+> > But with GCC plugins enabled, that's no longer allowed:
+> >
+> >   cc1: error: incompatible gcc/plugin versions
+> >   cc1: error: failed to initialize plugin ./scripts/gcc-plugins/structleak_plugin.so
+> >
+> > That error comes from the plugin's call to
+> > plugin_default_version_check(), which strictly enforces the GCC version.
+> > The strict check makes sense, because there's nothing to prevent the GCC
+> > plugin ABI from changing -- and it often does.
+> >
+> > But failing the build isn't necessary.  For most plugins, OOT modules
+> > will otherwise work just fine without the plugin instrumentation.
+> >
+> > When a GCC version mismatch is detected, print a warning and disable the
+> > plugin.  The only exception is the RANDSTRUCT plugin which needs all
+> > code to see the same struct layouts.  In that case print an error.
+>
+> Hi Masahiro,
+>
+> This problem is becoming more prevalent.  We will need to fix it one way
+> or another, if we want to support distro adoption of these GCC
+> plugin-based features.
+>
+> Frank suggested a possibly better idea: always rebuild the plugins when
+> the GCC version changes.
 
-From the former discussion, the requrement for generating DRAWF v5 from
-C code is as follows:
 
- - gcc + binutils as     -> requires gcc 5.0+ (but 7.0+ for full support)
- - clang + binutils as   -> requires binutils 2.35.2+
- - clang + integrated as -> OK
+That is just another form of the previous patch,
+which was already rejected.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- lib/Kconfig.debug              | 3 +--
- scripts/test_dwarf5_support.sh | 8 --------
- 2 files changed, 1 insertion(+), 10 deletions(-)
- delete mode 100755 scripts/test_dwarf5_support.sh
+- That is a hack just for external modules
+- Our consensus is, use the same version for the kernel and external modules
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 2779c29d9981..f3337a38925d 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -284,8 +284,7 @@ config DEBUG_INFO_DWARF4
- 
- config DEBUG_INFO_DWARF5
- 	bool "Generate DWARF Version 5 debuginfo"
--	depends on GCC_VERSION >= 50000 || CC_IS_CLANG
--	depends on CC_IS_GCC || $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
-+	depends on GCC_VERSION >= 50000 || (CC_IS_CLANG && AS_IS_GNU && AS_VERSION >= 23502) || (CC_IS_CLANG && AS_IS_LLVM)
- 	depends on !DEBUG_INFO_BTF
- 	help
- 	  Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
-diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
-deleted file mode 100755
-index c46e2456b47a..000000000000
---- a/scripts/test_dwarf5_support.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--
--# Test that the assembler doesn't need -Wa,-gdwarf-5 when presented with DWARF
--# v5 input, such as `.file 0` and `md5 0x00`. Should be fixed in GNU binutils
--# 2.35.2. https://sourceware.org/bugzilla/show_bug.cgi?id=25611
--echo '.file 0 "filename" md5 0x7a0b65214090b6693bd1dc24dd248245' | \
--  $* -gdwarf-5 -Wno-unused-command-line-argument -c -x assembler -o /dev/null -
--- 
-2.27.0
 
+
+I use Ubuntu, and I do not see such a problem.
+(I have never seen it on Debian either, except sid.)
+
+I see Fedora providing GCC whose version is different
+from the one used for building the kernel.
+That is a problem on the distribution side.
+
+
+
+In my ubuntu.
+
+$ grep CC_VERSION_TEXT   /lib/modules/$(uname -r)/build/.config
+CONFIG_CC_VERSION_TEXT="gcc (Ubuntu 10.2.0-13ubuntu1) 10.2.0"
+$ gcc --version  | head -n1
+gcc (Ubuntu 10.2.0-13ubuntu1) 10.2.0
+
+
+
+> What do you think?
+
+NACK.
+
+
+>  Any suggestions on how to
+> implement that?  Otherwise I can try to hack something together.
+>
+> --
+> Josh
+>
+--
+Best Regards
+Masahiro Yamada
