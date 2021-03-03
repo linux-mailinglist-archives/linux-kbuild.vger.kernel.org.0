@@ -2,100 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6943432C1F2
+	by mail.lfdr.de (Postfix) with ESMTP id 16AB932C1F1
 	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 01:03:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1387590AbhCCTbo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Mar 2021 14:31:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352580AbhCCLvV (ORCPT
+        id S1387582AbhCCTb2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 14:31:28 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:41877 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232069AbhCCLka (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Mar 2021 06:51:21 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9EAC06121D
-        for <linux-kbuild@vger.kernel.org>; Wed,  3 Mar 2021 02:56:35 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id z7so13822678plk.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Mar 2021 02:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7q/j7uiT6CW13D8ObhzBqHbvkgzpG7ZEAqZ/ZCUXXzI=;
-        b=KzehwLUKvHb1+sFHgkSnV3kQ+sHQoekbGdUgxpLXhwAwfrouwDGrD+5tFFdrOu/SKz
-         qNOGwpV8DVgXBLh1n4d+Z1yvxaKtkLYPR3sdVpx815mW9jfkbhWiUVya3102XafaAhoY
-         wRajJq3WDqinVP55EBDQeTEjXH06SEHIcS71T6XDUpESrrIUkSwaq1GwTubb0eBlqRQm
-         qVt5JcVBawphoKWItFIGeTxbEUVvXYk5gZSx2GzGILJwHAsqi7/+F/+uRBWzQmg1EskC
-         xhwrkb8rD/ZVCHANhbJzifkPUB+ntQ/2jTQhCHOwmVX6Ve32Kt+cO4llhadB4HggxkKL
-         Ff0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7q/j7uiT6CW13D8ObhzBqHbvkgzpG7ZEAqZ/ZCUXXzI=;
-        b=GvhD7ToyfRd+rdbwcwUGzhOpQ9TdrKrFQkF2TkVSPwQVWiz9ahojjOiwLYydg6AQaG
-         kuJLK5zIG9uuGaiYb48iaDc1ZDnobBrL9vXnAvcmn7B0gAz9p+Rk3essKWIW6b7MZMTZ
-         86mRYV1sk2EGxnSGk600hm95hnxYmQKNhfb1Gg9b2vNS7/bMyPpjw9aTXZu8nvXWrkU2
-         DYimhxir8kVR9yIjF9eQTjGZk4LFxF8h8drW3U957ZXAm74DYVxD5XbqZe1vekxmYjZP
-         y/tIGFsMC/kZnWNinRCSQjC76eeihBwt38v2BlFH4ZWTfr52fGJM5Bm68XSvLvZzENay
-         FUYA==
-X-Gm-Message-State: AOAM531E/C5adhZ5W+K+LZ32QWQv2/v3fpOztTob48DA61Zo6bRsp2Vz
-        vbolK6yLvsf2WiPYmyMLMiecCQ==
-X-Google-Smtp-Source: ABdhPJx6aUAi5z7HLvt/vc/WXBjRpWduAQZXiTfvXoETfo0Mr84TMmm9G30F5qMvX712L25hjUbNLA==
-X-Received: by 2002:a17:90b:691:: with SMTP id m17mr9348371pjz.191.1614768994752;
-        Wed, 03 Mar 2021 02:56:34 -0800 (PST)
-Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id fs9sm6483409pjb.40.2021.03.03.02.56.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Mar 2021 02:56:34 -0800 (PST)
-Date:   Wed, 3 Mar 2021 16:26:32 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V9 2/4] kbuild: Add generic rule to apply fdtoverlay
-Message-ID: <20210303105632.osvwsxkku2cpvdb4@vireshk-i7>
-References: <cover.1614745266.git.viresh.kumar@linaro.org>
- <263ac0777bee9384b66fb4e74ed3abdc45a1bb82.1614745266.git.viresh.kumar@linaro.org>
- <CAMuHMdUMn4qDLE4z98vDwgBZ5pUAk40o4A4A5JG3bOpPNZj9mg@mail.gmail.com>
+        Wed, 3 Mar 2021 06:40:30 -0500
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 123BchjN031150;
+        Wed, 3 Mar 2021 20:38:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 123BchjN031150
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614771524;
+        bh=h3LNR7fqXEjV5dRyMGMzxh6NqG+1wU6ysQj2qblhhvc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=X6j6L+ct5IWSkS2hhP3wHjeSWa5tyg7rGb74AZI6AluWiL2bsMg81AYEYsM/F/w0X
+         2qCmOgcTj9OTGTSo0jjpXuAKKTrRSFWzfvwk15RJDAVtJ+onIDMBE/IBWUEn0wb3vM
+         3erMIMrbWk6/lmR2xpYOkG3Ih5FxULZd1tO7orqp24N8B5HAtFRS6Tbsa/j42b/59W
+         gMdHFgAt9hNYORM1GD6Pcgk8V5stFtWEgmyuYwWscQ02Tc6ApPl+Vvf9PwamkKYasF
+         5y2nYOz4NEmlaz/9PEWm9l/gSXsE+jWjwQxDW25OrCftuteKn8rNm8yLH8lgkSKP97
+         oOaRhN2d/z+hA==
+X-Nifty-SrcIP: [209.85.214.181]
+Received: by mail-pl1-f181.google.com with SMTP id z7so13880922plk.7;
+        Wed, 03 Mar 2021 03:38:43 -0800 (PST)
+X-Gm-Message-State: AOAM530OoM4NFo+M3DOdZz2BeTnv2lLI0k8rqBeMHjL0Or37gVODrxRo
+        5M0trloUdvDlrqYN/lWVfkuOwDa6furpXST8UMU=
+X-Google-Smtp-Source: ABdhPJy5m7NZ7nI9yF1ughkJ515hruqzvRdlR0Sd4JiWa+uQR2PIqqhi79S9tmr2uACjr/aW1PWqPFGf89wbUOjkpSU=
+X-Received: by 2002:a17:90a:5510:: with SMTP id b16mr9232214pji.87.1614771523191;
+ Wed, 03 Mar 2021 03:38:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUMn4qDLE4z98vDwgBZ5pUAk40o4A4A5JG3bOpPNZj9mg@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210302221211.1620858-1-bero@lindev.ch> <20210303040237.tvwo34j322tzqnwz@archlinux-ax161>
+In-Reply-To: <20210303040237.tvwo34j322tzqnwz@archlinux-ax161>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 3 Mar 2021 20:38:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ8zvEv50HgD4HOzjMBYB7UAHggTsQ7OwoGgktXSDjzYQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ8zvEv50HgD4HOzjMBYB7UAHggTsQ7OwoGgktXSDjzYQ@mail.gmail.com>
+Subject: Re: [PATCH] Fix ld-version.sh script if LLD was built with LLD_VENDOR
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@lindev.ch>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 03-03-21, 11:49, Geert Uytterhoeven wrote:
-> Hi Viresh,
-> 
-> On Wed, Mar 3, 2021 at 5:36 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > From: Rob Herring <robh@kernel.org>
+On Wed, Mar 3, 2021 at 1:02 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Hi Bernhard,
+>
+> I have added the ClangBuiltLinux mailing list, kbuild mailing list, and
+> Masahiro and Nick to CC. Maybe ld-version.sh and cc-version.sh should be
+> added to a MAINTAINERS entry to make sure we get CC'd (I can send one
+> along tomorrow).
+>
+> On Tue, Mar 02, 2021 at 11:12:11PM +0100, Bernhard Rosenkr=C3=A4nzer wrot=
+e:
+> > If LLD was built with -DLLD_VENDOR=3D"xyz", ld.lld --version output
+> > will prefix LLD_VENDOR. Since LLD_VENDOR can contain spaces, the
+> > LLD identifier isn't guaranteed to be $2 either.
+>
+> TIL about LLD_VENDOR...
+>
+> > Adjust the version checker to handle such versions of lld.
 > >
-> > Add a generic rule to apply fdtoverlay in Makefile.lib, so every
-> > platform doesn't need to carry the complex rule.
+> > Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bero@lindev.ch>
+> > ---
+> >  scripts/ld-version.sh | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
 > >
-> > The platform's Makefile only needs to have this now:
+> > diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> > index a463273509b5..4c042a306e22 100755
+> > --- a/scripts/ld-version.sh
+> > +++ b/scripts/ld-version.sh
+> > @@ -49,6 +49,18 @@ elif [ "$1" =3D LLD ]; then
+> >       min_version=3D$lld_min_version
+> >       name=3DLLD
+> >       disp_name=3DLLD
+> > +elif echo "$@" |grep -q ' LLD '; then
+> > +     # if LLD was built with -DLLD_VENDOR=3D"xyz", it ld.lld --version
+> > +     # says "xyz LLD [...]". Since LLD_VENDOR may contain spaces, we
+> > +     # don't know the exact position of "LLD" and the version info
+> > +     # at this point
+> > +     while [ "$1" !=3D "LLD" ]; do
+> > +             shift
+> > +     done
+> > +     version=3D$2
+> > +     min_version=3D$lld_min_version
+> > +     name=3DLLD
+> > +     disp_name=3DLLD
+> >  else
+> >       echo "$orig_args: unknown linker" >&2
+> >       exit 1
+> > --
+> > 2.30.1
 > >
-> >  DTC_FLAGS_foo_base += -@
-> >  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
-> >  dtb-y := foo.dtb
-> 
-> Is there a way to autogenerate the DTC_FLAGS_foo_base rule, based on
-> the foo-dtbs rule?
+>
+> I am not sure what a better fix would be of the top of my head but
+> wouldn't it be better to avoid the duplication? This diff below works
+> for me with or without LLD_VENDOR defined.
+>
+> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> index a463273509b5..84f9fc741f09 100755
+> --- a/scripts/ld-version.sh
+> +++ b/scripts/ld-version.sh
+> @@ -44,7 +44,10 @@ if [ "$1" =3D GNU -a "$2" =3D ld ]; then
+>  elif [ "$1" =3D GNU -a "$2" =3D gold ]; then
+>         echo "gold linker is not supported as it is not capable of linkin=
+g the kernel proper." >&2
+>         exit 1
+> -elif [ "$1" =3D LLD ]; then
+> +elif echo "$*" | grep -q LLD; then
+> +       while [ "$1" !=3D "LLD" ]; do
+> +               shift
+> +       done
+>         version=3D$2
+>         min_version=3D$lld_min_version
+>         name=3DLLD
 
-Since the first entry in "foo-dtbs" is always going to be the only
-base file, maybe we can do that.
 
--- 
-viresh
+
+You do not need to use grep.
+How about this?
+
+
+
+
+        ...
+else
+        while [ $# -gt 1 -a "$1" !=3D "LLD" ]; do
+               shift
+        done
+
+        if [ "$1" =3D LLD ]; then
+                version=3D$2
+                min_version=3D$lld_min_version
+                name=3DLLD
+                disp_name=3DLLD
+        else
+                echo "$orig_args: unknown linker" >&2
+                exit 1
+        fi
+fi
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
