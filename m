@@ -2,154 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1EA932D1E9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 12:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DFB32D2DC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 13:29:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239588AbhCDLiz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Mar 2021 06:38:55 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:31686 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239591AbhCDLii (ORCPT
+        id S240508AbhCDM2d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Mar 2021 07:28:33 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:21218 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240540AbhCDM2O (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Mar 2021 06:38:38 -0500
-Received: from grover.RMN.KIBA.LAB.jp (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 124BbDN8015766;
-        Thu, 4 Mar 2021 20:37:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 124BbDN8015766
+        Thu, 4 Mar 2021 07:28:14 -0500
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 124CRL6O022357;
+        Thu, 4 Mar 2021 21:27:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 124CRL6O022357
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614857834;
-        bh=/d+SPvGr+INO/fCyIPrUS5kxXmHWV+iqtycPRe9oyyw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QNMDKJLMVelGwBg0jbGvZArodl5XMVZM/E9lrEGSxEQ9zSyCezpIXISfS8qTjxFnd
-         jNomwoiM6P8u7woLwm1Plg8MBG0elSC1mYk+P3QiqvKyZynF5nGEObF8+70v8T0j6/
-         6HRAdKRfnGv4VLlQOI3ogF4evEMFOW8AyaHs0N1Rl7QVMM5A66rAwxhssgg657Q33E
-         rOZiVrPQATs25HK3mRx8p33+WgWR5qZwHT0FikiziS2Ksc79HawF8awuuUXrbCZxpw
-         6oL80BfrbBbo+yBxxnMRXhqTtd2xBXXQpB2+Wei5XWoAPdvUHF/ygMxQEPhA3DtzRK
-         Rsbb5ng5Wew7A==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: rebuild GCC plugins when the compiler is upgraded
-Date:   Thu,  4 Mar 2021 20:37:08 +0900
-Message-Id: <20210304113708.215121-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1614860842;
+        bh=K1n8abg19tbJt4HLdCItAkYqr2CXKH4BHG6ea09tldY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=id7zM4g1tb7as+yaQD1bXa1YI/8i3Jnp+q1nZoBhyC1TWZSytotVDAY6vioem5XMl
+         FJEGn+q1HriH2uWetSR6ld2pUrRw1RmetI1+SNZgFyJZofNad160OVqqh8sWtOIR3S
+         In9D62w2vuayvNC1vRfBwXqbJHcPgtN9vXh4/kvbibm9q/aGSylcJAiRDGmWs2Armp
+         SHmMerbwtSBx/fKI5/71XUxYvWT7s4cASNwsegEra1h8xdMOPfiCkNLQZCOmpkaMMZ
+         iPmUiycn0/QOYXCfuaNIRZj24zIeGTLPPPCVypqerp/IGNVAUQlmVu1qrTL6bJlP5f
+         ISnfX7AnvOzbg==
+X-Nifty-SrcIP: [209.85.215.173]
+Received: by mail-pg1-f173.google.com with SMTP id t25so18811673pga.2;
+        Thu, 04 Mar 2021 04:27:22 -0800 (PST)
+X-Gm-Message-State: AOAM533OqQmp1AJWjUXi7Om8Mp5MERBTbLIOOiIz8V+Ww671mFvCjDh5
+        HakpTJNzMLgsLgH0iosu0ZRyQZycL3kkEfm63nA=
+X-Google-Smtp-Source: ABdhPJydaxOVDIRSR3zkg2rR/wPg+9722gh5UJfR9yVEU8tak6XmKRI1oL2RgrEk/19rvxp6xN8MaXsrnOggaoeZe28=
+X-Received: by 2002:a65:41c6:: with SMTP id b6mr3423612pgq.7.1614860841381;
+ Thu, 04 Mar 2021 04:27:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com>
+ <20210302232649.y2tutffhxsblwqlb@treble> <CAK7LNAReuB5zUq_7S8ZG25+tdQowECDOK1rApYvkPCpHhPjK5w@mail.gmail.com>
+ <20210303191516.6ksxmng4pis7ue4p@treble>
+In-Reply-To: <20210303191516.6ksxmng4pis7ue4p@treble>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 4 Mar 2021 21:26:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS5h2s5ZDx3xOiE2upyGXtPf44f5A76YYUeM1Tk93QXNg@mail.gmail.com>
+Message-ID: <CAK7LNAS5h2s5ZDx3xOiE2upyGXtPf44f5A76YYUeM1Tk93QXNg@mail.gmail.com>
+Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT modules
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Justin Forbes <jforbes@redhat.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Frank Eigler <fche@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Linus reported a build error due to the GCC plugin incompatibility
-when the compiler is upgraded. [1]
+On Thu, Mar 4, 2021 at 4:15 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+>
+> On Thu, Mar 04, 2021 at 03:49:35AM +0900, Masahiro Yamada wrote:
+> > > This problem is becoming more prevalent.  We will need to fix it one way
+> > > or another, if we want to support distro adoption of these GCC
+> > > plugin-based features.
+> > >
+> > > Frank suggested a possibly better idea: always rebuild the plugins when
+> > > the GCC version changes.
+> >
+> >
+> > That is just another form of the previous patch,
+> > which was already rejected.
+> >
+> >
+> > - That is a hack just for external modules
+> > - Our consensus is, use the same version for the kernel and external modules
+> >
+> >
+> >
+> > I use Ubuntu, and I do not see such a problem.
+> > (I have never seen it on Debian either, except sid.)
+> >
+> > I see Fedora providing GCC whose version is different
+> > from the one used for building the kernel.
+> > That is a problem on the distribution side.
+>
+> I don't understand.  Are you suggesting that a distro should always
+> release GCC and kernel updates simultaneously?
 
-  cc1: error: incompatible gcc/plugin versions
-  cc1: error: failed to initialize plugin ./scripts/gcc-plugins/stackleak_plugin.so
+Well, as Greg says, given that GCC is less frequently upgraded
+than the kernel, this should not be a big deal.
 
-GCC plugins are tied to a particular GCC version. So, they must be
-rebuilt when the compiler is upgraded.
+https://lore.kernel.org/lkml/YBBML2eB%2FIXcTvcn@kroah.com/
 
-This seems to be a long-standing flaw since the initial support of
-GCC plugins.
 
-Extend commit 8b59cd81dc5e ("kbuild: ensure full rebuild when the
-compiler is updated"), so that GCC plugins are covered by the
-compiler upgrade detection.
 
-[1]: https://lore.kernel.org/lkml/CAHk-=wieoN5ttOy7SnsGwZv+Fni3R6m-Ut=oxih6bbZ28G+4dw@mail.gmail.com/
+> How is this problem specific to Fedora?  Please be specific about what
+> Ubuntu and Debian do, which Fedora doesn't do.
 
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I do not know what they exactly do. Looking at only the result,
+Ubuntu and Debian do proper engineering, which Fedora doesn't.
 
- Makefile                         |  1 +
- include/linux/compiler-version.h | 14 ++++++++++++++
- include/linux/kconfig.h          |  2 --
- init/Kconfig                     |  8 ++++----
- scripts/gcc-plugins/Makefile     |  1 +
- 5 files changed, 20 insertions(+), 6 deletions(-)
- create mode 100644 include/linux/compiler-version.h
 
-diff --git a/Makefile b/Makefile
-index 44ab0dfd3698..5f66cf5af5f7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -490,6 +490,7 @@ USERINCLUDE    := \
- 		-I$(objtree)/arch/$(SRCARCH)/include/generated/uapi \
- 		-I$(srctree)/include/uapi \
- 		-I$(objtree)/include/generated/uapi \
-+                -include $(srctree)/include/linux/compiler-version.h \
-                 -include $(srctree)/include/linux/kconfig.h
- 
- # Use LINUXINCLUDE when you must reference the include/ directory.
-diff --git a/include/linux/compiler-version.h b/include/linux/compiler-version.h
-new file mode 100644
-index 000000000000..2b2972c77c62
---- /dev/null
-+++ b/include/linux/compiler-version.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifdef  __LINUX_COMPILER_VERSION_H
-+#error "Please do not include <linux/compiler-version.h>. This is done by the build system."
-+#endif
-+#define __LINUX_COMPILER_VERSION_H
-+
-+/*
-+ * This header exists to force full rebuild when the compiler is upgraded.
-+ *
-+ * When fixdep scans this, it will find this string "CONFIG_CC_VERSION_TEXT"
-+ * and add dependency on include/config/cc/version/text.h, which is touched
-+ * by Kconfig when the version string from the compiler changes.
-+ */
-diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-index e78e17a76dc9..24a59cb06963 100644
---- a/include/linux/kconfig.h
-+++ b/include/linux/kconfig.h
-@@ -2,8 +2,6 @@
- #ifndef __LINUX_KCONFIG_H
- #define __LINUX_KCONFIG_H
- 
--/* CONFIG_CC_VERSION_TEXT (Do not delete this comment. See help in Kconfig) */
--
- #include <generated/autoconf.h>
- 
- #ifdef CONFIG_CPU_BIG_ENDIAN
-diff --git a/init/Kconfig b/init/Kconfig
-index 0dd44d951e67..b6f641567b7c 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -20,10 +20,10 @@ config CC_VERSION_TEXT
- 	    When the compiler is updated, Kconfig will be invoked.
- 
- 	  - Ensure full rebuild when the compiler is updated
--	    include/linux/kconfig.h contains this option in the comment line so
--	    fixdep adds include/config/cc/version/text.h into the auto-generated
--	    dependency. When the compiler is updated, syncconfig will touch it
--	    and then every file will be rebuilt.
-+	    include/linux/compiler-version.h contains this option in the comment
-+	    line so fixdep adds include/config/cc/version/text.h into the
-+	    auto-generated dependency. When the compiler is updated, syncconfig
-+	    will touch it and then every file will be rebuilt.
- 
- config CC_IS_GCC
- 	def_bool $(success,test "$(cc-name)" = GCC)
-diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
-index b5487cce69e8..1952d3bb80c6 100644
---- a/scripts/gcc-plugins/Makefile
-+++ b/scripts/gcc-plugins/Makefile
-@@ -22,6 +22,7 @@ always-y += $(GCC_PLUGIN)
- GCC_PLUGINS_DIR = $(shell $(CC) -print-file-name=plugin)
- 
- plugin_cxxflags	= -Wp,-MMD,$(depfile) $(KBUILD_HOSTCXXFLAGS) -fPIC \
-+		  -include $(srctree)/include/linux/compiler-version.h \
- 		   -I $(GCC_PLUGINS_DIR)/include -I $(obj) -std=gnu++11 \
- 		   -fno-rtti -fno-exceptions -fasynchronous-unwind-tables \
- 		   -ggdb -Wno-narrowing -Wno-unused-variable \
+
+
+>
+> Adding Linus, who indicated in another thread that we shouldn't force
+> exact GCC versions because there's no technical reason to do so.
+>
+> --
+> Josh
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
