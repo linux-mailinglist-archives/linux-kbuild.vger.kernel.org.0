@@ -2,135 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E0FF32D6D3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 16:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 200D332D798
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 17:24:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235079AbhCDPh5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Mar 2021 10:37:57 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:30926 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235021AbhCDPhb (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Mar 2021 10:37:31 -0500
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 124FaMwT012221;
-        Fri, 5 Mar 2021 00:36:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 124FaMwT012221
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614872182;
-        bh=xneyRTALxSEHsnaOni+xxhnkfIFH76q+BS/QxB/FQ4g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zKcJlEOp/Cbb/k0gh8JMi7fbY5INUWJwt64EcjVPiquCuUmQ2aKRY+IvmyWuaZ+Wo
-         bMoH7v/Zgf0LeTYrFUR688k5FaD0+/k4XH5y8LLtl+9AlFgLsr/NGau32FEP7Ynan9
-         DXG+P3UEKPFpGK+zMTxx9kplbji+R6vPUP6rQivyjjZULbYvoA3fx6xa1x8Jp9uYkj
-         1qMM+QewUH6c9NuuE5u0HbDy1RR5qinGlZ+yqp8CchuvixemG/1ZZC8kQwYU+B1g7c
-         4T96KQdy/YyLyyvEZ+JHM9WV3qz/WvunImyuOQPQ+nFej3dLG/MBRG7XgQ7JC/2Tzf
-         cJkOXm87z4rDw==
-X-Nifty-SrcIP: [209.85.216.51]
-Received: by mail-pj1-f51.google.com with SMTP id s23so7276532pji.1;
-        Thu, 04 Mar 2021 07:36:22 -0800 (PST)
-X-Gm-Message-State: AOAM533UcWIXg+dvWqCXjesq3P8uSaCdVh+vR2FRhAPsvR8gfggPraH5
-        iSO+8/1Zztq0iD2PQrMyRt7Pqely8jfX3PTQ4UI=
-X-Google-Smtp-Source: ABdhPJydG/s5c5MrY872bRNZ8zTNSqYSV41e0EjDU/LaRUp7ImpsS/Qoi/Ah6V0AmVXjEpU9DcT/+8YRqhkkd6k7f1w=
-X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr4901424pjv.153.1614872181705;
- Thu, 04 Mar 2021 07:36:21 -0800 (PST)
+        id S236827AbhCDQWo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Mar 2021 11:22:44 -0500
+Received: from foss.arm.com ([217.140.110.172]:40770 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236824AbhCDQWT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 4 Mar 2021 11:22:19 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E07A91FB;
+        Thu,  4 Mar 2021 08:21:33 -0800 (PST)
+Received: from [10.57.17.29] (unknown [10.57.17.29])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 641803F766;
+        Thu,  4 Mar 2021 08:21:32 -0800 (PST)
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Vladimir Murzin <Vladimir.Murzin@arm.com>, arnd@arndb.de
+From:   Vladimir Murzin <vladimir.murzin@arm.com>
+Subject: Possible regression due to 269a535ca931 "modpost: generate
+ vmlinux.symvers and reuse it for the second modpost"
+Message-ID: <42e0adf2-dbf5-9c1b-a18d-05bf5f1960a1@arm.com>
+Date:   Thu, 4 Mar 2021 16:21:40 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20210302232649.y2tutffhxsblwqlb@treble> <CAK7LNAReuB5zUq_7S8ZG25+tdQowECDOK1rApYvkPCpHhPjK5w@mail.gmail.com>
- <20210303191516.6ksxmng4pis7ue4p@treble> <CAHk-=wjR0CyaKU=6mXW9W+65L8h8DQuBdA2ZY2CfrPe6qurz3A@mail.gmail.com>
- <20210303193806.oovupl4ubtkkyiih@treble> <CAHk-=whA6zru0BaNm4uu5KyZe+aQpRScOnmc9hdOpO3W+xN9Xw@mail.gmail.com>
- <20210303202406.bxgdx5a25j6wc43b@treble> <CAHk-=wi9J3mM8y+aH9e=HRo95giK4BRyyasayAimB0gdvbvDsQ@mail.gmail.com>
- <20210303214534.guyoxcwrgxgcqzy4@treble> <CAK7LNAQaAgg+mVSw_U3_FuuqcqJNnonyhVD1M-ezv71Y+dyAww@mail.gmail.com>
- <20210304150812.rzya7ewmerwhe4m4@treble>
-In-Reply-To: <20210304150812.rzya7ewmerwhe4m4@treble>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 5 Mar 2021 00:35:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR0kNJ=DLuvRzRG+-rgMfcrSOZu8Mn6JBJ5do7TzJWLcA@mail.gmail.com>
-Message-ID: <CAK7LNAR0kNJ=DLuvRzRG+-rgMfcrSOZu8Mn6JBJ5do7TzJWLcA@mail.gmail.com>
-Subject: Re: [PATCH RFC] gcc-plugins: Handle GCC version mismatch for OOT modules
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>,
-        Frank Eigler <fche@redhat.com>,
-        Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 5, 2021 at 12:08 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Thu, Mar 04, 2021 at 09:27:28PM +0900, Masahiro Yamada wrote:
-> > I agree with rebuilding GCC plugins when the compiler is upgraded
-> > for *in-tree* building.
-> > Linus had reported it a couple of months before,
-> > and I just submitted a very easy fix.
->
-> Hm?  So does that mean that a GCC version change won't trigger a
-> tree-wide rebuild?  So you're asserting that a GCC mismatch is ok for
-> in-tree code, but not for external modules???  That seems backwards.
->
-> For in-tree, why not just rebuild the entire tree?  Some kernel features
-> are dependent on compiler version or capability, so not rebuilding the
-> tree could introduce silent breakage.
+Hi,
 
+Recently, I had to dig awkward build issue for external module (originally with ARCH=arm)
+like
 
+MODPOST module/path/Module.symvers
+ERROR: modpost: "__put_user_1" [module/path/name.ko] undefined!
+ERROR: modpost: "__aeabi_unwind_cpp_pr0" [/module/path/name.ko] undefined!
 
-All the kernel-space objects are rebuilt
-when the compiler is upgraded.
-(See commit 8b59cd81dc5e724eaea283fa6006985891c7bff4)
+and it looks like it is happening due to
 
+269a535ca931 "modpost: generate vmlinux.symvers and reuse it for the second modpost"
 
-Linus complaint about GCC plugins not being rebuilt.
-                      ^^^^^^^^^^^
+Here is result of my investigation (with ARCH=arm64)
 
-https://lore.kernel.org/lkml/CAHk-=wieoN5ttOy7SnsGwZv+Fni3R6m-Ut=oxih6bbZ28G+4dw@mail.gmail.com/
+$ git describe
+v5.7-rc5-72-g269a535
+# Start with clean build
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 mrproper
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 defconfig
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 -j5 > /dev/null
+$ cp vmlinux.symvers vmlinux.symvers.defconfig
+$ cp Module.symvers Module.symvers.defconfig
+# Alter configuration
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 allnoconfig
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 -j5 > /dev/null
+$ cp vmlinux.symvers vmlinux.symvers.allnoconfig
+$ cp Module.symvers Module.symvers.allnoconfig
+$ diff vmlinux.symvers.defconfig vmlinux.symvers.allnoconfig > /dev/null
+$ echo $?
+1
+$ diff Module.symvers.defconfig Module.symvers.allnoconfig > /dev/null
+$ echo $?
+0
 
+So, Module.sysver not reflecting changes in configuration, yet IIUC it
+it supposed to include vmlinux.symvers
 
-That is easy to fix. I submitted a patch:
-https://patchwork.kernel.org/project/linux-kbuild/patch/20210304113708.215121-1-masahiroy@kernel.org/
+If you are lucky enough with stale Module.symver there is a chance to
+fail build of external module in very awkward way
 
+Obviously
 
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 mrproper
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 allnoconfig
+$ ls *.symvers
+vmlinux.symvers
 
+With that external module build would splat
 
-> For external modules, a tree-wide rebuild isn't an option so the risk is
-> assumed by the user.  I posted a patch earlier [1] which prints a
-> warning if the compiler major/minor version changes with an external
-> module build.
->
-> [1] https://lkml.kernel.org/r/20210201211322.t2rxmvnrystc2ky7@treble
->
-> > Rebuilding plugins for external modules is not easy;
-> > plugins are placed in the read-only directory,
-> > /usr/src/linux-headers-$(uname -r)/scripts/gcc-plugins/.
-> >
-> > The external modules must not (cannot) update in-tree
-> > build artifacts.  "Rebuild" means creating copies in a different
-> > writable directory.
-> > Doing that requires a lot of design changes.
->
-> Ok.  So it sounds like the best/easiest option is the original patch in
-> this thread:  when building an external module with a GCC mismatch, just
-> disable the GCC plugin, with a warning (or an error for randstruct).
+WARNING: Symbol version dump "Module.symvers" is missing.
+         Modules may not have dependencies or modversions.
 
-It was rejected.
+Also, there are several reports on user forums describing
+symptoms which could be due to the issue, with workarounds
+like "enable random in-tree module" or/and "create empty
+Module.symvers"
 
+One commit before 269a535ca931 "modpost: generate vmlinux.symvers and reuse it for the second modpost"
 
-If a distribution wants to enable CONFIG_GCC_PLUGINS,
-it must provide GCC whose version is the same as
-used for building the kernel.
+$ git describe
+v5.7-rc5-71-gf1005b3
+# Start with clean build
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 mrproper
+# Build defconfig
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 defconfig
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 -j5 > /dev/null
+$ cp Module.symvers Module.symvers.defconfig
+# Alter configuration
+$ CROSS_COMPILE=make ARCH=arm64 allnoconfig
+$ cp Module.symvers Module.symvers.allnoconfig
+$ diff Module.symvers.defconfig Module.symvers.allnoconfig > /dev/null
+$ echo $?
+1
 
-If a distribution cannot manage release in that way,
-do not enable CONFIG_GCC_PLUGINS in the first place.
+As you can see Module.symvers gets updated
 
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 mrproper
+$ CROSS_COMPILE=aarch64-none-linux-gnu- make ARCH=arm64 allnoconfig
+$ CROSS_COMPILE=make ARCH=arm64 -j5 > /dev/null
+$ ls *.symvers
+Module.symvers
 
+As you can see Modeule.symver gets created
 
+Does that make sense? What I'm missing?
 
--- 
-Best Regards
-Masahiro Yamada
+P.S.
+I've also checked v5.12-rc1 and see the same symptoms
+
+Cheers
+Vladimir
