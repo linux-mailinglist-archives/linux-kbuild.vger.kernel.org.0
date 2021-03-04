@@ -2,96 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BC3132C90C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 02:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A21A532CAE2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Mar 2021 04:38:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353066AbhCDBCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Mar 2021 20:02:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1386545AbhCDAbl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Mar 2021 19:31:41 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 58C3F64E67;
-        Thu,  4 Mar 2021 00:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614817859;
-        bh=cG2NMExV7RKwp4loVOfSt61stR3Ekjm51xkrLH9YtKM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mYbLPZ8ppcXg7nNOUTIPI93C6nUkkEjnZiT4kEfVyjSbF90gVFNd+gS8MucV4OzxR
-         aE5FL8fbIs2Sptm5uiWb1dgHctrZbql6xBb1DOJ9R4hfcTA0SVxbOrJcYCeIu28iLE
-         PEp/vOZjFgeHM1fv20FYZCuXfUzvK16AY6S/AClduuy/oaFDzY2jH5uXDaZyJ0Mv7A
-         Js8m2/1q7wibXLjKZU7kGOQLkOKxsEaawBIuX8eO6vKMX9C+bmqOkS+oRCqI4JZx5T
-         6tUb5PAecLGyGltgGHenPki9CGDxaD8HJbDmvf8r/1kJSu6KxetlieFgAPPMN3SNvV
-         WQL2aFp5JVIpg==
-Date:   Wed, 3 Mar 2021 17:30:55 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] kbuild: dwarf: use AS_VERSION instead of
- test_dwarf5_support.sh
-Message-ID: <20210304003055.tsrqewikdekbhhax@archlinux-ax161>
-References: <20210303183333.46543-1-masahiroy@kernel.org>
- <20210303183333.46543-4-masahiroy@kernel.org>
+        id S232671AbhCDDhB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Mar 2021 22:37:01 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:43488 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232582AbhCDDgd (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 3 Mar 2021 22:36:33 -0500
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 1243Zbd8025528;
+        Thu, 4 Mar 2021 12:35:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 1243Zbd8025528
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1614828937;
+        bh=9xlyy3Pf9ec/TJfLoVRw1xhcBXuHNCdaC+6iRdmoiN0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ArOUi1Y+M6d+Cd5N8OVt3uLfBXKXkmKZ0t2HZBSHXScOiGOdfTTSi7RKUSofExYNq
+         JNtpZl9uMKAcv1Lfg9VecWd0BoC73mYcW4/0tFwAShqwmJaz55vL1wCtzQ51mAKHoN
+         jnhj1soXpnoxl6WiRGCJDpqiyNzJ84WxF/QeN0acRDIUQRkMyYwgTQNDbVAKWEDlpP
+         t5zykTEGZzdKkg/WCwgc7ml/UFwItLxO2rl0hScQCs/xAY5+0CU19oC5cfCJXckfHb
+         VcHlLriAtUFbhjL8N0snowTgTqpyKnUSaeaBn2wxVbNOi3xoWyJblDo8ykuBWwCCs5
+         H1VrVAfyzYLqw==
+X-Nifty-SrcIP: [209.85.214.180]
+Received: by mail-pl1-f180.google.com with SMTP id g20so15358631plo.2;
+        Wed, 03 Mar 2021 19:35:37 -0800 (PST)
+X-Gm-Message-State: AOAM531YJa+eHIcUHJR/bpp55QhLAwc0BTnwQoqeQzTx8Yaf2wGHxwOi
+        Gbt4egQPfZltC56d+dc9JOm5Y1cp4ipasZduHDE=
+X-Google-Smtp-Source: ABdhPJzHl3UvH2nM6cZC6OtFHZiuQomT5wqG7MZgVdfRTTscSwxjXACOEV4exOvk7bNRCaAmPUeWKI/fcOpRAfAd6Cs=
+X-Received: by 2002:a17:90a:5510:: with SMTP id b16mr2299989pji.87.1614828936712;
+ Wed, 03 Mar 2021 19:35:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210303183333.46543-4-masahiroy@kernel.org>
+References: <20210302221211.1620858-1-bero@lindev.ch>
+In-Reply-To: <20210302221211.1620858-1-bero@lindev.ch>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 4 Mar 2021 12:34:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARA3uKsW_G+gnCX6dvSwgXWzqgZON7pc6gBWdw9gimq1A@mail.gmail.com>
+Message-ID: <CAK7LNARA3uKsW_G+gnCX6dvSwgXWzqgZON7pc6gBWdw9gimq1A@mail.gmail.com>
+Subject: Re: [PATCH] Fix ld-version.sh script if LLD was built with LLD_VENDOR
+To:     =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@lindev.ch>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 04, 2021 at 03:33:33AM +0900, Masahiro Yamada wrote:
-> The test code in scripts/test_dwarf5_support.sh is somewhat difficult
-> to understand, but after all, we want to check binutils >= 2.35.2
-> 
-> >From the former discussion, the requrement for generating DRAWF v5 from
-> C code is as follows:
-> 
->  - gcc + binutils as     -> requires gcc 5.0+ (but 7.0+ for full support)
->  - clang + binutils as   -> requires binutils 2.35.2+
->  - clang + integrated as -> OK
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
+On Thu, Mar 4, 2021 at 9:18 AM Bernhard Rosenkr=C3=A4nzer <bero@lindev.ch> =
+wrote:
+>
+> If LLD was built with -DLLD_VENDOR=3D"xyz", ld.lld --version output
+> will prefix LLD_VENDOR. Since LLD_VENDOR can contain spaces, the
+> LLD identifier isn't guaranteed to be $2 either.
+>
+> Adjust the version checker to handle such versions of lld.
+>
+> Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bero@lindev.ch>
 > ---
-> 
->  lib/Kconfig.debug              | 3 +--
->  scripts/test_dwarf5_support.sh | 8 --------
->  2 files changed, 1 insertion(+), 10 deletions(-)
->  delete mode 100755 scripts/test_dwarf5_support.sh
-> 
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 2779c29d9981..f3337a38925d 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -284,8 +284,7 @@ config DEBUG_INFO_DWARF4
->  
->  config DEBUG_INFO_DWARF5
->  	bool "Generate DWARF Version 5 debuginfo"
-> -	depends on GCC_VERSION >= 50000 || CC_IS_CLANG
-> -	depends on CC_IS_GCC || $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
-> +	depends on GCC_VERSION >= 50000 || (CC_IS_CLANG && AS_IS_GNU && AS_VERSION >= 23502) || (CC_IS_CLANG && AS_IS_LLVM)
->  	depends on !DEBUG_INFO_BTF
->  	help
->  	  Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
-> diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
-> deleted file mode 100755
-> index c46e2456b47a..000000000000
-> --- a/scripts/test_dwarf5_support.sh
-> +++ /dev/null
-> @@ -1,8 +0,0 @@
-> -#!/bin/sh
-> -# SPDX-License-Identifier: GPL-2.0
-> -
-> -# Test that the assembler doesn't need -Wa,-gdwarf-5 when presented with DWARF
-> -# v5 input, such as `.file 0` and `md5 0x00`. Should be fixed in GNU binutils
-> -# 2.35.2. https://sourceware.org/bugzilla/show_bug.cgi?id=25611
-> -echo '.file 0 "filename" md5 0x7a0b65214090b6693bd1dc24dd248245' | \
-> -  $* -gdwarf-5 -Wno-unused-command-line-argument -c -x assembler -o /dev/null -
-> -- 
-> 2.27.0
-> 
+
+
+Bernhard,
+
+Could you senv v2
+with the suggested code change?
+
+Please make sure to add
+linux-kbuild@vger.kernel.org
+in the To:
+
+
+
+
+
+
+
+>  scripts/ld-version.sh | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> index a463273509b5..4c042a306e22 100755
+> --- a/scripts/ld-version.sh
+> +++ b/scripts/ld-version.sh
+> @@ -49,6 +49,18 @@ elif [ "$1" =3D LLD ]; then
+>         min_version=3D$lld_min_version
+>         name=3DLLD
+>         disp_name=3DLLD
+> +elif echo "$@" |grep -q ' LLD '; then
+> +       # if LLD was built with -DLLD_VENDOR=3D"xyz", it ld.lld --version
+> +       # says "xyz LLD [...]". Since LLD_VENDOR may contain spaces, we
+> +       # don't know the exact position of "LLD" and the version info
+> +       # at this point
+> +       while [ "$1" !=3D "LLD" ]; do
+> +               shift
+> +       done
+> +       version=3D$2
+> +       min_version=3D$lld_min_version
+> +       name=3DLLD
+> +       disp_name=3DLLD
+>  else
+>         echo "$orig_args: unknown linker" >&2
+>         exit 1
+> --
+> 2.30.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
