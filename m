@@ -2,116 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E6C632ECC2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 15:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A038332ECE5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 15:16:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbhCEOJR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Mar 2021 09:09:17 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:40610 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbhCEOJN (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Mar 2021 09:09:13 -0500
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 125E8hRh007163;
-        Fri, 5 Mar 2021 23:08:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 125E8hRh007163
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614953324;
-        bh=YisVUCmZTC9e2VVOu2yqZImKgFhtwkVtxj+3MTIBfxc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dJ2unGbGIFCfGxCzt7OE7S7x593Ip03sDfRHJb06fQiorDTrxXrTDxuAovbjcW5bB
-         4r1VXBCw5A9j5v1/9cedj0gX5lUzKVhxXEyNWxJF/iFHmTV1dtdOgEDyOi4j9NibYA
-         wUzT+osFnrFP6GNKfCbe159RBl8SKYXYRe53jYUMTXnZw2AZiiZwpBgDHyon0ZEbc5
-         /7jw9vsKLi7HNmg214Cjl2G8FDuV9RYkbmhuZC53HRSxhk4bn/6JEPT0WmrqyI1fHs
-         abEhH3Ar5TBEr/OcQ8ndS8C3JZVG6cwTephRnR3hl6N7AVzE8FldvB7HH121z3zuU1
-         tNvCH1qyBs1wg==
-X-Nifty-SrcIP: [209.85.216.46]
-Received: by mail-pj1-f46.google.com with SMTP id bj7so2092092pjb.2;
-        Fri, 05 Mar 2021 06:08:44 -0800 (PST)
-X-Gm-Message-State: AOAM530mgqsZAnDVb7aDtTxxebKfLx0kG7PJkRxlX58QQ2u2LIFhZUbA
-        PSceqdJIhEprACUruhbs33ODKuFZH7wbf1ciutQ=
-X-Google-Smtp-Source: ABdhPJxJE09nHeJJkwK3c9x4Dl5BwI/W8ItE8ezvbMbbpurVMEldXW2RG8Sh+Mofpz3FAy7DHUSDDJj0GkjMzkmcmvQ=
-X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr10071823pjv.153.1614953323469;
- Fri, 05 Mar 2021 06:08:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20210305100212.818562-1-linux@rasmusvillemoes.dk> <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
-In-Reply-To: <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 5 Mar 2021 23:08:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR9FTny0Kdvwa-TMhR25BztdiyY4XGH5hU2=ShdtnjskQ@mail.gmail.com>
-Message-ID: <CAK7LNAR9FTny0Kdvwa-TMhR25BztdiyY4XGH5hU2=ShdtnjskQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: apply fixdep logic to link-vmlinux.sh
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        id S230385AbhCEOPq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Mar 2021 09:15:46 -0500
+Received: from foss.arm.com ([217.140.110.172]:54728 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231145AbhCEOPk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 5 Mar 2021 09:15:40 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A077101E;
+        Fri,  5 Mar 2021 06:15:40 -0800 (PST)
+Received: from [10.57.13.166] (unknown [10.57.13.166])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F168D3F73B;
+        Fri,  5 Mar 2021 06:15:38 -0800 (PST)
+Subject: Re: Possible regression due to 269a535ca931 "modpost: generate
+ vmlinux.symvers and reuse it for the second modpost"
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@arndb.de>
+References: <42e0adf2-dbf5-9c1b-a18d-05bf5f1960a1@arm.com>
+ <CAK7LNASX-Rx_fxcuqQ_vFHQwQ+RJq9XCW9_dL=jFCuoEJ0vF3Q@mail.gmail.com>
+From:   Vladimir Murzin <vladimir.murzin@arm.com>
+Message-ID: <985bf10d-336c-61f6-8b9d-d8c6fb48634a@arm.com>
+Date:   Fri, 5 Mar 2021 14:15:46 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNASX-Rx_fxcuqQ_vFHQwQ+RJq9XCW9_dL=jFCuoEJ0vF3Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 5, 2021 at 10:50 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Fri, Mar 5, 2021 at 7:02 PM Rasmus Villemoes
-> <linux@rasmusvillemoes.dk> wrote:
-> >
-> > The patch adding CONFIG_VMLINUX_MAP revealed a small defect in the
-> > build system: link-vmlinux.sh takes decisions based on CONFIG_*
-> > options, but changing one of those does not always lead to vmlinux
-> > being linked again.
-> >
-> > For most of the CONFIG_* knobs referenced previously, this has
-> > probably been hidden by those knobs also affecting some object file,
-> > hence indirectly also vmlinux.
-> >
-> > But CONFIG_VMLINUX_MAP is only handled inside link-vmlinux.sh, and
-> > changing CONFIG_VMLINUX_MAP=n to CONFIG_VMLINUX_MAP=y does not cause
-> > the build system to re-link (and hence have vmlinux.map
-> > emitted). Since that map file is mostly a debugging aid, this is
-> > merely a nuisance which is easily worked around by just deleting
-> > vmlinux and building again.
-> >
-> > But one could imagine other (possibly future) CONFIG options that
-> > actually do affect the vmlinux binary but which are not captured
-> > through some object file dependency.
-> >
-> > To fix this, make link-vmlinux.sh emit a .vmlinux.d file in the same
-> > format as the dependency files generated by gcc, and apply the fixdep
-> > logic to that. I've tested that this correctly works with both in-tree
-> > and out-of-tree builds.
-> >
-> > Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> > ---
->
+On 3/4/21 5:24 PM, Masahiro Yamada wrote:
+> On Fri, Mar 5, 2021 at 1:21 AM Vladimir Murzin <vladimir.murzin@arm.com> wrote:
+> [  snip long description ]
+> 
+>>
+>> Does that make sense? What I'm missing?
+>>
+>> P.S.
+>> I've also checked v5.12-rc1 and see the same symptoms
+> 
+> Since you ran "make allnoconfig",
+> the module feature was disabled.
+> (CONFIG_MODULES=n)
+> 
+> That is why you cannot build external modules.
 
-I moved the code to the last line of scripts/link-vmlinux.sh,
-and added a comment, otherwise, the intent is obscure.
+That's a good point, yet was not reason for my issue :) It forced me to try with ARCH=arm
+(and update toolchain)
 
+$ CROSS_COMPILE=arm-none-linux-gnueabihf- make ARCH=arm mrproper
+$ CROSS_COMPILE=arm-none-linux-gnueabihf- make ARCH=arm vexpress_defconfig
+$ grep -w CONFIG_MODULES .config
+CONFIG_MODULES=y
+$ grep "=m" .config
+$ echo $?
+1
+$ CROSS_COMPILE=arm-none-linux-gnueabihf- make ARCH=arm Image -j5 > /dev/null 
+$ ls *.symvers
+vmlinux.symvers
+$ CROSS_COMPILE=arm-none-linux-gnueabihf- make ARCH=arm Image -j5 modules > /dev/null 
+$ ls *.symvers
+Module.symvers  vmlinux.symvers
 
+So, `make modules` seems to become be mandatory. I'll go and update my scripts...
 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 7d4b7c6f01e8..e9516bdfcc6f 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -422,7 +422,6 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
- fi
-
- vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
--echo "vmlinux: $0" > .vmlinux.d
-
- # fill in BTF IDs
- if [ -n "${CONFIG_DEBUG_INFO_BTF}" -a -n "${CONFIG_BPF}" ]; then
-@@ -451,3 +450,6 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
-                exit 1
-        fi
- fi
-+
-+# For fixdep
-+echo "vmlinux: $0" > .vmlinux.d
+Cheers
+Vladimir
 
 
+> 
+> 
+> 
+>> Cheers
+>> Vladimir
+> 
+> 
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
+> 
 
--- 
-Best Regards
-Masahiro Yamada
