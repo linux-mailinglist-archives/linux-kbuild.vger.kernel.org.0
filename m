@@ -2,210 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 835D232E1EF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 07:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6AE132E1FB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 07:07:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbhCEGAW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Mar 2021 01:00:22 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:48628 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbhCEGAW (ORCPT
+        id S229486AbhCEGHE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Mar 2021 01:07:04 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:35590 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229637AbhCEGHD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Mar 2021 01:00:22 -0500
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 125605Ox002584;
-        Fri, 5 Mar 2021 15:00:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 125605Ox002584
+        Fri, 5 Mar 2021 01:07:03 -0500
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 12566f6G027079;
+        Fri, 5 Mar 2021 15:06:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 12566f6G027079
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614924006;
-        bh=8j+Joi2P3uXrOj9ujoo+ykWpnsA3cqH4DLBOMX+P6Qk=;
+        s=dec2015msa; t=1614924402;
+        bh=axtBVNcIKru8BTiupCH9xPKdR4trfvDzg7QV+dWIl84=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tFSMsKK+FeCi6TtSglrHBgWf4EDpf0dJV2yuFdI/IowUYzS3/SiOlf94RAZV9Tx3S
-         JHvW2UPlTiOAlIxWopcoZGwhEYO0+SulkJTBgpjTfhsS5keyYm5MVY1qHm4WeSDwmJ
-         q64c+is4VpJBipB3d2T6zzvYxKu2Ap+BFzgl7D62Smg3j5iaHzIoCSEocrJjdnufdt
-         1gwJBMS06bTCpI1YJfHp6Du6BhnQ9lsNA7FMmWE7Z82DVM9sumJEBoEcW62Gh9b2Rp
-         xh1ZcpQNV22H6UGssEFF7SVInsLoNAvo5UdCJ6A54aL0b0qj36kES8cs1LdJR6Im14
-         gb5VFP840BQYA==
-X-Nifty-SrcIP: [209.85.216.42]
-Received: by mail-pj1-f42.google.com with SMTP id i14so1196416pjz.4;
-        Thu, 04 Mar 2021 22:00:05 -0800 (PST)
-X-Gm-Message-State: AOAM531gqB5TPCztnSYu2Xck4H/XIrJeoAQx29j7xJHgQEPGwSxcI8wk
-        3vJOgzTBkNyafmtjyG4TnPyF2pUIE7yFlBqvk9M=
-X-Google-Smtp-Source: ABdhPJyeDYP67T+HLQkv+caNyXm14Vo3nBuF2Gdb7qRitrAc9YMbOQ1+JXI6gxPV4mFgHClGVxq09GuyNpm1L1+Aft4=
-X-Received: by 2002:a17:902:c48c:b029:e4:c093:593a with SMTP id
- n12-20020a170902c48cb02900e4c093593amr7216851plx.1.1614924004952; Thu, 04 Mar
- 2021 22:00:04 -0800 (PST)
+        b=UnkXThtIV0P6A/Qzd4zEc4txigdJdqvV4LMYz7RB4w8evjXA7uK9k7JKeDmrgkx0l
+         V7qFVyxGKYTsB8OOm0EjA9GNgxLGN/h7rU3WnQ7B4Vd9OMFcisej3JRDlhmd4RWIjG
+         oN4NI9c8IGZSpbVin9dKx8ffN3piql5iEkxqTc5HDJJJGbkoIl6lMMPsUy03rV5Y09
+         /HqahoJxUNGrJnWbYS5pgbyPpkgy7KoY6Oux/ed3+931R7hSo+Dsd7hGogTxDZVW2b
+         pQ22CoI+r/TCEglDS3IPq+YbUC9+vNd23u38ZHy1RGm+Rp8ZVTxz4pLZRpuSqK72qy
+         DksjTPPFDfPEQ==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id jx13so1216621pjb.1;
+        Thu, 04 Mar 2021 22:06:41 -0800 (PST)
+X-Gm-Message-State: AOAM531Q/O1oVqNVs3utaBHgWY3eaoh9/pjdccq2bhgrBjeGYyGVtRuM
+        nZGtUFtxo2yEQMc8qEKC3fU7xzCTrAu8GCvSVrM=
+X-Google-Smtp-Source: ABdhPJwsJvOTmO9gWuAKFbnHPgtJ8A5SPQ6B2s5Gmeeb4KSBm+FsOxMLNtRfxzOSwYcqKTZZw+RUEWLWM6oVz1NxHrg=
+X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr8206973pjv.153.1614924401138;
+ Thu, 04 Mar 2021 22:06:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20210224105256.1939169-1-linux@rasmusvillemoes.dk>
-In-Reply-To: <20210224105256.1939169-1-linux@rasmusvillemoes.dk>
+References: <20210303183333.46543-1-masahiroy@kernel.org> <CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E+GL3SyOk-jQ0kdXtMzg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E+GL3SyOk-jQ0kdXtMzg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 5 Mar 2021 14:59:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ_CuUOH7mY8Rf3kxLxXKm0oxBsK=XgAS9ScMaW-55OuQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ_CuUOH7mY8Rf3kxLxXKm0oxBsK=XgAS9ScMaW-55OuQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add CONFIG_VMLINUX_MAP expert option
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Fri, 5 Mar 2021 15:06:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ4SibwSONO8io5_b1d-ELmfTYTpwfwJk=ABcfsNhEU3g@mail.gmail.com>
+Message-ID: <CAK7LNAQ4SibwSONO8io5_b1d-ELmfTYTpwfwJk=ABcfsNhEU3g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] kbuild: remove LLVM=1 test from HAS_LTO_CLANG
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Sami Tolvanen <samitolvanen@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 7:53 PM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
+On Thu, Mar 4, 2021 at 5:47 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> It can be quite useful to have ld emit a link map file, in order to
-> debug or verify that special sections end up where they are supposed
-> to, and to see what LD_DEAD_CODE_DATA_ELIMINATION manages to get rid
-> of.
+> + Sami
 >
-> The only reason I'm not just adding this unconditionally is that the
-> .map file can be rather large (several MB), and that's a waste of
-> space when one isn't interested in these things. Also hide the prompt
-> behind CONFIG_EXPERT.
+> On Wed, Mar 3, 2021 at 10:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > This guarding is wrong. As Documentation/kbuild/llvm.rst notes, LLVM=1
+> > switches the default of tools, but you can still override CC, LD, etc.
+> > individually.
+> >
+> > BTW, LLVM is not 1/0 flag. If LLVM is not passed in, it is empty.
 >
-> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> ---
->  .gitignore              | 1 +
->  Makefile                | 3 ++-
->  lib/Kconfig.debug       | 9 +++++++++
->  scripts/link-vmlinux.sh | 9 +++++++++
->  4 files changed, 21 insertions(+), 1 deletion(-)
+> Do we have the same problem with LLVM_IAS?  LGTM otherwise, but wanted
+> to check that before signing off.
+
+3/4 will replace this LLVM_IAS check with AS_IS_LLVM.
+
+We do not need to add a noise change.
+
+
+
+
 >
-> diff --git a/.gitignore b/.gitignore
-> index 3af66272d6f1..d3038aff4485 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -58,6 +58,7 @@ modules.order
->  /TAGS
->  /linux
->  /vmlinux
-> +/vmlinux.map
+> (Also, the rest of the patches in this series seem more related to
+> DWARFv5 cleanups; this patch seems orthogonal while those are a
+> visible progression).
 
-Could you move this one line below
-so that vmlinux.map is placed between
-vmlinux.32 and vmlinux.symvers ?
-
-I know this list is not sorted...
+Kind of orthogonal, but I am touching the same code hunk,
+which would cause a merge conflict.
 
 
-
-
->  /vmlinux.32
->  /vmlinux.symvers
->  /vmlinux-gdb.py
-
-
-Please add this to Documentation/dontdiff as well.
-
-
-
-
-> diff --git a/Makefile b/Makefile
-> index b18dbc634690..be6fbd99a214 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1501,7 +1501,8 @@ endif # CONFIG_MODULES
->  # Directories & files removed with 'make clean'
->  CLEAN_FILES += include/ksym vmlinux.symvers \
->                modules.builtin modules.builtin.modinfo modules.nsdeps \
-> -              compile_commands.json
-> +              compile_commands.json \
-> +              vmlinux.map
-
-
-Do you need this ?
-
-You already added this to cleanup() of scripts/link-vmlinux.sh,
-which is invoked from 'make clean'.
-
-
-
-
-
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES += include/config include/generated          \
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 5ea0c1773b0a..d6af084c11ae 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -412,6 +412,15 @@ config VMLINUX_VALIDATION
->         depends on STACK_VALIDATION && DEBUG_ENTRY && !PARAVIRT
->         default y
+> >
+> > Non-zero return code is all treated as failure anyway.
+> >
+> > So, $(success,test $(LLVM) -eq 1) and $(success,test "$(LLVM)" = 1)
+> > works equivalently in the sense that both are expanded to 'n' if LLVM
+> > is not given. The difference is that the former internally fails due
+> > to syntax error.
+> >
+> >   $ test ${LLVM} -eq 1
+> >   bash: test: -eq: unary operator expected
+> >   $ echo $?
+> >   2
+> >
+> >   $ test "${LLVM}" -eq 1
+> >   bash: test: : integer expression expected
+> >   $ echo $?
+> >   2
+> >
+> >   $ test "${LLVM}" = 1
+> >   echo $?
+> >   1
+> >
+> >   $ test -n "${LLVM}"
+> >   $ echo $?
+> >   1
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  arch/Kconfig | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/arch/Kconfig b/arch/Kconfig
+> > index 2bb30673d8e6..2af10ebe5ed0 100644
+> > --- a/arch/Kconfig
+> > +++ b/arch/Kconfig
+> > @@ -632,7 +632,6 @@ config HAS_LTO_CLANG
+> >         def_bool y
+> >         # Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
+> >         depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
+> > -       depends on $(success,test $(LLVM) -eq 1)
 >
-> +config VMLINUX_MAP
-> +       bool "Generate vmlinux.map file when linking" if EXPERT
+> IIRC, we needed some other LLVM utilities like llvm-nm and llvm-ar,
+> which are checked below. So I guess we can still support CC=clang
+> AR=llvm-ar NM=llvm-nm, and this check is redundant.
+
+Yes, I think so.
 
 
-Please use depends on EXPERT
-because VMLINUX_MAP is not select or implied by anyone.
-
-
-
-
-> +       help
-> +         Selecting this option will pass "-Map=vmlinux.map" to ld
-> +         when linking vmlinux. That file can be useful for verifying
-> +         and debugging magic section games, and for seeing which
-> +         pieces of code get eliminated with
-> +         CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
-> +
->  config DEBUG_FORCE_WEAK_PER_CPU
->         bool "Force weak per-cpu definitions"
->         depends on DEBUG_KERNEL
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 3b261b0f74f0..bba58839db40 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -166,6 +166,12 @@ vmlinux_link()
->                 strip_debug=-Wl,--strip-debug
->         fi
 >
-> +       if [ -n "${CONFIG_VMLINUX_MAP}" ]; then
-> +               map_option="-Map=${output}.map"
-> +       else
-> +               map_option=""
-> +       fi
-> +
-
-
-For consistency, please do like strip_debug, that is,
-define this as a local variable, and
-set the value of  the 'if' case.
-
-
-
->         if [ "${SRCARCH}" != "um" ]; then
->                 if [ -n "${CONFIG_LTO_CLANG}" ]; then
->                         # Use vmlinux.o instead of performing the slow LTO
-> @@ -187,6 +193,7 @@ vmlinux_link()
->                 ${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}      \
->                         ${strip_debug#-Wl,}                     \
->                         -o ${output}                            \
-> +                       ${map_option}                           \
->                         -T ${lds} ${objects}
->         else
->                 objects="-Wl,--whole-archive                    \
-> @@ -200,6 +207,7 @@ vmlinux_link()
->                 ${CC} ${CFLAGS_vmlinux}                         \
->                         ${strip_debug}                          \
->                         -o ${output}                            \
-> +                       ${map_option:+-Wl,${map_option}}        \
->                         -Wl,-T,${lds}                           \
->                         ${objects}                              \
->                         -lutil -lrt -lpthread
-> @@ -303,6 +311,7 @@ cleanup()
->         rm -f .tmp_vmlinux*
->         rm -f System.map
->         rm -f vmlinux
-> +       rm -f vmlinux.map
->         rm -f vmlinux.o
->  }
+> >         depends on $(success,test $(LLVM_IAS) -eq 1)
+> >         depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
+> >         depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+> > --
+> > 2.27.0
+> >
+>
 >
 > --
-> 2.29.2
+> Thanks,
+> ~Nick Desaulniers
 >
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E%2BGL3SyOk-jQ0kdXtMzg%40mail.gmail.com.
+
 
 
 -- 
