@@ -2,45 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C5432EC89
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 14:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E6C632ECC2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 15:09:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbhCENw2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Mar 2021 08:52:28 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:54337 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230430AbhCENv4 (ORCPT
+        id S229740AbhCEOJR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Mar 2021 09:09:17 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:40610 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229737AbhCEOJN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Mar 2021 08:51:56 -0500
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 125Dpbvr002368;
-        Fri, 5 Mar 2021 22:51:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 125Dpbvr002368
+        Fri, 5 Mar 2021 09:09:13 -0500
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 125E8hRh007163;
+        Fri, 5 Mar 2021 23:08:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 125E8hRh007163
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1614952297;
-        bh=lKzscS/Tew+SOZceq8wryzAZUo4F0IRAiu21R0Zw2tk=;
+        s=dec2015msa; t=1614953324;
+        bh=YisVUCmZTC9e2VVOu2yqZImKgFhtwkVtxj+3MTIBfxc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FkUPTUifK2/enBoJblOoSIiXIuH17lqUr3FZsfwgp9pXAZ2szGrDBReoPS9klJK4W
-         ewnUPTYFYEj/5bdtuebZ2ZG6mNcSL9kF3X4YUmMeL7KuXv6rLQYmraQ6cYZ3Cuye74
-         H9/KxHtjg3AzQ1Nybh/XM5t2LLnsKcTk9Jc1bOJMJQAiR6skKkZc7XwzpYH0x4Ahil
-         QRNVWDQUA2z9j6YUUy0M3nVuefNskA4WrFkRP47Xit1nUChX0bfVtqHC9OritiCH1/
-         QxanelQCR/0L7a9YtSXK7EgckmtxLP58GtsQMwg55NdDBjupy4Z4ZUHevYrztqOAaE
-         WCScPq1YRNc4Q==
-X-Nifty-SrcIP: [209.85.214.176]
-Received: by mail-pl1-f176.google.com with SMTP id s7so1453426plg.5;
-        Fri, 05 Mar 2021 05:51:37 -0800 (PST)
-X-Gm-Message-State: AOAM532a6dQ75d+ZQDXC+cqgPNQhIEJKgfhQVPc1u0uhcSp4oOX+SFVR
-        tqiUoNxz3SO29iFeLcF38o38TeuS2MKsS5aO2pc=
-X-Google-Smtp-Source: ABdhPJy2kz6nDF/nFbtz7PFR8O81Nufbol2ZSAHzuLNCgTWy/JLY5F6pTzJ0iCmsyhW83m/3IxxHyZ/dggOnqtP/RLU=
-X-Received: by 2002:a17:90a:3b0e:: with SMTP id d14mr10698552pjc.198.1614952296694;
- Fri, 05 Mar 2021 05:51:36 -0800 (PST)
+        b=dJ2unGbGIFCfGxCzt7OE7S7x593Ip03sDfRHJb06fQiorDTrxXrTDxuAovbjcW5bB
+         4r1VXBCw5A9j5v1/9cedj0gX5lUzKVhxXEyNWxJF/iFHmTV1dtdOgEDyOi4j9NibYA
+         wUzT+osFnrFP6GNKfCbe159RBl8SKYXYRe53jYUMTXnZw2AZiiZwpBgDHyon0ZEbc5
+         /7jw9vsKLi7HNmg214Cjl2G8FDuV9RYkbmhuZC53HRSxhk4bn/6JEPT0WmrqyI1fHs
+         abEhH3Ar5TBEr/OcQ8ndS8C3JZVG6cwTephRnR3hl6N7AVzE8FldvB7HH121z3zuU1
+         tNvCH1qyBs1wg==
+X-Nifty-SrcIP: [209.85.216.46]
+Received: by mail-pj1-f46.google.com with SMTP id bj7so2092092pjb.2;
+        Fri, 05 Mar 2021 06:08:44 -0800 (PST)
+X-Gm-Message-State: AOAM530mgqsZAnDVb7aDtTxxebKfLx0kG7PJkRxlX58QQ2u2LIFhZUbA
+        PSceqdJIhEprACUruhbs33ODKuFZH7wbf1ciutQ=
+X-Google-Smtp-Source: ABdhPJxJE09nHeJJkwK3c9x4Dl5BwI/W8ItE8ezvbMbbpurVMEldXW2RG8Sh+Mofpz3FAy7DHUSDDJj0GkjMzkmcmvQ=
+X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr10071823pjv.153.1614953323469;
+ Fri, 05 Mar 2021 06:08:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20210305100212.818562-1-linux@rasmusvillemoes.dk>
-In-Reply-To: <20210305100212.818562-1-linux@rasmusvillemoes.dk>
+References: <20210305100212.818562-1-linux@rasmusvillemoes.dk> <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
+In-Reply-To: <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 5 Mar 2021 22:50:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
-Message-ID: <CAK7LNAShZDMPBSv0tBgquiJRta4fFvDh3fnf9mk946PdFZyEoA@mail.gmail.com>
+Date:   Fri, 5 Mar 2021 23:08:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR9FTny0Kdvwa-TMhR25BztdiyY4XGH5hU2=ShdtnjskQ@mail.gmail.com>
+Message-ID: <CAK7LNAR9FTny0Kdvwa-TMhR25BztdiyY4XGH5hU2=ShdtnjskQ@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: apply fixdep logic to link-vmlinux.sh
 To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
@@ -51,111 +51,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 5, 2021 at 7:02 PM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
+On Fri, Mar 5, 2021 at 10:50 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The patch adding CONFIG_VMLINUX_MAP revealed a small defect in the
-> build system: link-vmlinux.sh takes decisions based on CONFIG_*
-> options, but changing one of those does not always lead to vmlinux
-> being linked again.
->
-> For most of the CONFIG_* knobs referenced previously, this has
-> probably been hidden by those knobs also affecting some object file,
-> hence indirectly also vmlinux.
->
-> But CONFIG_VMLINUX_MAP is only handled inside link-vmlinux.sh, and
-> changing CONFIG_VMLINUX_MAP=n to CONFIG_VMLINUX_MAP=y does not cause
-> the build system to re-link (and hence have vmlinux.map
-> emitted). Since that map file is mostly a debugging aid, this is
-> merely a nuisance which is easily worked around by just deleting
-> vmlinux and building again.
->
-> But one could imagine other (possibly future) CONFIG options that
-> actually do affect the vmlinux binary but which are not captured
-> through some object file dependency.
->
-> To fix this, make link-vmlinux.sh emit a .vmlinux.d file in the same
-> format as the dependency files generated by gcc, and apply the fixdep
-> logic to that. I've tested that this correctly works with both in-tree
-> and out-of-tree builds.
->
-> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> ---
-
-
-Another person finally noticed this long-standing bug!
-
-Actually, I had known about this bug some years before,
-and was wondering how to fix this,
-but your patch is much more elegant than my idea.
-
-
-My original idea was to grep (or sed) CONFIG_
-in scripts/link-vmlinux.sh, and
-surround the output by /* ... */ (or prefix //)
-into init/dummy.c so that fixdep handles this
-as a usual C code case.
-(But, I did not send a patch)
-
-But, you are right.
-There is no reason to restrict fixdep only to C source files.
-
-I did not come up with the idea to make fixdep scan
-this shell script directly.
-
-Applied to linux-kbuild. Thanks!
-
-
-
-
-
-
-
-
-
->  Makefile                | 2 +-
->  scripts/link-vmlinux.sh | 2 ++
->  2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index b18dbc634690..19d2f7fd088a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1192,7 +1192,7 @@ cmd_link-vmlinux =                                                 \
->         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
->
->  vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
-> -       +$(call if_changed,link-vmlinux)
-> +       +$(call if_changed_dep,link-vmlinux)
->
->  targets := vmlinux
->
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 855fd4e6f03e..7d4b7c6f01e8 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -312,6 +312,7 @@ cleanup()
->         rm -f vmlinux
->         rm -f vmlinux.map
->         rm -f vmlinux.o
-> +       rm -f .vmlinux.d
->  }
->
->  on_exit()
-> @@ -421,6 +422,7 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
->  fi
->
->  vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
-> +echo "vmlinux: $0" > .vmlinux.d
->
->  # fill in BTF IDs
->  if [ -n "${CONFIG_DEBUG_INFO_BTF}" -a -n "${CONFIG_BPF}" ]; then
-> --
-> 2.29.2
+> On Fri, Mar 5, 2021 at 7:02 PM Rasmus Villemoes
+> <linux@rasmusvillemoes.dk> wrote:
+> >
+> > The patch adding CONFIG_VMLINUX_MAP revealed a small defect in the
+> > build system: link-vmlinux.sh takes decisions based on CONFIG_*
+> > options, but changing one of those does not always lead to vmlinux
+> > being linked again.
+> >
+> > For most of the CONFIG_* knobs referenced previously, this has
+> > probably been hidden by those knobs also affecting some object file,
+> > hence indirectly also vmlinux.
+> >
+> > But CONFIG_VMLINUX_MAP is only handled inside link-vmlinux.sh, and
+> > changing CONFIG_VMLINUX_MAP=n to CONFIG_VMLINUX_MAP=y does not cause
+> > the build system to re-link (and hence have vmlinux.map
+> > emitted). Since that map file is mostly a debugging aid, this is
+> > merely a nuisance which is easily worked around by just deleting
+> > vmlinux and building again.
+> >
+> > But one could imagine other (possibly future) CONFIG options that
+> > actually do affect the vmlinux binary but which are not captured
+> > through some object file dependency.
+> >
+> > To fix this, make link-vmlinux.sh emit a .vmlinux.d file in the same
+> > format as the dependency files generated by gcc, and apply the fixdep
+> > logic to that. I've tested that this correctly works with both in-tree
+> > and out-of-tree builds.
+> >
+> > Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > ---
 >
 
+I moved the code to the last line of scripts/link-vmlinux.sh,
+and added a comment, otherwise, the intent is obscure.
 
---
+
+
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 7d4b7c6f01e8..e9516bdfcc6f 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -422,7 +422,6 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
+ fi
+
+ vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
+-echo "vmlinux: $0" > .vmlinux.d
+
+ # fill in BTF IDs
+ if [ -n "${CONFIG_DEBUG_INFO_BTF}" -a -n "${CONFIG_BPF}" ]; then
+@@ -451,3 +450,6 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
+                exit 1
+        fi
+ fi
++
++# For fixdep
++echo "vmlinux: $0" > .vmlinux.d
+
+
+
+-- 
 Best Regards
-
 Masahiro Yamada
