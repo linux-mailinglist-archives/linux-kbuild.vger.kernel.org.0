@@ -2,178 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 135E432E4C4
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 10:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD6A32E592
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Mar 2021 11:02:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbhCEJ1o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Mar 2021 04:27:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
+        id S229716AbhCEKCS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Mar 2021 05:02:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbhCEJ1P (ORCPT
+        with ESMTP id S229779AbhCEKCR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Mar 2021 04:27:15 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB1CC061756
-        for <linux-kbuild@vger.kernel.org>; Fri,  5 Mar 2021 01:27:15 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id h10so1619822edl.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 05 Mar 2021 01:27:15 -0800 (PST)
+        Fri, 5 Mar 2021 05:02:17 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4049EC061756
+        for <linux-kbuild@vger.kernel.org>; Fri,  5 Mar 2021 02:02:17 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id ci14so2281371ejc.7
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Mar 2021 02:02:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rasmusvillemoes.dk; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gxJmRko8zfsnlnfj+4nCVTlalJzJ5o7jDUz31ZEenxc=;
-        b=WYzFtrqAtFmeJiWRU0sKPU3fozVGqNEbo5BB28EDzF0zCCut67hVDjus9nAEI9F2dF
-         WV/PC+IiB3FVUYngCCTs+7Thn253+HMXpBGVXIX+PM34uYb3UrDfo3ka2o4o+016vrP6
-         m4AC3FWWmS/ojc24NaV6u2X8qHjuCOx2Xe5OM=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GRC2Y0yC42Y1EH5KbI50W2aWiq7kngTQEblGKY3SQmc=;
+        b=GothC0fBH2XEicdmeOy5BlwIbxBo48V//n3KuOEKMVDhURBrKEn/1pxUN4qEWEBxVL
+         VmRm+QJaoXGlEkFUEPwSTCYSZXnp7oS4PM6WDINCcivyN8nXan+UzaUjbdRAl0xabMLs
+         /mFbFxoTbyRzi/zmsBkORqS/pvZLvfLxdpmIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gxJmRko8zfsnlnfj+4nCVTlalJzJ5o7jDUz31ZEenxc=;
-        b=V5DV7vON279TvSFGnMCNlaIxLwwyX24konigD5lG+U1jUEfbY7s4PhAYq4ydUelAWf
-         IroyGqsdEhC3yz0pPT/3isB6lGIB3h3xs56lpJKDw2Cl4lS1/VB01CEzP+cyx8tlJoyI
-         7Fl9lpELmE6pQqD7G441G/RKcM2quWJ9p9RAAwf+BuJ7HYxtrL71KdX+rwEPoiye7Ydm
-         UVFF4fIuCVm8UCE6lwWb6ECT/kmb4mhW7K3s9u7gDCl0JmfbU+Gro8dDuyqkZhNucf+7
-         Ga9rM7zzNF1btveLttVcJsZxmLrPAEGouttVr7a5liKx2YFXBbFwDo2O38tvgDKf3Mqy
-         Mvaw==
-X-Gm-Message-State: AOAM533aLt704g4no4ff+XtEmkxjLxMYGT38MPpQhFrJcJjtiR3Jffvs
-        fuuRUTh+suZjirmzByT75tzfoA==
-X-Google-Smtp-Source: ABdhPJwqMTg6XSO15OOv6ShlcEyyPdz3FDam4sT7aPKjfjhlL33Dknw/bFp2OUPAFUYSOTRtgMx+Tg==
-X-Received: by 2002:aa7:ce16:: with SMTP id d22mr8301819edv.95.1614936433889;
-        Fri, 05 Mar 2021 01:27:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GRC2Y0yC42Y1EH5KbI50W2aWiq7kngTQEblGKY3SQmc=;
+        b=qeUONYAwNQ+GbRqQExLLmM1R8IX/n/DToLVTQHmgt/rPsWlh3p2ts8Bp4pJlg1bD5i
+         8eOnqmYH/hy6kjb7+F62UhYBm901uNLg20U2ojI6+CRobF1jnWCV9DnaJtDWchmEYLv8
+         IksRlZyE/nBuGCu2b9l4NWEEsOWMl0q25u1nDMdx52N94lp1dXTdAFLLcGp7BBCv8WUp
+         oZJi8AFCnVfx1cDQIqo/kEvaJQ4i8jp2Jhfg59j6GdCfwkO38Nh18F+srYjuXKElOwl5
+         l3Y2/FBwfNSbz49/pDrEIMk+mCecOqaYfVZcHfEIiZe4x2M/IOoQjm15qcna5yzXHIf2
+         4yOA==
+X-Gm-Message-State: AOAM531xuC5IBk1ii01wnrqc+AiN/IE22gY8Ji5trx0nlAZo+rP5MsO8
+        pOKYLNd7YRWMAeRtpAWf0ZTeFGselRk6GA==
+X-Google-Smtp-Source: ABdhPJzcocXQzKr/9kf3AnihZeBnSoVC3XwiNhCp06ZeOpkZhLYwKWQOtRRDmPzyUe8gyE9xRq/xEg==
+X-Received: by 2002:a17:906:7150:: with SMTP id z16mr1512151ejj.103.1614938536001;
+        Fri, 05 Mar 2021 02:02:16 -0800 (PST)
 Received: from prevas-ravi.prevas.se ([80.208.71.141])
-        by smtp.gmail.com with ESMTPSA id n5sm1240929edw.7.2021.03.05.01.27.12
+        by smtp.gmail.com with ESMTPSA id y2sm1223419ejf.30.2021.03.05.02.02.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 01:27:13 -0800 (PST)
+        Fri, 05 Mar 2021 02:02:15 -0800 (PST)
 From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
 Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH v2] kbuild: add CONFIG_VMLINUX_MAP expert option
-Date:   Fri,  5 Mar 2021 10:27:07 +0100
-Message-Id: <20210305092707.740539-1-linux@rasmusvillemoes.dk>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: apply fixdep logic to link-vmlinux.sh
+Date:   Fri,  5 Mar 2021 11:02:12 +0100
+Message-Id: <20210305100212.818562-1-linux@rasmusvillemoes.dk>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <CAK7LNAQ_CuUOH7mY8Rf3kxLxXKm0oxBsK=XgAS9ScMaW-55OuQ@mail.gmail.com>
-References: <CAK7LNAQ_CuUOH7mY8Rf3kxLxXKm0oxBsK=XgAS9ScMaW-55OuQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It can be quite useful to have ld emit a link map file, in order to
-debug or verify that special sections end up where they are supposed
-to, and to see what LD_DEAD_CODE_DATA_ELIMINATION manages to get rid
-of.
+The patch adding CONFIG_VMLINUX_MAP revealed a small defect in the
+build system: link-vmlinux.sh takes decisions based on CONFIG_*
+options, but changing one of those does not always lead to vmlinux
+being linked again.
 
-The only reason I'm not just adding this unconditionally is that the
-.map file can be rather large (several MB), and that's a waste of
-space when one isn't interested in these things. Also make it depend
-on CONFIG_EXPERT.
+For most of the CONFIG_* knobs referenced previously, this has
+probably been hidden by those knobs also affecting some object file,
+hence indirectly also vmlinux.
+
+But CONFIG_VMLINUX_MAP is only handled inside link-vmlinux.sh, and
+changing CONFIG_VMLINUX_MAP=n to CONFIG_VMLINUX_MAP=y does not cause
+the build system to re-link (and hence have vmlinux.map
+emitted). Since that map file is mostly a debugging aid, this is
+merely a nuisance which is easily worked around by just deleting
+vmlinux and building again.
+
+But one could imagine other (possibly future) CONFIG options that
+actually do affect the vmlinux binary but which are not captured
+through some object file dependency.
+
+To fix this, make link-vmlinux.sh emit a .vmlinux.d file in the same
+format as the dependency files generated by gcc, and apply the fixdep
+logic to that. I've tested that this correctly works with both in-tree
+and out-of-tree builds.
 
 Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 ---
- .gitignore              |  1 +
- Documentation/dontdiff  |  1 +
- lib/Kconfig.debug       | 10 ++++++++++
- scripts/link-vmlinux.sh |  8 ++++++++
- 4 files changed, 20 insertions(+)
+ Makefile                | 2 +-
+ scripts/link-vmlinux.sh | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index 3af66272d6f1..3adea59847ce 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -59,6 +59,7 @@ modules.order
- /linux
- /vmlinux
- /vmlinux.32
-+/vmlinux.map
- /vmlinux.symvers
- /vmlinux-gdb.py
- /vmlinuz
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index e361fc95ca29..ac42ad8d430d 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -252,6 +252,7 @@ vmlinux-*
- vmlinux.aout
- vmlinux.bin.all
- vmlinux.lds
-+vmlinux.map
- vmlinux.symvers
- vmlinuz
- voffset.h
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 5ea0c1773b0a..663c1cd5018c 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -412,6 +412,16 @@ config VMLINUX_VALIDATION
- 	depends on STACK_VALIDATION && DEBUG_ENTRY && !PARAVIRT
- 	default y
+diff --git a/Makefile b/Makefile
+index b18dbc634690..19d2f7fd088a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1192,7 +1192,7 @@ cmd_link-vmlinux =                                                 \
+ 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
  
-+config VMLINUX_MAP
-+	bool "Generate vmlinux.map file when linking"
-+	depends on EXPERT
-+	help
-+	  Selecting this option will pass "-Map=vmlinux.map" to ld
-+	  when linking vmlinux. That file can be useful for verifying
-+	  and debugging magic section games, and for seeing which
-+	  pieces of code get eliminated with
-+	  CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
-+
- config DEBUG_FORCE_WEAK_PER_CPU
- 	bool "Force weak per-cpu definitions"
- 	depends on DEBUG_KERNEL
+ vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
+-	+$(call if_changed,link-vmlinux)
++	+$(call if_changed_dep,link-vmlinux)
+ 
+ targets := vmlinux
+ 
 diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 3b261b0f74f0..855fd4e6f03e 100755
+index 855fd4e6f03e..7d4b7c6f01e8 100755
 --- a/scripts/link-vmlinux.sh
 +++ b/scripts/link-vmlinux.sh
-@@ -155,6 +155,7 @@ vmlinux_link()
- 	local output=${1}
- 	local objects
- 	local strip_debug
-+	local map_option
- 
- 	info LD ${output}
- 
-@@ -166,6 +167,10 @@ vmlinux_link()
- 		strip_debug=-Wl,--strip-debug
- 	fi
- 
-+	if [ -n "${CONFIG_VMLINUX_MAP}" ]; then
-+		map_option="-Map=${output}.map"
-+	fi
-+
- 	if [ "${SRCARCH}" != "um" ]; then
- 		if [ -n "${CONFIG_LTO_CLANG}" ]; then
- 			# Use vmlinux.o instead of performing the slow LTO
-@@ -187,6 +192,7 @@ vmlinux_link()
- 		${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}	\
- 			${strip_debug#-Wl,}			\
- 			-o ${output}				\
-+			${map_option}				\
- 			-T ${lds} ${objects}
- 	else
- 		objects="-Wl,--whole-archive			\
-@@ -200,6 +206,7 @@ vmlinux_link()
- 		${CC} ${CFLAGS_vmlinux}				\
- 			${strip_debug}				\
- 			-o ${output}				\
-+			${map_option:+-Wl,${map_option}}	\
- 			-Wl,-T,${lds}				\
- 			${objects}				\
- 			-lutil -lrt -lpthread
-@@ -303,6 +310,7 @@ cleanup()
- 	rm -f .tmp_vmlinux*
- 	rm -f System.map
+@@ -312,6 +312,7 @@ cleanup()
  	rm -f vmlinux
-+	rm -f vmlinux.map
+ 	rm -f vmlinux.map
  	rm -f vmlinux.o
++	rm -f .vmlinux.d
  }
  
+ on_exit()
+@@ -421,6 +422,7 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
+ fi
+ 
+ vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
++echo "vmlinux: $0" > .vmlinux.d
+ 
+ # fill in BTF IDs
+ if [ -n "${CONFIG_DEBUG_INFO_BTF}" -a -n "${CONFIG_BPF}" ]; then
 -- 
 2.29.2
 
