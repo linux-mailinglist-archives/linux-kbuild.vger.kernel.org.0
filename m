@@ -2,117 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 428E532F7E8
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 03:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F4B232F895
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 07:09:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbhCFCve (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Mar 2021 21:51:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27974 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229701AbhCFCvO (ORCPT
+        id S229704AbhCFGIw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 6 Mar 2021 01:08:52 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:24162 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229617AbhCFGIW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Mar 2021 21:51:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614999069;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=++7DcKSf9hOj91f+XMYFeWkJNgQ9ogj9a8AP84qU87E=;
-        b=JzbD2YsbfsurOg2vc3gghysdD9DHN82XyUXkyyjqxIhhix4UtewUiEKhuhfhPFnN5zVXRr
-        2UeNMs67QJ+XfE7bbK9ZaMmobGE3gt+q/T139tJNJqe6fgzSFAqdFMupH7VFrKwqsEMO1B
-        iZYE5ge90ebHZQ3UbojSGYCfvFd+4yM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-aqXXq4NYNOCCDIpKMWr2ag-1; Fri, 05 Mar 2021 21:51:07 -0500
-X-MC-Unique: aqXXq4NYNOCCDIpKMWr2ag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8FA78015B7;
-        Sat,  6 Mar 2021 02:51:05 +0000 (UTC)
-Received: from treble (ovpn-112-85.rdu2.redhat.com [10.10.112.85])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6631D5C1C2;
-        Sat,  6 Mar 2021 02:51:02 +0000 (UTC)
-Date:   Fri, 5 Mar 2021 20:50:59 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Frank Eigler <fche@redhat.com>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>
-Subject: Re: [PATCH] kbuild: rebuild GCC plugins when the compiler is upgraded
-Message-ID: <20210306025059.z6dn6mi7mxyufkr2@treble>
-References: <20210304113708.215121-1-masahiroy@kernel.org>
- <202103041518.22EB819E@keescook>
- <CAHk-=wj6t2i1BgmWP1Zb2WVF3zZzkHvsxsALJk7VpfKm6UgLcw@mail.gmail.com>
- <20210305022500.cyi3cfwgt2t6mona@treble>
- <20210306012815.nfmquoln65vq6yq7@treble>
- <CAK7LNAR7E4Ud9MPy3q5VOab4EFMumr5GMHqyv=H970+gPTBrFg@mail.gmail.com>
+        Sat, 6 Mar 2021 01:08:22 -0500
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 12667rNT012152;
+        Sat, 6 Mar 2021 15:07:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12667rNT012152
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1615010874;
+        bh=10zqiHlnJhrNYrKD5+sNe/NX9ESvxQnhEAP/8vivgIY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Pue+eeCg17U/+ZvLMYusHTl11oKr3f0O7WCevLpJag4OSey6cmipFt5MsGwy7xKmx
+         6sBYYA558D+TiRZ1d6bPjeyANioIOIqkuHS4CTqjBEK9B2cdmdDpM/NzYIUECEVCrj
+         95/hlMposdKWaf3/Gl3IRWxzAmF3ZJiqhdtjzemOU+zAxTSJJJbqQfA3F8IKX7+jbf
+         jj/EEPMp96/M3WtvpK7Xu7TEZlCUmPqi29ibCWcJ/NLlRHdIrUVTNYmyMtf0o0zYpn
+         v2zQiAqfBdFWRdtC26StYhJEhSJbNCdrNMaA4eLjCc5VwVo7oWReNYzJqZwi6gWat1
+         3qAsBj19C9F2A==
+X-Nifty-SrcIP: [209.85.210.169]
+Received: by mail-pf1-f169.google.com with SMTP id t29so3543603pfg.11;
+        Fri, 05 Mar 2021 22:07:54 -0800 (PST)
+X-Gm-Message-State: AOAM530lp2rHNCayMokXZPmQfUwKM8jhUHC56I8qRUuugqVvO2nrh+T/
+        7xzIB5JSqNjhzEhyfpFy14WZt1jE0Px0ZMwzn7c=
+X-Google-Smtp-Source: ABdhPJyr4H4wr+KRk/aWNh6tS0nwM2VYgEGH7KMLs0a8iNiklf9Qzthpy5i9LRakaWjq32DLU3yVOnJJqIu2IjIbZp8=
+X-Received: by 2002:a63:dd49:: with SMTP id g9mr12118032pgj.175.1615010873328;
+ Fri, 05 Mar 2021 22:07:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAR7E4Ud9MPy3q5VOab4EFMumr5GMHqyv=H970+gPTBrFg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <cover.1614745266.git.viresh.kumar@linaro.org> <263ac0777bee9384b66fb4e74ed3abdc45a1bb82.1614745266.git.viresh.kumar@linaro.org>
+In-Reply-To: <263ac0777bee9384b66fb4e74ed3abdc45a1bb82.1614745266.git.viresh.kumar@linaro.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 6 Mar 2021 15:07:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=MT0Uw29_mjNPnNtS9VhbF553W=WNk-9TeoYB6+k81A@mail.gmail.com>
+Message-ID: <CAK7LNAR=MT0Uw29_mjNPnNtS9VhbF553W=WNk-9TeoYB6+k81A@mail.gmail.com>
+Subject: Re: [PATCH V9 2/4] kbuild: Add generic rule to apply fdtoverlay
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 06, 2021 at 11:18:31AM +0900, Masahiro Yamada wrote:
-> On Sat, Mar 6, 2021 at 10:28 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-> >
-> > On Thu, Mar 04, 2021 at 08:25:00PM -0600, Josh Poimboeuf wrote:
-> > > On Thu, Mar 04, 2021 at 03:37:14PM -0800, Linus Torvalds wrote:
-> > > > On Thu, Mar 4, 2021 at 3:20 PM Kees Cook <keescook@chromium.org> wrote:
-> > > > >
-> > > > > This seems fine to me, but I want to make sure Josh has somewhere to
-> > > > > actually go with this. Josh, does this get you any closer?
-> > >
-> > > No, this doesn't seem to help me at all.
-> > >
-> > > > > It sounds like the plugins need to move to another location for
-> > > > > packaged kernels?
-> > > >
-> > > > Well, it might be worth extending the stuff that gets installed with
-> > > > /lib/modules/<kernel-version>/ with enough information and
-> > > > infrastruvcture to then build any external modules.
-> > >
-> > > The gcc plugins live in scripts/, which get installed by "make
-> > > modules_install" already.  So the plugins' source and makefiles are in
-> > > /lib/modules/<kernel-version>/build/scripts/gcc-plugins.
-> > >
-> > > So everything needed for building the plugins is already there.  We just
-> > > need the kernel makefiles to rebuild the plugins locally, when building
-> > > an external module.
-> >
-> > This seems to work with very limited testing...  Based on top of
-> > Masahiro's recent patch:
-> >
-> >   https://lkml.kernel.org/r/CAK7LNARHoTnZ3gAvHgnYB4n-wYuboxC10A6zURh1ODGhxWd2yA@mail.gmail.com
-> 
-> Is this a bad coding contest?
-> 
-> I am not asking you to add ugly ifeq or whatever
-> hacks to say "this worked for me".
-> 
-> Please feel free to do this in the fedora kernel,
-> but do not send it to upstream.
-> 
-> Sorry, I really do not want to see hacks like this any more.
+On Wed, Mar 3, 2021 at 1:36 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> From: Rob Herring <robh@kernel.org>
+>
+> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
+> platform doesn't need to carry the complex rule.
+>
+> The platform's Makefile only needs to have this now:
+>
+>  DTC_FLAGS_foo_base += -@
+>  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+>  dtb-y := foo.dtb
+>
+> We don't want to run schema checks on foo.dtb (as foo.dts doesn't exist)
+> and the Makefile is updated accordingly.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> Co-developed-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  scripts/Makefile.lib | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index a2658242d956..c430fbb36763 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -58,6 +58,10 @@ real-search = $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)),
+>  real-obj-y := $(call real-search, $(obj-y),-objs -y)
+>  real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
+>
+> +# List all dtbs to be generated by fdtoverlay
+> +overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
+> +overlay-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(dtb-), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
 
-Geez, that's a bit harsh.  I never claimed to be a brilliant makefile
-coder.  Do you have any constructive feedback for improving the patch?
+This does not benefit from 1/4.
 
-> Remember, how badly objtool was integrated in the build system,
-> and you even blocked me from fixing that.
 
-I have no idea what you're talking about, nor how it would be relevant
-to this patch.
+Squashing the following will shorten the code.
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index e12633f4057d..44a1652ddcd7 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -58,10 +58,6 @@ real-search = $(foreach m,$(1), $(if $(strip $(call
+suffix-search,$(m),$(2) -)),
+ real-obj-y := $(call real-search, $(obj-y),-objs -y)
+ real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
+
+-# List all dtbs to be generated by fdtoverlay
+-overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
+-overlay-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(dtb-), $(if $(strip
+$($(m:.dtb=-dtbs))),$(m),))
+-
+ always-y += $(always-m)
+
+ # hostprogs-always-y += foo
+@@ -75,13 +71,16 @@ always-y += $(hostprogs-always-y) $(hostprogs-always-m)
+ userprogs += $(userprogs-always-y) $(userprogs-always-m)
+ always-y += $(userprogs-always-y) $(userprogs-always-m)
+
++# If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
++dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
++
++# List all dtbs to be generated by fdtoverlay
++overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
++
+ # DTB
+ # Add base dtb and overlay dtbo
+ dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
+
+-# If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
+-dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
+-
+ always-y                       += $(dtb-y)
+
+ ifneq ($(CHECK_DTBS),)
+
+
 
 -- 
-Josh
-
+Best Regards
+Masahiro Yamada
