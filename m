@@ -2,112 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6B1C32F897
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 07:12:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D8832F898
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 07:12:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229839AbhCFGME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S229872AbhCFGME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Sat, 6 Mar 2021 01:12:04 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:48484 "EHLO
+Received: from conuserg-07.nifty.com ([210.131.2.74]:48486 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbhCFGLz (ORCPT
+        with ESMTP id S229617AbhCFGLz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sat, 6 Mar 2021 01:11:55 -0500
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 1266BSuk023625;
+        by conuserg-07.nifty.com with ESMTP id 1266BSul023625;
         Sat, 6 Mar 2021 15:11:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 1266BSuk023625
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 1266BSul023625
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1615011089;
-        bh=OYZodQowK+AnofibFsnTbuqwLi6cVjHzs6rGqxdb0vs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=1ya1JtCbfWSQtHXtNu/vrZOhB38/WWr3Pmsk8mo12m0cG2hd0wTRDqqFhBzzcWYKk
-         g7fl1wkLctkZGz0gj5UkaRtqnRK0MY2dHOQmmiG+shBV5hXllt2xr0SGi4EHFaHVtS
-         +Jd70ITu9d4kZZ++2p758AXMOicuUd4vxKpeNKXA+EITOb8mg565VxGlQE7IhMM1kd
-         6kJA89HD19VdfGLCT/vchKxKf/zHHZi5eGOqAZ7xHu/3rz0+ELK26UozEtzqsdLbxU
-         p77WM3Y0Oj0P9GPzv683Jmad3EZ0uSB54hPe1Ssl7GBD/s7FjRJULGoOfRD9x5zOU2
-         z3U9NHcrnp6jQ==
+        bh=ZrWB5cwC1ehE12Fu5pfbGL5TXTZUw127tNDi1a75d9M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=vPIcySpn0mpMk9I2vTfPOn8I6y6roeYawZxImkZ1pebKP1VjH5F2AsguohB22Yn6C
+         jl/z7yxjau/aec7ghh5NyBd/PnAGToGdEgPDYlSoaWj1UDgsiCTurYamlNtvI39uOB
+         hWenycapJ7+9Y4QLbO8znl/K4y66WpUoLrD+06UAU0cGSK2onTrhTM8IVFVjn1mOUm
+         nlZ9nQhtYVou1qsJqarARcXu1vBK2SyVmOAotpAqnbMDf1dYXzoWqW7cn+XXJNR+uN
+         t95qRC/WaXXIlR9AbrlKjewQekkGLJiM9xnJwzaw0OE2ZS4+H3ryhcAKC5uqSYvTDo
+         0zcsdJ2LsWEsA==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 1/2] kbuild: rename multi-used-* to multi-obj-*
-Date:   Sat,  6 Mar 2021 15:11:20 +0900
-Message-Id: <20210306061121.2023529-1-masahiroy@kernel.org>
+Subject: [PATCH 2/2] kbuild: move $(strip ) to suffix-search definition
+Date:   Sat,  6 Mar 2021 15:11:21 +0900
+Message-Id: <20210306061121.2023529-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210306061121.2023529-1-masahiroy@kernel.org>
+References: <20210306061121.2023529-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I think multi-obj-* is clearer, and more consisten with real-obj-*.
-
-Rename as follows:
-
-  multi-used-y  ->  multi-obj-y
-  multi-used-m  ->  multi-obj-m
-  multi-used    ->  multi-obj-ym
+Move $(strip ...) to the callee from the callers of suffix-search. It
+shortens the code slightly. Adding a space after a comma will not be
+a matter. I also dropped parentheses from single character variables.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build |  6 +++---
- scripts/Makefile.lib   | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ scripts/Makefile.lib | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 1b6094a13034..56cf8eb475cf 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -444,11 +444,11 @@ quiet_cmd_link_multi-m = LD [M]  $@
-       cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
- endif
- 
--$(multi-used-m): FORCE
-+$(multi-obj-m): FORCE
- 	$(call if_changed,link_multi-m)
--$(call multi_depend, $(multi-used-m), .o, -objs -y -m)
-+$(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
- 
--targets += $(multi-used-m)
-+targets += $(multi-obj-m)
- targets := $(filter-out $(PHONY), $(targets))
- 
- # Add intermediate targets:
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index eee59184de64..e60be0bddda2 100644
+index e60be0bddda2..4c0f952da84f 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -48,9 +48,9 @@ endif
- suffix-search = $(foreach s,$(2),$($(1:.o=$s)))
+@@ -45,16 +45,16 @@ obj-y		:= $(filter-out %/, $(obj-y))
+ endif
+ 
+ # Expand $(foo-objs) $(foo-y) by calling $(call suffix-search,foo.o,-objs -y)
+-suffix-search = $(foreach s,$(2),$($(1:.o=$s)))
++suffix-search = $(strip $(foreach s, $2, $($(1:.o=$s))))
  # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
- multi-search = $(sort $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)), $(m))))
--multi-used-y := $(call multi-search,$(obj-y),-objs -y)
--multi-used-m := $(call multi-search,$(obj-m),-objs -y -m)
--multi-used   := $(multi-used-y) $(multi-used-m)
-+multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
-+multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
-+multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+-multi-search = $(sort $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)), $(m))))
++multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $m)))
+ multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
+ multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
+ multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
  
  # Replace multi-part objects by their individual parts,
  # including built-in.a from subdirectories
-@@ -92,12 +92,12 @@ obj-m		:= $(addprefix $(obj)/,$(obj-m))
- lib-y		:= $(addprefix $(obj)/,$(lib-y))
- real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
- real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
--multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
-+multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
- subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+-real-search = $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)),$(call suffix-search,$(m),$(2)),$(m)))
++real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $(call suffix-search, $m, $2), $m))
+ real-obj-y := $(call real-search, $(obj-y),-objs -y)
+ real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
  
- # Finds the multi-part object the current object will be linked into.
- # If the object belongs to two or more multi-part objects, list them all.
--modname-multi = $(sort $(foreach m,$(multi-used),\
-+modname-multi = $(sort $(foreach m,$(multi-obj-ym),\
- 		$(if $(filter $*.o, $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m))),$(m:.o=))))
- 
- __modname = $(if $(modname-multi),$(modname-multi),$(basetarget))
 -- 
 2.27.0
 
