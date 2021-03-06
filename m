@@ -2,143 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F4B232F895
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 07:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B1C32F897
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Mar 2021 07:12:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbhCFGIw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 6 Mar 2021 01:08:52 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:24162 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbhCFGIW (ORCPT
+        id S229839AbhCFGME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 6 Mar 2021 01:12:04 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:48484 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229626AbhCFGLz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 6 Mar 2021 01:08:22 -0500
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 12667rNT012152;
-        Sat, 6 Mar 2021 15:07:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12667rNT012152
+        Sat, 6 Mar 2021 01:11:55 -0500
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 1266BSuk023625;
+        Sat, 6 Mar 2021 15:11:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 1266BSuk023625
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615010874;
-        bh=10zqiHlnJhrNYrKD5+sNe/NX9ESvxQnhEAP/8vivgIY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Pue+eeCg17U/+ZvLMYusHTl11oKr3f0O7WCevLpJag4OSey6cmipFt5MsGwy7xKmx
-         6sBYYA558D+TiRZ1d6bPjeyANioIOIqkuHS4CTqjBEK9B2cdmdDpM/NzYIUECEVCrj
-         95/hlMposdKWaf3/Gl3IRWxzAmF3ZJiqhdtjzemOU+zAxTSJJJbqQfA3F8IKX7+jbf
-         jj/EEPMp96/M3WtvpK7Xu7TEZlCUmPqi29ibCWcJ/NLlRHdIrUVTNYmyMtf0o0zYpn
-         v2zQiAqfBdFWRdtC26StYhJEhSJbNCdrNMaA4eLjCc5VwVo7oWReNYzJqZwi6gWat1
-         3qAsBj19C9F2A==
-X-Nifty-SrcIP: [209.85.210.169]
-Received: by mail-pf1-f169.google.com with SMTP id t29so3543603pfg.11;
-        Fri, 05 Mar 2021 22:07:54 -0800 (PST)
-X-Gm-Message-State: AOAM530lp2rHNCayMokXZPmQfUwKM8jhUHC56I8qRUuugqVvO2nrh+T/
-        7xzIB5JSqNjhzEhyfpFy14WZt1jE0Px0ZMwzn7c=
-X-Google-Smtp-Source: ABdhPJyr4H4wr+KRk/aWNh6tS0nwM2VYgEGH7KMLs0a8iNiklf9Qzthpy5i9LRakaWjq32DLU3yVOnJJqIu2IjIbZp8=
-X-Received: by 2002:a63:dd49:: with SMTP id g9mr12118032pgj.175.1615010873328;
- Fri, 05 Mar 2021 22:07:53 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1614745266.git.viresh.kumar@linaro.org> <263ac0777bee9384b66fb4e74ed3abdc45a1bb82.1614745266.git.viresh.kumar@linaro.org>
-In-Reply-To: <263ac0777bee9384b66fb4e74ed3abdc45a1bb82.1614745266.git.viresh.kumar@linaro.org>
+        s=dec2015msa; t=1615011089;
+        bh=OYZodQowK+AnofibFsnTbuqwLi6cVjHzs6rGqxdb0vs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1ya1JtCbfWSQtHXtNu/vrZOhB38/WWr3Pmsk8mo12m0cG2hd0wTRDqqFhBzzcWYKk
+         g7fl1wkLctkZGz0gj5UkaRtqnRK0MY2dHOQmmiG+shBV5hXllt2xr0SGi4EHFaHVtS
+         +Jd70ITu9d4kZZ++2p758AXMOicuUd4vxKpeNKXA+EITOb8mg565VxGlQE7IhMM1kd
+         6kJA89HD19VdfGLCT/vchKxKf/zHHZi5eGOqAZ7xHu/3rz0+ELK26UozEtzqsdLbxU
+         p77WM3Y0Oj0P9GPzv683Jmad3EZ0uSB54hPe1Ssl7GBD/s7FjRJULGoOfRD9x5zOU2
+         z3U9NHcrnp6jQ==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 6 Mar 2021 15:07:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=MT0Uw29_mjNPnNtS9VhbF553W=WNk-9TeoYB6+k81A@mail.gmail.com>
-Message-ID: <CAK7LNAR=MT0Uw29_mjNPnNtS9VhbF553W=WNk-9TeoYB6+k81A@mail.gmail.com>
-Subject: Re: [PATCH V9 2/4] kbuild: Add generic rule to apply fdtoverlay
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH 1/2] kbuild: rename multi-used-* to multi-obj-*
+Date:   Sat,  6 Mar 2021 15:11:20 +0900
+Message-Id: <20210306061121.2023529-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 1:36 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> From: Rob Herring <robh@kernel.org>
->
-> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
-> platform doesn't need to carry the complex rule.
->
-> The platform's Makefile only needs to have this now:
->
->  DTC_FLAGS_foo_base += -@
->  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
->  dtb-y := foo.dtb
->
-> We don't want to run schema checks on foo.dtb (as foo.dts doesn't exist)
-> and the Makefile is updated accordingly.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> Co-developed-by: Viresh Kumar <viresh.kumar@linaro.org>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  scripts/Makefile.lib | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index a2658242d956..c430fbb36763 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -58,6 +58,10 @@ real-search = $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)),
->  real-obj-y := $(call real-search, $(obj-y),-objs -y)
->  real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
->
-> +# List all dtbs to be generated by fdtoverlay
-> +overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
-> +overlay-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(dtb-), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
+I think multi-obj-* is clearer, and more consisten with real-obj-*.
 
-This does not benefit from 1/4.
+Rename as follows:
 
+  multi-used-y  ->  multi-obj-y
+  multi-used-m  ->  multi-obj-m
+  multi-used    ->  multi-obj-ym
 
-Squashing the following will shorten the code.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/Makefile.build |  6 +++---
+ scripts/Makefile.lib   | 10 +++++-----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 1b6094a13034..56cf8eb475cf 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -444,11 +444,11 @@ quiet_cmd_link_multi-m = LD [M]  $@
+       cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
+ endif
+ 
+-$(multi-used-m): FORCE
++$(multi-obj-m): FORCE
+ 	$(call if_changed,link_multi-m)
+-$(call multi_depend, $(multi-used-m), .o, -objs -y -m)
++$(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
+ 
+-targets += $(multi-used-m)
++targets += $(multi-obj-m)
+ targets := $(filter-out $(PHONY), $(targets))
+ 
+ # Add intermediate targets:
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index e12633f4057d..44a1652ddcd7 100644
+index eee59184de64..e60be0bddda2 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -58,10 +58,6 @@ real-search = $(foreach m,$(1), $(if $(strip $(call
-suffix-search,$(m),$(2) -)),
- real-obj-y := $(call real-search, $(obj-y),-objs -y)
- real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
-
--# List all dtbs to be generated by fdtoverlay
--overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
--overlay-$(CONFIG_OF_ALL_DTBS) += $(foreach m,$(dtb-), $(if $(strip
-$($(m:.dtb=-dtbs))),$(m),))
--
- always-y += $(always-m)
-
- # hostprogs-always-y += foo
-@@ -75,13 +71,16 @@ always-y += $(hostprogs-always-y) $(hostprogs-always-m)
- userprogs += $(userprogs-always-y) $(userprogs-always-m)
- always-y += $(userprogs-always-y) $(userprogs-always-m)
-
-+# If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
-+dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
-+
-+# List all dtbs to be generated by fdtoverlay
-+overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
-+
- # DTB
- # Add base dtb and overlay dtbo
- dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
-
--# If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
--dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
--
- always-y                       += $(dtb-y)
-
- ifneq ($(CHECK_DTBS),)
-
-
-
+@@ -48,9 +48,9 @@ endif
+ suffix-search = $(foreach s,$(2),$($(1:.o=$s)))
+ # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
+ multi-search = $(sort $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)), $(m))))
+-multi-used-y := $(call multi-search,$(obj-y),-objs -y)
+-multi-used-m := $(call multi-search,$(obj-m),-objs -y -m)
+-multi-used   := $(multi-used-y) $(multi-used-m)
++multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
++multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
++multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+ 
+ # Replace multi-part objects by their individual parts,
+ # including built-in.a from subdirectories
+@@ -92,12 +92,12 @@ obj-m		:= $(addprefix $(obj)/,$(obj-m))
+ lib-y		:= $(addprefix $(obj)/,$(lib-y))
+ real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
+ real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
+-multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
++multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
+ subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+ 
+ # Finds the multi-part object the current object will be linked into.
+ # If the object belongs to two or more multi-part objects, list them all.
+-modname-multi = $(sort $(foreach m,$(multi-used),\
++modname-multi = $(sort $(foreach m,$(multi-obj-ym),\
+ 		$(if $(filter $*.o, $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m))),$(m:.o=))))
+ 
+ __modname = $(if $(modname-multi),$(modname-multi),$(basetarget))
 -- 
-Best Regards
-Masahiro Yamada
+2.27.0
+
