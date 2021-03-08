@@ -2,89 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5067433107A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Mar 2021 15:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFF1433167B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Mar 2021 19:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbhCHOLv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Mar 2021 09:11:51 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:52177 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbhCHOLp (ORCPT
+        id S229701AbhCHSrM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Mar 2021 13:47:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231195AbhCHSrA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Mar 2021 09:11:45 -0500
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 128EBCEd008128;
-        Mon, 8 Mar 2021 23:11:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 128EBCEd008128
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615212673;
-        bh=D51j11IymRejYS1YLF4yZz4Lh5b4BqPafgD1kwn5RJg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zCWcxKelDXbybors9yzQBDjf5+p94w0syBSQUOUa13A8XAekVEfjcj48e/VH4n4Ho
-         dv/+UUY7yp1w4kWt6pQhdNcIut/7PY0KhBFgxXer2PfvBX6ls9RRHSzsmZI2C9SMYl
-         YMhIeLmdfR8pVOoJhytyVHDOBbtgUkEwoW1bvBDexDBDmMBalV/sIs1JV5rn8i7TgJ
-         TKklT+UseZn2HuK/Vvgyc9VX6gS2t73kmkkdC+IhfVrv7thSXHE/XxLDuqj8clvDau
-         Ogfn6UIGXqAC7tduNvimFo2xgUDezBFEyrvKter9tifu89DXR5UJn4+uekVXeybv6r
-         qwoj1rUE1pzdA==
-X-Nifty-SrcIP: [209.85.214.169]
-Received: by mail-pl1-f169.google.com with SMTP id d8so4912400plg.10;
-        Mon, 08 Mar 2021 06:11:12 -0800 (PST)
-X-Gm-Message-State: AOAM531s+Bl6yBwpxxr9/8iDM7zoBm+2RWAebMAx+T7WL9nf8cQQ8GSQ
-        eX0n9K3o4RKVAd7KhDdkAoC9LmVW9R3m/yUEeWg=
-X-Google-Smtp-Source: ABdhPJzjO0JlIXfvM/rDoV2mA8vb4upZZOC6Gq/PGFayTYuG3LMswZd2grtIomBcWroCc1jaCt6fBpIIFu2UeRDVkYw=
-X-Received: by 2002:a17:90a:5510:: with SMTP id b16mr25203112pji.87.1615212672124;
- Mon, 08 Mar 2021 06:11:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20210228061028.239459-1-masahiroy@kernel.org>
-In-Reply-To: <20210228061028.239459-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 8 Mar 2021 23:10:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASQ6G+cspPanufSGdOVv9amHf91rao593W5J1FOKaeTxw@mail.gmail.com>
-Message-ID: <CAK7LNASQ6G+cspPanufSGdOVv9amHf91rao593W5J1FOKaeTxw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] kbuild: add image_name to no-sync-config-targets
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        Mon, 8 Mar 2021 13:47:00 -0500
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5B4C06174A
+        for <linux-kbuild@vger.kernel.org>; Mon,  8 Mar 2021 10:47:00 -0800 (PST)
+Received: by mail-qk1-x749.google.com with SMTP id h21so8051459qkl.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Mar 2021 10:47:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=Qzw87IjpyPEnnpaW2VW2opErpv1GSjEUj7UuHD/O6I4=;
+        b=a6xeuAP3eXwT8Dwq5ALbVXDnhin4gW/L2S8GMZCTALGiwze1HVRxvy5AOiKBgz7LSD
+         9Q74FeR/muNa84dAGfprso7rf5tZTSRSpORRUeq8AcGwbqIOzU4gN9yG3R+aoW5PvFLP
+         YiJNzKFnJYE0gBIBZzf/wYKe+4352iECO40TvYoJH6LigNlRBNvDrM1EH5jnN5X90O16
+         zUkFSBRD1Y+sxJJMbmSAubnPwV7dZfBN4YozGeOeOglTFF+XStp5Wg/ZVa0XP+Iuz532
+         3LPzlaioezslgSrkgWewg0sB+1bHZEce+4R7oyxzcveyL0N4/8zrQJg7dcjId6twD6FP
+         PJvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=Qzw87IjpyPEnnpaW2VW2opErpv1GSjEUj7UuHD/O6I4=;
+        b=I3wmACRF4ejN7Pxih5ZuDUeYggX5561MJHSs9eOAaPIhskNtOmNfIELnhFkDJtvEsO
+         BV0fuG/02mLrjVtGBty2IfMPgw2gMKF47brMgngJg0rxo5tUjxs3GSZSKse35Jtt870a
+         MV975Qsfi/8xcb5ccLhcwW9zK9w0ajlWzigUaFu3p2V7RO9Y7WKwWDVgiWB0+bgxJf67
+         WnFP1FukTZvsuER6cehQp2qEs9u/rYR+tLSjFGeHWlzrz45dbPWLh39nZ/vg+jcqIg9Q
+         IPzi1QB8tEZhs9YVXEBHhDRNwp814XfjsjFsHT9fGJZIR3zcaJY3ucZqpE05h4cgedwu
+         fdEg==
+X-Gm-Message-State: AOAM532WdlY/NTS3yDLDgowpHqI9O7JbY5mE2OWFT5FlE8MzWIlViSZ6
+        1KIqIF79xIg+q8nxuDF3h7UkCkhEGf9nNOS0Xc4=
+X-Google-Smtp-Source: ABdhPJxg4hio5XYPFHLtQ71d/4pZywp6EIOqqNBTmGBHjnMJQFpkBYe/mvvXKQqQCyRDRdf3lWGC2LzWCCuLT3E+L8M=
+Sender: "samitolvanen via sendgmr" 
+        <samitolvanen@samitolvanen1.mtv.corp.google.com>
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:8dbc:8d66:eebd:6d0e])
+ (user=samitolvanen job=sendgmr) by 2002:a0c:ee89:: with SMTP id
+ u9mr22247920qvr.40.1615229219742; Mon, 08 Mar 2021 10:46:59 -0800 (PST)
+Date:   Mon,  8 Mar 2021 10:46:56 -0800
+Message-Id: <20210308184656.1914947-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+Subject: [PATCH] kbuild: Allow LTO to be selected with KASAN_HW_TAGS
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Alistair Delva <adelva@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Feb 28, 2021 at 3:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> 'make image_name' needs include/config/auto.conf to show the correct
-> output because KBUILD_IMAGE depends on CONFIG options, but should not
-> attempt to resync the configuration.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+While LTO with KASAN is normally not useful, hardware tag-based KASAN
+can be used also in production kernels with ARM64_MTE. Therefore, allow
+KASAN_HW_TAGS to be selected together with HAS_LTO_CLANG.
 
-All applied to linux-kbuild.
+Reported-by: Alistair Delva <adelva@google.com>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+---
+ arch/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 2bb30673d8e6..2e7139b39e8f 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -638,7 +638,7 @@ config HAS_LTO_CLANG
+ 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+ 	depends on ARCH_SUPPORTS_LTO_CLANG
+ 	depends on !FTRACE_MCOUNT_USE_RECORDMCOUNT
+-	depends on !KASAN
++	depends on !KASAN || KASAN_HW_TAGS
+ 	depends on !GCOV_KERNEL
+ 	help
+ 	  The compiler and Kconfig options support building with Clang's
 
-
->  Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 633d2769b6ec..c84a9311df29 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -263,7 +263,8 @@ no-dot-config-targets := $(clean-targets) \
->                          $(version_h) headers headers_% archheaders archscripts \
->                          %asm-generic kernelversion %src-pkg dt_binding_check \
->                          outputmakefile
-> -no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
-> +no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease \
-> +                         image_name
->  single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
->
->  config-build   :=
-> --
-> 2.27.0
->
-
-
+base-commit: 144c79ef33536b4ecb4951e07dbc1f2b7fa99d32
 -- 
-Best Regards
-Masahiro Yamada
+2.30.1.766.gb4fecdf3b7-goog
+
