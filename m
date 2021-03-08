@@ -2,136 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6D01331701
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Mar 2021 20:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D095331973
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Mar 2021 22:40:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbhCHTLp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Mar 2021 14:11:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33824 "EHLO
+        id S230342AbhCHVje (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Mar 2021 16:39:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbhCHTLk (ORCPT
+        with ESMTP id S229901AbhCHVja (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Mar 2021 14:11:40 -0500
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B493C06175F
-        for <linux-kbuild@vger.kernel.org>; Mon,  8 Mar 2021 11:11:40 -0800 (PST)
-Received: by mail-vs1-xe2b.google.com with SMTP id d25so5438843vsr.11
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Mar 2021 11:11:40 -0800 (PST)
+        Mon, 8 Mar 2021 16:39:30 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF4EC06174A
+        for <linux-kbuild@vger.kernel.org>; Mon,  8 Mar 2021 13:39:30 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id fu20so413024pjb.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Mar 2021 13:39:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i+YqN6/BonSiVeAMXE6BrX07AcSfEu2bZuI4K6dyeGs=;
-        b=tFRWlYBz4jdkgSvYUFFKinpnZ3qnIXEvIzqUU35H9pO1jXTOZwk8RP5RrRgFBeNEJv
-         sAO470V+mT9+QqFSC8x2BZq9U5lR+ZlXRHRQv/rJEPEJvZzj7ZIuTTkddFZccZY9wQwy
-         KXH8ouKYfrsPaZOTXgc/oMGxcefX66NNvbDBOdS5nbsoX0VjAKwPuLErSGCfumOb/u4M
-         cysthcPnmqyBN+WGFLMu7IAkPecQZdLoHC8IW1Wk2WqNuuETiFuJW6HuewYBashgATr2
-         zJwMK7I52szFFGyrNJnEbIxKE0dlyepaDoWOiKIAhgmNk7ZOrM+Cmapbz7Rv7WGCsJNd
-         blpw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EWvWBXtE6LC0x5+EhuqOJ3oY9GpYiZIHnEJDU3K8dog=;
+        b=V9eyL2u0XJmDG5RNYn9VW90WFHdcLmUmrYjRFb2W/FI5PHN2qvuoIt5fk6pFca77Qr
+         GYVTw1ZGOEblHLF50/wN+6S4KnZVPUBFIVEyw9sjutI1VELk6x0ePk65StCSMbubi6CX
+         ylNgM7vahd33gB3HCxv2YFdQEBdcbYToEXRrM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i+YqN6/BonSiVeAMXE6BrX07AcSfEu2bZuI4K6dyeGs=;
-        b=FI5IhMI4BM+5Dzc68WdaxBXLbfq4fnmobL506zeWmPQShcJ6HJ84nrlv2hIlecjhN/
-         Bu/Zqrh0/tVNkDwoZa/lk75ndX3HKhr+zy+fv9TiPIUgxty1zMk5ermBkOw5WeYrRGkz
-         rgeFMQrJbffusYgkYnoCyfWK4CiR/Ssl9BtvwvX3HoRCqKYl3csSSLbGZHX950EXhvqd
-         pajqW7kzcVtBY1PV5zvk6n3AHJQO0Xt6kdS+IlWvciHlJm8vKPxytCKUg9sABRVFIIB5
-         rmZ0aAyGc/Lwit9mVfwmRYBMfesxcAdTqIixddjhlRj7Mi6rL5/hfegKh+kWf6kqClyB
-         JsnA==
-X-Gm-Message-State: AOAM532NLYGUeiEhKEeot+PUccVZc8KaL7biJrbmebZ4GPstQiYM8JVp
-        2Lhz5xlXRpDusD/yyRrGRfz7+Ph3HkhCmW85ekH79Q==
-X-Google-Smtp-Source: ABdhPJwnBwBvByMLaIc5q/vWlaZhIdfejCcE6Rc7+VJQZPrDZSWBcMhnJFLT4Ta/n0CH+Z1KOLJAyR6HbDJ4B2g+v2s=
-X-Received: by 2002:a67:5ec1:: with SMTP id s184mr13870317vsb.36.1615230699312;
- Mon, 08 Mar 2021 11:11:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20210303183333.46543-1-masahiroy@kernel.org> <CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E+GL3SyOk-jQ0kdXtMzg@mail.gmail.com>
-In-Reply-To: <CAKwvOdkhZGv_q9vgDdYY44OrbzmMD_E+GL3SyOk-jQ0kdXtMzg@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 8 Mar 2021 11:11:28 -0800
-Message-ID: <CABCJKudmzK=AhtMpZt6X3BDG7NHmf9C6ncEt9JJAv+uto14qXQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] kbuild: remove LLVM=1 test from HAS_LTO_CLANG
-To:     Nick Desaulniers <ndesaulniers@google.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EWvWBXtE6LC0x5+EhuqOJ3oY9GpYiZIHnEJDU3K8dog=;
+        b=akMlwwEJtXDGEUGnSOMEoUMHtIyHLxKlWNmHMuXA77WrRQqQcfhd28wZODrHFIzu6x
+         MWWSuDIm/ofaDmutRnaSNoCR64kya5E27+XQCMRDUCiO/n4vQdpAaR/MEc0ioEVQb+4R
+         m129/dNpAejsBK7SDiRa5Bq9uQv5cyLx9J3HWltsr2gsV8JGspUsoJARcsM0swVN8+ZM
+         EvzrmEfPL8p+mXHnVBQlcuFp0VJIHtJjySdyYp/ylItl4KHSXIkXmMVScax7Zm8EjwHH
+         XMT5qK0ZZU44ZgiwRMS8fJBMfvOPRHxdsOkhvhyPl5Eyn3gAerQL0tsNin7zZvrxKWK+
+         RvWA==
+X-Gm-Message-State: AOAM533rGNMOKmU/CgGly7V8AAWQLyz07JbhDmQrCLl8DtdzJFWGIy+P
+        slpFe1xTEFPJzA4Ap0AmSr160g==
+X-Google-Smtp-Source: ABdhPJxf/G9ECz/bN816wfYNhj9BXuNY8J89BAuOifZ7SnfHj190OKd5RixxaJ24ptL97/yYoLaveQ==
+X-Received: by 2002:a17:90a:29a3:: with SMTP id h32mr960430pjd.209.1615239570482;
+        Mon, 08 Mar 2021 13:39:30 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n5sm11149305pfq.44.2021.03.08.13.39.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 13:39:29 -0800 (PST)
+Date:   Mon, 8 Mar 2021 13:39:28 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alistair Delva <adelva@google.com>
+Subject: Re: [PATCH] kbuild: Allow LTO to be selected with KASAN_HW_TAGS
+Message-ID: <202103081339.B18898E@keescook>
+References: <20210308184656.1914947-1-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210308184656.1914947-1-samitolvanen@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 12:47 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> + Sami
->
-> On Wed, Mar 3, 2021 at 10:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > This guarding is wrong. As Documentation/kbuild/llvm.rst notes, LLVM=1
-> > switches the default of tools, but you can still override CC, LD, etc.
-> > individually.
-> >
-> > BTW, LLVM is not 1/0 flag. If LLVM is not passed in, it is empty.
->
-> Do we have the same problem with LLVM_IAS?  LGTM otherwise, but wanted
-> to check that before signing off.
->
-> (Also, the rest of the patches in this series seem more related to
-> DWARFv5 cleanups; this patch seems orthogonal while those are a
-> visible progression).
->
-> >
-> > Non-zero return code is all treated as failure anyway.
-> >
-> > So, $(success,test $(LLVM) -eq 1) and $(success,test "$(LLVM)" = 1)
-> > works equivalently in the sense that both are expanded to 'n' if LLVM
-> > is not given. The difference is that the former internally fails due
-> > to syntax error.
-> >
-> >   $ test ${LLVM} -eq 1
-> >   bash: test: -eq: unary operator expected
-> >   $ echo $?
-> >   2
-> >
-> >   $ test "${LLVM}" -eq 1
-> >   bash: test: : integer expression expected
-> >   $ echo $?
-> >   2
-> >
-> >   $ test "${LLVM}" = 1
-> >   echo $?
-> >   1
-> >
-> >   $ test -n "${LLVM}"
-> >   $ echo $?
-> >   1
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  arch/Kconfig | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index 2bb30673d8e6..2af10ebe5ed0 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -632,7 +632,6 @@ config HAS_LTO_CLANG
-> >         def_bool y
-> >         # Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
-> >         depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
-> > -       depends on $(success,test $(LLVM) -eq 1)
->
-> IIRC, we needed some other LLVM utilities like llvm-nm and llvm-ar,
-> which are checked below. So I guess we can still support CC=clang
-> AR=llvm-ar NM=llvm-nm, and this check is redundant.
+On Mon, Mar 08, 2021 at 10:46:56AM -0800, Sami Tolvanen wrote:
+> While LTO with KASAN is normally not useful, hardware tag-based KASAN
+> can be used also in production kernels with ARM64_MTE. Therefore, allow
+> KASAN_HW_TAGS to be selected together with HAS_LTO_CLANG.
+> 
+> Reported-by: Alistair Delva <adelva@google.com>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-I'm fine with removing the check, but the idea here was to just make
-it slightly harder for people to accidentally use a mismatched
-toolchain, even though checking for LLVM=1 doesn't stop them from
-doing so anyway. But yes, the only LLVM tools required in addition to
-the compiler and the linker are llvm-ar and llvm-nm.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Sami
+-- 
+Kees Cook
