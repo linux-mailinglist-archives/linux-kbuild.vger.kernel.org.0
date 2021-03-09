@@ -2,143 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66566332C07
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 17:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37805332C8D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 17:50:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbhCIQ3P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 11:29:15 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:29521 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbhCIQ3N (ORCPT
+        id S229689AbhCIQtk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 11:49:40 -0500
+Received: from pb-smtp20.pobox.com ([173.228.157.52]:60073 "EHLO
+        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230303AbhCIQtW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 11:29:13 -0500
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 129GSa7H008677;
-        Wed, 10 Mar 2021 01:28:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 129GSa7H008677
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615307316;
-        bh=LU75W1RyLpq/PkLkgeSG8vO4/DX8mY6NU/2K9F2Z3/M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t3g8fea6J+L4vK+R1Us/DYeHngw7pP9IUxEUwy87pJVTuCgVeoINW1+1AZisViGh9
-         zVBc6aTKQMRrnnLaCqnYzxEQTlgo6nc/Kgufs1PUnmHoft5bE4N7RoT1wjmY9ewQ4Y
-         yHQSlIr/iWmObJpcHAMzLMaynAzyk070M21D5+Q+X1IwHJlSIyNMZ1m9Rceb9bJQZI
-         Lcnjx7Y+XGAniZGDhOljSko3kTS1py1ZJIckh+atWkVvqLXwXhRsJhH7ltWTlSrxJn
-         v+Eai2Q+3mHD0hwcncpQIcEJQX+cw7pqU22yOXBiPAhllpZW8ek32VY0vFadd9ZbA8
-         KHTmKju56tDyg==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id a24so6821770plm.11;
-        Tue, 09 Mar 2021 08:28:36 -0800 (PST)
-X-Gm-Message-State: AOAM530sXAYn6Ha6lpWG+95M6qD2ZcYlogfpsmxrmfPEmQc47IVA3pay
-        vIRlsj5xwf7cxxeC/QzN4tzDWd2qggqBkZ9utJw=
-X-Google-Smtp-Source: ABdhPJxSp+EHQoVEK25jImqvGmiloOeoo5r8WDcWtlcg9y/gK6zUUiMHomtTUOrLVcAyWwvLBsSCsntT5m2DO6NV/pk=
-X-Received: by 2002:a17:90a:3b0e:: with SMTP id d14mr5604213pjc.198.1615307315579;
- Tue, 09 Mar 2021 08:28:35 -0800 (PST)
+        Tue, 9 Mar 2021 11:49:22 -0500
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id EB70310E553;
+        Tue,  9 Mar 2021 11:49:21 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=E9MbVhkCmutKtFD9vVxlmwEupRk=; b=Yk3Pi9
+        1SFIOhGT3sSWmMbjxqA5ZMQyKQFY1oWiO24BJGbPSB99w1xgdGp96GU32Wahwx6T
+        BkkYoma5knMqWUF8+oqPjEBJVfnqq/pG95nIgVG76gj+OVhrEk29ht267lXwAESJ
+        MIC7+e0K/cNuI90tEznAio7HtOl3zNVgO3ceo=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id E0BC910E552;
+        Tue,  9 Mar 2021 11:49:21 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=Jl2Ko8laId4g9IMRvYTHhzlWdkRni9KCBszZL0sGFkw=; b=YN+D0sNW7Ti9vvXGiEMY2f7x+FKgbmmOXrSH5qZzLqWOwsraknJf0Uew9TLvQbW5Dcp0WVoQFvetL/xHerPu7Tfg3wmFjsK5w8scZr2z4mcJPHssl7aI/eohxQA8c0vSvrf1Q0M03dmnUtEpuN/Lsxp7gu6MA/gmsfhJzfJsDO8=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 9A0FC10E54D;
+        Tue,  9 Mar 2021 11:49:18 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id DBCBD2DA017E;
+        Tue,  9 Mar 2021 11:49:16 -0500 (EST)
+Date:   Tue, 9 Mar 2021 11:49:16 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH 0/4] kbuild: build speed improvment of
+ CONFIG_TRIM_UNUSED_KSYMS
+In-Reply-To: <CAK7LNATw9tLZ7sgPhK5TcsQnYW6_O25JOqxGA_wm4rN+Hi0SLg@mail.gmail.com>
+Message-ID: <8552376s-o19r-3775-6917-p8oq181oosq6@syhkavp.arg>
+References: <20210225160247.2959903-1-masahiroy@kernel.org> <r3584n3-sq21-qo49-9sp5-r3qp6o611s55@syhkavp.arg> <CAK7LNAQeL7jQt1RJjLbU7MUj7XGAwEAhtTvMocQw85uJj9NA9g@mail.gmail.com> <46506ns0-1477-n7nq-9qq4-9pn48634oq4@syhkavp.arg>
+ <CAK7LNATw9tLZ7sgPhK5TcsQnYW6_O25JOqxGA_wm4rN+Hi0SLg@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1615199908.git.viresh.kumar@linaro.org> <c6dea8f363725c069e26031ec7c7c5f27850103b.1615199908.git.viresh.kumar@linaro.org>
-In-Reply-To: <c6dea8f363725c069e26031ec7c7c5f27850103b.1615199908.git.viresh.kumar@linaro.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Mar 2021 01:27:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATebzcDXvdq0K5Y2f7tHw7i0429fDTSga8Qqkd5emjP_g@mail.gmail.com>
-Message-ID: <CAK7LNATebzcDXvdq0K5Y2f7tHw7i0429fDTSga8Qqkd5emjP_g@mail.gmail.com>
-Subject: Re: [PATCH V10 2/5] kbuild: Add generic rule to apply fdtoverlay
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 63E9F066-80F7-11EB-A106-E43E2BB96649-78420484!pb-smtp20.pobox.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 7:45 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> From: Rob Herring <robh@kernel.org>
->
-> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
-> platform doesn't need to carry the complex rule. This also automatically
-> adds "DTC_FLAGS_foo_base += -@" for all base files.
->
-> The platform's Makefile only needs to have this now:
->
->  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
->  dtb-y := foo.dtb
->
-> We don't want to run schema checks on foo.dtb (as foo.dts doesn't exist)
-> and the Makefile is updated accordingly.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> Co-developed-by: Viresh Kumar <viresh.kumar@linaro.org>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+On Tue, 9 Mar 2021, Masahiro Yamada wrote:
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+> On Fri, Feb 26, 2021 at 4:24 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+> >
+> > If CONFIG_TRIM_UNUSED_KSYMS is enabled then build time willincrease.
+> > That comes with the feature.
+> 
+> This patch set intends to change this.
+> TRIM_UNUSED_KSYMS will build without additional cost,
+> like LD_DEAD_CODE_DATA_ELIMINATION.
+
+OK... I do see how you're going about it.
+
+> > > Modules are relocatable ELF.
+> > > Clang LTO cannot eliminate any code.
+> > > GCC LTO does not work with relocatable ELF
+> > > in the first place.
+> >
+> > I don't think I follow you here. What relocatable ELF has to do with LTO?
+> 
+> What is important is,
+> GCC LTO is the feature of gcc, not binutils.
+> That is, LD_FINAL is $(CC).
+
+Exact.
+
+> GCC LTO can be implemented for the final link stage
+> by using $(CC) as the linker driver.
+> Then, it can determine which code is unreachable.
+> In other words, GCC LTO works only when building
+> the final executable.
+
+Yes. And it does so by filling .o files with its intermediate code 
+representation and not ELF code.
+
+> On the other hand, a relocatable ELF is created
+> by $(LD) -r by combining some objects together.
+> The relocatable ELF can be fed to another $(LD) -r,
+> or the final link stage.
+
+You still can create relocatable ELF using LTO. But LTO stops there. 
+From that point on, .o files will no longer contain data that LTO can 
+use if you further combine those object files together. But until that 
+point, LTO is still usable.
+
+> As I said above, modules are created by $(LD) -r.
+> It is not possible to implement GCC LTO for modules.
+
+If I remember correctly (that was a while ago) the problem with LTO and 
+the kernel had to do with the fact that avery subdirectory was gathering 
+object files in built-in.o using ld -r. At some point we switched to 
+gathering object files into built-in.a files where no linking is taking 
+place. The real linking happens in vmlinux.o where LTO may now do its 
+magic.
+
+The same is true for modules. Compiling foo_module.c into foo_module.o 
+will create a .o file with LTO data rather than executable code. But 
+when you create the final .o for the module then LTO takes place and 
+produce the relocatable ELF executable.
+
+> > I've successfully used gcc LTO on the kernel quite a while ago.
+> >
+> > For a reference about binary size reduction with LTO and
+> > CONFIG_TRIM_UNUSED_KSYMS please read this article:
+> >
+> > https://lwn.net/Articles/746780/
+> 
+> Thanks for the great articles.
+> 
+> Just for curiosity, I think you used GCC LTO from
+> Andy's GitHub.
+
+Right. I provided the reference in the preceding article:
+https://lwn.net/Articles/744507/ 
+
+> In the article, you took stm32_defconfig as an example,
+> but ARM does not select ARCH_SUPPORTS_LTO.
+> 
+> Did you add some local hacks to make LTO work
+> for ARM?
+
+Of course. This article was written in 2017 and no LTO support at all 
+was in mainline back then. But, besides adding CONFIG_LTO, very little 
+was needed to make it compile, and I did upstream most changes such as 
+commit 75fea300d7, commit a85b2257a5, commit 5d48417592, commit 
+19c233b79d, etc.
+
+> I tried the lto-5.8.1 branch, but
+> I did not even succeed in building x86 + LTO.
+
+My latest working LTO branch (i.e. last time I worked on it) is much 
+older than that.
+
+Maybe people aren't very excited about LTO because it makes the time to 
+recompiling the kernel many times longer because gcc does its 
+optimization passes on the whole kernel even if you modify a single 
+file.
 
 
-
-> ---
->  scripts/Makefile.lib | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index a2658242d956..bc045a54a34e 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -75,11 +75,24 @@ always-y += $(userprogs-always-y) $(userprogs-always-m)
->  # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
->  dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
->
-> +# List all dtbs to be generated by fdtoverlay
-> +overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
-> +
-> +# Generate symbols for the base files so overlays can be applied to them.
-> +$(foreach m,$(overlay-y), $(eval DTC_FLAGS_$(basename $(firstword $($(m:.dtb=-dtbs)))) += -@))
-> +
-> +# Add base dtb and overlay dtbo
-> +dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
-> +
->  always-y                       += $(dtb-y)
->
->  ifneq ($(CHECK_DTBS),)
-> -always-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
-> -always-y += $(patsubst %.dtbo,%.dt.yaml, $(dtb-y))
-> +# Don't run schema checks for dtbs created by fdtoverlay as they don't
-> +# have corresponding dts files.
-> +dt-yaml-y := $(filter-out $(overlay-y),$(dtb-y))
-> +
-> +always-y += $(patsubst %.dtb,%.dt.yaml, $(dt-yaml-y))
-> +always-y += $(patsubst %.dtbo,%.dt.yaml, $(dt-yaml-y))
->  endif
->
->  # Add subdir path
-> @@ -337,6 +350,15 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
->  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
->         $(call if_changed_dep,dtc)
->
-> +overlay-y := $(addprefix $(obj)/, $(overlay-y))
-> +
-> +quiet_cmd_fdtoverlay = DTOVL   $@
-> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
-> +
-> +$(overlay-y): FORCE
-> +       $(call if_changed,fdtoverlay)
-> +$(call multi_depend, $(overlay-y), .dtb, -dtbs)
-> +
->  DT_CHECKER ?= dt-validate
->  DT_BINDING_DIR := Documentation/devicetree/bindings
->  # DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
-> --
-> 2.25.0.rc1.19.g042ed3e048af
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Nicolas
