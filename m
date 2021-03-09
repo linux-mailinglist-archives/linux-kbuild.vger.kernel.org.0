@@ -2,47 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AD29332A77
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 16:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD469332A99
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 16:35:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231410AbhCIPbS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 10:31:18 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:54958 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231819AbhCIPbN (ORCPT
+        id S231684AbhCIPfF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 10:35:05 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:58560 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230215AbhCIPfF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 10:31:13 -0500
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 129FUcdn018321;
-        Wed, 10 Mar 2021 00:30:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 129FUcdn018321
+        Tue, 9 Mar 2021 10:35:05 -0500
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 129FYSbl016202;
+        Wed, 10 Mar 2021 00:34:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 129FYSbl016202
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615303838;
-        bh=duaVjO6ZT9w3WdK0Ejkic79qcK1IWR5fB/TZDf76FGA=;
+        s=dec2015msa; t=1615304069;
+        bh=zIB1c5hEd1cXXpxWSOfZU5o4T77yG0IZKzbiDL/hDfo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qgM9NFwMiLY47ay6AZVLPl12PZ16k7tMoEC4jOirg2Q556CR9IVNEayLHEsX96iHg
-         z2vIdkeX66iopgC/rKnB/V3drNeqJMZ02q7ZdkOykQwXe1fmQJdptphUd5U/FOzP8f
-         O+SYC5sgdCw7huTniJEp5fWce79kEb8eocxZnzMYaISEj85T8uA5dzNvmLBQ15TSOe
-         CrRyBA7GzDRGJc+gyebsJ+uYgmnSs3HYphNge77KDioK3/y4QIbeg2ygDcr6UznoZH
-         wYKUVlcPe+dNIf/Y/B7Gtk5Hm4wcxJoOda3bfJWNQi149t5XuLzyGz+3HF5Py547JE
-         RrAGzO0hDuGcg==
-X-Nifty-SrcIP: [209.85.210.177]
-Received: by mail-pf1-f177.google.com with SMTP id t85so4409241pfc.13;
-        Tue, 09 Mar 2021 07:30:38 -0800 (PST)
-X-Gm-Message-State: AOAM532P79lgEG4iqDUotU4Y/A8TaqvEr/R/H/UJ7p+5jBQzSRVkg6XY
-        dgXZxdG/VdHO7D1H00xEsRtRaiqkn4n1A64m4/I=
-X-Google-Smtp-Source: ABdhPJyLsPDnmD2y2htemNUFNTD3CKccrm7a07/ky8tR1jO6hHrNhdi3f+3km8/+c3tYh8GKZEI34XL1WNiXXYuYd64=
-X-Received: by 2002:aa7:8d84:0:b029:1f8:3449:1bc6 with SMTP id
- i4-20020aa78d840000b02901f834491bc6mr6900507pfr.76.1615303835416; Tue, 09 Mar
- 2021 07:30:35 -0800 (PST)
+        b=XhvjdxJ5Li1qJUNNSsS300Lr8Iv9wvvb37LG4LF7xAM7BD8T606JxKkXD2GZl7jOz
+         Z5GmbWhT3s+qyma5onANl5xW/58ktqFwdGOKTG9/4fXjAFRRQVp16KU4fjAq54Uel3
+         6vvN0xGBX5YoUTXmsuFhv5wC5KVY1QaJe4LvJHE9eYYWNwQnhRAQ8fPWBiv0PYQJPV
+         1HEcy30W1NHdWszgOPZLDG77EXheWKjDryrWNhevlUOJJdB6n/kbAqBwvh68UBdPFG
+         2D2p7eDrkxMofR1QUuAVFMmSLS3urJW8Q0Op8qt9jpdizowmW62Q/Ai4YjBQZ1JkCA
+         6TNJUMopIm7mg==
+X-Nifty-SrcIP: [209.85.215.177]
+Received: by mail-pg1-f177.google.com with SMTP id a4so9009765pgc.11;
+        Tue, 09 Mar 2021 07:34:29 -0800 (PST)
+X-Gm-Message-State: AOAM5330WP94m8tt6fpTBdHeE8kdqIU+sTgWoDPcLuCNya2K7jv/gj7S
+        wsuV7vrSJU1T8laZ3b0hP7/pMMTr67dLwd2DpiE=
+X-Google-Smtp-Source: ABdhPJy8oJqe2Bz1jzTqDXueXHdTTWQSaS9b8Ua5bhwFbShoYMVzuEJQPEesQD/ofWZBQUpbJNcvifflTTqXNZ6hbMc=
+X-Received: by 2002:a65:428b:: with SMTP id j11mr25609321pgp.47.1615304068324;
+ Tue, 09 Mar 2021 07:34:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20210302142614.505888-1-masahiroy@kernel.org>
-In-Reply-To: <20210302142614.505888-1-masahiroy@kernel.org>
+References: <20210306061121.2023529-1-masahiroy@kernel.org>
+In-Reply-To: <20210306061121.2023529-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Mar 2021 00:29:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARcrGJnoBuzC8mSJqAXPQjdTt-bC8EZEwNBTCTb=o3yQA@mail.gmail.com>
-Message-ID: <CAK7LNARcrGJnoBuzC8mSJqAXPQjdTt-bC8EZEwNBTCTb=o3yQA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: show warning for 'make headers_check'
+Date:   Wed, 10 Mar 2021 00:33:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQojkdz7w2iQtUfiu9bX0XPtNgoSfZMF2jX_QT4_xstNg@mail.gmail.com>
+Message-ID: <CAK7LNAQojkdz7w2iQtUfiu9bX0XPtNgoSfZMF2jX_QT4_xstNg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rename multi-used-* to multi-obj-*
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
@@ -51,44 +50,81 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 2, 2021 at 11:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sat, Mar 6, 2021 at 3:11 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Since commit 7ecaf069da52 ("kbuild: move headers_check rule to
-> usr/include/Makefile"), the headers_check target is no-op.
+> I think multi-obj-* is clearer, and more consisten with real-obj-*.
 >
-> This stub target is remaining here in case some scripts still invoke
-> 'make headers_check'. In order to prompt people to remove stale code,
-> show a noisy warning message if used. The stub will be really removed
-> after the Linux 5.15 release.
+> Rename as follows:
+>
+>   multi-used-y  ->  multi-obj-y
+>   multi-used-m  ->  multi-obj-m
+>   multi-used    ->  multi-obj-ym
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Fixed the typo "consisten" to "consistent",
+and applied to linux-kbuild.
+
+
+
+
 > ---
-
-Applied to linux-kbuild.
-
-
-
 >
->  Makefile | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  scripts/Makefile.build |  6 +++---
+>  scripts/Makefile.lib   | 10 +++++-----
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index f9b54da2fca0..a3336d9b4a22 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1339,7 +1339,11 @@ headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
->  # Deprecated. It is no-op now.
->  PHONY += headers_check
->  headers_check:
-> -       @:
-> +       @echo >&2 "=================== WARNING ==================="
-> +       @echo >&2 "Since Linux 5.5, 'make headers_check' is no-op,"
-> +       @echo >&2 "and will be removed after Linux 5.15 release."
-> +       @echo >&2 "Please remove headers_check from your scripts."
-> +       @echo >&2 "==============================================="
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 1b6094a13034..56cf8eb475cf 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -444,11 +444,11 @@ quiet_cmd_link_multi-m = LD [M]  $@
+>        cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
+>  endif
 >
->  ifdef CONFIG_HEADERS_INSTALL
->  prepare: headers
+> -$(multi-used-m): FORCE
+> +$(multi-obj-m): FORCE
+>         $(call if_changed,link_multi-m)
+> -$(call multi_depend, $(multi-used-m), .o, -objs -y -m)
+> +$(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
+>
+> -targets += $(multi-used-m)
+> +targets += $(multi-obj-m)
+>  targets := $(filter-out $(PHONY), $(targets))
+>
+>  # Add intermediate targets:
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index eee59184de64..e60be0bddda2 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -48,9 +48,9 @@ endif
+>  suffix-search = $(foreach s,$(2),$($(1:.o=$s)))
+>  # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
+>  multi-search = $(sort $(foreach m,$(1), $(if $(strip $(call suffix-search,$(m),$(2) -)), $(m))))
+> -multi-used-y := $(call multi-search,$(obj-y),-objs -y)
+> -multi-used-m := $(call multi-search,$(obj-m),-objs -y -m)
+> -multi-used   := $(multi-used-y) $(multi-used-m)
+> +multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
+> +multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
+> +multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+>
+>  # Replace multi-part objects by their individual parts,
+>  # including built-in.a from subdirectories
+> @@ -92,12 +92,12 @@ obj-m               := $(addprefix $(obj)/,$(obj-m))
+>  lib-y          := $(addprefix $(obj)/,$(lib-y))
+>  real-obj-y     := $(addprefix $(obj)/,$(real-obj-y))
+>  real-obj-m     := $(addprefix $(obj)/,$(real-obj-m))
+> -multi-used-m   := $(addprefix $(obj)/,$(multi-used-m))
+> +multi-obj-m    := $(addprefix $(obj)/, $(multi-obj-m))
+>  subdir-ym      := $(addprefix $(obj)/,$(subdir-ym))
+>
+>  # Finds the multi-part object the current object will be linked into.
+>  # If the object belongs to two or more multi-part objects, list them all.
+> -modname-multi = $(sort $(foreach m,$(multi-used),\
+> +modname-multi = $(sort $(foreach m,$(multi-obj-ym),\
+>                 $(if $(filter $*.o, $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m))),$(m:.o=))))
+>
+>  __modname = $(if $(modname-multi),$(modname-multi),$(basetarget))
 > --
 > 2.27.0
 >
