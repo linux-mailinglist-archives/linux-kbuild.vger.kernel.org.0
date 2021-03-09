@@ -2,134 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6490F332F78
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 21:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C691332FA3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 21:11:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbhCIT77 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 14:59:59 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:52708 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231596AbhCIT7g (ORCPT
+        id S231358AbhCIULV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 15:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230266AbhCIULJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 14:59:36 -0500
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 129JxHaT012316;
-        Wed, 10 Mar 2021 04:59:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 129JxHaT012316
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615319958;
-        bh=wou3lyafM4ONQKR6kN74QI87FmicL9SFVho3ygkDglM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sjmwAI9xvm2Zy6LtpLeE852Wy9RroQWF2TUSaLlRLLO+bm8mDSWKQ4HxUGdMjf8qD
-         1l+ZGyu2sK8hSRmTKQC0M5WK2r3fOMkXFEZZWDAG6g1ZH25o5+BiYkqxBqXfmWMRmY
-         jOMGu3WYFA2FfnAmyTndTg5ZQOmjogeH08282/xGbtCQjK8n7YQms/oHN2u7pq0cCb
-         ITT1bAgOAbXloH4PvaLrJj6lxITcUnkwtIwZDPYuwWyIILup4mXgmW/aWINtrfxkPT
-         //QHVknwFKoKVDm1c5RwKsfWe8xCrhuYI89vEq/tuGxY8vxU7IUSb97NZxSVhOxwQm
-         rOvy1lHgmVN4w==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id u18so7139907plc.12;
-        Tue, 09 Mar 2021 11:59:17 -0800 (PST)
-X-Gm-Message-State: AOAM530YjikXgjSeoPt2ddpc9QerNhhYU2AxJTdSriNHzQFNXyEvPHjl
-        kaIAbKwsHDECKlqI6hwTL8fxFBCN55PHcpsZTs8=
-X-Google-Smtp-Source: ABdhPJyu7CPo4ikfEtebKPQYUBDnx6k1ucJhvEHaGxy8qyVnzrQco83OIsQDbKZALU41Il9x7uyqrLaQR9YDlllaMhI=
-X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr6060446pjv.153.1615319956989;
- Tue, 09 Mar 2021 11:59:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20210302210646.3044738-1-nathan@kernel.org> <20210302210646.3044738-2-nathan@kernel.org>
- <CAK7LNARd7pM7SCKJOS=_ZDE+-Q_buDOfw_u0vsfof6G1FWXvOQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARd7pM7SCKJOS=_ZDE+-Q_buDOfw_u0vsfof6G1FWXvOQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Mar 2021 04:58:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ0tdK+BEzs=39A4XbCXjAsbyyFp6fgXfhjP+5v_Nsddw@mail.gmail.com>
-Message-ID: <CAK7LNAQ0tdK+BEzs=39A4XbCXjAsbyyFp6fgXfhjP+5v_Nsddw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Makefile: Only specify '--prefix=' when building with
- clang + GNU as
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tue, 9 Mar 2021 15:11:09 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EB7C06174A
+        for <linux-kbuild@vger.kernel.org>; Tue,  9 Mar 2021 12:11:06 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id b13so22924667edx.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Mar 2021 12:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=B8/32gF659TPX/5eYINA0NMCAB5fgPljLbGnRiQdnYg=;
+        b=HEUDvkWM2OFBGBu29IvnFBmfS+Gt2wCcZJ/ayUsAC2S6N/N3L0CEVfF8qcDiEZ0AXP
+         yPaPwm2PuvzIkmjPIxP+8C2RzdkJafbpT21pQRp8egSQoDuXR9U+3h1eKNGpCPFNxyJL
+         mLYAONdRQZayyLUWco/a6BRNXKafSz4PWZQoQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=B8/32gF659TPX/5eYINA0NMCAB5fgPljLbGnRiQdnYg=;
+        b=CkaLOduB4BTRfUX/LR8ANyDFYKMPlLQHoIk/tQSeELVVBGDcbYeZrRtLm53E9anhGF
+         L29rnzaVKPVR5HellJQZauV/O/uqZEHz744M6b5zdC5RSKWSFMsDPZy1/mMx+8hphURw
+         LY470Ad9NEZdtfR7St6xR5x1Z/buvHNdwGxk0CG7G1ESviAldElb5THJ2mFNRqnEoIBV
+         QtC7zrhBqtwOzZCxqEmbiYwOqgxiwExugcw60sjLsppOO0SEu88U5paDgzDyNIWRl2BB
+         qZ91LDH+G8D5X3hGVfu5iY5bT+eMyynwSn3gN0Z+JIdMl9TSJbo0zuw+ezbkMGNbwHPG
+         AhFA==
+X-Gm-Message-State: AOAM531AJT0JbuFSqbbOElCmlv81ppSHN6wo93wsa0RTPsdw9vcV04NG
+        tNYOa8ocGWxFbNotF/yeRjHekg==
+X-Google-Smtp-Source: ABdhPJxaL4O3pJaCdNKg0mD1df/BfGKBvhhC7MuO0ig6LMNEdhKG/JlMLI/ZYh2CLH9LXjPM30SYAw==
+X-Received: by 2002:a05:6402:350f:: with SMTP id b15mr6186693edd.6.1615320665265;
+        Tue, 09 Mar 2021 12:11:05 -0800 (PST)
+Received: from [192.168.1.149] ([80.208.71.248])
+        by smtp.gmail.com with ESMTPSA id t6sm9275838edq.48.2021.03.09.12.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Mar 2021 12:11:04 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] kbuild: re-implement CONFIG_TRIM_UNUSED_KSYMS to
+ make it work in one-pass
+To:     Nicolas Pitre <nico@fluxnic.net>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jessica Yu <jeyu@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-arch <linux-arch@vger.kernel.org>
+References: <20210309151737.345722-1-masahiroy@kernel.org>
+ <20210309151737.345722-4-masahiroy@kernel.org>
+ <354sr3np-67o8-oss9-813s-p2qoro06p4o@syhkavp.arg>
+ <CAK7LNAS97kTsOW_RSy1ZL2P5Q+5Hh05qvE4KwSVkvrhkzb3Shg@mail.gmail.com>
+ <2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhkavp.arg>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <fb8af488-8137-d628-b1c4-983b9ab153a3@rasmusvillemoes.dk>
+Date:   Tue, 9 Mar 2021 21:11:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhkavp.arg>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 10, 2021 at 4:55 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Wed, Mar 3, 2021 at 6:07 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > When building with LLVM_IAS=1, there is no point to specifying
-> > '--prefix=' because that flag is only used to find the cross assembler,
-> > which is clang itself when building with LLVM_IAS=1. All of the other
-> > tools are invoked directly from PATH or a full path specified via the
-> > command line, which does not depend on the value of '--prefix='.
-> >
-> > Sharing commands to reproduce issues becomes a little bit easier without
-> > a '--prefix=' value because that '--prefix=' value is specific to a
-> > user's machine due to it being an absolute path.
-> >
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->
->
-> I was tricked by a couple of Reviewed-by/Tested-by tags.
->
-> With this patch applied, the code looks as follows:
->
->
-> ifneq ($(CROSS_COMPILE),)
-> CLANG_FLAGS += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> ifneq ($(LLVM_IAS),1)
-> GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> CLANG_FLAGS += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> CLANG_FLAGS += -no-integrated-as
-> endif
-> endif
->
->
-> For the native build (empty CROSS_COMPILE),
-> you cannot add -no-integrated-as.
->
->
-> I dropped this from my tree.
->
->
->
-> Is the correct code as follows?
->
->
-> ifneq ($(LLVM_IAS),1)
-> CLANG_FLAGS += -no-integrated-as
-> ifneq ($(CROSS_COMPILE),)
-> CLANG_FLAGS += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> CLANG_FLAGS += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> endif
-> endif
->
->
->
->
+On 09/03/2021 20.54, Nicolas Pitre wrote:
+> On Wed, 10 Mar 2021, Masahiro Yamada wrote:
+> 
 
+>>> I'm not sure I do understand every detail here, especially since it is
+>>> so far away from the version that I originally contributed. But the
+>>> concept looks good.
+>>>
+>>> I still think that there is no way around a recursive approach to get
+>>> the maximum effect with LTO, but given that true LTO still isn't applied
+>>> to mainline after all those years, the recursive approach brings
+>>> nothing. Maybe that could be revisited if true LTO ever makes it into
+>>> mainline, and the desire to reduce the binary size is still relevant
+>>> enough to justify it.
+>>
+>> Hmm, I am confused.
+>>
+>> Does this patch change the behavior in the
+>> combination with the "true LTO"?
+>>
+>> Please let me borrow this sentence from your article:
+>> "But what LTO does is more like getting rid of branches that simply
+>> float in the air without being connected to anything or which have
+>> become loose due to optimization."
+>> (https://lwn.net/Articles/746780/)
+>>
+>> This patch throws unneeded EXPORT_SYMBOL metadata
+>> into the /DISCARD/ section of the linker script.
+>>
+>> The approach is different (preprocessor vs linker), but
+>> we will still get the same result; the unneeded
+>> EXPORT_SYMBOLs are disconnected from the main trunk.
+>>
+>> Then, the true LTO will remove branches floating in the air,
+>> right?
+>>
+>> So, what will be lost by this patch?
+> 
+> Let's say you have this in module_foo:
+> 
+> int foo(int x)
+> {
+> 	return 2 + bar(x);
+> }
+> EXPORT_SYMBOL(foo);
+> 
+> And module_bar:
+> 
+> int bar(int y)
+> {
+> 	return 3 * baz(y);
+> }
+> EXPORT_SYMBOL(bar);
+> 
+> And this in the main kernel image:
+> 
+> int baz(int z)
+> {
+> 	return plonk(z);
+> }
+> EXPORT_SYMBOLbaz);
+> 
+> Now we build the kernel and modules. Then we realize that nothing 
+> references symbol "foo". We can trim the "foo" export. But it would be 
+> necessary to recompile module_foo with LTO (especially if there is 
+> some other code in that module) to realize that nothing 
+> references foo() any longer and optimize away the reference to bar(). 
 
-If you send v2, can you include comments from Fangrui Song?
+But, does LTO even do that to modules? Sure, the export metadata for foo
+vanishes, so there's no function pointer reference to foo, but given
+that modules are just -r links, the compiler/linker can't really assume
+that the generated object won't later be linked with something that does
+require foo? At least for the simpler case of --gc-sections, ld docs say:
 
+'--gc-sections'
+...
 
+    This option can be set when doing a partial link (enabled with
+     option '-r').  In this case the root of symbols kept must be
+     explicitly specified either by one of the options '--entry',
+     '--undefined', or '--gc-keep-exported' or by a 'ENTRY' command in
+     the linker script.
 
-    Fangrui Song:
-      clang can spawn GNU as (if -f?no-integrated-as is specified) and GNU
-      objcopy (-f?no-integrated-as and -gsplit-dwarf and -g[123]).
-      objcopy is only used for GNU as assembled object files.
-      With integrated assembler, the object file streamer creates .o and
-      .dwo simultaneously.
-      With GNU as, two objcopy commands are needed to extract .debug*.dwo to
-      .dwo files && another command to remove .debug*.dwo sections.
+and I would assume that for LTO, --gc-keep-exported would be the only
+sane semantics (keep any external symbol with default visibility).
 
+Can you point me at a tree/set of LTO patches and a toolchain where the
+previous implementation would actually eventually eliminate bar() from
+module_bar?
 
-
-I did not know the objtool part, and I think it is worth recording.
-
-
--- 
-Best Regards
-Masahiro Yamada
+Rasmus
