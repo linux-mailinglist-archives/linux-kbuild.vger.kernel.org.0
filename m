@@ -2,173 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CE33333031
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 21:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99293333080
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 22:00:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhCIUpm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 15:45:42 -0500
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:53658 "EHLO
-        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231467AbhCIUpl (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 15:45:41 -0500
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 2FEB01102BA;
-        Tue,  9 Mar 2021 15:45:41 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=EEYwpmFMJz/Z1AgLx4UEkY2a7TY=; b=A+mH1O
-        c1PcaW1tSDQA2SKj0RshxFRwew6Dl6KkzQfXji8lCp4h6cs8ybWK27TNIOu1rDiL
-        /EL612xfThupmlJ5NUOYIXXzlCb9CoaWJthKQ1d0afMwjplDuO2SPWDeUpcNw+ya
-        aJWeXzi14cOgCKnuKCNYaOEuoaMcGP8YZdaqY=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 27F411102B9;
-        Tue,  9 Mar 2021 15:45:41 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=cuCrynyQbZUCmAFxNmmsDHUNaKl+Dz8eSo9v8dYEUyM=; b=aDbwHVhaCo5zybUV8wvOeYHobRp0AFDA3j1wtDMf38tt1yPMIrdHImpB2oNjdGyyDXlBfgpW6Kkx8izrLUNDzhafMPv7oSYrr1TY2Ga02EUz6ASY5jSFeCr7xUlybEt8oSFTrC8hfMo0Uifl80d0E+FG4hSRLvtfR79gPoeaBv8=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 188A01102B4;
-        Tue,  9 Mar 2021 15:45:38 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 4A4E02DA017E;
-        Tue,  9 Mar 2021 15:45:36 -0500 (EST)
-Date:   Tue, 9 Mar 2021 15:45:36 -0500 (EST)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH v2 3/4] kbuild: re-implement CONFIG_TRIM_UNUSED_KSYMS to
- make it work in one-pass
-In-Reply-To: <fb8af488-8137-d628-b1c4-983b9ab153a3@rasmusvillemoes.dk>
-Message-ID: <14opoo4p-569n-6860-q71s-9o6qs4451rs4@syhkavp.arg>
-References: <20210309151737.345722-1-masahiroy@kernel.org> <20210309151737.345722-4-masahiroy@kernel.org> <354sr3np-67o8-oss9-813s-p2qoro06p4o@syhkavp.arg> <CAK7LNAS97kTsOW_RSy1ZL2P5Q+5Hh05qvE4KwSVkvrhkzb3Shg@mail.gmail.com> <2o2rpn97-79nq-p7s2-nq5-8p83391473r@syhkavp.arg>
- <fb8af488-8137-d628-b1c4-983b9ab153a3@rasmusvillemoes.dk>
+        id S232056AbhCIVAM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 16:00:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47250 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231872AbhCIU7v (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 9 Mar 2021 15:59:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 23BB165243;
+        Tue,  9 Mar 2021 20:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615323590;
+        bh=xKnQy4lOzj4k8Ph2fNHWK9GUggtn0blvGQT07e7lvIA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nXv9MXb029siXwQLMe2V12871C4suockJUAGv/eXhEAWMj+msKfHzogm0ULDD5g8a
+         P99tPVhQWnBHA3PtXSTGaHSmJtFKvp/h97ugEaWAIenX/VqKFlwAS9vXdiEDoc4fik
+         kMwaycxfpgYa0ZxuBgBmuDeHzh8s2pY/3w0f4ZPuDiYADwXo4F4hFfHfpoZ3QVd9n4
+         uDvOIP6YqpEm4djUbLfO/ZG7TYzNgT77zNaoqbxfxx3/2AK1CfKWXqSwMYE5VvmKz5
+         lEkUO7crbbFBlfs93JyhzuccR9epGVWm81IICgloXg8KxD0M0ltKCmFWuaO0XaydyQ
+         6+df88xFd/d/w==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH v2 1/2] Makefile: Remove '--gcc-toolchain' flag
+Date:   Tue,  9 Mar 2021 13:59:14 -0700
+Message-Id: <20210309205915.2340265-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.31.0.rc1
+In-Reply-To: <20210302210646.3044738-1-nathan@kernel.org>
+References: <20210302210646.3044738-1-nathan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 67893512-8118-11EB-A838-E43E2BB96649-78420484!pb-smtp20.pobox.com
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 9 Mar 2021, Rasmus Villemoes wrote:
+This flag was originally added to allow clang to find the GNU cross
+tools in commit 785f11aa595b ("kbuild: Add better clang cross build
+support"). This flag was not enough to find the tools at times so
+'--prefix' was added to the list in commit ef8c4ed9db80 ("kbuild: allow
+to use GCC toolchain not in Clang search path") and improved upon in
+commit ca9b31f6bb9c ("Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang
+cross compilation"). Now that '--prefix' specifies a full path and
+prefix, '--gcc-toolchain' serves no purpose because the kernel builds
+with '-nostdinc' and '-nostdlib'.
 
-> On 09/03/2021 20.54, Nicolas Pitre wrote:
-> > On Wed, 10 Mar 2021, Masahiro Yamada wrote:
-> > 
-> 
-> >>> I'm not sure I do understand every detail here, especially since it is
-> >>> so far away from the version that I originally contributed. But the
-> >>> concept looks good.
-> >>>
-> >>> I still think that there is no way around a recursive approach to get
-> >>> the maximum effect with LTO, but given that true LTO still isn't applied
-> >>> to mainline after all those years, the recursive approach brings
-> >>> nothing. Maybe that could be revisited if true LTO ever makes it into
-> >>> mainline, and the desire to reduce the binary size is still relevant
-> >>> enough to justify it.
-> >>
-> >> Hmm, I am confused.
-> >>
-> >> Does this patch change the behavior in the
-> >> combination with the "true LTO"?
-> >>
-> >> Please let me borrow this sentence from your article:
-> >> "But what LTO does is more like getting rid of branches that simply
-> >> float in the air without being connected to anything or which have
-> >> become loose due to optimization."
-> >> (https://lwn.net/Articles/746780/)
-> >>
-> >> This patch throws unneeded EXPORT_SYMBOL metadata
-> >> into the /DISCARD/ section of the linker script.
-> >>
-> >> The approach is different (preprocessor vs linker), but
-> >> we will still get the same result; the unneeded
-> >> EXPORT_SYMBOLs are disconnected from the main trunk.
-> >>
-> >> Then, the true LTO will remove branches floating in the air,
-> >> right?
-> >>
-> >> So, what will be lost by this patch?
-> > 
-> > Let's say you have this in module_foo:
-> > 
-> > int foo(int x)
-> > {
-> > 	return 2 + bar(x);
-> > }
-> > EXPORT_SYMBOL(foo);
-> > 
-> > And module_bar:
-> > 
-> > int bar(int y)
-> > {
-> > 	return 3 * baz(y);
-> > }
-> > EXPORT_SYMBOL(bar);
-> > 
-> > And this in the main kernel image:
-> > 
-> > int baz(int z)
-> > {
-> > 	return plonk(z);
-> > }
-> > EXPORT_SYMBOLbaz);
-> > 
-> > Now we build the kernel and modules. Then we realize that nothing 
-> > references symbol "foo". We can trim the "foo" export. But it would be 
-> > necessary to recompile module_foo with LTO (especially if there is 
-> > some other code in that module) to realize that nothing 
-> > references foo() any longer and optimize away the reference to bar(). 
-> 
-> But, does LTO even do that to modules? Sure, the export metadata for foo
-> vanishes, so there's no function pointer reference to foo, but given
-> that modules are just -r links, the compiler/linker can't really assume
-> that the generated object won't later be linked with something that does
-> require foo? At least for the simpler case of --gc-sections, ld docs say:
-> 
-> '--gc-sections'
-> ...
-> 
->     This option can be set when doing a partial link (enabled with
->      option '-r').  In this case the root of symbols kept must be
->      explicitly specified either by one of the options '--entry',
->      '--undefined', or '--gc-keep-exported' or by a 'ENTRY' command in
->      the linker script.
-> 
-> and I would assume that for LTO, --gc-keep-exported would be the only
-> sane semantics (keep any external symbol with default visibility).
-> 
-> Can you point me at a tree/set of LTO patches and a toolchain where the
-> previous implementation would actually eventually eliminate bar() from
-> module_bar?
+This has been verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as
+well as a distribution version of LLVM 11.1.0 without binutils in the
+LLVM toolchain locations.
 
-All that I readily have is a link to the article I wrote with the 
-results I obtained at the time: https://lwn.net/Articles/746780/.
-The toolchain and kernel tree are rather old at this point and some 
-effort would be required to modernize everything.
+Link: https://reviews.llvm.org/D97902
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
 
-I don't remember if there was something special to do LTO on modules. 
-Maybe Andi Kleen had something in his patchset for that: 
-https://github.com/andikleen/linux-misc/blob/lto-415-2/Documentation/lto-build
-He mentions that LTO isn't very effective with modules enabled, but what 
-I demonstrated in myarticle is that LTO becomes very effective with or 
-without modules as long as CONFIG_TRIM_UNUSED_KSYMS is enabled.
+v1 -> v2:
 
-Having CONFIG_TRIM_UNUSED_KSYMS in one pass is likely to still be pretty 
-effective even if possibly not not optimal. And maybe people don't 
-really care for the missing 10% anyway (I'm just throwing a number in 
-the air 
-here).
+* Improve commit message (add history behind flag and link to Fangrui's
+  documentation improvement).
 
+I did not carry tags forward so that people could re-review and test.
 
-Nicolas
+ Makefile | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 31dcdb3d61fa..182e93d91198 100644
+--- a/Makefile
++++ b/Makefile
+@@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
+ CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+ GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+ CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+-GCC_TOOLCHAIN	:= $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+-endif
+-ifneq ($(GCC_TOOLCHAIN),)
+-CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
+ endif
+ ifneq ($(LLVM_IAS),1)
+ CLANG_FLAGS	+= -no-integrated-as
+
+base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+-- 
+2.31.0.rc1
+
