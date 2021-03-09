@@ -2,95 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3324B332A0E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 16:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57B05332A28
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 16:19:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbhCIPQo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 10:16:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231920AbhCIPQb (ORCPT
+        id S231986AbhCIPSy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 10:18:54 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:31498 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232007AbhCIPSr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 10:16:31 -0500
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06EEBC061761
-        for <linux-kbuild@vger.kernel.org>; Tue,  9 Mar 2021 07:16:31 -0800 (PST)
-Received: by mail-vs1-xe41.google.com with SMTP id q1so4007567vsq.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Mar 2021 07:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=iG+PEPmaHlHo7BIDTdfef5r88OuWpQOqhEH2qmezQYHakeueSZdtECnOxaNFPKT9CB
-         aLLijSjwuQVorDAEHnskHKoazheLbTgoFOH2IO0bywpBdkqxbvNhSp+AuzzkPltfZjkD
-         FjTTrNk9SO33wfLNvS9nByjMp72fepAXXy19dOfqtAsx4HxmPonpcVTJXrYVQmJxHxXa
-         AzJWFsWLVvJfVScuD99VDxmPz5IFH+JeT+BdI/5UjB5u3ljOPGeno4uGqlf/Z8N2nRtY
-         ROlA+uMiGucX8LIxOcsYJNKNu/TkjgiHO1C+jXYPHopFB15mBvJWDTUfIUXFYNAfd4q+
-         86Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=okRR+frcKBg3GyZplobMrnEoHqVWbNf4uNBxumXLkQyGqfROGvYenll8BD0cmvN8o/
-         5+93AiXZyMAjO9Wuh4MEqKli/N0jfXzv2+0d5BZkEVyqS3qi3MQKQvLascM+Oc9GnNwZ
-         swPjvXgkjrnS+9sXdB2C61CEvK/jGWnrJ8kSKIlz4+C3G+TgI1dP97pyUQajJ4DmGWlj
-         yc+ImHDyFQavyUp5ovh5Ge/3T9FaJBDP4z0xKjaixGZpXdaANNYL/xiTzF7x1idTMBPl
-         MyzNRYB/dd/4GhXs3IEOlbDgi4dCViNO5BFLyKI5OBpCYBZeC2E5bpAt5gxjtl2QFB0n
-         ssjQ==
-X-Gm-Message-State: AOAM533CLkzufObazUeUufBcP1Clx7+aN3EOvmWlIR+060lBfyu2Ww17
-        V1iHqZZ7HyKKE7tLza88jkOExU9V0hvI4aNJ1X4=
-X-Google-Smtp-Source: ABdhPJy9BBpeWXWCzuTiulojyYdgac59jMaZMyVdwFl3oYPmplUKQv1r1LrJzyZzXExNPs2KOA/1mgAnINQBECvVh48=
-X-Received: by 2002:a67:2686:: with SMTP id m128mr15206115vsm.31.1615302990249;
- Tue, 09 Mar 2021 07:16:30 -0800 (PST)
+        Tue, 9 Mar 2021 10:18:47 -0500
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 129FHiTc030658;
+        Wed, 10 Mar 2021 00:17:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 129FHiTc030658
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1615303065;
+        bh=KwJfPDaf46fObQ+3n3hTs9UggnffeJCU/zgw2qw2iLg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CbDkADy7F/hicCOfVFlYOTLhDTRY2rChGyMdh5iMWL+jIEDJf1Uz6t9g2jAWmaDzS
+         wMuHRsmwDBjUWQn4Foqn4btIgnZAoUoA1tiMniEJpPKbVmjw2VQYrPsnHKHhXUs5Ck
+         jiT0ugQVm6xAEElIubWk7PSZkmIzC7OHE01viBpdP/Kwu8o3jXfrY5VHNmkFGI7vz7
+         0FNgBjLtyQDKudtwaooIJKwr6oeRiqZrNtDGKoJmBJ1+kXg7SS3HH7NrFiONHssh/r
+         F4eQtf7rdmsn1JttEaNVxEaAmJnwRYRhLFdyD3bECS/Qy192DEussYcmoh9GomF/B2
+         O0rkMNnTWfmGg==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jessica Yu <jeyu@kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 0/4] kbuild: build speed improvement of CONFIG_TRIM_UNUSED_KSYMS
+Date:   Wed, 10 Mar 2021 00:17:33 +0900
+Message-Id: <20210309151737.345722-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:ab0:2e8f:0:0:0:0:0 with HTTP; Tue, 9 Mar 2021 07:16:29 -0800 (PST)
-Reply-To: ezbtg22@gmail.com
-From:   "Mrs.E.Glenn" <mrganuserge654@gmail.com>
-Date:   Tue, 9 Mar 2021 07:16:29 -0800
-Message-ID: <CAH16wSN04Q1+cGtUxisTrHBY3uKhmkpr-ckyqweDCj+psxNsgA@mail.gmail.com>
-Subject: From Mrs.E.Glenn
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+
+Now CONFIG_TRIM_UNUSED_KSYMS is revived, but Linus is still unhappy
+about the build speed.
+
+I re-implemented this feature, and the build time cost is now
+almost unnoticeable level.
+
+
+(no changes since v1)
+
+Masahiro Yamada (4):
+  export.h: make __ksymtab_strings per-symbol section
+  kbuild: separate out vmlinux.lds generation
+  kbuild: re-implement CONFIG_TRIM_UNUSED_KSYMS to make it work in
+    one-pass
+  kbuild: remove guarding from TRIM_UNUSED_KSYMS
+
+ Makefile                                      | 34 ++++-----
+ arch/alpha/kernel/Makefile                    |  3 +-
+ arch/arc/kernel/Makefile                      |  3 +-
+ arch/arm/kernel/Makefile                      |  3 +-
+ arch/arm64/kernel/Makefile                    |  3 +-
+ arch/arm64/kvm/hyp/nvhe/hyp.lds.S             |  1 +
+ arch/csky/kernel/Makefile                     |  3 +-
+ arch/h8300/kernel/Makefile                    |  2 +-
+ arch/hexagon/kernel/Makefile                  |  3 +-
+ arch/ia64/kernel/Makefile                     |  3 +-
+ arch/m68k/kernel/Makefile                     |  2 +-
+ arch/microblaze/kernel/Makefile               |  3 +-
+ arch/mips/kernel/Makefile                     |  3 +-
+ arch/nds32/kernel/Makefile                    |  3 +-
+ arch/nios2/kernel/Makefile                    |  2 +-
+ arch/openrisc/kernel/Makefile                 |  3 +-
+ arch/parisc/kernel/Makefile                   |  3 +-
+ arch/powerpc/kernel/Makefile                  |  2 +-
+ arch/powerpc/kernel/vdso32/vdso32.lds.S       |  1 +
+ arch/powerpc/kernel/vdso64/vdso64.lds.S       |  1 +
+ arch/riscv/kernel/Makefile                    |  2 +-
+ arch/s390/kernel/Makefile                     |  3 +-
+ arch/s390/purgatory/purgatory.lds.S           |  1 +
+ arch/sh/kernel/Makefile                       |  3 +-
+ arch/sparc/kernel/Makefile                    |  2 +-
+ arch/um/kernel/Makefile                       |  2 +-
+ arch/x86/kernel/Makefile                      |  2 +-
+ arch/xtensa/kernel/Makefile                   |  3 +-
+ include/asm-generic/export.h                  | 25 +------
+ include/asm-generic/vmlinux.lds.h             | 13 ++--
+ include/linux/export.h                        | 56 ++++----------
+ include/linux/ksyms.lds.h                     | 22 ++++++
+ init/Kconfig                                  |  3 +-
+ scripts/Makefile.build                        |  7 +-
+ scripts/Makefile.lib                          |  1 +
+ scripts/adjust_autoksyms.sh                   | 73 -------------------
+ .../{gen_autoksyms.sh => gen-keep-ksyms.sh}   | 43 ++++++++---
+ scripts/gen_ksymdeps.sh                       | 25 -------
+ scripts/module.lds.S                          | 23 +++---
+ 39 files changed, 152 insertions(+), 238 deletions(-)
+ create mode 100644 include/linux/ksyms.lds.h
+ delete mode 100755 scripts/adjust_autoksyms.sh
+ rename scripts/{gen_autoksyms.sh => gen-keep-ksyms.sh} (66%)
+ delete mode 100755 scripts/gen_ksymdeps.sh
+
 -- 
-Dear Beloved,
+2.27.0
 
-I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
-in a hospital bed in Israel. I am 59 years and childless; my husband
-is dead. I was diagnosed with terminal cancer. And my doctor just
-predicted that I have but very limited time to live due to damages in
-my system and as a result of that I decided to dispose my 10.5 million
-US dollars to a God-fearing one for the continuation of charitable
-work. This is why I located you.
-
-My guess about you may not be accurate because I came across your
-contact at the humanitarian calendar event of the year but I believe
-in God who divinely directed me to you for this solemn proposal of
-charitable work.
-
-Therefore I wholeheartedly wish to bequeath my fortune to you as a
-God-fearing person for the continuation of charitable work anywhere
-around the world.
-
-I shall be going in for a surgery operations soonest and desire this
-money to be transferred to you as I do not wish to leave this money in
-the bank because bankers might misuse it for their own interest after
-my death.
-
-As soon as I receive your quick reply assuring me that you will
-utilize the money as I instructed you for the benefit of the less
-privilege, I shall give you more details and also instruct my bank to
-release the money to you for the charity project. I hope you receive
-this mail in good health.
-
-Please contact me on this E-mail (ezbtg22@gmail.com) because I don t
-know what will be my situation in next minute,
-
-I am waiting for your reply.
-
-Yours sincerely,
-Mrs Elizabet Glenn.
