@@ -2,83 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E72332BF2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 17:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66566332C07
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Mar 2021 17:29:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbhCIQ0e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Mar 2021 11:26:34 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47157 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbhCIQ03 (ORCPT
+        id S229689AbhCIQ3P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Mar 2021 11:29:15 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:29521 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230523AbhCIQ3N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Mar 2021 11:26:29 -0500
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 129GPmqj014156;
-        Wed, 10 Mar 2021 01:25:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 129GPmqj014156
+        Tue, 9 Mar 2021 11:29:13 -0500
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 129GSa7H008677;
+        Wed, 10 Mar 2021 01:28:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 129GSa7H008677
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615307149;
-        bh=EhPEE3oHKhL3vmJHIpnrH/DrMpFTrrE0NYQj/7BwJD0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Eg1tKjTpG8j5yvqd2Yse5TOe8sMmOVB2em+wI0mYKUtpw0nmZiBW+p+DsVXzHmEb8
-         +KZeZw1m6kA7VI0OJJk1ZyGbOTJXIRpPfhijDUC90h+v7N92bsk/ZFtcHg7IwwC0dT
-         TsriLGsQDBdTrmVWDslGO3szJlix5p6jSMzTSOrX9Rtf+ckYoMMveWx/PmmBOqHwM/
-         vH0bBVfQ8Ul7AZnBBRmNZXmJ5AamEmSjlWVJf3bJ6gYASmL3MFGCJ1Ssw1MZbTnylz
-         wBdFFtqAestmTe3pMxhPXbPOFW1lBukyVg/jYss518qBK1B8xbNHbcOmahvdvWtmX0
-         JQsh86ZlhiK1Q==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Jiri Slaby <jslaby@suse.cz>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Philipp Rudo <prudo@linux.ibm.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: dummy-tools: adjust to scripts/cc-version.sh
-Date:   Wed, 10 Mar 2021 01:25:45 +0900
-Message-Id: <20210309162545.637647-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1615307316;
+        bh=LU75W1RyLpq/PkLkgeSG8vO4/DX8mY6NU/2K9F2Z3/M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t3g8fea6J+L4vK+R1Us/DYeHngw7pP9IUxEUwy87pJVTuCgVeoINW1+1AZisViGh9
+         zVBc6aTKQMRrnnLaCqnYzxEQTlgo6nc/Kgufs1PUnmHoft5bE4N7RoT1wjmY9ewQ4Y
+         yHQSlIr/iWmObJpcHAMzLMaynAzyk070M21D5+Q+X1IwHJlSIyNMZ1m9Rceb9bJQZI
+         Lcnjx7Y+XGAniZGDhOljSko3kTS1py1ZJIckh+atWkVvqLXwXhRsJhH7ltWTlSrxJn
+         v+Eai2Q+3mHD0hwcncpQIcEJQX+cw7pqU22yOXBiPAhllpZW8ek32VY0vFadd9ZbA8
+         KHTmKju56tDyg==
+X-Nifty-SrcIP: [209.85.214.172]
+Received: by mail-pl1-f172.google.com with SMTP id a24so6821770plm.11;
+        Tue, 09 Mar 2021 08:28:36 -0800 (PST)
+X-Gm-Message-State: AOAM530sXAYn6Ha6lpWG+95M6qD2ZcYlogfpsmxrmfPEmQc47IVA3pay
+        vIRlsj5xwf7cxxeC/QzN4tzDWd2qggqBkZ9utJw=
+X-Google-Smtp-Source: ABdhPJxSp+EHQoVEK25jImqvGmiloOeoo5r8WDcWtlcg9y/gK6zUUiMHomtTUOrLVcAyWwvLBsSCsntT5m2DO6NV/pk=
+X-Received: by 2002:a17:90a:3b0e:: with SMTP id d14mr5604213pjc.198.1615307315579;
+ Tue, 09 Mar 2021 08:28:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1615199908.git.viresh.kumar@linaro.org> <c6dea8f363725c069e26031ec7c7c5f27850103b.1615199908.git.viresh.kumar@linaro.org>
+In-Reply-To: <c6dea8f363725c069e26031ec7c7c5f27850103b.1615199908.git.viresh.kumar@linaro.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 10 Mar 2021 01:27:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATebzcDXvdq0K5Y2f7tHw7i0429fDTSga8Qqkd5emjP_g@mail.gmail.com>
+Message-ID: <CAK7LNATebzcDXvdq0K5Y2f7tHw7i0429fDTSga8Qqkd5emjP_g@mail.gmail.com>
+Subject: Re: [PATCH V10 2/5] kbuild: Add generic rule to apply fdtoverlay
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit aec6c60a01d3 ("kbuild: check the minimum compiler version in
-Kconfig") changed how the script detects the compiler version.
+On Mon, Mar 8, 2021 at 7:45 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> From: Rob Herring <robh@kernel.org>
+>
+> Add a generic rule to apply fdtoverlay in Makefile.lib, so every
+> platform doesn't need to carry the complex rule. This also automatically
+> adds "DTC_FLAGS_foo_base += -@" for all base files.
+>
+> The platform's Makefile only needs to have this now:
+>
+>  foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+>  dtb-y := foo.dtb
+>
+> We don't want to run schema checks on foo.dtb (as foo.dts doesn't exist)
+> and the Makefile is updated accordingly.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> Co-developed-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Get 'make CROSS_COMPILE=scripts/dummy-tools/' back working again.
-
-Fixes: aec6c60a01d3 ("kbuild: check the minimum compiler version in Kconfig")
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-Perhaps, Jiri may have already noticed this issue, and have a similar patch.
-I just checked ML, but I did not find a patch to fix this.
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
 
- scripts/dummy-tools/gcc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
-index 7b10332b23ba..39e65fee59bd 100755
---- a/scripts/dummy-tools/gcc
-+++ b/scripts/dummy-tools/gcc
-@@ -57,9 +57,9 @@ if arg_contain --version "$@"; then
- fi
- 
- if arg_contain -E "$@"; then
--	# For scripts/gcc-version.sh; This emulates GCC 20.0.0
-+	# For scripts/cc-version.sh; This emulates GCC 20.0.0
- 	if arg_contain - "$@"; then
--		sed 's/^__GNUC__$/20/; s/^__GNUC_MINOR__$/0/; s/^__GNUC_PATCHLEVEL__$/0/'
-+		sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}'
- 		exit 0
- 	else
- 		echo "no input files" >&2
+> ---
+>  scripts/Makefile.lib | 26 ++++++++++++++++++++++++--
+>  1 file changed, 24 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index a2658242d956..bc045a54a34e 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -75,11 +75,24 @@ always-y += $(userprogs-always-y) $(userprogs-always-m)
+>  # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
+>  dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
+>
+> +# List all dtbs to be generated by fdtoverlay
+> +overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
+> +
+> +# Generate symbols for the base files so overlays can be applied to them.
+> +$(foreach m,$(overlay-y), $(eval DTC_FLAGS_$(basename $(firstword $($(m:.dtb=-dtbs)))) += -@))
+> +
+> +# Add base dtb and overlay dtbo
+> +dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
+> +
+>  always-y                       += $(dtb-y)
+>
+>  ifneq ($(CHECK_DTBS),)
+> -always-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+> -always-y += $(patsubst %.dtbo,%.dt.yaml, $(dtb-y))
+> +# Don't run schema checks for dtbs created by fdtoverlay as they don't
+> +# have corresponding dts files.
+> +dt-yaml-y := $(filter-out $(overlay-y),$(dtb-y))
+> +
+> +always-y += $(patsubst %.dtb,%.dt.yaml, $(dt-yaml-y))
+> +always-y += $(patsubst %.dtbo,%.dt.yaml, $(dt-yaml-y))
+>  endif
+>
+>  # Add subdir path
+> @@ -337,6 +350,15 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>         $(call if_changed_dep,dtc)
+>
+> +overlay-y := $(addprefix $(obj)/, $(overlay-y))
+> +
+> +quiet_cmd_fdtoverlay = DTOVL   $@
+> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
+> +
+> +$(overlay-y): FORCE
+> +       $(call if_changed,fdtoverlay)
+> +$(call multi_depend, $(overlay-y), .dtb, -dtbs)
+> +
+>  DT_CHECKER ?= dt-validate
+>  DT_BINDING_DIR := Documentation/devicetree/bindings
+>  # DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
+> --
+> 2.25.0.rc1.19.g042ed3e048af
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
