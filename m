@@ -2,88 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D744C333F89
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 14:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C311C333FBA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 14:56:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232329AbhCJNqF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Mar 2021 08:46:05 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:56080 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231327AbhCJNp6 (ORCPT
+        id S232818AbhCJN4O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Mar 2021 08:56:14 -0500
+Received: from conuserg-08.nifty.com ([210.131.2.75]:18469 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232825AbhCJN4F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Mar 2021 08:45:58 -0500
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 12ADjOFo020214;
-        Wed, 10 Mar 2021 22:45:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 12ADjOFo020214
+        Wed, 10 Mar 2021 08:56:05 -0500
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 12ADtCAI025968;
+        Wed, 10 Mar 2021 22:55:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 12ADtCAI025968
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615383924;
-        bh=sF/ZgTt5Ww+ewJwghY8bN3q4cx/d+CRW4phq1OirHpI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=l77dZs4mDGC3lthuQHEtp4T0lCMlfJ1ahLGN/ipLvOsfz2uvLYj/6RHqHL5NCQ1wZ
-         g9wcB4hAQFarSqmO1oh1xyvzgMRasJ95YUrBt/BYNTBA0SHuPS6VMcETdGUBpycRYR
-         SSOXNgFfRhlHIvpxRzmU79KgekVbbaFrE/eEYkpVGBGNummPiPSMOLRuTWXhamAmOK
-         4uSn/clPYKYvPP3E/1ERhQrpaa1fNKDdcLx4T2ZWQLE779DiC4zL/K/pxMXugSBjBO
-         4uf+shJmzRVvndotY0EVe5T8woRcaaRpEluw1EIIlKOAXrdQUiIwZwizMbOidTDMDU
-         pjUB0NwCgLvtA==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id s7so8500850plg.5;
-        Wed, 10 Mar 2021 05:45:24 -0800 (PST)
-X-Gm-Message-State: AOAM5316oqjtWkNPKfb6jEX0IRe8/IpowrtYSwdPvxrAvqvFmSEDYdN7
-        jipjFS/64JTPZ0IqXEDzRuVOjZXWJjPDO2BjxfI=
-X-Google-Smtp-Source: ABdhPJwluJLsepqLdHQ7dFnEL3YAfgbBThIc/o3OtzGX+XCmpRMegRM7Enh3dtUrTsSQ9Cngjbz7lBn+2vk8+ESyzw8=
-X-Received: by 2002:a17:90a:dc08:: with SMTP id i8mr3495136pjv.153.1615383923597;
- Wed, 10 Mar 2021 05:45:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20210304113708.215121-1-masahiroy@kernel.org> <202103041518.22EB819E@keescook>
- <CAHk-=wj6t2i1BgmWP1Zb2WVF3zZzkHvsxsALJk7VpfKm6UgLcw@mail.gmail.com>
- <20210305022500.cyi3cfwgt2t6mona@treble> <20210306012815.nfmquoln65vq6yq7@treble>
- <CAK7LNAR7E4Ud9MPy3q5VOab4EFMumr5GMHqyv=H970+gPTBrFg@mail.gmail.com>
- <20210306025059.z6dn6mi7mxyufkr2@treble> <20210309203109.2fhyf5naazgjjnch@treble>
-In-Reply-To: <20210309203109.2fhyf5naazgjjnch@treble>
+        s=dec2015msa; t=1615384513;
+        bh=9XvoYcFtafIRd7rGLHERUKU/O6dLqZIhlkxuvCI8qjM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qnEIu3bs9ZFkgsz4CObu0g5EBcM1CNbUlCGXudGIqdnj2AdNOH2DNW94CMpKANzCU
+         KcqZz2L4hBgIO4JgA5MMuY9bIuCf9bhZByedohWBhrOPhfj5kf8fePPXuNE0E5QasT
+         Fs8xh0J83xnmfW0yx/Io8Tr8P5ZtODX10mI5bQoo7jLmru3GdhxZ3jLmNnCzrMW8hZ
+         Vv9YiTL3Rsf4Vmi2qHhjpsKsQk6HEQ5kXXm3jOWeD23tnn32PJzd1kjUp/5LWQUjAy
+         JENYNB1B9kWpQJN+9TOZirOpDijCTGTW/m5+BE32gS8mCvvGufeLsQIvqyuplHgPlc
+         ZUoixJSrW+Fzw==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Mar 2021 22:44:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQDbhzi5s8iaqVSV82v8n-+0a=XB3-8wg=Nu41XyRETvw@mail.gmail.com>
-Message-ID: <CAK7LNAQDbhzi5s8iaqVSV82v8n-+0a=XB3-8wg=Nu41XyRETvw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rebuild GCC plugins when the compiler is upgraded
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-hardening@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Frank Eigler <fche@redhat.com>,
-        Justin Forbes <jforbes@redhat.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove LLVM=1 test from HAS_LTO_CLANG
+Date:   Wed, 10 Mar 2021 22:54:22 +0900
+Message-Id: <20210310135423.813041-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 10, 2021 at 5:31 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Fri, Mar 05, 2021 at 08:50:59PM -0600, Josh Poimboeuf wrote:
-> > > Is this a bad coding contest?
-> > >
-> > > I am not asking you to add ugly ifeq or whatever
-> > > hacks to say "this worked for me".
-> > >
-> > > Please feel free to do this in the fedora kernel,
-> > > but do not send it to upstream.
-> > >
-> > > Sorry, I really do not want to see hacks like this any more.
->
-> Masahiro,
->
-> Ping.  Do you have a better approach for building GCC plugins in the
-> external module directory?
+As Documentation/kbuild/llvm.rst notes, LLVM=1 switches the default of
+tools, but you can still override CC, LD, etc. individually. This LLVM=1
+check is unneeded because each tool is already checked separately.
 
+"make CC=clang LD=ld.lld NM=llvm-nm AR=llvm-ar LLVM_IAS=1 menuconfig"
+should be able to enable Clang LTO.
 
-I am not sure if building GCC plugins in the external module directory
-is the right approach.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+---
 
+ arch/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
---
-Best Regards
-Masahiro Yamada
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 2e7139b39e8f..ecfd3520b676 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -632,7 +632,6 @@ config HAS_LTO_CLANG
+ 	def_bool y
+ 	# Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
+ 	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
+-	depends on $(success,test $(LLVM) -eq 1)
+ 	depends on $(success,test $(LLVM_IAS) -eq 1)
+ 	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
+ 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+-- 
+2.27.0
+
