@@ -2,143 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD0FD334091
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 15:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B1E3340AD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 15:48:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232111AbhCJOl5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Mar 2021 09:41:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34460 "EHLO
+        id S232696AbhCJOrz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Mar 2021 09:47:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232254AbhCJOl1 (ORCPT
+        with ESMTP id S232587AbhCJOre (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Mar 2021 09:41:27 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AC6C061762
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Mar 2021 06:41:25 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id b23so3540517pfo.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Mar 2021 06:41:25 -0800 (PST)
+        Wed, 10 Mar 2021 09:47:34 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C60C061760
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Mar 2021 06:47:33 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id ha17so986602pjb.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Mar 2021 06:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=MpYPf5URi+XzdCPoi7Hk/RdtfT35iqZ3pIAtWBbl0ZM=;
-        b=QcDExb6/hnzi+IPoqek/bGQ0szY+Qmndh5owKY+RX+djFLzP5dcUcZ/nax7kdNGCSg
-         bJFEAAMlXi9fCq9iHBYaD0Yimz/lOhOwerbnk3s2vYCzFU93bDcOCJ8z/raJ5VqF3/W0
-         /2U/uYxjDlMko4NHB5YaXibiWs9/7KiuEhK1Xj2cH6EATOu5RDSi8Jax5NrZY4QUcKqt
-         IgdS0MUPfgVYLNydMouP1+Su1dzuOQqKncTM14bvNbpD2d0uhqlvteReUrehX/aOtTLA
-         x5+ryjHOloG9i5oaatDdysYG/3/z9e3rGG+DKXU0mLXDjtWGUAWzKBani6tkDdp7LQtP
-         6r/Q==
+        bh=8nVZpKJm2G6+Tv7qEZM8ArWrPGc3bpG+Vuw50VmO88I=;
+        b=eQlbtSKvzf6Q3pni9+l7ILEa82jE+wshQl7wH51lNSRPAIB0Qc775lX3Lt318vPD5h
+         3XURESeHLeIAu+V+Dy3be1VAhbl83ApgEcitA/Mb/HnMmohUZDqKKlfcTJHV3rwVRJuV
+         lGKnU2l3jtmopQUmNhaMAMPwI/Cjqo3zI/AdZrDELkTm5dUGO7FYaWaboTYU9ALoHL2e
+         cRiAQZB5bXboDLWFFxi2PDMWf5tzgbZ959Mf2AnR5o2g4Ln+OxBZ4zUoRLkQZi+Fx36q
+         9x1VbQagNu1mWERibggsYy1gM9D+rX2Mnbj1S8gysYoBZFr+ZrGRE4mfcxMcSMeYn4+x
+         v0jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MpYPf5URi+XzdCPoi7Hk/RdtfT35iqZ3pIAtWBbl0ZM=;
-        b=nOxxW3ThRjcvT0OjZxFRt9P2FjfkKR6fCKA0mngKQEqM3ULcvIC1YoYa3rx1exybZq
-         b2BWwoepC7AaC8u/Pll9GNAL73K5/HgfUSnLQ64WGXkiy6DLDIFmO2jMsd6Ed8VZZa5f
-         JrfvOvpt/1Y0XtQIVzV/64pZLbxGaRYurnOFNILi4CvDgGKNnDgCwvVqioh5hSyuw5Sp
-         CjfBWblKvqhMejRiyj5icSS4O/KwKUCZaWrg84w/zQeoEALb/S4D/jaJ4MeGZHWfLiWk
-         9fD8MEVu6DLtSNJGk/K9Z3gU5CYnjE1gMphgJrRl/x3BscqkUbxHTKN+CbSC9Mku04f5
-         uDRw==
-X-Gm-Message-State: AOAM531Sp2zwny3XLrHMTRjq20CFSCxPpY2n0RpfIWq3eHdnS/L7sVVo
-        0UVUhXoklY31Py00zrbucmIapQ==
-X-Google-Smtp-Source: ABdhPJzZtOzSs1iQ8tl8JfRkmt3EnobTlhFe5KUsIfekTx9eENenEYIa5oIzqS/ActzM8HKyR+wRIw==
-X-Received: by 2002:a63:e5d:: with SMTP id 29mr3040673pgo.450.1615387285094;
-        Wed, 10 Mar 2021 06:41:25 -0800 (PST)
+        bh=8nVZpKJm2G6+Tv7qEZM8ArWrPGc3bpG+Vuw50VmO88I=;
+        b=sgtLjE1MObKihLunKVtiYj4935LJdVN/AwupxmBXVU9N7olijVEfmniuwdB6mmfdYD
+         zgNWmuhTURWOQ5EDBBJdTEpKoqmDChRcpcYE3p1D1rr0S6SZeE2BkvjtACLn7Y8ffx0L
+         zRLqrDbSMZ/JTN6tNKCJy+dKHPOB+7+9X4bDJ+jqcwvq51+CALwbAj8MDS+mY5ErsQWU
+         eXOx37apzK+h+7BocAIo1V/BPi1wYLD2RKwET6aU+YhQ5qSNF1YVLgzMJgIJj68cwBe0
+         1Sjym6/pJjgyhi6oyJfTqBiPpC7lyNUBJPhdHapAhVXvzcNGJrTybstIQrblNRlCapHF
+         ps0A==
+X-Gm-Message-State: AOAM5334r5j5rrkKlSR728ZOQPOaGgyosFddVx343BEoHsuF4CKIjXXe
+        /UxcWy+KuHP2iv7eRS1TcvURhFj00lrSfg==
+X-Google-Smtp-Source: ABdhPJz7dbYYNajcNZrCQEb9vKEqZ/ETsqcIUxAHyzXK6nFl5z6rJM5ybX2hKbGuEbqa5Z4Df+dG5A==
+X-Received: by 2002:a17:90a:e7cc:: with SMTP id kb12mr1218121pjb.31.1615387653515;
+        Wed, 10 Mar 2021 06:47:33 -0800 (PST)
 Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id a204sm5576854pfd.106.2021.03.10.06.41.23
+        by smtp.gmail.com with ESMTPSA id s15sm16561363pfe.108.2021.03.10.06.47.32
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Mar 2021 06:41:24 -0800 (PST)
-Date:   Wed, 10 Mar 2021 20:11:21 +0530
+        Wed, 10 Mar 2021 06:47:32 -0800 (PST)
+Date:   Wed, 10 Mar 2021 20:17:30 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>, robh+dt@kernel.org
-Cc:     linux-kbuild@vger.kernel.org, devicetree@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: remove unneeded -O option to dtc
-Message-ID: <20210310144121.74mawocx2ydgabx2@vireshk-i7>
-References: <20210310110824.782209-1-masahiroy@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
+ files
+Message-ID: <20210310144730.5ipzeailoj6nno5h@vireshk-i7>
+References: <cover.1615354376.git.viresh.kumar@linaro.org>
+ <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
+ <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210310110824.782209-1-masahiroy@kernel.org>
+In-Reply-To: <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10-03-21, 20:08, Masahiro Yamada wrote:
-> This piece of code converts the target suffix to the dtc -O option:
+On 10-03-21, 20:24, Masahiro Yamada wrote:
+> On Wed, Mar 10, 2021 at 2:35 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index bc045a54a34e..59e86f67f9e0 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -339,7 +339,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+> >
+> >  quiet_cmd_dtc = DTC     $@
+> >  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+> > -       $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+> > +       $(DTC) -I dts -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
 > 
->     *.dtb      ->  -O dtb
->     *.dt.yaml  ->  -O yaml
+> Even without "-I dts",
 > 
-> Commit ce88c9c79455 ("kbuild: Add support to build overlays (%.dtbo)")
-> added the third case:
+>    inform = guess_input_format(arg, "dts");
 > 
->     *.dtbo     ->  -O dtbo
-> 
-> This works thanks to commit 163f0469bf2e ("dtc: Allow overlays to have
-> .dtbo extension") in the upstream DTC, which has already been pulled in
-> the kernel.
-> 
-> However, I think it is a bit odd because "dtbo" is not a format name.
-> At least, it does not show up in the help message of dtc.
-> 
-> $ scripts/dtc/dtc --help
->   [ snip ]
->   -O, --out-format <arg>
->         Output formats are:
->                 dts - device tree source text
->                 dtb - device tree blob
->                 yaml - device tree encoded as YAML
->                 asm - assembler source
-> 
-> So, I am not a big fan of the second hunk of that change:
-> 
->         } else if (streq(outform, "dtbo")) {
->                 dt_to_blob(outf, dti, outversion);
+> seems to fall back to "dts" anyway,
 
-Looking at the very first version of the patch I sent,
+I missed this TBH.
 
-https://lore.kernel.org/lkml/7aa70809eff3f32d821761d2a763e4fb72ecc8fb.1609844956.git.viresh.kumar@linaro.org/
+> but I guess you wanted to make this explicit, correct?
 
-this change was the only thing that was required to make it work.
+That can be a reason now :)
 
-I think the reason was that "outform != NULL" as -O option was passed
-by the kernel.
+> I will drop the ugly -O.
+> https://patchwork.kernel.org/project/linux-kbuild/patch/20210310110824.782209-1-masahiroy@kernel.org/
 
-> Anyway, we did not need to do this in Makefile in the first place.
+But if we are going to depend on DTC to guess it right, then we
+shouldn't add -I at all..
+
+> I will queue it to linux-kbuild/fixes.
 > 
-> guess_type_by_name() had already understood ".yaml" before commit
-> 4f0e3a57d6eb ("kbuild: Add support for DT binding schema checks"),
-> and now does ".dtbo" as well.
 > 
-> Makefile does not need to duplicate the same logic. Let's leave it
-> to dtc.
 > 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+> >                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+> >                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+> >         cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+> > @@ -347,9 +347,13 @@ cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ;
+> >  $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+> >         $(call if_changed_dep,dtc)
+> >
+> > +# Required for of unit-test files as they can't be renamed to .dtso
 > 
->  scripts/Makefile.lib | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If you go with *.dtso, I think you will rename
+> all *.dts under the drivers/ directory.
 > 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index eee59184de64..90a4e04cd8f5 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -327,7 +327,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
->  
->  quiet_cmd_dtc = DTC     $@
->  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
-> -	$(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
-> +	$(DTC) -o $@ -b 0 \
->  		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
->  		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
->  	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+> What is blocking you from making this consistent?
 
-LGTM.
+The unit-test dts files are designed differently (we have had lots of
+discussion between Frank and David on that) and they aren't purely
+overlay or base files. They are designed to do some tricky testing and
+renaming them to .dtso won't be right, we are just reusing them to do
+static (build time) testing as well.
 
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
+I think it would be better if we can drop the existing %.dtbo rule
+here (i.e. dtbo from .dts) and do some magic in unit-test's Makefile,
+so it is localised at least instead of it here.
 
+Any ideas for that ?
+ 
 -- 
 viresh
