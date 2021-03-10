@@ -2,148 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7A2333B75
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 12:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A919333C77
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 13:18:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhCJLbH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Mar 2021 06:31:07 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:63310 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230517AbhCJLar (ORCPT
+        id S232781AbhCJMSO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Mar 2021 07:18:14 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:29588 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232566AbhCJMSF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Mar 2021 06:30:47 -0500
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 12ABUYJu006714;
-        Wed, 10 Mar 2021 20:30:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 12ABUYJu006714
+        Wed, 10 Mar 2021 07:18:05 -0500
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 12ACHoxE028941;
+        Wed, 10 Mar 2021 21:17:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 12ACHoxE028941
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615375835;
-        bh=/fSoNed1kAtUQ4lVH3GglUtu6K4SYi00Z3FO6YwKUwk=;
+        s=dec2015msa; t=1615378671;
+        bh=1uzRseWND95yPdttTTlSI8iqUuJQXLvWlCES5n3lIEg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jNpFaSMvzSkMdSDrPrCfU+Bg2ibAEiJZDgR+FVFVBm/zbS5GnC+V1HP7ZDotRCFW3
-         Bf0d8EJb5j6Dbf9RBRzw5a+IOkWwx6rN9U7IL+NjQN8NIvhioOlZSjDIokOU0cxv+U
-         gM9qDp3KDMrO/SOluuLgmvfUHLwsj/RxkUTTHrjyCTRyDvF1wKkxBtfsHSUoCZH1+f
-         WpAKgATOYSq5e0Y08kTFBf1o10U/SikDN08U329jXy/BEF+ZT1UTyzdDBVyMLH0vMJ
-         YspfWoyxQWwQkKhbxV8oBNm0UYK836CCp/jNDWenNCDrKJFNtqADL8JTVFY9Uyybm0
-         4TpXXFXorbsbA==
-X-Nifty-SrcIP: [209.85.210.171]
-Received: by mail-pf1-f171.google.com with SMTP id 16so10346709pfn.5;
-        Wed, 10 Mar 2021 03:30:35 -0800 (PST)
-X-Gm-Message-State: AOAM533ulqcd3KUUwGEYTIbW3lvGIEHFRraZtzrcsOJKJbi/mqXLatD5
-        I0KblpY+IH1X1fsDGFgphxH1gN0f6MnByYeh1Wo=
-X-Google-Smtp-Source: ABdhPJx8MzgNXXYk42bIEYDrXHt+CuCAIW8G6SqXBkM4fVIWSQi25NzxQsqdkrF4/dJxvXIIiNzXkRMuX7WJIc93fqc=
-X-Received: by 2002:a65:428b:: with SMTP id j11mr2469119pgp.47.1615375834478;
- Wed, 10 Mar 2021 03:30:34 -0800 (PST)
+        b=nOeVSNqCgj4eBjEMeoHSVzmDuQU8atwOWT9cDz77R9xN5Ur7R3Z187TXIKlVZBztO
+         88gyr1O1T8gN+S28Da9S1tUnAwHcTGOQ3iu85VtFuXjlZMGo2o2TnK7hfjxtcxAFlj
+         DCOX9OE4UUe4hJHrS9BCAc1oMpucTKFGZjohYRxQ8HzF0L4paN+vuWB9JIMHAIK98Y
+         pwoAo+U4XX8LygvBIfsLA3RNefAdbLovOpKqaVqkg7xl+5nk7nKZrLQj5Ghrzx+GHD
+         aWWk+UPhVrrNcv8PU/PhvbgPqOvFkXV1r20pADVU+4PsD7yefBuFJhgrjk1Vs2FYLZ
+         KtCmOfrdC3O2g==
+X-Nifty-SrcIP: [209.85.216.53]
+Received: by mail-pj1-f53.google.com with SMTP id lr10-20020a17090b4b8ab02900dd61b95c5eso4879765pjb.4;
+        Wed, 10 Mar 2021 04:17:50 -0800 (PST)
+X-Gm-Message-State: AOAM533YaQrFzrwfEPc49s75AqOLnwRMygO62v078ZTgZCbDTiARKi/n
+        CaIEteZQ9A14X6gun/zLKTjyovqnSH0NJ4XNEVk=
+X-Google-Smtp-Source: ABdhPJzMkPmMW8O6bOX4zaHgWdNSG8cKICJI0tzuj1hM2k3Mtbcp/sgpCGkWKw+dV8k+oZ6SJssAesWQdjYkIzq3Fk0=
+X-Received: by 2002:a17:90a:f68a:: with SMTP id cl10mr2134520pjb.87.1615378669828;
+ Wed, 10 Mar 2021 04:17:49 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1615354376.git.viresh.kumar@linaro.org> <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
- <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
-In-Reply-To: <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
+References: <20210309162545.637647-1-masahiroy@kernel.org> <87f93105-926a-d81b-3226-c5147870d62a@kernel.org>
+In-Reply-To: <87f93105-926a-d81b-3226-c5147870d62a@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 10 Mar 2021 20:29:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAST04XTt7Y0DnSADHgAw-zy61HUcRJSyYRvy2rGHMdn4A@mail.gmail.com>
-Message-ID: <CAK7LNAST04XTt7Y0DnSADHgAw-zy61HUcRJSyYRvy2rGHMdn4A@mail.gmail.com>
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source files
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Wed, 10 Mar 2021 21:17:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARV4umAMEEc2YAhrgnOJSDvXEUkyNSsmN-AyotZNATedw@mail.gmail.com>
+Message-ID: <CAK7LNARV4umAMEEc2YAhrgnOJSDvXEUkyNSsmN-AyotZNATedw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: dummy-tools: adjust to scripts/cc-version.sh
+To:     Jiri Slaby <jirislaby@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Philipp Rudo <prudo@linux.ibm.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="000000000000cb315305bd2cfea8"
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000cb315305bd2cfea8
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Mar 10, 2021 at 8:24 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Wed, Mar 10, 2021 at 1:54 PM Jiri Slaby <jirislaby@kernel.org> wrote:
 >
-> On Wed, Mar 10, 2021 at 2:35 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> On 09. 03. 21, 17:25, Masahiro Yamada wrote:
+> > Commit aec6c60a01d3 ("kbuild: check the minimum compiler version in
+> > Kconfig") changed how the script detects the compiler version.
 > >
-> > Since the overlays dtb files are now named as .dtbo, there is a lot of
-> > interest in similarly naming the overlay source dts files as .dtso.
+> > Get 'make CROSS_COMPILE=scripts/dummy-tools/' back working again.
 > >
-> > This patch makes the necessary changes to allow .dtso format for overlay
-> > source files.
-> >
-> > Note that we still support generating .dtbo files from .dts files. This
-> > is required for the source files present in drivers/of/unittest-data/,
-> > because they can't be renamed to .dtso as they are used for some runtime
-> > testing as well.
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> > Fixes: aec6c60a01d3 ("kbuild: check the minimum compiler version in Kconfig")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > > ---
-> >  scripts/Makefile.lib | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index bc045a54a34e..59e86f67f9e0 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -339,7 +339,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+> > Perhaps, Jiri may have already noticed this issue, and have a similar patch.
+> > I just checked ML, but I did not find a patch to fix this.
+>
+> No, as I was making it work on 5.11 :).
+>
+> BTW there is one remaining issue I came across:
+> config PAHOLE_HAS_SPLIT_BTF
+>          def_bool $(success, test `$(PAHOLE) --version | sed -E
+> 's/v([0-9]+)\.([0-9]+)/\1\2/'` -ge "119")
+
+
+I think I said this somewhere, but
+PAHOLE_HAS_SPLIT_BTF should be deleted.
+Checking the pahole version in Kconfig is wrong, I believe.
+
+
+
+>
+> and in Makefile we see:
+> PAHOLE          = pahole
+>
+> and not something like:
+> PAHOLE          = $(CROSS_COMPILE)pahole
+
+I do not think $(CROSS_COMPILE)pahole
+makes sense.
+
+
+As far as I test, pahole works
+for fereing architecture objects too.
+The DWARF format is identical
+across architectures.
+
+
+
+For example, for the following code:
+
+$ cat test.c
+struct sample {
+     char a[2];
+     long l;
+     int i;
+     void *p;
+     short s;
+} sample;
+
+
+$ gcc -g -c -o test.o test.c; pahole test.o
+$ arm-linux-gnueabihf-gcc -g -c -o test.o test.c; pahole test.o
+$ aarch64-linux-gnu-gcc -g -c -o test.o test.c; pahole test.o
+
+All worked for me.
+
+
+
+
+
+
+> Any idea how to fix this?
+>
+> >   scripts/dummy-tools/gcc | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
 > >
-> >  quiet_cmd_dtc = DTC     $@
-> >  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
-> > -       $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
-> > +       $(DTC) -I dts -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+> > diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+> > index 7b10332b23ba..39e65fee59bd 100755
+> > --- a/scripts/dummy-tools/gcc
+> > +++ b/scripts/dummy-tools/gcc
+> > @@ -57,9 +57,9 @@ if arg_contain --version "$@"; then
+> >   fi
+> >
+> >   if arg_contain -E "$@"; then
+> > -     # For scripts/gcc-version.sh; This emulates GCC 20.0.0
+> > +     # For scripts/cc-version.sh; This emulates GCC 20.0.0
+> >       if arg_contain - "$@"; then
+> > -             sed 's/^__GNUC__$/20/; s/^__GNUC_MINOR__$/0/; s/^__GNUC_PATCHLEVEL__$/0/'
+> > +             sed -n '/^GCC/{s/__GNUC__/20/; s/__GNUC_MINOR__/0/; s/__GNUC_PATCHLEVEL__/0/; p;}'
+> >               exit 0
+> >       else
+> >               echo "no input files" >&2
+> >
 >
-> Even without "-I dts",
 >
->    inform = guess_input_format(arg, "dts");
->
-> seems to fall back to "dts" anyway,
-> but I guess you wanted to make this explicit, correct?
->
-> I will drop the ugly -O.
-> https://patchwork.kernel.org/project/linux-kbuild/patch/20210310110824.782209-1-masahiroy@kernel.org/
->
-> I will queue it to linux-kbuild/fixes.
->
->
+> --
+> js
+> suse labs
 
 
-BTW, is the attached patch good for DTC?
 
-I do not know when '-O dtbo' is useful,
-unless I am missing something.
-
-
--- 
+--
 Best Regards
 Masahiro Yamada
-
---000000000000cb315305bd2cfea8
-Content-Type: text/x-patch; charset="US-ASCII"; name="0001-dtc-Remove-O-dtbo-support.patch"
-Content-Disposition: attachment; 
-	filename="0001-dtc-Remove-O-dtbo-support.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_km3czox00>
-X-Attachment-Id: f_km3czox00
-
-RnJvbSBlZWFjNzEwMjg5YTIyMzk3YzZhZTRlOTBhOTMzNGM0ZjdlMTc4Njg4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
-PgpEYXRlOiBXZWQsIDEwIE1hciAyMDIxIDE5OjQ4OjA1ICswOTAwClN1YmplY3Q6IFtQQVRDSF0g
-ZHRjOiBSZW1vdmUgLU8gZHRibyBzdXBwb3J0CgpUaGlzIHBhcnRpYWxseSByZXZlcnRzIDE2M2Yw
-NDY5YmYyZSAoImR0YzogQWxsb3cgb3ZlcmxheXMgdG8gaGF2ZQouZHRibyBleHRlbnNpb24iKS4K
-CkkgZG8gbm90IHVuZGVyc3RhbmQgd2h5IHdlIG5lZWQgdG8gc3VwcG9ydCAiZHRibyIgYXMgLS1v
-dXQtZm9ybWF0LgoKKi5kdGIgYW5kICouZHRibyBoYXZlIHRoZSBzYW1lIGZvcm1hdCwgImR0YiIu
-CgpTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3JnPgot
-LS0KIGR0Yy5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHRjLmMgYi9kdGMuYwppbmRleCA4MzhjNWRmLi4zOTYyZDNmIDEwMDY0NAotLS0gYS9k
-dGMuYworKysgYi9kdGMuYwpAQCAtMzU5LDggKzM1OSw2IEBAIGludCBtYWluKGludCBhcmdjLCBj
-aGFyICphcmd2W10pCiAjZW5kaWYKIAl9IGVsc2UgaWYgKHN0cmVxKG91dGZvcm0sICJkdGIiKSkg
-ewogCQlkdF90b19ibG9iKG91dGYsIGR0aSwgb3V0dmVyc2lvbik7Ci0JfSBlbHNlIGlmIChzdHJl
-cShvdXRmb3JtLCAiZHRibyIpKSB7Ci0JCWR0X3RvX2Jsb2Iob3V0ZiwgZHRpLCBvdXR2ZXJzaW9u
-KTsKIAl9IGVsc2UgaWYgKHN0cmVxKG91dGZvcm0sICJhc20iKSkgewogCQlkdF90b19hc20ob3V0
-ZiwgZHRpLCBvdXR2ZXJzaW9uKTsKIAl9IGVsc2UgaWYgKHN0cmVxKG91dGZvcm0sICJudWxsIikp
-IHsKLS0gCjIuMjcuMAoK
---000000000000cb315305bd2cfea8--
