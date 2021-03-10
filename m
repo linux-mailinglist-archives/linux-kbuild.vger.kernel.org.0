@@ -2,106 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B2C333B17
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 12:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C3B0333B52
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Mar 2021 12:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232552AbhCJLJQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Mar 2021 06:09:16 -0500
-Received: from conuserg-10.nifty.com ([210.131.2.77]:32316 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232598AbhCJLJI (ORCPT
+        id S230401AbhCJL0h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Mar 2021 06:26:37 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:54828 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232670AbhCJL0H (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Mar 2021 06:09:08 -0500
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 12AB8SlE011639;
-        Wed, 10 Mar 2021 20:08:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 12AB8SlE011639
+        Wed, 10 Mar 2021 06:26:07 -0500
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 12ABPUus013422;
+        Wed, 10 Mar 2021 20:25:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12ABPUus013422
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615374509;
-        bh=4BsdiKU/ZW/GV8GfbmBOPEz95+oAT8ixjLQ3sW7ASGk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ORwzzFgdYWmnoYhXdHaJg7vfA1KyjqBHzD/YHPwbYA0bqHYonp7xWm666iTqn6jix
-         qox2sGT6/7qfyQOJeQMJVHVF67ojpH/Gs48GSUwKWjAH8wtYP5dKO82JARDpUoRjfR
-         ifLWWBi1ztGFMaQ4IzSOQOMQZK63Jc+Ze127doG2DaJDHaXEdwCjLqP1iuk+6fGCOT
-         /omTFF2pHQYQqLkGXt6pQekUiN/EIjdgF9euxlyit879b24Qbz8XFwVygO68Kk3QHS
-         kd3m1+jYX1hXofbvuqUYAItdk7jfBE0WnsoIjc1pcBDUklUCDbvOCIYjhC0ZUTeEFG
-         bH3dl6ExJMFHg==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove unneeded -O option to dtc
-Date:   Wed, 10 Mar 2021 20:08:24 +0900
-Message-Id: <20210310110824.782209-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1615375530;
+        bh=EtPI5/QZah2DyjWRoZyS3HDm98BPv6IVUcYhV4WF/kk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PZCO7Z2y94+u+OqKaHscyOjzMVfEhJZoTiTCIdBtSL4vMDpEZ1Q2cdpTVCLk+AtGz
+         U77F8zM2BiGEkOddfCblhCtfdAzQx1PdVSsJYJ+hmheKwxpWOJL1WaH7N/papEwZyV
+         ILnnYUoU1Suo1apESMd6boJBgjlVnPIPy+TIHFDdhag3eE4hRIzWEAuMbIpXhuR1Ff
+         KKlMX72y5kJmKPNnr805XN9EEOu7thDMq6k1nCPuTnDySZni0xhhqMXgbSg5COsOM7
+         4BuAiYt6gPBO+sbn00tqhahA3c3UVwf81iT/9E+dVQr31LEFmZHn4AV6KZG2weGFJL
+         GV8/UwL0qvwNQ==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id x7so8407488pfi.7;
+        Wed, 10 Mar 2021 03:25:30 -0800 (PST)
+X-Gm-Message-State: AOAM530TtGyNzlHOrAzj45TCDEt+qwBT/9klD5rKEZ7Jh7MIAuAn7+v8
+        oo1g0e28C81hrRb9YJEQEN04QG40RY3lvW2r2nw=
+X-Google-Smtp-Source: ABdhPJw6QDfOuoCC6vgyVkMWd3r+4bJUHr5slmEcw4gwwkO3egn3v/OjmKXfcHsFqGu0gomzgVN2uvXhAc5uvo7AWRc=
+X-Received: by 2002:aa7:956d:0:b029:1f1:5ba6:2a58 with SMTP id
+ x13-20020aa7956d0000b02901f15ba62a58mr2660757pfq.63.1615375529634; Wed, 10
+ Mar 2021 03:25:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1615354376.git.viresh.kumar@linaro.org> <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
+In-Reply-To: <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 10 Mar 2021 20:24:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
+Message-ID: <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
+Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source files
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This piece of code converts the target suffix to the dtc -O option:
+On Wed, Mar 10, 2021 at 2:35 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> Since the overlays dtb files are now named as .dtbo, there is a lot of
+> interest in similarly naming the overlay source dts files as .dtso.
+>
+> This patch makes the necessary changes to allow .dtso format for overlay
+> source files.
+>
+> Note that we still support generating .dtbo files from .dts files. This
+> is required for the source files present in drivers/of/unittest-data/,
+> because they can't be renamed to .dtso as they are used for some runtime
+> testing as well.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  scripts/Makefile.lib | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index bc045a54a34e..59e86f67f9e0 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -339,7 +339,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+>
+>  quiet_cmd_dtc = DTC     $@
+>  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+> -       $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+> +       $(DTC) -I dts -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
 
-    *.dtb      ->  -O dtb
-    *.dt.yaml  ->  -O yaml
+Even without "-I dts",
 
-Commit ce88c9c79455 ("kbuild: Add support to build overlays (%.dtbo)")
-added the third case:
+   inform = guess_input_format(arg, "dts");
 
-    *.dtbo     ->  -O dtbo
+seems to fall back to "dts" anyway,
+but I guess you wanted to make this explicit, correct?
 
-This works thanks to commit 163f0469bf2e ("dtc: Allow overlays to have
-.dtbo extension") in the upstream DTC, which has already been pulled in
-the kernel.
+I will drop the ugly -O.
+https://patchwork.kernel.org/project/linux-kbuild/patch/20210310110824.782209-1-masahiroy@kernel.org/
 
-However, I think it is a bit odd because "dtbo" is not a format name.
-At least, it does not show up in the help message of dtc.
+I will queue it to linux-kbuild/fixes.
 
-$ scripts/dtc/dtc --help
-  [ snip ]
-  -O, --out-format <arg>
-        Output formats are:
-                dts - device tree source text
-                dtb - device tree blob
-                yaml - device tree encoded as YAML
-                asm - assembler source
 
-So, I am not a big fan of the second hunk of that change:
 
-        } else if (streq(outform, "dtbo")) {
-                dt_to_blob(outf, dti, outversion);
+>                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+>                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+>         cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+> @@ -347,9 +347,13 @@ cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ;
+>  $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+>         $(call if_changed_dep,dtc)
+>
+> +# Required for of unit-test files as they can't be renamed to .dtso
 
-Anyway, we did not need to do this in Makefile in the first place.
+If you go with *.dtso, I think you will rename
+all *.dts under the drivers/ directory.
 
-guess_type_by_name() had already understood ".yaml" before commit
-4f0e3a57d6eb ("kbuild: Add support for DT binding schema checks"),
-and now does ".dtbo" as well.
+What is blocking you from making this consistent?
 
-Makefile does not need to duplicate the same logic. Let's leave it
-to dtc.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/Makefile.lib | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index eee59184de64..90a4e04cd8f5 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -327,7 +327,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
- 
- quiet_cmd_dtc = DTC     $@
- cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
--	$(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
-+	$(DTC) -o $@ -b 0 \
- 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
- 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
- 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+
+
+>  $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+>         $(call if_changed_dep,dtc)
+>
+> +$(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
+> +       $(call if_changed_dep,dtc)
+> +
+>  overlay-y := $(addprefix $(obj)/, $(overlay-y))
+>
+>  quiet_cmd_fdtoverlay = DTOVL   $@
+> @@ -375,6 +379,9 @@ endef
+>  $(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+>         $(call if_changed_rule,dtc,yaml)
+>
+> +$(obj)/%.dt.yaml: $(src)/%.dtso $(DTC) $(DT_TMP_SCHEMA) FORCE
+> +       $(call if_changed_rule,dtc,yaml)
+> +
+>  dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+>
+>  # Bzip2
+> --
+> 2.25.0.rc1.19.g042ed3e048af
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
