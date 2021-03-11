@@ -2,56 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00CBE336FB4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 11:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF200337016
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 11:35:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231991AbhCKKSj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 05:18:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbhCKKSV (ORCPT
+        id S232123AbhCKKej (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 05:34:39 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:44728 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232359AbhCKKeh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:18:21 -0500
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C0DC061574;
-        Thu, 11 Mar 2021 02:18:20 -0800 (PST)
-Received: by mail-yb1-xb2a.google.com with SMTP id n195so21137709ybg.9;
-        Thu, 11 Mar 2021 02:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PE76/wgHFI63Qk8r0BeS/7Wayu5F52U0PT65yrvGBho=;
-        b=KV/dCmLmRH8TZk2NhlpOMNZzTlErCwdeopxE6XFCM7FHZKJ1UKwEmwshsOl3r4Wal9
-         vSO0FJ6RmsiRyMsMBBUSgFddeuro9HUvpZZGHV55jsRR5ES3nFA84r/RnqrkxG1o3fOS
-         TWNKmPjsVMBzvE6sTRl7Lbo2JI/8w1NiHVa9jy028lo+RoVtxXCqIEDyHPOcOUyTLzIK
-         nv6wo2h6RH2pXq41wRulSWqj5hqnSJM0dvBqsv+crbK2UDNxwBnLw7QG9TQVQjsmTlvm
-         n4T2R2GDuaWEcOewrqtu0Q7LpDIaQTWsj/75iPiWcuO9U/vd0osRtyTVE9DdOcDYEow0
-         Pdow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PE76/wgHFI63Qk8r0BeS/7Wayu5F52U0PT65yrvGBho=;
-        b=ieR2z4fQnJyid6t2AQCDsMZyh6MXsb9hlJvgk56R1p8rpXDuC7S92/HSy6sqQmkMac
-         ZljhrZWazYJ18ywv3q3HqpEn6SSUZpKw9o7hU1+2TRmiAIGTZEdbvoyMN6qoQsN/Tn2r
-         h5tqeZw1ahYpI435NzJEzjzhqzza45xYtBBk3dgNPqgX/CMJ4v3pgv63icf9fhGfwkW0
-         ewSrmG8H6wrYlz/qztQBPbc+nXLwWXw4jrBTiYq8usorekcqB9zCnLWSEYO81Gni+pvY
-         zz4YSu9PDV/aZTQdXZMycGY59uUVK0ntLgt/YGmda5JLos+U2VvRHDxBU99E+bBOx+hj
-         /cmA==
-X-Gm-Message-State: AOAM530qey4xyRyIu41VOGhEBkLLypJP9MbisrBtwdCITWETpseSwrQx
-        sy2Lf4UCNzAFn3T/GyTHIHb4ol5eY2cOblHUc+w=
-X-Google-Smtp-Source: ABdhPJyO8YoCMbR4BNe6Cl+vhkkww7M0yF67eahb5yqYaldc6KfVxs/P+3FtLX0I4tuz64W3/8h0Cat6Pzwwm+teFlQ=
-X-Received: by 2002:a25:d6d5:: with SMTP id n204mr10363574ybg.22.1615457900276;
- Thu, 11 Mar 2021 02:18:20 -0800 (PST)
+        Thu, 11 Mar 2021 05:34:37 -0500
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 12BAYJDi012899;
+        Thu, 11 Mar 2021 19:34:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 12BAYJDi012899
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1615458860;
+        bh=JL39avkr6XAXggrtNaqY+rW1xFvHegX4PxpEorYJ0P0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RALITuhrD/lJww4WxZ9jRR1TUGsxgfh+ecFN+Teknu26oo8czDRd2xWctQ10J79VV
+         gHGgcCtnwbeJI7wO8sEJFfmZxE3W4tXtCht2yTha/qdVKppOR5ClUE0+uEGiX83ZQ7
+         PQeikUrGirwSAnVJYuggXUQB6KTfw6YoejzQGtCFmz0NBfXLtYZZZqs3iZ2f0GPGJ3
+         Zs28N8MBpjhF32KgX4d23rQWh98eo7KV5tWtWXnJXdJMZD1ItNv/KFX3ejDpOdtyDW
+         oyucZqvRu1h68UyOP579E5dvlUJ3JfFmTwIrdTJki/EE7nCUk9OcixoeK3Z0nM2R7Q
+         aW+az6YeJGgZA==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id t29so14095124pfg.11;
+        Thu, 11 Mar 2021 02:34:20 -0800 (PST)
+X-Gm-Message-State: AOAM5314pWhdYYH+Yvd5Z4MU/fF8DRpRgMh0S1sqP0SIP1j0akObYAx7
+        jelqGmnBbrlb0GiVnig8vTVfP4zNdEyZcREhlS8=
+X-Google-Smtp-Source: ABdhPJzY0KKF0RIthLc5mGvm6tX6IBefaVdn9h1YLSHJplyPla5IWMj8zNCsMuxBzvDlUUReTD78xXXy5yDCWprwHeQ=
+X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
+ h22-20020a62b4160000b02901e4fb5a55bbmr6828665pfn.80.1615458859439; Thu, 11
+ Mar 2021 02:34:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20210311094624.923913-1-masahiroy@kernel.org>
-In-Reply-To: <20210311094624.923913-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 11 Mar 2021 11:18:09 +0100
-Message-ID: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+References: <20210311094624.923913-1-masahiroy@kernel.org> <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+In-Reply-To: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 11 Mar 2021 19:33:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
+Message-ID: <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: collect minimum tool versions into scripts/min-tool-version.sh
-To:     Masahiro Yamada <masahiroy@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nicolas Pitre <nico@fluxnic.net>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -66,24 +58,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Mar 11, 2021 at 7:18 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> +# When you raise the minimum version, please update
-> +# Documentation/process/changes.rst as well.
-> +min_gcc_version=4.9.0
-> +min_llvm_version=10.0.1
-> +min_icc_version=16.0.3 # temporary
-> +min_binutils_version=2.23.0
+> On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > +# When you raise the minimum version, please update
+> > +# Documentation/process/changes.rst as well.
+> > +min_gcc_version=4.9.0
+> > +min_llvm_version=10.0.1
+> > +min_icc_version=16.0.3 # temporary
+> > +min_binutils_version=2.23.0
+>
+> +1 to creating a central place for all minimum versions.
+>
+>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> I wonder if you considered creating a folder with files like
+> `scripts/min_versions/gcc` containing the version string. That would
+> make it easier for reading from other languages or even importing them
+> dynamically into the documentation, thus removing even more
+> duplication.
+>
+> Cheers,
+> Miguel
 
-+1 to creating a central place for all minimum versions.
 
-    Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Hmm, that is a simple, clean idea.
+Then, we can simply read out the file
 
-I wonder if you considered creating a folder with files like
-`scripts/min_versions/gcc` containing the version string. That would
-make it easier for reading from other languages or even importing them
-dynamically into the documentation, thus removing even more
-duplication.
+$ cat scripts/min_versions/gcc
+4.9.0
 
-Cheers,
-Miguel
+I do not know how to handle
+per-arch versions in this case.
+
+
+
+
+Or, we might need to stick to shell-scripting
+to handle this.
+
+scripts/min_versions/gcc
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+if [ "$SRCARCH" = arm64 ]; then
+       echo 5.1.0
+else
+       echo 4.9.0
+fi
+
+
+-- 
+Best Regards
+Masahiro Yamada
