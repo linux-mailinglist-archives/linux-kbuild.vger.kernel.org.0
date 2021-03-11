@@ -2,204 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE3F336F2F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 10:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00CBE336FB4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 11:19:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhCKJsH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 04:48:07 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17662 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232068AbhCKJry (ORCPT
+        id S231991AbhCKKSj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 05:18:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33548 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232160AbhCKKSV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 04:47:54 -0500
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 12B9kUMn003999;
-        Thu, 11 Mar 2021 18:46:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 12B9kUMn003999
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615455991;
-        bh=jjbmnVqKFp76qPOFfjC0GpprElQxdwE0oKx/WiTAwzU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Zfc5G9DJXFSRlKbGWPFB33Cnl1FDoT2euLLq1m6aPCEBwQxgh4stpbSHn/u/cylTQ
-         rdHIMBHqMBIdQVlJmQv/wduwXo+YVIhRGkwN+RyAMPrcdphXdb7JcwAFk7sMUG2Cof
-         bx9Y/0w2e2UlhikbfMbYZDVNqU0s8JTbTWyZiZ+Sl+nZuoxh8Tz8NyrcerpDEJ/68h
-         Cmx3a4tt8nrWmRGiusVuquejFwp9x//BHNkMTkX4FDGDgJtSKzzhfWFQDjQqYsJh4W
-         wfn3hjL1CYO94YGiGgeRWJ1gz5F0RNueHpTWr787zjj3ViNVlCZ6sNBCswxhG0oRhx
-         iuROZhBGD8BFw==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nicolas Pitre <nico@fluxnic.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 11 Mar 2021 05:18:21 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C0DC061574;
+        Thu, 11 Mar 2021 02:18:20 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id n195so21137709ybg.9;
+        Thu, 11 Mar 2021 02:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PE76/wgHFI63Qk8r0BeS/7Wayu5F52U0PT65yrvGBho=;
+        b=KV/dCmLmRH8TZk2NhlpOMNZzTlErCwdeopxE6XFCM7FHZKJ1UKwEmwshsOl3r4Wal9
+         vSO0FJ6RmsiRyMsMBBUSgFddeuro9HUvpZZGHV55jsRR5ES3nFA84r/RnqrkxG1o3fOS
+         TWNKmPjsVMBzvE6sTRl7Lbo2JI/8w1NiHVa9jy028lo+RoVtxXCqIEDyHPOcOUyTLzIK
+         nv6wo2h6RH2pXq41wRulSWqj5hqnSJM0dvBqsv+crbK2UDNxwBnLw7QG9TQVQjsmTlvm
+         n4T2R2GDuaWEcOewrqtu0Q7LpDIaQTWsj/75iPiWcuO9U/vd0osRtyTVE9DdOcDYEow0
+         Pdow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PE76/wgHFI63Qk8r0BeS/7Wayu5F52U0PT65yrvGBho=;
+        b=ieR2z4fQnJyid6t2AQCDsMZyh6MXsb9hlJvgk56R1p8rpXDuC7S92/HSy6sqQmkMac
+         ZljhrZWazYJ18ywv3q3HqpEn6SSUZpKw9o7hU1+2TRmiAIGTZEdbvoyMN6qoQsN/Tn2r
+         h5tqeZw1ahYpI435NzJEzjzhqzza45xYtBBk3dgNPqgX/CMJ4v3pgv63icf9fhGfwkW0
+         ewSrmG8H6wrYlz/qztQBPbc+nXLwWXw4jrBTiYq8usorekcqB9zCnLWSEYO81Gni+pvY
+         zz4YSu9PDV/aZTQdXZMycGY59uUVK0ntLgt/YGmda5JLos+U2VvRHDxBU99E+bBOx+hj
+         /cmA==
+X-Gm-Message-State: AOAM530qey4xyRyIu41VOGhEBkLLypJP9MbisrBtwdCITWETpseSwrQx
+        sy2Lf4UCNzAFn3T/GyTHIHb4ol5eY2cOblHUc+w=
+X-Google-Smtp-Source: ABdhPJyO8YoCMbR4BNe6Cl+vhkkww7M0yF67eahb5yqYaldc6KfVxs/P+3FtLX0I4tuz64W3/8h0Cat6Pzwwm+teFlQ=
+X-Received: by 2002:a25:d6d5:: with SMTP id n204mr10363574ybg.22.1615457900276;
+ Thu, 11 Mar 2021 02:18:20 -0800 (PST)
+MIME-Version: 1.0
+References: <20210311094624.923913-1-masahiroy@kernel.org>
+In-Reply-To: <20210311094624.923913-1-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 11 Mar 2021 11:18:09 +0100
+Message-ID: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: collect minimum tool versions into scripts/min-tool-version.sh
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
         Nathan Chancellor <nathan@kernel.org>,
-        =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?= <bero@lindev.ch>,
+        =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@lindev.ch>,
         Miguel Ojeda <ojeda@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Will Deacon <will@kernel.org>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: collect minimum tool versions into scripts/min-tool-version.sh
-Date:   Thu, 11 Mar 2021 18:46:24 +0900
-Message-Id: <20210311094624.923913-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The kernel build uses various tools, many of which are provided by the
-same software suite, for example, LLVM and Binutils.
+On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> +# When you raise the minimum version, please update
+> +# Documentation/process/changes.rst as well.
+> +min_gcc_version=4.9.0
+> +min_llvm_version=10.0.1
+> +min_icc_version=16.0.3 # temporary
+> +min_binutils_version=2.23.0
 
-When you raise the minimum version of Clang/LLVM, you need to update
-clang_min_version in scripts/cc-version.sh and also lld_min_version in
-scripts/ld-version.sh.
++1 to creating a central place for all minimum versions.
 
-Kbuild can handle CC=clang and LD=ld.lld independently, but it does not
-make much sense to maintain their versions separately.
+    Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-Let's make scripts/min-tool-version.sh a central place of minimum tool
-versions so you do not need to touch multiple files.
+I wonder if you considered creating a folder with files like
+`scripts/min_versions/gcc` containing the version string. That would
+make it easier for reading from other languages or even importing them
+dynamically into the documentation, thus removing even more
+duplication.
 
-This script prints the minimum version of the given tool.
-
-  $ scripts/min-tool-version.sh gcc
-  4.9.0
-  $ scripts/min-tool-version.sh llvm
-  10.0.1
-  $ scripts/min-tool-version.sh binutils
-  2.23.0
-  $ scripts/min-tool-version.sh foo
-  foo: unknown tool
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
----
-
- scripts/cc-version.sh       | 20 +++++---------------
- scripts/ld-version.sh       | 11 ++++-------
- scripts/min-tool-version.sh | 27 +++++++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 22 deletions(-)
- create mode 100755 scripts/min-tool-version.sh
-
-diff --git a/scripts/cc-version.sh b/scripts/cc-version.sh
-index 3f2ee885b116..f1952c522466 100755
---- a/scripts/cc-version.sh
-+++ b/scripts/cc-version.sh
-@@ -6,18 +6,6 @@
- 
- set -e
- 
--# When you raise the minimum compiler version, please update
--# Documentation/process/changes.rst as well.
--gcc_min_version=4.9.0
--clang_min_version=10.0.1
--icc_min_version=16.0.3 # temporary
--
--# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63293
--# https://lore.kernel.org/r/20210107111841.GN1551@shell.armlinux.org.uk
--if [ "$SRCARCH" = arm64 ]; then
--	gcc_min_version=5.1.0
--fi
--
- # Print the compiler name and some version components.
- get_compiler_info()
- {
-@@ -48,18 +36,20 @@ set -- $(get_compiler_info "$@")
- 
- name=$1
- 
-+min_tool_version=$(dirname $0)/min-tool-version.sh
-+
- case "$name" in
- GCC)
- 	version=$2.$3.$4
--	min_version=$gcc_min_version
-+	min_version=$($min_tool_version gcc)
- 	;;
- Clang)
- 	version=$2.$3.$4
--	min_version=$clang_min_version
-+	min_version=$($min_tool_version llvm)
- 	;;
- ICC)
- 	version=$(($2 / 100)).$(($2 % 100)).$3
--	min_version=$icc_min_version
-+	min_version=$($min_tool_version icc)
- 	;;
- *)
- 	echo "$orig_args: unknown compiler" >&2
-diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-index 30debf78aa09..5b9481e98b4f 100755
---- a/scripts/ld-version.sh
-+++ b/scripts/ld-version.sh
-@@ -6,11 +6,6 @@
- 
- set -e
- 
--# When you raise the minimum linker version, please update
--# Documentation/process/changes.rst as well.
--bfd_min_version=2.23.0
--lld_min_version=10.0.1
--
- # Convert the version string x.y.z to a canonical 5 or 6-digit form.
- get_canonical_version()
- {
-@@ -35,10 +30,12 @@ set -- $("$@" --version)
- IFS=' '
- set -- $1
- 
-+min_tool_version=$(dirname $0)/min-tool-version.sh
-+
- if [ "$1" = GNU -a "$2" = ld ]; then
- 	shift $(($# - 1))
- 	version=$1
--	min_version=$bfd_min_version
-+	min_version=$($min_tool_version binutils)
- 	name=BFD
- 	disp_name="GNU ld"
- elif [ "$1" = GNU -a "$2" = gold ]; then
-@@ -51,7 +48,7 @@ else
- 
- 	if [ "$1" = LLD ]; then
- 		version=$2
--		min_version=$lld_min_version
-+		min_version=$($min_tool_version llvm)
- 		name=LLD
- 		disp_name=LLD
- 	else
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-new file mode 100755
-index 000000000000..37c438d766d7
---- /dev/null
-+++ b/scripts/min-tool-version.sh
-@@ -0,0 +1,27 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Print the minimum supported version of the given tool.
-+
-+set -e
-+
-+# When you raise the minimum version, please update
-+# Documentation/process/changes.rst as well.
-+min_gcc_version=4.9.0
-+min_llvm_version=10.0.1
-+min_icc_version=16.0.3 # temporary
-+min_binutils_version=2.23.0
-+
-+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63293
-+# https://lore.kernel.org/r/20210107111841.GN1551@shell.armlinux.org.uk
-+if [ "$SRCARCH" = arm64 ]; then
-+	min_gcc_version=5.1.0
-+fi
-+
-+eval min_version="\$min_${1}_version"
-+if [ -z "$min_version" ]; then
-+	echo "$1: unknown tool" >&2
-+	exit 1
-+fi
-+
-+echo "$min_version"
--- 
-2.27.0
-
+Cheers,
+Miguel
