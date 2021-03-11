@@ -2,48 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF200337016
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 11:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A6713370F7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Mar 2021 12:16:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232123AbhCKKej (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 05:34:39 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:44728 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232359AbhCKKeh (ORCPT
+        id S232608AbhCKLPr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 06:15:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232520AbhCKLPr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:34:37 -0500
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 12BAYJDi012899;
-        Thu, 11 Mar 2021 19:34:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 12BAYJDi012899
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615458860;
-        bh=JL39avkr6XAXggrtNaqY+rW1xFvHegX4PxpEorYJ0P0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RALITuhrD/lJww4WxZ9jRR1TUGsxgfh+ecFN+Teknu26oo8czDRd2xWctQ10J79VV
-         gHGgcCtnwbeJI7wO8sEJFfmZxE3W4tXtCht2yTha/qdVKppOR5ClUE0+uEGiX83ZQ7
-         PQeikUrGirwSAnVJYuggXUQB6KTfw6YoejzQGtCFmz0NBfXLtYZZZqs3iZ2f0GPGJ3
-         Zs28N8MBpjhF32KgX4d23rQWh98eo7KV5tWtWXnJXdJMZD1ItNv/KFX3ejDpOdtyDW
-         oyucZqvRu1h68UyOP579E5dvlUJ3JfFmTwIrdTJki/EE7nCUk9OcixoeK3Z0nM2R7Q
-         aW+az6YeJGgZA==
-X-Nifty-SrcIP: [209.85.210.181]
-Received: by mail-pf1-f181.google.com with SMTP id t29so14095124pfg.11;
-        Thu, 11 Mar 2021 02:34:20 -0800 (PST)
-X-Gm-Message-State: AOAM5314pWhdYYH+Yvd5Z4MU/fF8DRpRgMh0S1sqP0SIP1j0akObYAx7
-        jelqGmnBbrlb0GiVnig8vTVfP4zNdEyZcREhlS8=
-X-Google-Smtp-Source: ABdhPJzY0KKF0RIthLc5mGvm6tX6IBefaVdn9h1YLSHJplyPla5IWMj8zNCsMuxBzvDlUUReTD78xXXy5yDCWprwHeQ=
-X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
- h22-20020a62b4160000b02901e4fb5a55bbmr6828665pfn.80.1615458859439; Thu, 11
- Mar 2021 02:34:19 -0800 (PST)
+        Thu, 11 Mar 2021 06:15:47 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7823C061574;
+        Thu, 11 Mar 2021 03:15:46 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id 133so21331622ybd.5;
+        Thu, 11 Mar 2021 03:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LFeut5mRk7QOpC8AdBxexiS9v0Cku3pHA/7OaXkYKqA=;
+        b=dFw4CQZ3N/SJJZtHGvXhEnkZlZEnrYKWsM8cV1pQYih+baCxPCDMyEUgVHqoAm1xfk
+         5pbR5+GITiepEL72NXCfkBSYT0w1S2hMdfVoH/aCYnlr7TZcOcb5VDFRopkZStqY2WXJ
+         fXvvvvSEhDbPB0SG9bG9B5duWpsHcSv9jN65YW1zvXDbCydKHkxW3OmrIUKy3RDxQVcG
+         LyrLfgjEL/vc/zhmWCbkrPKYJrTciU/vbcYOrp5Pnkveb9hpXzuOyK6LFNubh8g9uAsE
+         +TrFSU6OS8bIjupyl0DLH1dMkCcdEM63YT9GxZd4DFhAxHBISdjjWXQb8ckMiQ3uhMmv
+         tRlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LFeut5mRk7QOpC8AdBxexiS9v0Cku3pHA/7OaXkYKqA=;
+        b=pOnceXUCL2Wefjo0vBFxWY8/RMzVsD9qxFLHNGWA/ukc/XBDAKhdL4OywBo+uNawRt
+         B0IoV70I9yE9oA4nziSQGggri5A1PZAItUulQ3AfdNGkqC3eqx28S0kKqZKvJhnbXNP9
+         ZWsHwuaEJtBgPfEpiVcgPFkbOMVQ1l2/2zn5Nbot4asNUQnS/6D5b0p0G4EuB/ySeMdf
+         KeZi3N1ONGDXsi3w4BwPQoBL3xYWei3buPO+kFZQtkJeqyyoGnDBiNJ8xqwItbQ5J/9z
+         wPPjNzLfH4q+6MZedZsRyLNsa3kTMKFAi79FlVyKiptw8OBpBSwp05ob0RlCLlXXgANc
+         eCZQ==
+X-Gm-Message-State: AOAM532lLgBP4fOteWw4U3k1kqfryACQG/gjGOrGjoHSZ3EGy3uVazCg
+        tvrV5wdxf9742N7C2MLXy88zjWvNvm+XZ+9jPKRvQcZHkXMh7A==
+X-Google-Smtp-Source: ABdhPJx+B2lm1YY9OlY/r/zl4P+HRIXBZy+A4G8ckrWn5a1E2tn19gRq8zhzAPEmBGze/icASy/0zDUEfCVoRZuGH3Q=
+X-Received: by 2002:a25:d296:: with SMTP id j144mr10994633ybg.33.1615461346024;
+ Thu, 11 Mar 2021 03:15:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20210311094624.923913-1-masahiroy@kernel.org> <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
-In-Reply-To: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 11 Mar 2021 19:33:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
-Message-ID: <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
+ <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATP2ORegUu0tGtSU1+CSKZVX7m84GOT913X5L29MopAXQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 11 Mar 2021 12:15:35 +0100
+Message-ID: <CANiq72kVk5BwAfXmnfKGPwMavfdHNqF1gjq9D-U4TmMipS4yoA@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: collect minimum tool versions into scripts/min-tool-version.sh
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nicolas Pitre <nico@fluxnic.net>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -58,57 +67,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 7:18 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Thu, Mar 11, 2021 at 11:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > +# When you raise the minimum version, please update
-> > +# Documentation/process/changes.rst as well.
-> > +min_gcc_version=4.9.0
-> > +min_llvm_version=10.0.1
-> > +min_icc_version=16.0.3 # temporary
-> > +min_binutils_version=2.23.0
+> Hmm, that is a simple, clean idea.
+> Then, we can simply read out the file
 >
-> +1 to creating a central place for all minimum versions.
->
->     Acked-by: Miguel Ojeda <ojeda@kernel.org>
->
-> I wonder if you considered creating a folder with files like
-> `scripts/min_versions/gcc` containing the version string. That would
-> make it easier for reading from other languages or even importing them
-> dynamically into the documentation, thus removing even more
-> duplication.
->
-> Cheers,
-> Miguel
+> $ cat scripts/min_versions/gcc
+> 4.9.0
 
+Exactly!
 
-Hmm, that is a simple, clean idea.
-Then, we can simply read out the file
+> I do not know how to handle
+> per-arch versions in this case.
 
-$ cat scripts/min_versions/gcc
-4.9.0
+Perhaps we should just push for 5.1.0 everywhere ;-P
 
-I do not know how to handle
-per-arch versions in this case.
+Otherwise, we could still have `min-tool-versions.sh` with something like:
 
+    $ cat scripts/min_versions/gcc
+    4.9.0
+    $ cat scripts/min_versions/gcc_arm64
+    5.1.0
+    $ cat scripts/min-tool-versions.sh
+    if min_versions/$tool_$arch exists
+        print that one
+    else
+        print the default one: min_versions/$tool
 
+i.e. having the plain files allow us to extend the cases without
+listing them explicitly in the script, plus it is anyway useful to
+separate data from code :-)
 
-
-Or, we might need to stick to shell-scripting
-to handle this.
-
-scripts/min_versions/gcc
-#!/bin/sh
-# SPDX-License-Identifier: GPL-2.0-only
-if [ "$SRCARCH" = arm64 ]; then
-       echo 5.1.0
-else
-       echo 4.9.0
-fi
-
-
--- 
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
