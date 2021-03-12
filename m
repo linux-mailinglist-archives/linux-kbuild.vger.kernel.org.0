@@ -2,117 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4A49338305
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 02:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1B5338317
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 02:20:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbhCLBKM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 20:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbhCLBJs (ORCPT
+        id S229569AbhCLBTb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 20:19:31 -0500
+Received: from pb-smtp21.pobox.com ([173.228.157.53]:53760 "EHLO
+        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229568AbhCLBTa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 20:09:48 -0500
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 189C9C061760
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 17:09:48 -0800 (PST)
-Received: by mail-qt1-x84a.google.com with SMTP id l63so13447002qtd.23
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 17:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=n+xPhT43NmscUpw6p+xSEcR+gcJnv0oKtggQXvDZY6A=;
-        b=Ro7zBPpxkv9FGSgPZFnM4f/xnbzurCHaDDuwf9MoExNQZwY6ITRKadi3mmz/10oyIk
-         jbG9SPspaCX6+P9I0cNl0hbHQnuUokAMvktXjd23CEiEv8ioWJJHcFrrHDNMAeSyDxe2
-         wTgf/lwKD88qYnR9E346OOlA7E1St+6zSVdCvQNng/q9X60rKfoLDOBEJeTjIUwtPwqO
-         5Lag+KohaD3ZGIYgCHdnCm4tEePfwEmWpgN7I/ZsveYEH+XwuGzGESnb71SMVrR9Rzm1
-         8dZXTgH4SKk+Ns9knYcDnQsiHrQ1Fe6lf9tWlzFiK/UGcCaP2UwR0nqyslLqlVKYJEU5
-         Wx0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=n+xPhT43NmscUpw6p+xSEcR+gcJnv0oKtggQXvDZY6A=;
-        b=NgYubMrf1X4PMy0Z1KU8q+fPWB6++xtWE/ZU2fEGciQZVcvrGO7K5/roTmFCo55SfQ
-         UxMqN5D+FKsWjknwM4j4DUpNwnFFYeJblG5t4LDAdkOYR0yV4948GTydZM2Z5A0sVSiu
-         qMI6sAyauSOwbdZARhu9CLIk/OD0LGQ4UKFDcpgsGm/5wCccNjTtaWkj2Fl7480Kwx49
-         qnjk+jA+bMWVtzisXQ5/dd9o/MaoHh9O73ThMJZFUGn4TxjzIBywiEsGHBRs4tXtANK3
-         ktIRDmRb9nBYD9Cjut+Y/ldcm3MGHOqNAFBw65cGCpmQpd2943rCSQEB3vk6wWBY6mQd
-         jgYQ==
-X-Gm-Message-State: AOAM532UX3H+d1Y9xKFRQO/Fwl5RVwAbYfm/DmfrAdtwClkuJZ4YTYjz
-        eWqzTytGy9mwTtUv1JCNRcpwbFXvYTlyKdUN43w=
-X-Google-Smtp-Source: ABdhPJxYksMhjkXz0qS5Tfc9f8b0uN6DGFNkVdVKfReR40RRwT5Q+xttnmmUY1MNmPTTJzGoFmbUlVIiqIJCxZIfmlU=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:9c6c:84f8:2058:5b95])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6214:10e7:: with SMTP id
- q7mr10184252qvt.16.1615511387105; Thu, 11 Mar 2021 17:09:47 -0800 (PST)
-Date:   Thu, 11 Mar 2021 17:09:41 -0800
-Message-Id: <20210312010942.1546679-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
-Subject: [PATCH] Makefile: LTO: have linker check -Wframe-larger-than
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Candle Sun <candlesea@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Thu, 11 Mar 2021 20:19:30 -0500
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id 7ED5312D4EA;
+        Thu, 11 Mar 2021 20:19:25 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=Tflsr+pFN7bsoUlPi5vEKVYQZ00=; b=OOzUfy
+        KR4tPWhjnsEd7BqUYQUw5VZGQI/N6BcVPHUwKSOyaobYDJ+GyX/7NZ69ku6sZMOv
+        to1lhxSQuMT6ISO2IQoiuhSUYATpiUwqITtgpvAxsDWaLeBEYFDT/VJuo9WUo1m4
+        S7usEKDE+EuP9Iv1cnbRlN9aJx/yBF/wzDJlk=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id 76F8D12D4E9;
+        Thu, 11 Mar 2021 20:19:25 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=8Y4tISx9JtvPwheWVqOA1yet+FMGrYmjDlVphbkup2o=; b=etAf4Pw5RO5mO4Dt38gY2H9qe1IMfp0uZAp3KC6n6jPE4lEInH/pe+uXf7HhhtEJuk2Qt6jkGpxctzTy3+Um9IdyidP2RVaUfsU4cEt0lhucnQiWLeEvras/x+MC5k2f+e86KRpULawJiQ2apXN3stdnNm0vJGT5gAIil8MpIOA=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 79EC512D4E8;
+        Thu, 11 Mar 2021 20:19:22 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id B6B052DA0024;
+        Thu, 11 Mar 2021 20:19:20 -0500 (EST)
+Date:   Thu, 11 Mar 2021 20:19:20 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        =?ISO-8859-15?Q?Bernhard_Rosenkr=E4nzer?= <bero@lindev.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: collect minimum tool versions into
+ scripts/min-tool-version.sh
+In-Reply-To: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+Message-ID: <32or985-8s52-17pr-62qq-s1q3r13p12no@syhkavp.arg>
+References: <20210311094624.923913-1-masahiroy@kernel.org> <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: FA10F8AC-82D0-11EB-AE2E-D609E328BF65-78420484!pb-smtp21.pobox.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--Wframe-larger-than= requires stack frame information, which the
-frontend cannot provide. This diagnostic is emitted late during
-compilation once stack frame size is available.
+On Thu, 11 Mar 2021, Miguel Ojeda wrote:
 
-When building with LTO, the frontend simply lowers C to LLVM IR and does
-not have stack frame information, so it cannot emit this diagnostic.
-When the linker drives LTO, it restarts optimizations and lowers LLVM IR
-to object code. At that point, it has stack frame information but
-doesn't know to check for a specific max stack frame size.
+> On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > +# When you raise the minimum version, please update
+> > +# Documentation/process/changes.rst as well.
+> > +min_gcc_version=4.9.0
+> > +min_llvm_version=10.0.1
+> > +min_icc_version=16.0.3 # temporary
+> > +min_binutils_version=2.23.0
+> 
+> +1 to creating a central place for all minimum versions.
+> 
+>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> 
+> I wonder if you considered creating a folder with files like
+> `scripts/min_versions/gcc` containing the version string. That would
+> make it easier for reading from other languages or even importing them
+> dynamically into the documentation, thus removing even more
+> duplication.
 
-I consider this a bug in LLVM that we need to fix. There are some
-details we're working out related to LTO such as which value to use when
-there are multiple different values specified per TU, or how to
-propagate these to compiler synthesized routines properly, if at all.
+Alternatively, the documentation could be the actual reference and the 
+script would parse the documentation to get those values out.
 
-Until it's fixed, ensure we don't miss these. At that point we can wrap
-this in a compiler version guard or revert this based on the minimum
-support version of Clang.
 
-The error message is not generated during link:
-  LTO     vmlinux.o
-ld.lld: warning: stack size limit exceeded (8224) in foobarbaz
-
-Cc: Sami Tolvanen <samitolvanen@google.com>
-Reported-by: Candle Sun <candlesea@gmail.com>
-Suggested-by: Fangrui Song <maskray@google.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-LTO users might want to `make clean` or `rm -rf .thinlto-cache` to test
-this.
-
- Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index f9b54da2fca0..74566b1417b8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -910,6 +910,11 @@ CC_FLAGS_LTO	+= -fvisibility=hidden
- 
- # Limit inlining across translation units to reduce binary size
- KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
-+
-+# Check for frame size exceeding threshold during prolog/epilog insertion.
-+ifneq ($(CONFIG_FRAME_WARN),0)
-+KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
-+endif
- endif
- 
- ifdef CONFIG_LTO
--- 
-2.31.0.rc2.261.g7f71774620-goog
-
+Nicolas
