@@ -2,93 +2,239 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 053DD33866D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 08:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A647338B4C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 12:11:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhCLHN7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Mar 2021 02:13:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
+        id S233752AbhCLLKy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Mar 2021 06:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbhCLHN2 (ORCPT
+        with ESMTP id S233880AbhCLLKm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:13:28 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC52C061574
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 23:13:28 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so10638391pjb.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 23:13:28 -0800 (PST)
+        Fri, 12 Mar 2021 06:10:42 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30A2AC061574;
+        Fri, 12 Mar 2021 03:10:42 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id z13so25266202iox.8;
+        Fri, 12 Mar 2021 03:10:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8nQj9pi8kjO+3bW20OImEAoMcuUJaaLHne2pfVwUQ6Q=;
-        b=dwwxuqGcb7m1V2mOAW6wNrN/Rn2cO4xUkD86mev0DNFe6xFtk2F6LhQf7L8Kl4Jk7z
-         9Co4IFbc12R9j/Tex6UeUXaZ87AcNer7/qvtL32tvbCrIBo7cBJNlAfkf9M2LStPxbte
-         5Ok++zsxD915TOa62W8ig4rmoKaRp0oqF6muZRXRDh9vX2Dcndwhe8qkqvQXXHpnEPtZ
-         m42XwMqTxj2fc29+WsMcxuOF7VtIT3L338O+9NGTQ7NxiUqfgl2+rYFqi9rEGCvRJ+aK
-         c49thxKwfNRz7VNCN1Lv777XrRtAphBPL/2LTa5Gbo3d/dLeN8FXYsYONP7fWpkAkoQ3
-         DQYA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=jHSKMwCVuECIMwfsj98b2AuPQuN3R/pVWD1vdNz3H9E=;
+        b=JpVVWQA0zqW5EwwAxEvhBqEFfR8gNwkWPKdXUw2qaTyJmI9erx9Ka+AARvtYCn5gVp
+         yXzhoyjPFmWYarYWFz2CY1sx6Wy4cqsroutZinuxOTw9VLOofOuAlatLuZUdVNnvdiUL
+         o31Z/hVqtq02PEVnLLWQXz36JaiH0hlKHT8gd34qA+d7chwptfOoMRdVVMpGRw3dYh0Q
+         zcFovSyfwxFDeYIuDzFYRP8Z2u1deJ8KUZxVhyM/mOqFu7FsWBp8kxroa2LUCZztmDOs
+         tXegtjLVv5UZMr3UWe/Ucuq64sRiHEhlaIUABq+vkAeRxYPYFZUh5J6RrmvNBCBvwSoR
+         75xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8nQj9pi8kjO+3bW20OImEAoMcuUJaaLHne2pfVwUQ6Q=;
-        b=sO0/+/nHP6SWBILrHF+BwXrxLXH5meU6VvglB6zy3vM1Rpnmdku0Y7cUGscHOTjGFb
-         +1pvxoWOLISyXO+UIslXlh5YroO82AmrmqB0iOu8HuUlu0xBNzvvWO8n7jW7kctimth0
-         xKc5ajCC+t/6CWxYaclyMjPJcgJBqjWBhjsRleWzDznRnLl0S43AeUrhgPPnqrTV6p4U
-         P/CMipr73CmUiW+dyGdSbDmE7OXHtWARyCe5wY8NV+BTqkd3hMMysKVmBmY4hg1ZfGST
-         LCW74O/k9SoJy28ZGADO1SkrnpgFcgl9BCgt68Mmzn6Mlz61T0F7+FmxlsGIjT+BeRka
-         Kwig==
-X-Gm-Message-State: AOAM531RO8iLMk0pFCgLH1v6kJkcMz6qou4n4Ota51Go9tcwTamccgG1
-        papashAIZjzJI0dfX6doC/Mbew==
-X-Google-Smtp-Source: ABdhPJyqTbGj1r2y6pAX7x+QniRp6iMckEBevx7znL3cwTDnyfN5TnDEXb7MWU6A5zTm+M6PQ/XJxw==
-X-Received: by 2002:a17:90a:9f4a:: with SMTP id q10mr3181343pjv.113.1615533208160;
-        Thu, 11 Mar 2021 23:13:28 -0800 (PST)
-Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id k63sm4451560pfd.48.2021.03.11.23.13.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Mar 2021 23:13:27 -0800 (PST)
-Date:   Fri, 12 Mar 2021 12:43:25 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-Message-ID: <20210312071325.zosmlttse4ym7sit@vireshk-i7>
-References: <cover.1615354376.git.viresh.kumar@linaro.org>
- <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
- <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
- <20210312044712.srmqfuie7fae55pb@vireshk-i7>
- <17c65559-865f-f742-660f-0ab30ed45d90@gmail.com>
- <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=jHSKMwCVuECIMwfsj98b2AuPQuN3R/pVWD1vdNz3H9E=;
+        b=jVb9CpASq2NGF2Mv1FNbt3/3CTIBcyhW8VNAY9YaasVB5hTFlSfdYEbQqkra7R0zss
+         XpiWTt8hHcMT1+z2Ax/mo/jY/ZEa4Dc1BKGwsP+c9xaaBh/JdWLOi8fjmnpWAHMqSx7p
+         Gikbe4itNMx1U76RFlCIK69sN3v/z3XVTM4PyywoqLithdYWhckPwdTqpESSx6d9HUuN
+         xxP87BmM59ZXSqlaPueOYV1w3V8j0hu0+obNUt6NCnj3/k/raE4c0WAXdNt3B6rRwVBl
+         cNvGr6xZU+ywwUvZVplQuw3b13/RLwaPPZ0kaa2E8UeJsn8GOsvQOuHqNE4NSXrg52Ud
+         qNsw==
+X-Gm-Message-State: AOAM533KJvdGE1HDNbla4Vr95SgFcQ92xT+Jm7mmRWtU387SRmYVki3q
+        fv5obXFexhelH9GI4qEWxYxq4kuLax4AUsbooLk=
+X-Google-Smtp-Source: ABdhPJzvqy+DFtFvS+zkVCXCsu/FldzwygcytT6CsCJyZUf5sM7aRNBH4iRHzRDHQM5hLtFg0GXLeYi1GGUk4NYqN5s=
+X-Received: by 2002:a5e:8c16:: with SMTP id n22mr9711338ioj.156.1615547441554;
+ Fri, 12 Mar 2021 03:10:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210311094624.923913-1-masahiroy@kernel.org>
+In-Reply-To: <20210311094624.923913-1-masahiroy@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 12 Mar 2021 12:10:05 +0100
+Message-ID: <CA+icZUVehYw+jxF_n2+g7ReFfSXn8ZnMWCwY4w_HwNJxvX92xg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: collect minimum tool versions into scripts/min-tool-version.sh
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        =?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?= <bero@lindev.ch>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Will Deacon <will@kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12-03-21, 01:09, Frank Rowand wrote:
-> I suggested having the .dtso files include the .dts file because that is a relatively
-> small and easy change to test.  What would probably make more sense is the rename
-> the existing overlay .dts files to be .dtso files and then for each overlay .dtso
-> file create a new .dts file that #includes the corresponding .dtso file.  This is
-> more work and churn, but easier to document that the .dts files are a hack that is
-> needed so that the corresponding .dtb.S files will be generated.
+On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The kernel build uses various tools, many of which are provided by the
+> same software suite, for example, LLVM and Binutils.
+>
+> When you raise the minimum version of Clang/LLVM, you need to update
+> clang_min_version in scripts/cc-version.sh and also lld_min_version in
+> scripts/ld-version.sh.
+>
+> Kbuild can handle CC=clang and LD=ld.lld independently, but it does not
+> make much sense to maintain their versions separately.
+>
+> Let's make scripts/min-tool-version.sh a central place of minimum tool
+> versions so you do not need to touch multiple files.
+>
+> This script prints the minimum version of the given tool.
+>
+>   $ scripts/min-tool-version.sh gcc
+>   4.9.0
+>   $ scripts/min-tool-version.sh llvm
+>   10.0.1
+>   $ scripts/min-tool-version.sh binutils
+>   2.23.0
+>   $ scripts/min-tool-version.sh foo
+>   foo: unknown tool
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-What about creating links instead then ?
+The idea with creating gcc, llvm, binutils etc. files containing the
+minimum version-string sounds good to me.
 
--- 
-viresh
+This version here tested on Debian/testing AMD64.
+
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v12.0.0-rc3
+
+- Sedat -
+
+> ---
+>
+>  scripts/cc-version.sh       | 20 +++++---------------
+>  scripts/ld-version.sh       | 11 ++++-------
+>  scripts/min-tool-version.sh | 27 +++++++++++++++++++++++++++
+>  3 files changed, 36 insertions(+), 22 deletions(-)
+>  create mode 100755 scripts/min-tool-version.sh
+>
+> diff --git a/scripts/cc-version.sh b/scripts/cc-version.sh
+> index 3f2ee885b116..f1952c522466 100755
+> --- a/scripts/cc-version.sh
+> +++ b/scripts/cc-version.sh
+> @@ -6,18 +6,6 @@
+>
+>  set -e
+>
+> -# When you raise the minimum compiler version, please update
+> -# Documentation/process/changes.rst as well.
+> -gcc_min_version=4.9.0
+> -clang_min_version=10.0.1
+> -icc_min_version=16.0.3 # temporary
+> -
+> -# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63293
+> -# https://lore.kernel.org/r/20210107111841.GN1551@shell.armlinux.org.uk
+> -if [ "$SRCARCH" = arm64 ]; then
+> -       gcc_min_version=5.1.0
+> -fi
+> -
+>  # Print the compiler name and some version components.
+>  get_compiler_info()
+>  {
+> @@ -48,18 +36,20 @@ set -- $(get_compiler_info "$@")
+>
+>  name=$1
+>
+> +min_tool_version=$(dirname $0)/min-tool-version.sh
+> +
+>  case "$name" in
+>  GCC)
+>         version=$2.$3.$4
+> -       min_version=$gcc_min_version
+> +       min_version=$($min_tool_version gcc)
+>         ;;
+>  Clang)
+>         version=$2.$3.$4
+> -       min_version=$clang_min_version
+> +       min_version=$($min_tool_version llvm)
+>         ;;
+>  ICC)
+>         version=$(($2 / 100)).$(($2 % 100)).$3
+> -       min_version=$icc_min_version
+> +       min_version=$($min_tool_version icc)
+>         ;;
+>  *)
+>         echo "$orig_args: unknown compiler" >&2
+> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> index 30debf78aa09..5b9481e98b4f 100755
+> --- a/scripts/ld-version.sh
+> +++ b/scripts/ld-version.sh
+> @@ -6,11 +6,6 @@
+>
+>  set -e
+>
+> -# When you raise the minimum linker version, please update
+> -# Documentation/process/changes.rst as well.
+> -bfd_min_version=2.23.0
+> -lld_min_version=10.0.1
+> -
+>  # Convert the version string x.y.z to a canonical 5 or 6-digit form.
+>  get_canonical_version()
+>  {
+> @@ -35,10 +30,12 @@ set -- $("$@" --version)
+>  IFS=' '
+>  set -- $1
+>
+> +min_tool_version=$(dirname $0)/min-tool-version.sh
+> +
+>  if [ "$1" = GNU -a "$2" = ld ]; then
+>         shift $(($# - 1))
+>         version=$1
+> -       min_version=$bfd_min_version
+> +       min_version=$($min_tool_version binutils)
+>         name=BFD
+>         disp_name="GNU ld"
+>  elif [ "$1" = GNU -a "$2" = gold ]; then
+> @@ -51,7 +48,7 @@ else
+>
+>         if [ "$1" = LLD ]; then
+>                 version=$2
+> -               min_version=$lld_min_version
+> +               min_version=$($min_tool_version llvm)
+>                 name=LLD
+>                 disp_name=LLD
+>         else
+> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+> new file mode 100755
+> index 000000000000..37c438d766d7
+> --- /dev/null
+> +++ b/scripts/min-tool-version.sh
+> @@ -0,0 +1,27 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Print the minimum supported version of the given tool.
+> +
+> +set -e
+> +
+> +# When you raise the minimum version, please update
+> +# Documentation/process/changes.rst as well.
+> +min_gcc_version=4.9.0
+> +min_llvm_version=10.0.1
+> +min_icc_version=16.0.3 # temporary
+> +min_binutils_version=2.23.0
+> +
+> +# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63293
+> +# https://lore.kernel.org/r/20210107111841.GN1551@shell.armlinux.org.uk
+> +if [ "$SRCARCH" = arm64 ]; then
+> +       min_gcc_version=5.1.0
+> +fi
+> +
+> +eval min_version="\$min_${1}_version"
+> +if [ -z "$min_version" ]; then
+> +       echo "$1: unknown tool" >&2
+> +       exit 1
+> +fi
+> +
+> +echo "$min_version"
+> --
+> 2.27.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210311094624.923913-1-masahiroy%40kernel.org.
