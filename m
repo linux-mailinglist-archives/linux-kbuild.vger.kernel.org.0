@@ -2,88 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D1B5338317
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 02:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 684863383AA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 03:40:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229569AbhCLBTb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 20:19:31 -0500
-Received: from pb-smtp21.pobox.com ([173.228.157.53]:53760 "EHLO
-        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbhCLBTa (ORCPT
+        id S231368AbhCLCjh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 21:39:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230084AbhCLCj0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 20:19:30 -0500
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id 7ED5312D4EA;
-        Thu, 11 Mar 2021 20:19:25 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=Tflsr+pFN7bsoUlPi5vEKVYQZ00=; b=OOzUfy
-        KR4tPWhjnsEd7BqUYQUw5VZGQI/N6BcVPHUwKSOyaobYDJ+GyX/7NZ69ku6sZMOv
-        to1lhxSQuMT6ISO2IQoiuhSUYATpiUwqITtgpvAxsDWaLeBEYFDT/VJuo9WUo1m4
-        S7usEKDE+EuP9Iv1cnbRlN9aJx/yBF/wzDJlk=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id 76F8D12D4E9;
-        Thu, 11 Mar 2021 20:19:25 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=8Y4tISx9JtvPwheWVqOA1yet+FMGrYmjDlVphbkup2o=; b=etAf4Pw5RO5mO4Dt38gY2H9qe1IMfp0uZAp3KC6n6jPE4lEInH/pe+uXf7HhhtEJuk2Qt6jkGpxctzTy3+Um9IdyidP2RVaUfsU4cEt0lhucnQiWLeEvras/x+MC5k2f+e86KRpULawJiQ2apXN3stdnNm0vJGT5gAIil8MpIOA=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 79EC512D4E8;
-        Thu, 11 Mar 2021 20:19:22 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id B6B052DA0024;
-        Thu, 11 Mar 2021 20:19:20 -0500 (EST)
-Date:   Thu, 11 Mar 2021 20:19:20 -0500 (EST)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        =?ISO-8859-15?Q?Bernhard_Rosenkr=E4nzer?= <bero@lindev.ch>,
-        Miguel Ojeda <ojeda@kernel.org>,
+        Thu, 11 Mar 2021 21:39:26 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27949C061762
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 18:39:26 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id n17so7658700plc.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 18:39:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=djQZd3ysyoSutQHrswnBnuimUYSb59dZwog3T2MV0T0=;
+        b=mLI4wibQX2QDrTDp0g3oVwAnp8g8JH2ZHX3coY+tloIS7hQDHaHg7O3U0tqNyPkaXm
+         8rDqn7xBBo4XHsB+a2U3CBHCbqJ61M0ldpB/4IwR6Z3ug6eLs539FiVfed3DGaRV2ZTJ
+         k+65bJQ0eM8Sc9pNW/ZbuOFd1znR6iQPephC8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=djQZd3ysyoSutQHrswnBnuimUYSb59dZwog3T2MV0T0=;
+        b=YsxjmUsSy0kw0BaZBktEBQ4jn4DUxE+4cSAgTvki5wlK8CMwTxIQAJJ/dYpdptga/z
+         MR74AtJ6l7uaLcD8uDFORhMP4nTP59soVPd8HgaXH5S4LwCFYEWVkWHTjgMiWNnpnG2k
+         eYDpWHbxNfdRajnvUjMKQWfLcxonWJ5bYYC0EgLHT3BaiZ6QkTfuM+RfXWJe+YvVzjwh
+         DnbuxkIQJq/DoDPPUlialzhdQOW9C7so8+A+oUssobN/wihjuX+MpXij5LZGUO80Xl0b
+         mltFnC04/I30dDkd0rLPjuxeegvif+YF6pgNe78MwwBg9m62QcSAJuHXRSdNNcD3FUiQ
+         Q6GQ==
+X-Gm-Message-State: AOAM531nsN4WCOUF5uDnQnTnY14gF8eXMPb6u75H3KRZsbv9uEztjlgm
+        vdWM5BscNKx1Sn086wuFJUep3A==
+X-Google-Smtp-Source: ABdhPJyXid/WhlRRi3IuEn/gj018RDIJnIysnt+MQKHLqWW7jwLJATluPmfQx4YLScgrHSTI05ABow==
+X-Received: by 2002:a17:902:344:b029:e4:a7ab:2e55 with SMTP id 62-20020a1709020344b02900e4a7ab2e55mr11594605pld.63.1615516765493;
+        Thu, 11 Mar 2021 18:39:25 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id k127sm3858828pfd.63.2021.03.11.18.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 18:39:24 -0800 (PST)
+Date:   Thu, 11 Mar 2021 18:39:23 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Will Deacon <will@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: collect minimum tool versions into
- scripts/min-tool-version.sh
-In-Reply-To: <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
-Message-ID: <32or985-8s52-17pr-62qq-s1q3r13p12no@syhkavp.arg>
-References: <20210311094624.923913-1-masahiroy@kernel.org> <CANiq72m1e9MD83sP5iZCfzoCR0qLz2HQj_VVkE4X-56vf6e7fw@mail.gmail.com>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        bpf@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/17] module: cfi: ensure __cfi_check alignment
+Message-ID: <202103111837.813997B4@keescook>
+References: <20210312004919.669614-1-samitolvanen@google.com>
+ <20210312004919.669614-5-samitolvanen@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: FA10F8AC-82D0-11EB-AE2E-D609E328BF65-78420484!pb-smtp21.pobox.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210312004919.669614-5-samitolvanen@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 11 Mar 2021, Miguel Ojeda wrote:
-
-> On Thu, Mar 11, 2021 at 10:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > +# When you raise the minimum version, please update
-> > +# Documentation/process/changes.rst as well.
-> > +min_gcc_version=4.9.0
-> > +min_llvm_version=10.0.1
-> > +min_icc_version=16.0.3 # temporary
-> > +min_binutils_version=2.23.0
+On Thu, Mar 11, 2021 at 04:49:06PM -0800, Sami Tolvanen wrote:
+> CONFIG_CFI_CLANG_SHADOW assumes the __cfi_check() function is page
+> aligned and at the beginning of the .text section. While Clang would
+> normally align the function correctly, it fails to do so for modules
+> with no executable code.
 > 
-> +1 to creating a central place for all minimum versions.
+> This change ensures the correct __cfi_check() location and
+> alignment. It also discards the .eh_frame section, which Clang can
+> generate with certain sanitizers, such as CFI.
 > 
->     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Link: https://bugs.llvm.org/show_bug.cgi?id=46293
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> ---
+>  scripts/module.lds.S | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 > 
-> I wonder if you considered creating a folder with files like
-> `scripts/min_versions/gcc` containing the version string. That would
-> make it easier for reading from other languages or even importing them
-> dynamically into the documentation, thus removing even more
-> duplication.
+> diff --git a/scripts/module.lds.S b/scripts/module.lds.S
+> index 168cd27e6122..552ddb084f76 100644
+> --- a/scripts/module.lds.S
+> +++ b/scripts/module.lds.S
+> @@ -3,10 +3,13 @@
+>   * Archs are free to supply their own linker scripts.  ld will
+>   * combine them automatically.
+>   */
+> +#include <asm/page.h>
+> +
+>  SECTIONS {
+>  	/DISCARD/ : {
+>  		*(.discard)
+>  		*(.discard.*)
+> +		*(.eh_frame)
+>  	}
+>  
+>  	__ksymtab		0 : { *(SORT(___ksymtab+*)) }
+> @@ -40,7 +43,16 @@ SECTIONS {
+>  		*(.rodata..L*)
+>  	}
+>  
+> -	.text : { *(.text .text.[0-9a-zA-Z_]*) }
+> +#ifdef CONFIG_CFI_CLANG
+> +	/*
+> +	 * With CFI_CLANG, ensure __cfi_check is at the beginning of the
+> +	 * .text section, and that the section is aligned to page size.
+> +	 */
+> +	.text : ALIGN(PAGE_SIZE) {
+> +		*(.text.__cfi_check)
+> +		*(.text .text.[0-9a-zA-Z_]* .text..L.cfi*)
+> +	}
+> +#endif
 
-Alternatively, the documentation could be the actual reference and the 
-script would parse the documentation to get those values out.
+Whoops, I think this reverts to the default .text declaration when
+CONFIG_CFI_CLANG is unset.
+
+I think the only thing that needs the ifdef is the ALIGN, yes? Perhaps
+something like this?
+
+#ifdef CONFIG_CFI_CLANG
+# define ALIGN_CFI ALIGN(PAGE_SIZE)
+#else
+# define ALIGN_CFI
+#endif
+
+	.text : ALIGN_CFI {
+		*(.text.__cfi_check)
+		*(.text .text.[0-9a-zA-Z_]* .text..L.cfi*)
+	}
 
 
-Nicolas
+-Kees
+
+>  }
+>  
+>  /* bring in arch-specific sections */
+> -- 
+> 2.31.0.rc2.261.g7f71774620-goog
+> 
+
+-- 
+Kees Cook
