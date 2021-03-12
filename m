@@ -2,104 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5D6533847F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 04:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 851A33384AE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 05:32:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbhCLDwo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Mar 2021 22:52:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
+        id S232154AbhCLEbs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Mar 2021 23:31:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232013AbhCLDwh (ORCPT
+        with ESMTP id S232153AbhCLEbN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Mar 2021 22:52:37 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4513FC061574
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 19:52:37 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id t18so4501822pjs.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 19:52:37 -0800 (PST)
+        Thu, 11 Mar 2021 23:31:13 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB5AC061574
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 20:31:13 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id y67so1014134pfb.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 20:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=7Hu8Rm8g/2u5BW/la8A67BoRDfxpXnrJBoL9Yigted0=;
-        b=l4b422yzrQT4+UVX8Q9zkdQgJ5UHUwbfNnpRYtFpYuAMsTvRcT8EMPczWhyIzo55NS
-         knbXIZg6O6m/9BRTuvxBlC5EByxmXGBe8HhPW+rpEu7kPBm6NhAdeyy3or2YL6PB4cDD
-         +r5Lj3lelL2rsTvhOXR8IbXLo3APjN5XyUign8diH78zhLdnNg2NANCgZvp26hfZ4QZb
-         sOm/VSYn57dvpTN7T4+KP3BA/QWDNDA9iqBgkXqxbc5OvZyHEAPH0EFI5ixxZRQxgXio
-         76sTSrJEQXImh/lSJh1bNsdbjOLeqg1NhkbcMlhb00qwGP74CTqAhryE5Wt/xX08UB8k
-         GFhA==
+        bh=+0fxl1GUBIYvkb1H9esSXGy99Oerip7BsfpprSNg5Qo=;
+        b=MbUF26Dyag1BvcEag2jaCWzL8pKPt8ngXMDgi+IdCeASiIYHEBFT/vKySRQaO8Fyre
+         n++8NIu3n9lI3kXM2IIPJNjpt5yjH/n09JQZF1JtP7WasB179CU+twTTmQsgPQROhJu8
+         Q72d6owsPbXYyRY2NaKkw0D1szhfHYsnsoo0f0USh2X720eV9+XYP4WVFa5NMEbrv78N
+         sTqVR2ZNXr31WIY8mHnfo22+X9fhtURFeKICZHtxTOD9isFAHkOuTE8hDCTs3nTNoqXW
+         RBrQo01NogXnwz63DeLtdoecb2H1sIHsSXec4EavczroxsjR+70AlIZwfhh47CoeVH3y
+         1PIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7Hu8Rm8g/2u5BW/la8A67BoRDfxpXnrJBoL9Yigted0=;
-        b=rs3k6BWYki+zH+9/nH7415IeNqMMwhh6YeHn8cBk1JDllHVZ1cJnxQdla+fxlN5faY
-         lj+5c+oYO+km6v8raf1fy+1UgZcMlebTyfddtWVCAD1gPtm02hWafQ2XiQDDxi6mAl8h
-         BmPNwwK4rszZN7ceddj5C/1ZjndTKWplKGlAZqiavFdTom55nHHGMc+XBInNxUfe0k8p
-         FSTIrQA+Vm73k3PG1ETjkTopWmgV5sVD9hlPpA93pGF7rWw3JDiUC5F83/dOVpk2Kjtc
-         8XRAhYjwBPcgoLiFLwtEohRpAeOhNk2ShtBUq5xgTgSkCnY00T6cBBit1j3+rz4HlrVM
-         hJBQ==
-X-Gm-Message-State: AOAM531O4LOad99y2XRIMnw6lRVtQ0eU3UjpR3WgCNQ1QyT3ZX7zGEN4
-        KJAZHj5hGPL45+DObJxRHTIh7hfZwQjxVw==
-X-Google-Smtp-Source: ABdhPJzQXhpcP5ClA/9+2MXeB8PzaI7agCa00klDGnOfPQqfn0EE5FQZ6xNqn9gZkgOcyb2p76IUAA==
-X-Received: by 2002:a17:902:8507:b029:e6:5d07:9ce3 with SMTP id bj7-20020a1709028507b02900e65d079ce3mr11194193plb.47.1615521156523;
-        Thu, 11 Mar 2021 19:52:36 -0800 (PST)
+        bh=+0fxl1GUBIYvkb1H9esSXGy99Oerip7BsfpprSNg5Qo=;
+        b=qH3N/GRU8k6V6Rc4pJrr8VbAKwkWKGqRaWWCTTag9vP9Oe8hQafE8gF6nEoiwLfmt7
+         BFbvtBcI/xYaaWTN7coUMMD6cj7wA2Alviheqpe01pOeU8ncSz3jFZHaHcRc6JZz1eY9
+         j6fLKYMIf8p56bXQFh0edB3CpSDLhSebFrO1F/oblOTJFS9en4l2dtAEr9yy5nVSHRZw
+         l0a61cARlWqErH3RZ1ZfvFTiqdyc/My5pI68EJgaTScAhuB2dgR+qCntb056AId1eUIy
+         6GYNUXHgfH4a68/nIsgomn+WA315qQxIz7LJGxrqXPmFliXHc9wTr1rRKkPSSaeFd2Id
+         oFfw==
+X-Gm-Message-State: AOAM532qRn3D3ZnVdlxzF1EDvjO1toUO5ACuQ+MB511Yymj5cj/RUVrO
+        T5UMrJ+bO3bN3BuoeYQnlru65A==
+X-Google-Smtp-Source: ABdhPJycj2Yx3JFFGjbXofNl4coJ6nRKpFM7PXsBffwm8Dks/f6u+dhUobPD6Ps3jWi5gcxA9WiEQQ==
+X-Received: by 2002:a63:504f:: with SMTP id q15mr10280208pgl.290.1615523472771;
+        Thu, 11 Mar 2021 20:31:12 -0800 (PST)
 Received: from localhost ([122.171.124.15])
-        by smtp.gmail.com with ESMTPSA id c22sm3446712pfl.169.2021.03.11.19.52.35
+        by smtp.gmail.com with ESMTPSA id w188sm3856245pfw.177.2021.03.11.20.31.11
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Mar 2021 19:52:35 -0800 (PST)
-Date:   Fri, 12 Mar 2021 09:22:28 +0530
+        Thu, 11 Mar 2021 20:31:12 -0800 (PST)
+Date:   Fri, 12 Mar 2021 10:01:10 +0530
 From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rob Herring <robh+dt@kernel.org>,
         Vincent Guittot <vincent.guittot@linaro.org>,
         David Gibson <david@gibson.dropbear.id.au>,
-        Frank Rowand <frowand.list@gmail.com>,
         Michal Simek <michal.simek@xilinx.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
+        anmar.oueja@linaro.org, Bill Mills <bill.mills@linaro.org>,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-Message-ID: <20210312035228.2szgoqtbhrkbqvt3@vireshk-i7>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH V11 0/5] dt: Add fdtoverlay rule and statically build
+ unittest
+Message-ID: <20210312043110.hirx52ibepfrvvij@vireshk-i7>
 References: <cover.1615354376.git.viresh.kumar@linaro.org>
- <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
- <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
- <CAK7LNAST04XTt7Y0DnSADHgAw-zy61HUcRJSyYRvy2rGHMdn4A@mail.gmail.com>
- <20210310144837.hxz3nbwonvwi3j5c@vireshk-i7>
- <CAK7LNAQBtrG3nF7YtuRhog+ZZpCRGg22b88VkCga7-em57NyDg@mail.gmail.com>
+ <7211f09e-092b-d928-0c69-e2dcd1fc7c1e@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQBtrG3nF7YtuRhog+ZZpCRGg22b88VkCga7-em57NyDg@mail.gmail.com>
+In-Reply-To: <7211f09e-092b-d928-0c69-e2dcd1fc7c1e@gmail.com>
 User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11-03-21, 00:18, Masahiro Yamada wrote:
-> On Wed, Mar 10, 2021 at 11:48 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 10-03-21, 20:29, Masahiro Yamada wrote:
-> > > BTW, is the attached patch good for DTC?
-> > >
-> > > I do not know when '-O dtbo' is useful,
-> > > unless I am missing something.
-> >
-> > It is useful if we are sending the -O option all the time (I have
-> > already given more details to your patch) as outform will not be NULL.
+On 11-03-21, 17:27, Frank Rowand wrote:
+> On 3/9/21 11:35 PM, Viresh Kumar wrote:
+> > Viresh Kumar (4):
+> >   kbuild: Simplify builds with CONFIG_OF_ALL_DTBS
+> >   kbuild: Allow .dtso format for overlay source files
+> >   of: unittest: Create overlay_common.dtsi and testcases_common.dtsi
+> >   of: unittest: Statically apply overlays using fdtoverlay
+> > 
+> >  drivers/of/unittest-data/Makefile             | 48 ++++++++++
+> >  drivers/of/unittest-data/overlay_base.dts     | 90 +-----------------
+> >  drivers/of/unittest-data/overlay_common.dtsi  | 91 +++++++++++++++++++
+> >  drivers/of/unittest-data/static_base_1.dts    |  4 +
+> >  drivers/of/unittest-data/static_base_2.dts    |  4 +
+> >  drivers/of/unittest-data/testcases.dts        | 23 ++---
+> >  .../of/unittest-data/testcases_common.dtsi    | 19 ++++
+> >  .../of/unittest-data/tests-interrupts.dtsi    | 11 +--
+> >  scripts/Makefile.lib                          | 40 ++++++--
+> >  9 files changed, 218 insertions(+), 112 deletions(-)
+> >  create mode 100644 drivers/of/unittest-data/overlay_common.dtsi
+> >  create mode 100644 drivers/of/unittest-data/static_base_1.dts
+> >  create mode 100644 drivers/of/unittest-data/static_base_2.dts
+> >  create mode 100644 drivers/of/unittest-data/testcases_common.dtsi
+> > 
+> > 
+> > base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+> > 
 > 
-> 
-> "-O dtbo" was useful to make your buggy patch work.
-> 
-> That is not justification.
+> Does not apply to 5.12-rc2
 
-I wasn't giving justification, but rather saying why it was required
-earlier. And I agree that it isn't required once we drop the -O
-parameter here.
+I was based right over the 5.12-rc2 tag.
+
+> because of a dependency on a patch to
+> scripts/Makefile.lib.  That patch has been merged by Linus
+> somewhere between -rc2 and -rc3.
+
+git log --oneline v5.12-rc2..origin/master -- scripts/Makefile.lib
+
+gives no results to me.
+
+> I had a working version
+> between -rc2 and -rc3 at commit e6f197677b2e
+
+I have tried both Linus' tree and linux-next, and I don't see this
+commit.
+
+> that does have
+> the required patch, so that is the version I used to test
+> this series.
+> 
+> There is still confusion caused by the contortions that unittest
+> goes through to mis-use base DTBs vs overlay DTBs, so _after_
+> this series is merged by Rob, I will poke around and see if
+> I can change unittest so that it does not look like it is
+> mis-using DTBs and overlay DTBs.
+> 
+> 
+> Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> Tested-by: Frank Rowand <frank.rowand@sony.com>
+
+Thanks.
 
 -- 
 viresh
