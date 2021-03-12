@@ -2,91 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 020563397C6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 20:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C48D633986B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 21:29:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234406AbhCLTuU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Mar 2021 14:50:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58676 "EHLO mail.kernel.org"
+        id S234773AbhCLU2o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Mar 2021 15:28:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36008 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234407AbhCLTuB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Mar 2021 14:50:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6176664DC4;
-        Fri, 12 Mar 2021 19:49:59 +0000 (UTC)
+        id S234770AbhCLU2n (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 12 Mar 2021 15:28:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8FA564F43;
+        Fri, 12 Mar 2021 20:28:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615578600;
-        bh=v616x1G375Uxn8jR06zJgYSoDHrEKoBxTkT9rtV1Ymo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QRNoS7/z3Q3sM5Id9Z9dU7dwDpknBXinZsdlj3VO81lPOKRsfTQOunI+zghHvgsFE
-         Mw4HkrY6hqK0o3+ZVTWrgR1r7HCHoFTCoeKPapU/lGPWIF4mLkVwXxBcl51U9NjsXJ
-         9bAkzl8pAnbO5T+0apOKTdQb8VbiDZnmSxQ4e6KwY8bJPxk1k+zxGKwhYBBmHefWzm
-         IL2OLaOOJuHxq56Fmro6NtSBkgE/+bYoaIbkzuyjxGUfLngTkfi5hzkClKbg1AJXKO
-         fezaynK0l6CoSBfF2Wpmbe+noLf9Pe3b8MAkJlolGGbe9ssoYirFVeLRYZHzS37nbu
-         vQdnGMTdDRAEQ==
-Date:   Fri, 12 Mar 2021 12:49:56 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bernhard =?utf-8?Q?Rosenkr=C3=A4nzer?= <bero@lindev.ch>,
+        s=k20201202; t=1615580923;
+        bh=GH0ez+6thAFHA0R/g6PB84gv2i0cqvUAgDElmnsXr8w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=VGaCV2AXrylOg6TdRiZrMPJOv7ON0cVJ59Gm/JCIHVTjgpVpTXKgz19cVR/N9d/2R
+         cl8ZNHLB7lA+97wDIrdUBRH+gftY/6UzlNfMGAyOC6BpTsXGtUAu1R+U90pCvEG3Vw
+         GvHnMVdIM9yzHj2XprFdXcYVlSCjbOvkGxNZSh7aMdxyS3TJrkPsPX+YQSLkOxk9cF
+         BWJRoAwI38Kq7gXjQHHwTTqKRz9l/F5fsktD6Um9w6f2FjlvZgqxJtXzBXMx9bBFJM
+         RNj5qICdALYiFE+JjspVs9n36AooGGZHEw7x216w0g65NhdOzwtSYiqO/sGbbaer2q
+         SpgY62ZqJZ5Hw==
+Date:   Fri, 12 Mar 2021 14:28:41 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        bpf@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: fix ld-version.sh to not be affected by locale
-Message-ID: <20210312194956.vsikqyaya676qvcu@archlinux-ax161>
-References: <20210312193814.132558-1-masahiroy@kernel.org>
+Subject: Re: [PATCH 02/17] cfi: add __cficanonical
+Message-ID: <20210312202841.GA2286570@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210312193814.132558-1-masahiroy@kernel.org>
+In-Reply-To: <20210312004919.669614-3-samitolvanen@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 13, 2021 at 04:38:14AM +0900, Masahiro Yamada wrote:
-> ld-version.sh checks the output from $(LD) --version, but it has a
-> problem on some locales.
+On Thu, Mar 11, 2021 at 04:49:04PM -0800, Sami Tolvanen wrote:
+> With CONFIG_CFI_CLANG, the compiler replaces a function address taken
+> in C code with the address of a local jump table entry, which passes
+> runtime indirect call checks. However, the compiler won't replace
+> addresses taken in assembly code, which will result in a CFI failure
+> if we later jump to such an address in instrumented C code. The code
+> generated for the non-canonical jump table looks this:
 > 
-> For example, in Italian:
+>   <noncanonical.cfi_jt>: /* In C, &noncanonical points here */
+> 	jmp noncanonical
+>   ...
+>   <noncanonical>:        /* function body */
+> 	...
 > 
->   $ LC_MESSAGES=it_IT.UTF-8 ld --version | head -n 1
->   ld di GNU (GNU Binutils for Debian) 2.35.2
+> This change adds the __cficanonical attribute, which tells the
+> compiler to use a canonical jump table for the function instead. This
+> means the compiler will rename the actual function to <function>.cfi
+> and points the original symbol to the jump table entry instead:
 > 
-> This makes ld-version.sh fail because it expects "GNU ld" for the
-> BFD linker case.
+>   <canonical>:           /* jump table entry */
+> 	jmp canonical.cfi
+>   ...
+>   <canonical.cfi>:       /* function body */
+> 	...
 > 
-> Add LC_ALL=C to override the user's locale.
+> As a result, the address taken in assembly, or other non-instrumented
+> code always points to the jump table and therefore, can be used for
+> indirect calls in instrumented code without tripping CFI checks.
 > 
-> BTW, setting LC_MESSAGES=C (or LANG=C) is not enough because it is
-> ineffective if LC_ALL is set on the user's environment.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=212105
-> Reported-by: Marco Scardovi
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-LGTM, this is Debian's recommendation as well:
-https://wiki.debian.org/Locale
+If you need it:
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# pci.h
 
 > ---
+>  include/linux/compiler-clang.h | 1 +
+>  include/linux/compiler_types.h | 4 ++++
+>  include/linux/init.h           | 4 ++--
+>  include/linux/pci.h            | 4 ++--
+>  4 files changed, 9 insertions(+), 4 deletions(-)
 > 
->  scripts/ld-version.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-> index 30debf78aa09..1bf3aadde9de 100755
-> --- a/scripts/ld-version.sh
-> +++ b/scripts/ld-version.sh
-> @@ -29,7 +29,7 @@ orig_args="$@"
->  # Get the first line of the --version output.
->  IFS='
->  '
-> -set -- $("$@" --version)
-> +set -- $(LC_ALL=C "$@" --version)
+> diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+> index 1ff22bdad992..c275f23ce023 100644
+> --- a/include/linux/compiler-clang.h
+> +++ b/include/linux/compiler-clang.h
+> @@ -57,3 +57,4 @@
+>  #endif
 >  
->  # Split the line on spaces.
->  IFS=' '
+>  #define __nocfi		__attribute__((__no_sanitize__("cfi")))
+> +#define __cficanonical	__attribute__((__cfi_canonical_jump_table__))
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index 796935a37e37..d29bda7f6ebd 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -246,6 +246,10 @@ struct ftrace_likely_data {
+>  # define __nocfi
+>  #endif
+>  
+> +#ifndef __cficanonical
+> +# define __cficanonical
+> +#endif
+> +
+>  #ifndef asm_volatile_goto
+>  #define asm_volatile_goto(x...) asm goto(x)
+>  #endif
+> diff --git a/include/linux/init.h b/include/linux/init.h
+> index b3ea15348fbd..045ad1650ed1 100644
+> --- a/include/linux/init.h
+> +++ b/include/linux/init.h
+> @@ -220,8 +220,8 @@ extern bool initcall_debug;
+>  	__initcall_name(initstub, __iid, id)
+>  
+>  #define __define_initcall_stub(__stub, fn)			\
+> -	int __init __stub(void);				\
+> -	int __init __stub(void)					\
+> +	int __init __cficanonical __stub(void);			\
+> +	int __init __cficanonical __stub(void)			\
+>  	{ 							\
+>  		return fn();					\
+>  	}							\
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 86c799c97b77..39684b72db91 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1944,8 +1944,8 @@ enum pci_fixup_pass {
+>  #ifdef CONFIG_LTO_CLANG
+>  #define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+>  				  class_shift, hook, stub)		\
+> -	void stub(struct pci_dev *dev);					\
+> -	void stub(struct pci_dev *dev)					\
+> +	void __cficanonical stub(struct pci_dev *dev);			\
+> +	void __cficanonical stub(struct pci_dev *dev)			\
+>  	{ 								\
+>  		hook(dev); 						\
+>  	}								\
 > -- 
-> 2.27.0
+> 2.31.0.rc2.261.g7f71774620-goog
 > 
