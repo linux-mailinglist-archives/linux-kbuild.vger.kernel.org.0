@@ -2,59 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 536A0338669
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 08:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 053DD33866D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Mar 2021 08:14:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231181AbhCLHJk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Mar 2021 02:09:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
+        id S230127AbhCLHN7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Mar 2021 02:13:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230463AbhCLHJ1 (ORCPT
+        with ESMTP id S229530AbhCLHN2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Mar 2021 02:09:27 -0500
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C578C061574;
-        Thu, 11 Mar 2021 23:09:27 -0800 (PST)
-Received: by mail-qk1-x732.google.com with SMTP id l132so23358396qke.7;
-        Thu, 11 Mar 2021 23:09:27 -0800 (PST)
+        Fri, 12 Mar 2021 02:13:28 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC52C061574
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 23:13:28 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id mz6-20020a17090b3786b02900c16cb41d63so10638391pjb.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Mar 2021 23:13:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6HyVPzfJtnZPj+FiCGLisT9CcoQVNfECVYHQyi8QH9g=;
-        b=d+AAS2QHDbfT8/U25ISrEO1ETDoQ/gW380T4r08dP44MRmjIrcjn+eAuz6/+QRFyXN
-         TxsXr4x0oKN5nFPTWwdOHLOp5JIZd3lgAKMo1HYjWpXSYml1uFciD+o+eoUpzLpC0PrQ
-         EAMDTU7vB0gSJzclhKz3DabHpVVucGMGS9hTOpa2szZk/zjaV/M0kZUCeJlEqrnhs3xX
-         ofUdzHGWzjx4rEVCYFzDTfE0fQmGfzdXVy6YtawY7FCuqbj/u0iNob1Ol0P68/moYUF5
-         8pL/s9qE7sKD8OtRPh78lFUva641ypivI/7092GBfjgxSZ5On1/tNwYSUrE/gLMAGRct
-         u9bQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8nQj9pi8kjO+3bW20OImEAoMcuUJaaLHne2pfVwUQ6Q=;
+        b=dwwxuqGcb7m1V2mOAW6wNrN/Rn2cO4xUkD86mev0DNFe6xFtk2F6LhQf7L8Kl4Jk7z
+         9Co4IFbc12R9j/Tex6UeUXaZ87AcNer7/qvtL32tvbCrIBo7cBJNlAfkf9M2LStPxbte
+         5Ok++zsxD915TOa62W8ig4rmoKaRp0oqF6muZRXRDh9vX2Dcndwhe8qkqvQXXHpnEPtZ
+         m42XwMqTxj2fc29+WsMcxuOF7VtIT3L338O+9NGTQ7NxiUqfgl2+rYFqi9rEGCvRJ+aK
+         c49thxKwfNRz7VNCN1Lv777XrRtAphBPL/2LTa5Gbo3d/dLeN8FXYsYONP7fWpkAkoQ3
+         DQYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6HyVPzfJtnZPj+FiCGLisT9CcoQVNfECVYHQyi8QH9g=;
-        b=jOpsOumGqbdhKHNtLb7SPVgyDy22SDJCp9zFjhJmA3u4310ZssWEx39cii+D/uBygp
-         qtMKZE0RmpNGY6W4T9uBtHN3Hyd/DO8YzgHGjAeCLxPQML4AiS/pAdcjYowQdhfRGGWC
-         h9wTIWucCvfnEAsrb/YdXx1Ec3lwjUGGugWZFFP04ZzcnCR9cbJyZQ87GB7RlTALSp8i
-         pIXrka9wZxfNH4lUVD3Vmk8DBSFyF5NV5cGXAGnqVgNY13OHOXTLEGfx4SPV0L2DEuvv
-         fDvQASRTz6Zn2Sh5PkxQaxxqYZeHaro2zrUFjIHaihyztXpv3rGjaQk+7YS0lG/P/0Hc
-         W6Iw==
-X-Gm-Message-State: AOAM531YY7kWtWKdGLt2olmbJycJ0Kl2gtidsoCG5hBIN/YgZHKik9m6
-        WkXaix9EHKHsiOUlz+o2qQc=
-X-Google-Smtp-Source: ABdhPJzvbFaG7qRauO5os9ZYCRzcyMyQ5PzNB3eJcNOGuCqkGuGQ18Hy65yvQz7wTjX97dOpKzK+WQ==
-X-Received: by 2002:a05:620a:a8b:: with SMTP id v11mr10875808qkg.414.1615532966870;
-        Thu, 11 Mar 2021 23:09:26 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id j2sm3613722qkk.96.2021.03.11.23.09.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Mar 2021 23:09:26 -0800 (PST)
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8nQj9pi8kjO+3bW20OImEAoMcuUJaaLHne2pfVwUQ6Q=;
+        b=sO0/+/nHP6SWBILrHF+BwXrxLXH5meU6VvglB6zy3vM1Rpnmdku0Y7cUGscHOTjGFb
+         +1pvxoWOLISyXO+UIslXlh5YroO82AmrmqB0iOu8HuUlu0xBNzvvWO8n7jW7kctimth0
+         xKc5ajCC+t/6CWxYaclyMjPJcgJBqjWBhjsRleWzDznRnLl0S43AeUrhgPPnqrTV6p4U
+         P/CMipr73CmUiW+dyGdSbDmE7OXHtWARyCe5wY8NV+BTqkd3hMMysKVmBmY4hg1ZfGST
+         LCW74O/k9SoJy28ZGADO1SkrnpgFcgl9BCgt68Mmzn6Mlz61T0F7+FmxlsGIjT+BeRka
+         Kwig==
+X-Gm-Message-State: AOAM531RO8iLMk0pFCgLH1v6kJkcMz6qou4n4Ota51Go9tcwTamccgG1
+        papashAIZjzJI0dfX6doC/Mbew==
+X-Google-Smtp-Source: ABdhPJyqTbGj1r2y6pAX7x+QniRp6iMckEBevx7znL3cwTDnyfN5TnDEXb7MWU6A5zTm+M6PQ/XJxw==
+X-Received: by 2002:a17:90a:9f4a:: with SMTP id q10mr3181343pjv.113.1615533208160;
+        Thu, 11 Mar 2021 23:13:28 -0800 (PST)
+Received: from localhost ([122.171.124.15])
+        by smtp.gmail.com with ESMTPSA id k63sm4451560pfd.48.2021.03.11.23.13.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Mar 2021 23:13:27 -0800 (PST)
+Date:   Fri, 12 Mar 2021 12:43:25 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Vincent Guittot <vincent.guittot@linaro.org>,
         David Gibson <david@gibson.dropbear.id.au>,
         Michal Simek <michal.simek@xilinx.com>,
@@ -64,108 +62,33 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
+ files
+Message-ID: <20210312071325.zosmlttse4ym7sit@vireshk-i7>
 References: <cover.1615354376.git.viresh.kumar@linaro.org>
  <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
  <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
  <20210312044712.srmqfuie7fae55pb@vireshk-i7>
  <17c65559-865f-f742-660f-0ab30ed45d90@gmail.com>
-Message-ID: <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
-Date:   Fri, 12 Mar 2021 01:09:25 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <17c65559-865f-f742-660f-0ab30ed45d90@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/12/21 1:03 AM, Frank Rowand wrote:
-> Hi Viresh,
-> 
-> On 3/11/21 10:47 PM, Viresh Kumar wrote:
->> On 10-03-21, 20:24, Masahiro Yamada wrote:
->>> Even without "-I dts",
->>>
->>>    inform = guess_input_format(arg, "dts");
->>>
->>> seems to fall back to "dts" anyway,
->>> but I guess you wanted to make this explicit, correct?
->>
->>
->>>> +# Required for of unit-test files as they can't be renamed to .dtso
->>>
->>> If you go with *.dtso, I think you will rename
->>> all *.dts under the drivers/ directory.
->>>
->>> What is blocking you from making this consistent?
->>
->> What about this patch instead ? This localizes the dts->dtbo hack to
->> unitest's Makefile at least.
-> 
-> It is late here, so I am not going to take the time to actually try what
-> I am going to suggest.  I apologize in advance if I send you off on a
-> wild goose chase.
-> 
-> Would it work to create a .dtso file for each of the unittest overlay .dts
-> files, where the .dtso would simply #include the .dts file.  Then the corresponding
-> .dtbo files could be added to the obj-$(CONFIG_OF_OVERLAY) list.
+On 12-03-21, 01:09, Frank Rowand wrote:
+> I suggested having the .dtso files include the .dts file because that is a relatively
+> small and easy change to test.  What would probably make more sense is the rename
+> the existing overlay .dts files to be .dtso files and then for each overlay .dtso
+> file create a new .dts file that #includes the corresponding .dtso file.  This is
+> more work and churn, but easier to document that the .dts files are a hack that is
+> needed so that the corresponding .dtb.S files will be generated.
 
-I suggested having the .dtso files include the .dts file because that is a relatively
-small and easy change to test.  What would probably make more sense is the rename
-the existing overlay .dts files to be .dtso files and then for each overlay .dtso
-file create a new .dts file that #includes the corresponding .dtso file.  This is
-more work and churn, but easier to document that the .dts files are a hack that is
-needed so that the corresponding .dtb.S files will be generated.
+What about creating links instead then ?
 
-If it works, I am fine with either approach.
-
--Frank
-
-> 
-> I would like to avoid having the unitest-data/Makefile have different rules to
-> build objects because then the normal build rule is not being tested.
-> 
-> -Frank
-> 
->>
->> diff --git a/drivers/of/unittest-data/Makefile b/drivers/of/unittest-data/Makefile
->> index a5d2d9254b2c..9f3426ec3fab 100644
->> --- a/drivers/of/unittest-data/Makefile
->> +++ b/drivers/of/unittest-data/Makefile
->> @@ -86,3 +86,7 @@ static_test_1-dtbs := static_base_1.dtb $(apply_static_overlay_1)
->>  static_test_2-dtbs := static_base_2.dtb $(apply_static_overlay_2)
->>  
->>  dtb-$(CONFIG_OF_OVERLAY) += static_test_1.dtb static_test_2.dtb
->> +
->> +# Required for of unittest files as they can't be renamed to .dtso
->> +$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
->> +       $(call if_changed_dep,dtc)
->> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
->> index bc045a54a34e..77a9be055e51 100644
->> --- a/scripts/Makefile.lib
->> +++ b/scripts/Makefile.lib
->> @@ -347,7 +347,7 @@ cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ;
->>  $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
->>         $(call if_changed_dep,dtc)
->>  
->> -$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
->> +$(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
->>         $(call if_changed_dep,dtc)
->>  
->>  overlay-y := $(addprefix $(obj)/, $(overlay-y))
->> @@ -375,6 +375,9 @@ endef
->>  $(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
->>         $(call if_changed_rule,dtc,yaml)
->>  
->> +$(obj)/%.dt.yaml: $(src)/%.dtso $(DTC) $(DT_TMP_SCHEMA) FORCE
->> +       $(call if_changed_rule,dtc,yaml)
->> +
->>  dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
->>  
->>  # Bzip2
->>
-> 
-
+-- 
+viresh
