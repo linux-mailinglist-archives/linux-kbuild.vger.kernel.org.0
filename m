@@ -2,126 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02ED8339BF5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Mar 2021 06:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CD19339DF3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Mar 2021 12:55:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231907AbhCMFL2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Mar 2021 00:11:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbhCMFL1 (ORCPT
+        id S231597AbhCMLyW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Mar 2021 06:54:22 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:49115 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230349AbhCMLyM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Mar 2021 00:11:27 -0500
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23E19C061574;
-        Fri, 12 Mar 2021 21:11:27 -0800 (PST)
-Received: by mail-qk1-x731.google.com with SMTP id s7so26630563qkg.4;
-        Fri, 12 Mar 2021 21:11:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wZDvZonDwPy1U4YWZTESPZXmAQ+hvO28vTIA+moCtZg=;
-        b=fP96aCOgFqho+hwLGe7EzfETtsqfXAHWq6A6ZXrFnEQOCkhsKAGreD7a+bblQalspE
-         Vr6INzC2StCOKfasv7VAuNjFOb5/SCdY302bD8aTgYTrPo2CZXjUrNbEgOCHo8gb3d7o
-         DoF+5xlLFkg2VwZywvEpsjdqAyVMn6uAVJaiW55iQaU9KrTwlBeKfWACl9Kp4DP7JSAJ
-         HOtW4dSSco+U3mAFLk2a7rDwEbm/P/L+nB/XNWinWW3AZVxr96D1GgQrs/JMjVz2ANKs
-         YyMRESLu2Im07mOCFJCIWLwCzAHtTJcroT9zaz1IhxQwZsfGP6s1CORQmO5ZT2oFno78
-         Q+bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=wZDvZonDwPy1U4YWZTESPZXmAQ+hvO28vTIA+moCtZg=;
-        b=b8mZMAWbuW71tnb2be6hVBzoFMKvPpg0Xc/czEl2TC+5H9XewHUzIeM8uZVaXynRAQ
-         Ow1l0PJF8ln16HX9Iq8U1aPp5UYlHfRUh5U0otPgBiCiK/99aXWtQsrhxhaq8LlHyKn7
-         Ej+Lbl4hVZwlTZGKF135FzuJr5LnV2hRIVTLGI2ra1hQKyXYoav0vI5xHS7bdUaKtfzs
-         vMYT4l0UP0Msoklp/g4kf6KWnWZx4NjqbJnh/L6PLK7pPirvWoo7ym/SdMG9j8Y4vjxI
-         B0fufWi+9cBzlvFVn7V8CO7cLcKpSsedmhqCbEWXVDMDKM7+cNmvx2dMN8SL+iNDou4Q
-         d/ZQ==
-X-Gm-Message-State: AOAM532hpl0dtN41OYaYGg0bmuyITb2SP1GOzADhEwMnV8adT5d/B589
-        H51O8Z83JyKXWtFo5DBhCVc=
-X-Google-Smtp-Source: ABdhPJzTNLA7cWQLeyqcWgW3zEepT9gNvX2muoJxUBaRtFu/WPICfDxsNZIM+6vz76xVRvpBJ802Qg==
-X-Received: by 2002:ae9:e40b:: with SMTP id q11mr16126276qkc.318.1615612286422;
-        Fri, 12 Mar 2021 21:11:26 -0800 (PST)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.tn.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id c5sm6129851qkg.105.2021.03.12.21.11.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Mar 2021 21:11:25 -0800 (PST)
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <cover.1615354376.git.viresh.kumar@linaro.org>
- <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
- <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
- <20210312044712.srmqfuie7fae55pb@vireshk-i7>
- <17c65559-865f-f742-660f-0ab30ed45d90@gmail.com>
- <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
- <20210312071325.zosmlttse4ym7sit@vireshk-i7>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <6f093bb1-1a80-a906-fb4c-3f6fdeed4838@gmail.com>
-Date:   Fri, 12 Mar 2021 23:11:25 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sat, 13 Mar 2021 06:54:12 -0500
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 12DBrdfe012530;
+        Sat, 13 Mar 2021 20:53:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12DBrdfe012530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1615636419;
+        bh=UsbgXShxta9Fb/uiVHXrhCHY1/IMnaOpCflVSeL+MgE=;
+        h=From:Date:Subject:To:Cc:From;
+        b=O2CGeWQV9FiH25lMWe6VKJySU4M4qK/MwfMgJtsqyqVmgiOzvHXn3aLQmV6vhXO6Y
+         zf9GcXb0pk+jiF6c8G0G92oZMs+LwO+fyeadvjaEEGDBjPRq5L4T9bBjQi/3B/7pon
+         bGaP3ytT5rBU+hq99C/kjiSEQtKnFaf2zC5trPnyOs5gOMj1xGXCgM2cDS6KF2iGMS
+         HVRjNTnk2RgwuVo21TSvxLtOdCuYTwGeaKL6HB6+8Ir+idyV01TwbsVl907Gmh4OXu
+         Y7sztd2bTW+JweyZne6nFM+hE3POhIAtIeKkspcYvgwCRTyA+TW7j0Hn2nKvd0qWiH
+         GoaVz/h5FkG0A==
+X-Nifty-SrcIP: [209.85.215.169]
+Received: by mail-pg1-f169.google.com with SMTP id t37so6767928pga.11;
+        Sat, 13 Mar 2021 03:53:39 -0800 (PST)
+X-Gm-Message-State: AOAM5319V2FYtksRcCTcaP8lsvIRawxEATx3ZAbPelzbJwJkfY8o7Hsb
+        pHvDmIm27sGpD66P2qpeXM/1wz0v1QJUMS3iPl8=
+X-Google-Smtp-Source: ABdhPJwE3Ogz52Abg8ZsfVKn7qjTcySSnmNZ/GZvlbthwU1ctsNhqdOoDMmuaTtN7nlCe2FGBV0APb06vDDIrqNNAuI=
+X-Received: by 2002:a62:b416:0:b029:1e4:fb5a:55bb with SMTP id
+ h22-20020a62b4160000b02901e4fb5a55bbmr2548330pfn.80.1615636418698; Sat, 13
+ Mar 2021 03:53:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210312071325.zosmlttse4ym7sit@vireshk-i7>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 13 Mar 2021 20:53:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATqcLBbLVn5Ft+1-m_uC5WC=9HAx2orbopsOJnZ7SRgqQ@mail.gmail.com>
+Message-ID: <CAK7LNATqcLBbLVn5Ft+1-m_uC5WC=9HAx2orbopsOJnZ7SRgqQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.12-rc3
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/12/21 1:13 AM, Viresh Kumar wrote:
-> On 12-03-21, 01:09, Frank Rowand wrote:
->> I suggested having the .dtso files include the .dts file because that is a relatively
->> small and easy change to test.  What would probably make more sense is the rename
->> the existing overlay .dts files to be .dtso files and then for each overlay .dtso
->> file create a new .dts file that #includes the corresponding .dtso file.  This is
->> more work and churn, but easier to document that the .dts files are a hack that is
->> needed so that the corresponding .dtb.S files will be generated.
-> 
-> What about creating links instead then ?
-> 
+Hi Linus,
 
-I don't really like the idea of using links here.
+Please pull Kbuild fixes.
+Thanks.
 
-Maybe it is best to make the changes needed to allow the unittest
-overlays to be .dtso instead of .dts.
+The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15=
+:
 
-Off the top of my head:
+  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
 
-  scripts/Makefile.lib:
-     The rule for %.dtb.S invokes cmd_dt_S_dtb, which puts the
-     overlay data in section .dtb.init.rodata, with a label
-     pointing to the beginning of the overlay __dtb_XXX_begin and
-     a label pointing to the end of the overlay __dtb_XXX_end,
-     for the overlay named XXX.  I _think_ that you could simply
-     add a corresponding rule for %.dtbo.S using a new command
-     cmd_dt_S_dtbo (the same as cmd_dt_S_dtb, except use labels
-     __dtbo_XXX_begin and __dtbo_XXX_end).
+are available in the Git repository at:
 
-  drivers/of/unittest.o:
-     would need to have the #define of OVERLAY_INFO() changed to
-     reflect the changed label names (use __dtbo_##overlayname##begin
-     and __dtb_##overlay_name##_end).
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.12-2
 
-  drivers/of/unittest-data/Makefile:
-     In obj-$(CONFIG_OF_OVERLAY) change the *.dtb.o names to *.dtbo.o
+for you to fetch changes up to bcbcf50f521843445c9ea320a0569874f88c4b7a:
 
-     I'm not sure how the DTC_FLAGS_... += -@ differentiates between
-     .dts / .dtb and .dtso / .dtbo  That is worth looking at.
+  kbuild: fix ld-version.sh to not be affected by locale (2021-03-13
+11:12:13 +0900)
 
--Frank
+----------------------------------------------------------------
+Kbuild fixes for v5.12 (2nd)
+
+ - avoid 'make image_name' invoking syncconfig
+
+ - fix a couple of bugs in scripts/dummy-tools.
+
+ - fix LLD_VENDOR and locale issues in scripts/ld-version.sh
+
+ - rebuild GCC plugins when the compiler is upgraded
+
+ - allow LTO to be enabled with KASAN_HW_TAGS
+
+ - allow LTO to be enabled without LLVM=3D1
+
+----------------------------------------------------------------
+Bernhard Rosenkr=C3=A4nzer (1):
+      kbuild: Fix ld-version.sh script if LLD was built with LLD_VENDOR
+
+Jiri Slaby (2):
+      kbuild: dummy-tools: fix inverted tests for gcc
+      kbuild: dummy-tools: support MPROFILE_KERNEL checks for ppc
+
+Masahiro Yamada (7):
+      kbuild: add image_name to no-sync-config-targets
+      kbuild: rebuild GCC plugins when the compiler is upgraded
+      kbuild: dummy-tools: adjust to scripts/cc-version.sh
+      kbuild: remove unneeded -O option to dtc
+      kbuild: remove LLVM=3D1 test from HAS_LTO_CLANG
+      kbuild: remove meaningless parameter to $(call if_changed_rule,dtc)
+      kbuild: fix ld-version.sh to not be affected by locale
+
+Sami Tolvanen (1):
+      kbuild: Allow LTO to be selected with KASAN_HW_TAGS
+
+ Makefile                         |  4 +++-
+ arch/Kconfig                     |  3 +--
+ include/linux/compiler-version.h | 14 ++++++++++++++
+ include/linux/kconfig.h          |  2 --
+ init/Kconfig                     |  8 ++++----
+ scripts/Makefile.lib             |  4 ++--
+ scripts/dummy-tools/gcc          | 18 ++++++++++++++++--
+ scripts/gcc-plugins/Makefile     |  1 +
+ scripts/ld-version.sh            | 22 ++++++++++++++--------
+ 9 files changed, 55 insertions(+), 21 deletions(-)
+ create mode 100644 include/linux/compiler-version.h
+
+--=20
+Best Regards
+Masahiro Yamada
