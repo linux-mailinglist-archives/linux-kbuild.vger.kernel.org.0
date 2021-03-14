@@ -2,88 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F8833A353
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Mar 2021 07:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F8533A48D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Mar 2021 12:25:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbhCNGQw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Mar 2021 01:16:52 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:49004 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234231AbhCNGQX (ORCPT
+        id S234904AbhCNLYh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 14 Mar 2021 07:24:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235115AbhCNLYD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Mar 2021 01:16:23 -0500
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 12E6Fqg8003265;
-        Sun, 14 Mar 2021 15:15:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 12E6Fqg8003265
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615702553;
-        bh=utDJTVaXCeHTwLB1yYXftme23M7v9E/X8L8DxsEMQsI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tmOiWE2dx3Jql7hOGHc7woxKGvOnJfInpOKiDLSxVg0J9P3dSz2EJA9DNuudDXmCA
-         RARsuo+0XcnapClt74XP+DWoELK7KbNnj7khnKJZTWq5vDrmJYB2N5P8knZPmVJ2lR
-         lpGXUJn+/Cox2L4EcT/GLoAvGyjTC2tF0S46/XYAbyPXDtHgfQW8ynTlDlnePq5Vxm
-         F2cvjBmP2mKRdgzj6mPODekXZ6sk8ZpJDOyLGV95IEjeo3P2RN4I4cXG4lwEejkamC
-         XPsH5nul8+CAk216KkyirhhI0WgBnnmygAQgDtYQONAwse4tZeapqyBuUaD5Zpwoz4
-         yb3j+Fvd7JRvg==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: replace sed with $(subst ) or $(patsubst )
-Date:   Sun, 14 Mar 2021 15:15:50 +0900
-Message-Id: <20210314061550.401458-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Sun, 14 Mar 2021 07:24:03 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A0BC061574
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Mar 2021 04:24:02 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id ci14so61403920ejc.7
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Mar 2021 04:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6jvCnFAChVgr0bDeUOpr9sCfC2TvR0HZZn9jM91gtpk=;
+        b=EDlutrInTIXqStpJNsjcAMWB5DxV3sLlpLV6ewFdrE8W8KXDcx+HNGeoJqYMMhsbny
+         e3/SQXY7cIl3Nz75/noGxIll0JzDreGnsMcvkUGSOtKE3K/DUSxvSRx3mVbW/Q5YKHsJ
+         FqDQ9Mzob7t0nxDQNa1wTJpNkaEPG/TDq/4yGZMDY/AqYCyoVagi3JFHPXDfTR+1abU5
+         DKmxI/4a0A2I36F0fpIsO0XGjtO0xLCbqaqrxTlL+5nwznLtoJDsOnnwNm32HssTylJ0
+         TyOD8qbbAFZzhjIyBjIa5m/R5kgHe1WHcY/J3b/dCnOuWL8KzinXQiBIklD85aM+WsdI
+         PwlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=6jvCnFAChVgr0bDeUOpr9sCfC2TvR0HZZn9jM91gtpk=;
+        b=Py/FU96Du9LnPGMirAaXq1NqXmKK+3CbubSHHEwe8TNRv8SgjBw7TsuWPnKbjUNCDN
+         AU1XXYc1jLVPTckUQr40pGdu3nssxmzZ0+meRq/7lB7XX3qdtpoP0jxqPJ4rjQKF+bRK
+         CBq2YAgQ4G5z2XM2Ir/N2ALLMrghWwubNGhpLQz21aqUnYXFUxE89CS5R5hIWUe5j++c
+         4XttbFTGkqvpsrEWT/2oegp7T4vbW4qY15qWh5ndr+lVhNR7dySI8vzML7MIeAhk5ac0
+         NyhJVo4yTee/ImaYx1DHAjROglKPxntXfhWmx2iUHgpDkAlhKnqoRL5Hkr27KrmA6qoJ
+         5PkQ==
+X-Gm-Message-State: AOAM532OKlOGigZAhdlx+GYCP6yCbv5vploM6xbzphpV5m69bOiM1QoT
+        tm4EEssnVAa6v5eiQkCMm3wOM+Jn9EMoX/Fab98=
+X-Google-Smtp-Source: ABdhPJwCvQBENzTTNrmAZXinpcI7DWBvUaviof0EWFOK6IV9gfMhe5MFJsQQjK/idLKRqnXIGfAVEg8fxQPXxVkuRTg=
+X-Received: by 2002:a17:907:2d9f:: with SMTP id gt31mr18076609ejc.233.1615721040946;
+ Sun, 14 Mar 2021 04:24:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:907:96a1:0:0:0:0 with HTTP; Sun, 14 Mar 2021 04:24:00
+ -0700 (PDT)
+Reply-To: vicricardo77@gmail.com
+From:   Victoria Ricardo <isabellelagace5@gmail.com>
+Date:   Sun, 14 Mar 2021 12:24:00 +0100
+Message-ID: <CAOXknML6kb-69kP7pxR-VdZVcp3AgMV9t_oAkn9ggFC0O0Pynw@mail.gmail.com>
+Subject: Pray for me!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-For simple text replacement, it is better to use a built-in function
-instead of sed if possible. You can save one process forking.
+Dear Friend,
 
-I do not mean to replace all sed invocations because GNU Make itself
-does not support regular expression (unless you use guile).
+Please forgive me for stressing you with my predicaments as I know
+that this letter may come to you as big surprise. I came across your
+E-mail from my personal search, and I decided to email you directly
+believing that you will be honest to fulfill my final wish before or
+after my death.
 
-I just replaced simple ones.
+ Meanwhile, I am Madam Victoria Ricardo, 73 years, am from USA, Iam
+still childless. I am suffering from Breast Cancer  for the past 8
+years and from all indication my condition is really deteriorating as
+my doctors have confirmed and courageously advised me that I may not
+live beyond few months from now for the reason that my breast cancer
+tumor has reached a critical stage which has defiled all forms of
+medical treatment.i was married to Mr Alexander Ricardo from Latin
+Ameirca who was a lucrative business merchant who deals on gold dust
+in asia.I lost my deareast husband last years due to this pademic
+corona virus (covid19) when he visited his country,since then i have
+been a widow.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Since my days are numbered, I=E2=80=99ve decided willingly to fulfill my
+long-time vow to donate to the less priviledge and orphans in your
+country the sum of Eighteen million five hundred thousand dollars
+($18.5m) My late husband deposited in a different account over 8 years
+now which i am the right beneficiary of the fund.
 
- Documentation/devicetree/bindings/Makefile | 2 +-
- Makefile                                   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you will be honest, kind and willing to assist me handle this
+charity project as I=E2=80=99ve mentioned here, I will like you to provide =
+me
+your personal data like. Contact me through this email address
+(victoriaalexander90@yahoo.com) and also send me your private email
+address.This transaction is 100 percent risk free and its an agreement
+with my late husband to help the poor within your juridiction.
+Kindly reply me with this above email address so i can update you the
+full details of this great business.
+After the execution of this transaction i will map out 40percent for
+your expenditure you might procure for the success fo this fund to hit
+into your nominated account.
+Iam waiting to read from you at the earliest
 
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 780e5618ec0a..ac446c62fbc3 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -48,7 +48,7 @@ define rule_chkdt
- 	$(call cmd,mk_schema)
- endef
- 
--DT_DOCS = $(shell $(find_cmd) | sed -e 's|^$(srctree)/||')
-+DT_DOCS = $(patsubst $(srctree)/%,%,$(shell $(find_cmd)))
- 
- override DTC_FLAGS := \
- 	-Wno-avoid_unnecessary_addr_size \
-diff --git a/Makefile b/Makefile
-index 70fc39e6b677..0be138adae74 100644
---- a/Makefile
-+++ b/Makefile
-@@ -574,7 +574,7 @@ endif
- # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
- # CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
- # and from include/config/auto.conf.cmd to detect the compiler upgrade.
--CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1 | sed 's/\#//g')
-+CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
- 
- ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
- ifneq ($(CROSS_COMPILE),)
--- 
-2.27.0
-
+Best Regards!
+Madam Victoria Ricardo
