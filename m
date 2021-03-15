@@ -2,143 +2,196 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BD6233C260
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 17:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A2A433C26D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 17:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232486AbhCOQmm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Mar 2021 12:42:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
+        id S232638AbhCOQq6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Mar 2021 12:46:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbhCOQmZ (ORCPT
+        with ESMTP id S232437AbhCOQqh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Mar 2021 12:42:25 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4922FC06174A;
-        Mon, 15 Mar 2021 09:42:25 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id n132so34092530iod.0;
-        Mon, 15 Mar 2021 09:42:25 -0700 (PDT)
+        Mon, 15 Mar 2021 12:46:37 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14C9C06174A
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Mar 2021 09:46:36 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id t18so10142514lfl.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Mar 2021 09:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=suo82Wm7Q2Ni3L8PUnv9EFjW8tqvE9ayUdLNwJVj7+c=;
-        b=pS8R6CQkEasUaZHCwMCMhsPT3tbRp/QS6uMaq7aHuGKMtL5dcBXWzx7RblXACmYlwS
-         +61aeHcCqF6nuLwGdSiA4ZRufOyEp5jrdAIbMZA35OckXTJXv0lflJa0kPHDVc2Lv/nM
-         PVT6HmZUAMWGFHD8fLsgO/l1q94tBgvGXGhqYfwu3gi6hNPlpoKIK3in9Zzwyfj+ffDR
-         uX6RT7/7x/+8gLCEz3YeSsjuicGfhCYUd7KTy81Au/BKcWGnPIUOswMb3q7nwPzvyEdp
-         32azc0a18RSwOxxVzSJzp8PySrfV16x757ndsMJBNnM1MluNTFpw23K/r+tbBNWdMuut
-         egLw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qFhPUblHKp6tXfbrK0cixR+M4AcUyTbmqfJOgtbPZ+E=;
+        b=QBWm3ofujajBUk2Fj4lwKDdvOqWj/MpHuqSovTqoj033RnfCBUJTs1Ut84kd8/REC5
+         z+3IAldsYXNwjt0aEo27a+Yursi32i6coIKAACAT2vtWSdIfyFN6Vp9ITTwNDXt9gKDe
+         o11G79mfOuwAVoqnZNhB3tPc36l/mrdaVgOWrD1hvtnPTNrBss1ZlJw0ViXL+Q8qrble
+         ZHKfScI73mgWKcPXK/4jfnWy+a+nKG9BgM0PN+Urj4mk8y2YcqtKP/jDFlDvisf1t1h1
+         6SqkVhVT7/11SppVwNtg1nOrYgKPKbSKY4e1NcGNicD0QtpYg1Sch1xaqiRBbGiQxu8z
+         XqfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=suo82Wm7Q2Ni3L8PUnv9EFjW8tqvE9ayUdLNwJVj7+c=;
-        b=bJjtY2McQ6mO3Tf8NiLwx9Oho7uU6cqaV26kcpwuM/xEtXXK9XHX4ljR0Qo80rd4Az
-         Qdm9c6XK1uP4Emb077YaV7v30o65XIn2Q2hmW+jvaoMQ3nRwtgUvl/sL1k+hK54v0nfq
-         0leKv4oTZT/c6ONRJnDRn0GT/5Wvix4uLj8HJuGcZR3c8d+c3HL4A06wO9QYfHjxoOnW
-         TSuao7OUlLKx8N0OMkKLwU/KdA8bcz+En3kLlYCTWV9M+6Yl7mo6o2cSdnkXSddo05dx
-         ECIwCQSehmRzh7HrdeNn+IEZe7Ne8kobMEldL0z0pJRaoloVW5a+di27WizMqXVIVUBo
-         Rwgw==
-X-Gm-Message-State: AOAM533GCG7NvU6F7FUM7lby2ciLCxEkqCg09B4y7j0WTkEEWUdeTsJg
-        4su9VHXvU/fOvTwlX7uSbNt8Cja38l1uM1JeIqU=
-X-Google-Smtp-Source: ABdhPJy4M7AFuZ9fXk3YWkOXHWMyTm5M0r+u+NXPK2z8BW1WLbau1LHz4JM11zjA5k+lTqTRzP9s9elQPtEOHkXiqp8=
-X-Received: by 2002:a02:9a0a:: with SMTP id b10mr10259501jal.132.1615826544698;
- Mon, 15 Mar 2021 09:42:24 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qFhPUblHKp6tXfbrK0cixR+M4AcUyTbmqfJOgtbPZ+E=;
+        b=TGxpY2MTKEXkzNQImX3FpMmD2RCtefgDs+/PTflUJO+xuKE2Q33bDFLcLhbzs+gkLA
+         HxO1TGyy4xLJ76hullWnOeN3Pstti1wNAVismovpDkV7+7f39u3EmN3/PMdzDUTY84y+
+         rZus3rSdlXLn967qXHrdHS0GtMjRF/Pwyg5FFmT5LwBrqLyy0Ny0LGbc5re4tsr80a2t
+         0AzNbZyWlLwucyeXloJFXjpqPBLpjdeL+iju90sS+LBIpMhrt12WjCdeIroYKQ2nTHvR
+         QgwXFjCVG7bh9RuazG38lszvCkRj83a5w8cb0WrY6BpqaIfbPWiOKwSjPPexghnzJJYh
+         Zusg==
+X-Gm-Message-State: AOAM532ldRzoEa4Z2GGYlK6UVMvRqTEldauCPmfB1qFeTvoItTFScVnh
+        rzJSSQ3nw6+E/cCMUdXoYuCGqF/tvhe+WauWyPDWhQ==
+X-Google-Smtp-Source: ABdhPJzNV9gWP/pht4xV+/j0WfvJQ/v09PRN5JyUBIIuFKGRL9R97RQT73CP/MV1GdANmkmEOE/UbLRDBgEWki84b+I=
+X-Received: by 2002:a19:8c19:: with SMTP id o25mr8602912lfd.547.1615826795278;
+ Mon, 15 Mar 2021 09:46:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210302210646.3044738-1-nathan@kernel.org> <20210309205915.2340265-1-nathan@kernel.org>
- <CAK7LNAQ6goFdV=HuCdiCsr-PSUGxtafHZAa=p=96ieFyFHL8yg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ6goFdV=HuCdiCsr-PSUGxtafHZAa=p=96ieFyFHL8yg@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 15 Mar 2021 17:41:47 +0100
-Message-ID: <CA+icZUVRyEGnLnRBiZjmZqmvCLkR8AZR8tihho83Lrr_F9A2BA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] Makefile: Remove '--gcc-toolchain' flag
+References: <20210315161257.788477-1-masahiroy@kernel.org> <20210315161257.788477-3-masahiroy@kernel.org>
+In-Reply-To: <20210315161257.788477-3-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 15 Mar 2021 09:46:24 -0700
+Message-ID: <CAKwvOdmyw+v5tD9t3ZKwPB-Gor2OcZoRPPEHW_OT1ZJJ727tbw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] kbuild: dwarf: use AS_VERSION instead of test_dwarf5_support.sh
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Peter Enderborg <peter.enderborg@sony.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vitor Massaru Iha <vitor@massaru.org>,
+        Wei Yang <richard.weiyang@gmail.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Fangrui Song <maskray@google.com>
+        LKML <linux-kernel@vger.kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 5:22 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Mar 15, 2021 at 9:13 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, Mar 10, 2021 at 5:59 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > This flag was originally added to allow clang to find the GNU cross
-> > tools in commit 785f11aa595b ("kbuild: Add better clang cross build
-> > support"). This flag was not enough to find the tools at times so
-> > '--prefix' was added to the list in commit ef8c4ed9db80 ("kbuild: allow
-> > to use GCC toolchain not in Clang search path") and improved upon in
-> > commit ca9b31f6bb9c ("Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang
-> > cross compilation"). Now that '--prefix' specifies a full path and
-> > prefix, '--gcc-toolchain' serves no purpose because the kernel builds
-> > with '-nostdinc' and '-nostdlib'.
-> >
-> > This has been verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as
-> > well as a distribution version of LLVM 11.1.0 without binutils in the
-> > LLVM toolchain locations.
-> >
-> > Link: https://reviews.llvm.org/D97902
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >
-> > v1 -> v2:
-> >
-> > * Improve commit message (add history behind flag and link to Fangrui's
-> >   documentation improvement).
+> The test code in scripts/test_dwarf5_support.sh is somewhat difficult
+> to understand, but after all, we want to check binutils >= 2.35.2
 >
+> From the former discussion, the requirement for generating DWARF v5 from
+> C code is as follows:
 >
-> Both applied to linux-kbuild. Thanks.
+>  - gcc + gnu as          -> requires gcc 5.0+ (but 7.0+ for full support)
+>  - clang + gnu as        -> requires binutils 2.35.2+
+>  - clang + integrated as -> OK
 >
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Sorry for being pedantic: This misses my Tested-by#s (see [1]).
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13-git
-
-AFAICS v2 changes some comments in the commit only but not code?
-
-- Sedat -
-
-[1] https://marc.info/?l=linux-kernel&m=161480031518629&w=2
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?h=kbuild&id=d4aa405bc9cd506532f075456645716cdd1739c1
-
+> ---
 >
+> Changes in v2:
+>   - fix typos
+>   - simplify the dependency expression
 >
+>  lib/Kconfig.debug              | 3 +--
+>  scripts/test_dwarf5_support.sh | 8 --------
+>  2 files changed, 1 insertion(+), 10 deletions(-)
+>  delete mode 100755 scripts/test_dwarf5_support.sh
 >
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index b479ae609a31..c85d5f7a1aeb 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -284,8 +284,7 @@ config DEBUG_INFO_DWARF4
 >
-> > I did not carry tags forward so that people could re-review and test.
-> >
-> >  Makefile | 4 ----
-> >  1 file changed, 4 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 31dcdb3d61fa..182e93d91198 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
-> >  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> >  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> > -GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
-> > -endif
-> > -ifneq ($(GCC_TOOLCHAIN),)
-> > -CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
-> >  endif
-> >  ifneq ($(LLVM_IAS),1)
-> >  CLANG_FLAGS    += -no-integrated-as
-> >
-> > base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
-> > --
-> > 2.31.0.rc1
-> >
->
->
+>  config DEBUG_INFO_DWARF5
+>         bool "Generate DWARF Version 5 debuginfo"
+> -       depends on GCC_VERSION >= 50000 || CC_IS_CLANG
+> -       depends on CC_IS_GCC || $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
+> +       depends on GCC_VERSION >= 50000 || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
+>         depends on !DEBUG_INFO_BTF
+>         help
+>           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
+> diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
+> deleted file mode 100755
+> index c46e2456b47a..000000000000
+> --- a/scripts/test_dwarf5_support.sh
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -
+> -# Test that the assembler doesn't need -Wa,-gdwarf-5 when presented with DWARF
+> -# v5 input, such as `.file 0` and `md5 0x00`. Should be fixed in GNU binutils
+> -# 2.35.2. https://sourceware.org/bugzilla/show_bug.cgi?id=25611
+> -echo '.file 0 "filename" md5 0x7a0b65214090b6693bd1dc24dd248245' | \
+> -  $* -gdwarf-5 -Wno-unused-command-line-argument -c -x assembler -o /dev/null -
 > --
-> Best Regards
-> Masahiro Yamada
+> 2.27.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
+
+On Mon, Mar 15, 2021 at 9:13 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The test code in scripts/test_dwarf5_support.sh is somewhat difficult
+> to understand, but after all, we want to check binutils >= 2.35.2
+>
+> From the former discussion, the requirement for generating DWARF v5 from
+> C code is as follows:
+>
+>  - gcc + gnu as          -> requires gcc 5.0+ (but 7.0+ for full support)
+>  - clang + gnu as        -> requires binutils 2.35.2+
+>  - clang + integrated as -> OK
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>
+> Changes in v2:
+>   - fix typos
+>   - simplify the dependency expression
+>
+>  lib/Kconfig.debug              | 3 +--
+>  scripts/test_dwarf5_support.sh | 8 --------
+>  2 files changed, 1 insertion(+), 10 deletions(-)
+>  delete mode 100755 scripts/test_dwarf5_support.sh
+>
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index b479ae609a31..c85d5f7a1aeb 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -284,8 +284,7 @@ config DEBUG_INFO_DWARF4
+>
+>  config DEBUG_INFO_DWARF5
+>         bool "Generate DWARF Version 5 debuginfo"
+> -       depends on GCC_VERSION >= 50000 || CC_IS_CLANG
+> -       depends on CC_IS_GCC || $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
+> +       depends on GCC_VERSION >= 50000 || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
+>         depends on !DEBUG_INFO_BTF
+>         help
+>           Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
+> diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
+> deleted file mode 100755
+> index c46e2456b47a..000000000000
+> --- a/scripts/test_dwarf5_support.sh
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -
+> -# Test that the assembler doesn't need -Wa,-gdwarf-5 when presented with DWARF
+> -# v5 input, such as `.file 0` and `md5 0x00`. Should be fixed in GNU binutils
+> -# 2.35.2. https://sourceware.org/bugzilla/show_bug.cgi?id=25611
+> -echo '.file 0 "filename" md5 0x7a0b65214090b6693bd1dc24dd248245' | \
+> -  $* -gdwarf-5 -Wno-unused-command-line-argument -c -x assembler -o /dev/null -
+> --
+> 2.27.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
