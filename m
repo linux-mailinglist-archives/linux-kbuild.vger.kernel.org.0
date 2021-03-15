@@ -2,57 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A49333A941
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 02:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA29733ABB6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 07:41:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbhCOBQZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Mar 2021 21:16:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50094 "EHLO
+        id S229964AbhCOGlV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Mar 2021 02:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbhCOBQH (ORCPT
+        with ESMTP id S229944AbhCOGkz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Mar 2021 21:16:07 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61B0C061574;
-        Sun, 14 Mar 2021 18:16:06 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id l13so8104302qtu.9;
-        Sun, 14 Mar 2021 18:16:06 -0700 (PDT)
+        Mon, 15 Mar 2021 02:40:55 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331CFC06175F
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Mar 2021 23:40:55 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so1477543pjb.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Mar 2021 23:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RU9zp1OK5lNmTShARYjSfYShvq3eN+Mhv0L6u7qgYss=;
-        b=N3gvBQxs34zTy6X8FzZE8UW3snkui47uze9Lcok5y/mfnoDQIIXkVexQ++w2Qky2K4
-         XpHJkuYhOjF9f2dRIQNIaL+qQN4AWl0k/rHB21ihb4VTL4d0uF7+mSbJc67yacbw4Fg/
-         5B9I9aXtZc9EcrOeeoYbLfWNErVE0W+aDXoNXR1mS5p4qXKxd7oJDgMp3cVStwCWYm+Q
-         vj2VNdD1dOK/0jGRVjAhswTICY54KluxzWqeo/iOq29ilm/Oh7yIodXrUOraBxlsZO9E
-         IkbQrffnxK2pIyDNqMGcK1mEA1TGkqgCLKZRjr9wcetwPe6amBB7p3k0dw8j2upG5rBV
-         Olqg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=lDgFJiFzkALDNWJm7eIQALO66wKkLjr8e5CGYouyH9Q=;
+        b=vxg3eiHaUzzokoIRbIOsTMbEDkyQd3FqU57/Q43Ck+dCgIf1WAnjGb9NyCrTRt7CJD
+         uk+aUyIgyk0GnD8jHUpNRo5uDGZ3LgBNHGNF4S7um9zWitOmiIw8K/fldSleJQfqbXwB
+         JUfSDmdDzqrOMdygefJ03PYQGYk1aBmUeeO1AwmFeZDktkjsVdRMs2Dt1WI03oSZhS8E
+         i5FrDTPoiWyusj1hhRGLCFBB9CQVxxjJ6B694Z97o9FqJkHsUBsCpyhliw5YL6pDsHsj
+         d9Gl0A12fDh8g641TA85wMtCPFUDUtxyGfmKcHh//3TyLLXNZSUUmES+aVql8g/7o5zJ
+         mCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RU9zp1OK5lNmTShARYjSfYShvq3eN+Mhv0L6u7qgYss=;
-        b=e2QMpp3aVPxw/xPgnwDmmrZcEwps5b1UZ+XbrF0p1ogiLYgcBrCr0kkLQJSrBo1yeJ
-         GyqUKZfV866xxyB7HX6CzmQQ8xpwxVEXAaf6yIa/OC5s+rbJ855LTqTO8Hsztud/cMEy
-         vIQ2wguOVkDtod4Gcm7lH/XcEHlg3ELteLrpNe7x1ddHsMr4zkhBsbLCM9EQnfZSLLI/
-         Pr2THfe1Wi9v1MAuxk7Ceaczj5qk7xPPCqcY57N4+kbfJ/9/CPTkzc1bOhsZVDNUigj8
-         lvKsXOMoMyOcbdyX/kBx0XpiPQotp75Tt4Mfu8k39NQmTV1ScdYwMVEI9aDqcuj6sV+k
-         qYOA==
-X-Gm-Message-State: AOAM532RrJWAOgGFPG2ePW4tV2t8f3LWLWJ13v3oSGR6haaO14qfLGgY
-        PIuVi3PXUKlyrFJsLFETyK0=
-X-Google-Smtp-Source: ABdhPJyN+SMRJZdC1aelCEmHlpi7NbzKtbf2sWjCD3KR04TJ21xEWnJeT1230OzVn54CSDGYzC32yA==
-X-Received: by 2002:ac8:44aa:: with SMTP id a10mr21954167qto.146.1615770965937;
-        Sun, 14 Mar 2021 18:16:05 -0700 (PDT)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id a2sm10010914qtj.76.2021.03.14.18.16.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Mar 2021 18:16:05 -0700 (PDT)
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lDgFJiFzkALDNWJm7eIQALO66wKkLjr8e5CGYouyH9Q=;
+        b=S9biMmd3VmNcpe/JGyuz58LZ2hSCxq3Jw+kwQS9BN/fx+44NzcyQNlIozSthKpxvX/
+         DE380fUWtFfBDAl/oESa7u5T8HVL4+oJEYDDNyXc0aWuCvEk0NilZuqFYosWCaOieRyu
+         Ipn3URk8pBSvTX4IUgvIu972lzMhs0+9S8/mFJw3uGRkEe6KiZSEuIZV15PEruLxe94t
+         8IOUXrXtYiG1VVXrE+aVsBSNQdueFEAPiJDEt/avjKlIld7JYcEtyL6u0Pj4hXloMr3W
+         6YcgkupCjs0m8lA36+IwOryNJlpwumWtmecmmLcA+Q/fHrVxaxrf/ZpSVqDnIDmhjDLy
+         Vhwg==
+X-Gm-Message-State: AOAM531LPfm8S7Mlz4sL45XsrVuFbhME53bqCnLLgrvgD3t6oDFfOHE2
+        3EkyEY0IUgP2xfDw//k2ZcdL9w==
+X-Google-Smtp-Source: ABdhPJyawDJzg6z4jlQ27AM7B9mQihetA2HK15PDd5+BUmBZxGxIWePelSfFNIpbbtmMwPVuFK17Wg==
+X-Received: by 2002:a17:902:c382:b029:e4:7015:b646 with SMTP id g2-20020a170902c382b02900e47015b646mr10771208plg.83.1615790454561;
+        Sun, 14 Mar 2021 23:40:54 -0700 (PDT)
+Received: from localhost ([122.171.124.15])
+        by smtp.gmail.com with ESMTPSA id g2sm12134089pfi.28.2021.03.14.23.40.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 14 Mar 2021 23:40:53 -0700 (PDT)
+Date:   Mon, 15 Mar 2021 12:10:51 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Frank Rowand <frowand.list@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Vincent Guittot <vincent.guittot@linaro.org>,
@@ -64,6 +62,9 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
+ files
+Message-ID: <20210315064051.otcjt3x6vkfdrio6@vireshk-i7>
 References: <cover.1615354376.git.viresh.kumar@linaro.org>
  <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
  <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
@@ -72,69 +73,58 @@ References: <cover.1615354376.git.viresh.kumar@linaro.org>
  <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
  <20210312071325.zosmlttse4ym7sit@vireshk-i7>
  <6f093bb1-1a80-a906-fb4c-3f6fdeed4838@gmail.com>
-Message-ID: <9068520f-76d6-ec94-716c-02383422ac85@gmail.com>
-Date:   Sun, 14 Mar 2021 20:16:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <9068520f-76d6-ec94-716c-02383422ac85@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6f093bb1-1a80-a906-fb4c-3f6fdeed4838@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9068520f-76d6-ec94-716c-02383422ac85@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi VIresh,
+On 14-03-21, 20:16, Frank Rowand wrote:
+> On 3/12/21 11:11 PM, Frank Rowand wrote:
+> > On 3/12/21 1:13 AM, Viresh Kumar wrote:
+> >> On 12-03-21, 01:09, Frank Rowand wrote:
+> >>> I suggested having the .dtso files include the .dts file because that is a relatively
+> >>> small and easy change to test.  What would probably make more sense is the rename
+> >>> the existing overlay .dts files to be .dtso files and then for each overlay .dtso
+> >>> file create a new .dts file that #includes the corresponding .dtso file.  This is
+> >>> more work and churn, but easier to document that the .dts files are a hack that is
+> >>> needed so that the corresponding .dtb.S files will be generated.
+> >>
+> >> What about creating links instead then ?
+> >>
+> > 
+> > I don't really like the idea of using links here.
+> > 
+> > Maybe it is best to make the changes needed to allow the unittest
+> > overlays to be .dtso instead of .dts.
+> > 
+> > Off the top of my head:
+> > 
+> >   scripts/Makefile.lib:
+> >      The rule for %.dtb.S invokes cmd_dt_S_dtb, which puts the
+> >      overlay data in section .dtb.init.rodata, with a label
+> >      pointing to the beginning of the overlay __dtb_XXX_begin and
+> >      a label pointing to the end of the overlay __dtb_XXX_end,
+> >      for the overlay named XXX.  I _think_ that you could simply
+> >      add a corresponding rule for %.dtbo.S using a new command
+> >      cmd_dt_S_dtbo (the same as cmd_dt_S_dtb, except use labels
+> >      __dtbo_XXX_begin and __dtbo_XXX_end).
+> 
+> If you do the above, please put it in drivers/of/unittest-data/Makefile
+> instead of scripts/Makefile.lib because it is unittest.c specific and
+> not meant to be anywhere else in the kernel.
 
-On 3/12/21 11:11 PM, Frank Rowand wrote:
-> On 3/12/21 1:13 AM, Viresh Kumar wrote:
->> On 12-03-21, 01:09, Frank Rowand wrote:
->>> I suggested having the .dtso files include the .dts file because that is a relatively
->>> small and easy change to test.  What would probably make more sense is the rename
->>> the existing overlay .dts files to be .dtso files and then for each overlay .dtso
->>> file create a new .dts file that #includes the corresponding .dtso file.  This is
->>> more work and churn, but easier to document that the .dts files are a hack that is
->>> needed so that the corresponding .dtb.S files will be generated.
->>
->> What about creating links instead then ?
->>
-> 
-> I don't really like the idea of using links here.
-> 
-> Maybe it is best to make the changes needed to allow the unittest
-> overlays to be .dtso instead of .dts.
-> 
-> Off the top of my head:
-> 
->   scripts/Makefile.lib:
->      The rule for %.dtb.S invokes cmd_dt_S_dtb, which puts the
->      overlay data in section .dtb.init.rodata, with a label
->      pointing to the beginning of the overlay __dtb_XXX_begin and
->      a label pointing to the end of the overlay __dtb_XXX_end,
->      for the overlay named XXX.  I _think_ that you could simply
->      add a corresponding rule for %.dtbo.S using a new command
->      cmd_dt_S_dtbo (the same as cmd_dt_S_dtb, except use labels
->      __dtbo_XXX_begin and __dtbo_XXX_end).
+What about doing this then in unittest's Makefile instead (which I
+already suggested earlier), that will make everything work just fine
+without any other changes ?
 
-If you do the above, please put it in drivers/of/unittest-data/Makefile
-instead of scripts/Makefile.lib because it is unittest.c specific and
-not meant to be anywhere else in the kernel.
++# Required for of unittest files as they can't be renamed to .dtso
++$(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
++       $(call if_changed_dep,dtc)
 
--Frank
-
-> 
->   drivers/of/unittest.o:
->      would need to have the #define of OVERLAY_INFO() changed to
->      reflect the changed label names (use __dtbo_##overlayname##begin
->      and __dtb_##overlay_name##_end).
-> 
->   drivers/of/unittest-data/Makefile:
->      In obj-$(CONFIG_OF_OVERLAY) change the *.dtb.o names to *.dtbo.o
-> 
->      I'm not sure how the DTC_FLAGS_... += -@ differentiates between
->      .dts / .dtb and .dtso / .dtbo  That is worth looking at.
-> 
-> -Frank
-> 
-
+-- 
+viresh
