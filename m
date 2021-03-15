@@ -2,108 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E970933C165
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 17:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B61A733C199
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Mar 2021 17:24:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbhCOQPa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Mar 2021 12:15:30 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:20916 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbhCOQPY (ORCPT
+        id S231942AbhCOQXa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Mar 2021 12:23:30 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:33279 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231962AbhCOQW6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Mar 2021 12:15:24 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 12FGD7XH030890;
-        Tue, 16 Mar 2021 01:13:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 12FGD7XH030890
+        Mon, 15 Mar 2021 12:22:58 -0400
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 12FGMXOl021913;
+        Tue, 16 Mar 2021 01:22:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 12FGMXOl021913
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615824791;
-        bh=RIDE+IYVYeFvMxGbVmakCezynqhWEF9YmJQS0ypJjZ8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h9nU/IXQgiGpXqg+FtAqikJmOKNHNNwfLIUqmQvdKainMj+CxX7F/UJMBrWhoWgiG
-         tWjI8ONLP8uF3yeXjz6ulN2GUyu8rpH2OhDzCojIVuwBFOkfN3tXZVJR29k03yFtrm
-         K4+b2XiwpUBtRx3qfYiAikC8XwzcDdmfml/TUgm3f1u6U92nugudGxLIH9KJDNH9ol
-         +0FRd27Qm4D59Okv+ofS3Ws/IoXWrimqmzIhz//8ujdNTy8Oey8KVUN8NLAdXXBIyW
-         Iy2S3NAzbGkWwgKEV5zseNGMefKiO2qbSbrm6CaZS+Pu0AOLAUCHybJtkFpzQUon5d
-         Vxb98EFvujUeA==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vitor Massaru Iha <vitor@massaru.org>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
-        "peterz@infradead.org" <peterz@infradead.org>
-Subject: [PATCH v2 3/3] kbuild: dwarf: use AS_VERSION instead of test_dwarf5_support.sh
-Date:   Tue, 16 Mar 2021 01:12:57 +0900
-Message-Id: <20210315161257.788477-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210315161257.788477-1-masahiroy@kernel.org>
-References: <20210315161257.788477-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1615825353;
+        bh=LD+AM6hgEBw4I3onUiko1OAZdxqmf7Chvn4W6NLeOeo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zhoLwrN/0jIhVhOedIcv5B7oUqbyRfwg5WLmT3sXgNfk+WjwPni45vCR/Vf+vxDy3
+         q5QM/bfDlpxK3v5WyuiWNZFukEAwev6toOazwQVTscogRdCPW9n7wu6l91l/WNC9/f
+         B7SPulTY19fvBrWoyhBEg7oR6FzzEWKqa9LjurWvG4x5Zz+qWdrj4mWl1HZ+En3+8x
+         sVXvv5HFOcp/AYFugu92ltZD0dnNbc7ZfyyVtW8iVx1uj5WezzJBtC2KoRvGqwt83K
+         fdIi6f42yjHa7o+JeCUm1vFCFRIN9Ewuv/+0AjfXehAdZ2/Anyy75NomGi5pi8vA3Z
+         XaBufw7uBjyOg==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id d21so857535pfn.1;
+        Mon, 15 Mar 2021 09:22:33 -0700 (PDT)
+X-Gm-Message-State: AOAM530gI8kWN/jE3WdXj8BqMnfoghqbe2mWz1mG38ZcS20xQ8/5+6sd
+        KV4j0bF7OxCMgxa1LQzRURnTFLmbFmvEr5x5UWk=
+X-Google-Smtp-Source: ABdhPJyqPUzhJDm8gyEGApfIOguBmYSN2t7PkceoZE565PaBe9jr7CKOSPlyvmaBu1sauYbXNFZ1TMhebCZYxXfKgWc=
+X-Received: by 2002:a65:41c6:: with SMTP id b6mr303989pgq.7.1615825352706;
+ Mon, 15 Mar 2021 09:22:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210302210646.3044738-1-nathan@kernel.org> <20210309205915.2340265-1-nathan@kernel.org>
+In-Reply-To: <20210309205915.2340265-1-nathan@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 16 Mar 2021 01:21:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ6goFdV=HuCdiCsr-PSUGxtafHZAa=p=96ieFyFHL8yg@mail.gmail.com>
+Message-ID: <CAK7LNAQ6goFdV=HuCdiCsr-PSUGxtafHZAa=p=96ieFyFHL8yg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Makefile: Remove '--gcc-toolchain' flag
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The test code in scripts/test_dwarf5_support.sh is somewhat difficult
-to understand, but after all, we want to check binutils >= 2.35.2
+On Wed, Mar 10, 2021 at 5:59 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> This flag was originally added to allow clang to find the GNU cross
+> tools in commit 785f11aa595b ("kbuild: Add better clang cross build
+> support"). This flag was not enough to find the tools at times so
+> '--prefix' was added to the list in commit ef8c4ed9db80 ("kbuild: allow
+> to use GCC toolchain not in Clang search path") and improved upon in
+> commit ca9b31f6bb9c ("Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang
+> cross compilation"). Now that '--prefix' specifies a full path and
+> prefix, '--gcc-toolchain' serves no purpose because the kernel builds
+> with '-nostdinc' and '-nostdlib'.
+>
+> This has been verified with self compiled LLVM 10.0.1 and LLVM 13.0.0 as
+> well as a distribution version of LLVM 11.1.0 without binutils in the
+> LLVM toolchain locations.
+>
+> Link: https://reviews.llvm.org/D97902
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>
+> v1 -> v2:
+>
+> * Improve commit message (add history behind flag and link to Fangrui's
+>   documentation improvement).
 
-From the former discussion, the requirement for generating DWARF v5 from
-C code is as follows:
 
- - gcc + gnu as          -> requires gcc 5.0+ (but 7.0+ for full support)
- - clang + gnu as        -> requires binutils 2.35.2+
- - clang + integrated as -> OK
+Both applied to linux-kbuild. Thanks.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
----
 
-Changes in v2:
-  - fix typos
-  - simplify the dependency expression
 
- lib/Kconfig.debug              | 3 +--
- scripts/test_dwarf5_support.sh | 8 --------
- 2 files changed, 1 insertion(+), 10 deletions(-)
- delete mode 100755 scripts/test_dwarf5_support.sh
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index b479ae609a31..c85d5f7a1aeb 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -284,8 +284,7 @@ config DEBUG_INFO_DWARF4
- 
- config DEBUG_INFO_DWARF5
- 	bool "Generate DWARF Version 5 debuginfo"
--	depends on GCC_VERSION >= 50000 || CC_IS_CLANG
--	depends on CC_IS_GCC || $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
-+	depends on GCC_VERSION >= 50000 || (CC_IS_CLANG && (AS_IS_LLVM || (AS_IS_GNU && AS_VERSION >= 23502)))
- 	depends on !DEBUG_INFO_BTF
- 	help
- 	  Generate DWARF v5 debug info. Requires binutils 2.35.2, gcc 5.0+ (gcc
-diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
-deleted file mode 100755
-index c46e2456b47a..000000000000
---- a/scripts/test_dwarf5_support.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--
--# Test that the assembler doesn't need -Wa,-gdwarf-5 when presented with DWARF
--# v5 input, such as `.file 0` and `md5 0x00`. Should be fixed in GNU binutils
--# 2.35.2. https://sourceware.org/bugzilla/show_bug.cgi?id=25611
--echo '.file 0 "filename" md5 0x7a0b65214090b6693bd1dc24dd248245' | \
--  $* -gdwarf-5 -Wno-unused-command-line-argument -c -x assembler -o /dev/null -
+
+> I did not carry tags forward so that people could re-review and test.
+>
+>  Makefile | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 31dcdb3d61fa..182e93d91198 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -568,10 +568,6 @@ ifneq ($(CROSS_COMPILE),)
+>  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+>  CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> -GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+> -endif
+> -ifneq ($(GCC_TOOLCHAIN),)
+> -CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+>  endif
+>  ifneq ($(LLVM_IAS),1)
+>  CLANG_FLAGS    += -no-integrated-as
+>
+> base-commit: a38fd8748464831584a19438cbb3082b5a2dab15
+> --
+> 2.31.0.rc1
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
