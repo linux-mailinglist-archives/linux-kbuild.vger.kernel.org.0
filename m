@@ -2,117 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D51233E159
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Mar 2021 23:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CB6833E1D6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Mar 2021 00:03:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbhCPWZ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Mar 2021 18:25:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57056 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231232AbhCPWZT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Mar 2021 18:25:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5F86464F04;
-        Tue, 16 Mar 2021 22:25:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615933518;
-        bh=Lw+Pm12xKhQpijkih3hmvXmUdOgzse16pCczA5XoNsM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GRcarp4Mi8j4LqQGS41QnoBtc7qdGD4Nbp+FAT3gsqkkIB0SP1TJPnpw8631mi1P/
-         O1oxXBa9XiyTXXewBgBGUWxEJvV4llLHmpyaWEkvmaM7vpcmozLNlBmux/Vv8kbURS
-         1UMgU4+edlqcWNQ2TcZTkyN7/Otvi+HVXteDD75iOcAYy9weTT7uKg0ATcB1esKtEH
-         C6zuuumw1X/ax716wC4K/7uKaMjvfNdCDELejOE72dg0qX5yyqhy/AHAGit6GsFnuc
-         qiLWCY95YyIm/yLCZYIgLiI7h3HjuBFCFYv+MZ9osKtJwOUyDoGQUrzneapbj7X5oZ
-         Zs22WkjXyn0AA==
-Date:   Tue, 16 Mar 2021 15:25:14 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Timo Rothenpieler <timo@rothenpieler.org>
-Cc:     linux-nfs@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org
-Subject: Re: [PATCH] nfs: fix PNFS_FLEXFILE_LAYOUT Kconfig default
-Message-ID: <20210316222514.erlng3lsgmqgpcv4@archlinux-ax161>
-References: <20210223141901.1652-1-timo@rothenpieler.org>
+        id S229517AbhCPXC7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Mar 2021 19:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229490AbhCPXC4 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 16 Mar 2021 19:02:56 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBAAC061762
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 16:02:56 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id a188so9856861pfb.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 16:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kXkZPUcTv+BH4LFKsPIbe+jirsdRWJGrIqCSnte4+pk=;
+        b=n7z/7n8BAe+C7mTkXJHeaNKkrmAd3FDbaONpZvyNMxkhbVT0HhlGCasczqYzg9skM7
+         qBBK04FrNjFr5vEVg8tejTGS6nhlakf8ACj8v81qEm6NbXbdnWSH6RNFIfGot//y7tiV
+         m7X88W7uUbP5jCvFAuxcc3DEyOCGAo9oImDDk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kXkZPUcTv+BH4LFKsPIbe+jirsdRWJGrIqCSnte4+pk=;
+        b=Qv0TeXyjFACeuLllr72jCgrfHK3LyJlno9FUK8GKMNPFUdGSTb7jLcvm11cyCVFjjl
+         JrtkKCGmhCL36uhPaJG30y5aEK7iKjkFlIb5e+mWokasm6PB1AAsROclbuLdhd45n3fq
+         +kIyiQSEDuoaiHEGdrbX3LZa9t/ZcbDzDMBVEatH6E7XrWIrC+LhAAykXaQ1VR9/mutm
+         AGstMLyGUiVhwbZ0Vuz8z7beOp73ogu4Vg78DDr3PV/m63ODnaYWifjnRQO6hkT3W8+l
+         UW+TlA80RAveUB8Z1SCaotmfnwe1u5RxdMI5ROt0DwAi0D86OZfePmfFnNRPxbJuLWHC
+         zS1Q==
+X-Gm-Message-State: AOAM531CI/QTMpxo7Wd4O8d8iGkyy5R3+17DCk07qKHMj7klATOMY8FO
+        WR+Y1aWYv6oqKl4fYJFivbUxmg==
+X-Google-Smtp-Source: ABdhPJxUsDSC7HTflCNgrlhXH8m0bkwMud4JF2D4um9D+38w6bFYcJnCSdxm5YlWmyN87vHVWtDfEA==
+X-Received: by 2002:a63:4652:: with SMTP id v18mr42886pgk.87.1615935775940;
+        Tue, 16 Mar 2021 16:02:55 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id mp1sm372749pjb.48.2021.03.16.16.02.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 16:02:54 -0700 (PDT)
+Date:   Tue, 16 Mar 2021 16:02:53 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        bpf@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 17/17] arm64: allow CONFIG_CFI_CLANG to be selected
+Message-ID: <202103161602.6DB8AC31FA@keescook>
+References: <20210312004919.669614-1-samitolvanen@google.com>
+ <20210312004919.669614-18-samitolvanen@google.com>
+ <202103111851.69AA6E59@keescook>
+ <CABCJKucpFHC-9rvT7uNF+E-Jh20fz69zdO49_4p8G_Sb634qmw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210223141901.1652-1-timo@rothenpieler.org>
+In-Reply-To: <CABCJKucpFHC-9rvT7uNF+E-Jh20fz69zdO49_4p8G_Sb634qmw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 03:19:01PM +0100, Timo Rothenpieler wrote:
-> This follows what was done in 8c2fabc6542d9d0f8b16bd1045c2eda59bdcde13.
-> With the default being m, it's impossible to build the module into the
-> kernel.
+On Tue, Mar 16, 2021 at 01:44:33PM -0700, Sami Tolvanen wrote:
+> On Thu, Mar 11, 2021 at 6:51 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Thu, Mar 11, 2021 at 04:49:19PM -0800, Sami Tolvanen wrote:
+> > > Select ARCH_SUPPORTS_CFI_CLANG to allow CFI to be enabled.
+> > >
+> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> >
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> >
+> > Random thought: the vDSO doesn't need special handling because it
+> > doesn't make any indirect calls, yes?
 > 
-> Signed-off-by: Timo Rothenpieler <timo@rothenpieler.org>
-> ---
->  fs/nfs/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/nfs/Kconfig b/fs/nfs/Kconfig
-> index e2a488d403a6..14a72224b657 100644
-> --- a/fs/nfs/Kconfig
-> +++ b/fs/nfs/Kconfig
-> @@ -127,7 +127,7 @@ config PNFS_BLOCK
->  config PNFS_FLEXFILE_LAYOUT
->  	tristate
->  	depends on NFS_V4_1 && NFS_V3
-> -	default m
-> +	default NFS_V4
->  
->  config NFS_V4_1_IMPLEMENTATION_ID_DOMAIN
->  	string "NFSv4.1 Implementation ID Domain"
-> -- 
-> 2.25.1
-> 
+> That might be true, but we also filter out CC_FLAGS_LTO for the vDSO,
+> which disables CFI as well.
 
-Hi all,
+Oh right! That would do it. :)
 
-I bisected a new modpost warning that I see with 5.12-rc3 to this commit:
-
-$ make -skj"$(nproc)" ARCH=mips CROSS_COMPILE=mipsel-linux- O=build/mipsel distclean defconfig all
-...
-WARNING: modpost: Symbol info of vmlinux is missing. Unresolved symbol check will be entirely skipped.
-...
-
-$ git bisect log
-# bad: [1e28eed17697bcf343c6743f0028cc3b5dd88bf0] Linux 5.12-rc3
-# good: [a38fd8748464831584a19438cbb3082b5a2dab15] Linux 5.12-rc2
-git bisect start 'v5.12-rc3' 'v5.12-rc2'
-# good: [f78d76e72a4671ea52d12752d92077788b4f5d50] Merge tag 'drm-fixes-2021-03-12-1' of git://anongit.freedesktop.org/drm/drm
-git bisect good f78d76e72a4671ea52d12752d92077788b4f5d50
-# bad: [420623430a7015ae9adab8a087de82c186bc9989] Merge tag 'erofs-for-5.12-rc3' of git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs
-git bisect bad 420623430a7015ae9adab8a087de82c186bc9989
-# good: [261410082d01f2f2d4fcd19abee6b8e84f399c51] Merge tag 'devprop-5.12-rc3' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
-git bisect good 261410082d01f2f2d4fcd19abee6b8e84f399c51
-# good: [ce307084c96d0ec92c04fcc38b107241b168df11] Merge tag 'block-5.12-2021-03-12-v2' of git://git.kernel.dk/linux-block
-git bisect good ce307084c96d0ec92c04fcc38b107241b168df11
-# bad: [f296bfd5cd04cbb49b8fc9585adc280ab2b58624] Merge tag 'nfs-for-5.12-2' of git://git.linux-nfs.org/projects/anna/linux-nfs
-git bisect bad f296bfd5cd04cbb49b8fc9585adc280ab2b58624
-# good: [9afc1163794707a304f107bf21b8b37e5c6c34f4] Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi
-git bisect good 9afc1163794707a304f107bf21b8b37e5c6c34f4
-# bad: [fd6d3feed041e96b84680d0bfc1e7abc8f65de92] NFS: Clean up function nfs_mark_dir_for_revalidate()
-git bisect bad fd6d3feed041e96b84680d0bfc1e7abc8f65de92
-# bad: [f0940f4b3284a00f38a5d42e6067c2aaa20e1f2e] SUNRPC: Set memalloc_nofs_save() for sync tasks
-git bisect bad f0940f4b3284a00f38a5d42e6067c2aaa20e1f2e
-# bad: [ad3dbe35c833c2d4d0bbf3f04c785d32f931e7c9] NFS: Correct size calculation for create reply length
-git bisect bad ad3dbe35c833c2d4d0bbf3f04c785d32f931e7c9
-# bad: [a0590473c5e6c4ef17c3132ad08fbad170f72d55] nfs: fix PNFS_FLEXFILE_LAYOUT Kconfig default
-git bisect bad a0590473c5e6c4ef17c3132ad08fbad170f72d55
-# first bad commit: [a0590473c5e6c4ef17c3132ad08fbad170f72d55] nfs: fix PNFS_FLEXFILE_LAYOUT Kconfig default
-
-$ mipsel-linux-gcc --version
-mipsel-linux-gcc (GCC) 10.2.0
-Copyright (C) 2020 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-I doubt this is a bug with this specific commit but I am not sure so I
-have added Masahiro and the kbuild list as well as the MIPS list even
-though it might not be MIPS specific (although I only see it with the
-32-bit MIPS configs)
-
-Cheers,
-Nathan
+-- 
+Kees Cook
