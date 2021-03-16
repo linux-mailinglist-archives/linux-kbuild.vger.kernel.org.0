@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5005033DED8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Mar 2021 21:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B361E33DF76
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Mar 2021 21:47:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231249AbhCPUei (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Mar 2021 16:34:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S232185AbhCPUqe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Mar 2021 16:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231206AbhCPUeF (ORCPT
+        with ESMTP id S232047AbhCPUoq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Mar 2021 16:34:05 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA1BC06174A
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 13:34:05 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id q1so15990561vsq.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 13:34:05 -0700 (PDT)
+        Tue, 16 Mar 2021 16:44:46 -0400
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE3C8C061756
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 13:44:45 -0700 (PDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id l27so19000111vsj.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Mar 2021 13:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Xrwjt/kZB1RxVC21J+b2Rv85znrbxBlQ2xQVtgXaL8Q=;
-        b=po1Ywby6SU2VWLEUyZ5fNbrtGcCnRgD8+IOMID+GlXWQNN/3aWjrKopHkVgecJy3yJ
-         khd4+NGMXkdhaRRLq7oIG7sqA93cOIbt85nnBMxjdoTTob9e2Am24an2yQVbG1o0V5H8
-         7GVzuReTWAlfbF1CAQXu39fgGvH5SXGbKyaDGdlbOZBsDb8/16qHOkbAClu4ucjVnnpq
-         puCa2KojBGupypPIcNHF88u0nBc0j5j5wmxJB5QqbuzbcGhuC3bdhL35d8XTmOmAH5Ze
-         Rv/YonPUJZL/28fPFwgGqtGza8PZ38b3S3xCK35A47xteLDq+UaKkUNMlUmMa3ohiIUa
-         It1A==
+        bh=tLa3leTdMzh1rknpkLUWnm0PAOSso4HRgQA5K7IK6MM=;
+        b=e+TXEaCKvma4VGpnwpOaaFkLknHBGuDmEKybhDxTF83sGcUnhvMjnyd4FKoakznEV3
+         L+49y3mjg3y9zPjYOau5jDdMUzS1QeQc8EZHIuCnYCEvlu/U3MIphrqZ/uP5UmkwxxeL
+         +/myGc8pDphpzzZ7FTh/9hJKxPT9p26Ia2eDhTGk6iETFEiye/52lqU41RoUHrn74DWh
+         Z9MX2qar1Tdy5UlVzs8F5VgOHw+sA5zNyUhbhgEJg7yulcKmANZ/MdTHXU3HQZNR3/3z
+         jprq7sQ3GQvcxl+Y7QEUl59VHWT5WD2/UpeliEvsAr6IQyyxoheHA9cHYYw051xuDx5U
+         BC1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Xrwjt/kZB1RxVC21J+b2Rv85znrbxBlQ2xQVtgXaL8Q=;
-        b=SgoWz71YhFhfpn4igcF9UX1GB60LeumBpAy9IB1DsHS82ixTKIaBxbNfDYy6/tyAa4
-         U2N9F/XTtNq5zpQzDRwQFwizHp1T/WQzjebLOmvoO0agAXG2MNSNA1Tk9vp9oyRSfNvu
-         GizebcRVvHo9dDEMvmt0rWkN19F2nUurHxL6TkDNwb4VuXJEHb2hZykpyFKvaXQ9giK5
-         yheLiE/Y8QBn2hXHV4W4bVUVSzw/dRKznaYqTZ4VfOIT85QO8BUfDQ1ZoA2C2Byy2cM1
-         RNlb7SYCTZcvHR9kz6sUTJRcxaFcwogkMw1Ui8pEzaSJm3Gf0GRPt6RX2cAF4y4ppDls
-         BTYw==
-X-Gm-Message-State: AOAM531qYph5iivO67c31AVv8dSH3C1mFepPlQvGviuX/RZHhWmfacXH
-        NpMPvbi6uI57N3nASKNwD0Ld2G9VAPRm56gPGVeTjg==
-X-Google-Smtp-Source: ABdhPJwadRPiAKyB9trsaH6fnnn3nCM/AdtJrbuHIQFIQoIMgPzfKSpazXNSL6neJgetXYxyVdUJ7AZv1KZY68p3ujw=
-X-Received: by 2002:a67:2803:: with SMTP id o3mr1486279vso.36.1615926844137;
- Tue, 16 Mar 2021 13:34:04 -0700 (PDT)
+        bh=tLa3leTdMzh1rknpkLUWnm0PAOSso4HRgQA5K7IK6MM=;
+        b=Bt3da+tDB8Boc90IwyAZaA4RswB1Tmh3skNd8I3W1/ALsstgQrWTIskQS0VQrmo4Au
+         iKuK9Yw7jfB84jX2mPNM3Ivudrx05ZT1dQc2mIDC2K6AytKVXgxs+jkXyBkxvmiSQWb6
+         SbzPyW2KDRZjdy6oTKA3XwoBaoDq6ORUJgbk0L9dlvaZVYsH/MR7TWwZeF3Yb3Bti/Cs
+         OrFVkm9CwPf24u8acGSJY9/M58aTMhcpG4CKIFQAilWKiQPJgeOQGK88YbU4iZ+ZcsHQ
+         xPytH5HWfm6B9mWbdLyM/EVege8pice+s/UrH4/uH3vNq1cEXb6BFtC7LA8QRZ4kbvk1
+         mOgA==
+X-Gm-Message-State: AOAM532a83TmDAL9OeyFUdX0ypELp84FtTCM6YM1B3uS2qfrfJE39xM3
+        u+YOlU1ALAvZ7BtXHLac5PktC16RCrpUXsAiLhHN9A==
+X-Google-Smtp-Source: ABdhPJwQSd1vGWBZTCJlQRmCK62EXrLyrNMXIW37KTTCmpBtYEbzwPtXhGB1KcQUzWMwYntm7fopfaHU36IppUu0V+Q=
+X-Received: by 2002:a67:db98:: with SMTP id f24mr1241866vsk.13.1615927484959;
+ Tue, 16 Mar 2021 13:44:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210312004919.669614-1-samitolvanen@google.com>
- <20210312004919.669614-8-samitolvanen@google.com> <202103111843.008B935F8@keescook>
-In-Reply-To: <202103111843.008B935F8@keescook>
+ <20210312004919.669614-18-samitolvanen@google.com> <202103111851.69AA6E59@keescook>
+In-Reply-To: <202103111851.69AA6E59@keescook>
 From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 16 Mar 2021 13:33:53 -0700
-Message-ID: <CABCJKufMb_VFwXLkxjdvN6Y92v-Nc4Z+kThbi7SOkVgGhdFz+g@mail.gmail.com>
-Subject: Re: [PATCH 07/17] kallsyms: cfi: strip hashes from static functions
+Date:   Tue, 16 Mar 2021 13:44:33 -0700
+Message-ID: <CABCJKucpFHC-9rvT7uNF+E-Jh20fz69zdO49_4p8G_Sb634qmw@mail.gmail.com>
+Subject: Re: [PATCH 17/17] arm64: allow CONFIG_CFI_CLANG to be selected
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -69,20 +69,19 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 6:45 PM Kees Cook <keescook@chromium.org> wrote:
+On Thu, Mar 11, 2021 at 6:51 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Thu, Mar 11, 2021 at 04:49:09PM -0800, Sami Tolvanen wrote:
-> > With CONFIG_CFI_CLANG and ThinLTO, Clang appends a hash to the names
-> > of all static functions not marked __used. This can break userspace
-> > tools that don't expect the function name to change, so strip out the
-> > hash from the output.
+> On Thu, Mar 11, 2021 at 04:49:19PM -0800, Sami Tolvanen wrote:
+> > Select ARCH_SUPPORTS_CFI_CLANG to allow CFI to be enabled.
 > >
-> > Suggested-by: Jack Pham <jackp@codeaurora.org>
 > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 >
-> (Is it possible we could end up with symbol name collisions? ... though
-> I guess we would have had collisions before?)
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> Random thought: the vDSO doesn't need special handling because it
+> doesn't make any indirect calls, yes?
 
-Yes, these are static functions, so name collisions have always been possible.
+That might be true, but we also filter out CC_FLAGS_LTO for the vDSO,
+which disables CFI as well.
 
 Sami
