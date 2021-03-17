@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17FCF33E365
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Mar 2021 01:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F8733E415
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Mar 2021 02:00:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbhCQA4g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Mar 2021 20:56:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33268 "EHLO mail.kernel.org"
+        id S231700AbhCQA6j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Mar 2021 20:58:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36154 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230386AbhCQA4P (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Mar 2021 20:56:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2890964FA5;
-        Wed, 17 Mar 2021 00:56:14 +0000 (UTC)
+        id S231694AbhCQA5c (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 16 Mar 2021 20:57:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7441C64FC0;
+        Wed, 17 Mar 2021 00:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615942574;
-        bh=AenPixLi3LmTLnH+rm9+o4/1K1iikmmlr7EnwM8NEZg=;
+        s=k20201202; t=1615942652;
+        bh=cyb8ztiybluG8OXorUpZ6w30Kin104bO0jot/us/D0Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ks2kkLqeN432BKUmZaDpgiL5E4OAja+j103hX86viayV5Gj7DfqxAXaArxeMGq7W2
-         LxxRP9GGXTVDyCt7vmDH7EbMmwSCKsNjWqX7qkrNCWYMM0l3qI+7IW6JBi/0UHr6T0
-         Roq1Hy3ACqG3lRWiTDYlJm3gsvy6jg6/2r0XsjHucughN5xEYfdV6pbs0urQMBO9Zt
-         0KEQE2ZTXT6FOSp/DB4A7845132PsuQ7xqAnU6Cmv/u7BxTVBP5kl6XStBpWdGYhcd
-         2Sxpkx7WYvQim4iUdCcAe/t28usvyGzTFlHsdMRgTHCQqqS6NBMnD5zG6xL/640Odt
-         SxxbKOfzPGhHA==
+        b=dTxhbX1cEvJLixzK1KAYOLJgiggSQ9jWWrtBTxpWcC/84K8OWk31vDNYtAL/6gxVp
+         P2rV2EA/zCUiaOPDyny3GUUQBSpZXib5ccASK1tXHYD4f6EoWCJkRlJB3ZvvMH5Lue
+         sY195ZkOw4gr6qddmkg14f+Pm3B56qaDZimM70H6XexYkwcmavGl3bkOcc1EkGZsZO
+         GwaMr9TPbnRWscLkGtbOqNK1gBjroEREK12ZYVCQlzNCJTNBzDeiWJ0IWPAX9Fd1X5
+         mxCkjvPNwWg5o0jxbOH29aG8xTgANu4+43s9uy49oh+oztwzUMS36ROAuDuLo8Ic+6
+         Qe4bJOhDtk3NQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 31/61] kbuild: add image_name to no-sync-config-targets
-Date:   Tue, 16 Mar 2021 20:55:05 -0400
-Message-Id: <20210317005536.724046-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 30/54] kbuild: add image_name to no-sync-config-targets
+Date:   Tue, 16 Mar 2021 20:56:29 -0400
+Message-Id: <20210317005654.724862-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210317005536.724046-1-sashal@kernel.org>
-References: <20210317005536.724046-1-sashal@kernel.org>
+In-Reply-To: <20210317005654.724862-1-sashal@kernel.org>
+References: <20210317005654.724862-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,7 +56,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 472136a7881e..c67cc0d46833 100644
+index 7fdb78b48f55..901ab5c19ae4 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -265,7 +265,8 @@ no-dot-config-targets := $(clean-targets) \
