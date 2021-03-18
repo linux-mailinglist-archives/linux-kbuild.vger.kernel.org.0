@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0EA340FF1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 22:39:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF632340FFE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 22:42:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231371AbhCRVip (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Mar 2021 17:38:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35524 "EHLO
+        id S233253AbhCRVmK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Mar 2021 17:42:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbhCRVi0 (ORCPT
+        with ESMTP id S233252AbhCRVmF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Mar 2021 17:38:26 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E00C061760
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 14:38:24 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id l22so2374118vsr.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 14:38:24 -0700 (PDT)
+        Thu, 18 Mar 2021 17:42:05 -0400
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40C5C061761
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 14:41:15 -0700 (PDT)
+Received: by mail-ua1-x92c.google.com with SMTP id h34so2383281uah.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 14:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vLPqaFCjOxJqP96ilPAU1cPfZQuKxpOHXRuDS0s7Vr4=;
-        b=qKVpWtCjskEKfxSobzVob96NxKhzoHpA0zkVpey6v9nz5hqX4fwpWRs2r3Xv0LtQVY
-         G16K6pLlLiiOgiA9WlvBYuNv+dkBxVQoBMTZmRC3drafHcUHKnQM/tG/M+cxNlkBKFlD
-         6s0+yKEf1+/y0f7FoLfouj1leYGLXXX0BHvTCWQ+suw1xpi/HPjaWWJGI7rE5Zq4hjN+
-         KeG6ltSdPXps4+kFCWvGrU0ia0VmTHM2GBqcg/2BbR/sCeCZJbCtvjlsmF4re7pImMHk
-         IhFvMOnUBJEqxCQDOIJTiaQI5tXqy8l13Wdqav4qDmK3cuJjAHbGFKOiSQWrw4vDipzM
-         ux1A==
+        bh=S+dtVAUVV+mOR0Fzj0Z90UC8t6lRmPnn/hBpUO6M6Ms=;
+        b=kSXVwz/FZC+WpWQB/aGK9DOPu/ajHGciWvYsOcBoA08P2Lnqtj7wOrf8dZ6auNljTJ
+         9QlM8ON25d0LHP1BBy4wcnyPzh1vqo7wzYc9ZHKCWsvXk6wRXrz7bnph+co4lGaiBe1U
+         GPk5jrj2K9mTZHyq6QKspCmINSQHwHaH0+xkoKVVNeaQYdYJB9d8VSLDETaN7yEJcnZr
+         5LJggvUx6k6av5QidARixRz9rJU0dYvgsrxrhEzbzqm4reIeZZEw3EYvPFndTZf4LTgw
+         KwMukHwUAG20BQ614YEt8nG1pyvtKolhObYPjFyygTvMvr+8602BA21r+fs5TigrF0/w
+         i1Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vLPqaFCjOxJqP96ilPAU1cPfZQuKxpOHXRuDS0s7Vr4=;
-        b=cSNVdrCOJWPdy+xbXd0AClZ1kR0yDLdrsEEu7I1Lz92wVLxVAh+HfIX7bh7QGjO2/V
-         ndpu6V8xRul2CmkEl30pbpct69zquH2vqPHQJ8pJYNZ4+99cSIrh3otrdIDaq+ooSLAx
-         kaWi4MYwUogqVLmnWKzDBB/eoA4e+pr3TUp2fnV7rYABj/8JCIX2inklz2yAxq0Q2XyK
-         ObyURZLkMJwxoErQv7L+z6Je5RcLtsuQ3h4vqLgmG2nSY3QiBMI+0jiLLMKOPuzyBr5j
-         4ByaQZCj9rAFmYPR+G7MTxC6MfV/W1Q6f/3XXnQ80DOwkDA+fniqzUuSbj2RsJMtPqE9
-         OCCw==
-X-Gm-Message-State: AOAM530p/2EaC9Bb1/VTG952s0q8wll1jX3cip2u5sM9N3zLJ9UyrNhr
-        J9/DoFeUBU4xxGVXV4uVbFlxQIxbVrF5t2bI18ko9g==
-X-Google-Smtp-Source: ABdhPJyaMaWSU8mQS4gTjUoMCHt/hL7J7EWOKPoWt/RxfzbbDBNbfggOD5G6oZscrzSei7ViS8Oslpe0+7Gv7JZE5Pk=
-X-Received: by 2002:a67:2803:: with SMTP id o3mr1141643vso.36.1616103503542;
- Thu, 18 Mar 2021 14:38:23 -0700 (PDT)
+        bh=S+dtVAUVV+mOR0Fzj0Z90UC8t6lRmPnn/hBpUO6M6Ms=;
+        b=WvJkoP6kzjhJ1oPrVcZriuxbVLCsPtoVlpqPUtkYIXKisfjo2EzlBG1feP0SXxNdmJ
+         B38abVaPeFiIjvUiKxNS2SzE7kNC4AVZd58nk6UCkwGv6ZKJfObir2NNYFsT5Y1fjbeM
+         Fr2LDYU/etIYytAMOLkuQDWZoo3HxSeT/nE/Cx7x7kjLAVcyXzuxQr8MVQYj6gLc6BoI
+         U+igl/iRNZf11MsN125Gl/47JhuCU/r4hqz7BdhIq0NixxeNuhompRfAjdctcSkDeeHz
+         JuUKBZ/UywIdd8r5wF67TBgDWgbizGvoh2N5bhH/ndxVecIidJsA0ZVKmrLLNOtCG4k3
+         CxLA==
+X-Gm-Message-State: AOAM531dF0LrQBBovy4pYz3vgjBYepibMkR2eQcVA2lupxVx1cYcyrdM
+        MEUHjpOKt66KjFUmjAyPvJ+2MKEi1zTb03WwDf83jw==
+X-Google-Smtp-Source: ABdhPJzCEQzYkNsCoJUS10DgD6+JUA1cBSzuavn2A8KRdSpseJN1j+Mrv0FTmfbfmt5jjm1OJkiESZMfey2NR729Ct8=
+X-Received: by 2002:ab0:5e9:: with SMTP id e96mr3726573uae.89.1616103674608;
+ Thu, 18 Mar 2021 14:41:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210318171111.706303-1-samitolvanen@google.com>
- <20210318171111.706303-6-samitolvanen@google.com> <CAKwvOd=fWs6g2Bf2a_bA58_-uoWtVmNQnvrPxNhio4R5qGjcMQ@mail.gmail.com>
-In-Reply-To: <CAKwvOd=fWs6g2Bf2a_bA58_-uoWtVmNQnvrPxNhio4R5qGjcMQ@mail.gmail.com>
+ <20210318171111.706303-8-samitolvanen@google.com> <CAKwvOdkETA4OU5d_f_8eCeXgo4juagHuPWo6Fd4jg7C1cWqoYA@mail.gmail.com>
+In-Reply-To: <CAKwvOdkETA4OU5d_f_8eCeXgo4juagHuPWo6Fd4jg7C1cWqoYA@mail.gmail.com>
 From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Thu, 18 Mar 2021 14:38:12 -0700
-Message-ID: <CABCJKufa_-WSSYzHBSjZ+3i0DfvoGBox7Xa0PcE_Kuhf2rd07g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/17] workqueue: use WARN_ON_FUNCTION_MISMATCH
+Date:   Thu, 18 Mar 2021 14:41:03 -0700
+Message-ID: <CABCJKueWJ0we0K+gw39=bF-uaz36dQ11uTsE+a5pAb6GrM-+5g@mail.gmail.com>
+Subject: Re: [PATCH v2 07/17] kallsyms: strip ThinLTO hashes from static functions
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -71,31 +71,68 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 11:50 AM Nick Desaulniers
+On Thu, Mar 18, 2021 at 12:00 PM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Thu, Mar 18, 2021 at 10:11 AM Sami Tolvanen <samitolvanen@google.com> wrote:
 > >
-> > With CONFIG_CFI_CLANG, a callback function passed to
-> > __queue_delayed_work from a module points to a jump table entry
-> > defined in the module instead of the one used in the core kernel,
-> > which breaks function address equality in this check:
+> > With CONFIG_CFI_CLANG and ThinLTO, Clang appends a hash to the names
+> > of all static functions not marked __used. This can break userspace
+> > tools that don't expect the function name to change, so strip out the
+> > hash from the output.
 > >
-> >   WARN_ON_ONCE(timer->function != delayed_work_timer_fn);
+> > Suggested-by: Jack Pham <jackp@codeaurora.org>
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  kernel/kallsyms.c | 54 ++++++++++++++++++++++++++++++++++++++++++-----
+> >  1 file changed, 49 insertions(+), 5 deletions(-)
 > >
-> > Use WARN_ON_FUNCTION_MISMATCH() instead to disable the warning
-> > when CFI and modules are both enabled.
+> > diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> > index 8043a90aa50e..17d3a704bafa 100644
+> > --- a/kernel/kallsyms.c
+> > +++ b/kernel/kallsyms.c
+> > @@ -161,6 +161,26 @@ static unsigned long kallsyms_sym_address(int idx)
+> >         return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
+> >  }
+> >
+> > +#if defined(CONFIG_CFI_CLANG) && defined(CONFIG_LTO_CLANG_THIN)
+> > +/*
+> > + * LLVM appends a hash to static function names when ThinLTO and CFI are
+> > + * both enabled, which causes confusion and potentially breaks user space
 >
-> Does __cficanonical help with such comparisons? Or would that be a
-> very invasive change, if the concern was to try to keep these checks
-> in place for CONFIG_CFI_CLANG?
+> Might be nice to add an example, something along the lines of:
+> ie. foo() becomes foo$asfdasdfasdfasdf()
 
-The last time I checked, Clang ignored the __cficanonical attribute in
-header files, which means it would still generate a local jump table
-entry in each module for such functions, and the comparison here would
-fail. We could avoid the issue by using __cficanonical for the
-callback function *and* using __va_function() when we take the
-function address in modules, but that feels way too invasive for this
-particular use case.
+Agreed, I'll update the comment in v3.
+
+>
+> > + * tools, so we will strip the postfix from expanded symbol names.
+>
+> s/postfix/suffix/ ?
+
+Ack.
+
+>
+> > + */
+> > +static inline char *cleanup_symbol_name(char *s)
+> > +{
+> > +       char *res = NULL;
+> > +
+> > +       res = strrchr(s, '$');
+> > +       if (res)
+> > +               *res = '\0';
+> > +
+> > +       return res;
+> > +}
+> > +#else
+> > +static inline char *cleanup_symbol_name(char *s) { return NULL; }
+> > +#endif
+>
+> Might be nicer to return a `bool` and have the larger definition
+> `return res != NULL`).  Not sure what a caller would do with `res` if
+> it was not `NULL`?
+
+Sure, I'll change this to bool.
 
 Sami
