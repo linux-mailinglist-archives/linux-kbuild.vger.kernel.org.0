@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F90A340B3D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 18:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19A68340B47
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 18:12:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231925AbhCRRLl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Mar 2021 13:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33270 "EHLO
+        id S232495AbhCRRMJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Mar 2021 13:12:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231998AbhCRRLe (ORCPT
+        with ESMTP id S232268AbhCRRLg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Mar 2021 13:11:34 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CC4C061760
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:34 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id x11so28836463qki.22
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:34 -0700 (PDT)
+        Thu, 18 Mar 2021 13:11:36 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDE7C06174A
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:36 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id f81so49055917yba.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=hHyY7qre9OXEm5PJ4BWXLYwsH5KdHQkHk/skTedwvAs=;
-        b=Lde7CebUF+4MxFHwi/QJePFqufNlE/xCS5gC7b6UYbWiT83z2QpxmEMFBH6B9+0bKu
-         RhxhEy/0hJzTcT6jiCO9gz0BR3b9RfC3YFtEhlWvSsaiN8+yZEftdB2vRtJbab9pJGnz
-         hhwyh3gK1jRpm2AHlwxPUp8zEWKcK6N0fKUecc4oGnZfI3XAfmpaFwlV/7CfzGpeoEIu
-         goWoD51rPTb8RPqdYHUhm0haB65coJQBNiJsljlUPOYKHXrHl36/fcEE89f3gqz2makA
-         D8Y9Fop2eU0OGiHWOJqP9vl/G1TmJkyHQj6G615Ry5DyKmRyqFjqOyQp9kAArmMMqUR1
-         awKQ==
+        bh=79m/4wCgeIzY0Vch1mQ9hDd2/YXny1QOhs6kFFYl+qs=;
+        b=Zik1d3CnZxputVsmGGlAexPLSHJF1N30aQsZC+A49EjAjI41rgMguWULbVHOZuBdPg
+         OQ23FZI5e5lc19k+4wnAGEPbO8ubc3ZLNnH9lf488/mljubW7d/4qBvIEQToXTW14lVr
+         j0ydpHrAO7UAeKBGZTfKjWqNRXa/+aUW3W/Q9xyReJ+HkSh4ZyfQQVf2jl2YoJPNmYgP
+         U8ED0ly++E/R2SKQ5gcXdYQm5bK3aQwaQuAnd0Qz5u7IAaAg9I7S+5U/IZnXR62c9V5n
+         WF5Km9LoVXhtHm9tlACHHs0O6slXVTwziecp89dN+AoViSwFfPOMP88Mo91j0UqUKlOJ
+         Dbbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=hHyY7qre9OXEm5PJ4BWXLYwsH5KdHQkHk/skTedwvAs=;
-        b=G38s2Grv5BBsaKhu2LHS1vFIPZ20oBD79AaYPKiqMLZDCrcElQFOvU/P0Nhnysvyjz
-         8zgHpVPDZAvicSP/N6+O13PWKeWBmcVEilglSlUjvqXDbM06f3RLJp8D+tsvcuqCq78L
-         TUt7ZKSsX3xC2ljhu0acgAE7nwHm4+HEJGZj9vyBIHYINZfVit/nZXbIZpb/+0RTxteh
-         JYV8Az5Vew9Ljk6f2H+d+2gEFHX+36LCoLkg/znfwwN0eaGY35gXSX93/sDNGV3zAmwb
-         sIbDUBYaWnzCUEwcAkQ2j7pqhkmv/YoXB8Oa0vZfbza37OiQJ9yxxROecN4FOIFi2wyJ
-         agEg==
-X-Gm-Message-State: AOAM531T8tqIGf251hmzZl/u0EVV3U05/j8V/1172OuNfBORkGRLgo55
-        amEv2bWKInWgPS00rqwpwavfMCpM4+7h+GudeaY=
-X-Google-Smtp-Source: ABdhPJxE/giZ7AfYJ0TH9vEAyheMLl0QRNdj9iBaMv7F1HWLJlNkEqoVklDlggjrilm1xsf++JBcogV4/Smdr50eqyk=
+        bh=79m/4wCgeIzY0Vch1mQ9hDd2/YXny1QOhs6kFFYl+qs=;
+        b=R3aGKQfQ3TdYB5qVuhVSgcbZ7IBtVYFkcTZxrm1e7cyxOnfMGIUl5iMVFLUr54qt54
+         zLTy+vFIYdelf0B0zHgAX7uaLpiUfHAcm9Ww6sVZjtPvzDxzJjpC2DaQcYkCKe1um0Fk
+         8x2I201ypPkhbpM/X9LxAq4bdMXqRt+2RV2Au2pCx9OiywrKek7R8b7T5ym78ggkPxDu
+         MxlAiZt2/XHXjCzdGev36a/QGZf8Xpk/TzawArmfRKvxSoccadySYGSTAHxfpN77Wej8
+         UmtodGR0/AsM7NXn8ZZfhJeerfWcsxGqS6LT+hTukpMoVgCZWlPpeF/B1t4fK+MIvxFq
+         o9sQ==
+X-Gm-Message-State: AOAM531LzlAa0jYg6xZQDKKKPy8Fz9qUBdfOhtfaTCuRIj/8f5HSQoBc
+        WquxWJuXjGYRr/Y/ugUBHGnRmiTJcwB5kHN5fcA=
+X-Google-Smtp-Source: ABdhPJyhrd+ijbcKHuUHxkloDz8fmR6k/s2L31mWKV23xRXPA0zTKRcjoj602FSIswWJW0IQy4bbshoZ/FsRp3uVBzQ=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:c0d7:a7ba:fb41:a35a])
- (user=samitolvanen job=sendgmr) by 2002:a05:6214:1484:: with SMTP id
- bn4mr5338692qvb.8.1616087493471; Thu, 18 Mar 2021 10:11:33 -0700 (PDT)
-Date:   Thu, 18 Mar 2021 10:11:02 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a25:ab11:: with SMTP id
+ u17mr494297ybi.192.1616087495554; Thu, 18 Mar 2021 10:11:35 -0700 (PDT)
+Date:   Thu, 18 Mar 2021 10:11:03 -0700
 In-Reply-To: <20210318171111.706303-1-samitolvanen@google.com>
-Message-Id: <20210318171111.706303-9-samitolvanen@google.com>
+Message-Id: <20210318171111.706303-10-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20210318171111.706303-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v2 08/17] bpf: disable CFI in dispatcher functions
+Subject: [PATCH v2 09/17] lib/list_sort: fix function type mismatches
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -70,38 +70,52 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-BPF dispatcher functions are patched at runtime to perform direct
-instead of indirect calls. Disable CFI for the dispatcher functions to
-avoid conflicts.
+Casting the comparison function to a different type trips indirect
+call Control-Flow Integrity (CFI) checking. Remove the additional
+consts from cmp_func, and the now unneeded casts.
 
+Fixes: 043b3f7b6388 ("lib/list_sort: simplify and remove MAX_LIST_LENGTH_BITS")
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/bpf.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ lib/list_sort.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index cccaef1088ea..9acdca574527 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -635,7 +635,7 @@ struct bpf_dispatcher {
- 	struct bpf_ksym ksym;
- };
+diff --git a/lib/list_sort.c b/lib/list_sort.c
+index 52f0c258c895..b14accf4ef83 100644
+--- a/lib/list_sort.c
++++ b/lib/list_sort.c
+@@ -8,7 +8,7 @@
+ #include <linux/list.h>
  
--static __always_inline unsigned int bpf_dispatcher_nop_func(
-+static __always_inline __nocfi unsigned int bpf_dispatcher_nop_func(
- 	const void *ctx,
- 	const struct bpf_insn *insnsi,
- 	unsigned int (*bpf_func)(const void *,
-@@ -663,7 +663,7 @@ void bpf_trampoline_put(struct bpf_trampoline *tr);
+ typedef int __attribute__((nonnull(2,3))) (*cmp_func)(void *,
+-		struct list_head const *, struct list_head const *);
++		struct list_head *, struct list_head *);
+ 
+ /*
+  * Returns a list organized in an intermediate format suited
+@@ -227,7 +227,7 @@ void list_sort(void *priv, struct list_head *head,
+ 		if (likely(bits)) {
+ 			struct list_head *a = *tail, *b = a->prev;
+ 
+-			a = merge(priv, (cmp_func)cmp, b, a);
++			a = merge(priv, cmp, b, a);
+ 			/* Install the merged result in place of the inputs */
+ 			a->prev = b->prev;
+ 			*tail = a;
+@@ -249,10 +249,10 @@ void list_sort(void *priv, struct list_head *head,
+ 
+ 		if (!next)
+ 			break;
+-		list = merge(priv, (cmp_func)cmp, pending, list);
++		list = merge(priv, cmp, pending, list);
+ 		pending = next;
+ 	}
+ 	/* The final merge, rebuilding prev links */
+-	merge_final(priv, (cmp_func)cmp, head, pending, list);
++	merge_final(priv, cmp, head, pending, list);
  }
- 
- #define DEFINE_BPF_DISPATCHER(name)					\
--	noinline unsigned int bpf_dispatcher_##name##_func(		\
-+	noinline __nocfi unsigned int bpf_dispatcher_##name##_func(	\
- 		const void *ctx,					\
- 		const struct bpf_insn *insnsi,				\
- 		unsigned int (*bpf_func)(const void *,			\
+ EXPORT_SYMBOL(list_sort);
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
