@@ -2,110 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35EF133F50A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Mar 2021 17:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36C9433FD6F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 03:55:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232262AbhCQQG2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Mar 2021 12:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232225AbhCQQF5 (ORCPT
+        id S231126AbhCRCyf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Mar 2021 22:54:35 -0400
+Received: from a0.mail.mailgun.net ([198.61.254.59]:59343 "EHLO
+        a0.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230495AbhCRCyO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Mar 2021 12:05:57 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A738CC061760
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 Mar 2021 09:05:56 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id s8so1338296vsc.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 Mar 2021 09:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v2KL8kozO5erdsP6tss56cJzIGTvQeUixy1fwBfyf9E=;
-        b=L+sKGzrqRGkayjrIbx3UhJgUwtMmmzJiP7xVkweSApuxYoYxI4LeRgqnM7E2cVNFT2
-         L45AC/pwNU1fz3kkRnhcRp5Khlan5/Osp695ao4Zeq1DMR4U7/JYz+4t7MEdHv1+9qwG
-         zwxXB5v4s7x+iSvmDyAA8j6J5F/LEkxHHfS2qwphtbLFYhEDWUv95/kvZL3Trdu79AyT
-         NNZbI9fnUQcz8+iyHBFSLC3Wa55Q+r5QDMMipTfIOHdnYaK4LSCdSwlrvXeW0lhZ4AF5
-         WXtzd1I3zdoC7C//HbblJCanoQNzLOyg1wur/OGHsKtTZ3gw78PQ17RnksLC/ossk+fU
-         fcmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v2KL8kozO5erdsP6tss56cJzIGTvQeUixy1fwBfyf9E=;
-        b=nJpU2RkLfeGlX0QzEuFEtSIB8Z3zDuyamdi5WXkgcKxomVMV28QtoophLqfcIXNe/j
-         XQqANWJkxZSYr5pXulRqNm/0UH9+hgeVhAq8wcP0p4NUIGhlX+tnjZreEUEu9oJnpBG/
-         32CGzRTP8fv13PVZKP0d7RMBA0q7zuCGP7vfimIDjRI11F7JFGYU7Ad7cQvtD2/riRDQ
-         3q+vh+rOoB3Jy6Zf3isbV+pPBOtxaicqh5+ep5GNLekhbR3D7igM3mHJ3qY9AZx7/s7m
-         d08IH3YpGnnx/6toqvGs6V543N+wvghg0j85wuMBzhXsxbPep8cSxONRxTz7O5d8wjjH
-         ZU5w==
-X-Gm-Message-State: AOAM533u85kjP0iqTck1Gq6TbT3DmdLCGBrefX02o5lNTJWIKlFwHWkp
-        hK/m40/Q7ZtNYT944YI4SG/chaKk+lDlnVCp4GdZAw==
-X-Google-Smtp-Source: ABdhPJxaHsoJ+bz7hvftL5zgwqX9DbDHuTiz3ir8dA5jWQPZop9wwdoJTujQjPIzJwP11rynhQBtRWijCPDqibIFRy4=
-X-Received: by 2002:a67:db98:: with SMTP id f24mr4264884vsk.13.1615997155510;
- Wed, 17 Mar 2021 09:05:55 -0700 (PDT)
+        Wed, 17 Mar 2021 22:54:14 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1616036054; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=rvEYlGo3NsX+a/WR+8ubYVXtB+aRkOP1zhT+T4gQIP0=; b=I6yEho7Q34SecgWT5WADmbaZpgfcCT14/z5JL1dtL7xK+uDLWeK+kHckLI9GVE8Ix7xULI9j
+ IW02u6aSR3askl5R111rnPgtCpPQt9ucGXl9tDwA2BdmHdqVNNthmyfSZZV421l4dVJLE1+K
+ mDOn2K/zcXBq7qoMj6jrpDu7eag=
+X-Mailgun-Sending-Ip: 198.61.254.59
+X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 6052c0cfc32ceb3a91187406 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Mar 2021 02:54:07
+ GMT
+Sender: jshriram=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id AF32EC43461; Thu, 18 Mar 2021 02:54:07 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from [10.50.47.81] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jshriram)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E0681C433C6;
+        Thu, 18 Mar 2021 02:54:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E0681C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jshriram@codeaurora.org
+Subject: Re: [PATCH] scripts: Fix incremental build header re-generation
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Trilok Soni <tsoni@codeaurora.org>
+References: <1614608540-1025-1-git-send-email-jshriram@codeaurora.org>
+ <CAK7LNARjxtyiBAfejQKePp-f=MTpA2PjAEedsHyCjHx6_eoJqA@mail.gmail.com>
+From:   Jeevan Shriram <jshriram@codeaurora.org>
+Message-ID: <b1fb2334-a85e-c299-3439-b70e9cb63454@codeaurora.org>
+Date:   Wed, 17 Mar 2021 19:54:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210312004919.669614-1-samitolvanen@google.com>
- <20210312004919.669614-7-samitolvanen@google.com> <20210312061304.GA2321497@infradead.org>
-In-Reply-To: <20210312061304.GA2321497@infradead.org>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Wed, 17 Mar 2021 09:05:44 -0700
-Message-ID: <CABCJKud-wRfmRLFv71QQ6etUMFX6KXsErmL6u0dPH4SU8HS-BQ@mail.gmail.com>
-Subject: Re: [PATCH 06/17] kthread: cfi: disable callback pointer check with modules
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
-        bpf@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK7LNARjxtyiBAfejQKePp-f=MTpA2PjAEedsHyCjHx6_eoJqA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 10:13 PM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Thu, Mar 11, 2021 at 04:49:08PM -0800, Sami Tolvanen wrote:
-> > With CONFIG_CFI_CLANG, a callback function passed to
-> > __kthread_queue_delayed_work from a module points to a jump table
-> > entry defined in the module instead of the one used in the core
-> > kernel, which breaks function address equality in this check:
-> >
-> >   WARN_ON_ONCE(timer->function != kthread_delayed_work_timer_fn);
-> >
-> > Disable the warning when CFI and modules are enabled.
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > ---
-> >  kernel/kthread.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/kernel/kthread.c b/kernel/kthread.c
-> > index 1578973c5740..af5fee350586 100644
-> > --- a/kernel/kthread.c
-> > +++ b/kernel/kthread.c
-> > @@ -963,7 +963,13 @@ static void __kthread_queue_delayed_work(struct kthread_worker *worker,
-> >       struct timer_list *timer = &dwork->timer;
-> >       struct kthread_work *work = &dwork->work;
-> >
-> > -     WARN_ON_ONCE(timer->function != kthread_delayed_work_timer_fn);
-> > +     /*
-> > +      * With CFI, timer->function can point to a jump table entry in a module,
->
-> you keep spewing this comment line that has exactly 81 characters and
-> thus badly messes up read it with a normal termina everywhere.
->
-> Maybe instead of fixing that in ever duplication hide the whole check in
-> a well documented helper (which would have to be a macro due to the
-> typing involved).
 
-Sure, that sounds cleaner. I'll add a helper macro in v2.
+On 3/1/2021 7:36 PM, Masahiro Yamada wrote:
+> On Mon, Mar 1, 2021 at 11:23 PM Jeevan Shriram <jshriram@codeaurora.org> wrote:
+>> compile.h and autoconf.h are ignored when checking headers sha as they
+>> are always re-generated for every kernel compilation. However,
+>> these two headers are packaged into kheaders tar. During incremental
+>> compilation of kernel, kheaders tar file is always generated and re-packaged
+>> irrespective of the changes in headers.
+>
+> I do not see this problem.
+> Could you describe the steps to reproduce it, please?
+>
+Without making any changes in the kernel or it's headers, re-compile the kernel. i.e.,incremental kernel build without any changes.
+I have added following log in gen_kheaders.sh script for confirming the hash differences.
 
-Sami
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index b7425a0..ee542a0 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -40,6 +40,10 @@ obj_files_md5="$(find $dir_list -name "*.h"                     |
+  # Any changes to this script will also cause a rebuild of the archive.
+  this_file_md5="$(ls -l $sfile | md5sum | cut -d ' ' -f1)"
+  if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
++
++echo "Old Tar file $tarfile_md5"
++echo "New Tar file hash $this_file_md5"
++
+  if [ -f kernel/kheaders.md5 ] &&
+         [ "$(cat kernel/kheaders.md5|head -1)" == "$src_files_md5" ] &&
+         [ "$(cat kernel/kheaders.md5|head -2|tail -1)" == "$obj_files_md5" ] &&
+
+log output :
+89306 19:29:02.109961   CHK     kernel/kheaders_data.tar.xz
+89307 19:29:02.109971 Old Tar file 2aa6990e4183c31a862951f4bcac037e
+89308 19:29:02.109982 New Tar file hash ecf84e700c7cacfe8b35a0905859582d
+
+>> Change-Id: I7a64faebb81df44c32230b0fea1d6df09d7ce66f
+>> Signed-off-by: Jeevan Shriram <jshriram@codeaurora.org>
+>> ---
+>>   kernel/gen_kheaders.sh | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+>> index c1510f0..5499f72 100755
+>> --- a/kernel/gen_kheaders.sh
+>> +++ b/kernel/gen_kheaders.sh
+>> @@ -51,8 +51,7 @@ this_file_md5="$(ls -l $sfile | md5sum | cut -d ' ' -f1)"
+>>   if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
+>>   if [ -f kernel/kheaders.md5 ] &&
+>>          [ "$(head -n 1 kernel/kheaders.md5)" = "$headers_md5" ] &&
+>> -       [ "$(head -n 2 kernel/kheaders.md5 | tail -n 1)" = "$this_file_md5" ] &&
+>> -       [ "$(tail -n 1 kernel/kheaders.md5)" = "$tarfile_md5" ]; then
+>> +       [ "$(head -n 2 kernel/kheaders.md5 | tail -n 1)" = "$this_file_md5" ]; then
+>>                  exit
+>>   fi
+>>
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
+>
