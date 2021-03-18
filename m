@@ -2,127 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36C9433FD6F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 03:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EEAE340B19
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 18:12:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbhCRCyf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Mar 2021 22:54:35 -0400
-Received: from a0.mail.mailgun.net ([198.61.254.59]:59343 "EHLO
-        a0.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230495AbhCRCyO (ORCPT
+        id S230509AbhCRRLf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Mar 2021 13:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232255AbhCRRLQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Mar 2021 22:54:14 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1616036054; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=rvEYlGo3NsX+a/WR+8ubYVXtB+aRkOP1zhT+T4gQIP0=; b=I6yEho7Q34SecgWT5WADmbaZpgfcCT14/z5JL1dtL7xK+uDLWeK+kHckLI9GVE8Ix7xULI9j
- IW02u6aSR3askl5R111rnPgtCpPQt9ucGXl9tDwA2BdmHdqVNNthmyfSZZV421l4dVJLE1+K
- mDOn2K/zcXBq7qoMj6jrpDu7eag=
-X-Mailgun-Sending-Ip: 198.61.254.59
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 6052c0cfc32ceb3a91187406 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Mar 2021 02:54:07
- GMT
-Sender: jshriram=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id AF32EC43461; Thu, 18 Mar 2021 02:54:07 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from [10.50.47.81] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jshriram)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E0681C433C6;
-        Thu, 18 Mar 2021 02:54:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E0681C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jshriram@codeaurora.org
-Subject: Re: [PATCH] scripts: Fix incremental build header re-generation
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Trilok Soni <tsoni@codeaurora.org>
-References: <1614608540-1025-1-git-send-email-jshriram@codeaurora.org>
- <CAK7LNARjxtyiBAfejQKePp-f=MTpA2PjAEedsHyCjHx6_eoJqA@mail.gmail.com>
-From:   Jeevan Shriram <jshriram@codeaurora.org>
-Message-ID: <b1fb2334-a85e-c299-3439-b70e9cb63454@codeaurora.org>
-Date:   Wed, 17 Mar 2021 19:54:01 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <CAK7LNARjxtyiBAfejQKePp-f=MTpA2PjAEedsHyCjHx6_eoJqA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        Thu, 18 Mar 2021 13:11:16 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9D6C061762
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:15 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id j4so48994853ybt.23
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=SCzz0vkCTXCJ+hl1sGhlu0aynSHOxUfyv4GiVUi2UT8=;
+        b=Qn2g5lLRvdKJvgzF43+LCRfbhyf/1XwO7VexN9MTAJ/y7/GXos2MZ6DPQ5+40SXSdr
+         3WUM1haHcbmP9fvJ5H0GP0vnMIfZYFYJ3/skq+V4JOBLmlhGlPExy6gqYwMz2uSJ1gR3
+         Kgl24aisbJ27zFi0E+w0DAM6qtK+mORJD0REsBOc+I74Jm51pwyVzGpvxB7NjD1JArlW
+         Z1Nw3IJcwTpFcPc/OM/mDZYHlik6/X5+hBBgaF+RBWA6lCnTc9Su31yLYk3E+KZP8/w7
+         k1BrfTKfIXXZ46LHA5pZpwKRNzhgz58PNc7YyUV/9wiANk3u5qYBZVv8t0PgePg8ENXo
+         Bcrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=SCzz0vkCTXCJ+hl1sGhlu0aynSHOxUfyv4GiVUi2UT8=;
+        b=fuFOk1+kPehmlia9XKEPv3B88h5v6+vpHqmVoyzA+8oaF8QZnZofyjhTPMrKXSp0Bg
+         i/kt1h0nMRNTal855/NXiN2K0WpwLSYI4jmLHER1yfmJwqoEk8vGXDNu5usFQ7rDNrrj
+         /dxYzFyiKhm+vZuxxBRK1KOWjz1egeJN6MAlOwwoWHbpwgHZLq1dAGjLonl+VauQCGwI
+         8fJwbJ5D7k9RIqfOJR2wYpa1s+tsV5ndPJGmyWCJyldKZo9KKmeXRX4NoxqhaIPMd8Zc
+         gnWTliHjQGx0aYad0Qxcufu4LsDY2D+ijfrQtUizGOl2fShuhS+coq38kSC4aNoKLGYe
+         IJOA==
+X-Gm-Message-State: AOAM533LR+fdXXRM2MbBzXW9Heut3Gl4vzbs2bxp+dFaIeleTG1lVj54
+        yMbxVdKCptgQN2ofgk3145rEAZDtw3O3Be0HqbQ=
+X-Google-Smtp-Source: ABdhPJwBMd/Hg8Inw/d+QCjcsX4aY1KphAmvmly7frqYXPa28oCDMQoPY4+7I2PpXYAYog1pvPg18bYfcaeLUFSg7M0=
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:c0d7:a7ba:fb41:a35a])
+ (user=samitolvanen job=sendgmr) by 2002:a25:4ce:: with SMTP id
+ 197mr429022ybe.462.1616087474808; Thu, 18 Mar 2021 10:11:14 -0700 (PDT)
+Date:   Thu, 18 Mar 2021 10:10:54 -0700
+Message-Id: <20210318171111.706303-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
+Subject: [PATCH v2 00/17] Add support for Clang CFI
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, bpf@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+This series adds support for Clang's Control-Flow Integrity (CFI)
+checking. With CFI, the compiler injects a runtime check before each
+indirect function call to ensure the target is a valid function with
+the correct static type. This restricts possible call targets and
+makes it more difficult for an attacker to exploit bugs that allow the
+modification of stored function pointers. For more details, see:
 
-On 3/1/2021 7:36 PM, Masahiro Yamada wrote:
-> On Mon, Mar 1, 2021 at 11:23 PM Jeevan Shriram <jshriram@codeaurora.org> wrote:
->> compile.h and autoconf.h are ignored when checking headers sha as they
->> are always re-generated for every kernel compilation. However,
->> these two headers are packaged into kheaders tar. During incremental
->> compilation of kernel, kheaders tar file is always generated and re-packaged
->> irrespective of the changes in headers.
->
-> I do not see this problem.
-> Could you describe the steps to reproduce it, please?
->
-Without making any changes in the kernel or it's headers, re-compile the kernel. i.e.,incremental kernel build without any changes.
-I have added following log in gen_kheaders.sh script for confirming the hash differences.
+  https://clang.llvm.org/docs/ControlFlowIntegrity.html
 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index b7425a0..ee542a0 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -40,6 +40,10 @@ obj_files_md5="$(find $dir_list -name "*.h"                     |
-  # Any changes to this script will also cause a rebuild of the archive.
-  this_file_md5="$(ls -l $sfile | md5sum | cut -d ' ' -f1)"
-  if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
-+
-+echo "Old Tar file $tarfile_md5"
-+echo "New Tar file hash $this_file_md5"
-+
-  if [ -f kernel/kheaders.md5 ] &&
-         [ "$(cat kernel/kheaders.md5|head -1)" == "$src_files_md5" ] &&
-         [ "$(cat kernel/kheaders.md5|head -2|tail -1)" == "$obj_files_md5" ] &&
+The first patch contains build system changes and error handling,
+and implements support for cross-module indirect call checking. The
+remaining patches address issues caused by the compiler
+instrumentation. These include fixing known type mismatches, as well
+as issues with address space confusion and cross-module function
+address equality.
 
-log output :
-89306 19:29:02.109961   CHK     kernel/kheaders_data.tar.xz
-89307 19:29:02.109971 Old Tar file 2aa6990e4183c31a862951f4bcac037e
-89308 19:29:02.109982 New Tar file hash ecf84e700c7cacfe8b35a0905859582d
+These patches add support only for arm64, but I'll post patches also
+for x86_64 after we address the remaining issues there, including
+objtool support.
 
->> Change-Id: I7a64faebb81df44c32230b0fea1d6df09d7ce66f
->> Signed-off-by: Jeevan Shriram <jshriram@codeaurora.org>
->> ---
->>   kernel/gen_kheaders.sh | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
->> index c1510f0..5499f72 100755
->> --- a/kernel/gen_kheaders.sh
->> +++ b/kernel/gen_kheaders.sh
->> @@ -51,8 +51,7 @@ this_file_md5="$(ls -l $sfile | md5sum | cut -d ' ' -f1)"
->>   if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
->>   if [ -f kernel/kheaders.md5 ] &&
->>          [ "$(head -n 1 kernel/kheaders.md5)" = "$headers_md5" ] &&
->> -       [ "$(head -n 2 kernel/kheaders.md5 | tail -n 1)" = "$this_file_md5" ] &&
->> -       [ "$(tail -n 1 kernel/kheaders.md5)" = "$tarfile_md5" ]; then
->> +       [ "$(head -n 2 kernel/kheaders.md5 | tail -n 1)" = "$this_file_md5" ]; then
->>                  exit
->>   fi
->>
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
->
+You can also pull this series from
+
+  https://github.com/samitolvanen/linux.git cfi-v2
+
+---
+Changes in v2:
+ - Fixed .text merging in module.lds.S.
+ - Added WARN_ON_FUNCTION_MISMATCH() and changed kernel/thread.c
+   and kernel/workqueue.c to use the macro instead.
+
+
+Sami Tolvanen (17):
+  add support for Clang CFI
+  cfi: add __cficanonical
+  mm: add generic __va_function and __pa_function macros
+  module: ensure __cfi_check alignment
+  workqueue: use WARN_ON_FUNCTION_MISMATCH
+  kthread: use WARN_ON_FUNCTION_MISMATCH
+  kallsyms: strip ThinLTO hashes from static functions
+  bpf: disable CFI in dispatcher functions
+  lib/list_sort: fix function type mismatches
+  lkdtm: use __va_function
+  psci: use __pa_function for cpu_resume
+  arm64: implement __va_function
+  arm64: use __pa_function
+  arm64: add __nocfi to functions that jump to a physical address
+  arm64: add __nocfi to __apply_alternatives
+  KVM: arm64: Disable CFI for nVHE
+  arm64: allow CONFIG_CFI_CLANG to be selected
+
+ Makefile                                  |  17 ++
+ arch/Kconfig                              |  45 +++
+ arch/arm64/Kconfig                        |   1 +
+ arch/arm64/include/asm/memory.h           |  15 +
+ arch/arm64/include/asm/mmu_context.h      |   4 +-
+ arch/arm64/kernel/acpi_parking_protocol.c |   2 +-
+ arch/arm64/kernel/alternative.c           |   4 +-
+ arch/arm64/kernel/cpu-reset.h             |  10 +-
+ arch/arm64/kernel/cpufeature.c            |   4 +-
+ arch/arm64/kernel/psci.c                  |   3 +-
+ arch/arm64/kernel/smp_spin_table.c        |   2 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile          |   6 +-
+ drivers/firmware/psci/psci.c              |   4 +-
+ drivers/misc/lkdtm/usercopy.c             |   2 +-
+ include/asm-generic/bug.h                 |  16 ++
+ include/asm-generic/vmlinux.lds.h         |  20 +-
+ include/linux/bpf.h                       |   4 +-
+ include/linux/cfi.h                       |  41 +++
+ include/linux/compiler-clang.h            |   3 +
+ include/linux/compiler_types.h            |   8 +
+ include/linux/init.h                      |   6 +-
+ include/linux/mm.h                        |   8 +
+ include/linux/module.h                    |  13 +-
+ include/linux/pci.h                       |   4 +-
+ init/Kconfig                              |   2 +-
+ kernel/Makefile                           |   4 +
+ kernel/cfi.c                              | 329 ++++++++++++++++++++++
+ kernel/kallsyms.c                         |  54 +++-
+ kernel/kthread.c                          |   3 +-
+ kernel/module.c                           |  43 +++
+ kernel/workqueue.c                        |   2 +-
+ lib/list_sort.c                           |   8 +-
+ scripts/Makefile.modfinal                 |   2 +-
+ scripts/module.lds.S                      |  18 +-
+ 34 files changed, 663 insertions(+), 44 deletions(-)
+ create mode 100644 include/linux/cfi.h
+ create mode 100644 kernel/cfi.c
+
+
+base-commit: 6417f03132a6952cd17ddd8eaddbac92b61b17e0
+-- 
+2.31.0.291.g576ba9dcdaf-goog
+
