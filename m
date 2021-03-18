@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D2EB340B2F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 18:12:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F90A340B3D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Mar 2021 18:12:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232304AbhCRRLk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Mar 2021 13:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
+        id S231925AbhCRRLl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Mar 2021 13:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232314AbhCRRLc (ORCPT
+        with ESMTP id S231998AbhCRRLe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Mar 2021 13:11:32 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8021C06175F
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:31 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id y19so2793843pll.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:31 -0700 (PDT)
+        Thu, 18 Mar 2021 13:11:34 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CC4C061760
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:34 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id x11so28836463qki.22
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Mar 2021 10:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=QoegLXCzdycUycxpIzR40RqHRPa9NLqqSFx528i53Ro=;
-        b=SwdpuVXHhmr5I7uUVGY1EjCm8+fTTbfiNABDrVeBEVmIvbeeIDlt/UhyWnlCaKQm07
-         OIVzSOKtR3TWxAAi/LnAZiHfEIOEJFpBom+cqUC5mlcbXjV+TWyDtvH30rGq0Gs390D1
-         gKgHu/2HCL710YS0gubnGCYv6wl8+cDW5YmBKVr3wnbCPMiEX3L6SMXkiSg65Jb4yGk5
-         6t/YyfLngnf9r/RqZQWnFpYTr8wfMnnp2xedEMcFyg73Q8MHPxOyZplkRYUZtrweMSEb
-         t5YGPopzwnrFjPlk4cXa7Qj0ab6klJPgsRdMebUCuUpOilfqFPZMRnljqiv9zyy4kWwZ
-         kRWQ==
+        bh=hHyY7qre9OXEm5PJ4BWXLYwsH5KdHQkHk/skTedwvAs=;
+        b=Lde7CebUF+4MxFHwi/QJePFqufNlE/xCS5gC7b6UYbWiT83z2QpxmEMFBH6B9+0bKu
+         RhxhEy/0hJzTcT6jiCO9gz0BR3b9RfC3YFtEhlWvSsaiN8+yZEftdB2vRtJbab9pJGnz
+         hhwyh3gK1jRpm2AHlwxPUp8zEWKcK6N0fKUecc4oGnZfI3XAfmpaFwlV/7CfzGpeoEIu
+         goWoD51rPTb8RPqdYHUhm0haB65coJQBNiJsljlUPOYKHXrHl36/fcEE89f3gqz2makA
+         D8Y9Fop2eU0OGiHWOJqP9vl/G1TmJkyHQj6G615Ry5DyKmRyqFjqOyQp9kAArmMMqUR1
+         awKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=QoegLXCzdycUycxpIzR40RqHRPa9NLqqSFx528i53Ro=;
-        b=TWgVspIOwf7NSSl/hZ9ggpxAluPFIUjgBGk+tb9bJeGvwECHpFxwv/rppEcaPfCQop
-         bckvSDUgViPQxJ/KHnmxGzpPw5M9I1MRZ1i6s5Rp/ELR19Umew3jnCCFRs9sQqYvM3y0
-         XTntYsv6Cfr0bLRMCGhF50ij9/Og1scm5dS4Hww/JzRmYN+YeAJoaT5Xd0Ll1zUCFkUs
-         iJx9LeFOCnQExCW0BXhtuT2S3mFQcQElceWR7hFgzchidHJMOLMuiKHql6RVqoNN4Y/2
-         GiwPzJo6EeWm6iIu169wvgJA/haCot2tluhYA5sgtd3/ftCBPj1dmnhgc6MXBUoPcGss
-         Kq/w==
-X-Gm-Message-State: AOAM531C1COOMy7udv11sXWewOj2eCPAoA6jEzUynuuKsX6ii4fxt4Zd
-        psNd8UBnTS+jDsCQVrfiBAJtWsC3cINr0Tq+mp4=
-X-Google-Smtp-Source: ABdhPJx7blCXf2gjM2TRqlPaz7K7KuIqvTaBoVDCfyrUDL1O5jt8iCqoUsRNSsWoTAT2ZRwEgLc0VblPK6SpskXxR50=
+        bh=hHyY7qre9OXEm5PJ4BWXLYwsH5KdHQkHk/skTedwvAs=;
+        b=G38s2Grv5BBsaKhu2LHS1vFIPZ20oBD79AaYPKiqMLZDCrcElQFOvU/P0Nhnysvyjz
+         8zgHpVPDZAvicSP/N6+O13PWKeWBmcVEilglSlUjvqXDbM06f3RLJp8D+tsvcuqCq78L
+         TUt7ZKSsX3xC2ljhu0acgAE7nwHm4+HEJGZj9vyBIHYINZfVit/nZXbIZpb/+0RTxteh
+         JYV8Az5Vew9Ljk6f2H+d+2gEFHX+36LCoLkg/znfwwN0eaGY35gXSX93/sDNGV3zAmwb
+         sIbDUBYaWnzCUEwcAkQ2j7pqhkmv/YoXB8Oa0vZfbza37OiQJ9yxxROecN4FOIFi2wyJ
+         agEg==
+X-Gm-Message-State: AOAM531T8tqIGf251hmzZl/u0EVV3U05/j8V/1172OuNfBORkGRLgo55
+        amEv2bWKInWgPS00rqwpwavfMCpM4+7h+GudeaY=
+X-Google-Smtp-Source: ABdhPJxE/giZ7AfYJ0TH9vEAyheMLl0QRNdj9iBaMv7F1HWLJlNkEqoVklDlggjrilm1xsf++JBcogV4/Smdr50eqyk=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:c0d7:a7ba:fb41:a35a])
- (user=samitolvanen job=sendgmr) by 2002:aa7:9619:0:b029:1fa:ed79:b724 with
- SMTP id q25-20020aa796190000b02901faed79b724mr4972560pfg.38.1616087491320;
- Thu, 18 Mar 2021 10:11:31 -0700 (PDT)
-Date:   Thu, 18 Mar 2021 10:11:01 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a05:6214:1484:: with SMTP id
+ bn4mr5338692qvb.8.1616087493471; Thu, 18 Mar 2021 10:11:33 -0700 (PDT)
+Date:   Thu, 18 Mar 2021 10:11:02 -0700
 In-Reply-To: <20210318171111.706303-1-samitolvanen@google.com>
-Message-Id: <20210318171111.706303-8-samitolvanen@google.com>
+Message-Id: <20210318171111.706303-9-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20210318171111.706303-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v2 07/17] kallsyms: strip ThinLTO hashes from static functions
+Subject: [PATCH v2 08/17] bpf: disable CFI in dispatcher functions
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -71,132 +70,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With CONFIG_CFI_CLANG and ThinLTO, Clang appends a hash to the names
-of all static functions not marked __used. This can break userspace
-tools that don't expect the function name to change, so strip out the
-hash from the output.
+BPF dispatcher functions are patched at runtime to perform direct
+instead of indirect calls. Disable CFI for the dispatcher functions to
+avoid conflicts.
 
-Suggested-by: Jack Pham <jackp@codeaurora.org>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- kernel/kallsyms.c | 54 ++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 49 insertions(+), 5 deletions(-)
+ include/linux/bpf.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 8043a90aa50e..17d3a704bafa 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -161,6 +161,26 @@ static unsigned long kallsyms_sym_address(int idx)
- 	return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
+diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+index cccaef1088ea..9acdca574527 100644
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@ -635,7 +635,7 @@ struct bpf_dispatcher {
+ 	struct bpf_ksym ksym;
+ };
+ 
+-static __always_inline unsigned int bpf_dispatcher_nop_func(
++static __always_inline __nocfi unsigned int bpf_dispatcher_nop_func(
+ 	const void *ctx,
+ 	const struct bpf_insn *insnsi,
+ 	unsigned int (*bpf_func)(const void *,
+@@ -663,7 +663,7 @@ void bpf_trampoline_put(struct bpf_trampoline *tr);
  }
  
-+#if defined(CONFIG_CFI_CLANG) && defined(CONFIG_LTO_CLANG_THIN)
-+/*
-+ * LLVM appends a hash to static function names when ThinLTO and CFI are
-+ * both enabled, which causes confusion and potentially breaks user space
-+ * tools, so we will strip the postfix from expanded symbol names.
-+ */
-+static inline char *cleanup_symbol_name(char *s)
-+{
-+	char *res = NULL;
-+
-+	res = strrchr(s, '$');
-+	if (res)
-+		*res = '\0';
-+
-+	return res;
-+}
-+#else
-+static inline char *cleanup_symbol_name(char *s) { return NULL; }
-+#endif
-+
- /* Lookup the address for this symbol. Returns 0 if not found. */
- unsigned long kallsyms_lookup_name(const char *name)
- {
-@@ -173,6 +193,9 @@ unsigned long kallsyms_lookup_name(const char *name)
- 
- 		if (strcmp(namebuf, name) == 0)
- 			return kallsyms_sym_address(i);
-+
-+		if (cleanup_symbol_name(namebuf) && strcmp(namebuf, name) == 0)
-+			return kallsyms_sym_address(i);
- 	}
- 	return module_kallsyms_lookup_name(name);
- }
-@@ -303,7 +326,9 @@ const char *kallsyms_lookup(unsigned long addr,
- 				       namebuf, KSYM_NAME_LEN);
- 		if (modname)
- 			*modname = NULL;
--		return namebuf;
-+
-+		ret = namebuf;
-+		goto found;
- 	}
- 
- 	/* See if it's in a module or a BPF JITed image. */
-@@ -316,11 +341,16 @@ const char *kallsyms_lookup(unsigned long addr,
- 	if (!ret)
- 		ret = ftrace_mod_address_lookup(addr, symbolsize,
- 						offset, modname, namebuf);
-+
-+found:
-+	cleanup_symbol_name(namebuf);
- 	return ret;
- }
- 
- int lookup_symbol_name(unsigned long addr, char *symname)
- {
-+	int res;
-+
- 	symname[0] = '\0';
- 	symname[KSYM_NAME_LEN - 1] = '\0';
- 
-@@ -331,15 +361,23 @@ int lookup_symbol_name(unsigned long addr, char *symname)
- 		/* Grab name */
- 		kallsyms_expand_symbol(get_symbol_offset(pos),
- 				       symname, KSYM_NAME_LEN);
--		return 0;
-+		goto found;
- 	}
- 	/* See if it's in a module. */
--	return lookup_module_symbol_name(addr, symname);
-+	res = lookup_module_symbol_name(addr, symname);
-+	if (res)
-+		return res;
-+
-+found:
-+	cleanup_symbol_name(symname);
-+	return 0;
- }
- 
- int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
- 			unsigned long *offset, char *modname, char *name)
- {
-+	int res;
-+
- 	name[0] = '\0';
- 	name[KSYM_NAME_LEN - 1] = '\0';
- 
-@@ -351,10 +389,16 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
- 		kallsyms_expand_symbol(get_symbol_offset(pos),
- 				       name, KSYM_NAME_LEN);
- 		modname[0] = '\0';
--		return 0;
-+		goto found;
- 	}
- 	/* See if it's in a module. */
--	return lookup_module_symbol_attrs(addr, size, offset, modname, name);
-+	res = lookup_module_symbol_attrs(addr, size, offset, modname, name);
-+	if (res)
-+		return res;
-+
-+found:
-+	cleanup_symbol_name(name);
-+	return 0;
- }
- 
- /* Look up a kernel symbol and return it in a text buffer. */
+ #define DEFINE_BPF_DISPATCHER(name)					\
+-	noinline unsigned int bpf_dispatcher_##name##_func(		\
++	noinline __nocfi unsigned int bpf_dispatcher_##name##_func(	\
+ 		const void *ctx,					\
+ 		const struct bpf_insn *insnsi,				\
+ 		unsigned int (*bpf_func)(const void *,			\
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
