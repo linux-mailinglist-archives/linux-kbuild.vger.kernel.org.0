@@ -2,96 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D393341F8B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 15:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E9A5342198
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 17:18:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbhCSOfv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Mar 2021 10:35:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
+        id S229965AbhCSQRa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Mar 2021 12:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbhCSOfj (ORCPT
+        with ESMTP id S229937AbhCSQR0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Mar 2021 10:35:39 -0400
-X-Greylist: delayed 176 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 Mar 2021 07:35:38 PDT
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de [IPv6:2a01:238:400:100::c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2D6C06174A;
-        Fri, 19 Mar 2021 07:35:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616164356; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=tt9djRckmK71ceD8HxV5dLDlWikC9DdjBxpoGbeq9pMIJ0rm1eoq+YVCyPInT32xwa
-    ZvZ3xWn02XsE7rKL7Da/Cz+guwRNB3R4mKjKY1ijr0Q6TirFkM8jAtz1RiroCLo1k18R
-    G8RxUyBzJbdcQj+qGbBCdot24WgnH6cJvV0kb8jTEk37C2RiGEolxOp10XdynoKjvTBv
-    cv+HMjYFGcFUF5Zu/TczPUwFMda9aBUdc8AU9AMLfJLg8vutIowKhBWOdC2PvDgHfG6B
-    RCF+wJd9ycJkvTTOxXt5lEHzZ3O/pjVRy5p3j2SUMQpNB+8g8jHtYLUDV3zjwd0tBgi/
-    GF2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1616164356;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=KGzxKbIHnQcvHgHKZ5DjQzsm3s5Xw/potfFZ/ejNYAA=;
-    b=P98egNYLFg1dj3jULXXwdWAQEfBEA/nnKEMnRHz1NypI9WD7MYWQmN8DC8QNP3LxnA
-    RJHAq1UMeQz4TR14PNjlgNlMLce6tEJ+e52iX12HDxKwDoA0VoGDwETkGiepZEc+gMoU
-    gvL+l1PcjCB6xDvbxNj0LRQP+cKcScGJHjgc86zJZUirDHyWIqRFbPIbkCQELKKyocpX
-    i0qAyO5R0Qwep4nnSNpRDdE7twL1Fjj9ppiY6KizYNcV002njjtBizoEWShhtbfYwC4q
-    dtqm60H3A8FbyvDuLC1CFHD09QqA8HoK9AlHmZtpvTPgZe8ZWEFnG/uSAgbJDqqu+Ycl
-    FQow==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1616164356;
-    s=strato-dkim-0002; d=aepfle.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=KGzxKbIHnQcvHgHKZ5DjQzsm3s5Xw/potfFZ/ejNYAA=;
-    b=qljbFpCEOROWiklRPkBafoJhb/yxTF3aQ9CNnZM9xqwsMDhnxs+fSV1y/9UEdceZPJ
-    uZHhZMvxgLn4jpALmXNffRle+a4Mi4xVBwyx3OxiLvLJC+mRj0+O8iXINQGZPWTYGA4q
-    kKJ38XcFbNyjiIm2ft3eB1mbgVZp2+8omVzqBrtDnP/i1BRHOofgjY1bmB89w904nAfF
-    xyxEPMbaycjHGJkxjti+hmGlbNzmIAjcZ+9fNIWtsiNp/zHrlyeJcqsMLEuVl9x4tI/7
-    vjUJACzLmuGC2WB3YhugbcOFd2k3ucW5gVgneS43voWi9ZpO/s1NhGUY+BNicrQmntX6
-    +FTA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS325Pjw=="
-X-RZG-CLASS-ID: mo00
-Received: from sender
-    by smtp.strato.de (RZmta 47.21.0 SBL|AUTH)
-    with ESMTPSA id k0a44fx2JEWZB8P
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
-        (Client did not present a certificate);
-    Fri, 19 Mar 2021 15:32:35 +0100 (CET)
-From:   Olaf Hering <olaf@aepfle.de>
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Olaf Hering <olaf@aepfle.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH v2] kbuild: enforce -Werror=unused-result
-Date:   Fri, 19 Mar 2021 15:32:31 +0100
-Message-Id: <20210319143231.25500-1-olaf@aepfle.de>
-X-Mailer: git-send-email 2.26.2
+        Fri, 19 Mar 2021 12:17:26 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E8EC06175F
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 09:17:26 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id l13so3776886vst.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 09:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rt1xbgAbnwLYYjFpykXaHRDqBSAXyYdKNm2t1F1L7JI=;
+        b=ogcJzaM3vfh24d6Al8bx+0Ztgu6erlK61zGnd6i9OYYJSH5cyaY+E6owFsQf5SMksz
+         2SqY+8Zlx2zXuFQ2igs6wHd4jsY+rG8ubwzzCQfH0nBbdFjAAkQzeSP2QV+sfuDb7u2N
+         3kkhe4gjLmP06beUsI0bKk0xj3Inr9z17AQ2IX200PoZ+UOmmYCM57qCkEIMaK7ARkya
+         O5yESSQScUScma+nL3OJwttJg9bJSxt/FXvEFByc24AYNDYICi0NCf4i7d9tnbEK6gZk
+         yhExuLXPXld4TNYY8ZNxF7XNkTdx0D4+kePDp+I8lQReJeEyTkamYIT2PPfuas1xf5Ey
+         g0Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rt1xbgAbnwLYYjFpykXaHRDqBSAXyYdKNm2t1F1L7JI=;
+        b=LYBFH5GM43briSc4izs26mjbqDZy3rKKJZq5ag0ZfGIrQSl8lrelcPeRRSwRcmhwuV
+         Qv+Oads5xPiV79FaKfAJtmok7ttJQB4AJm6a+JkUWcEWz+tk2+1xe2fPdx9Ks9vJxwBQ
+         +JSuJza/Z4zvHRoW+FAoobsXpUluPARRqjfyeIMWjpX6jlQQgEIEBCdfGAM57p+YCnyD
+         if61cT85xEpZFNVbPndss2BRG20+DxzvNf9+Brks3yfVcFkdbkFqfHCM5TJJbDB9wFrb
+         dyanUeGIZclbf6WLegsvpdk5B7hr9jlOtDHJmfdjY7V0WGGkndDZvgwuhIK5BOLtEn6B
+         xpkA==
+X-Gm-Message-State: AOAM533aGi9XsoWpHO4XYnw8SwOBxxLDjZfVXoYB1SsArvni0eTCtJvd
+        lAb9ljMvwzeMUIFXR8WFeVV4iBYiR1SDqC/RrrS8dg==
+X-Google-Smtp-Source: ABdhPJw/sKF7iBW/KvkyGt5OC+722c1f7HkWufJpz/iIWy7f6/foyV9HotQx8W5rT++ceDlCVYoayDD6dEG1LSfx1Ao=
+X-Received: by 2002:a67:b447:: with SMTP id c7mr3324630vsm.54.1616170645439;
+ Fri, 19 Mar 2021 09:17:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210318171111.706303-1-samitolvanen@google.com>
+ <20210318171111.706303-2-samitolvanen@google.com> <YFPUNlOomp173o5B@hirez.programming.kicks-ass.net>
+ <CABCJKufkQay5Fk5mZspn4PY2+mBC0CqC5t9QGkKafX4vUQv6Lg@mail.gmail.com>
+ <YFSYkyNFb34N8Ile@hirez.programming.kicks-ass.net> <20210319135229.GJ2696@paulmck-ThinkPad-P72>
+In-Reply-To: <20210319135229.GJ2696@paulmck-ThinkPad-P72>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Fri, 19 Mar 2021 09:17:14 -0700
+Message-ID: <CABCJKud=aJUSgWG==qqKi-+cKRCtRp4qLNgdDqoYKL+S9X7q4A@mail.gmail.com>
+Subject: Re: [PATCH v2 01/17] add support for Clang CFI
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        bpf <bpf@vger.kernel.org>, linux-hardening@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It is a hard error if a return value is ignored.
-In case the return value has no meaning, remove the attribute.
+On Fri, Mar 19, 2021 at 6:52 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Fri, Mar 19, 2021 at 01:26:59PM +0100, Peter Zijlstra wrote:
+> > On Thu, Mar 18, 2021 at 04:48:43PM -0700, Sami Tolvanen wrote:
+> > > On Thu, Mar 18, 2021 at 3:29 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > >
+> > > > On Thu, Mar 18, 2021 at 10:10:55AM -0700, Sami Tolvanen wrote:
+> > > > > +static void update_shadow(struct module *mod, unsigned long base_addr,
+> > > > > +             update_shadow_fn fn)
+> > > > > +{
+> > > > > +     struct cfi_shadow *prev;
+> > > > > +     struct cfi_shadow *next;
+> > > > > +     unsigned long min_addr, max_addr;
+> > > > > +
+> > > > > +     next = vmalloc(SHADOW_SIZE);
+> > > > > +
+> > > > > +     mutex_lock(&shadow_update_lock);
+> > > > > +     prev = rcu_dereference_protected(cfi_shadow,
+> > > > > +                                      mutex_is_locked(&shadow_update_lock));
+> > > > > +
+> > > > > +     if (next) {
+> > > > > +             next->base = base_addr >> PAGE_SHIFT;
+> > > > > +             prepare_next_shadow(prev, next);
+> > > > > +
+> > > > > +             min_addr = (unsigned long)mod->core_layout.base;
+> > > > > +             max_addr = min_addr + mod->core_layout.text_size;
+> > > > > +             fn(next, mod, min_addr & PAGE_MASK, max_addr & PAGE_MASK);
+> > > > > +
+> > > > > +             set_memory_ro((unsigned long)next, SHADOW_PAGES);
+> > > > > +     }
+> > > > > +
+> > > > > +     rcu_assign_pointer(cfi_shadow, next);
+> > > > > +     mutex_unlock(&shadow_update_lock);
+> > > > > +     synchronize_rcu_expedited();
+> > > >
+> > > > expedited is BAD(tm), why is it required and why doesn't it have a
+> > > > comment?
+> > >
+> > > Ah, this uses synchronize_rcu_expedited() because we have a case where
+> > > synchronize_rcu() hangs here with a specific SoC family after the
+> > > vendor's cpu_pm driver powers down CPU cores.
+> >
+> > Broken vendor drivers seem like an exceedingly poor reason for this.
+>
+> The vendor is supposed to make sure that RCU sees the CPU cores as either
+> deep idle or offline before powering them down.  My guess is that the
+> CPU is powered down, but RCU (and probably much else in the system)
+> thinks that the CPU is still up and running.  So I bet that you are
+> seeing other issues as well.
+>
+> I take it that the IPIs from synchronize_rcu_expedited() have the effect
+> of momentarily powering up those CPUs?
 
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
----
-v2:
-  resend
+I suspect you're correct. I'll change this to use synchronize_rcu() in v3.
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index a28bb374663d..9b7def6db494 100644
---- a/Makefile
-+++ b/Makefile
-@@ -495,7 +495,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
- KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
- 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
- 		   -Werror=implicit-function-declaration -Werror=implicit-int \
--		   -Werror=return-type -Wno-format-security \
-+		   -Werror=return-type -Werror=unused-result -Wno-format-security \
- 		   -std=gnu89
- KBUILD_CPPFLAGS := -D__KERNEL__
- KBUILD_AFLAGS_KERNEL :=
+Sami
