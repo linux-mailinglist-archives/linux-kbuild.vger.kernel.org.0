@@ -2,137 +2,181 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 163DD342656
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 20:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03D6A3428E5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 23:49:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbhCSTh2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Mar 2021 15:37:28 -0400
-Received: from mail2.protonmail.ch ([185.70.40.22]:20462 "EHLO
-        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbhCSThV (ORCPT
+        id S230409AbhCSWs7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Mar 2021 18:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230304AbhCSWsy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Mar 2021 15:37:21 -0400
-Date:   Fri, 19 Mar 2021 19:37:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
-        t=1616182639; bh=a22bdLLLFKTo4auJnUAqBgT9ExHsDoQaIWYHGEXtWeg=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=cztofeO+4A0UG1XxfKp4WPMnkOJ5OnmlI0eObtyAVy4Ry3Dy4HiinE6g9uPXAmtI+
-         lDxP/4Vr4mkWx5tT8jehrHOdNgfNmaB4hoM5TqU++jyA4somHne5GaJb3JA3jDe26N
-         QsbEdco+DmJEaNP/w/9CqgeyHscok42jfneZEl5mP1EhBvGo3Nf3oMXqYhqsjg65nM
-         vqIjQhQk/xKDDIj/xhRsJRC+53KidR32d66wgyHG5Cx7HlyYarD8s0WwEJ2GqDZpvP
-         4X5TVd9ib/bwlbvYUJva7r+kbkrP4QUKwCK/X5klVFD3POZBClAGNcHql8mN5cpARH
-         Q84Rv9109givw==
-To:     Masahiro Yamada <masahiroy@kernel.org>
-From:   Alexander Lobakin <alobakin@pm.me>
-Cc:     Alexander Lobakin <alobakin@pm.me>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Reply-To: Alexander Lobakin <alobakin@pm.me>
-Subject: [PATCH RESEND 2/2] kconfig: mention submenu type in comment blocks in .config
-Message-ID: <20210319193705.267922-3-alobakin@pm.me>
-In-Reply-To: <20210319193705.267922-1-alobakin@pm.me>
-References: <20210319193705.267922-1-alobakin@pm.me>
+        Fri, 19 Mar 2021 18:48:54 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1C9C061763
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 15:48:53 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id h25so4327170vso.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 15:48:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0Ja0Bm0pbGPbVCQFMQ5kja3rpS5JFuQnqh3OEFTkD4Q=;
+        b=PoDC/F7a+9JZAGRETtRCTuh/CByXpenl8koD2/6Hh5xX7JZwYLzkYFLgq5yj4vnUUe
+         Wj40+WfDascmSBDQLbtwgrrHUgKOS2DLakB95E0WOZRlG7PoOqcGWoIt00uy7pLQB8C+
+         jqKXsgXWkQYjCoc8G54zX5rvXpYIPZ5us1Fk4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0Ja0Bm0pbGPbVCQFMQ5kja3rpS5JFuQnqh3OEFTkD4Q=;
+        b=IxutkMxLCzob0lxPWF8Sx9QBTCekMLHnjbl3fq/g4sfRiCnMQ5ZClK/R4xZow8PSQm
+         +F2xR+TxGWV6hnMr1tALeTYFWIiPR9iR3LdfMALZg6RCyGNrJRklkcWKvdya41vuNF9f
+         /jrkEZJsMnpmTK5Lc5hYArQaIK05ieRJa+VLyXfqmdcavW30YrgM9uPRYCxfsKGlBq8j
+         /g6zDR8bYOdyjL76PEv4yWJmPbmF1tbLdGnbvTm3Rv/8/BJ+7cGOA2Do/eeb//r9+lox
+         oZ0oUSqdjyvRo+n5YtonkQIqFMd9RPPfvrChtntyIHT11Z6l4ZFXPwQy2dOJAf945oT2
+         4rnA==
+X-Gm-Message-State: AOAM531I90T7woT2uKw5efK+yU0SCnagICDB9HK/hEE0XQjzARYVDT/P
+        Ah3owVLfwwDPnDx7Kx45G6qHkUGnHvvebXP7ERkJMQ==
+X-Google-Smtp-Source: ABdhPJwrdL2VXaXsq6x7epbNTCHh5OO4DtFmNZjruWS6qG820mnUPtqOUwuccQbJt2TUaJCT/6tgUVX0Of+NZpT68HY=
+X-Received: by 2002:a05:6102:3a06:: with SMTP id b6mr4437876vsu.21.1616194132651;
+ Fri, 19 Mar 2021 15:48:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210318235416.794798-1-drinkcat@chromium.org>
+ <20210319075410.for-stable-4.19.1.I222f801866f71be9f7d85e5b10665cd4506d78ec@changeid>
+ <YFR/fQIePjDQcO5W@kroah.com> <b5d3d0ed-953e-083d-15f6-4a1e3ed95428@oracle.com>
+ <YFSRRux3FHJVgWXt@kroah.com>
+In-Reply-To: <YFSRRux3FHJVgWXt@kroah.com>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Sat, 20 Mar 2021 06:48:41 +0800
+Message-ID: <CANMq1KDsqsF2AOeY033rUj_Sit57a7O77kZ9Ob=56veGLK_H+Q@mail.gmail.com>
+Subject: Re: [for-stable-4.19 PATCH 1/2] vmlinux.lds.h: Create section for
+ protection against instrumentation
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Alexandre Chartre <alexandre.chartre@oracle.com>,
+        stable <stable@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Christopher Li <sparse@chrisli.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Sasha Levin <sashal@kernel.org>, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Guenter Roeck <groeck@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-To have a better understanding of the dotconfig blocks, mention if
-a particular block-commented section is a choice or a menu{,config}.
+On Fri, Mar 19, 2021 at 7:55 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Mar 19, 2021 at 12:20:22PM +0100, Alexandre Chartre wrote:
+> >
+> > On 3/19/21 11:39 AM, Greg Kroah-Hartman wrote:
+> > > On Fri, Mar 19, 2021 at 07:54:15AM +0800, Nicolas Boichat wrote:
+> > > > From: Thomas Gleixner <tglx@linutronix.de>
+> > > >
+> > > > commit 6553896666433e7efec589838b400a2a652b3ffa upstream.
+> > > >
+> > > > Some code pathes, especially the low level entry code, must be prot=
+ected
+> > > > against instrumentation for various reasons:
+> > > >
+> > > >   - Low level entry code can be a fragile beast, especially on x86.
+> > > >
+> > > >   - With NO_HZ_FULL RCU state needs to be established before using =
+it.
+> > > >
+> > > > Having a dedicated section for such code allows to validate with to=
+oling
+> > > > that no unsafe functions are invoked.
+> > > >
+> > > > Add the .noinstr.text section and the noinstr attribute to mark
+> > > > functions. noinstr implies notrace. Kprobes will gain a section che=
+ck
+> > > > later.
+> > > >
+> > > > Provide also a set of markers: instrumentation_begin()/end()
+> > > >
+> > > > These are used to mark code inside a noinstr function which calls
+> > > > into regular instrumentable text section as safe.
+> > > >
+> > > > The instrumentation markers are only active when CONFIG_DEBUG_ENTRY=
+ is
+> > > > enabled as the end marker emits a NOP to prevent the compiler from =
+merging
+> > > > the annotation points. This means the objtool verification requires=
+ a
+> > > > kernel compiled with this option.
+> > > >
+> > > > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> > > > Reviewed-by: Alexandre Chartre <alexandre.chartre@oracle.com>
+> > > > Acked-by: Peter Zijlstra <peterz@infradead.org>
+> > > > Link: https://lkml.kernel.org/r/20200505134100.075416272@linutronix=
+.de
+> > > >
+> > > > [Nicolas: context conflicts in:
+> > > >   arch/powerpc/kernel/vmlinux.lds.S
+> > > >   include/asm-generic/vmlinux.lds.h
+> > > >   include/linux/compiler.h
+> > > >   include/linux/compiler_types.h]
+> > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > >
+> > > Did you build this on x86?
+> > >
+> > > I get the following build error:
+> > >
+> > > ld:./arch/x86/kernel/vmlinux.lds:20: syntax error
+> > >
+> > > And that line looks like:
+> > >
+> > >   . =3D ALIGN(8); *(.text.hot .text.hot.*) *(.text .text.fixup) *(.te=
+xt.unlikely .text.unlikely.*) *(.text.unknown .text.unknown.*) . =3D ALIGN(=
+8); __noinstr_text_start =3D .; *(.__attribute__((noinline)) __attribute__(=
+(no_instrument_function)) __attribute((__section__(".noinstr.text"))).text)=
+ __noinstr_text_end =3D .; *(.text..refcount) *(.ref.text) *(.meminit.text*=
+) *(.memexit.text*)
+> > >
+> >
+> > In the NOINSTR_TEXT macro, noinstr is expanded with the value of the no=
+instr
+> > macro from linux/compiler_types.h while it shouldn't.
+> >
+> > The problem is possibly that the noinstr macro is defined for assembly.=
+ Make
+> > sure that the macro is not defined for assembly e.g.:
+> >
+> > #ifndef __ASSEMBLY__
+> >
+> > /* Section for code which can't be instrumented at all */
+> > #define noinstr                                                        =
+       \
+> >       noinline notrace __attribute((__section__(".noinstr.text")))
+> >
+> > #endif
+>
+> This implies that the backport is incorrect, so I'll wait for an updated
+> version...
 
-Before:
+Yep, sorry about that. I did test on ARM64 only and these patches
+happily went through our Chrome OS CQ (we don't have gcc coverage
+though).
 
-x
-x Timers subsystem
-x
-CONFIG_TICK_ONESHOT=3Dy
-CONFIG_NO_HZ_COMMON=3Dy
+Guenter has a fixup here with explanation:
+https://crrev.com/c/2776332, I'll look carefully and resubmit.
 
-x
-x Timer tick handling
-x
-x CONFIG_HZ_PERIODIC is not set
-CONFIG_NO_HZ_IDLE=3Dy
-x end of Timer tick handling
+Thanks,
 
-x CONFIG_NO_HZ is not set
-CONFIG_HIGH_RES_TIMERS=3Dy
-x end of Timers subsystem
-
-After:
-
-x
-x Timers subsystem menu
-x
-CONFIG_TICK_ONESHOT=3Dy
-CONFIG_NO_HZ_COMMON=3Dy
-
-x
-x Timer tick handling choice
-x
-x CONFIG_HZ_PERIODIC is not set
-CONFIG_NO_HZ_IDLE=3Dy
-x end of Timer tick handling choice
-
-x CONFIG_NO_HZ is not set
-CONFIG_HIGH_RES_TIMERS=3Dy
-x end of Timers subsystem menu
-
-Signed-off-by: Alexander Lobakin <alobakin@pm.me>
----
- scripts/kconfig/confdata.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index e4f0a21fd469..3f50d8b82a54 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -822,6 +822,17 @@ int conf_write_defconfig(const char *filename)
- =09return 0;
- }
-
-+static const char *menu_type_string(const struct menu *menu)
-+{
-+=09if (menu->sym && (menu->sym->flags & SYMBOL_CHOICE))
-+=09=09return " choice";
-+
-+=09if (menu->prompt && menu->prompt->type =3D=3D P_MENU)
-+=09=09return " menu";
-+
-+=09return "";
-+}
-+
- int conf_write(const char *name)
- {
- =09FILE *out;
-@@ -876,8 +887,8 @@ int conf_write(const char *name)
- =09=09=09str =3D menu_get_prompt(menu);
- =09=09=09fprintf(out, "\n"
- =09=09=09=09     "#\n"
--=09=09=09=09     "# %s\n"
--=09=09=09=09     "#\n", str);
-+=09=09=09=09     "# %s%s\n"
-+=09=09=09=09     "#\n", str, menu_type_string(menu));
- =09=09=09need_newline =3D false;
- =09=09}
-
-@@ -905,7 +916,8 @@ int conf_write(const char *name)
- =09=09=09     (menu->prompt && menu->prompt->type =3D=3D P_MENU)) &&
- =09=09=09    menu_is_visible(menu) && menu !=3D &rootmenu) {
- =09=09=09=09str =3D menu_get_prompt(menu);
--=09=09=09=09fprintf(out, "# end of %s\n", str);
-+=09=09=09=09fprintf(out, "# end of %s%s\n", str,
-+=09=09=09=09=09menu_type_string(menu));
- =09=09=09=09need_newline =3D true;
- =09=09=09}
- =09=09=09if (menu->next) {
---
-2.31.0
-
-
+> thanks,
+>
+> greg k-h
