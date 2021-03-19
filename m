@@ -2,59 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E9A5342198
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 17:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E11413422C8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Mar 2021 18:04:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbhCSQRa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Mar 2021 12:17:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbhCSQR0 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Mar 2021 12:17:26 -0400
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E8EC06175F
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 09:17:26 -0700 (PDT)
-Received: by mail-vs1-xe2b.google.com with SMTP id l13so3776886vst.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Mar 2021 09:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rt1xbgAbnwLYYjFpykXaHRDqBSAXyYdKNm2t1F1L7JI=;
-        b=ogcJzaM3vfh24d6Al8bx+0Ztgu6erlK61zGnd6i9OYYJSH5cyaY+E6owFsQf5SMksz
-         2SqY+8Zlx2zXuFQ2igs6wHd4jsY+rG8ubwzzCQfH0nBbdFjAAkQzeSP2QV+sfuDb7u2N
-         3kkhe4gjLmP06beUsI0bKk0xj3Inr9z17AQ2IX200PoZ+UOmmYCM57qCkEIMaK7ARkya
-         O5yESSQScUScma+nL3OJwttJg9bJSxt/FXvEFByc24AYNDYICi0NCf4i7d9tnbEK6gZk
-         yhExuLXPXld4TNYY8ZNxF7XNkTdx0D4+kePDp+I8lQReJeEyTkamYIT2PPfuas1xf5Ey
-         g0Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rt1xbgAbnwLYYjFpykXaHRDqBSAXyYdKNm2t1F1L7JI=;
-        b=LYBFH5GM43briSc4izs26mjbqDZy3rKKJZq5ag0ZfGIrQSl8lrelcPeRRSwRcmhwuV
-         Qv+Oads5xPiV79FaKfAJtmok7ttJQB4AJm6a+JkUWcEWz+tk2+1xe2fPdx9Ks9vJxwBQ
-         +JSuJza/Z4zvHRoW+FAoobsXpUluPARRqjfyeIMWjpX6jlQQgEIEBCdfGAM57p+YCnyD
-         if61cT85xEpZFNVbPndss2BRG20+DxzvNf9+Brks3yfVcFkdbkFqfHCM5TJJbDB9wFrb
-         dyanUeGIZclbf6WLegsvpdk5B7hr9jlOtDHJmfdjY7V0WGGkndDZvgwuhIK5BOLtEn6B
-         xpkA==
-X-Gm-Message-State: AOAM533aGi9XsoWpHO4XYnw8SwOBxxLDjZfVXoYB1SsArvni0eTCtJvd
-        lAb9ljMvwzeMUIFXR8WFeVV4iBYiR1SDqC/RrrS8dg==
-X-Google-Smtp-Source: ABdhPJw/sKF7iBW/KvkyGt5OC+722c1f7HkWufJpz/iIWy7f6/foyV9HotQx8W5rT++ceDlCVYoayDD6dEG1LSfx1Ao=
-X-Received: by 2002:a67:b447:: with SMTP id c7mr3324630vsm.54.1616170645439;
- Fri, 19 Mar 2021 09:17:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210318171111.706303-1-samitolvanen@google.com>
- <20210318171111.706303-2-samitolvanen@google.com> <YFPUNlOomp173o5B@hirez.programming.kicks-ass.net>
- <CABCJKufkQay5Fk5mZspn4PY2+mBC0CqC5t9QGkKafX4vUQv6Lg@mail.gmail.com>
- <YFSYkyNFb34N8Ile@hirez.programming.kicks-ass.net> <20210319135229.GJ2696@paulmck-ThinkPad-P72>
-In-Reply-To: <20210319135229.GJ2696@paulmck-ThinkPad-P72>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Fri, 19 Mar 2021 09:17:14 -0700
-Message-ID: <CABCJKud=aJUSgWG==qqKi-+cKRCtRp4qLNgdDqoYKL+S9X7q4A@mail.gmail.com>
-Subject: Re: [PATCH v2 01/17] add support for Clang CFI
-To:     "Paul E. McKenney" <paulmck@kernel.org>
+        id S230145AbhCSREP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Mar 2021 13:04:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229925AbhCSRDn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 19 Mar 2021 13:03:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 59D4A61959;
+        Fri, 19 Mar 2021 17:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616173423;
+        bh=fnbNfVXXSTD6OJ8WdQ6LVfKjqUArSJ75bhS89QA902k=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=B1GcSm/D1kNRA0qRKWzu/c3ZKpVm3TzqwxezJDa+PSERqt2ezZwTqJ0xg/uqfvb/A
+         QC/GflPaOyJQBVdzr3zYPnsDs4Pozyl0h/stZmVQiOrVAIGZHZ9uOPrYZPAUjY1sQI
+         55M9NmgMJUikwyNi2jBgszYm0vpHXn7pI7PdXnx+ic7lPPI8VwNmzrXaGOtLMy/+2V
+         /qnVKM8XZrhfihkUovSYDaVyEI1ZGJNLhviLxUFpgEWAEL7Mh+3Tygq0V/g55+xvwZ
+         ByQzENQ8wRkvL83YCA0EOwh+yssAHg2V5QlRjn785+0aTg/sFOd7dX6GARRr2wMA8m
+         b+IBDwwCHhg/Q==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 017E035239E5; Fri, 19 Mar 2021 10:03:42 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 10:03:42 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -69,64 +42,85 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kbuild <linux-kbuild@vger.kernel.org>,
         PCI <linux-pci@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 01/17] add support for Clang CFI
+Message-ID: <20210319170342.GM2696@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20210318171111.706303-1-samitolvanen@google.com>
+ <20210318171111.706303-2-samitolvanen@google.com>
+ <YFPUNlOomp173o5B@hirez.programming.kicks-ass.net>
+ <CABCJKufkQay5Fk5mZspn4PY2+mBC0CqC5t9QGkKafX4vUQv6Lg@mail.gmail.com>
+ <YFSYkyNFb34N8Ile@hirez.programming.kicks-ass.net>
+ <20210319135229.GJ2696@paulmck-ThinkPad-P72>
+ <CABCJKud=aJUSgWG==qqKi-+cKRCtRp4qLNgdDqoYKL+S9X7q4A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABCJKud=aJUSgWG==qqKi-+cKRCtRp4qLNgdDqoYKL+S9X7q4A@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 6:52 AM Paul E. McKenney <paulmck@kernel.org> wrote:
->
-> On Fri, Mar 19, 2021 at 01:26:59PM +0100, Peter Zijlstra wrote:
-> > On Thu, Mar 18, 2021 at 04:48:43PM -0700, Sami Tolvanen wrote:
-> > > On Thu, Mar 18, 2021 at 3:29 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > >
-> > > > On Thu, Mar 18, 2021 at 10:10:55AM -0700, Sami Tolvanen wrote:
-> > > > > +static void update_shadow(struct module *mod, unsigned long base_addr,
-> > > > > +             update_shadow_fn fn)
-> > > > > +{
-> > > > > +     struct cfi_shadow *prev;
-> > > > > +     struct cfi_shadow *next;
-> > > > > +     unsigned long min_addr, max_addr;
-> > > > > +
-> > > > > +     next = vmalloc(SHADOW_SIZE);
-> > > > > +
-> > > > > +     mutex_lock(&shadow_update_lock);
-> > > > > +     prev = rcu_dereference_protected(cfi_shadow,
-> > > > > +                                      mutex_is_locked(&shadow_update_lock));
-> > > > > +
-> > > > > +     if (next) {
-> > > > > +             next->base = base_addr >> PAGE_SHIFT;
-> > > > > +             prepare_next_shadow(prev, next);
-> > > > > +
-> > > > > +             min_addr = (unsigned long)mod->core_layout.base;
-> > > > > +             max_addr = min_addr + mod->core_layout.text_size;
-> > > > > +             fn(next, mod, min_addr & PAGE_MASK, max_addr & PAGE_MASK);
-> > > > > +
-> > > > > +             set_memory_ro((unsigned long)next, SHADOW_PAGES);
-> > > > > +     }
-> > > > > +
-> > > > > +     rcu_assign_pointer(cfi_shadow, next);
-> > > > > +     mutex_unlock(&shadow_update_lock);
-> > > > > +     synchronize_rcu_expedited();
-> > > >
-> > > > expedited is BAD(tm), why is it required and why doesn't it have a
-> > > > comment?
-> > >
-> > > Ah, this uses synchronize_rcu_expedited() because we have a case where
-> > > synchronize_rcu() hangs here with a specific SoC family after the
-> > > vendor's cpu_pm driver powers down CPU cores.
+On Fri, Mar 19, 2021 at 09:17:14AM -0700, Sami Tolvanen wrote:
+> On Fri, Mar 19, 2021 at 6:52 AM Paul E. McKenney <paulmck@kernel.org> wrote:
 > >
-> > Broken vendor drivers seem like an exceedingly poor reason for this.
->
-> The vendor is supposed to make sure that RCU sees the CPU cores as either
-> deep idle or offline before powering them down.  My guess is that the
-> CPU is powered down, but RCU (and probably much else in the system)
-> thinks that the CPU is still up and running.  So I bet that you are
-> seeing other issues as well.
->
-> I take it that the IPIs from synchronize_rcu_expedited() have the effect
-> of momentarily powering up those CPUs?
+> > On Fri, Mar 19, 2021 at 01:26:59PM +0100, Peter Zijlstra wrote:
+> > > On Thu, Mar 18, 2021 at 04:48:43PM -0700, Sami Tolvanen wrote:
+> > > > On Thu, Mar 18, 2021 at 3:29 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > > >
+> > > > > On Thu, Mar 18, 2021 at 10:10:55AM -0700, Sami Tolvanen wrote:
+> > > > > > +static void update_shadow(struct module *mod, unsigned long base_addr,
+> > > > > > +             update_shadow_fn fn)
+> > > > > > +{
+> > > > > > +     struct cfi_shadow *prev;
+> > > > > > +     struct cfi_shadow *next;
+> > > > > > +     unsigned long min_addr, max_addr;
+> > > > > > +
+> > > > > > +     next = vmalloc(SHADOW_SIZE);
+> > > > > > +
+> > > > > > +     mutex_lock(&shadow_update_lock);
+> > > > > > +     prev = rcu_dereference_protected(cfi_shadow,
+> > > > > > +                                      mutex_is_locked(&shadow_update_lock));
+> > > > > > +
+> > > > > > +     if (next) {
+> > > > > > +             next->base = base_addr >> PAGE_SHIFT;
+> > > > > > +             prepare_next_shadow(prev, next);
+> > > > > > +
+> > > > > > +             min_addr = (unsigned long)mod->core_layout.base;
+> > > > > > +             max_addr = min_addr + mod->core_layout.text_size;
+> > > > > > +             fn(next, mod, min_addr & PAGE_MASK, max_addr & PAGE_MASK);
+> > > > > > +
+> > > > > > +             set_memory_ro((unsigned long)next, SHADOW_PAGES);
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     rcu_assign_pointer(cfi_shadow, next);
+> > > > > > +     mutex_unlock(&shadow_update_lock);
+> > > > > > +     synchronize_rcu_expedited();
+> > > > >
+> > > > > expedited is BAD(tm), why is it required and why doesn't it have a
+> > > > > comment?
+> > > >
+> > > > Ah, this uses synchronize_rcu_expedited() because we have a case where
+> > > > synchronize_rcu() hangs here with a specific SoC family after the
+> > > > vendor's cpu_pm driver powers down CPU cores.
+> > >
+> > > Broken vendor drivers seem like an exceedingly poor reason for this.
+> >
+> > The vendor is supposed to make sure that RCU sees the CPU cores as either
+> > deep idle or offline before powering them down.  My guess is that the
+> > CPU is powered down, but RCU (and probably much else in the system)
+> > thinks that the CPU is still up and running.  So I bet that you are
+> > seeing other issues as well.
+> >
+> > I take it that the IPIs from synchronize_rcu_expedited() have the effect
+> > of momentarily powering up those CPUs?
+> 
+> I suspect you're correct. I'll change this to use synchronize_rcu() in v3.
 
-I suspect you're correct. I'll change this to use synchronize_rcu() in v3.
+You might also suggest to the vendor that they look for a missing
+rcu_idle_enter(), rcu_irq_exit(), or similar on the code path that the
+outgoing CPUs follow before getting powered down.  That way, they won't
+be wasting power from irrelevant IPIs.  You see, RCU will eventually
+send IPIs to non-responding CPUs for normal grace periods.
 
-Sami
+							Thanx, Paul
