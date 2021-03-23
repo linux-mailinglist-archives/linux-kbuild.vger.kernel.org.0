@@ -2,102 +2,209 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EA4834687A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 20:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6CEA346A07
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 21:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbhCWTFm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Mar 2021 15:05:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59080 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233150AbhCWTFi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Mar 2021 15:05:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E5E4461481;
-        Tue, 23 Mar 2021 19:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616526337;
-        bh=6ZHP8MFB2ymQv7mUuxKr/5U6De8Q+AtpNBIOCnsCdPg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RWmrJKJyK+drSJdf9hoR2aVbtsmnJ7YA1sEwgb/TGOW5SqcLjTNjd1KTziA28g91l
-         pZG+vzCOQ6Jj8NXckH5DMgoq95GnIA0fQmDBMcURn9r1RLw0UvKRizrhVQ0VqspTNT
-         yYlfh9OL3etyV7L9pNQEBrf5EJETP3PUurRHoMBoXmXo4NKdvblPzoMA1E8Ew5c+dG
-         xzDbkA/EIBnnYwPWPk8MIfPExWvcTk3xTN48QK3I9vpSBwOrVNCB+yEZWARDsqS1nf
-         YjfmVnv81tzv9iX+mOiEPgIE+P8vGAoiT7HHIGBaJ3Bv1i7drNUkpFqOuEUUMwzKI5
-         bv2kfdhcohIaw==
-Date:   Tue, 23 Mar 2021 12:05:32 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        clang-built-linux@googlegroups.com,
-        Fangrui Song <maskray@google.com>,
-        Elliot Berman <eberman@quicinc.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Makefile: fix GDB warning with CONFIG_RELR
-Message-ID: <20210323190532.eiqxmskiankf7hn3@archlinux-ax161>
-References: <20210319000708.1694662-1-ndesaulniers@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210319000708.1694662-1-ndesaulniers@google.com>
+        id S233401AbhCWUkC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Mar 2021 16:40:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233445AbhCWUjt (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 23 Mar 2021 16:39:49 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787D0C0613D8
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:39:49 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 2so1727724ybc.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=WCFGTI2MzQSIA8TA7+0NNDS7r3FMw1zz4PI7vRl6tz8=;
+        b=L8ISBtfVqQC1eYGzosYom8Yam4Fe6VlMONouaFNd/YHRoKYHe1m+fYaD4rhMjD4TA8
+         AM3Tsm5hGrsyh9yYIl54rZGH/XXhPCGDx12B/2/Lw8VB9yEGLhABM04Jrthk5p+igMKE
+         FQtAcHPrTYnmp0ve2ntMLsef6hA5RwvpREqpDE8sAP/ULFRUvmDiqVv6ZPeZVsX4uG7a
+         6rHMM+sECywBkU5Figcf/kSMze4goqu7iEqiFWU+5VTPdyX1tZsGJ6J4ipJApbyR9Sh6
+         mzaDp969NaXlEKbb56wgl2pNCrRZR7zNRQa5H/gSqP+1Hd/sGjho3HuTvsQdGrIZ+Wkn
+         jcZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=WCFGTI2MzQSIA8TA7+0NNDS7r3FMw1zz4PI7vRl6tz8=;
+        b=F3kMpCwKfH/zB4vrG0C/ER+y1EDB0LqYhxorwVH+d2UkqA+HqB92PpfmmU5nCYBXHO
+         gvbtzTP7Oh+bbrX0aZ33Qx0d5RzoPhVRA4apVcYOwvXcVRgjo7VEueVsjMTZtP9gqKFE
+         MMyT6fAvuKslHsPm/vmH/bcxzUtXWL4n9EW36KuKNFVzwZvt6ODEWxtRP7L9iADnpCS9
+         7eZzAEMFDbMayDxC+Q/ZpgLEDRSyrHpsFqWVZV+2X0aeZYqzeEpLpyWqLS78rjhK4/uo
+         MyFZDdPEq2/S4zEVBtLA/31mSzDF6B+BmEzKjSP9LuB0eUmnM+Mscri9baVDopDuxISV
+         lGWA==
+X-Gm-Message-State: AOAM531+b5cax75HmLpKwPIz23UDLjc9Z6DqqzoODNJ+WGuTXoBQGKCW
+        owJogoDRqUgZeFE+bXn2Y0tzS6cEaGW+TLb9L38=
+X-Google-Smtp-Source: ABdhPJypNxMQPGcrvIUiNtiewpRG4S5rvp+CN7WrRUDRG8x0unI1VBhT3RaBBZmMcMEJjVZj4B32NowbtE9isxFNPjw=
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:e9a3:260d:763b:67dc])
+ (user=samitolvanen job=sendgmr) by 2002:a25:868c:: with SMTP id
+ z12mr43352ybk.389.1616531988566; Tue, 23 Mar 2021 13:39:48 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 13:39:29 -0700
+Message-Id: <20210323203946.2159693-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
+Subject: [PATCH v3 00/17] Add support for Clang CFI
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>, bpf@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 05:07:06PM -0700, Nick Desaulniers wrote:
-> GDB produces the following warning when debugging kernels built with
-> CONFIG_RELR:
-> 
-> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
-> 
-> when loading a kernel built with CONFIG_RELR into GDB. It can also
-> prevent debugging symbols using such relocations.
-> 
-> Peter sugguests:
->   [That flag] means that lld will use dynamic tags and section type
->   numbers in the OS-specific range rather than the generic range. The
->   kernel itself doesn't care about these numbers; it determines the
->   location of the RELR section using symbols defined by a linker script.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-> Suggested-by: Peter Collingbourne <pcc@google.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+This series adds support for Clang's Control-Flow Integrity (CFI)
+checking. With CFI, the compiler injects a runtime check before each
+indirect function call to ensure the target is a valid function with
+the correct static type. This restricts possible call targets and
+makes it more difficult for an attacker to exploit bugs that allow the
+modification of stored function pointers. For more details, see:
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+  https://clang.llvm.org/docs/ControlFlowIntegrity.html
 
-> ---
->  Makefile                      | 2 +-
->  scripts/tools-support-relr.sh | 3 ++-
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 5160ff8903c1..47741cb60995 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1088,7 +1088,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
->  endif
->  
->  ifeq ($(CONFIG_RELR),y)
-> -LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
-> +LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
->  endif
->  
->  # We never want expected sections to be placed heuristically by the
-> diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
-> index 45e8aa360b45..cb55878bd5b8 100755
-> --- a/scripts/tools-support-relr.sh
-> +++ b/scripts/tools-support-relr.sh
-> @@ -7,7 +7,8 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
->  cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
->  void *p = &p;
->  END
-> -$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr -o $tmp_file
-> +$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr \
-> +  --use-android-relr-tags -o $tmp_file
->  
->  # Despite printing an error message, GNU nm still exits with exit code 0 if it
->  # sees a relr section. So we need to check that nothing is printed to stderr.
-> -- 
-> 2.31.0.rc2.261.g7f71774620-goog
-> 
+The first patch contains build system changes and error handling,
+and implements support for cross-module indirect call checking. The
+remaining patches address issues caused by the compiler
+instrumentation. These include fixing known type mismatches, as well
+as issues with address space confusion and cross-module function
+address equality.
+
+These patches add support only for arm64, but I'll post patches also
+for x86_64 after we address the remaining issues there, including
+objtool support.
+
+You can also pull this series from
+
+  https://github.com/samitolvanen/linux.git cfi-v3
+
+---
+Changes in v3:
+ - Added a patch to change list_sort() callers treewide to use
+   const pointers instead of simply removing the internal casts.
+ - Changed cleanup_symbol_name() to return bool.
+ - Changed module.lds.S to drop the .eh_frame section only with
+   CONFIG_CFI_CLANG.
+ - Switched to synchronize_rcu() in update_shadow().
+
+Changes in v2:
+ - Fixed .text merging in module.lds.S.
+ - Added WARN_ON_FUNCTION_MISMATCH() and changed kernel/thread.c
+   and kernel/workqueue.c to use the macro instead.
+
+
+Sami Tolvanen (17):
+  add support for Clang CFI
+  cfi: add __cficanonical
+  mm: add generic __va_function and __pa_function macros
+  module: ensure __cfi_check alignment
+  workqueue: use WARN_ON_FUNCTION_MISMATCH
+  kthread: use WARN_ON_FUNCTION_MISMATCH
+  kallsyms: strip ThinLTO hashes from static functions
+  bpf: disable CFI in dispatcher functions
+  treewide: Change list_sort to use const pointers
+  lkdtm: use __va_function
+  psci: use __pa_function for cpu_resume
+  arm64: implement __va_function
+  arm64: use __pa_function
+  arm64: add __nocfi to functions that jump to a physical address
+  arm64: add __nocfi to __apply_alternatives
+  KVM: arm64: Disable CFI for nVHE
+  arm64: allow CONFIG_CFI_CLANG to be selected
+
+ Makefile                                      |  17 +
+ arch/Kconfig                                  |  45 +++
+ arch/arm64/Kconfig                            |   1 +
+ arch/arm64/include/asm/memory.h               |  15 +
+ arch/arm64/include/asm/mmu_context.h          |   4 +-
+ arch/arm64/kernel/acpi_parking_protocol.c     |   2 +-
+ arch/arm64/kernel/alternative.c               |   4 +-
+ arch/arm64/kernel/cpu-reset.h                 |  10 +-
+ arch/arm64/kernel/cpufeature.c                |   4 +-
+ arch/arm64/kernel/psci.c                      |   3 +-
+ arch/arm64/kernel/smp_spin_table.c            |   2 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile              |   6 +-
+ arch/arm64/kvm/vgic/vgic-its.c                |   8 +-
+ arch/arm64/kvm/vgic/vgic.c                    |   3 +-
+ block/blk-mq-sched.c                          |   3 +-
+ block/blk-mq.c                                |   3 +-
+ drivers/acpi/nfit/core.c                      |   3 +-
+ drivers/acpi/numa/hmat.c                      |   3 +-
+ drivers/clk/keystone/sci-clk.c                |   4 +-
+ drivers/firmware/psci/psci.c                  |   4 +-
+ drivers/gpu/drm/drm_modes.c                   |   3 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |   3 +-
+ drivers/gpu/drm/i915/gvt/debugfs.c            |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   3 +-
+ drivers/gpu/drm/radeon/radeon_cs.c            |   4 +-
+ .../hw/usnic/usnic_uiom_interval_tree.c       |   3 +-
+ drivers/interconnect/qcom/bcm-voter.c         |   2 +-
+ drivers/md/raid5.c                            |   3 +-
+ drivers/misc/lkdtm/usercopy.c                 |   2 +-
+ drivers/misc/sram.c                           |   4 +-
+ drivers/nvme/host/core.c                      |   3 +-
+ .../controller/cadence/pcie-cadence-host.c    |   3 +-
+ drivers/spi/spi-loopback-test.c               |   3 +-
+ fs/btrfs/raid56.c                             |   3 +-
+ fs/btrfs/tree-log.c                           |   3 +-
+ fs/btrfs/volumes.c                            |   3 +-
+ fs/ext4/fsmap.c                               |   4 +-
+ fs/gfs2/glock.c                               |   3 +-
+ fs/gfs2/log.c                                 |   2 +-
+ fs/gfs2/lops.c                                |   3 +-
+ fs/iomap/buffered-io.c                        |   3 +-
+ fs/ubifs/gc.c                                 |   7 +-
+ fs/ubifs/replay.c                             |   4 +-
+ fs/xfs/scrub/bitmap.c                         |   4 +-
+ fs/xfs/xfs_bmap_item.c                        |   4 +-
+ fs/xfs/xfs_buf.c                              |   6 +-
+ fs/xfs/xfs_extent_busy.c                      |   4 +-
+ fs/xfs/xfs_extent_busy.h                      |   3 +-
+ fs/xfs/xfs_extfree_item.c                     |   4 +-
+ fs/xfs/xfs_refcount_item.c                    |   4 +-
+ fs/xfs/xfs_rmap_item.c                        |   4 +-
+ include/asm-generic/bug.h                     |  16 +
+ include/asm-generic/vmlinux.lds.h             |  20 +-
+ include/linux/bpf.h                           |   4 +-
+ include/linux/cfi.h                           |  41 +++
+ include/linux/compiler-clang.h                |   3 +
+ include/linux/compiler_types.h                |   8 +
+ include/linux/init.h                          |   6 +-
+ include/linux/list_sort.h                     |   7 +-
+ include/linux/mm.h                            |   8 +
+ include/linux/module.h                        |  13 +-
+ include/linux/pci.h                           |   4 +-
+ init/Kconfig                                  |   2 +-
+ kernel/Makefile                               |   4 +
+ kernel/cfi.c                                  | 329 ++++++++++++++++++
+ kernel/kallsyms.c                             |  55 ++-
+ kernel/kthread.c                              |   3 +-
+ kernel/module.c                               |  43 +++
+ kernel/workqueue.c                            |   2 +-
+ lib/list_sort.c                               |  17 +-
+ lib/test_list_sort.c                          |   3 +-
+ net/tipc/name_table.c                         |   4 +-
+ scripts/Makefile.modfinal                     |   2 +-
+ scripts/module.lds.S                          |  20 +-
+ 74 files changed, 752 insertions(+), 112 deletions(-)
+ create mode 100644 include/linux/cfi.h
+ create mode 100644 kernel/cfi.c
+
+
+base-commit: 7acac4b3196caee5e21fb5ea53f8bc124e6a16fc
+-- 
+2.31.0.291.g576ba9dcdaf-goog
+
