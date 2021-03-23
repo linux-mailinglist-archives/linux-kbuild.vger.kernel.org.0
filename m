@@ -2,100 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 004E2346759
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 19:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EA4834687A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 20:06:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231478AbhCWSO3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Mar 2021 14:14:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231420AbhCWSOT (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Mar 2021 14:14:19 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC2C6C061763
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 11:14:18 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id h25so9887999vso.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 11:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xTzROt3itpnrti9j03LZlWtci24fIc0v/ID50osegOI=;
-        b=G9LSManCEm0ynRFxL0KfpbSwtGY42D+BJO4aqZzpdazH47X+7OW3AeHQu+vt1dxlqs
-         kwCKfidzEMs/NtW9YLoiTyqbHNBfbS4Yi7HlukT7486VJk65AVQBWpIz6rLwBLEpoRZz
-         WV1AQnUw5w5TdbQC7GVTCoww2Jfxqaun1PhzG506nw5O9sb6Bw8k8y9H6uwbl53s/EnQ
-         Jwm5E7scoO1KiMcv+Kxg2BxJn4sjd/waOuiDsgUuCggMxVQYtv8dM5HPBSgNOKe5E0a4
-         09TrE34zYUlHs3NO0pShHjk8Fu6ej5luUqS70hK5ZU4YMoOyHcI3lT/nTVz4ZDkRohVP
-         awjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xTzROt3itpnrti9j03LZlWtci24fIc0v/ID50osegOI=;
-        b=gnBAno/pjptq5THj8HtqhLB4mSlb2jlsACz62viW7NFbBBiXa+bUtnpwzAxthVH2Cs
-         Oz/zJ2OsQtP1svOz+eUbI1R9uUqgsjNneyZj2K1AwYKbMd1IQyRNkRF2fh9jPBtNdFtZ
-         AMTdP90lCl+LNpovO6cpoAF5pVAAu8BkWyQAJ5ab+7sNfIpNAHgSVfMBe9w6wPkvHMC2
-         EFRWBX1rTNzXY3WLYqiWsQn38YeaOaMITvYLACV/+GZy8CZc9psxGYOjpDF0mQVL6rcY
-         xJAtXz1BSmncApFsLVMzTs3LE/pxukI/RLWqesl/Z1zEofCt5iZzzpFEvThbhGXSfY82
-         3uNA==
-X-Gm-Message-State: AOAM533Bcnhd3qMCMZmrSFbd6NFxKkNmANHxylkkV9bqy351zt4Yi6wd
-        ZowCwW/Vi9Zdlwysq1eI/8K41FDBo4k5v72Joj+htg==
-X-Google-Smtp-Source: ABdhPJxQfxePiAdqx2wIwj6cBcYftbaRTO90H9j82jX3SXWm+vInqDNP1WYjNB0ajdqoiCxSC2u3vyD9/cPX/2nCIDU=
-X-Received: by 2002:a67:641:: with SMTP id 62mr4620421vsg.23.1616523257117;
- Tue, 23 Mar 2021 11:14:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210322234438.502582-1-seanjc@google.com> <CABCJKudMQ9CP1zhvywTf-_=PY5zmeviURR+=PqsMn_bqa_MV-g@mail.gmail.com>
- <YFoZBY1SqilWAmx4@google.com>
-In-Reply-To: <YFoZBY1SqilWAmx4@google.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 23 Mar 2021 11:14:05 -0700
-Message-ID: <CABCJKucYHQ893LS1iCHXivPS05RMDN2BpDFou306jOEbWnt1Dg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Merge module sections if and only if
- CONFIG_LTO_CLANG is enabled
-To:     Sean Christopherson <seanjc@google.com>
+        id S233026AbhCWTFm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Mar 2021 15:05:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59080 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233150AbhCWTFi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 23 Mar 2021 15:05:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E5E4461481;
+        Tue, 23 Mar 2021 19:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616526337;
+        bh=6ZHP8MFB2ymQv7mUuxKr/5U6De8Q+AtpNBIOCnsCdPg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RWmrJKJyK+drSJdf9hoR2aVbtsmnJ7YA1sEwgb/TGOW5SqcLjTNjd1KTziA28g91l
+         pZG+vzCOQ6Jj8NXckH5DMgoq95GnIA0fQmDBMcURn9r1RLw0UvKRizrhVQ0VqspTNT
+         yYlfh9OL3etyV7L9pNQEBrf5EJETP3PUurRHoMBoXmXo4NKdvblPzoMA1E8Ew5c+dG
+         xzDbkA/EIBnnYwPWPk8MIfPExWvcTk3xTN48QK3I9vpSBwOrVNCB+yEZWARDsqS1nf
+         YjfmVnv81tzv9iX+mOiEPgIE+P8vGAoiT7HHIGBaJ3Bv1i7drNUkpFqOuEUUMwzKI5
+         bv2kfdhcohIaw==
+Date:   Tue, 23 Mar 2021 12:05:32 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        clang-built-linux@googlegroups.com,
+        Fangrui Song <maskray@google.com>,
+        Elliot Berman <eberman@quicinc.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Collingbourne <pcc@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Makefile: fix GDB warning with CONFIG_RELR
+Message-ID: <20210323190532.eiqxmskiankf7hn3@archlinux-ax161>
+References: <20210319000708.1694662-1-ndesaulniers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210319000708.1694662-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 9:36 AM Sean Christopherson <seanjc@google.com> wrote:
->
-> On Tue, Mar 23, 2021, Sami Tolvanen wrote:
-> > On Mon, Mar 22, 2021 at 4:44 PM Sean Christopherson <seanjc@google.com> wrote:
-> > >
-> > > Merge module sections only when using Clang LTO.  With gcc-10, merging
-> > > sections does not appear to update the symbol tables for the module,
-> > > e.g. 'readelf -s' shows the value that a symbol would have had, if
-> > > sections were not merged.
-> >
-> > I'm fine with limiting this to LTO only, but it would be helpful to
-> > understand which sections are actually getting merged here.
->
-> It doesn't appear to matter which sections get merged, the tables only show the
-> correct data if there is no merging whatsoever, e.g. allowing merging for any
-> one of the four types (.bss, .data, .rodata and .text) results in breakage.
-> AFAICT, merging any sections causes the layout to change and throw off the
-> symbol tables.
+On Thu, Mar 18, 2021 at 05:07:06PM -0700, Nick Desaulniers wrote:
+> GDB produces the following warning when debugging kernels built with
+> CONFIG_RELR:
+> 
+> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
+> 
+> when loading a kernel built with CONFIG_RELR into GDB. It can also
+> prevent debugging symbols using such relocations.
+> 
+> Peter sugguests:
+>   [That flag] means that lld will use dynamic tags and section type
+>   numbers in the OS-specific range rather than the generic range. The
+>   kernel itself doesn't care about these numbers; it determines the
+>   location of the RELR section using symbols defined by a linker script.
+> 
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1057
+> Suggested-by: Peter Collingbourne <pcc@google.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Thanks for the clarification. I can reproduce this issue with gcc +
-bfd if any of the sections are merged, but gcc + lld produces valid
-symbol tables.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Perhaps someone more familiar with bfd can comment on whether this is
-a bug or a feature, and if there's a flag we can pass to bfd that
-would fix the issue. In the meanwhile, this patch looks like a
-reasonable workaround to me.
-
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-Tested-by: Sami Tolvanen <samitolvanen@google.com>
-
-Sami
+> ---
+>  Makefile                      | 2 +-
+>  scripts/tools-support-relr.sh | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 5160ff8903c1..47741cb60995 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1088,7 +1088,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+>  endif
+>  
+>  ifeq ($(CONFIG_RELR),y)
+> -LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
+> +LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
+>  endif
+>  
+>  # We never want expected sections to be placed heuristically by the
+> diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
+> index 45e8aa360b45..cb55878bd5b8 100755
+> --- a/scripts/tools-support-relr.sh
+> +++ b/scripts/tools-support-relr.sh
+> @@ -7,7 +7,8 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
+>  cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
+>  void *p = &p;
+>  END
+> -$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr -o $tmp_file
+> +$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr \
+> +  --use-android-relr-tags -o $tmp_file
+>  
+>  # Despite printing an error message, GNU nm still exits with exit code 0 if it
+>  # sees a relr section. So we need to check that nothing is printed to stderr.
+> -- 
+> 2.31.0.rc2.261.g7f71774620-goog
+> 
