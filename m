@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C8D346A1E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 21:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7679E346A4D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 21:41:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233469AbhCWUkf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Mar 2021 16:40:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44920 "EHLO
+        id S233606AbhCWUkg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Mar 2021 16:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233439AbhCWUkB (ORCPT
+        with ESMTP id S233483AbhCWUkD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Mar 2021 16:40:01 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9909FC0613DE
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:00 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id v6so3813014ybk.9
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:00 -0700 (PDT)
+        Tue, 23 Mar 2021 16:40:03 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E276C0613D9
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:02 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id x10so3830248ybr.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=kAxWBGQQ6gb1U0MwyH2aGrnOUTzFGjVGvgXGkxVH/cc=;
-        b=obb/St0ECVpiVYPjl0tFmSeAu+nwHW6a+FyVf5Y93kL0zciJ7OpXo5pz5/5qK+sMFf
-         HVCB7lPNLLCcgrreAMPMIq89DUCTawBOwNPUPSIBya5VRwan8cbfXQx100+5xN/Qkd+t
-         DrRy/pbSThpGxZ1QzI4eyYQAJqKt5nt14oxKeAqxjwjAb66eROjyJZpq+iXVKnIt1UeO
-         qE3Het9/jgbk33l/79gSOA0M2UKmfHun8/qcQ5XwaA/WAB2nFQGlLlfTzyIcIhj7o/5V
-         IAm35WHoPPYpvmYzDW1CTc/YgvwTLIfoZ+x6jtjFf4U8j7x1w0Jt0fXDFRfY/dN/7g6Y
-         zgEA==
+        bh=i1PxfqvHNAZaUSY0Wt2J9hLbKLkB/NragVXsh/CJXkk=;
+        b=r3h1x+fU5lE/E/LEWwengkgZi5PRsX186ijNQ327TMBLawIZY6LBYeXoo+w52nP2gv
+         rF5I2VWq76FFpaCoMspUWvw8qDIKJm1AsH0+oLVk3E9T+doX05a07ZFN00OhJPnaxkmu
+         jxmLG5HZc+yt4wtJhjo3sZUXCMUwF3pZoczzJSo1cNByG2VVWNmY/KAxOvwH7o3TUBYH
+         bGowaPWnFDFXQgdWtgWmUwuCqSOx5f/zwc5Gwk2eWSiXszhRE499K2081dnK0xsNlJj1
+         /F+vI9niI/hzqmXXXuXFw6fn+8OOPf3ryNNVi941QfjddB4grHq+9+iY1IfzHYtwau73
+         lqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=kAxWBGQQ6gb1U0MwyH2aGrnOUTzFGjVGvgXGkxVH/cc=;
-        b=TVvXeMTNhnG/H9xABd+y8LtxQo6cYMV7oFCUxdKAQEYH18Sh1nYMKHpYDCDXOXHUju
-         kJxlrxsa4jGPOFVUs8i2bn6qO1sZSluiPcp+tHa38abAdO10eJmbfQ2NQMKpyjRMtPx2
-         LEbEM8bwn/Mh05eO+dDXZaWew9uwkTyT1blrtKIAQwI5Iq3W/XySqWQ/KEOOfxEc4MnL
-         +XNdZ1KdIkuyFIUiJIV2HT+DCi9w54puqtphIq5ORKD55DhJdgB2mLm6QsMmhfrmywVH
-         vbNrbmFKyA8/ve2gSnzs7mawPVWArtrO6vBykSX4fYvyWn0fDsCs2Gd59QkYBEXuIFQF
-         rbbw==
-X-Gm-Message-State: AOAM532sRHByUZSBHUWkkstK+zQyDQuz37ejpk56YhtH1Fjwk0VfScJq
-        NM288CHFUcrz3Y61e4RFtdihYeftn9t5RvH8j78=
-X-Google-Smtp-Source: ABdhPJy06lzastyLa7rjZrqrKe8Kw6vypE8VYVF9BzE0zOiJRLohmqAfcSnsVJk7XWpS4yGsr/w/V3cRXxwJCIzEtGs=
+        bh=i1PxfqvHNAZaUSY0Wt2J9hLbKLkB/NragVXsh/CJXkk=;
+        b=eSK/4cm2B1C3D9+ps2J2Wd7CHWIBYME6WhN5mceusTaJ04PyqDXTauRhzIAGhk+av1
+         oA9njCyN1vJcAMl6cU09DchNhMX9AiYLAHYHsxzJyj8GQmjgLX+Nip6n1IzerLyFVG4R
+         8RxKx87V7esiokxBB7VmvgtwoYpcnvPCQAI9pTTKqzZ/nXNBOw2nM+zPnmHPSpOgae+d
+         E5O3c+zJi6gxvCIflAXLzzdsJOfuyvnpV2SlUOE2qPnveI82JbzzNOLUqm5BEwz9Cwf3
+         wOWnbvME3Md97j8hOslDV15xoV64B+ZyirHoTwNl341QXgvTcsSQjwU+gmVnZWqFJ746
+         +LKA==
+X-Gm-Message-State: AOAM530g0z+c2dKlwoPV6ISqfL303GwzhJvSkSoCZQdw2tcsd6fxsuD/
+        F5Yx85r3fYvqwqcRKhGM9ZT9H5XUahc4G+zodjs=
+X-Google-Smtp-Source: ABdhPJxSGEWBzQB/5ovI2vIjo7a1D7A+5mPzIG6DfuCWCyGPkoV9bpBY6tsZB7tVHHd6ltUsB02iXZ3BUgMvr1I18/M=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:e9a3:260d:763b:67dc])
- (user=samitolvanen job=sendgmr) by 2002:a25:e008:: with SMTP id
- x8mr147121ybg.90.1616531999835; Tue, 23 Mar 2021 13:39:59 -0700 (PDT)
-Date:   Tue, 23 Mar 2021 13:39:35 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a25:a166:: with SMTP id
+ z93mr111661ybh.354.1616532001793; Tue, 23 Mar 2021 13:40:01 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 13:39:36 -0700
 In-Reply-To: <20210323203946.2159693-1-samitolvanen@google.com>
-Message-Id: <20210323203946.2159693-7-samitolvanen@google.com>
+Message-Id: <20210323203946.2159693-8-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20210323203946.2159693-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v3 06/17] kthread: use WARN_ON_FUNCTION_MISMATCH
+Subject: [PATCH v3 07/17] kallsyms: strip ThinLTO hashes from static functions
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -71,35 +71,133 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With CONFIG_CFI_CLANG, a callback function passed to
-__kthread_queue_delayed_work from a module points to a jump table
-entry defined in the module instead of the one used in the core
-kernel, which breaks function address equality in this check:
+With CONFIG_CFI_CLANG and ThinLTO, Clang appends a hash to the names
+of all static functions not marked __used. This can break userspace
+tools that don't expect the function name to change, so strip out the
+hash from the output.
 
-  WARN_ON_ONCE(timer->function != ktead_delayed_work_timer_fn);
-
-Use WARN_ON_FUNCTION_MISMATCH() instead to disable the warning
-when CFI and modules are both enabled.
-
+Suggested-by: Jack Pham <jackp@codeaurora.org>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- kernel/kthread.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ kernel/kallsyms.c | 55 ++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 50 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/kthread.c b/kernel/kthread.c
-index 1578973c5740..a1972eba2917 100644
---- a/kernel/kthread.c
-+++ b/kernel/kthread.c
-@@ -963,7 +963,8 @@ static void __kthread_queue_delayed_work(struct kthread_worker *worker,
- 	struct timer_list *timer = &dwork->timer;
- 	struct kthread_work *work = &dwork->work;
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index 8043a90aa50e..c851ca0ed357 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -161,6 +161,27 @@ static unsigned long kallsyms_sym_address(int idx)
+ 	return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
+ }
  
--	WARN_ON_ONCE(timer->function != kthread_delayed_work_timer_fn);
-+	WARN_ON_FUNCTION_MISMATCH(timer->function,
-+				  kthread_delayed_work_timer_fn);
++#if defined(CONFIG_CFI_CLANG) && defined(CONFIG_LTO_CLANG_THIN)
++/*
++ * LLVM appends a hash to static function names when ThinLTO and CFI are
++ * both enabled, i.e. foo() becomes foo$707af9a22804d33c81801f27dcfe489b.
++ * This causes confusion and potentially breaks user space tools, so we
++ * strip the suffix from expanded symbol names.
++ */
++static inline bool cleanup_symbol_name(char *s)
++{
++	char *res;
++
++	res = strrchr(s, '$');
++	if (res)
++		*res = '\0';
++
++	return res != NULL;
++}
++#else
++static inline bool cleanup_symbol_name(char *s) { return false; }
++#endif
++
+ /* Lookup the address for this symbol. Returns 0 if not found. */
+ unsigned long kallsyms_lookup_name(const char *name)
+ {
+@@ -173,6 +194,9 @@ unsigned long kallsyms_lookup_name(const char *name)
  
- 	/*
- 	 * If @delay is 0, queue @dwork->work immediately.  This is for
+ 		if (strcmp(namebuf, name) == 0)
+ 			return kallsyms_sym_address(i);
++
++		if (cleanup_symbol_name(namebuf) && strcmp(namebuf, name) == 0)
++			return kallsyms_sym_address(i);
+ 	}
+ 	return module_kallsyms_lookup_name(name);
+ }
+@@ -303,7 +327,9 @@ const char *kallsyms_lookup(unsigned long addr,
+ 				       namebuf, KSYM_NAME_LEN);
+ 		if (modname)
+ 			*modname = NULL;
+-		return namebuf;
++
++		ret = namebuf;
++		goto found;
+ 	}
+ 
+ 	/* See if it's in a module or a BPF JITed image. */
+@@ -316,11 +342,16 @@ const char *kallsyms_lookup(unsigned long addr,
+ 	if (!ret)
+ 		ret = ftrace_mod_address_lookup(addr, symbolsize,
+ 						offset, modname, namebuf);
++
++found:
++	cleanup_symbol_name(namebuf);
+ 	return ret;
+ }
+ 
+ int lookup_symbol_name(unsigned long addr, char *symname)
+ {
++	int res;
++
+ 	symname[0] = '\0';
+ 	symname[KSYM_NAME_LEN - 1] = '\0';
+ 
+@@ -331,15 +362,23 @@ int lookup_symbol_name(unsigned long addr, char *symname)
+ 		/* Grab name */
+ 		kallsyms_expand_symbol(get_symbol_offset(pos),
+ 				       symname, KSYM_NAME_LEN);
+-		return 0;
++		goto found;
+ 	}
+ 	/* See if it's in a module. */
+-	return lookup_module_symbol_name(addr, symname);
++	res = lookup_module_symbol_name(addr, symname);
++	if (res)
++		return res;
++
++found:
++	cleanup_symbol_name(symname);
++	return 0;
+ }
+ 
+ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
+ 			unsigned long *offset, char *modname, char *name)
+ {
++	int res;
++
+ 	name[0] = '\0';
+ 	name[KSYM_NAME_LEN - 1] = '\0';
+ 
+@@ -351,10 +390,16 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
+ 		kallsyms_expand_symbol(get_symbol_offset(pos),
+ 				       name, KSYM_NAME_LEN);
+ 		modname[0] = '\0';
+-		return 0;
++		goto found;
+ 	}
+ 	/* See if it's in a module. */
+-	return lookup_module_symbol_attrs(addr, size, offset, modname, name);
++	res = lookup_module_symbol_attrs(addr, size, offset, modname, name);
++	if (res)
++		return res;
++
++found:
++	cleanup_symbol_name(name);
++	return 0;
+ }
+ 
+ /* Look up a kernel symbol and return it in a text buffer. */
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
