@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7268A346A47
+	by mail.lfdr.de (Postfix) with ESMTP id 021EE346A46
 	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Mar 2021 21:41:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233556AbhCWUkn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Mar 2021 16:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
+        id S233673AbhCWUko (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Mar 2021 16:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233564AbhCWUkR (ORCPT
+        with ESMTP id S233574AbhCWUkW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Mar 2021 16:40:17 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B777C0613DC
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:17 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id x10so3830870ybr.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:17 -0700 (PDT)
+        Tue, 23 Mar 2021 16:40:22 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A43C061765
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:19 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id t1so3836424ybq.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 23 Mar 2021 13:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=qAbADIQAzXUoq/ElYpa9rjjQHxphEP8wPywcql//gEU=;
-        b=T9lYeG1vNkvikIi777MRSbbTtj3IaPeu7RN7uXeSPXvS4b9+WLGfOdasWEAHo+i17u
-         3080AmXMs2xVaLte8P7ahk8JJEdHsGELqvOLIoahy4V4PMsoqaf2aZV65W6Qbg5iWS+h
-         b6ti/m6+OZ84hMZziyoN5GFocxb13Za6OwHGFrBaUy1iO+H9JEiP0tyCwkF3p/KzGz5a
-         KI2Lj51XAl8PJy62wWStBc6KSEOp8id1hQ564UGK3S0iIjj4kUsIubPJjw5De4OUhc9s
-         huAxEcZhyUcc7CzcBmMkKd6YmZw4qc0E+2UxOVGGUsXyQLc3FPDMC5xWzijn66SgJ0Xs
-         vHJQ==
+        bh=tNWRsiiEAfetheYG6qtDYdd6Zu2YM8DJGmENfE26Aac=;
+        b=QwtFzkNZ0ArdJ22uiNb1llxuSobP5aVQNzwPksMPm+yXD4iJErHZlbeYgNVneIsCaV
+         eWzSIifLKq9OeR/urLV+kBUy5t9Lj6BMjZqFICzYH6wVYLJimy4yOQuD7NgKMnmibW9S
+         zG50zFIIhTS3dotn12D1Zy6qsSjg8WUhwZTAAq2J7W9gn7luxZShIQYCTr+CZA3deHb8
+         U3jjpaLWT8ZiETFcnxTTPxy7Im1JnVTxQxGpi3yBHzfY2Dfw3S61ouZ35+FlKNnKAFPT
+         AeZpguEmKCpHpboafyAslh+3UWQD/2MhlgpX4aQM7wK4y4d9OGGiM9NT5wh5PIZuoCtX
+         4HRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=qAbADIQAzXUoq/ElYpa9rjjQHxphEP8wPywcql//gEU=;
-        b=M+4b/tt3znGAYROoFx0qq4BNSPtl3I1jt00hcEmNbyw0a3gO7y6M1KpJqK7KWln3sf
-         JrI3Fz/rGdWmeAgRPcE9NuYjSgcj4TnE0hZcdwZFRh7UjtpXVfSWo1DRd6jR1lPzZMyK
-         /ekTt1mB+uwocJ17nh+7XsCotfa7LQhrj8XJgISD08w2W3CHUcFHu8Ag+Qr/zQaWquTA
-         NrheoTCEchlEA9ValA0eg9vUBGHON1hiV/udsu1RD2mwry/QuVzfGbd/OwUY6+aQWhP8
-         3KyzycN3XKj3CorRNnQPmVdsJUFy+Hnf3pnA19IPTSy04861rC3w3gBYnKC0wQmxIA8A
-         lypw==
-X-Gm-Message-State: AOAM533HVZNQvJSFkqhCyFCqW3+OzOEaSNlykktUtzdfm1irwvAqhr76
-        csmwpayUyGLXQx4o9Sod5dhikEC6gGVW3Rfm5ms=
-X-Google-Smtp-Source: ABdhPJwmStks0YRxHTnj25YBiyDAjN/ixvNa9lapKnlHKARYrFssO9o0nOXAMkPoRpi0g6QTRn8BhWyhoUBcjcDwMF8=
+        bh=tNWRsiiEAfetheYG6qtDYdd6Zu2YM8DJGmENfE26Aac=;
+        b=FInZ/AL4AERYyIJSJBN6dx/18AbJJmfk6pW3qLQGkz2mst0T5fbxnMvXwTbc/lTpaO
+         L/hk6XRMpHAUqYWg36w4XSRZFd7ns9FfCh/lp5KM3EfRjLJpBXImMqepufF7WZxMaSzA
+         ZgNZw4eO54WHpqu64L1HA9TkOsW/Bk2KTzFrR9o9hPJB8yQiao+N/b5aW6cniTDLJBn4
+         usnL4c77lFovlgR+h/RRTeCOEocmFUhfCdgM4UHkK6JmNQ6JF8YC3CHYOOSIyEjiyJKd
+         bqDgPF5oNvlixVygdR8bfuXSfXxRl1W0Z1IJ2QrPpU43sVXsP84Bb4pT0LFQFknnV4mz
+         Di6g==
+X-Gm-Message-State: AOAM530yig31N2f0572ck2QKa4mQ/UUIm6YMBQVETWpwtAORCFfGv4rO
+        a1nM6ifddkcma++fKQg0ozEy/A5w14DkfFqpF0w=
+X-Google-Smtp-Source: ABdhPJxEi3pQM02XMd23fjMyS1SetL4sDZHHMo2+iWEzXbz9tuF1eS1XAan8eMOnDTZL5Cre89JVC9ou2IlB88zz+ZI=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:e9a3:260d:763b:67dc])
- (user=samitolvanen job=sendgmr) by 2002:a25:3493:: with SMTP id
- b141mr100244yba.342.1616532016542; Tue, 23 Mar 2021 13:40:16 -0700 (PDT)
-Date:   Tue, 23 Mar 2021 13:39:44 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a25:686:: with SMTP id
+ 128mr110596ybg.258.1616532018575; Tue, 23 Mar 2021 13:40:18 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 13:39:45 -0700
 In-Reply-To: <20210323203946.2159693-1-samitolvanen@google.com>
-Message-Id: <20210323203946.2159693-16-samitolvanen@google.com>
+Message-Id: <20210323203946.2159693-17-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20210323203946.2159693-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-Subject: [PATCH v3 15/17] arm64: add __nocfi to __apply_alternatives
+Subject: [PATCH v3 16/17] KVM: arm64: Disable CFI for nVHE
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -71,33 +71,31 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-__apply_alternatives makes indirect calls to functions whose address
-is taken in assembly code using the alternative_cb macro. With
-non-canonical CFI, the compiler won't replace these function
-references with the jump table addresses, which trips CFI. Disable CFI
-checking in the function to work around the issue.
+Disable CFI for the nVHE code to avoid address space confusion.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/arm64/kernel/alternative.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/kvm/hyp/nvhe/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/kernel/alternative.c b/arch/arm64/kernel/alternative.c
-index 1184c44ea2c7..abc84636af07 100644
---- a/arch/arm64/kernel/alternative.c
-+++ b/arch/arm64/kernel/alternative.c
-@@ -133,8 +133,8 @@ static void clean_dcache_range_nopatch(u64 start, u64 end)
- 	} while (cur += d_size, cur < end);
- }
+diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
+index a6707df4f6c0..fb24a0f022ad 100644
+--- a/arch/arm64/kvm/hyp/nvhe/Makefile
++++ b/arch/arm64/kvm/hyp/nvhe/Makefile
+@@ -75,9 +75,9 @@ quiet_cmd_hyprel = HYPREL  $@
+ quiet_cmd_hypcopy = HYPCOPY $@
+       cmd_hypcopy = $(OBJCOPY) --prefix-symbols=__kvm_nvhe_ $< $@
  
--static void __apply_alternatives(void *alt_region,  bool is_module,
--				 unsigned long *feature_mask)
-+static void __nocfi __apply_alternatives(void *alt_region,  bool is_module,
-+					 unsigned long *feature_mask)
- {
- 	struct alt_instr *alt;
- 	struct alt_region *region = alt_region;
+-# Remove ftrace and Shadow Call Stack CFLAGS.
+-# This is equivalent to the 'notrace' and '__noscs' annotations.
+-KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
++# Remove ftrace, Shadow Call Stack, and CFI CFLAGS.
++# This is equivalent to the 'notrace', '__noscs', and '__nocfi' annotations.
++KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS) $(CC_FLAGS_CFI), $(KBUILD_CFLAGS))
+ 
+ # KVM nVHE code is run at a different exception code with a different map, so
+ # compiler instrumentation that inserts callbacks or checks into the code may
 -- 
 2.31.0.291.g576ba9dcdaf-goog
 
