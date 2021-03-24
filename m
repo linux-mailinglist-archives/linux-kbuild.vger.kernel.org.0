@@ -2,162 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C812347CA4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Mar 2021 16:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE59347D10
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Mar 2021 16:55:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236711AbhCXPbe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Mar 2021 11:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35254 "EHLO
+        id S236814AbhCXPyh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Mar 2021 11:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236672AbhCXPbV (ORCPT
+        with ESMTP id S236677AbhCXPyb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Mar 2021 11:31:21 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439D8C061763
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 08:31:20 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id u9so33577969ejj.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 08:31:20 -0700 (PDT)
+        Wed, 24 Mar 2021 11:54:31 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCA8C061763
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 08:54:31 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id l4so11598117vsc.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 08:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fckQzWuJnvD6S/jFF8HUa1PwKAcbSDOKJ4gWr/ndvyk=;
-        b=OlKQtU1q2ZxhFAsb1Cs2Js3zE+ZJzDOEI4+bnRMrr1+uVB7P/Iu6eKckjnXg8zK56l
-         Irrft7thQGCzqA32QFBdXE4+uBuO6iQgfPeDjc1NS4TUbZsPKk2pdNdVY5R9tx4z25Dg
-         ozY6uLy7niX57VhmCVl+dE8zMrZFu7sQlODj4=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jvdMNpuLDTAr72CZhKMnuvvxwLSHQueODNwVd/tQkSw=;
+        b=fB+V4oDpRcxIY7NRezv/LgYAX+HS0KhU+rJZTEOffFFfAiDhycklq7vjJKyxwAyN6d
+         FwVooeLY/l/eF0g2TiN+AEb+pWaU9Yjy4oeAuL2EjKqlXuPDwvNse4NeL0O8VLQsYJrj
+         MduPgnhW4BoOEKm+9blk0AOlC9ZFe2MWNVdXg05XsLH8u13/F+l8TvAs/zdYNo204lOb
+         UO2ejvr4schD5aphabcQ/rkR6XZAgxxn8+gOR3cZyqZ26gf7fuyTuc2VNfchDyeH/tfJ
+         /ihpDMwEMU+3K5BBUlLCDwOe8gCAWXmR5ilixiAwXqQwXtxAH6TLPNups0PP1aS/TPeQ
+         E9eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fckQzWuJnvD6S/jFF8HUa1PwKAcbSDOKJ4gWr/ndvyk=;
-        b=k6bRAlKErOy6vLLloIJGOIOfQLrHaozWEvcP0nKBvMyIaopNNMNydw6CitaOJpUlyT
-         ICFfYJsAJIIAP2PopLZQ0HznS2hQS36zVspY2z45R+eDQ8RnLuq84sWe/uT35yPP2xx3
-         dB473Erl+E2BtlyRHFNc4c8F4icEDWiDnvj4la0lhSqP0j5UMXuj3eUSWs3fHWUzbXQk
-         PcV9H4Bn9hLfKUc0xnqsGnxO3/od/rvMOHSt/35BrAoLt4rMETI18989AgJQdEnW2JTV
-         b7EY+enIzGcXcw2wzQ/Ubk9nzYl5Rzqs2dxHGOkFWNSUMyYSB262nKSNSkl3mIcLfTsj
-         JNLQ==
-X-Gm-Message-State: AOAM531zMRTGJxeJUwgxG0Het1dPT9vuqdlYKKw8c7DqyXXFELQ8VSBJ
-        ICasJTnM97mReSHZSF7kZ3mj3A==
-X-Google-Smtp-Source: ABdhPJwQj/wpq3nFF6bQFT/Rz0xc2jmEi77W566MBeimLH4Wx2lLOahfvWOwYafWC5mURjTYGhXuXw==
-X-Received: by 2002:a17:906:358c:: with SMTP id o12mr4397574ejb.156.1616599878962;
-        Wed, 24 Mar 2021 08:31:18 -0700 (PDT)
-Received: from [192.168.1.149] ([80.208.71.248])
-        by smtp.gmail.com with ESMTPSA id b12sm1262238eds.94.2021.03.24.08.31.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 08:31:18 -0700 (PDT)
-Subject: Re: [PATCH v3 02/17] cfi: add __cficanonical
-To:     Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jvdMNpuLDTAr72CZhKMnuvvxwLSHQueODNwVd/tQkSw=;
+        b=RBp/FUuQ3p9XNAWy3QJ35AjYvQsHzN3Ff7t7CpSM3VnBypo2V0ovkmaHtB+sdhzoVH
+         u4XDfgz3TrBkd06i6C+9fDI/zz9QpaLFPGSADn/QqkrufcDRgirmMsttT3/+pKRcGVN/
+         9dkoBzLMeAFtI3Xf6hXvlQXL4gCpRYvRsOlToQ/eXxUGC010jQCGK0s1XUG27OG0hGMw
+         JoPgLAiAMqhv6GYUb5ZR+QnmzYHOV2eNutouVaibwe3W+4Wh23+/goGTiWMzBdvClW1w
+         j+oWNJ6zDnqOmmUNatRb+MdRW2/VCmtPa1M62xvvIzdLvbOBjrEgmG509MXYM9ojcPTE
+         FQ+A==
+X-Gm-Message-State: AOAM5314im/TqQkqM06t3eFGeAX9pG3ksIi/W8KqvA1MHCDD2q8d3fVF
+        KmB7qA1HwxtCQHHJ8orhr/2NXrXHZb5NcedBvxZ8Ow==
+X-Google-Smtp-Source: ABdhPJw/Tt5Eglhjkk3DSFJmZtQNB1612Zn3Mq7A5Is3NYScePeRKnpnTe64INtZMtYBNux7wDX2SFzRZ2Nc/eNRj+g=
+X-Received: by 2002:a67:b447:: with SMTP id c7mr2227327vsm.54.1616601270219;
+ Wed, 24 Mar 2021 08:54:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210323203946.2159693-1-samitolvanen@google.com>
+ <20210323203946.2159693-4-samitolvanen@google.com> <20210324071357.GB2639075@infradead.org>
+In-Reply-To: <20210324071357.GB2639075@infradead.org>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Wed, 24 Mar 2021 08:54:18 -0700
+Message-ID: <CABCJKufRHCb0sjr1tMGCoVMzV-5dKPPn-t8=+ihNFAgTr2k0DA@mail.gmail.com>
+Subject: Re: [PATCH v3 03/17] mm: add generic __va_function and __pa_function macros
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>, bpf@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210323203946.2159693-1-samitolvanen@google.com>
- <20210323203946.2159693-3-samitolvanen@google.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <92afcbea-1415-2df1-5e78-4e9a7a4d364b@rasmusvillemoes.dk>
-Date:   Wed, 24 Mar 2021 16:31:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <20210323203946.2159693-3-samitolvanen@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Peter Zijlstra <peterz@infradead.org>,
+        bpf <bpf@vger.kernel.org>, linux-hardening@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 23/03/2021 21.39, Sami Tolvanen wrote:
-> With CONFIG_CFI_CLANG, the compiler replaces a function address taken
-> in C code with the address of a local jump table entry, which passes
-> runtime indirect call checks. However, the compiler won't replace
-> addresses taken in assembly code, which will result in a CFI failure
-> if we later jump to such an address in instrumented C code. The code
-> generated for the non-canonical jump table looks this:
-> 
->   <noncanonical.cfi_jt>: /* In C, &noncanonical points here */
-> 	jmp noncanonical
->   ...
->   <noncanonical>:        /* function body */
-> 	...
-> 
-> This change adds the __cficanonical attribute, which tells the
-> compiler to use a canonical jump table for the function instead. This
-> means the compiler will rename the actual function to <function>.cfi
-> and points the original symbol to the jump table entry instead:
-> 
->   <canonical>:           /* jump table entry */
-> 	jmp canonical.cfi
->   ...
->   <canonical.cfi>:       /* function body */
-> 	...
-> 
-> As a result, the address taken in assembly, or other non-instrumented
-> code always points to the jump table and therefore, can be used for
-> indirect calls in instrumented code without tripping CFI checks.
+On Wed, Mar 24, 2021 at 12:14 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Tue, Mar 23, 2021 at 01:39:32PM -0700, Sami Tolvanen wrote:
+> > With CONFIG_CFI_CLANG, the compiler replaces function addresses
+> > in instrumented C code with jump table addresses. This means that
+> > __pa_symbol(function) returns the physical address of the jump table
+> > entry instead of the actual function, which may not work as the jump
+> > table code will immediately jump to a virtual address that may not be
+> > mapped.
+> >
+> > To avoid this address space confusion, this change adds generic
+> > definitions for __va_function and __pa_function, which architectures
+> > that support CFI can override. The typical implementation of the
+> > __va_function macro would use inline assembly to take the function
+> > address, which avoids compiler instrumentation.
+>
+> I think these helper are sensible, but shouldn't they have somewhat
+> less arcane names and proper documentation?
 
-Random ramblings, I'm trying to understand how this CFI stuff works.
+Good point, I'll add comments in the next version. I thought
+__pa_function would be a fairly straightforward replacement for
+__pa_symbol, but I'm fine with renaming these. Any suggestions for
+less arcane names?
 
-First, patch 1 and 2 explain the pros and cons of canonical vs
-non-canonical jump tables, in either case, there's problems with stuff
-implemented in assembly. But I don't understand why those pros and cons
-then end up with using the non-canonical jump tables by default. IIUC,
-with canonical jump tables, function pointer equality would keep working
-for functions implemented in C, because &func would always refer to the
-same stub "function" that lives in the same object file as func.cfi,
-whereas with the non-canonical version, each TU (or maybe DSO) that
-takes the address of func ends up with its own func.cfi_jt.
-
-There are of course lots of direct calls of assembly functions, but
-I don't think we take the address of such functions very often. So why
-can't we instead equip the declarations of those with a
-__cfi_noncanonical attribute?
-
-And now, more directed at the clang folks on cc:
-
-As to how CFI works, I've tried to make sense of the clang docs. So at
-place where some int (*)(long, int) function pointer is called, the
-compiler computes (roughly) md5sum("int (*)(long, int)") and uses the
-first 8 bytes as a cookie representing that type. It then goes to some
-global table of jump table ranges indexed by that cookie and checks that
-the address it is about to call is within that range. All jump table
-entries for one type of function are consecutive in memory (with
-complications arising from cross-DSO calls).
-
-What I don't understand about all this is why that indirection through
-some hidden global table and magic jump table (whether canonical or not)
-is even needed in the simple common case of ordinary C functions. Why
-can't the compiler just emit the cookie corresponding to a given
-function's prototype immediately prior to the function? Then the inline
-check would just be "if (*(u64*)((void*)func - 8) == cookie)" and
-function pointer comparison would just work because there's no magic
-involved when doing &func. Cross-DSO calls of C function have no extra
-cost to look up a __cfi_check function in the target DSO. An indirect
-call doesn't touch at least two extra cache lines (the range table and
-the jump table entry). It seems to rely on LTO anyway, so it's not even
-that the compiler would have to emit that cookie for every single
-function, it knows at link time which functions have their address
-taken. Calling functions implemented in assembly through a function
-pointer will have the same problem as with the "canonical" jump table
-approach, but with a suitable attribute on those surely the compiler
-could emit a func.cfi_hoop
-
-  .quad 0x1122334455667788 // cookie
-  <func.cfi_hoop>:
-	jmp func
-
-and perhaps no such attribute would even be needed (with LTO, the
-compiler should be able to see "hey, I don't know that function, it's
-probably implemented in assembly, so lemme emit that trampoline with a
-cookie in front and redirect address-of to that").
-
-Rasmus
+Sami
