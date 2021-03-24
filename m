@@ -2,128 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 004913484D4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Mar 2021 23:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CC2B3484D5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Mar 2021 23:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238881AbhCXWpv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S238884AbhCXWpv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Wed, 24 Mar 2021 18:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44992 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238873AbhCXWpg (ORCPT
+        with ESMTP id S238875AbhCXWpl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Mar 2021 18:45:36 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CF0C06174A;
-        Wed, 24 Mar 2021 15:45:36 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id o5so45273qkb.0;
-        Wed, 24 Mar 2021 15:45:36 -0700 (PDT)
+        Wed, 24 Mar 2021 18:45:41 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BA7C06174A
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 15:45:41 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id l1so15784208pgb.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 15:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Hh26ULFb4wq8BYHUWw0+QpzKKrkXdQqjX8h/lbFDYEU=;
-        b=iH54P25ntpvVjviAnClmCW1o71Q8VoEHNJvYAe/C2ouayJ0wMAGfThDSF8db8xYeE8
-         AzCp4bkFHyawLz42l/HiLd43JP5/6qheRX/aSxKIWxYx8DYGNjGKjyJBYFRDA0vJ8REE
-         oMWLSQqhOVDe6o+Ed7VmrQe2TIyFWzChl0n9w8qEuZ7e+fgJrlDPTpGRKaMD/NItuHjF
-         AnJCpjZD87iWJl2ke7ZWi35WWVMbJMxK1C5Uq8lWl0dYDmPIQht/5ClIeiqiNllF3tQw
-         q8py2hsH8bQU6VQrJcR1bInLfF1vNikdXc2+gea5dilDKdyet+kSaHK5ShB01CQ4pNEB
-         V94w==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dtMAFNGRvXR9tr74ckEk4qdzC3+4Qmuoanh+5ep0zEg=;
+        b=mf4RKQX2PTsWVXlghsyxe8tAq+NHBJ/XcntZttvk+RoykwKGf03PqYjgRaYZpuERLo
+         VIohXueiLN9zcCGZPSrTApIF+OW7zXOcdCT1MpoXkImRUaU2+hCZY4DZrM89t2PQogRh
+         vEGm4/gFGaIYg5t074wfc/a4z2rGcz7XeutUeBzVeETCWc9QcGEZJ+Kbm9ftykJCauqm
+         n2tFBn61Oc7G8gnCx6SJhEthi4uVMiawT98MZtZjqlP276qdHJnFGUGOazmKpnlls/1e
+         t+43rr6zgsOlt/SLhgbj9PpNTd5nCIbc+fPx+Pgl/x5I96C/fYxw8nFHk2jZfFHG5Y6E
+         z/xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Hh26ULFb4wq8BYHUWw0+QpzKKrkXdQqjX8h/lbFDYEU=;
-        b=ODF9YNp4z8ksjkQVDL9HQD0JyMo6wEaVFoskyfYZNlAGHwPAMNru6OzQUt0rlUUMWt
-         SnMW1qspJOpslAW9Ts2DU118C1ZFkJYqj3H2veB9EqSeQlKrxJ4qZlP68U800JWMpNOh
-         kR5vy4p1d7qQsnDMItxuQH88khEpDjFHRIyk7AKIAR3g7ulVe/d8IvLYQYQRPJUfdC9P
-         xQClo3fcwRYMP8XvlktTQVg3uy1B5htYP5mXmDvkL1bHADaHUEWC15KIXioHHpGR0az8
-         3jHvy25S9NIA/xjsNRQsONVVoP/R9GkvMhXJXJ/csz0+1QlDfe2Y8IfUrWIy165Vz/ah
-         u0EQ==
-X-Gm-Message-State: AOAM532UtPK3X6TWxeYnIMKp59OapJBK7ZJ+hPgMb7L8MU55PgBPm+i7
-        4I00eBeGWiYuC1b7Z/oS3e8=
-X-Google-Smtp-Source: ABdhPJxyMmEaltxjhHYfydLE6/aXk0Eow2tJzvZFTUp4GSdzNgraqf2eiIQXNGRBN1mcJA4fE5+P7g==
-X-Received: by 2002:a37:660e:: with SMTP id a14mr5239578qkc.35.1616625935999;
-        Wed, 24 Mar 2021 15:45:35 -0700 (PDT)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id z2sm2948376qkg.22.2021.03.24.15.45.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 15:45:35 -0700 (PDT)
-Subject: Re: [PATCH V11 3/5] kbuild: Allow .dtso format for overlay source
- files
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dtMAFNGRvXR9tr74ckEk4qdzC3+4Qmuoanh+5ep0zEg=;
+        b=rPgcXC1yTSVn49nL6EpVmVDdk8zwNGvR4Pju4sMvYqeUbXzSgSptsw5/FP04uohI8z
+         R+UueBJgNvKGQ/RoOhCUq5qISCKXZuHXZyhtDv9v54byjsrlsRYrZPm+wmsHRHySUjc/
+         Ya66vwdvDYK6XezpXSTw9qObW6vwoFDoYXKTK0ob5AMCIW6o07u2Ae5DkXIpeVG2WzWb
+         fS/Y6uSQYB0Ul9OiIyDU/0F8bQ9YbNk9TVD7FmOvB9fp2RhF1ULff12Rr2IVT2mU/Ua0
+         mcJPiDW+o6uWIcYBpp54KFwguYvyXtNqL8Wvxwb13OpPb7GV5G25DCaPLept1BHWweMQ
+         ZWwA==
+X-Gm-Message-State: AOAM532pAJN2iFdP9Q3pQDUEG7DGc9tRkWZz3VeY31wcIt1zf9auqoqJ
+        soLibWeDsNIX5hn1BIVPt6nzcQ==
+X-Google-Smtp-Source: ABdhPJx9tirFcs8M8z1akH8PiPcyfxRquA5Pe9ivMYrUey8HlclyG6nFMCckS2EuSyMG3lRCt2NS0w==
+X-Received: by 2002:a63:d704:: with SMTP id d4mr4751624pgg.221.1616625940704;
+        Wed, 24 Mar 2021 15:45:40 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id l22sm3785879pfd.145.2021.03.24.15.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 15:45:40 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 22:45:36 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <170e086a5fa076869e7b37de8eea850fa7c39118.1615354376.git.viresh.kumar@linaro.org>
- <CAK7LNASACr5EaG9j5c-eD3bYxKgrisb60Z3Qy7UsyS-i9YjORg@mail.gmail.com>
- <20210312044712.srmqfuie7fae55pb@vireshk-i7>
- <17c65559-865f-f742-660f-0ab30ed45d90@gmail.com>
- <4d9bee7a-416e-50a1-65a5-0674ae83d42e@gmail.com>
- <20210312071325.zosmlttse4ym7sit@vireshk-i7>
- <6f093bb1-1a80-a906-fb4c-3f6fdeed4838@gmail.com>
- <9068520f-76d6-ec94-716c-02383422ac85@gmail.com>
- <20210315064051.otcjt3x6vkfdrio6@vireshk-i7>
- <98697a33-a07d-6c5f-3f21-97a92ac68d3e@gmail.com>
- <20210316054236.2blnleucwr4eidfi@vireshk-i7>
- <077b75aa-6ebc-d76d-d76a-3206e7898c8c@gmail.com>
-Message-ID: <1ae3b0c3-be85-e6ba-ac17-3f83fc4dd087@gmail.com>
-Date:   Wed, 24 Mar 2021 17:45:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH] kbuild: Merge module sections if and only if
+ CONFIG_LTO_CLANG is enabled
+Message-ID: <YFvBEIkuFY2ajNlG@google.com>
+References: <20210322234438.502582-1-seanjc@google.com>
+ <CABCJKudMQ9CP1zhvywTf-_=PY5zmeviURR+=PqsMn_bqa_MV-g@mail.gmail.com>
+ <YFoZBY1SqilWAmx4@google.com>
+ <CABCJKucYHQ893LS1iCHXivPS05RMDN2BpDFou306jOEbWnt1Dg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <077b75aa-6ebc-d76d-d76a-3206e7898c8c@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABCJKucYHQ893LS1iCHXivPS05RMDN2BpDFou306jOEbWnt1Dg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Viresh,
-
-On 3/24/21 2:34 AM, Frank Rowand wrote:
-> On 3/16/21 12:42 AM, Viresh Kumar wrote:
->> On 16-03-21, 00:36, Frank Rowand wrote:
->>> I should have looked at patch 3/5 more carefully instead of counting on
->>> Masahiro to check it out and simply build testing.
->>>
->>> Patch 3/5 does not seem correct.  I'll look over all the makefile related
->>> changes that have been accepted (if any) and patch 3/5 later today (Tuesday).
->>
->> What is already merged by Rob is what everyone reviewed and it wasn't
->> related to this .dtso/.dtbo discussion we are having. I will resend a
->> new patchset with the stuff left for merging (which will involve the
->> thing we are discussing here), so we can get a clear picture of it.
->>
+On Tue, Mar 23, 2021, Sami Tolvanen wrote:
+> On Tue, Mar 23, 2021 at 9:36 AM Sean Christopherson <seanjc@google.com> wrote:
+> >
+> > On Tue, Mar 23, 2021, Sami Tolvanen wrote:
+> > > On Mon, Mar 22, 2021 at 4:44 PM Sean Christopherson <seanjc@google.com> wrote:
+> > > >
+> > > > Merge module sections only when using Clang LTO.  With gcc-10, merging
+> > > > sections does not appear to update the symbol tables for the module,
+> > > > e.g. 'readelf -s' shows the value that a symbol would have had, if
+> > > > sections were not merged.
+> > >
+> > > I'm fine with limiting this to LTO only, but it would be helpful to
+> > > understand which sections are actually getting merged here.
+> >
+> > It doesn't appear to matter which sections get merged, the tables only show the
+> > correct data if there is no merging whatsoever, e.g. allowing merging for any
+> > one of the four types (.bss, .data, .rodata and .text) results in breakage.
+> > AFAICT, merging any sections causes the layout to change and throw off the
+> > symbol tables.
 > 
-> Instead of doing what I suggested in my 16-03-21, 00:36 email (only
-> partly quoted above), I have made most of the changes to unittest.c
-> and drivers/of/unitest/unittest-data/Makefile to allow the unittest
-> .dts files to be .dtso source files and .dtbo FDT files, and tested.
-> One final step remaining in my work is to actually rename the *.dts
-> files to *.dtso.
+> Thanks for the clarification. I can reproduce this issue with gcc +
+> bfd if any of the sections are merged, but gcc + lld produces valid
+> symbol tables.
+
+FWIW, clang + bfd also produces mangled tables, so it does appear to be bfd
+specific.
+
+> Perhaps someone more familiar with bfd can comment on whether this is
+> a bug or a feature, and if there's a flag we can pass to bfd that
+> would fix the issue. In the meanwhile, this patch looks like a
+> reasonable workaround to me.
 > 
-> I hope to finish this later today (Wednesday) after getting some
-> sleep.
-
-I have submitted a patch that I _think_ removes the need for most
-of patch 3/5, _other_ than the yaml rule, which I would assume is
-still needed, though I did not examine it.
-
-My patch is 
-https://lore.kernel.org/r/20210324223713.1334666-1-frowand.list@gmail.com
-
-Can you do a new patch with just the yaml rule (if Rob accepts my patch).
-
--Frank
-
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> Tested-by: Sami Tolvanen <samitolvanen@google.com>
+> 
+> Sami
