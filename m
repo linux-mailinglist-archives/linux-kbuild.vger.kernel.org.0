@@ -2,158 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC0A348906
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 07:22:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95640348DCA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 11:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbhCYGVg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Mar 2021 02:21:36 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:57541 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbhCYGVJ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Mar 2021 02:21:09 -0400
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 12P6Kq8r011624;
-        Thu, 25 Mar 2021 15:20:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 12P6Kq8r011624
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1616653252;
-        bh=8zBxAZTZhqLVUdKtdKT+NTy/7cM48Qg0YutzNlS3X6s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fWZd68fmvrHmXIx5oQOXJKQgO435qyVj26+ZbHiTwB3U+JkxI+p1FBaQBM6Y/zLFr
-         7iXMkheE3myrxel7oEuzli4ik+1euTWhveTN+r8xNkTRZjI3QXIYnlbtvklO5CmTfq
-         qEwLTOpk+MEdgW3e+YWRqU3xQui6OT8rxqbZ+xNfDmvX0aIXwpuI3LnoOvH3krpXNj
-         QEJQq08my8RDaYgD5G0rGKG33aOsoLEwCn9zYEpA1ymqc3JPOMZfOcu9+8hvjYNcUB
-         udqNg4rUNJGzDFNX+RHNtVorVN+Uly7fiXhYgDUBL+tzQJf6RYRzzgbQdZ+zegy3Kq
-         ytChctXpYxQbA==
-X-Nifty-SrcIP: [209.85.216.42]
-Received: by mail-pj1-f42.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so2278971pjc.2;
-        Wed, 24 Mar 2021 23:20:52 -0700 (PDT)
-X-Gm-Message-State: AOAM533dnBOk0CBqCfhpnST8r3Sr9iVPE1KvCeU4+8g091WlYCFItfMH
-        CBsjqkXalZKPvR7lsszmWdM0ZJYbRuaUPvtTFTI=
-X-Google-Smtp-Source: ABdhPJxvLfC9axA1MpCDg04uRGzNnQxbk0faM3oWk73TIoATXtrSQagtfAXZvlu++rP4dz5+oh09Y9PXIiojsJABBEM=
-X-Received: by 2002:a17:90a:fb54:: with SMTP id iq20mr6910829pjb.153.1616653251472;
- Wed, 24 Mar 2021 23:20:51 -0700 (PDT)
+        id S230045AbhCYKRN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Mar 2021 06:17:13 -0400
+Received: from foss.arm.com ([217.140.110.172]:45880 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230007AbhCYKRD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 25 Mar 2021 06:17:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6609613A1;
+        Thu, 25 Mar 2021 03:17:02 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EB263F718;
+        Thu, 25 Mar 2021 03:16:57 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 10:16:55 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        bpf <bpf@vger.kernel.org>, linux-hardening@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 03/17] mm: add generic __va_function and __pa_function
+ macros
+Message-ID: <20210325101655.GB36570@C02TD0UTHF1T.local>
+References: <20210323203946.2159693-1-samitolvanen@google.com>
+ <20210323203946.2159693-4-samitolvanen@google.com>
+ <20210324071357.GB2639075@infradead.org>
+ <CABCJKufRHCb0sjr1tMGCoVMzV-5dKPPn-t8=+ihNFAgTr2k0DA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210322213806.089334551@goodmis.org> <20210322214032.293992979@goodmis.org>
- <CAK7LNAQh=zKVTwup5Kh39oTnVEUNotX-Ce7_+2uRO1GNVOaDbw@mail.gmail.com> <20210324095417.49c6377b@gandalf.local.home>
-In-Reply-To: <20210324095417.49c6377b@gandalf.local.home>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 25 Mar 2021 15:20:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ4uRB+9M4h0KVwEQUnX1XZrsE30KP_pqJqYjF2FcsHZA@mail.gmail.com>
-Message-ID: <CAK7LNAQ4uRB+9M4h0KVwEQUnX1XZrsE30KP_pqJqYjF2FcsHZA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] streamline_config.pl: Add softtabstop=4 for vim users
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "John (Warthog9) Hawley" <warthog9@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABCJKufRHCb0sjr1tMGCoVMzV-5dKPPn-t8=+ihNFAgTr2k0DA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 10:54 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Wed, 24 Mar 2021 15:01:13 +0900
-> Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> > On Tue, Mar 23, 2021 at 6:40 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+On Wed, Mar 24, 2021 at 08:54:18AM -0700, Sami Tolvanen wrote:
+> On Wed, Mar 24, 2021 at 12:14 AM Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Tue, Mar 23, 2021 at 01:39:32PM -0700, Sami Tolvanen wrote:
+> > > With CONFIG_CFI_CLANG, the compiler replaces function addresses
+> > > in instrumented C code with jump table addresses. This means that
+> > > __pa_symbol(function) returns the physical address of the jump table
+> > > entry instead of the actual function, which may not work as the jump
+> > > table code will immediately jump to a virtual address that may not be
+> > > mapped.
 > > >
-> > > From: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
-> > >
-> > > The tab stop for Perl files is by default (at least in emacs) to be 4
-> > > spaces, where a tab is used for all 8 spaces. Add a local variable comment
-> > > to make vim do the same by default, and this will help keep the file
-> > > consistent in the future when others edit it via vim and not emacs.
-> > >
-> > > Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> > > To avoid this address space confusion, this change adds generic
+> > > definitions for __va_function and __pa_function, which architectures
+> > > that support CFI can override. The typical implementation of the
+> > > __va_function macro would use inline assembly to take the function
+> > > address, which avoids compiler instrumentation.
 > >
-> >
-> > Documentation/process/coding-style.rst says "do not do this".
->
-> I take that file more as for C code, never took it for Perl ;-)
->
-> >
-> > Rather, I want to remove this ugly stuff entirely.
-> > https://lore.kernel.org/patchwork/patch/1401439/
->
-> And I totally agree it does not belong in C code.
->
-> >
-> > Adding .editorconfig seems OK to me, but
-> > Doing this in individual files in an editor-specific
-> > manner is a horror.
->
-> Is there a way to add this for the directory?
->
-> The reason I added this was because of the different ways that vim and
-> emacs handle Perl files. I just added this to ktest.pl because I want it to
-> be consistent.
->
-> The emacs way to edit Perl is to have 4 space indentation, but use tabs for
-> every 8 spaces. That is, you have:
->
->     (4 spaces)
->         (1 tab)
->             (1 tab and 4 spaces)
->                 (2 tabs)
->                     (2 tabs and 4 spaces)
->
-> etc.
+> > I think these helper are sensible, but shouldn't they have somewhat
+> > less arcane names and proper documentation?
+> 
+> Good point, I'll add comments in the next version. I thought
+> __pa_function would be a fairly straightforward replacement for
+> __pa_symbol, but I'm fine with renaming these. Any suggestions for
+> less arcane names?
 
+I think dropping 'nocfi' into the name would be clear enough. I think
+that given the usual fun with {symbol,module,virt}->phys conversions
+it's not worth having the __pa_* form, and we can leave the phys
+conversion to the caller that knows where the function lives.
 
-The root cause of inconsistency is that
-you mix up space-indentation and tab-indentation.
-I do not know if it is a standard way either.
+How about we just add `function_nocfi()` ?
 
-For example, scripts/checkpatch.pl uses only tabs,
-which I think is more robust.
+Callers can then do `__pa_symbol(function_nocfi(foo))` and similar.
 
-Unfortunately, we do not have standardized indentation style
-for scripts yet, and people can go in any direction.
-
-The editorconfig patch [1] proposed to always use 4-space
-indentation for *.pl files.
-(that is, do not replace 8 spaces with a tab).
-
-I do not know whether the kernel will adopt .editorconfig or not,
-but if that patch is applied, your 1/2 will be a step backward.
-
-My got-feeling is, you will never reach the goal as long as
-you adopt a strange indentation style, which is obscure
-to other contributors.
-
-Not all people use vim.
-I am not interested in 1/2 either.
-
-If you insist on this patch set, apply it to your tree
-and send a pull request by yourself.
-
-
-[1]: https://lore.kernel.org/lkml/20200703073143.423557-1-danny@kdrag0n.dev/
-
-
-
->
-> What I found from people who edit Perl code is that they will either just
-> indent 8 (with tabs), or just use all spaces. Then you have:
->
->             (1 tab and 4 spaces)
->             (followed by 12 spaces!)
->
-> The way to make vim work the same is to add the softtabspace=4 command.
->
-> We can not add this, but then have to either police the patches coming in,
-> or constantly clean up the code after the fact.
->
-> This code doesn't change much, so I'm fine with that. But for ktest.pl, I'm
-> adding it.
->
-> -- Steve
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Thanks,
+Mark.
