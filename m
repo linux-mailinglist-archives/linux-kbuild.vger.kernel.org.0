@@ -2,87 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22B4634880C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 05:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5833E34880E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 05:49:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbhCYEsT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Mar 2021 00:48:19 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:48778 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbhCYEr4 (ORCPT
+        id S229500AbhCYEsz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Mar 2021 00:48:55 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:54528 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhCYEsZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Mar 2021 00:47:56 -0400
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 12P4lfQV004224;
-        Thu, 25 Mar 2021 13:47:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12P4lfQV004224
+        Thu, 25 Mar 2021 00:48:25 -0400
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 12P4mAOE031060;
+        Thu, 25 Mar 2021 13:48:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 12P4mAOE031060
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1616647662;
-        bh=LaHNVlaOy53jqJwwQZtyYFUyZryl+Mejn02Pwe9PQ+8=;
+        s=dec2015msa; t=1616647691;
+        bh=/uaZX3bCHOhFgcOqswzfVAViushV7RuOF8pV66D1nrg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=l16p7qe232+EwMAh73vfvxSMQ+zmJofd1m1i4xCgDzaEcS4tHzjcjVFVZScFiOH0h
-         x+dHdlIfKH0+ai533ICzNWvPhn1/33eI2lpW6Loi9oyeK1MEdqLvBq0MLzRykTckON
-         2h4qrk31+IBDQBv6fX4Lrk/93nVMGRuhst6etVVVLhQh4PL6dX8GIw4AiQnVTvWM3+
-         AVuJSOgUTXGsbkztUNiu7cTCf+YPkoG9StG5Lz2KcbIizT3XVQaJxhx1yN+I1j3JJp
-         Ut7DA1Bqmb3bfk0m6pj+4k8qbZhLlr0qc1T+bBHRYrlQ9Lcy7hQckzyDQYRKYy/2FB
-         exBcgkiSd4QAg==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so2204135pjh.1;
-        Wed, 24 Mar 2021 21:47:41 -0700 (PDT)
-X-Gm-Message-State: AOAM5300tsTbHKo7kAmYebTwpCKsCJoBizTRomubDuH6ro1mx55clStc
-        9b+9GFSUTbl+sgqmvK+UaOiQo70SaG1UF9v8BUI=
-X-Google-Smtp-Source: ABdhPJyyw4LcZWLus4AWeJJR5BGVrOMh0lyGvjKobpoQlUoSLI7eOb1DEDUgWvaOpkvRaDb3EgEzScTtJpjtaxxl9Qc=
-X-Received: by 2002:a17:90a:fb54:: with SMTP id iq20mr6592682pjb.153.1616647660965;
- Wed, 24 Mar 2021 21:47:40 -0700 (PDT)
+        b=q8OTIEn9NFEfW46vVlA3Gy5OryaGw1dFcr0YmQ8octAuFAqWoT8nPfvup/gwjXAmG
+         9ZWRde5n0Ct/LJgx+9XpazLWnwL62/ynhmb+nVPCZWtUOxh+4JxkDK+pu327A7X97H
+         Rlfn64ZyqAGl6Gv3Alcq/VGh3EibG3hXWXvCfpWLBKCuAmp6K5pDbGSuwxM94MHpNl
+         l6MFp5sJElnyXz54qqzNqiCoAyBYple2PhKc1Xh0vHvHUGqTQL+JudYYxRVuOFsi2O
+         5gTihHS/Kp82q/EGrHjiA6dpxVEma9iDQPnXJ+WIDe0ZKEFNxEYllUk2gWh1YBODQs
+         4k7Ku/Fibed1w==
+X-Nifty-SrcIP: [209.85.216.53]
+Received: by mail-pj1-f53.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so402530pjg.5;
+        Wed, 24 Mar 2021 21:48:10 -0700 (PDT)
+X-Gm-Message-State: AOAM530OoO05615gt0LXBM8HKL/ktP5pIGybdNFiQoWDYh89nJDwQ/78
+        fQrt3Z0VdfWn5w7MZSYaYN71DYh4PCrBLgWAZLU=
+X-Google-Smtp-Source: ABdhPJzQ4olnrldKlvYZdZkbfK800ZGmJQ6jon4C54m8CM+h+8pA+VuQT3T8IBjM3dm+RKXXaiF+D02hDVLye7GEbAg=
+X-Received: by 2002:a17:90a:f68a:: with SMTP id cl10mr6924507pjb.87.1616647690109;
+ Wed, 24 Mar 2021 21:48:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <1615791344-48675-1-git-send-email-yang.lee@linux.alibaba.com>
-In-Reply-To: <1615791344-48675-1-git-send-email-yang.lee@linux.alibaba.com>
+References: <20210313194836.372585-1-masahiroy@kernel.org>
+In-Reply-To: <20210313194836.372585-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 25 Mar 2021 13:47:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARWjJsm79mBtFsRsGCsLn7JpGwzEQdzAbHcT-VmeBQKVw@mail.gmail.com>
-Message-ID: <CAK7LNARWjJsm79mBtFsRsGCsLn7JpGwzEQdzAbHcT-VmeBQKVw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: use true and false for bool variable
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 25 Mar 2021 13:47:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARk6rZbJtCM50zx6XyPbWJrL8zPvCQU74jmMbLFvO-cpA@mail.gmail.com>
+Message-ID: <CAK7LNARk6rZbJtCM50zx6XyPbWJrL8zPvCQU74jmMbLFvO-cpA@mail.gmail.com>
+Subject: Re: [PATCH 01/13] kconfig: split randconfig setup code into set_randconfig_seed()
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 3:55 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
+On Sun, Mar 14, 2021 at 4:48 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> fixed the following coccicheck:
-> ./scripts/kconfig/confdata.c:36:9-10: WARNING: return of 0/1 in function
-> 'is_dir' with return type bool
+> This code is too big to be placed in the switch statement.
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> Move the code into a new helper function. I slightly refactor the code
+> without changing the behavior.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 
-Applied. Thanks.
+All applied to linux-kbuild/kconfig.
 
 
 
 
->  scripts/kconfig/confdata.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/kconfig/conf.c | 54 ++++++++++++++++++++++++------------------
+>  1 file changed, 31 insertions(+), 23 deletions(-)
 >
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index 2568dbe..b65b8c3 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -33,7 +33,7 @@ static bool is_dir(const char *path)
->         struct stat st;
->
->         if (stat(path, &st))
-> -               return 0;
-> +               return false;
->
->         return S_ISDIR(st.st_mode);
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index 957d2a0832f7..063c9e7a34c1 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -82,6 +82,36 @@ static void xfgets(char *str, int size, FILE *in)
+>                 printf("%s", str);
 >  }
+>
+> +static void set_randconfig_seed(void)
+> +{
+> +       unsigned int seed;
+> +       char *env;
+> +       bool seed_set = false;
+> +
+> +       env = getenv("KCONFIG_SEED");
+> +       if (env && *env) {
+> +               char *endp;
+> +
+> +               seed = strtol(env, &endp, 0);
+> +               if (*endp == '\0')
+> +                       seed_set = true;
+> +       }
+> +
+> +       if (!seed_set) {
+> +               struct timeval now;
+> +
+> +               /*
+> +                * Use microseconds derived seed, compensate for systems where it may
+> +                * be zero.
+> +                */
+> +               gettimeofday(&now, NULL);
+> +               seed = (now.tv_sec + 1) * (now.tv_usec + 1);
+> +       }
+> +
+> +       printf("KCONFIG_SEED=0x%X\n", seed);
+> +       srand(seed);
+> +}
+> +
+>  static int conf_askvalue(struct symbol *sym, const char *def)
+>  {
+>         if (!sym_has_value(sym))
+> @@ -515,30 +545,8 @@ int main(int ac, char **av)
+>                         defconfig_file = optarg;
+>                         break;
+>                 case randconfig:
+> -               {
+> -                       struct timeval now;
+> -                       unsigned int seed;
+> -                       char *seed_env;
+> -
+> -                       /*
+> -                        * Use microseconds derived seed,
+> -                        * compensate for systems where it may be zero
+> -                        */
+> -                       gettimeofday(&now, NULL);
+> -                       seed = (unsigned int)((now.tv_sec + 1) * (now.tv_usec + 1));
+> -
+> -                       seed_env = getenv("KCONFIG_SEED");
+> -                       if( seed_env && *seed_env ) {
+> -                               char *endp;
+> -                               int tmp = (int)strtol(seed_env, &endp, 0);
+> -                               if (*endp == '\0') {
+> -                                       seed = tmp;
+> -                               }
+> -                       }
+> -                       fprintf( stderr, "KCONFIG_SEED=0x%X\n", seed );
+> -                       srand(seed);
+> +                       set_randconfig_seed();
+>                         break;
+> -               }
+>                 case oldaskconfig:
+>                 case oldconfig:
+>                 case allnoconfig:
 > --
-> 1.8.3.1
+> 2.27.0
 >
 
 
