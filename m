@@ -2,108 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 435C3348804
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 05:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22B4634880C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 05:48:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbhCYEmG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Mar 2021 00:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229592AbhCYElr (ORCPT
+        id S229508AbhCYEsT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Mar 2021 00:48:19 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:48778 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhCYEr4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Mar 2021 00:41:47 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD05C061760
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 21:41:47 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id l76so571250pga.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Mar 2021 21:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5uloYZ+8PoxiaTnT5ukVkjxfChFSHEatXuJ9cHkJu9M=;
-        b=hiXjI1myZwfoNGPp8+hjoNraAb1rNgkpcycqeWl6te88OdvHNMzTyy2EXiOWpYLwqa
-         tUcRJy5ZN8PVSzhTb65he/NhsLMlJ79gStqExtVfHNxh7aQjOv8KQIDBEgwVnbt5udd6
-         TZye8a8LrUbvmg6Ibe9OB8HoNwZSPoDq2I+ckdjbgsn5tpchFEzeG4H7ISepWWx1MWNt
-         jPhGOSazVVFfSDPJuCdn7Cee8nO/bKvtf5fVNTg5iUevomqJdUrqg51maIUQVbWp3ERt
-         nOAD5S38C3rTPevGOeR3kJMlfPJrZ8Rtk4LjW5g6VsqRPgaAKJXRCUC2WMMJ7fM8HrAi
-         urpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5uloYZ+8PoxiaTnT5ukVkjxfChFSHEatXuJ9cHkJu9M=;
-        b=h8JPezF04vv1sDswej63GNjt1HX+pPyAihduDNiEJLr3fM9u6ih940oUYUJpPiNGtn
-         uZA697PrpVCv1yjS2+la+SiTG1oX6eYeU4KPc0bT7jxJzuCV2jhOqU23V+NYkWBuQ1Hk
-         VfuHdRX0pCCICTp389rriWovF4OnUf05BGC8YofL2qQ0zNEOkOK07zueIqKPutB5leiA
-         GH2unVnp9qXXBv6uldXp49UY2Y11+PrMfjl2oxNnHWHKpidx9DAPzetMgg6Ju1vpnHVe
-         1+mX3YuDoQxz+WhNdWShLrw9OdO91b5sF6QnP5apG+1AzsFfBkTO0hxGNBcm2ybNf+B7
-         eUTQ==
-X-Gm-Message-State: AOAM532/xgx7hwyShlndVRJi4PZ3nwwBpXNiUjgvcFbLIZyEaS9tT5+N
-        t/4eitINQlYPK4010s2xDRLSX7+J8ld/dg==
-X-Google-Smtp-Source: ABdhPJwaLPUoL4onWYWyHitcJn5dQ/575KUKsL+MTUrspH3NCsoeS4ULL4NojHZ92suFEhnN1JHj/Q==
-X-Received: by 2002:a65:62d9:: with SMTP id m25mr6013481pgv.6.1616647306354;
-        Wed, 24 Mar 2021 21:41:46 -0700 (PDT)
-Received: from localhost ([122.172.6.13])
-        by smtp.gmail.com with ESMTPSA id fa21sm3997449pjb.25.2021.03.24.21.41.45
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Mar 2021 21:41:45 -0700 (PDT)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Bill Mills <bill.mills@linaro.org>, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH V4] kbuild: Add rule to build .dt.yaml files for overlays
-Date:   Thu, 25 Mar 2021 10:11:37 +0530
-Message-Id: <4f50cfd94a43a03e107f83fadd02cd6be7b422e3.1616647039.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
-In-Reply-To: <20210324223713.1334666-1-frowand.list@gmail.com>
-References: <20210324223713.1334666-1-frowand.list@gmail.com>
+        Thu, 25 Mar 2021 00:47:56 -0400
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 12P4lfQV004224;
+        Thu, 25 Mar 2021 13:47:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 12P4lfQV004224
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1616647662;
+        bh=LaHNVlaOy53jqJwwQZtyYFUyZryl+Mejn02Pwe9PQ+8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=l16p7qe232+EwMAh73vfvxSMQ+zmJofd1m1i4xCgDzaEcS4tHzjcjVFVZScFiOH0h
+         x+dHdlIfKH0+ai533ICzNWvPhn1/33eI2lpW6Loi9oyeK1MEdqLvBq0MLzRykTckON
+         2h4qrk31+IBDQBv6fX4Lrk/93nVMGRuhst6etVVVLhQh4PL6dX8GIw4AiQnVTvWM3+
+         AVuJSOgUTXGsbkztUNiu7cTCf+YPkoG9StG5Lz2KcbIizT3XVQaJxhx1yN+I1j3JJp
+         Ut7DA1Bqmb3bfk0m6pj+4k8qbZhLlr0qc1T+bBHRYrlQ9Lcy7hQckzyDQYRKYy/2FB
+         exBcgkiSd4QAg==
+X-Nifty-SrcIP: [209.85.216.41]
+Received: by mail-pj1-f41.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so2204135pjh.1;
+        Wed, 24 Mar 2021 21:47:41 -0700 (PDT)
+X-Gm-Message-State: AOAM5300tsTbHKo7kAmYebTwpCKsCJoBizTRomubDuH6ro1mx55clStc
+        9b+9GFSUTbl+sgqmvK+UaOiQo70SaG1UF9v8BUI=
+X-Google-Smtp-Source: ABdhPJyyw4LcZWLus4AWeJJR5BGVrOMh0lyGvjKobpoQlUoSLI7eOb1DEDUgWvaOpkvRaDb3EgEzScTtJpjtaxxl9Qc=
+X-Received: by 2002:a17:90a:fb54:: with SMTP id iq20mr6592682pjb.153.1616647660965;
+ Wed, 24 Mar 2021 21:47:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1615791344-48675-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1615791344-48675-1-git-send-email-yang.lee@linux.alibaba.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 25 Mar 2021 13:47:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARWjJsm79mBtFsRsGCsLn7JpGwzEQdzAbHcT-VmeBQKVw@mail.gmail.com>
+Message-ID: <CAK7LNARWjJsm79mBtFsRsGCsLn7JpGwzEQdzAbHcT-VmeBQKVw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: use true and false for bool variable
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The overlay source files are named with .dtso extension now, add a new
-rule to generate .dt.yaml for them.
+On Mon, Mar 15, 2021 at 3:55 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> fixed the following coccicheck:
+> ./scripts/kconfig/confdata.c:36:9-10: WARNING: return of 0/1 in function
+> 'is_dir' with return type bool
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
-V4:
-- Rebase over Frank's cleanup patch:
+Applied. Thanks.
 
-  https://lore.kernel.org/lkml/20210324223713.1334666-1-frowand.list@gmail.com/
 
-- Drop changes to drivers/of/unittest-data/Makefile.
-- Drop modifications to the rule that builds .dtbo files (as it is
-  already updated by Frank).
 
- scripts/Makefile.lib | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 814b430b407e..a682869d8f4b 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -376,6 +376,9 @@ endef
- $(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
- 	$(call if_changed_rule,dtc,yaml)
- 
-+$(obj)/%.dt.yaml: $(src)/%.dtso $(DTC) $(DT_TMP_SCHEMA) FORCE
-+	$(call if_changed_rule,dtc,yaml)
-+
- dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
- 
- # Bzip2
+>  scripts/kconfig/confdata.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 2568dbe..b65b8c3 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -33,7 +33,7 @@ static bool is_dir(const char *path)
+>         struct stat st;
+>
+>         if (stat(path, &st))
+> -               return 0;
+> +               return false;
+>
+>         return S_ISDIR(st.st_mode);
+>  }
+> --
+> 1.8.3.1
+>
+
+
 -- 
-2.25.0.rc1.19.g042ed3e048af
-
+Best Regards
+Masahiro Yamada
