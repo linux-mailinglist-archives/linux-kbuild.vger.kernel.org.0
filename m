@@ -2,113 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8939348ED2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 12:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B96E3491D9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Mar 2021 13:26:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbhCYLUD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Mar 2021 07:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbhCYLTa (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Mar 2021 07:19:30 -0400
-X-Greylist: delayed 174 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 25 Mar 2021 04:19:27 PDT
-Received: from mo6-p01-ob.smtp.rzone.de (mo6-p01-ob.smtp.rzone.de [IPv6:2a01:238:400:200::c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCBA3C06174A
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Mar 2021 04:19:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1616670982; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=RVum/hs/TVp2wSc3M6pvMW5hWRHPXd6wNhefDqvI5XlGSPHNAWKfBz8HLP+ypcpPVr
-    MWwj1IDU9475i8uSzU3rmfCF15JfaLsUICYpLBsd9ls135ICZuC64DBY5vuEqnxjjMpB
-    NTWwmZFTjx9X1O334W58C6qNuZ+uvLqaNrAGn60IWFlXxfOUZFUFsElnDzt74I4Glpdb
-    15mWH1iVQIAuK9u8WAzHwXqrsouXMjl0xERWrhPAxhRyvmPELOKdtLT3n4mbk0Z30B1J
-    4Ou3h9xqm8x1jk1ihQhu2LHhrVggJI68LEWmdPxlufpDwhw4GH5lPCzUGppsVI8qPDxq
-    JUvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1616670982;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=5Gkv344oVbx0n0ugG/dKLLSrYBZEUe5i9Mt0XagagP0=;
-    b=MnVm1xgw0lGi7IjGv6twn44PssYumREzxVGnWkz5ipZK8WkL2XA/J0jFXSGN4CRItB
-    dBrMVeTt40zb5RHCZYFKSFQnpwFh5HNHf7q8lDjBUcVlOh9SyLZXSGixPFaxZamUOKMo
-    tl9BAEyOp0q3rTid8V7/0wkkpKdi3do1izFqft8spx/tz+uYss7Sx9P0MkQhxn9A39Az
-    aQdvPqORty5LLPAXgOVs3TighF94Vuu/QJ91LYQs7f0fVKXk4xgiSGKZNCvaqUENKBjm
-    3h6YktTbO1VOwQohOB85Y42faP+aZqMED2ZsFVFxBfAC8NwSVmMGRu9TVY/tMRY3m081
-    N+Xg==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1616670982;
-    s=strato-dkim-0002; d=aepfle.de;
-    h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
-    From:Subject:Sender;
-    bh=5Gkv344oVbx0n0ugG/dKLLSrYBZEUe5i9Mt0XagagP0=;
-    b=FzNX2AZmWmL+U/9amCWev6J4375NmAvkuLKJLn9wbGVEQOKDZ/3T92l4/7fdGaHpoE
-    iw2Wd5ZsM9pJe+IZvsaP21oNRvJgMQmjtPwM1ur4VsUJrEkrFwfOI8149sD0Hq6/CmFS
-    KrYLvIfZCP1Nz13tKGU9dc4YRTzpQDxYFsN3KnnuZs2SgEHGLvO67VBfCBdueqASfrgw
-    0WVCJv8R8d0fZZSIivITSKSGyMVBAd6wajJA7StIArcmHWqnOHG53J6df4S+Q4NsfjR+
-    KGn7soHbFLM2C5vZxlbNdC8XwE72vJsXk4krIjHbiVubQb1VRDGymbfVJDTu+37CgZjA
-    OOcA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTW+n4/A=="
-X-RZG-CLASS-ID: mo00
-Received: from sender
-    by smtp.strato.de (RZmta 47.22.0 SBL|AUTH)
-    with ESMTPSA id 204541x2PBGM51g
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Thu, 25 Mar 2021 12:16:22 +0100 (CET)
-Date:   Thu, 25 Mar 2021 12:16:06 +0100
-From:   Olaf Hering <olaf@aepfle.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: enforce -Werror=unused-result
-Message-ID: <20210325121606.6a2e4e00.olaf@aepfle.de>
-In-Reply-To: <20210319143231.25500-1-olaf@aepfle.de>
-References: <20210319143231.25500-1-olaf@aepfle.de>
-X-Mailer: Claws Mail 2021.03.05 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S230258AbhCYM0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Mar 2021 08:26:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38636 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229995AbhCYM0A (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 25 Mar 2021 08:26:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C8A561A12;
+        Thu, 25 Mar 2021 12:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616675160;
+        bh=Mih9rLFk8Lu7pk6YCxhs8apnkDBsp2cbUA1ACAodMIQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DDKtCMprV/OhoLcd3P+g/Aw0mUf9X/xVj2DPCuXxz+KCn/uqmqYznjAZSjhmVc7r1
+         bXt3apPl8N3hTjkW6QlIAvIzAtcvNNuIDS+tjHt5jXXI3CqzWwLrBnZk68IkyxlzG9
+         bqavRHdOgvEgp9Zp/JsRanIRLds8iZMOB8luDCD/hBkx89VEKLHthFXBU317+XI+Fe
+         3t8UvOsTs+RGzTBzX+pMnL952KCWoQ+7cNsZkDPovSP6yv8o1IKo0gwdmcOWwg4qzw
+         T8dih66pOUhDamgN8ImikwqafSav3OB3ZW7lvhhc9oBbnyhje7DqUYgl4vDiyL0TxV
+         2t4Af/Wu09drA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lPP3l-001Cdg-U6; Thu, 25 Mar 2021 13:25:57 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v3] docs: experimental: build PDF with rst2pdf
+Date:   Thu, 25 Mar 2021 13:25:56 +0100
+Message-Id: <e44c1b82b38a8568af1d38ee09edb46517f03ec2.1616675031.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/mI2gCRk_pRE=_/zv9FiMrfa"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---Sig_/mI2gCRk_pRE=_/zv9FiMrfa
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Add an experimental PDF builder using rst2pdf.
 
-Am Fri, 19 Mar 2021 15:32:31 +0100
-schrieb Olaf Hering <olaf@aepfle.de>:
+This extension is only enabled when "pdf" builder is selected.
+So, it won't interfere with normal documentation builds. I opted
+to not add a try..except block, as the message is already
+good enough if one tries to do a "make rst2pdf" but the extension
+is missed:
 
-> It is a hard error if a return value is ignored.
+	Extension error:
+	Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
 
-The automated builds found only a single error, in load_em86().
+This won't affect "make pdfdocs", as it uses the "latex" builder
+instead.
 
-Let me know if there are other reasons why the patch was rejected.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-Olaf
+v3:
+- only enable the rst2pdf extension when required, e. g. when
 
---Sig_/mI2gCRk_pRE=_/zv9FiMrfa
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
+    $ make rst2pdf
 
------BEGIN PGP SIGNATURE-----
+  is used.
 
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmBccPcACgkQ86SN7mm1
-DoDmZg//X7FpRVVZ72GefZUJUZUy8b05UNQNLp+hTAQzI1N+xWa3J6w6Ud3DsO3n
-6olJg+KfEwOX22c8I14dxxR3S7YdKdzVLlsl+65kjpF2BgYgSQhIgrtUjjXOxOig
-3zKY+VRTUE4I5RfoTfNRFqX3IW4POdBqKo2cZP0ixH2dfTtOWZff94zTHRsACmk6
-yLqc+DjPjfg//0euOr5GGfV7o4BfqzaMaXQ5YeQju8q5nenBSywu0mEv45lFA/mf
-fJ3MqujpKddx5g6rVrqMeKYlY/9AYPkiGFZshVu0d+AG8djWzRw/5HlhnW5As9Ah
-z9WDhegiwVBbZTpXdeJ/10zKN8s5QFRfbmIC/AKXGO+UByenvHH8WfWmxuiUSi06
-0aJ19ppBtXd4sfCtkUhDpvZ+VEOtxFRE9VCdTCeaYqyNQEFtmNFLgl9/VWH6iMfP
-ZaTRNaa5Fcja4CifIXimFT99XY/P2iG/C/7csgLyBC0VV6m31G5JiZF0xDIh5MdJ
-c5rsRBalkTcIPoYhDrqaoGjsgTUAeFfqekCMxJfkWx6ZlgZnmmP9rDRu6THzXQWA
-rTueoEJSO/Veja0g6kXIBwUtSS3/uRC8IAEEaCfy6ezFCxjGPL7yOFkW+WqKicIL
-2bUk1VMfH18orCGiDrKZCBzyFmF9f7KDCiZxHXIMzOpN8RIzRYY=
-=Zvt/
------END PGP SIGNATURE-----
+ Documentation/Makefile                     |  5 +++++
+ Documentation/conf.py                      | 25 ++++++++++++++++------
+ Documentation/sphinx/load_config.py        | 12 +++++++++++
+ Documentation/userspace-api/media/Makefile |  1 +
+ Makefile                                   |  4 ++--
+ 5 files changed, 39 insertions(+), 8 deletions(-)
 
---Sig_/mI2gCRk_pRE=_/zv9FiMrfa--
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 9c42dde97671..42b76f25681f 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -115,6 +115,10 @@ pdfdocs: latexdocs
+ 
+ endif # HAVE_PDFLATEX
+ 
++rst2pdf:
++	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
++
+ epubdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+@@ -140,6 +144,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  pdfdocs         - PDF'
++	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+ 	@echo  '  linkcheckdocs   - check for broken external links'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 879e86dbea66..65e6afa2cf58 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -118,6 +118,16 @@ autosectionlabel_maxdepth = 2
+ 
+ extensions.append("sphinx.ext.imgmath")
+ 
++# Enable experimental rst2pdf, if available
++
++for i in range(1, len(sys.argv)):
++    if sys.argv[i] == "pdf":
++        try:
++            import rst2pdf
++            extensions.append('rst2pdf.pdfbuilder')
++        except ModuleNotFoundError:
++            raise SystemMessagePropagation("can't import rst2pdf extension")
++
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+ 
+@@ -553,12 +563,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace(".tex", "")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
+ 
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+index eeb394b39e2c..8266afd438aa 100644
+--- a/Documentation/sphinx/load_config.py
++++ b/Documentation/sphinx/load_config.py
+@@ -43,6 +43,18 @@ def loadConfig(namespace):
+ 
+             namespace['latex_documents'] = new_latex_docs
+ 
++            new_pdf_docs = []
++            pdf_documents = namespace['pdf_documents']
++
++            for l in pdf_documents:
++                if l[0].find(dir + '/') == 0:
++                    has = True
++                    fn = l[0][len(dir) + 1:]
++                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
++                    break
++
++            namespace['pdf_documents'] = new_pdf_docs
++
+         # If there is an extra conf.py file, load it
+         if os.path.isfile(config_file):
+             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 81a4a1a53bce..8c6b3ac4ecb0 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
+ 
+diff --git a/Makefile b/Makefile
+index 193ebb83c34a..741c580b3626 100644
+--- a/Makefile
++++ b/Makefile
+@@ -270,7 +270,7 @@ no-dot-config-targets := $(clean-targets) \
+ 			 cscope gtags TAGS tags help% %docs check% coccicheck \
+ 			 $(version_h) headers headers_% archheaders archscripts \
+ 			 %asm-generic kernelversion %src-pkg dt_binding_check \
+-			 outputmakefile rustfmt rustfmtcheck
++			 outputmakefile rustfmt rustfmtcheck rst2pdf
+ # Installation targets should not require compiler. Unfortunately, vdso_install
+ # is an exception where build artifacts may be updated. This must be fixed.
+ no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
+@@ -1816,7 +1816,7 @@ $(help-board-dirs): help-%:
+ 
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+-DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
++DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
+ 	       linkcheckdocs dochelp refcheckdocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS):
+-- 
+2.30.2
+
+
