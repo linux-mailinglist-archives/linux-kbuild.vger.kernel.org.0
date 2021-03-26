@@ -2,78 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3627E34A2D8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Mar 2021 09:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 838AF34B136
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Mar 2021 22:22:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229773AbhCZH7g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Mar 2021 03:59:36 -0400
-Received: from smtprelay0186.hostedemail.com ([216.40.44.186]:52784 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229528AbhCZH7Y (ORCPT
+        id S230224AbhCZVVo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Mar 2021 17:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230223AbhCZVVO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Mar 2021 03:59:24 -0400
-X-Greylist: delayed 445 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 03:59:24 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave08.hostedemail.com (Postfix) with ESMTP id A132B1802CCDB
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Mar 2021 07:51:59 +0000 (UTC)
-Received: from omf10.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 45B281802A07B;
-        Fri, 26 Mar 2021 07:51:54 +0000 (UTC)
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA id 164B52351F7;
-        Fri, 26 Mar 2021 07:51:52 +0000 (UTC)
-Message-ID: <2af5ea06f8ebd20e0d3bdd51bd8a44f5fdad08d9.camel@perches.com>
-Subject: Re: [PATCH 2/2] streamline_config.pl: Add softtabstop=4 for vim
- users
-From:   Joe Perches <joe@perches.com>
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "John (Warthog9) Hawley" <warthog9@kernel.org>
-Date:   Fri, 26 Mar 2021 00:51:51 -0700
-In-Reply-To: <20210325095039.7202d675@gandalf.local.home>
-References: <20210322213806.089334551@goodmis.org>
-         <20210322214032.293992979@goodmis.org>
-         <CAK7LNAQh=zKVTwup5Kh39oTnVEUNotX-Ce7_+2uRO1GNVOaDbw@mail.gmail.com>
-         <20210324095417.49c6377b@gandalf.local.home>
-         <CAK7LNAQ4uRB+9M4h0KVwEQUnX1XZrsE30KP_pqJqYjF2FcsHZA@mail.gmail.com>
-         <20210325095039.7202d675@gandalf.local.home>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        Fri, 26 Mar 2021 17:21:14 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 525B4C0613AA;
+        Fri, 26 Mar 2021 14:21:14 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id j17so3642707qvo.13;
+        Fri, 26 Mar 2021 14:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+LLonIlky5FIrld6pnMKJcpbE7r4hCj6KXZUvdY/ilg=;
+        b=YBxNmrtGQDHvVIZIAWp1w7QaS/Y0v8Pb93IzMb7NP4N5y/3KttsgmjW5v+Rr/k4zMc
+         YNoWLrRcvu/hO1OGCqQdUKuiZhHKwE28m7ubHElE94H63zp5jpV+t0cMqyQPKko9YXo9
+         TM4Hq3A0iCIyLp7ulmR7/T3tZBzhDB9MEgSdOhGpOW3OItucsNy/u2gGU0EqwRd5I0Wc
+         BUI5JiHqchEdEP3S/bvqMV5utVNhWW0gX9k3spBxhpu1qxPaF8kqJ+nr+cFS6f6X5CxP
+         1HmlBn3zF23jNGuhHJ4V7HprW/uLSvtc34SJ0JyzUjL4yFTsoftfSbBEyxvG3GwTDxi3
+         E4eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+LLonIlky5FIrld6pnMKJcpbE7r4hCj6KXZUvdY/ilg=;
+        b=oxM9Kb+PYO43cLkbKJIxjEdelcw1uAvtAznSfVcGM3xXn/QrKuj190hWgU7uiokYC/
+         pImzDA8Gzg43XjBQs/14QsHp5No4ydnRQXMVXz2QHNBT4nubIQk4sncy4o0UKcjrhrAw
+         ux4R91PKQsh4i+nEHAg0D7BqsxsNkcadLafF4bbHJXKaGMVJ16TBZG/8dvRoqwroL8GH
+         irhYQwRvfEmOnJTLxywsXPCT/spzIbrsPK4vxhMas0FMTq5fKRAgT7G/s444uxLSfQbj
+         4CgmCOTd/ovkN2PPkqnUpGW97JYQu5A2bfpKG9sapHTWJKW9MPz7X0nu6f5IJs2K4YpF
+         jKFA==
+X-Gm-Message-State: AOAM531Ycyfu+zkPqDjQ5SOklezr+69AWS34WOcmR011CcJoALArHUkj
+        z1tWPVltAc1tLEAe45rvtPc=
+X-Google-Smtp-Source: ABdhPJx4fbqHRzCHEsBiA3h4Fdxmts/TB6THFZPY6u54J4VCm4sLkOQSqfd5ZE4AE2k1QGsCaIJsog==
+X-Received: by 2002:a05:6214:388:: with SMTP id l8mr15388325qvy.33.1616793673625;
+        Fri, 26 Mar 2021 14:21:13 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.58.30])
+        by smtp.gmail.com with ESMTPSA id q64sm6704197qtd.32.2021.03.26.14.21.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 14:21:12 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     masahiroy@kernel.org, unixbhaskar@gmail.com,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org
+Subject: [PATCH] kconfig: lxdialog: A spello fix and a punctuation added
+Date:   Sat, 27 Mar 2021 02:48:57 +0530
+Message-Id: <20210326211857.15156-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.10
-X-Rspamd-Server: rspamout02
-X-Stat-Signature: yiew45t8hn63jayzix9m7w1ekgn33n4o
-X-Rspamd-Queue-Id: 164B52351F7
-X-HE-Tag: 1616745112-554895
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 2021-03-25 at 09:50 -0400, Steven Rostedt wrote:
-> On Thu, 25 Mar 2021 15:20:13 +0900 Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > 
-> > The root cause of inconsistency is that
-> > you mix up space-indentation and tab-indentation.
-> > I do not know if it is a standard way either.
-> 
-> This is the default way emacs has edited perl files for as long as I can
-> remember (back to 1996). It became my standard of editing perl files just
-> because of that. For everything else, I use tabs.
-[]
-> > For example, scripts/checkpatch.pl uses only tabs,
-> > which I think is more robust.
-> 
-> Probably because Joe probably uses vim ;-)
 
-I generally use emacs.  Maybe Andy Whitcroft uses vim.
-For checkpatch.pl I just followed Andy's style.
-get_maintainer.pl uses the 4 spaces then 1 tab style like Steven uses.
+s/propperly/properly/
+s/thats/that\'s/
 
-perl code can be pretty long left to right so using smaller indentation
-seems useful there.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/kconfig/lxdialog/util.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/kconfig/lxdialog/util.c b/scripts/kconfig/lxdialog/util.c
+index 1b490d4af0d3..3f78fb265136 100644
+--- a/scripts/kconfig/lxdialog/util.c
++++ b/scripts/kconfig/lxdialog/util.c
+@@ -363,7 +363,7 @@ void print_title(WINDOW *dialog, const char *title, int width)
+ /*
+  * Print a string of text in a window, automatically wrap around to the
+  * next line if the string is too long to fit on one line. Newline
+- * characters '\n' are propperly processed.  We start on a new line
++ * characters '\n' are properly processed.  We start on a new line
+  * if there is no room for at least 4 nonblanks following a double-space.
+  */
+ void print_autowrap(WINDOW * win, const char *prompt, int width, int y, int x)
+@@ -541,7 +541,7 @@ int first_alpha(const char *string, const char *exempt)
+  * lxdialog suggest <ESC> <ESC> which is correctly translated to two
+  * times esc. But then we need to ignore the second esc to avoid stepping
+  * out one menu too much. Filter away all escaped key sequences since
+- * keypad(FALSE) turn off ncurses support for escape sequences - and thats
++ * keypad(FALSE) turn off ncurses support for escape sequences - and that's
+  * needed to make notimeout() do as expected.
+  */
+ int on_key_esc(WINDOW *win)
+--
+2.26.2
 
