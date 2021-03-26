@@ -2,115 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC590349D2B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Mar 2021 01:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3516F34A092
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Mar 2021 05:35:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbhCZADz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Mar 2021 20:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34160 "EHLO
+        id S231327AbhCZEej (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Mar 2021 00:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbhCZADW (ORCPT
+        with ESMTP id S231131AbhCZEeG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Mar 2021 20:03:22 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4A0C061761
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Mar 2021 17:03:20 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id w2so3181022ilj.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Mar 2021 17:03:20 -0700 (PDT)
+        Fri, 26 Mar 2021 00:34:06 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4B8C0613E0
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Mar 2021 21:34:05 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id m7so3766069pgj.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Mar 2021 21:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nAYo0kerZLUN7BkJOSM9MDyMbtqlP2Ebf5RZ2YCWYvE=;
-        b=qn2P1c8qwafkNgsglrLTaTm7bLzpkRkiTLfJLGK8xTN4luzvlgNlv3PnwABJDfQ0NQ
-         0MhNPSvMVr/plOe7Ep+dLmsOihehu2nGgPeyN2RbdvbPnZIvwEVVJSD7Nqa3+VU1CMVY
-         o0FIODwO5enxaMXKwVTKlaroVBH0Jd861DVZ+KwZREziKZ3yaXyPNMBRw9A0ISQLY71R
-         Pf8Dh4rEOPxN5r4WJCLgXkn7/y7WaU61B7NFXh3k6r4x5m2glFuCmtObmLcXH3tWXWOo
-         wGSDfwu16SSwuzkoCrSQNFJxIa/kJ+sWs/QkDY0ZXFD1my/Q9T6i/h0IveTFSozVTfeM
-         J7jQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=z1EPeptCFoIaJaJVsVX640bsVfb5dv09v+eTesBEdqU=;
+        b=L33UBWhhTV0f0TkrQMXt+B0VKX9Vlp3fb+/k78HIXW/yrd0LU0Om96mIq2bNG+r7xH
+         5RzEDHiSIxJe6Qo1t9vt49eiID6LFyta9K33XFxXNDxpmV/PlZ0wbsclB3yvkHHpJffs
+         QjWaq7BabNEk9dYp9Y1/B2mFH7xUCJOw1mokE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nAYo0kerZLUN7BkJOSM9MDyMbtqlP2Ebf5RZ2YCWYvE=;
-        b=DfVx73VCX6MJnBQ1kTjGCPIZ5dwWKXhobzH+byLEDq2b4Apr6tfAQ9lmIB7zg0k7GX
-         WLYf+xdhmdcgiZcf7bxAz3qoiFTveq+MH59yXQYei68VAw13fk44WTw8RspTQsAVGL7h
-         aq+/J3xkVWdpCNtnrEMbW/0WTPO8z+uGpftPnlcj1VPM2ZIaRHP8PJkLb2LSzuS6rXje
-         oyf1jr9yc4dNmJ9PToS45q6ZdflOoVvg5lo1tSMP7Xkn0ar2wmMeTWYnh82JbZJXATkr
-         zVr6Dfw4ZQzUZqi+qQwPyMEJPZW+I8Qhin0eIaLHjLVCl+s1mm3L8kgLJsYOxydj2LnH
-         RFEA==
-X-Gm-Message-State: AOAM532GOBhnyYecKAx4olYM6YVvDlV9YJrbkqw6zQZirIjfCYaqaO/0
-        KFFiSXMbPN3B0kqhzubQXo1MQFtAGuM3a9W9qgODAQ==
-X-Google-Smtp-Source: ABdhPJycYy1zKxJCALDiO9Ar9NLQb0Bxbm3WLrp/be6z8zC2ySSZc6pZUvOHR+zeKlLowgV0ewAnXJs41sU7Cs8VIoE=
-X-Received: by 2002:a05:6e02:1b86:: with SMTP id h6mr8191233ili.145.1616717000105;
- Thu, 25 Mar 2021 17:03:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210323203946.2159693-1-samitolvanen@google.com>
- <20210323203946.2159693-13-samitolvanen@google.com> <20210325103757.GD36570@C02TD0UTHF1T.local>
- <CABCJKud_VC_vAn_7PdZzDja0gpk5ych0CBJpBw45pvivFoePgQ@mail.gmail.com>
-In-Reply-To: <CABCJKud_VC_vAn_7PdZzDja0gpk5ych0CBJpBw45pvivFoePgQ@mail.gmail.com>
-From:   Peter Collingbourne <pcc@google.com>
-Date:   Thu, 25 Mar 2021 17:03:08 -0700
-Message-ID: <CAMn1gO6EvzG0WtTyoARjuYhuPxPokVAMbqX-756XLOgRD6audw@mail.gmail.com>
-Subject: Re: [PATCH v3 12/17] arm64: implement __va_function
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=z1EPeptCFoIaJaJVsVX640bsVfb5dv09v+eTesBEdqU=;
+        b=Tsd4LwQCxU/xJNrW+D6fpUipvanFpSajR6TTjNpjFfUHXsA4fNgEyToaU9CulxUZcV
+         KO1udrEJHDA46WKiFRqjDneIyTR4wq+uZgjZ/ktj9RAwizZ6eLTHmPgeu/JpD8/SzNkH
+         da550cJwHhFBmLNAq5kPapFn/U/LLkU/gk9Veym7sKcwqMWgnxyVulCBAbIYPo5xOooU
+         eKm1kEFpxgAbkIsN1nW3nPCBXjgLoCSV/3kkWKknu6FyTr4o6QIoCvBx8QagqlVYYewx
+         bN3+Mv1d4hnaDx4vcvJ8WH1COZvTNxRLyp9vV6pH/nkff6B9abIhtrwF02nLxdli+0QD
+         Gzcg==
+X-Gm-Message-State: AOAM5336eJR5G3o0Memq5+q6pKFwAYqvo8No0CXOH4gIxMgaFmmdIQlG
+        ip/kbhjOiIHujWjge47NabssIA==
+X-Google-Smtp-Source: ABdhPJyXVZPxtB7HYMsPfMGgcKqDfIITOg/pt8Wm93KxfhLZgWVnApKcmHPTpqIeTPK3vTEVX3bBXA==
+X-Received: by 2002:a62:fc90:0:b029:213:be9a:7048 with SMTP id e138-20020a62fc900000b0290213be9a7048mr11194418pfh.4.1616733245174;
+        Thu, 25 Mar 2021 21:34:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id l4sm7513908pgn.77.2021.03.25.21.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 21:34:04 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 21:34:03 -0700
+From:   Kees Cook <keescook@chromium.org>
 To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Christoph Hellwig <hch@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        bpf <bpf@vger.kernel.org>, linux-hardening@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Zijlstra <peterz@infradead.org>, bpf@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/17] module: ensure __cfi_check alignment
+Message-ID: <202103252133.339A7A49@keescook>
+References: <20210323203946.2159693-1-samitolvanen@google.com>
+ <20210323203946.2159693-5-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210323203946.2159693-5-samitolvanen@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 4:28 PM Sami Tolvanen <samitolvanen@google.com> wrote:
->
-> On Thu, Mar 25, 2021 at 3:38 AM Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > On Tue, Mar 23, 2021 at 01:39:41PM -0700, Sami Tolvanen wrote:
-> > > With CONFIG_CFI_CLANG, the compiler replaces function addresses in
-> > > instrumented C code with jump table addresses. This change implements
-> > > the __va_function() macro, which returns the actual function address
-> > > instead.
-> > >
-> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> >
-> > Is there really no attribute or builtin that can be used to do this
-> > without assembly?
->
-> I don't think the compiler currently offers anything that could help
-> us here. Peter, can you think of another way to avoid the function
-> address to jump table address conversion with
-> -fno-sanitize-cfi-canonical-jump-tables?
+On Tue, Mar 23, 2021 at 01:39:33PM -0700, Sami Tolvanen wrote:
+> CONFIG_CFI_CLANG_SHADOW assumes the __cfi_check() function is page
+> aligned and at the beginning of the .text section. While Clang would
+> normally align the function correctly, it fails to do so for modules
+> with no executable code.
+> 
+> This change ensures the correct __cfi_check() location and
+> alignment. It also discards the .eh_frame section, which Clang can
+> generate with certain sanitizers, such as CFI.
+> 
+> Link: https://bugs.llvm.org/show_bug.cgi?id=46293
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-No, the assembly seems like the best way at the moment.
+Yay macros! :)
 
-> > IIUC from other patches the symbol tables will contain the "real"
-> > non-cfi entry points (unless we explciitly asked to make the jump table
-> > address canonical), so AFAICT here the compiler should have all the
-> > necessary information to generate either the CFI or non-CFI entry point
-> > addresses, even if it doesn't expose an interface for that today.
-> >
-> > It'd be a lot nicer if we could get the compiler to do this for us.
->
-> I agree, that would be quite useful in the kernel.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Maybe. The kernel's requirements seem quite specialized here though. A
-normal C or C++ program has little need for the actual entry point, so
-if you need it you are probably doing something low level enough to
-require assembly anyway.
-
-Peter
+-- 
+Kees Cook
