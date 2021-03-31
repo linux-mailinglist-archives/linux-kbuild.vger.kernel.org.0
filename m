@@ -2,187 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 145C33505B7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 19:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E98E93505DC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 19:55:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233900AbhCaRtC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Mar 2021 13:49:02 -0400
-Received: from vulcan.natalenko.name ([104.207.131.136]:56438 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234473AbhCaRse (ORCPT
+        id S233867AbhCaRyb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Mar 2021 13:54:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234835AbhCaRyQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Mar 2021 13:48:34 -0400
-Received: from localhost (kaktus.kanapka.ml [151.237.229.131])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 1FCB5A0F3AA;
-        Wed, 31 Mar 2021 19:48:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1617212907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=u8JY2IcOL6NoLU6Xyn0f/jFDmqEv9W2ivfIar+8wmT4=;
-        b=lOIAz+WT0xfdFacyhHI3pL7eaquPdcnWyjfHvUhzoh8IooDuvcIPlUChhzELdYgJGWJnPI
-        WDLkupIpNeNto95nVxdS+9Z5tA2Z0PlRDTokRxIecUWeb82CQd6UuDEQu3evHvfCzKGuff
-        fRT3WxgNDDvEWn0AUsoK/ZgCx4bcvZw=
-Date:   Wed, 31 Mar 2021 19:48:26 +0200
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     Nick Terrell <terrelln@fb.com>
-Cc:     Piotr Gorski <lucjan.lucjanov@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        "Jan Alexander Steffens (heftig)" <jan.steffens@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [PATCH] init: add support for zstd compressed modules
-Message-ID: <20210331174826.uhunfmkhlpyteb3d@spock.localdomain>
-References: <20210330113235.2767216-1-lucjan.lucjanov@gmail.com>
- <20210330115023.qt742qsdekwiroey@spock.localdomain>
- <33D7F6C9-6F53-471A-A146-7F128F6918F5@fb.com>
+        Wed, 31 Mar 2021 13:54:16 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3618C06174A
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 10:54:15 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id s17so24892011ljc.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 10:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9A9ww4rQUdY3ojKZCC1DB3r6UqmhvDhvswbu4JoQEio=;
+        b=cm38beLeV+gqOXd++TM8MCiOpTRwonhIyR/dG9IXlrP4NO5zNwL5W+BGyKA/HasGvW
+         XoPblAQSWqFdftq7mEdhRjyjG4oQL45yy0Ev5bbGHTonufD/W/bNLebYSVIDQXlXTo1d
+         OBH32n1GlqnFsHnl27zWznGdIdXIeXOGGti9V2+k3gd+WtlFiKn/G9ZJBGhq44Xv4U0/
+         oTntTgWjAm3RHhanVwQOQJhmItfE2/skI9q15SPM4g+nEKaHx+3ZoUbvkcNltihDpeBy
+         RQBpcLsPl+e9iapI3v7GzxvFtaI20yTSRzx8/f1EH+3a5zG28Rqult1Ki1Ye7Hv4xhtR
+         F0RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9A9ww4rQUdY3ojKZCC1DB3r6UqmhvDhvswbu4JoQEio=;
+        b=i1SRhiZ+AA3aPjj2iQWN/9skLw5vP/yb0v31sU/flAGGYxdXJ5bc9IgRkrw2OlCpKK
+         JkfXmV3hyKlzPzdg0S5q0Jpe+Fyq/2j/lPApd2kB/taWrhkxZ8mox9xaG9NO4Pl9wTmv
+         k15OPpedGjZ3cmrpZ+Ph2PxERqHcSLaIkrM474N7Wvlh8qQYNbghX3aOhPmE438CmSjP
+         GoiWT0bl5pfVOwoo78zyvAugh8frcJ7K+He1fDkUvfyu4tACVHGOPgQCFfgZD3qR0LW4
+         8+vklpq+s4QtOIaRlYMJSKKbsAtqk+M6MIuDp4eRJWzsLdpAop32ovSssJkZkDYW+VF2
+         59yQ==
+X-Gm-Message-State: AOAM531GI+IdNfjJyYKeaj0B1J32EvUPdFdhk40Eh5SezkGkumWmTwaG
+        eAU3PGfGU8VF6WcH7wePbMWZxQog/E1UjWiU/IvUPpRYTR8Phw==
+X-Google-Smtp-Source: ABdhPJwERGvvjLkxfZzMMn7o3xJaAAVMqEQlFROWX0ouaVknZw9OCybjMkS68AN3sG7V+DacLtuEeauazzT6G/MNPWM=
+X-Received: by 2002:a2e:5716:: with SMTP id l22mr2798734ljb.244.1617213253975;
+ Wed, 31 Mar 2021 10:54:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <33D7F6C9-6F53-471A-A146-7F128F6918F5@fb.com>
+References: <20210331133811.3221540-1-masahiroy@kernel.org> <20210331133811.3221540-5-masahiroy@kernel.org>
+In-Reply-To: <20210331133811.3221540-5-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 31 Mar 2021 10:54:03 -0700
+Message-ID: <CAKwvOdnZWWbirNGu-PdfnhTqXQ6yD9-dyUy7jMRyL+O5qN4gzg@mail.gmail.com>
+Subject: Re: [PATCH 5/9] kbuild: rename extmod-prefix to extmod_prefix
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello.
+On Wed, Mar 31, 2021 at 6:38 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> This seems to be useful in sub-make as well. As a preparation of
+> exporting it, rename extmod-prefix to extmod_prefix because exported
+> variables cannot contain hyphens.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-On Wed, Mar 31, 2021 at 05:39:25PM +0000, Nick Terrell wrote:
-> 
-> 
-> > On Mar 30, 2021, at 4:50 AM, Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
-> > 
-> > On Tue, Mar 30, 2021 at 01:32:35PM +0200, Piotr Gorski wrote:
-> >> kmod 28 supports modules compressed in zstd format so let's add this possibility to kernel.
-> >> 
-> >> Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
-> >> ---
-> >> Makefile     | 7 +++++--
-> >> init/Kconfig | 9 ++++++---
-> >> 2 files changed, 11 insertions(+), 5 deletions(-)
-> >> 
-> >> diff --git a/Makefile b/Makefile
-> >> index 5160ff8903c1..82f4f4cc2955 100644
-> >> --- a/Makefile
-> >> +++ b/Makefile
-> >> @@ -1156,8 +1156,8 @@ endif # INSTALL_MOD_STRIP
-> >> export mod_strip_cmd
-> >> 
-> >> # CONFIG_MODULE_COMPRESS, if defined, will cause module to be compressed
-> >> -# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP
-> >> -# or CONFIG_MODULE_COMPRESS_XZ.
-> >> +# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP,
-> >> +# CONFIG_MODULE_COMPRESS_XZ, or CONFIG_MODULE_COMPRESS_ZSTD.
-> >> 
-> >> mod_compress_cmd = true
-> >> ifdef CONFIG_MODULE_COMPRESS
-> >> @@ -1167,6 +1167,9 @@ ifdef CONFIG_MODULE_COMPRESS
-> >>   ifdef CONFIG_MODULE_COMPRESS_XZ
-> >>     mod_compress_cmd = $(XZ) --lzma2=dict=2MiB -f
-> >>   endif # CONFIG_MODULE_COMPRESS_XZ
-> >> +  ifdef CONFIG_MODULE_COMPRESS_ZSTD
-> >> +    mod_compress_cmd = $(ZSTD) -T0 --rm -f -q
-> 
-> This will use the default zstd level, level 3. I think it would make more sense to use a high
-> compression level. Level 19 would probably be a good choice. That will choose a window
-> size of up to 8MB, meaning the decompressor needs to allocate that much memory. If that
-> is unacceptable, you could use `zstd -T0 --rm -f -q -19 --zstd=wlog=21`, which will use a
-> window size of up to 2MB, to match the XZ command. Note that if the file is smaller than
-> the window size, it will be shrunk to the smallest power of two at least as large as the file.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Please no. We've already done that with initramfs in Arch, and it
-increased the time to generate it enormously.
+> ---
+>
+>  Makefile | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index b5ff4753eba8..e3c2bd1b6f42 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -919,7 +919,7 @@ endif
+>  ifdef CONFIG_LTO_CLANG
+>  ifdef CONFIG_LTO_CLANG_THIN
+>  CC_FLAGS_LTO   := -flto=thin -fsplit-lto-unit
+> -KBUILD_LDFLAGS += --thinlto-cache-dir=$(extmod-prefix).thinlto-cache
+> +KBUILD_LDFLAGS += --thinlto-cache-dir=$(extmod_prefix).thinlto-cache
+>  else
+>  CC_FLAGS_LTO   := -flto
+>  endif
+> @@ -1141,9 +1141,9 @@ endif # CONFIG_BPF
+>
+>  PHONY += prepare0
+>
+> -extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+> -export MODORDER := $(extmod-prefix)modules.order
+> -export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
+> +extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+> +export MODORDER := $(extmod_prefix)modules.order
+> +export MODULES_NSDEPS := $(extmod_prefix)modules.nsdeps
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+>  core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> @@ -1742,7 +1742,7 @@ build-dirs := $(KBUILD_EXTMOD)
+>  $(MODORDER): descend
+>         @:
+>
+> -compile_commands.json: $(extmod-prefix)compile_commands.json
+> +compile_commands.json: $(extmod_prefix)compile_commands.json
+>  PHONY += compile_commands.json
+>
+>  clean-dirs := $(KBUILD_EXTMOD)
+> @@ -1832,12 +1832,12 @@ endif
+>
+>  PHONY += single_modpost
+>  single_modpost: $(single-no-ko) modules_prepare
+> -       $(Q){ $(foreach m, $(single-ko), echo $(extmod-prefix)$m;) } > $(MODORDER)
+> +       $(Q){ $(foreach m, $(single-ko), echo $(extmod_prefix)$m;) } > $(MODORDER)
+>         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+>
+>  KBUILD_MODULES := 1
+>
+> -export KBUILD_SINGLE_TARGETS := $(addprefix $(extmod-prefix), $(single-no-ko))
+> +export KBUILD_SINGLE_TARGETS := $(addprefix $(extmod_prefix), $(single-no-ko))
+>
+>  # trim unrelated directories
+>  build-dirs := $(foreach d, $(build-dirs), \
+> @@ -1906,12 +1906,12 @@ nsdeps: modules
+>  quiet_cmd_gen_compile_commands = GEN     $@
+>        cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
+>
+> -$(extmod-prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
+> +$(extmod_prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
+>         $(if $(KBUILD_EXTMOD),,$(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)) \
+>         $(if $(CONFIG_MODULES), $(MODORDER)) FORCE
+>         $(call if_changed,gen_compile_commands)
+>
+> -targets += $(extmod-prefix)compile_commands.json
+> +targets += $(extmod_prefix)compile_commands.json
+>
+>  PHONY += clang-tidy clang-analyzer
+>
+> @@ -1919,7 +1919,7 @@ ifdef CONFIG_CC_IS_CLANG
+>  quiet_cmd_clang_tools = CHECK   $<
+>        cmd_clang_tools = $(PYTHON3) $(srctree)/scripts/clang-tools/run-clang-tools.py $@ $<
+>
+> -clang-tidy clang-analyzer: $(extmod-prefix)compile_commands.json
+> +clang-tidy clang-analyzer: $(extmod_prefix)compile_commands.json
+>         $(call cmd,clang_tools)
+>  else
+>  clang-tidy clang-analyzer:
+> --
+> 2.27.0
+>
 
-I understand that building a kernel is a more rare operation than
-regenerating initramfs, but still I'd go against hard-coding the level.
-And if it should be specified anyway, I'd opt in for an explicit
-configuration option. Remember, not all the kernel are built on
-build farms...
-
-FWIW, Piotr originally used level 9 which worked okay, but I insisted
-on sending the patch initially without specifying level at all like it is
-done for other compressors. If this is a wrong approach, then oh meh,
-mea culpa ;).
-
-Whatever default non-standard compression level you choose, I'm fine
-as long as I can change it without editing Makefile.
-
-Thanks!
-
-> 
-> Best,
-> Nick Terrell
-> 
-> >> +  endif # CONFIG_MODULE_COMPRESS_ZSTD
-> >> endif # CONFIG_MODULE_COMPRESS
-> >> export mod_compress_cmd
-> >> 
-> >> diff --git a/init/Kconfig b/init/Kconfig
-> >> index 8c2cfd88f6ef..86a452bc2747 100644
-> >> --- a/init/Kconfig
-> >> +++ b/init/Kconfig
-> >> @@ -2250,8 +2250,8 @@ config MODULE_COMPRESS
-> >> 	bool "Compress modules on installation"
-> >> 	help
-> >> 
-> >> -	  Compresses kernel modules when 'make modules_install' is run; gzip or
-> >> -	  xz depending on "Compression algorithm" below.
-> >> +	  Compresses kernel modules when 'make modules_install' is run; gzip,
-> >> +	  xz, or zstd depending on "Compression algorithm" below.
-> >> 
-> >> 	  module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
-> >> 
-> >> @@ -2273,7 +2273,7 @@ choice
-> >> 	  This determines which sort of compression will be used during
-> >> 	  'make modules_install'.
-> >> 
-> >> -	  GZIP (default) and XZ are supported.
-> >> +	  GZIP (default), XZ, and ZSTD are supported.
-> >> 
-> >> config MODULE_COMPRESS_GZIP
-> >> 	bool "GZIP"
-> >> @@ -2281,6 +2281,9 @@ config MODULE_COMPRESS_GZIP
-> >> config MODULE_COMPRESS_XZ
-> >> 	bool "XZ"
-> >> 
-> >> +config MODULE_COMPRESS_ZSTD
-> >> +	bool "ZSTD"
-> >> +
-> >> endchoice
-> >> 
-> >> config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-> >> -- 
-> >> 2.31.0.97.g1424303384
-> >> 
-> > 
-> > Great!
-> > 
-> > Reviewed-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> > 
-> > This works perfectly fine in Arch Linux if accompanied by the
-> > following mkinitcpio amendment: [1].
-> > 
-> > I'm also Cc'ing other people from get_maintainers output just
-> > to make this submission more visible.
-> > 
-> > Thanks.
-> > 
-> > [1] https://github.com/archlinux/mkinitcpio/pull/43
-> > 
-> > -- 
-> >  Oleksandr Natalenko (post-factum)
-> 
 
 -- 
-  Oleksandr Natalenko (post-factum)
+Thanks,
+~Nick Desaulniers
