@@ -2,218 +2,218 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A67235082D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 22:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFB6235092B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 23:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236400AbhCaU2T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Mar 2021 16:28:19 -0400
-Received: from vulcan.natalenko.name ([104.207.131.136]:42838 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235928AbhCaU2Q (ORCPT
+        id S232356AbhCaV1d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Mar 2021 17:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231620AbhCaV1Z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Mar 2021 16:28:16 -0400
-Received: from localhost (kaktus.kanapka.ml [151.237.229.131])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 55989A0F781;
-        Wed, 31 Mar 2021 22:28:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1617222483;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=T7KMVsB99a0yK8chKN0u6dYbFggVxg7zD3+IE0/hDj4=;
-        b=hM6aKoK7SvmfJBr78UlGw57RJgAMx3yhbIaJk2n55OTVwC0wcGqK4+kNxhbyJhwmYMJD+u
-        B8HBVBnlHUu3aDuvvDoQxiLe7WUKk6kfbrNcJUi7XH4QvgC/ys8w+s0Z9AilFPH5KeroDT
-        GU5cUpvczBN9w1HWZwgxr9zKWlGjVbY=
-Date:   Wed, 31 Mar 2021 22:28:02 +0200
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     Nick Terrell <terrelln@fb.com>
-Cc:     Piotr Gorski <lucjan.lucjanov@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Wed, 31 Mar 2021 17:27:25 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16737C061762
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 14:27:25 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id i6so3683221ybk.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 14:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=yTP+LjBFDmYzEkZN/ojSVPqO+bAHNBu2aAmdwQC8Sq0=;
+        b=IImtgBJ7yAhdvPcjObAuget2Jumf3PaCW/76HUIX7raQTGWs3yNE9WoPlH1zK6Q1u4
+         +7jYJb6uW1OS281+twBaFF73GLAuKSTPkEbScEk2CWC9E+ti1FwiAPHe8Wbe1//KUbjL
+         p+kRmfOunTBE7ZEh3NxO0tHeV4EUi6uiuuwGTA81RWeaZZ2Xjnt/4baMCb8b5+Fu7aso
+         9/gyF3XK113vGJ96dbjy4rWUJO2LXn66iORt+eQxiaRmhqAP1anwF+wgvtGqNUrXORGu
+         i4cblL+YQtoV/evE8Hf9ig9e6yT+Kxf/odgiUwus7g8QgOHtY6Ewb2hW78AIWe2OImPx
+         Wjgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=yTP+LjBFDmYzEkZN/ojSVPqO+bAHNBu2aAmdwQC8Sq0=;
+        b=WmeQS9tJLMpOKJf+f2qAAnNYwiNihMW7fv6/ZVBkImeQvwFwQZ/soHI4TTUJQ6wJoj
+         V/5ntmy5jfVdCCgO/+CyqfSr5r47bt9Dkp1GNztghPRc+yXYzxTFeQmKxqE9TkVRdHb8
+         9YGyjICf2w18av5bLQBoprheuKWVKDY0pb/YeVabvqEQXKiITYcn0QS3kDgq6F+xbGg7
+         cKgYB/4EluPYMTtcyO8MF4nbsQCrZ/v5CdkcpAP9RUujQCF9IPDN75Io14m2PVv98MVu
+         Yio4WyK0gq+SmGhP2FTT4CuUa8gicb865L18YnVbjcVQboXZOPjGa7USB1j88m70wkqO
+         Ijtw==
+X-Gm-Message-State: AOAM530AQ0jXtpoOS8MKOrs7E6eMhBFT4qj2MKgYk9yiryowcPjxkVMn
+        XkEGacfI7ZiGmZzWT23SD+MblOQ0huJCCfIpxZc=
+X-Google-Smtp-Source: ABdhPJxEEWvfo80m5ShoYqPvblwqvUS4wssFRgdGlX1k6EZR1yPZFQwGxomYdq2wD1SGfu2YEhzp2R2AwbgiIYN6I9g=
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:7933:7015:a5d5:3835])
+ (user=samitolvanen job=sendgmr) by 2002:a25:2386:: with SMTP id
+ j128mr7405063ybj.284.1617226044066; Wed, 31 Mar 2021 14:27:24 -0700 (PDT)
+Date:   Wed, 31 Mar 2021 14:27:04 -0700
+Message-Id: <20210331212722.2746212-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
+Subject: [PATCH v4 00/17] Add support for Clang CFI
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        "Jan Alexander Steffens (heftig)" <jan.steffens@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [PATCH] init: add support for zstd compressed modules
-Message-ID: <20210331202802.lamhovokjzolrpf6@spock.localdomain>
-References: <20210330113235.2767216-1-lucjan.lucjanov@gmail.com>
- <20210330115023.qt742qsdekwiroey@spock.localdomain>
- <33D7F6C9-6F53-471A-A146-7F128F6918F5@fb.com>
- <20210331174826.uhunfmkhlpyteb3d@spock.localdomain>
- <5288EB41-5257-4B4C-9D37-3C314FA90573@fb.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5288EB41-5257-4B4C-9D37-3C314FA90573@fb.com>
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Tejun Heo <tj@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>, bpf@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello.
+This series adds support for Clang's Control-Flow Integrity (CFI)
+checking. With CFI, the compiler injects a runtime check before each
+indirect function call to ensure the target is a valid function with
+the correct static type. This restricts possible call targets and
+makes it more difficult for an attacker to exploit bugs that allow the
+modification of stored function pointers. For more details, see:
 
-On Wed, Mar 31, 2021 at 07:21:07PM +0000, Nick Terrell wrote:
-> 
-> 
-> > On Mar 31, 2021, at 10:48 AM, Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
-> > 
-> > Hello.
-> > 
-> > On Wed, Mar 31, 2021 at 05:39:25PM +0000, Nick Terrell wrote:
-> >> 
-> >> 
-> >>> On Mar 30, 2021, at 4:50 AM, Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
-> >>> 
-> >>> On Tue, Mar 30, 2021 at 01:32:35PM +0200, Piotr Gorski wrote:
-> >>>> kmod 28 supports modules compressed in zstd format so let's add this possibility to kernel.
-> >>>> 
-> >>>> Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
-> >>>> ---
-> >>>> Makefile     | 7 +++++--
-> >>>> init/Kconfig | 9 ++++++---
-> >>>> 2 files changed, 11 insertions(+), 5 deletions(-)
-> >>>> 
-> >>>> diff --git a/Makefile b/Makefile
-> >>>> index 5160ff8903c1..82f4f4cc2955 100644
-> >>>> --- a/Makefile
-> >>>> +++ b/Makefile
-> >>>> @@ -1156,8 +1156,8 @@ endif # INSTALL_MOD_STRIP
-> >>>> export mod_strip_cmd
-> >>>> 
-> >>>> # CONFIG_MODULE_COMPRESS, if defined, will cause module to be compressed
-> >>>> -# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP
-> >>>> -# or CONFIG_MODULE_COMPRESS_XZ.
-> >>>> +# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP,
-> >>>> +# CONFIG_MODULE_COMPRESS_XZ, or CONFIG_MODULE_COMPRESS_ZSTD.
-> >>>> 
-> >>>> mod_compress_cmd = true
-> >>>> ifdef CONFIG_MODULE_COMPRESS
-> >>>> @@ -1167,6 +1167,9 @@ ifdef CONFIG_MODULE_COMPRESS
-> >>>>  ifdef CONFIG_MODULE_COMPRESS_XZ
-> >>>>    mod_compress_cmd = $(XZ) --lzma2=dict=2MiB -f
-> >>>>  endif # CONFIG_MODULE_COMPRESS_XZ
-> >>>> +  ifdef CONFIG_MODULE_COMPRESS_ZSTD
-> >>>> +    mod_compress_cmd = $(ZSTD) -T0 --rm -f -q
-> >> 
-> >> This will use the default zstd level, level 3. I think it would make more sense to use a high
-> >> compression level. Level 19 would probably be a good choice. That will choose a window
-> >> size of up to 8MB, meaning the decompressor needs to allocate that much memory. If that
-> >> is unacceptable, you could use `zstd -T0 --rm -f -q -19 --zstd=wlog=21`, which will use a
-> >> window size of up to 2MB, to match the XZ command. Note that if the file is smaller than
-> >> the window size, it will be shrunk to the smallest power of two at least as large as the file.
-> > 
-> > Please no. We've already done that with initramfs in Arch, and it
-> > increased the time to generate it enormously.
-> > 
-> > I understand that building a kernel is a more rare operation than
-> > regenerating initramfs, but still I'd go against hard-coding the level.
-> > And if it should be specified anyway, I'd opt in for an explicit
-> > configuration option. Remember, not all the kernel are built on
-> > build farms...
-> > 
-> > FWIW, Piotr originally used level 9 which worked okay, but I insisted
-> > on sending the patch initially without specifying level at all like it is
-> > done for other compressors. If this is a wrong approach, then oh meh,
-> > mea culpa ;).
-> > 
-> > Whatever default non-standard compression level you choose, I'm fine
-> > as long as I can change it without editing Makefile.
-> 
-> That makes sense to me. I have a deep seated need to compress files as
-> efficiently as possible for widely distributed packages. But, I understand that
-> slow compression significantly impacts build times for quick iteration. I’d be
-> happy with a compression level parameter that defaults to a happy middle.
-> 
-> I’m also fine with taking this patch as-is if it is easier, and I can put up another
-> patch that adds a compression level parameter, since I don’t want to block
-> merging this.
+  https://clang.llvm.org/docs/ControlFlowIntegrity.html
 
-Well, it seems Andrew already took this into his tree, so feel free to
-drop another one on top of that!
+The first patch contains build system changes and error handling,
+and implements support for cross-module indirect call checking. The
+remaining patches address issues caused by the compiler
+instrumentation. These include fixing known type mismatches, as well
+as issues with address space confusion and cross-module function
+address equality.
 
-> 
-> Best,
-> Nick Terrell
-> 
-> > Thanks!
-> > 
-> >> 
-> >> Best,
-> >> Nick Terrell
-> >> 
-> >>>> +  endif # CONFIG_MODULE_COMPRESS_ZSTD
-> >>>> endif # CONFIG_MODULE_COMPRESS
-> >>>> export mod_compress_cmd
-> >>>> 
-> >>>> diff --git a/init/Kconfig b/init/Kconfig
-> >>>> index 8c2cfd88f6ef..86a452bc2747 100644
-> >>>> --- a/init/Kconfig
-> >>>> +++ b/init/Kconfig
-> >>>> @@ -2250,8 +2250,8 @@ config MODULE_COMPRESS
-> >>>> 	bool "Compress modules on installation"
-> >>>> 	help
-> >>>> 
-> >>>> -	  Compresses kernel modules when 'make modules_install' is run; gzip or
-> >>>> -	  xz depending on "Compression algorithm" below.
-> >>>> +	  Compresses kernel modules when 'make modules_install' is run; gzip,
-> >>>> +	  xz, or zstd depending on "Compression algorithm" below.
-> >>>> 
-> >>>> 	  module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
-> >>>> 
-> >>>> @@ -2273,7 +2273,7 @@ choice
-> >>>> 	  This determines which sort of compression will be used during
-> >>>> 	  'make modules_install'.
-> >>>> 
-> >>>> -	  GZIP (default) and XZ are supported.
-> >>>> +	  GZIP (default), XZ, and ZSTD are supported.
-> >>>> 
-> >>>> config MODULE_COMPRESS_GZIP
-> >>>> 	bool "GZIP"
-> >>>> @@ -2281,6 +2281,9 @@ config MODULE_COMPRESS_GZIP
-> >>>> config MODULE_COMPRESS_XZ
-> >>>> 	bool "XZ"
-> >>>> 
-> >>>> +config MODULE_COMPRESS_ZSTD
-> >>>> +	bool "ZSTD"
-> >>>> +
-> >>>> endchoice
-> >>>> 
-> >>>> config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-> >>>> -- 
-> >>>> 2.31.0.97.g1424303384
-> >>>> 
-> >>> 
-> >>> Great!
-> >>> 
-> >>> Reviewed-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-> >>> 
-> >>> This works perfectly fine in Arch Linux if accompanied by the
-> >>> following mkinitcpio amendment: [1].
-> >>> 
-> >>> I'm also Cc'ing other people from get_maintainers output just
-> >>> to make this submission more visible.
-> >>> 
-> >>> Thanks.
-> >>> 
-> >>> [1] https://github.com/archlinux/mkinitcpio/pull/43
-> >>> 
-> >>> -- 
-> >>> Oleksandr Natalenko (post-factum)
-> >> 
-> > 
-> > -- 
-> >  Oleksandr Natalenko (post-factum)
-> 
+These patches add support only for arm64, but I'll post patches also
+for x86_64 after we address the remaining issues there, including
+objtool support.
 
+You can also pull this series from
+
+  https://github.com/samitolvanen/linux.git cfi-v4
+
+---
+Changes in v4:
+ - Per Mark's suggestion, dropped __pa_function() and renamed
+   __va_function() to function_nocfi().
+ - Added a comment to function_nocfi() to explain what it does.
+ - Updated the psci patch to use an intermediate variable for
+   the physical address for clarity.
+
+Changes in v3:
+ - Added a patch to change list_sort() callers treewide to use
+   const pointers instead of simply removing the internal casts.
+ - Changed cleanup_symbol_name() to return bool.
+ - Changed module.lds.S to drop the .eh_frame section only with
+   CONFIG_CFI_CLANG.
+ - Switched to synchronize_rcu() in update_shadow().
+
+Changes in v2:
+ - Fixed .text merging in module.lds.S.
+ - Added WARN_ON_FUNCTION_MISMATCH() and changed kernel/thread.c
+   and kernel/workqueue.c to use the macro instead.
+
+
+Sami Tolvanen (17):
+  add support for Clang CFI
+  cfi: add __cficanonical
+  mm: add generic function_nocfi macro
+  module: ensure __cfi_check alignment
+  workqueue: use WARN_ON_FUNCTION_MISMATCH
+  kthread: use WARN_ON_FUNCTION_MISMATCH
+  kallsyms: strip ThinLTO hashes from static functions
+  bpf: disable CFI in dispatcher functions
+  treewide: Change list_sort to use const pointers
+  lkdtm: use function_nocfi
+  psci: use function_nocfi for cpu_resume
+  arm64: implement function_nocfi
+  arm64: use function_nocfi with __pa_symbol
+  arm64: add __nocfi to functions that jump to a physical address
+  arm64: add __nocfi to __apply_alternatives
+  KVM: arm64: Disable CFI for nVHE
+  arm64: allow CONFIG_CFI_CLANG to be selected
+
+ Makefile                                      |  17 +
+ arch/Kconfig                                  |  45 +++
+ arch/arm64/Kconfig                            |   1 +
+ arch/arm64/include/asm/memory.h               |  15 +
+ arch/arm64/include/asm/mmu_context.h          |   4 +-
+ arch/arm64/kernel/acpi_parking_protocol.c     |   3 +-
+ arch/arm64/kernel/alternative.c               |   4 +-
+ arch/arm64/kernel/cpu-reset.h                 |  10 +-
+ arch/arm64/kernel/cpufeature.c                |   4 +-
+ arch/arm64/kernel/psci.c                      |   3 +-
+ arch/arm64/kernel/smp_spin_table.c            |   3 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile              |   6 +-
+ arch/arm64/kvm/vgic/vgic-its.c                |   8 +-
+ arch/arm64/kvm/vgic/vgic.c                    |   3 +-
+ block/blk-mq-sched.c                          |   3 +-
+ block/blk-mq.c                                |   3 +-
+ drivers/acpi/nfit/core.c                      |   3 +-
+ drivers/acpi/numa/hmat.c                      |   3 +-
+ drivers/clk/keystone/sci-clk.c                |   4 +-
+ drivers/firmware/psci/psci.c                  |   7 +-
+ drivers/gpu/drm/drm_modes.c                   |   3 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |   3 +-
+ drivers/gpu/drm/i915/gvt/debugfs.c            |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   3 +-
+ drivers/gpu/drm/radeon/radeon_cs.c            |   4 +-
+ .../hw/usnic/usnic_uiom_interval_tree.c       |   3 +-
+ drivers/interconnect/qcom/bcm-voter.c         |   2 +-
+ drivers/md/raid5.c                            |   3 +-
+ drivers/misc/lkdtm/usercopy.c                 |   2 +-
+ drivers/misc/sram.c                           |   4 +-
+ drivers/nvme/host/core.c                      |   3 +-
+ .../controller/cadence/pcie-cadence-host.c    |   3 +-
+ drivers/spi/spi-loopback-test.c               |   3 +-
+ fs/btrfs/raid56.c                             |   3 +-
+ fs/btrfs/tree-log.c                           |   3 +-
+ fs/btrfs/volumes.c                            |   3 +-
+ fs/ext4/fsmap.c                               |   4 +-
+ fs/gfs2/glock.c                               |   3 +-
+ fs/gfs2/log.c                                 |   2 +-
+ fs/gfs2/lops.c                                |   3 +-
+ fs/iomap/buffered-io.c                        |   3 +-
+ fs/ubifs/gc.c                                 |   7 +-
+ fs/ubifs/replay.c                             |   4 +-
+ fs/xfs/scrub/bitmap.c                         |   4 +-
+ fs/xfs/xfs_bmap_item.c                        |   4 +-
+ fs/xfs/xfs_buf.c                              |   6 +-
+ fs/xfs/xfs_extent_busy.c                      |   4 +-
+ fs/xfs/xfs_extent_busy.h                      |   3 +-
+ fs/xfs/xfs_extfree_item.c                     |   4 +-
+ fs/xfs/xfs_refcount_item.c                    |   4 +-
+ fs/xfs/xfs_rmap_item.c                        |   4 +-
+ include/asm-generic/bug.h                     |  16 +
+ include/asm-generic/vmlinux.lds.h             |  20 +-
+ include/linux/bpf.h                           |   4 +-
+ include/linux/cfi.h                           |  41 +++
+ include/linux/compiler-clang.h                |   3 +
+ include/linux/compiler_types.h                |   8 +
+ include/linux/init.h                          |   6 +-
+ include/linux/list_sort.h                     |   7 +-
+ include/linux/mm.h                            |  10 +
+ include/linux/module.h                        |  13 +-
+ include/linux/pci.h                           |   4 +-
+ init/Kconfig                                  |   2 +-
+ kernel/Makefile                               |   4 +
+ kernel/cfi.c                                  | 329 ++++++++++++++++++
+ kernel/kallsyms.c                             |  55 ++-
+ kernel/kthread.c                              |   3 +-
+ kernel/module.c                               |  43 +++
+ kernel/workqueue.c                            |   2 +-
+ lib/list_sort.c                               |  17 +-
+ lib/test_list_sort.c                          |   3 +-
+ net/tipc/name_table.c                         |   4 +-
+ scripts/Makefile.modfinal                     |   2 +-
+ scripts/module.lds.S                          |  20 +-
+ 74 files changed, 759 insertions(+), 112 deletions(-)
+ create mode 100644 include/linux/cfi.h
+ create mode 100644 kernel/cfi.c
+
+
+base-commit: d19cc4bfbff1ae72c3505a00fb8ce0d3fa519e6c
 -- 
-  Oleksandr Natalenko (post-factum)
+2.31.0.291.g576ba9dcdaf-goog
+
