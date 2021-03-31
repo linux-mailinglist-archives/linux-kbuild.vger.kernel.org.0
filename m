@@ -2,42 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74286350171
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 15:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C990E350164
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 15:39:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235758AbhCaNj1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Mar 2021 09:39:27 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:39529 "EHLO
+        id S235880AbhCaNiz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Mar 2021 09:38:55 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:38970 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235863AbhCaNi6 (ORCPT
+        with ESMTP id S235865AbhCaNid (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Mar 2021 09:38:58 -0400
+        Wed, 31 Mar 2021 09:38:33 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 12VDcFec003995;
-        Wed, 31 Mar 2021 22:38:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 12VDcFec003995
+        by conuserg-12.nifty.com with ESMTP id 12VDcFed003995;
+        Wed, 31 Mar 2021 22:38:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 12VDcFed003995
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617197897;
-        bh=CsrzD+VHMQFiqVVY3z016djKNDznKoCvYX6jCBwlclQ=;
+        s=dec2015msa; t=1617197898;
+        bh=GDUqIPAyXFlw9XgsY6d2xuYxGGqR5Pjr563gkbK8bNQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FgIC6CbW3JuqH4Stbt5CDZ+8b8M/VZH9Tep8YtUU38ZdTE7Pf4xwbZrg9D4WNj04M
-         FIlchrLMcV9LWL3TZTticIYTk6JLSN8Kosoy3sWL3PcQFj1uRX50Nd1umZTv3NO2jQ
-         2u+T8XkrRHjzdkypUZPsLY1E5BOu1g9jQd0lIeZrMJ2yLL/WXyWIcURqrQ2zchWCen
-         F9cnAiuyFzHGSFmvZYQStmxnyxjswxHIlpRfj2BeYz6I7ODeWwDb7d3YJtklSSKi+9
-         SYwkq/lPcayxguPUn8Ky11xYfmuDXLdaf1BUbV8dtST7j5qsxNdzOF17dQmBF34nGX
-         aQm19lc8iSV0g==
+        b=BDEGunVlIF8GfL6OKcla7dVZ9xPt6hJoRixq6w3/Gbhp2gFPnsXN4WlDlJmidzZrU
+         ySfrW97pQphoWpgjsReeFC5DgYXbD1zkQKsDVFRl3AMsS7bBKeJeSRr6jqxwM5ODRZ
+         TFaR/aTZ/Fuwxa/IOWIwrQHDo8fUbb+gX7RwMfvRvFEFiZ3uuC+aCvynY4TMkRsl9c
+         euaLjiPUmJi+3AJZrG2/YTgGYzYUD0+uVJneLn5ONCohGxJEPsOuwTAyG+/oAnLoeV
+         Fp1fr9vZSD0+CUp7jVRJUlCxGaZrSemlQOj/AgqEOs5PW1iBuBvoexS/tWdqdlbB3r
+         x8yTl5Hp55Z6Q==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH 5/9] kbuild: rename extmod-prefix to extmod_prefix
-Date:   Wed, 31 Mar 2021 22:38:06 +0900
-Message-Id: <20210331133811.3221540-5-masahiroy@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH 6/9] kbuild: refactor scripts/Makefile.modinst
+Date:   Wed, 31 Mar 2021 22:38:07 +0900
+Message-Id: <20210331133811.3221540-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210331133811.3221540-1-masahiroy@kernel.org>
 References: <20210331133811.3221540-1-masahiroy@kernel.org>
@@ -47,90 +44,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This seems to be useful in sub-make as well. As a preparation of
-exporting it, rename extmod-prefix to extmod_prefix because exported
-variables cannot contain hyphens.
+scripts/Makefile.modinst is ugly and weird in multiple ways; it
+specifies real files $(modules) as phony, makes directory manipulation
+needlessly too complicated.
+
+Clean up the Makefile code, and show the full path of installed modules
+in the log.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ Makefile                 |  2 +-
+ scripts/Makefile.modinst | 42 +++++++++++++++++++++++-----------------
+ 2 files changed, 25 insertions(+), 19 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index b5ff4753eba8..e3c2bd1b6f42 100644
+index e3c2bd1b6f42..88e5c15e1186 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -919,7 +919,7 @@ endif
- ifdef CONFIG_LTO_CLANG
- ifdef CONFIG_LTO_CLANG_THIN
- CC_FLAGS_LTO	:= -flto=thin -fsplit-lto-unit
--KBUILD_LDFLAGS	+= --thinlto-cache-dir=$(extmod-prefix).thinlto-cache
-+KBUILD_LDFLAGS	+= --thinlto-cache-dir=$(extmod_prefix).thinlto-cache
- else
- CC_FLAGS_LTO	:= -flto
- endif
-@@ -1141,9 +1141,9 @@ endif # CONFIG_BPF
+@@ -1141,7 +1141,7 @@ endif # CONFIG_BPF
  
  PHONY += prepare0
  
--extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
--export MODORDER := $(extmod-prefix)modules.order
--export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
-+extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
-+export MODORDER := $(extmod_prefix)modules.order
-+export MODULES_NSDEPS := $(extmod_prefix)modules.nsdeps
+-extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
++export extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+ export MODORDER := $(extmod_prefix)modules.order
+ export MODULES_NSDEPS := $(extmod_prefix)modules.nsdeps
  
- ifeq ($(KBUILD_EXTMOD),)
- core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
-@@ -1742,7 +1742,7 @@ build-dirs := $(KBUILD_EXTMOD)
- $(MODORDER): descend
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index ad1981233d0b..3b2d0380504d 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -8,28 +8,34 @@ __modinst:
+ 
+ include $(srctree)/scripts/Kbuild.include
+ 
+-modules := $(sort $(shell cat $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)modules.order))
++modules := $(sort $(shell cat $(MODORDER)))
++
++ifeq ($(KBUILD_EXTMOD),)
++subdir := kernel
++else
++INSTALL_MOD_DIR ?= extra
++subdir := $(INSTALL_MOD_DIR)
++endif
++
++dst := $(MODLIB)/$(subdir)
++
++modules := $(patsubst $(extmod_prefix)%, $(dst)/%, $(modules))
+ 
+-PHONY += $(modules)
+ __modinst: $(modules)
  	@:
  
--compile_commands.json: $(extmod-prefix)compile_commands.json
-+compile_commands.json: $(extmod_prefix)compile_commands.json
- PHONY += compile_commands.json
+ # Don't stop modules_install if we can't sign external modules.
+-quiet_cmd_modules_install = INSTALL $@
+-      cmd_modules_install = \
+-    mkdir -p $(2) ; \
+-    cp $@ $(2) ; \
+-    $(mod_strip_cmd) $(2)/$(notdir $@) ; \
+-    $(mod_sign_cmd) $(2)/$(notdir $@) $(patsubst %,|| true,$(KBUILD_EXTMOD)) ; \
+-    $(mod_compress_cmd) $(2)/$(notdir $@)
+-
+-# Modules built outside the kernel source tree go into extra by default
+-INSTALL_MOD_DIR ?= extra
+-ext-mod-dir = $(INSTALL_MOD_DIR)$(subst $(patsubst %/,%,$(KBUILD_EXTMOD)),,$(@D))
+-
+-modinst_dir = $(if $(KBUILD_EXTMOD),$(ext-mod-dir),kernel/$(@D))
+-
+-$(modules):
+-	$(call cmd,modules_install,$(MODLIB)/$(modinst_dir))
++quiet_cmd_install = INSTALL $@
++      cmd_install = \
++    mkdir -p $(dir $@); cp $< $@; \
++    $(mod_strip_cmd) $@; \
++    $(mod_sign_cmd) $@ $(patsubst %,|| true,$(KBUILD_EXTMOD)) ; \
++    $(mod_compress_cmd) $@
++
++$(modules): $(dst)/%: $(extmod_prefix)% FORCE
++	$(call cmd,install)
++
++PHONY += FORCE
++FORCE:
  
- clean-dirs := $(KBUILD_EXTMOD)
-@@ -1832,12 +1832,12 @@ endif
- 
- PHONY += single_modpost
- single_modpost: $(single-no-ko) modules_prepare
--	$(Q){ $(foreach m, $(single-ko), echo $(extmod-prefix)$m;) } > $(MODORDER)
-+	$(Q){ $(foreach m, $(single-ko), echo $(extmod_prefix)$m;) } > $(MODORDER)
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
- 
- KBUILD_MODULES := 1
- 
--export KBUILD_SINGLE_TARGETS := $(addprefix $(extmod-prefix), $(single-no-ko))
-+export KBUILD_SINGLE_TARGETS := $(addprefix $(extmod_prefix), $(single-no-ko))
- 
- # trim unrelated directories
- build-dirs := $(foreach d, $(build-dirs), \
-@@ -1906,12 +1906,12 @@ nsdeps: modules
- quiet_cmd_gen_compile_commands = GEN     $@
-       cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
- 
--$(extmod-prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
-+$(extmod_prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
- 	$(if $(KBUILD_EXTMOD),,$(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)) \
- 	$(if $(CONFIG_MODULES), $(MODORDER)) FORCE
- 	$(call if_changed,gen_compile_commands)
- 
--targets += $(extmod-prefix)compile_commands.json
-+targets += $(extmod_prefix)compile_commands.json
- 
- PHONY += clang-tidy clang-analyzer
- 
-@@ -1919,7 +1919,7 @@ ifdef CONFIG_CC_IS_CLANG
- quiet_cmd_clang_tools = CHECK   $<
-       cmd_clang_tools = $(PYTHON3) $(srctree)/scripts/clang-tools/run-clang-tools.py $@ $<
- 
--clang-tidy clang-analyzer: $(extmod-prefix)compile_commands.json
-+clang-tidy clang-analyzer: $(extmod_prefix)compile_commands.json
- 	$(call cmd,clang_tools)
- else
- clang-tidy clang-analyzer:
+ .PHONY: $(PHONY)
 -- 
 2.27.0
 
