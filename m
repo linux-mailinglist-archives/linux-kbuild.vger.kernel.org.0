@@ -2,110 +2,218 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7183507CC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 22:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A67235082D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Mar 2021 22:28:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236426AbhCaUHm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Mar 2021 16:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236434AbhCaUHX (ORCPT
+        id S236400AbhCaU2T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Mar 2021 16:28:19 -0400
+Received: from vulcan.natalenko.name ([104.207.131.136]:42838 "EHLO
+        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235928AbhCaU2Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Mar 2021 16:07:23 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 610F6C061574
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 13:07:23 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id f3so124407pgv.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 13:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=j8v7zlQCarZgdFLgATsFe+vW/NFhoDJt/9MWBvCMW3o=;
-        b=PHWdya59ypGDcuhE+/Lj0qikX5VKKJXVdJWzs0hZfbTtT1pTrku9dxeF2BRmS1lpxh
-         YfrvMh564HSSwf9crONrxjhy6Kvwgho+tI9MxKnecxhLK6q7jWUX5JfW1/uFuYuAUXn9
-         FB7rFnOcSaxSCaHGTwmJj5M5KHbjStoBJjZ7T5lemUwbT9co1C3P2SGvnxkM5xlmc8kZ
-         gYMSH/b7yz7JIPwQxloWvXZhufWderMls7/bo/K2TvhsD4rDuM32hgRZxmGsCzCwe4UH
-         8KETRP77LjLRCoEX0fuOSTEXA9Z3C9YUd3Z87sCWhxtpwzTmj37e/L2uP8XfHkW+s6El
-         7nBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=j8v7zlQCarZgdFLgATsFe+vW/NFhoDJt/9MWBvCMW3o=;
-        b=LgNr7CxNISqvtzrSFyEbk3NAoSPPrcQgWCS5BlmjUG9UWeR+vxVuAdpBIkB5KBNp0m
-         k6ZYPKXW0NB60rTLbzbVg1nqHYyxXtbSIgZPks8zw/1Ye/S4yIME1XhLux8P505ROBCG
-         yFNJh8hbygj5nav4UsSn7cT7RRlLYkh6Ff+WMqg4AxkpB7qrMlEKpetDxRGWMUHe+nQ/
-         2lrLoknw4jiGs36TbTWsuJBnuH8//CB7/NSW7imQsCHdqd+4z4zPByWBb9C0sUCHLq/V
-         EM1AZcjQ9sScAic+gRZLCDNHs4e6A5P80hwDwKf31WfAElhXlyJoxhjh1BaiL3SFBsDj
-         rHVw==
-X-Gm-Message-State: AOAM532x2jXEl2QxhWpVthpDhGNAH65O//SjKXAWyqTB3KcsQONNx3Ks
-        MuW8q5pepGgrqT+monru+7RYyQ==
-X-Google-Smtp-Source: ABdhPJxMs6vJpij60DibOiWc5Zg+qRDcCo87p5sWjlsdO7CJNWPOggYWCf1uv/7lZH7V2p6KWWaS0w==
-X-Received: by 2002:a63:4763:: with SMTP id w35mr4698071pgk.226.1617221242566;
-        Wed, 31 Mar 2021 13:07:22 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id fa21sm3093569pjb.41.2021.03.31.13.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 13:07:21 -0700 (PDT)
-Date:   Wed, 31 Mar 2021 20:07:18 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
+        Wed, 31 Mar 2021 16:28:16 -0400
+Received: from localhost (kaktus.kanapka.ml [151.237.229.131])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 55989A0F781;
+        Wed, 31 Mar 2021 22:28:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1617222483;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=T7KMVsB99a0yK8chKN0u6dYbFggVxg7zD3+IE0/hDj4=;
+        b=hM6aKoK7SvmfJBr78UlGw57RJgAMx3yhbIaJk2n55OTVwC0wcGqK4+kNxhbyJhwmYMJD+u
+        B8HBVBnlHUu3aDuvvDoQxiLe7WUKk6kfbrNcJUi7XH4QvgC/ys8w+s0Z9AilFPH5KeroDT
+        GU5cUpvczBN9w1HWZwgxr9zKWlGjVbY=
+Date:   Wed, 31 Mar 2021 22:28:02 +0200
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     Piotr Gorski <lucjan.lucjanov@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH] kbuild: Merge module sections if and only if
- CONFIG_LTO_CLANG is enabled
-Message-ID: <YGTWdju9UiDGRCCJ@google.com>
-References: <20210322234438.502582-1-seanjc@google.com>
- <CABCJKudMQ9CP1zhvywTf-_=PY5zmeviURR+=PqsMn_bqa_MV-g@mail.gmail.com>
- <YFoZBY1SqilWAmx4@google.com>
- <CABCJKucYHQ893LS1iCHXivPS05RMDN2BpDFou306jOEbWnt1Dg@mail.gmail.com>
- <YFvBEIkuFY2ajNlG@google.com>
- <202103311228.D42822B@keescook>
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        "Jan Alexander Steffens (heftig)" <jan.steffens@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [PATCH] init: add support for zstd compressed modules
+Message-ID: <20210331202802.lamhovokjzolrpf6@spock.localdomain>
+References: <20210330113235.2767216-1-lucjan.lucjanov@gmail.com>
+ <20210330115023.qt742qsdekwiroey@spock.localdomain>
+ <33D7F6C9-6F53-471A-A146-7F128F6918F5@fb.com>
+ <20210331174826.uhunfmkhlpyteb3d@spock.localdomain>
+ <5288EB41-5257-4B4C-9D37-3C314FA90573@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202103311228.D42822B@keescook>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5288EB41-5257-4B4C-9D37-3C314FA90573@fb.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 31, 2021, Kees Cook wrote:
-> On Wed, Mar 24, 2021 at 10:45:36PM +0000, Sean Christopherson wrote:
-> > On Tue, Mar 23, 2021, Sami Tolvanen wrote:
-> > > On Tue, Mar 23, 2021 at 9:36 AM Sean Christopherson <seanjc@google.com> wrote:
-> > > >
-> > > > On Tue, Mar 23, 2021, Sami Tolvanen wrote:
-> > > > > On Mon, Mar 22, 2021 at 4:44 PM Sean Christopherson <seanjc@google.com> wrote:
-> > > > > >
-> > > > > > Merge module sections only when using Clang LTO.  With gcc-10, merging
-> > > > > > sections does not appear to update the symbol tables for the module,
-> > > > > > e.g. 'readelf -s' shows the value that a symbol would have had, if
-> > > > > > sections were not merged.
-> > > > >
-> > > > > I'm fine with limiting this to LTO only, but it would be helpful to
-> > > > > understand which sections are actually getting merged here.
-> > > >
-> > > > It doesn't appear to matter which sections get merged, the tables only show the
-> > > > correct data if there is no merging whatsoever, e.g. allowing merging for any
-> > > > one of the four types (.bss, .data, .rodata and .text) results in breakage.
-> > > > AFAICT, merging any sections causes the layout to change and throw off the
-> > > > symbol tables.
-> > > 
-> > > Thanks for the clarification. I can reproduce this issue with gcc +
-> > > bfd if any of the sections are merged, but gcc + lld produces valid
-> > > symbol tables.
-> > 
-> > FWIW, clang + bfd also produces mangled tables, so it does appear to be bfd
-> > specific.
-> 
-> Are you able to open a bug against bfd for this?
+Hello.
 
-Yes?  I'll ping you when I run into trouble ;-)
+On Wed, Mar 31, 2021 at 07:21:07PM +0000, Nick Terrell wrote:
+> 
+> 
+> > On Mar 31, 2021, at 10:48 AM, Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
+> > 
+> > Hello.
+> > 
+> > On Wed, Mar 31, 2021 at 05:39:25PM +0000, Nick Terrell wrote:
+> >> 
+> >> 
+> >>> On Mar 30, 2021, at 4:50 AM, Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
+> >>> 
+> >>> On Tue, Mar 30, 2021 at 01:32:35PM +0200, Piotr Gorski wrote:
+> >>>> kmod 28 supports modules compressed in zstd format so let's add this possibility to kernel.
+> >>>> 
+> >>>> Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+> >>>> ---
+> >>>> Makefile     | 7 +++++--
+> >>>> init/Kconfig | 9 ++++++---
+> >>>> 2 files changed, 11 insertions(+), 5 deletions(-)
+> >>>> 
+> >>>> diff --git a/Makefile b/Makefile
+> >>>> index 5160ff8903c1..82f4f4cc2955 100644
+> >>>> --- a/Makefile
+> >>>> +++ b/Makefile
+> >>>> @@ -1156,8 +1156,8 @@ endif # INSTALL_MOD_STRIP
+> >>>> export mod_strip_cmd
+> >>>> 
+> >>>> # CONFIG_MODULE_COMPRESS, if defined, will cause module to be compressed
+> >>>> -# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP
+> >>>> -# or CONFIG_MODULE_COMPRESS_XZ.
+> >>>> +# after they are installed in agreement with CONFIG_MODULE_COMPRESS_GZIP,
+> >>>> +# CONFIG_MODULE_COMPRESS_XZ, or CONFIG_MODULE_COMPRESS_ZSTD.
+> >>>> 
+> >>>> mod_compress_cmd = true
+> >>>> ifdef CONFIG_MODULE_COMPRESS
+> >>>> @@ -1167,6 +1167,9 @@ ifdef CONFIG_MODULE_COMPRESS
+> >>>>  ifdef CONFIG_MODULE_COMPRESS_XZ
+> >>>>    mod_compress_cmd = $(XZ) --lzma2=dict=2MiB -f
+> >>>>  endif # CONFIG_MODULE_COMPRESS_XZ
+> >>>> +  ifdef CONFIG_MODULE_COMPRESS_ZSTD
+> >>>> +    mod_compress_cmd = $(ZSTD) -T0 --rm -f -q
+> >> 
+> >> This will use the default zstd level, level 3. I think it would make more sense to use a high
+> >> compression level. Level 19 would probably be a good choice. That will choose a window
+> >> size of up to 8MB, meaning the decompressor needs to allocate that much memory. If that
+> >> is unacceptable, you could use `zstd -T0 --rm -f -q -19 --zstd=wlog=21`, which will use a
+> >> window size of up to 2MB, to match the XZ command. Note that if the file is smaller than
+> >> the window size, it will be shrunk to the smallest power of two at least as large as the file.
+> > 
+> > Please no. We've already done that with initramfs in Arch, and it
+> > increased the time to generate it enormously.
+> > 
+> > I understand that building a kernel is a more rare operation than
+> > regenerating initramfs, but still I'd go against hard-coding the level.
+> > And if it should be specified anyway, I'd opt in for an explicit
+> > configuration option. Remember, not all the kernel are built on
+> > build farms...
+> > 
+> > FWIW, Piotr originally used level 9 which worked okay, but I insisted
+> > on sending the patch initially without specifying level at all like it is
+> > done for other compressors. If this is a wrong approach, then oh meh,
+> > mea culpa ;).
+> > 
+> > Whatever default non-standard compression level you choose, I'm fine
+> > as long as I can change it without editing Makefile.
+> 
+> That makes sense to me. I have a deep seated need to compress files as
+> efficiently as possible for widely distributed packages. But, I understand that
+> slow compression significantly impacts build times for quick iteration. I’d be
+> happy with a compression level parameter that defaults to a happy middle.
+> 
+> I’m also fine with taking this patch as-is if it is easier, and I can put up another
+> patch that adds a compression level parameter, since I don’t want to block
+> merging this.
+
+Well, it seems Andrew already took this into his tree, so feel free to
+drop another one on top of that!
+
+> 
+> Best,
+> Nick Terrell
+> 
+> > Thanks!
+> > 
+> >> 
+> >> Best,
+> >> Nick Terrell
+> >> 
+> >>>> +  endif # CONFIG_MODULE_COMPRESS_ZSTD
+> >>>> endif # CONFIG_MODULE_COMPRESS
+> >>>> export mod_compress_cmd
+> >>>> 
+> >>>> diff --git a/init/Kconfig b/init/Kconfig
+> >>>> index 8c2cfd88f6ef..86a452bc2747 100644
+> >>>> --- a/init/Kconfig
+> >>>> +++ b/init/Kconfig
+> >>>> @@ -2250,8 +2250,8 @@ config MODULE_COMPRESS
+> >>>> 	bool "Compress modules on installation"
+> >>>> 	help
+> >>>> 
+> >>>> -	  Compresses kernel modules when 'make modules_install' is run; gzip or
+> >>>> -	  xz depending on "Compression algorithm" below.
+> >>>> +	  Compresses kernel modules when 'make modules_install' is run; gzip,
+> >>>> +	  xz, or zstd depending on "Compression algorithm" below.
+> >>>> 
+> >>>> 	  module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
+> >>>> 
+> >>>> @@ -2273,7 +2273,7 @@ choice
+> >>>> 	  This determines which sort of compression will be used during
+> >>>> 	  'make modules_install'.
+> >>>> 
+> >>>> -	  GZIP (default) and XZ are supported.
+> >>>> +	  GZIP (default), XZ, and ZSTD are supported.
+> >>>> 
+> >>>> config MODULE_COMPRESS_GZIP
+> >>>> 	bool "GZIP"
+> >>>> @@ -2281,6 +2281,9 @@ config MODULE_COMPRESS_GZIP
+> >>>> config MODULE_COMPRESS_XZ
+> >>>> 	bool "XZ"
+> >>>> 
+> >>>> +config MODULE_COMPRESS_ZSTD
+> >>>> +	bool "ZSTD"
+> >>>> +
+> >>>> endchoice
+> >>>> 
+> >>>> config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
+> >>>> -- 
+> >>>> 2.31.0.97.g1424303384
+> >>>> 
+> >>> 
+> >>> Great!
+> >>> 
+> >>> Reviewed-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> >>> 
+> >>> This works perfectly fine in Arch Linux if accompanied by the
+> >>> following mkinitcpio amendment: [1].
+> >>> 
+> >>> I'm also Cc'ing other people from get_maintainers output just
+> >>> to make this submission more visible.
+> >>> 
+> >>> Thanks.
+> >>> 
+> >>> [1] https://github.com/archlinux/mkinitcpio/pull/43
+> >>> 
+> >>> -- 
+> >>> Oleksandr Natalenko (post-factum)
+> >> 
+> > 
+> > -- 
+> >  Oleksandr Natalenko (post-factum)
+> 
+
+-- 
+  Oleksandr Natalenko (post-factum)
