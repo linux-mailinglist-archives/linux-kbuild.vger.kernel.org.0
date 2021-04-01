@@ -2,179 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E44C9350BEE
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Apr 2021 03:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 142E7351087
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Apr 2021 10:02:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbhDAB0K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Mar 2021 21:26:10 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:50872 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232367AbhDAB0B (ORCPT
+        id S229612AbhDAICL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Apr 2021 04:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47044 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233553AbhDAIBx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Mar 2021 21:26:01 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1311FOXL030869
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 18:26:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=J71BE9RoPiHh1SugZt8jJTFl8tcrLgSSpv9QcXnD2cw=;
- b=AthmvRUZIipNzMMRBBH9Yei7uAgWcDPj/6nW3l+8U0JgjAV4nMvEaCL9dhJDmBGHk6xX
- TlUeXq2+B0w/o/o5MRT8UOQ8rb3KnlYAtb0C7WFR9gKKmEAka+TcBD5CkHg5isTIK8rC
- ylEnFKXjrwfrGiOkM4hyMghvHVtHdYRkxxk= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 37n2810kqx-4
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-kbuild@vger.kernel.org>; Wed, 31 Mar 2021 18:26:00 -0700
-Received: from intmgw001.38.frc1.facebook.com (2620:10d:c085:208::f) by
- mail.thefacebook.com (2620:10d:c085:21d::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 31 Mar 2021 18:24:33 -0700
-Received: by devbig003.ftw2.facebook.com (Postfix, from userid 128203)
-        id AB83AEB0CE5; Wed, 31 Mar 2021 18:24:17 -0700 (PDT)
-From:   Yonghong Song <yhs@fb.com>
-To:     <linux-kbuild@vger.kernel.org>
-CC:     Alexei Starovoitov <ast@kernel.org>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
-        <bpf@vger.kernel.org>, <kernel-team@fb.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH kbuild v3 2/2] kbuild: add an elfnote with type BUILD_COMPILER_LTO_INFO
-Date:   Wed, 31 Mar 2021 18:24:17 -0700
-Message-ID: <20210401012417.1802681-1-yhs@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210401012406.1800957-1-yhs@fb.com>
-References: <20210401012406.1800957-1-yhs@fb.com>
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: wIPr-JD8JidP6SDs7C6TTZK5Klz4JyFT
-X-Proofpoint-ORIG-GUID: wIPr-JD8JidP6SDs7C6TTZK5Klz4JyFT
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Thu, 1 Apr 2021 04:01:53 -0400
+X-Greylist: delayed 459 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 01 Apr 2021 01:01:53 PDT
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16122C0613E6;
+        Thu,  1 Apr 2021 01:01:53 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4F9wcv3lyCzQk1Y;
+        Thu,  1 Apr 2021 10:01:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :subject:subject:references:in-reply-to:message-id:from:from
+        :date:date:received; s=mail20150812; t=1617264108; bh=5V1MdvL7YC
+        8mVZKfU9szLtKJFoYBtXMkN3Yon1JEiHM=; b=G0AyDYnBdxfI9/snr0bPAutkON
+        LpO7nRJbVUa5KRfAN/ryNMnK7qBm9ncSpJ1546u9AFdXqkYGD+gxD+5jf4XgV3wa
+        72J2u25OnsGMithZo2aObiDBYikj1aY4AWNxUyslpQBXx9u1IC5vvYJkv0KA/GQ+
+        HGDuyBJsfAxJY7op1FS0leU12OfXE5hIoWGd37GUZccbagHtHG2Pt2BdQQJOkp2j
+        JUdFkupizo0yzuLCSEBKwDRiZ9DBp90vx0F/kOIHCXhtiGG/M9UZoLuXIsZrSRGv
+        aeUNB7jYSsik1DuelN7mZ3WA3RB4o9S85z1F+oCJ2c5iBELIiyBXnp5BElNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1617264109;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5V1MdvL7YC8mVZKfU9szLtKJFoYBtXMkN3Yon1JEiHM=;
+        b=KQ/vkqM1BHlzIDsPMdL72r2R3771zg144k5E9+uDpVxONOJWPra9ZnaEdjbSUpjq75O5dW
+        jCH/EPncm714aD8hehSf9pq3OTLTYOZpmkkZH2EYzPcrLFJWuGmurLR25WPZWAdb1FNf1D
+        qi7Tori3uzRe0goEYmiNqdzI1bzI8qZn7ZYpR57WuYe7+B6ycNZgi3DpgKmp+gyD0O9cfu
+        QlOlmh/UriKDmn3i5rn5hepsmlMnva7qzvV56GKSuV4Ekn4MBsknTYzbPiOawURZ7lfSUJ
+        Axmao3NFqStM0bybgx2fzPXyOVSlCvOM2qW2JMRHiCm7xPc67E/cRwPKp+N06w==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
+        with ESMTP id cm216P1dCBau; Thu,  1 Apr 2021 10:01:48 +0200 (CEST)
+Date:   Thu, 1 Apr 2021 10:01:47 +0200 (CEST)
+From:   torvic9@mailbox.org
+To:     =?UTF-8?Q?Piotr_G=C3=B3rski?= <lucjan.lucjanov@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "oleksandr@natalenko.name" <oleksandr@natalenko.name>,
+        "terrelln@fb.com" <terrelln@fb.com>,
+        "michal.lkml@markovi.net" <michal.lkml@markovi.net>
+Message-ID: <1118697629.5907.1617264107835@office.mailbox.org>
+In-Reply-To: <722602000.5829.1617263646814@office.mailbox.org>
+References: <722602000.5829.1617263646814@office.mailbox.org>
+Subject: Re: [PATCH] init: add support for zstd compressed modules
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-31_11:2021-03-31,2021-03-31 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 clxscore=1015 bulkscore=0
- impostorscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0
- suspectscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
- definitions=main-2104010006
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-SPAM-Probability: *
+X-Rspamd-Score: 1.19 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 68D8A17BD
+X-Rspamd-UID: f965c0
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, clang LTO built vmlinux won't work with pahole.
-LTO introduced cross-cu dwarf tag references and broke
-current pahole model which handles one cu as a time.
-The solution is to merge all cu's as one pahole cu as in [1].
-We would like to do this merging only if cross-cu dwarf
-references happens. The LTO build mode is a pretty good
-indication for that.
+Thanks Piotr, good work!
+Question: Is `-T0` really faster in this particular case than the default `-T1`? Are modules installed sequentially?
+I also saw that Masahiro did some work on modules_install, moving MODULE_COMPRESS from the base Makefile to scripts/Makefile.modinst, so perhaps this should also be moved there at a later point.
 
-In earlier version of this patch ([2]), clang flag
--grecord-gcc-switches is proposed to add to compilation flags
-so pahole could detect "-flto" and then merging cu's.
-This will increate the binary size of 1% without LTO though.
+(sorry for double post)
 
-Arnaldo suggested to use a note to indicate the vmlinux
-is built with LTO. Such a cheap way to get whether the vmlinux
-is built with LTO or not helps pahole but is also useful
-for tracing as LTO may inline/delete/demote global functions,
-promote static functions, etc.
-
-So this patch added an elfnote with type BUILD_COMPILER_LTO_INFO.
-The owner of the note is "Linux".
-
-With gcc 8.4.1 and clang trunk, without LTO, I got
-  $ readelf -n vmlinux
-  Displaying notes found in: .notes
-    Owner                Data size        Description
-  ...
-    Linux                0x00000004       func
-     description data: 00 00 00 00
-  ...
-With "readelf -x ".notes" vmlinux", I can verify the above "func"
-with type code 0x101.
-
-With clang thin-LTO, I got the same as above except the following:
-     description data: 01 00 00 00
-which indicates the vmlinux is built with LTO.
-
- [1] https://lore.kernel.org/bpf/20210325065316.3121287-1-yhs@fb.com/
- [2] https://lore.kernel.org/bpf/20210331001623.2778934-1-yhs@fb.com/
-
-Signed-off-by: Yonghong Song <yhs@fb.com>
----
- include/linux/compiler.h | 8 ++++++++
- include/linux/elfnote.h  | 1 +
- init/version.c           | 2 ++
- scripts/mod/modpost.c    | 1 +
- 4 files changed, 12 insertions(+)
-
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index df5b405e6305..b92930877277 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -245,6 +245,14 @@ static inline void *offset_to_ptr(const int *off)
-  */
- #define prevent_tail_call_optimization()	mb()
-=20
-+#include <linux/elfnote.h>
-+
-+#ifdef CONFIG_LTO
-+#define BUILD_COMPILER_LTO_INFO ELFNOTE32("Linux", LINUX_ELFNOTE_BUILD_LTO=
-, 1)
-+#else
-+#define BUILD_COMPILER_LTO_INFO ELFNOTE32("Linux", LINUX_ELFNOTE_BUILD_LTO=
-, 0)
-+#endif
-+
- #include <asm/rwonce.h>
-=20
- #endif /* __LINUX_COMPILER_H */
-diff --git a/include/linux/elfnote.h b/include/linux/elfnote.h
-index 04af7ac40b1a..f5ec2b50ab7d 100644
---- a/include/linux/elfnote.h
-+++ b/include/linux/elfnote.h
-@@ -100,5 +100,6 @@
-  * The types for "Linux" owned notes.
-  */
- #define LINUX_ELFNOTE_BUILD_SALT	0x100
-+#define LINUX_ELFNOTE_BUILD_LTO		0x101
-=20
- #endif /* _LINUX_ELFNOTE_H */
-diff --git a/init/version.c b/init/version.c
-index 92afc782b043..a4f74b06fe78 100644
---- a/init/version.c
-+++ b/init/version.c
-@@ -9,6 +9,7 @@
-=20
- #include <generated/compile.h>
- #include <linux/build-salt.h>
-+#include <linux/compiler.h>
- #include <linux/export.h>
- #include <linux/uts.h>
- #include <linux/utsname.h>
-@@ -45,3 +46,4 @@ const char linux_proc_banner[] =3D
- 	" (" LINUX_COMPILER ") %s\n";
-=20
- BUILD_SALT;
-+BUILD_COMPILER_LTO_INFO;
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 24725e50c7b4..713c0d5d5525 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2195,6 +2195,7 @@ static void add_header(struct buffer *b, struct modul=
-e *mod)
- 	buf_printf(b, "#include <linux/compiler.h>\n");
- 	buf_printf(b, "\n");
- 	buf_printf(b, "BUILD_SALT;\n");
-+	buf_printf(b, "BUILD_COMPILER_LTO_INFO;\n");
- 	buf_printf(b, "\n");
- 	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
- 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
---=20
-2.30.2
-
+Tor Vic
