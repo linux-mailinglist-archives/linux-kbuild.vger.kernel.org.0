@@ -2,60 +2,36 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD39B352400
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Apr 2021 01:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BAC0352693
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Apr 2021 08:37:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236514AbhDAXeL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Apr 2021 19:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
+        id S229685AbhDBGh6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Apr 2021 02:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236449AbhDAXdz (ORCPT
+        with ESMTP id S229522AbhDBGh5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Apr 2021 19:33:55 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF012C0613AE
-        for <linux-kbuild@vger.kernel.org>; Thu,  1 Apr 2021 16:32:57 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id r18so4245114pfc.17
-        for <linux-kbuild@vger.kernel.org>; Thu, 01 Apr 2021 16:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=Z8NWn4jVbToJav0h5JmVWRAqRYl6h2XMv8WXZ63o+ic=;
-        b=sWQZYrnybic/Guuvi4FLa32pcaoh1lAqAMERMtk/3AuG1Snas/3tmCJ9HTS8KD0KZ2
-         DIyS6n2azDelH2lWTJyz9wybfQaWqBpe11BGARLCpeQggnLYl/XP3Uj2cZa4+SKz8VAj
-         p/n4GcFQfdHxAybtZn/J3po7/veQAWAlQ2mjHxxTyIclKOPD91Aizuo/JF+Ek1nZGDY9
-         kP6kMCtYS0ikKI7mEz2VJvvBuMrXxK7XSAz05VZV8iRsy0FnY7iO/NYieB2Y9ImEF2Rs
-         33dX8T00jNHrkpZ0goIKWVOkD5UvlkwqOmlx9stTgcls1OksOdYC6jX0eL53aBEnGzNo
-         zx4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Z8NWn4jVbToJav0h5JmVWRAqRYl6h2XMv8WXZ63o+ic=;
-        b=mX73QYs53WplNg35OFKwbFDmk+mi337rF5Xrxf0myjHRemwFMrYdFf3wpN/pZPC8Xx
-         hsnTTiA7rnxgBv6aSGMJsf5v07ZH4ETxshu6UTq505hPMJORfEs8OUfFxIrb4vUihwEE
-         MhTnd9hQXIuqqcorcdrSyeIlJQBWAZvjkMQhMemnKUGs41rO4r77qfIrBx2qeP89dxtK
-         Ha+rYf66XeIFTa7Xp6lRKd681fj70Cf1XrGUixLYI9l0p9N+sqGRm8UWsXsP4gHW+AgQ
-         ImPsVVPDtgF45EM993MrslBOeLKIDvoflTLR9S4L1KxuLHlNX7tBPK+t5XUAeAbamvSs
-         480Q==
-X-Gm-Message-State: AOAM533FN3Zw8ZxXPL65BwP3Wt2AisxsyMjBfUMbiDzifNiR/GeCHB4b
-        5B8dR0sddkKZFK2G3p5RubvbLRZ4hMvtqtxAC70=
-X-Google-Smtp-Source: ABdhPJwiZbq9c4iXijVEYKsvmSZncty9LqawpPJhjxnXl2iNWMREeFwCFILyiiZ0pCK1rOKFlzrry48vXGoQ9XxlZv4=
-X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:4cd1:da86:e91b:70b4])
- (user=samitolvanen job=sendgmr) by 2002:a17:902:c711:b029:e7:3d4e:8149 with
- SMTP id p17-20020a170902c711b02900e73d4e8149mr10140878plp.38.1617319977301;
- Thu, 01 Apr 2021 16:32:57 -0700 (PDT)
-Date:   Thu,  1 Apr 2021 16:32:16 -0700
-In-Reply-To: <20210401233216.2540591-1-samitolvanen@google.com>
-Message-Id: <20210401233216.2540591-19-samitolvanen@google.com>
-Mime-Version: 1.0
-References: <20210401233216.2540591-1-samitolvanen@google.com>
-X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
-Subject: [PATCH v5 18/18] arm64: allow CONFIG_CFI_CLANG to be selected
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Fri, 2 Apr 2021 02:37:57 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF20C0613E6;
+        Thu,  1 Apr 2021 23:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=23JVev1P6hfZn75YYKAeRgCkKkBm6a8rfr6nXZM/23Y=; b=DidHl2sJes5CZndoc3Jq3dcebg
+        mHIG2+4LZPraKak5HEMoK0y5J2IN+LGspSYgcrDWzNKlc2hELMTpEx/cRtXNSteFzQC58hDAl/Zf7
+        FnMIDAJJhvKvxesv3o0OwP/BzOHYMsJyft0tWmRNf3lx4Lnyk1AquB6H2AutP63hjsWxrxBEumlcb
+        2rC3O68k8xLzsESDaHWYMzu3vLCyoQAMZNMXEUIEeRl6vkT8pgZBNaHnhTsDAG4+NgJGZOIlFY9Ky
+        bnP3x4iu02ItVcHPk1+J4B68TLe+1IqUgzG8yVAGE2P8dQQe9sbqQQ6wDpJxGuR2URuUn8LGWri3a
+        KUpOgXeA==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lSDR6-007IGD-Qr; Fri, 02 Apr 2021 06:37:42 +0000
+Date:   Fri, 2 Apr 2021 07:37:40 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
@@ -69,33 +45,20 @@ Cc:     Nathan Chancellor <nathan@kernel.org>,
         linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH v5 03/18] mm: add generic function_nocfi macro
+Message-ID: <20210402063740.GA1738362@infradead.org>
+References: <20210401233216.2540591-1-samitolvanen@google.com>
+ <20210401233216.2540591-4-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210401233216.2540591-4-samitolvanen@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Select ARCH_SUPPORTS_CFI_CLANG to allow CFI to be enabled.
+Thanks, this looks much better than the earlier naming:
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- arch/arm64/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index e4e1b6550115..d7395772b6b8 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -75,6 +75,7 @@ config ARM64
- 	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
- 	select ARCH_SUPPORTS_LTO_CLANG if CPU_LITTLE_ENDIAN
- 	select ARCH_SUPPORTS_LTO_CLANG_THIN
-+	select ARCH_SUPPORTS_CFI_CLANG
- 	select ARCH_SUPPORTS_ATOMIC_RMW
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128 && (GCC_VERSION >= 50000 || CC_IS_CLANG)
- 	select ARCH_SUPPORTS_NUMA_BALANCING
--- 
-2.31.0.208.g409f899ff0-goog
-
+Acked-by: Christoph Hellwig <hch@lst.de>
