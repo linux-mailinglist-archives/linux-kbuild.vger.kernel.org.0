@@ -2,205 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35F7E35309F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Apr 2021 23:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8433532AE
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Apr 2021 07:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbhDBVP5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 2 Apr 2021 17:15:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60338 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229722AbhDBVP5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 2 Apr 2021 17:15:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 12E8A6100A;
-        Fri,  2 Apr 2021 21:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617398155;
-        bh=zLi9mtNYolLmhhAHTS2CLfzp02pP7xXTkVBgBaHzZFw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qNJt4GM8yLtie5OTK4ES2HAaUMuECiLit4aRsxLVHVii2q51vNhh5RYMPAQQGI3/E
-         jwlLHy+qmU/vVKqtkOUcqbOHrZyKxmR/EgRYEg79hS0pynoHnnxCtD+xemJAyPWILQ
-         ELh87g7oXTzntEARr8JMAyQB6LyFHp8XtvP/lsPrRF3oTk/frUxYj7GOqccwuYTsWs
-         /qDCMIoT3XwiGsl3ytQp8EtNoA4BYGXRo7Flg3vz4YuvnnymtHyL5Z7bS0fjKtgDSi
-         AY9WAcosD+3bkESIlfWIa3tl2kHYIQEDTj1DwH3rRSpZuCOJlAdZf1t3pZ62JuNfK8
-         gu23yJVtuqBTg==
-Date:   Fri, 2 Apr 2021 14:15:52 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 3/3] kbuild: fix false-positive modpost warning when all
- symbols are trimmed
-Message-ID: <20210402211552.dzcxxs5scz7ddxtt@Ryzen-9-3900X.localdomain>
-References: <20210325185412.2352951-1-masahiroy@kernel.org>
- <20210325185412.2352951-3-masahiroy@kernel.org>
+        id S229851AbhDCFMF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 3 Apr 2021 01:12:05 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:24225 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230371AbhDCFMF (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 3 Apr 2021 01:12:05 -0400
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 1335BiLj018210;
+        Sat, 3 Apr 2021 14:11:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 1335BiLj018210
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1617426705;
+        bh=6ZV4zN2J2YGsnMVtam1aocwXNCuTiUeEo/jlCKDEurM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=y3yFoZEGTt/rz3s/8n2kBohyUyPst/3jIhYq6eVpw03WaBTnRVROG7TTnS8DzmCA9
+         nXcCUAwtMUaUb73WoR7ix0Nj8kgC0qzjcQ+XIacpE8Gpdxzvb2uAUmZsIiYwXUjUvQ
+         EvRlKAr/85ABJFt5bkcGtJT4/hUjRcQDIv2GcZ1emRUdpoGyuZxuaKmQRJL52G21GS
+         VmPrc/VVUqLC5OgNgJ/CIQjLBj1d4j+CIQPQ6X+JQSbBx0Yg+iOW4+T1QaqoaCx7tw
+         tnpDy6KXodTywH8mBX3SCTCY+c8psi4A/qf/fgd8xtD1/BEL3dsEBP3XILFshfDbSu
+         rxZC/9ze4gikA==
+X-Nifty-SrcIP: [209.85.215.179]
+Received: by mail-pg1-f179.google.com with SMTP id f29so2253288pgm.8;
+        Fri, 02 Apr 2021 22:11:44 -0700 (PDT)
+X-Gm-Message-State: AOAM530G+XwU+I4WZ1hgV0bGW7anhfo4WSTMmJflF7So4iFvLSFXc1pj
+        /8soYUsPg5z4JGlTmWh4dIcSn1Q8tSa6LAvXUW0=
+X-Google-Smtp-Source: ABdhPJycTmd93+HaOjmWXjjwlRXRxWWNhEzCN8H2tET+ZE2GCj4DrychZ1QHz9Rlc1PioRXcnyWnEkD4YN5TKIR/U3w=
+X-Received: by 2002:aa7:956d:0:b029:1f1:5ba6:2a58 with SMTP id
+ x13-20020aa7956d0000b02901f15ba62a58mr15061132pfq.63.1617426704037; Fri, 02
+ Apr 2021 22:11:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210325185412.2352951-3-masahiroy@kernel.org>
+References: <1617317072-26770-1-git-send-email-eberman@codeaurora.org>
+In-Reply-To: <1617317072-26770-1-git-send-email-eberman@codeaurora.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 3 Apr 2021 14:11:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARoXksBwxU_UH92n7mg0XtFKrSBzFRqmWXXnze1dx-B0g@mail.gmail.com>
+Message-ID: <CAK7LNARoXksBwxU_UH92n7mg0XtFKrSBzFRqmWXXnze1dx-B0g@mail.gmail.com>
+Subject: Re: [PATCH] Kbuild: Update config_data.gz only if KCONFIG_CONFIG
+ materially changed
+To:     Elliot Berman <eberman@codeaurora.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Trilok Soni <tsoni@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 03:54:11AM +0900, Masahiro Yamada wrote:
-> Nathan reports that the mips defconfig emits the following warning:
-> 
->   WARNING: modpost: Symbol info of vmlinux is missing. Unresolved symbol check will be entirely skipped.
-> 
-> This false-positive happens under the following combination:
-> 
->  - CONFIG_TRIM_UNUSED_KSYMS=y
->  - CONFIG_MODULES=y
->  - No CONFIG option is set to 'm'
-> 
-> Commit a0590473c5e6 ("nfs: fix PNFS_FLEXFILE_LAYOUT Kconfig default")
-> turned the last 'm' into 'y' for the mips defconfig, and uncovered
-> this issue.
-> 
-> In this case, the module feature itself is enabled, but we have no
-> module. As a result, CONFIG_TRIM_UNUSED_KSYMS drops all the instances
-> of EXPORT_SYMBOL. Then, modpost wrongly assumes vmlinux is missing
-> because vmlinux.symvers is empty. (Or, you can create a module that
-> does not use any symbol of vmlinux).
-> 
-> The current behavior is to entirely suppress the unresolved symbol
-> warnings when vmlinux is missing just because there are too many.
-> I found the origin of this code in the historical git tree. [1]
-> 
-> If this is a matter of noisiness, I think modpost can display the
-> first 10 warnings, and the number of suppressed warnings at the end.
-> 
-> You will get a bit noisier logs when you run 'make modules' without
-> vmlinux, but such warnings are better to show because you never know
-> the resulting modules are actually loadable or not.
-> 
-> This commit changes as follows:
-> 
->  - If any of input *.symver files is missing, pass -w option to let
->    the module build keep going with warnings instead of errors.
-> 
->  - If there are too many (10+) unresolved symbol warnings, show only
->    the first 10, and also the number of suppressed warnings.
-> 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=1cc0e0529569bf6a94f6d49770aa6d4b599d2c46
-> 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Thank you for the patch, I do not see that warning anymore.
-
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
+On Fri, Apr 2, 2021 at 7:45 AM Elliot Berman <eberman@codeaurora.org> wrote:
+>
+> If you update the timestamp of KCONFIG_CONFIG without actually changing
+> anything, config_data.gz is re-generated and causes vmlinux to re-link.
+> When Link Time Optimization is enabled, unnecessary re-linking of
+> vmlinux is highly desirable since it adds several minutes to build time.
+>
+> Avoid touching config_data.gz by using filechk to compare the existing
+> config_data.gz and update only if it changed.
+>
+> The .config can be touched, for instance, by a build script which
+> installs the default defconfig and then applies a defconfig fragment on
+> top.
+>
+> For a simple example on my x86 machine, I modified x86 default defconfig to set
+> CONFIG_IKCONFIG=y and run:
+>   make -j50 defconfig tiny.config vmlinux
+>   make -j50 defconfig tiny.config vmlinux
+> With this patch, vmlinux is not re-built as a result of config_data.gz
+> change.
+>
+> Signed-off-by: Elliot Berman <eberman@codeaurora.org>
 > ---
-> 
->  scripts/Makefile.modpost |  7 +++++--
->  scripts/mod/modpost.c    | 25 ++++++++++++-------------
->  2 files changed, 17 insertions(+), 15 deletions(-)
-> 
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index b3e08fb1fd56..c383ba33d837 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -98,9 +98,11 @@ output-symdump := $(KBUILD_EXTMOD)/Module.symvers
->  
->  endif
->  
-> +existing-input-symdump := $(wildcard $(input-symdump))
+>  kernel/Makefile      | 2 +-
+>  scripts/Makefile.lib | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 320f1f3..bd4e558 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -140,7 +140,7 @@ $(obj)/configs.o: $(obj)/config_data.gz
+>
+>  targets += config_data.gz
+>  $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+> -       $(call if_changed,gzip)
+> +       $(call filechk,gzip)
+
+
+I do not think this is the right approach
+because gzip is executed every time, even
+if the time stamp is not changed.
+
+
+
+
+
+
+
+>
+>  $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index a4fbaf8..81d3ec1 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -282,6 +282,8 @@ cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+>  quiet_cmd_gzip = GZIP    $@
+>        cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
+>
+> +filechk_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9
 > +
->  # modpost options for modules (both in-kernel and external)
->  MODPOST += \
-> -	$(addprefix -i ,$(wildcard $(input-symdump))) \
-> +	$(addprefix -i ,$(existing-input-symdump)) \
->  	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS)) \
->  	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-N)
->  
-> @@ -114,6 +116,7 @@ VPATH :=
->  $(input-symdump):
->  	@echo >&2 'WARNING: Symbol version dump "$@" is missing.'
->  	@echo >&2 '         Modules may not have dependencies or modversions.'
-> +	@echo >&2 '         You may get many unresolved symbol warnings.'
->  
->  ifdef CONFIG_LTO_CLANG
->  # With CONFIG_LTO_CLANG, .o files might be LLVM bitcode, so we need to run
-> @@ -134,7 +137,7 @@ endif
->  modules := $(sort $(shell cat $(MODORDER)))
->  
->  # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined symbols
-> -ifneq ($(KBUILD_MODPOST_WARN),)
-> +ifneq ($(KBUILD_MODPOST_WARN)$(filter-out $(existing-input-symdump), $(input-symdump)),)
->  MODPOST += -w
->  endif
->  
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 10c3fba26f03..7c6bec78fa34 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -23,8 +23,6 @@
->  
->  /* Are we using CONFIG_MODVERSIONS? */
->  static int modversions = 0;
-> -/* Warn about undefined symbols? (do so if we have vmlinux) */
-> -static int have_vmlinux = 0;
->  /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
->  static int all_versions = 0;
->  /* If we are modposting external module set to 1 */
-> @@ -41,6 +39,13 @@ static int allow_missing_ns_imports;
->  
->  static bool error_occurred;
->  
-> +/*
-> + * Cut off the warnings when there are too many. This typically occurs when
-> + * vmlinux is missing. ('make modules' without building vmlinux.)
-> + */
-> +#define MAX_UNRESOLVED_REPORTS	10
-> +static unsigned int nr_unresolved;
-> +
->  enum export {
->  	export_plain,
->  	export_gpl,
-> @@ -177,9 +182,6 @@ static struct module *new_module(const char *modname)
->  	mod->next = modules;
->  	modules = mod;
->  
-> -	if (mod->is_vmlinux)
-> -		have_vmlinux = 1;
-> -
->  	return mod;
->  }
->  
-> @@ -2141,7 +2143,7 @@ static void check_exports(struct module *mod)
->  		const char *basename;
->  		exp = find_symbol(s->name);
->  		if (!exp || exp->module == mod) {
-> -			if (have_vmlinux && !s->weak)
-> +			if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
->  				modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
->  					    "\"%s\" [%s.ko] undefined!\n",
->  					    s->name, mod->name);
-> @@ -2545,13 +2547,6 @@ int main(int argc, char **argv)
->  	if (files_source)
->  		read_symbols_from_files(files_source);
->  
-> -	/*
-> -	 * When there's no vmlinux, don't print warnings about
-> -	 * unresolved symbols (since there'll be too many ;)
-> -	 */
-> -	if (!have_vmlinux)
-> -		warn("Symbol info of vmlinux is missing. Unresolved symbol check will be entirely skipped.\n");
-> -
->  	for (mod = modules; mod; mod = mod->next) {
->  		char fname[PATH_MAX];
->  
-> @@ -2595,6 +2590,10 @@ int main(int argc, char **argv)
->  		}
->  	}
->  
-> +	if (nr_unresolved > MAX_UNRESOLVED_REPORTS)
-> +		warn("suppressed %u unresolved symbol warnings because there were too many)\n",
-> +		     nr_unresolved - MAX_UNRESOLVED_REPORTS);
-> +
->  	free(buf.p);
->  
->  	return error_occurred ? 1 : 0;
-> -- 
-> 2.27.0
-> 
+>  # DTC
+>  # ---------------------------------------------------------------------------
+>  DTC ?= $(objtree)/scripts/dtc/dtc
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
