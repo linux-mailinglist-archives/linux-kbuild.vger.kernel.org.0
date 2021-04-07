@@ -2,193 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A9D4356804
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 11:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1CE356A87
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 12:54:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350088AbhDGJ2X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 05:28:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37842 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350073AbhDGJ2W (ORCPT
+        id S1351687AbhDGKyt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 06:54:49 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:39262 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351677AbhDGKys (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 05:28:22 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5D38C061756;
-        Wed,  7 Apr 2021 02:28:13 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id k8so16181441iop.12;
-        Wed, 07 Apr 2021 02:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=x07JQQzpyci8GPomfCuTN51bSFqarBXOYtSQpxdVo3g=;
-        b=P9p0EisvMC27CdoMRM2dIulWzPjBZW0Ego7WhIGxE/woUA5G8IVPzRbiMMJ8iN/HCf
-         Z5xKCQ8/SDKuAeysbT8Km4SLiFhUCRemsdNkY2dTNToAiwFGoggwKf3MTIceXC15AoqZ
-         kuKehMf6iNJVXumWIsjKdy+WIlhHLNC73kcEH2pnHGLUfGqLzSRUYRqHjR04caiD+2i9
-         3pmhdRc2apVFkmtYZiFnVemTyhcSVTrIM6Liyvd5/p0eyA/TfSBXYd88oal5Z+EBUI0P
-         fgMaLWhYqtOwbnXabD+2Pb2yEtsWn0uXQPbv4c6NK7ROvcPAmGI6cbykF+DXD4HDnURn
-         j+ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=x07JQQzpyci8GPomfCuTN51bSFqarBXOYtSQpxdVo3g=;
-        b=FC8bQTollEP65afnD7eE6pIAV2QAsl0j5jJPIyI9zyGYqEjWSFaS6v+RkHaeRg5O7c
-         AVyfnr7tvzdmSqdy2GBkG347wfcFwhaLe2UiH7OXg6taxc3cY2TPe5PydC1Q6Bz3YB0O
-         lZLcqI/nPFH/T7WFDg3moTeQVi9XHhYta7VvjiRLoqvbDI4NCLsyww32cGfepMptraIo
-         lH3aI9IxUTvis1QMpjZjdJGgBpT8Fy+ogUUkUI1UT3zy1Q3eW/9nqhXBfrw/MwqVedbZ
-         1052ditatT9pCigCBvSmq3e4PayPw8VOidsDbsdJawS7mjRAVyjan1ujZTDnox5oi4qW
-         tx/Q==
-X-Gm-Message-State: AOAM532HtCH8Mpu/YrPQF6IiL2PdzHwiudwWmt9yRdvg2YNqFPYyZmh+
-        T7JAdjaa3pbdW/4Pw3sNfe3d6P310V74FtlVg/I=
-X-Google-Smtp-Source: ABdhPJxQbg1QBtIZc27wlsHKVKMZEWLX2uDpWcGJSFWyAs3SbsHg2/hV1pdczGrPthfIEX0n+C9O73whmG/0oLiPA8U=
-X-Received: by 2002:a5e:8c16:: with SMTP id n22mr1862701ioj.156.1617787693120;
- Wed, 07 Apr 2021 02:28:13 -0700 (PDT)
+        Wed, 7 Apr 2021 06:54:48 -0400
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 137As8HD019478;
+        Wed, 7 Apr 2021 19:54:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 137As8HD019478
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1617792849;
+        bh=GHNPkbKKRD5a2nOrnlcUrTtHVkd1LKSTOkdi37JpDHU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hglKVWsWPoSPlcAkB7IWZyL8TfhVMtb1jwzW+vYGb7wNj/VqvKxpqzmj/NdEW4qXA
+         FQLoPxx0FMcuz1+W0NNdg3pzarv/8JmbjLR+Jnpfx16p6+iczYBPXDbke9C5/dHRsD
+         GOHDAgpezkdzPQDaKKGQaBPcvJ93VNMiky+g9E4W3rkoMdQWC1d0/2nUH7E3/g7KZx
+         3/xGroEPRtvv0S5Rq39a4spV5mp40qOcuD2x9oDdM2hr15OZyxmE5QNrmp8LVvxLIM
+         UAtEqygWYCjWXMu7pNQ1WuyOQhO143xps5qMp+CaY8ET8CbzwNa9p1AAuO8PQawhNy
+         6GjPJmCpAnTqA==
+X-Nifty-SrcIP: [209.85.215.179]
+Received: by mail-pg1-f179.google.com with SMTP id t140so12730227pgb.13;
+        Wed, 07 Apr 2021 03:54:08 -0700 (PDT)
+X-Gm-Message-State: AOAM531JOiy2I9USoPy4H1GkaaaI/CBKCkTjPwxvko7aE3pW7iPQ2Van
+        fNBAlmmw5Jps+VA3q46t536s89VBYpZzacESjrk=
+X-Google-Smtp-Source: ABdhPJwENjk1RFkDexdOz06v/RR2+j+tqRdYw68oYExSazKnvcKp/fepcg8daUq2vXTHGwayMzbgSMqHF6Ipvgk8tME=
+X-Received: by 2002:aa7:8d84:0:b029:1f8:3449:1bc6 with SMTP id
+ i4-20020aa78d840000b02901f834491bc6mr2286908pfr.76.1617792847926; Wed, 07 Apr
+ 2021 03:54:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210401232723.3571287-1-yhs@fb.com> <CAKwvOdmX8d3XTzJFk5rN_PnOQYJ8bXMrh8DrhzqN=UBNdQiO3g@mail.gmail.com>
- <CA+icZUVKCY4UJfSG_sXjZHwfOQZfBZQu0pj1VZ9cXX4e7w0n6g@mail.gmail.com>
- <c6daf068-ead0-810b-2afa-c4d1c8305893@fb.com> <CA+icZUWYQ8wjOYHYrTX52AbEa3nbXco6ZKdqeMwJaZfHuJ5BhA@mail.gmail.com>
- <128db515-14dc-4ff1-eacb-8e48fc1f6ff6@fb.com>
-In-Reply-To: <128db515-14dc-4ff1-eacb-8e48fc1f6ff6@fb.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 7 Apr 2021 11:27:45 +0200
-Message-ID: <CA+icZUUC_rMUtMwMBXFrn1uWE5whrpjgtJJn1AHLhS1AcNQ0gw@mail.gmail.com>
-Subject: Re: [PATCH kbuild v4] kbuild: add an elfnote for whether vmlinux is
- built with lto
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+ <CAMuHMdWGnr1wK3yZdLovxmVQT1yc2DR+J6FwQyCLxQS-Bp29Rw@mail.gmail.com>
+ <YG1jSj7BiDscHBhz@kroah.com> <20210407080229.GF1463@shell.armlinux.org.uk>
+ <YG1oQRc1ayGEI+4G@kroah.com> <20210407081436.GG1463@shell.armlinux.org.uk> <YG1vTx5XtgMeA9kX@kroah.com>
+In-Reply-To: <YG1vTx5XtgMeA9kX@kroah.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 7 Apr 2021 19:53:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATeAoBukc+D873b6E=Muw1scc-OWCncx5X6iXMrJjhzeQ@mail.gmail.com>
+Message-ID: <CAK7LNATeAoBukc+D873b6E=Muw1scc-OWCncx5X6iXMrJjhzeQ@mail.gmail.com>
+Subject: Re: [PATCH 00/20] kbuild: unify the install.sh script usage
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
-        bpf <bpf@vger.kernel.org>, kernel-team@fb.com,
-        Bill Wendling <morbo@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Hu <nickhu@andestech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 7, 2021 at 8:23 AM Yonghong Song <yhs@fb.com> wrote:
+On Wed, Apr 7, 2021 at 5:37 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
+> On Wed, Apr 07, 2021 at 09:14:36AM +0100, Russell King - ARM Linux admin wrote:
+> > On Wed, Apr 07, 2021 at 10:07:29AM +0200, Greg Kroah-Hartman wrote:
+> > > On Wed, Apr 07, 2021 at 09:02:29AM +0100, Russell King - ARM Linux admin wrote:
+> > > > On Wed, Apr 07, 2021 at 09:46:18AM +0200, Greg Kroah-Hartman wrote:
+> > > > > On Wed, Apr 07, 2021 at 09:18:11AM +0200, Geert Uytterhoeven wrote:
+> > > > > > Hi Greg,
+> > > > > >
+> > > > > > Thanks for your series!
+> > > > > >
+> > > > > > On Wed, Apr 7, 2021 at 7:34 AM Greg Kroah-Hartman
+> > > > > > <gregkh@linuxfoundation.org> wrote:
+> > > > > > > Almost every architecture has copied the "install.sh" script that
+> > > > > > > originally came with i386, and modified it in very tiny ways.  This
+> > > > > > > patch series unifies all of these scripts into one single script to
+> > > > > > > allow people to understand how to correctly install a kernel, and fixes
+> > > > > > > up some issues regarding trying to install a kernel to a path with
+> > > > > > > spaces in it.
+> > > > > > >
+> > > > > > > Note that not all architectures actually seem to have any type of way to
+> > > > > > > install a kernel, they must rely on external scripts or tools which
+> > > > > > > feels odd as everything should be included here in the main repository.
+> > > > > > > I'll work on trying to figure out the missing architecture issues
+> > > > > > > afterward.
+> > > > > >
+> > > > > > I'll bite ;-)
+> > > > > >
+> > > > > > Does anyone actually use these scripts (outside of x86)?
+> > > >
+> > > > Yes, every time I build a kernel. My kernel build system involves
+> > > > typing "kbuild <flags> <dirname> <machines...>" and the kernel gets
+> > > > built in ../build/<dirname>. When the build completes, it gets
+> > > > installed into ~/systems/<dirname>, tar'd up, and copied to the
+> > > > destination machines, unpacked, installed as appropriate, and
+> > > > the machine rebooted if requested.
+> > > >
+> > > > The installation step is done via the ~/bin/installkernel script.
+> > >
+> > > So you don't use install.sh at all except to invoke your local script.
+> >
+> > It depends where the kernel is being built; it has been used in the
+> > past (one will notice that the arm32 version is not a direct copy of
+> > the x86 version, and never was - it was modified from day 1.) It's
+> > placement and naming of the files in /boot is still used today, which
+> > is slightly different from the x86 version.
 >
+> The placement depends on the caller to the script, so that's not an
+> issue here.  The name for the output does differ from x86, but the
+> "common" script handles all of that (or it should, if not I messed up.)
 >
-> On 4/6/21 8:01 PM, Sedat Dilek wrote:
-> > On Tue, Apr 6, 2021 at 6:13 PM Yonghong Song <yhs@fb.com> wrote:
-> >>
-> >>
-> >> Masahiro and Michal,
-> >>
-> >> Friendly ping. Any comments on this patch?
-> >>
-> >> The addition LTO .notes information emitted by kernel is used by pahole
-> >> in the following patch:
-> >>      https://lore.kernel.org/bpf/20210401025825.2254746-1-yhs@fb.com/
-> >>      (dwarf_loader: check .notes section for lto build info)
-> >>
-> >
-> > Hi Yonghong,
-> >
-> > the above pahole patch has this define and comment:
-> >
-> > -static bool cus__merging_cu(Dwarf *dw)
-> > +/* Match the define in linux:include/linux/elfnote.h */
-> > +#define LINUX_ELFNOTE_BUILD_LTO 0x101
-> >
-> > ...and does not fit with the define and comment in this kernel patch:
-> >
-> > +#include <linux/elfnote.h>
-> > +
-> > +#define LINUX_ELFNOTE_LTO_INFO 0x101
+> Attached below is the common scripts/install.sh that this patch series
+> produces at the end of it, if you want to check to see if I missed
+> anything for your arch.
 >
-> Thanks, Sedat. I am aware of this. I think we can wait in pahole
-> to make a change until the kernel patch is finalized and merged.
-> The kernel patch may still change as we haven't get
-> maintainer's comment. This will avoid unnecessary churn's
-> in pahole side.
+> thanks,
 >
+> greg k-h
 
-I am OK with that.
 
-- Sedat -
 
-> >
-> > Thanks.
-> >
-> > - Sedat -
-> >
-> >
-> >> Thanks,
-> >>
-> >> Yonghong
-> >>
-> >> On 4/6/21 12:05 AM, Sedat Dilek wrote:
-> >>> On Fri, Apr 2, 2021 at 8:07 PM 'Nick Desaulniers' via Clang Built
-> >>> Linux <clang-built-linux@googlegroups.com> wrote:
-> >>>>
-> >>>> On Thu, Apr 1, 2021 at 4:27 PM Yonghong Song <yhs@fb.com> wrote:
-> >>>>>
-> >>>>> Currently, clang LTO built vmlinux won't work with pahole.
-> >>>>> LTO introduced cross-cu dwarf tag references and broke
-> >>>>> current pahole model which handles one cu as a time.
-> >>>>> The solution is to merge all cu's as one pahole cu as in [1].
-> >>>>> We would like to do this merging only if cross-cu dwarf
-> >>>>> references happens. The LTO build mode is a pretty good
-> >>>>> indication for that.
-> >>>>>
-> >>>>> In earlier version of this patch ([2]), clang flag
-> >>>>> -grecord-gcc-switches is proposed to add to compilation flags
-> >>>>> so pahole could detect "-flto" and then merging cu's.
-> >>>>> This will increate the binary size of 1% without LTO though.
-> >>>>>
-> >>>>> Arnaldo suggested to use a note to indicate the vmlinux
-> >>>>> is built with LTO. Such a cheap way to get whether the vmlinux
-> >>>>> is built with LTO or not helps pahole but is also useful
-> >>>>> for tracing as LTO may inline/delete/demote global functions,
-> >>>>> promote static functions, etc.
-> >>>>>
-> >>>>> So this patch added an elfnote with a new type LINUX_ELFNOTE_LTO_INFO.
-> >>>>> The owner of the note is "Linux".
-> >>>>>
-> >>>>> With gcc 8.4.1 and clang trunk, without LTO, I got
-> >>>>>     $ readelf -n vmlinux
-> >>>>>     Displaying notes found in: .notes
-> >>>>>       Owner                Data size        Description
-> >>>>>     ...
-> >>>>>       Linux                0x00000004       func
-> >>>>>        description data: 00 00 00 00
-> >>>>>     ...
-> >>>>> With "readelf -x ".notes" vmlinux", I can verify the above "func"
-> >>>>> with type code 0x101.
-> >>>>>
-> >>>>> With clang thin-LTO, I got the same as above except the following:
-> >>>>>        description data: 01 00 00 00
-> >>>>> which indicates the vmlinux is built with LTO.
-> >>>>>
-> >>>>>     [1] https://lore.kernel.org/bpf/20210325065316.3121287-1-yhs@fb.com/
-> >>>>>     [2] https://lore.kernel.org/bpf/20210331001623.2778934-1-yhs@fb.com/
-> >>>>>
-> >>>>> Suggested-by: Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-> >>>>> Signed-off-by: Yonghong Song <yhs@fb.com>
-> >>>>
-> >>>> LGTM thanks Yonghong!
-> >>>> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> >>>>
-> >>>
-> >>> Thanks for the patch.
-> >>>
-> >>> Feel free to add:
-> >>>
-> >>> Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v12.0.0-rc4 (x86-64)
-> >>>
-> >>> As a note for the pahole side:
-> >>> Recent patches require an adaptation of the define and its comment.
-> >>>
-> >>> 1. LINUX_ELFNOTE_BUILD_LTO -> LINUX_ELFNOTE_LTO_INFO
-> >>> 2. include/linux/elfnote.h -> include/linux/elfnote-lto.h
-> >>>
-> >>> - Sedat -
-> >>>
-> [...]
+Thanks for nice cleanups!
+
+I will give some nit-picking comments to individual patches.
+Overall, this series looks nice.
+
+
+-- 
+Best Regards
+Masahiro Yamada
