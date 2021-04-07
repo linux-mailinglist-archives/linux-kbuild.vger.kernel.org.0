@@ -2,119 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B6D35736C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 19:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44CEC3573D8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 20:02:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348353AbhDGRqu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 13:46:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35302 "EHLO
+        id S239319AbhDGSDD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 14:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236534AbhDGRqt (ORCPT
+        with ESMTP id S232163AbhDGSDD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 13:46:49 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B2EC06175F;
-        Wed,  7 Apr 2021 10:46:38 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id w21-20020a9d63950000b02901ce7b8c45b4so18870590otk.5;
-        Wed, 07 Apr 2021 10:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=6a3pKzUY9FjNI9SCR2cZ016ggnL3fH7yvaUV3WTaho0=;
-        b=fsNwTrsr961elAIF/i3LPqUBBa3aPoH4XkohpEi+RWm45lViZIKo/hmAFljnpbBEw7
-         lOjo3wQh8/0ciKGleHd0ou+jSDPDO3WPAPYYlZf2FFNXaV7fRAcdvEwvje4UOh654eYa
-         +ExZLXz6OdV9+X3EKyc4Rdq2tEb17zbkERF6U9UzPjVOfezpVRTTZdqL/do4zYLGmmal
-         ZaMVDDGT+7g+6ftmZbliG4caKbVziLQ9Yz3Bs4u46HSofrGpwLvV2TjwtzrRXRAEwhLT
-         16zE/qA2z1d1w0OFn0jpOJyYuQH63jPMM9WPm8MD0zFEzyE+U/aGoQDUyrF/O/Ef7aXy
-         8Wzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mime-version:content-disposition:user-agent;
-        bh=6a3pKzUY9FjNI9SCR2cZ016ggnL3fH7yvaUV3WTaho0=;
-        b=ZleNeK441XRvD4uxorYJ+Pf68ioJKaAi41J0ySggkKnEiMtoEFgVTUL9n4qgvkPexc
-         2RxG11nfns4wFTwoa1SZt5AVjKD5M1NHsQkEoh2mbx+DFUjvu+PaGW8J6M7EJ+hocN2I
-         dQFR3ozXQYr4bsEelEjac31pQ/AQu2cI/BKLSyD9Y5Ia0BXupJ/DdcbYMZ4r6gfHV9i0
-         4muI90G60Gl90dc/2BCczezxtwI+m+yHz7clIbvyHNU8O28vyFVSrEhttoSwo4hCv63p
-         b7zw9qov9RUC2neQ5NJiBtl9PlIrAxfLtB0GRrpCmuXnflXH8NKZccGS0p20LRqH0AI0
-         +lOw==
-X-Gm-Message-State: AOAM532sP7OaqsbYiVbQHBYI6dSmoMFA9EdOkBuiTaH56LqmTltIZtCI
-        N4vbn6/yIATK/OlDLee7XgE=
-X-Google-Smtp-Source: ABdhPJx4+s3ZA25gFjrUyH9Zl9zFVuWc4qCqsJn4x9HwCgMbl8N0HLtuVu0s+FJIrBLCaNEOnOnlJQ==
-X-Received: by 2002:a9d:6a14:: with SMTP id g20mr3886340otn.205.1617817596433;
-        Wed, 07 Apr 2021 10:46:36 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 8sm5528015otx.1.2021.04.07.10.46.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 07 Apr 2021 10:46:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 7 Apr 2021 10:46:34 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MIPS: select ARCH_KEEP_MEMBLOCK unconditionally
-Message-ID: <20210407174634.GA22486@roeck-us.net>
+        Wed, 7 Apr 2021 14:03:03 -0400
+Received: from smtp.gentoo.org (smtp.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B032FC06175F;
+        Wed,  7 Apr 2021 11:02:53 -0700 (PDT)
+Date:   Wed, 7 Apr 2021 19:02:47 +0100
+From:   Sergei Trofimovich <slyfox@gentoo.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org
+Subject: Re: [PATCH 11/20] kbuild: ia64: use common install script
+Message-ID: <20210407190247.64a4ac46@sf>
+In-Reply-To: <20210407053419.449796-12-gregkh@linuxfoundation.org>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+        <20210407053419.449796-12-gregkh@linuxfoundation.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 10:35:43AM -0700, Nick Desaulniers wrote:
-> While removing allnoconfig_y from Kconfig, ARCH=mips allnoconfig builds
-> started failing with the error:
+On Wed,  7 Apr 2021 07:34:10 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+
+> The common scripts/install.sh script will now work for ia64, all that
+> is needed is to add the compressed image type to it.  So add that file
+> type check and the ability to call /usr/sbin/elilo after copying the
+> kernel.  With that we can remove the ia64-only version of the file.
 > 
-> WARNING: modpost: vmlinux.o(.text+0x9c70): Section mismatch in reference
-> from the function reserve_exception_space() to the function
-> .meminit.text:memblock_reserve()
-> The function reserve_exception_space() references the function __meminit
-> memblock_reserve().
-> This is often because reserve_exception_space lacks a __meminit
-> annotation or the annotation of memblock_reserve is wrong.
-> ERROR: modpost: Section mismatches detected.
-> Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
-> 
-> allnoconfig disables DEBUG_KERNEL and thus ARCH_KEEP_MEMBLOCK, which
-> changes __init_memblock to be equivalent to __meminit triggering the
-> above error.
-> 
-> Link: https://lore.kernel.org/linux-kbuild/20210313194836.372585-11-masahiroy@kernel.org/
-> Fixes: commit a8c0f1c634507 ("MIPS: Select ARCH_KEEP_MEMBLOCK if
+> Cc: linux-ia64@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-s/commit //
-
-> DEBUG_KERNEL to enable sysfs memblock debug")
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
+Reviewed-by: Sergei Trofimovich <slyfox@gentoo.org>
 
 > ---
->  arch/mips/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/ia64/Makefile   |  2 +-
+>  arch/ia64/install.sh | 40 ----------------------------------------
+>  scripts/install.sh   |  8 +++++++-
+>  3 files changed, 8 insertions(+), 42 deletions(-)
+>  delete mode 100644 arch/ia64/install.sh
 > 
-> diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-> index e9893cd34992..702648f60e41 100644
-> --- a/arch/mips/Kconfig
-> +++ b/arch/mips/Kconfig
-> @@ -12,7 +12,7 @@ config MIPS
->  	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
->  	select ARCH_HAS_UBSAN_SANITIZE_ALL
->  	select ARCH_HAS_GCOV_PROFILE_ALL
-> -	select ARCH_KEEP_MEMBLOCK if DEBUG_KERNEL
-> +	select ARCH_KEEP_MEMBLOCK
->  	select ARCH_SUPPORTS_UPROBES
->  	select ARCH_USE_BUILTIN_BSWAP
->  	select ARCH_USE_CMPXCHG_LOCKREF if 64BIT
+> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+> index 467b7e7f967c..19e20e99f487 100644
+> --- a/arch/ia64/Makefile
+> +++ b/arch/ia64/Makefile
+> @@ -77,7 +77,7 @@ archheaders:
+>  CLEAN_FILES += vmlinux.gz
+>  
+>  install: vmlinux.gz
+> -	sh $(srctree)/arch/ia64/install.sh $(KERNELRELEASE) $< System.map "$(INSTALL_PATH)"
+> +	sh $(srctree)/scripts/install.sh $(KERNELRELEASE) $< System.map "$(INSTALL_PATH)"
+>  
+>  define archhelp
+>    echo '* compressed	- Build compressed kernel image'
+> diff --git a/arch/ia64/install.sh b/arch/ia64/install.sh
+> deleted file mode 100644
+> index 0e932f5dcd1a..000000000000
+> --- a/arch/ia64/install.sh
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -#!/bin/sh
+> -#
+> -# arch/ia64/install.sh
+> -#
+> -# This file is subject to the terms and conditions of the GNU General Public
+> -# License.  See the file "COPYING" in the main directory of this archive
+> -# for more details.
+> -#
+> -# Copyright (C) 1995 by Linus Torvalds
+> -#
+> -# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
+> -#
+> -# "make install" script for ia64 architecture
+> -#
+> -# Arguments:
+> -#   $1 - kernel version
+> -#   $2 - kernel image file
+> -#   $3 - kernel map file
+> -#   $4 - default install path (blank if root directory)
+> -#
+> -
+> -# User may have a custom install script
+> -
+> -if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
+> -if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
+> -
+> -# Default install - same as make zlilo
+> -
+> -if [ -f $4/vmlinuz ]; then
+> -	mv $4/vmlinuz $4/vmlinuz.old
+> -fi
+> -
+> -if [ -f $4/System.map ]; then
+> -	mv $4/System.map $4/System.old
+> -fi
+> -
+> -cat $2 > $4/vmlinuz
+> -cp $3 $4/System.map
+> -
+> -test -x /usr/sbin/elilo && /usr/sbin/elilo
+> diff --git a/scripts/install.sh b/scripts/install.sh
+> index 73067b535ea0..b6ca2a0f0983 100644
+> --- a/scripts/install.sh
+> +++ b/scripts/install.sh
+> @@ -52,6 +52,7 @@ if [ -x /sbin/"${INSTALLKERNEL}" ]; then exec /sbin/"${INSTALLKERNEL}" "$@"; fi
+>  base=$(basename "$2")
+>  if [ "$base" = "bzImage" ] ||
+>     [ "$base" = "Image.gz" ] ||
+> +   [ "$base" = "vmlinux.gz" ] ||
+>     [ "$base" = "zImage" ] ; then
+>  	# Compressed install
+>  	echo "Installing compressed kernel"
+> @@ -65,7 +66,7 @@ fi
+>  # Some architectures name their files based on version number, and
+>  # others do not.  Call out the ones that do not to make it obvious.
+>  case "${ARCH}" in
+> -	x86)
+> +	ia64 | x86)
+>  		version=""
+>  		;;
+>  	*)
+> @@ -86,6 +87,11 @@ case "${ARCH}" in
+>  			echo "You have to install it yourself"
+>  		fi
+>  		;;
+> +	ia64)
+> +		if [ -x /usr/sbin/elilo ]; then
+> +			/usr/sbin/elilo
+> +		fi
+> +		;;
+>  	x86)
+>  		if [ -x /sbin/lilo ]; then
+>  			/sbin/lilo
 > -- 
-> 2.31.1.295.g9ea45b61b8-goog
+> 2.31.1
 > 
+
+
+-- 
+
+  Sergei
