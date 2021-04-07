@@ -2,98 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 624AB356BDB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 14:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A65356BE9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 14:15:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352054AbhDGMOt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 08:14:49 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:22385 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234694AbhDGMOs (ORCPT
+        id S237341AbhDGMQB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 08:16:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37276 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234542AbhDGMQA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 08:14:48 -0400
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 137CE3rf009050;
-        Wed, 7 Apr 2021 21:14:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 137CE3rf009050
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617797644;
-        bh=1bEg4DwqoLkRHSlHPxJtia36wW/6/XGavCeOAqdt/M4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MZUisP48pzIRJds/I1QtyLByqUSWnKXIm0WwHLSxRz914P2cKViIvDg5tMtmxCCnM
-         Fb/Y0V6JokG9EG4EQ/NYGG6eKkJKrIkysFPpl6edOv4n9g6iJUjf/lCR+ZglNH5nBL
-         4OqBT/RIFPMwoeT2EhmXUYAZJJ8Jf/QzjEKXrGiqwovB2haDCgSFdRVvjn69QEqkAK
-         xxoJdBv2KZy4qTh6SS3rIxrzGuP6tzQLFH7+Fv8dSI19Sp8tfWVngEMx+AI9j/KBGp
-         3ZjCHkegxPwm3SkDc+sZGnW0agtdSVGaxoU2riYJyiZ1UNMvHiWpk+H8nVfSDnNoDy
-         cDFCyKmDbFJKQ==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id d5-20020a17090a2a45b029014d934553c4so441176pjg.1;
-        Wed, 07 Apr 2021 05:14:04 -0700 (PDT)
-X-Gm-Message-State: AOAM5312enc5dp/5/1J+xmuRdg1MwzHnUqfeHrI3BldTaYEVOlhnbmjA
-        JI/Ughj0gAbizvEkZHolSQ5GzuC0+isJxVWDFk0=
-X-Google-Smtp-Source: ABdhPJw35iLYgW6F8pRv4BzomvWl9ZAhgwyrCah2UxF2SM8/TjJvBgSUiyG0RC1qesmmmc4T05FUYUc+9NDTDMbuC1w=
-X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id
- y5-20020a170902d645b02900e8ec90d097mr2722925plh.47.1617797643416; Wed, 07 Apr
- 2021 05:14:03 -0700 (PDT)
+        Wed, 7 Apr 2021 08:16:00 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 137C3gEp173757;
+        Wed, 7 Apr 2021 08:15:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=Lxj40dpOv+iFXbAWfhTZRnR8s3LKVpG47j3P4TYD2qI=;
+ b=hA46bv2ba54miGjwjf3xLKOB/OmN3p0nA7k/KDPqoUogpjCVTwBnfU0CWJXxq0FJQ0rz
+ wDpME3/Hl4YRW8Fp3L91X7sC4W4Fm/ZTnMYJ60/La80JlZi9pO6WfNw2C69DnSb+P2y7
+ VEYUYRTwdf7e9mh9SEZl6LwzX1PEZW1wts24KTmqiUb6bzVXthsjQdrgsK4NgfZDMxKo
+ RSoyGcDIuiLkNTwbOoPPAh1oy+mVowBpjzbHwK5DmKVysUIJfPyP2cVxTU8UXRjS635r
+ L/SEmf9TqUQ3tEmEJJ+YR3d0OSNZi2B4hdpVr/+PuDdjenGTLacSev+v5ihloP2zcJ03 EQ== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 37rvpg7yyp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 07 Apr 2021 08:15:46 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+        by ppma06fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 137C7NEb023814;
+        Wed, 7 Apr 2021 12:15:44 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma06fra.de.ibm.com with ESMTP id 37rvbw0ca7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 07 Apr 2021 12:15:44 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 137CFfGL53412214
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 7 Apr 2021 12:15:41 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2E2F1AE05A;
+        Wed,  7 Apr 2021 12:15:41 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C2918AE057;
+        Wed,  7 Apr 2021 12:15:40 +0000 (GMT)
+Received: from osiris (unknown [9.171.27.208])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed,  7 Apr 2021 12:15:40 +0000 (GMT)
+Date:   Wed, 7 Apr 2021 14:15:39 +0200
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org
+Subject: Re: [PATCH 17/20] kbuild: s390: use common install script
+Message-ID: <YG2iawVO+fit6N5T@osiris>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+ <20210407053419.449796-18-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20210326211857.15156-1-unixbhaskar@gmail.com>
-In-Reply-To: <20210326211857.15156-1-unixbhaskar@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Apr 2021 21:13:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATJxF0QaB9Ewe7MmLW+kiTjoc5fE_5j09wwf=f8eqX=dA@mail.gmail.com>
-Message-ID: <CAK7LNATJxF0QaB9Ewe7MmLW+kiTjoc5fE_5j09wwf=f8eqX=dA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: lxdialog: A spello fix and a punctuation added
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210407053419.449796-18-gregkh@linuxfoundation.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Pajna-vBjbwYhzfCxdFTnEuZTPVBAVFh
+X-Proofpoint-GUID: Pajna-vBjbwYhzfCxdFTnEuZTPVBAVFh
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-04-07_07:2021-04-06,2021-04-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=636 priorityscore=1501 clxscore=1011 malwarescore=0
+ suspectscore=0 bulkscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104070080
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 27, 2021 at 6:21 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
->
->
-> s/propperly/properly/
-> s/thats/that\'s/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-
-Applied to linux-kbuild. Thanks.
-
-
+On Wed, Apr 07, 2021 at 07:34:16AM +0200, Greg Kroah-Hartman wrote:
+> The common scripts/install.sh script will now work for s390, no changes
+> needed.  So call that instead and delete the s390-only install script.
+> 
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: linux-s390@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->  scripts/kconfig/lxdialog/util.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/kconfig/lxdialog/util.c b/scripts/kconfig/lxdialog/util.c
-> index 1b490d4af0d3..3f78fb265136 100644
-> --- a/scripts/kconfig/lxdialog/util.c
-> +++ b/scripts/kconfig/lxdialog/util.c
-> @@ -363,7 +363,7 @@ void print_title(WINDOW *dialog, const char *title, int width)
->  /*
->   * Print a string of text in a window, automatically wrap around to the
->   * next line if the string is too long to fit on one line. Newline
-> - * characters '\n' are propperly processed.  We start on a new line
-> + * characters '\n' are properly processed.  We start on a new line
->   * if there is no room for at least 4 nonblanks following a double-space.
->   */
->  void print_autowrap(WINDOW * win, const char *prompt, int width, int y, int x)
-> @@ -541,7 +541,7 @@ int first_alpha(const char *string, const char *exempt)
->   * lxdialog suggest <ESC> <ESC> which is correctly translated to two
->   * times esc. But then we need to ignore the second esc to avoid stepping
->   * out one menu too much. Filter away all escaped key sequences since
-> - * keypad(FALSE) turn off ncurses support for escape sequences - and thats
-> + * keypad(FALSE) turn off ncurses support for escape sequences - and that's
->   * needed to make notimeout() do as expected.
->   */
->  int on_key_esc(WINDOW *win)
-> --
-> 2.26.2
->
+>  arch/s390/boot/Makefile   |  2 +-
+>  arch/s390/boot/install.sh | 30 ------------------------------
+>  2 files changed, 1 insertion(+), 31 deletions(-)
+>  delete mode 100644 arch/s390/boot/install.sh
 
-
--- 
-Best Regards
-Masahiro Yamada
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
