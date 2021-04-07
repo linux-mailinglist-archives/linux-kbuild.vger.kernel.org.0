@@ -2,227 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D6A356B43
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 13:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57042356B7E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 13:46:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343765AbhDGLdV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 07:33:21 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:38375 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343769AbhDGLdU (ORCPT
+        id S238683AbhDGLqs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 07:46:48 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:33620 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234728AbhDGLqs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 07:33:20 -0400
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 137BWpek018265;
-        Wed, 7 Apr 2021 20:32:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 137BWpek018265
+        Wed, 7 Apr 2021 07:46:48 -0400
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 137BkH4S014490;
+        Wed, 7 Apr 2021 20:46:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 137BkH4S014490
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617795171;
-        bh=YE/3jAmw6G8yCwpeiXzDgIBF5HNw+SmvWOFzgsI9ku8=;
+        s=dec2015msa; t=1617795977;
+        bh=e90N5wkF1hteFP0jbF58SprpJVKj/n+S9wgTEG6K0FU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OFB2zo1di8wMHF9IPuMJoFpQMSkFi6QtvaiuuJ1uO+r6HSGOoY/60HVV5/OPcpkkx
-         AFYPXTBUIVE2yyvQOVBnWJs+16lHf2BM6f5yfsVT56LyibDEAkOXenWXv2mPasSEEv
-         9aMZUtRtSoJMuJD7zzFW9xgwJUJ3kWQ5E2T6ZeEt++g96C2fhpWjGcQuVojzJiy+Vt
-         pANcAWFI2Ir4ab+9SxV4NGYR2+FzP43iy4eDmfa5GaXwcxKtrlPo6wUlbDPnao5PoQ
-         s6iHlwO85gqYD7+jSxQ8oSw382PPfTw2nsnPPmCmdj9pUhqhOB/t7GTZYLi6JaCBRu
-         hFQfwWfBpMSlA==
-X-Nifty-SrcIP: [209.85.215.176]
-Received: by mail-pg1-f176.google.com with SMTP id y32so9639670pga.11;
-        Wed, 07 Apr 2021 04:32:51 -0700 (PDT)
-X-Gm-Message-State: AOAM530R9JpBH49uU6Wxg0ouQwNXWZVvrwwhGXcix7DR7yiKogk5VNdo
-        rit9nDyb1lNpyUPFfL44hBXxnI7M1i2HJqWAaj8=
-X-Google-Smtp-Source: ABdhPJyX462+iXRWfux7Z4xGcPCP6UQgdQ1H4XYGHRU9N2d8fzIA6kG7uhIhickmK5JeHy1+bAt+KLzwLmX8di1BRdc=
-X-Received: by 2002:a65:41c6:: with SMTP id b6mr2830311pgq.7.1617795170674;
- Wed, 07 Apr 2021 04:32:50 -0700 (PDT)
+        b=0/7TaLTG1n5REF91X1AZOuKj23ztlPWXi/d4KOqPSn8CMB4/bu4RWfGmP6czoTmPF
+         t8Iq/BtgvvKa/kvEYw7RzS9wt2TEeC97wBXLHcj73Xp351QncwWQlI1dl9UveOp2wM
+         PDGOPdSNPCiBcKHQNhQXvElB+LsZAq0J8K9be5Vxd/s+sqUW1H7bHAz/ex00K7y9yc
+         pWqhfgO78jmUa0mSDtMZkB0/ZR/4TnlmS6h7SKW6MKx5w2/czrmOOvo53B30Val2AP
+         9sWxJARxEDyAWNQra2YrB2bP5nK9VBf0+v1hXBxvznovCQP0157jKE8ZOXOPOkERH/
+         6XgnBuUeG3IWg==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id p10so4063117pld.0;
+        Wed, 07 Apr 2021 04:46:17 -0700 (PDT)
+X-Gm-Message-State: AOAM533UGs3G8zY/r6CMandWEeoZpG/0UGP0pQFi5pZDH/ZRRJce0zEU
+        hBT+f1X1xJ+WVciDPFMJHiF6Ql5P3jhNwNPaB1g=
+X-Google-Smtp-Source: ABdhPJwJoOhh0r/oUL4pdVvHWI3QqGMXW6MConrvV8ZSEojaWe52StwsenE49C8CUiAxSf0ixYjEthzutaEsSxsE9iU=
+X-Received: by 2002:a17:90a:1056:: with SMTP id y22mr2724939pjd.153.1617795976615;
+ Wed, 07 Apr 2021 04:46:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210407053419.449796-1-gregkh@linuxfoundation.org> <20210407053419.449796-17-gregkh@linuxfoundation.org>
-In-Reply-To: <20210407053419.449796-17-gregkh@linuxfoundation.org>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org> <20210407053419.449796-21-gregkh@linuxfoundation.org>
+In-Reply-To: <20210407053419.449796-21-gregkh@linuxfoundation.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Apr 2021 20:32:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASUO4XTKfmatCRcGT-nBQM15ueuS6DtU98_LCbo=9NeiA@mail.gmail.com>
-Message-ID: <CAK7LNASUO4XTKfmatCRcGT-nBQM15ueuS6DtU98_LCbo=9NeiA@mail.gmail.com>
-Subject: Re: [PATCH 16/20] kbuild: powerpc: use common install script
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>
+Date:   Wed, 7 Apr 2021 20:45:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASHEETPwBr1C6PwZwohH2QeSJtAZgAMwXHASw=dg3kCpA@mail.gmail.com>
+Message-ID: <CAK7LNASHEETPwBr1C6PwZwohH2QeSJtAZgAMwXHASw=dg3kCpA@mail.gmail.com>
+Subject: Re: [PATCH 20/20] kbuild: scripts/install.sh: update documentation
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 7, 2021 at 2:34 PM Greg Kroah-Hartman
+On Wed, Apr 7, 2021 at 2:35 PM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> The common scripts/install.sh script will now work for powerpc, all that
-> is needed is to add it to the list of arches that do not put the version
-> number in the installed file name.
+> Add a proper SPDX line and document the install.sh file a lot better,
+> explaining exactly what it does, and update the copyright notice and
+> provide a better message about the lack of LILO being present or not as
+> really, no one should be using that anymore...
 >
-> After the kernel is installed, powerpc also likes to install a few
-> random files, so provide the ability to do that as well.
->
-> With that we can remove the powerpc-only version of the install script.
->
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: linuxppc-dev@lists.ozlabs.org
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->  arch/powerpc/boot/Makefile   |  4 +--
->  arch/powerpc/boot/install.sh | 55 ------------------------------------
->  scripts/install.sh           | 14 ++++++++-
->  3 files changed, 15 insertions(+), 58 deletions(-)
->  delete mode 100644 arch/powerpc/boot/install.sh
+>  scripts/install.sh | 33 ++++++++++++++++++++++++++-------
+>  1 file changed, 26 insertions(+), 7 deletions(-)
 >
-> diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
-> index 2b8da923ceca..bbfcbd33e0b7 100644
-> --- a/arch/powerpc/boot/Makefile
-> +++ b/arch/powerpc/boot/Makefile
-> @@ -442,11 +442,11 @@ $(obj)/zImage.initrd:     $(addprefix $(obj)/, $(initrd-y))
->
->  # Only install the vmlinux
->  install: $(CONFIGURE) $(addprefix $(obj)/, $(image-y))
-> -       sh -x $(srctree)/$(src)/install.sh "$(KERNELRELEASE)" vmlinux System.map "$(INSTALL_PATH)"
-> +       sh -x $(srctree)/scripts/install.sh "$(KERNELRELEASE)" vmlinux System.map "$(INSTALL_PATH)"
->
->  # Install the vmlinux and other built boot targets.
->  zInstall: $(CONFIGURE) $(addprefix $(obj)/, $(image-y))
-> -       sh -x $(srctree)/$(src)/install.sh "$(KERNELRELEASE)" vmlinux System.map "$(INSTALL_PATH)" $^
-> +       sh -x $(srctree)/scripts/install.sh "$(KERNELRELEASE)" vmlinux System.map "$(INSTALL_PATH)" $^
-
-
-I want comments from the ppc maintainers
-because this code is already broken.
-
-
-This 'zInstall' target is unreachable.
-
-See commit c913e5f95e546d8d3a9f99ba9908f7e095cbc1fb
-
-It added the new target 'zInstall', but it is not hooked anywhere.
-It is completely useless for 6 years, and nobody has pointed it out.
-So, I think nobody is caring about this broken code.
-
-One more thing, Kbuild does not recognize it as an installation target
-because the 'I' in 'zInstall' is a capital letter.
-
-The name of the installation target must be '*install',
-all letters in lower cases.
-
-
-
-
-
-
->  PHONY += install zInstall
->
-> diff --git a/arch/powerpc/boot/install.sh b/arch/powerpc/boot/install.sh
-> deleted file mode 100644
-> index b6a256bc96ee..000000000000
-> --- a/arch/powerpc/boot/install.sh
-> +++ /dev/null
-> @@ -1,55 +0,0 @@
-> -#!/bin/sh
+> diff --git a/scripts/install.sh b/scripts/install.sh
+> index 225b19bbbfa6..dd86fb9971e9 100644
+> --- a/scripts/install.sh
+> +++ b/scripts/install.sh
+> @@ -1,14 +1,14 @@
+>  #!/bin/sh
 > -#
 > -# This file is subject to the terms and conditions of the GNU General Public
 > -# License.  See the file "COPYING" in the main directory of this archive
 > -# for more details.
-> -#
-> -# Copyright (C) 1995 by Linus Torvalds
-> -#
-> -# Blatantly stolen from in arch/i386/boot/install.sh by Dave Hansen
-> -#
-> -# "make install" script for ppc64 architecture
-> -#
-> -# Arguments:
-> -#   $1 - kernel version
-> -#   $2 - kernel image file
-> -#   $3 - kernel map file
-> -#   $4 - default install path (blank if root directory)
-> -#   $5 and more - kernel boot files; zImage*, uImage, cuImage.*, etc.
-> -#
+> +# SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Copyright (C) 1995 by Linus Torvalds
+> +# Copyright (C) 2021 Greg Kroah-Hartman
+>  #
+>  # Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
+> +# Adapted from code in arch/i386/boot/install.sh by Russell King
+
+Perhaps, this line can go to
+"10/20 kbuild: arm: use common install script"  ?
+
+
+
+
+> +# Adapted from code in arch/arm/boot/install.sh by Stuart Menefy
+
+I think this line came from 18/20,
+but do we need to keep it?
+
+You removed arch/sh/boot/compressed/install.sh entirely.
+
+
+
+>  #
+> -# "make install" script for i386 architecture
+> +# "make install" script for Linux to be used by all architectures.
+>  #
+>  # Arguments:
+>  #   $1 - kernel version
+> @@ -16,6 +16,26 @@
+>  #   $3 - kernel map file
+>  #   $4 - default install path (blank if root directory)
+>  #
+> +# Installs the built kernel image and map and symbol file in the specified
+> +# install location.  If no install path is selected, the files will be placed
+> +# in the root directory.
+> +#
+> +# The name of the kernel image will be "vmlinux-VERSION" for uncompressed
+> +# kernels or "vmlinuz-VERSION' for compressed kernels.
+> +#
+> +# The kernel map file will be named "System.map-VERSION"
+> +#
+> +# Note, not all architectures seem to like putting the VERSION number in the
+> +# file name, see below in the script for a list of those that do not.  For
+> +# those that do not the "-VERSION" will not be present in the file name.
+> +#
+> +# If there is currently a kernel image or kernel map file present with the name
+> +# of the file to be copied to the location, it will be renamed to contain a
+> +# ".old" suffix.
+> +#
+> +# If ~/bin/${INSTALLKERNEL} or /sbin/${INSTALLKERNEL} is executable, execution
+> +# will be passed to that program instead of this one to allow for distro or
+> +# system specific installation scripts to be used.
+>
+>  verify () {
+>         if [ ! -f "$1" ]; then
+> @@ -45,7 +65,6 @@ verify "$2"
+>  verify "$3"
+>
+>  # User may have a custom install script
 > -
-> -# Bail with error code if anything goes wrong
-> -set -e
-> -
-> -# User may have a custom install script
-> -
-> -if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
-> -if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
-> -
-> -# Default install
-> -
-> -# this should work for both the pSeries zImage and the iSeries vmlinux.sm
-> -image_name=`basename $2`
-> -
-> -if [ -f $4/$image_name ]; then
-> -       mv $4/$image_name $4/$image_name.old
-> -fi
-> -
-> -if [ -f $4/System.map ]; then
-> -       mv $4/System.map $4/System.old
-> -fi
-> -
-> -cat $2 > $4/$image_name
-> -cp $3 $4/System.map
-> -
-> -# Copy all the bootable image files
-> -path=$4
-> -shift 4
-> -while [ $# -ne 0 ]; do
-> -       image_name=`basename $1`
-> -       if [ -f $path/$image_name ]; then
-> -               mv $path/$image_name $path/$image_name.old
-> -       fi
-> -       cat $1 > $path/$image_name
-> -       shift
-> -done;
-> diff --git a/scripts/install.sh b/scripts/install.sh
-> index e0ffb95737d4..67c0a5f74af2 100644
-> --- a/scripts/install.sh
-> +++ b/scripts/install.sh
-> @@ -67,7 +67,7 @@ fi
->  # Some architectures name their files based on version number, and
->  # others do not.  Call out the ones that do not to make it obvious.
->  case "${ARCH}" in
-> -       ia64 | m68k | nios2 | x86)
-> +       ia64 | m68k | nios2 | powerpc | x86)
->                 version=""
->                 ;;
->         *)
-> @@ -93,6 +93,18 @@ case "${ARCH}" in
->                         /usr/sbin/elilo
+>  if [ -x ~/bin/"${INSTALLKERNEL}" ]; then exec ~/bin/"${INSTALLKERNEL}" "$@"; fi
+>  if [ -x /sbin/"${INSTALLKERNEL}" ]; then exec /sbin/"${INSTALLKERNEL}" "$@"; fi
+>
+> @@ -111,7 +130,7 @@ case "${ARCH}" in
+>                 elif [ -x /etc/lilo/install ]; then
+>                         /etc/lilo/install
+>                 else
+> -                       echo "Cannot find LILO."
+> +                       echo "Cannot find LILO, ensure your bootloader knows of the new kernel image."
+
+
+Since you soften the message, I guess this is not a warning message.
+I assume it is intentional to put it in stdout instead of stderr.
+
+
 >                 fi
 >                 ;;
-> +       powerpc)
-> +               # powerpc installation can list other boot targets after the
-> +               # install path that should be copied to the correct location
-
-
-Perhaps, we can remove this if the ppc maintainers approve it ?
-
-
-
-
-> +               path=$4
-> +               shift 4
-> +               while [ $# -ne 0 ]; do
-> +                       image_name=$(basename "$1")
-> +                       install "$1" "$path"/"$image_name"
-> +                       shift
-> +               done;
-> +               sync
-> +               ;;
->         x86)
->                 if [ -x /sbin/lilo ]; then
->                         /sbin/lilo
+>  esac
 > --
 > 2.31.1
 >
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
