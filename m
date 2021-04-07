@@ -2,122 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0FD6356E7C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 16:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7FC356EA7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 16:30:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234240AbhDGOZi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 10:25:38 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:17347 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232376AbhDGOZi (ORCPT
+        id S229942AbhDGOas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 10:30:48 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:16668 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229546AbhDGOar (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 10:25:38 -0400
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 137EP7aH022263;
-        Wed, 7 Apr 2021 23:25:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 137EP7aH022263
+        Wed, 7 Apr 2021 10:30:47 -0400
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 137EU59t000332;
+        Wed, 7 Apr 2021 23:30:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 137EU59t000332
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617805508;
-        bh=kkn3m/BCSxf2wWzhn6Nistuursiw20cEhHeA63xRAuE=;
+        s=dec2015msa; t=1617805805;
+        bh=MVRjyvotamx0gGxHkxCvFT+m/YZf+2TbVDcNiqVSJD8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MlzMMEXQEYrfYLb50tmTehRfqFTJ/gDi99r8VznhkQcun5Xdbe9HpoKSawmondCKr
-         BI9R75umLMQyBhHG835MOCRH7jOWZc8slDhI9kzspKkKtNjacBZ8xZgaOvUG7TusKM
-         lpkxPn6wppMbKzHZbXjww2VeOjLfPEmPIFGI271wrfN3AKtAw6GfdFzvWZtr+JVjV+
-         Z3QQZG7PQc7NJLCrn7nGTNcmR2Mh2mbVXC8vDIljdoMiru9QLdG37iYCTQlOHUPI+u
-         gHSiX2DXXCD6Zcvseczplc/5Auj5EBSfKEYhRwcBkwrXwtLOj7xM+BOOXWKJ2UahKy
-         YiOa30rNaGEDQ==
-X-Nifty-SrcIP: [209.85.214.176]
-Received: by mail-pl1-f176.google.com with SMTP id y2so9427199plg.5;
-        Wed, 07 Apr 2021 07:25:08 -0700 (PDT)
-X-Gm-Message-State: AOAM532G7dEJa3kEVCkvMyVuTr7zzsvbV4PUKzxFGzjX+37gMBFziYCn
-        XBry+UMEmdnmleYfDXE/sOdj3OQi/xkqGALyCjQ=
-X-Google-Smtp-Source: ABdhPJz5uhq8IDSf3S/3h7p8BMiaz6Akfdns4mQYFnNyvxGlA0ujmo7PLCgt78eyUaRA8ndd8CZgmTXl1yaWdyMAUmY=
-X-Received: by 2002:a17:90a:f68a:: with SMTP id cl10mr3532498pjb.87.1617805507406;
- Wed, 07 Apr 2021 07:25:07 -0700 (PDT)
+        b=ejks8/6nhbUZ2BweBH1E08Gn4kIOSuUvT8rr3ckt7oJDcBZopuA9vYygo7RERY56B
+         1lnFnu8Ugd8CzgX26j1+PU9RLtqR5NCq+cZv/M89Fqu/TCzmhzZ5eqGRnAjaN87gOD
+         nho3tuCxZRrGj0WgQ0d+4x8fdps6cRniOJG2kSCG+y9DUb3jEoxcY+jTLRP9KOa+FN
+         AwuRABJVW0oaCIGB8ZZjPnBSi+aj6TIfLtq48x3SrwwL3O/I0Q2hs03bU6UNRevg8j
+         fa2wIp/rqwCo98Z4Mujgeyqg8lOXilveueTUgwGnubdn9QYzNkTM1nY/G3ei2g+W6O
+         Uud9m0SI/Nc6g==
+X-Nifty-SrcIP: [209.85.214.181]
+Received: by mail-pl1-f181.google.com with SMTP id h20so9433132plr.4;
+        Wed, 07 Apr 2021 07:30:05 -0700 (PDT)
+X-Gm-Message-State: AOAM530GtyV/gg+LfPwp2UvBiMoGepzBrYeWI5G+YQkSna63A+lRA4d7
+        aQHkMHNl7+PdAAQuUJAxLoULeIMRwxev0nVQWBo=
+X-Google-Smtp-Source: ABdhPJziQ0BjpbrjRb7L/3qJ6OIKZU2K1LdHVqg7/W3ygxcpNpdQW7zByiAXv9R1/osGLuFJTg0PV7QnW/5XTAyDteY=
+X-Received: by 2002:a17:90a:f68a:: with SMTP id cl10mr3554255pjb.87.1617805804515;
+ Wed, 07 Apr 2021 07:30:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210402123959.5143-1-alobakin@pm.me> <CABCJKufH262ki4FCQJxSO-v+gQzPBsVntQWnNZY7h-cvt1KYTA@mail.gmail.com>
- <Gt4--xIFQdFQbd97OwKvRwelvfikSSv3Vkc_KKzAeGgp6c2fe8SPW6v_njp0xvwepPwC_UcWdyWeAjSdFEXpheJWlnmWNY-mVsaMEnJV56A=@pm.me>
-In-Reply-To: <Gt4--xIFQdFQbd97OwKvRwelvfikSSv3Vkc_KKzAeGgp6c2fe8SPW6v_njp0xvwepPwC_UcWdyWeAjSdFEXpheJWlnmWNY-mVsaMEnJV56A=@pm.me>
+References: <20210331133811.3221540-1-masahiroy@kernel.org> <20210331133811.3221540-9-masahiroy@kernel.org>
+In-Reply-To: <20210331133811.3221540-9-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 7 Apr 2021 23:24:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQBYxZ4s4Eg2TPMoLA+NDWXsNrnq2ch1ZQsBgcCXPk7Sw@mail.gmail.com>
-Message-ID: <CAK7LNAQBYxZ4s4Eg2TPMoLA+NDWXsNrnq2ch1ZQsBgcCXPk7Sw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: merge module sections under CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
- too
-To:     Alexander Lobakin <alobakin@pm.me>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
+Date:   Wed, 7 Apr 2021 23:29:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASCmTMtS+4MxTKJDcdCxtDfBTgXkZPUssjrWbmoPYuwAA@mail.gmail.com>
+Message-ID: <CAK7LNASCmTMtS+4MxTKJDcdCxtDfBTgXkZPUssjrWbmoPYuwAA@mail.gmail.com>
+Subject: Re: [PATCH 9/9] kbuild: remove CONFIG_MODULE_COMPRESS
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        David Howells <dhowells@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Kees Cook <keescook@chromium.org>,
-        Jessica Yu <jeyu@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nick Terrell <terrelln@fb.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Vlastimil Babka <vbabka@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 6, 2021 at 11:42 PM Alexander Lobakin <alobakin@pm.me> wrote:
+On Wed, Mar 31, 2021 at 10:39 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Friday, 2 April 2021, 18:09, Sami
-> Tolvanen <samitolvanen@google.com> wrote:
+> CONFIG_MODULE_COMPRESS is only used to activate the choice for module
+> compression algorithm. It will be simpler to make the choice visible
+> all the time by adding CONFIG_MODULE_COMPRESS_NONE to allow the user to
+> disable module compression.
 >
-> > On Fri, Apr 2, 2021 at 5:40 AM Alexander Lobakin alobakin@pm.me wrote:
-> >
-> > > When building with CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
-> > > -fdata-sections and -ffunction-sections are being enabled by the
-> > > top-level Makefile, and module section merging is also needed.
-> > > Expand the ifdef (and the comment block) to cover that case too.
-> > > Fixes: 6a3193cdd5e5 ("kbuild: lto: Merge module sections if and only =
-if CONFIG_LTO_CLANG is enabled")
-
-
-Did you test this patch before submission?
-
-
-See the top Makefile closely:
-
-ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
-KBUILD_CFLAGS_KERNEL +=3D -ffunction-sections -fdata-sections
-LDFLAGS_vmlinux +=3D --gc-sections
-endif
-
-
--ffunction-sections -fdata-sections are passed to only
-built-in objects, but not to module objects in the
-first place.
-
-KBUILD_CFLAGS_KERNEL is only passed to built-in objects.
-
-
-The situation you claimed never happens.
-
-
-
-
-
-
-
-> > Wouldn't this trigger the ld.bfd bug described in the commit message
-> > when LD_DEAD_CODE_DATA_ELIMINATION is enabled? LTO_CLANG always uses
-> > LLD, so it won't have this issue.
+> This is more consistent with the "Kernel compression mode" and "Built-in
+> initramfs compression mode" choices.
 >
-> LD_DEAD_CODE_DATA_ELIMINATION is marked
-> =E2=80=9CEXPERIMENTAL=E2=80=9C in the config prompt, and
-> arches have to opt-in
-> HAS_LD_DEAD_CODE_DATA_ELIMINATION to give
-> an access to it (only a few does). This
-> should be relatively safe.
+> CONFIG_KERNEL_UNCOMPRESSED and CONFIG_INITRAMFS_COMPRESSION_NONE are
+> available to choose to not compress the kernel, initrd, respectively.
 >
-> > Sami
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> Thanks,
-> Al
+>  init/Kconfig | 45 ++++++++++++++++++++++++++-------------------
+>  1 file changed, 26 insertions(+), 19 deletions(-)
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 019c1874e609..3ca1ffd219c4 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2225,40 +2225,47 @@ config MODULE_SIG_HASH
+>         default "sha384" if MODULE_SIG_SHA384
+>         default "sha512" if MODULE_SIG_SHA512
+>
+> -config MODULE_COMPRESS
+> -       bool "Compress modules on installation"
+> +choice
+> +       prompt "Module compression mode"
+>         help
+> +         This option allows you to choose the algorithm which will be used to
+> +         compress modules when 'make modules_install' is run. (or, you can
+> +         choose to not compress modules at all.)
+>
+> -         Compresses kernel modules when 'make modules_install' is run; gzip or
+> -         xz depending on "Compression algorithm" below.
+> +         External modules will also be compressed in the same way during the
+> +         installation.
+>
+> -         module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
+> +         For modules inside an initrd or initramfs, it's more efficient to
+> +         compress the whole initrd or initramfs instead.
+>
+> -         Out-of-tree kernel modules installed using Kbuild will also be
+> -         compressed upon installation.
+> +         This is fully compatible with signed modules.
+>
+> -         Note: for modules inside an initrd or initramfs, it's more efficient
+> -         to compress the whole initrd or initramfs instead.
+> +         Please note that the tool used to load modules needs to support the
+> +         corresponding algorithm. module-init-tools MAY support gzip, and kmod
+> +         MAY support gzip and xz.
+>
+> -         Note: This is fully compatible with signed modules.
+> +         Your build system needs to provide the appropriate compression tool
+> +         to compress the modules.
+>
+> -         If in doubt, say N.
+> +         If in doubt, select 'None'.
+>
+> -choice
+> -       prompt "Compression algorithm"
+> -       depends on MODULE_COMPRESS
+> -       default MODULE_COMPRESS_GZIP
+> +config MODULE_COMPRESS_NONE
+> +       bool "None"
+>         help
+> -         This determines which sort of compression will be used during
+> -         'make modules_install'.
+> -
+> -         GZIP (default) and XZ are supported.
+> +         Do not compress modules. The installed modules are suffixed
+> +         with .ko.
+>
+>  config MODULE_COMPRESS_GZIP
+>         bool "GZIP"
+> +       help
+> +         Compress modules with XZ. The installed modules are suffixed
+
+
+This should be "Compress modules with GZIP."
+
+
+I will fix it when applied.
 
 
 
---=20
+
+
+
+
+> +         with .ko.gz.
+>
+>  config MODULE_COMPRESS_XZ
+>         bool "XZ"
+> +       help
+> +         Compress modules with XZ. The installed modules are suffixed
+> +         with .ko.xz.
+>
+>  endchoice
+>
+> --
+> 2.27.0
+>
+
+
+-- 
 Best Regards
 Masahiro Yamada
