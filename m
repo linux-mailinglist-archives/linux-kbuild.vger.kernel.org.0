@@ -2,94 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 333C53564D7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 09:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21A6E356518
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 09:18:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345808AbhDGHO6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 7 Apr 2021 03:14:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:45761 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234971AbhDGHO5 (ORCPT
+        id S244106AbhDGHSr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 03:18:47 -0400
+Received: from mail-vs1-f51.google.com ([209.85.217.51]:37652 "EHLO
+        mail-vs1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234913AbhDGHSd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 03:14:57 -0400
-Received: from mail-ot1-f54.google.com ([209.85.210.54]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MN5S1-1lAzwY10Lt-00J577; Wed, 07 Apr 2021 09:14:47 +0200
-Received: by mail-ot1-f54.google.com with SMTP id t23-20020a0568301e37b02901b65ab30024so17146610otr.4;
-        Wed, 07 Apr 2021 00:14:46 -0700 (PDT)
-X-Gm-Message-State: AOAM533ijP9FsvZaCqFLJmVKfyMnEUedAmzEMkRe4ahxLHmoJOLpemSo
-        FVCjzCwaqu48lI8HVNN8FYYv13Z1Ake6FaOGwm8=
-X-Google-Smtp-Source: ABdhPJzrIZhYXItVAxtqu5MmrQDcheg3tt+tjK1y9xVKCotkoT58FygXjEd09CP1R5SrCLdP/bDhZsopatSCmobWRH0=
-X-Received: by 2002:a9d:316:: with SMTP id 22mr1794535otv.210.1617779685848;
- Wed, 07 Apr 2021 00:14:45 -0700 (PDT)
+        Wed, 7 Apr 2021 03:18:33 -0400
+Received: by mail-vs1-f51.google.com with SMTP id 2so8215220vsh.4;
+        Wed, 07 Apr 2021 00:18:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kNIWCvfs0ZW4eVgsk+0zdu8i1BkoDuHPkcI6NnFD88o=;
+        b=gsQC9RPM63DO358lomakf4DbH2WZfVVo9SyciFu+0xqndIdhpu5FrRBvpC7eC6kPJZ
+         OP9ACkDWCXHZhZ4XO+rP9w4NWCtD6WkT0fKqsptMMP0ZVPXxoJkS0yxSAd3ixkQgP2om
+         CmyCb7nyYIONWTo68WMY+VmHt43EIXXM/Qyniz6VGzL1ihWOTR3RgnH1lsHHAze4AIaa
+         hw1CClXHnQbuUwdakC0BBBaTPlDPJE5zysWU4GA3hqXKr/9DrUDRllsCpMAukquSZMOF
+         dP9cfG96dIwdkfv1hdeDEnZra7V+pkktKa776ZQK+xCZlEdEkhBa7R2c32fFI4rfTtBp
+         ZKUQ==
+X-Gm-Message-State: AOAM5336vEhhMaP74Fyr4MHG+u9crT+F347ujIYb4dSo2AdUjscQsF0n
+        F8jdsrDG+Qfq6Ij+VAaTowpKLGuzG479fedd9Q4=
+X-Google-Smtp-Source: ABdhPJyftQlnHFXdM0yzdSgYYSKctCxPQ9kcTX65FNLj2mQMzON5fJBl/zAARa/sp8zjhgK4//xwDDnuTn6hpklj5ZM=
+X-Received: by 2002:a67:7d02:: with SMTP id y2mr1034896vsc.18.1617779902678;
+ Wed, 07 Apr 2021 00:18:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210407002450.10015-1-kabel@kernel.org>
-In-Reply-To: <20210407002450.10015-1-kabel@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 7 Apr 2021 09:14:29 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0_ruZSMv-kLMY7Jja7wq0K3aNNDviYqQPmN-3UayiHaQ@mail.gmail.com>
-Message-ID: <CAK8P3a0_ruZSMv-kLMY7Jja7wq0K3aNNDviYqQPmN-3UayiHaQ@mail.gmail.com>
-Subject: Re: [PATCH kbuild] Makefile.extrawarn: disable -Woverride-init in W=1
-To:     =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Networking <netdev@vger.kernel.org>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+In-Reply-To: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 7 Apr 2021 09:18:11 +0200
+Message-ID: <CAMuHMdWGnr1wK3yZdLovxmVQT1yc2DR+J6FwQyCLxQS-Bp29Rw@mail.gmail.com>
+Subject: Re: [PATCH 00/20] kbuild: unify the install.sh script usage
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Hu <nickhu@andestech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rich Felker <dalias@libc.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Provags-ID: V03:K1:nGe4iDaSAQlxeBYnY1czYXTV1qG5NF3Owh6p2zOLtrNqQlRb+qM
- QYyzLHhOSVUrGXMRPp7Jf/CdFElPmOm5U4IcQEo/reqKiIQ2wIVO+yOIegsrr8rm4CWGFes
- QVZH2gCS57EfVuTDJgcDoT4c+FqPfcxWaJWB0rkfikoUEN5rlQYjCtJ94+XpxtZfS4WphcP
- hWXT8YZRVMzbEnR2BwYzQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x73bQBwiFBY=:V73UEuG0tWZf0jV9AcbVT4
- NO3Y0tSNwRX9B7VwO7a/1MQ8OhtS0hEtdSdwjOTgtuqh534B0dDQoq3bLl4/ERgweal0dEwSA
- /PA17nf6XmCOYuRF9aDKqoGYYCEFvFxiFaVqC4dxBoMpYb0yRjSb1o4ynaJkwK4bofyEjAkiZ
- tEEF3wB2f4ZDUBZ/6beaTqKr3BAGfJ9RbvxsnvHgOrnsyDzsNrFDLBGNLdUWlfCbU4N4SO6I+
- du+YD3NOD7ZfpYPGaq3u0MFIVb6/XdRxsWunjRLJtSUYOJy/Jnbhe/XRFVJY5SHiiaWTx3RVz
- +LPcB3Os4gkZMKKgwAGMengUbZ0YG+Xtk3Ic5h4zYNirvWA18dE0nEXi7RUuLqOMYLjW2VN1o
- JUw1S2oCkPBI78zhhrhW2Ad3LrE9YZ/Ox9fWN3SQeuqcVoj2wfGvw3pj3JL2tgzmG6SP6FDII
- 9yt61tmbVndFbBikHM7EsEJ9rlJgZNs=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 7, 2021 at 2:24 AM Marek Behún <kabel@kernel.org> wrote:
+Hi Greg,
+
+Thanks for your series!
+
+On Wed, Apr 7, 2021 at 7:34 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> Almost every architecture has copied the "install.sh" script that
+> originally came with i386, and modified it in very tiny ways.  This
+> patch series unifies all of these scripts into one single script to
+> allow people to understand how to correctly install a kernel, and fixes
+> up some issues regarding trying to install a kernel to a path with
+> spaces in it.
 >
-> The -Wextra flag enables -Woverride-init in newer versions of GCC.
->
-> This causes the compiler to warn when a value is written twice in a
-> designated initializer, for example:
->   int x[1] = {
->     [0] = 3,
->     [0] = 3,
->   };
->
-> Note that for clang, this was disabled from the beginning with
-> -Wno-initializer-overrides in commit a1494304346a3 ("kbuild: add all
-> Clang-specific flags unconditionally").
->
-> This prevents us from implementing complex macros for compile-time
-> initializers.
+> Note that not all architectures actually seem to have any type of way to
+> install a kernel, they must rely on external scripts or tools which
+> feels odd as everything should be included here in the main repository.
+> I'll work on trying to figure out the missing architecture issues
+> afterward.
 
-I think this is generally a useful warning, and it has found a number
-of real bugs. I would want this to be enabled in both gcc and clang
-by default, and I have previously sent both bugfixes and patches to
-disable it locally.
+I'll bite ;-)
 
-> For example a macro of the form INITIALIZE_BITMAP(bits...) that can be
-> used as
->   static DECLARE_BITMAP(bm, 64) = INITIALIZE_BITMAP(0, 1, 32, 33);
-> can only be implemented by allowing a designated initializer to
-> initialize the same members multiple times (because the compiler
-> complains even if the multiple initializations initialize to the same
-> value).
+Does anyone actually use these scripts (outside of x86)?
+I assume the architectures that have them, only have them because they
+were copied from x86 while doing the initial ports ("oh, a file I don't
+have to modify at all.").
+But installing the kernel can be very platform-specific.
+Do you need the vmlinux, vmlinux.gz, Image, zImage, uImage, ...?
+With separate or appended DTB?
 
-We don't have this kind of macro at the moment, and this may just mean
-you need to try harder to come up with a definition that only initializes
-each member once if you want to add this.
+Even on x86, the script will bail out with "Cannot find LILO." if you're
+using Grub.
 
-How do you currently define it?
+Anyway, having less of them is good.
 
-            Arnd
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
