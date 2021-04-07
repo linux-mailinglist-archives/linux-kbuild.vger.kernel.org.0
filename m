@@ -2,80 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED0735651A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 09:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26CCE3565AF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 09:46:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346557AbhDGHTe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 03:19:34 -0400
-Received: from mail-vk1-f169.google.com ([209.85.221.169]:42569 "EHLO
-        mail-vk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234913AbhDGHTe (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 03:19:34 -0400
-Received: by mail-vk1-f169.google.com with SMTP id f11so3734559vkl.9;
-        Wed, 07 Apr 2021 00:19:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w7Kx3btHgz7ta84S98Pg8BsIYMvQVkxtEX2Vc+I1KDE=;
-        b=pdULniQvaHJLvms5DYJXVm6q6vM6ohAuPQE9POsNCYX1Jshj5bmvoP6Bl9Ec8yO/fE
-         gtqE7ZM7ozHZ7+UsAJtSDSU1E1OHODCn68WSTXLxE/9PLH5Ebcd2ivB0LXtoGPz4YM2t
-         nZJHYEcMXIJeZb9nyJ13xr4zxU7M4j1ZiRXhpaRbaF7WbAUZoErsbMBIAYtFGlHQwf26
-         DJUV68pesg22h/CS5FKvA0sUEyRhOCjKhBS6NewHI8rFRi/y2L0Jkp+lnkOrFKIsFsUR
-         GNS75v9z8V9Rqfn+v2k17x27xNVft20oQbfbUq3LtviR1Z79RCt6w1KSqmYSlYH1PadG
-         xEHQ==
-X-Gm-Message-State: AOAM53048WbSW++AeTTbqYtJar+DwMPqpK+VsVYD+PsHttvGb26zkuKP
-        rXliF1WUcO5FR4mOeak2bZLgnILa8f3yZgUUGsFHt2QS
-X-Google-Smtp-Source: ABdhPJwSQIt0vRe/XPXraai5HlJT7pCQD6XwKdxiqkw/AiDw3l8QCTjw4hMZ46DTMUjbS5Q4AAwq3/pfH95+VvfIl+g=
-X-Received: by 2002:a1f:b689:: with SMTP id g131mr1055576vkf.6.1617779964647;
- Wed, 07 Apr 2021 00:19:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210407053419.449796-1-gregkh@linuxfoundation.org> <20210407053419.449796-13-gregkh@linuxfoundation.org>
-In-Reply-To: <20210407053419.449796-13-gregkh@linuxfoundation.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 7 Apr 2021 09:19:13 +0200
-Message-ID: <CAMuHMdUP38rfMSFB87MCfJ0J_2JteKfJGYsdTnkkOcHViQL_OA@mail.gmail.com>
-Subject: Re: [PATCH 12/20] kbuild: m68k: use common install script
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S244855AbhDGHqd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 03:46:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38080 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240787AbhDGHqa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 7 Apr 2021 03:46:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 506F26139B;
+        Wed,  7 Apr 2021 07:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617781581;
+        bh=xFlb8XuCVKFs7yVEDsdkMeg3jdfQxp2CndWAV0U162E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ORVDJjqJEXVocI7AShlkTTGMHVgJqicsVwmudrbkIDeG4Fh8LOtzm931wbly02wsZ
+         VaozEwnhlPONZTjFGAIbLCDedC4ilE3zRir+XMVUrLqkVDFt+lpApFHdoy+9e3MRay
+         cIviO2Gbnx3GEKnikUyoqftydQXuqtgxgNjBPZOo=
+Date:   Wed, 7 Apr 2021 09:46:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kbuild <linux-kbuild@vger.kernel.org>,
         Linux-Arch <linux-arch@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+        "David S. Miller" <davem@davemloft.net>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Hu <nickhu@andestech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rich Felker <dalias@libc.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH 00/20] kbuild: unify the install.sh script usage
+Message-ID: <YG1jSj7BiDscHBhz@kroah.com>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+ <CAMuHMdWGnr1wK3yZdLovxmVQT1yc2DR+J6FwQyCLxQS-Bp29Rw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWGnr1wK3yZdLovxmVQT1yc2DR+J6FwQyCLxQS-Bp29Rw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Greg,
+On Wed, Apr 07, 2021 at 09:18:11AM +0200, Geert Uytterhoeven wrote:
+> Hi Greg,
+> 
+> Thanks for your series!
+> 
+> On Wed, Apr 7, 2021 at 7:34 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > Almost every architecture has copied the "install.sh" script that
+> > originally came with i386, and modified it in very tiny ways.  This
+> > patch series unifies all of these scripts into one single script to
+> > allow people to understand how to correctly install a kernel, and fixes
+> > up some issues regarding trying to install a kernel to a path with
+> > spaces in it.
+> >
+> > Note that not all architectures actually seem to have any type of way to
+> > install a kernel, they must rely on external scripts or tools which
+> > feels odd as everything should be included here in the main repository.
+> > I'll work on trying to figure out the missing architecture issues
+> > afterward.
+> 
+> I'll bite ;-)
+> 
+> Does anyone actually use these scripts (outside of x86)?
 
-On Wed, Apr 7, 2021 at 7:35 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> The common scripts/install.sh script will now work for m68k, all that
-> is needed is to add it to the list of arches that do not put the version
-> number in the installed file name.
->
-> With that we can remove the m68k-only version of the install script.
->
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: linux-m68k@lists.linux-m68k.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I think so, if not then what do they use?
 
-Thanks for your patch!
+Ok, I'll answer that, Before this week, I used my own script, a horrible
+hack I've drug along for years:
+	https://github.com/gregkh/gregkh-linux/blob/master/scripts/install
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+but for almost everyone else, they just use /sbin/installkernel that is
+provided by their distro.  But this feels really odd given that we
+should include the logic to install the kernel in the kernel source
+itself, otherwise everyone has to rely on an external package that no
+one knows where it is.
 
-I guess it would "work" with the version number, too.
+> I assume the architectures that have them, only have them because they
+> were copied from x86 while doing the initial ports ("oh, a file I don't
+> have to modify at all.").
+> But installing the kernel can be very platform-specific.
+> Do you need the vmlinux, vmlinux.gz, Image, zImage, uImage, ...?
+> With separate or appended DTB?
 
-Gr{oetje,eeting}s,
+That seems handled already by the arch/ARCH/boot/Makefile logic today,
+so I do not think we need to change that.
 
-                        Geert
+> Even on x86, the script will bail out with "Cannot find LILO." if you're
+> using Grub.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+The last change in this series tries to "soften" that language so that
+isn't really an issue anymore.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I want to turn this into something that everyone can use, so we do not
+have to rely on distro-specific or other external programs, as trying to
+explain how to install a kernel to someone new to kernel development is
+a real pain.
+
+> Anyway, having less of them is good.
+
+Agreed, thanks for the review :)
+
+greg k-h
