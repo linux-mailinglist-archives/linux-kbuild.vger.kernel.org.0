@@ -2,141 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2844E3571D0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 18:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D24AA357349
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 19:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236407AbhDGQJz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 12:09:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42148 "EHLO
+        id S1354910AbhDGRgK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 13:36:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354331AbhDGQJr (ORCPT
+        with ESMTP id S1354914AbhDGRgE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 12:09:47 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEAE2C06175F;
-        Wed,  7 Apr 2021 09:09:33 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 12so29253550lfq.13;
-        Wed, 07 Apr 2021 09:09:33 -0700 (PDT)
+        Wed, 7 Apr 2021 13:36:04 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79666C061761
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Apr 2021 10:35:53 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id i6so24698790ybk.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Apr 2021 10:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PBKwdDssUFMdLDhmdEFSLKCWRTIQLOXC5T+FtNV34xU=;
-        b=gvzKvCTogQz/PbJTtHwP6IjkOS1Knx6SaycQ0XxpYvhWnPj3krpXT6gMnAf8zpdpXh
-         rJ4f0KETYqQuiXUVCvG6aUDlRpZcOLU522/Bn+jw53YI2wbBDiamRAesBkXO/+As22zt
-         EJmGaAu0AfrlAxpLfsWFaOP+NyY+e/7OAxVTXDNZNdI+sPQ4xNGG/gkoIZ0Qo+wOpARK
-         l0HNgy2ygvVuvYJTDsDjSIPHiZfqsU/wx+7nZFd7pe6fNP9K5yXT017pPFaHor728r7q
-         /dVR6ECUgbRZpv5Ul1MkKz9q8Ve/Du21U31EyN8TkJDNeie3ve1oYhHfZPgkitnI2DGO
-         P4Bg==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=BkV3TKwWehfjnaclwW9FgblItKHUQzlZYJ9avEONYz4=;
+        b=T1lZ4yFsqWYvoS1DiCRlCTHKUax+T8YUew0zGHGEepVrf48kgR1ww02JGu4Wz7xGbg
+         KebB325BaJrEXYKMRPblZbXmYieYpbZ9NyspDV9Z7eCu4PcCaux9rKHXFVrkkNkAZcAh
+         o1nxbNyJbYygsw+3C9+6y/LG6S5BFwBz5bV/vtAjwD1olEfHadnfdX5uTCBPRfoQW/pE
+         z39vhTaUASvFpIZZ6/Q9i6OvVQ1pH7lfDpBo9ZtVyKqjL+V3KoiLAqziE98a4a0oXweA
+         7Tn7Yl+CoR4FedqNprYiztoRanU3dCRerXKdpUVfYOG45l0pArst0TKyu+InPaAp8pKq
+         YpLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PBKwdDssUFMdLDhmdEFSLKCWRTIQLOXC5T+FtNV34xU=;
-        b=ns2QAoGdTbRPswRGo7kvNSZ3LfdDuZ3r5GXjne8JFw6idHExGUg+plczxvALco80EW
-         9p48FjyC5vqBYR1jb8urrzXfOVCyD2tdtGtYFR371axhgQB9owu7tMq+66or/CWOfDkb
-         BNGtsWEQ3G8qnAJC+nSMODfvnYwXUsOHSSad4kIQPRdQz6xi4E3r7J2208j1KTiln+Nn
-         1I6gRbBIh6BHpXsW0M5mY4DYzahDPW9dfxfh4FFtlIe+Xku695oBh3do/kT1aP21ErKN
-         iLccJrtXS48Zc9II/9PGvHHcMnfFJtZfAg89iRSPazkrcXW/6MlgDCp5AJLxxZ9qzhHw
-         uGWA==
-X-Gm-Message-State: AOAM5334zymBWw8tZF384PieRllpZ6Q5GJ6uI/uIUkmElEmYkuB97lli
-        Bmy+6ShrXTG4gH3Ym3vavKaylxLG5VA=
-X-Google-Smtp-Source: ABdhPJzrvoUaSwPnhap/82mxyyZOZX6irWHiHso16m7PccUmkOg//P/azP5JgJGAs3T4ni5PFwvXBw==
-X-Received: by 2002:a19:50d:: with SMTP id 13mr2781657lff.443.1617811771110;
-        Wed, 07 Apr 2021 09:09:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:a31a:e13a:eb00:c5cf:27cc:1ef2:859])
-        by smtp.gmail.com with ESMTPSA id c26sm742467lff.302.2021.04.07.09.09.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 09:09:30 -0700 (PDT)
-From:   Piotr Gorski <lucjan.lucjanov@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-kbuild@vger.kernel.org,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=BkV3TKwWehfjnaclwW9FgblItKHUQzlZYJ9avEONYz4=;
+        b=YGfIdkcrRplCLY83k+Bwv+PRaQGTl+h35rCQJkoKqQUoB6YmTkisWp4ctYPYyAGyUk
+         7W5S7NKZ2of56yEEeDGoHm2ixJpGoOy192K3c7Bxmbdt2lxMboCfOBtvwdR2RQbyRjKC
+         smiTALROxrj2ctW5B14ENwM7WEM58K9X588V3tFcTJf4QaY5c6XZtk7Io1bjISbqprYw
+         LyNRZ/q4RwxPCiArQaGcJznpI5W8uAnay0xPrgjQouup8YOIQfsVUovzulMnVYj6t0op
+         AItQzCjjFOVYarCUG+S5jquriYQHqTFKF44cgpkSC2iHrvXlLGtsPe4DZwnQXZPfam9k
+         2FJw==
+X-Gm-Message-State: AOAM532FtBQRA8V8M8zHR68ARUqlyRb5Fojoswv3wh/xjscVxic1Qobv
+        dAnvVXCCfetEGpKEZgJykiCo+WT4IpDr7CEoZ3s=
+X-Google-Smtp-Source: ABdhPJy42rUOaM03Eh8vBFdcu8xaIMvohagdZNG+SvsZDA51FS/NywIwIVtK3bBARUCNSzyiJA8MLmGmNoXbrOcvVOs=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:c454:8587:ce1c:e900])
+ (user=ndesaulniers job=sendgmr) by 2002:a25:f504:: with SMTP id
+ a4mr5740161ybe.364.1617816952516; Wed, 07 Apr 2021 10:35:52 -0700 (PDT)
+Date:   Wed,  7 Apr 2021 10:35:43 -0700
+Message-Id: <20210407173543.3598006-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
+Subject: [PATCH] MIPS: select ARCH_KEEP_MEMBLOCK unconditionally
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Piotr Gorski <lucjan.lucjanov@gmail.com>
-Subject: [PATCH v3] kbuild: add support for zstd compressed modules
-Date:   Wed,  7 Apr 2021 18:09:27 +0200
-Message-Id: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
-X-Mailer: git-send-email 2.31.0.97.g1424303384
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Guenter Roeck <linux@roeck-us.net>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-kmod 28 supports modules compressed in zstd format so let's add this possibility to kernel.
+While removing allnoconfig_y from Kconfig, ARCH=mips allnoconfig builds
+started failing with the error:
 
-V2 -> V3
+WARNING: modpost: vmlinux.o(.text+0x9c70): Section mismatch in reference
+from the function reserve_exception_space() to the function
+.meminit.text:memblock_reserve()
+The function reserve_exception_space() references the function __meminit
+memblock_reserve().
+This is often because reserve_exception_space lacks a __meminit
+annotation or the annotation of memblock_reserve is wrong.
+ERROR: modpost: Section mismatches detected.
+Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
 
-* Fix a typo
+allnoconfig disables DEBUG_KERNEL and thus ARCH_KEEP_MEMBLOCK, which
+changes __init_memblock to be equivalent to __meminit triggering the
+above error.
 
-V1 -> V2
-
-* Rebuild against linux-kbuild tree
-
-Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+Link: https://lore.kernel.org/linux-kbuild/20210313194836.372585-11-masahiroy@kernel.org/
+Fixes: commit a8c0f1c634507 ("MIPS: Select ARCH_KEEP_MEMBLOCK if
+DEBUG_KERNEL to enable sysfs memblock debug")
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- init/Kconfig             | 8 +++++++-
- scripts/Makefile.modinst | 6 ++++++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ arch/mips/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 510f6fcd9b7f..b5744d32c4df 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2242,7 +2242,7 @@ choice
- 
- 	  Please note that the tool used to load modules needs to support the
- 	  corresponding algorithm. module-init-tools MAY support gzip, and kmod
--	  MAY support gzip and xz.
-+	  MAY support gzip, xz and zstd.
- 
- 	  Your build system needs to provide the appropriate compression tool
- 	  to compress the modules.
-@@ -2267,6 +2267,12 @@ config MODULE_COMPRESS_XZ
- 	  Compress modules with XZ. The installed modules are suffixed
- 	  with .ko.xz.
- 
-+config MODULE_COMPRESS_ZSTD
-+	bool "ZSTD"
-+	help
-+	  Compress modules with ZSTD. The installed modules are suffixed
-+	  with .ko.zst.
-+
- endchoice
- 
- config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 191408f7a91a..f9fa2a3808b2 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -21,6 +21,7 @@ endif
- suffix-y				:=
- suffix-$(CONFIG_MODULE_COMPRESS_GZIP)	:= .gz
- suffix-$(CONFIG_MODULE_COMPRESS_XZ)	:= .xz
-+suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)	:= .zst
- 
- modules := $(patsubst $(extmod_prefix)%, $(dst)/%$(suffix-y), $(modules))
- 
-@@ -95,6 +96,8 @@ quiet_cmd_gzip = GZIP    $@
-       cmd_gzip = $(KGZIP) -n -f $<
- quiet_cmd_xz = XZ      $@
-       cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
-+quiet_cmd_zstd = ZSTD      $@
-+      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
- 
- $(dst)/%.ko.gz: $(dst)/%.ko FORCE
- 	$(call cmd,gzip)
-@@ -102,6 +105,9 @@ $(dst)/%.ko.gz: $(dst)/%.ko FORCE
- $(dst)/%.ko.xz: $(dst)/%.ko FORCE
- 	$(call cmd,xz)
- 
-+$(dst)/%.ko.zst: $(dst)/%.ko FORCE
-+	$(call cmd,zstd)
-+
- PHONY += FORCE
- FORCE:
- 
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index e9893cd34992..702648f60e41 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -12,7 +12,7 @@ config MIPS
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+ 	select ARCH_HAS_UBSAN_SANITIZE_ALL
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+-	select ARCH_KEEP_MEMBLOCK if DEBUG_KERNEL
++	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_SUPPORTS_UPROBES
+ 	select ARCH_USE_BUILTIN_BSWAP
+ 	select ARCH_USE_CMPXCHG_LOCKREF if 64BIT
 -- 
-2.31.0.97.g1424303384
+2.31.1.295.g9ea45b61b8-goog
 
