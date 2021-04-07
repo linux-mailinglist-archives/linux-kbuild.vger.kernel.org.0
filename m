@@ -2,105 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6F1356D01
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 15:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D209356D37
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Apr 2021 15:23:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344252AbhDGNNh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Apr 2021 09:13:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56794 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232797AbhDGNNh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Apr 2021 09:13:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E2EE61242;
-        Wed,  7 Apr 2021 13:13:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617801207;
-        bh=ICPFzg58kKpJNMHwZgJBVHNTI7bhTkZtLs5jacpCd0E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cMhrycHcNCIgDOzzoWCFpPErsVYtO3sQh5FT8VKwLNUHumUxd0jSYlnuVIc2E08gd
-         sMGPsiEs3J+NtRfkCLO5XcuuDJm3JeoJ9UmcZjWswe80Jhk/Hta4kerWcwzEh0kqQT
-         YIAJHkrvTgs7gIMqApfIdAsrAPSLwqbTke/MdY7DYAQb9hFTUMX2QM+dfQHR2fOhK0
-         OCe1B03TaATg/nNL9ctH9hZb4EfdV/Hx00CuK7cDpekj7kcZ4Djx4/MqC3rmPSvohf
-         2UzXDz9WiZKtyUNAHavi808Q9CZwpjiJxHbT/EW4okiR0zqUFb3NcNzFN0LHQMiQXp
-         Fz1JZY8VP2CTQ==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 8841A40647; Wed,  7 Apr 2021 10:13:24 -0300 (-03)
-Date:   Wed, 7 Apr 2021 10:13:24 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Yonghong Song <yhs@fb.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
-        bpf <bpf@vger.kernel.org>, kernel-team@fb.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Bill Wendling <morbo@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH kbuild v4] kbuild: add an elfnote for whether vmlinux is
- built with lto
-Message-ID: <YG2v9EY0WWp+bijr@kernel.org>
-References: <20210401232723.3571287-1-yhs@fb.com>
- <CAKwvOdmX8d3XTzJFk5rN_PnOQYJ8bXMrh8DrhzqN=UBNdQiO3g@mail.gmail.com>
+        id S235188AbhDGNXM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Apr 2021 09:23:12 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:17968 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233053AbhDGNXK (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 7 Apr 2021 09:23:10 -0400
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 137DMab6004819;
+        Wed, 7 Apr 2021 22:22:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 137DMab6004819
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1617801756;
+        bh=Usra8KcBYgGZoqiKSYtDpYF/LC0cwPSDqgPA0XLdu0U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kf/VzT3qMbMcvWtm2f4X35CJ2YRHwIRNAR+wfKuAd2HPMTg2UqpLg+3vczEjyvQ17
+         lC03gDJdWN7SPtrw2xBkJKVfnThUHZxSmHo1O701c7vh2e55L6YXdUiCAjYW1K7WxZ
+         08Ld4ItN6MzcVqe13Rp2CdP+WqL05VNEyrcVAWZWteR++jCWtgMrrTd3vdBTNeKH+G
+         lRumuXWlo3Du9++4rN2GAN/Z9SC4wgbRVLVq4Q2TzrfEniUmnx1UqK2XmoC7ThkuA/
+         jkz+56D3P0qntBmoybHbd/oVYydmR/0k5BW+PU2iCvneRLzkZ0nub4y8oVH1PqcZP9
+         a5yfGYOLypjmg==
+X-Nifty-SrcIP: [209.85.215.172]
+Received: by mail-pg1-f172.google.com with SMTP id t22so5903083pgu.0;
+        Wed, 07 Apr 2021 06:22:36 -0700 (PDT)
+X-Gm-Message-State: AOAM532Qql37xHrpMq5+gApKeaa5P59Zgyln4dYYtPbek+m9U2JNpwLQ
+        SD6WuSlFBrzHrlu3KM5RVbSXcbTDeElMuXrh5qI=
+X-Google-Smtp-Source: ABdhPJwk9qS0BMUYh5/qdYqoHXSyq4h3xksMbErCbs90p3+A591ceXgm4FOBcMs5kvsm1Qs6lHOiJttPXHcA8V+G7cw=
+X-Received: by 2002:a65:428b:: with SMTP id j11mr3299165pgp.47.1617801755787;
+ Wed, 07 Apr 2021 06:22:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmX8d3XTzJFk5rN_PnOQYJ8bXMrh8DrhzqN=UBNdQiO3g@mail.gmail.com>
-X-Url:  http://acmel.wordpress.com
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+ <20210407053419.449796-8-gregkh@linuxfoundation.org> <CAK7LNASbZ4hY8ypd8TegnRpxQUM-HB84n2VHUmu=k_RxwCnpXg@mail.gmail.com>
+ <YG2tvk010wRkIVSX@kroah.com>
+In-Reply-To: <YG2tvk010wRkIVSX@kroah.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 7 Apr 2021 22:21:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARewRB3JENY1vXecz23W+XtOuO4MP4MNTPUx1KKRLKQGA@mail.gmail.com>
+Message-ID: <CAK7LNARewRB3JENY1vXecz23W+XtOuO4MP4MNTPUx1KKRLKQGA@mail.gmail.com>
+Subject: Re: [PATCH 07/20] kbuild: scripts/install.sh: allow for the version number
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Fri, Apr 02, 2021 at 11:07:10AM -0700, Nick Desaulniers escreveu:
-> On Thu, Apr 1, 2021 at 4:27 PM Yonghong Song <yhs@fb.com> wrote:
-> > Currently, clang LTO built vmlinux won't work with pahole.
-> > LTO introduced cross-cu dwarf tag references and broke
-> > current pahole model which handles one cu as a time.
-> > The solution is to merge all cu's as one pahole cu as in [1].
-> > We would like to do this merging only if cross-cu dwarf
-> > references happens. The LTO build mode is a pretty good
-> > indication for that.
-
-> > In earlier version of this patch ([2]), clang flag
-> > -grecord-gcc-switches is proposed to add to compilation flags
-> > so pahole could detect "-flto" and then merging cu's.
-> > This will increate the binary size of 1% without LTO though.
-
-> > Arnaldo suggested to use a note to indicate the vmlinux
-> > is built with LTO. Such a cheap way to get whether the vmlinux
-> > is built with LTO or not helps pahole but is also useful
-> > for tracing as LTO may inline/delete/demote global functions,
-> > promote static functions, etc.
-
-> > So this patch added an elfnote with a new type LINUX_ELFNOTE_LTO_INFO.
-> > The owner of the note is "Linux".
-
-> > With gcc 8.4.1 and clang trunk, without LTO, I got
-> >   $ readelf -n vmlinux
-> >   Displaying notes found in: .notes
-> >     Owner                Data size        Description
-> >   ...
-> >     Linux                0x00000004       func
-> >      description data: 00 00 00 00
-> >   ...
-> > With "readelf -x ".notes" vmlinux", I can verify the above "func"
-> > with type code 0x101.
+On Wed, Apr 7, 2021 at 10:04 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Apr 07, 2021 at 08:05:23PM +0900, Masahiro Yamada wrote:
+> > On Wed, Apr 7, 2021 at 2:35 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > Some architectures put the version number by default at the end of the
+> > > files that are copied, so add support for this to be set by arch type.
+> > >
+> > > Odds are one day we should change this for x86, but let's not break
+> > > anyone's systems just yet.
+> > >
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > ---
+> > >  scripts/install.sh | 15 +++++++++++++--
+> > >  1 file changed, 13 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/scripts/install.sh b/scripts/install.sh
+> > > index 72dc4c81013e..934619f81119 100644
+> > > --- a/scripts/install.sh
+> > > +++ b/scripts/install.sh
+> > > @@ -60,8 +60,19 @@ else
+> > >         base=vmlinux
+> > >  fi
+> > >
+> > > -install "$2" "$4"/"$base"
+> > > -install "$3" "$4"/System.map
+> > > +# Some architectures name their files based on version number, and
+> > > +# others do not.  Call out the ones that do not to make it obvious.
+> > > +case "${ARCH}" in
+> > > +       x86)
+> > > +               version=""
+> > > +               ;;
+> > > +       *)
+> > > +               version="-${1}"
+> > > +               ;;
+> > > +esac
+> > > +
+> > > +install "$2" "$4"/"$base""$version"
 > >
-> > With clang thin-LTO, I got the same as above except the following:
-> >      description data: 01 00 00 00
-> > which indicates the vmlinux is built with LTO.
 > >
-> >   [1] https://lore.kernel.org/bpf/20210325065316.3121287-1-yhs@fb.com/
-> >   [2] https://lore.kernel.org/bpf/20210331001623.2778934-1-yhs@fb.com/
+> > Too many quotes are eye sore.
 > >
-> > Suggested-by: Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
-> > Signed-off-by: Yonghong Song <yhs@fb.com>
-> 
-> LGTM thanks Yonghong!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> >     install "$2" "$4/$base$version"
+> >
+> > looks cleaner in my opinion.
+> >
+> > Shell correctly understands the end of each
+> > variable because a slash or a dollar
+> > cannot be a part of a variable name.
+>
+> Good idea, I usually just default to "quote everything!" when dealing
+> with bash variables.  I'll fix this up.
+>
+> Oh, any preference for "$2" vs. "${2}"?  I don't care either way but I
+> couldn't tell what is the normal kernel style these days.
 
-Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 
-Thanks!
+I do not see a well-defined coding style guideline
+for shell scripts.
 
-- Arnaldo
+If you want to know my personal preference,
+I use "$2" without braces.
+
+
+Thanks.
+
+
+>
+> thanks for all of the review, much appreciated!
+
+My pleasure.
+
+>
+> greg k-h
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
