@@ -2,207 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA738358E54
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 22:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894F7358EDE
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 22:59:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232005AbhDHU1c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Apr 2021 16:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbhDHU1c (ORCPT
+        id S232443AbhDHVAI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Apr 2021 17:00:08 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:46605 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232416AbhDHVAI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Apr 2021 16:27:32 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33721C061760
-        for <linux-kbuild@vger.kernel.org>; Thu,  8 Apr 2021 13:27:19 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id j26so3588580iog.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 08 Apr 2021 13:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=VwARmvk0f+MDXW9goAj0x9TdAHKCo5czEXWS2XohFuA=;
-        b=kzGGEgZQvNfjli1oNzaXGJ8PN9RNrs0iwky6k24Xkrd2Sacl/1eQ+f56QX6otWd3YM
-         ncZXLUSuuAq9J8QMc3a3Bt3G+Z4wByXX+hB8wCZH2isyKuppvIE50m27oyhTOWcjf3oS
-         E0WcHhH14ligIo0EmEoOknNU49hn9OfZLISTebAhgMCFGAwjhX8D54kMch3rLiSqjhxM
-         rsxHJYtYljC4AJHIenQI0i/vpaaBwPTk3WeyFcUjMGQDKQ7yCSyganNf/dfYtmqweN9n
-         P/Q8g1CMOyXcDU66OdM8a4RfOafqHmrRT3blG3+696Mt/HPdQjddmHw1BD39/S8llqpr
-         T7Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=VwARmvk0f+MDXW9goAj0x9TdAHKCo5czEXWS2XohFuA=;
-        b=lITazWkhZfym1RXsunSEuA9w5+1jx7e+W8et9yFr0U0AGJYTwP88lWO741k68GBwi6
-         M9zWqxw00rZtjHwf3TheXg2DeJdHMYY0wgrX70iMv9heDqjTx+lmgCgiD1kldR2FIAas
-         H3aW8VYQwhSnTLeA1dd2KlLVcGe1HyJzzvwsN4oszAmNMU4QaHqXj8kJvrcqOAn4PYAH
-         Zyoa9OvbhFGgQ6KanKrYoz+YKEUJHH6InVkp1cNGbKejJAuNIO+c1RYj6py77lcaQR8v
-         i2dEj3j5lsAO/UcZOsZZW4zYQVle9Y9yOKQcMy/MAKmCUTYEv5axcUMG+5x5BR1z8s+d
-         GBkg==
-X-Gm-Message-State: AOAM530jaEF7/QCkUcloa7DoEwSPWl2YyoSwgcAc+Han1RboSPOPC1jq
-        C6Zx2HGd5judth+QykVa3WOLr1gAZtn6H4qnT0flLLys2O3rJQ==
-X-Google-Smtp-Source: ABdhPJw8J6Vto4/4aO+HZsloiyDoNMpIqYao0rU/XLppr6jdifcQEDtTida/flJ0CYjfu97hJJWAkS4CL7Gw73aVN6Q=
-X-Received: by 2002:a05:6638:1388:: with SMTP id w8mr10713865jad.30.1617913638469;
- Thu, 08 Apr 2021 13:27:18 -0700 (PDT)
+        Thu, 8 Apr 2021 17:00:08 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 138Kx46x002644;
+        Fri, 9 Apr 2021 05:59:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 138Kx46x002644
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1617915545;
+        bh=CMNsK6z9omY3K2WcWrv+g7O+FAyKXeHXo7JaGbnAshQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mCAELu1K9iNcHwzxPpkt2QeYzsGvXO3xtV9FO7Le8ftDrt50ftucQPKlGRH7qugRy
+         Ya3grKSZw2YFqHeSRjzjleVybuCxC+F+LDqxW2ODDfZDizTzeFFEkS6xgklZ8DNySf
+         sgjxmlZOGgylBtk14MT/msL3h5+0RgNqd1KhWiFHvZojROpII/2xzBmIKYk5FrMILE
+         JH+ze/FBtu+Utc1Sh1V3UapkGiwD83/r25JpRXNpVeB6q8+2OIyrktRiLXSQ5RNZ6Y
+         WT1cfD2EQCAGNfK7s+unVooFzVx+HATnyUBAB+3r8X2pMEEL5HCT32AGFF6izs7hFa
+         M6AzFOhU0pc5Q==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH 0/2] linux/kconfig.h: move IF_ENABLED() out of <linux/kconfig.h>
+Date:   Fri,  9 Apr 2021 05:58:56 +0900
+Message-Id: <20210408205858.51751-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <CA+icZUWVsq-frEbJVOooga_FbEQHSPGdz83OtbFy=RDLEgPdBQ@mail.gmail.com>
- <CA+icZUV+XTopAuqvP8fVDNFy+ReQRg4B-ZopBiiso=4HhO+Y4g@mail.gmail.com>
-In-Reply-To: <CA+icZUV+XTopAuqvP8fVDNFy+ReQRg4B-ZopBiiso=4HhO+Y4g@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 8 Apr 2021 22:26:55 +0200
-Message-ID: <CA+icZUXpuCowJ_xLTwA1_S91sPnC2WEhmDbUVG8ppP7dwartaQ@mail.gmail.com>
-Subject: Re: kbuild: add support for zstd compressed modules
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Piotr Gorski <lucjan.lucjanov@gmail.com>
-Cc:     Oleksandr Natalenko <oleksandr@natalenko.name>,
-        linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 8, 2021 at 9:11 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Thu, Apr 8, 2021 at 9:04 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > Hi,
-> >
-> > I tried this patch together with my build-script which uses builddeb
-> > to generate Debian packages.
-> >
-> > Currently, I test a setup with Clang-LTO + DWARF-v5 (and BTF).
-> >
-> > With this patch I get total strange numbers.
-> >
-> > The Kconfig changes to my previous kernel of today:
-> >
-> > $ scripts/diffconfig /boot/config-5.12.0-rc6-3-amd64-clang12-lto
-> > /boot/config-5.12.0-rc6-4-amd64-clang12-lto
-> > BUILD_SALT "5.12.0-rc6-3-amd64-clang12-lto" -> "5.12.0-rc6-4-amd64-clang12-lto"
-> > MODULE_COMPRESS_NONE y -> n
-> > MODULE_COMPRESS_ZSTD n -> y
-> >
-> > The generated linux-image Debian package is greater in size than the
-> > linux-image DEBUG package.
-> > Normally, this is vice-versa.
-> >
-> > With:
-> >
-> > $ du -s -m linux-image-5.12.0-rc6-4-amd64-clang12-lto*
-> > 969     linux-image-5.12.0-rc6-4-amd64-clang12-lto_5.12.0~rc6-4~bullseye+dileks1_amd64.deb
-> > 97      linux-image-5.12.0-rc6-4-amd64-clang12-lto-dbg_5.12.0~rc6-4~bullseye+dileks1_amd64.deb
-> > (DEBUG)
-> >
-> > Without:
-> >
-> > $ du -s -m linux-image-5.12.0-rc6-3-amd64-clang12-lto*
-> > 60      linux-image-5.12.0-rc6-3-amd64-clang12-lto_5.12.0~rc6-3~bullseye+dileks1_amd64.deb
-> > 599     linux-image-5.12.0-rc6-3-amd64-clang12-lto-dbg_5.12.0~rc6-3~bullseye+dileks1_amd64.deb
-> > (DEBUG)
-> >
-> > The kernel-modules directory numbers:
-> >
-> > With:
-> >
-> > # du -s -m /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/
-> > 999     /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/
-> >
-> > Without:
-> >
-> > # du -s -m /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/
-> > 354     /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/
-> >
-> > Checking iwlwifi kernel-module:
-> >
-> > With:
-> >
-> > # find /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/ -name
-> > 'iwlwifi.ko*' -type f -print | xargs ls -l
-> > -rw-r--r-- 1 root root 2381066  8. Apr 15:47
-> > /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko.zst
-> >
-> > # find /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/ -name
-> > 'iwlwifi.ko*' -type f -print | xargs du -k
-> > 2328    /lib/modules/5.12.0-rc6-4-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko.zst
-> >
-> > Without:
-> >
-> > # find /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/ -name
-> > 'iwlwifi.ko*' -type f -print | xargs ls -l
-> > -rw-r--r-- 1 root root 675976  8. Apr 09:35
-> > /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> >
-> > # find /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/ -name
-> > 'iwlwifi.ko*' -type f -print | xargs du -k
-> > 664     /lib/modules/5.12.0-rc6-3-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> >
-> > My make invocation looks like this
-> > (start-build_5.12.0-rc6-4-amd64-clang12-lto.txt with this patch):
-> >
-> > dileks     74706   74681  0 15:46 pts/1    00:00:00 /usr/bin/perf_5.10
-> > stat make V=1 -j4 LLVM=1 LLVM_IAS=1 PAHOLE=/opt/pahole/bin/pahole
-> > LOCALVERSION=-4-amd64-clang12-lto KBUILD_BUILD_HOST=iniza
-> > KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > KBUILD_BUILD_TIMESTAMP=2021-04-08 bindeb-pkg
-> > KDEB_PKGVERSION=5.12.0~rc6-4~bullseye+dileks1
-> >
-> > Finally:
-> >
-> > I can *NOT* boot into the kernel with this patch applied.
-> >
-> > Personally, I do disable intentionally:
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED=n
-> >
-> > ...and will do independent of this patch:
-> >
-> > CONFIG_MODULE_COMPRESS_NONE=n
-> >
-> > As all Debian packages - generated by builddeb - are by default
-> > compressed with XZ.
-> > Compressing stuff before is counterproductive.
-> > This strategy generates in total smaller Debian package binaries.
-> >
-> > This is my first analysis, I had no deeper look.
-> >
-> > If you need further information, please let me know.
-> >
-> > Please take a look at this.
-> >
-> > Both linux-configs attached.
-> >
-> > Thanks.
-> >
->
-> Additional information:
->
-> $ LC_ALL=C ll drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> -rw-r--r-- 1 dileks dileks 8.2M Apr  8 19:22
-> drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
->
-> $ file drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> drivers/net/wireless/intel/iwlwifi/iwlwifi.ko: ELF 64-bit LSB
-> relocatable, x86-64, version 1 (SYSV),
-> BuildID[sha1]=bfb188058d16a7cb7d579f68edcd1fff2a4d45d7, with
-> debug_info, not stripped
->
-> $ LC_ALL=C ll debian/linux-image/lib/modules/5.12.0-rc6-4-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko.zst
-> -rw-r--r-- 1 dileks dileks 2.3M Apr  8 19:29
-> debian/linux-image/lib/modules/5.12.0-rc6-4-amd64-clang12-lto/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko.zst
->
-> Looks like the kernel-module with debug_info gets ZTSD compressed.
->
 
-Maybe drop `--rm` in scripts/Makefile.modinst:
+I insist on <linux/kconfig.h> having only minimal set of macros
+that are needed to evaluate CONFIG options.
 
-+quiet_cmd_zstd = ZSTD    $@
-+      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
+Everytime somebody added an alien to <linux/kconfig.h>, I needed to
+kick it out.
 
-$ zstd --help | grep '\-\-rm'
---rm    : remove source file(s) after successful de/compression
+I did not notice 1b399bb04837183cecdc1b32ef1cfc7fcfa75d32 because
+I was not addressed by [1].
 
-...untested.
-( None of the other compressors do a removal. )
+[1]: https://lore.kernel.org/lkml/?q=kconfig.h%3A+Add+IF_ENABLED%28%29+macro
 
-- Sedat -
+I like Paul's idea, but if I had noticed the patch in time, I would
+have tried my best to persuade to implement it outside of <linux/kconfig.h>
+(Paul's initial patch was adding it to a new header instead of <linux/kconfig.h>)
+
+Before it is widely used, I want to fix it.
+
+In 2/2, I converted pm.h to allow driver cleanups.
+
+
+
+Masahiro Yamada (2):
+  linux/kconfig.h: replace IF_ENABLED() with PTR_IF() in
+    <linux/kernel.h>
+  pm: allow drivers to drop #ifdef and __maybe_unused from pm callbacks
+
+ drivers/pinctrl/pinctrl-ingenic.c | 20 ++++-----
+ include/linux/kconfig.h           |  6 ---
+ include/linux/kernel.h            |  2 +
+ include/linux/pm.h                | 67 +++++++++++--------------------
+ 4 files changed, 36 insertions(+), 59 deletions(-)
+
+-- 
+2.27.0
+
