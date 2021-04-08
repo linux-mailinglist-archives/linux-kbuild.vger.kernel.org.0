@@ -2,157 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2FB358EDD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 22:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0521F358EF3
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 23:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbhDHVAI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Apr 2021 17:00:08 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:46606 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232373AbhDHVAI (ORCPT
+        id S232327AbhDHVF2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Apr 2021 17:05:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54580 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232091AbhDHVF2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Apr 2021 17:00:08 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 138Kx471002644;
-        Fri, 9 Apr 2021 05:59:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 138Kx471002644
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617915546;
-        bh=piA+8z078kwb/KfPJ/8L0g75CBWXThZTe0VPYso6g/U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E65GbUOUKULlL/mKzA0AVQ65w88zN1o5uif53wxAmxGkhdZqItC49y4rWkJOjItNJ
-         tLVX6tAyd6DCAdOQi4Q9iODqSvyhaZpq1G3MGyCAqWx9BS7IxNeVuPI52RwF/I1mKM
-         +0V0UVCeASxlppgX6piANkaMLhn4EPqvs4OyKv+2eE8tUq2MLgR84FxMdKuVYsh+fS
-         OocOwD5+NGyVq5Oz29d3cGRt56StEw9e0mB4RldDJE5kU0GuJmHDbWYmjsMzuVJPyR
-         WcNIsANqTZ2NaqQ7xrAM3Z36qfPcbMNMYisubExgEllrLizap3fossetR+MCScZVMA
-         MLPM5V2rgSV5g==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: [PATCH 2/2] pm: allow drivers to drop #ifdef and __maybe_unused from pm callbacks
-Date:   Fri,  9 Apr 2021 05:58:58 +0900
-Message-Id: <20210408205858.51751-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210408205858.51751-1-masahiroy@kernel.org>
-References: <20210408205858.51751-1-masahiroy@kernel.org>
+        Thu, 8 Apr 2021 17:05:28 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31958C061760;
+        Thu,  8 Apr 2021 14:05:16 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id u20so3907645lja.13;
+        Thu, 08 Apr 2021 14:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cL1lIDwElKZOdkbB2wZKzZjjfLi2TedoZx0xq0Spyjo=;
+        b=bo3BA3XtRoF9Gi8sX90YuyzjPikFix/O1CZPeRpmjy2ip3YOUPpzWgCz+Qtk8rYjVe
+         Ie6SI1ofCGYzhV6dvfa/EaqSXK52fZILpU8bBvtr2g/9Cxoi/Ze8Styj376WWmdg31YC
+         52bXkjlC++k/iu4QilcNW0rufyBGgKO51m+yH+pfsO2k8XTFTXpVQuW5uIQXZ/EW6O91
+         Ah19icEiNY2hn22wtWlFYLIE1r2iCv2ho9VeW2jOpceHqj4zqCMe3iTPSXZy+1N9dxv+
+         U5GkosQCkq89u26tgach7WHIsFbvC5R9RvzSqs+FTWssGy8RWaWz0V9npIs0L/fhLsLu
+         ENkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cL1lIDwElKZOdkbB2wZKzZjjfLi2TedoZx0xq0Spyjo=;
+        b=KmuBw2vaZlgoEFvkkhK0XEUWGmA5hb0axTE4v9YMmQ/tzSUr9Mx1iWvO3EWuNt0XXM
+         M3lwTaH5Con+Q9LxjCAK0O4SHRgUJS+Fq4/XuCcVPrPNISmplktytAsMyzGNhtH7j8py
+         SweihOgbWqAXN+tn3jz+Kx7GKcc+AL+2NtExK+SvPpMOlpZftrSxXxwZ8aqyiCYctHRR
+         14SQ4tgqXrJcAuSAuhL82EVNfgDPqN0iiV+XTVD0/3EJ/lFocI4WtJ/hCNkbAl0X/Xzl
+         wpcY82vvOaZS7uIAWTTJHGAg+tx9ZTIDe0/iAvPZTZ2BgwRbtJ2dCjwJiNLtKf8PU+9J
+         YfAQ==
+X-Gm-Message-State: AOAM532azoodlJgF2usFkE+Uea8kY0WdkSuSd/PhnTDwLZUWgYrZDW1L
+        gDpbagcxWMhHUjUY1af2CtOYrnOUX0w/1g==
+X-Google-Smtp-Source: ABdhPJz21GlpPbzlJCpXqcohiFju1pN7dGjwIM00xOtcWmWjNucAqrXgdKxFG+IkeTfNrxOIpkK8Nw==
+X-Received: by 2002:a2e:809a:: with SMTP id i26mr7328266ljg.357.1617915914774;
+        Thu, 08 Apr 2021 14:05:14 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a31a:e13a:eb00:c5cf:27cc:1ef2:859])
+        by smtp.gmail.com with ESMTPSA id i81sm23500lfd.58.2021.04.08.14.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 14:05:14 -0700 (PDT)
+From:   Piotr Gorski <lucjan.lucjanov@gmail.com>
+To:     lucjan.lucjanov@gmail.com
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, oleksandr@natalenko.name,
+        sedat.dilek@gmail.com
+Subject: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
+Date:   Thu,  8 Apr 2021 23:04:47 +0200
+Message-Id: <20210408210448.1850553-1-lucjan.lucjanov@gmail.com>
+X-Mailer: git-send-email 2.31.0.97.g1424303384
+In-Reply-To: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
+References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Drivers typically surround suspend and resume callbacks with #ifdef
-CONFIG_PM(_SLEEP) or mark them as __maybe_unused in order to avoid
--Wunused-const-variable warnings.
-
-With this commit, drivers will be able to remove #ifdef CONFIG_PM(_SLEEP)
-and __maybe_unsed because unused functions are dropped by the compiler
-instead of the preprocessor.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- include/linux/pm.h | 67 +++++++++++++++++-----------------------------
- 1 file changed, 24 insertions(+), 43 deletions(-)
-
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index 482313a8ccfc..ca764566692a 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -301,50 +301,37 @@ struct dev_pm_ops {
- 	int (*runtime_idle)(struct device *dev);
- };
- 
--#ifdef CONFIG_PM_SLEEP
-+#define pm_ptr(_ptr)		PTR_IF(IS_ENABLED(CONFIG_PM), _ptr)
-+#define pm_sleep_ptr(_ptr)	PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), _ptr)
-+
- #define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
--	.suspend = suspend_fn, \
--	.resume = resume_fn, \
--	.freeze = suspend_fn, \
--	.thaw = resume_fn, \
--	.poweroff = suspend_fn, \
--	.restore = resume_fn,
--#else
--#define SET_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
--#endif
-+	.suspend  = pm_sleep_ptr(suspend_fn), \
-+	.resume   = pm_sleep_ptr(resume_fn), \
-+	.freeze   = pm_sleep_ptr(suspend_fn), \
-+	.thaw     = pm_sleep_ptr(resume_fn), \
-+	.poweroff = pm_sleep_ptr(suspend_fn), \
-+	.restore  = pm_sleep_ptr(resume_fn),
- 
--#ifdef CONFIG_PM_SLEEP
- #define SET_LATE_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
--	.suspend_late = suspend_fn, \
--	.resume_early = resume_fn, \
--	.freeze_late = suspend_fn, \
--	.thaw_early = resume_fn, \
--	.poweroff_late = suspend_fn, \
--	.restore_early = resume_fn,
--#else
--#define SET_LATE_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
--#endif
-+	.suspend_late  = pm_sleep_ptr(suspend_fn), \
-+	.resume_early  = pm_sleep_ptr(resume_fn), \
-+	.freeze_late   = pm_sleep_ptr(suspend_fn), \
-+	.thaw_early    = pm_sleep_ptr(resume_fn), \
-+	.poweroff_late = pm_sleep_ptr(suspend_fn), \
-+	.restore_early = pm_sleep_ptr(resume_fn),
- 
--#ifdef CONFIG_PM_SLEEP
- #define SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn) \
--	.suspend_noirq = suspend_fn, \
--	.resume_noirq = resume_fn, \
--	.freeze_noirq = suspend_fn, \
--	.thaw_noirq = resume_fn, \
--	.poweroff_noirq = suspend_fn, \
--	.restore_noirq = resume_fn,
--#else
--#define SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
--#endif
-+	.suspend_noirq  = pm_sleep_ptr(suspend_fn), \
-+	.resume_noirq   = pm_sleep_ptr(resume_fn), \
-+	.freeze_noirq   = pm_sleep_ptr(suspend_fn), \
-+	.thaw_noirq     = pm_sleep_ptr(resume_fn), \
-+	.poweroff_noirq = pm_sleep_ptr(suspend_fn), \
-+	.restore_noirq  = pm_sleep_ptr(resume_fn),
- 
--#ifdef CONFIG_PM
- #define SET_RUNTIME_PM_OPS(suspend_fn, resume_fn, idle_fn) \
--	.runtime_suspend = suspend_fn, \
--	.runtime_resume = resume_fn, \
--	.runtime_idle = idle_fn,
--#else
--#define SET_RUNTIME_PM_OPS(suspend_fn, resume_fn, idle_fn)
--#endif
-+	.runtime_suspend = pm_ptr(suspend_fn), \
-+	.runtime_resume  = pm_ptr(resume_fn), \
-+	.runtime_idle    = pm_ptr(idle_fn),
- 
- /*
-  * Use this if you want to use the same suspend and resume callbacks for suspend
-@@ -374,12 +361,6 @@ const struct dev_pm_ops __maybe_unused name = { \
- 	SET_RUNTIME_PM_OPS(suspend_fn, resume_fn, idle_fn) \
- }
- 
--#ifdef CONFIG_PM
--#define pm_ptr(_ptr) (_ptr)
--#else
--#define pm_ptr(_ptr) NULL
--#endif
--
- /*
-  * PM_EVENT_ messages
-  *
--- 
-2.27.0
-
+No, the --rm option is essential. xz and gzip have the --rm option built in as opposed to zstd, which is why I used it. I've been using zstd module compression since last december (although I set a different compression level on mine) and everything works fine. Oleksandr also tested it at his place and didn't report any objections. 
