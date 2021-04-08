@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 361DC358C89
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 20:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4076358C8D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Apr 2021 20:30:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232940AbhDHSay (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Apr 2021 14:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S233081AbhDHSa4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Apr 2021 14:30:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbhDHSaV (ORCPT
+        with ESMTP id S232955AbhDHSaZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Apr 2021 14:30:21 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048F6C0613DF
-        for <linux-kbuild@vger.kernel.org>; Thu,  8 Apr 2021 11:29:15 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id w9so2895638ybw.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 08 Apr 2021 11:29:14 -0700 (PDT)
+        Thu, 8 Apr 2021 14:30:25 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB30C0611A3
+        for <linux-kbuild@vger.kernel.org>; Thu,  8 Apr 2021 11:29:17 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id z1so1301731plg.14
+        for <linux-kbuild@vger.kernel.org>; Thu, 08 Apr 2021 11:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=vPR3ETOAeMW95pC8NAj24CpgqHEbd4yevcfxmcZ1/jA=;
-        b=X+q7fW6iH/r7Id1WxE7msv5xTVPwRxH/FYjuCYgT4Moo6FV8A561Dq9/qDbuWOYoQy
-         baU/9OXT+9MhCyfixUI7yCjK+ouetQotIr0A3byFRLhqfbDZwfq0jQeOgYcGZAVSXsJQ
-         rPLDUKrO/h0fwc+Y23KNdHLXq7kpJvM/AJu180+tpnHtEUdNyCTbPYv+2c0evgyiiN/9
-         DYuW8WvqrmguI16PEhoEl8kXGUOzNFzvOQMzRbvdY9vjeLBlXU2tFWIIpicfR7DHAKtW
-         l85fWs5YCAXplevIrasowB3fIqDAD3r9GAVM2gPSRCq5P1neWWHzeeVd7klLc/lM1qYM
-         sXYw==
+        bh=E//9MgjgyGyGzfpqyqWq2doSFEPDUmVLoRf38lFR7Ug=;
+        b=RkrEMcjEGks9eZDKQu+2cXBVixhfRtfNzurKOb7kj5G0lHbsNG+kVYT00dZ5fCwZZm
+         oGJ3H14LgsxmvSmAONHP3AD4DqcsZiijiViY54PVPWASyhlBWJKul0uk2D6FHPy5MGCI
+         hRwVaWPtPODb24A1fAYvc3Pk8kJw73Wgq0qpJVjB3nsOpeMmHe8UyFYE027vmCmfDH59
+         TeMeJF97gfJcV1bR86XXNmc9WzLb/xoI5eyDhzlmA3A8LFSbl+CVN1qG+Ng6f1ydMu6m
+         HP+jBZVA3ShA+iChc9OSbbyum7a0Xu8+WCER3+MJXJ4MzHQMgKZMSbyX49ZilNruBraI
+         +ZqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=vPR3ETOAeMW95pC8NAj24CpgqHEbd4yevcfxmcZ1/jA=;
-        b=R9zGKTvF6nKpZ23B6R9br1XLlzJrtWqvTMwkCmhNS60aKj0QfY2evagcKLdVXMqxYd
-         l4wbf3mKERQ/bzb8MrGYNNyHZthme/ZVwkEAD14dklJyDgUkQ66Ehap2g+CkGlbAHwn7
-         zmtt2r4OE23lEgeIUnvIhesB8we+uU9im4b1sdTUtv98nziy+VEyLYItvpWRTNf+mkdU
-         ybGvCUnQxigVhEaxRsnqekv7ZY0DTz+JYfveL/ApuLwAlwq1PfvFH3kZBPwCThyE2aim
-         HwKWGruaZkfiU5si6LOOzEd4jIEIIP+nD+JFjIB/eQ5k7H/5Mo/TSp4E8RwL9uhOPQFP
-         vh3Q==
-X-Gm-Message-State: AOAM533cefvt0NE8lgP3lCp/M5g1IriJjyzOq8kzhn/1qj/HxION60Zq
-        DC3RHZgIqbzNVzROgmGwwH7p/13TkszAt9PqjRQ=
-X-Google-Smtp-Source: ABdhPJz/su5s3FJ4/ClB/3zgcLUsgjK5PoygW68wgkC4KNGGvsbw78PuGtzLYwUALhEPddWcHuMOQsCUu2Cq7CZyhzI=
+        bh=E//9MgjgyGyGzfpqyqWq2doSFEPDUmVLoRf38lFR7Ug=;
+        b=f013xZ1ibuC5x5CmcoNE3s2n+vZ1IiYk8vQ5M7FEfI7hN5R1jMKH6lCDiQse5HMNRU
+         H1nF8GYuw9PO2LwMmuzlyL5WgxpVFU79y7mbirKzwgEpudDXS2c06I/1t1WQmPsZCVYM
+         O3mIymxXBmIob4fIWSUmFdF/W0HdKDjcEleXhrbsLcmEGyqpugsF/5uqL2Roh67Yu3co
+         SgWWe+JEo6Z2BcgDwCfpSXPYFZALGpGnBtukZdIDizDfuH9K7MppJjGxpRkmk4uOiXST
+         208wLzAqCz0ifAysEmlyOhtMiHPD9XVdvuy+FV03yOQ7k9It0hKaaao4vhiUdlDF13Ry
+         8MPA==
+X-Gm-Message-State: AOAM531s4FVIdMxAFbwVnK8g1laTILJ5b3LYLJZJiblzBeL9hKlWX7Ii
+        CW3dDY+FWJOw1gXXTzDW6dpE2t/6/Oku+rM9eg4=
+X-Google-Smtp-Source: ABdhPJxklicbJf72RxeJ+L/uYgGqphrH56F65dx6SJ8/fgnDi6ps2xo+6HGcUO7vtPk7NlHN1dleq0bA9WeA14sn2Uk=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:3560:8505:40a2:e021])
- (user=samitolvanen job=sendgmr) by 2002:a25:b90c:: with SMTP id
- x12mr13955922ybj.12.1617906554210; Thu, 08 Apr 2021 11:29:14 -0700 (PDT)
-Date:   Thu,  8 Apr 2021 11:28:40 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a17:902:7896:b029:e8:fa73:ad22 with
+ SMTP id q22-20020a1709027896b02900e8fa73ad22mr8974621pll.66.1617906556287;
+ Thu, 08 Apr 2021 11:29:16 -0700 (PDT)
+Date:   Thu,  8 Apr 2021 11:28:41 -0700
 In-Reply-To: <20210408182843.1754385-1-samitolvanen@google.com>
-Message-Id: <20210408182843.1754385-16-samitolvanen@google.com>
+Message-Id: <20210408182843.1754385-17-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20210408182843.1754385-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH v6 15/18] arm64: add __nocfi to __apply_alternatives
+Subject: [PATCH v6 16/18] arm64: ftrace: use function_nocfi for ftrace_call
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
@@ -75,34 +76,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-__apply_alternatives makes indirect calls to functions whose address
-is taken in assembly code using the alternative_cb macro. With
-non-canonical CFI, the compiler won't replace these function
-references with the jump table addresses, which trips CFI. Disable CFI
-checking in the function to work around the issue.
+With CONFIG_CFI_CLANG, the compiler replaces function pointers with
+jump table addresses, which breaks dynamic ftrace as the address of
+ftrace_call is replaced with the address of ftrace_call.cfi_jt. Use
+function_nocfi() to get the address of the actual function instead.
 
+Suggested-by: Ben Dai <ben.dai@unisoc.com>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 Tested-by: Nathan Chancellor <nathan@kernel.org>
 ---
- arch/arm64/kernel/alternative.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/kernel/ftrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/kernel/alternative.c b/arch/arm64/kernel/alternative.c
-index 1184c44ea2c7..abc84636af07 100644
---- a/arch/arm64/kernel/alternative.c
-+++ b/arch/arm64/kernel/alternative.c
-@@ -133,8 +133,8 @@ static void clean_dcache_range_nopatch(u64 start, u64 end)
- 	} while (cur += d_size, cur < end);
- }
+diff --git a/arch/arm64/kernel/ftrace.c b/arch/arm64/kernel/ftrace.c
+index 86a5cf9bc19a..b5d3ddaf69d9 100644
+--- a/arch/arm64/kernel/ftrace.c
++++ b/arch/arm64/kernel/ftrace.c
+@@ -55,7 +55,7 @@ int ftrace_update_ftrace_func(ftrace_func_t func)
+ 	unsigned long pc;
+ 	u32 new;
  
--static void __apply_alternatives(void *alt_region,  bool is_module,
--				 unsigned long *feature_mask)
-+static void __nocfi __apply_alternatives(void *alt_region,  bool is_module,
-+					 unsigned long *feature_mask)
- {
- 	struct alt_instr *alt;
- 	struct alt_region *region = alt_region;
+-	pc = (unsigned long)&ftrace_call;
++	pc = (unsigned long)function_nocfi(ftrace_call);
+ 	new = aarch64_insn_gen_branch_imm(pc, (unsigned long)func,
+ 					  AARCH64_INSN_BRANCH_LINK);
+ 
 -- 
 2.31.1.295.g9ea45b61b8-goog
 
