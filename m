@@ -2,165 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B53E2359DF2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 13:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F93E359FCD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 15:28:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbhDILvw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Apr 2021 07:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50270 "EHLO
+        id S231819AbhDIN2o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Apr 2021 09:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbhDILvv (ORCPT
+        with ESMTP id S231599AbhDIN2o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Apr 2021 07:51:51 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC042C061760;
-        Fri,  9 Apr 2021 04:51:38 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id d12so1462276iod.12;
-        Fri, 09 Apr 2021 04:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=hZuwsXlFEKsc4YD4j7Gs3CXLME7CKIHW1tceSVydmro=;
-        b=YWxml39dBvA2WXxRMCWCVC+9Dmk8/cUVGj878DovUpCWCgZv8zKCnyBTmeB+dEI4H0
-         K2hy14VF7afTMfBCeVdEb0TLQOpO1V3OwjqT+ZTZ537+43o+xzS4dao43XCTjgAd18L5
-         VYHQAGjdu4EigD8Xhu0vHgBV/ufa1GMfUEPJ3zsPDOPXVFrZtaZPgtNmNd4yCUHJFrHV
-         N8pnuDkeOCbK5aZJI5yEaNcO+r4kwP9xRPkd6DLE4uldYaUV2KzvT4BvT8vjEmRLkIs8
-         ld32sZ5l1cYze5JxZzNtTYulz6lYPGhdM8AuSC64to/XFYmkbkoDvm6AkKzh2t8E8/gB
-         OslQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=hZuwsXlFEKsc4YD4j7Gs3CXLME7CKIHW1tceSVydmro=;
-        b=lYN5C3rDHvtcR6GiBy/GMwiB1aFXNAus6oYbPIRJjCTxEimsoFUSrb6o72bgyME8tD
-         oXX8uzpEs8utlDAbnwrowr0x00dju0/qIjljBeLSmz8fU9b9+i+sGlc1ZI5VtKWh4I7B
-         upeF1ynGtAaZBJ9h8sqbOI4/pHPCZxSZlGPHNsw3O9PV4RyUp1pCEZBAIj0/GRHiVk5P
-         rsG6/lWGEVniSrS4mQ0o1Kybk+4X8XWNkmuOmeG/sjMACqDVzw2kOr7qcELHcsZ2al5m
-         E/o0CkAEdC/cEMqkIFPTscoyXSz+LWIrcSq0i5SlnZNRWoVNecZJ78bbkNuqlMiAaPcK
-         +ixQ==
-X-Gm-Message-State: AOAM533FyciJX0QMfK0Y9ticmmTwDoZJtWMdkpBP1KFN1lZ0LlXbjp7R
-        X7L42IgX9C4qbfwWhitTTMRuogHn1GH6yrzH4zWSlK3JzTciow==
-X-Google-Smtp-Source: ABdhPJyb05xsvIXPk6HYPoPa37KUWp1rOB+P87BWuGwWA15tteFqafTjEylSBQO2el9Om5X1T4ae5jqUnfgl6k099bo=
-X-Received: by 2002:a6b:c843:: with SMTP id y64mr2213556iof.57.1617969098185;
- Fri, 09 Apr 2021 04:51:38 -0700 (PDT)
+        Fri, 9 Apr 2021 09:28:44 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F873C061760;
+        Fri,  9 Apr 2021 06:28:31 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:105:465:1:2:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4FGzV321Q0zQk1b;
+        Fri,  9 Apr 2021 15:28:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :subject:subject:message-id:from:from:date:date:received; s=
+        mail20150812; t=1617974904; bh=AgkOpgV5Fc2cPWeeeC5cK0+Ypi2yAhdE9
+        Uac+kPGrzc=; b=T4Wu/bNnhNYsUOtcgSJazMb/y5I1b3Ce96kTU+gsw2tlvKY1U
+        C7oT7eNe2TNkY+85Y5AChoS6usxJ8vqJvElp4G7zZe0VZOYbOfKt+loAUvUZM4Cn
+        5sMwGKrK1F8cwxwd7POln/DEeeOhAwR9CD5G1RjSsVVMpRuDAoo1YhuroQoMPCIP
+        0tuDlp+cNgrJy3CBtbBOI0YgwzoqO3ldFHWz5t42HDjrYOot5lxO5l7vuILdwh44
+        0Sf23ppWOM3ToO9xBDfBXQhQ7VM298zYwDDvyJTGouq1di2Vfnz3yw31pKXML7M5
+        mYrCqzMKLQDhrevE6qlMXH+Gk4VzoDWK0RzEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1617974905;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uUwqfRRZQovNuSAqVYPSHLzpotH8r/dvuT77yNbYt7Y=;
+        b=ggnIJMrq8JeAkWx/XwKMp+hrYzFxFPAm5YpzqFEbHU7e7+HNyh6r5ub5ppVAS53I9WCI++
+        cpK3EMehBiWKktm5ZZSfkEUJVtQatPkD+MefXpWRt+099g3QTNxK2UFHmNfV6B2zdJg1WL
+        R+H4RTkPJtTOqRgYtpjCheTSxCjZXSDwHokJeoJCyWtK5yQj08XEh9kUhkCfFFptsi4/ha
+        woPIL0sU8Q4k0ncuR0d8NKZTNlF6QSChPP2Z48S3RSJ5hVs+C1DK1rck+I0Y2rytL4OfO+
+        fsOGADaZOZggD7Hb2CDt5Dcek8oROD+D/ZMebQOuL1VGVx6VL07Mv65M4FneaA==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id RFvgcGJvakMQ; Fri,  9 Apr 2021 15:28:24 +0200 (CEST)
+Date:   Fri, 9 Apr 2021 15:28:23 +0200 (CEST)
+From:   torvic9@mailbox.org
+To:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Piotr_G=C3=B3rski?= <lucjan.lucjanov@gmail.com>
+Message-ID: <1557177615.69331.1617974903770@office.mailbox.org>
+Subject: [PATCH 1/2] kbuild: allow setting zstd compression level for
+ modules
 MIME-Version: 1.0
-References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
- <20210409111033.2465074-1-lucjan.lucjanov@gmail.com> <CA+icZUWbYd3z-+FDoXGx5UQcY4R1BuBn5V=o0d06=XADOZD8gQ@mail.gmail.com>
-In-Reply-To: <CA+icZUWbYd3z-+FDoXGx5UQcY4R1BuBn5V=o0d06=XADOZD8gQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 9 Apr 2021 13:51:16 +0200
-Message-ID: <CA+icZUWC-1uhVK52v=twDWSKqbBMAh=Fp0iXA0Acoq_AYxOnWQ@mail.gmail.com>
-Subject: Re: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
-To:     Piotr Gorski <lucjan.lucjanov@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, oleksandr@natalenko.name
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -2.80 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 64A7117FA
+X-Rspamd-UID: 9b2d7a
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 9, 2021 at 1:31 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Fri, Apr 9, 2021 at 1:10 PM Piotr Gorski <lucjan.lucjanov@gmail.com> wrote:
-> >
-> > I originally posted the patch in a different form [1] even before Masahiro's changes.
-> > I've been testing this solution since December last year and posted it in March this year,
-> > after I made sure everything was working fine. This patch was tested by Oleksandr and he also didn't report any objections. [2]
-> >
-> > Masahiro notified me about the planned changes [3] and asked me to resend this patch, adjusted to those changes, which I did.
-> >
-> > My current logs:
-> >
-> > lucjan@archlinux ~ $ zgrep CONFIG_DEBUG_INFO /proc/config.gz
-> > CONFIG_DEBUG_INFO=y
-> > # CONFIG_DEBUG_INFO_REDUCED is not set
-> > # CONFIG_DEBUG_INFO_COMPRESSED is not set
-> > # CONFIG_DEBUG_INFO_SPLIT is not set
-> > CONFIG_DEBUG_INFO_DWARF4=y
-> > CONFIG_DEBUG_INFO_BTF=y
-> > CONFIG_DEBUG_INFO_BTF_MODULES=y
-> > lucjan@archlinux ~ $ zgrep CONFIG_MODULE_COMPRESS_ZSTD /proc/config.gz
-> > CONFIG_MODULE_COMPRESS_ZSTD=y
-> > CONFIG_MODULE_COMPRESS_ZSTD_LEVEL=19
-> >
-> > Pay no attention to CONFIG_MODULE_COMPRESS_ZSTD_LEVEL as this is not in the upstream, it's an additional patch I use.
-> >
-> > The only difference - I don't use clang. Maybe those who use will comment on this.
-> > I relied on the opinions of Oleksander and a dozen other users who reported no errors in using zstd module compression.
-> >
-> > [1] https://marc.info/?l=linux-kbuild&m=161710402402989&w=2
-> >
-> > [2] https://marc.info/?l=linux-kbuild&m=161710503403517&w=2
-> >
-> > [3] https://marc.info/?l=linux-kbuild&m=161780602730829&w=2
->
-> I am a big fan of ZSTD and have it as default in all available Linux
-> Kconfigs and Debian's initramfs-tools.
-> So, I am highly interested in getting this fixed.
->
-> Unfortunately, I have thrown away my yesterday's Clang-LTO build and
-> switched to Clang-CFI with builddeb - should do handle the same way.
->
-> I see three iwlwifi.ko (as an example):
->
-> $ LC_ALL=C ll drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> -rw-r--r-- 1 dileks dileks 8.2M Apr  9 11:07
-> drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
->
-> $ file drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> drivers/net/wireless/intel/iwlwifi/iwlwifi.ko: ELF 64-bit LSB
-> relocatable, x86-64, version 1 (SYSV),
-> BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, with
-> debug_info, not stripped
->
-> That iwlwifi.ko with debug-info is optimized when moving to
-> debian/linux-image-dbg directory:
->
-> $ LC_ALL=C ll debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> -rw-r--r-- 1 dileks dileks 7.9M Apr  9 11:18
-> debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
->
-> $ file debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko:
-> ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV),
-> BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, with
-> debug_info, not stripped
->
-> And think it's shrunk down and included debian/linux-image directory:
->
-> $ LC_ALL=C ll debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> -rw-r--r-- 1 dileks dileks 694K Apr  9 11:18
-> debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
->
-> $ file debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
-> debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko:
-> ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV),
-> BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, not stripped
->
-> I speculate both iwlwifi.ko below debian directory should be ZSTD-compressed.
-> Fact is the one with debug-info is done correctly.
-> Might be builddeb script needs a special treatment.
->
+Zstd offers a very fine-grained control of compression ratios.
+Add a Kconfig option that allows setting the desired compression
+level for module compression.
 
-OK, I see (sorry Gmail truncates my paste of snippet).
+Based on Masahiro's linux-kbuild.
 
-We need to add in this block a CONFIG_MODULE_COMPRESS_XXX handling:
+Signed-off-by: Tor Vic <torvic9@mailbox.org>
+Tested-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+---
+ init/Kconfig             | 8 ++++++++
+ scripts/Makefile.modinst | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-[ scripts/package/builddeb ]
-
-#159: if is_enabled CONFIG_MODULES; then
-...
-#184: fi
-
-Maybe other scripts in scripts/package/ directory, too.
-
-What do you say Masahiro?
-
-I have to admit I never used any compression for kernel-modules before
-and after recent changes in <kbuild.git#kbuild>.
-
-- Sedat -
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/tree/scripts/package/builddeb?h=kbuild#n159
+diff --git a/init/Kconfig b/init/Kconfig
+index b5744d32c..15bb02c24 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2275,6 +2275,14 @@ config MODULE_COMPRESS_ZSTD
+ 
+ endchoice
+ 
++config MODULE_COMPRESS_ZSTD_LEVEL
++    int "Compression level (1-19)"
++    depends on MODULE_COMPRESS_ZSTD
++    range 1 19
++    default 3
++    help
++        Compression level used by zstd for compressing modules.
++
+ config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
+ 	bool "Allow loading of modules with missing namespace imports"
+ 	help
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index ff9b09e4c..0a0db2278 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -97,7 +97,7 @@ quiet_cmd_gzip = GZIP    $@
+ quiet_cmd_xz = XZ      $@
+       cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
+ quiet_cmd_zstd = ZSTD    $@
+-      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
++      cmd_zstd = $(ZSTD) -$(CONFIG_MODULE_COMPRESS_ZSTD_LEVEL) -T0 --rm -f -q $<
+ 
+ $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+ 	$(call cmd,gzip)
+-- 
+2.31.1
