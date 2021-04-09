@@ -2,112 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 922FB359C22
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 12:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9656359CBA
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 13:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbhDIKbd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Apr 2021 06:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60784 "EHLO
+        id S233741AbhDILKz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Apr 2021 07:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231402AbhDIKbc (ORCPT
+        with ESMTP id S232042AbhDILKy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Apr 2021 06:31:32 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AC0C061760;
-        Fri,  9 Apr 2021 03:31:18 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id t14so4312753ilu.3;
-        Fri, 09 Apr 2021 03:31:18 -0700 (PDT)
+        Fri, 9 Apr 2021 07:10:54 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8323DC061760;
+        Fri,  9 Apr 2021 04:10:41 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id n8so9124697lfh.1;
+        Fri, 09 Apr 2021 04:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=gHv/U8gMzmWYmxPZpDQ1KtCKvLhvSOEVZdAJZtNMABQ=;
-        b=fPeGj6b7nLmrr4LUOwxg88E5nKlnRg7tiyI5gOnwi2Cmd3k9qK1O05HNpkhhH6sjfH
-         DUrKZXhiWyfar4DoINfTI0/KOSSU+JbXFh0OZ13C1dCBOZ5DoHACA2luK9b3WBq1asTq
-         mTX1hZ45xyGCFr0yz3kWz3wTYrrT8wfuJT+wqR1orUYYGpCiP4+AW7uDI1CUPNKOpR2k
-         7xxfs7jiz1PPNUO4y41x++ckLVz1cNSunnt3KWgE2r9P6FwTcZ07mTEeAxwcV1u9Ra8H
-         BEG7ia9/4DipN3VLP6gawzgMzeS9xzUPDAHzlAXfolmw0gwZrPSaa85N++AKlDwCenQK
-         gQTg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eTGSojB1p0GIuzN4LK3eQfQd4PSDYHeJzhPj7VxYv5s=;
+        b=swRIo78Tx6wjeC3T33k43CmBXkooWNcUYgqA/XptyQioRSepwQ1b+b27YjOcuuZZIm
+         mPEoBA1sGgwv9r/M3p6PbiKsz0nsByfoTHtl1DMLo/UQcilDVo5bg/SmegFTbknovXHP
+         kBb5yAqkvJc/r6dfLWFyoH8wJxIB2cEei/1okbDEIT/ngC1LX7f4DQ3DQ5p9QY/K9erY
+         yCh5UR/jMo/uudMkKEHMy61SZ5W9v29E2NGXD/mbEKY4R3FyNlRPHMgXpUw71LM86kEf
+         AGaARsYw+F4rqRPDxIfi7XzlPsRkY5gtO16T112l4d2ixI7KRUC8V6MX9z2YLuY5QSYX
+         +ltQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=gHv/U8gMzmWYmxPZpDQ1KtCKvLhvSOEVZdAJZtNMABQ=;
-        b=fwH2sOpUxUOhcsmBx1UZA2TyGPzIOwVY5K2xyagI/7puwYu2ZclosmkqZU71xjtvjt
-         QvFfDlDeDgTyb3a3UzHbaOMKoPn3uCqE+G453oUf6PzvlA8WmOatXA8vSShLVdPVXxE7
-         m3XNyK/Jq3dNXJkbZX7M9Dzy3yGB2kD/9Z1j2MUCKXXEZToolLI+CXZHIWBDEk9pGZGb
-         htpVvwjeNCMjYBaTpVnXO7Sa5vjfNbwY1SONv2yLS+/qCJe+1eH+KU7UlnX1htkw6tWQ
-         uJ6NYQLD+Sp9xRGMkw3xE+8vpQn8ZKMLT4WY8xyPcrXORINqN6TGZyYmgY/4GvuFvsdU
-         HASw==
-X-Gm-Message-State: AOAM531qqAtLSIY0ni6qKZojiViuJZ+2UUfF0i7INL+j91lZyjWuKA9V
-        5tyOihc9xiGXPVOOWZrJI1qMAtp4aTbD3Cj89tFMIeKn1c3G7g==
-X-Google-Smtp-Source: ABdhPJz9qabirxbOvIvHiWUXG9wSJk26KAP2/XVHVEO2CKJtLPL2dEscGDaDJw+RIgNm9Y+EN8m+xcbZ/KA0QZ4UVVY=
-X-Received: by 2002:a05:6e02:dea:: with SMTP id m10mr3746322ilj.112.1617964277961;
- Fri, 09 Apr 2021 03:31:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com> <20210408210448.1850553-1-lucjan.lucjanov@gmail.com>
-In-Reply-To: <20210408210448.1850553-1-lucjan.lucjanov@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 9 Apr 2021 12:30:56 +0200
-Message-ID: <CA+icZUVnrNJ2=LYF_mre6npUvGHP8xAxdAAipLN_sQEvsK0wmg@mail.gmail.com>
-Subject: Re: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
-To:     Piotr Gorski <lucjan.lucjanov@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eTGSojB1p0GIuzN4LK3eQfQd4PSDYHeJzhPj7VxYv5s=;
+        b=Gkd+1lo47kzYn95zk3Sk3YOCKFaxtYFl3oBEzwihh93XuvecKKo3jjbPkw+Nn4QpUr
+         Kq2Gjxf0G7GL5drWmLmUBTZaDkTe/dZqYgin43XoijXyMbDUv5rzrVENAhJj0j1xT6BI
+         EEziZ31trYSUC4iVGTy0UgSORjFce9VFtO5HHriWjDgECYhlHgV612hcVHChDQnkm+3a
+         mQnxk3bdd82hPO6+dskWw9i+PC9QDpr9hLilXSSp8H6dJPjLpSezF1FeuP6/yzXgqPG6
+         wr/r1/dEUv4YhVE7VZz20YgIvlCgzyA6ZSjZvvGlaqxKiMbhFldciiIuAgIhJ3wD3Jj7
+         X8hg==
+X-Gm-Message-State: AOAM530T20YO0iDLVN+niXL7sSeFVuEyxVhbXhQ7CNVEzyb31hizmaU9
+        Xe+YlUByIuxG6J4I8LwAw+M=
+X-Google-Smtp-Source: ABdhPJy2Z/HDSD43zwS6lCNuBcuvejo2ytLgGWkAbTOUsjnZ8k355Ca7RRKLO2O9NR2zclLP9/krMA==
+X-Received: by 2002:ac2:5591:: with SMTP id v17mr10087187lfg.82.1617966640081;
+        Fri, 09 Apr 2021 04:10:40 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a31a:e13a:eb00:c5cf:27cc:1ef2:859])
+        by smtp.gmail.com with ESMTPSA id h10sm236572lfc.266.2021.04.09.04.10.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 04:10:39 -0700 (PDT)
+From:   Piotr Gorski <lucjan.lucjanov@gmail.com>
+To:     lucjan.lucjanov@gmail.com
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, oleksandr@natalenko.name
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        masahiroy@kernel.org, oleksandr@natalenko.name,
+        sedat.dilek@gmail.com
+Subject: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
+Date:   Fri,  9 Apr 2021 13:10:33 +0200
+Message-Id: <20210409111033.2465074-1-lucjan.lucjanov@gmail.com>
+X-Mailer: git-send-email 2.31.0.97.g1424303384
+In-Reply-To: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
+References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 8, 2021 at 11:05 PM Piotr Gorski <lucjan.lucjanov@gmail.com> wr=
-ote:
->
-> No, the --rm option is essential. xz and gzip have the --rm option built =
-in as opposed to zstd, which is why I used it. I've been using zstd module =
-compression since last december (although I set a different compression lev=
-el on mine) and everything works fine. Oleksandr also tested it at his plac=
-e and didn't report any objections.
+I originally posted the patch in a different form [1] even before Masahiro's changes. 
+I've been testing this solution since December last year and posted it in March this year, 
+after I made sure everything was working fine. This patch was tested by Oleksandr and he also didn't report any objections. [2]
 
-[ CC me I am not subscribed to linux-kbuild or linux-kernel ]
-[ CC Nick ]
+Masahiro notified me about the planned changes [3] and asked me to resend this patch, adjusted to those changes, which I did.
 
-Unfortunately, I do not find my initial posting which has all information.
-I add the link to the thread on linux-kbuild ML.
+My current logs:
 
-So, I gave you as much information as I have (linux-config, make-line
-etc.) and you write "everything works fine"?
-What do you mean by "everything" - different compressors and none?
-Is that working "fine"?
+lucjan@archlinux ~ $ zgrep CONFIG_DEBUG_INFO /proc/config.gz
+CONFIG_DEBUG_INFO=y
+# CONFIG_DEBUG_INFO_REDUCED is not set
+# CONFIG_DEBUG_INFO_COMPRESSED is not set
+# CONFIG_DEBUG_INFO_SPLIT is not set
+CONFIG_DEBUG_INFO_DWARF4=y
+CONFIG_DEBUG_INFO_BTF=y
+CONFIG_DEBUG_INFO_BTF_MODULES=y
+lucjan@archlinux ~ $ zgrep CONFIG_MODULE_COMPRESS_ZSTD /proc/config.gz
+CONFIG_MODULE_COMPRESS_ZSTD=y
+CONFIG_MODULE_COMPRESS_ZSTD_LEVEL=19
 
-What build environment do you use?
-Here: Debian/testing AMD64.
+Pay no attention to CONFIG_MODULE_COMPRESS_ZSTD_LEVEL as this is not in the upstream, it's an additional patch I use. 
 
-Did you try with...
+The only difference - I don't use clang. Maybe those who use will comment on this. 
+I relied on the opinions of Oleksander and a dozen other users who reported no errors in using zstd module compression.  
 
-CONFIG_DEBUG_INFO=3Dy
-CONFIG_DEBUG_INFO_DWARF5=3Dy
-CONFIG_MODULE_COMPRESS_ZSTD=3Dy
+[1] https://marc.info/?l=linux-kbuild&m=161710402402989&w=2
 
-...Kconfigs enabled?
+[2] https://marc.info/?l=linux-kbuild&m=161710503403517&w=2
 
-As said I use builddeb from scripts directory to generate my Debian package=
-s.
-Any chance you can test with builddeb?
-
-I have enabled Clang-LTO Kconfig.
-Tried with Clang-LTO Kconfig?
-
-This worked *before* and *after*...
-
-kbuild: add support for zstd compressed modules
-kbuild: remove CONFIG_MODULE_COMPRESS (CC Nick as he is listed as a
-reviewer here)
-
-... not within my build-environment.
-For me this is a *regression*.
-
-- Sedat -
-
-[1] https://marc.info/?t=3D161790914600002&r=3D1&w=3D2
+[3] https://marc.info/?l=linux-kbuild&m=161780602730829&w=2
