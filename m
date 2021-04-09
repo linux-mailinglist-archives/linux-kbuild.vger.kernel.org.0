@@ -2,96 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9656359CBA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 13:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E68D7359D7B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 13:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233741AbhDILKz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Apr 2021 07:10:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41092 "EHLO
+        id S233285AbhDILbn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Apr 2021 07:31:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbhDILKy (ORCPT
+        with ESMTP id S231599AbhDILbn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Apr 2021 07:10:54 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8323DC061760;
-        Fri,  9 Apr 2021 04:10:41 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id n8so9124697lfh.1;
-        Fri, 09 Apr 2021 04:10:41 -0700 (PDT)
+        Fri, 9 Apr 2021 07:31:43 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADDBDC061760;
+        Fri,  9 Apr 2021 04:31:30 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id a11so3476728ioo.0;
+        Fri, 09 Apr 2021 04:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eTGSojB1p0GIuzN4LK3eQfQd4PSDYHeJzhPj7VxYv5s=;
-        b=swRIo78Tx6wjeC3T33k43CmBXkooWNcUYgqA/XptyQioRSepwQ1b+b27YjOcuuZZIm
-         mPEoBA1sGgwv9r/M3p6PbiKsz0nsByfoTHtl1DMLo/UQcilDVo5bg/SmegFTbknovXHP
-         kBb5yAqkvJc/r6dfLWFyoH8wJxIB2cEei/1okbDEIT/ngC1LX7f4DQ3DQ5p9QY/K9erY
-         yCh5UR/jMo/uudMkKEHMy61SZ5W9v29E2NGXD/mbEKY4R3FyNlRPHMgXpUw71LM86kEf
-         AGaARsYw+F4rqRPDxIfi7XzlPsRkY5gtO16T112l4d2ixI7KRUC8V6MX9z2YLuY5QSYX
-         +ltQ==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=4AaNtzCcNTMLVbnvD/41s53XfL4pmpuX/bq2Hn2SJ2c=;
+        b=vbG1LAP7hGQXHDBtDrRyZ9kHpnUOwcJ72/8mBIR71lDFi+4DxHwzLMQfhsYp+Eevd2
+         aD2/8t8T0Ev77cHwogUqG72r1pyjT1CuxgEU7M5QdP44g3pN+l5cksAnYXgY/0LS7WlN
+         DAKw8/h+YtyYR2x79a+vONHrhc1loX5Psrj5sUQ2WBMtcOO+WEjoc50jlZKJDHpvDJCE
+         puwkNGOOROGcJ/R3GruRrLUfVCpMN1C0ZjktA6ix3Spm/r9KMS9vywxWYZHXae6gVb6z
+         BMFmSDEniVv5fqeY/0MfPMr/1/pHrfzASzwrvPpq6/KcUiWTC0XTDytSvQUUYwV/3GeO
+         +cSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eTGSojB1p0GIuzN4LK3eQfQd4PSDYHeJzhPj7VxYv5s=;
-        b=Gkd+1lo47kzYn95zk3Sk3YOCKFaxtYFl3oBEzwihh93XuvecKKo3jjbPkw+Nn4QpUr
-         Kq2Gjxf0G7GL5drWmLmUBTZaDkTe/dZqYgin43XoijXyMbDUv5rzrVENAhJj0j1xT6BI
-         EEziZ31trYSUC4iVGTy0UgSORjFce9VFtO5HHriWjDgECYhlHgV612hcVHChDQnkm+3a
-         mQnxk3bdd82hPO6+dskWw9i+PC9QDpr9hLilXSSp8H6dJPjLpSezF1FeuP6/yzXgqPG6
-         wr/r1/dEUv4YhVE7VZz20YgIvlCgzyA6ZSjZvvGlaqxKiMbhFldciiIuAgIhJ3wD3Jj7
-         X8hg==
-X-Gm-Message-State: AOAM530T20YO0iDLVN+niXL7sSeFVuEyxVhbXhQ7CNVEzyb31hizmaU9
-        Xe+YlUByIuxG6J4I8LwAw+M=
-X-Google-Smtp-Source: ABdhPJy2Z/HDSD43zwS6lCNuBcuvejo2ytLgGWkAbTOUsjnZ8k355Ca7RRKLO2O9NR2zclLP9/krMA==
-X-Received: by 2002:ac2:5591:: with SMTP id v17mr10087187lfg.82.1617966640081;
-        Fri, 09 Apr 2021 04:10:40 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:a31a:e13a:eb00:c5cf:27cc:1ef2:859])
-        by smtp.gmail.com with ESMTPSA id h10sm236572lfc.266.2021.04.09.04.10.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 04:10:39 -0700 (PDT)
-From:   Piotr Gorski <lucjan.lucjanov@gmail.com>
-To:     lucjan.lucjanov@gmail.com
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, oleksandr@natalenko.name,
-        sedat.dilek@gmail.com
-Subject: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
-Date:   Fri,  9 Apr 2021 13:10:33 +0200
-Message-Id: <20210409111033.2465074-1-lucjan.lucjanov@gmail.com>
-X-Mailer: git-send-email 2.31.0.97.g1424303384
-In-Reply-To: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
-References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=4AaNtzCcNTMLVbnvD/41s53XfL4pmpuX/bq2Hn2SJ2c=;
+        b=M261BKbVgI5RGfpMz2ab5oAfblBb4MbtM0Mz8e9l9Ao6/OCePtjC5D9Ivzh8o9CjQx
+         FFe3aVEWTyevCmog76dhVtC/hK8I2kreo8Hc5BQT5/dwf9TNfU4fNSuEqukxCZfCxBQk
+         swOjM3g//bfxbc4w/47Gs/sEU1HOVxSxaFNGPMtHLKN4VATgP6mbFqSatKe5Dxo3Y1/U
+         dibXHKStkp/E9zkah2qMztdbFeKHy+UpqgyEFQk45O0+SX3mxtPmOm0wMhemWSJYL6mZ
+         v8FM73vDScHYU7qm8MA4zGhT9yxFVX6Qsh0OLLs846GUplZ1VSIpoiAm/27atL8kfoAG
+         JIWQ==
+X-Gm-Message-State: AOAM530uJWxSXGciqpwOWdM7ng3K7j8O9P2PaMFZ+2Qb/7KO5wQHRxQ3
+        xxcs/cGkgX1Nk1nq/JEqe9tSjNhb4FKQypcNZ/o=
+X-Google-Smtp-Source: ABdhPJzcADcBmqte+6MPur7P/QbOkys4CxXpLFoBwZrwtjWdPC72Pb6S/3M+wZllmSloRCrxd5OLXjG/+lTfwANdVPE=
+X-Received: by 2002:a05:6638:35ab:: with SMTP id v43mr13973395jal.65.1617967890055;
+ Fri, 09 Apr 2021 04:31:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com> <20210409111033.2465074-1-lucjan.lucjanov@gmail.com>
+In-Reply-To: <20210409111033.2465074-1-lucjan.lucjanov@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 9 Apr 2021 13:31:07 +0200
+Message-ID: <CA+icZUWbYd3z-+FDoXGx5UQcY4R1BuBn5V=o0d06=XADOZD8gQ@mail.gmail.com>
+Subject: Re: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
+To:     Piotr Gorski <lucjan.lucjanov@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, oleksandr@natalenko.name
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I originally posted the patch in a different form [1] even before Masahiro's changes. 
-I've been testing this solution since December last year and posted it in March this year, 
-after I made sure everything was working fine. This patch was tested by Oleksandr and he also didn't report any objections. [2]
+On Fri, Apr 9, 2021 at 1:10 PM Piotr Gorski <lucjan.lucjanov@gmail.com> wrote:
+>
+> I originally posted the patch in a different form [1] even before Masahiro's changes.
+> I've been testing this solution since December last year and posted it in March this year,
+> after I made sure everything was working fine. This patch was tested by Oleksandr and he also didn't report any objections. [2]
+>
+> Masahiro notified me about the planned changes [3] and asked me to resend this patch, adjusted to those changes, which I did.
+>
+> My current logs:
+>
+> lucjan@archlinux ~ $ zgrep CONFIG_DEBUG_INFO /proc/config.gz
+> CONFIG_DEBUG_INFO=y
+> # CONFIG_DEBUG_INFO_REDUCED is not set
+> # CONFIG_DEBUG_INFO_COMPRESSED is not set
+> # CONFIG_DEBUG_INFO_SPLIT is not set
+> CONFIG_DEBUG_INFO_DWARF4=y
+> CONFIG_DEBUG_INFO_BTF=y
+> CONFIG_DEBUG_INFO_BTF_MODULES=y
+> lucjan@archlinux ~ $ zgrep CONFIG_MODULE_COMPRESS_ZSTD /proc/config.gz
+> CONFIG_MODULE_COMPRESS_ZSTD=y
+> CONFIG_MODULE_COMPRESS_ZSTD_LEVEL=19
+>
+> Pay no attention to CONFIG_MODULE_COMPRESS_ZSTD_LEVEL as this is not in the upstream, it's an additional patch I use.
+>
+> The only difference - I don't use clang. Maybe those who use will comment on this.
+> I relied on the opinions of Oleksander and a dozen other users who reported no errors in using zstd module compression.
+>
+> [1] https://marc.info/?l=linux-kbuild&m=161710402402989&w=2
+>
+> [2] https://marc.info/?l=linux-kbuild&m=161710503403517&w=2
+>
+> [3] https://marc.info/?l=linux-kbuild&m=161780602730829&w=2
 
-Masahiro notified me about the planned changes [3] and asked me to resend this patch, adjusted to those changes, which I did.
+I am a big fan of ZSTD and have it as default in all available Linux
+Kconfigs and Debian's initramfs-tools.
+So, I am highly interested in getting this fixed.
 
-My current logs:
+Unfortunately, I have thrown away my yesterday's Clang-LTO build and
+switched to Clang-CFI with builddeb - should do handle the same way.
 
-lucjan@archlinux ~ $ zgrep CONFIG_DEBUG_INFO /proc/config.gz
-CONFIG_DEBUG_INFO=y
-# CONFIG_DEBUG_INFO_REDUCED is not set
-# CONFIG_DEBUG_INFO_COMPRESSED is not set
-# CONFIG_DEBUG_INFO_SPLIT is not set
-CONFIG_DEBUG_INFO_DWARF4=y
-CONFIG_DEBUG_INFO_BTF=y
-CONFIG_DEBUG_INFO_BTF_MODULES=y
-lucjan@archlinux ~ $ zgrep CONFIG_MODULE_COMPRESS_ZSTD /proc/config.gz
-CONFIG_MODULE_COMPRESS_ZSTD=y
-CONFIG_MODULE_COMPRESS_ZSTD_LEVEL=19
+I see three iwlwifi.ko (as an example):
 
-Pay no attention to CONFIG_MODULE_COMPRESS_ZSTD_LEVEL as this is not in the upstream, it's an additional patch I use. 
+$ LC_ALL=C ll drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+-rw-r--r-- 1 dileks dileks 8.2M Apr  9 11:07
+drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
 
-The only difference - I don't use clang. Maybe those who use will comment on this. 
-I relied on the opinions of Oleksander and a dozen other users who reported no errors in using zstd module compression.  
+$ file drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+drivers/net/wireless/intel/iwlwifi/iwlwifi.ko: ELF 64-bit LSB
+relocatable, x86-64, version 1 (SYSV),
+BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, with
+debug_info, not stripped
 
-[1] https://marc.info/?l=linux-kbuild&m=161710402402989&w=2
+That iwlwifi.ko with debug-info is optimized when moving to
+debian/linux-image-dbg directory:
 
-[2] https://marc.info/?l=linux-kbuild&m=161710503403517&w=2
+$ LC_ALL=C ll debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+-rw-r--r-- 1 dileks dileks 7.9M Apr  9 11:18
+debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
 
-[3] https://marc.info/?l=linux-kbuild&m=161780602730829&w=2
+$ file debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+debian/linux-image-dbg/usr/lib/debug/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko:
+ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV),
+BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, with
+debug_info, not stripped
+
+And think it's shrunk down and included debian/linux-image directory:
+
+$ LC_ALL=C ll debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+-rw-r--r-- 1 dileks dileks 694K Apr  9 11:18
+debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+
+$ file debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko
+debian/linux-image/lib/modules/5.12.0-rc6-5-amd64-clang12-cfi/kernel/drivers/net/wireless/intel/iwlwifi/iwlwifi.ko:
+ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV),
+BuildID[sha1]=78d593f4fd2b8efe81caeb8f1ea729107a33e244, not stripped
+
+I speculate both iwlwifi.ko below debian directory should be ZSTD-compressed.
+Fact is the one with debug-info is done correctly.
+Might be builddeb script needs a special treatment.
+
+- Sedat -
