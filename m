@@ -2,224 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB4C4359967
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 11:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 922FB359C22
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Apr 2021 12:31:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231946AbhDIJjG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 9 Apr 2021 05:39:06 -0400
-Received: from aposti.net ([89.234.176.197]:38162 "EHLO aposti.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230181AbhDIJjG (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Apr 2021 05:39:06 -0400
-Date:   Fri, 09 Apr 2021 10:38:39 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 1/2] linux/kconfig.h: replace IF_ENABLED() with PTR_IF()
- in <linux/kernel.h>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        GPIO SUBSYSTEM <linux-gpio@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mips@vger.kernel.org
-Message-Id: <FSIARQ.A8L3BEWP5IQK3@crapouillou.net>
-In-Reply-To: <CAK7LNATzaKiUewn-ixnDEAWbfQUy8xZL4yjkR1BxrhV3G1=Zng@mail.gmail.com>
-References: <20210408205858.51751-1-masahiroy@kernel.org>
-        <20210408205858.51751-2-masahiroy@kernel.org>
-        <YXEARQ.LGKNU44HTZP01@crapouillou.net>
-        <CAK7LNATzaKiUewn-ixnDEAWbfQUy8xZL4yjkR1BxrhV3G1=Zng@mail.gmail.com>
+        id S231621AbhDIKbd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Apr 2021 06:31:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231402AbhDIKbc (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 9 Apr 2021 06:31:32 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AC0C061760;
+        Fri,  9 Apr 2021 03:31:18 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id t14so4312753ilu.3;
+        Fri, 09 Apr 2021 03:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=gHv/U8gMzmWYmxPZpDQ1KtCKvLhvSOEVZdAJZtNMABQ=;
+        b=fPeGj6b7nLmrr4LUOwxg88E5nKlnRg7tiyI5gOnwi2Cmd3k9qK1O05HNpkhhH6sjfH
+         DUrKZXhiWyfar4DoINfTI0/KOSSU+JbXFh0OZ13C1dCBOZ5DoHACA2luK9b3WBq1asTq
+         mTX1hZ45xyGCFr0yz3kWz3wTYrrT8wfuJT+wqR1orUYYGpCiP4+AW7uDI1CUPNKOpR2k
+         7xxfs7jiz1PPNUO4y41x++ckLVz1cNSunnt3KWgE2r9P6FwTcZ07mTEeAxwcV1u9Ra8H
+         BEG7ia9/4DipN3VLP6gawzgMzeS9xzUPDAHzlAXfolmw0gwZrPSaa85N++AKlDwCenQK
+         gQTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=gHv/U8gMzmWYmxPZpDQ1KtCKvLhvSOEVZdAJZtNMABQ=;
+        b=fwH2sOpUxUOhcsmBx1UZA2TyGPzIOwVY5K2xyagI/7puwYu2ZclosmkqZU71xjtvjt
+         QvFfDlDeDgTyb3a3UzHbaOMKoPn3uCqE+G453oUf6PzvlA8WmOatXA8vSShLVdPVXxE7
+         m3XNyK/Jq3dNXJkbZX7M9Dzy3yGB2kD/9Z1j2MUCKXXEZToolLI+CXZHIWBDEk9pGZGb
+         htpVvwjeNCMjYBaTpVnXO7Sa5vjfNbwY1SONv2yLS+/qCJe+1eH+KU7UlnX1htkw6tWQ
+         uJ6NYQLD+Sp9xRGMkw3xE+8vpQn8ZKMLT4WY8xyPcrXORINqN6TGZyYmgY/4GvuFvsdU
+         HASw==
+X-Gm-Message-State: AOAM531qqAtLSIY0ni6qKZojiViuJZ+2UUfF0i7INL+j91lZyjWuKA9V
+        5tyOihc9xiGXPVOOWZrJI1qMAtp4aTbD3Cj89tFMIeKn1c3G7g==
+X-Google-Smtp-Source: ABdhPJz9qabirxbOvIvHiWUXG9wSJk26KAP2/XVHVEO2CKJtLPL2dEscGDaDJw+RIgNm9Y+EN8m+xcbZ/KA0QZ4UVVY=
+X-Received: by 2002:a05:6e02:dea:: with SMTP id m10mr3746322ilj.112.1617964277961;
+ Fri, 09 Apr 2021 03:31:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+References: <20210407160927.222092-1-lucjan.lucjanov@gmail.com> <20210408210448.1850553-1-lucjan.lucjanov@gmail.com>
+In-Reply-To: <20210408210448.1850553-1-lucjan.lucjanov@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 9 Apr 2021 12:30:56 +0200
+Message-ID: <CA+icZUVnrNJ2=LYF_mre6npUvGHP8xAxdAAipLN_sQEvsK0wmg@mail.gmail.com>
+Subject: Re: Subject: Re: [PATCH v3] kbuild: add support for zstd compressed modules
+To:     Piotr Gorski <lucjan.lucjanov@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, oleksandr@natalenko.name
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Apr 8, 2021 at 11:05 PM Piotr Gorski <lucjan.lucjanov@gmail.com> wr=
+ote:
+>
+> No, the --rm option is essential. xz and gzip have the --rm option built =
+in as opposed to zstd, which is why I used it. I've been using zstd module =
+compression since last december (although I set a different compression lev=
+el on mine) and everything works fine. Oleksandr also tested it at his plac=
+e and didn't report any objections.
 
+[ CC me I am not subscribed to linux-kbuild or linux-kernel ]
+[ CC Nick ]
 
-Le ven. 9 avril 2021 à 17:30, Masahiro Yamada <masahiroy@kernel.org> a 
-écrit :
-> On Fri, Apr 9, 2021 at 5:15 PM Paul Cercueil <paul@crapouillou.net> 
-> wrote:
->> 
->>  Hi Masahiro,
->> 
->>  Le ven. 9 avril 2021 à 5:58, Masahiro Yamada 
->> <masahiroy@kernel.org> a
->>  écrit :
->>  > <linux/kconfig.h> is included from all the kernel-space source 
->> files,
->>  > including C, assembly, linker scripts. It is intended to contain
->>  > minimal
->>  > set of macros to evaluate CONFIG options.
->>  >
->>  > IF_ENABLED() is an intruder here because (x ? y : z) is C code, 
->> which
->>  > should not be included from assembly files or linker scripts.
->>  >
->>  > Also, <linux/kconfig.h> is no longer self-contained because NULL 
->> is
->>  > defined in <linux/stddef.h>.
->>  >
->>  > Move IF_ENABLED() out to <linux/kernel.h> as PTR_IF().
->>  >
->>  > PTR_IF(IS_ENABLED(CONFIG_FOO), ...) is slightly longer than
->>  > IF_ENABLED(CONFIG_FOO, ...), but it is not a big deal because
->>  > sub-systems often define dedicated macros such as of_match_ptr(),
->>  > pm_ptr() etc. for common use-cases.
->> 
->>  What's the idea behind changing IF_ENABLED() to PTR_IF()? You didn't
->>  explain that. What's wrong with IF_ENABLED()?
-> 
-> 
-> PTR_IF() is a more generalized variant, which I believe is
-> a better fit in <linux/kernel.h>
-> The first parameter does not need to be a CONFIG option,
-> but any expression.
+Unfortunately, I do not find my initial posting which has all information.
+I add the link to the thread on linux-kbuild ML.
 
-Fair enough, but we could still have IF_ENABLED as a specialized 
-variant of PTR_IF:
+So, I gave you as much information as I have (linux-config, make-line
+etc.) and you write "everything works fine"?
+What do you mean by "everything" - different compressors and none?
+Is that working "fine"?
 
-#define IF_ENABLED(cfg, ptr) PTR_IF(IS_ENABLED(cfg), (ptr))
+What build environment do you use?
+Here: Debian/testing AMD64.
 
--Paul
+Did you try with...
 
-> 
-> 
->>  Cheers,
->>  -Paul
->> 
->>  > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>  > ---
->>  >
->>  >  drivers/pinctrl/pinctrl-ingenic.c | 20 ++++++++++----------
->>  >  include/linux/kconfig.h           |  6 ------
->>  >  include/linux/kernel.h            |  2 ++
->>  >  3 files changed, 12 insertions(+), 16 deletions(-)
->>  >
->>  > diff --git a/drivers/pinctrl/pinctrl-ingenic.c
->>  > b/drivers/pinctrl/pinctrl-ingenic.c
->>  > index f2746125b077..b21e2ae4528d 100644
->>  > --- a/drivers/pinctrl/pinctrl-ingenic.c
->>  > +++ b/drivers/pinctrl/pinctrl-ingenic.c
->>  > @@ -2496,43 +2496,43 @@ static int __init
->>  > ingenic_pinctrl_probe(struct platform_device *pdev)
->>  >  static const struct of_device_id ingenic_pinctrl_of_match[] = {
->>  >       {
->>  >               .compatible = "ingenic,jz4740-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4740, 
->> &jz4740_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4740), 
->> &jz4740_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,jz4725b-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4725B, 
->> &jz4725b_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4725B), 
->> &jz4725b_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,jz4760-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4760, 
->> &jz4760_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4760), 
->> &jz4760_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,jz4760b-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4760, 
->> &jz4760_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4760), 
->> &jz4760_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,jz4770-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4770, 
->> &jz4770_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4770), 
->> &jz4770_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,jz4780-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_JZ4780, 
->> &jz4780_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_JZ4780), 
->> &jz4780_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,x1000-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_X1000, 
->> &x1000_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_X1000), 
->> &x1000_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,x1000e-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_X1000, 
->> &x1000_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_X1000), 
->> &x1000_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,x1500-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_X1500, 
->> &x1500_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_X1500), 
->> &x1500_chip_info)
->>  >       },
->>  >       {
->>  >               .compatible = "ingenic,x1830-pinctrl",
->>  > -             .data = IF_ENABLED(CONFIG_MACH_X1830, 
->> &x1830_chip_info)
->>  > +             .data = PTR_IF(IS_ENABLED(CONFIG_MACH_X1830), 
->> &x1830_chip_info)
->>  >       },
->>  >       { /* sentinel */ },
->>  >  };
->>  > diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
->>  > index 24a59cb06963..cc8fa109cfa3 100644
->>  > --- a/include/linux/kconfig.h
->>  > +++ b/include/linux/kconfig.h
->>  > @@ -70,10 +70,4 @@
->>  >   */
->>  >  #define IS_ENABLED(option) __or(IS_BUILTIN(option),
->>  > IS_MODULE(option))
->>  >
->>  > -/*
->>  > - * IF_ENABLED(CONFIG_FOO, ptr) evaluates to (ptr) if CONFIG_FOO 
->> is
->>  > set to 'y'
->>  > - * or 'm', NULL otherwise.
->>  > - */
->>  > -#define IF_ENABLED(option, ptr) (IS_ENABLED(option) ? (ptr) : 
->> NULL)
->>  > -
->>  >  #endif /* __LINUX_KCONFIG_H */
->>  > diff --git a/include/linux/kernel.h b/include/linux/kernel.h
->>  > index 5b7ed6dc99ac..8685ca4cf287 100644
->>  > --- a/include/linux/kernel.h
->>  > +++ b/include/linux/kernel.h
->>  > @@ -38,6 +38,8 @@
->>  >  #define PTR_ALIGN_DOWN(p, a) ((typeof(p))ALIGN_DOWN((unsigned
->>  > long)(p), (a)))
->>  >  #define IS_ALIGNED(x, a)             (((x) & ((typeof(x))(a) - 
->> 1)) == 0)
->>  >
->>  > +#define PTR_IF(cond, ptr)    ((cond) ? (ptr) : NULL)
->>  > +
->>  >  /* generic data direction definitions */
->>  >  #define READ                 0
->>  >  #define WRITE                        1
->>  > --
->>  > 2.27.0
->>  >
->> 
->> 
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
+CONFIG_DEBUG_INFO=3Dy
+CONFIG_DEBUG_INFO_DWARF5=3Dy
+CONFIG_MODULE_COMPRESS_ZSTD=3Dy
 
+...Kconfigs enabled?
 
+As said I use builddeb from scripts directory to generate my Debian package=
+s.
+Any chance you can test with builddeb?
+
+I have enabled Clang-LTO Kconfig.
+Tried with Clang-LTO Kconfig?
+
+This worked *before* and *after*...
+
+kbuild: add support for zstd compressed modules
+kbuild: remove CONFIG_MODULE_COMPRESS (CC Nick as he is listed as a
+reviewer here)
+
+... not within my build-environment.
+For me this is a *regression*.
+
+- Sedat -
+
+[1] https://marc.info/?t=3D161790914600002&r=3D1&w=3D2
