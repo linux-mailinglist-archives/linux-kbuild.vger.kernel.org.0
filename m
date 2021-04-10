@@ -2,104 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB46235AE5E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Apr 2021 16:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D39C935AF77
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Apr 2021 20:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234795AbhDJOcd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Apr 2021 10:32:33 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:56005 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234768AbhDJOcd (ORCPT
+        id S234831AbhDJSOH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Apr 2021 14:14:07 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:18800 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234738AbhDJSOG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Apr 2021 10:32:33 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 13AEW0jD005753;
-        Sat, 10 Apr 2021 23:32:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 13AEW0jD005753
+        Sat, 10 Apr 2021 14:14:06 -0400
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 13AIDH0F031302;
+        Sun, 11 Apr 2021 03:13:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 13AIDH0F031302
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1618065121;
-        bh=VJxXXj18738WjpzoZlOMWauH9bIfrZ/uTuRE8xddkMY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=bMlC5Z38wdx8gdEuZcAu9eRA9KF3wkzoqFV2T8IiRrl1XuKNCYR6MOSURKRdH7vSX
-         NOQnR6oEphH7g1eeXCyDe5n1MKjByhsUxhcAmFqm42TQqgRDb/GDf9q/yYij9sAhFy
-         z+CChYBKigh6rBRpDWPFYWEqcZT8v0nhuV7zrFQG30MPgdqX+5eAbgXbkK2LzP2bu8
-         l/c6i/Ys4gPSXPKvCAjn3C/hfomF34xywhBU/1H+kknLbJOJ+ogKiDQp/6nQBYFOrD
-         wht75UD96mXySyr9dxK6wGtN/FtMQJXycnLuI6OA8JVeJKZGgwwdJKy4dAXwg/S8h7
-         C7j1eK+a7zVpg==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: use /boot/config-* etc. as DEFCONFIG_LIST only for native build
-Date:   Sat, 10 Apr 2021 23:31:58 +0900
-Message-Id: <20210410143158.167602-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1618078398;
+        bh=cMZNclGALT+gwxP7KWLDLy4Do1QRPGwcKNQy7ss3r4g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ChZg8qEvcPl1LAm/6WlaUFUizv2zl+NHFsESD2Bra0GcZpCAF/XOG6khq9Y64aa/z
+         o4q+ax6RLAs1rWOOCGELXHPWaL45k0EiEn81301K4yT170K+UBy7u4MHVaAR3lapJ5
+         bXHXdfdST2Pt0qqmzYaRpRUnfsmIsIcHNQ0GWN6A4wksAXZujX7iW/Gb1IMK6bO054
+         yNnxFs2fbTC5KiEiJm3RMpQXR2JCKfrt/a4ZId5Z3o48rDMNYEGVYzWTk1dC6Qjrsv
+         Wva4oH1n2eDt8t8q7uZRFjgJ6BP2qDnuz0uWlHACrsJlkNZR1D+Asy3pU3tvxxropU
+         gowQLvOqBZJJQ==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id u14-20020a17090a1f0eb029014e38011b09so4612pja.5;
+        Sat, 10 Apr 2021 11:13:18 -0700 (PDT)
+X-Gm-Message-State: AOAM530Z0pN73N7zEqpmf9aaUzs1ajZpfGiWOYuuaYkb9AtsBoAXUU2d
+        tVgz1ZEMfTHGIMGZZCblYYo7GIgweS1yOn7s82A=
+X-Google-Smtp-Source: ABdhPJyX1Dw6EitIA7ZNbc36JtuPnbwn3qlR4jpRQekNXt9qf2kYu+xcisS7Urq0/P9Zk5MZNc8sxWNnLBAWQdt+oVo=
+X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id
+ y5-20020a170902d645b02900e8ec90d097mr18473712plh.47.1618078397260; Sat, 10
+ Apr 2021 11:13:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <f6218ac526a04fa4d4406f935bcc4eb4a7df65c4.1617917438.git.msuchanek@suse.de>
+In-Reply-To: <f6218ac526a04fa4d4406f935bcc4eb4a7df65c4.1617917438.git.msuchanek@suse.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 11 Apr 2021 03:12:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR-zdHLpp7eQ_PUG6PQMKUKh2m0b80NGSxnxuXhjyT=3g@mail.gmail.com>
+Message-ID: <CAK7LNAR-zdHLpp7eQ_PUG6PQMKUKh2m0b80NGSxnxuXhjyT=3g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: dummy-tools: Add elfedit.
+To:     Michal Suchanek <msuchanek@suse.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When the .config file is missing, 'make config', 'make menuconfig', etc.
-uses a file listed in DEFCONFIG_LIST as base configuration.
+On Fri, Apr 9, 2021 at 6:31 AM Michal Suchanek <msuchanek@suse.de> wrote:
+>
+> elfedit is used in Makefile
+>
+>  Makefile:GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+>
+> which causes this error getting printed
+>
+>  which: no elfedit in (./scripts/dummy-tools)
 
-Ususally, /boot/config-$(uname -r) exists, and is used as default.
 
-However, when you are cross-compiling the kernel, it does not make
-sense to use /boot/config-* from the build host. It should default
-to arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG).
+I am OK with this patch, but how did you reproduce it?
 
-UML previously did not use DEFCONFIG_LIST at all, but it should be
-able to use arch/um/configs/$(KBUILD_DEFCONFIG) as a base config file.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- Makefile                 | 5 +++++
- scripts/kconfig/Makefile | 8 ++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f1093b972708..697eaf6c550e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -393,6 +393,11 @@ ifeq ($(ARCH),sh64)
-        SRCARCH := sh
- endif
- 
-+export cross_compiling :=
-+ifneq ($(SRCARCH),$(SUBARCH))
-+cross_compiling := 1
-+endif
-+
- KCONFIG_CONFIG	?= .config
- export KCONFIG_CONFIG
- 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 46f2465177f0..1d1a7f83ee8d 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -18,14 +18,14 @@ silent := -s
- endif
- 
- export KCONFIG_DEFCONFIG_LIST :=
--ifneq ($(SRCARCH),um)
-+ifndef cross_compiling
- kernel-release := $(shell uname -r)
--KCONFIG_DEFCONFIG_LIST := \
-+KCONFIG_DEFCONFIG_LIST += \
- 	/lib/modules/$(kernel-release)/.config \
- 	/etc/kernel-config \
--	/boot/config-$(kernel-release) \
--	arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)
-+	/boot/config-$(kernel-release)
- endif
-+KCONFIG_DEFCONFIG_LIST += arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)
- 
- # We need this, in case the user has it in its environment
- unexport CONFIG_
+>
+> Add elfedit to dummy-tools to avoid this error.
+>
+> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> ---
+>  scripts/dummy-tools/elfedit | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 120000 scripts/dummy-tools/elfedit
+>
+> diff --git a/scripts/dummy-tools/elfedit b/scripts/dummy-tools/elfedit
+> new file mode 120000
+> index 000000000000..c0648b38dd42
+> --- /dev/null
+> +++ b/scripts/dummy-tools/elfedit
+> @@ -0,0 +1 @@
+> +ld
+> \ No newline at end of file
+> --
+> 2.26.2
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
