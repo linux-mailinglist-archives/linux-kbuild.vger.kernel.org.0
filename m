@@ -2,104 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FAE035B397
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Apr 2021 13:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8525E35B43C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Apr 2021 14:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235431AbhDKLiR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Apr 2021 07:38:17 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:36912 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235234AbhDKLiR (ORCPT
+        id S235462AbhDKMc0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Apr 2021 08:32:26 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63546 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231405AbhDKMcZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Apr 2021 07:38:17 -0400
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 13BBbetI031964;
-        Sun, 11 Apr 2021 20:37:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 13BBbetI031964
+        Sun, 11 Apr 2021 08:32:25 -0400
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 13BCVo9I011089;
+        Sun, 11 Apr 2021 21:31:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 13BCVo9I011089
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1618141061;
-        bh=fjh52QpwYUJ5A8J1bzqqBjLyVWgcab/+mm+we0HOatI=;
+        s=dec2015msa; t=1618144310;
+        bh=VQqVdAWK8Pqez30x2LecQTS0wUneVPy4UK/xjpuKRhs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GHjy5CgmozWWGxPvb+klPi1CXUomnJOny9OnxExJuc0LiMPgo3zDtLwtnacB4kac4
-         9XWbnyt649w9/NJaimfIycTZXkAYnYjkuPP8W7BBfRvJWkVEu1yMLwmTB52uUKxs+3
-         qvS49znxVWu9rx52yRMRxdp4Pz0VBgDqi8oxEwKVtYWksdwnPTS7B7Or2SYd6HBhCc
-         ryC84j/k/Be7MnYjMPSijKbl41ZbfCatuX6x3RPAYZmHm9DM/0PpJIu7yVwf+6uugZ
-         u8zLiAuPRrtEhrtlNzyU68Maa2AsqNHd5Kr07ubnHirJky18iia0nYUcu82TeJTTnn
-         /0wjCCCoiujwA==
-X-Nifty-SrcIP: [209.85.210.171]
-Received: by mail-pf1-f171.google.com with SMTP id y16so7312931pfc.5;
-        Sun, 11 Apr 2021 04:37:41 -0700 (PDT)
-X-Gm-Message-State: AOAM531SFLJ0RkqhLW9IveSks5oT2CatIjgOAOKLPCKH+m8+4vISf6vg
-        FfYs5/BDA9vM8XtUN9hWUVIwTC2X+1ZcENP2nuU=
-X-Google-Smtp-Source: ABdhPJwkoA8Q7R5xoRJ5m6iyipw+qHRbuOOjJdBx6fCQFqKFW2IUazaKaPP+lmjm0YHFyTE7Lacpm+DefVTfJ+assQw=
-X-Received: by 2002:a63:181c:: with SMTP id y28mr22574933pgl.175.1618141060274;
- Sun, 11 Apr 2021 04:37:40 -0700 (PDT)
+        b=dlJxX5md6cBGwve6tR1EH/uHoauG9CTzmIoEncq+sudQTUqQctx3FeP7WeF3jMp2N
+         igrffyLspJFz/rxOoe3T9Lu5UqImuuef5qSWQxZVsFKNrB2mkAQbJPuZQdJQfmJrfC
+         HtRH9bILqNeMMtC/ZNmnPhfGIuhCea7GKkguismm5WQvdqetQkr9u3zxuD+NOK/b/v
+         nTISl2//ZaxGOhs4YN1CTLvIYRpBRA7qylC9y149Ju0J8K9v8ORe9StN46Wr8Y+8TZ
+         2Br2vcNNU+8k6c6LXyNkXrVFTp9lN+vJnaJwhRrF6nga+Zu0VlzH3K+pKWG9+DGhlg
+         s1OWv2fK5Sd0g==
+X-Nifty-SrcIP: [209.85.215.180]
+Received: by mail-pg1-f180.google.com with SMTP id w10so7261440pgh.5;
+        Sun, 11 Apr 2021 05:31:50 -0700 (PDT)
+X-Gm-Message-State: AOAM530QI2/FyFJkia8gBO/ztaENT55WrWGIVJun6hdxFlIMfHz3bhcF
+        +wCDcJR3MWXppHaIvOUcYuN/Jlh1Ug1W1ZOQb6c=
+X-Google-Smtp-Source: ABdhPJyuvJKYnZEFKbx4hTsMPhv+Nq9PD6+/fr+8zr0KW4MwPt9LoT/prIFsQhfFF/fCCCMZCkPStBcuoHUTHqTUm14=
+X-Received: by 2002:a63:181c:: with SMTP id y28mr22732100pgl.175.1618144309497;
+ Sun, 11 Apr 2021 05:31:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <f6218ac526a04fa4d4406f935bcc4eb4a7df65c4.1617917438.git.msuchanek@suse.de>
- <CAK7LNAR-zdHLpp7eQ_PUG6PQMKUKh2m0b80NGSxnxuXhjyT=3g@mail.gmail.com> <20210411101829.GR6564@kitsune.suse.cz>
-In-Reply-To: <20210411101829.GR6564@kitsune.suse.cz>
+References: <20210401232723.3571287-1-yhs@fb.com> <CAKwvOdmX8d3XTzJFk5rN_PnOQYJ8bXMrh8DrhzqN=UBNdQiO3g@mail.gmail.com>
+ <CA+icZUVKCY4UJfSG_sXjZHwfOQZfBZQu0pj1VZ9cXX4e7w0n6g@mail.gmail.com>
+ <c6daf068-ead0-810b-2afa-c4d1c8305893@fb.com> <CA+icZUWYQ8wjOYHYrTX52AbEa3nbXco6ZKdqeMwJaZfHuJ5BhA@mail.gmail.com>
+ <128db515-14dc-4ff1-eacb-8e48fc1f6ff6@fb.com> <YG23xiRqJLYRtZgQ@kernel.org> <08f2eda5-2226-d551-d660-dba981b6ced8@fb.com>
+In-Reply-To: <08f2eda5-2226-d551-d660-dba981b6ced8@fb.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 11 Apr 2021 20:37:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASycuqb2wyizXgVs4aN33LOrxCBikLbSXs+anWJ0-SW_Q@mail.gmail.com>
-Message-ID: <CAK7LNASycuqb2wyizXgVs4aN33LOrxCBikLbSXs+anWJ0-SW_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: dummy-tools: Add elfedit.
-To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Sun, 11 Apr 2021 21:31:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASUkLi4gu-9TY7p7kaLFKtEFA1qA0kc3VtOcgH9xJgsfA@mail.gmail.com>
+Message-ID: <CAK7LNASUkLi4gu-9TY7p7kaLFKtEFA1qA0kc3VtOcgH9xJgsfA@mail.gmail.com>
+Subject: Re: [PATCH kbuild v4] kbuild: add an elfnote for whether vmlinux is
+ built with lto
+To:     Yonghong Song <yhs@fb.com>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
+        bpf <bpf@vger.kernel.org>, Kernel Team <kernel-team@fb.com>,
+        Bill Wendling <morbo@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 11, 2021 at 7:18 PM Michal Such=C3=A1nek <msuchanek@suse.de> wr=
-ote:
+On Wed, Apr 7, 2021 at 11:49 PM Yonghong Song <yhs@fb.com> wrote:
 >
-> On Sun, Apr 11, 2021 at 03:12:40AM +0900, Masahiro Yamada wrote:
-> > On Fri, Apr 9, 2021 at 6:31 AM Michal Suchanek <msuchanek@suse.de> wrot=
-e:
-> > >
-> > > elfedit is used in Makefile
-> > >
-> > >  Makefile:GCC_TOOLCHAIN_DIR :=3D $(dir $(shell which $(CROSS_COMPILE)=
-elfedit))
-> > >
-> > > which causes this error getting printed
-> > >
-> > >  which: no elfedit in (./scripts/dummy-tools)
+>
+>
+> On 4/7/21 6:46 AM, Arnaldo Carvalho de Melo wrote:
+> > Em Tue, Apr 06, 2021 at 11:23:27PM -0700, Yonghong Song escreveu:
+> >> On 4/6/21 8:01 PM, Sedat Dilek wrote:
+> >>> On Tue, Apr 6, 2021 at 6:13 PM Yonghong Song <yhs@fb.com> wrote:
+> >>>> Masahiro and Michal,
 > >
+> >>>> Friendly ping. Any comments on this patch?
 > >
-> > I am OK with this patch, but how did you reproduce it?
+> >>>> The addition LTO .notes information emitted by kernel is used by pahole
+> >>>> in the following patch:
+> >>>>       https://lore.kernel.org/bpf/20210401025825.2254746-1-yhs@fb.com/
+> >>>>       (dwarf_loader: check .notes section for lto build info)
+> >
+> >>> the above pahole patch has this define and comment:
+> >
+> >>> -static bool cus__merging_cu(Dwarf *dw)
+> >>> +/* Match the define in linux:include/linux/elfnote.h */
+> >>> +#define LINUX_ELFNOTE_BUILD_LTO 0x101
+> >
+> >>> ...and does not fit with the define and comment in this kernel patch:
+> >
+> >>> +#include <linux/elfnote.h>
+> >>> +
+> >>> +#define LINUX_ELFNOTE_LTO_INFO 0x101
+> >
+> >> Thanks, Sedat. I am aware of this. I think we can wait in pahole
+> >> to make a change until the kernel patch is finalized and merged.
+> >> The kernel patch may still change as we haven't get
+> >> maintainer's comment. This will avoid unnecessary churn's
+> >> in pahole side.
+> >
+> > So, I tested with clang 12 on fedora rawhide as well on fedora 33, and
+> > I'm satisfied with the current state to release v1.21, Masahiro, have
+> > you had the time to look at this?
+> >
+> > Yonghong, as we have a fallback in case the ELF note isn't available, I
+> > think we're safe even if the notes patch merge gets delayed, right?
 >
-> make ARCH=3Darm CROSS_COMPILE=3Dscripts/dummy-tools/ allmodconfig
+> Right. That is why I separated the notes patch from other patches.
+> We can revisit it once the kernel patch is settled.
 >
-> it possibly depends on the config you already have, too.
->
-> Thanks
->
-> Michal
+> >
+> > - Arnaldo
+> >
 
 
-Maybey, are you working on linux-next?
+Applied to linux-kbuild. Thanks.
 
 
-[1]
-$ git checkout  add74f8473^
-$ make ARCH=3Darm CROSS_COMPILE=3Dscripts/dummy-tools/ allmodconfig
-
-[2]
-$ git checkout  add74f8473
-$ make ARCH=3Darm CROSS_COMPILE=3Dscripts/dummy-tools/ allmodconfig
-
-
-
-If [1] is OK, but [2] is NG,
-commit add74f8473 is the root cause.
-
-At least, I do not think this would happen
-in the mainline kernel.
-
---=20
+-- 
 Best Regards
 Masahiro Yamada
