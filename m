@@ -2,91 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F86635B6D4
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Apr 2021 22:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E5535B7EB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Apr 2021 03:13:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235837AbhDKUDz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Apr 2021 16:03:55 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56422 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235486AbhDKUDz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Apr 2021 16:03:55 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 38982B036;
-        Sun, 11 Apr 2021 20:03:37 +0000 (UTC)
-Date:   Sun, 11 Apr 2021 22:03:35 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] kbuild: dummy-tools: Add elfedit.
-Message-ID: <20210411200335.GS6564@kitsune.suse.cz>
-References: <f6218ac526a04fa4d4406f935bcc4eb4a7df65c4.1617917438.git.msuchanek@suse.de>
- <CAK7LNAR-zdHLpp7eQ_PUG6PQMKUKh2m0b80NGSxnxuXhjyT=3g@mail.gmail.com>
- <20210411101829.GR6564@kitsune.suse.cz>
- <CAK7LNASycuqb2wyizXgVs4aN33LOrxCBikLbSXs+anWJ0-SW_Q@mail.gmail.com>
+        id S235391AbhDLBNP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Apr 2021 21:13:15 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:54772 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236104AbhDLBNO (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 11 Apr 2021 21:13:14 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 13C1CVI8003364;
+        Mon, 12 Apr 2021 10:12:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 13C1CVI8003364
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1618189952;
+        bh=8n44YieJK85qmJRfL1CyMbvcWKDxnqK4wAAYrHCBx+s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RH4aKHoyUdthyn7W1ClmLfSFUUjO+6QDJc5/fn04qsO/WWKzfRFAokmU9nZn3sOZG
+         UjpaQYcysbuXfoyOZOmZ1i9hF27T1MH5jr41bfTZawHWu29din/9L1bF2rAc7CQshe
+         9HOtUBZ4ZXz5a6EDyCr5zkDvPUqT9jX8xddeHMYL77vK8dTZz8ykoHUkslCV8ffTgR
+         MEiNEb4RRCWaBztN3rypsNRRFP+gCkqO+cYJpAWgiBxJuT8mqWD3624gpYwMAzWXCe
+         5pv2NhE8zK/IHhZ96O4XNWp3UJexbbaDLmerhdKZuHCBwNGJgI6f6zoFqini7xl9Q9
+         tLsJ0Cnuwdw1g==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] kconfig: nconf: change set_config_filename() to void function
+Date:   Mon, 12 Apr 2021 10:12:25 +0900
+Message-Id: <20210412011227.249534-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASycuqb2wyizXgVs4aN33LOrxCBikLbSXs+anWJ0-SW_Q@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 11, 2021 at 08:37:03PM +0900, Masahiro Yamada wrote:
-> On Sun, Apr 11, 2021 at 7:18 PM Michal Suchánek <msuchanek@suse.de> wrote:
-> >
-> > On Sun, Apr 11, 2021 at 03:12:40AM +0900, Masahiro Yamada wrote:
-> > > On Fri, Apr 9, 2021 at 6:31 AM Michal Suchanek <msuchanek@suse.de> wrote:
-> > > >
-> > > > elfedit is used in Makefile
-> > > >
-> > > >  Makefile:GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > > >
-> > > > which causes this error getting printed
-> > > >
-> > > >  which: no elfedit in (./scripts/dummy-tools)
-> > >
-> > >
-> > > I am OK with this patch, but how did you reproduce it?
-> >
-> > make ARCH=arm CROSS_COMPILE=scripts/dummy-tools/ allmodconfig
-> >
-> > it possibly depends on the config you already have, too.
-> >
-> > Thanks
-> >
-> > Michal
-> 
-> 
-> Maybey, are you working on linux-next?
+No one uses the return value of this function.
 
-Yes, I do have the rust support.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> 
-> 
-> [1]
-> $ git checkout  add74f8473^
-> $ make ARCH=arm CROSS_COMPILE=scripts/dummy-tools/ allmodconfig
-> 
-> [2]
-> $ git checkout  add74f8473
-> $ make ARCH=arm CROSS_COMPILE=scripts/dummy-tools/ allmodconfig
-> 
-> 
-> 
-> If [1] is OK, but [2] is NG,
-> commit add74f8473 is the root cause.
+ scripts/kconfig/nconf.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Sounds like it. Before that the elfedit test was conditional on clang.
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index e86d3511b939..d8a6ab5fb521 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -631,13 +631,12 @@ static int item_is_tag(char tag)
+ 
+ static char filename[PATH_MAX+1];
+ static char menu_backtitle[PATH_MAX+128];
+-static const char *set_config_filename(const char *config_filename)
++static void set_config_filename(const char *config_filename)
+ {
+ 	snprintf(menu_backtitle, sizeof(menu_backtitle), "%s - %s",
+ 		 config_filename, rootmenu.prompt->text);
+ 
+ 	snprintf(filename, sizeof(filename), "%s", config_filename);
+-	return menu_backtitle;
+ }
+ 
+ /* return = 0 means we are successful.
+-- 
+2.27.0
 
-I can try to do the bisect but I think the reason it broke is quite
-clear.
-
-Thanks
-
-Michal
