@@ -2,128 +2,372 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAC8C35D16B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Apr 2021 21:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D881035DF6F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Apr 2021 14:55:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238090AbhDLTrl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Apr 2021 15:47:41 -0400
-Received: from mail-eopbgr140058.outbound.protection.outlook.com ([40.107.14.58]:13521
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237848AbhDLTrl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Apr 2021 15:47:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mAYzZkMyS2HF8e6/atbK7h8sUqF8EgbBg8iex1I3fwpa6KfQspgxD3R4rQcl3+PpEKd5p/gmDdsKgQWrSRfAZ1JmXnNAtoQ5QyduvNfdlGDdm0qzpUOrmdMxD537NO3BXpF0SWLLeQGGyDtJJ4Y/ODsZVEcG+P1riqM4gvImalKC3PQTW5nXtRzfnX22CywR3jNylWEUCtwujI3N9C+dKxZGy22IcnN+DLgTa/gt0KOZ27rqiRl63O44ChjLBgCSUhZFnl3m42Sq0c9S8o15sF/soF4Hd5/HevCqT4utVXqLerX0ve3gAqOO2R3HzoJEXidrCU1vPgklxmohYsNe4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WPHnJCSSSiZiGUAmdrhJ0DExhyZlC4EoTu52YPMAvWk=;
- b=oHKcur1wsvjGDSMu9KbG6AqqV4WPfms6DvnI6U69wq3dLDnA9kouaIok0QulcChEdiVg/R9MJERcVupTGBdmUZBfp7FCPWXetwx1ChtHR8kUMIta9ljW95MuRcbwGsVUxHezl7QWO1OgC9VB42ppevnubyXPZFvBj1Kbz1ENAKjZuNRUwoy8G6mhEL4fdFZNLCQ70lSQtffz9O8e8FAttLTX61W3yBQ0IqU4kizY/vywc+8m0cignXY9xrX6lAw5WVOUkl0064FtPXSVvhHxDu5rkc6viu7hyAOGWKbRGo2ZOceMQ7WQbg5mCFdeGFhv6EyH6uo1hRyRGxvnk2tGwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=t2data.com; dmarc=pass action=none header.from=t2data.com;
- dkim=pass header.d=t2data.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=t2datacom.onmicrosoft.com; s=selector1-t2datacom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WPHnJCSSSiZiGUAmdrhJ0DExhyZlC4EoTu52YPMAvWk=;
- b=N2l+PTOBGBM3tlsCrWb6pAbX2vl3IH7ZfLOKfq/OXuX5ArAlWCE2Kct9xwl9vjzBNPhc5pGsTDzKztO05EQQ2maPJfKhiCzh+HCkQKlHOsjo/RbfOt4oJR0CJO2MYprBVEQRYQvCgJWRHAyp+hsvm1S8tWhPjoQytCu0uInMZwA=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=t2data.com;
-Received: from HE1PR0602MB2858.eurprd06.prod.outlook.com (2603:10a6:3:da::10)
- by HE1PR06MB3930.eurprd06.prod.outlook.com (2603:10a6:7:98::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Mon, 12 Apr
- 2021 19:47:14 +0000
-Received: from HE1PR0602MB2858.eurprd06.prod.outlook.com
- ([fe80::409f:a235:de54:364e]) by HE1PR0602MB2858.eurprd06.prod.outlook.com
- ([fe80::409f:a235:de54:364e%8]) with mapi id 15.20.4020.022; Mon, 12 Apr 2021
- 19:47:02 +0000
-Reply-To: christian.melki@t2data.com
-To:     linux-kbuild@vger.kernel.org
-From:   Christian Melki <christian.melki@t2data.com>
-Subject: Configuration annotation.
-Message-ID: <841a942a-9611-56b6-8c2a-4a819b2499cb@t2data.com>
-Date:   Mon, 12 Apr 2021 21:47:05 +0200
+        id S237085AbhDMMwI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Apr 2021 08:52:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63392 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S244817AbhDMMwA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 13 Apr 2021 08:52:00 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13DCXuMj070877;
+        Tue, 13 Apr 2021 08:51:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=to : cc : references :
+ from : subject : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7uwIiPvlBt4zo1jfnp6M/26Tg9kARnIyqG4TyzUIqrs=;
+ b=QyagiB9ZTKM/dqr5f4tPeqk1FtpCkPr8xeHcUkH9zNMOefN21nghll6MLiilT8rY751e
+ CmFy2WzKVXDKcDaLIsETOz8a73tEdWyEio0VtSczw0NwTU67B8ny5KC1R0zINmVnntJo
+ lXoYVYXlHskNVlKxPPHg+mBtbaf1fPjyENj0bshIYerp33spuKld1LUVyMoEz0QGCKW3
+ TiV3BGvVcKSadzc9BrYmBrAO1/zULSkeMXHW6LmRvTVz1jzT6Bu9FbBRXD3fbKfsRPai
+ /NtmifkHU8qdLoBYxc7+qUZHaKg710NMlzdi97txDqlnCxkexlj/xAbZ+FSSwiBYJMKw nw== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 37w7sd73a7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 13 Apr 2021 08:51:37 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DCX36Q013704;
+        Tue, 13 Apr 2021 12:51:35 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma06ams.nl.ibm.com with ESMTP id 37u39hjpfb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 13 Apr 2021 12:51:35 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13DCpAHc32637272
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Apr 2021 12:51:10 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 702C94C050;
+        Tue, 13 Apr 2021 12:51:32 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EBC984C040;
+        Tue, 13 Apr 2021 12:51:31 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.149.46])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 13 Apr 2021 12:51:31 +0000 (GMT)
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Marc Hartmayer <mhartmay@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>
+References: <20210228061028.239459-1-masahiroy@kernel.org>
+ <20210228061028.239459-3-masahiroy@kernel.org>
+From:   Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 3/4] kbuild: spilt cc-option and friends to
+ scripts/Makefile.compiler
+Message-ID: <86dadf33-70f7-a5ac-cb8c-64966d2f45a1@linux.ibm.com>
+Date:   Tue, 13 Apr 2021 14:51:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210228061028.239459-3-masahiroy@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [81.234.39.46]
-X-ClientProxiedBy: HE1PR0402CA0034.eurprd04.prod.outlook.com
- (2603:10a6:7:7c::23) To HE1PR0602MB2858.eurprd06.prod.outlook.com
- (2603:10a6:3:da::10)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.7.217] (81.234.39.46) by HE1PR0402CA0034.eurprd04.prod.outlook.com (2603:10a6:7:7c::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend Transport; Mon, 12 Apr 2021 19:47:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a57f4f16-32a8-4a62-a08f-08d8fdebbe67
-X-MS-TrafficTypeDiagnostic: HE1PR06MB3930:
-X-Microsoft-Antispam-PRVS: <HE1PR06MB39300BFF63F2EA6E84A12D3DDA709@HE1PR06MB3930.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9ThPkaIw9a5twpXRKCYDV53rNBct1eGLao83fuK57EMIBCpkpmo/LC+HpKrMhKHYYy39y4+IWX99qqao77MyXPXbzuKu7o0nxiwzHAJso0njsl0ofvTxSFZxuPHMWd4Z5Mgju06LFmItuntoWMgC+wN5TqWSwPIUWCDGvXxm5RsORq4RqyDujh89w/J1TiHDMZ6QpuBRC37wPvXCemgWc1SJgBgkuEYyycHIZ9eonbecN71IQ9Lc4dpdaxMJS6dzPzCx5TGaq73ZZn1gWnGY+Dr1EU6DNcmFZBF0YAsYIxs8yJHflNkdstRTqdnGjpyZJUMBvuath5ys1LCQboG8c8S4l3DvAmFjOnjZ7H0Vlw+ybbM7Va2zLYE6FUXPLgV/ofIwb8wvVizScND/tnl973y2gBP68VbF4S5xp9ejjvw/vHBUoAsn+uk5pfuNXq8TYTKec+w8mKdC+mbRwa5ItAYt9w0zfLkYlHY+qyoddn2D/448U1lIYrU0v9aqUBPuGMFx4xafTdvjltBC2QL8xLKln6QvghCf2Slml0hfQRt4OSLbUya4IyzXNXi4xz2+h/gypF+qisXgyGbUfXZiyPe8JK6krMG4fZo7EKTj6brn3oWW3XPUKh8HPuGbFNaw5xiD2gN/jex9nrSm67IRU5AuFltEOjDnzJ891QbxSV3NPJrZCXjhLPbect6mPusXNraBS1j6rnWgt1alz1+CLw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB2858.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(39830400003)(346002)(366004)(136003)(42606007)(376002)(3480700007)(4744005)(478600001)(956004)(8936002)(16576012)(186003)(7116003)(86362001)(44832011)(6916009)(2616005)(8676002)(26005)(31696002)(38100700002)(52116002)(66476007)(38350700002)(66946007)(36756003)(66556008)(31686004)(6486002)(16526019)(316002)(3450700001)(2906002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OGtGTWR2dzF6M0NXVmxOcHMvWkVydEg0YVo4Znc1NG9TcFd3eEVDN1VuajNI?=
- =?utf-8?B?MG52UjZKWG5VWlhTeEs0a1ZVOXRRaWZKV0JYRkdnSXA1dHBrNCtWYldINlIz?=
- =?utf-8?B?OHc3RkpSM1lsYTArODlub3VVQ01FTHhWSnFyWUZvODBZQlo5a1VyU3laWU5N?=
- =?utf-8?B?VWxLYnhJTlhOci92OEVTQ2pUOHdaYW9WNzg4S1YwaXFoam9FT3E0U2ZIenJ4?=
- =?utf-8?B?L3BDMFpwc2doOWY2WExyb1NpbXc5SFV5SGRQb2paTW55ZWtZSUdRRlVlcHhl?=
- =?utf-8?B?MG1OdktnTFRLQkxaRTRXczlrbVRmTENWWnNOeEVnQnQ3dnpQYW4xS2NWNFR4?=
- =?utf-8?B?QVV5b2tNLzhVTmhVdDBCeXZSSG9ndDZFQXB3a2N2OGtXdytFc1F2UnQxNUFo?=
- =?utf-8?B?SWt4bDRuUDRkN2dPbmFTWW1kUkF2ZEh5dEk3M080aU9BOGRkTjQ1dXJ3ZnlO?=
- =?utf-8?B?RGMrQU5ZajkxcFcwQmxtakhEenRjSlBZbWdra0Y3ZnVBMDRIWk1PU2xRcmlV?=
- =?utf-8?B?RzVIeVNCaFA2Q014UGRPUURBaE5iRTh2V2R0U095aW8xckRKUk4rSUpzWHM5?=
- =?utf-8?B?WjRxc2t2ajFEcDQ2UnRHZHppdlhqNmthNWtieWJhS2pVQ3FVcFBSUzBYVEJ2?=
- =?utf-8?B?d1A1emdoZno3V1BwUk42TGhMZi9wSFFxUkhtNUFSTUgyUWQ1WndROXFWMmpR?=
- =?utf-8?B?UUNQRVZpZ29FT201c2RTQ1pCOERYQjJ1MTM1T0ZGSXFhZm9KTnYya214TmJs?=
- =?utf-8?B?MEdGWkM2TGhyeUl5UnZESG40bDd1STdZbmFKajBZZFpiRTJQbUtpaDFRZTd5?=
- =?utf-8?B?WVowMzNrYVNLZ0RGaXNHcThXaDdEQW02cWtINGFud0tXV2RHUzUxRXRseW5E?=
- =?utf-8?B?blVzeUl6aWQrejFGZHpmcXlzSGFkRWk2dldZUXYxMTdSSnJvSnV1bGZBZ1VG?=
- =?utf-8?B?bVpEb0pBR1Bwd1IzcHNVcm5jaFVCMmkzeUNiNWxPaTBvZjNsYVJKVEZCR1Ji?=
- =?utf-8?B?cHRBU05rc1hGTDZmZXhlbzVpVE5ubHlnYjRvNnJ2dDl4M1BYdUU1eHpCZWRx?=
- =?utf-8?B?QkVRNE52V2cyN3NjODJTNE5tWWpvc01aRzFCTUFkRlVOYVd5WVdDd0wvZDJF?=
- =?utf-8?B?ZDZGY2hzT3lFYTlUK21KUHluQXpDQTU1dUo1Zjd1cnYvZDRucXl0aG5jaGRx?=
- =?utf-8?B?QVBWSm5lS0tOMDRaTGFFbUZ0Vzc3ZFNKUkN4NkVJMGxwcTgwUGtMOXYvbDZY?=
- =?utf-8?B?a3dPSmhpQVVlOVpWMzFaWUpQbHpzc3pqczFoSUZLSktESjB4R3p0aE8xZW9m?=
- =?utf-8?B?WEZMRTMzL0tQSHVtaUd4L3VqaWpiSElNUFJBcFcraHFxWURWcWxaQ3l4RGlU?=
- =?utf-8?B?cm1JclhMTkk4MldGVmhxaXRONzNBdEg0bU5DYVZRaWNQMWdzckFubVp4cTdM?=
- =?utf-8?B?UEtjVmFYOGxNR2NFTnZ0bkRqcmp2Qm5PemRwZms4S3NBMUVkdXB3K1lxeDho?=
- =?utf-8?B?cGtKTXpjek5ybU1iczFNcjhqVlM4R0pBOURTNktoVEhCbDNFK3JUV0V2dk5B?=
- =?utf-8?B?cEROR3ZiZDhvTUhRcjQ4ZmtlVHdGR0tzWk1KT1cvUEt6NEV3VzhoSGNZbjVN?=
- =?utf-8?B?Mnpldks2U2o1R2VYeWNuZTJVQktsVjJWRWVZNjA2K2lEYmNwY1M0b3piMjcw?=
- =?utf-8?B?OWxGbUVoTkd1L210aWcwSDZ2T1dMYnhqTlBSMUF1RHZrdDl2TE9XSklVc0pY?=
- =?utf-8?Q?TcPu+kuFmXrzPMRdDt9I7A6U3cP3RjQYvtk3hYJ?=
-X-OriginatorOrg: t2data.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a57f4f16-32a8-4a62-a08f-08d8fdebbe67
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0602MB2858.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2021 19:47:02.7878
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 27928da5-aacd-4ba1-9566-c748a6863e6c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4LYEZk3VZh+9/ssrAfMfw/gJF0izx4815xvsPLTLQIZVYqTLryqN8uB28Ev3xDvTA127AmmPKl7Il3z5u5NzbUHhEAqiqSl/R6GizgKqWak=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR06MB3930
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: i-v6nS80wVWVJJuKyEyhkgSIpMzbdzNR
+X-Proofpoint-GUID: i-v6nS80wVWVJJuKyEyhkgSIpMzbdzNR
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-04-13_07:2021-04-13,2021-04-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ phishscore=0 impostorscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 clxscore=1011
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130086
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-While maintaining various projects and kernels, I've often found myself
-thinking "Why is this selected / configured?".
+On 2/28/21 7:10 AM, Masahiro Yamada wrote:
+> scripts/Kbuild.include is included everywhere, but macros such as
+> cc-option are needed by build targets only.
+> 
+> For example, when 'make clean' traverses the tree, it does not need
+> to evaluate $(call cc-option,).
+> 
+> Split cc-option, ld-option, etc. to scripts/Makefile.compiler, which
+> is only included from the top Makefile and scripts/Makefile.build.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Sometimes I'll find information in a disjunct documentation system or in
-the head of somebody else. But most of the time that piece of
-information is just lost. Configurations get moved from various
-repositories, so that type of disconnected information also gets trashed.
+This commit broke the KVM selftest compilation under s390 in linux-next
+for me. Funny enough the compilation is only broken on Ubuntu, under
+Fedora the test fails with an assertion.
 
-So here I am thinking that it would be nice if the configuration
-supported some form of simple annotation to variable mechanism. Ie, part
-of the actual config (only during read / write) and not just a
-whashed-away comment.
+FEDORA:
+[root@fedora kvm]# ./set_memory_region_test
+Allowed number of memory slots: 32767
+==== Test Assertion Failure ====
+  lib/kvm_util.c:142: vm->fd >= 0
+  pid=1541645 tid=1541645 - Invalid argument
+     1	0x0000000001002f4b: vm_open at kvm_util.c:142
+     2	 (inlined by) vm_create at kvm_util.c:258
+     3	0x00000000010015ef: test_add_max_memory_regions at
+set_memory_region_test.c:351
+     4	 (inlined by) main at set_memory_region_test.c:397
+     5	0x000003ffa3d2bb89: ?? ??:0
+     6	0x00000000010017ad: .annobin_abi_note.c.hot at crt1.o:?
+  KVM_CREATE_VM ioctl failed, rc: -1 errno: 22
 
-I thought I should ask before I go about doing something already fixed
-or have other obvious solutions.
 
-Thanks.
+Ubuntu:
+make[1]: Leaving directory '/mnt/dev/linux'
+gcc -Wall -Wstrict-prototypes -Wuninitialized -O2 -g -std=gnu99
+-fno-stack-protector -fno-PIE -I../../../../tools/include
+-I../../../../tools/arch/s390/include -I../../../../usr/include/
+-Iinclude -Ilib -Iinclude/s390x -I..   -c lib/sparsebit.c -o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/sparsebit.o
+gcc -Wall -Wstrict-prototypes -Wuninitialized -O2 -g -std=gnu99
+-fno-stack-protector -fno-PIE -I../../../../tools/include
+-I../../../../tools/arch/s390/include -I../../../../usr/include/
+-Iinclude -Ilib -Iinclude/s390x -I..   -c lib/kvm_util.c -o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/kvm_util.o
+gcc -Wall -Wstrict-prototypes -Wuninitialized -O2 -g -std=gnu99
+-fno-stack-protector -fno-PIE -I../../../../tools/include
+-I../../../../tools/arch/s390/include -I../../../../usr/include/
+-Iinclude -Ilib/s390x -Iinclude/s390x -I..   -c
+lib/s390x/diag318_test_handler.c -o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/s390x/diag318_test_handler.o
+ar crs /mnt/dev/linux/tools/testing/selftests/kvm/libkvm.a
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/assert.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/elf.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/io.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/kvm_util.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/sparsebit.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/test_util.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/guest_modes.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/perf_test_util.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/s390x/processor.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/s390x/ucall.o
+/mnt/dev/linux/tools/testing/selftests/kvm/lib/s390x/diag318_test_handler.o
+gcc -Wall -Wstrict-prototypes -Wuninitialized -O2 -g -std=gnu99
+-fno-stack-protector -fno-PIE -I../../../../tools/include
+-I../../../../tools/arch/s390/include -I../../../../usr/include/
+-Iinclude -Is390x -Iinclude/s390x -I..  -pthread    s390x/memop.c
+/mnt/dev/linux/tools/testing/selftests/kvm/libkvm.a  -o
+/mnt/dev/linux/tools/testing/selftests/kvm/s390x/memop
+/usr/bin/ld: /tmp/ccFU8WYF.o: `stdout@@GLIBC_2.2' non-PLT reloc for
+symbol defined in shared library and accessed from executable (rebuild
+file with -fPIC ?)
+/usr/bin/ld: final link failed: bad value
+collect2: error: ld returned 1 exit status
+make: *** [../lib.mk:139:
+/mnt/dev/linux/tools/testing/selftests/kvm/s390x/memop] Error 1
+
+> ---
+> 
+>  Makefile                  |  4 ++
+>  scripts/Kbuild.include    | 80 ---------------------------------------
+>  scripts/Makefile.build    |  1 +
+>  scripts/Makefile.compiler | 77 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 82 insertions(+), 80 deletions(-)
+>  create mode 100644 scripts/Makefile.compiler
+> 
+> diff --git a/Makefile b/Makefile
+> index 2253e31a6bcf..eec7a94f5c33 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -582,6 +582,10 @@ KBUILD_AFLAGS	+= $(CLANG_FLAGS)
+>  export CLANG_FLAGS
+>  endif
+> 
+> +# Include this also for config targets because some architectures need
+> +# cc-cross-prefix to determine CROSS_COMPILE.
+> +include $(srctree)/scripts/Makefile.compiler
+> +
+>  ifdef config-build
+>  # ===========================================================================
+>  # *config targets only - make sure prerequisites are updated, and descend
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index 509e0856d653..82dd1b65b7a8 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -67,86 +67,6 @@ define filechk
+>  	fi
+>  endef
+> 
+> -######
+> -# gcc support functions
+> -# See documentation in Documentation/kbuild/makefiles.rst
+> -
+> -# cc-cross-prefix
+> -# Usage: CROSS_COMPILE := $(call cc-cross-prefix, m68k-linux-gnu- m68k-linux-)
+> -# Return first <prefix> where a <prefix>gcc is found in PATH.
+> -# If no gcc found in PATH with listed prefixes return nothing
+> -#
+> -# Note: '2>/dev/null' is here to force Make to invoke a shell. Otherwise, it
+> -# would try to directly execute the shell builtin 'command'. This workaround
+> -# should be kept for a long time since this issue was fixed only after the
+> -# GNU Make 4.2.1 release.
+> -cc-cross-prefix = $(firstword $(foreach c, $(1), \
+> -			$(if $(shell command -v -- $(c)gcc 2>/dev/null), $(c))))
+> -
+> -# output directory for tests below
+> -TMPOUT = $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/).tmp_$$$$
+> -
+> -# try-run
+> -# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
+> -# Exit code chooses option. "$$TMP" serves as a temporary file and is
+> -# automatically cleaned up.
+> -try-run = $(shell set -e;		\
+> -	TMP=$(TMPOUT)/tmp;		\
+> -	TMPO=$(TMPOUT)/tmp.o;		\
+> -	mkdir -p $(TMPOUT);		\
+> -	trap "rm -rf $(TMPOUT)" EXIT;	\
+> -	if ($(1)) >/dev/null 2>&1;	\
+> -	then echo "$(2)";		\
+> -	else echo "$(3)";		\
+> -	fi)
+> -
+> -# as-option
+> -# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> -
+> -as-option = $(call try-run,\
+> -	$(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
+> -
+> -# as-instr
+> -# Usage: cflags-y += $(call as-instr,instr,option1,option2)
+> -
+> -as-instr = $(call try-run,\
+> -	printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
+> -
+> -# __cc-option
+> -# Usage: MY_CFLAGS += $(call __cc-option,$(CC),$(MY_CFLAGS),-march=winchip-c6,-march=i586)
+> -__cc-option = $(call try-run,\
+> -	$(1) -Werror $(2) $(3) -c -x c /dev/null -o "$$TMP",$(3),$(4))
+> -
+> -# cc-option
+> -# Usage: cflags-y += $(call cc-option,-march=winchip-c6,-march=i586)
+> -
+> -cc-option = $(call __cc-option, $(CC),\
+> -	$(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
+> -
+> -# cc-option-yn
+> -# Usage: flag := $(call cc-option-yn,-march=winchip-c6)
+> -cc-option-yn = $(call try-run,\
+> -	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) $(1) -c -x c /dev/null -o "$$TMP",y,n)
+> -
+> -# cc-disable-warning
+> -# Usage: cflags-y += $(call cc-disable-warning,unused-but-set-variable)
+> -cc-disable-warning = $(call try-run,\
+> -	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+> -
+> -# cc-ifversion
+> -# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+> -cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+> -
+> -# ld-option
+> -# Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+> -ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+> -
+> -# ld-ifversion
+> -# Usage:  $(call ld-ifversion, -ge, 22252, y)
+> -ld-ifversion = $(shell [ $(CONFIG_LD_VERSION)0 $(1) $(2)0 ] && echo $(3) || echo $(4))
+> -
+> -######
+> -
+>  ###
+>  # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
+>  # Usage:
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 750d6d5225af..d74d3383666e 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -36,6 +36,7 @@ subdir-ccflags-y :=
+>  -include include/config/auto.conf
+> 
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.compiler
+> 
+>  # The filename Kbuild has precedence over Makefile
+>  kbuild-dir := $(if $(filter /%,$(src)),$(src),$(srctree)/$(src))
+> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+> new file mode 100644
+> index 000000000000..5f759ecc4f04
+> --- /dev/null
+> +++ b/scripts/Makefile.compiler
+> @@ -0,0 +1,77 @@
+> +######
+> +# gcc support functions
+> +# See documentation in Documentation/kbuild/makefiles.rst
+> +
+> +# cc-cross-prefix
+> +# Usage: CROSS_COMPILE := $(call cc-cross-prefix, m68k-linux-gnu- m68k-linux-)
+> +# Return first <prefix> where a <prefix>gcc is found in PATH.
+> +# If no gcc found in PATH with listed prefixes return nothing
+> +#
+> +# Note: '2>/dev/null' is here to force Make to invoke a shell. Otherwise, it
+> +# would try to directly execute the shell builtin 'command'. This workaround
+> +# should be kept for a long time since this issue was fixed only after the
+> +# GNU Make 4.2.1 release.
+> +cc-cross-prefix = $(firstword $(foreach c, $(1), \
+> +			$(if $(shell command -v -- $(c)gcc 2>/dev/null), $(c))))
+> +
+> +# output directory for tests below
+> +TMPOUT = $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/).tmp_$$$$
+> +
+> +# try-run
+> +# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
+> +# Exit code chooses option. "$$TMP" serves as a temporary file and is
+> +# automatically cleaned up.
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	TMPO=$(TMPOUT)/tmp.o;		\
+> +	mkdir -p $(TMPOUT);		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
+> +
+> +# as-option
+> +# Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> +
+> +as-option = $(call try-run,\
+> +	$(CC) $(KBUILD_CFLAGS) $(1) -c -x assembler /dev/null -o "$$TMP",$(1),$(2))
+> +
+> +# as-instr
+> +# Usage: cflags-y += $(call as-instr,instr,option1,option2)
+> +
+> +as-instr = $(call try-run,\
+> +	printf "%b\n" "$(1)" | $(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
+> +
+> +# __cc-option
+> +# Usage: MY_CFLAGS += $(call __cc-option,$(CC),$(MY_CFLAGS),-march=winchip-c6,-march=i586)
+> +__cc-option = $(call try-run,\
+> +	$(1) -Werror $(2) $(3) -c -x c /dev/null -o "$$TMP",$(3),$(4))
+> +
+> +# cc-option
+> +# Usage: cflags-y += $(call cc-option,-march=winchip-c6,-march=i586)
+> +
+> +cc-option = $(call __cc-option, $(CC),\
+> +	$(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
+> +
+> +# cc-option-yn
+> +# Usage: flag := $(call cc-option-yn,-march=winchip-c6)
+> +cc-option-yn = $(call try-run,\
+> +	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) $(1) -c -x c /dev/null -o "$$TMP",y,n)
+> +
+> +# cc-disable-warning
+> +# Usage: cflags-y += $(call cc-disable-warning,unused-but-set-variable)
+> +cc-disable-warning = $(call try-run,\
+> +	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+> +
+> +# cc-ifversion
+> +# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+> +cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+> +
+> +# ld-option
+> +# Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+> +ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+> +
+> +# ld-ifversion
+> +# Usage:  $(call ld-ifversion, -ge, 22252, y)
+> +ld-ifversion = $(shell [ $(CONFIG_LD_VERSION)0 $(1) $(2)0 ] && echo $(3) || echo $(4))
+> 
+
