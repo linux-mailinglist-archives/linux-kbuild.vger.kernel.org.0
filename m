@@ -2,126 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A3635FBCB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 21:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41C9F35FBCF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 21:45:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242822AbhDNTpf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 15:45:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
+        id S1349141AbhDNTpp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 15:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234993AbhDNTpf (ORCPT
+        with ESMTP id S1347936AbhDNTpo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 15:45:35 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A358FC06175F
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 12:45:12 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id a25so11246575ljm.11
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 12:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=catwv2q3GSgLTDfMsYUmKmCZSwshqzh+pHe6dS6qFq0=;
-        b=QSP43wtvqaEpZcRARk7mnw6oGOWu/4ywNnl/aVkEAOC2K7s8WzvGjOeQ31KNa9gAzv
-         Kwi4DqSQUP2RnnG596Y/A8JFnkJHEpUBMWLjMY+a11yRwc7I1t6lIfi35/Jgsk4ZVu7F
-         xXR4Tg1KelOIvKHH456Hdflb01KVNQFjYFjuM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=catwv2q3GSgLTDfMsYUmKmCZSwshqzh+pHe6dS6qFq0=;
-        b=lNznhZl4B48zehyMPqVbMbzKWNmJcsZQk/eLPKNaWgaX8ERmFdMySVF2swDulzEgU2
-         dtMLulK/Jh+6tvET4xpDue91YwpBQ3B9BkfBTM8Evp2gf0NIzituj6kmkXT3IxXJHrV2
-         sQ4UbbvFATK5tuW7I8A1+wzhGMSDL5eFrzC6QFBu02UJqgajLgmtSq9hbngYzueO+IvT
-         7Q7Tpy7EKX1+AECn8DeukPyl3XDs6cC+fZnVZ+bCWWFjo4pKf2/OEHWULhSBbLVjOK6n
-         0N2HibAJUsLjKPghBNddak8mByoXzmhzuLfourqgsjsz0NqpX4bKPkIYXNfo0KL1yNw+
-         oG+Q==
-X-Gm-Message-State: AOAM5318nw7k8N57fRhCJ46AKwHYd9vlDjUdea6tK0Egzbcjp2E749cZ
-        cR0y7gYnp5EqEY7m85f8I/jo3MLg9w+aqHhF
-X-Google-Smtp-Source: ABdhPJzlvUaykN6hFuBdTPOOG5OhjMQjug5LaBxGlvtsWUpRFyXYUUYsUZBpVKAQ3H48uDVl69M9vA==
-X-Received: by 2002:a2e:8657:: with SMTP id i23mr8002904ljj.72.1618429510868;
-        Wed, 14 Apr 2021 12:45:10 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id l7sm109501lje.30.2021.04.14.12.45.10
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 12:45:10 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id n138so35249588lfa.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 12:45:10 -0700 (PDT)
-X-Received: by 2002:ac2:58fc:: with SMTP id v28mr26526183lfo.201.1618429509986;
- Wed, 14 Apr 2021 12:45:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org>
-In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 14 Apr 2021 12:44:54 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh_sNLoz84AUUzuqXEsYH35u=8HV3vK-jbRbJ_B-JjGrg@mail.gmail.com>
-Message-ID: <CAHk-=wh_sNLoz84AUUzuqXEsYH35u=8HV3vK-jbRbJ_B-JjGrg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
+        Wed, 14 Apr 2021 15:45:44 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A4EC061574;
+        Wed, 14 Apr 2021 12:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=gli4OQgNBy4Y7eTH9cJneL6jzKQeus+YAS1EFmNv1Hg=; b=EQXXk6xBvoPl5/lwskuCNB/K2A
+        nf6fMzNmzNkwo1/Agd5C2Zg/hZcMWlUHj3lzqTFlal+axjZ0qdN0kZYU4qJYG1r7OnfGMEkVdif2z
+        EjlibfSI0HbuAG+lR9i82Wbzo3B7RxLKQCIsHiuy7eXOZN3Dgvk/WjtWJM17VG99RbYWcycMmZnXx
+        uCJiOd19nK8idbSXx5m6ShEptIIjtsrSL1FwoxptLrp68hixsxNJ3TfTUKI0j4nG5iuU27PHXiO71
+        3IQrzTaPTzHVw5ClbA5prDkRIJ89c0qIvmTvCgyIm9vQ6G7Uigrnc3bmBc95k41o/Z0CpEFG4sSOv
+        N3xrRztw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lWlRW-007YIZ-3c; Wed, 14 Apr 2021 19:45:04 +0000
+Date:   Wed, 14 Apr 2021 20:44:54 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     ojeda@kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+Subject: Re: [PATCH 01/13] kallsyms: Support "big" kernel symbols (2-byte
+ lengths)
+Message-ID: <20210414194454.GV2531743@casper.infradead.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <20210414184604.23473-2-ojeda@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414184604.23473-2-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 11:46 AM <ojeda@kernel.org> wrote:
->
-> Some of you have noticed the past few weeks and months that
-> a serious attempt to bring a second language to the kernel was
-> being forged. We are finally here, with an RFC that adds support
-> for Rust to the Linux kernel.
+On Wed, Apr 14, 2021 at 08:45:52PM +0200, ojeda@kernel.org wrote:
+> Increasing to 255 is not enough in some cases, and therefore
+> we need to introduce 2-byte lengths to the symbol table. We call
+> these "big" symbols.
+> 
+> In order to avoid increasing all lengths to 2 bytes (since most
+> of them only require 1 byte, including many Rust ones), we use
+> length zero to mark "big" symbols in the table.
 
-So I replied with my reactions to a couple of the individual patches,
-but on the whole I don't hate it.
+How about doing something a bit more utf-8-like?
 
-HOWEVER.
+	len = data[0];
+	if (len == 0)
+		error
+	else if (len < 128)
+		return len;
+	else if (len < 192)
+		return 128 + (len - 128) * 256 + data[1];
+... that takes you all the way out to 16511 bytes.  You probably don't
+even need the third byte option.  But if you do ...
+	else if (len < 223)
+		return 16512 + (len - 192) * 256 * 256 +
+			data[1] * 256 + data[2];
+which takes you all the way out to 2,113,663 bytes and leaves 224-255 unused.
 
-I do think that the "run-time failure panic" is a fundamental issue.
+Alternatively, if the symbols are really this long, perhaps we should not
+do string matches.  A sha-1 (... or whatever ...) hash of the function
+name is 160 bits.  Expressed as hex digits, that's 40 characters.
+Expressed in base-64, it's 27 characters.  We'd also want a "pretty"
+name to go along with the hash, but that seems preferable to printing
+out a mangled-with-types-and-who-knows-what name.
 
-I may not understand the ramifications of when it can happen, so maybe
-it's less of an issue than I think it is, but very fundamentally I
-think that if some Rust allocation can cause a panic, this is simply
-_fundamentally_ not acceptable.
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
 
-Allocation failures in a driver or non-core code - and that is by
-definition all of any new Rust code - can never EVER validly cause
-panics. Same goes for "oh, some case I didn't test used 128-bit
-integers or floating point".
+If you have C-d-b, you don't also need S-o-b.
 
-So if the Rust compiler causes hidden allocations that cannot be
-caught and returned as errors, then I seriously think that this whole
-approach needs to be entirely NAK'ed, and the Rust infrastructure -
-whether at the compiler level or in the kernel wrappers - needs more
-work.
-
-So if the panic was just some placeholder for things that _can_ be
-caught, then I think that catching code absolutely needs to be
-written, and not left as a to-do.
-
-And if the panic situation is some fundamental "this is what the Rust
-compiler does for internal allocation failures", then I think it needs
-more than just kernel wrapper work - it needs the Rust compiler to be
-*fixed*.
-
-Because kernel code is different from random user-space system tools.
-Running out of memory simply MUST NOT cause an abort.  It needs to
-just result in an error return.
-
-I don't know enough about how the out-of-memory situations would be
-triggered and caught to actually know whether this is a fundamental
-problem or not, so my reaction comes from ignorance, but basically the
-rule has to be that there are absolutely zero run-time "panic()"
-calls. Unsafe code has to either be caught at compile time, or it has
-to be handled dynamically as just a regular error.
-
-With the main point of Rust being safety, there is no way I will ever
-accept "panic dynamically" (whether due to out-of-memory or due to
-anything else - I also reacted to the "floating point use causes
-dynamic panics") as a feature in the Rust model.
-
-           Linus
