@@ -2,74 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE7E35FCD5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 22:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C8B35FD74
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 23:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232332AbhDNUrP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 16:47:15 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:40119 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231415AbhDNUrP (ORCPT
+        id S229567AbhDNV4G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 17:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhDNV4F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 16:47:15 -0400
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 842FDC15D0;
-        Wed, 14 Apr 2021 20:35:41 +0000 (UTC)
-X-Originating-IP: 50.39.163.217
-Received: from localhost (unknown [50.39.163.217])
-        (Authenticated sender: josh@joshtriplett.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id A9393FF804;
-        Wed, 14 Apr 2021 20:35:15 +0000 (UTC)
-Date:   Wed, 14 Apr 2021 13:35:13 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>, ojeda@kernel.org,
+        Wed, 14 Apr 2021 17:56:05 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FEF6C061756
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 14:55:42 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id f17so28678987lfu.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 14:55:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B4PaWns9RJ50yLEbIsVE4NO8Jz9HTGhoiTqPXXKZY0o=;
+        b=s1wyX63Xge5OaK2bvQYCPwYwTo8RW1Ss67gsTC4iCTzZoahL7laxohuv/MPLIUzFoj
+         ROAq7rAsGUJOA652YpszDiLcIHiw/bsF8Kf104koIMVxrs7IjfC2ZMLFvWqo/K2PjrBv
+         h1TVj+FK5oxtvzbQ7S1AJgKqzqCudfvIdDXy1QN+hrDEZlChwUSuxEj2IEbP0x7z+qv6
+         OeqQUR+rWppCmnEJ551i0JpWrikmiqQ7ruYF4Ze1kETfUI/jXkJl805i5UQrnF4YiPjq
+         Ij8EDur12AMreoEbspDDbQikoLxbNDoqI3ehMI1TtNuIBWQm6HZCP3W0DV0IHf6fdmKW
+         GK3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B4PaWns9RJ50yLEbIsVE4NO8Jz9HTGhoiTqPXXKZY0o=;
+        b=j3VqzLOvmiQOr7MblY9qyD5E/14EGq3dS5eLq6WxzvNZ3FBjzBppfM1CeD1lf7t0YH
+         cY4/9Rl/CYwg3hLGcvtX5MeAWi60cdZI3ciKx/K9n5KLaHjNu4FRVYkBCnrp8WFx2GvH
+         SvOSwaIbxNMEK0qqCOWq+F9AT+NFoiiDKqRrj8CWk+wnYhPxG2fVSfgS+zkRJfuxWNp0
+         d7cT/apu3qciFJW1AJMA2ik7VaEnHA4xy/7UahKJy21a9TGrtjVk00DP9oL7Kvet/HW7
+         xk4fXR6SbO+DixBrIMocNTnYkr/5VXv3aPHsEakR63VPCeBlEp1F4yb93zTcMWFqsugy
+         F8jw==
+X-Gm-Message-State: AOAM533gNFpa0sfp6f/zGEirTjiK25gvvhk0bWZ3L0eUexuhuFTQHEvM
+        vxpdKekNihYsGDecoN891oiWXe583oFvMxVL2HJ6ew==
+X-Google-Smtp-Source: ABdhPJybnuynIs4AvePyaUNGDLqr+r0Yz2Iy4PQXStulsEF5z88FI42uo8XdSJXWQ5Lzbs9b7+w3vLEui4bGWt/MeGM=
+X-Received: by 2002:a19:a410:: with SMTP id q16mr197991lfc.73.1618437340809;
+ Wed, 14 Apr 2021 14:55:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-12-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-12-ojeda@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 14 Apr 2021 14:55:29 -0700
+Message-ID: <CAKwvOdniKs+cNKS9qHgq3xR6cmJ7xdiVpAzxaQEN372HY6xc7w@mail.gmail.com>
+Subject: Re: [PATCH 11/13] MAINTAINERS: Rust
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHdSATy9am21Tj4Z@localhost>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414200953.GX2531743@casper.infradead.org>
- <CAHk-=wgdhVW3+YFHG5Le=mZMYf3mGjgv1f-Td=254bj9fYd7fg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgdhVW3+YFHG5Le=mZMYf3mGjgv1f-Td=254bj9fYd7fg@mail.gmail.com>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 01:21:52PM -0700, Linus Torvalds wrote:
-> On Wed, Apr 14, 2021 at 1:10 PM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > There's a philosophical point to be discussed here which you're skating
-> > right over!  Should rust-in-the-linux-kernel provide the same memory
-> > allocation APIs as the rust-standard-library, or should it provide a Rusty
-> > API to the standard-linux-memory-allocation APIs?
-> 
-> Yeah, I think that the standard Rust API may simply not be acceptable
-> inside the kernel, if it has similar behavior to the (completely
-> broken) C++ "new" operator.
-> 
-> So anything that does "panic!" in the normal Rust API model needs to
-> be (statically) caught, and never exposed as an actual call to
-> "panic()/BUG()" in the kernel.
+On Wed, Apr 14, 2021 at 11:50 AM <ojeda@kernel.org> wrote:
+>
+> From: Miguel Ojeda <ojeda@kernel.org>
+>
+> Miguel, Alex and Wedson will be maintaining the Rust support.
+>
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  MAINTAINERS | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9e876927c60d..de32aaa5cabd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15547,6 +15547,20 @@ L:     linux-rdma@vger.kernel.org
+>  S:     Maintained
+>  F:     drivers/infiniband/ulp/rtrs/
+>
+> +RUST
+> +M:     Miguel Ojeda <ojeda@kernel.org>
+> +M:     Alex Gaynor <alex.gaynor@gmail.com>
+> +M:     Wedson Almeida Filho <wedsonaf@google.com>
+> +L:     rust-for-linux@vger.kernel.org
+> +S:     Maintained
 
-Rust has both kinds of allocation APIs: you can call a method like
-`Box::new` that panics on allocation failure, or a method like
-`Box::try_new` that returns an error on allocation failure.
+Assuming this will at least be part of Wedson's core responsibilities,
+shouldn't this be "Supported."  Per Maintainers:
+   87   S: *Status*, one of the following:
+   88      Supported: Someone is actually paid to look after this.
+   89      Maintained:  Someone actually looks after it.
 
-With some additional infrastructure that's still in progress, we could
-just not supply the former kind of methods at all, and *only* supply the
-latter, so that you're forced to handle allocation failure. That just
-requires introducing some further ability to customize the Rust standard
-library.
+Either way,
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 
-(There are some cases of methods in the standard library that don't have
-a `try_` equivalent, but we could fix that. Right now, for instance,
-there isn't a `try_` equivalent of every Vec method, and you're instead
-expected to call `try_reserve` to make sure you have enough memory
-first; however, that could potentially be changed.)
+> +W:     https://github.com/Rust-for-Linux/linux
+> +B:     https://github.com/Rust-for-Linux/linux/issues
+> +T:     git https://github.com/Rust-for-Linux/linux.git rust-next
+> +F:     rust/
+> +F:     samples/rust/
+> +F:     Documentation/rust/
+> +K:     \b(?i:rust)\b
+> +
+>  RXRPC SOCKETS (AF_RXRPC)
+>  M:     David Howells <dhowells@redhat.com>
+>  L:     linux-afs@lists.infradead.org
+> --
+> 2.17.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
