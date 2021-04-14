@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 945C135FB01
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 20:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3718E35FB03
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 20:50:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347069AbhDNSr1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 14:47:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49476 "EHLO mail.kernel.org"
+        id S1353118AbhDNSr3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 14:47:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49520 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229701AbhDNSrU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 14:47:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD09761164;
-        Wed, 14 Apr 2021 18:46:55 +0000 (UTC)
+        id S1353100AbhDNSrX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Apr 2021 14:47:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86C9D61153;
+        Wed, 14 Apr 2021 18:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618426018;
-        bh=XJiJJuVwnvQcSLswwknj9/tLNfz/b73hBs7niCKIbBg=;
+        s=k20201202; t=1618426021;
+        bh=sSaabGJcHqsImqTp9uM3tN4IMkQpcaooswfeQl4xwwM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PiJ9YJ4wgh8W+55FH9RAXv9Hv+cpVoZAJxlpwLtEr8Om0QOxNHpSC+fCBCi1Rn4En
-         8qi1F4Oe1BgtippF8RdbM68ccPdZeSlkz+4RsLVJcAbd762gq6dfkZKoR2mU3nqAC1
-         oTYlMm4AwE2AmcC8/OJtY+o6q5V8q9+e4GvjJ6YZ8AQ14P+nSiP43cThCuLHDRN8U3
-         5eZ8Gb7uxsrVQBSZYx4Jn9jt+ccuiEI0bBrrrSLkopAGKriY3g+0GbQDfPAXf2M0hc
-         OBwGvO4spjUaZz7HNKakzFHxnz2NDkfWe3owbaxpcwNUBU+VuQzf3Vh/ShIrz3wKx8
-         L1969oHp47Dig==
+        b=AJOKe5AfcRulr42dSsJ+7l0c3sED280fOmZvsQR5raxs1P59zzCkJ2b1RApX7wHtO
+         bIg44dHc+5LN5LvLUU90gXbTwDrU1tkDEtIBbnk83k5iYVjKSZG/FgnKkN+h7LdyGN
+         P3WmA1xpldtef3pJVMvAUclLNiCEOmrWsW7HLK/MeWyMO3ebfZcqpxDioK7kDsvovX
+         nGlrQun/JUdMvOOrsVT1xO2kdIm0dTZaUaops9rrQfxBA6VBsTIitqvsu1o0CQmS5a
+         DT40g36XCQ9LZFXhB5t4RZO3D6TW04K3kLMtxlJSPxGTeetbhxRSU/WlbO1owtjqoW
+         YWsdE9byY5UUg==
 From:   ojeda@kernel.org
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -34,9 +34,9 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
         Wedson Almeida Filho <wedsonaf@google.com>
-Subject: [PATCH 09/13] Samples: Rust examples
-Date:   Wed, 14 Apr 2021 20:46:00 +0200
-Message-Id: <20210414184604.23473-10-ojeda@kernel.org>
+Subject: [PATCH 10/13] Documentation: Rust general information
+Date:   Wed, 14 Apr 2021 20:46:01 +0200
+Message-Id: <20210414184604.23473-11-ojeda@kernel.org>
 In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
 References: <20210414184604.23473-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -47,13 +47,13 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Miguel Ojeda <ojeda@kernel.org>
 
-A set of Rust modules that showcase how Rust modules look like
-and how to use the abstracted kernel features.
+Most of the documentation for Rust is written within the source code
+itself, as it is idiomatic for Rust projects. This applies to both
+the shared infrastructure at `rust/` as well as any other Rust module
+(e.g. drivers) written across the kernel.
 
-At the moment we also use them as poor man's tests in our CI.
-However, we plan to implement a proper testing framework.
-
-The semaphore sample comes with a C version for comparison.
+These documents are general information that do not fit particularly
+well in the source code, like the quick start guide.
 
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
@@ -67,1129 +67,529 @@ Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
 Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- samples/Kconfig                        |   2 +
- samples/Makefile                       |   1 +
- samples/rust/Kconfig                   | 103 ++++++++++++
- samples/rust/Makefile                  |  11 ++
- samples/rust/rust_chrdev.rs            |  66 ++++++++
- samples/rust/rust_minimal.rs           |  40 +++++
- samples/rust/rust_miscdev.rs           | 145 +++++++++++++++++
- samples/rust/rust_module_parameters.rs |  72 +++++++++
- samples/rust/rust_print.rs             |  58 +++++++
- samples/rust/rust_semaphore.rs         | 178 +++++++++++++++++++++
- samples/rust/rust_semaphore_c.c        | 212 +++++++++++++++++++++++++
- samples/rust/rust_stack_probing.rs     |  42 +++++
- samples/rust/rust_sync.rs              |  84 ++++++++++
- 13 files changed, 1014 insertions(+)
- create mode 100644 samples/rust/Kconfig
- create mode 100644 samples/rust/Makefile
- create mode 100644 samples/rust/rust_chrdev.rs
- create mode 100644 samples/rust/rust_minimal.rs
- create mode 100644 samples/rust/rust_miscdev.rs
- create mode 100644 samples/rust/rust_module_parameters.rs
- create mode 100644 samples/rust/rust_print.rs
- create mode 100644 samples/rust/rust_semaphore.rs
- create mode 100644 samples/rust/rust_semaphore_c.c
- create mode 100644 samples/rust/rust_stack_probing.rs
- create mode 100644 samples/rust/rust_sync.rs
+ Documentation/doc-guide/kernel-doc.rst |   3 +
+ Documentation/index.rst                |   1 +
+ Documentation/rust/arch-support.rst    |  29 ++++
+ Documentation/rust/coding.rst          |  92 +++++++++++
+ Documentation/rust/docs.rst            | 109 +++++++++++++
+ Documentation/rust/index.rst           |  20 +++
+ Documentation/rust/quick-start.rst     | 203 +++++++++++++++++++++++++
+ 7 files changed, 457 insertions(+)
+ create mode 100644 Documentation/rust/arch-support.rst
+ create mode 100644 Documentation/rust/coding.rst
+ create mode 100644 Documentation/rust/docs.rst
+ create mode 100644 Documentation/rust/index.rst
+ create mode 100644 Documentation/rust/quick-start.rst
 
-diff --git a/samples/Kconfig b/samples/Kconfig
-index e76cdfc50e25..f1f8ba9bee82 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -216,4 +216,6 @@ config SAMPLE_WATCH_QUEUE
- 	  Build example userspace program to use the new mount_notify(),
- 	  sb_notify() syscalls and the KEYCTL_WATCH_KEY keyctl() function.
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 79aaa55d6bcf..c655fdb9c042 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -11,6 +11,9 @@ when it is embedded in source files.
+    reasons. The kernel source contains tens of thousands of kernel-doc
+    comments. Please stick to the style described here.
  
-+source "samples/rust/Kconfig"
++.. note:: kernel-doc does not cover Rust code: please see
++   :ref:`Documentation/rust/docs.rst <rust_docs>` instead.
 +
- endif # SAMPLES
-diff --git a/samples/Makefile b/samples/Makefile
-index c3392a595e4b..68ba3b3da044 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -29,3 +29,4 @@ obj-$(CONFIG_SAMPLE_INTEL_MEI)		+= mei/
- subdir-$(CONFIG_SAMPLE_WATCHDOG)	+= watchdog
- subdir-$(CONFIG_SAMPLE_WATCH_QUEUE)	+= watch_queue
- obj-$(CONFIG_DEBUG_KMEMLEAK_TEST)	+= kmemleak/
-+obj-$(CONFIG_SAMPLES_RUST)		+= rust/
-diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
+ The kernel-doc structure is extracted from the comments, and proper
+ `Sphinx C Domain`_ function and type descriptions with anchors are
+ generated from them. The descriptions are filtered for special kernel-doc
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 31f2adc8542d..3e7c43a48e68 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -82,6 +82,7 @@ merged much easier.
+    maintainer/index
+    fault-injection/index
+    livepatch/index
++   rust/index
+ 
+ 
+ Kernel API documentation
+diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
 new file mode 100644
-index 000000000000..8eb5d5ebdf00
+index 000000000000..d72ab2f8fa46
 --- /dev/null
-+++ b/samples/rust/Kconfig
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/rust/arch-support.rst
+@@ -0,0 +1,29 @@
++.. _rust_arch_support:
 +
-+menuconfig SAMPLES_RUST
-+	bool "Rust samples"
-+	depends on RUST
-+	help
-+	  You can build sample Rust kernel code here.
++Arch Support
++============
 +
-+	  If unsure, say N.
++Currently, the Rust compiler (``rustc``) uses LLVM for code generation,
++which limits the supported architectures we can target. In addition, support
++for building the kernel with LLVM/Clang varies (see :ref:`kbuild_llvm`),
++which ``bindgen`` relies on through ``libclang``.
 +
-+if SAMPLES_RUST
++Below is a general summary of architectures that currently work. Level of
++support corresponds to ``S`` values in the ``MAINTAINERS`` file.
 +
-+config SAMPLE_RUST_MINIMAL
-+	tristate "Minimal"
-+	help
-+	  This option builds the Rust minimal module sample.
++.. list-table::
++   :widths: 10 10 10
++   :header-rows: 1
 +
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_minimal.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_PRINT
-+	tristate "Printing macros"
-+	help
-+	  This option builds the Rust printing macros sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_print.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_MODULE_PARAMETERS
-+	tristate "Module parameters"
-+	help
-+	  This option builds the Rust module parameters sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_module_parameters.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_SYNC
-+	tristate "Synchronisation primitives"
-+	help
-+	  This option builds the Rust synchronisation primitives sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_sync.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_CHRDEV
-+	tristate "Character device"
-+	help
-+	  This option builds the Rust character device sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_chrdev.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_MISCDEV
-+	tristate "Miscellaneous device"
-+	help
-+	  This option builds the Rust miscellaneous device sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_miscdev.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_STACK_PROBING
-+	tristate "Stack probing"
-+	help
-+	  This option builds the Rust stack probing sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_stack_probing.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_SEMAPHORE
-+	tristate "Semaphore"
-+	help
-+	  This option builds the Rust semaphore sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_semaphore.
-+
-+	  If unsure, say N.
-+
-+config SAMPLE_RUST_SEMAPHORE_C
-+	tristate "Semaphore (in C, for comparison)"
-+	help
-+	  This option builds the Rust semaphore sample (in C, for comparison).
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_semaphore_c.
-+
-+	  If unsure, say N.
-+
-+endif # SAMPLES_RUST
-diff --git a/samples/rust/Makefile b/samples/rust/Makefile
++   * - Architecture
++     - Level of support
++     - Constraints
++   * - ``arm64``
++     - Maintained
++     - None
++   * - ``powerpc``
++     - Maintained
++     - ``ppc64le`` only, ``RUST_OPT_LEVEL >= 2``
++   * - ``x86``
++     - Maintained
++     - ``x86_64`` only
+diff --git a/Documentation/rust/coding.rst b/Documentation/rust/coding.rst
 new file mode 100644
-index 000000000000..c53a71999d8f
+index 000000000000..46da5fb0974c
 --- /dev/null
-+++ b/samples/rust/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/rust/coding.rst
+@@ -0,0 +1,92 @@
++.. _rust_coding:
 +
-+obj-$(CONFIG_SAMPLE_RUST_MINIMAL)		+= rust_minimal.o
-+obj-$(CONFIG_SAMPLE_RUST_PRINT)			+= rust_print.o
-+obj-$(CONFIG_SAMPLE_RUST_MODULE_PARAMETERS)	+= rust_module_parameters.o
-+obj-$(CONFIG_SAMPLE_RUST_SYNC)			+= rust_sync.o
-+obj-$(CONFIG_SAMPLE_RUST_CHRDEV)		+= rust_chrdev.o
-+obj-$(CONFIG_SAMPLE_RUST_MISCDEV)		+= rust_miscdev.o
-+obj-$(CONFIG_SAMPLE_RUST_STACK_PROBING)		+= rust_stack_probing.o
-+obj-$(CONFIG_SAMPLE_RUST_SEMAPHORE)		+= rust_semaphore.o
-+obj-$(CONFIG_SAMPLE_RUST_SEMAPHORE_C)		+= rust_semaphore_c.o
-diff --git a/samples/rust/rust_chrdev.rs b/samples/rust/rust_chrdev.rs
++Coding
++======
++
++This document describes how to write Rust code in the kernel.
++
++
++Coding style
++------------
++
++The code is automatically formatted using the ``rustfmt`` tool. This is very
++good news!
++
++- If you contribute from time to time to the kernel, you do not need to learn
++  and remember one more style guide. You will also need less patch roundtrips
++  to land a change.
++
++- If you are a reviewer or a maintainer, you will not need to spend time on
++  pointing out style issues anymore.
++
++.. note:: Conventions on comments and documentation are not checked by
++  ``rustfmt``. Thus we still need to take care of those: please see
++  :ref:`Documentation/rust/docs.rst <rust_docs>`.
++
++We use the tool's default settings. This means we are following the idiomatic
++Rust style. For instance, we use 4 spaces for indentation rather than tabs.
++
++Typically, you will want to instruct your editor/IDE to format while you type,
++when you save or at commit time. However, if for some reason you want
++to reformat the entire kernel Rust sources at some point, you may run::
++
++	make rustfmt
++
++To check if everything is formatted (printing a diff otherwise), e.g. if you
++have configured a CI for a tree as a maintainer, you may run::
++
++	make rustfmtcheck
++
++Like ``clang-format`` for the rest of the kernel, ``rustfmt`` works on
++individual files, and does not require a kernel configuration. Sometimes it may
++even work with broken code.
++
++
++Extra lints
++-----------
++
++While ``rustc`` is a very helpful compiler, some extra lints and analysis are
++available via ``clippy``, a Rust linter. To enable it, pass ``CLIPPY=1`` to
++the same invocation you use for compilation, e.g.::
++
++	make ARCH=... CROSS_COMPILE=... CC=... -j... CLIPPY=1
++
++At the moment, we do not enforce a "clippy-free" compilation, so you can treat
++the output the same way as the extra warning levels for C, e.g. like ``W=2``.
++Still, we use the default configuration, which is relatively conservative, so
++it is a good idea to read any output it may produce from time to time and fix
++the pointed out issues. The list of enabled lists will be likely tweaked over
++time, and extra levels may end up being introduced, e.g. ``CLIPPY=2``.
++
++
++Abstractions vs. bindings
++-------------------------
++
++We don't have abstractions for all the kernel internal APIs and concepts,
++but we would like to expand coverage as time goes on. Unless there is
++a good reason not to, always use the abstractions instead of calling
++the C bindings directly.
++
++If you are writing some code that requires a call to an internal kernel API
++or concept that isn't abstracted yet, consider providing an (ideally safe)
++abstraction for everyone to use.
++
++
++Conditional compilation
++-----------------------
++
++Rust code has access to conditional compilation based on the kernel
++configuration:
++
++.. code-block:: rust
++
++	#[cfg(CONFIG_X)]      // `CONFIG_X` is enabled (`y` or `m`)
++	#[cfg(CONFIG_X="y")]  // `CONFIG_X` is enabled as a built-in (`y`)
++	#[cfg(CONFIG_X="m")]  // `CONFIG_X` is enabled as a module   (`m`)
++	#[cfg(not(CONFIG_X))] // `CONFIG_X` is disabled
++
++
++Documentation
++-------------
++
++Please see :ref:`Documentation/rust/docs.rst <rust_docs>`.
+diff --git a/Documentation/rust/docs.rst b/Documentation/rust/docs.rst
 new file mode 100644
-index 000000000000..e3231c4f4504
+index 000000000000..58c5f98ccb35
 --- /dev/null
-+++ b/samples/rust/rust_chrdev.rs
-@@ -0,0 +1,66 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust character device sample
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use alloc::boxed::Box;
-+use core::pin::Pin;
-+use kernel::prelude::*;
-+use kernel::{
-+    chrdev, cstr,
-+    file_operations::{FileOpener, FileOperations},
-+};
-+
-+module! {
-+    type: RustChrdev,
-+    name: b"rust_chrdev",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust character device sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
-+
-+struct RustFile;
-+
-+impl FileOpener<()> for RustFile {
-+    fn open(_ctx: &()) -> KernelResult<Self::Wrapper> {
-+        pr_info!("rust file was opened!\n");
-+        Ok(Box::try_new(Self)?)
-+    }
-+}
-+
-+impl FileOperations for RustFile {
-+    type Wrapper = Box<Self>;
-+
-+    kernel::declare_file_operations!();
-+}
-+
-+struct RustChrdev {
-+    _dev: Pin<Box<chrdev::Registration<2>>>,
-+}
-+
-+impl KernelModule for RustChrdev {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust character device sample (init)\n");
-+
-+        let mut chrdev_reg =
-+            chrdev::Registration::new_pinned(cstr!("rust_chrdev"), 0, &THIS_MODULE)?;
-+
-+        // Register the same kind of device twice, we're just demonstrating
-+        // that you can use multiple minors. There are two minors in this case
-+        // because its type is `chrdev::Registration<2>`
-+        chrdev_reg.as_mut().register::<RustFile>()?;
-+        chrdev_reg.as_mut().register::<RustFile>()?;
-+
-+        Ok(RustChrdev { _dev: chrdev_reg })
-+    }
-+}
-+
-+impl Drop for RustChrdev {
-+    fn drop(&mut self) {
-+        pr_info!("Rust character device sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_minimal.rs b/samples/rust/rust_minimal.rs
-new file mode 100644
-index 000000000000..21627ce5656e
---- /dev/null
-+++ b/samples/rust/rust_minimal.rs
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust minimal sample
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use kernel::prelude::*;
-+
-+module! {
-+    type: RustMinimal,
-+    name: b"rust_minimal",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust minimal sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
-+
-+struct RustMinimal {
-+    message: String,
-+}
-+
-+impl KernelModule for RustMinimal {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust minimal sample (init)\n");
-+        pr_info!("Am I built-in? {}\n", !cfg!(MODULE));
-+
-+        Ok(RustMinimal {
-+            message: "on the heap!".to_owned(),
-+        })
-+    }
-+}
-+
-+impl Drop for RustMinimal {
-+    fn drop(&mut self) {
-+        pr_info!("My message is {}\n", self.message);
-+        pr_info!("Rust minimal sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_miscdev.rs b/samples/rust/rust_miscdev.rs
-new file mode 100644
-index 000000000000..3d48f1e2fad3
---- /dev/null
-+++ b/samples/rust/rust_miscdev.rs
-@@ -0,0 +1,145 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust miscellaneous device sample
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use alloc::{boxed::Box, sync::Arc};
-+use core::pin::Pin;
-+use kernel::prelude::*;
-+use kernel::{
-+    cstr,
-+    file_operations::{File, FileOpener, FileOperations},
-+    miscdev,
-+    sync::{CondVar, Mutex},
-+    user_ptr::{UserSlicePtrReader, UserSlicePtrWriter},
-+    Error,
-+};
-+
-+module! {
-+    type: RustMiscdev,
-+    name: b"rust_miscdev",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust miscellaneous device sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
-+
-+const MAX_TOKENS: usize = 3;
-+
-+struct SharedStateInner {
-+    token_count: usize,
-+}
-+
-+struct SharedState {
-+    state_changed: CondVar,
-+    inner: Mutex<SharedStateInner>,
-+}
-+
-+impl SharedState {
-+    fn try_new() -> KernelResult<Arc<Self>> {
-+        let state = Arc::try_new(Self {
-+            // SAFETY: `condvar_init!` is called below.
-+            state_changed: unsafe { CondVar::new() },
-+            // SAFETY: `mutex_init!` is called below.
-+            inner: unsafe { Mutex::new(SharedStateInner { token_count: 0 }) },
-+        })?;
-+        // SAFETY: `state_changed` is pinned behind `Arc`.
-+        let state_changed = unsafe { Pin::new_unchecked(&state.state_changed) };
-+        kernel::condvar_init!(state_changed, "SharedState::state_changed");
-+        // SAFETY: `inner` is pinned behind `Arc`.
-+        let inner = unsafe { Pin::new_unchecked(&state.inner) };
-+        kernel::mutex_init!(inner, "SharedState::inner");
-+        Ok(state)
-+    }
-+}
-+
-+struct Token {
-+    shared: Arc<SharedState>,
-+}
-+
-+impl FileOpener<Arc<SharedState>> for Token {
-+    fn open(shared: &Arc<SharedState>) -> KernelResult<Self::Wrapper> {
-+        Ok(Box::try_new(Self {
-+            shared: shared.clone(),
-+        })?)
-+    }
-+}
-+
-+impl FileOperations for Token {
-+    type Wrapper = Box<Self>;
-+
-+    kernel::declare_file_operations!(read, write);
-+
-+    fn read(&self, _: &File, data: &mut UserSlicePtrWriter, offset: u64) -> KernelResult<usize> {
-+        // Succeed if the caller doesn't provide a buffer or if not at the start.
-+        if data.is_empty() || offset != 0 {
-+            return Ok(0);
-+        }
-+
-+        {
-+            let mut inner = self.shared.inner.lock();
-+
-+            // Wait until we are allowed to decrement the token count or a signal arrives.
-+            while inner.token_count == 0 {
-+                if self.shared.state_changed.wait(&mut inner) {
-+                    return Err(Error::EINTR);
-+                }
-+            }
-+
-+            // Consume a token.
-+            inner.token_count -= 1;
-+        }
-+
-+        // Notify a possible writer waiting.
-+        self.shared.state_changed.notify_all();
-+
-+        // Write a one-byte 1 to the reader.
-+        data.write_slice(&[1u8; 1])?;
-+        Ok(1)
-+    }
-+
-+    fn write(&self, data: &mut UserSlicePtrReader, _offset: u64) -> KernelResult<usize> {
-+        {
-+            let mut inner = self.shared.inner.lock();
-+
-+            // Wait until we are allowed to increment the token count or a signal arrives.
-+            while inner.token_count == MAX_TOKENS {
-+                if self.shared.state_changed.wait(&mut inner) {
-+                    return Err(Error::EINTR);
-+                }
-+            }
-+
-+            // Increment the number of token so that a reader can be released.
-+            inner.token_count += 1;
-+        }
-+
-+        // Notify a possible reader waiting.
-+        self.shared.state_changed.notify_all();
-+        Ok(data.len())
-+    }
-+}
-+
-+struct RustMiscdev {
-+    _dev: Pin<Box<miscdev::Registration<Arc<SharedState>>>>,
-+}
-+
-+impl KernelModule for RustMiscdev {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust miscellaneous device sample (init)\n");
-+
-+        let state = SharedState::try_new()?;
-+
-+        Ok(RustMiscdev {
-+            _dev: miscdev::Registration::new_pinned::<Token>(cstr!("rust_miscdev"), None, state)?,
-+        })
-+    }
-+}
-+
-+impl Drop for RustMiscdev {
-+    fn drop(&mut self) {
-+        pr_info!("Rust miscellaneous device sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_module_parameters.rs b/samples/rust/rust_module_parameters.rs
-new file mode 100644
-index 000000000000..d9b6de695384
---- /dev/null
-+++ b/samples/rust/rust_module_parameters.rs
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust module parameters sample
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use kernel::prelude::*;
-+
-+module! {
-+    type: RustModuleParameters,
-+    name: b"rust_module_parameters",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust module parameters sample",
-+    license: b"GPL v2",
-+    params: {
-+        my_bool: bool {
-+            default: true,
-+            permissions: 0,
-+            description: b"Example of bool",
-+        },
-+        my_i32: i32 {
-+            default: 42,
-+            permissions: 0o644,
-+            description: b"Example of i32",
-+        },
-+        my_str: str {
-+            default: b"default str val",
-+            permissions: 0o644,
-+            description: b"Example of a string param",
-+        },
-+        my_usize: usize {
-+            default: 42,
-+            permissions: 0o644,
-+            description: b"Example of usize",
-+        },
-+        my_array: ArrayParam<i32, 3> {
-+            default: [0, 1],
-+            permissions: 0,
-+            description: b"Example of array",
-+        },
-+    },
-+}
-+
-+struct RustModuleParameters;
-+
-+impl KernelModule for RustModuleParameters {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust module parameters sample (init)\n");
-+
-+        {
-+            let lock = THIS_MODULE.kernel_param_lock();
-+            pr_info!("Parameters:\n");
-+            pr_info!("  my_bool:    {}\n", my_bool.read());
-+            pr_info!("  my_i32:     {}\n", my_i32.read(&lock));
-+            pr_info!(
-+                "  my_str:     {}\n",
-+                core::str::from_utf8(my_str.read(&lock))?
-+            );
-+            pr_info!("  my_usize:   {}\n", my_usize.read(&lock));
-+            pr_info!("  my_array:   {:?}\n", my_array.read());
-+        }
-+
-+        Ok(RustModuleParameters)
-+    }
-+}
-+
-+impl Drop for RustModuleParameters {
-+    fn drop(&mut self) {
-+        pr_info!("Rust module parameters sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_print.rs b/samples/rust/rust_print.rs
-new file mode 100644
-index 000000000000..ddfac800f425
---- /dev/null
-+++ b/samples/rust/rust_print.rs
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust printing macros sample
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use kernel::prelude::*;
-+
-+module! {
-+    type: RustPrint,
-+    name: b"rust_print",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust printing macros sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
-+
-+struct RustPrint;
-+
-+impl KernelModule for RustPrint {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust printing macros sample (init)\n");
-+
-+        pr_emerg!("Emergency message (level 0) without args\n");
-+        pr_alert!("Alert message (level 1) without args\n");
-+        pr_crit!("Critical message (level 2) without args\n");
-+        pr_err!("Error message (level 3) without args\n");
-+        pr_warn!("Warning message (level 4) without args\n");
-+        pr_notice!("Notice message (level 5) without args\n");
-+        pr_info!("Info message (level 6) without args\n");
-+
-+        pr_info!("A line that");
-+        pr_cont!(" is continued");
-+        pr_cont!(" without args\n");
-+
-+        pr_emerg!("{} message (level {}) with args\n", "Emergency", 0);
-+        pr_alert!("{} message (level {}) with args\n", "Alert", 1);
-+        pr_crit!("{} message (level {}) with args\n", "Critical", 2);
-+        pr_err!("{} message (level {}) with args\n", "Error", 3);
-+        pr_warn!("{} message (level {}) with args\n", "Warning", 4);
-+        pr_notice!("{} message (level {}) with args\n", "Notice", 5);
-+        pr_info!("{} message (level {}) with args\n", "Info", 6);
-+
-+        pr_info!("A {} that", "line");
-+        pr_cont!(" is {}", "continued");
-+        pr_cont!(" with {}\n", "args");
-+
-+        Ok(RustPrint)
-+    }
-+}
-+
-+impl Drop for RustPrint {
-+    fn drop(&mut self) {
-+        pr_info!("Rust printing macros sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_semaphore.rs b/samples/rust/rust_semaphore.rs
-new file mode 100644
-index 000000000000..b7300d2aab6d
---- /dev/null
-+++ b/samples/rust/rust_semaphore.rs
-@@ -0,0 +1,178 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust semaphore sample
-+//!
-+//! A counting semaphore that can be used by userspace.
-+//!
-+//! The count is incremented by writes to the device. A write of `n` bytes results in an increment
-+//! of `n`. It is decremented by reads; each read results in the count being decremented by 1. If
-+//! the count is already zero, a read will block until another write increments it.
-+//!
-+//! This can be used in user space from the shell for example  as follows (assuming a node called
-+//! `semaphore`): `cat semaphore` decrements the count by 1 (waiting for it to become non-zero
-+//! before decrementing); `echo -n 123 > semaphore` increments the semaphore by 3, potentially
-+//! unblocking up to 3 blocked readers.
-+
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+
-+use alloc::{boxed::Box, sync::Arc};
-+use core::{
-+    pin::Pin,
-+    sync::atomic::{AtomicU64, Ordering},
-+};
-+use kernel::{
-+    condvar_init, cstr, declare_file_operations,
-+    file_operations::{File, FileOpener, FileOperations, IoctlCommand, IoctlHandler},
-+    miscdev::Registration,
-+    mutex_init,
-+    prelude::*,
-+    sync::{CondVar, Mutex},
-+    user_ptr::{UserSlicePtrReader, UserSlicePtrWriter},
-+    Error,
-+};
-+
-+module! {
-+    type: RustSemaphore,
-+    name: b"rust_semaphore",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust semaphore sample",
-+    license: b"GPL v2",
-+    params: {},
-+}
-+
-+struct SemaphoreInner {
-+    count: usize,
-+    max_seen: usize,
-+}
-+
-+struct Semaphore {
-+    changed: CondVar,
-+    inner: Mutex<SemaphoreInner>,
-+}
-+
-+struct FileState {
-+    read_count: AtomicU64,
-+    shared: Arc<Semaphore>,
-+}
-+
-+impl FileState {
-+    fn consume(&self) -> KernelResult {
-+        let mut inner = self.shared.inner.lock();
-+        while inner.count == 0 {
-+            if self.shared.changed.wait(&mut inner) {
-+                return Err(Error::EINTR);
-+            }
-+        }
-+        inner.count -= 1;
-+        Ok(())
-+    }
-+}
-+
-+impl FileOpener<Arc<Semaphore>> for FileState {
-+    fn open(shared: &Arc<Semaphore>) -> KernelResult<Box<Self>> {
-+        Ok(Box::try_new(Self {
-+            read_count: AtomicU64::new(0),
-+            shared: shared.clone(),
-+        })?)
-+    }
-+}
-+
-+impl FileOperations for FileState {
-+    type Wrapper = Box<Self>;
-+
-+    declare_file_operations!(read, write, ioctl);
-+
-+    fn read(&self, _: &File, data: &mut UserSlicePtrWriter, offset: u64) -> KernelResult<usize> {
-+        if data.is_empty() || offset > 0 {
-+            return Ok(0);
-+        }
-+        self.consume()?;
-+        data.write_slice(&[0u8; 1])?;
-+        self.read_count.fetch_add(1, Ordering::Relaxed);
-+        Ok(1)
-+    }
-+
-+    fn write(&self, data: &mut UserSlicePtrReader, _offset: u64) -> KernelResult<usize> {
-+        {
-+            let mut inner = self.shared.inner.lock();
-+            inner.count = inner.count.saturating_add(data.len());
-+            if inner.count > inner.max_seen {
-+                inner.max_seen = inner.count;
-+            }
-+        }
-+
-+        self.shared.changed.notify_all();
-+        Ok(data.len())
-+    }
-+
-+    fn ioctl(&self, file: &File, cmd: &mut IoctlCommand) -> KernelResult<i32> {
-+        cmd.dispatch(self, file)
-+    }
-+
-+    fn release(_obj: Box<Self>, _file: &File) {}
-+}
-+
-+struct RustSemaphore {
-+    _dev: Pin<Box<Registration<Arc<Semaphore>>>>,
-+}
-+
-+impl KernelModule for RustSemaphore {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust semaphore sample (init)\n");
-+
-+        let sema = Arc::try_new(Semaphore {
-+            // SAFETY: `condvar_init!` is called below.
-+            changed: unsafe { CondVar::new() },
-+
-+            // SAFETY: `mutex_init!` is called below.
-+            inner: unsafe {
-+                Mutex::new(SemaphoreInner {
-+                    count: 0,
-+                    max_seen: 0,
-+                })
-+            },
-+        })?;
-+
-+        // SAFETY: `changed` is pinned behind `Arc`.
-+        condvar_init!(Pin::new_unchecked(&sema.changed), "Semaphore::changed");
-+
-+        // SAFETY: `inner` is pinned behind `Arc`.
-+        mutex_init!(Pin::new_unchecked(&sema.inner), "Semaphore::inner");
-+
-+        Ok(Self {
-+            _dev: Registration::new_pinned::<FileState>(cstr!("rust_semaphore"), None, sema)?,
-+        })
-+    }
-+}
-+
-+impl Drop for RustSemaphore {
-+    fn drop(&mut self) {
-+        pr_info!("Rust semaphore sample (exit)\n");
-+    }
-+}
-+
-+const IOCTL_GET_READ_COUNT: u32 = 0x80086301;
-+const IOCTL_SET_READ_COUNT: u32 = 0x40086301;
-+
-+impl IoctlHandler for FileState {
-+    fn read(&self, _: &File, cmd: u32, writer: &mut UserSlicePtrWriter) -> KernelResult<i32> {
-+        match cmd {
-+            IOCTL_GET_READ_COUNT => {
-+                writer.write(&self.read_count.load(Ordering::Relaxed))?;
-+                Ok(0)
-+            }
-+            _ => Err(Error::EINVAL),
-+        }
-+    }
-+
-+    fn write(&self, _: &File, cmd: u32, reader: &mut UserSlicePtrReader) -> KernelResult<i32> {
-+        match cmd {
-+            IOCTL_SET_READ_COUNT => {
-+                self.read_count.store(reader.read()?, Ordering::Relaxed);
-+                Ok(0)
-+            }
-+            _ => Err(Error::EINVAL),
-+        }
-+    }
-+}
-diff --git a/samples/rust/rust_semaphore_c.c b/samples/rust/rust_semaphore_c.c
-new file mode 100644
-index 000000000000..cdc121d4030d
---- /dev/null
-+++ b/samples/rust/rust_semaphore_c.c
-@@ -0,0 +1,212 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Rust semaphore sample (in C, for comparison)
-+ *
-+ * This is a C implementation of `rust_semaphore.rs`. Refer to the description
-+ * in that file for details on the device.
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/miscdevice.h>
-+#include <linux/module.h>
-+#include <linux/fs.h>
-+#include <linux/slab.h>
-+#include <linux/refcount.h>
-+#include <linux/wait.h>
-+
-+#define IOCTL_GET_READ_COUNT _IOR('c', 1, u64)
-+#define IOCTL_SET_READ_COUNT _IOW('c', 1, u64)
-+
-+struct semaphore_state {
-+	struct kref ref;
-+	struct miscdevice miscdev;
-+	wait_queue_head_t changed;
-+	struct mutex mutex;
-+	size_t count;
-+	size_t max_seen;
-+};
-+
-+struct file_state {
-+	atomic64_t read_count;
-+	struct semaphore_state *shared;
-+};
-+
-+static int semaphore_consume(struct semaphore_state *state)
-+{
-+	DEFINE_WAIT(wait);
-+
-+	mutex_lock(&state->mutex);
-+	while (state->count == 0) {
-+		prepare_to_wait(&state->changed, &wait, TASK_INTERRUPTIBLE);
-+		mutex_unlock(&state->mutex);
-+		schedule();
-+		finish_wait(&state->changed, &wait);
-+		if (signal_pending(current))
-+			return -EINTR;
-+		mutex_lock(&state->mutex);
++++ b/Documentation/rust/docs.rst
+@@ -0,0 +1,109 @@
++.. _rust_docs:
++
++Docs
++====
++
++Rust kernel code is not documented like C kernel code (i.e. via kernel-doc).
++Instead, we use the usual system for documenting Rust code: the ``rustdoc``
++tool, which uses Markdown (a *very* lightweight markup language).
++
++This document describes how to make the most out of the kernel documentation
++for Rust.
++
++
++Reading the docs
++----------------
++
++An advantage of using Markdown is that it attempts to make text look almost as
++you would have written it in plain text. This makes the documentation quite
++pleasant to read even in its source form.
++
++However, the generated HTML docs produced by ``rustdoc`` provide a *very* nice
++experience, including integrated instant search, clickable items (types,
++functions, constants, etc. -- including to all the standard Rust library ones
++that we use in the kernel, e.g. ``core``), categorization, links to the source
++code, etc.
++
++Like for the rest of the kernel documentation, pregenerated HTML docs for
++the libraries (crates) inside ``rust/`` that are used by the rest of the kernel
++are available at `kernel.org`_.
++
++// TODO: link when ready
++
++.. _kernel.org: http://kernel.org/
++
++Otherwise, you can generate them locally. This is quite fast (same order as
++compiling the code itself) and you do not need any special tools or environment.
++This has the added advantage that they will be tailored to your particular
++kernel configuration. To generate them, simply use the ``rustdoc`` target with
++the same invocation you use for compilation, e.g.::
++
++	make ARCH=... CROSS_COMPILE=... CC=... -j... rustdoc
++
++
++Writing the docs
++----------------
++
++If you already know Markdown, learning how to write Rust documentation will be
++a breeze. If not, understanding the basics is a matter of minutes reading other
++code. There are also many guides available out there, a particularly nice one
++is at `GitHub`_.
++
++.. _GitHub: https://guides.github.com/features/mastering-markdown/#syntax
++
++This is how a well-documented Rust function may look like (derived from the Rust
++standard library)::
++
++	/// Returns the contained [`Some`] value, consuming the `self` value,
++	/// without checking that the value is not [`None`].
++	///
++	/// # Safety
++	///
++	/// Calling this method on [`None`] is *[undefined behavior]*.
++	///
++	/// [undefined behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
++	///
++	/// # Examples
++	///
++	/// ```
++	/// let x = Some("air");
++	/// assert_eq!(unsafe { x.unwrap_unchecked() }, "air");
++	/// ```
++	pub unsafe fn unwrap_unchecked(self) -> T {
++		match self {
++			Some(val) => val,
++
++			// SAFETY: the safety contract must be upheld by the caller.
++			None => unsafe { hint::unreachable_unchecked() },
++		}
 +	}
 +
-+	state->count--;
-+	mutex_unlock(&state->mutex);
++This example showcases a few ``rustdoc`` features and some common conventions
++(that we also follow in the kernel):
 +
-+	return 0;
-+}
++* The first paragraph must be a single sentence briefly describing what
++  the documented item does. Further explanations must go in extra paragraphs.
 +
-+static int semaphore_open(struct inode *nodp, struct file *filp)
-+{
-+	struct semaphore_state *shared =
-+		container_of(filp->private_data, struct semaphore_state, miscdev);
-+	struct file_state *state;
++* ``unsafe`` functions must document the preconditions needed for a call to be
++  safe under a ``Safety`` section.
 +
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (!state)
-+		return -ENOMEM;
++* While not shown here, if a function may panic, the conditions under which
++  that happens must be described under a ``Panics`` section.
 +
-+	kref_get(&shared->ref);
-+	state->shared = shared;
-+	atomic64_set(&state->read_count, 0);
++* If providing examples of usage would help readers, they must be written in
++  a section called ``Examples``.
 +
-+	filp->private_data = state;
++* Rust items (functions, types, constants...) will be automatically linked
++  (``rustdoc`` will find out the URL for you).
 +
-+	return 0;
-+}
++* Following the Rust standard library conventions, any ``unsafe`` block must be
++  preceded by a ``SAFETY`` comment describing why the code inside is sound.
 +
-+static ssize_t semaphore_write(struct file *filp, const char __user *buffer, size_t count,
-+			       loff_t *ppos)
-+{
-+	struct file_state *state = filp->private_data;
-+	struct semaphore_state *shared = state->shared;
++  While sometimes the reason might look trivial and therefore unneeded, writing
++  these comments is not just a good way of documenting what has been taken into
++  account, but also that there are no *extra* implicit constraints.
 +
-+	mutex_lock(&shared->mutex);
++To learn more about how to write documentation for Rust and extra features,
++please take a look at the ``rustdoc`` `book`_.
 +
-+	shared->count += count;
-+	if (shared->count < count)
-+		shared->count = SIZE_MAX;
-+
-+	if (shared->count > shared->max_seen)
-+		shared->max_seen = shared->count;
-+
-+	mutex_unlock(&shared->mutex);
-+
-+	wake_up_all(&shared->changed);
-+
-+	return count;
-+}
-+
-+static ssize_t semaphore_read(struct file *filp, char __user *buffer,
-+			      size_t count, loff_t *ppos)
-+{
-+	struct file_state *state = filp->private_data;
-+	char c = 0;
-+	int ret;
-+
-+	if (count == 0 || *ppos > 0)
-+		return 0;
-+
-+	ret = semaphore_consume(state->shared);
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user(buffer, &c, sizeof(c)))
-+		return -EFAULT;
-+
-+	atomic64_add(1, &state->read_count);
-+	*ppos += 1;
-+	return 1;
-+}
-+
-+static long semaphore_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-+{
-+	struct file_state *state = filp->private_data;
-+	void __user *buffer = (void __user *)arg;
-+	u64 value;
-+
-+	switch (cmd) {
-+	case IOCTL_GET_READ_COUNT:
-+		value = atomic64_read(&state->read_count);
-+		if (copy_to_user(buffer, &value, sizeof(value)))
-+			return -EFAULT;
-+		return 0;
-+	case IOCTL_SET_READ_COUNT:
-+		if (copy_from_user(&value, buffer, sizeof(value)))
-+			return -EFAULT;
-+		atomic64_set(&state->read_count, value);
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static void semaphore_free(struct kref *kref)
-+{
-+	struct semaphore_state *device;
-+
-+	device = container_of(kref, struct semaphore_state, ref);
-+	kfree(device);
-+}
-+
-+static int semaphore_release(struct inode *nodp, struct file *filp)
-+{
-+	struct file_state *state = filp->private_data;
-+
-+	kref_put(&state->shared->ref, semaphore_free);
-+	kfree(state);
-+	return 0;
-+}
-+
-+static const struct file_operations semaphore_fops = {
-+	.owner = THIS_MODULE,
-+	.open = semaphore_open,
-+	.read = semaphore_read,
-+	.write = semaphore_write,
-+	.compat_ioctl = semaphore_ioctl,
-+	.release = semaphore_release,
-+};
-+
-+static struct semaphore_state *device;
-+
-+static int __init semaphore_init(void)
-+{
-+	int ret;
-+	struct semaphore_state *state;
-+
-+	pr_info("Rust semaphore sample (in C, for comparison) (init)\n");
-+
-+	state = kzalloc(sizeof(*state), GFP_KERNEL);
-+	if (!state)
-+		return -ENOMEM;
-+
-+	mutex_init(&state->mutex);
-+	kref_init(&state->ref);
-+	init_waitqueue_head(&state->changed);
-+
-+	state->miscdev.fops = &semaphore_fops;
-+	state->miscdev.minor = MISC_DYNAMIC_MINOR;
-+	state->miscdev.name = "semaphore";
-+
-+	ret = misc_register(&state->miscdev);
-+	if (ret < 0) {
-+		kfree(state);
-+		return ret;
-+	}
-+
-+	device = state;
-+
-+	return 0;
-+}
-+
-+static void __exit semaphore_exit(void)
-+{
-+	pr_info("Rust semaphore sample (in C, for comparison) (exit)\n");
-+
-+	misc_deregister(&device->miscdev);
-+	kref_put(&device->ref, semaphore_free);
-+}
-+
-+module_init(semaphore_init);
-+module_exit(semaphore_exit);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Rust for Linux Contributors");
-+MODULE_DESCRIPTION("Rust semaphore sample (in C, for comparison)");
-diff --git a/samples/rust/rust_stack_probing.rs b/samples/rust/rust_stack_probing.rs
++.. _book: https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html
+diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
 new file mode 100644
-index 000000000000..f99277354565
+index 000000000000..257cf2b200b8
 --- /dev/null
-+++ b/samples/rust/rust_stack_probing.rs
-@@ -0,0 +1,42 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/rust/index.rst
+@@ -0,0 +1,20 @@
++Rust
++====
 +
-+//! Rust stack probing sample
++Documentation related to Rust within the kernel. If you are starting out,
++read the :ref:`Documentation/rust/quick-start.rst <rust_quick_start>` guide.
 +
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
-+#![feature(test)]
++.. toctree::
++    :maxdepth: 1
 +
-+use kernel::prelude::*;
++    quick-start
++    coding
++    docs
++    arch-support
 +
-+module! {
-+    type: RustStackProbing,
-+    name: b"rust_stack_probing",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust stack probing sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
++.. only::  subproject and html
 +
-+struct RustStackProbing;
++   Indices
++   =======
 +
-+impl KernelModule for RustStackProbing {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust stack probing sample (init)\n");
-+
-+        // Including this large variable on the stack will trigger
-+        // stack probing on the supported archs.
-+        // This will verify that stack probing does not lead to
-+        // any errors if we need to link `__rust_probestack`.
-+        let x: [u64; 514] = core::hint::black_box([5; 514]);
-+        pr_info!("Large array has length: {}\n", x.len());
-+
-+        Ok(RustStackProbing)
-+    }
-+}
-+
-+impl Drop for RustStackProbing {
-+    fn drop(&mut self) {
-+        pr_info!("Rust stack probing sample (exit)\n");
-+    }
-+}
-diff --git a/samples/rust/rust_sync.rs b/samples/rust/rust_sync.rs
++   * :ref:`genindex`
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
 new file mode 100644
-index 000000000000..a921bfd7d55f
+index 000000000000..42367e4365c3
 --- /dev/null
-+++ b/samples/rust/rust_sync.rs
-@@ -0,0 +1,84 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/rust/quick-start.rst
+@@ -0,0 +1,203 @@
++.. _rust_quick_start:
 +
-+//! Rust synchronisation primitives sample
++Quick Start
++===========
 +
-+#![no_std]
-+#![feature(allocator_api, global_asm)]
++This document describes how to get started with kernel development in Rust.
++If you have worked previously with Rust, this will only take a moment.
 +
-+use alloc::boxed::Box;
-+use core::pin::Pin;
-+use kernel::prelude::*;
-+use kernel::{
-+    condvar_init, mutex_init, spinlock_init,
-+    sync::{CondVar, Mutex, SpinLock},
-+};
++Please note that, at the moment, a very restricted subset of architectures
++is supported, see :doc:`/rust/arch-support`.
 +
-+module! {
-+    type: RustSync,
-+    name: b"rust_sync",
-+    author: b"Rust for Linux Contributors",
-+    description: b"Rust synchronisation primitives sample",
-+    license: b"GPL v2",
-+    params: {
-+    },
-+}
 +
-+struct RustSync;
++Requirements: Building
++----------------------
 +
-+impl KernelModule for RustSync {
-+    fn init() -> KernelResult<Self> {
-+        pr_info!("Rust synchronisation primitives sample (init)\n");
++This section explains how to fetch the tools needed for building.
 +
-+        // Test mutexes.
-+        {
-+            // SAFETY: `init` is called below.
-+            let data = Pin::from(Box::try_new(unsafe { Mutex::new(0) })?);
-+            mutex_init!(data.as_ref(), "RustSync::init::data1");
-+            *data.lock() = 10;
-+            pr_info!("Value: {}\n", *data.lock());
++Some of these requirements might be available from your Linux distribution
++under names like ``rustc``, ``rust-src``, ``rust-bindgen``, etc. However,
++at the time of writing, they are likely to not be recent enough.
 +
-+            // SAFETY: `init` is called below.
-+            let cv = Pin::from(Box::try_new(unsafe { CondVar::new() })?);
-+            condvar_init!(cv.as_ref(), "RustSync::init::cv1");
-+            {
-+                let mut guard = data.lock();
-+                while *guard != 10 {
-+                    let _ = cv.wait(&mut guard);
-+                }
-+            }
-+            cv.notify_one();
-+            cv.notify_all();
-+            cv.free_waiters();
-+        }
 +
-+        // Test spinlocks.
-+        {
-+            // SAFETY: `init` is called below.
-+            let data = Pin::from(Box::try_new(unsafe { SpinLock::new(0) })?);
-+            spinlock_init!(data.as_ref(), "RustSync::init::data2");
-+            *data.lock() = 10;
-+            pr_info!("Value: {}\n", *data.lock());
++rustc
++*****
 +
-+            // SAFETY: `init` is called below.
-+            let cv = Pin::from(Box::try_new(unsafe { CondVar::new() })?);
-+            condvar_init!(cv.as_ref(), "RustSync::init::cv2");
-+            {
-+                let mut guard = data.lock();
-+                while *guard != 10 {
-+                    let _ = cv.wait(&mut guard);
-+                }
-+            }
-+            cv.notify_one();
-+            cv.notify_all();
-+            cv.free_waiters();
-+        }
++A recent *nightly* Rust toolchain (with, at least, ``rustc``) is required,
++e.g. ``nightly-2021-02-20``. Our goal is to use a stable toolchain as soon
++as possible, but for the moment we depend on a handful of nightly features.
 +
-+        Ok(RustSync)
-+    }
-+}
++If you are using ``rustup``, run::
 +
-+impl Drop for RustSync {
-+    fn drop(&mut self) {
-+        pr_info!("Rust synchronisation primitives sample (exit)\n");
-+    }
-+}
++    rustup default nightly-2021-02-20
++
++Please avoid the very latest nightlies (>= nightly-2021-03-05) until
++https://github.com/Rust-for-Linux/linux/issues/135 is resolved.
++
++Otherwise, fetch a standalone installer or install ``rustup`` from:
++
++    https://www.rust-lang.org
++
++
++Rust standard library source
++****************************
++
++The Rust standard library source is required because the build system will
++cross-compile ``core`` and ``alloc``.
++
++If you are using ``rustup``, run::
++
++    rustup component add rust-src
++
++Otherwise, if you used a standalone installer, you can clone the Rust
++repository into the installation folder of your nightly toolchain::
++
++    git clone --recurse-submodules https://github.com/rust-lang/rust $(rustc --print sysroot)/lib/rustlib/src/rust
++
++
++libclang
++********
++
++``libclang`` (part of LLVM) is used by ``bindgen`` to understand the C code
++in the kernel, which means you will need a recent LLVM installed; like when
++you compile the kernel with ``CC=clang`` or ``LLVM=1``.
++
++Your Linux distribution is likely to have a suitable one available, so it is
++best if you check that first.
++
++There are also some binaries for several systems and architectures uploaded at:
++
++    https://releases.llvm.org/download.html
++
++For Debian-based distributions, you can also fetch them from:
++
++    https://apt.llvm.org
++
++Otherwise, building LLVM takes quite a while, but it is not a complex process:
++
++    https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm
++
++
++bindgen
++*******
++
++The bindings to the C side of the kernel are generated at build time using
++the ``bindgen`` tool. A recent version should work, e.g. ``0.56.0``.
++
++Install it via (this will build the tool from source)::
++
++    cargo install --locked --version 0.56.0 bindgen
++
++
++Requirements: Developing
++------------------------
++
++This section explains how to fetch the tools needed for developing. That is,
++if you only want to build the kernel, you do not need them.
++
++
++rustfmt
++*******
++
++The ``rustfmt`` tool is used to automatically format all the Rust kernel code,
++including the generated C bindings (for details, please see
++:ref:`Documentation/rust/coding.rst <rust_coding>`).
++
++If you are using ``rustup``, its ``default`` profile already installs the tool,
++so you should be good to go. If you are using another profile, you can install
++the component manually::
++
++    rustup component add rustfmt
++
++The standalone installers also come with ``rustfmt``.
++
++
++clippy
++******
++
++``clippy`` is a Rust linter. Installing it allows you to get extra warnings
++for Rust code passing ``CLIPPY=1`` to ``make`` (for details, please see
++:ref:`Documentation/rust/coding.rst <rust_coding>`).
++
++If you are using ``rustup``, its ``default`` profile already installs the tool,
++so you should be good to go. If you are using another profile, you can install
++the component manually::
++
++    rustup component add clippy
++
++The standalone installers also come with ``clippy``.
++
++
++rustdoc
++*******
++
++If you install the ``rustdoc`` tool, then you will be able to generate pretty
++HTML documentation for Rust code, including for the libraries (crates) inside
++``rust/`` that are used by the rest of the kernel (for details, please see
++:ref:`Documentation/rust/docs.rst <rust_docs>`).
++
++If you are using ``rustup``, its ``default`` profile already installs the tool,
++so you should be good to go. If you are using another profile, you can install
++the component manually::
++
++    rustup component add rustdoc
++
++The standalone installers also come with ``rustdoc``.
++
++
++Configuration
++-------------
++
++``Rust support`` (``CONFIG_RUST``) needs to be enabled in the ``General setup``
++menu. The option is only shown if the build system can locate ``rustc``.
++In turn, this will make visible the rest of options that depend on Rust.
++
++Afterwards, go to::
++
++    Kernel hacking
++      -> Sample kernel code
++           -> Rust samples
++
++And enable some sample modules either as built-in or as loadable.
++
++
++Building
++--------
++
++Building a kernel with Clang or a complete LLVM toolchain is the best supported
++setup at the moment. That is::
++
++    make ARCH=... CROSS_COMPILE=... CC=clang -j...
++
++or::
++
++    make ARCH=... CROSS_COMPILE=... LLVM=1 -j...
++
++Using GCC also works for some configurations, but it is *very* experimental at
++the moment.
++
++
++Hacking
++-------
++
++If you want to dive deeper, take a look at the source code of the samples
++at ``samples/rust/``, the Rust support code under ``rust/`` and
++the ``Rust hacking`` menu under ``Kernel hacking``.
++
++If you use GDB/Binutils and Rust symbols aren't getting demangled, the reason
++is your toolchain doesn't support Rust's new v0 mangling scheme yet. There are
++a few ways out:
++
++  - If you don't mind building your own tools, we provide the following fork
++    with the support cherry-picked from GCC on top of very recent releases:
++
++        https://github.com/Rust-for-Linux/binutils-gdb/releases/tag/gdb-10.1-release-rust
++        https://github.com/Rust-for-Linux/binutils-gdb/releases/tag/binutils-2_35_1-rust
++
++  - If you only need GDB and can enable ``CONFIG_DEBUG_INFO``, do so:
++    some versions of GDB (e.g. vanilla GDB 10.1) are able to use
++    the pre-demangled names embedded in the debug info.
++
++  - If you don't need loadable module support, you may compile without
++    the ``-Zsymbol-mangling-version=v0`` flag. However, we don't maintain
++    support for that, so avoid it unless you are in a hurry.
 -- 
 2.17.1
 
