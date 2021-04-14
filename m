@@ -2,91 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8950F35FBE0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 21:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90FFC35FC14
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 21:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353501AbhDNTvJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 15:51:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
+        id S1345147AbhDNT77 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 15:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234955AbhDNTvI (ORCPT
+        with ESMTP id S245471AbhDNT76 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 15:51:08 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7953C061574;
-        Wed, 14 Apr 2021 12:50:46 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id v72so2750972ybe.11;
-        Wed, 14 Apr 2021 12:50:46 -0700 (PDT)
+        Wed, 14 Apr 2021 15:59:58 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8555C061574;
+        Wed, 14 Apr 2021 12:59:35 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id o10so23487477ybb.10;
+        Wed, 14 Apr 2021 12:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KYlm7QJNdb4JnhGTMGRomUPh4aAvt7AdM3SQppwmFQM=;
-        b=NA/LNzHuNEZosNIqBZP0SH2adQEhB6bQguQXseEhYnkGVZyhZfztxieK1rL8LA1N7t
-         rkwrXGd47OGgEb9eAGDaG+lWxyiYDl25LYPH+5/sJ4/d8CaRbRNZZiceqEJGOMXRmIoy
-         br3Q1SsYOEcA1ZtnlLA9u9UDOvG8gNVPg5uiIxIGF/9d8hB2fvtgHGFqSTcx6m14E2CQ
-         +ilR3RNgJJa6QTzd2ZUSZfswKdiKvTxQ+7+OsDzbKhWT0NsbBN2h62erP8YMsuU3vzlJ
-         BCd+V14DEsHqX8ZynYp0lpP8YjZPnArk9Ycz4oZXc0eBK7NZzU8m4j4JX01sZpKOv7p9
-         +Zxg==
+        bh=kk+4eaGKBse7wylWIAyXzwrFNlUikGMw6Cuy5HxWNJ4=;
+        b=nP5JvCXU1J2ZZl0o7Qp4jkJYQeiqEcXIedAawZSmc5SBQrAGieHpyzpJFJouqdXDJD
+         Nvdhmc9lnN06RL9pSJoxX+my+ginHSZaB5FXtdBerQ3/xhfLvJBVb+xZXWNOFKz/SCyR
+         dFfsDblIQUFV71fIbzvj0dVGf11ZKZm8ff0m2VETq/mQQODAGMF6wncCMF60vjdaNWfO
+         BVnNUlExAKpG9ukgorqKtubYuXLr8g/Ln4lFKC1KgPkRo+KZiJwblGulcTrqHuDhYBQ/
+         Od88hKCcQTGznXZ/w0t7WvtStfJw/O61GEpO/UkJGv3HIUFxPYwzVSFio6zUwdtqXqQD
+         /4yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KYlm7QJNdb4JnhGTMGRomUPh4aAvt7AdM3SQppwmFQM=;
-        b=XhhVPh96delW1Q0ry4Bk5KQIF501dS11ui2aiJfPHAh5P9uawrhJgOwxZJfQDW++t8
-         3igSS07WuWJJM9ei9QFk0qy+/y5n31VT3jgL9ApM8R2HerR4Sezzzv2oByHE7JcL4Gyb
-         I5sJUIkyQtZqsdPx1LIs6naKD0AOpRbEwv94YGmKLu2Gjkdxst0PENx3b5L0U7G+bl5w
-         9zBjz7lhHqKge/MH3rHYMWF/6DeflM2xjawkGEX1VnPvuu0zTnkIIVbumPQmRAxLpG1Q
-         33d8UHfShMxHy4dr2nQ9j1heAG8j1SGTE8h6LNaeO55FiymLst3zAmZVks5DZt7UqDdn
-         /T1w==
-X-Gm-Message-State: AOAM5312e4JqsKsVrCLyy6O9Axm4jNOy6ia8QddIoxmcudchc5SBdufy
-        nHaeEJzBciyhcPQlyaUPV95hLsYTA90sIDAUZaA=
-X-Google-Smtp-Source: ABdhPJyc5WdBgAwpcNaT4ZnVDVccWaCGIXvnyziVT2JDu6RWbr+K0E9wplZIpWP5+MopFoA+ItsxBPpTnrjSy7xTFmE=
-X-Received: by 2002:a25:6803:: with SMTP id d3mr46864038ybc.422.1618429846183;
- Wed, 14 Apr 2021 12:50:46 -0700 (PDT)
+        bh=kk+4eaGKBse7wylWIAyXzwrFNlUikGMw6Cuy5HxWNJ4=;
+        b=SheQC8Jf1b2NnbUn5y7PEqmMmfR+fMWZYrtawmS9+z0I5nXc7I/nlCjad2ta+bVcWZ
+         WoYfLXrt36eagR67Or2w6qZjN+BWLw/asdBzHE0O4Ad6CrcvEH3LQ9dfHlz+wjCfknKB
+         3OvJKuufPGEh7ifBmwTteVFuiqtS8CWJE07koBe4KI9Rjy1c+T9USOCM4LlrtTCNxQPo
+         f21TwcBXBils7gDtJJzTHeHRJMKapivZo4rw2nKT6KeB9kgExA+Tuz6z7gTGBwtBjS0x
+         Ra2NgYoDQO8ijut+7UcwVkz1fRCHhACmysHC8kDVibi+DNru+Y1pxjivnHWrXkaVivTq
+         EiLA==
+X-Gm-Message-State: AOAM531NYgoDX2e6HnCcytNYMB3sJ9pFttFPSJHREKVHlKj442kMhFqQ
+        QH6uBpa6RAMAnUd9vh6mJy+FIL962ZvZgNa1gPM=
+X-Google-Smtp-Source: ABdhPJxMTpTOTPwXq7WTQUYopUBdDbXy2nRjKNVN+LX3MWIuhhGD4BKdSoSlL3G/YWvruxJ08+j+TYuLJi66gh0p/hc=
+X-Received: by 2002:a25:81ce:: with SMTP id n14mr52455964ybm.33.1618430375276;
+ Wed, 14 Apr 2021 12:59:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-8-ojeda@kernel.org>
- <CAHk-=wiVY56LzwV_G075NEFwsdf-p7GOTy_cB7-UU9b=49rB1g@mail.gmail.com>
-In-Reply-To: <CAHk-=wiVY56LzwV_G075NEFwsdf-p7GOTy_cB7-UU9b=49rB1g@mail.gmail.com>
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-2-ojeda@kernel.org>
+ <20210414194454.GV2531743@casper.infradead.org>
+In-Reply-To: <20210414194454.GV2531743@casper.infradead.org>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 14 Apr 2021 21:50:35 +0200
-Message-ID: <CANiq72=VnWEdh2uuwH2JM6ZhrEVDiQisnNBQGX-qwPnTitcR=g@mail.gmail.com>
-Subject: Re: [PATCH 07/13] Rust: Kernel crate
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 14 Apr 2021 21:59:24 +0200
+Message-ID: <CANiq72k1w8__rCAZs1NbVvB=gXp_AX9=H-KYbdoLCcmYFEWc_w@mail.gmail.com>
+Subject: Re: [PATCH 01/13] kallsyms: Support "big" kernel symbols (2-byte lengths)
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
+        Wedson Almeida Filho <wedsonaf@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 9:31 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Wed, Apr 14, 2021 at 9:45 PM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> Again, excuse my lack of internal Rust knowledge, but when do these
-> end up being an issue?
+> How about doing something a bit more utf-8-like?
 >
-> If the Rust compiler ends up doing hidden allocations, and they then
-> cause panics, then one of the main *points* of Rustification is
-> entirely broken. That's 100% the opposite of being memory-safe at
-> build time.
+>         len = data[0];
+>         if (len == 0)
+>                 error
+>         else if (len < 128)
+>                 return len;
+>         else if (len < 192)
+>                 return 128 + (len - 128) * 256 + data[1];
+> ... that takes you all the way out to 16511 bytes.  You probably don't
 
-Of course! What happens here is that we use, for the moment, `alloc`,
-which is part of the Rust standard library. However, we will be
-customizing/rewriting `alloc` as needed to customize its types (things
-like `Box`, `Vec`, etc.) so that we can do things like pass allocation
-flags, ensure we always have fallible allocations, perhaps reuse some
-of the kernel data structures, etc.
+That would save some space and allow us to keep the 0 as an error, yeah.
+
+> Alternatively, if the symbols are really this long, perhaps we should not
+> do string matches.  A sha-1 (... or whatever ...) hash of the function
+> name is 160 bits.  Expressed as hex digits, that's 40 characters.
+> Expressed in base-64, it's 27 characters.  We'd also want a "pretty"
+> name to go along with the hash, but that seems preferable to printing
+> out a mangled-with-types-and-who-knows-what name.
+
+I have seen symbols up to ~300, but I don't think we will ever go up
+to more than, say, 1024, unless we start to go crazy with generics,
+namespaces and what not.
+
+Hashing could be a nice solution if they really grow, yeah.
+
+> If you have C-d-b, you don't also need S-o-b.
+
+Hmm... `submitting-patches.rst` keeps the S-o-b in the example they
+give, is it outdated?
 
 Cheers,
 Miguel
