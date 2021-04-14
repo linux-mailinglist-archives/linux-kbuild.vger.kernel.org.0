@@ -2,68 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4184F35FC5B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 22:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDEEA35FC7D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Apr 2021 22:21:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234560AbhDNUKr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 16:10:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52642 "EHLO
+        id S1348298AbhDNUVZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 16:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234185AbhDNUKc (ORCPT
+        with ESMTP id S1346875AbhDNUVY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 16:10:32 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B217C061574;
-        Wed, 14 Apr 2021 13:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RdrSYmxrLKuHAzw6nooCGrkMrEjM1wycFBXE5loudB8=; b=fKsblUD9gH4QeoNAtZQYxJk9jp
-        7PoepJNhCBYWifx72f41Epnl6UIylf9hBL4NQmAiZD+Ww/w0pSJpWoKIMBiAHCeO96oUCgTTGoSqf
-        NWq1lzxLTDQVJnowksqRP3yxFWIFq3QNV6E8aD1ROaEp6xUdV/qr+04V90Rkg1oW2m0JO+13qZOwW
-        hOw7oHI4U6JocyO8vtUXgSfdsCgTGNqhkCBipfqXcdChvkTQzgOhHAe7PPpINnTpWkud0gThW7WUF
-        pwBjg02AuEjISX+WmicO8ofOsu4xhc50rN3ik7ELaU3kV9PO7MS6JD9YhFYe1hOix6suu18z2J1QF
-        8N5vi6bg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lWlph-007a31-Jo; Wed, 14 Apr 2021 20:09:57 +0000
-Date:   Wed, 14 Apr 2021 21:09:53 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210414200953.GX2531743@casper.infradead.org>
-References: <20210414184604.23473-1-ojeda@kernel.org>
+        Wed, 14 Apr 2021 16:21:24 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CECC061574;
+        Wed, 14 Apr 2021 13:21:02 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id v72so2844498ybe.11;
+        Wed, 14 Apr 2021 13:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9WAReIIx1ygTdBPWTI/Fl7Iw9AOXUrLAYUBbvQxYk/0=;
+        b=AtZ86fQsc9vbhS+649ka/x3Vj2lPW3l2j7IbUMgqzoHIr27tbnz34peNrS+Osln6MF
+         8s4zB25sJWABQ/ft4gzaNPScyPjYQNC6LqeY6kIAvpae9UbMrYeiSduUmQyEr1EMCPbi
+         BjHlDGCELkTeNCMKpJ/0AHTa+3ie6WA0rOS3EMqB0QPDD/wIjGm6QO0gxhWuMp0+W8T8
+         IZ2Nf99VYAhiC0/QDvOCEXIia/ABgVwDWpNN0NvwfiyaD14yindlUw0D8NetVqY38kPT
+         Xu49nNmdrxSButVyzlw+DOOqBuE/QPdX06vRdQcJnhKmevZTVYU9OVfuTeOipVVsoxNu
+         L5Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9WAReIIx1ygTdBPWTI/Fl7Iw9AOXUrLAYUBbvQxYk/0=;
+        b=eJJdEcNPjIHf1/e7BkerASwIXLi9o9PtTb+MC51cZGUF1IZEVx776AvKuOrRfEliKb
+         /owULlJD0OfKptZaslRvZ6skXXLHdEu8Az28SozSlYzRGN1SOBXsjwQvshQwnllBQEkz
+         X7LZOf/HNJpFgbyLXZg2vL+yU8dUJQx4d5ROULtN8SkCXlkuANdm7YswYGAVWPZNDsMj
+         3PKFVS9LIEZzekN3nV5uYGrMmdKmC9mnEMqPeECStQsApsJk0G7IihMij3VujNYaktj4
+         n7jKqQkwef4FOiDUDmrCTgfEEuYzoK+wxdyIjWLoLRd5P8Goty9VaBU4h6pLq6GAgJeJ
+         4pgA==
+X-Gm-Message-State: AOAM532fxC04geBXDqwQc+plblCz3t7J4nSN0KHGD4aRYO6plDRqxa6N
+        W4TKA7B+ipdEs6XsjqOUQ3HMVvS05DIjclRd+l/kK6d66Po=
+X-Google-Smtp-Source: ABdhPJwtFkwWYVw1PZvDFwR6rrbSIKUJhbJ583nYNAFSAqVJ1i9nl83cDJyFig6U2jHrTseiLxEuutlz1Vwc1rFqekk=
+X-Received: by 2002:a25:b781:: with SMTP id n1mr56541289ybh.115.1618431662257;
+ Wed, 14 Apr 2021 13:21:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org> <CAHk-=wh_sNLoz84AUUzuqXEsYH35u=8HV3vK-jbRbJ_B-JjGrg@mail.gmail.com>
+In-Reply-To: <CAHk-=wh_sNLoz84AUUzuqXEsYH35u=8HV3vK-jbRbJ_B-JjGrg@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 14 Apr 2021 22:20:51 +0200
+Message-ID: <CANiq72mSMtfdRFPGJKuoqCBFdsa_xHvx9ATjcB7QSunQdDHBuw@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
->   - Manish Goregaokar implemented the fallible `Box`, `Arc`, and `Rc`
->     allocator APIs in Rust's `alloc` standard library for us.
+On Wed, Apr 14, 2021 at 9:45 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> With the main point of Rust being safety, there is no way I will ever
+> accept "panic dynamically" (whether due to out-of-memory or due to
+> anything else - I also reacted to the "floating point use causes
+> dynamic panics") as a feature in the Rust model.
 
-There's a philosophical point to be discussed here which you're skating
-right over!  Should rust-in-the-linux-kernel provide the same memory
-allocation APIs as the rust-standard-library, or should it provide a Rusty
-API to the standard-linux-memory-allocation APIs?  You seem to be doing
-both ... there was a wrapper around alloc_pages() in the Binder patches,
-and then you talk about Box, Arc and Rc here.
+Agreed on all your points. As I mentioned in the other message (we
+crossed emails), we have a lot of work to do regarding `alloc` and
+slicing `core` for things that are not needed for the kernel
+(floating-point, etc.).
 
-Maybe there's some details about when one can use one kind of API and
-when to use another.  But I fear that we'll have Rust code at interrupt
-level trying to use allocators which assume that they can sleep, and
-things will go badly wrong.
+We haven't done it just yet because it is not a trivial amount of work
+and we wanted to have some overall sentiment from you and the
+community overall before tackling everything. But it is doable and
+there isn't any fundamental reason that prevents it (in fact, the
+language supports no-allocation code).
 
-By the way, I don't think that Rust necessarily has to conform to the
-current way that Linux works.  If this prompted us to track the current
-context (inside spinlock, handling interrupt, performing writeback, etc)
-and do away with (some) GFP flags, that's not the end of the world.
-We're already moving in that direction to a certain extent with the
-scoped memory allocation APIs to replace GFP_NOFS / GFP_NOIO.
+Worst case, we may need to request a few bits here and there to the
+`rustc` and standard library teams, but that should be about it.
+
+In summary, to be clear:
+
+  - On allocation: this is just our usage of `alloc` in order to speed
+development up -- it will be replaced (or customized, we have to
+decide how we will approach it) with our own allocation and data
+structures.
+
+  - On floating-point, 128-bit, etc.: the main issue is that the
+`core` library is a single big blob at the moment. I have already
+mentioned this to some Rust team folks. We will need a way to "cut"
+some things out, for instance with the "feature flags" they already
+have for other crates (or they can split `core` in to several, like
+`alloc` is for similar reasons). Or we could do it on our side
+somehow, but I prefer to avoid that (we cannot easily customize `core`
+like we can with `alloc`, because it is tied to the compiler too
+tightly).
+
+Thanks a lot for having taken a look so quickly, by the way!
+
+Cheers,
+Miguel
