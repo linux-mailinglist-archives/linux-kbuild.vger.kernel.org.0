@@ -2,59 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C39CE35FE79
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 01:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2069E35FE91
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 01:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232941AbhDNXfA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Apr 2021 19:35:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40540 "EHLO
+        id S229830AbhDNXri (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Apr 2021 19:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232631AbhDNXe6 (ORCPT
+        with ESMTP id S229508AbhDNXrh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Apr 2021 19:34:58 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCE87C061574;
-        Wed, 14 Apr 2021 16:34:36 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id c195so24049883ybf.9;
-        Wed, 14 Apr 2021 16:34:36 -0700 (PDT)
+        Wed, 14 Apr 2021 19:47:37 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E324C061756
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 16:47:13 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id a36so14262249ljq.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Apr 2021 16:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lpeq08hz5AFe13tA1HBxBv4F7DKthixhqDeaeuhPzqo=;
-        b=RcHvTa4XIaTS5N3Ex/HbpYPVaN49e6k0T/y6QkMMmft+ABpIRAQFqBI9Ei7CfR9p7T
-         MB7pGJpymxr/LQU1zO2DqR7roeV/JxnaE1li2O1JBq+MhzOkT/d5ip20USlS2pDr7RQZ
-         fld2zhJ9XMf82hzNQP2VH3lg91STNXxcmTvrtDhfmW1p1v9/PFI4e5AeKem2JpJAZxeX
-         gr4tauGFJ521zWOciWLgPhbIMZKdbMz0tsf15JduAeoQDKaTv6DQFnZ0gRizwcJ6bYPJ
-         rxqnwc8Z434lKKgXVQ6mzlf2RFUx+FSNqOdvAR3mXEGustVigR7bMmsMdVUcsMH9yf37
-         LMYw==
+        bh=+TpZa+C9cCQwz4Q2nu+eQulPH6EC1ZhAKJ0Pt2gzF58=;
+        b=CjmCZvhyG1hOPzQ0l7b1Br0e4i7SFJ8KrImnZRGRP0SCVDXXfHW4HoDlWBvTbq0WSv
+         fcLuenxPR5TSbfjQ5WLbNxs4D/NVnzepr7FK1GKTd+9yxFp2VJ0GJiai7n5rL72Uq1aM
+         k3WkJ5gAaYpFl4qQnWX8ZCTVosqEi7TA2Lv6054ltoIuPK4G4ZQ4jvl6eKT82QnjkBAF
+         Q5ZPhd81n9Xkk9fA61LKnmq+9yejt3s3XqOHeHq+/XeTbgYIGpvlwr19zfoDp+QsqCyQ
+         vHm1OgzZtwmFWKakdNo6gbNopibS26GcSs32BtOUqA4UMcnY0TV3dAeu1Dx9xqoPwCr1
+         sl9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lpeq08hz5AFe13tA1HBxBv4F7DKthixhqDeaeuhPzqo=;
-        b=ullXS0NLTM3XrRJSkbFLPgoJdrpeStK1YD1Z+GhFgGHnVjaPoTVkhzETNFFPz8sMH0
-         4XvtfzizH9utE6RPdCXB1DejHO5P7jGIke5gXo3BXKKdlB8XI0kbDcB5WiGmIeBXivk3
-         DorXU7bZUs5XnDliHW8lyrK5mcsCNqT5Rye1ODUsv1tRLIE0oUGophI0iFH25XU9AkK6
-         Sfd1NB7MCHgLdKqN0VR1gVlqHZKQWPG61WVI2bMEQ1BDX1DRP/11ZB7NeGG6iMBSyPS0
-         kfosmJU3WglkQduOLlDCt8XgtM2dqmVxzFvQXug5QWog1ZAMdd7VIcL5sAf9fHgq8/mN
-         xb5Q==
-X-Gm-Message-State: AOAM532grkvcIilU7GyC5SdJfu3DGoUVql6vb+eywm0MhaWf76AYaX3d
-        /wd+Ph+j6FFCZ4+KlR1mYfGk4yPnlR6Mla/qlwU=
-X-Google-Smtp-Source: ABdhPJxmSfQlVHqPImE3jN3Xs98GzPwiT4MsZztyKgOPuWOzqTtTLp6Fazuc4tu0tp2hTTY0Uh/sNGcsTm0owhCBa4o=
-X-Received: by 2002:a25:81ce:: with SMTP id n14mr568991ybm.33.1618443275959;
- Wed, 14 Apr 2021 16:34:35 -0700 (PDT)
+        bh=+TpZa+C9cCQwz4Q2nu+eQulPH6EC1ZhAKJ0Pt2gzF58=;
+        b=bR1oDzsQuKfub+A0y+MeoWio4F1AyySvlTw33OkrrZW2bCO0RsfzFvBv0rcQedkBhW
+         an4KZbs3xHA1xRUk/AA98+gXYmVad39+SRueS1h6PBonVU3NwUuabmPwKMWw+fBJe4jf
+         BR3ZsWYv+Cytouvs1RsoJ3SKNFREBHkMRyNCSLLOnVXZBQCbqvBaL1AriUC6G1pYOj/o
+         kqsohpXQRiGNdj/iuQFNCy6FQ6lc+OHtb+3VqRVftb6UQdTa7hwuabr4LzSe3skidHIK
+         8RGsvKb9Ji+PXIWorZcy7v1Nd8PsfuPF8O00T7npxkOWXV2DeltV5r/NxRZeKJhbBJ0O
+         ON/Q==
+X-Gm-Message-State: AOAM533rHKvxmJ/qFnYWAuNt7g9qHGk1Rdrm7yXHDvK3Z8cKuIXLK/7k
+        LTefPtIzgbi5QqarotdcbZJCGvp3n/CyY4r6xqlCfg==
+X-Google-Smtp-Source: ABdhPJx1061aL/GqHoj3QkAEX++DNSP6KXBGITCMLiN6jW2qaQa8bGDJNhOL8TCspjkGwTLyMoKgn+vBboav1U+bOOg=
+X-Received: by 2002:a2e:b817:: with SMTP id u23mr249392ljo.116.1618444031762;
+ Wed, 14 Apr 2021 16:47:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-11-ojeda@kernel.org>
- <CAKwvOdmXNAm+TcypR0dCayp9bJ7RFcgLx5sB8_2MfzO31T3PJg@mail.gmail.com>
-In-Reply-To: <CAKwvOdmXNAm+TcypR0dCayp9bJ7RFcgLx5sB8_2MfzO31T3PJg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 15 Apr 2021 01:34:25 +0200
-Message-ID: <CANiq72nnKU=TUxb0NGqwO_V-TJP9DOkzoYteVi2uhBgv3UB8cw@mail.gmail.com>
-Subject: Re: [PATCH 10/13] Documentation: Rust general information
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-4-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-4-ojeda@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 14 Apr 2021 16:46:59 -0700
+Message-ID: <CAKwvOd=YV1Ck3hYKEC9035o+yghy_Oh1VWAyeGLQP5B9SR9xLw@mail.gmail.com>
+Subject: Re: [PATCH 03/13] Makefile: Generate CLANG_FLAGS even in GCC builds
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
@@ -70,78 +68,113 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nick,
-
-Thanks a lot for looking into this!
-
-On Thu, Apr 15, 2021 at 12:18 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Wed, Apr 14, 2021 at 11:48 AM <ojeda@kernel.org> wrote:
 >
-> Was this TODO meant to be removed, or is it still pending? If pending,
-> on what? Being able to link back on itself if/once merged?
+> From: Miguel Ojeda <ojeda@kernel.org>
+>
+> To support Rust under GCC-built kernels, we need to save the flags that
+> would have been passed if the kernel was being compiled with Clang.
+>
+> The reason is that bindgen -- the tool we use to generate Rust bindings
+> to the C side of the kernel -- relies on libclang to parse C. Ideally:
+>
+>   - bindgen would support a GCC backend (requested at [1]),
+>
+>   - or the Clang driver would be perfectly compatible with GCC,
+>     including plugins. Unlikely, of course, but perhaps a big
+>     subset of configs may be possible to guarantee to be kept
+>     compatible nevertheless.
+>
+> This is also the reason why GCC builds are very experimental and some
+> configurations may not work (e.g. GCC_PLUGIN_RANDSTRUCT). However,
+> we keep GCC builds working (for some example configs) in the CI
+> to avoid diverging/regressing further, so that we are better prepared
+> for the future when a solution might become available.
+>
+> [1] https://github.com/rust-lang/rust-bindgen/issues/1949
+>
+> Link: https://github.com/Rust-for-Linux/linux/issues/167
+>
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  Makefile | 27 ++++++++++++++++-----------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index d4784d181123..9c75354324ed 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -559,26 +559,31 @@ ifdef building_out_of_srctree
+>         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
+>  endif
+>
+> -# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
+> -# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
+> -# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
+> -# and from include/config/auto.conf.cmd to detect the compiler upgrade.
+> -CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1 | sed 's/\#//g')
+> +TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
+>
+> -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+>  ifneq ($(CROSS_COMPILE),)
+> -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +TENTATIVE_CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+> -CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> +TENTATIVE_CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+>  GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+>  endif
+>  ifneq ($(GCC_TOOLCHAIN),)
+> -CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
+> +TENTATIVE_CLANG_FLAGS  += --gcc-toolchain=$(GCC_TOOLCHAIN)
+>  endif
+>  ifneq ($(LLVM_IAS),1)
+> -CLANG_FLAGS    += -no-integrated-as
+> +TENTATIVE_CLANG_FLAGS  += -no-integrated-as
+>  endif
+> -CLANG_FLAGS    += -Werror=unknown-warning-option
+> +
+> +export TENTATIVE_CLANG_FLAGS
 
-Still pending -- the plan is to upload the docs to kernel.org rather
-than have them on GitHub, and ideally have one version done from the
-CI automatically on e.g. every merge, but that requires some sorting
-out.
+I'm ok with this approach, but I'm curious:
+If the user made a copy of the CLANG_FLAGS variable and modified its
+copy, would TENTATIVE_CLANG_FLAGS even be necessary? IIUC,
+TENTATIVE_CLANG_FLAGS is used to filter out certain flags before
+passing them to bindgen?
 
-But yeah, I could have put here the link to the temporary docs in
-GitHub for the moment, good catch! +1
+Or, I'm curious whether you even need to rename this variable (or
+create a new variable) at all? Might make for a shorter diff if you
+just keep the existing identifier (CLANG_FLAGS), but create them
+unconditionally (at least not conditional on CC=clang).
 
-> Consider if the docs need any change here based on behavior related to
-> Panics based on feedback thus far in the thread.
 
-Indeed, it should be a very rare occurrence. I will add a sentence
-saying that one needs to be really sure there is no other way out than
-panicking.
+> +
+> +# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
+> +# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
+> +# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
+> +# and from include/config/auto.conf.cmd to detect the compiler upgrade.
+> +CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1 | sed 's/\#//g')
+> +
+> +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+> +CLANG_FLAGS    += $(TENTATIVE_CLANG_FLAGS)
+>  KBUILD_CFLAGS  += $(CLANG_FLAGS)
+>  KBUILD_AFLAGS  += $(CLANG_FLAGS)
+>  export CLANG_FLAGS
+> --
+> 2.17.1
+>
 
-I have to write a few more bits regarding some new guidelines we follow/enforce.
 
-> That link has a comment that this was fixed.  Is the comment now stale?
-
-There were a couple things to resolve regarding LLVM 12 last time I
-looked into it, so I didn't update it (also, it is safer in general to
-use the recommended nightly -- one never knows when things may break,
-plus some nightlies do not include all the tools like `rustfmt`).
-
-So my current plan is to recommend a given nightly, and update it only
-when needed, in tandem with the CI builds (we also test
-different/newer nightlies in the CI when possible, e.g. when the LLVM
-12 bits are resolved, then we will also test one with LLVM 12).
-
-> Perhaps worth another cross reference to :ref:`kbuild_llvm`?
-> https://www.kernel.org/doc/html/latest/kbuild/llvm.html#getting-llvm
-> Perhaps amend that then link to it from here?
-
-+1
-
-> Avoid terms like recent and modern.  Otherwise in a few years 0.56.0
-> will be archaic, not recent, and you'll need to update your docs.  So
-
-+1
-
-> bindgen does not distribute libclang?
-
-AFAIK, no, `bindgen` expects you to provide/install `libclang` (and
-you have some knobs to control how it searches for it). But it looks
-like they also allow to link it statically.
-
-I was looking into this a while ago to upload a static version to
-kernel.org somewhere (actually, a full Clang/LLVM and the rest of
-tools for Rust support), so that kernel developers had an easier time
-setting things up. Konstantin Ryabitsev told me it would be possible,
-but we need to sort out a few details.
-
-> Please reorder; prefer LLVM=1 to CC=clang.  Probably worth another
-> cross reference to :ref:`kbuild_llvm`.
-
-Will do!
-
-> "new" as in changed, or "new" as in Rust previously did not mangle symbols?
-
-Changed -- currently (in stable) they use what they call the `legacy`
-mangling scheme, which is very similar to C++'s (and used the same
-prefix, `_Z`).
-
-Cheers,
-Miguel
+--
+Thanks,
+~Nick Desaulniers
