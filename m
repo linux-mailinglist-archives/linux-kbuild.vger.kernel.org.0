@@ -2,143 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7661F36129C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 20:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7237E3612CE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 21:15:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbhDOS7d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Apr 2021 14:59:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234130AbhDOS7c (ORCPT
+        id S234699AbhDOTP1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Apr 2021 15:15:27 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:32425 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234505AbhDOTP1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Apr 2021 14:59:32 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0672DC061574;
-        Thu, 15 Apr 2021 11:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=w2Mkbwrn1dHZMYrzDYquD56pzzON3G9dft7HA6GsbfE=; b=nVahZHaWDDx0RjtMba1ns9aOWa
-        lfxb7S57Dd5zX7yFCVTl9Y4BPg8hlk3nD5zkeNe+tRF6yFmQpAgbxW3ddWMrz0JWjY/zNehzBuJME
-        qdRj3UIja7HYU2XOwO2FpmJblU0B6SbgZceORtO5Y+WVBsvsa7mH41sB5oQzW1tEA4bLvkfKJ7tVc
-        t/5pv8xKEz/ILQQIsIgKyF6TpvCb13Y3Re5u0u0WQTPFRBsGyaTnLtmOG+5FEAqr4RrZ2ymNCLYzo
-        AQ0Bc2aP+GZm7qZkFQXCnk5oNN/x6tcE2SUucIC/WarGUuiHHOQg7Z6qLVQ8tiuZIRdCP7QeZiypI
-        yVPu18Zg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lX7By-008y1B-3a; Thu, 15 Apr 2021 18:58:30 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 350B1300209;
-        Thu, 15 Apr 2021 20:58:17 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 274082C7727AD; Thu, 15 Apr 2021 20:58:17 +0200 (CEST)
-Date:   Thu, 15 Apr 2021 20:58:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
-References: <20210414184604.23473-1-ojeda@kernel.org>
+        Thu, 15 Apr 2021 15:15:27 -0400
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 13FJEoup030833;
+        Fri, 16 Apr 2021 04:14:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 13FJEoup030833
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1618514091;
+        bh=EmolGnRyn1yp9QOm5sqU5YfsZ9PFrgktuvgVHQEMoGU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xZ0vPzdlN6LM3y0Ie8m4eaKJKREIAQUZFV+kISUQrg2WKr//gU4T2UVDdKFmMqNnI
+         N6Ke8jkNxyUwEoT5ZTy2stBrlRZaGiWTnpiE8qpAzAC1mvQi/QayysuSeZtwaccT1B
+         ee9Gl/ntvcpKrgGzRMPjkqZtxKxRYeTmeYd4WMQ9eTHbDyySI3RpHS+TGGBRrTJ+NZ
+         q377GdsQwFZHs/8+8hcm/0/aJsCTLZinmqO4rCr4A0vXc4X0rYYiKXQ/uUxhWwuXh4
+         zGllQtxJf29iQq4G0D4e7ZH9ky52h6QWBEmPxC2asyisxatCa+H8uEOZ/a4/amHHlY
+         OZ7hu4Vuvi5Pg==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id o123so16719909pfb.4;
+        Thu, 15 Apr 2021 12:14:51 -0700 (PDT)
+X-Gm-Message-State: AOAM530dcUU7B5r4cVhbLYbVy7zSNBm/2SDfcMPzKOX/MPTVJqCsyeOs
+        a+vNwPAFO6ABXiKp+kXEBwipeZROLLeWJlkVJqo=
+X-Google-Smtp-Source: ABdhPJzmmsqgHMc7XPXnewPtYR1MgcDRqUUkEaOwsLqBWNXQ7wzzoHC0wBjhKHOLsTl2oO5F947XAoY9Ai4nl7QQ2vg=
+X-Received: by 2002:a65:45cf:: with SMTP id m15mr4709604pgr.7.1618514090477;
+ Thu, 15 Apr 2021 12:14:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
+References: <20210415171352.27398-1-rdunlap@infradead.org>
+In-Reply-To: <20210415171352.27398-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 16 Apr 2021 04:14:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
+Message-ID: <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
+Subject: Re: [PATCH v2] uml: fix W=1 missing-include-dirs warnings
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
+On Fri, Apr 16, 2021 at 2:14 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Currently when using "W=1" with UML builds, there are over 700 warnings
+> like so:
+>
+>   CC      arch/um/drivers/stderr_console.o
+> cc1: warning: ./arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+>
+> but arch/um/ does not have include/uapi/ at all, so add that
+> subdir and put one Kbuild file into it (since git does not track
+> empty subdirs).
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Jeff Dike <jdike@addtoit.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Cc: linux-um@lists.infradead.org
+> ---
+> v2: use Option 4 from v1: add arch/um/include/uapi so that 'make' is
+>     placated -- and just like all other arch's have.
 
-> Rust is a systems programming language that brings several key
-> advantages over C in the context of the Linux kernel:
-> 
->   - No undefined behavior in the safe subset (when unsafe code is
->     sound), including memory safety and the absence of data races.
 
-And yet I see not a single mention of the Rust Memory Model and how it
-aligns (or not) with the LKMM. The C11 memory model for example is a
-really poor fit for LKMM.
 
-> ## Why not?
-> 
-> Rust also has disadvantages compared to C in the context of
-> the Linux kernel:
-> 
->   - The many years of effort in tooling for C around the kernel,
->     including compiler plugins, sanitizers, Coccinelle, lockdep,
->     sparse... However, this will likely improve if Rust usage in
->     the kernel grows over time.
+Assuming the UML maintainer will pick up this:
 
-This; can we mercilessly break the .rs bits when refactoring? What
-happens the moment we cannot boot x86_64 without Rust crap on?
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-We can ignore this as a future problem, but I think it's only fair to
-discuss now. I really don't care for that future, and IMO adding this
-Rust or any other second language is a fail.
 
-> Thirdly, in Rust code bases, most documentation is written alongside
-> the source code, in Markdown. We follow this convention, thus while
-> we have a few general documents in `Documentation/rust/`, most of
-> the actual documentation is in the source code itself.
-> 
-> In order to read this documentation easily, Rust provides a tool
-> to generate HTML documentation, just like Sphinx/kernel-doc, but
-> suited to Rust code bases and the language concepts.
 
-HTML is not a valid documentation format. Heck, markdown itself is
-barely readable.
 
-> Moreover, as explained above, we are taking the chance to enforce
-> some documentation guidelines. We are also enforcing automatic code
-> formatting, a set of Clippy lints, etc. We decided to go with Rust's
-> idiomatic style, i.e. keeping `rustfmt` defaults. For instance, this
-> means 4 spaces are used for indentation, rather than a tab. We are
-> happy to change that if needed -- we think what is important is
-> keeping the formatting automated.
 
-It is really *really* hard to read. It has all sorts of weird things,
-like operators at the beginning after a line break:
 
-	if (foo
-	    || bar)
 
-which is just wrong. And it suffers from CamelCase, which is just about
-the worst thing ever. Not even the C++ std libs have that (or had, back
-when I still did knew C++).
+>  arch/um/include/uapi/asm/Kbuild |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/um/include/uapi/asm/Kbuild b/arch/um/include/uapi/asm/Kbuild
+> new file mode 100644
+> index 000000000000..f66554cd5c45
+> --- /dev/null
+> +++ b/arch/um/include/uapi/asm/Kbuild
+> @@ -0,0 +1 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-I also see:
 
-	if (foo) {
-		...
-	}
 
-and
-
-	if foo {
-	}
-
-the latter, ofcourse, being complete rubbish.
-
-> Another important topic we would like feedback on is the Rust
-> "native" documentation that is written alongside the code, as
-> explained above. We have uploaded it here:
-> 
->     https://rust-for-linux.github.io/docs/kernel/
-> 
-> We like how this kind of generated documentation looks. Please take
-> a look and let us know what you think!
-
-I cannot view with less or vim. Therefore it looks not at all.
-
->   - Boqun Feng is working hard on the different options for
->     threading abstractions and has reviewed most of the `sync` PRs.
-
-Boqun, I know you're familiar with LKMM, can you please talk about how
-Rust does things and how it interacts?
+-- 
+Best Regards
+Masahiro Yamada
