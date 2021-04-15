@@ -2,160 +2,236 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6783360385
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 09:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DC0B36038E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 09:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbhDOHkP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Apr 2021 03:40:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbhDOHkO (ORCPT
+        id S231487AbhDOHkx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Apr 2021 03:40:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47684 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231480AbhDOHkv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Apr 2021 03:40:14 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7461C06175F
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 00:39:51 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id z8so26017243ljm.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 00:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xMBHOqRNLVRMS07iUqFEuZb5xzgm/L59GDWK4D2fxw4=;
-        b=leylOg12nQE524kr0iJBrc+3WKLv4y/Hr5k7IgmS9wIeRIoKk3K3kBQZ+l1u5onlWf
-         7hMszo1+KSbkquXbRUDMs0h5PriyyDK0btcwTDupomKAB6Y8Ris9NqziYPOH8qt5xXxE
-         Bo3vY6j9/lbvx0S28JJMgof1BZSn3j1xLx8q7e2JEs0I3ukRVBOTdrvjFwvU/5SZ0RyD
-         E3ettyogrKmL23WA9z2PVGh1nLHj0wLLTLJV13LeGvvp8MXof54Ngv7h9xlqHfGiK3fv
-         t1RAupcbqj5JhAV1oF3ZyQoqcoBWL2CyNacOtLXajyqgnMSm9Xf/KugQ8R73+oXSdwNW
-         ycLA==
+        Thu, 15 Apr 2021 03:40:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618472427;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FABcKglbZyz1XUUkdOXQm+i1lKqkxdPYz82VDd7EHCc=;
+        b=E3G/7HUOPVaw66wibjCv1WbFy3oUvSIpPjdbGVrER+fIgFMdIxriPAasDdqOJb3Du7jE5/
+        8icemMvkBVKtvzcUgWfSf5p0AYDR8EnlAcwKTSR9fkI0otf1KZhfu/GmUwNat6SdsaObDG
+        QEEPJBI/t4Qt+enrR9V/8M5X7ycLMYk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-tEWyrdAZPxuWtH_Lb263gQ-1; Thu, 15 Apr 2021 03:40:25 -0400
+X-MC-Unique: tEWyrdAZPxuWtH_Lb263gQ-1
+Received: by mail-ej1-f70.google.com with SMTP id lf6-20020a1709071746b029037cee5e31c4so614489ejc.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 00:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xMBHOqRNLVRMS07iUqFEuZb5xzgm/L59GDWK4D2fxw4=;
-        b=t/tb2pF3yS4C26tb2r/NikTEd22yf2Ui/PTFebEVGah76nF3lqQGxRQl4GGOHm+E0v
-         CzOoWTiL5P90MbWaSmbaBQiVBSLqhymc3+T9Rh6kc5rPP/G51VS+w8ejF3HbgOmvI8RI
-         AUx8z2KGYBAIXd123xjVemEg6vklk5l7SBG2p7VIxkfN9L8cbsoh5ziqkWo0bhoEizEV
-         3yNQYMVjTWXs+w/t3rsJlrJ/P3SWCuHn+LI8YgGR3P4XmQK4o9OO5wK+AI3SrCEGMUtu
-         2j41iqvZwn5h+kZgh8tenomkSLzZtH3rCP670N6eh2fJ9gZmE7psqZedPO+Of1W6/qc/
-         vfAQ==
-X-Gm-Message-State: AOAM532GgPPx9ZT8J+BlGLP+AGy335EpIfe2Zh7clH7MuAlBylO/4L4a
-        KKNU84XXAm9vIJwJK8k6v1KSCkgSxOAL28lx1H3Fvg==
-X-Google-Smtp-Source: ABdhPJzKJCLVxMyPPIOdJxtB78ccCcPVTYA4Gw6TmU/x85vr96OM7FRzJcBabBmcCKR2n70fjgFYyOGv9iShj4W78Ek=
-X-Received: by 2002:a2e:968a:: with SMTP id q10mr1048369lji.0.1618472389953;
- Thu, 15 Apr 2021 00:39:49 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FABcKglbZyz1XUUkdOXQm+i1lKqkxdPYz82VDd7EHCc=;
+        b=DEqQnj6wZG0ZlotMMgIZ6pcfZuO1ycOYQznS6Npj8J/cGU5t0XgWkO+78EokI2Al+d
+         oqqOkhn9yJ8dwxcBemWzqm9Fml77NcE/4QzT/j99/gnlyVBzs42rl5pmnS/wkUc1jPCv
+         gd3KIzQm+WI2B/m1uC1mpaKHfDlE0bQchG4rq01Cr3SHy/IHPKRpTWgSp/TvWoq31a+z
+         pdoRJghfD+DxAaAzp6smqc4tNgm/SiFKydTwBVkZnzD6pmUy76odGeREWMuhdVBkae9k
+         e4IqMUf3BxbAgt/WfneB5Lgtzzs5I0ULPaD8UHCSdTL/WuzKDvcLUR7hIKyb/a2ljZvq
+         T9Nw==
+X-Gm-Message-State: AOAM531ATaE4obQSTOF7O/hW/SE+7UBI8L23f3pf1Mp/WEauV9p3kNeO
+        7JhfXObnbIfQDAdzp1N0VIqAqzoRw4+IbV6Qxqr+O8TmRjEQ9MXistIoV+mF5LSrmYxEFu6YKuF
+        zIu51vxwsS7wGxIHiZYVcgCiZ
+X-Received: by 2002:a17:906:80d6:: with SMTP id a22mr2018524ejx.277.1618472424066;
+        Thu, 15 Apr 2021 00:40:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0fuohm6puHv0F4pqjM8Oe2og4+AYVZWqbQ2+dlsXsdUigyAKX+u4GzMQpiq69iOvQF1X+Kw==
+X-Received: by 2002:a17:906:80d6:: with SMTP id a22mr2018508ejx.277.1618472423854;
+        Thu, 15 Apr 2021 00:40:23 -0700 (PDT)
+Received: from [192.168.10.118] ([93.56.169.140])
+        by smtp.gmail.com with ESMTPSA id d18sm1701897edv.1.2021.04.15.00.40.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Apr 2021 00:40:23 -0700 (PDT)
+Subject: Re: [PATCH 2/2] tools: do not include scripts/Kbuild.include
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Harish <harish@linux.ibm.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, clang-built-linux@googlegroups.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        netdev@vger.kernel.org
+References: <20210415072700.147125-1-masahiroy@kernel.org>
+ <20210415072700.147125-2-masahiroy@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9d33ee98-9de3-2215-0c0b-cc856cec1b69@redhat.com>
+Date:   Thu, 15 Apr 2021 09:40:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-10-ojeda@kernel.org>
- <CAHk-=wjdZ1KksHHHuekeAx9kKFXEyt+rg0P=yRD1Bia_01wucg@mail.gmail.com>
- <CAKwvOd=Vo3wwm-egc6fTa7gD4dsrc77OvBhUy8e+VM=LujRCfg@mail.gmail.com> <YHfm+tCYp+I1C5I/@kroah.com>
-In-Reply-To: <YHfm+tCYp+I1C5I/@kroah.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 15 Apr 2021 00:39:38 -0700
-Message-ID: <CAKwvOdmx1whzPhofkPZ3GXgjDqV4=xQ5Ph_VX_eM+bqBZE1rFA@mail.gmail.com>
-Subject: Re: [PATCH 09/13] Samples: Rust examples
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210415072700.147125-2-masahiroy@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 12:10 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Apr 14, 2021 at 04:24:45PM -0700, Nick Desaulniers wrote:
-> > On Wed, Apr 14, 2021 at 12:35 PM Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > >
-> > > On Wed, Apr 14, 2021 at 11:47 AM <ojeda@kernel.org> wrote:
-> > > >
-> > > > From: Miguel Ojeda <ojeda@kernel.org>
-> > > >
-> > > > A set of Rust modules that showcase how Rust modules look like
-> > > > and how to use the abstracted kernel features.
-> > >
-> > > Honestly, I'd like to see a real example. This is fine for testing,
-> > > but I'd like to see something a bit more real, and a bit less special
-> > > than the Android "binder" WIP that comes a few patches later.
-> > >
-> > > Would there be some kind of real driver or something that people could
-> > > use as a example of a real piece of code that actually does something
-> > > meaningful?
-> >
-> > Are you suggesting that they "rewrite it in Rust?" :^P *ducks*
->
-> Well, that's what they are doing here with the binder code :)
+On 15/04/21 09:27, Masahiro Yamada wrote:
+> Since commit d9f4ff50d2aa ("kbuild: spilt cc-option and friends to
+> scripts/Makefile.compiler"), some kselftests fail to build.
+> 
+> The tools/ directory opted out Kbuild, and went in a different
+> direction. They copy any kind of files to the tools/ directory
+> in order to do whatever they want to do in their world.
+> 
+> tools/build/Build.include mimics scripts/Kbuild.include, but some
+> tool Makefiles included the Kbuild one to import a feature that is
+> missing in tools/build/Build.include:
+> 
+>   - Commit ec04aa3ae87b ("tools/thermal: tmon: use "-fstack-protector"
+>     only if supported") included scripts/Kbuild.include from
+>     tools/thermal/tmon/Makefile to import the cc-option macro.
+> 
+>   - Commit c2390f16fc5b ("selftests: kvm: fix for compilers that do
+>     not support -no-pie") included scripts/Kbuild.include from
+>     tools/testing/selftests/kvm/Makefile to import the try-run macro.
+> 
+>   - Commit 9cae4ace80ef ("selftests/bpf: do not ignore clang
+>     failures") included scripts/Kbuild.include from
+>     tools/testing/selftests/bpf/Makefile to import the .DELETE_ON_ERROR
+>     target.
+> 
+>   - Commit 0695f8bca93e ("selftests/powerpc: Handle Makefile for
+>     unrecognized option") included scripts/Kbuild.include from
+>     tools/testing/selftests/powerpc/pmu/ebb/Makefile to import the
+>     try-run macro.
+> 
+> Copy what they want there, and stop including scripts/Kbuild.include
+> from the tool Makefiles.
 
-I know, but imagine the meme magic if Linus said literally that!
-Missed opportunity.
+I think it would make sense to add try-run, cc-option and 
+.DELETE_ON_ERROR to tools/build/Build.include?
 
-> Seriously, binder is not a "normal" driver by any means, the only way
-> you can squint at it and consider it a driver is that it has a char
-> device node that it uses to talk to userspace with.  Other than that,
-> it's very stand-alone and does crazy things to kernel internals, which
-> makes it a good canidate for a rust rewrite in that it is easy to
-> benchmark and no one outside of one ecosystem relies on it.
->
-> The binder code also shows that there is a bunch of "frameworks" that
-> need to be ported to rust to get it to work, I think the majority of the
-> rust code for binder is just trying to implement core kernel things like
-> linked lists and the like.  That will need to move into the rust kernel
-> core eventually.
->
-> The binder rewrite here also is missing a number of features that the
-> in-kernel binder code has gotten over the years, so it is not
-> feature-complete by any means yet, it's still a "toy example".
->
-> > (sorry, I couldn't help myself) Perhaps it would be a good exercise to
-> > demonstrate some of the benefits of using Rust for driver work?
->
-> I've been talking with the developers here about doing a "real" driver,
-> as the interaction between the rust code which has one set of lifetime
-> rules, and the driver core/model which has a different set of lifetime
-> rules, is going to be what shows if this actually can be done or not.
-> If the two can not successfully be "bridged" together, then there will
-> be major issues.
->
-> Matthew points out that a nvme driver would be a good example, and I
-> have a few other thoughts about what would be good to start with for
-> some of the basics that driver authors deal with on a daily basis
-> (platform driver, gpio driver, pcspkr driver, /dev/zero replacement), or
-> that might be more suited for a "safety critical language use-case" like
-> the HID parser or maybe the ACPI parser (but that falls into the rewrite
-> category that we want to stay away from for now...)
+Paolo
 
-Sage advice, and it won't hurt to come back with more examples.
-Perhaps folks in the Rust community who have been itching to get
-involved in developing their favorite operating system might be
-interested?
+> Link: https://lore.kernel.org/lkml/86dadf33-70f7-a5ac-cb8c-64966d2f45a1@linux.ibm.com/
+> Fixes: d9f4ff50d2aa ("kbuild: spilt cc-option and friends to scripts/Makefile.compiler")
+> Reported-by: Janosch Frank <frankja@linux.ibm.com>
+> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>   tools/testing/selftests/bpf/Makefile          |  3 ++-
+>   tools/testing/selftests/kvm/Makefile          | 12 +++++++++++-
+>   .../selftests/powerpc/pmu/ebb/Makefile        | 11 ++++++++++-
+>   tools/thermal/tmon/Makefile                   | 19 +++++++++++++++++--
+>   4 files changed, 40 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+> index 044bfdcf5b74..d872b9f41543 100644
+> --- a/tools/testing/selftests/bpf/Makefile
+> +++ b/tools/testing/selftests/bpf/Makefile
+> @@ -1,5 +1,4 @@
+>   # SPDX-License-Identifier: GPL-2.0
+> -include ../../../../scripts/Kbuild.include
+>   include ../../../scripts/Makefile.arch
+>   include ../../../scripts/Makefile.include
+>   
+> @@ -476,3 +475,5 @@ EXTRA_CLEAN := $(TEST_CUSTOM_PROGS) $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)	\
+>   	prog_tests/tests.h map_tests/tests.h verifier/tests.h		\
+>   	feature								\
+>   	$(addprefix $(OUTPUT)/,*.o *.skel.h no_alu32 bpf_gcc bpf_testmod.ko)
+> +
+> +.DELETE_ON_ERROR:
+> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
+> index a6d61f451f88..8b45bc417d83 100644
+> --- a/tools/testing/selftests/kvm/Makefile
+> +++ b/tools/testing/selftests/kvm/Makefile
+> @@ -1,5 +1,15 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+> -include ../../../../scripts/Kbuild.include
+> +
+> +TMPOUT = .tmp_$$$$
+> +
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	mkdir -p $(TMPOUT);		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
+>   
+>   all:
+>   
+> diff --git a/tools/testing/selftests/powerpc/pmu/ebb/Makefile b/tools/testing/selftests/powerpc/pmu/ebb/Makefile
+> index af3df79d8163..d5d3e869df93 100644
+> --- a/tools/testing/selftests/powerpc/pmu/ebb/Makefile
+> +++ b/tools/testing/selftests/powerpc/pmu/ebb/Makefile
+> @@ -1,5 +1,4 @@
+>   # SPDX-License-Identifier: GPL-2.0
+> -include ../../../../../../scripts/Kbuild.include
+>   
+>   noarg:
+>   	$(MAKE) -C ../../
+> @@ -8,6 +7,16 @@ noarg:
+>   CFLAGS += -m64
+>   
+>   TMPOUT = $(OUTPUT)/TMPDIR/
+> +
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	mkdir -p $(TMPOUT);		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
+> +
+>   # Toolchains may build PIE by default which breaks the assembly
+>   no-pie-option := $(call try-run, echo 'int main() { return 0; }' | \
+>           $(CC) -Werror $(KBUILD_CPPFLAGS) $(CC_OPTION_CFLAGS) -no-pie -x c - -o "$$TMP", -no-pie)
+> diff --git a/tools/thermal/tmon/Makefile b/tools/thermal/tmon/Makefile
+> index 59e417ec3e13..92a683e4866c 100644
+> --- a/tools/thermal/tmon/Makefile
+> +++ b/tools/thermal/tmon/Makefile
+> @@ -1,6 +1,21 @@
+>   # SPDX-License-Identifier: GPL-2.0
+> -# We need this for the "cc-option" macro.
+> -include ../../../scripts/Kbuild.include
+> +
+> +TMPOUT = .tmp_$$$$
+> +
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	mkdir -p $(TMPOUT);		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
+> +
+> +__cc-option = $(call try-run,\
+> +	$(1) -Werror $(2) $(3) -c -x c /dev/null -o "$$TMP",$(3),$(4))
+> +
+> +cc-option = $(call __cc-option, $(CC),\
+> +	$(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
+>   
+>   VERSION = 1.0
+>   
+> 
 
-One technique for new language adoption I've seen at Mozilla and
-Google has been a moratorium that any code in <newlang> needs to have
-a fallback in <oldlang> in case <newlang> doesn't work out.  Perhaps
-that would be a good policy to consider; you MAY rewrite existing
-drivers in Rust, but you MUST provide a C implementation or ensure one
-exists as fallback until further notice.  That might also allay
-targetability concerns.
-
-> Let's see what happens here, this patchset is a great start that
-> provides the core "here's how to build rust in the kernel build system",
-> which was a non-trivial engineering effort.  Hats off to them that "all"
-> I had to do was successfully install the proper rust compiler on my
-> system (not these developers fault), and then building the kernel code
-> here did "just work".  That's a major achievement.
-
-For sure, kudos folks and thanks Greg for taking the time to try it
-out and provide feedback plus ideas for more interesting drivers.
--- 
-Thanks,
-~Nick Desaulniers
