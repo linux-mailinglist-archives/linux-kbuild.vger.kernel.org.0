@@ -2,117 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B743602FF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 09:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06FAF36034D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 09:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231266AbhDOHLQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Apr 2021 03:11:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42716 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230118AbhDOHLQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Apr 2021 03:11:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BACD6611AD;
-        Thu, 15 Apr 2021 07:10:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1618470653;
-        bh=l10X+vv5dBXcCRCNYL3D6TNyby9Y/mbKe5evcjbSDSE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fRu6Pltpvgw1T16C8/s7fBg1XzHMQN24KoKIRaCbHA1fe3Xo0Vl8m5zetxLdUei2P
-         Fq5k+6Pdi6WGffZkmhg1bwFLdtHLNImkUHzfyDLaae2P8BqEYlb9cvNyC1TlBi1EzN
-         Zv4m5f1Huyww/1N7oQTFjmOsWgxduiKgkZNYa05w=
-Date:   Thu, 15 Apr 2021 09:10:50 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 09/13] Samples: Rust examples
-Message-ID: <YHfm+tCYp+I1C5I/@kroah.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414184604.23473-10-ojeda@kernel.org>
- <CAHk-=wjdZ1KksHHHuekeAx9kKFXEyt+rg0P=yRD1Bia_01wucg@mail.gmail.com>
- <CAKwvOd=Vo3wwm-egc6fTa7gD4dsrc77OvBhUy8e+VM=LujRCfg@mail.gmail.com>
+        id S231266AbhDOH3F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Apr 2021 03:29:05 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:47809 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231241AbhDOH3F (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 15 Apr 2021 03:29:05 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 13F7REfJ011485;
+        Thu, 15 Apr 2021 16:27:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 13F7REfJ011485
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1618471635;
+        bh=GPI51iMTp+rZjdHBUUd0lGgRwM0zA9q+DXjFrCvC+fM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b5nA1iM/Oks6823MlddUQtJ60fJqh3e/lHQ+IuEL9UcsJ7edgt8Kd9WUXbygOBm8/
+         Qywn4D8Sz+JAf6Etg9kjAaYc0zmnRqF5hngaGUqRSlsikXOcCVpaGb0WFHzsh++IZx
+         VYS8OOM32n5HtG7I+R48CYBEq7VdLea042AsENr3dDS8z4tzIbICXFkcQgRtIFG3wK
+         WtmW14nREubsNK+QuYv2aBos5UHXZW1Gif/iXKhIGDmLlAaH61um/yTc1wUvsnbT0B
+         eJxihJpeyf5aOfQok/xUAqsgwKeJxFvydr1keFvRz0yhBTYGfX9qIZ51L9UTX3b4ML
+         17VQSayRR7Dyg==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [PATCH 1/2] kbuild: remove TMPO from try-run
+Date:   Thu, 15 Apr 2021 16:26:59 +0900
+Message-Id: <20210415072700.147125-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOd=Vo3wwm-egc6fTa7gD4dsrc77OvBhUy8e+VM=LujRCfg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 04:24:45PM -0700, Nick Desaulniers wrote:
-> On Wed, Apr 14, 2021 at 12:35 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Wed, Apr 14, 2021 at 11:47 AM <ojeda@kernel.org> wrote:
-> > >
-> > > From: Miguel Ojeda <ojeda@kernel.org>
-> > >
-> > > A set of Rust modules that showcase how Rust modules look like
-> > > and how to use the abstracted kernel features.
-> >
-> > Honestly, I'd like to see a real example. This is fine for testing,
-> > but I'd like to see something a bit more real, and a bit less special
-> > than the Android "binder" WIP that comes a few patches later.
-> >
-> > Would there be some kind of real driver or something that people could
-> > use as a example of a real piece of code that actually does something
-> > meaningful?
-> 
-> Are you suggesting that they "rewrite it in Rust?" :^P *ducks*
+TMPO is only used by arch/x86/Makefile.
 
-Well, that's what they are doing here with the binder code :)
+Change arch/x86/Makefile to use $$TMPO.o and remove TMPO from
+scripts/Makefile.compiler.
 
-Seriously, binder is not a "normal" driver by any means, the only way
-you can squint at it and consider it a driver is that it has a char
-device node that it uses to talk to userspace with.  Other than that,
-it's very stand-alone and does crazy things to kernel internals, which
-makes it a good canidate for a rust rewrite in that it is easy to
-benchmark and no one outside of one ecosystem relies on it.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-The binder code also shows that there is a bunch of "frameworks" that
-need to be ported to rust to get it to work, I think the majority of the
-rust code for binder is just trying to implement core kernel things like
-linked lists and the like.  That will need to move into the rust kernel
-core eventually.
+ arch/x86/Makefile         | 4 ++--
+ scripts/Makefile.compiler | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-The binder rewrite here also is missing a number of features that the
-in-kernel binder code has gotten over the years, so it is not
-feature-complete by any means yet, it's still a "toy example".
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 2d6d5a28c3bf..c55da2833fe8 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -129,8 +129,8 @@ ifdef CONFIG_X86_X32
+ 	x32_ld_ok := $(call try-run,\
+ 			/bin/echo -e '1: .quad 1b' | \
+ 			$(CC) $(KBUILD_AFLAGS) -c -x assembler -o "$$TMP" - && \
+-			$(OBJCOPY) -O elf32-x86-64 "$$TMP" "$$TMPO" && \
+-			$(LD) -m elf32_x86_64 "$$TMPO" -o "$$TMP",y,n)
++			$(OBJCOPY) -O elf32-x86-64 "$$TMP" "$$TMP.o" && \
++			$(LD) -m elf32_x86_64 "$$TMP.o" -o "$$TMP",y,n)
+         ifeq ($(x32_ld_ok),y)
+                 CONFIG_X86_X32_ABI := y
+                 KBUILD_AFLAGS += -DCONFIG_X86_X32_ABI
+diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+index 3f2f3665216f..86ecd2ac874c 100644
+--- a/scripts/Makefile.compiler
++++ b/scripts/Makefile.compiler
+@@ -21,7 +21,6 @@ TMPOUT = $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/).tmp_$$$$
+ # automatically cleaned up.
+ try-run = $(shell set -e;		\
+ 	TMP=$(TMPOUT)/tmp;		\
+-	TMPO=$(TMPOUT)/tmp.o;		\
+ 	mkdir -p $(TMPOUT);		\
+ 	trap "rm -rf $(TMPOUT)" EXIT;	\
+ 	if ($(1)) >/dev/null 2>&1;	\
+-- 
+2.27.0
 
-> (sorry, I couldn't help myself) Perhaps it would be a good exercise to
-> demonstrate some of the benefits of using Rust for driver work?
-
-I've been talking with the developers here about doing a "real" driver,
-as the interaction between the rust code which has one set of lifetime
-rules, and the driver core/model which has a different set of lifetime
-rules, is going to be what shows if this actually can be done or not.
-If the two can not successfully be "bridged" together, then there will
-be major issues.
-
-Matthew points out that a nvme driver would be a good example, and I
-have a few other thoughts about what would be good to start with for
-some of the basics that driver authors deal with on a daily basis
-(platform driver, gpio driver, pcspkr driver, /dev/zero replacement), or
-that might be more suited for a "safety critical language use-case" like
-the HID parser or maybe the ACPI parser (but that falls into the rewrite
-category that we want to stay away from for now...)
-
-Let's see what happens here, this patchset is a great start that
-provides the core "here's how to build rust in the kernel build system",
-which was a non-trivial engineering effort.  Hats off to them that "all"
-I had to do was successfully install the proper rust compiler on my
-system (not these developers fault), and then building the kernel code
-here did "just work".  That's a major achievement.
-
-thanks,
-
-greg k-h
