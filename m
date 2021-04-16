@@ -2,160 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B68163627E8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 20:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8840536282A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 20:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244996AbhDPSrj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 14:47:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237334AbhDPSri (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 14:47:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A45B9611AF;
-        Fri, 16 Apr 2021 18:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618598833;
-        bh=N2KsTvifrgq/rqC0brjMwrMhFZQCdz7M8vStss5BFQ4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=nF79sJC+RtSJr3mZhq6eKVwcK2vI4svdbyPBTB1AzQLNEiMlRni8RI27NgWXdzf6y
-         I0JHjhzeALc13hBv4Vo9eQyGBjhBMV6nWpw4oV1MYx/oZceej+bRdHgm2sn6JkZDdI
-         LHo9/LvhS1n/mvqsMi7zLf9MSLPYUUjFP6UwKmzdrm6V6SCAJV9ERCDLfha0Pr/3MM
-         kvDDhaFYGE2Y018D0hYf7FV84CwMIXgJaDcXMIqopcThsCUAU4HWyxfbRKEna3enTR
-         tYGj0dPcXtFDdD1u1VY7/vWwQWo1yPq4j/edRIoPhXgFV/qX8Xs0gjGVmcMA1iusgB
-         C3vWXnP4RqpQw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 70DB95C0253; Fri, 16 Apr 2021 11:47:13 -0700 (PDT)
-Date:   Fri, 16 Apr 2021 11:47:13 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux>
- <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
+        id S236029AbhDPS5o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 14:57:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235957AbhDPS5o (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 16 Apr 2021 14:57:44 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BA6C061574;
+        Fri, 16 Apr 2021 11:57:19 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id c195so31207566ybf.9;
+        Fri, 16 Apr 2021 11:57:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IuXR4s76KW2g16KgmTJ3s1NR8NxaS0rBglhD+4wC2bA=;
+        b=t6Eh6V9OMwi659Ak0KE8pRM5p87Dz7/7Ty3eBJkJHR3jxgYIRk0vixc1KxYDXStbk3
+         0xvaAqI02zC6EBd3wRdbUwS3/Z/BenDWtD6tLgUY2gwjWBt+8SHdws8AwkQZcTMCn7kl
+         Sp3dnKOM/qyPCfBCJ40L2kHBWxeAhGPHPN4AjRdjoXVllD5DZC/L4Wl2n0WmZDCEsFkM
+         J6Qc9+HPOeE5f+JvWQTM/3gHA99pYJs2U5IS1IiXXhX8jaOCQOY7X19eZOG14hIgMPWg
+         O1+7MnPo2thZERtolLuOH8vVpWQgb18ZVviCi3wdpOcMF7nxQ4o2D5qfJ4G5oRDOrgUh
+         2p3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IuXR4s76KW2g16KgmTJ3s1NR8NxaS0rBglhD+4wC2bA=;
+        b=NYIjMm4lEkPwIcMaUDyDT5xaKKD2U+yilwnWNNlNTT0yL5dBBkzR58BLM+F2F0f0Vz
+         Hfwc/exKTRDJYkiGFLxg+82FDOcAwaiaCELMW8jWjk41YDH6sH65lOl0JtYbmz2dYgH9
+         ATzlSpZAxMB48F1b0yanH60GxDQxyETKwFg0k+f7yntuKSHVKp24aZnXQW15ArCgdOrf
+         aXjQYPPClvmE3QTzZpQOQohHrb5+V35NE1UMXkCQZte4Gpy1i8XN+WyKSfTgIN5dukRd
+         quksGae5h3qn8rw/ZRZXODe2a8VT+nh8jhdoEsN6DCYbCdEdqLPOSd6em8rgm0XulNz0
+         ac2w==
+X-Gm-Message-State: AOAM530n34tK4h6tsiWP/rwK4NU7jOQpH1dbWd0jTCXehiLmdTS6k46f
+        3Yy3t6/Rpk7MS3DTX4T++U795QSCYyqTaoFZcFA=
+X-Google-Smtp-Source: ABdhPJx/Sef28+ab/jqRThJjs0GBqd35mSjtjTNKxxnwr7wkjUsSlz3TUt4YQ3eQatBFCI53ILW6au7VDYWbxBsQHvQ=
+X-Received: by 2002:a25:7909:: with SMTP id u9mr796140ybc.22.1618599438460;
+ Fri, 16 Apr 2021 11:57:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+ <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com> <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
+In-Reply-To: <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 16 Apr 2021 20:57:07 +0200
+Message-ID: <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 11:04:37PM -0700, Nick Desaulniers wrote:
-> On Thu, Apr 15, 2021 at 9:27 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > [Copy LKMM people, Josh, Nick and Wedson]
-> >
-> > On Thu, Apr 15, 2021 at 08:58:16PM +0200, Peter Zijlstra wrote:
-> > > On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
-> > >
-> > > > Rust is a systems programming language that brings several key
-> > > > advantages over C in the context of the Linux kernel:
-> > > >
-> > > >   - No undefined behavior in the safe subset (when unsafe code is
-> > > >     sound), including memory safety and the absence of data races.
-> > >
-> > > And yet I see not a single mention of the Rust Memory Model and how it
-> > > aligns (or not) with the LKMM. The C11 memory model for example is a
-> > > really poor fit for LKMM.
-> > >
-> >
-> > I think Rust currently uses C11 memory model as per:
-> >
-> >         https://doc.rust-lang.org/nomicon/atomics.html
-> >
-> > , also I guess another reason that they pick C11 memory model is because
-> > LLVM has the support by default.
-> >
-> > But I think the Rust Community still wants to have a good memory model,
-> > and they are open to any kind of suggestion and input. I think we (LKMM
-> > people) should really get involved, because the recent discussion on
-> > RISC-V's atomics shows that if we didn't people might get a "broken"
-> > design because they thought C11 memory model is good enough:
-> >
-> >         https://lore.kernel.org/lkml/YGyZPCxJYGOvqYZQ@boqun-archlinux/
-> >
-> > And the benefits are mutual: a) Linux Kernel Memory Model (LKMM) is
-> > defined by combining the requirements of developers and the behavior of
-> > hardwares, it's pratical and can be a very good input for memory model
-> > designing in Rust; b) Once Rust has a better memory model, the compiler
-> > technologies whatever Rust compilers use to suppor the memory model can
-> > be adopted to C compilers and we can get that part for free.
-> 
-> Yes, I agree; I think that's a very good approach.  Avoiding the ISO
-> WG14 is interesting; at least the merits could be debated in the
-> public and not behind closed doors.
+On Fri, Apr 16, 2021 at 8:10 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> How well would ? operator fit that pattern?  _If_ it's just a syntax sugar
+> along the lines of "if argument matches Err(_), return Err(_)", the types
+> shouldn't be an issue, but that might need some fun with releasing resources,
+> etc.  If it's something more elaborate... details, please.
 
-WG14 (C) and WG21 (C++) are at least somewhat open.  Here are some of
-the proposals a few of us have in flight:
+Yes, it is just syntax sugar -- it doesn't introduce any power to the language.
 
-P2055R0 A Relaxed Guide to memory_order_relaxed
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2055r0.pdf
-P0124R7 Linux-Kernel Memory Model (vs. that of C/C++)
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0124r7.html
-P1726R4 Pointer lifetime-end zap
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1726r4.pdf
-	https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-P1121R2 Hazard Pointers: Proposed Interface and Wording for Concurrency TS 2
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p1121r2.pdf
-P1382R1 volatile_load<T> and volatile_store<T>
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1382r1.pdf
-P1122R2 Proposed Wording for Concurrent Data Structures: Read-Copy-Update (RCU)
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1122r2.pdf
-	https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-P0190R4 Proposal for New memory order consume Definition
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0190r4.pdf
-P0750R1 Consume
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0750r1.html
+It was introduced because it is a very common pattern when using the
+`Result` and `Option` enums. In fact, before it existed, it was just a
+simple macro that you could also implement yourself.
 
-P1726R4 is of particular concern, along with consume.
+For instance, given `Foo` and `Bar` types that need RAII cleanup of
+some kind (let's say `kill_foo()` and `kill_bar()`):
 
-> > At least I personally is very intereted to help Rust on a complete and
-> > pratical memory model ;-)
-> >
-> > Josh, I think it's good if we can connect to the people working on Rust
-> > memoryg model, I think the right person is Ralf Jung and the right place
-> > is https://github.com/rust-lang/unsafe-code-guidelines, but you
-> > cerntainly know better than me ;-) Or maybe we can use Rust-for-Linux or
-> > linux-toolchains list to discuss.
-> >
-> > [...]
-> > > >   - Boqun Feng is working hard on the different options for
-> > > >     threading abstractions and has reviewed most of the `sync` PRs.
-> > >
-> > > Boqun, I know you're familiar with LKMM, can you please talk about how
-> > > Rust does things and how it interacts?
-> >
-> > As Wedson said in the other email, currently there is no code requiring
-> > synchronization between C side and Rust side, so we are currently fine.
-> > But in the longer term, we need to teach Rust memory model about the
-> > "design patterns" used in Linux kernel for parallel programming.
-> >
-> > What I have been doing so far is reviewing patches which have memory
-> > orderings in Rust-for-Linux project, try to make sure we don't include
-> > memory ordering bugs for the beginning.
+    fn foo() -> KernelResult<Foo> {
+        if black_box() {
+            return Err(EINVAL);
+        }
 
-I believe that compatibility with both C/C++ and the Linux kernel are
-important.
+        // something that gets you a `Foo`
+        let foo = ...;
 
-							Thanx, Paul
+        Ok(foo)
+    }
+
+    fn bar() -> KernelResult<Bar> {
+        let p = foo()?;
+
+        // something that gets you a `Bar`, possibly using the `p`
+        let bar = ...;
+
+        Ok(bar)
+    }
+
+This reduces to (full example at https://godbolt.org/z/hjTxd3oP1):
+
+    bar:
+            push    rbx
+            mov     ebx, 1
+            call    qword ptr [rip + black_box@GOTPCREL]
+            test    al, al
+            jne     .LBB2_2
+            call    qword ptr [rip + kill_foo@GOTPCREL]
+            xor     ebx, ebx
+    .LBB2_2:
+            mov     eax, ebx
+            mov     edx, -1234
+            pop     rbx
+            ret
+
+You can see `bar()` calls `black_box()`. If it failed, it returns the
+EINVAL. Otherwise, it cleans up the `foo` automatically and returns
+the successful `bar`.
+
+Cheers,
+Miguel
