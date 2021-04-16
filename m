@@ -2,23 +2,26 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8AF7362AB3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 00:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EB3362B93
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 00:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235907AbhDPWFJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 18:05:09 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51766 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234898AbhDPWFJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 18:05:09 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13GM4GQh011937;
-        Sat, 17 Apr 2021 00:04:16 +0200
-Date:   Sat, 17 Apr 2021 00:04:16 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Connor Kuehl <ckuehl@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S235012AbhDPWp7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 18:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231958AbhDPWp5 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 16 Apr 2021 18:45:57 -0400
+Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C140C061574;
+        Fri, 16 Apr 2021 15:45:31 -0700 (PDT)
+Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXXD1-005sC3-EJ; Fri, 16 Apr 2021 22:45:07 +0000
+Date:   Fri, 16 Apr 2021 22:45:07 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Connor Kuehl <ckuehl@redhat.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -34,79 +37,34 @@ Cc:     Connor Kuehl <ckuehl@redhat.com>,
         Wedson Almeida Filho <wedsonaf@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>
 Subject: Re: [PATCH 04/13] Kbuild: Rust support
-Message-ID: <20210416220416.GA11872@1wt.eu>
+Message-ID: <YHoTc+5DGnvwwI0R@zeniv-ca.linux.org.uk>
+References: <CANiq72=3zZvdEsp-AH2Xj1nuvfGOQQ1WGmav6i4nFTz-3-_c_w@mail.gmail.com>
+ <CANiq72=5pMzSS5V7h-QcQvYgyZUwdE=T705KtBWrNYZPjMYK3Q@mail.gmail.com>
+ <20210416220416.GA11872@1wt.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiq72=3zZvdEsp-AH2Xj1nuvfGOQQ1WGmav6i4nFTz-3-_c_w@mail.gmail.com>
- <CANiq72=5pMzSS5V7h-QcQvYgyZUwdE=T705KtBWrNYZPjMYK3Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210416220416.GA11872@1wt.eu>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 11:39:00PM +0200, Miguel Ojeda wrote:
-> On Fri, Apr 16, 2021 at 10:58 PM Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > No, two:
-> >   - ok in %rax (seems like it's "!ok" technically speaking since it
-> >     returns 1 on !ok and 0 on ok)
-> >   - foo_or_err in %rdx
-> 
-> Yes, but that is the implementation -- conceptually you only have one
-> or the other, and Rust won't allow you to use the wrong one.
+On Sat, Apr 17, 2021 at 12:04:16AM +0200, Willy Tarreau wrote:
 
-OK so for unions you always pass two values along the whole chain, a
-selector and the value itself.
+> Yep but I kept it just to have comparable output code since in C
+> you'd simply use "goto leave" and not have this function call to
+> do the cleanup.
 
-But my point remains that the point of extreme care is at the interface
-with the rest of the kernel because there is a change of semantics
-there.
+... or use any number of other technics; the real question was how
+much of cleanups would be skipped by that syntax sugar.
 
-> > However then I'm bothered because Miguel's example showed that regardless
-> > of OK, EINVAL was always returned in foo_or_err, so maybe it's just
-> > because his example was not well chosen but it wasn't very visible from
-> > the source:
-> 
-> That is the optimizer being fancy since the error can be put
-> unconditionally in `rdx`.
+IME anything that interacts with flow control should be as explicit
+and unambiguous as possible.  _Especially_ concerning how large
+a scope are we leaving.
 
-Yes that's what I understood as well. I just didn't know that it had
-to be seen as a union.
-
-On Fri, Apr 16, 2021 at 11:19:18PM +0200, Miguel Ojeda wrote:
-> On Fri, Apr 16, 2021 at 10:22 PM Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > So it simply does the equivalent of:
-> >
-> >   struct result {
-> >      int status;
-> >      int error;
-> >   };
-> 
-> Not exactly, it is more like a tagged union, as Connor mentioned.
-> 
-> However, and this is the critical bit: it is a compile-time error to
-> access the inactive variants (in safe code). In C, it is on you to
-> keep track which one is the current one.
-
-Sure but as I said most often (due to API or ABI inheritance), both
-are already exclusive and stored as ranges. Returning 1..4095 for
-errno or a pointer including NULL for a success doesn't shock me at
-all.
-
-Along thes lines I hardly see how you'd tag pointers by manipulating
-their lower unused bits. That's something important both for memory
-usage and performance (supports atomic opts).
-
-> >      kill_foo();   // only for rust, C doesn't need it
-> 
-> Please note that `kill_foo()` is not needed in Rust -- it was an
-> example of possible cleanup (since Al mentioned resources/cleanup)
-> using RAII.
-
-Yep but I kept it just to have comparable output code since in C
-you'd simply use "goto leave" and not have this function call to
-do the cleanup.
-
-Willy
+There's a bunch of disciplines that make use of that kind of tools
+and do it more or less safely, but they need to be well-specified
+and very well understood.  And some tools (C++-style exceptions,
+for example) simply need to be taken out and shot, but that's
+a separate story^Wflamewar...
