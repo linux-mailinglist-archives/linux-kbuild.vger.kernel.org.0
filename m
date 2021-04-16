@@ -2,124 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 825FE3621FA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 16:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6288362215
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 16:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244522AbhDPOTi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 10:19:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
+        id S244654AbhDPOVj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 10:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235593AbhDPOTh (ORCPT
+        with ESMTP id S243051AbhDPOVj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 10:19:37 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F1EC061574;
-        Fri, 16 Apr 2021 07:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=SeU+uqvVi1fmEW1Z95Wp1qwWAFy1Vp389yWgFiKUAeA=; b=GeJtVe5y3hVLo4XVhBu95Ze+TF
-        fz/5WZHm3RpxQCMAevsOLZQsDACizUJ1W9gnWK2C4dhB8x4Cbkh+ghITeColIxFHZ8DrGAxBAtJ1W
-        NR5CYBOGg6hXdldrzjyFvJWBgny0AVKrgmBCGBu3e5BeTDVUi8WkQJSNkyEFHHAOx8t+IA3y2Tg8y
-        vF+wGL56zLnN5AJn7C5QIeCr9j9WkRC8OE/jC7vrnw6zkV4mRyacVc47beAORsDErvcOTvI+7SDLu
-        tAxTscURR9iDxHqNxNnGg8c4mlYIuA/l+nIEs9tpg6a9zmLmCod66+seZM8ahmbs9DIznjm8Hm3yr
-        MAakXBZg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lXPJM-002NAa-4U; Fri, 16 Apr 2021 14:19:08 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A28F33001FF;
-        Fri, 16 Apr 2021 16:19:07 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 88E6B2BE61367; Fri, 16 Apr 2021 16:19:07 +0200 (CEST)
-Date:   Fri, 16 Apr 2021 16:19:07 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Wedson Almeida Filho <wedsonaf@google.com>
-Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com>
+        Fri, 16 Apr 2021 10:21:39 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85077C061574;
+        Fri, 16 Apr 2021 07:21:14 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id x76so20277360ybe.5;
+        Fri, 16 Apr 2021 07:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t2GyCAH28OFUKirekIiqG8QH/lg+7x2E9PX/3Ek0zoE=;
+        b=DN4360cPG7/skv/Q3gCUFB73HgA3nzH+525Cgqh/o/Sulu0m4bTBwnHevUocDCwwi6
+         3qKax591nZdA0Ojb9AD3uRCojJykqMb+8bJHhI+Nqkdf9/DJwxtNq/NR8pC79rWyC7T1
+         auBKfUYycwbn6OXqgA5WR9zkM+uswdjdM6SUkV3McSJaZpHLKY2JiBOGP3ueW9iJnAMn
+         IZP+dT6lmrZi0uK5RGzHWWA2ni+Ngn7SPxd0Cw3UO6vxmRc8FwVBxda/Hzpud1hVUjpp
+         sQe2N34/JXAfj5aBTxyAzE6SlWTMIbR3o1kVakAQkmK1xkhe78cdZz3SjJdxDi+o9oak
+         ZLvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t2GyCAH28OFUKirekIiqG8QH/lg+7x2E9PX/3Ek0zoE=;
+        b=LrvISHeis84s5EpObdJmQtUvdow83rCZ2l6GuVs+ksEBGg2sNTKZrxkxsd6CN3N60h
+         CJQbc5KSJBAWz27XrrrMGZupizmVt4q3c9RHVdeD+J3NHT6n3MTbmlpVG2AyASviub4M
+         YgXmcLcD2kQztsXJr07p9E6vbNchLgXAbGVctAgFey3AO80oNiMBo2JStKdi6o6DRA1u
+         fW8V1OhjZaPuIDm5KnMm1aQtkoDXSbQwV+xEIWGjvXEIEz9dXOvnHCTRR+D4OAgAwfht
+         ZtXsoZsjA07Zo01oHxt8C5E9Dy5/IqdrGcgHqP7sh6moDbySESY1TfX0QfOLUl/rAlxc
+         hk9Q==
+X-Gm-Message-State: AOAM532oXh8MOsgVm+B8j6fGbPm1N4EMOw41x/vIq71IhOoPLunJ+nQE
+        taBSWwsW3e0rc+m5KenubDeOrLjiAMvpaiWesrs=
+X-Google-Smtp-Source: ABdhPJwVsoVQM4VZt7oKFcbdYa2NYRotI8uUuXF4t8Xeg5W0UK22rrX/4IWKKe6OqKVB+3im4D0wY+ZKRHlKUQVjdwI=
+X-Received: by 2002:a25:6803:: with SMTP id d3mr12588384ybc.422.1618582873937;
+ Fri, 16 Apr 2021 07:21:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHmMJWmzz2vZ3qQH@google.com>
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+In-Reply-To: <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 16 Apr 2021 16:21:02 +0200
+Message-ID: <CANiq72=LE64F9VDvr5aajeBNfXCvVK+yXN8m97jo-E6TDHNVbg@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 02:07:49PM +0100, Wedson Almeida Filho wrote:
-> On Fri, Apr 16, 2021 at 01:24:23PM +0200, Peter Zijlstra wrote:
+On Fri, Apr 16, 2021 at 1:24 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> IMO RAII is over-valued, but just in case you care, the below seems to
+> work just fine. No fancy new language needed, works today. Similarly you
+> can create refcount_t guards, or with a little more work full blown
+> smart_ptr crud.
 
-> >  int perf_event_task_enable(void)
-> >  {
-> > +	DEFINE_MUTEX_GUARD(event_mutex, &current->perf_event_mutex);
-> 
-> There is nothing in C forcing developers to actually use DEFINE_MUTEX_GUARD. So
-> someone may simply forget (or not know that they need) to lock
-> current->perf_event_mutex and directly access some field protected by it. This
-> is unlikely to happen when one first writes the code, but over time as different
-> people modify the code and invariants change, it is possible for this to happen.
-> 
-> In Rust, this isn't possible: the data protected by a lock is only accessible
-> when the lock is locked. So developers cannot accidentally make mistakes of this
-> kind. And since the enforcement happens at compile time, there is no runtime
-> cost.
-> 
-> This, we believe, is fundamental to the discussion: we agree that many of these
-> idioms can be implemented in C (albeit in this case with a compiler extension),
-> but their use is optional, people can (and do) still make mistakes that lead to
-> vulnerabilities; Rust disallows classes of  mistakes by construction.
+Please note that even smart pointers (as in C++'s `std::unique_ptr`
+etc.) do not guarantee memory safety. Yes, they help a lot writing
+sound code (in particular exception-safe C++ code), but they do not
+bring the same guarantees.
 
-Does this also not prohibit constructs where modification must be done
-while holding two locks, but reading can be done while holding either
-lock?
+That's why using C language extensions (the existing ones, that is) to
+recreate RAII/guards, smart pointers, etc. would only bring you to a
+point closer to C++, but not to Rust.
 
-That's a semi common scheme in the kernel, but not something that's
-expressible by, for example, the Java sync keyword.
-
-It also very much doesn't work for RCU, where modification must be done
-under a lock, but access is done essentially lockless.
-
-I would much rather have a language extention where we can associate
-custom assertions with variable access, sorta like a sanitizer:
-
-static inline void assert_foo_bar(struct foo *f)
-{
-	lockdep_assert_held(&f->lock);
-}
-
-struct foo {
-	spinlock_t lock;
-	int bar __assert__(assert_foo_bar);
-};
-
-Such things can be optional and only enabled for debug builds on new
-compilers.
-
-> Another scenario: suppose within perf_event_task_enable you need to call a
-> function that requires the mutex to be locked and that will unlock it for you on
-> error (or unconditionally, doesn't matter). How would you do that in C? In Rust,
-> there is a clean idiomatic way of transferring ownership of a guard (or any
-> other object) such that the previous owner cannot continue to use it after
-> ownership is transferred. Again, this is enforced at compile time. I'm happy to
-> provide a small example if that would help.
-
-C does indeed not have the concept of ownership, unlike modern C++ I
-think. But I would much rather see a C language extention for that than
-go Rust.
-
-This would mean a far more agressive push for newer C compilers than
-we've ever done before, but at least it would all still be a single
-language. Convertion to the new stuff can be done gradually and where
-it makes sense and new extentions can be evaluated on performance impact
-etc.
-
+Cheers,
+Miguel
