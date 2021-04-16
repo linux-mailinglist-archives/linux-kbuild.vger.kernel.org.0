@@ -2,101 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34FF3361962
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 07:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 331C0361986
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 08:01:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237986AbhDPFjn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 01:39:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhDPFjm (ORCPT
+        id S238789AbhDPFxW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 01:53:22 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:34648 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238358AbhDPFxW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 01:39:42 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6945C061574;
-        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id p67so12668138pfp.10;
-        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=q2IpgbsafY75uYCQfmC+SoKG1Ef0J5sHuVVR2O+B5xY=;
-        b=YmCBiNPQAFcGQR7D1WL53T+mLDwMDIjAavFG1l2EfFqRpVwm38lulgOISjDoT89XLC
-         Joimq34+bUIjpx+Th0wRsXa3b92v791L0QButYviz+B1YCNEGuL380HbpFMik9UbyU74
-         qxa8B5ZHYqEMjzn1uaAR7DMJ+FkH5ta8MtJtuoTL5hTjgLB7mqaEBuiN+6NzN2r2yvx0
-         RswNRaoxVis/nABOcBOEewXQwxiD3Oi9RHpvFCMxvG7FKHuYfC3hC+n14SnCsBpmh2WU
-         BZpbfP04psCL7GUkaVsEHZEtiMVBPM1Dnn9ywFm0BhJRJmDALJeHbE0ovcR9dOsKXyPw
-         SZBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=q2IpgbsafY75uYCQfmC+SoKG1Ef0J5sHuVVR2O+B5xY=;
-        b=KAHV28puv16fDRy6fs7UYO+EioK2g+3mjGvh9gFpQj4LjK6qr6/mxr/7z17RFnFjNv
-         WyU0+08ViBRHNRpZXmBxkuxdaQCT2QyxUmx/vIbx8QK/OnJ7rD53CUOYZ5gH8t346IIM
-         zmtQObGQDleL1Ir+f5tB0EbmqEBiTPNpG6DOCp8JNzg/bK0p4GIOE7Di4H+d5ZUtKY31
-         XR46SarmVYXoIj6zWL4R7pAlih51QwT5GhqMqd3v96JXA0+gZYEe27amI4ihWnJ1Q7fN
-         L7NQ/s8b8jvuZ3QIlR9QcWcBi54zzmGzkviKxuuBbvIRKEUx9wY7mk3D+g7Q2RzaFGEK
-         MjAA==
-X-Gm-Message-State: AOAM533yA1MIu+qhu2qykYCj7ncbwR9tvAKjczUzl+LdaWufI/BtE8Yy
-        hsUb+bKbqdbOdWEwNYTONpo=
-X-Google-Smtp-Source: ABdhPJzaYmoHH683P7tkrffDdBUTKJYjfW0v9Ym8+OrOOi60wx0ciD+GVBXn730Q3OIYntDtxxOPQg==
-X-Received: by 2002:a63:5a1a:: with SMTP id o26mr6550012pgb.327.1618551557230;
-        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
-Received: from localhost.localdomain ([75.167.198.216])
-        by smtp.gmail.com with ESMTPSA id q13sm3643266pfc.86.2021.04.15.22.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 22:39:16 -0700 (PDT)
-From:   Paul Zimmerman <pauldzim@gmail.com>
-To:     wedsonaf@google.com
-Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ojeda@kernel.org, peterz@infradead.org,
-        rust-for-linux@vger.kernel.org, torvalds@linux-foundation.org,
-        viro@zeniv.linux.org.uk
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Date:   Thu, 15 Apr 2021 22:39:10 -0700
-Message-Id: <20210416053910.7363-1-pauldzim@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YHkaaTQ2KQML2iqt@google.com>
-References: <YHkaaTQ2KQML2iqt@google.com>
+        Fri, 16 Apr 2021 01:53:22 -0400
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 13G5qSHO014226;
+        Fri, 16 Apr 2021 14:52:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 13G5qSHO014226
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1618552349;
+        bh=WQhLqm4+QKuAfKFbPuWr/32+TJjPkkHvQQwkRrLTiv8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0xU3Q6lGxioXwmdJa6oHMklRN9fk1rBIALFc1bhEJLQEKoSvZcQTySexw8ThyPNDF
+         R+Wf9aaBGvbra4+HhWh4OmxJrtsDUyynCVQggrHjJkkf6NZJfQ830t3DGsBk6mnw+s
+         XOyYyKvrkACkLQIYpOIqVGxrDzCCalB3TBk5U6pLuoImAqyUv599gLranzGosWBA/b
+         Nl+7oiBc4zsSo3py4Ni67QZ2KMJQAx7lwjcMS1Efgcq1bq+N2iSRo00Z6WSCrc+X6q
+         lf2Eg+/RO6MRYaPU8jWU7Ki2Mpg6vF860nOXPiKvOAyYM/X1D1KxNZ9lF7jz2LVEzC
+         oWuqKCfHso6Vg==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id q11so280841plx.2;
+        Thu, 15 Apr 2021 22:52:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533c9KvrzdBu72R2N329xKxaeo2azOUvjt5Ip8CNP4R33m3XG3Iy
+        5ojBO0Q2+kAPRepH0KzAkKENVA9MLFNkBXXQLRM=
+X-Google-Smtp-Source: ABdhPJwLGLIPGhYWQrmYzOJJRgQcrIoez9eOoky84sqnv3+AVSyd1FV1crs46aiZEwyITdNQVxF5/uCnufkJvG16dKE=
+X-Received: by 2002:a17:902:d2c8:b029:eb:424b:84c with SMTP id
+ n8-20020a170902d2c8b02900eb424b084cmr7915380plc.71.1618552348021; Thu, 15 Apr
+ 2021 22:52:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210415171352.27398-1-rdunlap@infradead.org> <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 16 Apr 2021 14:51:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATTZfWr227EQY-k7VJm_9X29g6fRKO-hGhXmJnhXOxCug@mail.gmail.com>
+Message-ID: <CAK7LNATTZfWr227EQY-k7VJm_9X29g6fRKO-hGhXmJnhXOxCug@mail.gmail.com>
+Subject: Re: [PATCH v2] uml: fix W=1 missing-include-dirs warnings
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 06:02:33 +0100, Wedson Almeida Filho wrote:
-> On Fri, Apr 16, 2021 at 04:25:34AM +0000, Al Viro wrote:
+On Fri, Apr 16, 2021 at 4:14 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
->>> Are you stating [what you perceive as] a fact or just venting? If the former,
->>> would you mind enlightening us with some evidence?
->> 
->> How about "not everyone uses a browser as a part of their workflow"?
+> On Fri, Apr 16, 2021 at 2:14 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > Currently when using "W=1" with UML builds, there are over 700 warnings
+> > like so:
+> >
+> >   CC      arch/um/drivers/stderr_console.o
+> > cc1: warning: ./arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+> >
+> > but arch/um/ does not have include/uapi/ at all, so add that
+> > subdir and put one Kbuild file into it (since git does not track
+> > empty subdirs).
+> >
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Michal Marek <michal.lkml@markovi.net>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Cc: Jeff Dike <jdike@addtoit.com>
+> > Cc: Richard Weinberger <richard@nod.at>
+> > Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> > Cc: linux-um@lists.infradead.org
+> > ---
+> > v2: use Option 4 from v1: add arch/um/include/uapi so that 'make' is
+> >     placated -- and just like all other arch's have.
 >
-> The documentation is available in markdown alongside the code. You don't need a
-> browser to see it. I, for one, use neovim and a rust LSP, so I can see the
-> documentation by pressing shift+k.
 >
->> I realize that it might sound ridiculous for folks who spent a while
->> around Mozilla, but it's really true and kernel community actually
->> has quite a few of such freaks.
 >
-> I haven't spent any time around Mozilla myself (not that there's anything wrong
-> with it), so I can't really comment on this.
+> Assuming the UML maintainer will pick up this:
 >
->> And as one of those freaks I can tell
->> you where exactly I would like you to go and what I would like you to do
->> with implicit suggestions to start a browser when I need to read some
->> in-tree documentation.
->
-> I could be mistaken but you seem angry. Perhaps it wouldn't be a bad idea to
-> read your own code of conduct, I don't think you need a browser for that either.
+> Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Haven't you folks ever head of lynx? Good old-fashioned command-line tool that
-opens html files in a terminal window, supports following links within the file,
-good stuff like that. I don't see how the dinosaurs^W traditional folks could
-object to that!
 
--- Paul
+Now I see this patch queued up to UML repository.
+Thanks.
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
