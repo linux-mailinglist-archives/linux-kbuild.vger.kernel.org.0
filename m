@@ -2,224 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED21361999
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 08:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED6C3619B3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 08:13:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbhDPF6f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 01:58:35 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:49799 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234886AbhDPF6e (ORCPT
+        id S235682AbhDPGFQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 02:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44368 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234662AbhDPGFQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 01:58:34 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 13G5vnmI005270;
-        Fri, 16 Apr 2021 14:57:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 13G5vnmI005270
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1618552670;
-        bh=a6/lBw9r9bpA1Vccp2oZ0i35WaRdD2qrDrk08q10hKw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SMr93keC4nQVX3BE5gMfqQyJmRKKrzFULHYVbr+uD+fe8b/1d05szywgVrJJtcsb4
-         Hghv/lwJZrMZWat3Q3sUzDq0Pn6PrqaK4dJoGy7FZW4F4JyL7no9PN3jTON6EPeNJ0
-         IseV/hSOCB23Wmcz24R6OHBs+2OfjMpFJhZSqY7uUNDPPv9o1SIEYbCdgi3xH+xQ10
-         XzFMyAdjbmJsiCq+GeLGE89aGwLTWglKdHKsGg7JA4rcJ0O36r2WnYi5GbGvITRb7e
-         DkKfcuS0V4J0XWyqBJRQf2qQVFy61A+VxDVmsx4o1r7MEVdz6ze39wyAp2ZlG4M/ta
-         R+JuK+ppaPQqQ==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id b26so12500211pfr.3;
-        Thu, 15 Apr 2021 22:57:50 -0700 (PDT)
-X-Gm-Message-State: AOAM533DgnSwcwUd+8agF8Lm1avFhEceckBYC3KaE3n8QAP7hK6rpxdR
-        TRpDFnqwrO913KqzDsBYSlrSVg4tv8hDRnv9uII=
-X-Google-Smtp-Source: ABdhPJxNaycHQRe7kMWSFZ+K0ZxWYsWhsZBfhUVtA9I6sa+tgyIYdX2mZjJ7ubSJHRlO5W/o05oG8gmQ0MmLRnfOVZU=
-X-Received: by 2002:aa7:8d84:0:b029:1f8:3449:1bc6 with SMTP id
- i4-20020aa78d840000b02901f834491bc6mr6359483pfr.76.1618552669389; Thu, 15 Apr
- 2021 22:57:49 -0700 (PDT)
+        Fri, 16 Apr 2021 02:05:16 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C142DC061756
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 23:04:50 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id n8so43036369lfh.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 23:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gbzaa2Ai7xXdaJk+SuOzDr1sDQqCY9sqWL6R/1Zrh+s=;
+        b=W5/QWZWFFaSWg9idKZ6DJEpPmhh/eOS3XCiS0GJpjJR7c/9hO/bPRnbhDx6fcqOh/0
+         sp9nz3xawBALOHCXGcN4jIih6Lo7LRUhWSYjVKt/IE7M5QZMCikdUSMKXXJqXnNorxIu
+         UcotZdbyz0htz+FRuAF9BYmaG3K/gWMFAT/A8/JmQBFrNNVdGLgxB72JzOcS3dWuBrUO
+         pLLR3MAXjECLXZHF0eu89BJvQwappXx3P0EcpPXDjPCJULvqxF+y1iSxNPQzfc3EiG4c
+         rSb/0coU8nEO5IvdaN3SjfYFjNy5PzO32XHT/eoBVhUpxXlkT2FrApLCrpZqzbcHuazj
+         0Naw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gbzaa2Ai7xXdaJk+SuOzDr1sDQqCY9sqWL6R/1Zrh+s=;
+        b=qoEXIRDfM+nVMmaFFp3XrzkEaQiFkIVYEfNsWWlsmrsLDqkC70iZelociVAjW4fBqA
+         Si8c0M3VDIEB3W0cvhqEV7qv/UbiXgk6VCCi7rWuFprcOa9zAtli+iwMscv9acnME235
+         GhQQz6cIn5kAX/tuObFhGTHf9Tb4klxJPZoUC8sgNiKEMr97GGdmaqYxOlyGrbzSVXfz
+         i5m7i7UNltggHnOajp++RIraEesa5ekvi2soGbdyp0S7i5cEgtA6L+LGwskTvM314Zp6
+         hb43q7+okDDLxzP/cIWGIuIra82/NNNrv9jLYzyJf7tzWVyacOMr13tuUXbGC+5EFNs8
+         VdDg==
+X-Gm-Message-State: AOAM530z3CVriF1KVh5Gdk8KS94D4zV0Ptl3+dk4VBt444qeNDKk6oER
+        jUI/QTaTqS1AB3l3Qfu8W2yLWOFhHbj+G9SNL1GWdg==
+X-Google-Smtp-Source: ABdhPJzd3Uifx8wPh8+Ukv5wC6+mAKF4pnOLfbn/l4Zr9Mzj0XiDdg2h8UGLElnlq21TU6eWm2HsUZh+V10t5NGgiSg=
+X-Received: by 2002:a19:ac09:: with SMTP id g9mr1821239lfc.547.1618553088788;
+ Thu, 15 Apr 2021 23:04:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <YHdmNrKFp1HqkfVR@localhost.localdomain> <CAK7LNARXt=9-Jw+0dTRhUhkS+r8N6U+m+of5OPEtK7i1XpHzkQ@mail.gmail.com>
- <YHh5h7s52/Lqzlkn@localhost.localdomain>
-In-Reply-To: <YHh5h7s52/Lqzlkn@localhost.localdomain>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 16 Apr 2021 14:57:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTEhRtmFtCEA9JM9fqWmu2wcxPoGCJC4U8eofJibNUPQ@mail.gmail.com>
-Message-ID: <CAK7LNARTEhRtmFtCEA9JM9fqWmu2wcxPoGCJC4U8eofJibNUPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: redo fake deps at include/config/*.h
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHkSO3TUktyPs4Nz@boqun-archlinux>
+In-Reply-To: <YHkSO3TUktyPs4Nz@boqun-archlinux>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 15 Apr 2021 23:04:37 -0700
+Message-ID: <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 2:36 AM Alexey Dobriyan <adobriyan@gmail.com> wrote=
-:
+On Thu, Apr 15, 2021 at 9:27 PM Boqun Feng <boqun.feng@gmail.com> wrote:
 >
-> Make include/config/foo/bar.h fake deps files generation simpler.
+> [Copy LKMM people, Josh, Nick and Wedson]
 >
-> * delete .h suffix
->         those aren't header files, shorten filenames,
+> On Thu, Apr 15, 2021 at 08:58:16PM +0200, Peter Zijlstra wrote:
+> > On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
+> >
+> > > Rust is a systems programming language that brings several key
+> > > advantages over C in the context of the Linux kernel:
+> > >
+> > >   - No undefined behavior in the safe subset (when unsafe code is
+> > >     sound), including memory safety and the absence of data races.
+> >
+> > And yet I see not a single mention of the Rust Memory Model and how it
+> > aligns (or not) with the LKMM. The C11 memory model for example is a
+> > really poor fit for LKMM.
+> >
 >
-> * delete tolower()
->         Linux filesystems can deal with both upper and lowercase
->         filenames very well,
+> I think Rust currently uses C11 memory model as per:
 >
-> * put everything in 1 directory
->         Presumably 'mkdir -p' split is from dark times when filesystems
->         handled huge directories badly, disks were round adding to
->         seek times.
+>         https://doc.rust-lang.org/nomicon/atomics.html
 >
->         x86_64 allmodconfig lists 12364 files in include/config.
+> , also I guess another reason that they pick C11 memory model is because
+> LLVM has the support by default.
 >
->         ../obj/include/config/
->         =E2=94=9C=E2=94=80=E2=94=80 104_QUAD_8
->         =E2=94=9C=E2=94=80=E2=94=80 60XX_WDT
->         =E2=94=9C=E2=94=80=E2=94=80 64BIT
->                 ...
->         =E2=94=9C=E2=94=80=E2=94=80 ZSWAP_DEFAULT_ON
->         =E2=94=9C=E2=94=80=E2=94=80 ZSWAP_ZPOOL_DEFAULT
->         =E2=94=94=E2=94=80=E2=94=80 ZSWAP_ZPOOL_DEFAULT_ZBUD
+> But I think the Rust Community still wants to have a good memory model,
+> and they are open to any kind of suggestion and input. I think we (LKMM
+> people) should really get involved, because the recent discussion on
+> RISC-V's atomics shows that if we didn't people might get a "broken"
+> design because they thought C11 memory model is good enough:
 >
->         0 directories, 12364 files
+>         https://lore.kernel.org/lkml/YGyZPCxJYGOvqYZQ@boqun-archlinux/
 >
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
+> And the benefits are mutual: a) Linux Kernel Memory Model (LKMM) is
+> defined by combining the requirements of developers and the behavior of
+> hardwares, it's pratical and can be a very good input for memory model
+> designing in Rust; b) Once Rust has a better memory model, the compiler
+> technologies whatever Rust compilers use to suppor the memory model can
+> be adopted to C compilers and we can get that part for free.
+
+Yes, I agree; I think that's a very good approach.  Avoiding the ISO
+WG14 is interesting; at least the merits could be debated in the
+public and not behind closed doors.
+
 >
->  include/linux/compiler-version.h |    2 +-
->  init/Kconfig                     |    2 +-
->  kernel/gen_kheaders.sh           |    2 +-
->  scripts/Makefile.build           |    4 ++--
->  scripts/basic/fixdep.c           |   39 ++++----------------------------=
--------
->  scripts/kconfig/confdata.c       |   15 +++++----------
->  6 files changed, 14 insertions(+), 50 deletions(-)
+> At least I personally is very intereted to help Rust on a complete and
+> pratical memory model ;-)
 >
-> --- a/include/linux/compiler-version.h
-> +++ b/include/linux/compiler-version.h
-> @@ -9,6 +9,6 @@
->   * This header exists to force full rebuild when the compiler is upgrade=
-d.
->   *
->   * When fixdep scans this, it will find this string "CONFIG_CC_VERSION_T=
-EXT"
-> - * and add dependency on include/config/cc/version/text.h, which is touc=
-hed
-> + * and add dependency on include/config/CC_VERSION_TEXT, which is touche=
-d
->   * by Kconfig when the version string from the compiler changes.
->   */
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -21,7 +21,7 @@ config CC_VERSION_TEXT
+> Josh, I think it's good if we can connect to the people working on Rust
+> memoryg model, I think the right person is Ralf Jung and the right place
+> is https://github.com/rust-lang/unsafe-code-guidelines, but you
+> cerntainly know better than me ;-) Or maybe we can use Rust-for-Linux or
+> linux-toolchains list to discuss.
 >
->           - Ensure full rebuild when the compiler is updated
->             include/linux/compiler-version.h contains this option in the =
-comment
-> -           line so fixdep adds include/config/cc/version/text.h into the
-> +           line so fixdep adds include/config/CC_VERSION_TEXT into the
->             auto-generated dependency. When the compiler is updated, sync=
-config
->             will touch it and then every file will be rebuilt.
+> [...]
+> > >   - Boqun Feng is working hard on the different options for
+> > >     threading abstractions and has reviewed most of the `sync` PRs.
+> >
+> > Boqun, I know you're familiar with LKMM, can you please talk about how
+> > Rust does things and how it interacts?
 >
-> --- a/kernel/gen_kheaders.sh
-> +++ b/kernel/gen_kheaders.sh
-> @@ -36,7 +36,7 @@ all_dirs=3D"$all_dirs $dir_list"
->  #
->  # When Kconfig regenerates include/generated/autoconf.h, its timestamp i=
-s
->  # updated, but the contents might be still the same. When any CONFIG opt=
-ion is
-> -# changed, Kconfig touches the corresponding timestamp file include/conf=
-ig/*.h.
-> +# changed, Kconfig touches the corresponding timestamp file include/conf=
-ig/*.
->  # Hence, the md5sum detects the configuration change anyway. We do not n=
-eed to
->  # check include/generated/autoconf.h explicitly.
->  #
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -238,8 +238,8 @@ endif # CONFIG_STACK_VALIDATION
+> As Wedson said in the other email, currently there is no code requiring
+> synchronization between C side and Rust side, so we are currently fine.
+> But in the longer term, we need to teach Rust memory model about the
+> "design patterns" used in Linux kernel for parallel programming.
 >
->  # Rebuild all objects when objtool changes, or is enabled/disabled.
->  objtool_dep =3D $(objtool_obj)                                   \
-> -             $(wildcard include/config/orc/unwinder.h          \
-> -                        include/config/stack/validation.h)
-> +             $(wildcard include/config/ORC_UNWINDER            \
-> +                        include/config/STACK_VALIDATION)
+> What I have been doing so far is reviewing patches which have memory
+> orderings in Rust-for-Linux project, try to make sure we don't include
+> memory ordering bugs for the beginning.
 >
->  ifdef CONFIG_TRIM_UNUSED_KSYMS
->  cmd_gen_ksymdeps =3D \
-> --- a/scripts/basic/fixdep.c
-> +++ b/scripts/basic/fixdep.c
-> @@ -34,7 +34,7 @@
->   * the config symbols are rebuilt.
->   *
->   * So if the user changes his CONFIG_HIS_DRIVER option, only the objects
-> - * which depend on "include/config/his/driver.h" will be rebuilt,
-> + * which depend on "include/config/HIS_DRIVER" will be rebuilt,
->   * so most likely only his driver ;-)
->   *
->   * The idea above dates, by the way, back to Michael E Chastain, AFAIK.
-> @@ -74,7 +74,7 @@
->   *
->   * and then basically copies the .<target>.d file to stdout, in the
->   * process filtering out the dependency on autoconf.h and adding
-> - * dependencies on include/config/my/option.h for every
-> + * dependencies on include/config/MY_OPTION for every
->   * CONFIG_MY_OPTION encountered in any of the prerequisites.
->   *
->   * We don't even try to really parse the header files, but
-> @@ -124,38 +124,6 @@ static void xprintf(const char *format, ...)
->         va_end(ap);
->  }
->
-> -static void xputchar(int c)
-> -{
-> -       int ret;
-> -
-> -       ret =3D putchar(c);
-> -       if (ret =3D=3D EOF) {
-> -               perror("fixdep");
-> -               exit(1);
-> -       }
-> -}
-> -
+> Regards,
+> Boqun
 
 
 
-Applied to linux-kbuild.
-
-I just found one more minor thing to fix up.
-
-fixdep no longer calls putchar(), so I squashed the following:
-
-
-
-
-diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
-index 5bee6a80992f..44e887cff49b 100644
---- a/scripts/basic/fixdep.c
-+++ b/scripts/basic/fixdep.c
-@@ -107,8 +107,8 @@ static void usage(void)
-
- /*
-  * In the intended usage of this program, the stdout is redirected to .*.c=
-md
-- * files. The return value of printf() and putchar() must be checked to ca=
-tch
-- * any error, e.g. "No space left on device".
-+ * files. The return value of printf() must be checked to catch any error,
-+ * e.g. "No space left on device".
-  */
- static void xprintf(const char *format, ...)
- {
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Thanks,
+~Nick Desaulniers
