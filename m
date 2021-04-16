@@ -2,129 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D410436271F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 19:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C54362724
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 19:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243541AbhDPRrI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 13:47:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50579 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235877AbhDPRrH (ORCPT
+        id S240778AbhDPRsJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 13:48:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235563AbhDPRsI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 13:47:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618595202;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UwAq3mjTqcl8JnB7zCamgcUlnZYnBtvHAiM1ilKgZu8=;
-        b=MnnSMPmjZdTr3KRNu4nUq31Hv8QKCSDfbSTtomcqNqwTfO4Yh7Hk7pYk01KAN5oWoXunlo
-        cv7Ekg7AQjH6QyUZ3s5/rlxrM0RGqPfRpk789b8m4JWDnqh3/PNxf2gW22B27yI8KftGem
-        TTzryeph+MlWFU/H12HcEL9PCETVK5s=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-yVim72x4MyS0xvjenZvgSg-1; Fri, 16 Apr 2021 13:46:34 -0400
-X-MC-Unique: yVim72x4MyS0xvjenZvgSg-1
-Received: by mail-ot1-f69.google.com with SMTP id w25-20020a0568301119b029025c1d152cebso5059927otq.23
-        for <linux-kbuild@vger.kernel.org>; Fri, 16 Apr 2021 10:46:33 -0700 (PDT)
+        Fri, 16 Apr 2021 13:48:08 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE233C061574;
+        Fri, 16 Apr 2021 10:47:43 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id c195so30995859ybf.9;
+        Fri, 16 Apr 2021 10:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9B3zLmsWW5JKnyeoXM62mq4ssLBBmbVfc6OxFpsrw9I=;
+        b=hdcPyZUnuJB055x0jdoEeJrjGBSst+PTFbMj7iIqIkrtWwKEUAL/YVdX2GFEh6SsZU
+         8WnfOHuG3US0GLHO3t7mRdptyFSOC3HNdtyOAutUEs/zw21sq5+h0oSsd1CGV71oiBmy
+         9mI4rLxxTFdvbytHIaSOfiVecGSrq9SJONPZdPlKRt4s12EZbTpnC1OmGvTXlBHHlBTd
+         rlaec/DMmHKTjbfdCxn3pm4z+Rv3rjVSxwGnw7m39LDA66AllX2JXRUM0a76go1f+Zcg
+         JFP2QbyIiuouH5IsTOsjDnlU7QBrlKxRkIkF+GSHB+gyyJRmeafavZFcQNxUapwZO3RW
+         CLcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UwAq3mjTqcl8JnB7zCamgcUlnZYnBtvHAiM1ilKgZu8=;
-        b=k75F/1eD48GvdRzQ6oTIC273VxUW06P1qY6R+2XtWP6spwhct+k2iRfICjYM1TpgPv
-         FvDPOzgrLloSzMMYYgstPmd1/Gn4rcGlkHvGowwaI8oc25S7re0ugvZTYWVM2ItjT/lu
-         9wtcBVnYLPob8SPLNRfR3W8PCDd06uhqhbq8Rorg/azPIx5ZPtJJUzpvFeRTh4j2H16I
-         2u9x9LgyyhI8LlSNWMHMYMusZrFbqBF/aQ/k1KdvZdRigqYOaj59lSDxkBRz0bGvb84x
-         h5Zdk/XaHX38Oz7OUORqNVduGuESqXDJhO+oeygDBbTeikidY3DjdPuN/CHb298xuIvo
-         Bc3w==
-X-Gm-Message-State: AOAM531volKnJR2knXXKUpEjfvYnXRWDg5Y+9Df1S1951cOAqAbw50Z1
-        cz4U/rxeKup5AvemcNcMHloBQyj1GYZW5RPlL+V4ef/pCd8aTKam6EBqKUL/dqoS4TwNiEKTlEG
-        n0T2y/yz/NzNg3NdFm+z9m6dg
-X-Received: by 2002:a9d:1d26:: with SMTP id m35mr4655995otm.266.1618595193398;
-        Fri, 16 Apr 2021 10:46:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqmjn4JZgbtPJEhjtjFp39QSapQwN3qRjLDpF9oiDAS4DSPTNYxB/uSTzFnddcPY6N0Oc0UQ==
-X-Received: by 2002:a9d:1d26:: with SMTP id m35mr4655978otm.266.1618595193194;
-        Fri, 16 Apr 2021 10:46:33 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
-        by smtp.gmail.com with ESMTPSA id y2sm1365951ooa.10.2021.04.16.10.46.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Apr 2021 10:46:32 -0700 (PDT)
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Willy Tarreau <w@1wt.eu>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9B3zLmsWW5JKnyeoXM62mq4ssLBBmbVfc6OxFpsrw9I=;
+        b=CDG2MKLvYyTMGHOe6xqQdIi3DS42pZS/8Hn9PBUm/l45DPF/X0RFIjptexp/28Gtn8
+         aeIYVvaDk4fKYDBBeBhdegog7Tt3+Rf80hlNBsTxcrYTZpHzI6Ccmn5TLy/Y99iKEtF9
+         2tTkpo8HjurGk8Y+/qPGnM30jahHOaVRdmXkqu17/mPfcsKvo7AW3C4JuB/Lg+3bIYYo
+         5A/NGsvLjqTwPuziCyjFRRLUCnMIBGiUbv2YAXkwQi7AjORtEMbJcWpkQQeMWdkbdbVk
+         2lOeRHDhD+3FcjsyTOyUBcyk+Dfj5V1eNjKhRHXpo9qnUk22crou8c7IkB6t9YCXAVTc
+         S6qw==
+X-Gm-Message-State: AOAM5330GCoEOqSAmQpQzxvo84xAiu19nnoR2xDP72kxJQJMRXFFjX6g
+        5y/rihZDt+VHbwwuuR0WnNDc4lRhu0IoMrKWyQ8=
+X-Google-Smtp-Source: ABdhPJzeRdmS95ayxhHbmPvr3HkEAHY/TbsX02E5nIbHerewe4bZjGqCyv67ELdtn+0Xhv0lZ2rxo0wxExt5A/CiwNM=
+X-Received: by 2002:a25:bfc9:: with SMTP id q9mr360954ybm.33.1618595263104;
+ Fri, 16 Apr 2021 10:47:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 16 Apr 2021 19:47:32 +0200
+Message-ID: <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com>
- <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
- <20210416173717.GA10846@1wt.eu>
-From:   Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <d33dbe20-698a-7dba-2e46-ece325a1c849@redhat.com>
-Date:   Fri, 16 Apr 2021 12:46:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210416173717.GA10846@1wt.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 4/16/21 12:37 PM, Willy Tarreau wrote:
-> Hi Miguel,
-> 
-> On Fri, Apr 16, 2021 at 07:10:17PM +0200, Miguel Ojeda wrote:
->> And by having the compiler enforce this safe-unsafe split, you can
->> review safe code without having to constantly worry about UB; and be
->> extra alert when dealing with `unsafe` blocks.
-> 
-> I do appreciate this safe/unsafe split and a few other things I've seen
-> in the language. The equivalent I'm using in C is stronger typing and
-> "const" modifiers wherever possible. Of course it's much more limited,
-> it's just to explain that I do value this. I just feel like "unsafe"
-> is the universal response to any question "how would I do this" while
-> at the same time "safe" is the best selling argument for the language.
-> As such, I strongly doubt about the real benefits once facing reality
-> with everything marked unsafe. Except that it will be easier to blame
-> the person having written the unsafe one-liner instead of writing 60
-> cryptic lines doing the functional equivalent using some lesser known
-> extensions :-/
-> 
+On Fri, Apr 16, 2021 at 7:05 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Typical Rust error handling should match the regular kernel
+> IS_ERR/ERR_PTR/PTR_ERR model fairly well, although the syntax is
+> fairly different (and it's not limited to pointers).
 
-It's possible that many of the questions you've been specifically asking
-about, by sheer coincidence, are targeted towards the problems that would
-indeed require a lower-level abstraction built within an unsafe block; meaning
-you've managed to evade the tons of other upper layers that could be written
-in safe Rust.
+Yeah, exactly. We already have a `KernelResult<T>` type which is a
+`Result<T, Error>`, where `Error` is a wrapper for the usual kernel
+int errors.
 
-Indeed, at a certain layer, unsafe is unavoidable for the kind of work that
-is done in the kernel. The goal is to shrink the unsafe blocks as much as
-possible and confirm the correctness of those pieces, then build safe
-abstractions on top of it.
+So, for instance, a function that can either fail or return `Data`
+would have a declaration like:
 
-For what it's worth, if there was some post-human apocalyptic world where
-literally everything had to go inside an unsafe block, the silver lining
-in a hypothetical situation like this is that unsafe does not disable all
-of Rust's static analysis like the borrow checker, etc. It allows you to
-do things like directly dereference a pointer, etc. Unsafe also doesn't
-automatically mean that the code is wrong or that it has memory issues;
-it just means that the compiler can't guarantee that it doesn't based on
-what you do in the unsafe block.
+    pub fn foo() -> KernelResult<Data>
 
-Connor
+A caller that needs to handle the error can use pattern matching or
+one of the methods in `Result`. And if they only need to bubble the
+error up, they can use the ? operator:
 
+    pub fn bar() -> KernelResult<Data> {
+        let data = foo()?;
+
+        // `data` is already a `Data` here, not a `KernelResult<Data>`
+    }
+
+Cheers,
+Miguel
