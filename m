@@ -2,96 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE88361911
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 07:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34FF3361962
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 07:41:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238383AbhDPFDG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 01:03:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
+        id S237986AbhDPFjn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 01:39:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238453AbhDPFDF (ORCPT
+        with ESMTP id S230250AbhDPFjm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 01:03:05 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37655C061574
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 22:02:40 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id h4so16342878wrt.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Apr 2021 22:02:40 -0700 (PDT)
+        Fri, 16 Apr 2021 01:39:42 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6945C061574;
+        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id p67so12668138pfp.10;
+        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Z6eB0W81XFyjhtb4Bf1cascTOP66PwUzd+KSO3OAPso=;
-        b=M7znf+z5L8F5150UJ2PJNv3YCHDwVq7jrjCcGJYFxwCpYas++PnjVt5F4054GK9SfQ
-         fkz1Sp/CH/gPE14oLF/T78EnUgwN5XZyX9BDb9Cza+bBl/+L2bab8CJe0cEtHrmxqTCg
-         VtXa8A73sPd80VV8KcuCgrBdYn9QtWeEBT/WTQujgbv89ovYpgOuKMBU1HzJqQJad1Wj
-         mCbz8SmgSBwbyGg7rvzzm573yqC91FHiXdtnH09BMI9jC5KlOFwQigPM+/ndtDxpgGIW
-         +OB5k8dOYakXyomIRX2jB7DvKeZ0EM1gHdtDLWAmm8jmfbGocB+grc40hy6kWtJeSw6Y
-         1tZA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=q2IpgbsafY75uYCQfmC+SoKG1Ef0J5sHuVVR2O+B5xY=;
+        b=YmCBiNPQAFcGQR7D1WL53T+mLDwMDIjAavFG1l2EfFqRpVwm38lulgOISjDoT89XLC
+         Joimq34+bUIjpx+Th0wRsXa3b92v791L0QButYviz+B1YCNEGuL380HbpFMik9UbyU74
+         qxa8B5ZHYqEMjzn1uaAR7DMJ+FkH5ta8MtJtuoTL5hTjgLB7mqaEBuiN+6NzN2r2yvx0
+         RswNRaoxVis/nABOcBOEewXQwxiD3Oi9RHpvFCMxvG7FKHuYfC3hC+n14SnCsBpmh2WU
+         BZpbfP04psCL7GUkaVsEHZEtiMVBPM1Dnn9ywFm0BhJRJmDALJeHbE0ovcR9dOsKXyPw
+         SZBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Z6eB0W81XFyjhtb4Bf1cascTOP66PwUzd+KSO3OAPso=;
-        b=C5Rv/vzqgJ/N74bnEdqsJp+WF/bl1I5q0j/5VwQxD0eCfPjU3GvkTJLMsFtJo6GBzs
-         bKjkfrRa/cF8j3UWHn2HYP4gBfnL204Rau0sm3zth+D7zyyeJnnhzuaG14b77hRdiAQl
-         mbIVZT6/f7AtVVYFl21dR1AWAwFPxcEKGuuYEFA6ya91KOpFXzhiM/SZDDwc7SUqOVrV
-         FnESBAk9p4hdnDWKkWsF3PVVvuoHKSO0/c+6RmBc5tAkD64RZoWpK727kj8YxlcUx9E3
-         pNEKbsZkiC67vhgYxAQpyzr4XHlPw5LfFBxPQlfbsXFNtPU7qkc/aZIKoWC7IrzJzksN
-         0RhQ==
-X-Gm-Message-State: AOAM531iqMarMkPY2KRTdVgnATEb+zQVk2iHDSRapYLLoSlzwaKUYNC4
-        W3qD47aJN+cfDixOqwbPH6Op
-X-Google-Smtp-Source: ABdhPJyyOqMuoHOuA3UGgm5JCyuMO8waqJKElBjb3ciZTuPo/c2lm3jN+lhMx/bZsCjum3sE3cGHXg==
-X-Received: by 2002:adf:e4c3:: with SMTP id v3mr6891723wrm.15.1618549357251;
-        Thu, 15 Apr 2021 22:02:37 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:209:9d22:ab98:31ab:7a9d])
-        by smtp.gmail.com with ESMTPSA id n9sm6470561wmo.27.2021.04.15.22.02.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=q2IpgbsafY75uYCQfmC+SoKG1Ef0J5sHuVVR2O+B5xY=;
+        b=KAHV28puv16fDRy6fs7UYO+EioK2g+3mjGvh9gFpQj4LjK6qr6/mxr/7z17RFnFjNv
+         WyU0+08ViBRHNRpZXmBxkuxdaQCT2QyxUmx/vIbx8QK/OnJ7rD53CUOYZ5gH8t346IIM
+         zmtQObGQDleL1Ir+f5tB0EbmqEBiTPNpG6DOCp8JNzg/bK0p4GIOE7Di4H+d5ZUtKY31
+         XR46SarmVYXoIj6zWL4R7pAlih51QwT5GhqMqd3v96JXA0+gZYEe27amI4ihWnJ1Q7fN
+         L7NQ/s8b8jvuZ3QIlR9QcWcBi54zzmGzkviKxuuBbvIRKEUx9wY7mk3D+g7Q2RzaFGEK
+         MjAA==
+X-Gm-Message-State: AOAM533yA1MIu+qhu2qykYCj7ncbwR9tvAKjczUzl+LdaWufI/BtE8Yy
+        hsUb+bKbqdbOdWEwNYTONpo=
+X-Google-Smtp-Source: ABdhPJzaYmoHH683P7tkrffDdBUTKJYjfW0v9Ym8+OrOOi60wx0ciD+GVBXn730Q3OIYntDtxxOPQg==
+X-Received: by 2002:a63:5a1a:: with SMTP id o26mr6550012pgb.327.1618551557230;
+        Thu, 15 Apr 2021 22:39:17 -0700 (PDT)
+Received: from localhost.localdomain ([75.167.198.216])
+        by smtp.gmail.com with ESMTPSA id q13sm3643266pfc.86.2021.04.15.22.39.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 22:02:36 -0700 (PDT)
-Date:   Fri, 16 Apr 2021 06:02:33 +0100
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        Thu, 15 Apr 2021 22:39:16 -0700 (PDT)
+From:   Paul Zimmerman <pauldzim@gmail.com>
+To:     wedsonaf@google.com
+Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ojeda@kernel.org, peterz@infradead.org,
+        rust-for-linux@vger.kernel.org, torvalds@linux-foundation.org,
+        viro@zeniv.linux.org.uk
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHkaaTQ2KQML2iqt@google.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <YHkRvhIeO2794f7v@zeniv-ca.linux.org.uk>
+Date:   Thu, 15 Apr 2021 22:39:10 -0700
+Message-Id: <20210416053910.7363-1-pauldzim@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <YHkaaTQ2KQML2iqt@google.com>
+References: <YHkaaTQ2KQML2iqt@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHkRvhIeO2794f7v@zeniv-ca.linux.org.uk>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 04:25:34AM +0000, Al Viro wrote:
+On Fri, Apr 16, 2021 at 06:02:33 +0100, Wedson Almeida Filho wrote:
+> On Fri, Apr 16, 2021 at 04:25:34AM +0000, Al Viro wrote:
+>
+>>> Are you stating [what you perceive as] a fact or just venting? If the former,
+>>> would you mind enlightening us with some evidence?
+>> 
+>> How about "not everyone uses a browser as a part of their workflow"?
+>
+> The documentation is available in markdown alongside the code. You don't need a
+> browser to see it. I, for one, use neovim and a rust LSP, so I can see the
+> documentation by pressing shift+k.
+>
+>> I realize that it might sound ridiculous for folks who spent a while
+>> around Mozilla, but it's really true and kernel community actually
+>> has quite a few of such freaks.
+>
+> I haven't spent any time around Mozilla myself (not that there's anything wrong
+> with it), so I can't really comment on this.
+>
+>> And as one of those freaks I can tell
+>> you where exactly I would like you to go and what I would like you to do
+>> with implicit suggestions to start a browser when I need to read some
+>> in-tree documentation.
+>
+> I could be mistaken but you seem angry. Perhaps it wouldn't be a bad idea to
+> read your own code of conduct, I don't think you need a browser for that either.
 
-> > Are you stating [what you perceive as] a fact or just venting? If the former,
-> > would you mind enlightening us with some evidence?
-> 
-> How about "not everyone uses a browser as a part of their workflow"?
+Haven't you folks ever head of lynx? Good old-fashioned command-line tool that
+opens html files in a terminal window, supports following links within the file,
+good stuff like that. I don't see how the dinosaurs^W traditional folks could
+object to that!
 
-The documentation is available in markdown alongside the code. You don't need a
-browser to see it. I, for one, use neovim and a rust LSP, so I can see the
-documentation by pressing shift+k.
-
-> I realize that it might sound ridiculous for folks who spent a while
-> around Mozilla, but it's really true and kernel community actually
-> has quite a few of such freaks.
-
-I haven't spent any time around Mozilla myself (not that there's anything wrong
-with it), so I can't really comment on this.
-
-> And as one of those freaks I can tell
-> you where exactly I would like you to go and what I would like you to do
-> with implicit suggestions to start a browser when I need to read some
-> in-tree documentation.
-
-I could be mistaken but you seem angry. Perhaps it wouldn't be a bad idea to
-read your own code of conduct, I don't think you need a browser for that either.
+-- Paul
