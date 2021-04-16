@@ -2,108 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7237E3612CE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Apr 2021 21:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D72BA36170B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 03:07:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234699AbhDOTP1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 15 Apr 2021 15:15:27 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:32425 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234505AbhDOTP1 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 15 Apr 2021 15:15:27 -0400
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 13FJEoup030833;
-        Fri, 16 Apr 2021 04:14:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 13FJEoup030833
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1618514091;
-        bh=EmolGnRyn1yp9QOm5sqU5YfsZ9PFrgktuvgVHQEMoGU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xZ0vPzdlN6LM3y0Ie8m4eaKJKREIAQUZFV+kISUQrg2WKr//gU4T2UVDdKFmMqNnI
-         N6Ke8jkNxyUwEoT5ZTy2stBrlRZaGiWTnpiE8qpAzAC1mvQi/QayysuSeZtwaccT1B
-         ee9Gl/ntvcpKrgGzRMPjkqZtxKxRYeTmeYd4WMQ9eTHbDyySI3RpHS+TGGBRrTJ+NZ
-         q377GdsQwFZHs/8+8hcm/0/aJsCTLZinmqO4rCr4A0vXc4X0rYYiKXQ/uUxhWwuXh4
-         zGllQtxJf29iQq4G0D4e7ZH9ky52h6QWBEmPxC2asyisxatCa+H8uEOZ/a4/amHHlY
-         OZ7hu4Vuvi5Pg==
-X-Nifty-SrcIP: [209.85.210.175]
-Received: by mail-pf1-f175.google.com with SMTP id o123so16719909pfb.4;
-        Thu, 15 Apr 2021 12:14:51 -0700 (PDT)
-X-Gm-Message-State: AOAM530dcUU7B5r4cVhbLYbVy7zSNBm/2SDfcMPzKOX/MPTVJqCsyeOs
-        a+vNwPAFO6ABXiKp+kXEBwipeZROLLeWJlkVJqo=
-X-Google-Smtp-Source: ABdhPJzmmsqgHMc7XPXnewPtYR1MgcDRqUUkEaOwsLqBWNXQ7wzzoHC0wBjhKHOLsTl2oO5F947XAoY9Ai4nl7QQ2vg=
-X-Received: by 2002:a65:45cf:: with SMTP id m15mr4709604pgr.7.1618514090477;
- Thu, 15 Apr 2021 12:14:50 -0700 (PDT)
+        id S237254AbhDPBHn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Apr 2021 21:07:43 -0400
+Received: from mbox.abcom.al ([217.73.143.249]:58756 "EHLO mbox.abcom.al"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237219AbhDPBHn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 15 Apr 2021 21:07:43 -0400
+X-Greylist: delayed 22270 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Apr 2021 21:07:42 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mbox.abcom.al (Postfix) with ESMTP id 2F81B6D6BAB;
+        Fri, 16 Apr 2021 03:05:27 +0200 (CEST)
+Received: from mbox.abcom.al ([127.0.0.1])
+        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 6eoxC614jjK6; Fri, 16 Apr 2021 03:05:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by mbox.abcom.al (Postfix) with ESMTP id 9AA96675E66;
+        Fri, 16 Apr 2021 03:05:26 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mbox.abcom.al 9AA96675E66
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abcom.al;
+        s=0F3BA0EE-D5D4-11E8-9596-F9115129F2F4; t=1618535126;
+        bh=VCOKpjxaLoatOvx+LSaT3i7u3saMYZrSANTtqEwi9j4=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=l4Ynep0KLRW4AjY+bdT+mEJ3GP8L7deRqqHdbUwo2FDW5pdBE1AZPr8jkd86hKdZP
+         j35EhGJUK+tzb1H0g8GQZ9dkJfrOcGM+F9HbHLJ4CQnWTpZAtp0QJ4lVwuQZGstNfM
+         hAYlhxP2R1GfQmHu0jIP+ZJr1XUllTD9aaI2XI76PMTSjf/bkorBJHS0nHnK/i8fg8
+         7OgU0fH/tuA5pEwrwumr8Kvqo3B9rLZKoXrRXiOFjezsvGv+YLHsu1X7XnQ8UvKWEG
+         KmzhsaSpdVIIS5LDWyGu7Gl8Sdpoli1tyNbYuH5QeMsCwNrvYJMWz+HOeRpWERYxAO
+         XZgIAe5uf+0Ug==
+X-Virus-Scanned: amavisd-new at mbox.abcom.al
+Received: from mbox.abcom.al ([127.0.0.1])
+        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id m8SuQjYCJw9J; Fri, 16 Apr 2021 03:05:26 +0200 (CEST)
+Received: from [10.41.71.107] (unknown [105.4.2.96])
+        by mbox.abcom.al (Postfix) with ESMTPSA id DE9946D6BAB;
+        Fri, 16 Apr 2021 03:05:19 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210415171352.27398-1-rdunlap@infradead.org>
-In-Reply-To: <20210415171352.27398-1-rdunlap@infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 16 Apr 2021 04:14:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
-Message-ID: <CAK7LNASRLgRTZMwzbwnrYA96hLDpzWm8JVBMYQSHMNasXCHtdQ@mail.gmail.com>
-Subject: Re: [PATCH v2] uml: fix W=1 missing-include-dirs warnings
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        linux-um@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <mtodo@abcom.al>
+From:   "William Kruger" <mtodo@abcom.al>
+Date:   Thu, 15 Apr 2021 18:05:06 -0700
+Reply-To: robadamengineeringltd@gmail.com
+Message-Id: <20210416010519.DE9946D6BAB@mbox.abcom.al>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 2:14 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Currently when using "W=1" with UML builds, there are over 700 warnings
-> like so:
->
->   CC      arch/um/drivers/stderr_console.o
-> cc1: warning: ./arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
->
-> but arch/um/ does not have include/uapi/ at all, so add that
-> subdir and put one Kbuild file into it (since git does not track
-> empty subdirs).
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: Jeff Dike <jdike@addtoit.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> Cc: linux-um@lists.infradead.org
-> ---
-> v2: use Option 4 from v1: add arch/um/include/uapi so that 'make' is
->     placated -- and just like all other arch's have.
-
-
-
-Assuming the UML maintainer will pick up this:
-
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-
-
-
-
->  arch/um/include/uapi/asm/Kbuild |    1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/um/include/uapi/asm/Kbuild b/arch/um/include/uapi/asm/Kbuild
-> new file mode 100644
-> index 000000000000..f66554cd5c45
-> --- /dev/null
-> +++ b/arch/um/include/uapi/asm/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Hallo Liebes, ich bin William Kruger aus Lantana im Palm Beach County, USA.=
+ Ich habe einen $ 168 Millionen Jackpot gewonnen, der einer der gr=C3=B6=C3=
+=9Ften Lotterie-Jackpots ist. Im Namen meiner Familie und aus gutem Willen =
+spenden wir Ihnen und Ihrer Familie einen Betrag von (=E2=82=AC 850,000.00 =
+EUR). Ich versuche, die gemeinn=C3=BCtzigen Waisenh=C3=A4user zu erreichen =
+und zur Armutsbek=C3=A4mpfung beizutragen und eine angemessene Gesundheitsv=
+ersorgung f=C3=BCr Einzelpersonen zu gew=C3=A4hrleisten, insbesondere w=C3=
+=A4hrend dieser Welt Pandemic Covid 19. Ich m=C3=B6chte auch, dass Sie eine=
+n Teil dieser Spende in die =C3=B6ffentliche Infrastruktur investieren, um =
+Arbeitslosen in Ihrem Land Arbeitspl=C3=A4tze zu bieten . Ich habe dich gew=
+=C3=A4hlt, weil ich an dich glaube. Ich brauche Ihre uneingeschr=C3=A4nkte =
+Mitarbeit in Bezug auf diese Spende. Hier ist Ihr ausgew=C3=A4hlter Geheimc=
+ode: [W5900Q2172021] und bitte teilen Sie den Code niemandem mit, wenn Sie =
+interessiert und bereit sind, mit mir zu arbeiten. Bitte kontaktieren Sie m=
+ich mit Ihrem Spenden- / Geheimcode [W5900Q2172021] und Ihren vollst=C3=A4n=
+digen Namen hier bei meiner privaten E-Mail: krugerwilliamhome@gmail.com
