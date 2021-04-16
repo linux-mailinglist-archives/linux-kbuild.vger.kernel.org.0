@@ -2,87 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D809362594
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 18:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0FC5362648
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 19:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235281AbhDPQWC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 12:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
+        id S235590AbhDPRGC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 13:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235239AbhDPQV7 (ORCPT
+        with ESMTP id S234774AbhDPRGB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 12:21:59 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011B1C061756;
-        Fri, 16 Apr 2021 09:21:34 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id y2so28633687ybq.13;
-        Fri, 16 Apr 2021 09:21:33 -0700 (PDT)
+        Fri, 16 Apr 2021 13:06:01 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9EC1C061574
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Apr 2021 10:05:36 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id i10so9927046lfe.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Apr 2021 10:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nCFii6aJURTER/vfLe/clZtaLhbRcW3ObBSmtuLHRng=;
-        b=G34k3IkIwnzBMEEu+9qUraK5dQ02qIeP5EpIR1F/LZJEN7swi+5OcAJv3OIdzCWHkT
-         ajBsfK5XFuDbxtX19Dx1EwRQMQNVmLF0P68KANot3JYXO56KT7S6pQjIKSK9tFffc7Uv
-         TRVqxZKBtxwAFbj7rdPjyF4x5os+/RPhiR8IAEB/oUxs70Qj6IRMgy6nv/LKbCta+rGt
-         tYwSYq8WYQNXjtyNbJ3FJhBu6vIPyZrIK/M+Rv7PO9A8gksEDp6aVeOYaB3vtX0LQtc3
-         NWxQRdgMLI39DABjOaaPFlZjRyqx0+Da8mXle8uyvCgJjsj5dNyiU0o5YRCxgrt9FDHQ
-         z/Yg==
+        bh=AcDAVQ+0h+jENPZeM69/kZwGZfdDXc/0125nsKSlnZg=;
+        b=dnz1bYqVAlRM6259A+dx+Rc2q9Qis0LBOOOmkDKaY6WJu06OAB3WTXaPaSSbSH2kHN
+         CUxAYJW2MSUb6KLd9VHkZqoeTvqRIILdDBdw4/TbIMff3ssQa3bNYa96Mu2MipKekQxe
+         RdIn9i/ob2oUe8MI005glSrjfmJXy7RQVtkC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nCFii6aJURTER/vfLe/clZtaLhbRcW3ObBSmtuLHRng=;
-        b=SpyjijjlSAmP+XcS6EkJwA3KZ1ii7S3s4y7ABXHIx3IQEe1N7UIX0MHtRFYtdV2Teh
-         28uP0eemiq7z0toE9TSiMOPuwenWPl3T1ct/usPY+vZlcUH7RZJLBz6b5uJtifVhCxN6
-         i8P9sTEelaujoIMnkv4tA8xbHq9dklOKZYTjVbBEAaufFV1C0mU8GD2x2wZSla5SXY11
-         q3L5iZMn8l5yGosgxgB7rV7GTYcan2jtKwdS0EYVQzErlS8mhxg8YGdg9zTx9HO77s5q
-         Hk9wmroolx7LS2aKzQqIrUBbRzBcQI8Pz3KHz5ya62BQgpkHXNAyM7BKzBb9aG/rxROy
-         j3ow==
-X-Gm-Message-State: AOAM531F0Qeo4vGiEUoCoRJ/rcGqeCLdNuH2HvJG4EunQiERMxHl8ka+
-        7PRsVuaAojYWmP2SY2QsNPv4EhJ4bD/Uq2FjbNo=
-X-Google-Smtp-Source: ABdhPJy0Kixp3R8ObQCt6v/sL9MlswTFyXDE0CI1Ld7MwO5Tg0SWFJ801+kzVKHbmrATrM0JCfiFa59z/M50dEcsepg=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr12483269ybc.22.1618590093378;
- Fri, 16 Apr 2021 09:21:33 -0700 (PDT)
+        bh=AcDAVQ+0h+jENPZeM69/kZwGZfdDXc/0125nsKSlnZg=;
+        b=IiDdMPuF8NBaB+aWk7r7Z1NbKPWMSGoMaLvpyF78c7b4uN4j91wqQ1Dm3h0P8kPc8M
+         Keu3ooUdsW08XoTuE3fkTOzAugvEe+yvkX7h5ceYbI1g5Trjx6o2nYQC2n+emVKNz+n8
+         gjDya5IDZ+TTDylz3c7p8IPXrEa+rJ3V+2iYMoIHTTeHszdzfLJLJc8MBhdvu4/VDjNu
+         k7LnvRQhPNMyXVq69ZXGKRs/HOtJc53AGQhlgVM6zApXR6eALGFWxNphdtJYKxYPUFsc
+         AMfwzkqz9LqL6qFlKM3TPMJdMXmiu1zW/FoOY2WLEwFl9NjH//uhCLjMikoJHAfdEY+o
+         rBRQ==
+X-Gm-Message-State: AOAM5329GChF8TfWH2GcBC6xJCODn1KZ2BN7Fkk5fHDJSap0+l4LFQrt
+        xRZ+tRvL6okEGwbqcoWvybiGTeEY/GqG99Dh
+X-Google-Smtp-Source: ABdhPJzQfDa10GsGHoTQyvLn8PIi2KkOSyUM4qt+ZNzDADTWhA9CXmhg54Cc+p6YGez5+rcXGVnVSA==
+X-Received: by 2002:a19:68b:: with SMTP id 133mr3634106lfg.151.1618592735355;
+        Fri, 16 Apr 2021 10:05:35 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id w23sm1034984lfu.132.2021.04.16.10.05.34
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Apr 2021 10:05:35 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id x20so15526138lfu.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Apr 2021 10:05:34 -0700 (PDT)
+X-Received: by 2002:a05:6512:1286:: with SMTP id u6mr3571784lfs.377.1618592734654;
+ Fri, 16 Apr 2021 10:05:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com> <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <CANiq72n9ocqaFQnOjUO95_7Xd3wpWShtzMKrBQE2gN8jOyrW5g@mail.gmail.com> <YHmwoe8+mNPBFm1R@hirez.programming.kicks-ass.net>
-In-Reply-To: <YHmwoe8+mNPBFm1R@hirez.programming.kicks-ass.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 16 Apr 2021 18:21:22 +0200
-Message-ID: <CANiq72=2g3nrbT9r-9=vW0toHgByLmzh2vYfWPGs6tUGLB9Y4g@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net>
+In-Reply-To: <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 16 Apr 2021 10:05:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+Message-ID: <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
 To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     ojeda@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 5:43 PM Peter Zijlstra <peterz@infradead.org> wrote:
+On Fri, Apr 16, 2021 at 6:38 AM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2659.htm
->
-> That's just not making any damn sense what so ever. That seems to be
-> about sprinkling abort() all over the place, which is just total
-> rubbish.
+> AFAICT rust has try/throw/catch exception handling (like
+> C++/Java/others) which is typically implemented with stack unwinding of
+> its own.
 
-No, it is not about that. It is semantically a no-op: N2659 is not
-about a safe subset of C -- it just triggered discussions about it in
-the reflector.
+I was assuming that the kernel side would never do that.
 
-The point is that we think it is important to improve C for the kernel
-too. We are not working on bringing Rust to the kernel "just because
-we want Rust", but because we believe it has a sizable amount of
-advantages that outweigh the costs.
+There's some kind of "catch_unwind()" thing that catches a Rust
+"panic!" thing, but I think it's basically useless for the kernel.
 
-Cheers,
-Miguel
+Typical Rust error handling should match the regular kernel
+IS_ERR/ERR_PTR/PTR_ERR model fairly well, although the syntax is
+fairly different (and it's not limited to pointers).
+
+                Linus
