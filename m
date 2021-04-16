@@ -2,26 +2,20 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC02B3624C2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 17:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7568D362583
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 18:18:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234323AbhDPP6v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 11:58:51 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:45829 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236485AbhDPP6u (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 11:58:50 -0400
-Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 13GFw586010940
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Apr 2021 11:58:06 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 409B115C3B0D; Fri, 16 Apr 2021 11:58:05 -0400 (EDT)
-Date:   Fri, 16 Apr 2021 11:58:05 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
+        id S241085AbhDPQPa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 12:15:30 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51720 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240604AbhDPQPX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 16 Apr 2021 12:15:23 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 13GGEiXu010592;
+        Fri, 16 Apr 2021 18:14:44 +0200
+Date:   Fri, 16 Apr 2021 18:14:44 +0200
+From:   Willy Tarreau <w@1wt.eu>
 To:     Wedson Almeida Filho <wedsonaf@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -29,92 +23,67 @@ Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
         rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHm0DYB08ZI2kuZm@mit.edu>
+Message-ID: <20210416161444.GA10484@1wt.eu>
 References: <20210414184604.23473-1-ojeda@kernel.org>
  <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
  <YHmMJWmzz2vZ3qQH@google.com>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YHmMJWmzz2vZ3qQH@google.com>
+In-Reply-To: <YHmuX1NA5RF7C7XS@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 02:07:49PM +0100, Wedson Almeida Filho wrote:
-> On Fri, Apr 16, 2021 at 01:24:23PM +0200, Peter Zijlstra wrote:
-> > On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
-> > >   - Featureful language: sum types, pattern matching, generics,
-> > >     RAII, lifetimes, shared & exclusive references, modules &
-> > >     visibility, powerful hygienic and procedural macros...
-> > 
-> > IMO RAII is over-valued, but just in case you care, the below seems to
-> > work just fine. No fancy new language needed, works today. Similarly you
-> > can create refcount_t guards, or with a little more work full blown
-> > smart_ptr crud.
+On Fri, Apr 16, 2021 at 04:33:51PM +0100, Wedson Almeida Filho wrote:
+> On Fri, Apr 16, 2021 at 04:19:07PM +0200, Peter Zijlstra wrote:
+> > Does this also not prohibit constructs where modification must be done
+> > while holding two locks, but reading can be done while holding either
+> > lock?
 > 
-> Peter, we do care, thank you for posting this. It's a great example for us to
-> discuss some of the minutiae of what we think Rust brings to the table in
-> addition to what's already possible in C.
+> I don't believe it does. Remember that we have full control of the abstractions,
+> so we can (and will when the need arises) build an abstraction that provides the
+> functionality you describe. For the read path, we can have functions that return
+> a read-only guard (which is the gateway to the data in Rust) when locking either
+> of the locks, or when showing evidence that either lock is already locked (i.e.,
+> by temporarily transferring ownership of another guard).
 
-Another fairly common use case is a lockless, racy test of a
-particular field, as an optimization before we take the lock before we
-test it for realsies.  In this particular case, we can't allocate
-memory while holding a spinlock, so we check to see without taking the
-spinlock to see whether we should allocate memory (which is expensive,
-and unnecessasry most of the time):
+But will this remain syntactically readable/writable by mere humans ?
+I mean, I keep extremely bad memories of having tried to write a loop
+oconcatenating at most N times a string to another one, where N was a
+number provided on the command line, with the compiler shouting at me
+all the time until I blindly copy-pasted random pieces of unreadable
+code from the net with a horribly complicated syntax that still
+resulted in the impossibility for me to check for memory allocation
+before failing. So I'm wondering how complicated that can become after
+adding all sort of artificial protections on top of this :-/
 
-alloc_transaction:
-	/*
-	 * This check is racy but it is just an optimization of allocating new
-	 * transaction early if there are high chances we'll need it. If we
-	 * guess wrong, we'll retry or free the unused transaction.
-	 */
-	if (!data_race(journal->j_running_transaction)) {
-		/*
-		 * If __GFP_FS is not present, then we may be being called from
-		 * inside the fs writeback layer, so we MUST NOT fail.
-		 */
-		if ((gfp_mask & __GFP_FS) == 0)
-			gfp_mask |= __GFP_NOFAIL;
-		new_transaction = kmem_cache_zalloc(transaction_cache,
-						    gfp_mask);
-		if (!new_transaction)
-			return -ENOMEM;
-	}
-	...
-repeat:
-	read_lock(&journal->j_state_lock);
-	...
-	if (!journal->j_running_transaction) {
-		read_unlock(&journal->j_state_lock);
-		if (!new_transaction)
-			goto alloc_transaction;
-		write_lock(&journal->j_state_lock);
-		if (!journal->j_running_transaction &&
-		    (handle->h_reserved || !journal->j_barrier_count)) {
-			jbd2_get_transaction(journal, new_transaction);
-			new_transaction = NULL;
-		}
-		write_unlock(&journal->j_state_lock);
-		goto repeat;
-	}
-	...
+> Note that this is
+> another area where Rust offers advantages: read-only guards (in C, if you take a
+> read lock, nothing prevents you from making changes to fields you should only be
+> allowed to read);
 
+But I'm happily doing that when I know what I'm doing. What you call a
+read lock usually is in fact a shared lock as opposed to an exclusive
+lock (generally used for writes). For me it's perfectly valid to perform
+atomic writes under a read lock instead of forcing everyone to wait by
+taking a write lock. You may for example take a read lock on a structure
+to make sure that a field you're accessing in it points to stable memory
+that is only modified under the write lock, but the pointer itself is
+atomically accessed and swapped under the read lock.
 
-The other thing that I'll note is that diferent elements in thet
-journal structure are protected by different spinlocks; we don't have
-a global lock protecting the entire structure, which is critical for
-scalability on systems with a large number of CPU's with a lot of
-threads all wanting to perform file system operations.
+> In fact, this is also an advantage of Rust. It would *force* developers to
+> lock/unlock the RCU lock before they can access the protected data.
 
-So having a guard structure which can't be bypassed on the entire
-structure would result in a pretty massive performance penalty for the
-ext4 file system.  I know that initially the use of Rust in the kernel
-is targetted for less performance critical modules, such as device
-drivers, but I thought I would mention some of the advantages of more
-advanced locking techniques.
+I'm really afraid by languages which force developers to do this or that.
+Many bugs in C come from casts because developers know their use case
+better than the compiler's developers, and result in lack of warnings
+when the code evolves, leaving pending bugs behind. What is important
+in my opinion is to let developers express what they want and report
+suspicious constructs, not to force them to dirtily work around rules
+that conflict with their use case :-/
 
-Cheers,
-
-					- Ted
+Willy
