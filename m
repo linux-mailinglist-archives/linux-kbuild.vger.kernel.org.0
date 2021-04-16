@@ -2,23 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 926413629C9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 22:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9862C362A18
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 23:21:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244074AbhDPU7H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 16:59:07 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51754 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236340AbhDPU7E (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 16:59:04 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13GKwCKQ011673;
-        Fri, 16 Apr 2021 22:58:12 +0200
-Date:   Fri, 16 Apr 2021 22:58:12 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Connor Kuehl <ckuehl@redhat.com>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S1344298AbhDPVWE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 17:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344236AbhDPVV6 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 16 Apr 2021 17:21:58 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44FF8C061344;
+        Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id n12so31607189ybf.8;
+        Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=udsjYFmKZpzpPEZQ/S94m1J5JpuvU1EmGzVJfAa7Om8=;
+        b=EosPrWTw2GhguQ2HMV+cpFl/54oW1S4zmr0H6Z19xIAq8cU8Ub7uO0q4nQJtoyDVvK
+         BNqH90kAcYN+mw5cr4HGgxGG+iJGmV4cALQryNtFoHePwef1ZBT3WZigxR2u2XzyID7Y
+         FtENA/IG+gQ+zeJ6zH2YdrU+qKGAPR0s8lhip+Vpw4vNuMV+2D2wdts7ehDxz0UES6H4
+         l4fvpS8suXEog7ap3jlfQ0Xh4KOLjFaYu3p7hSp7QcjjOsG8VFx8Qr4mwG/NZitsEk7L
+         pRcdqgY1Iw0tQF5BDyjGmlQw08P9lXHmjJ5Q0dPeFAD9IEr3E316XmQ10pJ36U1McKEH
+         ToRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=udsjYFmKZpzpPEZQ/S94m1J5JpuvU1EmGzVJfAa7Om8=;
+        b=WdpT+jFBsWQRQ819ZrHvu+RIVCQZ6P3/aI4uXeNhips7Orx0XP5xfsJw0s2WikOY0L
+         LVzK/8ZOWcvKvm6dYnxXTsEduDbbDjceYc3JVFya+lQ9P5dd4/zwIQXvnQJWqc3IQng/
+         OPd03p0iJMEf1Lhs3lA8OZIoFfnMr9MivkaoBKNT8taHb3ENJ0MJtrmXjEq1lDBy1huI
+         VlOgAD6P65sennUFm8Ut5WPB5k3wOqcTGfqf1xR/uEO6k42Urw0xzCV4sTL+vZ06qjez
+         s6b0sadOrmxHIjE2Vt5J9rItfnGUkUtXxgWQtFyRcnu6CkziQkC8WIoQsYsrhQVjnaeX
+         XrDA==
+X-Gm-Message-State: AOAM533mtfUVJMZUwgqIIoU1Vx3iohlS4kTf7VzgddxIYqhF2Do51FT9
+        0ALxOPUr3WEk2I15QmHL8DV+Fra6pcb9JpH3+5M=
+X-Google-Smtp-Source: ABdhPJyNClVV1yCAjhal7QcWJILaE+DVzQrq0w+nHD/4P9l19UMiv/gcRcnPaNvszVrGtWxPIoOZxPQaGFw3tBNsX4U=
+X-Received: by 2002:a25:7909:: with SMTP id u9mr1528074ybc.22.1618607969202;
+ Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+ <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com>
+ <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk> <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
+ <20210416202215.GA11236@1wt.eu>
+In-Reply-To: <20210416202215.GA11236@1wt.eu>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 16 Apr 2021 23:19:18 +0200
+Message-ID: <CANiq72=3zZvdEsp-AH2Xj1nuvfGOQQ1WGmav6i4nFTz-3-_c_w@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -33,81 +71,31 @@ Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
         Wedson Almeida Filho <wedsonaf@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-Message-ID: <20210416205812.GA11655@1wt.eu>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414184604.23473-5-ojeda@kernel.org>
- <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net>
- <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
- <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com>
- <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
- <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
- <20210416202215.GA11236@1wt.eu>
- <efe80452-fac9-247a-1e2b-a73553f605e8@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efe80452-fac9-247a-1e2b-a73553f605e8@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 03:34:50PM -0500, Connor Kuehl wrote:
-> On 4/16/21 3:22 PM, Willy Tarreau wrote:
-> > So it simply does the equivalent of:
-> > 
-> >   #define EINVAL -1234
-> > 
-> >   struct result {
-> >      int status;
-> >      int error;
-> >   };
-> 
-> Result and Option types are more like a union with a tag that
-> describes which variant it is.
-> 
-> struct foo_result {
->     /* if ok, then access foo_or_err.successful_foo
->      *        else, access foo_or_err.error
->      */
->     bool ok;
->     union {
->         struct foo successful_foo;
->         int error;
->     } foo_or_err;
-> };
+On Fri, Apr 16, 2021 at 10:22 PM Willy Tarreau <w@1wt.eu> wrote:
+>
+> So it simply does the equivalent of:
+>
+>   struct result {
+>      int status;
+>      int error;
+>   };
 
-OK.
+Not exactly, it is more like a tagged union, as Connor mentioned.
 
-> > [..]
-> > 
-> > So it simply returns a pair of values instead of a single one, which
-> 
-> It will only return 1 value.
+However, and this is the critical bit: it is a compile-time error to
+access the inactive variants (in safe code). In C, it is on you to
+keep track which one is the current one.
 
-No, two:
-  - ok in %rax (seems like it's "!ok" technically speaking since it
-    returns 1 on !ok and 0 on ok)
-  - foo_or_err in %rdx
+>      kill_foo();   // only for rust, C doesn't need it
 
-However then I'm bothered because Miguel's example showed that regardless
-of OK, EINVAL was always returned in foo_or_err, so maybe it's just
-because his example was not well chosen but it wasn't very visible from
-the source:
+Please note that `kill_foo()` is not needed in Rust -- it was an
+example of possible cleanup (since Al mentioned resources/cleanup)
+using RAII.
 
-     bar:
-             push    rbx
-             mov     ebx, 1
-             call    qword ptr [rip + black_box@GOTPCREL]
-             test    al, al
-             jne     .LBB2_2
-             call    qword ptr [rip + kill_foo@GOTPCREL]
-             xor     ebx, ebx
-     .LBB2_2:
-             mov     eax, ebx
-             mov     edx, -1234
-             pop     rbx
-             ret
-
-Willy
+Cheers,
+Miguel
