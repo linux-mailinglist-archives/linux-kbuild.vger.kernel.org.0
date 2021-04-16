@@ -2,68 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 698483629A1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 22:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 926413629C9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Apr 2021 22:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242375AbhDPUtT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Apr 2021 16:49:19 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:57733 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234312AbhDPUtS (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Apr 2021 16:49:18 -0400
-X-Originating-IP: 50.39.163.217
-Received: from localhost (unknown [50.39.163.217])
-        (Authenticated sender: josh@joshtriplett.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id EA15720002;
-        Fri, 16 Apr 2021 20:48:44 +0000 (UTC)
-Date:   Fri, 16 Apr 2021 13:48:42 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        id S244074AbhDPU7H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 16 Apr 2021 16:59:07 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51754 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236340AbhDPU7E (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 16 Apr 2021 16:59:04 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 13GKwCKQ011673;
+        Fri, 16 Apr 2021 22:58:12 +0200
+Date:   Fri, 16 Apr 2021 22:58:12 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Connor Kuehl <ckuehl@redhat.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
         Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHn4KqS2tTp2+G7V@localhost>
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+Message-ID: <20210416205812.GA11655@1wt.eu>
 References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux>
+ <20210414184604.23473-5-ojeda@kernel.org>
+ <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net>
+ <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
+ <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com>
+ <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
+ <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
+ <20210416202215.GA11236@1wt.eu>
+ <efe80452-fac9-247a-1e2b-a73553f605e8@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YHkSO3TUktyPs4Nz@boqun-archlinux>
+In-Reply-To: <efe80452-fac9-247a-1e2b-a73553f605e8@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 12:27:39PM +0800, Boqun Feng wrote:
-> Josh, I think it's good if we can connect to the people working on Rust
-> memoryg model, I think the right person is Ralf Jung and the right place
-> is https://github.com/rust-lang/unsafe-code-guidelines, but you
-> cerntainly know better than me ;-) Or maybe we can use Rust-for-Linux or
-> linux-toolchains list to discuss.
+On Fri, Apr 16, 2021 at 03:34:50PM -0500, Connor Kuehl wrote:
+> On 4/16/21 3:22 PM, Willy Tarreau wrote:
+> > So it simply does the equivalent of:
+> > 
+> >   #define EINVAL -1234
+> > 
+> >   struct result {
+> >      int status;
+> >      int error;
+> >   };
+> 
+> Result and Option types are more like a union with a tag that
+> describes which variant it is.
+> 
+> struct foo_result {
+>     /* if ok, then access foo_or_err.successful_foo
+>      *        else, access foo_or_err.error
+>      */
+>     bool ok;
+>     union {
+>         struct foo successful_foo;
+>         int error;
+>     } foo_or_err;
+> };
 
-Ralf is definitely the right person to talk to. I don't think the UCG
-repository is the right place to start that discussion, though. For now,
-I'd suggest starting an email thread with Ralf and some C-and-kernel
-memory model folks (hi Paul!) to suss out the most important changes
-that would be needed.
+OK.
 
-With my language team hat on, I'd *absolutely* like to see the Rust
-memory model support RCU-style deferred reclamation in a sound way,
-ideally with as little unsafe code as possible.
+> > [..]
+> > 
+> > So it simply returns a pair of values instead of a single one, which
+> 
+> It will only return 1 value.
+
+No, two:
+  - ok in %rax (seems like it's "!ok" technically speaking since it
+    returns 1 on !ok and 0 on ok)
+  - foo_or_err in %rdx
+
+However then I'm bothered because Miguel's example showed that regardless
+of OK, EINVAL was always returned in foo_or_err, so maybe it's just
+because his example was not well chosen but it wasn't very visible from
+the source:
+
+     bar:
+             push    rbx
+             mov     ebx, 1
+             call    qword ptr [rip + black_box@GOTPCREL]
+             test    al, al
+             jne     .LBB2_2
+             call    qword ptr [rip + kill_foo@GOTPCREL]
+             xor     ebx, ebx
+     .LBB2_2:
+             mov     eax, ebx
+             mov     edx, -1234
+             pop     rbx
+             ret
+
+Willy
