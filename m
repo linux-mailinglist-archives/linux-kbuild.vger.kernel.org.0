@@ -2,99 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2225936306D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 15:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53069363070
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 15:53:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236396AbhDQNqr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 17 Apr 2021 09:46:47 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:32243 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230442AbhDQNqr (ORCPT
+        id S236129AbhDQNxn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Apr 2021 09:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236058AbhDQNxm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Apr 2021 09:46:47 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-111-IAuWgVVUPrqCWucM5QzTnw-1; Sat, 17 Apr 2021 14:46:17 +0100
-X-MC-Unique: IAuWgVVUPrqCWucM5QzTnw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Sat, 17 Apr 2021 14:46:17 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Sat, 17 Apr 2021 14:46:17 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Peter Zijlstra' <peterz@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>
-CC:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+        Sat, 17 Apr 2021 09:53:42 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB58C061756
+        for <linux-kbuild@vger.kernel.org>; Sat, 17 Apr 2021 06:53:16 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id o9-20020a1c41090000b029012c8dac9d47so8592594wma.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 17 Apr 2021 06:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AewrO9ydZMH8IFjVd/qYNAdik/pmPwbpo6Np+kmyKYg=;
+        b=LprgzkCTYyqpRBvY/OpJ5/Lw+b1fQGdy7g/Enp9yXjYrwuK0MXw3kDYO+jTVo4AM2O
+         da349ZM4/Nio1LQFnTQBh8PdKz12IvSipdyhHL8DjTeljE3RceRtXTG/6CczWnLsmf3B
+         ulKaALHU8CRPxtrVb9hD3ogh+kuadPguT2Ej7vHO79q8vj8IOE3N9Ix0l2G6jHCvVRmi
+         qnArsiiziY8R4KMLfWqUBkgsIndGyrf4FG4PZbXEsgR2WKzgc4LOanTwtwky7jXdIQXd
+         71PMY9eC/OdM8bASwiHbP/tuvDUDapptPBkCHRt0ppck0eI0xkrbnLshbeckXqg1n5LS
+         d/xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AewrO9ydZMH8IFjVd/qYNAdik/pmPwbpo6Np+kmyKYg=;
+        b=N4ddUlcKglhWAaji7Od2Ikf/xCaFWyCX0fz1G6HPfMgnQJqNZO/9+cBsaBTSkNbFJQ
+         P94N9AJygb97H/Sizwzr+F2i2IkZfjTgsZ6jvPQRxrjj/OjXh+Y5hnB+iM8eD9P8+i/a
+         7o2g2IX+AxxLq7431Yh0BUPZ/dq0xZHva6E2j2kaxJJy98dT792Z34ujMxxZ3IRHrkX/
+         VHkmg2SqPo9FmtN+bxk1NczFYoMA4ESmneDBytJeN6AzIt0eaWdB7xgrIF3BHyot2CWH
+         f5KybUPdi0TwDlzv5WNCCRjwHYX2OOmZ4ELiwDp2K4lzJVtlNxec13sQvU592su4KPVl
+         W/tg==
+X-Gm-Message-State: AOAM532KlyOqq4hB4q5rKCfPdVKEJ+O1B1Ew5Ri6HJiGpwjDiSKLFnPi
+        pi+BI+3EezNUzZOPKbSDahGN
+X-Google-Smtp-Source: ABdhPJx6T84mDYcYChTDx6mFZZd5JbkVIL1vfaM8A6FMAjA3GZ43YPjDBzJtaAVdVRIuMA0uMvFRtQ==
+X-Received: by 2002:a05:600c:3594:: with SMTP id p20mr12286134wmq.173.1618667594637;
+        Sat, 17 Apr 2021 06:53:14 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:209:3c1c:8462:b77e:21a4])
+        by smtp.gmail.com with ESMTPSA id o5sm12394021wmc.44.2021.04.17.06.53.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Apr 2021 06:53:14 -0700 (PDT)
+Date:   Sat, 17 Apr 2021 14:53:10 +0100
+From:   Wedson Almeida Filho <wedsonaf@google.com>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 00/13] [RFC] Rust support
-Thread-Topic: [PATCH 00/13] [RFC] Rust support
-Thread-Index: AQHXM3s7R6TAvlURwUWbKsHSAM883qq4tusA
-Date:   Sat, 17 Apr 2021 13:46:17 +0000
-Message-ID: <302c00b5de4d4320b8770aae7d84e175@AcuMS.aculab.com>
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHroRuI7lYDABWJR@google.com>
 References: <20210414184604.23473-1-ojeda@kernel.org>
  <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
  <YHmMJWmzz2vZ3qQH@google.com>
  <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
- <YHnG+GRwiMqgHGs5@hirez.programming.kicks-ass.net>
- <20210416180829.GO2531743@casper.infradead.org>
- <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
-In-Reply-To: <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <YHmuX1NA5RF7C7XS@google.com>
+ <20210416161444.GA10484@1wt.eu>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416161444.GA10484@1wt.eu>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Peter Zijlstra
-> Sent: 17 April 2021 12:17
-...
-> > (i'd argue this is C being broken; promoting only as far as int, when
-> > assigning to an unsigned long is Bad, but until/unless either GCC fixes
-> > that or the language committee realises that being stuck in the 1970s
-> > is Bad, people are going to keep making this kind of mistake)
+On Fri, Apr 16, 2021 at 06:14:44PM +0200, Willy Tarreau wrote:
+
+> But will this remain syntactically readable/writable by mere humans ?
+
+I would certainly hope so.
+
+> > Note that this is
+> > another area where Rust offers advantages: read-only guards (in C, if you take a
+> > read lock, nothing prevents you from making changes to fields you should only be
+> > allowed to read);
 > 
-> Well, I think the rules actually make sense, at the point in the syntax
-> tree where + happens, we have 'unsigned char' and 'int', so at that
-> point we promote to 'int'. Subsequently 'int' gets shifted and bad
-> things happen.
+> But I'm happily doing that when I know what I'm doing. What you call a
+> read lock usually is in fact a shared lock as opposed to an exclusive
+> lock (generally used for writes). For me it's perfectly valid to perform
+> atomic writes under a read lock instead of forcing everyone to wait by
+> taking a write lock. You may for example take a read lock on a structure
+> to make sure that a field you're accessing in it points to stable memory
+> that is only modified under the write lock, but the pointer itself is
+> atomically accessed and swapped under the read lock.
 
-The 1970s were fine.
-K&R C was sign preserving - so 'unsigned char' promoted to 'unsigned int'.
-The ANSI C committee broke things by changing it to value preserving
-with the strong preference for signed types.
+Yes, this is a great example. Also easily expressible in Rust: they have this
+concept of interior mutability where certain types allow their contents to be
+modified even when shared immutably. Atomics offer such interior mutability, so
+the scenario you describe is fine.
 
-Even with ANSI C the type of ((unsigned char)x + 1) can be unsigned!
-All it needs as an architecture where sizeof (int) == 1.
-(sizeof (char) has to be 1 - even though that isn't directly explicit.)
+Rust in fact has an extra enforcement here that C doesn't: it requires interior
+mutability for this scenario to be allowed, so you can't do it with a plain
+naked type (say u64) -- you'd need to use something like an atomic64_t, where
+you're required to specify memory ordering when accessing them.
 
-Of course, having 32-bit 'char' and 'int' does give problems with
-the value for EOF.
+In C we of course have atomics but the compiler never alerts us for when we need
+them.
 
-	David
+> > In fact, this is also an advantage of Rust. It would *force* developers to
+> > lock/unlock the RCU lock before they can access the protected data.
+> 
+> I'm really afraid by languages which force developers to do this or that.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+When I say that Rust forces developers to do certain things, it's to provide the
+compile-time safety guarantees. Some of these requirements are imposed by our
+own abstractions -- we can always revisit and try to improve them. In cases when
+the abstractions cannot be further refined, developers always have the escape
+hatch of unsafety, where they're allowed to do pretty much everything as in C,
+but then they also give up the compile-time guarantees for those parts.
