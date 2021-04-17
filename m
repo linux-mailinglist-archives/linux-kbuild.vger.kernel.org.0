@@ -2,118 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06358363144
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 18:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054493631FA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 21:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236595AbhDQQ7h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Apr 2021 12:59:37 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:60636 "EHLO
+        id S236718AbhDQTgm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Apr 2021 15:36:42 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:24947 "EHLO
         conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236537AbhDQQ7h (ORCPT
+        with ESMTP id S236212AbhDQTgm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Apr 2021 12:59:37 -0400
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 13HGwo03022630
-        for <linux-kbuild@vger.kernel.org>; Sun, 18 Apr 2021 01:58:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 13HGwo03022630
+        Sat, 17 Apr 2021 15:36:42 -0400
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 13HJZqmc013042;
+        Sun, 18 Apr 2021 04:35:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 13HJZqmc013042
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1618678731;
-        bh=tzWFLNopegFaAoXGgW1Wb8Dc/VDceVpv42Uu7Bt5CXE=;
+        s=dec2015msa; t=1618688153;
+        bh=hkh5YwuJBIOBjPiu6hBZE5+OCCrOzZnlnU6cXAwLvTY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pzDJVPTmvVuA8ZLSjYRalmqaNBUQ5he/SBoWRvmylsEpl5/wbU30vwh98b7lZzTLB
-         Dyxq+J7AqFm6rM31OtPRyvRFJ8CuaOhLdCvOyexEIshhjTZ6YbYsaacoI1WhIdZJsm
-         FQhWUb9WzUEC73f8AJtQUZ0Pjh3ApkzxJwk6myNxZIlpvSAv7FdTWOB+9+fr2xrqeC
-         0ihZ4VcuBkx7Hk9NOTVQjnMyN17tyXCV3T3U946T+hHw//wVINA3b9w5Br+BabWWen
-         /5I8/K1PyGle8d9OyGgJaMotFoQ0Hgxage1k1m4+rx6o0Qds3SVZ1DbiLySHohCxc6
-         BCdioZR6Q3okw==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so16236154pjv.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 17 Apr 2021 09:58:50 -0700 (PDT)
-X-Gm-Message-State: AOAM53144a0TUAIL4uIlae6spGp419ERv0PVHR1C4xeTuR5PTFPTeeta
-        6TARXhHAhnYYVobIzDCNapp8LIuEsnKEZU7WD1U=
-X-Google-Smtp-Source: ABdhPJx6z2Ew/Jsd5nrxcP68tYFu5LrO0rxDXDPAdeA4LDAStDAPc3QHKHr/FVpPXmn83oq42G+bchWbl5f/H1iOhO4=
-X-Received: by 2002:a17:902:d2c8:b029:eb:424b:84c with SMTP id
- n8-20020a170902d2c8b02900eb424b084cmr15179492plc.71.1618678730136; Sat, 17
- Apr 2021 09:58:50 -0700 (PDT)
+        b=ZK3XIqNT/fCa8ImCuvX+cDcQTtmH4rQ6sXxD0QhdjI25bmRu04tR4OVAc2CdfXoLp
+         99YVsJ97jUfNaIdFiYrOAEFpaicKwL8uaDTpjraqcAdATICBoKKKzMgSbxDlWKYeRZ
+         kMxLeGMHd1jUSAusYNcS7YdgGX1MwqQY1bPiOO84tOwwGAFkRSgAmzPtOReD5Vmzy2
+         YQApshMt9mKZxriuipk1nQCa6f+94TVRZYDORtb1iIWaZKZwV4co3hNVX7Pp5+QheH
+         P/uBSjooCqTmifCZUTC1cwtHjTjeG02fVk/fgva+K4VtrAQoG/GFJxwNaf8zIOXLN+
+         wlCOiZZ7QqYAg==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so18196308pjh.1;
+        Sat, 17 Apr 2021 12:35:52 -0700 (PDT)
+X-Gm-Message-State: AOAM530kXdrOvGw6ylR/jxCph0fN9fsHTD1Yx7YmjCuz+DSeTReO62Bd
+        YR4CyGkb3gu2jAtjBYL6S/SfomziXD3XEsyWGww=
+X-Google-Smtp-Source: ABdhPJyiH91xXT+6zU7vn+mvPE0jUTNiMhDdgt0LZHv/4PQBIi/IYiCHtOLaUUe6kYHvSR01SInIGyrud/tn7vU1GTQ=
+X-Received: by 2002:a17:90a:1056:: with SMTP id y22mr15383723pjd.153.1618688151869;
+ Sat, 17 Apr 2021 12:35:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210411101422.7092-1-bage@linutronix.de> <20210411101422.7092-7-bage@linutronix.de>
-In-Reply-To: <20210411101422.7092-7-bage@linutronix.de>
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <CAKwvOdkjttdX83tL4pw+J5EnHM1MgEYDPp=YTpEagV4RrhdxwA@mail.gmail.com> <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com>
+In-Reply-To: <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 18 Apr 2021 01:58:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASx09BznvtC2Yit7YFa8m+80zriGqVV2kSpUORQkms0vQ@mail.gmail.com>
-Message-ID: <CAK7LNASx09BznvtC2Yit7YFa8m+80zriGqVV2kSpUORQkms0vQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] kbuild: introduce srcdeb-pkg target
-To:     bage@linutronix.de
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+Date:   Sun, 18 Apr 2021 04:35:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASpjUP+MvnUed68a074H2EPVeD5+KLzecAuFxxi_72eZw@mail.gmail.com>
+Message-ID: <CAK7LNASpjUP+MvnUed68a074H2EPVeD5+KLzecAuFxxi_72eZw@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 11, 2021 at 7:14 PM <bage@linutronix.de> wrote:
+On Thu, Apr 15, 2021 at 9:43 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> From: Bastian Germann <bage@linutronix.de>
+> On Thu, Apr 15, 2021 at 1:19 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Rather than check the origin (yikes, are we intentionally avoiding env
+> > vars?), can this simply be
+> > ifneq ($(CLIPPY),)
+> >   KBUILD_CLIPPY := $(CLIPPY)
+> > endif
+> >
+> > Then you can specify whatever value you want, support command line or
+> > env vars, etc.?
 >
-> A Debian source package can be generated only in combination with building
-> it afterwards. Introduce a target srcdeb-pkg that generates the source
-> package without building it (adding dpkg-buildpackage's -S flag).
->
-> Make the former deb-pkg depend on both srcdeb-pkg and bindeb-pkg to retain
-> its behavior.
->
-> Signed-off-by: Bastian Germann <bage@linutronix.de>
-> ---
->  scripts/Makefile.package | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 280f3a2fa334..78a363623c3a 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -69,13 +69,16 @@ binrpm-pkg:
->                 $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
->
->  PHONY += deb-pkg
-> -deb-pkg:
-> +deb-pkg: srcdeb-pkg bindeb-pkg
+> I was following the other existing cases like `V`. Masahiro can
+> probably answer why they are done like this.
+
+You are asking about this code:
+
+ifeq ("$(origin V)", "command line")
+  KBUILD_VERBOSE = $(V)
+endif
 
 
-Does this work reliably with the parallel build option?
+You can pass V=1 from the Make command line,
+but not from the environment.
 
 
-While srcdeb-pkg is cleaning the tree,
-bindeb-pkg simultaneously builds objects in the tree.
+KBUILD_VERBOSE is intended as an environment variable,
+but you can use it from the Make command line.
+
+
+Work:
+ - make V=1
+ - make KBUILD_VERBOSE=1
+ - KBUILD_VERBOSE=1 make
+
+Not work:
+ - V=1 make
 
 
 
+The behavior is like that before I became the maintainer.
+In my best guess, the reason is,
+V=1 is a useful shorthand of KBUILD_VERBOSE=1,
+but it is too short. It should not accidentally
+pick up an unintended environment variable.
 
 
-> +
-> +PHONY += srcdeb-pkg
-> +srcdeb-pkg:
->         $(MAKE) clean
->         $(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
->         $(call cmd,src_tar,$(KDEB_SOURCENAME))
->         origversion=$$(dpkg-parsechangelog -SVersion |sed 's/-[^-]*$$//');\
->                 mv $(KDEB_SOURCENAME).tar.gz ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
-> -       +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -us -uc
-> +       +dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -S -us -uc
->
->  PHONY += bindeb-pkg
->  bindeb-pkg:
-> @@ -145,6 +148,7 @@ help:
->         @echo '  rpm-pkg             - Build both source and binary RPM kernel packages'
->         @echo '  binrpm-pkg          - Build only the binary kernel RPM package'
->         @echo '  deb-pkg             - Build both source and binary deb kernel packages'
-> +       @echo '  srcdeb-pkg          - Build only the source kernel deb package'
->         @echo '  bindeb-pkg          - Build only the binary kernel deb package'
->         @echo '  snap-pkg            - Build only the binary kernel snap package'
->         @echo '                        (will connect to external hosts)'
-> --
-> 2.30.2
->
+
+
+
+
+
+
 
 
 -- 
