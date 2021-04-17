@@ -2,98 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E12363093
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 16:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B393C3630A0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 16:25:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236187AbhDQOWH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Apr 2021 10:22:07 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51826 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233008AbhDQOWH (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Apr 2021 10:22:07 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13HELRIX015741;
-        Sat, 17 Apr 2021 16:21:27 +0200
-Date:   Sat, 17 Apr 2021 16:21:27 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Wedson Almeida Filho <wedsonaf@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        id S236517AbhDQOZh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Apr 2021 10:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233008AbhDQOZh (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 17 Apr 2021 10:25:37 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F09DC061574;
+        Sat, 17 Apr 2021 07:25:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=3+RD4PGfvp8A2z71LoP4t3wAnw9CDL/WbCBC7uAAteM=; b=q0Jpc44KVVFF5wX6/JAAU5kxZu
+        yXVOh6sJ8baO4d1QLkuxerJe9tpswK0Z+Gmcbrs+jb8pA3hKS0hhOeBsegcbAk4VoXCL5drcj7Kzq
+        y/NCWE5azoAkvlidNr2BhmNOd0di39Im9F3BqyZNv1HjmRXa3cbnaqE9sheo0Lqx0IamYsWUm0LBM
+        XXhaxK8O9juCcU3bnori7s0KqqqJt8XS2YzhF4CV0vseBNW5STTmv+eSycrdFEm1aKzpUpUTYhnwC
+        bG4lrQYqqHWJfck/eQrGAsFPANzPq5OOKGeAz4nmhwpOxOc7mheTqnT73JaSik1FjXdX4jWJ9Y9i7
+        QkjtlTLw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXlsK-00BLUw-PW; Sat, 17 Apr 2021 14:24:48 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8901E30015A;
+        Sat, 17 Apr 2021 16:24:43 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6829523CC6F09; Sat, 17 Apr 2021 16:24:43 +0200 (CEST)
+Date:   Sat, 17 Apr 2021 16:24:43 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210417142126.GA15678@1wt.eu>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+Message-ID: <YHrvq6/d4iw8SLAc@hirez.programming.kicks-ass.net>
+References: <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
  <YHmMJWmzz2vZ3qQH@google.com>
  <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
  <YHmuX1NA5RF7C7XS@google.com>
  <20210416161444.GA10484@1wt.eu>
- <YHroRuI7lYDABWJR@google.com>
+ <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
+ <YHnG+GRwiMqgHGs5@hirez.programming.kicks-ass.net>
+ <20210416180829.GO2531743@casper.infradead.org>
+ <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
+ <20210417114623.GA15120@1wt.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YHroRuI7lYDABWJR@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210417114623.GA15120@1wt.eu>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 17, 2021 at 02:53:10PM +0100, Wedson Almeida Filho wrote:
-> > > Note that this is
-> > > another area where Rust offers advantages: read-only guards (in C, if you take a
-> > > read lock, nothing prevents you from making changes to fields you should only be
-> > > allowed to read);
-> > 
-> > But I'm happily doing that when I know what I'm doing. What you call a
-> > read lock usually is in fact a shared lock as opposed to an exclusive
-> > lock (generally used for writes). For me it's perfectly valid to perform
-> > atomic writes under a read lock instead of forcing everyone to wait by
-> > taking a write lock. You may for example take a read lock on a structure
-> > to make sure that a field you're accessing in it points to stable memory
-> > that is only modified under the write lock, but the pointer itself is
-> > atomically accessed and swapped under the read lock.
+On Sat, Apr 17, 2021 at 01:46:23PM +0200, Willy Tarreau wrote:
+> For me the old trick of casting one side as long long still works:
 > 
-> Yes, this is a great example. Also easily expressible in Rust: they have this
-> concept of interior mutability where certain types allow their contents to be
-> modified even when shared immutably. Atomics offer such interior mutability, so
-> the scenario you describe is fine.
+>   unsigned long long mul3264(unsigned int a, unsigned int b)
+>   {
+>         return (unsigned long long)a * b;
+>   }
 > 
-> Rust in fact has an extra enforcement here that C doesn't: it requires interior
-> mutability for this scenario to be allowed, so you can't do it with a plain
-> naked type (say u64) -- you'd need to use something like an atomic64_t, where
-> you're required to specify memory ordering when accessing them.
+> i386:
+>   00000000 <mul3264>:
+>      0: 8b 44 24 08           mov    0x8(%esp),%eax
+>      4: f7 64 24 04           mull   0x4(%esp)
+>      8: c3                    ret    
 > 
-> In C we of course have atomics but the compiler never alerts us for when we need
-> them.
-
-OK thanks for explaining.
-
-> > > In fact, this is also an advantage of Rust. It would *force* developers to
-> > > lock/unlock the RCU lock before they can access the protected data.
-> > 
-> > I'm really afraid by languages which force developers to do this or that.
+> x86_64:
+>   0000000000000000 <mul3264>:
+>      0: 89 f8                 mov    %edi,%eax
+>      2: 89 f7                 mov    %esi,%edi
+>      4: 48 0f af c7           imul   %rdi,%rax
+>      8: c3                    retq   
 > 
-> When I say that Rust forces developers to do certain things, it's to provide the
-> compile-time safety guarantees. Some of these requirements are imposed by our
-> own abstractions -- we can always revisit and try to improve them. In cases when
-> the abstractions cannot be further refined, developers always have the escape
-> hatch of unsafety, where they're allowed to do pretty much everything as in C,
-> but then they also give up the compile-time guarantees for those parts.
+> Or maybe you had something else in mind ?
 
-Well, I can't express how much I hate abstractions because I constantly
-need to know what it's doing under the hood, and I spend my time reading
-the output asm code because I always want to confirm my assumptions about
-the compiler not cheating on me (and not hitting one of its bugs),
-especially after C compilers have become so smart that they completely
-replace your code with what they think is better for you, (including
-nothing), so I guess all of this is really not for someone like me.
-
-However while I'm pretty sure that based on our respective experiences
-we'd probably disagree forever on a wide number of approaches when it
-comes to deciding whether the developer or the compiler should have the
-last say, I sincerely appreciate that you take the time to calmly explain
-your differing views and the rationale behind, so many thanks for this!
-
-Willy
+Last time I tried it, the thing refused :/ which is how we ended up with
+mul_u32_u32() in asm.
