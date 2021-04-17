@@ -2,104 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A92F36305B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 15:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2225936306D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 15:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236129AbhDQN3x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Apr 2021 09:29:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbhDQN3t (ORCPT
+        id S236396AbhDQNqr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 17 Apr 2021 09:46:47 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:32243 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230442AbhDQNqr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Apr 2021 09:29:49 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD9BBC061760
-        for <linux-kbuild@vger.kernel.org>; Sat, 17 Apr 2021 06:29:21 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id w186so11162969wmg.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 17 Apr 2021 06:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ISBdoGIET+ZYznAio2FskDixMUDkKh8PC4/Pd4Loq2k=;
-        b=d/Pja+DmXSa+DmZhRpIEt3/37I45Rs75tBubp/JfNW0JByklVj/oO1Mnpl+LGw4Miw
-         s8mlIsXzOhdvN08Cwvzaknh9HE7sNEJwbpiFeunxRCkJ/1FRnctFHC8f+rWH2oM3eYFK
-         MTXxU5dZXVeXwZYbTn0xfbnSLi5NFB3UxiiRg0juj/B+SUlMgWl0ZwombT8SJriD+iQc
-         RDzmYTa2a0GkMdzoPk5pWWcCPGK7RMzCc1JYoUPe05/+cVNl+EpRizRV7UZfHMH+ylgW
-         TyOQHeJrz/vlVZ93tboITgeFuJCSXE/A40E0JF7U+x1cZJJW5kc0u6Y73ZruuCx1HBmO
-         OihQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ISBdoGIET+ZYznAio2FskDixMUDkKh8PC4/Pd4Loq2k=;
-        b=gvGG/a1y2K46zAoVPj2lkufS3SrcwhU8mktabKYWNd+TcpacsDx7xwsSFA7ttVAvPi
-         Cnz7VlAE5mxHxNmrzSKh+OvxjA0WYyui7dPK3N/pod11klRS3hAe1xNoyLk5CSE6zDM/
-         8kdHnbCP3yQPFPn3193DeFYD79c4zG4avFMBLUD5z/4SWD6DRjji1HQGafI8e9l7OgUa
-         qbJBfM5EsUCfZz61nLgNvZjCm27SvycW8jjox5wyygc9jt/6HEPe3WGSsRPnyOgf02/N
-         cao1DVsDUPwNfp0U1lJj0c0DhDABr3NiaH0fImpmk40XMDxeHOzH7tz7+aPWwP+Bp53D
-         2U+w==
-X-Gm-Message-State: AOAM531lh1Ecr4ymSBPf1pRsIam3VzYBYI3SdSRt0HntCkKG0ktzN2jd
-        h2upknq/ED4BE+bLJ2Pht2IJ
-X-Google-Smtp-Source: ABdhPJxHkMpcgFrhLR2HMnbWKLQatCZYeC3c/Fjg2tVXB+3E0vMDLf0rtIbABL9RYc1DU5ZHylo/cw==
-X-Received: by 2002:a05:600c:4fc8:: with SMTP id o8mr12727799wmq.87.1618666160177;
-        Sat, 17 Apr 2021 06:29:20 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:209:3c1c:8462:b77e:21a4])
-        by smtp.gmail.com with ESMTPSA id l8sm12570438wme.18.2021.04.17.06.29.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Apr 2021 06:29:19 -0700 (PDT)
-Date:   Sat, 17 Apr 2021 14:29:15 +0100
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Sat, 17 Apr 2021 09:46:47 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-111-IAuWgVVUPrqCWucM5QzTnw-1; Sat, 17 Apr 2021 14:46:17 +0100
+X-MC-Unique: IAuWgVVUPrqCWucM5QzTnw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Sat, 17 Apr 2021 14:46:17 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Sat, 17 Apr 2021 14:46:17 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Peter Zijlstra' <peterz@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>
+CC:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHriqwf5XR0xWCi1@google.com>
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXM3s7R6TAvlURwUWbKsHSAM883qq4tusA
+Date:   Sat, 17 Apr 2021 13:46:17 +0000
+Message-ID: <302c00b5de4d4320b8770aae7d84e175@AcuMS.aculab.com>
 References: <20210414184604.23473-1-ojeda@kernel.org>
  <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
  <YHmMJWmzz2vZ3qQH@google.com>
- <20210416150307.GJ2531743@casper.infradead.org>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com> <20210416161444.GA10484@1wt.eu>
+ <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
+ <YHnG+GRwiMqgHGs5@hirez.programming.kicks-ass.net>
+ <20210416180829.GO2531743@casper.infradead.org>
+ <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
+In-Reply-To: <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416150307.GJ2531743@casper.infradead.org>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 04:03:07PM +0100, Matthew Wilcox wrote:
-> Well, we could do that in C too.
+From: Peter Zijlstra
+> Sent: 17 April 2021 12:17
+...
+> > (i'd argue this is C being broken; promoting only as far as int, when
+> > assigning to an unsigned long is Bad, but until/unless either GCC fixes
+> > that or the language committee realises that being stuck in the 1970s
+> > is Bad, people are going to keep making this kind of mistake)
 > 
-> struct unlocked_inode {
-> 	spinlock_t i_lock;
-> };
-> 
-> struct locked_inode {
-> 	spinlock_t i_lock;
-> 	unsigned short i_bytes;
-> 	blkcnt_t i_blocks;
-> };
-> 
-> struct locked_inode *lock_inode(struct unlocked_inode *inode)
-> {
-> 	spin_lock(&inode->i_lock);
-> 	return (struct locked_inode *)inode;
-> }
+> Well, I think the rules actually make sense, at the point in the syntax
+> tree where + happens, we have 'unsigned char' and 'int', so at that
+> point we promote to 'int'. Subsequently 'int' gets shifted and bad
+> things happen.
 
-Indeed you can do this kind of thing in C, but as I said before (apologies if
-I'm too repetitive on this) Rust forces you to do it the right way, whereas the
-lack of enforcement in C leaves room for mistakes.
+The 1970s were fine.
+K&R C was sign preserving - so 'unsigned char' promoted to 'unsigned int'.
+The ANSI C committee broke things by changing it to value preserving
+with the strong preference for signed types.
 
-If you do add extensions to C to add some of these restrictions (and I encourage
-you to pursue such extensions as we all benefit from better C), it is likely not
-sufficient to reach the level of compile-time guarantee that Rust offers because
-you need a whole slew of restrictions/enforcements.
+Even with ANSI C the type of ((unsigned char)x + 1) can be unsigned!
+All it needs as an architecture where sizeof (int) == 1.
+(sizeof (char) has to be 1 - even though that isn't directly explicit.)
 
-I also note that academics have a formalisation of [a subset of] Rust that show
-the soundness of these guarantees and the requirements on unsafe to compose
-safely. So we're not talking about guesswork, there are formal machine-checked
-proofs published about this (see for example
-https://people.mpi-sws.org/~dreyer/papers/safe-sysprog-rust/paper.pdf).
+Of course, having 32-bit 'char' and 'int' does give problems with
+the value for EOF.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
