@@ -2,41 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 155783633D9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Apr 2021 07:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C383633DB
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Apr 2021 07:52:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbhDRFxO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 18 Apr 2021 01:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
+        id S230191AbhDRFxX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Apr 2021 01:53:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235936AbhDRFwO (ORCPT
+        with ESMTP id S230146AbhDRFxW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 18 Apr 2021 01:52:14 -0400
+        Sun, 18 Apr 2021 01:53:22 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D245AC06174A;
-        Sat, 17 Apr 2021 22:51:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E030C06174A;
+        Sat, 17 Apr 2021 22:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=p/NuJi5AKfmnzTxNd2xqbqZxuvc4L7oq64az4Y0RjpE=; b=oi7RuUI+KOM8zUgPj+yE3Dmx/n
-        aKkgIbJpMAVBzpYUO1V37wHpyPpIm100MgYahhZDRNp3R9/gd5NYxJ+jUWV8z8Bk1Q5ptySXsU48o
-        hRSWyDJdzy3AUUPjarkXTaWwDOh/ao+8mDYKVzBTEeCQ9VoI9PEcLXVxdEqZb/E+uYYnIXI8p91EB
-        o+t+1Tzqovo5OFDKA9KKCTMcj21tpzdXB6OiktaxR4RFnH0XCqIr+9kK011rBSNzjNrNHTvl6jouG
-        dGwKGqiQ2h/6NWGFQYE4ov7irwNEuPeQkTnGmA6dibPsA32Yss9zmVY+cTE805tyk5zPKXXy2KaSW
-        Du3GyRhg==;
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=/rCL1SYcH1QoHtrqqF4WkXopfevtsa/urBlN4iQBDWw=; b=Aby8ZKgVQPY5JBenOCUicNdTbO
+        jRAjdORthOqnDIn7JJP4N48itiH3fDi74K6ioiwPj3ppt1z2nEnJD4JFz+F/z4mpcOrU5LdNgHGMw
+        VOsnGg+h1dHyODaMcWDGper5V9viK08YZMOoiAEpbuYasSr+c8XSHIxT1mWDAl3gwOJ+wOqezcROo
+        ncBCeJyQO5MbC2i1vzEXA0SuW1ekUhJQ/Y0XbCU57lTYuOMmfxOs9L1LmPCtQlI8yedWzFFbH/Opy
+        Mp8+wmYMD3OF1f4j2u9I6tO1B6XI9WeC++2Jqv0Y6ltf8MlbmydawWQ5XAPWY961hvuA1xXu/9hUQ
+        V8Nlrsyg==;
 Received: from [2601:1c0:6280:3f0::df68] (helo=smtpauth.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lY0L9-00C6rN-N1; Sun, 18 Apr 2021 05:51:32 +0000
+        id 1lY0LR-00C6rN-LM; Sun, 18 Apr 2021 05:51:50 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH 1/2] kconfig: highlight gconfig 'comment' lines with '***'
-Date:   Sat, 17 Apr 2021 22:51:22 -0700
-Message-Id: <20210418055123.14085-1-rdunlap@infradead.org>
+Subject: [PATCH 2/2] kconfig: highlight xconfig 'comment' lines with '***'
+Date:   Sat, 17 Apr 2021 22:51:23 -0700
+Message-Id: <20210418055123.14085-2-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210418055123.14085-1-rdunlap@infradead.org>
+References: <20210418055123.14085-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -57,31 +59,16 @@ Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org
 ---
- scripts/kconfig/gconf.c |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ scripts/kconfig/qconf.cc |    1 +
+ 1 file changed, 1 insertion(+)
 
---- linux-next-20210416.orig/scripts/kconfig/gconf.c
-+++ linux-next-20210416/scripts/kconfig/gconf.c
-@@ -1048,8 +1048,13 @@ static gchar **fill_row(struct menu *men
- 		g_free(row[i]);
- 	bzero(row, sizeof(row));
- 
-+	ptype = menu->prompt ? menu->prompt->type : P_UNKNOWN;
-+
- 	row[COL_OPTION] =
--	    g_strdup_printf("%s %s", menu_get_prompt(menu),
-+	    g_strdup_printf("%s %s %s %s",
-+			    ptype == P_COMMENT ? "***" : "",
-+			    menu_get_prompt(menu),
-+			    ptype == P_COMMENT ? "***" : "",
- 			    sym && !sym_has_value(sym) ? "(NEW)" : "");
- 
- 	if (opt_mode == OPT_ALL && !menu_is_visible(menu))
-@@ -1060,7 +1065,6 @@ static gchar **fill_row(struct menu *men
- 	else
- 		row[COL_COLOR] = g_strdup("Black");
- 
--	ptype = menu->prompt ? menu->prompt->type : P_UNKNOWN;
- 	switch (ptype) {
- 	case P_MENU:
- 		row[COL_PIXBUF] = (gchar *) xpm_menu;
+--- linux-next-20210416.orig/scripts/kconfig/qconf.cc
++++ linux-next-20210416/scripts/kconfig/qconf.cc
+@@ -122,6 +122,7 @@ void ConfigItem::updateMenu(void)
+ 		goto set_prompt;
+ 	case P_COMMENT:
+ 		setIcon(promptColIdx, QIcon());
++		prompt = "*** " + prompt + " ***";
+ 		goto set_prompt;
+ 	default:
+ 		;
