@@ -2,87 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 033A536323F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Apr 2021 22:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 155783633D9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Apr 2021 07:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236977AbhDQUmp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Apr 2021 16:42:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42844 "EHLO
+        id S229671AbhDRFxO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Apr 2021 01:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235701AbhDQUmp (ORCPT
+        with ESMTP id S235936AbhDRFwO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Apr 2021 16:42:45 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5DEC061574;
-        Sat, 17 Apr 2021 13:42:18 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id x11so32326844qkp.11;
-        Sat, 17 Apr 2021 13:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OZCtjiq+TtU/bYufAUJ9Epcxe9a/rj8c4fRa7cPGESQ=;
-        b=sRIJWUQJCJHm1AgfHoVzpSm2+ctHS3onk4geU5ZUT4Wp4KAj/7G8E1vOgdksPWJ81C
-         x52RqNX6MMn/m3FYxxEB6W2Bf39Ac8hfTwoz1/UWitwXStiX9IZ82ZTmWGiBQc1zjoCm
-         s/824dSaxocpj4j+A6VW7KUmR8O5rXhrLAkxxGQhIYwxV0EJb24Xc8XJMeTSmb0flKJv
-         fhulQcXETgkQD5qLqRsklUDpIbmNJ6AlfyPRBbweimybi4xT6TME/CE6lVr1f1N/Im3z
-         euPHbQrKvbY33BHboJs0KPmOrb/SKdHhrf1smSUhIbEjbd1SgVKQwxqBV21GI3cp3HzI
-         i7kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OZCtjiq+TtU/bYufAUJ9Epcxe9a/rj8c4fRa7cPGESQ=;
-        b=IbB36w/S/f1anwz/ZZ+1U8byhGS8MuMBL6H9x4spsPbXSp7n+LG92bPstfuj0swIrB
-         xa7lOQdHiJ9cgZzCWxNw4sEzJKIwE7GyNXRANOusdhBKn5+pgCCv90Ma4pl8DkyaYWPl
-         wdtjms5r9lQKRZ12kbdanXtIVydYRG5rIsZWpxluu+pyPo/ubFjwfQwobR15uQLv4U7J
-         p2hb0fjlEMZ4qnMYWz5SZLTap62ebU4G7Uo8/zk6vhIfKdV194uKuqti2M4anWlXROuw
-         H/Vu5R+77i7d9m3DKxddosPnovGBxigmsKWo5i8HbMv9aIRnFK0H1a9BiykMMggzF0fO
-         8RqQ==
-X-Gm-Message-State: AOAM5332UXEldwlTDivZ0s9KAy09RZrAGjgH/QGeJJpon/hP631g9MVk
-        gBCthJcwNU0xR7lCseZ26FICeroCdM4+JzykCSeB/KzuKGM=
-X-Google-Smtp-Source: ABdhPJxj8ZqgeeFDnsLsol2Yd3RPg4w95egRHZO8Mm8mIcbSu6V7oOyioYQwldxWWQ8xgWJFjyW2sdevdr6SNCh3F4M=
-X-Received: by 2002:a37:9c4b:: with SMTP id f72mr5310531qke.237.1618692137593;
- Sat, 17 Apr 2021 13:42:17 -0700 (PDT)
+        Sun, 18 Apr 2021 01:52:14 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D245AC06174A;
+        Sat, 17 Apr 2021 22:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=p/NuJi5AKfmnzTxNd2xqbqZxuvc4L7oq64az4Y0RjpE=; b=oi7RuUI+KOM8zUgPj+yE3Dmx/n
+        aKkgIbJpMAVBzpYUO1V37wHpyPpIm100MgYahhZDRNp3R9/gd5NYxJ+jUWV8z8Bk1Q5ptySXsU48o
+        hRSWyDJdzy3AUUPjarkXTaWwDOh/ao+8mDYKVzBTEeCQ9VoI9PEcLXVxdEqZb/E+uYYnIXI8p91EB
+        o+t+1Tzqovo5OFDKA9KKCTMcj21tpzdXB6OiktaxR4RFnH0XCqIr+9kK011rBSNzjNrNHTvl6jouG
+        dGwKGqiQ2h/6NWGFQYE4ov7irwNEuPeQkTnGmA6dibPsA32Yss9zmVY+cTE805tyk5zPKXXy2KaSW
+        Du3GyRhg==;
+Received: from [2601:1c0:6280:3f0::df68] (helo=smtpauth.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lY0L9-00C6rN-N1; Sun, 18 Apr 2021 05:51:32 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH 1/2] kconfig: highlight gconfig 'comment' lines with '***'
+Date:   Sat, 17 Apr 2021 22:51:22 -0700
+Message-Id: <20210418055123.14085-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org>
-In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
-From:   Richard Weinberger <richard.weinberger@gmail.com>
-Date:   Sat, 17 Apr 2021 22:42:06 +0200
-Message-ID: <CAFLxGvzzmytRewN+tnepyKDY6f1yYUUtXVtnV+ozDzdfOwVN6g@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 2:41 AM <ojeda@kernel.org> wrote:
-> Regarding compilers, we support Clang-built kernels as well as
-> `LLVM=1` builds where possible (i.e. as long as supported by
-> the ClangBuiltLinux project). We also maintain some configurations
-> of GCC-built kernels working, but they are not intended to be used
-> at the present time. Having a `bindgen` backend for GCC would be
-> ideal to improve support for those builds.
+Mark Kconfig "comment" lines with "*** <commentstring> ***"
+so that it is clear that these lines are comments and not some
+kconfig item that cannot be modified.
 
-Sp this effectively means gcc is a second class citizen and even if
-gcc is supported
-at some point one needs a super recent gcc *and* rust toolchain to build
-a rust-enabeled kernel?
-I understand that this is right now not a big deal, but as soon a
-non-trival subsystem
-is rust-only people are forced to upgrade.
+This is helpful in some menus to be able to provide a menu
+"sub-heading" for groups of similar config items.
 
-Don't get me wrong, I'm all for having rust support in Linux.
-But I'm a bit worried about new dependencies on compiler toolchains.
-As someone who works a lot with long supported embedded systems I learned that
-as soon an application gains a hard dependency on clang or rust I'm in trouble.
+This also makes the comments be presented in a way that is
+similar to menuconfig and nconfig.
 
--- 
-Thanks,
-//richard
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+---
+ scripts/kconfig/gconf.c |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+--- linux-next-20210416.orig/scripts/kconfig/gconf.c
++++ linux-next-20210416/scripts/kconfig/gconf.c
+@@ -1048,8 +1048,13 @@ static gchar **fill_row(struct menu *men
+ 		g_free(row[i]);
+ 	bzero(row, sizeof(row));
+ 
++	ptype = menu->prompt ? menu->prompt->type : P_UNKNOWN;
++
+ 	row[COL_OPTION] =
+-	    g_strdup_printf("%s %s", menu_get_prompt(menu),
++	    g_strdup_printf("%s %s %s %s",
++			    ptype == P_COMMENT ? "***" : "",
++			    menu_get_prompt(menu),
++			    ptype == P_COMMENT ? "***" : "",
+ 			    sym && !sym_has_value(sym) ? "(NEW)" : "");
+ 
+ 	if (opt_mode == OPT_ALL && !menu_is_visible(menu))
+@@ -1060,7 +1065,6 @@ static gchar **fill_row(struct menu *men
+ 	else
+ 		row[COL_COLOR] = g_strdup("Black");
+ 
+-	ptype = menu->prompt ? menu->prompt->type : P_UNKNOWN;
+ 	switch (ptype) {
+ 	case P_MENU:
+ 		row[COL_PIXBUF] = (gchar *) xpm_menu;
