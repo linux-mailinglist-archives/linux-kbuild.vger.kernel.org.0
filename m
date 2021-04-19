@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E7F364B88
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Apr 2021 22:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 330AF364BCA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Apr 2021 22:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242584AbhDSUov (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Apr 2021 16:44:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54340 "EHLO mail.kernel.org"
+        id S242889AbhDSUqa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Apr 2021 16:46:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55094 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242460AbhDSUol (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Apr 2021 16:44:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61DE161369;
-        Mon, 19 Apr 2021 20:44:09 +0000 (UTC)
+        id S242726AbhDSUpU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Apr 2021 16:45:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C78D613D3;
+        Mon, 19 Apr 2021 20:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618865051;
+        s=k20201202; t=1618865085;
         bh=jqlxbD4jWz55BNOzhYL6VinJOSoZoV0z2NCOXkKdtbA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sm/u6upV7HRUoTywn5TR61478q5WtmBO79io+hUwpQUE0kdaFymSRYn0o1+bUUr1U
-         XsdkbEagLTkKKmdUyCnJ3LteBT3stJOgbVoc28vVTavUYd1ZcHnQ9E/fQ23/7m61g1
-         diuPe/T3M2r4NdvqtpppGoUCEKS2tZEqdZfCbiTcQHjwLO06b0Vm1hyUk8tTFCVkZ3
-         gdHb6f+Kz1pXstlg/lqVD34PSwH+k7Q7XdTdPLrRD766915ACHAS494lv7MB6b14i0
-         V5pvp4Zz8xyPa3vfZpTPqADLefRLYEm/0sJ5zzDA7COUAjirJWuIiWNXSXcgZCotVu
-         eaSAjOcw3WqQA==
+        b=M1HwRS1GPpL/a9qeNNUvFtUZfCBYxw3M/RIFYtGmsiE1FqQvleBVaxHlONqZ3JYER
+         m0zh7bD4LbFxRc4KN0M0JaU2bzbKxdF2GILg6Jrw39qrTwPclWXCsjJH7hVV1Bgfxe
+         VGKDM1I+7HE3QyPLISzt+bkIaAVXKevDcO7D9N60Lb+FswHQfr4ALxJ1FJsUfSIOOE
+         fGdThnEVsKqFon8CF8kZSTCw51huEomIi3HvROSHr/VLWAnqXgHFOFT1zHqOaEKn3V
+         Bq7F+rK2bYOtlCC+CNkCRMqSjeJB1wXtSw7dAT0zXcN5LmMX4l0qdD1WyB+XvH6SPF
+         S/iH2c210kT/w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
@@ -36,14 +36,14 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
-        kasan-dev@googlegroups.com, clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 5.11 18/23] kasan: fix hwasan build for gcc
-Date:   Mon, 19 Apr 2021 16:43:37 -0400
-Message-Id: <20210419204343.6134-18-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, kasan-dev@googlegroups.com,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH AUTOSEL 5.10 16/21] kasan: fix hwasan build for gcc
+Date:   Mon, 19 Apr 2021 16:44:14 -0400
+Message-Id: <20210419204420.6375-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210419204343.6134-1-sashal@kernel.org>
-References: <20210419204343.6134-1-sashal@kernel.org>
+In-Reply-To: <20210419204420.6375-1-sashal@kernel.org>
+References: <20210419204420.6375-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
