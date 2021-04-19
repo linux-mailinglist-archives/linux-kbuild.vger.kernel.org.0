@@ -2,157 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A5F3364D75
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Apr 2021 00:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACF62364E60
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Apr 2021 01:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbhDSWEf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Apr 2021 18:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbhDSWEf (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Apr 2021 18:04:35 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A463C06174A;
-        Mon, 19 Apr 2021 15:04:05 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id z1so40590400ybf.6;
-        Mon, 19 Apr 2021 15:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lAsDnsyzYN4x8dN8mbR7x0mBnkheSZKpDi2Mjbobv/w=;
-        b=JHTXGtXOWhUCpWAsPO3Qzz9691Wh+U57BXKUJYTH2tnwdgHc7JF1jVKrsrgyG+xAlU
-         KMZ8V0zcrp714P+CzjRmmSAD1jueMBF3MsLRssB8YkeRnBq0jKH7VwJAfaZhBfSYmhoF
-         XCz7/6pHABQHEJIo9qiIkuJSyfJlSC86U6khgnavGy/AcqiYMzhG1ll5ENnUpSJdGcBq
-         fkgHwwvJnv1WaRnb333FpdU9zROF65VlMg65Fh7WhAhwYqrHVhyN3ggqG7cTbmWuotUJ
-         8+bc3Hs2OMNb68u95MXJ86mAVaBldFNUVeU6l6W6pTcO6TgM1xT8rnZe+ejsHI23HtXH
-         cGTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lAsDnsyzYN4x8dN8mbR7x0mBnkheSZKpDi2Mjbobv/w=;
-        b=M2zN1tXLfEKDLwyVbaKxHSm1xEDPgANhs1uZQb+Nh7DlwOGYsKfzWNrxFkXnGjvePK
-         UuxHSEaWWbkHR9QLm9lxu5P5qwescl+wsFcbf+ecwdQNjJle1ehfuo8Jdqr4H0KkFBKI
-         hNNkrhoDvEMO8e0zAFklA8UupPypwzyZhxJ55aUeoTMOo7cBalQAhQtzFmO6I7WsQxbu
-         XuoycSG5yX964kZCLwY4k9UFpu7PCWyXf6u8iseDLOaUSOZoq2Js11ojdyblE6MRigVy
-         RwMEN8QInA0PJWqrh9akxdeoNHMV6u3NG306Jos8mpttXm3gqYSFjC3SY30w79MViLYC
-         5eWQ==
-X-Gm-Message-State: AOAM532h7A1ntWJ8H+70NlQf4TIlrt6TVstOT2i8by/G38sTj2R6b+x+
-        smdgG1MtRL8z0q/r+Os/TRBSBgjDxG+8ISuYbBM=
-X-Google-Smtp-Source: ABdhPJyYnpH7oC2HKKNP0R/ypH05z1EhKrhnAeCoxnukfQ6sw8/KYKYRo46D/fkETEIokm+1oj0fZCpJ4sUfcperIX4=
-X-Received: by 2002:a25:818f:: with SMTP id p15mr18066266ybk.135.1618869844259;
- Mon, 19 Apr 2021 15:04:04 -0700 (PDT)
+        id S229714AbhDSXD4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Apr 2021 19:03:56 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:43725 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229681AbhDSXD4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Apr 2021 19:03:56 -0400
+Received: from tazenda.hos.anvin.org ([IPv6:2601:646:8602:8be0:7285:c2ff:fefb:fd4])
+        (authenticated bits=0)
+        by mail.zytor.com (8.16.1/8.15.2) with ESMTPSA id 13JN30Co2438940
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Mon, 19 Apr 2021 16:03:07 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 13JN30Co2438940
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2021032801; t=1618873389;
+        bh=NnLdbkEkLhPb2GJPM4rf3JLk2l7sUTHe+P6yzCSFAgE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p1I73+6yhoiQTcLpkFzJQnC3bN39PGDvwWoF7AzeSS8yr8eBRHShtKHEoU740hT3T
+         tz8rHXlT8co07rJS4eEDPRoi6Ug7wtYpxMu677aR1M9vA4mLUMKLg8gvcacmJlrlLA
+         OC2S7O2aV6c0HR3qAdMWYwMuYK+nMirmyThIeNlJhWIlbzsZC4JpArC8Hj5okpDb7B
+         51CnRwZDQgfbnXvXYuc1hEYjuDMyUCajiQAejCBCTFxf0TbqRSvVuAxDbyciinM+B9
+         CFs8hEVCh5eHx4CRHeWD1sw7oGSPs0gxMQD7v+52sLr4mDXQdHgDxjrf2mxPCjzCHO
+         +A7Sps1y78Zmw==
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kbuild Mailing List <linux-kbuild@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH 0/3] x86 disk image and modules initramfs generation
+Date:   Mon, 19 Apr 2021 16:02:49 -0700
+Message-Id: <20210419230252.1583169-1-hpa@zytor.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux> <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
- <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1> <CAKwvOdkpOZk-FXJ0iOLvhyQr7wVcWwzgc0gk_8KTtOfF_Q8Q3g@mail.gmail.com>
-In-Reply-To: <CAKwvOdkpOZk-FXJ0iOLvhyQr7wVcWwzgc0gk_8KTtOfF_Q8Q3g@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 20 Apr 2021 00:03:52 +0200
-Message-ID: <CANiq72kTynUAJdFa60p1BEZCAJmb5tANZNzTwFdzcdeNAzMiiw@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nick,
+From: "H. Peter Anvin" (Intel) <hpa@zytor.com>
 
-On Mon, Apr 19, 2021 at 10:36 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> This is a much different process than drafts thrown over the wall.
-> What hope do any kernel contributors have to participate in the ISO
-> WGs, other than hoping their contributions to a draft foresee/address
-> any concerns members of the committee might have?  How do members of
-> the ISO WG communicate with folks interested in the outcomes of their
-> decisions?
+When compiling on a different machine than the runtime target,
+including but not limited to simulators, it is rather handy to be able
+to produce a bootable image. The scripts for that in x86 are
+relatively old, and assume a BIOS system.
 
-For WG21, several folks write trip reports of each meeting, and you
-can check the status of papers in GitHub at
-https://github.com/cplusplus/papers/issues.
+This adds a build target to generate a hdimage which can be booted
+either from BIOS or EFI, and modernizes the genimage.sh script
+including adding the ability to add an arbitrary number of initramfs
+files (limited only by the length of the command line.)
 
-For WG14, there are way less papers going on. It is more or  less easy
-to follow by reading the list of latest additions in the first pages
-of the draft, as well as the Editor's Report.
+Possibly more controversial, at least from a Kbuild design perspective
+(as usual I'm the guy who wants to do something with Kbuild which it
+seems it was never really designed to do), is add the ability to
+create an initramfs image which includes all the built modules. Some
+distributions cannot be easily booted without modules in initramfs,
+and this creates an image which can be added to initramfs to provide
+the kernel modules, as finalized by "make modules_install".
 
-> The two processes are quite different; one doesn't require "joining a
-> national body" (which I assume involves some monetary transaction, if
-> not for the individual participant, for their employer) for instance.
-> (http://www.open-std.org/jtc1/sc22/wg14/www/contributing which links
-> to https://www.iso.org/members.html; I wonder if we have kernel
-> contributors in those grayed out countries?)
+The final patch put these two together, and allows the modules
+initramfs to be included in the x86 boot image.
 
-They are indeed very different processes. Being an ISO standard has
-advantages and disadvantages.
+---
 
-In any case, I should note that not everyone that goes to the meetings
-pays, e.g. some go as guests, some are funded by their country (or the
-EU or other organizations), etc.
+Fixes in v2:
 
-In fact, the bigger costs, in my experience, are the time commitment
-(a week several times a year) and the costs of traveling (before the
-pandemic, that is).
+1/3: correct command line generation for multiple initrds
+2/3: no change
+3/3: append, don't overwrite FDINITRD when adding modules.img
 
-Furthermore, contributing proposals does not actually require
-attending the meetings nor joining the committee -- some people
-contribute to the standards via proxy, i.e. somebody else presents
-their proposals in the committee.
-
-> It was always very ironic to me that the most important body of free
-> software was subject to decisions made by ISO, for better or for
-> worse.  I would think Rust's RFC process would be more accessible to
-> kernel developers, modulo the anti-github crowd, but with the Rust's
-> community's values in inclusion I'm sure they'd be happy to accomodate
-> folks for the RFC process without requiring github.  I'm not sure ISO
-> can be as flexible for non-members.
-
-Well, the kernel already ignores the C standard here and there. ;-) In
-the end, it is "just" a standard -- the kernel and compilers can do
-something else when they need.
-
-> Either way, I think Rust's RFC process is something worth adding to
-> the list of benefits under the heading "Why Rust?" in this proposed
-> RFC.
-
-The Rust RFC process has indeed upsides. It is very dynamic and easy
-to participate, and allows for anybody to easily comment on proposals,
-even anonymously. But, for better or worse, does not lead to an ISO
-standard (which some people & companies really value, e.g. as
-requirements in contracts etc.).
-
-In the end, writing an RFC is similar to writing a paper for ISO. The
-bigger differences, as mentioned above, are on the requirements if you
-actually want to go there and present the paper yourself and/or if you
-want to have voting rights etc.
-
-Personally, I think some ISO policies could be improved for some types
-of standards (or at least let WGs relax them to some degree), but...
-
-Cheers,
-Miguel
+ Makefile                     |  17 ++-
+ arch/x86/Makefile            |   8 +-
+ arch/x86/boot/.gitignore     |   1 +
+ arch/x86/boot/Makefile       |  62 +++++----
+ arch/x86/boot/genimage.sh    | 294 +++++++++++++++++++++++++++++++------------
+ arch/x86/boot/mtools.conf.in |   3 +
+ usr/.gitignore               |   3 +
+ usr/Kconfig                  |  31 ++---
+ usr/Makefile                 |  39 +++++-
+ 9 files changed, 331 insertions(+), 127 deletions(-)
