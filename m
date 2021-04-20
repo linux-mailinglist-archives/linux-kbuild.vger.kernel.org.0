@@ -2,97 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8381365224
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Apr 2021 08:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A472365422
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Apr 2021 10:30:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbhDTGRB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Apr 2021 02:17:01 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51902 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229577AbhDTGRA (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Apr 2021 02:17:00 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13K6GDgI030948;
-        Tue, 20 Apr 2021 08:16:13 +0200
-Date:   Tue, 20 Apr 2021 08:16:13 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210420061613.GA30890@1wt.eu>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com>
- <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <YHmuX1NA5RF7C7XS@google.com>
- <20210416161444.GA10484@1wt.eu>
- <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
- <20210416173717.GA10846@1wt.eu>
- <CAKwvOd=RadTs7Skv6KUBo4qZQtdi0kugTzxvZM+5X_2gstjyaQ@mail.gmail.com>
- <YH5tAqLr965MNZyW@kroah.com>
+        id S230400AbhDTIap convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 20 Apr 2021 04:30:45 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:46533 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230445AbhDTIao (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 20 Apr 2021 04:30:44 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-271-NKPQNoYbP8uEJWWfFkVBNA-1; Tue, 20 Apr 2021 09:30:09 +0100
+X-MC-Unique: NKPQNoYbP8uEJWWfFkVBNA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Tue, 20 Apr 2021 09:30:07 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Tue, 20 Apr 2021 09:30:07 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'H. Peter Anvin'" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@elte.hu>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Kbuild Mailing List" <linux-kbuild@vger.kernel.org>
+Subject: RE: [PATCH 0/3] x86 disk image and modules initramfs generation
+Thread-Topic: [PATCH 0/3] x86 disk image and modules initramfs generation
+Thread-Index: AQHXNXA3hW9Bgwsx/EekG3uw9oZ0YKq9EYRw
+Date:   Tue, 20 Apr 2021 08:30:07 +0000
+Message-ID: <75fc46bae17f4fa4958f5ad7d49d9244@AcuMS.aculab.com>
+References: <20210419230252.1583169-1-hpa@zytor.com>
+In-Reply-To: <20210419230252.1583169-1-hpa@zytor.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YH5tAqLr965MNZyW@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 20, 2021 at 07:56:18AM +0200, Greg Kroah-Hartman wrote:
-> I would LOVE it if some "executives" would see the above presentations,
-> because then they would maybe actually fund developers to fix bugs and
-> maintain the kernel code, instead of only allowing them to add new
-> features.
+From: H. Peter Anvin
+> Sent: 20 April 2021 00:03
 > 
-> Seriously, that's the real problem, that Dmitry's work has exposed, the
-> lack of people allowed to do this type of bugfixing and maintenance on
-> company time, for something that the company relies on, is a huge issue.
-> "executives" feel that they are willing to fund the initial work and
-> then "throw it over the wall to the community" once it is merged, and
-> then they can forget about it as "the community" will maintain it for
-> them for free.  And that's a lie, as Dmitry's work shows.
+> When compiling on a different machine than the runtime target,
+> including but not limited to simulators, it is rather handy to be able
+> to produce a bootable image. The scripts for that in x86 are
+> relatively old, and assume a BIOS system.
 
-That's sadly the eternal situation, and I'm suspecting that software
-development and maintenance is not identified as a requirement for a
-large number of hardware vendors, especially on the consumer side where
-margins are lower. A contractor is paid to develop a driver, *sometimes*
-to try to mainline it (and the later they engage with the community, the
-longer it takes in round trips), and once the code finally gets merged,
-all the initial budget is depleted and no more software work will be
-done.
+I've given up and copied the kernel tree onto all my test systems.
 
-Worse, we could imagine kicking unmaintained drivers faster off the
-tree, but that would actually help these unscrupulous vendors by
-forcing their customers to switch to the new model :-/  And most of
-them wouldn't care either if their contributions were refused based
-on their track record of not maintaining their code, since they often
-see this as a convenience to please their customers and not something
-they need (after all, relying on a bogus and vulnerable BSP has never
-prevented from selling a device, quite the opposite).
+I needed something like 'make modules_install' and 'make install'
+that would generated a directory tree that could be copied (scp -r)
+onto the target system.
 
-In short, there is a parallel universe where running highly bogus and
-vulnerable out-of-tree code seems like the norm and where there is no
-sort of care for what is mainlined as it's possibly just made to look
-"cool".
+But the script to run 'update-grub' is all intwined in the commands.
 
-We also need to recognize that it's expectable that some vendors are
-not willing to engage on supporting a driver for a decade if they
-expect their device to last 5 years only, and maybe we should make
-some rules clear about mainlining drivers and what to expect for
-users (in which case the end of support would be clear and nobody
-would be surprised if the driver is removed at the end of its
-maintenance, barring a switch to a community maintainer).
+You also don't get a copy of the headers.
+Even for the local system (as root) you just get a symlink into
+the source tree.
+This causes a problem trying to build 'out of tree' modules
+after updating the kernel source tree (but not rebulding).
 
-Just my two cents,
-Willy
+I can (and do) write 'horrid' makefiles (gmake and nmake)
+but this seemed to need more refactoring that I wanted to do.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
