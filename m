@@ -2,73 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F51A3691EF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Apr 2021 14:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A7D73697E5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Apr 2021 19:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242249AbhDWMXL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Apr 2021 08:23:11 -0400
-Received: from elvis.franken.de ([193.175.24.41]:38488 "EHLO elvis.franken.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230305AbhDWMXK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Apr 2021 08:23:10 -0400
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1lZupM-00019R-04; Fri, 23 Apr 2021 14:22:32 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 59296C0B3B; Fri, 23 Apr 2021 14:11:32 +0200 (CEST)
-Date:   Fri, 23 Apr 2021 14:11:32 +0200
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MIPS: select ARCH_KEEP_MEMBLOCK unconditionally
-Message-ID: <20210423121132.GE8582@alpha.franken.de>
-References: <20210407173543.3598006-1-ndesaulniers@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210407173543.3598006-1-ndesaulniers@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S243323AbhDWRDZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Apr 2021 13:03:25 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:50419 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229691AbhDWRDU (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 23 Apr 2021 13:03:20 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1619197364; h=In-Reply-To: Message-Id: Date: Subject: Cc: To:
+ From: Sender; bh=OYnNE7Dy5EU3OXyOzCgjnJg//0G4V/ieE3hirIKZBnQ=; b=SjpwpMWu6iJ4UW+KJ4J4xwcujKJR3fy7cq489ifR3vgcCeKgMjzEAvHI223Oi0Xjr/zB3chS
+ GfNmQ0QorRZPSz1PLARBIJujtlA3rBduCE8hT4Pcc03ttL6Z62dvIKpVI138gkES7Dd7dhtm
+ PWhd/mf3a/szm/nGUGcGiuTNQz0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 6082fd8aa817abd39a2e319d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Apr 2021 17:02:02
+ GMT
+Sender: eberman=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8039FC0453F; Fri, 23 Apr 2021 17:02:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from eberman-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: eberman)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 14DE2C43217;
+        Fri, 23 Apr 2021 17:01:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 14DE2C43217
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=eberman@codeaurora.org
+From:   Elliot Berman <eberman@codeaurora.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Elliot Berman <eberman@codeaurora.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matthias Maennich <maennich@google.com>,
+        Trilok Soni <tsoni@codeaurora.org>
+Subject: [RESEND v2] Kbuild: Update config_data.gz only if KCONFIG_CONFIG materially changed
+Date:   Fri, 23 Apr 2021 10:00:35 -0700
+Message-Id: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: 1617317072-26770-1-git-send-email-eberman@codeaurora.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 10:35:43AM -0700, Nick Desaulniers wrote:
-> While removing allnoconfig_y from Kconfig, ARCH=mips allnoconfig builds
-> started failing with the error:
-> 
-> WARNING: modpost: vmlinux.o(.text+0x9c70): Section mismatch in reference
-> from the function reserve_exception_space() to the function
-> .meminit.text:memblock_reserve()
-> The function reserve_exception_space() references the function __meminit
-> memblock_reserve().
-> This is often because reserve_exception_space lacks a __meminit
-> annotation or the annotation of memblock_reserve is wrong.
-> ERROR: modpost: Section mismatches detected.
-> Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
-> 
-> allnoconfig disables DEBUG_KERNEL and thus ARCH_KEEP_MEMBLOCK, which
-> changes __init_memblock to be equivalent to __meminit triggering the
-> above error.
-> 
-> Link: https://lore.kernel.org/linux-kbuild/20210313194836.372585-11-masahiroy@kernel.org/
-> Fixes: commit a8c0f1c634507 ("MIPS: Select ARCH_KEEP_MEMBLOCK if
-> DEBUG_KERNEL to enable sysfs memblock debug")
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  arch/mips/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+If you update the timestamp of KCONFIG_CONFIG without actually changing
+anything, config_data.gz is re-generated and causes vmlinux to re-link.
+When Link Time Optimization is enabled, unnecessary re-linking of
+vmlinux is highly desirable since it adds several minutes to build time.
 
-applied to mips-next. I've dropped the Fixes tag, because it doesn't
-fix this commit. Sidenode wouldn't it make sence to make 
-reserve_exception_space() as __meminit ?
+Avoid touching config_data.gz by using a script to compare the existing
+config_data.gz, KCONFIG_CONFIG, or script itself to update only if any
+is mismatched.  The script follows gen_kheaders.sh approach for
+determing in update is needed. The script intentionally avoids
+re-compressing KCONFIG_CONFIG.
 
-Thomas.
+The .config can be touched, for instance, by a build script which
+installs the default defconfig and then applies a defconfig fragment on
+top.
 
+For a simple example on my x86 machine, I modified x86 default defconfig to set
+CONFIG_IKCONFIG=y and run:
+  make -j50 defconfig tiny.config vmlinux
+  make -j50 defconfig tiny.config vmlinux
+With this patch, vmlinux is not re-built as a result of config_data.gz
+change.
+
+Changes in v2:
+ - Use md5 checksum to compare .config instead of gzip'ing again
+
+Signed-off-by: Elliot Berman <eberman@codeaurora.org>
+---
+ kernel/.gitignore         |  1 +
+ kernel/Makefile           |  4 +++-
+ kernel/gen_config_data.sh | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100755 kernel/gen_config_data.sh
+
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index 78701ea..a191136 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++config_data.gz.md5
+ kheaders.md5
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 320f1f3..0784bf3d 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -139,8 +139,10 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
+ $(obj)/configs.o: $(obj)/config_data.gz
+ 
+ targets += config_data.gz
++quiet_cmd_genicfg = CHK     $(obj)/config_data.gz
++      cmd_genicfg = $(CONFIG_SHELL) $(srctree)/kernel/gen_config_data.sh $@ $<
+ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+-	$(call if_changed,gzip)
++	$(call cmd,genicfg)
+ 
+ $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+ 
+diff --git a/kernel/gen_config_data.sh b/kernel/gen_config_data.sh
+new file mode 100755
+index 00000000..e9ff193
+--- /dev/null
++++ b/kernel/gen_config_data.sh
+@@ -0,0 +1,31 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++# This script generates a compressed version of .config, if its checksum has changed
++set -e
++
++this_file="$(readlink -f "$0")"
++outfile=$1
++infile=$2
++
++config_md5="$(md5sum $infile | cut -d ' ' -f1)"
++# Any changes to this script will also cause a rebuild of config_data.
++this_file_md5="$(md5sum $sfile | cut -d ' ' -f1)"
++if [ -f $outfile ]; then outfile_md5="$(md5sum $outfile | cut -d ' ' -f1)"; fi
++
++if [ -f $outfile.md5 ] &&
++	[ "$(head -n 1 $outfile.md5)" = "$config_md5" ] &&
++	[ "$(head -n 2 $outfile.md5 | tail -n 1)" = "$this_file_md5" ] &&
++	[ "$(tail -n 1 $outfile.md5)" = "$outfile_md5" ]; then
++		exit
++fi
++
++if [ "${quiet}" != "silent_" ]; then
++	echo "  GEN     $outfile"
++fi
++
++${KGZIP} -c -n -f -9 $infile > $outfile
++
++echo "$config_md5" > $outfile.md5
++echo "$this_file_md5" >> $outfile.md5
++echo "$(md5sum $outfile | cut -d ' ' -f1)" >> $outfile.md5
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
