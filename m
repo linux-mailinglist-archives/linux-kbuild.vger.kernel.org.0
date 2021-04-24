@@ -2,39 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA90C36A104
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 13:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEBAB36A10D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 14:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231836AbhDXL47 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Apr 2021 07:56:59 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:24613 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231203AbhDXL46 (ORCPT
+        id S231203AbhDXMJv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Apr 2021 08:09:51 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:18319 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230013AbhDXMJu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Apr 2021 07:56:58 -0400
+        Sat, 24 Apr 2021 08:09:50 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 13OBtxPs016607;
-        Sat, 24 Apr 2021 20:56:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 13OBtxPs016607
+        by conuserg-11.nifty.com with ESMTP id 13OC8YJ9030030;
+        Sat, 24 Apr 2021 21:08:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 13OC8YJ9030030
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619265360;
-        bh=w4HzL91MSSw/cXPGv1mgATZV/rYqV69z77QHmW7ddEM=;
+        s=dec2015msa; t=1619266115;
+        bh=FvNZUb8kMF+HSWmisrOZr06I2tZH5n65AdHI4NzQWyg=;
         h=From:To:Cc:Subject:Date:From;
-        b=oNQJqHx54NGWHacxxmOEx7tgiAwOxTjRQibEFiuEo6JFJgzRL0c/9Ms5luzyhH/yx
-         BdLpMYEEMiRC0MyjdM0od/dqAVEwFxnZu332sfdGYuUQl41LdZEo7rD9nyCOaB8aPI
-         5vUeE9b61mt288TABa0EBUTXlK7CJY3kt5GIuUNIueVb7QM7FmUWtwaBzL3iNd+aZS
-         W4/Ff1m9RY5bxYyt0EgYehzOQrJmU3J+xJd3Uc/ARI9Dsj9xY7caZH83Q8m1rmj3d+
-         uWhFDTILBfvQnlxY2RPWgzu+/tDZgMgsZd+uGsoT4GTYG2AySw0CYV9W4+hB69Nv1E
-         9507u8qvd/AMA==
+        b=eqCGikcDV59DIzd/CAaXc3nwU/2Ga9/WsGlQKw04hIh5XJjAuGZRlnvTckQQlWCoY
+         GASkxMoh48b6DEKUdPGF5sc+oKd0Hr+L9BpZ95ruIIHk4yhNldR7+ACJzXubYWiAKG
+         tr/RQ7yJ6AV1nYq3syqgUMvwA5YCLc7j0LOoaPKaIfFIUTx8tKrQM0oc2C5wzPGes0
+         oJMdVBLGuzNz9+POo8yjHkPlj93m8XGVQSE0eWfl0SizTW517a2y4zf9ELHqIGg5+N
+         netvo/OTIxHbrwCuv3ApTXSyMnU6HiiiWd+hiGKhfjikM427brvECt+/mMFG5ve1oo
+         MAiA6GGz5qzXw==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: add comment about why cmd_shipped uses 'cat'
-Date:   Sat, 24 Apr 2021 20:55:53 +0900
-Message-Id: <20210424115553.396516-1-masahiroy@kernel.org>
+Subject: [PATCH] genksyms: fix stale comment
+Date:   Sat, 24 Apr 2021 21:08:29 +0900
+Message-Id: <20210424120829.398360-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,40 +41,30 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-cmd_shipped uses 'cat' instead of 'cp' for copying a file. The reason
-is explained in the commit [1], but it was in the pre-git era.
+(shipped source) is a stale comment.
 
-  $ touch a
-  $ chmod -w a
-  $ cp a b
-  $ cp a b
-  cp: cannot create regular file 'b': Permission denied
-
-Add comments so that you can see the reason without looking into
-the history.
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=a70dba8086160449cc94c5bdaff78419b6b8e3c8
+Since commit 833e62245943 ("genksyms: generate lexer and parser during
+build instead of shipping"), no genksyms source file is shipped.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.lib | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/genksyms/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index a4fbaf8880b9..1677a7dcd18c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -240,6 +240,9 @@ quiet_cmd_copy = COPY    $@
+diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
+index ce4f99935de5..d6a422a63b6a 100644
+--- a/scripts/genksyms/Makefile
++++ b/scripts/genksyms/Makefile
+@@ -22,7 +22,7 @@ $(obj)/pars%.tab.c $(obj)/pars%.tab.h: $(src)/pars%.y FORCE
  
- # Shipped files
- # ===========================================================================
-+# 'cp' preserves permissions. If you use it to copy a file in read-only srctree,
-+# the copy would be read-only as well, leading to an error when executing the
-+# rule next time. Use 'cat' instead in order to generate a writable file.
+ endif
  
- quiet_cmd_shipped = SHIPPED $@
- cmd_shipped = cat $< > $@
+-# -I needed for generated C source (shipped source)
++# -I needed for generated C source to include headers in source tree
+ HOSTCFLAGS_parse.tab.o := -I $(srctree)/$(src)
+ HOSTCFLAGS_lex.lex.o := -I $(srctree)/$(src)
+ 
 -- 
 2.27.0
 
