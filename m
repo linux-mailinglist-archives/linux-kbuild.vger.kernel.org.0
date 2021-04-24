@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A7D36A1E0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 17:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9C936A1E8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 18:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231940AbhDXP7I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Apr 2021 11:59:08 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:39541 "EHLO
+        id S230010AbhDXQCS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Apr 2021 12:02:18 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:42523 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbhDXP7I (ORCPT
+        with ESMTP id S236613AbhDXQCR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Apr 2021 11:59:08 -0400
+        Sat, 24 Apr 2021 12:02:17 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 13OFv5xR028081;
-        Sun, 25 Apr 2021 00:57:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 13OFv5xR028081
+        by conuserg-08.nifty.com with ESMTP id 13OG09Gi030091;
+        Sun, 25 Apr 2021 01:00:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 13OG09Gi030091
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619279825;
-        bh=NuXRvfs0Q5dzi5osb91zIbmohenOFhQpArES4Qc4S3c=;
+        s=dec2015msa; t=1619280010;
+        bh=ous90V3OsRa1CNPNiQRPMCNr53qr6PnxFFBb49TjtDY=;
         h=From:To:Cc:Subject:Date:From;
-        b=ghLrBxrsBqTnCnsy3bjHle+bxitLkyWAG7Gf1jM2kWYCN9SQlC0/a0842CNswSTqS
-         NyFVzPgdTZxmNd1My0Rpsw24gqal8yZGTrCVbgI0qzhdKqYVoXxkfSbIP5yBxEb/ak
-         Jevt9y81nrcemNgCUsxDWeXngfGTq7C2TrhCm7jDewCmjtDHPAvMaHMaT7+G2iPCDH
-         3zNW77NJx3j+pkW3zJKu3s3BZ5DEglHAyXgr55dOQiPURH0EKPeGB8Ys4oC5pFjCxp
-         PWsSXDRxVVSgcGSV24JumtHYnDBmIIdQhjtNzzjPZZFLvXZy7/qdzI4LS/DhiKbn6b
-         RxAKpnMhtYg6A==
+        b=Hzy8HpG8gAW0rq0UNe1mj2Xl1WWrEx1CptgBBTUdIpvIM/4o61pPUPcfTTQKo4zpc
+         wOjAKUWaez/s2O9xQnwUg2BhcKtsTTf3VHNb1fkNhNAQ8zZgxFdRxx4LZkOx/affHa
+         hJhJsYdOg2re4FTEbssO7WrFnbnvpLlmAzQr2zAi6Y72zqKVq2d5My/Xeq38syn/ZT
+         MwVSL9V3A9P2lFaB1TJy9NjM9TyZu6y2mxhheUeJWJ9Gv/u7FN25ZMtDJ3Fum9OelG
+         JIRCK+SW0wOWT/5TH9P1CR7WNTqJbBljqKkgLMSL6pdKU84lGyNcd4jW0W8kWaldPV
+         FGDBAN5ghXs9A==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org, patches@arm.linux.org.uk
@@ -33,8 +33,8 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: [PATCH] ARM: boot: remove redundant piggy_data from clean-files
-Date:   Sun, 25 Apr 2021 00:57:00 +0900
-Message-Id: <20210424155700.818824-1-masahiroy@kernel.org>
+Date:   Sun, 25 Apr 2021 01:00:07 +0900
+Message-Id: <20210424160007.819275-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,6 +50,8 @@ Adding it to 'clean-files' is redundant.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
+
+KernelVersion: v5.12-rc1
 
  arch/arm/boot/compressed/Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
