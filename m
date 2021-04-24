@@ -2,74 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98D3436A15D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 15:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB0336A171
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 15:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233135AbhDXN05 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Apr 2021 09:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230432AbhDXN04 (ORCPT
+        id S237403AbhDXN43 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Apr 2021 09:56:29 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:63456 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237374AbhDXN40 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Apr 2021 09:26:56 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71F53C061574
-        for <linux-kbuild@vger.kernel.org>; Sat, 24 Apr 2021 06:26:18 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id u11so20844878pjr.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 24 Apr 2021 06:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=jKWXL778dGKF04NrlbT/ArKMPAiOnY7Xr+u+pNHdYLU=;
-        b=jT84yKzOOhhMY9fZ7Il+FJNTEEqzIL5IWXS2VqVlFAhmv/JYV361se/KissZMx+er2
-         +VDCv8iizVd/1h+AayVuxkfOB9dcYzUXq1Chcky7nq7i69v/idgu15lmRGe1818O+HBo
-         359PpvfY0Zpu2SQtjuaotXUQ95C/fdfTZPnRxAXqtqtgPUjbCTj9GIMBwrtuwSkpxsSf
-         5jQhaPWr1y/w+AhXEnrLIaeTDgw5luPeBPso+MjfHSpdzlF6ewv47c1GNnf0bjLA2p65
-         qVU7oCYflG8zzpXNf2osVK8wLS7oX319gae9ZMW5PJ/uz7lBwUhe8eD9jW7KdQvMJIFz
-         4C1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=jKWXL778dGKF04NrlbT/ArKMPAiOnY7Xr+u+pNHdYLU=;
-        b=flfRQB8W6zG/YjURkMNnIwIht6Rry0w17o94Vf4BvRRzt2O2t3Cql59c1n50fX4w7n
-         WPkPleIW7ERmyB/L5JWe9DvlNDaq+18aTKA8uUC1+N/CV2cIGLGBAuOo8JHLA7V+ntep
-         QvGfymyV+2UxZEDgaBZYiEmVTRIiZDuon8/U5cmAeIUX0oBBNyABWYJfDgdkzcokkm57
-         4aNBhp5G1j7aVfmnUPvhvXmwc5g3zOVlRVui0AT6TlBglt+c8sQXK9yjfyPbKtAbs8ZW
-         zv9BdSIqNhaHrn9rRGI4CvZvGFtme6/VbgeLWnMdW6CI0gLo75cXj6uCMWFSo9LlIQ8+
-         9kKQ==
-X-Gm-Message-State: AOAM5300LY1bew7DYsI7PuNzK3htTORfXvaxE8ROxJeLWktOWXhRGaqm
-        4xj4IGds/SBV/RD/GVSIek8GiRKL72N0/Bav6PNAXOvv3kI=
-X-Google-Smtp-Source: ABdhPJwlSHHlFPN5vy5WR9eGvmqrmdhkS6veC+DciwApp6Wg3iD+KfRV1xuHkoFVoK7sAKrAt4CyX5ymddhDVv6tDHQ=
-X-Received: by 2002:a17:90a:8e82:: with SMTP id f2mr11218558pjo.146.1619270777551;
- Sat, 24 Apr 2021 06:26:17 -0700 (PDT)
+        Sat, 24 Apr 2021 09:56:26 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 13ODtSoM006581;
+        Sat, 24 Apr 2021 22:55:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 13ODtSoM006581
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1619272528;
+        bh=hg0YplKCF4cxQYurDZ/zCJxWacDWbwCB7BICXCCa2P8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pGKmqv0p0HyTY3zMxOaRQ/EnJXxweUf0cIiYYH8OYl+6KgHJa6LW5pTQreKXLBP61
+         w6ubUQrbJGxBTrsmG1Yw5nXlY3OKjMQPvDxPspi/FI0CeRBhHrU5igkKiIn6l2vl82
+         uGHs/jcxRWUA2CP0KSlT8sJFfKDdrM7UD03L4D8khCFXs6dsbETbV1Ax1P0cSfA0l8
+         OFl5EvvxW8/t53HXvGIf59mTr/mikF5y//wqu3F9HPxtSis8fWDaVf+SQ3BiaxtjmH
+         rfoZ/POlWRy4nXZDYbht5NqhuCN2dzWsS0zobvdyOSwf8Y7EKr+rKFOr7lSBC0i2JZ
+         b7iXpA0MHmudA==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: refactor .gitignore
+Date:   Sat, 24 Apr 2021 22:55:24 +0900
+Message-Id: <20210424135524.196603-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <CAGRSmLsJmR_NFcovYSP-gK52qDASP4csbaOjx2Sfk9HvhHvAfQ@mail.gmail.com>
-In-Reply-To: <CAGRSmLsJmR_NFcovYSP-gK52qDASP4csbaOjx2Sfk9HvhHvAfQ@mail.gmail.com>
-From:   "David F." <df7729@gmail.com>
-Date:   Sat, 24 Apr 2021 06:26:06 -0700
-Message-ID: <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com>
-Subject: Fwd: 5.10 build issue creating library for driver support.
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+Add '/' prefix to clarify that the generated files exist right under
+scripts/kconfig/, but not in the sub-directories.
 
-I moved to 5.10 from 5.4 now I have build problem:
+Replace '*conf-cfg' with '[gmnq]conf-cfg' to make it explicit, but
+still short.
 
-"No rule to make target '/path/to/sourcefile.o', needed by '/path/to/lib.a' Stop
+Use '[gmnq]conf' to combine gconf, mconf, nconf, and qconf.
 
-The build will build a small library file of shared driver support
-routines, but it doesn't appear the build will support a library
-anymore?  Is there a patch for that?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-There was a patch that fix a prior problem of linking to a lib.a file:
+ scripts/kconfig/.gitignore | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-Subject: Moving from 4.x to 5.4.22 breaks custom module build.
+diff --git a/scripts/kconfig/.gitignore b/scripts/kconfig/.gitignore
+index c3d537cd0275..500e7424b3ef 100644
+--- a/scripts/kconfig/.gitignore
++++ b/scripts/kconfig/.gitignore
+@@ -1,12 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++/conf
++/[gmnq]conf
++/[gmnq]conf-cfg
+ /qconf-moc.cc
+-*conf-cfg
+-
+-#
+-# configuration programs
+-#
+-conf
+-mconf
+-nconf
+-qconf
+-gconf
+-- 
+2.27.0
 
-Is there a fix for this new issue?
-
-Thanks.
