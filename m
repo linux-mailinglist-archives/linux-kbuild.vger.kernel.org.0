@@ -2,159 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7D73697E5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Apr 2021 19:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5C8636A0F6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Apr 2021 13:52:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243323AbhDWRDZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Apr 2021 13:03:25 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:50419 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbhDWRDU (ORCPT
+        id S231387AbhDXLwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Apr 2021 07:52:37 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:22439 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231203AbhDXLwg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Apr 2021 13:03:20 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619197364; h=In-Reply-To: Message-Id: Date: Subject: Cc: To:
- From: Sender; bh=OYnNE7Dy5EU3OXyOzCgjnJg//0G4V/ieE3hirIKZBnQ=; b=SjpwpMWu6iJ4UW+KJ4J4xwcujKJR3fy7cq489ifR3vgcCeKgMjzEAvHI223Oi0Xjr/zB3chS
- GfNmQ0QorRZPSz1PLARBIJujtlA3rBduCE8hT4Pcc03ttL6Z62dvIKpVI138gkES7Dd7dhtm
- PWhd/mf3a/szm/nGUGcGiuTNQz0=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 6082fd8aa817abd39a2e319d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Apr 2021 17:02:02
- GMT
-Sender: eberman=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8039FC0453F; Fri, 23 Apr 2021 17:02:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from eberman-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: eberman)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 14DE2C43217;
-        Fri, 23 Apr 2021 17:01:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 14DE2C43217
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=eberman@codeaurora.org
-From:   Elliot Berman <eberman@codeaurora.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Elliot Berman <eberman@codeaurora.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sat, 24 Apr 2021 07:52:36 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 13OBmmYp018893;
+        Sat, 24 Apr 2021 20:48:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 13OBmmYp018893
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1619264929;
+        bh=QZtRNPI9tcJewNEkn9qFVV65UXR5+ejTwS0WZTz9ytE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OgS1xS1pH9Ae7mvvS/tN0XQ1KlXN6XJGvC6a13xxxGpBWrmoZDHvSad9U/i4OE8GB
+         SCxToXKcTar8y85/ZgdttfyNTyNT4QrOt9teXbme+DbWLOvA6ZrXrCO9RRSno8lrbq
+         LjUaRUllsq7tNZxY6TW1P2027e2ET3kGuIHAKskUXsNQpb0WM+C5rMbvyGoCM6Ek/7
+         Q/SeGxa5kazVx8r7jeV7piS2uH99EolfxgJA1jfMxcGW50i+Le9Z1lHf7UOa7+H1Z8
+         9PSecdZ0jU7Sa07LWptBy+FREZsqXgLxyhpbsEsyDWHdwWRB00Ubg9Phg50IHfqaLC
+         nNznHrSvYzgDQ==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mat Martineau <mathew.j.martineau@linux.intel.com>,
         Matthias Maennich <maennich@google.com>,
-        Trilok Soni <tsoni@codeaurora.org>
-Subject: [RESEND v2] Kbuild: Update config_data.gz only if KCONFIG_CONFIG materially changed
-Date:   Fri, 23 Apr 2021 10:00:35 -0700
-Message-Id: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: 1617317072-26770-1-git-send-email-eberman@codeaurora.org
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        mptcp@lists.01.org, netdev@vger.kernel.org
+Subject: [PATCH] kbuild: replace LANG=C with LC_ALL=C
+Date:   Sat, 24 Apr 2021 20:48:41 +0900
+Message-Id: <20210424114841.394239-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If you update the timestamp of KCONFIG_CONFIG without actually changing
-anything, config_data.gz is re-generated and causes vmlinux to re-link.
-When Link Time Optimization is enabled, unnecessary re-linking of
-vmlinux is highly desirable since it adds several minutes to build time.
+LANG gives a weak default to each LC_* in case it is not explicitly
+defined. LC_ALL, if set, overrides all other LC_* variables.
 
-Avoid touching config_data.gz by using a script to compare the existing
-config_data.gz, KCONFIG_CONFIG, or script itself to update only if any
-is mismatched.  The script follows gen_kheaders.sh approach for
-determing in update is needed. The script intentionally avoids
-re-compressing KCONFIG_CONFIG.
+  LANG  <  LC_CTYPE, LC_COLLATE, LC_MONETARY, LC_NUMERIC, ...  <  LC_ALL
 
-The .config can be touched, for instance, by a build script which
-installs the default defconfig and then applies a defconfig fragment on
-top.
+This is why documentation such as [1] suggests to set LC_ALL in build
+scripts to get the deterministic result.
 
-For a simple example on my x86 machine, I modified x86 default defconfig to set
-CONFIG_IKCONFIG=y and run:
-  make -j50 defconfig tiny.config vmlinux
-  make -j50 defconfig tiny.config vmlinux
-With this patch, vmlinux is not re-built as a result of config_data.gz
-change.
+LANG=C is not strong enough to override LC_* that may be set by end
+users.
 
-Changes in v2:
- - Use md5 checksum to compare .config instead of gzip'ing again
+[1]: https://reproducible-builds.org/docs/locales/
 
-Signed-off-by: Elliot Berman <eberman@codeaurora.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- kernel/.gitignore         |  1 +
- kernel/Makefile           |  4 +++-
- kernel/gen_config_data.sh | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100755 kernel/gen_config_data.sh
 
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index 78701ea..a191136 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+config_data.gz.md5
- kheaders.md5
- timeconst.h
- hz.bc
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 320f1f3..0784bf3d 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -139,8 +139,10 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
- $(obj)/configs.o: $(obj)/config_data.gz
+ arch/powerpc/boot/wrapper                          | 2 +-
+ scripts/nsdeps                                     | 2 +-
+ scripts/recordmcount.pl                            | 2 +-
+ scripts/setlocalversion                            | 2 +-
+ scripts/tags.sh                                    | 2 +-
+ tools/testing/selftests/net/mptcp/mptcp_connect.sh | 2 +-
+ usr/gen_initramfs.sh                               | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
+index 41fa0a8715e3..cdb796b76e2e 100755
+--- a/arch/powerpc/boot/wrapper
++++ b/arch/powerpc/boot/wrapper
+@@ -191,7 +191,7 @@ if [ -z "$kernel" ]; then
+     kernel=vmlinux
+ fi
  
- targets += config_data.gz
-+quiet_cmd_genicfg = CHK     $(obj)/config_data.gz
-+      cmd_genicfg = $(CONFIG_SHELL) $(srctree)/kernel/gen_config_data.sh $@ $<
- $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
--	$(call if_changed,gzip)
-+	$(call cmd,genicfg)
+-LANG=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
++LC_ALL=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
+ case "$elfformat" in
+     elf64-powerpcle)	format=elf64lppc	;;
+     elf64-powerpc)	format=elf32ppc	;;
+diff --git a/scripts/nsdeps b/scripts/nsdeps
+index e8ce2a4d704a..04c4b96e95ec 100644
+--- a/scripts/nsdeps
++++ b/scripts/nsdeps
+@@ -44,7 +44,7 @@ generate_deps() {
+ 		for source_file in $mod_source_files; do
+ 			sed '/MODULE_IMPORT_NS/Q' $source_file > ${source_file}.tmp
+ 			offset=$(wc -l ${source_file}.tmp | awk '{print $1;}')
+-			cat $source_file | grep MODULE_IMPORT_NS | LANG=C sort -u >> ${source_file}.tmp
++			cat $source_file | grep MODULE_IMPORT_NS | LC_ALL=C sort -u >> ${source_file}.tmp
+ 			tail -n +$((offset +1)) ${source_file} | grep -v MODULE_IMPORT_NS >> ${source_file}.tmp
+ 			if ! diff -q ${source_file} ${source_file}.tmp; then
+ 				mv ${source_file}.tmp ${source_file}
+diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
+index 867860ea57da..0a7fc9507d6f 100755
+--- a/scripts/recordmcount.pl
++++ b/scripts/recordmcount.pl
+@@ -497,7 +497,7 @@ sub update_funcs
+ #
+ # Step 2: find the sections and mcount call sites
+ #
+-open(IN, "LANG=C $objdump -hdr $inputfile|") || die "error running $objdump";
++open(IN, "LC_ALL=C $objdump -hdr $inputfile|") || die "error running $objdump";
  
- $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+ my $text;
  
-diff --git a/kernel/gen_config_data.sh b/kernel/gen_config_data.sh
-new file mode 100755
-index 00000000..e9ff193
---- /dev/null
-+++ b/kernel/gen_config_data.sh
-@@ -0,0 +1,31 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# This script generates a compressed version of .config, if its checksum has changed
-+set -e
-+
-+this_file="$(readlink -f "$0")"
-+outfile=$1
-+infile=$2
-+
-+config_md5="$(md5sum $infile | cut -d ' ' -f1)"
-+# Any changes to this script will also cause a rebuild of config_data.
-+this_file_md5="$(md5sum $sfile | cut -d ' ' -f1)"
-+if [ -f $outfile ]; then outfile_md5="$(md5sum $outfile | cut -d ' ' -f1)"; fi
-+
-+if [ -f $outfile.md5 ] &&
-+	[ "$(head -n 1 $outfile.md5)" = "$config_md5" ] &&
-+	[ "$(head -n 2 $outfile.md5 | tail -n 1)" = "$this_file_md5" ] &&
-+	[ "$(tail -n 1 $outfile.md5)" = "$outfile_md5" ]; then
-+		exit
-+fi
-+
-+if [ "${quiet}" != "silent_" ]; then
-+	echo "  GEN     $outfile"
-+fi
-+
-+${KGZIP} -c -n -f -9 $infile > $outfile
-+
-+echo "$config_md5" > $outfile.md5
-+echo "$this_file_md5" >> $outfile.md5
-+echo "$(md5sum $outfile | cut -d ' ' -f1)" >> $outfile.md5
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index bb709eda96cd..db941f6d9591 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -126,7 +126,7 @@ scm_version()
+ 	fi
+ 
+ 	# Check for svn and a svn repo.
+-	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
++	if rev=$(LC_ALL=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+ 		rev=$(echo $rev | awk '{print $NF}')
+ 		printf -- '-svn%s' "$rev"
+ 
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index fd96734deff1..db8ba411860a 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -326,5 +326,5 @@ esac
+ 
+ # Remove structure forward declarations.
+ if [ -n "$remove_structs" ]; then
+-    LANG=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
++    LC_ALL=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
+ fi
+diff --git a/tools/testing/selftests/net/mptcp/mptcp_connect.sh b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+index 10a030b53b23..1d2a6e7b877c 100755
+--- a/tools/testing/selftests/net/mptcp/mptcp_connect.sh
++++ b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+@@ -273,7 +273,7 @@ check_mptcp_disabled()
+ 	ip netns exec ${disabled_ns} sysctl -q net.mptcp.enabled=0
+ 
+ 	local err=0
+-	LANG=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
++	LC_ALL=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
+ 		grep -q "^socket: Protocol not available$" && err=1
+ 	ip netns delete ${disabled_ns}
+ 
+diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+index 8ae831657e5d..63476bb70b41 100755
+--- a/usr/gen_initramfs.sh
++++ b/usr/gen_initramfs.sh
+@@ -147,7 +147,7 @@ dir_filelist() {
+ 	header "$1"
+ 
+ 	srcdir=$(echo "$1" | sed -e 's://*:/:g')
+-	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LANG=C sort)
++	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+ 
+ 	# If $dirlist is only one line, then the directory is empty
+ 	if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.27.0
 
