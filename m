@@ -2,155 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34EAB36A53F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 09:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905B136A6DE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 13:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbhDYHIu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Apr 2021 03:08:50 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:50377 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbhDYHIu (ORCPT
+        id S230158AbhDYLOJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Apr 2021 07:14:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229707AbhDYLOJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Apr 2021 03:08:50 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 13P77E6F032328;
-        Sun, 25 Apr 2021 16:07:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 13P77E6F032328
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619334435;
-        bh=e6ebiU5ULjsvQr300Dk6h49ie/rrrFWrO2lUQXq6JzM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=I4BunMKeL0Ue5l5vmpDu7RlRqPy/iEWvFuaLJjK5Dz84pf1tUbGmZxRlAj9gfCjxt
-         JL7jroB+Ns3eoTwNDnRgGTQuYmdzpM34IekuYKyIQgX1mebLosKS/typ40B2Aw2yFP
-         /2hZY0sidDJq/DKkE6OfzGHXP7I145Su6bZ9Jqt3b6aIqRqqBQ98JDhAN7t6t2enua
-         eJNOU6HqpDZaTNlYiyzTpCE566HaZj9aISKGNvHt2wn49M+ninryGrrvH/tOhrfvrY
-         95PpII7S/IBYwCUOTuqn0+qXiqwAwAUB2NW6tWgaVfO6mm2GwNrTrm2W2jW6A6J7oV
-         Xi8CQU8wn2tfw==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+        Sun, 25 Apr 2021 07:14:09 -0400
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66890C061574;
+        Sun, 25 Apr 2021 04:13:29 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4FSlkl4my0z9sTD;
+        Sun, 25 Apr 2021 21:13:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1619349206;
+        bh=svys2tIy/5/UUZIxCTMC8S3VvRrrnDcOcI1cawlhKTw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=FQAb7aXP5cuXQ7S4ooGHF+N1KoL6m8dy5/EiwvJ8Ck/hXp0xdm81uMVAM3RyLa6Ay
+         a4Hrs/jH2ivqPXCikzIV8HEhTNpNzMzTguhV2emQMMYkUKuuMrnbTddvfUKjfv71OB
+         nHWSyx2pt+9oBt7qMrdkBKo5H3qdFntTvD4yn2+HbFliGhDQBv7oaSdFdP6/j6O2TT
+         MmyLaZ3sy/h5vjYWVlicmFl5o90dhrZmHJszPi7+S1YTboR8bEtda+nESgkh3QJJUQ
+         VT/VJKa7kJfV3rVlur2+2cUd/lBFGjLfZkFv95+uo5ULw6WqozFPctQo0iy7izYbYw
+         nX0emcMIi7FXA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: add a script to remove stale generated files
-Date:   Sun, 25 Apr 2021 16:07:12 +0900
-Message-Id: <20210425070712.1202472-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mat Martineau <mathew.j.martineau@linux.intel.com>,
+        Matthias Maennich <maennich@google.com>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        mptcp@lists.01.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] kbuild: replace LANG=C with LC_ALL=C
+In-Reply-To: <20210424114841.394239-1-masahiroy@kernel.org>
+References: <20210424114841.394239-1-masahiroy@kernel.org>
+Date:   Sun, 25 Apr 2021 21:13:15 +1000
+Message-ID: <871raybos4.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We maintain .gitignore and Makefiles so build artifacts are properly
-ignored by Git, and cleaned up by 'make clean'. However, the code is
-always changing; generated files are often moved to another directory,
-or removed when they become unnecessary. Such garbage files tend to be
-left over in the source tree because people usually git-pull without
-cleaning the tree.
+Masahiro Yamada <masahiroy@kernel.org> writes:
+> LANG gives a weak default to each LC_* in case it is not explicitly
+> defined. LC_ALL, if set, overrides all other LC_* variables.
+>
+>   LANG  <  LC_CTYPE, LC_COLLATE, LC_MONETARY, LC_NUMERIC, ...  <  LC_ALL
+>
+> This is why documentation such as [1] suggests to set LC_ALL in build
+> scripts to get the deterministic result.
+>
+> LANG=C is not strong enough to override LC_* that may be set by end
+> users.
+>
+> [1]: https://reproducible-builds.org/docs/locales/
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  arch/powerpc/boot/wrapper                          | 2 +-
 
-This is not only the noise for 'git status', but also a build issue
-in some cases.
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-One solution is to remove a stale file like commit 223c24a7dba9 ("kbuild:
-Automatically remove stale <linux/version.h> file") did. Such workaround
-should be removed after a while, but we forget about that if we scatter
-the workaround code in random places.
+cheers
 
-So, this commit adds a new script to collect cleanings of stale files.
-
-As a start point, move the code in arch/arm/boot/compressed/Makefile
-into this script.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile                          |  6 +++++-
- arch/arm/boot/compressed/Makefile |  7 -------
- scripts/remove-stale-files        | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 8 deletions(-)
- create mode 100755 scripts/remove-stale-files
-
-diff --git a/Makefile b/Makefile
-index b14483742a67..e970c8adf272 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1202,7 +1202,7 @@ PHONY += prepare archprepare
- 
- archprepare: outputmakefile archheaders archscripts scripts include/config/kernel.release \
- 	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h \
--	include/generated/autoconf.h
-+	include/generated/autoconf.h remove-stale-files
- 
- prepare0: archprepare
- 	$(Q)$(MAKE) $(build)=scripts/mod
-@@ -1211,6 +1211,10 @@ prepare0: archprepare
- # All the preparing..
- prepare: prepare0 prepare-objtool prepare-resolve_btfids
- 
-+PHONY += remove-stale-files
-+remove-stale-files:
-+	$(Q)$(srctree)/scripts/remove-stale-files
-+
- # Support for using generic headers in asm-generic
- asm-generic := -f $(srctree)/scripts/Makefile.asm-generic obj
- 
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index fd94e27ba4fa..182b300e3f8a 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -96,13 +96,6 @@ endif
- $(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_check_mem_start.o, \
- 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt -fno-stack-protector))
- 
--# These were previously generated C files. When you are building the kernel
--# with O=, make sure to remove the stale files in the output tree. Otherwise,
--# the build system wrongly compiles the stale ones.
--ifdef building_out_of_srctree
--$(shell rm -f $(addprefix $(obj)/, fdt_rw.c fdt_ro.c fdt_wip.c fdt.c))
--endif
--
- targets       := vmlinux vmlinux.lds piggy_data piggy.o \
- 		 lib1funcs.o ashldi3.o bswapsdi2.o \
- 		 head.o $(OBJS)
-diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
-new file mode 100755
-index 000000000000..c3eb81c3f7de
---- /dev/null
-+++ b/scripts/remove-stale-files
-@@ -0,0 +1,31 @@
-+#!/bin/sh
-+
-+set -e
-+
-+# When you move, remove or rename generated files, you probably also update
-+# .gitignore and cleaning rules in the Makefile. This is the right thing
-+# to do. However, people usually do 'git pull', 'git bisect', etc. without
-+# running 'make clean'. Then, the stale generated files are left over, often
-+# causing build issues.
-+#
-+# Also, 'git status' shows such stale build artifacts as untracked files.
-+# What is worse, some people send a wrong patch to get them back to .gitignore
-+# without checking the commit history.
-+#
-+# So, when you (re)move generated files, please move the cleaning rules from
-+# the Makefile to this script. This is run before Kbuild starts building
-+# anything, so people will not be annoyed by such garbage files.
-+#
-+# This script is not intended to grow endlessly. Rather, it is a temporary scrap
-+# yard. Stale files stay in this file for a while (for some release cycles?),
-+# then will be really dead and removed from the code base entirely.
-+
-+# These were previously generated source files. When you are building the kernel
-+# with O=, make sure to remove the stale files in the output tree. Otherwise,
-+# the build system wrongly compiles the stale ones.
-+if [ -n "${building_out_of_srctree}" ]; then
-+	for f in fdt_rw.c fdt_ro.c fdt_wip.c fdt.c
-+	do
-+		rm -f arch/arm/boot/compressed/${f}
-+	done
-+fi
--- 
-2.27.0
-
+>  scripts/nsdeps                                     | 2 +-
+>  scripts/recordmcount.pl                            | 2 +-
+>  scripts/setlocalversion                            | 2 +-
+>  scripts/tags.sh                                    | 2 +-
+>  tools/testing/selftests/net/mptcp/mptcp_connect.sh | 2 +-
+>  usr/gen_initramfs.sh                               | 2 +-
+>  7 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
+> index 41fa0a8715e3..cdb796b76e2e 100755
+> --- a/arch/powerpc/boot/wrapper
+> +++ b/arch/powerpc/boot/wrapper
+> @@ -191,7 +191,7 @@ if [ -z "$kernel" ]; then
+>      kernel=vmlinux
+>  fi
+>  
+> -LANG=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
+> +LC_ALL=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
+>  case "$elfformat" in
+>      elf64-powerpcle)	format=elf64lppc	;;
+>      elf64-powerpc)	format=elf32ppc	;;
+> diff --git a/scripts/nsdeps b/scripts/nsdeps
+> index e8ce2a4d704a..04c4b96e95ec 100644
+> --- a/scripts/nsdeps
+> +++ b/scripts/nsdeps
+> @@ -44,7 +44,7 @@ generate_deps() {
+>  		for source_file in $mod_source_files; do
+>  			sed '/MODULE_IMPORT_NS/Q' $source_file > ${source_file}.tmp
+>  			offset=$(wc -l ${source_file}.tmp | awk '{print $1;}')
+> -			cat $source_file | grep MODULE_IMPORT_NS | LANG=C sort -u >> ${source_file}.tmp
+> +			cat $source_file | grep MODULE_IMPORT_NS | LC_ALL=C sort -u >> ${source_file}.tmp
+>  			tail -n +$((offset +1)) ${source_file} | grep -v MODULE_IMPORT_NS >> ${source_file}.tmp
+>  			if ! diff -q ${source_file} ${source_file}.tmp; then
+>  				mv ${source_file}.tmp ${source_file}
+> diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
+> index 867860ea57da..0a7fc9507d6f 100755
+> --- a/scripts/recordmcount.pl
+> +++ b/scripts/recordmcount.pl
+> @@ -497,7 +497,7 @@ sub update_funcs
+>  #
+>  # Step 2: find the sections and mcount call sites
+>  #
+> -open(IN, "LANG=C $objdump -hdr $inputfile|") || die "error running $objdump";
+> +open(IN, "LC_ALL=C $objdump -hdr $inputfile|") || die "error running $objdump";
+>  
+>  my $text;
+>  
+> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+> index bb709eda96cd..db941f6d9591 100755
+> --- a/scripts/setlocalversion
+> +++ b/scripts/setlocalversion
+> @@ -126,7 +126,7 @@ scm_version()
+>  	fi
+>  
+>  	# Check for svn and a svn repo.
+> -	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+> +	if rev=$(LC_ALL=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+>  		rev=$(echo $rev | awk '{print $NF}')
+>  		printf -- '-svn%s' "$rev"
+>  
+> diff --git a/scripts/tags.sh b/scripts/tags.sh
+> index fd96734deff1..db8ba411860a 100755
+> --- a/scripts/tags.sh
+> +++ b/scripts/tags.sh
+> @@ -326,5 +326,5 @@ esac
+>  
+>  # Remove structure forward declarations.
+>  if [ -n "$remove_structs" ]; then
+> -    LANG=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
+> +    LC_ALL=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
+>  fi
+> diff --git a/tools/testing/selftests/net/mptcp/mptcp_connect.sh b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+> index 10a030b53b23..1d2a6e7b877c 100755
+> --- a/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+> +++ b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+> @@ -273,7 +273,7 @@ check_mptcp_disabled()
+>  	ip netns exec ${disabled_ns} sysctl -q net.mptcp.enabled=0
+>  
+>  	local err=0
+> -	LANG=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
+> +	LC_ALL=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
+>  		grep -q "^socket: Protocol not available$" && err=1
+>  	ip netns delete ${disabled_ns}
+>  
+> diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+> index 8ae831657e5d..63476bb70b41 100755
+> --- a/usr/gen_initramfs.sh
+> +++ b/usr/gen_initramfs.sh
+> @@ -147,7 +147,7 @@ dir_filelist() {
+>  	header "$1"
+>  
+>  	srcdir=$(echo "$1" | sed -e 's://*:/:g')
+> -	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LANG=C sort)
+> +	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+>  
+>  	# If $dirlist is only one line, then the directory is empty
+>  	if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then
+> -- 
+> 2.27.0
