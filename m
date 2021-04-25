@@ -2,68 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F4536A50E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 08:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FDB036A510
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 08:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbhDYGZW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Apr 2021 02:25:22 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:20871 "EHLO
+        id S229741AbhDYGZX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Apr 2021 02:25:23 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:20872 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbhDYGZW (ORCPT
+        with ESMTP id S229522AbhDYGZW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sun, 25 Apr 2021 02:25:22 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 13P6OBfI031298;
-        Sun, 25 Apr 2021 15:24:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 13P6OBfI031298
+        by conuserg-11.nifty.com with ESMTP id 13P6OBfJ031298;
+        Sun, 25 Apr 2021 15:24:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 13P6OBfJ031298
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619331851;
-        bh=PrsXzayPwi2nwArMhsd+aWVtkyJh2Z47XTnVvtEn5x4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gBikQ3pXySgICnyU5NT9awZqPz+WtPFqBz+vsKfW8N20wYKry4TjUBUO2wIv9M9AU
-         ukJ6yoLhtt+HVtQPr1DT347WnVk2nbOfRi7LLAZ1p5MM2hOXTxwSr+OCI4UqDF5UXM
-         g6TyAebzcdqLLADZzqjFc9NBrQDIn8EYfn/ND46tntl+wOogFqS26uFIlDZzewIu8j
-         zVBhP6uLT6g76mTPANaRqnpMVCeajqyQ/2hpbaca2ymybqEw4/RAOcQFhCUavikhEs
-         JimEOh6h8P0TXmOJpTbAdXSmm8IJ9JTsGCUdSdHdf3yT+2lIogYjWIi1rVSCHVw8D5
-         0VGolvbvpoGfQ==
+        s=dec2015msa; t=1619331852;
+        bh=IDaty5KBUv4KvNn1NKFpnKgaifUb/3fKJ0ylZZpF9Fw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VNgJOMUzKHt35KK6YEKMbfAmoPHnWS8CSMFt/imppV54FoxLVHJRF4GImBDb/Zz9E
+         B3+vy+eLeVfRibG4njgTdllCzZkFnUBwcTpzI06UcV0jeJKKxlWO8tuF5Qz6Unp9EB
+         KkcLntjC/jUVVQXMaTdp2THB3daCq1LYn7VSKn6DfNOB7d80+wj97a52/xFEDxUOHF
+         umKLXMubnWSFfaC3TfrggTXKvRpzTkYP9wkFhXndjupcxC71vL2hfFQjMoI1zLaqc2
+         gTP54BMaJvP1RImisd9WesJDUqY+PUSlJCi12pGBj5BFNaRNocmTquO6bF8jKlxJ/y
+         tZD8kYd6XJPfA==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] kernel/.gitgnore: remove stale timeconst.h and hz.bc
-Date:   Sun, 25 Apr 2021 15:24:03 +0900
-Message-Id: <20210425062407.1183801-1-masahiroy@kernel.org>
+Subject: [PATCH 2/5] .gitignore: move tags and TAGS close to other tag files
+Date:   Sun, 25 Apr 2021 15:24:04 +0900
+Message-Id: <20210425062407.1183801-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210425062407.1183801-1-masahiroy@kernel.org>
+References: <20210425062407.1183801-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-timeconst.h and hz.bc used to exist in kernel/.
+For consistency, move tags and TAGS close to the cscope and GNU Global
+patterns.
 
-Commit 5cee96459726 ("time/timers: Move all time(r) related files into
-kernel/time") moved them to kernel/time/.
-
-Commit 0a227985d4a9 ("time: Move timeconst.h into include/generated")
-moved timeconst.h to include/generated/ and removed hz.bc .
+I removed the '/' prefix in case somebody wants to manually create tag
+files in sub-directories.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- kernel/.gitignore | 2 --
- 1 file changed, 2 deletions(-)
+ .gitignore | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index 78701ea37c97..4abc4e033ed8 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,4 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0-only
- kheaders.md5
--timeconst.h
--hz.bc
+diff --git a/.gitignore b/.gitignore
+index df8d3146a43f..deb68b7555ad 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -54,8 +54,6 @@ modules.order
+ #
+ # Top-level generic files
+ #
+-/tags
+-/TAGS
+ /linux
+ /modules-only.symvers
+ /vmlinux
+@@ -114,6 +112,10 @@ patches-*
+ patches
+ series
+ 
++# ctags files
++tags
++TAGS
++
+ # cscope files
+ cscope.*
+ ncscope.*
 -- 
 2.27.0
 
