@@ -2,177 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E7DD36A530
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 08:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EAB36A53F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 09:08:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbhDYGwa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Apr 2021 02:52:30 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:35774 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbhDYGwa (ORCPT
+        id S229522AbhDYHIu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Apr 2021 03:08:50 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:50377 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229480AbhDYHIu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Apr 2021 02:52:30 -0400
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 13P6pQtJ032069;
-        Sun, 25 Apr 2021 15:51:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 13P6pQtJ032069
+        Sun, 25 Apr 2021 03:08:50 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 13P77E6F032328;
+        Sun, 25 Apr 2021 16:07:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 13P77E6F032328
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619333486;
-        bh=fq6uHIb/cJJkatsYaLvMlRRVoSgUHXQ2F7URKcyCYjY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L8oOh+l2R57U8EvoUxdxOP1jL/V7bhwvwgTBZsw8TqQBRKqEIeLRuf6kpicwXM6hk
-         jr5QZsVNTNiDJTpuKtEKVFwUu6xGoTidIH3uZGAoHJlsGrx9XC5HnBqpo1EEfhuRAV
-         u0o49Md09faWBYo6seI7mHNkUHqXAbAH63aZzS8ruRj30HpF2luoebqFxYV8CmxkEK
-         2EJ4IMQ9TcPOGhl/TcmTUpuc77IH1gqdNerM5Vo0NkADKUA6NRgcVSVymlx1p6lcOe
-         yzTcl6qZSs7njObCLn9LSSu6v1Pq0/W+sbA4PoaU/C5S/PIUSj4h963eUSH8oNxo2X
-         A8xyHOzFN8YHQ==
-X-Nifty-SrcIP: [209.85.210.182]
-Received: by mail-pf1-f182.google.com with SMTP id q2so4911324pfk.9;
-        Sat, 24 Apr 2021 23:51:26 -0700 (PDT)
-X-Gm-Message-State: AOAM533btbpLNKFPjbzcf9ZCqCWAoy9OKHwQQYYVVgxaDasb7OU8Jc8z
-        60A51+1Efwe4MDz+bWapxo4zGrHqExsS9OnQLvA=
-X-Google-Smtp-Source: ABdhPJwpLR6KMjuHnzWWb8gOxPWTrqkWjgtYZanY5FL55ShVD9qK4YevqIB/DEvejH6hDbGZ8R67vfNfIOsiMi6Aygo=
-X-Received: by 2002:a63:e044:: with SMTP id n4mr11493369pgj.47.1619333485813;
- Sat, 24 Apr 2021 23:51:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
-In-Reply-To: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
+        s=dec2015msa; t=1619334435;
+        bh=e6ebiU5ULjsvQr300Dk6h49ie/rrrFWrO2lUQXq6JzM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=I4BunMKeL0Ue5l5vmpDu7RlRqPy/iEWvFuaLJjK5Dz84pf1tUbGmZxRlAj9gfCjxt
+         JL7jroB+Ns3eoTwNDnRgGTQuYmdzpM34IekuYKyIQgX1mebLosKS/typ40B2Aw2yFP
+         /2hZY0sidDJq/DKkE6OfzGHXP7I145Su6bZ9Jqt3b6aIqRqqBQ98JDhAN7t6t2enua
+         eJNOU6HqpDZaTNlYiyzTpCE566HaZj9aISKGNvHt2wn49M+ninryGrrvH/tOhrfvrY
+         95PpII7S/IBYwCUOTuqn0+qXiqwAwAUB2NW6tWgaVfO6mm2GwNrTrm2W2jW6A6J7oV
+         Xi8CQU8wn2tfw==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 25 Apr 2021 15:50:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
-Message-ID: <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
-Subject: Re: [RESEND v2] Kbuild: Update config_data.gz only if KCONFIG_CONFIG
- materially changed
-To:     Elliot Berman <eberman@codeaurora.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        Trilok Soni <tsoni@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: add a script to remove stale generated files
+Date:   Sun, 25 Apr 2021 16:07:12 +0900
+Message-Id: <20210425070712.1202472-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 24, 2021 at 2:02 AM Elliot Berman <eberman@codeaurora.org> wrote:
+We maintain .gitignore and Makefiles so build artifacts are properly
+ignored by Git, and cleaned up by 'make clean'. However, the code is
+always changing; generated files are often moved to another directory,
+or removed when they become unnecessary. Such garbage files tend to be
+left over in the source tree because people usually git-pull without
+cleaning the tree.
 
+This is not only the noise for 'git status', but also a build issue
+in some cases.
 
-Sorry for the delay.
+One solution is to remove a stale file like commit 223c24a7dba9 ("kbuild:
+Automatically remove stale <linux/version.h> file") did. Such workaround
+should be removed after a while, but we forget about that if we scatter
+the workaround code in random places.
 
-This patch is over-engineering.
+So, this commit adds a new script to collect cleanings of stale files.
 
-I will apply this.
-https://patchwork.kernel.org/project/linux-kbuild/patch/20210425062407.1183801-5-masahiroy@kernel.org/
+As a start point, move the code in arch/arm/boot/compressed/Makefile
+into this script.
 
-The 'cmp' command is not expensive.
-md5sum is unneeded.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile                          |  6 +++++-
+ arch/arm/boot/compressed/Makefile |  7 -------
+ scripts/remove-stale-files        | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 8 deletions(-)
+ create mode 100755 scripts/remove-stale-files
 
-
-
-
-> If you update the timestamp of KCONFIG_CONFIG without actually changing
-> anything, config_data.gz is re-generated and causes vmlinux to re-link.
-> When Link Time Optimization is enabled, unnecessary re-linking of
-> vmlinux is highly desirable since it adds several minutes to build time.
->
-> Avoid touching config_data.gz by using a script to compare the existing
-> config_data.gz, KCONFIG_CONFIG, or script itself to update only if any
-> is mismatched.  The script follows gen_kheaders.sh approach for
-> determing in update is needed. The script intentionally avoids
-> re-compressing KCONFIG_CONFIG.
->
-> The .config can be touched, for instance, by a build script which
-> installs the default defconfig and then applies a defconfig fragment on
-> top.
->
-> For a simple example on my x86 machine, I modified x86 default defconfig to set
-> CONFIG_IKCONFIG=y and run:
->   make -j50 defconfig tiny.config vmlinux
->   make -j50 defconfig tiny.config vmlinux
-> With this patch, vmlinux is not re-built as a result of config_data.gz
-> change.
->
-> Changes in v2:
->  - Use md5 checksum to compare .config instead of gzip'ing again
->
-> Signed-off-by: Elliot Berman <eberman@codeaurora.org>
-> ---
->  kernel/.gitignore         |  1 +
->  kernel/Makefile           |  4 +++-
->  kernel/gen_config_data.sh | 31 +++++++++++++++++++++++++++++++
->  3 files changed, 35 insertions(+), 1 deletion(-)
->  create mode 100755 kernel/gen_config_data.sh
->
-> diff --git a/kernel/.gitignore b/kernel/.gitignore
-> index 78701ea..a191136 100644
-> --- a/kernel/.gitignore
-> +++ b/kernel/.gitignore
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +config_data.gz.md5
->  kheaders.md5
->  timeconst.h
->  hz.bc
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index 320f1f3..0784bf3d 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -139,8 +139,10 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
->  $(obj)/configs.o: $(obj)/config_data.gz
->
->  targets += config_data.gz
-> +quiet_cmd_genicfg = CHK     $(obj)/config_data.gz
-> +      cmd_genicfg = $(CONFIG_SHELL) $(srctree)/kernel/gen_config_data.sh $@ $<
->  $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
-> -       $(call if_changed,gzip)
-> +       $(call cmd,genicfg)
->
->  $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
->
-> diff --git a/kernel/gen_config_data.sh b/kernel/gen_config_data.sh
-> new file mode 100755
-> index 00000000..e9ff193
-> --- /dev/null
-> +++ b/kernel/gen_config_data.sh
-> @@ -0,0 +1,31 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# This script generates a compressed version of .config, if its checksum has changed
-> +set -e
-> +
-> +this_file="$(readlink -f "$0")"
-> +outfile=$1
-> +infile=$2
-> +
-> +config_md5="$(md5sum $infile | cut -d ' ' -f1)"
-> +# Any changes to this script will also cause a rebuild of config_data.
-> +this_file_md5="$(md5sum $sfile | cut -d ' ' -f1)"
-> +if [ -f $outfile ]; then outfile_md5="$(md5sum $outfile | cut -d ' ' -f1)"; fi
-> +
-> +if [ -f $outfile.md5 ] &&
-> +       [ "$(head -n 1 $outfile.md5)" = "$config_md5" ] &&
-> +       [ "$(head -n 2 $outfile.md5 | tail -n 1)" = "$this_file_md5" ] &&
-> +       [ "$(tail -n 1 $outfile.md5)" = "$outfile_md5" ]; then
-> +               exit
-> +fi
-> +
-> +if [ "${quiet}" != "silent_" ]; then
-> +       echo "  GEN     $outfile"
-> +fi
-> +
-> +${KGZIP} -c -n -f -9 $infile > $outfile
-> +
-> +echo "$config_md5" > $outfile.md5
-> +echo "$this_file_md5" >> $outfile.md5
-> +echo "$(md5sum $outfile | cut -d ' ' -f1)" >> $outfile.md5
-> --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
-
-
+diff --git a/Makefile b/Makefile
+index b14483742a67..e970c8adf272 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1202,7 +1202,7 @@ PHONY += prepare archprepare
+ 
+ archprepare: outputmakefile archheaders archscripts scripts include/config/kernel.release \
+ 	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h \
+-	include/generated/autoconf.h
++	include/generated/autoconf.h remove-stale-files
+ 
+ prepare0: archprepare
+ 	$(Q)$(MAKE) $(build)=scripts/mod
+@@ -1211,6 +1211,10 @@ prepare0: archprepare
+ # All the preparing..
+ prepare: prepare0 prepare-objtool prepare-resolve_btfids
+ 
++PHONY += remove-stale-files
++remove-stale-files:
++	$(Q)$(srctree)/scripts/remove-stale-files
++
+ # Support for using generic headers in asm-generic
+ asm-generic := -f $(srctree)/scripts/Makefile.asm-generic obj
+ 
+diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+index fd94e27ba4fa..182b300e3f8a 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -96,13 +96,6 @@ endif
+ $(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_check_mem_start.o, \
+ 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt -fno-stack-protector))
+ 
+-# These were previously generated C files. When you are building the kernel
+-# with O=, make sure to remove the stale files in the output tree. Otherwise,
+-# the build system wrongly compiles the stale ones.
+-ifdef building_out_of_srctree
+-$(shell rm -f $(addprefix $(obj)/, fdt_rw.c fdt_ro.c fdt_wip.c fdt.c))
+-endif
+-
+ targets       := vmlinux vmlinux.lds piggy_data piggy.o \
+ 		 lib1funcs.o ashldi3.o bswapsdi2.o \
+ 		 head.o $(OBJS)
+diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+new file mode 100755
+index 000000000000..c3eb81c3f7de
+--- /dev/null
++++ b/scripts/remove-stale-files
+@@ -0,0 +1,31 @@
++#!/bin/sh
++
++set -e
++
++# When you move, remove or rename generated files, you probably also update
++# .gitignore and cleaning rules in the Makefile. This is the right thing
++# to do. However, people usually do 'git pull', 'git bisect', etc. without
++# running 'make clean'. Then, the stale generated files are left over, often
++# causing build issues.
++#
++# Also, 'git status' shows such stale build artifacts as untracked files.
++# What is worse, some people send a wrong patch to get them back to .gitignore
++# without checking the commit history.
++#
++# So, when you (re)move generated files, please move the cleaning rules from
++# the Makefile to this script. This is run before Kbuild starts building
++# anything, so people will not be annoyed by such garbage files.
++#
++# This script is not intended to grow endlessly. Rather, it is a temporary scrap
++# yard. Stale files stay in this file for a while (for some release cycles?),
++# then will be really dead and removed from the code base entirely.
++
++# These were previously generated source files. When you are building the kernel
++# with O=, make sure to remove the stale files in the output tree. Otherwise,
++# the build system wrongly compiles the stale ones.
++if [ -n "${building_out_of_srctree}" ]; then
++	for f in fdt_rw.c fdt_ro.c fdt_wip.c fdt.c
++	do
++		rm -f arch/arm/boot/compressed/${f}
++	done
++fi
 -- 
-Best Regards
-Masahiro Yamada
+2.27.0
+
