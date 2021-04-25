@@ -2,129 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23D1436A512
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 08:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E7DD36A530
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Apr 2021 08:51:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbhDYGZY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Apr 2021 02:25:24 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:20919 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbhDYGZY (ORCPT
+        id S229522AbhDYGwa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 25 Apr 2021 02:52:30 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:35774 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229480AbhDYGwa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Apr 2021 02:25:24 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 13P6OBfM031298;
-        Sun, 25 Apr 2021 15:24:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 13P6OBfM031298
+        Sun, 25 Apr 2021 02:52:30 -0400
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 13P6pQtJ032069;
+        Sun, 25 Apr 2021 15:51:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 13P6pQtJ032069
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619331855;
-        bh=/O20R/iU0g1jzgc/IGeu4SUnv5vDMesuCm/+pl5398s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PqdyjgfwOE+3wVi8ZeKywMjOJuF+GbtdqRp4Y1BTtKCRAu4+VIlrwdIsDunlazsdX
-         8NfTbS9c4VnQbMX9tQcYohoK349WWrv3ADlpIabl6PPiX8YTtYCpQC84Lx3LpxrYdl
-         7TsyrWT57P3uY7xqmVJhM2NlMMvaIAU09xr5KVcN9HNJZbeLSQIoml/bkYlszhXz2j
-         vo0Q0jKcK5WJXqZFr4B8dbetTVebCFNdmXMhDZeoZztquietvm56Wn/1OAJ+2ejGvN
-         MOVNpBQb7McirjkrdwMr9mEfnlKkNEjU4HjAGT3vYPOXQbWRdWtF8/Yg4hSgaUOjhs
-         M18Qsyzz3W+Lw==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Elliot Berman <eberman@codeaurora.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] kbuild: update config_data.gz only when the content of .config is changed
-Date:   Sun, 25 Apr 2021 15:24:07 +0900
-Message-Id: <20210425062407.1183801-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210425062407.1183801-1-masahiroy@kernel.org>
-References: <20210425062407.1183801-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1619333486;
+        bh=fq6uHIb/cJJkatsYaLvMlRRVoSgUHXQ2F7URKcyCYjY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=L8oOh+l2R57U8EvoUxdxOP1jL/V7bhwvwgTBZsw8TqQBRKqEIeLRuf6kpicwXM6hk
+         jr5QZsVNTNiDJTpuKtEKVFwUu6xGoTidIH3uZGAoHJlsGrx9XC5HnBqpo1EEfhuRAV
+         u0o49Md09faWBYo6seI7mHNkUHqXAbAH63aZzS8ruRj30HpF2luoebqFxYV8CmxkEK
+         2EJ4IMQ9TcPOGhl/TcmTUpuc77IH1gqdNerM5Vo0NkADKUA6NRgcVSVymlx1p6lcOe
+         yzTcl6qZSs7njObCLn9LSSu6v1Pq0/W+sbA4PoaU/C5S/PIUSj4h963eUSH8oNxo2X
+         A8xyHOzFN8YHQ==
+X-Nifty-SrcIP: [209.85.210.182]
+Received: by mail-pf1-f182.google.com with SMTP id q2so4911324pfk.9;
+        Sat, 24 Apr 2021 23:51:26 -0700 (PDT)
+X-Gm-Message-State: AOAM533btbpLNKFPjbzcf9ZCqCWAoy9OKHwQQYYVVgxaDasb7OU8Jc8z
+        60A51+1Efwe4MDz+bWapxo4zGrHqExsS9OnQLvA=
+X-Google-Smtp-Source: ABdhPJwpLR6KMjuHnzWWb8gOxPWTrqkWjgtYZanY5FL55ShVD9qK4YevqIB/DEvejH6hDbGZ8R67vfNfIOsiMi6Aygo=
+X-Received: by 2002:a63:e044:: with SMTP id n4mr11493369pgj.47.1619333485813;
+ Sat, 24 Apr 2021 23:51:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
+In-Reply-To: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 25 Apr 2021 15:50:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
+Message-ID: <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
+Subject: Re: [RESEND v2] Kbuild: Update config_data.gz only if KCONFIG_CONFIG
+ materially changed
+To:     Elliot Berman <eberman@codeaurora.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Trilok Soni <tsoni@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the timestamp of the .config file is updated, config_data.gz is
-regenerated, then vmlinux is re-linked. This occurs even if the content
-of the .config has actually not changed.
+On Sat, Apr 24, 2021 at 2:02 AM Elliot Berman <eberman@codeaurora.org> wrote:
 
-This issue was mitigated by commit 67424f61f813 ("kconfig: do not write
-.config if the content is the same"); Kconfig does not update the
-.config when it ends up with the identical configuration.
 
-The issue is remaining when the .config is created by *_defconfig with
-some config fragment(s) applied on top.
+Sorry for the delay.
 
-This is typical for powerpc and mips, where several *_defconfig targets
-are constructed by (ab)using merge_config.sh.
+This patch is over-engineering.
 
-One workaround is to have the copy of the .config. The filechk rule
-updates the copy, kernel/config_data, by checking the content instead
-of the timestamp.
+I will apply this.
+https://patchwork.kernel.org/project/linux-kbuild/patch/20210425062407.1183801-5-masahiroy@kernel.org/
 
-With this commit, the second run with the same configuration avoids
-the needless rebuilds.
+The 'cmp' command is not expensive.
+md5sum is unneeded.
 
-  $ make ARCH=mips defconfig all
-   [ snip ]
-  $ make ARCH=mips defconfig all
-  *** Default configuration is based on target '32r2el_defconfig'
-  Using ./arch/mips/configs/generic_defconfig as base
-  Merging arch/mips/configs/generic/32r2.config
-  Merging arch/mips/configs/generic/el.config
-  Merging ./arch/mips/configs/generic/board-boston.config
-  Merging ./arch/mips/configs/generic/board-ni169445.config
-  Merging ./arch/mips/configs/generic/board-ocelot.config
-  Merging ./arch/mips/configs/generic/board-ranchu.config
-  Merging ./arch/mips/configs/generic/board-sead-3.config
-  Merging ./arch/mips/configs/generic/board-xilfpga.config
-  #
-  # configuration written to .config
-  #
-    SYNC    include/config/auto.conf
-    CALL    scripts/checksyscalls.sh
-    CALL    scripts/atomic/check-atomics.sh
-    CHK     include/generated/compile.h
-    CHK     include/generated/autoksyms.h
 
-Reported-by: Elliot Berman <eberman@codeaurora.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- kernel/.gitignore | 1 +
- kernel/Makefile   | 9 +++++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index 4dc1ffe9770b..c6b299a6b786 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+/config_data
- /kheaders.md5
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 320f1f3941b7..605ec3e70cb7 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -138,10 +138,15 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
- 
- $(obj)/configs.o: $(obj)/config_data.gz
- 
--targets += config_data.gz
--$(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
-+targets += config_data config_data.gz
-+$(obj)/config_data.gz: $(obj)/config_data FORCE
- 	$(call if_changed,gzip)
- 
-+filechk_cat = cat $<
-+
-+$(obj)/config_data: $(KCONFIG_CONFIG) FORCE
-+	$(call filechk,cat)
-+
- $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
- 
- quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
+
+> If you update the timestamp of KCONFIG_CONFIG without actually changing
+> anything, config_data.gz is re-generated and causes vmlinux to re-link.
+> When Link Time Optimization is enabled, unnecessary re-linking of
+> vmlinux is highly desirable since it adds several minutes to build time.
+>
+> Avoid touching config_data.gz by using a script to compare the existing
+> config_data.gz, KCONFIG_CONFIG, or script itself to update only if any
+> is mismatched.  The script follows gen_kheaders.sh approach for
+> determing in update is needed. The script intentionally avoids
+> re-compressing KCONFIG_CONFIG.
+>
+> The .config can be touched, for instance, by a build script which
+> installs the default defconfig and then applies a defconfig fragment on
+> top.
+>
+> For a simple example on my x86 machine, I modified x86 default defconfig to set
+> CONFIG_IKCONFIG=y and run:
+>   make -j50 defconfig tiny.config vmlinux
+>   make -j50 defconfig tiny.config vmlinux
+> With this patch, vmlinux is not re-built as a result of config_data.gz
+> change.
+>
+> Changes in v2:
+>  - Use md5 checksum to compare .config instead of gzip'ing again
+>
+> Signed-off-by: Elliot Berman <eberman@codeaurora.org>
+> ---
+>  kernel/.gitignore         |  1 +
+>  kernel/Makefile           |  4 +++-
+>  kernel/gen_config_data.sh | 31 +++++++++++++++++++++++++++++++
+>  3 files changed, 35 insertions(+), 1 deletion(-)
+>  create mode 100755 kernel/gen_config_data.sh
+>
+> diff --git a/kernel/.gitignore b/kernel/.gitignore
+> index 78701ea..a191136 100644
+> --- a/kernel/.gitignore
+> +++ b/kernel/.gitignore
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +config_data.gz.md5
+>  kheaders.md5
+>  timeconst.h
+>  hz.bc
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 320f1f3..0784bf3d 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -139,8 +139,10 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
+>  $(obj)/configs.o: $(obj)/config_data.gz
+>
+>  targets += config_data.gz
+> +quiet_cmd_genicfg = CHK     $(obj)/config_data.gz
+> +      cmd_genicfg = $(CONFIG_SHELL) $(srctree)/kernel/gen_config_data.sh $@ $<
+>  $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+> -       $(call if_changed,gzip)
+> +       $(call cmd,genicfg)
+>
+>  $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+>
+> diff --git a/kernel/gen_config_data.sh b/kernel/gen_config_data.sh
+> new file mode 100755
+> index 00000000..e9ff193
+> --- /dev/null
+> +++ b/kernel/gen_config_data.sh
+> @@ -0,0 +1,31 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +# This script generates a compressed version of .config, if its checksum has changed
+> +set -e
+> +
+> +this_file="$(readlink -f "$0")"
+> +outfile=$1
+> +infile=$2
+> +
+> +config_md5="$(md5sum $infile | cut -d ' ' -f1)"
+> +# Any changes to this script will also cause a rebuild of config_data.
+> +this_file_md5="$(md5sum $sfile | cut -d ' ' -f1)"
+> +if [ -f $outfile ]; then outfile_md5="$(md5sum $outfile | cut -d ' ' -f1)"; fi
+> +
+> +if [ -f $outfile.md5 ] &&
+> +       [ "$(head -n 1 $outfile.md5)" = "$config_md5" ] &&
+> +       [ "$(head -n 2 $outfile.md5 | tail -n 1)" = "$this_file_md5" ] &&
+> +       [ "$(tail -n 1 $outfile.md5)" = "$outfile_md5" ]; then
+> +               exit
+> +fi
+> +
+> +if [ "${quiet}" != "silent_" ]; then
+> +       echo "  GEN     $outfile"
+> +fi
+> +
+> +${KGZIP} -c -n -f -9 $infile > $outfile
+> +
+> +echo "$config_md5" > $outfile.md5
+> +echo "$this_file_md5" >> $outfile.md5
+> +echo "$(md5sum $outfile | cut -d ' ' -f1)" >> $outfile.md5
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
