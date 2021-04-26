@@ -2,120 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A79DD36AA09
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 02:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456AD36ABD5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 07:31:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231513AbhDZAcZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 25 Apr 2021 20:32:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbhDZAcY (ORCPT
+        id S229554AbhDZFcV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Apr 2021 01:32:21 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:58204 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229469AbhDZFcV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 25 Apr 2021 20:32:24 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D61C061574
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 Apr 2021 17:31:38 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id u20so62031697lja.13
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 Apr 2021 17:31:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xiJzJOLdknIj0RBYTk/1dN6htHjhW+TONZdztDGFbBU=;
-        b=Jdq7oZq6fxDOqg46MRmtQhPd4SrRlEoVknjUuOCN8BcuzP0XNt6vzVqFCgtk1RQnDo
-         aoNcId528WptBW8I/GRW0hTa2aXzAWWFwChG0KT+nxIMCls5G27DWJ1JE6OnT+o+2yLV
-         aQqNBLsysaitWjvDbKKJq91G8PTL4sGca2FUlg4KbpmK5vpAvTqmOQ/bOFj6yLDG/9mg
-         xjcfvDF0r9YdV+2/oWeKiDvthYWFkTUor+1dsPncf5EHnm3RR1SVKQAGE8Nxv0eVODnN
-         kn5XxNw2deklLmJjDafIhLdW0X2KtTmQhB1X51MPIrl0AaDBNZ16CsRhDmLQ7Rh7W3o8
-         lesQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xiJzJOLdknIj0RBYTk/1dN6htHjhW+TONZdztDGFbBU=;
-        b=abYhwxeaNuy/J6IkufTv3HOFs2Lwzjo9FSP/GVzyCvM7Kdim83kJJvmv5CgbX1pAQz
-         cw7lGI6LEk6713zlBEmojPFT2MXi852lktG2VpU7Mbv/3EM3zSExVox1HLD0iYwteSQI
-         wgEoiRGVti7rTT4BeP3PW3WpNn8KLPs4PC6w55Htvz/jJjy7NM3B5jVSYI8GSsrxW5fD
-         XcwptTeT0/DdtouUWeud0eo71Di5RJOlwwekBjCyezSYofgE6YCOiagQdqxKdUBU+rFV
-         bNcrNb4dlX2Z0aJdM748rhzgHD5e+T6TxpgZY67tjbnnGfdCSQ25MErubUfX89QDYPeE
-         jj+g==
-X-Gm-Message-State: AOAM531k99dvhdgRAo3p+fNxKCjHtpRl5Yh0O6l8EzmMOmFqeMM9yezc
-        ZIWSV9pJNIT+9rM9QKFsgbgbgsthUlmmCy7nrjM7PA==
-X-Google-Smtp-Source: ABdhPJzMJggL0ZBTNgft14ZUf0CVG/24WpdjGgjRupl3gpl/UhKK6SN9IOAxYxBKJAnZm1R2/rMVeGJ9kPNWkYsj1cE=
-X-Received: by 2002:a2e:a54c:: with SMTP id e12mr11354812ljn.326.1619397097310;
- Sun, 25 Apr 2021 17:31:37 -0700 (PDT)
+        Mon, 26 Apr 2021 01:32:21 -0400
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 13Q5VNwZ015418
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 14:31:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 13Q5VNwZ015418
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1619415083;
+        bh=laZ/hERka+or3Yqxw4QGQ8Xbsd9MCcUnzQVJrtZc3Tw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tRvKzOSmaLiic5ZSO4D6T6p5S+iJYh1wi1Oo15PLM12tU764+s/N7WiZkDOUqGuLX
+         c7EjaHMb2Z/lPORz8ROj96YlMIACh9LzIIOwTvF7p3Ox/AXFacvI3r5oTUyPB9X8jR
+         WaengVD58CnXQj5UpDRXqlZGET7iIIKDe2olG6Rb7ZxW15Rvskv3fCllWL4DYO7JZL
+         NjQOvbZGnfHF7nIl74k1ATFeBo5E2WcqDOURU38pbkMjvTRKkGAQ4dUBEBwGwVJ7ap
+         0qHxLQI9Lbq8nuE0jwvTyG1NgMrrLHL3+RJvcIsaf8cXoqzhrIE0lTtLJSb9fPEgSV
+         P1Vw5kZhho3+g==
+X-Nifty-SrcIP: [209.85.216.51]
+Received: by mail-pj1-f51.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so4498199pjh.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 25 Apr 2021 22:31:23 -0700 (PDT)
+X-Gm-Message-State: AOAM533FQ7zjfX9laHPTD3uiuLBf2mFT5wmNPBNlo7y+ARz0LLeZ7cH4
+        POmYrD/dLzTZ/EC5CljVzH6xx3eXo7pqgTcYUJk=
+X-Google-Smtp-Source: ABdhPJwGJP32sfW4llJeecDWNQFFAPTDGjsOMWCYTjNwF0QW9dLR1Pbl12GA/4UwGRB+OKCU4c9tYBiuOJA1V1vZxgg=
+X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id
+ y5-20020a170902d645b02900e8ec90d097mr16978691plh.47.1619415082932; Sun, 25
+ Apr 2021 22:31:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
-In-Reply-To: <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 26 Apr 2021 02:31:26 +0200
-Message-ID: <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+References: <CAGRSmLsJmR_NFcovYSP-gK52qDASP4csbaOjx2Sfk9HvhHvAfQ@mail.gmail.com>
+ <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com>
+In-Reply-To: <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 26 Apr 2021 14:30:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
+Message-ID: <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
+Subject: Re: 5.10 build issue creating library for driver support.
+To:     "David F." <df7729@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 22, 2021 at 11:29 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-
-> > But as subsystem maintainer I'd like a clear picture of this wrapper
-> > overhead, what does it usually entail? A typical kernel API has
-> > vtable and a few variables, not much more than that.
+On Sat, Apr 24, 2021 at 10:26 PM David F. <df7729@gmail.com> wrote:
 >
-> If you mean runtime-overhead, i.e. performance, it should be very
-> small or even zero. It should be possible to perform LTO across
-> languages too.
+> Hello,
 >
-> If you mean source code overhead, or cognitive overhead, then it is
-> quite a bit, yes. Please see below.
-
-Yeah that is what I mean :)
-
-> I hear you! I do not think it will take decades for kernel developers
-> to get up to speed, but I agree that having some help/backup is a very
-> good idea in the beginning.
+> I moved to 5.10 from 5.4 now I have build problem:
 >
-> Our hope is that, if Rust advantages prove themselves, then it will
-> the subsystem maintainers the ones that will want to create and
-> maintain the wrappers so that drivers in their tree are easier to
-> maintain and less prone to mistakes ;-)
+> "No rule to make target '/path/to/sourcefile.o', needed by '/path/to/lib.a' Stop
+>
+> The build will build a small library file of shared driver support
+> routines, but it doesn't appear the build will support a library
+> anymore?  Is there a patch for that?
+>
+> There was a patch that fix a prior problem of linking to a lib.a file:
+>
+> Subject: Moving from 4.x to 5.4.22 breaks custom module build.
+>
+> Is there a fix for this new issue?
+>
+> Thanks.
 
-I am not really convinced that (leaf) drivers is where Rust will
-help most.
 
-As I mentioned in my mail to Wedson that I think things like network
-protocols that deal with abstract entities will have more "pure code"
-(not deal with machine registers, just RAM memory).
-File systems would be another example.
+I think you asked the same question before,
+and you found a patch.
 
-I think the Rust proponents should be open to the fact that their
-work will eventually depend on themselves or someone else
-fixing a working compiler for the maintained architectures in
-the Linux kernel one way or the other, so they will be able to
-work with Rust project anywhere in the kernel.
+https://patchwork.kernel.org/project/linux-kbuild/patch/20200106032324.3147-1-masahiroy@kernel.org/#23088533
+Doesn't this solve your problem?
 
-For example m68k is not going away. Avoiding this question
-of compiler support, just waiting and hoping that these old
-architectures will disappear is the wrong idea. The right idea
-is to recognize that LLVM and/or GCC Rust needs to
-support all these architectures so they can all use Rust.
-Someone needs to put in the effort.
-
-After all fixing that compiler support is an insignificant amount
-of work compared to what Rust in the core kernel will be.
-
-Yours,
-Linus Walleij
+-- 
+Best Regards
+Masahiro Yamada
