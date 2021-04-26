@@ -2,195 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B486E36B697
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 18:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A2BC36B87B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 20:01:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234283AbhDZQR0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Apr 2021 12:17:26 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:13458 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234220AbhDZQRZ (ORCPT
+        id S237683AbhDZSCW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Apr 2021 14:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235357AbhDZSCS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Apr 2021 12:17:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619453804; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=fnSv2x/M6lmyI3dMHHLz1XBQjVyPXD5z6FVrB+7BHQ0=; b=jNyDNFwhKXnPhExcMIPScXnuqQawv43gNnaqkUFWY0rnfLIYXbgjiZfdpn255NZDWNpaXdJg
- a650WBFx+LJ1EKNXGfvjzpQ0ghBBXxBkbJt4z3vcXtj32HC8/qvA1Cn+drfK2weQlzhdnrnm
- NMhE9h3ST+pxhWZFapcBdKuMkik=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 6086e75b2cc44d3aea10338a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Apr 2021 16:16:27
- GMT
-Sender: eberman=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 28F95C43217; Mon, 26 Apr 2021 16:16:27 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from [10.110.119.201] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: eberman)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 227E4C433D3;
-        Mon, 26 Apr 2021 16:16:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 227E4C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=eberman@codeaurora.org
-Subject: Re: [RESEND v2] Kbuild: Update config_data.gz only if KCONFIG_CONFIG
- materially changed
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        Trilok Soni <tsoni@codeaurora.org>
-References: <1619197235-13860-1-git-send-email-eberman@codeaurora.org>
- <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
-From:   Elliot Berman <eberman@codeaurora.org>
-Message-ID: <42674c78-28d7-35b5-5e01-07dec7eed938@codeaurora.org>
-Date:   Mon, 26 Apr 2021 09:16:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Mon, 26 Apr 2021 14:02:18 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D31C061574;
+        Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id p126so12345668yba.1;
+        Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Jy4OFsO0PDb4s3VtfvvtXkiYMuYdbRS3kT7/Hvwb0lc=;
+        b=Cc0m3YnBbqfGZSKW9pO2qzUWrj0YihP9qtdd9ehIRk/+kz6tR4873rBCMwZSaqUM6G
+         jkoxmHjSGp0ha53OhAfkLfcm38V8ixOLFtgIEUIZHkE2J0uv3zEztiOSXOe9MhoInQ9z
+         iR3CXcCk3Sloff6y3nwbUvQ6y+vkCCjtspr1Ppx3EP2iqjFuxKTXLceQXGS/YiTbzgFy
+         uNjiG6iXo1g4GULV1udH2ZyrpEZX2Nl2hDuM0g6PC1U1IZbc4smsXqhK2RWzTabFKUc4
+         xbuz4VwCtjcX7zF/VnPOhZv93q7x7EMwqFkXIKXQ8f6pn9pEnnBMHCdF9XdQIS736nIn
+         4MdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jy4OFsO0PDb4s3VtfvvtXkiYMuYdbRS3kT7/Hvwb0lc=;
+        b=cLTyk+g1ggbJLvN8Bt5dFVUNW+r323ScrMW9vOjBaoP5F0xtMFoSFLIVTcBhMazrdZ
+         mq1SxFe4+hQE3/N5G4/rQ/Dm9V15BzSB8QIHkVQSAzbMDYCGmUEU/wdiPdtFW99aEdJS
+         o80A4bRCuMFbyXi6WUs9wpn29KD/uJa52hJF39Zgqic+cWVtmzvVcBRgAgOENu6IqnII
+         6KjY1H+fCF47YEWCH/TQiF3+MuaQEVZzPT/8jIDsEZonxutf0Z8MpLdy6u8QIvFqtqzB
+         ecWAl4geSZpBMW6DIwk076cMcn4JzxfoPtzKzZytyEZKpB6V6KTRayFhnql5jS7VVro/
+         ch2Q==
+X-Gm-Message-State: AOAM5325J3Td89PtXV8TXg2T9UtBqApYdvmELtWhAf37bq3SsX/7iYl1
+        DTbFDrk6oQRh8BkIt7ldmHmrG7h5oTkZ+iznoo0=
+X-Google-Smtp-Source: ABdhPJwP5wBlcrmkMKIEQfkfFF5xNCT0t11kzMWAEMF7lxCkrpnE3u/XrWU+Aasdl3+MAnjcikXH+i2L0ia9gqqNvec=
+X-Received: by 2002:a25:bfc9:: with SMTP id q9mr25486485ybm.33.1619460093262;
+ Mon, 26 Apr 2021 11:01:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNASzP-pMu7Yd6nkoV_mxOUeouYNLW_xZUy94E_WCdjJ5PA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+ <YIGVFCymUn+4HBIj@google.com> <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
+In-Reply-To: <CACRpkdat-4BbKHMBerdxXBseMb9O3PiDRZmMLP_OWFE2ctSgEg@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 26 Apr 2021 20:01:21 +0200
+Message-ID: <CANiq72=YAU1iNyUpXd-1VgQQDxy+wCRLkqp==a4QH2ir_pe5Jg@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Mon, Apr 26, 2021 at 2:18 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> static void yas53x_extract_calibration(u8 *data, struct yas5xx_calibration *c)
+> {
+>         u64 val = get_unaligned_be64(data);
+>
+>         c->a2 = FIELD_GET(GENMASK_ULL(63, 58), val) - 32;
+>         c->a3 = FIELD_GET(GENMASK_ULL(57, 54), val) - 8;
+>         c->a4 = FIELD_GET(GENMASK_ULL(53, 48), val) - 32;
+>         c->a5 = FIELD_GET(GENMASK_ULL(47, 42), val) + 38;
+>         c->a6 = FIELD_GET(GENMASK_ULL(41, 36), val) - 32;
+>         c->a7 = FIELD_GET(GENMASK_ULL(35, 29), val) - 64;
+>         c->a8 = FIELD_GET(GENMASK_ULL(28, 23), val) - 32;
+>         c->a9 = FIELD_GET(GENMASK_ULL(22, 15), val);
+>         c->k = FIELD_GET(GENMASK_ULL(14, 10), val) + 10;
+>         c->dck = FIELD_GET(GENMASK_ULL(9, 7), val);
+> }
 
+By the way, to give a more concrete example, this function could look like this:
 
-On 4/24/2021 11:50 PM, Masahiro Yamada wrote:
-> On Sat, Apr 24, 2021 at 2:02 AM Elliot Berman <eberman@codeaurora.org> wrote:
-> 
-> 
-> Sorry for the delay.
+    fn yas53x_extract_calibration(data: [u8; 8], c: &mut yas5xx_calibration)
+    {
+        let val = u64::from_be_bytes(data);
 
-No problem!
+        c.a2 = FIELD_GET(GENMASK_ULL(63, 58), val) - 32;
+        c.a3 = FIELD_GET(GENMASK_ULL(57, 54), val) - 8;
+        c.a4 = FIELD_GET(GENMASK_ULL(53, 48), val) - 32;
+        c.a5 = FIELD_GET(GENMASK_ULL(47, 42), val) + 38;
+        c.a6 = FIELD_GET(GENMASK_ULL(41, 36), val) - 32;
+        c.a7 = FIELD_GET(GENMASK_ULL(35, 29), val) - 64;
+        c.a8 = FIELD_GET(GENMASK_ULL(28, 23), val) - 32;
+        c.a9 = FIELD_GET(GENMASK_ULL(22, 15), val);
+        c.k = FIELD_GET(GENMASK_ULL(14, 10), val) + 10;
+        c.dck = FIELD_GET(GENMASK_ULL(9, 7), val) as u8;
+    }
 
-> 
-> This patch is over-engineering.
+assuming `FIELD_GET()` returns `i32`. In particular, `GENMASK_ULL` and
+`FIELD_GET` can be written as normal functions, no need for macros
+(and can be `const fn` too -- i.e. can be evaluated at compile-time if
+needed).
 
-I thought so, too.
+As you see, it looks remarkably similar, and there is no `unsafe`
+because we pass the array of bytes instead of a raw pointer.
 
-> 
-> I will apply this.
-> https://patchwork.kernel.org/project/linux-kbuild/patch/20210425062407.1183801-5-masahiroy@kernel.org/
-> 
-> The 'cmp' command is not expensive.
-> md5sum is unneeded.
+The caller needs to get the array from somewhere, of course -- if you
+only have a raw pointer to start with, then the caller will need an
+`unsafe` line to dereference it, as usual.
 
-Thanks!
-
-> 
->> If you update the timestamp of KCONFIG_CONFIG without actually changing
->> anything, config_data.gz is re-generated and causes vmlinux to re-link.
->> When Link Time Optimization is enabled, unnecessary re-linking of
->> vmlinux is highly desirable since it adds several minutes to build time.
->>
->> Avoid touching config_data.gz by using a script to compare the existing
->> config_data.gz, KCONFIG_CONFIG, or script itself to update only if any
->> is mismatched.  The script follows gen_kheaders.sh approach for
->> determing in update is needed. The script intentionally avoids
->> re-compressing KCONFIG_CONFIG.
->>
->> The .config can be touched, for instance, by a build script which
->> installs the default defconfig and then applies a defconfig fragment on
->> top.
->>
->> For a simple example on my x86 machine, I modified x86 default defconfig to set
->> CONFIG_IKCONFIG=y and run:
->>    make -j50 defconfig tiny.config vmlinux
->>    make -j50 defconfig tiny.config vmlinux
->> With this patch, vmlinux is not re-built as a result of config_data.gz
->> change.
->>
->> Changes in v2:
->>   - Use md5 checksum to compare .config instead of gzip'ing again
->>
->> Signed-off-by: Elliot Berman <eberman@codeaurora.org>
->> ---
->>   kernel/.gitignore         |  1 +
->>   kernel/Makefile           |  4 +++-
->>   kernel/gen_config_data.sh | 31 +++++++++++++++++++++++++++++++
->>   3 files changed, 35 insertions(+), 1 deletion(-)
->>   create mode 100755 kernel/gen_config_data.sh
->>
->> diff --git a/kernel/.gitignore b/kernel/.gitignore
->> index 78701ea..a191136 100644
->> --- a/kernel/.gitignore
->> +++ b/kernel/.gitignore
->> @@ -1,4 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->> +config_data.gz.md5
->>   kheaders.md5
->>   timeconst.h
->>   hz.bc
->> diff --git a/kernel/Makefile b/kernel/Makefile
->> index 320f1f3..0784bf3d 100644
->> --- a/kernel/Makefile
->> +++ b/kernel/Makefile
->> @@ -139,8 +139,10 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
->>   $(obj)/configs.o: $(obj)/config_data.gz
->>
->>   targets += config_data.gz
->> +quiet_cmd_genicfg = CHK     $(obj)/config_data.gz
->> +      cmd_genicfg = $(CONFIG_SHELL) $(srctree)/kernel/gen_config_data.sh $@ $<
->>   $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
->> -       $(call if_changed,gzip)
->> +       $(call cmd,genicfg)
->>
->>   $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
->>
->> diff --git a/kernel/gen_config_data.sh b/kernel/gen_config_data.sh
->> new file mode 100755
->> index 00000000..e9ff193
->> --- /dev/null
->> +++ b/kernel/gen_config_data.sh
->> @@ -0,0 +1,31 @@
->> +#!/bin/sh
->> +# SPDX-License-Identifier: GPL-2.0
->> +
->> +# This script generates a compressed version of .config, if its checksum has changed
->> +set -e
->> +
->> +this_file="$(readlink -f "$0")"
->> +outfile=$1
->> +infile=$2
->> +
->> +config_md5="$(md5sum $infile | cut -d ' ' -f1)"
->> +# Any changes to this script will also cause a rebuild of config_data.
->> +this_file_md5="$(md5sum $sfile | cut -d ' ' -f1)"
->> +if [ -f $outfile ]; then outfile_md5="$(md5sum $outfile | cut -d ' ' -f1)"; fi
->> +
->> +if [ -f $outfile.md5 ] &&
->> +       [ "$(head -n 1 $outfile.md5)" = "$config_md5" ] &&
->> +       [ "$(head -n 2 $outfile.md5 | tail -n 1)" = "$this_file_md5" ] &&
->> +       [ "$(tail -n 1 $outfile.md5)" = "$outfile_md5" ]; then
->> +               exit
->> +fi
->> +
->> +if [ "${quiet}" != "silent_" ]; then
->> +       echo "  GEN     $outfile"
->> +fi
->> +
->> +${KGZIP} -c -n -f -9 $infile > $outfile
->> +
->> +echo "$config_md5" > $outfile.md5
->> +echo "$this_file_md5" >> $outfile.md5
->> +echo "$(md5sum $outfile | cut -d ' ' -f1)" >> $outfile.md5
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
-> 
-> 
+Cheers,
+Miguel
