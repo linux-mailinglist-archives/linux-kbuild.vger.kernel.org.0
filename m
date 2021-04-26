@@ -2,81 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 456AD36ABD5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 07:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF5E36B028
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 11:02:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbhDZFcV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Apr 2021 01:32:21 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:58204 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbhDZFcV (ORCPT
+        id S232116AbhDZJC4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Apr 2021 05:02:56 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20802 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232068AbhDZJC4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Apr 2021 01:32:21 -0400
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 13Q5VNwZ015418
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 14:31:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 13Q5VNwZ015418
+        Mon, 26 Apr 2021 05:02:56 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 13Q91pfm003701
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 18:01:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 13Q91pfm003701
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619415083;
-        bh=laZ/hERka+or3Yqxw4QGQ8Xbsd9MCcUnzQVJrtZc3Tw=;
+        s=dec2015msa; t=1619427712;
+        bh=O8M1u4lKX3UcTGUmDHciwzgJ7QlrIv5ANQMpJUMJIP8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tRvKzOSmaLiic5ZSO4D6T6p5S+iJYh1wi1Oo15PLM12tU764+s/N7WiZkDOUqGuLX
-         c7EjaHMb2Z/lPORz8ROj96YlMIACh9LzIIOwTvF7p3Ox/AXFacvI3r5oTUyPB9X8jR
-         WaengVD58CnXQj5UpDRXqlZGET7iIIKDe2olG6Rb7ZxW15Rvskv3fCllWL4DYO7JZL
-         NjQOvbZGnfHF7nIl74k1ATFeBo5E2WcqDOURU38pbkMjvTRKkGAQ4dUBEBwGwVJ7ap
-         0qHxLQI9Lbq8nuE0jwvTyG1NgMrrLHL3+RJvcIsaf8cXoqzhrIE0lTtLJSb9fPEgSV
-         P1Vw5kZhho3+g==
-X-Nifty-SrcIP: [209.85.216.51]
-Received: by mail-pj1-f51.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so4498199pjh.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 Apr 2021 22:31:23 -0700 (PDT)
-X-Gm-Message-State: AOAM533FQ7zjfX9laHPTD3uiuLBf2mFT5wmNPBNlo7y+ARz0LLeZ7cH4
-        POmYrD/dLzTZ/EC5CljVzH6xx3eXo7pqgTcYUJk=
-X-Google-Smtp-Source: ABdhPJwGJP32sfW4llJeecDWNQFFAPTDGjsOMWCYTjNwF0QW9dLR1Pbl12GA/4UwGRB+OKCU4c9tYBiuOJA1V1vZxgg=
-X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id
- y5-20020a170902d645b02900e8ec90d097mr16978691plh.47.1619415082932; Sun, 25
- Apr 2021 22:31:22 -0700 (PDT)
+        b=TtIcfW74695ziCEaQUOT/9L9dgj8+yZRiX38IhLwgHrv+nFpr60SLc56f7xAIEqPt
+         6sckTzcQOFy7ktJe1peTj1CyG/FC+UCSt2ZHgwmk+I9p9RWLdtlX3T0Z55G9Cc0OLl
+         c2SOUQQ8A9YEOM+120OdtYhcCpsSzXfj5h/tdfCQggQyeHgUaFwp11ayDdbpN66bPG
+         23YlOV0+UNAd+czLjENFBAAK3A5XUJcYpHOu5lu35/MMuhpmrIdt4Qd0HtXe60OfRq
+         nDzgriP+pv5frDbfmOzcljtVld6G5BKcU/PntjdrNngV+BuahgqPrOVLXDg6bPWXix
+         e6huiO33SnhyA==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id e15so1707221pfv.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 02:01:52 -0700 (PDT)
+X-Gm-Message-State: AOAM533+F2P7nKEX3zdutC7uC7gDg0XV66PnOPIz6fZnkoTJ2NVa9pjE
+        nYglw5KJf8Qj5FgracsKH+dpLAMq8wUKE4AhAqA=
+X-Google-Smtp-Source: ABdhPJxqK9fD4iUaDfgYeXrcyWbzYgAmr7TDZ4lYRlnK+b77Yb6V7Hyuci9dHOA5Zc0RLt6WCEb8sf3nbdTmjJi29C8=
+X-Received: by 2002:a65:45cf:: with SMTP id m15mr15769985pgr.7.1619427711420;
+ Mon, 26 Apr 2021 02:01:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAGRSmLsJmR_NFcovYSP-gK52qDASP4csbaOjx2Sfk9HvhHvAfQ@mail.gmail.com>
- <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com>
-In-Reply-To: <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com>
+References: <20210425213521.3159899-1-ak@linux.intel.com>
+In-Reply-To: <20210425213521.3159899-1-ak@linux.intel.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 26 Apr 2021 14:30:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
-Message-ID: <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
-Subject: Re: 5.10 build issue creating library for driver support.
-To:     "David F." <df7729@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Mon, 26 Apr 2021 18:01:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASP3yvjY-7=xTJvuXyEqZ_9uuNhAQYHm7PCXfGHKGbRsg@mail.gmail.com>
+Message-ID: <CAK7LNASP3yvjY-7=xTJvuXyEqZ_9uuNhAQYHm7PCXfGHKGbRsg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild, link-vmlinux: Don't delete output files with make -i
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andi Kleen <andi@firstfloor.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 24, 2021 at 10:26 PM David F. <df7729@gmail.com> wrote:
+On Mon, Apr 26, 2021 at 6:35 AM Andi Kleen <ak@linux.intel.com> wrote:
 >
-> Hello,
+> From: Andi Kleen <andi@firstfloor.org>
 >
-> I moved to 5.10 from 5.4 now I have build problem:
+> make -i is useful to see output files which normally get deleted on an
+> error.  Make this work with link-vmlinux.sh too. Don't delete the output
+> files on error when make -i is used.
 >
-> "No rule to make target '/path/to/sourcefile.o', needed by '/path/to/lib.a' Stop
+> Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> ---
+>  scripts/link-vmlinux.sh | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> The build will build a small library file of shared driver support
-> routines, but it doesn't appear the build will support a library
-> anymore?  Is there a patch for that?
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 0e039a4cf2cb..a1a57f214c58 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -300,6 +300,11 @@ sorttable()
+>  # Delete output files in case of error
+>  cleanup()
+>  {
+> +       # don't delete for make -i
+> +       case "$MFLAGS" in
+> +       *-i*) return ;;
+> +       esac
+> +
+>         rm -f .btf.*
+>         rm -f .tmp_System.map
+>         rm -f .tmp_initcalls.lds
+> --
+> 2.25.4
 >
-> There was a patch that fix a prior problem of linking to a lib.a file:
->
-> Subject: Moving from 4.x to 5.4.22 breaks custom module build.
->
-> Is there a fix for this new issue?
->
-> Thanks.
 
 
-I think you asked the same question before,
-and you found a patch.
+How about removing on_exit() and on_signals() entirely?
 
-https://patchwork.kernel.org/project/linux-kbuild/patch/20200106032324.3147-1-masahiroy@kernel.org/#23088533
-Doesn't this solve your problem?
+.DELETE_ON_ERROR target removes vmlinux on error anyway.
+
+Leaving intermediate files is safe, I think.
+
+
 
 -- 
 Best Regards
