@@ -2,96 +2,198 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF5E36B028
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 11:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1465036B16C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Apr 2021 12:17:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232116AbhDZJC4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 26 Apr 2021 05:02:56 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:20802 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232068AbhDZJC4 (ORCPT
+        id S232483AbhDZKRx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 26 Apr 2021 06:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232194AbhDZKRw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 26 Apr 2021 05:02:56 -0400
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 13Q91pfm003701
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 18:01:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 13Q91pfm003701
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619427712;
-        bh=O8M1u4lKX3UcTGUmDHciwzgJ7QlrIv5ANQMpJUMJIP8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TtIcfW74695ziCEaQUOT/9L9dgj8+yZRiX38IhLwgHrv+nFpr60SLc56f7xAIEqPt
-         6sckTzcQOFy7ktJe1peTj1CyG/FC+UCSt2ZHgwmk+I9p9RWLdtlX3T0Z55G9Cc0OLl
-         c2SOUQQ8A9YEOM+120OdtYhcCpsSzXfj5h/tdfCQggQyeHgUaFwp11ayDdbpN66bPG
-         23YlOV0+UNAd+czLjENFBAAK3A5XUJcYpHOu5lu35/MMuhpmrIdt4Qd0HtXe60OfRq
-         nDzgriP+pv5frDbfmOzcljtVld6G5BKcU/PntjdrNngV+BuahgqPrOVLXDg6bPWXix
-         e6huiO33SnhyA==
-X-Nifty-SrcIP: [209.85.210.176]
-Received: by mail-pf1-f176.google.com with SMTP id e15so1707221pfv.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 02:01:52 -0700 (PDT)
-X-Gm-Message-State: AOAM533+F2P7nKEX3zdutC7uC7gDg0XV66PnOPIz6fZnkoTJ2NVa9pjE
-        nYglw5KJf8Qj5FgracsKH+dpLAMq8wUKE4AhAqA=
-X-Google-Smtp-Source: ABdhPJxqK9fD4iUaDfgYeXrcyWbzYgAmr7TDZ4lYRlnK+b77Yb6V7Hyuci9dHOA5Zc0RLt6WCEb8sf3nbdTmjJi29C8=
-X-Received: by 2002:a65:45cf:: with SMTP id m15mr15769985pgr.7.1619427711420;
- Mon, 26 Apr 2021 02:01:51 -0700 (PDT)
+        Mon, 26 Apr 2021 06:17:52 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94681C06175F
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 03:17:11 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id m5so2903884wmf.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Apr 2021 03:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8+5RmGaKx5Tt6qhKXUKXBTfFBE8HCr3VUmHINr25V7Q=;
+        b=coA7t6ZU+3D3rzonl2MD8DtCSIxY3Bhr4uKsu96mtDdzfd1ReGK6wCZtVh38ADMexc
+         h0iVGJEbrn8P6LyrozH4sDaKslxXLK0zCaGUMo+2rH5MQkagWl25RZRfRiQ64WRP6j8Z
+         S5BMEvU9z3yuqIaqKcSwNUSWYp8KvdUTE/q5unzz04xJK+hpibQiiS3sL7aRWXrgqXa7
+         rz7Mm1vD68LG1OBJeXHCGzk+Cafabfw0o6DCvXYZ60tdQ2uzZXztGBnggqfYRT9S2QQv
+         fO5Iq5fyEsYMu54iVrhMLQty7HKqWSkdq8XmUOL4gMGVdswNg6+e71e996Lm3mlZZFJP
+         Bx2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8+5RmGaKx5Tt6qhKXUKXBTfFBE8HCr3VUmHINr25V7Q=;
+        b=Jo+K59avb5Fk1ej9kHTqzNukhHOaMcZ5/MjNJBam1rUwKiqV6BT6H8Ti6ezjPeEQU0
+         FmqgH444HeuhMxQpnnnnJha4qNrGsMbmhZj87EblaQrtTNR0w0lQAHEhtCKbtlskLa73
+         YUdyyw9OY13QCtoSuF46AGI7sowZn6pUTm62aldsVSs73pXS63Iky1be14gU3nKbyIA6
+         ekuPAWXvMhq6DdvGsS3Xbz2hdqcqlbFR4W84gPIo6cLrz/NseTfDnMqzc9Qf5HHGMqpX
+         PInf9CGw7gPPUumC9HAAuvSCVtvBbgpVGPrqm7aAmr1UV6FfiWbxOxMn8HVlLa+x9TK+
+         BLdA==
+X-Gm-Message-State: AOAM5307iL/wo130Kbur7Numd/PC9Wfd9Np7UGefnly2hgOBtB4VFukn
+        hd0YwMc/MiK+SjPXd8Uwym8xgw==
+X-Google-Smtp-Source: ABdhPJwYsZ5Bdm0jMDlAvLoRue+X2IuYqd6A0q8UkP92NgRfMr63EtUQ2jnm3b8u++7Sr4Bji8w4vg==
+X-Received: by 2002:a1c:6244:: with SMTP id w65mr20538092wmb.27.1619432229857;
+        Mon, 26 Apr 2021 03:17:09 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:210:de72:8b77:f30e:ff1e])
+        by smtp.gmail.com with ESMTPSA id a2sm20837694wrt.82.2021.04.26.03.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 03:17:09 -0700 (PDT)
+Date:   Mon, 26 Apr 2021 11:17:08 +0100
+From:   Matthias Maennich <maennich@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mat Martineau <mathew.j.martineau@linux.intel.com>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        mptcp@lists.01.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] kbuild: replace LANG=C with LC_ALL=C
+Message-ID: <YIaTJE5iZ75eGSSO@google.com>
+References: <20210424114841.394239-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20210425213521.3159899-1-ak@linux.intel.com>
-In-Reply-To: <20210425213521.3159899-1-ak@linux.intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 26 Apr 2021 18:01:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASP3yvjY-7=xTJvuXyEqZ_9uuNhAQYHm7PCXfGHKGbRsg@mail.gmail.com>
-Message-ID: <CAK7LNASP3yvjY-7=xTJvuXyEqZ_9uuNhAQYHm7PCXfGHKGbRsg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild, link-vmlinux: Don't delete output files with make -i
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andi Kleen <andi@firstfloor.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210424114841.394239-1-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 26, 2021 at 6:35 AM Andi Kleen <ak@linux.intel.com> wrote:
+On Sat, Apr 24, 2021 at 08:48:41PM +0900, Masahiro Yamada wrote:
+>LANG gives a weak default to each LC_* in case it is not explicitly
+>defined. LC_ALL, if set, overrides all other LC_* variables.
 >
-> From: Andi Kleen <andi@firstfloor.org>
+>  LANG  <  LC_CTYPE, LC_COLLATE, LC_MONETARY, LC_NUMERIC, ...  <  LC_ALL
 >
-> make -i is useful to see output files which normally get deleted on an
-> error.  Make this work with link-vmlinux.sh too. Don't delete the output
-> files on error when make -i is used.
+>This is why documentation such as [1] suggests to set LC_ALL in build
+>scripts to get the deterministic result.
 >
-> Signed-off-by: Andi Kleen <ak@linux.intel.com>
-> ---
->  scripts/link-vmlinux.sh | 5 +++++
->  1 file changed, 5 insertions(+)
+>LANG=C is not strong enough to override LC_* that may be set by end
+>users.
 >
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 0e039a4cf2cb..a1a57f214c58 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -300,6 +300,11 @@ sorttable()
->  # Delete output files in case of error
->  cleanup()
->  {
-> +       # don't delete for make -i
-> +       case "$MFLAGS" in
-> +       *-i*) return ;;
-> +       esac
-> +
->         rm -f .btf.*
->         rm -f .tmp_System.map
->         rm -f .tmp_initcalls.lds
-> --
-> 2.25.4
+>[1]: https://reproducible-builds.org/docs/locales/
 >
+>Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
+Reviewed-by: Matthias Maennich <maennich@google.com>
 
-How about removing on_exit() and on_signals() entirely?
+Cheers,
+Matthias
 
-.DELETE_ON_ERROR target removes vmlinux on error anyway.
-
-Leaving intermediate files is safe, I think.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+>---
+>
+> arch/powerpc/boot/wrapper                          | 2 +-
+> scripts/nsdeps                                     | 2 +-
+> scripts/recordmcount.pl                            | 2 +-
+> scripts/setlocalversion                            | 2 +-
+> scripts/tags.sh                                    | 2 +-
+> tools/testing/selftests/net/mptcp/mptcp_connect.sh | 2 +-
+> usr/gen_initramfs.sh                               | 2 +-
+> 7 files changed, 7 insertions(+), 7 deletions(-)
+>
+>diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
+>index 41fa0a8715e3..cdb796b76e2e 100755
+>--- a/arch/powerpc/boot/wrapper
+>+++ b/arch/powerpc/boot/wrapper
+>@@ -191,7 +191,7 @@ if [ -z "$kernel" ]; then
+>     kernel=vmlinux
+> fi
+>
+>-LANG=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
+>+LC_ALL=C elfformat="`${CROSS}objdump -p "$kernel" | grep 'file format' | awk '{print $4}'`"
+> case "$elfformat" in
+>     elf64-powerpcle)	format=elf64lppc	;;
+>     elf64-powerpc)	format=elf32ppc	;;
+>diff --git a/scripts/nsdeps b/scripts/nsdeps
+>index e8ce2a4d704a..04c4b96e95ec 100644
+>--- a/scripts/nsdeps
+>+++ b/scripts/nsdeps
+>@@ -44,7 +44,7 @@ generate_deps() {
+> 		for source_file in $mod_source_files; do
+> 			sed '/MODULE_IMPORT_NS/Q' $source_file > ${source_file}.tmp
+> 			offset=$(wc -l ${source_file}.tmp | awk '{print $1;}')
+>-			cat $source_file | grep MODULE_IMPORT_NS | LANG=C sort -u >> ${source_file}.tmp
+>+			cat $source_file | grep MODULE_IMPORT_NS | LC_ALL=C sort -u >> ${source_file}.tmp
+> 			tail -n +$((offset +1)) ${source_file} | grep -v MODULE_IMPORT_NS >> ${source_file}.tmp
+> 			if ! diff -q ${source_file} ${source_file}.tmp; then
+> 				mv ${source_file}.tmp ${source_file}
+>diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
+>index 867860ea57da..0a7fc9507d6f 100755
+>--- a/scripts/recordmcount.pl
+>+++ b/scripts/recordmcount.pl
+>@@ -497,7 +497,7 @@ sub update_funcs
+> #
+> # Step 2: find the sections and mcount call sites
+> #
+>-open(IN, "LANG=C $objdump -hdr $inputfile|") || die "error running $objdump";
+>+open(IN, "LC_ALL=C $objdump -hdr $inputfile|") || die "error running $objdump";
+>
+> my $text;
+>
+>diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+>index bb709eda96cd..db941f6d9591 100755
+>--- a/scripts/setlocalversion
+>+++ b/scripts/setlocalversion
+>@@ -126,7 +126,7 @@ scm_version()
+> 	fi
+>
+> 	# Check for svn and a svn repo.
+>-	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+>+	if rev=$(LC_ALL=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+> 		rev=$(echo $rev | awk '{print $NF}')
+> 		printf -- '-svn%s' "$rev"
+>
+>diff --git a/scripts/tags.sh b/scripts/tags.sh
+>index fd96734deff1..db8ba411860a 100755
+>--- a/scripts/tags.sh
+>+++ b/scripts/tags.sh
+>@@ -326,5 +326,5 @@ esac
+>
+> # Remove structure forward declarations.
+> if [ -n "$remove_structs" ]; then
+>-    LANG=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
+>+    LC_ALL=C sed -i -e '/^\([a-zA-Z_][a-zA-Z0-9_]*\)\t.*\t\/\^struct \1;.*\$\/;"\tx$/d' $1
+> fi
+>diff --git a/tools/testing/selftests/net/mptcp/mptcp_connect.sh b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+>index 10a030b53b23..1d2a6e7b877c 100755
+>--- a/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+>+++ b/tools/testing/selftests/net/mptcp/mptcp_connect.sh
+>@@ -273,7 +273,7 @@ check_mptcp_disabled()
+> 	ip netns exec ${disabled_ns} sysctl -q net.mptcp.enabled=0
+>
+> 	local err=0
+>-	LANG=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
+>+	LC_ALL=C ip netns exec ${disabled_ns} ./mptcp_connect -t $timeout -p 10000 -s MPTCP 127.0.0.1 < "$cin" 2>&1 | \
+> 		grep -q "^socket: Protocol not available$" && err=1
+> 	ip netns delete ${disabled_ns}
+>
+>diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+>index 8ae831657e5d..63476bb70b41 100755
+>--- a/usr/gen_initramfs.sh
+>+++ b/usr/gen_initramfs.sh
+>@@ -147,7 +147,7 @@ dir_filelist() {
+> 	header "$1"
+>
+> 	srcdir=$(echo "$1" | sed -e 's://*:/:g')
+>-	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LANG=C sort)
+>+	dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+>
+> 	# If $dirlist is only one line, then the directory is empty
+> 	if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then
+>-- 
+>2.27.0
+>
