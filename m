@@ -2,138 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D05C136D0C6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Apr 2021 05:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E170636DEFD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Apr 2021 20:34:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235153AbhD1DLG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Apr 2021 23:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52912 "EHLO
+        id S239667AbhD1SfF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Apr 2021 14:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbhD1DLF (ORCPT
+        with ESMTP id S232390AbhD1SfE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Apr 2021 23:11:05 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70ABFC061574;
-        Tue, 27 Apr 2021 20:10:21 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id q192so18352709ybg.4;
-        Tue, 27 Apr 2021 20:10:21 -0700 (PDT)
+        Wed, 28 Apr 2021 14:35:04 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38EFC061573;
+        Wed, 28 Apr 2021 11:34:19 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id z1so75140982ybf.6;
+        Wed, 28 Apr 2021 11:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rRuk3LXxZffE/YX5087tARIXQX+VPzj1e3QOp6q3WkI=;
-        b=YrTxrQyl/0O8RuK469UHGDQmdPy30gkpj/QVi1D87zFB2s4PNcs4aIwYgy3myjrgAS
-         CWcmXoQaTuYcWfVixySmMkPl+9j/ENrB9qwfELtYVxC4yHHvd4iHqrnx02+ZXIYkA4YX
-         1tMcz5dnS4nRk06FjdEGU5Me1fdZ4S3xG8o7RXiE9N6uMIJtnxMLDXAE4LnbE5+t5uyg
-         PLqUgZHw3EERuwzRx+9p641e7ZHXtQZEZB/VLbUUgT0NPhpVjZvjAG00eUoz2gwsWAtZ
-         PL+yWMeAVHoELF14fqTbwRoSlIqCFJessFZb6bUWAcTcnBDncH5ijG0KEC24wtdSOWG6
-         1Cig==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=IpwMZWX9MMsh2XzRMAHNnBtuqO5Gz5Ebo8LaLSW9Frs=;
+        b=bvgQyBXggfPL9PXPDfc4k6JiPuuR23ONCaADQxIpPw/GkcNPql7NWRxhRDyx1b9rkw
+         ot+pr/abV7T1IAEEOSp7zKZqDhik+f4WSZyYDwevPszbi5kkV9HwE7BvAlNO6/Fle+o2
+         2LkdrEsu4DPGrbZBqre1JeqxNVIfICWLZOsIIng17gipwhFMZSTBibXLTUlT6cGBPc1D
+         tCMrd65ixfIJWJAwoB5MUuFmn5ebkbDld7Ln2GI6+0DqVaIHueL0Ezj3VItBTwt+yybh
+         tV5TZE7LSkM6fUqNf5+LtP2bh2mMRB6yHYfg8DifZxXlTQYEzpj/v19uAswUJukWqI2b
+         0FJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rRuk3LXxZffE/YX5087tARIXQX+VPzj1e3QOp6q3WkI=;
-        b=cU0Tp+B4znBKQxtnnOJIZkoSlWI6COKXMPN+3AlnvzB8NHKvOzl3XGvGMzZjCV498v
-         4A8XfwTCtJTPW482+ZXoksUZQelKMeeJ4DEuHBcKHc/GXxjqwCixJuBIKkumBE6/yhOI
-         w4YUavQQsSxFwlYWebn51bydVtX9lQiJtoOribFWTcVvyX/GPj+YGPM6HrZzjsYhTHRQ
-         QAOUTGvv9CDNVX+23BedkIF9sHrkW6AhEviROJIlkNP6L2tzWSPWfNVnxISibzXCyfrT
-         rGC/8HKUSQFiQ0trNcaXTdxy2Zo5RpI7E8BMSRFrprTIWJJYaLMXbPRRvavIBDTLgcVZ
-         iQWA==
-X-Gm-Message-State: AOAM531HFs1GPH8mJrr3BUeXCWGwT7WQmQ44Cw1Zm/mlPaL9O2UAY6SA
-        /BOPD9zxxg40f25MGongZNu/WkKX+a+YRAIn4CI=
-X-Google-Smtp-Source: ABdhPJxJTXxlHGTfIoVgADZf3q5v15IcdYP2/e/o4lr6MmWgGzC87uZ4XdePgx4ghhzctxm0Ta5iK+NOUPFxd/V6q/4=
-X-Received: by 2002:a25:bc8b:: with SMTP id e11mr38000740ybk.115.1619579420788;
- Tue, 27 Apr 2021 20:10:20 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=IpwMZWX9MMsh2XzRMAHNnBtuqO5Gz5Ebo8LaLSW9Frs=;
+        b=LOXmFeW9e0eDpyesgZGTnttW3NGohkOEDRXkSbrVPMVqblgzTXlQbx1hR+pTO+e5fy
+         5a8Ft41eetmKfOBlJc5OCsmr2mEQmKyPaoyQnW6sLpBzZik4EHL/BqbT7+N+wlmLl0Jd
+         2DwyU/cb20bmPcnLF3yfFAT6hqnyO9g+icI7UCv7rWkEqBpJGc79okFVNLsGkHnuzQ/5
+         g4/HMa14ppEdZN+N53oKqKIHOtSKgSzYjy3Lm0eG0WJP9rPS4SaIBWXOXsnjMwX3mmKP
+         /V+kEMI+QyIHKKH9jsSMNK/XJJWZ08jAZ4QBwcMDl82Bkv7CKfhdCs76E+zURm8ridqg
+         uW9Q==
+X-Gm-Message-State: AOAM531EBHShT3XccTOMBQJx/M4CiI4u2b7FvBZbyErUd3wIHAGVAD53
+        iYeqI3h4kVhVko0IRIjcSD5GgHHhd4WGmOzJnIo=
+X-Google-Smtp-Source: ABdhPJwf3NV+/9n1wPI5jRTOuJtRASDvQIfToSaSJiBU9Z3yKngNiIQ6FAtr30VsUqSnxo05g0Ac2WWGJBjXP8vj3Bs=
+X-Received: by 2002:a5b:303:: with SMTP id j3mr39601718ybp.433.1619634858689;
+ Wed, 28 Apr 2021 11:34:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com> <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
-In-Reply-To: <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 28 Apr 2021 05:10:09 +0200
-Message-ID: <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
+Reply-To: mceier+kernel@gmail.com
+From:   Mariusz Ceier <mceier+kernel@gmail.com>
+Date:   Wed, 28 Apr 2021 18:34:07 +0000
+Message-ID: <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 1:13 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+Hello,
+  First of all IANAL, so I might be wrong regarding the issue below.
+
+On 14/04/2021, ojeda@kernel.org <ojeda@kernel.org> wrote:
 >
-> Actually my reply to Wedson brought up a new issue, which is the
-> quality of learning resources and the lack of an equivalent to
-> The C Programming Language book.
-
-I recall having a similar feeling when initially jumping into
-individual chapters of The Rust Programming Language book. I think it
-is intended to be read from cover to cover instead.
-
-There are other resources, see [1]. For instance, there is The
-Embedded Rust Book [2]. Some of those are a WIP, but perhaps others
-can recommend better finished/published books.
-
-In any case, Rust has more features than C, some of them quite unique,
-and they are routinely used, so it does take some time to learn.
-
-[1] https://www.rust-lang.org/learn
-[2] https://docs.rust-embedded.org/book/
-
-> I think a good starting point would be to either fix Rust support in
-> GCC or implement some more important ISAs in LLVM,
-> whichever is easiest. I don't mind having just *one* compiler but
-> I mind having *a* compiler for every arch we support.
+> ## Why not?
 >
-> [...]
+> Rust also has disadvantages compared to C in the context of
+> the Linux kernel:
 >
-> Portability to old systems and ISAs is a virtue in itself
-> because of the effect it has on code quality, not necessarily
-> for the support itself.
+>
+>   - Single implementation based on LLVM. There are third-party
+>     efforts underway to fix this, such as a GCC frontend,
+>     a `rustc` backend based on Cranelift and `mrustc`,
+>     a compiler intended to reduce the bootstrapping chain.
+>     Any help for those projects would be very welcome!
+>
+>   - Not standardized. While it is not clear whether standardization
+>     would be beneficial for the kernel, several points minimize
+>     this issue in any case: the Rust stability promise, the extensive
+>     documentation, the WIP reference, the detailed RFCs...
+>
 
-I agree that there are benefits of keeping compiler technology
-flexible, but one cannot force or expect any project (including the
-Linux kernel) to maintain all code forever.
+After reading the interview referenced by https://lwn.net/Articles/854740/
+I think there might be issue with licensing - few quotes from the interview=
+:
 
-In the end, we need to balance that adaptability against the benefits
-of adding Rust. In particular because nowadays LLVM is able to cover
-the majority of devices that want to run the very latest Linux
-kernels. Thus those benefits apply to most users. If LLVM only
-supported, say, x86_64, I would agree that it would not be enough.
+> And on the other hand, I've seen a lot of BSD (or MIT or similar) license=
+d open source projects that just fragment when they become big enough to be=
+ commercially important, and the involved companies inevitably decide to tu=
+rn their own parts proprietary.
 
-By contrast, compiler flexibility only matters indirectly to users,
-and at some point there are diminishing returns to keeping all
-architectures around.
+> So I think the GPLv2 is pretty much the perfect balance of "everybody wor=
+ks under the same rules", and still requires that people give back to the c=
+ommunity ("tit-for-tat")
 
-In any case, adding Rust (in particular for "leaf" modules) does not
-imply that we will lose those architectures any time soon. That would
-take at least several years, and would require quite a few things to
-happen at the same time:
+> So forking isn't a problem, as long as you can then merge back the good p=
+arts. And that's where the GPLv2 comes in. The right to fork and do your ow=
+n thing is important, but the other side of the coin is equally important -=
+ the right to then always join back together when a fork was shown to be su=
+ccessful.
 
-  - That Rust got so widely used in the kernel (because the benefits
-turned out to be important) that maintainers went as far as wanting to
-drop C drivers from mainline for Rust equivalents.
+Rust compiler license doesn't require for people to give back to the
+community - corporation can create their own version of rust compiler
+adding some proprietary extensions, develop drivers with it and even
+if the drivers code will be GPL'd they won't be buildable by anyone
+but that corporation. The rust compiler license doesn't require
+sharing changes when you modify it. The similar problem has flex and
+openssl required to build the kernel, but so far no one thought about
+abusing them afaik.
 
-  - That GCC did not get any way to compile Rust (no Rust frontend for
-GCC, no GCC backend for `rustc`, etc.) and, moreover, that the plans
-for that had been dropped.
+That "single implementation based on LLVM" uses a mix of MIT, Apache,
+BSD-compatible and other licenses. It doesn't use strong copyleft
+license in contrast to almost every tool required to build the kernel,
+except for flex (BSD, no (L)GPL alternative afaik) and openssl (Apache
+license, gnutls could be used instead).
 
-  - That LLVM did not add support for the missing architectures.
+I suggest to wait until featureful GPL implementation of rust language
+is made (assuming GNU Rust is on the way) before merging any rust code
+in the kernel and when that implementation is done make a requirement
+that all rust code must be buildable by at least GPL implementation.
 
-The first point is unlikely any time soon. The second point is
-unlikely, too, given there is funding for that now (and I assume those
-projects will receive more support if Rust lands in the kernel). The
-third point is likely, though.
+Maybe it would also be worthwhile to make the requirement that the
+kernel must be buildable with free software (not just open source
+software) explicit ?
 
-Cheers,
-Miguel
+Best Regards,
+Mariusz Ceier
