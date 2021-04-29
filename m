@@ -2,169 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7644836E513
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 08:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A42FC36E6F7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 10:19:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbhD2Gue (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Apr 2021 02:50:34 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:43334 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbhD2Gud (ORCPT
+        id S230071AbhD2IS5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Apr 2021 04:18:57 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:30783 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232714AbhD2IS5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Apr 2021 02:50:33 -0400
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 13T6nUOI011264;
-        Thu, 29 Apr 2021 15:49:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 13T6nUOI011264
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619678971;
-        bh=YioOJRfCV5xNJjK8OwaGmWoUUHe4Hl6Qd35pu4qVlQ0=;
-        h=From:Date:Subject:To:Cc:From;
-        b=0bhUfnZ6QJGS+W2St8QxYO1kAI88tJ7HmyyHuvzBkLjz7q62kbUoOIE/0WQ9Jxxln
-         IkHH4rUfih3HNxSe0uhb8TiYLM9vWfuDsVItMtr07BMVEFS9bFPeVy4PEBIr4fXJbT
-         t3QkcR2dpjtA9W09WSqMZ4YEQah80LT5LQwmVJSUAgOuqocPSfUPkEYTRw+8u3fVhU
-         qyQvIXacTagVpJJUELfB02MV5K+essEsJMEZSVDUUiWHgByF2u/aZojH1Ueu5ac45k
-         bEVQgQ/ZBvY+bKM4TjnL+1Uxp/0zue5KssUtpzKfQKfW+85Twh/FfwHCjaBXJ+nSVT
-         WRVLjTZISts1g==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id md17so6700665pjb.0;
-        Wed, 28 Apr 2021 23:49:30 -0700 (PDT)
-X-Gm-Message-State: AOAM533PQ7S5DnQ1qaiUxeYP34roW5R/DcVrl0tixT0ZrM0PAdrZU6Li
-        XVzPq/qGl1eQTV+6cAQu2b6Oa2V4uH13nZ6PcMc=
-X-Google-Smtp-Source: ABdhPJzsp2AYA0lmRGtmLfFt/fRwHeSbe9qAgeEuitljAbtRaxRD5vo4BDQRWlkfR3v8u66VFes8xFsNl1LqUC89GvI=
-X-Received: by 2002:a17:90a:2c4c:: with SMTP id p12mr7943546pjm.87.1619678970196;
- Wed, 28 Apr 2021 23:49:30 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 29 Apr 2021 15:48:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ_2XPx6-v5irQDw0HyfSRKrrxcR2rutmZ=WBUsSBW-wA@mail.gmail.com>
-Message-ID: <CAK7LNAQ_2XPx6-v5irQDw0HyfSRKrrxcR2rutmZ=WBUsSBW-wA@mail.gmail.com>
-Subject: [GIT PULL 2/2] Kconfig updates for v5.13-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Thu, 29 Apr 2021 04:18:57 -0400
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mtapsc-6-vki8S8smMJidjW5qU1ql5A-1; Thu, 29 Apr 2021 09:18:08 +0100
+X-MC-Unique: vki8S8smMJidjW5qU1ql5A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 09:18:07 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Thu, 29 Apr 2021 09:18:07 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+CC:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH 00/13] [RFC] Rust support
+Thread-Topic: [PATCH 00/13] [RFC] Rust support
+Thread-Index: AQHXPLdzOFPh/tHqwUWOAL+H8MAuYKrLJmrA
+Date:   Thu, 29 Apr 2021 08:18:07 +0000
+Message-ID: <a5e90fededc64ca2b8a29245a7d1d798@AcuMS.aculab.com>
+References: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
+In-Reply-To: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+RnJvbTogTWFyaXVzeiBDZWllcg0KPiBTZW50OiAyOSBBcHJpbCAyMDIxIDA2OjIxDQo+IA0KPiBP
+biAyOC8wNC8yMDIxLCBOaWNrIERlc2F1bG5pZXJzIDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNvbT4g
+d3JvdGU6DQo+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMTE6MzQgQU0gTWFyaXVzeiBDZWll
+ciA8bWNlaWVyK2tlcm5lbEBnbWFpbC5jb20+DQo+ID4gd3JvdGU6DQo+ID4+DQo+ID4+IE1heWJl
+IGl0IHdvdWxkIGFsc28gYmUgd29ydGh3aGlsZSB0byBtYWtlIHRoZSByZXF1aXJlbWVudCB0aGF0
+IHRoZQ0KPiA+PiBrZXJuZWwgbXVzdCBiZSBidWlsZGFibGUgd2l0aCBmcmVlIHNvZnR3YXJlIChu
+b3QganVzdCBvcGVuIHNvdXJjZQ0KPiA+PiBzb2Z0d2FyZSkgZXhwbGljaXQgPw0KPiA+DQo+ID4g
+VGhlIGtlcm5lbCBpcyBhbHJlYWR5IGJ1aWxkYWJsZSBieSBMTFZNIChhbmQgY2xhbmcpOyBpbiBm
+YWN0IEFuZHJvaWQsDQo+ID4gQ3JPUywgYW5kIEdvb2dsZSdzIHByb2R1Y3Rpb24gc2VydmVycyBh
+bHJlYWR5IGRvIHNvLg0KPiA+IGh0dHBzOi8vY2xhbmdidWlsdGxpbnV4LmdpdGh1Yi5pby8NCj4g
+DQo+IExMVk0vY2xhbmcgaXMgbm90IGZyZWUgc29mdHdhcmUgKGl0J3MganVzdCBvcGVuIHNvdXJj
+ZSksIHNvIGl0IGRvZXNuJ3QNCj4gbWF0dGVyIGlmIGtlcm5lbCBidWlsZHMgb3Igbm90IHdpdGgg
+aXQuIFdoYXQgc2hvdWxkIG1hdHRlciBpcyB3aGV0aGVyDQo+IGl0IGlzIGJ1aWxkYWJsZSB3aXRo
+IGF0IGxlYXN0IG9uZSBHUEwgY29tcGlsZXIgbGlrZSBHQ0MuDQoNCkkgc3VzcGVjdCB0aGF0IHdo
+YXQgbWF0dGVycyBmb3IgbW9zdCBwZW9wbGUgaXMgd2hldGhlciB0aGUgcmVxdWlyZWQNCmNvbXBp
+bGVycyAoZXRjKSBhcmUgaW5zdGFsbGVkIGJ5IGEgZGVmYXVsdC1pc2ggaW5zdGFsbCBvZiB0aGVp
+cg0KZmF2b3VyaXRlIGRpc3RyaWJ1dGlvbi4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRk
+cmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBN
+SzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Please pull Kconfig updates for v5.13-rc1.
-Thanks.
-
-
-The following changes since commit 1e28eed17697bcf343c6743f0028cc3b5dd88bf0:
-
-  Linux 5.12-rc3 (2021-03-14 14:41:02 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kconfig-v5.13
-
-for you to fetch changes up to 8ac27f2c6eac1f140531411e404fb3ba23339ba5:
-
-  kconfig: refactor .gitignore (2021-04-26 02:17:39 +0900)
-
-----------------------------------------------------------------
-Kconfig updates for v5.13
-
- - Change 'option defconfig' to the environment variable
-   KCONFIG_DEFCONFIG_LIST
-
- - Refactor tinyconfig without using allnoconfig_y
-
- - Remove 'option allnoconfig_y' syntax
-
- - Change 'option modules' to 'modules'
-
- - Do not use /boot/config-* etc. as base config for cross-compilation
-
- - Fix a search bug in nconf
-
- - Various code cleanups
-
-----------------------------------------------------------------
-Bhaskar Chowdhury (2):
-      kconfig: streamline_config.pl: Couple of typo fixes
-      kconfig: lxdialog: A spello fix and a punctuation added
-
-Masahiro Yamada (28):
-      kconfig: split randconfig setup code into set_randconfig_seed()
-      kconfig: refactor option parse code
-      kconfig: add long options --help and --silent
-      kconfig: add help messages for --help (-h) and --silent (-s)
-      kconfig: remove assignment for Kconfig file
-      kconfig: move conf_rewrite_mod_or_yes() to conf.c
-      kconfig: move conf_set_all_new_symbols() to conf.c
-      kconfig: move JUMP_NB to mconf.c
-      kconfig: change defconfig_list option to environment variable
-      kconfig: move default KBUILD_DEFCONFIG back to scripts/kconfig/Makefile
-      kconfig: do not use allnoconfig_y option
-      kconfig: remove allnoconfig_y option
-      kconfig: change "modules" from sub-option to first-level attribute
-      kconfig: nconf: fix core dump when searching in empty menu
-      kconfig: change sym_change_count to a boolean flag
-      kconfig: use /boot/config-* etc. as DEFCONFIG_LIST only for native build
-      kconfig: mconf,nconf: remove unneeded '\0' termination after snprintf()
-      kconfig: nconf: fix NORMAL attributes
-      kconfig: nconf: get rid of (void) casts from wattrset() calls
-      kconfig: nconf: remove unneeded default for menu prompt
-      kconfig: nconf: refactor attributes setup code
-      kconfig: nconf: change set_config_filename() to void function
-      kconfig: nconf: remove meaningless wattrset() call from show_menu()
-      kconfig: nconf: refactor in print_in_middle()
-      kconfig: split menu.c out of parser.y
-      kconfig: remove unused PACKAGE definition
-      kconfig: gconf: remove unused code
-      kconfig: refactor .gitignore
-
-Mihai Moldovan (1):
-      kconfig: nconf: stop endless search loops
-
-Randy Dunlap (2):
-      kconfig: highlight gconfig 'comment' lines with '***'
-      kconfig: highlight xconfig 'comment' lines with '***'
-
-Yang Li (1):
-      kconfig: use true and false for bool variable
-
- Documentation/kbuild/kconfig-language.rst             |  23 +-
- Documentation/kbuild/kconfig.rst                      |   8 +
- Makefile                                              |   8 +-
- init/Kconfig                                          |  12 +-
- kernel/configs/tiny-base.config                       |   1 +
- scripts/kconfig/.gitignore                            |  13 +-
- scripts/kconfig/Makefile                              |  21 +-
- scripts/kconfig/conf.c                                | 363
-++++++++++++++++++++-----
- scripts/kconfig/confdata.c                            | 262 +++---------------
- scripts/kconfig/expr.h                                |   6 -
- scripts/kconfig/gconf.c                               |  15 +-
- scripts/kconfig/internal.h                            |   9 +
- scripts/kconfig/lexer.l                               |   3 -
- scripts/kconfig/lkc.h                                 |  21 --
- scripts/kconfig/lkc_proto.h                           |   1 +
- scripts/kconfig/lxdialog/util.c                       |   4 +-
- scripts/kconfig/mconf.c                               |  15 +-
- scripts/kconfig/menu.c                                |  23 +-
- scripts/kconfig/nconf.c                               |  58 ++--
- scripts/kconfig/nconf.gui.c                           | 284 ++++++++-----------
- scripts/kconfig/nconf.h                               |  51 ++--
- scripts/kconfig/parser.y                              |  27 +-
- scripts/kconfig/qconf.cc                              |   1 +
- scripts/kconfig/streamline_config.pl                  |   4 +-
- scripts/kconfig/symbol.c                              |   3 +-
- scripts/kconfig/tests/choice/Kconfig                  |   2 +-
- scripts/kconfig/tests/choice_value_with_m_dep/Kconfig |   2 +-
- scripts/kconfig/tests/conftest.py                     |   4 +
- scripts/kconfig/tests/inter_choice/Kconfig            |   2 +-
- 29 files changed, 578 insertions(+), 668 deletions(-)
- create mode 100644 kernel/configs/tiny-base.config
- create mode 100644 scripts/kconfig/internal.h
-
-
--- 
-Best Regards
-Masahiro Yamada
