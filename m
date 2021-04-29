@@ -2,77 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A42FC36E6F7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 10:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F47936E96C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 13:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbhD2IS5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Apr 2021 04:18:57 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:30783 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232714AbhD2IS5 (ORCPT
+        id S231564AbhD2LP2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Apr 2021 07:15:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229792AbhD2LP0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Apr 2021 04:18:57 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mtapsc-6-vki8S8smMJidjW5qU1ql5A-1; Thu, 29 Apr 2021 09:18:08 +0100
-X-MC-Unique: vki8S8smMJidjW5qU1ql5A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Thu, 29 Apr 2021 09:18:07 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Thu, 29 Apr 2021 09:18:07 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-CC:     Miguel Ojeda <ojeda@kernel.org>,
+        Thu, 29 Apr 2021 07:15:26 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1CCC06138B;
+        Thu, 29 Apr 2021 04:14:40 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id e5so37830969wrg.7;
+        Thu, 29 Apr 2021 04:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=references:user-agent:from:to:cc:subject:in-reply-to:message-id
+         :date:mime-version;
+        bh=5/8VNkQOcNtPRtDrHmo/JB8UiRS4tDp43Rh0Drba7XA=;
+        b=hKLM/5ShBvsG3gq3hjRH3gdwJMGrGMg3rv0LenlO0dHqNMXypdek0/BvF6QkqucTWp
+         Gnv4NduO2YYNpTsFCfoy8r5NxddLs46wPPqZDnagTb2u0/7EwGzcP6pnntqmPtCNqs3o
+         ZSF+i4y0yoEbzs4ejoCnKuYzcpU4UMmdIRxg7YwrM1fVpwsJTQ/eO1P/F5E8COUk2QZF
+         w1Y5L851T+E+0DCZfMSLCPzGjN8EF5/VvxRo13IUQx4s51wBg9HOpgofk2p6URwRxgzY
+         mNTswhKpHPT8mVorr3toSe7D8oolb0/yLALucqnitwOjcfPQOYorsRois6qusXDoV6Hy
+         7UeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:message-id:date:mime-version;
+        bh=5/8VNkQOcNtPRtDrHmo/JB8UiRS4tDp43Rh0Drba7XA=;
+        b=NlupXyBnuC/TpCLu2ZZjJesF+hsuryczpUEIJkgmx74VryOlFipRk+Vx0pA5UQvzxV
+         5OmWE4pcqlZZ9sJTQIllSHgb87Srj67DsUHAkLcoIFbJ9oozkjX0UG9vXrOvKvsVC+j+
+         cibeP98jFHGQm280bwbHzdo+PwmwF4NOcYFspTwWhWjtvCYYRv2XKRzcUqHi7et8tOuY
+         x2e2487pX2hMjiTvpgFY/eo5pHHB9AAQTd27cNlSedEZ4FSt7ZQ6A36Ew6dcryNaWuBg
+         CgW6AmWsmbPN29g6NXVLD6UqBZEcrMsWZjpvVExe5nMF7afBRN0TQtKSW4pr42x0g8Bw
+         5N7w==
+X-Gm-Message-State: AOAM533Lkw9THqvEjB0t36Md9jBbXQQoUSjHrQRebJ+J3No/EtKyt2da
+        HqPRafYzhobQ1R2Vbbcogv2iSjZFdR0=
+X-Google-Smtp-Source: ABdhPJx+OnuJxzoAcODQiSKczbARoDqeij+9ia6FY9Qx9koqZbwr7/Rk2M2vPbAQyqYK7IyfOwabmw==
+X-Received: by 2002:adf:e2cc:: with SMTP id d12mr42542589wrj.90.1619694878793;
+        Thu, 29 Apr 2021 04:14:38 -0700 (PDT)
+Received: from EDI-InfinityBook ([2a01:4b00:ea36:6c00:56e9:4ef3:28ef:7ef6])
+        by smtp.gmail.com with ESMTPSA id p10sm4240810wrr.58.2021.04.29.04.14.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Apr 2021 04:14:38 -0700 (PDT)
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <acce51322e1249f888e7d2815228e7af@AcuMS.aculab.com>
+User-agent: mu4e 1.4.15; emacs 28.0.50
+From:   Kajetan Puchalski <mrkajetanp@gmail.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
+        "ojeda@kernel.org" <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 00/13] [RFC] Rust support
-Thread-Topic: [PATCH 00/13] [RFC] Rust support
-Thread-Index: AQHXPLdzOFPh/tHqwUWOAL+H8MAuYKrLJmrA
-Date:   Thu, 29 Apr 2021 08:18:07 +0000
-Message-ID: <a5e90fededc64ca2b8a29245a7d1d798@AcuMS.aculab.com>
-References: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
-In-Reply-To: <CAJTyqKMLaav7VCAZS9p8wh0UamACYq9p6h=LsyrCeLqG_O2Jcw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+In-reply-to: <acce51322e1249f888e7d2815228e7af@AcuMS.aculab.com>
+Message-ID: <87czude41d.fsf@gmail.com>
+Date:   Thu, 29 Apr 2021 12:14:22 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; format=flowed
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-RnJvbTogTWFyaXVzeiBDZWllcg0KPiBTZW50OiAyOSBBcHJpbCAyMDIxIDA2OjIxDQo+IA0KPiBP
-biAyOC8wNC8yMDIxLCBOaWNrIERlc2F1bG5pZXJzIDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNvbT4g
-d3JvdGU6DQo+ID4gT24gV2VkLCBBcHIgMjgsIDIwMjEgYXQgMTE6MzQgQU0gTWFyaXVzeiBDZWll
-ciA8bWNlaWVyK2tlcm5lbEBnbWFpbC5jb20+DQo+ID4gd3JvdGU6DQo+ID4+DQo+ID4+IE1heWJl
-IGl0IHdvdWxkIGFsc28gYmUgd29ydGh3aGlsZSB0byBtYWtlIHRoZSByZXF1aXJlbWVudCB0aGF0
-IHRoZQ0KPiA+PiBrZXJuZWwgbXVzdCBiZSBidWlsZGFibGUgd2l0aCBmcmVlIHNvZnR3YXJlIChu
-b3QganVzdCBvcGVuIHNvdXJjZQ0KPiA+PiBzb2Z0d2FyZSkgZXhwbGljaXQgPw0KPiA+DQo+ID4g
-VGhlIGtlcm5lbCBpcyBhbHJlYWR5IGJ1aWxkYWJsZSBieSBMTFZNIChhbmQgY2xhbmcpOyBpbiBm
-YWN0IEFuZHJvaWQsDQo+ID4gQ3JPUywgYW5kIEdvb2dsZSdzIHByb2R1Y3Rpb24gc2VydmVycyBh
-bHJlYWR5IGRvIHNvLg0KPiA+IGh0dHBzOi8vY2xhbmdidWlsdGxpbnV4LmdpdGh1Yi5pby8NCj4g
-DQo+IExMVk0vY2xhbmcgaXMgbm90IGZyZWUgc29mdHdhcmUgKGl0J3MganVzdCBvcGVuIHNvdXJj
-ZSksIHNvIGl0IGRvZXNuJ3QNCj4gbWF0dGVyIGlmIGtlcm5lbCBidWlsZHMgb3Igbm90IHdpdGgg
-aXQuIFdoYXQgc2hvdWxkIG1hdHRlciBpcyB3aGV0aGVyDQo+IGl0IGlzIGJ1aWxkYWJsZSB3aXRo
-IGF0IGxlYXN0IG9uZSBHUEwgY29tcGlsZXIgbGlrZSBHQ0MuDQoNCkkgc3VzcGVjdCB0aGF0IHdo
-YXQgbWF0dGVycyBmb3IgbW9zdCBwZW9wbGUgaXMgd2hldGhlciB0aGUgcmVxdWlyZWQNCmNvbXBp
-bGVycyAoZXRjKSBhcmUgaW5zdGFsbGVkIGJ5IGEgZGVmYXVsdC1pc2ggaW5zdGFsbCBvZiB0aGVp
-cg0KZmF2b3VyaXRlIGRpc3RyaWJ1dGlvbi4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRk
-cmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBN
-SzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
+David Laight <David.Laight@ACULAB.COM> writes:
+
+> From: Mariusz Ceier
+>> Sent: 28 April 2021 19:34
+> ....
+>>
+>> I suggest to wait until featureful GPL implementation of rust 
+>> language
+>> is made (assuming GNU Rust is on the way) before merging any 
+>> rust code
+>> in the kernel and when that implementation is done make a 
+>> requirement
+>> that all rust code must be buildable by at least GPL 
+>> implementation.
+>>
+>> Maybe it would also be worthwhile to make the requirement that 
+>> the
+>> kernel must be buildable with free software (not just open 
+>> source
+>> software) explicit ?
+>
+> Or put the version of the compiler that works in the source tree
+> with the kernel and then build it as part of the full build.
+
+Building compilers takes several hours, I'm pretty sure usually 
+much more
+than the kernel itself. Building the compiler as part of the full 
+build
+would be a gigantic pain for everyone involved. Rustc is even 
+worse than
+most compilers on that front due to the complexity of its runtime 
+checks.
+
+--
+Kind regards,
+Kajetan
