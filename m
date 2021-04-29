@@ -2,70 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F47936E96C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 13:14:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A937F36E985
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Apr 2021 13:25:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhD2LP2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Apr 2021 07:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
+        id S232101AbhD2L0B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Apr 2021 07:26:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229792AbhD2LP0 (ORCPT
+        with ESMTP id S230148AbhD2L0A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Apr 2021 07:15:26 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1CCC06138B;
-        Thu, 29 Apr 2021 04:14:40 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id e5so37830969wrg.7;
-        Thu, 29 Apr 2021 04:14:40 -0700 (PDT)
+        Thu, 29 Apr 2021 07:26:00 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDEEC06138B;
+        Thu, 29 Apr 2021 04:25:14 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id x5so16248528wrv.13;
+        Thu, 29 Apr 2021 04:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=references:user-agent:from:to:cc:subject:in-reply-to:message-id
          :date:mime-version;
-        bh=5/8VNkQOcNtPRtDrHmo/JB8UiRS4tDp43Rh0Drba7XA=;
-        b=hKLM/5ShBvsG3gq3hjRH3gdwJMGrGMg3rv0LenlO0dHqNMXypdek0/BvF6QkqucTWp
-         Gnv4NduO2YYNpTsFCfoy8r5NxddLs46wPPqZDnagTb2u0/7EwGzcP6pnntqmPtCNqs3o
-         ZSF+i4y0yoEbzs4ejoCnKuYzcpU4UMmdIRxg7YwrM1fVpwsJTQ/eO1P/F5E8COUk2QZF
-         w1Y5L851T+E+0DCZfMSLCPzGjN8EF5/VvxRo13IUQx4s51wBg9HOpgofk2p6URwRxgzY
-         mNTswhKpHPT8mVorr3toSe7D8oolb0/yLALucqnitwOjcfPQOYorsRois6qusXDoV6Hy
-         7UeQ==
+        bh=df00PonkuA4V7Kk/IBUK2Bd0mIxBD8f2wwKpTO3y3gk=;
+        b=Zk/vf2nj1LdGchhmqAMS8vStJBPjhcdzrzX7BasvJBOqWUbi+GSYHd971I8bTJ5Iqj
+         v8IcxzrNH/C/QPnjSP5WFgQf0/LFMoxRtA29pEBpVEwM+DNqSZLAzG3o4kxwnsa8WfMv
+         rRLDKzM8kh54f9cJ6kTJDS2sekVKMbZeXQCm3l4iAqyCxejO0aypeXR10KyrrLgJkFCm
+         FZzrlfbQfx7OrqKNwdi5qpLHaAC61gYblJBAcxIOp9TjooKG+5kgH/bMsqwGW2W6Lkbe
+         2rwgwHWlIOxdgLwNQWUC/fEbntJJpy/lth8BWRys/x4c9BZxAINIcn84Tzky9YuM+lSc
+         Vllg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:references:user-agent:from:to:cc:subject
          :in-reply-to:message-id:date:mime-version;
-        bh=5/8VNkQOcNtPRtDrHmo/JB8UiRS4tDp43Rh0Drba7XA=;
-        b=NlupXyBnuC/TpCLu2ZZjJesF+hsuryczpUEIJkgmx74VryOlFipRk+Vx0pA5UQvzxV
-         5OmWE4pcqlZZ9sJTQIllSHgb87Srj67DsUHAkLcoIFbJ9oozkjX0UG9vXrOvKvsVC+j+
-         cibeP98jFHGQm280bwbHzdo+PwmwF4NOcYFspTwWhWjtvCYYRv2XKRzcUqHi7et8tOuY
-         x2e2487pX2hMjiTvpgFY/eo5pHHB9AAQTd27cNlSedEZ4FSt7ZQ6A36Ew6dcryNaWuBg
-         CgW6AmWsmbPN29g6NXVLD6UqBZEcrMsWZjpvVExe5nMF7afBRN0TQtKSW4pr42x0g8Bw
-         5N7w==
-X-Gm-Message-State: AOAM533Lkw9THqvEjB0t36Md9jBbXQQoUSjHrQRebJ+J3No/EtKyt2da
-        HqPRafYzhobQ1R2Vbbcogv2iSjZFdR0=
-X-Google-Smtp-Source: ABdhPJx+OnuJxzoAcODQiSKczbARoDqeij+9ia6FY9Qx9koqZbwr7/Rk2M2vPbAQyqYK7IyfOwabmw==
-X-Received: by 2002:adf:e2cc:: with SMTP id d12mr42542589wrj.90.1619694878793;
-        Thu, 29 Apr 2021 04:14:38 -0700 (PDT)
+        bh=df00PonkuA4V7Kk/IBUK2Bd0mIxBD8f2wwKpTO3y3gk=;
+        b=RokTAxTIoYIL5Kbu6zCZfVHoPygquW7Revv2Gi7cqnehhoB0SoqXtvzfYbstWr3m8l
+         K/kwopD5/BIxR4SPjf47qxq7VT6Msli6ON72Yrsr9y2S8Yq0gQyxaeQaKSXUqGXtJY4+
+         U/BuOsPv9APkc5N6HNWP2hgfjV9lingkgO2lHt0ujAKXthZZkY7Vv9YA3KaT54HJquQG
+         UJ+vM6sl2l0kCGnYR9+mLkJ8bFbQYJOMLAKVXOXJxLDztR1APqzWpd1CD50qjOc3L//T
+         5EqyqPN4SoAMQVNt7NVv8EI5WaT0+Zf60dbsFo/OVms4BOQWERt7suNGWVhbVSza03q3
+         eYEQ==
+X-Gm-Message-State: AOAM533l0syAs+JbICd4ahWKcQJL9iPb/LdQ+E1XFrV4dTTo+E8x5QEh
+        V/cWSCHqyDRxXO4LVRdUWe5vrfp+Ge8=
+X-Google-Smtp-Source: ABdhPJzZf1hlNoZj6Op58fEkghEcYJ9e8oTMm3bZ0mfFq6JzGv24lqarERvDig04Sx/KvDFBPP0Tdg==
+X-Received: by 2002:a5d:64c4:: with SMTP id f4mr3067811wri.178.1619695512776;
+        Thu, 29 Apr 2021 04:25:12 -0700 (PDT)
 Received: from EDI-InfinityBook ([2a01:4b00:ea36:6c00:56e9:4ef3:28ef:7ef6])
-        by smtp.gmail.com with ESMTPSA id p10sm4240810wrr.58.2021.04.29.04.14.37
+        by smtp.gmail.com with ESMTPSA id x9sm4535392wrt.13.2021.04.29.04.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 04:14:38 -0700 (PDT)
+        Thu, 29 Apr 2021 04:25:12 -0700 (PDT)
 References: <20210414184604.23473-1-ojeda@kernel.org>
  <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
- <acce51322e1249f888e7d2815228e7af@AcuMS.aculab.com>
 User-agent: mu4e 1.4.15; emacs 28.0.50
 From:   Kajetan Puchalski <mrkajetanp@gmail.com>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     "'mceier+kernel@gmail.com'" <mceier+kernel@gmail.com>,
-        "ojeda@kernel.org" <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     mceier+kernel@gmail.com
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-In-reply-to: <acce51322e1249f888e7d2815228e7af@AcuMS.aculab.com>
-Message-ID: <87czude41d.fsf@gmail.com>
-Date:   Thu, 29 Apr 2021 12:14:22 +0100
+In-reply-to: <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+Message-ID: <878s51e3jc.fsf@gmail.com>
+Date:   Thu, 29 Apr 2021 12:25:11 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; format=flowed
 Precedence: bulk
@@ -73,38 +69,32 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-David Laight <David.Laight@ACULAB.COM> writes:
+Mariusz Ceier <mceier+kernel@gmail.com> writes:
 
-> From: Mariusz Ceier
->> Sent: 28 April 2021 19:34
-> ....
->>
->> I suggest to wait until featureful GPL implementation of rust 
->> language
->> is made (assuming GNU Rust is on the way) before merging any 
->> rust code
->> in the kernel and when that implementation is done make a 
->> requirement
->> that all rust code must be buildable by at least GPL 
->> implementation.
->>
->> Maybe it would also be worthwhile to make the requirement that 
->> the
->> kernel must be buildable with free software (not just open 
->> source
->> software) explicit ?
->
-> Or put the version of the compiler that works in the source tree
-> with the kernel and then build it as part of the full build.
+> Rust compiler license doesn't require for people to give back to 
+> the
+> community - corporation can create their own version of rust 
+> compiler
+> adding some proprietary extensions, develop drivers with it and 
+> even
+> if the drivers code will be GPL'd they won't be buildable by 
+> anyone
+> but that corporation. The rust compiler license doesn't require
+> sharing changes when you modify it. The similar problem has flex 
+> and
+> openssl required to build the kernel, but so far no one thought 
+> about
+> abusing them afaik.
 
-Building compilers takes several hours, I'm pretty sure usually 
-much more
-than the kernel itself. Building the compiler as part of the full 
-build
-would be a gigantic pain for everyone involved. Rustc is even 
-worse than
-most compilers on that front due to the complexity of its runtime 
-checks.
+Could you explain exactly what the issue you see there is?
+Surely if someone develops a proprietary compiler and then writes 
+kernel
+drivers that use that compiler, nobody else will be able to build 
+them.
+Because of that, none of the maintainers will be able to run or 
+test
+the code and it'll never actually get merged into the kernel.
+Surely they'd effectively be sabotaging themselves.
 
 --
 Kind regards,
