@@ -2,77 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A611536F57B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Apr 2021 07:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01FC636F589
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Apr 2021 08:02:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbhD3Fsc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Apr 2021 01:48:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44038 "EHLO mail.kernel.org"
+        id S230318AbhD3GDD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Apr 2021 02:03:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229482AbhD3Fsb (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Apr 2021 01:48:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6B75613F7;
-        Fri, 30 Apr 2021 05:47:41 +0000 (UTC)
+        id S230253AbhD3GDB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 30 Apr 2021 02:03:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B379E61456;
+        Fri, 30 Apr 2021 06:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1619761662;
-        bh=uN3W5AsIapviMEagZO43iHfN9y2Xy6Ij7KqfAJPPtz0=;
+        s=korg; t=1619762533;
+        bh=QzCS0dCd4RoasI83jSHrwbAlJ/VAD4W5hnns+z19NmQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CbEaoj2E6jBJmYQcnUXfa3aPLm0l7wwk1dgTz0uFUCwhHQwokIRT5q2Gcg1hZk7oM
-         vTFXxNAySKTzmBc22szg0+AcfrACnHSlGdYvoA6kXn/713Gjxue91RkVIZBWSvvJfx
-         lYMGF3UflgKEwN52TBYLAsMcjB+9rOMsBSphbZDQ=
-Date:   Fri, 30 Apr 2021 07:47:38 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        b=zOKe5OK7HKSBzS7fUC97azmA6cCm3u8yJwqzwvHT6bOr+NW7wdVunaSb9sKGzWkge
+         CNkm/d2jq3vxn9ncQCCx8wF81WuXmMY+UBBniNpmuKglw5DPKlZg3llsWmxPMsI79S
+         E//XQxUuiKWl/pSFj3RVfQpoJ4XnnJElyLqbe+pY=
+Date:   Fri, 30 Apr 2021 08:02:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Alexandru Ciobotaru <alcioa@amazon.com>,
-        Alexandru Vasile <lexnv@amazon.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Christian Brauner <christian@brauner.io>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Yonghong Song <yhs@fb.com>, bpf@vger.kernel.org,
-        devicetree@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2] .gitignore: prefix local generated files with a slash
-Message-ID: <YIuZ+rDdYzvTcSSB@kroah.com>
-References: <20210430020308.66792-1-masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Matthias Maennich <maennich@google.com>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mat Martineau <mathew.j.martineau@linux.intel.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        mptcp@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: replace LANG=C with LC_ALL=C
+Message-ID: <YIudYzwMq18AS8nB@kroah.com>
+References: <20210430015627.65738-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430020308.66792-1-masahiroy@kernel.org>
+In-Reply-To: <20210430015627.65738-1-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 11:03:08AM +0900, Masahiro Yamada wrote:
-> The pattern prefixed with '/' matches files in the same directory,
-> but not ones in sub-directories.
+On Fri, Apr 30, 2021 at 10:56:27AM +0900, Masahiro Yamada wrote:
+> LANG gives a weak default to each LC_* in case it is not explicitly
+> defined. LC_ALL, if set, overrides all other LC_* variables.
+> 
+>   LANG  <  LC_CTYPE, LC_COLLATE, LC_MONETARY, LC_NUMERIC, ...  <  LC_ALL
+> 
+> This is why documentation such as [1] suggests to set LC_ALL in build
+> scripts to get the deterministic result.
+> 
+> LANG=C is not strong enough to override LC_* that may be set by end
+> users.
+> 
+> [1]: https://reproducible-builds.org/docs/locales/
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Acked-by: Andra Paraschiv <andraprs@amazon.com>
-> ---
-> 
-> Changes in v2:
->   - rebase
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+> Reviewed-by: Matthias Maennich <maennich@google.com>
+> Acked-by: Matthieu Baerts <matthieu.baerts@tessares.net> (mptcp)
 
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
