@@ -2,125 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 763A43703AE
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 May 2021 00:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5B303705B0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 May 2021 07:04:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbhD3WuE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Apr 2021 18:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44742 "EHLO
+        id S229546AbhEAFF3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 May 2021 01:05:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbhD3WuD (ORCPT
+        with ESMTP id S229540AbhEAFF3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Apr 2021 18:50:03 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97802C06138C
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Apr 2021 15:49:14 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id x20so82149663lfu.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Apr 2021 15:49:14 -0700 (PDT)
+        Sat, 1 May 2021 01:05:29 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77B9C06174A
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Apr 2021 22:04:39 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 10so561902pfl.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Apr 2021 22:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iDj/KqljFidoYmUB3JwJD5XIMfVHo2ILy+QB0Z4+7eY=;
-        b=Hdkd+OSzAEW5kG/LYPVp9EWvvnwA2RN6Zcf57KQxFF0bLBLXPESKJS049xblm7jeMT
-         P9ad+q7y1qPiqnStuvGV02DOckOp2WORBpSUYodQ5FUg+S/bj2AIRvQMtJ6GqHPh1lOc
-         8WHv7ObX+EvIy/BAkLgIcbEoDj/DcCZ0/yHq3g7WqTJORopr6+IOwEwylce/YkEwrQ/e
-         KqwoDBr4d6QCwGoVs02Bon9aBUaRh2fhFJrBYoo0guOrgodpRUEzt9PK/gECsDMy8IxA
-         wxRYTIXbDLb+8HwzUilL5s1OkZyJw9FfEeFL3PAM1MhGr93iUtBGTHocxGWlEpvp85OB
-         4Yjw==
+        bh=g8mpY3Hs0ZJhptBq1Eu24Ddxb18K6PiBevmMq99HlXc=;
+        b=JigJo42aBnzFploY+s2bxqEowDTR/Ncbd2sDFLZ8DgWCdihO+mY57MnjF7Y91jzXkC
+         arjNfpzyac6exDthb82uJ3N7shkh8TSuY3YaePUw/dj2KvVi2HKHPQhKM/eWtTpDbFtq
+         JRI/iceqSjTEbYV6UAYkEHAA1DSWU1Re2jvgf6QCz7YRDilINvrXI4vewKjsuezmvZR6
+         g6EnygkBs9QdRVuLBleDKVLPBNZWs/fISdY9b92TWOxtGwTOktkfaUfln8BIXSP3V/vV
+         vJ6rqHq4Xm72vfh0u/d8XnAqQqdJ3avpm2SpphWBylXr+VvLvY2xh3H2alZ9zjUF1ngg
+         D6pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iDj/KqljFidoYmUB3JwJD5XIMfVHo2ILy+QB0Z4+7eY=;
-        b=CPtWrvSwJGdVqlNI5GhXAKyrY5vZaqI8x2eU256YpgN5tSeC5V9RrPgUAajqnxsLOw
-         M4E+83z95Zl/MRuv/JfadtyUvBtPTJCT6M0B5SavpY/YhOEdnG62IacUnsQBaXh2kxUN
-         AjdOdjqQrt3jFNe4vRGhqXri41I230qUyPCQ/ccKXC1cnU6ZowXIwbLLkN/jLdCEpd7w
-         3dwlQgNs1DssABSSIA8fkAyR6lz250KvpJnxHg27WwG17vkv3P8MO/Co+2wPkiuoqrwo
-         rs+S13VVx4vopyGxNCd1vUEI2BpH3xctpvpgTyFeH/0Duv7RKZSHDgrXm4y+5fNEf/ga
-         YXUQ==
-X-Gm-Message-State: AOAM5304rVJ1dkFkiWkpCzWru/4jvxoOz8UsUPbFNKWiImXdrKAY2tbj
-        kTG7Ze2v6Wj9wa93bnbF4QQ1lQ1/qTLugGU6WzMTtQ==
-X-Google-Smtp-Source: ABdhPJywWmeJ2QmLmmKiD5eZ7WjRzX8EqYzEBw8K21R8QXzgYftmJURNZ0tjHvWjnKYgivNjQo7Z1wuvpbmKD0HDKHA=
-X-Received: by 2002:a05:6512:2190:: with SMTP id b16mr4831831lft.122.1619822952803;
- Fri, 30 Apr 2021 15:49:12 -0700 (PDT)
+        bh=g8mpY3Hs0ZJhptBq1Eu24Ddxb18K6PiBevmMq99HlXc=;
+        b=CLR96a5JtGkc3lQSTPjDLnbprXtNgq1w580m6RMnmUr2qfK6OQzotsMlvoQ4LAupgq
+         m2DGMY4Qtc/Y/Rs2oG7T8B8Pbddeeza3EtSjj3NcbTaVId8ZlVeFzGskmbzhN/o/XUFj
+         LrUXMmibU80fu8VbGfR4VX98hYE59ApqiQy1RZ1NJA4g3k9egIGNeG2CJnM2oyH+41EN
+         Yhxs7M4Mr5fWlWk2UWFXvvd1uYrF2vBk6+/xAXKYiQBR/6Drkb9m6Qf3bR3Rmm9HpK3t
+         WI3yPtGVqSSpvppupNzzAriZo6KfdnefQ2fO9pjm5mctDG9lLMALGcdeayPSnv4E/b2j
+         xXDw==
+X-Gm-Message-State: AOAM532ueF93T6Oyqcw8MfFGVB+KKSs81NSFIU2B81fIOXsmypckVdpm
+        1t5anwyR9zUKjpTpahpPe0beI4VnPAdHlZmPUNA=
+X-Google-Smtp-Source: ABdhPJwhyUuYCIrocIt/Pkc6mpG/lflJGLgUNBIX5KKhmq/reT430B5sirnEPjLeOLXk4Q3Ew6bkp2h+juZJFXB3OPU=
+X-Received: by 2002:a63:130f:: with SMTP id i15mr7752769pgl.151.1619845479293;
+ Fri, 30 Apr 2021 22:04:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210429012350.600951-1-nathan@kernel.org>
-In-Reply-To: <20210429012350.600951-1-nathan@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 30 Apr 2021 15:49:00 -0700
-Message-ID: <CAKwvOdkXBY_5goFo_DvbuaDNE=vcXxXYsw6tJGy4ZBRySW9_oA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Move -Wno-unused-but-set-variable out of GCC
- only block
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "# 3.4.x" <stable@vger.kernel.org>, Jian Cai <jiancai@google.com>
+References: <CAGRSmLsJmR_NFcovYSP-gK52qDASP4csbaOjx2Sfk9HvhHvAfQ@mail.gmail.com>
+ <CAGRSmLtsWvPhbmEkLNWC8FAtkvXBWSBRunAKNYUCRah2m+y2sQ@mail.gmail.com> <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
+In-Reply-To: <CAK7LNASoK0yhDdeoj1GPELTQ_sz3h=aVdTPUNj-4m6Zacj1fvw@mail.gmail.com>
+From:   "David F." <df7729@gmail.com>
+Date:   Fri, 30 Apr 2021 22:04:28 -0700
+Message-ID: <CAGRSmLtY0WejKxNJ3xggPivmYhTK6tQ7LSfEZHtAaJQCQHdeTw@mail.gmail.com>
+Subject: Re: 5.10 build issue creating library for driver support.
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 28, 2021 at 6:24 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Currently, -Wunused-but-set-variable is only supported by GCC so it is
-> disabled unconditionally in a GCC only block (it is enabled with W=1).
-> clang currently has its implementation for this warning in review so
-> preemptively move this statement out of the GCC only block and wrap it
-> with cc-disable-warning so that both compilers function the same.
->
-> Cc: stable@vger.kernel.org
-> Link: https://reviews.llvm.org/D100581
+The old 5.4 patch fixed the problem I had then which was linking with
+a library, this one is that it won't *create* the library.
 
-Thanks for the patch.
+"No rule to make target '/path/to/sourcefile.o', needed by '/path/to/lib.a' Stop
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+With 5.10 you get the above problem with 5.4 without the patch you can
+still create it, just can't link with it, with the patch it works
+perfectly.  So it's new in 5.10.
 
-(That's actually one of Jian's teammates working on implementing that
-warning).  Tested with https://reviews.llvm.org/D100581 applied, which
-I do fully expect to land in LLVM soon.
+Thanks!!
 
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  Makefile | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+On Sun, Apr 25, 2021 at 10:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> diff --git a/Makefile b/Makefile
-> index f03888cdba4e..911d839cfea8 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -775,16 +775,16 @@ KBUILD_CFLAGS += -Wno-gnu
->  KBUILD_CFLAGS += -mno-global-merge
->  else
+> On Sat, Apr 24, 2021 at 10:26 PM David F. <df7729@gmail.com> wrote:
+> >
+> > Hello,
+> >
+> > I moved to 5.10 from 5.4 now I have build problem:
+> >
+> > "No rule to make target '/path/to/sourcefile.o', needed by '/path/to/lib.a' Stop
+> >
+> > The build will build a small library file of shared driver support
+> > routines, but it doesn't appear the build will support a library
+> > anymore?  Is there a patch for that?
+> >
+> > There was a patch that fix a prior problem of linking to a lib.a file:
+> >
+> > Subject: Moving from 4.x to 5.4.22 breaks custom module build.
+> >
+> > Is there a fix for this new issue?
+> >
+> > Thanks.
 >
-> -# These warnings generated too much noise in a regular build.
-> -# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
-> -KBUILD_CFLAGS += -Wno-unused-but-set-variable
-> -
->  # Warn about unmarked fall-throughs in switch statement.
->  # Disabled for clang while comment to attribute conversion happens and
->  # https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
->  KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
->  endif
 >
-> +# These warnings generated too much noise in a regular build.
-> +# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
-> +KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
-> +
->  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
->  ifdef CONFIG_FRAME_POINTER
->  KBUILD_CFLAGS  += -fno-omit-frame-pointer -fno-optimize-sibling-calls
+> I think you asked the same question before,
+> and you found a patch.
 >
-> base-commit: d8201efe75e13146ebde433745c7920e15593baf
-> --
-> 2.31.1.362.g311531c9de
+> https://patchwork.kernel.org/project/linux-kbuild/patch/20200106032324.3147-1-masahiroy@kernel.org/#23088533
+> Doesn't this solve your problem?
 >
 > --
-
--- 
-Thanks,
-~Nick Desaulniers
+> Best Regards
+> Masahiro Yamada
