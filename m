@@ -2,86 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3354F37084C
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 May 2021 19:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B41A837090D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 May 2021 23:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbhEARvI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 May 2021 13:51:08 -0400
-Received: from pegase2.c-s.fr ([93.17.235.10]:57807 "EHLO pegase2.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230450AbhEARvH (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 May 2021 13:51:07 -0400
-X-Greylist: delayed 719 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 May 2021 13:51:07 EDT
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4FXc090hfmz9sS5;
-        Sat,  1 May 2021 19:38:17 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 1YuCsbxWugQ6; Sat,  1 May 2021 19:38:16 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4FXc086Xtbz9sS4;
-        Sat,  1 May 2021 19:38:16 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id C4A668B770;
-        Sat,  1 May 2021 19:38:16 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id 1mDE3OxKH6Jr; Sat,  1 May 2021 19:38:16 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id BD8A88B763;
-        Sat,  1 May 2021 19:38:15 +0200 (CEST)
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Albert Ou <aou@eecs.berkeley.edu>, Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
- <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <2ecdbfed-82c4-b0cb-85dc-857b3b06b353@csgroup.eu>
-Date:   Sat, 1 May 2021 19:38:14 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S231853AbhEAVT4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 May 2021 17:19:56 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:52185 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231739AbhEAVT4 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 1 May 2021 17:19:56 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Mzyi6-1lP0fe1CZq-00x0e8; Sat, 01 May 2021 23:19:04 +0200
+Received: by mail-wr1-f44.google.com with SMTP id x5so1589432wrv.13;
+        Sat, 01 May 2021 14:19:04 -0700 (PDT)
+X-Gm-Message-State: AOAM532vq+bZNwVlwWxVcsEMyeFRVaQ0jdkzC3/btMkcGGbH4x7/3iuC
+        q2VEl4dWMoROGcwY11Zh5PuzCQihQaiMwAL+xG4=
+X-Google-Smtp-Source: ABdhPJwxX7UQ1JNp+JEAHWeZp2Bq20dQ0+HLXAT1u6dZ+Krmnx72KZxLPc//au7Gj4to2+E8DyJZ2Tgr7fgRNdrVKcY=
+X-Received: by 2002:a05:6000:1843:: with SMTP id c3mr16285978wri.361.1619903944009;
+ Sat, 01 May 2021 14:19:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <20210501172437.156926-1-masahiroy@kernel.org>
+In-Reply-To: <20210501172437.156926-1-masahiroy@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 1 May 2021 23:18:23 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
+Message-ID: <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: remove ARCH=sh64 support from top Makefile
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:5Ft+P2rdsLOh6+FnG5AS5WqyqsU0zmZ5Ti2UTDZlvpNSwIMgNAp
+ hWqhItN9bZ8BT+EajdtFcnYfLfkmuRtzqE6N/yL/s1zvFjTklptYhV6opiejOWy81JOqtj0
+ wo84RgfX0QJ42d6ZJj2L3DnnVhEgQa/cWnQ2JCux7Hg+CA//1PzJ+gC5Y/5dxL2mr0vDKDC
+ F8XXK7Wmd71D7HDUxREGQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sqSjb95dxcc=:rZRL8wczBfudxEIfW7QvpA
+ 9l20oxSvA3P3gCxVMvYcoJrU+UR3d5XbitszkfdJzxL/+94KR3k72vHKWJJldHWhPJyFP8Xbi
+ 4jqL/AdhbJC4XtDQN0qXj8e7Na3SuhEg62IY+XzJZX4QtVE1MJ+Wnd1Tv4c3IW8XvVXiQM870
+ CLDld0pH56vu/+0B3nuSfSfrIHGQrKmML3hLU9FC3EiTsXu7Eim7EAPVpcKag2k49ALmdRCeL
+ X+1B5klQII+K6plG31W3JY5e2YwYl6rkNISF85rVA667x/ZosjIy3/qigBid/jXF/gdvehwFS
+ AYVwqKHESc/o7eFkqYI1r2yVhsIVVD/63wteBqu2wvcMLFYSq1+oaxYVzikI4BnoOjNHI4SeL
+ xdCGjhER2dXTAl4JoGjvWOuQuunCnD19ioK2VttSwSaGAhRzJruLvCTqeOdFF2npqKIEnH9Sz
+ BSoF/B+ScMANn8KbFOiuxYR3EfooiU0pYx2ekXvai7Iqw2f0jzPBPD8e7Px3TplSovEn4iZvh
+ I5dIshdKwjekBL3eZxgRxQ=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sat, May 1, 2021 at 7:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Commit 37744feebc08 ("sh: remove sh5 support") removed the SUPERH64
+> support entirely.
+>
+> Remove the left-over code from the top Makefile.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
+Good catch!
 
-Le 01/05/2021 à 17:52, Miguel Ojeda a écrit :
-> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>
->> More cleanups will be possible as follow-up patches, but this one must
->> be agreed and applied to the mainline first.
-> 
-> +1 This will allow me to remove the __has_attribute hack in
-> include/linux/compiler_attributes.h.
-> 
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> 
-
-On powerpc this will allow us to remove commit https://github.com/linuxppc/linux/commit/592bbe9c505d
-
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-Christophe
+Acked-by: Arnd Bergmann <arnd@arndb.de>
