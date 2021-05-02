@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D33370E61
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 20:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43AC8370E62
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 20:10:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232421AbhEBSLT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 May 2021 14:11:19 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:37452 "EHLO
+        id S232431AbhEBSLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 May 2021 14:11:20 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:37453 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232363AbhEBSLT (ORCPT
+        with ESMTP id S231818AbhEBSLT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sun, 2 May 2021 14:11:19 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 142I9wPj004068;
-        Mon, 3 May 2021 03:09:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 142I9wPj004068
+        by conuserg-12.nifty.com with ESMTP id 142I9wPk004068;
+        Mon, 3 May 2021 03:09:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 142I9wPk004068
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1619978999;
-        bh=Tpd8otkWti2fb4EYKsLJTORWJfsQTHA3eXq5RcGzaPQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Uvv5k3XSD/pDhCAkaB29eLuVCOYTbsSaG+qngvWNf5EUw0CLkbf993o1rjx3N/zHR
-         HmhpC2qqTU7ou6MguvfFJSsY+yb0jutIlIf/+5MQ7Rk9p84znptunYwGW3IgtXE2oq
-         gSbhVbO+MzV2hJ8AEvtwvZLp5BkBu/DUswhS4q84vethln3W4EyvWhGLMaxqq8e3yM
-         K3ctQ2/Gzpm59UjWiFqkUuxU+FyA1II3tg/hm3gsh7MzR0zYqZRBy5bPgGwmBes4an
-         3AKMPv2ayqfoXslI2zGXU7FokUlyM6TiFMzD5t5rXjokxCxr9hdh1/yy9f7VWEv8uO
-         K1edETBVp3MSg==
+        bh=j4v79gs8TKbElR1qr2C5b9dIcgnMSlGQp++AuzJZmA0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YyxMjV4pow00bC8DgiO0/a8rk6lqKoa446a0egltWXNx4mjTl8VVH+kKcBbX5GL65
+         pfdvp+DtdcIUIpLbTjVAkhWP9oMVu5HFBzMZ3AyTiy4QMnz4NaPzFiSd7Vvcem/X72
+         3D1nXT+TCtHLJBwdCG9NuHnuZrge4OayRu3I4FkqJcQDYtcIhE/U2x0e+iz0320s4T
+         4jSlOUNPXUGQ9jWwFUmNvrhBGZELWRqnx0bmGRF14iKLdEYW2ucEXeNzHUuh79mK++
+         UElClo77hOvd2D9vF/T0fosacch8WCJ1b47bFROsUaj1CLYROP5k27l4JXgVPgF6i8
+         gIzh2uKtBQrzg==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,63 +33,120 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kbuild: parameterize the .o part of suffix-search
-Date:   Mon,  3 May 2021 03:09:55 +0900
-Message-Id: <20210502180957.3419490-1-masahiroy@kernel.org>
+Subject: [PATCH 2/3] kbuild: refactor fdtoverlay rule
+Date:   Mon,  3 May 2021 03:09:56 +0900
+Message-Id: <20210502180957.3419490-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210502180957.3419490-1-masahiroy@kernel.org>
+References: <20210502180957.3419490-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The suffix-search macro hard-codes the suffix, '.o'.
+Rename overlay-y to multi-dtb-y, which is a consistent name with
+multi-obj-y. Also, use multi-search to avoid code duplication.
 
-Make it a parameter so that the multi-search and real-search macros
-can be reused for foo-dtbs syntax introduced by commit 15d16d6dadf6
-("kbuild: Add generic rule to apply fdtoverlay").
+Introduce real-dtb-y, which is a consistent name with real-obj-y,
+to contain primitive blobs compiled from *.dts. This is used to
+calculate the list of *.dt.yaml files.
+
+Set -@ to base DTB without using $(eval ).
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.lib | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ scripts/Makefile.build |  2 +-
+ scripts/Makefile.lib   | 33 +++++++++++++++------------------
+ 2 files changed, 16 insertions(+), 19 deletions(-)
 
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 5e39b0517186..949f723efe53 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -354,7 +354,7 @@ $(obj)/%.o: $(src)/%.S $(objtool_dep) FORCE
+ 
+ targets += $(filter-out $(subdir-builtin), $(real-obj-y))
+ targets += $(filter-out $(subdir-modorder), $(real-obj-m))
+-targets += $(lib-y) $(always-y) $(MAKECMDGOALS)
++targets += $(real-dtb-y) $(lib-y) $(always-y) $(MAKECMDGOALS)
+ 
+ # Linker scripts preprocessor (.lds.S -> .lds)
+ # ---------------------------------------------------------------------------
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 64daf37e874b..88b446ed6532 100644
+index 88b446ed6532..0da58af8d192 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -44,19 +44,22 @@ else
- obj-y		:= $(filter-out %/, $(obj-y))
+@@ -78,24 +78,18 @@ always-y += $(userprogs-always-y) $(userprogs-always-m)
+ # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
+ dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
+ 
+-# List all dtbs to be generated by fdtoverlay
+-overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
+-
+-# Generate symbols for the base files so overlays can be applied to them.
+-$(foreach m,$(overlay-y), $(eval DTC_FLAGS_$(basename $(firstword $($(m:.dtb=-dtbs)))) += -@))
+-
+-# Add base dtb and overlay dtbo
+-dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
++# Composite DTB (i.e. DTB constructed by overlay)
++multi-dtb-y := $(call multi-search, $(dtb-y), .dtb, -dtbs)
++# Primitive DTB compiled from *.dts
++real-dtb-y := $(call real-search, $(dtb-y), .dtb, -dtbs)
++# Base DTB that overlay is applied onto (each first word of $(*-dtbs) expansion)
++base-dtb-y := $(foreach m, $(multi-dtb-y), $(firstword $(call suffix-search, $m, .dtb, -dtbs)))
+ 
+ always-y			+= $(dtb-y)
+ 
+ ifneq ($(CHECK_DTBS),)
+-# Don't run schema checks for dtbs created by fdtoverlay as they don't
+-# have corresponding dts files.
+-dt-yaml-y := $(filter-out $(overlay-y),$(dtb-y))
+-
+-always-y += $(patsubst %.dtb,%.dt.yaml, $(dt-yaml-y))
+-always-y += $(patsubst %.dtbo,%.dt.yaml, $(dt-yaml-y))
++always-y += $(patsubst %.dtb,%.dt.yaml, $(real-dtb-y))
++always-y += $(patsubst %.dtbo,%.dt.yaml, $(real-dtb-y))
  endif
  
--# Expand $(foo-objs) $(foo-y) by calling $(call suffix-search,foo.o,-objs -y)
--suffix-search = $(strip $(foreach s, $2, $($(1:.o=$s))))
-+# Expand $(foo-objs) $(foo-y) etc. by replacing their individuals
-+suffix-search = $(strip $(foreach s, $3, $($(1:%$(strip $2)=%$s))))
-+# List composite targets that are constructed by combining other targets
-+multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $m)))
-+# List primitive targets that are compiled from source files
-+real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $(call suffix-search, $m, $2, $3), $m))
+ # Add subdir path
+@@ -108,6 +102,8 @@ lib-y		:= $(addprefix $(obj)/,$(lib-y))
+ real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
+ real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
+ multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
++multi-dtb-y	:= $(addprefix $(obj)/, $(multi-dtb-y))
++real-dtb-y	:= $(addprefix $(obj)/, $(real-dtb-y))
+ subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+ 
+ # Finds the multi-part object the current object will be linked into.
+@@ -322,6 +318,9 @@ endif
+ 
+ DTC_FLAGS += $(DTC_FLAGS_$(basetarget))
+ 
++# Set -@ if the target is a base DTB that overlay is applied onto
++DTC_FLAGS += $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), -@)
 +
- # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
--multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $m)))
--multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
--multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
-+multi-obj-y := $(call multi-search, $(obj-y), .o, -objs -y)
-+multi-obj-m := $(call multi-search, $(obj-m), .o, -objs -y -m)
- multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+ # Generate an assembly file to wrap the output of the device tree compiler
+ quiet_cmd_dt_S_dtb= DTB     $@
+ cmd_dt_S_dtb=						\
+@@ -353,14 +352,12 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+ $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
+ 	$(call if_changed_dep,dtc)
  
- # Replace multi-part objects by their individual parts,
- # including built-in.a from subdirectories
--real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $(call suffix-search, $m, $2), $m))
--real-obj-y := $(call real-search, $(obj-y),-objs -y)
--real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
-+real-obj-y := $(call real-search, $(obj-y), .o, -objs -y)
-+real-obj-m := $(call real-search, $(obj-m), .o, -objs -y -m)
+-overlay-y := $(addprefix $(obj)/, $(overlay-y))
+-
+ quiet_cmd_fdtoverlay = DTOVL   $@
+       cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
  
- always-y += $(always-m)
+-$(overlay-y): FORCE
++$(multi-dtb-y): FORCE
+ 	$(call if_changed,fdtoverlay)
+-$(call multi_depend, $(overlay-y), .dtb, -dtbs)
++$(call multi_depend, $(multi-dtb-y), .dtb, -dtbs)
  
+ DT_CHECKER ?= dt-validate
+ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),,-m)
 -- 
 2.27.0
 
