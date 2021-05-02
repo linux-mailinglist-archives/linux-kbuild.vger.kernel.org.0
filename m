@@ -2,66 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B41A837090D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 May 2021 23:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 572813709B3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 04:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231853AbhEAVT4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 May 2021 17:19:56 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:52185 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231739AbhEAVT4 (ORCPT
+        id S231408AbhEBCvv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 May 2021 22:51:51 -0400
+Received: from smtprelay0179.hostedemail.com ([216.40.44.179]:37046 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230409AbhEBCvu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 May 2021 17:19:56 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mzyi6-1lP0fe1CZq-00x0e8; Sat, 01 May 2021 23:19:04 +0200
-Received: by mail-wr1-f44.google.com with SMTP id x5so1589432wrv.13;
-        Sat, 01 May 2021 14:19:04 -0700 (PDT)
-X-Gm-Message-State: AOAM532vq+bZNwVlwWxVcsEMyeFRVaQ0jdkzC3/btMkcGGbH4x7/3iuC
-        q2VEl4dWMoROGcwY11Zh5PuzCQihQaiMwAL+xG4=
-X-Google-Smtp-Source: ABdhPJwxX7UQ1JNp+JEAHWeZp2Bq20dQ0+HLXAT1u6dZ+Krmnx72KZxLPc//au7Gj4to2+E8DyJZ2Tgr7fgRNdrVKcY=
-X-Received: by 2002:a05:6000:1843:: with SMTP id c3mr16285978wri.361.1619903944009;
- Sat, 01 May 2021 14:19:04 -0700 (PDT)
+        Sat, 1 May 2021 22:51:50 -0400
+X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 May 2021 22:51:50 EDT
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id ED2E51801511B
+        for <linux-kbuild@vger.kernel.org>; Sun,  2 May 2021 02:42:11 +0000 (UTC)
+Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 2E2581822186F;
+        Sun,  2 May 2021 02:42:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 0D7D518A5F1;
+        Sun,  2 May 2021 02:42:04 +0000 (UTC)
+Message-ID: <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+From:   Joe Perches <joe@perches.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+References: <20210501151538.145449-1-masahiroy@kernel.org>
+         <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Date:   Sat, 01 May 2021 19:41:53 -0700
 MIME-Version: 1.0
-References: <20210501172437.156926-1-masahiroy@kernel.org>
-In-Reply-To: <20210501172437.156926-1-masahiroy@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 1 May 2021 23:18:23 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
-Message-ID: <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: remove ARCH=sh64 support from top Makefile
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:5Ft+P2rdsLOh6+FnG5AS5WqyqsU0zmZ5Ti2UTDZlvpNSwIMgNAp
- hWqhItN9bZ8BT+EajdtFcnYfLfkmuRtzqE6N/yL/s1zvFjTklptYhV6opiejOWy81JOqtj0
- wo84RgfX0QJ42d6ZJj2L3DnnVhEgQa/cWnQ2JCux7Hg+CA//1PzJ+gC5Y/5dxL2mr0vDKDC
- F8XXK7Wmd71D7HDUxREGQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sqSjb95dxcc=:rZRL8wczBfudxEIfW7QvpA
- 9l20oxSvA3P3gCxVMvYcoJrU+UR3d5XbitszkfdJzxL/+94KR3k72vHKWJJldHWhPJyFP8Xbi
- 4jqL/AdhbJC4XtDQN0qXj8e7Na3SuhEg62IY+XzJZX4QtVE1MJ+Wnd1Tv4c3IW8XvVXiQM870
- CLDld0pH56vu/+0B3nuSfSfrIHGQrKmML3hLU9FC3EiTsXu7Eim7EAPVpcKag2k49ALmdRCeL
- X+1B5klQII+K6plG31W3JY5e2YwYl6rkNISF85rVA667x/ZosjIy3/qigBid/jXF/gdvehwFS
- AYVwqKHESc/o7eFkqYI1r2yVhsIVVD/63wteBqu2wvcMLFYSq1+oaxYVzikI4BnoOjNHI4SeL
- xdCGjhER2dXTAl4JoGjvWOuQuunCnD19ioK2VttSwSaGAhRzJruLvCTqeOdFF2npqKIEnH9Sz
- BSoF/B+ScMANn8KbFOiuxYR3EfooiU0pYx2ekXvai7Iqw2f0jzPBPD8e7Px3TplSovEn4iZvh
- I5dIshdKwjekBL3eZxgRxQ=
+User-Agent: Evolution 3.38.1-1 
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.59
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 0D7D518A5F1
+X-Stat-Signature: cq9jpwmborrqawmiw8kjkakc3j6bmyct
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19KtPWcnnFB2QBxLpInpQtqjaFCZ/4pjzg=
+X-HE-Tag: 1619923324-584352
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 1, 2021 at 7:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit 37744feebc08 ("sh: remove sh5 support") removed the SUPERH64
-> support entirely.
->
-> Remove the left-over code from the top Makefile.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Sat, 2021-05-01 at 17:52 +0200, Miguel Ojeda wrote:
+> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > 
+> > More cleanups will be possible as follow-up patches, but this one must
+> > be agreed and applied to the mainline first.
+> 
+> +1 This will allow me to remove the __has_attribute hack in
+> include/linux/compiler_attributes.h.
 
-Good catch!
+Why not raise the minimum gcc compiler version even higher?
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+https://gcc.gnu.org/releases.html
+
+
+
