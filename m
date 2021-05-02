@@ -2,78 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 572813709B3
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 04:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D33370E61
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 20:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbhEBCvv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 May 2021 22:51:51 -0400
-Received: from smtprelay0179.hostedemail.com ([216.40.44.179]:37046 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230409AbhEBCvu (ORCPT
+        id S232421AbhEBSLT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 May 2021 14:11:19 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:37452 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232363AbhEBSLT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 May 2021 22:51:50 -0400
-X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 May 2021 22:51:50 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id ED2E51801511B
-        for <linux-kbuild@vger.kernel.org>; Sun,  2 May 2021 02:42:11 +0000 (UTC)
-Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 2E2581822186F;
-        Sun,  2 May 2021 02:42:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 0D7D518A5F1;
-        Sun,  2 May 2021 02:42:04 +0000 (UTC)
-Message-ID: <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-From:   Joe Perches <joe@perches.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-In-Reply-To: <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
-         <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Date:   Sat, 01 May 2021 19:41:53 -0700
+        Sun, 2 May 2021 14:11:19 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 142I9wPj004068;
+        Mon, 3 May 2021 03:09:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 142I9wPj004068
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1619978999;
+        bh=Tpd8otkWti2fb4EYKsLJTORWJfsQTHA3eXq5RcGzaPQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Uvv5k3XSD/pDhCAkaB29eLuVCOYTbsSaG+qngvWNf5EUw0CLkbf993o1rjx3N/zHR
+         HmhpC2qqTU7ou6MguvfFJSsY+yb0jutIlIf/+5MQ7Rk9p84znptunYwGW3IgtXE2oq
+         gSbhVbO+MzV2hJ8AEvtwvZLp5BkBu/DUswhS4q84vethln3W4EyvWhGLMaxqq8e3yM
+         K3ctQ2/Gzpm59UjWiFqkUuxU+FyA1II3tg/hm3gsh7MzR0zYqZRBy5bPgGwmBes4an
+         3AKMPv2ayqfoXslI2zGXU7FokUlyM6TiFMzD5t5rXjokxCxr9hdh1/yy9f7VWEv8uO
+         K1edETBVp3MSg==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] kbuild: parameterize the .o part of suffix-search
+Date:   Mon,  3 May 2021 03:09:55 +0900
+Message-Id: <20210502180957.3419490-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Evolution 3.38.1-1 
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.59
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 0D7D518A5F1
-X-Stat-Signature: cq9jpwmborrqawmiw8kjkakc3j6bmyct
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19KtPWcnnFB2QBxLpInpQtqjaFCZ/4pjzg=
-X-HE-Tag: 1619923324-584352
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, 2021-05-01 at 17:52 +0200, Miguel Ojeda wrote:
-> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > 
-> > More cleanups will be possible as follow-up patches, but this one must
-> > be agreed and applied to the mainline first.
-> 
-> +1 This will allow me to remove the __has_attribute hack in
-> include/linux/compiler_attributes.h.
+The suffix-search macro hard-codes the suffix, '.o'.
 
-Why not raise the minimum gcc compiler version even higher?
+Make it a parameter so that the multi-search and real-search macros
+can be reused for foo-dtbs syntax introduced by commit 15d16d6dadf6
+("kbuild: Add generic rule to apply fdtoverlay").
 
-https://gcc.gnu.org/releases.html
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/Makefile.lib | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 64daf37e874b..88b446ed6532 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -44,19 +44,22 @@ else
+ obj-y		:= $(filter-out %/, $(obj-y))
+ endif
+ 
+-# Expand $(foo-objs) $(foo-y) by calling $(call suffix-search,foo.o,-objs -y)
+-suffix-search = $(strip $(foreach s, $2, $($(1:.o=$s))))
++# Expand $(foo-objs) $(foo-y) etc. by replacing their individuals
++suffix-search = $(strip $(foreach s, $3, $($(1:%$(strip $2)=%$s))))
++# List composite targets that are constructed by combining other targets
++multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $m)))
++# List primitive targets that are compiled from source files
++real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $(call suffix-search, $m, $2, $3), $m))
++
+ # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
+-multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $m)))
+-multi-obj-y := $(call multi-search,$(obj-y),-objs -y)
+-multi-obj-m := $(call multi-search,$(obj-m),-objs -y -m)
++multi-obj-y := $(call multi-search, $(obj-y), .o, -objs -y)
++multi-obj-m := $(call multi-search, $(obj-m), .o, -objs -y -m)
+ multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+ 
+ # Replace multi-part objects by their individual parts,
+ # including built-in.a from subdirectories
+-real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2 -), $(call suffix-search, $m, $2), $m))
+-real-obj-y := $(call real-search, $(obj-y),-objs -y)
+-real-obj-m := $(call real-search, $(obj-m),-objs -y -m)
++real-obj-y := $(call real-search, $(obj-y), .o, -objs -y)
++real-obj-m := $(call real-search, $(obj-m), .o, -objs -y -m)
+ 
+ always-y += $(always-m)
+ 
+-- 
+2.27.0
 
