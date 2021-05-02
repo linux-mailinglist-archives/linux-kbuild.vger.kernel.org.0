@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43AC8370E62
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 20:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBD7D370E60
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 May 2021 20:10:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232431AbhEBSLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 May 2021 14:11:20 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:37453 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231818AbhEBSLT (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
+        id S232411AbhEBSLT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Sun, 2 May 2021 14:11:19 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:37455 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232410AbhEBSLS (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 2 May 2021 14:11:18 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 142I9wPk004068;
-        Mon, 3 May 2021 03:09:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 142I9wPk004068
+        by conuserg-12.nifty.com with ESMTP id 142I9wPl004068;
+        Mon, 3 May 2021 03:10:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 142I9wPl004068
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1619978999;
-        bh=j4v79gs8TKbElR1qr2C5b9dIcgnMSlGQp++AuzJZmA0=;
+        s=dec2015msa; t=1619979000;
+        bh=+LNLguQplCoZtSV+3NwrlLlo2vqKKeKdbo1HKDLdTww=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YyxMjV4pow00bC8DgiO0/a8rk6lqKoa446a0egltWXNx4mjTl8VVH+kKcBbX5GL65
-         pfdvp+DtdcIUIpLbTjVAkhWP9oMVu5HFBzMZ3AyTiy4QMnz4NaPzFiSd7Vvcem/X72
-         3D1nXT+TCtHLJBwdCG9NuHnuZrge4OayRu3I4FkqJcQDYtcIhE/U2x0e+iz0320s4T
-         4jSlOUNPXUGQ9jWwFUmNvrhBGZELWRqnx0bmGRF14iKLdEYW2ucEXeNzHUuh79mK++
-         UElClo77hOvd2D9vF/T0fosacch8WCJ1b47bFROsUaj1CLYROP5k27l4JXgVPgF6i8
-         gIzh2uKtBQrzg==
+        b=LUX9YSyJ4vrYpLhpMKfMMGCacAjxYHIhgBqpNT30Uz7ppA2i/bZqG8evAVQHh8PSh
+         08TAX0FEB71M6p+MJ1kQzgF/8RJAcve/77YqnewvGMIGxXTKvY5//fOhsxIwKUsuAf
+         CmERJ4iPussSFTWzzsKF8jxlzRflnqOYjGSdo3uYL7yH/4XWaWY+4cv3Y7VCbciejh
+         6yP0K+t6hIdxkN46wFfiA43v7ZnNkslMbyKum0v8PoR2LAtWJEmWCU70NvGaorSQLk
+         tXPA6oKgKGofJtguV4WcqsZHWRNphw81nmguO0+EAobWz4TyUY0+AteGvfvSEMxj94
+         YXzy81CMm8rmQ==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] kbuild: refactor fdtoverlay rule
-Date:   Mon,  3 May 2021 03:09:56 +0900
-Message-Id: <20210502180957.3419490-2-masahiroy@kernel.org>
+Subject: [PATCH 3/3] kbuild: refactor modname-multi by using suffix-search
+Date:   Mon,  3 May 2021 03:09:57 +0900
+Message-Id: <20210502180957.3419490-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210502180957.3419490-1-masahiroy@kernel.org>
 References: <20210502180957.3419490-1-masahiroy@kernel.org>
@@ -45,108 +45,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Rename overlay-y to multi-dtb-y, which is a consistent name with
-multi-obj-y. Also, use multi-search to avoid code duplication.
-
-Introduce real-dtb-y, which is a consistent name with real-obj-y,
-to contain primitive blobs compiled from *.dts. This is used to
-calculate the list of *.dt.yaml files.
-
-Set -@ to base DTB without using $(eval ).
+Improve the readability slightly.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build |  2 +-
- scripts/Makefile.lib   | 33 +++++++++++++++------------------
- 2 files changed, 16 insertions(+), 19 deletions(-)
+ scripts/Makefile.lib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 5e39b0517186..949f723efe53 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -354,7 +354,7 @@ $(obj)/%.o: $(src)/%.S $(objtool_dep) FORCE
- 
- targets += $(filter-out $(subdir-builtin), $(real-obj-y))
- targets += $(filter-out $(subdir-modorder), $(real-obj-m))
--targets += $(lib-y) $(always-y) $(MAKECMDGOALS)
-+targets += $(real-dtb-y) $(lib-y) $(always-y) $(MAKECMDGOALS)
- 
- # Linker scripts preprocessor (.lds.S -> .lds)
- # ---------------------------------------------------------------------------
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 88b446ed6532..0da58af8d192 100644
+index 0da58af8d192..865a5d4bdf1a 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -78,24 +78,18 @@ always-y += $(userprogs-always-y) $(userprogs-always-m)
- # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
- dtb-$(CONFIG_OF_ALL_DTBS)       += $(dtb-)
- 
--# List all dtbs to be generated by fdtoverlay
--overlay-y := $(foreach m,$(dtb-y), $(if $(strip $($(m:.dtb=-dtbs))),$(m),))
--
--# Generate symbols for the base files so overlays can be applied to them.
--$(foreach m,$(overlay-y), $(eval DTC_FLAGS_$(basename $(firstword $($(m:.dtb=-dtbs)))) += -@))
--
--# Add base dtb and overlay dtbo
--dtb-y += $(foreach m,$(overlay-y), $($(m:.dtb=-dtbs)))
-+# Composite DTB (i.e. DTB constructed by overlay)
-+multi-dtb-y := $(call multi-search, $(dtb-y), .dtb, -dtbs)
-+# Primitive DTB compiled from *.dts
-+real-dtb-y := $(call real-search, $(dtb-y), .dtb, -dtbs)
-+# Base DTB that overlay is applied onto (each first word of $(*-dtbs) expansion)
-+base-dtb-y := $(foreach m, $(multi-dtb-y), $(firstword $(call suffix-search, $m, .dtb, -dtbs)))
- 
- always-y			+= $(dtb-y)
- 
- ifneq ($(CHECK_DTBS),)
--# Don't run schema checks for dtbs created by fdtoverlay as they don't
--# have corresponding dts files.
--dt-yaml-y := $(filter-out $(overlay-y),$(dtb-y))
--
--always-y += $(patsubst %.dtb,%.dt.yaml, $(dt-yaml-y))
--always-y += $(patsubst %.dtbo,%.dt.yaml, $(dt-yaml-y))
-+always-y += $(patsubst %.dtb,%.dt.yaml, $(real-dtb-y))
-+always-y += $(patsubst %.dtbo,%.dt.yaml, $(real-dtb-y))
- endif
- 
- # Add subdir path
-@@ -108,6 +102,8 @@ lib-y		:= $(addprefix $(obj)/,$(lib-y))
- real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
- real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
- multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
-+multi-dtb-y	:= $(addprefix $(obj)/, $(multi-dtb-y))
-+real-dtb-y	:= $(addprefix $(obj)/, $(real-dtb-y))
- subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
- 
+@@ -109,7 +109,7 @@ subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
  # Finds the multi-part object the current object will be linked into.
-@@ -322,6 +318,9 @@ endif
+ # If the object belongs to two or more multi-part objects, list them all.
+ modname-multi = $(sort $(foreach m,$(multi-obj-ym),\
+-		$(if $(filter $*.o, $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m))),$(m:.o=))))
++		$(if $(filter $*.o, $(call suffix-search, $m, .o, -objs -y -m)),$(m:.o=))))
  
- DTC_FLAGS += $(DTC_FLAGS_$(basetarget))
+ __modname = $(if $(modname-multi),$(modname-multi),$(basetarget))
  
-+# Set -@ if the target is a base DTB that overlay is applied onto
-+DTC_FLAGS += $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), -@)
-+
- # Generate an assembly file to wrap the output of the device tree compiler
- quiet_cmd_dt_S_dtb= DTB     $@
- cmd_dt_S_dtb=						\
-@@ -353,14 +352,12 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
- $(obj)/%.dtbo: $(src)/%.dts $(DTC) FORCE
- 	$(call if_changed_dep,dtc)
- 
--overlay-y := $(addprefix $(obj)/, $(overlay-y))
--
- quiet_cmd_fdtoverlay = DTOVL   $@
-       cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
- 
--$(overlay-y): FORCE
-+$(multi-dtb-y): FORCE
- 	$(call if_changed,fdtoverlay)
--$(call multi_depend, $(overlay-y), .dtb, -dtbs)
-+$(call multi_depend, $(multi-dtb-y), .dtb, -dtbs)
- 
- DT_CHECKER ?= dt-validate
- DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),,-m)
 -- 
 2.27.0
 
