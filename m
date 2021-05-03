@@ -2,95 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CA9C37153F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 May 2021 14:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F58371573
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 May 2021 14:53:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbhECMa7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 May 2021 08:30:59 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47782 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229907AbhECMa6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 May 2021 08:30:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 52E8DAD22;
-        Mon,  3 May 2021 12:30:04 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id C7B22DA733; Mon,  3 May 2021 14:27:36 +0200 (CEST)
-Date:   Mon, 3 May 2021 14:27:36 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-Message-ID: <20210503122736.GG7604@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-References: <20210501151538.145449-1-masahiroy@kernel.org>
+        id S233299AbhECMyu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 May 2021 08:54:50 -0400
+Received: from mail-ua1-f43.google.com ([209.85.222.43]:46794 "EHLO
+        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230246AbhECMyt (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 3 May 2021 08:54:49 -0400
+Received: by mail-ua1-f43.google.com with SMTP id d30so283171uae.13;
+        Mon, 03 May 2021 05:53:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6sRTDx/pvT9oKMRoUjacP8gFXuJ+4JRD0jTuVOJOzkc=;
+        b=SkpUYlGCA04B6Ljct1NGDG3Py2gDKkl1BJqlsrdAS+t7rVOuLntIeubOPYEUSsvA/C
+         NlVVsKIPh0qbnaj49cIdr3ZNoiZHZtRhwVfwgwmrFITcDh/hgxE3q6+zzmm/9ooZqjSZ
+         2b2b/9219cesIp9W6nmEzmj0DegvSSVBlx1LXclJWBVv1SjuXZ73DV/bD7MMkyCygHHR
+         p4eFExKNBeArHiDZwFVXdOo4Pval7vrTymI5HBlmh71yygjZc3Fxh4gxK35Y+JI1oVft
+         LwO8uwYyHITRwFTUd8WUlokBpfiLsKY5R2YpoBfjre+sjq/Vn6e6jR07ueSUZjlx8MOo
+         aMKQ==
+X-Gm-Message-State: AOAM532k/Qw2rwU0QzBxMmYsr7/2L0FV+qxcC258+0RGPFaJfceQeb/k
+        Bs/H+8mozP89t4Vgo1/oS7bCyLjthdKSvmeiTyk=
+X-Google-Smtp-Source: ABdhPJyY6HmMK+W9rt69v5I2kwTL7IQIj/ouQs0jw6zSbbR1oc5JQ0kbR20w16rDCmSsQz7HN14LdrNs2RquXDAeA5o=
+X-Received: by 2002:ab0:5f8d:: with SMTP id b13mr14381698uaj.4.1620046435558;
+ Mon, 03 May 2021 05:53:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210501151538.145449-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+References: <20210501172437.156926-1-masahiroy@kernel.org> <20210501172437.156926-2-masahiroy@kernel.org>
+In-Reply-To: <20210501172437.156926-2-masahiroy@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 May 2021 14:53:44 +0200
+Message-ID: <CAMuHMdUsXpvUeF4vUWTmAk-ADivHXoVYo-YOw7hB2OGT7qxqLw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arch: use cross_compiling to check whether it is a
+ cross build or not
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
+        Helge Deller <deller@gmx.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Parisc List <linux-parisc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 02, 2021 at 12:15:38AM +0900, Masahiro Yamada wrote:
-> The current minimum GCC version is 4.9 except ARCH=arm64 requiring
-> GCC 5.1.
-> 
-> When we discussed last time, we agreed to raise the minimum GCC version
-> to 5.1 globally. [1]
+Hi Yamada-san,
 
-There are still a lot of comment references to old gcc releases with
-workarounds or bugfixes, a quick serarch:
+On Sat, May 1, 2021 at 7:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> 'cross_compiling' is defined by the top Makefile and available for
+> arch Makefiles to check whether it is a cross build or not. A good
+> thing is the variable name 'cross_compiling' is self-documenting.
+>
+> This is a simple replacement for m68k, mips, sh, for which $(ARCH)
+> and $(SRCARCH) always match.
+>
+> No functional change is intended for xtensa, either.
+>
+> This is rather a fix for parisc because arch/parisc/Makefile defines
+> UTS_MATCHINE depending on CONFIG_64BIT, therefore cc-cross-prefix
+> is not working in Kconfig time.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-$ git grep -in 'gcc.*[234]\.x'
-arch/alpha/include/asm/string.h:30:/* For gcc 3.x, we cannot have the inline function named "memset" because
-arch/arc/include/asm/checksum.h:9: *  -gcc 4.4.x broke networking. Alias analysis needed to be primed.
-arch/arm/Makefile:127:# Need -Uarm for gcc < 3.x
-arch/ia64/lib/memcpy_mck.S:535: * Due to lack of local tag support in gcc 2.x assembler, it is not clear which
-arch/mips/include/asm/page.h:210: * also affect MIPS so we keep this one until GCC 3.x has been retired
-arch/x86/include/asm/page.h:53: * remove this Voodoo magic stuff. (i.e. once gcc3.x is deprecated)
-arch/x86/kvm/x86.c:5569:         * This union makes it completely explicit to gcc-3.x
-arch/x86/mm/pgtable.c:302:      if (PREALLOCATED_PMDS == 0) /* Work around gcc-3.4.x bug */
-drivers/net/ethernet/renesas/sh_eth.c:51: * that warning from W=1 builds. GCC has supported this option since 4.2.X, but
-lib/xz/xz_dec_lzma2.c:494: * of the code generated by GCC 3.x decreases 10-15 %. (GCC 4.3 doesn't care,
-lib/xz/xz_dec_lzma2.c:495: * and it generates 10-20 % faster code than GCC 3.x from this file anyway.)
-net/core/skbuff.c:32: * The functions in this file will not compile correctly with gcc 2.4.x
+>  arch/m68k/Makefile   | 2 +-
 
-This misses version-specific quirks, but the following returns 216
-results and not all are problematic (eg. just referring to gcc for some
-historical reason) so I'm not pasting it here.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-$ git grep -in 'gcc.*[234]\.[0-9]'
-...
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
