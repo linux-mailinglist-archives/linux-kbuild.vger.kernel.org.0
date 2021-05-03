@@ -2,103 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CEE037132D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 May 2021 11:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DAF637134A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 May 2021 11:58:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhECJtw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 May 2021 05:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233120AbhECJtw (ORCPT
+        id S233166AbhECJ7I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 May 2021 05:59:08 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:58481 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232964AbhECJ7I (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 May 2021 05:49:52 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A91AC061763
-        for <linux-kbuild@vger.kernel.org>; Mon,  3 May 2021 02:48:59 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id j4so7236845lfp.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 May 2021 02:48:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MxJLb+ygPOSc1s4jkTCr3WpnkstsUG9OT+AgF9yJyJM=;
-        b=L2Okofnh+nI4KG9D4jS3dPq7uMy7zX3MoaDNsLku2rv1p+JCuCycrUhGQh3bN4jLao
-         Z2Tb+ZyHD6Z33j6r11oEs60V4DQX4UEaRNtVuh+dfkUofHMt34GzzhFIaiZxkBhTGXOK
-         WolPbOJhWmGB3mhsuTtxXCtcXSXJ2Uz6A88uJD5/ANWNgGeSAKZOHFIAJ+AMqoqWg81l
-         WsU5TSq3ktxz/R0cjDVvz47BrNsgljf96EO59UaOhnnunTQ0vRpmMHQeHkEmFeNTAJYn
-         ut8PZdGMT+DOEEpC2A8g0Cg21jj7+3AWVikbjJtQgqXCEzDx/TPEs1Eb14TG1oOUEBV1
-         sp8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MxJLb+ygPOSc1s4jkTCr3WpnkstsUG9OT+AgF9yJyJM=;
-        b=Z22khxNthNHyQL1Cbv63qllxJucVswwCEQCwRzf6hH5mvhnIxecsKzz5t21qJe9Mi9
-         W8fEUHj1ubvvY2TY7UgabeKT5buglrVbu4AkWrU8rFPLYWjmtFt7OGuPrrE+sqgRlULR
-         17x62J/IeqFP/10YaR1IrJOQ+vRis4pi/EERU1nzGkCzUoYVZr2cEa2sd1o+nl+a35O/
-         et793bAYuZHj6S5iQIqSHawszn8Rs0dKx0XoIPLpjYMO8B6xMUW97lH4xTVptNAQ6T4U
-         kzqDhEFvdPmHq1SU1spDY8uus05UmuRkQhprdYfiXRdBAvbu2V7EQXStHaiIy0n+jIDR
-         HkNw==
-X-Gm-Message-State: AOAM532XVm8iQyp5/w9BIDxdDMontdmoM0x8JVnSF/00qabtOU34erG5
-        soe9aTEP4CYZ/2lfSeRF4HbRVg==
-X-Google-Smtp-Source: ABdhPJzhF/j+aryEsz1w0KLEzdyFZwzZ6xWzP9d/ftzoOA567IhOefWHg93LARjh8yYYNHONoC3+UQ==
-X-Received: by 2002:ac2:532d:: with SMTP id f13mr5151750lfh.81.1620035337449;
-        Mon, 03 May 2021 02:48:57 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id n27sm1093460lfh.271.2021.05.03.02.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 02:48:56 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id D372F1025F5; Mon,  3 May 2021 12:49:00 +0300 (+03)
-Date:   Mon, 3 May 2021 12:49:00 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
-        Joe Perches <joe@perches.com>,
+        Mon, 3 May 2021 05:59:08 -0400
+Received: from mail-wm1-f48.google.com ([209.85.128.48]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Mum6l-1lKsOT1GhX-00rnLh; Mon, 03 May 2021 11:58:14 +0200
+Received: by mail-wm1-f48.google.com with SMTP id t11-20020a05600c198bb02901476e13296aso3180621wmq.0;
+        Mon, 03 May 2021 02:58:14 -0700 (PDT)
+X-Gm-Message-State: AOAM531UpuHB9WHP8EAlk0dNcPbE4N/mij0e/gJSlH75jkK7aLXP2ojv
+        zpRriXUapPDYcKbUMdREi0VWoa/Fmllb5O4EkJI=
+X-Google-Smtp-Source: ABdhPJwLwM4+7HWAumVwBVTy8mKR1bNlDKElkSrFM6JnoDhONvF95iiZ55DXUZCRZ5QgHthYE50RJYfEuqYwOiecy7Q=
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr20474973wmk.43.1620035893994;
+ Mon, 03 May 2021 02:58:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210501151538.145449-1-masahiroy@kernel.org> <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+ <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
+ <20210502183030.GF10366@gate.crashing.org> <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
+ <20210502203253.GH10366@gate.crashing.org> <fcffe807353391339a03106f175ffa71377752b1.camel@perches.com>
+ <20210503004457.GI10366@gate.crashing.org>
+In-Reply-To: <20210503004457.GI10366@gate.crashing.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 3 May 2021 11:57:30 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a19QJ_5tbbEq2f9=XKjVYUZcAy8QMvoM=8SNEdCnvmwyQ@mail.gmail.com>
+Message-ID: <CAK8P3a19QJ_5tbbEq2f9=XKjVYUZcAy8QMvoM=8SNEdCnvmwyQ@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+To:     Segher Boessenkool <segher@kernel.crashing.org>
+Cc:     Joe Perches <joe@perches.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Miguel Ojeda <ojeda@kernel.org>,
         Paul Mackerras <paulus@samba.org>,
-        linux-riscv@lists.infradead.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
         linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         Will Deacon <will@kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-Message-ID: <20210503094900.idmjc4zbrxr5sn73@box.shutemov.name>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
- <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
- <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
- <20210502183030.GF10366@gate.crashing.org>
- <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
- <20210502203253.GH10366@gate.crashing.org>
- <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:CBn9IPkT6tkuEYjVfUhmxPRdoyiqFCuEFn/8txieEcwFpjOsXRS
+ 6k6DCRXp1lMdbLMcB15EKHvkrtKoWgaPLsF7etZFk3O3/fcIRR6S8paiciSeloZC/jOcR3s
+ G9CLhqF0TRNwcHTXZPDwqIXgYFJfaTCtmcET72nTqEDzsdAmoQtyuqWxYT7N8R8mjBI3K7M
+ 1Ww7IwdiTMxMfjNQW6+6g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NoA3z6bd4s0=:We+C5ow4YE6y4pJRKfh4Kt
+ KY+iTPi9o5wpurABCw4jMSW5ZzmGhSKuDe/7ob8SBoOcHIoGRXwXpDE9chWWPo8VqSulosA9f
+ c1Vr7vMf53Hi2q0MrAkOCeOvAkAsHQKDSOq6rCf2J68GmkEsy76vC9cmVObFeB2sduM5hDRBC
+ ir5wzfa2/MCxA2QJGUtFf5TaJNsy/0poEsvKrsOFNNprBRRueAF8rYnw3J14mVMsed7vPD7jc
+ 3wNzOw63AjhU0EuKidZDslAEl+3lE9ra4v0zXz1Aq04KqnHyOtyTbE3DYiE5OQe9OF8Q5ttbu
+ tEoD3XnZI3F54/4wthtTMkIWHkVOOkmZ/tDQZ961YlTeY4o6j5numryVTuNzqV/jlbrkqAywk
+ 1mb5fNAQR3YP9lh28QmNQiw9KbQth6lRX2uZh5jZJSsByh9upFIOJy6HysJhZsU0W5ntpVALN
+ tOUXjl/FrPJ+cpy39hSCDRC/650iZ9ry64YleZeddByWJ8E1v+7Xfagt5QdnFC67FTTFyNyCd
+ RWlAnU5X1gvACy5VxPmpLeR3fnrFA0U4L/AAmuTDt4p59vdjz+B7mz88DvczHlzAH26aUDu4/
+ 6loDbPCXBaZ8QkNdNA3kDPuMEVZkvjXRWu/EKhNAvMXl4pMb0zpmTsLdvy3da/19K6+YqFbZG
+ 4PVE=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 02, 2021 at 02:08:31PM -0700, Linus Torvalds wrote:
-> Last year, Arnd and Kirill (maybe others were involved too) made a
-> list of distros and older gcc versions. But I don't think anybody
-> actually _maintains_ such a list.
+On Mon, May 3, 2021 at 2:44 AM Segher Boessenkool
+<segher@kernel.crashing.org> wrote:
+>
+> On Sun, May 02, 2021 at 02:23:01PM -0700, Joe Perches wrote:
+> > On Sun, 2021-05-02 at 15:32 -0500, Segher Boessenkool wrote:
+> > > On Sun, May 02, 2021 at 01:00:28PM -0700, Joe Perches wrote:
+> > []
+> > > > Perhaps 8 might be best as that has a __diag warning control mechanism.
+> > >
+> > > I have no idea what you mean?
+> >
+> > ? read the last bit of compiler-gcc.h
+>
+> Ah, you mean
+> #pragma GCC diagnostic
+> (which has existed since GCC 4.2).  Does anything in this __diag stuff
+> require GCC 8?  Other than that this is hardcoded here :-)
 
-Distrowatch does. I used it for checking. But you need to check it per
-distro. For Debian it would be here:
+The '8' was just a kernel thing, we made it configurable to have version
+specific warnings, and I have a header file that adds these macros
+for all supported compilers, but the version that is in mainline only does
+it for gcc-8 or later.
 
-https://distrowatch.com/table.php?distribution=debian
+Early compilers only supported "#pragma GCC diagnostic", but I think
+even gcc-4.6 supported the _Pragma() syntax that lets you do it inside
+of a macro.
 
--- 
- Kirill A. Shutemov
+It's something we should improve with plumbing on top, e.g. I want
+a macro that lets you locally turn off both -Woverride-init on gcc
+and -Winitializer-overrides on clang. It's not a reason to mandate
+a newer compiler though.
+
+        Arnd
