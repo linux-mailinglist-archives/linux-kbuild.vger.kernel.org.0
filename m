@@ -2,111 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF6AC372AD0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 15:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE43372AE8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 15:25:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231163AbhEDNTy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 May 2021 09:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42268 "EHLO
+        id S231223AbhEDN0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 May 2021 09:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230413AbhEDNTy (ORCPT
+        with ESMTP id S231144AbhEDN0V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 May 2021 09:19:54 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95619C061574;
-        Tue,  4 May 2021 06:18:58 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id e15so7367763pfv.10;
-        Tue, 04 May 2021 06:18:58 -0700 (PDT)
+        Tue, 4 May 2021 09:26:21 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F46C061574;
+        Tue,  4 May 2021 06:25:26 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id d10so6866392pgf.12;
+        Tue, 04 May 2021 06:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CblgwW7Ud4f+9B1bK3aZ/7Lhxg480Ys59O+QR93vR6A=;
-        b=HUCmFuhh8rWhVdsZN+H9ct9cpQQQ8X/8g5TSNpCqhizZ8EbPmq5SSLxpKk2jeUMdaX
-         Tj9yd9u0iJ0+fauwyryct8gHTiPFZj6s+oGlCBMXIEenq7xhQhcoDyUjJJnTvFcswe4G
-         kvI65Ho+kQrl2l3KFtE6JOsBNLDlKGMenC/VffsODCsr4+WtgNGh8Vdn/eHvTRdHQyrt
-         XMRsS43lgRgSqlQQPaedD7v9I5rEUNCo2b0cfLiNvnFweSGe0SD5mJrLPaklTOGdbo/x
-         q0TOBJBYgVHNa+tO2YzSKYk817yKK3IV1bzf14n9rSOL8mbUx4mXvj74RSVzQHw+2W9K
-         Tr8Q==
+         :cc;
+        bh=6Usua23eG7jeiBMRqPk961Vu0oHy/tcPvUmAPfGsd3M=;
+        b=sTsLRdnna2sWw8Z9FaRNxSMft/pBwo/y8kKHX5A/bs3GC09QaDMsRY3ukXdyuzno5K
+         TTskFLmfiBewHvymg8gVK4V/TVKfQ23eP/Tu218+y4OC9ZktHTTfkJaMdWa7vEwWHVHf
+         VxYQ8k02YYjFMfqJEehpLYDZNE6BW1NlQEESuSmZ810jAvl03Y3YtDZxi0VRPLFBXUYJ
+         uFkEjyscASDsMyBzUlSN2YID8zDZop12wU5y2YkeCcPz8pkVx3zQ8M+7EstrM8ejVLtl
+         +UOwsKs2q6eecp6bytsFx6j4sQe81qn14UFJkgvj+14FZVfWqRencBKKh1p/ACnYmBNR
+         rY6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CblgwW7Ud4f+9B1bK3aZ/7Lhxg480Ys59O+QR93vR6A=;
-        b=hQIfQTaSFbQNsrqe+hbh5Hg47s3qiYcz/V6I+erAcpD9p+MNMw4Ek4+hSxWdnLWVZE
-         t/UdqhDdZKQ6NWCT0eyVHRTBeHBuu2M0jy04isvtxaAhqWm+auF5Z11J5n5G1IBo+gpg
-         HpGibnxucm2uUXzjRiX1NYF3e4hgCTMCn0DRt74M0138B+0lVxY0sjhGZrBA686zGpXH
-         4R5kJlmVS6khdOwhelpj47ehn3fy0fLnxooR1oxPGhWuJGKejrVfrMQxkobAGOFe3aeS
-         wIzx5P7xQ0GwdYf4lNCQBgMUlrsIw+7eLmvi9jEdZSdk80BJDJ2ufulcwdbTo27ofb4f
-         zjXQ==
-X-Gm-Message-State: AOAM531YFF/ycyV5QRPnnspY94SAZboJWsRv0Zkaok9n7TolHMdiROCE
-        kEvhakRf/sIotego9PW/CV8E4Lkvlkx/Zr6D3FM=
-X-Google-Smtp-Source: ABdhPJx5/8RQyp1LMuT4Dl9J/CS/IVFtFhu6zNbV+WzSdT3rLdKRijmds7H+X6buGhqrh+XMoJnP1gnFM230fMgVSDo=
-X-Received: by 2002:a17:90a:bd13:: with SMTP id y19mr5273402pjr.181.1620134338124;
- Tue, 04 May 2021 06:18:58 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=6Usua23eG7jeiBMRqPk961Vu0oHy/tcPvUmAPfGsd3M=;
+        b=j3Hg6m5oaYGEZsgYqRwl++qN4JIXMTMXJtHolRD1lP6PCclIOpVygU1zRVna11z+IO
+         x+iWaSQLK/nfeTGFb92MLQUcvfWOh2YlPMLWWK60qBb8YSOXYcp9MA7AUWU0nxO4t52L
+         Fj8WzXKujlneWcmCclOrGBYBTRQMCVN34qgXCUu75uG+UlReNTFMepiLWLSqxnH8tPYS
+         Hf2GglOehP62hl7SSeAOVXFaiZofddgsmt+vBZ63qcufIQeUOFTI7G96FEVMLfNgO4v/
+         YdJXqaEGIKTYOFzfyRADXqJVjpnHqoEKd/US+ZgwyaWW5zvLuLZr2LZ5HXwYUxiCPpeQ
+         VXGg==
+X-Gm-Message-State: AOAM530VnOf37L1srkA+DV3EisywCUX8GR0KN8aSL4BbqZMcMJPsQjXo
+        GbXVztJDSITP7CglaGP20rnORD6GcAk/i7jL7ng=
+X-Google-Smtp-Source: ABdhPJzvGspK5lFxakG5qrtBG+U2cTV9ewqHbVPwR6w2Q0rRyLr2DmXQST3reCaT/EdEu09iSl/HelPXit3utm0fpRE=
+X-Received: by 2002:a17:90a:d90c:: with SMTP id c12mr5218252pjv.129.1620134725780;
+ Tue, 04 May 2021 06:25:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210501151538.145449-1-masahiroy@kernel.org> <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
-In-Reply-To: <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
+References: <20210501151538.145449-1-masahiroy@kernel.org> <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+ <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
+ <20210502183030.GF10366@gate.crashing.org> <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
+ <20210502203253.GH10366@gate.crashing.org> <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
+ <20210502223007.GZ1847222@casper.infradead.org> <YI+nhMcPSTs/5Ydp@ada-deb-carambola.ifak-system.com>
+ <CAK8P3a0kV4ZfMEFh0DcMDjXqxA0yhj8a8CL-YFGV6B4pszHeGg@mail.gmail.com>
+In-Reply-To: <CAK8P3a0kV4ZfMEFh0DcMDjXqxA0yhj8a8CL-YFGV6B4pszHeGg@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 4 May 2021 16:18:41 +0300
-Message-ID: <CAHp75VevBN1AKpZetMfY7tUU0ghjc7_g7Vw=+rPxTfdifqqhFw@mail.gmail.com>
+Date:   Tue, 4 May 2021 16:25:09 +0300
+Message-ID: <CAHp75VdE9h9=CpzX094iJ52HR6Sz+f-qGfCt6YHfSPpG2Lb4-w@mail.gmail.com>
 Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Matthew Wilcox <willy@infradead.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Joe Perches <joe@perches.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
-        <linuxppc-dev@lists.ozlabs.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Miguel Ojeda <ojeda@kernel.org>,
         Paul Mackerras <paulus@samba.org>,
         linux-riscv <linux-riscv@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         Will Deacon <will@kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 3, 2021 at 9:17 AM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
-> Le 01/05/2021 =C3=A0 17:15, Masahiro Yamada a =C3=A9crit :
-> > The current minimum GCC version is 4.9 except ARCH=3Darm64 requiring
-> > GCC 5.1.
+On Mon, May 3, 2021 at 12:29 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Mon, May 3, 2021 at 9:35 AM Alexander Dahl <ada@thorsis.com> wrote:
 > >
-> > When we discussed last time, we agreed to raise the minimum GCC version
-> > to 5.1 globally. [1]
+> > Desktops and servers are all nice, however I just want to make you
+> > aware, there are embedded users forced to stick to older cross
+> > toolchains for different reasons as well, e.g. in industrial
+> > environment. :-)
 > >
-> > I'd like to propose GCC 5.2 to clean up arch/powerpc/Kconfig as well.
+> > This is no show stopper for us, I just wanted to let you be aware.
 >
-> One point I missed when I saw your patch first time, but I realised durin=
-g the discussion:
+> Can you be more specific about what scenarios you are thinking of,
+> what the motivations are for using an old compiler with a new kernel
+> on embedded systems, and what you think a realistic maximum
+> time would be between compiler updates?
 >
-> Up to 4.9, GCC was numbered with 3 digits, we had 4.8.0, 4.8.1, ... 4.8.5=
-, 4.9.0, 4.9.1, .... 4.9.4
+> One scenario that I've seen previously is where user space and
+> kernel are built together as a source based distribution (OE, buildroot,
+> openwrt, ...), and the compiler is picked to match the original sources
+> of the user space because that is best tested, but the same compiler
+> then gets used to build the kernel as well because that is the default
+> in the build environment.
 >
-> Then starting at 5, GCC switched to a 2 digits scheme, with 5.0, 5.1, 5.2=
-, ... 5.5
+> There are two problems I see with this logic:
 >
-> So, that is not GCC 5.1 or 5.2 that you should target, but only GCC 5.
-> Then it is up to the user to use the latest available version of GCC 5, w=
-hich is 5.5 at the time
-> begin, just like the user would have selected 4.9.4 when 4.9 was the mini=
-mum GCC version.
+> - Running the latest kernel to avoid security problems is of course
+>   a good idea, but if one runs that with ten year old user space that
+>   is never updated, the system is likely to end up just as insecure.
+>   Not all bugs are in the kernel.
+>
+> - The same logic that applies to ancient user space staying with
+>   an ancient compiler (it's better tested in this combination) also
+>   applies to the kernel: running the latest kernel on an old compiler
+>   is something that few people test, and tends to run into more bugs
+>   than using the compiler that other developers used to test that
+>   kernel.
 
-And we may end up in the case when gcc 5.x will be more buggy than
-v4.9.y (as once proved by nice detective story where compiler bug
-produces a file system corruption).
+I understand that you are talking about embedded, but it you stuck
+with a distro (esp. LTS one, like CentOS 7.x), you have gcc 4.8.5
+there for everything, but they have got security updates. Seems if you
+are with a distro you have to stick with its kernel with all pros and
+cons of such an approach.
 
---=20
+
+-- 
 With Best Regards,
 Andy Shevchenko
