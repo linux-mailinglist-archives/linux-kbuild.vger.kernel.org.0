@@ -2,93 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DA2337280B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 11:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB7FC372830
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 11:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbhEDJXX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 May 2021 05:23:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38890 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229703AbhEDJXX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 May 2021 05:23:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4CA8CAC1A;
-        Tue,  4 May 2021 09:22:27 +0000 (UTC)
-Date:   Tue, 4 May 2021 11:22:25 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>, Will Deacon <will@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Joe Perches <joe@perches.com>,
-        Paul Mackerras <paulus@samba.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-Message-ID: <20210504092225.GS6564@kitsune.suse.cz>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
- <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
- <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
- <65cda2bb-1b02-6ebc-0ea2-c48927524aa0@codethink.co.uk>
- <CANiq72mk84uay--BWOLT4zF12-rat9erohKazB8SpTPoVCTX1A@mail.gmail.com>
+        id S230004AbhEDJrA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 May 2021 05:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229953AbhEDJrA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 4 May 2021 05:47:00 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67112C061574;
+        Tue,  4 May 2021 02:46:04 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id e7so9652923edu.10;
+        Tue, 04 May 2021 02:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FMMoB0knpTuesmL7S80gUZGP0uEA+wOrx5OG5Ck4KtQ=;
+        b=scnrBqC8w7CnFcQ5v3N0jKjMhFpIsia5XbpW2lEbIwi9mDBavP7Qr1J/E5dbLPwGGi
+         kfxu44i6CBIUFoJmRGqPshBv9v9r95jElB52yp+1cfiKLnhwlzLLBvJ24shBXg1NIf4I
+         TW09zi2ApCi7K0O8RmTHqDzya6qCTJBn9OBhagrT5amzbHwhXeTtHylqRPQlXujIQ5m7
+         d7POAwGN1dXtD187vi4ncI1maUhyl/odexxCfUhec2AoIuVpeXNTAfA4gIk5BvFakFcx
+         K989Jnpv0H72ayBFIwrONvUd3iG98IGx2L0MC4CUYyRTmUHvtvr5lFP+sLNjYy67+/go
+         hsgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FMMoB0knpTuesmL7S80gUZGP0uEA+wOrx5OG5Ck4KtQ=;
+        b=rdIz5J9eIHIXcNf2Yv207HhwLM1MNO/fjZdiZEopc+zsRSqL9CM8x5v1Yd5uz2eU3E
+         wVrzoBIGnEAGOj2qUy2mXjF/1W6TL8dptNxdmBXTKfYM9m0390aatd1PlMsibcuCCGPv
+         NDXnSr9Q3lxW8jmHOfZFc4kW5iUqtxE7xdC5ADXCX+WiM3egnKZcKH7rzKHfl9dB3UVV
+         Uh3EV35IJxur18JSRLyRAZEorI1P4zkhX+dL/85Tgssk0AiLXulgz61aClK/BHrEijNG
+         ml/dEjHuPqD2vapNsP77YHoVdGsZ97AqiUg8r0tQ7IaSybT8BHqOMz1FvtmmI1gNsk9A
+         xRIg==
+X-Gm-Message-State: AOAM531I09aLv9obgceBE7pXaQ8Rg33KSXJKAEo2OS5WTjc+uKfDa6zp
+        D0+E1pxLXhBU2KA8G/fftlilMSSa4fXYfKE+Yzg/5wrQ
+X-Google-Smtp-Source: ABdhPJytIlqBg1GSjAvtrTGNIBv6aKqTmnMnu2e5kZW0EfBKg8Xh0c84yVVu4/JqV9YTkecrWRL3P/XHYROlWQerQAk=
+X-Received: by 2002:a05:6402:34c5:: with SMTP id w5mr3386137edc.237.1620121563132;
+ Tue, 04 May 2021 02:46:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72mk84uay--BWOLT4zF12-rat9erohKazB8SpTPoVCTX1A@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+References: <20210501172437.156926-1-masahiroy@kernel.org> <20210501172437.156926-2-masahiroy@kernel.org>
+In-Reply-To: <20210501172437.156926-2-masahiroy@kernel.org>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Tue, 4 May 2021 02:45:51 -0700
+Message-ID: <CAMo8BfJgNgNKRi9XsPUFKPzH0GvtFcRxx75+swXaofcMN7kg8Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arch: use cross_compiling to check whether it is a
+ cross build or not
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Chris Zankel <chris@zankel.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Helge Deller <deller@gmx.de>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:M68K ARCHITECTURE" <linux-m68k@lists.linux-m68k.org>,
+        linux-mips@vger.kernel.org,
+        "open list:PARISC ARCHITECTURE" <linux-parisc@vger.kernel.org>,
+        "open list:SUPERH" <linux-sh@vger.kernel.org>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 04, 2021 at 10:38:32AM +0200, Miguel Ojeda wrote:
-> On Tue, May 4, 2021 at 9:57 AM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
-> >
-> > Some of us are a bit stuck as either customer refuses to upgrade
-> > their build infrastructure or has paid for some old but safety
-> > blessed version of gcc. These often lag years behind the recent
-> > gcc releases :(
-> 
-> In those scenarios, why do you need to build mainline? Aren't your
-> customers using longterm or frozen kernels? If they are paying for
-> certified GCC images, aren't they already paying for supported kernel
-> images from some vendor too?
-> 
-> I understand where you are coming from -- I have also dealt with
-> projects/machines running ancient, unsupported software/toolchains for
-> various reasons; but nobody expected upstream (and in particular the
-> mainline kernel source) to support them. In the cases I experienced,
-> those use cases require not touching anything at all, and when the
-> time came of doing so, everything would be updated at once,
-> re-certified/validated as needed and frozen again.
+On Sat, May 1, 2021 at 10:25 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> 'cross_compiling' is defined by the top Makefile and available for
+> arch Makefiles to check whether it is a cross build or not. A good
+> thing is the variable name 'cross_compiling' is self-documenting.
+>
+> This is a simple replacement for m68k, mips, sh, for which $(ARCH)
+> and $(SRCARCH) always match.
+>
+> No functional change is intended for xtensa, either.
+>
+> This is rather a fix for parisc because arch/parisc/Makefile defines
+> UTS_MATCHINE depending on CONFIG_64BIT, therefore cc-cross-prefix
+> is not working in Kconfig time.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  arch/m68k/Makefile   | 2 +-
+>  arch/mips/Makefile   | 2 +-
+>  arch/parisc/Makefile | 2 +-
+>  arch/sh/Makefile     | 2 +-
+>  arch/xtensa/Makefile | 6 +-----
+>  5 files changed, 5 insertions(+), 9 deletions(-)
 
-Except it makes answering the question "Is this bug we see on this
-ancient system still present in upstream?" needlessly more difficult to
-answer.
+Acked-by: Max Filippov <jcmvbkbc@gmail.com> # xtensa
 
-Sure, throwing out old compiler versions that are known to cause
-problems makes sense. Updating to latest just because much less so.
-
-One of the selling point of C in general and gcc in particular is
-stability. If we need the latest compiler we can as well rewrite the
-kernel in Rust which has a required update cycle of a few months.
-
-Because some mainline kernel features rely on bleeding edge tools I end
-up building mainline with current tools anyway but if you do not need
-BTF or whatever other latest gimmick older toolchains should do.
-
-Thanks
-
-Michal
+-- 
+Thanks.
+-- Max
