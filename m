@@ -2,95 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7511A3715D9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 May 2021 15:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC7E0372461
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 04:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233766AbhECNSh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 May 2021 09:18:37 -0400
-Received: from mout.gmx.net ([212.227.17.20]:48233 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234234AbhECNSh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 May 2021 09:18:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1620047851;
-        bh=TmR7smPPbyIXc3idtmR5f78hGH40oDdZ4CxoXbIedYc=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=RNwxb+s4MAb2ZK3gpW0qd7SSOoF/sF/fKmRRPcggKsbLKXOAjKaS9tKfLnQlQIMXU
-         7uDCPhXWbgKYhInig/GV7bvMPveLYosnwxoJISj1cwfwR6mgTDtgU9yQZkE6Ihs8lY
-         wdvlMtzW8PqPB8XaqPNe4s5tjqBZdtT9q8mOkl54=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.187.2]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mplbx-1lDnLK2NMT-00qBpd; Mon, 03
- May 2021 15:17:31 +0200
-Subject: Re: [PATCH 2/2] arch: use cross_compiling to check whether it is a
- cross build or not
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-parisc@vger.kernel.org, linux-xtensa@linux-xtensa.org
-References: <20210501172437.156926-1-masahiroy@kernel.org>
- <20210501172437.156926-2-masahiroy@kernel.org>
-From:   Helge Deller <deller@gmx.de>
-Message-ID: <939b93cf-a116-da76-8fde-fa4fe1b42ce4@gmx.de>
-Date:   Mon, 3 May 2021 15:16:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229708AbhEDCPA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 May 2021 22:15:00 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:41841 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229693AbhEDCO7 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 3 May 2021 22:14:59 -0400
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 1442Ddm3026036;
+        Tue, 4 May 2021 11:13:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 1442Ddm3026036
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1620094420;
+        bh=Flpk8WY3fI6JRVmVx74VCPIcuW76pW3yvcKLrKEQfcI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RcPTKSEZuzsHuullksFe1HmFYdJqmuQDvmRuMVscMUnbTGD1IAHfFUx7dg5iV8m8S
+         JVq+4OeY8GmRwgM90uoiXxUQ8GBU6DS/UE7YNkMpCRhQjemtdM4gmVoWnXnKkMsZ6P
+         wNzX+lqAga+GQCDJEkaLa0RsqmlOeV3Hv1gGqW3xwLbgXdat/s+21f6w35/UYErAzg
+         eYPRP+7AosJUwZ/dFtrG0VhYQzao1oonlLYcj98QF0Z/lCQfak8N8Dj6/pM0Hyk1Rm
+         0dH6xOgeIDzXhHXf/pxV1d72yKjZLx4ffhCHSdxGwxklgz893YkuvQdstcmBJwRsxN
+         0RDuMm6MsEa/Q==
+X-Nifty-SrcIP: [209.85.215.178]
+Received: by mail-pg1-f178.google.com with SMTP id m37so5336661pgb.8;
+        Mon, 03 May 2021 19:13:40 -0700 (PDT)
+X-Gm-Message-State: AOAM533WjKcCD2h0juyeAku81YcMg25NZe5V3yJ2z4UrhUyJeQWXVbdt
+        2uWke3Q4JS3wAL8bFYzCw27r1xiGI0n05PZjyBw=
+X-Google-Smtp-Source: ABdhPJzeIVApSQix0BuMNREdE8BGMBMEs/IGqBZW9NLCxeXtWVZOIBXs6zvGuxchr2x095EnqC+MdArD+HY3m1+ob/s=
+X-Received: by 2002:a63:e044:: with SMTP id n4mr21297348pgj.47.1620094419287;
+ Mon, 03 May 2021 19:13:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210501172437.156926-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <20210501151538.145449-1-masahiroy@kernel.org> <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
+In-Reply-To: <8b5f1d57-1357-affd-565f-f4826f3ecbdf@csgroup.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 4 May 2021 11:13:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASv=ev=MbA+iXsjQvKGe69+AmL7Ri7WQc9caoZpfyzEgw@mail.gmail.com>
+Message-ID: <CAK7LNASv=ev=MbA+iXsjQvKGe69+AmL7Ri7WQc9caoZpfyzEgw@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+BWosmDLZL+SwICEc9moO+GCLWjW3cWM69iEf7Du7KjLcVNghcL
- +aIUj4GvD2LvQvte8kMgImNMLp6UgaEp8nobmB6wFwpL7YnCwq/+iwDKPiBoj/qZF6cEKjk
- LDOf1pPVli7KWZr68QsV/ewAPgX3tGLKnmo2Ob/izzOYNTQmVNBt6Zsw2XZUKgel/oWIT4J
- daLIq3nNmRKedAe1VOXTw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NNTFDPnPx0A=:14K/UbOvRZpS1Wo61BrZl2
- rh53Cse1MU3HmTUtCH/wuZTVmP1QBB0XwMRsuWedqP/1JG8ZB/mDA7wpzsPJElVSvgdNPp+7w
- EfYblIkWUunNe4wuwGshi+W1+fTZw7dIaBaagO8o89UF/XuIhry08GMqNTRD51ewpTFcMOwWT
- WrHHFEiDdyPAkR+WKEFU1PBjF9DHKKHYu+HFxhs8T5AH82lVAaQLVtt1Cmki29rd8aVlcVP7Q
- IXpNKufvWkt9SOiStCH09FmHuUNssSvAphvK4gGzki2b53rjklfLWj0zUikJVauFH8OR7uugx
- bxg6TT3rH3FvMTY0F245GifLANa6vu9ggAkwiNgxW/9cTG5Eaf2eoG7hh7JeJN7Al2fTbKYYz
- NCLplGUSJN2Z+aidcxVBvY6nFbDbiUiclQm7wVEOMyYvJczBozp6jTpVKZfAwnBSmkSaC2sEa
- 5+1YTYcOz62aPnv00/23QlJF5hriarN46IJC+lMLuetpjueg6oT/kiuzL4QgHLs+0ambW9JQs
- Q5WUgb7a1STv3y+uij1bipsy724UL6qGfnTmVldUgJhdUQwP/UU/NVHOZzBvF+fnD9JiLO1Gg
- 8snk78k1B6dKVW20N9ivWIg53RjceJD3fFhjDYv3f0JuYuggMSQW8l19JDz3y3EpTWp82T5Qj
- MMZ0UBlNfZL8fX3uYDqmX/64WK9DEC8/7IgFPRMQq1qLqiM9fHORGemj4dJM4iHufXL3GOgSB
- MQXt5CFfqzEJGNfiTTduPEglimTv10uvb7dRXH7sRAAfJViGb7UVbcuuqeoUyUpR5YmPVCArw
- iGQdQPHwSK6g9v7tm2W2/LpzDOnFP5HQYA/gV2B/rlHGWUhLeEkEgk6HulH/Kr54rjwwVPRLN
- x7nMuPIBLRTG4VLxmn55Ez3X+Cu4FiynOXx+uIAELa2zMIm9Q4sI5QWjQG4Q1uusktkcbce0m
- 6gJYgJdIZm1CunIv+9PffbDLUqBuNxCFITH1bCY/fnPFVmfd1WaVLBXiKbvUasJb8JPiTouRQ
- XfRMCBNyFQcyyg+Wh6HOVDGl5ElN2c+HXOrZDz7gZ9ZRPUfR/K+ysUPr5DpP5nj40IPGEa/3j
- PeBIMyLNAUU339xt7fh3gA3S/W+wSAIEOq/D4PieBEn8gvCUJmdn2qH3gprCt4xe5MEaarKnM
- aTPCBDNrlLe2wSBUdq2hhHP2LdgXFf3LdtFsypulpXiwwL5EcTjv6Ey0NjI4TuPKHxOUQ=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/1/21 7:24 PM, Masahiro Yamada wrote:
-> 'cross_compiling' is defined by the top Makefile and available for
-> arch Makefiles to check whether it is a cross build or not. A good
-> thing is the variable name 'cross_compiling' is self-documenting.
+On Mon, May 3, 2021 at 3:17 PM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
 >
-> This is a simple replacement for m68k, mips, sh, for which $(ARCH)
-> and $(SRCARCH) always match.
 >
-> No functional change is intended for xtensa, either.
 >
-> This is rather a fix for parisc because arch/parisc/Makefile defines
-> UTS_MATCHINE depending on CONFIG_64BIT, therefore cc-cross-prefix
-> is not working in Kconfig time.
+> Le 01/05/2021 =C3=A0 17:15, Masahiro Yamada a =C3=A9crit :
+> > The current minimum GCC version is 4.9 except ARCH=3Darm64 requiring
+> > GCC 5.1.
+> >
+> > When we discussed last time, we agreed to raise the minimum GCC version
+> > to 5.1 globally. [1]
+> >
+> > I'd like to propose GCC 5.2 to clean up arch/powerpc/Kconfig as well.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->   arch/m68k/Makefile   | 2 +-
->   arch/mips/Makefile   | 2 +-
->   arch/parisc/Makefile | 2 +-
+> One point I missed when I saw your patch first time, but I realised durin=
+g the discussion:
+>
+> Up to 4.9, GCC was numbered with 3 digits, we had 4.8.0, 4.8.1, ... 4.8.5=
+, 4.9.0, 4.9.1, .... 4.9.4
+>
+> Then starting at 5, GCC switched to a 2 digits scheme, with 5.0, 5.1, 5.2=
+, ... 5.5
+>
+> So, that is not GCC 5.1 or 5.2 that you should target, but only GCC 5.
+> Then it is up to the user to use the latest available version of GCC 5, w=
+hich is 5.5 at the time
+> begin, just like the user would have selected 4.9.4 when 4.9 was the mini=
+mum GCC version.
+>
+> Christophe
 
-Acked-by: Helge Deller <deller@gmx.de>  # parisc
 
-Thanks!
-Helge
+
+One line below in Documentation/process/changes.rst,
+I see
+
+     Clang/LLVM (optional)  10.0.1           clang --version
+
+
+
+Clang 10.0.1 is a bug fix release of Clang 10
+
+
+I do not think GCC 5.2 is strange when we
+want to exclude the initial release of GCC 5.
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
