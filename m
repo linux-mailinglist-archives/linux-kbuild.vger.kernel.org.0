@@ -2,126 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AAA83725D8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 08:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57FE372748
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 10:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbhEDGe1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 May 2021 02:34:27 -0400
-Received: from pegase2.c-s.fr ([93.17.235.10]:40733 "EHLO pegase2.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229724AbhEDGe1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 May 2021 02:34:27 -0400
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4FZ95j6mwJz9sVX;
-        Tue,  4 May 2021 08:33:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RGDPogYyxA6u; Tue,  4 May 2021 08:33:29 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4FZ95j5hZJz9sVW;
-        Tue,  4 May 2021 08:33:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 8088B8B78D;
-        Tue,  4 May 2021 08:33:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id keUR0x4FyadH; Tue,  4 May 2021 08:33:29 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id C34068B763;
-        Tue,  4 May 2021 08:33:27 +0200 (CEST)
+        id S229948AbhEDIdu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 May 2021 04:33:50 -0400
+Received: from imap3.hz.codethink.co.uk ([176.9.8.87]:49130 "EHLO
+        imap3.hz.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229875AbhEDIdt (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 4 May 2021 04:33:49 -0400
+X-Greylist: delayed 2138 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 May 2021 04:33:48 EDT
+Received: from cpc79921-stkp12-2-0-cust288.10-2.cable.virginm.net ([86.16.139.33] helo=[192.168.0.18])
+        by imap3.hz.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
+        id 1ldpvR-0000zx-0F; Tue, 04 May 2021 08:57:01 +0100
 Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Joe Perches <joe@perches.com>,
+To:     Joe Perches <joe@perches.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
         Paul Mackerras <paulus@samba.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
 References: <20210501151538.145449-1-masahiroy@kernel.org>
  <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
  <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
- <20210502183030.GF10366@gate.crashing.org>
- <81a926a3bdb70debe3ae2b13655ea8d249fb9991.camel@perches.com>
- <20210502203253.GH10366@gate.crashing.org>
- <CAHk-=wjGJskk5EwnDCccs6DcLytE2yx76+P_W-n1-B5zq0M3KA@mail.gmail.com>
- <20210502223007.GZ1847222@casper.infradead.org>
- <YI+nhMcPSTs/5Ydp@ada-deb-carambola.ifak-system.com>
- <CAK8P3a0kV4ZfMEFh0DcMDjXqxA0yhj8a8CL-YFGV6B4pszHeGg@mail.gmail.com>
- <YJDb9uLQBgoy94Ub@ada-deb-carambola.ifak-system.com>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <6615493a-252c-ee40-a9fa-27cf5ad8922b@csgroup.eu>
-Date:   Tue, 4 May 2021 08:33:28 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+From:   Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+Message-ID: <65cda2bb-1b02-6ebc-0ea2-c48927524aa0@codethink.co.uk>
+Date:   Tue, 4 May 2021 08:56:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <YJDb9uLQBgoy94Ub@ada-deb-carambola.ifak-system.com>
+In-Reply-To: <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-Le 04/05/2021 à 07:30, Alexander Dahl a écrit :
-> Hello Arnd,
-> 
-> Am Mon, May 03, 2021 at 11:25:21AM +0200 schrieb Arnd Bergmann:
->> On Mon, May 3, 2021 at 9:35 AM Alexander Dahl <ada@thorsis.com> wrote:
+On 02/05/2021 03:41, Joe Perches wrote:
+> On Sat, 2021-05-01 at 17:52 +0200, Miguel Ojeda wrote:
+>> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >>>
->>> Desktops and servers are all nice, however I just want to make you
->>> aware, there are embedded users forced to stick to older cross
->>> toolchains for different reasons as well, e.g. in industrial
->>> environment. :-)
->>>
->>> This is no show stopper for us, I just wanted to let you be aware.
+>>> More cleanups will be possible as follow-up patches, but this one must
+>>> be agreed and applied to the mainline first.
 >>
->> Can you be more specific about what scenarios you are thinking of,
->> what the motivations are for using an old compiler with a new kernel
->> on embedded systems, and what you think a realistic maximum
->> time would be between compiler updates?
+>> +1 This will allow me to remove the __has_attribute hack in
+>> include/linux/compiler_attributes.h.
 > 
-> One reason might be certification. For certain industrial applications
-> like support for complex field bus protocols, you need to get your
-> devices tested by an external partner running extensive test suites.
-> This is time consuming and expensive.
+> Why not raise the minimum gcc compiler version even higher?
 > 
-> Changing the toolchain of your system then, would be a massive change
-> which would require recertification, while you could argue just
-> updating a single component like the kernel and building everything
-> again, does not require the whole testing process again.
+> https://gcc.gnu.org/releases.html
 
-Not sure to follow you.
-
-Our company provides systems for Air Trafic Control, so we have the same kind of assurance quality 
-process, but then I can't understand why you would need to upgrade your kernel at all.
-
-Today our system is based on GCC 5 and Kernel 4.14. At the time being we are using GCC 5.5 (Latest 
-GCC 5) and kernel 4.14.232 (Latest 4.14.y). Kernel 4.14 is maintained until 2024.
-
-The day we do an upgrade, we upgrade everything including the tool chain then we go for another 6 
-years without major changes/re-qualification, because we can't afford a new qualitication every now 
-and then.
+Some of us are a bit stuck as either customer refuses to upgrade
+their build infrastructure or has paid for some old but safety
+blessed version of gcc. These often lag years behind the recent
+gcc releases :(
 
 
-So really, I can't see your approach.
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
-Christophe
+https://www.codethink.co.uk/privacy.html
