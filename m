@@ -2,25 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B57FE372748
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 10:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6544E372752
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 May 2021 10:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229948AbhEDIdu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 May 2021 04:33:50 -0400
-Received: from imap3.hz.codethink.co.uk ([176.9.8.87]:49130 "EHLO
-        imap3.hz.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbhEDIdt (ORCPT
+        id S230057AbhEDIkL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 May 2021 04:40:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229900AbhEDIkJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 May 2021 04:33:49 -0400
-X-Greylist: delayed 2138 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 May 2021 04:33:48 EDT
-Received: from cpc79921-stkp12-2-0-cust288.10-2.cable.virginm.net ([86.16.139.33] helo=[192.168.0.18])
-        by imap3.hz.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1ldpvR-0000zx-0F; Tue, 04 May 2021 08:57:01 +0100
+        Tue, 4 May 2021 04:40:09 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A920C061574;
+        Tue,  4 May 2021 01:38:44 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id t94so11139478ybi.3;
+        Tue, 04 May 2021 01:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y8qb2bfAFrI9QM8sR79PgwC4m456KUQvtxQw7QErVO0=;
+        b=heYaieXDiOzidFq+kRcjvjjBmYI/4xzMD4IZ1Yw76TNQUNkDgLOIYrp8Bys7niIi+O
+         jvSzvlHAX5/hbPR7mdg8Mr3KtVFEXJixdX0zDUsRdWPm2M6sI96KtXYPzM4z98Sk6HbK
+         IclA9mcqDUz7trpk3h4rJfxcBfa44/1jzoziaYOQVlXYek/pEzc7jPCbtcmkJIT+9VUH
+         WT0HpfKiSiMrkqlHze4lvrBlnkSpkcOokMm27Bo95W5SsjuKtg5kMxCDmKeB7yAkY8kq
+         yjjrUt79LeHM1TFBZ+4oGyOBeB8Esqx0U2hDdis4OHVxSJOXEo006EcEEdIvOFlYc3Lc
+         5pTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y8qb2bfAFrI9QM8sR79PgwC4m456KUQvtxQw7QErVO0=;
+        b=Z9W6+OddH8BApb3IJtaohFCJLKUh7gCBG1KlSf6uu9aPwuY3E2eXzc5JX49z9VNMA3
+         zAZAqDcSUIQqA/T3IsVggsD2+ECaBmoGOzIBYF4cfGuQLYAVKwiYqK028nd7wSG26GYk
+         +AuZjID8nY1nvnTowfwEFF9pf4TALOR/tvvAp/6xQLKBXBuWx413F97tFEydzpxQHoYu
+         /Ej4pnDvb3Jve4pKWbYm8BQUzRyusYna1kUimHD1gXztat/7hijkJpQpEDp+jmigKWbe
+         L3lvYUizxszA3TMrIru6rhpzU7HIzAQp5sqW9p1HgwhzIlq631PElvDdHUvrDRbyW+b5
+         txrA==
+X-Gm-Message-State: AOAM531hnSkCsyak6833FdGjM+oAEcET6ekGKWPT4Bx0B2dc1NlrhzRh
+        /IvIr7g1oqM5mxXQmA3Ol2HeU0R50JoJLMgyVYSLDLrnZdSWo9p1
+X-Google-Smtp-Source: ABdhPJwgJRTy4oD3Q4bEwMIiI0PESgNj4LF3XmVCbNwY/lWmcIYnmds0Q6QwiZMB0/f4EUTpPAx1ux8l25XkeS6oEUM=
+X-Received: by 2002:a25:880f:: with SMTP id c15mr31896545ybl.247.1620117523381;
+ Tue, 04 May 2021 01:38:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210501151538.145449-1-masahiroy@kernel.org> <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
+ <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com> <65cda2bb-1b02-6ebc-0ea2-c48927524aa0@codethink.co.uk>
+In-Reply-To: <65cda2bb-1b02-6ebc-0ea2-c48927524aa0@codethink.co.uk>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 4 May 2021 10:38:32 +0200
+Message-ID: <CANiq72mk84uay--BWOLT4zF12-rat9erohKazB8SpTPoVCTX1A@mail.gmail.com>
 Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-To:     Joe Perches <joe@perches.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+To:     Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     Joe Perches <joe@perches.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -36,47 +71,32 @@ Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-References: <20210501151538.145449-1-masahiroy@kernel.org>
- <CANiq72k1hB3X6+Nc_iu=f=BoB-F9JW2j_B4ZMcv8_UpW5QQ2Og@mail.gmail.com>
- <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <65cda2bb-1b02-6ebc-0ea2-c48927524aa0@codethink.co.uk>
-Date:   Tue, 4 May 2021 08:56:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-MIME-Version: 1.0
-In-Reply-To: <3943bc020f6227c8801907317fc113aa13ad4bad.camel@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 02/05/2021 03:41, Joe Perches wrote:
-> On Sat, 2021-05-01 at 17:52 +0200, Miguel Ojeda wrote:
->> On Sat, May 1, 2021 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>>
->>> More cleanups will be possible as follow-up patches, but this one must
->>> be agreed and applied to the mainline first.
->>
->> +1 This will allow me to remove the __has_attribute hack in
->> include/linux/compiler_attributes.h.
-> 
-> Why not raise the minimum gcc compiler version even higher?
-> 
-> https://gcc.gnu.org/releases.html
+On Tue, May 4, 2021 at 9:57 AM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
+>
+> Some of us are a bit stuck as either customer refuses to upgrade
+> their build infrastructure or has paid for some old but safety
+> blessed version of gcc. These often lag years behind the recent
+> gcc releases :(
 
-Some of us are a bit stuck as either customer refuses to upgrade
-their build infrastructure or has paid for some old but safety
-blessed version of gcc. These often lag years behind the recent
-gcc releases :(
+In those scenarios, why do you need to build mainline? Aren't your
+customers using longterm or frozen kernels? If they are paying for
+certified GCC images, aren't they already paying for supported kernel
+images from some vendor too?
 
+I understand where you are coming from -- I have also dealt with
+projects/machines running ancient, unsupported software/toolchains for
+various reasons; but nobody expected upstream (and in particular the
+mainline kernel source) to support them. In the cases I experienced,
+those use cases require not touching anything at all, and when the
+time came of doing so, everything would be updated at once,
+re-certified/validated as needed and frozen again.
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
+Cheers,
+Miguel
