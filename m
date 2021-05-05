@@ -2,72 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89CCC374731
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42A8E374736
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:53:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234603AbhEERuQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 13:50:16 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:48095 "EHLO
+        id S235320AbhEERvF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 13:51:05 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:48680 "EHLO
         conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236340AbhEERtk (ORCPT
+        with ESMTP id S234283AbhEERuP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 13:49:40 -0400
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 145HmERl022609;
-        Thu, 6 May 2021 02:48:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 145HmERl022609
+        Wed, 5 May 2021 13:50:15 -0400
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 145HmlZd022765;
+        Thu, 6 May 2021 02:48:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 145HmlZd022765
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1620236895;
-        bh=C2LiIxaQLmcbubV7KAJlOAeDUPkL6DYE0IuMqmtJHTc=;
+        s=dec2015msa; t=1620236928;
+        bh=ir46Etvd5HEmsWvvFCQEwM57MdYnrHyoHbe/TY2pWzc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=z5cQSaMCeSaFuKxdnnY73UTdrpVTgOIHA+mMX7f7EOc4gXZPvzMHCYIM3Qoy6+M/i
-         RXv6mLp/mWQO6aSULpFEJWmM/J2YRtx2DlCVM23Zde/YgeJZUSDdn7l+a2jFWaJjG7
-         DH+6uBs2gv8XxfawNhGWD+cEdHa/mxKNMo8x8LpnAw/KoR5ybxaAugKggdfntvgFgS
-         zT/wHOXL7M8Z9AjGLlnuX+KBrHvsMkArBDBmfd2pxm+2RGaG4MnhRWsuIOWbB1kuTh
-         y66oQbA1SrqlaA+YKHenfMNH6ijzttqcVAjxz7cEHVRuMjtn5vFC7caSnNhjOoKZRP
-         DHHbvtlkRWswg==
-X-Nifty-SrcIP: [209.85.210.180]
-Received: by mail-pf1-f180.google.com with SMTP id q2so2481984pfh.13;
-        Wed, 05 May 2021 10:48:14 -0700 (PDT)
-X-Gm-Message-State: AOAM533MOQ99xZWWV2Vu8ZTRCrODH9MDUFOCTlX802tBuDYhXq3MkDTP
-        LFqfvvouU3FczAcNMiWP2UKtMl323g+Pu/dCOVo=
-X-Google-Smtp-Source: ABdhPJyK59R/P6vJ870GlUCJyA7n+c2G1EWUlbuWHYKJiV2S03+7avnriu+YKJVCvsY8/UyZL0MXs76iWypEbt1S5o4=
-X-Received: by 2002:a63:a547:: with SMTP id r7mr104882pgu.7.1620236893893;
- Wed, 05 May 2021 10:48:13 -0700 (PDT)
+        b=LNOr7+LT36L3hMmoIpQlw1KSWsGcQ8iTqxP+zvh4E3ASO2V0LSG7a84Hu40OLhWre
+         p/EjMtKaS+GK6WMyyP/X9n/OMlTrMkXLA2DM0WECrVxW3/e5DPIuFHsEJz2yb/2WRQ
+         xkPakWttikbI9V2YirUlPjaxi8bMhRS2QLBN0abxLrGTvGrUn3OJLyT9u7I8wRRutd
+         JEakrqgfZjelHPPtCNosmDxAe7ecdzIcs0V0F0GnJLdHghh44Ts/huRp3QVSCzByAx
+         tPRDFuJRP40tEBnYkNqj30U1NJuPpUCbKAhJN6g/r6rCaKCfwi3sXAuoLeGEX0rdIZ
+         Eo46c3+uQpc5g==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id k19so2559973pfu.5;
+        Wed, 05 May 2021 10:48:48 -0700 (PDT)
+X-Gm-Message-State: AOAM530DDvNWoh7d/VmROT8HBh7H92R1Ze6oyxcnprNuPu8DZN4Eh7d8
+        6/A5SeeeQWpqmrOrxKtUwY3oukm4UMAsNKJPNvI=
+X-Google-Smtp-Source: ABdhPJyCdBNyaOJiflaHdKR5PDKWCDLq+i4udJVtRFg/IF7IUqeC4W+j41RUQLwaR6bp40Gl4VrnSwz494BFHuJN31U=
+X-Received: by 2002:a63:e044:: with SMTP id n4mr107487pgj.47.1620236927301;
+ Wed, 05 May 2021 10:48:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210501172437.156926-1-masahiroy@kernel.org> <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
-In-Reply-To: <CAK8P3a2Ng7ZvRh4iT5jrFvp9=Z7oQJ4Ay_OWJ76bnZfn=VEZVw@mail.gmail.com>
+References: <20210429012350.600951-1-nathan@kernel.org>
+In-Reply-To: <20210429012350.600951-1-nathan@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 6 May 2021 02:47:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpCy+pZwCSMv8YRK3BVgMhu9vR1=cK6hTx=jxfO+MxzA@mail.gmail.com>
-Message-ID: <CAK7LNAQpCy+pZwCSMv8YRK3BVgMhu9vR1=cK6hTx=jxfO+MxzA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: remove ARCH=sh64 support from top Makefile
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 6 May 2021 02:48:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJt9tx1_Uuw2S_RLcrqaueAOf2D2UdNH7XP4zRzdaJ3g@mail.gmail.com>
+Message-ID: <CAK7LNARJt9tx1_Uuw2S_RLcrqaueAOf2D2UdNH7XP4zRzdaJ3g@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: Move -Wno-unused-but-set-variable out of GCC
+ only block
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 2, 2021 at 6:19 AM Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, Apr 29, 2021 at 10:24 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On Sat, May 1, 2021 at 7:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Commit 37744feebc08 ("sh: remove sh5 support") removed the SUPERH64
-> > support entirely.
-> >
-> > Remove the left-over code from the top Makefile.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Currently, -Wunused-but-set-variable is only supported by GCC so it is
+> disabled unconditionally in a GCC only block (it is enabled with W=1).
+> clang currently has its implementation for this warning in review so
+> preemptively move this statement out of the GCC only block and wrap it
+> with cc-disable-warning so that both compilers function the same.
 >
-> Good catch!
->
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: stable@vger.kernel.org
+> Link: https://reviews.llvm.org/D100581
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
 
 
-Applied to linux-kbuild.
+Applied to linux-kbuild. Thanks.
+
+
+>  Makefile | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f03888cdba4e..911d839cfea8 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -775,16 +775,16 @@ KBUILD_CFLAGS += -Wno-gnu
+>  KBUILD_CFLAGS += -mno-global-merge
+>  else
+>
+> -# These warnings generated too much noise in a regular build.
+> -# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
+> -KBUILD_CFLAGS += -Wno-unused-but-set-variable
+> -
+>  # Warn about unmarked fall-throughs in switch statement.
+>  # Disabled for clang while comment to attribute conversion happens and
+>  # https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
+>  KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
+>  endif
+>
+> +# These warnings generated too much noise in a regular build.
+> +# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
+> +KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+> +
+>  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+>  ifdef CONFIG_FRAME_POINTER
+>  KBUILD_CFLAGS  += -fno-omit-frame-pointer -fno-optimize-sibling-calls
+>
+> base-commit: d8201efe75e13146ebde433745c7920e15593baf
+> --
+> 2.31.1.362.g311531c9de
+>
+
+
 -- 
 Best Regards
 Masahiro Yamada
