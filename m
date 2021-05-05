@@ -2,123 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44FF037472E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A5F37472C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234278AbhEERuL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S229821AbhEERuL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Wed, 5 May 2021 13:50:11 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:37716 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234638AbhEERsY (ORCPT
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:46778 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230128AbhEERsK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 13:48:24 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 145HjRDo032362;
-        Thu, 6 May 2021 02:45:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 145HjRDo032362
+        Wed, 5 May 2021 13:48:10 -0400
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 145HkmQx014950
+        for <linux-kbuild@vger.kernel.org>; Thu, 6 May 2021 02:46:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 145HkmQx014950
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1620236728;
-        bh=ZwtjVnWqo8TSSCO4VBrdF2kvET+waOjAzWk0GOoIa3U=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PY+gVRPOuxsBtXAAbnAinwvlMA5ksgejiITtbcGRcTKhbmO+Z35c+X1zArMi1MxvI
-         QcUUOMbuFVxkHnZSVPU/vRIff9Gy+RJq2aZUZKDismP4tNMROFiG12UVywcDkHlkAE
-         Zy1vxqPVXyUvoRvHpVQL7Lo3yKf3jPxiLyq924aIsHVAEB5yH7A7mMieG0gZxA4zMf
-         mrg9PGe1kPi84IME7JHc9RwpfeFTYrOMconrBYDHSbRxg8xQV9cilBV+I0L/xmpgOP
-         zItdvCjFmKdhpKT5dF1l0RFqsolCId+AGwzvoihp71dlZ91LeTH+bCMIWMVEOt+RXm
-         6Y2+VpLwb2Lfw==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Kars Mulder <kerneldev@karsmulder.nl>,
-        Kees Cook <keescook@chromium.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, chao <chao@eero.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org
-Subject: [PATCH v2] linux/kconfig.h: replace IF_ENABLED() with PTR_IF() in <linux/kernel.h>
-Date:   Thu,  6 May 2021 02:45:15 +0900
-Message-Id: <20210505174515.87565-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1620236809;
+        bh=9hV0x77gYoBi1iEtmKaO+XbFcGZPmwYeF+D6J6ojjHg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=H/5R32t3v7t955NFUuPKvfQXj0csZb3miKKhLWVvAk3QSX6Bus4PH/Y9EavT61plh
+         KZyAG4TPpkC9Kdz1R0vtmCs+mQtTrmMnzUzzHfam9LLHRK92glD8AidiUQtnBkRp9j
+         bFexeCqVhIRCynYAUWts0Q8z/RWJcX7HWImw/ByTN5sHFiltBlX3HgWb1ThytvFIIo
+         TwRuJ+lQwiF1WGNzqXd2HKq4FTB0ZyZUeX0h89KyW7tUmqg264o19bTFpL8z8CCkrW
+         yObvHqd4HNKAQq/L5jcidWB89G30QXyL6t2rdo17JMKqgb75bUZx5pLCPH93peUo2k
+         rwcFKkUvsQirQ==
+X-Nifty-SrcIP: [209.85.214.177]
+Received: by mail-pl1-f177.google.com with SMTP id t4so1510055plc.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 05 May 2021 10:46:48 -0700 (PDT)
+X-Gm-Message-State: AOAM532xP1Wa83thTqZ4c2OR9fjyCT7srogtJIN76qymxSx/EWrHnN1l
+        RRAvXt/dG5e6rVBYj5Ctq5sgb0lwRDWHYNbn/JE=
+X-Google-Smtp-Source: ABdhPJw5WlRekSPp53j0pktqtohe7QY/eU6vfpSHQEhcQ3eHObGEVCEJGsf46WaLrWiG9Mfa/1XhPoNz4t79nsKAdK8=
+X-Received: by 2002:a17:90a:8b12:: with SMTP id y18mr15034956pjn.153.1620236808071;
+ Wed, 05 May 2021 10:46:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210505033527.1282488-1-ak@linux.intel.com>
+In-Reply-To: <20210505033527.1282488-1-ak@linux.intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 6 May 2021 02:46:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJkCEkNQKjwUSML_2RL3Wnjyn5RL+RAMqG9BaVnwp-qw@mail.gmail.com>
+Message-ID: <CAK7LNARJkCEkNQKjwUSML_2RL3Wnjyn5RL+RAMqG9BaVnwp-qw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Don't remove link-vmlinux temporary files on exit/signal
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-<linux/kconfig.h> is included from all the kernel-space source files,
-including C, assembly, linker scripts. It is intended to contain a
-minimal set of macros to evaluate CONFIG options.
+On Wed, May 5, 2021 at 12:35 PM Andi Kleen <ak@linux.intel.com> wrote:
+>
+> Keep them around until they are cleaned up by make clean. This
+> uses a bit more disk space, but makes it easier to debug any
+> problems with the kernel link process.
+>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> ---
 
-IF_ENABLED() is an intruder here because (x ? y : z) is C code, which
-should not be included from assembly files or linker scripts.
+Applied to linux-kbuild. Thanks.
 
-Also, <linux/kconfig.h> is no longer self-contained because NULL is
-defined in <linux/stddef.h>.
 
-Move IF_ENABLED() out to <linux/kernel.h> as PTR_IF(). PTF_IF()
-takes the general boolean expression instead of a CONFIG option
-so that it fits better in <linux/kernel.h>.
+>  scripts/link-vmlinux.sh | 14 --------------
+>  1 file changed, 14 deletions(-)
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 7d112681f332..f4de4c97015b 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -320,20 +320,6 @@ cleanup()
+>         rm -f .vmlinux.d
+>  }
+>
+> -on_exit()
+> -{
+> -       if [ $? -ne 0 ]; then
+> -               cleanup
+> -       fi
+> -}
+> -trap on_exit EXIT
+> -
+> -on_signals()
+> -{
+> -       exit 1
+> -}
+> -trap on_signals HUP INT QUIT TERM
+> -
+>  # Use "make V=1" to debug this script
+>  case "${KBUILD_VERBOSE}" in
+>  *1*)
+> --
+> 2.25.4
+>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v2:
-  - Keep PTF_IF macro in pinctrl-ingenic.c
-
- drivers/pinctrl/pinctrl-ingenic.c | 2 ++
- include/linux/kconfig.h           | 6 ------
- include/linux/kernel.h            | 2 ++
- 3 files changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/pinctrl/pinctrl-ingenic.c b/drivers/pinctrl/pinctrl-ingenic.c
-index 651a36b9dcc0..0ee69f8e20b2 100644
---- a/drivers/pinctrl/pinctrl-ingenic.c
-+++ b/drivers/pinctrl/pinctrl-ingenic.c
-@@ -3854,6 +3854,8 @@ static int __init ingenic_pinctrl_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
-+#define IF_ENABLED(cfg, ptr)	PTR_IF(IS_ENABLED(cfg), (ptr))
-+
- static const struct of_device_id ingenic_pinctrl_of_match[] = {
- 	{
- 		.compatible = "ingenic,jz4730-pinctrl",
-diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-index 24a59cb06963..cc8fa109cfa3 100644
---- a/include/linux/kconfig.h
-+++ b/include/linux/kconfig.h
-@@ -70,10 +70,4 @@
-  */
- #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
- 
--/*
-- * IF_ENABLED(CONFIG_FOO, ptr) evaluates to (ptr) if CONFIG_FOO is set to 'y'
-- * or 'm', NULL otherwise.
-- */
--#define IF_ENABLED(option, ptr) (IS_ENABLED(option) ? (ptr) : NULL)
--
- #endif /* __LINUX_KCONFIG_H */
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 5b7ed6dc99ac..8685ca4cf287 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -38,6 +38,8 @@
- #define PTR_ALIGN_DOWN(p, a)	((typeof(p))ALIGN_DOWN((unsigned long)(p), (a)))
- #define IS_ALIGNED(x, a)		(((x) & ((typeof(x))(a) - 1)) == 0)
- 
-+#define PTR_IF(cond, ptr)	((cond) ? (ptr) : NULL)
-+
- /* generic data direction definitions */
- #define READ			0
- #define WRITE			1
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
