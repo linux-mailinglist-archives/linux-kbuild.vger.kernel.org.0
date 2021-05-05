@@ -2,100 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1769373D74
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 16:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC32A373DD5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 16:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbhEEOSL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 10:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
+        id S232262AbhEEOnH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 10:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbhEEOSK (ORCPT
+        with ESMTP id S233244AbhEEOnG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 10:18:10 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB3CC061574;
-        Wed,  5 May 2021 07:17:14 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id v39so2871828ybd.4;
-        Wed, 05 May 2021 07:17:14 -0700 (PDT)
+        Wed, 5 May 2021 10:43:06 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2307DC06174A;
+        Wed,  5 May 2021 07:42:09 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id m9so2983469ybm.3;
+        Wed, 05 May 2021 07:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0MZWwVx6CisEz2eE08ghTwZ79068V2gxS+gjHmpRH7E=;
-        b=mRm9xtQKqFvfgLDvdGr56YP9nVG0V+lQGp1hRm0be7DT5Sd6uKawyBAAtuxNqZtMU/
-         OZPO+Oh6W1fWLOMWkZBB05JvQghgSxvz6OC93CtSDGkrAAI8z6ereEGPlgCUivg7e5bu
-         y5rA1cdzsf0QcC3Z6WGH04xjzXPCJA3rBZUNRnX6lhSCasGYlyoQNkr6JWp5Dts62Mnk
-         lZuRbSNntzikhR8uEupuOfSe478rzCN2RBhpLLGpIvvOJLme5dE5xej+Ltps/WyfCJZN
-         k5xhRZ8OtiKELmKdCx4ai+JPQyzic2bvKk45aFqrWsidSBHupcl2tAP2LMrKymlk9pB8
-         iF4w==
+        bh=T4XfxZaZq47CKwnyWGH3VIAzItUvGF98JVa05cm0EJ4=;
+        b=gbtIna15A823UxWQ8KiZ4769tXSVtif/RLtdgeX9uWDg+cuVSJV4atrp8HJ8X3ZpB9
+         NVF2kMygWDlHvterIJIVMEDbWweRPYt1t8DBjeupko66Yu1RjklNdu5rqTdFvViJfqRo
+         NiB5C+f9Q2aVX9FM4BdGj6RhRAvzYqeOT17lhtAaNqMCaV1FctqgPyP7N4bhn0AnB7Rl
+         Eo4baobiVUNeAyus7N6eVYY5TZbXQa0+C9kZJdK29k0NXsYGGw/S55JFOvJGUuXGbJiy
+         MAUACY/LcNTxgx23d3lpTWyBW4nVeuTbIfvOy4xHPZCwhUOFpQouZhxilzVNZzqXblQL
+         CmMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0MZWwVx6CisEz2eE08ghTwZ79068V2gxS+gjHmpRH7E=;
-        b=DBYOuiI4h3MjTroR2LrKUD/b5hJhY8ttfCDbeljJpA+AsM3Bq/6CJxHyall/ABXcFv
-         8V3V7zuqHNfz5k8EwQgsELs783FDniE4/3OpNOOgCuLYuGNIY/EJej54gwV3gSCd42Id
-         jqbu0sMZOhQXT+W47o22nHcVvy6o80x8yt/BbT5Gad9zOFfmOLuBhNS9RHKD1J+JYXMx
-         nPypcTMLIa0njt9FZCBbGU4wIruUuSK4SImrcr76x9cfritwGL7B2gWLiyJE7qobD2r6
-         ool/fCAMbh+JvV66lbibxS1qEVExG4ZG/88Tvf2KsvgFBKzKxmrFLG+9VfQosxMq5ein
-         mT/Q==
-X-Gm-Message-State: AOAM530GZhUVWPJnHCUTaYSpw2FstdBmfURKSmGyBBoIHvfUzinSSDu2
-        UUwh9cg3QtMNiW3Uct1N7/4eNCogaFzGrjz0wWk=
-X-Google-Smtp-Source: ABdhPJxI2fwhHm/Gjl8Ih8z5Vzfx9FY1aYDpPn3Trrt1dDcbqanyb5MLzCSQZkc55ut5L3KwM8lAj4AgfvzmWyi/jKk=
-X-Received: by 2002:a25:a448:: with SMTP id f66mr21263132ybi.135.1620224233402;
- Wed, 05 May 2021 07:17:13 -0700 (PDT)
+        bh=T4XfxZaZq47CKwnyWGH3VIAzItUvGF98JVa05cm0EJ4=;
+        b=gNe2NU6+Pp3J18Nk+sp/+jir0IaVLhyqBBN8mdaBHJXJPfmlVQjWNcleQUJnp5kHoc
+         GWpCO0YwmIKbtILdwMRwjRynlZrMw+YMyT8H/DSI+BX+rypsl3jq+xDwYulU0UvYMro6
+         1TzdW2JTzYvUNu9zI/w1UtHuN2pvivqM8eS/eUZSn6IFd7k6hwnzxK6TCasuWVx629e+
+         HL/q1XUBm90y3ewGB0LTzLBnf6eUApxTpaXmCTIH6+1NfcaHhv3Wo6h4kOj9XD1uM2rs
+         p3ftzc8VKGWL52arzUJ+f4O89sSjf/nQCpkBa7rHZODjuDZWNcTItQAULzirpw8gXMWO
+         iCdA==
+X-Gm-Message-State: AOAM5339GZkXoySPs+N55jgR4sHgtkz+6OKTYPUiwT4C72UNEfQHSAGm
+        mOm62zVx1r9Se/0rqtxOJTBQMvhd5R4YTANBMf0=
+X-Google-Smtp-Source: ABdhPJzciMEHoN9O9+VTTcdf9MnIS5J1InKekAolQeJU8U366NZlTQ0yPSlsG12wbhVfnh/RhfnWqokTIgU1II4fqKc=
+X-Received: by 2002:a25:ca85:: with SMTP id a127mr37116107ybg.33.1620225728295;
+ Wed, 05 May 2021 07:42:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
- <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com> <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
-In-Reply-To: <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
+References: <20210414184604.23473-1-ojeda@kernel.org> <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <878s51e3jc.fsf@gmail.com> <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
+ <53413f58-269a-a1f6-2a97-e33819446609@metux.net>
+In-Reply-To: <53413f58-269a-a1f6-2a97-e33819446609@metux.net>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 5 May 2021 16:17:02 +0200
-Message-ID: <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
+Date:   Wed, 5 May 2021 16:41:57 +0200
+Message-ID: <CANiq72kjMf=Qv0+9vN45Qg6te1RUCTtmzP=a8X8XS8sriOzbkQ@mail.gmail.com>
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Thomas Schoebel-Theuer <tst@schoebel-theuer.de>,
+        Kajetan Puchalski <mrkajetanp@gmail.com>,
+        mceier+kernel@gmail.com, Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 5, 2021 at 1:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Wed, May 5, 2021 at 3:59 PM Enrico Weigelt, metux IT consult
+<lkml@metux.net> wrote:
 >
-> Right now it seems like those organizations and companies
-> would be some academic institutions who like rust (because they
-> study languages and compilers) and Google. But that is a
+> ACK. And speaking for embedded world, 20+ product lifetime is pretty
+> common. During that lifetime you'd need to be able to pick out old
+> sources, so some changes and rebuild your code and having your system
+> still running seamlessly after the update. IOW: long-term
+> reproducability is absolutely vital. Linux does much better here than
+> many competitors (that eg. need proprietary build tools that don't
+> even run later machine generations)
 
-Note that there are quite a few major private players already
-involved, not just Google! e.g.
+You should be able to rebuild old releases with newer compilers.
 
-  - The Rust Foundation has AWS, Facebook, Google, Huawei, Microsoft
-and Mozilla: https://foundation.rust-lang.org/
+Like the major C and C++ compilers keep support for old code and old
+standards, the main Rust compiler keeps support for old code and old
+"editions" too.
 
-  - AWS and Facebook using Rust for a few years now:
-https://engineering.fb.com/2021/04/29/developer-tools/rust/ and
-https://aws.amazon.com/blogs/opensource/how-our-aws-rust-team-will-contribute-to-rusts-future-successes/
+> Yes, and also adding long-term reproducability as another vital requirement.
 
-  - Microsoft providing official Win32 bindings/docs for Rust:
-https://github.com/microsoft/windows-rs and
-https://docs.microsoft.com/en-us/windows/dev-environment/rust/overview
+See my sibling replies to Linus W. on the efforts underway around this.
 
-Of course, any major company uses most common languages at some point
-or another, but their commitment looks significant now (and public).
+> Rust seems to be a fast moving target. Even building a Rust compiler can
+> be a pretty complex task (if you're not a full time rust developer).
+
+It only takes a handful of commands. If you know how to build GCC or
+LLVM, building Rust is about the same complexity.
+
+> Gcc, in constrast, itself can be built on older compilers (even non-
+> gcc). How to do that w/ rustc ? According to my observations some while
+> ago, it needs a fairly recent rustc to compile recent rustc, so when
+> coming with an old version, one has to do a longer chain of rustc
+> builds first. Doesn't look exactly appealing for enterprise grade and
+> long term support.
+
+Why would enterprise users care about bootstrapping? Companies
+typically want to use supported software, so they would use the
+pre-built compiler their distribution offers support for.
+
+For companies that want more features, they can use newer versions via
+the pre-built official binaries from the Rust project itself, which
+are routinely used by many projects around the world. Some companies
+are even using particular (i.e. frozen) Rust nightly compilers they
+picked.
+
+> Correct, the amount of people who understand rust is pretty low, those
+> who also understand enough of linux kernel development, probably just
+> a hand full world wide. For any practical business use case this
+> practically means: unsupported.
+
+This assumes Rust-enabled kernels will be provided by distributions to
+businesses from day 1 as soon as supports gets merged.
+
+Instead, what will need to happen first is that we evolve the support
+enough to compile the kernel with a Rust stable compiler, some
+important drivers get written *and* distributions start shipping those
+drivers in their business-oriented releases.
+
+That will take some time, and interested companies (e.g. for drivers)
+and their kernel developers will learn how to use Rust in the
+meantime.
 
 Cheers,
 Miguel
