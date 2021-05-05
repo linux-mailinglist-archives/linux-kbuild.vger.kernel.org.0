@@ -2,105 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F9C837397D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 13:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D30FD373CCD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 15:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233143AbhEELfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 07:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233118AbhEELfr (ORCPT
+        id S233336AbhEEN7q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 09:59:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:43197 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232923AbhEEN7q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 07:35:47 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A3AC061761
-        for <linux-kbuild@vger.kernel.org>; Wed,  5 May 2021 04:34:49 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id n138so2092148lfa.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 05 May 2021 04:34:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IgvoE77MnMbex7B2S0TkrRa1RsaV/q1aQVIu3eT5F4I=;
-        b=dAIjjW2qqzmG32ewtdJN+Q3kO51I+XWS+ICZ5Q/QlSc2OVA+FPOXH5+6ZS9pXMnlZE
-         Wxkl5zEarjWAxfNUZtq5GqF0sd6K4VBDcbpjzDWdxZeMXHrEdAxDgvzeOWqFlMh12LiQ
-         Cq19ZFLDmD9FpgdjvSoafBFGgrQ67n6PLXpV7YuSoimkTtCr4Yo/pze+IqCqjBaOcPUp
-         rYKBPzZsjA6JkGrfrsqxLXLAjGsJEdMVrujwr59VLv4B0a9ClOIxKk4knJnJhEe4VLet
-         NgrSgD4d3S6nbuNcvaP39+rn0ISeLOg4fM86jrwl15wcqhO+SkMfUxMic+EcMKsMIHSx
-         sNmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IgvoE77MnMbex7B2S0TkrRa1RsaV/q1aQVIu3eT5F4I=;
-        b=LeF7/BsSZjGI9bbeqIyYYujVLmK2dJoNi3Ay8qQgDckWt2Z5dJDX4Y9xK+Xiqqctud
-         bheTLtxq3RHDYhzu7iO1oDNQDL/NASdVJg34807qt7fWNNez5o/vT4OSAtBiGVtBQIc5
-         KCQ4xozRNxk/LbBONh6C0ZX/oGTlzT5/dHPQOyRpRiGPtrWBSdyICNfBD+R3L6YyckFK
-         +XPzVxKYBh6tey97pMXST9HoZDJvUvlyyfHGp5iB3guDm5DBmS++W6Y1kLOw5mQXMXTh
-         VIDXmy1cFL7rAToHa4bAteZtuDKD0XfceL2rET8xnuC9SqaqDhlATsFZ6go0mXQ5sJS2
-         e9DA==
-X-Gm-Message-State: AOAM530Ilyu2b1dU8KKq5jpmPD8eciFlh96qGuGStKQUHlUZRwAWWvBb
-        YGv1Yc7xBrFsactc+xysmUHHOn7Rn0QV14hw3dg5Tw==
-X-Google-Smtp-Source: ABdhPJzSF9AHtOJF7IjLoW++ovuVHUkakgCSuRT8+ZsyQan+kbMdLPrMBrXFyvwHLXQlXaBHgo0G0xAvZDHqik5psVs=
-X-Received: by 2002:ac2:5e36:: with SMTP id o22mr10820729lfg.529.1620214488167;
- Wed, 05 May 2021 04:34:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com> <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
-In-Reply-To: <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 5 May 2021 13:34:37 +0200
-Message-ID: <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
+        Wed, 5 May 2021 09:59:46 -0400
+Received: from [192.168.1.155] ([95.114.117.51]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MDPuq-1lnbSE2UBK-00AVJs; Wed, 05 May 2021 15:58:44 +0200
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     Thomas Schoebel-Theuer <tst@schoebel-theuer.de>,
+        Kajetan Puchalski <mrkajetanp@gmail.com>,
+        mceier+kernel@gmail.com
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <CAJTyqKP4Ud7aWxdCihfzeZ3dQe_5yeTAVnXcKDonciez-g2zWA@mail.gmail.com>
+ <878s51e3jc.fsf@gmail.com>
+ <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <53413f58-269a-a1f6-2a97-e33819446609@metux.net>
+Date:   Wed, 5 May 2021 15:58:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <7999ba57-9b95-265e-a189-d9ca01304b13@schoebel-theuer.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:muzYRpD1WAxLx2Cq+LC97YoKU1FJ8xnbrcx4Y75aR6nYpweJIMA
+ VN+KI57sg34AcQovmwb6xXXjtVWTRd4MFqtEA/DO6h1z7Jpdlko7yWcneGw2G2gsil4SI7/
+ 49/XHEjPLt8oiOHD3I1WNQuAUTyXp0CYN49XIrMLC0pOyjO28NxFxWrxF9GTlFRD8G8t5/f
+ IEA3ZflvXKdPiUDB4IsFA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HOWavIaJf8Q=:QEurQ0FuI1CJ9o37a/gjJB
+ AZzAq/Ckn/aN38Ge87A0jy+gQMein9wpQvW3C/6i8EqZmqYuqyf5RJ8Q1ae2iK6yVI/DvJ3Xd
+ Z/0r/L/fQgz//rw/J8Fd8ufeLN29pa82thxoWrHz/QYEwREAZb4flHX8objle7MFrosIf3Csi
+ VmExdnC3CA4dxwituS9PzXTatN5Y5kOnecgJ4lLkhqF6mShjYvUZtccEur9X0ZRHmq2gLQebW
+ AwzkuNQmWpofUYm/z6LfhAYku0KxUAsb33Fnu+yu9iw9rXZZPXZrDY7XzCkBAKAQZ2nVqZT9C
+ Rsj/cPbga84e2sBRkwybf+YgWSNJbkckWQLl6FvBzM+CXkucWKuqH26n0pkaj5O7sWn5Y7bcs
+ 3FMVBLV0se8TCTmFMOHYc+HRHig4MCrVgl/2aTOvQl9j4DOpw54QFYLZVCQ58Gxzr97YAxKvu
+ hEH5wg81QDE2E1e/nj0D0sq54sxquyi8aMz+57UkCMsgXoyB3DA6zUZCsLkv/vzPZEZZIIQ6I
+ AEViP5sIRCeQygZvdEBzA8=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 5, 2021 at 1:30 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Tue, May 4, 2021 at 11:21 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+On 30.04.21 08:39, Thomas Schoebel-Theuer wrote:
 
-> > I think right now the right thing for Rust is to work out-of-tree until
-> > there is Rust support for all archs, while encouraging kernel
-> > developers to learn the language.
->
-> That would be an option, yes, but if the decision ends up being made
-> and we are encouraging kernel developers to learn the language, what
-> do we achieve by keeping things out-of-tree?
->
-> In fact, by getting in-tree people, organizations & companies would be
-> encouraged to give more support sooner rather than later to the LLVM
-> backends they care about and/or to the GCC frontend for Rust. So, in a
-> way, it can be a win for those projects too.
+Hi,
 
-In a way it is a fair point because for example Unix and C evolved
-together and were intermingled at the onset. And they kind of
-needed each other to evolve.
+> IMO this is a _requirement_ for Linux, otherwise its "business model" 
+> wouldn't work in the long term (decades as is always necessary for basic 
+> infrastructure / system software).
 
-Right now it seems like those organizations and companies
-would be some academic institutions who like rust (because they
-study languages and compilers) and Google. But that is a
-pretty nice start, and one upside I would see in it is that
-the academic people stop writing so many papers and get their
-hands dirty and work on practical problems in the kernel. So
-if that can be achieved I would be happy.
+ACK. And speaking for embedded world, 20+ product lifetime is pretty
+common. During that lifetime you'd need to be able to pick out old
+sources, so some changes and rebuild your code and having your system
+still running seamlessly after the update. IOW: long-term
+reproducability is absolutely vital. Linux does much better here than
+many competitors (that eg. need proprietary build tools that don't
+even run later machine generations)
 
-Yours,
-Linus Walleij
+> If the requirement "second source" (by either way) is not met by Rust at 
+> the moment, this needs to be fixed first.
+
+Yes, and also adding long-term reproducability as another vital requirement.
+
+Rust seems to be a fast moving target. Even building a Rust compiler can
+be a pretty complex task (if you're not a full time rust developer).
+
+Gcc, in constrast, itself can be built on older compilers (even non-
+gcc). How to do that w/ rustc ? According to my observations some while
+ago, it needs a fairly recent rustc to compile recent rustc, so when
+coming with an old version, one has to do a longer chain of rustc
+builds first. Doesn't look exactly appealing for enterprise grade and
+long term support.
+
+> Other limitations like "development resources" might lead to similar 
+> effects than lock-in. I am seeing the latter nearly every workday. 
+> Software becomes "unmanageable" due to factors like technical debts / 
+> resource restrictions / etc. Typical main reasons are almost always at a 
+> _social_ / _human_ level, while purely technical reasons are playing 
+> only a secondary role.
+
+Correct, the amount of people who understand rust is pretty low, those
+who also understand enough of linux kernel development, probably just
+a hand full world wide. For any practical business use case this
+practically means: unsupported.
+
+I don't like the idea of Linux being catapulted back from enterprise
+grade to academic toy.
+
+
+--mtx
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
