@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E103746AB
+	by mail.lfdr.de (Postfix) with ESMTP id D12F33746AC
 	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236072AbhEERWg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 13:22:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32778 "EHLO mail.kernel.org"
+        id S236219AbhEERWh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 13:22:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237796AbhEERBQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 13:01:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50150619B8;
-        Wed,  5 May 2021 16:40:34 +0000 (UTC)
+        id S236550AbhEERBs (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 5 May 2021 13:01:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 38FCB61C18;
+        Wed,  5 May 2021 16:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620232835;
-        bh=hbNbcnZUZqs2xEd9jLfL71PCptfLTKmVWiwIT3ol1pI=;
+        s=k20201202; t=1620232875;
+        bh=FuqG/imYGjMy9Qfefjs+Hv0KdH1VTTbpDOLrGMouJ/Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bOcPa1LPLSrm+N08TVcr2+NbxpFnmUwWvH1PFST3srYk5S8cfzJG3cqTBwvHuE9Mz
-         j250F2THHjDKapScy0vBhnUNN3v8HzW4iLP4WapP3MMmVFwEQXwtv8YRrDQgmf6Rqn
-         e0KHYu9AtyxYGvoCb0X7DGPGy2Bxt5KlGxJT4foxZ/B/Dlu535a4BeSWu8DpwgTShe
-         eJspZXdiadmI4qAia3LeltdtLmKhyxL5WJOqpylaqLlRLn/+BYSnJWbNj/6bworOux
-         WyUQ92F/oVLpEtG6MHqRsO2PMAa2GiirKGEZZr/Z8daBLps4Wg/aLeIOnCYjdCwv4a
-         SzZt9Jz5sUSEQ==
+        b=nnjRVo0taD5c9oaXN5BLiNNkrNC9+YhWrDF4BI3dWQ98QHLBbLgIDygiWKSgyZGaw
+         rHNbVZj5wMdji0T95ahMF89NfD6levnrrcRzrowqg1z2uvn5YeamoF4tQ5ZsktSmYv
+         dO42YUEKZUvQm10D/AEHWUJP9xa9Ih8dBgino/ChGz5siAVCCC32ZokrabsxkODhxx
+         54NX8RpnnFP4Mt9JWGuycacJ1JXfjw7Ef7NCVtPdPdGER4KP7xN/WvgNisAUjy5ZmF
+         rKaT1xa7T1MRWALy+XZGJDyC0N9SZ6nx+NkA8EoKbvVzGya/8KLv10P/wDIAHQhN42
+         6g3w/tK5niDQw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mihai Moldovan <ionic@ionic.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 21/32] kconfig: nconf: stop endless search loops
-Date:   Wed,  5 May 2021 12:39:53 -0400
-Message-Id: <20210505164004.3463707-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 16/25] kconfig: nconf: stop endless search loops
+Date:   Wed,  5 May 2021 12:40:42 -0400
+Message-Id: <20210505164051.3464020-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505164004.3463707-1-sashal@kernel.org>
-References: <20210505164004.3463707-1-sashal@kernel.org>
+In-Reply-To: <20210505164051.3464020-1-sashal@kernel.org>
+References: <20210505164051.3464020-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,7 +83,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index c8ff1c99dd5c..552cf7557c7a 100644
+index e8e1944fa09b..7be47bf8e3d2 100644
 --- a/scripts/kconfig/nconf.c
 +++ b/scripts/kconfig/nconf.c
 @@ -504,8 +504,8 @@ static int get_mext_match(const char *match_str, match_f flag)
