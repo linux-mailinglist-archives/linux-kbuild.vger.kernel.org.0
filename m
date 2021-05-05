@@ -2,99 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39A5E373E3B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 17:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D60F537417F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 18:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232283AbhEEPOQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 11:14:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:54829 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230249AbhEEPOQ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 11:14:16 -0400
-Received: from [192.168.1.155] ([95.114.117.51]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MdNPq-1l4ySO2iSO-00ZLJb; Wed, 05 May 2021 17:13:04 +0200
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com>
- <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
- <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
- <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
- <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <3cdfdc0c-ddff-26e7-3ac0-594439d7911c@metux.net>
-Date:   Wed, 5 May 2021 17:13:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S235238AbhEEQil (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 12:38:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53868 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235026AbhEEQgj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 5 May 2021 12:36:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3900261446;
+        Wed,  5 May 2021 16:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620232397;
+        bh=krCIKtZo6P7jGrPBiaStvZ2n8tEKtJJdDsSUq2CkYcg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VynlBo4NeZJi/co+nLLdKd1cd2uW6FlWAeTU/l/WgwSlKUUWhp/JN+MeRfFkto2cO
+         2fyIuVrRYTVVH36V/VMMBfg0q/C9CusIP9b0NTKarOKOQSsS3wyxboBhlm6ixYB7k2
+         dDlr8Qdn8xaZvnzJ1TQO1+VDilnNVozGH6zB1Ls0L0J5kWqrh6m7aJ/2IBSDZvyawM
+         mYOEZUOKcdQy8s+0tvYY7ciBsUJwNsnK0ob4Xm+FwtOUXNrUSWCTO3ewxqze9LfXx8
+         IIm4gjsGzYiwQwGxztg9JYTikD+WCjcoqhA86Gt/KMEUrA7YYWNPT3oL2/RkpwN/A/
+         T/21iDjVGmn1A==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mihai Moldovan <ionic@ionic.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 079/116] kconfig: nconf: stop endless search loops
+Date:   Wed,  5 May 2021 12:30:47 -0400
+Message-Id: <20210505163125.3460440-79-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210505163125.3460440-1-sashal@kernel.org>
+References: <20210505163125.3460440-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:o0lErJE54lAboRMaHiRxEsKPGOTWhgFWI58Qy2KWAXqmJx9/jBu
- 29iAIcK/dqkP2FYF1xby6J6K+1G+CtdjJeuXpPztY6vUi+UAHTa4kJjwN5Fu2Gep/y2jvz5
- C6S2M6dmuScXTRkbLf9UJTcy6cDE6S/KrmD26KorI0FQD2r+dJ9xiuaS1DTLanUw/JYC7ts
- VgUI2x3uwzd7uljo/UkBw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:A3KVyl5Jfd8=:AVKFC4b0+wf9LEK/8RgfZ7
- 0IBXVs1O4bLiYt0s6oQs/LykcwVoHMCvH77z3uZNne5Vjq+eJObjEHNMEmMAu9CleZj5Hfvmk
- 9wCmtgb0tBKkfnsjMn4RLW6/EHjEY63pBvNvT+lA+EALs/lYFm5Ah/WvJtykE8o1lcIumlo4d
- 2hHudJYY+vx6xnkJqugEu7SywFnr8VVntDuQqw2j0mafw1injjMO3+geRR2A2aes3jzm6XIQl
- p/MEMyE35gJ6BeCsZQCn1JtKg6SVqd2rIZMPhZ7CMQ70aCpHmyMN5gj/mecvo7EYBA6uliet4
- wwnWh8kQF8PMxFT4xjm6+svjRDLOb0ImkG6LjYxwNTVFoRoH+hLN+BC11YqNngKcxZNyM53Vy
- 484nmT9eXSIZfNTSjYkFs6/m2mq6uZAXd1u7R1v0s2iJ8FIZOwbnriMsmmrm3Vllif/mnhZcp
- HbU9bFgw27/dUluQ+1S38OqFFZdIhRkykRwk7QdUccAhqbSmvU4ZGGVA00wT9pdnouP35BisE
- kBV/2tRCXsBYftTFYCVTzQ=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 05.05.21 16:17, Miguel Ojeda wrote:
+From: Mihai Moldovan <ionic@ionic.de>
 
-> Note that there are quite a few major private players already
-> involved, not just Google! e.g.
-> 
->    - The Rust Foundation has AWS, Facebook, Google, Huawei, Microsoft
-> and Mozilla: https://foundation.rust-lang.org/
-> 
->    - AWS and Facebook using Rust for a few years now:
-> https://engineering.fb.com/2021/04/29/developer-tools/rust/ and
-> https://aws.amazon.com/blogs/opensource/how-our-aws-rust-team-will-contribute-to-rusts-future-successes/
-> 
->    - Microsoft providing official Win32 bindings/docs for Rust:
-> https://github.com/microsoft/windows-rs and
-> https://docs.microsoft.com/en-us/windows/dev-environment/rust/overview
+[ Upstream commit 8c94b430b9f6213dec84e309bb480a71778c4213 ]
 
-Exactly a list of corporations, I'd never want to rely on.
+If the user selects the very first entry in a page and performs a
+search-up operation, or selects the very last entry in a page and
+performs a search-down operation that will not succeed (e.g., via
+[/]asdfzzz[Up Arrow]), nconf will never terminate searching the page.
 
+The reason is that in this case, the starting point will be set to -1
+or n, which is then translated into (n - 1) (i.e., the last entry of
+the page) or 0 (i.e., the first entry of the page) and finally the
+search begins. This continues to work fine until the index reaches 0 or
+(n - 1), at which point it will be decremented to -1 or incremented to
+n, but not checked against the starting point right away. Instead, it's
+wrapped around to the bottom or top again, after which the starting
+point check occurs... and naturally fails.
 
---mtx
+My original implementation added another check for -1 before wrapping
+the running index variable around, but Masahiro Yamada pointed out that
+the actual issue is that the comparison point (starting point) exceeds
+bounds (i.e., the [0,n-1] interval) in the first place and that,
+instead, the starting point should be fixed.
 
+This has the welcome side-effect of also fixing the case where the
+starting point was n while searching down, which also lead to an
+infinite loop.
+
+OTOH, this code is now essentially all his work.
+
+Amazingly, nobody seems to have been hit by this for 11 years - or at
+the very least nobody bothered to debug and fix this.
+
+Signed-off-by: Mihai Moldovan <ionic@ionic.de>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/kconfig/nconf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index e0f965529166..af814b39b876 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -504,8 +504,8 @@ static int get_mext_match(const char *match_str, match_f flag)
+ 	else if (flag == FIND_NEXT_MATCH_UP)
+ 		--match_start;
+ 
++	match_start = (match_start + items_num) % items_num;
+ 	index = match_start;
+-	index = (index + items_num) % items_num;
+ 	while (true) {
+ 		char *str = k_menu_items[index].str;
+ 		if (strcasestr(str, match_str) != NULL)
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.30.2
+
