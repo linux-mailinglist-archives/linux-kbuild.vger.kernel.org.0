@@ -2,100 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D4F93746AF
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44FF037472E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 May 2021 19:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236550AbhEERWi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 May 2021 13:22:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238311AbhEERFj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 May 2021 13:05:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8423C61417;
-        Wed,  5 May 2021 16:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620232942;
-        bh=fTf4qo64soCDRDnKGHNUSCNtTuVdhpbH+CBMMyRAsiw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ADt4CGzvTPjlC80Vc6rHc2RU5Tx4I2RK4EtcJdNYzp4h1/xGh5Lqlso9GPhjQqBFg
-         d20S680luo3LKHATvcFVbq+i2yWjZ2ZPVM3TrCeHuLilhwp4MXkZ2K7B6dgRYkVFK2
-         PwnLiVn0LJk+cDvZ4k01dgndfveHfC0pMGdR2EFDE4V0TtI2FrYTKxMd14unIlRgsY
-         NoXpHJ/JinpqoFwakpJSbZ+b7+rW68bJqsHpoyFDQ4MsRaJkFItHRs8ud4CJ/7WcIL
-         w+xsr+L7xaf29PMOlE3s4p9Ee0Qf0bsv2OUWesl+jB3b/dWsC0jsNUqdjaixP245j0
-         oFrUaklS1sB8w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mihai Moldovan <ionic@ionic.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 14/19] kconfig: nconf: stop endless search loops
-Date:   Wed,  5 May 2021 12:41:57 -0400
-Message-Id: <20210505164203.3464510-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210505164203.3464510-1-sashal@kernel.org>
-References: <20210505164203.3464510-1-sashal@kernel.org>
+        id S234278AbhEERuL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 May 2021 13:50:11 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:37716 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234638AbhEERsY (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 5 May 2021 13:48:24 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 145HjRDo032362;
+        Thu, 6 May 2021 02:45:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 145HjRDo032362
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1620236728;
+        bh=ZwtjVnWqo8TSSCO4VBrdF2kvET+waOjAzWk0GOoIa3U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PY+gVRPOuxsBtXAAbnAinwvlMA5ksgejiITtbcGRcTKhbmO+Z35c+X1zArMi1MxvI
+         QcUUOMbuFVxkHnZSVPU/vRIff9Gy+RJq2aZUZKDismP4tNMROFiG12UVywcDkHlkAE
+         Zy1vxqPVXyUvoRvHpVQL7Lo3yKf3jPxiLyq924aIsHVAEB5yH7A7mMieG0gZxA4zMf
+         mrg9PGe1kPi84IME7JHc9RwpfeFTYrOMconrBYDHSbRxg8xQV9cilBV+I0L/xmpgOP
+         zItdvCjFmKdhpKT5dF1l0RFqsolCId+AGwzvoihp71dlZ91LeTH+bCMIWMVEOt+RXm
+         6Y2+VpLwb2Lfw==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Kars Mulder <kerneldev@karsmulder.nl>,
+        Kees Cook <keescook@chromium.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>, chao <chao@eero.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org
+Subject: [PATCH v2] linux/kconfig.h: replace IF_ENABLED() with PTR_IF() in <linux/kernel.h>
+Date:   Thu,  6 May 2021 02:45:15 +0900
+Message-Id: <20210505174515.87565-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Mihai Moldovan <ionic@ionic.de>
+<linux/kconfig.h> is included from all the kernel-space source files,
+including C, assembly, linker scripts. It is intended to contain a
+minimal set of macros to evaluate CONFIG options.
 
-[ Upstream commit 8c94b430b9f6213dec84e309bb480a71778c4213 ]
+IF_ENABLED() is an intruder here because (x ? y : z) is C code, which
+should not be included from assembly files or linker scripts.
 
-If the user selects the very first entry in a page and performs a
-search-up operation, or selects the very last entry in a page and
-performs a search-down operation that will not succeed (e.g., via
-[/]asdfzzz[Up Arrow]), nconf will never terminate searching the page.
+Also, <linux/kconfig.h> is no longer self-contained because NULL is
+defined in <linux/stddef.h>.
 
-The reason is that in this case, the starting point will be set to -1
-or n, which is then translated into (n - 1) (i.e., the last entry of
-the page) or 0 (i.e., the first entry of the page) and finally the
-search begins. This continues to work fine until the index reaches 0 or
-(n - 1), at which point it will be decremented to -1 or incremented to
-n, but not checked against the starting point right away. Instead, it's
-wrapped around to the bottom or top again, after which the starting
-point check occurs... and naturally fails.
+Move IF_ENABLED() out to <linux/kernel.h> as PTR_IF(). PTF_IF()
+takes the general boolean expression instead of a CONFIG option
+so that it fits better in <linux/kernel.h>.
 
-My original implementation added another check for -1 before wrapping
-the running index variable around, but Masahiro Yamada pointed out that
-the actual issue is that the comparison point (starting point) exceeds
-bounds (i.e., the [0,n-1] interval) in the first place and that,
-instead, the starting point should be fixed.
-
-This has the welcome side-effect of also fixing the case where the
-starting point was n while searching down, which also lead to an
-infinite loop.
-
-OTOH, this code is now essentially all his work.
-
-Amazingly, nobody seems to have been hit by this for 11 years - or at
-the very least nobody bothered to debug and fix this.
-
-Signed-off-by: Mihai Moldovan <ionic@ionic.de>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/nconf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index f7049e288e93..c58a46904861 100644
---- a/scripts/kconfig/nconf.c
-+++ b/scripts/kconfig/nconf.c
-@@ -502,8 +502,8 @@ static int get_mext_match(const char *match_str, match_f flag)
- 	else if (flag == FIND_NEXT_MATCH_UP)
- 		--match_start;
+Changes in v2:
+  - Keep PTF_IF macro in pinctrl-ingenic.c
+
+ drivers/pinctrl/pinctrl-ingenic.c | 2 ++
+ include/linux/kconfig.h           | 6 ------
+ include/linux/kernel.h            | 2 ++
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/pinctrl/pinctrl-ingenic.c b/drivers/pinctrl/pinctrl-ingenic.c
+index 651a36b9dcc0..0ee69f8e20b2 100644
+--- a/drivers/pinctrl/pinctrl-ingenic.c
++++ b/drivers/pinctrl/pinctrl-ingenic.c
+@@ -3854,6 +3854,8 @@ static int __init ingenic_pinctrl_probe(struct platform_device *pdev)
+ 	return 0;
+ }
  
-+	match_start = (match_start + items_num) % items_num;
- 	index = match_start;
--	index = (index + items_num) % items_num;
- 	while (true) {
- 		char *str = k_menu_items[index].str;
- 		if (strcasestr(str, match_str) != 0)
++#define IF_ENABLED(cfg, ptr)	PTR_IF(IS_ENABLED(cfg), (ptr))
++
+ static const struct of_device_id ingenic_pinctrl_of_match[] = {
+ 	{
+ 		.compatible = "ingenic,jz4730-pinctrl",
+diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
+index 24a59cb06963..cc8fa109cfa3 100644
+--- a/include/linux/kconfig.h
++++ b/include/linux/kconfig.h
+@@ -70,10 +70,4 @@
+  */
+ #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
+ 
+-/*
+- * IF_ENABLED(CONFIG_FOO, ptr) evaluates to (ptr) if CONFIG_FOO is set to 'y'
+- * or 'm', NULL otherwise.
+- */
+-#define IF_ENABLED(option, ptr) (IS_ENABLED(option) ? (ptr) : NULL)
+-
+ #endif /* __LINUX_KCONFIG_H */
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 5b7ed6dc99ac..8685ca4cf287 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -38,6 +38,8 @@
+ #define PTR_ALIGN_DOWN(p, a)	((typeof(p))ALIGN_DOWN((unsigned long)(p), (a)))
+ #define IS_ALIGNED(x, a)		(((x) & ((typeof(x))(a) - 1)) == 0)
+ 
++#define PTR_IF(cond, ptr)	((cond) ? (ptr) : NULL)
++
+ /* generic data direction definitions */
+ #define READ			0
+ #define WRITE			1
 -- 
-2.30.2
+2.27.0
 
