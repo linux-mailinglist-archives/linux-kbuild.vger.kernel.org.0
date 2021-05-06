@@ -2,93 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE3D37540C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 14:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 878F4375433
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 14:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbhEFMsz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 May 2021 08:48:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229769AbhEFMsy (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 May 2021 08:48:54 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93EFAC061574
-        for <linux-kbuild@vger.kernel.org>; Thu,  6 May 2021 05:47:56 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id c11so7578033lfi.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 06 May 2021 05:47:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QzEhbEsMPT0RAPd1e91T+mtb6uxkgCOagogsHHD+eZ8=;
-        b=Ks4nME/nPDpiuCR59p2B2xWzX2AYOmCJzm4REQpSn4ozFkIMOPSUaWXVEwcPIc4xyQ
-         /h/8FA83Pe63a9B4OsKLVtiF+oz11lDf0JTY0Nrd9qrebslmObz5Ypz0Gz1hTRDzKP2j
-         VqxNzfQVUd8RPj/vo9zPpRYyZSk4aFNGAgziomJb2ZrXcFnaEFbVdi4BRH2/5cHXHWkt
-         lp9+3khZACAlWA5W6hz3CYTVxwHDfHI9CGl1MoHyCeKD8UrE3WcIrz9uSDezslqePeqc
-         wV081/jHVKrG2qYS+BZVI099G5yt3aR4TATmjDcF4wJ3EMrnwEPL5Emo1GkHIqM9iFxK
-         zw+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QzEhbEsMPT0RAPd1e91T+mtb6uxkgCOagogsHHD+eZ8=;
-        b=f8qHafGTduCvqMIh0F9KOP6NE+gJfWgLk0Yd7su8JyJUDhdCncfs1EadGMoDRjPeFx
-         caWEMK2p1s2fPVBBcOeB77fnzVi+qexSu/4vTq8ouEJbFCwi9jbCZ0mF6uCEmbfot5w9
-         Hl450XTMMmHwTy8X6s2K/SjEwdDlP8Y4+0OMQbAEcsfAX/RWHcNVAzeIQtAFXhF5QiYv
-         CM7RR6feC8h/GktdnfnqFcuP3ZAewQFufdeRT8ILq81OQvO03LvP6I26fyA8E/eQoeCN
-         /rxwHQa7fab6dAEd92TmBJY0KqrtV9f1wntQPcVin+H7tAUlAneHvV9zcp1fV4G7RGia
-         Hz6g==
-X-Gm-Message-State: AOAM532J8DMBVdyepoDUKtCHNGxoBqHGtYK1gorUA0qLA+U4FY6NgEM5
-        3Bl3rod47o90n669lwJ63Q2HBUl/OneXk4ijpCxWbA==
-X-Google-Smtp-Source: ABdhPJwJSNb8W1vk/3K2xi7xKhIaQoHWBzIq30udueCYblsY75ozgEgTP9kUERq+loNLHdEeI4qZI/JWoOzp/xuldN4=
-X-Received: by 2002:ac2:544f:: with SMTP id d15mr2712552lfn.465.1620305275123;
- Thu, 06 May 2021 05:47:55 -0700 (PDT)
+        id S231580AbhEFM4L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 May 2021 08:56:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:34196 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229946AbhEFM4J (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 6 May 2021 08:56:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFFD6106F;
+        Thu,  6 May 2021 05:55:10 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.31.158])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C5893F73B;
+        Thu,  6 May 2021 05:55:09 -0700 (PDT)
+Date:   Thu, 6 May 2021 13:54:57 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-hardening@vger.kernel.org, Qing Zhao <qing.zhao@oracle.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] Makefile: Introduce CONFIG_ZERO_CALL_USED_REGS
+Message-ID: <20210506125457.GA34956@C02TD0UTHF1T.local>
+References: <20210505191804.4015873-1-keescook@chromium.org>
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
- <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
- <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com> <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
-In-Reply-To: <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 6 May 2021 14:47:43 +0200
-Message-ID: <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210505191804.4015873-1-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 5, 2021 at 4:17 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> On Wed, May 5, 2021 at 1:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >
-> > Right now it seems like those organizations and companies
-> > would be some academic institutions who like rust (because they
-> > study languages and compilers) and Google. But that is a
->
-> Note that there are quite a few major private players already
-> involved, not just Google! e.g.
+Hi Kees,
 
-I was referring to entities interested in using Rust for the
-Linux kernel. Not just "using rust". And that interest is coming
-from Google and a few academic institutions AFAICT.
+On Wed, May 05, 2021 at 12:18:04PM -0700, Kees Cook wrote:
+> When CONFIG_ZERO_CALL_USED_REGS is enabled, build the kernel with
+> "-fzero-call-used-regs=used-gpr" (in GCC 11). This option will zero any
+> caller-used register contents just before returning from a function,
+> ensuring that temporary values are not leaked beyond the function
+> boundary. This means that register contents are less likely to be
+> available for side channel attacks and information exposures.
+> 
+> Additionally this helps reduce the number of useful ROP gadgets in the
+> kernel image by about 20%:
+> 
+> $ ROPgadget.py --nosys --nojop --binary vmlinux.stock | tail -n1
+> Unique gadgets found: 337245
+> 
+> $ ROPgadget.py --nosys --nojop --binary vmlinux.zero-call-regs | tail -n1
+> Unique gadgets found: 267175
+> 
+> and more notably removes simple "write-what-where" gadgets:
+> 
+> $ ROPgadget.py --ropchain --binary vmlinux.stock | sed -n '/Step 1/,/Step 2/p'
+> - Step 1 -- Write-what-where gadgets
+> 
+>         [+] Gadget found: 0xffffffff8102d76c mov qword ptr [rsi], rdx ; ret
+>         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+>         [+] Gadget found: 0xffffffff8104d7c8 pop rdx ; ret
+>         [-] Can't find the 'xor rdx, rdx' gadget. Try with another 'mov [reg], reg'
+> 
+>         [+] Gadget found: 0xffffffff814c2b4c mov qword ptr [rsi], rdi ; ret
+>         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+>         [+] Gadget found: 0xffffffff81001e51 pop rdi ; ret
+>         [-] Can't find the 'xor rdi, rdi' gadget. Try with another 'mov [reg], reg'
+> 
+>         [+] Gadget found: 0xffffffff81540d61 mov qword ptr [rsi], rdi ; pop rbx ; pop rbp ; ret
+>         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+>         [+] Gadget found: 0xffffffff81001e51 pop rdi ; ret
+>         [-] Can't find the 'xor rdi, rdi' gadget. Try with another 'mov [reg], reg'
+> 
+>         [+] Gadget found: 0xffffffff8105341e mov qword ptr [rsi], rax ; ret
+>         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+>         [+] Gadget found: 0xffffffff81029a11 pop rax ; ret
+>         [+] Gadget found: 0xffffffff811f1c3b xor rax, rax ; ret
+> 
+> - Step 2 -- Init syscall number gadgets
+> 
+> $ ROPgadget.py --ropchain --binary vmlinux.zero* | sed -n '/Step 1/,/Step 2/p'
+> - Step 1 -- Write-what-where gadgets
+> 
+>         [-] Can't find the 'mov qword ptr [r64], r64' gadget
+> 
+> In parallel build tests, this has a less than 1% performance impact,
+> and grows the image size less than 1%:
+> 
+> $ size vmlinux.stock vmlinux.zero-call-regs
+>    text    data     bss     dec     hex filename
+> 22437676   8559152 14127340 45124168 2b08a48 vmlinux.stock
+> 22453184   8563248 14110956 45127388 2b096dc vmlinux.zero-call-regs
 
-Yours,
-Linus Walleij
+FWIW, I gave this a go on arm64, and the size increase is a fair bit
+larger:
+
+| [mark@lakrids:~/src/linux]% ls -l Image* 
+| -rw-r--r-- 1 mark mark 31955456 May  6 13:36 Image.stock
+| -rw-r--r-- 1 mark mark 33724928 May  6 13:23 Image.zero-call-regs
+
+| [mark@lakrids:~/src/linux]% size vmlinux.stock vmlinux.zero-call-regs 
+|    text    data     bss     dec     hex filename
+| 20728552        11086474         505540 32320566        1ed2c36 vmlinux.stock
+| 22500688        11084298         505540 34090526        2082e1e vmlinux.zero-call-regs
+
+The Image is ~5.5% bigger, and the .text in the vmlinux is ~8.5% bigger
+
+The resulting Image appears to work, but I haven't done anything beyond
+booting, and I wasn't able to get ROPgadget.py going to quantify the
+number of gadgets.
+
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Makefile                   |  5 +++++
+>  security/Kconfig.hardening | 17 +++++++++++++++++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 31dcdb3d61fa..810600618490 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -811,6 +811,11 @@ KBUILD_CFLAGS	+= -ftrivial-auto-var-init=zero
+>  KBUILD_CFLAGS	+= -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+>  endif
+>  
+> +# Clear used registers at func exit (to reduce data lifetime and ROP gadgets).
+> +ifdef CONFIG_ZERO_CALL_USED_REGS
+> +KBUILD_CFLAGS	+= -fzero-call-used-regs=used-gpr
+> +endif
+> +
+>  DEBUG_CFLAGS	:=
+>  
+>  # Workaround for GCC versions < 5.0
+> diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+> index 269967c4fc1b..85f7f2036725 100644
+> --- a/security/Kconfig.hardening
+> +++ b/security/Kconfig.hardening
+> @@ -217,6 +217,23 @@ config INIT_ON_FREE_DEFAULT_ON
+>  	  touching "cold" memory areas. Most cases see 3-5% impact. Some
+>  	  synthetic workloads have measured as high as 8%.
+>  
+> +config CC_HAS_ZERO_CALL_USED_REGS
+> +	def_bool $(cc-option,-fzero-call-used-regs=used-gpr)
+> +
+> +config ZERO_CALL_USED_REGS
+> +	bool "Enable register zeroing on function exit"
+> +	depends on CC_HAS_ZERO_CALL_USED_REGS
+> +	help
+> +	  At the end of functions, always zero any caller-used register
+> +	  contents. This helps ensure that temporary values are not
+> +	  leaked beyond the function boundary. This means that register
+> +	  contents are less likely to be available for side channels
+> +	  and information exposures. Additionally, this helps reduce the
+> +	  number of useful ROP gadgets by about 20% (and removes compiler
+> +	  generated "write-what-where" gadgets) in the resulting kernel
+> +	  image. This has a less than 1% performance impact on most
+> +	  workloads, and grows the image size less than 1%.
+
+I think the numbers need an "on x86" caveat, since they're not
+necessarily representative of other architectures.
+
+This shows up under the "Memory initialization" sub-menu, but I assume
+it was meant to be directly under the "Kernel hardening options" menu...
+
+> +
+>  endmenu
+
+... and should presumably be here?
+
+Thanks,
+Mark.
+
+>  
+>  endmenu
+> -- 
+> 2.25.1
+> 
