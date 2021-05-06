@@ -2,99 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23A2C3754D9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 15:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 660583756B7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 17:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234272AbhEFNib (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 May 2021 09:38:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        id S235517AbhEFPZx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 May 2021 11:25:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbhEFNiW (ORCPT
+        with ESMTP id S235415AbhEFPZ3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 May 2021 09:38:22 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 257EBC061761;
-        Thu,  6 May 2021 06:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=NeEyq+p8Nc+GBmAF6vn7qCJuLlX2xlC2AIuuNvNNw7U=; b=kptLlUAG+ouolnYzpiqg4I+OOY
-        usaRYODDtbGJJTUBzflt2+9yTkl7Fbqqz/Hwe/g8MEyMQkJgHUB0A+iRlxy+mo0Vt10ufPkqMLF20
-        DAj1UzKEn9xFVK4k0zWiSLx5Ak3KYpjkdGXRVtvqkHmpAXoIP4f0jlQxNEsDS2YcfU7FWWqsU1N89
-        tgHDDABLSJQhqBol1AHQQqNcCvZQRO8526LTzthP5pg9OnhaDqcuON+Y7HIglz7jUx0jiH9MDYhiv
-        0CHVipcFUqHFpn9cHWf1C95bEV9PDzooDkdR2rElveHjnWGiLiH7hJe7fddirjwiwgooccfmYNfld
-        ANhZVFrA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1leeAx-001lX9-8j; Thu, 06 May 2021 13:36:47 +0000
-Date:   Thu, 6 May 2021 14:36:23 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     linux-efi <linux-efi@vger.kernel.org>, debian-efi@lists.debian.org,
-        debian-kernel@lists.debian.org, efi@lists.einval.com,
-        mjg59@srcf.ucam.org, Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] builddeb: Support signing kernels with a Machine Owner
- Key
-Message-ID: <20210506133623.GB388843@casper.infradead.org>
-References: <20210506115813.397657-1-willy@infradead.org>
- <CAMj1kXFPofJoXVhNribrNhf7ReUvcj_hpox020gboncpj5EPpA@mail.gmail.com>
+        Thu, 6 May 2021 11:25:29 -0400
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908D6C061763
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 May 2021 08:24:30 -0700 (PDT)
+Received: by mail-ua1-x935.google.com with SMTP id i5so1829018uap.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 06 May 2021 08:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=DJDV+Y41njtBMouQ+LQv+c2L8v93bl/qtqGa2Hrunps=;
+        b=L/NeYozpGRw7NEpDniP9aOEglMgGi4bI4ZO9OL3pMnvAvRlPhh3ldrMkfeFV1+Fr0/
+         vOnznaeU22p6OM+K85zL/ezkIUEst9ZuEnDstZWsA51hLw+MnBZ+HlHPgabAToAGHdgb
+         OfzceoV7I9oiSRQvcXv06jHeHHB0f2y1FS+e/yGQ/QD4ZbtotNae5XUOMMFOqUr3Kv6b
+         h3WkbAP9MkRvPQV9/IBHyCkUwM7kjf/ke2VD1VX6kk9o57uOM1F8pj67cC8+uKDtDVQY
+         ijF5NThoF5kw1mCmwimR4fVVur/8vSmLv8pdIyqnWNLEebZebcFHYZiTG0YWnoEIqbWn
+         j2dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=DJDV+Y41njtBMouQ+LQv+c2L8v93bl/qtqGa2Hrunps=;
+        b=C5iOoBR9fl2lyXO3Ku6jAg0bCCtirj1Zqd7vRKPXUAWZ9YK2YUoqPW2Wj4WsWc64q6
+         PYab2l9V4Njnpql6y70cJBZfwVpb6jGKCMkElRu2UeyrGvvv/lFTjy+XTxJ9eBg9+/R+
+         /X3UYOxZ4zyXvBYFDy7Dm0FQnd2E+24+xv2fhmagiLB2d+X8bhfYatb+/Zq4bEhfQH7T
+         SoyVYQATi2LcOii67I3qngMcXgDeac7h6AMw2AbCdNH2fGnMn1eSbQBFNhQe4Q86sRCB
+         /T6T1ruf7xBUNPLYCDf4dBPVPp/Jma9Fv+bYO5P17YAeEm7JxQGi/4YDRy+aXnahJwyj
+         Enww==
+X-Gm-Message-State: AOAM530tWWZRtKOB3yOSAP4vNR3ZwxnuPRP/b7aW2GgleGr3Q5rDP+SM
+        jvTkLBwK0Y7xmDbImYdiWDiQV17AjWrhOWmJMwc=
+X-Google-Smtp-Source: ABdhPJxoyGYb9LgntCs7kE8ELfy7uFhW6DZYeFbM/xE3Mwom2rTYVFVXJ8HPe7udfh/i8VNkkR9eqhr4NeHIxPe1o5U=
+X-Received: by 2002:ab0:6d9a:: with SMTP id m26mr4391981uah.53.1620314669781;
+ Thu, 06 May 2021 08:24:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXFPofJoXVhNribrNhf7ReUvcj_hpox020gboncpj5EPpA@mail.gmail.com>
+Received: by 2002:a1f:a44f:0:0:0:0:0 with HTTP; Thu, 6 May 2021 08:24:28 -0700 (PDT)
+Reply-To: 12345officialnicole@gmail.com
+From:   Official <queenjennifer000@gmail.com>
+Date:   Thu, 6 May 2021 15:24:28 +0000
+Message-ID: <CAExHHwn8JChQ-75vRnakBRaNRnkBXyp7zFR9dhXFKXxa7pa_vg@mail.gmail.com>
+Subject: =?UTF-8?B?6ri06riJ7ZWcIOuLteuzgCDrtoDtg4Hrk5zrpr3ri4jri6QuLi7nt4rmgKXjga7ov5Q=?=
+        =?UTF-8?B?5L+h44KS44GK6aGY44GE44GX44G+44GZ?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 06, 2021 at 02:01:53PM +0200, Ard Biesheuvel wrote:
-> On Thu, 6 May 2021 at 14:00, Matthew Wilcox (Oracle)
-> <willy@infradead.org> wrote:
-> >
-> > If the config file specifies a signing key, use it to sign
-> > the kernel so that machines with SecureBoot enabled can boot.
-> > See https://wiki.debian.org/SecureBoot
-> >
-> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > ---
-> >  scripts/package/builddeb | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> > index 91a502bb97e8..4fa6ff2b5cac 100755
-> > --- a/scripts/package/builddeb
-> > +++ b/scripts/package/builddeb
-> > @@ -147,7 +147,15 @@ else
-> >         cp System.map "$tmpdir/boot/System.map-$version"
-> >         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
-> >  fi
-> > -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
-> > +
-> > +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
-> > +if is_enabled CONFIG_MODULE_SIG; then
-> 
-> Shouldn't this be conditional on CONFIG_EFI as well?
-
-Maybe!  We're a long way outside my area of expertise.  I'm just chuffed
-I thought of using cut -d\" -f2.
-
-There should probably also be something conditional on sbsign actually
-being in $PATH, I guess?
-
-And I wasn't sure about putting all of this in builddeb -- does make
-rpm-pkg already have its own way of doing the same thing, or should this
-be somewhere more generic?
-
-> > +       cert=$srctree/$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
-> > +       key=${cert%pem}priv
-> > +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
-> > +else
-> > +       cp "$vmlinux" "$tmpdir/$installed_image_path"
-> > +fi
-> >
-> >  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
-> >         # Only some architectures with OF support have this target
-> > --
-> > 2.30.2
-> >
+My good friend, I hope you're doing well =E2=80=98=E2=80=98and'' did you re=
+ceive my
+previous e-mail?  I have something important and profitable to discuss
+with you, I would like to visit your country as soon as possible,
+please reply to this email for more details about myself.
+Regards
+Ms. Official Nicole
