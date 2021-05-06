@@ -2,89 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52B58375365
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 14:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EE3D37540C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 May 2021 14:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231765AbhEFMDE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 May 2021 08:03:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51656 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231560AbhEFMDD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 May 2021 08:03:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BCB0A613D6;
-        Thu,  6 May 2021 12:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620302525;
-        bh=5Gzv1EgP8ugr8VkNQhYuP2JYCLcGm/i2fZly2+DmE+s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZM/C0q2gf2Lqooa0S0tIY/F9qaoR3z5P5rLVOuPRDs1rLPeG5XTVgYQJ+oiJLBRht
-         yTsnLbyyN03YtCHad+9m7fReN9mX8XesR6J/V4YUNoE7aC+O48s74f8pDBTAA6om+s
-         f9CSHcjXRnADEF3e3niACWCrMc6ndgnwbe9CdTGBDnagaIei0kH5/A/Aw4dk7m4ObK
-         HjSxgNA5Kk7tm65mbJXiaqvVEZP4SEZtkx5W07JYYOp+G/jeLKuaCTyzoD7Ae3fbXQ
-         GwZ4GW81FQ1QMHva+tkf2pPUHFfHI7YHzIoJZ2kY+HrM9PZfI9ixZNNvilx8MFLUk8
-         22aAntxT3XM1Q==
-Received: by mail-oi1-f177.google.com with SMTP id m13so5222452oiw.13;
-        Thu, 06 May 2021 05:02:05 -0700 (PDT)
-X-Gm-Message-State: AOAM530Kd88UITi7ZAGSkrXTTlJbfe5UoViI7ykmAvA/+cz4IIZLWwaw
-        0amBq4NzQFTow6aZnFu1ivtKTT9wVYExkwY2c8I=
-X-Google-Smtp-Source: ABdhPJxBqThxkLMkWoBTe7tUxQnHa0Y+jGsCXBVnCURHb+YxWKBmCyBZBelHDQGTkbGVW+KKW0gzug14b7Xpj/tX5Z8=
-X-Received: by 2002:aca:e142:: with SMTP id y63mr2839986oig.33.1620302524970;
- Thu, 06 May 2021 05:02:04 -0700 (PDT)
+        id S231582AbhEFMsz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 May 2021 08:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229769AbhEFMsy (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 6 May 2021 08:48:54 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93EFAC061574
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 May 2021 05:47:56 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id c11so7578033lfi.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 06 May 2021 05:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QzEhbEsMPT0RAPd1e91T+mtb6uxkgCOagogsHHD+eZ8=;
+        b=Ks4nME/nPDpiuCR59p2B2xWzX2AYOmCJzm4REQpSn4ozFkIMOPSUaWXVEwcPIc4xyQ
+         /h/8FA83Pe63a9B4OsKLVtiF+oz11lDf0JTY0Nrd9qrebslmObz5Ypz0Gz1hTRDzKP2j
+         VqxNzfQVUd8RPj/vo9zPpRYyZSk4aFNGAgziomJb2ZrXcFnaEFbVdi4BRH2/5cHXHWkt
+         lp9+3khZACAlWA5W6hz3CYTVxwHDfHI9CGl1MoHyCeKD8UrE3WcIrz9uSDezslqePeqc
+         wV081/jHVKrG2qYS+BZVI099G5yt3aR4TATmjDcF4wJ3EMrnwEPL5Emo1GkHIqM9iFxK
+         zw+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QzEhbEsMPT0RAPd1e91T+mtb6uxkgCOagogsHHD+eZ8=;
+        b=f8qHafGTduCvqMIh0F9KOP6NE+gJfWgLk0Yd7su8JyJUDhdCncfs1EadGMoDRjPeFx
+         caWEMK2p1s2fPVBBcOeB77fnzVi+qexSu/4vTq8ouEJbFCwi9jbCZ0mF6uCEmbfot5w9
+         Hl450XTMMmHwTy8X6s2K/SjEwdDlP8Y4+0OMQbAEcsfAX/RWHcNVAzeIQtAFXhF5QiYv
+         CM7RR6feC8h/GktdnfnqFcuP3ZAewQFufdeRT8ILq81OQvO03LvP6I26fyA8E/eQoeCN
+         /rxwHQa7fab6dAEd92TmBJY0KqrtV9f1wntQPcVin+H7tAUlAneHvV9zcp1fV4G7RGia
+         Hz6g==
+X-Gm-Message-State: AOAM532J8DMBVdyepoDUKtCHNGxoBqHGtYK1gorUA0qLA+U4FY6NgEM5
+        3Bl3rod47o90n669lwJ63Q2HBUl/OneXk4ijpCxWbA==
+X-Google-Smtp-Source: ABdhPJwJSNb8W1vk/3K2xi7xKhIaQoHWBzIq30udueCYblsY75ozgEgTP9kUERq+loNLHdEeI4qZI/JWoOzp/xuldN4=
+X-Received: by 2002:ac2:544f:: with SMTP id d15mr2712552lfn.465.1620305275123;
+ Thu, 06 May 2021 05:47:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210506115813.397657-1-willy@infradead.org>
-In-Reply-To: <20210506115813.397657-1-willy@infradead.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 6 May 2021 14:01:53 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFPofJoXVhNribrNhf7ReUvcj_hpox020gboncpj5EPpA@mail.gmail.com>
-Message-ID: <CAMj1kXFPofJoXVhNribrNhf7ReUvcj_hpox020gboncpj5EPpA@mail.gmail.com>
-Subject: Re: [PATCH] builddeb: Support signing kernels with a Machine Owner Key
-To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc:     linux-efi <linux-efi@vger.kernel.org>, debian-efi@lists.debian.org,
-        debian-kernel@lists.debian.org, efi@lists.einval.com,
-        mjg59@srcf.ucam.org, Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
+ <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
+ <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
+ <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
+ <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
+ <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
+ <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
+ <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
+ <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com> <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
+In-Reply-To: <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 6 May 2021 14:47:43 +0200
+Message-ID: <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 6 May 2021 at 14:00, Matthew Wilcox (Oracle)
-<willy@infradead.org> wrote:
+On Wed, May 5, 2021 at 4:17 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> On Wed, May 5, 2021 at 1:34 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> >
+> > Right now it seems like those organizations and companies
+> > would be some academic institutions who like rust (because they
+> > study languages and compilers) and Google. But that is a
 >
-> If the config file specifies a signing key, use it to sign
-> the kernel so that machines with SecureBoot enabled can boot.
-> See https://wiki.debian.org/SecureBoot
->
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  scripts/package/builddeb | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 91a502bb97e8..4fa6ff2b5cac 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -147,7 +147,15 @@ else
->         cp System.map "$tmpdir/boot/System.map-$version"
->         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
->  fi
-> -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
-> +
-> +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
-> +if is_enabled CONFIG_MODULE_SIG; then
+> Note that there are quite a few major private players already
+> involved, not just Google! e.g.
 
-Shouldn't this be conditional on CONFIG_EFI as well?
+I was referring to entities interested in using Rust for the
+Linux kernel. Not just "using rust". And that interest is coming
+from Google and a few academic institutions AFAICT.
 
-> +       cert=$srctree/$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
-> +       key=${cert%pem}priv
-> +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
-> +else
-> +       cp "$vmlinux" "$tmpdir/$installed_image_path"
-> +fi
->
->  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
->         # Only some architectures with OF support have this target
-> --
-> 2.30.2
->
+Yours,
+Linus Walleij
