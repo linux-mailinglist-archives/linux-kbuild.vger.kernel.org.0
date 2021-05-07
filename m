@@ -2,93 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F3B13769EF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 May 2021 20:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05788376CAC
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 May 2021 00:26:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbhEGSYz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 May 2021 14:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbhEGSYz (ORCPT
+        id S229946AbhEGW1h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 May 2021 18:27:37 -0400
+Received: from bosmailout01.eigbox.net ([66.96.190.1]:36027 "EHLO
+        bosmailout01.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGW1h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 May 2021 14:24:55 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38675C061574;
-        Fri,  7 May 2021 11:23:55 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id v188so13114135ybe.1;
-        Fri, 07 May 2021 11:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iQl3KwkW0S0op9RGJzgj75C3Xc1gHhg/kbxv4NJL6hU=;
-        b=BLjEoo2bOaGm1oezp4g0stT4NXZFZYMgZShX3ZUoAfASJE+Vn5FqYKTHlRpKYRJjom
-         8uxLJjZ/vo10ZPN1l3y/Bxz6VGVdJ0iCD4ziGDMtjkKTGktx/XM4i9twXYTxcp9NY4gD
-         gDnTiCNRMvL2ZD3XX7yGJKF3gBFyEDupC/L9EC7BFNBBDvX7ya8kz5arIjbwv+/VuieW
-         yPWIuPUQzcEBMxmrgPJFa2JHQcVCGL/XLr3eryev9qZDwhh0Lspk7b7R6rrzKuj9ltbo
-         riNgs524FWof0SBOpUsDaRffEYFjEgcv1sPaUr4uhyN3ONSGzxb9myXu839Sg2zw2yAb
-         24UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iQl3KwkW0S0op9RGJzgj75C3Xc1gHhg/kbxv4NJL6hU=;
-        b=X78ox/+q8qLAhfYJV7u7kk+6/6pnB8liWOvoxnBcZvxFmCb4y4mXxQN9TyMu0l8VtO
-         0CwRbfztgOqLWlWjku00uiiUoVBdmc6HJoZCg4k2PEER4HBQlqV7pKNon7vjp/bJB5zk
-         s1GKHB5LzjNZA0QRmRBaTFa7SH5854jHDts6+vzea1EppikGGL6k9e9ApOlhsZPTV9+6
-         xp3zFOng4H5hOTD13trGY+GhYMMn2TBWrgJOZeIC7dC2Y2gdNhQRRQAGu2J+rakzzjK2
-         2pg6s24pr0vrmf1erhSVm8abcFKDUYUXWM1uDzZM44vYCgc/cbd3RuC2aN/Wc4JQvHIW
-         l+UQ==
-X-Gm-Message-State: AOAM531/7AThXdpAn++G0VawDG39xXDgExlI8VZwHXCRzVzxMYBpF9LF
-        cZixVMUunvyCCPqPlTBbGNwR5ea/2HXurlzOEsg=
-X-Google-Smtp-Source: ABdhPJz2zQM9Cq/d1NG9Xbcput7Bzhx9cumExs2uctjgSfmYiPWMI4RU3fRlKAkXQU6A5I30/dCbOdlTpmWADwNOmik=
-X-Received: by 2002:a25:442:: with SMTP id 63mr269510ybe.93.1620411834534;
- Fri, 07 May 2021 11:23:54 -0700 (PDT)
+        Fri, 7 May 2021 18:27:37 -0400
+X-Greylist: delayed 1929 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:27:30 EDT
+Received: from bosmailscan09.eigbox.net ([10.20.15.9])
+        by bosmailout01.eigbox.net with esmtp (Exim)
+        id 1lf8QO-00068o-JJ; Fri, 07 May 2021 17:54:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=bjgKomV6NO5Eg5D3qsCBps1llx
+        tj4k2teSfIdfo/duBtOSoC/FW1+C1nXiYJbrvf2JDobx8fDCsgnxHFoPWOCb5eI+OJOIgvnnfKlpl
+        ZqidIuDnjEPTMao1vFwrg6M9FUKU/cz6TT5/KN4ccsk+aQli3Wgs3G1cQz5vdbC1Y2SXULFY8Mu2t
+        1PShwmiDRn71EPzgUHUVu0GG39z6uSTEuRgOXhiNl9ekuZ5QXUAEykoocvC5/DkORRmERAA91o1HY
+        Sl76pPWw9UBVGbuFbfdVPfVcFxJM5xZDrmgt6uCf9J+dn/n7LFOSOxBaL9svxxYdhOkJwdz4uh075
+        2gI+xJSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan09.eigbox.net with esmtp (Exim)
+        id 1lf8QO-0003aD-AI; Fri, 07 May 2021 17:54:20 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuH2500407qujN01xuLVi; Fri, 07 May 2021 17:54:20 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8QL-0006fx-UG; Fri, 07 May 2021 17:54:17 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:54:17 -0400
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHj02M3jMSweoP4l@google.com> <CACRpkdat8bny=D2mAsUXcDQvFJ=9jSZSccMMZzH=10dHQ_bXrQ@mail.gmail.com>
- <CANiq72niCj9SfPhfQBMtxF+jth--cXdPQtUo5jhDDJgL6DTXZQ@mail.gmail.com>
- <CACRpkdarfkA1P0ERCXHSA=6VTBn6FXgOxB8haneQtN_4-tyQ0w@mail.gmail.com>
- <CANiq72=VA_cH9yw_LZr3P+n1AsQEEhtY4xdk76jHgimTufHRsQ@mail.gmail.com>
- <CACRpkdYodGnURuaYMBwVAY=8bU0PQoPAvTp34uYksPFmxBsT2A@mail.gmail.com>
- <CANiq72m9V3dVG59jAoR-OM+7QtJauQgrix3DZkw=oCuaaf3H5w@mail.gmail.com>
- <CACRpkdYzqy69G1Fpj4rFQFS+mYmpbQAzTszwCUBuEhe4YW4cuQ@mail.gmail.com>
- <CANiq72k+x13L+sFkjtDLahcvnpEySqk_NGow6FVMZfrV+MmHPw@mail.gmail.com>
- <CACRpkdbNv4O7zs0OpZhWa2fkXkF5arQgDOF9++zKvr+yB5yk_w@mail.gmail.com>
- <CANiq72njjiovAecf5pJGAuyJB8sEZ_fO92FNDZ7rH6YQSffqrw@mail.gmail.com> <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
-In-Reply-To: <CACRpkdYpM=38K2WLS-+R2OhWweO8Q9SFndgGC2Py7uBjjxNdAA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 7 May 2021 20:23:43 +0200
-Message-ID: <CANiq72mofJ4gR6kV3qeuRZO_CAkAYvwy616wuWkK5aD32ARnAg@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Fri, 07 May 2021 21:54:17 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
+To:     undisclosed-recipients:;
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <36acfe805efde59f3f399df1324ce6b9@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 6, 2021 at 2:47 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> I was referring to entities interested in using Rust for the
-> Linux kernel. Not just "using rust". And that interest is coming
-> from Google and a few academic institutions AFAICT.
 
-There is interest from a handful of major companies in using Rust for
-the Linux kernel. For instance, we had a few present in our latest
-informal call.
 
-I am also aware of at least two having or looking to
-have someone working on testing the waters of what we have done so
-far for their use cases.
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
 
-Cheers,
-Miguel
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
+
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
+
+With kind regards
+Mrs Suzara Maling Wan
