@@ -2,261 +2,213 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A58EF37776D
-	for <lists+linux-kbuild@lfdr.de>; Sun,  9 May 2021 17:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CF6378FB2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 May 2021 15:54:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbhEIPwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 9 May 2021 11:52:37 -0400
-Received: from mail-eopbgr60075.outbound.protection.outlook.com ([40.107.6.75]:5799
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229679AbhEIPwg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 9 May 2021 11:52:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SBqFgXPZggu1yoGMMolaX5R7vOYdTtro5Cr3F0NnaIPSkZoEjcHkKSxEqGkrS4zl1kybLi2gHa66T7ruSCB6POcmUoNC11+rJctXqWyhIU0qrVjFULyaK5MfJjuGbewqFP/t676jJNh17cavOOOJdaOT3sfacxACORvWp6rTvdJaN1GdAcmkVPJ59gdoBcYy5YlDYC9i8DDQVEVhowKBlmy4afsx83/mL7TDypDbbfpI2k47Ti0sZARXO7aPYOuYTUNPTsc4s5dBZl2JX07rImv/WkvvhwL444dcmFueTNvGAonN9HzulRKr6zlVuBG7Fby5nNkoEdyHPd10Uk5wIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWedC1kmoQKO75u4ch3N5wlWd2r120/k2AbuiO1VeWc=;
- b=UxXi83JovyyVPQWe6art0sm/Z4u3+4lm9vaxaMYo8gY1Bi/aR0FZuSBUpoc+t5pVulvisTCAXnccv1whLvWJNnTMqgaS5F2acpkGBo4NAoPBZ0NxRlOKVmTmkqHT0Y9zhx4iTxkkm1/hj0H7RpKOSi0OrBTdcSIa+aDkGqvpeg64U4LR8F4IQHqhwWvHTQeYr/YcxNtmFfhQcov8bnKvrS2eBimYF1OAfha3KJeSsliNQFIHAr6XjjtL/tnZ964LBayKHyvJ24FEJMyEvH5LWirY9Z7hXf28mYBN2uXkRV/gEyqyPXgky2rVI90pQcT333sUY8jrdfMdRrTczBCIJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=t2data.com; dmarc=pass action=none header.from=t2data.com;
- dkim=pass header.d=t2data.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=t2datacom.onmicrosoft.com; s=selector1-t2datacom-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWedC1kmoQKO75u4ch3N5wlWd2r120/k2AbuiO1VeWc=;
- b=PpTs2PerOxbCdCrJKN5SjmNyzzWUEcd6L8KnH287JteYQPskkfbmIa3wjnvypfTJiEXtRbfYIu17KN99OxnKNqW1YBcdovWu8WHUSJ8Qgp0fbD0EPymfY1DsW3tJxwltScvPteC/VRaygE6vjQeso1AUvywXZgtqricyvyoU6Gw=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=t2data.com;
-Received: from HE1PR0602MB2858.eurprd06.prod.outlook.com (2603:10a6:3:da::10)
- by HE1PR0601MB2073.eurprd06.prod.outlook.com (2603:10a6:3:26::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Sun, 9 May
- 2021 15:51:31 +0000
-Received: from HE1PR0602MB2858.eurprd06.prod.outlook.com
- ([fe80::409f:a235:de54:364e]) by HE1PR0602MB2858.eurprd06.prod.outlook.com
- ([fe80::409f:a235:de54:364e%8]) with mapi id 15.20.4108.031; Sun, 9 May 2021
- 15:51:31 +0000
-From:   Christian Melki <christian.melki@t2data.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Christian Melki <christian.melki@t2data.com>
-Subject: [PATCH kconfig] Add annotation symbol to configuration handling.
-Date:   Sun,  9 May 2021 17:51:38 +0200
-Message-Id: <20210509155138.24670-1-christian.melki@t2data.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [81.234.39.46]
-X-ClientProxiedBy: HE1PR05CA0139.eurprd05.prod.outlook.com
- (2603:10a6:7:28::26) To HE1PR0602MB2858.eurprd06.prod.outlook.com
- (2603:10a6:3:da::10)
+        id S237215AbhEJNww (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 May 2021 09:52:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:58754 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242460AbhEJNqk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 10 May 2021 09:46:40 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A49B71688;
+        Mon, 10 May 2021 06:45:34 -0700 (PDT)
+Received: from C02TD0UTHF1T.local (unknown [10.57.4.9])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1548E3F73B;
+        Mon, 10 May 2021 06:45:29 -0700 (PDT)
+Date:   Mon, 10 May 2021 14:45:03 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-hardening@vger.kernel.org, Qing Zhao <qing.zhao@oracle.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH] Makefile: Introduce CONFIG_ZERO_CALL_USED_REGS
+Message-ID: <20210510134503.GA88495@C02TD0UTHF1T.local>
+References: <20210505191804.4015873-1-keescook@chromium.org>
+ <20210506125457.GA34956@C02TD0UTHF1T.local>
+ <202105061416.3CB40BE5@keescook>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from voodoomaster.example.org (81.234.39.46) by HE1PR05CA0139.eurprd05.prod.outlook.com (2603:10a6:7:28::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend Transport; Sun, 9 May 2021 15:51:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d208617b-5238-486f-9059-08d913025091
-X-MS-TrafficTypeDiagnostic: HE1PR0601MB2073:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0601MB207363113EFDABF8476B3855DA559@HE1PR0601MB2073.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CpYnIrhDf69JTcc6ijkraYd+0rhsbRcMLNFoQj97/kOIffXwgwyrprbG0MNg5Gq9x6PvFItiIFrVtM/xIP67yJ62YzIQykHf78qgKQjapGGaJRZC2/6dXdd2XIfqjW2ZF9pw7Iw5pgHawBGMEQ4kzHAIm49U/3EFjoLfcvm6sSTTlbwkpMhNea4wf3Mj7Bp6xbpcqzBf926JDWoMQ+ZpCbIknrJ8qyB/m1XuqRBDh8yOhAFDk/9AvXrScr/hc6luFv01HWldmGLD2uqgefjBdnlc/sk3NABrPIMYgJIiZ3nOTK8Q5mZ1lMsxS86HbeaPrQood6Zf0bKYwdSZrOexFfWiRCQGRu9XUMtE41hNYdvQaQMgGDnXHyvA8PG4JwVlQ0B1DbIDgPaMGBk5+lUphrqJxIBywNWsqygBSDfjJbS7JGe0EQiWtuThJrLlFTe89dwfD1i4cIRe8Gg5uf9mukcjhOzfrfTi1W/aBF2ho6hFl21WePP9g95xm1gg2ZDqS7vb6tYmw/7pdWyPd/IwqK6kDKM1dmKOZ50NDKF8pq2ZLfGRkdUcmX1leT7ATSLbIMbsNJtQlehKU9bXm1RO0gWf9Bzo9N5qFwPwpCiK5AlJczaPsf8zH0Gsi4tJj4u5tiCv+G53TSlxiGN4TuIqMQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB2858.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(39830400003)(376002)(366004)(396003)(42606007)(66946007)(5660300002)(8936002)(16526019)(186003)(2906002)(52116002)(66556008)(66476007)(107886003)(6506007)(4326008)(6916009)(44832011)(478600001)(8676002)(6486002)(86362001)(36756003)(316002)(83380400001)(38100700002)(26005)(1076003)(2616005)(6512007)(956004)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?I2WnSAOhiUvk+B9PZvcUUmJspVveP2ls5O/f25KYz0t2hu2glPFN4sLqkx3B?=
- =?us-ascii?Q?6lDxiGUUuM0NA0pwH+UbiMjdXnv0A0DtKUu9kNtWaWRSz1oxp3HHME5YHUhj?=
- =?us-ascii?Q?lKiyVrkW5iCyiHio6FFqrsEwd6f60Y2Wgzy20NZ2XL+gyzDNVJysYD4A4Mqc?=
- =?us-ascii?Q?Xx0PfS5MfypDu9VUcPAZ4lC4mFOrQ/zo2j7dY5iYrmHZLXWySE8kdxCRm4dE?=
- =?us-ascii?Q?7pf5T54/C5Z8Zh9/oTPIvbSchO9t8GaLdKEGl52xcqv9aTmpvJcjxhJ5d22k?=
- =?us-ascii?Q?CRbuVNbD1mJTc91zKa3PvKxfbUcaWV+gJXPgrDs8M0kDhosC7qjvNxO3dHc9?=
- =?us-ascii?Q?ZjV7tihHQbFMEAw390+iuSHBG7x9ruZZfodOGJHzaaM6BZ3bAJYdR8NgwUrZ?=
- =?us-ascii?Q?VL2p2cW5w4Aw/8Zqh5DtK36lb9O9/CkzRua6C/jkDkGyHYb/0dao1rZf4Ody?=
- =?us-ascii?Q?h+/hh9w4v50o4X94SHmfcOzPphemcvFwFUjFP2fw8QpXbvh6gKwL9xT3q1v/?=
- =?us-ascii?Q?63z4OChaq68pqDldisqpq4I/hLtYfZgp1lIZSaW0wr4kiUzyFHzczehVLp0U?=
- =?us-ascii?Q?Wmx7+eSYB3YwhaR8W1YQGYHyp7+pRZv/dOYdvd/YUj0o112bFdZsgco10KiD?=
- =?us-ascii?Q?IAEKlsjqv2m9InAmH1H5Nu2tMNIZPTLC/k5W67G8fqdqiAZxbx8Kz3eagt1T?=
- =?us-ascii?Q?9tksvNmRv//1iJyJE2WciR/mabeMu8K/RKiJvAbOxGu23wJ+A4iLQzIFokqO?=
- =?us-ascii?Q?wA3x5ExLdms643FMsqP2CLaTWI7Ec2iv5CCUqCCuVpRsVL/2BsfqOOny9pfq?=
- =?us-ascii?Q?xWmThB6lTh9iVxZlIUW1zvNc+hjLjcS+oRbjW8Ch5sJYCUbTq8Tsgh7qYoXL?=
- =?us-ascii?Q?NWdVGiUZc0sRMrhVf8VlzmpkIoWbFVwP7ewTouInPaalYnR1nSW7kJtQp/EQ?=
- =?us-ascii?Q?+0L5bAt2UFOKJcLyueZyVU6BLRKLMhklLq1EOsbCRPfKt7NDy7I0PMleGK27?=
- =?us-ascii?Q?DiopsXx/Y037u0ILXGcbF7xJ/nzZKVW+fBzStnPYSKjO2hgZG03e41lEQRJe?=
- =?us-ascii?Q?seEfZ+A5HHGRIDyro6HMRizC3fYhYkDRErc3oBbcH8v3HSudjoibT90aZjBv?=
- =?us-ascii?Q?VygtgHgx/ua5NLy+R9Q47Ci0P+ROzYJH4M/q2IEmpccmNCzZU1PSLXQQN7Ha?=
- =?us-ascii?Q?G535ndBzIZCNxmtJOeQYSd2YSejy2j2NHh4262fmGkaxBtqyl4EXrgtrPv82?=
- =?us-ascii?Q?aLu+AQq4luFEXMl2fJthVOTs6jxJIfjZSRDEn8dpyEtUhBvE6gPJrSutu+3e?=
- =?us-ascii?Q?nWz00YpqTKvBKV7lLfEV7FOP?=
-X-OriginatorOrg: t2data.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d208617b-5238-486f-9059-08d913025091
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0602MB2858.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2021 15:51:31.3454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 27928da5-aacd-4ba1-9566-c748a6863e6c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UFhear93kzp4jSstDcxVH0Qx+op/+eGKGgLwYmkKpeR0GJFgdza6ZGkbL4qucdomfBWyoMZ6kB89IBBqpDWeoMvVlA+40vWKRwiNPSinahM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0601MB2073
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202105061416.3CB40BE5@keescook>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-While maintaining various projects and kernels, I've often found myself
-thinking "Why is this selected / configured?".
+On Thu, May 06, 2021 at 02:24:18PM -0700, Kees Cook wrote:
+> On Thu, May 06, 2021 at 01:54:57PM +0100, Mark Rutland wrote:
+> > Hi Kees,
+> > 
+> > On Wed, May 05, 2021 at 12:18:04PM -0700, Kees Cook wrote:
+> > > When CONFIG_ZERO_CALL_USED_REGS is enabled, build the kernel with
+> > > "-fzero-call-used-regs=used-gpr" (in GCC 11). This option will zero any
+> > > caller-used register contents just before returning from a function,
+> > > ensuring that temporary values are not leaked beyond the function
+> > > boundary. This means that register contents are less likely to be
+> > > available for side channel attacks and information exposures.
+> > > 
+> > > Additionally this helps reduce the number of useful ROP gadgets in the
+> > > kernel image by about 20%:
+> > > 
+> > > $ ROPgadget.py --nosys --nojop --binary vmlinux.stock | tail -n1
+> > > Unique gadgets found: 337245
+> > > 
+> > > $ ROPgadget.py --nosys --nojop --binary vmlinux.zero-call-regs | tail -n1
+> > > Unique gadgets found: 267175
+> > > 
+> > > and more notably removes simple "write-what-where" gadgets:
+> > > 
+> > > $ ROPgadget.py --ropchain --binary vmlinux.stock | sed -n '/Step 1/,/Step 2/p'
+> > > - Step 1 -- Write-what-where gadgets
+> > > 
+> > >         [+] Gadget found: 0xffffffff8102d76c mov qword ptr [rsi], rdx ; ret
+> > >         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+> > >         [+] Gadget found: 0xffffffff8104d7c8 pop rdx ; ret
+> > >         [-] Can't find the 'xor rdx, rdx' gadget. Try with another 'mov [reg], reg'
+> > > 
+> > >         [+] Gadget found: 0xffffffff814c2b4c mov qword ptr [rsi], rdi ; ret
+> > >         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+> > >         [+] Gadget found: 0xffffffff81001e51 pop rdi ; ret
+> > >         [-] Can't find the 'xor rdi, rdi' gadget. Try with another 'mov [reg], reg'
+> > > 
+> > >         [+] Gadget found: 0xffffffff81540d61 mov qword ptr [rsi], rdi ; pop rbx ; pop rbp ; ret
+> > >         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+> > >         [+] Gadget found: 0xffffffff81001e51 pop rdi ; ret
+> > >         [-] Can't find the 'xor rdi, rdi' gadget. Try with another 'mov [reg], reg'
+> > > 
+> > >         [+] Gadget found: 0xffffffff8105341e mov qword ptr [rsi], rax ; ret
+> > >         [+] Gadget found: 0xffffffff81000cf5 pop rsi ; ret
+> > >         [+] Gadget found: 0xffffffff81029a11 pop rax ; ret
+> > >         [+] Gadget found: 0xffffffff811f1c3b xor rax, rax ; ret
+> > > 
+> > > - Step 2 -- Init syscall number gadgets
+> > > 
+> > > $ ROPgadget.py --ropchain --binary vmlinux.zero* | sed -n '/Step 1/,/Step 2/p'
+> > > - Step 1 -- Write-what-where gadgets
+> > > 
+> > >         [-] Can't find the 'mov qword ptr [r64], r64' gadget
+> > > 
+> > > In parallel build tests, this has a less than 1% performance impact,
+> > > and grows the image size less than 1%:
+> > > 
+> > > $ size vmlinux.stock vmlinux.zero-call-regs
+> > >    text    data     bss     dec     hex filename
+> > > 22437676   8559152 14127340 45124168 2b08a48 vmlinux.stock
+> > > 22453184   8563248 14110956 45127388 2b096dc vmlinux.zero-call-regs
+> > 
+> > FWIW, I gave this a go on arm64, and the size increase is a fair bit
+> > larger:
+> > 
+> > | [mark@lakrids:~/src/linux]% ls -l Image* 
+> > | -rw-r--r-- 1 mark mark 31955456 May  6 13:36 Image.stock
+> > | -rw-r--r-- 1 mark mark 33724928 May  6 13:23 Image.zero-call-regs
+> > 
+> > | [mark@lakrids:~/src/linux]% size vmlinux.stock vmlinux.zero-call-regs 
+> > |    text    data     bss     dec     hex filename
+> > | 20728552        11086474         505540 32320566        1ed2c36 vmlinux.stock
+> > | 22500688        11084298         505540 34090526        2082e1e vmlinux.zero-call-regs
+> > 
+> > The Image is ~5.5% bigger, and the .text in the vmlinux is ~8.5% bigger
+> 
+> Woo, that's quite a bit larger! So much so that I struggle to imagine
+> the delta. That's almost 1 extra instruction for every 10. 
 
-Sometimes I'll find information in a disjunct documentation system or in
-the head of somebody else. But most of the time that piece of
-information is just lost. Configurations get moved from various
-repositories, so that type of disconnected information also gets trashed.
+About 31% of this seems to be due to GCC (almost) always clearing x16
+and x17 (see further down for numbers). I suspect that's because GCC has
+to assume that any (non-static) functions might be reached via a PLT
+which would clobber x16 and x17 with specific values.
 
-It would be nice if the configuration supported some form of simple
-annotation to variable mechanism. Ie, part of the actual config
-(only during read / write) and not just a whashed-away comment.
+We also have a bunch of small functions with multiple returns, where
+each return path gets the full complement of zeroing instructions, e.g.
 
-$ grep ANNOTATE_ .config
-ANNOTATE_CONFIG_TRANSPARENT_HUGEPAGE_MADVISE="Always was causing issues."
-ANNOTATE_CONFIG_HID_SENSOR_HUB="Plus IIO for the Realsense camera support."
-ANNOTATE_CONFIG_HID_SENSOR_ACCEL_3D="Used by Intel Realsense camera."
-ANNOTATE_CONFIG_HID_SENSOR_GYRO_3D="Used by Intel Realsense camera."
+Stock:
 
-Signed-off-by: Christian Melki <christian.melki@t2data.com>
----
- scripts/kconfig/confdata.c | 38 ++++++++++++++++++++++++++++++++++++++
- scripts/kconfig/expr.h     |  9 +++++++++
- scripts/kconfig/lkc.h      | 13 ++++++++++++-
- 3 files changed, 59 insertions(+), 1 deletion(-)
+| <fpsimd_sync_to_sve>:
+|        d503245f        bti     c
+|        f9400001        ldr     x1, [x0]
+|        7209003f        tst     w1, #0x800000
+|        54000040        b.eq    ffff800010014cc4 <fpsimd_sync_to_sve+0x14>  // b.none
+|        d65f03c0        ret
+|        d503233f        paciasp
+|        a9bf7bfd        stp     x29, x30, [sp, #-16]!
+|        910003fd        mov     x29, sp
+|        97fffdac        bl      ffff800010014380 <fpsimd_to_sve>
+|        a8c17bfd        ldp     x29, x30, [sp], #16
+|        d50323bf        autiasp
+|        d65f03c0        ret
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 2568dbe16ed6..8fb198f297d7 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -167,6 +167,7 @@ static int conf_touch_dep(const char *name)
- struct conf_printer {
- 	void (*print_symbol)(FILE *, struct symbol *, const char *, void *);
- 	void (*print_comment)(FILE *, const char *, void *);
-+	void (*print_annotation)(FILE *, struct symbol *, const char *);
- };
- 
- static void conf_warning(const char *fmt, ...)
-@@ -478,6 +479,30 @@ int conf_read_simple(const char *name, int def)
- 			}
- 			if (conf_set_sym_val(sym, def, def_flags, p))
- 				continue;
-+		} else if (!memcmp(line, ANNOTATE_, strlen(ANNOTATE_))) {
-+			p = strchr(line + strlen(ANNOTATE_) + strlen(CONFIG_), '=');
-+			if (!p)
-+				continue;
-+			*p++ = 0;
-+			p2 = strchr(p, '\n');
-+			if (p2) {
-+				*p2-- = 0;
-+				if (*p2 == '\r')
-+					*p2 = 0;
-+			}
-+			sym = sym_find(line + strlen(ANNOTATE_));
-+			if (!sym)
-+				continue;
-+			if (*p++ != '"')
-+				continue;
-+			for (p2 = p; (p2 = strpbrk(p2, "\"\\")); p2++) {
-+				if (*p2 == '"') {
-+					*p2 = 0;
-+					break;
-+				}
-+				memmove(p2, p2 + 1, strlen(p2));
-+			}
-+			sym->annotation.val = xstrdup(p);
- 		} else {
- 			if (line[0] != '\r' && line[0] != '\n')
- 				conf_warning("unexpected data: %.*s",
-@@ -631,10 +656,17 @@ kconfig_print_comment(FILE *fp, const char *value, void *arg)
- 	}
- }
- 
-+static void
-+kconfig_print_annotation(FILE *fp, struct symbol *sym, const char *value)
-+{
-+	fprintf(fp, "%s%s=%s\n", ANNOTATE_, sym->name, value);
-+}
-+
- static struct conf_printer kconfig_printer_cb =
- {
- 	.print_symbol = kconfig_print_symbol,
- 	.print_comment = kconfig_print_comment,
-+	.print_annotation = kconfig_print_annotation,
- };
- 
- /*
-@@ -729,6 +761,12 @@ static void conf_write_symbol(FILE *fp, struct symbol *sym,
- 		str = sym_get_string_value(sym);
- 		printer->print_symbol(fp, sym, str, printer_arg);
- 	}
-+
-+	if (sym->annotation.val) {
-+		str = sym_escape_string_value(sym->annotation.val);
-+		printer->print_annotation(fp, sym, str);
-+		free((void *)str);
-+	}
- }
- 
- static void
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index 5c3443692f34..29e1419b51ef 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -74,6 +74,10 @@ enum {
- 	S_DEF_COUNT
- };
- 
-+struct symbol_annotation {
-+	char *val;
-+};
-+
- /*
-  * Represents a configuration symbol.
-  *
-@@ -103,6 +107,11 @@ struct symbol {
- 	 */
- 	struct symbol_value def[S_DEF_COUNT];
- 
-+	/*
-+	 * Annotation string for symbol.
-+	 */
-+	struct symbol_annotation annotation;
-+
- 	/*
- 	 * An upper bound on the tristate value the user can set for the symbol
- 	 * if it is a boolean or tristate. Calculated from prompt dependencies,
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index bee2413bda63..8caf2fd04be5 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -27,12 +27,23 @@ extern "C" {
- #ifndef CONFIG_
- #define CONFIG_ "CONFIG_"
- #endif
-+#ifndef ANNOTATE_
-+#define ANNOTATE_ "ANNOTATE_CONFIG_"
-+#endif
-+
- static inline const char *CONFIG_prefix(void)
- {
--	return getenv( "CONFIG_" ) ?: CONFIG_;
-+	return getenv("CONFIG_") ?: CONFIG_;
- }
- #undef CONFIG_
-+
- #define CONFIG_ CONFIG_prefix()
-+static inline const char *ANNOTATE_prefix(void)
-+{
-+	return getenv("ANNOTATE_") ?: ANNOTATE_;
-+}
-+#undef ANNOTATE_
-+#define ANNOTATE_ ANNOTATE_prefix()
- 
- enum conf_def_mode {
- 	def_default,
--- 
-2.31.1
+With zero-call-regs:
 
+| <fpsimd_sync_to_sve>:
+|        d503245f        bti     c
+|        f9400001        ldr     x1, [x0]
+|        7209003f        tst     w1, #0x800000
+|        540000c0        b.eq    ffff8000100152a8 <fpsimd_sync_to_sve+0x24>  // b.none
+|        d2800000        mov     x0, #0x0                        // #0
+|        d2800001        mov     x1, #0x0                        // #0
+|        d2800010        mov     x16, #0x0                       // #0
+|        d2800011        mov     x17, #0x0                       // #0
+|        d65f03c0        ret
+|        d503233f        paciasp
+|        a9bf7bfd        stp     x29, x30, [sp, #-16]!
+|        910003fd        mov     x29, sp
+|        97fffd17        bl      ffff800010014710 <fpsimd_to_sve>
+|        a8c17bfd        ldp     x29, x30, [sp], #16
+|        d50323bf        autiasp
+|        d2800000        mov     x0, #0x0                        // #0
+|        d2800001        mov     x1, #0x0                        // #0
+|        d2800010        mov     x16, #0x0                       // #0
+|        d2800011        mov     x17, #0x0                       // #0
+|        d65f03c0        ret
+
+... where we go from 12 instructions to 20, which is a ~67% bloat.
+
+> I don't imagine functions are that short. There seem to be only r9..r15 as
+> call-used.
+
+We have a bunch of cases like the above. Also note that per the AAPCS a
+function can clobber x0-17 (and x18 if it's not reserved for something
+like SCS), and I see a few places that clobber x1-x17.
+
+> Even if every one was cleared at every function exit (28
+> bytes), that implies 63,290 functions, with an average function size of
+> 40 instructions?
+
+I generated some (slightly dodgy) numbers by grepping the output of
+objdump:
+
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.stock | wc -l                                
+3979677
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.stock | grep 'mov\sx[0-9]\+, #0x0' | wc -l 
+50070
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.stock | grep 'mov\sx1[67], #0x0' | wc -l
+1
+
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.zero-call-regs | wc -l                                
+4422188
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.zero-call-regs | grep 'mov\sx[0-9]\+, #0x0' | wc -l
+491371
+[mark@lakrids:~/src/linux]% usekorg 10.1.0 aarch64-linux-objdump -d vmlinux.zero-call-regs | grep 'mov\sx1[67], #0x0' | wc -l 
+135729
+
+That's 441301 new MOVs, and the equivalent of 442511 new instructions
+overall. There are 135728 new MOVs to x16 and x17 specifically, which
+account for ~31% of that.
+
+Overall we go from MOVs being ~1.3% of all instructions to 11%.
+
+> > The resulting Image appears to work, but I haven't done anything beyond
+> > booting, and I wasn't able to get ROPgadget.py going to quantify the
+> > number of gadgets.
+> 
+> Does it not like arm64 machine code? I can go check and see if I can get
+> numbers...
+
+It's supposed to, and I suspect it works fine, but I wasn't able to get
+the tool running at all due to environment problems on my machine.
+
+Thanks,
+Mark.
