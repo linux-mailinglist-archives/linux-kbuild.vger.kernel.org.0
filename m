@@ -2,68 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEF737BAA0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 May 2021 12:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070A037BFDF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 May 2021 16:23:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbhELKeL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 May 2021 06:34:11 -0400
-Received: from gate.crashing.org ([63.228.1.57]:39489 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230019AbhELKeL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 May 2021 06:34:11 -0400
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 14CAQgOQ001475;
-        Wed, 12 May 2021 05:26:42 -0500
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 14CAQe4i001474;
-        Wed, 12 May 2021 05:26:40 -0500
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Wed, 12 May 2021 05:26:40 -0500
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        clang-built-linux@googlegroups.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH kernel v2] powerpc/makefile: Do not redefine $(CPP) for preprocessor
-Message-ID: <20210512102640.GT10366@gate.crashing.org>
-References: <20210511044812.267965-1-aik@ozlabs.ru> <20210511112019.GK10366@gate.crashing.org> <1795b9efa40.27bb.1ca38dd7e845b990cd13d431eb58563d@ozlabs.ru> <20210511231635.GR10366@gate.crashing.org> <80ae1561-ed8d-cf3a-f3bb-d89cd07bfc24@ozlabs.ru>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <80ae1561-ed8d-cf3a-f3bb-d89cd07bfc24@ozlabs.ru>
-User-Agent: Mutt/1.4.2.3i
+        id S230481AbhELOY7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 May 2021 10:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230452AbhELOY6 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 12 May 2021 10:24:58 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105B3C061574;
+        Wed, 12 May 2021 07:23:50 -0700 (PDT)
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94.2)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1lgpm7-007zO9-7d; Wed, 12 May 2021 16:23:47 +0200
+Message-ID: <10cc8522b27a051e6a9c3e158a4c4b6414fd04a0.camel@sipsolutions.net>
+Subject: Re: [PATCH 6/9] kbuild: refactor scripts/Makefile.modinst
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Date:   Wed, 12 May 2021 16:23:46 +0200
+In-Reply-To: <20210331133811.3221540-6-masahiroy@kernel.org>
+References: <20210331133811.3221540-1-masahiroy@kernel.org>
+         <20210331133811.3221540-6-masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 12, 2021 at 01:48:53PM +1000, Alexey Kardashevskiy wrote:
-> >Oh!  I completely missed those few lines.  Sorry for that :-(
+Hi,
+
+So I'm not *entirely* sure if this caused it, but I noticed that doing
+
+	make -C linux M=/path/to/extmod/ modules_install
+
+stopped working.
+
+This is because here:
 > 
-> Well, I probably should have made it a separate patch anyway, I'll 
-> repost separately.
-
-Thanks.
-
-> >To compensate a bit:
-> >
-> >>It still puzzles me why we need -C
-> >>(preserve comments in the preprocessor output) flag here.
-> >
-> >It is so that a human can look at the output and read it.  Comments are
-> >very significant to human readers :-)
-> 
-> I seriously doubt anyone ever read those :)
-
-I am pretty sure whoever wrote it did!
-
-> I suspect this is to pull 
-> all the licenses in one place and do some checking but I did not dig deep.
-
-I don't see the point in that, but :-)
+> -extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+> +export extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
 
 
-Segher
+(as before, of course) another trailing / is added to the M= argument,
+and then
+
+> +modules := $(patsubst $(extmod_prefix)%, $(dst)/%, $(modules))
+
+this patsubst turns out to do nothing. So $(modules) contains the
+original paths where the modules were compiled, and consequently nothing
+happens.
+
+Specifying
+
+	make -C linux M=/path/to/extmod modules_install
+
+actually works.
+
+
+Obviously I can work around it, but it hardly seems intentional?
+
+Thanks,
+johannes
+
