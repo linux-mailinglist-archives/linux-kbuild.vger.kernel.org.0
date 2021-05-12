@@ -2,251 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49DB237B659
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 May 2021 08:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA34637B692
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 May 2021 09:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhELGyJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 May 2021 02:54:09 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:19436 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbhELGyH (ORCPT
+        id S229803AbhELHIl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 May 2021 03:08:41 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:33811 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229627AbhELHIl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 May 2021 02:54:07 -0400
-Received: from grover.RMN.KIBA.LAB.jp (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 14C6q4oR028643;
-        Wed, 12 May 2021 15:52:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14C6q4oR028643
+        Wed, 12 May 2021 03:08:41 -0400
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 14C77Dmd021378
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 May 2021 16:07:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 14C77Dmd021378
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1620802326;
-        bh=tGCmhtBz8IEEwu83dXllP0bNtsLvnPdEOYpyEWEPOmI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A8vIXl+60SVnvIQU+xvxvU1m7mWDeIM9aCnTy8VllplyFJqYAhx/RqL67GCuIm+EQ
-         KzPAt/GY/ZiKCuAFnYqWcL9/7QPREzldZp+/oifcxsbAd2gsGN57AOl3qiEcRYtfZU
-         nWR5Q2aXsb/QaFc2RCfJBMLT9wf2V/udmxUaY1XCqMXkrzIedCaPW8nDxTspvysf19
-         NpnklKEdmt2ySFJmUXFwECNO4NWs89af190dqS3Kt43cDmdnuAQsP2Q+3R9IBiiXCk
-         SSdPYryUQ69+F17dzdZpbEsn1gzQ0GUUL/4UKBNxutY9Rz/5RYqAExX25M4WciBTXi
-         1J6Kx13WNN18Q==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: remove libelf checks from top Makefile
-Date:   Wed, 12 May 2021 15:52:01 +0900
-Message-Id: <20210512065201.35268-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210512065201.35268-1-masahiroy@kernel.org>
-References: <20210512065201.35268-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1620803233;
+        bh=ANr3RlemlDGsqzdZNV1FUnUy8W+neY5ECDbySyNT6IQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IF6mwWvoQgtFWCEM+r4T1KnP1wLMVRyPo1ZqNi89vmr1sDzhUTlP7wYNqkmfiCf46
+         B2W1wvEiEx8W2NhNK1LQEYHX20DxVmf2JVeypUa/avq6BWBQTtc3UzwFbzNyMKbT+D
+         jnt03O6H4jQZZwgpkZkvow6k04r3uvm915Rr69wH+3JJeceyvmCNbc7s6Ak0aD1Oom
+         Q8gfdFwJMQOjKlZoPuqkUGeOv/ABsXYlAUYh43tzKbuZcItb7DiITilKYHcc/8fVih
+         934/i5N34eMg/P6z+PFg8U4n11OK8R6oK3yplLpajGb8PfRqi7FSpy7ASgfj6Ibn9A
+         eHe/QCnGEsGWg==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id c17so17865329pfn.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 May 2021 00:07:13 -0700 (PDT)
+X-Gm-Message-State: AOAM530q8kygIYGBU+ci2q70Np46haIcsl3CMg1yVNSlFWVVQr3zjq6B
+        32zBDLsWGyVcu0ELx5uECtTNE50WEqkeDAtEFdk=
+X-Google-Smtp-Source: ABdhPJx9btIR+KEXMyyHUM/1PLE4JJvnI2oNvMfmCmgrYiydMdZxZe+EFZlkGusUp2TnFgdO3K+/ffbyO1XSPsFLuPA=
+X-Received: by 2002:a63:a547:: with SMTP id r7mr34573033pgu.7.1620803232570;
+ Wed, 12 May 2021 00:07:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <2321702f-b888-87f6-b314-8e5734ee7fa9@infradead.org>
+In-Reply-To: <2321702f-b888-87f6-b314-8e5734ee7fa9@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 12 May 2021 16:06:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR_-c+_9wc7wXo2Q7E_wEY+Mhg1XvxmDy7VHwVcEyBFeA@mail.gmail.com>
+Message-ID: <CAK7LNAR_-c+_9wc7wXo2Q7E_wEY+Mhg1XvxmDy7VHwVcEyBFeA@mail.gmail.com>
+Subject: Re: arch/um/include/asm/Kbuild question
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        richard -rw- weinberger <richard.weinberger@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I do not see a good reason why only the libelf development package must
-be so carefully checked.
+On Wed, May 12, 2021 at 3:18 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Hi.
+>
+> I thought that adding
+> +generic-y += rwonce.h
+>
+> to arch/um/include/asm/Kbuild would fix a build problem:
+>
+>   CC [M]  fs/hostfs/hostfs_user.o
+> In file included from ../include/asm-generic/div64.h:27,
+>                  from ../fs/hostfs/hostfs_user.c:21:
+> include/linux/compiler.h:248:10: fatal error: asm/rwonce.h: No such file or directory
+>   248 | #include <asm/rwonce.h>
+>       |          ^~~~~~~~~~~~~~
+>
+>
+> but it doesn't seem to be helping.
+> Do I need to use mandatory-y instead?
+>
+> Or is arch/um/ with ARCH=um and SUBARCH=i386 just "different"?
 
-Kbuild generally does not check host tools or libraries.
 
-For example, x86_64 defconfig fails to build with no libssl development
-package installed.
+I see
 
-scripts/extract-cert.c:21:10: fatal error: openssl/bio.h: No such file or directory
-   21 | #include <openssl/bio.h>
-      |          ^~~~~~~~~~~~~~~
+  mandatory-y += rwonce.h
 
-To solve the build error, you need to install libssl-dev or openssl-devel
-package, depending on your distribution.
+in include/asm-generic/Kbuild.
 
-'apt-file search', 'dnf provides', etc. is your frined to find a proper
-package to install.
 
-This commit removes all the libelf checks from the top Makefile.
+arch/x86/include/generated/asm/rwonce.h
+is generated.
 
-If libelf is missing, objtool will fail to build in a similar pattern:
 
-.../linux/tools/objtool/include/objtool/elf.h:10:10: fatal error: gelf.h: No such file or directory
-   10 | #include <gelf.h>
+Is it still failing?
 
-You need to install libelf-dev, libelf-devel, or elfutils-libelf-devel
-to proceed.
 
-Another remarkable change is, CONFIG_STACK_VALIDATION (without
-CONFIG_UNWINDER_ORC) previously continued to build with a warning,
-but now it will treat missing libelf as an error.
 
-This is just a one-time installation, so it should not matter to break
-a build and make a user install the package.
+>
+> The build error is:
+> ERROR: modpost: "__divdi3" [fs/hostfs/hostfs.ko] undefined!
+>
+> and my current patch attempt is below
+>
+> Thanks.
+>
+> ---
+> From: Randy Dunlap <rdunlap@infradead.org>
+>
+> <asm-generic/div64.h> wants rwonce.h, so add rwonce.h to the
+> arch/um/include/asm/Kbuild generic-y list of header files.
+>
+> ERROR: modpost: "__divdi3" [fs/hostfs/hostfs.ko] undefined!
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+>  arch/um/include/asm/Kbuild |    1 +
+>  fs/hostfs/hostfs_user.c    |   13 +++++++++----
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+>
+> --- linux-next-20210511.orig/fs/hostfs/hostfs_user.c
+> +++ linux-next-20210511/fs/hostfs/hostfs_user.c
+> @@ -17,6 +17,7 @@
+>  #include <sys/syscall.h>
+>  #include "hostfs.h"
+>  #include <utime.h>
+> +#include <asm-generic/div64.h>
+>
+>  static void stat64_to_hostfs(const struct stat64 *buf, struct hostfs_stat *p)
+>  {
+> @@ -242,17 +243,21 @@ int set_attr(const char *file, struct ho
+>                         return err;
+>
+>                 times[0].tv_sec = st.atime.tv_sec;
+> -               times[0].tv_usec = st.atime.tv_nsec / 1000;
+> +               times[0].tv_usec = st.atime.tv_nsec;
+> +               do_div(times[0].tv_usec, 1000);
+>                 times[1].tv_sec = st.mtime.tv_sec;
+> -               times[1].tv_usec = st.mtime.tv_nsec / 1000;
+> +               times[1].tv_usec = st.mtime.tv_nsec;
+> +               do_div(times[1].tv_usec, 1000);
+>
+>                 if (attrs->ia_valid & HOSTFS_ATTR_ATIME_SET) {
+>                         times[0].tv_sec = attrs->ia_atime.tv_sec;
+> -                       times[0].tv_usec = attrs->ia_atime.tv_nsec / 1000;
+> +                       times[0].tv_usec = attrs->ia_atime.tv_nsec;
+> +                       do_div(times[0].tv_usec, 1000);
+>                 }
+>                 if (attrs->ia_valid & HOSTFS_ATTR_MTIME_SET) {
+>                         times[1].tv_sec = attrs->ia_mtime.tv_sec;
+> -                       times[1].tv_usec = attrs->ia_mtime.tv_nsec / 1000;
+> +                       times[1].tv_usec = attrs->ia_mtime.tv_nsec;
+> +                       do_div(times[1].tv_usec, 1000);
+>                 }
+>
+>                 if (fd >= 0) {
+> --- linux-next-20210511.orig/arch/um/include/asm/Kbuild
+> +++ linux-next-20210511/arch/um/include/asm/Kbuild
+> @@ -20,6 +20,7 @@ generic-y += param.h
+>  generic-y += pci.h
+>  generic-y += percpu.h
+>  generic-y += preempt.h
+> +generic-y += rwonce.h
+>  generic-y += softirq_stack.h
+>  generic-y += switch_to.h
+>  generic-y += topology.h
+>
 
-BTW, the traditional way to handle such checks is autotool, but according
-to [1], I do not expect the kernel build would have similar scripting
-like './configure' does.
 
-[1]: https://lore.kernel.org/lkml/CA+55aFzr2HTZVOuzpHYDwmtRJLsVzE-yqg2DHpHi_9ePsYp5ug@mail.gmail.com/
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile                  | 78 +++++++++++----------------------------
- scripts/Makefile.build    |  2 -
- scripts/Makefile.modfinal |  2 -
- 3 files changed, 22 insertions(+), 60 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index d60dc028f09c..bfbb7c8cbb0f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1081,41 +1081,6 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
- MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
- export MODLIB
- 
--HOST_LIBELF_LIBS = $(shell pkg-config libelf --libs 2>/dev/null || echo -lelf)
--
--has_libelf = $(call try-run,\
--               echo "int main() {}" | $(HOSTCC) $(KBUILD_HOSTLDFLAGS) -xc -o /dev/null $(HOST_LIBELF_LIBS) -,1,0)
--
--ifdef CONFIG_STACK_VALIDATION
--  ifeq ($(has_libelf),1)
--    objtool_target := tools/objtool FORCE
--  else
--    SKIP_STACK_VALIDATION := 1
--    export SKIP_STACK_VALIDATION
--  endif
--endif
--
--PHONY += resolve_btfids_clean
--
--resolve_btfids_O = $(abspath $(objtree))/tools/bpf/resolve_btfids
--
--# tools/bpf/resolve_btfids directory might not exist
--# in output directory, skip its clean in that case
--resolve_btfids_clean:
--ifneq ($(wildcard $(resolve_btfids_O)),)
--	$(Q)$(MAKE) -sC $(srctree)/tools/bpf/resolve_btfids O=$(resolve_btfids_O) clean
--endif
--
--ifdef CONFIG_BPF
--ifdef CONFIG_DEBUG_INFO_BTF
--  ifeq ($(has_libelf),1)
--    resolve_btfids_target := tools/bpf/resolve_btfids FORCE
--  else
--    ERROR_RESOLVE_BTFIDS := 1
--  endif
--endif # CONFIG_DEBUG_INFO_BTF
--endif # CONFIG_BPF
--
- PHONY += prepare0
- 
- export extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
-@@ -1227,7 +1192,7 @@ prepare0: archprepare
- 	$(Q)$(MAKE) $(build)=.
- 
- # All the preparing..
--prepare: prepare0 prepare-objtool prepare-resolve_btfids
-+prepare: prepare0
- 
- PHONY += remove-stale-files
- remove-stale-files:
-@@ -1244,26 +1209,6 @@ uapi-asm-generic:
- 	$(Q)$(MAKE) $(asm-generic)=arch/$(SRCARCH)/include/generated/uapi/asm \
- 	generic=include/uapi/asm-generic
- 
--PHONY += prepare-objtool prepare-resolve_btfids
--prepare-objtool: $(objtool_target)
--ifeq ($(SKIP_STACK_VALIDATION),1)
--ifdef CONFIG_FTRACE_MCOUNT_USE_OBJTOOL
--	@echo "error: Cannot generate __mcount_loc for CONFIG_DYNAMIC_FTRACE=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
--	@false
--endif
--ifdef CONFIG_UNWINDER_ORC
--	@echo "error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
--	@false
--else
--	@echo "warning: Cannot use CONFIG_STACK_VALIDATION=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
--endif
--endif
--
--prepare-resolve_btfids: $(resolve_btfids_target)
--ifeq ($(ERROR_RESOLVE_BTFIDS),1)
--	@echo "error: Cannot resolve BTF IDs for CONFIG_DEBUG_INFO_BTF, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
--	@false
--endif
- # Generate some files
- # ---------------------------------------------------------------------------
- 
-@@ -1354,6 +1299,27 @@ scripts_unifdef: scripts_basic
- # ---------------------------------------------------------------------------
- # Tools
- 
-+ifdef CONFIG_STACK_VALIDATION
-+prepare: tools/objtool
-+endif
-+
-+ifdef CONFIG_BPF
-+ifdef CONFIG_DEBUG_INFO_BTF
-+prepare: tools/bpf/resolve_btfids
-+endif
-+endif
-+
-+PHONY += resolve_btfids_clean
-+
-+resolve_btfids_O = $(abspath $(objtree))/tools/bpf/resolve_btfids
-+
-+# tools/bpf/resolve_btfids directory might not exist
-+# in output directory, skip its clean in that case
-+resolve_btfids_clean:
-+ifneq ($(wildcard $(resolve_btfids_O)),)
-+	$(Q)$(MAKE) -sC $(srctree)/tools/bpf/resolve_btfids O=$(resolve_btfids_O) clean
-+endif
-+
- # Clear a bunch of variables before executing the submake
- ifeq ($(quiet),silent_)
- tools_silent=s
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 949f723efe53..7adc3a2c3c31 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -219,7 +219,6 @@ endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
- 
- ifdef CONFIG_STACK_VALIDATION
- ifndef CONFIG_LTO_CLANG
--ifneq ($(SKIP_STACK_VALIDATION),1)
- 
- __objtool_obj := $(objtree)/tools/objtool/objtool
- 
-@@ -233,7 +232,6 @@ objtool_obj = $(if $(patsubst y%,, \
- 	$(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n), \
- 	$(__objtool_obj))
- 
--endif # SKIP_STACK_VALIDATION
- endif # CONFIG_LTO_CLANG
- endif # CONFIG_STACK_VALIDATION
- 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index dd87cea9fba7..bdee3babc5cf 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -39,12 +39,10 @@ prelink-ext := .lto
- # so let's now process the prelinked binary before we link the module.
- 
- ifdef CONFIG_STACK_VALIDATION
--ifneq ($(SKIP_STACK_VALIDATION),1)
- cmd_ld_ko_o +=								\
- 	$(objtree)/tools/objtool/objtool $(objtool_args)		\
- 		$(@:.ko=$(prelink-ext).o);
- 
--endif # SKIP_STACK_VALIDATION
- endif # CONFIG_STACK_VALIDATION
- 
- endif # CONFIG_LTO_CLANG
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
