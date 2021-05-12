@@ -2,75 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 070A037BFDF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 May 2021 16:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B7237EDFC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 May 2021 00:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230481AbhELOY7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 May 2021 10:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32786 "EHLO
+        id S241457AbhELU6D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 May 2021 16:58:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbhELOY6 (ORCPT
+        with ESMTP id S1357291AbhELSiW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 May 2021 10:24:58 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105B3C061574;
-        Wed, 12 May 2021 07:23:50 -0700 (PDT)
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1lgpm7-007zO9-7d; Wed, 12 May 2021 16:23:47 +0200
-Message-ID: <10cc8522b27a051e6a9c3e158a4c4b6414fd04a0.camel@sipsolutions.net>
-Subject: Re: [PATCH 6/9] kbuild: refactor scripts/Makefile.modinst
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Date:   Wed, 12 May 2021 16:23:46 +0200
-In-Reply-To: <20210331133811.3221540-6-masahiroy@kernel.org>
-References: <20210331133811.3221540-1-masahiroy@kernel.org>
-         <20210331133811.3221540-6-masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        Wed, 12 May 2021 14:38:22 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A23BDC0613ED
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 May 2021 11:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=6FKec6k+Cdj5VkVqYIBj9oCBl3UX/p+YEHRDct9lCrU=; b=PvTnHP9GrPKMGqFFTNNWJkKh/S
+        MB6z++AgQ0njQSiZTjVdTT3FlvcmyK81UHYVTpfm8d3mycZH+BjAqz7+yOemKesgfBbXmR8Dod1i7
+        8aFfeFmEg6Af7BGMCtmcUEC9HPeqMdJfMLlMJrUHPo2gxUGfroec9hQO8wB4uoqUiAzU9VHNdl45y
+        GaRuRxvtOXhsl2RgJy/f848aJ/UBoD3e5DKTKB7AqlDSlxiAWKTgkalq+c6cELQS0wJZo1AEFBCZk
+        RFUHb3rBpO4BosOzxRYaJJx6Qb4oVF8V+JdaVebFlqsW+w6bFDuhVk2ezprPuQlKh1+4KXE4GYok4
+        PzIHdCjQ==;
+Received: from [2601:1c0:6280:3f0::7376]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lgtgq-00AiOK-P7; Wed, 12 May 2021 18:34:36 +0000
+Subject: Re: arch/um/include/asm/Kbuild question
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        richard -rw- weinberger <richard.weinberger@gmail.com>
+References: <2321702f-b888-87f6-b314-8e5734ee7fa9@infradead.org>
+ <CAK7LNAR_-c+_9wc7wXo2Q7E_wEY+Mhg1XvxmDy7VHwVcEyBFeA@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <39db71a0-e3ff-5aec-c359-1362261edee4@infradead.org>
+Date:   Wed, 12 May 2021 11:34:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAK7LNAR_-c+_9wc7wXo2Q7E_wEY+Mhg1XvxmDy7VHwVcEyBFeA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
-
-So I'm not *entirely* sure if this caused it, but I noticed that doing
-
-	make -C linux M=/path/to/extmod/ modules_install
-
-stopped working.
-
-This is because here:
+On 5/12/21 12:06 AM, Masahiro Yamada wrote:
+> On Wed, May 12, 2021 at 3:18 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> Hi.
+>>
+>> I thought that adding
+>> +generic-y += rwonce.h
+>>
+>> to arch/um/include/asm/Kbuild would fix a build problem:
+>>
+>>   CC [M]  fs/hostfs/hostfs_user.o
+>> In file included from ../include/asm-generic/div64.h:27,
+>>                  from ../fs/hostfs/hostfs_user.c:21:
+>> include/linux/compiler.h:248:10: fatal error: asm/rwonce.h: No such file or directory
+>>   248 | #include <asm/rwonce.h>
+>>       |          ^~~~~~~~~~~~~~
+>>
+>>
+>> but it doesn't seem to be helping.
+>> Do I need to use mandatory-y instead?
+>>
+>> Or is arch/um/ with ARCH=um and SUBARCH=i386 just "different"?
 > 
-> -extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
-> +export extmod_prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+> 
+> I see
+> 
+>   mandatory-y += rwonce.h
+> 
+> in include/asm-generic/Kbuild.
+> 
+> 
+> arch/x86/include/generated/asm/rwonce.h
+> is generated.
+> 
+> 
+> Is it still failing?
 
+Yes, I see the generated/asm/rwonce.h file but it
+still fails.
 
-(as before, of course) another trailing / is added to the M= argument,
-and then
+Thanks.
 
-> +modules := $(patsubst $(extmod_prefix)%, $(dst)/%, $(modules))
+>>
+>> The build error is:
+>> ERROR: modpost: "__divdi3" [fs/hostfs/hostfs.ko] undefined!
+>>
+>> and my current patch attempt is below
+>>
+>> Thanks.
+>>
+>> ---
 
-this patsubst turns out to do nothing. So $(modules) contains the
-original paths where the modules were compiled, and consequently nothing
-happens.
-
-Specifying
-
-	make -C linux M=/path/to/extmod modules_install
-
-actually works.
-
-
-Obviously I can work around it, but it hardly seems intentional?
-
-Thanks,
-johannes
+-- 
+~Randy
 
