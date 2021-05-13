@@ -2,127 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 547FF37EDFF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 May 2021 00:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D61437F748
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 May 2021 13:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242708AbhELU6m (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 May 2021 16:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45890 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379206AbhELTkh (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 May 2021 15:40:37 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 740C5C061379;
-        Wed, 12 May 2021 12:36:27 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id y2so32072893ybq.13;
-        Wed, 12 May 2021 12:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ll76nxeEjbDPqF2nBsv/uCSPT9e00s43w5SBooKrNy4=;
-        b=RYg96wfeibG0AROE5e/4sujQjiAs72ZS3ocuIodFTAM7iCZyJnWdjfhGVd9LGrvBfH
-         u2K5PJ6s1vlKS1EJrXIQOIg95Qsl4ATmybPQKxFsOL/E7WFBmh6+vNwY5LDl3Mnm0yie
-         WDQiVtfN2/XOzWiO13n3VHEjPq7fxm/nKZgAMGvr0tkjH8z+Gg/L9XtXuVDhrNe0WuHi
-         6fR5vjxVkeGm4Dlx61Q8gdJJi/x1YZUc2mbXy40/WOpT2MMKlOIheT7BGgaS/jaTeoza
-         sXXchY+8rcxdfjis4yy+5q0kXQfmoz98BBaU2JPOw3DQFBzYjX4AkUFIZ+/6apc6tUM0
-         0dfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ll76nxeEjbDPqF2nBsv/uCSPT9e00s43w5SBooKrNy4=;
-        b=R1boPNhtqN+Kn0MQctDegQRsnaUl3o+8IGxS+WjVd2wVZq87UN9tzp/1vjvQPMFlK6
-         qDhX5X0nt9RkocYiuEeBny5BSGdKCZlFHiCwjztKwWs+YzxjYTZw9q/45sxbbGrV2PJ0
-         wdEUURpw8kt6fLH5ZEBXlNTs+Fd9NVSLw/acV1BLigGEaBwnpaIGtFiT7Ofb0f0f4jEJ
-         KgLKL5UvgyLba8kUpFrwL+6LcySdwLd/C6Sw8WyvIPkAvtWs0kjODR7Vyf0Z3SScL7cg
-         z6ihjTKheRdtEu+rFCOO5Z9GXsKwbicXjFdRBPDuU5ntN+Wq6SRjS+yUTgo9TsLThDk0
-         R7nQ==
-X-Gm-Message-State: AOAM531SNGydA1q0KM59v3QcfzqD/D8J78UMp5MRMDcXuTLwVO0pJzUa
-        O7j+11/eB9GPCFh6eXl2gGiZ6VBKGq+7wRhS2x8=
-X-Google-Smtp-Source: ABdhPJzkIhz5sD0q5sBazDHr+Ex2m0Nh1xV4wW9MYND3hmvScOvEau49fi3WlvhwM1DodH8H7s4FO+OleAP2lkxkAgU=
-X-Received: by 2002:a5b:d4c:: with SMTP id f12mr25755441ybr.510.1620848186756;
- Wed, 12 May 2021 12:36:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210512065201.35268-1-masahiroy@kernel.org> <20210512065201.35268-2-masahiroy@kernel.org>
-In-Reply-To: <20210512065201.35268-2-masahiroy@kernel.org>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Wed, 12 May 2021 12:36:15 -0700
-Message-ID: <CAEf4BzbsuivHaX0SHdBBV6+wpdtViFXOw=oWLyytzcRPiq+QSg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: remove libelf checks from top Makefile
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        id S233094AbhEMMBA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 May 2021 08:01:00 -0400
+Received: from ozlabs.ru ([107.174.27.60]:52604 "EHLO ozlabs.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229701AbhEMMA7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 13 May 2021 08:00:59 -0400
+Received: from fstn1-p1.ozlabs.ibm.com. (localhost [IPv6:::1])
+        by ozlabs.ru (Postfix) with ESMTP id 66058AE80046;
+        Thu, 13 May 2021 07:59:12 -0400 (EDT)
+From:   Alexey Kardashevskiy <aik@ozlabs.ru>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     Alexey Kardashevskiy <aik@ozlabs.ru>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf <bpf@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>
+Subject: [PATCH kernel v3] powerpc/makefile: Do not redefine $(CPP) for preprocessor
+Date:   Thu, 13 May 2021 21:59:04 +1000
+Message-Id: <20210513115904.519912-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 11, 2021 at 11:52 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> I do not see a good reason why only the libelf development package must
-> be so carefully checked.
->
-> Kbuild generally does not check host tools or libraries.
->
-> For example, x86_64 defconfig fails to build with no libssl development
-> package installed.
->
-> scripts/extract-cert.c:21:10: fatal error: openssl/bio.h: No such file or directory
->    21 | #include <openssl/bio.h>
->       |          ^~~~~~~~~~~~~~~
->
-> To solve the build error, you need to install libssl-dev or openssl-devel
-> package, depending on your distribution.
->
-> 'apt-file search', 'dnf provides', etc. is your frined to find a proper
-> package to install.
->
-> This commit removes all the libelf checks from the top Makefile.
->
-> If libelf is missing, objtool will fail to build in a similar pattern:
->
-> .../linux/tools/objtool/include/objtool/elf.h:10:10: fatal error: gelf.h: No such file or directory
->    10 | #include <gelf.h>
->
-> You need to install libelf-dev, libelf-devel, or elfutils-libelf-devel
-> to proceed.
->
-> Another remarkable change is, CONFIG_STACK_VALIDATION (without
-> CONFIG_UNWINDER_ORC) previously continued to build with a warning,
-> but now it will treat missing libelf as an error.
->
-> This is just a one-time installation, so it should not matter to break
-> a build and make a user install the package.
->
-> BTW, the traditional way to handle such checks is autotool, but according
-> to [1], I do not expect the kernel build would have similar scripting
-> like './configure' does.
->
-> [1]: https://lore.kernel.org/lkml/CA+55aFzr2HTZVOuzpHYDwmtRJLsVzE-yqg2DHpHi_9ePsYp5ug@mail.gmail.com/
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
+The $(CPP) (do only preprocessing) macro is already defined in Makefile.
+However POWERPC redefines it and adds $(KBUILD_CFLAGS) which results
+in flags duplication. Which is not a big deal by itself except for
+the flags which depend on other flags and the compiler checks them
+as it parses the command line.
 
-resolve_btfids part looks good to me:
+Specifically, scripts/Makefile.build:304 generates ksyms for .S files.
+If clang+llvm+sanitizer are enabled, this results in
 
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
+-emit-llvm-bc -fno-lto -flto -fvisibility=hidden \
+ -fsanitize=cfi-mfcall -fno-lto  ...
 
->  Makefile                  | 78 +++++++++++----------------------------
->  scripts/Makefile.build    |  2 -
->  scripts/Makefile.modfinal |  2 -
->  3 files changed, 22 insertions(+), 60 deletions(-)
->
+in the clang command line and triggers error:
 
-[...]
+clang-13: error: invalid argument '-fsanitize=cfi-mfcall' only allowed with '-flto'
+
+This removes unnecessary CPP redefinition. Which works fine as in most
+place KBUILD_CFLAGS is passed to $CPP except
+arch/powerpc/kernel/vdso64/vdso(32|64).lds. To fix vdso, this does:
+1. add -m(big|little)-endian to $CPP
+2. add target to $KBUILD_CPPFLAGS as otherwise clang ignores -m(big|little)-endian if
+the building platform does not support big endian (such as x86).
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+Changes:
+v3:
+* moved vdso cleanup in a separate patch
+* only add target to KBUILD_CPPFLAGS for CLANG
+
+v2:
+* fix KBUILD_CPPFLAGS
+* add CLANG_FLAGS to CPPFLAGS
+---
+ Makefile              | 1 +
+ arch/powerpc/Makefile | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 15b6476d0f89..5b545bef7653 100644
+--- a/Makefile
++++ b/Makefile
+@@ -576,6 +576,7 @@ CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -
+ ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+ ifneq ($(CROSS_COMPILE),)
+ CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
++KBUILD_CPPFLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+ endif
+ ifeq ($(LLVM_IAS),1)
+ CLANG_FLAGS	+= -integrated-as
+diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+index 3212d076ac6a..306bfd2797ad 100644
+--- a/arch/powerpc/Makefile
++++ b/arch/powerpc/Makefile
+@@ -76,6 +76,7 @@ endif
+ 
+ ifdef CONFIG_CPU_LITTLE_ENDIAN
+ KBUILD_CFLAGS	+= -mlittle-endian
++KBUILD_CPPFLAGS	+= -mlittle-endian
+ KBUILD_LDFLAGS	+= -EL
+ LDEMULATION	:= lppc
+ GNUTARGET	:= powerpcle
+@@ -83,6 +84,7 @@ MULTIPLEWORD	:= -mno-multiple
+ KBUILD_CFLAGS_MODULE += $(call cc-option,-mno-save-toc-indirect)
+ else
+ KBUILD_CFLAGS += $(call cc-option,-mbig-endian)
++KBUILD_CPPFLAGS += $(call cc-option,-mbig-endian)
+ KBUILD_LDFLAGS	+= -EB
+ LDEMULATION	:= ppc
+ GNUTARGET	:= powerpc
+@@ -208,7 +210,6 @@ KBUILD_CPPFLAGS	+= -I $(srctree)/arch/$(ARCH) $(asinstr)
+ KBUILD_AFLAGS	+= $(AFLAGS-y)
+ KBUILD_CFLAGS	+= $(call cc-option,-msoft-float)
+ KBUILD_CFLAGS	+= -pipe $(CFLAGS-y)
+-CPP		= $(CC) -E $(KBUILD_CFLAGS)
+ 
+ CHECKFLAGS	+= -m$(BITS) -D__powerpc__ -D__powerpc$(BITS)__
+ ifdef CONFIG_CPU_BIG_ENDIAN
+-- 
+2.30.2
+
