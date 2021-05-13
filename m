@@ -2,93 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A4037FA75
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 May 2021 17:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3727537FDAF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 May 2021 20:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232518AbhEMPTN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 May 2021 11:19:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54306 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234825AbhEMPTN (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 May 2021 11:19:13 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF494C061574
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 May 2021 08:18:02 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id t11so38946572lfl.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 May 2021 08:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XlvwCCIdITRchgnLI4aBvUaly8ZCfQga7tYhkkseWUs=;
-        b=W6oOwKrsxJUkXrG9nV7ohcodGea4LlJRdCLxV8Pl+2vYrd0Edmy3eDF4YgVQDfcoHX
-         MROKB7ePqNAnQahgvrGnAK35fEHj3eVfd2lZ3ONkJ48kcnRZiUdP97ucq9V9S/PMjgYw
-         z3+kZZBnGHfzEc0PrwPd3miz75Vx9xMRVfIyg/eyWnlduCRVoSCrg2J+IfwwiJ71xk5P
-         kz7fIeN5B9/D6Vs3mnEO58Csud8OkBv33B70AHJzQ3mM8y6nbqBZKmMc1jEMBM+L+wO5
-         15dXvwOlocINMp/zB85SUuc5RLvt5FMDBcCzlEOG/H7jTCsvejuyNPpKqvuz6ufLyjwF
-         8dOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XlvwCCIdITRchgnLI4aBvUaly8ZCfQga7tYhkkseWUs=;
-        b=NobwyU6KnzznNUMsIuZtTJ6tT0W0waw+ZTfHtH0GkKL0KTrTDTc/Eh9dNFIvWDwJTP
-         hhLj9q/12iFXycfBpSuD6/1n7mbvDk57Ow29KRqAI1Rt4OmPic7zSCAtzz8KR0u0HquY
-         DsbAY7tvumGMSAmbLJIwDJYuKTRkiBK8z/7gEmoGAoeFh54Zg1W8RheZvAqZ6j5MAYyZ
-         vmCAC6vecNWwx0eQo7+CNzPY9wx9f9RzlYIIXcMkJzM5OM2nT7rm1Y5Jn1+Z8+1WwQ8C
-         Lq7GXxU8q8l9gdcNa1U/Cu0CbkfPTBwYQyYbwKa4iQkIbIBlyGxPuSipY/9MyerhPubC
-         st+g==
-X-Gm-Message-State: AOAM530rpOooT1SnggsZqYia+1bW6YwhrmUj3DQVWFqauQUSBiBp92we
-        iMu7WTbt6mYbsroJEfdiG9xWoA==
-X-Google-Smtp-Source: ABdhPJync3ne4bHMwBvY5lVPmKQnE//1dV687R6a6gpoj17rBF6uorI5DgdLtOl2FbmbTksOk/jUeg==
-X-Received: by 2002:a05:6512:2287:: with SMTP id f7mr28282266lfu.475.1620919081440;
-        Thu, 13 May 2021 08:18:01 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id y19sm485491ljj.125.2021.05.13.08.18.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 May 2021 08:18:01 -0700 (PDT)
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        id S231921AbhEMTA0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 May 2021 15:00:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46444 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230352AbhEMTA0 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 13 May 2021 15:00:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9ED4061264;
+        Thu, 13 May 2021 18:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620932356;
+        bh=CNlWPuDlH4KO4XDrkInCB6C/vySWY4yRCKjQVEyQquI=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=jbm4kRsmye3VePuEY0uiOXpxuAR45Yth9vGMIuLZA/281w7viNipT9Pkj3hSuhNTn
+         MROnDhqdIMGP1KxFI7cRE15VJR7+3Eyn9jV6EythV+BQZDuC8abju9f7vBEEmCxQOe
+         e2ZWWrYSP7vodJweDjUZtwu5NYx0o6skn/u4qy1SdvhyIJzjMNdEVcybKv6cQ/Ckyo
+         QkZXXiGDcBrmK9nDJ1i3SFQdmBOgaWtfMzZUWJU0NTL2e3QSfuGTucKEPA1bhpNx+7
+         eyWaWJq8HO+8+iHN3d1RoVR66e8oTcxfKqlB3E94hEyffhJ89wsxwaj61l4MIQFXu+
+         mjBK0ZitZL/SA==
+Subject: Re: [PATCH kernel v3] powerpc/makefile: Do not redefine $(CPP) for
+ preprocessor
+To:     Alexey Kardashevskiy <aik@ozlabs.ru>, linuxppc-dev@lists.ozlabs.org
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH] kbuild: allow checking single device tree file
-Date:   Thu, 13 May 2021 18:18:00 +0300
-Message-Id: <20210513151800.1059435-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>
+References: <20210513115904.519912-1-aik@ozlabs.ru>
+From:   Nathan Chancellor <nathan@kernel.org>
+Message-ID: <dedc7262-2956-37b2-ebfd-ae8eb9b56716@kernel.org>
+Date:   Thu, 13 May 2021 11:59:14 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210513115904.519912-1-aik@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add support for testing single device tree file by running
-'make tree.dt.yaml', e.g. 'make ARCH=arm64 qcom/qrb5165-rb5.dt.yaml'.
-This looks useful for checking idividual changes to dts files.
+On 5/13/2021 4:59 AM, Alexey Kardashevskiy wrote:
+> The $(CPP) (do only preprocessing) macro is already defined in Makefile.
+> However POWERPC redefines it and adds $(KBUILD_CFLAGS) which results
+> in flags duplication. Which is not a big deal by itself except for
+> the flags which depend on other flags and the compiler checks them
+> as it parses the command line.
+> 
+> Specifically, scripts/Makefile.build:304 generates ksyms for .S files.
+> If clang+llvm+sanitizer are enabled, this results in
+> 
+> -emit-llvm-bc -fno-lto -flto -fvisibility=hidden \
+>   -fsanitize=cfi-mfcall -fno-lto  ...
+> 
+> in the clang command line and triggers error:
+> 
+> clang-13: error: invalid argument '-fsanitize=cfi-mfcall' only allowed with '-flto'
+> 
+> This removes unnecessary CPP redefinition. Which works fine as in most
+> place KBUILD_CFLAGS is passed to $CPP except
+> arch/powerpc/kernel/vdso64/vdso(32|64).lds. To fix vdso, this does:
+> 1. add -m(big|little)-endian to $CPP
+> 2. add target to $KBUILD_CPPFLAGS as otherwise clang ignores -m(big|little)-endian if
+> the building platform does not support big endian (such as x86).
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+> Changes:
+> v3:
+> * moved vdso cleanup in a separate patch
+> * only add target to KBUILD_CPPFLAGS for CLANG
+> 
+> v2:
+> * fix KBUILD_CPPFLAGS
+> * add CLANG_FLAGS to CPPFLAGS
+> ---
+>   Makefile              | 1 +
+>   arch/powerpc/Makefile | 3 ++-
+>   2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 15b6476d0f89..5b545bef7653 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -576,6 +576,7 @@ CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -
+>   ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+>   ifneq ($(CROSS_COMPILE),)
+>   CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +KBUILD_CPPFLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
 
-Cc: Rob Herring <robh@kernel.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+You can avoid the duplication here by just doing:
 
-diff --git a/Makefile b/Makefile
-index 53d09c414635..b36a3d48eb68 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1383,6 +1383,10 @@ ifneq ($(dtstree),)
- %.dtbo: include/config/kernel.release scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
- 
-+%.dt.yaml: include/config/kernel.release scripts_dtc
-+	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings Documentation/devicetree/bindings/processed-schema.json
-+	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@ CHECK_DTBS=y
-+
- PHONY += dtbs dtbs_install dtbs_check
- dtbs: include/config/kernel.release scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree)
--- 
-2.30.2
+KBUILD_CPPFLAGS	+= $(CLANG_FLAGS)
+
+I am still not super happy about the flag duplication but I am not sure 
+I can think of a better solution. If KBUILD_CPPFLAGS are always included 
+when building .o files, maybe we should just add $(CLANG_FLAGS) to 
+KBUILD_CPPFLAGS instead of KBUILD_CFLAGS?
+
+>   endif
+>   ifeq ($(LLVM_IAS),1)
+>   CLANG_FLAGS	+= -integrated-as
+> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> index 3212d076ac6a..306bfd2797ad 100644
+> --- a/arch/powerpc/Makefile
+> +++ b/arch/powerpc/Makefile
+> @@ -76,6 +76,7 @@ endif
+>   
+>   ifdef CONFIG_CPU_LITTLE_ENDIAN
+>   KBUILD_CFLAGS	+= -mlittle-endian
+> +KBUILD_CPPFLAGS	+= -mlittle-endian
+>   KBUILD_LDFLAGS	+= -EL
+>   LDEMULATION	:= lppc
+>   GNUTARGET	:= powerpcle
+> @@ -83,6 +84,7 @@ MULTIPLEWORD	:= -mno-multiple
+>   KBUILD_CFLAGS_MODULE += $(call cc-option,-mno-save-toc-indirect)
+>   else
+>   KBUILD_CFLAGS += $(call cc-option,-mbig-endian)
+> +KBUILD_CPPFLAGS += $(call cc-option,-mbig-endian)
+>   KBUILD_LDFLAGS	+= -EB
+>   LDEMULATION	:= ppc
+>   GNUTARGET	:= powerpc
+> @@ -208,7 +210,6 @@ KBUILD_CPPFLAGS	+= -I $(srctree)/arch/$(ARCH) $(asinstr)
+>   KBUILD_AFLAGS	+= $(AFLAGS-y)
+>   KBUILD_CFLAGS	+= $(call cc-option,-msoft-float)
+>   KBUILD_CFLAGS	+= -pipe $(CFLAGS-y)
+> -CPP		= $(CC) -E $(KBUILD_CFLAGS)
+>   
+>   CHECKFLAGS	+= -m$(BITS) -D__powerpc__ -D__powerpc$(BITS)__
+>   ifdef CONFIG_CPU_BIG_ENDIAN
+> 
 
