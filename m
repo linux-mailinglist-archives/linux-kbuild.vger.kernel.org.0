@@ -2,79 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E37380ADB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 May 2021 15:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2734F381679
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 May 2021 09:14:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232212AbhENN7x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 May 2021 09:59:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59022 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229889AbhENN7w (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 May 2021 09:59:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 741156101A;
-        Fri, 14 May 2021 13:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621000721;
-        bh=6zfBRrh4LAMFP1QHtESFHgEFY8LPdKGXiVfm/ooztKQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GhEH95fkrSHs5vIB5M4PZaV7emSgPYdeI48v1mX0c9mAy0ivY5Y0F6ZT1N0qnz8Av
-         p5tHMfTUpM1jolbzUb0dJMFSGXVSpQckw0UfBdlDS3jaQHdvLn4/G0ECGjs/PkbT+H
-         ydV5b6UN5fTZNn6X1dW69uzEeTBfpawUueK5G1wAmtAgTiJPVsunxwnDJmyONQU6GL
-         iKVt+TZZkt2lxneM4Ugoq2OoSOeuAFcaNVp+lTlR4KihkbdEszQ9L7HAaqft5QnktO
-         6aJXp4HqiAcujNEAVKGcUeDEp9xhAcYh7s+ZDv/JxpFxW+iOzuKRxnRSy1UNpVZ0cJ
-         kYnBwNQd1MmOw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Kbuild: shut up uboot mkimage output when building quietly
-Date:   Fri, 14 May 2021 15:57:33 +0200
-Message-Id: <20210514135752.2910387-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S232071AbhEOHP0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 May 2021 03:15:26 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:44274 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229724AbhEOHPZ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 15 May 2021 03:15:25 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 6324B1C0B80; Sat, 15 May 2021 09:14:11 +0200 (CEST)
+Date:   Sat, 15 May 2021 09:14:10 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
+Message-ID: <20210515071410.GA27201@amd>
+References: <20210501151538.145449-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
+Content-Disposition: inline
+In-Reply-To: <20210501151538.145449-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-When building with 'make -s', most architectures produce no output
-at all unless there are warnings. However, on at leat mips and nios2
-there is output from /usr/bin/mkimage when that is installed:
+--2fHTh5uZTiUOsy+g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Image Name:   Linux-5.12.0-next-20210427-00716
-  Created:      Wed Apr 28 22:03:30 2021
-  Image Type:   NIOS II Linux Kernel Image (gzip compressed)
-  Data Size:    2245876 Bytes = 2193.24 KiB = 2.14 MiB
-  Load Address: d0000000
-  Entry Point:  d0000000
+On Sun 2021-05-02 00:15:38, Masahiro Yamada wrote:
+> The current minimum GCC version is 4.9 except ARCH=3Darm64 requiring
+> GCC 5.1.
 
-Make these behave like the others and check for the '${quiet}'
-variable to see if we should redirect the output to /dev/null.
-Any errors and warnings from mkimage will still be seen as those
-get sent to stderr.
+Please don't. I'm still on 4.9 on machine I can't easily update,
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- scripts/mkuboot.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+>  Documentation/process/changes.rst | 2 +-
+>  arch/arm64/Kconfig                | 2 +-
+>  arch/powerpc/Kconfig              | 2 +-
+>  arch/riscv/Kconfig                | 2 +-
+>  include/linux/compiler-gcc.h      | 6 +-----
+>  lib/Kconfig.debug                 | 2 +-
+>  scripts/min-tool-version.sh       | 8 +-------
+>  7 files changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/scripts/mkuboot.sh b/scripts/mkuboot.sh
-index 4b1fe09e9042..031b5d6b839f 100755
---- a/scripts/mkuboot.sh
-+++ b/scripts/mkuboot.sh
-@@ -17,4 +17,8 @@ if [ -z "${MKIMAGE}" ]; then
- fi
- 
- # Call "mkimage" to create U-Boot image
--${MKIMAGE} "$@"
-+if [ "${quiet}" != "silent_" ]; then
-+${MKIMAGE} "$@" ${REDIRECT}
-+else
-+${MKIMAGE} "$@" ${REDIRECT} > /dev/null
-+fi
--- 
-2.29.2
+and 10 lines of cleanups is really not worth that.
 
+Best regards,
+								Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--2fHTh5uZTiUOsy+g
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmCfdMIACgkQMOfwapXb+vJRuQCgkvFNWySx/cRHndnAzB2BNEcE
+fUgAoLeFGahKOr8VmTLEps0tT667xra4
+=bRN/
+-----END PGP SIGNATURE-----
+
+--2fHTh5uZTiUOsy+g--
