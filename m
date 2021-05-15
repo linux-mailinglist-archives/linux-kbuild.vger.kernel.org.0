@@ -2,70 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E479238168F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 May 2021 09:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCC26381815
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 May 2021 13:00:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231421AbhEOH3G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 May 2021 03:29:06 -0400
-Received: from smtprelay0168.hostedemail.com ([216.40.44.168]:46554 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231217AbhEOH3F (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 May 2021 03:29:05 -0400
-Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 6060118026A05;
-        Sat, 15 May 2021 07:27:51 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id B36F22448B4;
-        Sat, 15 May 2021 07:27:46 +0000 (UTC)
-Message-ID: <acff710e1cde66db686273d430a0798c4ea4f41e.camel@perches.com>
-Subject: Re: [PATCH] Raise the minimum GCC version to 5.2
-From:   Joe Perches <joe@perches.com>
-To:     Pavel Machek <pavel@ucw.cz>, Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Date:   Sat, 15 May 2021 00:27:45 -0700
-In-Reply-To: <20210515071410.GA27201@amd>
-References: <20210501151538.145449-1-masahiroy@kernel.org>
-         <20210515071410.GA27201@amd>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.60
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: B36F22448B4
-X-Stat-Signature: sk6bp1su8mgpmhdudeekd6zmd57nm8uk
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18VobztuKx5cPb+cCAmoDLIOZAXmsA6C+8=
-X-HE-Tag: 1621063666-295586
+        id S232288AbhEOLBN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 May 2021 07:01:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46516 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235405AbhEOK7M (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 15 May 2021 06:59:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 68AB3B118;
+        Sat, 15 May 2021 10:57:58 +0000 (UTC)
+Received: by lion.mk-sys.cz (Postfix, from userid 1000)
+        id 3B218602D9; Sat, 15 May 2021 12:57:58 +0200 (CEST)
+Message-Id: <13e53f8f5dab1e3e070b4cb34bbe8b89f85f5326.1621076083.git.mkubecek@suse.cz>
+From:   Michal Kubecek <mkubecek@suse.cz>
+Date:   Sat, 15 May 2021 12:11:13 +0200
+Subject: [PATCH] kbuild: dummy-tools: adjust to stricter stackprotector check
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@suse.de>, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, 2021-05-15 at 09:14 +0200, Pavel Machek wrote:
-> On Sun 2021-05-02 00:15:38, Masahiro Yamada wrote:
-> > The current minimum GCC version is 4.9 except ARCH=arm64 requiring
-> > GCC 5.1.
-> 
-> Please don't. I'm still on 4.9 on machine I can't easily update,
+Commit 3fb0fdb3bbe7 ("x86/stackprotector/32: Make the canary into a regular
+percpu variable") modified the stackprotector check on 32-bit x86 to check
+if gcc supports using %fs as canary. Adjust dummy-tools gcc script to pass
+this new test by returning "%fs" rather than "%gs" if it detects
+-mstack-protector-guard-reg=fs on command line.
 
-Why is that?  Later compiler versions are available.
-http://cdn.kernel.org/pub/tools/crosstool/
+Fixes: 3fb0fdb3bbe7 ("x86/stackprotector/32: Make the canary into a regular percpu variable")
+Signed-off-by: Michal Kubecek <mkubecek@suse.cz>
+---
+ scripts/dummy-tools/gcc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Is there some other reason your machine can not have the compiler
-version updated?
-
+diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+index f6d543725f1e..b2483149bbe5 100755
+--- a/scripts/dummy-tools/gcc
++++ b/scripts/dummy-tools/gcc
+@@ -76,7 +76,11 @@ fi
+ if arg_contain -S "$@"; then
+ 	# For scripts/gcc-x86-*-has-stack-protector.sh
+ 	if arg_contain -fstack-protector "$@"; then
+-		echo "%gs"
++		if arg_contain -mstack-protector-guard-reg=fs "$@"; then
++			echo "%fs"
++		else
++			echo "%gs"
++		fi
+ 		exit 0
+ 	fi
+ 
+-- 
+2.31.1
 
