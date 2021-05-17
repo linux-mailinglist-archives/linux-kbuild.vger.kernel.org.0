@@ -2,122 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99E0A3824F7
+	by mail.lfdr.de (Postfix) with ESMTP id E790E3824F8
 	for <lists+linux-kbuild@lfdr.de>; Mon, 17 May 2021 09:04:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235085AbhEQHFO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 May 2021 03:05:14 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:58552 "EHLO
+        id S235091AbhEQHFP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 May 2021 03:05:15 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:58553 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234274AbhEQHFO (ORCPT
+        with ESMTP id S235027AbhEQHFO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Mon, 17 May 2021 03:05:14 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 14H73Gls004781;
-        Mon, 17 May 2021 16:03:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14H73Gls004781
+        by conuserg-10.nifty.com with ESMTP id 14H73Glt004781;
+        Mon, 17 May 2021 16:03:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14H73Glt004781
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1621234997;
-        bh=vMmG38PneO5iTqzcHq7rhpDey3NYml8eR7BGuT52bjY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=elDDN4ZexyPq0fEt/XubXnL4eyAgT1xE6MVYZCe06mPbTkOp8+yYykSPYYq+9THNW
-         9Q7NKtml3S4PZDUR5wPYhztNsy9et+vuXvF5YP7fmYPT52ePwMsZ+2rwwvuLMHMDOg
-         MtXXd+IEc7qa/8/KWOK8HZ0b+cbvV4ruu1qIK+VYItGJ9GH3/cTIg0q9sn3aWZSyiQ
-         saYUqSAARPKvwth3I13FIoaLuPwSoHzUpC1hzPikKN5DBpp0a75uuZSA2zMG2laTJ2
-         3nWGMKmtOY9dTJeZ6wKpLvyNiKfPbdZOOhOVXPQdaGiXfO5sFE3KK8DdSvaTe59dnb
-         snJlKg0h3Ohjw==
+        bh=6qjhF17S3DwzBYJAs6pv957dH/5j1JRv4sjCIoKFd30=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=u2LSqvfjpQODCn8BGPMMfelqh5m+OTiOGUzdgE3a3gTVBXEAARmWRNc1i12yZWv+g
+         IB9yCuWApieVVhmjFZV1l7seBHwdvE5AaRvOQvhnSV7eYctv4A4onxAMKjWP61u5+N
+         vshDaJDoc118zGtMCbWWh0Nig9Ayrw+RGMD7KH6ebjk4Sdh2lGi1qdwRvGz/8tXK8L
+         fQ2CS2WSjfsKX8eUIpFn01dLcd2vRrf8MPm6U+Xzt6NUK1S9dyGJ7p1YyStxTv4Goh
+         gNvK/wNDNPYGYHvNZtLK9SMMWFXP2AxL+gob4VtXCU2k+MFD2jnUNV9tT21iIdrh6P
+         ovVpccsHTk/Vw==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@arndb.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] kbuild: merge scripts/mkmakefile to top Makefile
-Date:   Mon, 17 May 2021 16:03:11 +0900
-Message-Id: <20210517070314.1428091-1-masahiroy@kernel.org>
+        Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] init: use $(call cmd,) for generating include/generated/compile.h
+Date:   Mon, 17 May 2021 16:03:12 +0900
+Message-Id: <20210517070314.1428091-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210517070314.1428091-1-masahiroy@kernel.org>
+References: <20210517070314.1428091-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/mkmakefile is simple enough to be merged in the Makefile.
-
-Use $(call cmd,...) to show the log instead of doing it in the
-shell script.
+The 'cmd' macro shows the short log only when $(quiet) is quiet_.
+Do not do it manually.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile           | 15 ++++++++++++---
- scripts/mkmakefile | 17 -----------------
- 2 files changed, 12 insertions(+), 20 deletions(-)
- delete mode 100755 scripts/mkmakefile
+ init/Makefile | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 15b6476d0f89..50776cc3e894 100644
---- a/Makefile
-+++ b/Makefile
-@@ -544,14 +544,24 @@ scripts_basic:
- 	$(Q)rm -f .tmp_quiet_recordmcount
+diff --git a/init/Makefile b/init/Makefile
+index 6bc37f64b361..2846113677ee 100644
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -27,11 +27,11 @@ $(obj)/version.o: include/generated/compile.h
+ # mkcompile_h will make sure to only update the
+ # actual file if its content has changed.
  
- PHONY += outputmakefile
-+ifdef building_out_of_srctree
- # Before starting out-of-tree build, make sure the source tree is clean.
- # outputmakefile generates a Makefile in the output directory, if using a
- # separate output directory. This allows convenient use of make in the
- # output directory.
- # At the same time when output Makefile generated, generate .gitignore to
- # ignore whole output directory
--outputmakefile:
--ifdef building_out_of_srctree
+-       chk_compile.h = :
+- quiet_chk_compile.h = echo '  CHK     $@'
+-silent_chk_compile.h = :
+-include/generated/compile.h: FORCE
+-	@$($(quiet)chk_compile.h)
+-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
++quiet_cmd_compile.h = CHK     $@
++      cmd_compile.h = \
++	$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
+ 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
+ 	"$(CONFIG_PREEMPT_RT)" $(CONFIG_CC_VERSION_TEXT) "$(LD)"
 +
-+quiet_cmd_makefile = GEN     $@
-+      cmd_makefile = { \
-+	echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
-+	echo "include $(srctree)/Makefile"; \
-+	} > $@
-+
-+Makefile: FORCE
-+	$(call cmd,makefile)
-+
-+outputmakefile: Makefile
- 	$(Q)if [ -f $(srctree)/.config -o \
- 		 -d $(srctree)/include/config -o \
- 		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
-@@ -562,7 +572,6 @@ ifdef building_out_of_srctree
- 		false; \
- 	fi
- 	$(Q)ln -fsn $(srctree) source
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile $(srctree)
- 	$(Q)test -e .gitignore || \
- 	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
- endif
-diff --git a/scripts/mkmakefile b/scripts/mkmakefile
-deleted file mode 100755
-index 1cb174751429..000000000000
---- a/scripts/mkmakefile
-+++ /dev/null
-@@ -1,17 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--# Generates a small Makefile used in the root of the output
--# directory, to allow make to be started from there.
--# The Makefile also allow for more convinient build of external modules
--
--# Usage
--# $1 - Kernel src directory
--
--if [ "${quiet}" != "silent_" ]; then
--	echo "  GEN     Makefile"
--fi
--
--cat << EOF > Makefile
--# Automatically generated by $0: don't edit
--include $1/Makefile
--EOF
++include/generated/compile.h: FORCE
++	$(call cmd,compile.h)
 -- 
 2.27.0
 
