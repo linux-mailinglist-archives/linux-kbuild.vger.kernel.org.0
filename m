@@ -2,125 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6510C387B0E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 May 2021 16:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B346C388F62
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 May 2021 15:43:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233103AbhEROYi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 May 2021 10:24:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59029 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232769AbhEROYh (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 May 2021 10:24:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621347799;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=f8IzFIOzbsxUCqwXiXd4bDeaGDFMJm7rKWjjlTMeQkU=;
-        b=K/166PnWuY8f2WXlM9QtlhmQ05fwo1JE4AwikoY9IF3KCojnH6hIHExj9lSpRHg3PUNySB
-        12Ee4gruEPma9xXMMlEIo64oEGwgn+NLyJy/kzea2y4BDM94v/1zF/D970xR2g7kMuFelk
-        SuSApHpQtix7TAX0dIy1y3QYS375vX8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-7H3xJ5CNMZ2M0o0052eYog-1; Tue, 18 May 2021 10:23:15 -0400
-X-MC-Unique: 7H3xJ5CNMZ2M0o0052eYog-1
-Received: by mail-wr1-f70.google.com with SMTP id v5-20020adf9e450000b029010e708f05b3so5667999wre.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 May 2021 07:23:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f8IzFIOzbsxUCqwXiXd4bDeaGDFMJm7rKWjjlTMeQkU=;
-        b=nW/fHqDUNb6xJsK88h5EecQD0eZ1pqnoDG1e83M17lGEfMT09EmfdYZod+B2P3FPwp
-         Jl7XK50pwpuwSBO0pDg3vCHIIZZ5thTJy8Qx8h+vDzkAtzmVnlTcjEGf8RkT5jkbk7my
-         Xj4Uv26sfeaWC9hGr+RRxNJ8a9Kj7KH6cmGYr5Fwja+69hKarJYf5cu9GaGM+xrF9pWC
-         RPohlcMwH0aal6XnMiMWzPEsAjiMmnxikNsWArob5dwlr9ciiq5eO/n+YC0xYzSd9HQp
-         u0tgXOVr+/NTp/obxLHg/Iup3P0X7F0QjliSR6xdBGC7lhUmi8sk3SzjkAE/Ws7ydsWE
-         cDmQ==
-X-Gm-Message-State: AOAM533Pt9epMBgQu8zfD7DAmyQyuqFH7Olbxd92adDaIMH4zdbtBXOU
-        mxzYq3O210ZmyL6srsPJWgkarQX33cebC+b79gf4ry+/HmSuiKCjFdBn+IJoVRaXR8MKa62ZIQz
-        JJWC7I9AKLXO5g8xFCBkE5FTP
-X-Received: by 2002:adf:f907:: with SMTP id b7mr7312889wrr.357.1621347794392;
-        Tue, 18 May 2021 07:23:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6E1MI1XSdj+/UrQccO5djZLBo0D5vzJ6188cg66WvIejc4itI68QMz8MWHG8lIVM4l7oV0g==
-X-Received: by 2002:adf:f907:: with SMTP id b7mr7312863wrr.357.1621347794154;
-        Tue, 18 May 2021 07:23:14 -0700 (PDT)
-Received: from minerva.redhat.com ([92.176.231.106])
-        by smtp.gmail.com with ESMTPSA id i1sm10700145wrp.51.2021.05.18.07.23.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 07:23:13 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
+        id S1344637AbhESNox (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 May 2021 09:44:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45658 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229531AbhESNow (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 19 May 2021 09:44:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2D536112F;
+        Wed, 19 May 2021 13:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621431812;
+        bh=e5Ou1Wf1l1cSB41OpuLSI6u4W4jDM0imYmUHvUByYGw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t2o8PCwrAxkbSZcGIZ4nqGRnmeOBTVIZHInA+q5Ty+iTSSpld1yiEpQklSiqKkXCT
+         dVgXF3d2k3VhE8qG3fUacGvbigSIme6TNweMEu+WERkFidcAc95lrCjc0724e8HbYU
+         ijzdfSK6kREcldvO8VRS8svhqKUwK9xXsoX2hvlJh/zoNxxoOftOQfoppjmCQdvLsN
+         EOcspGldbMo1Bexw6TwuMTAixcJK1h9PTOfyM8pxx2m3DRbTZSMGR9sWA/oywHRArL
+         mmWsi4xMlvvIdtx4Ko5kWhfBBWGUPZfZ5Whke3Gwyyh7u0EQ0y+O2jl8pbzJaPB/i5
+         4bK1o8MbqgB2w==
+Received: by mail-ej1-f41.google.com with SMTP id k14so16568836eji.2;
+        Wed, 19 May 2021 06:43:32 -0700 (PDT)
+X-Gm-Message-State: AOAM531KetzHXH6ZIfD4075XCkbhFufL5bDizS86SQoeFQvEIFzrDFVc
+        rqADVbc/zex9wqVR17p2+YZdX1QbluX0ZkP9YQ==
+X-Google-Smtp-Source: ABdhPJxH/lGICnQpzeFewbWAeIwW5++saiskkNC6RUL2H4yoNw1jdP+qO7cZEQ2+dyj9ooceOrwNhG0W2iKlZ4Iahmw=
+X-Received: by 2002:a17:907:78cd:: with SMTP id kv13mr177415ejc.360.1621431811389;
+ Wed, 19 May 2021 06:43:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210513151800.1059435-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210513151800.1059435-1-dmitry.baryshkov@linaro.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 19 May 2021 08:43:19 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLtaJ43Y5ySEK5OraScigEO_OD3TMoy6DYFREK7kh=uFg@mail.gmail.com>
+Message-ID: <CAL_JsqLtaJ43Y5ySEK5OraScigEO_OD3TMoy6DYFREK7kh=uFg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: allow checking single device tree file
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break the build
-Date:   Tue, 18 May 2021 16:23:02 +0200
-Message-Id: <20210518142302.1046718-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The ccache tool can be used to speed up cross-compilation, by calling the
-compiler and binutils through ccache. For example, following should work:
+On Thu, May 13, 2021 at 10:18 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Add support for testing single device tree file by running
+> 'make tree.dt.yaml', e.g. 'make ARCH=arm64 qcom/qrb5165-rb5.dt.yaml'.
+> This looks useful for checking idividual changes to dts files.
 
-    $ export ARCH=arm64 CROSS_COMPILE="ccache aarch64-linux-gnu-"
+typo
 
-    $ make M=drivers/gpu/drm/rockchip/
+I'd rather not expose .*.dt.yaml as I want to make checking not
+optional and I have some plans of integrating the schema checks into
+dtc which would eliminate .dt.yaml files. Instead, I think %.dtb
+targets should run the checks always.
 
-but pahole fails to extract the BTF info from DWARF, breaking the build:
+>
+> Cc: Rob Herring <robh@kernel.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/Makefile b/Makefile
+> index 53d09c414635..b36a3d48eb68 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1383,6 +1383,10 @@ ifneq ($(dtstree),)
+>  %.dtbo: include/config/kernel.release scripts_dtc
+>         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>
+> +%.dt.yaml: include/config/kernel.release scripts_dtc
+> +       $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings Documentation/devicetree/bindings/processed-schema.json
 
-      CC [M]  drivers/gpu/drm/rockchip//rockchipdrm.mod.o
-      LD [M]  drivers/gpu/drm/rockchip//rockchipdrm.ko
-      BTF [M] drivers/gpu/drm/rockchip//rockchipdrm.ko
-    aarch64-linux-gnu-objcopy: invalid option -- 'J'
-    Usage: aarch64-linux-gnu-objcopy [option(s)] in-file [out-file]
-     Copies a binary file, possibly transforming it in the process
-    ...
-    make[1]: *** [scripts/Makefile.modpost:156: __modpost] Error 2
-    make: *** [Makefile:1866: modules] Error 2
+I don't think we should expose this detail (processed-schema.json) to
+the top-level makefile. This will be built if 'dt_binding_check' is a
+dependency with CHECK_DTBS=y set.
 
-this fails because OBJCOPY is set to "ccache aarch64-linux-gnu-copy" and
-later pahole is executed with the following command line:
+> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@ CHECK_DTBS=y
 
-    LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@
+CHECK_DTBS here doesn't work. It has to be exported.
 
-which gets expanded to:
+So here's my modified patch (%.dtbo should probably be included too,
+but I'm not yet sure how well the schema checks will work on them):
 
-    LLVM_OBJCOPY=ccache aarch64-linux-gnu-objcopy pahole -J ...
+8<---------------------------------------------------------
+diff --git a/Makefile b/Makefile
+index 53d09c414635..a1e246956d65 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1377,12 +1377,18 @@ endif
 
-instead of:
+ ifneq ($(dtstree),)
 
-    LLVM_OBJCOPY="ccache aarch64-linux-gnu-objcopy" pahole -J ...
+-%.dtb: include/config/kernel.release scripts_dtc
++%.dtb: %.dt.yaml
+        $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 
-Fixes: 5f9ae91f7c0 ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+ %.dtbo: include/config/kernel.release scripts_dtc
+        $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
 
- scripts/Makefile.modfinal | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index dd87cea9fba..a7883e45529 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -59,7 +59,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
- quiet_cmd_btf_ko = BTF [M] $@
-       cmd_btf_ko = 							\
- 	if [ -f vmlinux ]; then						\
--		LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@; \
-+		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
- 	else								\
- 		printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
- 	fi;
--- 
-2.31.1
-
++ifneq ($(filter %.dtb, $(MAKECMDGOALS)),)
++export CHECK_DTBS=y
++endif
++%.dt.yaml: dt_binding_check include/config/kernel.release scripts_dtc
++       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
++
