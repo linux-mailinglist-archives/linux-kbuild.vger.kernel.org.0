@@ -2,103 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12EE738C59A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 May 2021 13:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AE5438D2BB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 May 2021 03:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbhEULZO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 May 2021 07:25:14 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:49657 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbhEULZN (ORCPT
+        id S230310AbhEVBIg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 May 2021 21:08:36 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:63775 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230293AbhEVBIg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 May 2021 07:25:13 -0400
-Received: from leknes.fjasle.eu ([92.116.73.138]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MxVbb-1lYgTg47OD-00xoCI for <linux-kbuild@vger.kernel.org>; Fri, 21 May 2021
- 13:23:46 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 401BB3C4CC; Fri, 21 May 2021 13:23:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1621596222; bh=GsepezfK7SCDw4QRe3az2jXkhTITx9Jxd1jiPnHi2vo=;
-        h=Resent-From:Resent-Date:Resent-To:Date:From:To:Cc:Subject:
-         References:In-Reply-To:From;
-        b=sozGZ0qcDkwXvXaDwvMTRYPoQLndJQZFs7rMelnUS7vu3+sZpz5ZjYy6IgzdToawt
-         iNXsRGG7D39cB5QjcVKdWE6zBetAljk84BQg7JoAzswpN2mJWoy4LXrLnFEW/jpIwT
-         g9CHTaSvF804qOMtn1hP8SA/rWSz9TRrjvc5y1Ao=
-X-Spam-Checker-Version: SpamAssassin 3.4.5-pre1 (2020-06-20) on leknes
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.5-pre1
-X-Original-To: nicolas@fjasle.eu
-Received: from lillesand.fjasle.eu (unknown [IPv6:fd00::ba:f4ff:fe3b:a745])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "lillesand.fjasle.eu", Issuer "Fake LE Intermediate X1" (not verified))
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 83B3C3C071;
-        Fri, 21 May 2021 12:29:53 +0200 (CEST)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by lillesand.fjasle.eu (Postfix, from userid 1000)
-        id 17497101F68; Fri, 21 May 2021 12:29:53 +0200 (CEST)
-Date:   Fri, 21 May 2021 12:29:52 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] hexagon: move core-y in arch/hexagon/Makefile to
- arch/hexagon/Kbuild
-Message-ID: <YKeLoDy3QddLd6jb@lillesand.fjasle.eu>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210512075729.60291-1-masahiroy@kernel.org>
- <20210512075729.60291-4-masahiroy@kernel.org>
+        Fri, 21 May 2021 21:08:36 -0400
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 14M16pBN026977;
+        Sat, 22 May 2021 10:06:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 14M16pBN026977
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1621645611;
+        bh=OcW/O9TMsS58qq1xo0CibXOknhqMRmePaouu9fMkfY4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uBYt76FfZoy3nH1550IfEZm4dbDF+c3S7AjLvQp6RyLVUgOyz4h3asXfLJ/fwsG9b
+         z5VPg92CUT55MMqgYTbRtXfxL8TGSp3IcfPlEYEso+CaATf+rSsf1XLPboLKZbWYkt
+         4Xf6s6OPuOUdHHOpRxQ2Y6+WHX6Z7PjFkMQgX7qcsC9T5O4XUuHYxO5jKB2CXLf199
+         WQxzi7kSUrMrmzRg3lmO5gL+lbcJP+qWAi+0sZAHUxm6PycvwAWjpbJ/5Aux5Wk4zv
+         5DcEFlT+EfWxz1nPq6tr/pm1sQFTUrgbCj2/VMc64i298TgzvTGzjaN+ooRYF2Qi8Z
+         EZgR9kLCPeZAQ==
+X-Nifty-SrcIP: [209.85.215.174]
+Received: by mail-pg1-f174.google.com with SMTP id v14so12824681pgi.6;
+        Fri, 21 May 2021 18:06:51 -0700 (PDT)
+X-Gm-Message-State: AOAM530nySj/nJGjAiUi2I/WdZFXpKHykvrkyZc2iZ7eT+lAjFGZcjvh
+        dE2rqUcP7NwiJv8iT8pB8KDFTFD64FWclDqEtQY=
+X-Google-Smtp-Source: ABdhPJzWVZnmJADXK+kym1XqzulWBEP4eh8sZgUOGIIVZKy28OFx9gj/LSu/10rlvB81XB3oTpgeL/yHBzNfGxvf3wM=
+X-Received: by 2002:a63:a547:: with SMTP id r7mr1503648pgu.7.1621645610684;
+ Fri, 21 May 2021 18:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20210512075729.60291-4-masahiroy@kernel.org>
-X-Operating-System: Debian GNU/Linux 11.0
-Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:S2BjR1hA9eJB9b+capvZLLcirWKGQTLrJtqrpzofzETj+2L9kib
- tL6qZDXmPdRLeULWolEDOn+hg9EFkZSSD/cmJEKKmoNQ7D6DgnTNi6dzBP/L00NQpwxENCw
- UcmvuVCI0t5fCx3v6V8C2x5Vd8z9pqAiS7zwMaXOwfcBBg+sK+NbPpFEZIrBVMbHvMN0H+r
- yX4Z3t8RVQwaQSyaYRo0Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uvJVj7LN/jA=:EN3CP+wY7nx74TC4iRpeYC
- KRuFQjz+wAoiZaj/wRe3iHqURfMDJBcmi4MNFP86ZiRKlm6CDbCW2Zv2MFjEHcio8+LXboFbk
- nHYjp/ofPxY4n5yQwn3Vh9qlmcNNNECrpsFTobylhbPsBOrJQUUOd0pe3OXhiMM3Ixqo8UVPQ
- 1hYAzxNlPWL84u+Q1bnS0FX2UW68HJf8JFckuvDvB/F33f3/RyJlYjV0eHlFU2+LeFU/2/m58
- ny7JJISkerMdLqI4m3ArwQra3pqI6GGvH0nVrqayRNW6LHXTxGg76BJTEBt5XzyzOhVJTCZBg
- VU6e25BAMOnKMUBBiW6v3ueE5+TBTmcrHgahGCqQ8hp+LDy5Z+PIIPDCcRnwjh2KOakIxnyUe
- sTsxyd6h9jjSoAjeN4at+fyfL+3jNf89DQjG0PmZyoKph8e8r+FD7mTsDDm8PLdVH0AH+sS3k
- g41KMJowyZvB1Ybj6MDJje56GXYkqXxlvNuGKiLeMOVkjad1mZgNNpdZ6T/6nsyitEvKo1A7Z
- CvYaQe1uAtHCqp1G5yM/zw=
+References: <20210319000708.1694662-1-ndesaulniers@google.com>
+ <20210323190532.eiqxmskiankf7hn3@archlinux-ax161> <CAF2Aj3i3-bev_iS6OrBUTzt==4d0f7UiTeY1YPur6eKFqToFYQ@mail.gmail.com>
+In-Reply-To: <CAF2Aj3i3-bev_iS6OrBUTzt==4d0f7UiTeY1YPur6eKFqToFYQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 22 May 2021 10:06:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com>
+Message-ID: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: fix GDB warning with CONFIG_RELR
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Fangrui Song <maskray@google.com>,
+        Elliot Berman <eberman@quicinc.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Fri, May 21, 2021 at 6:36 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Tue, 23 Mar 2021 at 19:06, Nathan Chancellor <nathan@kernel.org> wrote:
+>>
+>> On Thu, Mar 18, 2021 at 05:07:06PM -0700, Nick Desaulniers wrote:
+>> > GDB produces the following warning when debugging kernels built with
+>> > CONFIG_RELR:
+>> >
+>> > BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
+>> >
+>> > when loading a kernel built with CONFIG_RELR into GDB. It can also
+>> > prevent debugging symbols using such relocations.
+>> >
+>> > Peter sugguests:
+>> >   [That flag] means that lld will use dynamic tags and section type
+>> >   numbers in the OS-specific range rather than the generic range. The
+>> >   kernel itself doesn't care about these numbers; it determines the
+>> >   location of the RELR section using symbols defined by a linker script.
+>> >
+>> > Link: https://github.com/ClangBuiltLinux/linux/issues/1057
+>> > Suggested-by: Peter Collingbourne <pcc@google.com>
+>> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>>
+>> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+>
+>  Masahiro,
+>
+> Would you mind sharing your plans for this reviewed patch please?
+>
 
-On Wed 12 May 2021 16:57:28 GMT, Masahiro Yamada wrote:
-> Use obj-y to clean up Makefile.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/hexagon/Kbuild   | 1 +
->  arch/hexagon/Makefile | 4 ----
->  2 files changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/arch/hexagon/Kbuild b/arch/hexagon/Kbuild
-> index a4e40e534e6a..d930c2f954d5 100644
-> --- a/arch/hexagon/Kbuild
-> +++ b/arch/hexagon/Kbuild
-> @@ -1 +1,2 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +obj += kernel/ mm/ lib/
 
-This should probably be 'obj-y' instead of 'obj'?
+Do you want me to pick up this?
 
-Kind regards,
-Nicolas
+Or, do you think it should be done by the committer of
+5cf896fb6be3effd9aea455b22213e27be8bdb1d ?
+
+
+-- 
+Best Regards
+Masahiro Yamada
