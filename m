@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 623E438D86F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 May 2021 05:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5838938D871
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 May 2021 05:15:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231540AbhEWDRO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 May 2021 23:17:14 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:31288 "EHLO
+        id S231625AbhEWDRP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 May 2021 23:17:15 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:31289 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231569AbhEWDRN (ORCPT
+        with ESMTP id S231604AbhEWDRO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 May 2021 23:17:13 -0400
+        Sat, 22 May 2021 23:17:14 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 14N3EZen018750;
+        by conuserg-10.nifty.com with ESMTP id 14N3EZeo018750;
         Sun, 23 May 2021 12:14:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14N3EZen018750
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14N3EZeo018750
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1621739676;
-        bh=g1onYEGMkfRjd8QsgCOU60uMAbt4fLk/I9gkUJ//b8g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=q638dZLxiz8YZ+z2ogGizFntECNmgduYMoVcE21g6NDJc7nxaXAfI5jdaRZTNfXT8
-         IL3z+CG1fTwbILvoF/yU1v8I/KVrrUOXUsVkkAkW3u9H4jMzeg1FDfkgz3sAgC/DXD
-         enq3K71xtgZ13dYuM60UjJmsW6e91GsgC2gxk35lg2YWnBFq7ib3gJ4KlUSrnx3nuG
-         zLKXLtWCrd1/t9qpYedtpNHrMQSwKc+Q6uKmSgkWDUY5EajbyBM5aoVWcazbRMPXBG
-         RZePtBW6blaDHR5Fv5GTeDpjwKL1AZPVFr37tcTdegnl4S5VAb+pEusiyMVgaeSZFB
-         U3DxnGhR59zaw==
+        s=dec2015msa; t=1621739677;
+        bh=QdjepPEIC8eRn6vWK34ZiH0vZVmkSJ83PvwaiEEfVng=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DlbjRgM/6DJrAAa+ojS5RLz9Qdi0YDtqxqN2bjrPtevXW9/BERSy0a5LN+xQAFnw9
+         xbUTybOh2gsr87Dcb81qfE2vASBKVn0/ruCbbJzJvYgbMn4WwHC/lUj4/MAZ2gr7yg
+         LxTIaBChQ5Ld6LfA0WmwmQ8LmMSTdaXCswLYd+TIuqPwvjBcw6Ku6fnJ4sZpe8rHnl
+         XC1aQoggN/qPA7oOiMcTih44rTqSD5+H6xo3FF5YHEHtMTF7r8E3MKRVsGUseDWIzK
+         B4H+TlyguWIkX4pQIkJkMfki6RnplFfLyOspNNRzJ5CZPp+dpIidoFGRKI4BFFoxVN
+         WkcV+PYiaeang==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,96 +33,58 @@ Cc:     Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Matthias Maennich <maennich@google.com>,
-        Matthieu Baerts <matthieu.baerts@tessares.net>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] scripts/setlocalversion: remove mercurial, svn and git-svn supports
-Date:   Sun, 23 May 2021 12:14:24 +0900
-Message-Id: <20210523031428.164186-1-masahiroy@kernel.org>
+Subject: [PATCH 2/5] scripts/setlocalversion: remove workaround for old make-kpkg
+Date:   Sun, 23 May 2021 12:14:25 +0900
+Message-Id: <20210523031428.164186-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210523031428.164186-1-masahiroy@kernel.org>
+References: <20210523031428.164186-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The mercurial, svn, git-svn supports were added by the following commits
-without explaining why they are useful for the kernel source tree.
+This reverts commit b052ce4c840e ("kbuild: fix false positive -dirty
+tag caused by make-kpkg").
 
- - 3dce174cfcba ("kbuild: support mercurial in setlocalversion")
+If I understand correctly, it occurred in very old versions of
+make-kpkg. When I tried a newer version, make-kpkg did not touch
+scripts/package/Makefile.
 
- - ba3d05fb6369 ("kbuild: add svn revision information to setlocalversion")
+Anyway, Debian uses 'make deb-pkg' instead of make-kpkg these days.
 
- - ff80aa97c9b4 ("setlocalversion: add git-svn support")
+Debian handbook [1] mentions it as "the good old days":
+ "CULTURE The good old days of kernel-package
 
-Let's revert all of them, and see if somebody will complain about it.
+  Before the Linux build system gained the ability to build proper
+  Debian packages, the recommended way to build such packages was to
+  use make-kpkg from the kernel-package package."
+
+[1]: https://debian-handbook.info/browse/stable/sect.kernel-compilation.html
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/setlocalversion | 41 -----------------------------------------
- 1 file changed, 41 deletions(-)
+ scripts/setlocalversion | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index db941f6d9591..879cba956e60 100755
+index 879cba956e60..f3084d6bbb22 100755
 --- a/scripts/setlocalversion
 +++ b/scripts/setlocalversion
-@@ -79,11 +79,6 @@ scm_version()
- 			fi
- 		fi
- 
--		# Is this git on svn?
--		if git config --get svn-remote.svn.url >/dev/null; then
--			printf -- '-svn%s' "$(git svn find-rev $head)"
--		fi
--
- 		# Check for uncommitted changes.
- 		# First, with git-status, but --no-optional-locks is only
- 		# supported in git >= 2.14, so fall back to git-diff-index if
-@@ -96,42 +91,6 @@ scm_version()
- 		} | grep -qvE '^(.. )?scripts/package'; then
+@@ -88,7 +88,7 @@ scm_version()
+ 		if {
+ 			git --no-optional-locks status -uno --porcelain 2>/dev/null ||
+ 			git diff-index --name-only HEAD
+-		} | grep -qvE '^(.. )?scripts/package'; then
++		} | read dummy; then
  			printf '%s' -dirty
  		fi
--
--		# All done with git
--		return
--	fi
--
--	# Check for mercurial and a mercurial repo.
--	if test -d .hg && hgid=$(hg id 2>/dev/null); then
--		# Do we have an tagged version?  If so, latesttagdistance == 1
--		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
--			id=$(hg log -r . --template '{latesttag}')
--			printf '%s%s' -hg "$id"
--		else
--			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
--			if [ -z "$tag" -o "$tag" = tip ]; then
--				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
--				printf '%s%s' -hg "$id"
--			fi
--		fi
--
--		# Are there uncommitted changes?
--		# These are represented by + after the changeset id.
--		case "$hgid" in
--			*+|*+\ *) printf '%s' -dirty ;;
--		esac
--
--		# All done with mercurial
--		return
--	fi
--
--	# Check for svn and a svn repo.
--	if rev=$(LC_ALL=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
--		rev=$(echo $rev | awk '{print $NF}')
--		printf -- '-svn%s' "$rev"
--
--		# All done with svn
--		return
  	fi
- }
- 
 -- 
 2.27.0
 
