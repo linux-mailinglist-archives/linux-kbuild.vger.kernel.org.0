@@ -2,82 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D9B38D7D7
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 May 2021 01:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 623E438D86F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 May 2021 05:15:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbhEVXwm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 May 2021 19:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59376 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231455AbhEVXwl (ORCPT
+        id S231540AbhEWDRO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 May 2021 23:17:14 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:31288 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231569AbhEWDRN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 May 2021 19:52:41 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E6EDC0613ED
-        for <linux-kbuild@vger.kernel.org>; Sat, 22 May 2021 16:51:15 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id g7so15471309edm.4
-        for <linux-kbuild@vger.kernel.org>; Sat, 22 May 2021 16:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oDYOCCf0w8h4trbY4PGM+YEr9dD9IiV0gScwVLCiGbY=;
-        b=sh2wWvHDR9RjP0eqozl0HjnUgLSzS4G8MXsvMGTcS0yR7NZ91JPf+yJBouE1C/i8c5
-         W8jkLF0Sxl5mBz5OIlWmSlgKKUhsYRF8uLTQMJ8Uurs/R9hZ3ZqqIia4aKMTfJrsZxCv
-         IBt9TQGANbV1pCVR0liXlWqnUSq0rqu12SjqFNgyRgvA7VQ3Aad9Jx2QF3MQYBUdE53h
-         SnddjqpKaJLL7ciqGxGiFqJxruwcF1fsE07aV/VpyHs8o9KNPEFP4GH08zySaQfVvcVk
-         wPebyxLIpaGIyWIOujE8knbgQzbjd4A2yVD5BA/cqQjtmN58zLCqGCeiiCEVeGYnK+Bu
-         CEyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oDYOCCf0w8h4trbY4PGM+YEr9dD9IiV0gScwVLCiGbY=;
-        b=eUUf95HJuIoGTHu7c8eHW+2q7oL4H75q+qCXOoENctC3CztnpOrgIisETUIPfA2Hpx
-         bAJ/UneYbEjZv4b0Lmd/CHByCKCBtRbRH0VVJGS8x0Z13a2GnM4z1M2Yk17MMyhjqd9x
-         bDi9onULsABkI8QLjuPpqZ2psaFkLHzuIqiBUNN6DNU2poVBZcZaj9G2mo+9DC4BkYbP
-         mGHOYHkSNVGKw2W3FBGyCcdxNw3BCNK6ESOZclwCOgYogucVlTO7IfPljgbQSOnith27
-         1+0Unnwmss5jzlx4H8H4rkcpVz53R2jYxhxdfpu5SpqgIJrE+AnLUTQUUqNVRF1aRWs/
-         lIsw==
-X-Gm-Message-State: AOAM530SNc7jq1WvNVy25BDWMgEMqONeeLWPCeRyI0M8ZUuA4k7rFN2W
-        vSts6y6l6u7/WMtErPFx4/pmfKxdYrHiDhbUQ1rE
-X-Google-Smtp-Source: ABdhPJym0f9zc3m+Iz9yqvvA8ZEDJcESzh33Fs5+ndzZSW0RbmVqYtnJbpkuVWYIWYsfgCQeq0NCNSulA6wlBF9Ln8Y=
-X-Received: by 2002:a50:f689:: with SMTP id d9mr18289418edn.197.1621727473341;
- Sat, 22 May 2021 16:51:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <202105191422.2E6748C4E0@keescook>
-In-Reply-To: <202105191422.2E6748C4E0@keescook>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sat, 22 May 2021 16:51:02 -0700
-Message-ID: <CAGG=3QWJD3wDr=Eji-rMcD49Mi-SyP1Tn6B63qJFyi492YafNg@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Sat, 22 May 2021 23:17:13 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 14N3EZen018750;
+        Sun, 23 May 2021 12:14:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 14N3EZen018750
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1621739676;
+        bh=g1onYEGMkfRjd8QsgCOU60uMAbt4fLk/I9gkUJ//b8g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=q638dZLxiz8YZ+z2ogGizFntECNmgduYMoVcE21g6NDJc7nxaXAfI5jdaRZTNfXT8
+         IL3z+CG1fTwbILvoF/yU1v8I/KVrrUOXUsVkkAkW3u9H4jMzeg1FDfkgz3sAgC/DXD
+         enq3K71xtgZ13dYuM60UjJmsW6e91GsgC2gxk35lg2YWnBFq7ib3gJ4KlUSrnx3nuG
+         zLKXLtWCrd1/t9qpYedtpNHrMQSwKc+Q6uKmSgkWDUY5EajbyBM5aoVWcazbRMPXBG
+         RZePtBW6blaDHR5Fv5GTeDpjwKL1AZPVFr37tcTdegnl4S5VAb+pEusiyMVgaeSZFB
+         U3DxnGhR59zaw==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Maennich <maennich@google.com>,
+        Matthieu Baerts <matthieu.baerts@tessares.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] scripts/setlocalversion: remove mercurial, svn and git-svn supports
+Date:   Sun, 23 May 2021 12:14:24 +0900
+Message-Id: <20210523031428.164186-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 19, 2021 at 2:37 PM Kees Cook <keescook@chromium.org> wrote:
->
-> I've added this to patch to my -next tree now:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/clang/pgo&id=e1af496cbe9b4517428601a4e44fee3602dd3c15
->
-> Thanks!
-> Kees Cook
+The mercurial, svn, git-svn supports were added by the following commits
+without explaining why they are useful for the kernel source tree.
 
-Thank you!
+ - 3dce174cfcba ("kbuild: support mercurial in setlocalversion")
 
--bw
+ - ba3d05fb6369 ("kbuild: add svn revision information to setlocalversion")
+
+ - ff80aa97c9b4 ("setlocalversion: add git-svn support")
+
+Let's revert all of them, and see if somebody will complain about it.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/setlocalversion | 41 -----------------------------------------
+ 1 file changed, 41 deletions(-)
+
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index db941f6d9591..879cba956e60 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -79,11 +79,6 @@ scm_version()
+ 			fi
+ 		fi
+ 
+-		# Is this git on svn?
+-		if git config --get svn-remote.svn.url >/dev/null; then
+-			printf -- '-svn%s' "$(git svn find-rev $head)"
+-		fi
+-
+ 		# Check for uncommitted changes.
+ 		# First, with git-status, but --no-optional-locks is only
+ 		# supported in git >= 2.14, so fall back to git-diff-index if
+@@ -96,42 +91,6 @@ scm_version()
+ 		} | grep -qvE '^(.. )?scripts/package'; then
+ 			printf '%s' -dirty
+ 		fi
+-
+-		# All done with git
+-		return
+-	fi
+-
+-	# Check for mercurial and a mercurial repo.
+-	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+-		# Do we have an tagged version?  If so, latesttagdistance == 1
+-		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
+-			id=$(hg log -r . --template '{latesttag}')
+-			printf '%s%s' -hg "$id"
+-		else
+-			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+-			if [ -z "$tag" -o "$tag" = tip ]; then
+-				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+-				printf '%s%s' -hg "$id"
+-			fi
+-		fi
+-
+-		# Are there uncommitted changes?
+-		# These are represented by + after the changeset id.
+-		case "$hgid" in
+-			*+|*+\ *) printf '%s' -dirty ;;
+-		esac
+-
+-		# All done with mercurial
+-		return
+-	fi
+-
+-	# Check for svn and a svn repo.
+-	if rev=$(LC_ALL=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+-		rev=$(echo $rev | awk '{print $NF}')
+-		printf -- '-svn%s' "$rev"
+-
+-		# All done with svn
+-		return
+ 	fi
+ }
+ 
+-- 
+2.27.0
+
