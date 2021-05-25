@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F38D390CA4
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED3B390CA3
 	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 01:02:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232040AbhEYXD6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S232133AbhEYXD6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Tue, 25 May 2021 19:03:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50514 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232065AbhEYXD5 (ORCPT
+        with ESMTP id S232088AbhEYXD5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 25 May 2021 19:03:57 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A3DC061756
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21FEC06175F
         for <linux-kbuild@vger.kernel.org>; Tue, 25 May 2021 16:02:26 -0700 (PDT)
 From:   bage@linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1621983743;
+        s=2020; t=1621983744;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7kafmThOz3eNzZ1ujEOerebfXF333jroyu7OdlmXeos=;
-        b=Hi1O27cylViv3Bz23a7Py7dP85gBgqHB9RhtQNgsTMFszDqvsrP+D2HJ1Xy4HN5D7HgvpB
-        O/4b1R6ud9LkDXrCxD2XuBkbWh7QXfOJA9s6cwGmABXZl2w+lhygU3bokbuBeR9+pt9ZB2
-        /UeKpXzFcCGfUG2jOl6H98USFb6qm+/UU1ByN+FhCLvRpQDnzvGpS2NbllWwIja5q69Ijm
-        M1RDBrCY99EM09eJqmKKY9rnRPzocORqiIZ5oX4tsnYU1l0mTiVkKbS+spRYtyOeb0hzz2
-        WD5tW90Qf6cztiD4e9M/YcyEE7Y9QPvnwZsjqz3O6Q3s/9QKCt+WpwnmlFjlYg==
+        bh=G7e0Q+5dF3OHIGid4Aab2rVzbUa2cJN+n3ka6i1AOc4=;
+        b=nQy7RrpBPBHjWsVu6pL8dbF5kkJBnH+svtGw+Ncd9Taa3tYxGciMdkJpr4s7WW49HFWWta
+        33RkLEzmvBTm4S+gBgN9MmJRszs/lJnwvf4XcE9pOddVWkz18zuFiDZDaL7BDAEamQeOEP
+        OxzJARSOYRD95dSjilkVhwca7kTYvSXaukKBgBM3CfU35uf3nkH8lCODEWdtb7HoiE++wi
+        AMHfVrVn/fHU3jOT4yXNPDDpbtcTpBNaJ7LUnp8clU6B7GCngu6smLYyo4v2s7sVKki2a/
+        /ilHAOQhV4MuUkpuxpPoEcdDuqVgrca/mutCIMRcY3dVKlPCzQG1qt4Rpuallw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1621983743;
+        s=2020e; t=1621983744;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7kafmThOz3eNzZ1ujEOerebfXF333jroyu7OdlmXeos=;
-        b=01SOOT2peEnBmAk75iLCSnUPMYjDqpXmGQB5B+cGYguX3hv3HzZrci2pkMfiwDf53vOdyI
-        aAKVSQg+IOSbkmAw==
+        bh=G7e0Q+5dF3OHIGid4Aab2rVzbUa2cJN+n3ka6i1AOc4=;
+        b=eTVri8UVT5tgwUwBuHPhf13fhjEhseYuaSKmM5EI++UoIh3gfQAtpj9R3lr5zUaC0qXCxW
+        EGCBjrXEK/Rm/NBA==
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
 Cc:     Bastian Germann <bage@linutronix.de>, linux-kbuild@vger.kernel.org,
         tglx@linutronix.de
-Subject: [PATCH v2 2/5] builddeb: set CC on cross build to prefixed gcc
-Date:   Wed, 26 May 2021 01:01:36 +0200
-Message-Id: <20210525230139.6165-3-bage@linutronix.de>
+Subject: [PATCH v2 3/5] builddeb: clean generated package content
+Date:   Wed, 26 May 2021 01:01:37 +0200
+Message-Id: <20210525230139.6165-4-bage@linutronix.de>
 In-Reply-To: <20210525230139.6165-1-bage@linutronix.de>
 References: <20210525230139.6165-1-bage@linutronix.de>
 MIME-Version: 1.0
@@ -54,34 +54,29 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Bastian Germann <bage@linutronix.de>
 
-Building the generated package with CC unset will fail for cross
-compilation. Detect that and set CC to a sane default prefixed by
-dpkg-architecture's DEB_HOST_GNU_TYPE variable.
+For each binary Debian package, a directory with the package name is
+created in the debian directory. Correct the generated file matches in the
+package's clean target, which were renamed without adjusting the target.
 
+Fixes: 1694e94e4f46 ("builddeb: match temporary directory name to the package name")
 Signed-off-by: Bastian Germann <bage@linutronix.de>
 ---
- scripts/package/mkdebian | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ scripts/package/mkdebian | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index b317d26e2bbf..449e284a449c 100755
+index 449e284a449c..9470581d8c75 100755
 --- a/scripts/package/mkdebian
 +++ b/scripts/package/mkdebian
-@@ -223,6 +223,14 @@ fi
- cat <<EOF > debian/rules
- #!$(command -v $MAKE) -f
+@@ -246,7 +246,7 @@ binary-arch: build-arch
+ 	KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile intdeb-pkg
  
-+include /usr/share/dpkg/architecture.mk
-+
-+ifneq (\$(DEB_BUILD_GNU_TYPE),\$(DEB_HOST_GNU_TYPE))
-+ifeq (\$(origin CC),default)
-+CC := \$(DEB_HOST_GNU_TYPE)-gcc
-+endif
-+endif
-+
- srctree ?= .
+ clean:
+-	rm -rf debian/*tmp debian/files
++	rm -rf debian/files debian/linux-*
+ 	\$(MAKE) clean
  
- build-indep:
+ binary: binary-arch
 -- 
 2.30.2
 
