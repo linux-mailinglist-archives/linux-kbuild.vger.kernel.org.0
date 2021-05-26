@@ -2,396 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D51391A44
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 16:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E35B391CD6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 18:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234709AbhEZOet (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 10:34:49 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:20173 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234416AbhEZOes (ORCPT
+        id S233575AbhEZQUM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 12:20:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233109AbhEZQUM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 10:34:48 -0400
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 14QEX0hZ030416;
-        Wed, 26 May 2021 23:33:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 14QEX0hZ030416
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1622039581;
-        bh=K2JBpUyGmknhlRJpT71wl4Baxz8GsbPi2HBWhe0fUJY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cnmXS+DqWdAPC0p8MNIg0X+ZuRBIktoOUUR+EQB4vPPRCGwGVlLjEGNDw3EmAqZlv
-         xlyoU4qIgALC1L++WZgyjKMXDzp+GxzDeYEL0F6IhJRd7Rpw2XWDIFJ8o7cQRW8BJc
-         58bmB0Jh48QslQPtKIaufL8A/fujJ7UQngW2AlQLs93Fom+msv11CPKYfc9S8R6atG
-         3OOPiA7jJYoMBhNmRyZsxR2MDGv0EVvIwT7A7e7yI9l8/pHrO3j3QQFOzjOgPaV2AN
-         D3pbKwvq9+nlzItRdCDnwVjN2eBR7ykeJ5nQmYRfOW40+I524Aqu+Vsx77vDiJBmu1
-         zIUzibiWGcAvw==
-X-Nifty-SrcIP: [209.85.214.181]
-Received: by mail-pl1-f181.google.com with SMTP id d20so700064pls.13;
-        Wed, 26 May 2021 07:33:00 -0700 (PDT)
-X-Gm-Message-State: AOAM530GOUOKnQj3QL/c4ZQ46GiqErhr0ztzPNR1/JAnM+d4jhe3s5UJ
-        GuU5kapvCyfdDuHaoVR2HnibyZ/eo5oliR92Jac=
-X-Google-Smtp-Source: ABdhPJw/7i4Yr5Lur94Y0RHgLFU9NY7pValTqlXUvZTdqsgLwd6wmbbeeFmUfP1tSYkLq/bZEryNx1br7CSMU1EHLow=
-X-Received: by 2002:a17:902:541:b029:f0:3187:409b with SMTP id
- 59-20020a1709020541b02900f03187409bmr36247746plf.47.1622039579510; Wed, 26
- May 2021 07:32:59 -0700 (PDT)
+        Wed, 26 May 2021 12:20:12 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E6EC061574;
+        Wed, 26 May 2021 09:18:39 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id z38so2833191ybh.5;
+        Wed, 26 May 2021 09:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j9+U4zzMSY1RadPEggsDzC3pcoNOFBiHJ55OHUPkriQ=;
+        b=i7OhssDathCe8u+V0I0yR8otfcJYCr85x+G3AEnOHWilKWzUSOFd2VJDAZGexdrmpu
+         QgdRuuXrjB5H/Q5IBfoPjn8f21wkFLHRSG84vlBefRM5zE42hpRB48KbVqUhiztot5O6
+         QnaKwRszjEZCvfpSNKuNmIKScWeyuoP8D96MaYavHmJ4iMqMyNYF1DLqF5Vra9rAu5VG
+         LONef8o3WhHpRvLnIp3iPs8citf+1L5Oi5GQ426ZLS1hvMvGr8aEyVDZnd54+847vcjF
+         AvHkW7IlT3cyB/jiq7daD8iYMNe18EFcaqcXtM4dsz0Wr3eyfnO8Kl+QI1bVxyQEskIa
+         M2Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j9+U4zzMSY1RadPEggsDzC3pcoNOFBiHJ55OHUPkriQ=;
+        b=nBiKv40+9TnRA048pvzR7Vj4q29BucdvbdagDC1eHooCuyenB4rNpUjR7Hx8ILM9+h
+         vUw02LRdoHR4U7UzlDcwAM6MYrfedKCIVZ5jjOon6Ubi7GnggTiA6tERKZsBI5KoN3X4
+         YmjAtRy0sAzgqlaRarfSpNENFjXgQPxNrU7eu3DwE4kbfTQ/CmGfxdgKB6MOZopUZLRA
+         6toOoWnItRypSYNnL9dnN2VWDBj+2IsH0BJJLEz3xG/EIKw8ei+XC3wRtzAxlSg8zhzL
+         U0uKoM61gIlk/zl6U7kbwF/Z7xwD3W4lQ/Hj+dMQpmzoRMu/Xros5/9+5g1tMt28FlD4
+         0+eg==
+X-Gm-Message-State: AOAM532i3SY+fQZYRTM95fr4AqbbO1SjRSfhOpGEqt9Gyn4yIDsJKLrh
+        Tcow6ZwdlbpXO2VvKT+KV6So1EWvHRYpBPg/KrU=
+X-Google-Smtp-Source: ABdhPJy8DXZKjSTHT5kJfAYsvUaN7xEVzURqGqdgOYUAUx/+mgpUvcDl/mEwGLlAg6iLgAyDiW2T7GbI/qeNneClPMg=
+X-Received: by 2002:a25:7246:: with SMTP id n67mr51162695ybc.510.1622045918363;
+ Wed, 26 May 2021 09:18:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210512075729.60291-1-masahiroy@kernel.org>
-In-Reply-To: <20210512075729.60291-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 May 2021 23:32:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
-Message-ID: <CAK7LNAS7cEj9h=Hi0O-AoFjJPg2mxp0zbi8boXj4O9aYt_yg6Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] kbuild: require all architectures to have arch/$(SRCARCH)/Kbuild
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Albert Ou <aou@eecs.berkeley.edu>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Brian Cain <bcain@codeaurora.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Chris Zankel <chris@zankel.net>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jeff Dike <jdike@addtoit.com>, Jonas Bonn <jonas@southpole.se>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+References: <20210518142302.1046718-1-javierm@redhat.com>
+In-Reply-To: <20210518142302.1046718-1-javierm@redhat.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Wed, 26 May 2021 09:18:27 -0700
+Message-ID: <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
+ the build
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     open list <linux-kernel@vger.kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Michal Simek <monstr@monstr.eu>,
-        Nick Hu <nickhu@andestech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rich Felker <dalias@libc.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Will Deacon <will@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-alpha@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        linux-um@lists.infradead.org,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        openrisc@lists.librecores.org,
-        sparclinux <sparclinux@vger.kernel.org>,
-        "moderated list:H8/300 ARCHITECTURE" 
-        <uclinux-h8-devel@lists.sourceforge.jp>, X86 ML <x86@kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 12, 2021 at 5:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, May 18, 2021 at 7:23 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
 >
-> arch/$(SRCARCH)/Kbuild is useful for Makefile cleanups because you can
-> use the obj-y syntax.
+> The ccache tool can be used to speed up cross-compilation, by calling the
+> compiler and binutils through ccache. For example, following should work:
 >
-> Add an empty file if it is missing in arch/$(SRCARCH)/.
+>     $ export ARCH=arm64 CROSS_COMPILE="ccache aarch64-linux-gnu-"
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>     $ make M=drivers/gpu/drm/rockchip/
+>
+> but pahole fails to extract the BTF info from DWARF, breaking the build:
+>
+>       CC [M]  drivers/gpu/drm/rockchip//rockchipdrm.mod.o
+>       LD [M]  drivers/gpu/drm/rockchip//rockchipdrm.ko
+>       BTF [M] drivers/gpu/drm/rockchip//rockchipdrm.ko
+>     aarch64-linux-gnu-objcopy: invalid option -- 'J'
+>     Usage: aarch64-linux-gnu-objcopy [option(s)] in-file [out-file]
+>      Copies a binary file, possibly transforming it in the process
+>     ...
+>     make[1]: *** [scripts/Makefile.modpost:156: __modpost] Error 2
+>     make: *** [Makefile:1866: modules] Error 2
+>
+> this fails because OBJCOPY is set to "ccache aarch64-linux-gnu-copy" and
+> later pahole is executed with the following command line:
+>
+>     LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@
+>
+> which gets expanded to:
+>
+>     LLVM_OBJCOPY=ccache aarch64-linux-gnu-objcopy pahole -J ...
+>
+> instead of:
+>
+>     LLVM_OBJCOPY="ccache aarch64-linux-gnu-objcopy" pahole -J ...
+>
+> Fixes: 5f9ae91f7c0 ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
+>
 
+LGTM. Masahiro, would you like us to take this through bpf tree or
+you'll apply this to kbuild one?
 
-Applied to linux-kbuild.
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
 
+>  scripts/Makefile.modfinal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  Makefile               | 2 +-
->  arch/alpha/Kbuild      | 1 +
->  arch/arc/Makefile      | 3 ---
->  arch/arm/Makefile      | 1 -
->  arch/arm64/Makefile    | 1 -
->  arch/csky/Kbuild       | 1 +
->  arch/h8300/Kbuild      | 1 +
->  arch/hexagon/Kbuild    | 1 +
->  arch/ia64/Kbuild       | 1 +
->  arch/microblaze/Kbuild | 1 +
->  arch/mips/Makefile     | 3 ---
->  arch/nds32/Kbuild      | 1 +
->  arch/nios2/Kbuild      | 1 +
->  arch/openrisc/Makefile | 1 -
->  arch/parisc/Kbuild     | 1 +
->  arch/powerpc/Makefile  | 3 ---
->  arch/riscv/Makefile    | 1 -
->  arch/s390/Makefile     | 3 ---
->  arch/sh/Kbuild         | 1 +
->  arch/sparc/Makefile    | 3 ---
->  arch/um/Kbuild         | 1 +
->  arch/x86/Makefile      | 3 ---
->  arch/xtensa/Kbuild     | 1 +
->  23 files changed, 13 insertions(+), 23 deletions(-)
->  create mode 100644 arch/alpha/Kbuild
->  create mode 100644 arch/csky/Kbuild
->  create mode 100644 arch/h8300/Kbuild
->  create mode 100644 arch/hexagon/Kbuild
->  create mode 100644 arch/ia64/Kbuild
->  create mode 100644 arch/microblaze/Kbuild
->  create mode 100644 arch/nds32/Kbuild
->  create mode 100644 arch/nios2/Kbuild
->  create mode 100644 arch/parisc/Kbuild
->  create mode 100644 arch/sh/Kbuild
->  create mode 100644 arch/um/Kbuild
->  create mode 100644 arch/xtensa/Kbuild
->
-> diff --git a/Makefile b/Makefile
-> index 15b6476d0f89..7df040b1b023 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -658,7 +658,7 @@ endif
->
->  ifeq ($(KBUILD_EXTMOD),)
->  # Objects we will link into vmlinux / subdirs we need to visit
-> -core-y         := init/ usr/
-> +core-y         := init/ usr/ arch/$(SRCARCH)/
->  drivers-y      := drivers/ sound/
->  drivers-$(CONFIG_SAMPLES) += samples/
->  drivers-$(CONFIG_NET) += net/
-> diff --git a/arch/alpha/Kbuild b/arch/alpha/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/alpha/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index 4392c9c189c4..3e6d4b84797f 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -85,9 +85,6 @@ KBUILD_LDFLAGS        += $(ldflags-y)
->
->  head-y         := arch/arc/kernel/head.o
->
-> -# See arch/arc/Kbuild for content of core part of the kernel
-> -core-y         += arch/arc/
-> -
->  # w/o this dtb won't embed into kernel binary
->  core-y         += arch/arc/boot/dts/
->
-> diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-> index 415c3514573a..173da685a52e 100644
-> --- a/arch/arm/Makefile
-> +++ b/arch/arm/Makefile
-> @@ -252,7 +252,6 @@ endif
->
->  export TEXT_OFFSET GZFLAGS MMUEXT
->
-> -core-y                         += arch/arm/
->  # If we have a machine-specific directory, then include it in the build.
->  core-y                         += $(machdirs) $(platdirs)
->
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 7ef44478560d..b73c151f3a53 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -149,7 +149,6 @@ KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
->  KBUILD_CPPFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
->  KBUILD_AFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
->
-> -core-y         += arch/arm64/
->  libs-y         := arch/arm64/lib/ $(libs-y)
->  libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
->
-> diff --git a/arch/csky/Kbuild b/arch/csky/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/csky/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/h8300/Kbuild b/arch/h8300/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/h8300/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/hexagon/Kbuild b/arch/hexagon/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/hexagon/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/ia64/Kbuild b/arch/ia64/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/ia64/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/microblaze/Kbuild b/arch/microblaze/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/microblaze/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/mips/Makefile b/arch/mips/Makefile
-> index 258234c35a09..4e942b7ef022 100644
-> --- a/arch/mips/Makefile
-> +++ b/arch/mips/Makefile
-> @@ -332,9 +332,6 @@ head-y := arch/mips/kernel/head.o
->  libs-y                 += arch/mips/lib/
->  libs-$(CONFIG_MIPS_FP_SUPPORT) += arch/mips/math-emu/
->
-> -# See arch/mips/Kbuild for content of core part of the kernel
-> -core-y += arch/mips/
-> -
->  drivers-y                      += arch/mips/crypto/
->
->  # suspend and hibernation support
-> diff --git a/arch/nds32/Kbuild b/arch/nds32/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/nds32/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/nios2/Kbuild b/arch/nios2/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/nios2/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/openrisc/Makefile b/arch/openrisc/Makefile
-> index 410e7abfac69..c52de526e518 100644
-> --- a/arch/openrisc/Makefile
-> +++ b/arch/openrisc/Makefile
-> @@ -42,7 +42,6 @@ endif
->
->  head-y                 := arch/openrisc/kernel/head.o
->
-> -core-y         += arch/openrisc/
->  libs-y         += $(LIBGCC)
->
->  PHONY += vmlinux.bin
-> diff --git a/arch/parisc/Kbuild b/arch/parisc/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/parisc/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-> index 3212d076ac6a..af669aa75b73 100644
-> --- a/arch/powerpc/Makefile
-> +++ b/arch/powerpc/Makefile
-> @@ -267,9 +267,6 @@ head-$(CONFIG_PPC_FPU)              += arch/powerpc/kernel/fpu.o
->  head-$(CONFIG_ALTIVEC)         += arch/powerpc/kernel/vector.o
->  head-$(CONFIG_PPC_OF_BOOT_TRAMPOLINE)  += arch/powerpc/kernel/prom_init.o
->
-> -# See arch/powerpc/Kbuild for content of core part of the kernel
-> -core-y += arch/powerpc/
-> -
->  # Default to zImage, override when needed
->  all: zImage
->
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index 3eb9590a0775..c5f359540862 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -90,7 +90,6 @@ endif
->
->  head-y := arch/riscv/kernel/head.o
->
-> -core-y += arch/riscv/
->  core-$(CONFIG_RISCV_ERRATA_ALTERNATIVE) += arch/riscv/errata/
->
->  libs-y += arch/riscv/lib/
-> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
-> index e443ed9947bd..37b61645694c 100644
-> --- a/arch/s390/Makefile
-> +++ b/arch/s390/Makefile
-> @@ -128,9 +128,6 @@ OBJCOPYFLAGS        := -O binary
->
->  head-y         := arch/s390/kernel/head64.o
->
-> -# See arch/s390/Kbuild for content of core part of the kernel
-> -core-y         += arch/s390/
-> -
->  libs-y         += arch/s390/lib/
->  drivers-y      += drivers/s390/
->
-> diff --git a/arch/sh/Kbuild b/arch/sh/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/sh/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-> index bee99e65fe23..4e65245bc755 100644
-> --- a/arch/sparc/Makefile
-> +++ b/arch/sparc/Makefile
-> @@ -58,9 +58,6 @@ endif
->
->  head-y                 := arch/sparc/kernel/head_$(BITS).o
->
-> -# See arch/sparc/Kbuild for the core part of the kernel
-> -core-y                 += arch/sparc/
-> -
->  libs-y                 += arch/sparc/prom/
->  libs-y                 += arch/sparc/lib/
->
-> diff --git a/arch/um/Kbuild b/arch/um/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/um/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> index c77c5d8a7b3e..4307bf48ec53 100644
-> --- a/arch/x86/Makefile
-> +++ b/arch/x86/Makefile
-> @@ -239,9 +239,6 @@ head-y += arch/x86/kernel/platform-quirks.o
->
->  libs-y  += arch/x86/lib/
->
-> -# See arch/x86/Kbuild for content of core part of the kernel
-> -core-y += arch/x86/
-> -
->  # drivers-y are linked after core-y
->  drivers-$(CONFIG_MATH_EMULATION) += arch/x86/math-emu/
->  drivers-$(CONFIG_PCI)            += arch/x86/pci/
-> diff --git a/arch/xtensa/Kbuild b/arch/xtensa/Kbuild
-> new file mode 100644
-> index 000000000000..a4e40e534e6a
-> --- /dev/null
-> +++ b/arch/xtensa/Kbuild
-> @@ -0,0 +1 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index dd87cea9fba..a7883e45529 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -59,7 +59,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
+>  quiet_cmd_btf_ko = BTF [M] $@
+>        cmd_btf_ko =                                                     \
+>         if [ -f vmlinux ]; then                                         \
+> -               LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@; \
+> +               LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
+>         else                                                            \
+>                 printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
+>         fi;
 > --
-> 2.27.0
+> 2.31.1
 >
-
-
--- 
-Best Regards
-Masahiro Yamada
