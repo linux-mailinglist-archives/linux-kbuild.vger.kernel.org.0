@@ -2,85 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2441391D8F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 19:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB9CF391E43
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 19:39:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234107AbhEZRKm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 13:10:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47328 "EHLO mail.kernel.org"
+        id S234614AbhEZRkv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 13:40:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46854 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233865AbhEZRKl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 13:10:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1040261184;
-        Wed, 26 May 2021 17:09:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622048950;
-        bh=biO76sc5FCTa0wyLLXe84EZAo5umTos5Aaw3fIOyp3E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ga8DyAAu7d5Ve5RJbz9ED6rSGBvqwlgut9+DkeOjoWvKxJdW387cDvxdXM/wGn2LS
-         0rHeiaOwBCIKXDurcfvZlDwpeW5hA+7Ov3zFGM5AAk7ZQaB6jL6EvqhA/M4O0/0Uk3
-         wXS1wbP0CVLtLWMvJ314uO4G2V8NlYCxHByKPXg8X117RapyOkED1ynjOCZ5Q8fG/q
-         /osMjFavVvDcLHW32ATZQKkzh9BduEqGZ705Tw60leIFY1h8IgpAt/l778951AITAL
-         vvA6C+VqSRQH1rz5y8SjRAR4Lo/PHRkJ8AseKaBRZAeRmxQLT7lDCFr4NRLrauvA3U
-         RI+IFtNn3MTCA==
-Date:   Wed, 26 May 2021 18:09:04 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Lee Jones <lee.jones@linaro.org>,
+        id S234588AbhEZRkl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 26 May 2021 13:40:41 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1622050748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ZUa2ajN4n6dAwvXL49SJ79dqRohBxVCl8r/IG+iC/fU=;
+        b=mUXykzBEyqbkEOhnt5txnbxEf9w16hbJU6BR5Ke41oG+yFwASYY8Ita7gLkZ8CNHtPNkzn
+        j2+WCUj1lcTTGeLiNboRBf+O+mslTZ59nXfnR5fQlIR6eeJkAQjc4URQr5dc5IgwmQZh3P
+        GLsGEsLVFsvLVogpK48JbvmyINrDfcw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1622050748;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ZUa2ajN4n6dAwvXL49SJ79dqRohBxVCl8r/IG+iC/fU=;
+        b=OJQgvRATxY9RlOYacjyxcAAybTFR5FOWQzeE+te70+8Uodl/5AsxrnwPpXpHx3MmlwjJiT
+        KriRUWRT0ccjHBBQ==
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8B7A2AEB3;
+        Wed, 26 May 2021 17:39:08 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Michal Suchanek <msuchanek@suse.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Fangrui Song <maskray@google.com>,
-        Elliot Berman <eberman@quicinc.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Collingbourne <pcc@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v2] Makefile: fix GDB warning with CONFIG_RELR
-Message-ID: <20210526170904.GB19831@willie-the-truck>
-References: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com>
- <20210522012626.2811297-1-ndesaulniers@google.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "kbuild: merge scripts/mkmakefile to top Makefile"
+Date:   Wed, 26 May 2021 19:38:55 +0200
+Message-Id: <20210526173855.5963-1-msuchanek@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210522012626.2811297-1-ndesaulniers@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 21, 2021 at 06:26:24PM -0700, Nick Desaulniers wrote:
-> GDB produces the following warning when debugging kernels built with
-> CONFIG_RELR:
-> 
-> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
-> 
-> when loading a kernel built with CONFIG_RELR into GDB. It can also
-> prevent debugging symbols using such relocations.
-> 
-> Peter sugguests:
->   [That flag] means that lld will use dynamic tags and section type
->   numbers in the OS-specific range rather than the generic range. The
->   kernel itself doesn't care about these numbers; it determines the
->   location of the RELR section using symbols defined by a linker script.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-> Suggested-by: Peter Collingbourne <pcc@google.com>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Changes V1 -> V2:
-> * rebase
-> * pick up Nathan's reviewed by tag.
-> 
->  Makefile                      | 2 +-
->  scripts/tools-support-relr.sh | 3 ++-
->  2 files changed, 3 insertions(+), 2 deletions(-)
+This reverts commit 243b50c141d71fcf7b88e94474b3b9269f0b1f9d.
 
-Does lld support RELR relocations for any architectures other than arm64? If
-so, is the "--use-android-relr-tags" option supported on all of those as
-well?
+When packaging the kernel it is built in different place from the one in
+which it will be installed. After build the makefile needs to be
+regenerated with the target location but with mkmakefile merged into
+Makefile tehre is no way to do that.
 
-Will
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+ Makefile           | 15 +++------------
+ scripts/mkmakefile | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+), 12 deletions(-)
+ create mode 100755 scripts/mkmakefile
+
+diff --git a/Makefile b/Makefile
+index 58b086b30144..462899c1b5d7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -573,24 +573,14 @@ scripts_basic:
+ 	$(Q)rm -f .tmp_quiet_recordmcount
+ 
+ PHONY += outputmakefile
+-ifdef building_out_of_srctree
+ # Before starting out-of-tree build, make sure the source tree is clean.
+ # outputmakefile generates a Makefile in the output directory, if using a
+ # separate output directory. This allows convenient use of make in the
+ # output directory.
+ # At the same time when output Makefile generated, generate .gitignore to
+ # ignore whole output directory
+-
+-quiet_cmd_makefile = GEN     $@
+-      cmd_makefile = { \
+-	echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
+-	echo "include $(srctree)/Makefile"; \
+-	} > $@
+-
+-Makefile: FORCE
+-	$(call cmd,makefile)
+-
+-outputmakefile: Makefile
++outputmakefile:
++ifdef building_out_of_srctree
+ 	$(Q)if [ -f $(srctree)/.config -o \
+ 		 -d $(srctree)/include/config -o \
+ 		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
+@@ -601,6 +591,7 @@ outputmakefile: Makefile
+ 		false; \
+ 	fi
+ 	$(Q)ln -fsn $(srctree) source
++	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile $(srctree)
+ 	$(Q)test -e .gitignore || \
+ 	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
+ endif
+diff --git a/scripts/mkmakefile b/scripts/mkmakefile
+new file mode 100755
+index 000000000000..1cb174751429
+--- /dev/null
++++ b/scripts/mkmakefile
+@@ -0,0 +1,17 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++# Generates a small Makefile used in the root of the output
++# directory, to allow make to be started from there.
++# The Makefile also allow for more convinient build of external modules
++
++# Usage
++# $1 - Kernel src directory
++
++if [ "${quiet}" != "silent_" ]; then
++	echo "  GEN     Makefile"
++fi
++
++cat << EOF > Makefile
++# Automatically generated by $0: don't edit
++include $1/Makefile
++EOF
+-- 
+2.26.2
+
