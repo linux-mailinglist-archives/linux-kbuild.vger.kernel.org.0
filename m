@@ -2,54 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75118391FD3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 20:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FF139212A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 21:53:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234468AbhEZTAr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 15:00:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40114 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234938AbhEZTAr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 15:00:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA0A0613C7;
-        Wed, 26 May 2021 18:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622055555;
-        bh=WGltjEQGQmSpa0KZNMruhrwEKLk8ypzCyKbofsPqxgo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vxk/fz3Qe8ijcHZhGycuv13zj2Tf2nadeqXGtW5NLCvKPewj7F/Di3JcXN8IQlpco
-         fVmmg0sPOgXMDVs+2xEMDJpPDT+gDZzw34FJ2eiusEpmGOOxLp8tWqirTkmyaObqON
-         xxhraziuBhEoHX6whg47zCH2CwBBBkiRoENq4U9C2cvYbmq3bK7yDjWq6304dB96Io
-         5fGSeIuH6Gpptu+yVcXb+IuL1zjVcEH3rXHNkxDnkn4J8gwSLFCcN4sNNjFaRtWzFL
-         //EJLmkm1/M6bM0twIB1zyv7agPKsNBw2edeC+yhEorOFYw7Mi1/fs/vj9RcyDYvG/
-         uYwEPuxK8ImRw==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id 76BE14011C; Wed, 26 May 2021 15:59:10 -0300 (-03)
-Date:   Wed, 26 May 2021 15:59:10 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+        id S232324AbhEZTz0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 15:55:26 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:61001 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234388AbhEZTz0 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 26 May 2021 15:55:26 -0400
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 14QJrgrY029737;
+        Thu, 27 May 2021 04:53:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 14QJrgrY029737
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1622058822;
+        bh=tVRT+PcjR97t4IuJpi2X0n+OU2xQfbFz9htkRteh/Zw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rzRsso6fu75kwKTYRS4m0zqZDQHJb8SksKZxd6HVkE+fRVlQL2K7Qc/Jc5AOzAIZo
+         RtH2oPK5zWP/4Q/9G5F+eoFnTNvD0MnbEHGQdf5PAmBO1ePZo/jlFDp7ZUJ6lFPKkn
+         dwRXxObx/3jUBuF05E5RJh4lEYWjjNL6mnLkZXAVKRCQWyKhaS/h8hKGTZrP6B2cHg
+         z2cCb0yJC9rBwIdNdZ403UP3bL82DX8U6D+LCjV77E45dWWlFCYJvm6JeMvuVsj5qE
+         GohV1tBzu2GU5RxNYxOWZs/r0vZoN0yAC5LmiBVVvo1ckkR12yNUZFUHsN3CoZyFrA
+         nKWVy0XuEISvw==
+X-Nifty-SrcIP: [209.85.210.174]
+Received: by mail-pf1-f174.google.com with SMTP id x18so1762271pfi.9;
+        Wed, 26 May 2021 12:53:42 -0700 (PDT)
+X-Gm-Message-State: AOAM5317NzMstCcINa/5tFsj8X4Dvvg8P8x0nqlWYK5K0pbfcREnWYDa
+        FqQDj294NYod4W9HiRJu3/hvcLPLcjSlMV2Mfug=
+X-Google-Smtp-Source: ABdhPJwPdcbJYRCzv9TTg6tbBgQi4zgbr3hqQvq5iLiweSvE/8M8sDpsa67zQ0pszqZRACbU+p5+av+G34LL0CJrND0=
+X-Received: by 2002:a63:164f:: with SMTP id 15mr86651pgw.175.1622058821401;
+ Wed, 26 May 2021 12:53:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210518142302.1046718-1-javierm@redhat.com> <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
+In-Reply-To: <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 27 May 2021 04:53:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
+Message-ID: <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
+ the build
 To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
 Cc:     Javier Martinez Canillas <javierm@redhat.com>,
         open list <linux-kernel@vger.kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Andrii Nakryiko <andrii@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
- the build
-Message-ID: <YK6afk8QQW/vHMuu@kernel.org>
-References: <20210518142302.1046718-1-javierm@redhat.com>
- <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
-X-Url:  http://acmel.wordpress.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Wed, May 26, 2021 at 09:18:27AM -0700, Andrii Nakryiko escreveu:
+On Thu, May 27, 2021 at 1:18 AM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
+>
 > On Tue, May 18, 2021 at 7:23 AM Javier Martinez Canillas
 > <javierm@redhat.com> wrote:
 > >
@@ -57,6 +66,9 @@ Em Wed, May 26, 2021 at 09:18:27AM -0700, Andrii Nakryiko escreveu:
 > > compiler and binutils through ccache. For example, following should work:
 > >
 > >     $ export ARCH=arm64 CROSS_COMPILE="ccache aarch64-linux-gnu-"
+
+Actually, I did not know this...
+
 > >
 > >     $ make M=drivers/gpu/drm/rockchip/
 > >
@@ -89,19 +101,12 @@ Em Wed, May 26, 2021 at 09:18:27AM -0700, Andrii Nakryiko escreveu:
 > > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > > ---
 > >
-> 
+>
 > LGTM. Masahiro, would you like us to take this through bpf tree or
 > you'll apply this to kbuild one?
-> 
+>
 > Acked-by: Andrii Nakryiko <andrii@kernel.org>
-
-LGTM
-
-Acked-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-
-- Arnaldo
-
- 
+>
 > >  scripts/Makefile.modfinal | 2 +-
 > >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
@@ -122,6 +127,17 @@ Acked-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 > > 2.31.1
 > >
 
--- 
 
-- Arnaldo
+Please feel free to pick it up.
+I do not know 5f9ae91f7c0.
+
+BTW, I see similar code in scripts/link-vmlinux.sh too.
+
+     LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${extra_paholeopt} ${1}
+
+Is it OK to leave it unquoted?
+
+
+-- 
+Best Regards
+Masahiro Yamada
