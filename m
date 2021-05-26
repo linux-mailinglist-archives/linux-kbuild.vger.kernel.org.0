@@ -2,209 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D1C392179
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 22:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD303921BE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 23:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232692AbhEZUaA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 16:30:00 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:52592 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232201AbhEZUaA (ORCPT
+        id S233995AbhEZVEl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 17:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233951AbhEZVEi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 16:30:00 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 581A61FD2A;
-        Wed, 26 May 2021 20:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1622060907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fRjKeo3mtIKPOow1iS/LCdTM3sotH5MsBH/Cg0l0qmY=;
-        b=oTxw1b4FsB1u5hX3UnFMroP3Ha3Wt0eOBG0DwdfSfAKWKfXL8BFitt4IyrUavzHjp9ijRD
-        Y5/9dcjLZzvpip9Zw4v1T0K6Wb9W9yBWjePTbMUOeJTfyIU5OcIRMqsRWhlyIGfPOtgN1i
-        pBybavChJV2XPs2gdyVflD9cgiZjgWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1622060907;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fRjKeo3mtIKPOow1iS/LCdTM3sotH5MsBH/Cg0l0qmY=;
-        b=hDe2RguBEm6J7HQ1WCSmUFfMo9X/GCZaVx1g95lWat3gP197d/wFfXR5C42ubPzgJ3Tw+V
-        9zzu3o9oE7zVETCA==
-Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
-        by imap.suse.de (Postfix) with ESMTPSA id 3878411A98;
-        Wed, 26 May 2021 20:28:27 +0000 (UTC)
-Date:   Wed, 26 May 2021 22:28:26 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Revert "kbuild: merge scripts/mkmakefile to top Makefile"
-Message-ID: <20210526202825.GB8544@kitsune.suse.cz>
-References: <20210526173855.5963-1-msuchanek@suse.de>
- <CAK7LNASEqKwQeLPXedyut+ykSJGPuq3CO1g_fS=sVDaZrwBPBQ@mail.gmail.com>
+        Wed, 26 May 2021 17:04:38 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A728EC061574;
+        Wed, 26 May 2021 14:03:04 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id y197so3988375ybe.11;
+        Wed, 26 May 2021 14:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fjggmNXP8aJJIe5LARZOetddJKB665gZqov3k0rARmE=;
+        b=oIshPE/fiYe7+ESpjqOYMCMYMV58cBEEthVeSftX73A3wP12A8wiQ+su72g7mM2vQq
+         mAa04QudN1IuRCoUtJj2BylIZx0rXdPmXYWJOiHv3WE+kKVffRVL2ppoOYHcsRP/WG3i
+         Dq2RGxcTv3G7lMaExu56gbKgeSFUTDANYZfhcUgDO2bf/IwGhQye1U0ES3YSOYFxGXXj
+         4qrojsSLFSgvI5U2KTDSpQV+CxBo/KCbxhfQiu5mZniLOU9/xZqFwYPj/2ljKjyqtwez
+         VKubTRx//LZQ2NmV2PUW4iyl0uXbncMaYqdRUMNTnnxS4udzZRNWTLUzfblVtafa348q
+         LzLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fjggmNXP8aJJIe5LARZOetddJKB665gZqov3k0rARmE=;
+        b=DPPSpim6T1XBe/qgvIJNgCq5rN7bEvCTMSRgzAQSqNMXg20KAF0Y7kwIkR4sbqgXcI
+         0+QY9MxdpYcTh8bu9i5lOyNBlfsLJmgWGngRDlN7nf1COLLVBGWMaIyT7zlW3UWBwAqw
+         06jiFgzP+J9gkA9vi8MS8MBAdq1rxGHci/sIqgEXFEbLziN5fF8P4oGH0xWYbvwBE/ph
+         wjyujOXdUxLgk7iZr059n4BuQaqCJ6UtPErhiyRc3PsMaAGvWxDjhfehJRyk3v7lnSiD
+         92Bz5pKC56fNDfRtmq4ihbtc8azFwcaD6c/pLW3+eqkaYu/RECZYejhz/EL0UMDYXsZr
+         Dfyg==
+X-Gm-Message-State: AOAM530+ffwTXK437GdHz9S4PvGWktpqFSErln8ROqqw8b+MWcDaDHIt
+        25K5A0ViD4ar5lxoMQHUvqOHYlRnYSvGyTSf0czzoh2zxMo=
+X-Google-Smtp-Source: ABdhPJz4+zhebIxWn7F4gfKP/NFsVuyboDr7JVj62TVrVWpMRjTAmq7cT8f6GsYU05z4bq0578DxNbKgFVOr2ZjIgS4=
+X-Received: by 2002:a25:3357:: with SMTP id z84mr53013528ybz.260.1622062983834;
+ Wed, 26 May 2021 14:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASEqKwQeLPXedyut+ykSJGPuq3CO1g_fS=sVDaZrwBPBQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210518142302.1046718-1-javierm@redhat.com> <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
+ <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
+In-Reply-To: <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Wed, 26 May 2021 14:02:52 -0700
+Message-ID: <CAEf4BzaV0y51EY5JAYZ0dueC2NQihwy+4pTtidSj4KXxGm+fwA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
+ the build
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 27, 2021 at 03:56:41AM +0900, Masahiro Yamada wrote:
-> On Thu, May 27, 2021 at 2:39 AM Michal Suchanek <msuchanek@suse.de> wrote:
+On Wed, May 26, 2021 at 12:53 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Thu, May 27, 2021 at 1:18 AM Andrii Nakryiko
+> <andrii.nakryiko@gmail.com> wrote:
 > >
-> > This reverts commit 243b50c141d71fcf7b88e94474b3b9269f0b1f9d.
+> > On Tue, May 18, 2021 at 7:23 AM Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+> > >
+> > > The ccache tool can be used to speed up cross-compilation, by calling the
+> > > compiler and binutils through ccache. For example, following should work:
+> > >
+> > >     $ export ARCH=arm64 CROSS_COMPILE="ccache aarch64-linux-gnu-"
+>
+> Actually, I did not know this...
+>
+> > >
+> > >     $ make M=drivers/gpu/drm/rockchip/
+> > >
+> > > but pahole fails to extract the BTF info from DWARF, breaking the build:
+> > >
+> > >       CC [M]  drivers/gpu/drm/rockchip//rockchipdrm.mod.o
+> > >       LD [M]  drivers/gpu/drm/rockchip//rockchipdrm.ko
+> > >       BTF [M] drivers/gpu/drm/rockchip//rockchipdrm.ko
+> > >     aarch64-linux-gnu-objcopy: invalid option -- 'J'
+> > >     Usage: aarch64-linux-gnu-objcopy [option(s)] in-file [out-file]
+> > >      Copies a binary file, possibly transforming it in the process
+> > >     ...
+> > >     make[1]: *** [scripts/Makefile.modpost:156: __modpost] Error 2
+> > >     make: *** [Makefile:1866: modules] Error 2
+> > >
+> > > this fails because OBJCOPY is set to "ccache aarch64-linux-gnu-copy" and
+> > > later pahole is executed with the following command line:
+> > >
+> > >     LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@
+> > >
+> > > which gets expanded to:
+> > >
+> > >     LLVM_OBJCOPY=ccache aarch64-linux-gnu-objcopy pahole -J ...
+> > >
+> > > instead of:
+> > >
+> > >     LLVM_OBJCOPY="ccache aarch64-linux-gnu-objcopy" pahole -J ...
+> > >
+> > > Fixes: 5f9ae91f7c0 ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
+> > > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> > > ---
+> > >
 > >
-> > When packaging the kernel it is built in different place from the one in
-> > which it will be installed. After build the makefile needs to be
-> > regenerated with the target location but with mkmakefile merged into
-> > Makefile tehre is no way to do that.
+> > LGTM. Masahiro, would you like us to take this through bpf tree or
+> > you'll apply this to kbuild one?
 > >
-> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> 
-> My patch was not working as expected
-> regardless of packaging.
-> 
-> Does the following fix-up work for you?
+> > Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> >
+> > >  scripts/Makefile.modfinal | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> > > index dd87cea9fba..a7883e45529 100644
+> > > --- a/scripts/Makefile.modfinal
+> > > +++ b/scripts/Makefile.modfinal
+> > > @@ -59,7 +59,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
+> > >  quiet_cmd_btf_ko = BTF [M] $@
+> > >        cmd_btf_ko =                                                     \
+> > >         if [ -f vmlinux ]; then                                         \
+> > > -               LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@; \
+> > > +               LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
+> > >         else                                                            \
+> > >                 printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
+> > >         fi;
+> > > --
+> > > 2.31.1
+> > >
+>
+>
+> Please feel free to pick it up.
 
-For the packaging I need some way to regenerate the Makefile and fake
-the directory where the Makefile will be on the user system (ie DESTDIR)
+Ok, sounds good.
 
-Without the mkmakefile I do not see any way to do it.
+> I do not know 5f9ae91f7c0.
+>
+> BTW, I see similar code in scripts/link-vmlinux.sh too.
+>
+>      LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${extra_paholeopt} ${1}
+>
+> Is it OK to leave it unquoted?
 
-If the kernel makefile is no longer location dependent there is no need
-any more, of course.
+You are right, link-vmlinux.sh should be updated accordingly.
 
-Thanks
+Javier, can you please send v2 and cc bpf@vger.kernel.org? Thanks!
 
-Michal
-> 
-> 
-> diff --git a/Makefile b/Makefile
-> index 54bb019a7da3..504327207d66 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -552,16 +552,13 @@ ifdef building_out_of_srctree
->  # At the same time when output Makefile generated, generate .gitignore to
->  # ignore whole output directory
-> 
-> -quiet_cmd_makefile = GEN     $@
-> +quiet_cmd_makefile = GEN     Makefile
->        cmd_makefile = { \
->         echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
->         echo "include $(srctree)/Makefile"; \
-> -       } > $@
-> +       } > Makefile
-> 
-> -Makefile: FORCE
-> -       $(call cmd,makefile)
-> -
-> -outputmakefile: Makefile
-> +outputmakefile:
->         $(Q)if [ -f $(srctree)/.config -o \
->                  -d $(srctree)/include/config -o \
->                  -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
-> @@ -572,6 +569,7 @@ outputmakefile: Makefile
->                 false; \
->         fi
->         $(Q)ln -fsn $(srctree) source
-> +       $(call cmd,makefile)
->         $(Q)test -e .gitignore || \
->         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
->  endif
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> > ---
-> >  Makefile           | 15 +++------------
-> >  scripts/mkmakefile | 17 +++++++++++++++++
-> >  2 files changed, 20 insertions(+), 12 deletions(-)
-> >  create mode 100755 scripts/mkmakefile
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 58b086b30144..462899c1b5d7 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -573,24 +573,14 @@ scripts_basic:
-> >         $(Q)rm -f .tmp_quiet_recordmcount
-> >
-> >  PHONY += outputmakefile
-> > -ifdef building_out_of_srctree
-> >  # Before starting out-of-tree build, make sure the source tree is clean.
-> >  # outputmakefile generates a Makefile in the output directory, if using a
-> >  # separate output directory. This allows convenient use of make in the
-> >  # output directory.
-> >  # At the same time when output Makefile generated, generate .gitignore to
-> >  # ignore whole output directory
-> > -
-> > -quiet_cmd_makefile = GEN     $@
-> > -      cmd_makefile = { \
-> > -       echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
-> > -       echo "include $(srctree)/Makefile"; \
-> > -       } > $@
-> > -
-> > -Makefile: FORCE
-> > -       $(call cmd,makefile)
-> > -
-> > -outputmakefile: Makefile
-> > +outputmakefile:
-> > +ifdef building_out_of_srctree
-> >         $(Q)if [ -f $(srctree)/.config -o \
-> >                  -d $(srctree)/include/config -o \
-> >                  -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
-> > @@ -601,6 +591,7 @@ outputmakefile: Makefile
-> >                 false; \
-> >         fi
-> >         $(Q)ln -fsn $(srctree) source
-> > +       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile $(srctree)
-> >         $(Q)test -e .gitignore || \
-> >         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
-> >  endif
-> > diff --git a/scripts/mkmakefile b/scripts/mkmakefile
-> > new file mode 100755
-> > index 000000000000..1cb174751429
-> > --- /dev/null
-> > +++ b/scripts/mkmakefile
-> > @@ -0,0 +1,17 @@
-> > +#!/bin/sh
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +# Generates a small Makefile used in the root of the output
-> > +# directory, to allow make to be started from there.
-> > +# The Makefile also allow for more convinient build of external modules
-> > +
-> > +# Usage
-> > +# $1 - Kernel src directory
-> > +
-> > +if [ "${quiet}" != "silent_" ]; then
-> > +       echo "  GEN     Makefile"
-> > +fi
-> > +
-> > +cat << EOF > Makefile
-> > +# Automatically generated by $0: don't edit
-> > +include $1/Makefile
-> > +EOF
-> > --
-> > 2.26.2
-> >
-> 
-> 
-> -- 
+>
+>
+> --
 > Best Regards
 > Masahiro Yamada
