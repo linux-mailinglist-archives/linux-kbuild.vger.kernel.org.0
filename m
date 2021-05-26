@@ -2,162 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DD303921BE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 23:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E40523921E4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 23:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233995AbhEZVEl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 17:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38344 "EHLO
+        id S233822AbhEZVXY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 17:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233951AbhEZVEi (ORCPT
+        with ESMTP id S233763AbhEZVXY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 17:04:38 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A728EC061574;
-        Wed, 26 May 2021 14:03:04 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id y197so3988375ybe.11;
-        Wed, 26 May 2021 14:03:04 -0700 (PDT)
+        Wed, 26 May 2021 17:23:24 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B62C061574;
+        Wed, 26 May 2021 14:21:51 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id k19so2027272qta.2;
+        Wed, 26 May 2021 14:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fjggmNXP8aJJIe5LARZOetddJKB665gZqov3k0rARmE=;
-        b=oIshPE/fiYe7+ESpjqOYMCMYMV58cBEEthVeSftX73A3wP12A8wiQ+su72g7mM2vQq
-         mAa04QudN1IuRCoUtJj2BylIZx0rXdPmXYWJOiHv3WE+kKVffRVL2ppoOYHcsRP/WG3i
-         Dq2RGxcTv3G7lMaExu56gbKgeSFUTDANYZfhcUgDO2bf/IwGhQye1U0ES3YSOYFxGXXj
-         4qrojsSLFSgvI5U2KTDSpQV+CxBo/KCbxhfQiu5mZniLOU9/xZqFwYPj/2ljKjyqtwez
-         VKubTRx//LZQ2NmV2PUW4iyl0uXbncMaYqdRUMNTnnxS4udzZRNWTLUzfblVtafa348q
-         LzLQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2gj/LlkROzfmxz2TRlX//Re0GJdYwJFPwzyGqBnK94g=;
+        b=eS/yU/lURYbeJtal6ikmkPh888eIH6tEFzKX6Lr8aUuim4LRO5d9ajEsJNSNhm4UUD
+         ZoLFbC0/RLG91nkZk2AsL8AgS6Rkw4+k6pRRwUsq0Jc5DhTGdRr/tD0FzunkphavE3W2
+         Qim5dgILXpCfM2Zp9M/eiP75dBMX8pq7/3DGSFyMW0yPmrP60YoUXPy3MmsG8Y8tOegq
+         O6lA+EOBQSHxScXdStoUdx3IXCnzrVhQDJhv3Jy2pWYFoH+iRomE6GCe/eCAmyIdC3/a
+         q214g0H60ymFefVlKim4G0PNNCZLMfjlewf/tCW9vL3CoCmDI4dX1rj/EO8VUohZk9Ww
+         HwAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fjggmNXP8aJJIe5LARZOetddJKB665gZqov3k0rARmE=;
-        b=DPPSpim6T1XBe/qgvIJNgCq5rN7bEvCTMSRgzAQSqNMXg20KAF0Y7kwIkR4sbqgXcI
-         0+QY9MxdpYcTh8bu9i5lOyNBlfsLJmgWGngRDlN7nf1COLLVBGWMaIyT7zlW3UWBwAqw
-         06jiFgzP+J9gkA9vi8MS8MBAdq1rxGHci/sIqgEXFEbLziN5fF8P4oGH0xWYbvwBE/ph
-         wjyujOXdUxLgk7iZr059n4BuQaqCJ6UtPErhiyRc3PsMaAGvWxDjhfehJRyk3v7lnSiD
-         92Bz5pKC56fNDfRtmq4ihbtc8azFwcaD6c/pLW3+eqkaYu/RECZYejhz/EL0UMDYXsZr
-         Dfyg==
-X-Gm-Message-State: AOAM530+ffwTXK437GdHz9S4PvGWktpqFSErln8ROqqw8b+MWcDaDHIt
-        25K5A0ViD4ar5lxoMQHUvqOHYlRnYSvGyTSf0czzoh2zxMo=
-X-Google-Smtp-Source: ABdhPJz4+zhebIxWn7F4gfKP/NFsVuyboDr7JVj62TVrVWpMRjTAmq7cT8f6GsYU05z4bq0578DxNbKgFVOr2ZjIgS4=
-X-Received: by 2002:a25:3357:: with SMTP id z84mr53013528ybz.260.1622062983834;
- Wed, 26 May 2021 14:03:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210518142302.1046718-1-javierm@redhat.com> <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
- <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Wed, 26 May 2021 14:02:52 -0700
-Message-ID: <CAEf4BzaV0y51EY5JAYZ0dueC2NQihwy+4pTtidSj4KXxGm+fwA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
- the build
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2gj/LlkROzfmxz2TRlX//Re0GJdYwJFPwzyGqBnK94g=;
+        b=ZJePLMmVQXrbLUzwhhvBg1ZSmGOKe2JSHTVGMeBedefCuV0IRAXDdu+yUJAsAw7sDh
+         JXDAtw7FSL+5XugsjR/HEsbQFh+aCL5/2kDAZNlgtwM5IjWUiViFn8YGJZU/B3ZC4T2j
+         UHd19rpHkkmDW06ZUcW4vCqS+X0QILKFSdmOEpKCa/bVn7kDUBThnrF+nEP/rZfpS8uE
+         kIXlWvzCzy+fogeAtG44rwXdkjusrriahrqhpE/kCcz3zvf2bEY/q9Gl8uJJtTtAPVGl
+         edcmqFNGDETp5DKHSPiHp31cSrUQfEXGuTM646ceNfdE0SG7HJP5FK9KzjfMGn2PVXGW
+         RQbQ==
+X-Gm-Message-State: AOAM533AHIPRZhQxHd2NWGRzrP6qfqTzpoAj0VK4K2X79yl9Kf9dJY0A
+        X2diR4IF+wqMIK7onBQv/QA=
+X-Google-Smtp-Source: ABdhPJwT15x2fPHkBEyozoFsbKOElx8m094RDUGNTBfUnbhJ8fkX1ONk+G5dHB5I1ZRD4nU+sTVWrA==
+X-Received: by 2002:a05:622a:b:: with SMTP id x11mr191454qtw.272.1622064110162;
+        Wed, 26 May 2021 14:21:50 -0700 (PDT)
+Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
+        by smtp.gmail.com with ESMTPSA id g63sm81950qkd.92.2021.05.26.14.21.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 May 2021 14:21:49 -0700 (PDT)
+Subject: Re: [PATCH 1/1] of: unittest: rename overlay source files from .dts
+ to .dtso
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210324223713.1334666-1-frowand.list@gmail.com>
+ <20210327174035.GA291160@robh.at.kernel.org>
+ <3e6710e7-08ac-7d1b-aa69-bcd36f0d932a@gmail.com>
+ <CAMuHMdXpGKMi-xv6hZQmmEw0JO=Q0WuvUzwJ2v0O28Tx5uW+sg@mail.gmail.com>
+ <d1aefaae-7b12-b5fb-4b97-7230bd52c1be@gmail.com>
+ <20210526061144.yvoaurpz75a3bsjr@vireshk-i7>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <f651e95b-feef-5c86-edba-d6008bc80b34@gmail.com>
+Date:   Wed, 26 May 2021 16:21:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210526061144.yvoaurpz75a3bsjr@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 26, 2021 at 12:53 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Thu, May 27, 2021 at 1:18 AM Andrii Nakryiko
-> <andrii.nakryiko@gmail.com> wrote:
-> >
-> > On Tue, May 18, 2021 at 7:23 AM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> > >
-> > > The ccache tool can be used to speed up cross-compilation, by calling the
-> > > compiler and binutils through ccache. For example, following should work:
-> > >
-> > >     $ export ARCH=arm64 CROSS_COMPILE="ccache aarch64-linux-gnu-"
->
-> Actually, I did not know this...
->
-> > >
-> > >     $ make M=drivers/gpu/drm/rockchip/
-> > >
-> > > but pahole fails to extract the BTF info from DWARF, breaking the build:
-> > >
-> > >       CC [M]  drivers/gpu/drm/rockchip//rockchipdrm.mod.o
-> > >       LD [M]  drivers/gpu/drm/rockchip//rockchipdrm.ko
-> > >       BTF [M] drivers/gpu/drm/rockchip//rockchipdrm.ko
-> > >     aarch64-linux-gnu-objcopy: invalid option -- 'J'
-> > >     Usage: aarch64-linux-gnu-objcopy [option(s)] in-file [out-file]
-> > >      Copies a binary file, possibly transforming it in the process
-> > >     ...
-> > >     make[1]: *** [scripts/Makefile.modpost:156: __modpost] Error 2
-> > >     make: *** [Makefile:1866: modules] Error 2
-> > >
-> > > this fails because OBJCOPY is set to "ccache aarch64-linux-gnu-copy" and
-> > > later pahole is executed with the following command line:
-> > >
-> > >     LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@
-> > >
-> > > which gets expanded to:
-> > >
-> > >     LLVM_OBJCOPY=ccache aarch64-linux-gnu-objcopy pahole -J ...
-> > >
-> > > instead of:
-> > >
-> > >     LLVM_OBJCOPY="ccache aarch64-linux-gnu-objcopy" pahole -J ...
-> > >
-> > > Fixes: 5f9ae91f7c0 ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
-> > > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > > ---
-> > >
-> >
-> > LGTM. Masahiro, would you like us to take this through bpf tree or
-> > you'll apply this to kbuild one?
-> >
-> > Acked-by: Andrii Nakryiko <andrii@kernel.org>
-> >
-> > >  scripts/Makefile.modfinal | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> > > index dd87cea9fba..a7883e45529 100644
-> > > --- a/scripts/Makefile.modfinal
-> > > +++ b/scripts/Makefile.modfinal
-> > > @@ -59,7 +59,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
-> > >  quiet_cmd_btf_ko = BTF [M] $@
-> > >        cmd_btf_ko =                                                     \
-> > >         if [ -f vmlinux ]; then                                         \
-> > > -               LLVM_OBJCOPY=$(OBJCOPY) $(PAHOLE) -J --btf_base vmlinux $@; \
-> > > +               LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
-> > >         else                                                            \
-> > >                 printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
-> > >         fi;
-> > > --
-> > > 2.31.1
-> > >
->
->
-> Please feel free to pick it up.
+On 5/26/21 1:11 AM, Viresh Kumar wrote:
+> On 22-04-21, 13:54, Frank Rowand wrote:
+>> On 4/22/21 3:44 AM, Geert Uytterhoeven wrote:
+>>> Hi Frank, Rob,
+>>>
+>>> On Mon, Mar 29, 2021 at 9:23 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>>> On 3/27/21 12:40 PM, Rob Herring wrote:
+>>>>> On Wed, Mar 24, 2021 at 05:37:13PM -0500, frowand.list@gmail.com wrote:
+>>>>>> From: Frank Rowand <frank.rowand@sony.com>
+>>>>>>
+>>>>>> Add Makefile rule to build .dtbo.o assembly file from overlay .dtso
+>>>>>> source file.
+>>>>>>
+>>>>>> Rename unittest .dts overlay source files to use .dtso suffix.
+>>>>>
+>>>>> I'm pretty lukewarm on .dtso...
+>>>>
+>>>> I was originally also, but I'm warming up to it.
+>>>
+>>> What's the status of this?
+>>
+>> I was planning to resend on top of the upcoming -rc1.
+> 
+> Ping.
+> 
 
-Ok, sounds good.
+Thanks for the prod...
 
-> I do not know 5f9ae91f7c0.
->
-> BTW, I see similar code in scripts/link-vmlinux.sh too.
->
->      LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${extra_paholeopt} ${1}
->
-> Is it OK to leave it unquoted?
+The .dtso convention was added to the dtc compiler, then a patch was
+accepted to revert one mention of .dtso ,though there still remains
+two location where .dtbo is still recognized (guess_type_by_name() in
+dtc and the help text of the fdtoverlay program).
 
-You are right, link-vmlinux.sh should be updated accordingly.
+It seems that the general .dtso and .dtbo were not popular, so I'm
+going to drop this patch instead of continuing to try to get it
+accepted.
 
-Javier, can you please send v2 and cc bpf@vger.kernel.org? Thanks!
-
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+-Frank
