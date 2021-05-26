@@ -2,190 +2,193 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 667AD391E5D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 19:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93744391FCA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 20:57:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232381AbhEZRud (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 13:50:33 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:51678 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbhEZRuc (ORCPT
+        id S232303AbhEZS7J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 14:59:09 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:37319 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234954AbhEZS7F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 13:50:32 -0400
-X-Greylist: delayed 348 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 May 2021 13:50:31 EDT
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-        (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id AB4191FD2E;
-        Wed, 26 May 2021 17:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1622050991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FhwLWgQA/H6r0Q6/NuTDJGX+fECggpPUHvnSVd8w/N8=;
-        b=qM2YF4S8iluCj3stLUkfbHkmbEFUUrWr3CglsS78PeoFOwT8Bq8CNAxavh0Ceg0ZTsWqiY
-        VEyn7N3f3LK1ItLgdHiJpb0kIqrp6ELFu092RmbDrZ/A5d0CBGJXQHABCiwrc5tgUWGjmF
-        7n3CjJ7dZo9E7Mz+2K/ZVw4gzTS+67w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1622050991;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FhwLWgQA/H6r0Q6/NuTDJGX+fECggpPUHvnSVd8w/N8=;
-        b=bz56rcfOXvFGrxINSTVBEX+E5H+XYi9VDKyWbITpJ/MbfJFoo9losKPDUsaPT0ptGSgBvm
-        SxrLcNJlJTHgAQDA==
-Received: from director2.suse.de (director2.suse-dmz.suse.de [192.168.254.72])
-        by imap.suse.de (Postfix) with ESMTPSA id 80C5411A98;
-        Wed, 26 May 2021 17:43:11 +0000 (UTC)
-Date:   Wed, 26 May 2021 19:43:10 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Mel Gorman <mgorman@techsingularity.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Hritik Vijay <hritikxx8@gmail.com>, bpf <bpf@vger.kernel.org>,
-        Linux-Net <netdev@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: (BTF) [PATCH] mm/page_alloc: Work around a pahole limitation
- with zero-sized struct pagesets
-Message-ID: <20210526174310.GA8544@kitsune.suse.cz>
-References: <20210526080741.GW30378@techsingularity.net>
- <20210526083342.GY8544@kitsune.suse.cz>
- <CAEf4BzZBW5bNF61p3+n7akUs1qztNJ4FwY4yAYRdjmP4ShFQKQ@mail.gmail.com>
+        Wed, 26 May 2021 14:59:05 -0400
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 14QIvInR013596;
+        Thu, 27 May 2021 03:57:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 14QIvInR013596
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1622055439;
+        bh=NN3uizu18LOsD2OJJBJbklEODfdUKmhpXgu1RLcjpa0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Cx1sdfY7QTpbjKWBkRxlxW97rR/1qvbBRcTHIvLydjUyRgxJANf1NpY0Wv0yXE/L5
+         CVUfYmQpUiw/Pdats08+HuMyAFl6kifRE+wbOdHwl0IRQIal+KWRnEYjKTtzHdXRxb
+         QbvO2NSF0n0wpE3ST61A1HNqpuW4srwBws4YVZT02FeZitSANO5/ZmP1TzTDSqNA4j
+         BvbEiz+cyam7rdwn0KHOpkVmjLcwJnm1bxRD929t2m+q1sxOZ1f4bbMTObf0/4DJ36
+         Pxq4k0uCdUkTvSTJo4SJAS3tkZaAZkEBLSXpUGfeIBeN90iS7ynuxGVWGnOrDUGvFx
+         3nDWTKOvrBu/A==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id h20-20020a17090aa894b029015db8f3969eso893153pjq.3;
+        Wed, 26 May 2021 11:57:19 -0700 (PDT)
+X-Gm-Message-State: AOAM531DQ0JAayoa/WUqPIfijyg8xlC1e8AdwK7Oo0hzrrjJ9MhOhAVj
+        ojA34aPrp4jAtHTCuimPVhKI6f/xEIWNXRyg6jU=
+X-Google-Smtp-Source: ABdhPJwoN1jqNDwfWlBwbeTmvHyGhwLZTNgX7yKuXsP3pPKF/oAwsPcbRD/Yg+G4of87PhlWGt4xYl1CCv6IA2dojIQ=
+X-Received: by 2002:a17:902:541:b029:f0:3187:409b with SMTP id
+ 59-20020a1709020541b02900f03187409bmr37293476plf.47.1622055438343; Wed, 26
+ May 2021 11:57:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzZBW5bNF61p3+n7akUs1qztNJ4FwY4yAYRdjmP4ShFQKQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210526173855.5963-1-msuchanek@suse.de>
+In-Reply-To: <20210526173855.5963-1-msuchanek@suse.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 27 May 2021 03:56:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASEqKwQeLPXedyut+ykSJGPuq3CO1g_fS=sVDaZrwBPBQ@mail.gmail.com>
+Message-ID: <CAK7LNASEqKwQeLPXedyut+ykSJGPuq3CO1g_fS=sVDaZrwBPBQ@mail.gmail.com>
+Subject: Re: [PATCH] Revert "kbuild: merge scripts/mkmakefile to top Makefile"
+To:     Michal Suchanek <msuchanek@suse.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 26, 2021 at 10:00:34AM -0700, Andrii Nakryiko wrote:
-> On Wed, May 26, 2021 at 1:33 AM Michal Suchánek <msuchanek@suse.de> wrote:
-> >
-> > On Wed, May 26, 2021 at 09:07:41AM +0100, Mel Gorman wrote:
-> > > Michal Suchanek reported the following problem with linux-next
-> > >
-> > >   [    0.000000] Linux version 5.13.0-rc2-next-20210519-1.g3455ff8-vanilla (geeko@buildhost) (gcc (SUSE Linux) 10.3.0, GNU ld (GNU Binutils; openSUSE Tumbleweed) 2.36.1.20210326-3) #1 SMP Wed May 19 10:05:10 UTC 2021 (3455ff8)
-> > >   [    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-5.13.0-rc2-next-20210519-1.g3455ff8-vanilla root=UUID=ec42c33e-a2c2-4c61-afcc-93e9527 8f687 plymouth.enable=0 resume=/dev/disk/by-uuid/f1fe4560-a801-4faf-a638-834c407027c7 mitigations=auto earlyprintk initcall_debug nomodeset earlycon ignore_loglevel console=ttyS0,115200
-> > > ...
-> > >   [   26.093364] calling  tracing_set_default_clock+0x0/0x62 @ 1
-> > >   [   26.098937] initcall tracing_set_default_clock+0x0/0x62 returned 0 after 0 usecs
-> > >   [   26.106330] calling  acpi_gpio_handle_deferred_request_irqs+0x0/0x7c @ 1
-> > >   [   26.113033] initcall acpi_gpio_handle_deferred_request_irqs+0x0/0x7c returned 0 after 3 usecs
-> > >   [   26.121559] calling  clk_disable_unused+0x0/0x102 @ 1
-> > >   [   26.126620] initcall clk_disable_unused+0x0/0x102 returned 0 after 0 usecs
-> > >   [   26.133491] calling  regulator_init_complete+0x0/0x25 @ 1
-> > >   [   26.138890] initcall regulator_init_complete+0x0/0x25 returned 0 after 0 usecs
-> > >   [   26.147816] Freeing unused decrypted memory: 2036K
-> > >   [   26.153682] Freeing unused kernel image (initmem) memory: 2308K
-> > >   [   26.165776] Write protecting the kernel read-only data: 26624k
-> > >   [   26.173067] Freeing unused kernel image (text/rodata gap) memory: 2036K
-> > >   [   26.180416] Freeing unused kernel image (rodata/data gap) memory: 1184K
-> > >   [   26.187031] Run /init as init process
-> > >   [   26.190693]   with arguments:
-> > >   [   26.193661]     /init
-> > >   [   26.195933]   with environment:
-> > >   [   26.199079]     HOME=/
-> > >   [   26.201444]     TERM=linux
-> > >   [   26.204152]     BOOT_IMAGE=/boot/vmlinuz-5.13.0-rc2-next-20210519-1.g3455ff8-vanilla
-> > >   [   26.254154] BPF:      type_id=35503 offset=178440 size=4
-> > >   [   26.259125] BPF:
-> > >   [   26.261054] BPF:Invalid offset
-> > >   [   26.264119] BPF:
-> > >   [   26.264119]
-> > >   [   26.267437] failed to validate module [efivarfs] BTF: -22
-> > >
-> > > Andrii Nakryiko bisected the problem to the commit "mm/page_alloc: convert
-> > > per-cpu list protection to local_lock" currently staged in mmotm. In his
-> > > own words
-> > >
-> > >   The immediate problem is two different definitions of numa_node per-cpu
-> > >   variable. They both are at the same offset within .data..percpu ELF
-> > >   section, they both have the same name, but one of them is marked as
-> > >   static and another as global. And one is int variable, while another
-> > >   is struct pagesets. I'll look some more tomorrow, but adding Jiri and
-> > >   Arnaldo for visibility.
-> > >
-> > >   [110907] DATASEC '.data..percpu' size=178904 vlen=303
-> > >   ...
-> > >         type_id=27753 offset=163976 size=4 (VAR 'numa_node')
-> > >         type_id=27754 offset=163976 size=4 (VAR 'numa_node')
-> > >
-> > >   [27753] VAR 'numa_node' type_id=27556, linkage=static
-> > >   [27754] VAR 'numa_node' type_id=20, linkage=global
-> > >
-> > >   [20] INT 'int' size=4 bits_offset=0 nr_bits=32 encoding=SIGNED
-> > >
-> > >   [27556] STRUCT 'pagesets' size=0 vlen=1
-> > >         'lock' type_id=507 bits_offset=0
-> > >
-> > >   [506] STRUCT '(anon)' size=0 vlen=0
-> > >   [507] TYPEDEF 'local_lock_t' type_id=506
-> > >
-> > > The patch in question introduces a zero-sized per-cpu struct and while
-> > > this is not wrong, versions of pahole prior to 1.22 (unreleased) get
-> > > confused during BTF generation with two separate variables occupying the
-> > > same address.
-> > >
-> > > This patch checks for older versions of pahole and forces struct pagesets
-> > > to be non-zero sized as a workaround when CONFIG_DEBUG_INFO_BTF is set. A
-> > > warning is omitted so that distributions can update pahole when 1.22
-> > > is released.
-> > >
-> > > Reported-by: Michal Suchanek <msuchanek@suse.de>
-> > > Reported-by: Hritik Vijay <hritikxx8@gmail.com>
-> > > Debugged-by: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-> > > Signed-off-by: Mel Gorman <mgorman@techsingularity.net>
-> > > ---
-> > >  lib/Kconfig.debug |  3 +++
-> > >  mm/page_alloc.c   | 11 +++++++++++
-> > >  2 files changed, 14 insertions(+)
-> > >
-> > > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > > index 678c13967580..f88a155b80a9 100644
-> > > --- a/lib/Kconfig.debug
-> > > +++ b/lib/Kconfig.debug
-> > > @@ -313,6 +313,9 @@ config DEBUG_INFO_BTF
-> > >  config PAHOLE_HAS_SPLIT_BTF
-> > >       def_bool $(success, test `$(PAHOLE) --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'` -ge "119")
-> > >
-> > > +config PAHOLE_HAS_ZEROSIZE_PERCPU_SUPPORT
-> > > +     def_bool $(success, test `$(PAHOLE) --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'` -ge "122")
-> > > +
-> >
-> > This does not seem workable with dummy-tools.
-> >
-> > Do we even have dummy pahole?
-> >
-> 
-> I don't know what dummy-tools is, so probably no. But if you don't
-> have pahole on the build host, you can't have DEBUG_INFO_BTF=y
-> anyways. As in, your build will fail because it will be impossible to
-> generate BTF information. So you'll have to disable DEBUG_INFO_BTF if
-> you can't get pahole onto your build host for some reason.
+On Thu, May 27, 2021 at 2:39 AM Michal Suchanek <msuchanek@suse.de> wrote:
+>
+> This reverts commit 243b50c141d71fcf7b88e94474b3b9269f0b1f9d.
+>
+> When packaging the kernel it is built in different place from the one in
+> which it will be installed. After build the makefile needs to be
+> regenerated with the target location but with mkmakefile merged into
+> Makefile tehre is no way to do that.
+>
+> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
 
-dummy-tools is used to maintain configuration files outside of build
-the environment. It is not easy to have all tools with all bells and
-whistles for all architectures on one machine. That is you should be
-able to enable DEBUG_INFO_BTF without pahole, and then build the config
-on a build host that has a compiler and pohole for the target
-architecture.
+My patch was not working as expected
+regardless of packaging.
 
-Thanks
+Does the following fix-up work for you?
 
-Michal
+
+diff --git a/Makefile b/Makefile
+index 54bb019a7da3..504327207d66 100644
+--- a/Makefile
++++ b/Makefile
+@@ -552,16 +552,13 @@ ifdef building_out_of_srctree
+ # At the same time when output Makefile generated, generate .gitignore to
+ # ignore whole output directory
+
+-quiet_cmd_makefile = GEN     $@
++quiet_cmd_makefile = GEN     Makefile
+       cmd_makefile = { \
+        echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
+        echo "include $(srctree)/Makefile"; \
+-       } > $@
++       } > Makefile
+
+-Makefile: FORCE
+-       $(call cmd,makefile)
+-
+-outputmakefile: Makefile
++outputmakefile:
+        $(Q)if [ -f $(srctree)/.config -o \
+                 -d $(srctree)/include/config -o \
+                 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
+@@ -572,6 +569,7 @@ outputmakefile: Makefile
+                false; \
+        fi
+        $(Q)ln -fsn $(srctree) source
++       $(call cmd,makefile)
+        $(Q)test -e .gitignore || \
+        { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
+ endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> ---
+>  Makefile           | 15 +++------------
+>  scripts/mkmakefile | 17 +++++++++++++++++
+>  2 files changed, 20 insertions(+), 12 deletions(-)
+>  create mode 100755 scripts/mkmakefile
+>
+> diff --git a/Makefile b/Makefile
+> index 58b086b30144..462899c1b5d7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -573,24 +573,14 @@ scripts_basic:
+>         $(Q)rm -f .tmp_quiet_recordmcount
+>
+>  PHONY += outputmakefile
+> -ifdef building_out_of_srctree
+>  # Before starting out-of-tree build, make sure the source tree is clean.
+>  # outputmakefile generates a Makefile in the output directory, if using a
+>  # separate output directory. This allows convenient use of make in the
+>  # output directory.
+>  # At the same time when output Makefile generated, generate .gitignore to
+>  # ignore whole output directory
+> -
+> -quiet_cmd_makefile = GEN     $@
+> -      cmd_makefile = { \
+> -       echo "\# Automatically generated by $(srctree)/Makefile: don't edit"; \
+> -       echo "include $(srctree)/Makefile"; \
+> -       } > $@
+> -
+> -Makefile: FORCE
+> -       $(call cmd,makefile)
+> -
+> -outputmakefile: Makefile
+> +outputmakefile:
+> +ifdef building_out_of_srctree
+>         $(Q)if [ -f $(srctree)/.config -o \
+>                  -d $(srctree)/include/config -o \
+>                  -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
+> @@ -601,6 +591,7 @@ outputmakefile: Makefile
+>                 false; \
+>         fi
+>         $(Q)ln -fsn $(srctree) source
+> +       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile $(srctree)
+>         $(Q)test -e .gitignore || \
+>         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
+>  endif
+> diff --git a/scripts/mkmakefile b/scripts/mkmakefile
+> new file mode 100755
+> index 000000000000..1cb174751429
+> --- /dev/null
+> +++ b/scripts/mkmakefile
+> @@ -0,0 +1,17 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Generates a small Makefile used in the root of the output
+> +# directory, to allow make to be started from there.
+> +# The Makefile also allow for more convinient build of external modules
+> +
+> +# Usage
+> +# $1 - Kernel src directory
+> +
+> +if [ "${quiet}" != "silent_" ]; then
+> +       echo "  GEN     Makefile"
+> +fi
+> +
+> +cat << EOF > Makefile
+> +# Automatically generated by $0: don't edit
+> +include $1/Makefile
+> +EOF
+> --
+> 2.26.2
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
