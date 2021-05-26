@@ -2,82 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E40523921E4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 23:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6CC9392256
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 May 2021 23:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233822AbhEZVXY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 May 2021 17:23:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233763AbhEZVXY (ORCPT
+        id S234181AbhEZVvf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 May 2021 17:51:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21309 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233790AbhEZVvf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 May 2021 17:23:24 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25B62C061574;
-        Wed, 26 May 2021 14:21:51 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id k19so2027272qta.2;
-        Wed, 26 May 2021 14:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2gj/LlkROzfmxz2TRlX//Re0GJdYwJFPwzyGqBnK94g=;
-        b=eS/yU/lURYbeJtal6ikmkPh888eIH6tEFzKX6Lr8aUuim4LRO5d9ajEsJNSNhm4UUD
-         ZoLFbC0/RLG91nkZk2AsL8AgS6Rkw4+k6pRRwUsq0Jc5DhTGdRr/tD0FzunkphavE3W2
-         Qim5dgILXpCfM2Zp9M/eiP75dBMX8pq7/3DGSFyMW0yPmrP60YoUXPy3MmsG8Y8tOegq
-         O6lA+EOBQSHxScXdStoUdx3IXCnzrVhQDJhv3Jy2pWYFoH+iRomE6GCe/eCAmyIdC3/a
-         q214g0H60ymFefVlKim4G0PNNCZLMfjlewf/tCW9vL3CoCmDI4dX1rj/EO8VUohZk9Ww
-         HwAQ==
+        Wed, 26 May 2021 17:51:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1622065803;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=s2jDM/TpmfLpzDZ7Dd8kJfaXr/uLu6JzfCGH8PAhY6A=;
+        b=f1DJ2axgBoIulDfVYjmYedXEoJuVCl0QzYGDGYYrOes44/lV8ePZCR6jaS9XfSy2ZI6gNY
+        h9q7f/cEJWGIraVtz5EiUIJK35rcIhWb9ER7x3HfVLd8zjSOMcRuQyzN2J078J1bzmqM80
+        Rr2Cuo9D/iBnZ4u7hhxjPAS92ltHFIk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-PZVAsyq2NdCLMl4UXya-wQ-1; Wed, 26 May 2021 17:50:02 -0400
+X-MC-Unique: PZVAsyq2NdCLMl4UXya-wQ-1
+Received: by mail-wm1-f69.google.com with SMTP id y205-20020a1ce1d60000b029019278214067so772567wmg.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 May 2021 14:50:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2gj/LlkROzfmxz2TRlX//Re0GJdYwJFPwzyGqBnK94g=;
-        b=ZJePLMmVQXrbLUzwhhvBg1ZSmGOKe2JSHTVGMeBedefCuV0IRAXDdu+yUJAsAw7sDh
-         JXDAtw7FSL+5XugsjR/HEsbQFh+aCL5/2kDAZNlgtwM5IjWUiViFn8YGJZU/B3ZC4T2j
-         UHd19rpHkkmDW06ZUcW4vCqS+X0QILKFSdmOEpKCa/bVn7kDUBThnrF+nEP/rZfpS8uE
-         kIXlWvzCzy+fogeAtG44rwXdkjusrriahrqhpE/kCcz3zvf2bEY/q9Gl8uJJtTtAPVGl
-         edcmqFNGDETp5DKHSPiHp31cSrUQfEXGuTM646ceNfdE0SG7HJP5FK9KzjfMGn2PVXGW
-         RQbQ==
-X-Gm-Message-State: AOAM533AHIPRZhQxHd2NWGRzrP6qfqTzpoAj0VK4K2X79yl9Kf9dJY0A
-        X2diR4IF+wqMIK7onBQv/QA=
-X-Google-Smtp-Source: ABdhPJwT15x2fPHkBEyozoFsbKOElx8m094RDUGNTBfUnbhJ8fkX1ONk+G5dHB5I1ZRD4nU+sTVWrA==
-X-Received: by 2002:a05:622a:b:: with SMTP id x11mr191454qtw.272.1622064110162;
-        Wed, 26 May 2021 14:21:50 -0700 (PDT)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net. [67.187.90.124])
-        by smtp.gmail.com with ESMTPSA id g63sm81950qkd.92.2021.05.26.14.21.48
+        bh=s2jDM/TpmfLpzDZ7Dd8kJfaXr/uLu6JzfCGH8PAhY6A=;
+        b=smX87QvDJw8WIf4txANojM05M+NiaqfiTBeEvRVqIM4dz4s5ue+QAkwDzI1BvFwp3v
+         kOlF2NhPCqCxf2X93AxYXIYxKQY2swjzQrG24dPMaMIfWPd1xCGKZu2m34FkMH2ELlgm
+         QGfUAOLYZHmR2cXoE96/dmKEhfA8sw6YfwAZtKhnic1a6g+sPSQNc3zpIncdWUZ2b6ZY
+         Bm9YrnFm+M+/S/9hd2BrmxU+Ub5RcFGWp4boKgqPQv0H05bNRtgxVLaDTbcYa72kJt+L
+         Cmxpg3GMuRf1rrzLnQgBm1rBKncAp36bh215FMIrgbHVKf1NH5QigGubM2IncLJijYX0
+         Vdgw==
+X-Gm-Message-State: AOAM530EHFEPFCiq6q64XhxY5pldjq21byli3JDozS70qXiJs1j/Au71
+        xnRHN01GzwiQUpShnKpF3tJS6sr8MpW958cItJNYLjVOZ5QNohgJBt0B8SpVwy1W+GpzggYWaVW
+        Pen9sJj1YUzV08CYC8QM0mV7cyPSG8+X2ucF532NLp66+UlZJBhUaELFKBqC9vL93dw0hwyxgvo
+        0=
+X-Received: by 2002:a05:6000:118c:: with SMTP id g12mr85977wrx.320.1622065800515;
+        Wed, 26 May 2021 14:50:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzX3XLrans83aVeEW49CvKbVeLkqlNa3AgNJRBQ+d+nHfyxrTBw4pmjGbjCUesYgRVfH6dHEg==
+X-Received: by 2002:a05:6000:118c:: with SMTP id g12mr85963wrx.320.1622065800347;
+        Wed, 26 May 2021 14:50:00 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+        by smtp.gmail.com with ESMTPSA id f14sm235371wry.40.2021.05.26.14.49.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 May 2021 14:21:49 -0700 (PDT)
-Subject: Re: [PATCH 1/1] of: unittest: rename overlay source files from .dts
- to .dtso
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Wed, 26 May 2021 14:49:59 -0700 (PDT)
+Subject: Re: [PATCH] kbuild: quote OBJCOPY var to avoid a pahole call break
+ the build
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     open list <linux-kernel@vger.kernel.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210324223713.1334666-1-frowand.list@gmail.com>
- <20210327174035.GA291160@robh.at.kernel.org>
- <3e6710e7-08ac-7d1b-aa69-bcd36f0d932a@gmail.com>
- <CAMuHMdXpGKMi-xv6hZQmmEw0JO=Q0WuvUzwJ2v0O28Tx5uW+sg@mail.gmail.com>
- <d1aefaae-7b12-b5fb-4b97-7230bd52c1be@gmail.com>
- <20210526061144.yvoaurpz75a3bsjr@vireshk-i7>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <f651e95b-feef-5c86-edba-d6008bc80b34@gmail.com>
-Date:   Wed, 26 May 2021 16:21:48 -0500
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20210518142302.1046718-1-javierm@redhat.com>
+ <CAEf4BzYqA1Upbm75aW-Rs-WCqQ6KRnSje-uTis2fw749_f8tRw@mail.gmail.com>
+ <CAK7LNAQZNkdQTtGHmrE0dcbeirBZb1O++A4b2oaAvu6+1Jupbw@mail.gmail.com>
+ <CAEf4BzaV0y51EY5JAYZ0dueC2NQihwy+4pTtidSj4KXxGm+fwA@mail.gmail.com>
+From:   Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <a5004a7e-14bf-4fb1-beec-9dc19165f2d2@redhat.com>
+Date:   Wed, 26 May 2021 23:49:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210526061144.yvoaurpz75a3bsjr@vireshk-i7>
+In-Reply-To: <CAEf4BzaV0y51EY5JAYZ0dueC2NQihwy+4pTtidSj4KXxGm+fwA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -85,41 +81,31 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/26/21 1:11 AM, Viresh Kumar wrote:
-> On 22-04-21, 13:54, Frank Rowand wrote:
->> On 4/22/21 3:44 AM, Geert Uytterhoeven wrote:
->>> Hi Frank, Rob,
->>>
->>> On Mon, Mar 29, 2021 at 9:23 PM Frank Rowand <frowand.list@gmail.com> wrote:
->>>> On 3/27/21 12:40 PM, Rob Herring wrote:
->>>>> On Wed, Mar 24, 2021 at 05:37:13PM -0500, frowand.list@gmail.com wrote:
->>>>>> From: Frank Rowand <frank.rowand@sony.com>
->>>>>>
->>>>>> Add Makefile rule to build .dtbo.o assembly file from overlay .dtso
->>>>>> source file.
->>>>>>
->>>>>> Rename unittest .dts overlay source files to use .dtso suffix.
->>>>>
->>>>> I'm pretty lukewarm on .dtso...
->>>>
->>>> I was originally also, but I'm warming up to it.
->>>
->>> What's the status of this?
+On 5/26/21 11:02 PM, Andrii Nakryiko wrote:
+
+[snip]
+
 >>
->> I was planning to resend on top of the upcoming -rc1.
+>> BTW, I see similar code in scripts/link-vmlinux.sh too.
+>>
+>>      LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${extra_paholeopt} ${1}
+>>
+>> Is it OK to leave it unquoted?
 > 
-> Ping.
-> 
+> You are right, link-vmlinux.sh should be updated accordingly.
+>
 
-Thanks for the prod...
+Good catch. I'll include this in v2 as well.
+ 
+> Javier, can you please send v2 and cc bpf@vger.kernel.org? Thanks!
+>
 
-The .dtso convention was added to the dtc compiler, then a patch was
-accepted to revert one mention of .dtso ,though there still remains
-two location where .dtbo is still recognized (guess_type_by_name() in
-dtc and the help text of the fdtoverlay program).
+Sure, thanks!
+ 
+Best regards,
+-- 
+Javier Martinez Canillas
+Software Engineer
+New Platform Technologies Enablement team
+RHEL Engineering
 
-It seems that the general .dtso and .dtbo were not popular, so I'm
-going to drop this patch instead of continuing to try to get it
-accepted.
-
--Frank
