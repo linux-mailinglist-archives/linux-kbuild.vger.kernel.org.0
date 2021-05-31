@@ -2,131 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BC033968D5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 31 May 2021 22:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2974F396934
+	for <lists+linux-kbuild@lfdr.de>; Mon, 31 May 2021 23:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231995AbhEaUbT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 31 May 2021 16:31:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48564 "EHLO mail.kernel.org"
+        id S231144AbhEaVOd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 31 May 2021 17:14:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230505AbhEaUbT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 31 May 2021 16:31:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61F8561159;
-        Mon, 31 May 2021 20:29:38 +0000 (UTC)
+        id S230032AbhEaVOc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 31 May 2021 17:14:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2DA1F61260;
+        Mon, 31 May 2021 21:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622492979;
-        bh=b+9t8ZSAkUu0i4emi5jWFTEZ6nDcEa0evRcKGC+0BRk=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ZbDNE7AgIo+YzT8EGL5IA9CLYrQArn5OGKAEJQ8HNCwNQWTMREGOxXU95M/fAicNF
-         RPhJc9kynQxmyfQ8MJVb9qPhgMbwbO7V/kx7eeIRB30wScyEcM1oVQ7D3aZrnxqFKt
-         zBIw1tuRPvLExAxXGvNm149Nvxu77hleqLPg5EJffG/jx5G0HlypK9r/dk2bhYlaE6
-         g0EJInuboHlHCaCDaIYnImhJYb4KM8Efg30KwuXkbxbxkUsv2bDZcWwiCgilxJHOiH
-         tA2FPbj854VJ0GokoQOoFXXO6Rk4l92DMA68g8+8Sqgu1sLKFXHwcx6q2rgkTVQZB0
-         54utWvcJOsO3w==
-Subject: Re: [PATCH] pgo: rename the raw profile file to vmlinux.profraw
-To:     Bill Wendling <morbo@google.com>, Kees Cook <keescook@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        s=k20201202; t=1622495572;
+        bh=TQ7g+t1TJl7Xuj2apj2QBNz7adir/QisC080h7vhsYY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cGb59gez0RAsmz0o6pqUA10TarQHMoiANuJ+HKp4Y9CPUOpqz3gAaQtzzj6A3NN8W
+         Xip/zpCZIJX9IvBZYoPe97ExhoD/5zhBaF93rHLsAfdSwjHfSIG59IMPUkk4qLsJ5J
+         ztWR4I4GcxLpOBclr885mIH/LFXSPVNRxITm7a5oLxweinqgPuZdIAbstBSEAyc1qu
+         LT/OflQcxdNpnqE9TiN5aJxGwj5MXbKGWMR6QOMgtVpCV9+lm2fF8Dpuft1ecm6KNB
+         XjTS5A/xpgQPsWGt3eqtW20GhLba8SQ40SaGYpGRJ9XqePb+BZtXTXBmrwQE9pqRHc
+         wd9GjeOTjJ9tQ==
+Date:   Mon, 31 May 2021 14:12:46 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>
-References: <20210531202044.426578-1-morbo@google.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <e22afde4-e312-4589-cf2e-3c35219d7249@kernel.org>
-Date:   Mon, 31 May 2021 13:29:36 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <YLVRTilQ5k5n+Vmz@archlinux-ax161>
+References: <20210111081821.3041587-1-morbo@google.com>
+ <20210407211704.367039-1-morbo@google.com>
+ <202105191422.2E6748C4E0@keescook>
 MIME-Version: 1.0
-In-Reply-To: <20210531202044.426578-1-morbo@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202105191422.2E6748C4E0@keescook>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 5/31/2021 1:20 PM, Bill Wendling wrote:
-> Future PGO features may create other files in /sys/kernel/debug/pgo. So
-> rename the kernel's raw profile data file to "vmlinux.profraw" to make
-> which part of the kernel the file is for more explicit.
+On Wed, May 19, 2021 at 02:37:26PM -0700, Kees Cook wrote:
+> I've added this to patch to my -next tree now:
 > 
-> Note that future files in /sys/kernel/debug/pgo should follow a similar
-> naming convention.
+> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/clang/pgo&id=e1af496cbe9b4517428601a4e44fee3602dd3c15
 > 
-> Signed-off-by: Bill Wendling <morbo@google.com>
 
-Guess this clears up my confusion around the module patches :)
+Would this be appropriate to send? Someone sent some patches based on
+this work so it would be nice to solidify how they will get to Linus
+if/when the time comes :)
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+https://lore.kernel.org/r/20210528200133.459022-1-jarmo.tiitto@gmail.com/
+https://lore.kernel.org/r/20210528200432.459120-1-jarmo.tiitto@gmail.com/
+https://lore.kernel.org/r/20210528200821.459214-1-jarmo.tiitto@gmail.com/
+https://lore.kernel.org/r/20210528201006.459292-1-jarmo.tiitto@gmail.com/
+https://lore.kernel.org/r/20210528201107.459362-1-jarmo.tiitto@gmail.com/
+https://lore.kernel.org/r/20210528201213.459483-1-jarmo.tiitto@gmail.com/
 
-> ---
->   Documentation/dev-tools/pgo.rst | 6 +++---
->   kernel/pgo/Kconfig              | 7 ++++---
->   kernel/pgo/fs.c                 | 2 +-
->   3 files changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
-> index b7f11d8405b7..0200449c4843 100644
-> --- a/Documentation/dev-tools/pgo.rst
-> +++ b/Documentation/dev-tools/pgo.rst
-> @@ -76,7 +76,7 @@ The PGO kernel support creates the following files in debugfs:
->   ``/sys/kernel/debug/pgo/reset``
->   	Global reset file: resets all coverage data to zero when written to.
->   
-> -``/sys/kernel/debug/profraw``
-> +``/sys/kernel/debug/pgo/vmlinux.profraw``
->   	The raw PGO data that must be processed with ``llvm_profdata``.
->   
->   
-> @@ -108,7 +108,7 @@ using the result to optimize the kernel:
->   
->      .. code-block:: sh
->   
-> -      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
-> +      $ cp -a /sys/kernel/debug/pgo/vmlinux.profraw /tmp/vmlinux.profraw
->   
->   5) (Optional) Download the raw profile data to the HOST machine.
->   
-> @@ -120,7 +120,7 @@ using the result to optimize the kernel:
->   
->      Note that multiple raw profile data files can be merged during this step.
->   
-> -7) Rebuild the kernel using the profile data (PGO disabled)
-> +7) Rebuild the kernel using the processed profile data (PGO disabled)
->   
->      .. code-block:: sh
->   
-> diff --git a/kernel/pgo/Kconfig b/kernel/pgo/Kconfig
-> index 76a640b6cf6e..d2053df1111c 100644
-> --- a/kernel/pgo/Kconfig
-> +++ b/kernel/pgo/Kconfig
-> @@ -17,10 +17,11 @@ config PGO_CLANG
->   
->   	  Run a representative workload for your application on a kernel
->   	  compiled with this option and download the raw profile file from
-> -	  /sys/kernel/debug/pgo/profraw. This file needs to be processed with
-> -	  llvm-profdata. It may be merged with other collected raw profiles.
-> +	  /sys/kernel/debug/pgo/vmlinux.profraw. This file needs to be
-> +	  processed with llvm-profdata. It may be merged with other collected
-> +	  raw profiles.
->   
-> -	  Copy the resulting profile file into vmlinux.profdata, and enable
-> +	  Copy the processed profile file into vmlinux.profdata, and enable
->   	  KCFLAGS=-fprofile-use=vmlinux.profdata to produce an optimized
->   	  kernel.
->   
-> diff --git a/kernel/pgo/fs.c b/kernel/pgo/fs.c
-> index 449f16beb2cf..ef985159dad3 100644
-> --- a/kernel/pgo/fs.c
-> +++ b/kernel/pgo/fs.c
-> @@ -365,7 +365,7 @@ static int __init pgo_init(void)
->   	if (!directory)
->   		goto err_remove;
->   
-> -	if (!debugfs_create_file("profraw", 0600, directory, NULL,
-> +	if (!debugfs_create_file("vmlinux.profraw", 0600, directory, NULL,
->   				 &prf_fops))
->   		goto err_remove;
->   
-> 
+Cheers,
+Nathan
+
+======================================
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c45613c30803..0d03f6ccdb70 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14378,9 +14378,13 @@ F:	include/uapi/linux/personality.h
+ PGO BASED KERNEL PROFILING
+ M:	Sami Tolvanen <samitolvanen@google.com>
+ M:	Bill Wendling <wcw@google.com>
++M:	Kees Cook <keescook@chromium.org>
+ R:	Nathan Chancellor <nathan@kernel.org>
+ R:	Nick Desaulniers <ndesaulniers@google.com>
++L:	clang-built-linux@googlegroups.com
+ S:	Supported
++B:	https://github.com/ClangBuiltLinux/linux/issues
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/clang/pgo
+ F:	Documentation/dev-tools/pgo.rst
+ F:	kernel/pgo/
+ 
