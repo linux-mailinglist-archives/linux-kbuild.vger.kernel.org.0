@@ -2,157 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18358397A42
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jun 2021 20:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FFD0397A82
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jun 2021 21:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234513AbhFASz2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Jun 2021 14:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58440 "EHLO
+        id S234691AbhFATPH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Jun 2021 15:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233853AbhFASz1 (ORCPT
+        with ESMTP id S234513AbhFATPG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Jun 2021 14:55:27 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8B9DC06174A
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Jun 2021 11:53:45 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id n12so79061pgs.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jun 2021 11:53:45 -0700 (PDT)
+        Tue, 1 Jun 2021 15:15:06 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F53C06174A
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Jun 2021 12:13:23 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id y15so223916pfn.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jun 2021 12:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=MHR82u4ojdl9g2U3dRKAkiZwMnhIgA4/mtysswjttjY=;
-        b=cycELX4SwEwpMQPJjEY1GnMlGHSIr1u4TbrzIxt+MDHDXhKjxUx1CH3MPdN/6GSijh
-         IRfWSzXhLIVCkHdkDlsIRoAl5kys7DQBv06hTnWj3NUCueTK4d70YQZWzxAQUvJFl2Ze
-         bW/ykTQe47A6oaOfGiyLx3aDLTaJ0EQtVIitc=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=F2nIYNp74XkoIbaKwSbgXhOoOC//P+XAXbK1h22Ceac=;
+        b=lkbfMl1Gmq+Nf/7ubjo1OqC7uT9K9Mr6mhUY2FEZSmrJPHAB0auG9k9uCBtbvFW7E+
+         f0Q4vvjVo8XzLVCG/jM1Z4nwD1CiBbxVqshZ7h96EbGppBXf8gK9pANmLngrz86A9IVM
+         wK3esYJdGgKwBvpr7YAwjV41Fe0DLQWWzprys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=MHR82u4ojdl9g2U3dRKAkiZwMnhIgA4/mtysswjttjY=;
-        b=KUBTHTtKWoGWCmLHvpRie+Uy9OYvDO0MzzwnbD2sGK0p5jPq5X7J4VAUDTSB/WGtub
-         CnSXokwO32AvJd+UWmb0xHomchdy+KlhUUBw5G2RLvcrYYA41Ly7ax0vGfM/O8DRL2h9
-         eNUxnWVqhUAFVgj7ts4ruhmp9YBE3ELrzAay/WhOfVtNXGKQbMYgm8stKmu1DJ+0eAGa
-         2Xp7ziOcd1CSVIMi4xZzy9azxSkmD9ojq+l1SP3enjVDVypQo1ia5OzwugGHpOOepVgF
-         FuwUmtZ5N+ugc1ZdAjil2j0Kv/GJ0YpRfKtXf7jTRodmU5oTSt7lYEyXcVtvXMRqVWFh
-         /kIQ==
-X-Gm-Message-State: AOAM530X1OoBFrDK0NA1se40jAIwXperAcyef0B5aEWNGOJg/HQN84JD
-        jHkaqXwSXdQku4gG7fzHfXN8TA==
-X-Google-Smtp-Source: ABdhPJyuvcjD+Ug/ybnwiv6lI+9T0QlXBQsVK/Ep0NLhGg923v6S8iOI9JjZ17MkYoLYePoVSrZQMA==
-X-Received: by 2002:a63:dd12:: with SMTP id t18mr29542213pgg.361.1622573625331;
-        Tue, 01 Jun 2021 11:53:45 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F2nIYNp74XkoIbaKwSbgXhOoOC//P+XAXbK1h22Ceac=;
+        b=qSWnphr6DDzs/Acwh1xOlKnhLuSNcTHg4W4P+C74sLsuOJUSAazd6Tn9wI9KjG9UJI
+         RB8ZibGWMIux0KQBDpJZctjnPJWcysYGN1SoKHmdWWFS2RdT01BT1S1Hvnajn5lrYWhy
+         DibAkygdQrfjYJZX8To1u5ssw9No1Ztu9ItewMQ0NoY+uX2Ku8XiUo+gBcGxWb5pEjy8
+         nL2ejqyKnAXtELCoVYDOj3pTVVqEp3nH/V2x9Klcs7u+L8iIrlgnMJL0rccCAeeXDVah
+         ZOuHI2VhMY+d7kodAXfYwokIHhSNKjrXnzs6iLoA8Z59W5q1WL6P3OqBt6XJtc52qiDT
+         k6hQ==
+X-Gm-Message-State: AOAM533T3zCTGArrcafSC6CwyQYvQqR39fL3ibI7Y2TuMFValF8bxztB
+        A3+PFWUolPwpz7rmmIeHD242gg==
+X-Google-Smtp-Source: ABdhPJz37ayunvn9ok1+ENdFPwZxrGi7OsloH6vD2nAp9cdyVRqX1z2+Tmk0IHTTo9v7cTVgjj829w==
+X-Received: by 2002:a05:6a00:14cb:b029:2be:1466:5a28 with SMTP id w11-20020a056a0014cbb02902be14665a28mr23125434pfu.55.1622574803092;
+        Tue, 01 Jun 2021 12:13:23 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d13sm13536941pfn.136.2021.06.01.11.53.44
+        by smtp.gmail.com with ESMTPSA id u18sm5029856pfl.9.2021.06.01.12.13.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 11:53:44 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 11:53:43 -0700
+        Tue, 01 Jun 2021 12:13:22 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 12:13:21 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jarmo Tiitto <jarmo.tiitto@gmail.com>,
+To:     Bill Wendling <morbo@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <202106011152.9E91FF6@keescook>
+        Jarmo Tiitto <jarmo.tiitto@gmail.com>
+Subject: Re: [PATCH] pgo: rename the raw profile file to vmlinux.profraw
+Message-ID: <202106011210.B5A8881214@keescook>
+References: <20210531202044.426578-1-morbo@google.com>
+ <e22afde4-e312-4589-cf2e-3c35219d7249@kernel.org>
+ <CAGG=3QVdXxLf0T9+n9FidrRcfdWY36m-i=4kPRJjOojWhjiywg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAGG=3QVdXxLf0T9+n9FidrRcfdWY36m-i=4kPRJjOojWhjiywg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 31, 2021 at 02:12:46PM -0700, Nathan Chancellor wrote:
-> On Wed, May 19, 2021 at 02:37:26PM -0700, Kees Cook wrote:
-> > I've added this to patch to my -next tree now:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=for-next/clang/pgo&id=e1af496cbe9b4517428601a4e44fee3602dd3c15
-> > 
-> 
-> Would this be appropriate to send? Someone sent some patches based on
-> this work so it would be nice to solidify how they will get to Linus
-> if/when the time comes :)
+On Tue, Jun 01, 2021 at 01:24:39AM -0700, 'Bill Wendling' via Clang Built Linux wrote:
+> On Mon, May 31, 2021 at 1:29 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On 5/31/2021 1:20 PM, Bill Wendling wrote:
+> > > Future PGO features may create other files in /sys/kernel/debug/pgo. So
+> > > rename the kernel's raw profile data file to "vmlinux.profraw" to make
+> > > which part of the kernel the file is for more explicit.
+> > >
+> > > Note that future files in /sys/kernel/debug/pgo should follow a similar
+> > > naming convention.
+> > >
+> > > Signed-off-by: Bill Wendling <morbo@google.com>
+> >
+> > Guess this clears up my confusion around the module patches :)
+> >
+> To clarify, Jarmo did those patches on his own. I just wanted to
+> clarify the naming convention. :-)
 
-Yeah, good idea.
-
-> https://lore.kernel.org/r/20210528200133.459022-1-jarmo.tiitto@gmail.com/
-> https://lore.kernel.org/r/20210528200432.459120-1-jarmo.tiitto@gmail.com/
-> https://lore.kernel.org/r/20210528200821.459214-1-jarmo.tiitto@gmail.com/
-> https://lore.kernel.org/r/20210528201006.459292-1-jarmo.tiitto@gmail.com/
-> https://lore.kernel.org/r/20210528201107.459362-1-jarmo.tiitto@gmail.com/
-> https://lore.kernel.org/r/20210528201213.459483-1-jarmo.tiitto@gmail.com/
-
-BTW, Jarmo, if you haven't had this suggested yet, I'd recommend using
-this kind of a script for your email sending workflow to get a set of
-threaded patches:
-
-#!/bin/sh
-set -x
-
-MYSELF="Your Name <and.email@goes.here>"
-prefix="PATCH"
-#	or
-#prefix="PATCH v2"
-#	etc...
-SHA="SHA your series is based on"
-
-
-format_args="--cover-letter -n -o outgoing/"
-maint_args="--norolestats"
-
-mkdir -p outgoing
-git format-patch $format_args --subject-prefix "$prefix" "$SHA"
-
-./scripts/checkpatch.pl "$@" --codespell outgoing/0*patch
-
-${EDITOR:-vi} outgoing/*
-
-# Send patches
-git send-email --transfer-encoding=8bit --8bit-encoding=UTF-8 \
-	--no-chain-reply-to --thread \
-	--from="$MYSELF" --cc="$MYSELF" \
-	--to-cmd="./scripts/get_maintainer.pl $maint_args -m" \
-	--cc-cmd="./scripts/get_maintainer.pl $maint_args --nom" \
-	outgoing/*
-
+Is the expectation that there would be 1 file per module in
+/sys/kernel/debug/pgo/ after the modules patch?
 
 > 
-> Cheers,
-> Nathan
+> -bw
 > 
-> ======================================
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c45613c30803..0d03f6ccdb70 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14378,9 +14378,13 @@ F:	include/uapi/linux/personality.h
->  PGO BASED KERNEL PROFILING
->  M:	Sami Tolvanen <samitolvanen@google.com>
->  M:	Bill Wendling <wcw@google.com>
-> +M:	Kees Cook <keescook@chromium.org>
->  R:	Nathan Chancellor <nathan@kernel.org>
->  R:	Nick Desaulniers <ndesaulniers@google.com>
-> +L:	clang-built-linux@googlegroups.com
->  S:	Supported
-> +B:	https://github.com/ClangBuiltLinux/linux/issues
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/clang/pgo
+> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > > ---
+> > >   Documentation/dev-tools/pgo.rst | 6 +++---
+> > >   kernel/pgo/Kconfig              | 7 ++++---
+> > >   kernel/pgo/fs.c                 | 2 +-
+> > >   3 files changed, 8 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
+> > > index b7f11d8405b7..0200449c4843 100644
+> > > --- a/Documentation/dev-tools/pgo.rst
+> > > +++ b/Documentation/dev-tools/pgo.rst
+> > > @@ -76,7 +76,7 @@ The PGO kernel support creates the following files in debugfs:
+> > >   ``/sys/kernel/debug/pgo/reset``
+> > >       Global reset file: resets all coverage data to zero when written to.
+> > >
+> > > -``/sys/kernel/debug/profraw``
+> > > +``/sys/kernel/debug/pgo/vmlinux.profraw``
+> > >       The raw PGO data that must be processed with ``llvm_profdata``.
+> > >
+> > >
+> > > @@ -108,7 +108,7 @@ using the result to optimize the kernel:
+> > >
+> > >      .. code-block:: sh
+> > >
+> > > -      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
+> > > +      $ cp -a /sys/kernel/debug/pgo/vmlinux.profraw /tmp/vmlinux.profraw
 
-I think I'm going to keep things combined in a single tree for now since the patch rate
-is low:
+And if so, these instructions would change (in the future) to something
+like:
 
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/clang/features
+     $ cp -a /sys/kernel/debug/pgo/*.profraw /tmp/prof/
 
->  F:	Documentation/dev-tools/pgo.rst
->  F:	kernel/pgo/
->  
+?
 
-I should likely do the same entry for CFI.
+-Kees
 
 -- 
 Kees Cook
