@@ -2,136 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED7DB39BFF5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Jun 2021 20:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B86639C7B2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jun 2021 13:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbhFDS6E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Jun 2021 14:58:04 -0400
-Received: from mail-lj1-f175.google.com ([209.85.208.175]:34754 "EHLO
-        mail-lj1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229810AbhFDS6E (ORCPT
+        id S230091AbhFELML (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 5 Jun 2021 07:12:11 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:55881 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230039AbhFELMK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Jun 2021 14:58:04 -0400
-Received: by mail-lj1-f175.google.com with SMTP id bn21so12864014ljb.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 04 Jun 2021 11:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MAY7KM/K0wP2g2AnxgxdYeWiUARA3nmMx/CzXqNh5J8=;
-        b=ILKJc/Mav+UPrVq/nRH3LXx5XPRG4deEPpGqPf0OLbxHbhYbvIWD/nVaHVVo/0TKu0
-         s9pBx2hwEFZ7GqyXhTa78xIoF5sYlpyM608nf/SIkgZa7bPVxqPszqJxCdQXXXNa1DyY
-         /QNzow1odGMNaN9fHmSPR6WtoRzo9cTfUK3Bu7A4FvmTmhSB6aAVte85eheGTcQZ+ib9
-         OERYSFMlsC25mo1f9HXpX8XvUk1Cek2HAV+ymRj/rIxV1BsXGhmm3xSMj4lLqkGM1TVa
-         fofIMGv/yK3ZOD7YISxMitNtPUydzIIxANR65nc68i/mDh/DJaK8arbKunf+8pAUPpUz
-         s/tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MAY7KM/K0wP2g2AnxgxdYeWiUARA3nmMx/CzXqNh5J8=;
-        b=nAzvmlZQmxP/k96melY1uH7G6gJnaTBNM15IjKeUfXpvWBl0wipKwnRP1s03bGTv82
-         VZr2jhntWwAXwIj6Kkb6Hy3Ye1MA+hD5sEW5QGJQLR6Tr1DCSN9gtJt+QqTkrXayfAf8
-         7P5r4fN1l8cTb9VRcmbincQkJ+ExJzCcRir9OaAU+tlaKEFe5sY7bpZxstVVWwMlRG+T
-         jGeeFh694J694vzH8XSl6bi+6i3XfiFlh9QpgHaG9azouooNl19wSpesWBF/e8qQo6c5
-         vj8xVP4UQ75cXc098lW4HBExGVzhSPwk2Ly6bpM+ahif38YCSUJItdeqNMpGjEwHwgFo
-         BpwQ==
-X-Gm-Message-State: AOAM5313MRCqrqpLO/DJ0tylsTwBdCHMiQ5e3LA5HwCcmY1DDVQy5NyA
-        pe9O/Rhi7NOZ3GdCpfwXtU8xjYx1y77ekuLpBjNVKQ==
-X-Google-Smtp-Source: ABdhPJxl5/Re/Rr0Zge/fNM8dXYYUz70xFkk3awqJRm9fa8erhejah5WI9ZmMJkR6yJCNW529LV8pKaCUXDTZ3w3LLs=
-X-Received: by 2002:a2e:b6d2:: with SMTP id m18mr4278071ljo.233.1622832916471;
- Fri, 04 Jun 2021 11:55:16 -0700 (PDT)
+        Sat, 5 Jun 2021 07:12:10 -0400
+Received: from mail-wr1-f47.google.com ([209.85.221.47]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MIxmm-1m4FvD2OWw-00KPsU for <linux-kbuild@vger.kernel.org>; Sat, 05 Jun
+ 2021 13:10:21 +0200
+Received: by mail-wr1-f47.google.com with SMTP id c9so3127674wrt.5
+        for <linux-kbuild@vger.kernel.org>; Sat, 05 Jun 2021 04:10:21 -0700 (PDT)
+X-Gm-Message-State: AOAM531UCotOLC6DHQhR3z2FCSo6XCxPdn5HX6mnYQGntOkYvVtY56FZ
+        98GlieSSSVDWDEvZveSxFtVTElA0UvSE2lIYYQE=
+X-Google-Smtp-Source: ABdhPJzMu84fMZ8q/OTCrQYpDs9iwX0Xw/zThD30vmIyoMLDLDU6660+xepaE8HRr6/VPmzZNoc3XJQh7PfZy4mI1IY=
+X-Received: by 2002:adf:a28c:: with SMTP id s12mr8493310wra.105.1622891420949;
+ Sat, 05 Jun 2021 04:10:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com>
- <20210522012626.2811297-1-ndesaulniers@google.com> <20210526170904.GB19831@willie-the-truck>
-In-Reply-To: <20210526170904.GB19831@willie-the-truck>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 4 Jun 2021 11:55:04 -0700
-Message-ID: <CAKwvOd=Ah8LL2XDXQE9=t1hGNTxfeGEmVkVdhUBoQ5P_9eAWhA@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: fix GDB warning with CONFIG_RELR
-To:     Will Deacon <will@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Fangrui Song <maskray@google.com>,
-        Elliot Berman <eberman@quicinc.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <202106051816.t4mlM0Df-lkp@intel.com>
+In-Reply-To: <202106051816.t4mlM0Df-lkp@intel.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 5 Jun 2021 13:08:36 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2cXLWD0m6+k4bcfRwOOM9QhusjSFtaV7EMC2wuh1+UEQ@mail.gmail.com>
+Message-ID: <CAK8P3a2cXLWD0m6+k4bcfRwOOM9QhusjSFtaV7EMC2wuh1+UEQ@mail.gmail.com>
+Subject: Re: [linux-next:master 6856/7430] hppa64-linux-ld:
+ init/do_mounts.o(.text.unlikely+0x88): cannot reach dump_page
+To:     kernel test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Helge Deller <deller@gmx.de>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>
+        Philip Li <philip.li@intel.com>,
+        Rong Chen <rong.a.chen@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:GR2Wl6QGA9htwRtoWMkh8yLZO8It8x/SxI/Boy7UK32LcnrvqV0
+ wke60XUpZAPzvaye6MiyjdN4Fph9y9v0xYpO9mOS1ZqaF7moLzPRGfHWrB3ZsmqGQuIbJkD
+ Oo93+hmYtkV6MAnbgowvYOXpEErVk8cRBEG3DE82sfzAJ3xkJW6krAY9+Sy+t63Ntn9i2yN
+ tqWegsxW9Hly1eXO1cEBw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VJewo2AY6JI=:6rp5HL4p/Bp9lOYur2VtOd
+ 320WUBXsvpKv0FVctVKoEB7Z1YP/r9SR3/ctXL8i/6P7vw8BoiRpBhUWtOWBi2C0oG6yJEwjK
+ 3B5NezhRoXvY3zWpoTMq5gx7qS9pkulQJxGGpfcfhYOiZPH02oRCroWN3VZdTcuDoiIvhdBzH
+ JwGIV1C+H3P/j8mQmjThABftDtqKNFctqe8gtGVidGivpdlsbrLceHu6N80X55KfSCwJ0aisV
+ shlW1b7aT1/GodQVn7wos1k7VVF4h/nyUCLccQxyRu2saVg4cC54BhUW2t7eCYbcq6jWODLoy
+ D36qeWAeBHYuXjcODgT0M6Wv2BAs02q42UxnyzIAKJgC/AHRJ7OUxoSz0oBiCowtSG5aYQXZY
+ qo/EmPvccE2+dmd2UKyC/v9ZwDLkn/tSVKLCKmXTds970M9Upk8QvTAwaBVi/J5SdqNAl2I0b
+ JDv9Zy7KG7NB+YcmoDxvIaS3gytaOawRw1ixMP8n2H7ZZnuqz9ac0250cBU6DNgzge1qvUrMy
+ rvXSvIwrlRMGpl7ESN6ND37Z14Ak9FVwJAhmxK2qkZgmJqRA1tidOAZZl0LjHB8qSzXqHFOu0
+ fGPmfDpDZVp01IxDxohib6N2b4JxaQwjDuaadHscPMXVcSUrB0mbQcZMLwTtHHLD4E0yQB/d2
+ zMdA=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 26, 2021 at 10:09 AM Will Deacon <will@kernel.org> wrote:
+On Sat, Jun 5, 2021 at 12:59 PM kernel test robot <lkp@intel.com> wrote:
 >
-> On Fri, May 21, 2021 at 06:26:24PM -0700, Nick Desaulniers wrote:
-> > GDB produces the following warning when debugging kernels built with
-> > CONFIG_RELR:
-> >
-> > BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
-> >
-> > when loading a kernel built with CONFIG_RELR into GDB. It can also
-> > prevent debugging symbols using such relocations.
-> >
-> > Peter sugguests:
-> >   [That flag] means that lld will use dynamic tags and section type
-> >   numbers in the OS-specific range rather than the generic range. The
-> >   kernel itself doesn't care about these numbers; it determines the
-> >   location of the RELR section using symbols defined by a linker script.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-> > Suggested-by: Peter Collingbourne <pcc@google.com>
-> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> > Changes V1 -> V2:
-> > * rebase
-> > * pick up Nathan's reviewed by tag.
-> >
-> >  Makefile                      | 2 +-
-> >  scripts/tools-support-relr.sh | 3 ++-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ccc252d2e818f6a479441119ad453c3ce7c7c461
+> commit: 2ada05c3a46dda2e2b065a02307c0c6268d9678f [6856/7430] Merge remote-tracking branch 'asm-generic/master'
+> config: parisc-randconfig-r012-20210604 (attached as .config)
+> compiler: hppa64-linux-gcc (GCC) 9.3.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=2ada05c3a46dda2e2b065a02307c0c6268d9678f
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout 2ada05c3a46dda2e2b065a02307c0c6268d9678f
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=parisc
 >
-> Does lld support RELR relocations for any architectures other than arm64? If
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Yes; from what I can tell it's not an architecture specific relocation
-type. Combing through LLVM's sources, it seems Fuchsia sets it always
-(at least when using lld) and I'm pretty sure they support x86.  At
-least I don't get any errors out of LLD when building with
---pack-dyn-relocs=relr on x86.
+Helge Deller already fixed this problem with commit 778e45d7720d
+("parisc: Enable -mlong-calls
+gcc option with CONFIG_COMPILE_TEST"), so randconfig builds with
+CONFIG_COMPILE_TEST
+turned on don't run into link failures with overly large kernels.
 
-I can force on RELR for x86 kernel builds with:
-```
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 0045e1b44190..513272c77827 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2117,6 +2117,7 @@ config PHYSICAL_START
+> All errors (new ones prefixed by >>):
+>
+>    hppa64-linux-ld: init/main.o(.init.text+0xb08): cannot reach panic
+>    init/main.o: in function `initcall_blacklist':
+>    (.init.text+0xb08): relocation truncated to fit: R_PARISC_PCREL22F against symbol `panic' defined in .text.unlikely section in kernel/panic.o
+>    hppa64-linux-ld: init/main.o(.init.text+0xcd0): cannot reach rest_init
+>    init/main.o: in function `arch_call_rest_init':
+>    (.init.text+0xcd0): relocation truncated to fit: R_PARISC_PCREL22F against symbol `rest_init' defined in .ref.text section in init/main.o
+>    hppa64-linux-ld: init/main.o(.init.text+0x1154): cannot reach panic
+>    init/main.o: in function `start_kernel':
+>    (.init.text+0x1154): relocation truncated to fit: R_PARISC_PCREL22F against symbol `panic' defined in .text.unlikely section in kernel/panic.o
+>    hppa64-linux-ld: init/main.o(.init.text+0x128c): cannot reach build_all_zonelists
+>    (.init.text+0x128c): relocation truncated to fit: R_PARISC_PCREL22F against symbol `build_all_zonelists' defined in .ref.text section in mm/page_alloc.o
 
- config RELOCATABLE
-        bool "Build a relocatable kernel"
-+       select ARCH_HAS_RELR
-        default y
-        help
-          This builds a kernel image that retains relocation information
-```
-That builds (it won't boot because we don't have the machinery in the
-kernel to self relocate that type, yet).
+The specific set of errors is completely random, so any patch that
+changes the size of the
+kernel will trigger this output.
 
-> so, is the "--use-android-relr-tags" option supported on all of those as
-> well?
+I think the best solution would be for Kconfig to enforce that
+CONFIG_COMPILE_TEST is
+set to =y when running 'make randconfig'. I had previously discussed
+this with Rong
+and Philip, who preferred to not enforce COMPILE_TEST=y on the lkp setup because
+other users doing randconfig builds might still run into the same issues.
 
-I believe so; no issues building with this patch and with the above
-diff applied on x86. All that flag does is change the elf section type
-from SHT_RELR to SHT_ANDROID_RELR.
+An alternative would be to just not send out emails about randconfig
+failures that
+happen only with COMPILE_TEST=n.
 
-pcc@ can correct me if I'm wrong.
--- 
-Thanks,
-~Nick Desaulniers
+      Arnd
