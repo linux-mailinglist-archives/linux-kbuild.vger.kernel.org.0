@@ -2,85 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B033139DE4D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jun 2021 16:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A43A039E102
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jun 2021 17:43:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbhFGOEo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Jun 2021 10:04:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33288 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230200AbhFGOEo (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Jun 2021 10:04:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD8086109F;
-        Mon,  7 Jun 2021 14:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623074573;
-        bh=aserT3q6jOf57au2hItknEiG7cSh5lnmlXSxZfbqDjc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=C2fP2pxJipZzf+Hjy327afYMWqdKrPO18x3S02BtVA5hQAVPW092HUTLWsjDHdQd3
-         nkuncZEUjslbjLqcqTTRyUnUS/fPfsai+5idp3yGpgPsPOiMeR3ncWDBkndx/cnUX+
-         7pIz1pGi/PooYxF5l8deHb6c3G+RhEhu5ZxkhTVTl3/rpCdNHya8/k3cpBaPKN8IWQ
-         tmPCHvLjrExAhMf0z39OvRA7EcLH4UiWzeMIe6y+0aYoH3W9XG0DRL/I/xEUbCmaJb
-         4lvY0xQSxUmX4m1AKtH/CdquPLlNMa2Rn5Y3vBtAlGMWLaDGtq3X6eV29BuP+pKsYl
-         F1XtlMNs1Crjw==
-From:   Mark Brown <broonie@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2] kbuild: modpost: Explicitly warn about unprototyped symbols
-Date:   Mon,  7 Jun 2021 15:02:06 +0100
-Message-Id: <20210607140206.38131-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S231691AbhFGPnU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Jun 2021 11:43:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231624AbhFGPnJ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 7 Jun 2021 11:43:09 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F7CC061766;
+        Mon,  7 Jun 2021 08:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=F13xOnM5F0Ufs2TOCg78ImeKaTi/MppD+Ee/8+ZOVI8=; b=P529/dNw+gMsYw/hfuMVAoBCZp
+        ROKU97uFOlzFU6oKNahA9xz/5nFZSMQP5EHsm5/e22V+QmLx57Y4AobtI/h3WFwElZfw/N8ITwxhl
+        t5jabZ/6vbWvAvEb3x48iqorZj9Fhvc+D//RL/1vah+pZ8bxlZ43SJrCQKlNNsCl1LMWbaPr6MSzb
+        ux5T/zJULURJ5LWCjiB0eZwU4fP3XSK30JwHeOCXT5DJlrB0+2lH8JdXZKRVEYgNyDFoONRWNiGFY
+        uJvDzD7E3dSz3VF5dMKzVcP8pg34INJdmmI2uLDRGkPTWUccRVFc0MCDR+5M0FknIUxy5iFDyxoP/
+        AVwrnxEA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lqHMK-00FxAA-6M; Mon, 07 Jun 2021 15:40:16 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8A91E3001E3;
+        Mon,  7 Jun 2021 17:40:11 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 774F82D6A737A; Mon,  7 Jun 2021 17:40:11 +0200 (CEST)
+Date:   Mon, 7 Jun 2021 17:40:11 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Matt Helsley <mhelsley@vmware.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Sami Tolvanen <samitolvanen@google.com>, yj.chiang@mediatek.com
+Subject: Re: [PATCH] recordmcount: avoid using ABS symbol as reference
+Message-ID: <YL492/4WrWaNDL4p@hirez.programming.kicks-ass.net>
+References: <20210607074258.32322-1-mark-pk.tsai@mediatek.com>
+ <20210607080626.32612-1-mark-pk.tsai@mediatek.com>
+ <CAMj1kXGCoME4Wy4e3FNAjWLY=G56ivHzFTLrXRE0mLtnaBVEDQ@mail.gmail.com>
+ <YL4GlbfMJiuLkRhR@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1596; h=from:subject; bh=aserT3q6jOf57au2hItknEiG7cSh5lnmlXSxZfbqDjc=; b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBgvibRPmVHI7SQlUyeFcr/tc/rTe0sU5rnWB/wQteb fzpUTJmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYL4m0QAKCRAk1otyXVSH0EPCB/ 406pSaJOnUQOqTA2jvEEEVW+O/FLuDgSMjb5iJufEdZxn3ZR7Nm/fDe1ayDURiKZn9mLAOLLCJ/bz5 aimkZZK+U9X2tFu95kcbxKbRlGkU1TkHBja0d+QpTOPiOgssnUOMTQXEV9iC5MT+3g2GCttA1RPrIZ WJJsuqLgutvww1jee10dITzBeHqW764q85gajVB3pOK+HnUVa9+DQtjMjnSEw81mPtzr9LRhh9b/oG DiVZB+yJuxqUNEe8dqa4R7EDb+tbVNDd4PxQ9zoOBUYogTMac8X/sXtOCkQSCMyjV85DqxURR/jwY6 lobDxw+1WZVV6PvvG7yq1kpadatDSN
-X-Developer-Key: i=broonie@kernel.org; a=openpgp; fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YL4GlbfMJiuLkRhR@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-One common cause of modpost version generation failures is a failure to
-prototype exported assembly functions - the tooling requires this for
-exported functions even if they are not and should not be called from C
-code in order to do the version mangling for symbols. Unfortunately the
-error message is currently rather abstruse, simply saying that "version
-generation failed" and even diving into the code doesn't directly show
-what's going on since there's several steps between the problem and it
-being observed.
+On Mon, Jun 07, 2021 at 01:44:21PM +0200, Peter Zijlstra wrote:
+> One should only use st_shndx when >SHN_UDEF and <SHN_LORESERVE. When
+> SHN_XINDEX, then use .symtab_shndx.
+> 
+> Apparently you've found a case where neither is true? In that case
+> objtool seems to use shndx 0. A matching recordmcount patch would be
+> something like this.
+> 
 
-Provide an explicit hint as to the likely cause of a version generation
-failure to help anyone who runs into this in future more readily diagnose
-and fix the problem.
+Apparently I'm consistently bad at spelling SHM_UNDEF today..
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
-
-v2:
- - Reword and reformat error message.
- - Fix duplicated is.
-
- scripts/mod/modpost.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 3e623ccc020b..270a7df898e2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -660,8 +660,11 @@ static void handle_modversion(const struct module *mod,
- 	unsigned int crc;
- 
- 	if (sym->st_shndx == SHN_UNDEF) {
--		warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n",
--		     symname, mod->name, mod->is_vmlinux ? "" : ".ko");
-+		warn("EXPORT symbol \"%s\" [%s%s] version ...\n"
-+		     "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
-+		     symname, mod->name, mod->is_vmlinux ? "" : ".ko",
-+		     symname);
-+
- 		return;
- 	}
- 
--- 
-2.20.1
-
+> diff --git a/scripts/recordmcount.h b/scripts/recordmcount.h
+> index f9b19524da11..d99cc0aed6fe 100644
+> --- a/scripts/recordmcount.h
+> +++ b/scripts/recordmcount.h
+> @@ -194,13 +194,18 @@ static unsigned int get_symindex(Elf_Sym const *sym, Elf32_Word const *symtab,
+>  	unsigned long offset;
+>  	int index;
+>  
+> -	if (sym->st_shndx != SHN_XINDEX)
+> +	if (sym->st_shndx > SHN_UDEF &&
+> +	    sym->st_shndx < SHN_LORESERVE)
+>  		return w2(sym->st_shndx);
+>  
+> -	offset = (unsigned long)sym - (unsigned long)symtab;
+> -	index = offset / sizeof(*sym);
+> +	if (sym->st_shndx == SHN_XINDEX) {
+> +		offset = (unsigned long)sym - (unsigned long)symtab;
+> +		index = offset / sizeof(*sym);
+>  
+> -	return w(symtab_shndx[index]);
+> +		return w(symtab_shndx[index]);
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static unsigned int get_shnum(Elf_Ehdr const *ehdr, Elf_Shdr const *shdr0)
