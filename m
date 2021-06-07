@@ -2,107 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E63F39D5DA
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jun 2021 09:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9D939D913
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jun 2021 11:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhFGHX1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Jun 2021 03:23:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:33249 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbhFGHXZ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Jun 2021 03:23:25 -0400
-Received: from mail-wr1-f41.google.com ([209.85.221.41]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M76jv-1likFO0kgx-008ebl for <linux-kbuild@vger.kernel.org>; Mon, 07 Jun 2021
- 09:21:33 +0200
-Received: by mail-wr1-f41.google.com with SMTP id l2so16360348wrw.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 07 Jun 2021 00:21:33 -0700 (PDT)
-X-Gm-Message-State: AOAM532CxzEmEMXByHbavLgkkOXza60RFebNlERaR0exo3RnIRQ/rVJE
-        jWJ9pPGHFAEebzcYBQRBJjSVqbwlO01c1eZYFzQ=
-X-Google-Smtp-Source: ABdhPJygvi9pZ3xbyxVL+FM0xPyrnPSKsFkolXYa9USvk7iCRttWrDcMsI0oAxQRwmU1k33qwT0etbARk3MfiL48ZIc=
-X-Received: by 2002:adf:a28c:: with SMTP id s12mr16204373wra.105.1623050492884;
- Mon, 07 Jun 2021 00:21:32 -0700 (PDT)
+        id S230193AbhFGJwn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Jun 2021 05:52:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230173AbhFGJwn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 7 Jun 2021 05:52:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 28DFD611BE;
+        Mon,  7 Jun 2021 09:50:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623059452;
+        bh=JE9YmLu1XcCh2IdiKUhtfnOei95qmgTeBXzlr2OSs5U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DfpEj+7Jk2U92sWwP3npSY4c5Up9o6rqkZHAdIDdytRl6i4N+gby7GRq/smungUVO
+         0vhwLULcopfuk/WqYIcGYUBavLNLrRMQ5xooklERJjzzypO/GUcpVOA9KFha9zO3nA
+         QPat5j1no34Vch7tvNC+2/PEojw8p0VMLS19KqySapcSkJmoUtaK0zzgVExj7LI3K1
+         zAVqGwAYNRPL9J7cbL5gO/8s1twL1RNlWRatR3Jn6LH2jFS006a3hGXspLzFbfjTkl
+         S5hA1Rpllhszmu8M46JCoQJGhrlzIB98REL/dT1bXnyFnO/lSG2xoCrg2E8Gfx0QQc
+         J6UsQh7JOTJ4w==
+Received: by mail-ot1-f47.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso16093040otu.10;
+        Mon, 07 Jun 2021 02:50:52 -0700 (PDT)
+X-Gm-Message-State: AOAM5307Njk2NkpvZCuOqOHV3qNoJz2XuSALBELwUYyWcxXiPaByrext
+        6D61yhCPyY47yKbqpE71xk6pHft9PtIpOCRq1Kk=
+X-Google-Smtp-Source: ABdhPJwBcZO3+EJo10iM+TtSxwhwjmCAV3817RPdz1/FU9dXzT2GEqhh9BNYlRt6h/snGjjy0s4uCKxjFa8oCQ/sXzQ=
+X-Received: by 2002:a9d:6d0e:: with SMTP id o14mr6760139otp.90.1623059451515;
+ Mon, 07 Jun 2021 02:50:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <202106051816.t4mlM0Df-lkp@intel.com> <CAK8P3a2cXLWD0m6+k4bcfRwOOM9QhusjSFtaV7EMC2wuh1+UEQ@mail.gmail.com>
- <c3e78409-f321-d0dc-67b1-d2a8d3dd24e2@intel.com>
-In-Reply-To: <c3e78409-f321-d0dc-67b1-d2a8d3dd24e2@intel.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 7 Jun 2021 09:19:44 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2pAKiKACZ_kazXEWMffqbgZV_ZeQ27z8PSy3YbLGQPxA@mail.gmail.com>
-Message-ID: <CAK8P3a2pAKiKACZ_kazXEWMffqbgZV_ZeQ27z8PSy3YbLGQPxA@mail.gmail.com>
-Subject: Re: [linux-next:master 6856/7430] hppa64-linux-ld:
- init/do_mounts.o(.text.unlikely+0x88): cannot reach dump_page
-To:     Rong Chen <rong.a.chen@intel.com>
-Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Helge Deller <deller@gmx.de>,
+References: <20210607074258.32322-1-mark-pk.tsai@mediatek.com> <20210607080626.32612-1-mark-pk.tsai@mediatek.com>
+In-Reply-To: <20210607080626.32612-1-mark-pk.tsai@mediatek.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Mon, 7 Jun 2021 11:50:40 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGCoME4Wy4e3FNAjWLY=G56ivHzFTLrXRE0mLtnaBVEDQ@mail.gmail.com>
+Message-ID: <CAMj1kXGCoME4Wy4e3FNAjWLY=G56ivHzFTLrXRE0mLtnaBVEDQ@mail.gmail.com>
+Subject: Re: [PATCH] recordmcount: avoid using ABS symbol as reference
+To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Philip Li <philip.li@intel.com>
+        linux-toolchains@vger.kernel.org
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Matt Helsley <mhelsley@vmware.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Sami Tolvanen <samitolvanen@google.com>, yj.chiang@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:xNL4FexmGOMZebU08h3AFI8Dv0AXjCI96zoXWwT9hl6T4rMzWL7
- QvgZ1RNYDQMbxz9j+4gCa69NtZOhGnY4VoTQWrVL6dkWj02sS6IhHD5KsYkI2xOcW6Ngg5S
- 0LHyQVCLxFtxB3bjyGG62Df+7OUXkI3dy6LDRrBCdhmFRtCpy8+kC4EiSdQySfiqbL+iwbq
- g77vV8xyseHxVuw7SRdeA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1BQx9/+XsUc=:A7wroxDAJv8t9q2L1JwitC
- p8qysyqohW1BuI8Yisj8NZ3pwEMvWOwY03jqkpOmksc2rMNhzHSi7BC1I5jIrv/T1tGmUALpz
- DH61wxjc6Gg9vTDB65+lP8B4DZCvXifF+VVPKUo8g04IJLPJ5DEVUL3Xy1+C61Ed2XVFZ6HPa
- qSxrn/pTZFql2Su3HUbVx6C76uCqVaSZBPlL7yvHDrNtsKcelxh/S2f/ta4Ny4zryeNnRHsOz
- g7eaLIXcceCg5blwIjbSKAP2Z6du/ioko8+3rHph54n8oV09yab4QUjRUSG9klEMoWqAu1NAK
- XZvVU0bbPw6jfECVmnuvrLRfN5To+/loaSD1dJaR9p1xJeGs0LkZWX3gj3iyS40lmd1s/2EMB
- kZ1W6AIoyOl6JcYwgPF1n413Xme3iRVO/qaEuv0hHyJmQMG2hM8Rwgq/Z2oKGAwJdk9F2P0xH
- L+95GPsF4bEvWAsWFavjYcLVBfNwEowTLoQh2Zc9FPOhxWvNAMYYmyIOvgz3FjtVeHI1e5N5G
- NU8OKZJL5/syslq+P+H2cw=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 7, 2021 at 8:27 AM Rong Chen <rong.a.chen@intel.com> wrote:
-> On 6/5/21 7:08 PM, Arnd Bergmann wrote:
-> > On Sat, Jun 5, 2021 at 12:59 PM kernel test robot <lkp@intel.com> wrote:
-> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> >> head:   ccc252d2e818f6a479441119ad453c3ce7c7c461
-> >> commit: 2ada05c3a46dda2e2b065a02307c0c6268d9678f [6856/7430] Merge remote-tracking branch 'asm-generic/master'
-> >> config: parisc-randconfig-r012-20210604 (attached as .config)
-> >> compiler: hppa64-linux-gcc (GCC) 9.3.0
-> >> reproduce (this is a W=1 build):
-> >>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >>          chmod +x ~/bin/make.cross
-> >>          # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=2ada05c3a46dda2e2b065a02307c0c6268d9678f
-> >>          git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> >>          git fetch --no-tags linux-next master
-> >>          git checkout 2ada05c3a46dda2e2b065a02307c0c6268d9678f
-> >>          # save the attached .config to linux build tree
-> >>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=parisc
-> >>
-> >> If you fix the issue, kindly add following tag as appropriate
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> > Helge Deller already fixed this problem with commit 778e45d7720d
-> > ("parisc: E
+On Mon, 7 Jun 2021 at 10:06, Mark-PK Tsai <mark-pk.tsai@mediatek.com> wrote:
 >
-> We will ignore the error firstly, I'm a little confused, who can handle
-> the randconfig failures if COMPILE_TEST=n?
+> > > On Mon, 7 Jun 2021 at 08:59, Mark-PK Tsai <mark-pk.tsai@mediatek.com> wrote:
+> > > >
+> > > > > > On Mon, 7 Jun 2021 at 04:42, Mark-PK Tsai <mark-pk.tsai@mediatek.com> wrote:
+> > > > > >
+> > > > > > Avoid using ABS symbol, which won't be relocate, as reference.
+> > > > > >
+> > > > > > On arm64 platform, if there's shndx equals SHN_ABS(0xfff1).
+> > > > > >
+> > > > > > Section Headers:
+> > > > > > [Nr]    Name                         Type      Address          Off      Size   ES  Flg Lk     Inf    Al
+> > > > > > [65521] .text.n_tty_receive_buf      PROGBITS  0000000000000000 3cdab520 000054 00  AX  0      0      4
+> > > > > > [65522] .rela.text.n_tty_receive_buf RELA      0000000000000000 3cdab578 000030 18  I   152076 65521  8
+> > > > > >
+> > > > >
+> > > > > A RELA section's r_info field points to the section to which it
+> > > > > applies. This is why in the example above section #65522 points to
+> > > > > section #65521. This has nothing to do with the numerical value of
+> > > > > SHN_ABS.
+> > > >
+> > > > If the r_info of RELA section is 65521(0xfff1),
+> >
+> > Oh sorry, I mean sh_info here.
+> >
+> > > > find_secsym_ndx() will use it to find the base symbol.
+> > > >
+> > >
+> > > But what does that have to do with the sh_info field of the RELA
+> > > section's Elf_Shdr struct? IOW, what is the relevance of section
+> > > #65521 here?
+> > >
+> >
+> > So what I mean is the problem occur if the sh_info of a RELA section
+> > is #65521.
+>
+> Actually the problem occur if the sh_info of a RELA section is in
+> the special section index range(SHN_LORESERVE ~ SHN_HIRESERVE).
+> Maybe I should add a is_shndx_special() to check this like
+> scripts/mod/modpost.h did?
+>
 
-The failures that you only see with COMPILE_TEST=n are the ones that
-someone has previously decided can not be handled properly, for one
-reason or another, examples include:
+So if I understand all of this correctly, we are running into a
+fundamental issue here, where the linker emits more sections than the
+sh_info field can describe, overflowing into the reserved range.
 
-- rebuilding generated files that require additional tools to be
-installed on the host,
-  e.g. CONFIG_PREVENT_FIRMWARE_BUILD
-- configurations that may or may not work but result in excessive
-compiler warnings
-  that are not otherwise interesting, e.g. GCC_PLUGIN_CYC_COMPLEXITY
-- options that enable compile-time warnings about pointless configurations
-  such as leaving out support for every machine
-- options that are unlikely to have an effect on testing but slow down the build
-  time (e.g. CONFIG_DEBUG_INFO) for build bots finite hardware resources.
+I don't think papering over it like this is going to be maintainable
+going forward.
 
-On the primary architectures, randconfig builds with 'make -s' should generally
-result in no output from the build, and I would consider any output
-you get a bug.
-When COMPILE_TEST is disabled, there are countless known issues in
-configurations that make no practical sense.
 
-        Arnd
+
+> >
+> > > > And in the symbol search loop in find_secsym_ndx(), get_symindex will
+> > > > return 0xfff1 if the symbol is in ABS section.
+> > > >
+> > > > In this case, find_secsym_ndx() will return a absolute symbol as
+> > > > base, which won't be relocate, if an ABS symbol is found before the
+> > > > real symbol in section 65521.
+> > > >
+> > >
+> > > I see your point here.
+> > >
+> > > > >
+> > > > > > find_secsym_ndx, which use r_info in rela section to find the reference
+> >
+> > sh_info.
+> >
+> > > > > > symbol, may take ABS symbol as base.
+> > > > > >
+> > > > > > Symbol table '.symtab' contains 453285 entries:
+> > > > > >    Num:    Value          Size Type    Bind   Vis       Ndx Name
+> > > > > >      6: 0000000000000002     0 NOTYPE  LOCAL  DEFAULT   ABS section_count
+> > > > > >
+> > > > > > Which cause an invalid address in __mcount_loc.
+> > > > > >
+> > > > >
+> > > > > Could you give a better account of the error you are trying to address?
+> > > > >
+> > > > > Also, arm64 no longer defines a section_count symbol (since v5.11), so
+> > > > > please make sure that the diagnostics of the issue you are addressing
+> > > > > are accurate for mainline.
+> > > > >
+> > > >
+> > > > My kernel version is 5.4.61.
+> > > > But as I explained, I suppose mainline also have this issue.
+> > > >
+> > >
+> > > Mainline is what we work on. So please base your changes (and your
+> > > commit log) on mainline.
+> > >
+> >
+> > I understand it.
+> > But the platform I can reproduce the problem is only support to 5.4 LTS now.
+> > And port it to the latest mainline kernel have much more work to do, can I just
+> > keep this commit log? Or just remove the example I posted in the commit messsage?
+> >
+> > >
+> > > > >
+> > > > > > Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+> > > > > > ---
+> > > > > >  scripts/recordmcount.h | 4 ++++
+> > > > > >  1 file changed, 4 insertions(+)
+> > > > > >
+> > > > > > diff --git a/scripts/recordmcount.h b/scripts/recordmcount.h
+> > > > > > index f9b19524da11..9b69167fb7ff 100644
+> > > > > > --- a/scripts/recordmcount.h
+> > > > > > +++ b/scripts/recordmcount.h
+> > > > > > @@ -526,6 +526,10 @@ static int find_secsym_ndx(unsigned const txtndx,
+> > > > > >         for (symp = sym0, t = nsym; t; --t, ++symp) {
+> > > > > >                 unsigned int const st_bind = ELF_ST_BIND(symp->st_info);
+> > > > > >
+> > > > > > +               /* avoid absolute symbols */
+> > > > > > +               if (symp->st_shndx == SHN_ABS)
+> > > > > > +                       continue;
+> > > > > > +
+> > > > > >                 if (txtndx == get_symindex(symp, symtab, symtab_shndx)
+> > > > > >                         /* avoid STB_WEAK */
+> > > > > >                     && (STB_LOCAL == st_bind || STB_GLOBAL == st_bind)) {
+> >
