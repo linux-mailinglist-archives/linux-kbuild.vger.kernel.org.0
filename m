@@ -2,92 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AD7639EB42
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jun 2021 03:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68ABA39F7B4
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jun 2021 15:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhFHBRs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Jun 2021 21:17:48 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:34301 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230209AbhFHBRr (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Jun 2021 21:17:47 -0400
-X-UUID: 4623f96bb4ca4325b53853285eb3af65-20210608
-X-UUID: 4623f96bb4ca4325b53853285eb3af65-20210608
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <mark-pk.tsai@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1768396892; Tue, 08 Jun 2021 09:15:50 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Jun 2021 09:15:48 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Jun 2021 09:15:48 +0800
-From:   Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-To:     <peterz@infradead.org>
-CC:     <ardb@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-toolchains@vger.kernel.org>, <mark-pk.tsai@mediatek.com>,
-        <matthias.bgg@gmail.com>, <mhelsley@vmware.com>,
-        <rostedt@goodmis.org>, <samitolvanen@google.com>,
-        <yj.chiang@mediatek.com>
-Subject: Re: [PATCH] recordmcount: avoid using ABS symbol as reference
-Date:   Tue, 8 Jun 2021 09:15:48 +0800
-Message-ID: <20210608011548.5008-1-mark-pk.tsai@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <YL492/4WrWaNDL4p@hirez.programming.kicks-ass.net>
-References: <YL492/4WrWaNDL4p@hirez.programming.kicks-ass.net>
+        id S232953AbhFHNYB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Jun 2021 09:24:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57644 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232934AbhFHNX7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 8 Jun 2021 09:23:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01E986124B;
+        Tue,  8 Jun 2021 13:22:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623158526;
+        bh=26tDlzaqRmpxPofcTFO2IiT4LsDm38K8gdTl72KaM3g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lyKsXvu9MbIV9BLRfCaGTCFEbW+1ah5q9kIPXSui1PlBDI6v5i2WhAUGGMHUgVq6J
+         8mPWn6F55uT4x1VF9iOzYelAgi0ZP4NGcrx4c+hBhFm2SKflqh/RCgreANi3Vzs4c7
+         GQPQxqfWQjVji0VPcmXwvyQItBFaln+IrQ/UQrbvWznzxiQOvGmdCHfTWH5S8g3ipn
+         AoVHqaYUEofmYohF6AYN3QT9iexXo+Fju6/ROT5zHu1LHDBmf6LZYOXvqsTO47dhUL
+         bXido5hBepcu8JK6KtiZiCkF4XqP+Nf2/w++gduwAP+dsChBl8d5RvTMJW2uFRsOKF
+         RkSN9qgHqfIPA==
+From:   Will Deacon <will@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     catalin.marinas@arm.com, kernel-team@android.com,
+        Will Deacon <will@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Elliot Berman <eberman@quicinc.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Makefile: fix GDB warning with CONFIG_RELR
+Date:   Tue,  8 Jun 2021 14:21:53 +0100
+Message-Id: <162315417458.2255276.14036371169273697927.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210522012626.2811297-1-ndesaulniers@google.com>
+References: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com> <20210522012626.2811297-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> On Mon, Jun 07, 2021 at 01:44:21PM +0200, Peter Zijlstra wrote:
-> > One should only use st_shndx when >SHN_UDEF and <SHN_LORESERVE. When
-> > SHN_XINDEX, then use .symtab_shndx.
-> > 
-> > Apparently you've found a case where neither is true? In that case
-> > objtool seems to use shndx 0. A matching recordmcount patch would be
-> > something like this.
-> > 
+On Fri, 21 May 2021 18:26:24 -0700, Nick Desaulniers wrote:
+> GDB produces the following warning when debugging kernels built with
+> CONFIG_RELR:
 > 
-> Apparently I'm consistently bad at spelling SHM_UNDEF today..
-
-I test the below patch and it work for me.
-I only correct the UNDEF typo without any other modification.
-
-Could I push this patch or you will push it?
-I guess I have to add your signed-off-by.
-
+> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
 > 
-> > diff --git a/scripts/recordmcount.h b/scripts/recordmcount.h
-> > index f9b19524da11..d99cc0aed6fe 100644
-> > --- a/scripts/recordmcount.h
-> > +++ b/scripts/recordmcount.h
-> > @@ -194,13 +194,18 @@ static unsigned int get_symindex(Elf_Sym const *sym, Elf32_Word const *symtab,
-> >  	unsigned long offset;
-> >  	int index;
-> >  
-> > -	if (sym->st_shndx != SHN_XINDEX)
-> > +	if (sym->st_shndx > SHN_UDEF &&
-> > +	    sym->st_shndx < SHN_LORESERVE)
-> >  		return w2(sym->st_shndx);
-> >  
-> > -	offset = (unsigned long)sym - (unsigned long)symtab;
-> > -	index = offset / sizeof(*sym);
-> > +	if (sym->st_shndx == SHN_XINDEX) {
-> > +		offset = (unsigned long)sym - (unsigned long)symtab;
-> > +		index = offset / sizeof(*sym);
-> >  
-> > -	return w(symtab_shndx[index]);
-> > +		return w(symtab_shndx[index]);
-> > +	}
-> > +
-> > +	return 0;
-> >  }
-> >  
-> >  static unsigned int get_shnum(Elf_Ehdr const *ehdr, Elf_Shdr const *shdr0)
+> when loading a kernel built with CONFIG_RELR into GDB. It can also
+> prevent debugging symbols using such relocations.
+> 
+> [...]
+
+Applied to arm64 (for-next/build), thanks!
+
+[1/1] Makefile: fix GDB warning with CONFIG_RELR
+      https://git.kernel.org/arm64/c/27f2a4db76e8
+
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
