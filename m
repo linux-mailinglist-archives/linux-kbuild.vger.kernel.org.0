@@ -2,75 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68ABA39F7B4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jun 2021 15:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E9863A1148
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jun 2021 12:50:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232953AbhFHNYB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Jun 2021 09:24:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232934AbhFHNX7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Jun 2021 09:23:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 01E986124B;
-        Tue,  8 Jun 2021 13:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623158526;
-        bh=26tDlzaqRmpxPofcTFO2IiT4LsDm38K8gdTl72KaM3g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lyKsXvu9MbIV9BLRfCaGTCFEbW+1ah5q9kIPXSui1PlBDI6v5i2WhAUGGMHUgVq6J
-         8mPWn6F55uT4x1VF9iOzYelAgi0ZP4NGcrx4c+hBhFm2SKflqh/RCgreANi3Vzs4c7
-         GQPQxqfWQjVji0VPcmXwvyQItBFaln+IrQ/UQrbvWznzxiQOvGmdCHfTWH5S8g3ipn
-         AoVHqaYUEofmYohF6AYN3QT9iexXo+Fju6/ROT5zHu1LHDBmf6LZYOXvqsTO47dhUL
-         bXido5hBepcu8JK6KtiZiCkF4XqP+Nf2/w++gduwAP+dsChBl8d5RvTMJW2uFRsOKF
-         RkSN9qgHqfIPA==
-From:   Will Deacon <will@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     catalin.marinas@arm.com, kernel-team@android.com,
-        Will Deacon <will@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Elliot Berman <eberman@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Makefile: fix GDB warning with CONFIG_RELR
-Date:   Tue,  8 Jun 2021 14:21:53 +0100
-Message-Id: <162315417458.2255276.14036371169273697927.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210522012626.2811297-1-ndesaulniers@google.com>
-References: <CAK7LNAS_LpZnweujqVwZ1kL0eDYR726k35U_yx1djqNE0bk6Rw@mail.gmail.com> <20210522012626.2811297-1-ndesaulniers@google.com>
+        id S237186AbhFIKj5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Jun 2021 06:39:57 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:37229
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237198AbhFIKj4 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 9 Jun 2021 06:39:56 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Amfh3+qs+5CcBxG8QGpbQx2Jo7skDctV00zEX?=
+ =?us-ascii?q?/kB9WHVpm62j5qeTdZEgv3LJYVkqKRMdcLy7WZVoOEmyyXcX2/h0AV7BZmfbUQ?=
+ =?us-ascii?q?KTRekI0WKI+UyCJ8SRzI5gPN9bAs1DIey1KVRhl8717Cm0euxN/OW6?=
+X-IronPort-AV: E=Sophos;i="5.83,260,1616454000"; 
+   d="scan'208";a="383923574"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 12:15:55 +0200
+Date:   Wed, 9 Jun 2021 12:15:55 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Masahiro Yamada <masahiroy@kernel.org>
+cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Makefile: make modules install output
+Message-ID: <alpine.DEB.2.22.394.2106091033070.5695@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 21 May 2021 18:26:24 -0700, Nick Desaulniers wrote:
-> GDB produces the following warning when debugging kernels built with
-> CONFIG_RELR:
-> 
-> BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
-> 
-> when loading a kernel built with CONFIG_RELR into GDB. It can also
-> prevent debugging symbols using such relocations.
-> 
-> [...]
+make modules install used to end up with something like
 
-Applied to arm64 (for-next/build), thanks!
+  INSTALL sound/usb/usx2y/snd-usb-usx2y.ko
+  INSTALL sound/x86/snd-hdmi-lpe-audio.ko
+  INSTALL sound/xen/snd_xen_front.ko
+  INSTALL virt/lib/irqbypass.ko
+  DEPMOD  5.12.0-rc2myfix-00015-gc6f886546cb8
 
-[1/1] Makefile: fix GDB warning with CONFIG_RELR
-      https://git.kernel.org/arm64/c/27f2a4db76e8
+From v5.13-rc1, it gives:
 
-Cheers,
--- 
-Will
+  STRIP   /lib/modules/5.13.0-rc1myfix/kernel/fs/btrfs/btrfs.ko
+  STRIP   /lib/modules/5.13.0-rc1myfix/kernel/fs/xfs/xfs.ko
+  STRIP   /lib/modules/5.13.0-rc1myfix/kernel/net/mac80211/mac80211.ko
+  STRIP   /lib/modules/5.13.0-rc1myfix/kernel/drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko
+  STRIP   /lib/modules/5.13.0-rc1myfix/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+  DEPMOD  /lib/modules/5.13.0-rc1myfix
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+Is the full path name considered to be an improvement?  For the names of
+the modules, it doesn't much matter, but the DEPMOD line was a convenient
+way to get the full kernel name for subsequent rebooting.
+
+thanks,
+julia
