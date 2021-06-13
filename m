@@ -2,84 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A80D3A5126
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Jun 2021 00:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A52DE3A58A5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Jun 2021 15:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbhFLWvI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Jun 2021 18:51:08 -0400
-Received: from mail-ej1-f44.google.com ([209.85.218.44]:43814 "EHLO
-        mail-ej1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbhFLWvI (ORCPT
+        id S231733AbhFMNKC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Jun 2021 09:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231286AbhFMNKB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Jun 2021 18:51:08 -0400
-Received: by mail-ej1-f44.google.com with SMTP id ci15so10031864ejc.10
-        for <linux-kbuild@vger.kernel.org>; Sat, 12 Jun 2021 15:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nGHIR4/0sog9+QR1vgYyGt5rSfZQ7hXnNFmBCZsNQSk=;
-        b=lC+cdrowzchkcKAaUtHdUnGc8rpJhhCfEju3TA2/o8CiBKiosvPMgP7QSG9rGrthF/
-         P4iryOOKpvsyUr9nhZBqZ9D+MUsnU9NDUoTe6q6zdZXxIwv+V4JHcEL3g0h5zefAnYU9
-         uYkSgVlKtdJKXQGQ9l87vB3tQ8+8f+kgXVfX0ai1cCuqMMPnBlH3afaR9oELkVHB6Cqi
-         q+rQTncUITPSytCVm03VlE8vlSuYkexxAoq/c9uB6VB9hcdT6+DSFm16yTbgRiFjjgpt
-         x0ZBpG90T+cZIoOzntShCWYcInf26H4HbWVJDVr+NuP53d7hggxvDIZkvzsAwcPn/e7N
-         w/8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nGHIR4/0sog9+QR1vgYyGt5rSfZQ7hXnNFmBCZsNQSk=;
-        b=Wbgg9yeIPpJg3s3l2pZfqyWfeIFtWTVoqZLMZ/FtKkfZNJmUBoVqWbNrQE4Y+8bebw
-         3mvmeflVtjk47rAg71X91NInqADsPuQQofeayWoXI7P67H1+cY9NaWpmSVUfKjat7qSz
-         sRiijyfLGJJm4u5Jdo/LrdME8xODdnO2CZgVtCxj3g+eg3pXYoKFiS9ZFQOc+J3h5894
-         kNGPC/jYOewfDAGXvy5CJ/36rleKXZFJfPS2R9BD4nO8hW1Z5F9KZBHssNeFFseVsQLP
-         K/U6/pfCmXTY7Ri25fC0XJwk5Z9GOyoFy76jqLNgRf+IC0z6gvhr5adGAfpex1YKojsD
-         G7Rg==
-X-Gm-Message-State: AOAM532o8XJo5rTKWtJfpmSuIRDTixb3b32lbzQhXNcnwYoo/p6ixw8y
-        wqI6ecmKPxL98+2nS4szJne2gwVy2TzUeDSh3KFN
-X-Google-Smtp-Source: ABdhPJzRAcgO7wzp2G7V21pmftTy6/ICxCnXT86ZVVRZzFnksPSe2C772+v9xZAtsTx/BWDBcpYFkhMyzJ5BmZGcHno=
-X-Received: by 2002:a17:906:7052:: with SMTP id r18mr9007489ejj.449.1623538087519;
- Sat, 12 Jun 2021 15:48:07 -0700 (PDT)
+        Sun, 13 Jun 2021 09:10:01 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9423DC061574;
+        Sun, 13 Jun 2021 06:08:00 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4G2vyN3cWPzQjld;
+        Sun, 13 Jun 2021 15:07:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+        content-transfer-encoding:content-language:content-type
+        :content-type:mime-version:date:date:message-id:subject:subject
+        :from:from:received; s=mail20150812; t=1623589670; bh=ccqv7qyiWt
+        qLYecevOiYfROlLLhMW52pT4dZGTqxQMg=; b=cJzY7je4w8vasuaqbe2Y9MgUk5
+        PgNbSt2BgT+c6Ze+K6ae/KESUbrVnlwkAfPmvX64BVarDFpoiBd33JzsN/phC2bl
+        XrZyiykJ64I+9+Uc9TOK5diUOUZmbCDM/IZS6BJOtkcaokuKVeB7WzvEnwAj3jKV
+        +sXcBB1597aOE/X6fp8FJSSptHUYVkIsIOMVXS1PX8R8rh18g2HqHqLqvD1i1kzZ
+        cBuDzLlVBz1f9XhO8o3HLf9W/KXhkISMtzcBhp2lDyCAJ/UXC5KADKv8Bpb8pIxS
+        A5GHn/nzer4/3sfa97LnH/o4YanI7z9azprkZRorQEmDI/cDFJu2r1kRpgQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+        t=1623589674;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=5ePQnm+3HJZeWjTq3ey819ji536NrzATHln8V3feSI8=;
+        b=fa4jZnl35wmVZqArRoo471/QIc1kwcSJG2VHe3f91Q1OCngaQuG29yByPhnQBSarcoPTQl
+        VqFDQzlRfWo7gDyaoPHA0UozpVy9Jb8NVpHftrFjxJ03CFSJfSrnan0Lc7a+S+tZ8r8X12
+        1oY7wlexwbgwaj40SWuXjV0Q7GyRojdQ1I6YWlo/hBBc5hrFjLr3xXlKH9ijPLyaCahz1B
+        goHLvY6JlBmnQv+rLXcRuQ7CVBV1e83rjZKG2DGX+M11eJRgICQPKa/HneDyevYy7+DQN9
+        ENafRtFPmcb+S7CrmCP6uqRJ5+Ydx0nUF2kmxEUmaMQiaUxfzioaSZu//AIyhQ==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id vnV9vcHeMag1; Sun, 13 Jun 2021 15:07:50 +0200 (CEST)
+From:   Tor Vic <torvic9@mailbox.org>
+Subject: [PATCH 1/1] Makefile: Pass -warn-stack-size only on LLD < 13.0.0
+To:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        masahiroy@kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        "ndesaulniers@google.com" <ndesaulniers@google.com>,
+        keescook@chromium.org
+Cc:     "clang-built-linux@googlegroups.com" 
+        <clang-built-linux@googlegroups.com>, linux-kbuild@vger.kernel.org
+Message-ID: <7631bab7-a8ab-f884-ab54-f4198976125c@mailbox.org>
+Date:   Sun, 13 Jun 2021 13:07:49 +0000
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
- <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
- <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net> <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
- <20210612202505.GG68208@worktop.programming.kicks-ass.net> <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
-In-Reply-To: <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sat, 12 Jun 2021 15:47:56 -0700
-Message-ID: <CAGG=3QUFRM85bpyjdokO93=Nem_w7-784-_qihP1P_CJMOsdqg@mail.gmail.com>
-Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -1.31 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 3E50C1890
+X-Rspamd-UID: d27c46
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 12, 2021 at 1:56 PM Bill Wendling <morbo@google.com> wrote:
-> On Sat, Jun 12, 2021 at 1:25 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> > On Sat, Jun 12, 2021 at 12:10:03PM -0700, Bill Wendling wrote:
-> > Yes it is, but is that sufficient in this case? It very much isn't for
-> > KASAN, UBSAN, and a whole host of other instrumentation crud. They all
-> > needed their own 'bugger-off' attributes.
-> >
-> Now, for the "nointr" issue. I'll see if we need an additional change for that.
->
-The GCOV implementation disables profiling in those directories where
-instrumentation would fail. We do the same. Both clang and gcc seem to
-treat the no_instrument_function attribute similarly.
+Since LLVM commit fc018eb, the '-warn-stack-size' flag has been dropped
+[1], leading to the following error message when building with Clang-13
+and LLD-13:
 
--bw
+    ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument
+    '-warn-stack-size=2048'.  Try: 'ld.lld --help'
+    ld.lld: Did you mean '--asan-stack=2048'?
+
+In the same way as with commit 2398ce80152a ("x86, lto: Pass
+-stack-alignment only on LLD < 13.0.0") , make '-warn-stack-size'
+conditional on LLD < 13.0.0.
+
+[1] https://reviews.llvm.org/D103928
+
+Fixes: 24845dcb170e ("Makefile: LTO: have linker check -Wframe-larger-than")
+Cc: stable@vger.kernel.org
+Link: https://github.com/ClangBuiltLinux/linux/issues/1377
+Signed-off-by: Tor Vic <torvic9@mailbox.org>
+---
+ Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 144d4f8b7eb3..51a1b6b2c2ab 100644
+--- a/Makefile
++++ b/Makefile
+@@ -929,11 +929,14 @@ CC_FLAGS_LTO	+= -fvisibility=hidden
+ # Limit inlining across translation units to reduce binary size
+ KBUILD_LDFLAGS += -mllvm -import-instr-limit=5
+
+-# Check for frame size exceeding threshold during prolog/epilog insertion.
++# Check for frame size exceeding threshold during prolog/epilog insertion
++# when using lld < 13.0.0.
+ ifneq ($(CONFIG_FRAME_WARN),0)
++ifeq ($(shell test $(CONFIG_LLD_VERSION) -lt 130000; echo $$?),0)
+ KBUILD_LDFLAGS	+= -plugin-opt=-warn-stack-size=$(CONFIG_FRAME_WARN)
+ endif
+ endif
++endif
+
+ ifdef CONFIG_LTO
+ KBUILD_CFLAGS	+= -fno-lto $(CC_FLAGS_LTO)
+-- 
+2.32.0
