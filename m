@@ -2,101 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 121923A5C95
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 07:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC9393A5DEC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 09:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231897AbhFNFx1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Jun 2021 01:53:27 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:46377 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232276AbhFNFx0 (ORCPT
+        id S232623AbhFNHyQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Jun 2021 03:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232530AbhFNHyP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Jun 2021 01:53:26 -0400
-X-UUID: ee7ddcb7ec4b43a3a4cfb9ccec489cc4-20210614
-X-UUID: ee7ddcb7ec4b43a3a4cfb9ccec489cc4-20210614
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1636646899; Mon, 14 Jun 2021 13:51:17 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 14 Jun 2021 13:51:15 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Jun 2021 13:51:15 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        <nathan@kernel.org>, <ndesaulniers@google.com>,
-        <keescook@chromium.org>, <samitolvanen@google.com>
-CC:     <linux-kbuild@vger.kernel.org>,
-        <clang-built-linux@googlegroups.com>,
-        <linux-kernel@vger.kernel.org>, <yj.chiang@mediatek.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [PATCH] kbuild: lto: fix module versionings mismatch in incremental build
-Date:   Mon, 14 Jun 2021 13:51:09 +0800
-Message-ID: <20210614055109.28774-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Mon, 14 Jun 2021 03:54:15 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F230C061574;
+        Mon, 14 Jun 2021 00:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tgENEbQ1euA5WeQRBjJGfSzObO0naqGm4XxibhoeuXo=; b=iMpjx/GXaZ+XhmNRXa/ado21wl
+        wD5TGdYlVLzw3tvlr/zeUSKT/XqtKhdFuV5pIOpOreJNHCPO5XCwX8Zyi0sV+2mwMqxlWSvd3QrC2
+        RxISmfX/SZT5lkTE6Alpr9G6NjY406Ob3XQJgT2Xh9uj6TB9v7AqS7aRNHlwHn+SxI1a3dmi9WusU
+        qokkqIl63NVzkunlle3IHsWhpSYOSNvkFB6xeoBjKdct6KCGLrR2Ne7A+k6wzyL1kS7AEx/owvG4+
+        0CqQsWhXTJfjVPY22Z075b4Y2If9w9vvgYKQt4A6fqr+H6Mx84Gqdq3kMHICfRFLA8KOl4unWjtDD
+        7SamNObQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lshNd-0058rV-UV; Mon, 14 Jun 2021 07:51:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 00B8B300252;
+        Mon, 14 Jun 2021 09:51:31 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id DA0252026A646; Mon, 14 Jun 2021 09:51:31 +0200 (CEST)
+Date:   Mon, 14 Jun 2021 09:51:31 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <YMcKgyOz331qvO/R@hirez.programming.kicks-ass.net>
+References: <20210111081821.3041587-1-morbo@google.com>
+ <20210407211704.367039-1-morbo@google.com>
+ <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net>
+ <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
+ <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
+ <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
+ <20210612202505.GG68208@worktop.programming.kicks-ass.net>
+ <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGG=3QUZ9tXGNLhbOr+AFDTJABDujZuaG1mYaLKdTcJZguEDWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When building modules(CONFIG_...=m), I found some of module versions
-are incorrect and set to 0.
-This can be found in build log for first clean build which shows
+On Sat, Jun 12, 2021 at 01:56:41PM -0700, Bill Wendling wrote:
+> For example, Fangrui gave you numbers, and you rejected them out of
+> hand. I've explained to you why instrumentation is better than
+> sampling (at least for clang). Fangrui gave you numbers. Let's move on
+> to something else.
 
-WARNING: EXPORT symbol "XXXX" [drivers/XXX/XXX.ko] version generation failed, symbol will not be versioned.
-
-But in second build(incremental build), the WARNING disappeared and the
-module version becomes valid CRC and make someone who want to change
-modules without updating kernel image can't insert their modules.
-
-The problematic code is
-+	$(foreach n, $(filter-out FORCE,$^),				\
-+		$(if $(wildcard $(n).symversions),			\
-+			; cat $(n).symversions >> $@.symversions))
-
-For example:
-  rm -f fs/notify/built-in.a.symversions    ; rm -f fs/notify/built-in.a; \
-llvm-ar cDPrST fs/notify/built-in.a fs/notify/fsnotify.o \
-fs/notify/notification.o fs/notify/group.o ...
-
-`foreach n` shows nothing to `cat` into $(n).symversions because
-`if $(wildcard $(n).symversions)` return nothing, but actually
-they do exist during this line was executed.
-
--rw-r--r-- 1 root root 168580 Jun 13 19:10 fs/notify/fsnotify.o
--rw-r--r-- 1 root root    111 Jun 13 19:10 fs/notify/fsnotify.o.symversions
-
-The reason is the $(n).symversions are generated at runtime, but
-Makefile wildcard function expends and checks the file exist or not
-during parsing the Makefile.
-
-Thus fix this by use `test` shell command to check the file
-existence in runtime.
-
-Fixes: 38e89184900385 ("kbuild: lto: fix module versioning")
-Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
----
- scripts/Makefile.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 949f723efe53..a91012b06ebb 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -387,8 +387,7 @@ ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
-       cmd_update_lto_symversions =					\
- 	rm -f $@.symversions						\
- 	$(foreach n, $(filter-out FORCE,$^),				\
--		$(if $(wildcard $(n).symversions),			\
--			; cat $(n).symversions >> $@.symversions))
-+			; test -s $(n).symversions && cat $(n).symversions >> $@.symversions)
- else
-       cmd_update_lto_symversions = echo >/dev/null
- endif
--- 
-2.18.0
+I did not dismiss them; I asked for clarification. I would like to
+understand what exactly is missed by sampling based PGO data that makes
+such a difference.
 
