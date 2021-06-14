@@ -2,35 +2,35 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 763D63A6A8C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 17:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2D73A6AD6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 17:46:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233136AbhFNPiR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Jun 2021 11:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42858 "EHLO
+        id S233538AbhFNPs7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Jun 2021 11:48:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233602AbhFNPiH (ORCPT
+        with ESMTP id S233591AbhFNPsy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Jun 2021 11:38:07 -0400
+        Mon, 14 Jun 2021 11:48:54 -0400
 Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB6ADC061767;
-        Mon, 14 Jun 2021 08:36:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2777C061574;
+        Mon, 14 Jun 2021 08:46:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Cu6SKmr0wogKDzs7Tpjs0nvU/JJlCGecw+D1VcYnf9I=; b=du5rKjaENbHV+QZYklpfbh5bw4
-        kZPSNbYAV1oF2yh+I9Jg5CzYIlILZUtv5+mriQMwXr8lrFYHpoa2CWgOVvfOHiXyon8oVuD+7BMAo
-        roFIbVlT83QzpVdObfLuT9YwxbsJh/UJzevnRa5wyt0FvwX/pcokLkCyKlmQ2LiFwp1GzrQMso3DE
-        LsJVcWn8mLMze5Ih1tyLvJDX7tVr8fLZ8kDSdLwQjuRAZwOs/a7MYEJHjWrVBDtCQ2Vcx+FzwddZP
-        gzcdxf4gkgdXFG0Aeg85ZNU+9cmHHMmBlteWEfOPzs/h0IlgyhIz8Xkv1SlXoVe/w2PgBF1UEiHhJ
-        TCyJlQkQ==;
+        bh=QYZbYwbmFAlPHZAyueGumfXzbFC24Yyq8ZlF/TwUjkw=; b=ng9emBskU15gYywjflfBygUUYq
+        eZHcqnywd14BX7LrL+alDCm0LnySQDWq4iU5112HvNNg8M9WeWAFpHtcnCNy1m7/RAtd3uoU5kHqx
+        3n7b//QR34Ya51Ibwh7AL+Hrg5Pu9c8AXHQ1J48AC8yPEdDxiXY1NDtNuxvlJyClCAibpqq0jSpgX
+        T8ugRG9ZgSkfhlWL07cp8RL/10viIyiH/mJg0UtzLFLJJ17JbOW5q4EEFgngzlM4uWdx4u8Lf7A3m
+        l9AOVyLGrfjESKUHcACVgTEINhvOvr3+gjTRoIw3OE0eUSuUFnG5NKtzvzGFg6XQqqV5mOnWnT/Ft
+        Dh/UFbWw==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
         by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lsocl-0074f0-UI; Mon, 14 Jun 2021 15:35:47 +0000
+        id 1lsonJ-0074ny-On; Mon, 14 Jun 2021 15:46:40 +0000
 Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id E7C989831CA; Mon, 14 Jun 2021 17:35:45 +0200 (CEST)
-Date:   Mon, 14 Jun 2021 17:35:45 +0200
+        id CF1C59831CA; Mon, 14 Jun 2021 17:46:39 +0200 (CEST)
+Date:   Mon, 14 Jun 2021 17:46:39 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Marco Elver <elver@google.com>, Bill Wendling <morbo@google.com>,
@@ -51,7 +51,7 @@ Cc:     Marco Elver <elver@google.com>, Bill Wendling <morbo@google.com>,
         oberpar@linux.vnet.ibm.com, linux-toolchains@vger.kernel.org
 Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization
  infrastructure
-Message-ID: <20210614153545.GA68749@worktop.programming.kicks-ass.net>
+Message-ID: <20210614154639.GB68749@worktop.programming.kicks-ass.net>
 References: <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
  <YMT5xZsZMX0PpDKQ@hirez.programming.kicks-ass.net>
  <CAGG=3QVHkkJ236mCJ8Jt_6JtgYtWHV9b4aVXnoj6ypc7GOnc0A@mail.gmail.com>
@@ -71,11 +71,29 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, Jun 14, 2021 at 08:26:01AM -0700, Kees Cook wrote:
-> So, AFAICT, the original blocking issue ("PGO does not respect noinstr")
-> is not actually an issue (noinstr contains notrace, which IS respected
-> by PGO[2]), I think this is fine to move forward.
+> > 2. Like (1) but also keep GCOV, given proper support for attribute
+> > no_instrument_function would probably fix it (?).
+> > 
+> > 3. Keep GCOV (and KCOV of course). Somehow extract PGO profiles from KCOV.
+> > 
+> > 4. Somehow extract PGO profiles from GCOV, or modify kernel/gcov to do so.
+> 
+> If there *is* a way to "combine" these, I don't think it makes sense
+> to do it now. PGO has users (and is expanding[1]), and trying to
+> optimize the design before even landing the first version seems like a
+> needless obstruction, and to likely not address currently undiscovered
+> requirements.
 
-It is *NOT*: https://godbolt.org/z/9c7xdvGd9
+Even if that were so (and I'm not yet convinced), the current proposal
+is wedded to llvm-pgo, there is no way gcc-pgo could reuse any of this
+code afaict, which then means they have to create yet another variant.
 
-Look at how both compilers generate instrumentation in the no_instr()
-function.
+Sorting this *before* the first version is exactly the right time.
+
+Since when are we merging code when the requirements are not clear?
+
+Just to clarify:
+
+Nacked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+For all this PGO crud.
