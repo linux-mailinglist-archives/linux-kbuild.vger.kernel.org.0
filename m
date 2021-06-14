@@ -2,45 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42C453A65ED
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 13:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5B763A65FA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jun 2021 13:49:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235898AbhFNLqG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Jun 2021 07:46:06 -0400
-Received: from mail-ed1-f52.google.com ([209.85.208.52]:39628 "EHLO
-        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236866AbhFNLoc (ORCPT
+        id S235295AbhFNLrc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Jun 2021 07:47:32 -0400
+Received: from mail-ej1-f52.google.com ([209.85.218.52]:42534 "EHLO
+        mail-ej1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235950AbhFNLq4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Jun 2021 07:44:32 -0400
-Received: by mail-ed1-f52.google.com with SMTP id dj8so46044810edb.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Jun 2021 04:42:14 -0700 (PDT)
+        Mon, 14 Jun 2021 07:46:56 -0400
+Received: by mail-ej1-f52.google.com with SMTP id k25so16172416eja.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Jun 2021 04:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7Khk9VJiAZEUo5jow78IwItFdk7LfK4jmTWSp67zs44=;
-        b=GOcz1YcHwn9vgKrtti2m3vYVfzrDbyOPJ4rqWNtz5qRjBuNylB9OmfA+OA851kfhOd
-         BF0XxYRjtjYnmPF/YS37wERJomtTZfzB38tGS+6n+pCpdSFhxJnUSVgm82ewx33tcdl/
-         vLLvnBF5Ve1MG1pM2zXwRHRAFPwIJJfrFgR5Ygjx6MBdMiwxgX3Q8B1LvMsRjkTz8CTQ
-         MOmBG+TPI2AFgOJCaehq32t79EG7CBA18uQa3bal0btKG6YYTbLhtNhO4N2210c8cNY4
-         ufxqnAg7dCaNM+TcVX0XYjw+moDzfHkRWqFuPWM2YQJd+0dSMcUq3qlTsgsy6D/FE1B3
-         8eyw==
+        bh=HI8uNQ2N0M5Hhpj6WC1Izp202Fz3OsRq4lT6L+ArKG8=;
+        b=k74Pd/awWzo+0vIQa3vSWB4GiHFuz2x/5raEEABcmoRr9iSqr6PUuB8vVwmmfk8LRJ
+         dyow7EEnasjGh9+H2SOieqWJRNloMZvc2+yaoqoC+dZybwRaxiFK2X89V8/rRWMnIohO
+         0jhjfzxCifMikqa5PogKCoVU9vHX1I7WdevNRGgKFWyThzuj0cxfFHOSmImqCBmRLoPL
+         ifOSiwTzvkd2A+zaEfi0t+XTo1bfwzUmTKaWl5UOyrxKMVWgDy/e8tXJ0ZrgFuSiHA1W
+         /wKnnSaDdBBi6pvxr7CqZE4dh3VqXl1V6DVXS+3MMrzzG6bAcvaB7bud1S1tuwAu+MsW
+         jo6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7Khk9VJiAZEUo5jow78IwItFdk7LfK4jmTWSp67zs44=;
-        b=A5BwJizG0imfMbpwqYZcNIkS1VehHiAobv+LPQOyWJIumf5y4iDXFmM161jbghUUAB
-         /utBqfsG2H5XQO5s1a8U+CF97Xk6hNyZK4Iy1n0RAlQ5ZN8spdqYucuz/tnCpBX3M2YS
-         9NoJiXb/KfzLtJH8RQSaHz5qaalBOpIysNNq1dCa9RfbnTlgoTu+1egk/MVnaf9CGVpi
-         Dt34bIs8vlZrTC2erl95/ELMYoUn5Uviiabx3jc82zVUxq3uojXP/RSDqWyEMmulRroP
-         g4FcNkq5RLjAcQtjLykiHv9qjgZgvl4VrNiPojpk0Dh52j5XiBn/oEX5I/iKlnvWWN33
-         tObA==
-X-Gm-Message-State: AOAM533wFz8zxDIAQte98+5n/0zY1wwxf/ZmIv4mb+G7C6s7rgKS5GyL
-        pyB+4+muEXDa1JTNnAjJTunLG9DbiJcfGlJbzc7K
-X-Google-Smtp-Source: ABdhPJyhQe4FspCtePZL4R+lsIGJyMDxloE0ZMAT1bxKdZe0dGF+U6TxsG6Fv6fhzpvKMieNH1Ah5Oi1lMk6W8RARPU=
-X-Received: by 2002:aa7:dc42:: with SMTP id g2mr16365775edu.362.1623670873184;
- Mon, 14 Jun 2021 04:41:13 -0700 (PDT)
+        bh=HI8uNQ2N0M5Hhpj6WC1Izp202Fz3OsRq4lT6L+ArKG8=;
+        b=ghrIYCnG/lEKPu7zQpFKqrFMebv9MI9TWdfOWWM2R/VyZ/HD3/SFYGIj9oaeo08VND
+         RYM6+sIoiZ9KqqbYvMHzTge+L1P9AgtqTFfol7zo2iA2/nIYbb9JthOjYICS3YWpFP93
+         L0D1IAoQjxMRzr60guCrHw3mqAxTzNc65rNw9vQxKVp8QHGQZnsy+FdEIsFP2EhXkT7t
+         PKFtlVZFvFdoR6LA/ywZkoXBAUoYjnUfkt897MPV+dVioaUCFobr08ReDehTnv9fqBnw
+         Jhc64VzCqcU3ID/nPjKqt9/EypJE+puQxt+WLm0wG8B3XRvXby3uH2BbA6PsanAKaJ6y
+         Kz2w==
+X-Gm-Message-State: AOAM5329cd4ylha1Su6nz1n/9WVdb9VJYhhJ22yL1ID8CKRhaXQrLUXV
+        nxtvisf7RAuYfBQvlO/aJcw4Lb2McFoFZWdri3wK
+X-Google-Smtp-Source: ABdhPJz6Z4iIYp1oXXANY4EX4jTMs8gk4NxJR68WJ8DijcN3voOrphp/2Zl/zcDiOVLEI/B7vb8XytAwA5hWKrsfgLo=
+X-Received: by 2002:a17:906:7188:: with SMTP id h8mr15017910ejk.529.1623671015979;
+ Mon, 14 Jun 2021 04:43:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1-morbo@google.com>
  <YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net> <CAGG=3QXjD1DQjACu=CQQSP=whue-14Pw8FcNcXrJZfLC_E+y9w@mail.gmail.com>
@@ -51,8 +51,8 @@ References: <20210111081821.3041587-1-morbo@google.com> <20210407211704.367039-1
  <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
 In-Reply-To: <YMczJGPsxSWNgJMG@hirez.programming.kicks-ass.net>
 From:   Bill Wendling <morbo@google.com>
-Date:   Mon, 14 Jun 2021 04:41:01 -0700
-Message-ID: <CAGG=3QVqbuhocgx0sJmqEkTkHo0Q=K5+7+2X6ONvcX7cVZc1+w@mail.gmail.com>
+Date:   Mon, 14 Jun 2021 04:43:24 -0700
+Message-ID: <CAGG=3QW9W0H-FUt2bCAf2EbRqNa5bXv5-RqYCc8guKX=4C1KPA@mail.gmail.com>
 Subject: Re: [PATCH v9] pgo: add clang's Profile Guided Optimization infrastructure
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Kees Cook <keescook@google.com>, Jonathan Corbet <corbet@lwn.net>,
@@ -78,22 +78,6 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Mon, Jun 14, 2021 at 3:45 AM Peter Zijlstra <peterz@infradead.org> wrote:
 > On Mon, Jun 14, 2021 at 02:39:41AM -0700, Bill Wendling wrote:
 > > On Mon, Jun 14, 2021 at 2:01 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> > > Because having GCOV, KCOV and PGO all do essentially the same thing
-> > > differently, makes heaps of sense?
-> > >
-> > It does when you're dealing with one toolchain without access to another.
->
-> Here's a sekrit, don't tell anyone, but you can get a free copy of GCC
-> right here:
->
->   https://gcc.gnu.org/
->
-> We also have this linux-toolchains list (Cc'ed now) that contains folks
-> from both sides.
->
-Your sarcasm is not useful.
-
 > > > I understand that the compilers actually generates radically different
 > > > instrumentation for the various cases, but essentially they're all
 > > > collecting (function/branch) arcs.
@@ -126,6 +110,10 @@ Your sarcasm is not useful.
 > I've also been led to believe that the KCOV data format is not in fact
 > dependent on which toolchain is used.
 >
+Awesome! I await your RFC on both the gcc and clang mailing lists.
+
+-bw
+
 > > > I'm thinking it might be about time to build _one_ infrastructure for
 > > > that and define a kernel arc format and call it a day.
 > > >
