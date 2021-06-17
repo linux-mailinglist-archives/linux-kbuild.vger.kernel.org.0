@@ -2,121 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D44D3AA8B2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jun 2021 03:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA283AA8BF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jun 2021 03:44:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbhFQBkH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Jun 2021 21:40:07 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:57827 "EHLO
+        id S232186AbhFQBqY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Jun 2021 21:46:24 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20274 "EHLO
         conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbhFQBkH (ORCPT
+        with ESMTP id S232184AbhFQBqX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Jun 2021 21:40:07 -0400
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 15H1bkrf005688;
-        Thu, 17 Jun 2021 10:37:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 15H1bkrf005688
+        Wed, 16 Jun 2021 21:46:23 -0400
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 15H1huVf009347;
+        Thu, 17 Jun 2021 10:43:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 15H1huVf009347
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1623893867;
-        bh=HIoxq7OeXB/HXXPGf7C+LKUoLnaEXtnEaOxI1wYpvEo=;
+        s=dec2015msa; t=1623894237;
+        bh=wjle6ONnIAord5cqRzKuWQUDNDJxzTYVAbaSXw18SKs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JTge8z/GOUCA3sW+79rtIX8Bpdl6e4ZYhkoxmOZiGyC3mvO304Vj45DJckHrjQacU
-         PbnXFt2Z7ftvipWWsV0HlYgo9U+oEVukn5pYIpUbjeqwzVtzP+1QZiRgz/DvGANhmT
-         mw9sOge2n90BKEwdPCWkpHy0J/JX/LG5fERB3QQerQqIcplIKrDrblkiejje0MFsDN
-         lMmQC8r71JRGCNu0iXYyggmAaql+AfPA3MTkUttAjbKeZWji5lXc8swSD+zrYWvK7o
-         1YY7DpNojmM4b6iKsoOvPkzmOTms0oMMuicj/1vLrTJVBAe3/sy234ASkKc33yMrrd
-         MtPABW0veC18w==
-X-Nifty-SrcIP: [209.85.215.171]
-Received: by mail-pg1-f171.google.com with SMTP id q15so3567669pgg.12;
-        Wed, 16 Jun 2021 18:37:46 -0700 (PDT)
-X-Gm-Message-State: AOAM532z9pQwj7444r3Fr43myDuO33HRQIpwC4tvb5BmZoUik/W51STu
-        WWtONVT+/AVzpydL/ZaenM+6sbuHMsfr01t7Avk=
-X-Google-Smtp-Source: ABdhPJyBN58fpyRPEPgPvXIEGSZZ6tyzFeJu+323C2GaSIURzTNSrGTPPm18fMAv8mtw8Rnc9+X/B301RsFcQZH75So=
-X-Received: by 2002:aa7:9ed2:0:b029:2fc:b328:ad67 with SMTP id
- r18-20020aa79ed20000b02902fcb328ad67mr2669207pfq.63.1623893866033; Wed, 16
- Jun 2021 18:37:46 -0700 (PDT)
+        b=qU6uBj2X7Hnfapm7LiTzm1euiOSK+bL4VVZnJ7KVTn/i5DahMqcuYZu53QEIWy3Td
+         szDZjRxMEbGVeye0BDWsFQ3KwUWiIMEY7gZOyiv+b5zi7WgC/q/4rV+8PpkwJbYFBo
+         ukreAtJk5gasEwCXa12unM/azjyYYuv8yyw0Or6wjdaZY3CUg6CnYoLM1Mq+rDFTMP
+         O4eqMzijOQMk3c46xMw12PDvOaT9y4/9Je0ewRfnBHjb3u8MY8JxI9vd5C7FtfMbyG
+         S1gjnLpE4xTSh4HTSqbr7XJ+qVOG6Iog+ZeuvYC8KoKw9ZOfEJrQODMkBFGy27BYzj
+         cna8L74KOZEiw==
+X-Nifty-SrcIP: [209.85.210.182]
+Received: by mail-pf1-f182.google.com with SMTP id g6so3703525pfq.1;
+        Wed, 16 Jun 2021 18:43:57 -0700 (PDT)
+X-Gm-Message-State: AOAM5336ZK6b3HXOdm3fJUJBKEEnMJQuJNhu5FT6guawJe29HWOYVELr
+        lFLpQz+Z8EAmM5GxL1zk53VVGkKZ1BH/+EmmX/A=
+X-Google-Smtp-Source: ABdhPJw3BCV6PVCg+sScvyPLQpDO0KODxRfAFcRXVfUn4JyQ6ZXE4MGMIGXTbKinAUO4r+NNuSOGF9iVELFEzBlofTU=
+X-Received: by 2002:aa7:962f:0:b029:2ed:cf:1f90 with SMTP id
+ r15-20020aa7962f0000b02902ed00cf1f90mr2761373pfg.76.1623894236332; Wed, 16
+ Jun 2021 18:43:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602140213.132936-1-masahiroy@kernel.org>
-In-Reply-To: <20210602140213.132936-1-masahiroy@kernel.org>
+References: <20210612141838.1073085-1-maennich@google.com> <CAK7LNAQkoqTG540EOER27G83z+DO5fkeHi-in-vRYkrbX-o0cg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQkoqTG540EOER27G83z+DO5fkeHi-in-vRYkrbX-o0cg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 17 Jun 2021 10:37:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARLctyjSoVCwLkwrGqRH6QFc93xTP8LFAJVgAz+f4YqFA@mail.gmail.com>
-Message-ID: <CAK7LNARLctyjSoVCwLkwrGqRH6QFc93xTP8LFAJVgAz+f4YqFA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: remove trailing slashes from $(KBUILD_EXTMOD)
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Thu, 17 Jun 2021 10:43:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=Fwzio6CQqDOYQJj9tYrf5a_-sYQ+Yr2=Qt5cYq8wOA@mail.gmail.com>
+Message-ID: <CAK7LNAR=Fwzio6CQqDOYQJj9tYrf5a_-sYQ+Yr2=Qt5cYq8wOA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: mkcompile_h: consider timestamp if
+ KBUILD_BUILD_TIMESTAMP is set
+To:     Matthias Maennich <maennich@google.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Michal Marek <michal.lkml@markovi.net>
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 2, 2021 at 11:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Jun 17, 2021 at 10:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> M= (or KBUILD_EXTMOD) generally expects a directory path without any
-> trailing slashes, like M=a/b/c.
+> On Sat, Jun 12, 2021 at 11:18 PM Matthias Maennich <maennich@google.com> wrote:
+> >
+> > To avoid unnecessary recompilations, mkcompile_h does not regenerate
+> > compile.h if just the timestamp changed.
+> > Though, if KBUILD_BUILD_TIMESTAMP is set, an explicit timestamp for the
+> > build was requested, in which case we should not ignore it.
+> >
+> > If a user follows the documentation for reproducible builds [1] and
+> > defines KBUILD_BUILD_TIMESTAMP as the git commit timestamp, a clean
+> > build will have the correct timestamp. A subsequent cherry-pick (or
+> > amend) changes the commit timestamp and if an incremental build is done
+> > with a different KBUILD_BUILD_TIMESTAMP now, that new value is not taken
+> > into consideration. But it should for reproducibility.
+> >
+> > Hence, whenever KBUILD_BUILD_TIMESTAMP is explicitly set, do not ignore
+> > UTS_VERSION when making a decision about whether the regenerated version
+> > of compile.h should be moved into place.
+> >
+> > [1] https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html
+> >
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Signed-off-by: Matthias Maennich <maennich@google.com>
+> > ---
 >
-> If you add a trailing slash, like M=a/b/c/, you will get ugly build
-> logs (two slashes in a series), but it still works fine as long as it
-> is consistent between 'make modules' and 'make modules_install'.
 >
-> The following commands correctly build and install the modules.
+> Applied to linux-kbuild. Thanks.
 >
->   $ make M=a/b/c/ modules
->   $ sudo make M=a/b/c/ modules_install
->
-> Since commit ccae4cfa7bfb ("kbuild: refactor scripts/Makefile.modinst"),
-> a problem happens if you add a trailing slash only for modules_install.
->
->   $ make M=a/b/c modules
->   $ sudo make M=a/b/c/ modules_install
->
-> No module is installed in this case, Johannes Berg reported. [1]
->
-> Trim any trailing slashes from $(KBUILD_EXTMOD).
->
-> I used the 'dirname' command to remove all the trailing slashes in
-> case someone adds more slashes like M=a/b/c/////. The Make's built-in
-> function, $(dir ...) cannot take care of such a case.
->
-> [1]: https://lore.kernel.org/lkml/10cc8522b27a051e6a9c3e158a4c4b6414fd04a0.camel@sipsolutions.net/
->
-> Fixes: ccae4cfa7bfb ("kbuild: refactor scripts/Makefile.modinst")
-> Reported-by: Johannes Berg <johannes@sipsolutions.net>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
 
-Applied to linux-kbuild.
+This may not be a big deal, but when KBUILD_BUILD_TIMESTAMP is unset,
+the timestamp is not updated.  It still has a user-specified string.
 
 
-
-> Changes in v2:
->   - Use $(filter %/, ) so that the shell invocation is avoided
->     if M= is already good.
->
->  Makefile | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index b79e0e8acbe3..8018b8adbcaf 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -129,6 +129,11 @@ endif
->  $(if $(word 2, $(KBUILD_EXTMOD)), \
->         $(error building multiple external modules is not supported))
->
-> +# Remove trailing slashes
-> +ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
-> +KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
-> +endif
-> +
->  export KBUILD_EXTMOD
->
->  # Kbuild will save output files in the current working directory.
-> --
-> 2.27.0
->
 
 
 -- 
