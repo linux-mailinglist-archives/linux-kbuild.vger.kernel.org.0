@@ -2,104 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A1E3AA86A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jun 2021 03:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D44D3AA8B2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jun 2021 03:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbhFQBIu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Jun 2021 21:08:50 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:64184 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbhFQBIu (ORCPT
+        id S232170AbhFQBkH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Jun 2021 21:40:07 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:57827 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229713AbhFQBkH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Jun 2021 21:08:50 -0400
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 15H16Lwn013084;
-        Thu, 17 Jun 2021 10:06:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 15H16Lwn013084
+        Wed, 16 Jun 2021 21:40:07 -0400
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 15H1bkrf005688;
+        Thu, 17 Jun 2021 10:37:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 15H1bkrf005688
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1623891982;
-        bh=2Y38ZCk0TETfIc0Ql7zsn6BJq/4SuRpneVn+LfAqnv0=;
+        s=dec2015msa; t=1623893867;
+        bh=HIoxq7OeXB/HXXPGf7C+LKUoLnaEXtnEaOxI1wYpvEo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NbiMgU/vZoyzx6xr2nR4YCWoYCeIwbccFI5/yxS6auSTwEnjVNKVe9VtG6bfc7OSP
-         oxd2dtQgE64/NL8SOMZFLlk1O0uqgs79kO+vF7KRok57M26DaAkSMGwvL+Pn4wGjx8
-         +AGAaiF3cYd2uJkP+rmbOvAAEy2emxj75XKNNgcoxwgcK10fge5xTl4CPHVpw29tlM
-         LM7UHCYOVaNDRnGPIKIWyQrtpVA2TGpRwFP4svt/rouRX2eSjuAfNnO9MK3ME1pE5T
-         yhM5ipz2fjPvzMmfNkfq4Hmxg5FZW0cZMpDpLmFNx3/Qhq4+I/pcyo22DXDVmHI9/P
-         sYmKegZgBbEOw==
-X-Nifty-SrcIP: [209.85.210.182]
-Received: by mail-pf1-f182.google.com with SMTP id q25so3616678pfh.7;
-        Wed, 16 Jun 2021 18:06:22 -0700 (PDT)
-X-Gm-Message-State: AOAM533178FBd8yNZmV3ov3KFYUMx4sSZ6j8SWIjVRf8KhcO5N44hXlQ
-        zW7ALT0LT+jEZOsETquFIjeJIhJ5yyB/fbHLjfA=
-X-Google-Smtp-Source: ABdhPJzp0lHNc1wg7g5jthFWFycjy4dyKSQccg5ummzfvosqJuqyldZDOD4o2kgBuywyPT5n1Wm6rjiixvBY+flEK5c=
-X-Received: by 2002:a63:d403:: with SMTP id a3mr2450010pgh.175.1623891981526;
- Wed, 16 Jun 2021 18:06:21 -0700 (PDT)
+        b=JTge8z/GOUCA3sW+79rtIX8Bpdl6e4ZYhkoxmOZiGyC3mvO304Vj45DJckHrjQacU
+         PbnXFt2Z7ftvipWWsV0HlYgo9U+oEVukn5pYIpUbjeqwzVtzP+1QZiRgz/DvGANhmT
+         mw9sOge2n90BKEwdPCWkpHy0J/JX/LG5fERB3QQerQqIcplIKrDrblkiejje0MFsDN
+         lMmQC8r71JRGCNu0iXYyggmAaql+AfPA3MTkUttAjbKeZWji5lXc8swSD+zrYWvK7o
+         1YY7DpNojmM4b6iKsoOvPkzmOTms0oMMuicj/1vLrTJVBAe3/sy234ASkKc33yMrrd
+         MtPABW0veC18w==
+X-Nifty-SrcIP: [209.85.215.171]
+Received: by mail-pg1-f171.google.com with SMTP id q15so3567669pgg.12;
+        Wed, 16 Jun 2021 18:37:46 -0700 (PDT)
+X-Gm-Message-State: AOAM532z9pQwj7444r3Fr43myDuO33HRQIpwC4tvb5BmZoUik/W51STu
+        WWtONVT+/AVzpydL/ZaenM+6sbuHMsfr01t7Avk=
+X-Google-Smtp-Source: ABdhPJyBN58fpyRPEPgPvXIEGSZZ6tyzFeJu+323C2GaSIURzTNSrGTPPm18fMAv8mtw8Rnc9+X/B301RsFcQZH75So=
+X-Received: by 2002:aa7:9ed2:0:b029:2fc:b328:ad67 with SMTP id
+ r18-20020aa79ed20000b02902fcb328ad67mr2669207pfq.63.1623893866033; Wed, 16
+ Jun 2021 18:37:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210607140206.38131-1-broonie@kernel.org>
-In-Reply-To: <20210607140206.38131-1-broonie@kernel.org>
+References: <20210602140213.132936-1-masahiroy@kernel.org>
+In-Reply-To: <20210602140213.132936-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 17 Jun 2021 10:05:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT7cy8Kn1w2ceRdH_O4P8PMut4Bivcyas88gVa+wu7HGA@mail.gmail.com>
-Message-ID: <CAK7LNAT7cy8Kn1w2ceRdH_O4P8PMut4Bivcyas88gVa+wu7HGA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: modpost: Explicitly warn about unprototyped symbols
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 17 Jun 2021 10:37:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARLctyjSoVCwLkwrGqRH6QFc93xTP8LFAJVgAz+f4YqFA@mail.gmail.com>
+Message-ID: <CAK7LNARLctyjSoVCwLkwrGqRH6QFc93xTP8LFAJVgAz+f4YqFA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: remove trailing slashes from $(KBUILD_EXTMOD)
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 7, 2021 at 11:02 PM Mark Brown <broonie@kernel.org> wrote:
+On Wed, Jun 2, 2021 at 11:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> One common cause of modpost version generation failures is a failure to
-> prototype exported assembly functions - the tooling requires this for
-> exported functions even if they are not and should not be called from C
-> code in order to do the version mangling for symbols. Unfortunately the
-> error message is currently rather abstruse, simply saying that "version
-> generation failed" and even diving into the code doesn't directly show
-> what's going on since there's several steps between the problem and it
-> being observed.
+> M= (or KBUILD_EXTMOD) generally expects a directory path without any
+> trailing slashes, like M=a/b/c.
 >
-> Provide an explicit hint as to the likely cause of a version generation
-> failure to help anyone who runs into this in future more readily diagnose
-> and fix the problem.
+> If you add a trailing slash, like M=a/b/c/, you will get ugly build
+> logs (two slashes in a series), but it still works fine as long as it
+> is consistent between 'make modules' and 'make modules_install'.
 >
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+> The following commands correctly build and install the modules.
+>
+>   $ make M=a/b/c/ modules
+>   $ sudo make M=a/b/c/ modules_install
+>
+> Since commit ccae4cfa7bfb ("kbuild: refactor scripts/Makefile.modinst"),
+> a problem happens if you add a trailing slash only for modules_install.
+>
+>   $ make M=a/b/c modules
+>   $ sudo make M=a/b/c/ modules_install
+>
+> No module is installed in this case, Johannes Berg reported. [1]
+>
+> Trim any trailing slashes from $(KBUILD_EXTMOD).
+>
+> I used the 'dirname' command to remove all the trailing slashes in
+> case someone adds more slashes like M=a/b/c/////. The Make's built-in
+> function, $(dir ...) cannot take care of such a case.
+>
+> [1]: https://lore.kernel.org/lkml/10cc8522b27a051e6a9c3e158a4c4b6414fd04a0.camel@sipsolutions.net/
+>
+> Fixes: ccae4cfa7bfb ("kbuild: refactor scripts/Makefile.modinst")
+> Reported-by: Johannes Berg <johannes@sipsolutions.net>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 
-Applied to linux-kbuild. Thanks.
+Applied to linux-kbuild.
 
 
+
+> Changes in v2:
+>   - Use $(filter %/, ) so that the shell invocation is avoided
+>     if M= is already good.
 >
-> v2:
->  - Reword and reformat error message.
->  - Fix duplicated is.
+>  Makefile | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
->  scripts/mod/modpost.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> diff --git a/Makefile b/Makefile
+> index b79e0e8acbe3..8018b8adbcaf 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -129,6 +129,11 @@ endif
+>  $(if $(word 2, $(KBUILD_EXTMOD)), \
+>         $(error building multiple external modules is not supported))
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 3e623ccc020b..270a7df898e2 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -660,8 +660,11 @@ static void handle_modversion(const struct module *mod,
->         unsigned int crc;
->
->         if (sym->st_shndx == SHN_UNDEF) {
-> -               warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n",
-> -                    symname, mod->name, mod->is_vmlinux ? "" : ".ko");
-> +               warn("EXPORT symbol \"%s\" [%s%s] version ...\n"
-> +                    "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
-> +                    symname, mod->name, mod->is_vmlinux ? "" : ".ko",
-> +                    symname);
+> +# Remove trailing slashes
+> +ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
+> +KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
+> +endif
 > +
->                 return;
->         }
+>  export KBUILD_EXTMOD
 >
+>  # Kbuild will save output files in the current working directory.
 > --
-> 2.20.1
+> 2.27.0
 >
 
 
