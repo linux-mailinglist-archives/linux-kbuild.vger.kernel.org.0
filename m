@@ -2,80 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9F43AA1B1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Jun 2021 18:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3EE3AA868
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jun 2021 03:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhFPQpi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Jun 2021 12:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbhFPQpg (ORCPT
+        id S231441AbhFQBIY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Jun 2021 21:08:24 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:23279 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230267AbhFQBIY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Jun 2021 12:45:36 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4535C06175F
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Jun 2021 09:43:30 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id q15so2435347pgg.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Jun 2021 09:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LJ1OHgnR34ogOAEVHUpUGKUo8aum/tsPypBTkAfpFU8=;
-        b=Pk+mS4DKUQ1J3BqFzsg9jT/dZ5rPDDAQonFTVQeHpjJqyRP1WKGgbZKfUKMsaHW5HH
-         YH85LVmuR5elaXNQYOq3yzhE+GPT+tvz/NQLYXtzNwicAwNfi8DcNM6y70q8Ea2/s2dp
-         Cz6rTQ92VUchxHiESeQpaxsWa2E4NRiLzr3IQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LJ1OHgnR34ogOAEVHUpUGKUo8aum/tsPypBTkAfpFU8=;
-        b=HhU0amtUT+qce71DhykdZ8S8w8VCRBA8+hFT7ZenHoNAIAO5kW1YdCN9uaeong2sOO
-         9IHwCkl9i84nwdmg/EWNfZdrj9HxwNT7Msa8w9jmYNHyk+buu3pYU54ZP9NYx2CBoPvB
-         O4wCKOsK11aQW1bPlrpaUQcytdwYuhewqeDc8ky017NQiutjZBzQ8+q8E207AT7Qa+w8
-         5qyLC0y5vwB4gtSGv7b7O5D2ASnbouTmAKEh94dTyNz4qCJO5KY+nd2RQYsO67YkThuF
-         GhlR0B9BUgBzDls6OK9k1Tv964vCGBA0qwq+ceyEKMXXp4mkGebrLq87XIPCRDq54LAI
-         Jeuw==
-X-Gm-Message-State: AOAM532Al3YfQhM77LSH3sn25aSigW5MJg3jYwt+QrFQtd8FeKSfq3MB
-        hIg72Ced3LU+06pn56OjPGzAmQ==
-X-Google-Smtp-Source: ABdhPJxx8P6LudPS5rIEnTr/BUC6TgWMdgguqNoArRbYwmw7/JgkUI8vh3DGYEEyc1T9SjhYmMEWrA==
-X-Received: by 2002:aa7:9118:0:b029:2eb:2ef3:f197 with SMTP id 24-20020aa791180000b02902eb2ef3f197mr576275pfh.27.1623861810210;
-        Wed, 16 Jun 2021 09:43:30 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ei23sm5895053pjb.57.2021.06.16.09.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 09:43:29 -0700 (PDT)
-Date:   Wed, 16 Jun 2021 09:43:28 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Lecopzer Chen <lecopzer.chen@mediatek.com>
-Cc:     clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, nathan@kernel.org,
-        ndesaulniers@google.com, samitolvanen@google.com,
-        yj.chiang@mediatek.com
-Subject: Re: [PATCH] kbuild: lto: fix module versionings mismatch in
- incremental build
-Message-ID: <202106160942.A89674E54@keescook>
-References: <202106150821.B4D3E02@keescook>
- <20210616080252.32046-1-lecopzer.chen@mediatek.com>
+        Wed, 16 Jun 2021 21:08:24 -0400
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 15H163Ro023442;
+        Thu, 17 Jun 2021 10:06:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 15H163Ro023442
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1623891964;
+        bh=Nes41jKPWaXsM5bgH+6WMq/TOgIPzhfZ+k/ThcLSQGo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=q2qZ1sa+f4lJjn69nOuoVE9gasI0dpTozZZ89FsCxnukSJ6mR9DpwhERtEP1CUwQa
+         UxNCoQNZiSXolVNXJo4Kfkc1vUxKIdd8ftG1jqdWKFjs/IgzP0Nh6SgoVh5Dc/0+Bp
+         ihDW2CHlL30Sp124dWGJTjymddhUxrqTxbw1ppRbT4kpmYqEiRTdh4OIOeu5p6PCgg
+         RLTCbAvfA0gsWLoyETEHJbQPOEaxH62BKLm2i6WVLvNn1aZunGxgRODoE0Ls3EcabL
+         We7SU8+uc++1twvMOrzq9WQmXHPsWTdYsgtKZN6EnNt62GZL2UBuJUt8n+zRHHrXs6
+         V5u3BsHLKhYJA==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id h16so2812720pjv.2;
+        Wed, 16 Jun 2021 18:06:04 -0700 (PDT)
+X-Gm-Message-State: AOAM532lBAQE8sBz3Uxu6/bNS+b+jjnaEkvG7AhqdONAdTpv8LiqrKhR
+        eDV9C7ajProk06aakfI6bSEn/XzBZL9qHelPZ4M=
+X-Google-Smtp-Source: ABdhPJzlRthpjhWpvo1eiG+0JsuwSfsqhwRGtctVMqP/x6KZoQjWBC/2pcl+KzNnIL7pbSaqJt8AfnD/cJZZPozQAAk=
+X-Received: by 2002:a17:90a:e2c6:: with SMTP id fr6mr13779995pjb.198.1623891963372;
+ Wed, 16 Jun 2021 18:06:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210616080252.32046-1-lecopzer.chen@mediatek.com>
+References: <20210612141838.1073085-1-maennich@google.com>
+In-Reply-To: <20210612141838.1073085-1-maennich@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 17 Jun 2021 10:05:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQkoqTG540EOER27G83z+DO5fkeHi-in-vRYkrbX-o0cg@mail.gmail.com>
+Message-ID: <CAK7LNAQkoqTG540EOER27G83z+DO5fkeHi-in-vRYkrbX-o0cg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: mkcompile_h: consider timestamp if
+ KBUILD_BUILD_TIMESTAMP is set
+To:     Matthias Maennich <maennich@google.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 16, 2021 at 04:02:52PM +0800, Lecopzer Chen wrote:
-> Yes, We can imitate how CLANG_VERSION was implemented in Kconfig.
-> 
-> Accroding to GNU make release page[1], I've only tested for 3.81,
-> 4.2 and 4.3.
-> 4.2 was released in 2016, I think it's fine for LTO lowest version.
+On Sat, Jun 12, 2021 at 11:18 PM Matthias Maennich <maennich@google.com> wrote:
+>
+> To avoid unnecessary recompilations, mkcompile_h does not regenerate
+> compile.h if just the timestamp changed.
+> Though, if KBUILD_BUILD_TIMESTAMP is set, an explicit timestamp for the
+> build was requested, in which case we should not ignore it.
+>
+> If a user follows the documentation for reproducible builds [1] and
+> defines KBUILD_BUILD_TIMESTAMP as the git commit timestamp, a clean
+> build will have the correct timestamp. A subsequent cherry-pick (or
+> amend) changes the commit timestamp and if an incremental build is done
+> with a different KBUILD_BUILD_TIMESTAMP now, that new value is not taken
+> into consideration. But it should for reproducibility.
+>
+> Hence, whenever KBUILD_BUILD_TIMESTAMP is explicitly set, do not ignore
+> UTS_VERSION when making a decision about whether the regenerated version
+> of compile.h should be moved into place.
+>
+> [1] https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html
+>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Matthias Maennich <maennich@google.com>
+> ---
 
-Okay, sounds good. Are you able to build a patch for this?
 
-Thanks for figuring it out!
+Applied to linux-kbuild. Thanks.
+
+
+>  scripts/mkcompile_h | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+> index 4ae735039daf..a72b154de7b0 100755
+> --- a/scripts/mkcompile_h
+> +++ b/scripts/mkcompile_h
+> @@ -70,15 +70,23 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
+>  # Only replace the real compile.h if the new one is different,
+>  # in order to preserve the timestamp and avoid unnecessary
+>  # recompilations.
+> -# We don't consider the file changed if only the date/time changed.
+> +# We don't consider the file changed if only the date/time changed,
+> +# unless KBUILD_BUILD_TIMESTAMP was explicitly set (e.g. for
+> +# reproducible builds with that value referring to a commit timestamp).
+>  # A kernel config change will increase the generation number, thus
+>  # causing compile.h to be updated (including date/time) due to the
+>  # changed comment in the
+>  # first line.
+>
+> +if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
+> +   IGNORE_PATTERN="UTS_VERSION"
+> +else
+> +   IGNORE_PATTERN="NOT_A_PATTERN_TO_BE_MATCHED"
+> +fi
+> +
+>  if [ -r $TARGET ] && \
+> -      grep -v 'UTS_VERSION' $TARGET > .tmpver.1 && \
+> -      grep -v 'UTS_VERSION' .tmpcompile > .tmpver.2 && \
+> +      grep -v $IGNORE_PATTERN $TARGET > .tmpver.1 && \
+> +      grep -v $IGNORE_PATTERN .tmpcompile > .tmpver.2 && \
+>        cmp -s .tmpver.1 .tmpver.2; then
+>     rm -f .tmpcompile
+>  else
+> --
+> 2.32.0.272.g935e593368-goog
+>
+
 
 -- 
-Kees Cook
+Best Regards
+Masahiro Yamada
