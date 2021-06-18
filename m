@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5D6E3AD5ED
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 01:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAB773AD5EF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 01:30:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234590AbhFRXc5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Jun 2021 19:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
+        id S234838AbhFRXdB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Jun 2021 19:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbhFRXc5 (ORCPT
+        with ESMTP id S234647AbhFRXdA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Jun 2021 19:32:57 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459C2C061760
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 16:30:46 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id f11-20020a056214164bb029026bc7adaae8so549541qvw.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 16:30:46 -0700 (PDT)
+        Fri, 18 Jun 2021 19:33:00 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C42C061760
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 16:30:49 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id t144-20020a3746960000b02903ad9c5e94baso6996839qka.16
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 16:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=GT5JptlSj0sw8R+tCH0fy57H3f0kVdV+hvtI1tBUIUc=;
-        b=wVvV0Fa27Lb8Z2PV4NyLQF0JST7GyFqtwIfj5zFP8Eu3Xd2dSDFul/J5JcatnGCqBp
-         WHzYKm7IJw9gZZ7RTvDfwn0Yh/hGoUEzSwjmzc1rPHCQoRrVcLOgABGbYfk5aZvmSLqd
-         nG+DOtRKevSmvJQ3bhBaNDfnFORd+r4y7b9HyNathMtcpwzOUFgidNCS4w3ATAFXgbKU
-         gZDXVkpQd8ENg99w2pJF6BpddYfpwMuwKQHAL512uKb8pUDS6IFhlddSTCYcNKf+TZl5
-         T2q8gF1TV3Ceac2665HCszeNI48gex0VE0aHX97LJYAkY3YBmJH0eVtarlXN4h2hAzG2
-         6vPg==
+        bh=K5IKvJejgNpA3AFkHBDCXpqjsqKJvtxs1XINxFL+/80=;
+        b=Xv1vHb+6WsCa/m6Vu4jkUgfv1Vfd65hhIYj1E3ovZR0PeSnobLEZ8/fkUe0eW4cw9K
+         yDZ7kCLjXQ7qoo6HDD6UtUX371UzqR+Ln4OgvkHTaIzVLvh8NPmG67ec4obfZhhR9D1r
+         wG/Zpu1orD+4NmfnjCqPZjGf9nOuo0lVIUYkhbYV6FPjdHnZmHKd3veFeTf14H4CGmlv
+         v/PwyJLYCw7Xq/GwW4fgY8vwlddErA6HThDqWuFyK9CR8Y83dz1jVNtwk+2vNcDVJV1U
+         pQu2txUobp7XJW2tyungb03WIolNt1xZvhhD5A+rWy5p/xWtqYE38+HOv9Xf/4asOGv3
+         KIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=GT5JptlSj0sw8R+tCH0fy57H3f0kVdV+hvtI1tBUIUc=;
-        b=JnbFAwBlvMKSEbwkISu9glC2TVDdRaBblJ6Bz2tK92N6cU/hsgUGmmzFffmC5pfm3r
-         +UZ2XXSn3wS+0k/ALIQjrzHtU6uw19PZfnN/ihG5y5T3hWsbYQlzvEj5AY0BV5nR1X2C
-         gOatKQ57eRJ1rfaD4DzRdjTSGXysIgNbutCys2L/KfX/2i1Z2Ss/PwPyn3H9v94bgmxs
-         zzU8CdfZy86AJkyZryhsSI8e13m2HL4jfW9DvugIoeRvoKO/OMYnbKNIzke+rj+d4fuV
-         8C+kakbtVlWGcmafvXc3BmpllNo8fSL0UPv+ledfmpXA2njmKBy0Y0v2caf9EwUbGzCc
-         +Iqg==
-X-Gm-Message-State: AOAM533XEIvI1pBp3HHhTJd+OcDYbfyx3u+XgVQQtVQb9uCzt/JGS8RM
-        V+WFjwTCbiYb/SYeSrpaQsSjlDZLUdp7Ztwrrl4=
-X-Google-Smtp-Source: ABdhPJzxlJWcj8oyBsJfqxL8nOlQwZvVqBAOvLuh7YDYpvbPPeYy1z90tcGn2hRA4kY1Kr+cbeWpGFgv0DeVM1hOqr0=
+        bh=K5IKvJejgNpA3AFkHBDCXpqjsqKJvtxs1XINxFL+/80=;
+        b=piT0r5vKE2JenLFfvQgCuyrJh7AF3URpmfebsCFpRV7ROrEhWYVvhU89G7mh2Ck4li
+         ODOo3wOppRIWASa4BxTpZlkRu+QBl5zO1wFW13rpg6iHJd0cfp6/Mh50fSxezQL6wIQ3
+         HM6zPL5OiWq/gSLqELEFqLVuZAUio5F9czCylVw9i4XrjVKT2jDpygx7+08CQS4FnOvz
+         Ro+QCfPxHs/esrke9BNUvCMwuICNZFIsiltwwpoXbv13vifrUcgUwx2dkD997f6TBqmq
+         4aITEHVJ4TryuYzwueCgKQr2gEpTJTczyIBrMH+2mvl3M9KhbP6ogM6rsi0A08oEdwj5
+         A3gA==
+X-Gm-Message-State: AOAM532D1OD9rBprjhIVLJ2+8aY1bpY7mdiSkxJdSRusbzR89QeAUXI3
+        NCG8XQ+fVckcWiHjaL86kFyYPHrRNLVlCctAcHk=
+X-Google-Smtp-Source: ABdhPJzv3iuu4rmC8ir3YJzvMzMIGBJAAJJhBB51vid/gVjQPP1e/24XhYkWkAPDbTnLwPxLy7jP+XAcFn4lE+v0wXI=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:7c41:e84c:8fcb:6664])
- (user=ndesaulniers job=sendgmr) by 2002:a25:bb08:: with SMTP id
- z8mr17100019ybg.188.1624059045337; Fri, 18 Jun 2021 16:30:45 -0700 (PDT)
-Date:   Fri, 18 Jun 2021 16:30:22 -0700
+ (user=ndesaulniers job=sendgmr) by 2002:a25:d257:: with SMTP id
+ j84mr16278281ybg.404.1624059048916; Fri, 18 Jun 2021 16:30:48 -0700 (PDT)
+Date:   Fri, 18 Jun 2021 16:30:23 -0700
 In-Reply-To: <20210618233023.1360185-1-ndesaulniers@google.com>
-Message-Id: <20210618233023.1360185-2-ndesaulniers@google.com>
+Message-Id: <20210618233023.1360185-3-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <20210618233023.1360185-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-Subject: [PATCH 1/2] compiler_attributes.h: define __no_profile, add to noinstr
+Subject: [PATCH 2/2] Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV
+ and PGO
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -79,66 +80,62 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-noinstr implies that we would like the compiler to avoid instrumenting a
-function.  Add support for the compiler attribute no_profile to
-compiler_attributes.h, then add __no_profile to the definition of
-noinstr.
+We don't want compiler instrumentation to touch noinstr functions, which
+are annotated with the no_profile function attribute. Add a Kconfig test
+for this and make PGO and GCOV depend on it.
 
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Link: https://lore.kernel.org/lkml/20210614162018.GD68749@worktop.programming.kicks-ass.net/
-Link: https://reviews.llvm.org/D104475
-Link: https://reviews.llvm.org/D104257
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
+Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
 Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- include/linux/compiler_attributes.h | 12 ++++++++++++
- include/linux/compiler_types.h      |  2 +-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ init/Kconfig        | 3 +++
+ kernel/gcov/Kconfig | 1 +
+ kernel/pgo/Kconfig  | 3 ++-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-index c043b8d2b17b..cf584a1908b3 100644
---- a/include/linux/compiler_attributes.h
-+++ b/include/linux/compiler_attributes.h
-@@ -33,6 +33,7 @@
- # define __GCC4_has_attribute___externally_visible__  1
- # define __GCC4_has_attribute___no_caller_saved_registers__ 0
- # define __GCC4_has_attribute___noclone__             1
-+# define __GCC4_has_attribute___no_profile            0
- # define __GCC4_has_attribute___nonstring__           0
- # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
- # define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
-@@ -237,6 +238,17 @@
- # define __nonstring
- #endif
+diff --git a/init/Kconfig b/init/Kconfig
+index 1ea12c64e4c9..540f862b40c6 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -83,6 +83,9 @@ config TOOLS_SUPPORT_RELR
+ config CC_HAS_ASM_INLINE
+ 	def_bool $(success,echo 'void foo(void) { asm inline (""); }' | $(CC) -x c - -c -o /dev/null)
  
-+/*
-+ * Optional: only supported since clang >= 13
-+ *      gcc: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
-+ *    clang: https://clang.llvm.org/docs/AttributeReference.html#no_profile
-+ */
-+#if __has_attribute(__no_profile__)
-+# define __no_profile                  __attribute__((__no_profile__))
-+#else
-+# define __no_profile
-+#endif
++config CC_HAS_NO_PROFILE_FN_ATTR
++	def_bool $(success,echo '__attribute__((no_profile)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
 +
- /*
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noreturn-function-attribute
-  * clang: https://clang.llvm.org/docs/AttributeReference.html#noreturn
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index d29bda7f6ebd..d509169860f1 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -210,7 +210,7 @@ struct ftrace_likely_data {
- /* Section for code which can't be instrumented at all */
- #define noinstr								\
- 	noinline notrace __attribute((__section__(".noinstr.text")))	\
--	__no_kcsan __no_sanitize_address
-+	__no_kcsan __no_sanitize_address __no_profile
+ config CONSTRUCTORS
+ 	bool
  
- #endif /* __KERNEL__ */
- 
+diff --git a/kernel/gcov/Kconfig b/kernel/gcov/Kconfig
+index 58f87a3092f3..19facd4289cd 100644
+--- a/kernel/gcov/Kconfig
++++ b/kernel/gcov/Kconfig
+@@ -5,6 +5,7 @@ config GCOV_KERNEL
+ 	bool "Enable gcov-based kernel profiling"
+ 	depends on DEBUG_FS
+ 	depends on !CC_IS_CLANG || CLANG_VERSION >= 110000
++	depends on !X86 || (X86 && CC_HAS_NO_PROFILE_FN_ATTR)
+ 	select CONSTRUCTORS
+ 	default n
+ 	help
+diff --git a/kernel/pgo/Kconfig b/kernel/pgo/Kconfig
+index d2053df1111c..26f75ac4c6c1 100644
+--- a/kernel/pgo/Kconfig
++++ b/kernel/pgo/Kconfig
+@@ -8,7 +8,8 @@ config PGO_CLANG
+ 	bool "Enable clang's PGO-based kernel profiling"
+ 	depends on DEBUG_FS
+ 	depends on ARCH_SUPPORTS_PGO_CLANG
+-	depends on CC_IS_CLANG && CLANG_VERSION >= 120000
++	depends on CC_IS_CLANG
++	depends on CC_HAS_NO_PROFILE_FN_ATTR
+ 	help
+ 	  This option enables clang's PGO (Profile Guided Optimization) based
+ 	  code profiling to better optimize the kernel.
 -- 
 2.32.0.288.g62a8d224e6-goog
 
