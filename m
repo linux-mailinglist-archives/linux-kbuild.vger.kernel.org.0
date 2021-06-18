@@ -2,114 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8C23AC0C9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jun 2021 04:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D4303AC408
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jun 2021 08:40:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233637AbhFRCdG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Jun 2021 22:33:06 -0400
-Received: from mga04.intel.com ([192.55.52.120]:11565 "EHLO mga04.intel.com"
+        id S231417AbhFRGnE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Jun 2021 02:43:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231289AbhFRCdG (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Jun 2021 22:33:06 -0400
-IronPort-SDR: RdTuxbtgfOfeQ5BfNt4hFuC4puLPFFVn90lGrsI3DRcIjg24JT9ep0VC5oLlex1ylPbyey6p96
- fINABxTcZpuQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10018"; a="204654692"
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="204654692"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 19:30:57 -0700
-IronPort-SDR: LNeRt7jcTgmZlUFvpESLy6HA+G0PZ5HL8MhZtrJewFA7LvAtcqfgcFBDpBo6CDPy0r5Ck5Nil/
- nLym5qVldoFg==
-X-IronPort-AV: E=Sophos;i="5.83,281,1616482800"; 
-   d="scan'208";a="485524622"
-Received: from shao2-debian.sh.intel.com (HELO [10.239.13.11]) ([10.239.13.11])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 19:30:55 -0700
-Subject: Re: [linux-next:master 6856/7430] hppa64-linux-ld:
- init/do_mounts.o(.text.unlikely+0x88): cannot reach dump_page
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Helge Deller <deller@gmx.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Philip Li <philip.li@intel.com>
-References: <202106051816.t4mlM0Df-lkp@intel.com>
- <CAK8P3a2cXLWD0m6+k4bcfRwOOM9QhusjSFtaV7EMC2wuh1+UEQ@mail.gmail.com>
- <c3e78409-f321-d0dc-67b1-d2a8d3dd24e2@intel.com>
- <CAK8P3a2pAKiKACZ_kazXEWMffqbgZV_ZeQ27z8PSy3YbLGQPxA@mail.gmail.com>
-From:   Rong Chen <rong.a.chen@intel.com>
-Message-ID: <46eaef63-0e65-94fa-2400-39524faf32c6@intel.com>
-Date:   Fri, 18 Jun 2021 10:30:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S230408AbhFRGnE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 18 Jun 2021 02:43:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B78F60FF4;
+        Fri, 18 Jun 2021 06:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623998455;
+        bh=I6t3BsuXoW1cps0ZCaiZQV3tOIvkZXAxUoTVJlmGoVE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bV8rj8NKR6MT5+dMfX1d3UWWu78qlCZdZJdArcyOc5sixFcTYkFI73RvUPKpYRgbq
+         C7VTjsvmwQLugqTAF6z+zKfS2ayJfb0iUTrEo24yVwdMWxXmPxmv8tUJFYYVABMHZZ
+         d9dSl9N9eM+mof6SoYrdl9qrP2/HYhskIE36SXbo=
+Date:   Fri, 18 Jun 2021 08:40:52 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Matthias Kaehlcke <mka@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Linux-Next Mailing List <linux-next@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.or, lkft-triage@lists.linaro.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [next] [arm64] allmodconfig build failed - xhci-plat.c:427:
+ undefined reference to `onboard_hub_destroy_pdevs'
+Message-ID: <YMw/9NzwwfRhUX/y@kroah.com>
+References: <CA+G9fYu6er1nZ602gCnrY+-JNtDHrUJk-RH2biPmjRoe06_m4Q@mail.gmail.com>
+ <YMtSFVg6UoOpDqIP@kroah.com>
+ <YMuRcrE8xlWnFSWW@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a2pAKiKACZ_kazXEWMffqbgZV_ZeQ27z8PSy3YbLGQPxA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YMuRcrE8xlWnFSWW@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Jun 17, 2021 at 11:16:18AM -0700, Matthias Kaehlcke wrote:
+> On Thu, Jun 17, 2021 at 03:45:57PM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Jun 17, 2021 at 07:09:15PM +0530, Naresh Kamboju wrote:
+> > > The arm64 allmodconfig build failed on Linux next 20210617 tag due to
+> > > the commit,
+> > > 
+> > > c950686b382d ("usb: host: xhci-plat: Create platform device for
+> > > onboard hubs in probe()")
+> > > 
+> > > build error:
+> > > ------------
+> > > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
+> > > `xhci_plat_remove':
+> > > drivers/usb/host/xhci-plat.c:427: undefined reference to
+> > > `onboard_hub_destroy_pdevs'
+> > > drivers/usb/host/xhci-plat.c:427:(.text+0x82c): relocation truncated
+> > > to fit: R_AARCH64_CALL26 against undefined symbol
+> > > `onboard_hub_destroy_pdevs'
+> > > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
+> > > `xhci_plat_probe':
+> > > drivers/usb/host/xhci-plat.c:379: undefined reference to
+> > > `onboard_hub_create_pdevs'
+> > > drivers/usb/host/xhci-plat.c:379:(.text+0x131c): relocation truncated
+> > > to fit: R_AARCH64_CALL26 against undefined symbol
+> > > `onboard_hub_create_pdevs'
+> > > make[1]: *** [Makefile:1252: vmlinux] Error 1
+> > > make[1]: Target '__all' not remade because of errors.
+> > > make: *** [Makefile:222: __sub-make] Error 2
+> > > make: Target '__all' not remade because of errors.
+> > 
+> > Matthias, this is due to your patch, yet-another config option mis-match
+> > somewhere. Can you please fix it up?
+> 
+> I can repro this with:
+> 
+> make -j 16 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
+>   KCONFIG_ALLCONFIG=arch/arm64/configs/defconfig allmodconfig kernel modules
+> 
+> This results in:
+> 
+> CONFIG_USB_XHCI_PLATFORM=y
+> CONFIG_USB_ONBOARD_HUB=m
+> 
+> The following Kconfig dependency was supposed to prevent this scenario:
+> 
+> config USB_XHCI_PLATFORM
+>         depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB
+> 
+> But apparently this isn't the case.
+> 
+> With the above allmodconfig command the following warning is emitted:
+> 
+> WARNING: unmet direct dependencies detected for USB_XHCI_PLATFORM
+>   Depends on [m]: USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && (USB_ONBOARD_HUB [=m] || !USB_ONBOARD_HUB [=m])
+> 
+> I read through kconfig-language.rst multiple times, but it's still not
+> clear to me how to specify this dependency properly.
+> 
+> Masahiro/Greg, do you have any pointers?
 
+Right now, no, sorry, and I don't have the bandwidth to look into this
+myself.
 
-On 6/7/21 3:19 PM, Arnd Bergmann wrote:
-> On Mon, Jun 7, 2021 at 8:27 AM Rong Chen <rong.a.chen@intel.com> wrote:
->> On 6/5/21 7:08 PM, Arnd Bergmann wrote:
->>> On Sat, Jun 5, 2021 at 12:59 PM kernel test robot <lkp@intel.com> wrote:
->>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>>> head:   ccc252d2e818f6a479441119ad453c3ce7c7c461
->>>> commit: 2ada05c3a46dda2e2b065a02307c0c6268d9678f [6856/7430] Merge remote-tracking branch 'asm-generic/master'
->>>> config: parisc-randconfig-r012-20210604 (attached as .config)
->>>> compiler: hppa64-linux-gcc (GCC) 9.3.0
->>>> reproduce (this is a W=1 build):
->>>>           wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>>>           chmod +x ~/bin/make.cross
->>>>           # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=2ada05c3a46dda2e2b065a02307c0c6268d9678f
->>>>           git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->>>>           git fetch --no-tags linux-next master
->>>>           git checkout 2ada05c3a46dda2e2b065a02307c0c6268d9678f
->>>>           # save the attached .config to linux build tree
->>>>           COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=parisc
->>>>
->>>> If you fix the issue, kindly add following tag as appropriate
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>> Helge Deller already fixed this problem with commit 778e45d7720d
->>> ("parisc: E
->> We will ignore the error firstly, I'm a little confused, who can handle
->> the randconfig failures if COMPILE_TEST=n?
-> The failures that you only see with COMPILE_TEST=n are the ones that
-> someone has previously decided can not be handled properly, for one
-> reason or another, examples include:
->
-> - rebuilding generated files that require additional tools to be
-> installed on the host,
->    e.g. CONFIG_PREVENT_FIRMWARE_BUILD
-> - configurations that may or may not work but result in excessive
-> compiler warnings
->    that are not otherwise interesting, e.g. GCC_PLUGIN_CYC_COMPLEXITY
-> - options that enable compile-time warnings about pointless configurations
->    such as leaving out support for every machine
-> - options that are unlikely to have an effect on testing but slow down the build
->    time (e.g. CONFIG_DEBUG_INFO) for build bots finite hardware resources.
->
-> On the primary architectures, randconfig builds with 'make -s' should generally
-> result in no output from the build, and I would consider any output
-> you get a bug.
-> When COMPILE_TEST is disabled, there are countless known issues in
-> configurations that make no practical sense.
->
->          Arnd
+I've reverted this series from the tree for now, as this issue isn't ok
+for breaking linux-next, and due to the other merge issues with the dts
+files.  Please work on fixing this up and resending the series when it
+is resolved.
 
-Hi Arnd,
+thanks,
 
-Thanks for the detailed explanation, and we have asked advice of 
-internal developers,
-we'll enable COMPILE_TEST for randconfig, and check the failures if 
-COMPILE_TEST=n
-in future.
-
-BTW is there any issue that found by randconfig with COMPILE_TEST=n 
-should be reported?
-
-Best Regards,
-Rong Chen
+greg k-h
