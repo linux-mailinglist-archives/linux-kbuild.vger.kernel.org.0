@@ -2,131 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73E243AD67E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 03:31:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8B03AD6CF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 04:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235346AbhFSBdk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Jun 2021 21:33:40 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:51530 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233675AbhFSBdj (ORCPT
+        id S235060AbhFSCr7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Jun 2021 22:47:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40748 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229816AbhFSCr7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Jun 2021 21:33:39 -0400
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 15J1Uxin022987;
-        Sat, 19 Jun 2021 10:30:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 15J1Uxin022987
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1624066260;
-        bh=Cp7QD+bccHRZtNNHErN/HQu4GsD1ER9UhwYE+8TuDzY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BhBhMJxuK1Y7bX6GGH7ZmTdLRbhHCSQl9LuGXWMRCttYGnYfaL7Hliy8HrNR8AFUD
-         /MTtUC7vp8rsXNf5dSGK+IPNH5yBbrPTyaa9QbTlut7Q3vWUAOVOfwfWPzM7hbREc/
-         /T/7T9s5zT1Fj3/x/exR4M6dHtBS7cl23yqvLOdAZOuTmO2tvfUJ3+8EiorVvAQj9w
-         pJ+SrY4XvH1HxDFQhw2sTznQzeSDxePRIXfX9kyaDF4k+ev9JQFh/epL1Xr709+cv9
-         AlqJt7OM1SdAarQ4yiR4oR/t+Rix6ZChYfY4jIDmE42l1aq1n05MRmIQAJ1b3fSE6G
-         ZVcTFmyfVqUWg==
-X-Nifty-SrcIP: [209.85.215.177]
-Received: by mail-pg1-f177.google.com with SMTP id t17so9276795pga.5;
-        Fri, 18 Jun 2021 18:30:59 -0700 (PDT)
-X-Gm-Message-State: AOAM530WeOUZyDBlIJvoENu645Rfl92ihpSx+crqGgW6Xn/8KzCIypxT
-        6w8JXc3PWoOoPV8YGdOzFKNc3eKa4GnqhLQbOPA=
-X-Google-Smtp-Source: ABdhPJydj7xls9tK18jSNEBcihG9l/kZR7QQBjMJaWR1qcjQB5NHmrTTqMg41N0S8kL5gULPRk7rSrp96VSSn3G0szw=
-X-Received: by 2002:a63:d403:: with SMTP id a3mr12803014pgh.175.1624066258921;
- Fri, 18 Jun 2021 18:30:58 -0700 (PDT)
+        Fri, 18 Jun 2021 22:47:59 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0923DC061574
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 19:45:48 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id p13so9218536pfw.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Jun 2021 19:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zAYV7wMM7Ezv8dDkbAjr47uPXYKTsdhdBtQn9j9OFnQ=;
+        b=Q2OJ2V/f8FZEH317J3bz6jJZxIGjbRaNkKQIRx821VhRbFsIHrPq+Zay4VGnDoiem3
+         h5LzzP3EtTb95X3yOnHsnK0DXz+ppJPbmxOjwonoz6Vp5YBhvZqOmANEITrlb7cwBX66
+         OHR4Cr7BDqNiJ6hJrDmkmpm82iFxhnS7Uk1do=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zAYV7wMM7Ezv8dDkbAjr47uPXYKTsdhdBtQn9j9OFnQ=;
+        b=IwhCRiAiyi1Gbjjut/aXZJLceoIuO+1lthNqTsgH4QRafSsmwckEMQSpB7/nl7GPTg
+         4nVIMLCAca4mOdwTtZ6OxEl9M2eoXDr1RIXj3Xf32ULI8ilX5JY0fzY3cFTBRrQwPr7W
+         ttAj9914RzHbCmlqddwUUOB7uXcr/SOr7qKSAFgY5WpKRRETYI2fYGvORaeMKokjcCJV
+         BZIaRJ9I+ktzBG5HBmiwkAZ2EEQf4JLOMZfNJFn8SM5hHKTNadgzbrJLrNxTAx+LBbdr
+         Ptdg5oIqe9FTvMcE8tsqlJsTnvB1KTPvZJAZn//sEIATUx9HoNHJZfannvyoztOLGsJi
+         GxmA==
+X-Gm-Message-State: AOAM530mVWdqwyNe5bKDtcRVGJzXzuQFXoLdamM+/HNP4WRT9qU1eHHQ
+        OstwjjSHvgNTCp0DkpzvXaXJlQ==
+X-Google-Smtp-Source: ABdhPJweZiwRILILciRX6LD55JeoGO8LssAH/WdscRnLKM2PzFFoKdbgNhnxUUkHKzp2FHsJS7btNw==
+X-Received: by 2002:a62:6581:0:b029:2ef:bcb1:c406 with SMTP id z123-20020a6265810000b02902efbcb1c406mr8009133pfb.28.1624070747426;
+        Fri, 18 Jun 2021 19:45:47 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h21sm8559917pfv.190.2021.06.18.19.45.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jun 2021 19:45:46 -0700 (PDT)
+Date:   Fri, 18 Jun 2021 19:45:45 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        johannes.berg@intel.com, linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH 0/2] no_profile fn attr and Kconfig for GCOV+PGO
+Message-ID: <202106181945.AC10BF38ED@keescook>
+References: <20210618233023.1360185-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-References: <YMzSbDL+XvpLPaTb@google.com>
-In-Reply-To: <YMzSbDL+XvpLPaTb@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 19 Jun 2021 10:30:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARta+3nakY9hiDVqTjD4XFhw+eBmXPOZkHb96wR1f_+bg@mail.gmail.com>
-Message-ID: <CAK7LNARta+3nakY9hiDVqTjD4XFhw+eBmXPOZkHb96wR1f_+bg@mail.gmail.com>
-Subject: Re: Looking for help with Kconfig dependencies
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618233023.1360185-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 2:05 AM Matthias Kaehlcke <mka@chromium.org> wrote:
->
-> Hi,
->
-> I'm adding a new driver and have an issue with Kconfig dependencies
-> that I coulnd't sort out so far.
->
-> Patch https://lore.kernel.org/patchwork/patch/1444212/ adds the new
-> onboard_usb_hub driver which exports two functions,
-> onboard_hub_create_pdevs() and onboard_hub_destroy_pdevs(). It also
-> provides stubs for these functions which are used when the driver
-> is not selected (CONFIG_USB_ONBOARD_HUB=n).
->
-> The new exported functions are called by the xhci-plat driver
-> (https://lore.kernel.org/patchwork/patch/1444215/). Since xhci-plat
-> now depends on symbols from the onboard_hub_driver the following
-> dependency was added to its Kconfig entry:
->
->   config USB_XHCI_PLATFORM
->     tristate "Generic xHCI driver for a platform device"
->     select USB_XHCI_RCAR if ARCH_RENESAS
->  +  depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB
->
-> This generally seems to work, however when USB_XHCI_PLATFORM is
-> forced to be builtin by another driver that depends on it (e.g.
-> USB_DWC3) it is still possible to build the onboard_hub driver
-> as a module, which results in unresolved symbols:
->
-> aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
-> `xhci_plat_remove':
-> drivers/usb/host/xhci-plat.c:427: undefined reference to
-> `onboard_hub_destroy_pdevs'
-> drivers/usb/host/xhci-plat.c:427:(.text+0x82c): relocation truncated
-> to fit: R_AARCH64_CALL26 against undefined symbol
-> `onboard_hub_destroy_pdevs'
-> aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
-> `xhci_plat_probe':
-> drivers/usb/host/xhci-plat.c:379: undefined reference to
-> `onboard_hub_create_pdevs'
-> drivers/usb/host/xhci-plat.c:379:(.text+0x131c): relocation truncated
-> to fit: R_AARCH64_CALL26 against undefined symbol
-> `onboard_hub_create_pdevs'
->
-> Kconfig generates the following warning with this configuration:
->
-> WARNING: unmet direct dependencies detected for USB_XHCI_PLATFORM
->   Depends on [m]: USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && (USB_ONBOARD_HUB [=m] || !USB_ONBOARD_HUB [=m])
->   Selected by [y]:
->   - USB_DWC3 [=y] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
->   Selected by [m]:
->   - USB_CDNS_SUPPORT [=m] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
->   - USB_BRCMSTB [=m] && USB_SUPPORT [=y] && USB [=y] && (ARCH_BRCMSTB [=y] && PHY_BRCM_USB [=m] || COMPILE_TEST [=y]) && USB_XHCI_HCD [=y]
->   - USB_XHCI_MVEBU [=m] && USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && HAS_IOMEM [=y] && (ARCH_MVEBU [=y] || COMPILE_TEST [=y])
->
-> I read through kconfig-language.rst and experimented a fair bit,
-> but haven't found a working solution. Any advice would be
-> appreciated.
->
-> Thanks
->
-> Matthias
+On Fri, Jun 18, 2021 at 04:30:21PM -0700, Nick Desaulniers wrote:
+> When we say noinstr, we mean noinstr.  GCOV and PGO can both instrument
+> functions. Add a new function annotation __no_profile that expands to
+> __attribute__((__no_profile__)) and Kconfig value
+> CC_HAS_NO_PROFILE_FN_ATTR.
+> 
+> Base is
+> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=for-next/clang/pgo.
+> 
+> Nick Desaulniers (2):
+>   compiler_attributes.h: define __no_profile, add to noinstr
+>   Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
 
+Oh, awesome! Thanks for the fast work on this. If there are no objections,
+I'll apply this in front of the PGO series and put it in -next.
 
+-Kees
 
-This issue should be discussed in the USB ML,
-but probably 'depends on USB_XHCI_PLATFORM'
-should be used everywhere instead of
-'depends on USB_XHCI_PLATFORM'.
+> 
+>  include/linux/compiler_attributes.h | 12 ++++++++++++
+>  include/linux/compiler_types.h      |  2 +-
+>  init/Kconfig                        |  3 +++
+>  kernel/gcov/Kconfig                 |  1 +
+>  kernel/pgo/Kconfig                  |  3 ++-
+>  5 files changed, 19 insertions(+), 2 deletions(-)
+> 
+> 
+> base-commit: 4356bc4c0425c81e204f561acf4dd0095544a6cb
+> -- 
+> 2.32.0.288.g62a8d224e6-goog
+> 
 
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Kees Cook
