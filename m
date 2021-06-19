@@ -2,54 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC583AD9CE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 13:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9CF3AD9D4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jun 2021 13:32:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233669AbhFSL3B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Jun 2021 07:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41138 "EHLO
+        id S233756AbhFSLeb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Jun 2021 07:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbhFSL3A (ORCPT
+        with ESMTP id S233146AbhFSLeb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Jun 2021 07:29:00 -0400
+        Sat, 19 Jun 2021 07:34:31 -0400
 Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C35DC061574;
-        Sat, 19 Jun 2021 04:26:48 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id f70so17668132qke.13;
-        Sat, 19 Jun 2021 04:26:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69842C061574;
+        Sat, 19 Jun 2021 04:32:20 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id c138so17794661qkg.5;
+        Sat, 19 Jun 2021 04:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3qptZHIBpv3JxNQPkyiO+mSheyAcYqB/CsUvSm+UpOU=;
-        b=vdXQ0zFaCYeb3u6QxofEl6GX56wlrAOqgRXV8CZe9Vlc7Uevz6a5sP5aeuPNNrxx1j
-         /8iJsG8vNyasPhbG87LpsE5NTTvPhTAEgZGtLUruqLYIrPg+ZjibFeQUKZNubCHUpRoo
-         HtZqojcW3xs35EeNV9lFWLCgFJ2HngBTnMux0lsScchul7xMlpGLiKIUrAhzqd3KPrPv
-         emCjGqcHpuKkj9GOC9eeVzdr8bj8a312siQrobqErLBk8g7FGNchsLNwZJ4B7F0Vta+G
-         vcwJcnkVa0A0wQJXFWcZoo+Rpn0YAkfWlpvYq6veEgt1u6lg2Cp5x5hROb11Kj1eIHbL
-         d58w==
+        bh=wzF+HDIW4RpiFDwS3pehtK/Z2s3VtrcKXebmPCvAZ0Q=;
+        b=X+Qf5RWTBKQu6s7dtYculR2/zvfqf8gdMKqjVYzEv3qNetrKxMPAZvzz1cv4lqJJCZ
+         BrrhDIMj1wZnX/GbuH72DXqZH4gxo2hEmwxP9FXWh3fWaUR2BOkRNxB0vpdLjw/HVo95
+         dJPnzLlar08ywytPHAaNIBGbK56LyRTP1xkBdF3gdbQ0V/1IojPRvl6Rm80Ee4IEqPJV
+         l0Ldrs566oPH7TDjkfqgZ7pzyBXDroT3o5goUsH1lgBiK/2WWPFpdeOzG+YmgDi4HRov
+         ufMvi8cIShMHu3HgzKIU9+Vdu0Rd1+Zsv+fBgfiZ/XPBdcI+QUtLuzws+6HLXwOpEN33
+         WJ0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3qptZHIBpv3JxNQPkyiO+mSheyAcYqB/CsUvSm+UpOU=;
-        b=lC8LBk8PpKKw6vW3mDE/lFbyr3sq7ya/Hg+2YriiW3LdMplVMxUxrKydD1C1DUWOkc
-         JUcFMcUE+Ymk9yYwvBiuI/N+Dd0jXcEvMsRoJhhiTVEd6wBS7Ylu9tu7B6c81vKqdECS
-         bjSfRDSno9lhgcEp1gjr+gi0h4RQb/yAJDxYml3h6VGxlzyEz51HMsP+VYAsb8IGZIkg
-         vwaCI/ASHdsl+C8/hQV23Qa7HL+UBassWwI6t0Y8Z+9ml8aU8T4M+uFuUQv67SrVgEyn
-         /8Oxmz2F8i2JhPV/8wl0ODzN8RowEI9nnkl51PSmZvCGfoWopVEUp8PLjV7CVOQtK0Zf
-         vpDA==
-X-Gm-Message-State: AOAM531MxG7f6wqepoWGH+Rx6isf490chOyYwdljTuIRvdra0F9p2vFl
-        LxVWF+RWrUEM3jNXlH3lyLPTCOTcs40kPk3KvYk=
-X-Google-Smtp-Source: ABdhPJy1asqv8Q5Z5vk+ewOuWO+vnAY3L/cXdjdtq+Yq0qTpukFXoDsNrmSnALn1koXZNPc6uasYqmp5kayEy3tGsM4=
-X-Received: by 2002:a5b:892:: with SMTP id e18mr19183246ybq.22.1624102007702;
- Sat, 19 Jun 2021 04:26:47 -0700 (PDT)
+        bh=wzF+HDIW4RpiFDwS3pehtK/Z2s3VtrcKXebmPCvAZ0Q=;
+        b=jDuDNqsTt12tdy873VUmv8k8LBO7zNtHau86E2qkbO/8Cuo83kQpFvc6wSpSdbnTgh
+         SM4KBogxIbCgFULJ/Y3CJS4wyw5J01btkg6acesDY+yfI673ZtokYSYGGEgmgbsZZUcD
+         IH0M882gwDJNJ+eygpLUfAL6RHtFrVmH8Up5a0Gte26PkPkq1hf15G0MHuA2pQE76kTY
+         1MSyCk/5y5CbxHKRAroADIjN5LqTsYmin1uM+8JRGDCBoh2mwrgIGcXGXqGM/ZlV0g5e
+         0tU/k/Xx91zeS+nbUwr7ya0hY4hcAh50sDW68HgN8086oNiUPvE+9363roz3X1n/W+8r
+         Z90A==
+X-Gm-Message-State: AOAM533RIEq3oR9SdwXA3anNPu0oOpckOpSBqyxcUYuwV47Hp1UVj7ha
+        b5PPmU+HKrfCDVJqtJatUDZxAcluG3jIoJTFMWA=
+X-Google-Smtp-Source: ABdhPJx92e5rLjLDFjNc+QgHX4Z6IHN/Br95iCNXiblcUb6SA9kzIrWK8a3IFw+BgDRLkdt6KKpgOVMgSlR04EbJ/MA=
+X-Received: by 2002:a25:880f:: with SMTP id c15mr18259680ybl.247.1624102339591;
+ Sat, 19 Jun 2021 04:32:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210618233023.1360185-1-ndesaulniers@google.com> <20210618233023.1360185-2-ndesaulniers@google.com>
-In-Reply-To: <20210618233023.1360185-2-ndesaulniers@google.com>
+References: <20210618233023.1360185-1-ndesaulniers@google.com>
+ <20210618233023.1360185-2-ndesaulniers@google.com> <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
+In-Reply-To: <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 19 Jun 2021 13:26:37 +0200
-Message-ID: <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
+Date:   Sat, 19 Jun 2021 13:32:08 +0200
+Message-ID: <CANiq72nbbqeD2dv3z0y3rN-_kdnh=9-pD7oSyWUfaG8oJ2y_8A@mail.gmail.com>
 Subject: Re: [PATCH 1/2] compiler_attributes.h: define __no_profile, add to noinstr
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -80,20 +81,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 1:30 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Sat, Jun 19, 2021 at 1:26 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> +/*
-> + * Optional: only supported since clang >= 13
-> + *      gcc: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
-> + *    clang: https://clang.llvm.org/docs/AttributeReference.html#no_profile
-> + */
+> I am not sure if it is best or not to have the GCC link in order to be
+> consistent with the rest of the links (they are for the docs only). Do
+> we know if GCC going to implement it soon?
 
-I am not sure if it is best or not to have the GCC link in order to be
-consistent with the rest of the links (they are for the docs only). Do
-we know if GCC going to implement it soon?
+i.e. if GCC does not implement it yet we use elsewhere this kind of
+marker instead:
 
-Otherwise, it looks good to me.
+     * Optional: not supported by gcc
+
+The first of its kind, normally it is clang/icc there ;-)
+
+We could nevertheless have the link there, something like:
+
+    * Optional: not supported by GCC
+                https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
 
 Cheers,
 Miguel
