@@ -2,29 +2,28 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D6F3AF9A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jun 2021 01:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BBD3AF9AB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jun 2021 01:42:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbhFUXnz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Jun 2021 19:43:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39542 "EHLO mail.kernel.org"
+        id S231569AbhFUXo1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Jun 2021 19:44:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231486AbhFUXnz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Jun 2021 19:43:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D72A611BD;
-        Mon, 21 Jun 2021 23:41:38 +0000 (UTC)
+        id S231268AbhFUXo1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 21 Jun 2021 19:44:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EB77E611BD;
+        Mon, 21 Jun 2021 23:42:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624318900;
-        bh=Hjg6nyt/cyl6h5T5XaGtOqKiPNLoKh3rJA7tP4MqZ9w=;
+        s=k20201202; t=1624318932;
+        bh=DvDLPnl1T2QLDOKnX2hy+Vza+bRnQ7CiMwP0kyUwRkA=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=aCin44TsfCj0ZM9GJ2p+p2ho7J4cgUB0AXPwdCaviFwUaAxksUgWB9nLo1t2+AUSv
-         s+xZ8QzmPSlpYD8pe/640JZ0jAQx2v6SfM4ODzadsH+/oIkYBMteNr7srMAcA5G9qx
-         +HwegxokVeKexqN4SdgAuvnFaof/gD8yIpMq2Y2Jm9mujDNzlVSWDSG2bukB2B1g+W
-         N2TQtpLFKyPOwCS/RuLZ0h4wYho9edV77tNgAo+4GmJjz4uLcDdM3yppRb1ciqequ7
-         ezchoDrHbj3+xF/XET3SO5Q10ZrsBZsKv64CZbMH5xuWqzTlNNjxWv2ANprsI/p35m
-         eHtD02xOLM7yg==
-Subject: Re: [PATCH v2 1/3] compiler_attributes.h: define __no_profile, add to
- noinstr
+        b=e/XBiSb7nbvYw6tmWEfExCE2S4NXYz0QkQqOO91wmZOXqeyoLebODJvSnzdo39vbA
+         jE0i8gPiQL8omNOvog2a/xIkMZ7aG2X5EMY8JnHkBjW0kAIp1T7ZtMohnT+VH/k6OI
+         8v35NgOnTDWaN3PSLLLGVd/csN3MRV5BjtxxMO9g1KhrPI5uQVDhvmpE7vRTzhR13K
+         ISU6RIX9/sSloKt0j5/6RzbmMboGUtvtMfAF85E2dvzGkygkQYUVU4p2veIvjUnaF2
+         LDuB/b7YN1Lo6BSqKOGb1ebLu0fvdBkQiy8hptNrZk9erfG3FJNluUhzkgv+pJljQp
+         lfHFjU71LCNUQ==
+Subject: Re: [PATCH v2 2/3] compiler_attributes.h: cleanups for GCC 4.9+
 To:     Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
@@ -52,14 +51,14 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Miguel Ojeda <ojeda@kernel.org>
 References: <20210621231822.2848305-1-ndesaulniers@google.com>
- <20210621231822.2848305-2-ndesaulniers@google.com>
+ <20210621231822.2848305-3-ndesaulniers@google.com>
 From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <6ca2bf5a-f0c3-b972-2313-f09c39b67e3b@kernel.org>
-Date:   Mon, 21 Jun 2021 16:41:37 -0700
+Message-ID: <b8a97953-762f-e707-c1ba-4ea25e9ad259@kernel.org>
+Date:   Mon, 21 Jun 2021 16:42:09 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210621231822.2848305-2-ndesaulniers@google.com>
+In-Reply-To: <20210621231822.2848305-3-ndesaulniers@google.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -68,77 +67,44 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On 6/21/2021 4:18 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> noinstr implies that we would like the compiler to avoid instrumenting a
-> function.  Add support for the compiler attribute
-> no_profile_instrument_function to compiler_attributes.h, then add
-> __no_profile to the definition of noinstr.
+> Since
+> commit 6ec4476ac825 ("Raise gcc version requirement to 4.9")
+> we no longer support building the kernel with GCC 4.8; drop the
+> preprocess checks for __GNUC_MINOR__ version. It's implied that if
+> __GNUC_MAJOR__ is 4, then the only supported version of __GNUC_MINOR__
+> left is 9.
 > 
-> Link: https://lore.kernel.org/lkml/20210614162018.GD68749@worktop.programming.kicks-ass.net/
-> Link: https://reviews.llvm.org/D104257
-> Link: https://reviews.llvm.org/D104475
-> Link: https://reviews.llvm.org/D104658
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
-> Reviewed-by: Fangrui Song <maskray@google.com>
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
-> Changes V1 -> V2:
-> * s/no_profile/no_profile_instrument_function/
-> * fix trailing double underscore on GCC 4 define, as per Fangrui+Miguel.
-> * Pick up Fangrui + Miguel's reviewed-by tag.
-> * Add link to GCC's doc.
-> * Fix clang's doc format; will appear once clang-13 is released.
-> 
->   include/linux/compiler_attributes.h | 13 +++++++++++++
->   include/linux/compiler_types.h      |  2 +-
->   2 files changed, 14 insertions(+), 1 deletion(-)
+>   include/linux/compiler_attributes.h | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-> index c043b8d2b17b..225511b17223 100644
+> index 225511b17223..84b1c970acb3 100644
 > --- a/include/linux/compiler_attributes.h
 > +++ b/include/linux/compiler_attributes.h
-> @@ -33,6 +33,7 @@
+> @@ -27,7 +27,7 @@
+>    */
+>   #ifndef __has_attribute
+>   # define __has_attribute(x) __GCC4_has_attribute_##x
+> -# define __GCC4_has_attribute___assume_aligned__      (__GNUC_MINOR__ >= 9)
+> +# define __GCC4_has_attribute___assume_aligned__      1
+>   # define __GCC4_has_attribute___copy__                0
+>   # define __GCC4_has_attribute___designated_init__     0
 >   # define __GCC4_has_attribute___externally_visible__  1
->   # define __GCC4_has_attribute___no_caller_saved_registers__ 0
+> @@ -35,8 +35,8 @@
 >   # define __GCC4_has_attribute___noclone__             1
-> +# define __GCC4_has_attribute___no_profile_instrument_function__ 0
+>   # define __GCC4_has_attribute___no_profile_instrument_function__ 0
 >   # define __GCC4_has_attribute___nonstring__           0
->   # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
->   # define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
-> @@ -237,6 +238,18 @@
->   # define __nonstring
+> -# define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
+> -# define __GCC4_has_attribute___no_sanitize_undefined__ (__GNUC_MINOR__ >= 9)
+> +# define __GCC4_has_attribute___no_sanitize_address__ 1
+> +# define __GCC4_has_attribute___no_sanitize_undefined__ 1
+>   # define __GCC4_has_attribute___fallthrough__         0
 >   #endif
->   
-> +/*
-> + * Optional: only supported since GCC >= 7.1, clang >= 13.0.
-> + *
-> + *      gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-no_005fprofile_005finstrument_005ffunction-function-attribute
-> + *    clang: https://clang.llvm.org/docs/AttributeReference.html#no-profile-instrument-function
-> + */
-> +#if __has_attribute(__no_profile_instrument_function__)
-> +# define __no_profile                  __attribute__((__no_profile_instrument_function__))
-> +#else
-> +# define __no_profile
-> +#endif
-> +
->   /*
->    *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-noreturn-function-attribute
->    * clang: https://clang.llvm.org/docs/AttributeReference.html#noreturn
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index d29bda7f6ebd..d509169860f1 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -210,7 +210,7 @@ struct ftrace_likely_data {
->   /* Section for code which can't be instrumented at all */
->   #define noinstr								\
->   	noinline notrace __attribute((__section__(".noinstr.text")))	\
-> -	__no_kcsan __no_sanitize_address
-> +	__no_kcsan __no_sanitize_address __no_profile
->   
->   #endif /* __KERNEL__ */
 >   
 > 
