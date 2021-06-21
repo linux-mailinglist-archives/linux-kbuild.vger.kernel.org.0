@@ -2,115 +2,201 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 885953AF4E7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jun 2021 20:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D1A3AF4F8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jun 2021 20:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbhFUSX3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Jun 2021 14:23:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54834 "EHLO
+        id S231722AbhFUSY5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Jun 2021 14:24:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231838AbhFUSXV (ORCPT
+        with ESMTP id S232215AbhFUSYv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Jun 2021 14:23:21 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65EF7C0F26FA
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 11:11:00 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id x24so31657772lfr.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 11:11:00 -0700 (PDT)
+        Mon, 21 Jun 2021 14:24:51 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A89EC0617A6
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 11:22:18 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id m21so31710493lfg.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 11:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3c/Dj9Fc5BgdLF0O+HyOscCTfHQWUTCXKiHfvqmH+Xs=;
-        b=LVtCC8Uqq0BDy6lpRBXE9HmSawC4RvRPlernkLbJMgwCvUmYxrxEYR9ANOYv+bzCka
-         sLaMnxRAh8ObIy3XgWia/tzNHd6XG9Fq3w6/KMgBg4S+trxxvgc7+5LrC2wB3WDOprnc
-         tdAkrh4Sh1ba+x5BK1wouLDQXtq1USPm4i8BuhAX08yrSRcJLeKQSOrA9mFkckhIdofR
-         u42dYsiMJ0VfppUq1olij7Ubwi4sB7T3t6S4kuMBsEbBJdpSZ8PIoG1z1VsGMany983o
-         xI1+XlH/nPGpWJF4LU1i28gPkHKolp82YjOB0fswTNf54a2RsPuUQkETWfSoLkXXA5dO
-         Q6tg==
+        bh=IajW38MHwcZeFZ73RMsHWpIwYjHEkpzka+be7I9DYGw=;
+        b=NETQKlp2p/nx7Y4sEEKvaKEH1uY4lK4td2BanaBafpbIXQIoGCzZOVksCtCyBi0VP3
+         qRBlFwn+/Gx64DwKfV6NuuTCgy11IKhJtBRHJHw+NoWp0PJjx8aDjqdJFAwf9hft86AO
+         tM+eFryc9hg5P7s+JFPGb7KXNkWf2tAxPxGRd/m7XfVYQieeWwYduJvFlHV+Nw7tYrSK
+         TR7ASMVIAhHu/b18LiZkQowPpkyKElDbsSPdJWQAbQAz8k6TgY6ow6aUYfklevRk480m
+         IgM7lrbwBJYVeinVQVxmiqJNSdgdYBCq164ARz658xez/ZLzpWtYGOtahVCWU0BR2cPi
+         xw+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3c/Dj9Fc5BgdLF0O+HyOscCTfHQWUTCXKiHfvqmH+Xs=;
-        b=i6OP6UvC/No2xn5z2kgStZKo+nh9DcGsaCJ5WX6B846ZqF3yp7TZoRJllsmv0FoUnj
-         eGn/u4LXGBy/o6nPV/r1DtHquHKjt2j1tG/PBY0ieFY0ueV9alNVCT8oszSV426lTjuC
-         9xVTJuyxLAHJggNdFZkr+IoK8U5/xaaT9gGM8fMiAcKjwy6Kn+bDmth6IVVEtZ8D16oi
-         QQ+OUyOsC1yuwZjlU9sdwRFBTx8kXWlAmS84fFHGYLXfJ89Eyo0LgXBmnCXOWPWhxqdG
-         RupYCXenicQRCwQQHFr+ZULr8C74S4wL3e03/9G2enJSqaaR2XnDlaBqtQ5APNc9/ZWC
-         Zz+Q==
-X-Gm-Message-State: AOAM533dM4hhUZ6xecQ4iQWoF5Il1rrKzq84QAtebpiaWa7wPx5Lu4lb
-        4jgbcouw2EvqHnL/CkZ0fqnYaTcXjSDhhtM2Bu5Rzg==
-X-Google-Smtp-Source: ABdhPJw9xyLjqcMGtf1syN3OkvZTu30GhQYhz168mpGIwJCCD5sulB0prikKeQAZRs1lp6b2Hz3+9ry1G7AHm0pycs8=
-X-Received: by 2002:ac2:4c83:: with SMTP id d3mr15097330lfl.543.1624299058430;
- Mon, 21 Jun 2021 11:10:58 -0700 (PDT)
+        bh=IajW38MHwcZeFZ73RMsHWpIwYjHEkpzka+be7I9DYGw=;
+        b=DFcLwxkg7pME2SFMqaPaHaOEGZnk/fxTHuu5d0q0mFu1904K/zduhb4i86GVxRBdWW
+         AcbksjzNJkmJbMvz+94d2MIgIlEPr28JYi82k9h/An2RvaiqrxUgg6pwDEDDzSoqvkFb
+         o6R7om5ZkpO3XXEFRJeQ40/JgIjQ/uSMeQPUs/0M0PxLCU7vIPE1n3SMyWGtE6T+L2/9
+         oRCyuohcj0BGzFfvzXCao6ZWGXX/FjaE3ZKYg+h0vWeWSlYEECgGVL4OwXuLe8KSOZoc
+         ckHUnLAUIgN8WqAZmsXrYkR/h7KTgLVxUG73agScx70fsrat6hea5MMjqZ+6dkXwhEOY
+         9uGA==
+X-Gm-Message-State: AOAM533ud/XLfs7ZomFHbuvfdiKcp3MPm0AuMyubG0YcNv7PLszVznBw
+        yxBag/EdrRoEvDRGsmq4iJk2yy9oCQrzrZm2z4k5hA==
+X-Google-Smtp-Source: ABdhPJwAM5RogoKB8aKV80+ZqYeBJUe7aVtjqMzminyyF7Q8neU/nFcivKvW7w+tSb+5Cahp27NLgUCLAWLfrcrGZCI=
+X-Received: by 2002:ac2:4438:: with SMTP id w24mr3339709lfl.73.1624299736217;
+ Mon, 21 Jun 2021 11:22:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210618233023.1360185-1-ndesaulniers@google.com>
- <20210618233023.1360185-2-ndesaulniers@google.com> <CANiq72kjyiAQn2+ijZKFo7SY3z+dCV6fGXYP1O_Mq7Ui3EqSzQ@mail.gmail.com>
- <CANiq72nbbqeD2dv3z0y3rN-_kdnh=9-pD7oSyWUfaG8oJ2y_8A@mail.gmail.com>
-In-Reply-To: <CANiq72nbbqeD2dv3z0y3rN-_kdnh=9-pD7oSyWUfaG8oJ2y_8A@mail.gmail.com>
+ <20210618233023.1360185-3-ndesaulniers@google.com> <CANpmjNNK-iYXucjz7Degh1kJPF_Z_=8+2vNLtUW17x0UnfgtPg@mail.gmail.com>
+In-Reply-To: <CANpmjNNK-iYXucjz7Degh1kJPF_Z_=8+2vNLtUW17x0UnfgtPg@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 21 Jun 2021 11:10:48 -0700
-Message-ID: <CAKwvOd=B6LV9rZmtPacfz_F10jj1wrovoGu8yvdOqKZ69-T6mQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] compiler_attributes.h: define __no_profile, add to noinstr
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 21 Jun 2021 11:22:05 -0700
+Message-ID: <CAKwvOdmxGt6nAj+dDZEPdQtXNbYb8N6y3XwoCvCD+Qazskh7zw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Kconfig: CC_HAS_NO_PROFILE_FN_ATTR, depend on for
+ GCOV and PGO
+To:     Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>
 Cc:     Kees Cook <keescook@chromium.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Bill Wendling <wcw@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Arnd Bergmann <arnd@arndb.de>,
         Andrew Morton <akpm@linux-foundation.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Borislav Petkov <bp@alien8.de>, Martin Liska <mliska@suse.cz>,
-        Marco Elver <elver@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Fangrui Song <maskray@google.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Dmitry Vyukov <dvyukov@google.com>,
         Johannes Berg <johannes.berg@intel.com>,
-        linux-toolchains@vger.kernel.org
+        linux-toolchains@vger.kernel.org, Marco Elver <elver@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 19, 2021 at 4:32 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Fri, Jun 18, 2021 at 11:23 PM Marco Elver <elver@google.com> wrote:
 >
-> On Sat, Jun 19, 2021 at 1:26 PM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
+> On Sat, 19 Jun 2021 at 01:30, Nick Desaulniers <ndesaulniers@google.com> wrote:
 > >
-> > I am not sure if it is best or not to have the GCC link in order to be
-> > consistent with the rest of the links (they are for the docs only). Do
-> > we know if GCC going to implement it soon?
+> > We don't want compiler instrumentation to touch noinstr functions, which
+> > are annotated with the no_profile function attribute. Add a Kconfig test
+> > for this and make PGO and GCOV depend on it.
+> >
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Peter Oberparleiter <oberpar@linux.ibm.com>
+> > Link: https://lore.kernel.org/lkml/YMTn9yjuemKFLbws@hirez.programming.kicks-ass.net/
+> > Link: https://lore.kernel.org/lkml/YMcssV%2Fn5IBGv4f0@hirez.programming.kicks-ass.net/
+> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > ---
+> >  init/Kconfig        | 3 +++
+> >  kernel/gcov/Kconfig | 1 +
+> >  kernel/pgo/Kconfig  | 3 ++-
+> >  3 files changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index 1ea12c64e4c9..540f862b40c6 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -83,6 +83,9 @@ config TOOLS_SUPPORT_RELR
+> >  config CC_HAS_ASM_INLINE
+> >         def_bool $(success,echo 'void foo(void) { asm inline (""); }' | $(CC) -x c - -c -o /dev/null)
+> >
+> > +config CC_HAS_NO_PROFILE_FN_ATTR
+> > +       def_bool $(success,echo '__attribute__((no_profile)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
+> > +
+> >  config CONSTRUCTORS
+> >         bool
+> >
+> > diff --git a/kernel/gcov/Kconfig b/kernel/gcov/Kconfig
+> > index 58f87a3092f3..19facd4289cd 100644
+> > --- a/kernel/gcov/Kconfig
+> > +++ b/kernel/gcov/Kconfig
+> > @@ -5,6 +5,7 @@ config GCOV_KERNEL
+> >         bool "Enable gcov-based kernel profiling"
+> >         depends on DEBUG_FS
+> >         depends on !CC_IS_CLANG || CLANG_VERSION >= 110000
+> > +       depends on !X86 || (X86 && CC_HAS_NO_PROFILE_FN_ATTR)
 >
-> i.e. if GCC does not implement it yet we use elsewhere this kind of
-> marker instead:
+> [+Cc Mark]
 >
->      * Optional: not supported by gcc
->
-> The first of its kind, normally it is clang/icc there ;-)
+> arm64 is also starting to rely on noinstr working properly.
 
-:^) GCC does have an attribute since GCC 7.1 for this.
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223#c11
-I'm moving Clang over to use that in
-https://reviews.llvm.org/D104658
-Once that lands, I'll send a v2 (without carrying any reviewed by tags).
+Sure,
+Will, Catalin, other arm64 folks:
+Any thoughts on requiring GCC 7.1+/Clang 13.0+ for GCOV support?  That
+way we can better guarantee that GCOV (and eventually, PGO) don't
+touch noinstr functions?
+
+If that's ok, I'll add modify the above like:
+
++ depends on !ARM64 || (ARM64 && CC_HAS_NO_PROFILE_FN_ATTR)
+
+to the above hunk in v2.  Oh, looks like arch/s390 also uses noinstr.
+Same question applies then:
+
++ depends on !S390 || (S390 && CC_HAS_NO_PROFILE_FN_ATTR)
+
+Or, we could just do
+
++ depends on CC_HAS_NO_PROFILE_FN_ATTR
+
+Though that will penalize architectures not using noinstr, that still
+would like to use GCOV with versions of GCC older than 7.1.  Perhaps
+there are no such such users, or they should consider upgrading their
+tools to we can stick with the simpler Kconfig? Thoughts?
 
 >
-> We could nevertheless have the link there, something like:
+> This should probably be a 'select ARCH_HAS_GCOV_PROFILE_ALL if
+> CC_HAS_NO_PROFILE_FN_ATTR' in the relevant arch/../Kconfig.
 >
->     * Optional: not supported by GCC
->                 https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80223
+> Alternatively, using:
+> https://lkml.kernel.org/r/YMcssV/n5IBGv4f0@hirez.programming.kicks-ass.net
+>
+> But I'd probably not overcomplicate things at this point and just use
+> ARCH_HAS_GCOV_PROFILE_ALL, because GCOV seems to be a) rarely used,
+> and b) if someone decides to selectively instrument stuff like entry
+> code, we can just say it's user error.
+>
+>
+> >         select CONSTRUCTORS
+> >         default n
+> >         help
+> > diff --git a/kernel/pgo/Kconfig b/kernel/pgo/Kconfig
+> > index d2053df1111c..26f75ac4c6c1 100644
+> > --- a/kernel/pgo/Kconfig
+> > +++ b/kernel/pgo/Kconfig
+> > @@ -8,7 +8,8 @@ config PGO_CLANG
+> >         bool "Enable clang's PGO-based kernel profiling"
+> >         depends on DEBUG_FS
+> >         depends on ARCH_SUPPORTS_PGO_CLANG
+> > -       depends on CC_IS_CLANG && CLANG_VERSION >= 120000
+> > +       depends on CC_IS_CLANG
+> > +       depends on CC_HAS_NO_PROFILE_FN_ATTR
+> >         help
+> >           This option enables clang's PGO (Profile Guided Optimization) based
+> >           code profiling to better optimize the kernel.
+> > --
+> > 2.32.0.288.g62a8d224e6-goog
+> >
+
+
 
 -- 
 Thanks,
