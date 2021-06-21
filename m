@@ -2,111 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FDCB3AE858
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jun 2021 13:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 447E13AEBD5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jun 2021 16:55:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229727AbhFULuJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Jun 2021 07:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49798 "EHLO
+        id S229747AbhFUO5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Jun 2021 10:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbhFULuI (ORCPT
+        with ESMTP id S230061AbhFUO5s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Jun 2021 07:50:08 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A32C061574;
-        Mon, 21 Jun 2021 04:47:54 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id u11so19566038oiv.1;
-        Mon, 21 Jun 2021 04:47:54 -0700 (PDT)
+        Mon, 21 Jun 2021 10:57:48 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754E5C061574
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 07:55:33 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id h4so2841549pgp.5
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jun 2021 07:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=sTLds6k8hTeNmy8LAUsRkWw0sTWUtxsqEbLIRxEoF04=;
-        b=AVC5IPi5K8xUAsvToWKDgk11IDnAPVccYVBFUbMRed8RYy3zoMEMs26aiRw0EZlz94
-         dIsUm3YXjQkYa4D48HUyJlkinx4gToMjgp7BNT1miCCeaEZegkXrpyYFMMBmSI1uTQSr
-         OFezb9397FptEX+3dDvnS2MDDkmG0wqNpUx9DkITTLxaWBYZztrwQ7fqg8UWo+0meNGo
-         J7jjZiqzoIRiN4uDtcm4uwxGqWuR0HuRm/Q8wibZ2itqgTyk3WYt2jNzcR2ecNxqoip8
-         PFxDHIG9WApsNcjYXrXWrsSzoNCJyMi9flTHI9apMqph1uU4PjItgwPLZvqIhHpRc5N4
-         NgTw==
+        bh=YKWX9E78t5VwiKzBY9j3I258nFLcqGeYwXCUvNxpHeY=;
+        b=NNtwhS+qRYpytkcyBCNgt1UcEVyjek7CJcDS70ngdaOxQCQZYiARvL2e+MfvoluGGO
+         zsg2Jnufj4cxJ6nbEz06tmc5TppuVBOnAXhqKA5Yp4ObhepOEEBDEML1wdXNkA98SEmn
+         Bw3jYtj8nxec7iq+S0kz63VqyxO/odwOLup6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=sTLds6k8hTeNmy8LAUsRkWw0sTWUtxsqEbLIRxEoF04=;
-        b=pDrgdt3YJBumnbDZalJDghN333KZ3ugKdMJ+HC2BuLDNwwxiXp4bRwwCyrh20OxSa9
-         a83W9eHGMkZYVAZ8NQc//l7pVLRf9uBOm2emfzsYTCyxI20LazpgdxlRTdVvDPCptLI4
-         HRkg16RhtpXxorTWbaglND9cpHIyIMxmCHHZRdzZXnhQrLPi2JBGIWOfNWSiIsjligSD
-         Xuf2ZixCg+H2dOnwNeHv1INYzFU9ZZ602/8WhQx3JUY5Was+ufKcOXRTwq/RsdC6xuXa
-         CYxU7/7kcz/jntv7EebhN79tPuLwyK7JOvjwtj7rleEWoRzgEkrhtD2O6+uJ4PEByt1+
-         4FRA==
-X-Gm-Message-State: AOAM533w7EdZ1XZvbj+aZ2bmPzLQ4p6C6uLZxpWKhBK3emOtg6WDElc7
-        Ze/CEHoMZocmRN5gLubiqDw=
-X-Google-Smtp-Source: ABdhPJymnCOHwsDHJB2uX5QOQRgQtnb2inCmaJ7ZxpaGL/krZBGf5/nMdqagr0un9AP49OgIkzzu5w==
-X-Received: by 2002:a05:6808:1415:: with SMTP id w21mr16583879oiv.150.1624276074194;
-        Mon, 21 Jun 2021 04:47:54 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p17sm3903705otp.73.2021.06.21.04.47.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 04:47:53 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 21 Jun 2021 04:47:52 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Arnd Bergmann <arnd@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YKWX9E78t5VwiKzBY9j3I258nFLcqGeYwXCUvNxpHeY=;
+        b=IuUF2yy2F4tjwESnnmHqgxtStQpeO++Y0J+fzkVAF5CNQsd6f8Y3JLM5K2Rf2xfeAY
+         McSUqBQcm0uSmZQvRzNcOwurGTun7Sn/897apUNjGhydMUSPUm5TCYc+xiMqQkGTBZGo
+         ePwGWyV3D0Kyq51O283PJiyRFLyZZ23Wvp79NcO+ojwZHFp5Bum+iFnkKln/Cxy+rLuk
+         PtF3owEUamQPJ46F1A4tH+Mi+OLLtzOZxypd3apchhkbZ3wsQMtkOA7OQ2EKcUiZ83IC
+         FB09s0oPUxdZRElfbq0DCS+uyUryHRDRa2gXUJ5dqX/cpbbuazmvJaeEUv4aV8Td9Max
+         lmNA==
+X-Gm-Message-State: AOAM5310fT9OIIQcRNrxDcHRrEDUd+1qQk/ziXyu5W0VvgeHa6gFKVfx
+        pNQlYQ0nA5IW7Kgwg+aZUE+SPUXNDymTNg==
+X-Google-Smtp-Source: ABdhPJxew9RkUBWkAYt8nUQOG2CbN+kPAKkNCVPsFTsK5Bt9XKTwv7gz2khj/vY5ViqRH4xREtvJTg==
+X-Received: by 2002:a63:4b52:: with SMTP id k18mr24663845pgl.190.1624287332943;
+        Mon, 21 Jun 2021 07:55:32 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:9f0f:4fd2:adeb:6f55])
+        by smtp.gmail.com with UTF8SMTPSA id u1sm15418681pfu.160.2021.06.21.07.55.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jun 2021 07:55:32 -0700 (PDT)
+Date:   Mon, 21 Jun 2021 07:55:30 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        David Brazdil <dbrazdil@google.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Mikhail Petrov <Mikhail.Petrov@mir.dev>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Marty Faltesek <mfaltesek@google.com>
-Subject: Re: [PATCH] kallsyms: fix nonconverging kallsyms table with lld
-Message-ID: <20210621114752.GA116119@roeck-us.net>
-References: <20210204152957.1288448-1-arnd@kernel.org>
- <20210609110531.GA1528247@roeck-us.net>
- <CAK8P3a2cVpJf+r2b-8YCbknOeOA4w=bY8njr-+vmzbmm8AAC3Q@mail.gmail.com>
- <20210609151608.GA3389541@roeck-us.net>
- <20210609191553.GA2535199@roeck-us.net>
- <CAK8P3a1kgc6+fSHr7ddMRHxh+znW6jL2ZSo=JLWa-Uuzw7UZ-w@mail.gmail.com>
- <20210610120531.GA711216@roeck-us.net>
- <CAK8P3a2LTXme3pa-es=7s7aHX2EvC+2Dxegs=reuJrjeS4sygg@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: Looking for help with Kconfig dependencies
+Message-ID: <YNCoYnurpk64+jlF@google.com>
+References: <YMzSbDL+XvpLPaTb@google.com>
+ <CAK7LNARta+3nakY9hiDVqTjD4XFhw+eBmXPOZkHb96wR1f_+bg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a2LTXme3pa-es=7s7aHX2EvC+2Dxegs=reuJrjeS4sygg@mail.gmail.com>
+In-Reply-To: <CAK7LNARta+3nakY9hiDVqTjD4XFhw+eBmXPOZkHb96wR1f_+bg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 02:26:50PM +0200, Arnd Bergmann wrote:
-> On Thu, Jun 10, 2021 at 2:05 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > On Wed, Jun 09, 2021 at 10:30:23PM +0200, Arnd Bergmann wrote:
-> > > > I thought I'd see the added symbols, but it looks like the only difference
-> > > > between the two files is the addresses.
-> > > >
-> > > > What am I missing ?
-> > >
-> > > I probably misremembered the part about 'objdump --syms' and there was
-> > > something more to it.
-> > >
-> > > Maybe this was the last version before converging? It looks like the '<' version
-> > > has one extra symbol ompared to the '>' version. The diff has no context, but I
+On Sat, Jun 19, 2021 at 10:30:22AM +0900, Masahiro Yamada wrote:
+> On Sat, Jun 19, 2021 at 2:05 AM Matthias Kaehlcke <mka@chromium.org> wrote:
 > >
-> > It is the difference between step 1 and 2. Why would diff on objdump not
-> > show the additional symbol ? Is it possible that the symbol is not added
-> > to the object file ?
+> > Hi,
+> >
+> > I'm adding a new driver and have an issue with Kconfig dependencies
+> > that I coulnd't sort out so far.
+> >
+> > Patch https://lore.kernel.org/patchwork/patch/1444212/ adds the new
+> > onboard_usb_hub driver which exports two functions,
+> > onboard_hub_create_pdevs() and onboard_hub_destroy_pdevs(). It also
+> > provides stubs for these functions which are used when the driver
+> > is not selected (CONFIG_USB_ONBOARD_HUB=n).
+> >
+> > The new exported functions are called by the xhci-plat driver
+> > (https://lore.kernel.org/patchwork/patch/1444215/). Since xhci-plat
+> > now depends on symbols from the onboard_hub_driver the following
+> > dependency was added to its Kconfig entry:
+> >
+> >   config USB_XHCI_PLATFORM
+> >     tristate "Generic xHCI driver for a platform device"
+> >     select USB_XHCI_RCAR if ARCH_RENESAS
+> >  +  depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB
+> >
+> > This generally seems to work, however when USB_XHCI_PLATFORM is
+> > forced to be builtin by another driver that depends on it (e.g.
+> > USB_DWC3) it is still possible to build the onboard_hub driver
+> > as a module, which results in unresolved symbols:
+> >
+> > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
+> > `xhci_plat_remove':
+> > drivers/usb/host/xhci-plat.c:427: undefined reference to
+> > `onboard_hub_destroy_pdevs'
+> > drivers/usb/host/xhci-plat.c:427:(.text+0x82c): relocation truncated
+> > to fit: R_AARCH64_CALL26 against undefined symbol
+> > `onboard_hub_destroy_pdevs'
+> > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
+> > `xhci_plat_probe':
+> > drivers/usb/host/xhci-plat.c:379: undefined reference to
+> > `onboard_hub_create_pdevs'
+> > drivers/usb/host/xhci-plat.c:379:(.text+0x131c): relocation truncated
+> > to fit: R_AARCH64_CALL26 against undefined symbol
+> > `onboard_hub_create_pdevs'
+> >
+> > Kconfig generates the following warning with this configuration:
+> >
+> > WARNING: unmet direct dependencies detected for USB_XHCI_PLATFORM
+> >   Depends on [m]: USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && (USB_ONBOARD_HUB [=m] || !USB_ONBOARD_HUB [=m])
+> >   Selected by [y]:
+> >   - USB_DWC3 [=y] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
+> >   Selected by [m]:
+> >   - USB_CDNS_SUPPORT [=m] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
+> >   - USB_BRCMSTB [=m] && USB_SUPPORT [=y] && USB [=y] && (ARCH_BRCMSTB [=y] && PHY_BRCM_USB [=m] || COMPILE_TEST [=y]) && USB_XHCI_HCD [=y]
+> >   - USB_XHCI_MVEBU [=m] && USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && HAS_IOMEM [=y] && (ARCH_MVEBU [=y] || COMPILE_TEST [=y])
+> >
+> > I read through kconfig-language.rst and experimented a fair bit,
+> > but haven't found a working solution. Any advice would be
+> > appreciated.
+> >
+> > Thanks
+> >
+> > Matthias
 > 
-> Note sure. The symbol must be in the object file, but perhaps the
-> 'objdump --syms' output skips a different set of symbols compared
-> to the list that is used as input for kallsyms, which comes from '${NM}'.
 > 
-> Comparing the nm output might be another thing to try.
 > 
-Just following up on this: As Murphy would have told us, the problem
-disappeared while trying to track it down. We'll add some instrumentation
-into the ChromeOS kernel build to get data once/if/when it shows up again.
-When that happens, we'll try to come up with a patch to show the symbol
-file differences in the kernel build and submit it upstream.
+> This issue should be discussed in the USB ML,
 
-Thanks,
-Guenter
+That's where it was initially brought up, but it didn't get the attention
+of anyone in the position to give advice. Since the issue is more about
+kbuild dependencies than USB specifically I brought it up here. The driver
+already landed in the USB tree but was reverted due to this issue, I'm
+stuck on this problem and really don't want the driver to die on the
+finish line.
+
+A workaround could be to make the driver 'bool' rather than 'tristate',
+but I'm not sure if that would be acceptable.
+
+> but probably 'depends on USB_XHCI_PLATFORM' should be used everywhere instead of
+> 'depends on USB_XHCI_PLATFORM'.
+
+Did you mean 'select USB_XHCI_PLATFORM' rather than 'depends on
+USB_XHCI_PLATFORM'? In general that sounds reasonable, since the drivers don't
+actually depend on USB_XHCI_PLATFORM from a build perspective, and it's what
+some drivers actually do. However it doesn't fix the problem, apparently a
+'select X' from CONFIG_Y still results in CONFIG_X being 'y' if CONFIG_Y is
+'y' (see the USB_DWC3 case above).
