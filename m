@@ -2,80 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36ED63B0AEC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jun 2021 18:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0453B0CB7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jun 2021 20:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbhFVQ67 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Jun 2021 12:58:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34758 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230076AbhFVQ67 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Jun 2021 12:58:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8197D61353;
-        Tue, 22 Jun 2021 16:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624381003;
-        bh=dHo7p4pFLbwF2dP3g+Avw3Zi/j24BOyKxt9PufO3Kt4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YrGVdZN/qOXPhZVKacZef4rWUzGqDWEgaqTkbLs8Mkq4Kwrdlt7eE4ObHXwZ+alPV
-         1q15Xs1rl6oLeRc3nkV3U98eNJLCHY4Am3DL/Wp+pK+qrYXzFIW+vNx2oHsrShMQVU
-         0b6OoaGngQiQyQQKVBz1tlM4gXca3Kuhq8cl3yukiYRV+29ugNARQNK8hyHw5V6meX
-         1PbUfHTFWKX4KMNzMWBbyn45i3aVgR9pDwW6PJ2gkCg+np7KbroSmY3stUD3K1nyTI
-         tJOAWyqR2+kR15N37wUirENL+OPD+brDMYUGXMz8eWnPYeNGJ+F8xRAfL8E0kXADvt
-         YVdTI+KU4q4LA==
-Date:   Tue, 22 Jun 2021 17:56:19 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] kbuild: modpost: Explicitly warn about unprototyped
- symbols
-Message-ID: <20210622165619.GH4574@sirena.org.uk>
-References: <20210607140206.38131-1-broonie@kernel.org>
- <CAK7LNAT7cy8Kn1w2ceRdH_O4P8PMut4Bivcyas88gVa+wu7HGA@mail.gmail.com>
+        id S232418AbhFVSV2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Jun 2021 14:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42486 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231579AbhFVSV2 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 22 Jun 2021 14:21:28 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08920C061574
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 11:19:11 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id t32so238183pfg.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 11:19:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vHkhwZ3qyE8u/Wp9tD1mKmbxO9a75mKPe922mGmNuX0=;
+        b=G3jEIXi56zPU55St8PRRGBMvj09eVkzxvRA4j3a1Za4m32F8oowfljy+MLrjkKMMOY
+         gqCyhY+LaI3GsChNsKPysbVlP3uhepiq30BvlWZBsdYL/ga6P7P2Ql75RzMmVgX95CO5
+         C8o41QTJPpFtZIvtVtKZ99d5hUQlvpZ6nyYkI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vHkhwZ3qyE8u/Wp9tD1mKmbxO9a75mKPe922mGmNuX0=;
+        b=cYm/kXuQTUivI8XBU4wLw9HLIgE4vkD7NVlnlZzniYuCFvbZue5KE/Ta0NKbv4xxB+
+         fykWFT72/zIzUzYs/bzgbFgLyuZBN1XxIN2QDPZMzZTxu93fQo7t0+Q8EYEn68z/BmLm
+         NkM3W5mvaU5wkEMKqUHhCqpX3mhq5PipB2+32G+5yJulmYjxIoFNziEYTAIL1U47ol+l
+         BS10pGuPsu++lme5thhMBeUNIr9P5v2tBKfR0zq3Qyb3qYh3h6PEalH1C/qXsao/Jd5c
+         xXvM7NjpAVMzUKy02mV7/MtAOpV8KIQ2P/A8kvWd8RVsffxptM14bD8ZAMkfeuJxcy9R
+         jL2g==
+X-Gm-Message-State: AOAM531QEycYBAXSbbN2diXTYIRrD6Id/hrw4eIiRH1K1OdssAZAev5I
+        A4Iy6hNZAwPtwgH1AIEg4gyN+g==
+X-Google-Smtp-Source: ABdhPJzRGvSboU8eph/ltxaJQHvbwX778zfYgQtOZGbY2hs/9WNU7B/bJjJmayoVyP+gq+Yk/M1xDA==
+X-Received: by 2002:a63:a51e:: with SMTP id n30mr24200pgf.104.1624385950559;
+        Tue, 22 Jun 2021 11:19:10 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w7sm2921928pjy.11.2021.06.22.11.19.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 11:19:09 -0700 (PDT)
+Date:   Tue, 22 Jun 2021 11:19:08 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Bill Wendling <wcw@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Martin Liska <mliska@suse.cz>, Marco Elver <elver@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Fangrui Song <maskray@google.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        johannes.berg@intel.com, linux-toolchains@vger.kernel.org,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
+Message-ID: <202106221118.34BE990@keescook>
+References: <20210621231822.2848305-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="aF3LVLvitz/VQU3c"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAT7cy8Kn1w2ceRdH_O4P8PMut4Bivcyas88gVa+wu7HGA@mail.gmail.com>
-X-Cookie: fortune: not found
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Mon, Jun 21, 2021 at 04:18:19PM -0700, Nick Desaulniers wrote:
+> Add a new function annotation __no_profile that expands to
+> __attribute__((__no_profile_instrument_function__)) and Kconfig values
+> CC_HAS_NO_PROFILE_FN_ATTR and ARCH_WANTS_NO_INSTR. Make GCOV and PGO
+> depend on either !ARCH_WANTS_NO_INSTR or CC_HAS_NO_PROFILE_FN_ATTR.
 
---aF3LVLvitz/VQU3c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Awesome; thanks everyone! I'm doing a Clang rebuild now, and will do
+kernel testing and push this to my for-next/clang/features tree shortly.
 
-On Thu, Jun 17, 2021 at 10:05:44AM +0900, Masahiro Yamada wrote:
-> On Mon, Jun 7, 2021 at 11:02 PM Mark Brown <broonie@kernel.org> wrote:
-
-> > One common cause of modpost version generation failures is a failure to
-> > prototype exported assembly functions - the tooling requires this for
-> > exported functions even if they are not and should not be called from C
-
-> Applied to linux-kbuild. Thanks.
-
-This doesn't seem to be showing up in -next, was there some issue?
-Looks like the kbuild tree that -next is picking up wasn't updated since
-1st June.
-
---aF3LVLvitz/VQU3c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDSFjIACgkQJNaLcl1U
-h9CpGQf8Cgrv/jMY92zReOi6c/lGLCLPUpROphTq82PEtBA16etJo6BUUQqKDV7z
-AiRcJ50oi9d7Mn1EXNFUefdDmVALq+ZF2kSSpt35RblxheXSfBRNRwjaMm5jRI3+
-9ys0DLeKrAbX2zRL3MP1bx99TAhqHf31fwtbqLcqOC5Drll4ebZjcHqDFY+6KX2p
-dZpkujqsWdfNlV2AQSsPNGYTrq0X/OQ9KFzRO10e59WkW+SLj8CyUUMxgUIIlFx2
-asmiO9+0fK4nL/tVEUPhlRqZK5JnmK7q9BR5/zQDN0z4cWVg+SBJnqgZ4r6jrIfW
-SV4cNLEHib9s1lWqZegpFJhZQlcxlA==
-=oj5e
------END PGP SIGNATURE-----
-
---aF3LVLvitz/VQU3c--
+-- 
+Kees Cook
