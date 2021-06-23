@@ -2,117 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3573B13D8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jun 2021 08:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D893B1658
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jun 2021 10:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbhFWGUN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Jun 2021 02:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbhFWGUM (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Jun 2021 02:20:12 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8893FC061756
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id k5so912703pjj.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
-        b=IfQNjiTjlHeOtyJvGTlaSnVIszGJHPIXd2ZLetG7fRg3/1qxDfxJBGaFvglBkjs0A9
-         aOMIVfHWFPggoGKFJebTQaAcngMdomXFzJAZ41RUF+nNb5iUr+j1EYwDMOdnmcyBzx+S
-         UXKJ+LYCQxpE3JB9b/Xuh6JN1PZmT/I96wE8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
-        b=tUs0NNHhEikbcb4XU8EnQm2sk5pBIWx2HbiNLs6anJ8woIiONo512YhA0le1thTNXX
-         eHQX07P7JIIbgN8HzwDH2340Pklji3bTw29J7dZ5NNSvh+fmPUTZEukKT85yvHFTsFJk
-         cKwQ35OpsWNLH0+ipjBqxiWFjfmPcQFElKbl8gQtwO2DHs0l0eQUuFlKcRaCz9cv/QLS
-         mAnS5wxa+vbZ+UbP44k4h5X4XiSL+LY3uqpLWncNMl5e9xALT0houI1ETQaYba9/TBnS
-         QKcosuMyJlXRjXUeOoK3IJ31bST0zCLcqOcqgcf9L7s8a9rE84dNnQAikbObgT1lJXw2
-         YfmA==
-X-Gm-Message-State: AOAM532bxhfaEBTfVO+6ukx22qvuU8PobKLKxusxeQF73Mwl65RSy3Aa
-        HXiN10rll/eAivOHFuLpKsTL+Q==
-X-Google-Smtp-Source: ABdhPJzn0CH+45cTEhcoIwl87qkwPrIemELQImLMLCSKtRYhh9WOlPotlexcZ8zGNKPJxyuXXn3TWw==
-X-Received: by 2002:a17:90b:2241:: with SMTP id hk1mr7714688pjb.97.1624429074073;
-        Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z18sm1113249pfe.214.2021.06.22.23.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 23:17:53 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-arm-kernel@lists.infradead.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
+        id S230114AbhFWJA3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Jun 2021 05:00:29 -0400
+Received: from mga17.intel.com ([192.55.52.151]:61247 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229958AbhFWJA3 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 23 Jun 2021 05:00:29 -0400
+IronPort-SDR: TUw5gg+vKhSsUu93FUXa2x07MPAfT8An3+7REa/iUSVCSfh/o+sh5jxw/z8YzjK9SNvOZMW0yK
+ qggpvgSjWS7Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="187605834"
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
+   d="scan'208";a="187605834"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 01:58:11 -0700
+IronPort-SDR: 2BtrjNexbLJCm1nGtZeSrvtIzHlD0evFHVjAxblzKJ8kkjXcR/Ygb/5yoeIkl2bYJu5aneayFR
+ d3TNXZSUIt+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
+   d="scan'208";a="423628260"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.147.94])
+  by orsmga002.jf.intel.com with ESMTP; 23 Jun 2021 01:58:07 -0700
+Date:   Wed, 23 Jun 2021 16:58:06 +0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     lkp <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+        linux-csky@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Bill Wendling <wcw@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        johannes.berg@intel.com, clang-built-linux@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>,
-        linux-toolchains@vger.kernel.org, x86@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
-Date:   Tue, 22 Jun 2021 23:15:50 -0700
-Message-Id: <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
-References: <20210621231822.2848305-1-ndesaulniers@google.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [linux-next:master 3665/11714] {standard input}:2644: Error:
+ pcrel offset for branch to .LS0015 too far (0x3e)
+Message-ID: <20210623085806.GA77080@shbuild999.sh.intel.com>
+References: <202106220959.QA9KOJ3Q-lkp@intel.com>
+ <20210622094818.GA67867@shbuild999.sh.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622094818.GA67867@shbuild999.sh.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 21 Jun 2021 16:18:19 -0700, Nick Desaulniers wrote:
-> The kernel has been using noinstr for correctness to politely request
-> that the compiler avoid adding various forms of instrumentation to
-> certain functions.
+Add linux-csky list and originally cced people and replace the linux-mm
+with linux-kbuild list, which match the discussion better and avoid
+email noise for mm people.
+
+On Tue, Jun 22, 2021 at 05:48:18PM +0800, Tang, Feng wrote:
+> On Tue, Jun 22, 2021 at 09:49:05AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   889bab4c367a0ef58208fd80fafa74bb6e2dca26
+> > commit: cf536e185869d4815d506e777bcca6edd9966a6e [3665/11714] Makefile: extend 32B aligned debug option to 64B aligned
+> > config: csky-randconfig-c024-20210622 (attached as .config)
+> > compiler: csky-linux-gcc (GCC) 9.3.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=cf536e185869d4815d506e777bcca6edd9966a6e
+> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> >         git fetch --no-tags linux-next master
+> >         git checkout cf536e185869d4815d506e777bcca6edd9966a6e
+> >         # save the attached .config to linux build tree
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=csky 
+
+> Thanks for the report. 
 > 
-> GCOV and PGO can both instrument functions, yet the function attribute
-> to disable such instrumentation (no_profile_instrument_function) was not
-> being used to suppress such implementation. Also, clang only just
-> recently gained support for no_profile_instrument_function. GCC has
-> supported that since 7.1+.
+> I just reproduced the issue locally, with similar log:
 > 
-> [...]
+>   CC      drivers/target/target_core_sbc.o
+> {standard input}: Assembler messages:
+> {standard input}:2644: Error: pcrel offset for branch to .LS0015 too far (0x3e)
+> {standard input}:2653: Error: pcrel offset for branch to .LS0015 too far (0x34)
+> {standard input}:2659: Error: pcrel offset for branch to .LS0015 too far (0x2c)
+> make[2]: *** [scripts/Makefile.build:272: drivers/target/target_core_sbc.o] Error 1
+> m
+> 
+> And when I changed the function align option from 64 to 32, the
+> compilation did pass, so this looks to be related with the alignment
+> option.
+> 
+> I'm not very familiar with compiler, and will try to check more.
 
-Applied to for-next/clang/features, thanks!
+I did some check and found the error info comes from the assembler
+for 'csky' in binutils' gas/config/tc-csky.c, and I could hardly
+dive deeper into the code as limited by my knowledge.
 
-[1/3] compiler_attributes.h: define __no_profile, add to noinstr
-      https://git.kernel.org/kees/c/380d53c45ff2
-[2/3] compiler_attributes.h: cleanups for GCC 4.9+
-      https://git.kernel.org/kees/c/ae4d682dfd33
-[3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
-      https://git.kernel.org/kees/c/51c2ee6d121c
 
-Note that I've tweaked the series slightly to move the PGO Kconfig change into
-the PGO patch.
+> I know it works on x86_64, but don't know how about other
+> architectures, and if 'csky' is the only not working one, one
+> workaround I can think of is to add kconfig dependency for !csky 
 
--- 
-Kees Cook
+I reused the 0day's reproduce process, and tried on arm64, powerpc64,
+and arc, the kernel compilation all succeeded. So maybe we can
+add some dependency for this debug option like:
 
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 3cf48998a374..eb035b31657f 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -415,7 +415,8 @@ config SECTION_MISMATCH_WARN_ONLY
+ 	  If unsure, say Y.
+ 
+ config DEBUG_FORCE_FUNCTION_ALIGN_64B
+-	bool "Force all function address 64B aligned" if EXPERT
++	bool "Force all function address 64B aligned"
++	depends on EXPERT && (X86_64 || ARM64 || PPC32 || PPC64 || ARC)
+ 	help
+ 	  There are cases that a commit from one domain changes the function
+ 	  address alignment of other domains, and cause magic performance
+
+Any comments? thanks!
+
+- Feng
+
+> Thanks,
+> Feng
+> 
+> 
