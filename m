@@ -2,169 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D223B10C9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jun 2021 01:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3573B13D8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jun 2021 08:17:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbhFVXv4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Jun 2021 19:51:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60264 "EHLO
+        id S229665AbhFWGUN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Jun 2021 02:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbhFVXvz (ORCPT
+        with ESMTP id S229800AbhFWGUM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Jun 2021 19:51:55 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10E3C061574
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 16:49:38 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id c5so811436pfv.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 16:49:38 -0700 (PDT)
+        Wed, 23 Jun 2021 02:20:12 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8893FC061756
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id k5so912703pjj.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BoYhYJcoyESGzBZwFcvog/ZaPEUbImqWttNrXwz9hqM=;
-        b=E5M8VEzJlXeHS5fRl8ycOg6lcDdG3ieqKqbtfUXOUrNEAJS61ptU3v24wmF2DULJ97
-         uNLEYzGC8oLDmHCQKL8x/Y/fV8NpLDJkhNetjmD0DhodgsNm61nEVgvYE6exI905qQIF
-         pb4r4+29+jgRh+o7NRyQWnECnYngQiO34iU74=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
+        b=IfQNjiTjlHeOtyJvGTlaSnVIszGJHPIXd2ZLetG7fRg3/1qxDfxJBGaFvglBkjs0A9
+         aOMIVfHWFPggoGKFJebTQaAcngMdomXFzJAZ41RUF+nNb5iUr+j1EYwDMOdnmcyBzx+S
+         UXKJ+LYCQxpE3JB9b/Xuh6JN1PZmT/I96wE8Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BoYhYJcoyESGzBZwFcvog/ZaPEUbImqWttNrXwz9hqM=;
-        b=DVptEFWgv3+IDU1t3V2RU4B6U/9l4X6t85glCWyXQuUzQdzXnm4LZQ1czSxUwJ0E4Q
-         2eNSWOxt1m4qh5Vgpgrv14Y2KE+lcqFqljm8khE83B20WqqHA1yGkJU2zXnQyIz3yPOu
-         jfSbWQwudFe1vTSbGawDi759UowY//6hNnpm+VBW/6zw5u/wfM7chYiLrZPh04U9kvfK
-         rMgRoige4hA40CBl4e7G+7k1+QIXLwiZPqNAVMd4rqxO3kYY0JPwcvxaov7WlYvDMzux
-         /rwrWSFpm4eXmkgBw8BqGWXLRhIv5rGdTg/pFtWCdq3VV9wrwhFKHPEmBwR5Jx9fY7yL
-         1+Eg==
-X-Gm-Message-State: AOAM530vvqXOQLe9TnKuPbntaQq4yiga1QuFAzqeD1gBPqId8Yze4An4
-        03qIlS41/l8wwKOqUU7YjfHN+w==
-X-Google-Smtp-Source: ABdhPJyM+4uG3YUoJSW1N4ZCJHbEb4TeNqR+HMzw8RInxKM7qsctzHDqKc86TsM2hAfIobORJquliQ==
-X-Received: by 2002:a65:4689:: with SMTP id h9mr1046233pgr.347.1624405778177;
-        Tue, 22 Jun 2021 16:49:38 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:dc21:8b6f:f8cd:9070])
-        by smtp.gmail.com with UTF8SMTPSA id jz10sm3362167pjb.4.2021.06.22.16.49.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jun 2021 16:49:37 -0700 (PDT)
-Date:   Tue, 22 Jun 2021 16:49:36 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: Looking for help with Kconfig dependencies
-Message-ID: <YNJ3EBDSbqfT/sAk@google.com>
-References: <YMzSbDL+XvpLPaTb@google.com>
- <CAK7LNARta+3nakY9hiDVqTjD4XFhw+eBmXPOZkHb96wR1f_+bg@mail.gmail.com>
- <YNCoYnurpk64+jlF@google.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Tz2RBdudba5q9p5CtX8u2n7Y/c2CX7BU/uPpUa5EceU=;
+        b=tUs0NNHhEikbcb4XU8EnQm2sk5pBIWx2HbiNLs6anJ8woIiONo512YhA0le1thTNXX
+         eHQX07P7JIIbgN8HzwDH2340Pklji3bTw29J7dZ5NNSvh+fmPUTZEukKT85yvHFTsFJk
+         cKwQ35OpsWNLH0+ipjBqxiWFjfmPcQFElKbl8gQtwO2DHs0l0eQUuFlKcRaCz9cv/QLS
+         mAnS5wxa+vbZ+UbP44k4h5X4XiSL+LY3uqpLWncNMl5e9xALT0houI1ETQaYba9/TBnS
+         QKcosuMyJlXRjXUeOoK3IJ31bST0zCLcqOcqgcf9L7s8a9rE84dNnQAikbObgT1lJXw2
+         YfmA==
+X-Gm-Message-State: AOAM532bxhfaEBTfVO+6ukx22qvuU8PobKLKxusxeQF73Mwl65RSy3Aa
+        HXiN10rll/eAivOHFuLpKsTL+Q==
+X-Google-Smtp-Source: ABdhPJzn0CH+45cTEhcoIwl87qkwPrIemELQImLMLCSKtRYhh9WOlPotlexcZ8zGNKPJxyuXXn3TWw==
+X-Received: by 2002:a17:90b:2241:: with SMTP id hk1mr7714688pjb.97.1624429074073;
+        Tue, 22 Jun 2021 23:17:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z18sm1113249pfe.214.2021.06.22.23.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 23:17:53 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-arm-kernel@lists.infradead.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Bill Wendling <wcw@google.com>, Arnd Bergmann <arnd@arndb.de>,
+        johannes.berg@intel.com, clang-built-linux@googlegroups.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Martin Liska <mliska@suse.cz>,
+        linux-toolchains@vger.kernel.org, x86@kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 0/3] no_profile fn attr and Kconfig for GCOV+PGO
+Date:   Tue, 22 Jun 2021 23:15:50 -0700
+Message-Id: <162442894704.2888450.8087873021886781652.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210621231822.2848305-1-ndesaulniers@google.com>
+References: <20210621231822.2848305-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YNCoYnurpk64+jlF@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 21, 2021 at 07:55:30AM -0700, Matthias Kaehlcke wrote:
-> On Sat, Jun 19, 2021 at 10:30:22AM +0900, Masahiro Yamada wrote:
-> > On Sat, Jun 19, 2021 at 2:05 AM Matthias Kaehlcke <mka@chromium.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > I'm adding a new driver and have an issue with Kconfig dependencies
-> > > that I coulnd't sort out so far.
-> > >
-> > > Patch https://lore.kernel.org/patchwork/patch/1444212/ adds the new
-> > > onboard_usb_hub driver which exports two functions,
-> > > onboard_hub_create_pdevs() and onboard_hub_destroy_pdevs(). It also
-> > > provides stubs for these functions which are used when the driver
-> > > is not selected (CONFIG_USB_ONBOARD_HUB=n).
-> > >
-> > > The new exported functions are called by the xhci-plat driver
-> > > (https://lore.kernel.org/patchwork/patch/1444215/). Since xhci-plat
-> > > now depends on symbols from the onboard_hub_driver the following
-> > > dependency was added to its Kconfig entry:
-> > >
-> > >   config USB_XHCI_PLATFORM
-> > >     tristate "Generic xHCI driver for a platform device"
-> > >     select USB_XHCI_RCAR if ARCH_RENESAS
-> > >  +  depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB
-> > >
-> > > This generally seems to work, however when USB_XHCI_PLATFORM is
-> > > forced to be builtin by another driver that depends on it (e.g.
-> > > USB_DWC3) it is still possible to build the onboard_hub driver
-> > > as a module, which results in unresolved symbols:
-> > >
-> > > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
-> > > `xhci_plat_remove':
-> > > drivers/usb/host/xhci-plat.c:427: undefined reference to
-> > > `onboard_hub_destroy_pdevs'
-> > > drivers/usb/host/xhci-plat.c:427:(.text+0x82c): relocation truncated
-> > > to fit: R_AARCH64_CALL26 against undefined symbol
-> > > `onboard_hub_destroy_pdevs'
-> > > aarch64-linux-gnu-ld: drivers/usb/host/xhci-plat.o: in function
-> > > `xhci_plat_probe':
-> > > drivers/usb/host/xhci-plat.c:379: undefined reference to
-> > > `onboard_hub_create_pdevs'
-> > > drivers/usb/host/xhci-plat.c:379:(.text+0x131c): relocation truncated
-> > > to fit: R_AARCH64_CALL26 against undefined symbol
-> > > `onboard_hub_create_pdevs'
-> > >
-> > > Kconfig generates the following warning with this configuration:
-> > >
-> > > WARNING: unmet direct dependencies detected for USB_XHCI_PLATFORM
-> > >   Depends on [m]: USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && (USB_ONBOARD_HUB [=m] || !USB_ONBOARD_HUB [=m])
-> > >   Selected by [y]:
-> > >   - USB_DWC3 [=y] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
-> > >   Selected by [m]:
-> > >   - USB_CDNS_SUPPORT [=m] && USB_SUPPORT [=y] && (USB [=y] || USB_GADGET [=y]) && HAS_DMA [=y] && USB_XHCI_HCD [=y]
-> > >   - USB_BRCMSTB [=m] && USB_SUPPORT [=y] && USB [=y] && (ARCH_BRCMSTB [=y] && PHY_BRCM_USB [=m] || COMPILE_TEST [=y]) && USB_XHCI_HCD [=y]
-> > >   - USB_XHCI_MVEBU [=m] && USB_SUPPORT [=y] && USB [=y] && USB_XHCI_HCD [=y] && HAS_IOMEM [=y] && (ARCH_MVEBU [=y] || COMPILE_TEST [=y])
-> > >
-> > > I read through kconfig-language.rst and experimented a fair bit,
-> > > but haven't found a working solution. Any advice would be
-> > > appreciated.
-> > >
-> > > Thanks
-> > >
-> > > Matthias
-> > 
-> > 
-> > 
-> > This issue should be discussed in the USB ML,
+On Mon, 21 Jun 2021 16:18:19 -0700, Nick Desaulniers wrote:
+> The kernel has been using noinstr for correctness to politely request
+> that the compiler avoid adding various forms of instrumentation to
+> certain functions.
 > 
-> That's where it was initially brought up, but it didn't get the attention
-> of anyone in the position to give advice. Since the issue is more about
-> kbuild dependencies than USB specifically I brought it up here. The driver
-> already landed in the USB tree but was reverted due to this issue, I'm
-> stuck on this problem and really don't want the driver to die on the
-> finish line.
+> GCOV and PGO can both instrument functions, yet the function attribute
+> to disable such instrumentation (no_profile_instrument_function) was not
+> being used to suppress such implementation. Also, clang only just
+> recently gained support for no_profile_instrument_function. GCC has
+> supported that since 7.1+.
 > 
-> A workaround could be to make the driver 'bool' rather than 'tristate',
-> but I'm not sure if that would be acceptable.
-> 
-> > but probably 'depends on USB_XHCI_PLATFORM' should be used everywhere instead of
-> > 'depends on USB_XHCI_PLATFORM'.
-> 
-> Did you mean 'select USB_XHCI_PLATFORM' rather than 'depends on
-> USB_XHCI_PLATFORM'? In general that sounds reasonable, since the drivers don't
-> actually depend on USB_XHCI_PLATFORM from a build perspective, and it's what
-> some drivers actually do. However it doesn't fix the problem, apparently a
-> 'select X' from CONFIG_Y still results in CONFIG_X being 'y' if CONFIG_Y is
-> 'y' (see the USB_DWC3 case above).
+> [...]
 
-After some more experimentation it looks like the opposite fixes the conflict,
-i.e. changing all instances of 'select USB_XHCI_PLATFORM' to 'depends on
-USB_XHCI_PLATFORM'.
+Applied to for-next/clang/features, thanks!
 
-That's also in line with the recommendation to limit the use of 'select' to
-certain use cases:
+[1/3] compiler_attributes.h: define __no_profile, add to noinstr
+      https://git.kernel.org/kees/c/380d53c45ff2
+[2/3] compiler_attributes.h: cleanups for GCC 4.9+
+      https://git.kernel.org/kees/c/ae4d682dfd33
+[3/3] Kconfig: add ARCH_WANTS_NO_INSTR+CC_HAS_NO_PROFILE_FN_ATTR, depend on for GCOV and PGO
+      https://git.kernel.org/kees/c/51c2ee6d121c
 
-  select should be used with care. select will force a symbol to a value without
-  visiting the dependencies. By abusing select you are able to select a symbol
-  FOO even if FOO depends on BAR that is not set. In general use select only
-  for non-visible symbols (no prompts anywhere) and for symbols with no
-  dependencies. That will limit the usefulness but on the other hand avoid the
-  illegal configurations all over.
+Note that I've tweaked the series slightly to move the PGO Kconfig change into
+the PGO patch.
 
-  https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html
+-- 
+Kees Cook
+
