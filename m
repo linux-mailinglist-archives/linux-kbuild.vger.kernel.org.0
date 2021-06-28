@@ -2,84 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ACC33B68AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jun 2021 20:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21C093B6AD3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jun 2021 00:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233238AbhF1Ssa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Jun 2021 14:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
+        id S231791AbhF1WJu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Jun 2021 18:09:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233502AbhF1Ssa (ORCPT
+        with ESMTP id S237053AbhF1WJW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Jun 2021 14:48:30 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62107C061574
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jun 2021 11:46:04 -0700 (PDT)
-Subject: Re: [PATCH v2 0/5] builddeb: make deb building more flexible
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1624905962;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ad+y4NYVGUP4DmaIe9Mgm6B506z2H8orpViIQf/cfWc=;
-        b=gModoi7pk6FO/RrQ41S5ZI7uKbEQEaQyu9OgtOT04y7fmFgt9k3oMMZCMD9JMQSkQAtZVO
-        3VzfbmI4dXWpM3ebd/95Uju7qv5K6xDWdVpFUiKzqxJxnfVYYJa18Qfbenu06f7KPRrALx
-        wx6wLy5sucxNQcH7cWv6nyjDh6SlroFebT4BBrwp3O8T2Z+3hNeaNpf8aVpmi+JuxmVYAR
-        4bYCPuXt10SMbLnGM04Rg2NJsHJk6NXAEincz6H49xlNTAK16DgskOVUc01JShlCJUP0+O
-        5E0to4zlbxIsuxNNJ7NS5fnbXxEefjfplXMhs2nWV9v5j8P/pM8/IOwR31DlLw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1624905962;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ad+y4NYVGUP4DmaIe9Mgm6B506z2H8orpViIQf/cfWc=;
-        b=9t9Bzk4VkDvnH/M9mDbkvYHdjQ6rVufyDLt3AeKyBwlBn65U8LoE5m6Qo7+bhW9A6hFT+X
-        wp/C/lGJ+GCt2cBw==
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org
-References: <20210525230139.6165-1-bage@linutronix.de>
-From:   Bastian Germann <bage@linutronix.de>
-Message-ID: <0b0539d8-fbcc-b488-ed75-39cdb5ff66c4@linutronix.de>
-Date:   Mon, 28 Jun 2021 20:46:01 +0200
+        Mon, 28 Jun 2021 18:09:22 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC565C061760
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jun 2021 15:06:54 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id u8so6772242qvg.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jun 2021 15:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Jcq/hdU8FtBDL0LhhuBTnqNe3arqNOFmBPel6E2TbbY=;
+        b=wFOZvFygswM6iCjB0leZ3gKdj9QSe/sMsQsLOSJ3BgMaxFIxMZw5OLY3S/lM8TYN+4
+         F6wQyPrGlhMiyu07L1D+bcUEEGff7b7lY2LFsu0Jd7ayp9ZpI2iu2kEVc+vAwvMoXCyC
+         Cz99MBd0i0faS6BB0aNwDKuWyDPtIjTT8tpaL+M+aaribJqEud6BOY9EANrsA9cjk7uL
+         eFWViBHvyri+4ORayIUaUsi1+zed/m0i+zJw1Z2gfyE+ufRiFdBlSVcH+br0ts5WW0vv
+         yM/VZTsURWHt5/KvcJxifS+zSiIl533aPI87N8ZrOn2k/myh6flfW8Em/lWk5txXjA1r
+         LwYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jcq/hdU8FtBDL0LhhuBTnqNe3arqNOFmBPel6E2TbbY=;
+        b=nhRW5Ej3mSKyH4Ib+HD5eCea77bxXNVlqTtxNdLLr4wTTGPPqGReko0EHHDhVX9cAj
+         0NWaDGz21rS6FzytHyTvFZCoyowTERa0YeT8lwEsiduxYNU+Qandxyi6EIu8/qFf/cNg
+         BC39NEBBuQc7cug9QEnybTcpmPtj5eSs6jR9tt590r8Eu8JeJ1y/nOd5Mop6l1rdZEtb
+         RLA2wCAIIB4EyhQbOmWfx7RiEedLVqScsyAIsW/N7RZPRZHs+Y2MQJ/zqp5xWuA/YSq2
+         X6fTviytWpGIz3/zldBGAbBeBWsMMWycXY+mmpNBToEf4HFPkEuOGFW2p3WaLLz7hzQU
+         GuaQ==
+X-Gm-Message-State: AOAM531qPvPnYnZbifp5dOz4ne5K8AjGy1zpdkfBxgJLDYJ8qG4TiDJQ
+        GIVd8GprLYIHbjplkD8daw2KzmG1PGOvwaLMHQlQxg==
+X-Google-Smtp-Source: ABdhPJzlqSC7LidZu3Vzdce3XMdQrcR76aWc7WQeGFXeqqIhywxqoS8WZCtNnPTE9vrwoCkmEBNKI/zu4sQi0QO2/Ko=
+X-Received: by 2002:a05:6214:1cb:: with SMTP id c11mr27668985qvt.47.1624918013874;
+ Mon, 28 Jun 2021 15:06:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210525230139.6165-1-bage@linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE-frami
-Content-Transfer-Encoding: 7bit
+References: <20210513151800.1059435-1-dmitry.baryshkov@linaro.org> <CAL_JsqLtaJ43Y5ySEK5OraScigEO_OD3TMoy6DYFREK7kh=uFg@mail.gmail.com>
+In-Reply-To: <CAL_JsqLtaJ43Y5ySEK5OraScigEO_OD3TMoy6DYFREK7kh=uFg@mail.gmail.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Tue, 29 Jun 2021 01:06:42 +0300
+Message-ID: <CAA8EJppSTwrm=8d54OfgagNH7Q8i1uZHko9fZU2gRNZUe23-WA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: allow checking single device tree file
+To:     Rob Herring <robh@kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Am 26.05.21 um 01:01 schrieb bage@linutronix.de:
-> From: Bastian Germann <bage@linutronix.de>
-> 
-> Building Debian packages via the [bin]deb-pkg make targets has some
-> shortcomings. These targets do not allow for packing a Debian source
-> package independently from actually building the binary package.
-> 
-> This series improves that process by making it possible to rebuild
-> the packages without errors via dpkg-buildpackage, by separating
-> source package creation from binary package building, and by making
-> the dbg package build optional.
-> 
-> Changelog v2:
->    * Drop "use standard format for copyright file" (equivalent available)
->    * Enable parallel builds (via ordered make target dependencies)
->    * Include previously excluded top-level files in tarball
->    * Other minor suggestions by Masahiro
-> 
-> Bastian Germann (5):
->    builddeb: ignore or export files for clean pkg build
->    builddeb: set CC on cross build to prefixed gcc
->    builddeb: clean generated package content
->    builddeb: introduce profile excluding the dbg pkg
->    kbuild: introduce srcdeb-pkg target
-> 
->   scripts/Makefile.package | 11 +++++++++--
->   scripts/package/mkdebian | 13 ++++++++++++-
->   2 files changed, 21 insertions(+), 3 deletions(-)
+Hi Rob,
 
-Gentle ping after a month without reply.
+On Wed, 19 May 2021 at 16:43, Rob Herring <robh@kernel.org> wrote:
+>
+> On Thu, May 13, 2021 at 10:18 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > Add support for testing single device tree file by running
+> > 'make tree.dt.yaml', e.g. 'make ARCH=arm64 qcom/qrb5165-rb5.dt.yaml'.
+> > This looks useful for checking idividual changes to dts files.
+>
+> typo
+>
+> I'd rather not expose .*.dt.yaml as I want to make checking not
+> optional and I have some plans of integrating the schema checks into
+> dtc which would eliminate .dt.yaml files. Instead, I think %.dtb
+> targets should run the checks always.
+>
+> >
+> > Cc: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  Makefile | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 53d09c414635..b36a3d48eb68 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1383,6 +1383,10 @@ ifneq ($(dtstree),)
+> >  %.dtbo: include/config/kernel.release scripts_dtc
+> >         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> >
+> > +%.dt.yaml: include/config/kernel.release scripts_dtc
+> > +       $(Q)$(MAKE) $(build)=Documentation/devicetree/bindings Documentation/devicetree/bindings/processed-schema.json
+>
+> I don't think we should expose this detail (processed-schema.json) to
+> the top-level makefile. This will be built if 'dt_binding_check' is a
+> dependency with CHECK_DTBS=y set.
+>
+> > +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@ CHECK_DTBS=y
+>
+> CHECK_DTBS here doesn't work. It has to be exported.
+>
+> So here's my modified patch (%.dtbo should probably be included too,
+> but I'm not yet sure how well the schema checks will work on them):
+
+Please excuse me for letting this float for some time. Do you plan to
+submit your patch?
+Would you like me to do it instead?
+
+> 8<---------------------------------------------------------
+> diff --git a/Makefile b/Makefile
+> index 53d09c414635..a1e246956d65 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1377,12 +1377,18 @@ endif
+>
+>  ifneq ($(dtstree),)
+>
+> -%.dtb: include/config/kernel.release scripts_dtc
+> +%.dtb: %.dt.yaml
+>         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>
+>  %.dtbo: include/config/kernel.release scripts_dtc
+>         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+>
+> +ifneq ($(filter %.dtb, $(MAKECMDGOALS)),)
+> +export CHECK_DTBS=y
+> +endif
+> +%.dt.yaml: dt_binding_check include/config/kernel.release scripts_dtc
+> +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> +
+
+
+
+-- 
+With best wishes
+Dmitry
