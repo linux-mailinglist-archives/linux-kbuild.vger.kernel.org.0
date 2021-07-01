@@ -2,73 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3FE63B8FC6
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Jul 2021 11:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEFFB3B902E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Jul 2021 12:00:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235352AbhGAJbV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Jul 2021 05:31:21 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:37775 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235608AbhGAJbT (ORCPT
+        id S235864AbhGAKDP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Jul 2021 06:03:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235344AbhGAKDO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Jul 2021 05:31:19 -0400
-X-UUID: b615a9f6a19c41179839e914740b7e93-20210701
-X-UUID: b615a9f6a19c41179839e914740b7e93-20210701
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 955993408; Thu, 01 Jul 2021 17:28:45 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 1 Jul 2021 17:28:44 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 1 Jul 2021 17:28:43 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <keescook@chromium.org>, <samitolvanen@google.com>,
-        <linux-kbuild@vger.kernel.org>, <nathan@kernel.org>
-CC:     <clang-built-linux@googlegroups.com>,
-        <linux-kernel@vger.kernel.org>, <yj.chiang@mediatek.com>,
-        <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [RESEND PATCH v2 2/2] Kbuild: lto: add make version checking
-Date:   Thu, 1 Jul 2021 17:28:40 +0800
-Message-ID: <20210701092841.1419-3-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210701092841.1419-1-lecopzer.chen@mediatek.com>
-References: <20210701092841.1419-1-lecopzer.chen@mediatek.com>
+        Thu, 1 Jul 2021 06:03:14 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585B5C061756;
+        Thu,  1 Jul 2021 03:00:43 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id s15so7497356edt.13;
+        Thu, 01 Jul 2021 03:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hsl25h4PCog/lkP9UfonImfNMM/KPiN3Xl3ptpN4ynA=;
+        b=MWmcLrr1Jc3TDJctM0nSLyxidp2p/9b5paECLpl614AM0m2b2MN7EAk4lGZMZJHRu1
+         7LQFHn4vuDwhF4g0OI0Lxz0VjRJZWROeJiH6LQnErS4hSkXzRJCKCC+w+5UNRNDfAeGT
+         u0lA2oqybMW8RQ55QWg82gYTI7wGd1Hkky8EApkl7rZbuYMfAiBn9H2Bs5Q/RHwuFUBZ
+         SDP1CCSj3N8Qp+0+He/pqeZwUJ0/L3i0lIKHRrdXf897Hz5vH38ltDFYFCxrlsJW4n9B
+         6vTlUWzBmYeYt3itlkkUV/hCTIdhJ9FL/BU/R7rmQAXN6juqB4N+FDSh8u8M83OnAEm0
+         m4aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hsl25h4PCog/lkP9UfonImfNMM/KPiN3Xl3ptpN4ynA=;
+        b=KYSg1z/FyR5ScDW38Bt2MAxcIyZy7pvAZKNruuUwpBfA0Ib8NC37Lf4/VhFZAunJ/9
+         rL/WMoO8Zf+FBZOCUBWXe9mrSzScQBkmviJbMcHpeiNUHNIm5enXkSCk3C7UIa8vcucf
+         nyRf1ULs2Gg31kirgtLopcz43M1mnAD8H4nywrc3p8mVv7JRNRYRAf0ra662yvGsKFhm
+         srdtAIB1eNn0uxs5U7j+ddSLPFUgTiezGD6JyfdldXITcrrvyHNeIKrVM4S3r3+P58Aa
+         +rYQJCptG40dJBRccL6LqPHKpiuulJBseuqxCBXVsMVU/2N4J/5dZ7cRGl1zKXLGIRVX
+         XXwQ==
+X-Gm-Message-State: AOAM533aCeIPx7BFVw9GbpC88FYKIPHS2PxMl8/fXvinNh+rXeZKLP/Q
+        vhq2W51pLFR0MeiDRFNc5x99U7pGx03unsVScw==
+X-Google-Smtp-Source: ABdhPJyMjWNIw3K9l1o8eZyPLrHmiaYRzC3KrAwfJM5vAxmBQZN8/ShpKSdvsTOyNfpk9+wBFYvsZX1B2nRYuQHYBGA=
+X-Received: by 2002:a50:a694:: with SMTP id e20mr52429824edc.191.1625133641642;
+ Thu, 01 Jul 2021 03:00:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+References: <OF02B93D81.2CCB21DA-ONC1258705.0032D3B2-C1258705.00338684@remondis.de>
+In-Reply-To: <OF02B93D81.2CCB21DA-ONC1258705.0032D3B2-C1258705.00338684@remondis.de>
+From:   Rui Salvaterra <rsalvaterra@gmail.com>
+Date:   Thu, 1 Jul 2021 11:00:30 +0100
+Message-ID: <CALjTZvZCi07iVbEOOn8bduueRFLE3MOicWa2WFvxap+zFzpiSg@mail.gmail.com>
+Subject: Re: [PATCH] x86: enable dead code and data elimination
+To:     tobias.karnat@remondis.de, npiggin@gmail.com
+Cc:     sedat.dilek@gmail.com, x86@kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-LTO with MODVERSIONS will fail in generating correct CRC because
-the makefile rule doesn't work for make with version 3.8X.[1]
+Hi, Tobias,
 
-Thus we need to check make version during selecting on LTO Kconfig.
-and the suitable version should be 4.2(40200) which released in 2016[2].
+On Thu, 1 Jul 2021 at 10:22, <tobias.karnat@remondis.de> wrote:
+>
+> Hello,
+>
+> I have found your patch to enable x86 dead code and data elimination on the openwrt-devel mailing list and I wonder if you can sent it upstream to the kernel mailing list?
 
-[1] https://lore.kernel.org/lkml/20210616080252.32046-1-lecopzer.chen@mediatek.com/
-[2] https://ftp.gnu.org/gnu/make/
-Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
----
- arch/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+As I quoted, mine is an adaptation of Nicholas Piggin's original
+patch, basically a forward-port to 5.4 (5.10 in my OpenWrt tree [1]).
+Since the original proposal has been sent upstream and hasn't been
+merged, there are probably good reasons for it (even though it works
+perfectly for my use case). Nicholas, any idea on why your original
+patch [2] hasn't been merged?
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 129df498a8e1..beee68149da8 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -639,6 +639,7 @@ config HAS_LTO_CLANG
- 	def_bool y
- 	# Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
- 	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD && AS_IS_LLVM
-+	depends on !MODVERSIONS || MAKE_VERSION >= 40200
- 	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
- 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
- 	depends on ARCH_SUPPORTS_LTO_CLANG
--- 
-2.18.0
+[1] https://github.com/rsalvaterra/openwrt/commit/0082c486b5637dc8e1771e2b9b38b728cb2fa01d
+[can be rebased at any time, caveat lector]
+[2] https://lore.kernel.org/lkml/20170709031333.29443-1-npiggin@gmail.com/]
 
+> It works for me even combined with the new Clang ThinLTO kernel build. @Sedat you might be interested as well, as I saw your attempt here https://lkml.org/lkml/2021/2/27/181
+
+I haven't tested with Clang, only GCC, but it's nice to know.
+
+Thanks,
+Rui
