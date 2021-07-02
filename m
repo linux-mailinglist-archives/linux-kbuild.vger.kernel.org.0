@@ -2,74 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC5B83B9B0C
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Jul 2021 05:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 643463BA654
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Jul 2021 01:51:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234935AbhGBDcX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Jul 2021 23:32:23 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:54079 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234791AbhGBDcX (ORCPT
+        id S230037AbhGBXyQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Jul 2021 19:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230017AbhGBXyQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Jul 2021 23:32:23 -0400
-X-UUID: 7d324bbd23d241958e61a76959ad5029-20210702
-X-UUID: 7d324bbd23d241958e61a76959ad5029-20210702
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 746403066; Fri, 02 Jul 2021 11:29:48 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 2 Jul 2021 11:29:46 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 2 Jul 2021 11:29:46 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <ndesaulniers@google.com>, <keescook@chromium.org>,
-        <samitolvanen@google.com>, <linux-kbuild@vger.kernel.org>,
-        <nathan@kernel.org>
-CC:     <clang-built-linux@googlegroups.com>,
-        <linux-kernel@vger.kernel.org>, <yj.chiang@mediatek.com>,
-        <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [PATCH v3 2/2] Kbuild: lto: add make version checking
-Date:   Fri, 2 Jul 2021 11:29:43 +0800
-Message-ID: <20210702032943.7865-3-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210702032943.7865-1-lecopzer.chen@mediatek.com>
-References: <20210702032943.7865-1-lecopzer.chen@mediatek.com>
+        Fri, 2 Jul 2021 19:54:16 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645CDC061762;
+        Fri,  2 Jul 2021 16:51:43 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id k10so20923825lfv.13;
+        Fri, 02 Jul 2021 16:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clIxmMxm6a6CEZgz+Vza6vLv6bCnIn97w16YVzgjAlM=;
+        b=FoT0dmiW5pg1cksplUr/CeGivwq5WJq3isweu43mewFVK44G9HuNkOWWWyop84QHbg
+         BJ3EzPf+8rllun7eVmU+kHM2rbs3mmLni5QjTN76moOuCV551f2h+TbSnmOmI296BI2L
+         O8clzex1LoUqVKu8CnQwi9mxvNyKlqo2XFQPkqlTwW+9vqAyMDkBkRfS3TPGIcLdnjuA
+         +W8NLlsGX9cgZlQrb3ZaRUo4chBtoK+6/rNTZBJuvg779Na2lnXo+EHDDXMe3wQrxKjP
+         r0J1S8hXMJl0hSEUqOBRsvNc19A7JqurFiIblnZZ5jazuK9gCiZFKLKGm2JWGcBe0ybS
+         N5yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=clIxmMxm6a6CEZgz+Vza6vLv6bCnIn97w16YVzgjAlM=;
+        b=k1Q9W+u0yHiP5pFg1D5/CkqDcUQ1aATa4tTAjX5wiDrRq7AJeCBwiIIFbkRgCSz6MX
+         4za9jgsIkh6AbSUiuVWKuwrGrcwhsmJkdiyoAmZvxraq10gLg1SBHEHt7DBoxhVu0KsG
+         wxGIUCzCdaUYShOzI9qLJizaZ6Z+WVYeXXSBt2W9ybSnDu6l+oI8zF0HJ2E5Oo+DVOLy
+         tTx19nISQSSyfMVk7duq0BxS8aGZk78sFuUJQ4gDdsxgP/GadfOCdbYDe9LwSd90Do6e
+         97jtEJzjPOMK6ANY6reXSlafwMDQWKKu8bhF2+W65dD6fKYafzzj+/mbFTvu9gVOBlNW
+         i6JQ==
+X-Gm-Message-State: AOAM531bZ0k0ml1qcfwO7I3+36BL0QuYaT8Icd9+iOgF4MfOsgPgI2o7
+        2++DrjCgfttk0KTIbAaxUXA=
+X-Google-Smtp-Source: ABdhPJydzceV3YNwBPGVPTfA75ZgpY72chgAiNPUAVyjrB5jY4i5pFIEoIbGzPL9cN3ySRZ7MsdCMw==
+X-Received: by 2002:a05:6512:3761:: with SMTP id z1mr1511747lft.99.1625269901657;
+        Fri, 02 Jul 2021 16:51:41 -0700 (PDT)
+Received: from 192.168.1.8 ([212.59.242.58])
+        by smtp.gmail.com with ESMTPSA id h5sm511370ljj.80.2021.07.02.16.51.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jul 2021 16:51:41 -0700 (PDT)
+From:   Maciej Falkowski <maciej.falkowski9@gmail.com>
+To:     natechancellor@gmail.com, ndesaulniers@google.com,
+        masahiroy@kernel.org, michal.lkml@markovi.net, nhuck@google.com
+Cc:     clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, maciej.falkowski9@gmail.com
+Subject: [PATCH] clang-tools: Print information when clang-tidy tool is missing
+Date:   Sat,  3 Jul 2021 01:51:20 +0200
+Message-Id: <20210702235120.7023-1-maciej.falkowski9@gmail.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-LTO with MODVERSIONS will fail in generating correct CRC because
-the makefile rule doesn't work for make with version 3.8X.[1]
+When clang-tidy tool is missing in the system, the FileNotFoundError
+exception is raised in the program reporting a stack trace to the user:
 
-Thus we need to check make version during selecting on LTO Kconfig.
-and the suitable version should be 4.2(40200) which released in 2016[2].
+$ ./scripts/clang-tools/run-clang-tools.py clang-tidy ./compile_commands.json
+multiprocessing.pool.RemoteTraceback:
+"""
+Traceback (most recent call last):
+  File "/usr/lib64/python3.8/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/usr/lib64/python3.8/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "./scripts/clang-tools/run-clang-tools.py", line 54, in run_analysis
+    p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
+  File "/usr/lib64/python3.8/subprocess.py", line 489, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib64/python3.8/subprocess.py", line 854, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib64/python3.8/subprocess.py", line 1702, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'clang-tidy'
+"""
 
-[1] https://lore.kernel.org/lkml/20210616080252.32046-1-lecopzer.chen@mediatek.com/
-[2] https://ftp.gnu.org/gnu/make/
-Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
+The patch adds more user-friendly information about missing tool by
+checking the presence of clang-tidy using `command -v` at the beginning
+of the script:
+
+$ ./scripts/clang-tools/run-clang-tools.py clang-tidy ./compile_commands.json
+Command 'clang-tidy' is missing in the system
+
+Signed-off-by: Maciej Falkowski <maciej.falkowski9@gmail.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1342
 ---
- arch/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/clang-tools/run-clang-tools.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 129df498a8e1..beee68149da8 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -639,6 +639,7 @@ config HAS_LTO_CLANG
- 	def_bool y
- 	# Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
- 	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD && AS_IS_LLVM
-+	depends on !MODVERSIONS || MAKE_VERSION >= 40200
- 	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
- 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
- 	depends on ARCH_SUPPORTS_LTO_CLANG
+diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+index fa7655c7cec0..d34eaf5a0ee5 100755
+--- a/scripts/clang-tools/run-clang-tools.py
++++ b/scripts/clang-tools/run-clang-tools.py
+@@ -60,6 +60,11 @@ def run_analysis(entry):
+ 
+ 
+ def main():
++    exitcode = subprocess.getstatusoutput('command -v clang-tidy')[0]
++    if exitcode == 1:
++        print("Command 'clang-tidy' is missing in the system", file=sys.stderr)
++        sys.exit(127)
++
+     args = parse_arguments()
+ 
+     lock = multiprocessing.Lock()
 -- 
-2.18.0
+2.26.3
 
