@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FB253BAEE1
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 319CD3BAEE4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:29:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbhGDUbb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 16:31:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36908 "EHLO mail.kernel.org"
+        id S230089AbhGDUbf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 16:31:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37010 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230000AbhGDUba (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 16:31:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C72306115C;
-        Sun,  4 Jul 2021 20:28:49 +0000 (UTC)
+        id S230085AbhGDUbe (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 16:31:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB67B613F1;
+        Sun,  4 Jul 2021 20:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625430534;
-        bh=KZ2/g9t2YFofiHUUTARbQC2rknRlRYTuBulzw9sklTQ=;
+        s=k20201202; t=1625430539;
+        bh=5IkH6k57x0wQb/2rxknod94WvBdKBrDhSDQRHRqz02o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GB4WTpLbb4EZyykJdjez2hrkJYR1j/rw4BpiGuD83wWe3mVSnBSA2bMSxd0+4BgYV
-         8ueHjV+sfkUU8pYKRV6lYFYYxY73L/+xvYzejkSVtTzu9ni/DJ5vWU6Dwr9F4pSGSS
-         FRKaPPueR4XRQGSJNKRAq+01sU99VTAlNpsBvopL1TUNThqpGEH/dACiHGgHKu3BAp
-         Pks0dml1tdZ4szpvV+46oHdyCMu0ZrwHrWdL4IFndX0IB1rl03zsUYve7MbnJhfYZt
-         Lyfuo7sXT02/gNEVeqn4oL4DZAdjoOSCo4VCtKywyk7yLXTwy4MGVwgbcyhhLR3SBa
-         zDEv6IaLyG++A==
+        b=lt+8b4/T5pa/QK+60/9K1nxKFduCfTeJAIn5OhECkM988lh1qnwLbWxyPwK2x1JvU
+         NTXBn0g7WkSs2t9ebNBDrvCpC2q1HimRMBPcCK3qEZV1wmn3C0tIPbv8LZQiHPz09G
+         pWJuy+jzHRh0gP4HrQxL7KEFCUzUqTGfqKFspguhMUj+ewBeMUaGGLS0qyR0OsvH8A
+         agkX+nyadmMilWcdc84ktdDYKUenKRkn+HSub+rBitRK6CPUOuhY2xWPf3N3ZqZG91
+         wYL60BtYGt0Us+vBzypVSr2JDkVEDQsbCNs5w7PLeJj7TH6ApRrHPqyszsGXNRcLYa
+         Dyh4CesXSMb6Q==
 From:   ojeda@kernel.org
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -43,9 +43,9 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Fox Chen <foxhlchen@gmail.com>,
         Ayaan Zaidi <zaidi.ayaan@gmail.com>,
         Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Subject: [PATCH 05/17] rust: add C helpers
-Date:   Sun,  4 Jul 2021 22:27:44 +0200
-Message-Id: <20210704202756.29107-6-ojeda@kernel.org>
+Subject: [PATCH 06/17] rust: add `compiler_builtins` crate
+Date:   Sun,  4 Jul 2021 22:27:45 +0200
+Message-Id: <20210704202756.29107-7-ojeda@kernel.org>
 In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
 References: <20210704202756.29107-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -56,8 +56,9 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Miguel Ojeda <ojeda@kernel.org>
 
-This source file contains forwarders to C macros and inlined
-functions.
+Rust provides `compiler_builtins` as a port of LLVM's `compiler-rt`.
+Since we do not need the vast majority of them, we avoid the
+dependency by providing our own crate.
 
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
@@ -91,251 +92,162 @@ Co-developed-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/helpers.c | 235 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 235 insertions(+)
- create mode 100644 rust/helpers.c
+ rust/compiler_builtins.rs | 146 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 146 insertions(+)
+ create mode 100644 rust/compiler_builtins.rs
 
-diff --git a/rust/helpers.c b/rust/helpers.c
+diff --git a/rust/compiler_builtins.rs b/rust/compiler_builtins.rs
 new file mode 100644
-index 00000000000..a6e98abb13e
+index 00000000000..cb4bbf7be4e
 --- /dev/null
-+++ b/rust/helpers.c
-@@ -0,0 +1,235 @@
++++ b/rust/compiler_builtins.rs
+@@ -0,0 +1,146 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+#include <linux/bug.h>
-+#include <linux/build_bug.h>
-+#include <linux/uaccess.h>
-+#include <linux/sched/signal.h>
-+#include <linux/gfp.h>
-+#include <linux/highmem.h>
-+#include <linux/uio.h>
-+#include <linux/errname.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/security.h>
++//! Our own `compiler_builtins`.
++//!
++//! Rust provides [`compiler_builtins`] as a port of LLVM's [`compiler-rt`].
++//! Since we do not need the vast majority of them, we avoid the dependency
++//! by providing this file.
++//!
++//! At the moment, some builtins are required that should not be. For instance,
++//! [`core`] has floating-point functionality which we should not be compiling
++//! in. We will work with upstream [`core`] to provide feature flags to disable
++//! the parts we do not need. For the moment, we define them to [`panic!`] at
++//! runtime for simplicity to catch mistakes, instead of performing surgery
++//! on `core.o`.
++//!
++//! In any case, all these symbols are weakened to ensure we do not override
++//! those that may be provided by the rest of the kernel.
++//!
++//! [`compiler_builtins`]: https://github.com/rust-lang/compiler-builtins
++//! [`compiler-rt`]: https://compiler-rt.llvm.org/
 +
-+void rust_helper_BUG(void)
-+{
-+	BUG();
-+}
++#![feature(compiler_builtins)]
++#![compiler_builtins]
++#![no_builtins]
++#![no_std]
 +
-+unsigned long rust_helper_copy_from_user(void *to, const void __user *from, unsigned long n)
-+{
-+	return copy_from_user(to, from, n);
-+}
-+
-+unsigned long rust_helper_copy_to_user(void __user *to, const void *from, unsigned long n)
-+{
-+	return copy_to_user(to, from, n);
-+}
-+
-+unsigned long rust_helper_clear_user(void __user *to, unsigned long n)
-+{
-+	return clear_user(to, n);
-+}
-+
-+void rust_helper_spin_lock_init(spinlock_t *lock, const char *name,
-+				struct lock_class_key *key)
-+{
-+#ifdef CONFIG_DEBUG_SPINLOCK
-+	__spin_lock_init(lock, name, key);
-+#else
-+	spin_lock_init(lock);
-+#endif
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_spin_lock_init);
-+
-+void rust_helper_spin_lock(spinlock_t *lock)
-+{
-+	spin_lock(lock);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_spin_lock);
-+
-+void rust_helper_spin_unlock(spinlock_t *lock)
-+{
-+	spin_unlock(lock);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_spin_unlock);
-+
-+void rust_helper_init_wait(struct wait_queue_entry *wq_entry)
-+{
-+	init_wait(wq_entry);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_init_wait);
-+
-+int rust_helper_signal_pending(struct task_struct *t)
-+{
-+	return signal_pending(t);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_signal_pending);
-+
-+struct page *rust_helper_alloc_pages(gfp_t gfp_mask, unsigned int order)
-+{
-+	return alloc_pages(gfp_mask, order);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_alloc_pages);
-+
-+void *rust_helper_kmap(struct page *page)
-+{
-+	return kmap(page);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_kmap);
-+
-+void rust_helper_kunmap(struct page *page)
-+{
-+	return kunmap(page);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_kunmap);
-+
-+int rust_helper_cond_resched(void)
-+{
-+	return cond_resched();
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_cond_resched);
-+
-+size_t rust_helper_copy_from_iter(void *addr, size_t bytes, struct iov_iter *i)
-+{
-+	return copy_from_iter(addr, bytes, i);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_copy_from_iter);
-+
-+size_t rust_helper_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
-+{
-+	return copy_to_iter(addr, bytes, i);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_copy_to_iter);
-+
-+bool rust_helper_is_err(__force const void *ptr)
-+{
-+	return IS_ERR(ptr);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_is_err);
-+
-+long rust_helper_ptr_err(__force const void *ptr)
-+{
-+	return PTR_ERR(ptr);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_ptr_err);
-+
-+const char *rust_helper_errname(int err)
-+{
-+	return errname(err);
-+}
-+
-+void rust_helper_mutex_lock(struct mutex *lock)
-+{
-+	mutex_lock(lock);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_mutex_lock);
-+
-+void *
-+rust_helper_platform_get_drvdata(const struct platform_device *pdev)
-+{
-+	return platform_get_drvdata(pdev);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_platform_get_drvdata);
-+
-+void
-+rust_helper_platform_set_drvdata(struct platform_device *pdev,
-+				 void *data)
-+{
-+	return platform_set_drvdata(pdev, data);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_platform_set_drvdata);
-+
-+refcount_t rust_helper_refcount_new(void)
-+{
-+	return (refcount_t)REFCOUNT_INIT(1);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_refcount_new);
-+
-+void rust_helper_refcount_inc(refcount_t *r)
-+{
-+	refcount_inc(r);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_refcount_inc);
-+
-+bool rust_helper_refcount_dec_and_test(refcount_t *r)
-+{
-+	return refcount_dec_and_test(r);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_refcount_dec_and_test);
-+
-+void rust_helper_rb_link_node(struct rb_node *node, struct rb_node *parent,
-+			      struct rb_node **rb_link)
-+{
-+	rb_link_node(node, parent, rb_link);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_rb_link_node);
-+
-+struct task_struct *rust_helper_get_current(void)
-+{
-+	return current;
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_get_current);
-+
-+void rust_helper_get_task_struct(struct task_struct * t)
-+{
-+	get_task_struct(t);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_get_task_struct);
-+
-+void rust_helper_put_task_struct(struct task_struct * t)
-+{
-+	put_task_struct(t);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
-+
-+int rust_helper_security_binder_set_context_mgr(struct task_struct *mgr)
-+{
-+	return security_binder_set_context_mgr(mgr);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_security_binder_set_context_mgr);
-+
-+int rust_helper_security_binder_transaction(struct task_struct *from,
-+					    struct task_struct *to)
-+{
-+	return security_binder_transaction(from, to);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_security_binder_transaction);
-+
-+int rust_helper_security_binder_transfer_binder(struct task_struct *from,
-+						struct task_struct *to)
-+{
-+	return security_binder_transfer_binder(from, to);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_security_binder_transfer_binder);
-+
-+int rust_helper_security_binder_transfer_file(struct task_struct *from,
-+					      struct task_struct *to,
-+					      struct file *file)
-+{
-+	return security_binder_transfer_file(from, to, file);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_security_binder_transfer_file);
-+
-+/* We use bindgen's --size_t-is-usize option to bind the C size_t type
-+ * as the Rust usize type, so we can use it in contexts where Rust
-+ * expects a usize like slice (array) indices. usize is defined to be
-+ * the same as C's uintptr_t type (can hold any pointer) but not
-+ * necessarily the same as size_t (can hold the size of any single
-+ * object). Most modern platforms use the same concrete integer type for
-+ * both of them, but in case we find ourselves on a platform where
-+ * that's not true, fail early instead of risking ABI or
-+ * integer-overflow issues.
-+ *
-+ * If your platform fails this assertion, it means that you are in
-+ * danger of integer-overflow bugs (even if you attempt to remove
-+ * --size_t-is-usize). It may be easiest to change the kernel ABI on
-+ * your platform such that size_t matches uintptr_t (i.e., to increase
-+ * size_t, because uintptr_t has to be at least as big as size_t).
-+*/
-+static_assert(
-+	sizeof(size_t) == sizeof(uintptr_t) &&
-+	__alignof__(size_t) == __alignof__(uintptr_t),
-+	"Rust code expects C size_t to match Rust usize"
++macro_rules! define_panicking_intrinsics(
++    ($reason: tt, { $($ident: ident, )* }) => {
++        $(
++            #[doc(hidden)]
++            #[no_mangle]
++            pub extern "C" fn $ident() {
++                panic!($reason);
++            }
++        )*
++    }
 +);
++
++define_panicking_intrinsics!("`f32` should not be used", {
++    __addsf3,
++    __addsf3vfp,
++    __aeabi_fcmpeq,
++    __aeabi_ul2f,
++    __divsf3,
++    __divsf3vfp,
++    __eqsf2,
++    __eqsf2vfp,
++    __fixsfdi,
++    __fixsfsi,
++    __fixsfti,
++    __fixunssfdi,
++    __fixunssfsi,
++    __fixunssfti,
++    __floatdisf,
++    __floatsisf,
++    __floattisf,
++    __floatundisf,
++    __floatunsisf,
++    __floatuntisf,
++    __gesf2,
++    __gesf2vfp,
++    __gtsf2,
++    __gtsf2vfp,
++    __lesf2,
++    __lesf2vfp,
++    __ltsf2,
++    __ltsf2vfp,
++    __mulsf3,
++    __mulsf3vfp,
++    __nesf2,
++    __nesf2vfp,
++    __powisf2,
++    __subsf3,
++    __subsf3vfp,
++    __unordsf2,
++});
++
++define_panicking_intrinsics!("`f64` should not be used", {
++    __adddf3,
++    __adddf3vfp,
++    __aeabi_dcmpeq,
++    __aeabi_ul2d,
++    __divdf3,
++    __divdf3vfp,
++    __eqdf2,
++    __eqdf2vfp,
++    __fixdfdi,
++    __fixdfsi,
++    __fixdfti,
++    __fixunsdfdi,
++    __fixunsdfsi,
++    __fixunsdfti,
++    __floatdidf,
++    __floatsidf,
++    __floattidf,
++    __floatundidf,
++    __floatunsidf,
++    __floatuntidf,
++    __gedf2,
++    __gedf2vfp,
++    __gtdf2,
++    __gtdf2vfp,
++    __ledf2,
++    __ledf2vfp,
++    __ltdf2,
++    __ltdf2vfp,
++    __muldf3,
++    __muldf3vfp,
++    __nedf2,
++    __nedf2vfp,
++    __powidf2,
++    __subdf3,
++    __subdf3vfp,
++    __unorddf2,
++});
++
++define_panicking_intrinsics!("`i128` should not be used", {
++    __ashrti3,
++    __muloti4,
++    __multi3,
++});
++
++define_panicking_intrinsics!("`u128` should not be used", {
++    __ashlti3,
++    __lshrti3,
++    __udivmodti4,
++    __udivti3,
++    __umodti3,
++});
++
++#[cfg(target_arch = "arm")]
++define_panicking_intrinsics!("`u64` division/modulo should not be used", {
++    __aeabi_uldivmod,
++    __mulodi4,
++});
++
++extern "C" {
++    fn rust_helper_BUG() -> !;
++}
++
++#[panic_handler]
++fn panic(_info: &core::panic::PanicInfo<'_>) -> ! {
++    unsafe {
++        rust_helper_BUG();
++    }
++}
 -- 
 2.32.0
 
