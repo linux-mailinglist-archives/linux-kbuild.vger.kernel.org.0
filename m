@@ -2,96 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9BA13BAF35
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 23:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC2E3BAF3B
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 23:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbhGDVa6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 17:30:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51582 "EHLO
+        id S229998AbhGDVgr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 17:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbhGDVa5 (ORCPT
+        with ESMTP id S229814AbhGDVgr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 17:30:57 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68F4C061574
-        for <linux-kbuild@vger.kernel.org>; Sun,  4 Jul 2021 14:28:21 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id p16so1317140lfc.5
-        for <linux-kbuild@vger.kernel.org>; Sun, 04 Jul 2021 14:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EbAGqDDbQnmjvsoTclpanP0h7gMK/AYm7CJnJS7LBY0=;
-        b=EHudwuo4e7cs9iy4bKTttxh5r9bMEt+Or14SkbnP8XxX+YLimbIhboHjNY1YI7rJb1
-         BQgZulzERbrQhHRG6dgvXGd+bH8g8ubQtBJwB6kCRYzc86HwozOTZo/k6oJHPk7lUEHT
-         e8WtFHMImLSrmrRRFjuGao0CPcAtgaoBdpI9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EbAGqDDbQnmjvsoTclpanP0h7gMK/AYm7CJnJS7LBY0=;
-        b=DPxFpi4riHo2RdsvzGmuGgTiU+H6e/lVRSaOCaPZQzSWEtI6/JDqaJIFOyOtCjJYL/
-         Ip0MrMs09siJBbhky/1iBBs0yZKxeIhm8eyF91J8cVRGnT14iPFCxvzc1JH9vod1h0+4
-         x0+v91PSV84iE9wEQnBfFRoGAceACcJdON5uSZpXYWbHKYt7WKtwxrzjyk0+zq+VqNNE
-         Me//VxsTQY+nl9RFVGRT/hsC+BYSXbp5SYSxJPnycyxbufumxLxPZq+1SMhwVbQjNoMo
-         ZCdwo+56WlZyPo1Zc9hx+nNnjlm/BAUgmUgeRYFfKkEEkFY965ZpVHpnBKlFC3XyxSej
-         WgfA==
-X-Gm-Message-State: AOAM530YwAiQVF3fWS9vJ1iUuVTKWDPXu+i2SY1rcDsyNR4Fn7hGWoRb
-        5hhfy3uwDtoZrWTzPo+hMNMxCV78T9Tps8ip
-X-Google-Smtp-Source: ABdhPJztWoJPe8Hvy81q2foTCyfXSM+t3Zg3HO6ND8HR8rAy1j3McXzVTj8Qmnr7sKOS8Cd51cf3vg==
-X-Received: by 2002:ac2:5dec:: with SMTP id z12mr7918863lfq.256.1625434099894;
-        Sun, 04 Jul 2021 14:28:19 -0700 (PDT)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
-        by smtp.gmail.com with ESMTPSA id v13sm892924lfg.88.2021.07.04.14.28.19
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jul 2021 14:28:19 -0700 (PDT)
-Received: by mail-lf1-f54.google.com with SMTP id bq39so16165530lfb.12
-        for <linux-kbuild@vger.kernel.org>; Sun, 04 Jul 2021 14:28:19 -0700 (PDT)
-X-Received: by 2002:ac2:4903:: with SMTP id n3mr7787093lfi.487.1625434098906;
- Sun, 04 Jul 2021 14:28:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-2-ojeda@kernel.org>
- <CAHk-=wisMFiBHT7dLFOtHqX=fEve3JafZjSvbd5cy=MpW4u7zQ@mail.gmail.com> <CANiq72n0SeubFWsFXkTT1V-BCQB+MzVRqC4L+PT8QtA0=C2r8Q@mail.gmail.com>
-In-Reply-To: <CANiq72n0SeubFWsFXkTT1V-BCQB+MzVRqC4L+PT8QtA0=C2r8Q@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 4 Jul 2021 14:28:03 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjFa-d_Gha9KyrXb9UxTKNJY3L3D1D-f6jPSz0_AWSuLg@mail.gmail.com>
-Message-ID: <CAHk-=wjFa-d_Gha9KyrXb9UxTKNJY3L3D1D-f6jPSz0_AWSuLg@mail.gmail.com>
-Subject: Re: [PATCH 01/17] kallsyms: support big kernel symbols (2-byte lengths)
+        Sun, 4 Jul 2021 17:36:47 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A9CC061574;
+        Sun,  4 Jul 2021 14:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=NSFtDVcn1UZ5fHBw/wxs+K3bbxug+yk5lDy1UuFsjwI=; b=RfWCwnqm+aJY6sOMjzxwF735cg
+        4znkt9Ml72y6/G7e7iEtYhSGs4yIcigKPaZCiNV3h0uIrbaMV+yCfzyRuJ2R+B+UwQ6n4TZSNHXu2
+        Fpk8shYMvC/Okhl2xlbFBD7PjuXhXPegv2z2UxrE68M+kZXsXDLuPBjIgAeo52oYTQtCZWyFQCQF2
+        B0P6kICqA4ccWoo5Ggb42bKZssi005FTr7wVhGuMjZH+XsxBfa5PY8wXOqeJ7jP5I5UcaqdsZ7Zgs
+        H6kvRUbSsCYmTx4Kqu1G7WV2mD3UgXhDfabTlMptjtgST8Etz2W7qnaTO7OVZ4t4qaFaINs9n2XYi
+        0pi5foSg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m09kB-009byv-Ax; Sun, 04 Jul 2021 21:33:44 +0000
+Date:   Sun, 4 Jul 2021 22:33:39 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux <rust-for-linux@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
         Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 01/17] kallsyms: support big kernel symbols (2-byte
+ lengths)
+Message-ID: <YOIpM3iFT5roz69i@casper.infradead.org>
+References: <20210704202756.29107-1-ojeda@kernel.org>
+ <20210704202756.29107-2-ojeda@kernel.org>
+ <YOIicc94zvSjrKfe@casper.infradead.org>
+ <CANiq72=eHs870jbmZz8CUEUuN2NOCaKS9-F6-jAb0QXje2x1Eg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72=eHs870jbmZz8CUEUuN2NOCaKS9-F6-jAb0QXje2x1Eg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jul 4, 2021 at 2:15 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> No particular reason. It makes sense to use LE -- I will change it.
+On Sun, Jul 04, 2021 at 11:17:50PM +0200, Miguel Ojeda wrote:
+> On Sun, Jul 4, 2021 at 11:05 PM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > What happened to my suggestion from last time of encoding symbols < 128
+> > as 0-127 and symbols larger than that as (data[0] - 128) * 256 +
+> > data[1]) ?
+> 
+> Nothing, sorry, we focused on other parts (e.g. the allocation panics)
+> during this iteration. I can take a look for v2.
 
-Matthew's suggestion is denser, which is nice.
+Here's what I have.  Build testing now.
 
-At that point, it would be neither BE nor LE. But the "LE-like" version would be
 
-   len = data[0];
-   if (len & 128)
-        len += data[1] << 7;
-
-which ends up having a tiny bit more range (it goes to 11^H32895).
-
-Of course, if the range is expected to be just 0-300, I guess that
-matters not one whit.
-
-                Linus
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index c851ca0ed357..0d45a6e5fdc3 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -67,6 +67,14 @@ static unsigned int kallsyms_expand_symbol(unsigned int off,
+ 	len = *data;
+ 	data++;
+ 
++	/* lengths larger than 128 are encoded as two bytes */
++	if (len >= 128) {
++		len -= 128;
++		len *= 256;
++		len += *data;
++		data++;
++	}
++
+ 	/*
+ 	 * Update the offset to return the offset for the next symbol on
+ 	 * the compressed stream.
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 54ad86d13784..701566e01a1d 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -467,10 +467,16 @@ static void write_src(void)
+ 	output_label("kallsyms_names");
+ 	off = 0;
+ 	for (i = 0; i < table_cnt; i++) {
++		int len = table[i]->len;
+ 		if ((i & 0xFF) == 0)
+ 			markers[i >> 8] = off;
+ 
+-		printf("\t.byte 0x%02x", table[i]->len);
++		if (len >= 128) {
++			printf("\t.byte 0x%02x\n", len / 256 + 128);
++			len %= 256;
++			off++;
++		}
++		printf("\t.byte 0x%02x", len);
+ 		for (k = 0; k < table[i]->len; k++)
+ 			printf(", 0x%02x", table[i]->sym[k]);
+ 		printf("\n");
