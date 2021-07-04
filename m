@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 102B93BB05F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CCD13BB10B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbhGDXIU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 19:08:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46804 "EHLO mail.kernel.org"
+        id S232157AbhGDXKf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 19:10:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47378 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230406AbhGDXIE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:08:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F33D611ED;
-        Sun,  4 Jul 2021 23:05:27 +0000 (UTC)
+        id S232164AbhGDXKE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:10:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E76261474;
+        Sun,  4 Jul 2021 23:07:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625439928;
-        bh=Dk48NbV8rLWqDR+JaOsvZjWWOogARq/S0oZtHIEKpAU=;
+        s=k20201202; t=1625440039;
+        bh=yY2bI91afSxt/OxA/VBmPNYgl2El7gkY73+AkTK/5yM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Zl5aK3wCO1rrxXTNmJc/c134jCqBGo3Iu6JOEf4E5ca5f0XthO2TsmtzT9KnOxylV
-         7ZFXQ7YpoQVnzd3W2DNYFSDmHfi7FPTS90YTPRU08XxSqBrUXsqA4J1ayT3tsl1Bk0
-         f5EL11NotXjpwUGIdzW5eKR/olicQ0k5mJtB6CFv1ROwNPwqFIqWWtn+97Dn32cGca
-         5sVoe1UEdPBmIovQIyNuP0WfBKU2hdtUVtaMABRpSOyQ3khkRXAdgD1beWKd31mYft
-         ZdCjrxPbSu0JqNk4cHeZLMAixEXBWTBnUrVYAqy0Xc1dKvAWVATsXGV3f0hNN0g/fA
-         RhMDHLNf10Weg==
+        b=Rz3wBQFHLX5ZomGh6miOQ8BMjTKOJLQXPycbqNCmVkkEY2bFrBv1v/cgQ1vTWBR/z
+         YSifNp2z9FQ59DtaZVLh8RbQbbqM2aFI+iP06V+AZAVx4WQGG1+jkdPPWrG1jJJW3v
+         RR8kIEnwRx8beeB0kBlwjnm2jB5lA/Fh9wFVdTuWJUyNgUlHebPg6+yzkrmHsO/uW7
+         1ZSuWMrOKx0I67qMLUDT5MF0dou8yKdLH6SjriWsL2aUiNLacIVQoRgUYrheG8kizR
+         aTrqBpfAkbicQaSbkbhVb/I8o3xCeku+31+7IF/4e5QFFMcJhKvLuI5sKNb64inTFp
+         Uk1csFccjYKxg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -30,12 +30,12 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 49/85] Makefile: fix GDB warning with CONFIG_RELR
-Date:   Sun,  4 Jul 2021 19:03:44 -0400
-Message-Id: <20210704230420.1488358-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 46/80] Makefile: fix GDB warning with CONFIG_RELR
+Date:   Sun,  4 Jul 2021 19:05:42 -0400
+Message-Id: <20210704230616.1489200-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
-References: <20210704230420.1488358-1-sashal@kernel.org>
+In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
+References: <20210704230616.1489200-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 0565caea0362..88888fff4c62 100644
+index d2fe36db78ae..657b5db6659d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1039,7 +1039,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+@@ -1006,7 +1006,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
  ifeq ($(CONFIG_RELR),y)
