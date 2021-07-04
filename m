@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89ECA3BAEDD
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB253BAEE1
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbhGDUb1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 16:31:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36800 "EHLO mail.kernel.org"
+        id S230044AbhGDUbb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 16:31:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36908 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230036AbhGDUbZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 16:31:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E8446613DD;
-        Sun,  4 Jul 2021 20:28:44 +0000 (UTC)
+        id S230000AbhGDUba (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 16:31:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C72306115C;
+        Sun,  4 Jul 2021 20:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625430529;
-        bh=AGapwzpPs5XBP4WvEM+GDuQKLpaiGR7OCL0hbLs6unY=;
+        s=k20201202; t=1625430534;
+        bh=KZ2/g9t2YFofiHUUTARbQC2rknRlRYTuBulzw9sklTQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LC8aFv8SQvWWPRE2gcZTcKxeRBxFiOpB24qXs+aG7VwwYRsCkJMjLgxO7VmgTj1k3
-         0nXhlbmHCQXSRKNgS7WRthTxaeHEJWw8Zg/vtahd5uOs8fcj1qCYStUn79XWWU+Gm9
-         41cHmkT0pE0nbImVWyib8VtGqU9kusVZGqIobd7LM6m2Y+QpCLavZ5M1GhVOZEr1WU
-         /BfalH/67vQpWM+AQJl9N2WmHasC5xHPLt5GyqVh4gpWz+yG6k2w+UilnSJCExSZdC
-         Ewpe90KC8md4IjNLNJsvbtp6GSC6xINWzxsZ6CsjqSHf+ckrupPADx0TnuOLmvKqTM
-         xJye/qMo/AyhQ==
+        b=GB4WTpLbb4EZyykJdjez2hrkJYR1j/rw4BpiGuD83wWe3mVSnBSA2bMSxd0+4BgYV
+         8ueHjV+sfkUU8pYKRV6lYFYYxY73L/+xvYzejkSVtTzu9ni/DJ5vWU6Dwr9F4pSGSS
+         FRKaPPueR4XRQGSJNKRAq+01sU99VTAlNpsBvopL1TUNThqpGEH/dACiHGgHKu3BAp
+         Pks0dml1tdZ4szpvV+46oHdyCMu0ZrwHrWdL4IFndX0IB1rl03zsUYve7MbnJhfYZt
+         Lyfuo7sXT02/gNEVeqn4oL4DZAdjoOSCo4VCtKywyk7yLXTwy4MGVwgbcyhhLR3SBa
+         zDEv6IaLyG++A==
 From:   ojeda@kernel.org
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -43,9 +43,9 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Fox Chen <foxhlchen@gmail.com>,
         Ayaan Zaidi <zaidi.ayaan@gmail.com>,
         Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Subject: [PATCH 04/17] vsprintf: add new `%pA` format specifier
-Date:   Sun,  4 Jul 2021 22:27:43 +0200
-Message-Id: <20210704202756.29107-5-ojeda@kernel.org>
+Subject: [PATCH 05/17] rust: add C helpers
+Date:   Sun,  4 Jul 2021 22:27:44 +0200
+Message-Id: <20210704202756.29107-6-ojeda@kernel.org>
 In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
 References: <20210704202756.29107-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -56,14 +56,8 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Miguel Ojeda <ojeda@kernel.org>
 
-This patch adds a format specifier `%pA` to `vsprintf` which formats
-a pointer as `core::fmt::Arguments`. Doing so allows us to directly
-format to the internal buffer of `printf`, so we do not have to use
-a temporary buffer on the stack to pre-assemble the message on
-the Rust side.
-
-This specifier is intended only to be used from Rust and not for C, so
-`checkpatch.pl` is intentionally unchanged to catch any misuse.
+This source file contains forwarders to C macros and inlined
+functions.
 
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
@@ -97,46 +91,251 @@ Co-developed-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- lib/vsprintf.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ rust/helpers.c | 235 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 235 insertions(+)
+ create mode 100644 rust/helpers.c
 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index f0c35d9b65b..e7afe954004 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -2182,6 +2182,10 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
- 	return widen_string(buf, buf - buf_start, end, spec);
- }
- 
-+#ifdef CONFIG_RUST
-+char *rust_fmt_argument(char* buf, char* end, void *ptr);
-+#endif
+diff --git a/rust/helpers.c b/rust/helpers.c
+new file mode 100644
+index 00000000000..a6e98abb13e
+--- /dev/null
++++ b/rust/helpers.c
+@@ -0,0 +1,235 @@
++// SPDX-License-Identifier: GPL-2.0
 +
- /* Disable pointer hashing if requested */
- bool no_hash_pointers __ro_after_init;
- EXPORT_SYMBOL_GPL(no_hash_pointers);
-@@ -2335,6 +2339,10 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
-  *
-  * Note: The default behaviour (unadorned %p) is to hash the address,
-  * rendering it useful as a unique identifier.
-+ *
-+ * There is also a '%pA' format specifier, but it is only intended to be used
-+ * from Rust code to format core::fmt::Arguments. Do *not* use it from C.
-+ * See rust/kernel/print.rs for details.
-  */
- static noinline_for_stack
- char *pointer(const char *fmt, char *buf, char *end, void *ptr,
-@@ -2407,6 +2415,10 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
- 		return device_node_string(buf, end, ptr, spec, fmt + 1);
- 	case 'f':
- 		return fwnode_string(buf, end, ptr, spec, fmt + 1);
-+#ifdef CONFIG_RUST
-+	case 'A':
-+		return rust_fmt_argument(buf, end, ptr);
++#include <linux/bug.h>
++#include <linux/build_bug.h>
++#include <linux/uaccess.h>
++#include <linux/sched/signal.h>
++#include <linux/gfp.h>
++#include <linux/highmem.h>
++#include <linux/uio.h>
++#include <linux/errname.h>
++#include <linux/mutex.h>
++#include <linux/platform_device.h>
++#include <linux/security.h>
++
++void rust_helper_BUG(void)
++{
++	BUG();
++}
++
++unsigned long rust_helper_copy_from_user(void *to, const void __user *from, unsigned long n)
++{
++	return copy_from_user(to, from, n);
++}
++
++unsigned long rust_helper_copy_to_user(void __user *to, const void *from, unsigned long n)
++{
++	return copy_to_user(to, from, n);
++}
++
++unsigned long rust_helper_clear_user(void __user *to, unsigned long n)
++{
++	return clear_user(to, n);
++}
++
++void rust_helper_spin_lock_init(spinlock_t *lock, const char *name,
++				struct lock_class_key *key)
++{
++#ifdef CONFIG_DEBUG_SPINLOCK
++	__spin_lock_init(lock, name, key);
++#else
++	spin_lock_init(lock);
 +#endif
- 	case 'x':
- 		return pointer_string(buf, end, ptr, spec);
- 	case 'e':
++}
++EXPORT_SYMBOL_GPL(rust_helper_spin_lock_init);
++
++void rust_helper_spin_lock(spinlock_t *lock)
++{
++	spin_lock(lock);
++}
++EXPORT_SYMBOL_GPL(rust_helper_spin_lock);
++
++void rust_helper_spin_unlock(spinlock_t *lock)
++{
++	spin_unlock(lock);
++}
++EXPORT_SYMBOL_GPL(rust_helper_spin_unlock);
++
++void rust_helper_init_wait(struct wait_queue_entry *wq_entry)
++{
++	init_wait(wq_entry);
++}
++EXPORT_SYMBOL_GPL(rust_helper_init_wait);
++
++int rust_helper_signal_pending(struct task_struct *t)
++{
++	return signal_pending(t);
++}
++EXPORT_SYMBOL_GPL(rust_helper_signal_pending);
++
++struct page *rust_helper_alloc_pages(gfp_t gfp_mask, unsigned int order)
++{
++	return alloc_pages(gfp_mask, order);
++}
++EXPORT_SYMBOL_GPL(rust_helper_alloc_pages);
++
++void *rust_helper_kmap(struct page *page)
++{
++	return kmap(page);
++}
++EXPORT_SYMBOL_GPL(rust_helper_kmap);
++
++void rust_helper_kunmap(struct page *page)
++{
++	return kunmap(page);
++}
++EXPORT_SYMBOL_GPL(rust_helper_kunmap);
++
++int rust_helper_cond_resched(void)
++{
++	return cond_resched();
++}
++EXPORT_SYMBOL_GPL(rust_helper_cond_resched);
++
++size_t rust_helper_copy_from_iter(void *addr, size_t bytes, struct iov_iter *i)
++{
++	return copy_from_iter(addr, bytes, i);
++}
++EXPORT_SYMBOL_GPL(rust_helper_copy_from_iter);
++
++size_t rust_helper_copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
++{
++	return copy_to_iter(addr, bytes, i);
++}
++EXPORT_SYMBOL_GPL(rust_helper_copy_to_iter);
++
++bool rust_helper_is_err(__force const void *ptr)
++{
++	return IS_ERR(ptr);
++}
++EXPORT_SYMBOL_GPL(rust_helper_is_err);
++
++long rust_helper_ptr_err(__force const void *ptr)
++{
++	return PTR_ERR(ptr);
++}
++EXPORT_SYMBOL_GPL(rust_helper_ptr_err);
++
++const char *rust_helper_errname(int err)
++{
++	return errname(err);
++}
++
++void rust_helper_mutex_lock(struct mutex *lock)
++{
++	mutex_lock(lock);
++}
++EXPORT_SYMBOL_GPL(rust_helper_mutex_lock);
++
++void *
++rust_helper_platform_get_drvdata(const struct platform_device *pdev)
++{
++	return platform_get_drvdata(pdev);
++}
++EXPORT_SYMBOL_GPL(rust_helper_platform_get_drvdata);
++
++void
++rust_helper_platform_set_drvdata(struct platform_device *pdev,
++				 void *data)
++{
++	return platform_set_drvdata(pdev, data);
++}
++EXPORT_SYMBOL_GPL(rust_helper_platform_set_drvdata);
++
++refcount_t rust_helper_refcount_new(void)
++{
++	return (refcount_t)REFCOUNT_INIT(1);
++}
++EXPORT_SYMBOL_GPL(rust_helper_refcount_new);
++
++void rust_helper_refcount_inc(refcount_t *r)
++{
++	refcount_inc(r);
++}
++EXPORT_SYMBOL_GPL(rust_helper_refcount_inc);
++
++bool rust_helper_refcount_dec_and_test(refcount_t *r)
++{
++	return refcount_dec_and_test(r);
++}
++EXPORT_SYMBOL_GPL(rust_helper_refcount_dec_and_test);
++
++void rust_helper_rb_link_node(struct rb_node *node, struct rb_node *parent,
++			      struct rb_node **rb_link)
++{
++	rb_link_node(node, parent, rb_link);
++}
++EXPORT_SYMBOL_GPL(rust_helper_rb_link_node);
++
++struct task_struct *rust_helper_get_current(void)
++{
++	return current;
++}
++EXPORT_SYMBOL_GPL(rust_helper_get_current);
++
++void rust_helper_get_task_struct(struct task_struct * t)
++{
++	get_task_struct(t);
++}
++EXPORT_SYMBOL_GPL(rust_helper_get_task_struct);
++
++void rust_helper_put_task_struct(struct task_struct * t)
++{
++	put_task_struct(t);
++}
++EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
++
++int rust_helper_security_binder_set_context_mgr(struct task_struct *mgr)
++{
++	return security_binder_set_context_mgr(mgr);
++}
++EXPORT_SYMBOL_GPL(rust_helper_security_binder_set_context_mgr);
++
++int rust_helper_security_binder_transaction(struct task_struct *from,
++					    struct task_struct *to)
++{
++	return security_binder_transaction(from, to);
++}
++EXPORT_SYMBOL_GPL(rust_helper_security_binder_transaction);
++
++int rust_helper_security_binder_transfer_binder(struct task_struct *from,
++						struct task_struct *to)
++{
++	return security_binder_transfer_binder(from, to);
++}
++EXPORT_SYMBOL_GPL(rust_helper_security_binder_transfer_binder);
++
++int rust_helper_security_binder_transfer_file(struct task_struct *from,
++					      struct task_struct *to,
++					      struct file *file)
++{
++	return security_binder_transfer_file(from, to, file);
++}
++EXPORT_SYMBOL_GPL(rust_helper_security_binder_transfer_file);
++
++/* We use bindgen's --size_t-is-usize option to bind the C size_t type
++ * as the Rust usize type, so we can use it in contexts where Rust
++ * expects a usize like slice (array) indices. usize is defined to be
++ * the same as C's uintptr_t type (can hold any pointer) but not
++ * necessarily the same as size_t (can hold the size of any single
++ * object). Most modern platforms use the same concrete integer type for
++ * both of them, but in case we find ourselves on a platform where
++ * that's not true, fail early instead of risking ABI or
++ * integer-overflow issues.
++ *
++ * If your platform fails this assertion, it means that you are in
++ * danger of integer-overflow bugs (even if you attempt to remove
++ * --size_t-is-usize). It may be easiest to change the kernel ABI on
++ * your platform such that size_t matches uintptr_t (i.e., to increase
++ * size_t, because uintptr_t has to be at least as big as size_t).
++*/
++static_assert(
++	sizeof(size_t) == sizeof(uintptr_t) &&
++	__alignof__(size_t) == __alignof__(uintptr_t),
++	"Rust code expects C size_t to match Rust usize"
++);
 -- 
 2.32.0
 
