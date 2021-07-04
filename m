@@ -2,87 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6BD3BAF61
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 00:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 102B93BB05F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbhGDWpR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 18:45:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhGDWpR (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 18:45:17 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77389C061574;
-        Sun,  4 Jul 2021 15:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xtcuflbG6V/1JlvW4xdoIPk6pojTTMLLnJIHQJBxuHE=; b=HnU0Im7UY/ke3GadqxbisGQBDi
-        U+u4YSYiXdknjeVfND/u0mTNVX3iHt+We8TLUrsrtdkTFTS/wMBU1c2MedcwfHaKNrmdI2IUu/eMZ
-        1TzbprAYDesMnwMi94W1v17kRw8pvOL10M5boKLAqU3P3MqJxdw7OBnrhWXr1Ma/4pBSE2HZyaLQ1
-        AoJY4ovXZtHReBRX3e60YmV61SOZDeTdWJM3IQBd6MzGTgXT9fvug7g+DZoYd+o7k6+B6SiMwvk5Y
-        pXPf1wjkjxHD+B5XAHFj7xz/cCiVh9+e0JGoko535HXO0VxFR0QV7g8Vf/Gl0kcvA2C3qwWS3GJ74
-        7iuORfGg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m0AoO-009eDv-00; Sun, 04 Jul 2021 22:42:13 +0000
-Date:   Sun, 4 Jul 2021 23:42:03 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Gary Guo <gary@garyguo.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 01/17] kallsyms: support big kernel symbols (2-byte
- lengths)
-Message-ID: <YOI5O6/RpaN1P6mM@casper.infradead.org>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <20210704202756.29107-2-ojeda@kernel.org>
- <YOIicc94zvSjrKfe@casper.infradead.org>
- <CANiq72=eHs870jbmZz8CUEUuN2NOCaKS9-F6-jAb0QXje2x1Eg@mail.gmail.com>
- <YOIpM3iFT5roz69i@casper.infradead.org>
- <20210704232007.0000357e@garyguo.net>
+        id S230390AbhGDXIU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 19:08:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46804 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230406AbhGDXIE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:08:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F33D611ED;
+        Sun,  4 Jul 2021 23:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625439928;
+        bh=Dk48NbV8rLWqDR+JaOsvZjWWOogARq/S0oZtHIEKpAU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Zl5aK3wCO1rrxXTNmJc/c134jCqBGo3Iu6JOEf4E5ca5f0XthO2TsmtzT9KnOxylV
+         7ZFXQ7YpoQVnzd3W2DNYFSDmHfi7FPTS90YTPRU08XxSqBrUXsqA4J1ayT3tsl1Bk0
+         f5EL11NotXjpwUGIdzW5eKR/olicQ0k5mJtB6CFv1ROwNPwqFIqWWtn+97Dn32cGca
+         5sVoe1UEdPBmIovQIyNuP0WfBKU2hdtUVtaMABRpSOyQ3khkRXAdgD1beWKd31mYft
+         ZdCjrxPbSu0JqNk4cHeZLMAixEXBWTBnUrVYAqy0Xc1dKvAWVATsXGV3f0hNN0g/fA
+         RhMDHLNf10Weg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 49/85] Makefile: fix GDB warning with CONFIG_RELR
+Date:   Sun,  4 Jul 2021 19:03:44 -0400
+Message-Id: <20210704230420.1488358-49-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
+References: <20210704230420.1488358-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210704232007.0000357e@garyguo.net>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jul 04, 2021 at 11:20:07PM +0100, Gary Guo wrote:
-> This is big endian.
+From: Nick Desaulniers <ndesaulniers@google.com>
 
-Fundamentally, it doesn't matter whether it's encoded as top-7 +
-bottom-8 or bottom-7 + top-8.  It could just as well be:
+[ Upstream commit 27f2a4db76e8d8a8b601fc1c6a7a17f88bd907ab ]
 
-        if (len >= 128) {
-                len -= 128;
-                len += *data * 256;
-                data++;
-        }
+GDB produces the following warning when debugging kernels built with
+CONFIG_RELR:
 
-It doesn't matter whether it's compatible with some other encoding.
-This encoding has one producer and one consumer.  As long as they agree,
-it's fine.  If you want to make an argument about extensibiity, then
-I'm going to suggest that wanting a symbol name more than 32kB in size
-is a sign you've done something else very, very wrong.
+BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
 
-At that point, you should probably switch to comparing hashes of the
-symbol instead of the symbol.  Indeed, I think we're already there at
-300 byte symbols; we should probably SipHash the full, unmangled symbol
-[1].  At 33k symbols in the current kernel, the risk of a collision of
-a 64-bit value is negligible, and almost every kernel symbol is longer
-than 7 bytes (thankfully).
+when loading a kernel built with CONFIG_RELR into GDB. It can also
+prevent debugging symbols using such relocations.
 
-[1] ie SipHash("void unlock_page(struct page *)")
+Peter sugguests:
+  [That flag] means that lld will use dynamic tags and section type
+  numbers in the OS-specific range rather than the generic range. The
+  kernel itself doesn't care about these numbers; it determines the
+  location of the RELR section using symbols defined by a linker script.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1057
+Suggested-by: Peter Collingbourne <pcc@google.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Link: https://lore.kernel.org/r/20210522012626.2811297-1-ndesaulniers@google.com
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Makefile                      | 2 +-
+ scripts/tools-support-relr.sh | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 0565caea0362..88888fff4c62 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1039,7 +1039,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+ endif
+ 
+ ifeq ($(CONFIG_RELR),y)
+-LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
++LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
+ endif
+ 
+ # We never want expected sections to be placed heuristically by the
+diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
+index 45e8aa360b45..cb55878bd5b8 100755
+--- a/scripts/tools-support-relr.sh
++++ b/scripts/tools-support-relr.sh
+@@ -7,7 +7,8 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
+ cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
+ void *p = &p;
+ END
+-$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr -o $tmp_file
++$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr \
++  --use-android-relr-tags -o $tmp_file
+ 
+ # Despite printing an error message, GNU nm still exits with exit code 0 if it
+ # sees a relr section. So we need to check that nothing is printed to stderr.
+-- 
+2.30.2
+
