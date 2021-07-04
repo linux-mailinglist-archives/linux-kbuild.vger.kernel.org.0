@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CCD13BB10B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E7213BB3B2
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232157AbhGDXKf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 19:10:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47378 "EHLO mail.kernel.org"
+        id S233495AbhGDXSo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 19:18:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232164AbhGDXKE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:10:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E76261474;
-        Sun,  4 Jul 2021 23:07:18 +0000 (UTC)
+        id S232593AbhGDXNP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:13:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C97F861936;
+        Sun,  4 Jul 2021 23:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440039;
-        bh=yY2bI91afSxt/OxA/VBmPNYgl2El7gkY73+AkTK/5yM=;
+        s=k20201202; t=1625440142;
+        bh=DTCy6yW8DIy9rxQjTHrEkzYhwoogUgU1HRFX7N05IJI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Rz3wBQFHLX5ZomGh6miOQ8BMjTKOJLQXPycbqNCmVkkEY2bFrBv1v/cgQ1vTWBR/z
-         YSifNp2z9FQ59DtaZVLh8RbQbbqM2aFI+iP06V+AZAVx4WQGG1+jkdPPWrG1jJJW3v
-         RR8kIEnwRx8beeB0kBlwjnm2jB5lA/Fh9wFVdTuWJUyNgUlHebPg6+yzkrmHsO/uW7
-         1ZSuWMrOKx0I67qMLUDT5MF0dou8yKdLH6SjriWsL2aUiNLacIVQoRgUYrheG8kizR
-         aTrqBpfAkbicQaSbkbhVb/I8o3xCeku+31+7IF/4e5QFFMcJhKvLuI5sKNb64inTFp
-         Uk1csFccjYKxg==
+        b=Io2wPMbLIsQwU40f+XvzQbbZ7BOAMihTh208IzcHemO3+hyFzH6OVrQ3AL7J4mT6e
+         28Q/7rnnLJmdf6tIAwHzmnQ++jr5L3wEQRJmxxOD/k2MAQ661LbAL+gKutCSOeZPfj
+         ZUHwVkffDrbEWjlns2MJPvctGBWsWBVqUXGuWMfYh2lRFbytWQk4S2jagfyERBXXey
+         KjhhK0JZQ2MlgrbZadCd+BkltToE/ffONMI9W+62pV+NtfgMoo7itMT+/mmXB5zWzM
+         R/E5Wjg1/yXVQD8Hwe/FiEFr4MreHn6NObCnmDzPtHAx186Ipp2qRNGHxmsWBLqHWg
+         ZJ4M9lYHgC56w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -30,12 +30,12 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 46/80] Makefile: fix GDB warning with CONFIG_RELR
-Date:   Sun,  4 Jul 2021 19:05:42 -0400
-Message-Id: <20210704230616.1489200-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 43/70] Makefile: fix GDB warning with CONFIG_RELR
+Date:   Sun,  4 Jul 2021 19:07:36 -0400
+Message-Id: <20210704230804.1490078-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
-References: <20210704230616.1489200-1-sashal@kernel.org>
+In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
+References: <20210704230804.1490078-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index d2fe36db78ae..657b5db6659d 100644
+index 7ab22f105a03..67d0816cb997 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1006,7 +1006,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+@@ -978,7 +978,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
  ifeq ($(CONFIG_RELR),y)
