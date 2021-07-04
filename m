@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E7213BB3B2
+	by mail.lfdr.de (Postfix) with ESMTP id C50913BB3B4
 	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233495AbhGDXSo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 19:18:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50660 "EHLO mail.kernel.org"
+        id S233525AbhGDXSp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 19:18:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50502 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232593AbhGDXNP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:13:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C97F861936;
-        Sun,  4 Jul 2021 23:09:01 +0000 (UTC)
+        id S233610AbhGDXOd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:14:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC17B61946;
+        Sun,  4 Jul 2021 23:10:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440142;
-        bh=DTCy6yW8DIy9rxQjTHrEkzYhwoogUgU1HRFX7N05IJI=;
+        s=k20201202; t=1625440213;
+        bh=DAeD0r+v//2Ew0XhFrwy6954/xVEA06eegqtkuK1sDg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Io2wPMbLIsQwU40f+XvzQbbZ7BOAMihTh208IzcHemO3+hyFzH6OVrQ3AL7J4mT6e
-         28Q/7rnnLJmdf6tIAwHzmnQ++jr5L3wEQRJmxxOD/k2MAQ661LbAL+gKutCSOeZPfj
-         ZUHwVkffDrbEWjlns2MJPvctGBWsWBVqUXGuWMfYh2lRFbytWQk4S2jagfyERBXXey
-         KjhhK0JZQ2MlgrbZadCd+BkltToE/ffONMI9W+62pV+NtfgMoo7itMT+/mmXB5zWzM
-         R/E5Wjg1/yXVQD8Hwe/FiEFr4MreHn6NObCnmDzPtHAx186Ipp2qRNGHxmsWBLqHWg
-         ZJ4M9lYHgC56w==
+        b=on7ArL+GZq3ydgrhVb1ohVbktRnod6OWtmYT+2Bgdoju8716yJrUNlCFX+pPgPf4X
+         BlT9MMlH2fn9V62iBcaoGyGXIENr6xtdR96TLnORG9WtyP17iKA1dUDi/lVBDjCfWP
+         hanaOPx9e1gpEtFOsQwU3x475tEqHVTA4Y5PPScbMDa9zEAXTo8wW99VZ1TxirBPyU
+         HsE3pXJcQGJjuVZtTTUKw4JuhYfmvN1jLb+7VTiHs+gTJBtVUj1osXAiwnjY1Q+LRn
+         gjrwbzKnP9xJ1VhpBYknjn6V+1hzSry5Fi3Nkw2z5FxiAJxE2IItLTQmtCTT3KucCU
+         2ZVOguLNpxjaw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
@@ -30,12 +30,12 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 43/70] Makefile: fix GDB warning with CONFIG_RELR
-Date:   Sun,  4 Jul 2021 19:07:36 -0400
-Message-Id: <20210704230804.1490078-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 27/50] Makefile: fix GDB warning with CONFIG_RELR
+Date:   Sun,  4 Jul 2021 19:09:15 -0400
+Message-Id: <20210704230938.1490742-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
-References: <20210704230804.1490078-1-sashal@kernel.org>
+In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
+References: <20210704230938.1490742-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 7ab22f105a03..67d0816cb997 100644
+index 5db87d8031f1..df9365a3432f 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -978,7 +978,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
+@@ -937,7 +937,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
  endif
  
  ifeq ($(CONFIG_RELR),y)
@@ -86,7 +86,7 @@ index 7ab22f105a03..67d0816cb997 100644
 +LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
  endif
  
- # We never want expected sections to be placed heuristically by the
+ # make the checker run with the right architecture
 diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
 index 45e8aa360b45..cb55878bd5b8 100755
 --- a/scripts/tools-support-relr.sh
