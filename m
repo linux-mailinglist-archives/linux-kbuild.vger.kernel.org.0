@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 319CD3BAEE4
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:29:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464CE3BAEE8
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbhGDUbf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 16:31:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37010 "EHLO mail.kernel.org"
+        id S230107AbhGDUbq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 16:31:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230085AbhGDUbe (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 16:31:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB67B613F1;
-        Sun,  4 Jul 2021 20:28:54 +0000 (UTC)
+        id S230101AbhGDUbp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 16:31:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E248613F1;
+        Sun,  4 Jul 2021 20:29:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625430539;
-        bh=5IkH6k57x0wQb/2rxknod94WvBdKBrDhSDQRHRqz02o=;
+        s=k20201202; t=1625430549;
+        bh=Xw+YpR7+ODy7bTkSIEvVXZYPVVcCYE52n6l0fRjuwvI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lt+8b4/T5pa/QK+60/9K1nxKFduCfTeJAIn5OhECkM988lh1qnwLbWxyPwK2x1JvU
-         NTXBn0g7WkSs2t9ebNBDrvCpC2q1HimRMBPcCK3qEZV1wmn3C0tIPbv8LZQiHPz09G
-         pWJuy+jzHRh0gP4HrQxL7KEFCUzUqTGfqKFspguhMUj+ewBeMUaGGLS0qyR0OsvH8A
-         agkX+nyadmMilWcdc84ktdDYKUenKRkn+HSub+rBitRK6CPUOuhY2xWPf3N3ZqZG91
-         wYL60BtYGt0Us+vBzypVSr2JDkVEDQsbCNs5w7PLeJj7TH6ApRrHPqyszsGXNRcLYa
-         Dyh4CesXSMb6Q==
+        b=WRVLu3zfWVLBgG6vP5LqmmFgCn+ZErWJeo7M9r20iJk4uT4IdUaftmowuJy3xAXqg
+         a21MbJ3zXD58OywxBip5oGWUFzI01C3GIl0FuY1watCL3ckD+ouJVJ+7MVo7UWC4pF
+         Deq1wDfHekE0OR+dqmYyVDXuMEECAQEd9zsJhsSigJbxfcvzK89hEc0MbHWEMcok/U
+         YN4KxFtIXlaHlmICKBi76QRHBWykEk9hZARn+aeoO88QzzEiGyom+qjOErhrKK3P7I
+         4VvHfuZ95sVFtEl3BHIufPwGygr6UZih8P2qrDnJAlwRBqc4ZBKoh8oYW2w4+flJ43
+         iqjZPfbOkVoTw==
 From:   ojeda@kernel.org
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -43,9 +43,9 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Fox Chen <foxhlchen@gmail.com>,
         Ayaan Zaidi <zaidi.ayaan@gmail.com>,
         Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
-Subject: [PATCH 06/17] rust: add `compiler_builtins` crate
-Date:   Sun,  4 Jul 2021 22:27:45 +0200
-Message-Id: <20210704202756.29107-7-ojeda@kernel.org>
+Subject: [PATCH 08/17] rust: add `build_error` crate
+Date:   Sun,  4 Jul 2021 22:27:47 +0200
+Message-Id: <20210704202756.29107-9-ojeda@kernel.org>
 In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
 References: <20210704202756.29107-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -56,9 +56,13 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Miguel Ojeda <ojeda@kernel.org>
 
-Rust provides `compiler_builtins` as a port of LLVM's `compiler-rt`.
-Since we do not need the vast majority of them, we avoid the
-dependency by providing our own crate.
+The `build_error` crate provides the `build_error` function which
+is then used to provide the `build_error!` and the `build_assert!`
+macros.
+
+`build_assert!` is intended to be used when `static_assert!` cannot
+be used, e.g. when the condition refers to generic parameters or
+parameters of an inline function.
 
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
@@ -92,162 +96,49 @@ Co-developed-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/compiler_builtins.rs | 146 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100644 rust/compiler_builtins.rs
+ rust/build_error.rs | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 rust/build_error.rs
 
-diff --git a/rust/compiler_builtins.rs b/rust/compiler_builtins.rs
+diff --git a/rust/build_error.rs b/rust/build_error.rs
 new file mode 100644
-index 00000000000..cb4bbf7be4e
+index 00000000000..d47fa8393cb
 --- /dev/null
-+++ b/rust/compiler_builtins.rs
-@@ -0,0 +1,146 @@
++++ b/rust/build_error.rs
+@@ -0,0 +1,33 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! Our own `compiler_builtins`.
++//! Build-time error.
 +//!
-+//! Rust provides [`compiler_builtins`] as a port of LLVM's [`compiler-rt`].
-+//! Since we do not need the vast majority of them, we avoid the dependency
-+//! by providing this file.
++//! This crate provides a function `build_error`, which will panic in
++//! compile-time if executed in const context, and will cause a build error
++//! if not executed at compile time and the optimizer does not optimise away the
++//! call.
 +//!
-+//! At the moment, some builtins are required that should not be. For instance,
-+//! [`core`] has floating-point functionality which we should not be compiling
-+//! in. We will work with upstream [`core`] to provide feature flags to disable
-+//! the parts we do not need. For the moment, we define them to [`panic!`] at
-+//! runtime for simplicity to catch mistakes, instead of performing surgery
-+//! on `core.o`.
-+//!
-+//! In any case, all these symbols are weakened to ensure we do not override
-+//! those that may be provided by the rest of the kernel.
-+//!
-+//! [`compiler_builtins`]: https://github.com/rust-lang/compiler-builtins
-+//! [`compiler-rt`]: https://compiler-rt.llvm.org/
++//! It is used by `build_assert!` in the kernel crate, allowing checking of
++//! conditions that could be checked statically, but could not be enforced in
++//! Rust yet (e.g. perform some checks in const functions, but those
++//! functions could still be called in the runtime).
 +
-+#![feature(compiler_builtins)]
-+#![compiler_builtins]
-+#![no_builtins]
 +#![no_std]
++#![feature(const_panic, core_panic)]
 +
-+macro_rules! define_panicking_intrinsics(
-+    ($reason: tt, { $($ident: ident, )* }) => {
-+        $(
-+            #[doc(hidden)]
-+            #[no_mangle]
-+            pub extern "C" fn $ident() {
-+                panic!($reason);
-+            }
-+        )*
-+    }
-+);
-+
-+define_panicking_intrinsics!("`f32` should not be used", {
-+    __addsf3,
-+    __addsf3vfp,
-+    __aeabi_fcmpeq,
-+    __aeabi_ul2f,
-+    __divsf3,
-+    __divsf3vfp,
-+    __eqsf2,
-+    __eqsf2vfp,
-+    __fixsfdi,
-+    __fixsfsi,
-+    __fixsfti,
-+    __fixunssfdi,
-+    __fixunssfsi,
-+    __fixunssfti,
-+    __floatdisf,
-+    __floatsisf,
-+    __floattisf,
-+    __floatundisf,
-+    __floatunsisf,
-+    __floatuntisf,
-+    __gesf2,
-+    __gesf2vfp,
-+    __gtsf2,
-+    __gtsf2vfp,
-+    __lesf2,
-+    __lesf2vfp,
-+    __ltsf2,
-+    __ltsf2vfp,
-+    __mulsf3,
-+    __mulsf3vfp,
-+    __nesf2,
-+    __nesf2vfp,
-+    __powisf2,
-+    __subsf3,
-+    __subsf3vfp,
-+    __unordsf2,
-+});
-+
-+define_panicking_intrinsics!("`f64` should not be used", {
-+    __adddf3,
-+    __adddf3vfp,
-+    __aeabi_dcmpeq,
-+    __aeabi_ul2d,
-+    __divdf3,
-+    __divdf3vfp,
-+    __eqdf2,
-+    __eqdf2vfp,
-+    __fixdfdi,
-+    __fixdfsi,
-+    __fixdfti,
-+    __fixunsdfdi,
-+    __fixunsdfsi,
-+    __fixunsdfti,
-+    __floatdidf,
-+    __floatsidf,
-+    __floattidf,
-+    __floatundidf,
-+    __floatunsidf,
-+    __floatuntidf,
-+    __gedf2,
-+    __gedf2vfp,
-+    __gtdf2,
-+    __gtdf2vfp,
-+    __ledf2,
-+    __ledf2vfp,
-+    __ltdf2,
-+    __ltdf2vfp,
-+    __muldf3,
-+    __muldf3vfp,
-+    __nedf2,
-+    __nedf2vfp,
-+    __powidf2,
-+    __subdf3,
-+    __subdf3vfp,
-+    __unorddf2,
-+});
-+
-+define_panicking_intrinsics!("`i128` should not be used", {
-+    __ashrti3,
-+    __muloti4,
-+    __multi3,
-+});
-+
-+define_panicking_intrinsics!("`u128` should not be used", {
-+    __ashlti3,
-+    __lshrti3,
-+    __udivmodti4,
-+    __udivti3,
-+    __umodti3,
-+});
-+
-+#[cfg(target_arch = "arm")]
-+define_panicking_intrinsics!("`u64` division/modulo should not be used", {
-+    __aeabi_uldivmod,
-+    __mulodi4,
-+});
-+
-+extern "C" {
-+    fn rust_helper_BUG() -> !;
++/// Panics if executed in const context, or triggers a build error if not.
++#[inline(never)]
++#[cold]
++#[no_mangle]
++#[track_caller]
++pub const fn build_error(msg: &'static str) -> ! {
++    // Could also be `panic!(msg)` to avoid using unstable feature `core_panic`,
++    // but it is not allowed in Rust 2021, while `panic!("{}", msg)` could not
++    // yet be used in const context.
++    core::panicking::panic(msg);
 +}
 +
-+#[panic_handler]
-+fn panic(_info: &core::panic::PanicInfo<'_>) -> ! {
-+    unsafe {
-+        rust_helper_BUG();
-+    }
-+}
++#[cfg(CONFIG_RUST_BUILD_ASSERT_WARN)]
++#[link_section = ".gnu.warning.build_error"]
++#[used]
++static BUILD_ERROR_WARNING: [u8; 45] = *b"call to build_error present after compilation";
 -- 
 2.32.0
 
