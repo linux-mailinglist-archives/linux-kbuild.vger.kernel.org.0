@@ -2,105 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50913BB3B4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E03B3BB3B5
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 01:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233525AbhGDXSp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 19:18:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233610AbhGDXOd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 19:14:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC17B61946;
-        Sun,  4 Jul 2021 23:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625440213;
-        bh=DAeD0r+v//2Ew0XhFrwy6954/xVEA06eegqtkuK1sDg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=on7ArL+GZq3ydgrhVb1ohVbktRnod6OWtmYT+2Bgdoju8716yJrUNlCFX+pPgPf4X
-         BlT9MMlH2fn9V62iBcaoGyGXIENr6xtdR96TLnORG9WtyP17iKA1dUDi/lVBDjCfWP
-         hanaOPx9e1gpEtFOsQwU3x475tEqHVTA4Y5PPScbMDa9zEAXTo8wW99VZ1TxirBPyU
-         HsE3pXJcQGJjuVZtTTUKw4JuhYfmvN1jLb+7VTiHs+gTJBtVUj1osXAiwnjY1Q+LRn
-         gjrwbzKnP9xJ1VhpBYknjn6V+1hzSry5Fi3Nkw2z5FxiAJxE2IItLTQmtCTT3KucCU
-         2ZVOguLNpxjaw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 27/50] Makefile: fix GDB warning with CONFIG_RELR
-Date:   Sun,  4 Jul 2021 19:09:15 -0400
-Message-Id: <20210704230938.1490742-27-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
-References: <20210704230938.1490742-1-sashal@kernel.org>
+        id S232220AbhGDXSs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 19:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234615AbhGDXQB (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 19:16:01 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A81C0613E4;
+        Sun,  4 Jul 2021 16:12:09 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id u7so16702008ion.3;
+        Sun, 04 Jul 2021 16:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uzWB3AHLUJlLSAZZ+MVckrPCb57gpxCEJ5H6xaA3pgM=;
+        b=vK8bMK9DBHv1SP5pxbUtkWveCCrSoObzk1GLRdlxLWu6/SDfrVkeqFDYDh/tCrnshu
+         r2WAje5FXSusjfJk3Z0ZSN7hczhsCsR9EmG1WRYszBKms9dh4RlfWB5lv3sBb9uhWVcQ
+         HpGp1k9nl2SdlAw4OdTJGcE2NNB4FXxWQs5xtQvtL+YsjBSRedmXKJeydVETIBz/tQ1+
+         OmrP6QM7CM6E+fvi6nq+MUCgwUP+AWvys/pyitr5rwrbHQ1tBtblGGsKNFv4ktsHcT7S
+         yoMStje2lpnX/DqoJRrBqu+XxGpVyxk0ENHecwLTu0I/Rcl9fJ8SNjOaMudS0FZrcL1T
+         uy7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uzWB3AHLUJlLSAZZ+MVckrPCb57gpxCEJ5H6xaA3pgM=;
+        b=c5FLLyddT0SFLcD6XCjINKFVyQ/PcGONAcmVOQT/6nVUFqrVOfJWg86SmJ/x80L1zY
+         5G/mYHqE5J3r9AYV9Mmju7zhN7Cx+akhujpUPjK6lnm1vbMJ1NzLRuYtwvRCIBnnkJd8
+         EhlST2KXYM02u17/7vYezVD1HlHNLT5Io325X57vYdFW4WC1WMg+agVcPAucTOCo6hu7
+         xji2nNYB6EpZYthaWCNf2/7oXvbE4zQOhdAv0QHnMKhQJCp1BFREvyLcNDvLTjFKlEaB
+         N4Qyl9att03L4X2kq7y86vkTU3qS+K/y6+tykgBLviUWGmtnxQGee6ZxtDNVG9GlqEly
+         Uy1g==
+X-Gm-Message-State: AOAM5316g+WGJGjLCIO3ZJ7IprwxDYXqGoku30X120aGGv7DEBfnlopZ
+        5bpNSRanaUsZy4dc9gD0SlkJpn9fDG6guO5pyfM=
+X-Google-Smtp-Source: ABdhPJyWS8uFmP4Zn1lIgpyrEfgqdC1kj3MgjjkSOVFr2wDSyeXy0+JxFSbvIQqNFOG+GQ/umB9osbv8UxiyGXSNWj0=
+X-Received: by 2002:a05:6638:43:: with SMTP id a3mr9673706jap.41.1625440329412;
+ Sun, 04 Jul 2021 16:12:09 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20210704202756.29107-1-ojeda@kernel.org>
+In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 5 Jul 2021 01:11:58 +0200
+Message-ID: <CANiq72nQq8Y8v9Pyf7JFq6Kf-+doNP+mHAFNzj_cSFBa3KwS5w@mail.gmail.com>
+Subject: Re: [PATCH 00/17] Rust support
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nick Desaulniers <ndesaulniers@google.com>
+On Sun, Jul 4, 2021 at 10:28 PM <ojeda@kernel.org> wrote:
+>
+> This is the patch series to add support for Rust as a second language
+> to the Linux kernel.
 
-[ Upstream commit 27f2a4db76e8d8a8b601fc1c6a7a17f88bd907ab ]
+In case somebody wonders: patch 07 was particularly big and lore does
+not seem to be showing it.
 
-GDB produces the following warning when debugging kernels built with
-CONFIG_RELR:
+Let me know if you want me to split it; otherwise I will ask
+Konstantin when he is back from holidays.
 
-BFD: /android0/linux-next/vmlinux: unknown type [0x13] section `.relr.dyn'
+>   - Many folks that have reported issues, tested the project,
+>     helped spread the word, joined discussions and contributed in
+>     other ways! In no particular order: Chenguang Wang, Greg Morenz,
+>     John Baublitz, Leah Leshchinsky, Caedin Cook, Liam Arzola,
+>     Fabio Aiuto, Hanqing Zhao, Robin Randhawa, Michal Rostecki,
+>     Wei Liu...
 
-when loading a kernel built with CONFIG_RELR into GDB. It can also
-prevent debugging symbols using such relocations.
+I forgot to mention Samantha Miller, Santosh Sivaraj, Vegard Nossum
+and Leandro Coutinho.
 
-Peter sugguests:
-  [That flag] means that lld will use dynamic tags and section type
-  numbers in the OS-specific range rather than the generic range. The
-  kernel itself doesn't care about these numbers; it determines the
-  location of the RELR section using symbols defined by a linker script.
+My apologies!
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1057
-Suggested-by: Peter Collingbourne <pcc@google.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-Link: https://lore.kernel.org/r/20210522012626.2811297-1-ndesaulniers@google.com
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Makefile                      | 2 +-
- scripts/tools-support-relr.sh | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 5db87d8031f1..df9365a3432f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -937,7 +937,7 @@ LDFLAGS_vmlinux	+= $(call ld-option, -X,)
- endif
- 
- ifeq ($(CONFIG_RELR),y)
--LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
-+LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr --use-android-relr-tags
- endif
- 
- # make the checker run with the right architecture
-diff --git a/scripts/tools-support-relr.sh b/scripts/tools-support-relr.sh
-index 45e8aa360b45..cb55878bd5b8 100755
---- a/scripts/tools-support-relr.sh
-+++ b/scripts/tools-support-relr.sh
-@@ -7,7 +7,8 @@ trap "rm -f $tmp_file.o $tmp_file $tmp_file.bin" EXIT
- cat << "END" | $CC -c -x c - -o $tmp_file.o >/dev/null 2>&1
- void *p = &p;
- END
--$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr -o $tmp_file
-+$LD $tmp_file.o -shared -Bsymbolic --pack-dyn-relocs=relr \
-+  --use-android-relr-tags -o $tmp_file
- 
- # Despite printing an error message, GNU nm still exits with exit code 0 if it
- # sees a relr section. So we need to check that nothing is printed to stderr.
--- 
-2.30.2
-
+Cheers,
+Miguel
