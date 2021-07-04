@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65D193BAED8
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89ECA3BAEDD
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jul 2021 22:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbhGDUbV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 4 Jul 2021 16:31:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36720 "EHLO mail.kernel.org"
+        id S230014AbhGDUb1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 4 Jul 2021 16:31:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36800 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229963AbhGDUbU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 4 Jul 2021 16:31:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE5466115C;
-        Sun,  4 Jul 2021 20:28:41 +0000 (UTC)
+        id S230036AbhGDUbZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 4 Jul 2021 16:31:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8446613DD;
+        Sun,  4 Jul 2021 20:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625430524;
-        bh=9sHxSofkyts3lBEKvreHLTsKUIXAeirgJMCP+4zsqes=;
+        s=k20201202; t=1625430529;
+        bh=AGapwzpPs5XBP4WvEM+GDuQKLpaiGR7OCL0hbLs6unY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Usx3CccbvuHYIGN72WFhDCC3dDydQtYIvfsi4NoBzNKDCPS8QRtRkBk4Cyk50Inln
-         QQLbsMfRT86Pa10e/mL8atPMTDvFem1bRLMLvmL8wJC4i0rd1ctYFjJMK45EBtTsjG
-         ySSbciM5yk5HqipOXlDNdMaeZkpgtOhxtug4f+CeCQQZ3tTB087ZfKEh6Rqf1U0OHH
-         1xQWhY7Iek+h8W2w2Zi0TrI2Cz/+R0U1n9zX9WinMFdVyUE6pYBD5E84LCmU/En6nf
-         prb5rgfEco3P/JDEpVWcNum6P01OPmtXdaksCchpUn8qjeFOufE6uIQ6DeBfhHQjsk
-         Kzbc5Gn9BNQWw==
+        b=LC8aFv8SQvWWPRE2gcZTcKxeRBxFiOpB24qXs+aG7VwwYRsCkJMjLgxO7VmgTj1k3
+         0nXhlbmHCQXSRKNgS7WRthTxaeHEJWw8Zg/vtahd5uOs8fcj1qCYStUn79XWWU+Gm9
+         41cHmkT0pE0nbImVWyib8VtGqU9kusVZGqIobd7LM6m2Y+QpCLavZ5M1GhVOZEr1WU
+         /BfalH/67vQpWM+AQJl9N2WmHasC5xHPLt5GyqVh4gpWz+yG6k2w+UilnSJCExSZdC
+         Ewpe90KC8md4IjNLNJsvbtp6GSC6xINWzxsZ6CsjqSHf+ckrupPADx0TnuOLmvKqTM
+         xJye/qMo/AyhQ==
 From:   ojeda@kernel.org
 To:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -33,10 +33,19 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: [PATCH 03/17] Makefile: generate `CLANG_FLAGS` even in GCC builds
-Date:   Sun,  4 Jul 2021 22:27:42 +0200
-Message-Id: <20210704202756.29107-4-ojeda@kernel.org>
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Subject: [PATCH 04/17] vsprintf: add new `%pA` format specifier
+Date:   Sun,  4 Jul 2021 22:27:43 +0200
+Message-Id: <20210704202756.29107-5-ojeda@kernel.org>
 In-Reply-To: <20210704202756.29107-1-ojeda@kernel.org>
 References: <20210704202756.29107-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -47,29 +56,15 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Miguel Ojeda <ojeda@kernel.org>
 
-To support Rust under GCC-built kernels, we need to save the flags that
-would have been passed if the kernel was being compiled with Clang.
+This patch adds a format specifier `%pA` to `vsprintf` which formats
+a pointer as `core::fmt::Arguments`. Doing so allows us to directly
+format to the internal buffer of `printf`, so we do not have to use
+a temporary buffer on the stack to pre-assemble the message on
+the Rust side.
 
-The reason is that `bindgen` -- the tool we use to generate Rust
-bindings to the C side of the kernel -- relies on `libclang` to
-parse C. Ideally:
+This specifier is intended only to be used from Rust and not for C, so
+`checkpatch.pl` is intentionally unchanged to catch any misuse.
 
-  - `bindgen` would support a GCC backend (requested at [1]),
-
-  - or the Clang driver would be perfectly compatible with GCC,
-    including plugins. Unlikely, of course, but perhaps a big
-    subset of configs may be possible to guarantee to be kept
-    compatible nevertheless.
-
-This is also the reason why GCC builds are very experimental and some
-configurations may not work (e.g. `GCC_PLUGIN_RANDSTRUCT`). However,
-we keep GCC builds working (for some example configs) in the CI
-to avoid diverging/regressing further, so that we are better prepared
-for the future when a solution might become available.
-
-[1] https://github.com/rust-lang/rust-bindgen/issues/1949
-
-Link: https://github.com/Rust-for-Linux/linux/issues/167
 Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
 Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
 Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
@@ -80,45 +75,68 @@ Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
 Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
 Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
 Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+Co-developed-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Co-developed-by: Michael Ellerman <mpe@ellerman.id.au>
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+Co-developed-by: Sven Van Asbroeck <thesven73@gmail.com>
+Signed-off-by: Sven Van Asbroeck <thesven73@gmail.com>
+Co-developed-by: Gary Guo <gary@garyguo.net>
+Signed-off-by: Gary Guo <gary@garyguo.net>
+Co-developed-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+Signed-off-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+Co-developed-by: Fox Chen <foxhlchen@gmail.com>
+Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+Co-developed-by: Ayaan Zaidi <zaidi.ayaan@gmail.com>
+Signed-off-by: Ayaan Zaidi <zaidi.ayaan@gmail.com>
+Co-developed-by: Douglas Su <d0u9.su@outlook.com>
+Signed-off-by: Douglas Su <d0u9.su@outlook.com>
+Co-developed-by: Yuki Okushi <jtitor@2k36.org>
+Signed-off-by: Yuki Okushi <jtitor@2k36.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Makefile | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ lib/vsprintf.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 0565caea036..6e823d8bd64 100644
---- a/Makefile
-+++ b/Makefile
-@@ -573,18 +573,23 @@ endif
- # and from include/config/auto.conf.cmd to detect the compiler upgrade.
- CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index f0c35d9b65b..e7afe954004 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2182,6 +2182,10 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
+ 	return widen_string(buf, buf - buf_start, end, spec);
+ }
  
--ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-+TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
++#ifdef CONFIG_RUST
++char *rust_fmt_argument(char* buf, char* end, void *ptr);
++#endif
 +
- ifneq ($(CROSS_COMPILE),)
--CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-+TENTATIVE_CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
- endif
- ifeq ($(LLVM_IAS),1)
--CLANG_FLAGS	+= -integrated-as
-+TENTATIVE_CLANG_FLAGS	+= -integrated-as
- else
--CLANG_FLAGS	+= -no-integrated-as
-+TENTATIVE_CLANG_FLAGS	+= -no-integrated-as
- GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
--CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-+TENTATIVE_CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
- endif
--CLANG_FLAGS	+= -Werror=unknown-warning-option
-+
-+export TENTATIVE_CLANG_FLAGS
-+
-+ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-+CLANG_FLAGS	+= $(TENTATIVE_CLANG_FLAGS)
- KBUILD_CFLAGS	+= $(CLANG_FLAGS)
- KBUILD_AFLAGS	+= $(CLANG_FLAGS)
- export CLANG_FLAGS
+ /* Disable pointer hashing if requested */
+ bool no_hash_pointers __ro_after_init;
+ EXPORT_SYMBOL_GPL(no_hash_pointers);
+@@ -2335,6 +2339,10 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  *
+  * Note: The default behaviour (unadorned %p) is to hash the address,
+  * rendering it useful as a unique identifier.
++ *
++ * There is also a '%pA' format specifier, but it is only intended to be used
++ * from Rust code to format core::fmt::Arguments. Do *not* use it from C.
++ * See rust/kernel/print.rs for details.
+  */
+ static noinline_for_stack
+ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+@@ -2407,6 +2415,10 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 		return device_node_string(buf, end, ptr, spec, fmt + 1);
+ 	case 'f':
+ 		return fwnode_string(buf, end, ptr, spec, fmt + 1);
++#ifdef CONFIG_RUST
++	case 'A':
++		return rust_fmt_argument(buf, end, ptr);
++#endif
+ 	case 'x':
+ 		return pointer_string(buf, end, ptr, spec);
+ 	case 'e':
 -- 
 2.32.0
 
