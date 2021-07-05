@@ -2,187 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E628B3BC18D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 18:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F5B93BC1B9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 18:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229599AbhGEQVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Jul 2021 12:21:52 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:29054 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbhGEQVv (ORCPT
+        id S229709AbhGEQhT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Jul 2021 12:37:19 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:19449 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229560AbhGEQhT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Jul 2021 12:21:51 -0400
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 165GJ1xv003679;
-        Tue, 6 Jul 2021 01:19:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 165GJ1xv003679
+        Mon, 5 Jul 2021 12:37:19 -0400
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 165GYMEO020676
+        for <linux-kbuild@vger.kernel.org>; Tue, 6 Jul 2021 01:34:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 165GYMEO020676
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1625501942;
-        bh=TviIxBe6uXwBdYLpXXiJTmijOR9PL90jTmqGpS0b2vc=;
+        s=dec2015msa; t=1625502863;
+        bh=dn2GyAUPt0rdQzxHwSkjXH1a7BimxMXDHxWd8eH1Z60=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Df392UW3XTvRoDpHgEOv7DdpzioNzTuGQd9BXavZ4z0dnetpP/wqlhXZNjsisn45H
-         4V3SAc4BG1clpbuNXWAZUbpz3kQbUO0HoZFIDE8j4FX2IrbifPvp/viYtdmUdQCeLJ
-         hXUzBesBj7qyAfUWehm/REDIoW9bV/5hQ83YU14qxVH1Y6wg9R7QTMIuNWT2zXXNG/
-         0vEd/wshZFnF9K/eRnxIN9qlJ1BzLHjcaEcSEpToc3a3khnhZ7Ojyh3LM/efPlDf7g
-         ATXQnVO1gEki2iS9QMllgKn5r5URXAMvwOKSZcbNQm9rrU4O68Yg++GtiuRyA3+5vX
-         NyLahpMRZI/EA==
-X-Nifty-SrcIP: [209.85.215.172]
-Received: by mail-pg1-f172.google.com with SMTP id y17so18697739pgf.12;
-        Mon, 05 Jul 2021 09:19:02 -0700 (PDT)
-X-Gm-Message-State: AOAM532/z/OCWeMURrScFPsnYkR/NRSZWHEn2/tN7JKIlDTJpXtian1d
-        U6tMcKU2udkv3llxMEt2Btc0NyjeT/zKP1qAcQs=
-X-Google-Smtp-Source: ABdhPJwVXWErCsDqAwOIQildPUSbXSsdqyg3TPoivB4JNmcC7yFcwzOrOfMOrmeQ1uEoEBBzopmsJN+uDL8i9sxX10M=
-X-Received: by 2002:a63:d80a:: with SMTP id b10mr16483848pgh.47.1625501941399;
- Mon, 05 Jul 2021 09:19:01 -0700 (PDT)
+        b=p8/mhuk/vU5ZWDhgz8n8TirJWbpv54l+M03KUv4spSH0U4/toBuDzENwxVSJ9MOLu
+         5bjFeP9oXDoVcVNYd/KyMFOg5u1Y4GGBMmv8kTonoLg6PVQ1ObzgFxv0sd2wczZRWo
+         nwHacwrF2fR7i0F3vcbg4kT1l10u7K/C5y40nvsEOZYim3e9/j4XEl6DePG3kurKND
+         C0kcil4+GS8a/VUeeYa2SAuDlIVrBxH9n4osTCV/Rybo+LwoTJaWpiFg/aDI0m0NWJ
+         OvHTPR6rhurdJhwe7qAarhwtnM3X+OD4K7SKICG8544cm3OVXU2pHKfY6iupy83ZBU
+         pnsaKzDdXAxng==
+X-Nifty-SrcIP: [209.85.214.172]
+Received: by mail-pl1-f172.google.com with SMTP id o4so7449225plg.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 Jul 2021 09:34:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530jzVfjkDcj+tE8bdDDDPpnI8l5rvx6GYebNIdss1oik9L6nTAx
+        mDclX/xfWbK0rX1GE9fNRwPWv4oCTGKCpLhQ524=
+X-Google-Smtp-Source: ABdhPJxNRNOBhGiHK9e9nkF2H2EUry5QGebA/3QP8mBRjgFP4thg6bgoB4WhkQbc/AAoN71CFZ/A1ugPffTYSpceV8k=
+X-Received: by 2002:a17:90b:1203:: with SMTP id gl3mr2221286pjb.153.1625502861922;
+ Mon, 05 Jul 2021 09:34:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210702235120.7023-1-maciej.falkowski9@gmail.com>
-In-Reply-To: <20210702235120.7023-1-maciej.falkowski9@gmail.com>
+References: <YOBIRA8oXQh4Antq@localhost.localdomain>
+In-Reply-To: <YOBIRA8oXQh4Antq@localhost.localdomain>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 6 Jul 2021 01:18:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS=tyS22vk1mO7uCuzZ=YuzgByzC4Aix9JwugdV3xpr-Q@mail.gmail.com>
-Message-ID: <CAK7LNAS=tyS22vk1mO7uCuzZ=YuzgByzC4Aix9JwugdV3xpr-Q@mail.gmail.com>
-Subject: Re: [PATCH] clang-tools: Print information when clang-tidy tool is missing
-To:     Maciej Falkowski <maciej.falkowski9@gmail.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Huckleberry <nhuck@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Tue, 6 Jul 2021 01:33:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASnUV7i17QKAULLVmbS4=fBE1Lcm=8uH6rfwmT-CAkY2w@mail.gmail.com>
+Message-ID: <CAK7LNASnUV7i17QKAULLVmbS4=fBE1Lcm=8uH6rfwmT-CAkY2w@mail.gmail.com>
+Subject: Re: [PATCH] cc-can-link.sh: check for linking capability in a more
+ robust way
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 3, 2021 at 8:51 AM Maciej Falkowski
-<maciej.falkowski9@gmail.com> wrote:
+On Sat, Jul 3, 2021 at 8:21 PM Alexey Dobriyan <adobriyan@gmail.com> wrote:
 >
-> When clang-tidy tool is missing in the system, the FileNotFoundError
-> exception is raised in the program reporting a stack trace to the user:
+> Compiling "printf("");" doesn't necessarily check for linking capability
+> as printf can be optimised for constants strings even at -O0:
 >
-> $ ./scripts/clang-tools/run-clang-tools.py clang-tidy ./compile_commands.json
-> multiprocessing.pool.RemoteTraceback:
-> """
-> Traceback (most recent call last):
->   File "/usr/lib64/python3.8/multiprocessing/pool.py", line 125, in worker
->     result = (True, func(*args, **kwds))
->   File "/usr/lib64/python3.8/multiprocessing/pool.py", line 48, in mapstar
->     return list(map(*args))
->   File "./scripts/clang-tools/run-clang-tools.py", line 54, in run_analysis
->     p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
->   File "/usr/lib64/python3.8/subprocess.py", line 489, in run
->     with Popen(*popenargs, **kwargs) as process:
->   File "/usr/lib64/python3.8/subprocess.py", line 854, in __init__
->     self._execute_child(args, executable, preexec_fn, close_fds,
->   File "/usr/lib64/python3.8/subprocess.py", line 1702, in _execute_child
->     raise child_exception_type(errno_num, err_msg, err_filename)
-> FileNotFoundError: [Errno 2] No such file or directory: 'clang-tidy'
-> """
+>         0000000000401106 <main>:
+>           401106:       push   rbp
+>           401107:       mov    rbp,rsp
+>           40110a:       mov    eax,0x0
+>           40110f:       pop    rbp
+>           401110:       ret
 >
-> The patch adds more user-friendly information about missing tool by
-> checking the presence of clang-tidy using `command -v` at the beginning
-> of the script:
+> Pass something from the command line to disable optimisations:
 >
-> $ ./scripts/clang-tools/run-clang-tools.py clang-tidy ./compile_commands.json
-> Command 'clang-tidy' is missing in the system
+>         0000000000401126 <main>:
+>           401126:       push   rbp
+>           401127:       mov    rbp,rsp
+>           40112a:       sub    rsp,0x10
+>           40112e:       mov    DWORD PTR [rbp-0x4],edi
+>           401131:       mov    QWORD PTR [rbp-0x10],rsi
+>           401135:       mov    rax,QWORD PTR [rbp-0x10]
+>           401139:       add    rax,0x8
+>           40113d:       mov    rax,QWORD PTR [rax]
+>           401140:       mov    rdi,rax
+>           401143:       mov    eax,0x0
+>           401148:  ***  call   401030 <printf@plt>
+>           40114d:       mov    eax,0x0
+>           401152:       leave
+>           401153:       ret
 >
-> Signed-off-by: Maciej Falkowski <maciej.falkowski9@gmail.com>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1342
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > ---
->  scripts/clang-tools/run-clang-tools.py | 5 +++++
->  1 file changed, 5 insertions(+)
 >
-> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-> index fa7655c7cec0..d34eaf5a0ee5 100755
-> --- a/scripts/clang-tools/run-clang-tools.py
-> +++ b/scripts/clang-tools/run-clang-tools.py
-> @@ -60,6 +60,11 @@ def run_analysis(entry):
+>  scripts/cc-can-link.sh |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
+> --- a/scripts/cc-can-link.sh
+> +++ b/scripts/cc-can-link.sh
+> @@ -3,9 +3,9 @@
 >
->  def main():
-> +    exitcode = subprocess.getstatusoutput('command -v clang-tidy')[0]
-> +    if exitcode == 1:
-> +        print("Command 'clang-tidy' is missing in the system", file=sys.stderr)
-> +        sys.exit(127)
+>  cat << "END" | $@ -x c - -o /dev/null >/dev/null 2>&1
+>  #include <stdio.h>
+> -int main(void)
+> +int main(int argc, char *argv[])
+>  {
+> -       printf("");
+> +       printf(argv[1]);
+>         return 0;
+>  }
+>  END
+
+Ah, right.
+
+But, we should not merge a bad coding example.
+
+argv[1] may contain '%' format string, and
+recent GCC versions warn about it.
 
 
 
-I like the first answer in this link:
-https://stackoverflow.com/questions/82831/how-do-i-check-whether-a-file-exists-without-exceptions
+$ cat test.c
+#include <stdio.h>
 
-"If the reason you're checking is so you can do something like
-if file_exists: open_it(), it's safer to use a try around the attempt
-to open it. Checking and then opening risks the file being deleted
-or moved or something between when you check and when you try to open it."
-
-
-
-Generally, I believe that Python's taste is:
-
-   try:
-        f = open("my-file")
-   except:
-        [ error handling ]
-
-
-rather than:
-
-    if not os.path.exists("my-file"):
-           [ error handling ]
-    f = open("my-file")
-
-
-
-With the same logic applied,
-if you like to display your custom error message here,
-more Python-ish code might be:
-
-
-    try:
-         [ run clang-tidy ]
-    except FileNotFoundError:
-         print("Command 'clang-tidy' is missing in the system", file=sys.stderr)
-         sys.exit(127)
-    except:
-         [ handle other errors ]
-
-
-
-I often see, "I observed Python's backtrace, so let's suppress it"
-for clang-tools scripts.
-
-For example,
-https://lore.kernel.org/lkml/20210520231821.12272-2-maciej.falkowski9@gmail.com/
-
-
-If you believe "our custom error messages are better than
-the default ones from Python", do you want to insert
-ones to every code that can fail?
-
-I do not think so.
+int main(int argc, char *argv[])
+{
+    printf(argv[1]);
+    return 0;
+}
+$ gcc -c -o test.o  test.c
+test.c: In function =E2=80=98main=E2=80=99:
+test.c:5:5: warning: format not a string literal and no format
+arguments [-Wformat-security]
+    5 |     printf(argv[1]);
+      |     ^~~~~~
 
 
 
 
+I think replacing printf("") with printf("a")
+(or any string you like)
+is enough.
 
 
 
-
-> +
->      args = parse_arguments()
->
->      lock = multiprocessing.Lock()
-> --
-> 2.26.3
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210702235120.7023-1-maciej.falkowski9%40gmail.com.
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
