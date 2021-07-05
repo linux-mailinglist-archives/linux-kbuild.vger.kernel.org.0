@@ -2,23 +2,22 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EA353BB671
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 06:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C21C3BB68D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 07:03:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbhGEEiw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Jul 2021 00:38:52 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57221 "EHLO 1wt.eu"
+        id S229725AbhGEFFf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Jul 2021 01:05:35 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57233 "EHLO 1wt.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229447AbhGEEiv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Jul 2021 00:38:51 -0400
+        id S229716AbhGEFFf (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 5 Jul 2021 01:05:35 -0400
 Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 1654ZWv9030978;
-        Mon, 5 Jul 2021 06:35:32 +0200
-Date:   Mon, 5 Jul 2021 06:35:32 +0200
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 16552YmW031002;
+        Mon, 5 Jul 2021 07:02:34 +0200
+Date:   Mon, 5 Jul 2021 07:02:34 +0200
 From:   Willy Tarreau <w@1wt.eu>
-To:     Gary Guo <gary@garyguo.net>
-Cc:     Matthew Wilcox <willy@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -26,58 +25,113 @@ Cc:     Matthew Wilcox <willy@infradead.org>, ojeda@kernel.org,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 01/17] kallsyms: support big kernel symbols (2-byte
- lengths)
-Message-ID: <20210705043532.GA30964@1wt.eu>
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Subject: Re: [PATCH 13/17] docs: add Rust documentation
+Message-ID: <20210705050234.GB30964@1wt.eu>
 References: <20210704202756.29107-1-ojeda@kernel.org>
- <20210704202756.29107-2-ojeda@kernel.org>
- <YOIicc94zvSjrKfe@casper.infradead.org>
- <20210704222043.000026b3@garyguo.net>
+ <20210704202756.29107-14-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210704222043.000026b3@garyguo.net>
+In-Reply-To: <20210704202756.29107-14-ojeda@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jul 04, 2021 at 10:20:43PM +0100, Gary Guo wrote:
-> On Sun, 4 Jul 2021 22:04:49 +0100
-> Matthew Wilcox <willy@infradead.org> wrote:
+On Sun, Jul 04, 2021 at 10:27:52PM +0200, ojeda@kernel.org wrote:
+> From: Miguel Ojeda <ojeda@kernel.org>
 > 
-> > On Sun, Jul 04, 2021 at 10:27:40PM +0200, ojeda@kernel.org wrote:
-> > > From: Miguel Ojeda <ojeda@kernel.org>
-> > > 
-> > > Rust symbols can become quite long due to namespacing introduced
-> > > by modules, types, traits, generics, etc.
-> > > 
-> > > Increasing to 255 is not enough in some cases, and therefore
-> > > we need to introduce 2-byte lengths to the symbol table. We call
-> > > these "big" symbols.
-> > > 
-> > > In order to avoid increasing all lengths to 2 bytes (since most
-> > > of them only require 1 byte, including many Rust ones), we use
-> > > length zero to mark "big" symbols in the table.  
-> > 
-> > What happened to my suggestion from last time of encoding symbols <
-> > 128 as 0-127 and symbols larger than that as (data[0] - 128) * 256 +
-> > data[1]) ?
-> 
-> Yeah, I agree ULEB128 or similar encoding scheme would be better than
-> using 0 as an escape byte. If ULEB128 is used and we restrict number of
-> bytes to 2, it will encode numbers up to 2**14 instead of 2**16 like the
-> current scheme, but that should be sufficient anyway.
+> Most of the documentation for Rust is written within the source code
+> itself, as it is idiomatic for Rust projects. This applies to both
+> the shared infrastructure at `rust/` as well as any other Rust module
+> (e.g. drivers) written across the kernel.
+(...)
+> diff --git a/Documentation/rust/coding.rst b/Documentation/rust/coding.rst
+> new file mode 100644
+> index 00000000000..5cbe132f461
+> --- /dev/null
+> +++ b/Documentation/rust/coding.rst
+> @@ -0,0 +1,92 @@
+> +.. _rust_coding:
+> +
+> +Coding
+> +======
+> +
+> +This document describes how to write Rust code in the kernel.
+> +
+> +
+> +Coding style
+> +------------
+> +
+> +The code is automatically formatted using the ``rustfmt`` tool. This is very
+> +good news!
 
-Actually plenty of variants of such encodings exist. You can split the
-first byte on 192 to keep 6 upper bits, 224 for 5, 240 for 4, etc. It
-all depends how long the maximum string is expected to be and how often
-we expect to see large strings. For example when splitting around 240,
-all sizes from 0 to 239 take one byte, and sizes from 240 to 4335 take
-two bytes.
+Miguel, the wording and style in this file is not much welcome, it looks
+like a copy-paste of an e-mail in the doc. The exclamation above "this is
+a very good news" doesn't really belong to a doc, and for readers who don't
+understand why it appears as a good news to the writer, it probably is an
+even less good news.
 
-But if strings >128 are already extremely rare we don't really care
-about the extra byte needed to encode them.
+> +- If you contribute from time to time to the kernel, you do not need to learn
+> +  and remember one more style guide. You will also need less patch roundtrips
+> +  to land a change.
+> +
+> +- If you are a reviewer or a maintainer, you will not need to spend time on
+> +  pointing out style issues anymore.
+> +
+> +.. note:: Conventions on comments and documentation are not checked by
+> +  ``rustfmt``. Thus we still need to take care of those: please see
+> +  :ref:`Documentation/rust/docs.rst <rust_docs>`.
+> +
+> +We use the tool's default settings. This means we are following the idiomatic
+> +Rust style. For instance, we use 4 spaces for indentation rather than tabs.
+> +
+> +Typically, you will want to instruct your editor/IDE to format while you type,
 
+In general you should avoid "we" and "you" when writing documentation.
+Prefer passive forms instead, which do not place a barrier between those
+who teach and those who learn. It's generally considered more inclusive
+in that it makes the reader not feel outside of the team who wrote it.
+
+For example the last sentences above could be reworded like this:
+
+  The tool's default settings are used, which means the idiomatic Rust
+  style is followed. For instance, 4 spaces are used for indentation
+  rather than tabs.
+
+  Typically editors/IDE will have to be instructed to format while typing.
+  (...)
+
+An additional note is that if the language imposes such unusual constraints
+on the editor, you should probably point to various known settins for most
+well-known editors.
+
+> +when you save or at commit time. However, if for some reason you want
+> +to reformat the entire kernel Rust sources at some point, you may run::
+> +
+> +	make LLVM=1 rustfmt
+> +
+> +To check if everything is formatted (printing a diff otherwise), e.g. if you
+> +have configured a CI for a tree as a maintainer, you may run::
+> +
+> +	make LLVM=1 rustfmtcheck
+> +
+> +Like ``clang-format`` for the rest of the kernel, ``rustfmt`` works on
+> +individual files, and does not require a kernel configuration. Sometimes it may
+> +even work with broken code.
+
+You should also clearly indicate how to recheck (or adjust) individual
+files, not just say that the command supports it.
+
+Regards,
 Willy
