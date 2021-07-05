@@ -2,140 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F5B93BC1B9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 18:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D3D3BC270
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jul 2021 19:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbhGEQhT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Jul 2021 12:37:19 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:19449 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbhGEQhT (ORCPT
+        id S229880AbhGESC3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Jul 2021 14:02:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229725AbhGESC2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Jul 2021 12:37:19 -0400
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 165GYMEO020676
-        for <linux-kbuild@vger.kernel.org>; Tue, 6 Jul 2021 01:34:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 165GYMEO020676
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1625502863;
-        bh=dn2GyAUPt0rdQzxHwSkjXH1a7BimxMXDHxWd8eH1Z60=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p8/mhuk/vU5ZWDhgz8n8TirJWbpv54l+M03KUv4spSH0U4/toBuDzENwxVSJ9MOLu
-         5bjFeP9oXDoVcVNYd/KyMFOg5u1Y4GGBMmv8kTonoLg6PVQ1ObzgFxv0sd2wczZRWo
-         nwHacwrF2fR7i0F3vcbg4kT1l10u7K/C5y40nvsEOZYim3e9/j4XEl6DePG3kurKND
-         C0kcil4+GS8a/VUeeYa2SAuDlIVrBxH9n4osTCV/Rybo+LwoTJaWpiFg/aDI0m0NWJ
-         OvHTPR6rhurdJhwe7qAarhwtnM3X+OD4K7SKICG8544cm3OVXU2pHKfY6iupy83ZBU
-         pnsaKzDdXAxng==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id o4so7449225plg.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 05 Jul 2021 09:34:22 -0700 (PDT)
-X-Gm-Message-State: AOAM530jzVfjkDcj+tE8bdDDDPpnI8l5rvx6GYebNIdss1oik9L6nTAx
-        mDclX/xfWbK0rX1GE9fNRwPWv4oCTGKCpLhQ524=
-X-Google-Smtp-Source: ABdhPJxNRNOBhGiHK9e9nkF2H2EUry5QGebA/3QP8mBRjgFP4thg6bgoB4WhkQbc/AAoN71CFZ/A1ugPffTYSpceV8k=
-X-Received: by 2002:a17:90b:1203:: with SMTP id gl3mr2221286pjb.153.1625502861922;
- Mon, 05 Jul 2021 09:34:21 -0700 (PDT)
+        Mon, 5 Jul 2021 14:02:28 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B60DC06175F
+        for <linux-kbuild@vger.kernel.org>; Mon,  5 Jul 2021 10:59:51 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id c8so30345811ybq.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 Jul 2021 10:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gJsboDNld2P6AbWlug6aDXd7eLnwEy72n526BJjJ3p4=;
+        b=EXqSe5LBsLsLCtQiC8U/5Swb48WLpeSqS53eK2HIJRAVgtZeLSLS8A1wZ6eHgnCvc7
+         yYyGiLzAg5kHHmj95ZJwzrQ8+jiI4dQIXuPBYD7eArDwyslmw/KUjaqixVz80HIs95cr
+         opGbcBdxR62OF1sDMSjE7x1ZLMoRMQmzc5qtxYCbwHFwtgMrkbYWcghfWg40xwCrlesM
+         l5YSUUfyLiwe1VQhV0mf7mEohw9ZYV21sksVI7UpkbYqM2FiLK+3tG2Pw1EIEEqlsF1Q
+         IijD4D61dFjQycgonxf9i5m6dzoYTs+ATalj6Gb5PIhriSMhzPu03lgiYC8BLJMqiJJX
+         EuVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gJsboDNld2P6AbWlug6aDXd7eLnwEy72n526BJjJ3p4=;
+        b=bYx+eTkvj1YKFt7Jyg13Am4mm5FirDtgeWX+YRLz12WjS9OlO90vIJbj/26s5yPNuS
+         Nm9o68Qg3Qpparn0DGRpuViBhO2JLKlrjuL7gSD3NXwEHxYfkJGes2zuXp/LdFyEMaUY
+         YmvMnrMd/5vJbh4HyFNQPy58q7GXwBOyZyEMsZw+Di/tLKRLghvyzetAhVTJxo/RUEoo
+         Cv4zhNHDyYurmt547Mu4CIr2bprAv2x+0EIFM24Q40kZXWnlYHo6eDu9iP/j+yN7T9ih
+         hnB1tL7beB1uze9H6bzjBuDwV5/aCpUC/a49qvNyD479CDgWQscDKhOBBqVGDvDSGbOq
+         0B3w==
+X-Gm-Message-State: AOAM530jVp/NDNkZV+N5tByW2TbM+GnK5H1hCOVpoqa3zhWDGT+iYeDe
+        IbUsPcLKKK1usJuC5hSAY3XkuU+ja/hYSzJvrCWhrw==
+X-Google-Smtp-Source: ABdhPJyvaS7gUP6HUAzHKKgtRP4C9Mp35iZpjbSbMDDM8Y8tIigQktn8iFhCJSpMTQY4LzKuFxygyboKlXkIdveVT8U=
+X-Received: by 2002:a25:7b86:: with SMTP id w128mr20063583ybc.273.1625507990140;
+ Mon, 05 Jul 2021 10:59:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <YOBIRA8oXQh4Antq@localhost.localdomain>
-In-Reply-To: <YOBIRA8oXQh4Antq@localhost.localdomain>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 6 Jul 2021 01:33:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnUV7i17QKAULLVmbS4=fBE1Lcm=8uH6rfwmT-CAkY2w@mail.gmail.com>
-Message-ID: <CAK7LNASnUV7i17QKAULLVmbS4=fBE1Lcm=8uH6rfwmT-CAkY2w@mail.gmail.com>
-Subject: Re: [PATCH] cc-can-link.sh: check for linking capability in a more
- robust way
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20210702032943.7865-1-lecopzer.chen@mediatek.com>
+ <20210702032943.7865-2-lecopzer.chen@mediatek.com> <CAK7LNATqZdZy9mH2qbFJPGs81a0fEFGPutqmvrdz1U51zOvH3Q@mail.gmail.com>
+In-Reply-To: <CAK7LNATqZdZy9mH2qbFJPGs81a0fEFGPutqmvrdz1U51zOvH3Q@mail.gmail.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Mon, 5 Jul 2021 10:59:39 -0700
+Message-ID: <CABCJKudYQV6Nt=Qq+zY=9JF1WmLVLnx+--3mJA9dkhLMhMvuFg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] Kbuild: lto: add CONFIG_MAKE_VERSION
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        yj.chiang@mediatek.com, Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 3, 2021 at 8:21 PM Alexey Dobriyan <adobriyan@gmail.com> wrote:
+On Sun, Jul 4, 2021 at 7:03 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Compiling "printf("");" doesn't necessarily check for linking capability
-> as printf can be optimised for constants strings even at -O0:
+> On Fri, Jul 2, 2021 at 12:29 PM Lecopzer Chen
+> <lecopzer.chen@mediatek.com> wrote:
+> >
+> > To check the GNU make version. Used by the LTO Kconfig.
+> >
+> > LTO with MODVERSIONS will fail in generating correct CRC because
+> > the makefile rule doesn't work for make with version 3.8X.[1]
+> >
+> > Thus we need to check make version during selecting on LTO Kconfig.
+> > Add CONFIG_MAKE_VERSION which means MAKE_VERSION in canonical digits
+> > for arithmetic comparisons.
+> >
+> > [1] https://lore.kernel.org/lkml/20210616080252.32046-1-lecopzer.chen@mediatek.com/
+> > Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
+> > ---
 >
->         0000000000401106 <main>:
->           401106:       push   rbp
->           401107:       mov    rbp,rsp
->           40110a:       mov    eax,0x0
->           40110f:       pop    rbp
->           401110:       ret
 >
-> Pass something from the command line to disable optimisations:
+> NACK.
 >
->         0000000000401126 <main>:
->           401126:       push   rbp
->           401127:       mov    rbp,rsp
->           40112a:       sub    rsp,0x10
->           40112e:       mov    DWORD PTR [rbp-0x4],edi
->           401131:       mov    QWORD PTR [rbp-0x10],rsi
->           401135:       mov    rax,QWORD PTR [rbp-0x10]
->           401139:       add    rax,0x8
->           40113d:       mov    rax,QWORD PTR [rax]
->           401140:       mov    rdi,rax
->           401143:       mov    eax,0x0
->           401148:  ***  call   401030 <printf@plt>
->           40114d:       mov    eax,0x0
->           401152:       leave
->           401153:       ret
+> "Let's add MAKE_VERSION >= 40200 restriction
+> just because I cannot write correct code that
+> works for older Make" is a horrible idea.
 >
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> ---
->
->  scripts/cc-can-link.sh |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> --- a/scripts/cc-can-link.sh
-> +++ b/scripts/cc-can-link.sh
-> @@ -3,9 +3,9 @@
->
->  cat << "END" | $@ -x c - -o /dev/null >/dev/null 2>&1
->  #include <stdio.h>
-> -int main(void)
-> +int main(int argc, char *argv[])
->  {
-> -       printf("");
-> +       printf(argv[1]);
->         return 0;
->  }
->  END
+> Also, Kconfig is supposed to check the compiler
+> (or toolchains) capability, not host tool versions.
 
-Ah, right.
+I feel like requiring a Make that's half a decade old for a feature
+that also requires a toolchain released last October ago isn't
+entirely unreasonable.
 
-But, we should not merge a bad coding example.
+That being said, if Masahiro prefers not to rely on the wildcard
+function's behavior here, which is a reasonable request, we could
+simply use the shell to test for the file's existence:
 
-argv[1] may contain '%' format string, and
-recent GCC versions warn about it.
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 34d257653fb4..c6bd62f518ff 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -388,7 +388,7 @@ ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
+       cmd_update_lto_symversions =                                     \
+        rm -f $@.symversions                                            \
+        $(foreach n, $(filter-out FORCE,$^),                            \
+-               $(if $(wildcard $(n).symversions),                      \
++               $(if $(shell test -s $(n).symversions && echo y),       \
+                        ; cat $(n).symversions >> $@.symversions))
+ else
+       cmd_update_lto_symversions = echo >/dev/null
 
+This is not quite as efficient as using wildcard, but should work with
+older Make versions too. Thoughts?
 
-
-$ cat test.c
-#include <stdio.h>
-
-int main(int argc, char *argv[])
-{
-    printf(argv[1]);
-    return 0;
-}
-$ gcc -c -o test.o  test.c
-test.c: In function =E2=80=98main=E2=80=99:
-test.c:5:5: warning: format not a string literal and no format
-arguments [-Wformat-security]
-    5 |     printf(argv[1]);
-      |     ^~~~~~
-
-
-
-
-I think replacing printf("") with printf("a")
-(or any string you like)
-is enough.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Sami
