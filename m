@@ -2,102 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D94273BC45D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jul 2021 02:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C39053BC4B6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jul 2021 04:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbhGFA3U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Jul 2021 20:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42242 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbhGFA3U (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Jul 2021 20:29:20 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BC7C061574;
-        Mon,  5 Jul 2021 17:26:42 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id q2so7593285iot.11;
-        Mon, 05 Jul 2021 17:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2U66haJLHnOXFpbcQWuhOnvZbLMHBCG56bTZcH/pO4M=;
-        b=XWpO6m3QVh//UmnQcKt9RK+Czog2c4HYAOIaQKWnOyUCs4Ya/o/jH5/OyMiowhyegY
-         ALj9kjH06GRTIcr5V6Q5VwD4Vje/Lg18O2MeHrCs6fCCUDq92coUESEFoHxCP157dewD
-         Ww3XP64NTOixcD5KG1mS4PofVL5i4m+JSWEFsy1Gzl6jWDD88TWQ2Ip6uX2WMzr+jJwC
-         Gtrj7qa7GqwpeSBNn1YsGaQjbPKk6P7OPG1HgSa7cor080SvsVoNKBcUBWwCgp1LCfMK
-         ZlmhR3oxbKla06W9rFPow3012CYAC8/FjoRw/XVXDS30T6TfWOePmoktFXW3YU7No4ft
-         aTtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2U66haJLHnOXFpbcQWuhOnvZbLMHBCG56bTZcH/pO4M=;
-        b=W1lMKKq+NQi5l/1MAHTl7xJwc0uebmTEmc87yI84ecSA6bR9ffUlxv0BXcdRpRfbC6
-         CCdluschKxuXNUjIkOGaZbOvh8w+96EA9V9F4a5w9OvJMUN8nLqyu5+AsLtJnZBRx3C7
-         9hkKVfGb3IXDq0WsoVt5OYqPwPSLpuwRP2bDAUK7jrK6azbHKj+tjWIqFMH5o1Zdr2Mm
-         9APCrugqX0syP3FcogkDss1pPM/0OvF+eqWws85wWUAkfPhL5CV+8JLeuStQlmtRVhoi
-         vpvNbRwXJQAS1r511pfVFLtDwC8BodIlX80Uh0qKWWJ3S/khTRW2Le2Gn7mmlKrl9Fsg
-         ARKg==
-X-Gm-Message-State: AOAM5317k51bBHrV/s7quM7VRwFin3v1YqNtZvn+HTM5axpyhsvxmOd4
-        k5iuCwnbC7Mz49qJgZFDbI8CrYFJV9BfclwrHwk=
-X-Google-Smtp-Source: ABdhPJxq1oePCiG6oC1Wqd2pwcEGh9az4DC/Q01VSGknsLvwOxW7hkBVl4ZjJM0/RpzZ8FpHesan+dVls74ad9fDxlk=
-X-Received: by 2002:a05:6638:248d:: with SMTP id x13mr14685750jat.78.1625531201944;
- Mon, 05 Jul 2021 17:26:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-17-ojeda@kernel.org>
-In-Reply-To: <20210704202756.29107-17-ojeda@kernel.org>
-From:   Pedro Tammela <pctammela@gmail.com>
-Date:   Mon, 5 Jul 2021 21:26:30 -0300
-Message-ID: <CAKY_9u1WN1nK3fdS0WDVgc4umYrCMVxODn3wG0rtctJzgNE5Ag@mail.gmail.com>
-Subject: Re: [PATCH 16/17] MAINTAINERS: Rust
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        id S229770AbhGFCMv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 5 Jul 2021 22:12:51 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:57267 "EHLO 1wt.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229753AbhGFCMv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 5 Jul 2021 22:12:51 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 16629og3032325;
+        Tue, 6 Jul 2021 04:09:50 +0200
+Date:   Tue, 6 Jul 2021 04:09:50 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Subject: Re: [PATCH 13/17] docs: add Rust documentation
+Message-ID: <20210706020950.GA32301@1wt.eu>
+References: <20210704202756.29107-1-ojeda@kernel.org>
+ <20210704202756.29107-14-ojeda@kernel.org>
+ <20210705050234.GB30964@1wt.eu>
+ <CANiq72kvv1rYa-TY3EvM5tBc4d0bhuNH8u56b8PM4PQd1ngmTQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72kvv1rYa-TY3EvM5tBc4d0bhuNH8u56b8PM4PQd1ngmTQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> ---
->  MAINTAINERS | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0cce91cd562..a439204d9be 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15894,6 +15894,20 @@ L:     linux-rdma@vger.kernel.org
->  S:     Maintained
->  F:     drivers/infiniband/ulp/rtrs/
->
-> +RUST
-> +M:     Miguel Ojeda <ojeda@kernel.org>
-> +M:     Alex Gaynor <alex.gaynor@gmail.com>
-> +M:     Wedson Almeida Filho <wedsonaf@google.com>
-> +L:     rust-for-linux@vger.kernel.org
-> +S:     Supported
-> +W:     https://github.com/Rust-for-Linux/linux
-> +B:     https://github.com/Rust-for-Linux/linux/issues
-> +T:     git https://github.com/Rust-for-Linux/linux.git rust-next
-> +F:     rust/
-> +F:     samples/rust/
-> +F:     Documentation/rust/
-> +K:     \b(?i:rust)\b
-> +
+On Tue, Jul 06, 2021 at 02:06:52AM +0200, Miguel Ojeda wrote:
+> > In general you should avoid "we" and "you" when writing documentation.
+> > Prefer passive forms instead, which do not place a barrier between those
+> > who teach and those who learn. It's generally considered more inclusive
+> > in that it makes the reader not feel outside of the team who wrote it.
+> 
+> When I was writing this, I wondered the same thing, because in Spanish
+> this does look quite bad (in the sense of being too informal), and we
+> use the passive forms a lot more for things like this. So I am fine
+> rewriting this. Also, mixing we/you is not ideal either.
 
-Does this mean that development will be done exclusively on GitHub?
-If affirmative, is there a bot that will replicate the messages in the
-mailing list?
+Indeed, I can imagine how informal it could sound in Spanish.
 
->  RXRPC SOCKETS (AF_RXRPC)
->  M:     David Howells <dhowells@redhat.com>
->  M:     Marc Dionne <marc.dionne@auristor.com>
-> --
-> 2.32.0
->
+> Having said that, I am not sure about English and whether people
+> prefer to read text with the passive form or not. In `Documentation/`
+> there seems to be a lot of "we"s and "you"s, but they could be wrong
+> too, of course.
+
+It's possible. While I've seen it used a lot in training or step-by-step
+instructions which aim to guide the reader through a procedure, it's not
+commonly found in documentation. One principle to keep in mind is to only
+focus on the subject. If your documentation describes a component or
+process and does not involve a human, there's no reason for introducing
+this human there. If it explicitly aims at the human (e.g. instructions),
+of course it makes sense. But anything that can end up in a script does
+not require a human and should avoid we/you.
+
+> > An additional note is that if the language imposes such unusual constraints
+> > on the editor, you should probably point to various known settins for most
+> > well-known editors.
+> 
+> Are you referring about style? If yes, it is possible to write the
+> code with a text editor with no extra features and then format it, so
+> that should not be a problem.
+
+Yes that's my point, it will likely be the first experience for most
+casual visitors who have no idea how to reconfigure their editor or
+who don't want to risk to break their existing config.
+
+> > You should also clearly indicate how to recheck (or adjust) individual
+> > files, not just say that the command supports it.
+> 
+> Sounds good -- I will do that.
+> 
+> Thanks a lot for reviewing the docs!
+
+You're welcome.
+
+Willy
