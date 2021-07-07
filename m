@@ -2,104 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8BB3BF21E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jul 2021 00:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71B363BF22A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jul 2021 00:43:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230511AbhGGWgs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jul 2021 18:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        id S231235AbhGGWp4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 7 Jul 2021 18:45:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230264AbhGGWgr (ORCPT
+        with ESMTP id S230505AbhGGWp4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jul 2021 18:36:47 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013F2C061574;
-        Wed,  7 Jul 2021 15:34:07 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id g22so5736015iom.1;
-        Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
+        Wed, 7 Jul 2021 18:45:56 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19279C06175F
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Jul 2021 15:43:15 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id c17-20020a37e1110000b02903b3a029f1f2so515985qkm.12
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Jul 2021 15:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
-        b=U3BBsS4M1AAJ5T1e+Ng9btoTdmckXSOUWW0WSSn5ILwQoBU3HiI9OBuH0aW28BChYE
-         TTdSZX3ukMJAHQx2ILnuB4Pz8XERrMUOCLhSih0efJ6wsnLQGrJUll3vqi8QnG6PJnjo
-         8YMr3jzaAoCodyAraIJ+unl1DpaaPSw3c2KdAfGdp6GG+eu2YYJqE7i4G4mpAdkeVie5
-         aohcWBJkA5JlkwBklpOo7HmmZQdTii2gDOmlIgG8U7RX9cW+ZCLzEmO/O5fvq4jLJKMq
-         0bAQIluIRirLU+3mp4HPKW5WmsweHbK+GDmvmhDM0qIWrtMkCkKhwmhrEHlSVkO0V/mJ
-         UvnQ==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=7PF5MF/PppYWlL0Lvh8CWn/Qemla6arexCWKEtWK8TA=;
+        b=XNtbehT3q4pZdHdPbbXBIh7v/SKLG3UApl2MCXXFmUxbkDXWvfRfsL08zW2gclLMco
+         EP5J4SuUAUzM5RCCRNSAC4atbhgYRYwJxjA/Dscu2kTKkUsBQj0ZHnPEz4tVO8DcJIIf
+         4RlKyZ/Z0DbS3npAs7N3k/5TJg4k2BSA+jFU53ZgtNsfz2c2KGBeY5qMPkZ6AFHczxIB
+         VvrHGBIVsUjAjhqwh0b7DolzQ0bS21KocKS7EoruhgWER+mDzXZQU/K/j3SCIrqKBx0W
+         +tVNfZ+vCLHpEZeZPYqpEaH00T4eaQ7W9eB314FbQnoXOkacb/5jjNJEO7C12NYOmnb3
+         Robw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sguAgUAI4i8x+o/Ej9MGzsI2Cy1Cs5Pf47dyU7REBVg=;
-        b=Dt1Vjd5g045R97Urr786uV+3e2E2Is0606Do4MOenum5KeYx8HA6QrdKyZuNP987Kt
-         qbu1Xq8Vxdy8JlHJR/nStwkh5scU0bPGZQQp3/XUpY1thoCckLWKcONRDClXTQBJWY0K
-         9tZjediiqGAzElZiMHbByyK7fdMc8THPPF2HbOKxxmmjva3mn3RCDxfsi6Ylkhokm2wK
-         yIeaESBWi+Vk1gGwEaiKowRufYn3DFJEldhyuWFescZ4f5/1ip5+oIm6pHtJFjt1tRgn
-         3h+qMTX2CNJf/zZo4phmt3jhm1eOeuHRIsxek21yguN7DM/AjTaCVMSJgt5KBxFt8gFP
-         zKew==
-X-Gm-Message-State: AOAM531y/XofSKEwe87Kz+IHIPktWkj51Ag60YMBqYz5yYpK24vTyRGY
-        8rtJtSMlXXe7tVS1SZAr64BvJeuI5aHRs3ojMD8=
-X-Google-Smtp-Source: ABdhPJzAMcpVfmwUbQtBAKz2b/1EvEG3lNknXLAeGCG5/LOW2onoHQltm2OokBq1l0sVLbWJnKrPmXPjV1frxujIezc=
-X-Received: by 2002:a5e:d512:: with SMTP id e18mr21496064iom.149.1625697246499;
- Wed, 07 Jul 2021 15:34:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-5-ojeda@kernel.org>
- <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
-In-Reply-To: <CAKwvOdkWCgUb+G+iQ7pcvrVvrOfOaFYc6YvO1a9AKSd-oU_Kvg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 8 Jul 2021 00:33:55 +0200
-Message-ID: <CANiq72kBO5LJ8_pHmy7p6UmVYPiY1=2HugpCTen2Q3GVb_xidA@mail.gmail.com>
-Subject: Re: [PATCH 04/17] vsprintf: add new `%pA` format specifier
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=7PF5MF/PppYWlL0Lvh8CWn/Qemla6arexCWKEtWK8TA=;
+        b=EooKi9LazZD7luQ3TTjYe6Jy4XZnz+Dk6J3sA9mIcIqvjQolaee7gy5HIyM27U/aoW
+         KX8+u1RM+Uld6iUgleHVcwLHIUHyT1bgZdajZhdIu+rB6k4H+jXQakxmPot3BE3neP2f
+         YA6baPqGZ0eTiwZ5iI81ehqQZa470qcVuyyNBxWx0me3awjQKE/OZgYGCnpOUSmUM6Rj
+         smk8mxKaY4cEGvK4fAW21Rr1beRZ1l3sMhADyYL9BbW+gxp0PnSwxJ7suLRuYmUvlY6f
+         csjl1zG3VI+dl91nTpqV3sb0+UJgOg6jr0nE1N4B9bcOEgXPJpP5hhPW5nnnVBZC08yf
+         x69w==
+X-Gm-Message-State: AOAM533WdoCzELHRHytRY1Fwvv3NDoMxnrKgwTKyeA7jV3mIS0pyXwsv
+        KPTA12aYLiFuIvfQZi12JjlwQdhrDtprpxKlXJM=
+X-Google-Smtp-Source: ABdhPJyR2IYCNrFl/gSLnix/vfqbJaGYtBN0xeQunRqSdq+ildius84+CDJN7M4tTBufaXF6FSk/VatJd2JaLksbiqA=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:d417:6e24:4a54:1792])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:1d23:: with SMTP id
+ f3mr26515764qvd.10.1625697793911; Wed, 07 Jul 2021 15:43:13 -0700 (PDT)
+Date:   Wed,  7 Jul 2021 15:43:08 -0700
+Message-Id: <20210707224310.1403944-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+Subject: [PATCH 0/2] infer CROSS_COMPILE from ARCH for LLVM=1 LLVM_IAS=1
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 10:31 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Which patch in the series adds the definition of rust_fmt_argument?
-> Sorry, I haven't looked through the entire series yet, but I don't
-> think it was an earlier patch in the series.  If it's later in the
-> series, you may want to rebase this to be after (or combine it with
-> the patch that provides the definition).  For instance, let's say the
-> first half of this series was accepted/merged, but not the latter
-> half. It would be weird to provide such definitions/calls to undefined
-> symbols.
+We get constant feedback that the command line invocation of make is too
+long. CROSS_COMPILE is helpful when a toolchain has a prefix of the
+target triple, or is an absolute path outside of $PATH, but it's mostly
+redundant for a given ARCH.
 
-It is in https://lore.kernel.org/lkml/20210704202756.29107-11-ojeda@kernel.org/#Z30rust:kernel:print.rs
+Instead, let's infer it from ARCH, and move some flag handling into a
+new file included from the top level Makefile.
 
-Yeah, perhaps it would have been better to put it in the `kernel`
-crate commit alongside `include/linux/spinlock.h` and
-`kernel/printk/printk.c`.
+Nick Desaulniers (2):
+  Makefile: move initial clang flag handling into scripts/Makefile.clang
+  Makefile: drop CROSS_COMPILE for LLVM=1 LLVM_IAS=1
 
-On the other hand, having C changes on other commits may be easier to
-read and explain (note that compilation still works, given things are
-only enabled near the end in the Kbuild commit).
+ Documentation/kbuild/llvm.rst |  5 ++++
+ MAINTAINERS                   |  1 +
+ Makefile                      | 15 +----------
+ scripts/Makefile.clang        | 48 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 55 insertions(+), 14 deletions(-)
+ create mode 100644 scripts/Makefile.clang
 
-Cheers,
-Miguel
+
+base-commit: a0e781a2a35a8dd4e6a38571998d59c6b0e32cd8
+-- 
+2.32.0.93.g670b81a890-goog
+
