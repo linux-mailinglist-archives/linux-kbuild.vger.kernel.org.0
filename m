@@ -2,67 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C143BF32E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jul 2021 02:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0415F3BF54E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Jul 2021 07:49:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230148AbhGHBCI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Jul 2021 21:02:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
+        id S229593AbhGHFwV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Jul 2021 01:52:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230129AbhGHBCI (ORCPT
+        with ESMTP id S229579AbhGHFwU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Jul 2021 21:02:08 -0400
+        Thu, 8 Jul 2021 01:52:20 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8B3C061574;
-        Wed,  7 Jul 2021 17:59:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2C2DC061574;
+        Wed,  7 Jul 2021 22:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=DQ/ZqedFwNuEbvbxnVdd4B/mfUuq92y0TGsMJ/w3Rb4=; b=jg8IqGl2h31ZNsVMimKoOBaTWJ
-        pZJWJyUMrT7KElP4BkLGh18OCcyt7p77lQyct5FNFLYlwDzIOV0i7bppOWOo0IXgIO7oSQQIJislh
-        bvleAfjaSE6juQimQJjXA5zU2USOfrJHt/BFkya7zRwfFGtcfxsZ0aTh9LaXXxew0IXJY6s72vtv0
-        z/suJRxIyxAKlUwEZA/YAbJKivGXjf1n5cC/ZupOIirSY2ilNI3GY6ntpqSPYa/KFiXVPTw1GilhO
-        yfBUWJsM9VJ5AmDiVJ3i0APuSx/EstDtr+nDLY5rwnQ0k8+llG3lCAms1+4+xyQHYJFzMHQdynj+m
-        cAtbdG4Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m1IN6-00Cxix-4L; Thu, 08 Jul 2021 00:58:34 +0000
-Date:   Thu, 8 Jul 2021 01:58:32 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Finn Behrens <finn@kloenk.dev>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
+        bh=mWfljA4QruRpBEIi5sIMdGx5T82sFFv30vncfANMf1g=; b=MJOHj97MGASie+OP4yLR4gsDaP
+        JUN0nm34hL4c6b+ZuugumECiSKrCDv4ro/y2PsEnmXIuSFUVZDg0Ym/01JhkduvQ5P1XcBaRjv30B
+        mRL50AfbSbCW/s5S+pfkD+j3jeY0r6funfeUAOrvaLVEdgPiTX3ZDXoy75YSNbYNz1LtRM+xOYKCu
+        /R11f5sIhoOBlTS4Xp5AQFqY+iSgJD+mriVHZZGyyalnvy9tn+0P7MCGzI+VlUaIcXNRUk4F3muR0
+        eAnpb+NG2iWAOzaBwZrJhc3yyvp/xmMp8LNsQkzBp7MI71UPyOq9CXe5zdLOtpU1cjW1QBjNGMsPn
+        MwXBe/cg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m1MuL-00D80v-2u; Thu, 08 Jul 2021 05:49:16 +0000
+Date:   Thu, 8 Jul 2021 06:49:09 +0100
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/17] Rust support
-Message-ID: <YOZNuEtNbsLxRM0R@casper.infradead.org>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <YOVNJuA0ojmeLvKa@infradead.org>
- <CANiq72mKPFtB4CtHcc94a_y1V4bEOXXN2CwttQFvyzwXJv62kw@mail.gmail.com>
- <YOWjLmg/Z7kr2+tx@kroah.com>
- <YOW1Nj8+a2Yth2++@google.com>
- <YOXB7FRqldZik2Xn@kroah.com>
- <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 0/2] infer CROSS_COMPILE from ARCH for LLVM=1 LLVM_IAS=1
+Message-ID: <YOaR1ZjToP/kgNsC@infradead.org>
+References: <20210707224310.1403944-1-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
+In-Reply-To: <20210707224310.1403944-1-ndesaulniers@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 07, 2021 at 10:56:57PM +0200, Finn Behrens wrote:
-> There is a more general use driver (network dummy) still in the making, It is fully operational, just the documentation of the rust bindings are not finished yet, so it is not merged into the rust tree yet, also I have to rebase it.
+On Wed, Jul 07, 2021 at 03:43:08PM -0700, Nick Desaulniers wrote:
+> We get constant feedback that the command line invocation of make is too
+> long. CROSS_COMPILE is helpful when a toolchain has a prefix of the
+> target triple, or is an absolute path outside of $PATH, but it's mostly
+> redundant for a given ARCH.
+> 
+> Instead, let's infer it from ARCH, and move some flag handling into a
+> new file included from the top level Makefile.
 
-Why are you so resistant to writing a real driver that deals with actual
-hardware?  A simple NVMe driver is less than a thousand lines of C.
-I know the one in the kernel now is ridiculously complicated and has
-been thoroughly messed up with abstractions to support NVMeoF instead
-of having a separate driver, but it's really a simple interface at heart.
-
+Why only for LLVM?  I really hate the mess we currently have with
+ARCH and CROSS_COMPILE.  Being able to set both in .config (and maybe
+even inferring CROSS_COMPILE where possible) would make my life so
+much easier.
