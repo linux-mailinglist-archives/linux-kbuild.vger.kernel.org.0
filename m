@@ -2,115 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 789553C20C3
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jul 2021 10:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EBF3C2246
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jul 2021 12:31:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbhGII2A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jul 2021 04:28:00 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:51002 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229685AbhGII2A (ORCPT
+        id S232203AbhGIKeh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jul 2021 06:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232144AbhGIKeh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jul 2021 04:28:00 -0400
-X-UUID: e2fa50fcf82b4f31a3406b086a65e148-20210709
-X-UUID: e2fa50fcf82b4f31a3406b086a65e148-20210709
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 54868000; Fri, 09 Jul 2021 16:25:13 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 9 Jul 2021 16:25:12 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 9 Jul 2021 16:25:12 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <samitolvanen@google.com>
-CC:     <clang-built-linux@googlegroups.com>, <keescook@chromium.org>,
-        <lecopzer.chen@mediatek.com>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <masahiroy@kernel.org>,
-        <michal.lkml@markovi.net>, <nathan@kernel.org>,
-        <ndesaulniers@google.com>, <yj.chiang@mediatek.com>
-Subject: Re: [PATCH v3 1/2] Kbuild: lto: add CONFIG_MAKE_VERSION
-Date:   Fri, 9 Jul 2021 16:25:12 +0800
-Message-ID: <20210709082512.25208-1-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <CABCJKufWcp6Hx=8btz6pDNcKvQ21n4BSPZ7cp1Tzhxt0+pQOmw@mail.gmail.com>
-References: <CABCJKufWcp6Hx=8btz6pDNcKvQ21n4BSPZ7cp1Tzhxt0+pQOmw@mail.gmail.com>
+        Fri, 9 Jul 2021 06:34:37 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CA1C0613E7
+        for <linux-kbuild@vger.kernel.org>; Fri,  9 Jul 2021 03:31:54 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id i5-20020a9d68c50000b02904b41fa91c97so4570159oto.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jul 2021 03:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Ag9cLTRzEt3rLWB36U/GaTidnQngHz1mFDbPHdbYJM=;
+        b=sy+60CShYu2+iBbLulb6BXcdNl+YIgSb+jajYjDZa4zuiim9DZxtK88a9BSEKRhPbe
+         2149xKE135XoG+YMIvJKNw6ZCj+Hh+EyWUQfK08pHq86IYtTdGJTm+svEvs37g5Uc5aC
+         xngQeJK55dnd2ThJlBq5eYZYae9d0PV6/iYXED9E2qqxOYHyQkUpxQ8hj9KF/zDuFrT9
+         tgJPN39rPw0sSVwFi7t4ZBZBflf0sauWKsDv5fafUbt1gGs3lfO03jiHBYX5NnqsSVoi
+         /ujWD+DqEO4PATTm5/8r52LotGJ0RL6BBjZ8Ui/OZxRKJiFG0Xe11t+2cPco8FTtPijx
+         5Rtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Ag9cLTRzEt3rLWB36U/GaTidnQngHz1mFDbPHdbYJM=;
+        b=rCIVdbSf4dZQJtYmHW0Jgb90xBMUvd4FlDKA8uycEoYBT0UL2fzJGLJwLnLmaAIkHB
+         eXyxEsLf2oKL3prcesKWhhPndi4tBqael6ml3uZTl0AxR99MLmoWELcLWpKLkMsl5+c0
+         sd6gdeZ+r3jkUCXzm4vDrwbuBW8nygR0kkilQSB5Or6JRTuru1ZejYmDdi3v+nx779f7
+         6u0T2RU2eV+BYPGGQ9DNW05ogazXjuhEHuUGimjXcicBQtYD/uM0QeDIohz8BWOgnPFn
+         FnG29qQnx3fAI7khvfFvvuZCl9cVl+hnzC62W1j/1Hj7F/fDje6d/n0CNuoeOk5Udea7
+         NgQg==
+X-Gm-Message-State: AOAM531UVrmNEyZjkHtlOAcuvdABuDd577Z1bt2ykVx6zYck/w8NNQS8
+        M5MEwTcoDGNVd9iamIETDEz51hlN6Vr5lxQH6/hUUQ==
+X-Google-Smtp-Source: ABdhPJzZsHc3H6ZMG5NBT8zSvR+UmJMGAQPOW7Oty1uNxYZb5VbOU1cqW4degb+Ls5Psx+gb8Y7wOEkrsU6h6jHMP2U=
+X-Received: by 2002:a9d:d04:: with SMTP id 4mr29227829oti.251.1625826713387;
+ Fri, 09 Jul 2021 03:31:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-6-ojeda@kernel.org>
+ <YOV/oj0rjHhzluH2@elver.google.com>
+In-Reply-To: <YOV/oj0rjHhzluH2@elver.google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Fri, 9 Jul 2021 12:31:41 +0200
+Message-ID: <CANpmjNMOou5DccZvGAcy4U7iqoLk6NRuTFkd-6JzTmoSFR+YYg@mail.gmail.com>
+Subject: Re: [PATCH 05/17] rust: add C helpers
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Yuki Okushi <jtitor@2k36.org>,
+        clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> On Tue, Jul 6, 2021 at 2:06 AM Lecopzer Chen <lecopzer.chen@mediatek.com> wrote:
+On Wed, 7 Jul 2021 at 12:19, Marco Elver <elver@google.com> wrote:
+> On Sun, Jul 04, 2021 at 10:27PM +0200, ojeda@kernel.org wrote:
+> > From: Miguel Ojeda <ojeda@kernel.org>
 > >
-> > > On Sun, Jul 4, 2021 at 7:03 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > On Fri, Jul 2, 2021 at 12:29 PM Lecopzer Chen
-> > > > <lecopzer.chen@mediatek.com> wrote:
-> > > > >
-> > > > > To check the GNU make version. Used by the LTO Kconfig.
-> > > > >
-> > > > > LTO with MODVERSIONS will fail in generating correct CRC because
-> > > > > the makefile rule doesn't work for make with version 3.8X.[1]
-> > > > >
-> > > > > Thus we need to check make version during selecting on LTO Kconfig.
-> > > > > Add CONFIG_MAKE_VERSION which means MAKE_VERSION in canonical digits
-> > > > > for arithmetic comparisons.
-> > > > >
-> > > > > [1] https://lore.kernel.org/lkml/20210616080252.32046-1-lecopzer.chen@mediatek.com/
-> > > > > Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-> > > > > ---
-> > > >
-> > > >
-> > > > NACK.
-> > > >
-> > > > "Let's add MAKE_VERSION >= 40200 restriction
-> > > > just because I cannot write correct code that
-> > > > works for older Make" is a horrible idea.
-> > > >
-> > > > Also, Kconfig is supposed to check the compiler
-> > > > (or toolchains) capability, not host tool versions.
-> > >
-> > > I feel like requiring a Make that's half a decade old for a feature
-> > > that also requires a toolchain released last October ago isn't
-> > > entirely unreasonable.
-> > >
-> > > That being said, if Masahiro prefers not to rely on the wildcard
-> > > function's behavior here, which is a reasonable request, we could
-> > > simply use the shell to test for the file's existence:
-> > >
-> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > index 34d257653fb4..c6bd62f518ff 100644
-> > > --- a/scripts/Makefile.build
-> > > +++ b/scripts/Makefile.build
-> > > @@ -388,7 +388,7 @@ ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
-> > >        cmd_update_lto_symversions =                                     \
-> > >         rm -f $@.symversions                                            \
-> > >         $(foreach n, $(filter-out FORCE,$^),                            \
-> > > -               $(if $(wildcard $(n).symversions),                      \
-> > > +               $(if $(shell test -s $(n).symversions && echo y),       \
-> > >                         ; cat $(n).symversions >> $@.symversions))
-> > >  else
-> > >        cmd_update_lto_symversions = echo >/dev/null
-> > >
-> > > This is not quite as efficient as using wildcard, but should work with
-> > > older Make versions too. Thoughts?
-> > >
-> >
-> >
-> > I've tested this in both make-4.3 and 3.81, and the CRC is correct.
-> > But I'm not sure if anyone would have the "arg list too long" issue.
-> >
-> > Tested-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
-> 
-> Thank you for testing. This should produce a command identical to the
-> wildcard version (with newer Make versions), so that shouldn't be an
-> issue. If nobody objects to this approach, would you mind putting this
-> into a proper patch and sending it as v4?
+> > This source file contains forwarders to C macros and inlined
+> > functions.
+>
+> What is the story with Rust and LTO? Intuitively, I would expect Rust
+> code to only perform optimally if the kernel is built with LTO
+> (currently only supported via Clang).
 
-Sure, I'll rebase the whole commit and send as v4 soon.
+I'll answer my own question: it looks like Linux Rust code currently
+does _not_ generate LLVM-LTO compatible object files, but only native
+object files (which still link fine if LTO is enabled, but doesn't
+permit the optimizations below we'd want).
 
+rustc already supports playing nicely with LLVM LTO via `-C
+linker-plugin-lto`:
+https://doc.rust-lang.org/rustc/linker-plugin-lto.html
 
+So, hopefully it should only require kernel work to make it play
+nicely with CONFIG_LTO_CLANG.
+
+> Because if calls to every one of these helpers are real calls, I would
+> expect performance to be pretty poor. There's probably a reason these
+> are macros or inlinable functions.
+>
+> I would almost go so far and suggest that CONFIG_RUST be modified as
+> follows:
+>
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2028,6 +2028,7 @@ config RUST
+>         depends on HAS_RUST
+>         depends on !COMPILE_TEST
+>         depends on !MODVERSIONS
+> +       depends on LTO || EXPERT
+>         default n
+>         help
+>           Enables Rust support in the kernel.
+>
+> [ I'm sure there are configs that don't yet work with LTO, but could be
+>   useful to enable for debugging or testing purposes, and therefore would
+>   make it conditional on CONFIG_EXPERT as well. ]
+>
+> [...]
+> > +unsigned long rust_helper_copy_from_user(void *to, const void __user *from, unsigned long n)
+> > +{
+> > +     return copy_from_user(to, from, n);
+> > +}
+> > +
+> [...]
+>
+> From some local tests, it looks like simply attaching
+> __attribute__((always_inline)) will do what one would expect when
+> compiling with Clang LTO (I checked -flto=thin).
+>
+> If you confirm this also works across C and Rust TUs when enabling LTO,
+> I would then suggested adding __attribute__((always_inline)) to all
+> these helpers.
+>
+> Thanks,
+> -- Marco
