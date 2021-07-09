@@ -2,115 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B224B3C25FC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jul 2021 16:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 074973C2978
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jul 2021 21:19:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231808AbhGIOfX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Jul 2021 10:35:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbhGIOfW (ORCPT
+        id S229499AbhGITW2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Jul 2021 15:22:28 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:40933 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229459AbhGITW2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Jul 2021 10:35:22 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6EEC0613DD;
-        Fri,  9 Jul 2021 07:32:39 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id y8so12595478iop.13;
-        Fri, 09 Jul 2021 07:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9iI9BBIN5ChfEI3FnxPdXxRRh4SsTOQ85Lm4ab50ZgU=;
-        b=qTdTyUG2DaXjYQnvicuCU4wXgYVOIsZZ/gTmsMhPyGAYSSbCmQze7jcXn1myhKDH/E
-         TLnHapoaZv0JcSyWRb7pvTNAsL4xhbhsohPMTufJJlsn6p+suF+fJfWtJkIUhJj5VfLR
-         eKB/cVmq8UJroy6uZNOukKxKq8WjW7NYpF2zWeW91YAs5vzrOIHLvxaGqAGaTURQ/i0a
-         xiZ1/ZwV+TUysnyvCa4VMkkFjlEP0WbT5GpcGD/caX3OzazowH55A3ptBc7o3m6X35aR
-         rTt0o9TEv0J5+7cf2/QprWB2VWGA0lZxCLGlb6YQGIA+oM1LnNzu+y7I228AvUIterk/
-         IAEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9iI9BBIN5ChfEI3FnxPdXxRRh4SsTOQ85Lm4ab50ZgU=;
-        b=h+bb+Y2ty98VFt8SmxZgVjJGEPIUOIW4mXlTCPpQLmk3joyzARYf+f2/ZQzirJIQ+K
-         I8pkM8Y2BtgHfxmoCBF2r0YWE1K9nbX8YJv1GX1DgczkfhGPTlwcEpPlDnaagE8dJoyD
-         XDjbAC/WX6W9pyF0zxr+u8fGEsev2tPBzX7wUxLX+SJBIUomCsNVszJHtTcSgoQnfUcW
-         zqy/qhEPcSsMDW5a0YCL9XgDpcHf6L3WFykh4VCHbmjgULEsJJG3NbcjOnvaFlp2OmuX
-         UM0Tmh7iZEEv6vUAqXO32GHwyCdJSK5VuwQG544+h/nEt3w1aEUBxruG6TY9C3Vhr7OH
-         E5bg==
-X-Gm-Message-State: AOAM531lic+BRvw6C/SYvn8YeXN6TZ0rSGiLN/z+JtaVXIrHBWUp/qXl
-        TZz6LXjeHDO8yatE6a3Nhfv7bNmuQ/e3WkpxzuVzIARc0hEQ0A==
-X-Google-Smtp-Source: ABdhPJwl0slWLkp3njIXYUBIMzEac6RkQRP7LsshuulJGZdJ5sz0WTWz/hY95X6eyXwS9K5zWEXwo0GqWHqdenJVfR0=
-X-Received: by 2002:a02:a310:: with SMTP id q16mr33022208jai.8.1625841158612;
- Fri, 09 Jul 2021 07:32:38 -0700 (PDT)
+        Fri, 9 Jul 2021 15:22:28 -0400
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 169JJREl012271;
+        Sat, 10 Jul 2021 04:19:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 169JJREl012271
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1625858368;
+        bh=m104GlXJVC5q1AG9XKHaYUzyUiPJ1jnGghDq6ugywoQ=;
+        h=From:Date:Subject:To:Cc:From;
+        b=iU71n43lLm6VhN1Oq0UtIxKSoTDf1IJ2WIgcuJR2D+M+6UoPJzHNkZjGGSRThyNAl
+         uPsxSnQXyE4mOUm3jurtatqbcU88dBYBNXjZWJgV5gaE/NpgruoEggYHNW7E4lL8IF
+         G4YxCg3UX0v5Zc9erYZa/I5I5Biu+dx2W/LBVTbfOTDvLMGA/ZJrqQPmVdfw+hG4M2
+         gwQRHN4h6Aug8Y0iveaEYVRWWa0mAoKAmxsUPteKWAHsFABO8z31FwjGB6AAauiLpp
+         gv92w1pSaD+wWZhcvbem3EhzblQP8LcTPymhyQJg253rcQCPoRXdVSCyE0hRXQFV2a
+         KDWIH75/fjvkw==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id b12so9605798pfv.6;
+        Fri, 09 Jul 2021 12:19:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533w+7mxdiPoyxmY7Np5ss2O7mr7xypO+htcs7dTrAINhRLI5s6N
+        JHr06uxlJj6Sf9/qlEJXKiVPfJMiCM65Q1EaTFg=
+X-Google-Smtp-Source: ABdhPJwmalI8RBfD9OtuK9Zf2tXNd8TRC9wf2bU/Ilh27wMTt30ujq4ZFMS35rpv1HvohOj1hseUo63pCBp86vMVMC4=
+X-Received: by 2002:a65:6404:: with SMTP id a4mr40211990pgv.175.1625858367437;
+ Fri, 09 Jul 2021 12:19:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-6-ojeda@kernel.org>
- <YOV/oj0rjHhzluH2@elver.google.com>
-In-Reply-To: <YOV/oj0rjHhzluH2@elver.google.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 9 Jul 2021 16:32:27 +0200
-Message-ID: <CANiq72=DSGH0PAz_oKDMG_YQAWbKLW_6jUeGCwdV6_ZnwPLrLQ@mail.gmail.com>
-Subject: Re: [PATCH 05/17] rust: add C helpers
-To:     Marco Elver <elver@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Fox Chen <foxhlchen@gmail.com>,
-        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Yuki Okushi <jtitor@2k36.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 10 Jul 2021 04:18:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT-9N_o_J8+pD5H9gnxzxuN-3ZBQ1wt-VmyHE=oEC295g@mail.gmail.com>
+Message-ID: <CAK7LNAT-9N_o_J8+pD5H9gnxzxuN-3ZBQ1wt-VmyHE=oEC295g@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v5.14-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 7, 2021 at 12:19 PM 'Marco Elver' via Clang Built Linux
-<clang-built-linux@googlegroups.com> wrote:
->
-> What is the story with Rust and LTO? Intuitively, I would expect Rust
-> code to only perform optimally if the kernel is built with LTO
-> (currently only supported via Clang).
+Hi Linus,
 
-Cross-language LTO is possible and is used in other major projects.
-For instance, Firefox seems to use it:
+Please pull Kbuild updates for v5.14-rc1
+Thanks.
 
-    https://bugzilla.mozilla.org/show_bug.cgi?id=1486042
 
-However, we have not taken a look at it yet for the kernel.
+The following changes since commit c4681547bcce777daf576925a966ffa824edd09d:
 
-> Because if calls to every one of these helpers are real calls, I would
-> expect performance to be pretty poor. There's probably a reason these
-> are macros or inlinable functions.
+  Linux 5.13-rc3 (2021-05-23 11:42:48 -1000)
 
-Maybe -- we need to measure.
+are available in the Git repository at:
 
-> I would almost go so far and suggest that CONFIG_RUST be modified as
-> follows:
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v5.14
 
-Even if the performance was unacceptable, there are other ways than
-LTO to solve this, such as implementing the equivalent macro/function
-on Rust's side.
+for you to fetch changes up to 27932b6a2088eac7a5afa5471963b926cfbb4de7:
 
-Furthermore, we need to consider GCC too.
+  scripts: add generic syscallnr.sh (2021-07-09 04:01:14 +0900)
 
-Thus I would not be premature in making it depend on LTO.
+----------------------------------------------------------------
+Kbuild updates for v5.14
 
-Cheers,
-Miguel
+ - Increase the -falign-functions alignment for the debug option.
+
+ - Remove ugly libelf checks from the top Makefile.
+
+ - Make the silent build (-s) more silent.
+
+ - Re-compile the kernel if KBUILD_BUILD_TIMESTAMP is specified.
+
+ - Various script cleanups
+
+----------------------------------------------------------------
+Bjorn Helgaas (1):
+      kconfig.h: explain IS_MODULE(), IS_ENABLED()
+
+Feng Tang (1):
+      Makefile: extend 32B aligned debug option to 64B aligned
+
+Mark Brown (1):
+      kbuild: modpost: Explicitly warn about unprototyped symbols
+
+Masahiro Yamada (23):
+      kbuild: hide tools/ build targets from external module builds
+      kbuild: remove libelf checks from top Makefile
+      kbuild: require all architectures to have arch/$(SRCARCH)/Kbuild
+      alpha: move core-y in arch/alpha/Makefile to arch/alpha/Kbuild
+      h8300: move core-y in arch/h8300/Makefile to arch/h8300/Kbuild
+      hexagon: move core-y in arch/hexagon/Makefile to arch/hexagon/Kbuild
+      sh: move core-y in arch/sh/Makefile to arch/sh/Kbuild
+      kbuild: merge scripts/mkmakefile to top Makefile
+      init: use $(call cmd,) for generating include/generated/compile.h
+      kbuild: sink stdout from cmd for silent build
+      kbuild: clean up ${quiet} checks in shell scripts
+      scripts/setlocalversion: remove mercurial, svn and git-svn supports
+      scripts/setlocalversion: remove workaround for old make-kpkg
+      scripts/setlocalversion: add more comments to -dirty flag detection
+      scripts/setlocalversion: factor out 12-chars hash construction
+      scripts/setlocalversion: simplify the short version part
+      kconfig: constify long_opts
+      kbuild: remove trailing slashes from $(KBUILD_EXTMOD)
+      nds32: add arch/nds32/boot/.gitignore
+      parisc: syscalls: use pattern rules to generate syscall headers
+      sparc: syscalls: use pattern rules to generate syscall headers
+      scripts: check duplicated syscall number in syscall table
+      scripts: add generic syscallnr.sh
+
+Matthias Maennich (1):
+      kbuild: mkcompile_h: consider timestamp if KBUILD_BUILD_TIMESTAMP is set
+
+ Makefile                             | 130
+++++++++++++++++++++++++--------------------------------
+ arch/alpha/Kbuild                    |   3 ++
+ arch/alpha/Makefile                  |   2 -
+ arch/arc/Makefile                    |   3 --
+ arch/arm/Makefile                    |   1 -
+ arch/arm64/Makefile                  |   1 -
+ arch/csky/Kbuild                     |   1 +
+ arch/h8300/Kbuild                    |   2 +
+ arch/h8300/Makefile                  |   3 --
+ arch/hexagon/Kbuild                  |   2 +
+ arch/hexagon/Makefile                |   4 --
+ arch/ia64/Kbuild                     |   1 +
+ arch/m68k/Makefile                   |   1 -
+ arch/microblaze/Kbuild               |   1 +
+ arch/mips/Makefile                   |   3 --
+ arch/nds32/Kbuild                    |   1 +
+ arch/nds32/boot/.gitignore           |   2 +
+ arch/nios2/Kbuild                    |   1 +
+ arch/openrisc/Makefile               |   1 -
+ arch/parisc/Kbuild                   |   1 +
+ arch/parisc/kernel/syscalls/Makefile |  18 ++------
+ arch/powerpc/Makefile                |   3 --
+ arch/riscv/Makefile                  |   1 -
+ arch/s390/Makefile                   |   3 --
+ arch/sh/Kbuild                       |   4 ++
+ arch/sh/Makefile                     |   5 ---
+ arch/sparc/Makefile                  |   3 --
+ arch/sparc/kernel/syscalls/Makefile  |  18 ++------
+ arch/um/Kbuild                       |   1 +
+ arch/x86/Makefile                    |   3 --
+ arch/xtensa/Kbuild                   |   1 +
+ include/linux/kconfig.h              |   6 ++-
+ init/Makefile                        |  12 +++---
+ kernel/gen_kheaders.sh               |   4 +-
+ lib/Kconfig.debug                    |   4 +-
+ scripts/Kbuild.include               |   7 ++-
+ scripts/Makefile.build               |   2 -
+ scripts/Makefile.modfinal            |   2 -
+ scripts/kconfig/conf.c               |   2 +-
+ scripts/link-vmlinux.sh              |   4 +-
+ scripts/mkcompile_h                  |  18 +++++---
+ scripts/mkmakefile                   |  17 --------
+ scripts/mod/modpost.c                |   7 ++-
+ scripts/setlocalversion              |  75 ++++++--------------------------
+ scripts/syscallhdr.sh                |   2 +-
+ scripts/syscallnr.sh                 |  74 ++++++++++++++++++++++++++++++++
+ scripts/syscalltbl.sh                |   7 ++-
+ 47 files changed, 215 insertions(+), 252 deletions(-)
+ create mode 100644 arch/alpha/Kbuild
+ create mode 100644 arch/csky/Kbuild
+ create mode 100644 arch/h8300/Kbuild
+ create mode 100644 arch/hexagon/Kbuild
+ create mode 100644 arch/ia64/Kbuild
+ create mode 100644 arch/microblaze/Kbuild
+ create mode 100644 arch/nds32/Kbuild
+ create mode 100644 arch/nds32/boot/.gitignore
+ create mode 100644 arch/nios2/Kbuild
+ create mode 100644 arch/parisc/Kbuild
+ create mode 100644 arch/sh/Kbuild
+ create mode 100644 arch/um/Kbuild
+ create mode 100644 arch/xtensa/Kbuild
+ delete mode 100755 scripts/mkmakefile
+ create mode 100644 scripts/syscallnr.sh
+
+-- 
+Best Regards
+Masahiro Yamada
