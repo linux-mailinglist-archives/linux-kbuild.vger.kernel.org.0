@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 567BB3C7087
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jul 2021 14:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 566DC3C7097
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jul 2021 14:44:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236156AbhGMMlb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jul 2021 08:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
+        id S236251AbhGMMqY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jul 2021 08:46:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236098AbhGMMla (ORCPT
+        with ESMTP id S236098AbhGMMqY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jul 2021 08:41:30 -0400
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050::465:201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4CB2C0613DD;
-        Tue, 13 Jul 2021 05:38:40 -0700 (PDT)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+        Tue, 13 Jul 2021 08:46:24 -0400
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6AB3C0613DD;
+        Tue, 13 Jul 2021 05:43:34 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4GPKtl2594zQkBt;
-        Tue, 13 Jul 2021 14:38:39 +0200 (CEST)
+        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4GPL0P1WJVzQk9t;
+        Tue, 13 Jul 2021 14:43:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
         content-transfer-encoding:content-type:content-type:mime-version
         :subject:subject:references:in-reply-to:message-id:from:from
-        :date:date:received; s=mail20150812; t=1626179915; bh=lUqHxW+lRq
-        lmCYY6cc2CGIHqpQG5J5kdsYhP7CZJSPA=; b=Wrc9uwlQ6L9ZcHk8h0brEm4tgw
-        l/mVQ0aLSP2VILL48qBrB9JvQROw7afWNBebubSnQFDp198/bDeEBRr40wYlDHjX
-        ZhLulQC/MsudE6PLneIxHXOFjCHxof+qv0B76qpsD6T/Fot5gCZLE0tjcoO0DsQ5
-        V8+yq4p8vLVo2YZd2W73ans9FTfr9FJgb7boue9HWEEc9GNL757edOJXPLhyASKR
-        h9sZLm7Tt009C3sISOH0F1JhzZE1qut2bJWo0lQ7YS0Q9RkFyMXcfwVcH6voPrdl
-        VdXDIel43riELbL/yvmwF7/j09kjd8EahDghyPpp2uBZ+Vl4mZSMbsp5xpZA==
+        :date:date:received; s=mail20150812; t=1626180209; bh=XdCFFgBWRD
+        UCGB4TseCEQHZoH2XbPOIN5YL4HrfJklI=; b=Tc/6jsNd8cOZBF5pDBoQabWjY2
+        a22peb4Dxiwv2famydz8cK+9x4rWWutHtqxZXQFscTd2H27fw37t+VZPEp8w3R6n
+        bTS65xPjVxPgoa5mYot7kKV6Q/NjMM4YlahtxP0o7J3KIl+w8qpd+yVvOeXDiYmH
+        pUWIKcFacRkz0+wOLHL7mKZftExrnIww9wouj3a3Lc2RYsbm2DwCrNzc/kHG3sUI
+        wNDXBJTzRi+GZGyLU1J87IDmEae6iux6yD2z4NaSIhT76DPal9KGKMoqKslYNtiU
+        Q95qqaP8dTZaaI2uuVZmI+7R9vkCJK1eC60aZJRV6BZlToTJqNYebveDZdTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1626179917;
+        t=1626180211;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SUCNKqqfXSbqAKrKQjDh3fqlkLX5sIqyN/ql4Wth49k=;
-        b=c9in/e+ToXDQTNsFvP0DM9urTzf/fOnrNPemO+FcHL3Mt2vbyGV2B6TeyII34GVSsy55Rw
-        qaRUfM2UXhp/MywVE9K+frquz5rhZda/5kqHVzHPfygm57vME5mB5VycTMciE9SkrbVAuL
-        VCpRlsA97IpTSKNkCmlG5DK6DkcBfZAbVtSHOgXsLJsG7+ZDqY1iLTljhShldm3hUCl9RI
-        43O9MvyOKILeUuaoigKbX21hUmry3tHtcon67dVqokCnfFB4QzhqSOZ5gYs6XI6pW/4woO
-        9kK93ReFhxOjZEybnMVmwxPBuZOZVmi8vYH9NnFYwTwXUv+cIzZuwymdJ+n8BA==
+        bh=uXS7RkS7M9LEfQKQ0Js/p3lAa+kHFpTYNkuyQeip5MY=;
+        b=paaC/r3JB9kA4YNagUxMhK/Rms+LTHhZpWnfDUMmU8An2Gd5Q0qVmKMnq7XvbdCPSHK2l+
+        Qe6DbBO+wYV68nlJsdeNvnzLcIXTXQv5sgs0l6UzXEnqbx8LB2MkWG0h/9F92FrYO6y8gl
+        Q98z9y0N+rgvTNONY17KsHqOlu09fb1etwDiUxlGAZBCgEzKPY7H9U0nLSBFYaj6xK+AFD
+        36pvGKLf8HdctuLp4HjzZGkSKskJ0jjCnEHToBQHo7XL9AydJhpbtkCWD6RaNsHJqHpXiU
+        ax8wFndxSY3V2eQSvLzwZpofXIMa1A+yTeQgnjLeHLtShuUuzkyb2oiqfi0WAA==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
-        with ESMTP id Zm4_MsTcE__S; Tue, 13 Jul 2021 14:38:35 +0200 (CEST)
-Date:   Tue, 13 Jul 2021 14:38:34 +0200 (CEST)
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id BLBFdGFgjsUH; Tue, 13 Jul 2021 14:43:29 +0200 (CEST)
+Date:   Tue, 13 Jul 2021 14:43:29 +0200 (CEST)
 From:   torvic9@mailbox.org
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -57,7 +57,7 @@ Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         "clang-built-linux@googlegroups.com" 
         <clang-built-linux@googlegroups.com>
-Message-ID: <1989306485.91043.1626179914866@office.mailbox.org>
+Message-ID: <868773411.91110.1626180209155@office.mailbox.org>
 In-Reply-To: <CAK7LNAT3bAg164L7mWDk0sfsvxZvMukezSSu1BYu3M425SWeaQ@mail.gmail.com>
 References: <b45b2430-3670-b310-b6ad-2d6db50c2d18@mailbox.org>
  <CAK7LNAT3bAg164L7mWDk0sfsvxZvMukezSSu1BYu3M425SWeaQ@mail.gmail.com>
@@ -69,9 +69,9 @@ Content-Transfer-Encoding: 7bit
 X-Priority: 3
 Importance: Normal
 X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -0.80 / 15.00 / 15.00
-X-Rspamd-Queue-Id: 26D511857
-X-Rspamd-UID: 443bc2
+X-Rspamd-Score: -6.44 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 160421825
+X-Rspamd-UID: 9d2495
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -111,11 +111,26 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > solve your problem?
 > 
 
-I'm still not 100% what is going on, but, on Arch using DKMS,
-I get the following error message:
-    Error: Permission denied
-LLVM ERROR: ThinLTO: Can't get a temporary file
+Sorry, I accidentally sent the message before completing it...
 
+So, when building an out-of-tree module on Arch using DKMS,
+I get the following error message:
+
+    Error: Permission denied
+    LLVM ERROR: ThinLTO: Can't get a temporary file
+
+The reason for this seems to be that DKMS looks for the cache inside
+the installed kernel's modules/headers folder, which on Arch is in
+/usr/lib/modules/$kernelversion/build, and this folder is of course not
+writeable by the user.
+With the patch, a user-writable directory can be selected and DKMS seems
+to pick it up.
+But yes, I also have more questions than answers unfortunately...
+
+Maybe it is more of an issue with DKMS itself than with the kernel, in
+any way, DKMS needs a few fixes for Clang-built kernels, see [1].
+
+[1] https://github.com/dell/dkms/issues/124
 
 > 
 > 
