@@ -2,106 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5365B3C9120
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D97413C91D4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241165AbhGNT5y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 15:57:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49296 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241122AbhGNTwW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:52:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A986613E2;
-        Wed, 14 Jul 2021 19:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626292125;
-        bh=i06fPrBmFPd4Vw53yWquMo8pgHRq2PQGWRELFLr2wsU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hXV5L+5fr+vZj9RGtVJMBE1h8D+gQrPDYjfd66TY7jdc5+FTtTO8lGhFU69W+951U
-         q0/vJnD2oWkmoQwBpiXQYQWvogrMWPL3+0zs3FdBRy6xmH/R0ZlIpWwPppqKsoq2Zp
-         Cmk9ejiXObUJZpuPKGVlSBNQSChBGfoeBKTWWCKb9K291YG0cuGMo3WnkpzgkcPJGG
-         b55AKTHEC09nJ/wmxBUjvvRPLxOxufadZwE/TSlN+r2i9mGaSlR9Pi4DVZDKJSLxht
-         1wP+pWJztI0DHmKqc3DRTYADp8pR86khJDUBdYFV3R2xRz4D1eJEYmbXvVSmpb8xe+
-         uqVfDIal195Lw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Matthias Maennich <maennich@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 08/10] kbuild: mkcompile_h: consider timestamp if KBUILD_BUILD_TIMESTAMP is set
-Date:   Wed, 14 Jul 2021 15:48:31 -0400
-Message-Id: <20210714194833.56197-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210714194833.56197-1-sashal@kernel.org>
-References: <20210714194833.56197-1-sashal@kernel.org>
+        id S236281AbhGNULd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 16:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243378AbhGNUKh (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Jul 2021 16:10:37 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7431C06178A;
+        Wed, 14 Jul 2021 12:55:13 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id u7so3633391ion.3;
+        Wed, 14 Jul 2021 12:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=81Xn7aVQAFz+p6d+JyITwXRpGql/VdikGqozJiC/tJs=;
+        b=t5x7ODRrA/ceqZsP4VNa2SNq+2LDN93Db6Ve0FDPkOeuMPze+NJDeNWK1Nm2LBYL9g
+         BvyPrMGVcXGQOqS1elAbPrdeYVW8jMoXnUBVL4PRpAYsMgweLp2pgwe11tMbOYlipIrk
+         5zGhGRvQesXwoQjdMMMRJSuLMVXgQB9IXAAInvNJg51Hp/KhWMR1oD65W3BaAfjwDGdv
+         Qev+HIfTCAgADzg8k4/1N8/zIHXv1LEFvOwT9OWdtkItr2j1O+lDRtusu28BqV07GVaE
+         Si/czf4PfHNqwrMxkiKcq2f2tdPYmQm7jhC3qaQqzdwXJQc5xQV+2CPPD+INvjbUx4Ok
+         CUzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=81Xn7aVQAFz+p6d+JyITwXRpGql/VdikGqozJiC/tJs=;
+        b=Gps3uAQmlxLJhY/hWBg9dVzMCUBMq22MhAD2HnQPyxwyZlUSTR6Mb0GJhnaPHbJVFV
+         /63OwK3INzl0RUTn0ZLlzmxcfbZrM8kat/aGOyzJVHyy/Vb7BlKFE23Ml5IpAOqnuq/e
+         eOgHvbAgy/RZNqiQ1CgNDw1QsW5zqRRziY8H/R2Ib4EuXkoGffp5Dp2PW6Ils4YpOnLA
+         FOorXsLZmUV3ipEMjFYd2lNK2rCZyjnOkfAUL7JWcfxIIB3a5NDM81MZPBMDts8skdzg
+         WWpdHNgUqLkc4cuNUkCox1MlFwpJXE5dlh96i7vXRzf7AatHqQd2+t7pEkz0OKCLJVVh
+         +kBg==
+X-Gm-Message-State: AOAM532pZ/GWRp2eJhCu4Lx7rNXZXAy8J+e+7pmV051TBAmHOEYEyQw2
+        TbREJDlJ07RfkIUaTve4oVO4FcrAMRvOnbCgBfY=
+X-Google-Smtp-Source: ABdhPJy7s1FWtjcDbt1WZptWWTerendzo7qMJ2RFFE/1/yyFxth6o722NYYwGX8poWisp3GQOdsl83BTAdjnhbu+X7c=
+X-Received: by 2002:a6b:6412:: with SMTP id t18mr689657iog.64.1626292513301;
+ Wed, 14 Jul 2021 12:55:13 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-14-ojeda@kernel.org>
+ <CAKwvOdmei2Ckfk5xgkvo8wEXEFK=Yv5-yjKhHoi_bmVr4MiEnw@mail.gmail.com>
+In-Reply-To: <CAKwvOdmei2Ckfk5xgkvo8wEXEFK=Yv5-yjKhHoi_bmVr4MiEnw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 14 Jul 2021 21:55:02 +0200
+Message-ID: <CANiq72m9WdbRjNS7CUecmwVkefPQPUS+hi-f+gPZg1yKJPObtg@mail.gmail.com>
+Subject: Re: [PATCH 13/17] docs: add Rust documentation
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Matthias Maennich <maennich@google.com>
+On Wed, Jul 14, 2021 at 8:38 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Is rust-analyzer necessary to talk about? I think most kernel
+> developers aren't using LSP clients, so it doesn't seem necessary to
+> talk about for kernel development IMO.  If a developer would like to
+> use an LSP client, they should refer to the documentation of their LSP
+> client.
 
-[ Upstream commit a979522a1a88556e42a22ce61bccc58e304cb361 ]
+I think it is fair to advertise it given we have support for
+generating its configuration.
 
-To avoid unnecessary recompilations, mkcompile_h does not regenerate
-compile.h if just the timestamp changed.
-Though, if KBUILD_BUILD_TIMESTAMP is set, an explicit timestamp for the
-build was requested, in which case we should not ignore it.
+Otherwise, people might miss the script and spend time generating a
+configuration by hand (which takes quite some time and would not carry
+the `CONFIG_*` settings etc.).
 
-If a user follows the documentation for reproducible builds [1] and
-defines KBUILD_BUILD_TIMESTAMP as the git commit timestamp, a clean
-build will have the correct timestamp. A subsequent cherry-pick (or
-amend) changes the commit timestamp and if an incremental build is done
-with a different KBUILD_BUILD_TIMESTAMP now, that new value is not taken
-into consideration. But it should for reproducibility.
+And they may start using it if they did not hear about it! :)
 
-Hence, whenever KBUILD_BUILD_TIMESTAMP is explicitly set, do not ignore
-UTS_VERSION when making a decision about whether the regenerated version
-of compile.h should be moved into place.
+> Should Documentation/process/changes.rst be updated to note which
+> versions of all of these tools are currently supported?
 
-[1] https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html
+For the ones required for building, they are already there (i.e.
+`rustc` and `bindgen`).
 
-Signed-off-by: Matthias Maennich <maennich@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/mkcompile_h | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+For the rest, most come with the Rust toolchain, so I think there is
+no need to list them explicitly. For `rust-analyzer`, it is "rolling",
+so it does not make much sense to put it in any case.
 
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 6fdc97ef6023..cb73747002ed 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -82,15 +82,23 @@ UTS_TRUNCATE="cut -b -$UTS_LEN"
- # Only replace the real compile.h if the new one is different,
- # in order to preserve the timestamp and avoid unnecessary
- # recompilations.
--# We don't consider the file changed if only the date/time changed.
-+# We don't consider the file changed if only the date/time changed,
-+# unless KBUILD_BUILD_TIMESTAMP was explicitly set (e.g. for
-+# reproducible builds with that value referring to a commit timestamp).
- # A kernel config change will increase the generation number, thus
- # causing compile.h to be updated (including date/time) due to the
- # changed comment in the
- # first line.
- 
-+if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
-+   IGNORE_PATTERN="UTS_VERSION"
-+else
-+   IGNORE_PATTERN="NOT_A_PATTERN_TO_BE_MATCHED"
-+fi
-+
- if [ -r $TARGET ] && \
--      grep -v 'UTS_VERSION' $TARGET > .tmpver.1 && \
--      grep -v 'UTS_VERSION' .tmpcompile > .tmpver.2 && \
-+      grep -v $IGNORE_PATTERN $TARGET > .tmpver.1 && \
-+      grep -v $IGNORE_PATTERN .tmpcompile > .tmpver.2 && \
-       cmp -s .tmpver.1 .tmpver.2; then
-    rm -f .tmpcompile
- else
--- 
-2.30.2
+> For the compat table, for 32b ARM, why is v6 supported but not v7? Why
+> only when optimizations are enabled?
 
+For arch support, we only have a few fixed Rust target files for the
+moment as examples (thus we picked v6) -- we will generate those with
+a script later on.
+
+For particular restrictions (such as the optimization level), we will
+look into solving those bits later on. In any case, it is not a
+priority, since less than `-O2` is intended only for kernel hacking.
+
+> Doesn't this also depend on rustc having support for a given target
+> triple? Just because LLVM has a backend for a given architecture
+> doesn't mean rustc can target it, right?
+
+No -- currently we use custom target files instead of particular
+triples (see previous point), which are basically the settings `rustc`
+forwards to LLVM for codegen.
+
+Cheers,
+Miguel
