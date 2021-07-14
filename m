@@ -2,99 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2601B3C8B67
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 21:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F085B3C8C6F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 21:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240060AbhGNTHZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 15:07:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240088AbhGNTHX (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:07:23 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A0FC061762
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 12:04:31 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id a12so5384909lfb.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 12:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5qboNP9wECqxtAQPwi4Gka7E9oHhS1YQMu+Q8JxA7ak=;
-        b=glh504o9Z7GfM84TfN6a9e1MVve+NDS52G62Hq+T8wU2hET7iB2/LaVZ85dbskzDgh
-         yAhIlfeW60S6JOo6yc3CQ/IrfJT+6DnE98rLe7dMWar89uMeZPDVQtzoII2b3yZofc4W
-         nDIrMzgD5EdLgxaeyj2u+vGDFkWBSBw0uXR4E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5qboNP9wECqxtAQPwi4Gka7E9oHhS1YQMu+Q8JxA7ak=;
-        b=dRek2JeoQUs9S3638lE3jbl6VilhszUHMrAi2aC/3HCxWaDuZ0r+d2sc4+/CQhComf
-         gTxF87q7CzQ30IY+wZHB8h6UMaRtF/S2WktUexnXGxAnuMbm0tIfrrGAStUwxmT0enOH
-         dFZGxexfZZKbUJAc4Jb8rrF5rkDQWRXGOhE77Jmf8nFI0kBeYH5ZcCUGR8uC6W13e6Pv
-         r/6dqcDHupTWIHXhov6YL8zdS7g2wE1UP1zxng9rwZUTH8kMrVXO2zJSLcTO/9vg/l/n
-         VxOAI/oaqxTNa2UyEEWF/X/Y12UhBtN53aAVeE1P1ZkfD87jSu+uX9uK7WyyRVjJEzkW
-         f0+Q==
-X-Gm-Message-State: AOAM533Y+Prk7rUuxMcUxqrI1Y51OSljczhY+4sK/rI68x9d1C0i6iKL
-        j1I42hRvZr5f+55jHafb5tfdaVrSd5O30i3R
-X-Google-Smtp-Source: ABdhPJyGacENhu4sgsGIEw2v4sc/G0lxHRWe96320enSrVjTZN+cW0UtJn5BujB4SlHVWDLtIELFrg==
-X-Received: by 2002:a05:6512:cf:: with SMTP id c15mr7647169lfp.317.1626289469116;
-        Wed, 14 Jul 2021 12:04:29 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id k12sm225599lfv.14.2021.07.14.12.04.24
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jul 2021 12:04:25 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id bn5so4596608ljb.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 12:04:24 -0700 (PDT)
-X-Received: by 2002:a05:651c:1798:: with SMTP id bn24mr10307687ljb.335.1626289464172;
- Wed, 14 Jul 2021 12:04:24 -0700 (PDT)
+        id S234095AbhGNTmC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 15:42:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234001AbhGNTlt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Jul 2021 15:41:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77276613CF;
+        Wed, 14 Jul 2021 19:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626291537;
+        bh=p7QADGqyhrtfkCp/gEg7J+X9qhcFmVaqvBc+66MLyMQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=OlvHgUHoS69yrvWXj7VfX4d+FQA25Ml3RqdZ5e5SbpbfSmnEAu1we6WId77rka1Hv
+         zBZDjASw8Bi7bWMr7YJ0eesSffExtCuTyvLEw/ewJCzCyFmyzueNFiEdP9E2cyD5w2
+         zN+YJd/mV0EaqH3ZwUQI0K++uTYvBRWgco+N0PhIPg7GBHoSl7rb2w1VG18WTuNCnX
+         0HQSC+9SwV4qvYaP2pm5ELmO2FIn5WiNPWpl3+/iX+LKQ4bzn0sZmEUv5PWyn+k41K
+         QSxHSUXlbQURloGU6vhKqbNZDUr0F/JaEMQbkenE/M3WDo/yc2ThDgf7epD/zcDMV1
+         x6smkEFKeO2Lg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 039/108] kbuild: sink stdout from cmd for silent build
+Date:   Wed, 14 Jul 2021 15:36:51 -0400
+Message-Id: <20210714193800.52097-39-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210714193800.52097-1-sashal@kernel.org>
+References: <20210714193800.52097-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-3-ojeda@kernel.org>
- <CAKwvOdmhRuF5eTZ2ztZBrL6BvDkA57B7OfVuvCaEMfV8nkLXCQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdmhRuF5eTZ2ztZBrL6BvDkA57B7OfVuvCaEMfV8nkLXCQ@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 14 Jul 2021 12:04:08 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com>
-Message-ID: <CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com>
-Subject: Re: [PATCH 02/17] kallsyms: increase maximum kernel symbol length to 512
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 11:20 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Do we demangle rust symbols when printing a trace from a warn/panic?
-> That would be nice.
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-I think it would be pretty much required. Otherwise stack traces are
-going to be very very painful.
+[ Upstream commit 174a1dcc96429efce4ef7eb2f5c4506480da2182 ]
 
-In fact, I'm starting to think that Willy is right: we should use
-hashes for the "real" symbol name, and have demangled names for
-printing, and at no point would the kernel actually want or need to
-have the nasty mangled names.
+When building with 'make -s', no output to stdout should be printed.
 
-(This wouldn't be rust-specific - using hashes for module linking
-sounds like a good diea for C code as well, even if the de-mangled
-names for printing are then the regular ones)
+As Arnd Bergmann reported [1], mkimage shows the detailed information
+of the generated images.
 
-Anybody interested in looking into that? It would make this "big
-kernel symbols" patch immaterial.
+I think this should be suppressed by the 'cmd' macro instead of by
+individual scripts.
 
-             Linus
+Insert 'exec >/dev/null;' in order to redirect stdout to /dev/null for
+silent builds.
+
+[Note about this implementation]
+
+'exec >/dev/null;' may look somewhat tricky, but this has a reason.
+
+Appending '>/dev/null' at the end of command line is a common way for
+redirection, so I first tried this:
+
+  cmd = @set -e; $(echo-cmd) $(cmd_$(1)) >/dev/null
+
+... but it would not work if $(cmd_$(1)) itself contains a redirection.
+
+For example, cmd_wrap in scripts/Makefile.asm-generic redirects the
+output from the 'echo' command into the target file.
+
+It would be expanded into:
+
+  echo "#include <asm-generic/$*.h>" > $@ >/dev/null
+
+Then, the target file gets empty because the string will go to /dev/null
+instead of $@.
+
+Next, I tried this:
+
+  cmd = @set -e; $(echo-cmd) { $(cmd_$(1)); } >/dev/null
+
+The form above would be expanded into:
+
+  { echo "#include <asm-generic/$*.h>" > $@; } >/dev/null
+
+This works as expected. However, it would be a syntax error if
+$(cmd_$(1)) is empty.
+
+When CONFIG_TRIM_UNUSED_KSYMS is disabled, $(call cmd,gen_ksymdeps) in
+scripts/Makefile.build would be expanded into:
+
+  set -e;  { ; } >/dev/null
+
+..., which causes an syntax error.
+
+I also tried this:
+
+  cmd = @set -e; $(echo-cmd) ( $(cmd_$(1)) ) >/dev/null
+
+... but this causes a syntax error for the same reason.
+
+So, finally I adopted:
+
+  cmd = @set -e; $(echo-cmd) exec >/dev/null; $(cmd_$(1))
+
+[1]: https://lore.kernel.org/lkml/20210514135752.2910387-1-arnd@kernel.org/
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/Kbuild.include | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 82dd1b65b7a8..f247e691562d 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -90,8 +90,13 @@ clean := -f $(srctree)/scripts/Makefile.clean obj
+ echo-cmd = $(if $($(quiet)cmd_$(1)),\
+ 	echo '  $(call escsq,$($(quiet)cmd_$(1)))$(echo-why)';)
+ 
++# sink stdout for 'make -s'
++       redirect :=
++ quiet_redirect :=
++silent_redirect := exec >/dev/null;
++
+ # printing commands
+-cmd = @set -e; $(echo-cmd) $(cmd_$(1))
++cmd = @set -e; $(echo-cmd) $($(quiet)redirect) $(cmd_$(1))
+ 
+ ###
+ # if_changed      - execute command if any prerequisite is newer than
+-- 
+2.30.2
+
