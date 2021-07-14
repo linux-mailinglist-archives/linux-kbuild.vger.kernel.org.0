@@ -2,147 +2,168 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE7143C8A7C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 20:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3515D3C8A91
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 20:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbhGNSMa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 14:12:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55750 "EHLO
+        id S229738AbhGNSRD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 14:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbhGNSMa (ORCPT
+        with ESMTP id S239990AbhGNSRD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 14:12:30 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F05C061760
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:09:38 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 8so5103144lfp.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:09:38 -0700 (PDT)
+        Wed, 14 Jul 2021 14:17:03 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2000EC061764
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:14:11 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id a18so5123950lfs.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ij5c5QtyImKnAJ85AhNr0s4HqHfwN57z+cA0A4w9TXQ=;
-        b=tP02GM10ESokXnfzuxqxyGhn+LXYrrm8TTsb0+WcG/RMMEk6ZIvyOA8njSVXinuPi0
-         8OwwVj78Cn36LsfAMVQzjEHdchb6s8HzynJKXNFaXWXyZgrttIZwZFNs0UaXLPTchX9j
-         4ebjWYjT3oVH01OKeOU9OCs90UQCyM0oN3DoHI0Q9aLfZCue3M7sOeSj8kENCZHrlqjU
-         zu8AVJD/bCI2Y2osCvdQEE6rnLXPf6c5NW0xSwWiNwsaz6DnHrSmUYX98wQY9UiCD+il
-         AARZX0oSlWsL+Vh8fDDpvJWY5oXQNSjZ2c6hfqx3VwCKvo6ysGipm+rBBTCOgTMIR3wQ
-         YFJw==
+        bh=O8TPU0hqO2c6lrmOpVCEHEZ3QntgeMzfXOeutKZUuGQ=;
+        b=GP0Dd2HejNzwHWckSqUuuJQz3ybU1NQTkuAQYQ0Iix+Gqdo0eWbTBj7XnDaLG0wE8k
+         08OctU1iaTR+/lL1dLgTUKi8wCk+YBwdSpn0GKuvAGGCSDTXUJI/aMos9QYPB3SKgEc/
+         PAkGIeIRMCIYXU5yjKfC0MyZtFjcbDMD3hIxnGNz6Na67oIJlknmivj1spY/A/5qz5Ba
+         h1I8KLXm+/aU4Kp8zxzQyuqrf52MKJN5gD5k96UWqJwy4ZIdiLeX0P0di+mSs4zycdR4
+         JYf35fE902Tc/W595ve57Iqs1LGBtYOmeKqw8jUZyPZKYI//Pi0OzfT+ooT83u22YhH/
+         v85Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ij5c5QtyImKnAJ85AhNr0s4HqHfwN57z+cA0A4w9TXQ=;
-        b=V1v6o3cyQsHkUqqb1occmuYE5xApglbJbi5eeQJebKWxgs9JrHSjuULyQ6yKZd0T5K
-         d9UInLN/PyyyJPtfD9gk6vI2Q/zICxMhpl695xLVnJvsuuFKY2egN8T4gLgHEDDIv9tN
-         uW6iNvqYzsC04Uo7b2iZbOL2hsFwnsbUWZdko2WrB74ZGrHN13Q39Q5yRl2oQioaNIvU
-         vw19UNEIyQuy0VTdOwgvItoO3utLJx23RlK0Gq/nPGkVAV6CLUOgIosJf4cQy1bFpvnv
-         rX6qgfgwD7ErONG/eF1HnEi4A2wxrlDcoTFMz+EbWEk3dkVGaEzWVvRpqMppmfpfaPeo
-         Re0A==
-X-Gm-Message-State: AOAM530kME5Gck7WRCqcKoISLI5F6RTPlObtn7gRQ8LwLYnnyYUEwXqf
-        KS84nJWOnlMSOUNqk6FtWawgjyb7RSpwunzMKOoN0Q==
-X-Google-Smtp-Source: ABdhPJx4KbBG6lrTeab1p1OzfGrztNprrxVheKM54pSelWmgS8ycp9fITsymufFWStCtFwAgfHJPrlZycm5VIuP6blA=
-X-Received: by 2002:a05:6512:3e0c:: with SMTP id i12mr8754331lfv.122.1626286176530;
- Wed, 14 Jul 2021 11:09:36 -0700 (PDT)
+        bh=O8TPU0hqO2c6lrmOpVCEHEZ3QntgeMzfXOeutKZUuGQ=;
+        b=aL1ygRsda6l+214yRl2JvNeyNQV1DBYWeJgGXFuaUFxTfEzK+V2nIHORG0orIeKCgD
+         qDUhdRoApuLP+HO1XHTQTCt75l7V+3mZfmyU6N5aOLlu0dIUDsgpjr90QLtl1jHcNFJp
+         zejx360hSFq7Wn5E2KnSomEutTWI1FrI18SfGN0uW7nS9AGNEQy33buE8NfW2HFySDbe
+         0IKBnv5lQacdVqmsaLf4ekP/Gt2uZKx2qLm8I3TVT96UreYTXSFGGL0aVmuPtaUrTlck
+         m9ARznRiKRARYzUJZ6/FGjUxqIf//XFlkXEVLxK3n3s2iG2Exg8qMdG2dyM6xNems1p1
+         b42A==
+X-Gm-Message-State: AOAM5327s00F+IEcWnY9qlkwuSIPY9Pq3oAcEVQfLGbW1jln4mqOtK/j
+        1LSJK8oPpSC8gBic8BpgrN/J1Ls3DQP89eTCQYWUaA==
+X-Google-Smtp-Source: ABdhPJzGQBRL19G8n4JdfX5XiIs4hch17ulA/Fmu33Rkcgp58p/SczPkAD+RTaPFPpf30NDPB1c736FtkruzNIUr9lM=
+X-Received: by 2002:a05:6512:3e0c:: with SMTP id i12mr8768338lfv.122.1626286449128;
+ Wed, 14 Jul 2021 11:14:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210707224310.1403944-1-ndesaulniers@google.com>
- <YOaR1ZjToP/kgNsC@infradead.org> <CAK8P3a1ctLcHuLZfBJ7wXHRmidpQZ4EZdML1nqPJVGYVTgHmaw@mail.gmail.com>
- <CAKwvOdkaifETNvtTA3O9EToVHAK0N50wkT-bHOpQ2RmFg7qk0A@mail.gmail.com> <CAK8P3a3h_tVaXVKRgaC9L+z9CwVGkOmCPPeW7UjDUhPKHNQDmw@mail.gmail.com>
-In-Reply-To: <CAK8P3a3h_tVaXVKRgaC9L+z9CwVGkOmCPPeW7UjDUhPKHNQDmw@mail.gmail.com>
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-4-ojeda@kernel.org>
+In-Reply-To: <20210704202756.29107-4-ojeda@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 14 Jul 2021 11:09:24 -0700
-Message-ID: <CAKwvOdkUUJU8Ktg8Wcvg3pbsyUWLCH0320nF-aQWre0hGTP2Ag@mail.gmail.com>
-Subject: Re: [PATCH 0/2] infer CROSS_COMPILE from ARCH for LLVM=1 LLVM_IAS=1
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Wed, 14 Jul 2021 11:13:57 -0700
+Message-ID: <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
+Subject: Re: [PATCH 03/17] Makefile: generate `CLANG_FLAGS` even in GCC builds
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 9, 2021 at 1:07 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Sun, Jul 4, 2021 at 1:28 PM <ojeda@kernel.org> wrote:
 >
-> On Thu, Jul 8, 2021 at 8:04 PM 'Nick Desaulniers' via Clang Built
-> Linux <clang-built-linux@googlegroups.com> wrote:
+> From: Miguel Ojeda <ojeda@kernel.org>
 >
-> > > /usr/bin/powerpc64-linux-gnu-gcc-5.2.0
-> > > /usr/bin/powerpc64-linux-gnu-gcc -> powerpc64-linux-gnu-gcc-5.2.0
-> > > /usr/local/bin/ppc64le-linux-gcc-9
-> > > ~/bin/powerpc/powerpc-linux-unknown-gcc-12.0.20210708.experimental
-> > >
-> > > all of these should be able to cross-build any powerpc kernel, but
-> > > there is no obvious first choice (highest version, first in path,
-> > > ordered list of target triples, ...). I tried coming up with a heuristic
-> > > to pick a reasonable toolchain, but at some point gave up because
-> > > I failed to express that in a readable bash or Makefile syntax.
-> >
-> > Right; foremost in my mind was arm-linux-gnueabi-gcc vs
-> > arm-linux-gnueabihf-gcc.  That's not even to mention the versioned
-> > suffixes.
-> >
-> > In terms of multiversion support; this series doesn't regress doing
-> > things the hard/verbose way.  But I think for most users we can have a
-> > simpler common case; folks can play with their $PATH or focus on more
-> > hermetic builds if they want this new feature (CROSS_COMPILE
-> > inference) AND support for multiple versions of the same toolchain.
+> To support Rust under GCC-built kernels, we need to save the flags that
+> would have been passed if the kernel was being compiled with Clang.
 >
-> Fair enough. So how something like this:
+> The reason is that `bindgen` -- the tool we use to generate Rust
+> bindings to the C side of the kernel -- relies on `libclang` to
+> parse C. Ideally:
 >
-> powerpc-targets := powerpc32 powerpc64 powerpc32le \
->         powerpc32be powerpc64le powerpc64be ppc64le ppc64be
-> arm-targets := arm-linux-gnueabi arm-linux-gnueabihf
-> x86-targets := x86_64 i386 i686
-> x86_64-targets := x86
-> i386-targets := i686 x86 x86_64
-> parisc-targets := hppa64 hppa
-> ...
+>   - `bindgen` would support a GCC backend (requested at [1]),
 >
-> CROSS_COMPILE ?= `find-toolchain $(ARCH) $($(ARCH)-targets)`
+>   - or the Clang driver would be perfectly compatible with GCC,
+>     including plugins. Unlikely, of course, but perhaps a big
+>     subset of configs may be possible to guarantee to be kept
+>     compatible nevertheless.
 >
-> where find-toolchain just finds the first working toolchain based, looking
-> for $(target)-linux-gcc $(target)-gcc $(target)-unknown-linux-gcc etc
-> in $(PATH) but ignoring the versions?
-
-Sure, debian doesn't even package different versions of the cross GCC
-packages AFAIK; no idea about other distros.  Though the user may have
-built from source, or have multiple versions fetched from tarballs.
-
-I think we can simplify the common case of "I just wan't to cross
-compile, I don't necessarily care about an older compiler version
-co-installed with a newer one." ("and if I did, I could still use
-CROSS_COMPILE the verbose way").
-
-> What I had actually planned was a set of helpers that allow you to
-> do this in multiple steps:
+> This is also the reason why GCC builds are very experimental and some
+> configurations may not work (e.g. `GCC_PLUGIN_RANDSTRUCT`). However,
+> we keep GCC builds working (for some example configs) in the CI
+> to avoid diverging/regressing further, so that we are better prepared
+> for the future when a solution might become available.
 >
-> - if $(objtree)/scripts/cross/bin/gcc (or something else we pick)
->   exists and CROSS_COMPILE is not set, set CROSS_COMPILE
->   to $(objtree)/scripts/cross/bin/ in the Makefile
-> - add script to enumerate the installed toolchains
-> - add a second script to symlink one of those toolchains to
->   $(objtree)/scripts/cross/bin
+> [1] https://github.com/rust-lang/rust-bindgen/issues/1949
+>
+> Link: https://github.com/Rust-for-Linux/linux/issues/167
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-(and check the symlink isn't broken should the user uninstall a
-toolchain, or have their distro update their toolchain version)
+Patch LGTM; please keep an eye on the series:
+https://lore.kernel.org/lkml/20210707224310.1403944-2-ndesaulniers@google.com/
 
-> - add a third script to download a cross-toolchain from kernel.org
->   for $(ARCH) and install it to one of the locations that the first
->   script looks for (/opt/cross/, $(HOME)/cross/, $(objtree)scripts/cross/)
+If that lands in kbuild before this, this patch will need to be
+rebased to avoid a conflict in linux-next.
 
-Would the user be prompted for the download? So during
-`defconfig`/configuration we could prompt and say "it looks like
-you're cross compiling without setting CROSS_COMPILE, would you like
-me to fetch a cross compiler for you?"
+So (tentatively :-P):
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Seems reasonable, when cross compiling with GCC.
+If the patch needs to be rebased on the series linked above, please
+drop my reviewed by tag and I will re-review. Perhaps putting me
+explicitly on Cc: in the commit message will help notify me if there
+are successive versions?
+
+> ---
+>  Makefile | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 0565caea036..6e823d8bd64 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -573,18 +573,23 @@ endif
+>  # and from include/config/auto.conf.cmd to detect the compiler upgrade.
+>  CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
+>
+> -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+> +TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
+> +
+>  ifneq ($(CROSS_COMPILE),)
+> -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +TENTATIVE_CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  endif
+>  ifeq ($(LLVM_IAS),1)
+> -CLANG_FLAGS    += -integrated-as
+> +TENTATIVE_CLANG_FLAGS  += -integrated-as
+>  else
+> -CLANG_FLAGS    += -no-integrated-as
+> +TENTATIVE_CLANG_FLAGS  += -no-integrated-as
+>  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+> -CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+> +TENTATIVE_CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+>  endif
+> -CLANG_FLAGS    += -Werror=unknown-warning-option
+> +
+> +export TENTATIVE_CLANG_FLAGS
+> +
+> +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+> +CLANG_FLAGS    += $(TENTATIVE_CLANG_FLAGS)
+>  KBUILD_CFLAGS  += $(CLANG_FLAGS)
+>  KBUILD_AFLAGS  += $(CLANG_FLAGS)
+>  export CLANG_FLAGS
+> --
+> 2.32.0
+>
+
+
 -- 
 Thanks,
 ~Nick Desaulniers
