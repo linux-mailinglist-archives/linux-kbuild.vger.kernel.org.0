@@ -2,56 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A39D63C8A9E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 20:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F9EC3C8ABD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 20:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238941AbhGNST1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 14:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
+        id S229603AbhGNSYt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 14:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231623AbhGNST0 (ORCPT
+        with ESMTP id S230240AbhGNSXu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 14:19:26 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0394C061762
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:16:33 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id i5so5195771lfe.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:16:33 -0700 (PDT)
+        Wed, 14 Jul 2021 14:23:50 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D6FC06175F
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:20:58 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id x25so5141491lfu.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 11:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gdYfStJb5mwOOj1KojUyVafFJ1o2WedkSsc19T3H7UY=;
-        b=NWbdnzBEli+FCtVqOVGaPss2MwLIRyY/wdM4+OblEBSOHLPtHRJx4v4lqeWS87OiJq
-         GrCDPu7eUBhilt/v8alOd8G8WOI58C8iirfAC7Bz5pOBy2GTDt8ZNdlBxGQUO3n4YrBX
-         0YKG1LOyZQ9udog24gV/2cMfql+Vkwc1NHmxZvx5GcfwE8hcU6pFqbjySrUJjrRw2Wp9
-         mApyz4NWpEbcuSm3WOHq4Qb6GYGwKDFVRWXkeey6gBTkA2EnAqy9IxDqE3imgbiOZ+V1
-         pU7DeFfq4lKx0B5Opnxs9bmnjeQZ7/8mdW9zD4wwqb+xlxZyqrUAVcx6lpH5Y8+P6nMC
-         F3WA==
+        bh=YIyhhFVB7lAJhhYlHC8Aypf2fwXB60EEf6/ds0a06qs=;
+        b=WjWBbDP+tcAoBdyhzpem1Lt+enhBtxIdl7M/LZz7pvw2fcnfLkxB9LPDvEnrEoF1d7
+         cN7vgiiYCkEXNbXuCy8FBQx+2pKOOHn8AUC2EyBSHQD1NnfdhyiW8CQNXiExKTPcfWh5
+         HHek690m5HL4ZA6zm3mVcPfE3SwmsNv2kAgTEb2QQ8PszDqWMmFrSzSNrigP9XtUcSRA
+         huzgAwiB3oced8ka9MN9OPRc2k8ZBQvS/jcroEw+iI0hJAd6d9S+6F3eaw7fDlQC1//i
+         AVFxM4Us8XoLCmwsvE5u8YxooJy5tSa40XWL6dn57LJ/g0HJtaLFUZejCGKjq/Ebzyz5
+         mijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gdYfStJb5mwOOj1KojUyVafFJ1o2WedkSsc19T3H7UY=;
-        b=K+QQ05CcGj3wuF4qzD8SHStDxBbPD79wYCvS0lC+X361q1cX59sveNaAXxgdWFcyLV
-         1zy7XQ+aXaU7FGqDlAUjKusDuw9sbAXxvtNu54dSQFBzZUlTylq3q/VN+Q7O/L3UGV9U
-         J7G15nqjlBiI4z5lfEOH2cU/wOIQngk4y4hH3dS1XZL3wxKxw+2IJjA2L5OAU/2C1SHz
-         4MG/NUhg+6RXePHKQHmdxG/0Nd8mhExAEzMs3IO1JW68FCoGPWu1LkHHdRwnERSBowXu
-         MgcCf0QZ4Ta/iaUMfub9/6A9n3dozCKskABngb23VG9FJ4cTp9/VcKMgqH8O8/o86szt
-         C/Iw==
-X-Gm-Message-State: AOAM530L3pFnqmInkBvcfWv9fuPrLokV5QCqA36ykdjFNTTTzhohESDP
-        k+HhWXlx7wfaMedxE1czVb1Mc/pxy19BgcIxeSncOg==
-X-Google-Smtp-Source: ABdhPJzEKs9SRTQ6+N8LhT06hWiRWkYkLtuXtaEpRgI5+ZlKGUTLSDyWY2UH/XyxBPnSN/RKA3eJ4h/aWPEjT0jZRRI=
-X-Received: by 2002:ac2:59db:: with SMTP id x27mr5574226lfn.547.1626286592091;
- Wed, 14 Jul 2021 11:16:32 -0700 (PDT)
+        bh=YIyhhFVB7lAJhhYlHC8Aypf2fwXB60EEf6/ds0a06qs=;
+        b=qTXeN68yS4OLHzhfqysORDkcqaXY9ngE8y2beJJFnZvNoZu+mGsM2DgJHvP6oKXQjq
+         PuzOI/ATJpc/mKaUG6FdoTccXrm/+mm4j4E2m3W+2UnGCXhQWCKV5m2P1bXAKFco7QUY
+         dg2JCssVPy6cfqQIFKyIuUhDmTXxiEIiYlFsx1OouWIiejXjcyt+VsR76j5NXl4JWp2T
+         P+gd+R3QxxALH5FRa0ZQIX+yea+HEStnwaKQVuRS57f9FLUcwnaFLPKK10Ynk/NXvsFX
+         Q6N4vHfrb7eqDGcODoPI/iywFomY/im1MTfe1CmiyWl96kwfsKDMxPiyLzOXHpT65qCR
+         89eg==
+X-Gm-Message-State: AOAM533ovCMOFjeVQSkU24Si/plqat0sCnelSeEz4nFbJ1uo0MLfe96N
+        TEgcGpYQa7zZonketKwD/BSkrtgNK29+qRMUod8r3w==
+X-Google-Smtp-Source: ABdhPJxnH4NvQGYqbyk8YkNhDQI/yZpwt8HCAd8tHuT3h7Tmoj24r5uK2DyIdsNuBU+BZee+ngnFx20Yy8qqdce7lNY=
+X-Received: by 2002:a19:4916:: with SMTP id w22mr9201976lfa.374.1626286856158;
+ Wed, 14 Jul 2021 11:20:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-4-ojeda@kernel.org>
- <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-3-ojeda@kernel.org>
+In-Reply-To: <20210704202756.29107-3-ojeda@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 14 Jul 2021 11:16:20 -0700
-Message-ID: <CAKwvOdm3_TbPPCZRvpdsfZW7szWEEnpb4NyqQ39P8a=7YGCb=g@mail.gmail.com>
-Subject: Re: [PATCH 03/17] Makefile: generate `CLANG_FLAGS` even in GCC builds
+Date:   Wed, 14 Jul 2021 11:20:44 -0700
+Message-ID: <CAKwvOdmhRuF5eTZ2ztZBrL6BvDkA57B7OfVuvCaEMfV8nkLXCQ@mail.gmail.com>
+Subject: Re: [PATCH 02/17] kallsyms: increase maximum kernel symbol length to 512
 To:     ojeda@kernel.org
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,121 +60,178 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <nathan@kernel.org>
+        Wedson Almeida Filho <wedsonaf@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 11:13 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Sun, Jul 4, 2021 at 1:28 PM <ojeda@kernel.org> wrote:
 >
-> On Sun, Jul 4, 2021 at 1:28 PM <ojeda@kernel.org> wrote:
-> >
-> > From: Miguel Ojeda <ojeda@kernel.org>
-> >
-> > To support Rust under GCC-built kernels, we need to save the flags that
-> > would have been passed if the kernel was being compiled with Clang.
-> >
-> > The reason is that `bindgen` -- the tool we use to generate Rust
-> > bindings to the C side of the kernel -- relies on `libclang` to
-> > parse C. Ideally:
-> >
-> >   - `bindgen` would support a GCC backend (requested at [1]),
-> >
-> >   - or the Clang driver would be perfectly compatible with GCC,
-> >     including plugins. Unlikely, of course, but perhaps a big
-> >     subset of configs may be possible to guarantee to be kept
-> >     compatible nevertheless.
-> >
-> > This is also the reason why GCC builds are very experimental and some
-> > configurations may not work (e.g. `GCC_PLUGIN_RANDSTRUCT`). However,
-> > we keep GCC builds working (for some example configs) in the CI
-> > to avoid diverging/regressing further, so that we are better prepared
-> > for the future when a solution might become available.
-> >
-> > [1] https://github.com/rust-lang/rust-bindgen/issues/1949
-> >
-> > Link: https://github.com/Rust-for-Linux/linux/issues/167
-> > Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-> > Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
-> > Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
-> > Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
-> > Co-developed-by: Finn Behrens <me@kloenk.de>
-> > Signed-off-by: Finn Behrens <me@kloenk.de>
-> > Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
-> > Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
-> > Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
-> > Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> From: Miguel Ojeda <ojeda@kernel.org>
 >
-> Patch LGTM; please keep an eye on the series:
-> https://lore.kernel.org/lkml/20210707224310.1403944-2-ndesaulniers@google.com/
+> Rust symbols can become quite long due to namespacing introduced
+> by modules, types, traits, generics, etc. For instance, for:
 >
-> If that lands in kbuild before this, this patch will need to be
-> rebased to avoid a conflict in linux-next.
+>     pub mod my_module {
+>         pub struct MyType;
+>         pub struct MyGenericType<T>(T);
 >
-> So (tentatively :-P):
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+>         pub trait MyTrait {
+>             fn my_method() -> u32;
+>         }
 >
-> If the patch needs to be rebased on the series linked above, please
-> drop my reviewed by tag and I will re-review. Perhaps putting me
-> explicitly on Cc: in the commit message will help notify me if there
-> are successive versions?
+>         impl MyTrait for MyGenericType<MyType> {
+>             fn my_method() -> u32 {
+>                 42
+>             }
+>         }
+>     }
 >
-> > ---
-> >  Makefile | 17 +++++++++++------
-> >  1 file changed, 11 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 0565caea036..6e823d8bd64 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -573,18 +573,23 @@ endif
-> >  # and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> >  CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
-> >
-> > -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> > +TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
+> generates a symbol of length 96 when using the upcoming v0 mangling scheme:
+>
+>     _RNvXNtCshGpAVYOtgW1_7example9my_moduleINtB2_13MyGenericTypeNtB2_6MyTypeENtB2_7MyTrait9my_method
 
-Also, consider whether `BINDGEN_FLAGS` would be more descriptive (and
-less verbose) than `TENTATIVE_CLANG_FLAGS`.
+For C++ demangling, we have c++filt.
 
-> > +
-> >  ifneq ($(CROSS_COMPILE),)
-> > -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> > +TENTATIVE_CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> >  endif
-> >  ifeq ($(LLVM_IAS),1)
-> > -CLANG_FLAGS    += -integrated-as
-> > +TENTATIVE_CLANG_FLAGS  += -integrated-as
-> >  else
-> > -CLANG_FLAGS    += -no-integrated-as
-> > +TENTATIVE_CLANG_FLAGS  += -no-integrated-as
-> >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > -CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> > +TENTATIVE_CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> >  endif
-> > -CLANG_FLAGS    += -Werror=unknown-warning-option
-> > +
-> > +export TENTATIVE_CLANG_FLAGS
-> > +
-> > +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> > +CLANG_FLAGS    += $(TENTATIVE_CLANG_FLAGS)
-> >  KBUILD_CFLAGS  += $(CLANG_FLAGS)
-> >  KBUILD_AFLAGS  += $(CLANG_FLAGS)
-> >  export CLANG_FLAGS
-> > --
-> > 2.32.0
-> >
+A quick search turned up: https://github.com/luser/rustfilt
+
+but if the v0 mangling scheme is upcoming, I doubt a repo that hasn't
+been updated supports an upcoming scheme.  Is there a more official
+equivalent?
+
+Do we demangle rust symbols when printing a trace from a warn/panic?
+That would be nice.
+
 >
+> At the moment, Rust symbols may reach up to 300 in length.
+> Setting 512 as the maximum seems like a reasonable choice to
+> keep some headroom.
 >
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  include/linux/kallsyms.h            | 2 +-
+>  kernel/livepatch/core.c             | 4 ++--
+>  scripts/kallsyms.c                  | 2 +-
+>  tools/include/linux/kallsyms.h      | 2 +-
+>  tools/include/linux/lockdep.h       | 2 +-
+>  tools/lib/perf/include/perf/event.h | 2 +-
+>  tools/lib/symbol/kallsyms.h         | 2 +-
+>  7 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+> index 465060acc98..5cdc6903abc 100644
+> --- a/include/linux/kallsyms.h
+> +++ b/include/linux/kallsyms.h
+> @@ -14,7 +14,7 @@
+>
+>  #include <asm/sections.h>
+>
+> -#define KSYM_NAME_LEN 128
+> +#define KSYM_NAME_LEN 512
+>  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s]") + (KSYM_NAME_LEN - 1) + \
+>                          2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + 1)
+>
+> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+> index 335d988bd81..73874e5edfd 100644
+> --- a/kernel/livepatch/core.c
+> +++ b/kernel/livepatch/core.c
+> @@ -213,7 +213,7 @@ static int klp_resolve_symbols(Elf64_Shdr *sechdrs, const char *strtab,
+>          * we use the smallest/strictest upper bound possible (56, based on
+>          * the current definition of MODULE_NAME_LEN) to prevent overflows.
+>          */
+> -       BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 128);
+> +       BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 512);
+>
+>         relas = (Elf_Rela *) relasec->sh_addr;
+>         /* For each rela in this klp relocation section */
+> @@ -227,7 +227,7 @@ static int klp_resolve_symbols(Elf64_Shdr *sechdrs, const char *strtab,
+>
+>                 /* Format: .klp.sym.sym_objname.sym_name,sympos */
+>                 cnt = sscanf(strtab + sym->st_name,
+> -                            ".klp.sym.%55[^.].%127[^,],%lu",
+> +                            ".klp.sym.%55[^.].%511[^,],%lu",
+>                              sym_objname, sym_name, &sympos);
+>                 if (cnt != 3) {
+>                         pr_err("symbol %s has an incorrectly formatted name\n",
+> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+> index bcdabee13aa..9bab5f55ade 100644
+> --- a/scripts/kallsyms.c
+> +++ b/scripts/kallsyms.c
+> @@ -27,7 +27,7 @@
+>
+>  #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+>
+> -#define KSYM_NAME_LEN          128
+> +#define KSYM_NAME_LEN          512
+>
+>  struct sym_entry {
+>         unsigned long long addr;
+> diff --git a/tools/include/linux/kallsyms.h b/tools/include/linux/kallsyms.h
+> index efb6c3f5f2a..5a37ccbec54 100644
+> --- a/tools/include/linux/kallsyms.h
+> +++ b/tools/include/linux/kallsyms.h
+> @@ -6,7 +6,7 @@
+>  #include <stdio.h>
+>  #include <unistd.h>
+>
+> -#define KSYM_NAME_LEN 128
+> +#define KSYM_NAME_LEN 512
+>
+>  struct module;
+>
+> diff --git a/tools/include/linux/lockdep.h b/tools/include/linux/lockdep.h
+> index e56997288f2..d9c163f3ab2 100644
+> --- a/tools/include/linux/lockdep.h
+> +++ b/tools/include/linux/lockdep.h
+> @@ -47,7 +47,7 @@ static inline int debug_locks_off(void)
+>
+>  #define task_pid_nr(tsk) ((tsk)->pid)
+>
+> -#define KSYM_NAME_LEN 128
+> +#define KSYM_NAME_LEN 512
+>  #define printk(...) dprintf(STDOUT_FILENO, __VA_ARGS__)
+>  #define pr_err(format, ...) fprintf (stderr, format, ## __VA_ARGS__)
+>  #define pr_warn pr_err
+> diff --git a/tools/lib/perf/include/perf/event.h b/tools/lib/perf/include/perf/event.h
+> index 4d0c02ba3f7..095d60144a7 100644
+> --- a/tools/lib/perf/include/perf/event.h
+> +++ b/tools/lib/perf/include/perf/event.h
+> @@ -95,7 +95,7 @@ struct perf_record_throttle {
+>  };
+>
+>  #ifndef KSYM_NAME_LEN
+> -#define KSYM_NAME_LEN 256
+> +#define KSYM_NAME_LEN 512
+>  #endif
+>
+>  struct perf_record_ksymbol {
+> diff --git a/tools/lib/symbol/kallsyms.h b/tools/lib/symbol/kallsyms.h
+> index 72ab9870454..542f9b059c3 100644
+> --- a/tools/lib/symbol/kallsyms.h
+> +++ b/tools/lib/symbol/kallsyms.h
+> @@ -7,7 +7,7 @@
+>  #include <linux/types.h>
+>
+>  #ifndef KSYM_NAME_LEN
+> -#define KSYM_NAME_LEN 256
+> +#define KSYM_NAME_LEN 512
+>  #endif
+>
+>  static inline u8 kallsyms2elf_binding(char type)
 > --
-> Thanks,
-> ~Nick Desaulniers
-
+> 2.32.0
+>
 
 
 -- 
