@@ -2,199 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B91DB3C7777
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jul 2021 21:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD32E3C7C03
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 04:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234984AbhGMTuP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Jul 2021 15:50:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235119AbhGMTuO (ORCPT
+        id S237703AbhGNCuP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Jul 2021 22:50:15 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:43013 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237711AbhGNCuP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Jul 2021 15:50:14 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD596C06178A;
-        Tue, 13 Jul 2021 12:47:22 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id hd33so14928792ejc.9;
-        Tue, 13 Jul 2021 12:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=DTzlHpqU1xWPgcCMr1ESW3zCE8WiwwCSMY6IY5+7EKk=;
-        b=qyrvvIt8yq5OmMoKnzW1brn8GLZClHONEZn4/BoFRs7+kD9dUVskXHSi1KK9kqJRD8
-         DmZFjcYmSaL4Dn+ysObXfMy3fADiql4GIVUbU1hEolaaK0jGJLbdqejI3COLNI78bfz/
-         aOF3D1WCCyAIHZNfCEGMcBaXpDSiUxlZlGjIAT3+0Iv3WFFLXM1NcL7lksj1kQ4SyVWj
-         vt8xUThuSrU8wfCVZvHEGBXyWGKgSyIh3RyIaDi8tntiXy5v3LXYRKz15CciS/980PaZ
-         CqvOBb15QgEOv5U2qmkFqPJjLwYVlUiy0wR5HbZI4imAW7paumy7cmLMeZ3fZpnQCPmf
-         6yaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=DTzlHpqU1xWPgcCMr1ESW3zCE8WiwwCSMY6IY5+7EKk=;
-        b=bOhndb/748rhLgD7nuc765C14fZo7BcDC2vYxHj1rQ2dmD1QZmhQ+UoTgav97ve8YX
-         g8iEzYzgjjwV0sc4lhFz+GYWJE1RGHXQMXAuaZrLkDnQvHh5v8RsSPNTIMsjq4c8EVaJ
-         Sabg9imIdJ8cNoY3C9jjZy+8n9YA9bNvuLtD0YHbWmpquu/cuzW8punv0kMV2gzk83WU
-         08P5Sgy6R4itepT+quYw/sPibyRNA9R3krwNI/B1lja7dhVm9RpNG2syiThFZQOBH8JX
-         ntM3vXw53lqPLJaSw13oqyA8qsRetOOdedy7bK2UguzxNWBcjfwnIta2dMo/GMFY9sw/
-         KtPA==
-X-Gm-Message-State: AOAM532Uc6zEG4VS286ggq8/soJbyuHeflluqqO9KJy0fO0ZB2+8LgRl
-        6Cx1W4AFgM1QqiloMA0nZ+vSQh0twg==
-X-Google-Smtp-Source: ABdhPJwqmFURteOsUkKq9Kq02nY9tJa97rjAS6oUskn73cnlUEp8s9ENvSmYqpkfJ4qmilY9C4pwfw==
-X-Received: by 2002:a17:907:97c5:: with SMTP id js5mr7640957ejc.321.1626205640798;
-        Tue, 13 Jul 2021 12:47:20 -0700 (PDT)
-Received: from localhost.localdomain ([46.53.248.110])
-        by smtp.gmail.com with ESMTPSA id q11sm8390992eds.60.2021.07.13.12.47.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 12:47:20 -0700 (PDT)
-Date:   Tue, 13 Jul 2021 22:47:18 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     akpm@linux-foundation.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, arnd@arndb.de
-Subject: [PATCH] Decouple build from userspace headers
-Message-ID: <YO3txvw87MjKfdpq@localhost.localdomain>
+        Tue, 13 Jul 2021 22:50:15 -0400
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 16E2kpEp022366;
+        Wed, 14 Jul 2021 11:47:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 16E2kpEp022366
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1626230823;
+        bh=LnUl50BHavFxu7eFMFZuwtQbwZaQ3SxkzsrU6pPoM7I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Psy593hpyuA7XOSRMzLMTnIeUC25fyGRxvJibNDgsQjrqHZnaNDKKrN20sKNAZkes
+         r5scIcpH+sssgVPnbqdapUVPjk1bXKq21cEVedya811OPMq6RU4+GTssyJbmLtH1+k
+         VhA8McCMD4e6sdjhXW2yiQ8LRtKmnB46TxqoEDwQxIvRgwa6nGzb1GKegIjvrgWwUw
+         MTPNHDmOVAtJHcxTJLnaHl6rnKeff9/4oRTCsXg4xy6WZe3+ILQ9RWUF3LL8fEgXbQ
+         Hnutfpn4CiOeDBxtUxIO2spRVzu9S42+cTE215XZwoMfJjtpSTZq2PzoD32oTykbr0
+         GMqE8rFGKo96A==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id v14so717196plg.9;
+        Tue, 13 Jul 2021 19:47:02 -0700 (PDT)
+X-Gm-Message-State: AOAM533fEbf4QTfEhx+yg1q5rEcScgs1lFGQG39UWVA50ZmZxlNxipwF
+        VPZF/n+RHCF9587igrUxIc9ArvMxN4iWDs2hzV0=
+X-Google-Smtp-Source: ABdhPJwwKKjEscz68JVWRgG4ZYpXN5JKyz17jntsgNjmA2/okmM6afoXWFQVE2RdaNpdPicvxh19YzCCS35gVawEM2Y=
+X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr1447795pjt.198.1626230811130;
+ Tue, 13 Jul 2021 19:46:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <a6eea2c4-6d90-3ddf-33d6-973d1ae917e7@mailbox.org>
+In-Reply-To: <a6eea2c4-6d90-3ddf-33d6-973d1ae917e7@mailbox.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 14 Jul 2021 11:46:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT9oMkSthmCJ9sq3PFRcYgZoC6O0o==WQnKOU0znzT6hQ@mail.gmail.com>
+Message-ID: <CAK7LNAT9oMkSthmCJ9sq3PFRcYgZoC6O0o==WQnKOU0znzT6hQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] Kbuild, clang: add option for choosing a ThinLTO
+ cache directory
+To:     Tor Vic <torvic9@mailbox.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        "ndesaulniers@google.com" <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "clang-built-linux@googlegroups.com" 
+        <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In theory, userspace headers can be under incompatible license.
+On Wed, Jul 14, 2021 at 1:41 AM Tor Vic <torvic9@mailbox.org> wrote:
+>
+> On some distros and configurations, it might be useful to allow for
+> specifying a directory where Clang stores its ThinLTO cache.
+>
+> More specifically, when building the VirtualBox extramodules on Arch with
+> its proper 'makepkg' build system and DKMS, against an already installed
+> ThinLTO kernel, the build fails because it tries to create the ThinLTO
+> cache in a directory that is not user-writable.
 
-Linux by virtue of being OS kernel is fully independent piece of code
-and should not require anything from userspace.
 
-For this:
+Again, I do not understand.
 
-* ship minimal <stdarg.h>
-	2 types, 4 macros
+Is this fixing the root cause?
 
-* delete "-isystem"
-	This is what enables leakage.
+To me, it looks like
+"Anyway, this worked for me" patch.
 
-* fixup compilation where necessary.
+Besides, 'make clean' will never clean up the
+cache directory.
 
-Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
----
 
- Makefile                                                               |    2 +-
- arch/um/include/shared/irq_user.h                                      |    1 -
- arch/um/os-Linux/signal.c                                              |    2 +-
- crypto/aegis128-neon-inner.c                                           |    2 --
- drivers/net/wwan/iosm/iosm_ipc_imem.h                                  |    1 -
- drivers/pinctrl/aspeed/pinmux-aspeed.h                                 |    1 -
- drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_local.h |    2 --
- include/stdarg.h                                                       |    9 +++++++++
- sound/aoa/codecs/onyx.h                                                |    1 -
- sound/aoa/codecs/tas.c                                                 |    1 -
- 10 files changed, 11 insertions(+), 11 deletions(-)
 
---- a/Makefile
-+++ b/Makefile
-@@ -978,7 +978,7 @@ KBUILD_CFLAGS += -falign-functions=64
- endif
- 
- # arch Makefile may override CC so keep this after arch Makefile is included
--NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
-+NOSTDINC_FLAGS += -nostdinc
- 
- # warn about C99 declaration after statement
- KBUILD_CFLAGS += -Wdeclaration-after-statement
---- a/arch/um/include/shared/irq_user.h
-+++ b/arch/um/include/shared/irq_user.h
-@@ -7,7 +7,6 @@
- #define __IRQ_USER_H__
- 
- #include <sysdep/ptrace.h>
--#include <stdbool.h>
- 
- enum um_irq_type {
- 	IRQ_READ,
---- a/arch/um/os-Linux/signal.c
-+++ b/arch/um/os-Linux/signal.c
-@@ -67,7 +67,7 @@ int signals_enabled;
- #ifdef UML_CONFIG_UML_TIME_TRAVEL_SUPPORT
- static int signals_blocked;
- #else
--#define signals_blocked false
-+#define signals_blocked 0
- #endif
- static unsigned int signals_pending;
- static unsigned int signals_active = 0;
---- a/crypto/aegis128-neon-inner.c
-+++ b/crypto/aegis128-neon-inner.c
-@@ -15,8 +15,6 @@
- 
- #define AEGIS_BLOCK_SIZE	16
- 
--#include <stddef.h>
--
- extern int aegis128_have_aes_insn;
- 
- void *memcpy(void *dest, const void *src, size_t n);
---- a/drivers/net/wwan/iosm/iosm_ipc_imem.h
-+++ b/drivers/net/wwan/iosm/iosm_ipc_imem.h
-@@ -7,7 +7,6 @@
- #define IOSM_IPC_IMEM_H
- 
- #include <linux/skbuff.h>
--#include <stdbool.h>
- 
- #include "iosm_ipc_mmio.h"
- #include "iosm_ipc_pcie.h"
---- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-+++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-@@ -5,7 +5,6 @@
- #define ASPEED_PINMUX_H
- 
- #include <linux/regmap.h>
--#include <stdbool.h>
- 
- /*
-  * The ASPEED SoCs provide typically more than 200 pins for GPIO and other
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_local.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_local.h
-@@ -16,8 +16,6 @@
- #ifndef __ISP_LOCAL_H_INCLUDED__
- #define __ISP_LOCAL_H_INCLUDED__
- 
--#include <stdbool.h>
--
- #include "isp_global.h"
- 
- #include <isp2400_support.h>
-new file mode 100644
---- /dev/null
-+++ b/include/stdarg.h
-@@ -0,0 +1,9 @@
-+#ifndef _LINUX_STDARG_H
-+#define _LINUX_STDARG_H
-+typedef __builtin_va_list __gnuc_va_list;
-+typedef __builtin_va_list va_list;
-+#define va_start(v, l)	__builtin_va_start(v, l)
-+#define va_end(v)	__builtin_va_end(v)
-+#define va_arg(v, T)	__builtin_va_arg(v, T)
-+#define va_copy(d, s)	__builtin_va_copy(d, s)
-+#endif
---- a/sound/aoa/codecs/onyx.h
-+++ b/sound/aoa/codecs/onyx.h
-@@ -6,7 +6,6 @@
-  */
- #ifndef __SND_AOA_CODEC_ONYX_H
- #define __SND_AOA_CODEC_ONYX_H
--#include <stddef.h>
- #include <linux/i2c.h>
- #include <asm/pmac_low_i2c.h>
- #include <asm/prom.h>
---- a/sound/aoa/codecs/tas.c
-+++ b/sound/aoa/codecs/tas.c
-@@ -58,7 +58,6 @@
-  *    and up to the hardware designer to not wire
-  *    them up in some weird unusable way.
-  */
--#include <stddef.h>
- #include <linux/i2c.h>
- #include <asm/pmac_low_i2c.h>
- #include <asm/prom.h>
+
+
+> A similar problem has been reported with openSUSE's OBS build system.
+>
+> Add a Kconfig option that allows users to choose a directory in which
+> Clang's ThinLTO can store its cache.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1104
+> Signed-off-by: Tor Vic <torvic9@mailbox.org>
+> ---
+> Changes from v1 to v2: remove unneeded changes in scripts/Makefile
+>
+>  Makefile     |  5 +++--
+>  arch/Kconfig | 10 ++++++++++
+>  2 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index c3f9bd191b89..472bc8bfff03 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -932,7 +932,8 @@ endif
+>  ifdef CONFIG_LTO_CLANG
+>  ifdef CONFIG_LTO_CLANG_THIN
+>  CC_FLAGS_LTO   := -flto=thin -fsplit-lto-unit
+> -KBUILD_LDFLAGS += --thinlto-cache-dir=$(extmod_prefix).thinlto-cache
+> +export thinlto-dir = $(if
+> $(CONFIG_LTO_CLANG_THIN_CACHEDIR),$(CONFIG_LTO_CLANG_THIN_CACHEDIR)/)
+> +KBUILD_LDFLAGS +=
+> --thinlto-cache-dir=$(thinlto-dir)$(extmod_prefix).thinlto-cache
+>  else
+>  CC_FLAGS_LTO   := -flto
+>  endif
+> @@ -1728,7 +1729,7 @@ PHONY += compile_commands.json
+>
+>  clean-dirs := $(KBUILD_EXTMOD)
+>  clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers
+> $(KBUILD_EXTMOD)/modules.nsdeps \
+> -       $(KBUILD_EXTMOD)/compile_commands.json $(KBUILD_EXTMOD)/.thinlto-cache
+> +       $(KBUILD_EXTMOD)/compile_commands.json
+> $(thinlto-dir)$(KBUILD_EXTMOD)/.thinlto-cache
+>
+>  PHONY += help
+>  help:
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 129df498a8e1..19e4d140e12a 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -696,6 +696,16 @@ config LTO_CLANG_THIN
+>             https://clang.llvm.org/docs/ThinLTO.html
+>
+>           If unsure, say Y.
+> +
+> +config LTO_CLANG_THIN_CACHEDIR
+> +       string "Clang ThinLTO cache directory"
+> +       depends on LTO_CLANG_THIN
+> +       default ""
+> +       help
+> +         This option allows users to choose a directory that stores
+> +         Clang's ThinLTO cache.
+> +         Leave empty for default.
+> +
+>  endchoice
+>
+>  config ARCH_SUPPORTS_CFI_CLANG
+> --
+> 2.32.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
