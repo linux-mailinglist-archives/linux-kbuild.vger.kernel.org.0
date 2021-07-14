@@ -2,107 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D923C91FE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B2B3C921C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232710AbhGNUZK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 16:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58676 "EHLO
+        id S234589AbhGNUeG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 16:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231802AbhGNUZI (ORCPT
+        with ESMTP id S232185AbhGNUeG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 16:25:08 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C34B7C061762
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 13:22:16 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id v6so5768918lfp.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 13:22:16 -0700 (PDT)
+        Wed, 14 Jul 2021 16:34:06 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33A4C06175F;
+        Wed, 14 Jul 2021 13:31:13 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id o8so2886860ilf.4;
+        Wed, 14 Jul 2021 13:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AWy+35KmmWPF9vsv4/yauNLhBLPVkzMejTzAkHJGLBM=;
-        b=V37VAVm5NvLVGqND/F0vTJg46VZeConitLxxTHCs1N4UC3kwCcitLTAuULgE9P0yJ7
-         JxRC/pqtzVf+u3u/c8M13eOZYvvD8y4ch9aoNPL3PEyFGZfOI7/lAvcnPkfI3gFhUBhB
-         KHaX4h+Jp8OCMJ7rNg+VURB4Q4FkA9BEozZbQ=
+        bh=TyOypBduh8zc4oZxw1Jw5CWPkP+HxfVRfcAuq+y3WDE=;
+        b=NjmbscF6kBEfjMCLAWg3FCYvsVhOz3ydft84M9pkQa+4/61QXFa0dZsCmD/t2invcV
+         nA8oTdYCEXtKnBqGc1wxQIYzg0Hd9IfrjR4DVkPKIe8dn21RL/H2GdsfoQqG9X2tpNM0
+         E+kQJ7lPYFI63nkGDUj1qkE+222CIr47m76IO4nNuVkIFSiCNm5gmS2Xao9tV1f+95I/
+         PWUKww46Xwygs/0sm2M21vz12wp4alF3ncG87lkxwzZbKJ9gV9PT7kswFUB3OgRyinEj
+         uMbHIXYknS5MLCFr2RcOfjTAGubHPKSdFBtfDCKQreYagoBOG5/sC8JfL+aERwge2Rwm
+         KZ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AWy+35KmmWPF9vsv4/yauNLhBLPVkzMejTzAkHJGLBM=;
-        b=Fu+cYlE+VFJHbLe6Qu/ixmxeRmNAM4h50DA0IMmmTAsCUYYwt1YzywM9t3gRcGrpZ+
-         WMP8iGZCRFqbqu642lHhsdleddAAGxHD1Z9B0folsgDPKktVQC8anS5Jem/puyhmlCb7
-         +81x19WrskaJeGxwIgBtm582abYHtSNFvNrU+fnvSxt92bSaoRNfn4ZQY/BuRbLYvq2Q
-         qhViKVcL0DEmBlJR4HZpwr/8r2NBMpPekJJk+PC2haVmTVFxYzxN4/YbU0VnNmgUHThn
-         Bt1KpkfDTcXSNy9UGLaff3k+aBfiKKdMaUfbNProqT5krUX5xgT6JUguZ0qbEUSb7pr0
-         2xMQ==
-X-Gm-Message-State: AOAM533w1ElCnP5nSRjFbJd/G0MBoXpd8mdlBs2nuU+TUQrTFewkugFu
-        JhlmScI8AM8+KT9arwxdDn2mqD+yaGn6JV3i
-X-Google-Smtp-Source: ABdhPJw37ySlF8U9v3f5LwO0adYQkbbxyWIOuAy3+CzZpIrcHEhWDZ5r9x8OTi1WAZwQv81tQXNJew==
-X-Received: by 2002:a05:6512:524:: with SMTP id o4mr47060lfc.165.1626294135026;
-        Wed, 14 Jul 2021 13:22:15 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id u7sm354514lja.58.2021.07.14.13.22.13
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jul 2021 13:22:13 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id q4so5247126ljp.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Jul 2021 13:22:13 -0700 (PDT)
-X-Received: by 2002:a2e:81c4:: with SMTP id s4mr10564675ljg.251.1626294133222;
- Wed, 14 Jul 2021 13:22:13 -0700 (PDT)
+        bh=TyOypBduh8zc4oZxw1Jw5CWPkP+HxfVRfcAuq+y3WDE=;
+        b=SHhW05PliNzJxp6/xWWloXzVytdTSgtCqYfXoG9mq6JNkt7UELdvamfbwFfvyWu5Th
+         3dxDD9ZlFm6D5r5vGeFh0U0E3LhgPfgvmQHpDS2hgSCbV/cPDSEkwUSEtDxS0laqSCbg
+         irno04vW8/m9kBZU7Hfk99rwkAeiyHqoTLFcRMR7vGx0aLyyDMXsEZMpV5Xjac8WNwW/
+         ShM9LxWw0VDauHevwr6vbsYJeyZNS+kOzEyLarU8g4uaqP/qMHHYldV+fA3jzQTIEvyx
+         VnyBMAA/+JTjNsZ4tJLYpLj2Ze3BU1/fAGtMIf6qrkpErHusILMwPBqLfhFKv9GRj76g
+         nKLw==
+X-Gm-Message-State: AOAM532EOhGvN+RY7ZkCkrF9pxfWjiJhgBmfdeER3lnAvc7cQEPgmhaZ
+        EisQOEn/3NesgZn5Fw148o67RtKXm3u80s0vzPU=
+X-Google-Smtp-Source: ABdhPJwAE54QtGjk6wjdMpERVvuoGiexA+ZndhhjqLbavlG69FKpSkNdz0lq9rT6inmUt/bcgrTgVXYMaogwEQSrnvU=
+X-Received: by 2002:a05:6e02:de6:: with SMTP id m6mr7931159ilj.203.1626294673267;
+ Wed, 14 Jul 2021 13:31:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-3-ojeda@kernel.org>
- <CAKwvOdmhRuF5eTZ2ztZBrL6BvDkA57B7OfVuvCaEMfV8nkLXCQ@mail.gmail.com>
- <CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com> <87mtqo1wv6.fsf@disp2133>
-In-Reply-To: <87mtqo1wv6.fsf@disp2133>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 14 Jul 2021 13:21:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whdi_biEOrzrYn7OC+wq+ckoaa5dFAATdM=n9P7Dp0YOA@mail.gmail.com>
-Message-ID: <CAHk-=whdi_biEOrzrYn7OC+wq+ckoaa5dFAATdM=n9P7Dp0YOA@mail.gmail.com>
-Subject: Re: [PATCH 02/17] kallsyms: increase maximum kernel symbol length to 512
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+References: <20210704202756.29107-1-ojeda@kernel.org> <20210704202756.29107-4-ojeda@kernel.org>
+ <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
+In-Reply-To: <CAKwvOdnO1ZbM_FzY3qwokEkWDxsr37t_u57H_wEO6Pbu6CqFZw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 14 Jul 2021 22:31:02 +0200
+Message-ID: <CANiq72ncsna9J=xNHg+XqUyFthyRG9bh7Qdw1rb1_=9-GJJh5Q@mail.gmail.com>
+Subject: Re: [PATCH 03/17] Makefile: generate `CLANG_FLAGS` even in GCC builds
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux <rust-for-linux@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Geoffrey Thomas <geofft@ldpreload.com>,
         Finn Behrens <me@kloenk.de>,
         Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 14, 2021 at 1:09 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Wed, Jul 14, 2021 at 8:14 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Are you thinking the hashed kernel symbols need to have their types
-> included in the hash?
+> Patch LGTM; please keep an eye on the series:
+> https://lore.kernel.org/lkml/20210707224310.1403944-2-ndesaulniers@google.com/
+>
+> If that lands in kbuild before this, this patch will need to be
+> rebased to avoid a conflict in linux-next.
+>
+> So (tentatively :-P):
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-I think the hash should be the whole mangled name. So yes, for Rust
-symbols they'd have the the type information.
+Thanks for the heads up!
 
->  Or is this just a hash to make the names a managable size?
+Given how fast `rustc_codegen_gcc` is progressing, we may need to
+prioritize getting
+https://github.com/rust-lang/rust-bindgen/issues/1949 fixed so that we
+can drop this hack altogether and go for proper, full GCC support.
 
-No, if that was the only point of it, the "just use two bytes for
-length" would be simpler.
+> If the patch needs to be rebased on the series linked above, please
+> drop my reviewed by tag and I will re-review. Perhaps putting me
+> explicitly on Cc: in the commit message will help notify me if there
+> are successive versions?
 
-But I don't think we want to do run-time de-mangling of names in the
-kernel when doing stack traces, which implies that the kallsym
-information in the kernel should be the de-mangled names.
+Ack -- will do that.
 
-That makes the names nice and readable, and also makes this "maximum
-symbol length" thing a non-issue.
-
-BUT.
-
-It also means that you can't use those names for linking purposes, so
-you'd then need to have a "full version" for that. But as Willy
-pointed out elsewhere, you might as well just use a constant-sized
-hash for that, rather than have both a manged and a de-mangled name.
-
-                   Linus
+Cheers,
+Miguel
