@@ -2,38 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6E9C3C9115
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52B3C3C9118
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241032AbhGNT5s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 15:57:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47274 "EHLO mail.kernel.org"
+        id S241050AbhGNT5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 15:57:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45596 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240244AbhGNTth (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:49:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B7D861427;
-        Wed, 14 Jul 2021 19:44:54 +0000 (UTC)
+        id S240650AbhGNTt7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Jul 2021 15:49:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D86F6143E;
+        Wed, 14 Jul 2021 19:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626291895;
-        bh=0DfvojDQtsTjKzPBJI6fP0XKs1/zGyGKKVN5ampn9VE=;
+        s=k20201202; t=1626291945;
+        bh=vO6jLsstg1PqDiZfbP7AfOwVNt2TH0F65zgaoPMvmsI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mqo6ZJsBhi4OBQZsfW4wf+V1kPphPt19rwjV0G5fgu7yJKjK2jVq4rsqsfa7U7PaI
-         AIyzzGAs2UCKOGQ4OnNV9n4Gw7l2NGdrxD2DJYXLr7Emwf6PtmLHv2Yjjms7FCkZos
-         xEErGG4TB93lNydvH4KkrEzE7vXY4Vs+OBamxF4N49OCLKjMR6r1LGqTx5srzJpfgv
-         cYdn8QFJfnYhMzsGYyMVegwgzk5i9aMnfhVSjjqu5LaE8DC9W3/T/OIyXw89DNYq//
-         7rLNImziRe7jxRAfzF1mr+XmvHG8/fVjfvTh1SsZQjE8ZEI5eMYOoaqgAovJwaqCoc
-         jAuFAPBvCyABw==
+        b=tswgjlQDr95KfXqJGDz9NK9xQkYEA+CuZwt0uFgbhzm/l9exZNHwExkXIEfJlGhco
+         saHBRrKt5HJArLmkFe4Vh8/sR87urzdS4ftVhUvSSkqmfz4rZwvoBtx6ROjFl9ocjk
+         Dl08Hd/l01yO2WnDx73KmtubSDDIwfgm3ID0KzYqc07vc50qhttlrvF2i7yWyV01dr
+         +Z7f7dnC70xHwyMykyqyYovElXX2SiFiFTiTlSo4hxjRyuACumPlFErPE3vmAFE9lh
+         1UjaA1XEJaFqZ8Bj4TSufDNxtpI0PS3VsFW81cLoMjgCVGMkgQzFYU1evBIIMRzf7k
+         pUE4+USxdho4Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Matthias Maennich <maennich@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 75/88] kbuild: mkcompile_h: consider timestamp if KBUILD_BUILD_TIMESTAMP is set
-Date:   Wed, 14 Jul 2021 15:42:50 -0400
-Message-Id: <20210714194303.54028-75-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 22/51] kbuild: sink stdout from cmd for silent build
+Date:   Wed, 14 Jul 2021 15:44:44 -0400
+Message-Id: <20210714194513.54827-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210714194303.54028-1-sashal@kernel.org>
-References: <20210714194303.54028-1-sashal@kernel.org>
+In-Reply-To: <20210714194513.54827-1-sashal@kernel.org>
+References: <20210714194513.54827-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -42,66 +41,97 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Matthias Maennich <maennich@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit a979522a1a88556e42a22ce61bccc58e304cb361 ]
+[ Upstream commit 174a1dcc96429efce4ef7eb2f5c4506480da2182 ]
 
-To avoid unnecessary recompilations, mkcompile_h does not regenerate
-compile.h if just the timestamp changed.
-Though, if KBUILD_BUILD_TIMESTAMP is set, an explicit timestamp for the
-build was requested, in which case we should not ignore it.
+When building with 'make -s', no output to stdout should be printed.
 
-If a user follows the documentation for reproducible builds [1] and
-defines KBUILD_BUILD_TIMESTAMP as the git commit timestamp, a clean
-build will have the correct timestamp. A subsequent cherry-pick (or
-amend) changes the commit timestamp and if an incremental build is done
-with a different KBUILD_BUILD_TIMESTAMP now, that new value is not taken
-into consideration. But it should for reproducibility.
+As Arnd Bergmann reported [1], mkimage shows the detailed information
+of the generated images.
 
-Hence, whenever KBUILD_BUILD_TIMESTAMP is explicitly set, do not ignore
-UTS_VERSION when making a decision about whether the regenerated version
-of compile.h should be moved into place.
+I think this should be suppressed by the 'cmd' macro instead of by
+individual scripts.
 
-[1] https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html
+Insert 'exec >/dev/null;' in order to redirect stdout to /dev/null for
+silent builds.
 
-Signed-off-by: Matthias Maennich <maennich@google.com>
+[Note about this implementation]
+
+'exec >/dev/null;' may look somewhat tricky, but this has a reason.
+
+Appending '>/dev/null' at the end of command line is a common way for
+redirection, so I first tried this:
+
+  cmd = @set -e; $(echo-cmd) $(cmd_$(1)) >/dev/null
+
+... but it would not work if $(cmd_$(1)) itself contains a redirection.
+
+For example, cmd_wrap in scripts/Makefile.asm-generic redirects the
+output from the 'echo' command into the target file.
+
+It would be expanded into:
+
+  echo "#include <asm-generic/$*.h>" > $@ >/dev/null
+
+Then, the target file gets empty because the string will go to /dev/null
+instead of $@.
+
+Next, I tried this:
+
+  cmd = @set -e; $(echo-cmd) { $(cmd_$(1)); } >/dev/null
+
+The form above would be expanded into:
+
+  { echo "#include <asm-generic/$*.h>" > $@; } >/dev/null
+
+This works as expected. However, it would be a syntax error if
+$(cmd_$(1)) is empty.
+
+When CONFIG_TRIM_UNUSED_KSYMS is disabled, $(call cmd,gen_ksymdeps) in
+scripts/Makefile.build would be expanded into:
+
+  set -e;  { ; } >/dev/null
+
+..., which causes an syntax error.
+
+I also tried this:
+
+  cmd = @set -e; $(echo-cmd) ( $(cmd_$(1)) ) >/dev/null
+
+... but this causes a syntax error for the same reason.
+
+So, finally I adopted:
+
+  cmd = @set -e; $(echo-cmd) exec >/dev/null; $(cmd_$(1))
+
+[1]: https://lore.kernel.org/lkml/20210514135752.2910387-1-arnd@kernel.org/
+
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/mkcompile_h | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ scripts/Kbuild.include | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 4ae735039daf..a72b154de7b0 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -70,15 +70,23 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
- # Only replace the real compile.h if the new one is different,
- # in order to preserve the timestamp and avoid unnecessary
- # recompilations.
--# We don't consider the file changed if only the date/time changed.
-+# We don't consider the file changed if only the date/time changed,
-+# unless KBUILD_BUILD_TIMESTAMP was explicitly set (e.g. for
-+# reproducible builds with that value referring to a commit timestamp).
- # A kernel config change will increase the generation number, thus
- # causing compile.h to be updated (including date/time) due to the
- # changed comment in the
- # first line.
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 7da10afc92c6..b14a7d4a2f05 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -182,8 +182,13 @@ clean := -f $(srctree)/scripts/Makefile.clean obj
+ echo-cmd = $(if $($(quiet)cmd_$(1)),\
+ 	echo '  $(call escsq,$($(quiet)cmd_$(1)))$(echo-why)';)
  
-+if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
-+   IGNORE_PATTERN="UTS_VERSION"
-+else
-+   IGNORE_PATTERN="NOT_A_PATTERN_TO_BE_MATCHED"
-+fi
++# sink stdout for 'make -s'
++       redirect :=
++ quiet_redirect :=
++silent_redirect := exec >/dev/null;
 +
- if [ -r $TARGET ] && \
--      grep -v 'UTS_VERSION' $TARGET > .tmpver.1 && \
--      grep -v 'UTS_VERSION' .tmpcompile > .tmpver.2 && \
-+      grep -v $IGNORE_PATTERN $TARGET > .tmpver.1 && \
-+      grep -v $IGNORE_PATTERN .tmpcompile > .tmpver.2 && \
-       cmp -s .tmpver.1 .tmpver.2; then
-    rm -f .tmpcompile
- else
+ # printing commands
+-cmd = @set -e; $(echo-cmd) $(cmd_$(1))
++cmd = @set -e; $(echo-cmd) $($(quiet)redirect) $(cmd_$(1))
+ 
+ ###
+ # if_changed      - execute command if any prerequisite is newer than
 -- 
 2.30.2
 
