@@ -2,90 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93A1E3C7D5D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 06:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3242B3C7DB6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 06:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbhGNE1Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 00:27:25 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:25376 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhGNE1Z (ORCPT
+        id S230270AbhGNE6k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 00:58:40 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63965 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbhGNE6k (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 00:27:25 -0400
-Received: from grover.RMN.KIBA.LAB.jp (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 16E4O4FH010782;
-        Wed, 14 Jul 2021 13:24:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 16E4O4FH010782
+        Wed, 14 Jul 2021 00:58:40 -0400
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 16E4tbgB022054;
+        Wed, 14 Jul 2021 13:55:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 16E4tbgB022054
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626236645;
-        bh=ohs8UNiQH5xgT/ayqacDhxQJOOlXZzRqYgRVd0ZV1T0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=z+cfyXhIcCSvPPL3Q3ZZSlmgsMYXspWCHUpyovi5cD1WU4L+KAz35ctT/nEF2+0iG
-         UdPlqi5m29Wjw7qZFDi2RbraWBtV5mHg80U/JzgyOYU+x2QzW3wXToU0ILtLxFazQc
-         u1vJqwHD7kEz7GeMX/lQ6WuPhZKy2mGs8otO4cPs4CEMQKsNWhNlrVgJphc9vlGRtA
-         chIQkBDKOk1YrxxDOw5O6X10gd1zN/n4MiUdZF3CtFu8MmLDgKIMkNN18MnSwhUSFQ
-         QAmcVWqyUkM1tW861D3z5IL1rni6aYPMNX1JWwizXOe2Li5WmwFKUZ+EMNEmIg58sL
-         bByPFYwm7pxWg==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: do not suppress Kconfig prompts for silent build
-Date:   Wed, 14 Jul 2021 13:23:49 +0900
-Message-Id: <20210714042349.219199-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        s=dec2015msa; t=1626238537;
+        bh=RG3mFTWRkOy23j6Tuz6mqRZldb0E49OGrpWqNp//4bE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KX6SCE+7lLsGEKV6nc0a6h9WbdKLbXdWFed2jCZ6rqmV+AuQriC4/75EGoYhnZe8I
+         /YdXmGZAbsqlicbMLwkghGvu6qdARGtVHnbHRJ1zjcs7G2a29Nw0IbGThKRub68m/6
+         6AFtsCTapULyQ0fBsWEmP6T/EpkzgMiPAQUic1VKvkp7bdSXvjaXzHDzeFUkSCB5iq
+         r4N/zzQF00k9BYIBJbgBXHOBDF8OeU7TuGDsvn3q6NZhiCCai4GwsFNjMEgzFkKcZh
+         lUtZlihQEfbtqiyVcmuLFJUuXW5tC2QrpBWXDqM5npBqZrT278kO2pxkNlm6EXbnQd
+         CJ/MhfDgk/+Dw==
+X-Nifty-SrcIP: [209.85.214.169]
+Received: by mail-pl1-f169.google.com with SMTP id j3so909759plx.7;
+        Tue, 13 Jul 2021 21:55:37 -0700 (PDT)
+X-Gm-Message-State: AOAM533Utrtcpho60d0T0aLq6HDchbyzzg4B4yx5onDOT65JIRF6J0YS
+        y2Q2usTd36ftMMqdKrRD8OezmPW5xFSfh8Qky9o=
+X-Google-Smtp-Source: ABdhPJwWrK3LMXMkxe0SnnVE3tQhZ3hhBYm79wwh+zAMvIZ4TB8bGaHZkHHEL78BVzJIJeAvMP8Ma0WRGCPjiDxoYes=
+X-Received: by 2002:a17:902:8ec7:b029:11b:acb4:ac43 with SMTP id
+ x7-20020a1709028ec7b029011bacb4ac43mr6217143plo.1.1626238536711; Tue, 13 Jul
+ 2021 21:55:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YO3txvw87MjKfdpq@localhost.localdomain>
+In-Reply-To: <YO3txvw87MjKfdpq@localhost.localdomain>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 14 Jul 2021 13:54:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATVysAEkcq86AD75njoXis67M4i+QVEfg5LawWzfC1h9g@mail.gmail.com>
+Message-ID: <CAK7LNATVysAEkcq86AD75njoXis67M4i+QVEfg5LawWzfC1h9g@mail.gmail.com>
+Subject: Re: [PATCH] Decouple build from userspace headers
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When a new CONFIG option is available, Kbuild shows a prompt to get
-the user input.
+On Wed, Jul 14, 2021 at 4:47 AM Alexey Dobriyan <adobriyan@gmail.com> wrote:
+>
+> In theory, userspace headers can be under incompatible license.
+>
+> Linux by virtue of being OS kernel is fully independent piece of code
+> and should not require anything from userspace.
 
-  $ make
-  [ snip ]
-  Core Scheduling for SMT (SCHED_CORE) [N/y/?] (NEW)
+As far as I know,
+<stdarg.h> was the only exception,
+which was borrowed from the compiler.
 
-This is the only interactive place during the build process.
 
-Commit 174a1dcc9642 ("kbuild: sink stdout from cmd for silent build")
-suppressed Kconfig prompts as well because syncconfig is invoked by
-the 'cmd' macro. You cannot notice the fact that Kconfig is waiting
-for the user input.
+I like this as long as:
+  - license is clear (please add SPDX tag to the new header)
+  - it works for both gcc and clang (I guess the answer is yes)
 
-Use 'kecho' to show the equivalent short log without suppressing stdout
-from sub-make.
 
-Fixes: 174a1dcc9642 ("kbuild: sink stdout from cmd for silent build")
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I think removing <stdbool.h> and <stddef.h> are non-controversial.
+Mayby, you can split it into 1/2.
 
- Makefile | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index c3f9bd191b89..6272126abe23 100644
---- a/Makefile
-+++ b/Makefile
-@@ -728,11 +728,9 @@ $(KCONFIG_CONFIG):
- # This exploits the 'multi-target pattern rule' trick.
- # The syncconfig should be executed only once to make all the targets.
- # (Note: use the grouped target '&:' when we bump to GNU Make 4.3)
--quiet_cmd_syncconfig = SYNC    $@
--      cmd_syncconfig = $(MAKE) -f $(srctree)/Makefile syncconfig
--
- %/config/auto.conf %/config/auto.conf.cmd %/generated/autoconf.h: $(KCONFIG_CONFIG)
--	+$(call cmd,syncconfig)
-+	$(Q)$(kecho) "  SYNC    $@"
-+	$(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
- else # !may-sync-config
- # External modules and some install targets need include/generated/autoconf.h
- # and include/config/auto.conf but do not care if they are up-to-date.
+
+
+>
+> For this:
+>
+> * ship minimal <stdarg.h>
+>         2 types, 4 macros
+>
+> * delete "-isystem"
+>         This is what enables leakage.
+>
+> * fixup compilation where necessary.
+>
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+> ---
+>
+>  Makefile                                                               |    2 +-
+>  arch/um/include/shared/irq_user.h                                      |    1 -
+>  arch/um/os-Linux/signal.c                                              |    2 +-
+>  crypto/aegis128-neon-inner.c                                           |    2 --
+>  drivers/net/wwan/iosm/iosm_ipc_imem.h                                  |    1 -
+>  drivers/pinctrl/aspeed/pinmux-aspeed.h                                 |    1 -
+>  drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_local.h |    2 --
+>  include/stdarg.h                                                       |    9 +++++++++
+>  sound/aoa/codecs/onyx.h                                                |    1 -
+>  sound/aoa/codecs/tas.c                                                 |    1 -
+>  10 files changed, 11 insertions(+), 11 deletions(-)
+>
+
+> new file mode 100644
+> --- /dev/null
+> +++ b/include/stdarg.h
+> @@ -0,0 +1,9 @@
+
+
+This is a new file, so please add the SPDX tag.
+What project did you copy the code from?
+
+  If gcc, is it GPL v3 (but not compatible for GPL v2) ?
+  If clang, is it
+   SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+Or, can we license this small portion of code
+as GPL v2?
+
+
+
+> +#ifndef _LINUX_STDARG_H
+> +#define _LINUX_STDARG_H
+> +typedef __builtin_va_list __gnuc_va_list;
+
+Where is __gnuc_va_list needed?
+
+
+
+
+BTW, once this is accepted, I'd like to
+change all <stdarg.h>  to <linux/stdarg.h>.
+
+
+
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
