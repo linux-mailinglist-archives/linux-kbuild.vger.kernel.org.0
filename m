@@ -2,113 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E83713C91DC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D60083C91EF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:18:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239583AbhGNUMF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 16:12:05 -0400
-Received: from out03.mta.xmission.com ([166.70.13.233]:55832 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238029AbhGNUMD (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 16:12:03 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52]:37656)
-        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m3lBu-00G2fD-3g; Wed, 14 Jul 2021 14:09:10 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:50644 helo=email.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m3lBs-008XEt-12; Wed, 14 Jul 2021 14:09:09 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-References: <20210704202756.29107-1-ojeda@kernel.org>
-        <20210704202756.29107-3-ojeda@kernel.org>
-        <CAKwvOdmhRuF5eTZ2ztZBrL6BvDkA57B7OfVuvCaEMfV8nkLXCQ@mail.gmail.com>
-        <CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com>
-Date:   Wed, 14 Jul 2021 15:09:01 -0500
-In-Reply-To: <CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com>
-        (Linus Torvalds's message of "Wed, 14 Jul 2021 12:04:08 -0700")
-Message-ID: <87mtqo1wv6.fsf@disp2133>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S237097AbhGNUVo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 16:21:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45404 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237002AbhGNUVo (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Jul 2021 16:21:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 31CC7613D0;
+        Wed, 14 Jul 2021 20:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626293932;
+        bh=oYfnou5QrrOb7U0CV0cSAUF5DqCBPcwnE78QZi9FPqs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KFD+vift05YPCmw5Vr9xI+ZHM31/3sC5I9gz9gL/6DW9sOE07lf1UCTq0EfTYgCEd
+         h71LEfsQRV0QQxh9gliJ1jWfeU/79expDoGm6sI9vSbQ4ThK2OetF1Nj9oXi/o8AKe
+         O0Uyxshop86+JTQqjFWQUkpu921cKp2S3VHa/b8BpXwYvZTEidz8/YdjI5NPkCW/3+
+         GnYLoBnNhFZdPcF1wkvtUZpxVIZMWc1Z9WrHcp/4nQ0EQmG0Vrup/L5iE/rmewvsre
+         2C4GDDCqltRAszNcug50BSur0PJEPpUKl3vvsE+gKCNMX88qZ+4F9/jyZe2gMdp74m
+         jQtOHPhUfXBzw==
+Received: by mail-wm1-f44.google.com with SMTP id m11-20020a05600c3b0bb0290228f19cb433so4673668wms.0;
+        Wed, 14 Jul 2021 13:18:52 -0700 (PDT)
+X-Gm-Message-State: AOAM5331WgChpdIt99qs/cS1FgvfWQAA7K/fHFmvAyN6dCoL7ok/C1Iy
+        3X5zFskuNuAGpsc2k5gB8e1fkU0T0CBZvzchXNo=
+X-Google-Smtp-Source: ABdhPJwjV7O1SlNLPN2Cm4d3pik+v/hHQtZHMVCFrC1Vcx0o4N80DdVJ3CMItTwtQaQjCya28wbk+9hn2XKJu57ALbU=
+X-Received: by 2002:a1c:4e0c:: with SMTP id g12mr5971146wmh.120.1626293930689;
+ Wed, 14 Jul 2021 13:18:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1m3lBs-008XEt-12;;;mid=<87mtqo1wv6.fsf@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+RhqiLRuXkUrC80vE88JVm8tG24B3OT+w=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa06.xmission.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.2 required=8.0 tests=ALL_TRUSTED,BAYES_40,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,XMNoVowels,XMSubLong
-        autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-        *      [score: 0.3777]
-        *  0.7 XMSubLong Long Subject
-        *  1.5 XMNoVowels Alpha-numberic number with no vowels
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa06 1397; Body=1 Fuz1=1 Fuz2=1]
-X-Spam-DCC: XMission; sa06 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: *;Linus Torvalds <torvalds@linux-foundation.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 1522 ms - load_scoreonly_sql: 0.04 (0.0%),
-        signal_user_changed: 18 (1.2%), b_tie_ro: 16 (1.0%), parse: 1.98
-        (0.1%), extract_message_metadata: 16 (1.0%), get_uri_detail_list: 1.35
-        (0.1%), tests_pri_-1000: 7 (0.4%), tests_pri_-950: 1.51 (0.1%),
-        tests_pri_-900: 1.18 (0.1%), tests_pri_-90: 217 (14.2%), check_bayes:
-        205 (13.5%), b_tokenize: 7 (0.5%), b_tok_get_all: 6 (0.4%),
-        b_comp_prob: 2.2 (0.1%), b_tok_touch_all: 187 (12.3%), b_finish: 0.97
-        (0.1%), tests_pri_0: 1238 (81.4%), check_dkim_signature: 0.63 (0.0%),
-        check_dkim_adsp: 3.1 (0.2%), poll_dns_idle: 1.10 (0.1%), tests_pri_10:
-        3.2 (0.2%), tests_pri_500: 14 (0.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH 02/17] kallsyms: increase maximum kernel symbol length to 512
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+References: <20210707224310.1403944-1-ndesaulniers@google.com>
+ <YOaR1ZjToP/kgNsC@infradead.org> <CAK8P3a1ctLcHuLZfBJ7wXHRmidpQZ4EZdML1nqPJVGYVTgHmaw@mail.gmail.com>
+ <CAKwvOdkaifETNvtTA3O9EToVHAK0N50wkT-bHOpQ2RmFg7qk0A@mail.gmail.com>
+ <CAK8P3a3h_tVaXVKRgaC9L+z9CwVGkOmCPPeW7UjDUhPKHNQDmw@mail.gmail.com> <CAKwvOdkUUJU8Ktg8Wcvg3pbsyUWLCH0320nF-aQWre0hGTP2Ag@mail.gmail.com>
+In-Reply-To: <CAKwvOdkUUJU8Ktg8Wcvg3pbsyUWLCH0320nF-aQWre0hGTP2Ag@mail.gmail.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Wed, 14 Jul 2021 22:18:34 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3R7FeA3Qjm9+bTz0Zd3=eFkXjgjmB24kewpVOPMtSbHQ@mail.gmail.com>
+Message-ID: <CAK8P3a3R7FeA3Qjm9+bTz0Zd3=eFkXjgjmB24kewpVOPMtSbHQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] infer CROSS_COMPILE from ARCH for LLVM=1 LLVM_IAS=1
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Linus Torvalds <torvalds@linux-foundation.org> writes:
+On Wed, Jul 14, 2021 at 8:09 PM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+>
+> On Fri, Jul 9, 2021 at 1:07 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> >
+> > On Thu, Jul 8, 2021 at 8:04 PM 'Nick Desaulniers' via Clang Built
+> > Linux <clang-built-linux@googlegroups.com> wrote:
+> >
+> > > > /usr/bin/powerpc64-linux-gnu-gcc-5.2.0
+> > > > /usr/bin/powerpc64-linux-gnu-gcc -> powerpc64-linux-gnu-gcc-5.2.0
+> > > > /usr/local/bin/ppc64le-linux-gcc-9
+> > > > ~/bin/powerpc/powerpc-linux-unknown-gcc-12.0.20210708.experimental
+> > > >
+> > > > all of these should be able to cross-build any powerpc kernel, but
+> > > > there is no obvious first choice (highest version, first in path,
+> > > > ordered list of target triples, ...). I tried coming up with a heuristic
+> > > > to pick a reasonable toolchain, but at some point gave up because
+> > > > I failed to express that in a readable bash or Makefile syntax.
+> > >
+> > > Right; foremost in my mind was arm-linux-gnueabi-gcc vs
+> > > arm-linux-gnueabihf-gcc.  That's not even to mention the versioned
+> > > suffixes.
+> > >
+> > > In terms of multiversion support; this series doesn't regress doing
+> > > things the hard/verbose way.  But I think for most users we can have a
+> > > simpler common case; folks can play with their $PATH or focus on more
+> > > hermetic builds if they want this new feature (CROSS_COMPILE
+> > > inference) AND support for multiple versions of the same toolchain.
+> >
+> > Fair enough. So how something like this:
+> >
+> > powerpc-targets := powerpc32 powerpc64 powerpc32le \
+> >         powerpc32be powerpc64le powerpc64be ppc64le ppc64be
+> > arm-targets := arm-linux-gnueabi arm-linux-gnueabihf
+> > x86-targets := x86_64 i386 i686
+> > x86_64-targets := x86
+> > i386-targets := i686 x86 x86_64
+> > parisc-targets := hppa64 hppa
+> > ...
+> >
+> > CROSS_COMPILE ?= `find-toolchain $(ARCH) $($(ARCH)-targets)`
+> >
+> > where find-toolchain just finds the first working toolchain based, looking
+> > for $(target)-linux-gcc $(target)-gcc $(target)-unknown-linux-gcc etc
+> > in $(PATH) but ignoring the versions?
+>
+> Sure, debian doesn't even package different versions of the cross GCC
+> packages AFAIK; no idea about other distros.  Though the user may have
+> built from source, or have multiple versions fetched from tarballs.
 
-> On Wed, Jul 14, 2021 at 11:20 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
->>
->> Do we demangle rust symbols when printing a trace from a warn/panic?
->> That would be nice.
->
-> I think it would be pretty much required. Otherwise stack traces are
-> going to be very very painful.
->
-> In fact, I'm starting to think that Willy is right: we should use
-> hashes for the "real" symbol name, and have demangled names for
-> printing, and at no point would the kernel actually want or need to
-> have the nasty mangled names.
->
-> (This wouldn't be rust-specific - using hashes for module linking
-> sounds like a good diea for C code as well, even if the de-mangled
-> names for printing are then the regular ones)
->
-> Anybody interested in looking into that? It would make this "big
-> kernel symbols" patch immaterial.
+I have an Ubuntu installation with gcc-9, gcc-10 and gcc-11 cross
+toolchains installed from through apt, but none that is just 'gcc'
+without a version as the ones I built myself are.
 
-Are you thinking the hashed kernel symbols need to have their types
-included in the hash?  Or is this just a hash to make the names a
-managable size?
+> I think we can simplify the common case of "I just want to cross
+> compile, I don't necessarily care about an older compiler version
+> co-installed with a newer one." ("and if I did, I could still use
+> CROSS_COMPILE the verbose way").
 
-Eric
+Right, in my example above one would still have to set CC=
+since the detected target triple has no $(CROSS_COMPILE)gcc,
+only the versioned ones.
+
+Setting up the symlinks however should get you there.
+
+> > What I had actually planned was a set of helpers that allow you to
+> > do this in multiple steps:
+> >
+> > - if $(objtree)/scripts/cross/bin/gcc (or something else we pick)
+> >   exists and CROSS_COMPILE is not set, set CROSS_COMPILE
+> >   to $(objtree)/scripts/cross/bin/ in the Makefile
+> > - add script to enumerate the installed toolchains
+> > - add a second script to symlink one of those toolchains to
+> >   $(objtree)/scripts/cross/bin
+>
+> (and check the symlink isn't broken should the user uninstall a
+> toolchain, or have their distro update their toolchain version)
+
+There are lots of options for the policy here. My preference would
+be to just pick the one from the symlink before any other, and then
+have a step 'make config' family of commands that checks that
+the selected toolchain actually produces object code for the selected
+architecture.
+
+> > - add a third script to download a cross-toolchain from kernel.org
+> >   for $(ARCH) and install it to one of the locations that the first
+> >   script looks for (/opt/cross/, $(HOME)/cross/, $(objtree)scripts/cross/)
+>
+> Would the user be prompted for the download? So during
+> `defconfig`/configuration we could prompt and say "it looks like
+> you're cross compiling without setting CROSS_COMPILE, would you like
+> me to fetch a cross compiler for you?"
+>
+> Seems reasonable, when cross compiling with GCC.
+
+I don't think we want interactive commands in the build system other
+than 'make config', but it would be reasonable to print something like
+
+"no compiler found", "selected compiler ${CC} does not match architecture
+${ARCH}", or "selected compiler ${CC} does not work", followed by a
+list of suggested commands to configure or download a different toolchain.
+
+       Arnd
