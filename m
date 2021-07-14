@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F18E3C9119
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26F053C911D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jul 2021 22:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241078AbhGNT5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Jul 2021 15:57:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45690 "EHLO mail.kernel.org"
+        id S241098AbhGNT5v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Jul 2021 15:57:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48760 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241182AbhGNTu0 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:50:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2960F600D4;
-        Wed, 14 Jul 2021 19:47:12 +0000 (UTC)
+        id S238109AbhGNTuw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Jul 2021 15:50:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 85BBD613D4;
+        Wed, 14 Jul 2021 19:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626292032;
-        bh=ak0X2iN8PqFo1g+nRJ173Suw6iFpP+hKATqviaSsB2k=;
+        s=k20201202; t=1626292078;
+        bh=iW3+8FrBSNcMwp6wf21zNU4q6SBh7OzuKFjuDmBZ5rg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OW9xjmkMIfGtgoDKvjJM8p42BAHkv73pvMH8ZW59F65wPHcvi0MSdZRaNqSKUjCtd
-         hvhN5tO2kKQGAC8xSTKObKHdpcMBtWBu0BUU3JMmzyDvtphgQQOkmHJAyilzRJQESd
-         xmGhmouKdTvq2Xs/Qsq8x7rV15rqcGLATgnin0hUAz5OuiY7DM9vWUkP12JKl0kG5z
-         QoFefWJrHf5FZX9tetwN1hmr4I7sP55MtaYuxJMMBCJdlsQ5hJCxSvwFp6v/lKmiNZ
-         xkqFRo79kPCVmomS3+UhnPTsQQuk88mvK85fZFXUGqGp8ud3usRY0smA14FkUxpXIa
-         l5+oHdiLi4GyA==
+        b=qODdfhQVECu5wszO/+nGnRflQ4nr3RYLPnn2dPj82CwiXnv8bwSk+xGC4TYUnWVeU
+         xFuYxVKoFXmsiH7cSR/UlVAttykzMjxN54hAg+Ig2bOpLrZ1fbxtEx+gGNjlF1YyCH
+         Id3DmeYzfdA/B7oA2bZsaDy/VCSPQuo5EoPQPxurTPGWDh2CfQd7XCPGso8pg0rKn6
+         25jaNT0c//Cz3L5T0DX1IxnbBuDOEx8elb329Eo7boFDe6/uz8z0GNa9qVSzf3RCdQ
+         nGu8lZ6njZhmCHK1uZDrt7p94Q5Kd2kWRmYEdE+TgPSRai6qvzOTxYeZU+cbzKtYyO
+         8jKi5505dJtxg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Matthias Maennich <maennich@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 33/39] kbuild: mkcompile_h: consider timestamp if KBUILD_BUILD_TIMESTAMP is set
-Date:   Wed, 14 Jul 2021 15:46:18 -0400
-Message-Id: <20210714194625.55303-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 23/28] kbuild: mkcompile_h: consider timestamp if KBUILD_BUILD_TIMESTAMP is set
+Date:   Wed, 14 Jul 2021 15:47:18 -0400
+Message-Id: <20210714194723.55677-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210714194625.55303-1-sashal@kernel.org>
-References: <20210714194625.55303-1-sashal@kernel.org>
+In-Reply-To: <20210714194723.55677-1-sashal@kernel.org>
+References: <20210714194723.55677-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 87f1fc9801d7..662fe19da990 100755
+index 959199c3147e..49f92fffa098 100755
 --- a/scripts/mkcompile_h
 +++ b/scripts/mkcompile_h
-@@ -78,15 +78,23 @@ UTS_TRUNCATE="cut -b -$UTS_LEN"
+@@ -83,15 +83,23 @@ UTS_TRUNCATE="cut -b -$UTS_LEN"
  # Only replace the real compile.h if the new one is different,
  # in order to preserve the timestamp and avoid unnecessary
  # recompilations.
