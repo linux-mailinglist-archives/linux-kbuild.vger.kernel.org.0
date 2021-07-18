@@ -2,115 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3873CC948
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 15:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 048753CC951
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 15:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233663AbhGRNPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 18 Jul 2021 09:15:33 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:56336 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232859AbhGRNPd (ORCPT
+        id S233665AbhGRN02 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Jul 2021 09:26:28 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:61842 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232859AbhGRN01 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 18 Jul 2021 09:15:33 -0400
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 16IDCIw1031967;
-        Sun, 18 Jul 2021 22:12:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 16IDCIw1031967
+        Sun, 18 Jul 2021 09:26:27 -0400
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 16IDN6VF026573;
+        Sun, 18 Jul 2021 22:23:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 16IDN6VF026573
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626613939;
-        bh=kc1rcQBGfa+6hfoq/T5JXuXb+iXKX94PdSMwOW/jXE0=;
+        s=dec2015msa; t=1626614587;
+        bh=Ze113MyRnH/xltMWjfaGCsj9jL5X6qLXZcynrxc1yNs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=X+Ay0LyD9j4uNFmXNKicUmgwMbvfukDHETwWPx+Qe6O8JvbODLxi3mCrO64aXAPz5
-         ktQhyNPPviBzXCCp3TiD+22ohEpy7nO4SsTbdgjOGGtmqWVMM1BBhEs9Q3WRxuf36x
-         r9ED0l/iAai1s0CLwP0SjpW9QvvVpO0PBmNXwgLcfYs8friRhxhwHwq5zb8uJIzrj7
-         Vh6cE3H7Gjb9YhskQK1tySUJ/Q8ePib5VNqte3aFu6IhByKQHbLj+eTiU0SQ1cFhV6
-         l8u2wcbHlwLyvUsgarlOgh1JdKlPKNceBLOx7lXq+ZaTMXxC1uzE6zbF+YwdBicVeg
-         +sAc84R2E0mmA==
-X-Nifty-SrcIP: [209.85.215.176]
-Received: by mail-pg1-f176.google.com with SMTP id u14so15853256pga.11;
-        Sun, 18 Jul 2021 06:12:19 -0700 (PDT)
-X-Gm-Message-State: AOAM530rr42s2gGS7R8paYUAUplgf5c3mg+rAiBP4K4w5af7eVVx5czV
-        rd7JXg1H1W9g5Dk4tdeyhmavGzckzAWXdhoeG60=
-X-Google-Smtp-Source: ABdhPJzSkHgcEbqBBBiyEW9ocGzd5CZyaxrABLAJkaJthoa3FG9uRh1Uwgr3YHSbvJ9PqJdN2CPNI0/rNElzl2m+Wl0=
-X-Received: by 2002:a63:d80a:: with SMTP id b10mr20458153pgh.47.1626613938476;
- Sun, 18 Jul 2021 06:12:18 -0700 (PDT)
+        b=AlNhgOXFJuGtM5Sv/s/0YXXa09yNhNu5SanENdrUsk2r8Q1uHMxcd3ggJ4DPZV7lv
+         2ds526fDdeqcv3YYoXPzvP2Vlcge+gZOwNikMOwQp9Ja1xuv4A6yrM0wEPd1OPuErp
+         LRyNZhpoAd6qWEWVSOOCHrVkMUUBAhjKM4bhutBwJ8YdxK5d6u78R1FrGtk0Le4TAB
+         iAhWDdNIVPEzDnz6oh8Ivjx+igizxsXFXAtmhAyOB7+RrH0dpWCL5jobN9Osv1n0Me
+         dl3afoSYwwHbeH1N2MhZoG6KZ4PsoTs6nvIC0rbgEBe5RXaJTmUx49pI/Hz0Uk12yt
+         5Bm2n0bVQ5TUA==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id b12so8031093plh.10;
+        Sun, 18 Jul 2021 06:23:06 -0700 (PDT)
+X-Gm-Message-State: AOAM5332RON5xNkw35Ii039Wl6LkErZ0QGdJ2H9sF+55ogIoc0EBJ8NP
+        vXR10lny018s9Lf9bEM4mMjQ2bBHdInbqIpJCyY=
+X-Google-Smtp-Source: ABdhPJyCp2zQIsACSECMSy2+lp/QzUfLy+IVv/0JoHPh3da16U7sUtk+MqY3b3gWloZTnaAQ2j9EiyvW1u9208mzCu0=
+X-Received: by 2002:a17:902:be0f:b029:12b:6dff:2a22 with SMTP id
+ r15-20020a170902be0fb029012b6dff2a22mr8231303pls.1.1626614586036; Sun, 18 Jul
+ 2021 06:23:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <YO3txvw87MjKfdpq@localhost.localdomain> <YO8ioz4sHwcUAkdt@localhost.localdomain>
- <CADYN=9+ZO1XHu2YZYy7s+6_qAh1obi2wk+d4A3vKmxtkoNvQLg@mail.gmail.com> <YPFa/tIF38eTJt1B@localhost.localdomain>
-In-Reply-To: <YPFa/tIF38eTJt1B@localhost.localdomain>
+References: <20210714042349.219199-1-masahiroy@kernel.org>
+In-Reply-To: <20210714042349.219199-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 18 Jul 2021 22:11:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATt3tvF9n5LMosirxs50PMQ1RKPp1j1FVAx3yz+uXmvVw@mail.gmail.com>
-Message-ID: <CAK7LNATt3tvF9n5LMosirxs50PMQ1RKPp1j1FVAx3yz+uXmvVw@mail.gmail.com>
-Subject: Re: [PATCH v2] Decouple build from userspace headers
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Anders Roxell <anders.roxell@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+Date:   Sun, 18 Jul 2021 22:22:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS6NgAL7XQ4Hr5n+BFv8bkFiY1ttMj_p9kBXVi_MCxWsg@mail.gmail.com>
+Message-ID: <CAK7LNAS6NgAL7XQ4Hr5n+BFv8bkFiY1ttMj_p9kBXVi_MCxWsg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: do not suppress Kconfig prompts for silent build
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 16, 2021 at 7:10 PM Alexey Dobriyan <adobriyan@gmail.com> wrote:
+On Wed, Jul 14, 2021 at 1:24 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Fri, Jul 16, 2021 at 11:03:41AM +0200, Anders Roxell wrote:
-> > On Wed, 14 Jul 2021 at 19:45, Alexey Dobriyan <adobriyan@gmail.com> wrote:
-> > >
+> When a new CONFIG option is available, Kbuild shows a prompt to get
+> the user input.
 >
-> > In file included from
-> > /home/anders/src/kernel/testing/crypto/aegis128-neon-inner.c:7:
-> > /home/anders/src/kernel/testing/arch/arm64/include/asm/neon-intrinsics.h:33:10:
-> > fatal error: arm_neon.h: No such file or directory
-> >    33 | #include <arm_neon.h>
-> >       |          ^~~~~~~~~~~~
+>   $ make
+>   [ snip ]
+>   Core Scheduling for SMT (SCHED_CORE) [N/y/?] (NEW)
 >
-> > If I revert this patch I can build it.
+> This is the only interactive place during the build process.
 >
-> Please, see followup fixes or grab new -mm.
-> https://lore.kernel.org/lkml/YO8ioz4sHwcUAkdt@localhost.localdomain/
+> Commit 174a1dcc9642 ("kbuild: sink stdout from cmd for silent build")
+> suppressed Kconfig prompts as well because syncconfig is invoked by
+> the 'cmd' macro. You cannot notice the fact that Kconfig is waiting
+> for the user input.
+>
+> Use 'kecho' to show the equivalent short log without suppressing stdout
+> from sub-make.
+>
+> Fixes: 174a1dcc9642 ("kbuild: sink stdout from cmd for silent build")
+> Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-
-With the follow-up fix,
-this patch is doing many things in a single patch.
-
-Can you split it into a series of smaller patches?
-
-
-1/4: changes for arch/um/include/shared/irq_user.h
-     and arch/um/os-Linux/signal.c
-
-
-2/4:  remove wrong <stdbool.h> or <stddef.h> inclusions
-      (or maybe you need to replace them with <linux/types.h>
-      to keep the affected headers self-contained)
-
-
-3/4: add include/linux/stdarg.h,
-     then <stdarg.h> with <linux/stdarg.h>
-
-
-4/4: move -isystem $(shell $(CC) -print-file-name=include)
-     to some sub-Makefiles from the top Makefile.
+Applied to linux-kbuild.
 
 
 
+>  Makefile | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index c3f9bd191b89..6272126abe23 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -728,11 +728,9 @@ $(KCONFIG_CONFIG):
+>  # This exploits the 'multi-target pattern rule' trick.
+>  # The syncconfig should be executed only once to make all the targets.
+>  # (Note: use the grouped target '&:' when we bump to GNU Make 4.3)
+> -quiet_cmd_syncconfig = SYNC    $@
+> -      cmd_syncconfig = $(MAKE) -f $(srctree)/Makefile syncconfig
+> -
+>  %/config/auto.conf %/config/auto.conf.cmd %/generated/autoconf.h: $(KCONFIG_CONFIG)
+> -       +$(call cmd,syncconfig)
+> +       $(Q)$(kecho) "  SYNC    $@"
+> +       $(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
+>  else # !may-sync-config
+>  # External modules and some install targets need include/generated/autoconf.h
+>  # and include/config/auto.conf but do not care if they are up-to-date.
+> --
+> 2.27.0
+>
 
 
-(please note 4/4 will introduce a breakage in linux-next
-if somebody adds a new <stdarg.h> inclusion in this
-development cycle.
-I hope that will not happen, though)
-
-
-
-
---
+-- 
 Best Regards
 Masahiro Yamada
