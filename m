@@ -2,107 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D7A3CC9BC
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 17:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E87933CCA44
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 20:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233970AbhGRPYe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 18 Jul 2021 11:24:34 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:18272 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232895AbhGRPYe (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 18 Jul 2021 11:24:34 -0400
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 16IFLJKS001749;
-        Mon, 19 Jul 2021 00:21:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 16IFLJKS001749
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626621679;
-        bh=94bI8XIbdkrYTDoJTP2YnBc4d8x/+TbzJfHfFZEdmDw=;
-        h=From:Date:Subject:To:Cc:From;
-        b=2INYdstQDj8MpApo+ss4CPLbbtUg9q//bko+nJFUK+uINY+mlD/QSOjsFRkk0Axit
-         ILZr0Ebu9MbsScTgfwjE2fsVKt5myOS5cvvi+2q607uUj3rNxGUioNvGmYSWxYnnx7
-         AMewQLG8nuYMlL83LhMhCiUnMWw1cnMXTSg4mNhZf9AzlALFr5OylAIvhSzG1vyb3i
-         5WJ02+gyj7308Mz061NZROgjPheIseqMXCbbOA0Eg2b+K3wjp3VGsz8x8go1f8taAb
-         fezpYgfvY0zX8axrpgTr+5iJwHLZOnDlS5Sas9ma7S6t5MRzWoVP9Pbqx5sFNGHJYB
-         RHVFRVjOLyRMA==
-X-Nifty-SrcIP: [209.85.210.169]
-Received: by mail-pf1-f169.google.com with SMTP id o201so13889568pfd.1;
-        Sun, 18 Jul 2021 08:21:19 -0700 (PDT)
-X-Gm-Message-State: AOAM5326/+eFoBj6FxoXEachEaTqxEYQpczh6Bo3yFUDGbIlC8G9aIDn
-        XNO3dOGPOrpYhsi8fENFeZu00bFDUY3Eqvs9Ju4=
-X-Google-Smtp-Source: ABdhPJylFtMhyWkA1Weq9xdjXS5tJitlTouANQK8hvs0urvGqJneYaN6ABGr44k3K9oSCx8qO8qggji16UhNFHKSe7M=
-X-Received: by 2002:a65:498a:: with SMTP id r10mr20974249pgs.7.1626621678842;
- Sun, 18 Jul 2021 08:21:18 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 19 Jul 2021 00:20:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQDiO4fsn8W11qoLMvryJadsgoHm6HeXFvqOz5Mzzb1Jw@mail.gmail.com>
-Message-ID: <CAK7LNAQDiO4fsn8W11qoLMvryJadsgoHm6HeXFvqOz5Mzzb1Jw@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.14-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S229603AbhGRSvX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Jul 2021 14:51:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34264 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229525AbhGRSvX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 18 Jul 2021 14:51:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3211661184;
+        Sun, 18 Jul 2021 18:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626634104;
+        bh=Cdq2EiusGlw1OdTxHSGUdhGCJXzXwoSP455vR/3kF4s=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=lMnvMX3jh4UIP9H7BwLHnQbFlACjtqLILzZ/f/WPYysmK/8v7vPBow/2RMjTSDOdV
+         vXblVDshQ1krumW34gKaqR78yge3qPlAoFZj7etDyqZZr6ZJ89xsTXyhr8ESqZp6lN
+         NLeVmDp9eEP8dy3bLq17Z1+GeMcCqkyWDyVkUEzLXk+WWLwd4kcCUcro4jmhZS+7Xa
+         6MGLSJeSFWPxwlQmFDS3QJ/rTWj/Auq96eaGCmPzcN9gLYR15FbIWEpqB2KzyCjHmQ
+         k0i98vE2jrZwRfm2bgdRWaKnt1PolIRmPMAIq2UYpYSyvMjZ4OQwUNWv18xYG9RRcZ
+         r/kwKInQwATsQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 1D38F60A2A;
+        Sun, 18 Jul 2021 18:48:24 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v5.14-rc2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQDiO4fsn8W11qoLMvryJadsgoHm6HeXFvqOz5Mzzb1Jw@mail.gmail.com>
+References: <CAK7LNAQDiO4fsn8W11qoLMvryJadsgoHm6HeXFvqOz5Mzzb1Jw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQDiO4fsn8W11qoLMvryJadsgoHm6HeXFvqOz5Mzzb1Jw@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.14
+X-PR-Tracked-Commit-Id: 5e60f363b38fd40e4d8838b5d6f4d4ecee92c777
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6750691a82ad264dff140a7e9ca8f340729431f0
+Message-Id: <162663410405.7372.12287467069374942202.pr-tracker-bot@kernel.org>
+Date:   Sun, 18 Jul 2021 18:48:24 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Mon, 19 Jul 2021 00:20:42 +0900:
 
-Please pull some Kbuild fixes.
-Thanks.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.14
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6750691a82ad264dff140a7e9ca8f340729431f0
 
-
-The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
-
-  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.14
-
-for you to fetch changes up to 5e60f363b38fd40e4d8838b5d6f4d4ecee92c777:
-
-  Documentation: Fix intiramfs script name (2021-07-18 23:48:14 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.14
-
- - Restore the original behavior of scripts/setlocalversion when
-   LOCALVERSION is set to empty.
-
- - Show Kconfig prompts even for 'make -s'
-
- - Fix the combination of COFNIG_LTO_CLANG=y and CONFIG_MODVERSIONS=y
-   for older GNU Make versions
-
-----------------------------------------------------------------
-Lecopzer Chen (1):
-      Kbuild: lto: fix module versionings mismatch in GNU make 3.X
-
-Masahiro Yamada (1):
-      kbuild: do not suppress Kconfig prompts for silent build
-
-Mikulas Patocka (1):
-      scripts/setlocalversion: fix a bug when LOCALVERSION is empty
-
-Robert Richter (1):
-      Documentation: Fix intiramfs script name
-
- Documentation/driver-api/early-userspace/early_userspace_support.rst
-|  8 ++++----
- Documentation/filesystems/ramfs-rootfs-initramfs.rst                 |  2 +-
- Makefile
-|  9 +++++----
- scripts/Makefile.build                                               |  2 +-
- scripts/setlocalversion
-| 13 ++++++++-----
- 5 files changed, 19 insertions(+), 15 deletions(-)
-
+Thank you!
 
 -- 
-Best Regards
-Masahiro Yamada
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
