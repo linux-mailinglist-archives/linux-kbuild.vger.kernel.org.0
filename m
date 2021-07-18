@@ -2,116 +2,144 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 906F93CC859
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 11:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4EB3CC91E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 14:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbhGRJk2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 18 Jul 2021 05:40:28 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:41022 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhGRJk1 (ORCPT
+        id S233486AbhGRMkD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Jul 2021 08:40:03 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:48880 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233365AbhGRMkD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 18 Jul 2021 05:40:27 -0400
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 16I9b8Dk028602;
-        Sun, 18 Jul 2021 18:37:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 16I9b8Dk028602
+        Sun, 18 Jul 2021 08:40:03 -0400
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 16ICabv0016307;
+        Sun, 18 Jul 2021 21:36:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 16ICabv0016307
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626601029;
-        bh=VP/7yr/B+ENgaIKa1/s5XFIZJMjO0e3ONBbcEfdKM7k=;
+        s=dec2015msa; t=1626611798;
+        bh=Z7Y6MKvjHBLx3XfKJNGwbkgZLTPhlTzY3EDPtspyw8A=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zahNNZymfnZQDkdfwP8P/RVPjyOM8uWfAvIrkj8/8C9pCCGbxOong1VlEQMnTgnd3
-         wEyqT0PwSFaMwMfd4ggtDdsPTdMrhlRMzthJtvLCiqV9m++ItLj9/iTllKzWERtrEw
-         ROJCY3f0vD5XAcp8v4d318sDAyKuGXUUQXy+Ap1tPUu5sHcFO7n66c4l3B72r48IXY
-         owcB1kS6dCzxpl3zF+khYpt9XI+pjVYmFgArY2P06NUolO3Qx+o6JZQLUcq4VYcpq1
-         PKC5LTkDcZJ9hkqNcyeerdCpRrnotdIjTXMZVVgnIrj2TtkmHlJdAbryG3zOCkl5Tb
-         hOWRL4tZLU/kw==
-X-Nifty-SrcIP: [209.85.215.169]
-Received: by mail-pg1-f169.google.com with SMTP id t9so15597148pgn.4;
-        Sun, 18 Jul 2021 02:37:09 -0700 (PDT)
-X-Gm-Message-State: AOAM531XKfwTQYX0hdPwa317rMj2gAqTrbcfJEEEeOBREfThzK0dv8t/
-        OnCJmH5nq9yipGKm9t0l2pGIR7WpGoLshh5a8fM=
-X-Google-Smtp-Source: ABdhPJyLY+vQ2PhiLGLAxJjHE06h78KKD3ksRb5lJ7vNzUhm5sbcTeEFqR4mzSDA7zPpuM3AIzjpEmxR/HAuHuNuvn4=
-X-Received: by 2002:a63:d80a:: with SMTP id b10mr19578322pgh.47.1626601028449;
- Sun, 18 Jul 2021 02:37:08 -0700 (PDT)
+        b=OYOC7lGfq2DXR/g05emm/mxdKzds9sP9hS3QQ3J56oWVe4HhlamBHqXu1iCJQvvWE
+         RorgQ1btB3smTcq+Snzn31tWzL7fT1Tl8Pm3YfPDFL9TrTBOTkei1VRGIkQNPblMKi
+         l58eH+SOdcbmRfIjC2sm6T4xhTWBgd8kIvZ0v588hghW1n0AzgbwfFMoVRa3xvbNBA
+         ucsB04HFmYiXbGXbAP8rOrcLJArEDxqy0N7ikVq1nqHhcgkx+ALEh3uR8UqB2m9jgC
+         x1ys/ZfGd8atPq7do1ObRw60MUCQ4qke6Lp04/2I5DtJkSquuc+fcoUuvnsizZvB+L
+         /w30DIuTzv8vA==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id b5-20020a17090a9905b029016fc06f6c5bso10431338pjp.5;
+        Sun, 18 Jul 2021 05:36:37 -0700 (PDT)
+X-Gm-Message-State: AOAM531R7eT8UPI9NJVK99BfTVm5hV5grffVecCkqq9ybl0DdSAskJU2
+        yT3yFVByn8DLLTaLUSrDpHUXywpH7gFQXSP0tFo=
+X-Google-Smtp-Source: ABdhPJzdtxwhf+bxbS33sjH7orq0F564NAAExBhJrqDYpzo/C2KZHJicyJT8bJWZizaz2Gl474SM2ShFoxA7xLwsM/Y=
+X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr25485599pjt.198.1626611796963;
+ Sun, 18 Jul 2021 05:36:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <ad9c50c54887bde41ae5de782248231c06a527c0.1626262835.git.rrichter@amd.com>
- <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
-In-Reply-To: <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
+References: <YO3txvw87MjKfdpq@localhost.localdomain> <YO8ioz4sHwcUAkdt@localhost.localdomain>
+ <YPClYgoJOTUn4V0w@localhost.localdomain>
+In-Reply-To: <YPClYgoJOTUn4V0w@localhost.localdomain>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 18 Jul 2021 18:36:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
-Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/kbuild: Document the kconfig choice default value
-To:     Robert Richter <rrichter@amd.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+Date:   Sun, 18 Jul 2021 21:36:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASq9DwxTF90u_8XZJo8VBLbEPDbP8kVk6c+AHpaCtH01g@mail.gmail.com>
+Message-ID: <CAK7LNASq9DwxTF90u_8XZJo8VBLbEPDbP8kVk6c+AHpaCtH01g@mail.gmail.com>
+Subject: Re: [PATCH -mm] fixup "Decouple build from userspace headers"
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christoph Hellwig <hch@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 15, 2021 at 6:26 PM Robert Richter <rrichter@amd.com> wrote:
+On Fri, Jul 16, 2021 at 6:15 AM Alexey Dobriyan <adobriyan@gmail.com> wrote:
 >
-> Document how choice defaults are determined:
+> Allow to find SIMD headers where necessary.
 >
-> Default of a choice is its first visible choice element [1]. Choice
-> elements do not support default attributes. [2]
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/symbol.c?h=v5.14-rc1#n245
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/menu.c?h=v5.14-rc1#n494
->
-> Signed-off-by: Robert Richter <rrichter@amd.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 > ---
->  Documentation/kbuild/kconfig-language.rst | 3 +++
->  1 file changed, 3 insertions(+)
 >
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 98c24183d8c3..e4d3463594e1 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -417,6 +417,9 @@ definitions of that choice. If a [symbol] is associated to the choice,
->  then you may define the same choice (i.e. with the same entries) in another
->  place.
+>         fold into decouple-build-from-userspace-headers.patch
 >
-> +The default value of a choice is set to the first visible choice element.
+>  arch/arm64/lib/Makefile   |    2 +-
+>  arch/powerpc/lib/Makefile |    2 +-
+>  lib/raid6/Makefile        |    4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
 
 
-The default value of a choice is set to the first visible choice element
-unless it is explicitly set by the 'default' property.
-
-... is more precise.
-
-
+OK. Perhaps, we can import <arm_neon.h> and  <altivec.h>
+into the kernel tree as we did for <stdarg.h>,
+then remove "-isystem $(shell $(CC) -print-file-name=include)"
+entirely, but I did not look into it.
 
 
-> +Choice elements do not support the default attribute like menu entries do.
+If we can avoid the arm_neon.h mess,
+we can clean up arch/arm/include/uapi/asm/types.h as well.
+It is a possible future work.
 
-I doubt this info is useful.
-Rather, is it even confusing?
-
-
-choices support 'default' but
-choice elements (i.e. choice values) do not.
-
-
+Anyway, could you add some comments?
+(see blew)
 
 
 
+> --- a/arch/arm64/lib/Makefile
+> +++ b/arch/arm64/lib/Makefile
+> @@ -8,7 +8,7 @@ lib-y           := clear_user.o delay.o copy_from_user.o                \
+>  ifeq ($(CONFIG_KERNEL_MODE_NEON), y)
+>  obj-$(CONFIG_XOR_BLOCKS)       += xor-neon.o
+>  CFLAGS_REMOVE_xor-neon.o       += -mgeneral-regs-only
+> -CFLAGS_xor-neon.o              += -ffreestanding
 
+Can you add comment, # for <arm_neon.h>
 
-
-
-> +
->  comment::
+> +CFLAGS_xor-neon.o              += -ffreestanding -isystem $(shell $(CC) -print-file-name=include)
+>  endif
 >
->         "comment" <prompt>
-> --
-> 2.29.2
+>  lib-$(CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE) += uaccess_flushcache.o
+> --- a/arch/powerpc/lib/Makefile
+> +++ b/arch/powerpc/lib/Makefile
+> @@ -64,6 +64,6 @@ obj-$(CONFIG_PPC_LIB_RHEAP) += rheap.o
+>  obj-$(CONFIG_FTR_FIXUP_SELFTEST) += feature-fixups-test.o
 >
+>  obj-$(CONFIG_ALTIVEC)  += xor_vmx.o xor_vmx_glue.o
+> -CFLAGS_xor_vmx.o += -maltivec $(call cc-option,-mabi=altivec)
+
+Can you add comment, # for <altivec.h>
+
+> +CFLAGS_xor_vmx.o += -maltivec $(call cc-option,-mabi=altivec) -isystem $(shell $(CC) -print-file-name=include)
+>
+>  obj-$(CONFIG_PPC64) += $(obj64-y)
+> --- a/lib/raid6/Makefile
+> +++ b/lib/raid6/Makefile
+> @@ -13,7 +13,7 @@ raid6_pq-$(CONFIG_S390) += s390vx8.o recov_s390xc.o
+>  hostprogs      += mktables
+>
+>  ifeq ($(CONFIG_ALTIVEC),y)
+> -altivec_flags := -maltivec $(call cc-option,-mabi=altivec)
+
+Can you add comment, # for <altivec.h>
+
+> +altivec_flags := -maltivec $(call cc-option,-mabi=altivec) -isystem $(shell $(CC) -print-file-name=include)
+>
+>  ifdef CONFIG_CC_IS_CLANG
+>  # clang ppc port does not yet support -maltivec when -msoft-float is
+> @@ -33,7 +33,7 @@ endif
+>  # The GCC option -ffreestanding is required in order to compile code containing
+>  # ARM/NEON intrinsics in a non C99-compliant environment (such as the kernel)
+>  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+> -NEON_FLAGS := -ffreestanding
+
+Can you add comment, # for <arm_neon.h>
+
+> +NEON_FLAGS := -ffreestanding -isystem $(shell $(CC) -print-file-name=include)
+>  ifeq ($(ARCH),arm)
+>  NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+>  endif
+
 
 
 -- 
