@@ -2,176 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0A93CBFEF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Jul 2021 02:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 906F93CC859
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jul 2021 11:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbhGQAEq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Jul 2021 20:04:46 -0400
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:46957 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbhGQAEq (ORCPT
+        id S230309AbhGRJk2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Jul 2021 05:40:28 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:41022 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229578AbhGRJk1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Jul 2021 20:04:46 -0400
-Date:   Sat, 17 Jul 2021 00:01:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
-        t=1626480109; bh=r2E7sDKBOZy+lOoF6oEpTdm7rXJRh85I7jVCdPqIxzQ=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=UEAK77EQBjM4SnpgIoN3010K1t+oFXp/rV9Owy0N+IT9lsTAGfRyi/VumpNDTTDc+
-         3+9AW1DEPZuGUhRxkaf4xdri7+uPI/B3ccQ8U8PU7T7rOF3ptgNr7DDveFXRZEobHU
-         2bS7y6UQS8LJt/aHmfjDHIAYP0AgXEZ4eoSwCtptqS1VCW3OFkTXESdl7Xt+dzyWe4
-         FjLUZo6u1zUoTYSYCpQhk6k9rIa08SM3OPEH5I7eymptUyHeioj0JQsY5dpR1NicrK
-         a1gELG0LNQ8I7xTfzfu+gh0WRCNfAHPn9XMEXH5QR47krdJzWtO9p2m8SA9MLm52d6
-         989M2EfM6VWZg==
-To:     Sami Tolvanen <samitolvanen@google.com>
-From:   Alexander Lobakin <alobakin@pm.me>
-Cc:     Alexander Lobakin <alobakin@pm.me>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Reply-To: Alexander Lobakin <alobakin@pm.me>
-Subject: Re: [PATCH] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-Message-ID: <20210716235415.161850-1-alobakin@pm.me>
-In-Reply-To: <CABCJKucqW6a8h55tUQ072QMZxzB5O4djjF+TN1-Btb=TY8KE=Q@mail.gmail.com>
-References: <20210716204545.3536354-1-samitolvanen@google.com> <20210716225245.67939-1-alobakin@pm.me> <CABCJKucqW6a8h55tUQ072QMZxzB5O4djjF+TN1-Btb=TY8KE=Q@mail.gmail.com>
+        Sun, 18 Jul 2021 05:40:27 -0400
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 16I9b8Dk028602;
+        Sun, 18 Jul 2021 18:37:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 16I9b8Dk028602
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1626601029;
+        bh=VP/7yr/B+ENgaIKa1/s5XFIZJMjO0e3ONBbcEfdKM7k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zahNNZymfnZQDkdfwP8P/RVPjyOM8uWfAvIrkj8/8C9pCCGbxOong1VlEQMnTgnd3
+         wEyqT0PwSFaMwMfd4ggtDdsPTdMrhlRMzthJtvLCiqV9m++ItLj9/iTllKzWERtrEw
+         ROJCY3f0vD5XAcp8v4d318sDAyKuGXUUQXy+Ap1tPUu5sHcFO7n66c4l3B72r48IXY
+         owcB1kS6dCzxpl3zF+khYpt9XI+pjVYmFgArY2P06NUolO3Qx+o6JZQLUcq4VYcpq1
+         PKC5LTkDcZJ9hkqNcyeerdCpRrnotdIjTXMZVVgnIrj2TtkmHlJdAbryG3zOCkl5Tb
+         hOWRL4tZLU/kw==
+X-Nifty-SrcIP: [209.85.215.169]
+Received: by mail-pg1-f169.google.com with SMTP id t9so15597148pgn.4;
+        Sun, 18 Jul 2021 02:37:09 -0700 (PDT)
+X-Gm-Message-State: AOAM531XKfwTQYX0hdPwa317rMj2gAqTrbcfJEEEeOBREfThzK0dv8t/
+        OnCJmH5nq9yipGKm9t0l2pGIR7WpGoLshh5a8fM=
+X-Google-Smtp-Source: ABdhPJyLY+vQ2PhiLGLAxJjHE06h78KKD3ksRb5lJ7vNzUhm5sbcTeEFqR4mzSDA7zPpuM3AIzjpEmxR/HAuHuNuvn4=
+X-Received: by 2002:a63:d80a:: with SMTP id b10mr19578322pgh.47.1626601028449;
+ Sun, 18 Jul 2021 02:37:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+References: <ad9c50c54887bde41ae5de782248231c06a527c0.1626262835.git.rrichter@amd.com>
+ <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
+In-Reply-To: <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 18 Jul 2021 18:36:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
+Message-ID: <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/kbuild: Document the kconfig choice default value
+To:     Robert Richter <rrichter@amd.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Fri, 16 Jul 2021 16:18:42 -0700
-
-> Hi Al,
+On Thu, Jul 15, 2021 at 6:26 PM Robert Richter <rrichter@amd.com> wrote:
 >
-> On Fri, Jul 16, 2021 at 4:00 PM Alexander Lobakin <alobakin@pm.me> wrote:
-> >
-> > From:   Sami Tolvanen <samitolvanen@google.com>
-> > Date:   Fri, 16 Jul 2021 13:45:45 -0700
-> >
-> > > With CONFIG_LTO_CLANG, we currently link modules into native
-> > > code just before modpost, which means with TRIM_UNUSED_KSYMS
-> > > enabled, we still look at the LLVM bitcode in the .o files when
-> > > generating the list of used symbols. As the bitcode doesn't
-> > > yet have calls to compiler intrinsics and llvm-nm doesn't see
-> > > function references that only exist in function-level inline
-> > > assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-> > > work with LTO.
-> > >
-> > > This change moves module LTO linking to happen earlier, and
-> > > thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-> > > entirely, allowing us to also drop the whitelist from
-> > > gen_autoksyms.sh.
-> > >
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > ---
-> > >  scripts/Makefile.build    | 25 ++++++++++++++++++++++++-
-> > >  scripts/Makefile.lib      |  7 +++++++
-> > >  scripts/Makefile.modfinal | 21 ++-------------------
-> > >  scripts/Makefile.modpost  | 22 +++-------------------
-> > >  scripts/gen_autoksyms.sh  | 12 ------------
-> > >  5 files changed, 36 insertions(+), 51 deletions(-)
-> > >
-> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > index 10b2f2380d6f..80e0fa810870 100644
-> > > --- a/scripts/Makefile.build
-> > > +++ b/scripts/Makefile.build
-> > > @@ -202,6 +202,7 @@ sub_cmd_record_mcount =3D                        =
-           \
-> > >       if [ $(@) !=3D "scripts/mod/empty.o" ]; then      \
-> > >               $(objtree)/scripts/recordmcount $(RECORDMCOUNT_FLAGS) "=
-$(@)";   \
-> > >       fi;
-> > > +/
-> >
-> > Seems like a leftover or a random typo here.
+> Document how choice defaults are determined:
 >
-> Oops, indeed.
+> Default of a choice is its first visible choice element [1]. Choice
+> elements do not support default attributes. [2]
 >
-> > >  recordmcount_source :=3D $(srctree)/scripts/recordmcount.c \
-> > >                   $(srctree)/scripts/recordmcount.h
-> > >  else
-> > > @@ -271,12 +272,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $=
-$(objtool_dep) FORCE
-> > >       $(call if_changed_rule,cc_o_c)
-> > >       $(call cmd,force_checksrc)
-> > >
-> > > +ifdef CONFIG_LTO_CLANG
-> > > +# Module .o files may contain LLVM bitcode, compile them into native=
- code
-> > > +# before ELF processing
-> > > +quiet_cmd_cc_lto_link_modules =3D LTO [M] $@
-> > > +cmd_cc_lto_link_modules =3D                                         =
-   \
-> > > +     $(LD) $(ld_flags) -r -o $@                                     =
- \
-> > > +             $(shell [ -s $(@:.lto.o=3D.o.symversions) ] &&         =
-   \
-> > > +                     echo -T $(@:.lto.o=3D.o.symversions))          =
-   \
-> > > +             --whole-archive $^
-> > > +
-> > > +ifdef CONFIG_STACK_VALIDATION
-> > > +# objtool was skipped for LLVM bitcode, run it now that we have comp=
-iled
-> > > +# modules into native code
-> > > +cmd_cc_lto_link_modules +=3D ;                                      =
-   \
-> > > +     $(objtree)/tools/objtool/objtool $(objtool_args)               =
- \
-> >
-> > Now $(part-of-module) inside $(objtool_args) doesn't get expanded
-> > properly, because previously it was being called on x.ko, and now
-> > it's being called on x.lto.o. $(basename $@) returns "x.lto" instead
-> > of "x", and Make doesn't find "x.lto.o" in $(real-objs-m).
-
-To be more precise:
-
-Previously, objtool was being called from Makefile.modfinal, where
-part-of-module is hardcoded to 'y'. Now it's being called from
-Makefile.build, and part-of-module is being calculated the same
-way as for non-LTO build (when objtool is being called on each
-object file rather than final composite object).
-So, part-of-module and objtool invocation is now correct for modules
-with single source file, but wrong for multi-object modules.
-
-The simplest fix is to append '--module' to objtool args
-unconditionally when we're trying to process .lto.o file.
-
-> > An example of objtool args dump:
-> >
-> >   LTO [M] fs/btrfs/btrfs.lto.o
-> > Call: ./tools/objtool/objtool orc generate --no-fp --no-unreachable --r=
-etpoline --uaccess fs/btrfs/btrfs.lto.o
-> > fs/btrfs/btrfs.lto.o: warning: objtool: static_call: can't find static_=
-call_key symbol: __SCK__might_resched
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/symbol.c?h=v5.14-rc1#n245
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/menu.c?h=v5.14-rc1#n494
 >
-> Curiously I didn't see objtool warnings when building allmodconfig,
-> but you're obviously correct here. I'll fix this in v2.
+> Signed-off-by: Robert Richter <rrichter@amd.com>
+> ---
+>  Documentation/kbuild/kconfig-language.rst | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> > As can be seen, objtools command line no longer contains "--module".
-> > And this warning about "can't find static_call_key" can appear only
-> > in case of !module -> no -m|--module param was given.
-> >
-> > As a result, modules get broken and the kernel panics after loading
-> > initramfs.
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 98c24183d8c3..e4d3463594e1 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -417,6 +417,9 @@ definitions of that choice. If a [symbol] is associated to the choice,
+>  then you may define the same choice (i.e. with the same entries) in another
+>  place.
 >
-> Thanks for taking a look!
->
-> Sami
+> +The default value of a choice is set to the first visible choice element.
 
-Thanks for working on ClangLTO/CFI!
-Al
 
+The default value of a choice is set to the first visible choice element
+unless it is explicitly set by the 'default' property.
+
+... is more precise.
+
+
+
+
+> +Choice elements do not support the default attribute like menu entries do.
+
+I doubt this info is useful.
+Rather, is it even confusing?
+
+
+choices support 'default' but
+choice elements (i.e. choice values) do not.
+
+
+
+
+
+
+
+
+
+> +
+>  comment::
+>
+>         "comment" <prompt>
+> --
+> 2.29.2
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
