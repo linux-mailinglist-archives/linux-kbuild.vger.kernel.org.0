@@ -2,273 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A1DF3CEA47
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jul 2021 19:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6D933CEFD5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jul 2021 01:28:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245440AbhGSRKd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Jul 2021 13:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351000AbhGSRJP (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Jul 2021 13:09:15 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DC9C061574
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:33:00 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id o11-20020a056902110bb029055b266be219so26407851ybu.13
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=PnXVhrtpNSY8K6Airi4QeOTjIwthOHKmstGMgKKPkpY=;
-        b=iCuEeYmkBQV0IrOLOqGgEnK87nSyTq8HZW7FgmwoyBn7B+EQAPwF+dh/7AaoO23Io7
-         U2i3AlWBrM+k13XwrErsH6yeMJtNfW9PR0d2AZN0Vbxz7iq47QgjLKhF6MQ2eNlnG6c/
-         LDDEoVlsdn61egfVBdAlzdOKS6EWywGU2dXXOYrci99AhCIMqxJyCQwsjIVUixonOFvB
-         mMQT2078h7ISy0AHrEElEMX7YaFu/zrkxYMfxPiZrVMZCzbPWwKlACYmQgQQybK6RIiI
-         ujfxFjqhgJ7ZBc9fWHkvMnlzdSAvfyHP4KtOfIh8h38IjIZKgtO/l53VEIP9dfvOBBN/
-         J9KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=PnXVhrtpNSY8K6Airi4QeOTjIwthOHKmstGMgKKPkpY=;
-        b=fZJj9Kf+y1WgHwTa24v0JYGzcib473vdUSsNNQx2FcyAKR0QYo9uVpcm2k76DzoRSe
-         YyeUzH+7vYfajk83DekA//g7Gu+OP1nfN1oQ/aCDRlVekQJt4TOvrPd7jPEQeLm8NF2T
-         u0znMQCVMfbzCllt94cV8krv+RIkALUL21xw+61bRZkhfVzpmMN2MFGAYv72NDIfOZQb
-         hh0XmfPyLNwBFU5HaCkkQRYlipLuvVqEIIwPyX+MVbOEc14MBrO0lvMRFddECsHx6y6+
-         5dt57LksNNRo76VvGXQsV/YC6hz0ynnkhuACKhq3ZqipKSl5pcsaAqsdvzFtJpdy4PS/
-         Vvkw==
-X-Gm-Message-State: AOAM532CjCgbu2cheRGNWtgaLwTmeHVaLBzmz/8ZjMAK58xSWiQcYtnZ
-        BDdFlVKbyNX3A13q8SM1vtck8PsXLUMBFbOJV/w=
-X-Google-Smtp-Source: ABdhPJz8wyNXMxuGt80LWKGnbEA7XJMFzTizQr6iwKCqeSTDw6lI7w+O9iDxkJN+c4lwACL6hpoNTY2+WletpOZ7NDg=
-X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:38da:abb3:1d37:359d])
- (user=samitolvanen job=sendgmr) by 2002:a25:a565:: with SMTP id
- h92mr32480939ybi.423.1626716994474; Mon, 19 Jul 2021 10:49:54 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 10:49:51 -0700
-Message-Id: <20210719174951.4087373-1-samitolvanen@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
-Subject: [PATCH v2] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Alexander Lobakin <alobakin@pm.me>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-kernel@vger.kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1348100AbhGSWq4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Jul 2021 18:46:56 -0400
+Received: from mail-co1nam11on2058.outbound.protection.outlook.com ([40.107.220.58]:22113
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1386838AbhGSTke (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Jul 2021 15:40:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LF/iMNc6E5xxFcAueJZraUN5ZT0egCaAESf9FrN8KdqyIQtVnoXdIsoqB9O2uNLpqAuJ6zqrp5PAEgXD3nmVtJuLqTssSsuJrih1L8IfFaa9rIExX7Xb482yfNW0wZ5mNQbbE71fS4jio+1T1ZPEveBuux3zT8m2FvMD/LlvJB/B5ry3Slhn6Sa68MzIJ4cE2EqChwPHIcgq/8xZZCMotlZK+DLksMR10XJ6orgI2AOFwfQLTgCx+onPdAsl5dZ2ALCEobPU8pp0w7u6BEFqnYViBs8BBXnNGz7A80i06xau0ffJxlckCxA9PAoDItSiPG/BN1Ea+YzpfdybEPuV+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qs+dSleNApoLP5xpq8oXyiwX35OLxGP23mJ5gd0uqec=;
+ b=eS3VgB8pgCVDuC5zGe+dysN6uIpvishH+FI0LpU39WIPvMbWOk2Ez88resDymiMADFKcqkmkwYkLvFpLGrwWbJvf4OHEf7dZ0zZaIjPfTWZXQdkI7tBVB2Vp8NbsTKxjYbtz4twhekU6oSCPNlNtd7aVdH4kd/NVGm953kPFJGGWjy/ZjsEzA3EpDY2ATomiXji4jy13XluoAcz+/khXqVfLINeVgrwJMyJ+yCfaSH9ckCOu5GEuZDmGGkxCFXnxCpOUxeRaSMniRINkvMo5vWhcettlRy1r9eQqsJuOKx3X3KDbeRs0nV2YCSesLPTQDdiY7R3dIL/rd0jf6N2Euw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qs+dSleNApoLP5xpq8oXyiwX35OLxGP23mJ5gd0uqec=;
+ b=a+jgKvJxXaqJKxJYjSfRJXB7gvWIRz4KYcgkEOvnRCi7wXsidcxc9lbS7aYoAyQJ/c5ykymrf25siNqtTtJtPQanO2JUhdk0kF/BbRsh3iLagW+v9b8rKoY9MOVBomcyiMSLaUHOVBNrJlC9V0P+qdLOAx177JaQHWK3mQPb5U0=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3657.namprd12.prod.outlook.com (2603:10b6:5:149::18)
+ by DM5PR1201MB2553.namprd12.prod.outlook.com (2603:10b6:3:eb::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
+ 2021 20:21:11 +0000
+Received: from DM6PR12MB3657.namprd12.prod.outlook.com
+ ([fe80::9178:207b:3b1b:fdf9]) by DM6PR12MB3657.namprd12.prod.outlook.com
+ ([fe80::9178:207b:3b1b:fdf9%6]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
+ 20:21:11 +0000
+Date:   Mon, 19 Jul 2021 22:20:57 +0200
+From:   Robert Richter <rrichter@amd.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] Documentation/kbuild: Document the kconfig choice
+ default value
+Message-ID: <YPXeqUV+22sxXS9y@rric.localdomain>
+References: <ad9c50c54887bde41ae5de782248231c06a527c0.1626262835.git.rrichter@amd.com>
+ <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
+ <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
+ <YPVC0Xs0gRSywTO7@rric.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YPVC0Xs0gRSywTO7@rric.localdomain>
+X-ClientProxiedBy: AM6PR10CA0002.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:89::15) To DM6PR12MB3657.namprd12.prod.outlook.com
+ (2603:10b6:5:149::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from rric.localdomain (89.12.10.153) by AM6PR10CA0002.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 20:21:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e8dd1e65-f35c-42f5-1c93-08d94af2bfcc
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB2553:
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB25537B7177B7DF0F8F4124D29CE19@DM5PR1201MB2553.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Fz1BF0uZaK9aPeJb6Anr/nE4QkHlcxnOYT4maKblPmF35kpjkGgUs+O7bLN9jjvu096XHRR85HKsioeosPJ9Y4fhI8dMgEvfrP3yZ5Ox657GeP3PR25xu6EiJVgM/pxY21x3Yb4rP3/uIKRAZ1OuWIc+5ga+BTAemsfE38t6+7i4b5kT1t80r6Kvs6Bz/ACQxwdR0/Yi0SPWYEBwTduxhBeVFrpplIK00IZFQr5ZSPgRPHcDpLuLJ4UluTOOGHY44NTENcPk/si7i9MWQY2QcpvWME5eFaG3rXk8fQ60yDDLUfVJvyL3eA/OoMRsYG0+dzJ720lWM64yLW3iXpyhKp2OEPJ5y7htiKGTglhzo/ttc69piirUFZKIGPWePMfsDYQDb74zwrNZ9n5ZppamoC4ea3Rv0EzpnQIJGGY3Ow7Q8wEoiDHy8ThLSqjBhbZYFBVjzt+BNVaDw++PTe80GUOYHW3noIPonnj7CGezHK8ygS3Hc6gtGR9nDjXMVvLBOhjHruqyaYJ7uhMd10mt9GRSOFmrGYypbhj2XnqjNdN+Xpy+ceMcRcfhYtDieYSPR9zUM1WQZ7mBuJIoy0QIkNjFup8QAa5geNQfoBmX3/U0bJPGfXJaQZ6a2+WNGU8MJHfXRdBg/mg0QEQbvI0wArHmf3dSf+pOX1DDTIWLjsqMPc284mpFXlA2oxNhJTdWNTFWAhObOfoATccbb+la61twz+FrMK2WsRwfVFTIbOY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(6916009)(4326008)(38100700002)(316002)(38350700002)(186003)(54906003)(5660300002)(2906002)(26005)(6666004)(8676002)(7696005)(8936002)(66946007)(66556008)(9686003)(66476007)(956004)(53546011)(4744005)(478600001)(55016002)(52116002)(6506007)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?19f1KexfTWvw3Yct2/Gup4dvSKk5kFtkO/EkVcDTe/ghfOA6oQWPwQF3jvu2?=
+ =?us-ascii?Q?LjSlvkgCgpksww5hoM1v1vfTtUn1DjSb7OjjUvj6UlW+mNHZTjjyS8mXfBx4?=
+ =?us-ascii?Q?Duppm27Qb8KqhNVnVVUvgKc+0nAYh1STjwvSkEs/ozVi/XA+f7FanzN2/L5X?=
+ =?us-ascii?Q?7StYhln4zJuRgGrJX0m2jWd1i+PmBFI6sF2lwv7WqJFIn41U26/PJbEi13IP?=
+ =?us-ascii?Q?8oDPZnW8odfXu/udKSnivBxGnf0kPF1xtRpWrHppo66KWHMgfaZ3Oh35UAlU?=
+ =?us-ascii?Q?mLBrnG0O0/sjcCfmgwwsK/YH6XDThxY0BKeBFqQlMEqAbzuVHro+vVms3UK0?=
+ =?us-ascii?Q?gUJPW8SHZufwOqRe7SEx7jFPese8PmICaYDXLUN0z/79yNpP2oAJwwlsj7ol?=
+ =?us-ascii?Q?Qn22a1qVpkEN/X9J5FpREKJ7cBkorJznGKqZ1lLfTnSG6BAUBzYn7M9NwEeE?=
+ =?us-ascii?Q?Vynm3CofAFrWNrOdrhGbGj9n94g4lhzb5BDpp2u7n30wOQJZa/uF0Ke7fYXr?=
+ =?us-ascii?Q?AL6HxS3VxbfrKiaeESpl1zNvD6M5fMGoD53/maofzd9sIMUI45BKc7FfPrJT?=
+ =?us-ascii?Q?hfyOm5Ot/97d/U6pfI9Roh1pLWluZgku7cyejkdj3K3DIzKFovxojlvh9EhM?=
+ =?us-ascii?Q?xHjLybDZj98s3a6hegoj6dzcehA+wPzh2tHdhQCv8E7sIsfks5j9N5wFrjAK?=
+ =?us-ascii?Q?qlNJ5T6dkkmnAlzEm6dzrshyEAnAyKjSFWg4wNnUfjYfjfE+jng4a6luxz4n?=
+ =?us-ascii?Q?XZReS9mOXzCgv0eL6Kzg7Wp0zjWFVja9I9pZt6Am0t2A7Mcw3GPrsRVsxN19?=
+ =?us-ascii?Q?46mlYwDjAVsstNiqGezbuKCfeoVFQ4kit9Wg6ySs8JBZ9xtXIQHVoP96pS1k?=
+ =?us-ascii?Q?Aj3+ws25YfT/II1knniZPqnQpXI++h5tzeCezMIkf9acIY+Gmq031kRDgNvM?=
+ =?us-ascii?Q?5rSFIkwyhDHIki+4KffWlvO+PNubgwO9zXVVFfIkvIJ7744VbBsN9UVYMDCn?=
+ =?us-ascii?Q?vAMao92VaHisJg5h8tdL4VYJloJwXw6agslmopfo+diN5gwcB3f29DHiz2z+?=
+ =?us-ascii?Q?2vpitQuag+3voJpBPlRgFc26Dx2ak7NwgGmsVjsjT76WU/rF1ELPmFoZVC14?=
+ =?us-ascii?Q?QnZpSljVJhmnJ0/1OK83v4UFuHVD7P4bjR5X1H6R7JPoYi9L7zYbx4esNyAS?=
+ =?us-ascii?Q?l4Xj9uOWjk9EucxxmCMdN6eh2uk2ro6bQUK6LxZiHD1ASnoE8EBxn7Ca3v0R?=
+ =?us-ascii?Q?YYG/TIjgEn8Myk/HR1B87rOZl0bFk+4uEUTXfIFhE+BdO0/B6j2vrUkXsJSr?=
+ =?us-ascii?Q?XgCmvZBDyzn7AIQgUUoFXf/o?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8dd1e65-f35c-42f5-1c93-08d94af2bfcc
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3657.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:21:11.2580
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5uXBbQoO2UNi5c48B7q6AEMPawOuTjDif/r0FcXrQQfX2jMKYZld+gahFw+g013fY4e+cUmsSaxMl6ipy0Sfig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB2553
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With CONFIG_LTO_CLANG, we currently link modules into native
-code just before modpost, which means with TRIM_UNUSED_KSYMS
-enabled, we still look at the LLVM bitcode in the .o files when
-generating the list of used symbols. As the bitcode doesn't
-yet have calls to compiler intrinsics and llvm-nm doesn't see
-function references that only exist in function-level inline
-assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-work with LTO.
+On 19.07.21 11:16:09, Robert Richter wrote:
+> @@ -417,8 +417,20 @@ definitions of that choice. If a [symbol] is associated to the choice,
+>  then you may define the same choice (i.e. with the same entries) in another
+>  place.
+>  
+> -The default value of a choice is set to the first visible choice element.
+> -Choice elements do not support the default attribute like menu entries do.
 
-This change moves module LTO linking to happen earlier, and
-thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-entirely, allowing us to also drop the whitelist from
-gen_autoksyms.sh.
+This patch was not properly rebased and does not apply. Will resend a v3.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Alexander Lobakin <alobakin@pm.me>
-Tested-by: Alexander Lobakin <alobakin@pm.me>
----
-Changes in v2:
-- Fixed a couple of typos.
-- Fixed objtool arguments for .lto.o to always include --module.
+Sorry for that.
 
----
- scripts/Makefile.build    | 24 +++++++++++++++++++++++-
- scripts/Makefile.lib      |  7 +++++++
- scripts/Makefile.modfinal | 21 ++-------------------
- scripts/Makefile.modpost  | 22 +++-------------------
- scripts/gen_autoksyms.sh  | 12 ------------
- 5 files changed, 35 insertions(+), 51 deletions(-)
+-Robert
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 02197cb8e3a7..778dabea3a89 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -271,12 +271,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
- 	$(call if_changed_rule,cc_o_c)
- 	$(call cmd,force_checksrc)
- 
-+ifdef CONFIG_LTO_CLANG
-+# Module .o files may contain LLVM bitcode, compile them into native code
-+# before ELF processing
-+quiet_cmd_cc_lto_link_modules = LTO [M] $@
-+cmd_cc_lto_link_modules =						\
-+	$(LD) $(ld_flags) -r -o $@					\
-+		$(shell [ -s $(@:.lto.o=.o.symversions) ] &&		\
-+			echo -T $(@:.lto.o=.o.symversions))		\
-+		--whole-archive $^
-+
-+ifdef CONFIG_STACK_VALIDATION
-+# objtool was skipped for LLVM bitcode, run it now that we have compiled
-+# modules into native code
-+cmd_cc_lto_link_modules += ;						\
-+	$(objtree)/tools/objtool/objtool $(objtool_args) --module	\
-+		$(@:.ko=$(mod-prelink-ext).o)
-+endif
-+
-+$(obj)/%.lto.o: $(obj)/%.o
-+	$(call if_changed,cc_lto_link_modules)
-+endif
-+
- cmd_mod = { \
- 	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
- 	$(undefined_syms) echo; \
- 	} > $@
- 
--$(obj)/%.mod: $(obj)/%.o FORCE
-+$(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o FORCE
- 	$(call if_changed,mod)
- 
- quiet_cmd_cc_lst_c = MKLST   $@
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 10950559b223..af1c920a585c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -225,6 +225,13 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
- 		 $(addprefix -I,$(DTC_INCLUDE))                          \
- 		 -undef -D__DTS__
- 
-+ifeq ($(CONFIG_LTO_CLANG),y)
-+# With CONFIG_LTO_CLANG, .o files in modules might be LLVM bitcode, so we
-+# need to run LTO to compile them into native code (.lto.o) before further
-+# processing.
-+mod-prelink-ext := .lto
-+endif
-+
- # Objtool arguments are also needed for modfinal with LTO, so we define
- # then here to avoid duplication.
- objtool_args =								\
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 5e9b8057fb24..ff805777431c 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -9,7 +9,7 @@ __modfinal:
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
- 
--# for c_flags and objtool_args
-+# for c_flags and mod-prelink-ext
- include $(srctree)/scripts/Makefile.lib
- 
- # find all modules listed in modules.order
-@@ -30,23 +30,6 @@ quiet_cmd_cc_o_c = CC [M]  $@
- 
- ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
- 
--ifdef CONFIG_LTO_CLANG
--# With CONFIG_LTO_CLANG, reuse the object file we compiled for modpost to
--# avoid a second slow LTO link
--prelink-ext := .lto
--
--# ELF processing was skipped earlier because we didn't have native code,
--# so let's now process the prelinked binary before we link the module.
--
--ifdef CONFIG_STACK_VALIDATION
--cmd_ld_ko_o +=								\
--	$(objtree)/tools/objtool/objtool $(objtool_args)		\
--		$(@:.ko=$(prelink-ext).o);
--
--endif # CONFIG_STACK_VALIDATION
--
--endif # CONFIG_LTO_CLANG
--
- quiet_cmd_ld_ko_o = LD [M]  $@
-       cmd_ld_ko_o +=							\
- 	$(LD) -r $(KBUILD_LDFLAGS)					\
-@@ -72,7 +55,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 
- 
- # Re-generate module BTFs if either module's .ko or vmlinux changed
--$(modules): %.ko: %$(prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
-+$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
- 	+$(call if_changed_except,ld_ko_o,vmlinux)
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index c383ba33d837..eef56d629799 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -41,7 +41,7 @@ __modpost:
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
- 
--# for ld_flags
-+# for mod-prelink-ext
- include $(srctree)/scripts/Makefile.lib
- 
- MODPOST = scripts/mod/modpost								\
-@@ -118,22 +118,6 @@ $(input-symdump):
- 	@echo >&2 '         Modules may not have dependencies or modversions.'
- 	@echo >&2 '         You may get many unresolved symbol warnings.'
- 
--ifdef CONFIG_LTO_CLANG
--# With CONFIG_LTO_CLANG, .o files might be LLVM bitcode, so we need to run
--# LTO to compile them into native code before running modpost
--prelink-ext := .lto
--
--quiet_cmd_cc_lto_link_modules = LTO [M] $@
--cmd_cc_lto_link_modules =						\
--	$(LD) $(ld_flags) -r -o $@					\
--		$(shell [ -s $(@:.lto.o=.o.symversions) ] &&		\
--			echo -T $(@:.lto.o=.o.symversions))		\
--		--whole-archive $^
--
--%.lto.o: %.o
--	$(call if_changed,cc_lto_link_modules)
--endif
--
- modules := $(sort $(shell cat $(MODORDER)))
- 
- # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined symbols
-@@ -144,9 +128,9 @@ endif
- # Read out modules.order to pass in modpost.
- # Otherwise, allmodconfig would fail with "Argument list too long".
- quiet_cmd_modpost = MODPOST $@
--      cmd_modpost = sed 's/\.ko$$/$(prelink-ext)\.o/' $< | $(MODPOST) -T -
-+      cmd_modpost = sed 's/\.ko$$/$(mod-prelink-ext)\.o/' $< | $(MODPOST) -T -
- 
--$(output-symdump): $(MODORDER) $(input-symdump) $(modules:.ko=$(prelink-ext).o) FORCE
-+$(output-symdump): $(MODORDER) $(input-symdump) $(modules:.ko=$(mod-prelink-ext).o) FORCE
- 	$(call if_changed,modpost)
- 
- targets += $(output-symdump)
-diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
-index da320151e7c3..6ed0d225c8b1 100755
---- a/scripts/gen_autoksyms.sh
-+++ b/scripts/gen_autoksyms.sh
-@@ -26,18 +26,6 @@ if [ -n "$CONFIG_MODVERSIONS" ]; then
- 	needed_symbols="$needed_symbols module_layout"
- fi
- 
--# With CONFIG_LTO_CLANG, LLVM bitcode has not yet been compiled into a binary
--# when the .mod files are generated, which means they don't yet contain
--# references to certain symbols that will be present in the final binaries.
--if [ -n "$CONFIG_LTO_CLANG" ]; then
--	# intrinsic functions
--	needed_symbols="$needed_symbols memcpy memmove memset"
--	# ftrace
--	needed_symbols="$needed_symbols _mcount"
--	# stack protector symbols
--	needed_symbols="$needed_symbols __stack_chk_fail __stack_chk_guard"
--fi
--
- ksym_wl=
- if [ -n "$CONFIG_UNUSED_KSYMS_WHITELIST" ]; then
- 	# Use 'eval' to expand the whitelist path and check if it is relative
--- 
-2.32.0.402.g57bb445576-goog
-
+> +The default value of a choice is set to the first visible choice
+> +element unless it is explicitly set by the 'default' property.
+> +
+> +Note:
+> +	Choice options do not support the 'default' attribute.
+> +
+> +E.g.::
+> +
+> +  choice
+> +	default C1
+> +  config C0
+> +  config C1
+> +	# no default attribute here
+> +  endchoice
+>  
+>  comment::
+>  
+> -- 
+> 2.29.2
+> 
