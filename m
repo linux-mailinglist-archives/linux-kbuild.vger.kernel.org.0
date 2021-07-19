@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 411E43CEA46
+	by mail.lfdr.de (Postfix) with ESMTP id 8A1DF3CEA47
 	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jul 2021 19:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347927AbhGSRK1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Jul 2021 13:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
+        id S245440AbhGSRKd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Jul 2021 13:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355758AbhGSRFH (ORCPT
+        with ESMTP id S1351000AbhGSRJP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Jul 2021 13:05:07 -0400
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89301C0613E6
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:25:16 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id q1-20020a05622a0301b029025f76cabdfcso6911835qtw.15
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:42:46 -0700 (PDT)
+        Mon, 19 Jul 2021 13:09:15 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DC9C061574
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:33:00 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id o11-20020a056902110bb029055b266be219so26407851ybu.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Jul 2021 10:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:message-id:mime-version:subject:from:to:cc;
         bh=PnXVhrtpNSY8K6Airi4QeOTjIwthOHKmstGMgKKPkpY=;
-        b=iN55n9sIzX1wWUnGTYZevJaL0tSWunB/6+VnK1QOTV+6u2TaBFDHu8Ud4ag8EVEQvB
-         blTGdJ0ONkoHvP+cwtUp3cS91aCNv5QyAQGjm8oSIn62wWAEdybyjFMclAFfGC5qfm/K
-         qIb6hj4vHBsMpKa6IEFiAR3ujn0BUzPprkBHIRZR3PegZugjbesT0hQu5CZxOcoKxaar
-         eoD+We87htXgUwQYvF7T/rTgfwXJSjk7NEtJzm2IqE73Vwi3LHNdWWWn/XSNYvBXUbPU
-         zEoXpwixiB4hWUJ0nPIQoCNpdUO0A0nVJ51sDRy+RdFxVoyWkIOS7fuSoJXtT/+gn0fk
-         P/uA==
+        b=iCuEeYmkBQV0IrOLOqGgEnK87nSyTq8HZW7FgmwoyBn7B+EQAPwF+dh/7AaoO23Io7
+         U2i3AlWBrM+k13XwrErsH6yeMJtNfW9PR0d2AZN0Vbxz7iq47QgjLKhF6MQ2eNlnG6c/
+         LDDEoVlsdn61egfVBdAlzdOKS6EWywGU2dXXOYrci99AhCIMqxJyCQwsjIVUixonOFvB
+         mMQT2078h7ISy0AHrEElEMX7YaFu/zrkxYMfxPiZrVMZCzbPWwKlACYmQgQQybK6RIiI
+         ujfxFjqhgJ7ZBc9fWHkvMnlzdSAvfyHP4KtOfIh8h38IjIZKgtO/l53VEIP9dfvOBBN/
+         J9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
         bh=PnXVhrtpNSY8K6Airi4QeOTjIwthOHKmstGMgKKPkpY=;
-        b=j4Pbs6LWHG4tkCnnO01BWWrBhPa89gnkIQXyLI80Ft3L1PAbAsVPqx4xBh+lGR3p5Y
-         wj+ioxVKtLzH6MRToJXD7ujp1+UgCZiBKaDxyPRQK9ggxPZhUxsvGZtzFpjZKlwTJ6HV
-         OqJdeIgiD6utcZwIGigpB+esRivkpX1MtGE5EZVzwEHjwk9CjTOBVZq3F12EqkbPQ8Hx
-         GTke7imC/4lSWi+WFTdGaXU8gHrmaHceRVvPwhzFAa9SOMtlTDV4orXlZU2GcIrEkHOT
-         5IKLx93TczeIETHSiiI37D09FG/zUs6Qzpfl280LxTiHH7MuxsTE3p73C/D2nymoZrfD
-         SVxg==
-X-Gm-Message-State: AOAM5313g2Gqr5iojf/tF0+Q1B5oQIkw3yCR+FqJPKy5ivYSnn5aNssH
-        0hc45fPT9+FOznslyod+uummld7sjWrYiJ40jRQ=
-X-Google-Smtp-Source: ABdhPJzk+mqM9Vl29VqfqK/Udr7gcnqL1R1zRjqhnDnCNQbuC2hUsH1M7bjjP/dO4ugioe+nPwqudwU3zaoQPOTMHCc=
+        b=fZJj9Kf+y1WgHwTa24v0JYGzcib473vdUSsNNQx2FcyAKR0QYo9uVpcm2k76DzoRSe
+         YyeUzH+7vYfajk83DekA//g7Gu+OP1nfN1oQ/aCDRlVekQJt4TOvrPd7jPEQeLm8NF2T
+         u0znMQCVMfbzCllt94cV8krv+RIkALUL21xw+61bRZkhfVzpmMN2MFGAYv72NDIfOZQb
+         hh0XmfPyLNwBFU5HaCkkQRYlipLuvVqEIIwPyX+MVbOEc14MBrO0lvMRFddECsHx6y6+
+         5dt57LksNNRo76VvGXQsV/YC6hz0ynnkhuACKhq3ZqipKSl5pcsaAqsdvzFtJpdy4PS/
+         Vvkw==
+X-Gm-Message-State: AOAM532CjCgbu2cheRGNWtgaLwTmeHVaLBzmz/8ZjMAK58xSWiQcYtnZ
+        BDdFlVKbyNX3A13q8SM1vtck8PsXLUMBFbOJV/w=
+X-Google-Smtp-Source: ABdhPJz8wyNXMxuGt80LWKGnbEA7XJMFzTizQr6iwKCqeSTDw6lI7w+O9iDxkJN+c4lwACL6hpoNTY2+WletpOZ7NDg=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:38da:abb3:1d37:359d])
- (user=samitolvanen job=sendgmr) by 2002:a0c:be85:: with SMTP id
- n5mr25977700qvi.59.1626716566123; Mon, 19 Jul 2021 10:42:46 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 10:42:42 -0700
-Message-Id: <20210719174242.3901354-1-samitolvanen@google.com>
+ (user=samitolvanen job=sendgmr) by 2002:a25:a565:: with SMTP id
+ h92mr32480939ybi.423.1626716994474; Mon, 19 Jul 2021 10:49:54 -0700 (PDT)
+Date:   Mon, 19 Jul 2021 10:49:51 -0700
+Message-Id: <20210719174951.4087373-1-samitolvanen@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
 Subject: [PATCH v2] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
