@@ -2,145 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D933CEFD5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jul 2021 01:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 402DD3CEFD6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jul 2021 01:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348100AbhGSWq4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Jul 2021 18:46:56 -0400
-Received: from mail-co1nam11on2058.outbound.protection.outlook.com ([40.107.220.58]:22113
+        id S237932AbhGSWrJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Jul 2021 18:47:09 -0400
+Received: from mail-co1nam11on2075.outbound.protection.outlook.com ([40.107.220.75]:17377
         "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1386838AbhGSTke (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Jul 2021 15:40:34 -0400
+        id S1352155AbhGSTtk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Jul 2021 15:49:40 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LF/iMNc6E5xxFcAueJZraUN5ZT0egCaAESf9FrN8KdqyIQtVnoXdIsoqB9O2uNLpqAuJ6zqrp5PAEgXD3nmVtJuLqTssSsuJrih1L8IfFaa9rIExX7Xb482yfNW0wZ5mNQbbE71fS4jio+1T1ZPEveBuux3zT8m2FvMD/LlvJB/B5ry3Slhn6Sa68MzIJ4cE2EqChwPHIcgq/8xZZCMotlZK+DLksMR10XJ6orgI2AOFwfQLTgCx+onPdAsl5dZ2ALCEobPU8pp0w7u6BEFqnYViBs8BBXnNGz7A80i06xau0ffJxlckCxA9PAoDItSiPG/BN1Ea+YzpfdybEPuV+Q==
+ b=XZZ95be/GwpBGTPmHuXJTbtUAWk44VqBnT0s0VLY721jnwLfda22E84cA4D/yIFqpZMxUycbP5JtoeygsFUMUDIL9uMTyLv0yR4iUYZQp3MUhmOVBhX1rnWBlfbexIhcle24A6OvAkEB/K44aJ43PziH4dJYlAcebULJBsRfiFs/xQ3kZQUFQHHmLU540psMWxcf3gdLpVvsWLkhVmlpdcpwg9JMtHQguVwrUSD3ebjDBeEnDNwb8k4+EAq8ePLeigqieuQzYVYp8J3r4aOLkqZWxoapWaPqsi5w0hbTWmjuo4+hFehz7vWxaQpifAAcv/QaC16cpfh9uwPfo7c3tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qs+dSleNApoLP5xpq8oXyiwX35OLxGP23mJ5gd0uqec=;
- b=eS3VgB8pgCVDuC5zGe+dysN6uIpvishH+FI0LpU39WIPvMbWOk2Ez88resDymiMADFKcqkmkwYkLvFpLGrwWbJvf4OHEf7dZ0zZaIjPfTWZXQdkI7tBVB2Vp8NbsTKxjYbtz4twhekU6oSCPNlNtd7aVdH4kd/NVGm953kPFJGGWjy/ZjsEzA3EpDY2ATomiXji4jy13XluoAcz+/khXqVfLINeVgrwJMyJ+yCfaSH9ckCOu5GEuZDmGGkxCFXnxCpOUxeRaSMniRINkvMo5vWhcettlRy1r9eQqsJuOKx3X3KDbeRs0nV2YCSesLPTQDdiY7R3dIL/rd0jf6N2Euw==
+ bh=VQdVEjSjFIOiTOQcjk3YGb2GzcHS5NwipC2SUNx3INg=;
+ b=dCPdHhP1xVqj69e55SJ4gMX0qklgQ+F9uLrC3y35avig/JdbeDGcIkMe7ivTJp9Y+Iwkr1VFBEfis9n3k+mLhkMtiJ+2kDTQgeix/FPBgXjMp56XXOFnKDswhCccXKMDRHKMtfzuk4JXypaVPDNa3FOFbc3t1QAU/ymsmUaWO24Ybq9Ra8hDpqK2qYlcedt+Ye741/eyBej/RcM0lY/N/sBBwR+MRIZA2XcDA1P30wBu/UkhjanDebmC6AXe/HcYSNo9OpAG4PYo7tdPH2Us4PBSCbV2r6qtGd6/sJWvOu1kElQGI0XDDyTSgT9TGY9qgfb80tR99/d4LhCCFs8GYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qs+dSleNApoLP5xpq8oXyiwX35OLxGP23mJ5gd0uqec=;
- b=a+jgKvJxXaqJKxJYjSfRJXB7gvWIRz4KYcgkEOvnRCi7wXsidcxc9lbS7aYoAyQJ/c5ykymrf25siNqtTtJtPQanO2JUhdk0kF/BbRsh3iLagW+v9b8rKoY9MOVBomcyiMSLaUHOVBNrJlC9V0P+qdLOAx177JaQHWK3mQPb5U0=
+ bh=VQdVEjSjFIOiTOQcjk3YGb2GzcHS5NwipC2SUNx3INg=;
+ b=wjAS2b4/JkpSIzyHK4Lyt1YfdEhfulDn4jJZeu+FWrKG+WMqcA+1VrWBB9olBfCn7FHdLoq3rH1SDSM9WKsDtzeV+iCscs92HolxNa/PN9Z0ozdHu0x4x8y71ndWz0nFkqwVe4zJK8mY9hOUjXfWeCLaBk+/Q6imkXWkUa2DnKQ=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from DM6PR12MB3657.namprd12.prod.outlook.com (2603:10b6:5:149::18)
- by DM5PR1201MB2553.namprd12.prod.outlook.com (2603:10b6:3:eb::8) with
+ by DM6PR12MB4986.namprd12.prod.outlook.com (2603:10b6:5:16f::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
- 2021 20:21:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.25; Mon, 19 Jul
+ 2021 20:29:55 +0000
 Received: from DM6PR12MB3657.namprd12.prod.outlook.com
  ([fe80::9178:207b:3b1b:fdf9]) by DM6PR12MB3657.namprd12.prod.outlook.com
  ([fe80::9178:207b:3b1b:fdf9%6]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
- 20:21:11 +0000
-Date:   Mon, 19 Jul 2021 22:20:57 +0200
+ 20:29:55 +0000
 From:   Robert Richter <rrichter@amd.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Documentation/kbuild: Document the kconfig choice
- default value
-Message-ID: <YPXeqUV+22sxXS9y@rric.localdomain>
-References: <ad9c50c54887bde41ae5de782248231c06a527c0.1626262835.git.rrichter@amd.com>
- <49b4c2512afba7a2c2ee39e10f14188ecfcdffc0.1626262835.git.rrichter@amd.com>
- <CAK7LNAQpTBb8gyESBxzUcrz6vKw1MecnB5=xPd-CYfSFCC4hgA@mail.gmail.com>
- <YPVC0Xs0gRSywTO7@rric.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YPVC0Xs0gRSywTO7@rric.localdomain>
-X-ClientProxiedBy: AM6PR10CA0002.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:89::15) To DM6PR12MB3657.namprd12.prod.outlook.com
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Robert Richter <rrichter@amd.com>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Documentation/kbuild: Document the kconfig choice default value
+Date:   Mon, 19 Jul 2021 22:28:44 +0200
+Message-Id: <20210719202844.18281-1-rrichter@amd.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <YPXeqUV+22sxXS9y@rric.localdomain>
+References: <YPXeqUV+22sxXS9y@rric.localdomain>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AS8PR04CA0055.eurprd04.prod.outlook.com
+ (2603:10a6:20b:312::30) To DM6PR12MB3657.namprd12.prod.outlook.com
  (2603:10b6:5:149::18)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from rric.localdomain (89.12.10.153) by AM6PR10CA0002.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 20:21:09 +0000
+Received: from rric.localdomain (89.12.10.153) by AS8PR04CA0055.eurprd04.prod.outlook.com (2603:10a6:20b:312::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 20:29:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e8dd1e65-f35c-42f5-1c93-08d94af2bfcc
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB2553:
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB25537B7177B7DF0F8F4124D29CE19@DM5PR1201MB2553.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Office365-Filtering-Correlation-Id: c931c151-5254-4215-7d52-08d94af3f874
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4986:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB49864C4F9208853D162DFEB09CE19@DM6PR12MB4986.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Fz1BF0uZaK9aPeJb6Anr/nE4QkHlcxnOYT4maKblPmF35kpjkGgUs+O7bLN9jjvu096XHRR85HKsioeosPJ9Y4fhI8dMgEvfrP3yZ5Ox657GeP3PR25xu6EiJVgM/pxY21x3Yb4rP3/uIKRAZ1OuWIc+5ga+BTAemsfE38t6+7i4b5kT1t80r6Kvs6Bz/ACQxwdR0/Yi0SPWYEBwTduxhBeVFrpplIK00IZFQr5ZSPgRPHcDpLuLJ4UluTOOGHY44NTENcPk/si7i9MWQY2QcpvWME5eFaG3rXk8fQ60yDDLUfVJvyL3eA/OoMRsYG0+dzJ720lWM64yLW3iXpyhKp2OEPJ5y7htiKGTglhzo/ttc69piirUFZKIGPWePMfsDYQDb74zwrNZ9n5ZppamoC4ea3Rv0EzpnQIJGGY3Ow7Q8wEoiDHy8ThLSqjBhbZYFBVjzt+BNVaDw++PTe80GUOYHW3noIPonnj7CGezHK8ygS3Hc6gtGR9nDjXMVvLBOhjHruqyaYJ7uhMd10mt9GRSOFmrGYypbhj2XnqjNdN+Xpy+ceMcRcfhYtDieYSPR9zUM1WQZ7mBuJIoy0QIkNjFup8QAa5geNQfoBmX3/U0bJPGfXJaQZ6a2+WNGU8MJHfXRdBg/mg0QEQbvI0wArHmf3dSf+pOX1DDTIWLjsqMPc284mpFXlA2oxNhJTdWNTFWAhObOfoATccbb+la61twz+FrMK2WsRwfVFTIbOY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(6916009)(4326008)(38100700002)(316002)(38350700002)(186003)(54906003)(5660300002)(2906002)(26005)(6666004)(8676002)(7696005)(8936002)(66946007)(66556008)(9686003)(66476007)(956004)(53546011)(4744005)(478600001)(55016002)(52116002)(6506007)(67856001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: CeL8Lo1+OTwaZ6z9NL/QV+vUBjoawTU68eBz+fJHwnnLaVNmSeq8sUdIc7VS0Q5C7wPH0t3itjvVfFEMwQVXPoLbf1bZKGvZMt0ZjL/mmes+k/r+gThMI0FzrCZcgIz/qUuvYtGgloOkpytXbJf+rCAwMRePSGnE2ur17S4BkvXjb9bK7y2VgwVth1hLsVbGa6yCp5eikDEqhCGMMybwynl1S4NhY8anBdgraMHwYCcbF3dXqCfrn5rNlcqj5QF92POpTDS0m9AuyJWEe8hR1nO39eqh2Mq3jKdweRetXAyS+lS+Ay27PCn6UQ1vEqhK259u46cftb1N0QkAM+VmvGULCTzjk5pC0cCglptuUozUnA7esH1MpYj+tCYMn5x4Z/uVlKXZQJ2Fya630BS6Xv3yLyvCjGxohSo+iCncdjWa1w/d2PY5wwSA6+GoFFJcM+gj0XGYP3n0rNWDkatvJqaxN1i8FZt4ToaRk7YAwKYAwxtxM1qEvrimj6u0W/jW57swsLMe78BxjFmoV7f6x/XDKoMbiiTGXjLnvRO1rLaGYgfavLukJkYvV0yb+ia3cSUUyw6dqihN7fLiBRTtWE/Dvxx129+me+NKYR8bWCi8oeTiE7+B/k7Z216gqCyQlnxjYFOxWP1G6U4BYY8iLYW9la8fVNPZj/06BGDeSJ5I9QZKh6W2Okg9AmowCK9K4460kBlbJH05gn7BVRplEmzSYJ2DhF49rSONu19x8TGTJODk03dpZQxR8iX5+mTCbIY01j9rrOXzlFHk1vftZ+iOST63nSSnQhIW7xDJS4CCIE0awlw3+w0q44u45vbpNDGQMTQ7/9yqgJ0adMLd9Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(136003)(366004)(39860400002)(376002)(26005)(316002)(1076003)(478600001)(110136005)(6512007)(6666004)(8936002)(186003)(38100700002)(38350700002)(956004)(5660300002)(52116002)(4326008)(66946007)(8676002)(966005)(36756003)(2906002)(2616005)(6486002)(66556008)(66476007)(6506007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?19f1KexfTWvw3Yct2/Gup4dvSKk5kFtkO/EkVcDTe/ghfOA6oQWPwQF3jvu2?=
- =?us-ascii?Q?LjSlvkgCgpksww5hoM1v1vfTtUn1DjSb7OjjUvj6UlW+mNHZTjjyS8mXfBx4?=
- =?us-ascii?Q?Duppm27Qb8KqhNVnVVUvgKc+0nAYh1STjwvSkEs/ozVi/XA+f7FanzN2/L5X?=
- =?us-ascii?Q?7StYhln4zJuRgGrJX0m2jWd1i+PmBFI6sF2lwv7WqJFIn41U26/PJbEi13IP?=
- =?us-ascii?Q?8oDPZnW8odfXu/udKSnivBxGnf0kPF1xtRpWrHppo66KWHMgfaZ3Oh35UAlU?=
- =?us-ascii?Q?mLBrnG0O0/sjcCfmgwwsK/YH6XDThxY0BKeBFqQlMEqAbzuVHro+vVms3UK0?=
- =?us-ascii?Q?gUJPW8SHZufwOqRe7SEx7jFPese8PmICaYDXLUN0z/79yNpP2oAJwwlsj7ol?=
- =?us-ascii?Q?Qn22a1qVpkEN/X9J5FpREKJ7cBkorJznGKqZ1lLfTnSG6BAUBzYn7M9NwEeE?=
- =?us-ascii?Q?Vynm3CofAFrWNrOdrhGbGj9n94g4lhzb5BDpp2u7n30wOQJZa/uF0Ke7fYXr?=
- =?us-ascii?Q?AL6HxS3VxbfrKiaeESpl1zNvD6M5fMGoD53/maofzd9sIMUI45BKc7FfPrJT?=
- =?us-ascii?Q?hfyOm5Ot/97d/U6pfI9Roh1pLWluZgku7cyejkdj3K3DIzKFovxojlvh9EhM?=
- =?us-ascii?Q?xHjLybDZj98s3a6hegoj6dzcehA+wPzh2tHdhQCv8E7sIsfks5j9N5wFrjAK?=
- =?us-ascii?Q?qlNJ5T6dkkmnAlzEm6dzrshyEAnAyKjSFWg4wNnUfjYfjfE+jng4a6luxz4n?=
- =?us-ascii?Q?XZReS9mOXzCgv0eL6Kzg7Wp0zjWFVja9I9pZt6Am0t2A7Mcw3GPrsRVsxN19?=
- =?us-ascii?Q?46mlYwDjAVsstNiqGezbuKCfeoVFQ4kit9Wg6ySs8JBZ9xtXIQHVoP96pS1k?=
- =?us-ascii?Q?Aj3+ws25YfT/II1knniZPqnQpXI++h5tzeCezMIkf9acIY+Gmq031kRDgNvM?=
- =?us-ascii?Q?5rSFIkwyhDHIki+4KffWlvO+PNubgwO9zXVVFfIkvIJ7744VbBsN9UVYMDCn?=
- =?us-ascii?Q?vAMao92VaHisJg5h8tdL4VYJloJwXw6agslmopfo+diN5gwcB3f29DHiz2z+?=
- =?us-ascii?Q?2vpitQuag+3voJpBPlRgFc26Dx2ak7NwgGmsVjsjT76WU/rF1ELPmFoZVC14?=
- =?us-ascii?Q?QnZpSljVJhmnJ0/1OK83v4UFuHVD7P4bjR5X1H6R7JPoYi9L7zYbx4esNyAS?=
- =?us-ascii?Q?l4Xj9uOWjk9EucxxmCMdN6eh2uk2ro6bQUK6LxZiHD1ASnoE8EBxn7Ca3v0R?=
- =?us-ascii?Q?YYG/TIjgEn8Myk/HR1B87rOZl0bFk+4uEUTXfIFhE+BdO0/B6j2vrUkXsJSr?=
- =?us-ascii?Q?XgCmvZBDyzn7AIQgUUoFXf/o?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YyNMR8dPt6f+fcxijG5sDfyKAuvWWCdfzOAHIwMU7DbJRzQF/LDIguB1f5ab?=
+ =?us-ascii?Q?hyXEILz4wkgoLu/dXF3CVl8obZzjEYNH3WPAGKCN3VfHmiNHAcSiTAttvST0?=
+ =?us-ascii?Q?IZUufqQ9jUV3Yngxx4vEjepvEgaEPSKQ4mVl0LSeeEwbS6gMlKTXIFFd9O79?=
+ =?us-ascii?Q?78bo1LXhKrtnf2h/YI6+kvHz40A582uRtE22MZfzecPRu+CgAYEBl/ZZunS7?=
+ =?us-ascii?Q?RwpRhUB528U45aNXzzFueTXXUiGldmHs3MLaJSSRIh6EGOH9l6lpRppPq9Tu?=
+ =?us-ascii?Q?nnJqBLghdlwm/Lq0lZLrfN+zvxEsCC6fFdkndwl5pAsAGAT/xP0vVygNRXjf?=
+ =?us-ascii?Q?SHxhsBmqnVg5Q5FkXFEgQyiNl7yvLmXEHV0lDgKkxcFIEvL69dzwBaQmlGUk?=
+ =?us-ascii?Q?NMyQcr69Mu3PUq6a1HbQnbwLpK7vU/Fq2vzzYAqyCatp7vL/8439AAyKScND?=
+ =?us-ascii?Q?9f6k2PpZfI7cC2u263kLbL9h9niDNjEpwPBXwiKIF6RHLCtmYxp2PgO0C4Ki?=
+ =?us-ascii?Q?tW74nCfg3qgpzDXM7wIwoSwdn+rneWVdg3YaM/OgsRJNgXUph6pVgDYKvEdB?=
+ =?us-ascii?Q?gSEM2meHWwY44sVHFjYMhY+HYOJbTqHWyB55GhOwuNgLVOwP5T2cX96gv95T?=
+ =?us-ascii?Q?VrLNmo3PiR40bfJy72UmqmQVsxsgJQvxZb96TyrX4FB0HYskbWfUQAZqK9Rr?=
+ =?us-ascii?Q?eEsnzQ+AZygzkpLI393v7g1nOc5ScjgOpZOdHNGAmFs4P71TBPR9ZzDEsO94?=
+ =?us-ascii?Q?yqFs/DbAkmksFtAhzD8acBLpcID82Ro0psiOavnRjOcL4HaZlO6JZcnRQo3g?=
+ =?us-ascii?Q?e5DLjnJyvuPFt2dnNkPcWCPlMI5kX1PHc+OZjaOnqOPIiNwAliMM6dBO3ZdU?=
+ =?us-ascii?Q?0Cgbv37Xy6JmDhy8cofhsBFMMasONxX81Pne5rIM9zJVT5/mRgt0sloU2J4y?=
+ =?us-ascii?Q?MmH4A7r1tRqduAv8qXiOj7ZTpPPCgGDxkWyV7UkAgGFVhqmF2QM7ipFpLGot?=
+ =?us-ascii?Q?dJvTxQcVQOSD/qkkTUlTV77z+ZBvPg0O6gmJOFFN8FCcvNjvhfColRji+gJY?=
+ =?us-ascii?Q?RmQTbZ38J1irfIp7dp7oao976QyreKKR9pCthfJH2ltEThb8daXasTWz86Zo?=
+ =?us-ascii?Q?LVYyvfsVDSbuVSs1nYsD6KID863z1pbCRzkhHScC5QAWu2u+zV1Un8ZvaHKn?=
+ =?us-ascii?Q?kPaw9Awep64WLt2bOO3GUMYZOou0vbsR/FXhnA65fP+5sW3gpzqPAPwQ8tb8?=
+ =?us-ascii?Q?ZQ8AmC3ABwIo3kBgnX+ZHWHpAAfZBm1AbTiZeDKaaGtO8dA94pK2beHqHpqz?=
+ =?us-ascii?Q?XKvrcVTu/ohbl2XAr7QkPPzq?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8dd1e65-f35c-42f5-1c93-08d94af2bfcc
+X-MS-Exchange-CrossTenant-Network-Message-Id: c931c151-5254-4215-7d52-08d94af3f874
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3657.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:21:11.2580
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:29:55.7097
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5uXBbQoO2UNi5c48B7q6AEMPawOuTjDif/r0FcXrQQfX2jMKYZld+gahFw+g013fY4e+cUmsSaxMl6ipy0Sfig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB2553
+X-MS-Exchange-CrossTenant-UserPrincipalName: DPL7duXbB0phi8cv0hXc0onN2y17KJVsELKI3L6f5626jTkdRlWsCLdyLV2ATld4PHDM/EIbHtTak9QA562J2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4986
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 19.07.21 11:16:09, Robert Richter wrote:
-> @@ -417,8 +417,20 @@ definitions of that choice. If a [symbol] is associated to the choice,
->  then you may define the same choice (i.e. with the same entries) in another
->  place.
->  
-> -The default value of a choice is set to the first visible choice element.
-> -Choice elements do not support the default attribute like menu entries do.
+Document how choice defaults are determined:
 
-This patch was not properly rebased and does not apply. Will resend a v3.
+Default of a choice is its first visible choice element unless it is
+explicitly set by the 'default' property [1]. Choice elements do not
+support default attributes. [2]
 
-Sorry for that.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/symbol.c?h=v5.14-rc1#n245
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/menu.c?h=v5.14-rc1#n494
 
--Robert
+Signed-off-by: Robert Richter <rrichter@amd.com>
+---
+v3: Fix base of v2 (rebased onto v5.14-rc2)
+v2: clarification on 'default' attribute of a choice
+    added example
+---
+ Documentation/kbuild/kconfig-language.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-> +The default value of a choice is set to the first visible choice
-> +element unless it is explicitly set by the 'default' property.
-> +
-> +Note:
-> +	Choice options do not support the 'default' attribute.
-> +
-> +E.g.::
-> +
-> +  choice
-> +	default C1
-> +  config C0
-> +  config C1
-> +	# no default attribute here
-> +  endchoice
->  
->  comment::
->  
-> -- 
-> 2.29.2
-> 
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 98c24183d8c3..d919dde0bcbf 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -417,6 +417,21 @@ definitions of that choice. If a [symbol] is associated to the choice,
+ then you may define the same choice (i.e. with the same entries) in another
+ place.
+ 
++The default value of a choice is set to the first visible choice
++element unless it is explicitly set by the 'default' property.
++
++Note:
++	Choice options do not support the 'default' attribute.
++
++E.g.::
++
++  choice
++	default C1
++  config C0
++  config C1
++	# no default attribute here
++  endchoice
++
+ comment::
+ 
+ 	"comment" <prompt>
+-- 
+2.29.2
+
