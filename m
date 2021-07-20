@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD903D03DB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jul 2021 23:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 386043D03E0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jul 2021 23:30:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234264AbhGTUrJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jul 2021 16:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
+        id S230134AbhGTUt1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Jul 2021 16:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233282AbhGTUqt (ORCPT
+        with ESMTP id S231307AbhGTUtN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jul 2021 16:46:49 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F6F8C061574
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jul 2021 14:27:23 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id t20so276766ljd.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jul 2021 14:27:23 -0700 (PDT)
+        Tue, 20 Jul 2021 16:49:13 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EBAC061574
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jul 2021 14:29:47 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id d17so217848ljq.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jul 2021 14:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tNyYA05ylU2XvRUfrq05bnLIwQDYxkRccZveeJvkl54=;
-        b=nyPyS8j29YzOV3W5hC0WKKPhbhG/VyL5LXoVZNrXlICf1TF0yf/aaVryX160Fi3Dlq
-         NyBK/+QQm5fJUpSdjV1mhcvj/ENGOOYnMBeiMXYHWSR60QlwUzS835imVP+P6M7H1YRj
-         p96qmwII9W3WT9cbOBnBiWAWYx26tr/n7iLkOMoWXXSu02/QjELIlHllDlHzaUHsL8QP
-         TV+x7Ys34raApA9sK3A5QE72qZ2lxfBQTnSJ0LgV9U3edO0+2SMba+ChpV0dxHVZdRnc
-         JxKJLgaNbOQy2jaLd0FlXpHaE2Cl4aN452zhcuh6RssvdCQd624ZPU0qzTEj34rNzAs1
-         RiZQ==
+        bh=lD7MSr2tHShwP24PsDQ+AQ045DheEanjMiBeVzyowZM=;
+        b=V1vQhpEk0nUsfOn4JiW4a32yiqit8hnxNX8BpCSbJi8H1nLmRPdqpupHi3VLsfwDNq
+         KC1UZap1tiEKAda3Lre4Ew+fUaQgN2M3Gp79qdhjjje2HPrUgZ/8i+6T40p6gkTjwftW
+         CZudVHWWpuz3VjviDdQzffdJ+7DS5iB2Pjy09Kd3FRjKYJxE/+ecdC0L/N+hH3qTG4Ey
+         mwOPbrvidz9LL8rCluTRyTTkfQLRfge6+FRY/0/jSFgaId0VJi0zqM3/SQeEvXFr6uDf
+         EuwrKROyGHF1BFxtFUyEHgG54uHnQDud0pgFqVhPnWT/rXBA3f6i6HUa1+SY0fqCsSv4
+         TzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tNyYA05ylU2XvRUfrq05bnLIwQDYxkRccZveeJvkl54=;
-        b=SyuNl0OYSM6S/c7/eLQJU0Me2wK9SdbDh/ZzmJFW4UPdApiyjiCRu1Bb0K3Uqx8ij1
-         OgnrnOJKUWN5E1lPpRycPq1GdYaE813At2s1wYs7x5yUkqVg8zwyjbtceke4Ruf8eX25
-         kY2r2BjQB0VJ1Aj7n4+NGUcKv24v8K8wDK67V65Myyt7+AZHtO6h4t6LAk0K1MXKP0zv
-         8mH65+aroIUvUDWnMyJC82DFIp04uyEDTza2U7GzYXyupqRlrAoUx11B7EGv4SlKYRMU
-         10w5S7MYDDPq6OgL0X77N+qiawu5xUhWXs1Zxr/udQiT/woYOFTfyu0YCQTi1x34z7qR
-         Ns1w==
-X-Gm-Message-State: AOAM530YJNFzmFjCIm8LYBhZZ6BYMICm4zRUQNF+PtMhEgloJW02bsgQ
-        a9GyDBPo1i92S/UK9YeJmxssYWtIb/hfSnKv+4V/Gg==
-X-Google-Smtp-Source: ABdhPJxrOj+Jm37rU9hqwWfFoY2vsD5IZ88MYg7a5i30OSi5oVHFIzKL+6LR32Xlpue7pPsvCxVG/IYkWw/LWIe7BqE=
-X-Received: by 2002:a2e:a784:: with SMTP id c4mr3289166ljf.479.1626816440772;
- Tue, 20 Jul 2021 14:27:20 -0700 (PDT)
+        bh=lD7MSr2tHShwP24PsDQ+AQ045DheEanjMiBeVzyowZM=;
+        b=uIX/4BjqNo9oQVoWZ0QhzufLmkBW5zdZ+jBTNRaIwIitJFq5fI0c4lG6HD8lFMJz8G
+         yGO+r+T4O3tpeggWQY43JO+vf5Pw/Jp0pa9b7sW1pX6Xtge9j0Za24JbQNUdtRmPXHBg
+         bWo++T2qv9kp5Mf+V/w2fjqCsldNReyhy4A5UQP38dkZf57JZXKycWA/nS2x9/KHR5os
+         WaIZS3qPsSWXeq6tYUH04/6qcV6GzkLpEzZwmyZyswFX1geyS7McKRk6PUCw1xmzX66D
+         sn2zKmqsIJZjID2yGw22RL1yg1P5F27P0/rGXV6W9w9RA17B20DSwqatXyV4weBPeI1Z
+         dHng==
+X-Gm-Message-State: AOAM533jqHbjxGSkWZhubAzHllMWmIQ83jmTEfX7c2Q21ljC91B7hyl/
+        CyAe9Pj7MLFOPFUQo/4Igl3Y3Cn9WDOzlAeIaapJBQ==
+X-Google-Smtp-Source: ABdhPJy2KiMdz7KfGiMYgZETgo0ONCU5xQ7QpOBa3+v9uTiyXYesMI5VQvqBe24MELTiidv9lgno9qVT59w6KSkowow=
+X-Received: by 2002:a2e:a911:: with SMTP id j17mr28176107ljq.341.1626816585818;
+ Tue, 20 Jul 2021 14:29:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210708232522.3118208-1-ndesaulniers@google.com>
  <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
  <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
- <CAKwvOdn065OJpow=7VF=ujagFoyN4sYMKAA_E2_39ZC7uThchg@mail.gmail.com> <CAHk-=wjDdDPDa6mfoC-QM=NZULsmQfcUbF2RdwMq0J4Ztm+UAw@mail.gmail.com>
-In-Reply-To: <CAHk-=wjDdDPDa6mfoC-QM=NZULsmQfcUbF2RdwMq0J4Ztm+UAw@mail.gmail.com>
+In-Reply-To: <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 20 Jul 2021 14:27:10 -0700
-Message-ID: <CAKwvOdk7ATbLP9uRVgWnYHQT0BKAuOTPmOeWdZgytTs=bqTLfw@mail.gmail.com>
+Date:   Tue, 20 Jul 2021 14:29:35 -0700
+Message-ID: <CAKwvOdkvju7heeNpk87brsjkhXHbdKFsUgf63KWhXox9rDkQsA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
  LLVM=1 LLVM_IAS=1
 To:     Linus Torvalds <torvalds@linux-foundation.org>
@@ -66,73 +65,56 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Christoph Hellwig <hch@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Stellard <tstellar@redhat.com>
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 20, 2021 at 2:11 PM Linus Torvalds
+On Tue, Jul 20, 2021 at 10:43 AM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> On Tue, Jul 20, 2021 at 1:52 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > >     -CC = $(CROSS_COMPILE)gcc
-> > >     +CC = $(CROSS_COMPILE)clang
-> >
-> > So you haven't been using LLD... :( (imagine using more than one
-> > thread to link, and being faster than ld.gold)
+> But clang has become a primary compiler for some kernel communities,
+> and I think it might be time to just re-visit that entirely.
 >
-> I started out just building my own clang - nothing else.
+> In particular, I think we should just make it a Kconfig option. I hate
+> the command flag stuff so much, that my clang tree literally has this
+> patch in it:
 >
-> And now that I'm using the distro clang, the linker isn't even _close_
-> to a performance issue. Since clang is a big, slow, bloated pig.
+>     -CC = $(CROSS_COMPILE)gcc
+>     +CC = $(CROSS_COMPILE)clang
 >
-> I posted profiles and performance numbers of clang being three times
-> slower than gcc, and it was all just clang itself, not the linker. All
-> due to insanely expensive startup costs.
-
-Yeah, it's unfortunate that package maintainers for your distro chose
-to distribute clang built in such a manner.  But in response to that
-thread:
-1. I planned a whole conference around how folks distribute LLVM
-(particularly how the configurations are done, and important ones to
-use):
-https://lists.llvm.org/pipermail/llvm-dev/2021-June/150861.html
-We have a pretty good set of CFPs lined up (and I need to go chase
-folks from Apple and Qualcomm that are working on proposals...)
-https://github.com/ClangBuiltLinux/llvm-distributors-conf-2021/issues
-
-2. I brainstormed a whole set of ways to make Clang even faster.
-https://github.com/ClangBuiltLinux/tc-build/issues
-Most promising I think would be building musl with LTO and statically
-linking that into the toolchain.  I don't have a ton of time to pursue
-that, but I will continue to bang on that drum in front of management.
-It's just very hard to fund improving build times for users on
-thinkpads when the corporate world has moved on to distributed and
-cached building in the cloud.
-
-3. Pretty sure we've resolved that config with your distro's packager,
-and made other changes to upstream LLVM to default on some flags that
-help a lot when those unfortunate configs are used.
-https://reviews.llvm.org/D102090
-
-> I suspect a lot of clang users build bloated C++ code where the time
-> to compile a single object file is so big that the startup costs don't
-> even show up. But for the (fairly) lean C kernel header files that
-> don't bring in millions of lines of headers for some template library,
-> startup costs are a big deal.
+> so that I can just do the same "make -j128" in both my gcc tree and my
+> clang tree.
 >
-> So honestly, I don't care at all about "imagine being faster than ld.gold".
+> But each build tree already has its own .config file, so it would be a
+> lot more convenient if that was how the compiler was chosen, and then
+> "make oldconfig" would just DTRT.
 >
-> I can only _dream_ of clang itself not being 3x slower than gcc.
+> We do most of the other heavy lifting in this area in Kconfig anyway,
+> why not add that compiler choice?
+>
+> Obviously it would be gated by the tests to see which compilers are
+> _installed_ (and that they are valid versions), so that it doesn't ask
+> stupid things ("do you want gcc or clang" when only one of them is
+> installed and/or viable).
+>
+> Hmm? So then any "LLVM=1" thing would be about the "make config"
+> stage, not the actual build stage.
+>
+> (It has annoyed me for years that if you want to cross-compile, you
+> first have to do "make ARCH=xyz config" and then remember to do "make
+> ARCH=xyz" for the build too, but I cross-compile so seldom that I've
+> never really cared).
+>
+> Let the flame wars^H^Hpolite discussions ensue..
 
-Let's be precise here, because quotes (even when imprecise) lead to PR
-cycles.  Clang startup time for NULL input when testing command line
-flags as part of a build configure step, when clang is misconfigured
-is slower than GCC. Clang is not generally 3x slower than GCC.
+I will concede that "why do I need to respecify all of my command line
+args/env vars to make when I already did so for a configure step?" is
+a reasonable question to ask, and may be worth pursuing.
+
+There's still some that we can eliminate for BOTH configure and actual
+build, like CROSS_COMPILE. :^)
 -- 
 Thanks,
 ~Nick Desaulniers
