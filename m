@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 767743D0774
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jul 2021 06:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B299D3D07C9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jul 2021 06:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231426AbhGUDYb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Jul 2021 23:24:31 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:53929 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbhGUDYa (ORCPT
+        id S232238AbhGUDwL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Jul 2021 23:52:11 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:23762 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232111AbhGUDwJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Jul 2021 23:24:30 -0400
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 16L44svr031715;
-        Wed, 21 Jul 2021 13:04:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 16L44svr031715
+        Tue, 20 Jul 2021 23:52:09 -0400
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 16L4WRIo019438;
+        Wed, 21 Jul 2021 13:32:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 16L4WRIo019438
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1626840294;
-        bh=AfCQ8zWwU2kVtZFAJkMMPrdLTVubh6u8+7aVLlmJQ1M=;
+        s=dec2015msa; t=1626841948;
+        bh=J9oYDcYqoBIO5hSk3r1VYqQb2xyH8Fh1EI0OV1fPJMA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UoGntPjrewv3EMKohf1coQEvbJTLFA38pl0GOwdCgdDKGHAAgiboqJ0RLT8t0wVLM
-         jrflQ97dTN2xZrG6qmINNgUr9zk3POEu7QOcGyP4OX7wZLRNBmbh8LUxreR42N+fX8
-         T2qISlYG6kcBiWDWdENrYCN7CiNonb6Kcji7pFyMZBbLshisHaCw5vVtILHI4IPQCs
-         J4ONOmQuyKfTJpvKE08a8ktY9kJds/8El8O61DLYR5norpPVf7HbCAkAg4Ul0ZD/aa
-         tQRusa9GhJOAAX7JtIixydi7haasayZaj2cP3yFLdP+has49D80UKCu4rNe35hC/pC
-         4GnMpPKNctzSw==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id gp5-20020a17090adf05b0290175c085e7a5so3265883pjb.0;
-        Tue, 20 Jul 2021 21:04:54 -0700 (PDT)
-X-Gm-Message-State: AOAM532qVGtATBSkG7RtGEkN5++owlir4AqaDNEmeBA/Cc9dqlOZtp98
-        69B12DYelZUcd2nQ2IwCwftqy1r9eJKrvdxi5Fg=
-X-Google-Smtp-Source: ABdhPJyPlpII+Djv0wcPYTar2Xkjs3VuD+kka5J2NZe9ZbrC1Qotac3sCGY0EdklzreS8q4oum9vLrgfpm1+1B3quco=
-X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr1773256pjt.198.1626840293821;
- Tue, 20 Jul 2021 21:04:53 -0700 (PDT)
+        b=wt6NiRdvV3nVGC0+EPjv+Hx8Zck0rpBFPbrLHEWRe0mNu9mfJFbHvr0b/O6bdyDqO
+         5cB8n/fm4rCRR68lbT5ecH6lRyNkoXLBtoBJlJjilTLUt2wGFoWwiI4Skiu9yCPKzv
+         RGrYbux0g6W9mLQ1o7gDABW95eAv+V4TedxcJkQBmOvCsQywZ8ca81XdlkcfR+X5sG
+         8ziNmogBZnv9cdVQITQ1MN2L6ughYV28Rg/yDH0hrDv+xkuom1H7X4hhW9nDZks1ng
+         dAwufVi8PibN+dDD51xMP/NvuJM0kX2ClBZBlI5vaz/Xp+IVlqg6+e+slXSiosDoSG
+         AHYux0Xqntmmw==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id x13-20020a17090a46cdb0290175cf22899cso297681pjg.2;
+        Tue, 20 Jul 2021 21:32:27 -0700 (PDT)
+X-Gm-Message-State: AOAM532DnWQHBcszjiSRDOlUluTx07FJ5vI0s4of9TUKSpjO4zTCTaLw
+        VY5AEeyhJSo1zSd+Ws2UWBYWKcKyw3k7+3ZAUOA=
+X-Google-Smtp-Source: ABdhPJzW0wW0fU9+V0pQhIspzTzWNYvurAZJTZNq7nhtuJpeSMk73AG/dk7yBo7rYe4ZZtCHYR/xR2YVL7hH/Mv1zcU=
+X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr1870574pjt.198.1626841946977;
+ Tue, 20 Jul 2021 21:32:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210708232522.3118208-1-ndesaulniers@google.com>
  <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
- <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com> <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
-In-Reply-To: <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
+ <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 21 Jul 2021 13:04:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
-Message-ID: <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
+Date:   Wed, 21 Jul 2021 13:31:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATsdF9+dpqf3OWNpi2dcrT52QcPkNog5reGewbwo8rGBg@mail.gmail.com>
+Message-ID: <CAK7LNATsdF9+dpqf3OWNpi2dcrT52QcPkNog5reGewbwo8rGBg@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
  LLVM=1 LLVM_IAS=1
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Miguel Ojeda <ojeda@kernel.org>,
         Fangrui Song <maskray@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
@@ -62,143 +62,137 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Wed, Jul 21, 2021 at 2:43 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > We do most of the other heavy lifting in this area in Kconfig anyway,
-> > why not add that compiler choice?
-> >
-> > Obviously it would be gated by the tests to see which compilers are
-> > _installed_ (and that they are valid versions), so that it doesn't ask
-> > stupid things ("do you want gcc or clang" when only one of them is
-> > installed and/or viable).
+> > LLVM=1 is a convenient switch to change all the
+> > defaults, but yet you can flip each tool individually.
 >
-> I don't see a good way of making Kconfig options both select the
-> compiler and defining variables based on the compiler, since that
-> would mean teaching Kconfig about re-evaluating all compiler
-> dependent settings whenever the first option changes.
+> Actually, I'd argue that "LLVM=1" is *not* a convenient switch.
+> Neither are the individual other command line settings.
 >
-> I do have another idea that I think would work though.
+> When clang was the odd man out, and special, it all made sense.
+> Changing the path to CC was similar to changing the path to AWK. And
+> that's obviously why we have what we have.
 >
-> > Hmm? So then any "LLVM=1" thing would be about the "make config"
-> > stage, not the actual build stage.
-> >
-> > (It has annoyed me for years that if you want to cross-compile, you
-> > first have to do "make ARCH=xyz config" and then remember to do "make
-> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
-> > never really cared).
+> But clang has become a primary compiler for some kernel communities,
+> and I think it might be time to just re-visit that entirely.
 >
-> The best thing that I have come up with is a pre-configure step, where
-> an object tree gets seeded with a makefile fragment that gets included
-> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
-> 'CC=' and possibly any other option that gets passed to 'make' as
-> a variable and has to exist before calling 'make *config'.
+> In particular, I think we should just make it a Kconfig option. I hate
+> the command flag stuff so much, that my clang tree literally has this
+> patch in it:
+>
+>     -CC = $(CROSS_COMPILE)gcc
+>     +CC = $(CROSS_COMPILE)clang
+>
+> so that I can just do the same "make -j128" in both my gcc tree and my
+> clang tree.
+>
+> But each build tree already has its own .config file, so it would be a
+> lot more convenient if that was how the compiler was chosen, and then
+> "make oldconfig" would just DTRT.
+>
+> We do most of the other heavy lifting in this area in Kconfig anyway,
+> why not add that compiler choice?
 
 
-There is no need to add a hook to include such makefile fragment(s).
+This does not work in the current design.
 
-Quite opposite, you can put your Makefile (in a different filename)
-that includes the top Makefile.
-
-
-I think this is what people are already doing:
-
-
-GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
-in this order.
+When we moved compiler tests to Kconfig from Makefile at v4.18,
+I discussed a lot about the implementation.
+Especially 'static' vs 'dynamic'.
+(mostly Ulf Magnusson actively gave me feed backs)
 
 
-So, you can put 'GNUmakefile' with your favorite setups.
+static model
+    Kconfig is given with a fixed set of toolchains.
+    All macros such as cc-option are expanded in the early parse stage
+    before proceeding to the configuration stage.
 
 
-$ cat GNUmakefile
-ARCH=arm64
-CROSS_COMPILE=aarch64-linux-gnu-
-CC=clang
-include Makefile
-
-
-
-Then, you can simply do "make defconfig; make"
-for building arm64 with clang.
-
-
-
-If you want to have multiple setups, you can put
-custom Makefiles, and select by the -f option.
-
-
-For example,
+dynamic  model
+   Every time a user toggles a CONFIG option, it feeds back to
+   cc-option because CONFIG options (such as CONFIG_64BIT)
+   might affect cc-option. In this model, CONFIG_CROSS_COMPILE
+   works well.
 
 
 
-$ cat Makefile-arm64
-ARCH=arm64
-CROSS_COMPILE=aarch64-linux-gnu-
-include Makefile
+
+Of course, the dynamic model is much more complex,
+and I could not find a sane syntax to achieve it.
+
+So, I implemented the static model; in this model,
+$(cc-option ) are all constant values.
+
+So, you cannot do:
 
 
-$ cat  Makefile-arm64-llvm
-ARCH=arm64
-CROSS_COMPILE=aarch64-linux-gnu-
-LLVM=1
-include Makefile
+  choice
+         prompt "Compiler suite"
 
+  config GCC
+          "GCC and GNU binutils"
 
-$ cat Makefile-arm
-ARCH=arm
-CROSS_COMPILE=arm-linux-gnueabihf-
-include Makefile
+   config LLVM
+           "LLVM (clang and llvm tools)"
 
-
-Then,
-
-$ make -f Makefile-arm64  defconfig all   -j24
-
-$ make -f Makefile-arm64-llvm   defconfig all -j24
-
-$ make -f Makefile-arm  defconfig all -j24
-
-
-You can use TAB-completion for the 'Makefile-*' part,
-so you can save many typings than you do
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- ...
+  endchoice
 
 
 
-It is just a tip to ease your life without any change to upstream.
-Maybe, some people might be doing that.
+To achieve this, we need the dynamic model.
+
+Every time a user switches between CONFIG_GCC and CONFIG_LLVM,
+all the cc-options must be re-evaluated.
+This does not work in the current implementation.
+
+
+
+
+
+
+BTW, keeping the command line interface
+such as CROSS_COMPILE=...  CC=... LD=...
+is useful when the kernel is built from umbrella
+projects such as Buildroot, OpenEmbedded, etc.
+
+Such projects build compilers by themselves,
+and feed the exact compiler paths to the kernel.
+
+Too long command line is an annoyance when
+we build the kernel manually.
+
+
+
+
+
+
+
+
 
 
 
 
 >
-> This is probably the easiest part here, and it lets you set up multiple
-> object directories in which you can then do
+> Obviously it would be gated by the tests to see which compilers are
+> _installed_ (and that they are valid versions), so that it doesn't ask
+> stupid things ("do you want gcc or clang" when only one of them is
+> installed and/or viable).
 >
-> make O=obj-x86 defconfig vmlinux modules -skj32
-> make O=obj-x86-clang
-> make O=obj-arm64 randconfig
-> ...
+> Hmm? So then any "LLVM=1" thing would be about the "make config"
+> stage, not the actual build stage.
 >
-> without ever having to type the additional CC/CROSS_COMPILE/LLVM
-> variables again.
+> (It has annoyed me for years that if you want to cross-compile, you
+> first have to do "make ARCH=xyz config" and then remember to do "make
+> ARCH=xyz" for the build too, but I cross-compile so seldom that I've
+> never really cared).
 >
-> One step further is the script that automatically finds a working toolchain
-> for a given architecture and sets up that object directory accordingly,
-> or even downloads a working cross-toolchain from kernel.org when
-> asked to do that.
-
-
-I saw Intel's 0-day bot attached a shell script to download and
-set up cross compilers.
-(make.cross)
-
-
-
+> Let the flame wars^H^Hpolite discussions ensue..
+>
+>                         Linus
 
 --
 Best Regards
