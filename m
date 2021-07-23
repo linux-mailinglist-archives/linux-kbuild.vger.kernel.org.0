@@ -2,76 +2,189 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A1F3D3C2A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jul 2021 17:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 727403D412A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jul 2021 21:54:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235409AbhGWO1f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jul 2021 10:27:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34272 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235351AbhGWO1f (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jul 2021 10:27:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E875260EBC;
-        Fri, 23 Jul 2021 15:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627052888;
-        bh=QgDjEfpuy0APKmZWIXq1ynq1Oo4VifnevoiZPA+uy8k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RwE3xnBUH4mgZomNTeTmUIFAb9P0s4pApOLRObsCuXTi+kB88S6MNGykFqwhpjaqm
-         NEGfDAB2i9Cz9RPXI4Wd5uGVSkS3HCSxkKGj4itwAYz9Ayd57kGv+h1pbRy0RWBrR0
-         CeI8nWoE8OPm8pFKt/PhdveXblQifatUqUSszKSDEoPJCkMETXItZyCU4LgpGvrq92
-         YBUihj5oR9hg+tAVJOZy5AnKGjGAkSj4ROnL7ObIkc4++nkh3NN9VUc5+RcVQ29p5O
-         AoMZPKYjQqx169nTUvpidCqL5Yhn7XS6DV8pmbcQe98bYptRBbxdmX10GTWIpAiDwa
-         vmYoucGbHqbbg==
-Date:   Fri, 23 Jul 2021 08:08:06 -0700
-From:   Keith Busch <kbusch@kernel.org>
-To:     Wedson Almeida Filho <wedsonaf@google.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Finn Behrens <finn@kloenk.dev>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/17] Rust support
-Message-ID: <20210723150806.GA2021417@dhcp-10-100-145-180.wdc.com>
-References: <20210704202756.29107-1-ojeda@kernel.org>
- <YOVNJuA0ojmeLvKa@infradead.org>
- <CANiq72mKPFtB4CtHcc94a_y1V4bEOXXN2CwttQFvyzwXJv62kw@mail.gmail.com>
- <YOWjLmg/Z7kr2+tx@kroah.com>
- <YOW1Nj8+a2Yth2++@google.com>
- <YOXB7FRqldZik2Xn@kroah.com>
- <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
- <YOZNuEtNbsLxRM0R@casper.infradead.org>
- <YPn3fgDX8uNkF8Vp@google.com>
+        id S231158AbhGWTNu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jul 2021 15:13:50 -0400
+Received: from mail-vk1-f182.google.com ([209.85.221.182]:37458 "EHLO
+        mail-vk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229808AbhGWTNu (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 23 Jul 2021 15:13:50 -0400
+Received: by mail-vk1-f182.google.com with SMTP id d16so632227vkp.4;
+        Fri, 23 Jul 2021 12:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WCrKf5Iw2o5+shGh2ncn5iHfAc+hQCz5PyiUxBmUVl8=;
+        b=pi3uGul0dxI0whGTeI91bwsidGjZmI3OrYj5YfPI0STB/b6LedxPA9rGnkJEdDtkIz
+         CKW6j0mJpDa1o6FLpk68qqTh4Fy4UXSVZQovSQeYNvCUWGfxujjLrIpdDAHn9DJi7Dbf
+         GrIhPk52MNTFF4Ki/14FT4Od3yeDgU2G/IgkI3MPP7byJpa/otMufbibrFdhaLgyRbdb
+         /2dLfP/L23Rw1MeVX9yNX1p8OhqSeuTk4pyb3/BMR+vGlsF+TZ40i45LAQNuGFx6xnro
+         MPMIcMXMrj6V4RHxno5RHUy8vBRacfSirK9C2oZd9Mq6Sv+fB574kTrldPEsjJXf6OVv
+         Aelg==
+X-Gm-Message-State: AOAM530MtPOLAsDEDO9sZdYj2KInS/IaIbD3c010+NPEkwjOJ9N2d8HF
+        lGxkOsn1CHx6CjGy2sp+i7xxilbmMZV5ht8/h4E=
+X-Google-Smtp-Source: ABdhPJy7yL/c/PrB/qgOazP2a0kVPM0D75VBNd4uc3fh/YhPMfft5NwOTFf/CwNczJQK8qIofi9Vcu4MS/fwvRdW1Ho=
+X-Received: by 2002:a05:6122:a12:: with SMTP id 18mr5316680vkn.1.1627070062009;
+ Fri, 23 Jul 2021 12:54:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YPn3fgDX8uNkF8Vp@google.com>
+References: <20210708232522.3118208-1-ndesaulniers@google.com>
+ <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
+ <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
+ <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com> <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
+In-Reply-To: <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Jul 2021 21:54:10 +0200
+Message-ID: <CAMuHMdXJBqrpzaSNDJgic14ESiHV6cCcb_5E-st6iniXdmm9_g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
+ LLVM=1 LLVM_IAS=1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 11:55:58PM +0100, Wedson Almeida Filho wrote:
-> On Thu, Jul 08, 2021 at 01:58:32AM +0100, Matthew Wilcox wrote:
-> > A simple NVMe driver is less than a thousand lines of C.
-> > I know the one in the kernel now is ridiculously complicated and has
-> > been thoroughly messed up with abstractions to support NVMeoF instead
-> > of having a separate driver, but it's really a simple interface at heart.
-> 
-> The latest NVMe spec is 452 pages long, which seems to contradict your claim
-> that it's simple. In any case, translating less than 1K lines of C shouldn't be
-> too hard (after I've built the abstractions, of course). Would you mind sharing
-> the simple driver you mention above?
+Hi Yamada-san,
 
-You can use the 1.0 spec, which is much shorter. A 1.0 capable driver
-should be forward compatible with newer devices, too.
+On Wed, Jul 21, 2021 at 6:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> > On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > We do most of the other heavy lifting in this area in Kconfig anyway,
+> > > why not add that compiler choice?
+> > >
+> > > Obviously it would be gated by the tests to see which compilers are
+> > > _installed_ (and that they are valid versions), so that it doesn't ask
+> > > stupid things ("do you want gcc or clang" when only one of them is
+> > > installed and/or viable).
+> >
+> > I don't see a good way of making Kconfig options both select the
+> > compiler and defining variables based on the compiler, since that
+> > would mean teaching Kconfig about re-evaluating all compiler
+> > dependent settings whenever the first option changes.
+> >
+> > I do have another idea that I think would work though.
+> >
+> > > Hmm? So then any "LLVM=1" thing would be about the "make config"
+> > > stage, not the actual build stage.
+> > >
+> > > (It has annoyed me for years that if you want to cross-compile, you
+> > > first have to do "make ARCH=xyz config" and then remember to do "make
+> > > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
+> > > never really cared).
+> >
+> > The best thing that I have come up with is a pre-configure step, where
+> > an object tree gets seeded with a makefile fragment that gets included
+> > for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
+> > 'CC=' and possibly any other option that gets passed to 'make' as
+> > a variable and has to exist before calling 'make *config'.
+>
+>
+> There is no need to add a hook to include such makefile fragment(s).
+>
+> Quite opposite, you can put your Makefile (in a different filename)
+> that includes the top Makefile.
+>
+>
+> I think this is what people are already doing:
+>
+>
+> GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
+> in this order.
 
-The current nvme driver became less simple since blk-mq integration and
-has only gotten more complicated since then with other transports and
-more advanced features. For a simpler example, you can reference an in
-kernel version <= 3.16, and ignore the "nvme-scsi" parts.
+Exactly. I only have a few source repositories, but lots of build directories
+(I never build in a repo directory). Each build directory has a GNUmakefile:
+
+    build/linux-riscv-starlight$ cat GNUmakefile
+    MAKEARGS = ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu-
+
+    include ~/linux/default.mk
+    build/linux-riscv-starlight$ cat ~/linux/default.mk
+    MAKEFLAGS += --no-print-directory
+
+    .PHONY: all $(MAKECMDGOALS)
+
+    all := $(filter-out all Makefile,$(MAKECMDGOALS))
+
+    all:
+            @$(MAKE) $(MAKEARGS) $(all) -f Makefile
+
+    Makefile:;
+
+    $(all): all
+            @:
+
+    %/: all
+            @:
+    build/linux-riscv-starlight$
+
+Perhaps we could have a "make setup ARCH=foo CROSS_COMPILE=bar" target,
+which creates such a GNUmakefile?
+
+P.S. I put the extra logic in ~/linux/default.mk, so I don't have to update all
+     GNUmakefiles when I want to make a change to the main logic.
+
+     For build dirs where I want to track a specific config, I have a slightly
+     different version:
+
+         build/linux-m68k-allmodconfig-sun3$ cat GNUmakefile
+         MAKEARGS = ARCH=m68k KCONFIG_ALLCONFIG=1
+         DEFCONFIG = allmodconfig
+
+         include ~/linux/override-oldconfig.mk
+         build/linux-m68k-allmodconfig-sun3$ cat ~/linux/override-oldconfig.mk
+         MAKEFLAGS += --no-print-directory
+
+         .PHONY: all oldconfig realoldconfig $(MAKECMDGOALS)
+
+         all := $(filter-out all oldconfig realoldconfig
+Makefile,$(MAKECMDGOALS))
+
+         all:
+                 @$(MAKE) $(MAKEARGS) $(all) -f Makefile
+
+         # Replace oldconfig by $(DEFCONFIG)
+         oldconfig:
+                 @$(MAKE) $(MAKEARGS) $(DEFCONFIG) -f Makefile
+
+         realoldconfig:
+                 @$(MAKE) $(MAKEARGS) oldconfig -f Makefile
+
+         Makefile:;
+
+         $(all): all
+                 @:
+
+         %/: all
+                 @:
+         build/linux-m68k-allmodconfig-sun3$
+
+     That way I can always just type "make oldconfig", and it will do what
+     I want.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
