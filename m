@@ -2,121 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 857813D3BB1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jul 2021 16:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83A1F3D3C2A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jul 2021 17:08:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235374AbhGWNdP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 23 Jul 2021 09:33:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37592 "EHLO mail.kernel.org"
+        id S235409AbhGWO1f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 23 Jul 2021 10:27:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34272 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235351AbhGWNdO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 23 Jul 2021 09:33:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CFE260EB4;
-        Fri, 23 Jul 2021 14:13:47 +0000 (UTC)
+        id S235351AbhGWO1f (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 23 Jul 2021 10:27:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E875260EBC;
+        Fri, 23 Jul 2021 15:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627049628;
-        bh=QgLmm2XRufothnct/WX05Q/Y83SO/A7cPrA4WDrlc8k=;
+        s=k20201202; t=1627052888;
+        bh=QgDjEfpuy0APKmZWIXq1ynq1Oo4VifnevoiZPA+uy8k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gkDLA6Cvk6Ikx41NWvbc+zbdWRVBk8VvLFaBXxyiWbeU6V+W/u51mmoaZyiylAOtt
-         xvJgGQxYOvLwgl5hg/pmU2EYO713wnpWPPc7ArAh+f7NUvjvYsnyEX5/o1feoq2sJk
-         mi8ERMg/A8VEI90ErG68hSRqAWyWYor9NxXkEVzPRpIFQJkdoM39jOvkaHRVTqh84g
-         YwKFz71FrlZI/kSFBCJnx39SCt1GV8eTCdU5u2MFXi5WozjI3F0xP5jmBqtjPEIQpE
-         DIk9jukwFtXmTkclIWzaOF0hbFmdJ9j+NvxgJ+m3o3XJpcqQGqi5hPpKcA6/+PWS9Z
-         v7DMl5rYwyzfA==
-Date:   Fri, 23 Jul 2021 17:13:44 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
-        corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        jgg@nvidia.com, maorg@nvidia.com
-Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
-Message-ID: <YPrOmLs9dZaEe7Th@unreal>
-References: <20210721161609.68223-1-yishaih@nvidia.com>
- <20210721161609.68223-13-yishaih@nvidia.com>
- <YPhb6o06fX+/FiTY@unreal>
- <0b8db422-749d-9d93-6b3b-957259f3d0cb@nvidia.com>
- <b7c19435-5abb-c5fd-383c-d0ebad11db31@nvidia.com>
+        b=RwE3xnBUH4mgZomNTeTmUIFAb9P0s4pApOLRObsCuXTi+kB88S6MNGykFqwhpjaqm
+         NEGfDAB2i9Cz9RPXI4Wd5uGVSkS3HCSxkKGj4itwAYz9Ayd57kGv+h1pbRy0RWBrR0
+         CeI8nWoE8OPm8pFKt/PhdveXblQifatUqUSszKSDEoPJCkMETXItZyCU4LgpGvrq92
+         YBUihj5oR9hg+tAVJOZy5AnKGjGAkSj4ROnL7ObIkc4++nkh3NN9VUc5+RcVQ29p5O
+         AoMZPKYjQqx169nTUvpidCqL5Yhn7XS6DV8pmbcQe98bYptRBbxdmX10GTWIpAiDwa
+         vmYoucGbHqbbg==
+Date:   Fri, 23 Jul 2021 08:08:06 -0700
+From:   Keith Busch <kbusch@kernel.org>
+To:     Wedson Almeida Filho <wedsonaf@google.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Finn Behrens <finn@kloenk.dev>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/17] Rust support
+Message-ID: <20210723150806.GA2021417@dhcp-10-100-145-180.wdc.com>
+References: <20210704202756.29107-1-ojeda@kernel.org>
+ <YOVNJuA0ojmeLvKa@infradead.org>
+ <CANiq72mKPFtB4CtHcc94a_y1V4bEOXXN2CwttQFvyzwXJv62kw@mail.gmail.com>
+ <YOWjLmg/Z7kr2+tx@kroah.com>
+ <YOW1Nj8+a2Yth2++@google.com>
+ <YOXB7FRqldZik2Xn@kroah.com>
+ <BFD5298D-00CD-4FEF-AE77-61E69AF78604@kloenk.dev>
+ <YOZNuEtNbsLxRM0R@casper.infradead.org>
+ <YPn3fgDX8uNkF8Vp@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b7c19435-5abb-c5fd-383c-d0ebad11db31@nvidia.com>
+In-Reply-To: <YPn3fgDX8uNkF8Vp@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 12:22:05PM +0300, Max Gurtovoy wrote:
+On Thu, Jul 22, 2021 at 11:55:58PM +0100, Wedson Almeida Filho wrote:
+> On Thu, Jul 08, 2021 at 01:58:32AM +0100, Matthew Wilcox wrote:
+> > A simple NVMe driver is less than a thousand lines of C.
+> > I know the one in the kernel now is ridiculously complicated and has
+> > been thoroughly messed up with abstractions to support NVMeoF instead
+> > of having a separate driver, but it's really a simple interface at heart.
 > 
-> On 7/22/2021 12:06 PM, Yishai Hadas wrote:
-> > On 7/21/2021 8:39 PM, Leon Romanovsky wrote:
-> > > On Wed, Jul 21, 2021 at 07:16:09PM +0300, Yishai Hadas wrote:
-> > > > From: Max Gurtovoy <mgurtovoy@nvidia.com>
-> > > > 
-> > > > Now that vfio_pci has been split into two source modules, one focusing
-> > > > on the "struct pci_driver" (vfio_pci.c) and a toolbox library of code
-> > > > (vfio_pci_core.c), complete the split and move them into two different
-> > > > kernel modules.
-> > > > 
-> > > > As before vfio_pci.ko continues to present the same interface under
-> > > > sysfs and this change will have no functional impact.
-> > > > 
-> > > > Splitting into another module and adding exports allows creating new HW
-> > > > specific VFIO PCI drivers that can implement device specific
-> > > > functionality, such as VFIO migration interfaces or specialized device
-> > > > requirements.
-> > > > 
-> > > > Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
-> > > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > > Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> > > > ---
-> > > >   drivers/vfio/pci/Kconfig                      | 30 ++++++++------
-> > > >   drivers/vfio/pci/Makefile                     |  8 ++--
-> > > >   drivers/vfio/pci/vfio_pci.c                   | 14 ++-----
-> > > >   drivers/vfio/pci/vfio_pci_config.c            |  2 +-
-> > > >   drivers/vfio/pci/vfio_pci_core.c              | 41
-> > > > ++++++++++++++++---
-> > > >   drivers/vfio/pci/vfio_pci_igd.c               |  2 +-
-> > > >   drivers/vfio/pci/vfio_pci_intrs.c             |  2 +-
-> > > >   drivers/vfio/pci/vfio_pci_rdwr.c              |  2 +-
-> > > >   drivers/vfio/pci/vfio_pci_zdev.c              |  2 +-
-> > > >   .../pci => include/linux}/vfio_pci_core.h     |  2 -
-> > > >   10 files changed, 66 insertions(+), 39 deletions(-)
-> > > >   rename {drivers/vfio/pci => include/linux}/vfio_pci_core.h (99%)
-> > > <...>
-> > > 
-> > > > -#include "vfio_pci_core.h"
-> > > > +#include <linux/vfio_pci_core.h>
-> > > > +
-> > > > +#define DRIVER_VERSION  "0.2"
-> > > <...>
-> > > 
-> > > > +MODULE_VERSION(DRIVER_VERSION);
-> > > Please don't add driver versions to the upstream kernel, they useless.
-> > > 
-> > > Thanks
-> > 
-> > This just preserves the code for driver/module version that was in
-> > vfio_pci.ko before the split.
-> > 
-> > However,  this can be removed in V2 if we may need to have.
-> 
-> Right, we already agreed to preserve vfio_pci versioning scheme and we'll
-> not add it to new mlx5_vfio_pci or future drivers.
+> The latest NVMe spec is 452 pages long, which seems to contradict your claim
+> that it's simple. In any case, translating less than 1K lines of C shouldn't be
+> too hard (after I've built the abstractions, of course). Would you mind sharing
+> the simple driver you mention above?
 
-There is nothing to preserve, instead of keeping this useless code, just
-delete it.
+You can use the 1.0 spec, which is much shorter. A 1.0 capable driver
+should be forward compatible with newer devices, too.
 
-https://lore.kernel.org/ksummit-discuss/CA+55aFx9A=5cc0QZ7CySC4F2K7eYaEfzkdYEc9JaNgCcV25=rg@mail.gmail.com/
-
-Thanks
-
-> 
-> 
-> > 
-> > Yishai
-> > 
+The current nvme driver became less simple since blk-mq integration and
+has only gotten more complicated since then with other transports and
+more advanced features. For a simpler example, you can reference an in
+kernel version <= 3.16, and ignore the "nvme-scsi" parts.
