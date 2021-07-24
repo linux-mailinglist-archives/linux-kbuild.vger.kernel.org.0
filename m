@@ -2,104 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C023D47FD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Jul 2021 15:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D290D3D4933
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Jul 2021 20:38:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233591AbhGXNQs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Jul 2021 09:16:48 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:25818 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230449AbhGXNQr (ORCPT
+        id S229535AbhGXR6C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Jul 2021 13:58:02 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:37976 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229530AbhGXR57 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Jul 2021 09:16:47 -0400
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 16ODv3mR024200;
-        Sat, 24 Jul 2021 22:57:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 16ODv3mR024200
+        Sat, 24 Jul 2021 13:57:59 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 16OIa5fW011807;
+        Sun, 25 Jul 2021 03:36:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 16OIa5fW011807
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627135023;
-        bh=5Fd9mgowz8MQq9+S1QewgO/orsIjlDdROruWKnyaeKA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UyU2SQTWcpXI8AqB9/TChquwpSL9QhvidZBsygdi5+P1hitlBSUUx060ewDgdrJrt
-         7K5i529sV1SfcH8wo+HK286zDFzW7H9R0jfSNOjQBoD4FPB2ggy7hRS53/Oo/qQouq
-         Kzhkeb4rYQyXCW3ogG3PGatfJJSXXH3ZlkfEF1AdZr2CekSw0yghAZFn1yoXoydh/0
-         M4+N+ILTaAFo+7TeFadkFPYE1alArvZyiOV2B+QnqdsXWzJqv5MOSf9hod22QhN7vA
-         EJ0AnhOnfLGFg0VjO18Q70N2GbcWHqEbrpL4yao0BRJPCJyvvVse81uDqvNhiJp+uS
-         mDRPMFfhf/mzQ==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id gv20-20020a17090b11d4b0290173b9578f1cso8720497pjb.0;
-        Sat, 24 Jul 2021 06:57:03 -0700 (PDT)
-X-Gm-Message-State: AOAM531bbQEnfTS9+StVXw1ikWYiR4uinV9l7hiaOvBSgcYnhjJEPfib
-        BmDVnlV8ryWYAge7/b3buGXfdC6uPhy8COOGqi0=
-X-Google-Smtp-Source: ABdhPJypFVhXUmcK6NaqNSTcMh6J7snzxpTL9S8iZmi5FPCeSZgY5i0RjNTlkleNJMFtKMFTIYQFGpoKxC6ZZ8zvpmU=
-X-Received: by 2002:a65:609a:: with SMTP id t26mr9689022pgu.175.1627135022647;
- Sat, 24 Jul 2021 06:57:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201202151238.3776616-1-maennich@google.com> <CAF2Aj3jS6+RN5mEeF+65MRsyMR9BMecMmxwr3sfjwd64zA6Acw@mail.gmail.com>
- <CAF2Aj3hWWoQvezD4Ma01LrhUwGLobNk40H9ArvjT5+XeNE3vMw@mail.gmail.com>
-In-Reply-To: <CAF2Aj3hWWoQvezD4Ma01LrhUwGLobNk40H9ArvjT5+XeNE3vMw@mail.gmail.com>
+        s=dec2015msa; t=1627151766;
+        bh=adPHQfj4dkdvDSuI2P8Sk/NYpUO6MJy1Eba1ZmTwIqQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mwy+A+WoxA23v7DCIpvZqa01h//pg2w0vRfZRtk8hESAyrN042xstnK84DPzcoea0
+         Beda2yGgKgQ8ezrhrsTt1sXbPOJVN3u+19AnZEZNSpg+BoT1oOKRYZ24GdaREpBSCn
+         fD9NIOGpMZKN8TG7PKW0m/idNM80eGkYUAGzJa+tKDxXaQWP4Zzm9qib1DY3lLHfHW
+         GHHMdqyJ78F6lyNZaPnF16HDyOdcyDxrft1d5WodjnFot7HDAPGwEAIWBQ2c4IBBcU
+         OwFO3HimmyMXY2tYJBWOsoT2f9X+/B9V6bemsoVMOgCLlVzfQnqiuT3+B1bA7FQbAi
+         +/wU2T2agkHoA==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 24 Jul 2021 22:56:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATRc4kJ9vvC1Y6xt88t8w-qKjdZMg_tK+9nZqHqa4bX_g@mail.gmail.com>
-Message-ID: <CAK7LNATRc4kJ9vvC1Y6xt88t8w-qKjdZMg_tK+9nZqHqa4bX_g@mail.gmail.com>
-Subject: Re: [PATCH] scripts: merge_config: add strict mode to fail upon any redefinition
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-mips@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+        Richard Weinberger <richard@nod.at>,
+        Ingo Molnar <mingo@redhat.com>, Jeff Dike <jdike@addtoit.com>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Subject: [PATCH] kbuild: do not require sub-make for separate output tree builds
+Date:   Sun, 25 Jul 2021 03:35:56 +0900
+Message-Id: <20210724183556.76680-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 22, 2021 at 7:13 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Masahiro,
->
-> On Fri, 21 May 2021 at 10:29, Lee Jones <lee.jones@linaro.org> wrote:
->>
->> On Wed, 2 Dec 2020 at 15:13, Matthias Maennich <maennich@google.com> wrote:
->>>
->>> When merging configuration fragments, it might be of interest to
->>> identify mismatches (redefinitions) programmatically. Hence add the
->>> option -s (strict mode) to instruct merge_config.sh to bail out in
->>> case any redefinition has been detected.
->>>
->>> With strict mode, warnings are emitted as before, but the script
->>> terminates with rc=1. If -y is set to define "builtin having
->>> precedence over modules", fragments are still allowed to set =m (while
->>> the base config has =y). Strict mode will tolerate that as demotions
->>> from =y to =m are ignored when setting -y.
->>>
->>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->>> Signed-off-by: Matthias Maennich <maennich@google.com>
->>> ---
->>>  scripts/kconfig/merge_config.sh | 15 +++++++++++++++
->>>  1 file changed, 15 insertions(+)
->>
->>
->> Reviewed-by: Lee Jones <lee.jones@linaro.org>
->
->
-> Any idea what's holding this up please?
+As explained in commit 3204a7fb98a3 ("kbuild: prefix $(srctree)/ to some
+included Makefiles"), I want to stop using --include-dir some day.
 
-Simply because I hate this script.
+I already fixed up the top Makefile, but some arch Makefiles (mips, um,
+x86) still include check-in Makefiles without $(srctree)/.
 
+Fix them up so 'need-sub-make := 1' can go away for this case.
 
-merge_config.sh itself is a bad hack.
-I do not like to extend it further.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Not only this one.
-I saw more people with
-"hey, I came up with a new option for merge_config.sh"
-to do whatever they like to do.
+ Makefile           | 5 ++---
+ arch/mips/Makefile | 2 +-
+ arch/um/Makefile   | 6 +++---
+ arch/x86/Makefile  | 2 +-
+ 4 files changed, 7 insertions(+), 8 deletions(-)
 
-However, it might be too late anyway.
-
-So, I can merge this patch if people believe
-it is useful.
-
+diff --git a/Makefile b/Makefile
+index e4f5895badb5..bb10a93edf5c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -191,10 +191,9 @@ endif
+ ifneq ($(abs_srctree),$(abs_objtree))
+ # Look for make include files relative to root of kernel src
+ #
+-# This does not become effective immediately because MAKEFLAGS is re-parsed
+-# once after the Makefile is read. We need to invoke sub-make.
++# --included-dir is added for backward compatibility, but you should not rely on
++# it. Please add $(srctree)/ prefix to include Makefiles in the source tree.
+ MAKEFLAGS += --include-dir=$(abs_srctree)
+-need-sub-make := 1
+ endif
+ 
+ ifneq ($(filter 3.%,$(MAKE_VERSION)),)
+diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+index 4e942b7ef022..bc2e1857d8ce 100644
+--- a/arch/mips/Makefile
++++ b/arch/mips/Makefile
+@@ -254,7 +254,7 @@ endif
+ #
+ # Board-dependent options and extra files
+ #
+-include arch/mips/Kbuild.platforms
++include $(srctree)/arch/mips/Kbuild.platforms
+ 
+ ifdef CONFIG_PHYSICAL_START
+ load-y					= $(CONFIG_PHYSICAL_START)
+diff --git a/arch/um/Makefile b/arch/um/Makefile
+index 12a7acef0357..f2fe63bfd819 100644
+--- a/arch/um/Makefile
++++ b/arch/um/Makefile
+@@ -41,8 +41,8 @@ endif
+ 
+ HOST_DIR := arch/$(HEADER_ARCH)
+ 
+-include $(ARCH_DIR)/Makefile-skas
+-include $(HOST_DIR)/Makefile.um
++include $(srctree)/$(ARCH_DIR)/Makefile-skas
++include $(srctree)/$(HOST_DIR)/Makefile.um
+ 
+ core-y += $(HOST_DIR)/um/
+ 
+@@ -76,7 +76,7 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+ 		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
+ 
+ #This will adjust *FLAGS accordingly to the platform.
+-include $(ARCH_DIR)/Makefile-os-$(OS)
++include $(srctree)/$(ARCH_DIR)/Makefile-os-$(OS)
+ 
+ KBUILD_CPPFLAGS += -I$(srctree)/$(HOST_DIR)/include \
+ 		   -I$(srctree)/$(HOST_DIR)/include/uapi \
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 307fd0000a83..0fa7dc73b5d8 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -75,7 +75,7 @@ ifeq ($(CONFIG_X86_32),y)
+         KBUILD_CFLAGS += $(call cc-option,$(cc_stack_align4))
+ 
+         # CPU-specific tuning. Anything which can be shared with UML should go here.
+-        include arch/x86/Makefile_32.cpu
++        include $(srctree)/arch/x86/Makefile_32.cpu
+         KBUILD_CFLAGS += $(cflags-y)
+ 
+         # temporary until string.h is fixed
 -- 
-Best Regards
-Masahiro Yamada
+2.27.0
+
