@@ -2,230 +2,349 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4CBF3D7DEA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 20:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E2973D804C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 23:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbhG0Sqn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 14:46:43 -0400
-Received: from out02.mta.xmission.com ([166.70.13.232]:33286 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbhG0Sqn (ORCPT
+        id S234044AbhG0VBR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 17:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232289AbhG0U7F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 14:46:43 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52]:47884)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m8S6C-004DYb-2A; Tue, 27 Jul 2021 12:46:40 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:57748 helo=email.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1m8S68-004Ncs-Ff; Tue, 27 Jul 2021 12:46:37 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>
-References: <20210708232522.3118208-1-ndesaulniers@google.com>
-        <20210708232522.3118208-3-ndesaulniers@google.com>
-        <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
-        <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
-        <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
-        <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
-        <87r1fkizxl.fsf@disp2133>
-        <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
-        <87v94vg7vi.fsf@disp2133>
-        <CAK7LNASbegX=9yBDktuK5iXhhB=wNP_kbdh4dnJMXSmV=XwHOw@mail.gmail.com>
-Date:   Tue, 27 Jul 2021 13:46:07 -0500
-In-Reply-To: <CAK7LNASbegX=9yBDktuK5iXhhB=wNP_kbdh4dnJMXSmV=XwHOw@mail.gmail.com>
-        (Masahiro Yamada's message of "Wed, 28 Jul 2021 00:45:54 +0900")
-Message-ID: <87lf5rfvdc.fsf@disp2133>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Tue, 27 Jul 2021 16:59:05 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B0A7C0613D5
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id j1so1780838pjv.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pj8bqnZek7DQGNCWLNQ0g1MGQCZIVVP0FzEBXBYiI7Y=;
+        b=HGNcgmkgioh1CGhVV9MmNSHIIrZU3zyWU9FQ5VTwPn9W0umAdlgjeKjEauZRV7JvPz
+         /xO8V7bI0qXeAL0brzQ/n76823kTps6Q+jg5Lqgw2S0FCPeBRaMRbbQJIg+2s9yZN23w
+         YMWhNsoWAH6pujsciw3v5szvSdnTqVCKJT8K4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pj8bqnZek7DQGNCWLNQ0g1MGQCZIVVP0FzEBXBYiI7Y=;
+        b=Z9vvftTgkTfdME8WKwlnnPuzPxHXjHXvTozwanwQ87vjFtnNHqMx0rTR0m2Fm6NnCp
+         e+CYd8rg8DoxlHvHTDosgAbyfow2C2Qck1WvfUgh9kFDCUjneTpx9mTLsCaEP0X4ufn8
+         MqtYi/pQAzeoY6OP9iwc3OiknLcH5c/1m4pjk5CZCOnA/OxoSLdGZcemNsrtHCIRoJD8
+         wExno/RWGhTdiqIP/nLsEvXTNwOxIIMrEmABinWDbGIgqviyW0V39vsPYYr4cSnV+rk/
+         V83G5Kv05pDLhKpwejzF526t/YUu3zp2nn+13cGS/wWpd9D+SI8ZhCNKvCF47yQpr1Gf
+         wj1Q==
+X-Gm-Message-State: AOAM5316poaayjT3PAIAZYTHPrUW6kKUz6Otyh6G4WL6ZbeC1aM5/vIr
+        6Ka7rm2riLEAzWZ4uyevS9C1sA==
+X-Google-Smtp-Source: ABdhPJwQjtrpDZXCytTxeG9yF6HC6xTn6UlfN5aFtxlz0qj/DQHfEGxGJNxB1m8L8ACZ2Ym4GjhdUQ==
+X-Received: by 2002:a17:90a:bd06:: with SMTP id y6mr24299379pjr.6.1627419545039;
+        Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b22sm3589308pjq.37.2021.07.27.13.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-hardening@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH 00/64] Introduce strict memcpy() bounds checking
+Date:   Tue, 27 Jul 2021 13:57:51 -0700
+Message-Id: <20210727205855.411487-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1m8S68-004Ncs-Ff;;;mid=<87lf5rfvdc.fsf@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1+3wQ5mLUbVDzV6nXI3HOEjKRRseKbKxYY=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa07.xmission.com
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
-        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
-        T_TooManySym_02,XMSubLong autolearn=disabled version=3.4.2
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4905]
-        *  0.7 XMSubLong Long Subject
-        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-        *      [sa07 1397; Body=1 Fuz1=1 Fuz2=1]
-        *  0.0 T_TooManySym_01 4+ unique symbols in subject
-        *  0.0 T_TooManySym_02 5+ unique symbols in subject
-X-Spam-DCC: XMission; sa07 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Masahiro Yamada <masahiroy@kernel.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 747 ms - load_scoreonly_sql: 0.03 (0.0%),
-        signal_user_changed: 11 (1.4%), b_tie_ro: 9 (1.3%), parse: 1.03 (0.1%),
-         extract_message_metadata: 17 (2.3%), get_uri_detail_list: 3.3 (0.4%),
-        tests_pri_-1000: 24 (3.2%), tests_pri_-950: 1.18 (0.2%),
-        tests_pri_-900: 1.02 (0.1%), tests_pri_-90: 241 (32.2%), check_bayes:
-        239 (32.0%), b_tokenize: 12 (1.5%), b_tok_get_all: 11 (1.5%),
-        b_comp_prob: 3.1 (0.4%), b_tok_touch_all: 210 (28.1%), b_finish: 0.90
-        (0.1%), tests_pri_0: 439 (58.8%), check_dkim_signature: 0.58 (0.1%),
-        check_dkim_adsp: 2.5 (0.3%), poll_dns_idle: 0.70 (0.1%), tests_pri_10:
-        2.1 (0.3%), tests_pri_500: 7 (0.9%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for LLVM=1 LLVM_IAS=1
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14542; h=from:subject; bh=3tzv74ZEYGmAd5y8uADc3iW7VORzfnMWeib6wFauI3E=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOAailZMrySr8Hn5051y4jmV7pP1R0P8T0EYvJP PELScHiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgAAKCRCJcvTf3G3AJuDsD/ 49eMPKhRTb8JW/0fu88Js34IrgzhJADjmGc/UumkwlOoDoPkpm1YlMabyJe2OYGVqkIrU6PyPcmKwG YVxEGJ73OfhUQSwuchPcRrV7nhD8bPMqaij8yvd/9p7RR0lekdDNFhdcQgmlrLiOXFP2mokQ4kOIAW zanWodV+4IjYS8aIK+1uMkvRK1kIlxFuMwl1i9ThUz7Wi9lyrz3TJFZZR+1151uW9wzNMZSvI2ba1k gbAu6TN8Qvqlyakd+WhGhH6Th6JcXfGkzkN7xXhLJzXfNE/duHabQB2IUEi2k8LAjXFBgJtr+odhU8 HKyA/Y92NIKc4lwIY3q8mXlMdPjdOaQxNWt+Sz76KxQQ14l7sdbypO4OWNdIc/wWzMcKvJAjqKMtNH kocl8xdR/eRtz9R52PCPSif7oDbeYBByDvIB+b4IxdfKIWV1pkn8dgJf81GmUN4wCiaAtMUtvIV/UQ 8hfFOJiP1AMiAzRLt1waXayNuZJ7mTdnbDyJnbj1DtpWJdRrTBjYmWVefNxuxjboVlPrPBo9s/nAvt WpUMeOoFJ/bdWexQFk0g85Kuljf0EHobF3GWuemhqaWEWjSY9Y/jAkzQh2B2OY+bBCFwt6iAk/3qGb G4nqBUEAEMRyidD1kH/Dpq1knG3U7nzJQBcWvNYItFJIl3BjyK80L24ZXZOw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
+Hi,
 
-> On Tue, Jul 27, 2021 at 11:16 PM Eric W. Biederman
-> <ebiederm@xmission.com> wrote:
->>
->> Masahiro Yamada <masahiroy@kernel.org> writes:
->>
->> > On Tue, Jul 27, 2021 at 5:27 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
->> >>
->> >> Masahiro Yamada <masahiroy@kernel.org> writes:
->> >>
->> >> > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
->> >> >>
->> >> >> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
->> >> >> <torvalds@linux-foundation.org> wrote:
->> >> >> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->> >> >> >
->> >> >> > We do most of the other heavy lifting in this area in Kconfig anyway,
->> >> >> > why not add that compiler choice?
->> >> >> >
->> >> >> > Obviously it would be gated by the tests to see which compilers are
->> >> >> > _installed_ (and that they are valid versions), so that it doesn't ask
->> >> >> > stupid things ("do you want gcc or clang" when only one of them is
->> >> >> > installed and/or viable).
->> >> >>
->> >> >> I don't see a good way of making Kconfig options both select the
->> >> >> compiler and defining variables based on the compiler, since that
->> >> >> would mean teaching Kconfig about re-evaluating all compiler
->> >> >> dependent settings whenever the first option changes.
->> >> >>
->> >> >> I do have another idea that I think would work though.
->> >> >>
->> >> >> > Hmm? So then any "LLVM=1" thing would be about the "make config"
->> >> >> > stage, not the actual build stage.
->> >> >> >
->> >> >> > (It has annoyed me for years that if you want to cross-compile, you
->> >> >> > first have to do "make ARCH=xyz config" and then remember to do "make
->> >> >> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
->> >> >> > never really cared).
->> >> >>
->> >> >> The best thing that I have come up with is a pre-configure step, where
->> >> >> an object tree gets seeded with a makefile fragment that gets included
->> >> >> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
->> >> >> 'CC=' and possibly any other option that gets passed to 'make' as
->> >> >> a variable and has to exist before calling 'make *config'.
->> >> >
->> >> >
->> >> > There is no need to add a hook to include such makefile fragment(s).
->> >> >
->> >> > Quite opposite, you can put your Makefile (in a different filename)
->> >> > that includes the top Makefile.
->> >> >
->> >> >
->> >> > I think this is what people are already doing:
->> >> >
->> >> >
->> >> > GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
->> >> > in this order.
->> >> >
->> >> >
->> >> > So, you can put 'GNUmakefile' with your favorite setups.
->> >> >
->> >> >
->> >> > $ cat GNUmakefile
->> >> > ARCH=arm64
->> >> > CROSS_COMPILE=aarch64-linux-gnu-
->> >> > CC=clang
->> >> > include Makefile
->> >>
->> >> Very weird.
->> >>
->> >> I just tested this and it does not work.
->> >> I did this:
->> >>
->> >> $ cat GNUmakefile
->> >> ARCH = alpha
->> >> CROSS_COMPILE = $(arch-prefix alpha)
->> >> include Makefile
->> >>
->> >> In one of my build directories and the main makefile simply does not see
->> >> the value of ARCH or CROSS_COMPILE I set.  I have confirmed that my
->> >> GNUmakefile is being read, because everything breaks if I remove the
->> >> include line.
->> >>
->> >> Does anyone have any ideas?
->> >>
->> >> Something so we don't have to specify all of these variables on the make
->> >> command line would be nice.
->> >>
->> >> Eric
->> >
->> >
->> > Worked for me.
->> >
->> > Could you tell me the exact steps you did?
->> >
->> >
->> > This is my case:
->> >
->> > My kernel source tree is located at $HOME/ref/linux
->> > alpha tool chains are located at $HOME/tools/alpha-10.1.0/bin
->> >
->> >
->> >
->> > I tried a simple GNUmakefile with 3 lines.
->> >
->> > You can see 'make' is building the alpha kernel
->> >
->> >
->> > Please see below:
->>
->> Interesting.  That appears to work if I don't specify a build directory.
->> Once I specify a build directory with O= it does not work.
->>
->> When I am working on a change that affects multiple architectures
->> I really want a build directory that is not my source tree so I can
->> test small changes on multiple architectures without needing to rebuild
->> everything.
->>
->> Eric
->
->
-> Ah, OK.
-> When you specify O= option, Kbuild will
-> invoke sub-make.
-> So you need to add 'export' to the
-> variables.
->
-> Please see the following modified version.
+This patch series (based on next-20210726) implements stricter (no struct
+member overflows) bounds checking for memcpy(), memmove(), and memset()
+under CONFIG_FORTIFY_SOURCE. To quote a later patch in the series:
 
-Yes. That does seem to work and be simpler.
+    tl;dr: In order to eliminate a large class of common buffer overflow
+    flaws that continue to persist in the kernel, have memcpy() (under
+    CONFIG_FORTIFY_SOURCE) perform bounds checking of the destination struct
+    member when they have a known size. This would have caught all of the
+    memcpy()-related buffer write overflow flaws identified in at least the
+    last three years.
 
-Is there any chance we can get the command that generates the Makefile
-in the build directory to include variables like ARCH and CROSS_COMPILE
-in the Makefile as well?  Just so they don't need to be set by hand to
-the same value every time?
+As this series introduces various helpers and performs several phases of
+treewide cleanups, I'm expecting to carry this series in my tree, so I'd
+love to get some Reviews and Acks. Given the size, I've mostly aimed this
+series at various mailing lists, otherwise the CC size got really big. :)
 
-Eric
+Specifically, this series is logically split into several steps:
+
+Clean up remaining simple compile-time memcpy() warnings:
+  media: omap3isp: Extract struct group for memcpy() region
+  mac80211: Use flex-array for radiotap header bitmap
+  rpmsg: glink: Replace strncpy() with strscpy_pad()
+
+Introduce struct_group() and apply it treewide to avoid compile-time
+memcpy() warnings:
+  stddef: Introduce struct_group() helper macro
+  skbuff: Switch structure bounds to struct_group()
+  bnxt_en: Use struct_group_attr() for memcpy() region
+  staging: rtl8192e: Use struct_group() for memcpy() region
+  staging: rtl8192u: Use struct_group() for memcpy() region
+  staging: rtl8723bs: Avoid field-overflowing memcpy()
+  lib80211: Use struct_group() for memcpy() region
+  net/mlx5e: Avoid field-overflowing memcpy()
+  mwl8k: Use struct_group() for memcpy() region
+  libertas: Use struct_group() for memcpy() region
+  libertas_tf: Use struct_group() for memcpy() region
+  ipw2x00: Use struct_group() for memcpy() region
+  thermal: intel: int340x_thermal: Use struct_group() for memcpy() region
+  iommu/amd: Use struct_group() for memcpy() region
+  cxgb3: Use struct_group() for memcpy() region
+  ip: Use struct_group() for memcpy() regions
+  intersil: Use struct_group() for memcpy() region
+  cxgb4: Use struct_group() for memcpy() region
+  bnx2x: Use struct_group() for memcpy() region
+  drm/amd/pm: Use struct_group() for memcpy() region
+  staging: wlan-ng: Use struct_group() for memcpy() region
+  drm/mga/mga_ioc32: Use struct_group() for memcpy() region
+  net/mlx5e: Use struct_group() for memcpy() region
+  HID: cp2112: Use struct_group() for memcpy() region
+
+Prepare fortify for additional hardening:
+  compiler_types.h: Remove __compiletime_object_size()
+  lib/string: Move helper functions out of string.c
+  fortify: Move remaining fortify helpers into fortify-string.h
+  fortify: Explicitly disable Clang support
+
+Add compile-time and run-time tests:
+  fortify: Add compile-time FORTIFY_SOURCE tests
+  lib: Introduce CONFIG_TEST_MEMCPY
+
+Enable new compile-time memcpy() and memmove() bounds checking:
+  fortify: Detect struct member overflows in memcpy() at compile-time
+  fortify: Detect struct member overflows in memmove() at compile-time
+
+Clean up remaining simple compile-time memset() warnings:
+  scsi: ibmvscsi: Avoid multi-field memset() overflow by aiming at srp
+
+Introduce memset_after() helper and apply it (and struct_group())
+treewide to avoid compile-time memset() warnings:
+  string.h: Introduce memset_after() for wiping trailing members/padding
+  xfrm: Use memset_after() to clear padding
+  mac80211: Use memset_after() to clear tx status
+  net: 802: Use memset_after() to clear struct fields
+  net: dccp: Use memset_after() for TP zeroing
+  net: qede: Use memset_after() for counters
+  ath11k: Use memset_after() for clearing queue descriptors
+  iw_cxgb4: Use memset_after() for cpl_t5_pass_accept_rpl
+  intel_th: msu: Use memset_after() for clearing hw header
+  IB/mthca: Use memset_after() for clearing mpt_entry
+  btrfs: Use memset_after() to clear end of struct
+  drbd: Use struct_group() to zero algs
+  cm4000_cs: Use struct_group() to zero struct cm4000_dev region
+  KVM: x86: Use struct_group() to zero decode cache
+  tracing: Use struct_group() to zero struct trace_iterator
+  dm integrity: Use struct_group() to zero struct journal_sector
+  HID: roccat: Use struct_group() to zero kone_mouse_event
+  ipv6: Use struct_group() to zero rt6_info
+  RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
+  ethtool: stats: Use struct_group() to clear all stats at once
+  netfilter: conntrack: Use struct_group() to zero struct nf_conn
+  powerpc: Split memset() to avoid multi-field overflow
+
+Enable new compile-time memset() bounds checking:
+  fortify: Detect struct member overflows in memset() at compile-time
+
+Enable Clang support and global array-bounds checking:
+  fortify: Work around Clang inlining bugs
+  Makefile: Enable -Warray-bounds
+
+Avoid run-time memcpy() bounds check warnings:
+  netlink: Avoid false-positive memcpy() warning
+  iwlwifi: dbg_ini: Split memcpy() to avoid multi-field write
+
+Enable run-time memcpy() bounds checking:
+  fortify: Add run-time WARN for cross-field memcpy()
+
+A future series will clean up for and add run-time memset() bounds
+checking.
+
+Thanks!
+
+-Kees
+
+
+ Makefile                                      |   1 -
+ arch/s390/lib/string.c                        |   3 +
+ arch/x86/boot/compressed/misc.c               |   3 +-
+ arch/x86/kvm/emulate.c                        |   3 +-
+ arch/x86/kvm/kvm_emulate.h                    |  19 +-
+ arch/x86/lib/memcpy_32.c                      |   1 +
+ arch/x86/lib/string_32.c                      |   1 +
+ drivers/block/drbd/drbd_main.c                |   3 +-
+ drivers/block/drbd/drbd_protocol.h            |   6 +-
+ drivers/block/drbd/drbd_receiver.c            |   3 +-
+ drivers/char/pcmcia/cm4000_cs.c               |   9 +-
+ drivers/gpu/drm/amd/include/atomfirmware.h    |   9 +-
+ .../drm/amd/pm/inc/smu11_driver_if_arcturus.h |   3 +-
+ .../drm/amd/pm/inc/smu11_driver_if_navi10.h   |   3 +-
+ .../amd/pm/inc/smu13_driver_if_aldebaran.h    |   3 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c |   6 +-
+ .../gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c   |  12 +-
+ .../drm/amd/pm/swsmu/smu13/aldebaran_ppt.c    |   6 +-
+ drivers/gpu/drm/mga/mga_ioc32.c               |  30 +-
+ drivers/hid/hid-cp2112.c                      |  14 +-
+ drivers/hid/hid-roccat-kone.c                 |   2 +-
+ drivers/hid/hid-roccat-kone.h                 |  12 +-
+ drivers/hwtracing/intel_th/msu.c              |   4 +-
+ drivers/infiniband/hw/cxgb4/cm.c              |   5 +-
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |   4 +-
+ drivers/infiniband/hw/mthca/mthca_mr.c        |   3 +-
+ drivers/iommu/amd/init.c                      |   9 +-
+ drivers/macintosh/smu.c                       |   3 +-
+ drivers/md/dm-integrity.c                     |   9 +-
+ drivers/media/platform/omap3isp/ispstat.c     |   5 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_stats.c |   7 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_stats.h |  14 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c |   4 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h |  14 +-
+ drivers/net/ethernet/chelsio/cxgb3/sge.c      |   9 +-
+ drivers/net/ethernet/chelsio/cxgb4/sge.c      |   8 +-
+ drivers/net/ethernet/chelsio/cxgb4/t4_msg.h   |   2 +-
+ drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h |  10 +-
+ drivers/net/ethernet/chelsio/cxgb4vf/sge.c    |   7 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en/xdp.c  |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_tx.c   |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_main.c  |   2 +-
+ drivers/net/wireguard/queueing.h              |   4 +-
+ drivers/net/wireless/ath/ath11k/hal_rx.c      |  13 +-
+ drivers/net/wireless/ath/carl9170/tx.c        |   4 +-
+ drivers/net/wireless/intel/ipw2x00/libipw.h   |  12 +-
+ .../net/wireless/intel/ipw2x00/libipw_rx.c    |   8 +-
+ drivers/net/wireless/intel/iwlwifi/fw/file.h  |   2 +-
+ .../net/wireless/intel/iwlwifi/iwl-dbg-tlv.c  |   3 +-
+ .../net/wireless/intersil/hostap/hostap_hw.c  |   5 +-
+ .../wireless/intersil/hostap/hostap_wlan.h    |  14 +-
+ drivers/net/wireless/intersil/p54/txrx.c      |   4 +-
+ drivers/net/wireless/marvell/libertas/host.h  |  10 +-
+ drivers/net/wireless/marvell/libertas/tx.c    |   5 +-
+ .../marvell/libertas_tf/libertas_tf.h         |  10 +-
+ .../net/wireless/marvell/libertas_tf/main.c   |   3 +-
+ drivers/net/wireless/marvell/mwl8k.c          |  10 +-
+ drivers/rpmsg/qcom_glink_native.c             |   2 +-
+ drivers/scsi/ibmvscsi/ibmvscsi.c              |   2 +-
+ drivers/staging/rtl8192e/rtllib.h             |  20 +-
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c  |   3 +-
+ drivers/staging/rtl8192e/rtllib_rx.c          |   8 +-
+ .../staging/rtl8192u/ieee80211/ieee80211.h    |  24 +-
+ .../rtl8192u/ieee80211/ieee80211_crypt_ccmp.c |   3 +-
+ .../staging/rtl8192u/ieee80211/ieee80211_rx.c |   8 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |   2 +-
+ drivers/staging/rtl8723bs/core/rtw_security.c |   5 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |   5 +-
+ drivers/staging/wlan-ng/hfa384x.h             |  16 +-
+ drivers/staging/wlan-ng/hfa384x_usb.c         |   4 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.c  |   5 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.h  |  48 +--
+ fs/btrfs/root-tree.c                          |   5 +-
+ include/linux/compiler-gcc.h                  |   2 -
+ include/linux/compiler_types.h                |   4 -
+ include/linux/fortify-string.h                | 234 +++++++++++---
+ include/linux/ieee80211.h                     |   8 +-
+ include/linux/if_vlan.h                       |   6 +-
+ include/linux/skbuff.h                        |   9 +-
+ include/linux/stddef.h                        |  34 ++
+ include/linux/string.h                        |  26 +-
+ include/linux/thread_info.h                   |   2 +-
+ include/linux/trace_events.h                  |  26 +-
+ include/net/flow.h                            |   6 +-
+ include/net/ieee80211_radiotap.h              |  24 +-
+ include/net/ip6_fib.h                         |  30 +-
+ include/net/mac80211.h                        |   4 +-
+ include/net/netfilter/nf_conntrack.h          |  20 +-
+ include/uapi/drm/mga_drm.h                    |  37 ++-
+ include/uapi/linux/if_ether.h                 |  12 +-
+ include/uapi/linux/ip.h                       |  12 +-
+ include/uapi/linux/ipv6.h                     |  12 +-
+ include/uapi/linux/netlink.h                  |   1 +
+ include/uapi/linux/omap3isp.h                 |  44 ++-
+ kernel/trace/trace.c                          |   4 +-
+ lib/.gitignore                                |   2 +
+ lib/Kconfig.debug                             |   3 +
+ lib/Makefile                                  |  32 ++
+ lib/string.c                                  | 210 +------------
+ lib/string_helpers.c                          | 201 ++++++++++++
+ lib/test_fortify/read_overflow-memchr.c       |   5 +
+ lib/test_fortify/read_overflow-memchr_inv.c   |   5 +
+ lib/test_fortify/read_overflow-memcmp.c       |   5 +
+ lib/test_fortify/read_overflow-memscan.c      |   5 +
+ lib/test_fortify/read_overflow2-memcmp.c      |   5 +
+ lib/test_fortify/read_overflow2-memcpy.c      |   5 +
+ lib/test_fortify/read_overflow2-memmove.c     |   5 +
+ .../read_overflow2_field-memcpy.c             |   5 +
+ .../read_overflow2_field-memmove.c            |   5 +
+ lib/test_fortify/test_fortify.h               |  31 ++
+ lib/test_fortify/write_overflow-memcpy.c      |   5 +
+ lib/test_fortify/write_overflow-memmove.c     |   5 +
+ lib/test_fortify/write_overflow-memset.c      |   5 +
+ lib/test_fortify/write_overflow-strlcpy.c     |   5 +
+ lib/test_fortify/write_overflow-strncpy.c     |   5 +
+ lib/test_fortify/write_overflow-strscpy.c     |   5 +
+ .../write_overflow_field-memcpy.c             |   5 +
+ .../write_overflow_field-memmove.c            |   5 +
+ .../write_overflow_field-memset.c             |   5 +
+ lib/test_memcpy.c                             | 297 ++++++++++++++++++
+ net/802/hippi.c                               |   2 +-
+ net/core/flow_dissector.c                     |  10 +-
+ net/core/skbuff.c                             |  14 +-
+ net/dccp/trace.h                              |   4 +-
+ net/ethtool/stats.c                           |  15 +-
+ net/ipv4/ip_output.c                          |   6 +-
+ net/ipv6/route.c                              |   4 +-
+ net/mac80211/rx.c                             |   2 +-
+ net/netfilter/nf_conntrack_core.c             |   4 +-
+ net/netlink/af_netlink.c                      |   4 +-
+ net/wireless/lib80211_crypt_ccmp.c            |   3 +-
+ net/wireless/radiotap.c                       |   5 +-
+ net/xfrm/xfrm_policy.c                        |   4 +-
+ net/xfrm/xfrm_user.c                          |   2 +-
+ scripts/test_fortify.sh                       |  64 ++++
+ security/Kconfig                              |   3 +
+ 137 files changed, 1484 insertions(+), 633 deletions(-)
+ create mode 100644 lib/test_fortify/read_overflow-memchr.c
+ create mode 100644 lib/test_fortify/read_overflow-memchr_inv.c
+ create mode 100644 lib/test_fortify/read_overflow-memcmp.c
+ create mode 100644 lib/test_fortify/read_overflow-memscan.c
+ create mode 100644 lib/test_fortify/read_overflow2-memcmp.c
+ create mode 100644 lib/test_fortify/read_overflow2-memcpy.c
+ create mode 100644 lib/test_fortify/read_overflow2-memmove.c
+ create mode 100644 lib/test_fortify/read_overflow2_field-memcpy.c
+ create mode 100644 lib/test_fortify/read_overflow2_field-memmove.c
+ create mode 100644 lib/test_fortify/test_fortify.h
+ create mode 100644 lib/test_fortify/write_overflow-memcpy.c
+ create mode 100644 lib/test_fortify/write_overflow-memmove.c
+ create mode 100644 lib/test_fortify/write_overflow-memset.c
+ create mode 100644 lib/test_fortify/write_overflow-strlcpy.c
+ create mode 100644 lib/test_fortify/write_overflow-strncpy.c
+ create mode 100644 lib/test_fortify/write_overflow-strscpy.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memcpy.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memmove.c
+ create mode 100644 lib/test_fortify/write_overflow_field-memset.c
+ create mode 100644 lib/test_memcpy.c
+ create mode 100644 scripts/test_fortify.sh
+
+-- 
+2.30.2
+
