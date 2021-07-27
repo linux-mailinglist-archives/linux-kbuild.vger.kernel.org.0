@@ -2,339 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D433D834E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 00:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 344823D839A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 01:02:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233411AbhG0Wnn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 18:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233249AbhG0Wnm (ORCPT
+        id S232642AbhG0XCI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 19:02:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41310 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232599AbhG0XCI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 18:43:42 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C73C0613CF
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 15:43:40 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id d17so323805lfv.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 15:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
-        b=oPdc+CQOm8sqXyP7XoKBSgtFpkhKc5cVZX213KU9f4Da2FEPu6aF69LfwwjClKWNVJ
-         ng7j8yDgO8HI42dHLauya6am2azxxCJCaFF0anEjeHwgReEs16hSqD+oIFo6BZv6LpJS
-         ACmvJNRbwJRkxWuoPoNy6dRBIO6yHHlR2M++9sqSSkVpJNRx+YghTE2f5UEGqnLMKX0y
-         L9JtEjP+k5Rg4eykCaF7tDDJDWOi5kTiQCm0vlBFpWYapxXmiwTYE1eqKmNSFX0xs0VL
-         uH1WcfCABl1xCeDKnknA3HXWng9Y37zixBYLKsXyfi388/m+I1GilxgqhZGurEEKTpA1
-         AJfA==
+        Tue, 27 Jul 2021 19:02:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1627426927;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=M7rRt0unqfhunbDmTgW3PBE42K+S2cwzyUSoewJP8a0=;
+        b=f7LWC/sOhnLrsUjap6/6+Uu9H3BfLffoxA+vfOvs/cykQ4lCQxuXbh6Se0UbALNQba513n
+        HsFDQfwqKFdp+3znS+WQBB4wCOmVXaSbblbjntqafFCfOXSySH0KTVVgGkUe8XaizOeZDO
+        o+J36suNO3gBcS1aoFsuhvenCH9eIDE=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-lZSOBYlaOjKvXhqaeCqUAg-1; Tue, 27 Jul 2021 19:02:05 -0400
+X-MC-Unique: lZSOBYlaOjKvXhqaeCqUAg-1
+Received: by mail-oo1-f69.google.com with SMTP id y11-20020a4ade0b0000b0290264198007e0so342542oot.14
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 16:02:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
-        b=hoDS5WQzxD/QoNWOqPuqv+NthbAgOVrBUUNgnOIXyYFvZl0neRZls2aFl+rl9V0FHs
-         w+geCsQA4/AQa9xGxjZ9KVl66ZGNjDLCO72wHt4OxPPUx1/CJdc8P+AQASR9mL7rMy1p
-         MX4Q43VJcSLRF84QOZPz7jUxVysECgj/8Oo9RVN0IkIxGen0t3V9sV/IGB+x9c48vGoq
-         l2xp0Gpl1/caEiD4Db26r/GIlk/KeOu1BzTk1OiUQDGGgMaQTAlV9XgG9OwDjCFznw2W
-         LXVyynDmeu3p0UhmmLLHa3RbRMWO+j8EUnf8rZ9h/RGykxn/TUtbaeuJ50V9rdSIab7V
-         HQMA==
-X-Gm-Message-State: AOAM533DFjez4SHxNyspvvY1ZBBgD2QOYxQ+x3ekZc1Efkglo400uHGG
-        yjwuAI1KQ1LL0RLNN4BBS4Q354EjzDioSDrCpQtbVw==
-X-Google-Smtp-Source: ABdhPJxnTYGuinYeYdLqLqV+o8/XLcsFPV+/cmsQ8aq8v4uISWTPunqaNAJh2445rOdl0O13jTOR3bXB56B9K3i3ZVk=
-X-Received: by 2002:ac2:596a:: with SMTP id h10mr11005339lfp.374.1627425818438;
- Tue, 27 Jul 2021 15:43:38 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=M7rRt0unqfhunbDmTgW3PBE42K+S2cwzyUSoewJP8a0=;
+        b=eZlTlp1y7edM+H34Pu5d+DV6m6iXZhI+QX5RniWWbx37SmZis6By5OgsFV/S+wRXfa
+         Ny+ObdhKlK6RjqJUJOp+cFxj2krY1HwVJza2EFS+EJBsL5KyZSmCJ9WCcOiLYJ4TnYcV
+         p/B2asoWE55MSMeJMr6qsNmEJvXxgtlinKMa5RBKu8p53bgw/Rdr/SQRrJf4mKJUgX8g
+         3r0BjjVPF0biFXvbavtHqNOYr3ErgSnr2qzBjl/nSl9OYQV7LKzv7hXUTdJPGgTX/HMb
+         muisAh9t/J0IRTr6d6uyiYjEK99sZhrJREZMrC7TdurcP5mJSJURFMOzOOwIBsEMxTqY
+         +HJg==
+X-Gm-Message-State: AOAM530pBXtoMFKayTU19Awa+VsKPpeWX10NR0bkin9h/Y+bp2jNAT3r
+        Bl7oEr4mRo3C/kRQaEGICLhg1kURSJaYWNcZ1e3PXlyaw/4sul2xzg7e/p4HA89Rksi9YUmfn9H
+        jGrojOShrEZIfvlvWJMlzPfga
+X-Received: by 2002:aca:cf85:: with SMTP id f127mr13882751oig.87.1627426925176;
+        Tue, 27 Jul 2021 16:02:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMkktFGHDX9ExEF99ePaP2wQQCdjtqn0R0onP29wuHIONSDEOphCmXRcshirz/1uyx4zB8tA==
+X-Received: by 2002:aca:cf85:: with SMTP id f127mr13882731oig.87.1627426924981;
+        Tue, 27 Jul 2021 16:02:04 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id y19sm833987oia.22.2021.07.27.16.02.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 16:02:04 -0700 (PDT)
+Date:   Tue, 27 Jul 2021 17:02:02 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210727170202.45c72da0.alex.williamson@redhat.com>
+In-Reply-To: <20210727171458.GE1721383@nvidia.com>
+References: <20210721161609.68223-1-yishaih@nvidia.com>
+        <20210721161609.68223-10-yishaih@nvidia.com>
+        <20210727103418.2d059863.alex.williamson@redhat.com>
+        <20210727171458.GE1721383@nvidia.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org> <20210727205855.411487-35-keescook@chromium.org>
-In-Reply-To: <20210727205855.411487-35-keescook@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 27 Jul 2021 15:43:27 -0700
-Message-ID: <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
-Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in memcpy()
- at compile-time
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 2:17 PM Kees Cook <keescook@chromium.org> wrote:
->
-> To accelerate the review of potential run-time false positives, it's
-> also worth noting that it is possible to partially automate checking
-> by examining memcpy() buffer argument fields to see if they have
-> a neighboring. It is reasonable to expect that the vast majority of
+On Tue, 27 Jul 2021 14:14:58 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-a neighboring...field?
+> On Tue, Jul 27, 2021 at 10:34:18AM -0600, Alex Williamson wrote:
+> > On Wed, 21 Jul 2021 19:16:06 +0300
+> > Yishai Hadas <yishaih@nvidia.com> wrote:
+> >   
+> > > From: Max Gurtovoy <mgurtovoy@nvidia.com>
+> > > 
+> > > The new flag field is be used to allow PCI drivers to signal the core code
+> > > during driver matching and when generating the modules.alias information.
+> > > 
+> > > The first use will be to define a VFIO flag that indicates the PCI driver
+> > > is a VFIO driver.
+> > > 
+> > > VFIO drivers have a few special properties compared to normal PCI drivers:
+> > >  - They do not automatically bind. VFIO drivers are used to swap out the
+> > >    normal driver for a device and convert the PCI device to the VFIO
+> > >    subsystem.
+> > > 
+> > >    The admin must make this choice and following the current uAPI this is
+> > >    usually done by using the driver_override sysfs.
+> > > 
+> > >  - The modules.alias includes the IDs of the VFIO PCI drivers, prefixing
+> > >    them with 'vfio_pci:' instead of the normal 'pci:'.
+> > > 
+> > >    This allows the userspace machinery that switches devices to VFIO to
+> > >    know what kernel drivers support what devices and allows it to trigger
+> > >    the proper device_override.
+> > > 
+> > > As existing tools do not recognize the "vfio_pci:" mod-alias prefix this
+> > > keeps todays behavior the same. VFIO remains on the side, is never
+> > > autoloaded and can only be activated by direct admin action.
+> > > 
+> > > This patch is the infrastructure to provide the information in the
+> > > modules.alias to userspace and enable the only PCI VFIO driver. Later
+> > > series introduce additional HW specific VFIO PCI drivers.  
+> > 
+> > I don't really understand why we're combining the above "special
+> > properties" into a single flag.   
+> 
+> Currently I can't think of any reason to have two flags. We always
+> need both behaviors together. It is trivial for someone to change down
+> the road, so I prefer to keep the flag bit usage to a minimum.
+> 
+> > For instance, why wouldn't we create a flag that just indicates a
+> > match entry is only for driver override?  
+> 
+> We still need to signal the generation of vfio_pci: string in the
+> modules.alias.
+> 
+> > Or if we're only using this for full wildcard matches, we could
+> > detect that even without a flag.  
+> 
+> The mlx/hns/etc drivers will not use wildcard matches. This series is
+> the prep and the only driver we have right at this point is the
+> wildcard vfio_pci generic driver.
+> 
+> > Then, how does the "vfio_pci:" alias extend to other drivers?    
+> 
+> After the HW drivers are merged we have a list of things in the
+> modules.alias file. Eg we might have something like:
+> 
+> alias vfio_pci:v000015B3d00001011sv*sd*bc*sc*i* mlx5_vfio_pci
+> alias vfio_pci:v0000abc1d0000abcdsv*sd*bc*sc*i* hns_vfio_pci
+> alias vfio_pci:v*d*sv*sd*bc*sc*i* vfio_pci
+> 
+> This flag, and the vfio_pci string, is only for the VFIO subsystem. If
+> someday another subsystem wants to use driver_override then it will
+> provide its own subsystem name here instead.
+> 
+> This is solving the problem you had at the start - that userspace must
+> be able to self identify the drivers.  Starting with a PCI BDF
+> userspace can match the modules.alias for vfio_pci: prefixes and
+> determine which string to put into the driver_override sysfs. This is
+> instead of having userspace hardwire vfio_pci.
+> 
+> > Is this expected to be the only driver that would use an alias ever
+> > or would other drivers use new bits of the flag?  
+> 
+> Not sure what you mean by "only driver"? As above every driver
+> implementing VFIO on top of PCI will use this flag. If another
+> subsystem wants to use driver_override it will define its own flag,
+> and it's userspace will look for othersubsytem_pci: tags in
+> modules.alias when it wants to change a PCI device over.
+> 
+> > Seems some documentation is necessary; the comment on
+> > PCI_DRIVER_OVERRIDE_DEVICE_VFIO doesn't really help, "This macro is
+> > used to create a struct pci_device_id that matches a specific
+> > device", then we proceed to use it with PCI_ANY_ID.  
+> 
+> Fair enough, this is ment in the broader context, the generic vfio_pci
+> is just special.
+> 
+> > vfio-pci has always tried (as much as possible) to be "just another
+> > PCI" driver to avoid all the nasty issues that used to exist with
+> > legacy KVM device assignment, so I cringe at seeing these vfio specific
+> > hooks in PCI-core.  Thanks,  
+> 
+> It is has always had very special behavior - a PCI driver without a
+> match table is is not "just another PCI" driver.
+> 
+> While this is not entirely elegant, considering where we have ended up
+> and the historical ABI that has to be preserved, it is the best idea
+> so far anyone has presented.
 
-> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-> index 7e67d02764db..5e79e626172b 100644
-> --- a/include/linux/fortify-string.h
-> +++ b/include/linux/fortify-string.h
-> @@ -2,13 +2,17 @@
->  #ifndef _LINUX_FORTIFY_STRING_H_
->  #define _LINUX_FORTIFY_STRING_H_
->
-> +#include <linux/bug.h>
+In general I think my confusion is lack of documentation and examples.
+There's good information here and in the cover letter, but reviewing
+the patch itself I'm not sure if vfio_pci: is meant to indicate the
+vfio_pci driver or the vfio_pci device api or as I've finally decided,
+just prepending "vfio_" to the modalias for a device to indicate the
+class of stuff, ie. no automatic binding but discoverable by userspace
+as a "vfio" driver suitable for this device.
 
-What are you using from linux/bug.h here?
+I think we need libvirt folks onboard and maybe a clearer idea what
+userspace helpers might be available.  For example would driverctl have
+an option to choose a vfio class driver for a device?
 
-> +
->  #define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
->  #define __RENAME(x) __asm__(#x)
->
->  void fortify_panic(const char *name) __noreturn __cold;
->  void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
->  void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
-> +void __read_overflow2_field(void) __compiletime_warning("detected read beyond size of field (2nd parameter); maybe use struct_group()?");
->  void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
-> +void __write_overflow_field(void) __compiletime_warning("detected write beyond size of field (1st parameter); maybe use struct_group()?");
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-> @@ -182,22 +186,105 @@ __FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
->         return __underlying_memset(p, c, size);
->  }
->
-> -__FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
-> +/*
-> + * To make sure the compiler can enforce protection against buffer overflows,
-> + * memcpy(), memmove(), and memset() must not be used beyond individual
-> + * struct members. If you need to copy across multiple members, please use
-> + * struct_group() to create a named mirror of an anonymous struct union.
-> + * (e.g. see struct sk_buff.)
-> + *
-> + * Mitigation coverage
-> + *                                     Bounds checking at:
-> + *                                     +-------+-------+-------+-------+
-> + *                                     | Compile time  | Run time      |
-> + * memcpy() argument sizes:            | write | read  | write | read  |
-> + *                                     +-------+-------+-------+-------+
-> + * memcpy(known,   known,   constant)  |   y   |   y   |  n/a  |  n/a  |
-> + * memcpy(unknown, known,   constant)  |   n   |   y   |   V   |  n/a  |
-> + * memcpy(known,   unknown, constant)  |   y   |   n   |  n/a  |   V   |
-> + * memcpy(unknown, unknown, constant)  |   n   |   n   |   V   |   V   |
-> + * memcpy(known,   known,   dynamic)   |   n   |   n   |   b   |   B   |
-> + * memcpy(unknown, known,   dynamic)   |   n   |   n   |   V   |   B   |
-> + * memcpy(known,   unknown, dynamic)   |   n   |   n   |   b   |   V   |
-> + * memcpy(unknown, unknown, dynamic)   |   n   |   n   |   V   |   V   |
-> + *                                     +-------+-------+-------+-------+
-> + *
-> + * y = deterministic compile-time bounds checking
-> + * n = cannot do deterministic compile-time bounds checking
-> + * n/a = no run-time bounds checking needed since compile-time deterministic
-> + * b = perform run-time bounds checking
-> + * B = can perform run-time bounds checking, but current unenforced
-> + * V = vulnerable to run-time overflow
-> + *
-> + */
-> +__FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
-> +                                        const size_t p_size,
-> +                                        const size_t q_size,
-> +                                        const size_t p_size_field,
-> +                                        const size_t q_size_field,
-> +                                        const char *func)
->  {
-> -       size_t p_size = __builtin_object_size(p, 0);
-> -       size_t q_size = __builtin_object_size(q, 0);
-> -
->         if (__builtin_constant_p(size)) {
-> -               if (p_size < size)
-> +               /*
-> +                * Length argument is a constant expression, so we
-> +                * can perform compile-time bounds checking where
-> +                * buffer sizes are known.
-> +                */
-> +
-> +               /* Error when size is larger than enclosing struct. */
-> +               if (p_size > p_size_field && p_size < size)
->                         __write_overflow();
-> -               if (q_size < size)
-> +               if (q_size > q_size_field && q_size < size)
->                         __read_overflow2();
-> +
-> +               /* Warn when write size argument larger than dest field. */
-> +               if (p_size_field < size)
-> +                       __write_overflow_field();
-> +               /*
-> +                * Warn for source field over-read when building with W=1
-> +                * or when an over-write happened, so both can be fixed at
-> +                * the same time.
-> +                */
-> +               if ((IS_ENABLED(KBUILD_EXTRA_WARN1) || p_size_field < size) &&
-> +                   q_size_field < size)
-> +                       __read_overflow2_field();
->         }
-> -       if (p_size < size || q_size < size)
-> -               fortify_panic(__func__);
-> -       return __underlying_memcpy(p, q, size);
-> +       /*
-> +        * At this point, length argument may not be a constant expression,
-> +        * so run-time bounds checking can be done where buffer sizes are
-> +        * known. (This is not an "else" because the above checks may only
-> +        * be compile-time warnings, and we want to still warn for run-time
-> +        * overflows.)
-> +        */
-> +
-> +       /*
-> +        * Always stop accesses beyond the struct that contains the
-> +        * field, when the buffer's remaining size is known.
-> +        * (The -1 test is to optimize away checks where the buffer
-> +        * lengths are unknown.)
-> +        */
-> +       if ((p_size != (size_t)(-1) && p_size < size) ||
-> +           (q_size != (size_t)(-1) && q_size < size))
-> +               fortify_panic(func);
->  }
->
-> +#define __fortify_memcpy_chk(p, q, size, p_size, q_size,               \
-> +                            p_size_field, q_size_field, op) ({         \
-> +       size_t __fortify_size = (size_t)(size);                         \
-> +       fortify_memcpy_chk(__fortify_size, p_size, q_size,              \
-> +                          p_size_field, q_size_field, #op);            \
-> +       __underlying_##op(p, q, __fortify_size);                        \
-> +})
+I can also imagine that if the flag only covered the
+matching/driver_override aspect and pci_device_id further included an
+optional modalias prefix, we could do this without littering pci-core
+with vfio eccentricities.  I'll be interest to see Bjorn's thoughts on
+this.  Thanks,
 
-Are there other macro expansion sites for `__fortify_memcpy_chk`,
-perhaps later in this series? I don't understand why `memcpy` is
-passed as `func` to `fortify_panic()` rather than continuing to use
-`__func__`?
+Alex
 
-> +
-> +/*
-> + * __builtin_object_size() must be captured here to avoid evaluating argument
-> + * side-effects further into the macro layers.
-> + */
-> +#define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-> +               __builtin_object_size(p, 0), __builtin_object_size(q, 0), \
-> +               __builtin_object_size(p, 1), __builtin_object_size(q, 1), \
-> +               memcpy)
-> +
->  __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
->  {
->         size_t p_size = __builtin_object_size(p, 0);
-> @@ -277,27 +364,27 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
->         return __real_kmemdup(p, size, gfp);
->  }
->
-> -/* defined after fortified strlen and memcpy to reuse them */
-> +/* Defined after fortified strlen to reuse it. */
->  __FORTIFY_INLINE char *strcpy(char *p, const char *q)
->  {
->         size_t p_size = __builtin_object_size(p, 1);
->         size_t q_size = __builtin_object_size(q, 1);
->         size_t size;
->
-> +       /* If neither buffer size is known, immediately give up. */
->         if (p_size == (size_t)-1 && q_size == (size_t)-1)
->                 return __underlying_strcpy(p, q);
->         size = strlen(q) + 1;
->         /* test here to use the more stringent object size */
->         if (p_size < size)
->                 fortify_panic(__func__);
-> -       memcpy(p, q, size);
-> +       __underlying_memcpy(p, q, size);
->         return p;
->  }
->
->  /* Don't use these outside the FORITFY_SOURCE implementation */
->  #undef __underlying_memchr
->  #undef __underlying_memcmp
-> -#undef __underlying_memcpy
->  #undef __underlying_memmove
->  #undef __underlying_memset
->  #undef __underlying_strcat
-> diff --git a/include/linux/string.h b/include/linux/string.h
-> index 9473f81b9db2..cbe889e404e2 100644
-> --- a/include/linux/string.h
-> +++ b/include/linux/string.h
-> @@ -261,8 +261,9 @@ static inline const char *kbasename(const char *path)
->   * @count: The number of bytes to copy
->   * @pad: Character to use for padding if space is left in destination.
->   */
-> -static inline void memcpy_and_pad(void *dest, size_t dest_len,
-> -                                 const void *src, size_t count, int pad)
-> +static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
-> +                                          const void *src, size_t count,
-> +                                          int pad)
-
-Why __always_inline here?
-
->  {
->         if (dest_len > count) {
->                 memcpy(dest, src, count);
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 083a19336e20..74523fd394bd 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -370,7 +370,8 @@ TEST_FORTIFY_LOG = test_fortify.log
->  quiet_cmd_test_fortify = TEST    $@
->        cmd_test_fortify = $(CONFIG_SHELL) $(srctree)/scripts/test_fortify.sh \
->                         $< $@ "$(NM)" $(CC) $(c_flags) \
-> -                       $(call cc-disable-warning,fortify-source)
-> +                       $(call cc-disable-warning,fortify-source) \
-> +                       -DKBUILD_EXTRA_WARN1
->
->  targets += $(TEST_FORTIFY_LOGS)
->  clean-files += $(TEST_FORTIFY_LOGS)
-> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-> index faa9d8e4e2c5..4d205bf5993c 100644
-> --- a/lib/string_helpers.c
-> +++ b/lib/string_helpers.c
-> @@ -884,6 +884,12 @@ char *strreplace(char *s, char old, char new)
->  EXPORT_SYMBOL(strreplace);
->
->  #ifdef CONFIG_FORTIFY_SOURCE
-> +/* These are placeholders for fortify compile-time warnings. */
-> +void __read_overflow2_field(void) { }
-> +EXPORT_SYMBOL(__read_overflow2_field);
-> +void __write_overflow_field(void) { }
-> +EXPORT_SYMBOL(__write_overflow_field);
-> +
-
-Don't we rely on these being undefined for Clang to produce a linkage
-failure (until https://reviews.llvm.org/D106030 has landed)?  By
-providing a symbol definition we can link against, I don't think
-__compiletime_{warning|error} will warn at all with Clang?
-
->  void fortify_panic(const char *name)
->  {
->         pr_emerg("detected buffer overflow in %s\n", name);
-> diff --git a/lib/test_fortify/read_overflow2_field-memcpy.c b/lib/test_fortify/read_overflow2_field-memcpy.c
-> new file mode 100644
-> index 000000000000..de9569266223
-> --- /dev/null
-> +++ b/lib/test_fortify/read_overflow2_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(large, instance.buf, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> diff --git a/lib/test_fortify/write_overflow_field-memcpy.c b/lib/test_fortify/write_overflow_field-memcpy.c
-> new file mode 100644
-> index 000000000000..28cc81058dd3
-> --- /dev/null
-> +++ b/lib/test_fortify/write_overflow_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(instance.buf, large, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> --
-
-I haven't read the whole series yet, but I assume test_fortify.h was
-provided earlier in the series?
--- 
-Thanks,
-~Nick Desaulniers
