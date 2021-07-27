@@ -2,52 +2,28 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E6173D72A7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 12:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE24F3D784E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 16:16:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236177AbhG0KLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 06:11:00 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:39099 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236166AbhG0KK7 (ORCPT
+        id S232136AbhG0OQM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 10:16:12 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:34630 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232437AbhG0OQK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 06:10:59 -0400
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 16RAAdWk005555;
-        Tue, 27 Jul 2021 19:10:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 16RAAdWk005555
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627380640;
-        bh=OSYQZk+3tJqowrXAIcMUHdaXitgKhgWMyw4+pumNADI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JwccvrN6791bsuLm6IT819O8m1Ja5hqrf/NCUfgareLYhTHEC3JZnjKwKuorYoOk4
-         hKSFoicTPL87UEZwnI49uxEdGXU5zsrE8ZShohSlYhq4zYy1mCFgvTlPc5saZxJwY4
-         byMgKdIDBljQjrb7eAILPrcfZU+IUdy964CjhXCc1P+rYhvM8bQ/cmwkJAls1NSaya
-         VS47/vj3mgpkMr3w7MN3X2Lw2benCLiv/29IwNFlMI347wzJShV2LtjbYk8mkWnHy9
-         tVk5Q8c7ad7V2FwKDVmtpW57uUpPiNQXjjdrLIUi8ryiFSJd+tYHF3R1VJGq4gB05Q
-         aVNGA40ZTRhkg==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id e2-20020a17090a4a02b029016f3020d867so4156543pjh.3;
-        Tue, 27 Jul 2021 03:10:40 -0700 (PDT)
-X-Gm-Message-State: AOAM533/QxQwvdISLpiAZ1Vb+wURMcGZxngV46ChsYwEqSS17PtfNSnl
-        utyD9gc3ur+g+GVy0nmObn6ajl8JmgSHAUVLBZs=
-X-Google-Smtp-Source: ABdhPJyHNRA+cYqyNT0oWQ3CghIulkbYxWpq8AIslBPSsi5NIFwTGI8c4cTLztvG8uC6lLBVJw4ejKo3f25MVDhrxAQ=
-X-Received: by 2002:a65:498a:: with SMTP id r10mr22949005pgs.7.1627380639465;
- Tue, 27 Jul 2021 03:10:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210708232522.3118208-1-ndesaulniers@google.com>
- <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
- <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
- <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
- <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com> <87r1fkizxl.fsf@disp2133>
-In-Reply-To: <87r1fkizxl.fsf@disp2133>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 27 Jul 2021 19:10:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
-Message-ID: <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
- LLVM=1 LLVM_IAS=1
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
+        Tue, 27 Jul 2021 10:16:10 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52]:49264)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1m8NsP-00DgF3-2x; Tue, 27 Jul 2021 08:16:09 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:48960 helo=email.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1m8NsN-003YiR-R6; Tue, 27 Jul 2021 08:16:08 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Arnd Bergmann <arnd@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -60,296 +36,171 @@ Cc:     Arnd Bergmann <arnd@kernel.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Christoph Hellwig <hch@infradead.org>,
         Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210708232522.3118208-1-ndesaulniers@google.com>
+        <20210708232522.3118208-3-ndesaulniers@google.com>
+        <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
+        <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
+        <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
+        <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
+        <87r1fkizxl.fsf@disp2133>
+        <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
+Date:   Tue, 27 Jul 2021 09:16:01 -0500
+In-Reply-To: <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
+        (Masahiro Yamada's message of "Tue, 27 Jul 2021 19:10:02 +0900")
+Message-ID: <87v94vg7vi.fsf@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-XM-SPF: eid=1m8NsN-003YiR-R6;;;mid=<87v94vg7vi.fsf@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/A0yNJecA7Q20Vto//jCC4YwhQhHttrn4=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on sa05.xmission.com
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=8.0 tests=ALL_TRUSTED,BAYES_50,
+        DCC_CHECK_NEGATIVE,T_TM2_M_HEADER_IN_MSG,T_TooManySym_01,
+        T_TooManySym_02,XMSubLong autolearn=disabled version=3.4.2
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4988]
+        *  0.7 XMSubLong Long Subject
+        *  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+        * -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+        *      [sa05 1397; Body=1 Fuz1=1 Fuz2=1]
+        *  0.0 T_TooManySym_02 5+ unique symbols in subject
+        *  0.0 T_TooManySym_01 4+ unique symbols in subject
+X-Spam-DCC: XMission; sa05 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Masahiro Yamada <masahiroy@kernel.org>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 627 ms - load_scoreonly_sql: 0.12 (0.0%),
+        signal_user_changed: 13 (2.0%), b_tie_ro: 11 (1.7%), parse: 1.94
+        (0.3%), extract_message_metadata: 26 (4.2%), get_uri_detail_list: 4.8
+        (0.8%), tests_pri_-1000: 22 (3.5%), tests_pri_-950: 1.67 (0.3%),
+        tests_pri_-900: 1.40 (0.2%), tests_pri_-90: 155 (24.7%), check_bayes:
+        137 (21.8%), b_tokenize: 13 (2.1%), b_tok_get_all: 8 (1.3%),
+        b_comp_prob: 3.7 (0.6%), b_tok_touch_all: 108 (17.2%), b_finish: 1.02
+        (0.2%), tests_pri_0: 382 (61.0%), check_dkim_signature: 0.80 (0.1%),
+        check_dkim_adsp: 3.2 (0.5%), poll_dns_idle: 1.01 (0.2%), tests_pri_10:
+        3.4 (0.5%), tests_pri_500: 15 (2.4%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for LLVM=1 LLVM_IAS=1
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 5:27 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+Masahiro Yamada <masahiroy@kernel.org> writes:
+
+> On Tue, Jul 27, 2021 at 5:27 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+>>
+>> Masahiro Yamada <masahiroy@kernel.org> writes:
+>>
+>> > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>> >>
+>> >> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
+>> >> <torvalds@linux-foundation.org> wrote:
+>> >> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> >> >
+>> >> > We do most of the other heavy lifting in this area in Kconfig anyway,
+>> >> > why not add that compiler choice?
+>> >> >
+>> >> > Obviously it would be gated by the tests to see which compilers are
+>> >> > _installed_ (and that they are valid versions), so that it doesn't ask
+>> >> > stupid things ("do you want gcc or clang" when only one of them is
+>> >> > installed and/or viable).
+>> >>
+>> >> I don't see a good way of making Kconfig options both select the
+>> >> compiler and defining variables based on the compiler, since that
+>> >> would mean teaching Kconfig about re-evaluating all compiler
+>> >> dependent settings whenever the first option changes.
+>> >>
+>> >> I do have another idea that I think would work though.
+>> >>
+>> >> > Hmm? So then any "LLVM=1" thing would be about the "make config"
+>> >> > stage, not the actual build stage.
+>> >> >
+>> >> > (It has annoyed me for years that if you want to cross-compile, you
+>> >> > first have to do "make ARCH=xyz config" and then remember to do "make
+>> >> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
+>> >> > never really cared).
+>> >>
+>> >> The best thing that I have come up with is a pre-configure step, where
+>> >> an object tree gets seeded with a makefile fragment that gets included
+>> >> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
+>> >> 'CC=' and possibly any other option that gets passed to 'make' as
+>> >> a variable and has to exist before calling 'make *config'.
+>> >
+>> >
+>> > There is no need to add a hook to include such makefile fragment(s).
+>> >
+>> > Quite opposite, you can put your Makefile (in a different filename)
+>> > that includes the top Makefile.
+>> >
+>> >
+>> > I think this is what people are already doing:
+>> >
+>> >
+>> > GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
+>> > in this order.
+>> >
+>> >
+>> > So, you can put 'GNUmakefile' with your favorite setups.
+>> >
+>> >
+>> > $ cat GNUmakefile
+>> > ARCH=arm64
+>> > CROSS_COMPILE=aarch64-linux-gnu-
+>> > CC=clang
+>> > include Makefile
+>>
+>> Very weird.
+>>
+>> I just tested this and it does not work.
+>> I did this:
+>>
+>> $ cat GNUmakefile
+>> ARCH = alpha
+>> CROSS_COMPILE = $(arch-prefix alpha)
+>> include Makefile
+>>
+>> In one of my build directories and the main makefile simply does not see
+>> the value of ARCH or CROSS_COMPILE I set.  I have confirmed that my
+>> GNUmakefile is being read, because everything breaks if I remove the
+>> include line.
+>>
+>> Does anyone have any ideas?
+>>
+>> Something so we don't have to specify all of these variables on the make
+>> command line would be nice.
+>>
+>> Eric
 >
-> Masahiro Yamada <masahiroy@kernel.org> writes:
 >
-> > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >>
-> >> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
-> >> <torvalds@linux-foundation.org> wrote:
-> >> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >> >
-> >> > We do most of the other heavy lifting in this area in Kconfig anyway,
-> >> > why not add that compiler choice?
-> >> >
-> >> > Obviously it would be gated by the tests to see which compilers are
-> >> > _installed_ (and that they are valid versions), so that it doesn't ask
-> >> > stupid things ("do you want gcc or clang" when only one of them is
-> >> > installed and/or viable).
-> >>
-> >> I don't see a good way of making Kconfig options both select the
-> >> compiler and defining variables based on the compiler, since that
-> >> would mean teaching Kconfig about re-evaluating all compiler
-> >> dependent settings whenever the first option changes.
-> >>
-> >> I do have another idea that I think would work though.
-> >>
-> >> > Hmm? So then any "LLVM=1" thing would be about the "make config"
-> >> > stage, not the actual build stage.
-> >> >
-> >> > (It has annoyed me for years that if you want to cross-compile, you
-> >> > first have to do "make ARCH=xyz config" and then remember to do "make
-> >> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
-> >> > never really cared).
-> >>
-> >> The best thing that I have come up with is a pre-configure step, where
-> >> an object tree gets seeded with a makefile fragment that gets included
-> >> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
-> >> 'CC=' and possibly any other option that gets passed to 'make' as
-> >> a variable and has to exist before calling 'make *config'.
-> >
-> >
-> > There is no need to add a hook to include such makefile fragment(s).
-> >
-> > Quite opposite, you can put your Makefile (in a different filename)
-> > that includes the top Makefile.
-> >
-> >
-> > I think this is what people are already doing:
-> >
-> >
-> > GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
-> > in this order.
-> >
-> >
-> > So, you can put 'GNUmakefile' with your favorite setups.
-> >
-> >
-> > $ cat GNUmakefile
-> > ARCH=arm64
-> > CROSS_COMPILE=aarch64-linux-gnu-
-> > CC=clang
-> > include Makefile
+> Worked for me.
 >
-> Very weird.
+> Could you tell me the exact steps you did?
 >
-> I just tested this and it does not work.
-> I did this:
 >
-> $ cat GNUmakefile
-> ARCH = alpha
-> CROSS_COMPILE = $(arch-prefix alpha)
-> include Makefile
+> This is my case:
 >
-> In one of my build directories and the main makefile simply does not see
-> the value of ARCH or CROSS_COMPILE I set.  I have confirmed that my
-> GNUmakefile is being read, because everything breaks if I remove the
-> include line.
+> My kernel source tree is located at $HOME/ref/linux
+> alpha tool chains are located at $HOME/tools/alpha-10.1.0/bin
 >
-> Does anyone have any ideas?
 >
-> Something so we don't have to specify all of these variables on the make
-> command line would be nice.
 >
-> Eric
+> I tried a simple GNUmakefile with 3 lines.
+>
+> You can see 'make' is building the alpha kernel
+>
+>
+> Please see below:
 
+Interesting.  That appears to work if I don't specify a build directory.
+Once I specify a build directory with O= it does not work.
 
-Worked for me.
+When I am working on a change that affects multiple architectures
+I really want a build directory that is not my source tree so I can
+test small changes on multiple architectures without needing to rebuild
+everything.
 
-Could you tell me the exact steps you did?
-
-
-This is my case:
-
-My kernel source tree is located at $HOME/ref/linux
-alpha tool chains are located at $HOME/tools/alpha-10.1.0/bin
-
-
-
-I tried a simple GNUmakefile with 3 lines.
-
-You can see 'make' is building the alpha kernel
-
-
-Please see below:
-
-
-
-
-masahiro@grover:~/ref/linux$ cat GNUmakefile
-ARCH = alpha
-CROSS_COMPILE = $(HOME)/tools/alpha-10.1.0/bin/alpha-linux-
-include Makefile
-masahiro@grover:~/ref/linux$ make mrproper
-  CLEAN   arch/alpha/kernel
-  CLEAN   certs
-  CLEAN   drivers/tty/vt
-  CLEAN   drivers/video/logo
-  CLEAN   kernel
-  CLEAN   lib
-  CLEAN   security/selinux
-  CLEAN   usr/include
-  CLEAN   usr
-  CLEAN   vmlinux.symvers modules-only.symvers modules.builtin
-modules.builtin.modinfo
-  CLEAN   scripts/basic
-  CLEAN   scripts/dtc
-  CLEAN   scripts/genksyms
-  CLEAN   scripts/kconfig
-  CLEAN   scripts/mod
-  CLEAN   scripts/selinux/genheaders
-  CLEAN   scripts/selinux/mdp
-  CLEAN   scripts
-  CLEAN   include/config include/generated
-arch/alpha/include/generated .config .config.old .version
-Module.symvers
-masahiro@grover:~/ref/linux$ make defconfig
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.[ch]
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/menu.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTLD  scripts/kconfig/conf
-*** Default configuration is based on 'defconfig'
-#
-# configuration written to .config
-#
-masahiro@grover:~/ref/linux$ make
-  SYSHDR  arch/alpha/include/generated/uapi/asm/unistd_32.h
-  SYSTBL  arch/alpha/include/generated/asm/syscall_table.h
-  HOSTCC  scripts/kallsyms
-  WRAP    arch/alpha/include/generated/uapi/asm/bpf_perf_event.h
-  WRAP    arch/alpha/include/generated/uapi/asm/ipcbuf.h
-  WRAP    arch/alpha/include/generated/uapi/asm/msgbuf.h
-  WRAP    arch/alpha/include/generated/uapi/asm/poll.h
-  WRAP    arch/alpha/include/generated/uapi/asm/sembuf.h
-  WRAP    arch/alpha/include/generated/uapi/asm/shmbuf.h
-  WRAP    arch/alpha/include/generated/asm/export.h
-  WRAP    arch/alpha/include/generated/asm/kvm_para.h
-  WRAP    arch/alpha/include/generated/asm/mcs_spinlock.h
-  WRAP    arch/alpha/include/generated/asm/compat.h
-  WRAP    arch/alpha/include/generated/asm/current.h
-  WRAP    arch/alpha/include/generated/asm/exec.h
-  WRAP    arch/alpha/include/generated/asm/fb.h
-  WRAP    arch/alpha/include/generated/asm/irq_work.h
-  WRAP    arch/alpha/include/generated/asm/kmap_size.h
-  WRAP    arch/alpha/include/generated/asm/kprobes.h
-  WRAP    arch/alpha/include/generated/asm/local64.h
-  WRAP    arch/alpha/include/generated/asm/mmiowb.h
-  WRAP    arch/alpha/include/generated/asm/module.lds.h
-  WRAP    arch/alpha/include/generated/asm/msi.h
-  WRAP    arch/alpha/include/generated/asm/preempt.h
-  WRAP    arch/alpha/include/generated/asm/sections.h
-  WRAP    arch/alpha/include/generated/asm/simd.h
-  WRAP    arch/alpha/include/generated/asm/softirq_stack.h
-  WRAP    arch/alpha/include/generated/asm/trace_clock.h
-  WRAP    arch/alpha/include/generated/asm/unaligned.h
-  WRAP    arch/alpha/include/generated/asm/vermagic.h
-  UPD     include/config/kernel.release
-  UPD     include/generated/uapi/linux/version.h
-  UPD     include/generated/utsrelease.h
-  CC      scripts/mod/empty.o
-  HOSTCC  scripts/mod/mk_elfconfig
-  MKELF   scripts/mod/elfconfig.h
-  HOSTCC  scripts/mod/modpost.o
-  CC      scripts/mod/devicetable-offsets.s
-  UPD     scripts/mod/devicetable-offsets.h
-  HOSTCC  scripts/mod/file2alias.o
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTLD  scripts/mod/modpost
-  CC      kernel/bounds.s
-  UPD     include/generated/bounds.h
-  UPD     include/generated/timeconst.h
-  CC      arch/alpha/kernel/asm-offsets.s
-  UPD     include/generated/asm-offsets.h
-  CALL    scripts/checksyscalls.sh
-<stdin>:1515:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-  CALL    scripts/atomic/check-atomics.sh
-  CC      init/main.o
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  CC      init/do_mounts.o
-  CC      init/noinitramfs.o
-  CC      init/calibrate.o
-  CC      init/init_task.o
-  AR      init/built-in.a
-  AR      usr/built-in.a
-  AS      arch/alpha/kernel/head.o
-  LDS     arch/alpha/kernel/vmlinux.lds
-  AS      arch/alpha/kernel/entry.o
-  CC      arch/alpha/kernel/traps.o
-  CC      arch/alpha/kernel/process.o
-  CC      arch/alpha/kernel/osf_sys.o
-  CC      arch/alpha/kernel/irq.o
-  CC      arch/alpha/kernel/irq_alpha.o
-  CC      arch/alpha/kernel/signal.o
-  CC      arch/alpha/kernel/setup.o
-  CC      arch/alpha/kernel/ptrace.o
-  CC      arch/alpha/kernel/time.o
-  AS      arch/alpha/kernel/systbls.o
-  CC      arch/alpha/kernel/err_common.o
-  CC      arch/alpha/kernel/io.o
-  CC      arch/alpha/kernel/bugs.o
-  CC      arch/alpha/kernel/console.o
-  CC      arch/alpha/kernel/pci.o
-  CC      arch/alpha/kernel/pci_iommu.o
-  CC      arch/alpha/kernel/pci-sysfs.o
-  CC      arch/alpha/kernel/module.o
-  CC      arch/alpha/kernel/rtc.o
-  CC      arch/alpha/kernel/core_apecs.o
-  CC      arch/alpha/kernel/core_cia.o
-  CC      arch/alpha/kernel/core_irongate.o
-  CC      arch/alpha/kernel/core_lca.o
-  CC      arch/alpha/kernel/core_mcpcia.o
-  CC      arch/alpha/kernel/core_polaris.o
-  CC      arch/alpha/kernel/core_t2.o
-  CC      arch/alpha/kernel/core_tsunami.o
-  CC      arch/alpha/kernel/sys_alcor.o
-  CC      arch/alpha/kernel/sys_cabriolet.o
-  CC      arch/alpha/kernel/sys_dp264.o
-  CC      arch/alpha/kernel/sys_eb64p.o
-  CC      arch/alpha/kernel/sys_eiger.o
-  CC      arch/alpha/kernel/sys_jensen.o
-  CC      arch/alpha/kernel/sys_miata.o
-  CC      arch/alpha/kernel/sys_mikasa.o
-  CC      arch/alpha/kernel/sys_nautilus.o
-  CC      arch/alpha/kernel/sys_noritake.o
-  CC      arch/alpha/kernel/sys_rawhide.o
-  CC      arch/alpha/kernel/sys_ruffian.o
-  CC      arch/alpha/kernel/sys_rx164.o
-  CC      arch/alpha/kernel/sys_sable.o
-  CC      arch/alpha/kernel/sys_sio.o
-  CC      arch/alpha/kernel/sys_sx164.o
-  CC      arch/alpha/kernel/sys_takara.o
-  CC      arch/alpha/kernel/irq_pyxis.o
-  CC      arch/alpha/kernel/irq_i8259.o
-  CC      arch/alpha/kernel/irq_srm.o
-  CC      arch/alpha/kernel/err_ev6.o
-  CC      arch/alpha/kernel/es1888.o
-  CC      arch/alpha/kernel/smc37c669.o
-  CC      arch/alpha/kernel/smc37c93x.o
-  CC      arch/alpha/kernel/pc873xx.o
-  CC      arch/alpha/kernel/gct.o
-  CC      arch/alpha/kernel/srmcons.o
-  AR      arch/alpha/kernel/built-in.a
-  CC [M]  arch/alpha/kernel/srm_env.o
-  CC      arch/alpha/mm/init.o
-  CC      arch/alpha/mm/fault.o
-  AR      arch/alpha/mm/built-in.a
-  CC      arch/alpha/math-emu/math.o
-^Cmake[2]: *** Deleting file 'arch/alpha/math-emu/math.o'
-make[2]: *** [scripts/Makefile.build:271: arch/alpha/math-emu/math.o] Interrupt
-make[1]: *** [scripts/Makefile.build:514: arch/alpha/math-emu] Interrupt
-make: *** [Makefile:1842: arch/alpha] Interrupt
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Eric
