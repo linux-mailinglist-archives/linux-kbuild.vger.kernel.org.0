@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8234F3D805C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 23:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD11C3D81E7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 23:36:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232861AbhG0VBu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 17:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54040 "EHLO
+        id S232772AbhG0Vgx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 17:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234677AbhG0VAh (ORCPT
+        with ESMTP id S232643AbhG0Vgw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 17:00:37 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93095C0619E0
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id e14so17701982plh.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
+        Tue, 27 Jul 2021 17:36:52 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADD5C061757
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 14:36:51 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id e2-20020a17090a4a02b029016f3020d867so1183954pjh.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 14:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9ZANtB/5paOTL9rrQ/OEPNR1JGy+0L6nD4QX9CL0F7k=;
-        b=mvsqmz2pOJhJ9OaX3L4K7kVGDAStkUtWNLy5iZu/K7AftRRNcUovN+y+miaZbg89tO
-         Uthw8swwf1XqEL18bb1TQESLDee214WGoNCauwBep7bAKX+Je3IIRQ3judpMqtgucXOA
-         K1pL1usRDZBmpoaR3SWjPg28m7oIJmlVwMC7k=
+        bh=4BnfRKheoEyJ1stoqG1udFT4VTgOpqL9vmyJJWgrwhQ=;
+        b=NTFTSGnaaL1PjdfbInP9wW4+rEyfYbhJ/keeV1wnvEThtRN2gdcrpRCZ7hd1LSPL/w
+         gpm7aIDUJ/FjLYIardaQXcuOjI/ZjGwWIdtBU8XtYG2CMUC8Us1z4TA/eJ27DZ+AF+dn
+         3omle6d7QFY3/lutHZTQhs0+KkQrfijMwyIfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9ZANtB/5paOTL9rrQ/OEPNR1JGy+0L6nD4QX9CL0F7k=;
-        b=iZd8r/fVqO7KEcIhZPIOZCeef8QhnuKLpQG5THcFRUmkGxsCQNWgyRpXp9DPjZuwS3
-         7KWmxG08CqMFNll9BeFn5EljottDvSZoa4LcFq9e+9iOG1/I8qKuGgq993+UeANO2xtT
-         ErF6D0uXQVGmA0yva/8ZkCzj/pCB11NyFNEN7QP1pCs2l+hGRRgrGRvFo6V0A48xivLq
-         MUbslOEakDWkZDJcvFgQ0dIbQxTlJj/nkwLLMNZqz2MrjJAjvx4UGba6r+R0kDVduNet
-         Df637qqQYS7NdxIBz0KrLix7NwacKrFCgk5BYiBp05hs8GdqUIL/I3/AjPgdfNGgRMu5
-         7kzA==
-X-Gm-Message-State: AOAM530sFVFDR+PN7qkzgn/bMFzix7LcXSD0j9GQyoWqimNle44TdKIX
-        E8BUndY79AX5qyMUasdZWIQVNg==
-X-Google-Smtp-Source: ABdhPJyN+3oVzlz/x2hymJ7L4QZLicuTyBl7Z4sZvtU0JhXwk/ln4AMFcNTkrea6rrnY7PtxDktjSw==
-X-Received: by 2002:a17:90a:d251:: with SMTP id o17mr1322871pjw.200.1627419555206;
-        Tue, 27 Jul 2021 13:59:15 -0700 (PDT)
+        bh=4BnfRKheoEyJ1stoqG1udFT4VTgOpqL9vmyJJWgrwhQ=;
+        b=Kju37NoYe7QNEjd7np3paXVrW3nq1DJtPNOoT/0SwED9QbZUNGttw6mXq6mYoyHmsQ
+         khyrjiZs6qez6C9KbNXq1zbb6xZQLVUoRNX2/Aj+Id+e6La0HDJFySDKwzsepAdqVjHS
+         JeEFpCcB5Kb+7BcCdOhxpx+5c0LH6nbBw7qKxTntxrpxr5DN4HP6ZQuD+EDb5nWtWour
+         WAaTwYVmgUu5Slc2qyyNOdJIv/Dwga5H8MrmxEcVNpkZf5y4H6k68Eo0vx+tUX8NmpML
+         j/PGiJpUvWNJ7oSLT3eT/gDiIvwjwXGW+SSvnUjB9YebVjdze9J+6U/5xvMWFo1iM8Zh
+         HW/g==
+X-Gm-Message-State: AOAM533pFEJy9voqvvywyJIcKNGTFxoNA0xB9XaIlAwbMox0wkjnAiD5
+        EN+ulYRk4U3Zw9hRnhqckGQKFw==
+X-Google-Smtp-Source: ABdhPJywXHABddj5YKILKb1GKuMRYeJ3OumAxfDVgtAesPzGrRwd3W2ViDD691FQDqn6Bsbeqru0EA==
+X-Received: by 2002:a63:154d:: with SMTP id 13mr214806pgv.116.1627421811222;
+        Tue, 27 Jul 2021 14:36:51 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o134sm4623683pfg.62.2021.07.27.13.59.12
+        by smtp.gmail.com with ESMTPSA id z9sm4890526pfa.2.2021.07.27.14.36.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 13:59:14 -0700 (PDT)
+        Tue, 27 Jul 2021 14:36:50 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     linux-hardening@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
@@ -56,14 +56,14 @@ Cc:     Kees Cook <keescook@chromium.org>,
         netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
-Date:   Tue, 27 Jul 2021 13:58:38 -0700
-Message-Id: <20210727205855.411487-48-keescook@chromium.org>
+Subject: [PATCH 48/64] drbd: Use struct_group() to zero algs
+Date:   Tue, 27 Jul 2021 13:58:39 -0700
+Message-Id: <20210727205855.411487-49-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=992; h=from:subject; bh=x7ocbS42SjohNmNf+jZzB+Ex+GPw48UesaUcGwh3RlU=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOKwywaxTW0OzsQGL01qHorKOsTwNUavfO4aV7/ 4MvZRoyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJjfPD/ 4mFAUDF6T1seKtO/RA+qdlnriVg5ZRjAEH4H/h8DVsqaNsbNjkXXBxy4IGulp+GUR4SdYtq0qxTEGi dzjW0oiJ4wsB27VOGaHIXnH3D72eToay+7FKJsbTmxYF7qq7gMrBtZQ1lKPJOINEfDXC/GPs4PjHFt erSiS4lXcv7ZSR327qucJFy3X6rUI1vW/mu4I34D4vBVDPz7h/U/kTrFIpqQYU5qc8uY/8yajU/JNs mQ1m36vmx9AipRbk9NySHUPM6/19rIlM3mPS80ucsisVgDP46b0pgtm7X6nxCi9z/OaNCqCtQ+53mA 0TEThqquZzBXubfk3PRoVuwATx/orxB1j62Wns1xX49CmkH6puRyfHwmBSmk7CiM4Sk1wpqm9jnpGt 4DEdfYKvvTV5Mz5v4rooDk17qFI5QfRMISRbIJsWf42ioVfoojhOqA1vWlKc/ndypF47wowasPUGyj OXB4t+t9iIqUUqNtvyQSbgC16g4aG2X6ikTW6WjRC9vOt7wyZSNVoZoXQPD/ZmSRZZpvbQKkN2G4yN Vjn4IFYhXwNdyA0oK5yI/r1Q+WXeC+pvl6zO/L8B/K6xmBwrE0dWZNELGC+dpZM2lHGRXavr/S7tV7 OmHAQOFKQhK7/G9WgHJLShkAumxIBKLFh22qDqffVoP8zhUM+GH0rhbl7Mpw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2322; h=from:subject; bh=1syui6IaJX/LeKhpA35yXKLKiDQJbdN3KjOA72sb0yw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOL7jOa6t9HnTRkat/yBLQ7dAwkDK4D28V8dSKs BckHWDOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziwAKCRCJcvTf3G3AJjzYD/ 4zCOLV8aaPBAT/bUiOjvDCTgLgraBRaR3pGWcZHMGJANYM2EkJwwuDhYBGkXFsg/LT9+C0FBP8Y/Zc 5zPMr5Ck8KK1vkPuvxC1XxLeWJhbO7Z9IV0T96RT6vedIbwG/X0HJaMaOlT+1avad2HTRLXhAUzKf9 gxK4g4ZAvz/FXSOFqfOu4JDUZkbvgdqXKTRl1Ks3V/KGyA9ON1fkJKujv9YXdTGyFFudWFZewLc3BP DZPR81LSq8W/amm31XbR+stxT3RkRdzalx01+vXbX9LJoiC0gu7l/6U4b5J/VpCStcDJGVQl8FIhTi V+1401vurSluzntSGK22z+Cm1SERyXlJmS441MJeAecPsqSCnwghfDjdjciI3UKJWO/K9Qg++zKSTX Xg46C2C1CDENzVc/BEXLX4bRTM4AwyujZVJ2hRQ7bxl9SnluGtBytRpsMg8Msnryyvs3X8cmlQ9bUl XRrL69gqQC1H0bptqlRAOSNMxXAHdZVeI6VwFfJlkcw9nlt77JLmR4IN0CztbMsOydMgnp7kFIyOow V3/czlAK48y8FIgtBvWH5SaTNQHjO8KDpB/sU7DTiAlRVmRb+H9uM3KcdDUwf+cI08Yry5bLkSot5g ggAqgBoLiqeU0j1EpwD4W48NHRYgozq2B6FyI6ymPjBsMY1DKp1cRWhDZRww==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -74,31 +74,61 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Use memset_after() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct.
+Add a struct_group() for the algs so that memset() can correctly reason
+about the size.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/btrfs/root-tree.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/block/drbd/drbd_main.c     | 3 ++-
+ drivers/block/drbd/drbd_protocol.h | 6 ++++--
+ drivers/block/drbd/drbd_receiver.c | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
-index 702dc5441f03..ec9e78f65fca 100644
---- a/fs/btrfs/root-tree.c
-+++ b/fs/btrfs/root-tree.c
-@@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
- 		need_reset = 1;
- 	}
- 	if (need_reset) {
--		memset(&item->generation_v2, 0,
--			sizeof(*item) - offsetof(struct btrfs_root_item,
--					generation_v2));
--
-+		memset_after(item, 0, level);
- 		generate_random_guid(item->uuid);
- 	}
- }
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 55234a558e98..b824679cfcb2 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+ 	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+ 
+ 	/* initialize verify_alg and csums_alg */
+-	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
++	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
++	memset(&p->algs, 0, sizeof(p->algs));
+ 
+ 	if (get_ldev(peer_device->device)) {
+ 		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+index dea59c92ecc1..a882b65ab5d2 100644
+--- a/drivers/block/drbd/drbd_protocol.h
++++ b/drivers/block/drbd/drbd_protocol.h
+@@ -283,8 +283,10 @@ struct p_rs_param_89 {
+ 
+ struct p_rs_param_95 {
+ 	u32 resync_rate;
+-	char verify_alg[SHARED_SECRET_MAX];
+-	char csums_alg[SHARED_SECRET_MAX];
++	struct_group(algs,
++		char verify_alg[SHARED_SECRET_MAX];
++		char csums_alg[SHARED_SECRET_MAX];
++	);
+ 	u32 c_plan_ahead;
+ 	u32 c_delay_target;
+ 	u32 c_fill_target;
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index 1f740e42e457..6df2539e215b 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+ 
+ 	/* initialize verify_alg and csums_alg */
+ 	p = pi->data;
+-	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
++	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
++	memset(&p->algs, 0, sizeof(p->algs));
+ 
+ 	err = drbd_recv_all(peer_device->connection, p, header_size);
+ 	if (err)
 -- 
 2.30.2
 
