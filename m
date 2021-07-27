@@ -2,49 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 788433D6FFB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 09:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E781C3D7092
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Jul 2021 09:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235476AbhG0HHr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 03:07:47 -0400
-Received: from mail-vs1-f45.google.com ([209.85.217.45]:34574 "EHLO
-        mail-vs1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235298AbhG0HHq (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 03:07:46 -0400
-Received: by mail-vs1-f45.google.com with SMTP id y18so6641614vsc.1;
-        Tue, 27 Jul 2021 00:07:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OWWpSAtCNA4RpYoScDMo7iZfNSeN3Kj8E95aS29aW0c=;
-        b=V976LsZYohJ4nHeda6z6+o/+suyeUu85TMu/Apv2qkGMcnyH6v3Costu+TfnwX5tEa
-         t5qDGOC1YzahSbFTZUYI45cFveoQ5OuZwufcXzXJ8x7GKLT2GGhUtTbO609iOZIpt5In
-         9Mauo4OPC65cvQQrQSzfHbvCE01P8iyC6oyapGplXsorsRYH8a3/RoccREdvDQ6BNJyy
-         8pisd6q3kcDO46MTOefO361eXyck7249V163Te4q95nJORsc1W4ODaPsjGTCjyVOSyIt
-         ev1VEycGLDkxetLETOM3Sefi/hh3S4y0Pv3aKq/O8JAJ9OGbcJHTLevAZuDkOoECL+Qx
-         7bAw==
-X-Gm-Message-State: AOAM532CO5QMR4IIfd/N1SBlryBKBB3a3GxYEO14oIpxePj4JBpvnHtY
-        nh1EPxc3PyNm3y33J0BAFbw/rIfII3PG/qiSVXk=
-X-Google-Smtp-Source: ABdhPJw0ZvB7KfTIPyQMU7lOmZQ2F3W1oomxQeOtTJVZJNeTgSOlBZmBscSZNKbCFLNzatcaBK5s6wMWU7v4+lVTipU=
-X-Received: by 2002:a67:7789:: with SMTP id s131mr12340280vsc.40.1627369666722;
- Tue, 27 Jul 2021 00:07:46 -0700 (PDT)
+        id S235675AbhG0Ht1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 03:49:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46802 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235629AbhG0Ht1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 27 Jul 2021 03:49:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68F27611F0;
+        Tue, 27 Jul 2021 07:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627372167;
+        bh=QErEz9cDaZuK4R17Cv2G9FNBxlQuSRnxn4Ssqo8BRJk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KQG8FJrSITBjn7TCNzSXab17Gk0H4rzExwKajpagsiMZa/Vv+1VY7ihcLZt8yyI+r
+         scpFBLQ4Ms7KYxNImh33ytcLO/VfGfDE1Z0zZtNnF+wwx+2eZgSNMemKbODzV3cfZ2
+         QGd3uCsPtQojKiWAuuzXwafyWv3nzkcVyTbxDmVziCr4LmOqmDT7yvUSozdynetI6s
+         reby5Vnzw4FetC5+6wgSmewQHkBSlAMpEWeRr6DCcu70q6JNhy0vsaDEn/JWh0vuto
+         iUI0GsnJr2dFo1zhjRh38+Nz/lmnlVzo0q+GsSsUiLr39XKi9/4JA7hSh1LrN81ANg
+         bJwOI/dfjigAg==
+Received: by mail-wr1-f48.google.com with SMTP id c16so4166686wrp.13;
+        Tue, 27 Jul 2021 00:49:27 -0700 (PDT)
+X-Gm-Message-State: AOAM5331RuXbYs1cgVipN2ejxv9hQGnZTKtXhNi5xC3ZCzVkQWacLRP4
+        /7wAcaqH5SiJAFoqFjI2jhpoRzT92umkP1QVdLo=
+X-Google-Smtp-Source: ABdhPJynBy6bPr27KjChBnlz4w4gwJ+lx/To9VdDCaDyrm3SlxUmCp6oNLZ/mnNe1WR1I0AIBIOwC4ci4Iya9zLqf0I=
+X-Received: by 2002:a5d:44c7:: with SMTP id z7mr14268753wrr.286.1627372166012;
+ Tue, 27 Jul 2021 00:49:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210708232522.3118208-1-ndesaulniers@google.com>
  <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
  <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
  <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
- <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com> <87r1fkizxl.fsf@disp2133>
-In-Reply-To: <87r1fkizxl.fsf@disp2133>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Jul 2021 09:07:35 +0200
-Message-ID: <CAMuHMdVzNFqAdxK+QTp7ub7LyhDL_3GbVMoAah_s3nGuJ5JN_Q@mail.gmail.com>
+ <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
+ <87r1fkizxl.fsf@disp2133> <CAMuHMdVzNFqAdxK+QTp7ub7LyhDL_3GbVMoAah_s3nGuJ5JN_Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdVzNFqAdxK+QTp7ub7LyhDL_3GbVMoAah_s3nGuJ5JN_Q@mail.gmail.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Tue, 27 Jul 2021 09:49:09 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2kb2Zzgd1wvi4m2fJeHWA9aONXUriEVfnsOfYTquJ3eA@mail.gmail.com>
+Message-ID: <CAK8P3a2kb2Zzgd1wvi4m2fJeHWA9aONXUriEVfnsOfYTquJ3eA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
  LLVM=1 LLVM_IAS=1
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -55,128 +57,40 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         Christoph Hellwig <hch@infradead.org>,
         Nathan Chancellor <nathan@kernel.org>
-Content-Type: multipart/mixed; boundary="000000000000e7813405c815864b"
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000e7813405c815864b
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Eric,
-
-On Mon, Jul 26, 2021 at 10:27 PM Eric W. Biederman
-<ebiederm@xmission.com> wrote:
-> Masahiro Yamada <masahiroy@kernel.org> writes:
-> > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
-> >> <torvalds@linux-foundation.org> wrote:
-> >> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >> >
-> >> > We do most of the other heavy lifting in this area in Kconfig anyway,
-> >> > why not add that compiler choice?
-> >> >
-> >> > Obviously it would be gated by the tests to see which compilers are
-> >> > _installed_ (and that they are valid versions), so that it doesn't ask
-> >> > stupid things ("do you want gcc or clang" when only one of them is
-> >> > installed and/or viable).
-> >>
-> >> I don't see a good way of making Kconfig options both select the
-> >> compiler and defining variables based on the compiler, since that
-> >> would mean teaching Kconfig about re-evaluating all compiler
-> >> dependent settings whenever the first option changes.
-> >>
-> >> I do have another idea that I think would work though.
-> >>
-> >> > Hmm? So then any "LLVM=1" thing would be about the "make config"
-> >> > stage, not the actual build stage.
-> >> >
-> >> > (It has annoyed me for years that if you want to cross-compile, you
-> >> > first have to do "make ARCH=xyz config" and then remember to do "make
-> >> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
-> >> > never really cared).
-> >>
-> >> The best thing that I have come up with is a pre-configure step, where
-> >> an object tree gets seeded with a makefile fragment that gets included
-> >> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
-> >> 'CC=' and possibly any other option that gets passed to 'make' as
-> >> a variable and has to exist before calling 'make *config'.
+On Tue, Jul 27, 2021 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Jul 26, 2021 at 10:27 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
+> > Masahiro Yamada <masahiroy@kernel.org> writes:
+> > > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
 > >
+> > Does anyone have any ideas?
 > >
-> > There is no need to add a hook to include such makefile fragment(s).
-> >
-> > Quite opposite, you can put your Makefile (in a different filename)
-> > that includes the top Makefile.
-> >
-> >
-> > I think this is what people are already doing:
-> >
-> >
-> > GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
-> > in this order.
-> >
-> >
-> > So, you can put 'GNUmakefile' with your favorite setups.
-> >
-> >
-> > $ cat GNUmakefile
-> > ARCH=arm64
-> > CROSS_COMPILE=aarch64-linux-gnu-
-> > CC=clang
-> > include Makefile
+> > Something so we don't have to specify all of these variables on the make
+> > command line would be nice.
 >
-> Very weird.
->
-> I just tested this and it does not work.
-> I did this:
->
-> $ cat GNUmakefile
-> ARCH = alpha
-> CROSS_COMPILE = $(arch-prefix alpha)
-> include Makefile
->
-> In one of my build directories and the main makefile simply does not see
-> the value of ARCH or CROSS_COMPILE I set.  I have confirmed that my
-> GNUmakefile is being read, because everything breaks if I remove the
-> include line.
->
-> Does anyone have any ideas?
->
-> Something so we don't have to specify all of these variables on the make
-> command line would be nice.
+> Just including the main Makefile does not work.
+> That's why I went with the more convoluted solution in
+> https://lore.kernel.org/linux-kbuild/CAMuHMdXJBqrpzaSNDJgic14ESiHV6cCcb_5E-st6iniXdmm9_g@mail.gmail.com/
 
-Just including the main Makefile does not work.
-That's why I went with the more convoluted solution in
-https://lore.kernel.org/linux-kbuild/CAMuHMdXJBqrpzaSNDJgic14ESiHV6cCcb_5E-st6iniXdmm9_g@mail.gmail.com/
+This is roughly what I use as well, but it does have the downside that
+it confuses
+the inner 'make' when you build multiple targets in parallel, e.g.
 
-Please try the attached, which combines everything above in a single
-file, and which works for me. Note that "$(arch-prefix alpha)" didn't
-work for me (it resolved to "gcc"?), so I used "alpha-linux-gnu-"
-instead.
+make -skj30 kernel/ mm/ init/
 
-Good luck!
+works with the normal Makefile, but fails spectacularly with my nested
+GNUmakefile because it starts multiple sub-processes that each try to
+build the same preparation files (I did not try your version).
 
-Gr{oetje,eeting}s,
+What I had in mind was to use something like (but not exactly)
 
-                        Geert
+-include $(O)/Makefile.cross
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+to conditionally include another file from the top-level Makefile before
+doing anything else.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
-
---000000000000e7813405c815864b
-Content-Type: application/octet-stream; name=GNUmakefile
-Content-Disposition: attachment; filename=GNUmakefile
-Content-Transfer-Encoding: base64
-Content-ID: <f_krlpouog0>
-X-Attachment-Id: f_krlpouog0
-
-TUFLRUFSR1MgPSBBUkNIPWFscGhhIENST1NTX0NPTVBJTEU9YWxwaGEtbGludXgtZ251LQoKTUFL
-RUZMQUdTICs9IC0tbm8tcHJpbnQtZGlyZWN0b3J5CgouUEhPTlk6IGFsbCAkKE1BS0VDTURHT0FM
-UykKCmFsbAk6PSAkKGZpbHRlci1vdXQgYWxsIE1ha2VmaWxlLCQoTUFLRUNNREdPQUxTKSkKCmFs
-bDoKCUAkKE1BS0UpICQoTUFLRUFSR1MpICQoYWxsKSAtZiBNYWtlZmlsZQoKTWFrZWZpbGU6OwoK
-JChhbGwpOiBhbGwKCUA6CgolLzogYWxsCglAOgo=
---000000000000e7813405c815864b--
+          Arnd
