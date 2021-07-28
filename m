@@ -2,229 +2,242 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9662D3D98F0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 00:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA493D98F7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 00:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232383AbhG1WcK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 18:32:10 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:34434 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232281AbhG1WcJ (ORCPT
+        id S232463AbhG1Wgw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 18:36:52 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:33668 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232154AbhG1Wgw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 18:32:09 -0400
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 16SMVfq4017859;
-        Thu, 29 Jul 2021 07:31:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 16SMVfq4017859
+        Wed, 28 Jul 2021 18:36:52 -0400
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 16SMaSpw009511;
+        Thu, 29 Jul 2021 07:36:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 16SMaSpw009511
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627511502;
-        bh=wAswa070vEKRoyVc6FZv3d3dc7yd9+nXOyHmSmKAIkE=;
+        s=dec2015msa; t=1627511789;
+        bh=TmY7u99GvKGaIrLNACsThniYgzMQ+Eus0lMGKUzW6R4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XxBChTB0xtEJ7/3xf1RI5d7M1NeQI9lFBgeuYDFObL3hvyJF6sd8it/t+tVZdkGze
-         zFPvYsi5syFmTq6yzstxGkN0FwwqerLE55X3OtD2ORHGFMVHtSRM1KYkA2Op2N+Wxo
-         8Uhqf2voVbE3pLGf8RksCXm/xCChXsiJfaRuidzHRanO3XqsWMoWfDiXE5entZE192
-         IqfeLM2rgKoLw/gIdGpRwF8NbjuysqYviPTRos9wjf9C3DC1QV+AGn/2lKPi8D69c9
-         LCnnH7jPvuPvZ0k3OBziPluDjUBb7PR2KtOiW/3flwOBlfc7f8tUECIPKo7HK33b88
-         1ThLUkvX9wA7A==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id mt6so7408224pjb.1;
-        Wed, 28 Jul 2021 15:31:41 -0700 (PDT)
-X-Gm-Message-State: AOAM5312psqpzOdoZXIZK420VtQNzZVrU7CgPK+1KaU82FIg1q9waW8D
-        eszZzdYK9HcbVikivKltCrtc7BSWWUflQXFx3V8=
-X-Google-Smtp-Source: ABdhPJw8ua+Q/dLtyBbcz85em397uyo6W9C7I+fwUpnfOqhZTwNAUaU/ICrzuQR5MToSmd0udC8x9nNClmsVRSOzGgo=
-X-Received: by 2002:a17:902:e28a:b029:12c:13e9:1166 with SMTP id
- o10-20020a170902e28ab029012c13e91166mr1788249plc.47.1627511500998; Wed, 28
- Jul 2021 15:31:40 -0700 (PDT)
+        b=UM02UuIiQNiR6b7PSxMr4UhwWU5fln/BxpEhyJlihPGhgMdTSaL5xiWZt/9Vk6G/k
+         8pUwijVsYwpwNakDdZ+fpgWhMblpM4hkJxEcQ18PmcJyeeDNzX/OLhDEpG9sa8jkU2
+         a0Og2+pB7DoqEV+eoNk2tk85qO5/nNFtrKsY13bEFKZh/6NZNRJwl0MiiDh7+Z+oCo
+         EJDKMLy0MOU2njIm7kI5Uwv599Cx823l1pf6inIJkgjwoFYgSKDbSQJIstH5hsNjFh
+         JKiOhuUTPXOa5K7550tf03MfjmoS91BkjWQ9YgYV7L03qhoMHZeEYp5+psp6urUn3G
+         0sXxhZF1azC8g==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id m1so7411631pjv.2;
+        Wed, 28 Jul 2021 15:36:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533r8IZ7qHAYhXNSOh3JatettkLQtMFQJ+IW0aUtL5mdLC0LhnE/
+        zSKhas785dn0LU4jEoz12crDYVnIippx9EBzlx4=
+X-Google-Smtp-Source: ABdhPJyEiRgoFU7YIi1ba2pQVYHMwa9TRitcGe7dEpg/naXMc2Scx534EplzEBKnc5zHrNLyp6R/bw3QMAyPUli2cQ8=
+X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr11696072pjt.198.1627511787958;
+ Wed, 28 Jul 2021 15:36:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210708232522.3118208-1-ndesaulniers@google.com>
  <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
- <CAHk-=wgGxu4_hgzdYpFuKd95SfnkJbPTWAQ9-fMgmMN1Oxs2xQ@mail.gmail.com>
- <CAK8P3a3=JBQow-Ws6tt81k93aw+OCV5C2CtSWxASkv=iQZPGUw@mail.gmail.com>
- <CAK7LNATLy2F-2zkHm4ENSufBT_o5p=9jc5k1K-xOV8cQf7kKDw@mail.gmail.com>
- <87r1fkizxl.fsf@disp2133> <CAK7LNAS8Fz_kcwqzJD834QrSuWkkorHm4OZoGUhYsbKvJV=fJQ@mail.gmail.com>
- <87v94vg7vi.fsf@disp2133> <CAK7LNASbegX=9yBDktuK5iXhhB=wNP_kbdh4dnJMXSmV=XwHOw@mail.gmail.com>
- <87lf5rfvdc.fsf@disp2133>
-In-Reply-To: <87lf5rfvdc.fsf@disp2133>
+ <0636b417-15bb-3f65-39f7-148d94fe22db@kernel.org> <CAK7LNAQtw-ZR0D4quHAqT_6rkMjgkjJhWG8EY7H4T1=PwUMgVw@mail.gmail.com>
+ <CAKwvOdkENUWd7OgJO=dNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkENUWd7OgJO=dNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 29 Jul 2021 07:31:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWxmzfbPiWp9YTy6eRK5ephDsP8OYCJwba4VXT9os2BA@mail.gmail.com>
-Message-ID: <CAK7LNASWxmzfbPiWp9YTy6eRK5ephDsP8OYCJwba4VXT9os2BA@mail.gmail.com>
+Date:   Thu, 29 Jul 2021 07:35:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARrwpk5s8FDFoRbGqx2mzUk8xM9TBNnH3SepFPoijkBAA@mail.gmail.com>
+Message-ID: <CAK7LNARrwpk5s8FDFoRbGqx2mzUk8xM9TBNnH3SepFPoijkBAA@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
  LLVM=1 LLVM_IAS=1
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Miguel Ojeda <ojeda@kernel.org>,
         Fangrui Song <maskray@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Christoph Hellwig <hch@infradead.org>,
-        Nathan Chancellor <nathan@kernel.org>
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 3:46 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
+On Thu, Jul 29, 2021 at 4:00 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> Masahiro Yamada <masahiroy@kernel.org> writes:
->
-> > On Tue, Jul 27, 2021 at 11:16 PM Eric W. Biederman
-> > <ebiederm@xmission.com> wrote:
-> >>
-> >> Masahiro Yamada <masahiroy@kernel.org> writes:
-> >>
-> >> > On Tue, Jul 27, 2021 at 5:27 AM Eric W. Biederman <ebiederm@xmission.com> wrote:
-> >> >>
-> >> >> Masahiro Yamada <masahiroy@kernel.org> writes:
-> >> >>
-> >> >> > On Wed, Jul 21, 2021 at 4:58 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >> >> >>
-> >> >> >> On Tue, Jul 20, 2021 at 7:43 PM Linus Torvalds
-> >> >> >> <torvalds@linux-foundation.org> wrote:
-> >> >> >> > On Tue, Jul 20, 2021 at 1:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >> >> >> >
-> >> >> >> > We do most of the other heavy lifting in this area in Kconfig anyway,
-> >> >> >> > why not add that compiler choice?
-> >> >> >> >
-> >> >> >> > Obviously it would be gated by the tests to see which compilers are
-> >> >> >> > _installed_ (and that they are valid versions), so that it doesn't ask
-> >> >> >> > stupid things ("do you want gcc or clang" when only one of them is
-> >> >> >> > installed and/or viable).
-> >> >> >>
-> >> >> >> I don't see a good way of making Kconfig options both select the
-> >> >> >> compiler and defining variables based on the compiler, since that
-> >> >> >> would mean teaching Kconfig about re-evaluating all compiler
-> >> >> >> dependent settings whenever the first option changes.
-> >> >> >>
-> >> >> >> I do have another idea that I think would work though.
-> >> >> >>
-> >> >> >> > Hmm? So then any "LLVM=1" thing would be about the "make config"
-> >> >> >> > stage, not the actual build stage.
-> >> >> >> >
-> >> >> >> > (It has annoyed me for years that if you want to cross-compile, you
-> >> >> >> > first have to do "make ARCH=xyz config" and then remember to do "make
-> >> >> >> > ARCH=xyz" for the build too, but I cross-compile so seldom that I've
-> >> >> >> > never really cared).
-> >> >> >>
-> >> >> >> The best thing that I have come up with is a pre-configure step, where
-> >> >> >> an object tree gets seeded with a makefile fragment that gets included
-> >> >> >> for any 'make' invocation. This would set 'ARCH=', 'CROSS_COMPILE',
-> >> >> >> 'CC=' and possibly any other option that gets passed to 'make' as
-> >> >> >> a variable and has to exist before calling 'make *config'.
-> >> >> >
-> >> >> >
-> >> >> > There is no need to add a hook to include such makefile fragment(s).
-> >> >> >
-> >> >> > Quite opposite, you can put your Makefile (in a different filename)
-> >> >> > that includes the top Makefile.
-> >> >> >
-> >> >> >
-> >> >> > I think this is what people are already doing:
-> >> >> >
-> >> >> >
-> >> >> > GNU Make looks for 'GNUmakefile', 'makefile', and 'Makefile'
-> >> >> > in this order.
-> >> >> >
-> >> >> >
-> >> >> > So, you can put 'GNUmakefile' with your favorite setups.
-> >> >> >
-> >> >> >
-> >> >> > $ cat GNUmakefile
-> >> >> > ARCH=arm64
-> >> >> > CROSS_COMPILE=aarch64-linux-gnu-
-> >> >> > CC=clang
-> >> >> > include Makefile
-> >> >>
-> >> >> Very weird.
-> >> >>
-> >> >> I just tested this and it does not work.
-> >> >> I did this:
-> >> >>
-> >> >> $ cat GNUmakefile
-> >> >> ARCH = alpha
-> >> >> CROSS_COMPILE = $(arch-prefix alpha)
-> >> >> include Makefile
-> >> >>
-> >> >> In one of my build directories and the main makefile simply does not see
-> >> >> the value of ARCH or CROSS_COMPILE I set.  I have confirmed that my
-> >> >> GNUmakefile is being read, because everything breaks if I remove the
-> >> >> include line.
-> >> >>
-> >> >> Does anyone have any ideas?
-> >> >>
-> >> >> Something so we don't have to specify all of these variables on the make
-> >> >> command line would be nice.
-> >> >>
-> >> >> Eric
-> >> >
-> >> >
-> >> > Worked for me.
-> >> >
-> >> > Could you tell me the exact steps you did?
-> >> >
-> >> >
-> >> > This is my case:
-> >> >
-> >> > My kernel source tree is located at $HOME/ref/linux
-> >> > alpha tool chains are located at $HOME/tools/alpha-10.1.0/bin
-> >> >
-> >> >
-> >> >
-> >> > I tried a simple GNUmakefile with 3 lines.
-> >> >
-> >> > You can see 'make' is building the alpha kernel
-> >> >
-> >> >
-> >> > Please see below:
-> >>
-> >> Interesting.  That appears to work if I don't specify a build directory.
-> >> Once I specify a build directory with O= it does not work.
-> >>
-> >> When I am working on a change that affects multiple architectures
-> >> I really want a build directory that is not my source tree so I can
-> >> test small changes on multiple architectures without needing to rebuild
-> >> everything.
-> >>
-> >> Eric
+> On Tue, Jul 20, 2021 at 8:50 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Wed, Jul 21, 2021 at 2:30 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > On 7/20/2021 1:04 AM, Masahiro Yamada wrote:
+> > > > On Fri, Jul 9, 2021 at 8:25 AM 'Nick Desaulniers' via Clang Built
+> > > > Linux <clang-built-linux@googlegroups.com> wrote:
+> > > >>
+> > > >> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> > > >> index 297932e973d4..956603f56724 100644
+> > > >> --- a/scripts/Makefile.clang
+> > > >> +++ b/scripts/Makefile.clang
+> > > >> @@ -1,6 +1,36 @@
+> > > >> -ifneq ($(CROSS_COMPILE),)
+> > > >> +# Individual arch/{arch}/Makfiles should use -EL/-EB to set intended endianness
+> > > >> +# and -m32/-m64 to set word size based on Kconfigs instead of relying on the
+> > > >> +# target triple.
+> > > >> +ifeq ($(CROSS_COMPILE),)
+> > > >> +ifneq ($(LLVM),)
+> > > >
+> > > >
+> > > > Do you need to check $(LLVM) ?
+> > > >
+> > > >
+> > > > LLVM=1 is a convenient switch to change all the
+> > > > defaults, but yet you can flip each tool individually.
+> > > >
+> > > > Instead of LLVM=1, you still should be able to
+> > > > get the equivalent setups by:
+> > > >
+> > > >
+> > > >    make CC=clang LD=ld.lld AR=llvm-ar OBJCOPY=llvm-objcopy ...
+> > > >
+> > > >
+> > > > The --target option is passed to only
+> > > > KBUILD_CFLAGS and KBUILD_AFLAGS.
+> > > >
+> > > > So, when we talk about --target=,
+> > > > we only care about whether $(CC) is Clang.
+> > > > Not caring about $(AR), $(LD), or $(OBJCOPY).
+> > > >
+> > > >
+> > > > scripts/Makefile.clang is already guarded by:
+> > > >
+> > > > ifneq ($(findstring clang,$(CC_VERSION_TEXT)),
+> > >
+> > > $ make ARCH=arm64 CC=clang LLVM_IAS=1
+> > >
+> > > will use the right compiler and assembler but none of the other binary
+> > > tools because '--prefix=' will not be set so CROSS_COMPILE needs to be
+> > > specified still, which defeats the purpose of this whole change. This
+> > > patch is designed to work for the "normal" case of saying "I want to use
+> > > all of the LLVM tools", not "I want to use clang by itself".
 > >
 > >
-> > Ah, OK.
-> > When you specify O= option, Kbuild will
-> > invoke sub-make.
-> > So you need to add 'export' to the
-> > variables.
+> > I disagree.
 > >
-> > Please see the following modified version.
+> > LLVM=1 is a shorthand.
+> >
+> >
+> >
+> > make LLVM=1 LLVM_IAS=1
+> >
+> >   should be equivalent to:
+> >
+> > make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> >   OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> >   HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld \
+> >   LLVM_IAS=1
+> >
+> >
+> >
+> > We do not care about the origin of CC=clang,
+> > whether it came from LLVM=1 or every tool was explicitly,
+> > individually specified.
+> >
+> >
+> >
+> > ifneq ($(LLVM),) is a garbage code
+> > that checks a pointless thing.
 >
-> Yes. That does seem to work and be simpler.
+> Masahiro,
+> Nathan is correct.  Test for yourself; if you apply these two patches,
+> then apply:
 >
-> Is there any chance we can get the command that generates the Makefile
-> in the build directory to include variables like ARCH and CROSS_COMPILE
-> in the Makefile as well?  Just so they don't need to be set by hand to
-> the same value every time?
+> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+> index 956603f56724..a1b46811bdc6 100644
+> --- a/scripts/Makefile.clang
+> +++ b/scripts/Makefile.clang
+> @@ -2,7 +2,6 @@
+>  # and -m32/-m64 to set word size based on Kconfigs instead of relying on the
+>  # target triple.
+>  ifeq ($(CROSS_COMPILE),)
+> -ifneq ($(LLVM),)
+>  ifeq ($(LLVM_IAS),1)
+>  ifeq ($(SRCARCH),arm)
+>  CLANG_FLAGS    += --target=arm-linux-gnueabi
+> @@ -26,7 +25,6 @@ else
+>  $(error Specify CROSS_COMPILE or add '--target=' option to
+> scripts/Makefile.clang)
+>  endif # SRCARCH
+>  endif # LLVM_IAS
+> -endif # LLVM
+>  else
+>  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+>  endif # CROSS_COMPILE
 >
-> Eric
+> Then build as Nathan specified:
+> $ ARCH=arm64 make CC=clang LLVM_IAS=1 -j72 defconfig all
 
 
-I am OK to document this small tip
-in Documentation/kbuild/ if it is useful,
-but am reluctant to add any code to
-generate custom Makefile or GNUmakefile.
+Yes, LD is set to GNU ld, which is only for x86.
 
-It is highly user-dependent after all.
+$ ARCH=arm64  make  CC=clang LLVM_IAS=1  LD=ld.lld \
+   OBJCOPY=llvm-objcopy STRIP=llvm-strip \
+    -j72 defconfig all
 
-If we merged the code to set up ARCH=...
-and CROSS_COMPILE=...,
-somebody would send a patch
-"I need LLVM=1 in my GNUmakefile", then
-another person, "I want CC=clang", and so on.
+worked for me.
 
-You can edit it by yourself.
+
+
+It is true that the most common use-case would be
+LLVM=1 LLVM_IAS=1, but as I said, there is no good
+reason to prevent this feature from working when
+CC, LD, etc. are specified individually.
+
+
+
+
+
+
+
+> ...
+> arch/arm64/Makefile:25: ld does not support --fix-cortex-a53-843419;
+> kernel may be susceptible to erratum
+> ...
+>   LD      arch/arm64/kernel/vdso/vdso.so.dbg
+> ld: unrecognised emulation mode: aarch64linux
+> Supported emulations: elf_x86_64 elf32_x86_64 elf_i386 elf_iamcu
+> elf_l1om elf_k1om i386pep i386pe
+> make[1]: *** [arch/arm64/kernel/vdso/Makefile:56:
+> arch/arm64/kernel/vdso/vdso.so.dbg] Error 1
+> make: *** [arch/arm64/Makefile:193: vdso_prepare] Error 2
+>
+> Nathan referred to --prefix, but in this failure, because
+> CROSS_COMPILE was never set, the top level Makefile set LD to:
+>  452 LD    = $(CROSS_COMPILE)ld
+> in this case `ld` in my path was my host x86 linker, which is not
+> correct for a cross compilation of arm64 target.
+>
+> Perhaps we can somehow support "implicit CROSS_COMPILE" with just
+> CC=clang, and not LLVM=1, but I think it would be inflexible to
+> hardcode such target triple prefixes.  What if someone has
+> arm-linux-gnueabi-as but not arm-linux-gnueabihf-as installed?  That's
+> the point of CROSS_COMPILE in my opinion to provide such flexibility
+> at the cost of additional command line verbosity.
+>
+> For the common case of LLVM=1 though, this series is a simplification.
+> If users want to specify CC=clang, then they MUST use CROSS_COMPILE
+> when cross compiling.
+>
+> Please review the current approach and see if there's more I can
+> improve in a v3; otherwise I still think this series is good to go.
+> --
+> Thanks,
+> ~Nick Desaulniers
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdkENUWd7OgJO%3DdNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg%40mail.gmail.com.
+
 
 
 -- 
