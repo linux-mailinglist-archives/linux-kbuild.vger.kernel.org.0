@@ -2,244 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA493D98F7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 00:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D9583D9950
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 01:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232463AbhG1Wgw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 18:36:52 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:33668 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbhG1Wgw (ORCPT
+        id S232384AbhG1XOl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 19:14:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232471AbhG1XOk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 18:36:52 -0400
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 16SMaSpw009511;
-        Thu, 29 Jul 2021 07:36:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 16SMaSpw009511
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627511789;
-        bh=TmY7u99GvKGaIrLNACsThniYgzMQ+Eus0lMGKUzW6R4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UM02UuIiQNiR6b7PSxMr4UhwWU5fln/BxpEhyJlihPGhgMdTSaL5xiWZt/9Vk6G/k
-         8pUwijVsYwpwNakDdZ+fpgWhMblpM4hkJxEcQ18PmcJyeeDNzX/OLhDEpG9sa8jkU2
-         a0Og2+pB7DoqEV+eoNk2tk85qO5/nNFtrKsY13bEFKZh/6NZNRJwl0MiiDh7+Z+oCo
-         EJDKMLy0MOU2njIm7kI5Uwv599Cx823l1pf6inIJkgjwoFYgSKDbSQJIstH5hsNjFh
-         JKiOhuUTPXOa5K7550tf03MfjmoS91BkjWQ9YgYV7L03qhoMHZeEYp5+psp6urUn3G
-         0sXxhZF1azC8g==
-X-Nifty-SrcIP: [209.85.216.52]
-Received: by mail-pj1-f52.google.com with SMTP id m1so7411631pjv.2;
-        Wed, 28 Jul 2021 15:36:28 -0700 (PDT)
-X-Gm-Message-State: AOAM533r8IZ7qHAYhXNSOh3JatettkLQtMFQJ+IW0aUtL5mdLC0LhnE/
-        zSKhas785dn0LU4jEoz12crDYVnIippx9EBzlx4=
-X-Google-Smtp-Source: ABdhPJyEiRgoFU7YIi1ba2pQVYHMwa9TRitcGe7dEpg/naXMc2Scx534EplzEBKnc5zHrNLyp6R/bw3QMAyPUli2cQ8=
-X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr11696072pjt.198.1627511787958;
- Wed, 28 Jul 2021 15:36:27 -0700 (PDT)
+        Wed, 28 Jul 2021 19:14:40 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47B9C0613D5
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id a4-20020a17090aa504b0290176a0d2b67aso12617889pjq.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
+        b=g6KzbBrSxn/nD5fbAKhLB3KhfMjP/EBF+i23w0kpmbqop6NS+P75BVA3oYPWAQv5TN
+         jVsYj83mHem2R5QZIvfE5d5URqJJQjsLnk9ETh7AN/rE48OqfmjnQNOSXEPIuAu+rr1g
+         LBym6tSkzsztfvOHVLJCIdl6Clmjoz1sl02aM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
+        b=WBKDVd99y/Jl7OIupwvvR0XcAVtqGbvRZuC1/lPtM5kTGd/0oA82hc9QqSzHzcu94g
+         gx6STPHe+0Gos3veYURq3z01sYpO+URcL7cmEx+OFEMkFfH7cJ640OjS4X1J6TpOiWiZ
+         KURJiQUUjxiaRzIKHdIn3Hp0ndnPFu0c3XtgxhP0R6wZ+EXnKdhyOCoEPkg41jl6rxdT
+         3FgpFQWLNq1SCtXo2uxwU+jZQ5+giJUsE30redd+Q+FfwnEWzLAL1Blb0CcpO+P58Wbo
+         6t/o+5zwpScYyUDbIeQun6JCOvL4sHoSKceZe2dSaszNQuagRiQABfjDcG00O0ybUIov
+         1lJQ==
+X-Gm-Message-State: AOAM533L/FqppUCN5WxZk54FkvtlS3f+IqWK8gXRyyk1X9ax76hYiz9J
+        j4xirAq81Ncn2sq/acVH8XlgCA==
+X-Google-Smtp-Source: ABdhPJx1kv+LtzCaHLxEQ+7p9oKRsC6DgKBut532PtzT8ERKet67b0w3z4Vqt6OM2ER7XfKqYAMq8Q==
+X-Received: by 2002:a63:5a08:: with SMTP id o8mr1175343pgb.120.1627514077222;
+        Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 16sm1132146pfu.109.2021.07.28.16.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 16:14:36 -0700 (PDT)
+Date:   Wed, 28 Jul 2021 16:14:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <202107281602.4D9ED671@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+ <20210728073556.GP1931@kadam>
 MIME-Version: 1.0
-References: <20210708232522.3118208-1-ndesaulniers@google.com>
- <20210708232522.3118208-3-ndesaulniers@google.com> <CAK7LNARye5Opc0AdXpn+DHB7hTaphoRSCUWxJgXu+sjuNjWUCg@mail.gmail.com>
- <0636b417-15bb-3f65-39f7-148d94fe22db@kernel.org> <CAK7LNAQtw-ZR0D4quHAqT_6rkMjgkjJhWG8EY7H4T1=PwUMgVw@mail.gmail.com>
- <CAKwvOdkENUWd7OgJO=dNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg@mail.gmail.com>
-In-Reply-To: <CAKwvOdkENUWd7OgJO=dNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 29 Jul 2021 07:35:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARrwpk5s8FDFoRbGqx2mzUk8xM9TBNnH3SepFPoijkBAA@mail.gmail.com>
-Message-ID: <CAK7LNARrwpk5s8FDFoRbGqx2mzUk8xM9TBNnH3SepFPoijkBAA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
- LLVM=1 LLVM_IAS=1
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210728073556.GP1931@kadam>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 4:00 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> On Tue, Jul 20, 2021 at 8:50 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Wed, Jul 21, 2021 at 2:30 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > On 7/20/2021 1:04 AM, Masahiro Yamada wrote:
-> > > > On Fri, Jul 9, 2021 at 8:25 AM 'Nick Desaulniers' via Clang Built
-> > > > Linux <clang-built-linux@googlegroups.com> wrote:
-> > > >>
-> > > >> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > > >> index 297932e973d4..956603f56724 100644
-> > > >> --- a/scripts/Makefile.clang
-> > > >> +++ b/scripts/Makefile.clang
-> > > >> @@ -1,6 +1,36 @@
-> > > >> -ifneq ($(CROSS_COMPILE),)
-> > > >> +# Individual arch/{arch}/Makfiles should use -EL/-EB to set intended endianness
-> > > >> +# and -m32/-m64 to set word size based on Kconfigs instead of relying on the
-> > > >> +# target triple.
-> > > >> +ifeq ($(CROSS_COMPILE),)
-> > > >> +ifneq ($(LLVM),)
-> > > >
-> > > >
-> > > > Do you need to check $(LLVM) ?
-> > > >
-> > > >
-> > > > LLVM=1 is a convenient switch to change all the
-> > > > defaults, but yet you can flip each tool individually.
-> > > >
-> > > > Instead of LLVM=1, you still should be able to
-> > > > get the equivalent setups by:
-> > > >
-> > > >
-> > > >    make CC=clang LD=ld.lld AR=llvm-ar OBJCOPY=llvm-objcopy ...
-> > > >
-> > > >
-> > > > The --target option is passed to only
-> > > > KBUILD_CFLAGS and KBUILD_AFLAGS.
-> > > >
-> > > > So, when we talk about --target=,
-> > > > we only care about whether $(CC) is Clang.
-> > > > Not caring about $(AR), $(LD), or $(OBJCOPY).
-> > > >
-> > > >
-> > > > scripts/Makefile.clang is already guarded by:
-> > > >
-> > > > ifneq ($(findstring clang,$(CC_VERSION_TEXT)),
-> > >
-> > > $ make ARCH=arm64 CC=clang LLVM_IAS=1
-> > >
-> > > will use the right compiler and assembler but none of the other binary
-> > > tools because '--prefix=' will not be set so CROSS_COMPILE needs to be
-> > > specified still, which defeats the purpose of this whole change. This
-> > > patch is designed to work for the "normal" case of saying "I want to use
-> > > all of the LLVM tools", not "I want to use clang by itself".
-> >
-> >
-> > I disagree.
-> >
-> > LLVM=1 is a shorthand.
-> >
-> >
-> >
-> > make LLVM=1 LLVM_IAS=1
-> >
-> >   should be equivalent to:
-> >
-> > make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> >   OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> >   HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld \
-> >   LLVM_IAS=1
-> >
-> >
-> >
-> > We do not care about the origin of CC=clang,
-> > whether it came from LLVM=1 or every tool was explicitly,
-> > individually specified.
-> >
-> >
-> >
-> > ifneq ($(LLVM),) is a garbage code
-> > that checks a pointless thing.
->
-> Masahiro,
-> Nathan is correct.  Test for yourself; if you apply these two patches,
-> then apply:
->
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 956603f56724..a1b46811bdc6 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -2,7 +2,6 @@
->  # and -m32/-m64 to set word size based on Kconfigs instead of relying on the
->  # target triple.
->  ifeq ($(CROSS_COMPILE),)
-> -ifneq ($(LLVM),)
->  ifeq ($(LLVM_IAS),1)
->  ifeq ($(SRCARCH),arm)
->  CLANG_FLAGS    += --target=arm-linux-gnueabi
-> @@ -26,7 +25,6 @@ else
->  $(error Specify CROSS_COMPILE or add '--target=' option to
-> scripts/Makefile.clang)
->  endif # SRCARCH
->  endif # LLVM_IAS
-> -endif # LLVM
->  else
->  CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
->  endif # CROSS_COMPILE
->
-> Then build as Nathan specified:
-> $ ARCH=arm64 make CC=clang LLVM_IAS=1 -j72 defconfig all
+On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
+> On Tue, Jul 27, 2021 at 01:57:53PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
+> > 
+> > The it_present member of struct ieee80211_radiotap_header is treated as a
+> > flexible array (multiple u32s can be conditionally present). In order for
+> > memcpy() to reason (or really, not reason) about the size of operations
+> > against this struct, use of bytes beyond it_present need to be treated
+> > as part of the flexible array. Add a union/struct to contain the new
+> > "bitmap" member, for use with trailing presence bitmaps and arguments.
+> > 
+> > Additionally improve readability in the iterator code which walks
+> > through the bitmaps and arguments.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
+> >  net/mac80211/rx.c                |  2 +-
+> >  net/wireless/radiotap.c          |  5 ++---
+> >  3 files changed, 23 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> > index c0854933e24f..101c1e961032 100644
+> > --- a/include/net/ieee80211_radiotap.h
+> > +++ b/include/net/ieee80211_radiotap.h
+> > @@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
+> >  	 */
+> >  	__le16 it_len;
+> >  
+> > -	/**
+> > -	 * @it_present: (first) present word
+> > -	 */
+> > -	__le32 it_present;
+> > +	union {
+> > +		/**
+> > +		 * @it_present: (first) present word
+> > +		 */
+> > +		__le32 it_present;
+> > +
+> > +		struct {
+> > +			/* The compiler makes it difficult to overlap
+> > +			 * a flex-array with an existing singleton,
+> > +			 * so we're forced to add an empty named
+> > +			 * variable here.
+> > +			 */
+> > +			struct { } __unused;
+> > +
+> > +			/**
+> > +			 * @bitmap: all presence bitmaps
+> > +			 */
+> > +			__le32 bitmap[];
+> > +		};
+> > +	};
+> >  } __packed;
+> 
+> This patch is so confusing...
+
+Right, unfortunately your patch doesn't work under the strict memcpy().
+:(
+
+Here are the constraints I navigated to come to the original patch I
+sent:
+
+* I need to directly reference a flexible array for the it_present
+  pointer because pos is based on it, and the compiler thinks pos
+  walks off the end of the struct:
+
+	In function 'fortify_memcpy_chk',
+	    inlined from 'ieee80211_add_rx_radiotap_header' at net/mac80211/rx.c:652:3:
+	./include/linux/fortify-string.h:285:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()?  [-Wattribute-warning]
+	  285 |    __write_overflow_field();
+	      |    ^~~~~~~~~~~~~~~~~~~~~~~~
+
+* It's churn/fragile to change the sizeof(), so I can't just do:
+	-	__le32 it_present;
+	+	__le32 it_bitmap[];
+
+* I want to use a union:
+	-	__le32 it_present;
+	+	union {
+	+		__le32 it_present;
+	+		__le32 it_bitmap[];
+	+	};
+* ... but I can't actually use a union because of compiler constraints
+  on flexible array members:
+	./include/net/ieee80211_radiotap.h:50:10: error: flexible array member in union
+	   50 |   __le32 it_optional[];
+	      |          ^~~~~~~~~~~
+
+* So I came to the horrible thing I original sent. :P
+
+If I could escape the __le32 *it_present incrementing, I could use a
+simple change:
+	 	__le32 it_present;
+	+	__le32 it_optional[];
 
 
-Yes, LD is set to GNU ld, which is only for x86.
+> Btw, after the end of the __le32 data there is a bunch of other le64,
+> u8 and le16 data so the struct is not accurate or complete.
 
-$ ARCH=arm64  make  CC=clang LLVM_IAS=1  LD=ld.lld \
-   OBJCOPY=llvm-objcopy STRIP=llvm-strip \
-    -j72 defconfig all
+Hm, docs seem to indicate that the packet format is multiples of u32?
+*shrug*
 
-worked for me.
+Hmpf.
 
-
-
-It is true that the most common use-case would be
-LLVM=1 LLVM_IAS=1, but as I said, there is no good
-reason to prevent this feature from working when
-CC, LD, etc. are specified individually.
-
-
-
-
-
-
-
-> ...
-> arch/arm64/Makefile:25: ld does not support --fix-cortex-a53-843419;
-> kernel may be susceptible to erratum
-> ...
->   LD      arch/arm64/kernel/vdso/vdso.so.dbg
-> ld: unrecognised emulation mode: aarch64linux
-> Supported emulations: elf_x86_64 elf32_x86_64 elf_i386 elf_iamcu
-> elf_l1om elf_k1om i386pep i386pe
-> make[1]: *** [arch/arm64/kernel/vdso/Makefile:56:
-> arch/arm64/kernel/vdso/vdso.so.dbg] Error 1
-> make: *** [arch/arm64/Makefile:193: vdso_prepare] Error 2
->
-> Nathan referred to --prefix, but in this failure, because
-> CROSS_COMPILE was never set, the top level Makefile set LD to:
->  452 LD    = $(CROSS_COMPILE)ld
-> in this case `ld` in my path was my host x86 linker, which is not
-> correct for a cross compilation of arm64 target.
->
-> Perhaps we can somehow support "implicit CROSS_COMPILE" with just
-> CC=clang, and not LLVM=1, but I think it would be inflexible to
-> hardcode such target triple prefixes.  What if someone has
-> arm-linux-gnueabi-as but not arm-linux-gnueabihf-as installed?  That's
-> the point of CROSS_COMPILE in my opinion to provide such flexibility
-> at the cost of additional command line verbosity.
->
-> For the common case of LLVM=1 though, this series is a simplification.
-> If users want to specify CC=clang, then they MUST use CROSS_COMPILE
-> when cross compiling.
->
-> Please review the current approach and see if there's more I can
-> improve in a v3; otherwise I still think this series is good to go.
-> --
-> Thanks,
-> ~Nick Desaulniers
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdkENUWd7OgJO%3DdNiYjH6D1aJ0puBgs4W7uuYO9xQiAiNg%40mail.gmail.com.
-
-
+-Kees
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
