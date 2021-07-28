@@ -2,170 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 444863D852F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 03:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 524A03D8534
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 03:04:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234561AbhG1BDf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Jul 2021 21:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234482AbhG1BDf (ORCPT
+        id S233654AbhG1BEv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Jul 2021 21:04:51 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:40084 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233118AbhG1BEu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Jul 2021 21:03:35 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72FF5C061765
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 18:03:34 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id x9so200451qtw.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jul 2021 18:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=q6pgsoO6UFqCorK9BkM0hvCL6tHydboH+07c98wD0o0=;
-        b=fer6niE355n7DxGdaoL8vySdrM6+aYJDyxn7vOG4ijuJzYgVE0oIR1MEWDhDOCXO0Y
-         2dmkJXjPEKKwbimCBoSd/oZQkdxEjDtJAkUBXxEGC4HGvBQIw8sXOVczW6svMWvqc9ig
-         nkkqZZ7uENgkb9GDHtX9nhkn1YdxFMSsRoiDE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=q6pgsoO6UFqCorK9BkM0hvCL6tHydboH+07c98wD0o0=;
-        b=hA5Ey7qS+tY+G63Q1lKL9s1fL3v97b0sPFJnxqgfVg9LWJo4ZIIkpv/SkLCGD8kzCX
-         9Cq+2jDrsLjxiMln+H0t50mJ1JkgkuUkIPeyp7+tk26PIscY3t5FUE2u3udXa8zFAk8S
-         dt5sh7AqeGDXCmfGPxMLM+SBKHtBSZA2/s6gbrrxq8XLzTZiwso60058CSVUoVpukbQR
-         U8xPVQYR4K9nOS0arPsh2WuNPo6Cc0h7hi724+rpkZfTXIz47qk3zuaeLlAJnKXF4vAa
-         gRZxEZBjCJARcfoLivUlRApfu/jq9GHJHMJTpkEc+kXLfy0xQmfsdHLCZNcXG0TPXDIm
-         vA6w==
-X-Gm-Message-State: AOAM53231kgnalxBXV6fI0fgS+Qe0eXNEeEZPiXhUZX7gCyb7ONPMJ4L
-        lfodR+X9TSA1OIK6F5EsNXm6iIVGevbo1anuVEvN2Q==
-X-Google-Smtp-Source: ABdhPJxjmlE5yVh8YlGpJ0U/rLjeeeLuwtccal5EeveFlAkx6Qo+3rxtJO7aKcAii92XQv8UT6eEzvGpQiQfkHuEt+A=
-X-Received: by 2002:ac8:7515:: with SMTP id u21mr3011194qtq.80.1627434213425;
- Tue, 27 Jul 2021 18:03:33 -0700 (PDT)
+        Tue, 27 Jul 2021 21:04:50 -0400
+X-Greylist: delayed 33857 seconds by postgrey-1.27 at vger.kernel.org; Tue, 27 Jul 2021 21:04:50 EDT
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 16S14YgX006779;
+        Wed, 28 Jul 2021 10:04:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 16S14YgX006779
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1627434274;
+        bh=yDN/9OCKinq2MFj0x4rcClHgXoJJbc1xUOy8iD5RPZU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fSAqCJS9XSgUstk2RU7Vu85Zv0q6GFMJcYYXu9xKGFUItOdeUJ+7X/NQhTA7N2dM7
+         kAL65qQkbSvHrZK2NUI/Vywjcd4ioUnBoLCSd5+tN4pwAerMIVAHXM4prmWRenxJHk
+         ppX9ouuxoi2dD+86m+jdqlw3x8oBO9YGkhZ7CazIDP5ZN3RHeclKqtkjugBsQZzDi6
+         u8h/6LZyd1C9G5q/HOFS+gDEDf+PASlooYwim2UnGW7iIUnsiCMIytFmNL1jla/+JW
+         M/NAGggRJ2SA9EdHRxSgmFRvasHCJWTfX1yvnhjwhjJW2gxPX34ysa/imTrs1vM5qg
+         us/taG8N5FQSg==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so1975620pjd.0;
+        Tue, 27 Jul 2021 18:04:34 -0700 (PDT)
+X-Gm-Message-State: AOAM531d5S6RvLrGPDcBtoXlglVMLVNCm3zHViMnIyTdm4AcekIMTgrJ
+        pDuvRZJS+tH3NPwNVsXBACHJOQU860NymYmtD2E=
+X-Google-Smtp-Source: ABdhPJzgdbOIho3ytX7bJKc52YJ2gk1DFQyIBRpkxje/mwkGDiSkPFyYQQBOTqV3w2MxdEnqsdP0NBwH4XjNuN8kSAI=
+X-Received: by 2002:a63:dd51:: with SMTP id g17mr2151312pgj.47.1627434273622;
+ Tue, 27 Jul 2021 18:04:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org> <20210727205855.411487-7-keescook@chromium.org>
-In-Reply-To: <20210727205855.411487-7-keescook@chromium.org>
-From:   Michael Chan <michael.chan@broadcom.com>
-Date:   Tue, 27 Jul 2021 18:03:22 -0700
-Message-ID: <CACKFLinDc6Y+P8eZ=450yA1nMC7swTURLtcdyiNR=9J6dfFyBg@mail.gmail.com>
-Subject: Re: [PATCH 06/64] bnxt_en: Use struct_group_attr() for memcpy() region
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-wireless@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000360d1405c8248ed7"
+References: <20210727153924.79473-1-masahiroy@kernel.org> <YQAsth0TA3AwtxvK@kroah.com>
+In-Reply-To: <YQAsth0TA3AwtxvK@kroah.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 28 Jul 2021 10:03:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQM2WzfHdJhukiaeq=qYtJ7U8UbMZdFWSuAJG86bBVHnA@mail.gmail.com>
+Message-ID: <CAK7LNAQM2WzfHdJhukiaeq=qYtJ7U8UbMZdFWSuAJG86bBVHnA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: make some scripts executable
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hardening@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000360d1405c8248ed7
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, Jul 27, 2021 at 2:01 PM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Jul 28, 2021 at 12:56 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields.
+> On Wed, Jul 28, 2021 at 12:39:24AM +0900, Masahiro Yamada wrote:
+> > Set the x bit to some scripts to make them directly executable.
+> >
+> > Especially, scripts/checkdeclares.pl is not hooked by anyone.
+> > It should be executable since it is tedious to type
+> > 'perl scripts/checkdeclares.pl'.
+> >
+> > The original patch [1] set the x bit properly, but it was lost when
+> > it was merged as commit 21917bded72c ("scripts: a new script for
+> > checking duplicate struct declaration").
+> >
+> > [1] https://lore.kernel.org/lkml/20210401110943.1010796-1-wanjiabing@vivo.com/
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/checkdeclares.pl               | 0
+> >  scripts/gcc-plugins/gen-random-seed.sh | 0
+> >  scripts/syscallnr.sh                   | 0
+> >  scripts/xen-hypercalls.sh              | 0
+> >  4 files changed, 0 insertions(+), 0 deletions(-)
+> >  mode change 100644 => 100755 scripts/checkdeclares.pl
+> >  mode change 100644 => 100755 scripts/gcc-plugins/gen-random-seed.sh
+> >  mode change 100644 => 100755 scripts/syscallnr.sh
+> >  mode change 100644 => 100755 scripts/xen-hypercalls.sh
 >
-> Use struct_group() around members queue_id, min_bw, max_bw, tsa, pri_lvl,
-> and bw_weight so they can be referenced together. This will allow memcpy()
-> and sizeof() to more easily reason about sizes, improve readability,
-> and avoid future warnings about writing beyond the end of queue_id.
+> Please no, as other tools (i.e. patch), can not set mode bits, and some
+> people still rely on patch in places.
 >
-> "pahole" shows no size nor member offset changes to struct bnxt_cos2bw_cfg.
-> "objdump -d" shows no meaningful object code changes (i.e. only source
-> line number induced differences and optimizations).
+> If these need to be called by other parts of the build, we should
+> execute them properly, not rely on the mode settings.
 >
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> thanks,
+>
+> greg k-h
 
-Thanks.
-Reviewed-by: Michael Chan <michael.chan@broadcom.com>
 
---000000000000360d1405c8248ed7
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+I believe tools should be executable.
 
-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
-xV4Em+0wQoEIR2kPG6yiZNtUK0tNCaZejYU/Mf/bzdKSwud3pLgHV8ls83y2OU/ha9xgJMLpRswv
-xucFCxMsPmk0yoVmpbr92kIpLm+TomNZsL++LcDRa2ECAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
-AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
-c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
-AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
-TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
-bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
-L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
-BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUz2bMvqtXpXM0u3vAvRkalz60
-CjswDQYJKoZIhvcNAQELBQADggEBAGUgeqqI/q2pkETeLr6oS7nnm1bkeNmtnJ2bnybNO/RdrbPj
-DHVSiDCCrWr6xrc+q6OiZDKm0Ieq6BN+Wfr8h5mCkZMUdJikI85WcQTRk6EEF2lzIiaULmFD7U15
-FSWQptLx+kiu63idTII4r3k/7+dJ5AhLRr4WCoXEme2GZkfSbYC3fEL46tb1w7w+25OEFCv1MtDZ
-1CHkODrS2JGwDQxXKmyF64MhJiOutWHmqoGmLJVz1jnDvClsYtgT4zcNtoqKtjpWDYAefncWDPIQ
-DauX1eWVM+KepL7zoSNzVbTipc65WuZFLR8ngOwkpknqvS9n/nKd885m23oIocC+GA4xggJtMIIC
-aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
-EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwQeU+Y6hbenPzRMJsw
-DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIAytmRVs3iqumAGYPxtXBXNDPjf2yXEt
-NItAzRh0/A93MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIxMDcy
-ODAxMDMzM1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
-SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
-ATANBgkqhkiG9w0BAQEFAASCAQDbA729KptGpP+Nuqj8l5Ge0wUTJoac1/fcEa24ANVLeiYZbK8O
-ZDbNWnvAZ2x+faY3zejhYQQOOa03PBWZJ6Pdzh1oBsfN82DyN0vemF51ADwVKZh416Zo3d4htVzd
-RXCkH5Y345ZCaaNnYNQ4pNNGTMtzzsZa1gmitKBccg5WH5LrruzMzv6uEJaPIGlialvNXfNUZnc6
-lrO2ZhH+E+l05NLUHipaHv2z/HFr8Z/NTTqthHP+wjmbi0TTtCpFUQc5tf5zZVc7HoITwGuj2/bD
-OJwZGNS1ArPflol7zJnVk4MqRvALwKWTHMmF8iPFuj4pI95ls14ipsVfYhgWhYY6
---000000000000360d1405c8248ed7--
+If the x bit were missing in scripts/checkpatch.pl
+for example, we would need to run 'perl scripts/checkpatch.pl'
+instead of 'scripts/checkpatch.pl'. That is annoying.
+
+
+Most of the scripts under the scripts/ directory
+are already executable, and we rely on that fact.
+Some of them are run directly, and I do not hear
+from anyone who complains about that.
+
+
+
+
+BTW, my 'patch' command on Ubuntu can handle the
+x bit.  Doesn't it work on your 'patch' ?
+
+
+masahiro@grover:~/x-bit-test$ ls -l test.sh
+-rw-rw-r-- 1 masahiro masahiro 7 Jul 28 09:50 test.sh
+masahiro@grover:~/x-bit-test$ cat set-x.patch
+diff --git a/test.sh b/test.sh
+old mode 100644
+new mode 100755
+masahiro@grover:~/x-bit-test$ patch -p1 < set-x.patch
+patching file test.sh
+masahiro@grover:~/x-bit-test$ ls -l test.sh
+-rwxr-xr-x 1 masahiro masahiro 7 Jul 28 09:51 test.sh
+
+
+
+Even if it did not work on somebody's tools,
+the diff files are provided for bug-fix
+releases (for example, 5.13.x), not the entire source.
+
+Developers (except Andrew Morton) use git
+to merge patches like this, so I see no issue
+on changing the mode.
+
+-- 
+Best Regards
+Masahiro Yamada
