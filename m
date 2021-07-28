@@ -2,184 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2700F3D87C3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 08:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 459923D87E4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 08:27:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233670AbhG1GTp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 02:19:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57494 "EHLO mail.kernel.org"
+        id S234056AbhG1G1z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 02:27:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33394 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231199AbhG1GTo (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 02:19:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B8BC60F59;
-        Wed, 28 Jul 2021 06:19:42 +0000 (UTC)
+        id S233949AbhG1G1y (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 28 Jul 2021 02:27:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7694560F9B;
+        Wed, 28 Jul 2021 06:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1627453182;
-        bh=jzQuz+FxNSuPOpcBxvBdUPKEHHxSVIBlwZ520J114Qg=;
+        s=korg; t=1627453673;
+        bh=axAytxu0yowkL8okhc9sDtY44R3JVEYci6IiSE5czns=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G415GDubuNnoFZNUO3Akbs6Yro6HwxHPDYBUPD1Je/Dkmdt9ysqOtqcLKUEN6Xj0e
-         Qxw0gJNQdccgSCI3xkXBWKMvEGgUGYJw/tQMw3OCUE1b0g7y22+6L2lFw7ih+DbI7Q
-         UbltwqAC2OGz4xic/gOwmBxTzDbXvlRGpGObqXu8=
-Date:   Wed, 28 Jul 2021 08:19:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc:     Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
-Message-ID: <YQD2/CA7zJU7MW6M@kroah.com>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-20-keescook@chromium.org>
- <YQDxaYrHu0PeBIuX@kroah.com>
- <baead202-569f-775f-348c-aa64e69f03ed@embeddedor.com>
+        b=HvmIlwAJ/t/pxAr1FIf/7z2/TDgGEQkagTiGcUAzwKrGfzWSlg1q9nqU1mHmLOloN
+         E/fU71tiXpJGF2exxglmyV4jq59+IGwxYqxM8uNl8h+qpTklQMXYppVqMbV9uX7SC7
+         DZzwTzuOosqcuC6ml24IKrbIjyYV0n8taZ41+P24=
+Date:   Wed, 28 Jul 2021 08:27:49 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-hardening@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] scripts: make some scripts executable
+Message-ID: <YQD45STjL160RnzR@kroah.com>
+References: <20210727153924.79473-1-masahiroy@kernel.org>
+ <YQAsth0TA3AwtxvK@kroah.com>
+ <CAK7LNAQM2WzfHdJhukiaeq=qYtJ7U8UbMZdFWSuAJG86bBVHnA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <baead202-569f-775f-348c-aa64e69f03ed@embeddedor.com>
+In-Reply-To: <CAK7LNAQM2WzfHdJhukiaeq=qYtJ7U8UbMZdFWSuAJG86bBVHnA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 01:14:33AM -0500, Gustavo A. R. Silva wrote:
+On Wed, Jul 28, 2021 at 10:03:56AM +0900, Masahiro Yamada wrote:
+> On Wed, Jul 28, 2021 at 12:56 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Wed, Jul 28, 2021 at 12:39:24AM +0900, Masahiro Yamada wrote:
+> > > Set the x bit to some scripts to make them directly executable.
+> > >
+> > > Especially, scripts/checkdeclares.pl is not hooked by anyone.
+> > > It should be executable since it is tedious to type
+> > > 'perl scripts/checkdeclares.pl'.
+> > >
+> > > The original patch [1] set the x bit properly, but it was lost when
+> > > it was merged as commit 21917bded72c ("scripts: a new script for
+> > > checking duplicate struct declaration").
+> > >
+> > > [1] https://lore.kernel.org/lkml/20210401110943.1010796-1-wanjiabing@vivo.com/
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > >  scripts/checkdeclares.pl               | 0
+> > >  scripts/gcc-plugins/gen-random-seed.sh | 0
+> > >  scripts/syscallnr.sh                   | 0
+> > >  scripts/xen-hypercalls.sh              | 0
+> > >  4 files changed, 0 insertions(+), 0 deletions(-)
+> > >  mode change 100644 => 100755 scripts/checkdeclares.pl
+> > >  mode change 100644 => 100755 scripts/gcc-plugins/gen-random-seed.sh
+> > >  mode change 100644 => 100755 scripts/syscallnr.sh
+> > >  mode change 100644 => 100755 scripts/xen-hypercalls.sh
+> >
+> > Please no, as other tools (i.e. patch), can not set mode bits, and some
+> > people still rely on patch in places.
+> >
+> > If these need to be called by other parts of the build, we should
+> > execute them properly, not rely on the mode settings.
+> >
+> > thanks,
+> >
+> > greg k-h
 > 
 > 
-> On 7/28/21 00:55, Greg Kroah-Hartman wrote:
-> > On Tue, Jul 27, 2021 at 01:58:10PM -0700, Kees Cook wrote:
-> >> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> >> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> >> intentionally writing across neighboring fields.
-> >>
-> >> Use struct_group() in struct flowi4, struct ipv4hdr, and struct ipv6hdr
-> >> around members saddr and daddr, so they can be referenced together. This
-> >> will allow memcpy() and sizeof() to more easily reason about sizes,
-> >> improve readability, and avoid future warnings about writing beyond the
-> >> end of saddr.
-> >>
-> >> "pahole" shows no size nor member offset changes to struct flowi4.
-> >> "objdump -d" shows no meaningful object code changes (i.e. only source
-> >> line number induced differences.)
-> >>
-> >> Note that since this is a UAPI header, struct_group() has been open
-> >> coded.
-> >>
-> >> Signed-off-by: Kees Cook <keescook@chromium.org>
-> >> ---
-> >>  include/net/flow.h            |  6 ++++--
-> >>  include/uapi/linux/if_ether.h | 12 ++++++++++--
-> >>  include/uapi/linux/ip.h       | 12 ++++++++++--
-> >>  include/uapi/linux/ipv6.h     | 12 ++++++++++--
-> >>  net/core/flow_dissector.c     | 10 ++++++----
-> >>  net/ipv4/ip_output.c          |  6 ++----
-> >>  6 files changed, 42 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/include/net/flow.h b/include/net/flow.h
-> >> index 6f5e70240071..f1a3b6c8eae2 100644
-> >> --- a/include/net/flow.h
-> >> +++ b/include/net/flow.h
-> >> @@ -81,8 +81,10 @@ struct flowi4 {
-> >>  #define flowi4_multipath_hash	__fl_common.flowic_multipath_hash
-> >>  
-> >>  	/* (saddr,daddr) must be grouped, same order as in IP header */
-> >> -	__be32			saddr;
-> >> -	__be32			daddr;
-> >> +	struct_group(addrs,
-> >> +		__be32			saddr;
-> >> +		__be32			daddr;
-> >> +	);
-> >>  
-> >>  	union flowi_uli		uli;
-> >>  #define fl4_sport		uli.ports.sport
-> >> diff --git a/include/uapi/linux/if_ether.h b/include/uapi/linux/if_ether.h
-> >> index a0b637911d3c..8f5667b2ea92 100644
-> >> --- a/include/uapi/linux/if_ether.h
-> >> +++ b/include/uapi/linux/if_ether.h
-> >> @@ -163,8 +163,16 @@
-> >>  
-> >>  #if __UAPI_DEF_ETHHDR
-> >>  struct ethhdr {
-> >> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
-> >> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
-> >> +	union {
-> >> +		struct {
-> >> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
-> >> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
-> >> +		};
-> >> +		struct {
-> >> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
-> >> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
-> >> +		} addrs;
-> > 
-> > A union of the same fields in the same structure in the same way?
-> > 
-> > Ah, because struct_group() can not be used here?  Still feels odd to see
-> > in a userspace-visible header.
-> > 
-> >> +	};
-> >>  	__be16		h_proto;		/* packet type ID field	*/
-> >>  } __attribute__((packed));
-> >>  #endif
-> >> diff --git a/include/uapi/linux/ip.h b/include/uapi/linux/ip.h
-> >> index e42d13b55cf3..33647a37e56b 100644
-> >> --- a/include/uapi/linux/ip.h
-> >> +++ b/include/uapi/linux/ip.h
-> >> @@ -100,8 +100,16 @@ struct iphdr {
-> >>  	__u8	ttl;
-> >>  	__u8	protocol;
-> >>  	__sum16	check;
-> >> -	__be32	saddr;
-> >> -	__be32	daddr;
-> >> +	union {
-> >> +		struct {
-> >> +			__be32	saddr;
-> >> +			__be32	daddr;
-> >> +		} addrs;
-> >> +		struct {
-> >> +			__be32	saddr;
-> >> +			__be32	daddr;
-> >> +		};
-> > 
-> > Same here (except you named the first struct addrs, not the second,
-> > unlike above).
-> > 
-> > 
-> >> +	};
-> >>  	/*The options start here. */
-> >>  };
-> >>  
-> >> diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
-> >> index b243a53fa985..1c26d32e733b 100644
-> >> --- a/include/uapi/linux/ipv6.h
-> >> +++ b/include/uapi/linux/ipv6.h
-> >> @@ -130,8 +130,16 @@ struct ipv6hdr {
-> >>  	__u8			nexthdr;
-> >>  	__u8			hop_limit;
-> >>  
-> >> -	struct	in6_addr	saddr;
-> >> -	struct	in6_addr	daddr;
-> >> +	union {
-> >> +		struct {
-> >> +			struct	in6_addr	saddr;
-> >> +			struct	in6_addr	daddr;
-> >> +		} addrs;
-> >> +		struct {
-> >> +			struct	in6_addr	saddr;
-> >> +			struct	in6_addr	daddr;
-> >> +		};
-> > 
-> > addrs first?  Consistancy is key :)
+> I believe tools should be executable.
 > 
-> I think addrs should be second. In general, I think all newly added
-> non-anonymous structures should be second.
+> If the x bit were missing in scripts/checkpatch.pl
+> for example, we would need to run 'perl scripts/checkpatch.pl'
+> instead of 'scripts/checkpatch.pl'. That is annoying.
+> 
+> 
+> Most of the scripts under the scripts/ directory
+> are already executable, and we rely on that fact.
+> Some of them are run directly, and I do not hear
+> from anyone who complains about that.
 
-Why not use a local version of the macro like was done in the DRM header
-file, to make it always work the same and more obvious what is
-happening?  If I were a userspace developer and saw the above, I would
-think that the kernel developers have lost it :)
+Ok, fair enough, I just run into problems when dealing with this with
+backports to stable trees, and I know Andrew has also had problems when
+dealing with patches like this.
+
+> BTW, my 'patch' command on Ubuntu can handle the
+> x bit.  Doesn't it work on your 'patch' ?
+
+Somehow quilt can not handle it, I do not know if that is a problem with
+patch not knowing how to read the git-generated-patch or not, but we
+have had issues in the past here.
 
 thanks,
 
