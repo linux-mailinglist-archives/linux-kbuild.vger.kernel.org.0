@@ -2,143 +2,360 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6BF93D88AC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 09:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F5773D88EB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 09:36:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234056AbhG1HRP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 03:17:15 -0400
-Received: from mail-dm6nam10on2082.outbound.protection.outlook.com ([40.107.93.82]:20321
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233514AbhG1HRO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 03:17:14 -0400
+        id S233216AbhG1Hgg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 03:36:36 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:30350 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232691AbhG1Hgf (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 28 Jul 2021 03:36:35 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16S7Ganb006586;
+        Wed, 28 Jul 2021 07:36:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=iUyZsdg71UL/8uTbbAssii/OaMusSXBn/yn5ciEwzi8=;
+ b=gY0/+SxgKcwTwXxGPOJ/fe25gNEuPkXyvEOh4bgUGv6hWcPgFK+Cg41zSorjIAO+xTyZ
+ k1T/peowZLclkvFP0MvYajkPwSbAqFfirCwBdGp7JNVtJy9qwwxNiYBgmE2piBjSORc6
+ D5lAzI7mb5/vX2pCbdB0xhaG/f6gvaKAeSdYeklhZnTC4eOzWvNdbFD4BEPmVJe4xdzZ
+ PaYnxxqnf20zGtp0Qzgw2GcDbEf4rhRM6rHC1DvWsdWLjN2aZmDsYabZ1jkrbMP1ce17
+ wi2FZqzwwKfN7RRTKGGNRabinlV5MUoV8MIqtQXgMCvgrtfyM4nbXSEdT6i1IGtLueT1 cg== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=iUyZsdg71UL/8uTbbAssii/OaMusSXBn/yn5ciEwzi8=;
+ b=ljPnWkPl26nSs0geomrsojj+//SJtixsyM4QKiMNSRA29197ACzsiqCohhnYuN3zU0C5
+ xT7+bb88T+Fp9/zNrrf6O3G1Vt+PFR0BzwDKCQQZdHBvFvb5Wy9E/rclgAMumWHxpSGm
+ 2J7ldYWH4mXtkeHTAiLMGZl7LwmCF2AKvjJWleH+fqgKtRl6rgttfjE5EO2Ezz9K3eyG
+ LF/4IbcB+KrQq7kwgcm8OqPhwVH88uDu9mg44pXypoAeTLh+f68ekSMx/njK5ZYeyXFc
+ 8vtNOAKUm4vc+aDMELMF05ZX1KOrsA8SP8QmHC4OJkbonFWvo9rAw7EaI61r21cnvHbi Mw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3a2jkfa0bd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Jul 2021 07:36:23 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16S7Yu9I071526;
+        Wed, 28 Jul 2021 07:36:23 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
+        by userp3030.oracle.com with ESMTP id 3a2354m8gd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 28 Jul 2021 07:36:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iD2m9tmdMfFu0fyMrrC0JFzkv1Enn318ExdfwOgdC/YTJC5b9sNMcMy9L+CumbbnECVkQdWtQ6FU4P+2tdBPHBKc/KCs6ySQMmc3iM81NaI32wvXk6MvmyU0kp1WXVpnAMrM9SKDPzQ5gZXOQcEVxclXWfUTYjqgis2C2Eqd1DY/FmDFWMOpfVVckdqJM67t8lN7NnX+CqZXcdVFsLbLM0P2560wdlOzLURnAPqUPyPlQrXl7WRoKq1r+j45gvhIz7rRJ7pCvSjcuKf3T1B5NbBIQh6HXAW8O0+Y3OeRPNjB5mblFMExm5he7lmtMxgAy91/Jn9FONhFeuDwROOh1w==
+ b=ea4Zpd2uT0/uYTRhXs3Widgzk0chWwnH615aWSriqLweKkNAEPs9I0iEd2R1ReTm7RjsUYeWR/Dvgrr/LuHWHAzuQkBzodTgkmlqrbLoynyla9TcUl1CSs6z8kJ4tTsl5jK3oBmEw3t7/SP9OrIsF+4jZIHwtiIU7cT+mIpqYJhliQuGCT391Mtc6hZpbyqGQ7tVN5nwbA+F5LyPBDA/pzAexPQBdHkR7v3/a1d8wfPm204pJpmqOipOZJLugcQNF0fytomj6gIWNYY5FHKgFC1239XQxrftg077suDVIs+IJMZHD9GBA/iZoaEzZCbBWqA4YhH6nV89s56nnNi6bQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rvFXaANcq4R4aCRauFDa1l+OyrNUw6WNiqMyvm1CIqM=;
- b=R7SY1KbVmjeTy2N73SqETFFjjUD3KdEWl/47N53ZNZQAlH57ygAZT1NM4g0N+5U8tdFuvLOZ3fOvRucALPUN815sjjGvaYgyAL+AN0+zaz6xrkPtrxw6cytg4rZPJO3yewHEGPs8G2QV/9O/bqbHjpJEdd63m+5I+10hK+UfbJ+Py+kbqm+W9NoCaPVPOmxGj/lvg/kwny/Nl9EzREsn0zRwKFVKrYKSs2fgkTFDdRRIBy/6TF7zqwVmANj5WIhWVSQCFdJKHqQ/KEnUxnV+rUHwsWAs0NEQmvprrphS9MIYNCMWwyOmUd0LcrcSY9SxQxl/VZp6Qf3fubS7X9FAnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=iUyZsdg71UL/8uTbbAssii/OaMusSXBn/yn5ciEwzi8=;
+ b=MvXVOwWYxn+jBSCwCSRikvgjxGYHNKLPSPbzN4JqiB6zIvIdlzEpjWnJ52BkTh9MOnHUlgeTQqruwJnu1ZH4hSH24b0nz0P7Bd9WWby3PuEwj7EBEDVlOc3IpdzEQFDjccCDFLBxK5Gr+TSHqUmwbVWvhwILgQ42RjV+uk361RCB6Z8TOsmWKgwro8CwGycy8ETuolJOFrV3UDGLk+Y3NpbnzJeNFP0tmY9qRjpjSWn0TDPdMSyEBGynColtfiBFGsKIRlvKXt5n3mUR0T7L0FKHt0KDvlAQpk01s0RJVND7S+jvlewh5j4I9KVTIf+PzkZJ1WHv3JQclbfwM8A2eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rvFXaANcq4R4aCRauFDa1l+OyrNUw6WNiqMyvm1CIqM=;
- b=XNQrrjDlhZs52BZeVsnXi+MsIIUzPCGZAT8LlJGD98zsaAFfPbSgw0onHNnXOC7uHAWthjT4TkudiLWBP64y5CQCJ0P/WXlRUHGMJPQTWS5bL41d0TE6k/6DI24ePXHt5HXC8Eju2+ijSl90NzFfnacNtUCKm2kEKKAZhSvZ5KKTK5wmCNf1H9pLhHaWnBuUIYV8VQMZ5J2jf6UdkBuZGiyWVVcDAg1JlHhyFeyla6SNFVh969Ii5S8lsaDRq8m5TzU/F6ObJjqHZJCCmMpKgIQjw5rMnliL+35DACZKNEqG+c7T3hARWspdMqvgVSbIGskr2LRPCQR4pW9crHbb0Q==
-Received: from DM5PR19CA0061.namprd19.prod.outlook.com (2603:10b6:3:116::23)
- by MW3PR12MB4556.namprd12.prod.outlook.com (2603:10b6:303:52::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.28; Wed, 28 Jul
- 2021 07:17:12 +0000
-Received: from DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:116:cafe::e0) by DM5PR19CA0061.outlook.office365.com
- (2603:10b6:3:116::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend
- Transport; Wed, 28 Jul 2021 07:17:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT014.mail.protection.outlook.com (10.13.173.132) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 07:17:11 +0000
-Received: from localhost (172.20.187.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 28 Jul
- 2021 07:17:10 +0000
-Date:   Wed, 28 Jul 2021 10:17:07 +0300
-From:   Leon Romanovsky <leonro@nvidia.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-CC:     Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
-        "Alex Williamson" <alex.williamson@redhat.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, <diana.craciun@oss.nxp.com>,
-        <kwankhede@nvidia.com>, Eric Auger <eric.auger@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
-        <mgurtovoy@nvidia.com>, <maorg@nvidia.com>
-Subject: Re: [PATCH 12/12] vfio/pci: Introduce vfio_pci_core.ko
-Message-ID: <YQEEc9bGA/H75mv8@unreal>
-References: <20210721161609.68223-1-yishaih@nvidia.com>
- <20210721161609.68223-13-yishaih@nvidia.com>
- <20210727155440.680ee22e.alex.williamson@redhat.com>
- <20210727230941.GL1721383@nvidia.com>
- <20210728054306.GA3421@lst.de>
- <CAK8P3a3eSVoCYToP=7cNv97DO-fjV1G6a=-OnrNhXhsbBVU7Qg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+ bh=iUyZsdg71UL/8uTbbAssii/OaMusSXBn/yn5ciEwzi8=;
+ b=S9sFUDYguRa/BR6/QbooMUAMrz+dB4UuaF0zN8RsyF71M1qaZcQj8v9zvr2vy3/Su4+17wLspnkm1IRB9xzpYuOa3KUN4CviIwamoo1Nb/2PoMY3GvS97UTp/GJE2gUEcHrM/AZGS4mphrDq2K+iOHZugmdO0X/ThWPGPtLNTvA=
+Authentication-Results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1823.namprd10.prod.outlook.com
+ (2603:10b6:300:110::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.19; Wed, 28 Jul
+ 2021 07:36:20 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4352.032; Wed, 28 Jul 2021
+ 07:36:20 +0000
+Date:   Wed, 28 Jul 2021 10:35:56 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <20210728073556.GP1931@kadam>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a3eSVoCYToP=7cNv97DO-fjV1G6a=-OnrNhXhsbBVU7Qg@mail.gmail.com>
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
+In-Reply-To: <20210727205855.411487-3-keescook@chromium.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0059.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::12)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNAP275CA0059.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 07:36:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d240f5c-2a4b-4c1c-ffe1-08d95197b808
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4556:
-X-Microsoft-Antispam-PRVS: <MW3PR12MB4556E89F03178F37675D5DCFBDEA9@MW3PR12MB4556.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 528e340e-6c6d-45be-fef6-08d9519a6433
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1823:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR10MB1823366B33655771C9EE841E8EEA9@MWHPR10MB1823.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1122;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p+SyYBp9nb39cNsfNpqjay22apbxFx/Yf2rRaM5ayJ1sIQmHSEXkW0tbicSj4RKRP0Abulv8uZC0meFS2hEZdOwU5QqNy7HN6iKd+0YpTHizmjRjzLldnkExdCmhVwDsTfkcHr9YQa4PshSgSAteRYAyDvT4umuZZLVD+EPykLlU2w0ynxy0kyiXQByozFPSsuoTquF27wwrRxi2Jbgrnz0pNyziKbuCtpCyWocKnF18+iqS6KWfW80yMSUL7oyBR7wX17o+1e0vm0hbnR+tVshVQHHWoXDYdQQWMUkjvzkoYxxorFyvjB6h4289jYWTglTQsyCRYU+DO24FpC+/8UNH48mBkPUrOzTyYk2jRWu/05QjerPqcLZ8C5N9XNPMiPAplKyk2SetLzBavSmxX9vM9HohHQ2+4BACMm+kj0aDapfzJFMa+Jb3Vm20zwKR2QnSwVLifIm9hil7J0i6brfU4+DUiUok9OHp1cwiqsJiiYp0qaVYDwYJdtDSJpNhDv5JZ25V1UPnp0iOd1lb4vg+qj7dPFY4mR9r7KGd9ka9H2YiBI1JGotEm+W4zf8S/qYlsqM1OqfOmz9CCUqaTO3RQwFQ5A7KmcQkPZ8PJ1QUmTkr+BBsF7c4UG0QE++aDcS81VT006ME8xIpQtMZ45FltEy6jejD4j259CzGwLjIELkdq22XxCmP3z62YpZ8sijsIE0KN9IBMeHNux2w5A==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(7916004)(136003)(39860400002)(346002)(396003)(376002)(36840700001)(46966006)(82310400003)(47076005)(86362001)(107886003)(33716001)(54906003)(8676002)(5660300002)(4326008)(356005)(478600001)(7416002)(53546011)(36906005)(8936002)(316002)(83380400001)(70206006)(336012)(2906002)(6666004)(9686003)(70586007)(6916009)(426003)(16526019)(26005)(36860700001)(7636003)(186003)(82740400003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 07:17:11.8135
+X-Microsoft-Antispam-Message-Info: FM5uyf1RjD2vOqO1Ar5On6BeA9zCWdiHOIvkEpC4CWwfsgWAEUydN8mhKKGRaPyeprxZNgNRUIZ/B7RRVg2DZP/3XbunLyeym+HN/GTZvrpVAfgKlIIYV86UXI25jykTsWWAPOq6gbj5yb4E2Mw3Ve+jrqKTV/AYjdazYKSkjDWpuNI08alUvKJImY+t2S69gi0f1Q1aozgSqJiXShhKEaHDDBek3hYM5+SQzj/w1dkYkIOZ/edOKUrbjc8oAWRF5iWXRkueQdIyah+r3IDADdALSUSF5aCHSL9Ft2P+pD9yoHtIhWVrGhNHU+1KwFl7UCBm0idS89Uke4FYMvg0a00M0/bazNa8AXZo09VKuxIB1I/s3kWFKd+vX4U+E2Tp8WqtBCUNoFU2/mjJECtwRRkyLlzmss3Y6cINAkDSyc9BUhEnjZ5wlDVxk5NAmjSA5QSc+ToLwB6B0GhcoDmfT4gLWkovFMM4f2IL4FDL3VhDiKQmiaLqysHe/MIYh54Ldt+iFJ7uvpGCsmrVT50A1ycxFx1dyXRPVY1A3n+AwzV9sEN2DbFHXUyewJde033S8H0FvD5DF8v0YhNpFuVue4AX38cXE3zW30upz8l9CJJ803nJyj+shMqgiyjJ+FHzfrL05o04Cxu0N8vE0oG2mfvj6OiMRMfWoGbGl+vtsuny+KmTgvj7LpOJBlYZjWTmGQeb2c6WNJXrWcYaZ0tumQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(346002)(39860400002)(376002)(136003)(86362001)(38100700002)(38350700002)(2906002)(7416002)(4326008)(9576002)(8936002)(956004)(54906003)(44832011)(6496006)(52116002)(33656002)(83380400001)(5660300002)(6916009)(316002)(186003)(26005)(6666004)(1076003)(478600001)(66476007)(66556008)(55016002)(66946007)(9686003)(33716001)(8676002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xJbfF3FtviXJJGzptUJjFXQG0ZEL71Xage6OQv+rLQgb/AShBSWSw7udSdGL?=
+ =?us-ascii?Q?VjtnPQxZTxiMR+Ejq3cqK42vOWLWCXZ2x9refSo/K6CALZhmuuWNXlvmUHIU?=
+ =?us-ascii?Q?ZvvflN+mvzXgVpwHmMtMuO7qgocT3RXwtzIpdVIwI4Q+7ffam+Ehzm7t7pyA?=
+ =?us-ascii?Q?n3vMYhnSAIQ9sxiFbLHj9c+ofTYeKYzr/JSpvPnUP4CX9410eruNbZg11Dcq?=
+ =?us-ascii?Q?zzQveuHZvPUMnZFDJcom9sHtYbMljPMDrm8X9w2Aj+1BgkDlovi2Bu95zG5h?=
+ =?us-ascii?Q?gUwSyTPvWi/XJp1Pc/ySUCWxLL3+bKBYbgQxSU8odmkWkBEKpvIeP2nK1Nqe?=
+ =?us-ascii?Q?RulEVTjpLPss+Aqc0w3rq8EZ8qH35iq0GV7ypjpZAoqix+vyHXrv1PFaBVIq?=
+ =?us-ascii?Q?tE8MjviGQIo+Xefx8EpxgUboUoO5GEpG8xKJzde8tbYHxZAQ7v5V4QYcA/r8?=
+ =?us-ascii?Q?qrAySJNNFal2dhpFNCibZ2+O6065G5YIbj0YiZtSVY3SoSXEqnGBdGEbuAj6?=
+ =?us-ascii?Q?18YV3bRgqM6omfKI8oLx03O/CGi7NrRD81XidG39FGVU+LglPtndsds5kkzn?=
+ =?us-ascii?Q?vNUU6h1kCbrl46NnWiwoQvtWpU6AMg4UPcMDj0yJJDRXq1x8U8yVKI0VWJcY?=
+ =?us-ascii?Q?BNFSeSJXSS98/WS3UEjcy9cqTVLj52A9Swh6h71fynUMqcSTcacFUNyNW1d9?=
+ =?us-ascii?Q?/z4LeMu3AbDENBTV064PB+1THZl1ytGJ5lE8nVJtj7jLpoTBNA2xbMySDRzX?=
+ =?us-ascii?Q?kK90lZ+DlbPK0s6Iz0sENfzmFglX1gqaYhhmnV+IN6OVm0rODZZVixAo+4En?=
+ =?us-ascii?Q?mX7SDF+yf/9W+9c1mRFS+o1xXtRmaSuAcmR5mXI7FSUFCexx8qFb73JUJs8r?=
+ =?us-ascii?Q?qpjEJdErskQ0cK8s+U3AK/ntAPfGeJiVTmlktylPzC0oYvlCvRb/mFQyY1/q?=
+ =?us-ascii?Q?RmuHpaFBbzlRixUaWueMN4mpzp/dtUOdREc6dbtZTryUKZ/asdbqmD3SPmw+?=
+ =?us-ascii?Q?NlQxzWJvnsirK98Sm7xSxu1JKVCSi5xtxWA6ZUfNkoS2C1MRqVNYpTLIeJcH?=
+ =?us-ascii?Q?Cf5cnEV1aFSgi0j86h/DAnE7qkM/9hdpW2+9kBQ/Z+1EDN9+sXVsg+pzecae?=
+ =?us-ascii?Q?byTib18ad4XbCnIKU+uVMEsi6/XtzO25Vn0VrBf1GshudkbnoCZLXc3amd07?=
+ =?us-ascii?Q?nr7ii1vWmPBPPaIDDMQxWbLTSSLWzsqu5Y19n9v3OrZGW2Tl0/ckuN1scHo0?=
+ =?us-ascii?Q?ZNwPTLeTSYG+jHgmGrdR63nEn1LU//9vgewKAsyF692qwxHLAPNRZMIE8vj1?=
+ =?us-ascii?Q?R24szslkuZ2PU0FgTOM4wf/1?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 528e340e-6c6d-45be-fef6-08d9519a6433
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 07:36:20.3165
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d240f5c-2a4b-4c1c-ffe1-08d95197b808
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4556
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I7VLyOuIi1yC2CeTU41RM+DLp7WL9CtA/GKmkaRbpOlNWzEyuyfTjySFjUWtX8Si+lTU1ceco2P3a3fffEZb6kXVxXd3iJfFiPXb6P7oYNE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1823
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10058 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107280042
+X-Proofpoint-GUID: cR4q8qtkwg64r25iE_LSTBA9F0qpqnIx
+X-Proofpoint-ORIG-GUID: cR4q8qtkwg64r25iE_LSTBA9F0qpqnIx
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 09:04:34AM +0200, Arnd Bergmann wrote:
-> On Wed, Jul 28, 2021 at 7:43 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Tue, Jul 27, 2021 at 08:09:41PM -0300, Jason Gunthorpe wrote:
-> > > On Tue, Jul 27, 2021 at 03:54:40PM -0600, Alex Williamson wrote:
-> > >
-> > > > I'm still not happy with how this is likely to break users and even
-> > > > downstreams when upgrading to a Kconfig with this change.
-> > >
-> > > I've never heard of Kconfig as stable ABI. Christoph/Arnd, have you
-> > > heard of any cases where we want to keep it stable?
-> >
-> > It isn't an ABI, but we really do try to avoid breaking if we can and
-> > I rember Linus shouting at people if they did that for common options.
+On Tue, Jul 27, 2021 at 01:57:53PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.
 > 
-> This is handled in very different ways depending on the maintainers,
-> some people go to great lengths to avoid breaking 'make oldconfig'
-> or 'make defconfig', others don't seem to mind at all.
+> The it_present member of struct ieee80211_radiotap_header is treated as a
+> flexible array (multiple u32s can be conditionally present). In order for
+> memcpy() to reason (or really, not reason) about the size of operations
+> against this struct, use of bytes beyond it_present need to be treated
+> as part of the flexible array. Add a union/struct to contain the new
+> "bitmap" member, for use with trailing presence bitmaps and arguments.
 > 
-> CONFIG_USB_EHCI_TEGRA is an example of an option that was
-> left in place to help users of old config files, another one is
-> CONFIG_EXT3_FS. In both cases the idea is that the original
-> code was changed, but the old option left in place to point to
-> the replacement.
+> Additionally improve readability in the iterator code which walks
+> through the bitmaps and arguments.
+> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
+>  net/mac80211/rx.c                |  2 +-
+>  net/wireless/radiotap.c          |  5 ++---
+>  3 files changed, 23 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> index c0854933e24f..101c1e961032 100644
+> --- a/include/net/ieee80211_radiotap.h
+> +++ b/include/net/ieee80211_radiotap.h
+> @@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
+>  	 */
+>  	__le16 it_len;
+>  
+> -	/**
+> -	 * @it_present: (first) present word
+> -	 */
+> -	__le32 it_present;
+> +	union {
+> +		/**
+> +		 * @it_present: (first) present word
+> +		 */
+> +		__le32 it_present;
+> +
+> +		struct {
+> +			/* The compiler makes it difficult to overlap
+> +			 * a flex-array with an existing singleton,
+> +			 * so we're forced to add an empty named
+> +			 * variable here.
+> +			 */
+> +			struct { } __unused;
+> +
+> +			/**
+> +			 * @bitmap: all presence bitmaps
+> +			 */
+> +			__le32 bitmap[];
+> +		};
+> +	};
+>  } __packed;
 
-And here starts the problem, when people treat their obscure config
-options as first class citizen. The exposure of CONFIG_EXT3_FS is
-in magnitudes larger than CONFIG_USB_EHCI_TEGRA.
+This patch is so confusing...
 
-This is why I think that is generally bad idea to leave old config
-options, most of the time such options will rotten for years till
-someone actually will notice and delete them.
+Btw, after the end of the __le32 data there is a bunch of other le64,
+u8 and le16 data so the struct is not accurate or complete.
 
-Thanks
+It might be better to re-write this as something like this:
+
+diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+index c0854933e24f..0cb5719e9668 100644
+--- a/include/net/ieee80211_radiotap.h
++++ b/include/net/ieee80211_radiotap.h
+@@ -42,7 +42,10 @@ struct ieee80211_radiotap_header {
+ 	/**
+ 	 * @it_present: (first) present word
+ 	 */
+-	__le32 it_present;
++	struct {
++		__le32 it_present;
++		char buff[];
++	} data;
+ } __packed;
+ 
+ /* version is always 0 */
+diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
+index 771921c057e8..9cc891364a07 100644
+--- a/net/mac80211/rx.c
++++ b/net/mac80211/rx.c
+@@ -328,7 +328,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 
+ 	rthdr = skb_push(skb, rtap_len);
+ 	memset(rthdr, 0, rtap_len - rtap.len - rtap.pad);
+-	it_present = &rthdr->it_present;
++	it_present = (__le32 *)&rthdr->data;
+ 
+ 	/* radiotap header, set always present flags */
+ 	rthdr->it_len = cpu_to_le16(rtap_len);
+@@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 			ieee80211_calculate_rx_timestamp(local, status,
+ 							 mpdulen, 0),
+ 			pos);
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+ 		pos += 8;
+ 	}
+ 
+@@ -396,7 +396,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		*pos = 0;
+ 	} else {
+ 		int shift = 0;
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_RATE);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_RATE);
+ 		if (status->bw == RATE_INFO_BW_10)
+ 			shift = 1;
+ 		else if (status->bw == RATE_INFO_BW_5)
+@@ -432,7 +432,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 	if (ieee80211_hw_check(&local->hw, SIGNAL_DBM) &&
+ 	    !(status->flag & RX_FLAG_NO_SIGNAL_VAL)) {
+ 		*pos = status->signal;
+-		rthdr->it_present |=
++		rthdr->data.it_present |=
+ 			cpu_to_le32(1 << IEEE80211_RADIOTAP_DBM_ANTSIGNAL);
+ 		pos++;
+ 	}
+@@ -459,7 +459,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 	if (status->encoding == RX_ENC_HT) {
+ 		unsigned int stbc;
+ 
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_MCS);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_MCS);
+ 		*pos++ = local->hw.radiotap_mcs_details;
+ 		*pos = 0;
+ 		if (status->enc_flags & RX_ENC_FLAG_SHORT_GI)
+@@ -482,7 +482,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		/* ensure 4 byte alignment */
+ 		while ((pos - (u8 *)rthdr) & 3)
+ 			pos++;
+-		rthdr->it_present |=
++		rthdr->data.it_present |=
+ 			cpu_to_le32(1 << IEEE80211_RADIOTAP_AMPDU_STATUS);
+ 		put_unaligned_le32(status->ampdu_reference, pos);
+ 		pos += 4;
+@@ -510,7 +510,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 	if (status->encoding == RX_ENC_VHT) {
+ 		u16 known = local->hw.radiotap_vht_details;
+ 
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_VHT);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_VHT);
+ 		put_unaligned_le16(known, pos);
+ 		pos += 2;
+ 		/* flags */
+@@ -553,7 +553,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		u16 accuracy = 0;
+ 		u8 flags = IEEE80211_RADIOTAP_TIMESTAMP_FLAG_32BIT;
+ 
+-		rthdr->it_present |=
++		rthdr->data.it_present |=
+ 			cpu_to_le32(1 << IEEE80211_RADIOTAP_TIMESTAMP);
+ 
+ 		/* ensure 8 byte alignment */
+@@ -642,7 +642,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		/* ensure 2 byte alignment */
+ 		while ((pos - (u8 *)rthdr) & 1)
+ 			pos++;
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE);
+ 		memcpy(pos, &he, sizeof(he));
+ 		pos += sizeof(he);
+ 	}
+@@ -652,13 +652,13 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		/* ensure 2 byte alignment */
+ 		while ((pos - (u8 *)rthdr) & 1)
+ 			pos++;
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE_MU);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_HE_MU);
+ 		memcpy(pos, &he_mu, sizeof(he_mu));
+ 		pos += sizeof(he_mu);
+ 	}
+ 
+ 	if (status->flag & RX_FLAG_NO_PSDU) {
+-		rthdr->it_present |=
++		rthdr->data.it_present |=
+ 			cpu_to_le32(1 << IEEE80211_RADIOTAP_ZERO_LEN_PSDU);
+ 		*pos++ = status->zero_length_psdu_type;
+ 	}
+@@ -667,7 +667,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 		/* ensure 2 byte alignment */
+ 		while ((pos - (u8 *)rthdr) & 1)
+ 			pos++;
+-		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_LSIG);
++		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_LSIG);
+ 		memcpy(pos, &lsig, sizeof(lsig));
+ 		pos += sizeof(lsig);
+ 	}
+diff --git a/net/wireless/radiotap.c b/net/wireless/radiotap.c
+index 36f1b59a78bf..f7852024c011 100644
+--- a/net/wireless/radiotap.c
++++ b/net/wireless/radiotap.c
+@@ -114,11 +114,10 @@ int ieee80211_radiotap_iterator_init(
+ 	iterator->_rtheader = radiotap_header;
+ 	iterator->_max_length = get_unaligned_le16(&radiotap_header->it_len);
+ 	iterator->_arg_index = 0;
+-	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->it_present);
++	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->data.it_present);
+ 	iterator->_arg = (uint8_t *)radiotap_header + sizeof(*radiotap_header);
+ 	iterator->_reset_on_ext = 0;
+-	iterator->_next_bitmap = &radiotap_header->it_present;
+-	iterator->_next_bitmap++;
++	iterator->_next_bitmap = (__le32 *)&radiotap_header->data.buff;
+ 	iterator->_vns = vns;
+ 	iterator->current_namespace = &radiotap_ns;
+ 	iterator->is_radiotap_ns = 1;
