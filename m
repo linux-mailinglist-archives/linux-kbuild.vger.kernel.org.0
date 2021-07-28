@@ -2,54 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 215213D8C3F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 12:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54F83D8C95
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jul 2021 13:20:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235966AbhG1KyZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 06:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        id S234256AbhG1LUF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 07:20:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234289AbhG1KyX (ORCPT
+        with ESMTP id S234169AbhG1LUF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 06:54:23 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04812C0613CF
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 03:54:21 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id b21so2497927ljo.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 03:54:21 -0700 (PDT)
+        Wed, 28 Jul 2021 07:20:05 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD88AC0613C1
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 04:20:02 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id h2so3249994lfu.4
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Jul 2021 04:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rasmusvillemoes.dk; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=y7BSRF2BV2wKYMpkMU6AInonSJrtXWVBGV0wA+UfcSQ=;
-        b=HvxZxKORsgd1u77vvKkzSHVmzDZnFgdXGSifvV+HmSIPnClkA6lYo7Qz7nvYlLjejZ
-         PK9B0U1dzVIDM4JKLg5sSHucPcc5bP4ZeDpjmSTAFJSiF4x48AfpDxMdOGxhIAJqc77U
-         oc7qawDYmcTBtp40SM72ZiIXxtcm1lp5rspVI=
+        bh=WRpAt4Qf30VQcI04z59j1Xhna4kVm3ZAFQjWCiFVzII=;
+        b=ZITf0JJkY6siA6zuTWx/S+3I3pJ92j2lsEWHCAUrQgybgq2nu7vMyrV5yFzPnr0ASF
+         zQnwOwgLaX1f2Ag8AdE3Zoi+yryD69qxehZj3Axp0G1SI8NHWpwdtRD/AWfB8hXTTU+w
+         7JIntZBgXB7V3Bx+KAGMmd0eo1ehu7YXfBEGo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=y7BSRF2BV2wKYMpkMU6AInonSJrtXWVBGV0wA+UfcSQ=;
-        b=MvTBL6T7Iu1ulyjWyKqqRdFLchPrPxJhk63glzSJ2g/otXLKdiQ/RVv2YtttP2mXvQ
-         eUOVCXjm8VaRpShYDMcDUw8waoTFEgjV6z6+OTqCowuKlR+YJpee7y/PmY+mFJ3TJQFT
-         RKaYZUXFN9m8yETlTTt/sVVWObG+WjmiffyTvzMdi+oVRpPfPDwZODPl8j1AbAWShlGg
-         kLwwmU2UONVRo4FJ2FmmYiDG3e0zXD0HQd4VAexhTgVgl6TXjx5J6pjkP+sBqt+hETXu
-         DJrr6eKcJO3Gy7qcKO6cXh7kawTJoG2zR+J877hMQQ9I9zQQNwPuLugmWayjGUKANvJ+
-         6kSQ==
-X-Gm-Message-State: AOAM532Rlf4LV7cbQed822Ggl85STfCmbqmPxernoSHA86MoiJmQBRPh
-        lLQwh0ozWtgQIgJM9MJwzkKqWA==
-X-Google-Smtp-Source: ABdhPJzsNcjtwcC6XUZJ5ZJ1M5kI8nrl9w1bOGQ6hWCdCY07r8K6xPGQ9TuYLQLsRgK+FjENio3Z4w==
-X-Received: by 2002:a05:651c:1144:: with SMTP id h4mr18097576ljo.396.1627469659652;
-        Wed, 28 Jul 2021 03:54:19 -0700 (PDT)
+        bh=WRpAt4Qf30VQcI04z59j1Xhna4kVm3ZAFQjWCiFVzII=;
+        b=KCFpzNLMBiS7ia3x1DKbK/KXrizKDFd0rHYMkePnxRg3LyPaptqzXAfFH7VwSZ6wTs
+         7DjihAUXYDDo3N+IGzYg0avG2OEH1306yVyYsvWNjtI4zXRVIhiYkYBzqn6fjuFX1iAc
+         p2MQFEpZWBjvlFRmUAujKoodYIB02LQWBCGMiEh43iprWla109GCEBRnzuSUG82UF0Pw
+         TgJyqLOGxUzz6d9TytNGFRMkV0QPGWKpuKTDo3rkabalKoUZ47kvNLzvxscNlr4QTSAO
+         cLSPmOMsitLssAl7I68xVI0QOq+nnK9q7Jvq0ib6hQWJebILsimQIOZR5RBERcgTWNzm
+         pqKQ==
+X-Gm-Message-State: AOAM532DNxGRVooH2UC3YF0r+Mb9KqfsHupLBRuSGj9D9q9tD/MA/oi6
+        HA5BC/FH9dMkZe0tC9ch0Nd8Cg==
+X-Google-Smtp-Source: ABdhPJwtX9cWcqS+T2RXR4asd80U6YfWCrWHQPG0xseFJRRyUcQAZvx3wnyU+2xS6u5f7adx+ZAvkA==
+X-Received: by 2002:a19:dc5e:: with SMTP id f30mr20474709lfj.318.1627471200888;
+        Wed, 28 Jul 2021 04:20:00 -0700 (PDT)
 Received: from [172.16.11.1] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id o1sm555702lfk.298.2021.07.28.03.54.18
+        by smtp.gmail.com with ESMTPSA id z4sm564853lfe.274.2021.07.28.04.19.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 03:54:19 -0700 (PDT)
-Subject: Re: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+        Wed, 28 Jul 2021 04:20:00 -0700 (PDT)
+Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in memcpy()
+ at compile-time
 To:     Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc:     Keith Packard <keithpac@amazon.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
@@ -57,14 +58,14 @@ Cc:     Keith Packard <keithpac@amazon.com>,
         linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-5-keescook@chromium.org>
+ <20210727205855.411487-35-keescook@chromium.org>
 From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
-Date:   Wed, 28 Jul 2021 12:54:18 +0200
+Message-ID: <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
+Date:   Wed, 28 Jul 2021 13:19:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210727205855.411487-5-keescook@chromium.org>
+In-Reply-To: <20210727205855.411487-35-keescook@chromium.org>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,50 +73,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 27/07/2021 22.57, Kees Cook wrote:
+On 27/07/2021 22.58, Kees Cook wrote:
 
-> In order to have a regular programmatic way to describe a struct
-> region that can be used for references and sizing, can be examined for
-> bounds checking, avoids forcing the use of intermediate identifiers,
-> and avoids polluting the global namespace, introduce the struct_group()
-> macro. This macro wraps the member declarations to create an anonymous
-> union of an anonymous struct (no intermediate name) and a named struct
-> (for references and sizing):
+> At its core, FORTIFY_SOURCE uses the compiler's __builtin_object_size()
+> internal[0] to determine the available size at a target address based on
+> the compile-time known structure layout details. It operates in two
+> modes: outer bounds (0) and inner bounds (1). In mode 0, the size of the
+> enclosing structure is used. In mode 1, the size of the specific field
+> is used. For example:
 > 
-> 	struct foo {
-> 		int one;
-> 		struct_group(thing,
-> 			int two,
-> 			int three,
-> 		);
-> 		int four;
-> 	};
-
-That example won't compile, the commas after two and three should be
-semicolons.
-
-And your implementation relies on MEMBERS not containing any comma
-tokens, but as
-
-  int a, b, c, d;
-
-is a valid way to declare multiple members, consider making MEMBERS
-variadic
-
-#define struct_group(NAME, MEMBERS...)
-
-to have it slurp up every subsequent argument and make that work.
-
+> 	struct object {
+> 		u16 scalar1;	/* 2 bytes */
+> 		char array[6];	/* 6 bytes */
+> 		u64 scalar2;	/* 8 bytes */
+> 		u32 scalar3;	/* 4 bytes */
+> 	} instance;
 > 
-> Co-developed-by: Keith Packard <keithpac@amazon.com>
-> Signed-off-by: Keith Packard <keithpac@amazon.com>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  include/linux/stddef.h | 34 ++++++++++++++++++++++++++++++++++
+>
+> __builtin_object_size(instance.array, 0) == 18, since the remaining size
+> of the enclosing structure starting from "array" is 18 bytes (6 + 8 + 4).
 
-Bikeshedding a bit, but do we need to add 34 lines that need to be
-preprocessed to virtually each and every translation unit [as opposed to
-adding a struct_group.h header]? Oh well, you need it for struct
-skbuff.h, so it would be pulled in by a lot regardless :(
+I think the compiler would usually end up making that struct size 24,
+with 4 bytes of trailing padding (at least when alignof(u64) is 8). In
+that case, does __builtin_object_size(instance.array, 0) actually
+evaluate to 18, or to 22? A quick test on x86-64 suggests the latter, so
+the memcpy(, , 20) would not be a violation.
+
+Perhaps it's better to base the example on something which doesn't have
+potential trailing padding - so either add another 4 byte member, or
+also make scalar2 u32.
 
 Rasmus
