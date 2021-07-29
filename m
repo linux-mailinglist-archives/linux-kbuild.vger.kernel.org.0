@@ -2,131 +2,246 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D233DA17A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 12:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6C8E3DA2E4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 14:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235445AbhG2Ksi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Jul 2021 06:48:38 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:35438 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232135AbhG2Ksi (ORCPT
+        id S236224AbhG2MLg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Jul 2021 08:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234975AbhG2MLf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Jul 2021 06:48:38 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 6BCE0201ED;
-        Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1627555713;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
-        b=abeCZgaOXkwOt0BkzLlF/+2YTZf7UkZxXuKxwx+rarlLl6+++jGA/oSR1zP1tBBkMVXgvm
-        GT4hGzwrHWO646FIwY3QI2qOTTdotUXq3PJvQire1Y3xdHm1pRg9mNfEdMqC4y4P0XvCJK
-        f4ThlbSAIc4M6bC7S1y1F/1mrMoaviA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1627555713;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ao638iMTTjsA+VNcKLaQE/T5PYOWw6rLSmI4SdHNaOg=;
-        b=3jaJHiWtLRI5qqhbTkmtMyPrqt0TMeDMpnw71ZVL0gyLLlXhjwjFNZFKJAOOOEzthRehoc
-        I6ScSOeN75vLU8Cg==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-        by relay2.suse.de (Postfix) with ESMTP id 53E3BA3B81;
-        Thu, 29 Jul 2021 10:48:33 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id E0A69DA7AF; Thu, 29 Jul 2021 12:45:47 +0200 (CEST)
-Date:   Thu, 29 Jul 2021 12:45:47 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-hardening@vger.kernel.org,
+        Thu, 29 Jul 2021 08:11:35 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856C7C0613D5
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 05:11:31 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id g15so6675109wrd.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 05:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
+        b=IX9QYptYV6st0L1XmOo2+ZVTD1czWMC0yv2A0wEKs5uhoKxyG1M8hYGFid/Rc9caoJ
+         g3s8uihSolFDNGNVDmh/KcSkUnjuvxHUSlZem764aZk2d9p45qyVKzkwnR65zmpbIjwe
+         oixk5YiEQMSk6egRcnGh8U5DvdkvMLdRPa8MA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
+        b=i3scMOpRSyO4GyVDljqX8aDQZ8uDG1QGZtv2nfP/MAt8dctr2e7kgc6Ye7VkN5Kvui
+         nOlMfQYKR3aXcX+4BAQ1yn2gu61MGKEjiocDqxDKyWZJbVE5Av0MLi5yoxYmwja4jTx5
+         jEQH9+nkhPGzAlSqVX2NAAV4djuopIrtCsMdr8JcmfDabvQcsn64SNRfyKaN7fVdSrpJ
+         iswte8LtlaeY6UAr6O8bKt6nzLWwf/2HCjfKk/w0p7RCJRJSlXrgxarlErQ5AWPGDVcH
+         ScSQDP807J1qMLcw69Sad9y8YDrbYFuQL/vsMeYEN5SHr6MNFGpWBpOXTO1fvWaA/z6H
+         iPMg==
+X-Gm-Message-State: AOAM5313IXS6w3+qnT94cnLEnMIr5DOc6FkZ6Xuk0I45BpwHoz2t/cTo
+        m2gAyCW5Cx+gQQYi5XG4jNYGOQ==
+X-Google-Smtp-Source: ABdhPJyxNFOOp917FBlh8xg1Ee/DiYPVZ7Er8zzOKotZZKyVJ/yUFb4NW2JEu0Us3Suihgl1chkn3Q==
+X-Received: by 2002:a5d:4e91:: with SMTP id e17mr4462754wru.7.1627560689971;
+        Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a14sm3323850wrf.97.2021.07.29.05.11.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
+Date:   Thu, 29 Jul 2021 14:11:27 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+        netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
         Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
-Message-ID: <20210729104547.GT5047@suse.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
         linux-hardening@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 25/64] drm/mga/mga_ioc32: Use struct_group() for memcpy()
+ region
+Message-ID: <YQKa76A6XuFqgM03@phenom.ffwll.local>
+Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+        netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
         Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+        linux-hardening@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-3-keescook@chromium.org>
- <20210728073556.GP1931@kadam>
- <20210728092323.GW5047@twin.jikos.cz>
- <202107281454.F96505E15@keescook>
+ <20210727205855.411487-26-keescook@chromium.org>
+ <YQDxmEYfppJ4wAmD@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202107281454.F96505E15@keescook>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+In-Reply-To: <YQDxmEYfppJ4wAmD@kroah.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 02:54:52PM -0700, Kees Cook wrote:
-> On Wed, Jul 28, 2021 at 11:23:23AM +0200, David Sterba wrote:
-> > On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
-> > > @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
-> > >  			ieee80211_calculate_rx_timestamp(local, status,
-> > >  							 mpdulen, 0),
-> > >  			pos);
-> > > -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > > +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+On Wed, Jul 28, 2021 at 07:56:40AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Jul 27, 2021 at 01:58:16PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
 > > 
-> > A drive-by comment, not related to the patchset, but rather the
-> > ieee80211 driver itself.
+> > Use struct_group() in struct drm32_mga_init around members chipset, sgram,
+> > maccess, fb_cpp, front_offset, front_pitch, back_offset, back_pitch,
+> > depth_cpp, depth_offset, depth_pitch, texture_offset, and texture_size,
+> > so they can be referenced together. This will allow memcpy() and sizeof()
+> > to more easily reason about sizes, improve readability, and avoid future
+> > warnings about writing beyond the end of chipset.
 > > 
-> > Shift expressions with (1 << NUMBER) can be subtly broken once the
-> > NUMBER is 31 and the value gets silently cast to a 64bit type. It will
-> > become 0xfffffffff80000000.
+> > "pahole" shows no size nor member offset changes to struct drm32_mga_init.
+> > "objdump -d" shows no meaningful object code changes (i.e. only source
+> > line number induced differences and optimizations).
 > > 
-> > I've checked the IEEE80211_RADIOTAP_* defintions if this is even remotely
-> > possible and yes, IEEE80211_RADIOTAP_EXT == 31. Fortunatelly it seems to
-> > be used with used with a 32bit types (eg. _bitmap_shifter) so there are
-> > no surprises.
+> > Note that since this includes a UAPI header, struct_group() has been
+> > explicitly redefined local to the header.
 > > 
-> > The recommended practice is to always use unsigned types for shifts, so
-> > "1U << ..." at least.
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mga/mga_ioc32.c | 30 ++++++++++++++------------
+> >  include/uapi/drm/mga_drm.h      | 37 ++++++++++++++++++++++++---------
+> >  2 files changed, 44 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
+> > index 4fd4de16cd32..fbd0329dbd4f 100644
+> > --- a/drivers/gpu/drm/mga/mga_ioc32.c
+> > +++ b/drivers/gpu/drm/mga/mga_ioc32.c
+> > @@ -38,16 +38,21 @@
+> >  typedef struct drm32_mga_init {
+> >  	int func;
+> >  	u32 sarea_priv_offset;
+> > -	int chipset;
+> > -	int sgram;
+> > -	unsigned int maccess;
+> > -	unsigned int fb_cpp;
+> > -	unsigned int front_offset, front_pitch;
+> > -	unsigned int back_offset, back_pitch;
+> > -	unsigned int depth_cpp;
+> > -	unsigned int depth_offset, depth_pitch;
+> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
+> > +	struct_group(always32bit,
+> > +		int chipset;
+> > +		int sgram;
+> > +		unsigned int maccess;
+> > +		unsigned int fb_cpp;
+> > +		unsigned int front_offset;
+> > +		unsigned int front_pitch;
+> > +		unsigned int back_offset;
+> > +		unsigned int back_pitch;
+> > +		unsigned int depth_cpp;
+> > +		unsigned int depth_offset;
+> > +		unsigned int depth_pitch;
+> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
+> > +	);
+> >  	u32 fb_offset;
+> >  	u32 mmio_offset;
+> >  	u32 status_offset;
+> > @@ -67,9 +72,8 @@ static int compat_mga_init(struct file *file, unsigned int cmd,
+> >  
+> >  	init.func = init32.func;
+> >  	init.sarea_priv_offset = init32.sarea_priv_offset;
+> > -	memcpy(&init.chipset, &init32.chipset,
+> > -		offsetof(drm_mga_init_t, fb_offset) -
+> > -		offsetof(drm_mga_init_t, chipset));
+> > +	memcpy(&init.always32bit, &init32.always32bit,
+> > +	       sizeof(init32.always32bit));
+> >  	init.fb_offset = init32.fb_offset;
+> >  	init.mmio_offset = init32.mmio_offset;
+> >  	init.status_offset = init32.status_offset;
+> > diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
+> > index 8c4337548ab5..61612e5ecab2 100644
+> > --- a/include/uapi/drm/mga_drm.h
+> > +++ b/include/uapi/drm/mga_drm.h
+> > @@ -265,6 +265,16 @@ typedef struct _drm_mga_sarea {
+> >  #define DRM_IOCTL_MGA_WAIT_FENCE    DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_WAIT_FENCE, __u32)
+> >  #define DRM_IOCTL_MGA_DMA_BOOTSTRAP DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_DMA_BOOTSTRAP, drm_mga_dma_bootstrap_t)
+> >  
+> > +#define __struct_group(name, fields) \
+> > +	union { \
+> > +		struct { \
+> > +			fields \
+> > +		}; \
+> > +		struct { \
+> > +			fields \
+> > +		} name; \
+> > +	}
+> > +
+> >  typedef struct _drm_mga_warp_index {
+> >  	int installed;
+> >  	unsigned long phys_addr;
+> > @@ -279,20 +289,25 @@ typedef struct drm_mga_init {
+> >  
+> >  	unsigned long sarea_priv_offset;
+> >  
+> > -	int chipset;
+> > -	int sgram;
+> > +	__struct_group(always32bit,
+> > +		int chipset;
+> > +		int sgram;
+> >  
+> > -	unsigned int maccess;
+> > +		unsigned int maccess;
+> >  
+> > -	unsigned int fb_cpp;
+> > -	unsigned int front_offset, front_pitch;
+> > -	unsigned int back_offset, back_pitch;
+> > +		unsigned int fb_cpp;
+> > +		unsigned int front_offset;
+> > +		unsigned int front_pitch;
+> > +		unsigned int back_offset;
+> > +		unsigned int back_pitch;
+> >  
+> > -	unsigned int depth_cpp;
+> > -	unsigned int depth_offset, depth_pitch;
+> > +		unsigned int depth_cpp;
+> > +		unsigned int depth_offset;
+> > +		unsigned int depth_pitch;
+> >  
+> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
+> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
+> > +	);
+> >  
+> >  	unsigned long fb_offset;
+> >  	unsigned long mmio_offset;
+> > @@ -302,6 +317,8 @@ typedef struct drm_mga_init {
+> >  	unsigned long buffers_offset;
+> >  } drm_mga_init_t;
+> >  
+> > +#undef __struct_group
+> > +
 > 
-> Ah, good catch! I think just using BIT() is the right replacement here,
-> yes? I suppose that should be a separate patch.
+> Why can you use __struct_group in this uapi header, but not the
+> networking one?
 
-I found definition of BIT in vdso/bits.h, that does not sound like a
-standard header, besides that it shifts 1UL, that may not be necessary
-everywhere. IIRC there were objections against using the macro at all.
+If there's others, maybe we can stuff the uapi __struct_group into
+linux/types.h where all the other __ uapi types hang out?
 
-Looking for all the definitions, there are a few that are wrong in the
-sense they're using the singed type, eg.
+Anyway mga is very dead, I don't anyone cares.
 
-https://elixir.bootlin.com/linux/v5.14-rc3/source/arch/arm/mach-davinci/sleep.S#L7
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-#define BIT(nr)			(1 << (nr))
-...
-#define DEEPSLEEP_SLEEPENABLE_BIT	BIT(31)
+I'm assuming this goes in through a topic pull from you?
 
-but that's an assembly file so the C integer promotions don't apply.
+I'll leave the drm/amd one to figure out between you and Alex.
+-Daniel
 
-https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/osdep_service.h#L18
-https://elixir.bootlin.com/linux/v5.14-rc3/source/drivers/staging/rtl8723bs/include/wifi.h#L15
-https://elixir.bootlin.com/linux/v5.14-rc3/source/tools/perf/util/intel-pt-decoder/intel-pt-pkt-decoder.c#L15
+> 
+> thanks,
+> 
+> greg k-h
 
-#define BIT(x)	(1 << (x))
-
-Auditing and cleaning that up is for another series, yeah, I'm just
-pointing it here if somebody feels like doing the work. It's IMO low
-hanging fruit but can reveal real bugs.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
