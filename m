@@ -2,84 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B4B33D9A01
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 02:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8145D3D9B5E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 03:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbhG2ANe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Jul 2021 20:13:34 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:26564 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232727AbhG2ANe (ORCPT
+        id S233341AbhG2B7P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Jul 2021 21:59:15 -0400
+Received: from mail-pl1-f181.google.com ([209.85.214.181]:42797 "EHLO
+        mail-pl1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233241AbhG2B7O (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Jul 2021 20:13:34 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 16T0Cuue027152;
-        Thu, 29 Jul 2021 09:12:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 16T0Cuue027152
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627517577;
-        bh=YqJ9c/GjkU+qY5J6Ldxh46l7uiwa/TKEk8lJzU+RyjU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=o9d66vvFcU3pe4jIt+V8N0R+pPUCN7g3q2lyRq0IZRE8Yl2VY0ZaZxuyGzkebFFdW
-         b6AgtVcv+qmsbceOGDPXeT/2p+tbR4meBfGdt6Y+M47duWhst4Y8/6Pz/zdA0Lw5IJ
-         cyPxGfTHBqlAAa4djSyd+wsjpJ14Tp2N6ZWB4/f8fJHfciqM2SBmN3unCTlCQbStwb
-         ku6qO7Ag3tVsQ3dGETWuktRruGNIIC/qDCSLVOzVh0NwGku44fax4ozqKnC8Gc9kRY
-         5XCCGlV0fGhXmYqKwANqOnjEFPAN84aKVAq9m1/AUF+bpNgC5ywd7NclF6EvJIL3cq
-         CWD8fZsAFsBOw==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        John S Gruber <johnsgruber@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: cancel sub_make_done for the install target to fix DKMS
-Date:   Thu, 29 Jul 2021 09:12:54 +0900
-Message-Id: <20210729001254.327661-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        Wed, 28 Jul 2021 21:59:14 -0400
+Received: by mail-pl1-f181.google.com with SMTP id t3so2929816plg.9;
+        Wed, 28 Jul 2021 18:59:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/EMnvbg1lkcKUNHoTGAUlLRl80RwVqD1WDQs78+Ryng=;
+        b=T9QUZci9xRPUsyFylgg8iNO/vYQvXXH1GjnR9a+ORlVU3giTSq46ZzzVStYhQzQyVX
+         mOLRviPqB0U0VzfefMBPrH2zxRJ8GXRxTSnReCaP7uZGRjeqYbmTj93lORJJYJYJ+UWt
+         spwGognRDV14UtNOyYroC6Y6TKIm0ruPupWUwVNOCUMrsBxsb31ONXNerdH/j3a918F6
+         b1iQAdIoESQs2Q/T/v45hA59MGszluDk35P6uZRV+9iIQLaLnO8CBrwXv8iBRKbboxGV
+         uMTQpXMyK7EDxu9YSaNqUtqbtZszoI002WWUymzMfCKU66bgkqv4ECGRQIqAtlfHSLyw
+         K/9A==
+X-Gm-Message-State: AOAM532Ht9g9o9CnvXn1jL8DQg1Vp5ec/nrS1+YgPRE2L2uysG8WfphN
+        eGEAyBFxq8vZAXzvyRBjlEk=
+X-Google-Smtp-Source: ABdhPJwy46rGfGzBPHT0dDc2OF3JHAeIdHBXsVA3/Hjfoi4OURPDSpbVi+xEgy37JuU2Z3C+YFQFpw==
+X-Received: by 2002:aa7:93dc:0:b029:328:d6c9:cae7 with SMTP id y28-20020aa793dc0000b0290328d6c9cae7mr2579458pff.53.1627523950822;
+        Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:9eeb:60dc:7a3c:6558? ([2601:647:4000:d7:9eeb:60dc:7a3c:6558])
+        by smtp.gmail.com with ESMTPSA id z16sm1344383pgu.21.2021.07.28.18.59.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
+To:     Kees Cook <keescook@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-20-keescook@chromium.org> <YQDxaYrHu0PeBIuX@kroah.com>
+ <202107281358.8E12638@keescook>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <45855f4f-f7cf-b7b3-bcd6-c9ebc3a55c64@acm.org>
+Date:   Wed, 28 Jul 2021 18:59:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202107281358.8E12638@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit bcf637f54f6d ("kbuild: parse C= and M= before changing the
-working directory"), external modules invoked by DKMS fail to build
-because M= option is not parsed.
+On 7/28/21 2:01 PM, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 07:55:53AM +0200, Greg Kroah-Hartman wrote:
+>>>  struct ethhdr {
+>>> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+>>> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+>>> +	union {
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		};
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		} addrs;
+>>
+>> A union of the same fields in the same structure in the same way?
+>>
+>> Ah, because struct_group() can not be used here?  Still feels odd to see
+>> in a userspace-visible header.
+> 
+> Yeah, there is some inconsistency here. I will clean this up for v2.
+> 
+> Is there a place we can put kernel-specific macros for use in UAPI
+> headers? (I need to figure out where things like __kernel_size_t get
+> defined...)
 
-I wanted to add 'unset sub_make_done' in install.sh but similar scripts,
-arch/*/boot/install.sh, are duplicated, so I set sub_make_done empty
-in the top Makefile.
+How about using two memset() calls to clear h_dest[] and h_source[]
+instead of modifying the uapi header?
 
-Fixes: bcf637f54f6d ("kbuild: parse C= and M= before changing the working directory")
-Reported-by: John S Gruber <johnsgruber@gmail.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Thanks,
 
- Makefile | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Bart.
 
-diff --git a/Makefile b/Makefile
-index bb10a93edf5c..4193092f7c38 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1316,6 +1316,16 @@ PHONY += scripts_unifdef
- scripts_unifdef: scripts_basic
- 	$(Q)$(MAKE) $(build)=scripts scripts/unifdef
- 
-+# ---------------------------------------------------------------------------
-+# Install
-+
-+# Many distros have the custom install script, /sbin/kernelinstall.
-+# If DKMS is installed, 'make install' will eventually recuses back
-+# to the this Makefile to build and install external modules.
-+# Cancel sub_make_done so that options such as M=, V=, etc. are parsed.
-+
-+install: sub_make_done=
-+
- # ---------------------------------------------------------------------------
- # Tools
- 
--- 
-2.27.0
 
