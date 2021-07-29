@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C3E63DA96D
+	by mail.lfdr.de (Postfix) with ESMTP id CA2A13DA96E
 	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 18:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbhG2Qu5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Jul 2021 12:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
+        id S230223AbhG2Qu6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Jul 2021 12:50:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231634AbhG2Quv (ORCPT
+        with ESMTP id S231834AbhG2Quw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Jul 2021 12:50:51 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C60EC0613C1
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 09:50:47 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id s12-20020ad4446c0000b029033a9344451cso98651qvt.21
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 09:50:47 -0700 (PDT)
+        Thu, 29 Jul 2021 12:50:52 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7C4C0613D5
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 09:50:49 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id p71-20020a25424a0000b029056092741626so7229753yba.19
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 09:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=x9OsDi6ntYJ0VIZCmJL557cNSnY5r/Ab9zmZ7MgbT4s=;
-        b=Z887/h+JPf/RmzOCpldFxPeiU1mG1LxdCC2VrhA/Pzmd3Yr2pQqYgskaKQhruSs1gK
-         zqE2XDGn/UDBMz3PqaOQC3bzKTiaFYkcrLVhEblfJcKZxikcc4ojwuoD83BnMcYDN4pA
-         NQvzXmAZYAQ7EPo+s6Oj6ntrG3HxW3UO0F3gUAg6kkwFgc5nRKu9cGm5NmnX78+Gkkox
-         OFtnzA0ox3fO3uL9eLk6ueX37tyPwjQM4M2WR8HWYFcRKFANsfdZ+is+GPX/reIyFF0k
-         i8weiiNOmEVbBq0qI9plBz8lfDywqTpjv0Y6mZMIZR817ywaVm+N1jAEDawM0oYZxhOx
-         tWKg==
+        bh=ylYcXn1I/C5/EruhE/ifxy8Gri68DuJqkeFXLL+fN5g=;
+        b=BBNZEUxpdzDxN9t94KfFCjGR9iBMGkTi9PWw5nc21I4mNwBZYd8Z8FRexA4+M3bg5u
+         xrCl6OCU/lEKjcDgE8E7CCAubEAgYKQe6wN6kJ8VsdkNb6d00t0sQcH+5prrqs9gMgUz
+         czk8i3RDwmA5po52czoCd3Z5w+1AehgoupP+ghAd/mEUoBSPKMkdYvsSH2YaTgmcgFBA
+         am5V/96qHqqWxtsywwMJX5of9IxBXj9POlRjx29oeimRVL6TiugEJgTKpwIrFdWaGzGp
+         Trv/NAPHPQnaeXTaPC40WU7qHI7DYAUoA6cUpSQguqi4Rq8uurvPrR0G1YJ+8wKr7UvZ
+         zWJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=x9OsDi6ntYJ0VIZCmJL557cNSnY5r/Ab9zmZ7MgbT4s=;
-        b=lKXFz+FfT82oU+DfRzBjyz4/Ycmi9ilATfUSrwi+mSxZRxrvXv7dpA+aDJqFe1zE2H
-         pcrL9N1p9ooZiR9riXPj9N5bqobbEay1dd+9pBelHa46uAYZyYmbkhuf3OeBgT2uUi5p
-         +gOgeg3W2auED6ZusDdo6YNYNz2yv+UEFsr/y3dTGIpMGK3nxZiwNkRnybfAuhEZXHpb
-         C3lpxQ9XkajBpL3CTD9JWcwBppkuNQ3Szx9RWx1H/GzavoY5RVa6PvwZWFHe53JODI+n
-         ae1VEhIBq9MqBJzdlLWSf/szTYUUIvxc862HjH56mdCxoNco66LiImjG/8Yy05DD4+Bj
-         sheQ==
-X-Gm-Message-State: AOAM5323gvIgCzY5j94WhYRz/CFkpu3L5cMeIH0I9vHgrDLCQVK4zLAF
-        Bqlq0yx49kPk98N2yG2ZMcdesxqyD+Y8VzP/ot4=
-X-Google-Smtp-Source: ABdhPJx47Fa51jgE3UGFJyvvG5De61DgUYBkX3Var2bQXsmDQ90X8JX7zYW6kUsFVBtQsZyGxXdin50okf4EUhFK2W4=
+        bh=ylYcXn1I/C5/EruhE/ifxy8Gri68DuJqkeFXLL+fN5g=;
+        b=OgV6HUOtjOh6V5dkdxAxk0nCYucOLIGwrPT0oNXP/94lFuigtQixarGQU+gFfedjF9
+         r+ztCVJ6t/jcfZpZbfhyrS92MVehLMvymNwR3Kr6TXTn4gzT81Bsp4LMl0HIm8VGyZLy
+         0dWxUcAK59RQh2/xTP+INTcb2U9accDDzIYkKLAgqqmOO2uBmqF4UniZSDzIXYdiZqHe
+         gEyWIgxK4k+9F+66B82AF1Fz9RJxVkGXWUKXY91dkfLwx6Fi0G2w13cYBAMHevMKReJd
+         V8HstV5LevEIF+j2iGQM2dftMCMmvcjvpXzKWseQn/VvBIoJPuvzH3idQYH6oogW0O9X
+         KH5g==
+X-Gm-Message-State: AOAM533MO2rvLwa1wMpRBobDrITcRppQe5i2zhFuE30gfalgj7nqDuWS
+        sL9bXfOCsZ9Trhq+1Mmt2N9m90msWNB9pxUR4i0=
+X-Google-Smtp-Source: ABdhPJwI/00H9XAupr++60gtOSPMpO6+vqnsx3bZt7qMIMWSb4tBxazgKfnF1xTZ7YyUePGOkKozBKiJufZbKb41dFY=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:8132:32f4:cf29:1268])
- (user=ndesaulniers job=sendgmr) by 2002:a0c:d446:: with SMTP id
- r6mr6264764qvh.3.1627577446115; Thu, 29 Jul 2021 09:50:46 -0700 (PDT)
-Date:   Thu, 29 Jul 2021 09:50:38 -0700
+ (user=ndesaulniers job=sendgmr) by 2002:a25:31c5:: with SMTP id
+ x188mr7825846ybx.185.1627577448502; Thu, 29 Jul 2021 09:50:48 -0700 (PDT)
+Date:   Thu, 29 Jul 2021 09:50:39 -0700
 In-Reply-To: <20210729165039.23896-1-ndesaulniers@google.com>
-Message-Id: <20210729165039.23896-2-ndesaulniers@google.com>
+Message-Id: <20210729165039.23896-3-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <20210729165039.23896-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
-Subject: [PATCH v3 1/2] Makefile: move initial clang flag handling into scripts/Makefile.clang
+Subject: [PATCH v3 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
+ CC=clang LLVM_IAS=1
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Miguel Ojeda <ojeda@kernel.org>, Fangrui Song <maskray@google.com>,
@@ -68,82 +69,115 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With some of the changes we'd like to make to CROSS_COMPILE, the initial
-block of clang flag handling which controls things like the target triple,
-whether or not to use the integrated assembler and how to find GAS,
-and erroring on unknown warnings is becoming unwieldy. Move it into its
-own file under scripts/.
+We get constant feedback that the command line invocation of make is too
+long. CROSS_COMPILE is helpful when a toolchain has a prefix of the
+target triple, or is an absolute path outside of $PATH, but it's mostly
+redundant for a given SRCARCH. SRCARCH itself is derived from ARCH
+(normalized for a few different targets).
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+If CROSS_COMPILE is not set, simply set --target= for CLANG_FLAGS,
+KBUILD_CFLAGS, and KBUILD_AFLAGS based on $SRCARCH.
+
+Previously, we'd cross compile via:
+$ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make LLVM=1 LLVM_IAS=1
+Now:
+$ ARCH=arm64 make LLVM=1 LLVM_IAS=1
+
+For native builds (not involving cross compilation) we now explicitly
+specify a target triple rather than rely on the implicit host triple.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1399
+Suggested-by: Arnd Bergmann <arnd@kernel.org>
+Suggested-by: Nathan Chancellor <nathan@kernel.org>
+Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
-Changes V2 -> V3:
-* Pick up Nathan's RB tag.
+Changes v2 -> v3:
+* Drop check/requirement for LLVM=1, as per Masahiro.
+* Change oneliner from LLVM=1 LLVM_IAS=1 to CC=clang LLVM_IAS=1.
+* Don't carry forward Nathan's RB/TB tags. :( Sorry Nathan, but thank
+  you for testing+reviewing v2.
+* Update wording of docs slightly.
 
- MAINTAINERS            |  1 +
- Makefile               | 15 +--------------
- scripts/Makefile.clang | 14 ++++++++++++++
- 3 files changed, 16 insertions(+), 14 deletions(-)
- create mode 100644 scripts/Makefile.clang
+Changes v1 -> v2:
+* Fix typos in commit message as per Geert and Masahiro.
+* Use SRCARCH instead of ARCH, simplifying x86 handling, as per
+  Masahiro. Add his sugguested by tag.
+* change commit oneline from 'drop' to 'infer.'
+* Add detail about explicit host --target and relationship of ARCH to
+  SRCARCH, as per Masahiro.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81e1edeceae4..9c1205c258c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4433,6 +4433,7 @@ B:	https://github.com/ClangBuiltLinux/linux/issues
- C:	irc://chat.freenode.net/clangbuiltlinux
- F:	Documentation/kbuild/llvm.rst
- F:	include/linux/compiler-clang.h
-+F:	scripts/Makefile.clang
- F:	scripts/clang-tools/
- K:	\b(?i:clang|llvm)\b
+Changes RFC -> v1:
+* Rebase onto linux-kbuild/for-next
+* Keep full target triples since missing the gnueabi suffix messes up
+  32b ARM. Drop Fangrui's sugguested by tag. Update commit message to
+  drop references to arm64.
+* Flush out TODOS.
+* Add note about -EL/-EB, -m32/-m64.
+* Add note to Documentation/.
+
+ Documentation/kbuild/llvm.rst |  6 ++++++
+ scripts/Makefile.clang        | 32 ++++++++++++++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index b18401d2ba82..aef1587fc09b 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -46,6 +46,12 @@ example: ::
  
-diff --git a/Makefile b/Makefile
-index cbab0dc53065..010e3a4e770b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -586,20 +586,7 @@ endif
- CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
+ 	clang --target=aarch64-linux-gnu foo.c
  
- ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
--ifneq ($(CROSS_COMPILE),)
--CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
--endif
--ifeq ($(LLVM_IAS),1)
--CLANG_FLAGS	+= -integrated-as
--else
--CLANG_FLAGS	+= -no-integrated-as
--GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
--CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
--endif
--CLANG_FLAGS	+= -Werror=unknown-warning-option
--KBUILD_CFLAGS	+= $(CLANG_FLAGS)
--KBUILD_AFLAGS	+= $(CLANG_FLAGS)
--export CLANG_FLAGS
-+include $(srctree)/scripts/Makefile.clang
- endif
++When both ``CC=clang`` (set via ``LLVM=1``) and ``LLVM_IAS=1`` are used,
++``CROSS_COMPILE`` becomes unnecessary and can be inferred from ``ARCH``.
++Example: ::
++
++	ARCH=arm64 make LLVM=1 LLVM_IAS=1
++
+ LLVM Utilities
+ --------------
  
- # Include this also for config targets because some architectures need
 diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-new file mode 100644
-index 000000000000..297932e973d4
---- /dev/null
+index 297932e973d4..a1b46811bdc6 100644
+--- a/scripts/Makefile.clang
 +++ b/scripts/Makefile.clang
-@@ -0,0 +1,14 @@
-+ifneq ($(CROSS_COMPILE),)
-+CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-+endif
+@@ -1,6 +1,34 @@
+-ifneq ($(CROSS_COMPILE),)
++# Individual arch/{arch}/Makfiles should use -EL/-EB to set intended endianness
++# and -m32/-m64 to set word size based on Kconfigs instead of relying on the
++# target triple.
++ifeq ($(CROSS_COMPILE),)
 +ifeq ($(LLVM_IAS),1)
-+CLANG_FLAGS	+= -integrated-as
++ifeq ($(SRCARCH),arm)
++CLANG_FLAGS	+= --target=arm-linux-gnueabi
++else ifeq ($(SRCARCH),arm64)
++CLANG_FLAGS	+= --target=aarch64-linux-gnu
++else ifeq ($(SRCARCH),hexagon)
++CLANG_FLAGS	+= --target=hexagon-linux-gnu
++else ifeq ($(SRCARCH),m68k)
++CLANG_FLAGS	+= --target=m68k-linux-gnu
++else ifeq ($(SRCARCH),mips)
++CLANG_FLAGS	+= --target=mipsel-linux-gnu
++else ifeq ($(SRCARCH),powerpc)
++CLANG_FLAGS	+= --target=powerpc64le-linux-gnu
++else ifeq ($(SRCARCH),riscv)
++CLANG_FLAGS	+= --target=riscv64-linux-gnu
++else ifeq ($(SRCARCH),s390)
++CLANG_FLAGS	+= --target=s390x-linux-gnu
++else ifeq ($(SRCARCH),x86)
++CLANG_FLAGS	+= --target=x86_64-linux-gnu
 +else
-+CLANG_FLAGS	+= -no-integrated-as
-+GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-+CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-+endif
-+CLANG_FLAGS	+= -Werror=unknown-warning-option
-+KBUILD_CFLAGS	+= $(CLANG_FLAGS)
-+KBUILD_AFLAGS	+= $(CLANG_FLAGS)
-+export CLANG_FLAGS
++$(error Specify CROSS_COMPILE or add '--target=' option to scripts/Makefile.clang)
++endif # SRCARCH
++endif # LLVM_IAS
++else
+ CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+-endif
++endif # CROSS_COMPILE
++
+ ifeq ($(LLVM_IAS),1)
+ CLANG_FLAGS	+= -integrated-as
+ else
 -- 
 2.32.0.432.gabb21c7263-goog
 
