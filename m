@@ -2,164 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCC4F3DB5D7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 11:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 855553DB824
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 14:00:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231162AbhG3J0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Jul 2021 05:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238089AbhG3J0G (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Jul 2021 05:26:06 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84AA3C0613CF
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 02:26:01 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id g15so10467690wrd.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 02:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linbit-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AkuGs7W3jKofUPHLtLFgYg9f4YA+eRGF5if/gTr/VXg=;
-        b=lylUtumRYNonwKmsPvuJom3wxBHkLf4anhWQaqkh04Z4ai4zZJd08vdZ7peV9SRpsh
-         8kDAxoMFjhA4/LA7o2la5MrwwsntBQgGjb0I1dUZFTJHnBuxsue7dB41Zed6v8YvFnQx
-         EtWmNPzKWs0OwoVonXjeCSLzamGDsOrch7MlE+WtH/ppN38tQ4p8HLRgifhRRjoPlQkI
-         e7dhso1fixnA6ExwMDoIvam1wge26Ggl97vNBtGlzBzaYUrpPxGPV5UmfIV5g4S/Vge/
-         4ukVRSa4etHYaDGK4EAFlKuotQCFXCnz8HEMRP8pLWuHCS1V7/wsG8+TQIpv8pIama72
-         IoVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=AkuGs7W3jKofUPHLtLFgYg9f4YA+eRGF5if/gTr/VXg=;
-        b=kmMh5oVOX28M+v2y1yaIkQhgIkQRPu+vwrGvzNH34FVfoRRXCZ7RY2bF1fHEjXmZd5
-         WHwfBzeLG+Y7BJSmFNAJZm+j8ObsMR3AHavTd907PCQMRKazjMOM1WVOGtDX8LyArlkL
-         uLisc7cjntaFQ3H/AeVQyyrgyYx/QhpyisZe6r6MBaAKULLrhVuTQHfcRd69ttiNh73k
-         TjkVYzO0XBoQtxB1doG2xxkgGYRbJK9TYa2cBacaj0/Eew5cww2SaPyjsPS6m2HM+JyP
-         Qtdme6ufS9e2ANzVADsX4k4YMvDxycGbo/oJesu3dn6Qe85XBiS3XAX8oek2XcHwdqd6
-         C1xQ==
-X-Gm-Message-State: AOAM530K1AJYg4hBZ5geJqdATABsszaziJRM07t/B30jwM3fDOdfdrgT
-        xpcneM3lCU6dEcV/M7aiaSbDAw==
-X-Google-Smtp-Source: ABdhPJzeDirH6vZRgzsjdA+6SGrdUfGDvYu5Q0o7XkuF8nVr9uoOebNL2C+zT2PnMdIeL/CWiOquwA==
-X-Received: by 2002:a5d:6448:: with SMTP id d8mr1920645wrw.295.1627637160119;
-        Fri, 30 Jul 2021 02:26:00 -0700 (PDT)
-Received: from grappa.linbit (62-99-137-214.static.upcbusiness.at. [62.99.137.214])
-        by smtp.gmail.com with ESMTPSA id v15sm1259298wmj.39.2021.07.30.02.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 02:25:59 -0700 (PDT)
-Date:   Fri, 30 Jul 2021 11:25:57 +0200
-From:   Lars Ellenberg <lars.ellenberg@linbit.com>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
-Message-ID: <20210730092557.GC909654@grappa.linbit>
-Mail-Followup-To: Bart Van Assche <bvanassche@acm.org>,
-        Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-49-keescook@chromium.org>
- <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
- <202107291845.1E1528D@keescook>
- <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+        id S238294AbhG3MAy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Jul 2021 08:00:54 -0400
+Received: from mx1.emlix.com ([136.243.223.33]:42230 "EHLO mx1.emlix.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238275AbhG3MAy (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 30 Jul 2021 08:00:54 -0400
+X-Greylist: delayed 522 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Jul 2021 08:00:54 EDT
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.emlix.com (Postfix) with ESMTPS id D26EE5FCF2;
+        Fri, 30 Jul 2021 13:52:05 +0200 (CEST)
+From:   Rolf Eike Beer <eb@emlix.com>
+To:     linux-acpi@vger.kernel.org
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Olsa <jolsa@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH][RESEND] tools/thermal/tmon: simplify Makefile and fix cross build
+Date:   Fri, 30 Jul 2021 13:47:20 +0200
+Message-ID: <2149399.oOxd0sxVbX@devpool47>
+Organization: emlix GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+Content-Type: multipart/signed; boundary="nextPart1627647755.ozqCpXpxaW"; micalg="pgp-sha256"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 07:57:47PM -0700, Bart Van Assche wrote:
-> On 7/29/21 7:31 PM, Kees Cook wrote:
-> > On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
-> >> On 7/27/21 1:58 PM, Kees Cook wrote:
-> >>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> >>> field bounds checking for memset(), avoid intentionally writing across
-> >>> neighboring fields.
-> >>>
-> >>> Add a struct_group() for the algs so that memset() can correctly reason
-> >>> about the size.
-> >>>
-> >>> Signed-off-by: Kees Cook <keescook@chromium.org>
-> >>> ---
-> >>>   drivers/block/drbd/drbd_main.c     | 3 ++-
-> >>>   drivers/block/drbd/drbd_protocol.h | 6 ++++--
-> >>>   drivers/block/drbd/drbd_receiver.c | 3 ++-
-> >>>   3 files changed, 8 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-> >>> index 55234a558e98..b824679cfcb2 100644
-> >>> --- a/drivers/block/drbd/drbd_main.c
-> >>> +++ b/drivers/block/drbd/drbd_main.c
-> >>> @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
-> >>>   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
-> >>>   	/* initialize verify_alg and csums_alg */
-> >>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> >>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> >>> +	memset(&p->algs, 0, sizeof(p->algs));
-> >>>   	if (get_ldev(peer_device->device)) {
-> >>>   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
-> >>> diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
-> >>> index dea59c92ecc1..a882b65ab5d2 100644
-> >>> --- a/drivers/block/drbd/drbd_protocol.h
-> >>> +++ b/drivers/block/drbd/drbd_protocol.h
-> >>> @@ -283,8 +283,10 @@ struct p_rs_param_89 {
-> >>>   struct p_rs_param_95 {
-> >>>   	u32 resync_rate;
-> >>> -	char verify_alg[SHARED_SECRET_MAX];
-> >>> -	char csums_alg[SHARED_SECRET_MAX];
-> >>> +	struct_group(algs,
-> >>> +		char verify_alg[SHARED_SECRET_MAX];
-> >>> +		char csums_alg[SHARED_SECRET_MAX];
-> >>> +	);
-> >>>   	u32 c_plan_ahead;
-> >>>   	u32 c_delay_target;
-> >>>   	u32 c_fill_target;
-> >>> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-> >>> index 1f740e42e457..6df2539e215b 100644
-> >>> --- a/drivers/block/drbd/drbd_receiver.c
-> >>> +++ b/drivers/block/drbd/drbd_receiver.c
-> >>> @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
-> >>>   	/* initialize verify_alg and csums_alg */
-> >>>   	p = pi->data;
-> >>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> >>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> >>> +	memset(&p->algs, 0, sizeof(p->algs));
-> >>
-> >> Using struct_group() introduces complexity. Has it been considered not to
-> >> modify struct p_rs_param_95 and instead to use two memset() calls instead of
-> >> one (one memset() call per member)?
-> > 
-> > I went this direction because using two memset()s (or memcpy()s in other
-> > patches) changes the machine code. It's not much of a change, but it
-> > seems easier to justify "no binary changes" via the use of struct_group().
-> > 
-> > If splitting the memset() is preferred, I can totally do that instead.
-> > :)
-> 
-> I don't have a strong opinion about this. Lars, do you want to comment
-> on this patch?
+--nextPart1627647755.ozqCpXpxaW
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: Rolf Eike Beer <eb@emlix.com>
+To: linux-acpi@vger.kernel.org
+Cc: Zhang Rui <rui.zhang@intel.com>, Markus Mayer <mmayer@broadcom.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH][RESEND] tools/thermal/tmon: simplify Makefile and fix cross build
+Date: Fri, 30 Jul 2021 13:47:20 +0200
+Message-ID: <2149399.oOxd0sxVbX@devpool47>
+Organization: emlix GmbH
+
+Hi,
+
+cross-building tmon can fail because it uses the non-prefixed, i.e. host, p=
+kg-
+config.
+
+If you prefer a merge the code is also available at:
+
+   https://github.com/emlix/linux thermal-makefile
+
+Would be nice if someone could finally pick this up, it's almost 3 years no=
+w=E2=80=A6
+
+If someone knows anyone who better fits into these reviews please add CC's,=
+=20
+sadly tools/thermal/ is not covered in MAINTAINERS.
+
+Eike
+=2D-=20
+Rolf Eike Beer, emlix GmbH, http://www.emlix.com
+=46on +49 551 30664-0, Fax +49 551 30664-11
+Gothaer Platz 3, 37083 G=C3=B6ttingen, Germany
+Sitz der Gesellschaft: G=C3=B6ttingen, Amtsgericht G=C3=B6ttingen HR B 3160
+Gesch=C3=A4ftsf=C3=BChrung: Heike Jordan, Dr. Uwe Kracke =E2=80=93 Ust-IdNr=
+=2E: DE 205 198 055
+
+emlix - smart embedded open source
+
+--nextPart1627647755.ozqCpXpxaW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iLMEAAEIAB0WIQQ/Uctzh31xzAxFCLur5FH7Xu2t/AUCYQPmyAAKCRCr5FH7Xu2t
+/KiQA/9XUdQ7eHdvuapPVi/2sSmpiKJLcHuP6Fr52fB14b3f9Ssi1PuMht1fhkyy
+JoesrKMRsxZJ0PBVNpUKshgRtZqKnvvDcb4lAdhWYCR2Qm/udbqpA3UwNLXO1H29
+8M4RPfXxPjuxH+Q/PG/dGvNRKdHXJp9nKcIsU5tC1SkiFGc13w==
+=XbLH
+-----END PGP SIGNATURE-----
+
+--nextPart1627647755.ozqCpXpxaW--
 
 
-Fine either way. "no binary changes" sounds good ;-)
-
-Thanks,
-    Lars
 
