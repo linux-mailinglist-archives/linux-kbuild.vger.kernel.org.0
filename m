@@ -2,211 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DACE63DADFB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Jul 2021 23:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 279F33DB033
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 02:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbhG2VAp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Jul 2021 17:00:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41026 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229738AbhG2VAp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Jul 2021 17:00:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0683060F46;
-        Thu, 29 Jul 2021 21:00:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627592442;
-        bh=HmJYde0Ikwk3SEQB8+ORc71r8eGZUocfLxfK0gO2i8w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=AaP0k8yOi+fuz/VKaCSzD0h7sS7r2aBhNur9XETaJFRr6cF/YjKLFwO7JGdoNC0MO
-         PQq67DZKmMMHUydY2gd3pIXU0befmUj9hsmGBJch3oOZEmG/jITCw7g9A1dL70dICd
-         qE6mVV5dwFMAUQqNMTzFAN+1YebIgBHUOgYCuDuSVKVm4pcfXa4BbP7+u7Xtjz/E0M
-         sKVldZBxHqQ+xBjzZptNmBTmgknmJREVJKg2K0uzgfA/oN/6KgDO/JJ52sh39pNimQ
-         sm/qWWTnSPEbVwvZpPixykizIhgI2qSf70NLV9YrKS4K2GWemb/4NV/hmAD+CbtSvd
-         AJhh3Y6gxQS4A==
+        id S235364AbhG3ATW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Jul 2021 20:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235214AbhG3ATV (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 29 Jul 2021 20:19:21 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F4FC061765
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 17:19:16 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id l4so9857269ljq.4
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 17:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sdWfDCJ/BnpSi88/sBE0t81V5bfAq7zpAMM0ZeL7bXw=;
+        b=BALfDfaIU52dOkdhgi3958ygiyewSiZd/p8RdUrdIdjC7JUVLSCp9mAqns3CxtyQy2
+         5/3UMJlV79lCh6/AmihvIf0trZeBHtj0u1ZY/h/U7moLru0kPv1zQx0Y31kegPyqyAqL
+         ufFEsb5tdT9yxFSQe7zP5D4pZ21JcFyXueEyrL637FX1N2n6E5boqpbioyyaNljfbFxM
+         7T6NbO2kcddZnJwbfeUfO4ooO6V2BSP9Wy/ilwC8qzfVklYMYIkaxzjVJfHQrmkhOdN2
+         4lf0lgsHQUCsgdReykUspUj9qS/jnLx39Fh/71sZM7S/8F9l3xrtYnFYAIYk9oetEiYe
+         vdEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sdWfDCJ/BnpSi88/sBE0t81V5bfAq7zpAMM0ZeL7bXw=;
+        b=g21blUWtUhJGRV0O8XadD2HWjYToK2U/BwGDtpxoNXv+xYWw6apShEz+vH5qpC/3dV
+         gtGeXxfGsi+j99SiO5SqD/yKqXtWPOhAzS9+A9eTtBg8G35INgUSQ+b0DHMcLH98U+6/
+         qHUXHluxNhF6+egK0z1kKGbNTiG6TZuINg/YW32qYVDVHgC7rpwgVrMnlsx5+8Od++HJ
+         d7fc6wE43m/Ud9X52jilCxMD/jNlelfSneTCZLveAkOqT1kUIesO0f0lT+0tG1MLQhlL
+         t9hHLvEOoKBR8GJXPrKixt6zHLseHOsBbg30WaWJ7Y7wWbk7IvuM/aAlb4L5uMuMMPd8
+         u5kA==
+X-Gm-Message-State: AOAM533dm6poTfR67eNPoj8UnEIqSuw5Y0kO78NaTTP9CW+QI2EPYH96
+        ariZbxOiKa2wYeb0HaQyXditXWnqFnZfK6SPFPSl1A==
+X-Google-Smtp-Source: ABdhPJwWmH5ArkOIqPVwVZuQtBaUrWYJbCFYb7NadmZtZmLpwGWzD5SzE0Mjkl/u0ZFGg6RB4CGp6ZdoGY6dQ1gaIvU=
+X-Received: by 2002:a05:651c:329:: with SMTP id b9mr4549340ljp.116.1627604354847;
+ Thu, 29 Jul 2021 17:19:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210729165039.23896-1-ndesaulniers@google.com>
+ <20210729165039.23896-3-ndesaulniers@google.com> <44117d0c-51b7-1f68-f752-ba53de503b14@kernel.org>
+In-Reply-To: <44117d0c-51b7-1f68-f752-ba53de503b14@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 29 Jul 2021 17:19:03 -0700
+Message-ID: <CAKwvOdm0xs4ikb0K0_b8Az0T=Kxu_-6AHjWHOhjsKZb3hTrH2A@mail.gmail.com>
 Subject: Re: [PATCH v3 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
  CC=clang LLVM_IAS=1
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Fangrui Song <maskray@google.com>,
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Fangrui Song <maskray@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Christoph Hellwig <hch@infradead.org>,
         Linus Torvalds <torvalds@linux-foundation.org>
-References: <20210729165039.23896-1-ndesaulniers@google.com>
- <20210729165039.23896-3-ndesaulniers@google.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <44117d0c-51b7-1f68-f752-ba53de503b14@kernel.org>
-Date:   Thu, 29 Jul 2021 14:00:39 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210729165039.23896-3-ndesaulniers@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I realized that the title of this commit is not really right. We are not 
-inferring CROSS_COMPILE, we are inferring '--target='.
+On Thu, Jul 29, 2021 at 2:00 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> While I understand that the LLVM=1 LLVM_IAS=1 case works perfectly fine
+> with this series, I am of the belief that making it work for CC=clang
+> LLVM_IAS=1 is a mistake because there is no way for that configuration
+> to work for cross compiling without CROSS_COMPILE.
 
-On 7/29/2021 9:50 AM, Nick Desaulniers wrote:
-> We get constant feedback that the command line invocation of make is too
-> long. CROSS_COMPILE is helpful when a toolchain has a prefix of the
-> target triple, or is an absolute path outside of $PATH, but it's mostly
-> redundant for a given SRCARCH. SRCARCH itself is derived from ARCH
+So with v3 of this change, rather than:
 
-I feel like the beginning of this needs a little work.
+$ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang -j72
 
-1. "...invocation of make is too long when compiling with LLVM" would be 
-a little more accurate.
+If you wanted to omit CROSS_COMPILE, you'd need:
 
-2. "it's mostly redundant for a given SRCARCH" is not quite true in my 
-eyes. For example, you could have aarch64-linux-, aarch64-elf-, or 
-aarch64-linux-gnu-, and to my knowledge, all of these can compile a 
-working Linux kernel. Again, saying "with LLVM", even mentioning its 
-multitargeted nature, might make it a little more accurate to the casual 
-passerby.
+$ ARCH=arm64 make CC=clang LLVM_IAS=1 LD=ld.lld OBJCOPY=llvm-objcopy
+STRIP=llvm-strip
 
-> (normalized for a few different targets).
-> 
-> If CROSS_COMPILE is not set, simply set --target= for CLANG_FLAGS,
-> KBUILD_CFLAGS, and KBUILD_AFLAGS based on $SRCARCH.
-> 
-> Previously, we'd cross compile via:
-> $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make LLVM=1 LLVM_IAS=1
-> Now:
-> $ ARCH=arm64 make LLVM=1 LLVM_IAS=1
-> 
-> For native builds (not involving cross compilation) we now explicitly
-> specify a target triple rather than rely on the implicit host triple.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1399
-> Suggested-by: Arnd Bergmann <arnd@kernel.org>
-> Suggested-by: Nathan Chancellor <nathan@kernel.org>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+or
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+$ ARCH=arm64 make CC=clang LLVM_IAS=1 LD=aarch64-linux-gnu-ld
+OBJCOPY=aarch64-linux-gnu-objcopy STRIP=aarch64-linux-gnu-strip
 
-> ---
-> Changes v2 -> v3:
-> * Drop check/requirement for LLVM=1, as per Masahiro.
-> * Change oneliner from LLVM=1 LLVM_IAS=1 to CC=clang LLVM_IAS=1.
-> * Don't carry forward Nathan's RB/TB tags. :( Sorry Nathan, but thank
->    you for testing+reviewing v2.
-> * Update wording of docs slightly.
-> 
-> Changes v1 -> v2:
-> * Fix typos in commit message as per Geert and Masahiro.
-> * Use SRCARCH instead of ARCH, simplifying x86 handling, as per
->    Masahiro. Add his sugguested by tag.
-> * change commit oneline from 'drop' to 'infer.'
-> * Add detail about explicit host --target and relationship of ARCH to
->    SRCARCH, as per Masahiro.
-> 
-> Changes RFC -> v1:
-> * Rebase onto linux-kbuild/for-next
-> * Keep full target triples since missing the gnueabi suffix messes up
->    32b ARM. Drop Fangrui's sugguested by tag. Update commit message to
->    drop references to arm64.
-> * Flush out TODOS.
-> * Add note about -EL/-EB, -m32/-m64.
-> * Add note to Documentation/.
-> 
->   Documentation/kbuild/llvm.rst |  6 ++++++
->   scripts/Makefile.clang        | 32 ++++++++++++++++++++++++++++++--
->   2 files changed, 36 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index b18401d2ba82..aef1587fc09b 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -46,6 +46,12 @@ example: ::
->   
->   	clang --target=aarch64-linux-gnu foo.c
->   
-> +When both ``CC=clang`` (set via ``LLVM=1``) and ``LLVM_IAS=1`` are used,
-> +``CROSS_COMPILE`` becomes unnecessary and can be inferred from ``ARCH``.
+That's straight up worse IMO and defeats the purpose of "shortening
+the command line," which should be the goal.  Not "making CC=clang
+maximally flexible."  We don't want folks generally using CC=clang;
+preferably they'd use LLVM=1.  I need to rewrite our docs to make that
+more explicit and straightforward.  And if folks would prefer to use
+CC=clang for whatever reason, let them explicitly state CROSS_COMPILE
+then.
 
-I am not a fan of this sentence because it implies that something like 
-'make ARCH=arm64 CC=clang LLVM_IAS=1' will work fine, which is not true. 
-We still need CROSS_COMPILE for binutils in this configuration.
+So I agree with Nathan, and hope Masahiro will reconsider that perhaps
+the v2 variant that required LLVM=1 maybe makes more sense.
 
-CROSS_COMPILE provides the value for '--target=' and the prefix for the 
-GNU tools such as ld, objcopy, and readelf. I think this direction is a 
-regression because we are just talking about the first use of 
-CROSS_COMPILE rather than the second at the same time.
+Either way, I need to fix the comment in the new script, commit
+message, and docs, so v4 is necessary.
 
-With LLVM=1 LLVM_IAS=1, we KNOW that the user will be using all LLVM 
-tools. Sure, they are free to override LD, OBJCOPY, READELF, etc with 
-the GNU variants but they have to provide the prefix because LLVM=1 
-overrides the $(CROSS_COMPILE)<tool> assignments so it is irrelevant to 
-us. As Masahiro mentioned, the user is free to individually specify all 
-the tools by their individual variables such as LD=ld.lld BUT at that 
-point, the user should be aware of what they are doing and specify 
-CROSS_COMPILE.
-
-While I understand that the LLVM=1 LLVM_IAS=1 case works perfectly fine 
-with this series, I am of the belief that making it work for CC=clang 
-LLVM_IAS=1 is a mistake because there is no way for that configuration 
-to work for cross compiling without CROSS_COMPILE.
-
-At the same time, not a hill I am willing to die on, hence the tags above.
-
-> +Example: ::
-> +
-> +	ARCH=arm64 make LLVM=1 LLVM_IAS=1
-> +
->   LLVM Utilities
->   --------------
->   
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 297932e973d4..a1b46811bdc6 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -1,6 +1,34 @@
-> -ifneq ($(CROSS_COMPILE),)
-> +# Individual arch/{arch}/Makfiles should use -EL/-EB to set intended endianness
-
-Makefiles
-
-> +# and -m32/-m64 to set word size based on Kconfigs instead of relying on the
-> +# target triple.
-> +ifeq ($(CROSS_COMPILE),)
-> +ifeq ($(LLVM_IAS),1)
-> +ifeq ($(SRCARCH),arm)
-> +CLANG_FLAGS	+= --target=arm-linux-gnueabi
-> +else ifeq ($(SRCARCH),arm64)
-> +CLANG_FLAGS	+= --target=aarch64-linux-gnu
-> +else ifeq ($(SRCARCH),hexagon)
-> +CLANG_FLAGS	+= --target=hexagon-linux-gnu
-> +else ifeq ($(SRCARCH),m68k)
-> +CLANG_FLAGS	+= --target=m68k-linux-gnu
-> +else ifeq ($(SRCARCH),mips)
-> +CLANG_FLAGS	+= --target=mipsel-linux-gnu
-> +else ifeq ($(SRCARCH),powerpc)
-> +CLANG_FLAGS	+= --target=powerpc64le-linux-gnu
-> +else ifeq ($(SRCARCH),riscv)
-> +CLANG_FLAGS	+= --target=riscv64-linux-gnu
-> +else ifeq ($(SRCARCH),s390)
-> +CLANG_FLAGS	+= --target=s390x-linux-gnu
-> +else ifeq ($(SRCARCH),x86)
-> +CLANG_FLAGS	+= --target=x86_64-linux-gnu
-> +else
-> +$(error Specify CROSS_COMPILE or add '--target=' option to scripts/Makefile.clang)
-> +endif # SRCARCH
-> +endif # LLVM_IAS
-> +else
->   CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-> -endif
-> +endif # CROSS_COMPILE
-> +
->   ifeq ($(LLVM_IAS),1)
->   CLANG_FLAGS	+= -integrated-as
->   else
-> 
+I'm tempted to add a rewrite of our docs to say "just use LLVM=1"
+front and center, then get into finer grain details below, moving this
+second patch to be the third in a series.  Let's see what Masahiro's
+thoughts are though first. (I do appreciate them, even when I
+disagree).
+-- 
+Thanks,
+~Nick Desaulniers
