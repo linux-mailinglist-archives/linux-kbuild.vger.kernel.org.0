@@ -2,139 +2,228 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E17B93DB194
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 04:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79A5C3DB317
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 08:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230061AbhG3C5y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Jul 2021 22:57:54 -0400
-Received: from mail-pj1-f50.google.com ([209.85.216.50]:46801 "EHLO
-        mail-pj1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhG3C5y (ORCPT
+        id S237062AbhG3GA4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Jul 2021 02:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230349AbhG3GAz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Jul 2021 22:57:54 -0400
-Received: by mail-pj1-f50.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so12333777pji.5;
-        Thu, 29 Jul 2021 19:57:50 -0700 (PDT)
+        Fri, 30 Jul 2021 02:00:55 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DC7C0613CF
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 23:00:50 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so12835664pji.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 23:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AkhIE+Z/B9o86qJ2h9HZNEp9cxXi2bxRLjCixTXYrfc=;
+        b=Fh6OENhJi1c3RrFskVWW6a9K2LSOKkwhkO0I0QoeZawnKqIN6ZuzUUVNxbwiTtvNFz
+         bMVWqh2xIMpsrdYmeJhT9uFMA1by20wu3sM3OAADk1KBtfN4Uu2cssSA0TWKloIc9Vey
+         zfRQUlNDvpayDj2QUZLI50jUvarPm8pJnxzm8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SFzRUhN6YLmKo+jXursxkunKR479Zn0dAlkG5jiWhjw=;
-        b=GPrLuhOBMMS7jqmzLpbbFbhKeWqOe6NxZh70ZESsM7lnWcv8AaFJifJoeyqgj+Vx88
-         WQPWTWJqjrXqME2dj2VIZCoS4wbWRxP6+yvO+5w7s6N4mW4Ny/1+82zH6vsDjlSQK45t
-         /CSbU4YcLrs58w039Dk/uHmnjk7fYKDdbYI6y3JpQv/zpiFFHBvWDo5q2ns0diNwSAv2
-         PlTfTu5cDBPPX1M/eD//bTa1B5DkvbrxMXB7cTVZ9zNe/Rol5WrniB90Qd+Vb7tjAZxZ
-         nk64cHwfYBcPbKGrHfXM6ITtUpMQa5RM7nvtQWAMjixzGwhdrhbHnEwd4yV9aGMZsngp
-         r2ZQ==
-X-Gm-Message-State: AOAM532nQzvhllMSJLiZ0w7pDnohtNDoi9lmaOM9rLZnK3zzUf1vtwNB
-        0cvJn/ZpFmjDBVSjGZ+jmNw=
-X-Google-Smtp-Source: ABdhPJzldFKnrfj3e7CDNRZJLltOGnPwYmMzIK1MKjkK0sFTGZWcKCldhGHbW6FmNfgZHfM78rnouA==
-X-Received: by 2002:a17:90a:c092:: with SMTP id o18mr691992pjs.3.1627613869863;
-        Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
-Received: from ?IPv6:2601:647:4000:d7:3f66:df55:a341:f79d? ([2601:647:4000:d7:3f66:df55:a341:f79d])
-        by smtp.gmail.com with ESMTPSA id c15sm221003pfl.181.2021.07.29.19.57.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
-Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-hardening@vger.kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AkhIE+Z/B9o86qJ2h9HZNEp9cxXi2bxRLjCixTXYrfc=;
+        b=ksOcA5LE7URxfgq8WJaBmgWWiSSrQbQfvlUlvy1s84JpSvAmoOBJ7FWg/Am85e50/Z
+         6MPg6gjT/8nmWfQGJHcY7M7ZKEM7Mo+r6oOFEs7GpAWAN6MZQboOWeVQFEOhppg4iAfk
+         8U3m2JVMaimKpw0AzAgafZFZTwO1DTKGko0zW51ADdUSf3HnLHb6iyV/ieiiK1vfJxD7
+         Ylt0hlM/iyGHlgA8WUcd2n3nt/yotGPGARABjB4K6hsyrdcFuC8UBXISAmXh309l2qYj
+         G1ZYKeTeALmAfbpslOgAvZftpJMDHVrZe4Z4c8n3TxXJ7K1xzTEdu/+mblOKJhzXLbq9
+         5RGw==
+X-Gm-Message-State: AOAM531MF6gv16RfW3wwr3wyiaqFEVDYnkaxJ+DXgtJWFzfxuDp4EKkk
+        cZ4wQVAoN18vExqXBC4cW9VCag==
+X-Google-Smtp-Source: ABdhPJyWC1FrO1Uo8OEqczQz/zwyPTutgGoQvmX1ca/HLGVAQy1qzKK0RhNumzH/6yied/9WmGxhOQ==
+X-Received: by 2002:a17:902:a411:b029:12b:a4eb:5fcc with SMTP id p17-20020a170902a411b029012ba4eb5fccmr1190139plq.22.1627624850214;
+        Thu, 29 Jul 2021 23:00:50 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id a22sm723870pfv.113.2021.07.29.23.00.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jul 2021 23:00:49 -0700 (PDT)
+Date:   Thu, 29 Jul 2021 23:00:48 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dsterba@suse.cz,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-hardening@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
         netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Lars Ellenberg <lars.ellenberg@linbit.com>
+        nborisov@suse.com
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <202107291952.C08EAE039B@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-49-keescook@chromium.org>
- <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
- <202107291845.1E1528D@keescook>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
-Date:   Thu, 29 Jul 2021 19:57:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ <20210727205855.411487-2-keescook@chromium.org>
+ <20210728085921.GV5047@twin.jikos.cz>
+ <20210728091434.GQ1931@kadam>
+ <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org>
+ <20210728213730.GR5047@suse.cz>
+ <YQJDCw01gSp1d1/M@kroah.com>
+ <20210729082039.GX25548@kadam>
 MIME-Version: 1.0
-In-Reply-To: <202107291845.1E1528D@keescook>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210729082039.GX25548@kadam>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/29/21 7:31 PM, Kees Cook wrote:
-> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
->> On 7/27/21 1:58 PM, Kees Cook wrote:
->>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
->>> field bounds checking for memset(), avoid intentionally writing across
->>> neighboring fields.
->>>
->>> Add a struct_group() for the algs so that memset() can correctly reason
->>> about the size.
->>>
->>> Signed-off-by: Kees Cook <keescook@chromium.org>
->>> ---
->>>   drivers/block/drbd/drbd_main.c     | 3 ++-
->>>   drivers/block/drbd/drbd_protocol.h | 6 ++++--
->>>   drivers/block/drbd/drbd_receiver.c | 3 ++-
->>>   3 files changed, 8 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
->>> index 55234a558e98..b824679cfcb2 100644
->>> --- a/drivers/block/drbd/drbd_main.c
->>> +++ b/drivers/block/drbd/drbd_main.c
->>> @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
->>>   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
->>>   	/* initialize verify_alg and csums_alg */
->>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
->>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
->>> +	memset(&p->algs, 0, sizeof(p->algs));
->>>   	if (get_ldev(peer_device->device)) {
->>>   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
->>> diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
->>> index dea59c92ecc1..a882b65ab5d2 100644
->>> --- a/drivers/block/drbd/drbd_protocol.h
->>> +++ b/drivers/block/drbd/drbd_protocol.h
->>> @@ -283,8 +283,10 @@ struct p_rs_param_89 {
->>>   struct p_rs_param_95 {
->>>   	u32 resync_rate;
->>> -	char verify_alg[SHARED_SECRET_MAX];
->>> -	char csums_alg[SHARED_SECRET_MAX];
->>> +	struct_group(algs,
->>> +		char verify_alg[SHARED_SECRET_MAX];
->>> +		char csums_alg[SHARED_SECRET_MAX];
->>> +	);
->>>   	u32 c_plan_ahead;
->>>   	u32 c_delay_target;
->>>   	u32 c_fill_target;
->>> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
->>> index 1f740e42e457..6df2539e215b 100644
->>> --- a/drivers/block/drbd/drbd_receiver.c
->>> +++ b/drivers/block/drbd/drbd_receiver.c
->>> @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
->>>   	/* initialize verify_alg and csums_alg */
->>>   	p = pi->data;
->>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
->>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
->>> +	memset(&p->algs, 0, sizeof(p->algs));
->>
->> Using struct_group() introduces complexity. Has it been considered not to
->> modify struct p_rs_param_95 and instead to use two memset() calls instead of
->> one (one memset() call per member)?
+On Thu, Jul 29, 2021 at 11:20:39AM +0300, Dan Carpenter wrote:
+> On Thu, Jul 29, 2021 at 07:56:27AM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 28, 2021 at 11:37:30PM +0200, David Sterba wrote:
+> > > On Wed, Jul 28, 2021 at 02:37:20PM -0700, Bart Van Assche wrote:
+> > > > On 7/28/21 2:14 AM, Dan Carpenter wrote:
+> > > > > On Wed, Jul 28, 2021 at 10:59:22AM +0200, David Sterba wrote:
+> > > > >>>   drivers/media/platform/omap3isp/ispstat.c |  5 +--
+> > > > >>>   include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+> > > > >>>   2 files changed, 36 insertions(+), 13 deletions(-)
+> > > > >>>
+> > > > >>> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> index 5b9b57f4d9bf..ea8222fed38e 100644
+> > > > >>> --- a/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > > > >>> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> > > > >>>   int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> > > > >>>   					struct omap3isp_stat_data_time32 *data)
+> > > > >>>   {
+> > > > >>> -	struct omap3isp_stat_data data64;
+> > > > >>> +	struct omap3isp_stat_data data64 = { };
+> > > > >>
+> > > > >> Should this be { 0 } ?
+> > > > >>
+> > > > >> We've seen patches trying to switch from { 0 } to {  } but the answer
+> > > > >> was that { 0 } is supposed to be used,
+> > > > >> http://www.ex-parrot.com/~chris/random/initialise.html 
+> > > > >>
+> > > > >> (from https://lore.kernel.org/lkml/fbddb15a-6e46-3f21-23ba-b18f66e3448a@suse.com/ )
+> > > > > 
+> > > > > In the kernel we don't care about portability so much.  Use the = { }
+> > > > > GCC extension.  If the first member of the struct is a pointer then
+> > > > > Sparse will complain about = { 0 }.
+> > > > 
+> > > > +1 for { }.
+> > > 
+> > > Oh, I thought the tendency is is to use { 0 } because that can also
+> > > intialize the compound members, by a "scalar 0" as it appears in the
+> > > code.
+> > > 
+> > 
+> > Holes in the structure might not be initialized to anything if you do
+> > either one of these as well.
+> > 
+> > Or did we finally prove that is not the case?  I can not remember
+> > anymore...
 > 
-> I went this direction because using two memset()s (or memcpy()s in other
-> patches) changes the machine code. It's not much of a change, but it
-> seems easier to justify "no binary changes" via the use of struct_group().
+> Yep.  The C11 spec says that struct holes are initialized.
 > 
-> If splitting the memset() is preferred, I can totally do that instead.
-> :)
+> https://lore.kernel.org/netdev/20200731140452.GE24045@ziepe.ca/
 
-I don't have a strong opinion about this. Lars, do you want to comment
-on this patch?
+This is, unfortunately, misleading. The frustrating key word is
+"partial" in "updated in C11 to require zero'ing padding when doing
+partial initialization of aggregates". If one initializes _all_ the
+struct members ... the padding doesn't get initialized. :( (And until
+recently, _trailing_ padding wasn't getting initialized even when other
+paddings were.)
 
-Thanks,
+I've tried to collect all the different ways the compiler might initialize
+a variable in this test:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/tree/lib/test_stackinit.c?h=for-next/kspp
 
-Bart.
+FWIW, there's no difference between -std=gnu99 and -std=c11, and the
+test shows that padding is _not_ universally initialized (unless your
+compiler supports -ftrivial-auto-var-init=zero, which Clang does, and
+GCC will shortly[1]). Running this with GCC 10.3.0, I see this...
+
+As expected, having no initializer leaves padding (as well as members)
+uninitialized:
+
+stackinit: small_hole_none FAIL (uninit bytes: 24)
+stackinit: big_hole_none FAIL (uninit bytes: 128)
+stackinit: trailing_hole_none FAIL (uninit bytes: 32)
+
+Here, "zero" means  "= { };" and they get padding initialized:
+
+stackinit: small_hole_zero ok
+stackinit: big_hole_zero ok
+stackinit: trailing_hole_zero ok
+
+Here, "static_partial" means "= { .one_member = 0 };", and
+"dynamic_partial" means "= { .one_member = some_variable };". These are
+similarly initialized:
+
+stackinit: small_hole_static_partial ok
+stackinit: big_hole_static_partial ok
+stackinit: trailing_hole_static_partial ok
+
+stackinit: small_hole_dynamic_partial ok
+stackinit: big_hole_dynamic_partial ok
+stackinit: trailing_hole_dynamic_partial ok
+
+But when _all_ members are initialized, the padding is _not_:
+
+stackinit: small_hole_static_all FAIL (uninit bytes: 3)
+stackinit: big_hole_static_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_static_all FAIL (uninit bytes: 7)
+
+stackinit: small_hole_dynamic_all FAIL (uninit bytes: 3)
+stackinit: big_hole_dynamic_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_dynamic_all FAIL (uninit bytes: 7)
+
+As expected, assigning to members outside of initialization leaves
+padding uninitialized:
+
+stackinit: small_hole_runtime_partial FAIL (uninit bytes: 23)
+stackinit: big_hole_runtime_partial FAIL (uninit bytes: 127)
+stackinit: trailing_hole_runtime_partial FAIL (uninit bytes: 24)
+
+stackinit: small_hole_runtime_all FAIL (uninit bytes: 3)
+stackinit: big_hole_runtime_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_runtime_all FAIL (uninit bytes: 7)
+
+> What doesn't initialize struct holes is assignments:
+> 
+> 	struct foo foo = *bar;
+
+Right. Object to object assignments do not clear padding:
+
+stackinit: small_hole_assigned_copy XFAIL (uninit bytes: 3)
+stackinit: big_hole_assigned_copy XFAIL (uninit bytes: 124)
+stackinit: trailing_hole_assigned_copy XFAIL (uninit bytes: 7)
+
+And whole-object assignments of cast initializers follow the pattern of
+basic initializers, which makes sense given the behavior of initializers
+and direct assignment tests above. e.g.:
+	obj = (type){ .member = ... };
+
+stackinit: small_hole_assigned_static_partial ok
+stackinit: small_hole_assigned_dynamic_partial ok
+stackinit: big_hole_assigned_dynamic_partial ok
+stackinit: big_hole_assigned_static_partial ok
+stackinit: trailing_hole_assigned_dynamic_partial ok
+stackinit: trailing_hole_assigned_static_partial ok
+
+stackinit: small_hole_assigned_static_all FAIL (uninit bytes: 3)
+stackinit: small_hole_assigned_dynamic_all FAIL (uninit bytes: 3)
+stackinit: big_hole_assigned_static_all FAIL (uninit bytes: 124)
+stackinit: big_hole_assigned_dynamic_all FAIL (uninit bytes: 124)
+stackinit: trailing_hole_assigned_dynamic_all FAIL (uninit bytes: 7)
+stackinit: trailing_hole_assigned_static_all FAIL (uninit bytes: 7)
+
+So, yeah, it's not very stable.
+
+-Kees
+
+[1] https://gcc.gnu.org/pipermail/gcc-patches/2021-July/576341.html
+
+-- 
+Kees Cook
