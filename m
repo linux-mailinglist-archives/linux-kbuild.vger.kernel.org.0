@@ -2,143 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D183DBBE3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 17:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C31C3DBC5F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 17:32:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239546AbhG3PQV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Jul 2021 11:16:21 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:34597 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239248AbhG3PQV (ORCPT
+        id S239566AbhG3PcW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Jul 2021 11:32:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239531AbhG3PcW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Jul 2021 11:16:21 -0400
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 16UFFxvG029442;
-        Sat, 31 Jul 2021 00:16:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 16UFFxvG029442
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627658160;
-        bh=rwXESo6Zwmg+wSRT6LqVZ2Q5mAY+xa2YCUP4gKaEPA0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t+XmJm/IJ7HTRTTYuc07Zz8yHH8uBUb85TrY/OcfMiLhbekNAni5sjb4KEbM6iRAE
-         86n06tGO1UJQFNtgLFQo5WdRiU+ZLSSBVvn1x6I1oMup+QA8FTvDa9OXMvCLNXsIFH
-         g2GcX7qrMeE9ZgE3+y0oXEwQXohARUPIvWBv1HB4jRuQMlrMkJ86J8M9Souu3OegsN
-         gpRsysAN/ofpWnhRcywOmNrh0uzgtyNFamthEV+lCXH3b/SvQo6MnfqansiTuwxZoa
-         LA+AP+N6Y5/OpWW1EhtxNbjbOIcKWnn+Pcd38VoIsHr/dNGVvXqb1xCnb3EUm5ygSb
-         8bjrLxNgw6W7A==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so14924608pjd.0;
-        Fri, 30 Jul 2021 08:16:00 -0700 (PDT)
-X-Gm-Message-State: AOAM530u5Q3KT+wGlPdTXeSzW6fX5XjXboaI2GpqGRKzfAA5UAC4eipF
-        1kSOg+s9+LV/9z1FZkchSwyro+SnMO88r/kOhTU=
-X-Google-Smtp-Source: ABdhPJwznfYYKIHMhFfOobcifveHJS6kvIDcdZfC3d9h4pw5yo52howVX3ihUf8nUjmN3pPjRmyHo9I5vji2VrqW6WU=
-X-Received: by 2002:aa7:8593:0:b029:32b:c173:cd96 with SMTP id
- w19-20020aa785930000b029032bc173cd96mr3341045pfn.63.1627658159170; Fri, 30
- Jul 2021 08:15:59 -0700 (PDT)
+        Fri, 30 Jul 2021 11:32:22 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DFAC0613CF
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 08:32:16 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id f12so12929880ljn.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 08:32:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
+        b=V0takgq4CkvNar1Q60JxHbTt1cqvFsAT2Ql1xCcWDlliF/9fK1Tk6u2NKjLJFi2NsP
+         OtAUbjW/Hk6YTr3ZTfouOa43d0DCv4/nxXOIFvMh2o9s/LUtXhmtgHgxqNBlfkoO+0Ox
+         d1GAjEOyAM0plTITbZ2w6WFa49Z5MRcmaq85CbQLNYZrVs9T1wQ8UUGFYid/G6OviM1d
+         OMFu6dCu79GrtbGkEZtfmLAS5L0sYxR0jmS86rEcpL2kD9pJaHk0tbVbZ7ZyxkbmW+U+
+         QcVQ4cI0n7yRxCSYVdO9PPaLX284Bky+u6/vpPnImSqzkgKcHLw7rJHQ0RyOSVMQVUfP
+         ZxKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
+        b=snZHkJOFfQH4INhTKFET21gC0GjOPZ68NUb4eNkgfNcQgM8YfyYT2djW58IEut9wsD
+         Z05RtV7BJDqK6mz0AWWdUTjqq+24HLpj98oE3vA2BZDy6nAzcrHVta0+IWUmbq+Q1MQ6
+         KVONoyrkxksZnvbRF57V/YMP7TSYFKs+EET5Zrc3sf9ZNO5IPbSWjgPndpfOqYGu5m1I
+         qi1rUHQJVV8DKcouHBX7rn4CIbuCuTDl/8ifnlDL9m4s4iC/jzSExQw6shAubssFn9E8
+         anQW0U9VYtFgQMsaCK+O7XO3OssUl5cvfrCb5YxV38gy6YMwKvy/dRYMABrDbiuO30He
+         wh5A==
+X-Gm-Message-State: AOAM5328QGStNUOpkkwOBeKWqtmfRxOIo0gb2cMUc9A1OEdxzjTRLv3H
+        RvOvJJyozc2ZAOJHAps5cRH5n4+4NnKwASMoHajYYA==
+X-Google-Smtp-Source: ABdhPJzhoAUM4a6+aRW2w5iC66nC+BulVEtoEK+XmW3hkTpBTQktpdSzzUsKFLM2RILR3UqcvgdkDUL260mhYjHoyJw=
+X-Received: by 2002:a2e:a911:: with SMTP id j17mr2005145ljq.341.1627659134322;
+ Fri, 30 Jul 2021 08:32:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210729165039.23896-1-ndesaulniers@google.com>
- <20210729165039.23896-3-ndesaulniers@google.com> <44117d0c-51b7-1f68-f752-ba53de503b14@kernel.org>
- <CAKwvOdm0xs4ikb0K0_b8Az0T=Kxu_-6AHjWHOhjsKZb3hTrH2A@mail.gmail.com>
-In-Reply-To: <CAKwvOdm0xs4ikb0K0_b8Az0T=Kxu_-6AHjWHOhjsKZb3hTrH2A@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 31 Jul 2021 00:15:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbbHosb7uB53HPo3BpdFH_g5YAKkn1ouL=ymHb5nkEXw@mail.gmail.com>
-Message-ID: <CAK7LNATbbHosb7uB53HPo3BpdFH_g5YAKkn1ouL=ymHb5nkEXw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
- CC=clang LLVM_IAS=1
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-49-keescook@chromium.org> <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+ <202107291845.1E1528D@keescook>
+In-Reply-To: <202107291845.1E1528D@keescook>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 30 Jul 2021 08:32:03 -0700
+Message-ID: <CAKwvOdn+G6y3_=YZgp51cL64XW=VGgt7C0Vt0ARZOkezPTn5WQ@mail.gmail.com>
+Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Bart Van Assche <bvanassche@acm.org>,
+        linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 30, 2021 at 9:19 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Jul 29, 2021 at 7:31 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Thu, Jul 29, 2021 at 2:00 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
+> > On 7/27/21 1:58 PM, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memset(), avoid intentionally writing across
+> > > neighboring fields.
+> > >
+> > > Add a struct_group() for the algs so that memset() can correctly reason
+> > > about the size.
+> > >
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > >   drivers/block/drbd/drbd_main.c     | 3 ++-
+> > >   drivers/block/drbd/drbd_protocol.h | 6 ++++--
+> > >   drivers/block/drbd/drbd_receiver.c | 3 ++-
+> > >   3 files changed, 8 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+> > > index 55234a558e98..b824679cfcb2 100644
+> > > --- a/drivers/block/drbd/drbd_main.c
+> > > +++ b/drivers/block/drbd/drbd_main.c
+> > > @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+> > >     cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+> > >     /* initialize verify_alg and csums_alg */
+> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+> > > +   memset(&p->algs, 0, sizeof(p->algs));
+> > >     if (get_ldev(peer_device->device)) {
+> > >             dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+> > > diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+> > > index dea59c92ecc1..a882b65ab5d2 100644
+> > > --- a/drivers/block/drbd/drbd_protocol.h
+> > > +++ b/drivers/block/drbd/drbd_protocol.h
+> > > @@ -283,8 +283,10 @@ struct p_rs_param_89 {
+> > >   struct p_rs_param_95 {
+> > >     u32 resync_rate;
+> > > -   char verify_alg[SHARED_SECRET_MAX];
+> > > -   char csums_alg[SHARED_SECRET_MAX];
+> > > +   struct_group(algs,
+> > > +           char verify_alg[SHARED_SECRET_MAX];
+> > > +           char csums_alg[SHARED_SECRET_MAX];
+> > > +   );
+> > >     u32 c_plan_ahead;
+> > >     u32 c_delay_target;
+> > >     u32 c_fill_target;
+> > > diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+> > > index 1f740e42e457..6df2539e215b 100644
+> > > --- a/drivers/block/drbd/drbd_receiver.c
+> > > +++ b/drivers/block/drbd/drbd_receiver.c
+> > > @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+> > >     /* initialize verify_alg and csums_alg */
+> > >     p = pi->data;
+> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+> > > +   memset(&p->algs, 0, sizeof(p->algs));
 > >
-> > While I understand that the LLVM=1 LLVM_IAS=1 case works perfectly fine
-> > with this series, I am of the belief that making it work for CC=clang
-> > LLVM_IAS=1 is a mistake because there is no way for that configuration
-> > to work for cross compiling without CROSS_COMPILE.
+> > Using struct_group() introduces complexity. Has it been considered not to
+> > modify struct p_rs_param_95 and instead to use two memset() calls instead of
+> > one (one memset() call per member)?
 >
-> So with v3 of this change, rather than:
+> I went this direction because using two memset()s (or memcpy()s in other
+> patches) changes the machine code. It's not much of a change, but it
+> seems easier to justify "no binary changes" via the use of struct_group().
 >
-> $ ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang -j72
->
-> If you wanted to omit CROSS_COMPILE, you'd need:
->
-> $ ARCH=arm64 make CC=clang LLVM_IAS=1 LD=ld.lld OBJCOPY=llvm-objcopy
-> STRIP=llvm-strip
->
-> or
->
-> $ ARCH=arm64 make CC=clang LLVM_IAS=1 LD=aarch64-linux-gnu-ld
-> OBJCOPY=aarch64-linux-gnu-objcopy STRIP=aarch64-linux-gnu-strip
+> If splitting the memset() is preferred, I can totally do that instead.
+> :)
 
-or
-
-  $ ARCH=arm64 make LLVM=1 LLVM_IAS=1
-
-still works.
-
-
-
-
-> That's straight up worse IMO and defeats the purpose of "shortening
-> the command line," which should be the goal.  Not "making CC=clang
-> maximally flexible."  We don't want folks generally using CC=clang;
-> preferably they'd use LLVM=1.  I need to rewrite our docs to make that
-> more explicit and straightforward.  And if folks would prefer to use
-> CC=clang for whatever reason, let them explicitly state CROSS_COMPILE
-> then.
->
-> So I agree with Nathan, and hope Masahiro will reconsider that perhaps
-> the v2 variant that required LLVM=1 maybe makes more sense.
-
-
-We can always infer the target triple from ARCH unless CROSS_COMPILE is given.
-
-Doing this all the time makes nothing wrong.
-
-"Whether CROSS_COMPILE is unneeded" is a different thing.
-
-
-
-> Either way, I need to fix the comment in the new script, commit
-> message, and docs, so v4 is necessary.
->
-> I'm tempted to add a rewrite of our docs to say "just use LLVM=1"
-> front and center, then get into finer grain details below, moving this
-> second patch to be the third in a series.  Let's see what Masahiro's
-> thoughts are though first. (I do appreciate them, even when I
-> disagree).
-
-
-I am not sure about that.
-
-LLVM=1 is a very strong all-or-nothing flag,
-but technically there is no reason to force it.
-
-(At least, target-tools and host-tools look
-independent to each other to me)
-
-
-When you send v4, one more request:
-Please drop LLVM_IAS=1 check as well.
+I'm not sure that compilers can fold memsets of adjacent members. It
+might not matter, but you could wrap these members in a _named_ struct
+then simply use assignment for optimal codegen.
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
