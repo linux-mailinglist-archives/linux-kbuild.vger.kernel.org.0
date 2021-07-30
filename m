@@ -2,113 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 273963DB32F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 08:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D259F3DB3E7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jul 2021 08:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237198AbhG3GGg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Jul 2021 02:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
+        id S237559AbhG3GvH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Jul 2021 02:51:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237048AbhG3GGc (ORCPT
+        with ESMTP id S237463AbhG3GvG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Jul 2021 02:06:32 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A497C0613CF
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 23:06:27 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id a4-20020a17090aa504b0290176a0d2b67aso19284042pjq.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Jul 2021 23:06:27 -0700 (PDT)
+        Fri, 30 Jul 2021 02:51:06 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9222C061765;
+        Thu, 29 Jul 2021 23:51:02 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id m13so10189885iol.7;
+        Thu, 29 Jul 2021 23:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IesK2FI21HpbnxZx4yJeBJ/OA9fhmSX4VPo4yVAWFag=;
-        b=lIobNunjbYmru1ujEnR+ElRxW3RY7/BL+bzrtIaGaicjd6cYbzyNY1lVt/hEDV779F
-         ZbrOHXHwsPMJf6lzaIv/KY1TAEbtjPhi+LJR8ecSGlZrEWDd72yogtD/8w5N5E0J8E/9
-         4yNGD3XauminhdNf7u1HJO8GfDs+8YlWTPmfI=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t11HKxEEH4asV/wZXTqt9J2Oni9bsKp96UbDJNXP4DE=;
+        b=aKIp6ToGQeADU6hv6MlwcrPSol1BzQUQs9GX42LLESv9E8jJ095bPtgdnQ0Fzf+x+b
+         1yX6Yw4wR8GVGcufOq4oDpF6tFNaxHFrwXQINBq28/V+VAoQ/lSl/9kbpcskxqN+mP/+
+         OBSP9OfRfi7fKoGGda7RGbmkUYdDpVEOM/BFPmJ1LIht+22HIdoSjkEeWVfmb9s/UcDA
+         oJUmHRIr0dfYxGaLDKTK7E9pV00xMkD/3RVLo+IVsRn/IHYRexYkfR7qsjg7pG0REDvc
+         OKTabGVA4ktuF5yx1DE+oz8Llp2YZwh0z0NtkvssKuJcC6HYdQgvqHj8DNMJkm973biG
+         IUaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IesK2FI21HpbnxZx4yJeBJ/OA9fhmSX4VPo4yVAWFag=;
-        b=J05j4YylhgMYxIOxcEn6iiJxQH3pWe/wMwB0Zf/svhXnS/TxLHQDTin3XETaSJ+mGP
-         RzFixDYTimsg244dOeqiBxEgTkkueb5RhsZ2SsnpyA9IecFoA4UCwfxmuGlUDoeFpeRF
-         VVwP5OcGZOTk2N0OpLqYrwbL9cXsqU3Dkn7Rzowdjbs4YeoOtaWua1++WbT2prcQpTvb
-         8jsxveudiR6mBa1W9+etIBGqoVs/O2zeKmoQ8XVuS2klUFzcM6rM61Vpd5FHAsk6e+q6
-         JbwdC0XUvRoNAxvZuzXkDPpVqdPtCQkwQG8o3f+0GTmwimQppH/8JO787lMtRo/AhHjH
-         WgIg==
-X-Gm-Message-State: AOAM530pQyNLg/cc8UFQnKdhF9aUez0gqJ0opqlDY8f0KHSRnRw5XVJn
-        oMCBrkTM2do5HI8qbWyL0QG8wQ==
-X-Google-Smtp-Source: ABdhPJzeUonVBgQ9NzzIA7kKbTvq5SBrLVxVHXebCyU1ipbT+iV0p67058qXEDQM1C04AViV+Ahtag==
-X-Received: by 2002:a17:902:aa89:b029:12c:17dc:43b0 with SMTP id d9-20020a170902aa89b029012c17dc43b0mr1167657plr.81.1627625186985;
-        Thu, 29 Jul 2021 23:06:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id nl2sm714675pjb.10.2021.07.29.23.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 23:06:26 -0700 (PDT)
-Date:   Thu, 29 Jul 2021 23:06:25 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     dsterba@suse.cz, Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
-Message-ID: <202107292305.DB86BAC@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-3-keescook@chromium.org>
- <20210728073556.GP1931@kadam>
- <20210728092323.GW5047@twin.jikos.cz>
- <202107281454.F96505E15@keescook>
- <20210729104547.GT5047@suse.cz>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t11HKxEEH4asV/wZXTqt9J2Oni9bsKp96UbDJNXP4DE=;
+        b=qUgCiYuxNKyR0g/bNNtyK3SEVkDttEgqotBacC8YwvUxAnpRzYf9xi33kHChAB5Nxq
+         NehKljiDR29Co2nYKqMuKYG8lU0QsL8k0MKP3wV53r5wo8ff9KY/IyruHqHTlZ0tPIIj
+         peUjqxdVqgMnDgeI+XAv2SwVCHQQOOAxbRz/1VKYIHjfkk/pMxielTuRGTyoQ4u3JVQ6
+         jiLTZh/EqxhEQiI7/RqT5JZ35Q2dBzRSyQF0+4zL2nRIPBp/tmPGvzIyHTjUY2uvNyVI
+         /3VvDD4tAIZIQqBdFHTk/7XU1fMC0739rR23KtLqN18JYNBMo073yeidXfBOAJfAVghJ
+         gKNg==
+X-Gm-Message-State: AOAM533m1dd8zlI+qbr9sRh/Yth1EqoHOUe5ecoxJQeIfDhZHD8NJIQ9
+        MPywAz0AsbpfwCww4Ot59HO9PbAIgNdRAtJpEet7kiV9
+X-Google-Smtp-Source: ABdhPJyOF5nkGh/vdzLEcEPiQt8GaA5L8wh8PI6zmY2VPiGoxjiKfolqJBFRP1sRzcl5wz98kTRuH3ENrb6h6Dd1qdY=
+X-Received: by 2002:a02:9508:: with SMTP id y8mr953957jah.28.1627627862194;
+ Thu, 29 Jul 2021 23:51:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210729104547.GT5047@suse.cz>
+References: <20210729165039.23896-1-ndesaulniers@google.com>
+ <20210729165039.23896-3-ndesaulniers@google.com> <44117d0c-51b7-1f68-f752-ba53de503b14@kernel.org>
+ <CAKwvOdm0xs4ikb0K0_b8Az0T=Kxu_-6AHjWHOhjsKZb3hTrH2A@mail.gmail.com>
+In-Reply-To: <CAKwvOdm0xs4ikb0K0_b8Az0T=Kxu_-6AHjWHOhjsKZb3hTrH2A@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 30 Jul 2021 08:50:51 +0200
+Message-ID: <CANiq72kya-9zeGN4uTqLMbAUMDGu-SQXRAwS9UTxceeObbN9yg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] Makefile: infer CROSS_COMPILE from SRCARCH for
+ CC=clang LLVM_IAS=1
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 29, 2021 at 12:45:47PM +0200, David Sterba wrote:
-> On Wed, Jul 28, 2021 at 02:54:52PM -0700, Kees Cook wrote:
-> > On Wed, Jul 28, 2021 at 11:23:23AM +0200, David Sterba wrote:
-> > > On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
-> > > > @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
-> > > >  			ieee80211_calculate_rx_timestamp(local, status,
-> > > >  							 mpdulen, 0),
-> > > >  			pos);
-> > > > -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > > > +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > > 
-> > > A drive-by comment, not related to the patchset, but rather the
-> > > ieee80211 driver itself.
-> > > 
-> > > Shift expressions with (1 << NUMBER) can be subtly broken once the
-> > > NUMBER is 31 and the value gets silently cast to a 64bit type. It will
-> > > become 0xfffffffff80000000.
-> > > 
-> > > I've checked the IEEE80211_RADIOTAP_* defintions if this is even remotely
-> > > possible and yes, IEEE80211_RADIOTAP_EXT == 31. Fortunatelly it seems to
-> > > be used with used with a 32bit types (eg. _bitmap_shifter) so there are
-> > > no surprises.
-> > > 
-> > > The recommended practice is to always use unsigned types for shifts, so
-> > > "1U << ..." at least.
-> > 
-> > Ah, good catch! I think just using BIT() is the right replacement here,
-> > yes? I suppose that should be a separate patch.
-> 
-> I found definition of BIT in vdso/bits.h, that does not sound like a
-> standard header, besides that it shifts 1UL, that may not be necessary
-> everywhere. IIRC there were objections against using the macro at all.
+On Fri, Jul 30, 2021 at 2:19 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> maximally flexible."  We don't want folks generally using CC=clang;
+> preferably they'd use LLVM=1.  I need to rewrite our docs to make that
+> more explicit and straightforward.  And if folks would prefer to use
+> CC=clang for whatever reason, let them explicitly state CROSS_COMPILE
+> then.
 
-3945ff37d2f4 ("linux/bits.h: Extract common header for vDSO") moved it
-there from linux/bits.h, and linux/bits.h now includes vdso/bits.h, so
-it is still ever-present. :)
+Perhaps it would be nice to clarify the "level of support" for
+`CC=clang` too, in particular long-term when `LLVM=1` works for all
+architectures.
 
--- 
-Kees Cook
+In other words, is `CC=clang` going to remain supported/maintained, or
+it will be something that will still compile/boot but not expected to
+be used by anyone in production, or dropped altogether (not the `CC`
+option itself, of course, I refer to the mix of toolchains)?
+
+Thanks,
+
+Cheers,
+Miguel
