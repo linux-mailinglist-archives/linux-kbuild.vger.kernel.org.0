@@ -2,136 +2,244 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 871323DC1C9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jul 2021 02:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A585F3DC2CE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jul 2021 04:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233932AbhGaAFO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Jul 2021 20:05:14 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:20051 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbhGaAFO (ORCPT
+        id S231862AbhGaC7N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Jul 2021 22:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231487AbhGaC7N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Jul 2021 20:05:14 -0400
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 16V04o9w005744;
-        Sat, 31 Jul 2021 09:04:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 16V04o9w005744
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627689890;
-        bh=XO3ecdCytMFhmXI+sVt8I48X3Jd15zuvVLJ4vZPyas0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=H1yPY+YPfUQ01M2XRLJMglDrCqcug8rVuWy+APGD6H0IQj0yd/NdoX6hMGf9yIVRH
-         +vComhJRTuS/uJLO5eCnglVb5WUa1T9h8GQcO/xjBC7np8IIjJ6BjI4K4ryfLwRsrp
-         Bbdalj8QqHjlo9M9X46nKAu4vW8+HFdkduqHOkz0yQ8dJsscxksSd2ioNU6ABFzf9q
-         GtrtUzzCXCVurF/ddab9yz5e1O9iO7KUvy7Do5xTpOyDVbxIttyZYuJg+7JCVQN+d+
-         q/lDllkt6x8l7a//9phhliVL9VJjQp0xPRtVsUPRApFh0jYnlc1LuJV1c/S9I1P8Q2
-         MXTbHBPzmKndg==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id mt6so17503757pjb.1;
-        Fri, 30 Jul 2021 17:04:50 -0700 (PDT)
-X-Gm-Message-State: AOAM531QSFMxqNoqoH2yGdkllYUnvdVLRdS0RNBhHNsZrtPy/ympGq4j
-        ntvINjI831MJxJEGF4M7HTnysnJECmhBAwnS5fQ=
-X-Google-Smtp-Source: ABdhPJzzzctnjQeCI7BUS4IXNjkkf0zh9IxcM0IO/qVAtGj+jU0IHnX3ud9zlDEyIE2o0XvWF8snAnlibiHuoyM5/o4=
-X-Received: by 2002:a65:498a:: with SMTP id r10mr136897pgs.7.1627689889645;
- Fri, 30 Jul 2021 17:04:49 -0700 (PDT)
+        Fri, 30 Jul 2021 22:59:13 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0156C0613D3
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 19:59:06 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id t3so11149312plg.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jul 2021 19:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9Aa9q+ZgPH94d4mui+MhDlRe9awiZiZZrbzXI3QwflQ=;
+        b=K/AnMh6xbreh13akr8KlRWX933KG/LVSiOukQOOU02w9zDvPcZa/3brhzVIyI/b/3I
+         8MwYX4XWyDe4L8DaHTAAOwEDtNaP6NmQ6MxmN2PhdWVt37y0G/ZLykupXyKWHjpiieLb
+         dX8vGbaeXhGoISkRuWXLfYmOV+Mfm2EZz2F7A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9Aa9q+ZgPH94d4mui+MhDlRe9awiZiZZrbzXI3QwflQ=;
+        b=V5r4t4EdrA6EE0mZxoQZKVZlAvZrCg5PNVpUn05EX2vD8DGFjA6i6CelQqr4N8rgYw
+         AkrRE438/bD69FMJACe1+v2zPxTtIHjFQ5BPUOB4292jHb279yXyTo60qqMVjEamm2bX
+         X3Kqkl7Q/E9VtDAv8+xl7viDkO+1GIBXgooIj7cYtX5RYwXiJTq+T1AYT/0PtFMm1nhT
+         bgzHBPnT40b31/gNd2KnJONDhrBfraHRjXTB3cdztz/ufB3dZLMrNK5W9cSaCPEYvVn5
+         KGD+9CDEsPeDI8aHdmDVe4u2Am2Geq/tDgDNl2S73tQHiwOAxuvsAWH1YN2pDEfaTRI2
+         djyA==
+X-Gm-Message-State: AOAM532UdEQqDMZQweVf/IPnrdi91fcLek81R4jZl1kqhk3D74eYxgKP
+        W74c3bdOUANCJXjiWYHQKwRaVg==
+X-Google-Smtp-Source: ABdhPJxTfKt3gvdchGd16NukW5boDEwoaheumkJt6I1FzMy8GwJfQpRQICiNX//vocu1zdwGzNo0jA==
+X-Received: by 2002:a63:5505:: with SMTP id j5mr1362082pgb.250.1627700346188;
+        Fri, 30 Jul 2021 19:59:06 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c7sm4280329pgq.22.2021.07.30.19.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 19:59:05 -0700 (PDT)
+Date:   Fri, 30 Jul 2021 19:59:04 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Williams, Dan J" <dan.j.williams@intel.com>
+Cc:     "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+        "keithpac@amazon.com" <keithpac@amazon.com>,
+        "clang-built-linux@googlegroups.com" 
+        <clang-built-linux@googlegroups.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+        "gustavoars@kernel.org" <gustavoars@kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+Subject: Re: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+Message-ID: <202107301952.B484563@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-5-keescook@chromium.org>
+ <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
+ <202107281456.1A3A5C18@keescook>
+ <1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com>
 MIME-Version: 1.0
-References: <20210730215708.276437-1-ndesaulniers@google.com>
- <20210730215708.276437-4-ndesaulniers@google.com> <20210730231252.r6fi6c3i6obbcgfi@google.com>
-In-Reply-To: <20210730231252.r6fi6c3i6obbcgfi@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 31 Jul 2021 09:04:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSpc8JBivPGFSvxMdgh6+emwav9YPmnygrdPkX-Q1a+A@mail.gmail.com>
-Message-ID: <CAK7LNASSpc8JBivPGFSvxMdgh6+emwav9YPmnygrdPkX-Q1a+A@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] Documentation/llvm: update CROSS_COMPILE inferencing
-To:     Fangrui Song <maskray@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 31, 2021 at 8:12 AM Fangrui Song <maskray@google.com> wrote:
->
-> On 2021-07-30, Nick Desaulniers wrote:
-> >As noted by Masahiro, document how we can generally infer CROSS_COMPILE
-> >(and the more specific details about --target and --prefix) based on
-> >ARCH.
-> >
-> >Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> >Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> >---
-> > Documentation/kbuild/llvm.rst | 17 +++++++++++++++++
-> > 1 file changed, 17 insertions(+)
-> >
-> >diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> >index b18401d2ba82..4292f0686316 100644
-> >--- a/Documentation/kbuild/llvm.rst
-> >+++ b/Documentation/kbuild/llvm.rst
-> >@@ -63,6 +63,23 @@ They can be enabled individually. The full list of the parameters: ::
-> > Currently, the integrated assembler is disabled by default. You can pass
-> > ``LLVM_IAS=1`` to enable it.
-> >
-> >+Omitting CROSS_COMPILE
-> >+----------------------
-> >+
-> >+As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-> >+
-> >+Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
-> >+``--prefix=<path>`` to search for the GNU assembler.
->
-> and the GNU linker.
->
-> Reviewed-by: Fangrui Song <maskray@google.com>
->
-> >+If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
-> >+from ``ARCH``.
-> >+
-> >+That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
-> >+
-> >+For example, to cross-compile the arm64 kernel::
-> >+
-> >+      ARCH=arm64 make LLVM=1 LLVM_IAS=1
->
-> Is  ARCH=arm64 make LLVM=1 LLVM_IAS=1
->
-> preferred over
->
->    make ARCH=arm64 LLVM=1 LLVM_IAS=1
->
-> ?
+On Fri, Jul 30, 2021 at 10:19:20PM +0000, Williams, Dan J wrote:
+> On Wed, 2021-07-28 at 14:59 -0700, Kees Cook wrote:
+> > On Wed, Jul 28, 2021 at 12:54:18PM +0200, Rasmus Villemoes wrote:
+> > > On 27/07/2021 22.57, Kees Cook wrote:
+> > > 
+> > > > In order to have a regular programmatic way to describe a struct
+> > > > region that can be used for references and sizing, can be examined for
+> > > > bounds checking, avoids forcing the use of intermediate identifiers,
+> > > > and avoids polluting the global namespace, introduce the struct_group()
+> > > > macro. This macro wraps the member declarations to create an anonymous
+> > > > union of an anonymous struct (no intermediate name) and a named struct
+> > > > (for references and sizing):
+> > > > 
+> > > >         struct foo {
+> > > >                 int one;
+> > > >                 struct_group(thing,
+> > > >                         int two,
+> > > >                         int three,
+> > > >                 );
+> > > >                 int four;
+> > > >         };
+> > > 
+> > > That example won't compile, the commas after two and three should be
+> > > semicolons.
+> > 
+> > Oops, yes, thanks. This is why I shouldn't write code that doesn't first
+> > go through a compiler. ;)
+> > 
+> > > And your implementation relies on MEMBERS not containing any comma
+> > > tokens, but as
+> > > 
+> > >   int a, b, c, d;
+> > > 
+> > > is a valid way to declare multiple members, consider making MEMBERS
+> > > variadic
+> > > 
+> > > #define struct_group(NAME, MEMBERS...)
+> > > 
+> > > to have it slurp up every subsequent argument and make that work.
+> > 
+> > Ah! Perfect, thank you. I totally forgot I could do it that way.
+> 
+> This is great Kees. It just so happens it would clean-up what we are
+> already doing in drivers/cxl/cxl.h for anonymous + named register block
+> pointers. However in the cxl case it also needs the named structure to
+> be typed. Any appetite for a typed version of this?
 
+Oh cool! Yeah, totally I can expand it. Thanks for the suggestion!
 
-I do not think so.
+> 
+> Here is a rough idea of the cleanup it would induce in drivers/cxl/:
+> 
+> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
+> index 53927f9fa77e..a2308c995654 100644
+> --- a/drivers/cxl/cxl.h
+> +++ b/drivers/cxl/cxl.h
+> @@ -75,52 +75,19 @@ static inline int cxl_hdm_decoder_count(u32 cap_hdr)
+>  #define CXLDEV_MBOX_BG_CMD_STATUS_OFFSET 0x18
+>  #define CXLDEV_MBOX_PAYLOAD_OFFSET 0x20
+>  
+> -#define CXL_COMPONENT_REGS() \
+> -       void __iomem *hdm_decoder
+> -
+> -#define CXL_DEVICE_REGS() \
+> -       void __iomem *status; \
+> -       void __iomem *mbox; \
+> -       void __iomem *memdev
+> -
+> -/* See note for 'struct cxl_regs' for the rationale of this organization */
+>  /*
+> - * CXL_COMPONENT_REGS - Common set of CXL Component register block base pointers
+>   * @hdm_decoder: CXL 2.0 8.2.5.12 CXL HDM Decoder Capability Structure
+> - */
+> -struct cxl_component_regs {
+> -       CXL_COMPONENT_REGS();
+> -};
+> -
+> -/* See note for 'struct cxl_regs' for the rationale of this organization */
+> -/*
+> - * CXL_DEVICE_REGS - Common set of CXL Device register block base pointers
+>   * @status: CXL 2.0 8.2.8.3 Device Status Registers
+>   * @mbox: CXL 2.0 8.2.8.4 Mailbox Registers
+>   * @memdev: CXL 2.0 8.2.8.5 Memory Device Registers
+>   */
+> -struct cxl_device_regs {
+> -       CXL_DEVICE_REGS();
+> -};
+> -
+> -/*
+> - * Note, the anonymous union organization allows for per
+> - * register-block-type helper routines, without requiring block-type
+> - * agnostic code to include the prefix.
+> - */
+>  struct cxl_regs {
+> -       union {
+> -               struct {
+> -                       CXL_COMPONENT_REGS();
+> -               };
+> -               struct cxl_component_regs component;
+> -       };
+> -       union {
+> -               struct {
+> -                       CXL_DEVICE_REGS();
+> -               };
+> -               struct cxl_device_regs device_regs;
+> -       };
+> +       struct_group_typed(cxl_component_regs, component,
+> +               void __iomem *hdm_decoder;
+> +       );
+> +       struct_group_typed(cxl_device_regs, device_regs,
+> +               void __iomem *status, *mbox, *memdev;
+> +       );
+>  };
+>  
+>  struct cxl_reg_map {
+> diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+> index cf7f866944f9..84b7de24ffb5 100644
+> --- a/include/linux/stddef.h
+> +++ b/include/linux/stddef.h
+> @@ -49,12 +49,18 @@ enum {
+>   * @ATTRS: Any struct attributes (normally empty)
+>   * @MEMBERS: The member declarations for the mirrored structs
+>   */
+> -#define struct_group_attr(NAME, ATTRS, MEMBERS) \
+> +#define struct_group_attr(NAME, ATTRS, MEMBERS...) \
+>         union { \
+>                 struct { MEMBERS } ATTRS; \
+>                 struct { MEMBERS } ATTRS NAME; \
+>         }
+>  
+> +#define struct_group_attr_typed(TYPE, NAME, ATTRS, MEMBERS...) \
+> +       union { \
+> +               struct { MEMBERS } ATTRS; \
+> +               struct TYPE { MEMBERS } ATTRS NAME; \
+> +       }
+> +
+>  /**
+>   * struct_group(NAME, MEMBERS)
+>   *
+> @@ -67,7 +73,10 @@ enum {
+>   * @NAME: The name of the mirrored sub-struct
+>   * @MEMBERS: The member declarations for the mirrored structs
+>   */
+> -#define struct_group(NAME, MEMBERS)    \
+> +#define struct_group(NAME, MEMBERS...) \
+>         struct_group_attr(NAME, /* no attrs */, MEMBERS)
+>  
+> +#define struct_group_typed(TYPE, NAME, MEMBERS...) \
+> +       struct_group_attr_typed(TYPE, NAME, /* no attrs */, MEMBERS)
+> +
+>  #endif
 
-For consistency,
+Awesome! My instinct is to expose the resulting API as:
 
-   make ARCH=arm64 LLVM=1 LLVM_IAS=1
+__struct_group(type, name, attrs, members...)
 
-or
-
-   ARCH=arm64 LLVM=1 LLVM_IAS=1 make
-
-might be preferred.
-
-
-
-But, in the same doc, I see an example, which
-mixes up the env variables and a make variable.
-
-     ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-
-
-
+struct_group(name, members...)
+struct_group_attr(name, attrs, members...)
+struct_group_typed(type, name, members...)
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
