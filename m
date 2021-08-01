@@ -2,134 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4993E3DC6D4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jul 2021 18:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ABFA3DC94C
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Aug 2021 03:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbhGaQH1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Jul 2021 12:07:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbhGaQH1 (ORCPT
+        id S229505AbhHABw2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Jul 2021 21:52:28 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:40211 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229467AbhHABw2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Jul 2021 12:07:27 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB8BC0613D5
-        for <linux-kbuild@vger.kernel.org>; Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id b1-20020a17090a8001b029017700de3903so14772387pjn.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
-        b=lc3SluDT+VZvarfeA7YUQ+oIQyL3uD2Z7hSTADjmM2kuDJ5T/bSknB1khTprf/Zj/I
-         YvlsAuu9r/jHXiXqyD3z8zhKwH4ooNWa4LIIdQvmGuLPJueYeZeOw5yfOtR6w3Orfayu
-         X7UGIW0SSl68z771c65kEZubBaVOTEMEImtIs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
-        b=Q5WiYq9HCA+4C5m67GIw10YV5C3NDQZT5vHgQfsgeIA/Y79PMEkXwQ17BbddtS9Zet
-         EGo1v59oJyb0QrUOK5t3NE+VPiWwPnmvqnWmknUTDwgioRScO0x6fY90oRxTnN0C7uKY
-         NXTM+asqKGCGWK7XYZ/G4BN34aPY6S41DUCQ/q8tXIc3Nev2XqY0DcnLSq6lR4kyrH5J
-         kfdfSDGha6oiau1nHyLp3127q4dRymuBot9cyWF0J+BfIVhmXtFAjhSETXJaiP5gRCG0
-         4+uUMpXUIPVWOcKEpSgpQsf7mNwMSh7zBebhj3lNU3QV0RrxCBKg9z9tygru4FUAmZLu
-         KydQ==
-X-Gm-Message-State: AOAM531P+1emli0MZI9KxIYR1egVM+9vTzbfBf0p1htD9yu9Vi3CGhEh
-        oT24hL4fRf4lnI4dD5iN+WqsJw==
-X-Google-Smtp-Source: ABdhPJzpVI9jyF73pL9aDmEauVhp5KKsoZrePmncq7sudEDatHwHMUSxgLnUds0Mz6ecfWmvyvBGPw==
-X-Received: by 2002:a63:f145:: with SMTP id o5mr1713333pgk.273.1627747639422;
-        Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x19sm6346863pfa.104.2021.07.31.09.07.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 09:07:18 -0700 (PDT)
-Date:   Sat, 31 Jul 2021 09:07:17 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Ariel Elior <aelior@marvell.com>, GR-everest-linux-l2@marvell.com
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
-Message-ID: <202107310901.CB470B8C9D@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-43-keescook@chromium.org>
+        Sat, 31 Jul 2021 21:52:28 -0400
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 1711puNi002999;
+        Sun, 1 Aug 2021 10:51:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1711puNi002999
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1627782716;
+        bh=M5f/2kndTytHogm4WHgQP0Blzx9K5vnQCqPWGcEGwmE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=w3FfOnbS+IPxq8HoyJoJ9V8rM0AUOweW9OJ+CFBjeCr61yYvCtz7QZ4NvAviGliK1
+         aGgLnYKQtOb2VSNy77TaZUJ1k4AnxNhrPE6whkqluClEv16VuqcfhwxLRUa7vhYfuR
+         obLP1nkoIyftp5v6vvFSE+aUCSeqfm3eWA94+0LZVfCwsqvfAhBvmVun/tHvWUZ0cv
+         u09M/QU6u/aDfXzI700RUw+8mfXrtxHF3/QBFAEccJih0xITxL4HkjhwlgFZSluwbo
+         375YCCuBu7RKKWCEHe/MYY8FTb68XTBQuN67a7EvVNF1k5eMmYMwml1eCuCY5rgYMZ
+         DRLPWK3tjFpiw==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id k1so15604903plt.12;
+        Sat, 31 Jul 2021 18:51:56 -0700 (PDT)
+X-Gm-Message-State: AOAM530Ui5J+Tmqrtm2Q4aa4+6ZoIatRxCqi3gTgE9hcrTwe0CwdX6M7
+        G8RL0oZv5C8Wq+EGin5MN6vJevV8/sq31rQzuY8=
+X-Google-Smtp-Source: ABdhPJz80HC6FFlYZHaaFK0XdqpPVcMGh4a0lxknOqUcsH4HDxXQQLohYlF+x+T3GgUS6t6+B+v0vOyzTkETBw+WkqU=
+X-Received: by 2002:a65:498a:: with SMTP id r10mr1413214pgs.7.1627782715691;
+ Sat, 31 Jul 2021 18:51:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-43-keescook@chromium.org>
+References: <20201202151238.3776616-1-maennich@google.com> <CAF2Aj3jS6+RN5mEeF+65MRsyMR9BMecMmxwr3sfjwd64zA6Acw@mail.gmail.com>
+ <CAF2Aj3hWWoQvezD4Ma01LrhUwGLobNk40H9ArvjT5+XeNE3vMw@mail.gmail.com>
+ <CAK7LNATRc4kJ9vvC1Y6xt88t8w-qKjdZMg_tK+9nZqHqa4bX_g@mail.gmail.com> <CAF2Aj3hS0kxrnf+kePWmYAT3A-+PTVQ7_6yWj1nO8BLjwGZGQg@mail.gmail.com>
+In-Reply-To: <CAF2Aj3hS0kxrnf+kePWmYAT3A-+PTVQ7_6yWj1nO8BLjwGZGQg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 1 Aug 2021 10:51:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
+Message-ID: <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
+Subject: Re: [PATCH] scripts: merge_config: add strict mode to fail upon any redefinition
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Matthias Maennich <maennich@google.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
-> 
-> Use memset_after() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct.
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> The old code seems to be doing the wrong thing: starting from not the
-> first member, but sized for the whole struct. Which is correct?
+On Mon, Jul 26, 2021 at 8:01 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Sat, 24 Jul 2021, 14:57 Masahiro Yamada, <masahiroy@kernel.org> wrote:
+>>
+>> On Thu, Jul 22, 2021 at 7:13 PM Lee Jones <lee.jones@linaro.org> wrote:
+>> >
+>> > Masahiro,
+>> >
+>> > On Fri, 21 May 2021 at 10:29, Lee Jones <lee.jones@linaro.org> wrote:
+>> >>
+>> >> On Wed, 2 Dec 2020 at 15:13, Matthias Maennich <maennich@google.com> wrote:
+>> >>>
+>> >>> When merging configuration fragments, it might be of interest to
+>> >>> identify mismatches (redefinitions) programmatically. Hence add the
+>> >>> option -s (strict mode) to instruct merge_config.sh to bail out in
+>> >>> case any redefinition has been detected.
+>> >>>
+>> >>> With strict mode, warnings are emitted as before, but the script
+>> >>> terminates with rc=1. If -y is set to define "builtin having
+>> >>> precedence over modules", fragments are still allowed to set =m (while
+>> >>> the base config has =y). Strict mode will tolerate that as demotions
+>> >>> from =y to =m are ignored when setting -y.
+>> >>>
+>> >>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>> >>> Signed-off-by: Matthias Maennich <maennich@google.com>
+>> >>> ---
+>> >>>  scripts/kconfig/merge_config.sh | 15 +++++++++++++++
+>> >>>  1 file changed, 15 insertions(+)
+>> >>
+>> >>
+>> >> Reviewed-by: Lee Jones <lee.jones@linaro.org>
+>> >
+>> >
+>> > Any idea what's holding this up please?
+>>
+>> Simply because I hate this script.
+>>
+>>
+>> merge_config.sh itself is a bad hack.
+>> I do not like to extend it further.
+>
+>
+> Sorry you feel that way Masahiro.
 
-Quick ping on this question.
 
-The old code seems to be doing the wrong thing: it starts from the second
-member and writes beyond int_info, clobbering qede_lock:
+I do not know why merge_config was implemented as
+a separate shell script while all the other
+functions were contained in the kconfig binary.
 
-struct qede_dev {
-        ...
-        struct qed_int_info             int_info;
-
-        /* Smaller private variant of the RTNL lock */
-        struct mutex                    qede_lock;
-        ...
+Anyway...
 
 
-struct qed_int_info {
-        struct msix_entry       *msix;
-        u8                      msix_cnt;
+>> Not only this one.
+>> I saw more people with
+>> "hey, I came up with a new option for merge_config.sh"
+>> to do whatever they like to do.
+>>
+>> However, it might be too late anyway.
+>>
+>>
+>> So, I can merge this patch if people believe
+>> it is useful.
+>
+>
+> I know of multiple entities who make good use of the script and this extension.
+>
+> My vote is to merge it, but ultimately this is your train set.
 
-        /* This should be updated by the protocol driver */
-        u8                      used_cnt;
-};
 
-Should this also clear the "msix" member, or should this not write
-beyond int_info? This patch does the latter.
+OK, I decided to not care about it too much.
 
--Kees
+Now applied to linux-kbuild. Thanks.
 
-> ---
->  drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> index 01ac1e93d27a..309dfe8c94fb 100644
-> --- a/drivers/net/ethernet/qlogic/qede/qede_main.c
-> +++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> @@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
->  	goto out;
->  err4:
->  	qede_sync_free_irqs(edev);
-> -	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
-> +	memset_after(&edev->int_info, 0, msix);
->  err3:
->  	qede_napi_disable_remove(edev);
->  err2:
-> -- 
-> 2.30.2
-> 
+
+
 
 -- 
-Kees Cook
+Best Regards
+Masahiro Yamada
