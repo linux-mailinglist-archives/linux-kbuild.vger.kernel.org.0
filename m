@@ -2,134 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ABFA3DC94C
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Aug 2021 03:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBEF53DC95E
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Aug 2021 04:56:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbhHABw2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 31 Jul 2021 21:52:28 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:40211 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229467AbhHABw2 (ORCPT
+        id S229505AbhHAC4O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Jul 2021 22:56:14 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:35472 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231294AbhHACyP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 31 Jul 2021 21:52:28 -0400
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 1711puNi002999;
-        Sun, 1 Aug 2021 10:51:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1711puNi002999
+        Sat, 31 Jul 2021 22:54:15 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 1712rmh9026849;
+        Sun, 1 Aug 2021 11:53:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 1712rmh9026849
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1627782716;
-        bh=M5f/2kndTytHogm4WHgQP0Blzx9K5vnQCqPWGcEGwmE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=w3FfOnbS+IPxq8HoyJoJ9V8rM0AUOweW9OJ+CFBjeCr61yYvCtz7QZ4NvAviGliK1
-         aGgLnYKQtOb2VSNy77TaZUJ1k4AnxNhrPE6whkqluClEv16VuqcfhwxLRUa7vhYfuR
-         obLP1nkoIyftp5v6vvFSE+aUCSeqfm3eWA94+0LZVfCwsqvfAhBvmVun/tHvWUZ0cv
-         u09M/QU6u/aDfXzI700RUw+8mfXrtxHF3/QBFAEccJih0xITxL4HkjhwlgFZSluwbo
-         375YCCuBu7RKKWCEHe/MYY8FTb68XTBQuN67a7EvVNF1k5eMmYMwml1eCuCY5rgYMZ
-         DRLPWK3tjFpiw==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id k1so15604903plt.12;
-        Sat, 31 Jul 2021 18:51:56 -0700 (PDT)
-X-Gm-Message-State: AOAM530Ui5J+Tmqrtm2Q4aa4+6ZoIatRxCqi3gTgE9hcrTwe0CwdX6M7
-        G8RL0oZv5C8Wq+EGin5MN6vJevV8/sq31rQzuY8=
-X-Google-Smtp-Source: ABdhPJz80HC6FFlYZHaaFK0XdqpPVcMGh4a0lxknOqUcsH4HDxXQQLohYlF+x+T3GgUS6t6+B+v0vOyzTkETBw+WkqU=
-X-Received: by 2002:a65:498a:: with SMTP id r10mr1413214pgs.7.1627782715691;
- Sat, 31 Jul 2021 18:51:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201202151238.3776616-1-maennich@google.com> <CAF2Aj3jS6+RN5mEeF+65MRsyMR9BMecMmxwr3sfjwd64zA6Acw@mail.gmail.com>
- <CAF2Aj3hWWoQvezD4Ma01LrhUwGLobNk40H9ArvjT5+XeNE3vMw@mail.gmail.com>
- <CAK7LNATRc4kJ9vvC1Y6xt88t8w-qKjdZMg_tK+9nZqHqa4bX_g@mail.gmail.com> <CAF2Aj3hS0kxrnf+kePWmYAT3A-+PTVQ7_6yWj1nO8BLjwGZGQg@mail.gmail.com>
-In-Reply-To: <CAF2Aj3hS0kxrnf+kePWmYAT3A-+PTVQ7_6yWj1nO8BLjwGZGQg@mail.gmail.com>
+        s=dec2015msa; t=1627786429;
+        bh=THjjh/MBwu064N8PkuAcVIKWQNUJvheL3ECQMRV6TXY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UJHptJ/kaKMT3uyJLtLPf+FssuOTtM1kiCjqkAKJPPGpHL3M5/7RK5m+BDVGgHolC
+         97D7tjP5b45A+13Y4u1mL6oxFZX6BNPTx/4fNFCxs3/sj/beTLEZx4DAxUkahl18wV
+         pdgoEEVPc1l2mzGIoWUlFA4Ee8ZQCyoZ4wMpe9xjpLRap+9l/3C/aBEK9Pjc/swEeS
+         LukERFhly3jl16O7Z5tMODZLBtbvjaRvqbB5mpj7LRcZmkLRE+qL8Y+7/Jh52n4e6F
+         PR9Xxbj0pfo5sJ+dxpyoOOzfZyUw4CB3u9/Be6z7mUltIlXilmueKrTn2N+3DbF6X8
+         6T9ewVL+TVKQw==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 1 Aug 2021 10:51:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
-Message-ID: <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
-Subject: Re: [PATCH] scripts: merge_config: add strict mode to fail upon any redefinition
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: warn if a different compiler is used for external module builds
+Date:   Sun,  1 Aug 2021 11:53:46 +0900
+Message-Id: <20210801025346.93877-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 26, 2021 at 8:01 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> On Sat, 24 Jul 2021, 14:57 Masahiro Yamada, <masahiroy@kernel.org> wrote:
->>
->> On Thu, Jul 22, 2021 at 7:13 PM Lee Jones <lee.jones@linaro.org> wrote:
->> >
->> > Masahiro,
->> >
->> > On Fri, 21 May 2021 at 10:29, Lee Jones <lee.jones@linaro.org> wrote:
->> >>
->> >> On Wed, 2 Dec 2020 at 15:13, Matthias Maennich <maennich@google.com> wrote:
->> >>>
->> >>> When merging configuration fragments, it might be of interest to
->> >>> identify mismatches (redefinitions) programmatically. Hence add the
->> >>> option -s (strict mode) to instruct merge_config.sh to bail out in
->> >>> case any redefinition has been detected.
->> >>>
->> >>> With strict mode, warnings are emitted as before, but the script
->> >>> terminates with rc=1. If -y is set to define "builtin having
->> >>> precedence over modules", fragments are still allowed to set =m (while
->> >>> the base config has =y). Strict mode will tolerate that as demotions
->> >>> from =y to =m are ignored when setting -y.
->> >>>
->> >>> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> >>> Signed-off-by: Matthias Maennich <maennich@google.com>
->> >>> ---
->> >>>  scripts/kconfig/merge_config.sh | 15 +++++++++++++++
->> >>>  1 file changed, 15 insertions(+)
->> >>
->> >>
->> >> Reviewed-by: Lee Jones <lee.jones@linaro.org>
->> >
->> >
->> > Any idea what's holding this up please?
->>
->> Simply because I hate this script.
->>
->>
->> merge_config.sh itself is a bad hack.
->> I do not like to extend it further.
->
->
-> Sorry you feel that way Masahiro.
+It is always safe to use the same compiler for the kernel and external
+modules, but in reality, some distributions such as Fedora release a
+different version of GCC from the one used for building the kernel.
 
+There was a long discussion about mixing different compilers [1].
 
-I do not know why merge_config was implemented as
-a separate shell script while all the other
-functions were contained in the kconfig binary.
+I do not repeat it here, but at least, showing a heads up in that
+case is better than nothing.
 
-Anyway...
+Linus suggested [2]:
+  And a warning might be more palatable even if different compiler
+  version work fine together. Just a heads up on "it looks like you
+  might be mixing compiler versions" is a valid note, and isn't
+  necessarily wrong. Even when they work well together, maybe you want
+  to have people at least _aware_ of it.
 
+This commit shows a warning unless the compiler is exactly the same.
 
->> Not only this one.
->> I saw more people with
->> "hey, I came up with a new option for merge_config.sh"
->> to do whatever they like to do.
->>
->> However, it might be too late anyway.
->>
->>
->> So, I can merge this patch if people believe
->> it is useful.
->
->
-> I know of multiple entities who make good use of the script and this extension.
->
-> My vote is to merge it, but ultimately this is your train set.
+  warning: the compiler differs from the one used to build the kernel
+    The kernel was built by: gcc (GCC) 11.1.1 20210531 (Red Hat 11.1.1-3)
+    You are using:           gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1)
 
+Check the difference, and if it is OK with you, please proceed at your
+risk.
 
-OK, I decided to not care about it too much.
+To avoid the locale issue as in commit bcbcf50f5218 ("kbuild: fix
+ld-version.sh to not be affected by locale"), pass LC_ALL=C to
+"$(CC) --version".
 
-Now applied to linux-kbuild. Thanks.
+[1] https://lore.kernel.org/linux-hardening/efe6b039a544da8215d5e54aa7c4b6d1986fc2b0.1611607264.git.jpoimboe@redhat.com/
+[2] https://lore.kernel.org/lkml/CAHk-=wgjwhDy-y4mQh34L+2aF=n6BjzHdqAW2=8wri5x7O04pA@mail.gmail.com/
 
+Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-
+diff --git a/Makefile b/Makefile
+index 6b555f64df06..f4cc77a10413 100644
+--- a/Makefile
++++ b/Makefile
+@@ -583,7 +583,7 @@ endif
+ # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
+ # CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
+ # and from include/config/auto.conf.cmd to detect the compiler upgrade.
+-CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -n 1))
++CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
+ 
+ ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+ ifneq ($(CROSS_COMPILE),)
+@@ -1731,6 +1731,16 @@ clean-dirs := $(KBUILD_EXTMOD)
+ clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps \
+ 	$(KBUILD_EXTMOD)/compile_commands.json $(KBUILD_EXTMOD)/.thinlto-cache
+ 
++PHONY += prepare
++# now expand this into a simple variable to reduce the cost of shell evaluations
++prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
++prepare:
++	@if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then \
++		echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
++		echo >&2 "  The kernel was built by: "$(CONFIG_CC_VERSION_TEXT); \
++		echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
++	fi
++
+ PHONY += help
+ help:
+ 	@echo  '  Building external modules.'
+@@ -1742,7 +1752,7 @@ help:
+ 	@echo  ''
+ 
+ # no-op for external module builds
+-PHONY += prepare modules_prepare
++PHONY += modules_prepare
+ 
+ endif # KBUILD_EXTMOD
+ 
 -- 
-Best Regards
-Masahiro Yamada
+2.27.0
+
