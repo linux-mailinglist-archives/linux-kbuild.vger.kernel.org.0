@@ -2,185 +2,188 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D1EB3DE154
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 23:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0B513DE32F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Aug 2021 01:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232428AbhHBVS6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Aug 2021 17:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
+        id S232400AbhHBXnZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Aug 2021 19:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232060AbhHBVS4 (ORCPT
+        with ESMTP id S232208AbhHBXnY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Aug 2021 17:18:56 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16CEC061760
-        for <linux-kbuild@vger.kernel.org>; Mon,  2 Aug 2021 14:18:46 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id h9so25631951ljq.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Aug 2021 14:18:46 -0700 (PDT)
+        Mon, 2 Aug 2021 19:43:24 -0400
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95911C0613D5
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Aug 2021 16:43:13 -0700 (PDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id hf7-20020a0562140e87b02902dc988b8675so14200583qvb.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Aug 2021 16:43:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Z9yRMRPvPvhNhspEK5nK4+ikbIcB7z17ForMSSXLIM=;
-        b=kXYzxNBoPnSs60tSumVikXkgLSMYmd8MP0QG9/neTn5fMj+4x9WawziIkd++CZ5Qlt
-         LECxLgnwPznfHsA5PWYTAUZcwobBzWh80Tt4aQXaaleOkLjYK0Mq8RzPk9nZGdeDgm7R
-         lkW3sfjIbPL7zqRIDSArn2AXnywcz5L+8EHVNZ3jIkshvWrqL3H+IKcB9RiEbL5S1rgk
-         5cMPRVE4Hi0IN3Sgbpol4+Risi2OaHtQSi4Iv/bPa8vkqp9Jm21EP5vhwyGCaQIHI9UQ
-         eR4HDqRpIYqeWX7Py7Bjt5DgbZkzxHEN9++aKaW38yML2aT/Cmg3hJDrK+U5vy1nsObC
-         c+BA==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=yy9pyQojvK7Hdmo6VGo2Lui7HtlFWMn7Zh2eGYLAN30=;
+        b=UH3CUy9t8ryrDG4F3pv3TetQOMIQtKV6Y2LYsFhy+ponF7FuzwIOeDtuKfPCeNRPz7
+         qHv8bicgNi2Ms3bIMqrwpY0Md+goVKT37gdnPhhc2+yX4vG/W+X5cyUIn/dkmk2cLyF0
+         MRdcgQAGixOudrNX42SWMNzXoN/NtEIZjLBCDQl4+oKI8Pl+WlHKMJloWVrWpXB5Vm7P
+         Ssr1i3ElcLtqhCrLJGNmyjpeEgyd+YFIKF+sgrp6IBqZg7VKnHjNmygADAV0uwUssdse
+         Gi6DioUPgJIJ+D58vtaUZ8bRm/0K+LhPuz3XJtLMDhzu/CXC+QDLi2/WPpwFQ0LZjaMX
+         rd9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Z9yRMRPvPvhNhspEK5nK4+ikbIcB7z17ForMSSXLIM=;
-        b=MZWeCaYkgpEZ1YAlgNP1cHGCCmAplunvGmsfvRft6mxAuyowgjk4nPWxWeCyQbmOu7
-         YAeuZtM+pdl+SiePEq70V5Ok0Z7bbBu2e15ayIB/ounQq2BwQtqy/1ydZkCi89PYlr4+
-         leVtoGqWlW3auOE8WgFSBDd1G4YGk9/ZIVkxP/51ghtObL5UBUy1wuUBxT+6upoaA2vb
-         yP8vMP5PWImoBK5xeRrzcC6Ze7vUDxIdoDxbrQORh7IvdOvA167ZsQsjCrUflM6BOwTs
-         QDXFo0XKQJvA6XGBIzZEmrpnoCV2mKvyY6o7fvQjwi/hPxFLI3YwgMO9KHAB3zTh6daB
-         sJJQ==
-X-Gm-Message-State: AOAM530Hdj/xP5g+hkHijVR9nyBG8g2/PQN373ExMpS6rFiPuwlIJM9n
-        Zib4XtGwGTdx28s7fh8befi38Qb+7ocCELpupZnJmedw+fhnEg==
-X-Google-Smtp-Source: ABdhPJwhxcINA21tw/Nuh+g4OW6UTFPkym/AwtBxtV+7RU8HofOMbVlwuzsG1pckNPkn3uhcMoULO3vL7zZPoqOBHDA=
-X-Received: by 2002:a2e:9304:: with SMTP id e4mr12467173ljh.244.1627939124801;
- Mon, 02 Aug 2021 14:18:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210802210307.3202472-1-nathan@kernel.org>
-In-Reply-To: <20210802210307.3202472-1-nathan@kernel.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=yy9pyQojvK7Hdmo6VGo2Lui7HtlFWMn7Zh2eGYLAN30=;
+        b=ae7CkR41KKKlMuxKLYsne32LjPk7cI3XngfDuOta2WS0MwGePUFjJs/sMq8waf9Smd
+         /8SQMqNFQ089tMEcN5kH1o2mr8Av7trFjhuKluzOf1uIn3WtSKhC40JP8pBH2f5+fuX/
+         yVgdiywzRFmZdwv1BbchEqTl1hmis8j8NoJomaBWvsYFm7lX7wknQtyh33DY8OhLXCn3
+         Ma6Qg9pUlJKkXb932wKO+sgE0d6GMP5O8gxgtPWuRjIvmFvd9cV1jXw27XZ5lkmKWX43
+         OVs3r0btoJU/VNbnst5ZOmEJrRc++D1vUJ1QwAhfub2jJ8EIdvTp381Q3eGs3fJeGLlw
+         vVzA==
+X-Gm-Message-State: AOAM533knukBJJlFhDdd06Sta93p6D2w1jRZ26cx61Mn/flWguCwMRVh
+        6NG92NAKH/2bRtsImsLqLi+NIAHQP54HxZyYMDk=
+X-Google-Smtp-Source: ABdhPJxv56UYXw0HdwPKZZQFp3/zRO8zP8qIjavfTRIKYqCH5596UCuGHqajKqMv8WCVM5UAz4HoFd32fzVH1fyJqgg=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:3db0:42c:8665:a4ae])
+ (user=ndesaulniers job=sendgmr) by 2002:a0c:b44b:: with SMTP id
+ e11mr18946709qvf.38.1627947792748; Mon, 02 Aug 2021 16:43:12 -0700 (PDT)
+Date:   Mon,  2 Aug 2021 16:43:03 -0700
+Message-Id: <20210802234304.3519577-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.554.ge1b32706d8-goog
+Subject: [PATCH] scripts/Makefile.clang: default to LLVM_IAS=1
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 2 Aug 2021 14:18:33 -0700
-Message-ID: <CAKwvOdmG0Ahieq27y29zqqEfjDu4NiC8j1fDg8c6RPnWVhdSsA@mail.gmail.com>
-Subject: Re: [PATCH] scripts/recordmcount.pl: Remove check_objcopy() and $can_use_local
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     Khem Raj <raj.khem@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 2:05 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> When building ARCH=riscv allmodconfig with llvm-objcopy, the objcopy
-> version warning from this script appears:
->
-> WARNING: could not find objcopy version or version is less than 2.17.
->         Local function references are disabled.
->
-> The check_objcopy() function in scripts/recordmcount.pl is set up to
-> parse GNU objcopy's version string, not llvm-objcopy's, which triggers
-> the warning.
->
-> Commit 799c43415442 ("kbuild: thin archives make default for all archs")
-> made binutils 2.20 mandatory and commit ba64beb17493 ("kbuild: check the
-> minimum assembler version in Kconfig") enforces this at configuration
-> time so just remove check_objcopy() and $can_use_local instead, assuming
-> --globalize-symbol is always available.
->
-> llvm-objcopy has supported --globalize-symbol since LLVM 7.0.0 in 2018
-> and the minimum version for building the kernel with LLVM is 10.0.1 so
-> there is no issue introduced:
->
-> https://github.com/llvm/llvm-project/commit/ee5be798dae30d5f9414b01f76ff807edbc881aa
+LLVM_IAS=1 controls enabling clang's integrated assembler via
+-integrated-as. This was an explicit opt in until we could enable
+assembler support in Clang for more architecures. Now we have support
+and CI coverage of LLVM_IAS=1 for all architecures except a few more
+bugs affecting s390 and powerpc.
 
-^ should this be a Link: tag?
+This commit flips the default from opt in via LLVM_IAS=1 to opt out via
+LLVM_IAS=0.  CI systems or developers that were previously doing builds
+with CC=clang or LLVM=1 without explicitly setting LLVM_IAS must now
+explicitly opt out via LLVM_IAS=0, otherwise they will be implicitly
+opted-in.
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+This finally shortens the command line invocation when cross compiling
+with LLVM to simply:
 
->
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  Makefile                |  1 -
->  scripts/recordmcount.pl | 40 ----------------------------------------
->  2 files changed, 41 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 27a072cffcb9..b6ee64dd435e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -546,7 +546,6 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
->  PHONY += scripts_basic
->  scripts_basic:
->         $(Q)$(MAKE) $(build)=scripts/basic
-> -       $(Q)rm -f .tmp_quiet_recordmcount
->
->  PHONY += outputmakefile
->  ifdef building_out_of_srctree
-> diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
-> index c17e48020ec3..8f6b13ae46bf 100755
-> --- a/scripts/recordmcount.pl
-> +++ b/scripts/recordmcount.pl
-> @@ -173,39 +173,6 @@ my $mcount_regex;  # Find the call site to mcount (return offset)
->  my $mcount_adjust;     # Address adjustment to mcount offset
->  my $alignment;         # The .align value to use for $mcount_section
->  my $section_type;      # Section header plus possible alignment command
-> -my $can_use_local = 0;         # If we can use local function references
-> -
-> -# Shut up recordmcount if user has older objcopy
-> -my $quiet_recordmcount = ".tmp_quiet_recordmcount";
-> -my $print_warning = 1;
-> -$print_warning = 0 if ( -f $quiet_recordmcount);
-> -
-> -##
-> -# check_objcopy - whether objcopy supports --globalize-symbols
-> -#
-> -#  --globalize-symbols came out in 2.17, we must test the version
-> -#  of objcopy, and if it is less than 2.17, then we can not
-> -#  record local functions.
-> -sub check_objcopy
-> -{
-> -    open (IN, "$objcopy --version |") or die "error running $objcopy";
-> -    while (<IN>) {
-> -       if (/objcopy.*\s(\d+)\.(\d+)/) {
-> -           $can_use_local = 1 if ($1 > 2 || ($1 == 2 && $2 >= 17));
-> -           last;
-> -       }
-> -    }
-> -    close (IN);
-> -
-> -    if (!$can_use_local && $print_warning) {
-> -       print STDERR "WARNING: could not find objcopy version or version " .
-> -           "is less than 2.17.\n" .
-> -           "\tLocal function references are disabled.\n";
-> -       open (QUIET, ">$quiet_recordmcount");
-> -       printf QUIET "Disables the warning from recordmcount.pl\n";
-> -       close QUIET;
-> -    }
-> -}
->
->  if ($arch =~ /(x86(_64)?)|(i386)/) {
->      if ($bits == 64) {
-> @@ -434,8 +401,6 @@ if ($filename =~ m,^(.*)(\.\S),) {
->  my $mcount_s = $dirname . "/.tmp_mc_" . $prefix . ".s";
->  my $mcount_o = $dirname . "/.tmp_mc_" . $prefix . ".o";
->
-> -check_objcopy();
-> -
->  #
->  # Step 1: find all the local (static functions) and weak symbols.
->  #         't' is local, 'w/W' is weak
-> @@ -473,11 +438,6 @@ sub update_funcs
->
->      # is this function static? If so, note this fact.
->      if (defined $locals{$ref_func}) {
-> -
-> -       # only use locals if objcopy supports globalize-symbols
-> -       if (!$can_use_local) {
-> -           return;
-> -       }
->         $convert{$ref_func} = 1;
->      }
->
->
-> base-commit: c500bee1c5b2f1d59b1081ac879d73268ab0ff17
-> --
-> 2.32.0.264.g75ae10bc75
->
+$ make ARCH=arm64 LLVM=1
 
+Link: https://github.com/ClangBuiltLinux/linux/issues/1434
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Note: base is:
+https://lore.kernel.org/lkml/20210802183910.1802120-1-ndesaulniers@google.com/
 
+ Documentation/kbuild/llvm.rst | 14 ++++++++------
+ Makefile                      |  2 +-
+ arch/riscv/Makefile           |  2 +-
+ scripts/Makefile.clang        |  6 +++---
+ 4 files changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index f8a360958f4c..16712fab4d3a 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -60,17 +60,14 @@ They can be enabled individually. The full list of the parameters: ::
+ 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+ 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+ 
+-Currently, the integrated assembler is disabled by default. You can pass
+-``LLVM_IAS=1`` to enable it.
++Currently, the integrated assembler is enabled by default. You can pass
++``LLVM_IAS=0`` to disable it.
+ 
+ Omitting CROSS_COMPILE
+ ----------------------
+ 
+ As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
+ 
+-Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
+-``--prefix=<path>`` to search for the GNU assembler and linker.
+-
+ If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
+ from ``ARCH``.
+ 
+@@ -78,7 +75,12 @@ That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
+ 
+ For example, to cross-compile the arm64 kernel::
+ 
+-	make ARCH=arm64 LLVM=1 LLVM_IAS=1
++	make ARCH=arm64 LLVM=1
++
++If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
++``--prefix=<path>`` to search for the GNU assembler and linker. ::
++
++	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
+ 
+ Supported Architectures
+ -----------------------
+diff --git a/Makefile b/Makefile
+index 444558e62cbc..b24b48c9ebb7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -845,7 +845,7 @@ else
+ DEBUG_CFLAGS	+= -g
+ endif
+ 
+-ifneq ($(LLVM_IAS),1)
++ifeq ($(LLVM_IAS),0)
+ KBUILD_AFLAGS	+= -Wa,-gdwarf-2
+ endif
+ 
+diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+index bc74afdbf31e..807f7c94bc6f 100644
+--- a/arch/riscv/Makefile
++++ b/arch/riscv/Makefile
+@@ -41,7 +41,7 @@ endif
+ ifeq ($(CONFIG_LD_IS_LLD),y)
+ 	KBUILD_CFLAGS += -mno-relax
+ 	KBUILD_AFLAGS += -mno-relax
+-ifneq ($(LLVM_IAS),1)
++ifeq ($(LLVM_IAS),0)
+ 	KBUILD_CFLAGS += -Wa,-mno-relax
+ 	KBUILD_AFLAGS += -Wa,-mno-relax
+ endif
+diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+index 1f4e3eb70f88..3ae63bd35582 100644
+--- a/scripts/Makefile.clang
++++ b/scripts/Makefile.clang
+@@ -22,12 +22,12 @@ else
+ CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+ endif # CROSS_COMPILE
+ 
+-ifeq ($(LLVM_IAS),1)
+-CLANG_FLAGS	+= -integrated-as
+-else
++ifeq ($(LLVM_IAS),0)
+ CLANG_FLAGS	+= -no-integrated-as
+ GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+ CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
++else
++CLANG_FLAGS	+= -integrated-as
+ endif
+ CLANG_FLAGS	+= -Werror=unknown-warning-option
+ KBUILD_CFLAGS	+= $(CLANG_FLAGS)
+
+base-commit: d7a86429dbc691bf540688fcc8542cc20246a85b
+prerequisite-patch-id: 0d3072ecb5fd06ff6fd6ea81fe601f6c54c23910
+prerequisite-patch-id: 2654829756eb8a094a0ffad1679caa75a4d86619
+prerequisite-patch-id: a51e7885ca2376d008bbf146a5589da247806f7b
 -- 
-Thanks,
-~Nick Desaulniers
+2.32.0.554.ge1b32706d8-goog
+
