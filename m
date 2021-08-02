@@ -2,75 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8876C3DCF56
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 06:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A135A3DD186
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 09:50:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232127AbhHBEYV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Aug 2021 00:24:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43646 "EHLO
+        id S232550AbhHBHuU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Aug 2021 03:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232066AbhHBEYV (ORCPT
+        with ESMTP id S232531AbhHBHuT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Aug 2021 00:24:21 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9154CC06179C
-        for <linux-kbuild@vger.kernel.org>; Sun,  1 Aug 2021 21:24:10 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id d6so15033539edt.7
-        for <linux-kbuild@vger.kernel.org>; Sun, 01 Aug 2021 21:24:10 -0700 (PDT)
+        Mon, 2 Aug 2021 03:50:19 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C946C0613D5
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Aug 2021 00:50:10 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id c9so76301wri.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Aug 2021 00:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=FtyL1jenxhHoD0FEqr0JzEzar9WxjQ0aFEwPIjOui/KxHqjdRIaWw+qc9fVrqT7/Dn
-         Pnh35Va41LybAL6U8YkeIBgROe6j/64zDWESXr3a3yRfbQQPGRB9fNiPFd+zLtRJzUIN
-         QuzzTY5SkBKHMhw3aNm828s4szNx+qezVfjbXBb1AnLosRqM3hZLsmXFs11UFe9XwQd0
-         8wSmR+hXWoecdn7C1dRJ3raMOO2OzRp8To/v4OIIenhLUR2Xi2bEwQKHQsPiMZ9RJ/f/
-         /P5G34L+RYG0gvY4mQKUVcv9jgYngramQoP+XViWVUuAojxufRmPTkFAnPt7xVda61k1
-         G8fw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=C+DU4wn47mhR6/BppBpfoHFr7cDt97ix6Cas51Bn3S0=;
+        b=vaGCdEG4gfOc3CCT0/Jid2mMLgFAVdbrnSYFF/YRwDk48CjmEdg8wur7WXzmkpwyqJ
+         QFhNpwbdP3z4ThYycHRJFB2q/YB8L7q5k9hF9q2NgQuC+FVciFou0cEGl9buS+aKYuO/
+         4N87CjX2RUNssZusukmpiO6WfnZDZeEVHH+JOqtVQlAal+f2Djr5OqTxT0uKf8KwiNEK
+         mUhuzBP87bnfDN89Q9apHMhiVTKVgU1P9NUeGeKqmdev7O9uSj19H6NsOkp26A+3alP0
+         S7mLxvNgv6bGCismfjZs4KTkglOeabwZVN8z2jRzVMs/MLmNcv0HZJDRN6AMk+ThcJdK
+         gJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=JbMtpdZj7sghISs4e5T5yryQDvERMuYalazmdQP0RcA=;
-        b=uJQ2b8ghoza5+Ts4P31bu1UR7P+dTWZ7bx1U0cKw2pgyhAInRCvfUmzr7ToZW4jY49
-         xZJUOHh9HCrgcHJ91xaRmAFXJouWKcRl/dhu+ldMVGp8vbXFwGEIfY3kt8dATqcyM6a9
-         luLsKPQJiZ2BV6UEZnKsuu91i8qZApjy8hnARf0x6dizMZqhYo8gUf/CCejVd0EXBEjO
-         KldThVXU7gxIOtLGVSsolm2WVUdZrnbLYWk/6ZsC4df1VyTdQGIhXgbn987DYsRe8tfq
-         +uC1xPhKOYbPeNceNcktXLiSUImAxPUvC7NiiTedmaS8SfVS8gKHHYb/4zizPpaC9Arh
-         2MSA==
-X-Gm-Message-State: AOAM530biuy57dwHz71EEIPmnCQzRQI0QEIBNBAQ57VYxzz8+BuJZZSq
-        BGJ7M38DRrCLJsHbwLxbH5zw4VX6st0wc9DSbfo=
-X-Google-Smtp-Source: ABdhPJzys5yCwXnLOHH4NsCIcKA9f726GMnAOsN9NLlhSmyZNb7UhzU0IEwJ6FYKksyg3UeOKVwrbLA6pAJm2hMlOV0=
-X-Received: by 2002:aa7:c0d1:: with SMTP id j17mr16890014edp.217.1627878249276;
- Sun, 01 Aug 2021 21:24:09 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=C+DU4wn47mhR6/BppBpfoHFr7cDt97ix6Cas51Bn3S0=;
+        b=QRV0cqFmPkSyF4zj2/PeF2qcEAYS8LIBP+b18Vm9MVNeMCGNim7QLj52peOFvRgelr
+         C9F2p2gTWph2kchKINOHNwk0TkXreVSa8ox/FjArJJuhXgYrTnZVgaZ0Lkx8NgOo6qb5
+         eNJO55/TRWLICRKdG5pKEpTNBodjbac0OmBUEHDSMW/cxX6er4XWyxXdUN+8y1H3IIVw
+         bj77RrKFgzWIuOA01f4/IDPq4iQZr0EZUvRHBaMLgi8G1nvBZ39iX0uU6BnsRCdURVbN
+         u1YZbgq3N5mFfqswf8OB2DLNqa1KqqE1U51Jal0ymmCpE8vgNissynK84lVy52YnWyUG
+         78hQ==
+X-Gm-Message-State: AOAM533bayd4k18N9w4cVa46Ynh4aAipi/ri8BoFOy0kp2Vhk1JcZsxE
+        xrOcqLNzhDhZbOUDxb02+A41Cg==
+X-Google-Smtp-Source: ABdhPJyXFkzMsnCoWrMW5F+KKyitkAuZTMGrmA2bkBjRA+pL+bYfoHDb6u5PWjx2loVcMNakBdKSqw==
+X-Received: by 2002:adf:e601:: with SMTP id p1mr16586780wrm.14.1627890609173;
+        Mon, 02 Aug 2021 00:50:09 -0700 (PDT)
+Received: from google.com ([109.180.115.228])
+        by smtp.gmail.com with ESMTPSA id n30sm11958971wra.1.2021.08.02.00.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Aug 2021 00:50:08 -0700 (PDT)
+Date:   Mon, 2 Aug 2021 08:50:06 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Matthias Maennich <maennich@google.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] scripts: merge_config: add strict mode to fail upon any
+ redefinition
+Message-ID: <YQejrh2FBCvyPJjI@google.com>
+References: <20201202151238.3776616-1-maennich@google.com>
+ <CAF2Aj3jS6+RN5mEeF+65MRsyMR9BMecMmxwr3sfjwd64zA6Acw@mail.gmail.com>
+ <CAF2Aj3hWWoQvezD4Ma01LrhUwGLobNk40H9ArvjT5+XeNE3vMw@mail.gmail.com>
+ <CAK7LNATRc4kJ9vvC1Y6xt88t8w-qKjdZMg_tK+9nZqHqa4bX_g@mail.gmail.com>
+ <CAF2Aj3hS0kxrnf+kePWmYAT3A-+PTVQ7_6yWj1nO8BLjwGZGQg@mail.gmail.com>
+ <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a17:907:d0b:0:0:0:0 with HTTP; Sun, 1 Aug 2021 21:24:08
- -0700 (PDT)
-Reply-To: ablahikazabl67@gmail.com
-From:   Abdoulahi Kazim <drwilliamcuthbert@gmail.com>
-Date:   Mon, 2 Aug 2021 05:24:08 +0100
-Message-ID: <CAKwBCXuzDf40zPCct3xg8L9LubxzXWgC230fQ80GXrmg_Yuttw@mail.gmail.com>
-Subject: More Authentic Information
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQh1UR0_04FuiTz5U7b4jthdLoP97K=oJ2c=-E0Qiqh5A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+> > I know of multiple entities who make good use of the script and this extension.
+> >
+> > My vote is to merge it, but ultimately this is your train set.
+> 
+> OK, I decided to not care about it too much.
+> 
+> Now applied to linux-kbuild. Thanks.
+
+Thanks Masahiro.  Much appreciated.
+
 -- 
-Dear Partner,
-
-I am soliciting your partnership to relocate $12.5 Million to your
-country for investment on my behalf and you will be entitled to 30% of
-the sum once the transaction is successful made.
-
-Please indicate your genuine interest if you are capable so that i
-will send you the authentic details and documents of the transaction
-in awareness with some of my fellow Directors in the bank.
-
-If you are interested, here is my private Email address:
-(ablahikazabl67@gmail.com)
-For more authentic and legit information.
-
-
-Regards :  Abdoulahi Kazim
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
