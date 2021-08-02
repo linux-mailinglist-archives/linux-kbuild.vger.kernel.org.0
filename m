@@ -2,103 +2,185 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A5A3DE149
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 23:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D1EB3DE154
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 23:18:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbhHBVPT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Aug 2021 17:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
+        id S232428AbhHBVS6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Aug 2021 17:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbhHBVPT (ORCPT
+        with ESMTP id S232060AbhHBVS4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Aug 2021 17:15:19 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57683C06175F
-        for <linux-kbuild@vger.kernel.org>; Mon,  2 Aug 2021 14:15:09 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id bq29so10591965lfb.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Aug 2021 14:15:09 -0700 (PDT)
+        Mon, 2 Aug 2021 17:18:56 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16CEC061760
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Aug 2021 14:18:46 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id h9so25631951ljq.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Aug 2021 14:18:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GKUZPtIuouVJE0jwShWzFKLTFn+mFU5OXAbT55ufFlc=;
-        b=fQuUBXMnnlpnfqCWTtEkIebNSJjuLUVgQ0uhLBdkGzjQX0N0tWgTLp0Q0a2yKPPqyL
-         7KFWoHkgXe6tGzcbTB8muuCTZFEQK/GIcefAf+QjAXwdOLduUf22Vi4p60yER5qpovK5
-         DNt9sTIQb8/XS0/4AaxlIsDS5jqrtl9r6HmXo3aELgcqV4oqvv3SF02F7buHq5iYFAw6
-         x2fckS4Xaog5wbncCflDQ6Smifq1gD1IjCiPitqvUlQp8MsZ9Bwm0y6BhVr0qX85oIBT
-         kR+AfAN4uWAlXTjv6WE5yNWqHtGsC1oCrdh+YCobrZ+i+4F2vBCvn9FHyHhaIRD+wjSN
-         x/sg==
+         :cc;
+        bh=1Z9yRMRPvPvhNhspEK5nK4+ikbIcB7z17ForMSSXLIM=;
+        b=kXYzxNBoPnSs60tSumVikXkgLSMYmd8MP0QG9/neTn5fMj+4x9WawziIkd++CZ5Qlt
+         LECxLgnwPznfHsA5PWYTAUZcwobBzWh80Tt4aQXaaleOkLjYK0Mq8RzPk9nZGdeDgm7R
+         lkW3sfjIbPL7zqRIDSArn2AXnywcz5L+8EHVNZ3jIkshvWrqL3H+IKcB9RiEbL5S1rgk
+         5cMPRVE4Hi0IN3Sgbpol4+Risi2OaHtQSi4Iv/bPa8vkqp9Jm21EP5vhwyGCaQIHI9UQ
+         eR4HDqRpIYqeWX7Py7Bjt5DgbZkzxHEN9++aKaW38yML2aT/Cmg3hJDrK+U5vy1nsObC
+         c+BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GKUZPtIuouVJE0jwShWzFKLTFn+mFU5OXAbT55ufFlc=;
-        b=oDMcPS2IRVrIPzmyS8amRksMyLKRfx/U2a5/ML5QUAutJlJ6aDyi32qP6InPGxWTJO
-         3tN1Mps2e5uIAgNihKUjcLcKjwf3tbJTxD3ll9GAcmZ7/cir2JLUwwokeBL8k+rWz/xQ
-         O2fgZZLFlae6NpVbbZuP0SIKv5yGkUF15tcPeP4r9+L1VR6q4fKhOzZOPYRdDxyu4WVF
-         oWQlrk7JUezMrpCQNZlQ4WQs6M8B5q/wQ5ADthfLzr94fNNNdrr0fGRfPWSKpgnPhksn
-         IWdKzsoUtzaARZOvvvyXVisXfMwRvi/z2gLrGlCtdfoO6dhGsAdt/RzhYCn1EpYVUGsG
-         a8ag==
-X-Gm-Message-State: AOAM531zY2ppdQRbHJLkM8zRGKNd/2ZasLbmIokMwZxDMzdBzL4cFNd0
-        cZHnerfAKi+S5ouovs8mX2qNJb/ZTG2zkUw16CHCUxc8jEjl99uY
-X-Google-Smtp-Source: ABdhPJzMk2ixr8LoBUa9C8T3a04USJp3cZ17Uq+IBX1hQrK7WrsTSKqCwwpg7ZEEmwZdrbrnqjcCLBoHZ6i+/DTWCp0=
-X-Received: by 2002:a05:6512:3041:: with SMTP id b1mr1255638lfb.122.1627938907382;
- Mon, 02 Aug 2021 14:15:07 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=1Z9yRMRPvPvhNhspEK5nK4+ikbIcB7z17ForMSSXLIM=;
+        b=MZWeCaYkgpEZ1YAlgNP1cHGCCmAplunvGmsfvRft6mxAuyowgjk4nPWxWeCyQbmOu7
+         YAeuZtM+pdl+SiePEq70V5Ok0Z7bbBu2e15ayIB/ounQq2BwQtqy/1ydZkCi89PYlr4+
+         leVtoGqWlW3auOE8WgFSBDd1G4YGk9/ZIVkxP/51ghtObL5UBUy1wuUBxT+6upoaA2vb
+         yP8vMP5PWImoBK5xeRrzcC6Ze7vUDxIdoDxbrQORh7IvdOvA167ZsQsjCrUflM6BOwTs
+         QDXFo0XKQJvA6XGBIzZEmrpnoCV2mKvyY6o7fvQjwi/hPxFLI3YwgMO9KHAB3zTh6daB
+         sJJQ==
+X-Gm-Message-State: AOAM530Hdj/xP5g+hkHijVR9nyBG8g2/PQN373ExMpS6rFiPuwlIJM9n
+        Zib4XtGwGTdx28s7fh8befi38Qb+7ocCELpupZnJmedw+fhnEg==
+X-Google-Smtp-Source: ABdhPJwhxcINA21tw/Nuh+g4OW6UTFPkym/AwtBxtV+7RU8HofOMbVlwuzsG1pckNPkn3uhcMoULO3vL7zZPoqOBHDA=
+X-Received: by 2002:a2e:9304:: with SMTP id e4mr12467173ljh.244.1627939124801;
+ Mon, 02 Aug 2021 14:18:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802183910.1802120-1-ndesaulniers@google.com>
- <20210802183910.1802120-2-ndesaulniers@google.com> <CAFP8O3Jc=iwzAQojgBZZzdT8iVBY9TO6GLTq+0vkXoo6L5JJ-A@mail.gmail.com>
-In-Reply-To: <CAFP8O3Jc=iwzAQojgBZZzdT8iVBY9TO6GLTq+0vkXoo6L5JJ-A@mail.gmail.com>
+References: <20210802210307.3202472-1-nathan@kernel.org>
+In-Reply-To: <20210802210307.3202472-1-nathan@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 2 Aug 2021 14:14:55 -0700
-Message-ID: <CAKwvOdkSzuMpjwP=_vPfs0QFAytA9=fZ00Aw4dn8fk7=P5WhLA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] Makefile: move initial clang flag handling into scripts/Makefile.clang
-To:     =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>
+Date:   Mon, 2 Aug 2021 14:18:33 -0700
+Message-ID: <CAKwvOdmG0Ahieq27y29zqqEfjDu4NiC8j1fDg8c6RPnWVhdSsA@mail.gmail.com>
+Subject: Re: [PATCH] scripts/recordmcount.pl: Remove check_objcopy() and $can_use_local
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 2, 2021 at 2:06 PM F=C4=81ng-ru=C3=AC S=C3=B2ng <maskray@google=
-.com> wrote:
+On Mon, Aug 2, 2021 at 2:05 PM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On Mon, Aug 2, 2021 at 11:39 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > new file mode 100644
-> > index 000000000000..297932e973d4
-> > --- /dev/null
-> > +++ b/scripts/Makefile.clang
-> > @@ -0,0 +1,14 @@
-> > +ifneq ($(CROSS_COMPILE),)
-> > +CLANG_FLAGS    +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
-> > +endif
-> > +ifeq ($(LLVM_IAS),1)
-> > +CLANG_FLAGS    +=3D -integrated-as
+> When building ARCH=riscv allmodconfig with llvm-objcopy, the objcopy
+> version warning from this script appears:
 >
-> -i* options are for includes. -fintegrated-as is the canonical spelling.
-> Since -fintegrated-as is the default (for most llvm/lib/Target/
-> targets and the ones clang builds actually support),
-> it can even be deleted.
+> WARNING: could not find objcopy version or version is less than 2.17.
+>         Local function references are disabled.
+>
+> The check_objcopy() function in scripts/recordmcount.pl is set up to
+> parse GNU objcopy's version string, not llvm-objcopy's, which triggers
+> the warning.
+>
+> Commit 799c43415442 ("kbuild: thin archives make default for all archs")
+> made binutils 2.20 mandatory and commit ba64beb17493 ("kbuild: check the
+> minimum assembler version in Kconfig") enforces this at configuration
+> time so just remove check_objcopy() and $can_use_local instead, assuming
+> --globalize-symbol is always available.
+>
+> llvm-objcopy has supported --globalize-symbol since LLVM 7.0.0 in 2018
+> and the minimum version for building the kernel with LLVM is 10.0.1 so
+> there is no issue introduced:
+>
+> https://github.com/llvm/llvm-project/commit/ee5be798dae30d5f9414b01f76ff807edbc881aa
 
-It was made explicit by Masahiro in
-git.kernel.org/linus/ba64beb17493a4bfec563100c86a462a15926f24
-So I don't think we need to go back to the implicit default.
+^ should this be a Link: tag?
 
-It's definitely nicer to use groupings rather than these raw prefixed
-flags IMO.  If you sent a patch for that I would approve of it.
-Otherwise we don't really need to change this as this is how it's
-worked in LLVM for as long as we've been able to build the kernel with
-LLVM.
---=20
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  Makefile                |  1 -
+>  scripts/recordmcount.pl | 40 ----------------------------------------
+>  2 files changed, 41 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 27a072cffcb9..b6ee64dd435e 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -546,7 +546,6 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
+>  PHONY += scripts_basic
+>  scripts_basic:
+>         $(Q)$(MAKE) $(build)=scripts/basic
+> -       $(Q)rm -f .tmp_quiet_recordmcount
+>
+>  PHONY += outputmakefile
+>  ifdef building_out_of_srctree
+> diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
+> index c17e48020ec3..8f6b13ae46bf 100755
+> --- a/scripts/recordmcount.pl
+> +++ b/scripts/recordmcount.pl
+> @@ -173,39 +173,6 @@ my $mcount_regex;  # Find the call site to mcount (return offset)
+>  my $mcount_adjust;     # Address adjustment to mcount offset
+>  my $alignment;         # The .align value to use for $mcount_section
+>  my $section_type;      # Section header plus possible alignment command
+> -my $can_use_local = 0;         # If we can use local function references
+> -
+> -# Shut up recordmcount if user has older objcopy
+> -my $quiet_recordmcount = ".tmp_quiet_recordmcount";
+> -my $print_warning = 1;
+> -$print_warning = 0 if ( -f $quiet_recordmcount);
+> -
+> -##
+> -# check_objcopy - whether objcopy supports --globalize-symbols
+> -#
+> -#  --globalize-symbols came out in 2.17, we must test the version
+> -#  of objcopy, and if it is less than 2.17, then we can not
+> -#  record local functions.
+> -sub check_objcopy
+> -{
+> -    open (IN, "$objcopy --version |") or die "error running $objcopy";
+> -    while (<IN>) {
+> -       if (/objcopy.*\s(\d+)\.(\d+)/) {
+> -           $can_use_local = 1 if ($1 > 2 || ($1 == 2 && $2 >= 17));
+> -           last;
+> -       }
+> -    }
+> -    close (IN);
+> -
+> -    if (!$can_use_local && $print_warning) {
+> -       print STDERR "WARNING: could not find objcopy version or version " .
+> -           "is less than 2.17.\n" .
+> -           "\tLocal function references are disabled.\n";
+> -       open (QUIET, ">$quiet_recordmcount");
+> -       printf QUIET "Disables the warning from recordmcount.pl\n";
+> -       close QUIET;
+> -    }
+> -}
+>
+>  if ($arch =~ /(x86(_64)?)|(i386)/) {
+>      if ($bits == 64) {
+> @@ -434,8 +401,6 @@ if ($filename =~ m,^(.*)(\.\S),) {
+>  my $mcount_s = $dirname . "/.tmp_mc_" . $prefix . ".s";
+>  my $mcount_o = $dirname . "/.tmp_mc_" . $prefix . ".o";
+>
+> -check_objcopy();
+> -
+>  #
+>  # Step 1: find all the local (static functions) and weak symbols.
+>  #         't' is local, 'w/W' is weak
+> @@ -473,11 +438,6 @@ sub update_funcs
+>
+>      # is this function static? If so, note this fact.
+>      if (defined $locals{$ref_func}) {
+> -
+> -       # only use locals if objcopy supports globalize-symbols
+> -       if (!$can_use_local) {
+> -           return;
+> -       }
+>         $convert{$ref_func} = 1;
+>      }
+>
+>
+> base-commit: c500bee1c5b2f1d59b1081ac879d73268ab0ff17
+> --
+> 2.32.0.264.g75ae10bc75
+>
+
+
+-- 
 Thanks,
 ~Nick Desaulniers
