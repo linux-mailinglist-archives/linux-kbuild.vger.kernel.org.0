@@ -2,113 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E58393DDFE5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 21:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EE423DE130
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Aug 2021 23:05:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbhHBTQd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Aug 2021 15:16:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49444 "EHLO mail.kernel.org"
+        id S231397AbhHBVFU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Aug 2021 17:05:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229755AbhHBTQc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Aug 2021 15:16:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 27F2860EE8;
-        Mon,  2 Aug 2021 19:16:22 +0000 (UTC)
+        id S231194AbhHBVFT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 2 Aug 2021 17:05:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DCC360F11;
+        Mon,  2 Aug 2021 21:05:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627931783;
-        bh=nB/idNrPLD9uz+xKPp20zN8CmDGUyr8ewkfN6nqYGFY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CgZFdceTX69vnFjhfnfYTv7I4FmULK7iy/CMOih6trreL7q0juNhnieIc7iYd+CNn
-         2PX5jLmfEzGY4XNe/ewlOh3xYCgl4zQclVtn44ttiuVH12INNhXD2vXsiQEn7OHEpS
-         ZeomECrUbtFI49xxTJfKeOrGSN1aymV4jJHU3O9/tiM99/ptMqXFY4lT+gpUr4kpUQ
-         CgXbVgZ2y19j1m8h1Tm5VLTRqoFg5CO8g5MBy1apPc33ZtfnmSFcjwHHQzCtcD2GDL
-         P+oi46Iib+nOJnvnmlyYxx7Ps+6NPvoHNOMjqTV2NVC5dVcHwTHnGQXy0P82706KqV
-         uCsl2Dd/FecZA==
-Subject: Re: [PATCH v6 3/3] Documentation/llvm: update CROSS_COMPILE
- inferencing
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <20210802183910.1802120-1-ndesaulniers@google.com>
- <20210802183910.1802120-4-ndesaulniers@google.com>
+        s=k20201202; t=1627938310;
+        bh=1CC6Xn8O5VfdL27ctk5p97kfsc4n9bixRSyPS7rPUAM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VyF3R1c8Gmz23NgeJ0vyufxaFMjNfiQhrTo2aEMtosyT3vRvkXigYjX5Yo2fc5HTs
+         x+2C2iv4JcZ9R1cLc6kz3t44/XFoJIFq5fihMdX9eTW4q0huu5b+JGAZvrMf7MYUpO
+         Ufi1JghQnvQVLR2IjFgeZFGVDXC328Bp4ANQKuLYttb3X3bB0vOv+fMQSENMxoT5P3
+         r5oW3QsRf71XMcfM9yy4Rpjy0r1Ll9BBSFHdROLLJgWM7OHV/TNiQy62Lkds+AE+5s
+         GlsNysvoZWDk3vb/4pei5LiHRezJKM09zO7NS7kNzw+9ts5GM2Um7fzCpOMKniFYbV
+         5jKlU9IN6mIxQ==
 From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <95712f4c-9da5-b7b6-f617-b6b686b6eadc@kernel.org>
-Date:   Mon, 2 Aug 2021 12:16:21 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+To:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH] scripts/recordmcount.pl: Remove check_objcopy() and $can_use_local
+Date:   Mon,  2 Aug 2021 14:03:07 -0700
+Message-Id: <20210802210307.3202472-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 MIME-Version: 1.0
-In-Reply-To: <20210802183910.1802120-4-ndesaulniers@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/2/2021 11:39 AM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> As noted by Masahiro, document how we can generally infer CROSS_COMPILE
-> (and the more specific details about --target and --prefix) based on
-> ARCH.
-> 
-> Change use of env vars to command line parameters.
-> 
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Fangrui Song <maskray@google.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+When building ARCH=riscv allmodconfig with llvm-objcopy, the objcopy
+version warning from this script appears:
 
-Thanks for the update, I think this is much easier for non-CBL folks to 
-understand.
+WARNING: could not find objcopy version or version is less than 2.17.
+        Local function references are disabled.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+The check_objcopy() function in scripts/recordmcount.pl is set up to
+parse GNU objcopy's version string, not llvm-objcopy's, which triggers
+the warning.
 
-> ---
-> Changes v5 -> v6:
-> * Pick up Fangrui's RB tag.
-> * Change use of env vars to command line parameters for consistency.
-> 
->   Documentation/kbuild/llvm.rst | 19 ++++++++++++++++++-
->   1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index b18401d2ba82..f8a360958f4c 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -38,7 +38,7 @@ Cross Compiling
->   A single Clang compiler binary will typically contain all supported backends,
->   which can help simplify cross compiling. ::
->   
-> -	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-> +	make ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-
->   
->   ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
->   ``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
-> @@ -63,6 +63,23 @@ They can be enabled individually. The full list of the parameters: ::
->   Currently, the integrated assembler is disabled by default. You can pass
->   ``LLVM_IAS=1`` to enable it.
->   
-> +Omitting CROSS_COMPILE
-> +----------------------
-> +
-> +As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-> +
-> +Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
-> +``--prefix=<path>`` to search for the GNU assembler and linker.
-> +
-> +If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
-> +from ``ARCH``.
-> +
-> +That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
-> +
-> +For example, to cross-compile the arm64 kernel::
-> +
-> +	make ARCH=arm64 LLVM=1 LLVM_IAS=1
-> +
->   Supported Architectures
->   -----------------------
->   
-> 
+Commit 799c43415442 ("kbuild: thin archives make default for all archs")
+made binutils 2.20 mandatory and commit ba64beb17493 ("kbuild: check the
+minimum assembler version in Kconfig") enforces this at configuration
+time so just remove check_objcopy() and $can_use_local instead, assuming
+--globalize-symbol is always available.
+
+llvm-objcopy has supported --globalize-symbol since LLVM 7.0.0 in 2018
+and the minimum version for building the kernel with LLVM is 10.0.1 so
+there is no issue introduced:
+
+https://github.com/llvm/llvm-project/commit/ee5be798dae30d5f9414b01f76ff807edbc881aa
+
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ Makefile                |  1 -
+ scripts/recordmcount.pl | 40 ----------------------------------------
+ 2 files changed, 41 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 27a072cffcb9..b6ee64dd435e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -546,7 +546,6 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
+ PHONY += scripts_basic
+ scripts_basic:
+ 	$(Q)$(MAKE) $(build)=scripts/basic
+-	$(Q)rm -f .tmp_quiet_recordmcount
+ 
+ PHONY += outputmakefile
+ ifdef building_out_of_srctree
+diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
+index c17e48020ec3..8f6b13ae46bf 100755
+--- a/scripts/recordmcount.pl
++++ b/scripts/recordmcount.pl
+@@ -173,39 +173,6 @@ my $mcount_regex;	# Find the call site to mcount (return offset)
+ my $mcount_adjust;	# Address adjustment to mcount offset
+ my $alignment;		# The .align value to use for $mcount_section
+ my $section_type;	# Section header plus possible alignment command
+-my $can_use_local = 0; 	# If we can use local function references
+-
+-# Shut up recordmcount if user has older objcopy
+-my $quiet_recordmcount = ".tmp_quiet_recordmcount";
+-my $print_warning = 1;
+-$print_warning = 0 if ( -f $quiet_recordmcount);
+-
+-##
+-# check_objcopy - whether objcopy supports --globalize-symbols
+-#
+-#  --globalize-symbols came out in 2.17, we must test the version
+-#  of objcopy, and if it is less than 2.17, then we can not
+-#  record local functions.
+-sub check_objcopy
+-{
+-    open (IN, "$objcopy --version |") or die "error running $objcopy";
+-    while (<IN>) {
+-	if (/objcopy.*\s(\d+)\.(\d+)/) {
+-	    $can_use_local = 1 if ($1 > 2 || ($1 == 2 && $2 >= 17));
+-	    last;
+-	}
+-    }
+-    close (IN);
+-
+-    if (!$can_use_local && $print_warning) {
+-	print STDERR "WARNING: could not find objcopy version or version " .
+-	    "is less than 2.17.\n" .
+-	    "\tLocal function references are disabled.\n";
+-	open (QUIET, ">$quiet_recordmcount");
+-	printf QUIET "Disables the warning from recordmcount.pl\n";
+-	close QUIET;
+-    }
+-}
+ 
+ if ($arch =~ /(x86(_64)?)|(i386)/) {
+     if ($bits == 64) {
+@@ -434,8 +401,6 @@ if ($filename =~ m,^(.*)(\.\S),) {
+ my $mcount_s = $dirname . "/.tmp_mc_" . $prefix . ".s";
+ my $mcount_o = $dirname . "/.tmp_mc_" . $prefix . ".o";
+ 
+-check_objcopy();
+-
+ #
+ # Step 1: find all the local (static functions) and weak symbols.
+ #         't' is local, 'w/W' is weak
+@@ -473,11 +438,6 @@ sub update_funcs
+ 
+     # is this function static? If so, note this fact.
+     if (defined $locals{$ref_func}) {
+-
+-	# only use locals if objcopy supports globalize-symbols
+-	if (!$can_use_local) {
+-	    return;
+-	}
+ 	$convert{$ref_func} = 1;
+     }
+ 
+
+base-commit: c500bee1c5b2f1d59b1081ac879d73268ab0ff17
+-- 
+2.32.0.264.g75ae10bc75
+
