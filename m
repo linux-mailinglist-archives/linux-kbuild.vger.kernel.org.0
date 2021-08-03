@@ -2,73 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEFD33DEE9E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Aug 2021 15:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B4A23DF1EE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Aug 2021 17:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236039AbhHCNA7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Aug 2021 09:00:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59008 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235635AbhHCNA7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Aug 2021 09:00:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B465860F58;
-        Tue,  3 Aug 2021 13:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627995648;
-        bh=x8tLKf2iqjAE25o6wOR+v32eKv+Q4BdSwsKqq405Lxg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=diIHh1zAb2SfxUhPfEBtJYfRDuLsJzeWzc1GtKiklh4IvpncE/wx9lGeMKzdhxhal
-         8dMKu/KKpARUATOmXgm8GW9EseZTgszIOfbRsYeQdysWx/t5j3pMlsnlkDXyhzAaFF
-         VcNDa8ugzXY+33oRJ+ctHU4ao/5HQsu1f5YyjeEGCQG79ghagi08xZOi5DWfezJga2
-         aU0+R5ZACIUXpfWcuUEEZta9uXgWgLKT/g0gTkh10sEuOB6mWMobGqkXrIqgEJSAWy
-         INL8zQG8sp1exgONvGEaq4OY2KOqouzoFwG5TmVIJpOK0Y6KsyoNUfcNlnXmLEgjAy
-         I0lXgLpLm314w==
-From:   Jessica Yu <jeyu@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        live-patching@vger.kernel.org, Jessica Yu <jeyu@kernel.org>
-Subject: [PATCH] MAINTAINERS: Add Luis Chamberlain as modules maintainer
-Date:   Tue,  3 Aug 2021 14:57:13 +0200
-Message-Id: <20210803125713.725-1-jeyu@kernel.org>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S237146AbhHCP7K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Aug 2021 11:59:10 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.165]:36076 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237131AbhHCP7J (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 3 Aug 2021 11:59:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1628006307;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=mU3eT7eyGsL5o6LF8h+YK7bclXW4GXpf5fpmDUrcIzU=;
+    b=nlZQVoanb18I3z7wIRRMbvOjqNJXGdBzEiIlUkhXUsWy76YbvNAsAfvfBgjOdRKEaD
+    U29d7bn6ardkbbrpOq1Zqqz3Gh0jnE00shaf+vEjFcBY2WLTdd6ajrcGNrVNdku0E/oS
+    z3EP2PWzZ4E0bqt8Xuy4JM/fArKzo4CH2EDI4iFg4SRRi6HQcx+0Jk23kLaLt4pC1oGc
+    dM0S6TURFE+bKosjdfOw1MPAK1BMjVMavaJyqxeNv6p8srMQjmSMhhJPQwyGoXe4jhN7
+    htFB2QF/uVeiR8s2okhFIuGGcKuRZaQzUw2302hT5o0sGaw5ae5LGL7yf7ou7YjDZqTr
+    bfvw==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7wpz8NIGH/jrwDOqAdo="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box
+    by smtp.strato.de (RZmta 47.30.1 DYNA|AUTH)
+    with ESMTPSA id K060b1x73FwN0fL
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+    Tue, 3 Aug 2021 17:58:23 +0200 (CEST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH 0/2] Regex fixes for mips and x86 cross-compile
+From:   "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <CAKwvOd=FdZsQZCGqqpnbzgVZ+s2=ffyh337RwqyTAzHMcjUb+w@mail.gmail.com>
+Date:   Tue, 3 Aug 2021 17:58:22 +0200
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Jessica Yu <jeyu@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Discussions about the Letux Kernel 
+        <letux-kernel@openphoenux.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        linux-mips <linux-mips@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@pyra-handheld.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <BFB4FABC-60B7-445D-ACEB-4AAE177AF8D4@goldelico.com>
+References: <cover.1625734629.git.hns@goldelico.com>
+ <4AC1CCE9-CCAF-4D4B-BAD5-CEB9E5155FDF@goldelico.com>
+ <CAKwvOd=FdZsQZCGqqpnbzgVZ+s2=ffyh337RwqyTAzHMcjUb+w@mail.gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+X-Mailer: Apple Mail (2.3445.104.21)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Luis has kindly agreed to help maintain the module loader. As my
-responsibilities have shifted, I've found myself with less cycles to
-devote to upstream maintenance these days. Luis is already very involved
-and engaged upstream, and with his experience maintaining the kmod
-module loader and usermode helper, I believe he is a great fit for this
-area of the kernel.
+Hi all,
+any chance to get that reviewed and merged into v5.15-rc1 and backported =
+to stable?
+Thank you,
+Nikolaus Schaller
 
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-Signed-off-by: Jessica Yu <jeyu@kernel.org>
----
 
-Hi all, just a heads up that Luis will be a co-maintainer for modules.
-For the most part I've CC'd subsystem lists that have interacted with
-modules in the past, and should probably be aware of this change. Thanks!
-
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a61f4f3b78a9..d2bdcc8dc25f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12526,6 +12526,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
- F:	drivers/media/dvb-frontends/mn88473*
- 
- MODULE SUPPORT
-+M:	Luis Chamberlain <mcgrof@kernel.org>
- M:	Jessica Yu <jeyu@kernel.org>
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jeyu/linux.git modules-next
--- 
-2.32.0
+> Am 19.07.2021 um 22:37 schrieb Nick Desaulniers =
+<ndesaulniers@google.com>:
+>=20
+> + Masahiro, linux-kbuild (EOM)
+>=20
+> On Mon, Jul 19, 2021 at 12:07 PM H. Nikolaus Schaller =
+<hns@goldelico.com> wrote:
+>>=20
+>> Any chance that it gets merged?
+>>=20
+>>> Am 08.07.2021 um 10:57 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>>>=20
+>>> Trying to run the x86 relocs tool on a BSD based HOSTCC (cross
+>>> compilation environment) leads to errors like
+>>>=20
+>>> VOFFSET arch/x86/boot/compressed/../voffset.h - due to: vmlinux
+>>> CC      arch/x86/boot/compressed/misc.o - due to: =
+arch/x86/boot/compressed/../voffset.h
+>>> OBJCOPY arch/x86/boot/compressed/vmlinux.bin - due to: vmlinux
+>>> RELOCS  arch/x86/boot/compressed/vmlinux.relocs - due to: vmlinux
+>>> empty (sub)expressionarch/x86/boot/compressed/Makefile:118: recipe =
+for target 'arch/x86/boot/compressed/vmlinux.relocs' failed
+>>> make[3]: *** [arch/x86/boot/compressed/vmlinux.relocs] Error 1
+>>>=20
+>>> and when cross compiling a MIPS kernel on a BSD based HOSTCC
+>>> we get errors like
+>>>=20
+>>> SYNC    include/config/auto.conf.cmd - due to: .config
+>>> egrep: empty (sub)expression
+>>> UPD     include/config/kernel.release
+>>> HOSTCC  scripts/dtc/dtc.o - due to target missing
+>>>=20
+>>> It turns out that relocs.c on x86 uses patterns like
+>>>=20
+>>>      "something(|_end)"
+>>>=20
+>>> while MIPS uses egrep with
+>>>=20
+>>>      (|MINOR_|PATCHLEVEL_)
+>>>=20
+>>> In both cases it is not valid syntax or gives undefined results
+>>> according to POSIX 9.5.3 ERE Grammar
+>>>=20
+>>>      =
+https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+>>>=20
+>>> It seems to be silently accepted by the Linux regcmp() or egrep
+>>> implementation while a BSD host complains.
+>>>=20
+>>> Such patterns can be replaced by a transformation like
+>>>=20
+>>>      "(|p1|p2)" -> "(p1|p2)?"
+>>>=20
+>>> Test Linux:
+>>>=20
+>>> root@letux:~# echo foo | egrep '^(|foo)$'
+>>> foo
+>>> root@letux:~# echo fool | egrep '^(foo)?$'
+>>> root@letux:~# echo fun | egrep '^(|foo)$'
+>>> root@letux:~# echo f | egrep '^(|foo)$'
+>>> root@letux:~# echo | egrep '^(|foo)$'
+>>>=20
+>>> root@letux:~# echo foo | egrep '^(foo)?$'
+>>> foo
+>>> root@letux:~# echo fool | egrep '^(foo)?$'
+>>> root@letux:~# echo fun | egrep '^(foo)?$'
+>>> root@letux:~# echo f | egrep '^(foo)?$'
+>>> root@letux:~# echo | egrep '^(foo)?$'
+>>>=20
+>>> root@letux:~#
+>>>=20
+>>> Test BSD:
+>>>=20
+>>> iMac:master hns$ echo foo | egrep '^(|foo)$'
+>>> egrep: empty (sub)expression
+>>> iMac:master hns$ echo fool | egrep '^(foo)?$'
+>>> egrep: empty (sub)expression
+>>> iMac:master hns$ echo fun | egrep '^(|foo)$'
+>>> egrep: empty (sub)expression
+>>> iMac:master hns$ echo f | egrep '^(|foo)$'
+>>> egrep: empty (sub)expression
+>>> iMac:master hns$ echo | egrep '^(|foo)$'
+>>> egrep: empty (sub)expression
+>>> iMac:master hns$ echo foo | egrep '^(foo)?$'
+>>> foo
+>>> iMac:master hns$ echo fool | egrep '^(foo)?$'
+>>> iMac:master hns$ echo fun | egrep '^(foo)?$'
+>>> iMac:master hns$ echo f | egrep '^(foo)?$'
+>>> iMac:master hns$ echo | egrep '^(foo)?$'
+>>>=20
+>>> iMac:master hns$
+>>>=20
+>>>=20
+>>> H. Nikolaus Schaller (2):
+>>> x86/tools/relocs: Fix non-POSIX regexp
+>>> arch: mips: Fix non-POSIX regexp
+>>>=20
+>>> arch/mips/Makefile      | 2 +-
+>>> arch/x86/tools/relocs.c | 8 ++++----
+>>> 2 files changed, 5 insertions(+), 5 deletions(-)
+>>>=20
+>>> --
+>>> 2.31.1
+>>>=20
+>>=20
+>=20
+>=20
+> --=20
+> Thanks,
+> ~Nick Desaulniers
 
