@@ -2,51 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF693E1526
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Aug 2021 14:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A69A3E1626
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Aug 2021 15:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236980AbhHEM4z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 Aug 2021 08:56:55 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:25229 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232615AbhHEM4y (ORCPT
+        id S241276AbhHEN6y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 Aug 2021 09:58:54 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:57078 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239757AbhHEN6y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 Aug 2021 08:56:54 -0400
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 175CuNhC014299;
-        Thu, 5 Aug 2021 21:56:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 175CuNhC014299
+        Thu, 5 Aug 2021 09:58:54 -0400
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 175DwLoB003434;
+        Thu, 5 Aug 2021 22:58:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 175DwLoB003434
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628168184;
-        bh=/8/3wCfLu/4cFvkS/DxXUoTejOJZixLrqpyNHz7+H/k=;
+        s=dec2015msa; t=1628171902;
+        bh=IkfSllG+SbN/b97YNpBIEYdvlpJTUqg6G4RBryizSqQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FCGRuPzW2ZdOkpr1FDIjYrWAaUQWM+HNlOPFh99beLhWIXJW1PBIC1iJzQjteiEOs
-         FmCP3LEs363NVX0VTREBIckBk5cYAyUVHvHuU6bzkG2YcN71KnM1FKZ79S4D1J4QVt
-         kT/Bui1zSKl80/7ANnQ2qu61O9NDYTGO49s6103eflKXLGKifG8B1N78nlToutnyZX
-         H4Qhr1GwbkN4632NEdi6n6QVPTaf9bEHIBr1bbQfqMacuoLzRDSQhQaCRruJ2EtdUW
-         LX5pe6Ki3yYOp+BXx5wjEZVABbp0zV7YjJMgVsrF2UYqZSqq7COpLp81ySoml+L1Ly
-         xley5dWU5pGPA==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id t7-20020a17090a5d87b029017807007f23so11328278pji.5;
-        Thu, 05 Aug 2021 05:56:24 -0700 (PDT)
-X-Gm-Message-State: AOAM532DrIpz6kEiZowAylET5D9hnJgV0ji52SEzhHPfIVo5Xlwm/1dC
-        mONVQtq2EFL9akTrQU9WjkMYlereqY1QtkRGLCg=
-X-Google-Smtp-Source: ABdhPJzy4AKrESjk80SzDSvhoYIeOF8an2S+dqlAkQPqcCtbkFOCN9DfXQZa4vKnQG0geqMg7iRfmO0ynHOO0Oah/fI=
-X-Received: by 2002:a17:902:a5c5:b029:12c:a867:a839 with SMTP id
- t5-20020a170902a5c5b029012ca867a839mr1763754plq.71.1628168183373; Thu, 05 Aug
- 2021 05:56:23 -0700 (PDT)
+        b=ua05HcSeJ4GvTVEoegvZ/4UovWLE4o04xLtcLEgmKUiat7MByY6JV9RYXC/BKRqZq
+         bJ4GEPmNqOAS2we1MhN7g2DxlhTz/V4qJD2aRoup0IgEmSO0tEY7gz1pBFum+zt+fp
+         BOr/AGtvqAMKEfR26wckN+FCI1/Po8YmaWbo5d0BoDhxEOQQMNcXfrKHpmzGShwmsw
+         UajyYRmcA9TkCLDMwRip4TPZBuIr9STIhvQQHCSpw7ZHQN9LVNcFreo9oITw7vblks
+         WupTlOpeIMuKYqZJIXAS9raVZft2wpAWW8iCRkt4Fb6XXw5ss8b4iDTGtm+oXNk+fC
+         AkMsXX4WMYfRQ==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso9609585pjf.4;
+        Thu, 05 Aug 2021 06:58:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530KqEPsaudEQ14PYggWt4dztn33bJnmHVy1Z4mrraPBsuBXX01/
+        mJcaHXAaYvBiCDJbyOGMjYpl1oYfNrW+XBcheY0=
+X-Google-Smtp-Source: ABdhPJw6/Efi1cfCY9CvameEnPfnwBuMScrNWAcgvk9GREiR8ZuGP8HHSkCOuhcsjtwB3fnqTQ6M0WbScGU9mQfZ4Q8=
+X-Received: by 2002:a17:90a:c506:: with SMTP id k6mr15434358pjt.198.1628171901401;
+ Thu, 05 Aug 2021 06:58:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210802183910.1802120-1-ndesaulniers@google.com>
- <20210802183910.1802120-2-ndesaulniers@google.com> <CAFP8O3Jc=iwzAQojgBZZzdT8iVBY9TO6GLTq+0vkXoo6L5JJ-A@mail.gmail.com>
-In-Reply-To: <CAFP8O3Jc=iwzAQojgBZZzdT8iVBY9TO6GLTq+0vkXoo6L5JJ-A@mail.gmail.com>
+References: <20210802183910.1802120-1-ndesaulniers@google.com> <20210802183910.1802120-4-ndesaulniers@google.com>
+In-Reply-To: <20210802183910.1802120-4-ndesaulniers@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 5 Aug 2021 21:55:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4wQNvWd0H1bEG-zbznkm_kfQHEZWKUOPQqReA+Cru3w@mail.gmail.com>
-Message-ID: <CAK7LNAS4wQNvWd0H1bEG-zbznkm_kfQHEZWKUOPQqReA+Cru3w@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] Makefile: move initial clang flag handling into scripts/Makefile.clang
-To:     =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+Date:   Thu, 5 Aug 2021 22:57:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASkBNDzXWxweotPZGJH-z3J59rPQwGDV32rfH9hH+sVHQ@mail.gmail.com>
+Message-ID: <CAK7LNASkBNDzXWxweotPZGJH-z3J59rPQwGDV32rfH9hH+sVHQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] Documentation/llvm: update CROSS_COMPILE inferencing
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, Fangrui Song <maskray@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Arnd Bergmann <arnd@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -54,135 +51,98 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Christoph Hellwig <hch@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 3, 2021 at 6:06 AM 'F=C4=81ng-ru=C3=AC S=C3=B2ng' via Clang Bui=
-lt Linux
-<clang-built-linux@googlegroups.com> wrote:
+On Tue, Aug 3, 2021 at 3:39 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> On Mon, Aug 2, 2021 at 11:39 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > With some of the changes we'd like to make to CROSS_COMPILE, the initia=
-l
-> > block of clang flag handling which controls things like the target trip=
-le,
-> > whether or not to use the integrated assembler and how to find GAS,
-> > and erroring on unknown warnings is becoming unwieldy. Move it into its
-> > own file under scripts/.
-> >
-> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> >  MAINTAINERS            |  1 +
-> >  Makefile               | 15 +--------------
-> >  scripts/Makefile.clang | 14 ++++++++++++++
-> >  3 files changed, 16 insertions(+), 14 deletions(-)
-> >  create mode 100644 scripts/Makefile.clang
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 19135a9d778e..3af8d39f43ef 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4501,6 +4501,7 @@ B:        https://github.com/ClangBuiltLinux/linu=
-x/issues
-> >  C:     irc://chat.freenode.net/clangbuiltlinux
-> >  F:     Documentation/kbuild/llvm.rst
-> >  F:     include/linux/compiler-clang.h
-> > +F:     scripts/Makefile.clang
-> >  F:     scripts/clang-tools/
-> >  K:     \b(?i:clang|llvm)\b
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 6b555f64df06..444558e62cbc 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -586,20 +586,7 @@ endif
-> >  CC_VERSION_TEXT =3D $(subst $(pound),,$(shell $(CC) --version 2>/dev/n=
-ull | head -n 1))
-> >
-> >  ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> > -ifneq ($(CROSS_COMPILE),)
-> > -CLANG_FLAGS    +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
-> > -endif
-> > -ifeq ($(LLVM_IAS),1)
-> > -CLANG_FLAGS    +=3D -integrated-as
-> > -else
-> > -CLANG_FLAGS    +=3D -no-integrated-as
-> > -GCC_TOOLCHAIN_DIR :=3D $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > -CLANG_FLAGS    +=3D --prefix=3D$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_CO=
-MPILE))
-> > -endif
-> > -CLANG_FLAGS    +=3D -Werror=3Dunknown-warning-option
-> > -KBUILD_CFLAGS  +=3D $(CLANG_FLAGS)
-> > -KBUILD_AFLAGS  +=3D $(CLANG_FLAGS)
-> > -export CLANG_FLAGS
-> > +include $(srctree)/scripts/Makefile.clang
-> >  endif
-> >
-> >  # Include this also for config targets because some architectures need
-> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > new file mode 100644
-> > index 000000000000..297932e973d4
-> > --- /dev/null
-> > +++ b/scripts/Makefile.clang
-> > @@ -0,0 +1,14 @@
-> > +ifneq ($(CROSS_COMPILE),)
-> > +CLANG_FLAGS    +=3D --target=3D$(notdir $(CROSS_COMPILE:%-=3D%))
-> > +endif
-> > +ifeq ($(LLVM_IAS),1)
-> > +CLANG_FLAGS    +=3D -integrated-as
+> As noted by Masahiro, document how we can generally infer CROSS_COMPILE
+> (and the more specific details about --target and --prefix) based on
+> ARCH.
 >
-> -i* options are for includes. -fintegrated-as is the canonical spelling.
-
-
-If -fintegrated-as is preferred to -integrated-as,
-please send a patch.
-(on top of this series)
-
-
-Thanks.
-
-
-
-
-
-
-> Since -fintegrated-as is the default (for most llvm/lib/Target/
-> targets and the ones clang builds actually support),
-> it can even be deleted.
+> Change use of env vars to command line parameters.
 >
-> > +else
-> > +CLANG_FLAGS    +=3D -no-integrated-as
-> > +GCC_TOOLCHAIN_DIR :=3D $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > +CLANG_FLAGS    +=3D --prefix=3D$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_CO=
-MPILE))
-> > +endif
-> > +CLANG_FLAGS    +=3D -Werror=3Dunknown-warning-option
-> > +KBUILD_CFLAGS  +=3D $(CLANG_FLAGS)
-> > +KBUILD_AFLAGS  +=3D $(CLANG_FLAGS)
-> > +export CLANG_FLAGS
-> > --
-> > 2.32.0.554.ge1b32706d8-goog
-> >
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Fangrui Song <maskray@google.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Changes v5 -> v6:
+> * Pick up Fangrui's RB tag.
+> * Change use of env vars to command line parameters for consistency.
+>
+>  Documentation/kbuild/llvm.rst | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index b18401d2ba82..f8a360958f4c 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -38,7 +38,7 @@ Cross Compiling
+>  A single Clang compiler binary will typically contain all supported backends,
+>  which can help simplify cross compiling. ::
+>
+> -       ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
+> +       make ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-
+>
+>  ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
+>  ``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
+> @@ -63,6 +63,23 @@ They can be enabled individually. The full list of the parameters: ::
+>  Currently, the integrated assembler is disabled by default. You can pass
+>  ``LLVM_IAS=1`` to enable it.
+>
+> +Omitting CROSS_COMPILE
+> +----------------------
+> +
+> +As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
+> +
+> +Unless ``LLVM_IAS=1`` is specified, ``CROSS_COMPILE`` is also used to derive
+> +``--prefix=<path>`` to search for the GNU assembler and linker.
+
+
+Is there any place where we rely on --prefix
+to search for the linker?
+
+In general, the compiler stops after generating an object
+since it is passed with the -c option.
+The linking stage is separated.
+
+In the old days, VDSO was an exceptional case
+where $(CC) was used as the linker driver, but
+commit fe00e50b2db8c60e4ec90befad1f5bab8ca2c800 fixed it.
+
+
+
+
+
+
+
+> +
+> +If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
+> +from ``ARCH``.
+> +
+> +That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
+> +
+> +For example, to cross-compile the arm64 kernel::
+> +
+> +       make ARCH=arm64 LLVM=1 LLVM_IAS=1
+> +
+>  Supported Architectures
+>  -----------------------
 >
 > --
-> You received this message because you are subscribed to the Google Groups=
- "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/clang-built-linux/CAFP8O3Jc%3DiwzAQojgBZZzdT8iVBY9TO6GLTq%2B0vkXoo6L5JJ-A=
-%40mail.gmail.com.
+> 2.32.0.554.ge1b32706d8-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210802183910.1802120-4-ndesaulniers%40google.com.
 
 
 
---=20
+-- 
 Best Regards
 Masahiro Yamada
