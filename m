@@ -2,85 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D463E13F5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Aug 2021 13:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 221AC3E1438
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Aug 2021 13:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240967AbhHELhP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 Aug 2021 07:37:15 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53891 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240857AbhHELhO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 Aug 2021 07:37:14 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4GgRQx6y6Wz9sRR;
-        Thu,  5 Aug 2021 21:36:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1628163418;
-        bh=LUuDWZ6QjdYX5SUcL0rg4SU99LJt8O7kFIHfniH4Wkg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SF7x/1BvF/du6tR1e3AqhoEFXeAMJ23q3ppFOuDYEK6+ht3SZq2BGm0VpBTQhnKiX
-         c69CtfwbXEyopOpWkMlhoaZaNy7MBcjvFgi441GQPs8JoNSbaypcrSiMU40xfYUL8t
-         f9mZrC/0/S9Sd0Sks9Q6ztffcNH3z15sejK3Mrq6GIC9o5cgKjNUdNCU7s+JyZXP+k
-         m7V2vyizjbFsWr3PDpb/VJj0/lHDkB5dWIo6L1vPnRk6HtSQ+cZceBM9r0fWUQuSIl
-         t/rcwuCY/XD4brZ4tPPAIPKwBGgNhCg1BsOkubGmrACsiPv8a+bTpGKspwCElp7iAD
-         /yfmCkkp5M+aw==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 58/64] powerpc: Split memset() to avoid multi-field
- overflow
-In-Reply-To: <20210727205855.411487-59-keescook@chromium.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-59-keescook@chromium.org>
-Date:   Thu, 05 Aug 2021 21:36:54 +1000
-Message-ID: <87czqsnmw9.fsf@mpe.ellerman.id.au>
+        id S235262AbhHELzs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 Aug 2021 07:55:48 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:50384 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230446AbhHELzr (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 5 Aug 2021 07:55:47 -0400
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 175Bt3iE011866;
+        Thu, 5 Aug 2021 20:55:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 175Bt3iE011866
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1628164504;
+        bh=QtmFIMbSkPrFHJ5F2MOHK1582vI0vTuaUebcEfPiA5I=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=P2xXn+b35DN1tjVaqBC5J0Eoh24Uq4fU5ixhEuAyg8ZgoPFU+vQmBTV7o32YcfXj+
+         KEe288tTzDZBmtGWDcybLxztOpuglgDFKb0oTajI4aaJDJpDXgheo/FjiR2/lq6mBB
+         i2Xt8feKtE9Min3x9RRWywKVgQWAJFx1PzPHSEHI0ym/eNe8Frwek1vCtKLdd4C5sp
+         vE/EWZ2mUehmQz0ZsGOAIpSb8Lzc0IGQLm37zWGe3GcHlm+zVmx2nsZ3TiVD1y5cNc
+         DR5SOCNrE4xKPuxOmTO6TT+U5R2hn0lpKk4xwwtoi3WSEIzRdKFl2CrAOj0CjDVVSV
+         4rSc4WypAOL1A==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id cl16-20020a17090af690b02901782c35c4ccso4969357pjb.5;
+        Thu, 05 Aug 2021 04:55:03 -0700 (PDT)
+X-Gm-Message-State: AOAM5336A2wdWgtkke5PtxzC2eRtOWVZ7apwcV8DZ7wreOes+DVdwXIh
+        ggHJiVbQRXFrhGz66+30hKcQJCp2ac+bjbTxDrk=
+X-Google-Smtp-Source: ABdhPJyIJzICcuvyV7P/46KDij6cT86sBszR/MDTE6vE0qa6ddqSBrO7rm3TcQHy6WMDIOLdzqww4IsmdoMZ7o7nfis=
+X-Received: by 2002:a63:dd51:: with SMTP id g17mr1794883pgj.47.1628164503024;
+ Thu, 05 Aug 2021 04:55:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <cover.1625734629.git.hns@goldelico.com> <4AC1CCE9-CCAF-4D4B-BAD5-CEB9E5155FDF@goldelico.com>
+ <CAKwvOd=FdZsQZCGqqpnbzgVZ+s2=ffyh337RwqyTAzHMcjUb+w@mail.gmail.com> <BFB4FABC-60B7-445D-ACEB-4AAE177AF8D4@goldelico.com>
+In-Reply-To: <BFB4FABC-60B7-445D-ACEB-4AAE177AF8D4@goldelico.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 5 Aug 2021 20:54:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARLJwwqp0j9yFH9CCfR1VN5yfLyCDjLD8nJ3F4kdG1ZyA@mail.gmail.com>
+Message-ID: <CAK7LNARLJwwqp0j9yFH9CCfR1VN5yfLyCDjLD8nJ3F4kdG1ZyA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Regex fixes for mips and x86 cross-compile
+To:     "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        X86 ML <x86@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Discussions about the Letux Kernel 
+        <letux-kernel@openphoenux.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        linux-mips <linux-mips@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@pyra-handheld.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
+On Wed, Aug 4, 2021 at 12:59 AM H. Nikolaus Schaller <hns@goldelico.com> wrote:
 >
-> Instead of writing across a field boundary with memset(), move the call
-> to just the array, and an explicit zeroing of the prior field.
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/macintosh/smu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-> index 94fb63a7b357..59ce431da7ef 100644
-> --- a/drivers/macintosh/smu.c
-> +++ b/drivers/macintosh/smu.c
-> @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
->  	cmd->read = cmd->info.devaddr & 0x01;
->  	switch(cmd->info.type) {
->  	case SMU_I2C_TRANSFER_SIMPLE:
-> -		memset(&cmd->info.sublen, 0, 4);
-> +		cmd->info.sublen = 0;
-> +		memset(&cmd->info.subaddr, 0, 3);
->  		break;
->  	case SMU_I2C_TRANSFER_COMBINED:
->  		cmd->info.devaddr &= 0xfe;
-> -- 
-> 2.30.2
+> Hi all,
+> any chance to get that reviewed and merged into v5.15-rc1 and backported to stable?
+> Thank you,
+> Nikolaus Schaller
 
-Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
 
-cheers
+
+I have a macbook (macOS catalina), and was able to
+reproduce this issue.
+
+I applied both to kbuild tree.
+Thanks.
+
+
+
+
+
+>
+> > Am 19.07.2021 um 22:37 schrieb Nick Desaulniers <ndesaulniers@google.com>:
+> >
+> > + Masahiro, linux-kbuild (EOM)
+> >
+> > On Mon, Jul 19, 2021 at 12:07 PM H. Nikolaus Schaller <hns@goldelico.com> wrote:
+> >>
+> >> Any chance that it gets merged?
+> >>
+> >>> Am 08.07.2021 um 10:57 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+> >>>
+> >>> Trying to run the x86 relocs tool on a BSD based HOSTCC (cross
+> >>> compilation environment) leads to errors like
+> >>>
+> >>> VOFFSET arch/x86/boot/compressed/../voffset.h - due to: vmlinux
+> >>> CC      arch/x86/boot/compressed/misc.o - due to: arch/x86/boot/compressed/../voffset.h
+> >>> OBJCOPY arch/x86/boot/compressed/vmlinux.bin - due to: vmlinux
+> >>> RELOCS  arch/x86/boot/compressed/vmlinux.relocs - due to: vmlinux
+> >>> empty (sub)expressionarch/x86/boot/compressed/Makefile:118: recipe for target 'arch/x86/boot/compressed/vmlinux.relocs' failed
+> >>> make[3]: *** [arch/x86/boot/compressed/vmlinux.relocs] Error 1
+> >>>
+> >>> and when cross compiling a MIPS kernel on a BSD based HOSTCC
+> >>> we get errors like
+> >>>
+> >>> SYNC    include/config/auto.conf.cmd - due to: .config
+> >>> egrep: empty (sub)expression
+> >>> UPD     include/config/kernel.release
+> >>> HOSTCC  scripts/dtc/dtc.o - due to target missing
+> >>>
+> >>> It turns out that relocs.c on x86 uses patterns like
+> >>>
+> >>>      "something(|_end)"
+> >>>
+> >>> while MIPS uses egrep with
+> >>>
+> >>>      (|MINOR_|PATCHLEVEL_)
+> >>>
+> >>> In both cases it is not valid syntax or gives undefined results
+> >>> according to POSIX 9.5.3 ERE Grammar
+> >>>
+> >>>      https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+> >>>
+> >>> It seems to be silently accepted by the Linux regcmp() or egrep
+> >>> implementation while a BSD host complains.
+> >>>
+> >>> Such patterns can be replaced by a transformation like
+> >>>
+> >>>      "(|p1|p2)" -> "(p1|p2)?"
+> >>>
+> >>> Test Linux:
+> >>>
+> >>> root@letux:~# echo foo | egrep '^(|foo)$'
+> >>> foo
+> >>> root@letux:~# echo fool | egrep '^(foo)?$'
+> >>> root@letux:~# echo fun | egrep '^(|foo)$'
+> >>> root@letux:~# echo f | egrep '^(|foo)$'
+> >>> root@letux:~# echo | egrep '^(|foo)$'
+> >>>
+> >>> root@letux:~# echo foo | egrep '^(foo)?$'
+> >>> foo
+> >>> root@letux:~# echo fool | egrep '^(foo)?$'
+> >>> root@letux:~# echo fun | egrep '^(foo)?$'
+> >>> root@letux:~# echo f | egrep '^(foo)?$'
+> >>> root@letux:~# echo | egrep '^(foo)?$'
+> >>>
+> >>> root@letux:~#
+> >>>
+> >>> Test BSD:
+> >>>
+> >>> iMac:master hns$ echo foo | egrep '^(|foo)$'
+> >>> egrep: empty (sub)expression
+> >>> iMac:master hns$ echo fool | egrep '^(foo)?$'
+> >>> egrep: empty (sub)expression
+> >>> iMac:master hns$ echo fun | egrep '^(|foo)$'
+> >>> egrep: empty (sub)expression
+> >>> iMac:master hns$ echo f | egrep '^(|foo)$'
+> >>> egrep: empty (sub)expression
+> >>> iMac:master hns$ echo | egrep '^(|foo)$'
+> >>> egrep: empty (sub)expression
+> >>> iMac:master hns$ echo foo | egrep '^(foo)?$'
+> >>> foo
+> >>> iMac:master hns$ echo fool | egrep '^(foo)?$'
+> >>> iMac:master hns$ echo fun | egrep '^(foo)?$'
+> >>> iMac:master hns$ echo f | egrep '^(foo)?$'
+> >>> iMac:master hns$ echo | egrep '^(foo)?$'
+> >>>
+> >>> iMac:master hns$
+> >>>
+> >>>
+> >>> H. Nikolaus Schaller (2):
+> >>> x86/tools/relocs: Fix non-POSIX regexp
+> >>> arch: mips: Fix non-POSIX regexp
+> >>>
+> >>> arch/mips/Makefile      | 2 +-
+> >>> arch/x86/tools/relocs.c | 8 ++++----
+> >>> 2 files changed, 5 insertions(+), 5 deletions(-)
+> >>>
+> >>> --
+> >>> 2.31.1
+> >>>
+> >>
+> >
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
