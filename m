@@ -2,100 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57D713E2A2A
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Aug 2021 13:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26A7F3E2CAC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Aug 2021 16:34:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243047AbhHFL4r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Aug 2021 07:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51784 "EHLO
+        id S240135AbhHFOe7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Aug 2021 10:34:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229578AbhHFL4q (ORCPT
+        with ESMTP id S240177AbhHFOe7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Aug 2021 07:56:46 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5399FC061798;
-        Fri,  6 Aug 2021 04:56:29 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id m28-20020a05600c3b1cb02902b5a8c22575so5727632wms.0;
-        Fri, 06 Aug 2021 04:56:29 -0700 (PDT)
+        Fri, 6 Aug 2021 10:34:59 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E3CC06179C
+        for <linux-kbuild@vger.kernel.org>; Fri,  6 Aug 2021 07:34:43 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id r1so9120811iln.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Aug 2021 07:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=xxcVP1unxQRf/ma4cBAw6r/5ynUOn9I8kcb6t03qdg8=;
-        b=KmpYP3BE+cpz+pElv0OWJBLzo3/xIuvq6uh/veRCW2SSq0AcAWTQVgRa9UU3JVcDpo
-         KPP9//VsYE8H7VHboJOQ6KzAVunWP8/1tGbsWCSk5v0IOl0Yy2lWfp+/y4PdkrYrGO04
-         PCUpVVNBag26yTzqCaIRcMjafZS5PtD/2WIJahUaewAf5Uu/OeAGdpGlXvTTSrmhc0SB
-         Vg7a29cY5yIVTqtwxWKveg/UrfoUVsZjvz2p1kf0ITrj4Z9Dgo/5cIkw7uIDGUYgfuFb
-         M/X9acr4R2leiRKc9InK6ryWne5pZyghXK0ehd0nBd8iTeHk9Ad7oj40MIvIabLmwa0E
-         0pBQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=WwtirH+AN5QEGc+PsYDg7GPmicCeAO3NPEqhZC74A3+cGIN9TIFUSUQWVdp/dEeJ0X
+         ++0akNbjsW/3xJMMbrUcWsaDb/Yt8FhArvnBGhYYupKONjpXh07T85TTJ6z/R14UeK25
+         VfrKT4PbBRG9FpAA5mPltqAa33Oy6oNBbUHIMXxZ8Pb8DDymDVISOJ0z/+FU283l+PC4
+         CL/S0Mt/1jGAvk934eTBfkPJMYFqxNe9DmuvxRe6nTQgDgkYbQOxTC8k7gZ9Je0QkKHX
+         pj04+ieraICgLCEIDsM+PSxXHeP7MukFzwmFuXJEWjT/gtCn4i9C831/d3PQ2UrLasbD
+         Q6dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=xxcVP1unxQRf/ma4cBAw6r/5ynUOn9I8kcb6t03qdg8=;
-        b=i4gnRwoXDhyzH0U80UGsQ5HSheqIwJ7mxCRmty9uJTXGHWrqxQjlhMVUYr3fF2KxNc
-         H/4FOnhSzuhJASUmrR21wPZDLWkvXAztDY24vN/ppyFa5qPMCn2Jpa82af/W4VJxflpx
-         yops00GV8QbT+r3P2qEHFAHiS00qr7Qpzqwd0YuxB7/CaGw6r7z+K0rnZ8aQ6+MXz2Yz
-         XJWIIE18b1ZpfPe6Q5wRtT0pzFURwR6mj9k23/GGRvWtkt4mJjSnEV+hsXJT93BJ8yCG
-         R0mePq/pXFeQQXOYot/Yfw6DWt5e4GXUay+j2UIt+zrIAJHm3Y0S0/VNMlPXUMDVVUn0
-         y+Cg==
-X-Gm-Message-State: AOAM531nUPC99plZggKSZx4refxeVnDkVk7oMxb9xvQQ1R96Psm3xnwP
-        W4uhTKRx/XMtow2xjzt9/h7M1kJPPQc=
-X-Google-Smtp-Source: ABdhPJz3R2vkklO+frfNX6r8aHKE/hIze3yPOvVFk5GPsQnq76HPSuv7pbeeg5nYhh+efbUjTnfXOA==
-X-Received: by 2002:a05:600c:4f49:: with SMTP id m9mr17814809wmq.82.1628250987602;
-        Fri, 06 Aug 2021 04:56:27 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dc9:8d00:2198:3536:ca51:cd82])
-        by smtp.gmail.com with ESMTPSA id b20sm9195179wmj.48.2021.08.06.04.56.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 04:56:27 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Nicholas Piggin <npiggin@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Babu Moger <babu.moger@oracle.com>,
-        Don Zickus <dzickus@redhat.com>, linux-kbuild@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] Kconfig.debug: drop selecting non-existing HARDLOCKUP_DETECTOR_ARCH
-Date:   Fri,  6 Aug 2021 13:56:18 +0200
-Message-Id: <20210806115618.22088-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/oMubRmlLM5EZ/UdY6Fj3wsfS2kyoMzN9ASXgZ3xneY=;
+        b=UYVpnWEzFmVvE4nY/YehZEILGz9LSHUVIUE6JokJAo/wFS9c9QU0RHk52pbSJ64hB5
+         F1EcwtfkhMbwFDZCmGgHVdWgGugu7FpmpXm3WSR7qxu0sfNn5bZexytrmPBfWjFSMHrp
+         xTuIUeRSU6pZS0a1zoegZ1e4i7vhqLNIgM0C1JjzR0bLeCVNLlalGWC+v/ERW0fxtCrD
+         R7ywgd9c1vdChx+5KSp21ohpnzKoJF6V0CyCSQbLZn5itfk1SsmQeLZktvuuUf0Zd7sR
+         f5ReJ/6EOouSDC0e8aXgwpJoamB+Evc++zNptefApc9f7VLdo+bM8sT9aQfsz/Py57+n
+         SESw==
+X-Gm-Message-State: AOAM532E/DPAE2gU7oXpZx+qOyk3ubHLi/FehlZM75jN1BAdwnKxouyD
+        nUw2K4sG5X8jacelWZOrdJgqXH2R9/2pwytEf+E=
+X-Google-Smtp-Source: ABdhPJxp5ET5L2YTA3wanMtEqCHLczOyx36yHFnFg6UZI0mLKFWZaADmnk+VVmvj6+SDnpgqRgA+ZQp8fhbmG7dX2Io=
+X-Received: by 2002:a92:d088:: with SMTP id h8mr67865ilh.165.1628260482824;
+ Fri, 06 Aug 2021 07:34:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a02:6384:0:0:0:0:0 with HTTP; Fri, 6 Aug 2021 07:34:42 -0700 (PDT)
+Reply-To: mrmaxwellwatford@gmail.com
+From:   "Mr.Maxwell Watford" <matinmiller89@gmail.com>
+Date:   Fri, 6 Aug 2021 14:34:42 +0000
+Message-ID: <CABQ=EucNt8T50SyY_xMhf4eA-+FY+vTpH5-ztzQHBLq2ww-40w@mail.gmail.com>
+Subject: i need your reply
+To:     matinmiller89@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 05a4a9527931 ("kernel/watchdog: split up config options") adds a
-new config HARDLOCKUP_DETECTOR, which selects the non-existing config
-HARDLOCKUP_DETECTOR_ARCH.
+Greetings,
 
-Hence, ./scripts/checkkconfigsymbols.py warns:
+We are writing to you from Ecowas Finance Controller Office Lome Togo,
+because we have received a file from the Ministry of Finance Lome-
+Togo, concerning an Inherited Fund bearing your name on it, And after
+our verifications, we found out that the funds belong to you.
 
-HARDLOCKUP_DETECTOR_ARCH
-Referencing files: lib/Kconfig.debug
+It has been awarded and I will like to guide you to claim the funds.
+Please contact me at my private email address
+(mrmaxwellwatford@gmail.com) for more information and directive
 
-Simply drop selecting the non-existing HARDLOCKUP_DETECTOR_ARCH.
-
-Fixes: 05a4a9527931 ("kernel/watchdog: split up config options")
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Nicholas, please review and ack.
-
-Andrew, please pick this quick cleanup once Nicholas has acked it.
-
- lib/Kconfig.debug | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 090fb54ecff1..b6b951b0ed46 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1061,7 +1061,6 @@ config HARDLOCKUP_DETECTOR
- 	depends on HAVE_HARDLOCKUP_DETECTOR_PERF || HAVE_HARDLOCKUP_DETECTOR_ARCH
- 	select LOCKUP_DETECTOR
- 	select HARDLOCKUP_DETECTOR_PERF if HAVE_HARDLOCKUP_DETECTOR_PERF
--	select HARDLOCKUP_DETECTOR_ARCH if HAVE_HARDLOCKUP_DETECTOR_ARCH
- 	help
- 	  Say Y here to enable the kernel to act as a watchdog to detect
- 	  hard lockups.
--- 
-2.17.1
-
+I am looking forward to your urgent reply,
+Best regards
+Mr Maxwell Watford
