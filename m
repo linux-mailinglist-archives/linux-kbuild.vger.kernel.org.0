@@ -2,64 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F833E5AF9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Aug 2021 15:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01E703E82CB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Aug 2021 20:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239451AbhHJNUg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Aug 2021 09:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47504 "EHLO
+        id S234022AbhHJSR7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Aug 2021 14:17:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239480AbhHJNUf (ORCPT
+        with ESMTP id S236679AbhHJSRH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Aug 2021 09:20:35 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8965EC061798
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Aug 2021 06:20:13 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id x21so4575369uau.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Aug 2021 06:20:13 -0700 (PDT)
+        Tue, 10 Aug 2021 14:17:07 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFC8C059350
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Aug 2021 10:58:16 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id z20so6113812lfd.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Aug 2021 10:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=r56fIwbJz5SklG4JA6EP+FkmERPm8EjuNIz1zvYA0Tpmfsnzkuj9Mr9ilB+4O1t4iF
-         TJSaAiRseAeimWXIoiZ/aojR4w1dbcHsNBujLSCuMuiKaLluyvcgUi/JEQJlj70o9IEd
-         Yl/0OOPV9kllRbjD3zoBaFd2ApzxJDEEHzY9ZJTfL4UXq1/r4AobRJH0IUhbnGDv8HVX
-         yiVUloxSQKlbYb1M7BZgm8fAZ9m20jI1slKm68o1oKxPbw8XzrEgPc9oJSx/4tHQe2x8
-         HrZw5WHEF9bREO+R7wsyO2DExoyYmOVp3UFrXNeckA4TksY0PWoEs1kePiLiiulK2ynd
-         oMVw==
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=jOtoBPdTetxURGXaH4p/edf3lKEpBVLNOZWC7CVT0Rg=;
+        b=dm9N0vPWFbrcjRwEI9MQKP8yuSqsBl8oNyQGqJ5y7iHMviv88sjQoYrw7GJGGqb2Tj
+         lYjMeBX83/nqzvs4mBL1WtuJnmSn5/sfmrf2kwmrTFOKS1bH7cGUTzdaNybAXmoXmdc6
+         uEeKGODe3aagvLZhhylGco+qZO8gsIRFrCwDAxsaf6oMiA35pnoyQ4Cxxs8J/iQUviNZ
+         v/OLZvmyj0Yui7MWEl72NIOpyuniWzgyDTiCl2+YrWd4X8S48MaM8YcTbCuzSIjpi0fz
+         woHE+J+Rj3sBxlLHvqcgoH2B/xXLMv6Booee/jkTHHyVmVjACD9AU8Fz0Npz5Pwt3wpf
+         BUlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=2tvLhkad0w+Mh63WhnFJkmRFgYsLXsJmUqGVjzUAFIo=;
-        b=hYJMIBjTHo853FD7jsso5uot3AG/2m+ojtZCVCgS/2kI0zmiIK0mXg4yavGqNoRaWN
-         OVBGvTFTrepo1IvwrET1OKrcF1EoIPcxRpe6vYuav1VRTj/ZY98Y3N/oclvNPkvL4heJ
-         wg9WGfWDRpJPwqk4mYCkJk45IS2HnU2VTbHy1Bf9pKSkuXkVWt9XXsTev1tPlk1Jkm1H
-         YJ6mMOHR1/sgeTjqbiGgQlBvnzj+FnjvqbqjUZ+PRRqfYjRmupaZVxvAMYDCagC0KtJb
-         8w6obBFJ4/A41L8WZwf1Yo3eozOaxCeeGb1ZRRIXHJr6d5ci2yzA+uWd7YF8ZvsS2Hgd
-         QVYw==
-X-Gm-Message-State: AOAM532KUc96uopr2e5H+tJWh9tVKFs34A/e2fC+pZW3F1qQTy9/AJzu
-        c2FAN3XwcYn6WFjMLjggKS2vRo42aGRBtU/l868=
-X-Google-Smtp-Source: ABdhPJzvGsx1vfv3zDD0ahziTo63ivIbwfZEjzIqeDHBCiEzkGEl++4p3okNueaG6Xo6XFnebs4VnqPzJeE4UcTii44=
-X-Received: by 2002:a9f:2c93:: with SMTP id w19mr9591949uaj.26.1628601612739;
- Tue, 10 Aug 2021 06:20:12 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=jOtoBPdTetxURGXaH4p/edf3lKEpBVLNOZWC7CVT0Rg=;
+        b=VyDbYfdW7qMLcx4BGQG3s6fHsBF0r2SU2u4SwHotnwMjnYC9+TNVL237/qL43d2sRT
+         ULj0ZaHu6XQcHfs6ml5c7g+HZCbpE46+rMp93aYqxueoiPlLnA8JOJB81WLZNHutU+j3
+         o7FiAuIHptOZ1ceUZ1HcJ4aafxt8wv5kULA5Gtx93Nwcf5FIk3NbT2SrdToc1i1X+mHb
+         eGdI1XqC6G2tzzu2pkuU9hLdtx884fU9q3gMkmpnAgocQIr6DZtyQI2N5bjhcsP9OWPA
+         QwK8agAKy+DewjQRMb5wy9f8fcqZCV+fbUBwjEQfrX8TaL8Z/9uCTxMk0Pu5lV9cW/Nk
+         iLXg==
+X-Gm-Message-State: AOAM533wn07tOSAAbxEhUtMIcyehz0XqYpYyE0on8DfJknWDUDOvMMKi
+        b9olxx104ORX7oYVOQGbN2Rc/dEGtFgurLRipX2MCTB5aFyqC8LU
+X-Google-Smtp-Source: ABdhPJz19/eIpqCYy/fTPnfLcatxCAIxsDs+JqpO2si9tAUwkyhU5mUyC5TXx4Mg1kBzLD3lYNuzt9fR4ZzQQrU+brI=
+X-Received: by 2002:ac2:4e8c:: with SMTP id o12mr12176777lfr.374.1628618294686;
+ Tue, 10 Aug 2021 10:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Sender: immeublesourou@gmail.com
-Received: by 2002:ab0:3903:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 06:20:12
- -0700 (PDT)
-From:   John Kumor <owo219901@gmail.com>
-Date:   Wed, 11 Aug 2021 01:20:12 +1200
-X-Google-Sender-Auth: zdxQGkl3dqzssRDPO2oW64CMnKw
-Message-ID: <CAHdg_cRt+TWqdUjK3Xf84mj5+AwgMtamTmu9J8c3d6u2KdArLQ@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 10 Aug 2021 10:58:03 -0700
+Message-ID: <CAKwvOdkPLrL6wkhSGaadAcj3HNi1W2q6TQHWFhSej8JvatSzfw@mail.gmail.com>
+Subject: cc-option-yn necessary? (vs cc-option)
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-My dear,
-Greetings! I trust that all is well with you and your family. Did you
-receive my previous email?
-Regards
-John Kumor.
+Masahiro,
+I was looking through the uses of cc-option, cc-option-yn, and
+cc-disable-warning to see what we're missing support for in Clang.
+
+I have a short list of places where cc-option can be removed at
+https://github.com/ClangBuiltLinux/linux/issues/1436#issuecomment-895557491
+because all supported versions of supported toolchains support these
+flags.  These should remove a few unnecessary compiler invocations.
+
+There are also a few cc-option tests that are very compiler specific,
+so those might be convertible to just check CC_IS_* rather than
+cc-option (I'll have to verify).
+
+Another thing I noticed is that it seems that most uses of
+cc-option-yn are replaceable with simply cc-option when they use
+cc-option-yn but check that the result is equal to y. I think even the
+cases that check against n could be converted to:
+
+Examples:
+arch/x86/Makefile
+From:
+ifeq ($(call cc-option-yn, -mfentry), n)
+To:
+ifeq ($(call cc-option,-mfentry),)
+(Though technically, all supported versions of gcc and clang support
+-mfentry, so this block should just be deleted)
+
+arch/powerpc/Makefile
+From:
+ifeq ($(call cc-option-yn,-mcmodel=medium),y)
+To:
+ifneq ($(call cc-option,-mcmodel=medium),)
+
+Then perhaps we could consolidate cc-option-yn into cc-option?  What
+are your thoughts? Should I start sending you patches for all of the
+above?
+-- 
+Thanks,
+~Nick Desaulniers
