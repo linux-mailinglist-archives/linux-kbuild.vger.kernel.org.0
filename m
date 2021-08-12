@@ -2,80 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD3F3E9B14
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Aug 2021 00:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 252D03EA250
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Aug 2021 11:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232600AbhHKWzL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Aug 2021 18:55:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33820 "EHLO
+        id S235566AbhHLJqX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Aug 2021 05:46:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232470AbhHKWzK (ORCPT
+        with ESMTP id S235328AbhHLJqX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Aug 2021 18:55:10 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC865C061765;
-        Wed, 11 Aug 2021 15:54:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=2wxyBZN4Hk4I18K5RwgFDHv/H1AMQ7HcLWjYd+zp/TY=; b=nnMKtZLzc1yUsXHZArntvKErl1
-        UjtrIJISkTvTz02IN8VXHr5j9ypw288xz9EtemV2TNnJl/1Q/jdmdFsqrf4MJK1xD0FZpYhBA9Dz3
-        pKFQlumqspzOuiWT2f1ONtLvbEGnktVYAlOLIAlRlkfnFQQ/Iif+p/wJqiNa8Ln7XcvamFwmr2sQR
-        LzcOguFmqxFtCXxx8gPnFQ7oKLel4WTomnXVelMJ4TW056Ca11kDlRhkQqUcHtUvDS6aXeIPT5jiR
-        K6dQ+BTkTduqz6Npcu5EIICuqp5jdkAQHftYnsam/fRVKAF1n4z8M7KVsmOwwM0ygrE8sFsotuPFG
-        EdVOFw1w==;
-Received: from [2601:1c0:6280:3f0:e65e:37ff:febd:ee53] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mDx7U-008Iec-H0; Wed, 11 Aug 2021 22:54:44 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: allow "make" targets 'versioncheck' and 'includecheck' withoug .config file
-Date:   Wed, 11 Aug 2021 15:54:42 -0700
-Message-Id: <20210811225442.9537-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        Thu, 12 Aug 2021 05:46:23 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FA9C061765
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Aug 2021 02:45:58 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:438:1ff1:1071:f524])
+        by albert.telenet-ops.be with bizsmtp
+        id gZlv2500U1gJxCh06ZlvCo; Thu, 12 Aug 2021 11:45:56 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1mE7Hf-002E9j-7z; Thu, 12 Aug 2021 11:45:55 +0200
+Date:   Thu, 12 Aug 2021 11:45:55 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To:     Jeremy Kerr <jk@codeconstruct.com.au>
+cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>, netdev@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matt Johnston <matt@codeconstruct.com.au>,
+        Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH net-next v3 01/16] mctp: Add MCTP base
+In-Reply-To: <20210723082932.3570396-2-jk@codeconstruct.com.au>
+Message-ID: <alpine.DEB.2.22.394.2108121139490.530553@ramsan.of.borg>
+References: <20210723082932.3570396-1-jk@codeconstruct.com.au> <20210723082932.3570396-2-jk@codeconstruct.com.au>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Top-level Makefile targets 'versioncheck' and 'includecheck' don't
-need a configured kernel (i.e., don't need a .config file), so add
-them the the list of "no-dot-config-targets".
-This eliminates the 'make' error:
+ 	Hi Jeremy,
 
-***
-*** Configuration file ".config" not found!
-***
-*** Please run some configurator (e.g. "make oldconfig" or
-*** "make menuconfig" or "make xconfig").
-***
-Makefile:759: include/config/auto.conf.cmd: No such file or directory
+CC kbuild
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linux-kbuild@vger.kernel.org
----
-Fixes: I couldn't determine this.
+On Fri, 23 Jul 2021, Jeremy Kerr wrote:
+> Add basic Kconfig, an initial (empty) af_mctp source object, and
+> {AF,PF}_MCTP definitions, and the required selinux definitions.
+>
+> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
 
- Makefile |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks for your patch, which is now commit bc49d8169aa72295 ("mctp: Add
+MCTP base") in net-next.
 
---- linux-next-20210811.orig/Makefile
-+++ linux-next-20210811/Makefile
-@@ -274,7 +274,8 @@ no-dot-config-targets := $(clean-targets
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile rustfmt rustfmtcheck
-+			 outputmakefile rustfmt rustfmtcheck \
-+			 versioncheck includecheck
- # Installation targets should not require compiler. Unfortunately, vdso_install
- # is an exception where build artifacts may be updated. This must be fixed.
- no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -1330,7 +1330,9 @@ static inline u16 socket_type_to_security_class(int family, int type, int protoc
+> 			return SECCLASS_SMC_SOCKET;
+> 		case PF_XDP:
+> 			return SECCLASS_XDP_SOCKET;
+> -#if PF_MAX > 45
+> +		case PF_MCTP:
+> +			return SECCLASS_MCTP_SOCKET;
+
+When building an allmodconfig kernel, I got:
+
+security/selinux/hooks.c: In function 'socket_type_to_security_class':
+security/selinux/hooks.c:1334:32: error: 'SECCLASS_MCTP_SOCKET' undeclared (first use in this function); did you mean 'SECCLASS_SCTP_SOCKET'?
+  1334 |                         return SECCLASS_MCTP_SOCKET;
+       |                                ^~~~~~~~~~~~~~~~~~~~
+       |                                SECCLASS_SCTP_SOCKET
+
+> +#if PF_MAX > 46
+> #error New address family defined, please update this function.
+> #endif
+> 		}
+> diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
+> index 62d19bccf3de..084757ff4390 100644
+> --- a/security/selinux/include/classmap.h
+> +++ b/security/selinux/include/classmap.h
+> @@ -246,6 +246,8 @@ struct security_class_mapping secclass_map[] = {
+> 	    NULL } },
+> 	{ "xdp_socket",
+> 	  { COMMON_SOCK_PERMS, NULL } },
+> +	{ "mctp_socket",
+> +	  { COMMON_SOCK_PERMS, NULL } },
+> 	{ "perf_event",
+> 	  { "open", "cpu", "kernel", "tracepoint", "read", "write", NULL } },
+> 	{ "lockdown",
+
+The needed definition should be auto-generated from the above file, but
+there seems to be an issue with the dependencies, as the file was not
+regenerated.
+
+Manually removing security/selinux/flask.h in the build dir fixed the
+issue.
+
+I'm building in a separate build directory, using make -j 12.
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
