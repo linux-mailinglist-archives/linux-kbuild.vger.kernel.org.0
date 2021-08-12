@@ -2,139 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C13A3EAB71
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Aug 2021 22:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8E83EABC2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Aug 2021 22:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236607AbhHLUDE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Aug 2021 16:03:04 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:63399 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbhHLUDD (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Aug 2021 16:03:03 -0400
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 17CK2QXi022177;
-        Fri, 13 Aug 2021 05:02:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17CK2QXi022177
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628798546;
-        bh=B2s6IPDU0ZhP9PTPZ+IHCIeZhp+kPml77B3svXFqvxs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vF7+DlT5VspEoottraQN6vL4780Jf6ZqoY1TXrU9KJ3E+DHlx+YxusTqWIWrdm77c
-         A1GUIqGl5sWexFRyr1YzhV8zOJ+BoIc+0X4swgLRfeclaA/TsFFDzPGzXQapRWcRFY
-         scRiWo8K3GO9QKWBMjVlf3Z+Oax6DOGnvy33rf4qHUoTgFjr2LFajetI3tIqzVOyVu
-         e+HKGU/eg/XvS/QjwIUOT6VfFbh7juPkETas5OwDtf8+OuKOOrPwJ3WMymaKo0yQmy
-         2CyaI/J72nghrF8JrMAoNEcicxqaZ8ViL5FOzeCA7f8a3j/WTGSEfOBBhCt2Y24ax6
-         e9mPmt8uqThjw==
-X-Nifty-SrcIP: [209.85.214.178]
-Received: by mail-pl1-f178.google.com with SMTP id e19so8717720pla.10;
-        Thu, 12 Aug 2021 13:02:26 -0700 (PDT)
-X-Gm-Message-State: AOAM531kkKIkzVKqI2lay7y5eNVx3cRRoizBA7DvieWEOa64ULjv0qaq
-        2u5XlYOCoAf6LdS1T1cQGC4RAu2KPtPxy6crVCs=
-X-Google-Smtp-Source: ABdhPJyAGsclF1gCXQl9VFeDdpJdj+pm9U3a7RM3tixuBRgNiz4O/Gv+JAxx0xWqHLTDNNPiqUFEV3t1TCrbnCPulus=
-X-Received: by 2002:a65:6459:: with SMTP id s25mr5400881pgv.7.1628798545805;
- Thu, 12 Aug 2021 13:02:25 -0700 (PDT)
+        id S233214AbhHLU1A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Aug 2021 16:27:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59690 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229677AbhHLU07 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 12 Aug 2021 16:26:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E738460C3F;
+        Thu, 12 Aug 2021 20:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628799994;
+        bh=gCEp159FxcYRrujxKawE9sngnP7fwMT//Cws8omxxXk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Rlk/u6kQYLNpFKp8UJoMnJ47Gbu/5kTeNIql9WNhUq8z14w6/CePlVBh2xFgaNzNy
+         JEeHenkeXihHz8fTtvPcrBLgUtLmLnrUuyCSQUFw9s48Tpr0MOA3XGeC7lWhHDpp95
+         GDfiIpF6EtiY5RkNguRglHyxmYgdWLtVr5yVI4xzgV6GAulNFSUPx8vwoi5a8bcBSR
+         k+caNmWAej31OGt5WsodKzUWNs/Kwc50GQkUFhI4t3zmlJ0v+1/imuH4BtOR4qdggN
+         kxT9EF+Z5j4GS9Lc+eDJXAwfqRvlJovKk+UBYtNA/0Kk0TGY6b4alp0jgmV0gbd1TH
+         5E4Boix3cf8Ow==
+Date:   Thu, 12 Aug 2021 15:26:32 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210812202632.GA2504075@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <20210811203035.2463343-1-samitolvanen@google.com>
-In-Reply-To: <20210811203035.2463343-1-samitolvanen@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 13 Aug 2021 05:01:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS7Hf19wxebY70jK0TsebmfUpdh5AMo5W21PEjEXOERTw@mail.gmail.com>
-Message-ID: <CAK7LNAS7Hf19wxebY70jK0TsebmfUpdh5AMo5W21PEjEXOERTw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Alexander Lobakin <alobakin@pm.me>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210812195126.GA4026@nvidia.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 5:30 AM Sami Tolvanen <samitolvanen@google.com> wrote:
->
-> With CONFIG_LTO_CLANG, we currently link modules into native
-> code just before modpost, which means with TRIM_UNUSED_KSYMS
-> enabled, we still look at the LLVM bitcode in the .o files when
-> generating the list of used symbols. As the bitcode doesn't
-> yet have calls to compiler intrinsics and llvm-nm doesn't see
-> function references that only exist in function-level inline
-> assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-> work with LTO.
->
-> This change moves module LTO linking to happen earlier, and
-> thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-> entirely, allowing us to also drop the whitelist from
-> gen_autoksyms.sh.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Reviewed-by: Alexander Lobakin <alobakin@pm.me>
-> Tested-by: Alexander Lobakin <alobakin@pm.me>
-> ---
-> Changes in v2:
-> - Fixed a couple of typos.
-> - Fixed objtool arguments for .lto.o to always include --module.
->
-> ---
->  scripts/Makefile.build    | 24 +++++++++++++++++++++++-
->  scripts/Makefile.lib      |  7 +++++++
->  scripts/Makefile.modfinal | 21 ++-------------------
->  scripts/Makefile.modpost  | 22 +++-------------------
->  scripts/gen_autoksyms.sh  | 12 ------------
->  5 files changed, 35 insertions(+), 51 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 02197cb8e3a7..778dabea3a89 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -271,12 +271,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
->         $(call if_changed_rule,cc_o_c)
->         $(call cmd,force_checksrc)
->
-> +ifdef CONFIG_LTO_CLANG
-> +# Module .o files may contain LLVM bitcode, compile them into native code
-> +# before ELF processing
-> +quiet_cmd_cc_lto_link_modules = LTO [M] $@
-> +cmd_cc_lto_link_modules =                                              \
-> +       $(LD) $(ld_flags) -r -o $@                                      \
-> +               $(shell [ -s $(@:.lto.o=.o.symversions) ] &&            \
-> +                       echo -T $(@:.lto.o=.o.symversions))             \
-> +               --whole-archive $^
-> +
-> +ifdef CONFIG_STACK_VALIDATION
-> +# objtool was skipped for LLVM bitcode, run it now that we have compiled
-> +# modules into native code
-> +cmd_cc_lto_link_modules += ;                                           \
-> +       $(objtree)/tools/objtool/objtool $(objtool_args) --module       \
-> +               $(@:.ko=$(mod-prelink-ext).o)
-> +endif
-> +
-> +$(obj)/%.lto.o: $(obj)/%.o
-> +       $(call if_changed,cc_lto_link_modules)
+On Thu, Aug 12, 2021 at 04:51:26PM -0300, Jason Gunthorpe wrote:
+> On Thu, Aug 12, 2021 at 10:57:07AM -0500, Bjorn Helgaas wrote:
+> > On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
+> > > On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
+> > > > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
+> > 
+> > > > Do the other bus types have a flag analogous to
+> > > > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
+> > > > other bus types, it'd be nice if the approach were similar.
+> > > 
+> > > They could, this series doesn't attempt it. I expect the approach to
+> > > be similar as driver_override was copied from PCI to other
+> > > busses. When this is completed I hope to take a look at it.
+> > 
+> > I think this would make more sense as two patches:
+> > 
+> >   - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
+> >     since nothing in PCI depends on the VFIO-ness of drivers that use
+> >     the flag.  The only point here is that driver id_table entries
+> >     with this flag only match when driver_override matches the driver.
+> 
+> This would require using two flags, one to indicate the above to the
+> PCI code and another to indicate the vfio_pci string to
+> file2alias. This doesn't seem justified at this point, IMHO.
 
+I don't think it requires two flags.  do_pci_entry() has:
 
+  if (flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
+    strcpy(alias, "vfio_pci:");
 
+I'm just proposing a rename:
 
-Documentation/kbuild/makefiles.rst says:
+s/PCI_ID_F_VFIO_DRIVER_OVERRIDE/PCI_ID_DRIVER_OVERRIDE/
 
-          Note: It is a typical mistake to forget the FORCE prerequisite.
+> >   - Update file2alias.c to export the flags and the "vfio_pci:" alias.
+> >     This seems to be the only place where VFIO comes into play, and
+> >     putting it in a separate patch will make it much smaller and it
+> >     will be clear how it could be extended for other buses.
+> 
+> Well, I don't want to see a flag called PCI_ID_DRIVER_OVERRIDE mapped
+> to the string "vfio_pci", that is just really confusing.
 
+Hahaha, I see, that's fair :)  It confused me for a long time why you
+wanted "VFIO" in the flag name because from the kernel's point of
+view, the flag is not related to any VFIO-ness.  It's only related to
+a special variety of driver_override, and VFIO happens to be one user
+of it.
 
-The current code in scripts/Makefile.modpost is also wrong, though.
+I think a separate patch that maps the flag to "vfio_pci" would be
+less confusing because without the distractions of the PCI core
+changes, it will be obvious that "vfio_" is a file2alias thing that's
+there for userspace convenience, not for kernel reasons.
 
+Do you envision any other prefixes in the future?  I hope we don't
+have to clutter pci_match_device() with checking multiple flags.
+Maybe the problem is that the modules.alias entry includes "vfio_" --
+maybe we need a more generic prefix with just the idea of an
+"alternate" driver.
 
-
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Bjorn
