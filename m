@@ -2,134 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F32A23EB17D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 09:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B68513EB1AF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 09:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239415AbhHMH3f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Aug 2021 03:29:35 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:32656 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238816AbhHMH3f (ORCPT
+        id S238992AbhHMHkv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Aug 2021 03:40:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238787AbhHMHku (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Aug 2021 03:29:35 -0400
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 17D7SX08005023;
-        Fri, 13 Aug 2021 16:28:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17D7SX08005023
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628839714;
-        bh=BV8wnGfpU0adexwE48wxaMnANp7xHb9xXsYRk1N/H18=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Wv4bUS5DC5jMTBHGvc+v/2dW0yUAhx2C+vVmHRxcKO0FCnXTMbyfr+1kYaPLgsdmb
-         AP8MkQY25tURaJfMeMLWoHXModJ1xvNbovHw1LwfoDwxzwQ0QZcA6WMpHBPlrz/PzW
-         8pMYW2ou/pAtxqGmZG1/trSXXAFJkwvrfU+Zt4diwVYcotLBQfF3VCngLvke/aYuZr
-         idCzI9IhobsRo3C9RDNZLgoYPGkzZTjAruIftr1v9cU/AznvCg7APk4Q0d1jiZdX/A
-         C8lT50sItK11iJWza+Ot/5wbjAQiUq8UqEtgLwpWHako41bNM1yrCX0xC84Eq5OdNo
-         5l6C+LwCi/zKQ==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id bo18so14171538pjb.0;
-        Fri, 13 Aug 2021 00:28:34 -0700 (PDT)
-X-Gm-Message-State: AOAM531vw/gAV0yRVmhLy/1WD4XoyGkmE1pV7aoOqhCCU/wGwtKAkd9N
-        13Rv/p6oa7wSQyZVHcIjczct7weFXsW+w/NkwtM=
-X-Google-Smtp-Source: ABdhPJyx44tl9Uqj/H6tA+h95icpAvU0tmj4P0oIKNOx0eYC/VoDpCvWHbGhx2UZQAkDxdiox5Mt6fBk1kYZ8MIeF5o=
-X-Received: by 2002:a17:90a:7384:: with SMTP id j4mr1212507pjg.153.1628839713522;
- Fri, 13 Aug 2021 00:28:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210811225442.9537-1-rdunlap@infradead.org>
-In-Reply-To: <20210811225442.9537-1-rdunlap@infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 13 Aug 2021 16:27:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASJi3HWY9ut8+mkSOAWD=QxB7ftnkHdqZRW0fLbO5NDhg@mail.gmail.com>
-Message-ID: <CAK7LNASJi3HWY9ut8+mkSOAWD=QxB7ftnkHdqZRW0fLbO5NDhg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: allow "make" targets 'versioncheck' and
- 'includecheck' withoug .config file
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        Fri, 13 Aug 2021 03:40:50 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB43C061756;
+        Fri, 13 Aug 2021 00:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=sJrRyJAk0s7nMFwbcLX8dMSTh66Xp6VqgCIIZV7nbU4=;
+        t=1628840423; x=1630050023; b=Kdt+VYOuseLyRh98tKIyHWM0dDqNuy9A1CLDJZZBvyBMhRp
+        MaRTVKSHX6U8PutiB796fn/6fdQtu6q4Zj8yL6pw35jdHVV1JhOcUcHFAPyN+kvCeOo/R5y62vdI+
+        ppF7+qvJr4CWRzMaVGKxyapI/npTavpqjhPUFXu7eXYC9ZlbkVVKtNI3r9DNlQc0cmd0JOte/9r5z
+        Z0arFTGU6S374xTr+wCs/trETSWIqQar3VoNH2wfMcVRVIxeR8bq8M7q0n3+lwLDeR2Sm1jHh0FfN
+        RP/hfK0EG0fGP6eKsoe7XyhwN1YNNwa6sP4ulj8D/etp5Mld1jHk72oegvQAWNqg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94.2)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1mERnV-00A8zH-4r; Fri, 13 Aug 2021 09:40:09 +0200
+Message-ID: <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Kees Cook <keescook@chromium.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-hardening@vger.kernel.org
+Date:   Fri, 13 Aug 2021 09:40:07 +0200
+In-Reply-To: <202107310852.551B66EE32@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+         <20210727205855.411487-40-keescook@chromium.org>
+         <202107310852.551B66EE32@keescook>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 7:54 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Top-level Makefile targets 'versioncheck' and 'includecheck' don't
-> need a configured kernel (i.e., don't need a .config file), so add
-> them the the list of "no-dot-config-targets".
-> This eliminates the 'make' error:
->
-> ***
-> *** Configuration file ".config" not found!
-> ***
-> *** Please run some configurator (e.g. "make oldconfig" or
-> *** "make menuconfig" or "make xconfig").
-> ***
-> Makefile:759: include/config/auto.conf.cmd: No such file or directory
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-kbuild@vger.kernel.org
-> ---
-> Fixes: I couldn't determine this.
->
->  Makefile |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> --- linux-next-20210811.orig/Makefile
-> +++ linux-next-20210811/Makefile
-> @@ -274,7 +274,8 @@ no-dot-config-targets := $(clean-targets
->                          cscope gtags TAGS tags help% %docs check% coccicheck \
->                          $(version_h) headers headers_% archheaders archscripts \
->                          %asm-generic kernelversion %src-pkg dt_binding_check \
-> -                        outputmakefile rustfmt rustfmtcheck
-> +                        outputmakefile rustfmt rustfmtcheck \
-> +                        versioncheck includecheck
->  # Installation targets should not require compiler. Unfortunately, vdso_install
->  # is an exception where build artifacts may be updated. This must be fixed.
->  no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
+On Sat, 2021-07-31 at 08:55 -0700, Kees Cook wrote:
+> On Tue, Jul 27, 2021 at 01:58:30PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> > 
+> > Use memset_after() so memset() doesn't get confused about writing
+> > beyond the destination member that is intended to be the starting point
+> > of zeroing through the end of the struct.
+> > 
+> > Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
+> > clear ack_signal, but the open-coded versions do. All three perform
+> > checks that the ack_signal position hasn't changed, though.
+> 
+> Quick ping on this question: there is a mismatch between the common
+> helper and the other places that do this. Is there a bug here?
 
+Yes.
 
+The common helper should also clear ack_signal, but that was broken by
+commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
+that commit changed the order of the fields and updated carl9170 and p54
+properly but not the common helper...
 
-There is no good reason to invoke checkincludes.pl via GNU Make
-in the first place.
+It doesn't actually matter much because ack_signal is normally filled in
+afterwards, and even if it isn't, it's just for statistics.
 
+The correct thing to do here would be to
 
+	memset_after(&info->status, 0, rates);
 
-A better solution is to do it by a shell script
-or to make checkincludes.pl traverse the
-subdirectories by itself.
+johannes
 
-
-
-[1] An easy solution
-
-Add scripts/checkincludes-all:
-
-
-#!/bin/sh
-find . -name '*.[hcS]' -type f -print | sort \
-  | xargs $(dirname $0)/checkincludes.pl
-
-
-Then, remove the 'includecheck' target from the Makefile.
-
-You can do 'scripts/checkincludes-all'
-instead of 'make includecheck'.
-
-
-
-[2] A better solution
-
-Extend scripts/checkincludes.pl so that it checks
-all *.[hcS] files under the current directory
-when no argument is passed.
-
-You can simply do 'scripts/checkincludes.py'
-
-
-
--- 
-Best Regards
-Masahiro Yamada
