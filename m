@@ -2,74 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2669B3EBCA7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 21:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FC9F3EBE56
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Aug 2021 00:41:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233780AbhHMTpd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Aug 2021 15:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53620 "EHLO
+        id S235059AbhHMWmD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Aug 2021 18:42:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230440AbhHMTpc (ORCPT
+        with ESMTP id S235029AbhHMWmC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Aug 2021 15:45:32 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F27FC061756;
-        Fri, 13 Aug 2021 12:45:05 -0700 (PDT)
+        Fri, 13 Aug 2021 18:42:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56516C061756;
+        Fri, 13 Aug 2021 15:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=vGxwLQwFO2S7TTjs1yBKTvR75GNMnpeXiG3mZABQ1io=;
-        t=1628883905; x=1630093505; b=pk97yo0ziCaTXhJO1U8NwHm2jV76Y1SaMwLWw+oePwsCEI4
-        /k80LWcPeO/cALwT9OL5KTQkkm9mEHdtcnFhrJaaBlfgHE8aOrb4x/ZeSluTZXL/didolW5u8Zs9Z
-        bdwbalR72Mqq8K97CK7TiMbG1iz2x6MbEZ8YUiMw31HJNn7vBfxDWUXmczj94VPwWq05wTWxE6U0C
-        H2v26+p/PcH1k3fe7Dev7l/mECrDmmJWH1PKMDIwkJjmVtFfs492L6GS8qdPDJFCGZA1bsGdxbnTr
-        izLUxRkmVFYineHvfmu+L5HCo0cyFqAtG1sXP/U4S/EnF1TotvO9/LYFmwC/zVzw==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.94.2)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1mEd6u-00ANL4-Up; Fri, 13 Aug 2021 21:44:57 +0200
-Message-ID: <6488ed24d2ce0ccb1987c271064e25bc72c30863.camel@sipsolutions.net>
-Subject: Re: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Date:   Fri, 13 Aug 2021 21:44:55 +0200
-In-Reply-To: <202108130846.EC339BCA@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
-         <20210727205855.411487-11-keescook@chromium.org>
-         <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
-         <202108130846.EC339BCA@keescook>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=9LVCyfqZR/mJDKYzPBzlmzTBTxLDn7h7pvpHyqkQo6A=; b=LFI/tyvxzL1hQTH5R1lZEI8E7q
+        9SHEHzqBlZLD6FUMp1RVSGYGx7ibosArsCgo4sKgp+fe5j6SNmHoDI0onGPjmGASvsB05RTchMDJj
+        bRS0DTYIPshTLjxPDDxvIfk/LDW6TevpH4I+rjMCww55520LeNrEsDFNfbrCUke9Qnu1dHU2uAGww
+        wzNkiXAHa7ph7cr+iZYFTgIxZFsga42YJ4pYfmMppiwHFrkcVgyiuIEqJf4y+AOev5AlFGPDftETB
+        p2YjUfiWJbJDSbFXgOdEUQCetL220a8NPJu77vfX0YKCHhyJVlUEBgSAfNNjriMPfXIUzY41sKe3S
+        9A5tMLAw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mEfrp-00Df0o-1T; Fri, 13 Aug 2021 22:41:33 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: use -Wno-main in the full kernel tree
+Date:   Fri, 13 Aug 2021 15:41:31 -0700
+Message-Id: <20210813224131.25803-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 2021-08-13 at 08:49 -0700, Kees Cook wrote:
-> 
-> Ah! Yes, thanks for pointing this out. During earlier development I split
-> the "cross-field write" changes from the "cross-field read" changes, and
-> it looks like I missed moving lib80211_crypt_ccmp.c into that portion of
-> the series (which I haven't posted nor finished -- it's lower priority
-> than fixing the cross-field writes).
+When using gcc (SUSE Linux) 7.5.0 (on openSUSE 15.3), I see a
+build warning:
 
-Oh, OK. I think all of this patch was cross-field read though.
+../kernel/trace/trace_osnoise.c: In function 'start_kthread':
+../kernel/trace/trace_osnoise.c:1461:8: warning: 'main' is usually a function [-Wmain]
+  void *main = osnoise_main;
+        ^~~~
 
-Anyway, the patch itself is fine, just seems incomplete and somewhat
-badly organised :)
+Quieten that warning by using "-Wno-main". It's OK to use "main" as a
+declaration name in the kernel.
 
-johannes
+Build-tested on most ARCHes.
 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-kbuild@vger.kernel.org
+---
+ Makefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+--- linux-next-20210812.orig/Makefile
++++ linux-next-20210812/Makefile
+@@ -522,7 +522,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-P
+ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+ 		   -Werror=implicit-function-declaration -Werror=implicit-int \
+-		   -Werror=return-type -Wno-format-security \
++		   -Werror=return-type -Wno-format-security -Wno-main \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_RUST_TARGET := $(srctree)/arch/$(SRCARCH)/rust/target.json
