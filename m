@@ -2,95 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD27F3EB00E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 08:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32A23EB17D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 09:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238893AbhHMGbC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Aug 2021 02:31:02 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17302 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238613AbhHMGbC (ORCPT
+        id S239415AbhHMH3f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Aug 2021 03:29:35 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:32656 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238816AbhHMH3f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Aug 2021 02:31:02 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 17D6U7KX027960;
-        Fri, 13 Aug 2021 15:30:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 17D6U7KX027960
+        Fri, 13 Aug 2021 03:29:35 -0400
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 17D7SX08005023;
+        Fri, 13 Aug 2021 16:28:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17D7SX08005023
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1628836208;
-        bh=2uyWj3h2GkHP1NCnqBhoeJftu4PYK3lPRAQw5R60hWs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jix1rYh0mraSpD3oie+vA8WRYLEn++pG++eMwczTMU89WDlLUvuvD1w7mGFoN1V8z
-         gQVGHJhxHUJ2gGv3kQXJkmJZDefSutU1R7qJNVJsCKn7a56DsCa0BUYeQ/vgrSljCJ
-         bk3s+DkmG7m24/lbC6rvcc23buqw+9Lysbr/BdH0lNwJ9tDb/iepXvs+dWuHgD/2HC
-         W0xxXDswKv1t0ZjvKARkRyECf09mbmBxXPy5dsmaTTp192N3RZ3ODRCp2GvuaRi8Zx
-         CLWc25Y3SKrAlsYnH4djEGb3IZjV0PRrnYLRfYM5WeihZMk+mEqpnB5NstvL8wdZcs
-         GIASuywfsuqkg==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 2/2] kbuild: warn if FORCE is missing for if_changed(_dep,_rule) and filechk
-Date:   Fri, 13 Aug 2021 15:30:05 +0900
-Message-Id: <20210813063005.1739278-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210813063005.1739278-1-masahiroy@kernel.org>
-References: <20210813063005.1739278-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1628839714;
+        bh=BV8wnGfpU0adexwE48wxaMnANp7xHb9xXsYRk1N/H18=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Wv4bUS5DC5jMTBHGvc+v/2dW0yUAhx2C+vVmHRxcKO0FCnXTMbyfr+1kYaPLgsdmb
+         AP8MkQY25tURaJfMeMLWoHXModJ1xvNbovHw1LwfoDwxzwQ0QZcA6WMpHBPlrz/PzW
+         8pMYW2ou/pAtxqGmZG1/trSXXAFJkwvrfU+Zt4diwVYcotLBQfF3VCngLvke/aYuZr
+         idCzI9IhobsRo3C9RDNZLgoYPGkzZTjAruIftr1v9cU/AznvCg7APk4Q0d1jiZdX/A
+         C8lT50sItK11iJWza+Ot/5wbjAQiUq8UqEtgLwpWHako41bNM1yrCX0xC84Eq5OdNo
+         5l6C+LwCi/zKQ==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id bo18so14171538pjb.0;
+        Fri, 13 Aug 2021 00:28:34 -0700 (PDT)
+X-Gm-Message-State: AOAM531vw/gAV0yRVmhLy/1WD4XoyGkmE1pV7aoOqhCCU/wGwtKAkd9N
+        13Rv/p6oa7wSQyZVHcIjczct7weFXsW+w/NkwtM=
+X-Google-Smtp-Source: ABdhPJyx44tl9Uqj/H6tA+h95icpAvU0tmj4P0oIKNOx0eYC/VoDpCvWHbGhx2UZQAkDxdiox5Mt6fBk1kYZ8MIeF5o=
+X-Received: by 2002:a17:90a:7384:: with SMTP id j4mr1212507pjg.153.1628839713522;
+ Fri, 13 Aug 2021 00:28:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210811225442.9537-1-rdunlap@infradead.org>
+In-Reply-To: <20210811225442.9537-1-rdunlap@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 13 Aug 2021 16:27:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASJi3HWY9ut8+mkSOAWD=QxB7ftnkHdqZRW0fLbO5NDhg@mail.gmail.com>
+Message-ID: <CAK7LNASJi3HWY9ut8+mkSOAWD=QxB7ftnkHdqZRW0fLbO5NDhg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: allow "make" targets 'versioncheck' and
+ 'includecheck' withoug .config file
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-if_changed, if_changed_dep, and if_changed_rule must have FORCE as a
-prerequisite so the command line change is detected.
+On Thu, Aug 12, 2021 at 7:54 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Top-level Makefile targets 'versioncheck' and 'includecheck' don't
+> need a configured kernel (i.e., don't need a .config file), so add
+> them the the list of "no-dot-config-targets".
+> This eliminates the 'make' error:
+>
+> ***
+> *** Configuration file ".config" not found!
+> ***
+> *** Please run some configurator (e.g. "make oldconfig" or
+> *** "make menuconfig" or "make xconfig").
+> ***
+> Makefile:759: include/config/auto.conf.cmd: No such file or directory
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-kbuild@vger.kernel.org
+> ---
+> Fixes: I couldn't determine this.
+>
+>  Makefile |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> --- linux-next-20210811.orig/Makefile
+> +++ linux-next-20210811/Makefile
+> @@ -274,7 +274,8 @@ no-dot-config-targets := $(clean-targets
+>                          cscope gtags TAGS tags help% %docs check% coccicheck \
+>                          $(version_h) headers headers_% archheaders archscripts \
+>                          %asm-generic kernelversion %src-pkg dt_binding_check \
+> -                        outputmakefile rustfmt rustfmtcheck
+> +                        outputmakefile rustfmt rustfmtcheck \
+> +                        versioncheck includecheck
+>  # Installation targets should not require compiler. Unfortunately, vdso_install
+>  # is an exception where build artifacts may be updated. This must be fixed.
+>  no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
 
-Documentation/kbuild/makefiles.rst clearly explains it:
 
-  Note: It is a typical mistake to forget the FORCE prerequisite.
 
-However, not all people read the document, or understand what is written
-in it.
+There is no good reason to invoke checkincludes.pl via GNU Make
+in the first place.
 
-People repeated this mistake over again, and I determined a compelling
-force is needed.
 
-Show a warning if FORCE is missing in the prerequisite of if_changed
-and friends. Same for filechk.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+A better solution is to do it by a shell script
+or to make checkincludes.pl traverse the
+subdirectories by itself.
 
- scripts/Kbuild.include | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index c3c975a92318..dd48e68965f8 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -57,6 +57,7 @@ kecho := $($(quiet)kecho)
- # - If the content differ the new file is used
- # - If they are equal no change, and no timestamp update
- define filechk
-+	$(check-FORCE)
- 	$(Q)set -e;						\
- 	mkdir -p $(dir $@);					\
- 	trap "rm -f $(dot-target).tmp" EXIT;			\
-@@ -130,7 +131,11 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
- # PHONY targets skipped in both cases.
- newer-prereqs = $(filter-out $(PHONY),$?)
- 
--if-changed-cond = $(newer-prereqs)$(cmd-check)
-+# It is a typical mistake to forget the FORCE prerequisite. Check it here so
-+# no more breakage will slip in.
-+check-FORCE = $(if $(filter FORCE, $^),,$(warning FORCE prerequsite is missing))
-+
-+if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
- 
- # Execute command if command has changed or prerequisite(s) are updated.
- if_changed = $(if $(if-changed-cond),                                        \
+
+[1] An easy solution
+
+Add scripts/checkincludes-all:
+
+
+#!/bin/sh
+find . -name '*.[hcS]' -type f -print | sort \
+  | xargs $(dirname $0)/checkincludes.pl
+
+
+Then, remove the 'includecheck' target from the Makefile.
+
+You can do 'scripts/checkincludes-all'
+instead of 'make includecheck'.
+
+
+
+[2] A better solution
+
+Extend scripts/checkincludes.pl so that it checks
+all *.[hcS] files under the current directory
+when no argument is passed.
+
+You can simply do 'scripts/checkincludes.py'
+
+
+
 -- 
-2.30.2
-
+Best Regards
+Masahiro Yamada
