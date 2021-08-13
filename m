@@ -2,118 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0BE93EB9CA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 18:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F473EBB9D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Aug 2021 19:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232796AbhHMQJQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Aug 2021 12:09:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60162 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231960AbhHMQJQ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Aug 2021 12:09:16 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925CDC0613A3
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Aug 2021 09:08:49 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id nt11so16008099pjb.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Aug 2021 09:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Zb6hESOPAPpsYQTxj6uunL70me57Ohn5RtlRGa2hRIU=;
-        b=bt0deawY8VgLg78fejbazYxtQGqnJJ+YkSz5IoTYnQ5LuF//jd0UR5Pt6RCob2ruwg
-         L7XvtJcs+LMzfCUDh81Ba+1wBbHDlsnlh6IiZoditm2+zMGPr5c1K/absUN+/4ZuN2lB
-         hqNu9nLcRyjmucoSbEUpC/VFf1vXe3dcafsIk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Zb6hESOPAPpsYQTxj6uunL70me57Ohn5RtlRGa2hRIU=;
-        b=Arte0eljbDYwx/Z2pu8GuN0qzWtEwstPAUYy9NsPqZVrEBfaI6oWWdRdfn3v8CZqD+
-         QQOIuingvfDUDunQxKqQlzaXFOELO2GP5eG0syJz9k0Os8Mz+0a2aj7K+6vpZs5vSBHB
-         nZF6lo2YBz6Gagtp1vOfrKKqvDM4znhsMw9N9/gGM9xaRynq7kXNyRH+nkXTz1j8M+kE
-         djS2lv7dvUPvid3OBIqx0tp0KJWf1X5O6ta52UEfSXzmQKVv+4qik0aGLegvt9M6NLcy
-         2SiP4DjibEqNoJvkVz/fisUe39wMi6nY5RxhB9vjaWVzEAXEy8kN4V6o1ajQYl2BJlW0
-         RAVQ==
-X-Gm-Message-State: AOAM533iOOJxZvuWoDswslBYeZGG1pUEXzwz5xloLABBiWkhj9MG1rBP
-        5x24SSAe8PuEBdFFP6ALokhfcA==
-X-Google-Smtp-Source: ABdhPJzO/EBStKGp8NBzLlcdP5+lTA2rI0q06EsQcV9US+8Rtvv2vMu7llrU0u1jr9BMG5zMLdkcVQ==
-X-Received: by 2002:a05:6a00:1803:b029:3cd:d5c1:f718 with SMTP id y3-20020a056a001803b02903cdd5c1f718mr3121899pfa.22.1628870928766;
-        Fri, 13 Aug 2021 09:08:48 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y64sm3224461pgy.32.2021.08.13.09.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 09:08:48 -0700 (PDT)
-Date:   Fri, 13 Aug 2021 09:08:47 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
-Message-ID: <202108130907.FD09C6B@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-40-keescook@chromium.org>
- <202107310852.551B66EE32@keescook>
- <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+        id S229853AbhHMRp2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Aug 2021 13:45:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42290 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229607AbhHMRp2 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 13 Aug 2021 13:45:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07E1760F51;
+        Fri, 13 Aug 2021 17:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628876701;
+        bh=bjNRxrk7zkv1bWv18PnoYS0DrsVT6mJBjm94a5siq1s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=rVmzHkHhe2OWZsF033BKoxTswdFF/eMUxnledbjriHTbCZkWlAHm9HKyLbtF/H1Cl
+         5xAQ4w23l1qAcwRIO/lGPTnqceoufh08fatkyeUNJ/YQT+MAMUx417ihiIgBfQba3O
+         46gIsPG+vzTsNLCzqq3NdtDyRER2IZa3sBStd0D9D6bf2r7hqOaotOmu1h1cyqoZbo
+         5FvEqlpzAR/5EpbuMtsti5xd61YF8HowfVNesn4K/dvpGHf35B36dAwk/iyJCtJqny
+         qaLXUKXRQ6u9D9wOKrd8si+ZekC/V/+wBHZFdv4oVAN+RWgdVdtIg7ldyegIMifCSv
+         wSVZ2aCkUBgRw==
+Date:   Fri, 13 Aug 2021 12:44:59 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc:     Jason Gunthorpe <jgg@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, alex.williamson@redhat.com,
+        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
+ struct pci_device_id
+Message-ID: <20210813174459.GA2594783@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
+In-Reply-To: <580beaa0-d15d-4e42-5a7b-073885416df9@nvidia.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 13, 2021 at 09:40:07AM +0200, Johannes Berg wrote:
-> On Sat, 2021-07-31 at 08:55 -0700, Kees Cook wrote:
-> > On Tue, Jul 27, 2021 at 01:58:30PM -0700, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > > 
-> > > Use memset_after() so memset() doesn't get confused about writing
-> > > beyond the destination member that is intended to be the starting point
-> > > of zeroing through the end of the struct.
-> > > 
-> > > Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
-> > > clear ack_signal, but the open-coded versions do. All three perform
-> > > checks that the ack_signal position hasn't changed, though.
+On Fri, Aug 13, 2021 at 02:21:41AM +0300, Max Gurtovoy wrote:
+> 
+> On 8/12/2021 11:26 PM, Bjorn Helgaas wrote:
+> > On Thu, Aug 12, 2021 at 04:51:26PM -0300, Jason Gunthorpe wrote:
+> > > On Thu, Aug 12, 2021 at 10:57:07AM -0500, Bjorn Helgaas wrote:
+> > > > On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
+> > > > > On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
+> > > > > > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
+> > > > > > Do the other bus types have a flag analogous to
+> > > > > > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
+> > > > > > other bus types, it'd be nice if the approach were similar.
+> > > > > They could, this series doesn't attempt it. I expect the approach to
+> > > > > be similar as driver_override was copied from PCI to other
+> > > > > busses. When this is completed I hope to take a look at it.
+> > > > I think this would make more sense as two patches:
+> > > > 
+> > > >    - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
+> > > >      since nothing in PCI depends on the VFIO-ness of drivers that use
+> > > >      the flag.  The only point here is that driver id_table entries
+> > > >      with this flag only match when driver_override matches the driver.
+> > > This would require using two flags, one to indicate the above to the
+> > > PCI code and another to indicate the vfio_pci string to
+> > > file2alias. This doesn't seem justified at this point, IMHO.
+> > I don't think it requires two flags.  do_pci_entry() has:
 > > 
-> > Quick ping on this question: there is a mismatch between the common
-> > helper and the other places that do this. Is there a bug here?
+> >    if (flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
+> >      strcpy(alias, "vfio_pci:");
+> > 
+> > I'm just proposing a rename:
+> > 
+> > s/PCI_ID_F_VFIO_DRIVER_OVERRIDE/PCI_ID_DRIVER_OVERRIDE/
+> > 
+> > > >    - Update file2alias.c to export the flags and the "vfio_pci:" alias.
+> > > >      This seems to be the only place where VFIO comes into play, and
+> > > >      putting it in a separate patch will make it much smaller and it
+> > > >      will be clear how it could be extended for other buses.
+> > > Well, I don't want to see a flag called PCI_ID_DRIVER_OVERRIDE mapped
+> > > to the string "vfio_pci", that is just really confusing.
+> > Hahaha, I see, that's fair :)  It confused me for a long time why you
+> > wanted "VFIO" in the flag name because from the kernel's point of
+> > view, the flag is not related to any VFIO-ness.  It's only related to
+> > a special variety of driver_override, and VFIO happens to be one user
+> > of it.
 > 
-> Yes.
+> In my original patch I used
 > 
-> The common helper should also clear ack_signal, but that was broken by
-> commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
-> that commit changed the order of the fields and updated carl9170 and p54
-> properly but not the common helper...
-
-It looks like p54 actually uses the rates, which is why it does this
-manually. I can't see why carl9170 does this manually, though.
-
-> It doesn't actually matter much because ack_signal is normally filled in
-> afterwards, and even if it isn't, it's just for statistics.
+> #define PCI_ID_DRIVER_OVERRIDE PCI_ID_F_VFIO_DRIVER_OVERRIDE
 > 
-> The correct thing to do here would be to
+> and in the pci core code I used PCI_ID_DRIVER_OVERRIDE in the "if" clause.
 > 
-> 	memset_after(&info->status, 0, rates);
+> So we can maybe do that and leave the option to future update of the define
+> without changing the core code.
+> 
+> In the future we can have something like:
+> 
+> #define PCI_ID_DRIVER_OVERRIDE (PCI_ID_F_VFIO_DRIVER_OVERRIDE |
+> PCI_ID_F_MY_BUS_DRIVER_OVERRIDE)
+> 
+> The file2alias.c still have to use the exact PCI_ID_F_VFIO_DRIVER_OVERRIDE
+> flag to add "vfio_" prefix.
+> 
+> Is that better ?
 
-Sounds good; I will adjust these (and drop the BULID_BUG_ONs, as you
-suggest in the next email).
+I don't think it's worth having two separate #defines.  If we need
+more in the future, we can add them when we need them.
 
-Thanks!
+What if we renamed "flags" to be specifically for this override case,
+e.g., "override_only"?  Then the flag could be
+PCI_ID_F_VFIO_DRIVER_OVERRIDE, which would trigger a "vfio_" prefix in
+file2alias.c, but pci_match_device() could just check for it being
+non-zero, without caring whether the reason is VFIO or something else,
+e.g.,
 
--Kees
+  pci_match_device(...)
+  {
+    ...
+    if (found_id->override_only) {
+      if (dev->driver_override)
+        return found_id;
+      ...
 
--- 
-Kees Cook
+Bjorn
