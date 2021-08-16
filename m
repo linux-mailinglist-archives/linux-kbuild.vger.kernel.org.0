@@ -2,210 +2,293 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 221A13EDC4D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Aug 2021 19:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BADB23EDCC9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Aug 2021 20:05:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230410AbhHPRWa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 13:22:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37616 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229699AbhHPRWa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 13:22:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3162060F36;
-        Mon, 16 Aug 2021 17:21:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629134518;
-        bh=T95dy8xDwmnj3xMLg+BxdSqSlJdDFxTpNhwOo+ufyxY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=q/jcjvQp5u7c4Z4NX4k89/A9rvxJX6opl1ESU8/tEAKSG3pbBYPqGiOXIMIlu7aeE
-         VxB6xriFBE2R81fM69E497PuFPIhzmfbR8IJaL4PCQWvpt0eZuUmT1LJ4kqCErljNk
-         zsGHB9OhlpB9p7YroNnkFU2bk1LbDQIDxNe03dGq8cfIexMvwpXuyhBOTAXl/lKdz5
-         3veEAWdG+/ligzxOf1OyiNQdfIx/6GolN6wr8Eq6Xvf+lrkw+DUbaBaKJfCbRwn7tO
-         kEQ/6rMyi+6u2+FXzJh7UzzDGMaC/jXmm6fsFmyAqslon3YLwoivbBgG9ymqyzPzry
-         cmmva8bSOKDEA==
-Date:   Mon, 16 Aug 2021 12:21:56 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
-        corbet@lwn.net, alex.williamson@redhat.com,
-        diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
-        eric.auger@redhat.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        maorg@nvidia.com, leonro@nvidia.com
-Subject: Re: [PATCH 09/12] PCI: Add a PCI_ID_F_VFIO_DRIVER_OVERRIDE flag to
- struct pci_device_id
-Message-ID: <20210816172156.GA2928236@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ee30d21-5305-5e58-6fa2-da74b2c8ff5a@nvidia.com>
+        id S229755AbhHPSF4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 14:05:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58908 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229481AbhHPSF4 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Aug 2021 14:05:56 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4D0C061764
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:05:24 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id p21-20020ac846150000b02902982d999bfbso2890011qtn.7
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=WUhrLDawJHutBQtlsVgOUTtq1I0JwrxuJFZxAOpOQh0=;
+        b=SBIC7Krjh/VhBl5SaGxVCbuoUREHKzu6zDr3IjUFmXSUOuqfreRC/rZdLIE2r7E4VM
+         BCVJp7rNhmur0M/Uc43eucOdLG8igCTSSDGwc6aDsD3AE1WT0GJECDeh4n6ViR7Ik8To
+         GnBsBUPrp/MrQhIkshElrv4YCcYD1OjecIEsdS+hs9tk+5p2nGPznYmA2SvjL7d3/7Vs
+         OVrQ1GuilvU0fZ+7TXjbWg1GpdPqgyqXqk3BD8+cckMBxeph/XaMrGRKTvQRo+QdI9jX
+         61veqXqnlf+uRhA5mPYH1A0cM+TcDnou+aG1rPr6OEbr3NPC1nH7Ep5MJYzo7O1HGgJ0
+         AabQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=WUhrLDawJHutBQtlsVgOUTtq1I0JwrxuJFZxAOpOQh0=;
+        b=eIYIhfVYQ6bOHF5bCv17lvI5KkpboCggnoRxihkp39bKMB2IFtqJHbNTGb3YIWF5T8
+         F7jVNTXFlFbAFvfADm4r+jVuqyQwN1yEA5yrdwpakyp/qspukNMnAZzVFPHmkY98E8+8
+         ILyKVXPC026CdMSB20Cx3b5cuqDei6k0waKroxwnl/ZvGVr576oDHw/gcloI6tVglTi3
+         y1Qh9/Q2ncg7WbRv+IF4PE/Ll6WiaQsyHYhEWBKTVEEXpDiZTPFkQ6tNNUxUZ53z4WTz
+         t8FyvXlzp/xAVmJNhdXj01ZqHTme+157eyRNv/CdJbHiJAP6o4YbST6pz44MvFF+WR2K
+         kbMA==
+X-Gm-Message-State: AOAM531kw2ZtKU6VHCPKJ3ORJa/P33t7YnEwewxZ3kYr90c4YOwADCkP
+        zT6NxQYSqAmKX3o5gVlTkpvcLoHQmQKBFNDHPVQ=
+X-Google-Smtp-Source: ABdhPJxhKkwy4tIJBPi81JnMtRw9ItdUQCqEs3lJya95irvVe6M8or+msF0I1n8xF4YguHAVXtFyEmeRO47qpZRCe/w=
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:5676:2fb8:7851:2301])
+ (user=samitolvanen job=sendgmr) by 2002:a05:6214:892:: with SMTP id
+ cz18mr17100881qvb.60.1629137122793; Mon, 16 Aug 2021 11:05:22 -0700 (PDT)
+Date:   Mon, 16 Aug 2021 11:05:19 -0700
+Message-Id: <20210816180519.1021311-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
+Subject: [PATCH v4] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Alexander Lobakin <alobakin@pm.me>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 15, 2021 at 02:27:13AM +0300, Max Gurtovoy wrote:
-> On 8/13/2021 8:44 PM, Bjorn Helgaas wrote:
-> > On Fri, Aug 13, 2021 at 02:21:41AM +0300, Max Gurtovoy wrote:
-> > > On 8/12/2021 11:26 PM, Bjorn Helgaas wrote:
-> > > > On Thu, Aug 12, 2021 at 04:51:26PM -0300, Jason Gunthorpe wrote:
-> > > > > On Thu, Aug 12, 2021 at 10:57:07AM -0500, Bjorn Helgaas wrote:
-> > > > > > On Thu, Aug 12, 2021 at 10:27:28AM -0300, Jason Gunthorpe wrote:
-> > > > > > > On Wed, Aug 11, 2021 at 02:07:37PM -0500, Bjorn Helgaas wrote:
-> > > > > > > > On Thu, Aug 05, 2021 at 09:23:57PM -0300, Jason Gunthorpe wrote:
-> > > > > > > > Do the other bus types have a flag analogous to
-> > > > > > > > PCI_ID_F_VFIO_DRIVER_OVERRIDE?  If we're doing something similar to
-> > > > > > > > other bus types, it'd be nice if the approach were similar.
-> > > > > > > They could, this series doesn't attempt it. I expect the approach to
-> > > > > > > be similar as driver_override was copied from PCI to other
-> > > > > > > busses. When this is completed I hope to take a look at it.
-> > > > > > I think this would make more sense as two patches:
-> > > > > > 
-> > > > > >     - Add a "PCI_ID_DRIVER_OVERRIDE" flag.  This is not VFIO-specific,
-> > > > > >       since nothing in PCI depends on the VFIO-ness of drivers that use
-> > > > > >       the flag.  The only point here is that driver id_table entries
-> > > > > >       with this flag only match when driver_override matches the driver.
-> > > > > This would require using two flags, one to indicate the above to the
-> > > > > PCI code and another to indicate the vfio_pci string to
-> > > > > file2alias. This doesn't seem justified at this point, IMHO.
-> > > > I don't think it requires two flags.  do_pci_entry() has:
-> > > > 
-> > > >     if (flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE)
-> > > >       strcpy(alias, "vfio_pci:");
-> > > > 
-> > > > I'm just proposing a rename:
-> > > > 
-> > > > s/PCI_ID_F_VFIO_DRIVER_OVERRIDE/PCI_ID_DRIVER_OVERRIDE/
-> > > > 
-> > > > > >     - Update file2alias.c to export the flags and the "vfio_pci:" alias.
-> > > > > >       This seems to be the only place where VFIO comes into play, and
-> > > > > >       putting it in a separate patch will make it much smaller and it
-> > > > > >       will be clear how it could be extended for other buses.
-> > > > > Well, I don't want to see a flag called PCI_ID_DRIVER_OVERRIDE mapped
-> > > > > to the string "vfio_pci", that is just really confusing.
-> > > > Hahaha, I see, that's fair :)  It confused me for a long time why you
-> > > > wanted "VFIO" in the flag name because from the kernel's point of
-> > > > view, the flag is not related to any VFIO-ness.  It's only related to
-> > > > a special variety of driver_override, and VFIO happens to be one user
-> > > > of it.
-> > > In my original patch I used
-> > > 
-> > > #define PCI_ID_DRIVER_OVERRIDE PCI_ID_F_VFIO_DRIVER_OVERRIDE
-> > > 
-> > > and in the pci core code I used PCI_ID_DRIVER_OVERRIDE in the "if" clause.
-> > > 
-> > > So we can maybe do that and leave the option to future update of the define
-> > > without changing the core code.
-> > > 
-> > > In the future we can have something like:
-> > > 
-> > > #define PCI_ID_DRIVER_OVERRIDE (PCI_ID_F_VFIO_DRIVER_OVERRIDE |
-> > > PCI_ID_F_MY_BUS_DRIVER_OVERRIDE)
-> > > 
-> > > The file2alias.c still have to use the exact PCI_ID_F_VFIO_DRIVER_OVERRIDE
-> > > flag to add "vfio_" prefix.
-> > > 
-> > > Is that better ?
-> > I don't think it's worth having two separate #defines.  If we need
-> > more in the future, we can add them when we need them.
-> 
-> I meant 1 #define and 1 enum:
-> 
-> enum {
->     PCI_ID_F_VFIO_DRIVER_OVERRIDE    = 1 << 0,
-> };
-> 
-> #define PCI_ID_DRIVER_OVERRIDE PCI_ID_F_VFIO_DRIVER_OVERRIDE
+With CONFIG_LTO_CLANG, we currently link modules into native
+code just before modpost, which means with TRIM_UNUSED_KSYMS
+enabled, we still look at the LLVM bitcode in the .o files when
+generating the list of used symbols. As the bitcode doesn't
+yet have calls to compiler intrinsics and llvm-nm doesn't see
+function references that only exist in function-level inline
+assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
+work with LTO.
 
-Basically the same thing.  Doesn't seem worthwhile to me to have both.
-When reading the code, it's not at all obvious why you would define a
-new name for PCI_ID_F_VFIO_DRIVER_OVERRIDE.
+This change moves module LTO linking to happen earlier, and
+thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
+entirely, allowing us to also drop the whitelist from
+gen_autoksyms.sh.
 
-> > What if we renamed "flags" to be specifically for this override case,
-> > e.g., "override_only"?  Then the flag could be
-> > PCI_ID_F_VFIO_DRIVER_OVERRIDE, which would trigger a "vfio_" prefix in
-> > file2alias.c, but pci_match_device() could just check for it being
-> > non-zero, without caring whether the reason is VFIO or something else,
-> > e.g.,
-> > 
-> >    pci_match_device(...)
-> >    {
-> >      ...
-> >      if (found_id->override_only) {
-> >        if (dev->driver_override)
-> >          return found_id;
-> >        ...
-> 
-> Jason suggested something like this:
-> 
-> static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
->                             struct pci_dev *dev)
-> {
->     struct pci_dynid *dynid;
->     const struct pci_device_id *found_id = NULL, *ids;
-> 
->     /* When driver_override is set, only bind to the matching driver */
->     if (dev->driver_override && strcmp(dev->driver_override, drv->name))
->         return NULL;
-> 
->     /* Look at the dynamic ids first, before the static ones */
->     spin_lock(&drv->dynids.lock);
->     list_for_each_entry(dynid, &drv->dynids.list, node) {
->         if (pci_match_one_device(&dynid->id, dev)) {
->             found_id = &dynid->id;
->             break;
->         }
->     }
->     spin_unlock(&drv->dynids.lock);
-> 
->     if (found_id)
->         return found_id;
-> 
->     for (ids = drv->id_table; (found_id = pci_match_id(ids, dev));
->          ids = found_id + 1) {
->         /*
->          * The match table is split based on driver_override. Check the
->          * flags as well so that any matching
->          * PCI_ID_F_VFIO_DRIVER_OVERRIDE entry is returned.
->          */
->         if (!(found_id->flags & PCI_ID_F_VFIO_DRIVER_OVERRIDE) ||
->             dev->driver_override)
->             return found_id;
->     }
-> 
->     /*
->      * if no static match, driver_override will always match, send a dummy
->      * id.
->      */
->     if (dev->driver_override)
->         return &pci_device_id_any;
->     return NULL;
-> }
-> 
-> 
-> It looks good to me as well.
+Link: https://github.com/ClangBuiltLinux/linux/issues/1369
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Reviewed-by: Alexander Lobakin <alobakin@pm.me>
+Tested-by: Alexander Lobakin <alobakin@pm.me>
+---
+Changes in v4:
+- Added .lto.o to targets to actually fix the use of if_changed.
+- Replaced an unnecessary mod-prelink-ext with .lto.
 
-I missed your point.  Isn't the above basically the 09/12 patch [1] we're
-talking about?
+Changes in v3:
+- Added missing FORCE.
 
-Yes, I see the code structure is slightly different, but the question
-we're talking about here is the name of the "flags" field and the enum
-or #define for the VFIO bit.
+Changes in v2:
+- Fixed a couple of typos.
+- Fixed objtool arguments for .lto.o to always include --module.
 
-> I prefer the "flags" naming since its more generic and easy to extend.
+---
+ scripts/Makefile.build    | 28 +++++++++++++++++++++++++++-
+ scripts/Makefile.lib      |  7 +++++++
+ scripts/Makefile.modfinal | 21 ++-------------------
+ scripts/Makefile.modpost  | 22 +++-------------------
+ scripts/gen_autoksyms.sh  | 12 ------------
+ 5 files changed, 39 insertions(+), 51 deletions(-)
 
-We don't need to worry about "flags" being generic or extensible until
-we need to extend it.  It's easy to fiddle with it at that point.
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 02197cb8e3a7..a6f43afd09bb 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -88,6 +88,10 @@ endif
+ 
+ targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
+ 
++ifdef CONFIG_LTO_CLANG
++targets-for-modules += $(patsubst %.o, %.lto.o, $(filter %.o, $(obj-m)))
++endif
++
+ ifdef need-modorder
+ targets-for-modules += $(obj)/modules.order
+ endif
+@@ -271,12 +275,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
+ 	$(call if_changed_rule,cc_o_c)
+ 	$(call cmd,force_checksrc)
+ 
++ifdef CONFIG_LTO_CLANG
++# Module .o files may contain LLVM bitcode, compile them into native code
++# before ELF processing
++quiet_cmd_cc_lto_link_modules = LTO [M] $@
++cmd_cc_lto_link_modules =						\
++	$(LD) $(ld_flags) -r -o $@					\
++		$(shell [ -s $(@:.lto.o=.o.symversions) ] &&		\
++			echo -T $(@:.lto.o=.o.symversions))		\
++		--whole-archive $(filter-out FORCE,$^)
++
++ifdef CONFIG_STACK_VALIDATION
++# objtool was skipped for LLVM bitcode, run it now that we have compiled
++# modules into native code
++cmd_cc_lto_link_modules += ;						\
++	$(objtree)/tools/objtool/objtool $(objtool_args) --module	\
++		$(@:.ko=.lto.o)
++endif
++
++$(obj)/%.lto.o: $(obj)/%.o FORCE
++	$(call if_changed,cc_lto_link_modules)
++endif
++
+ cmd_mod = { \
+ 	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
+ 	$(undefined_syms) echo; \
+ 	} > $@
+ 
+-$(obj)/%.mod: $(obj)/%.o FORCE
++$(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o FORCE
+ 	$(call if_changed,mod)
+ 
+ quiet_cmd_cc_lst_c = MKLST   $@
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 10950559b223..af1c920a585c 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -225,6 +225,13 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
+ 		 $(addprefix -I,$(DTC_INCLUDE))                          \
+ 		 -undef -D__DTS__
+ 
++ifeq ($(CONFIG_LTO_CLANG),y)
++# With CONFIG_LTO_CLANG, .o files in modules might be LLVM bitcode, so we
++# need to run LTO to compile them into native code (.lto.o) before further
++# processing.
++mod-prelink-ext := .lto
++endif
++
+ # Objtool arguments are also needed for modfinal with LTO, so we define
+ # then here to avoid duplication.
+ objtool_args =								\
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 5e9b8057fb24..ff805777431c 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -9,7 +9,7 @@ __modfinal:
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
+ 
+-# for c_flags and objtool_args
++# for c_flags and mod-prelink-ext
+ include $(srctree)/scripts/Makefile.lib
+ 
+ # find all modules listed in modules.order
+@@ -30,23 +30,6 @@ quiet_cmd_cc_o_c = CC [M]  $@
+ 
+ ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
+ 
+-ifdef CONFIG_LTO_CLANG
+-# With CONFIG_LTO_CLANG, reuse the object file we compiled for modpost to
+-# avoid a second slow LTO link
+-prelink-ext := .lto
+-
+-# ELF processing was skipped earlier because we didn't have native code,
+-# so let's now process the prelinked binary before we link the module.
+-
+-ifdef CONFIG_STACK_VALIDATION
+-cmd_ld_ko_o +=								\
+-	$(objtree)/tools/objtool/objtool $(objtool_args)		\
+-		$(@:.ko=$(prelink-ext).o);
+-
+-endif # CONFIG_STACK_VALIDATION
+-
+-endif # CONFIG_LTO_CLANG
+-
+ quiet_cmd_ld_ko_o = LD [M]  $@
+       cmd_ld_ko_o +=							\
+ 	$(LD) -r $(KBUILD_LDFLAGS)					\
+@@ -72,7 +55,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 
+ 
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+-$(modules): %.ko: %$(prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
++$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
+ 	+$(call if_changed_except,ld_ko_o,vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index c383ba33d837..eef56d629799 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -41,7 +41,7 @@ __modpost:
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
+ 
+-# for ld_flags
++# for mod-prelink-ext
+ include $(srctree)/scripts/Makefile.lib
+ 
+ MODPOST = scripts/mod/modpost								\
+@@ -118,22 +118,6 @@ $(input-symdump):
+ 	@echo >&2 '         Modules may not have dependencies or modversions.'
+ 	@echo >&2 '         You may get many unresolved symbol warnings.'
+ 
+-ifdef CONFIG_LTO_CLANG
+-# With CONFIG_LTO_CLANG, .o files might be LLVM bitcode, so we need to run
+-# LTO to compile them into native code before running modpost
+-prelink-ext := .lto
+-
+-quiet_cmd_cc_lto_link_modules = LTO [M] $@
+-cmd_cc_lto_link_modules =						\
+-	$(LD) $(ld_flags) -r -o $@					\
+-		$(shell [ -s $(@:.lto.o=.o.symversions) ] &&		\
+-			echo -T $(@:.lto.o=.o.symversions))		\
+-		--whole-archive $^
+-
+-%.lto.o: %.o
+-	$(call if_changed,cc_lto_link_modules)
+-endif
+-
+ modules := $(sort $(shell cat $(MODORDER)))
+ 
+ # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined symbols
+@@ -144,9 +128,9 @@ endif
+ # Read out modules.order to pass in modpost.
+ # Otherwise, allmodconfig would fail with "Argument list too long".
+ quiet_cmd_modpost = MODPOST $@
+-      cmd_modpost = sed 's/\.ko$$/$(prelink-ext)\.o/' $< | $(MODPOST) -T -
++      cmd_modpost = sed 's/\.ko$$/$(mod-prelink-ext)\.o/' $< | $(MODPOST) -T -
+ 
+-$(output-symdump): $(MODORDER) $(input-symdump) $(modules:.ko=$(prelink-ext).o) FORCE
++$(output-symdump): $(MODORDER) $(input-symdump) $(modules:.ko=$(mod-prelink-ext).o) FORCE
+ 	$(call if_changed,modpost)
+ 
+ targets += $(output-symdump)
+diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
+index da320151e7c3..6ed0d225c8b1 100755
+--- a/scripts/gen_autoksyms.sh
++++ b/scripts/gen_autoksyms.sh
+@@ -26,18 +26,6 @@ if [ -n "$CONFIG_MODVERSIONS" ]; then
+ 	needed_symbols="$needed_symbols module_layout"
+ fi
+ 
+-# With CONFIG_LTO_CLANG, LLVM bitcode has not yet been compiled into a binary
+-# when the .mod files are generated, which means they don't yet contain
+-# references to certain symbols that will be present in the final binaries.
+-if [ -n "$CONFIG_LTO_CLANG" ]; then
+-	# intrinsic functions
+-	needed_symbols="$needed_symbols memcpy memmove memset"
+-	# ftrace
+-	needed_symbols="$needed_symbols _mcount"
+-	# stack protector symbols
+-	needed_symbols="$needed_symbols __stack_chk_fail __stack_chk_guard"
+-fi
+-
+ ksym_wl=
+ if [ -n "$CONFIG_UNUSED_KSYMS_WHITELIST" ]; then
+ 	# Use 'eval' to expand the whitelist path and check if it is relative
 
-> can we continue with the above suggestion for V2 ?
+base-commit: a2824f19e6065a0d3735acd9fe7155b104e7edf5
+-- 
+2.33.0.rc1.237.g0d66db33f3-goog
 
-I don't see what really changed with the above suggestion.
-
-The point I'm trying to make is that using PCI_ID_F_VFIO_DRIVER_OVERRIDE 
-in pci_match_device() suggests that the code there has some connection
-or dependency on VFIO, but it does not.
-
-[1] https://lore.kernel.org/r/20210721161609.68223-10-yishaih@nvidia.com
