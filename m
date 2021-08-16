@@ -2,101 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 424F63EDCD2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Aug 2021 20:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF5C3EDD07
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Aug 2021 20:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbhHPSHk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 14:07:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S229945AbhHPSYJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 14:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbhHPSHk (ORCPT
+        with ESMTP id S229722AbhHPSYJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 14:07:40 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6EAFC061764
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:07:08 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id g26so6994778ybe.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:07:08 -0700 (PDT)
+        Mon, 16 Aug 2021 14:24:09 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9F6C061764
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:23:37 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id i28so9566281lfl.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 11:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=33dTcPj9L2G+RiKdxFTGDEqQpLqBfKgRb9SoQPYPLpo=;
-        b=VSWUay3SY15/4NGBWoTChPwDd8ujDO9Higioy3JypbcqKCd0muev0p6XdXyxEwUZVn
-         uKgSYwgM98pbBN/5NVqZHMNTXDUsa7Om5jGYlpjssksxGrct/ihvltgP/uL0wRiXihQh
-         utTideL2Ooc5wfnb9Fv6fzQAYvwAJBGaiZavVhZBU1xWmkFShJhyVxaIfm2JAvt6sdsJ
-         q7IQoqe2TSV/f5zZRF3lDoOAcsNIFkxaBNce0kP1iZDah/5TxMk1N1Ejzb65voAamF47
-         +jYW6wz2jrCtI+fAwY5Yvec9iKYgFyUwT1Q1wNUuJiWZG2zzLkn2lL88MfYUykOmPpC9
-         JJTQ==
+        bh=iXNEBxrdRbaW0Zvj9MoErhLjqBG//qAZColhvKB/ENU=;
+        b=jWiF3VDph9SCQ7Z9TWhCBKY7M4MxDINi1f9q51QNR6NlxmXmrVgobbVvJDEQDOBFFw
+         vrQCBsjpqSjyDNrB9Oe6GBTwnTuE7I2TY0V11+O/YpkP/M+0mdK8zXTUa3D7wGe3iQEl
+         yRKnC0DrJ56G3HYURyQ61EIG7nMHK02ISMY90WJ63a7Alx4qg82rRlXBpLnahl/Sn8YF
+         TZnF+44omfJnCvWDZk0+aXT91MC3A8uVkEaVW0ZrDTeOrLe0ZzSMfE4XxEP16hZhD+2q
+         c0lupGivadoXOvmBa5dhmPiZF02iQsgYQRUm4Rh/50ZvFZxOkO8fofYrf6OPbA4MoIeC
+         BYQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=33dTcPj9L2G+RiKdxFTGDEqQpLqBfKgRb9SoQPYPLpo=;
-        b=AjTMKwVBIoG472ds/Gz6ht6B2xtYL+1PBEK5wHcbEwS6om6tfGIA5DwgWFsjG2B2Mp
-         S1isVTBPARZJLmREDdBAUNEpvb9MCHFffjAmd0orN9lPySiCt6nPUK5n6pX9+An6Qx1b
-         F6yP2/liOFNSOmSyDoniLsQZHI+n+jqmXT+9XszwS83vO7e0ovv103WJs8wgn0Oj2TzV
-         q+odXrqrHOdmAzAdi/vNo66O2342JvRPsA5R1hAc97DyW/qZQ3any09eKPw4/Fg04p2W
-         xHK8jKRAXI+gciRcmz8bTGjF9JjjzDyPWCBAkrnzL2w5RXkHXavUd56EKT8QVPKoj63q
-         Kb2g==
-X-Gm-Message-State: AOAM531RwPrkLFOo6SyehmoDd3KngfzffulTl8OGxrdqyshBOYa/J/II
-        A8J5QSuewmSFT7NS94YkxFIWrDID24dCoyW9ETvIEw==
-X-Google-Smtp-Source: ABdhPJyVkuwrdgobTNu4kxdPgWfK7qHvFVtdQhFN9x12wS3JBVRcN+l90XrQT/bDKLNpqJbOomcXymVHho5i6gjKmOE=
-X-Received: by 2002:a25:c4:: with SMTP id 187mr24437571yba.498.1629137227399;
- Mon, 16 Aug 2021 11:07:07 -0700 (PDT)
+        bh=iXNEBxrdRbaW0Zvj9MoErhLjqBG//qAZColhvKB/ENU=;
+        b=ic4IB6pPuMQDcKEejv+auf55clYTaJjLkkWrxoJVSdsHKvx4S9FTgpNzGpV8M8nSex
+         ZptjWUeoOw1g12gfG+cYeBBPIesYSOOQGuCjQBDoZK0gPvvsHbHSXWwUtb5ctWnw2K2s
+         t/KPMK7xljHcUC0lTiiwCyPvStki0mi5NKQxNZ578qHPaVYRFf+KzYtVrgkQHq2zYDBv
+         ArEbRQkBxKiYsEqjRQpIW8aeZVyI5aIq8Te/CqvX9dLrhH+Nb/URwQpMM1kb6p9NrHnA
+         B8QpI7TAqJdB3CLpH85+zEGQGDm8J47C67klVMPpss6E+BXHXW+IsnbTwW7/Hwon1pYB
+         x05w==
+X-Gm-Message-State: AOAM5334ZVp8Xt1nRYBrvFHHUdMdNPZmPJZ3+ZXzXYrsUJNGVZD08pAN
+        w/mlGqD463OUUju7Ja51K4/ZJ8Qr24f+uC5B0oeLBQ==
+X-Google-Smtp-Source: ABdhPJx29dpsm62whVHg2TLbCN1NCHzvOehsnCbFttsXFejNnRpyUhhYa6o1V3PMI4Vghz8JxPO81Zer/jhXfmHTLb8=
+X-Received: by 2002:a05:6512:39ca:: with SMTP id k10mr12931757lfu.547.1629138215110;
+ Mon, 16 Aug 2021 11:23:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210812214614.1797845-1-samitolvanen@google.com> <CAK7LNAQ8Ucg=ZrEtMUCMkq3wonZqaijtrqbeUBod6DLERrp=zw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ8Ucg=ZrEtMUCMkq3wonZqaijtrqbeUBod6DLERrp=zw@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 16 Aug 2021 11:06:56 -0700
-Message-ID: <CABCJKucbKVFvOmo6AsJBQfxL0zO3N9R2ydoCvZKpTwPSbOvbkA@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-To:     Masahiro Yamada <masahiroy@kernel.org>
+References: <20210810205611.4013424-1-ndesaulniers@google.com> <CAK7LNAT0KR_xjPNzdB1aJ9nj3=A-ktU-aoP0CWvAnMJ91djfyA@mail.gmail.com>
+In-Reply-To: <CAK7LNAT0KR_xjPNzdB1aJ9nj3=A-ktU-aoP0CWvAnMJ91djfyA@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 16 Aug 2021 11:23:23 -0700
+Message-ID: <CAKwvOdn4DvH_S3wgk49E=mCgwKhErhf8BDVzPXLTmB74GDQBKw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: add Nick to Kbuild reviewers
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Alexander Lobakin <alobakin@pm.me>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 14, 2021 at 4:27 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
++ Linux kbuild, Michal
+
+On Fri, Aug 13, 2021 at 6:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Fri, Aug 13, 2021 at 6:46 AM 'Sami Tolvanen' via Clang Built Linux
-> <clang-built-linux@googlegroups.com> wrote:
+> On Wed, Aug 11, 2021 at 5:56 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > With CONFIG_LTO_CLANG, we currently link modules into native
-> > code just before modpost, which means with TRIM_UNUSED_KSYMS
-> > enabled, we still look at the LLVM bitcode in the .o files when
-> > generating the list of used symbols. As the bitcode doesn't
-> > yet have calls to compiler intrinsics and llvm-nm doesn't see
-> > function references that only exist in function-level inline
-> > assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-> > work with LTO.
-> >
-> > This change moves module LTO linking to happen earlier, and
-> > thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-> > entirely, allowing us to also drop the whitelist from
-> > gen_autoksyms.sh.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Reviewed-by: Alexander Lobakin <alobakin@pm.me>
-> > Tested-by: Alexander Lobakin <alobakin@pm.me>
+> > Kees' post inspired me to get more involved. I still have a long way to
+> > go in terms of mastery of GNU make, but at the least I can help with
+> > more code review. It's also helpful for me to pick up on what's missing
+> > from the LLVM ecosystem.
+>
+>
+> Reviews and tests are always appreciated.
+> Of course, not only from those who are listed in
+> the MAINTAINERS file, but everybody can provide
+> reviews to any patches in their interests.
+>
+> Applied to linux-kbuild. Thanks.
+>
+>
+> BTW, one struggle about being a maintainter
+> of this entry is I need to take a look
+> into random stuff.
+>
+> KERNEL BUILD + files below scripts/ (unless maintained elsewhere)
+>                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>
+>
+> Another BTW, this patch reminds me of Michal.
+> He is inactive for a long time.
+> I should ask him if he wants to continue
+> to be a kbuild maintainer.
+
+I was going to ask if there was handling for "emeritus status?"  The
+last meaningful commit seems to be from Nov 2016, though it seems they
+were the maintainer since 2009 (5ce45962b26a)!
+
+>
+>
+>
+>
+>
+> > Link: https://security.googleblog.com/2021/08/linux-kernel-security-done-right.html
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 > > ---
-> > Changes in v3:
-> > - Added missing FORCE.
+> >  MAINTAINERS | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index efac6221afe1..9768e4a19662 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -10091,6 +10091,7 @@ F:      fs/autofs/
+> >  KERNEL BUILD + files below scripts/ (unless maintained elsewhere)
+> >  M:     Masahiro Yamada <masahiroy@kernel.org>
+> >  M:     Michal Marek <michal.lkml@markovi.net>
+> > +R:     Nick Desaulniers <ndesaulniers@google.com>
+> >  L:     linux-kbuild@vger.kernel.org
+> >  S:     Maintained
+> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> > --
+> > 2.32.0.605.g8dce9f2422-goog
+> >
 >
 >
->
-> All the modules are recompiled every time.
+> --
+> Best Regards
+> Masahiro Yamada
 
-Oops, .lto.o is missing from targets still, which breaks if_changed.
-Fixed in v4. Thanks for testing!
-
-Sami
+-- 
+Thanks,
+~Nick Desaulniers
