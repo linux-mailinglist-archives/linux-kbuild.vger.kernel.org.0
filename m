@@ -2,64 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 563493EE0CE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D65E3EE0D1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234599AbhHQAVy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 20:21:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60612 "EHLO
+        id S233010AbhHQAV5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 20:21:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232929AbhHQAVy (ORCPT
+        with ESMTP id S232929AbhHQAV4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 20:21:54 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F0BC061764
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:22 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id b4-20020a252e440000b0290593da85d104so18619630ybn.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:22 -0700 (PDT)
+        Mon, 16 Aug 2021 20:21:56 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EA3C061764
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:24 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id b9-20020a5b07890000b0290558245b7eabso18632048ybq.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=GevpZaQQXx6uJazNaaL+jipz4XqGAMmvjabHC4B/TIQ=;
-        b=MScZ8npAWuWl2n5WACKsqP8jI8+/lFmzfUiNk9uT7xhF6EzFjzIikN/4YhY3uTeZ2x
-         K8coom07pnPTFK3+tFw60liHvWz6Z7w5kbuUiwgu7/cSpVlWzAR+pnpPZqSkCkVSzLR3
-         tUNh36dKOSdq0S6zkfn4e6KjPFg2LJq97SrGIM8AiEmlF/j4TGZ3lnxHuJZnXZ+QAi6R
-         R6hprfvD6Js8ESDZZYcfEkIW+qnf70q3gcHsRHViGriHkuwWDMDDgNPNiz1zrClzNxI7
-         H2AWhD+4szOvfOVdzeOMaGyuEx/4GfP3AlsFPougYaSMIXQDQQYBtCXa4DbfQgBg+Aut
-         zc+g==
+        bh=3mIJT3ikKBz70xHqPeYP9DUuj3yJmyYSvnlROWprNU0=;
+        b=jkUmqiWkUIn11XZwndfNewlhPuEQQy8ysb2pdFSiPo5hAHF2dxek21dMO+EdjI7641
+         /QeXZBfXv0zovdWxI0x5OjZ30z+ss9QsEBiRa/67SyuQm48imip28lKvf9UeImZt1uUe
+         ZS2zuIMf3X5fCZCnXYrDxAu/NxPAN/UPBHgVFRlgUOHFpU3WZWgNosd4NNATCZ8666aR
+         HQ2Ubw0j/af2Yhf0zeBGo8lD7GmzghODJyC0K6zT6/xIpOVOHUi6ID/HVcsW2Aadifqo
+         K7fO0AGZlV23M+MHKq/xh76t24+tK9cwHpW34jjrZYXB5aDlRZU3STy/oLio97USMv+4
+         f8aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=GevpZaQQXx6uJazNaaL+jipz4XqGAMmvjabHC4B/TIQ=;
-        b=HZtImsodo1flKjx+25OXKDLeqj9VlxUbv+7xJUyJ+oXGtvr1aC808o3S5fv+fp7Msa
-         1ccty3KEahWbUsJ6sSgvsJvi5xTPNxZI+CrPbhCgqyEQpyrWkLRhpfNFGNH5A1UkWJCi
-         3mwb7VuF/hDEqnjFkphwEHDRhZodOH9NvD/lc9h99Xaowm0kypUOGLl9EeIAU12JE5hF
-         Lh9itWP+p6+CwmEz9Uq+AYoVDUr7gC0cTdFoppXXbccySJhU3/KpIDke/bUwK9LTA466
-         8pd2bJAdt8092QyVTAHj6kLi3jvenbaOXeIij8m48LHjArAz3Miey1zd/JdJF//qeMWi
-         42Ag==
-X-Gm-Message-State: AOAM533P92n072zZO4H85HdNnKjx2fqWktK653JC//Xt6l4jTGGxb/Yq
-        BLFF0jydVTX91MpTNX1cUZF2t0x7SX0YvSqtXKc=
-X-Google-Smtp-Source: ABdhPJxL7VirAAAFQMCSntsswKKgERjdwzETy0eVm86bC90eEJ+t7AvAdwCfkOc72YkQySg3+82ZTFoLk2T9BRbqHBQ=
+        bh=3mIJT3ikKBz70xHqPeYP9DUuj3yJmyYSvnlROWprNU0=;
+        b=PSzIEfz7OCRsDEUjSDrZLSEnFNxuLHFqHNYG0yoG0d3H1kjxjS0IjHs93+XREsh64l
+         rgXvhDYirTUo+9uKNZea3jOs71il7tz0aqYDTMp3a11Hd3cUdfpSsE1zxIbhf51Xizms
+         U/c7wzrASfUV8ffUuAkcKPtGuOmhdnLKANX9llMUG50qrSxCDn/hjdKPiKgp0ITEIt9f
+         nOBhueW3/H5mtPyTYjHbVCkfzws6lHoOuBBdOrxxoew7Lpes7cGMFh3qiEqG2u/UwVp5
+         pVRi797Sczm/MwvD8HRIChD5ZGekwg5XFzrLLUBGnBICdrIIg6dqbBZb94SqZle6+aEd
+         W9WA==
+X-Gm-Message-State: AOAM530vOv3Fueq+IN7+ZWJFgIi5X+lLBaI/2rbSLw86BxqomrWXtgil
+        D3COm/HNqBbwjX/dMuosplHpaTOY35URLDKlKcc=
+X-Google-Smtp-Source: ABdhPJz+WFisbuTUhA9xMZaACAa+nhKyIKSUZly6CfYDeYL5RkUfu40rrbH/kYqR1wHiskhIB9bQNCgkGJwAypmpY8g=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:478:6e44:5cf7:fcde])
- (user=ndesaulniers job=sendgmr) by 2002:a25:b845:: with SMTP id
- b5mr888141ybm.343.1629159681391; Mon, 16 Aug 2021 17:21:21 -0700 (PDT)
-Date:   Mon, 16 Aug 2021 17:21:04 -0700
+ (user=ndesaulniers job=sendgmr) by 2002:a25:ca8b:: with SMTP id
+ a133mr882102ybg.339.1629159683765; Mon, 16 Aug 2021 17:21:23 -0700 (PDT)
+Date:   Mon, 16 Aug 2021 17:21:05 -0700
 In-Reply-To: <20210817002109.2736222-1-ndesaulniers@google.com>
-Message-Id: <20210817002109.2736222-3-ndesaulniers@google.com>
+Message-Id: <20210817002109.2736222-4-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <20210817002109.2736222-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
-Subject: [PATCH 2/7] s390: replace cc-option-yn uses with cc-option
+Subject: [PATCH 3/7] powerpc: replace cc-option-yn uses with cc-option
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-s390@vger.kernel.org
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -78,68 +78,80 @@ ifeq ($(call cc-option,$(FLAG)),)
 
 This allows us to pursue removing cc-option-yn.
 
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: linux-s390@vger.kernel.org
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- arch/s390/Makefile | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ arch/powerpc/Makefile      | 12 ++++++------
+ arch/powerpc/boot/Makefile |  5 +----
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/arch/s390/Makefile b/arch/s390/Makefile
-index 17dc4f1ac4fa..a3cf33ad009f 100644
---- a/arch/s390/Makefile
-+++ b/arch/s390/Makefile
-@@ -70,7 +70,7 @@ cflags-y += -Wa,-I$(srctree)/arch/$(ARCH)/include
+diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+index 9aaf1abbc641..85e224536cf7 100644
+--- a/arch/powerpc/Makefile
++++ b/arch/powerpc/Makefile
+@@ -12,12 +12,12 @@
+ # Rewritten by Cort Dougan and Paul Mackerras
  #
- cflags-$(CONFIG_FRAME_POINTER) += -fno-optimize-sibling-calls
  
--ifeq ($(call cc-option-yn,-mpacked-stack -mbackchain -msoft-float),y)
-+ifneq ($(call cc-option,-mpacked-stack -mbackchain -msoft-float),)
- cflags-$(CONFIG_PACK_STACK)  += -mpacked-stack -D__PACK_STACK
- aflags-$(CONFIG_PACK_STACK)  += -D__PACK_STACK
- endif
-@@ -78,22 +78,22 @@ endif
- KBUILD_AFLAGS_DECOMPRESSOR += $(aflags-y)
- KBUILD_CFLAGS_DECOMPRESSOR += $(cflags-y)
+-HAS_BIARCH	:= $(call cc-option-yn, -m32)
++HAS_BIARCH	:= $(call cc-option,-m32)
  
--ifeq ($(call cc-option-yn,-mstack-size=8192 -mstack-guard=128),y)
-+ifneq ($(call cc-option,-mstack-size=8192 -mstack-guard=128),)
- cflags-$(CONFIG_CHECK_STACK) += -mstack-size=$(STACK_SIZE)
--ifneq ($(call cc-option-yn,-mstack-size=8192),y)
-+ifeq ($(call cc-option,-mstack-size=8192),)
- cflags-$(CONFIG_CHECK_STACK) += -mstack-guard=$(CONFIG_STACK_GUARD)
+ # Set default 32 bits cross compilers for vdso and boot wrapper
+ CROSS32_COMPILE ?=
+ 
+-ifeq ($(HAS_BIARCH),y)
++ifeq ($(HAS_BIARCH),-m32)
+ ifeq ($(CROSS32_COMPILE),)
+ ifdef CONFIG_PPC32
+ # These options will be overridden by any -mcpu option that the CPU
+@@ -107,7 +107,7 @@ cflags-$(CONFIG_CPU_LITTLE_ENDIAN)	+= -mlittle-endian
+ aflags-$(CONFIG_CPU_BIG_ENDIAN)		+= $(call cc-option,-mbig-endian)
+ aflags-$(CONFIG_CPU_LITTLE_ENDIAN)	+= -mlittle-endian
+ 
+-ifeq ($(HAS_BIARCH),y)
++ifeq ($(HAS_BIARCH),-m32)
+ KBUILD_CFLAGS	+= -m$(BITS)
+ KBUILD_AFLAGS	+= -m$(BITS) -Wl,-a$(BITS)
+ KBUILD_LDFLAGS	+= -m elf$(BITS)$(LDEMULATION)
+@@ -125,7 +125,9 @@ LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) := -pie
+ LDFLAGS_vmlinux	:= $(LDFLAGS_vmlinux-y)
+ 
+ ifdef CONFIG_PPC64
+-ifeq ($(call cc-option-yn,-mcmodel=medium),y)
++ifeq ($(call cc-option,-mcmodel=medium),)
++	export NO_MINIMAL_TOC := -mno-minimal-toc
++else
+ 	# -mcmodel=medium breaks modules because it uses 32bit offsets from
+ 	# the TOC pointer to create pointers where possible. Pointers into the
+ 	# percpu data area are created by this method.
+@@ -135,8 +137,6 @@ ifeq ($(call cc-option-yn,-mcmodel=medium),y)
+ 	# kernel percpu data space (starting with 0xc...). We need a full
+ 	# 64bit relocation for this to work, hence -mcmodel=large.
+ 	KBUILD_CFLAGS_MODULE += -mcmodel=large
+-else
+-	export NO_MINIMAL_TOC := -mno-minimal-toc
  endif
  endif
  
- ifdef CONFIG_WARN_DYNAMIC_STACK
--  ifeq ($(call cc-option-yn,-mwarn-dynamicstack),y)
-+  ifneq ($(call cc-option,-mwarn-dynamicstack),)
-     KBUILD_CFLAGS += -mwarn-dynamicstack
-     KBUILD_CFLAGS_DECOMPRESSOR += -mwarn-dynamicstack
-   endif
+diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+index 10c0fb306f15..33e1de5d1c95 100644
+--- a/arch/powerpc/boot/Makefile
++++ b/arch/powerpc/boot/Makefile
+@@ -66,10 +66,7 @@ ifdef CONFIG_DEBUG_INFO
+ BOOTCFLAGS	+= -g
  endif
  
- ifdef CONFIG_EXPOLINE
--  ifeq ($(call cc-option-yn,$(CC_FLAGS_MARCH) -mindirect-branch=thunk),y)
-+  ifneq ($(call cc-option,$(CC_FLAGS_MARCH) -mindirect-branch=thunk),)
-     CC_FLAGS_EXPOLINE := -mindirect-branch=thunk
-     CC_FLAGS_EXPOLINE += -mfunction-return=thunk
-     CC_FLAGS_EXPOLINE += -mindirect-branch-table
-@@ -104,10 +104,10 @@ ifdef CONFIG_EXPOLINE
- endif
+-ifeq ($(call cc-option-yn, -fstack-protector),y)
+-BOOTCFLAGS	+= -fno-stack-protector
+-endif
+-
++BOOTCFLAGS	+= $(call cc-option,-fstack-protector)
+ BOOTCFLAGS	+= -I$(objtree)/$(obj) -I$(srctree)/$(obj)
  
- ifdef CONFIG_FUNCTION_TRACER
--  ifeq ($(call cc-option-yn,-mfentry -mnop-mcount),n)
-+  ifeq ($(call cc-option,-mfentry -mnop-mcount),)
-     # make use of hotpatch feature if the compiler supports it
-     cc_hotpatch	:= -mhotpatch=0,3
--    ifeq ($(call cc-option-yn,$(cc_hotpatch)),y)
-+    ifneq ($(call cc-option,$(cc_hotpatch)),)
-       CC_FLAGS_FTRACE := $(cc_hotpatch)
-       KBUILD_AFLAGS	+= -DCC_USING_HOTPATCH
-       KBUILD_CFLAGS	+= -DCC_USING_HOTPATCH
+ DTC_FLAGS	?= -p 1024
 -- 
 2.33.0.rc1.237.g0d66db33f3-goog
 
