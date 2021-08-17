@@ -2,63 +2,29 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B67283EE5BB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 06:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA80C3EE5F7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 06:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231285AbhHQEit (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 00:38:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbhHQEit (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 00:38:49 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CEFC0613C1
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:16 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id d4so38817536lfk.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Uq/bBAwcycy9ILdK1/MFcUjGkBg8B9u5tF1ftRi5Jvs=;
-        b=eQWhMGR4Wzx2VRiWFtn6HkHbefAZwK1koiIBF+/62t/04vISEOfEHz4jctSwiCwSym
-         8/eJ0NnAss13r8v8P+RlBorAGjWvxqUb5flQvKImCB2tiOiklZv0qrFt3pQ2nOIwNz1r
-         GvW4LNXZh+y8c7F5cAJRs0quHLY4glemS906I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Uq/bBAwcycy9ILdK1/MFcUjGkBg8B9u5tF1ftRi5Jvs=;
-        b=nVir4rUDxuK8uY/L3Bpf27GLzlnVbdXHuAQSUdRJRbjVWV341MGinOvqoSPvL3x1aL
-         5WtfjfHzCUR+KojmRXyAF9p2uN6rtEChq40hDibFy76T6UDX2KnXSUck3UFTWMl8UTQI
-         9VOeeVPhJq02QhH0T4x7eB5X/mJMG1mZ74xJ79ZHj+AfFj/xaYKuSUpblYsXRcCnG04k
-         8JkR5tTOHRn6HITAhP0e1ftNBABLNDOhdN5QfqHhmXDMnWsgf9MQLYuyRZ+8atHIHUza
-         oIFmkwTfEbbP9j9y1L1pk+IyNEZ4D86MFDDZu5ha6Q5SOvqHC8s1U2mdwn5Bh1rv2plw
-         iEPA==
-X-Gm-Message-State: AOAM5319HRKjqz2QX/JsSUl1qHf2JbMnbJCTP1fmBGEC0gJjb3veb4v0
-        teNgSITssy6qUQf6YuqC7M0UZaxd3r0g8+Du
-X-Google-Smtp-Source: ABdhPJwJdnQ16/rQSnJML7i5wQSmbhhKQPzQZnc86bRsjW9uXZmy8l4Er4103KsioWHfN74MUwk9Jw==
-X-Received: by 2002:a05:6512:3b92:: with SMTP id g18mr969571lfv.192.1629175094632;
-        Mon, 16 Aug 2021 21:38:14 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id 22sm96390ljq.103.2021.08.16.21.38.13
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id p38so39076234lfa.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
-X-Received: by 2002:a05:6512:114c:: with SMTP id m12mr943646lfg.40.1629175093063;
- Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210817005624.1455428-1-nathan@kernel.org> <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
-In-Reply-To: <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 16 Aug 2021 18:37:57 -1000
-X-Gmail-Original-Message-ID: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
-Message-ID: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+        id S231616AbhHQE4D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 00:56:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230272AbhHQE4C (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 00:56:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AD7D60F5C;
+        Tue, 17 Aug 2021 04:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629176130;
+        bh=zlCG6TyqdnDAfWusRcSyF23uFUU7SsCl5cvLhJSJpKc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=KcIO1Mdm6d59M7z/WSPAI7ewM15r5aeGwejgZggC7qIMDQAy9J9H4napExPxX0hiI
+         MExJijv0G35sMLI59JiMSLlVIc58x3+RT8mSAWM06kXjtdbH7LxktdLxz3YtEOe/as
+         l9ShwyMFc6qIBK1y/AtnX9zgNG6EosXk8YJeHZP5DG0K92/eSYpqO/dy5EG+GMDnI5
+         tcvqL25yu535vVWGenjtDSGoPLpqb6AlNTHHtbDyqJ7t0jVWgnmWA228xMBBuV9So2
+         HycG7kbdWapNKuF2KSrxLJK/LCq6LUMYOL8SjBujK/HcXYsmiNLrRS9PXrIqj3tSVs
+         QIH8U7FCF1fbw==
 Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-To:     Nathan Chancellor <nathan@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -66,28 +32,61 @@ Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210817005624.1455428-1-nathan@kernel.org>
+ <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+ <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+From:   Nathan Chancellor <nathan@kernel.org>
+Message-ID: <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
+Date:   Mon, 16 Aug 2021 21:55:28 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 6:20 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Additionally, there should be some time for the CI systems to update
-> their clang-14 builds, as the recent 0day report shows.
+On 8/16/2021 9:37 PM, Linus Torvalds wrote:
+> On Mon, Aug 16, 2021 at 6:20 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>>
+>> Additionally, there should be some time for the CI systems to update
+>> their clang-14 builds, as the recent 0day report shows.
+> 
+> What?
+> 
+> No, the 0day report shows that the patch is buggy, and that the
+> 
+>    ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 140000; echo $$?),0)
+> 
+> clearly doesn't work at all, since the flag is enabled on those
+> systems with old clang versions.
+> 
+> Alternatively, the test works, but the 140000 version is not enough.
 
-What?
+So technically speaking, the 140000 is not enough at this very moment 
+for the fact that there are certain systems that test with clang-14 
+builds that do not have my clang patch in it yet; however, those systems 
+do update clang regularly (the 0day version is just seven hours old at 
+the time of writing this) so they will have a version that contains my 
+patch shortly, making the check work just fine. We have done this in the 
+past with checks that are gated on clang versions that are in 
+development, with the expectation that if someone is using a development 
+release of clang, they are keeping it up to date so that they get fixes 
+that we push there; otherwise, it is just better to stick with the 
+release branches.
 
-No, the 0day report shows that the patch is buggy, and that the
+> So no. This patch is simply completely wrong, and doesn't fix the
+> problem with Clang's buggy -Wimplicit-fallthrough flag.
 
-  ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 140000; echo $$?),0)
+If you/Gustavo would prefer, I can upgrade that check to
 
-clearly doesn't work at all, since the flag is enabled on those
-systems with old clang versions.
+ifneq ($(call cc-option, -Wunreachable-code-fallthrough),)
 
-Alternatively, the test works, but the 140000 version is not enough.
+I was just trying to save a call to the compiler, as that is more 
+expensive than a shell test call.
 
-So no. This patch is simply completely wrong, and doesn't fix the
-problem with Clang's buggy -Wimplicit-fallthrough flag.
-
-              Linus
+Cheers,
+Nathan
