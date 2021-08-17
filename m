@@ -2,91 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C88E63EE427
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 04:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85ABE3EE428
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 04:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbhHQCGG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 22:06:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42626 "EHLO mail.kernel.org"
+        id S236051AbhHQCGh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 22:06:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42896 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233470AbhHQCGE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 22:06:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9FA6960F55;
-        Tue, 17 Aug 2021 02:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629165932;
-        bh=do4gAw28sO3tGDlWSjexb3s3oGika8l30YwihCaYLzg=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=PFytUkkd8JPOtJNn2ChtVI4nLYAg7oQQAvg2SVi/hvNPRJ2ZFrpQOX445C4BM/XC4
-         FfKf/J5+n7PlrbyQTVaUIIBHvfSZQwGgRfI86MSp7wn6WoG0cdBSGIwPBP2D1MukGL
-         SR/WrbO/9A1A/+zrqR+gSoIu7rjepa1DofJlI8jTESH8o2cjM6/LjaMgW1NGFR8lGO
-         Cy2FQcQleUuBGj/lNJt3wTp4sb6A39/dg5elXr1y1BA9O2Q1F62RKOYPvLVtI6mxjU
-         p9i9r2O0v4Dy5qkd7nfgs21HVDkqkaHCyZcY8ajS/Dyy3hktU4xDFXGh9sx68PA+Yz
-         pgL2byqE5kcNg==
-Subject: Re: [PATCH 4/7] arc: replace cc-option-yn uses with cc-option
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Vineet Gupta <vgupta@kernel.org>,
-        linux-snps-arc@lists.infradead.org
-References: <20210817002109.2736222-1-ndesaulniers@google.com>
- <20210817002109.2736222-5-ndesaulniers@google.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <bc8cf0be-9e51-e769-0685-2594802eead0@kernel.org>
-Date:   Mon, 16 Aug 2021 19:05:30 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S236010AbhHQCGg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Aug 2021 22:06:36 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE30B6044F;
+        Tue, 17 Aug 2021 02:06:03 +0000 (UTC)
+Date:   Mon, 16 Aug 2021 22:05:57 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] Makefile: use -Wno-main in the full kernel tree
+Message-ID: <20210816220557.2253bc10@oasis.local.home>
+In-Reply-To: <CAHk-=wiA2wnA-3_iVjN9kUf-Gve2jD8UzDkvhDGLg=R=O1vN9g@mail.gmail.com>
+References: <20210813224131.25803-1-rdunlap@infradead.org>
+        <CAHk-=wj4chmL3TUdXHhAV+eU-YVNj-ZtZBjNJEFBzTnPMP3_bA@mail.gmail.com>
+        <CAHk-=wgnvC=Tyejg_ts1O7yZYRxAgS+mxStCWM+PcyFPnaw1sw@mail.gmail.com>
+        <CAHk-=whP8o-K2=WWQm=cqx5YTpZcb+KCVvomZ+NeV19CsBMp3w@mail.gmail.com>
+        <4eafc072-1837-737f-973a-a4e0c815cebd@infradead.org>
+        <CAHk-=wiA2wnA-3_iVjN9kUf-Gve2jD8UzDkvhDGLg=R=O1vN9g@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210817002109.2736222-5-ndesaulniers@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> cc-option-yn can be replaced with cc-option. ie.
-> Checking for support:
-> ifeq ($(call cc-option-yn,$(FLAG)),y)
-> becomes:
-> ifneq ($(call cc-option,$(FLAG)),)
-> 
-> Checking for lack of support:
-> ifeq ($(call cc-option-yn,$(FLAG)),n)
-> becomes:
-> ifeq ($(call cc-option,$(FLAG)),)
-> 
-> This allows us to pursue removing cc-option-yn.
-> 
-> Cc: Vineet Gupta <vgupta@kernel.org>
-> Cc: linux-snps-arc@lists.infradead.org
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->   arch/arc/Makefile | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> index c0d87ac2e221..8782a03f24a8 100644
-> --- a/arch/arc/Makefile
-> +++ b/arch/arc/Makefile
-> @@ -18,8 +18,7 @@ ifeq ($(CONFIG_ARC_TUNE_MCPU),"")
->   cflags-y				+= $(tune-mcpu-def-y)
->   else
->   tune-mcpu				:= $(shell echo $(CONFIG_ARC_TUNE_MCPU))
-> -tune-mcpu-ok 				:= $(call cc-option-yn, $(tune-mcpu))
-> -ifeq ($(tune-mcpu-ok),y)
-> +ifneq ($(call cc-option,$(tune-mcpu)),)
->   cflags-y				+= $(tune-mcpu)
+On Mon, 16 Aug 2021 15:31:33 -1000
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-Any reason not to just turn this into
-
-cflags-y += $(call cc-option,$(tune-mcpu))
-
-?
-
-If $(tune-mcpu) is empty or invalid, nothing will be added to cflags-y.
-
->   else
->   # The flag provided by 'CONFIG_ARC_TUNE_MCPU' option isn't known by this compiler
+> On Mon, Aug 16, 2021 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > That sounds likely. We can just ignore this if you had rather go that way.  
 > 
+> I'm happy doing it, I don't think the Wmain warnings buy anything for
+> the kernel. My main worry is just that some compiler version might not
+> support it at all or similar, and it would cause problems that way.
+> 
+> Which is really the only reason why I'd like to narrow it down as much
+> as (trivially) possible.
+> 
+> It doesn't sound worth trying to pinpoint exact gcc version, but
+> making it gcc-only would at least narrow it down a _bit_.
+
+Looks to me that -Wmain and -Wno-main have been in gcc for a long time.
+If we limit it to just gcc, I believe it will not be an issue for any
+compiler version the kernel supports.
+
+  https://gcc.gnu.org/onlinedocs/gcc/Option-Index.html
+
+And perhaps you are correct, as this is not a new option (it's in all
+the gcc versions I have (tested back to 4.2.4)), and it didn't trigger
+for me, I too believe this was a bug in a particular version that Randy
+used.
+
+-- Steve
