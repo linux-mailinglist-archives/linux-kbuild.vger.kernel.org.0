@@ -2,91 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA80C3EE5F7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 06:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91ABF3EE87F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 10:26:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231616AbhHQE4D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 00:56:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230272AbhHQE4C (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 00:56:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7AD7D60F5C;
-        Tue, 17 Aug 2021 04:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629176130;
-        bh=zlCG6TyqdnDAfWusRcSyF23uFUU7SsCl5cvLhJSJpKc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=KcIO1Mdm6d59M7z/WSPAI7ewM15r5aeGwejgZggC7qIMDQAy9J9H4napExPxX0hiI
-         MExJijv0G35sMLI59JiMSLlVIc58x3+RT8mSAWM06kXjtdbH7LxktdLxz3YtEOe/as
-         l9ShwyMFc6qIBK1y/AtnX9zgNG6EosXk8YJeHZP5DG0K92/eSYpqO/dy5EG+GMDnI5
-         tcvqL25yu535vVWGenjtDSGoPLpqb6AlNTHHtbDyqJ7t0jVWgnmWA228xMBBuV9So2
-         HycG7kbdWapNKuF2KSrxLJK/LCq6LUMYOL8SjBujK/HcXYsmiNLrRS9PXrIqj3tSVs
-         QIH8U7FCF1fbw==
-Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-References: <20210817005624.1455428-1-nathan@kernel.org>
- <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
- <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
-Date:   Mon, 16 Aug 2021 21:55:28 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S239193AbhHQI0h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 04:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239681AbhHQI0d (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 04:26:33 -0400
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CBDC0617AD;
+        Tue, 17 Aug 2021 01:25:27 -0700 (PDT)
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Tue, 17 Aug 2021 10:25:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1629188724; bh=/FiAYbZ5V/xP9nJYeHj1jmYfb+z10OR2R3XTSk6DKBQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BVFlgYBIqieofosLZaZyU6EzzYAEcoLUBmO12mygv003F2hb9PaVxeOlK/cTGNFAm
+         6p137R/n0KwaVLgoTgVSKZlm1gtIrIKrqZxvNnxvrzxnk2XOnin+r71GiqVRS9OHke
+         sbAJqkg3JtJvtlC3KToXpEfDQ4m63CWamgmR69Fw=
+Received: from deb-nschier.ads.avm.de (unknown [172.17.24.144])
+        by mail-auth.avm.de (Postfix) with ESMTPSA id 2481080369;
+        Tue, 17 Aug 2021 10:25:24 +0200 (CEST)
+Date:   Tue, 17 Aug 2021 10:25:23 +0200
+From:   Nicolas Schier <n.schier@avm.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH 2/2] kbuild: warn if FORCE is missing for
+ if_changed(_dep,_rule) and filechk
+Message-ID: <YRtyc1poEhr8YHYp@deb-nschier.ads.avm.de>
+References: <20210813063005.1739278-1-masahiroy@kernel.org>
+ <20210813063005.1739278-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210813063005.1739278-2-masahiroy@kernel.org>
+X-Operating-System: Debian GNU/Linux 11.0
+X-purgate-ID: 149429::1629188724-00002E98-0D9EE8EE/0/0
+X-purgate-type: clean
+X-purgate-size: 2113
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/16/2021 9:37 PM, Linus Torvalds wrote:
-> On Mon, Aug 16, 2021 at 6:20 PM Nathan Chancellor <nathan@kernel.org> wrote:
->>
->> Additionally, there should be some time for the CI systems to update
->> their clang-14 builds, as the recent 0day report shows.
+On Friday, 2021-08-13 Masahiro Yamada wrote:
+> if_changed, if_changed_dep, and if_changed_rule must have FORCE as a
+> prerequisite so the command line change is detected.
 > 
-> What?
+> Documentation/kbuild/makefiles.rst clearly explains it:
 > 
-> No, the 0day report shows that the patch is buggy, and that the
+>   Note: It is a typical mistake to forget the FORCE prerequisite.
 > 
->    ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 140000; echo $$?),0)
+> However, not all people read the document, or understand what is written
+> in it.
 > 
-> clearly doesn't work at all, since the flag is enabled on those
-> systems with old clang versions.
+> People repeated this mistake over again, and I determined a compelling
+> force is needed.
 > 
-> Alternatively, the test works, but the 140000 version is not enough.
+> Show a warning if FORCE is missing in the prerequisite of if_changed
+> and friends. Same for filechk.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/Kbuild.include | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index c3c975a92318..dd48e68965f8 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -57,6 +57,7 @@ kecho := $($(quiet)kecho)
+>  # - If the content differ the new file is used
+>  # - If they are equal no change, and no timestamp update
+>  define filechk
+> +	$(check-FORCE)
+>  	$(Q)set -e;						\
+>  	mkdir -p $(dir $@);					\
+>  	trap "rm -f $(dot-target).tmp" EXIT;			\
+> @@ -130,7 +131,11 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
+>  # PHONY targets skipped in both cases.
+>  newer-prereqs = $(filter-out $(PHONY),$?)
+>  
+> -if-changed-cond = $(newer-prereqs)$(cmd-check)
+> +# It is a typical mistake to forget the FORCE prerequisite. Check it here so
 
-So technically speaking, the 140000 is not enough at this very moment 
-for the fact that there are certain systems that test with clang-14 
-builds that do not have my clang patch in it yet; however, those systems 
-do update clang regularly (the 0day version is just seven hours old at 
-the time of writing this) so they will have a version that contains my 
-patch shortly, making the check work just fine. We have done this in the 
-past with checks that are gated on clang versions that are in 
-development, with the expectation that if someone is using a development 
-release of clang, they are keeping it up to date so that they get fixes 
-that we push there; otherwise, it is just better to stick with the 
-release branches.
+prerequsite -> prerequisite?
 
-> So no. This patch is simply completely wrong, and doesn't fix the
-> problem with Clang's buggy -Wimplicit-fallthrough flag.
+Successfully found the missing FORCE in arch/x86/entry/vdso/Makefile:135.
 
-If you/Gustavo would prefer, I can upgrade that check to
+Tested-by: Nicolas Schier <n.schier@avm.de>
 
-ifneq ($(call cc-option, -Wunreachable-code-fallthrough),)
+> +# no more breakage will slip in.
+> +check-FORCE = $(if $(filter FORCE, $^),,$(warning FORCE prerequsite is missing))
+> +
+> +if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
+>  
+>  # Execute command if command has changed or prerequisite(s) are updated.
+>  if_changed = $(if $(if-changed-cond),                                        \
+> -- 
+> 2.30.2
+> 
 
-I was just trying to save a call to the compiler, as that is more 
-expensive than a shell test call.
-
-Cheers,
-Nathan
