@@ -2,88 +2,176 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3033EE360
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 03:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1893EE3DC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 03:39:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233555AbhHQBdL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 21:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237174AbhHQBcZ (ORCPT
+        id S236783AbhHQBkU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 21:40:20 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:21538 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236662AbhHQBkS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 21:32:25 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1C6C061764
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 18:31:52 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id q21so8680193ljj.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 18:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QWD6IuudwvXHVLZghwIzB+7q/RK1CR9TCJ3QiGpBNMU=;
-        b=CthTApjFsNdNUwolGv/t0aOmUlGyk5zpS52tTxKbEj3xNDrs4pRENTCs9r8EdmptPe
-         P8vq+xfPlfQ8KXE9gP+Kl8SB03dM4x+DWeI+FivIkJcxKhqzVKlk/UwEZjFUNWZF1pzM
-         q5ugXXNNUTJw3qFd/cEnzRG2t8IhQC00kI350=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QWD6IuudwvXHVLZghwIzB+7q/RK1CR9TCJ3QiGpBNMU=;
-        b=QsqAKuGD8neeutuJm+/C961/La0uZnN4ojnawyuFkkUJwEJ4yDdRFZRkXOg/5gUM1K
-         V2lS0UK/a/dty52jEesWhxbhHrnoxxEWASWyqiw95V4WQZT5B9Kkl2YfkszRmekNKnjU
-         L3ZJhWSZhU2X32TOmZrCeu5wL3hrcer9H1W/8H5WURs9vv6Zx/MCxJ/NQgb0PALLjJFd
-         kdKmU83LxR0mi0Bla2lB3lcRfKUlOE2PzBcqDZLyyK+ysujw42UxmmV8A7hlpiVjJ6bJ
-         EbsKb+qmn9QyHy1Zu2YG2yWZgMSXeLIw0oA0pcr12tlGagvZSF0BCk5GHe3K/9wtTozP
-         n3sg==
-X-Gm-Message-State: AOAM533XJXExRrbvqgFiceaUunCq+Ac3HZ5MHJ+qCAvvC6Z8wEXenmfs
-        e5983L09NEB420AxvisEO8JKGvBzFuyppoDZ
-X-Google-Smtp-Source: ABdhPJwuiItWNfHCoN29lZW+kvunRdN3WmTnW0/iLZ+KxZDVXnzz2wO+lCjz6z682qy/O+9qf4NUhw==
-X-Received: by 2002:a2e:b5dc:: with SMTP id g28mr887249ljn.96.1629163910734;
-        Mon, 16 Aug 2021 18:31:50 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id m15sm49415lfr.16.2021.08.16.18.31.49
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Aug 2021 18:31:50 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id c24so38120745lfi.11
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 18:31:49 -0700 (PDT)
-X-Received: by 2002:a19:500e:: with SMTP id e14mr468759lfb.487.1629163909695;
- Mon, 16 Aug 2021 18:31:49 -0700 (PDT)
+        Mon, 16 Aug 2021 21:40:18 -0400
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 17H1dXKn018934;
+        Tue, 17 Aug 2021 10:39:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17H1dXKn018934
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1629164374;
+        bh=5NWkg+bxS9gK9TpUYBiD3sVAhmuzKvoT9bOeRCZQU14=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KNHDtYbNVE63+TfAvnvpEYW8qXz+PxOtI9+w9u+wxh6Xl8IHtrC0uSzMFPc80vAcF
+         MykIhs567l5d3FTN1KCOvZlRvZC92lqzxOneyAAJ/WPUcHbJmabP/zHMgBvoVGgt9+
+         DyMFAIQrpBEzKIKKk03G/pjmoRWDGe21/w0h3uN/6dVkLIqBkv4bcpkNsLCS68V9zZ
+         9JD0XRJbG2NP01/hgST18Zk4NJH5QwB+WFhNqKMb7RH4lTqEVkNWVB6HRDXAEBodPU
+         b0FUWzO8HCOhV4FvEBk724ZOfmvfa/Z9aTjgF4TzYAnN571vTpqkJJzx02oNO6MaDQ
+         jBkS7OKW88rQA==
+X-Nifty-SrcIP: [209.85.216.42]
+Received: by mail-pj1-f42.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso2163254pjb.2;
+        Mon, 16 Aug 2021 18:39:34 -0700 (PDT)
+X-Gm-Message-State: AOAM532FRXiy0nB4LRVEUYGnaPCZhUsuSCrmQCs4bk3zXCWZyGACasDG
+        NvxmD+Jfsp2T/y9s1Aajkd1q3ASoUQKpSyXutKQ=
+X-Google-Smtp-Source: ABdhPJyacDBegZmpDY5iGkwK+pdYDy6J6f4wwqijnMcW0+PTDukcQAoPChsO7J7wlqQNEgHhd3t08nMf/AtJe/d86tc=
+X-Received: by 2002:a17:902:bc41:b029:12d:3f9b:401e with SMTP id
+ t1-20020a170902bc41b029012d3f9b401emr745719plz.47.1629164373202; Mon, 16 Aug
+ 2021 18:39:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210813224131.25803-1-rdunlap@infradead.org> <CAHk-=wj4chmL3TUdXHhAV+eU-YVNj-ZtZBjNJEFBzTnPMP3_bA@mail.gmail.com>
- <CAHk-=wgnvC=Tyejg_ts1O7yZYRxAgS+mxStCWM+PcyFPnaw1sw@mail.gmail.com>
- <CAHk-=whP8o-K2=WWQm=cqx5YTpZcb+KCVvomZ+NeV19CsBMp3w@mail.gmail.com> <4eafc072-1837-737f-973a-a4e0c815cebd@infradead.org>
-In-Reply-To: <4eafc072-1837-737f-973a-a4e0c815cebd@infradead.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 16 Aug 2021 15:31:33 -1000
-X-Gmail-Original-Message-ID: <CAHk-=wiA2wnA-3_iVjN9kUf-Gve2jD8UzDkvhDGLg=R=O1vN9g@mail.gmail.com>
-Message-ID: <CAHk-=wiA2wnA-3_iVjN9kUf-Gve2jD8UzDkvhDGLg=R=O1vN9g@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: use -Wno-main in the full kernel tree
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20210810204240.4008685-1-ndesaulniers@google.com>
+ <CAK7LNASotywVkNjaBC7wYke70QL+a0tMJEVEvRTPpt8dDgHE9Q@mail.gmail.com>
+ <CAKwvOdmpTt1PBnvo3RFkYnd5O2JTW7DTA9sGQJgvsDOFkVt8Ag@mail.gmail.com> <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
+In-Reply-To: <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 17 Aug 2021 10:38:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQDcOvjP-gj79rhOJzd456qBP7Fyo3yv94Mp5cHJhOFMw@mail.gmail.com>
+Message-ID: <CAK7LNAQDcOvjP-gj79rhOJzd456qBP7Fyo3yv94Mp5cHJhOFMw@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: remove stale cc-option checks
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Vitor Massaru Iha <vitor@massaru.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Naresh Kamboju <naresh.kamboju@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+On Tue, Aug 17, 2021 at 9:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> That sounds likely. We can just ignore this if you had rather go that way.
+> On Tue, Aug 17, 2021 at 3:36 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Fri, Aug 13, 2021 at 6:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Wed, Aug 11, 2021 at 5:42 AM Nick Desaulniers
+> > > <ndesaulniers@google.com> wrote:
+> > > >
+> > > > --param=allow-store-data-races=0 was renamed to --allow-store-data-races
+> > > > in the GCC 10 release.
+> > > >
+> > > > diff --git a/Makefile b/Makefile
+> > > > index 027fdf2a14fe..3e3fb4affba1 100644
+> > > > --- a/Makefile
+> > > > +++ b/Makefile
+> > > > @@ -844,17 +847,17 @@ KBUILD_RUSTFLAGS += -Copt-level=z
+> > > >  endif
+> > > >
+> > > >  # Tell gcc to never replace conditional load with a non-conditional one
+> > > > -KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
+> > > > +ifdef CONFIG_CC_IS_GCC
+> > >
+> > >
+> > > Can you insert a comment here?
+> > >
+> > > # GCC 10 renamed --param=allow-store-data-races=0 to --allow-store-data-races
+> > >
+> > >
+> > > It will remind us of dropping this conditional
+> > > in the (long long distant) future.
+> > >
+> > >
+> > >
+> > >
+> > > > +KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
+> > > >  KBUILD_CFLAGS  += $(call cc-option,-fno-allow-store-data-races)
+> > > > +endif
+> >
+> > This report is confusing:
+> > https://lore.kernel.org/linux-mm/202108160729.Lx0IJzq3-lkp@intel.com/
+> > (csky gcc-11)
+> >
+> > >> csky-linux-gcc: error: unrecognized command-line option '--param=allow-store-data-races=0'; did you mean '--allow-store-data-races'?
+> >
+> > I wonder if cc-option detection for these is broken?
+>
+> I do not say it is broken...
+>
+>
+> cc-option is defined like this:
+>
+> cc-option = $(call __cc-option, $(CC),\
+>         $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
+>
+>
+> It is checking
+> $(KBUILD_CPPFLAGS) + $(KBUILD_CFLAGS)
+> + --allow-store-data-races
+>
+>
+> A few lines above, I see
+>
+> csky-linux-gcc: error: unrecognized argument in option '-mcpu=ck860'
+>
+>
+> It makes all the cc-option tests fail after this line:
+> KBUILD_CFLAGS += -mcpu=$(CPUTYPE) -Wa,-mcpu=$(MCPU_STR)
+>
+>
+> Then,
+>
+> $(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
+>
+> falls back to --param=allow-store-data-races=0
+>
+>
+>
+>
+> >  Perhaps I should
+> > not touch these other than to wrap them in the CONFIG_CC_IS_GCC guard?
+>
+> I do not think so.
+>
+> If an unrecognized argument appears,
+> all the cc-option tests that follow are unreliable.
+>
+>
+>
+> If you are not comfortable with  it,
+> you can split it.
+>
+> KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races)
+> KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
 
-I'm happy doing it, I don't think the Wmain warnings buy anything for
-the kernel. My main worry is just that some compiler version might not
-support it at all or similar, and it would cause problems that way.
 
-Which is really the only reason why I'd like to narrow it down as much
-as (trivially) possible.
+I read the patch in the wrong way.
+This is the same as the current code.
 
-It doesn't sound worth trying to pinpoint exact gcc version, but
-making it gcc-only would at least narrow it down a _bit_.
+So, your v2 is fine with me.
+I will pick it up soon.
 
-                  Linus
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
