@@ -2,56 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 009453EE0CA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E12143EE0CC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232955AbhHQAVu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 20:21:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
+        id S234592AbhHQAVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 20:21:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232929AbhHQAVu (ORCPT
+        with ESMTP id S232929AbhHQAVw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 20:21:50 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E0FC061764
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:17 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id m6-20020ac807c6000000b0029994381c5fso1360425qth.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:17 -0700 (PDT)
+        Mon, 16 Aug 2021 20:21:52 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB39CC061764
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:19 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id b4-20020a252e440000b0290593da85d104so18619565ybn.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=GoAh6ziV2V4ZClkyAY1jCdUTNM+9oT0Sys3KyM6Hf6w=;
-        b=EXTMmJssho+L26FeyM3b5kiuUC9j5/MhTf3SjCP+YW78ZfpNNZIHheGOZgeLfuLAPP
-         XqIUHFdFQDt6RG4MK3r5HV/R/osq3Ps+wfnNm481qAB1G4Nwaf+GrE6KezdsMEKewYfA
-         /LKq7vyqOu3JpvUT1ggmhlYAw3O46mq2heUzqn8yvCMxKrV9D6UFQiQmuc4zxyjRzFSY
-         QoELTjbI82TpmGwwbFQKa/oLT5zRli+D0Z6i0miUwutt64EllkbTweEzLEkO0OcWJf3l
-         bMYBo2ZuUbkm+/4W3JLDNFWkob9UWOIxUWVKbYpagiwYnccDGZ32ScxGdPjK4b+qBmGJ
-         IQaw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=0flG7tBXqwB6ZGV3wjc6S5xzmJOwRAtpip9gnXv+kK8=;
+        b=TarIsOJvY1bE0qOoUbWMmmJpkQMY8ULADIPRKNNtrtDc7Ws2wk90HegcRbVT7dKxdh
+         k23RttyME3Q75+8mPkvubTaWfXRV6yWrjFXqZgToyM7yyf0H7wgMNyvMjm49eM4ppUY3
+         BekQhk0gn8TMG8cBzDQtfwhquw1pScMhsk8WYgDc2GaohqLE/CcTNb58/fPxpXCB3gj1
+         3/upEdc1m4/+2GOxxYB/qld2s3Y/eM5QMAf51TQbOp1MwnT7Z1yjrWzUzn3KD0Or0SkW
+         obUxgR9DGtYR6/6ZBb5mu688kqcja4RUnZs6quvA6XC1bB4u0QfkO5lDfXRLXghcFQCb
+         87tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=GoAh6ziV2V4ZClkyAY1jCdUTNM+9oT0Sys3KyM6Hf6w=;
-        b=NSNzBjyGUo9B79SNP65GRMINGE75JcyqC9xUyUxiCFPiG6mz0M3h65RAFnVIp5AuJ/
-         sMX4NN6i8l7gV7R5i8xP2iYvN1p7U/9X6r0dd9DPGxhLPv/X4FOODLQzuSTnTvT/b7Ap
-         qCLwtHl0ciH/10coVtqFEce71Ggxvoohz3asvTSjYFRnvqjdSR5g2r4NsYkluFBtRh65
-         XnymYl2efTNUQFg3RFByiG1LwFDX/08pS/gnXqlqFLzFXo8RTyOALvLH/NRsGewDufQQ
-         trWSTnLwgUWCHCy5PwXtPb8NDk6cF2LimAPuctwbpq4btgMUrKD5Am8ZFcfB0zxlo7Co
-         XdCA==
-X-Gm-Message-State: AOAM533sJh9sqtQuE8Flrjfn2xMJ1ADQ3R+orxZcfbhz8hFkn3V24jlO
-        +SVa259pWDQuLsSSfc1eXu5BVvs2GSIkOPF2b8c=
-X-Google-Smtp-Source: ABdhPJxebjMZZHVnSs4LBsse9u4Y2EeTSxRvxa7vqynqIB1hiacdigtKA+tlBz8uAH/fgizMZs8ndft8FX3MaZaBTeA=
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=0flG7tBXqwB6ZGV3wjc6S5xzmJOwRAtpip9gnXv+kK8=;
+        b=keygGe0nc/fqIywliZCqwnSsxSSEdzrqOztuqR/04YbM0RGv7ZKb4t33Ip6qxDrC1N
+         zOJKE08yLJXDw48YoDOVWwq0OwpKtqgw4GmivNUy5tOzyBquPjlFe5tyshdl4cOw4Dkw
+         tF7LkU/UXB6ioMeFZcjJOTCyM23RKnPc2nwXgNCENUubiSfcUHoqSnedf2EWK3cF/snk
+         NSgsLVjokUUIYuEAq5GsPfdztJj6LK3bWG24wp76YnoXqK8nV+PPNH2WGQoiOMnOOFO3
+         E61IKLi3bzZmMefRIdnJ/8SGj0y5mbvNhm0Zs08bB77Mfi71wpuA8ky3ij2auIPs4orw
+         NCPg==
+X-Gm-Message-State: AOAM531iO3kM4CAj+BbTpmUgv6yDpgwD/mciCK3FsOWIIJw/oKsrmOYK
+        3aiAcEOno18rxYEAYFgbCGxJINfOz2siegOHSTs=
+X-Google-Smtp-Source: ABdhPJwpIAkKNjLf2vx9eVQNWH+HzzufKSeCghOiKW6+XXOeiLmDa9rFRoRAe5/z8iyPTTrjlO3oVJPvxYI2npLP6/I=
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:478:6e44:5cf7:fcde])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6214:d65:: with SMTP id
- 5mr595577qvs.11.1629159676946; Mon, 16 Aug 2021 17:21:16 -0700 (PDT)
-Date:   Mon, 16 Aug 2021 17:21:02 -0700
-Message-Id: <20210817002109.2736222-1-ndesaulniers@google.com>
+ (user=ndesaulniers job=sendgmr) by 2002:a25:7ac6:: with SMTP id
+ v189mr870163ybc.485.1629159679127; Mon, 16 Aug 2021 17:21:19 -0700 (PDT)
+Date:   Mon, 16 Aug 2021 17:21:03 -0700
+In-Reply-To: <20210817002109.2736222-1-ndesaulniers@google.com>
+Message-Id: <20210817002109.2736222-2-ndesaulniers@google.com>
 Mime-Version: 1.0
+References: <20210817002109.2736222-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
-Subject: [PATCH 0/7] kbuild: remove cc-option-yn
+Subject: [PATCH 1/7] MIPS: replace cc-option-yn uses with cc-option
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Nick Desaulniers <ndesaulniers@google.com>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -68,32 +74,107 @@ ifeq ($(call cc-option-yn,$(FLAG)),n)
 becomes:
 ifeq ($(call cc-option,$(FLAG)),)
 
-This allows us to remove cc-option-yn. Do so, and update the
-docs.
+This allows us to pursue removing cc-option-yn.
 
-Base is linux-next.
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-mips@vger.kernel.org
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ arch/mips/Makefile          | 44 ++++++++++++++++++-------------------
+ arch/mips/sgi-ip22/Platform |  4 ++--
+ 2 files changed, 24 insertions(+), 24 deletions(-)
 
-Nick Desaulniers (7):
-  MIPS: replace cc-option-yn uses with cc-option
-  s390: replace cc-option-yn uses with cc-option
-  powerpc: replace cc-option-yn uses with cc-option
-  arc: replace cc-option-yn uses with cc-option
-  x86: remove cc-option-yn test for -mtune=
-  Makefile: replace cc-option-yn uses with cc-option
-  kbuild: remove cc-option-yn, update Docs
-
- Documentation/kbuild/makefiles.rst | 22 ++++++---------
- Makefile                           |  2 +-
- arch/arc/Makefile                  |  3 +-
- arch/mips/Makefile                 | 44 +++++++++++++++---------------
- arch/mips/sgi-ip22/Platform        |  4 +--
- arch/powerpc/Makefile              | 12 ++++----
- arch/powerpc/boot/Makefile         |  5 +---
- arch/s390/Makefile                 | 14 +++++-----
- arch/x86/Makefile_32.cpu           |  6 ----
- scripts/Makefile.compiler          |  5 ----
- 10 files changed, 49 insertions(+), 68 deletions(-)
-
+diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+index ea3cd080a1c7..f4b9850f17fa 100644
+--- a/arch/mips/Makefile
++++ b/arch/mips/Makefile
+@@ -58,9 +58,7 @@ endif
+ 
+ ifdef CONFIG_FUNCTION_GRAPH_TRACER
+   ifndef KBUILD_MCOUNT_RA_ADDRESS
+-    ifeq ($(call cc-option-yn,-mmcount-ra-address), y)
+-      cflags-y += -mmcount-ra-address -DKBUILD_MCOUNT_RA_ADDRESS
+-    endif
++    cflags-y += $(call cc-option,-mmcount-ra-address -DKBUILD_MCOUNT_RA_ADDRESS)
+   endif
+ endif
+ cflags-y += $(call cc-option, -mno-check-zero-division)
+@@ -208,31 +206,33 @@ cflags-$(CONFIG_CPU_DADDI_WORKAROUNDS)	+= $(call cc-option,-mno-daddi,)
+ # been fixed properly.
+ mips-cflags				:= $(cflags-y)
+ ifeq ($(CONFIG_CPU_HAS_SMARTMIPS),y)
+-smartmips-ase				:= $(call cc-option-yn,$(mips-cflags) -msmartmips)
+-cflags-$(smartmips-ase)			+= -msmartmips -Wa,--no-warn
++cflags-y	+= $(call cc-option,-msmartmips -Wa$(comma)--no-warn)
+ endif
+ ifeq ($(CONFIG_CPU_MICROMIPS),y)
+-micromips-ase				:= $(call cc-option-yn,$(mips-cflags) -mmicromips)
+-cflags-$(micromips-ase)			+= -mmicromips
++cflags-y	+= $(call cc-option,-mmicromips)
+ endif
+ ifeq ($(CONFIG_CPU_HAS_MSA),y)
+-toolchain-msa				:= $(call cc-option-yn,$(mips-cflags) -mhard-float -mfp64 -Wa$(comma)-mmsa)
+-cflags-$(toolchain-msa)			+= -DTOOLCHAIN_SUPPORTS_MSA
++ifneq ($(call cc-option,-mhard-float -mfp64 -Wa$(comma)-mmsa),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_MSA
++endif
++endif
++ifneq ($(call cc-option,-mvirt),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_VIRT
+ endif
+-toolchain-virt				:= $(call cc-option-yn,$(mips-cflags) -mvirt)
+-cflags-$(toolchain-virt)		+= -DTOOLCHAIN_SUPPORTS_VIRT
+ # For -mmicromips, use -Wa,-fatal-warnings to catch unsupported -mxpa which
+ # only warns
+-xpa-cflags-y				:= $(mips-cflags)
+-xpa-cflags-$(micromips-ase)		+= -mmicromips -Wa$(comma)-fatal-warnings
+-toolchain-xpa				:= $(call cc-option-yn,$(xpa-cflags-y) -mxpa)
+-cflags-$(toolchain-xpa)			+= -DTOOLCHAIN_SUPPORTS_XPA
+-toolchain-crc				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mcrc)
+-cflags-$(toolchain-crc)			+= -DTOOLCHAIN_SUPPORTS_CRC
+-toolchain-dsp				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mdsp)
+-cflags-$(toolchain-dsp)			+= -DTOOLCHAIN_SUPPORTS_DSP
+-toolchain-ginv				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mginv)
+-cflags-$(toolchain-ginv)		+= -DTOOLCHAIN_SUPPORTS_GINV
++ifneq ($(call cc-option,-mmicromips -Wa$(comma)-fatal-warnings -mxpa),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_XPA
++endif
++ifneq ($(call cc-option,-Wa$(comma)-mcrc),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_CRC
++endif
++ifneq ($(call cc-option,-Wa$(comma)-mdsp),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_DSP
++endif
++ifneq ($(call cc-option,-Wa$(comma)-mginv),)
++cflags-y	+= -DTOOLCHAIN_SUPPORTS_GINV
++endif
+ 
+ #
+ # Firmware support
+@@ -277,7 +277,7 @@ ifdef CONFIG_64BIT
+     endif
+   endif
+ 
+-  ifeq ($(KBUILD_SYM32)$(call cc-option-yn,-msym32), yy)
++  ifeq ($(KBUILD_SYM32)$(call cc-option,-msym32), y-msym32)
+     cflags-y += -msym32 -DKBUILD_64BIT_SYM32
+   else
+     ifeq ($(CONFIG_CPU_DADDI_WORKAROUNDS), y)
+diff --git a/arch/mips/sgi-ip22/Platform b/arch/mips/sgi-ip22/Platform
+index 62fa30bb959e..fd8f1d01c867 100644
+--- a/arch/mips/sgi-ip22/Platform
++++ b/arch/mips/sgi-ip22/Platform
+@@ -24,8 +24,8 @@ endif
+ # Simplified: what IP22 does at 128MB+ in ksegN, IP28 does at 512MB+ in xkphys
+ #
+ ifdef CONFIG_SGI_IP28
+-  ifeq ($(call cc-option-yn,-march=r10000 -mr10k-cache-barrier=store), n)
+-      $(error gcc doesn't support needed option -mr10k-cache-barrier=store)
++  ifeq ($(call cc-option,-march=r10000 -mr10k-cache-barrier=store),)
++      $(error $(CC) doesn't support needed option -mr10k-cache-barrier=store)
+   endif
+ endif
+ cflags-$(CONFIG_SGI_IP28)	+= -mr10k-cache-barrier=store -I$(srctree)/arch/mips/include/asm/mach-ip28
 -- 
 2.33.0.rc1.237.g0d66db33f3-goog
 
