@@ -2,48 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A98FE3EE407
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 03:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B096B3EE41E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 04:03:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbhHQB7g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 21:59:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41514 "EHLO mail.kernel.org"
+        id S233470AbhHQCDf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 22:03:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42304 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233238AbhHQB7g (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 21:59:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B510E60F39;
-        Tue, 17 Aug 2021 01:59:03 +0000 (UTC)
+        id S233394AbhHQCDf (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Aug 2021 22:03:35 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ACF6060F4B;
+        Tue, 17 Aug 2021 02:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629165544;
-        bh=iBob8UvzYvMxmIw7mBaviKChAwkVHytVKD2I0NLriA4=;
+        s=k20201202; t=1629165783;
+        bh=e+rS+LR9NfgDjAiXHol5GUKfbYmEF4q70/AUOd5kcb8=;
         h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=czWjn7imJZW6KX+MtUeCuw5HcZolu+dgdD1l6cf2zbMJv9m4a9YtMyHlI0kAdCpiy
-         akoane4e/B52MiDXMC8k+ILaval+8Duf0QNrVNRF2FnO2wiEgaxouDa7ObQjaO85Bt
-         ZthPxtKySfZB5uCQ86NGASLsL9jiNj+actkOnimDaJvDXBoZ3CkxZ9oPuoA+ydb0R8
-         xcUzpl0p+235YsMsp/lvukQm2mXbBPCrfLkv+3vWnjqqcd2gFORSU+1Xp7vnLTEd3w
-         sup6g8ZY6tEk/vgvNtoqWvPFPTQdJxuMt6ETyAidp9gDdBbcyfjjnSJqZAYk3iMc11
-         xVqOCWzpfiNcA==
-Subject: Re: [PATCH 1/7] MIPS: replace cc-option-yn uses with cc-option
+        b=beFEPt13SOo0/YQjwHI9+GREGEuU2T91NSyKvJKSLLQhra97u4uLFsBHUY/4UcKzd
+         5C/t4KmYx3FLYHuoBGOb1SmhVpyaLCQg+kzUo6yCiIuUOb4LRF6H8Y5/BD8nQ2XnFe
+         GyyKLcVmCsWKFMQUn+/LVtQTNyuaq1AjOEgROpWQDjA5IoSpoyz705s2asutNxXARf
+         MJqIgDx4YFSj841+QWHYc5toBVnTNuASHy+0Pmo+lzInFLi6/JqxSeka1NvVl6Yml1
+         bdoPmK6bWZWSOGbZhzyF0ONYv8RTzAX46OAzSXd8lDGj021QINA+2T8fXDaZUtwg3u
+         P4V8y197suqqA==
+Subject: Re: [PATCH 2/7] s390: replace cc-option-yn uses with cc-option
 To:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org
 References: <20210817002109.2736222-1-ndesaulniers@google.com>
- <20210817002109.2736222-2-ndesaulniers@google.com>
+ <20210817002109.2736222-3-ndesaulniers@google.com>
 From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <10d51e35-fc80-ba8f-6843-74d83e9e47b7@kernel.org>
-Date:   Mon, 16 Aug 2021 18:59:02 -0700
+Message-ID: <5cb6d40b-1c45-415e-47fb-a844265e7f34@kernel.org>
+Date:   Mon, 16 Aug 2021 19:03:01 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210817002109.2736222-2-ndesaulniers@google.com>
+In-Reply-To: <20210817002109.2736222-3-ndesaulniers@google.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
+
+
 
 On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
 > cc-option-yn can be replaced with cc-option. ie.
@@ -59,118 +63,69 @@ On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
 > 
 > This allows us to pursue removing cc-option-yn.
 > 
-> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Cc: linux-mips@vger.kernel.org
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: linux-s390@vger.kernel.org
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
->   arch/mips/Makefile          | 44 ++++++++++++++++++-------------------
->   arch/mips/sgi-ip22/Platform |  4 ++--
->   2 files changed, 24 insertions(+), 24 deletions(-)
+>   arch/s390/Makefile | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/arch/mips/Makefile b/arch/mips/Makefile
-> index ea3cd080a1c7..f4b9850f17fa 100644
-> --- a/arch/mips/Makefile
-> +++ b/arch/mips/Makefile
-> @@ -58,9 +58,7 @@ endif
->   
->   ifdef CONFIG_FUNCTION_GRAPH_TRACER
->     ifndef KBUILD_MCOUNT_RA_ADDRESS
-> -    ifeq ($(call cc-option-yn,-mmcount-ra-address), y)
-> -      cflags-y += -mmcount-ra-address -DKBUILD_MCOUNT_RA_ADDRESS
-> -    endif
-> +    cflags-y += $(call cc-option,-mmcount-ra-address -DKBUILD_MCOUNT_RA_ADDRESS)
->     endif
->   endif
->   cflags-y += $(call cc-option, -mno-check-zero-division)
-> @@ -208,31 +206,33 @@ cflags-$(CONFIG_CPU_DADDI_WORKAROUNDS)	+= $(call cc-option,-mno-daddi,)
->   # been fixed properly.
->   mips-cflags				:= $(cflags-y)
->   ifeq ($(CONFIG_CPU_HAS_SMARTMIPS),y)
-> -smartmips-ase				:= $(call cc-option-yn,$(mips-cflags) -msmartmips)
-> -cflags-$(smartmips-ase)			+= -msmartmips -Wa,--no-warn
-> +cflags-y	+= $(call cc-option,-msmartmips -Wa$(comma)--no-warn)
-
-I do not think this diff and most of the ones that follow are 
-equivalent, as you are no longer including the previously checked flags 
-in the cc-option invocation, which could change the result (options that 
-follow may depend on a prior selected flag).
-
-I think that as long as you add $(cflags-y) to all of the cc-option 
-tests, it should be fine. I guess cflags-y could be eliminated but it 
-looks like this variable exists so that the flags can be added to both 
-KBUILD_CFLAGS and KBUILD_AFLAGS at the same time so removing it would 
-duplicate a lot of things.
-
->   endif
->   ifeq ($(CONFIG_CPU_MICROMIPS),y)
-> -micromips-ase				:= $(call cc-option-yn,$(mips-cflags) -mmicromips)
-> -cflags-$(micromips-ase)			+= -mmicromips
-> +cflags-y	+= $(call cc-option,-mmicromips)
->   endif
->   ifeq ($(CONFIG_CPU_HAS_MSA),y)
-> -toolchain-msa				:= $(call cc-option-yn,$(mips-cflags) -mhard-float -mfp64 -Wa$(comma)-mmsa)
-> -cflags-$(toolchain-msa)			+= -DTOOLCHAIN_SUPPORTS_MSA
-> +ifneq ($(call cc-option,-mhard-float -mfp64 -Wa$(comma)-mmsa),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_MSA
-> +endif
-> +endif
-> +ifneq ($(call cc-option,-mvirt),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_VIRT
->   endif
-> -toolchain-virt				:= $(call cc-option-yn,$(mips-cflags) -mvirt)
-> -cflags-$(toolchain-virt)		+= -DTOOLCHAIN_SUPPORTS_VIRT
->   # For -mmicromips, use -Wa,-fatal-warnings to catch unsupported -mxpa which
->   # only warns
-> -xpa-cflags-y				:= $(mips-cflags)
-> -xpa-cflags-$(micromips-ase)		+= -mmicromips -Wa$(comma)-fatal-warnings
-> -toolchain-xpa				:= $(call cc-option-yn,$(xpa-cflags-y) -mxpa)
-> -cflags-$(toolchain-xpa)			+= -DTOOLCHAIN_SUPPORTS_XPA
-> -toolchain-crc				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mcrc)
-> -cflags-$(toolchain-crc)			+= -DTOOLCHAIN_SUPPORTS_CRC
-> -toolchain-dsp				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mdsp)
-> -cflags-$(toolchain-dsp)			+= -DTOOLCHAIN_SUPPORTS_DSP
-> -toolchain-ginv				:= $(call cc-option-yn,$(mips-cflags) -Wa$(comma)-mginv)
-> -cflags-$(toolchain-ginv)		+= -DTOOLCHAIN_SUPPORTS_GINV
-> +ifneq ($(call cc-option,-mmicromips -Wa$(comma)-fatal-warnings -mxpa),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_XPA
-> +endif
-> +ifneq ($(call cc-option,-Wa$(comma)-mcrc),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_CRC
-> +endif
-> +ifneq ($(call cc-option,-Wa$(comma)-mdsp),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_DSP
-> +endif
-> +ifneq ($(call cc-option,-Wa$(comma)-mginv),)
-> +cflags-y	+= -DTOOLCHAIN_SUPPORTS_GINV
-> +endif
->   
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index 17dc4f1ac4fa..a3cf33ad009f 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -70,7 +70,7 @@ cflags-y += -Wa,-I$(srctree)/arch/$(ARCH)/include
 >   #
->   # Firmware support
-> @@ -277,7 +277,7 @@ ifdef CONFIG_64BIT
->       endif
->     endif
+>   cflags-$(CONFIG_FRAME_POINTER) += -fno-optimize-sibling-calls
 >   
-> -  ifeq ($(KBUILD_SYM32)$(call cc-option-yn,-msym32), yy)
-> +  ifeq ($(KBUILD_SYM32)$(call cc-option,-msym32), y-msym32)
->       cflags-y += -msym32 -DKBUILD_64BIT_SYM32
->     else
->       ifeq ($(CONFIG_CPU_DADDI_WORKAROUNDS), y)
-> diff --git a/arch/mips/sgi-ip22/Platform b/arch/mips/sgi-ip22/Platform
-> index 62fa30bb959e..fd8f1d01c867 100644
-> --- a/arch/mips/sgi-ip22/Platform
-> +++ b/arch/mips/sgi-ip22/Platform
-> @@ -24,8 +24,8 @@ endif
->   # Simplified: what IP22 does at 128MB+ in ksegN, IP28 does at 512MB+ in xkphys
->   #
->   ifdef CONFIG_SGI_IP28
-> -  ifeq ($(call cc-option-yn,-march=r10000 -mr10k-cache-barrier=store), n)
-> -      $(error gcc doesn't support needed option -mr10k-cache-barrier=store)
-> +  ifeq ($(call cc-option,-march=r10000 -mr10k-cache-barrier=store),)
-> +      $(error $(CC) doesn't support needed option -mr10k-cache-barrier=store)
-
-Heh :)
-
+> -ifeq ($(call cc-option-yn,-mpacked-stack -mbackchain -msoft-float),y)
+> +ifneq ($(call cc-option,-mpacked-stack -mbackchain -msoft-float),)
+>   cflags-$(CONFIG_PACK_STACK)  += -mpacked-stack -D__PACK_STACK
+>   aflags-$(CONFIG_PACK_STACK)  += -D__PACK_STACK
+>   endif
+> @@ -78,22 +78,22 @@ endif
+>   KBUILD_AFLAGS_DECOMPRESSOR += $(aflags-y)
+>   KBUILD_CFLAGS_DECOMPRESSOR += $(cflags-y)
+>   
+> -ifeq ($(call cc-option-yn,-mstack-size=8192 -mstack-guard=128),y)
+> +ifneq ($(call cc-option,-mstack-size=8192 -mstack-guard=128),)
+>   cflags-$(CONFIG_CHECK_STACK) += -mstack-size=$(STACK_SIZE)
+> -ifneq ($(call cc-option-yn,-mstack-size=8192),y)
+> +ifeq ($(call cc-option,-mstack-size=8192),)
+>   cflags-$(CONFIG_CHECK_STACK) += -mstack-guard=$(CONFIG_STACK_GUARD)
+>   endif
+>   endif
+>   
+>   ifdef CONFIG_WARN_DYNAMIC_STACK
+> -  ifeq ($(call cc-option-yn,-mwarn-dynamicstack),y)
+> +  ifneq ($(call cc-option,-mwarn-dynamicstack),)
+>       KBUILD_CFLAGS += -mwarn-dynamicstack
+>       KBUILD_CFLAGS_DECOMPRESSOR += -mwarn-dynamicstack
 >     endif
 >   endif
->   cflags-$(CONFIG_SGI_IP28)	+= -mr10k-cache-barrier=store -I$(srctree)/arch/mips/include/asm/mach-ip28
+>   
+>   ifdef CONFIG_EXPOLINE
+> -  ifeq ($(call cc-option-yn,$(CC_FLAGS_MARCH) -mindirect-branch=thunk),y)
+> +  ifneq ($(call cc-option,$(CC_FLAGS_MARCH) -mindirect-branch=thunk),)
+>       CC_FLAGS_EXPOLINE := -mindirect-branch=thunk
+>       CC_FLAGS_EXPOLINE += -mfunction-return=thunk
+>       CC_FLAGS_EXPOLINE += -mindirect-branch-table
+> @@ -104,10 +104,10 @@ ifdef CONFIG_EXPOLINE
+>   endif
+>   
+>   ifdef CONFIG_FUNCTION_TRACER
+> -  ifeq ($(call cc-option-yn,-mfentry -mnop-mcount),n)
+> +  ifeq ($(call cc-option,-mfentry -mnop-mcount),)
+>       # make use of hotpatch feature if the compiler supports it
+>       cc_hotpatch	:= -mhotpatch=0,3
+> -    ifeq ($(call cc-option-yn,$(cc_hotpatch)),y)
+> +    ifneq ($(call cc-option,$(cc_hotpatch)),)
+>         CC_FLAGS_FTRACE := $(cc_hotpatch)
+>         KBUILD_AFLAGS	+= -DCC_USING_HOTPATCH
+>         KBUILD_CFLAGS	+= -DCC_USING_HOTPATCH
 > 
