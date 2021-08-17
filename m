@@ -2,176 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1893EE3DC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 03:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4C43EE3E1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 03:41:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236783AbhHQBkU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 21:40:20 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:21538 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236662AbhHQBkS (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 21:40:18 -0400
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 17H1dXKn018934;
-        Tue, 17 Aug 2021 10:39:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17H1dXKn018934
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629164374;
-        bh=5NWkg+bxS9gK9TpUYBiD3sVAhmuzKvoT9bOeRCZQU14=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KNHDtYbNVE63+TfAvnvpEYW8qXz+PxOtI9+w9u+wxh6Xl8IHtrC0uSzMFPc80vAcF
-         MykIhs567l5d3FTN1KCOvZlRvZC92lqzxOneyAAJ/WPUcHbJmabP/zHMgBvoVGgt9+
-         DyMFAIQrpBEzKIKKk03G/pjmoRWDGe21/w0h3uN/6dVkLIqBkv4bcpkNsLCS68V9zZ
-         9JD0XRJbG2NP01/hgST18Zk4NJH5QwB+WFhNqKMb7RH4lTqEVkNWVB6HRDXAEBodPU
-         b0FUWzO8HCOhV4FvEBk724ZOfmvfa/Z9aTjgF4TzYAnN571vTpqkJJzx02oNO6MaDQ
-         jBkS7OKW88rQA==
-X-Nifty-SrcIP: [209.85.216.42]
-Received: by mail-pj1-f42.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso2163254pjb.2;
-        Mon, 16 Aug 2021 18:39:34 -0700 (PDT)
-X-Gm-Message-State: AOAM532FRXiy0nB4LRVEUYGnaPCZhUsuSCrmQCs4bk3zXCWZyGACasDG
-        NvxmD+Jfsp2T/y9s1Aajkd1q3ASoUQKpSyXutKQ=
-X-Google-Smtp-Source: ABdhPJyacDBegZmpDY5iGkwK+pdYDy6J6f4wwqijnMcW0+PTDukcQAoPChsO7J7wlqQNEgHhd3t08nMf/AtJe/d86tc=
-X-Received: by 2002:a17:902:bc41:b029:12d:3f9b:401e with SMTP id
- t1-20020a170902bc41b029012d3f9b401emr745719plz.47.1629164373202; Mon, 16 Aug
- 2021 18:39:33 -0700 (PDT)
+        id S233327AbhHQBmU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 21:42:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37538 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233319AbhHQBmU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Aug 2021 21:42:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 73B6660EAF;
+        Tue, 17 Aug 2021 01:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629164508;
+        bh=QekGBuAmgIA3toUVqOHwstIHLQ0d84+8ZOIgxqMHWX0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=tUFuHJjKv5HUYZX1ooB8WUXqb3BzLvzTGfDJz3tDTumhk9zjL8vHOfGNa1UYFLraO
+         Ipn6sQWu5U6ijtyBi7wdrkBVZOnQHNgytPe/e1YlFqpXQlsNLcbSopaEJFZ6l8ugXj
+         vu2UjVSJzzLdLlTIiq3zn/sZ0+UI5YWF2K2Zfzo2sB/dermM4hqv3OFWjPbqTD9k/y
+         IoI65S5p6xsAhja/iflop20HWad9Y5YO989aMkozzTg6tYEg4WwRiK8/kB2t4KsmSY
+         xsBKNEhEkB4mo16BpKis/lnYL8zQ7BEGAUOguP/imil37CHYzukEZ5kLnR7LV0C8eU
+         clqBobRoceDzA==
+Subject: Re: [PATCH 3/7] powerpc: replace cc-option-yn uses with cc-option
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org
+References: <20210817002109.2736222-1-ndesaulniers@google.com>
+ <20210817002109.2736222-4-ndesaulniers@google.com>
+From:   Nathan Chancellor <nathan@kernel.org>
+Message-ID: <b6a02209-858b-3755-5cb7-7c0b0713c8c7@kernel.org>
+Date:   Mon, 16 Aug 2021 18:41:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210810204240.4008685-1-ndesaulniers@google.com>
- <CAK7LNASotywVkNjaBC7wYke70QL+a0tMJEVEvRTPpt8dDgHE9Q@mail.gmail.com>
- <CAKwvOdmpTt1PBnvo3RFkYnd5O2JTW7DTA9sGQJgvsDOFkVt8Ag@mail.gmail.com> <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
-In-Reply-To: <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 17 Aug 2021 10:38:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQDcOvjP-gj79rhOJzd456qBP7Fyo3yv94Mp5cHJhOFMw@mail.gmail.com>
-Message-ID: <CAK7LNAQDcOvjP-gj79rhOJzd456qBP7Fyo3yv94Mp5cHJhOFMw@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: remove stale cc-option checks
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Vitor Massaru Iha <vitor@massaru.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210817002109.2736222-4-ndesaulniers@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 9:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Aug 17, 2021 at 3:36 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Fri, Aug 13, 2021 at 6:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Wed, Aug 11, 2021 at 5:42 AM Nick Desaulniers
-> > > <ndesaulniers@google.com> wrote:
-> > > >
-> > > > --param=allow-store-data-races=0 was renamed to --allow-store-data-races
-> > > > in the GCC 10 release.
-> > > >
-> > > > diff --git a/Makefile b/Makefile
-> > > > index 027fdf2a14fe..3e3fb4affba1 100644
-> > > > --- a/Makefile
-> > > > +++ b/Makefile
-> > > > @@ -844,17 +847,17 @@ KBUILD_RUSTFLAGS += -Copt-level=z
-> > > >  endif
-> > > >
-> > > >  # Tell gcc to never replace conditional load with a non-conditional one
-> > > > -KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
-> > > > +ifdef CONFIG_CC_IS_GCC
-> > >
-> > >
-> > > Can you insert a comment here?
-> > >
-> > > # GCC 10 renamed --param=allow-store-data-races=0 to --allow-store-data-races
-> > >
-> > >
-> > > It will remind us of dropping this conditional
-> > > in the (long long distant) future.
-> > >
-> > >
-> > >
-> > >
-> > > > +KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
-> > > >  KBUILD_CFLAGS  += $(call cc-option,-fno-allow-store-data-races)
-> > > > +endif
-> >
-> > This report is confusing:
-> > https://lore.kernel.org/linux-mm/202108160729.Lx0IJzq3-lkp@intel.com/
-> > (csky gcc-11)
-> >
-> > >> csky-linux-gcc: error: unrecognized command-line option '--param=allow-store-data-races=0'; did you mean '--allow-store-data-races'?
-> >
-> > I wonder if cc-option detection for these is broken?
->
-> I do not say it is broken...
->
->
-> cc-option is defined like this:
->
-> cc-option = $(call __cc-option, $(CC),\
->         $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
->
->
-> It is checking
-> $(KBUILD_CPPFLAGS) + $(KBUILD_CFLAGS)
-> + --allow-store-data-races
->
->
-> A few lines above, I see
->
-> csky-linux-gcc: error: unrecognized argument in option '-mcpu=ck860'
->
->
-> It makes all the cc-option tests fail after this line:
-> KBUILD_CFLAGS += -mcpu=$(CPUTYPE) -Wa,-mcpu=$(MCPU_STR)
->
->
-> Then,
->
-> $(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
->
-> falls back to --param=allow-store-data-races=0
->
->
->
->
-> >  Perhaps I should
-> > not touch these other than to wrap them in the CONFIG_CC_IS_GCC guard?
->
-> I do not think so.
->
-> If an unrecognized argument appears,
-> all the cc-option tests that follow are unreliable.
->
->
->
-> If you are not comfortable with  it,
-> you can split it.
->
-> KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races)
-> KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
 
 
-I read the patch in the wrong way.
-This is the same as the current code.
+On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
+> cc-option-yn can be replaced with cc-option. ie.
+> Checking for support:
+> ifeq ($(call cc-option-yn,$(FLAG)),y)
+> becomes:
+> ifneq ($(call cc-option,$(FLAG)),)
+> 
+> Checking for lack of support:
+> ifeq ($(call cc-option-yn,$(FLAG)),n)
+> becomes:
+> ifeq ($(call cc-option,$(FLAG)),)
+> 
+> This allows us to pursue removing cc-option-yn.
+> 
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>   arch/powerpc/Makefile      | 12 ++++++------
+>   arch/powerpc/boot/Makefile |  5 +----
+>   2 files changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> index 9aaf1abbc641..85e224536cf7 100644
+> --- a/arch/powerpc/Makefile
+> +++ b/arch/powerpc/Makefile
+> @@ -12,12 +12,12 @@
+>   # Rewritten by Cort Dougan and Paul Mackerras
+>   #
+>   
+> -HAS_BIARCH	:= $(call cc-option-yn, -m32)
+> +HAS_BIARCH	:= $(call cc-option,-m32)
+>   
+>   # Set default 32 bits cross compilers for vdso and boot wrapper
+>   CROSS32_COMPILE ?=
+>   
+> -ifeq ($(HAS_BIARCH),y)
+> +ifeq ($(HAS_BIARCH),-m32)
+>   ifeq ($(CROSS32_COMPILE),)
+>   ifdef CONFIG_PPC32
+>   # These options will be overridden by any -mcpu option that the CPU
+> @@ -107,7 +107,7 @@ cflags-$(CONFIG_CPU_LITTLE_ENDIAN)	+= -mlittle-endian
+>   aflags-$(CONFIG_CPU_BIG_ENDIAN)		+= $(call cc-option,-mbig-endian)
+>   aflags-$(CONFIG_CPU_LITTLE_ENDIAN)	+= -mlittle-endian
+>   
+> -ifeq ($(HAS_BIARCH),y)
+> +ifeq ($(HAS_BIARCH),-m32)
+>   KBUILD_CFLAGS	+= -m$(BITS)
+>   KBUILD_AFLAGS	+= -m$(BITS) -Wl,-a$(BITS)
+>   KBUILD_LDFLAGS	+= -m elf$(BITS)$(LDEMULATION)
+> @@ -125,7 +125,9 @@ LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) := -pie
+>   LDFLAGS_vmlinux	:= $(LDFLAGS_vmlinux-y)
+>   
+>   ifdef CONFIG_PPC64
+> -ifeq ($(call cc-option-yn,-mcmodel=medium),y)
+> +ifeq ($(call cc-option,-mcmodel=medium),)
+> +	export NO_MINIMAL_TOC := -mno-minimal-toc
+> +else
+>   	# -mcmodel=medium breaks modules because it uses 32bit offsets from
+>   	# the TOC pointer to create pointers where possible. Pointers into the
+>   	# percpu data area are created by this method.
+> @@ -135,8 +137,6 @@ ifeq ($(call cc-option-yn,-mcmodel=medium),y)
+>   	# kernel percpu data space (starting with 0xc...). We need a full
+>   	# 64bit relocation for this to work, hence -mcmodel=large.
+>   	KBUILD_CFLAGS_MODULE += -mcmodel=large
+> -else
+> -	export NO_MINIMAL_TOC := -mno-minimal-toc
+>   endif
+>   endif
+>   
+> diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+> index 10c0fb306f15..33e1de5d1c95 100644
+> --- a/arch/powerpc/boot/Makefile
+> +++ b/arch/powerpc/boot/Makefile
+> @@ -66,10 +66,7 @@ ifdef CONFIG_DEBUG_INFO
+>   BOOTCFLAGS	+= -g
+>   endif
+>   
+> -ifeq ($(call cc-option-yn, -fstack-protector),y)
+> -BOOTCFLAGS	+= -fno-stack-protector
+> -endif
+> -
+> +BOOTCFLAGS	+= $(call cc-option,-fstack-protector)
 
-So, your v2 is fine with me.
-I will pick it up soon.
+This was previously disabling the stack protector but now it is enabling 
+it. Just remove the ifeq conditional altogether as the kernel assumes 
+-fno-stack-protector is always supported after commit 893ab00439a4 
+("kbuild: remove cc-option test of -fno-stack-protector").
 
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+>   BOOTCFLAGS	+= -I$(objtree)/$(obj) -I$(srctree)/$(obj)
+>   
+>   DTC_FLAGS	?= -p 1024
+> 
