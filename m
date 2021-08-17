@@ -2,185 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F8843EE0C0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:17:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 009453EE0CA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 02:21:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232993AbhHQAR6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Aug 2021 20:17:58 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:36933 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232924AbhHQAR6 (ORCPT
+        id S232955AbhHQAVu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Aug 2021 20:21:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232929AbhHQAVu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Aug 2021 20:17:58 -0400
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 17H0Gwmh028866;
-        Tue, 17 Aug 2021 09:16:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 17H0Gwmh028866
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629159419;
-        bh=XbVBncXQBymx/ieyPJ6HdMsSmxJ3fpUPvSQvKQ5bVDo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SR5bX611BWYbnFYeXtj/HbHiNhDrWtr2M96SyaS3aqdtaah7rB//1C28fqTs276VT
-         BVSj6Zi3DWgvB5HBMEy+rT6PJBPx2rGqHgY/gvXyf1oKLmBjEUZJSSXhG9E3P7fACR
-         uOJsTT2ldN/kKT717R4yLUDIpBkkiQJjPWamkr4jIspNLOcb5yGFK0EeTIamuJxY7J
-         KYFxzIsygLSWOOCXtLGFxVC16r97VUIcQmX7BCiWfXGtDtawaSoqmQcSSuXzaRStyn
-         e+L4wXzpGOmIi3V+J0YNegA1xpBLaQxUQXfqmjzbFIDmMmMG4kg9AcAApCBaqvGz3e
-         6MajQLiqghLew==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id a20so22717082plm.0;
-        Mon, 16 Aug 2021 17:16:58 -0700 (PDT)
-X-Gm-Message-State: AOAM531i0s613dsd/qcYXYXaCI2L8TR0pFnoex4tpKxlUtn2lLp/Y/sM
-        h/WgL2yYANwaVDDOr9DYMtbBD7OL1NdHOcaXBQ4=
-X-Google-Smtp-Source: ABdhPJwh8T5kk8Fx0mW7+dY9QdqC7lL9mpf28QTuVLb7DJKs79tNh+ARFne0A9HP1tTn9g6V2/qKKslwPwznwKJ+yH0=
-X-Received: by 2002:a65:6459:: with SMTP id s25mr673098pgv.7.1629159418096;
- Mon, 16 Aug 2021 17:16:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210810204240.4008685-1-ndesaulniers@google.com>
- <CAK7LNASotywVkNjaBC7wYke70QL+a0tMJEVEvRTPpt8dDgHE9Q@mail.gmail.com> <CAKwvOdmpTt1PBnvo3RFkYnd5O2JTW7DTA9sGQJgvsDOFkVt8Ag@mail.gmail.com>
-In-Reply-To: <CAKwvOdmpTt1PBnvo3RFkYnd5O2JTW7DTA9sGQJgvsDOFkVt8Ag@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 17 Aug 2021 09:16:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
-Message-ID: <CAK7LNAQP93qMRP8uSZKzLR0G7tM9-vNyzAEsUceRtj2nA0kd7A@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: remove stale cc-option checks
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Vitor Massaru Iha <vitor@massaru.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>
+        Mon, 16 Aug 2021 20:21:50 -0400
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E0FC061764
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:17 -0700 (PDT)
+Received: by mail-qt1-x849.google.com with SMTP id m6-20020ac807c6000000b0029994381c5fso1360425qth.5
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 17:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=GoAh6ziV2V4ZClkyAY1jCdUTNM+9oT0Sys3KyM6Hf6w=;
+        b=EXTMmJssho+L26FeyM3b5kiuUC9j5/MhTf3SjCP+YW78ZfpNNZIHheGOZgeLfuLAPP
+         XqIUHFdFQDt6RG4MK3r5HV/R/osq3Ps+wfnNm481qAB1G4Nwaf+GrE6KezdsMEKewYfA
+         /LKq7vyqOu3JpvUT1ggmhlYAw3O46mq2heUzqn8yvCMxKrV9D6UFQiQmuc4zxyjRzFSY
+         QoELTjbI82TpmGwwbFQKa/oLT5zRli+D0Z6i0miUwutt64EllkbTweEzLEkO0OcWJf3l
+         bMYBo2ZuUbkm+/4W3JLDNFWkob9UWOIxUWVKbYpagiwYnccDGZ32ScxGdPjK4b+qBmGJ
+         IQaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=GoAh6ziV2V4ZClkyAY1jCdUTNM+9oT0Sys3KyM6Hf6w=;
+        b=NSNzBjyGUo9B79SNP65GRMINGE75JcyqC9xUyUxiCFPiG6mz0M3h65RAFnVIp5AuJ/
+         sMX4NN6i8l7gV7R5i8xP2iYvN1p7U/9X6r0dd9DPGxhLPv/X4FOODLQzuSTnTvT/b7Ap
+         qCLwtHl0ciH/10coVtqFEce71Ggxvoohz3asvTSjYFRnvqjdSR5g2r4NsYkluFBtRh65
+         XnymYl2efTNUQFg3RFByiG1LwFDX/08pS/gnXqlqFLzFXo8RTyOALvLH/NRsGewDufQQ
+         trWSTnLwgUWCHCy5PwXtPb8NDk6cF2LimAPuctwbpq4btgMUrKD5Am8ZFcfB0zxlo7Co
+         XdCA==
+X-Gm-Message-State: AOAM533sJh9sqtQuE8Flrjfn2xMJ1ADQ3R+orxZcfbhz8hFkn3V24jlO
+        +SVa259pWDQuLsSSfc1eXu5BVvs2GSIkOPF2b8c=
+X-Google-Smtp-Source: ABdhPJxebjMZZHVnSs4LBsse9u4Y2EeTSxRvxa7vqynqIB1hiacdigtKA+tlBz8uAH/fgizMZs8ndft8FX3MaZaBTeA=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:478:6e44:5cf7:fcde])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:d65:: with SMTP id
+ 5mr595577qvs.11.1629159676946; Mon, 16 Aug 2021 17:21:16 -0700 (PDT)
+Date:   Mon, 16 Aug 2021 17:21:02 -0700
+Message-Id: <20210817002109.2736222-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
+Subject: [PATCH 0/7] kbuild: remove cc-option-yn
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 3:36 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Fri, Aug 13, 2021 at 6:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Wed, Aug 11, 2021 at 5:42 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > --param=allow-store-data-races=0 was renamed to --allow-store-data-races
-> > > in the GCC 10 release.
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index 027fdf2a14fe..3e3fb4affba1 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -844,17 +847,17 @@ KBUILD_RUSTFLAGS += -Copt-level=z
-> > >  endif
-> > >
-> > >  # Tell gcc to never replace conditional load with a non-conditional one
-> > > -KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
-> > > +ifdef CONFIG_CC_IS_GCC
-> >
-> >
-> > Can you insert a comment here?
-> >
-> > # GCC 10 renamed --param=allow-store-data-races=0 to --allow-store-data-races
-> >
-> >
-> > It will remind us of dropping this conditional
-> > in the (long long distant) future.
-> >
-> >
-> >
-> >
-> > > +KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
-> > >  KBUILD_CFLAGS  += $(call cc-option,-fno-allow-store-data-races)
-> > > +endif
->
-> This report is confusing:
-> https://lore.kernel.org/linux-mm/202108160729.Lx0IJzq3-lkp@intel.com/
-> (csky gcc-11)
->
-> >> csky-linux-gcc: error: unrecognized command-line option '--param=allow-store-data-races=0'; did you mean '--allow-store-data-races'?
->
-> I wonder if cc-option detection for these is broken?
+cc-option-yn can be replaced with cc-option. ie.
+Checking for support:
+ifeq ($(call cc-option-yn,$(FLAG)),y)
+becomes:
+ifneq ($(call cc-option,$(FLAG)),)
 
-I do not say it is broken...
+Checking for lack of support:
+ifeq ($(call cc-option-yn,$(FLAG)),n)
+becomes:
+ifeq ($(call cc-option,$(FLAG)),)
 
+This allows us to remove cc-option-yn. Do so, and update the
+docs.
 
-cc-option is defined like this:
+Base is linux-next.
 
-cc-option = $(call __cc-option, $(CC),\
-        $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
+Nick Desaulniers (7):
+  MIPS: replace cc-option-yn uses with cc-option
+  s390: replace cc-option-yn uses with cc-option
+  powerpc: replace cc-option-yn uses with cc-option
+  arc: replace cc-option-yn uses with cc-option
+  x86: remove cc-option-yn test for -mtune=
+  Makefile: replace cc-option-yn uses with cc-option
+  kbuild: remove cc-option-yn, update Docs
 
-
-It is checking
-$(KBUILD_CPPFLAGS) + $(KBUILD_CFLAGS)
-+ --allow-store-data-races
-
-
-A few lines above, I see
-
-csky-linux-gcc: error: unrecognized argument in option '-mcpu=ck860'
-
-
-It makes all the cc-option tests fail after this line:
-KBUILD_CFLAGS += -mcpu=$(CPUTYPE) -Wa,-mcpu=$(MCPU_STR)
-
-
-Then,
-
-$(call cc-option,--allow-store-data-races,--param=allow-store-data-races=0)
-
-falls back to --param=allow-store-data-races=0
-
-
-
-
->  Perhaps I should
-> not touch these other than to wrap them in the CONFIG_CC_IS_GCC guard?
-
-I do not think so.
-
-If an unrecognized argument appears,
-all the cc-option tests that follow are unreliable.
-
-
-
-If you are not comfortable with  it,
-you can split it.
-
-KBUILD_CFLAGS  += $(call cc-option,--allow-store-data-races)
-KBUILD_CFLAGS  += $(call cc-option,--param=allow-store-data-races=0)
-
-
-
-Or, another way of implementation is
-
-KBUILD_CFLAGS += $(call cc-ifversion, -lt, 1000,
---allow-store-data-races, --param=allow-store-data-races=0)
-
-
-
-
-
->
-> (Either way, I need to send a v2 in response to Naresh's report as
-> well. https://lore.kernel.org/lkml/CA+G9fYtPBp_-Ko_P7NuOX6vN9-66rjJuBt21h3arrLqEaQQn6w@mail.gmail.com/
-> It seems that -mfentry wasn't implemented for s390-linux-gnu-gcc until
-> gcc-9; so rather than remove top level support, perhaps a comment
-> about gcc-9+ s390 having support will make grepping for it easier in
-> the future).
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
+ Documentation/kbuild/makefiles.rst | 22 ++++++---------
+ Makefile                           |  2 +-
+ arch/arc/Makefile                  |  3 +-
+ arch/mips/Makefile                 | 44 +++++++++++++++---------------
+ arch/mips/sgi-ip22/Platform        |  4 +--
+ arch/powerpc/Makefile              | 12 ++++----
+ arch/powerpc/boot/Makefile         |  5 +---
+ arch/s390/Makefile                 | 14 +++++-----
+ arch/x86/Makefile_32.cpu           |  6 ----
+ scripts/Makefile.compiler          |  5 ----
+ 10 files changed, 49 insertions(+), 68 deletions(-)
 
 -- 
-Best Regards
-Masahiro Yamada
+2.33.0.rc1.237.g0d66db33f3-goog
+
