@@ -2,127 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7033EE57D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 06:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B67283EE5BB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 06:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbhHQEVH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 00:21:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33782 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229754AbhHQEVH (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 00:21:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F7AE60F35;
-        Tue, 17 Aug 2021 04:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629174035;
-        bh=LwXAxW/JbRYjdBCqrHlZG4O/OKef14aoTixFDdZAp1g=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=T0Wiz+2rYAqmYBvxPhY+nP2pHfXU/XE+e7umtS+vPE3zQztFvVZF9upFQaqWUK+eS
-         H/TnKzuaZXXArPKTKlZ3RAASWszSIJZYWkad2pednSRfx+Qd+dIMoJnz1mfQXi7yyH
-         BQIcPy2VjpXB1jYwPT271i09mFYsx81EvLClobVY68SCMn1oD8vBcRuZPTD0TG+D04
-         PXvCXUWql8LlETLAg1BQo055DIyWuCflGmPpxOOHO95gu4Qc9+WuGvgpVE4mDG54aj
-         plQXt/fCMqg1TBfhuXq1zf+pm5MHvy4gWNO+UY2sVHD8EMr016tIFAduudPdVj/M9j
-         kLbJFEwsH6Saw==
+        id S231285AbhHQEit (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 00:38:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230272AbhHQEit (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 00:38:49 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CEFC0613C1
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:16 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id d4so38817536lfk.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uq/bBAwcycy9ILdK1/MFcUjGkBg8B9u5tF1ftRi5Jvs=;
+        b=eQWhMGR4Wzx2VRiWFtn6HkHbefAZwK1koiIBF+/62t/04vISEOfEHz4jctSwiCwSym
+         8/eJ0NnAss13r8v8P+RlBorAGjWvxqUb5flQvKImCB2tiOiklZv0qrFt3pQ2nOIwNz1r
+         GvW4LNXZh+y8c7F5cAJRs0quHLY4glemS906I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uq/bBAwcycy9ILdK1/MFcUjGkBg8B9u5tF1ftRi5Jvs=;
+        b=nVir4rUDxuK8uY/L3Bpf27GLzlnVbdXHuAQSUdRJRbjVWV341MGinOvqoSPvL3x1aL
+         5WtfjfHzCUR+KojmRXyAF9p2uN6rtEChq40hDibFy76T6UDX2KnXSUck3UFTWMl8UTQI
+         9VOeeVPhJq02QhH0T4x7eB5X/mJMG1mZ74xJ79ZHj+AfFj/xaYKuSUpblYsXRcCnG04k
+         8JkR5tTOHRn6HITAhP0e1ftNBABLNDOhdN5QfqHhmXDMnWsgf9MQLYuyRZ+8atHIHUza
+         oIFmkwTfEbbP9j9y1L1pk+IyNEZ4D86MFDDZu5ha6Q5SOvqHC8s1U2mdwn5Bh1rv2plw
+         iEPA==
+X-Gm-Message-State: AOAM5319HRKjqz2QX/JsSUl1qHf2JbMnbJCTP1fmBGEC0gJjb3veb4v0
+        teNgSITssy6qUQf6YuqC7M0UZaxd3r0g8+Du
+X-Google-Smtp-Source: ABdhPJwJdnQ16/rQSnJML7i5wQSmbhhKQPzQZnc86bRsjW9uXZmy8l4Er4103KsioWHfN74MUwk9Jw==
+X-Received: by 2002:a05:6512:3b92:: with SMTP id g18mr969571lfv.192.1629175094632;
+        Mon, 16 Aug 2021 21:38:14 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id 22sm96390ljq.103.2021.08.16.21.38.13
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id p38so39076234lfa.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
+X-Received: by 2002:a05:6512:114c:: with SMTP id m12mr943646lfg.40.1629175093063;
+ Mon, 16 Aug 2021 21:38:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210817005624.1455428-1-nathan@kernel.org> <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+In-Reply-To: <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 16 Aug 2021 18:37:57 -1000
+X-Gmail-Original-Message-ID: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+Message-ID: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-References: <20210817005624.1455428-1-nathan@kernel.org>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
-Date:   Mon, 16 Aug 2021 21:20:33 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20210817005624.1455428-1-nathan@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Mon, Aug 16, 2021 at 6:20 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Additionally, there should be some time for the CI systems to update
+> their clang-14 builds, as the recent 0day report shows.
 
-On 8/16/2021 5:56 PM, Nathan Chancellor wrote:
-> Clang prior to 14.0.0 warns when a fallthrough annotation is in an
-> unreachable spot, which can occur when IS_ENABLED(CONFIG_...) in a
-> conditional statement prior to the fallthrough annotation such as
-> 
->    if (IS_ENABLED(CONFIG_...))
->        break;
->    fallthrough;
-> 
-> which to clang looks like
-> 
->    break;
->    fallthrough;
-> 
-> if CONFIG_... is enabled due to the control flow graph. Example of the
-> warning in practice:
-> 
-> sound/core/pcm_native.c:3812:3: warning: fallthrough annotation in
-> unreachable code [-Wimplicit-fallthrough]
->                  fallthrough;
->                  ^
-> 
-> Warning on unreachable annotations makes the warning too noisy and
-> pointless for the kernel due to the nature of guarding some code on
-> configuration options so it was disabled in commit d936eb238744 ("Revert
-> "Makefile: Enable -Wimplicit-fallthrough for Clang"").
-> 
-> This has been resolved in clang 14.0.0 by moving the unreachable warning
-> to its own flag under -Wunreachable-code, which the kernel will most
-> likely never enable due to situations like this.
-> 
-> Enable -Wimplicit-fallthrough for clang 14+ so that issues such as the
-> one in commit 652b44453ea9 ("habanalabs/gaudi: fix missing code in ECC
-> handling") can be caught before they enter the tree.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/236
-> Link: https://github.com/llvm/llvm-project/commit/9ed4a94d6451046a51ef393cd62f00710820a7e8
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->   Makefile | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index c19d1638da25..91a4a80409e1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -797,11 +797,17 @@ KBUILD_CFLAGS += -Wno-gnu
->   # source of a reference will be _MergedGlobals and not on of the whitelisted names.
->   # See modpost pattern 2
->   KBUILD_CFLAGS += -mno-global-merge
-> +
-> +# Warn about unmarked fall-throughs in switch statement.
-> +# Clang prior to 14.0.0 warned on unreachable fallthroughs with
-> +# -Wimplicit-fallthrough, which is unacceptable due to IS_ENABLED().
-> +# https://bugs.llvm.org/show_bug.cgi?id=51094
-> +ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 140000; echo $$?),0)
-> +KBUILD_CFLAGS += -Wimplicit-fallthrough
-> +endif
->   else
->   
->   # Warn about unmarked fall-throughs in switch statement.
-> -# Disabled for clang while comment to attribute conversion happens and
-> -# https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
->   KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=5,)
->   endif
->   
-> 
-> base-commit: a2824f19e6065a0d3735acd9fe7155b104e7edf5
-> 
+What?
 
-Please do not apply this patch in its current form, as it does not 
-properly credit Gustavo for all of the hard work he has done for 
-enabling this warning.
+No, the 0day report shows that the patch is buggy, and that the
 
-Additionally, there should be some time for the CI systems to update 
-their clang-14 builds, as the recent 0day report shows.
+  ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 140000; echo $$?),0)
 
-Cheers,
-Nathan
+clearly doesn't work at all, since the flag is enabled on those
+systems with old clang versions.
+
+Alternatively, the test works, but the 140000 version is not enough.
+
+So no. This patch is simply completely wrong, and doesn't fix the
+problem with Clang's buggy -Wimplicit-fallthrough flag.
+
+              Linus
