@@ -2,121 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DDAB3EF172
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 20:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BB3D3EF1D1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Aug 2021 20:25:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232871AbhHQSKF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 14:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232948AbhHQSIb (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 14:08:31 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE5CC061764
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 11:07:58 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id t9so43025419lfc.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 11:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K3Ka4koAuO/eyWNzbf7wpZBKsg+7E2Iw97vQbCYohS0=;
-        b=NKdK8us0UjF2ppRMH86hdVaNueUfnMBvVo0xnUJrja01i7RDrT+fQkYMpzDYTDWH1r
-         tOhyqLud6C5Jbi1f2+ze6/nGP4+XH+hUrEoPYtCZBVdAQ8TQCUIgwe3CQ1a5Tszldu1N
-         Vxnnt1qCx7DgsYm68Do9wIUFzF+LFRScwdKcxkj+7rAPI88iIffQuwlpZXkr2LGBTH2J
-         5FtOispkpA5ky6OrkrZv3CavGXNnJ5ijzKKwAyV0YM4q1uZARsR3vxX73p4X6RRnGGfo
-         vXvqf6VEkUHT5TRk+JvxFP0dXko+A9GmBZdoKJ+n8ky4UDkxIgSKkqo6SJgLb3DqRn5y
-         27Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K3Ka4koAuO/eyWNzbf7wpZBKsg+7E2Iw97vQbCYohS0=;
-        b=EsWGpvqCEFJ/hdiQvEYirb2ri79yyEy2gDcLCg2EIFNAOJ+4pGL9HmaqAsTr4x37Qz
-         GiyGUf+GZLjziDI67Gem9eZnzR+PeYHOwahzE5WpSWVcFEhJwDQvj256PbJDnOqb1XZc
-         gWrYdCs6uroMrfoJfjPkveyc9jaLPaQ2t3Tpp3DR6T9JT4GuN/3MOGoK+IY+r/w/ezfs
-         ebWNVVx2EYveIS6H/ntQM2QAEohkN1CF56bOf6vIXBAO3r/pKTcO8OM5da/v9GUPClm8
-         wNAAAHjlsKSwbqWnsq+mtJbfJzNPh/sVSU/xHJ2z2ots4/nqFfNMavvEgKpdwRarPSwA
-         CetQ==
-X-Gm-Message-State: AOAM532LFAfdwPvKgCxZytTtNQu4koNneURro+kak6Dsw8ciwN/sHIbn
-        lDXNq8tAA3tHSbAVOQVoCKfeFpUDQjs4SK/e8ULoSA==
-X-Google-Smtp-Source: ABdhPJyRD0Yu6Wccx8j1XxfX9A1nXqv/eybdNeKph2H0pBv/4jnbGUXJS9WI64EHG2MCCnyNynl1F6KGtDwIke3gOMA=
-X-Received: by 2002:a05:6512:3041:: with SMTP id b1mr3246042lfb.122.1629223676223;
- Tue, 17 Aug 2021 11:07:56 -0700 (PDT)
+        id S232301AbhHQS0M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 14:26:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47200 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231149AbhHQS0M (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 14:26:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DD4F461042;
+        Tue, 17 Aug 2021 18:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629224738;
+        bh=nWbbMoPYSmgWbb9ggWGwm0E2EwA2A5FEXfoy+4Gdimw=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ZToh53CS+k4whLQV1F3538RG4BEuDg3v5Clog2vY7FUUUhCXpnxDJSU2hblfP9UzG
+         ql7draPX+GJLCdfL533uAvHXroLbocssLDFufvuhfhXUl2VcrbXSqUfkvEXRSwjF1l
+         dA9JawlgiWXnNhjNcUgSieAodpgO7vfC/urS0kzablCR6IdRJJqyXKYa0pntt4yjz5
+         deNi/Goj1H3nlnVVfR1c4LEO/qWRTvYRrNeqcqMA/irH7ABePp5Tcj03WCBz1RmY5R
+         JP4RebhR9L2DO7bAIFG0qFOeRBtPGb7p0mLt7scXhbCRZHPwABgN+lzau/XhtyZMQj
+         PHmSXScRnS1Uw==
+Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-hardening@vger.kernel.org
+References: <20210817005624.1455428-1-nathan@kernel.org>
+ <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+ <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+ <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
+ <202108171056.EDCE562@keescook>
+From:   Nathan Chancellor <nathan@kernel.org>
+Message-ID: <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org>
+Date:   Tue, 17 Aug 2021 11:25:36 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210817002109.2736222-1-ndesaulniers@google.com>
- <20210817002109.2736222-5-ndesaulniers@google.com> <bc8cf0be-9e51-e769-0685-2594802eead0@kernel.org>
-In-Reply-To: <bc8cf0be-9e51-e769-0685-2594802eead0@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 17 Aug 2021 11:07:45 -0700
-Message-ID: <CAKwvOdkO3ax7gN-n5OJO7-320BVK+B-JDs0v=3vZs9fPezwjDg@mail.gmail.com>
-Subject: Re: [PATCH 4/7] arc: replace cc-option-yn uses with cc-option
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Vineet Gupta <vgupta@kernel.org>,
-        linux-snps-arc@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <202108171056.EDCE562@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 7:05 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> > cc-option-yn can be replaced with cc-option. ie.
-> > Checking for support:
-> > ifeq ($(call cc-option-yn,$(FLAG)),y)
-> > becomes:
-> > ifneq ($(call cc-option,$(FLAG)),)
-> >
-> > Checking for lack of support:
-> > ifeq ($(call cc-option-yn,$(FLAG)),n)
-> > becomes:
-> > ifeq ($(call cc-option,$(FLAG)),)
-> >
-> > This allows us to pursue removing cc-option-yn.
-> >
-> > Cc: Vineet Gupta <vgupta@kernel.org>
-> > Cc: linux-snps-arc@lists.infradead.org
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> >   arch/arc/Makefile | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> > index c0d87ac2e221..8782a03f24a8 100644
-> > --- a/arch/arc/Makefile
-> > +++ b/arch/arc/Makefile
-> > @@ -18,8 +18,7 @@ ifeq ($(CONFIG_ARC_TUNE_MCPU),"")
-> >   cflags-y                            += $(tune-mcpu-def-y)
-> >   else
-> >   tune-mcpu                           := $(shell echo $(CONFIG_ARC_TUNE_MCPU))
-> > -tune-mcpu-ok                                 := $(call cc-option-yn, $(tune-mcpu))
-> > -ifeq ($(tune-mcpu-ok),y)
-> > +ifneq ($(call cc-option,$(tune-mcpu)),)
-> >   cflags-y                            += $(tune-mcpu)
->
-> Any reason not to just turn this into
->
-> cflags-y += $(call cc-option,$(tune-mcpu))
->
-> ?
+On 8/17/2021 11:03 AM, Kees Cook wrote:
+> On Mon, Aug 16, 2021 at 09:55:28PM -0700, Nathan Chancellor wrote:
+>> If you/Gustavo would prefer, I can upgrade that check to
+>>
+>> ifneq ($(call cc-option, -Wunreachable-code-fallthrough),)
+>>
+>> I was just trying to save a call to the compiler, as that is more expensive
+>> than a shell test call.
+> 
+> I prefer the option test -- this means no changes are needed on the
+> kernel build side if it ever finds itself backported to earlier versions
+> (and it handles the current case of "14" not meaning "absolute latest").
+> 
+> More specifically, I think you want this (untested):
 
-Yes, you'll need to pull up the source; the diff doesn't provide
-enough context. tune-mcpu is used in the body of the else branch
-hinted at by the diff. PTAL
+That should work but since -Wunreachable-code-fallthrough is off by 
+default, I did not really see a reason to include it in KBUILD_CFLAGS. I 
+do not have a strong opinion though, your version is smaller than mine 
+is so we can just go with that. I'll defer to Gustavo on it since he has 
+put in all of the work cleaning up the warnings.
 
->
-> If $(tune-mcpu) is empty or invalid, nothing will be added to cflags-y.
->
-> >   else
-> >   # The flag provided by 'CONFIG_ARC_TUNE_MCPU' option isn't known by this compiler
-> >
+Cheers,
+Nathan
 
-
-
--- 
-Thanks,
-~Nick Desaulniers
+> diff --git a/Makefile b/Makefile
+> index b5fd51e68ae9..9845ea50a368 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -859,11 +859,11 @@ KBUILD_CFLAGS += -Wno-gnu
+>   # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+>   # See modpost pattern 2
+>   KBUILD_CFLAGS += -mno-global-merge
+> +# Warn about unmarked fall-throughs in switch statement only if we can also
+> +# disable the bogus unreachable code warnings.
+> +KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough -Wno-unreachable-code-fallthrough,)
+>   else
+> -
+>   # Warn about unmarked fall-throughs in switch statement.
+> -# Disabled for clang while comment to attribute conversion happens and
+> -# https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
+>   KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=5,)
+>   endif
+>   
+> 
