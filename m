@@ -2,30 +2,44 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C12603EF615
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 01:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E243EF66B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 02:01:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235613AbhHQXYY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 19:24:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45176 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229466AbhHQXYU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 19:24:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 66EE760FD7;
-        Tue, 17 Aug 2021 23:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629242624;
-        bh=/GnHgdBzB1zvgbKqo8gzvmlUQTPw53iwDmu/OsunGdA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=trSh2BL99Bb9FxJgK31SwOsCbxNuksew8j/Lc39KJmyobbiF/6/fdtg+P7yLX7MfL
-         zvBcH+qOAbU4lDZ4lZeC5+/GpqfmNgeB+ySo6gC+rAwmGwUt7MHfpidb0tnPW1ppfh
-         dtr5XnLG6E+hCczUg3c8q+NOvnDRiZBLOOuIR14eFqLCE5C6xXoP3+GRl6X8/KvffE
-         mjWmDdDmWWz8jsJ4/69ky3VmwQBK6VzHIjo6UwzMy2YvFq55i1+8ASuwKdp+HJe1TG
-         hQI6K5Vld7EUxahUkPf12BKG0qm8YSCbxYieKxxo18csSaNjvcUBX+h8A8jr0ohKOo
-         tnP6ulT1pVpAg==
+        id S235486AbhHRABe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 20:01:34 -0400
+Received: from gateway33.websitewelcome.com ([192.185.145.4]:18817 "EHLO
+        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232706AbhHRABd (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 20:01:33 -0400
+X-Greylist: delayed 1416 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Aug 2021 20:01:33 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway33.websitewelcome.com (Postfix) with ESMTP id A584A56934
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 18:37:22 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id G8e2mVRQqK61iG8e2mToMi; Tue, 17 Aug 2021 18:37:22 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=AzVDzK8a1EEVePdeojHw8a1gJ0hcdK6QJHkvzwsDxKQ=; b=cFdaytldjPLnPidWap/zvaUh+s
+        DQNHq3Mbh59DJZ32pXWxDEQtjJ7Av/iwnObHqrh+HvSXI+MeUryFg5UkkmXc9FDllFn5dXs0npLlG
+        GY2vE/itqS/iFQQeCSnLc7wtbNoybTIP1mYCVCJOpHhItLyx2NPhXjTvURMvxY8a6/lA00odCJNx3
+        xHj39mxLjVvj0+2Wwr2pAIIXpbpKiOcQcpC/9OumnuSaZGfQAzb8ZTmolHLWIWCKOUCGneXOx91BV
+        YDTsr+J38QeY0KUkvTBMJuMg1ptKc3DVWNQy5HopKjt+TaHbNZXmD9Ii3gqKv5eRCY6at1rSiZArv
+        0aLDxiQQ==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:44668 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1mG8e2-001l7W-2S; Tue, 17 Aug 2021 18:37:22 -0500
 Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-To:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+To:     Nathan Chancellor <nathan@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Philip Li <philip.li@intel.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -44,115 +58,60 @@ References: <20210817005624.1455428-1-nathan@kernel.org>
  <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
  <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com>
  <202108171602.159EB2C7EA@keescook>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
-Date:   Tue, 17 Aug 2021 16:23:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <1f05cd38-c576-0ded-81b6-fe0b49a5059e@embeddedor.com>
+Date:   Tue, 17 Aug 2021 18:40:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <202108171602.159EB2C7EA@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1mG8e2-001l7W-2S
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:44668
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 8
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/17/2021 4:06 PM, Kees Cook wrote:
-> On Tue, Aug 17, 2021 at 04:33:25PM -0500, Gustavo A. R. Silva wrote:
->>
->>
->> On 8/17/21 16:17, Masahiro Yamada wrote:
->>> On Wed, Aug 18, 2021 at 3:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
->>>>
->>>> On 8/17/2021 11:03 AM, Kees Cook wrote:
->>>>> On Mon, Aug 16, 2021 at 09:55:28PM -0700, Nathan Chancellor wrote:
->>>>>> If you/Gustavo would prefer, I can upgrade that check to
->>>>>>
->>>>>> ifneq ($(call cc-option, -Wunreachable-code-fallthrough),)
->>>>>>
->>>>>> I was just trying to save a call to the compiler, as that is more expensive
->>>>>> than a shell test call.
->>>>>
->>>>> I prefer the option test -- this means no changes are needed on the
->>>>> kernel build side if it ever finds itself backported to earlier versions
->>>>> (and it handles the current case of "14" not meaning "absolute latest").
->>>>>
->>>>> More specifically, I think you want this (untested):
->>>>
->>>> That should work but since -Wunreachable-code-fallthrough is off by
->>>> default, I did not really see a reason to include it in KBUILD_CFLAGS. I
->>>> do not have a strong opinion though, your version is smaller than mine
->>>> is so we can just go with that. I'll defer to Gustavo on it since he has
->>>> put in all of the work cleaning up the warnings.
->>>
->>>
->>>
->>> https://github.com/llvm/llvm-project/commit/9ed4a94d6451046a51ef393cd62f00710820a7e8
->>>
->>>     did two things:
->>>
->>>   (1) Change the -Wimplicit-fallthrough behavior so that it fits
->>>        to our use in the kernel
->>>
->>>   (2) Add a new option -Wunreachable-code-fallthrough
->>>        that works like the previous -Wimplicit-fallthrough of
->>>        Clang <= 13.0.0
->>>
->>>
->>> They are separate things.
->>>
->>> Checking the presence of -Wunreachable-code-fallthrough
->>> does not make sense since we are only interested in (1) here.
->>>
->>> So, checking the Clang version is sensible and matches
->>> the explanation in the comment block.
+
+
+On 8/17/21 18:23, Nathan Chancellor wrote:
+>>>> # Warn about unmarked fall-throughs in switch statement.
+>>>> # Clang prior to 14.0.0 warned on unreachable fallthroughs with
+>>>> # -Wimplicit-fallthrough, which is unacceptable due to IS_ENABLED().
+>>>> # https://bugs.llvm.org/show_bug.cgi?id=51094
+>>>> ifeq ($(firstword $(sort $(CONFIG_CLANG_VERSION) 140000)),140000)
+>>>> KBUILD_CFLAGS += -Wimplicit-fallthrough
+>>>> endif
 > 
-> I thought one of the problems (which is quickly draining away) that
-> needed to be solved here is that some Clang trunk builds (that report
-> as version 14) don't yet have support for -Wunreachable-code-fallthrough
-> since they aren't new enough.
-
-Philip, how often is the kernel test robot's clang version rebuilt? 
-Would it be possible to bump it to latest ToT or at least 
-9ed4a94d6451046a51ef393cd62f00710820a7e8 so that we do not get bit by 
-this warning when we go to enable this flag?
-
-I do not know of any other CI aside from ours that is testing with tip 
-of tree clang and ours should already have a clang that includes my 
-patch since it comes from apt.llvm.org.
-
->>> # Warn about unmarked fall-throughs in switch statement.
->>> # Clang prior to 14.0.0 warned on unreachable fallthroughs with
->>> # -Wimplicit-fallthrough, which is unacceptable due to IS_ENABLED().
->>> # https://bugs.llvm.org/show_bug.cgi?id=51094
->>> ifeq ($(firstword $(sort $(CONFIG_CLANG_VERSION) 140000)),140000)
->>> KBUILD_CFLAGS += -Wimplicit-fallthrough
->>> endif
-
-Very clever and nifty trick! I have verified that it works for clang 13 
-and 14 along with a theoretical clang 15. Gustavo, feel free to stick a
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
-if you so desire.
-
->>>
->>> The $(sort ...) is alphabetical sort, not numeric sort.
->>> It works for us because the minimum Clang version is 10.0.1
->>> (that is CONFIG_CLANG_VERSION is always 6-digit)
->>>
->>> It will break when Clang version 100.0.0 is released.
->>>
->>> But, before that, we will raise the minimum supported clang version,
->>> and this conditional will go away.
+> Very clever and nifty trick! I have verified that it works for clang 13 and 14 along with a theoretical clang 15. Gustavo, feel free to stick a
 > 
-> If a version test is preferred, cool; this is a nice trick. :)
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
 > 
->> I like this. :)
->>
->> I'm going to make the 0-day robot test it in my tree, first.
-> 
-> Sounds good to me!
-> 
+> if you so desire.
+
+Yep; I just tested it locally with clang 13 and 14, too.
+
+Thanks
+--
+Gustavo
+
+
