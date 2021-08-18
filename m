@@ -2,55 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C283EFC75
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 08:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F3273EFBA7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 08:14:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240282AbhHRGZN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 02:25:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48390 "EHLO
+        id S238921AbhHRGNu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 02:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238903AbhHRGYv (ORCPT
+        with ESMTP id S238727AbhHRGNT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 02:24:51 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29FF4C0612A9
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:24:17 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id g14so1101317pfm.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:24:17 -0700 (PDT)
+        Wed, 18 Aug 2021 02:13:19 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9600C0698DD
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:06:05 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id y23so1140131pgi.7
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pfheq8ucotkU63pWQCdudkbxUtaK+5E7fGdpUnnohcE=;
-        b=bOn7B1lcs0RvnQ+JyDcBrrDHbtMIszKBFbMg36dEvOm/cxiVZauZR1pM19AHYwcUKV
-         a8y/SA1b4oZfyx+I7fB2xkZ8xjkLsTtpEq4EMNm3JkMacp3b4/IpDUQxMVbVY4g6nEfW
-         zLrHVXNFumWsW5ybM/sxAkeypdIu2sT+eqT4k=
+        bh=foQDo7WpLo2j2V/z+FSCXpsN+DWjHtp9JYSgEaJMB90=;
+        b=GKSzM0IlJzJUf6lZnhXWBc3es8Ghf2l0pYhAqJGw0m0Etoh9R9ZMUtcr7TQfx5XH16
+         yUU50MfeHmQfTuW7Ip6OieaI0/v3E9dPT9SLJqUTpqoqf9QRyyt07A/6SF5rzbn7F+nJ
+         +/lFdCNLXnONV1jAas5Ljfn8bo+d3tCRsQ77A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pfheq8ucotkU63pWQCdudkbxUtaK+5E7fGdpUnnohcE=;
-        b=aia9OgVlFsj0oUJYWhFYOXGDAtQ7q8D0e3xRa+Mhlk96kb+e3cVJrKRhVgQG+jvtCg
-         Nn6XeYmS0Z8PYujBQSIAzd8sZsBc1ATmU3xhPf2P9tv5nFYRbvv20YVr/iJ4grs9SEUs
-         exISIVoXR2t13qLp1eNizAfpYeYQnrTE7U4eeA/Wh63Lmq3DuXYH8y8WmN4Q5G9BpaRX
-         xUCU1GlKgfc0nbHiSDlaZYdPGn7zPl9L4mAR27x7AMWwGOWeYVhZK+9bnq2zkOS7VkJG
-         5cHfHuyxzw3yFDBSgYaR5flpEzSjlk7jeIg8pWJJhUWuJWhl2jW5x0TrrHX27W/iac7Z
-         5IhQ==
-X-Gm-Message-State: AOAM533hm6mPNlEmB3wNuSeaX1d8F7NJ5NEQIdhtcUGzEy4hySFinQh4
-        MWUruvATPHKq1LoJYcurFazWZA==
-X-Google-Smtp-Source: ABdhPJydUsyn5VnHkzaXMydTCOu45RwPjXJEVv8iarwYsWIPkrbqfwKhMSfmnkkd0A09rXVQCYKrpA==
-X-Received: by 2002:a62:6242:0:b029:3c6:5a66:c8f2 with SMTP id w63-20020a6262420000b02903c65a66c8f2mr7615518pfb.59.1629267856691;
-        Tue, 17 Aug 2021 23:24:16 -0700 (PDT)
+        bh=foQDo7WpLo2j2V/z+FSCXpsN+DWjHtp9JYSgEaJMB90=;
+        b=Ub8bAIwh+2VPTykba8WOk9uS13eVsIQOka22LuNK6lTMpEjrY3blKvQuxfoUVvmsbv
+         cL4lTtIka0/V0orY89BbYth3fmuh93Hy9TT02B3bbC9YKt+rE73LjwfWsLIiQzraC/gs
+         hTYnKx7dGTavFGft5j7gidKNMagcJtnAjSMkouyd9cjiQNoKkJjrc4Waf8KNPGDmtr8B
+         dFbxvBngP38dpQmiFuz5NrlLoE68ONko93/HrVVygo2FstwisAN98bgq5J2PVCwfSHjF
+         9MAAKLplo25lchcb343HYdbdIhIKbq8pSN/6wCZueKraGr8fuZHP3jFUbNPWfzWmBSDr
+         +sAw==
+X-Gm-Message-State: AOAM533YT1XKZg2VX9m/ZDZX3tP17164Kyzvh/WvDoQKVV6opP6yGOki
+        v0zMt/MfYdeJaxuHpw2it7XpPw==
+X-Google-Smtp-Source: ABdhPJyaW6PaSoHolvdHHHrfwFOitgtk5zymjMduPV9RR03aWMu9nIrmKtLLFhURS2RiRyMqgOc9Ww==
+X-Received: by 2002:a63:5c8:: with SMTP id 191mr7451505pgf.293.1629266765131;
+        Tue, 17 Aug 2021 23:06:05 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s16sm1923432pfd.95.2021.08.17.23.24.14
+        by smtp.gmail.com with ESMTPSA id d18sm5548805pgk.24.2021.08.17.23.06.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:24:15 -0700 (PDT)
+        Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Ido Schimmel <idosch@nvidia.com>, netdev@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -59,14 +61,14 @@ Cc:     Kees Cook <keescook@chromium.org>,
         linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
-Subject: [PATCH v2 58/63] ethtool: stats: Use struct_group() to clear all stats at once
-Date:   Tue, 17 Aug 2021 23:05:28 -0700
-Message-Id: <20210818060533.3569517-59-keescook@chromium.org>
+Subject: [PATCH v2 59/63] can: flexcan: Use struct_group() to zero struct flexcan_regs regions
+Date:   Tue, 17 Aug 2021 23:05:29 -0700
+Message-Id: <20210818060533.3569517-60-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1971; h=from:subject; bh=E0TNBYZqVPbRitBJ5Zh/gLEgPeByfWBcEVfphcdRPN4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMrF3QPyVB5GMFoBwvbiS+bGesf32/XaWgZh6rV XXUSuGeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKwAKCRCJcvTf3G3AJuI/EA ChJAduV9dwQnlnG3wxAW9hWJ1q1jYsNmAAW03oHPyyyn4KhoNewX3nohRktZszGSOaJbWUuapbs0QS zhzLmfVfKhD7+DDfnZKD0XnlGiqH7Qvf5Q5ntMO0/ssU3MUgRP1gtdtb5NMHkByui7zpX/5x9W/2YW raKvA1KIXU6CdJePHvujGsZ5QP8biHCDP1thhwyJfUA4XwPHO3b8i6IC1kMBzBKINuCjLSkeqN3uWD PwoL5hyTqy4UKJN0gW6vj/hdXoIY6bLL/pGtAASCMDf1ZqU/p4Jgph8esB5nghJM4B5K/afkMfJgB+ vA/vxaYQSYgK9DPmx0RcanTPpspjeL27cp7jQyYi0izLRnpEiExj2zheTEAvmAN6nqq/leBQk6MTwN uE7XQ8NliZBAE0y+b+xl4TZEDKqaf3ZQLquskbjy9INmiSPSDGgnZODLH9BjIy5eLOJ0nYrc8QLN5B D18Vfd3FY3RNXbQkdqHx6rRPcX8ywj2ipEby99d78Sf6C421sRvINJCco18C7ckUJ5KbK307TNNlzA niH2xNat1pGZwKiztnfUGK9vkqebtbw9PjWgnoloa26nxruikmIBNbDpX17yxNTtNblkMvaAIxgqlv ZbPLstx3DpgFgVYefzNXWqrNibdM/9iNuS0mCC0zQsf6ZcpjwRIHZD0WHkXA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5011; h=from:subject; bh=8Ts9umslvw0EuXRaphSdWSysW0LFYybLoYrceMcY2J8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMrtWREAe+sayvsZiZZ8f8J5sqHhCBlNW7evqOS y4cIMiCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKwAKCRCJcvTf3G3AJl2pD/ 95zMtNfq1UN3l8y/gyN1appJq7NzWCP9Ku5k1Ba1Voq8jwjYkgywPDqqLvBA6qhUCGs+OtkOFRJm9r 2WBM2tr0yTR7/Huu8tg3Y9QEDaf1r85ita3zR+Lo8bHAVhDGXrm0QLkXcE5kvRTliHDwuyH5NQdbeI y8MSusibpB/OZKb1O2tTsxmhqrhbyjP6XdzghSiU7T4QDxkGxZwJgsAc7vPRqbHk7VQ4C8W2dPyt0e NE2ZrJYx0O61gXhgePrJkWBiMMPSajK74LMAZnW+05D56fMzPxqiMjtL0p/si6OhxhglP8w/YyyfB4 hnLWCd7r/bixExnxdKaJIIssbZtUDNaR6qxxa++crImbOrfTcB2xJkZxZo5FCuWwXjSeFm5seZ8DSF VqrYUY1JAcu3VBvPK178Bzrnv1RgFdvpt4I+zejm4UhAQh4kmjNR1TG43rdFl+h9uzkvW74E7N8ulI x2uluahMtzsRiCPNN78mfMrihT6ffb7zDUoByobpe2156Mnrn0LmOGmBizoXBiY8TaXTRKSEavjrKQ EjTgqkUCcUBJwrofQz5SF6k1zmaygNghMfj+owZdXn8OFWlfbX7KbDZmtfReV8lng9nDI4GeN25VRY 8eq9GEvLK3a8NRy4xCnvyxCK9Lloiounz6j68lZ9p5uyRuvWXtQFVzzhEMKw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -77,51 +79,128 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct stats_reply_data that should
-be initialized, which can now be done in a single memset() call.
+Add struct_group() to mark both regions of struct flexcan_regs that get
+initialized to zero. Avoid the future warnings:
 
+In function 'fortify_memset_chk',
+    inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+    inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1403:2:
+./include/linux/fortify-string.h:199:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+  199 |    __write_overflow_field(p_size_field, size);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function 'fortify_memset_chk',
+    inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+    inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1408:3:
+./include/linux/fortify-string.h:199:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+  199 |    __write_overflow_field(p_size_field, size);
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cc: Wolfgang Grandegger <wg@grandegger.com>
+Cc: Marc Kleine-Budde <mkl@pengutronix.de>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Ido Schimmel <idosch@nvidia.com>
+Cc: linux-can@vger.kernel.org
 Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- net/ethtool/stats.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/net/can/flexcan.c | 68 +++++++++++++++++++--------------------
+ 1 file changed, 34 insertions(+), 34 deletions(-)
 
-diff --git a/net/ethtool/stats.c b/net/ethtool/stats.c
-index ec07f5765e03..a20e0a24ff61 100644
---- a/net/ethtool/stats.c
-+++ b/net/ethtool/stats.c
-@@ -14,10 +14,12 @@ struct stats_req_info {
- 
- struct stats_reply_data {
- 	struct ethnl_reply_data		base;
--	struct ethtool_eth_phy_stats	phy_stats;
--	struct ethtool_eth_mac_stats	mac_stats;
--	struct ethtool_eth_ctrl_stats	ctrl_stats;
--	struct ethtool_rmon_stats	rmon_stats;
-+	struct_group(stats,
-+		struct ethtool_eth_phy_stats	phy_stats;
-+		struct ethtool_eth_mac_stats	mac_stats;
-+		struct ethtool_eth_ctrl_stats	ctrl_stats;
-+		struct ethtool_rmon_stats	rmon_stats;
+diff --git a/drivers/net/can/flexcan.c b/drivers/net/can/flexcan.c
+index 7734229aa078..12b60ad95b02 100644
+--- a/drivers/net/can/flexcan.c
++++ b/drivers/net/can/flexcan.c
+@@ -290,31 +290,33 @@ struct flexcan_regs {
+ 	u32 dbg1;		/* 0x58 */
+ 	u32 dbg2;		/* 0x5c */
+ 	u32 _reserved3[8];	/* 0x60 */
+-	u8 mb[2][512];		/* 0x80 - Not affected by Soft Reset */
+-	/* FIFO-mode:
+-	 *			MB
+-	 * 0x080...0x08f	0	RX message buffer
+-	 * 0x090...0x0df	1-5	reserved
+-	 * 0x0e0...0x0ff	6-7	8 entry ID table
+-	 *				(mx25, mx28, mx35, mx53)
+-	 * 0x0e0...0x2df	6-7..37	8..128 entry ID table
+-	 *				size conf'ed via ctrl2::RFFN
+-	 *				(mx6, vf610)
+-	 */
+-	u32 _reserved4[256];	/* 0x480 */
+-	u32 rximr[64];		/* 0x880 - Not affected by Soft Reset */
+-	u32 _reserved5[24];	/* 0x980 */
+-	u32 gfwr_mx6;		/* 0x9e0 - MX6 */
+-	u32 _reserved6[39];	/* 0x9e4 */
+-	u32 _rxfir[6];		/* 0xa80 */
+-	u32 _reserved8[2];	/* 0xa98 */
+-	u32 _rxmgmask;		/* 0xaa0 */
+-	u32 _rxfgmask;		/* 0xaa4 */
+-	u32 _rx14mask;		/* 0xaa8 */
+-	u32 _rx15mask;		/* 0xaac */
+-	u32 tx_smb[4];		/* 0xab0 */
+-	u32 rx_smb0[4];		/* 0xac0 */
+-	u32 rx_smb1[4];		/* 0xad0 */
++	struct_group(init,
++		u8 mb[2][512];		/* 0x80 - Not affected by Soft Reset */
++		/* FIFO-mode:
++		 *			MB
++		 * 0x080...0x08f	0	RX message buffer
++		 * 0x090...0x0df	1-5	reserved
++		 * 0x0e0...0x0ff	6-7	8 entry ID table
++		 *				(mx25, mx28, mx35, mx53)
++		 * 0x0e0...0x2df	6-7..37	8..128 entry ID table
++		 *				size conf'ed via ctrl2::RFFN
++		 *				(mx6, vf610)
++		 */
++		u32 _reserved4[256];	/* 0x480 */
++		u32 rximr[64];		/* 0x880 - Not affected by Soft Reset */
++		u32 _reserved5[24];	/* 0x980 */
++		u32 gfwr_mx6;		/* 0x9e0 - MX6 */
++		u32 _reserved6[39];	/* 0x9e4 */
++		u32 _rxfir[6];		/* 0xa80 */
++		u32 _reserved8[2];	/* 0xa98 */
++		u32 _rxmgmask;		/* 0xaa0 */
++		u32 _rxfgmask;		/* 0xaa4 */
++		u32 _rx14mask;		/* 0xaa8 */
++		u32 _rx15mask;		/* 0xaac */
++		u32 tx_smb[4];		/* 0xab0 */
++		u32 rx_smb0[4];		/* 0xac0 */
++		u32 rx_smb1[4];		/* 0xad0 */
 +	);
- 	const struct ethtool_rmon_hist_range	*rmon_ranges;
+ 	u32 mecr;		/* 0xae0 */
+ 	u32 erriar;		/* 0xae4 */
+ 	u32 erridpr;		/* 0xae8 */
+@@ -328,9 +330,11 @@ struct flexcan_regs {
+ 	u32 fdcbt;		/* 0xc04 - Not affected by Soft Reset */
+ 	u32 fdcrc;		/* 0xc08 */
+ 	u32 _reserved9[199];	/* 0xc0c */
+-	u32 tx_smb_fd[18];	/* 0xf28 */
+-	u32 rx_smb0_fd[18];	/* 0xf70 */
+-	u32 rx_smb1_fd[18];	/* 0xfb8 */
++	struct_group(init_fd,
++		u32 tx_smb_fd[18];	/* 0xf28 */
++		u32 rx_smb0_fd[18];	/* 0xf70 */
++		u32 rx_smb1_fd[18];	/* 0xfb8 */
++	);
  };
  
-@@ -117,10 +119,7 @@ static int stats_prepare_data(const struct ethnl_req_info *req_base,
- 	/* Mark all stats as unset (see ETHTOOL_STAT_NOT_SET) to prevent them
- 	 * from being reported to user space in case driver did not set them.
- 	 */
--	memset(&data->phy_stats, 0xff, sizeof(data->phy_stats));
--	memset(&data->mac_stats, 0xff, sizeof(data->mac_stats));
--	memset(&data->ctrl_stats, 0xff, sizeof(data->ctrl_stats));
--	memset(&data->rmon_stats, 0xff, sizeof(data->rmon_stats));
-+	memset(&data->stats, 0xff, sizeof(data->stats));
+ static_assert(sizeof(struct flexcan_regs) ==  0x4 * 18 + 0xfb8);
+@@ -1400,14 +1404,10 @@ static void flexcan_ram_init(struct net_device *dev)
+ 	reg_ctrl2 |= FLEXCAN_CTRL2_WRMFRZ;
+ 	priv->write(reg_ctrl2, &regs->ctrl2);
  
- 	if (test_bit(ETHTOOL_STATS_ETH_PHY, req_info->stat_mask) &&
- 	    dev->ethtool_ops->get_eth_phy_stats)
+-	memset_io(&regs->mb[0][0], 0,
+-		  offsetof(struct flexcan_regs, rx_smb1[3]) -
+-		  offsetof(struct flexcan_regs, mb[0][0]) + 0x4);
++	memset_io(&regs->init, 0, sizeof(regs->init));
+ 
+ 	if (priv->can.ctrlmode & CAN_CTRLMODE_FD)
+-		memset_io(&regs->tx_smb_fd[0], 0,
+-			  offsetof(struct flexcan_regs, rx_smb1_fd[17]) -
+-			  offsetof(struct flexcan_regs, tx_smb_fd[0]) + 0x4);
++		memset_io(&regs->init_fd, 0, sizeof(regs->init_fd));
+ 
+ 	reg_ctrl2 &= ~FLEXCAN_CTRL2_WRMFRZ;
+ 	priv->write(reg_ctrl2, &regs->ctrl2);
 -- 
 2.30.2
 
