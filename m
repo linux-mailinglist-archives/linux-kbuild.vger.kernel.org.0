@@ -2,106 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65DF63F0B69
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 21:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F1C3F0D15
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 23:04:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232964AbhHRTGh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 15:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58718 "EHLO
+        id S233897AbhHRVFK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 17:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232713AbhHRTGh (ORCPT
+        with ESMTP id S233338AbhHRVFK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 15:06:37 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E976C061764
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 12:06:02 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id a21so4286032ioq.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 12:06:02 -0700 (PDT)
+        Wed, 18 Aug 2021 17:05:10 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49A2C0613CF
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 14:04:34 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id 7so3458446pfl.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 14:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=ECGxQICajUEQwS56gbDlPYkHtobtWy1uLTPAl7cBSp0=;
-        b=WxAfmUqf4J8iC378bR3m4FU8G0hG26PUYg5KNWeuvcBTxNX/WMxnvHXz12v26xPXKX
-         RokLLyNBKrGSMobmYud/fUTj9eCtY2RrxTEyt4MPErK1156U0EM2uFqIAzjFbaQcASUe
-         H5j8Pd8TN5eDm+LfxXabBUUh6VVXq7f0d/LtczEA8hmuWWZStgsqqa9qrGoIpicMOL9F
-         fNb/Lzm6BS8iIiOv/NREXSgMzsjobv1mJtaMQDGNiPxkdPjmshNNNJxTOw+hR8aMQ/Ra
-         D4HXJvf5bLcDrExcVb74P7aqckBD8XZ2BI6JQo1oy+/QnZW1c9CFz9WXobsn6GXxdCle
-         1wZg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=IABWnr1aCDsDwxBBopzlg3HkRiMd7COJyG2pUzXE8/s=;
+        b=Zqem0CoZzHLfKbevjQtLba+oPmNjxfqaUhbg758CCWbVL3Wrgsd0LChYumYDgT8nHV
+         qXI38/TU57+DVyPDVWoD9EBR93b3G6c4a+oZmh44MnpRWPQD3Y87jvx77ewvhtyv0Y9m
+         2cY4BXqC4SNIlGg0H/SqUG3+Xxrnmj9F9H2ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=ECGxQICajUEQwS56gbDlPYkHtobtWy1uLTPAl7cBSp0=;
-        b=cI1j7Eqme47hFSZs7RuUvgKVFN4MPLTPjNZwJMXQD9+wJdgLMumy7W4+8HzY7i5ZbX
-         E9Zr9SQCkBmsN/3082a5Gkygdc+OvS9P7tZKj+7J/SlC0nkSKF77KOdoeAkfqiaSrr3t
-         K2PeM3+KylkC5xfwKckmmiLuFXDKMjGQCsUm0lNhZLh6v1YOofoCheqR1i8ai6IRyQgX
-         FH9JGHpPQ8yd6mKa75/5AhyreuQsDMv/qi9sU26Qt5A3q+ShSh+P7ETlEgJa0KluMdCs
-         2JjS5kWNco3AwKqVSuPMvICGfiZzWY53AyIdcNv3InRXpjbLmqloECrKeN/uTqnhKUO7
-         Sl/Q==
-X-Gm-Message-State: AOAM532dduZnwEbTrgNdguTcN18RO4jfOhMqg1FjD7d1v1lOtpnkmsPb
-        ri9QonYZ7DznfC4MBnbaScwQ57rmMdVTdX1V5VHVYd6E9LDbG2cX
-X-Google-Smtp-Source: ABdhPJyjncG1WBNAGx0u6UCcmscBH6CQ5lWX1fjjx04qrNHhuLPVv6gg0W88GOPeyIHdTucHzT+of4saYnK9A30hwZ0=
-X-Received: by 2002:a05:6602:2001:: with SMTP id y1mr1523509iod.97.1629313561761;
- Wed, 18 Aug 2021 12:06:01 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IABWnr1aCDsDwxBBopzlg3HkRiMd7COJyG2pUzXE8/s=;
+        b=OIfLEb02oNVyEVs4osJVOUIMV80+UI7tVmDdDnUetpJPFuvZql2yYmAcdR3053Vk90
+         VRO0wI5DHfRFANGhV3rNHZOOEaY1agSNdOQGHIiJG4psIQWCLdJgpi28teLjDrYBv2GK
+         t4ewzG/JwjEzyyTlg7VZR+xpe7v7iAYguzN5VSBkUl0ToSopRKHYdBxbf5n5/8JTdOWP
+         +aEzJwk2D+ZT8uYvNySFRY0kPJKyGlal2WFzhTQwjItPt92N/O2/+gE1cWHABhzn/yZD
+         Pr32Y0Gxv133OuzWqpDruu+uj7n/9xiv2eF4Q860pdnjGvvmgmb6ALWHldH6sa9h930R
+         8YFw==
+X-Gm-Message-State: AOAM533JlQO77MvOZfvkNNq9uFRhS/SmICuloBnmlH1ZNlVOTg9IKlja
+        1lj19seApngGQDqDwW5kpbnZag==
+X-Google-Smtp-Source: ABdhPJzPYdmt1qIf1rGmc2u4in8hFFk0iRvjXLJ/SLffXJm1J8kmYOU3/WVPFV9cKWaMBooTd5z2+Q==
+X-Received: by 2002:a63:f656:: with SMTP id u22mr10801321pgj.392.1629320674444;
+        Wed, 18 Aug 2021 14:04:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f5sm687890pjo.23.2021.08.18.14.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 14:04:33 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 14:04:31 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/5] Compiler Attributes: Add __alloc_size() for better
+ bounds checking
+Message-ID: <202108181404.B5E8739C3C@keescook>
+References: <20210818050841.2226600-1-keescook@chromium.org>
+ <20210818050841.2226600-2-keescook@chromium.org>
+ <d326fbfc-dc96-b6e9-6fd8-31df3eb9f1cb@kernel.org>
 MIME-Version: 1.0
-Reply-To: missfarrinakipkalya@yandex.com
-Sender: missjoygoodman@gmail.com
-Received: by 2002:ad5:5fc3:0:0:0:0:0 with HTTP; Wed, 18 Aug 2021 12:06:01
- -0700 (PDT)
-From:   Miss Farrina Kipkalya <missfarrinakipkalya@gmail.com>
-Date:   Wed, 18 Aug 2021 20:06:01 +0100
-X-Google-Sender-Auth: 2lXjKXqjOK0Yt6VrIY7E22IOwvc
-Message-ID: <CA+sqO=kOkDGec=5WvGz2UVwHTDHAFZHgi3S2oDPjf6srcNoYoQ@mail.gmail.com>
-Subject: PLEASE RESPOND VERY URGENTLY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d326fbfc-dc96-b6e9-6fd8-31df3eb9f1cb@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Attention: Sir/Madam,
-After our board meeting with United Nation/United States
-Government/European Parliament they instructed us to release your
-Compensation Fund through or ATM Master Card
+On Wed, Aug 18, 2021 at 11:04:32AM -0700, Nathan Chancellor wrote:
+> On 8/17/2021 10:08 PM, Kees Cook wrote:
+> > GCC and Clang can use the alloc_size attribute to better inform the
+> > results of __builtin_object_size() (for compile-time constant values).
+> > Clang can additionally use alloc_size to informt the results of
+> > __builtin_dynamic_object_size() (for run-time values).
+> > 
+> > Additionally disables -Wno-alloc-size-larger-than since the allocators
+> > already reject SIZE_MAX, and the compile-time warnings aren't helpful.
+> 
+> In addition to what Miguel said, it might be helpful to mention that this
+> warning is GCC specific, I was a little confused at first as to why it was
+> just being added in the GCC only block :)
 
-or Bank to Bank Wire Transfer immediately you provide your full
-information listed below.
-Indicate your preferable option. Bank Transfer takes 48 to 72 working
-hours while ATM Card Delivery takes 5 to 6 working days. Endeavour to
-keep your payment reference
+Yes, good point. I'll call it out in particular.
 
-number very confidential. Provide the following for your respective
-payment options.
-EFT Bank Transfer Details .............
-Your Name and Surname: ---------
+> Otherwise, the attribute addition looks good to me. I will add my tag on v2.
 
-Residential Address:---------------
-Contact Phone Number:------------
-Your Bank Name:---------------------
-Your Bank Address-----------------
-Account Number:--------------------
-Branch Code:--------------------------
-Swift; Code: ---------------------------
-Your Occupation: --------------------
+Thanks!
 
-MasterCard Debit ATM Card!.............
-
-Your Name and Surname:---------
-Residential Address:----------------
-Or work Address:--------------------
-Country City/Province Code:-----
-Contact Phone Number:----------
-I.D Or Pass Port Copy;--------------
-Your Occupation: ------------------
-
-I wait for your urgent respond for the claims of your fund. All legal
-documents will be release to you before your US$50.5M will be transfer
-into your bank account or
-
-ATM Master Card.
-Thanks for your maximum co-operation.
-Miss Farrina Kipkalya
-Department Of Treasury Direct-Account
-United Nations Fund's Remittance
-NOTE : If You Receive This Message In Your Junk Or Spam Its Due To Your
-Internet Provider.
+-- 
+Kees Cook
