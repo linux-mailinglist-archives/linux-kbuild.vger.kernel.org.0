@@ -2,107 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6600A3EFD1D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 08:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF1C93EFD69
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 09:09:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238343AbhHRGuw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 02:50:52 -0400
-Received: from pegase2.c-s.fr ([93.17.235.10]:34005 "EHLO pegase2.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238515AbhHRGuw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 02:50:52 -0400
-X-Greylist: delayed 475 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Aug 2021 02:50:51 EDT
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4GqJH06ckGz9sVX;
-        Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id BlboCUcmPLhC; Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4GqJH05SCXz9sVD;
-        Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 9988E8B7D3;
-        Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id KISUn5YdRZul; Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id B20628B766;
-        Wed, 18 Aug 2021 08:42:19 +0200 (CEST)
-Subject: Re: [PATCH v2 61/63] powerpc: Split memset() to avoid multi-field
- overflow
+        id S238899AbhHRHJl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 03:09:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238745AbhHRHJj (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 03:09:39 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD82C061764;
+        Wed, 18 Aug 2021 00:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=ym1uD8O5zOub+cpikC9nk8w/uDg8kA95v0fuB8biuWo=;
+        t=1629270544; x=1630480144; b=p1Ld4iQXUw+HDTOMXfbZh8MdkvWZs01KD6dhfc0MHu3ANOJ
+        kjikpASrlMR5ErUwflDXgeN/ePfPdk6uHK5YkYndKFme44SGe7PFapUGhCkd4wr+hgDtuxxi1Rkpn
+        WvMjnMdJMhWMkyETqbRbmGHaQg7QVhzW15MAkXgIMhgfH6px5KEsTbRnJlHYePY3dmbZwub+3EJFn
+        VoTMq7pLiGeW5+Ytg3N/GchGICPxmp+mn2SzwyDGShHa3UdD/h5wGj+yNYTQRsh2X/isgBAOfRWYa
+        QpDGlH4bQR6Vtjrozmt0lhENfx+Evj2JqLHbf2Idbo/xkNnblGpg3bdy8ycEpkKg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94.2)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1mGFgz-00CbW0-CL; Wed, 18 Aug 2021 09:08:53 +0200
+Message-ID: <11db2cdc5316b51f3fa2f34e813a458e455c763d.camel@sipsolutions.net>
+Subject: Re: [PATCH v2 44/63] mac80211: Use memset_after() to clear tx status
+From:   Johannes Berg <johannes@sipsolutions.net>
 To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wang Wensheng <wangwensheng4@huawei.com>,
-        linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        linux-block@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
-        clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
+Date:   Wed, 18 Aug 2021 09:08:52 +0200
+In-Reply-To: <20210818060533.3569517-45-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-62-keescook@chromium.org>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
-Date:   Wed, 18 Aug 2021 08:42:18 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+         <20210818060533.3569517-45-keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <20210818060533.3569517-62-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-Le 18/08/2021 à 08:05, Kees Cook a écrit :
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
+On Tue, 2021-08-17 at 23:05 -0700, Kees Cook wrote:
 > 
-> Instead of writing across a field boundary with memset(), move the call
-> to just the array, and an explicit zeroing of the prior field.
+> @@ -275,12 +275,11 @@ static void carl9170_tx_release(struct kref *ref)
+>  	if (WARN_ON_ONCE(!ar))
+>  		return;
+>  
 > 
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Qinglang Miao <miaoqinglang@huawei.com>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: Hulk Robot <hulkci@huawei.com>
-> Cc: Wang Wensheng <wangwensheng4@huawei.com>
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
-> Link: https://lore.kernel.org/lkml/87czqsnmw9.fsf@mpe.ellerman.id.au
-> ---
->   drivers/macintosh/smu.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
-> index 94fb63a7b357..59ce431da7ef 100644
-> --- a/drivers/macintosh/smu.c
-> +++ b/drivers/macintosh/smu.c
-> @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
->   	cmd->read = cmd->info.devaddr & 0x01;
->   	switch(cmd->info.type) {
->   	case SMU_I2C_TRANSFER_SIMPLE:
-> -		memset(&cmd->info.sublen, 0, 4);
-> +		cmd->info.sublen = 0;
-> +		memset(&cmd->info.subaddr, 0, 3);
-
-subaddr[] is a table, should the & be avoided ?
-And while at it, why not use sizeof(subaddr) instead of 3 ?
-
-
->   		break;
->   	case SMU_I2C_TRANSFER_COMBINED:
->   		cmd->info.devaddr &= 0xfe;
 > 
+> -	BUILD_BUG_ON(
+> -	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+> -
+> -	memset(&txinfo->status.ack_signal, 0,
+> -	       sizeof(struct ieee80211_tx_info) -
+> -	       offsetof(struct ieee80211_tx_info, status.ack_signal));
+> +	/*
+> +	 * Should this call ieee80211_tx_info_clear_status() instead of clearing
+> +	 * manually? txinfo->status.rates do not seem to be used here.
+> +	 */
+
+Since you insist, I went digging :)
+
+It should not, carl9170_tx_fill_rateinfo() has filled the rate
+information before we get to this point.
+
+johannes
+
