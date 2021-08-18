@@ -2,108 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96FE33EF99F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 06:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8D63EF9CA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 07:08:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbhHREnU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 00:43:20 -0400
-Received: from gateway22.websitewelcome.com ([192.185.46.224]:13628 "EHLO
-        gateway22.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237588AbhHREnU (ORCPT
+        id S237565AbhHRFJV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 01:09:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236287AbhHRFJT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 00:43:20 -0400
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway22.websitewelcome.com (Postfix) with ESMTP id DF6EC13208
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:42:44 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id GDPYmu8VAMGeEGDPYmuZyB; Tue, 17 Aug 2021 23:42:44 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=fqWho5z6HDj4E/uC18IyWmSmTMfo9JPqAgS3dawEvWk=; b=be9hlQMJu3Ujj1NTF548ywxCeb
-        Cdh3EeFeibFikH+Pyt4qRrY2hsmcU9q5mv0J4whSv06j3VboWiOUR7Ig1dwy+SLDhj0ORSNzgoikp
-        mOjCvl9AKoj+snKJQ3B7JHIP0XSuj7vXUD3RDsGwhJWYRRXdegf4d0wVeoRdCTMMQ4nY7BIAglxbh
-        Px17n9e22kpZp3eUpwwy8UKxZ8e0MXHHjsZNiwyLVO2ZCP2jXhVeUOd1gUbuzyJbiZMMTh1PuNKrx
-        LVvwpTxiFeCKOIQdAxaCgQh2j3Lulj845WoZ4FYCHVl5AFALi+MQxer4P0Ue4xFhmpu/xbVDdmo6o
-        CPfYNuuw==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:45490 helo=[192.168.15.8])
-        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1mGDPY-002STB-9X; Tue, 17 Aug 2021 23:42:44 -0500
-Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-To:     Philip Li <philip.li@intel.com>,
-        Nathan Chancellor <nathan@kernel.org>
+        Wed, 18 Aug 2021 01:09:19 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DC3C061796
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:45 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id n12so1076880plf.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ibfYg9pbryt9B5bM+TpRAt9ju/X9d6W3Gs+jxd+YtkU=;
+        b=g4c93iNehB9VMgT8ohcQ2DTJpLbRTcPBX11gQZpAeoIJv0399CHnkPyELherSb4clp
+         1K/KxP5FszZ81iDLg0QVY2WZlelG+LztfsxtZ2Rkb/8pSReiRloywS6qUGybT55xP3oo
+         Y/pu24ZALeRP4SMmrarBPMhnrqDCkEa+A5N3E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ibfYg9pbryt9B5bM+TpRAt9ju/X9d6W3Gs+jxd+YtkU=;
+        b=qguf0MBzW5j0FVfjsi2S4M6QdM1nrfE1ydnJcuj9hsDXhxIKZ1WpuYjCI371DWMTxh
+         47ctuRRKW3pE2qrHt9MKrRlucDFv1EwSAyDrAh+2A1ezXkIKznABY1Ug1CMg4a0s8sa3
+         GDoPpvua6e1SB7NFc7TnsyHUdNWC/1ddPrsKZvfB3RkoX/JAyNfEF6I/VGIQ3hfytFlO
+         UpKbz4FFKB701kPw6lV9kWCWxxmOscNwJzd51jA5EjWu/F23JspfFaACRg8eL5qa857N
+         Lk82YSiNN9bOv+W0PPilUNFe014+psMRV28kTx1RB6ONIGs5Q+ZGvESKviVosNKYuvsN
+         WQpw==
+X-Gm-Message-State: AOAM532C3rdpWw1/crO0hm+jW+ZvmIeIcmvpFnbI4+OvMkvbNrQ9k/2f
+        E4Q9W1GJ4A+ouSIOKVjGqxfKRg==
+X-Google-Smtp-Source: ABdhPJyUeG6+/fDFxS9Zq+Bmi6OpbrosbvZbi/vfiZ0w8iRHjHykfuiwrP9/HatrLXYJ89g6pzdjlw==
+X-Received: by 2002:a17:90b:360a:: with SMTP id ml10mr7312861pjb.134.1629263324660;
+        Tue, 17 Aug 2021 22:08:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q21sm3578775pjg.55.2021.08.17.22.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 22:08:43 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-kernel@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-hardening@vger.kernel.org
-References: <20210817005624.1455428-1-nathan@kernel.org>
- <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
- <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
- <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
- <202108171056.EDCE562@keescook>
- <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org>
- <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
- <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com>
- <202108171602.159EB2C7EA@keescook>
- <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
- <20210818042720.GA1645557@pl-dbox>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <d19dd1f7-3898-227a-3d7d-25cddb0434d0@embeddedor.com>
-Date:   Tue, 17 Aug 2021 23:45:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Daniel Micay <danielmicay@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH 0/5] Add __alloc_size() for better bounds checking
+Date:   Tue, 17 Aug 2021 22:08:36 -0700
+Message-Id: <20210818050841.2226600-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210818042720.GA1645557@pl-dbox>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1mGDPY-002STB-9X
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:45490
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 8
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1503; h=from:subject; bh=M1Tok+LfKYfKMg3IsfepbLLdtBAUXEFJ6hNboUgrVcQ=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHJXX4iubi2i9iuFz+LsiKuwROx1EI+5yY5ZbGOgo sK/JE9+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyV1wAKCRCJcvTf3G3AJpXhD/ 4z085X3Ll8rZJC6uVrygExuVDtlwKRRcu1+fsHdRvTBsNePyBe6eM7MdWyzSU6pRDGSwoPBBggFZ0F jYxajPqmHe9N5J8ZRMoRF/c+TcctzqSJjvaMxRrULJzBvM00RDUmapmE7i7gGeB8nsgMopdiuNpIFk eSzlfd5/V66zAWa2+vZ2gDFgHjWQIMrU4U7QeajbQOfbxYmzeN7nT5T7UTAtszzl4Dz29khVmFSxQK 8O8+mgv+S3HnLHpsm/X9189a9gx9FrY5CmmojA1NLFshWiMFwt0HqBWax2L0RA+QCj5YBTy5blQUve +qaLIvFS/G43o2Hr2KaK2BeROLFr9c/ridogvWg/BGM7Ohlervc/vSS9vGnrd1EAyNZ8VovR76HmA0 YceN0FYjjjrn0C2IaX1315H6wz71VTBRZMfQ3UUrzGFDzPLpqRd1jXKw0sXKQxAOJAqNIhOrdYse2U Z1DmuGpFHPFq7IWT12lvVMbY6on1GJy72xVVct1ZgUQpLTolS2BmWvpDFgTATpXlRSiiylxlEGY8dT AJEBIUkvRLFhe/ThymPuUkqCLfnMVsiTlbo3grvPI74w2D0zbBpsQXXry5IOI/9wBDD98Dczq0qdDd pwOrFTKxLBfnL6zBGq7mCyUtLzJzOTgVR+wyP4t3kuzVj/KqpTV0/LACImUQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi,
 
+GCC and Clang both use the "alloc_size" attribute to assist with bounds
+checking around the use of allocation functions. Add the attribute,
+adjust the Makefile to silence needless warnings, and add the hints to
+the allocators where possible. These changes have been in use for a
+while now in GrapheneOS.
 
-On 8/17/21 23:27, Philip Li wrote:
+To build without warnings, this series needs a couple small fixes for
+allmodconfig, which I sent separately:
+https://lore.kernel.org/lkml/20210818044540.1601664-1-keescook@chromium.org/
+https://lore.kernel.org/lkml/20210818044252.1533634-1-keescook@chromium.org/
+https://lore.kernel.org/lkml/20210818043912.1466447-1-keescook@chromium.org/
 
->> Philip, how often is the kernel test robot's clang version rebuilt? Would it
->> be possible to bump it to latest ToT or at least
->> 9ed4a94d6451046a51ef393cd62f00710820a7e8 so that we do not get bit by this
->> warning when we go to enable this flag?
-> Got it, currently we do upgrade in weekly cadence (but it may fall behind sometimes),
-> and the one we use now is clang version 14.0.0 (https://github.com/llvm/llvm-project 
-> 2c6448cdc2f68f8c28fd0bd9404182b81306e6e6)
-> 
-> We will ugrade to the head of llvm-project master today.
+I figure I can take this via my "overflow" series, or it could go via
+-mm?
 
-Thanks, Philip. We really appreciate it.
---
-Gustavo
+-Kees
+
+Kees Cook (5):
+  Compiler Attributes: Add __alloc_size() for better bounds checking
+  slab: Add __alloc_size attributes for better bounds checking
+  mm/page_alloc: Add __alloc_size attributes for better bounds checking
+  percpu: Add __alloc_size attributes for better bounds checking
+  mm/vmalloc: Add __alloc_size attributes for better bounds checking
+
+ Makefile                            |  6 +++-
+ include/linux/compiler_attributes.h |  6 ++++
+ include/linux/gfp.h                 |  4 +--
+ include/linux/percpu.h              |  6 ++--
+ include/linux/slab.h                | 50 ++++++++++++++++++-----------
+ include/linux/vmalloc.h             | 22 ++++++-------
+ 6 files changed, 58 insertions(+), 36 deletions(-)
+
+-- 
+2.30.2
+
