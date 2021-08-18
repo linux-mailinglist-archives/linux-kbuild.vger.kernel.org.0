@@ -2,149 +2,144 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D0D93EFC35
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 08:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D3DF3EFCAD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 08:27:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238376AbhHRGVL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 02:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46736 "EHLO
+        id S239167AbhHRG2G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 02:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238204AbhHRGU7 (ORCPT
+        with ESMTP id S238313AbhHRG2A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 02:20:59 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA29C0610CC
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:16:48 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id e7so1163377pgk.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:16:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qiIiGr/kHO0o1yd85XRx1S/oZrG0a2JVuYsGSPTdPKo=;
-        b=TVddYFx6MZtUu6Gxm5/eq0JnenoYTy2o0WAaLORc6h1rDy3BlAe2MfSQ47sEsZq8aI
-         rnkdVNPYX5ygc3HUGUQrRXKtNe8UxzUZbp49tIfPnQpFN+mMiPemA6Att138bqInZkIs
-         KMMMUh77ITc3FJ3DEFh+jNbzkZpixYigdra/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qiIiGr/kHO0o1yd85XRx1S/oZrG0a2JVuYsGSPTdPKo=;
-        b=SDukQ3PNXfoSpWDAAeZwiQ/jqoUDojzlhSdB75aknrOcfxkNqhUYOa+Byd2dyv6Jvx
-         ddx4VYo0YGo9BnH1RkUpP+cOhFEoEzX4R9sXUlydfU0puqO6igpTyrkC7bX/mBanjjjH
-         B1nl18NUGoWFv4d+48z+BVK09On/r6jW7gbtPaC+o3OG/bquABHnkyNDhY2YNTuWruGs
-         dlB8ZUM8iraF8S1p+BAsodQ3NDAvg5Is86Dxfx8gc6c/CrnYLTzXSH5DJLnYEx9aqyl6
-         wb/eTG8hJkBVGM+xBkVjtYKbErqiXKB96xUmMLYf5CNO1A3s9frQZUyn2D9d6GQWKfu8
-         mnUQ==
-X-Gm-Message-State: AOAM533k+rV155j7Vgp46zFHgsFi/VdYEzFIM9dY278ZKd6sCHKVtN4E
-        TQw+n4HWWPfGlWgFJtafaXHKIg==
-X-Google-Smtp-Source: ABdhPJzejJTLjdMfXxVAJFIQjmpX7APIS6kpuwCjVMxxOkuNDs4SSrs+ZQmfcYcc43+NKU1r5qPLjQ==
-X-Received: by 2002:a63:5fcc:: with SMTP id t195mr7237993pgb.146.1629267408588;
-        Tue, 17 Aug 2021 23:16:48 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l11sm4943382pfd.187.2021.08.17.23.16.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:16:48 -0700 (PDT)
-Date:   Tue, 17 Aug 2021 23:16:47 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     linux-kernel@vger.kernel.org, Daniel Micay <danielmicay@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Wed, 18 Aug 2021 02:28:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC6CC0613CF
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:27:26 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1mGF2W-0007Xm-Bs; Wed, 18 Aug 2021 08:27:04 +0200
+Received: from pengutronix.de (unknown [IPv6:2a02:810a:8940:aa0:ed04:8488:5061:54d4])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 7335C66975A;
+        Wed, 18 Aug 2021 06:26:59 +0000 (UTC)
+Date:   Wed, 18 Aug 2021 08:26:57 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 2/5] slab: Add __alloc_size attributes for better bounds
- checking
-Message-ID: <202108172312.7032A3E@keescook>
-References: <20210818050841.2226600-1-keescook@chromium.org>
- <20210818050841.2226600-3-keescook@chromium.org>
- <f3e56f56c36b32dc76e174886008a2a1ecf3fefa.camel@perches.com>
+Subject: Re: [PATCH v2 59/63] can: flexcan: Use struct_group() to zero struct
+ flexcan_regs regions
+Message-ID: <20210818062657.6hvn75kf5o5cgey2@pengutronix.de>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-60-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kduqcl3tf4g5uel5"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f3e56f56c36b32dc76e174886008a2a1ecf3fefa.camel@perches.com>
+In-Reply-To: <20210818060533.3569517-60-keescook@chromium.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 10:31:32PM -0700, Joe Perches wrote:
-> On Tue, 2021-08-17 at 22:08 -0700, Kees Cook wrote:
-> > As already done in GrapheneOS, add the __alloc_size attribute for
-> > regular kmalloc interfaces, to provide additional hinting for better
-> > bounds checking, assisting CONFIG_FORTIFY_SOURCE and other compiler
-> > optimizations.
-> []
-> > diff --git a/include/linux/slab.h b/include/linux/slab.h
-> []
-> > @@ -181,7 +181,7 @@ int kmem_cache_shrink(struct kmem_cache *);
-> >  /*
-> >   * Common kmalloc functions provided by all allocators
-> >   */
-> > -void * __must_check krealloc(const void *, size_t, gfp_t);
-> > +void * __must_check krealloc(const void *, size_t, gfp_t) __alloc_size(2);
-> 
-> I suggest the __alloc_size attribute be placed at the beginning of the
-> function declaration to be more similar to the common __printf attribute
-> location uses.
 
-Yeah, any consistent ordering suggestions are welcome here; thank you!
-These declarations were all over the place, and trying to follow each
-slightly different existing style made my eyes hurt. :)
+--kduqcl3tf4g5uel5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> __alloc_size(2)
-> void * __must_check krealloc(const void *, size_t, gfp_t);
-> 
-> I really prefer the __must_check to be with the other attribute and that
-> function declarations have argument names too like:
-> 
-> __alloc_size(2) __must_check
-> void *krealloc(const void *ptr, size_t size, gfp_t gfp);
+On 17.08.2021 23:05:29, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+>=20
+> Add struct_group() to mark both regions of struct flexcan_regs that get
+> initialized to zero. Avoid the future warnings:
+>=20
+> In function 'fortify_memset_chk',
+>     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+>     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1403:2:
+> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
+w_field' declared with attribute warning: detected write beyond size of fie=
+ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+>   199 |    __write_overflow_field(p_size_field, size);
+>       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In function 'fortify_memset_chk',
+>     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+>     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1408:3:
+> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
+w_field' declared with attribute warning: detected write beyond size of fie=
+ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+>   199 |    __write_overflow_field(p_size_field, size);
+>       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> Cc: Wolfgang Grandegger <wg@grandegger.com>
+> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: linux-can@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-I'm happy with whatever makes the most sense.
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
 
-> but there are a _lot_ of placement of __must_check after the return type
-> 
-> Lastly __alloc_size should probably be added to checkpatch
+> -	memset_io(&regs->mb[0][0], 0,
+> -		  offsetof(struct flexcan_regs, rx_smb1[3]) -
+> -		  offsetof(struct flexcan_regs, mb[0][0]) + 0x4);
+> +	memset_io(&regs->init, 0, sizeof(regs->init));
 
-Oh, yes! Thanks for the reminder.
+This even makes the code more readable! \o/
 
-> Maybe:
-> ---
->  scripts/checkpatch.pl | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 161ce7fe5d1e5..1a166b5cf3447 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -489,7 +489,8 @@ our $Attribute	= qr{
->  			____cacheline_aligned|
->  			____cacheline_aligned_in_smp|
->  			____cacheline_internodealigned_in_smp|
-> -			__weak
-> +			__weak|
-> +			__alloc_size\s*\(\s*\d+\s*(?:,\s*d+\s*){0,5}\)
+>  	if (priv->can.ctrlmode & CAN_CTRLMODE_FD)
+> -		memset_io(&regs->tx_smb_fd[0], 0,
+> -			  offsetof(struct flexcan_regs, rx_smb1_fd[17]) -
+> -			  offsetof(struct flexcan_regs, tx_smb_fd[0]) + 0x4);
+> +		memset_io(&regs->init_fd, 0, sizeof(regs->init_fd));
+> =20
+>  	reg_ctrl2 &=3D ~FLEXCAN_CTRL2_WRMFRZ;
+>  	priv->write(reg_ctrl2, &regs->ctrl2);
 
-Why the "{0,5}" bit here? I was expecting just "?". (i.e. it can have
-either 1 or 2 arguments.)
+regards,
+Marc
 
->  		  }x;
->  our $Modifier;
->  our $Inline	= qr{inline|__always_inline|noinline|__inline|__inline__};
-> 
-> 
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
--- 
-Kees Cook
+--kduqcl3tf4g5uel5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmEcqC4ACgkQqclaivrt
+76lMtAf+PLTf+69ONg9/KGwncoo4yvZ5m8bSKHLYfYYuCITf4oOnHWQIBFT3P8Fn
+GMKihDcISmFKjqSbFu8aJSqtNFhYzGB0uIUjuhW+15TJRH7SUTZCuT/U6VPXrEWi
+qWCGvkl3szxqSpDVrbCW5ChnnsAZ3Nj2pXV+gkB62mvtcwTdqFBczMfbKHNhLHgv
+BYjF2uWTN51iadHR3Kese6EccsTaIoCrqZjnGrlJSBVLtt66BT101RY0pE9890e+
++p/LRFYivNeT0DnAObs8TDghwzxWlqfE3nR1QLSvENRbMBSzhEbipc7oz3DQJC4v
+WM/41iCaZScHUFfgxPrBqtGtM1p9RA==
+=LXIZ
+-----END PGP SIGNATURE-----
+
+--kduqcl3tf4g5uel5--
