@@ -2,158 +2,209 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6028A3F077F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 17:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ED6C3F0792
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 17:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239433AbhHRPGs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 11:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59110 "EHLO
+        id S239533AbhHRPML (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 11:12:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239042AbhHRPGs (ORCPT
+        with ESMTP id S239487AbhHRPMK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 11:06:48 -0400
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B11C0613CF
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 08:06:13 -0700 (PDT)
-Received: by mail-yb1-xb29.google.com with SMTP id z18so5868320ybg.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 08:06:13 -0700 (PDT)
+        Wed, 18 Aug 2021 11:12:10 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D398C0613D9
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id gz13-20020a17090b0ecdb0290178c0e0ce8bso5371695pjb.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KYJwSm6eCcwSwyminZRoSw8P5cz5zWYev61l8HFaS3A=;
-        b=ZVq8iO+uckPOD9FvTvEYE4mUDy8Ejl5KoV9LVDV8uLfdwt5zB4pojw8fKAvHmbjWKz
-         vPAAU/vAc/B0uq1YKn1JvBhhsReFIi8AfL/uv0tNfu3pUYeCK2DViliZSZQo09R7MExT
-         nx67enUXn0TMnH8vgRoBx1+2WusV86lc/Nr8Lqg72QnpOc6aVw7fQGx6Mklr/xzyp3JB
-         CqAD+Uwb1svUuSOrApC9QaSVHw0MnIC1HVtELveawZ01FrwzAAsbmXu9ED5fI9ko45KN
-         kKTqlvrANXf7pfbflSkUKhn/4gT/Ci/2ekBXUAjbgnXm0n5xWTcU4vEOu9Tupt6Jn61u
-         cpyg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+        b=nKyY7H15ZclPASn0mrCWStoJsQEVzP5/BmW4V3jtYB1HxVdnZRQQ4l+PtPCRG/dTV6
+         xfDqZKumuBc2DNoifQ7E+k+2RHNCKiMDNP3onIJnlrl5OiL/2iza72Z9iX+5k4rKwpSO
+         /m3Ffp/F03wd5BcOk1ihua3YxRddIsYpot1qTBRf+xRtenjeQ4qFFoOSIN66Jft6TSfW
+         c2t4wMFRzHKGD7LvgQQ/GVhG8mAh1vCDNxP/Inly9yMM79tpqdyKRQdjifrNITzwA6c7
+         yGxl1c2NhdVpvxPZ2G3/l6okDceS2O7mIXsDYuviCR6t29nOh+UDrTcg3BH0FRZEUvzE
+         zLIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KYJwSm6eCcwSwyminZRoSw8P5cz5zWYev61l8HFaS3A=;
-        b=p46eeh+imxkBwTTsowed2yxMwSrZqm3ETtvXz+tfKjFgOUobmQnpyQqDziNn/yfP/E
-         0xf23rYm3Z/okHVdSTIcIceZkl1IPETg0lLLcAs+y0W/8M9hXbEOD+dkNLd83RDdTj/8
-         3VVly2k0YM/F8fAnRAuJs4BEycF+o1yADlde34P1yxgZi8vQ0VYlbwSopOzGvoMt+trT
-         uPVggseqKGqzZFgCZs7DWGMZ8eX1+3PY97Cp0eb1ZGzQsklXHtzMRDUTcu8IGm+yqeGa
-         CP6JqI6Ue1gUZEkfmgg6XYwL5zbbhuh654zeM9xEoOmUjwShJz/5Urk1J2jq2atbukk/
-         vpeg==
-X-Gm-Message-State: AOAM533DjHDChzAs/MP3Rko6HdiKzok6voqQSxzMAEMqPsQi6XOMaNvC
-        P6NFq4JcG4Mck9ZZxbgl8q3kCSj54ywbp5ZtjdianQ==
-X-Google-Smtp-Source: ABdhPJy3kL6U2SIXU5UKwKHqeTBXGJsXc7NewkgI9xpOKlqzoMSqGg01ZiJ2wgDLNSr41LX6krBMIqKNdTB5K8pceoI=
-X-Received: by 2002:a25:cc52:: with SMTP id l79mr11563745ybf.459.1629299172676;
- Wed, 18 Aug 2021 08:06:12 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+        b=VFkj3SijhpIvccFg9BfhaaV4VYdpHKS7UQ5mkqmdRq+f8QmYVQynfTJjjj+Q9ne5GZ
+         kUHmM0mrgpNdzMxqQ5sObnFzrWbsEqaF9CAh+YJrxBZr+zWN3+DdeaL8GjeG3gRY1C31
+         yIUqJMlTsaiY1E/zSlC/qKMG4w1vCssXm7NiVhG8DINRtaVq2jxc2hdqwgwvYZqN0P93
+         Y1SijUhef7Ejw8adWCirgBpMoG2uZOYPtIH9QeQTinjejwPQxYApgARbSCPC0Dg3x/z5
+         kMawWVNdyUPzXERW+heZsUGJtbbYVf42FkAnfyxp3V8dzcLmVRozLE1k92uZbCZ/1mZH
+         +WZQ==
+X-Gm-Message-State: AOAM5302iAhi0EoY6CD66Y+LkHLYUhY1WmrKQq/aVjUUcnLcEHkwW316
+        ThN8RNFZ5qRGImeumTtpAR8CDg==
+X-Google-Smtp-Source: ABdhPJyb9v3aI2ukGkg+KeS46DSybL7HwTNvsJIGANZduqIYX0SVbX0PrpsQIc/aOBu7eADDQMvgoA==
+X-Received: by 2002:a17:90b:1e03:: with SMTP id pg3mr9751970pjb.203.1629299494765;
+        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id m7sm28291pfc.212.2021.08.18.08.11.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 15:11:28 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode
+ cache
+Message-ID: <YR0jIEzEcUom/7rd@google.com>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-54-keescook@chromium.org>
 MIME-Version: 1.0
-References: <20210816180519.1021311-1-samitolvanen@google.com> <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
-In-Reply-To: <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Wed, 18 Aug 2021 08:06:01 -0700
-Message-ID: <CABCJKudQhagwdb-UfGE2JQN8H29NSpMd5PgVoftJYRp5ZwpRrA@mail.gmail.com>
-Subject: Re: [PATCH v4] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Alexander Lobakin <alobakin@pm.me>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818060533.3569517-54-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 7:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Aug 17, 2021 at 3:05 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > With CONFIG_LTO_CLANG, we currently link modules into native
-> > code just before modpost, which means with TRIM_UNUSED_KSYMS
-> > enabled, we still look at the LLVM bitcode in the .o files when
-> > generating the list of used symbols. As the bitcode doesn't
-> > yet have calls to compiler intrinsics and llvm-nm doesn't see
-> > function references that only exist in function-level inline
-> > assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-> > work with LTO.
-> >
-> > This change moves module LTO linking to happen earlier, and
-> > thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-> > entirely, allowing us to also drop the whitelist from
-> > gen_autoksyms.sh.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Reviewed-by: Alexander Lobakin <alobakin@pm.me>
-> > Tested-by: Alexander Lobakin <alobakin@pm.me>
-> > ---
-> > Changes in v4:
-> > - Added .lto.o to targets to actually fix the use of if_changed.
-> > - Replaced an unnecessary mod-prelink-ext with .lto.
-> >
-> > Changes in v3:
-> > - Added missing FORCE.
-> >
-> > Changes in v2:
-> > - Fixed a couple of typos.
-> > - Fixed objtool arguments for .lto.o to always include --module.
-> >
-> > ---
-> >  scripts/Makefile.build    | 28 +++++++++++++++++++++++++++-
-> >  scripts/Makefile.lib      |  7 +++++++
-> >  scripts/Makefile.modfinal | 21 ++-------------------
-> >  scripts/Makefile.modpost  | 22 +++-------------------
-> >  scripts/gen_autoksyms.sh  | 12 ------------
-> >  5 files changed, 39 insertions(+), 51 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 02197cb8e3a7..a6f43afd09bb 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -88,6 +88,10 @@ endif
-> >
-> >  targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> >
-> > +ifdef CONFIG_LTO_CLANG
-> > +targets-for-modules += $(patsubst %.o, %.lto.o, $(filter %.o, $(obj-m)))
-> > +endif
-> > +
-> >  ifdef need-modorder
-> >  targets-for-modules += $(obj)/modules.order
-> >  endif
-> > @@ -271,12 +275,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
-> >         $(call if_changed_rule,cc_o_c)
-> >         $(call cmd,force_checksrc)
-> >
-> > +ifdef CONFIG_LTO_CLANG
-> > +# Module .o files may contain LLVM bitcode, compile them into native code
-> > +# before ELF processing
-> > +quiet_cmd_cc_lto_link_modules = LTO [M] $@
-> > +cmd_cc_lto_link_modules =                                              \
-> > +       $(LD) $(ld_flags) -r -o $@                                      \
-> > +               $(shell [ -s $(@:.lto.o=.o.symversions) ] &&            \
-> > +                       echo -T $(@:.lto.o=.o.symversions))             \
-> > +               --whole-archive $(filter-out FORCE,$^)
-> > +
-> > +ifdef CONFIG_STACK_VALIDATION
-> > +# objtool was skipped for LLVM bitcode, run it now that we have compiled
-> > +# modules into native code
-> > +cmd_cc_lto_link_modules += ;                                           \
-> > +       $(objtree)/tools/objtool/objtool $(objtool_args) --module       \
-> > +               $(@:.ko=.lto.o)
->
->
-> What is this "$(@:.ko=.lto.o)" doing ?
->
-> The target is already suffixed with .lto.o
-> so $(@:.ko=.lto.o) should be the same as $@
+On Tue, Aug 17, 2021, Kees Cook wrote:
+>  arch/x86/kvm/emulate.c     |  3 +--
+>  arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
+>  2 files changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+> index 2837110e66ed..2608a047e769 100644
+> --- a/arch/x86/kvm/emulate.c
+> +++ b/arch/x86/kvm/emulate.c
+> @@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+>  
+>  void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+>  {
+> -	memset(&ctxt->rip_relative, 0,
+> -	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
+> +	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
+>  
+>  	ctxt->io_read.pos = 0;
+>  	ctxt->io_read.end = 0;
+> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+> index 68b420289d7e..9b8afcb8ad39 100644
+> --- a/arch/x86/kvm/kvm_emulate.h
+> +++ b/arch/x86/kvm/kvm_emulate.h
+> @@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
+>  	 * the rest are initialized unconditionally in x86_decode_insn
+>  	 * or elsewhere
+>  	 */
+> -	bool rip_relative;
+> -	u8 rex_prefix;
+> -	u8 lock_prefix;
+> -	u8 rep_prefix;
+> -	/* bitmaps of registers in _regs[] that can be read */
+> -	u32 regs_valid;
+> -	/* bitmaps of registers in _regs[] that have been written */
+> -	u32 regs_dirty;
+> +	struct_group(decode_cache,
 
-Good catch, probably a leftover from an earlier iteration.
+This is somewhat misleading because half of this struct is the so called "decode
+cache", not just these six fields.
 
-> Shall I fix it locally unless
-> I find more questionable code?
+KVM's "optimization" is quite ridiculous as this has never been such a hot path
+that saving a few mov instructions would be noticeable.  And hilariously, the
+"optimization" is completely unnecessary because both gcc and clang are clever
+enough to batch the first five into a movq even when zeroing the fields individually.
 
-Please do.
+So, I would much prefer to go with the following:
 
-Sami
+From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
+From: Sean Christopherson <seanjc@google.com>
+Date: Wed, 18 Aug 2021 08:03:08 -0700
+Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
+ per-field writes
+
+Explicitly zero select fields in the emulator's decode cache instead of
+zeroing the fields via a gross memset() that spans six fields.  gcc and
+clang are both clever enough to batch the first five fields into a single
+quadword MOV, i.e. memset() and individually zeroing generate identical
+code.
+
+Removing the wart also prepares KVM for FORTIFY_SOURCE performing
+compile-time and run-time field bounds checking for memset().
+
+No functional change intended.
+
+Reported-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/emulate.c     | 9 +++++++--
+ arch/x86/kvm/kvm_emulate.h | 6 +-----
+ 2 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index 2837110e66ed..bf81fd017e7f 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -5377,8 +5377,13 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+
+ void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+ {
+-	memset(&ctxt->rip_relative, 0,
+-	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
++	/* Clear fields that are set conditionally but read without a guard. */
++	ctxt->rip_relative = false;
++	ctxt->rex_prefix = 0;
++	ctxt->lock_prefix = 0;
++	ctxt->rep_prefix = 0;
++	ctxt->regs_valid = 0;
++	ctxt->regs_dirty = 0;
+
+ 	ctxt->io_read.pos = 0;
+ 	ctxt->io_read.end = 0;
+diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+index 68b420289d7e..bc1fecacccd4 100644
+--- a/arch/x86/kvm/kvm_emulate.h
++++ b/arch/x86/kvm/kvm_emulate.h
+@@ -336,11 +336,7 @@ struct x86_emulate_ctxt {
+ 		fastop_t fop;
+ 	};
+ 	int (*check_perm)(struct x86_emulate_ctxt *ctxt);
+-	/*
+-	 * The following six fields are cleared together,
+-	 * the rest are initialized unconditionally in x86_decode_insn
+-	 * or elsewhere
+-	 */
++
+ 	bool rip_relative;
+ 	u8 rex_prefix;
+ 	u8 lock_prefix;
+--
+2.33.0.rc1.237.g0d66db33f3-goog
+
+> +		bool rip_relative;
+> +		u8 rex_prefix;
+> +		u8 lock_prefix;
+> +		u8 rep_prefix;
+> +		/* bitmaps of registers in _regs[] that can be read */
+> +		u32 regs_valid;
+> +		/* bitmaps of registers in _regs[] that have been written */
+> +		u32 regs_dirty;
+> +	);
+> +
+>  	/* modrm */
+>  	u8 modrm;
+>  	u8 modrm_mod;
+> -- 
+> 2.30.2
+> 
