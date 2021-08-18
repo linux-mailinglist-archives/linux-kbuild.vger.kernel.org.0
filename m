@@ -2,125 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC43A3F0DBA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 23:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 752E83F0E26
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 00:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234426AbhHRVvw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 17:51:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234422AbhHRVvw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 17:51:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED6F1600D4;
-        Wed, 18 Aug 2021 21:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629323475;
-        bh=VJvodRz2zx/X85MkngkOTb8/Lf3wBVCvk02sPd1R1SY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=JINAHL7yfDUBJP7yKVw6AsvrGRAOFK3v6IE5GMvApip5EKO730SKJXSdpc/JHKY9A
-         d+ZI45WVb2lIJMssuCjnRN+d7bPzCSugXB9jMTMPOgYWcKmsjTtiru2SMlobPmmOlX
-         yfXIdeb4xjMDKG39s5JlvUyCfPs8QcLJdTDy/4shHIGsKWBOd1L5y3pSRLrRSW5l8o
-         Y4wG9xtXpPJU8Uib9oVh9JYdfreOlu9iF9O16tJiGn166n1/u0sYmsbYhGYhNotXT1
-         S33kXTkLcUNEOxPU89O7E2Gq7iGrF5Qn7FRPiWv0xTw/cw1P0WA0nZ07xsunPwF9IN
-         3QFRzEUuvymxQ==
-Subject: Re: [PATCH v2 1/7] Compiler Attributes: Add __alloc_size() for better
- bounds checking
-To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com, Joe Perches <joe@perches.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        id S234664AbhHRWaj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 18:30:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234426AbhHRWai (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 18:30:38 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72351C0613D9
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id c4so2747079plh.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
+        b=HXqi8rpNQlqRCRobulkOlcaA4+c6J/4aW1kHG07w5z+LW3VAsPY7L3ovHbYLAvr6BW
+         z8PYA40q5a4/E1aSSd1f0X7nRnd2FNDMsOqvNHCn+M7iSwPw+3HB842oCYFV1odUjD4+
+         aowm4n1LLC28ISLDG0efepefjXmirvRMkeWhE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
+        b=qzGB3PCmiEDfWZlW/oXr+ARWGC5alyqXrV9sfaO8/BM240GjxpTeY+DhKo29NZ6o41
+         yMWYxChLu8JhHNti22oOGIYrUFQHbsWtOmqA6JVBpCixxrFrdgzrp7kFGt1w3gF/9w9L
+         HIRMbjCIKP1kq7rf/ywAkzkL71MW3uRd7YXaqo8bOFklhQUdfsK0h3UlXj4uN82BpY3B
+         Ti2hElPwU/kWCOH3+7KVr7FTHpaYFFADejdyB5aA2B8S0UcKInsDc7Y1TBlkVm2ZK1tf
+         tD6i98BMHmBNMpOapB9ZvwzsGe4NlSMam7g9uOAnBcfStu46qIW0WIDaXb+D5eK4Hupm
+         Gpgw==
+X-Gm-Message-State: AOAM530y9UrTaU0h23Bk5BCdESieXutxUjEajbbccMUCNAxNlWFbofuV
+        KUhH17ha7xH4XSC/uk+kGD1hxg==
+X-Google-Smtp-Source: ABdhPJwejqek+pQNgEJHoUL+LD8id8sswOa0BezZLWGyCwRRYJ3BmiAhJE1bgJAMyKte9lbr8NDHRw==
+X-Received: by 2002:a17:90a:a581:: with SMTP id b1mr1663300pjq.153.1629325803017;
+        Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n185sm862325pfn.171.2021.08.18.15.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 15:30:02 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 15:30:01 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     linux-kernel@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wang Wensheng <wangwensheng4@huawei.com>,
+        linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        linux-block@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
+        clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20210818214021.2476230-1-keescook@chromium.org>
- <20210818214021.2476230-2-keescook@chromium.org>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <fd4e3b0b-a052-58a7-c816-f055e8404165@kernel.org>
-Date:   Wed, 18 Aug 2021 14:51:13 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 61/63] powerpc: Split memset() to avoid multi-field
+ overflow
+Message-ID: <202108181528.9CDB56FEC@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-62-keescook@chromium.org>
+ <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
 MIME-Version: 1.0
-In-Reply-To: <20210818214021.2476230-2-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/18/2021 2:40 PM, Kees Cook wrote:
-> GCC and Clang can use the "alloc_size" attribute to better inform the
-> results of __builtin_object_size() (for compile-time constant values).
-> Clang can additionally use alloc_size to inform the results of
-> __builtin_dynamic_object_size() (for run-time values).
+On Wed, Aug 18, 2021 at 08:42:18AM +0200, Christophe Leroy wrote:
 > 
-> Because GCC sees the frequent use of struct_size() as an allocator size
-> argument, and notices it can return SIZE_MAX (the overflow indication),
-> it complains about these call sites may overflow (since SIZE_MAX is
-> greater than the default -Walloc-size-larger-than=PTRDIFF_MAX). This
-> isn't helpful since we already know a SIZE_MAX will be caught at run-time
-> (this was an intentional design). Instead, just disable this check as
-> it is both a false positive and redundant. (Clang does not have this
-> warning option.)
 > 
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: clang-built-linux@googlegroups.com
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Le 18/08/2021 à 08:05, Kees Cook a écrit :
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> > 
+> > Instead of writing across a field boundary with memset(), move the call
+> > to just the array, and an explicit zeroing of the prior field.
+> > 
+> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> > Cc: Qinglang Miao <miaoqinglang@huawei.com>
+> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> > Cc: Hulk Robot <hulkci@huawei.com>
+> > Cc: Wang Wensheng <wangwensheng4@huawei.com>
+> > Cc: linuxppc-dev@lists.ozlabs.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
+> > Link: https://lore.kernel.org/lkml/87czqsnmw9.fsf@mpe.ellerman.id.au
+> > ---
+> >   drivers/macintosh/smu.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
+> > index 94fb63a7b357..59ce431da7ef 100644
+> > --- a/drivers/macintosh/smu.c
+> > +++ b/drivers/macintosh/smu.c
+> > @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
+> >   	cmd->read = cmd->info.devaddr & 0x01;
+> >   	switch(cmd->info.type) {
+> >   	case SMU_I2C_TRANSFER_SIMPLE:
+> > -		memset(&cmd->info.sublen, 0, 4);
+> > +		cmd->info.sublen = 0;
+> > +		memset(&cmd->info.subaddr, 0, 3);
+> 
+> subaddr[] is a table, should the & be avoided ?
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+It results in the same thing, but it's better form to not have the &; I
+will fix this.
 
-> ---
->   Makefile                            | 6 +++++-
->   include/linux/compiler_attributes.h | 6 ++++++
->   2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 72f9e2b0202c..34cffcdfd5dc 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1078,9 +1078,13 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
->   # Another good warning that we'll want to enable eventually
->   KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
->   
-> -# Enabled with W=2, disabled by default as noisy
->   ifdef CONFIG_CC_IS_GCC
-> +# Enabled with W=2, disabled by default as noisy
->   KBUILD_CFLAGS += -Wno-maybe-uninitialized
-> +
-> +# The allocators already balk at large sizes, so silence the compiler
-> +# warnings for bounds checks involving those possible values.
-> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
->   endif
->   
->   # disable invalid "can't wrap" optimizations for signed / pointers
-> diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-> index 67c5667f8042..203b0ac62d15 100644
-> --- a/include/linux/compiler_attributes.h
-> +++ b/include/linux/compiler_attributes.h
-> @@ -54,6 +54,12 @@
->   #define __aligned(x)                    __attribute__((__aligned__(x)))
->   #define __aligned_largest               __attribute__((__aligned__))
->   
-> +/*
-> + *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-alloc_005fsize-function-attribute
-> + * clang: https://clang.llvm.org/docs/AttributeReference.html#alloc-size
-> + */
-> +#define __alloc_size(x, ...)		__attribute__((__alloc_size__(x, ## __VA_ARGS__)))
-> +
->   /*
->    * Note: users of __always_inline currently do not write "inline" themselves,
->    * which seems to be required by gcc to apply the attribute according
-> 
+> And while at it, why not use sizeof(subaddr) instead of 3 ?
+
+Agreed. :)
+
+Thanks!
+
+-- 
+Kees Cook
