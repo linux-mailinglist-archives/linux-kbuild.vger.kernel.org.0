@@ -2,96 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A48B33EF943
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 06:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96FE33EF99F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 06:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229834AbhHREaO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 00:30:14 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:30755 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbhHREaO (ORCPT
+        id S229449AbhHREnU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 00:43:20 -0400
+Received: from gateway22.websitewelcome.com ([192.185.46.224]:13628 "EHLO
+        gateway22.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237588AbhHREnU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 00:30:14 -0400
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 17I4TQ5Y018802;
-        Wed, 18 Aug 2021 13:29:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17I4TQ5Y018802
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629260966;
-        bh=kHlrdkqxRjQoDvpiz9nmAOi6Y1fmh6t3QYrglYwpvXE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=E/fkK5/G5wLfUgJDgegk+M6oj/h8/Pp50c7dUdqd5Rn7R+trOegyaZXvKRaeWc0RF
-         Sf/TxoA2/9DEz9250sBuogw8R45LNsJ44quLXSUApkjiLTMBPEoTA08tyru1p170z7
-         R5z+5IXkqX/YMwgW96OzcUWYMNWLC+WKtvdAJ10on3F6en68QEBeh52daDGlndjumF
-         6UOTJQeY8qYQOGZpToSi4WjccHHdTAfFs+t0c6JvC6i67BkNu75Y6N+YXeeu10/UJK
-         +5ti5hryG2oUsAba4MZFOpuy7U8eg03eRtJH7QqyJ7c72UDittXGQcnjfrtoLZxFXI
-         WpFZxgtYwc+ow==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id n12so1030580plf.4;
-        Tue, 17 Aug 2021 21:29:26 -0700 (PDT)
-X-Gm-Message-State: AOAM532n03LuCR5u46jY6eA/snS/ijKEMCtH7tgN6/kZqsFBYABflrnY
-        hLgj2m/KQgvzzwkPU2hIqJmDPsX8H06fIpNljCw=
-X-Google-Smtp-Source: ABdhPJxihjnNOhP1CbhvEkTNiabMGkxoLg+ZCJFf0bt2AZXGYeWTSbAlMePPwWgTXeBSrL3JnLQUZUYk61eVBWCvHvk=
-X-Received: by 2002:a17:90a:7384:: with SMTP id j4mr7017433pjg.153.1629260965965;
- Tue, 17 Aug 2021 21:29:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210814234102.2315551-1-masahiroy@kernel.org> <r3rr2q2-1o70-o012-4ns1-or1qrs665753@syhkavp.arg>
-In-Reply-To: <r3rr2q2-1o70-o012-4ns1-or1qrs665753@syhkavp.arg>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Aug 2021 13:28:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbyotYzVDc3b8jPk7nC1dLXjc3oMeytwA5WqzsMBPjgA@mail.gmail.com>
-Message-ID: <CAK7LNATbyotYzVDc3b8jPk7nC1dLXjc3oMeytwA5WqzsMBPjgA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix 'no symbols' warning when CONFIG_TRIM_UNUSD_KSYMS=y
-To:     Nicolas Pitre <nico@fluxnic.net>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Wed, 18 Aug 2021 00:43:20 -0400
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+        by gateway22.websitewelcome.com (Postfix) with ESMTP id DF6EC13208
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 23:42:44 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id GDPYmu8VAMGeEGDPYmuZyB; Tue, 17 Aug 2021 23:42:44 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fqWho5z6HDj4E/uC18IyWmSmTMfo9JPqAgS3dawEvWk=; b=be9hlQMJu3Ujj1NTF548ywxCeb
+        Cdh3EeFeibFikH+Pyt4qRrY2hsmcU9q5mv0J4whSv06j3VboWiOUR7Ig1dwy+SLDhj0ORSNzgoikp
+        mOjCvl9AKoj+snKJQ3B7JHIP0XSuj7vXUD3RDsGwhJWYRRXdegf4d0wVeoRdCTMMQ4nY7BIAglxbh
+        Px17n9e22kpZp3eUpwwy8UKxZ8e0MXHHjsZNiwyLVO2ZCP2jXhVeUOd1gUbuzyJbiZMMTh1PuNKrx
+        LVvwpTxiFeCKOIQdAxaCgQh2j3Lulj845WoZ4FYCHVl5AFALi+MQxer4P0Ue4xFhmpu/xbVDdmo6o
+        CPfYNuuw==;
+Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:45490 helo=[192.168.15.8])
+        by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94.2)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1mGDPY-002STB-9X; Tue, 17 Aug 2021 23:42:44 -0500
+Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
+To:     Philip Li <philip.li@intel.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-hardening@vger.kernel.org
+References: <20210817005624.1455428-1-nathan@kernel.org>
+ <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+ <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+ <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
+ <202108171056.EDCE562@keescook>
+ <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org>
+ <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
+ <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com>
+ <202108171602.159EB2C7EA@keescook>
+ <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
+ <20210818042720.GA1645557@pl-dbox>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <d19dd1f7-3898-227a-3d7d-25cddb0434d0@embeddedor.com>
+Date:   Tue, 17 Aug 2021 23:45:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210818042720.GA1645557@pl-dbox>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.31.110
+X-Source-L: No
+X-Exim-ID: 1mGDPY-002STB-9X
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.8]) [187.162.31.110]:45490
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 8
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 15, 2021 at 12:37 PM Nicolas Pitre <nico@fluxnic.net> wrote:
->
-> On Sun, 15 Aug 2021, Masahiro Yamada wrote:
->
-> > When CONFIG_TRIM_UNUSED_KSYMS is enabled, I see some warnings like this:
-> >
-> >   nm: arch/x86/entry/vdso/vdso32/note.o: no symbols
-> >
-> > $NM (both GNU nm and llvm-nm) warns when no symbol is found in the
-> > object. Suppress the stderr.
-> >
-> > Fixes: bbda5ec671d3 ("kbuild: simplify dependency generation for CONFIG_TRIM_UNUSED_KSYMS")
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/gen_ksymdeps.sh | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/gen_ksymdeps.sh b/scripts/gen_ksymdeps.sh
-> > index 1324986e1362..5493124e8ee6 100755
-> > --- a/scripts/gen_ksymdeps.sh
-> > +++ b/scripts/gen_ksymdeps.sh
-> > @@ -4,7 +4,10 @@
-> >  set -e
-> >
-> >  # List of exported symbols
-> > -ksyms=$($NM $1 | sed -n 's/.*__ksym_marker_\(.*\)/\1/p' | tr A-Z a-z)
-> > +#
-> > +# If the object has no symbol, $NM warns 'no symbols'.
-> > +# Suppress the stdout.
-> > +ksyms=$($NM $1 2>/dev/null | sed -n 's/.*__ksym_marker_\(.*\)/\1/p' | tr A-Z a-z)
->
-> You mean stderr.
 
 
-My bad - I will fix it in v2.
-Thanks.
+On 8/17/21 23:27, Philip Li wrote:
 
+>> Philip, how often is the kernel test robot's clang version rebuilt? Would it
+>> be possible to bump it to latest ToT or at least
+>> 9ed4a94d6451046a51ef393cd62f00710820a7e8 so that we do not get bit by this
+>> warning when we go to enable this flag?
+> Got it, currently we do upgrade in weekly cadence (but it may fall behind sometimes),
+> and the one we use now is clang version 14.0.0 (https://github.com/llvm/llvm-project 
+> 2c6448cdc2f68f8c28fd0bd9404182b81306e6e6)
+> 
+> We will ugrade to the head of llvm-project master today.
 
--- 
-Best Regards
-Masahiro Yamada
+Thanks, Philip. We really appreciate it.
+--
+Gustavo
