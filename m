@@ -2,91 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A78FF3F0398
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 14:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991473F041B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 15:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236163AbhHRMNT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 08:13:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46356 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235943AbhHRMNQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 08:13:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E701360EBC;
-        Wed, 18 Aug 2021 12:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629288762;
-        bh=v2fKI+bPzybQVJkFbPZ7QLGe6RoSceJs21/Hl1k0DgQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hUhyMLBeZgfsQBRpW04OKFKEt+cZFiRIyyaP96405hbYdXZDgydwe+gmGuNdGXpwZ
-         XG34sa/K0ZcCn84t/r6pZj6XD51siUdKWBH3NhzVatKTnIoTSvCdpy0y9tR8lTOIEC
-         XY5WSxtSYx/UfqR41V3VDbiriOLiR0Q5K9iJpOwlY2c2DuDeJJPKBQX8SutKaN9VDF
-         XWR2v2WNUAVEcJmMU/y6SBMFTdeiBEHi6RHX2OaHevO8QrPVgDAVpSGINu4cRJYQGY
-         hCPPhhQiuZ2t/pPTBjW8d20EdjsUpYFnocPmZ+xKZhusJ3R7ZDrvUypikTmTu9maV5
-         hYmBUU6Qs6m9g==
-Date:   Wed, 18 Aug 2021 13:12:18 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Philip Li <philip.li@intel.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-Message-ID: <20210818121218.GC4177@sirena.org.uk>
-References: <20210817005624.1455428-1-nathan@kernel.org>
- <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
- <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
- <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
- <202108171056.EDCE562@keescook>
- <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org>
- <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
- <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com>
- <202108171602.159EB2C7EA@keescook>
- <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
+        id S236365AbhHRNDE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 09:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235423AbhHRNDD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 09:03:03 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF9DC061764;
+        Wed, 18 Aug 2021 06:02:29 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id f15so2127287ilk.4;
+        Wed, 18 Aug 2021 06:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MkYUY8hRWwEu70DXUFF8siW38IO889EQpcP0JG9olHM=;
+        b=p816tpeNXiyVNrHjM3CLMARaTaQ9Q1DNkBPMF5S/QiTyS8TtyNuS4uSDtOvWYkZ9DD
+         KQs/VrSCx51qbgHOlhlqY+ZKamKhLS30a7nBa0Wn0WLKywG5EDsLvKzBc8Q5yqbovwVx
+         JjTa60sLtZoqpUSmCE3n0/wVzWzMxMTWIHpNstWexLoJOQJ+OxMi+XyB3QXEwvmEN+f/
+         wXa6Legda4Ugp7uCGvf3V1ZSw2wJsDe8AJmzt4yb1ib7Fzm5YmC5TfAcZFARVI54/XV+
+         DmeEiBYBUtdGwSDq+flIDrO71sP+aqrSrFvrxjsUFvpe0gY8Pan4eGGNA/tuXNtoplKZ
+         TcWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MkYUY8hRWwEu70DXUFF8siW38IO889EQpcP0JG9olHM=;
+        b=qgyZfoyFiYiTL5aNMFzViUyirAFPjdNqfFHKkBf2bU/EzmJ+wTdpbyu9Bw+i8VKva/
+         q6TeUZ04Df5USQcNsP2npho0jlnK14yN0B7oYgW5AX9IE3RdEtaU08GFL8607ZVHQ9jb
+         /T1P2sc/WgsxFLOUpyh9hiXoqYQgpXmKo4TpAJxm9xgSoRQft7DePq4SODjn3aZgGkF+
+         LSnCXL52DPQOr+7zuENVVeevW+yVYj2A4BB1F3ZmYqsdZqp8FseYuhpwtt+GujmZpOBV
+         xQbsiIeP4na7mUt8mIC4fk6mMovDg8N9BMTYwpvKhYF+WpKZBSvJde+Zbf6Th3/YxDB/
+         YjFA==
+X-Gm-Message-State: AOAM531yjGirPqgC5Pmy+20FI+k64n1Y2TiZqUuaCOD8E2IjMCINULZu
+        TV+cQofOABemlc0ZqbSBZQLtOVxR9l3het95/us=
+X-Google-Smtp-Source: ABdhPJzz3GCPM+tS9a6+M7GfZUygskgS+S/HcxGkyNlHvv5PJSFF8ixpr8ONuLYhcpUTCbKIGIlu3ps94hS6aZMTaMM=
+X-Received: by 2002:a92:b711:: with SMTP id k17mr6012067ili.247.1629291748768;
+ Wed, 18 Aug 2021 06:02:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OBd5C1Lgu00Gd/Tn"
-Content-Disposition: inline
-In-Reply-To: <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
-X-Cookie: She sells cshs by the cshore.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-26-keescook@chromium.org>
+In-Reply-To: <20210818060533.3569517-26-keescook@chromium.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 18 Aug 2021 15:02:17 +0200
+Message-ID: <CANiq72mQQuwfpFdxeJQoKnfpUFSPuakHRm8RC+eH-xECBjwDkw@mail.gmail.com>
+Subject: Re: [PATCH v2 25/63] compiler_types.h: Remove __compiletime_object_size()
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Will Deacon <will@kernel.org>, Marco Elver <elver@google.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, Aug 18, 2021 at 8:14 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> Since all compilers support __builtin_object_size(), and there is only
+> one user of __compiletime_object_size, remove it to avoid the needless
+> indirection. This lets Clang reason about check_copy_size() correctly.
 
---OBd5C1Lgu00Gd/Tn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sounds good to me, the indirection is making things more complex than
+they need to be.
 
-On Tue, Aug 17, 2021 at 04:23:41PM -0700, Nathan Chancellor wrote:
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
-> I do not know of any other CI aside from ours that is testing with tip of
-> tree clang and ours should already have a clang that includes my patch since
-> it comes from apt.llvm.org.
-
-FWIW we have some testing internally at Arm but that's building from
-source so it's not an issue for us.
-
---OBd5C1Lgu00Gd/Tn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEc+SEACgkQJNaLcl1U
-h9CuEgf6AhImdwxnsV8aEvTuQR82slmZtz5rVQrdZSyHW8JWRYTeS4xoYienTEv3
-HpFEgAPb0ZVs8fCWfRKg9Lxcdm8h1cOFUgqibjYgS2zWcBhOqGkaAhGNe0tCpvHP
-ZZ4uvs82kwjDIHJ0/JFDugThZsfQDpcPnw0UZUTGKX6YZvXwEl+1AMI/eE/cGQPS
-EJ+ADZZo9LAyS1iCP/yiNvzE3Oqkv5jS3KxGlG79ezz3oErYklKeD+MjNnimmR2c
-SFU2BkiYEGVg5nC70EeqSs+LL2dEg0iFtbfd3/zK26qcEDNCBDHjAMGgO5WmkG7Q
-0u18wJuI4eZ2ggkq+/GAVX9IfDvrCQ==
-=annl
------END PGP SIGNATURE-----
-
---OBd5C1Lgu00Gd/Tn--
+Cheers,
+Miguel
