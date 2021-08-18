@@ -2,84 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C0D3EFDD0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 09:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ECD53EFEAD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 10:07:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238482AbhHRHhx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 03:37:53 -0400
-Received: from mga07.intel.com ([134.134.136.100]:49516 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238231AbhHRHhw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 03:37:52 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="280011578"
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
-   d="scan'208";a="280011578"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2021 00:37:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
-   d="scan'208";a="462650649"
-Received: from pl-dbox.sh.intel.com (HELO pl-dbox) ([10.239.159.39])
-  by orsmga007.jf.intel.com with ESMTP; 18 Aug 2021 00:37:12 -0700
-Date:   Wed, 18 Aug 2021 15:31:26 +0800
-From:   Philip Li <philip.li@intel.com>
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S239397AbhHRIHj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 04:07:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239328AbhHRIHi (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 04:07:38 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF55C061764;
+        Wed, 18 Aug 2021 01:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=6OzbSXXafKMA7YgF8k8Tjy+aXQW8YBJ4OWUwbnu8sQw=;
+        t=1629274024; x=1630483624; b=kJyjXbrF4QQPa7P0m74IZPrJWoLrDTxa4wVNaIbHD1uWT4j
+        94WcxbQAV4TBftGHgR329zxhDjZNz7es6pyN/wpL5DykoZrLKDy+5V50AnCaJX+RB0rwLYWUMlzhA
+        igPDdKjMIr2nyFrQ/XoBar1CpS8wdVIZOEG3ybj9NN/FCmGOfNXMtAgc+85M3I2EdA+rtCjkjk0jY
+        bgOjGKzxaGuhAJAIqL2SVyK7V0LZy1FtoJm/RkCU3WpNw+IDtKAOWRcO1CbbgT0YU5ML//+xvQCsR
+        zbdz7SZvj2MgHC4iyZ63vwVgx9FT/wPYMeK12sHtb41zcjTDVR5DvWPiHPKT0nZQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94.2)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1mGGb6-00CcdG-FE; Wed, 18 Aug 2021 10:06:52 +0200
+Message-ID: <8b48dac4c40127366e91855306d24e07eb0b81d9.camel@sipsolutions.net>
+Subject: Re: [PATCH v2 44/63] mac80211: Use memset_after() to clear tx status
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
-Message-ID: <20210818073126.GA1648816@pl-dbox>
-References: <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
- <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org>
- <202108171056.EDCE562@keescook>
- <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org>
- <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
- <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com>
- <202108171602.159EB2C7EA@keescook>
- <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
- <20210818042720.GA1645557@pl-dbox>
- <d19dd1f7-3898-227a-3d7d-25cddb0434d0@embeddedor.com>
+Date:   Wed, 18 Aug 2021 10:06:51 +0200
+In-Reply-To: <11db2cdc5316b51f3fa2f34e813a458e455c763d.camel@sipsolutions.net>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+         <20210818060533.3569517-45-keescook@chromium.org>
+         <11db2cdc5316b51f3fa2f34e813a458e455c763d.camel@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d19dd1f7-3898-227a-3d7d-25cddb0434d0@embeddedor.com>
+Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 11:45:48PM -0500, Gustavo A. R. Silva wrote:
-> 
-> 
-> On 8/17/21 23:27, Philip Li wrote:
-> 
-> >> Philip, how often is the kernel test robot's clang version rebuilt? Would it
-> >> be possible to bump it to latest ToT or at least
-> >> 9ed4a94d6451046a51ef393cd62f00710820a7e8 so that we do not get bit by this
-> >> warning when we go to enable this flag?
-> > Got it, currently we do upgrade in weekly cadence (but it may fall behind sometimes),
-> > and the one we use now is clang version 14.0.0 (https://github.com/llvm/llvm-project 
-> > 2c6448cdc2f68f8c28fd0bd9404182b81306e6e6)
+On Wed, 2021-08-18 at 09:08 +0200, Johannes Berg wrote:
+> On Tue, 2021-08-17 at 23:05 -0700, Kees Cook wrote:
 > > 
-> > We will ugrade to the head of llvm-project master today.
+> > @@ -275,12 +275,11 @@ static void carl9170_tx_release(struct kref *ref)
+> >  	if (WARN_ON_ONCE(!ar))
+> >  		return;
+> >  
+> > 
+> > 
+> > 
+> > -	BUILD_BUG_ON(
+> > -	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+> > -
+> > -	memset(&txinfo->status.ack_signal, 0,
+> > -	       sizeof(struct ieee80211_tx_info) -
+> > -	       offsetof(struct ieee80211_tx_info, status.ack_signal));
+> > +	/*
+> > +	 * Should this call ieee80211_tx_info_clear_status() instead of clearing
+> > +	 * manually? txinfo->status.rates do not seem to be used here.
+> > +	 */
 > 
-> Thanks, Philip. We really appreciate it.
-you are welcome. Per the upgrade in this noon. Now we start to use below commit to
-do further clang build test (which is after the required 9ed4a94d6451)
+> Since you insist, I went digging :)
+> 
+> It should not, carl9170_tx_fill_rateinfo() has filled the rate
+> information before we get to this point.
 
-commit d2b574a4dea5b718e4386bf2e26af0126e5978ce
-Author: Marco Elver <elver@google.com>
-Date:   Tue Aug 17 16:54:07 2021 +0200
+Otherwise, looks fine, FWIW.
 
-    tsan: test: Initialize all fields of Params struct
+Are you going to apply all of these together somewhere? I (we) can't,
+since memset_after() doesn't exist yet.
 
-Thanks
+johannes
 
-> --
-> Gustavo
