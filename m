@@ -2,119 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80E1E3F0AC2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 20:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E58B03F0BA7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 21:18:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbhHRSFL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 14:05:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhHRSFK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 14:05:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 77A2D610FD;
-        Wed, 18 Aug 2021 18:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629309876;
-        bh=zAsKII9Xw6GYOOOsq3YfHs/AsTlpRw1b13TULJztS6A=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=lNP3DJKa5s1GOi8xZGgH3QylkDj13TZZoGfE2p1FATYHc9wh0L0UpyXSJ4F6qXIEy
-         O2T6E/T7gyWR7jUlJvy9yNX2teka2qy11C87N+4CjfXmzzwL6E/aPrWzLJ7V6Mqmcx
-         bRkAmregkSOVd4T4OCF9LBG0MQC5wAeUfSpB7pQfbJenM5RqoojLmQuqJdNi4QVhEL
-         6xq+SM/gnRbxr0ZQs/zdAF9W3E7YSJKmHqxHe/p0s9PCWfEQl5FwiUa29gga6wtMf0
-         LitGExq/rbx3ptvIjiZc6TA77YsM9mJKpMCDyOhl9l/56fWV07Qj2rNJoS6MQWn3wS
-         LBI26kXHJlgEg==
-Subject: Re: [PATCH 1/5] Compiler Attributes: Add __alloc_size() for better
- bounds checking
-To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
+        id S232375AbhHRTTW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 15:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231743AbhHRTTW (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 15:19:22 -0400
+X-Greylist: delayed 567 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 18 Aug 2021 12:18:44 PDT
+Received: from confino.investici.org (confino.investici.org [IPv6:2a00:c38:11e:ffff::a020])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC70C061764;
+        Wed, 18 Aug 2021 12:18:44 -0700 (PDT)
+Received: from mx1.investici.org (unknown [127.0.0.1])
+        by confino.investici.org (Postfix) with ESMTP id 4Gqcrh08nxz10yG;
+        Wed, 18 Aug 2021 19:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=privacyrequired.com;
+        s=stigmate; t=1629313748;
+        bh=zZRv+nXoCrBil3F5oNtg2nOIZFdUyNScEfpQhHkWs20=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XuNyCGrF4TFImYa8YkqQMbYM79KtRR5mjYpqhKJM6XXrw3sAON1jt+Y/v45iEN+cy
+         Nbzj3fNcPYxB8NOjFzB0xdXNDXJvqNY6iamhJ9vb6u8qWPeDiUAbgsciFPC3g7lCn0
+         bKt0uIxCi4lHr8vwhgUg7zZ7PXj3VH8B7+AkRuxE=
+Received: from [212.103.72.250] (mx1.investici.org [212.103.72.250]) (Authenticated sender: laniel_francis@privacyrequired.com) by localhost (Postfix) with ESMTPSA id 4Gqcrf3wsYz10y6;
+        Wed, 18 Aug 2021 19:09:06 +0000 (UTC)
+From:   Francis Laniel <laniel_francis@privacyrequired.com>
+To:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Cc:     Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20210818050841.2226600-1-keescook@chromium.org>
- <20210818050841.2226600-2-keescook@chromium.org>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <d326fbfc-dc96-b6e9-6fd8-31df3eb9f1cb@kernel.org>
-Date:   Wed, 18 Aug 2021 11:04:32 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Daniel Axtens <dja@axtens.net>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 27/63] fortify: Move remaining fortify helpers into fortify-string.h
+Date:   Wed, 18 Aug 2021 21:05:58 +0200
+Message-ID: <77588349.MC4sUV1sfq@machine>
+In-Reply-To: <20210818060533.3569517-28-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-28-keescook@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20210818050841.2226600-2-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/17/2021 10:08 PM, Kees Cook wrote:
-> GCC and Clang can use the alloc_size attribute to better inform the
-> results of __builtin_object_size() (for compile-time constant values).
-> Clang can additionally use alloc_size to informt the results of
-> __builtin_dynamic_object_size() (for run-time values).
-> 
-> Additionally disables -Wno-alloc-size-larger-than since the allocators
-> already reject SIZE_MAX, and the compile-time warnings aren't helpful.
+Hi.
 
-In addition to what Miguel said, it might be helpful to mention that 
-this warning is GCC specific, I was a little confused at first as to why 
-it was just being added in the GCC only block :)
 
-Otherwise, the attribute addition looks good to me. I will add my tag on v2.
-
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: clang-built-linux@googlegroups.com
+Le mercredi 18 ao=FBt 2021, 08:04:57 CEST Kees Cook a =E9crit :
+> When commit a28a6e860c6c ("string.h: move fortified functions definitions
+> in a dedicated header.") moved the fortify-specific code, some helpers
+> were left behind. Moves the remaining fortify-specific helpers into
+> fortify-string.h so they're together where they're used. This requires
+> that any FORTIFY helper function prototypes be conditionally built to
+> avoid "no prototype" warnings. Additionally removes unused helpers.
+>=20
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Francis Laniel <laniel_francis@privacyrequired.com>
+> Cc: Daniel Axtens <dja@axtens.net>
+> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
 > Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->   Makefile                            | 6 +++++-
->   include/linux/compiler_attributes.h | 6 ++++++
->   2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 1b238ce86ed4..3b6fb740584e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1076,9 +1076,13 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
->   # Another good warning that we'll want to enable eventually
->   KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
->   
-> -# Enabled with W=2, disabled by default as noisy
->   ifdef CONFIG_CC_IS_GCC
-> +# Enabled with W=2, disabled by default as noisy
->   KBUILD_CFLAGS += -Wno-maybe-uninitialized
+>  include/linux/fortify-string.h | 7 +++++++
+>  include/linux/string.h         | 9 ---------
+>  lib/string_helpers.c           | 2 ++
+>  3 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-strin=
+g.h
+> index c1be37437e77..7e67d02764db 100644
+> --- a/include/linux/fortify-string.h
+> +++ b/include/linux/fortify-string.h
+> @@ -2,6 +2,13 @@
+>  #ifndef _LINUX_FORTIFY_STRING_H_
+>  #define _LINUX_FORTIFY_STRING_H_
+>=20
+> +#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inlin=
+e))
+> +#define __RENAME(x) __asm__(#x)
 > +
-> +# The allocators already balk at large sizes, so silence the compiler
-> +# warnings for bounds checks involving those possible values.
-> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
->   endif
->   
->   # disable invalid "can't wrap" optimizations for signed / pointers
-> diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-> index 67c5667f8042..203b0ac62d15 100644
-> --- a/include/linux/compiler_attributes.h
-> +++ b/include/linux/compiler_attributes.h
-> @@ -54,6 +54,12 @@
->   #define __aligned(x)                    __attribute__((__aligned__(x)))
->   #define __aligned_largest               __attribute__((__aligned__))
->   
-> +/*
-> + *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-alloc_005fsize-function-attribute
-> + * clang: https://clang.llvm.org/docs/AttributeReference.html#alloc-size
-> + */
-> +#define __alloc_size(x, ...)		__attribute__((__alloc_size__(x, ## __VA_ARGS__)))
-> +
->   /*
->    * Note: users of __always_inline currently do not write "inline" themselves,
->    * which seems to be required by gcc to apply the attribute according
-> 
+> +void fortify_panic(const char *name) __noreturn __cold;
+> +void __read_overflow(void) __compiletime_error("detected read beyond size
+> of object (1st parameter)"); +void __read_overflow2(void)
+> __compiletime_error("detected read beyond size of object (2nd parameter)"=
+);
+> +void __write_overflow(void) __compiletime_error("detected write beyond
+> size of object (1st parameter)");
+>=20
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+>  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t
+> size) __RENAME(memchr); diff --git a/include/linux/string.h
+> b/include/linux/string.h
+> index b48d2d28e0b1..9473f81b9db2 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -249,15 +249,6 @@ static inline const char *kbasename(const char *path)
+>  	return tail ? tail + 1 : path;
+>  }
+>=20
+> -#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inlin=
+e))
+> -#define __RENAME(x) __asm__(#x)
+> -
+> -void fortify_panic(const char *name) __noreturn __cold;
+> -void __read_overflow(void) __compiletime_error("detected read beyond size
+> of object passed as 1st parameter"); -void __read_overflow2(void)
+> __compiletime_error("detected read beyond size of object passed as 2nd
+> parameter"); -void __read_overflow3(void) __compiletime_error("detected
+> read beyond size of object passed as 3rd parameter"); -void
+> __write_overflow(void) __compiletime_error("detected write beyond size of
+> object passed as 1st parameter"); -
+>  #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) &&
+> defined(CONFIG_FORTIFY_SOURCE) #include <linux/fortify-string.h>
+>  #endif
+> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+> index bde13612c25d..faa9d8e4e2c5 100644
+> --- a/lib/string_helpers.c
+> +++ b/lib/string_helpers.c
+> @@ -883,9 +883,11 @@ char *strreplace(char *s, char old, char new)
+>  }
+>  EXPORT_SYMBOL(strreplace);
+>=20
+> +#ifdef CONFIG_FORTIFY_SOURCE
+>  void fortify_panic(const char *name)
+>  {
+>  	pr_emerg("detected buffer overflow in %s\n", name);
+>  	BUG();
+>  }
+>  EXPORT_SYMBOL(fortify_panic);
+> +#endif /* CONFIG_FORTIFY_SOURCE */
+
+If I remember correctly, I let these helpers in string.h because I thought=
+=20
+they could be used by code not related to fortify-string.h.
+
+But you are right and I think it is better to have all the code related to =
+one=20
+feature in the same place.
+I am happy to see the kernel is fortifying, and this contribution is good, =
+so=20
+here is what I can give:
+Acked-by: Francis Laniel <laniel_francis@privacyrequired.com>
+
+
+Best regards.
+
+
