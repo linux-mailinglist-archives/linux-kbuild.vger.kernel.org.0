@@ -2,157 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F140B3EF81D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 04:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E1D3EF90D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 06:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236488AbhHRCfU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 22:35:20 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:53389 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235464AbhHRCfU (ORCPT
+        id S229619AbhHRERK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 00:17:10 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:54369 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229448AbhHRERK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 22:35:20 -0400
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 17I2YKKh030317;
-        Wed, 18 Aug 2021 11:34:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17I2YKKh030317
+        Wed, 18 Aug 2021 00:17:10 -0400
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 17I4GDob010755;
+        Wed, 18 Aug 2021 13:16:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17I4GDob010755
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629254060;
-        bh=tSrtc1Fo6BTES2NTrunR7VHJaBchrQC+4v/A753o6u4=;
+        s=dec2015msa; t=1629260174;
+        bh=u+KzkIZNFPABZpmtSGRCIoTvtezCpdOxcTloBpyZCGo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KseHonVk1PAeD+2DVeiGZN9kt976s4Hetk4gPMW9LKLoEiFXqDWtjARCL/x1usvzh
-         pUpTKSb0gM7SEZ4MWqAy+13aP54D6cK7WwyvkOUmp/67/GgZJfJLBq7EsDm1rfONBX
-         s5gjMgoE6NA7RFI0G65NCUFcomoIuiuDowyYWaAM2fVLiVApIqWlgoXj2CD3a7c0P7
-         O5P/Rjkc0GDBgyG+m0Y2iV4IcpkkoBh+65Xd06ytuDo7S1XYW3VTSdIxmvCt3rpsvD
-         XA32+TAnMMhps0YxmUsDLruySgqFSswC2mzOME9cowZi5LhzIm1TGhf/M7LpYpM1wc
-         75oMJdGy2iytg==
-X-Nifty-SrcIP: [209.85.210.180]
-Received: by mail-pf1-f180.google.com with SMTP id a21so656701pfh.5;
-        Tue, 17 Aug 2021 19:34:20 -0700 (PDT)
-X-Gm-Message-State: AOAM5306G9iDV/m+8uV6LEwZ5LdEIMtBDbxOvgqdUQM/FXvso6f7TS6S
-        P+DqF/rfW2MbRBqe4+eckQ56kKuwEPv+P3YBUnI=
-X-Google-Smtp-Source: ABdhPJwBHodEUpjXcVpwPs2tREgkr0VLZPBxe5MPj8qkKS95sxf+EypEr/EHKEkfFNPij57GqQ4CjUioPpPTacWQx9Q=
-X-Received: by 2002:aa7:94ac:0:b0:3e0:f21a:e6ff with SMTP id
- a12-20020aa794ac000000b003e0f21ae6ffmr6607968pfl.76.1629254059709; Tue, 17
- Aug 2021 19:34:19 -0700 (PDT)
+        b=Jwf/Bmhl1vgxqzWLTy95GIxPAoJO6cEXc6zwjl4aDPSFgIVseAjqKA5ScHKoOGBB+
+         c9w/gFPH0YPtbNGDsrKfozm61Qi8i6IiswcukTWmhCZvGCZ2VCulhsbJES1g/Szf6m
+         NpD0yYZ5ACR1cWLuUo9suvGPsEI4UxfdIwDpPZxckO7RiPszB15vCWDoYEMzas/bJN
+         hAtq3/mSwvBet38Jn+72/5OmvON2pGPrTM6qAVrLuu4Krns0gvhoXB4e4RPaf1yQhV
+         XpMPqmCO0+f5tWnbdvzyJaGZLGmvc/xFXVk0kFIiL0lS50pIi2PZEruNeJgFYYlIep
+         8dkvGdG0vlPiw==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id bo18so1874505pjb.0;
+        Tue, 17 Aug 2021 21:16:14 -0700 (PDT)
+X-Gm-Message-State: AOAM532iGl/TSfv+ZN5st2Qyn8mizJ5dfufrZBrbIoNHH5Fmaksy0RfO
+        +m8186rhMt+bzwmdfaKC6eQZmEZZmelwdNFEBgI=
+X-Google-Smtp-Source: ABdhPJwRWHqQYxHOSvmBHtdtPwclwMiGtse484aWVNvPuAahWF6qXQVhoiIJ+p9VOCix6zRbsoGlYKPjYkwZKycH9L4=
+X-Received: by 2002:a17:902:bc41:b029:12d:3f9b:401e with SMTP id
+ t1-20020a170902bc41b029012d3f9b401emr5540904plz.47.1629260173523; Tue, 17 Aug
+ 2021 21:16:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210816180519.1021311-1-samitolvanen@google.com>
-In-Reply-To: <20210816180519.1021311-1-samitolvanen@google.com>
+References: <20210817005624.1455428-1-nathan@kernel.org> <80fa539a-b767-76ed-dafa-4d8d1a6b063e@kernel.org>
+ <CAHk-=wgFXOf9OUh3+vmWjhp1PC47RVsUkL0NszBxSWhbGzx4tw@mail.gmail.com>
+ <5c856f36-69a7-e274-f72a-c3aef195adeb@kernel.org> <202108171056.EDCE562@keescook>
+ <3f28b45e-e725-8b75-042a-d34d90c56361@kernel.org> <CAK7LNAQFgYgavTP2ZG9Y16XBVdPuJ98J_Ty1OrQy1GXHq6JjQQ@mail.gmail.com>
+ <71d76c41-7f9b-6d60-ba4f-0cd84596b457@embeddedor.com> <202108171602.159EB2C7EA@keescook>
+ <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
+In-Reply-To: <72ae69b4-6069-ade5-a12b-8ee0435f803a@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Aug 2021 11:33:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
-Message-ID: <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
-Subject: Re: [PATCH v4] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
-To:     Sami Tolvanen <samitolvanen@google.com>
+Date:   Wed, 18 Aug 2021 13:15:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQW6LMnfU6reTNzDLneX+mBFSKHgbF5epQ+6GQZr7vWLQ@mail.gmail.com>
+Message-ID: <CAK7LNAQW6LMnfU6reTNzDLneX+mBFSKHgbF5epQ+6GQZr7vWLQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Enable -Wimplicit-fallthrough for clang 14.0.0+
+To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Alexander Lobakin <alobakin@pm.me>,
-        Nathan Chancellor <nathan@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Philip Li <philip.li@intel.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 3:05 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+On Wed, Aug 18, 2021 at 8:23 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> With CONFIG_LTO_CLANG, we currently link modules into native
-> code just before modpost, which means with TRIM_UNUSED_KSYMS
-> enabled, we still look at the LLVM bitcode in the .o files when
-> generating the list of used symbols. As the bitcode doesn't
-> yet have calls to compiler intrinsics and llvm-nm doesn't see
-> function references that only exist in function-level inline
-> assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
-> work with LTO.
+> On 8/17/2021 4:06 PM, Kees Cook wrote:
+> > On Tue, Aug 17, 2021 at 04:33:25PM -0500, Gustavo A. R. Silva wrote:
+> >>
+> >>
+> >> On 8/17/21 16:17, Masahiro Yamada wrote:
+> >>> On Wed, Aug 18, 2021 at 3:25 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >>>>
+> >>>> On 8/17/2021 11:03 AM, Kees Cook wrote:
+> >>>>> On Mon, Aug 16, 2021 at 09:55:28PM -0700, Nathan Chancellor wrote:
+> >>>>>> If you/Gustavo would prefer, I can upgrade that check to
+> >>>>>>
+> >>>>>> ifneq ($(call cc-option, -Wunreachable-code-fallthrough),)
+> >>>>>>
+> >>>>>> I was just trying to save a call to the compiler, as that is more expensive
+> >>>>>> than a shell test call.
+> >>>>>
+> >>>>> I prefer the option test -- this means no changes are needed on the
+> >>>>> kernel build side if it ever finds itself backported to earlier versions
+> >>>>> (and it handles the current case of "14" not meaning "absolute latest").
+> >>>>>
+> >>>>> More specifically, I think you want this (untested):
+> >>>>
+> >>>> That should work but since -Wunreachable-code-fallthrough is off by
+> >>>> default, I did not really see a reason to include it in KBUILD_CFLAGS. I
+> >>>> do not have a strong opinion though, your version is smaller than mine
+> >>>> is so we can just go with that. I'll defer to Gustavo on it since he has
+> >>>> put in all of the work cleaning up the warnings.
+> >>>
+> >>>
+> >>>
+> >>> https://github.com/llvm/llvm-project/commit/9ed4a94d6451046a51ef393cd62f00710820a7e8
+> >>>
+> >>>     did two things:
+> >>>
+> >>>   (1) Change the -Wimplicit-fallthrough behavior so that it fits
+> >>>        to our use in the kernel
+> >>>
+> >>>   (2) Add a new option -Wunreachable-code-fallthrough
+> >>>        that works like the previous -Wimplicit-fallthrough of
+> >>>        Clang <= 13.0.0
+> >>>
+> >>>
+> >>> They are separate things.
+> >>>
+> >>> Checking the presence of -Wunreachable-code-fallthrough
+> >>> does not make sense since we are only interested in (1) here.
+> >>>
+> >>> So, checking the Clang version is sensible and matches
+> >>> the explanation in the comment block.
+> >
+> > I thought one of the problems (which is quickly draining away) that
+> > needed to be solved here is that some Clang trunk builds (that report
+> > as version 14) don't yet have support for -Wunreachable-code-fallthrough
+> > since they aren't new enough.
 >
-> This change moves module LTO linking to happen earlier, and
-> thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
-> entirely, allowing us to also drop the whitelist from
-> gen_autoksyms.sh.
+> Philip, how often is the kernel test robot's clang version rebuilt?
+> Would it be possible to bump it to latest ToT or at least
+> 9ed4a94d6451046a51ef393cd62f00710820a7e8 so that we do not get bit by
+> this warning when we go to enable this flag?
 >
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1369
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Reviewed-by: Alexander Lobakin <alobakin@pm.me>
-> Tested-by: Alexander Lobakin <alobakin@pm.me>
-> ---
-> Changes in v4:
-> - Added .lto.o to targets to actually fix the use of if_changed.
-> - Replaced an unnecessary mod-prelink-ext with .lto.
+> I do not know of any other CI aside from ours that is testing with tip
+> of tree clang and ours should already have a clang that includes my
+> patch since it comes from apt.llvm.org.
 >
-> Changes in v3:
-> - Added missing FORCE.
+> >>> # Warn about unmarked fall-throughs in switch statement.
+> >>> # Clang prior to 14.0.0 warned on unreachable fallthroughs with
+> >>> # -Wimplicit-fallthrough, which is unacceptable due to IS_ENABLED().
+> >>> # https://bugs.llvm.org/show_bug.cgi?id=51094
+> >>> ifeq ($(firstword $(sort $(CONFIG_CLANG_VERSION) 140000)),140000)
+> >>> KBUILD_CFLAGS += -Wimplicit-fallthrough
+> >>> endif
 >
-> Changes in v2:
-> - Fixed a couple of typos.
-> - Fixed objtool arguments for .lto.o to always include --module.
->
-> ---
->  scripts/Makefile.build    | 28 +++++++++++++++++++++++++++-
->  scripts/Makefile.lib      |  7 +++++++
->  scripts/Makefile.modfinal | 21 ++-------------------
->  scripts/Makefile.modpost  | 22 +++-------------------
->  scripts/gen_autoksyms.sh  | 12 ------------
->  5 files changed, 39 insertions(+), 51 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 02197cb8e3a7..a6f43afd09bb 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -88,6 +88,10 @@ endif
->
->  targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
->
-> +ifdef CONFIG_LTO_CLANG
-> +targets-for-modules += $(patsubst %.o, %.lto.o, $(filter %.o, $(obj-m)))
-> +endif
-> +
->  ifdef need-modorder
->  targets-for-modules += $(obj)/modules.order
->  endif
-> @@ -271,12 +275,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
->         $(call if_changed_rule,cc_o_c)
->         $(call cmd,force_checksrc)
->
-> +ifdef CONFIG_LTO_CLANG
-> +# Module .o files may contain LLVM bitcode, compile them into native code
-> +# before ELF processing
-> +quiet_cmd_cc_lto_link_modules = LTO [M] $@
-> +cmd_cc_lto_link_modules =                                              \
-> +       $(LD) $(ld_flags) -r -o $@                                      \
-> +               $(shell [ -s $(@:.lto.o=.o.symversions) ] &&            \
-> +                       echo -T $(@:.lto.o=.o.symversions))             \
-> +               --whole-archive $(filter-out FORCE,$^)
-> +
-> +ifdef CONFIG_STACK_VALIDATION
-> +# objtool was skipped for LLVM bitcode, run it now that we have compiled
-> +# modules into native code
-> +cmd_cc_lto_link_modules += ;                                           \
-> +       $(objtree)/tools/objtool/objtool $(objtool_args) --module       \
-> +               $(@:.ko=.lto.o)
+> Very clever and nifty trick! I have verified that it works for clang 13
+> and 14 along with a theoretical clang 15. Gustavo, feel free to stick a
 
 
-What is this "$(@:.ko=.lto.o)" doing ?
+I am not the inventor of this code, though :-)
 
-The target is already suffixed with .lto.o
-so $(@:.ko=.lto.o) should be the same as $@
-
-
-Shall I fix it locally unless
-I find more questionable code?
+I mimicked the code in Buildroot:
+https://github.com/buildroot/buildroot/blob/2021.05/Makefile#L104
 
 
 
-
-
-> +endif
-> +
-> +$(obj)/%.lto.o: $(obj)/%.o FORCE
-> +       $(call if_changed,cc_lto_link_modules)
-> +endif
-> +
 
 
 -- 
