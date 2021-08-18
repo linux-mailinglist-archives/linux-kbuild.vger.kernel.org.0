@@ -2,110 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32CD43EF79F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 03:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F140B3EF81D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 04:34:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235253AbhHRBkp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Aug 2021 21:40:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45542 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234723AbhHRBkp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Aug 2021 21:40:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 983DE61056;
-        Wed, 18 Aug 2021 01:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629250811;
-        bh=YI8mfiwFPl0WAi650tapm83R/R8vugpTBzE0LO23fKI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=jBbiCeQh4wFIXSkOKlQlPBrRoLdxTbznvoEn/ty317oq7vMLhsls1cMCttoa2WUNf
-         zo1OAiWgW4+h5g+7KAcMbZrJIDZaukxX+u4LNLKJg5B3H1kdviw0JzoU5Mg0hoslDH
-         WX0srr5/8nyQ2HVeCt7D7EGb93tUciNhLIiTCTd/4p34MZnUGSRI9yqoQIiu4gCFYX
-         LkIPSAQdf4PTZvT2EDzAARQCeeGJwHtYg1zxHbJbPub3gWGlnJnCztwLSZfbK60NXI
-         Y6jPMxKRkYn8Fm4vtdusPAWUS2QFnGnhdb3wy2fLsEj81q8jPK/uHeg+P/Cza1pkgI
-         alCRrB3yNJr0g==
-Subject: Re: [PATCH 4/7] arc: replace cc-option-yn uses with cc-option
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Vineet Gupta <vgupta@kernel.org>,
-        linux-snps-arc@lists.infradead.org
-References: <20210817002109.2736222-1-ndesaulniers@google.com>
- <20210817002109.2736222-5-ndesaulniers@google.com>
- <bc8cf0be-9e51-e769-0685-2594802eead0@kernel.org>
- <CAKwvOdkO3ax7gN-n5OJO7-320BVK+B-JDs0v=3vZs9fPezwjDg@mail.gmail.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <8b9bf97a-8f6f-80b9-3bab-32bb525adf9e@kernel.org>
-Date:   Tue, 17 Aug 2021 18:40:08 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S236488AbhHRCfU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Aug 2021 22:35:20 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:53389 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235464AbhHRCfU (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Aug 2021 22:35:20 -0400
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 17I2YKKh030317;
+        Wed, 18 Aug 2021 11:34:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17I2YKKh030317
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1629254060;
+        bh=tSrtc1Fo6BTES2NTrunR7VHJaBchrQC+4v/A753o6u4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KseHonVk1PAeD+2DVeiGZN9kt976s4Hetk4gPMW9LKLoEiFXqDWtjARCL/x1usvzh
+         pUpTKSb0gM7SEZ4MWqAy+13aP54D6cK7WwyvkOUmp/67/GgZJfJLBq7EsDm1rfONBX
+         s5gjMgoE6NA7RFI0G65NCUFcomoIuiuDowyYWaAM2fVLiVApIqWlgoXj2CD3a7c0P7
+         O5P/Rjkc0GDBgyG+m0Y2iV4IcpkkoBh+65Xd06ytuDo7S1XYW3VTSdIxmvCt3rpsvD
+         XA32+TAnMMhps0YxmUsDLruySgqFSswC2mzOME9cowZi5LhzIm1TGhf/M7LpYpM1wc
+         75oMJdGy2iytg==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id a21so656701pfh.5;
+        Tue, 17 Aug 2021 19:34:20 -0700 (PDT)
+X-Gm-Message-State: AOAM5306G9iDV/m+8uV6LEwZ5LdEIMtBDbxOvgqdUQM/FXvso6f7TS6S
+        P+DqF/rfW2MbRBqe4+eckQ56kKuwEPv+P3YBUnI=
+X-Google-Smtp-Source: ABdhPJwBHodEUpjXcVpwPs2tREgkr0VLZPBxe5MPj8qkKS95sxf+EypEr/EHKEkfFNPij57GqQ4CjUioPpPTacWQx9Q=
+X-Received: by 2002:aa7:94ac:0:b0:3e0:f21a:e6ff with SMTP id
+ a12-20020aa794ac000000b003e0f21ae6ffmr6607968pfl.76.1629254059709; Tue, 17
+ Aug 2021 19:34:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdkO3ax7gN-n5OJO7-320BVK+B-JDs0v=3vZs9fPezwjDg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210816180519.1021311-1-samitolvanen@google.com>
+In-Reply-To: <20210816180519.1021311-1-samitolvanen@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 18 Aug 2021 11:33:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
+Message-ID: <CAK7LNASAHN=-uj73Uwk10aXbsR8AkUM_P=3NX_dq2SiFTqUctg@mail.gmail.com>
+Subject: Re: [PATCH v4] kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Alexander Lobakin <alobakin@pm.me>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Aug 17, 2021 at 3:05 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+>
+> With CONFIG_LTO_CLANG, we currently link modules into native
+> code just before modpost, which means with TRIM_UNUSED_KSYMS
+> enabled, we still look at the LLVM bitcode in the .o files when
+> generating the list of used symbols. As the bitcode doesn't
+> yet have calls to compiler intrinsics and llvm-nm doesn't see
+> function references that only exist in function-level inline
+> assembly, we currently need a whitelist for TRIM_UNUSED_KSYMS to
+> work with LTO.
+>
+> This change moves module LTO linking to happen earlier, and
+> thus avoids the issue with LLVM bitcode and TRIM_UNUSED_KSYMS
+> entirely, allowing us to also drop the whitelist from
+> gen_autoksyms.sh.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1369
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Reviewed-by: Alexander Lobakin <alobakin@pm.me>
+> Tested-by: Alexander Lobakin <alobakin@pm.me>
+> ---
+> Changes in v4:
+> - Added .lto.o to targets to actually fix the use of if_changed.
+> - Replaced an unnecessary mod-prelink-ext with .lto.
+>
+> Changes in v3:
+> - Added missing FORCE.
+>
+> Changes in v2:
+> - Fixed a couple of typos.
+> - Fixed objtool arguments for .lto.o to always include --module.
+>
+> ---
+>  scripts/Makefile.build    | 28 +++++++++++++++++++++++++++-
+>  scripts/Makefile.lib      |  7 +++++++
+>  scripts/Makefile.modfinal | 21 ++-------------------
+>  scripts/Makefile.modpost  | 22 +++-------------------
+>  scripts/gen_autoksyms.sh  | 12 ------------
+>  5 files changed, 39 insertions(+), 51 deletions(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 02197cb8e3a7..a6f43afd09bb 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -88,6 +88,10 @@ endif
+>
+>  targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
+>
+> +ifdef CONFIG_LTO_CLANG
+> +targets-for-modules += $(patsubst %.o, %.lto.o, $(filter %.o, $(obj-m)))
+> +endif
+> +
+>  ifdef need-modorder
+>  targets-for-modules += $(obj)/modules.order
+>  endif
+> @@ -271,12 +275,34 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $$(objtool_dep) FORCE
+>         $(call if_changed_rule,cc_o_c)
+>         $(call cmd,force_checksrc)
+>
+> +ifdef CONFIG_LTO_CLANG
+> +# Module .o files may contain LLVM bitcode, compile them into native code
+> +# before ELF processing
+> +quiet_cmd_cc_lto_link_modules = LTO [M] $@
+> +cmd_cc_lto_link_modules =                                              \
+> +       $(LD) $(ld_flags) -r -o $@                                      \
+> +               $(shell [ -s $(@:.lto.o=.o.symversions) ] &&            \
+> +                       echo -T $(@:.lto.o=.o.symversions))             \
+> +               --whole-archive $(filter-out FORCE,$^)
+> +
+> +ifdef CONFIG_STACK_VALIDATION
+> +# objtool was skipped for LLVM bitcode, run it now that we have compiled
+> +# modules into native code
+> +cmd_cc_lto_link_modules += ;                                           \
+> +       $(objtree)/tools/objtool/objtool $(objtool_args) --module       \
+> +               $(@:.ko=.lto.o)
 
 
-On 8/17/2021 11:07 AM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> On Mon, Aug 16, 2021 at 7:05 PM Nathan Chancellor <nathan@kernel.org> wrote:
->>
->> On 8/16/2021 5:21 PM, 'Nick Desaulniers' via Clang Built Linux wrote:
->>> cc-option-yn can be replaced with cc-option. ie.
->>> Checking for support:
->>> ifeq ($(call cc-option-yn,$(FLAG)),y)
->>> becomes:
->>> ifneq ($(call cc-option,$(FLAG)),)
->>>
->>> Checking for lack of support:
->>> ifeq ($(call cc-option-yn,$(FLAG)),n)
->>> becomes:
->>> ifeq ($(call cc-option,$(FLAG)),)
->>>
->>> This allows us to pursue removing cc-option-yn.
->>>
->>> Cc: Vineet Gupta <vgupta@kernel.org>
->>> Cc: linux-snps-arc@lists.infradead.org
->>> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->>> ---
->>>    arch/arc/Makefile | 3 +--
->>>    1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/arch/arc/Makefile b/arch/arc/Makefile
->>> index c0d87ac2e221..8782a03f24a8 100644
->>> --- a/arch/arc/Makefile
->>> +++ b/arch/arc/Makefile
->>> @@ -18,8 +18,7 @@ ifeq ($(CONFIG_ARC_TUNE_MCPU),"")
->>>    cflags-y                            += $(tune-mcpu-def-y)
->>>    else
->>>    tune-mcpu                           := $(shell echo $(CONFIG_ARC_TUNE_MCPU))
->>> -tune-mcpu-ok                                 := $(call cc-option-yn, $(tune-mcpu))
->>> -ifeq ($(tune-mcpu-ok),y)
->>> +ifneq ($(call cc-option,$(tune-mcpu)),)
->>>    cflags-y                            += $(tune-mcpu)
->>
->> Any reason not to just turn this into
->>
->> cflags-y += $(call cc-option,$(tune-mcpu))
->>
->> ?
-> 
-> Yes, you'll need to pull up the source; the diff doesn't provide
-> enough context. tune-mcpu is used in the body of the else branch
-> hinted at by the diff. PTAL
+What is this "$(@:.ko=.lto.o)" doing ?
 
-Ah, fair enough. The warning is a little unconventional but oh well :)
+The target is already suffixed with .lto.o
+so $(@:.ko=.lto.o) should be the same as $@
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
->>
->> If $(tune-mcpu) is empty or invalid, nothing will be added to cflags-y.
->>
->>>    else
->>>    # The flag provided by 'CONFIG_ARC_TUNE_MCPU' option isn't known by this compiler
->>>
-> 
-> 
-> 
+Shall I fix it locally unless
+I find more questionable code?
+
+
+
+
+
+> +endif
+> +
+> +$(obj)/%.lto.o: $(obj)/%.o FORCE
+> +       $(call if_changed,cc_lto_link_modules)
+> +endif
+> +
+
+
+-- 
+Best Regards
+Masahiro Yamada
