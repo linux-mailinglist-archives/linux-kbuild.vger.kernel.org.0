@@ -2,95 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA033F044E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 15:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D04A3F04DA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 15:34:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236138AbhHRNIe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 09:08:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234949AbhHRNIe (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 09:08:34 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4535C061764;
-        Wed, 18 Aug 2021 06:07:59 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id j18so2663248ioj.8;
-        Wed, 18 Aug 2021 06:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+tNPb1/FPZA9eF7X+TOOmGLZvE3KZSt2M0L0KXp9Ah8=;
-        b=SZR+b95l8v5SjC4+pZiDHCcUX+iSblqmeJVM/s+LIVGE0d9M2XKc2eZf83W/VLtwau
-         YV/K9Pr2J8jSXAxTCvF5wwLMSc8jy1rwlr0TiM5c7lmyNSdybD34PCPJXGRbWfhZMG40
-         /C6GhCo91LCITlZissWVpybP/AUB/Vxecy/5aPbNqmmtACa6T3ivbL83rlLU3G5A+LHf
-         rF5ztA12/gyeoarYk+PXsv3UmoYrmUnCp2ROMX5zee5xAr6Nuyif0vq/u6LOeT5ZwcFQ
-         9nDpp76bChkZFsI29y0uFkDoajLUMgEmcBWrOeUi7mBItCPNEDeNoZVodoxXcFWFPjjQ
-         +5ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+tNPb1/FPZA9eF7X+TOOmGLZvE3KZSt2M0L0KXp9Ah8=;
-        b=esHKS4zOKWUtbvnXepqXXupcI78LuYQzUmph82znxiddHHyjgbilmw88o7LjHteUY6
-         58D1RHrUOCxdmBfUs3Uk67y2ABSJb30LxabPFV97K9AZi6dIn2GSyYcyNc3t11cWwY2+
-         UPjFndSx2KqnwzaN8Gjzx6TjYtLMKwKgSsiny0VmjLmIIy3Bek3cdZjJsS9qtF4qikcX
-         s0GZrJt32q5SrdikBbk2hM4RTzIRXJFKtdWXLasUij33wimK6YwAMny/+IVa6Xoy3UIw
-         lBHAbH4g0cF6jSyX1RxSohmbDspW4y4xoD0eFOenVkM1bhRrkK+Gktyec7N+e0Il+4Fb
-         ihGw==
-X-Gm-Message-State: AOAM532nJ9DGjAVKErKHMbbzG71W0VrtVnhAn9sykFP3DBGn2vBBWOlZ
-        irC0fM+Xxwhr+qghcwYhFZQcZGd2yaP1DyjE9cE=
-X-Google-Smtp-Source: ABdhPJwNu2W+2PWsc1G3Nxzpq/lkQoh4zDm3Fav5536uGTKbeL3hSVC+lNuNBiMw408aS96WJUW43MyH/xRVFiXPkoM=
-X-Received: by 2002:a05:6602:2c05:: with SMTP id w5mr6948405iov.91.1629292079292;
- Wed, 18 Aug 2021 06:07:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210818050841.2226600-1-keescook@chromium.org> <20210818050841.2226600-2-keescook@chromium.org>
-In-Reply-To: <20210818050841.2226600-2-keescook@chromium.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 18 Aug 2021 15:07:48 +0200
-Message-ID: <CANiq72=ym5ubiXgwt=xyyOSxnPFqgfArJsPyV9juOuwWN+PqCQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] Compiler Attributes: Add __alloc_size() for better
- bounds checking
+        id S236629AbhHRNe1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 09:34:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39160 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233722AbhHRNe1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 09:34:27 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5C0CE6109E;
+        Wed, 18 Aug 2021 13:33:51 +0000 (UTC)
+Date:   Wed, 18 Aug 2021 09:33:49 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+Cc:     linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 50/63] tracing: Use memset_startat() to zero struct
+ trace_iterator
+Message-ID: <20210818093349.3144276b@oasis.local.home>
+In-Reply-To: <20210818060533.3569517-51-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+        <20210818060533.3569517-51-keescook@chromium.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 7:08 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Clang can additionally use alloc_size to informt the results of
+On Tue, 17 Aug 2021 23:05:20 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
-Typo.
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+> 
+> Use memset_startat() to avoid confusing memset() about writing beyond
+> the target struct member.
+> 
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  kernel/trace/trace.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 13587e771567..9ff8c31975cd 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
+>  		cnt = PAGE_SIZE - 1;
+>  
+>  	/* reset all but tr, trace, and overruns */
+> -	memset(&iter->seq, 0,
+> -	       sizeof(struct trace_iterator) -
+> -	       offsetof(struct trace_iterator, seq));
+> +	memset_startat(iter, 0, seq);
 
-> Additionally disables -Wno-alloc-size-larger-than since the allocators
+I can't find memset_startat() in mainline nor linux-next. I don't see it
+in this thread either, but since this has 63 patches, I could have
+easily missed it.
 
-Disables -Walloc-size-larger-than?
+This change really should belong to a patch set that just introduces
+memset_startat() (and perhaps memset_after()) and then updates all the
+places that should use it. That way I can give it a proper review. In
+other words, you should break this patch set up into smaller, more
+digestible portions for the reviewers.
 
-> already reject SIZE_MAX, and the compile-time warnings aren't helpful.
+Thanks,
 
-Perhaps a bit more context here (and/or in the comment in the
-Makefile) would be nice: i.e. why are they not helpful (even if
-rejected by the allocators).
+-- Steve
 
-Cheers,
-Miguel
+
+
+>  	cpumask_clear(iter->started);
+>  	trace_seq_init(&iter->seq);
+>  	iter->pos = -1;
+
