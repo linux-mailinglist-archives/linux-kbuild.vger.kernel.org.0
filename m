@@ -2,75 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1C923EF9CB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 07:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B443EF9D1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Aug 2021 07:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237491AbhHRFJV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 01:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S237655AbhHRFJ0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 01:09:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234141AbhHRFJS (ORCPT
+        with ESMTP id S237482AbhHRFJV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 01:09:18 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C77C0613D9
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:44 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id nt11so1880007pjb.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:44 -0700 (PDT)
+        Wed, 18 Aug 2021 01:09:21 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1B5C061764
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:47 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id n5so1845134pjt.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Aug 2021 22:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L74a0g3OkBh38ZbWTWhzU9iYTGh84NVXbR3tMlDhDzA=;
-        b=VoyLbqvgkeBK3s454PKfXrujQkaO8YCZzfEaRA2GyiUcpN1TJnjrvLnUA6U3DTwvHV
-         0Ys0jZJyHXB4alRXdKvUxiRso64wJPdy6zEYBLNKxoCQdQD8i+tubBD/6OTl4b+f9+OV
-         IAqGDBIIRzwCBxcb7ESVBQGr+0sWjockpToVo=
+        bh=FK2fIWn19YrP32oTsI8kiLBJYwRvpS1FTekYTCayugc=;
+        b=m1B7uYDMpDUCE9+R/JaIy7VxsbIG2eNTIT+fHb4u4fBE9H+u1PR56oYkUL087UoT+M
+         DoBCwzptwPo08auHY/WjzVvC/Q9cQRvfT0NqWGTkvReAqw+AIskTM4Ip5Ng2F8Zun774
+         29fWvW3grg+DRUZp4UHrch1DrUYhmdDSGKQrc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L74a0g3OkBh38ZbWTWhzU9iYTGh84NVXbR3tMlDhDzA=;
-        b=nKHUFzGoKKjN0Rxt357QlTlb/LUWyVNs4I06SXA8Q66R0w45wNNXQeoqleohY1pY76
-         uMEOwhe3g1ol4UYUAZsZRDaRBBkTT//mvom2LlhSJ3u4DPK0o0BftHad10qulBS8zaPu
-         jsm8T53HF4JOy5InofIUa7S1qI2gW0HfWm4tPDjSHDVHOlCq5w2LA/XHYkWz9TlJPclx
-         AQvCB4cU2BtWyw+/gZLY2Lw7XIBTVZ3IajLL34+NVPkSUg3Z1rqVfBltXR7QfIDv7eEl
-         AD2i8wdbn4JtQdOoZiEGcZ7tA9r4e+/7Z9kxCZN3S78XkJ/bWuneht/Hu5sGBJ0F/AKc
-         Z/Yw==
-X-Gm-Message-State: AOAM532WrkEqNf83zXEJOIQgCMpaY/SQqoJ/BWv0h6XtjR48JB6FA7Rl
-        Abv6e3uM/bvXvTZ69z+/3Eh5IA==
-X-Google-Smtp-Source: ABdhPJz5s4Wmz9dks92kj/ZztgnowsQotGHMNoaeyBq3IEi/9t+qTx3NfPgPSwibP7e3JjCPogSSQA==
-X-Received: by 2002:a17:90a:420c:: with SMTP id o12mr7336775pjg.101.1629263324383;
-        Tue, 17 Aug 2021 22:08:44 -0700 (PDT)
+        bh=FK2fIWn19YrP32oTsI8kiLBJYwRvpS1FTekYTCayugc=;
+        b=LTeeL7NsRGYUlMYcYXVUE1qiZrgk1wktywEe0tC4wWGm6Pxr5ig7TChlkWjmVMRUHD
+         ZXwAjthdx+3yLKW20jww2bFxp3pKZDm5Bb1aB4JwwUjc1pS0Ga29yaoTPiG16JVnuxf8
+         d7fzE3EtTDD6SzLRWsMdbeaLRGSGLK5dhMTOvWylNNTJKOFlvQ9b9z9YiiA41RubBJU3
+         jS+t2q2qwDkCss/WJxBVl8i5OCYD6qfo82ZlgE6OsSOFnY/+txiY3ARg5F3QkRJCgd4C
+         m1OiocSuZTiDlya+vcjk/EUjQY9x6MGStrK1hXrciNJhGQeer7bmoea9kn3CUNhNUUZh
+         lKwQ==
+X-Gm-Message-State: AOAM531NArDJk5OLYPVdA8P1HoeRe5W4F6AJI8mGb37N+kx1cLyKzMxK
+        19a8hJSkPyFu9zD1Y1B03nQh8g==
+X-Google-Smtp-Source: ABdhPJw3TZNVOkyIiaV8rbXlMH7bQVdkoRyiSUgXA9s5bV0IQPqLsxWhNFyH8vNjJf3GqmWHB2GDEQ==
+X-Received: by 2002:a17:90b:3718:: with SMTP id mg24mr7652580pjb.158.1629263326717;
+        Tue, 17 Aug 2021 22:08:46 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y3sm5280769pgc.67.2021.08.17.22.08.43
+        by smtp.gmail.com with ESMTPSA id r13sm5247632pgl.90.2021.08.17.22.08.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 22:08:43 -0700 (PDT)
+        Tue, 17 Aug 2021 22:08:46 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
         Daniel Micay <danielmicay@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
         Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Christoph Lameter <cl@linux.com>,
         Pekka Enberg <penberg@kernel.org>,
         David Rientjes <rientjes@google.com>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Vlastimil Babka <vbabka@suse.cz>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: [PATCH 4/5] percpu: Add __alloc_size attributes for better bounds checking
-Date:   Tue, 17 Aug 2021 22:08:40 -0700
-Message-Id: <20210818050841.2226600-5-keescook@chromium.org>
+Subject: [PATCH 5/5] mm/vmalloc: Add __alloc_size attributes for better bounds checking
+Date:   Tue, 17 Aug 2021 22:08:41 -0700
+Message-Id: <20210818050841.2226600-6-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818050841.2226600-1-keescook@chromium.org>
 References: <20210818050841.2226600-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1834; h=from:subject; bh=AKWCsy+JTouHpICDr1/00oSv9FpxEYB59HC7kt38kf8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHJXYZ7sr0DkI4785A86/V1s6T0JSWbDIAWTqa4IF o+5sgRyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyV2AAKCRCJcvTf3G3AJl81D/ 9vI9JuIir2OOD9eLSzFPss/uOq6+mj5CUm3OhDzeeKcY17QuKv8oZHV/r5p657bW2OcfeR+11HCPEq 3tFGsUIJBkGa16Q5uTm/DieR3q04KNo5M2AGU+XoQMeTmQycXxOOzTL4FLNzsvDgyeIvKuy6LKnAPK DWu6IttP6pgUPRKdSSfRSHHCQeD6CuR3m10veketQgEmTRWLqGPcGdEA9sOVhwlW0htfsprMSKUaDc f0SM0OOKwjPd22H9LkxplH3npRzVY+5xnMfxOcKZoot02ORxcmUILGtHUY9ePhB+pbm7A2VeNXZFlN 7nvLv/XTt7uqlm1eLNNZ4jTzLs9EZFAKQ7jTxeDytxH/N6CSoAmSylYNQyOWca+5t3RYmG6zCjrOO5 5U7G9wyTfDSS5DqJXkjb6DRFujbBqDg5jcBjCoCWqiGVAkiTnpu7NgoLR6zrsDsImoWrSWiCVuwua1 BJtEexhJLfjIJ9AhNPUCEcGCHnpTujcSfmd87HQt4V/6xvXPg57q9gY7Mrf1Nb0JwGquIqLT9YZlnx YMxItzlYJwB9VD8fq13icyty1atksKU4j0CNj0iLHOD2bqqLTTax+bcbfNV5rE9LdnVZx9QxDAlQvL JVOSkAac4aqRz/QlcLsLdDf5rkeWwn2zz2kilbDBVRc7qFw1qEFD76tf3fTQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2480; h=from:subject; bh=5f6ICgvlEcDnZ5CvExQnS354eTx1Re0AZwmMZI84A5o=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHJXYNOcKk3pb/hdH0pQG61sgMsvM2uPEmpliSWFO auEpIquJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyV2AAKCRCJcvTf3G3AJpBhD/ 94RVCDqdDBUbvyrRsg2UwLDN/C/AanhfxGGXoFQZ/Db9AFoP/OQgdhSrh3zfuYH5gL2IfgXtNFQUjH RC+mh0rpeaoG103VtZkh7CxQ6hpcp5Nh4ZgINyIyqdA/3FbngtFC4/JVpleRFrTfqJMKmH5chVM4gC oiBvWIl48k3ExCNccwHsIB4LkhzM2+lLljU2Db9VlLYkcyHK+R47iclOlGK59zI0eNMCV3witO4xYe 9W4bUHcJwGCjCj8ERqtUHGmAG/v6/68E8ga3l/k0SFgC0bbSNbK74t3U0f9SzxDwqV/j8icex3NlKS HzoS6dqNNzf7ANraAm7X0yMYh9OmqdZ6s29xHnSx0P0RGXH2xeB94kciWFVkM6ekX5JSgGfYbheoPC 0GvTs1Q5lar5b+TvABSBB3kdmUJSBW0/puxXf6vFXqOGqGJWCRN4aKkWIJo9Adiq1XfwBPkkbQmyFW Kg+zOhC9BNCApxIfqz/sQ+1BRDF4dqsrohVBpzRlRj6m/67Sg66cTNe2rrItoD1qssJZ8WaadlWbxu qljdjB59uZtvtjlATr5GsPXup7shDyk8B8iNPX2p1w4/6wTeNOHlyy08jWPuXVA0vvTcRc6aZ24e8h XnhJNM1zn93N07XxrnL1mpUka9jN86XbzikHemhZiZP+GZKVZMqYdvssGqxA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -78,45 +78,56 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 As already done in GrapheneOS, add the __alloc_size attribute for
-appropriate percpu allocator interfaces, to provide additional hinting
+appropriate vmalloc allocator interfaces, to provide additional hinting
 for better bounds checking, assisting CONFIG_FORTIFY_SOURCE and other
 compiler optimizations.
 
 Co-developed-by: Daniel Micay <danielmicay@gmail.com>
 Signed-off-by: Daniel Micay <danielmicay@gmail.com>
-Cc: Dennis Zhou <dennis@kernel.org>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Christoph Lameter <cl@linux.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-mm@kvack.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/percpu.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/linux/vmalloc.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-index 5e76af742c80..98a9371133f8 100644
---- a/include/linux/percpu.h
-+++ b/include/linux/percpu.h
-@@ -123,7 +123,7 @@ extern int __init pcpu_page_first_chunk(size_t reserved_size,
- 				pcpu_fc_populate_pte_fn_t populate_pte_fn);
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 2644425b6dce..f4ede07e1dae 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -136,21 +136,21 @@ static inline void vmalloc_init(void)
+ static inline unsigned long vmalloc_nr_pages(void) { return 0; }
  #endif
  
--extern void __percpu *__alloc_reserved_percpu(size_t size, size_t align);
-+extern void __percpu *__alloc_reserved_percpu(size_t size, size_t align) __alloc_size(1);
- extern bool __is_kernel_percpu_address(unsigned long addr, unsigned long *can_addr);
- extern bool is_kernel_percpu_address(unsigned long addr);
+-extern void *vmalloc(unsigned long size);
+-extern void *vzalloc(unsigned long size);
+-extern void *vmalloc_user(unsigned long size);
+-extern void *vmalloc_node(unsigned long size, int node);
+-extern void *vzalloc_node(unsigned long size, int node);
+-extern void *vmalloc_32(unsigned long size);
+-extern void *vmalloc_32_user(unsigned long size);
+-extern void *__vmalloc(unsigned long size, gfp_t gfp_mask);
++extern void *vmalloc(unsigned long size) __alloc_size(1);
++extern void *vzalloc(unsigned long size) __alloc_size(1);
++extern void *vmalloc_user(unsigned long size) __alloc_size(1);
++extern void *vmalloc_node(unsigned long size, int node) __alloc_size(1);
++extern void *vzalloc_node(unsigned long size, int node) __alloc_size(1);
++extern void *vmalloc_32(unsigned long size) __alloc_size(1);
++extern void *vmalloc_32_user(unsigned long size) __alloc_size(1);
++extern void *__vmalloc(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
+ extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 			unsigned long start, unsigned long end, gfp_t gfp_mask,
+ 			pgprot_t prot, unsigned long vm_flags, int node,
+-			const void *caller);
++			const void *caller) __alloc_size(1);
+ void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
+-		int node, const void *caller);
+-void *vmalloc_no_huge(unsigned long size);
++		int node, const void *caller) __alloc_size(1);
++void *vmalloc_no_huge(unsigned long size) __alloc_size(1);
  
-@@ -131,8 +131,8 @@ extern bool is_kernel_percpu_address(unsigned long addr);
- extern void __init setup_per_cpu_areas(void);
- #endif
- 
--extern void __percpu *__alloc_percpu_gfp(size_t size, size_t align, gfp_t gfp);
--extern void __percpu *__alloc_percpu(size_t size, size_t align);
-+extern void __percpu *__alloc_percpu_gfp(size_t size, size_t align, gfp_t gfp) __alloc_size(1);
-+extern void __percpu *__alloc_percpu(size_t size, size_t align) __alloc_size(1);
- extern void free_percpu(void __percpu *__pdata);
- extern phys_addr_t per_cpu_ptr_to_phys(void *addr);
- 
+ extern void vfree(const void *addr);
+ extern void vfree_atomic(const void *addr);
 -- 
 2.30.2
 
