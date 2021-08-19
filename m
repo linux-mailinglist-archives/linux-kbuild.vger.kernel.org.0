@@ -2,252 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D09993F0EE2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 01:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E263F0F03
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 02:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235155AbhHSAAA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 20:00:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235035AbhHRX76 (ORCPT
+        id S234986AbhHSACz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Aug 2021 20:02:55 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:38683 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235452AbhHSACz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Aug 2021 19:59:58 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9400BC06179A
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 16:59:23 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id w13-20020a17090aea0db029017897a5f7bcso3519848pjy.5
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 16:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ihRSUosZ1n/QH58LU5drX97jQNk+oYE3vHV9UEG8bhY=;
-        b=ll0X1F/1yJb+64r0U9YpjrHHbzyCyA3JdVLIsZBGSDD5G8By6g0Da0FvU5ma5PfPOz
-         QC4sz18rY2gpOQxJm5PmQyk9q0bDlmToRffwWKkDWOoZx6TCSYGWys/Yplpd7VScrov4
-         Ino9fR/0iet8k+NaPzK7xaA5zNSBEEQ3I0jbc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ihRSUosZ1n/QH58LU5drX97jQNk+oYE3vHV9UEG8bhY=;
-        b=X7mvshLVRb4ULKRTIQjNCnR4cvDLEOn7VNF9VAr5RGxlgDYucDDEsOTr8iHS8agnbS
-         LEIsw0rdbLCkCYgpX8m0daMfY69L5jKLQekwZQl7DAtpMvuQGtWzjpTRlQoZWEHZ1PrQ
-         /+idYaCuD+ynK0aIFysuZrIgu2nRu6YuYxBGf7NjB4z6WRvqjyIKE5UCCOZ51woSUcr9
-         iG7zo2HFssW/z7LcNpAW8MZ+YGib48QgCOCnlOdUxYmZ8Lnh4Gjq8tl8gCEiWcIEb8Kc
-         gNaTmVQ9eXntBdn9M4ynThA5JflnBF2CDj7pvh9OFXDMsZroH0OaPuANrZRhykwZh78+
-         BwcA==
-X-Gm-Message-State: AOAM531Pxjn5pITPlK6XQHidjkD0MC7IYMpR3iSWKew2Unezcw5ShNxi
-        E4s/BlsX9GnCm3XXt8w6ynm2FQ==
-X-Google-Smtp-Source: ABdhPJyqLAVutuhaUvZwqCN9mzT6ajj2JdJOPLObLJIeTaHnjuorpiaj1FYbc1rllZLoCI06EyvNXg==
-X-Received: by 2002:a17:90a:c006:: with SMTP id p6mr11982780pjt.144.1629331163071;
-        Wed, 18 Aug 2021 16:59:23 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q4sm834430pjd.52.2021.08.18.16.59.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 16:59:22 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 16:59:21 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Lazar, Lijo" <lijo.lazar@amd.com>
+        Wed, 18 Aug 2021 20:02:55 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 17J01JAq002135;
+        Thu, 19 Aug 2021 09:01:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 17J01JAq002135
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1629331280;
+        bh=dDA48cE2QbNp7aCgzfGh6ePv10lHArBqOHlfXE7pros=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZauWzjVBRhoLV61SwZfpXF/25uYTu4P5h1GfwgTQD1ft9NCJpLRsY4Hhrg/AMLSeC
+         pan2wOmX/npxC3AB2yUkKquLoeWOgaOyRzqse2JO4ywnRnXLccHLSLQ35vmYvj6Qxh
+         2IqCvuSjX1BtgBQTLS79Qqodx+hUvkrmk5U3QI+RcCyVXiUyzuZhTGyiUBaHxTejPx
+         BdQGE2IqW0WeO088dUL1CqOH2rHyp3f92xVuC64J0B+EkTfvAkx+14CcuXWu56u/JJ
+         k8nUIHzh4n+rX6aFFjVF2JJauVwBGIe2Cvy9VRp2s12skqFgYhSFPJXvkrU+Rnmjd9
+         3DD5f/aT7fqIA==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        Feifei Xu <Feifei.Xu@amd.com>, Likun Gao <Likun.Gao@amd.com>,
-        Jiawei Gu <Jiawei.Gu@amd.com>, Evan Quan <evan.quan@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 18/63] drm/amd/pm: Use struct_group() for memcpy()
- region
-Message-ID: <202108181619.B603481527@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-19-keescook@chromium.org>
- <753ef2d1-0f7e-c930-c095-ed86e1518395@amd.com>
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH v2] kbuild: Fix 'no symbols' warning when CONFIG_TRIM_UNUSD_KSYMS=y
+Date:   Thu, 19 Aug 2021 09:01:14 +0900
+Message-Id: <20210819000114.634042-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <753ef2d1-0f7e-c930-c095-ed86e1518395@amd.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 05:12:28PM +0530, Lazar, Lijo wrote:
-> 
-> On 8/18/2021 11:34 AM, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields.
-> > 
-> > Use struct_group() in structs:
-> > 	struct atom_smc_dpm_info_v4_5
-> > 	struct atom_smc_dpm_info_v4_6
-> > 	struct atom_smc_dpm_info_v4_7
-> > 	struct atom_smc_dpm_info_v4_10
-> > 	PPTable_t
-> > so the grouped members can be referenced together. This will allow
-> > memcpy() and sizeof() to more easily reason about sizes, improve
-> > readability, and avoid future warnings about writing beyond the end of
-> > the first member.
-> > 
-> > "pahole" shows no size nor member offset changes to any structs.
-> > "objdump -d" shows no object code changes.
-> > 
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> > Cc: Feifei Xu <Feifei.Xu@amd.com>
-> > Cc: Lijo Lazar <lijo.lazar@amd.com>
-> > Cc: Likun Gao <Likun.Gao@amd.com>
-> > Cc: Jiawei Gu <Jiawei.Gu@amd.com>
-> > Cc: Evan Quan <evan.quan@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> > Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2FCADnq5_Npb8uYvd%2BR4UHgf-w8-cQj3JoODjviJR_Y9w9wqJ71mQ%40mail.gmail.com&amp;data=04%7C01%7Clijo.lazar%40amd.com%7C92b8d2f072f0444b9f8508d9620f6971%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637648640625729624%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=rKh5LUXCRUsorYM3kSpG2tkB%2Fczwl9I9EBnWBCtbg6Q%3D&amp;reserved=0
-> > ---
-> >   drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
-> >   .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
-> >   drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
-> >   .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
-> 
-> Hi Kees,
+When CONFIG_TRIM_UNUSED_KSYMS is enabled, I see some warnings like this:
 
-Hi! Thanks for looking into this.
+  nm: arch/x86/entry/vdso/vdso32/note.o: no symbols
 
-> The headers which define these structs are firmware/VBIOS interfaces and are
-> picked directly from those components. There are difficulties in grouping
-> them to structs at the original source as that involves other component
-> changes.
+$NM (both GNU nm and llvm-nm) warns when no symbol is found in the
+object. Suppress the stderr.
 
-So, can you help me understand this a bit more? It sounds like these are
-generated headers, yes? I'd like to understand your constraints and
-weight them against various benefits that could be achieved here.
+Fangrui Song mentioned binutils>=2.37 `nm -q` can be used to suppress
+"no symbols" [1], and llvm-nm>=13.0.0 supports -q as well.
 
-The groupings I made do appear to be roughly documented already,
-for example:
+We cannot use it for now, but note it as a TODO.
 
-   struct   atom_common_table_header  table_header;
-     // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
+[1]: https://sourceware.org/bugzilla/show_bug.cgi?id=27408
 
-Something emitted the "BOARD PARAMETERS" section heading as a comment,
-so it likely also would know where it ends, yes? The good news here is
-that for the dpm_info groups, they all end at the end of the existing
-structs, see:
-	struct atom_smc_dpm_info_v4_5
-	struct atom_smc_dpm_info_v4_6
-	struct atom_smc_dpm_info_v4_7
-	struct atom_smc_dpm_info_v4_10
+Fixes: bbda5ec671d3 ("kbuild: simplify dependency generation for CONFIG_TRIM_UNUSED_KSYMS")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+---
 
-The matching regions in the PPTable_t structs are similarly marked with a
-"BOARD PARAMETERS" section heading comment:
+Changes in v2:
+  - Add TODO
+  - Fix 'stdout' to 'stderr' in the comment
 
---- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-@@ -643,6 +643,7 @@ typedef struct {
-   // SECTION: BOARD PARAMETERS
+ scripts/gen_ksymdeps.sh | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/gen_ksymdeps.sh b/scripts/gen_ksymdeps.sh
+index 1324986e1362..725e8c9c1b53 100755
+--- a/scripts/gen_ksymdeps.sh
++++ b/scripts/gen_ksymdeps.sh
+@@ -4,7 +4,13 @@
+ set -e
  
-   // SVI2 Board Parameters
-+  struct_group(v4_6,
-   uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
-   uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
+ # List of exported symbols
+-ksyms=$($NM $1 | sed -n 's/.*__ksym_marker_\(.*\)/\1/p' | tr A-Z a-z)
++#
++# If the object has no symbol, $NM warns 'no symbols'.
++# Suppress the stderr.
++# TODO:
++#   Use -q instead of 2>/dev/null when we upgrade the minimum version of
++#   binutils to 2.37, llvm to 13.0.0.
++ksyms=$($NM $1 2>/dev/null | sed -n 's/.*__ksym_marker_\(.*\)/\1/p' | tr A-Z a-z)
  
-@@ -728,10 +729,10 @@ typedef struct {
-   uint32_t     BoardVoltageCoeffB;    // decode by /1000
- 
-   uint32_t     BoardReserved[7];
-+  );
- 
-   // Padding for MMHUB - do not modify this
-   uint32_t     MmHubPadding[8]; // SMU internal use
--
- } PPTable_t;
-
-Where they end seems known as well (the padding switches from a "Board"
-to "MmHub" prefix at exactly the matching size).
-
-So, given that these regions are already known by the export tool, how
-about just updating the export tool to emit a struct there? I imagine
-the problem with this would be the identifier churn needed, but that's
-entirely mechanical.
-
-However, I'm curious about another aspect of these regions: they are,
-by definition, the same. Why isn't there a single struct describing
-them already, given the existing redundancy? For example, look at the
-member names: maxvoltagestepgfx vs MaxVoltageStepGfx. Why aren't these
-the same? And then why aren't they described separately?
-
-Fixing that would cut down on the redundancy here, and in the renaming,
-you can fix the identifiers as well. It should be straight forward to
-write a Coccinelle script to do this renaming for you after extracting
-the structure.
-
-> The driver_if_* files updates are frequent and it is error prone to manually
-> group them each time we pick them for any update.
-
-Why are these structs updated? It looks like they're specifically
-versioned, and aren't expected to change (i.e. v4.5, v4.6, v4.10, etc).
-
-> Our usage of memcpy in this way is restricted only to a very few places.
-
-True, there's 1 per PPTable_t duplication. With a proper struct, you
-wouldn't even need a memcpy().
-
-Instead of the existing:
-               memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
-                       sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-
-or my proposed:
-               memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
-                      sizeof(smc_dpm_table_v4_7->dpm_info));
-
-you could just have:
-		smc_pptable->v4 = smc_dpm_table_v4_7->dpm_info;
-
-since they'd be explicitly the same type.
-
-That looks like a much cleaner solution to this. It greatly improves
-readability, reduces the redundancy in the headers, and should be a
-simple mechanical refactoring.
-
-Oh my, I just noticed append_vbios_pptable() in
-drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-which does an open-coded assignment of the entire PPTable_t, including
-padding, and, apparently, the i2c address twice:
-
-        ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
-
-        ppsmc_pptable->Vr2_I2C_address = smc_dpm_table.Vr2_I2C_address;
-
-> As another option - is it possible to have a helper function/macro like
-> memcpy_fortify() which takes the extra arguments and does the extra compile
-> time checks? We will use the helper whenever we have such kind of usage.
-
-I'd rather avoid special cases just for this, especially when the code
-here is already doing a couple things we try to avoid in the rest of
-the kernel (i.e. open coded redundant struct contents, etc).
-
-If something mechanically produced append_vbios_pptable() above, I bet
-we can get rid of the memcpy()s entirely and save a lot of code doing a
-member-to-member assignment.
-
-What do you think?
-
--Kees
-
+ if [ -z "$ksyms" ]; then
+ 	exit 0
 -- 
-Kees Cook
+2.30.2
+
