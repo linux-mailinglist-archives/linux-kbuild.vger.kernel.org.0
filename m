@@ -2,125 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 242BB3F1927
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 14:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D07F3F1A33
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 15:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239259AbhHSM16 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Aug 2021 08:27:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239163AbhHSM1z (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Aug 2021 08:27:55 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB22C061575
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Aug 2021 05:27:19 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id u21so1411117qtw.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Aug 2021 05:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5h8DRQ7Bx+eFzlj90sftRVtoQw5ByFsjYM5vOznvNjM=;
-        b=Lh2+mUHm/NzMtpiU3c8gY3ZdaGQ0hTG/m9kvEQgXEg1RKz+3FaF0xDsca30ygZMj4U
-         71tVT3HVfOJ+uq/ae3O+V2/wNz1ZKRL5oXrfJMrT9ZLS8IGqK1WZlS1VIy7/pMZF5p1U
-         iJ4mL0UEz55891lYfc4fFzXB5mnKfGVvXu5qR2IqQy99MvlG8TXgE0bJRzU78LOMzryT
-         7Xl+HKBwG9bWchW9H2+S/GBzGWNkuVy8E57+OfP+v2vJHi/dIPH6q7xZxwuYZQV9zBN7
-         98qA2j6Yif6IJCGo5nBcNVo6T60PWrjlYnFBGmvL3mwjjuqqvooktAaU5gBmctIMOXRS
-         0LWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5h8DRQ7Bx+eFzlj90sftRVtoQw5ByFsjYM5vOznvNjM=;
-        b=pmKwDDenOQopM2CJY55Q4nJmjSgFXthJqAMcAxk/a7F/stAPp+HxXeUCxhRR2gIg7M
-         4jB7/gMGJNDOWjVoVN1fewiVlcHp1rIQt9DDBbSu0bmlqtCUbIVDlRmIipEYvwBBCgqX
-         p0h8B8KA/32H2nvCHO8Vp4prKkuwNAwKgpRRvd7qZkuy8726ilTaGjRr+uWUCRE0gNUz
-         +WN2bKWF/Mi2gL74LO92IkwWNJqtXi46TAHGswE224Fmg/1deWtLnVk8j1uRlsR3PW4G
-         ulPWDkjb9FndbPeuT6XNZNVld8zcgirtH0VPWkdfvfM1Ynzj9hhmVVjWLj434tilq3fl
-         qwcw==
-X-Gm-Message-State: AOAM533us4gx1inHRnmOoSXdnKhP6i0d0BrKjjwDZvDKH0SaBBa3JQOK
-        59iIQn/QM3i91ajdOtBm702OUg==
-X-Google-Smtp-Source: ABdhPJxwk7vI3dEd2/mwgiJx7X4NGPWrwVGFe3LSMD/MyzGQMgDurTmsWQFQ5lpblgS6WBAbFYMPPg==
-X-Received: by 2002:a05:622a:11cc:: with SMTP id n12mr12404820qtk.363.1629376038633;
-        Thu, 19 Aug 2021 05:27:18 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id d7sm1266808qth.70.2021.08.19.05.27.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 05:27:18 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mGh8e-0016LT-A5; Thu, 19 Aug 2021 09:27:16 -0300
-Date:   Thu, 19 Aug 2021 09:27:16 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
+        id S239629AbhHSNUv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Aug 2021 09:20:51 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:15558 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239615AbhHSNUv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 19 Aug 2021 09:20:51 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1629379215; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=l4dT+tFYjcxU/834O3TlS8Kbm5D9Je72nne0F+3BpO8=; b=ZUattf/FYXzXvufZh6M3qqBCUm+0+iD2ncRfAJuo0rWvT3kZcW2+YEFrdoBaDzjqcjAdt9vQ
+ 9Rz+wtsR5BJKWr0D9kqiSO6oxoKVCb5Zqn7g9ikgejpQZj8brs/d/XSDgkcr5i/ALPfShh55
+ RztuQXSjFn01cPszTFO2RDt16eo=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 611e5a76f746c298d95da994 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 19 Aug 2021 13:19:50
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 6E904C4360D; Thu, 19 Aug 2021 13:19:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+        autolearn=no autolearn_force=no version=3.4.0
+Received: from tynnyri.adurom.net (tynnyri.adurom.net [51.15.11.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2682CC4338F;
+        Thu, 19 Aug 2021 13:19:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 2682CC4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
 To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
+Cc:     linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, ath11k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
         linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
         clang-built-linux@googlegroups.com,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <20210819122716.GP543798@ziepe.ca>
+Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue descriptors
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
+        <20210818060533.3569517-46-keescook@chromium.org>
+Date:   Thu, 19 Aug 2021 16:19:37 +0300
+In-Reply-To: <20210818060533.3569517-46-keescook@chromium.org> (Kees Cook's
+        message of "Tue, 17 Aug 2021 23:05:15 -0700")
+Message-ID: <87eeapbmhi.fsf@tynnyri.adurom.net>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818060533.3569517-57-keescook@chromium.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
+Kees Cook <keescook@chromium.org> writes:
+
 > In preparation for FORTIFY_SOURCE performing compile-time and run-time
 > field bounds checking for memset(), avoid intentionally writing across
 > neighboring fields.
-> 
-> Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> initialized to zero.
-> 
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Cc: Doug Ledford <dledford@redhat.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: linux-rdma@vger.kernel.org
+>
+> Use memset_startat() so memset() doesn't get confused about writing
+> beyond the destination member that is intended to be the starting point
+> of zeroing through the end of the struct. Additionally split up a later
+> field-spanning memset() so that memset() can reason about the size.
+>
+> Cc: Kalle Valo <kvalo@codeaurora.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: ath11k@lists.infradead.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: netdev@vger.kernel.org
 > Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> index bf20a388eabe..f63bf204a7a1 100644
-> --- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
->  	struct ib_umem *umem;
->  
->  	/* This is zero'd when the MR is allocated */
-> +	struct_group(cleared,
->  	union {
->  		/* Used only while the MR is in the cache */
->  		struct {
-> @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
->  			bool is_odp_implicit;
->  		};
->  	};
-> +	);
->  };
->  
->  /* Zero the fields in the mr that are variant depending on usage */
->  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
->  {
-> -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> +	memset(&mr->cleared, 0, sizeof(mr->cleared));
->  }
 
-Why not use the memset_after(mr->umem) here?
+To avoid conflicts I prefer taking this via my ath tree.
 
-Jason
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
