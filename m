@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B109F3F1387
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 08:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8DC23F1395
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 08:32:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230527AbhHSG3t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Aug 2021 02:29:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
+        id S231292AbhHSGcx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Aug 2021 02:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230263AbhHSG3s (ORCPT
+        with ESMTP id S230470AbhHSGcw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Aug 2021 02:29:48 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A817CC061575
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 23:29:12 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id cp15-20020a17090afb8fb029017891959dcbso10631297pjb.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 23:29:12 -0700 (PDT)
+        Thu, 19 Aug 2021 02:32:52 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F95C061756
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 23:32:17 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id w6so3307459plg.9
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Aug 2021 23:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=1kz12NDqoO9zWoOr/K63J+3YgCfYNhAV2a4u1ChokLg=;
-        b=Idc7ZRu5ncBrBaCpLn2Xo6Bb7skPL8rfWvaVplzBb2hgvlbQ+NYM4Tf6Zd697znV4L
-         LXg89AMFPYj3O0Qu3wiZtzquL6NTC9fQd6cfIvXxiG4vnxzhtrt7n3xZp/00acqOPCCF
-         RJ3F+00uTdrz3ONiV3ImEnLw2Tf3Q8ScGDmzs=
+        bh=5dAjMEOi1u5hcGe7TyoRwNUw/I8hhdTgfzLeFcN4Q8o=;
+        b=KqmpKHQRcCzunFkJgijQHZkIJ4JIL/IdZDwlGxxEpu/SpC72hIUu7EHorZp28qzuPj
+         UGHb+ts9oyhH28rO0hWMJSFZsU8WCkODH51xgUHZJhGyBJ+V9erized3H7gY6x4d4E4J
+         WQ0q4DYwVSgl4v5SUbFeww4VYnZwS9CyPEISI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1kz12NDqoO9zWoOr/K63J+3YgCfYNhAV2a4u1ChokLg=;
-        b=jq/i4reIhb+X8ocrjCJ4TYpe12tFk4QoV/o+jgSsQbTvJ0/OhI/aQtT9g3bXpOEnbR
-         11r2ftjl9HcmHRpaUewoF2E6B1gsBq/UNz9qGQooK0gRezsSX0ZuaVuq3gMzK7s1SSmT
-         LGQv+rOsRX6LAyvga26/wsYO9qveF8SP7EPF3ysX2j96XQoZ8hSxN2kw17ltJjawaqJs
-         N6Hd2CrKN/koHr69Og1Q7TEYtKvBej5tOkWSBUdL6oEgRJzcOyl4Ly5g3LIre+hu2fdk
-         sB/8CYDNhxHJFmK6xf4C32xZvSpJR9ZG47nkYOxELbbfaDIqxylve9hyiOnQL/jYVOuU
-         PYXA==
-X-Gm-Message-State: AOAM530/CjKYLvz9saP848xODZEYMqe8VEkv7+vuNZCPrl60bwonm8xF
-        R2tqse77TcqgA4vaSBlntEgS8g==
-X-Google-Smtp-Source: ABdhPJxtgT9/z655pT8mP61QVSDc1qpnlMu3N/QUCsWW/2TXN6ULFIBL7R939CsqWBxDMoInisCeIQ==
-X-Received: by 2002:a17:90b:370d:: with SMTP id mg13mr12031727pjb.117.1629354552228;
-        Wed, 18 Aug 2021 23:29:12 -0700 (PDT)
+        bh=5dAjMEOi1u5hcGe7TyoRwNUw/I8hhdTgfzLeFcN4Q8o=;
+        b=AqXU0Rxr3YX/ovVTwDA9NbJKZKr7t0pyCZ7BDmPvzfKjWkxZfdH856SVdCyuvFi3wj
+         UzMl8/z6A6GAElg9jsrhB/zhFPuBZpxVJbdZSkeEYPY2eE0lMlvGr8CaLD2XZbTqx2Qs
+         zfIAk7e2srF6q+25Gpf4w3/hQUP5KEBWvLzBa7drEeEGk4M7to1k9le8HGFc20wP8Tr2
+         wx/tYrfRWgkznCRD+bQ2jvnmjCbdjw8bcRib6NMddK4Ehg4HZ5ZxtdfRLzJAKL9Pq3Ql
+         KOX0H6qCGCYIsDYiNPbmkyYywfg017gx6+ALBdK95YSeDDXrKzMxla//e7L47SBJPBCy
+         z6vA==
+X-Gm-Message-State: AOAM533riYooITrB13op4oTSCuzn0Jtq0e6aHsEridAtaDw4RXTIzWUq
+        F+1EpAwkgkoYeD0tq7gPhOElnQ==
+X-Google-Smtp-Source: ABdhPJwKJS/uO09vlswMJG+Z0q+TpTEyZ5QVAn9QjYiKntsrleHXbQ3FhRvyK5yp0MWHH3TPk3d+Mw==
+X-Received: by 2002:a17:902:a5c5:b029:12c:9108:d83 with SMTP id t5-20020a170902a5c5b029012c91080d83mr10537901plq.33.1629354736716;
+        Wed, 18 Aug 2021 23:32:16 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d13sm1848559pfn.136.2021.08.18.23.29.11
+        by smtp.gmail.com with ESMTPSA id n185sm2046693pfn.171.2021.08.18.23.32.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 23:29:11 -0700 (PDT)
-Date:   Wed, 18 Aug 2021 23:29:10 -0700
+        Wed, 18 Aug 2021 23:32:15 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 23:32:14 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org,
@@ -53,61 +53,50 @@ Cc:     linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 05/13] kbuild: remove stale *.symversions
-Message-ID: <202108182328.5CF89AC2@keescook>
+Subject: Re: [PATCH 07/13] kbuild: do not remove 'linux' link in
+ scripts/link-vmlinux.sh
+Message-ID: <202108182331.70B390B@keescook>
 References: <20210819005744.644908-1-masahiroy@kernel.org>
- <20210819005744.644908-6-masahiroy@kernel.org>
+ <20210819005744.644908-8-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210819005744.644908-6-masahiroy@kernel.org>
+In-Reply-To: <20210819005744.644908-8-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 09:57:36AM +0900, Masahiro Yamada wrote:
-> cmd_update_lto_symversions merges all the existing *.symversions, but
-> some of them might be stale.
+On Thu, Aug 19, 2021 at 09:57:38AM +0900, Masahiro Yamada wrote:
+> arch/um/Makefile passes the -f option to the ln command:
 > 
-> If the last EXPORT_SYMBOL is removed from a C file, the *.symversions
-> file is not deleted or updated. It contains stale CRCs, which will be
-> used for linking the vmlinux or modules.
+>     $(Q)ln -f $< $@
 > 
-> It is not a big deal when the EXPORT_SYMBOL is really removed. However,
-> when the EXPORT_SYMBOL is moved to another file, the same __crc_<symbol>
-> will appear twice in the merged *.symversions, possibly with different
-> CRCs if the function argument is changed at the same time. It would
-> cause potential breakage of module versioning.
-> 
-> If no EXPORT_SYMBOL is found, let's remove *.symversions explicitly.
+> So, the hard link is always re-created, and the old one is removed
+> anyway.
 
-Ah, and this was an issue for non-LTO builds too? Regardless, nice
-catch.
+Hah, yeah, that's a bit of ARCH=um redundancy.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
 
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 > 
->  scripts/Makefile.build | 2 ++
->  1 file changed, 2 insertions(+)
+>  scripts/link-vmlinux.sh | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 279363266455..585dae34746a 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -177,6 +177,8 @@ cmd_modversions_c =								\
->  	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
->  		$(call cmd_gensymtypes_c,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
->  		    > $@.symversions;						\
-> +	else									\
-> +		rm -f $@.symversions;						\
->  	fi;
->  else
->  cmd_modversions_c =								\
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index a6c4d0bce3ba..7b9c62e4d54a 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -206,7 +206,6 @@ vmlinux_link()
+>  			-Wl,-T,${lds}				\
+>  			${objects}				\
+>  			-lutil -lrt -lpthread
+> -		rm -f linux
+>  	fi
+>  }
+>  
 > -- 
 > 2.30.2
 > 
