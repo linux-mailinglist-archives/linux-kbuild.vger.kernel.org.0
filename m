@@ -2,96 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D07F3F1A33
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 15:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B17FA3F1B61
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 16:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239629AbhHSNUv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Aug 2021 09:20:51 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:15558 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239615AbhHSNUv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Aug 2021 09:20:51 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1629379215; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=l4dT+tFYjcxU/834O3TlS8Kbm5D9Je72nne0F+3BpO8=; b=ZUattf/FYXzXvufZh6M3qqBCUm+0+iD2ncRfAJuo0rWvT3kZcW2+YEFrdoBaDzjqcjAdt9vQ
- 9Rz+wtsR5BJKWr0D9kqiSO6oxoKVCb5Zqn7g9ikgejpQZj8brs/d/XSDgkcr5i/ALPfShh55
- RztuQXSjFn01cPszTFO2RDt16eo=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 611e5a76f746c298d95da994 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 19 Aug 2021 13:19:50
- GMT
-Sender: kvalo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 6E904C4360D; Thu, 19 Aug 2021 13:19:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
-        autolearn=no autolearn_force=no version=3.4.0
-Received: from tynnyri.adurom.net (tynnyri.adurom.net [51.15.11.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2682CC4338F;
-        Thu, 19 Aug 2021 13:19:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 2682CC4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-From:   Kalle Valo <kvalo@codeaurora.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, ath11k@lists.infradead.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        id S240442AbhHSONX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Aug 2021 10:13:23 -0400
+Received: from mail-qk1-f182.google.com ([209.85.222.182]:33571 "EHLO
+        mail-qk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240373AbhHSONX (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 19 Aug 2021 10:13:23 -0400
+Received: by mail-qk1-f182.google.com with SMTP id t66so7346886qkb.0;
+        Thu, 19 Aug 2021 07:12:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EzeHLB2s0wcZiu9diV61Z7RrK3vSIEBc9fmeT4t3UBc=;
+        b=R9p9tZBjPTXp9XZckZZp0gdeRj3GoykEKGdUExpQiH+mEeRXtShYv9iE5DbIXwH+G2
+         BB9Vfa/tneT8aXgrkXNnanw8u24bSfgEF6awuxL5tnLi/ED4+8sXwd3qFJuEpcVfD5ei
+         Rr6VpUxKw7COZkjGg8TYM++dMjI3Sh9K5s0eLRJVtMe1cre+vRhPGN+f08TiIYJTSZzi
+         Zch6/x3AkA9PY2CGE+sqMF/COIsmxmAm13PJGaDuwPytDaIn0LrZeuurHkE3PWYo7Lgp
+         OqeI4En8Bym/ch6Tql1BY3zIm78hVbBySXHL21RIcAvMVI8946R+pnHWP3J0AgzNxV0Z
+         zPEg==
+X-Gm-Message-State: AOAM531zb+Ba63f43dvgaX8aYiKoNSHo1fSWhSdkoEh+dQDcP09HvA0w
+        CssHL5ToUKWkMiSJ0XBeRo0=
+X-Google-Smtp-Source: ABdhPJx03Rfdorqy4YL7QnGDhK6uhe8TF8BGaMVnjZ226XylC+fBlkNt+7F0yaylI5+T/WZxIDUjYQ==
+X-Received: by 2002:a05:620a:4008:: with SMTP id h8mr3863126qko.211.1629382366433;
+        Thu, 19 Aug 2021 07:12:46 -0700 (PDT)
+Received: from fedora (pool-173-68-57-129.nycmny.fios.verizon.net. [173.68.57.129])
+        by smtp.gmail.com with ESMTPSA id q14sm1518663qkl.44.2021.08.19.07.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Aug 2021 07:12:45 -0700 (PDT)
+Date:   Thu, 19 Aug 2021 10:12:43 -0400
+From:   Dennis Zhou <dennis@kernel.org>
+To:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Dennis Zhou <dennis@kernel.org>, linux-kernel@vger.kernel.org,
+        Daniel Micay <danielmicay@gmail.com>,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        linux-mm@kvack.org, Joe Perches <joe@perches.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue descriptors
-References: <20210818060533.3569517-1-keescook@chromium.org>
-        <20210818060533.3569517-46-keescook@chromium.org>
-Date:   Thu, 19 Aug 2021 16:19:37 +0300
-In-Reply-To: <20210818060533.3569517-46-keescook@chromium.org> (Kees Cook's
-        message of "Tue, 17 Aug 2021 23:05:15 -0700")
-Message-ID: <87eeapbmhi.fsf@tynnyri.adurom.net>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Subject: Re: [PATCH v2 6/7] percpu: Add __alloc_size attributes for better
+ bounds checking
+Message-ID: <YR5m25qD8ul5N+mc@fedora>
+References: <20210818214021.2476230-1-keescook@chromium.org>
+ <20210818214021.2476230-7-keescook@chromium.org>
+ <YR2pE9V1P0xmBWUo@fedora>
+ <202108182018.6DA03EA818@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202108182018.6DA03EA818@keescook>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
+On Wed, Aug 18, 2021 at 08:36:50PM -0700, Kees Cook wrote:
+> On Wed, Aug 18, 2021 at 08:42:59PM -0400, Dennis Zhou wrote:
+> > On Wed, Aug 18, 2021 at 02:40:20PM -0700, Kees Cook wrote:
+> > > As already done in GrapheneOS, add the __alloc_size attribute for
+> > > appropriate percpu allocator interfaces, to provide additional hinting
+> > > for better bounds checking, assisting CONFIG_FORTIFY_SOURCE and other
+> > > compiler optimizations.
+> > 
+> > Can you elaborate a little bit for me how this works for percpu? In any
+> > case that's not uniprocessor, any modification is done through address
+> > accessors and not on the returned percpu pointer. Is the metadata kept
+> > by gcc/clang able to transpire the percpu pointer accessors?
+> 
+> That's an excellent point. :P I haven't tested it through the accessors,
+> but I guess it's possible that this is only useful for UP, and even
+> then, only where the access is very close to the "allocation", maybe
+> like:
+> 
 
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
->
-> Use memset_startat() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct. Additionally split up a later
-> field-spanning memset() so that memset() can reason about the size.
->
-> Cc: Kalle Valo <kvalo@codeaurora.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: ath11k@lists.infradead.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+I see that this is already pulled by Andrew, but I think it would be
+good to modify the commit log to add a short bit about this limitation.
+Otherwise, the commit reads as if it's doing way more than it is.
 
-To avoid conflicts I prefer taking this via my ath tree.
+Thanks,
+Dennis
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+> char __percpu *test_buf;
+> 
+> 	char *buf;
+> 	test_var = __alloc_percpu(16, __alignof__(char));
+> 	buf = per_cpu_ptr(test_buf, get_cpu());
+> 	...
+> 	buf[20] = '!';
+> 
+> -Kees
+> 
+> > 
+> > Thanks,
+> > Dennis
+> > 
+> > > 
+> > > Co-developed-by: Daniel Micay <danielmicay@gmail.com>
+> > > Signed-off-by: Daniel Micay <danielmicay@gmail.com>
+> > > Cc: Dennis Zhou <dennis@kernel.org>
+> > > Cc: Tejun Heo <tj@kernel.org>
+> > > Cc: Christoph Lameter <cl@linux.com>
+> > > Cc: linux-mm@kvack.org
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > >  include/linux/percpu.h | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/include/linux/percpu.h b/include/linux/percpu.h
+> > > index 5e76af742c80..119f41815b32 100644
+> > > --- a/include/linux/percpu.h
+> > > +++ b/include/linux/percpu.h
+> > > @@ -123,6 +123,7 @@ extern int __init pcpu_page_first_chunk(size_t reserved_size,
+> > >  				pcpu_fc_populate_pte_fn_t populate_pte_fn);
+> > >  #endif
+> > >  
+> > > +__alloc_size(1)
+> > >  extern void __percpu *__alloc_reserved_percpu(size_t size, size_t align);
+> > >  extern bool __is_kernel_percpu_address(unsigned long addr, unsigned long *can_addr);
+> > >  extern bool is_kernel_percpu_address(unsigned long addr);
+> > > @@ -131,7 +132,9 @@ extern bool is_kernel_percpu_address(unsigned long addr);
+> > >  extern void __init setup_per_cpu_areas(void);
+> > >  #endif
+> > >  
+> > > +__alloc_size(1)
+> > >  extern void __percpu *__alloc_percpu_gfp(size_t size, size_t align, gfp_t gfp);
+> > > +__alloc_size(1)
+> > >  extern void __percpu *__alloc_percpu(size_t size, size_t align);
+> > >  extern void free_percpu(void __percpu *__pdata);
+> > >  extern phys_addr_t per_cpu_ptr_to_phys(void *addr);
+> > > -- 
+> > > 2.30.2
+> > > 
+> 
+> -- 
+> Kees Cook
