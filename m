@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A31993F0FC7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 02:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C1473F0FC3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Aug 2021 02:58:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235517AbhHSA7e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Aug 2021 20:59:34 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:60780 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234824AbhHSA7a (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
+        id S235541AbhHSA7a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Wed, 18 Aug 2021 20:59:30 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:60764 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235445AbhHSA72 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Aug 2021 20:59:28 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 17J0vl4u017219;
-        Thu, 19 Aug 2021 09:57:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 17J0vl4u017219
+        by conuserg-10.nifty.com with ESMTP id 17J0vl4v017219;
+        Thu, 19 Aug 2021 09:57:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 17J0vl4v017219
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629334674;
-        bh=xt2zcw+pYyWVZAgR/pWyQdOfFm5v/zBCFRnsJjm5W+g=;
+        s=dec2015msa; t=1629334675;
+        bh=KLWNtWoQX5iPqAI7oX4v3voqgZg5h4Fqa51BzWNUUW8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EVYycanf/Px0e8PoW2lFFed+KqN6sn0XjbLd8Th2HUihUtpB6zedb+tpPNmmT/lYv
-         tMZX+fLiLAEENxxda+NsCARijTUPMaLjSMYXvZnZwktFU8n/GTN6rAQX9k/B27eQLH
-         J2Fibx45GU7V/8SPWcjqaoCCuWzwgT4Oe+FGCY2oeUzAfa2xUU+e3DbdOza5RNS3G0
-         eqw6kSPoyHg1igdZt/nfl5CGlDMqS5NTc5xylz3I7k44EQdEGGxEpOEKmo9SeTn2Fv
-         PBOQNxKjKTDcAPWlE0zU4fojAfKtNHC/WVeLDGZr+wORuPXvXR/6CumwUEb9pYtytJ
-         /z5GcTXvUZRAA==
+        b=yWgZRPmbMbnn13jT/bEgVsi3rPpo27UJvvJfS5WltzGWbTj9JTPCObIK9LVy0RxgL
+         2imoI94x27iFJAdYVdvk6IEjrYJwLzVL8eyr14ogmMuc8EJkES6hWMxPNAeTV42tdZ
+         mj9y5rLM2P5DmQ6jRCpTaJTNuMSvHIswtDLIMgZ7p6EliwUSWEAYRcSE6Z8CPEdfML
+         xbkLu8rzaEFwPHwB2N5FMb/sO3jDB3u5c7vIhHE0v1M4LS1JWKgr4IU7j/KYa6df2d
+         poBU5i2Zkq3iDmLcJCMrKaxmSAm58gTDL0GynNR0RYHHqga2KFd5Y726a0n/C/DDgH
+         XkN+3RwE8olEQ==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     Sami Tolvanen <samitolvanen@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         clang-built-linux@googlegroups.com
-Subject: [PATCH 11/13] kbuild: always postpone CRC links for module versioning
-Date:   Thu, 19 Aug 2021 09:57:42 +0900
-Message-Id: <20210819005744.644908-12-masahiroy@kernel.org>
+Subject: [PATCH 12/13] kbuild: merge cmd_modversions_c and cmd_modversions_S
+Date:   Thu, 19 Aug 2021 09:57:43 +0900
+Message-Id: <20210819005744.644908-13-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210819005744.644908-1-masahiroy@kernel.org>
 References: <20210819005744.644908-1-masahiroy@kernel.org>
@@ -48,147 +48,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When CONFIG_MODVERSIONS=y, the CRCs of EXPORT_SYMBOL are linked into
-*.o files in-place.
+Now cmd_modversions_c and cmd_modversions_S are similar.
 
-It is impossible for Clang LTO because *.o files are not ELF, but LLVM
-bitcode. The CRCs are stored in separate *.symversions files, and then
-supplied to the modpost link.
+The latter uses $(OBJDUMP) -h, but it can be replaced with $(NM).
 
-Let's do so for CONFIG_LTO_CLANG=n is possible, and unify the module
-versioning code.
+$(NM) works for both ELF and LLVM bitcode (if $(NM) is llvm-nm).
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build  | 32 ++++++--------------------------
- scripts/link-vmlinux.sh | 22 ++++++++++++++--------
- 2 files changed, 20 insertions(+), 34 deletions(-)
+ scripts/Makefile.build | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 957addea830b..874e84a1f3fc 100644
+index 874e84a1f3fc..97392c26ebd7 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -158,17 +158,12 @@ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
- ifdef CONFIG_MODVERSIONS
- # When module versioning is enabled the following steps are executed:
- # o compile a <file>.o from <file>.c
--# o if <file>.o doesn't contain a __ksymtab version, i.e. does
--#   not export symbols, it's done.
-+# o if <file>.o doesn't contain __ksymtab* symbols, i.e. does
-+#   not export symbols, create an empty *.symversions
- # o otherwise, we calculate symbol versions using the good old
- #   genksyms on the preprocessed source and postprocess them in a way
- #   that they are usable as a linker script
--# o generate .tmp_<file>.o from <file>.o using the linker to
--#   replace the unresolved symbols __crc_exported_symbol with
--#   the actual value of the checksum generated by genksyms
--# o remove .tmp_<file>.o to <file>.o
+@@ -166,13 +166,16 @@ ifdef CONFIG_MODVERSIONS
  
--ifdef CONFIG_LTO_CLANG
  # Generate .o.symversions files for each .o with exported symbols, and link these
  # to the kernel and/or modules at the end.
- cmd_modversions_c =								\
-@@ -178,18 +173,6 @@ cmd_modversions_c =								\
+-cmd_modversions_c =								\
++cmd_modversions =								\
+ 	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
+-		$(call cmd_gensymtypes_c,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
++		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
+ 		    > $@.symversions;						\
  	else									\
  		rm -f $@.symversions;						\
  	fi;
--else
--cmd_modversions_c =								\
--	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
--		$(call cmd_gensymtypes_c,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
--		    > $(@D)/.tmp_$(@F:.o=.ver);					\
--										\
--		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
--			-T $(@D)/.tmp_$(@F:.o=.ver);				\
--		mv -f $(@D)/.tmp_$(@F) $@;					\
--		rm -f $(@D)/.tmp_$(@F:.o=.ver);					\
--	fi
--endif
++
++cmd_modversions_c = $(call cmd_modversions,c)
++
  endif
  
  ifdef CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
-@@ -348,12 +331,9 @@ ifdef CONFIG_ASM_MODVERSIONS
- cmd_modversions_S =								\
- 	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
- 		$(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
--		    > $(@D)/.tmp_$(@F:.o=.ver);					\
--										\
--		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
--			-T $(@D)/.tmp_$(@F:.o=.ver);				\
--		mv -f $(@D)/.tmp_$(@F) $@;					\
--		rm -f $(@D)/.tmp_$(@F:.o=.ver);					\
-+		    > $@.symversions;						\
-+	else									\
-+		rm -rf $@.symversions;						\
- 	fi
+@@ -327,14 +330,8 @@ ifdef CONFIG_ASM_MODVERSIONS
+ 
+ # versioning matches the C process described above, with difference that
+ # we parse asm-prototypes.h C header to get function definitions.
++cmd_modversions_S = $(call cmd_modversions,S)
+ 
+-cmd_modversions_S =								\
+-	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
+-		$(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
+-		    > $@.symversions;						\
+-	else									\
+-		rm -rf $@.symversions;						\
+-	fi
  endif
  
-@@ -424,7 +404,7 @@ $(obj)/lib.a: $(lib-y) FORCE
- # Rule to prelink modules
- #
- 
--ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
-+ifdef CONFIG_MODVERSIONS
- 
- cmd_merge_symver =					\
- 	rm -f $@;					\
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 17976609c2d8..66ced6ff8e65 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -59,8 +59,7 @@ append_symversion()
- 	fi
- }
- 
--# If CONFIG_LTO_CLANG is selected, collect generated symbol versions into
--# .tmp_symversions.lds
-+# Collect generated symbol versions into .tmp_symversions.lds
- gen_symversions()
- {
- 	info GEN .tmp_symversions.lds
-@@ -94,14 +93,13 @@ modpost_link()
- 		${KBUILD_VMLINUX_LIBS}				\
- 		--end-group"
- 
-+	if [ -n "${CONFIG_MODVERSIONS}" ]; then
-+		lds="${lds} -T .tmp_symversions.lds"
-+	fi
-+
- 	if [ -n "${CONFIG_LTO_CLANG}" ]; then
- 		gen_initcalls
--		lds="-T .tmp_initcalls.lds"
--
--		if [ -n "${CONFIG_MODVERSIONS}" ]; then
--			gen_symversions
--			lds="${lds} -T .tmp_symversions.lds"
--		fi
-+		lds="${lds} -T .tmp_initcalls.lds"
- 
- 		# This might take a while, so indicate that we're doing
- 		# an LTO link
-@@ -198,6 +196,10 @@ vmlinux_link()
- 
- 	ldflags="${ldflags} ${wl}--script=${objtree}/${KBUILD_LDS}"
- 
-+	if [ -n "${CONFIG_MODVERSIONS}" ]; then
-+		ldflags="${ldflags} ${wl}--script=.tmp_symversions.lds"
-+	fi
-+
- 	# The kallsyms linking does not need debug symbols included.
- 	if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
- 		ldflags="${ldflags} ${wl}--strip-debug"
-@@ -351,6 +353,10 @@ fi;
- # final build of init/
- ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init need-builtin=1
- 
-+if [ -n "${CONFIG_MODVERSIONS}" ]; then
-+	gen_symversions
-+fi
-+
- #link vmlinux.o
- modpost_link vmlinux.o
- objtool_link vmlinux.o
+ $(obj)/%.o: $(src)/%.S $(objtool_dep) FORCE
 -- 
 2.30.2
 
