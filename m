@@ -2,24 +2,36 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 866AC3F324B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Aug 2021 19:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC56B3F33BD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Aug 2021 20:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbhHTReh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Aug 2021 13:34:37 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:37202 "EHLO 1wt.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229516AbhHTReg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Aug 2021 13:34:36 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 17KHXall026146;
-        Fri, 20 Aug 2021 19:33:36 +0200
-Date:   Fri, 20 Aug 2021 19:33:36 +0200
-From:   Willy Tarreau <w@1wt.eu>
+        id S236212AbhHTS2x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Aug 2021 14:28:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236378AbhHTS2u (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 20 Aug 2021 14:28:50 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F86C061756;
+        Fri, 20 Aug 2021 11:28:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tdQqeccCak7gZvzJh0sTAGQqu+YU4rsLzWI4kGslWng=; b=ZJbBe6oXsxX7AoqefdSkvbjVKX
+        P5f7bDtiCLrra3haNmrU9N9PCmgaNVQ5s/CNFqinUSqm4Qc/Jnk9gM9hVkQzYqGyZbqN8D70oNeeE
+        Xvyrwn0m9SzLjkao8fmr7ydM/5Xhiks8Z6mqMbYL+0PnJGDerVm9q+bngGnHRsXlMwzv8Wm9u/RQN
+        67qOSlYM5mos5r+CRhC630VaCVtW7wNULIkBGJDl+s+l0hkEUmzg6EzmIWL5VVWXP9t/mQJU/jihx
+        RPpHOVJGWmqyuoxA/Wb2nbldQOg6ZTwjd9PxbLAjIs2N4FRTEhrAhohu3r3RVPRFZiDQTLy+wHi/A
+        smy81+gg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mH9DC-006qfn-8u; Fri, 20 Aug 2021 18:26:17 +0000
+Date:   Fri, 20 Aug 2021 19:25:50 +0100
+From:   Matthew Wilcox <willy@infradead.org>
 To:     Joe Perches <joe@perches.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
         Dwaipayan Ray <dwaipayanray1@gmail.com>,
         LukasBulwahn <lukas.bulwahn@gmail.com>,
         linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
@@ -28,13 +40,12 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         linux-csky@vger.kernel.org
 Subject: Re: What is the oldest perl version being used with the kernel ?
  update oldest supported to 5.14 ?
-Message-ID: <20210820173336.GA26130@1wt.eu>
+Message-ID: <YR/zrjiCwnzMMcmA@casper.infradead.org>
 References: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -59,7 +70,17 @@ On Fri, Aug 20, 2021 at 10:27:59AM -0700, Joe Perches wrote:
 > 
 > Any objections or suggestions for a newer minimum version?
 
-It's probably reasonable, even the Slackware 14.2 on my home PC, which
-is starting to date, ships a 5.22.
+Not an objection per se, but some data points.
 
-Willy
+Oracle Linux 5 (released 2007, still under support) has perl 5.8.8
+Oracle Linux 6 (released 2011) has perl 5.10.1
+Oracle Linux 7 (released 2014) has perl 5.16.3
+Oracle Linux 8 (released 2019) has perl 5.26.3
+
+I don't know that we need to be able to build on a distro from 2007
+or even from 2011.  I think it's reasonable to require updating to a
+2014 distro in order to build a 2021 kernel.
+
+For comparison, we currently require gcc-4.9 to build the kernel, and
+4.9.0 was released in 2014.  So perl-5.16 wouldn't be an unreasonable
+requirement, I believe.
