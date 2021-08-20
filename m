@@ -2,88 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A66E3F3140
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Aug 2021 18:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD613F323B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Aug 2021 19:28:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233582AbhHTQME (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Aug 2021 12:12:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235634AbhHTQLx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Aug 2021 12:11:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D147E61244;
-        Fri, 20 Aug 2021 16:11:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629475875;
-        bh=QtHvxXjD6Lxo5RaKara/Y2QvqxDS6ThacQcb91QFjy8=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Cm8q6m2PtljGp+99RX9+Khsax5QCk8ma2yXHvKEh8RrOqdQSjmdQD2FlsFBC5lfPd
-         hDf7fZUEaGki4tlDFutbg5ca6FLVXGfPxHWaOBD4XhqmxjD5ePMawLPi6bmTjgSHcj
-         8DgCDWq5VV5OHyCMsJm5rGAQ/UScpbb7txwU6ToO1lJuBsRHIKQLuxTBS3CKRDxgkY
-         zbUcPhLTjOj0CWY3U2jpczxlNukz8oI1saQ7GA/O6BTQCSTo/8mMx+D4koYcDYvj2z
-         VhBU9Lvgl0wa0B8f5+WyDtCS3bjffcF1LCILvKtgT/qWDSeF7AMzYCV7dZ3fCz/Xm4
-         QMcNMCjdf825A==
-Date:   Fri, 20 Aug 2021 18:11:10 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-staging@lists.linux.dev,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 55/63] HID: roccat: Use struct_group() to zero
- kone_mouse_event
-In-Reply-To: <202108200857.FA4AA13@keescook>
-Message-ID: <nycvar.YFH.7.76.2108201810560.15313@cbobk.fhfr.pm>
-References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-56-keescook@chromium.org> <nycvar.YFH.7.76.2108201501510.15313@cbobk.fhfr.pm> <CAJr-aD=6-g7VRw2Hw0dhs+RrtA=Tago5r6Dukfw_gGPB0YYKOQ@mail.gmail.com>
- <nycvar.YFH.7.76.2108201725360.15313@cbobk.fhfr.pm> <202108200857.FA4AA13@keescook>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S233386AbhHTR2m (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Aug 2021 13:28:42 -0400
+Received: from smtprelay0233.hostedemail.com ([216.40.44.233]:36192 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S233320AbhHTR2m (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 20 Aug 2021 13:28:42 -0400
+Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id C2CF5101CE23F;
+        Fri, 20 Aug 2021 17:28:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id D00E220D764;
+        Fri, 20 Aug 2021 17:28:00 +0000 (UTC)
+Message-ID: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
+Subject: What is the oldest perl version being used with the kernel ? update
+ oldest supported to 5.14 ?
+From:   Joe Perches <joe@perches.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        LukasBulwahn <lukas.bulwahn@gmail.com>,
+        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        linux-csky@vger.kernel.org
+Date:   Fri, 20 Aug 2021 10:27:59 -0700
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=2.59
+X-Stat-Signature: wojh18d5ecfq9mr8d36u5p8pct8mmia8
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: D00E220D764
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18C1in7YDsawPZeoRsFE518C5c7FR0zQJA=
+X-HE-Tag: 1629480480-234339
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 20 Aug 2021, Kees Cook wrote:
+Perl 5.8 is nearly 20 years old now.
 
-> > > > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > > > field bounds checking for memset(), avoid intentionally writing across
-> > > > > neighboring fields.
-> > > > >
-> > > > > Add struct_group() to mark region of struct kone_mouse_event that should
-> > > > > be initialized to zero.
-> > > > >
-> > > > > Cc: Stefan Achatz <erazor_de@users.sourceforge.net>
-> > > > > Cc: Jiri Kosina <jikos@kernel.org>
-> > > > > Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > Cc: linux-input@vger.kernel.org
-> > > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > >
-> > > > Applied, thank you Kees.
-> > > >
-> > > 
-> > > Eek! No, this will break the build: struct_group() is not yet in the tree.
-> > > I can carry this with an Ack, etc.
-> > 
-> > I was pretty sure I saw struct_group() already in linux-next, but that was 
-> > apparently a vacation-induced brainfart, sorry. Dropping.
-> 
-> Oh, for these two patches, can I add your Acked-by while I carry them?
+https://en.wikipedia.org/wiki/Perl_5_version_history
 
-Yes, thanks, and sorry for the noise.
+checkpatch uses regexes that are incompatible with perl versions
+earlier than 5.10, but these uses are currently runtime checked
+and skipped if the perl version is too old.  This runtime checking
+skips several useful tests.
 
--- 
-Jiri Kosina
-SUSE Labs
+There is also some desire for tools like kernel-doc, checkpatch and
+get_maintainer to use a common library of regexes and functions:
+https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
+
+It'd be useful to set the minimum perl version to something more modern.
+
+I believe perl 5.14, now only a decade old, is a reasonable target.
+
+Any objections or suggestions for a newer minimum version?
 
