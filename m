@@ -2,113 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F8E3F38DF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Aug 2021 07:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA953F3A2B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Aug 2021 12:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231704AbhHUFnu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Aug 2021 01:43:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbhHUFnt (ORCPT
+        id S233660AbhHUKSm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 21 Aug 2021 06:18:42 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:38977 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230101AbhHUKSl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Aug 2021 01:43:49 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F83C061575
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Aug 2021 22:43:10 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso15230262pjh.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Aug 2021 22:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9sE8/Gezsq3ktVT1yBNWUnjMOxfVYbA50Rdyo+0rKjg=;
-        b=i+WrkoXjNKg4kf7Ku0gUlQx7eIoc5b0b0YLG92TKYL9BVo0rPqj+uzdLB+MjPabU3J
-         HjWDWfEsdrVtR+NH2G9+XReIX26V18hHaRdIgzgV8JpSXS7H5HUc9NyL4mjtoZdJexDM
-         PZIXoQghEQmI+ZcvoTlg3lVMhlUTAKbTqJLVM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9sE8/Gezsq3ktVT1yBNWUnjMOxfVYbA50Rdyo+0rKjg=;
-        b=ohgP4fnu6aBZ6bjD+IIv0enoQHeqpkAvcoMzbtK9aMjpmHMaXv1hU98/kGYMuS6v/q
-         k6EYrAT73vJG7rfoGwPV9+XHvqpAKYbhuXe0c0zYZduy0Bp7AAnK/gavOt4V2tecFBBK
-         /RHGtP2LCsqBSuRK1brnGsPBsWCMkfooUIpmXJXr/rPYNN490K2vNmLeQl1AnwtyoIlA
-         dyhSeNn3i3a87FPhzpY7MroaNUyBw2htLlKOXNm8GWe+05xQjpaZD8IqU1i6puY2oJ/C
-         86dM4z96kXJXW/ToPYYd5nTFf70hDMu+Q7Y4R/xogNr7D2fo8xEubxac/pSEIQqMN82X
-         U+2w==
-X-Gm-Message-State: AOAM531n3pvAV/66CWxBnL70DwAEJhJVGl39ElVo7T/25XSYJGGLa0Dy
-        RGaGCMA08/iPxAKPrLA8NDjleg==
-X-Google-Smtp-Source: ABdhPJzgQUYdkk9J8dqAROFTOnmvvqyCpq+uP6WafjZ2SeuiM0a5Vtnmi8qv2wGXx2oleUl8CurB6g==
-X-Received: by 2002:a17:902:bb92:b0:12d:ad99:7fb6 with SMTP id m18-20020a170902bb9200b0012dad997fb6mr19095378pls.49.1629524590503;
-        Fri, 20 Aug 2021 22:43:10 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n11sm7570761pjf.17.2021.08.20.22.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 22:43:09 -0700 (PDT)
-Date:   Fri, 20 Aug 2021 22:43:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        LukasBulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        linux-csky@vger.kernel.org
-Subject: Re: What is the oldest perl version being used with the kernel ?
- update oldest supported to 5.14 ?
-Message-ID: <202108201856.41AB391@keescook>
-References: <37ec9a36a5f7c71a8e23ab45fd3b7f20efd5da24.camel@perches.com>
- <YR/zrjiCwnzMMcmA@casper.infradead.org>
+        Sat, 21 Aug 2021 06:18:41 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1629541083; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=UpM1DyTEkig259V+pL57ps65feNkTSUqUFyxt1prq3Y=; b=dycITJdaFNTz/HvKFWl5e9rx2vFuE6onbdmoFncCW0p0sXvOAAFz6eEQxNvwH722nCSvBavE
+ uR5hhlg5oHyHRJi/lWwuZcyJE81XTlGKKngQtEmoxdXeuaagFqL0sG5up+VfKhwZRmBBd8tf
+ wupo3Uq1jGiw+qOBlHRmcmFexww=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 6120d2c989fbdf3ffed16f82 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 21 Aug 2021 10:17:45
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1D71BC43460; Sat, 21 Aug 2021 10:17:45 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+        autolearn=no autolearn_force=no version=3.4.0
+Received: from tykki (tynnyri.adurom.net [51.15.11.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1ED37C4338F;
+        Sat, 21 Aug 2021 10:17:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 1ED37C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, ath11k@lists.infradead.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue descriptors
+References: <20210818060533.3569517-1-keescook@chromium.org>
+        <20210818060533.3569517-46-keescook@chromium.org>
+        <87eeapbmhi.fsf@tynnyri.adurom.net> <202108190923.30FD4FC6E@keescook>
+Date:   Sat, 21 Aug 2021 13:17:36 +0300
+In-Reply-To: <202108190923.30FD4FC6E@keescook> (Kees Cook's message of "Thu,
+        19 Aug 2021 09:25:01 -0700")
+Message-ID: <87pmu7t83j.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YR/zrjiCwnzMMcmA@casper.infradead.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 07:25:50PM +0100, Matthew Wilcox wrote:
-> On Fri, Aug 20, 2021 at 10:27:59AM -0700, Joe Perches wrote:
-> > Perl 5.8 is nearly 20 years old now.
-> > 
-> > https://en.wikipedia.org/wiki/Perl_5_version_history
-> > 
-> > checkpatch uses regexes that are incompatible with perl versions
-> > earlier than 5.10, but these uses are currently runtime checked
-> > and skipped if the perl version is too old.  This runtime checking
-> > skips several useful tests.
-> > 
-> > There is also some desire for tools like kernel-doc, checkpatch and
-> > get_maintainer to use a common library of regexes and functions:
-> > https://lore.kernel.org/lkml/YR2lexDd9N0sWxIW@casper.infradead.org/
-> > 
-> > It'd be useful to set the minimum perl version to something more modern.
-> > 
-> > I believe perl 5.14, now only a decade old, is a reasonable target.
-> > 
-> > Any objections or suggestions for a newer minimum version?
-> 
-> Not an objection per se, but some data points.
-> 
-> Oracle Linux 5 (released 2007, still under support) has perl 5.8.8
-> Oracle Linux 6 (released 2011) has perl 5.10.1
-> Oracle Linux 7 (released 2014) has perl 5.16.3
-> Oracle Linux 8 (released 2019) has perl 5.26.3
-> 
-> I don't know that we need to be able to build on a distro from 2007
-> or even from 2011.  I think it's reasonable to require updating to a
-> 2014 distro in order to build a 2021 kernel.
-> 
-> For comparison, we currently require gcc-4.9 to build the kernel, and
-> 4.9.0 was released in 2014.  So perl-5.16 wouldn't be an unreasonable
-> requirement, I believe.
+Kees Cook <keescook@chromium.org> writes:
 
-Ubuntu name/version mapping: https://wiki.ubuntu.com/
-Ubuntu Perl versions: https://launchpad.net/ubuntu/+source/perl
+> On Thu, Aug 19, 2021 at 04:19:37PM +0300, Kalle Valo wrote:
+>> Kees Cook <keescook@chromium.org> writes:
+>> 
+>> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>> > field bounds checking for memset(), avoid intentionally writing across
+>> > neighboring fields.
+>> >
+>> > Use memset_startat() so memset() doesn't get confused about writing
+>> > beyond the destination member that is intended to be the starting point
+>> > of zeroing through the end of the struct. Additionally split up a later
+>> > field-spanning memset() so that memset() can reason about the size.
+>> >
+>> > Cc: Kalle Valo <kvalo@codeaurora.org>
+>> > Cc: "David S. Miller" <davem@davemloft.net>
+>> > Cc: Jakub Kicinski <kuba@kernel.org>
+>> > Cc: ath11k@lists.infradead.org
+>> > Cc: linux-wireless@vger.kernel.org
+>> > Cc: netdev@vger.kernel.org
+>> > Signed-off-by: Kees Cook <keescook@chromium.org>
+>> 
+>> To avoid conflicts I prefer taking this via my ath tree.
+>
+> The memset helpers are introduced as part of this series, so that makes
+> things more difficult. Do you want me to create a branch with the
+> helpers that you can merge?
 
-The oldest publicly supported Ubuntu (18.04 Bionic) uses Perl 5.26.
+Is this patch really worth the extra complexity? Why can't I apply this
+ath11k patch after the helpers have landed Linus' tree? That would be
+very simple.
 
 -- 
-Kees Cook
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
