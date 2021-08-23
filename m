@@ -2,153 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4E283F4480
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Aug 2021 06:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 407223F4D2D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Aug 2021 17:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231277AbhHWE4v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Aug 2021 00:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbhHWE4u (ORCPT
+        id S231204AbhHWPRM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Aug 2021 11:17:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27545 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230470AbhHWPRM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Aug 2021 00:56:50 -0400
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB190C061575;
-        Sun, 22 Aug 2021 21:56:08 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4GtKh13JJDz9sWS;
-        Mon, 23 Aug 2021 14:56:01 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1629694564;
-        bh=R8PBxC/HynH4xEcQANJCH6rE1jH+u8gsKBuxIbMNLTs=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=a1iW2Pt1kHHliRzWnsgUWnUPXzAPa6K0czSeVW/lgopJWaUMSBdXd9RvxA2oo+2Bi
-         pmRIJH5PBg6bByQY/cxKNxkoprS4/Y5ACVbXiYIchmTaPZGQCOlmNym0Z7HGM2wM4c
-         4Fp2ulP/ZaQxpRgJz4EDHxe4xx6yYeKW+hpsTCDkiHP5QbMve8C48MLs61Q+vEPfdI
-         VTqXFsDNZDd3tnl+2/9gl12uMzzs6VCYFegjMVs0YdD8TM9avqLkWjZK74C6aBMExz
-         Etv9zteIN82cJPx68a7lGtZT15hKDTFtgcJJIQISdDBokbfeJWLCrCJY//wTldYX9G
-         LRVCHoyBJgAkQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linuxppc-dev@lists.ozlabs.org, kernel test robot <lkp@intel.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero
- spe regs
-In-Reply-To: <202108200851.8AF09CDB71@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-58-keescook@chromium.org>
- <877dggeesw.fsf@mpe.ellerman.id.au> <202108200851.8AF09CDB71@keescook>
-Date:   Mon, 23 Aug 2021 14:55:58 +1000
-Message-ID: <87k0kcdajl.fsf@mpe.ellerman.id.au>
+        Mon, 23 Aug 2021 11:17:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629731789;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DN1b/ZryAIDQdlT9EYOFyEAWtXpqjUmEBD/b/C3QFkQ=;
+        b=CdbPIEq3nX11WfwPTN6qcUKfceqMaA4jAW8mbp+gXioAFLhzH2IS6x+YhppjOXxV+5+0Rl
+        6r3bPQotegA3ZCGShJSb7uUCrulJru3xvKXGm8o47bfOtbTVxFxhWnCc6SVUl3dKUp+OET
+        lmZ0/4idaRa8Ds4rm9VPnfbxoSodXkI=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-UUG0mE10N-W_oD8gdBB4Tg-1; Mon, 23 Aug 2021 11:16:27 -0400
+X-MC-Unique: UUG0mE10N-W_oD8gdBB4Tg-1
+Received: by mail-ot1-f70.google.com with SMTP id c21-20020a0568301af500b0051af51e2a5bso7077361otd.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Aug 2021 08:16:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=DN1b/ZryAIDQdlT9EYOFyEAWtXpqjUmEBD/b/C3QFkQ=;
+        b=LqDpTrUcHVsMnG+Ep46DyNJVq3n2jOnD0fKJIdz84z/QbfZn/qCWCF2YE5qX+V+ajK
+         H/yTCIF0JdXPQTwPzOlRklQsQW3UrMu+Jn5jUvqvifHHx73uGX7xSJ6bJBDD+xad5NBI
+         SpeiaSTCwq0HNBpcze3wEOQngfWrLXXTb89lFi2eeAQqDorpSFVZYGU65z27qgJ/yEgg
+         ggDZwbLs6ngvvM8Tda1w+XeK3KkzjyxbC66K4DTvelLO+CmI4C9AsbqrKpuDjGcrbkxe
+         nwVYDkqdBSvnnBjGpxVZG4e2WNkZT9mYJuiR6wktGSnn97tNO9VsFEmsalSbrRMxsLqD
+         ID7w==
+X-Gm-Message-State: AOAM530w7zhzvRdHTR2eEAtKBywhD94ZdcNapSxEoTfecNizawCk1IRt
+        B+N7dvgNPZqiubMBbSbgXzPKePQSR/0Oc2nukkU+K1PySzoWoH5VWJvw3uk5aYs9yDN+0jlR2Rg
+        +2h7L3dWbeeuQS6UPG++Spl8K
+X-Received: by 2002:a05:6830:1dac:: with SMTP id z12mr24543865oti.52.1629731787081;
+        Mon, 23 Aug 2021 08:16:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqOeF/H0qDGnn9D02GiZCSA4DRcSR8LiSLGylhEba8t1EsbxXzTz8dIto+iigT90XxNROCzg==
+X-Received: by 2002:a05:6830:1dac:: with SMTP id z12mr24543850oti.52.1629731786895;
+        Mon, 23 Aug 2021 08:16:26 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id x1sm2557766otu.8.2021.08.23.08.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 08:16:26 -0700 (PDT)
+Date:   Mon, 23 Aug 2021 09:16:24 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Yishai Hadas <yishaih@nvidia.com>
+Cc:     <bhelgaas@google.com>, <corbet@lwn.net>,
+        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
+        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
+        <michal.lkml@markovi.net>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <mgurtovoy@nvidia.com>, <jgg@nvidia.com>, <maorg@nvidia.com>,
+        <leonro@nvidia.com>
+Subject: Re: [PATCH V3 06/13] vfio/pci: Split the pci_driver code out of
+ vfio_pci_core.c
+Message-ID: <20210823091624.697c67d6.alex.williamson@redhat.com>
+In-Reply-To: <20210822143602.153816-7-yishaih@nvidia.com>
+References: <20210822143602.153816-1-yishaih@nvidia.com>
+        <20210822143602.153816-7-yishaih@nvidia.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
-> On Fri, Aug 20, 2021 at 05:49:35PM +1000, Michael Ellerman wrote:
->> Kees Cook <keescook@chromium.org> writes:
->> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
->> > field bounds checking for memset(), avoid intentionally writing across
->> > neighboring fields.
->> >
->> > Add a struct_group() for the spe registers so that memset() can correctly reason
->> > about the size:
->> >
->> >    In function 'fortify_memset_chk',
->> >        inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/signal_32.c:539:3:
->> >>> include/linux/fortify-string.h:195:4: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
->> >      195 |    __write_overflow_field();
->> >          |    ^~~~~~~~~~~~~~~~~~~~~~~~
->> >
->> > Cc: Michael Ellerman <mpe@ellerman.id.au>
->> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->> > Cc: Paul Mackerras <paulus@samba.org>
->> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
->> > Cc: Sudeep Holla <sudeep.holla@arm.com>
->> > Cc: linuxppc-dev@lists.ozlabs.org
->> > Reported-by: kernel test robot <lkp@intel.com>
->> > Signed-off-by: Kees Cook <keescook@chromium.org>
->> > ---
->> >  arch/powerpc/include/asm/processor.h | 6 ++++--
->> >  arch/powerpc/kernel/signal_32.c      | 6 +++---
->> >  2 files changed, 7 insertions(+), 5 deletions(-)
->> >
->> > diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/include/asm/processor.h
->> > index f348e564f7dd..05dc567cb9a8 100644
->> > --- a/arch/powerpc/include/asm/processor.h
->> > +++ b/arch/powerpc/include/asm/processor.h
->> > @@ -191,8 +191,10 @@ struct thread_struct {
->> >  	int		used_vsr;	/* set if process has used VSX */
->> >  #endif /* CONFIG_VSX */
->> >  #ifdef CONFIG_SPE
->> > -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
->> > -	u64		acc;		/* Accumulator */
->> > +	struct_group(spe,
->> > +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
->> > +		u64		acc;		/* Accumulator */
->> > +	);
->> >  	unsigned long	spefscr;	/* SPE & eFP status */
->> >  	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
->> >  					   call or trap return */
->> > diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/signal_32.c
->> > index 0608581967f0..77b86caf5c51 100644
->> > --- a/arch/powerpc/kernel/signal_32.c
->> > +++ b/arch/powerpc/kernel/signal_32.c
->> > @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *regs,
->> >  	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
->> >  	if (msr & MSR_SPE) {
->> >  		/* restore spe registers from the stack */
->> > -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
->> > -				      ELF_NEVRREG * sizeof(u32), failed);
->> > +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
->> > +				      sizeof(current->thread.spe), failed);
->> 
->> This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
->> sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
->> be.
->> 
->> ie. if we use sizeof an inadvertent change to the fields in
->> thread_struct could change how many bytes we copy out to userspace,
->> which would be an ABI break.
->> 
->> And that's not that hard to do, because it's not at all obvious that the
->> size and layout of fields in thread_struct affects the user ABI.
->> 
->> At the same time we don't want to copy the right number of bytes but
->> the wrong content, so from that point of view using sizeof is good :)
->> 
->> The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
->> things match up, so maybe we should do that here too.
->> 
->> ie. add:
->> 
->> 	BUILD_BUG_ON(sizeof(current->thread.spe) == ELF_NEVRREG * sizeof(u32));
->> 
->> Not sure if you are happy doing that as part of this patch. I can always
->> do it later if not.
->
-> Sounds good to me; I did that in a few other cases in the series where
-> the relationships between things seemed tenuous. :) I'll add this (as
-> !=) in v3.
+On Sun, 22 Aug 2021 17:35:55 +0300
+Yishai Hadas <yishaih@nvidia.com> wrote:
+> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> new file mode 100644
+> index 000000000000..15474ebadd98
+> --- /dev/null
+> +++ b/drivers/vfio/pci/vfio_pci.c
+...
+> +static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
+> +{
+> +	might_sleep();
+> +
+> +	if (!enable_sriov)
+> +		return -ENOENT;
+> +
+> +	return vfio_pci_core_sriov_configure(pdev, nr_virtfn);
+> +}
 
-Thanks.
+As noted in previous version, why do we need the might_sleep() above
+when the core code below includes it and there's nothing above that
+might sleep before that?  Thanks,
 
-cheers
+Alex
+
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 94f062818e0c..87d1960d0d61 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+...
+> -static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
+> +int vfio_pci_core_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
+>  {
+>  	struct vfio_device *device;
+>  	int ret = 0;
+>  
+>  	might_sleep();
+>  
+> -	if (!enable_sriov)
+> -		return -ENOENT;
+> -
+>  	device = vfio_device_get_from_dev(&pdev->dev);
+>  	if (!device)
+>  		return -ENODEV;
+
