@@ -2,148 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4578A3F617A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 17:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADE7F3F6348
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 18:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238120AbhHXPYC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Aug 2021 11:24:02 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:23222 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238005AbhHXPYB (ORCPT
+        id S233040AbhHXQvm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Aug 2021 12:51:42 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:47113 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232862AbhHXQvh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Aug 2021 11:24:01 -0400
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 17OFMfa6016562;
-        Wed, 25 Aug 2021 00:22:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17OFMfa6016562
+        Tue, 24 Aug 2021 12:51:37 -0400
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 17OGoVNT016204;
+        Wed, 25 Aug 2021 01:50:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 17OGoVNT016204
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629818562;
-        bh=S+OncbYervpFyf36q1qMQ/cK2RuBY42Jax+g4KEinBk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZcH8Mol3zFOfA82L2ktXpSfndCTVIm8sSN5WhvCF0nkR7lfzciGFhUJXETjlXjtPX
-         zJh+MUJ/Ewjk16dZQ1gny5f5e7a9UEa8Y4ew4QsRa2f8+XDPL4zy7TRkyQPCCGuQBR
-         HtPcktDDii+gXrd9c6Y/+n2IDAqMdutuYAV8w4MCt5+cnVSpw8AKUX2Ib7Ibo6FD2q
-         Ohh6UGM+07Qonx5uLAq8xTeCFAPzEUUH7JfX0G/OTHgFnWD/VUkraTi5Z03rF1LVlI
-         S9HUYx9frUuL/nuZq9/KuCBWLzyvJI5ic9YGRufpg399QFVGzpWMzh0y6+RyOdbiCs
-         U/uVLdyiGdKjg==
-X-Nifty-SrcIP: [209.85.215.182]
-Received: by mail-pg1-f182.google.com with SMTP id e7so20084678pgk.2;
-        Tue, 24 Aug 2021 08:22:41 -0700 (PDT)
-X-Gm-Message-State: AOAM532kurLktu58pwqpHuXIw8lHovCfniN5blvX1moEtQVIcV7LHn01
-        PUcoRr6FGo3YJvxRRhzqkBZgYNDXJOe0Ioj8nm8=
-X-Google-Smtp-Source: ABdhPJxOp9dnA/3wndoHqVeBS+wD5iSN8I9DS95FoFt5pEdVV9c/uEMA3l6IFAOsje6soli60G91Ls2TkIcdXGUYgjE=
-X-Received: by 2002:aa7:8e56:0:b029:3cd:c2ec:6c1c with SMTP id
- d22-20020aa78e560000b02903cdc2ec6c1cmr39028324pfr.80.1629818561184; Tue, 24
- Aug 2021 08:22:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210407053419.449796-1-gregkh@linuxfoundation.org> <20210407053419.449796-19-gregkh@linuxfoundation.org>
-In-Reply-To: <20210407053419.449796-19-gregkh@linuxfoundation.org>
+        s=dec2015msa; t=1629823832;
+        bh=EkRhcEpTCWDYCMBzaFS4gMIDR56jHPgpS+7UsaLpdHQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Nm2Q/6WNCiAZMfol9gE9KP1GHUwCyzQxGcs85vyGOjIaf2QRjCz0yusE6oNTt8qp/
+         ADsZhffXjDjOSdYb1woATFzDOlP48vepPeLSnTVLL1sp2eqYdjHw7NikK4pI+4xE8J
+         PH+/lgQH78tu8gvKmifdgD9aJictv1ycV+X75nTuY8yGabmGlNh8OB4AGnFkzCwWAg
+         q67rkXIx0KPeOVQXykyy6s/1DsO8kVoJqtP/yyhQjc6VTRiWNZmhaSs5yZAajkyIoq
+         20j6HtNLBcAPpNeaiPFoP7djaq5V5ha2nMNCKJQ76P9KxXGjcYSLGNqPKyIB4WPIOM
+         fCQzZT5ffOX5Q==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 25 Aug 2021 00:22:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
-Message-ID: <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
-Subject: Re: [PATCH 18/20] kbuild: sh: remove unused install script
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: add generic install.sh
+Date:   Wed, 25 Aug 2021 01:50:24 +0900
+Message-Id: <20210824165024.303771-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 7, 2021 at 2:35 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> The sh arch has a install.sh script, but no Makefile actually calls it.
-> Remove it to keep anyone from accidentally calling it in the future.
->
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: Rich Felker <dalias@libc.org>
-> Cc: linux-sh@vger.kernel.org
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  arch/sh/boot/compressed/install.sh | 56 ------------------------------
->  1 file changed, 56 deletions(-)
->  delete mode 100644 arch/sh/boot/compressed/install.sh
->
-> diff --git a/arch/sh/boot/compressed/install.sh b/arch/sh/boot/compressed/install.sh
-> deleted file mode 100644
-> index f9f41818b17e..000000000000
-> --- a/arch/sh/boot/compressed/install.sh
-> +++ /dev/null
-> @@ -1,56 +0,0 @@
-> -#!/bin/sh
-> -#
-> -# arch/sh/boot/install.sh
-> -#
-> -# This file is subject to the terms and conditions of the GNU General Public
-> -# License.  See the file "COPYING" in the main directory of this archive
-> -# for more details.
-> -#
-> -# Copyright (C) 1995 by Linus Torvalds
-> -#
-> -# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
-> -# Adapted from code in arch/i386/boot/install.sh by Russell King
-> -# Adapted from code in arch/arm/boot/install.sh by Stuart Menefy
-> -#
-> -# "make install" script for sh architecture
-> -#
-> -# Arguments:
-> -#   $1 - kernel version
-> -#   $2 - kernel image file
-> -#   $3 - kernel map file
-> -#   $4 - default install path (blank if root directory)
-> -#
-> -
-> -# User may have a custom install script
-> -
-> -if [ -x /sbin/${INSTALLKERNEL} ]; then
-> -  exec /sbin/${INSTALLKERNEL} "$@"
-> -fi
-> -
-> -if [ "$2" = "zImage" ]; then
-> -# Compressed install
-> -  echo "Installing compressed kernel"
-> -  if [ -f $4/vmlinuz-$1 ]; then
-> -    mv $4/vmlinuz-$1 $4/vmlinuz.old
-> -  fi
-> -
-> -  if [ -f $4/System.map-$1 ]; then
-> -    mv $4/System.map-$1 $4/System.old
-> -  fi
-> -
-> -  cat $2 > $4/vmlinuz-$1
-> -  cp $3 $4/System.map-$1
-> -else
-> -# Normal install
-> -  echo "Installing normal kernel"
-> -  if [ -f $4/vmlinux-$1 ]; then
-> -    mv $4/vmlinux-$1 $4/vmlinux.old
-> -  fi
-> -
-> -  if [ -f $4/System.map ]; then
-> -    mv $4/System.map $4/System.old
-> -  fi
-> -
-> -  cat $2 > $4/vmlinux-$1
-> -  cp $3 $4/System.map
-> -fi
-> --
-> 2.31.1
->
+Many architectures has a similar install.sh script.
 
+The first half is really generic; ensures the kernel image and the map
+file exist, then invokes ~/bin/${INSTALLKERNEL} or /sbin/${INSTALLKERNEL}
+if available.
 
-This one is applicable independently.
+The second half is kind of arch-specific. It just copies the kernel image
+and map file to the destination, but the code is slightly different.
+(Maybe, this part can be consolidated as well if we want).
 
-Applied to linux-kbuild. Thanks.
+This patch factors out the generic part into scripts/install.sh, which
+will architectures to drop the duplicated code.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile           |  8 ++++++++
+ scripts/install.sh | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100755 scripts/install.sh
 
+diff --git a/Makefile b/Makefile
+index 185ce47d6734..725eadc4fcb8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1325,6 +1325,14 @@ scripts_unifdef: scripts_basic
+ 
+ install: sub_make_done :=
+ 
++# Install $(KBUILD_IMAGE) by default.
++# If necessary, override install-image per target.
++install-image = $(KBUILD_IMAGE)
++
++quiet_cmd_install = INSTALL $(INSTALL_PATH)
++      cmd_install = scripts/install.sh $(KERNELRELEASE) $(install-image) \
++			System.map "$(INSTALL_PATH)"
++
+ # ---------------------------------------------------------------------------
+ # Tools
+ 
+diff --git a/scripts/install.sh b/scripts/install.sh
+new file mode 100755
+index 000000000000..6ac0e0c0f078
+--- /dev/null
++++ b/scripts/install.sh
+@@ -0,0 +1,43 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# This file is subject to the terms and conditions of the GNU General Public
++# License.  See the file "COPYING" in the main directory of this archive
++# for more details.
++#
++# Copyright (C) 1995 by Linus Torvalds
++#
++# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
++#
++# Arguments:
++#   $1 - kernel version
++#   $2 - kernel image file
++#   $3 - kernel map file
++#   $4 - default install path (blank if root directory)
++
++verify () {
++	if [ ! -f "$1" ]; then
++		echo >&2
++		echo >&2 " *** Missing file: $1"
++		echo >&2 ' *** You need to run "make" before "make install".'
++		echo >&2
++		exit 1
++	fi
++}
++
++# Make sure the files actually exist
++verify "$2"
++verify "$3"
++
++# User/arch may have a custom install script
++
++for script in "~/bin/${INSTALLKERNEL}" "/sbin/${INSTALLKERNEL}" \
++		"arch/${SRCARCH}/install.sh" "arch/${SRCARCH}/boot/install.sh"
++do
++	if [ -x "${script}" ]; then
++		exec "${script}" "$@"
++	fi
++done
++
++echo "No install script found" >&2
++exit 1
 -- 
-Best Regards
-Masahiro Yamada
+2.30.2
+
