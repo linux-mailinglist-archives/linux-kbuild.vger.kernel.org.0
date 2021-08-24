@@ -2,140 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFA73F6B56
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 23:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 507F63F6B5E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 23:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235827AbhHXVtb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Aug 2021 17:49:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27431 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235710AbhHXVta (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Aug 2021 17:49:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1629841725;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=w5pw4YrTSgHugcG2Eo+G7n0AOgzo2eruh1sMMnqSXgQ=;
-        b=ZL9k2N2gZEReKaOAMR/NoaLbzAseLsWiUwfE/8feDrGN8BZmf1OrIOb5fEwaeQG4y9NK3u
-        N5qLPGl4VY8Bu7/jI2H+RKHr0KAFeK0wMwDYHKCdanVpGYRlVa2PB1U+H6/bZj2ANDW15p
-        Rn7PRMT5bFGb4Y3AsZCgN1R7F0XdOcM=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-AS9vR_osPDOhM2EE3b2xsA-1; Tue, 24 Aug 2021 17:48:43 -0400
-X-MC-Unique: AS9vR_osPDOhM2EE3b2xsA-1
-Received: by mail-il1-f198.google.com with SMTP id r6-20020a92c506000000b002246015b2a4so12636296ilg.21
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Aug 2021 14:48:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=w5pw4YrTSgHugcG2Eo+G7n0AOgzo2eruh1sMMnqSXgQ=;
-        b=meFhdBl/kCKYGvrA3z1oJjqr3I/oK289HXT/rjh6dwSSiHIVtvUbGxtfFUX//7wxyG
-         J5eQZFwcBNuQZIR5+u0evFJjn5sLvh9XcfcIM0fyST2V7yLIYzUNtGtcDWfZ0PcHfZMa
-         EbvvDn3gs4hIGNob3DkGs+orPCJqBMlZ6g4KbHTmZwPlxSadFy8PgGOCFFZ0NVVWentC
-         UzovhCXC+1HiwTizFBjO8AZBou+E9O6J8l0e4fSZjz+fOfSLuqMO69hoJF+cJte1ujyN
-         rffDHpwS1uT+vZVt3G5/o2hBHZW8ESU4XLxJ6HiH06K0EYLCtnMx6Zf8yCxZEphXemwG
-         cVTw==
-X-Gm-Message-State: AOAM530dcoCOqyYZM6Ka97ZdfOzF9/i5HagHRNIE/KaPNIkpAGtr/2vs
-        3G6mIvG5RFbbAeehKk3VKouJcvsk93kN3Y2QLK+Jog+8eBwGZ2JeAJGzUJ6V+fCfkDxqFugIgtK
-        HP03PMVIcARavmIU1ALrI4Bej
-X-Received: by 2002:a5d:8484:: with SMTP id t4mr31967449iom.126.1629841723234;
-        Tue, 24 Aug 2021 14:48:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyV/BFYIt+phRVOjM0gliAb4WNS6a2RZJbXAlwZJ6Po16uZZA+rPyg3jivRBbxcxlIzm02ZEg==
-X-Received: by 2002:a5d:8484:: with SMTP id t4mr31967436iom.126.1629841723033;
-        Tue, 24 Aug 2021 14:48:43 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id a8sm10590565ilq.63.2021.08.24.14.48.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 14:48:42 -0700 (PDT)
-Date:   Tue, 24 Aug 2021 15:48:39 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc:     Yishai Hadas <yishaih@nvidia.com>, <bhelgaas@google.com>,
-        <corbet@lwn.net>, <diana.craciun@oss.nxp.com>,
-        <kwankhede@nvidia.com>, <eric.auger@redhat.com>,
-        <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-        <linux-kbuild@vger.kernel.org>, <jgg@nvidia.com>,
-        <maorg@nvidia.com>, <leonro@nvidia.com>
-Subject: Re: [PATCH V3 06/13] vfio/pci: Split the pci_driver code out of
- vfio_pci_core.c
-Message-ID: <20210824154839.159a1243.alex.williamson@redhat.com>
-In-Reply-To: <393721ae-2183-2b1b-f670-8006992c4e55@nvidia.com>
-References: <20210822143602.153816-1-yishaih@nvidia.com>
-        <20210822143602.153816-7-yishaih@nvidia.com>
-        <20210823091624.697c67d6.alex.williamson@redhat.com>
-        <393721ae-2183-2b1b-f670-8006992c4e55@nvidia.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S235905AbhHXVx4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Aug 2021 17:53:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38856 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237016AbhHXVxt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 24 Aug 2021 17:53:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BDFA06127B;
+        Tue, 24 Aug 2021 21:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629841984;
+        bh=HIeUUjdpdOE3EExH+2foqRMzjAiDKgARCIUjBxzZVk8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=buJw1smEq5TmuXHkLVOI0m08XNuAaEpcFRKYl2LWggsTAq4/qVwt5BcxeErCcjJAz
+         W+9UKBjDg7BU2M7IxskuIXiJyx30tcyZGeVin7sGoRPlDUV4wJWt6XNOypodd8WxQs
+         4G7uwCijbfr4jWurcOEdOuxAZ1e+LP9BpgFj5LnrEdR9psDqR7LOgmIN79Zk2Mdxy1
+         WMLmp+7CAWKRb8IO3tV8rfLEvdOb50Er3JHM2a6e+nyGoYhVlkrc/u/UJA9IzCsRn3
+         a199osU0re6l7XHsV1iR6HvEm8wU1J+86kDCfBH0hP7SSV7khi36CoxE68UGkKNE0V
+         AnbnaaGu0FMBw==
+Date:   Tue, 24 Aug 2021 14:53:00 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Fangrui Song <maskray@google.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com, llvm@lists.linux.dev,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/2] x86: Do not add -falign flags unconditionally for
+ clang
+Message-ID: <YSVqPNPOewbFS7U8@Ryzen-9-3900X.localdomain>
+References: <20210824022640.2170859-1-nathan@kernel.org>
+ <20210824022640.2170859-2-nathan@kernel.org>
+ <20210824025647.tssnp7qtccbgvdq7@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210824025647.tssnp7qtccbgvdq7@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 23 Aug 2021 18:28:49 +0300
-Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
-
-> On 8/23/2021 6:16 PM, Alex Williamson wrote:
-> > On Sun, 22 Aug 2021 17:35:55 +0300
-> > Yishai Hadas <yishaih@nvidia.com> wrote:  
-> >> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> >> new file mode 100644
-> >> index 000000000000..15474ebadd98
-> >> --- /dev/null
-> >> +++ b/drivers/vfio/pci/vfio_pci.c  
-> > ...  
-> >> +static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
-> >> +{
-> >> +	might_sleep();
-> >> +
-> >> +	if (!enable_sriov)
-> >> +		return -ENOENT;
-> >> +
-> >> +	return vfio_pci_core_sriov_configure(pdev, nr_virtfn);
-> >> +}  
-> > As noted in previous version, why do we need the might_sleep() above
-> > when the core code below includes it and there's nothing above that
-> > might sleep before that?  Thanks,  
+On Mon, Aug 23, 2021 at 07:56:47PM -0700, Fangrui Song wrote:
+> On 2021-08-23, Nathan Chancellor wrote:
+> > clang does not support -falign-jumps and only recently gained support
+> > for -falign-loops. When one of the configuration options that adds these
+> > flags is enabled, clang warns and all cc-{disable-warning,option} that
+> > follow fail because -Werror gets added to test for the presence of this
+> > warning:
 > 
-> This is used to mention vfio_pci_core_sriov_configure might sleep.
+> [I implemented clang -falign-loops :) It doesn't affect LTO, though.
+> LTO ld.lld may use -Wl,-mllvm,-align-loops=32 for now.  ]
 > 
-> If this is redundant, can you please remove this one line upon merge ?
-
-I guess I'm not sure how far up we need to, or should, percolate
-might_sleep() annotations.  vfio_pci_core_sriov_configure() calls
-vfio_device_get_from_dev() which makes use of mutexes, which I think is
-the original reason for the annotation there ahead of those in the PCI
-iov code.  But is the annotation through mutex_lock() enough on its own,
-ie. should we remove all of our gratuitous annotations in the vfio part
-of the code path?  Thanks,
-
-Alex
-
-> >> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> >> index 94f062818e0c..87d1960d0d61 100644
-> >> --- a/drivers/vfio/pci/vfio_pci_core.c
-> >> +++ b/drivers/vfio/pci/vfio_pci_core.c  
-> > ...  
-> >> -static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
-> >> +int vfio_pci_core_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
-> >>   {
-> >>   	struct vfio_device *device;
-> >>   	int ret = 0;
-> >>   
-> >>   	might_sleep();
-> >>   
-> >> -	if (!enable_sriov)
-> >> -		return -ENOENT;
-> >> -
-> >>   	device = vfio_device_get_from_dev(&pdev->dev);
-> >>   	if (!device)
-> >>   		return -ENODEV;  
+> > clang-14: warning: optimization flag '-falign-jumps=0' is not supported
+> > [-Wignored-optimization-argument]
 > 
+> grub made a similar mistake:) It thought the availability of -falign-X
+> implies the availability of other -falign-*
+> https://lists.gnu.org/archive/html/grub-devel/2021-08/msg00076.html
+> 
+> > To resolve this, add a couple of cc-option calls when building with
+> > clang; gcc has supported these options since 3.2 so there is no point in
+> > testing for their support. -falign-functions was implemented in clang-7,
+> > -falign-loops was implemented in clang-14, and -falign-jumps has not
+> > been implemented yet.
+> > 
+> > Link: https://lore.kernel.org/r/YSQE2f5teuvKLkON@Ryzen-9-3900X.localdomain/
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> > arch/x86/Makefile_32.cpu | 12 +++++++++---
+> > 1 file changed, 9 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/arch/x86/Makefile_32.cpu b/arch/x86/Makefile_32.cpu
+> > index cd3056759880..e8c65f990afd 100644
+> > --- a/arch/x86/Makefile_32.cpu
+> > +++ b/arch/x86/Makefile_32.cpu
+> > @@ -10,6 +10,12 @@ else
+> > tune		= $(call cc-option,-mcpu=$(1),$(2))
+> > endif
+> > 
+> > +ifdef CONFIG_CC_IS_CLANG
+> > +align		:= -falign-functions=0 $(call cc-option,-falign-jumps=0) $(call cc-option,-falign-loops=0)
+> > +else
+> > +align		:= -falign-functions=0 -falign-jumps=0 -falign-loops=0
+> > +endif
+> > +
+> > cflags-$(CONFIG_M486SX)		+= -march=i486
+> > cflags-$(CONFIG_M486)		+= -march=i486
+> > cflags-$(CONFIG_M586)		+= -march=i586
+> > @@ -25,11 +31,11 @@ cflags-$(CONFIG_MK6)		+= -march=k6
+> > # They make zero difference whatsosever to performance at this time.
+> > cflags-$(CONFIG_MK7)		+= -march=athlon
+> > cflags-$(CONFIG_MK8)		+= $(call cc-option,-march=k8,-march=athlon)
+> > -cflags-$(CONFIG_MCRUSOE)	+= -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
+> > -cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
+> > +cflags-$(CONFIG_MCRUSOE)	+= -march=i686 $(align)
+> > +cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) $(align)
+> > cflags-$(CONFIG_MWINCHIPC6)	+= $(call cc-option,-march=winchip-c6,-march=i586)
+> > cflags-$(CONFIG_MWINCHIP3D)	+= $(call cc-option,-march=winchip2,-march=i586)
+> > -cflags-$(CONFIG_MCYRIXIII)	+= $(call cc-option,-march=c3,-march=i486) -falign-functions=0 -falign-jumps=0 -falign-loops=0
+> > +cflags-$(CONFIG_MCYRIXIII)	+= $(call cc-option,-march=c3,-march=i486) $(align)
+> > cflags-$(CONFIG_MVIAC3_2)	+= $(call cc-option,-march=c3-2,-march=i686)
+> > cflags-$(CONFIG_MVIAC7)		+= -march=i686
+> > cflags-$(CONFIG_MCORE2)		+= -march=i686 $(call tune,core2)
+> > -- 
+> > 2.33.0
+> 
+> https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html says
+> "If n is not specified or is zero, use a machine-dependent default."
+> 
+> Unless some other files specify -falign-loops=N and expect 0 to reset to
+> the machine default, -falign-jumps=0 -falign-loops=0 -falign-functions=0 should just be dropped.
 
+Grepping the tree, I see:
+
+rg "align-(functions|jumps|loops)"
+Makefile
+977:KBUILD_CFLAGS += -falign-functions=64
+
+arch/x86/Makefile
+101:        KBUILD_CFLAGS += $(call cc-option,-falign-jumps=1)
+104:        KBUILD_CFLAGS += $(call cc-option,-falign-loops=1)
+
+arch/x86/Makefile_32.cpu
+28:cflags-$(CONFIG_MCRUSOE)     += -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
+29:cflags-$(CONFIG_MEFFICEON)   += -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
+32:cflags-$(CONFIG_MCYRIXIII)   += $(call cc-option,-march=c3,-march=i486) -falign-functions=0 -falign-jumps=0 -falign-loops=0
+
+arch/ia64/Makefile
+26:                -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
+
+The two cc-options calls in arch/x86/Makefile are for x86_64 only and
+the Makefile use of -falign-functions=64 is for
+DEBUG_FORCE_FUNCTION_ALIGN_64B, which is a debug option so it does not
+seem like the flags are going to get overridden in a normal case.
+
+However, I read the GCC docs as if functions are not aligned by default
+and -falign-functions / -falign-functions=0 aligns them to a machine
+specific default, so I am not sure if these flags can just be dropped?
+These flags have been in the tree for 19 years though and there is very
+little history that I can find around why they are there.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/tree/arch/i386/Makefile?id=7a2deb32924142696b8174cdf9b38cd72a11fc96
+
+-O2 turns on -falign-{functions,jumps,loops} by default but the kernel
+can use -Os, which omits those, so it is possible that is why they are
+there? Some input from the x86 folks might be helpful around this :)
+
+> BTW: I believe GCC 8 (likely when fixing another issue with a large refactor
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84100) introduced a bug
+> that -falign-X=0 was essentially -falign-X=1.
+> GCC 11.0 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96247) fixed the bug.
+
+Cheers,
+Nathan
