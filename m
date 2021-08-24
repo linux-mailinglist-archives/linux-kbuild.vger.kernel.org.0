@@ -2,163 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507F63F6B5E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 23:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03D873F6BE2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Aug 2021 00:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235905AbhHXVx4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Aug 2021 17:53:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237016AbhHXVxt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Aug 2021 17:53:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BDFA06127B;
-        Tue, 24 Aug 2021 21:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629841984;
-        bh=HIeUUjdpdOE3EExH+2foqRMzjAiDKgARCIUjBxzZVk8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=buJw1smEq5TmuXHkLVOI0m08XNuAaEpcFRKYl2LWggsTAq4/qVwt5BcxeErCcjJAz
-         W+9UKBjDg7BU2M7IxskuIXiJyx30tcyZGeVin7sGoRPlDUV4wJWt6XNOypodd8WxQs
-         4G7uwCijbfr4jWurcOEdOuxAZ1e+LP9BpgFj5LnrEdR9psDqR7LOgmIN79Zk2Mdxy1
-         WMLmp+7CAWKRb8IO3tV8rfLEvdOb50Er3JHM2a6e+nyGoYhVlkrc/u/UJA9IzCsRn3
-         a199osU0re6l7XHsV1iR6HvEm8wU1J+86kDCfBH0hP7SSV7khi36CoxE68UGkKNE0V
-         AnbnaaGu0FMBw==
-Date:   Tue, 24 Aug 2021 14:53:00 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Fangrui Song <maskray@google.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com, llvm@lists.linux.dev,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/2] x86: Do not add -falign flags unconditionally for
- clang
-Message-ID: <YSVqPNPOewbFS7U8@Ryzen-9-3900X.localdomain>
-References: <20210824022640.2170859-1-nathan@kernel.org>
- <20210824022640.2170859-2-nathan@kernel.org>
- <20210824025647.tssnp7qtccbgvdq7@google.com>
-MIME-Version: 1.0
+        id S230134AbhHXWta (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Aug 2021 18:49:30 -0400
+Received: from mail-co1nam11on2040.outbound.protection.outlook.com ([40.107.220.40]:64832
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229906AbhHXWt3 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 24 Aug 2021 18:49:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PY3bVDxwUeaGUlrdkUyGz3n4xzJLVytmAq2JzeUhj6XBkUq035rSJB9Jkl+U96yPxMWM1wc0w5TJmK8DqRprZvXPMWouIGGF4NL9/JiZsZTKDqna3RGfHoG5zT7+UfJVB9pWObNz2A+Z+ANZbPbH4UGdG/l+livHU0XHfcge9gsJ7QTDz6yZjOBssnvYNSAa61vUyOMDe7HQAHroHG9AXlfN46pomUZdJkYUislcnbjmOttLqqY4QTquUcBGIaQMyK2ZtSow/9vBrjq64DgCdvX98r0K005wso2qrVN1tIj8RUPEySM/enz/IVPIo9FvLhezLjjVX4S67ccZjQ/Big==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UXpK0HHuQWaJItC+7wz1xj8hz6wpgqavrequmqpNAP0=;
+ b=YbGNrt5jw3vU5MkzGQi1KKl47wbLX4wHOgHx8K3DhGFXzo/y+fEliPTaslDVXvGuvOFViA/1UXrcNI2soe6qg1XI9ehZ+JMyOWbAMALZrGFw8jqVf2eQZk08IMfxSTUj3h3ptMCNV4SMyDpRgES9YIKy5xz8fnJOu4VzUfmFbNFj7uaPsyqBvFfJwiLcl4eqqwsBc6Jy2u2wSUEbcIP719ZCmXL+c1UuL18sQhETJt07FT8YdEHT6L5g8gpN65ATL1vw+wkBHo/8NIpz4ZW8z1apGyS3x7hr3fP01tpuCxckvGRTpJR02oVDMvVhUHBYKUXrj4VzxiYK2+2WKHTJQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UXpK0HHuQWaJItC+7wz1xj8hz6wpgqavrequmqpNAP0=;
+ b=C47RhXOgIf2rM217yrCF+tTZNV5Q8M9cBHwt6Yynm1zX6rn/2MW6kzyejHv/Ilbbn/rA+yltZMq+ZdMJxMy2NovI58c7r0PXCYrtOELxTgjrRZ+lT91iQ8E2ZnbTJVm5K7Mnbt8eOcsZh8C1Yw4W++uzJi5kLQ2t85bweMmrEpxb+IkXGPV4n6/ueVIXki99JppE1VNNfhVq8qYKSiiNolZQ7rneF0YI9UIsHk9flzpHOeQCaX0UXi+lHUlqd3yOffezNNe4hhLjSGRH/56bP8uLMCqD/AVR/AHzURoKZdDK1Zuiof79tSO1fmPIUWyUwzeG99SIcKD8aQ423WM8dQ==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5349.namprd12.prod.outlook.com (2603:10b6:208:31f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15; Tue, 24 Aug
+ 2021 22:48:42 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::1de1:52a9:cf66:f336]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::1de1:52a9:cf66:f336%8]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 22:48:42 +0000
+Date:   Tue, 24 Aug 2021 19:48:40 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        maorg@nvidia.com, leonro@nvidia.com
+Subject: Re: [PATCH V3 06/13] vfio/pci: Split the pci_driver code out of
+ vfio_pci_core.c
+Message-ID: <20210824224840.GZ1721383@nvidia.com>
+References: <20210822143602.153816-1-yishaih@nvidia.com>
+ <20210822143602.153816-7-yishaih@nvidia.com>
+ <20210823091624.697c67d6.alex.williamson@redhat.com>
+ <393721ae-2183-2b1b-f670-8006992c4e55@nvidia.com>
+ <20210824154839.159a1243.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210824025647.tssnp7qtccbgvdq7@google.com>
+In-Reply-To: <20210824154839.159a1243.alex.williamson@redhat.com>
+X-ClientProxiedBy: MN2PR04CA0017.namprd04.prod.outlook.com
+ (2603:10b6:208:d4::30) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR04CA0017.namprd04.prod.outlook.com (2603:10b6:208:d4::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 22:48:41 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mIfDk-004c0M-Pc; Tue, 24 Aug 2021 19:48:40 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e65a9b22-c639-4589-1f7a-08d96751520f
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5349:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB53491B14278A31FB458DF83CC2C59@BL1PR12MB5349.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j21IYUOgnLnjZ6w3+rWFHNRJoWAle/ztak/Ytjkth+9PE8YD8qQbT6NOxwgext7UEZmArK5yveJgqv9Jwl1RMcG58ttQ8HRIzUvtCQC8rnX0RMOxiH03K5n5EQ6KMObfCBtuIWXQtEToCchAB4yRV1leUS/GQrrS+76/glYS6/MteacX6HLO0zl7gwk637iDfXkJIde1bHxDgTx2HWvTg62Di98kLGpxm4ilQlQMlwpdW15+2TrdCFKO+sXNR4cS3me2eYFr2ZP14CciU4J9F8Jh4heTTHHbF3TXPhTOmKU1JYs4PUKk5JS6sn800mXYuYd4v+QJwKHNA/Xzh+AcFU57b6+w62lMR5ixlRyoFLYJK623dAuY0E4NBodKUwvwQk83QTA490R67wa4SfhkvFaVvson18FJ1M3b6aa1cDr0Jlua+aQgMHsdA9lKYrb/4/hqDGIRxwJVEXQ4eKiMaW7dUzAZO4CIYq6n+m3yhQJFNwii1Veqt5ZkxjAeqdoVChGlxOkBfHqyNaF4KxziCkAc/gKyf/io8liqgairopV1R6+5xrkgxWBN7pUN1OhXL4xqPkx0hZ+oZ80u7vdjqhuzhyreQCC9ygLpmcFH01rwC4EOkji4rMzwK16VqAK3BIlE4V/Fj5HqoVQyEjopRw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(5660300002)(2906002)(66476007)(186003)(66556008)(8936002)(9786002)(7416002)(478600001)(36756003)(426003)(26005)(33656002)(53546011)(8676002)(316002)(6916009)(1076003)(86362001)(107886003)(4326008)(83380400001)(54906003)(2616005)(66946007)(38100700002)(9746002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PtnQYROGpeRZZ9mcNgLnVHIqXfEEwXdZlh2JuefSLIY5RN5N83HzNIzn/T8o?=
+ =?us-ascii?Q?t5/lzlGIbibzgFVH6dvrw18pN6u06kSxLXBwqMbSfoMkrMrTwJYmzBheY5ya?=
+ =?us-ascii?Q?QXoSkxHf4iQx3YpzR/I5gbIXJTXxddQ6gzHChRp29x9S8G4bc7moRA6pD1If?=
+ =?us-ascii?Q?e2686u4PQjsHlobizWCxKlgzW1Dl1CbfTsas8oR5AyQcUqHPVgQl/F5reZUY?=
+ =?us-ascii?Q?K76ChWEmbV5sR7fSPxjkYHKXvaZ2mxJD+a0F5dvE5CGfalcuXBVerthqbXX0?=
+ =?us-ascii?Q?+7tgmwd3LfP7sct49eyRrk/B1x1CHIKIilpgTuxssIJsXAJAy5vddJfSIFGh?=
+ =?us-ascii?Q?YCHh1UP6hMq5UA9R7Q5ROuiPwtecyxkFzYlatqj8zppm4N65rVXtZA0AwoRD?=
+ =?us-ascii?Q?NijHXLw1LBdMKYkyBlzBbvauD0K01NeQGjVkQMr7iS72r0SBE8jLFhJXcaj/?=
+ =?us-ascii?Q?lLUnH0eQjajd1ZA0Sf+Co8zEVyb7jP37uwHTzEr3DqA8LNj9UlnMUR3UlFdW?=
+ =?us-ascii?Q?FybEDZ/Gfe3JKgC3aH7JpC5u/+RTpQfMr4Om9nxlD3G1h+K8UXwMpBXETIeD?=
+ =?us-ascii?Q?rnNbACqStOmd9HCYjnKhZ1ezF2pfyjgsg8jXLM7AZCGnSmD04hBL13MGn0Eq?=
+ =?us-ascii?Q?Te1M7xfH+f/YPJwgNXXnXQloQvQsXOxZ56t9xgc/TUiD6yIEkLdFidl1abEG?=
+ =?us-ascii?Q?q8Y/keF+gxV4IRBxKrHoZlppKrLtUV6YLMPVv/4bIv1KJslnZJeqlCE6w2oc?=
+ =?us-ascii?Q?c9J3q/by8hSeqC7HLrZxhELIqUM83LNds35r4rWHpQzlhKiJh3kG+zcqLMkl?=
+ =?us-ascii?Q?Cdq3gQQFOedSE9PBh0dFxoURf0Q7pLyhoKq18AAgpGl1Mv4qsnNAgbZsT9h4?=
+ =?us-ascii?Q?/2bvI+I5skarMNmSglP6sRwZyRDn0huz++8tuBThEzP+8vyBt00EniuhBlWZ?=
+ =?us-ascii?Q?EToPuc6AnNNfo5FLw99YdRaITAz7UQSAd5bZPSKG/2Caj+x0Wh93rgFlUWCY?=
+ =?us-ascii?Q?6GANsDqvoyMcX8QC9s5uxxY2dwtujEtiAxbdugm0PU3NMZYSWVkmomlkLUyc?=
+ =?us-ascii?Q?8F+3pZlGObgDy9WmWInrX++77+Lw5zWQdQ+u0hV8pHCDAVmggtsKNjdwzhFT?=
+ =?us-ascii?Q?0+JgF1jfM7bKpgR6JEykjr+zjBqgfR2IUHY4Tjz57dJTTuIJyUlg+IWyqch2?=
+ =?us-ascii?Q?r7dXzqJBZ/+qlWz+aSfk33P0P+U8ijxoLlC/MbYDol8DiJSaWFZ3JSfcDaQu?=
+ =?us-ascii?Q?b029ZCEjx8+Lxi126Xz8rzemKLKpKvrh2UHUVqgkQcAPyfY/Q3s3EvxooXkl?=
+ =?us-ascii?Q?0vHa8k2wyIasnS4f0W2ixbUg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e65a9b22-c639-4589-1f7a-08d96751520f
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 22:48:41.8421
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: av/hDTlbYr2uZKXFkBgH1IfbsCYHoBCHWOBbDlenDRM0aIWqKZox21ZKwEFLuv4o
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5349
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 07:56:47PM -0700, Fangrui Song wrote:
-> On 2021-08-23, Nathan Chancellor wrote:
-> > clang does not support -falign-jumps and only recently gained support
-> > for -falign-loops. When one of the configuration options that adds these
-> > flags is enabled, clang warns and all cc-{disable-warning,option} that
-> > follow fail because -Werror gets added to test for the presence of this
-> > warning:
+On Tue, Aug 24, 2021 at 03:48:39PM -0600, Alex Williamson wrote:
+> On Mon, 23 Aug 2021 18:28:49 +0300
+> Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
 > 
-> [I implemented clang -falign-loops :) It doesn't affect LTO, though.
-> LTO ld.lld may use -Wl,-mllvm,-align-loops=32 for now.  ]
-> 
-> > clang-14: warning: optimization flag '-falign-jumps=0' is not supported
-> > [-Wignored-optimization-argument]
-> 
-> grub made a similar mistake:) It thought the availability of -falign-X
-> implies the availability of other -falign-*
-> https://lists.gnu.org/archive/html/grub-devel/2021-08/msg00076.html
-> 
-> > To resolve this, add a couple of cc-option calls when building with
-> > clang; gcc has supported these options since 3.2 so there is no point in
-> > testing for their support. -falign-functions was implemented in clang-7,
-> > -falign-loops was implemented in clang-14, and -falign-jumps has not
-> > been implemented yet.
+> > On 8/23/2021 6:16 PM, Alex Williamson wrote:
+> > > On Sun, 22 Aug 2021 17:35:55 +0300
+> > > Yishai Hadas <yishaih@nvidia.com> wrote:  
+> > >> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> > >> new file mode 100644
+> > >> index 000000000000..15474ebadd98
+> > >> +++ b/drivers/vfio/pci/vfio_pci.c  
+> > > ...  
+> > >> +static int vfio_pci_sriov_configure(struct pci_dev *pdev, int nr_virtfn)
+> > >> +{
+> > >> +	might_sleep();
+> > >> +
+> > >> +	if (!enable_sriov)
+> > >> +		return -ENOENT;
+> > >> +
+> > >> +	return vfio_pci_core_sriov_configure(pdev, nr_virtfn);
+> > >> +}  
+> > > As noted in previous version, why do we need the might_sleep() above
+> > > when the core code below includes it and there's nothing above that
+> > > might sleep before that?  Thanks,  
 > > 
-> > Link: https://lore.kernel.org/r/YSQE2f5teuvKLkON@Ryzen-9-3900X.localdomain/
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> > arch/x86/Makefile_32.cpu | 12 +++++++++---
-> > 1 file changed, 9 insertions(+), 3 deletions(-)
+> > This is used to mention vfio_pci_core_sriov_configure might sleep.
 > > 
-> > diff --git a/arch/x86/Makefile_32.cpu b/arch/x86/Makefile_32.cpu
-> > index cd3056759880..e8c65f990afd 100644
-> > --- a/arch/x86/Makefile_32.cpu
-> > +++ b/arch/x86/Makefile_32.cpu
-> > @@ -10,6 +10,12 @@ else
-> > tune		= $(call cc-option,-mcpu=$(1),$(2))
-> > endif
-> > 
-> > +ifdef CONFIG_CC_IS_CLANG
-> > +align		:= -falign-functions=0 $(call cc-option,-falign-jumps=0) $(call cc-option,-falign-loops=0)
-> > +else
-> > +align		:= -falign-functions=0 -falign-jumps=0 -falign-loops=0
-> > +endif
-> > +
-> > cflags-$(CONFIG_M486SX)		+= -march=i486
-> > cflags-$(CONFIG_M486)		+= -march=i486
-> > cflags-$(CONFIG_M586)		+= -march=i586
-> > @@ -25,11 +31,11 @@ cflags-$(CONFIG_MK6)		+= -march=k6
-> > # They make zero difference whatsosever to performance at this time.
-> > cflags-$(CONFIG_MK7)		+= -march=athlon
-> > cflags-$(CONFIG_MK8)		+= $(call cc-option,-march=k8,-march=athlon)
-> > -cflags-$(CONFIG_MCRUSOE)	+= -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
-> > -cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
-> > +cflags-$(CONFIG_MCRUSOE)	+= -march=i686 $(align)
-> > +cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) $(align)
-> > cflags-$(CONFIG_MWINCHIPC6)	+= $(call cc-option,-march=winchip-c6,-march=i586)
-> > cflags-$(CONFIG_MWINCHIP3D)	+= $(call cc-option,-march=winchip2,-march=i586)
-> > -cflags-$(CONFIG_MCYRIXIII)	+= $(call cc-option,-march=c3,-march=i486) -falign-functions=0 -falign-jumps=0 -falign-loops=0
-> > +cflags-$(CONFIG_MCYRIXIII)	+= $(call cc-option,-march=c3,-march=i486) $(align)
-> > cflags-$(CONFIG_MVIAC3_2)	+= $(call cc-option,-march=c3-2,-march=i686)
-> > cflags-$(CONFIG_MVIAC7)		+= -march=i686
-> > cflags-$(CONFIG_MCORE2)		+= -march=i686 $(call tune,core2)
-> > -- 
-> > 2.33.0
+> > If this is redundant, can you please remove this one line upon merge ?
 > 
-> https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html says
-> "If n is not specified or is zero, use a machine-dependent default."
-> 
-> Unless some other files specify -falign-loops=N and expect 0 to reset to
-> the machine default, -falign-jumps=0 -falign-loops=0 -falign-functions=0 should just be dropped.
+> I guess I'm not sure how far up we need to, or should, percolate
+> might_sleep() annotations.  vfio_pci_core_sriov_configure() calls
+> vfio_device_get_from_dev() which makes use of mutexes, which I think is
+> the original reason for the annotation there ahead of those in the PCI
+> iov code.  But is the annotation through mutex_lock() enough on its own,
+> ie. should we remove all of our gratuitous annotations in the vfio part
+> of the code path?  Thanks,
 
-Grepping the tree, I see:
+Generally you'd want to use might_sleep() on a path where the sleep is
+conditional - particularly something where the conditions are rare.
 
-rg "align-(functions|jumps|loops)"
-Makefile
-977:KBUILD_CFLAGS += -falign-functions=64
+Given that the mutex_lock is basically unconditional and the
+!enable_sriov = false is rare, I'd suggest to delete the whole lot of
+it on this path.
 
-arch/x86/Makefile
-101:        KBUILD_CFLAGS += $(call cc-option,-falign-jumps=1)
-104:        KBUILD_CFLAGS += $(call cc-option,-falign-loops=1)
-
-arch/x86/Makefile_32.cpu
-28:cflags-$(CONFIG_MCRUSOE)     += -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
-29:cflags-$(CONFIG_MEFFICEON)   += -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
-32:cflags-$(CONFIG_MCYRIXIII)   += $(call cc-option,-march=c3,-march=i486) -falign-functions=0 -falign-jumps=0 -falign-loops=0
-
-arch/ia64/Makefile
-26:                -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
-
-The two cc-options calls in arch/x86/Makefile are for x86_64 only and
-the Makefile use of -falign-functions=64 is for
-DEBUG_FORCE_FUNCTION_ALIGN_64B, which is a debug option so it does not
-seem like the flags are going to get overridden in a normal case.
-
-However, I read the GCC docs as if functions are not aligned by default
-and -falign-functions / -falign-functions=0 aligns them to a machine
-specific default, so I am not sure if these flags can just be dropped?
-These flags have been in the tree for 19 years though and there is very
-little history that I can find around why they are there.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/tree/arch/i386/Makefile?id=7a2deb32924142696b8174cdf9b38cd72a11fc96
-
--O2 turns on -falign-{functions,jumps,loops} by default but the kernel
-can use -Os, which omits those, so it is possible that is why they are
-there? Some input from the x86 folks might be helpful around this :)
-
-> BTW: I believe GCC 8 (likely when fixing another issue with a large refactor
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84100) introduced a bug
-> that -falign-X=0 was essentially -falign-X=1.
-> GCC 11.0 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96247) fixed the bug.
-
-Cheers,
-Nathan
+Jason
