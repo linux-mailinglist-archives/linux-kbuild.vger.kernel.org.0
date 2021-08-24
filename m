@@ -2,181 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A0CD3F5F86
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 15:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4578A3F617A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 17:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237693AbhHXNwz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Aug 2021 09:52:55 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:21204 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237667AbhHXNwv (ORCPT
+        id S238120AbhHXPYC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Aug 2021 11:24:02 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:23222 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238005AbhHXPYB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Aug 2021 09:52:51 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17O7c7kr001613;
-        Tue, 24 Aug 2021 06:51:46 -0700
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
-        by mx0b-0016f401.pphosted.com with ESMTP id 3amkrkaym1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 24 Aug 2021 06:51:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GTZ9mW4HHzCzXONiLA/akogyGeGNEP2e8RvITWE2o8ErUxtFNn8okYPKI8Qn4jdRTACV/soCiAZNUk81zjIgRDdLFiA6lF5l23j16HCQP9lOMOOJuCUhkobfTLVpUw+Lgvc0+fshvTQG6W2qdWHMvm/VVZTm2VMIt4vkvgnYjXR31cgmwomPC1umsdOhot007tqLRmhP7FTD3mFVgL4mnF3qIzElIDGtmB6Pwj7nO/uxMNhLTTMTJTcfWrH3cJAdIHHgdUV1bFe2CTxzWORA6JbxEX+kqYaN4xRISo3dVghewriaT0r/cAdamPZmxohenU5iafSZYV5V058simfsWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7Q/8UGudqLi8wcwPle43t+wM7F6ZcDGUqZV6Wh/DQM=;
- b=TB5y/reqXD+V6Bcw8hTQTrXsBByjtayUV7wywozhTQeEiqhqrmqeaq2yQ8+Yjs9ukNY4a3DWXI0u1Gx3zDHbqYy0VAL1CALIn7MF78EQ6xy2XYyI6hjJTs2UWQD5893+DbUlCNwfjYg+bPhxrxJXTAjNQK71aKultLE+7vxirBWNZF0ItQ5X2nBVml01el66BWTjjnu6hxPbqCNsFvFHRLOZbgARGnkodyr9WOwOy/80InNXfzAlZj3rYaA/4xrmIFOMA1rpaNKe6+XAXfquS6HpxX7t1vOo8O1+81rV8vjadNtL9iqBtIedUVBB5wWhPGUQP/WiZDf1Zr/QKBJozQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7Q/8UGudqLi8wcwPle43t+wM7F6ZcDGUqZV6Wh/DQM=;
- b=CHtBS7WCUilc9iwor4XjRsrnL3RjZXhIsCO5FHsvjHUrgOVGNpfAMwdrJW9+NS+qYZjDU45D+67hP9vm3EyQNu2m2yKs7fuDPB4eOrWnRbPp7EB1DsvX/x07wX1BKivUUwDwy47f4dduEnRToszoem+B/aLB2IzUebCAdjGw/14=
-Received: from DM5PR18MB2229.namprd18.prod.outlook.com (2603:10b6:4:b9::24) by
- DM4PR18MB4173.namprd18.prod.outlook.com (2603:10b6:5:390::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.21; Tue, 24 Aug 2021 13:51:45 +0000
-Received: from DM5PR18MB2229.namprd18.prod.outlook.com
- ([fe80::a9c9:dccf:5e59:fdec]) by DM5PR18MB2229.namprd18.prod.outlook.com
- ([fe80::a9c9:dccf:5e59:fdec%2]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
- 13:51:44 +0000
-From:   Prabhakar Kushwaha <pkushwaha@marvell.com>
-To:     Kees Cook <keescook@chromium.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Ariel Elior <aelior@marvell.com>,
-        Sudarsana Reddy Kalluru <skalluru@marvell.com>,
-        GR-everest-linux-l2 <GR-everest-linux-l2@marvell.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Shai Malin <smalin@marvell.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "clang-built-linux@googlegroups.com" 
-        <clang-built-linux@googlegroups.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
-Thread-Topic: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
-Thread-Index: AdeY7yGdR9cZvhLdSru1pL8aUI2KKQ==
-Date:   Tue, 24 Aug 2021 13:51:44 +0000
-Message-ID: <DM5PR18MB2229B0413C372CC6E49D59A3B2C59@DM5PR18MB2229.namprd18.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=marvell.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cff11d0b-a9d6-4ef8-79a0-08d967064f71
-x-ms-traffictypediagnostic: DM4PR18MB4173:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR18MB4173859078969B3FB6DD878CB2C59@DM4PR18MB4173.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2276;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: A48KM2JlMSMYgGArSHWjjJVD6xTijC+sMFJ/pdep2lhNAEFu8S31wBryajCFXqph1dRnIb99zR/ENyy8ItUiE0CFHDOe959R0Rz3AYK2RO0nD9QRVEjed97DVP6Em8VexOUJ4gp4n3srtbnjkZza4sTa1gVn9rtKWI+UzbZcnLIRubvaM7u8Uehs0owExl52VjGqitNFeGD6eHxfvxpGfuz3NESmJUoDntwzWPZ8NJqeSgGOxc09aPp4o80qA1HbHnpo+tgGh+YoCLlj2m/s2qsOwtT5UmCdrm4woUOmmWXU1vArd1mz7o4CGRypHhaGUXeZfB9nT3vvda//LMjg1Cc/cKLV0AaJvTDSUFdopdbazasd+Z1UDk6sK3U7AwHZm2hVb04LwnAFyz/5voGihLiW30RVWFr4n2MHdLZU/I6NQJCMZCW/XrTEQWh8/R1NWWYbrnqV2lYvMnu9G5vNm98DmH3IaBYmLuK4YT4xvB9UoAEGLe9zstngepVwURFphINW425nh2ScKQJqC+pL7PinCB7OZso3V3kq8+wpfyMgYL8iS62bXyuVn41s3n1sX06Vi5UVNm5maXbj+zFocVTY7AZlpHxb0AypIqD6+8WF5Q8dOCo8NBL4yCUJdz7d5M2wF769p7RyEsrXwKoPsD4jdtaGOacajg4oDMEXePRAstuX4LdF4vCEAx0CX7Fo0eYeX6jT8+cmc40mFJHTEQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR18MB2229.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(6506007)(83380400001)(26005)(76116006)(66946007)(53546011)(122000001)(9686003)(64756008)(55016002)(86362001)(66446008)(38100700002)(66556008)(66476007)(54906003)(33656002)(4326008)(71200400001)(316002)(186003)(8676002)(8936002)(7416002)(478600001)(38070700005)(5660300002)(7696005)(52536014)(2906002)(110136005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?EMDIb0DJI8NV0xiWg7/D5hHaDWHCeDakcGy/278+cHfPg4FEvj1RULd+LY1V?=
- =?us-ascii?Q?mvT/JOTAOIJvK6HqD/vlPwz+dhLIzBFNiWXADKZlC/INcG+INVr7/vM1Wsiw?=
- =?us-ascii?Q?O23P9w2+qJxzteL3TrWDr95dnVkZBnSkBQLym6qkwt1JY+0lWtnAFq2wTa0N?=
- =?us-ascii?Q?xFfZH0vtOex/q0v/noaqvI4vL0A1jlqYpimb2pM1qqH4anPQDVTZkIXDDpGU?=
- =?us-ascii?Q?56gQF0Pjo8Lq6+DP4lSVaBnAPmVxwVE02YgkINn3bxTa98Vf5tXQHEZdi8H7?=
- =?us-ascii?Q?KWbmHRRRalXBU4cDvvMZyi6gXGO4a+eD+j8ZKMG59FQBW3n0cBdIHfPUlMRh?=
- =?us-ascii?Q?TsTltdQogzI7BvGQzUX0BzWdkb49YwF2QST7+Ol/0Rv4UeveJr4H3NzvzjuP?=
- =?us-ascii?Q?1UxL05n3SrnHK7RnGcDJbJOGGt4awXNsnPbUvIyjh7ni09Zv61zeyYiHq5g+?=
- =?us-ascii?Q?8/x3wOrpleWlXp66e9gy+/2/c9gxNfLbSMOI6XwCpaCKaVnJN+hQmjCQ8AIq?=
- =?us-ascii?Q?8MoRFl4j+jt1n8ca0MkPO3rJMELlxlR4kgm8dWRCkiDT0QArszs6hsaDdZY1?=
- =?us-ascii?Q?z7NX9aFdbS5WnOXtEkZdueyNj2Ovho3QfAzofKT2Zrl5fzAgOXWKiRxYkq6u?=
- =?us-ascii?Q?PDevoZ2dRFa5jgfhLVLmbO+/eJEuVkUJQFtXOm3abUrTr/w4oTIIHySIM04v?=
- =?us-ascii?Q?JCMUDkiEB4M0JTh9XIxMDubek566tSQIcg6SLNHJTZ1XXywNOC8zy9zeI04h?=
- =?us-ascii?Q?bgz6LpJmmNUlxR1SdFT4anRbfI1P2gXbZVUkdTMgbO3kS/m/6eOSr/jdVtHU?=
- =?us-ascii?Q?7eo7cIFVLCy5PwzpaGKPhfv/0qUBvIG9b1aZ9LRDKOzP57pHIKc/WZra0VGM?=
- =?us-ascii?Q?fbaAw6nQcRfnvmepUxBGFVSpMtJLT+vsFkxvPPYM8qTfQvb4MjM3UWcpYVUh?=
- =?us-ascii?Q?oaYJuFhu7QLpeRhMkiZGFdKArTEMbKOSBPe8jQLHnP9NNrwx/6Sq1ZpOH3de?=
- =?us-ascii?Q?kKnuukJ21vXn9ZkhGxDfLXYELdemQEcsuZITqvgAh9GKf1uXwEoqO5NRrjBN?=
- =?us-ascii?Q?QESh8lLi/IbI4rQln+J+S5sPzRJtd2FPe5u5ylMs+UledCu6GIGg6nonOzrs?=
- =?us-ascii?Q?CNZsrucVDyhaH+ST31Gn1cS7U/83K8usv3bBSmEVznXXUkEV6rpwXIi5j+2Q?=
- =?us-ascii?Q?vw/DNoIaqzsSRXNe3TpdweF4AUaSFOmq0YFaUheWZRWTeGQ4XS3+3WOwPfOV?=
- =?us-ascii?Q?PaZC9Jb4CpTONNpbwkASp2EVSAA5PqVwP6RTa7iy9311VQ6zpcw9HPEszm8h?=
- =?us-ascii?Q?wB0aQqxTrFzOGhs1b8PziTyd?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 24 Aug 2021 11:24:01 -0400
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 17OFMfa6016562;
+        Wed, 25 Aug 2021 00:22:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17OFMfa6016562
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1629818562;
+        bh=S+OncbYervpFyf36q1qMQ/cK2RuBY42Jax+g4KEinBk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZcH8Mol3zFOfA82L2ktXpSfndCTVIm8sSN5WhvCF0nkR7lfzciGFhUJXETjlXjtPX
+         zJh+MUJ/Ewjk16dZQ1gny5f5e7a9UEa8Y4ew4QsRa2f8+XDPL4zy7TRkyQPCCGuQBR
+         HtPcktDDii+gXrd9c6Y/+n2IDAqMdutuYAV8w4MCt5+cnVSpw8AKUX2Ib7Ibo6FD2q
+         Ohh6UGM+07Qonx5uLAq8xTeCFAPzEUUH7JfX0G/OTHgFnWD/VUkraTi5Z03rF1LVlI
+         S9HUYx9frUuL/nuZq9/KuCBWLzyvJI5ic9YGRufpg399QFVGzpWMzh0y6+RyOdbiCs
+         U/uVLdyiGdKjg==
+X-Nifty-SrcIP: [209.85.215.182]
+Received: by mail-pg1-f182.google.com with SMTP id e7so20084678pgk.2;
+        Tue, 24 Aug 2021 08:22:41 -0700 (PDT)
+X-Gm-Message-State: AOAM532kurLktu58pwqpHuXIw8lHovCfniN5blvX1moEtQVIcV7LHn01
+        PUcoRr6FGo3YJvxRRhzqkBZgYNDXJOe0Ioj8nm8=
+X-Google-Smtp-Source: ABdhPJxOp9dnA/3wndoHqVeBS+wD5iSN8I9DS95FoFt5pEdVV9c/uEMA3l6IFAOsje6soli60G91Ls2TkIcdXGUYgjE=
+X-Received: by 2002:aa7:8e56:0:b029:3cd:c2ec:6c1c with SMTP id
+ d22-20020aa78e560000b02903cdc2ec6c1cmr39028324pfr.80.1629818561184; Tue, 24
+ Aug 2021 08:22:41 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR18MB2229.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cff11d0b-a9d6-4ef8-79a0-08d967064f71
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2021 13:51:44.7798
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S07K5TsDOEM1fYOyl4L5sHc6IFKNL8HtJzGfPubKFD6+2Z+PKq+bOkDAl63rre8IrpHApOzgGQ5mrJm/p90OxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR18MB4173
-X-Proofpoint-GUID: lLSeim5oVrTVDfdXvJxQPHeUBF8phhVS
-X-Proofpoint-ORIG-GUID: lLSeim5oVrTVDfdXvJxQPHeUBF8phhVS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-08-24_04,2021-08-24_01,2020-04-07_01
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org> <20210407053419.449796-19-gregkh@linuxfoundation.org>
+In-Reply-To: <20210407053419.449796-19-gregkh@linuxfoundation.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 25 Aug 2021 00:22:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
+Message-ID: <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
+Subject: Re: [PATCH 18/20] kbuild: sh: remove unused install script
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-> -----Original Message-----
-> From: Kees Cook <keescook@chromium.org>
-> Sent: Wednesday, August 18, 2021 11:35 AM
-> To: linux-kernel@vger.kernel.org
-> Cc: Kees Cook <keescook@chromium.org>; Ariel Elior <aelior@marvell.com>;
-> Sudarsana Reddy Kalluru <skalluru@marvell.com>; GR-everest-linux-l2 <GR-
-> everest-linux-l2@marvell.com>; David S. Miller <davem@davemloft.net>; Jak=
-ub
-> Kicinski <kuba@kernel.org>; netdev@vger.kernel.org; Gustavo A. R. Silva
-> <gustavoars@kernel.org>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>;
-> Andrew Morton <akpm@linux-foundation.org>; linux-wireless@vger.kernel.org=
-;
-> dri-devel@lists.freedesktop.org; linux-staging@lists.linux.dev; linux-
-> block@vger.kernel.org; linux-kbuild@vger.kernel.org; clang-built-
-> linux@googlegroups.com; Rasmus Villemoes <linux@rasmusvillemoes.dk>;
-> linux-hardening@vger.kernel.org
-> Subject: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
->=20
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields.
->=20
-> Use struct_group() in struct nig_stats around members egress_mac_pkt0_lo,
-> egress_mac_pkt0_hi, egress_mac_pkt1_lo, and egress_mac_pkt1_hi (and the
-> respective members in struct bnx2x_eth_stats), so they can be referenced
-> together. This will allow memcpy() and sizeof() to more easily reason
-> about sizes, improve readability, and avoid future warnings about writing
-> beyond the end of struct bnx2x_eth_stats's rx_stat_ifhcinbadoctets_hi.
->=20
-> "pahole" shows no size nor member offset changes to either struct.
-> "objdump -d" shows no meaningful object code changes (i.e. only source
-> line number induced differences and optimizations).
->=20
-> Additionally adds BUILD_BUG_ON() to compare the separate struct group
-> sizes.
->=20
-> Cc: Ariel Elior <aelior@marvell.com>
-> Cc: Sudarsana Kalluru <skalluru@marvell.com>
-> Cc: GR-everest-linux-l2@marvell.com
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On Wed, Apr 7, 2021 at 2:35 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> The sh arch has a install.sh script, but no Makefile actually calls it.
+> Remove it to keep anyone from accidentally calling it in the future.
+>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: linux-sh@vger.kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
+>  arch/sh/boot/compressed/install.sh | 56 ------------------------------
+>  1 file changed, 56 deletions(-)
+>  delete mode 100644 arch/sh/boot/compressed/install.sh
+>
+> diff --git a/arch/sh/boot/compressed/install.sh b/arch/sh/boot/compressed/install.sh
+> deleted file mode 100644
+> index f9f41818b17e..000000000000
+> --- a/arch/sh/boot/compressed/install.sh
+> +++ /dev/null
+> @@ -1,56 +0,0 @@
+> -#!/bin/sh
+> -#
+> -# arch/sh/boot/install.sh
+> -#
+> -# This file is subject to the terms and conditions of the GNU General Public
+> -# License.  See the file "COPYING" in the main directory of this archive
+> -# for more details.
+> -#
+> -# Copyright (C) 1995 by Linus Torvalds
+> -#
+> -# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
+> -# Adapted from code in arch/i386/boot/install.sh by Russell King
+> -# Adapted from code in arch/arm/boot/install.sh by Stuart Menefy
+> -#
+> -# "make install" script for sh architecture
+> -#
+> -# Arguments:
+> -#   $1 - kernel version
+> -#   $2 - kernel image file
+> -#   $3 - kernel map file
+> -#   $4 - default install path (blank if root directory)
+> -#
+> -
+> -# User may have a custom install script
+> -
+> -if [ -x /sbin/${INSTALLKERNEL} ]; then
+> -  exec /sbin/${INSTALLKERNEL} "$@"
+> -fi
+> -
+> -if [ "$2" = "zImage" ]; then
+> -# Compressed install
+> -  echo "Installing compressed kernel"
+> -  if [ -f $4/vmlinuz-$1 ]; then
+> -    mv $4/vmlinuz-$1 $4/vmlinuz.old
+> -  fi
+> -
+> -  if [ -f $4/System.map-$1 ]; then
+> -    mv $4/System.map-$1 $4/System.old
+> -  fi
+> -
+> -  cat $2 > $4/vmlinuz-$1
+> -  cp $3 $4/System.map-$1
+> -else
+> -# Normal install
+> -  echo "Installing normal kernel"
+> -  if [ -f $4/vmlinux-$1 ]; then
+> -    mv $4/vmlinux-$1 $4/vmlinux.old
+> -  fi
+> -
+> -  if [ -f $4/System.map ]; then
+> -    mv $4/System.map $4/System.old
+> -  fi
+> -
+> -  cat $2 > $4/vmlinux-$1
+> -  cp $3 $4/System.map
+> -fi
+> --
+> 2.31.1
+>
 
-Reviewed-by: Prabhakar Kushwaha <pkushwaha@marvell.com>
+
+This one is applicable independently.
+
+Applied to linux-kbuild. Thanks.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
