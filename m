@@ -2,48 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBA343F5F2E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 15:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8A2B3F5F35
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Aug 2021 15:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbhHXNcK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Aug 2021 09:32:10 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:25170 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbhHXNcK (ORCPT
+        id S237546AbhHXNdp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Aug 2021 09:33:45 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:39391 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237539AbhHXNdp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Aug 2021 09:32:10 -0400
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 17ODVEd4027345;
-        Tue, 24 Aug 2021 22:31:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 17ODVEd4027345
+        Tue, 24 Aug 2021 09:33:45 -0400
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 17ODWYf6013733;
+        Tue, 24 Aug 2021 22:32:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 17ODWYf6013733
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629811874;
-        bh=wPlhHbL8rDPtZtoXfWX35PK2EbQni3fLQ5sq3cBwXOQ=;
+        s=dec2015msa; t=1629811955;
+        bh=j/k7gQQ5rcheWIFS9kTtHhs7q+yMlORMz7nITinR2Ds=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QYMWqZz9nklFHvxzQcz9Gv/9LpExcJtQ/c+d7MH84v7H1Lw7v6qgEt7IqMg7OPjZs
-         78Zmp/ebpzawrpIB4oDmlGFifch5tiV+eIrWFYrPTx8CrlmkLr+BtW13HQrUtKmX7W
-         S5iHQ7F0T3Egl4LI+M0uXZgXPXpgtFZ9edN12FdISg5+Bl7vwHczFK+hNUL/n1zVy3
-         8FKKUbLSPgJfjjM+BG4/fwP6a+Beu/2cUffCpGUOFgLdunzE9X2MJjHw2XXJ5OSkPO
-         vTR2WdTfoRwwdLM5kd4/xRe0Yl1LLR8A0JyYeAjqi+Pm+s0kJRO+LiXoulm2o33znB
-         W+k09Oo308kcw==
-X-Nifty-SrcIP: [209.85.210.170]
-Received: by mail-pf1-f170.google.com with SMTP id 2so4324654pfo.8;
-        Tue, 24 Aug 2021 06:31:14 -0700 (PDT)
-X-Gm-Message-State: AOAM530tByD+rmc0q87/qeSN3No25smbho+5YVd4R9ezM/zit8D0taRj
-        +OWC/VJPCzwTlGrfGF0vB/4OfqCsN5JgLiUabx0=
-X-Google-Smtp-Source: ABdhPJwoRVBhfNZ239uyJqO9q/BWIjMjNpQfNSWE8F4RAloZNtZOzOI7cj3RFIidH2I8orM2A4tQBpfFfUkRFBuIg+A=
-X-Received: by 2002:aa7:94ac:0:b0:3e0:f21a:e6ff with SMTP id
- a12-20020aa794ac000000b003e0f21ae6ffmr38094358pfl.76.1629811873673; Tue, 24
- Aug 2021 06:31:13 -0700 (PDT)
+        b=xDIoXgT6ovciswl+50kD56ZetG7jkQF3DDXxh7MBR5hvbAEFhZzILigwf1SPQmNrU
+         kVxUuOGrNXjokX4FrHd1kFRhQzpEbg/n0BvIpzJYaMILlGi+Z3nDSGDvJc+8Bzr3mW
+         qs5AoqMk7yiDq+zlivlJJMx8eiaCbyNe9VzhgWAEVPykhSH/75+D35Qm15hWkTFgJQ
+         dfMq5rK1X2mVJjtP/6GneM5mO0r9DOfAI8Z0ndEp0xGm7oZPrV67pRNn82BC/siUTN
+         WVuEuKqxYW3+eiilSl6OTWquRlkKqjbhTqTKzmTxoLKkywXA1O2lf74E5b06H6/0RN
+         u9oWXa/13SL7Q==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id d17so12217630plr.12;
+        Tue, 24 Aug 2021 06:32:34 -0700 (PDT)
+X-Gm-Message-State: AOAM531i3USIaDIdt1j9MyMkSUeUmAQfXQVpukZDUHQHJdLqcqoYyzTw
+        5npXVTHP3bXl3m108v6jANKiiTlUFXnxoLk5VKw=
+X-Google-Smtp-Source: ABdhPJxJuwE4qIXW/u9RoUzp9rdRXu3C4zF9HbP+SpIbDOCmoqMBQwc6+YtCwzEBD2zMFypOsYBkkqu8gDkg2UMEwGU=
+X-Received: by 2002:a17:902:a5c5:b029:12c:a867:a839 with SMTP id
+ t5-20020a170902a5c5b029012ca867a839mr33455408plq.71.1629811953985; Tue, 24
+ Aug 2021 06:32:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210822192205.43210-1-arielmarcovitch@gmail.com> <20210822192205.43210-3-arielmarcovitch@gmail.com>
-In-Reply-To: <20210822192205.43210-3-arielmarcovitch@gmail.com>
+References: <20210822192205.43210-1-arielmarcovitch@gmail.com> <20210822192205.43210-4-arielmarcovitch@gmail.com>
+In-Reply-To: <20210822192205.43210-4-arielmarcovitch@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 24 Aug 2021 22:30:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATy17OQ900ThKJwHRy35+4Yg=9CRNg9Zp0tZ_O=uQ+kaw@mail.gmail.com>
-Message-ID: <CAK7LNATy17OQ900ThKJwHRy35+4Yg=9CRNg9Zp0tZ_O=uQ+kaw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] checkkconfigsymbols.py: Fix Kconfig parsing to find
- 'if' lines
+Date:   Tue, 24 Aug 2021 22:31:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmSmTTPRWcgcPF8kRntSFuaPkLD0A=xuz=CAp4SzxV=Q@mail.gmail.com>
+Message-ID: <CAK7LNARmSmTTPRWcgcPF8kRntSFuaPkLD0A=xuz=CAp4SzxV=Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] checkkconfigsymbols.py: Forbid passing 'HEAD' to --commit
 To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
@@ -54,117 +53,58 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 4:22 AM Ariel Marcovitch
+On Mon, Aug 23, 2021 at 4:23 AM Ariel Marcovitch
 <arielmarcovitch@gmail.com> wrote:
 >
-> When parsing Kconfig files to find symbol definitions and references,
-> lines after a 'help' line are skipped until a new config definition
-> starts.
+> As opposed to the --diff option, --commit can get ref names instead of
+> commit hashes.
 >
-> However, it is quite common to define a config and then make some other
-> configs depend on it by adding an 'if' line. This kind of kconfig
-> statement usually appears after a config definition which might contain
-> a 'help' section. The 'if' line is skipped in parse_kconfig_file()
-> because it is not a config definition.
+> When using the --commit option, the script resets the working directory
+> to the commit before the given ref, by adding '~' to the end of the ref.
 >
-> This means that symbols referenced in this kind of statements are
-> ignored by this function and thus are not considered undefined
-> references in case the symbol is not defined.
+> However, the 'HEAD' ref is relative, and so when the working directory
+> is reset to 'HEAD~', 'HEAD' points to what was 'HEAD~'. Then when the
+> script resets to 'HEAD' it actually stays in the same commit. In this
+> case, the script won't report any cases because there is no diff between
+> the cases of the two refs.
 >
-> The REGEX_KCONFIG_STMT regex can't be used because the other types of
-> statements can't break help lines.
+> Prevent the user from using HEAD refs.
 >
-> Define a new regex for matching 'if' statements and stop the 'help'
-> skipping in case it is encountered.
->
+> A better solution might be to resolve the refs before doing the
+> reset, but for now just disallow such refs.
+
+
+Better than doing nothing.
+So, applied to linux-kbuild.
+
+
+
+
+
 > Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
 > ---
->  scripts/checkkconfigsymbols.py | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  scripts/checkkconfigsymbols.py | 3 +++
+>  1 file changed, 3 insertions(+)
 >
 > diff --git a/scripts/checkkconfigsymbols.py b/scripts/checkkconfigsymbols.py
-> index b9b0f15e5880..875e9a2c14b2 100755
+> index 875e9a2c14b2..6259698e662d 100755
 > --- a/scripts/checkkconfigsymbols.py
 > +++ b/scripts/checkkconfigsymbols.py
-> @@ -26,6 +26,7 @@ EXPR = r"(?:" + OPERATORS + r"|\s|" + SYMBOL + r")+"
->  DEFAULT = r"default\s+.*?(?:if\s.+){,1}"
->  STMT = r"^\s*(?:if|select|imply|depends\s+on|(?:" + DEFAULT + r"))\s+" + EXPR
->  SOURCE_SYMBOL = r"(?:\W|\b)+[D]{,1}CONFIG_(" + SYMBOL + r")"
-> +IF_LINE = r"^\s*(?:if)\s+" + EXPR
-
-
-Why is it enclosed by "(?: )"   ?
-
-"(?:if)"  seems to the same as "if"
-
-
-
-
-
-
+> @@ -103,6 +103,9 @@ def parse_options():
+>                       "continue.")
 >
->  # regex objects
->  REGEX_FILE_KCONFIG = re.compile(r".*Kconfig[\.\w+\-]*$")
-> @@ -35,11 +36,11 @@ REGEX_KCONFIG_DEF = re.compile(DEF)
->  REGEX_KCONFIG_EXPR = re.compile(EXPR)
->  REGEX_KCONFIG_STMT = re.compile(STMT)
->  REGEX_KCONFIG_HELP = re.compile(r"^\s+help\s*$")
-> +REGEX_KCONFIG_IF_LINE = re.compile(IF_LINE)
->  REGEX_FILTER_SYMBOLS = re.compile(r"[A-Za-z0-9]$")
->  REGEX_NUMERIC = re.compile(r"0[xX][0-9a-fA-F]+|[0-9]+")
->  REGEX_QUOTES = re.compile("(\"(.*?)\")")
->
-> -
->  def parse_options():
->      """The user interface of this module."""
->      usage = "Run this tool to detect Kconfig symbols that are referenced but " \
-> @@ -445,6 +446,11 @@ def parse_kconfig_file(kfile):
->          line = line.strip('\n')
->          line = line.split("#")[0]  # ignore comments
->
-> +        # 'if EXPR' lines can be after help lines
-> +        # The if line itself is handled later
-> +        if REGEX_KCONFIG_IF_LINE.match(line):
-> +            skip = False
+>      if args.commit:
+> +        if args.commit.startswith('HEAD'):
+> +            sys.exit("The --commit option can't get use the HEAD ref")
 > +
-
-
-I do not think this is the right fix.
-There are similar patterns where
-config references are ignored.
-
-For example, FOO and BAR are ignored
-in the following cases.
-
-ex1)
-
-choice
-          prompt "foo"
-          default FOO
-
-
-
-ex2)
-
-menu "bar"
-           depends on BAR
-
-
-
-
-The help block ends with shallower indentation.
-
-
-
-
->          if REGEX_KCONFIG_DEF.match(line):
->              symbol_def = REGEX_KCONFIG_DEF.findall(line)
->              defined.append(symbol_def[0])
+>          args.find = False
+>
+>      if args.ignore:
 > --
 > 2.25.1
 >
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
