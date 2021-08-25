@@ -2,99 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B05CA3F7D8E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Aug 2021 23:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD28B3F7DB0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Aug 2021 23:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbhHYVSS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Aug 2021 17:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229923AbhHYVSS (ORCPT
+        id S232749AbhHYV0S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Aug 2021 17:26:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37712 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232844AbhHYV0P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Aug 2021 17:18:18 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B38DC0613CF
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Aug 2021 14:17:32 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id r9so1826751lfn.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Aug 2021 14:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cAlJBNQn16JjUkHYdCuHXibhY5cJqMeU9e15H1wH+kQ=;
-        b=Twvb5JwGXq7g8xGxqMloGmKOTKjL4Cpr7Hrkzmdj1rM9cAtIDoJQlHk/FubuEVlXUS
-         3YA89nJqolCmBl0X+218EiNXgod3K2tHKBNueNTJp2dhWHaoQEjCYliDGM3Jp+P8jrp1
-         U6incOxlb5XMQ5WLp+xztlf+F7edMQ0aSrHv9TPi+Ll75CedhDDQBSBjY3vID9LJG8lU
-         IceClHUlaGxSZPYAuCqKx7xqyW9uslzP4Lp0rDx9Yl7618mw5Og/JVlsPgflydKIzjRW
-         nTv08AP6n7WDSJXmhx0111VHP64plhof0Gy4X0XfGmjg63JF8AVQ1FVrFBTQ5ppldxFD
-         DVgQ==
+        Wed, 25 Aug 2021 17:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629926728;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a8WjHoFBXc0jwAZ/Pzv1m1K7J4OWtNmWsJJuNT1URQ8=;
+        b=U3LUOgGwsbOFZQ1PNqBh0/0Nza3r9tFgbqKLgmzl7e6xnUoR+jmIZSOKyT6YXdxdTZqR6p
+        IzsgROSabeyytiVUrL8XTH/Qj8NeU0zHiUJ+QCnhi953PdhViHrlghuUGeofeK6clZgbJx
+        fDV+bDD3KE/11hgi0zi9KoTshxR1bcY=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-wfM7cKWxO9iYiUZP0xN0BA-1; Wed, 25 Aug 2021 17:25:27 -0400
+X-MC-Unique: wfM7cKWxO9iYiUZP0xN0BA-1
+Received: by mail-oi1-f197.google.com with SMTP id r25-20020a056808211900b00268b48af6baso550973oiw.23
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Aug 2021 14:25:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cAlJBNQn16JjUkHYdCuHXibhY5cJqMeU9e15H1wH+kQ=;
-        b=OYaCSRRDo53nt9S/etje/kinK8O/yKQ5bVinaM1otdi+nfA0VpYdSQN/rKH5ujNgtF
-         GI+XTNeg2aCGTU3p6e0ECq+tCCFB+vExPZNxHs3ACTTLJt2/ur4uWmjczis7Fns/VQWj
-         7pYnRkMPaanddzS3zQRUe094880dZn+oMz+QNUf3GQEysIU/UYiYG+N2uf7xiFbZJvae
-         PH37qiFGIbbr+Aq4gFvNyGEgNMpqlrc2WsSfBEp229V2O+UgufufSyels17Yj6FysElh
-         MKoZ2iRy0LXQHSbG1WIv0eLqziiHys68tqFbZhqcz8mhuGQoY0yXae2g94mKjjAgOEqj
-         JBdg==
-X-Gm-Message-State: AOAM532HzisH/pQlcqssknjZiOWbNE0/do3zTGwB84TCLH4oOz16h+Hl
-        2NKafhb4Aw4KTmce2R3pAD7xRB7Lbq6I43IGumB82w==
-X-Google-Smtp-Source: ABdhPJwfpYIvlODDHiRHyf2+aTCddGrNRBCe0ubiEEwEmq1swxye6qx60WEAreo9vIgjPwwCEf++BetmgbXXELUhpN8=
-X-Received: by 2002:a19:5f04:: with SMTP id t4mr88603lfb.297.1629926250176;
- Wed, 25 Aug 2021 14:17:30 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=a8WjHoFBXc0jwAZ/Pzv1m1K7J4OWtNmWsJJuNT1URQ8=;
+        b=cOWopGX8asxrxxnwEhsZebhKI6XAQNeAoXFzXwCVYTj8JDYyk6Woabw3yZNklMswFV
+         NqBG1gphrOvvD9A6DBfU/IWtXsyPYR/9MhJOlz/u3kGMMFxCmURGKDHe7zMPVjKnzGHb
+         9IJe0DeDDejPwG12hY1AQ3iSDBi1HLCrYrGYHXLw4pLxoiY9d3qBiUfrTUD41OqZ01zH
+         DM1jSSO+ZyD6UUB97UdhxsiqSFLFQchLwdRKcpobGpmI3GM6WhCsxV88OyZedDP4t+rU
+         xaLMQGbI/FIx+IaRwHWijs8/URcMA9Tgz0QDpJahHKyScqGvM2uuIH+sEFZBrI/+WjkU
+         yRow==
+X-Gm-Message-State: AOAM533w63iyy4d+NkN1GKV9j+Ec9mSQnxkPOmE2/JfhkPt5N4dHFxvn
+        RwvHn5cZyxEADzG/SWX9404jOaYFIL8pm/CLt3h0jHdUEljemqi4FbXiFoF/JWUFkDY7uij7rzi
+        5AsIdXF2oKQQCDWWFjS0Tsp1q
+X-Received: by 2002:aca:59c6:: with SMTP id n189mr8927962oib.44.1629926726455;
+        Wed, 25 Aug 2021 14:25:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2TQ0tVP/G/91e1rsMJxtfNj9JdiJU9bbsFApswvKRzxaqgLUrbQuFPpCCzIEKetVt2wAhqA==
+X-Received: by 2002:aca:59c6:: with SMTP id n189mr8927948oib.44.1629926726248;
+        Wed, 25 Aug 2021 14:25:26 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id y7sm178910oov.36.2021.08.25.14.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Aug 2021 14:25:25 -0700 (PDT)
+Date:   Wed, 25 Aug 2021 15:25:24 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Yishai Hadas <yishaih@nvidia.com>, bhelgaas@google.com,
+        corbet@lwn.net, diana.craciun@oss.nxp.com, kwankhede@nvidia.com,
+        eric.auger@redhat.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        mgurtovoy@nvidia.com, jgg@nvidia.com, maorg@nvidia.com,
+        leonro@nvidia.com
+Subject: Re: [PATCH V4 09/13] PCI: Add 'override_only' field to struct
+ pci_device_id
+Message-ID: <20210825152524.45437035.alex.williamson@redhat.com>
+In-Reply-To: <20210825155446.GA3575423@bjorn-Precision-5520>
+References: <20210825135139.79034-10-yishaih@nvidia.com>
+        <20210825155446.GA3575423@bjorn-Precision-5520>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210818081118.1667663-1-keescook@chromium.org> <20210818081118.1667663-6-keescook@chromium.org>
-In-Reply-To: <20210818081118.1667663-6-keescook@chromium.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 25 Aug 2021 14:17:18 -0700
-Message-ID: <CAKwvOd=bcs5W6eEDXGn5ROR2EuMiSp_2e6sLFxak=KK6yLWcvA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] Makefile: Enable -Wzero-length-bounds
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 1:11 AM Kees Cook <keescook@chromium.org> wrote:
->
-> With all known internal zero-length accesses fixed, it is possible to
-> enable -Wzero-length-bounds globally. Since this is included by default
-> in -Warray-bounds, we just need to stop disabling it.
->
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On Wed, 25 Aug 2021 10:54:46 -0500
+Bjorn Helgaas <helgaas@kernel.org> wrote:
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> On Wed, Aug 25, 2021 at 04:51:35PM +0300, Yishai Hadas wrote:
+> > From: Max Gurtovoy <mgurtovoy@nvidia.com>
+> > 
+> > Add 'override_only' field to struct pci_device_id to be used as part of
+> > pci_match_device().
+> > 
+> > When set, it means that matching is true only when dev->driver_override
+> > is this driver.  
+> 
+> Maybe:
+> 
+>   When set, a driver only matches the entry when dev->driver_override
+>   is set to that driver.
 
-> ---
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index af22b83cede7..3b6fb740584e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1071,7 +1071,6 @@ KBUILD_CFLAGS += -Wno-pointer-sign
->  KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
->
->  # We'll want to enable this eventually, but it's not going away for 5.7 at least
-> -KBUILD_CFLAGS += $(call cc-disable-warning, zero-length-bounds)
->  KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
->
->  # Another good warning that we'll want to enable eventually
-> --
+I've made this change locally, thanks Bjorn.
 
--- 
-Thanks,
-~Nick Desaulniers
+Alex
+
+> 
+> > In addition, add a helper macro named 'PCI_DEVICE_DRIVER_OVERRIDE' to
+> > enable setting some data on it.
+> > 
+> > Next patch from this series will use the above functionality.
+> > 
+> > Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Yishai Hadas <yishaih@nvidia.com>  
+> 
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
