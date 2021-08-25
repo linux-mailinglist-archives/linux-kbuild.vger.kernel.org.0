@@ -2,225 +2,232 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21BC13F74A3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Aug 2021 13:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BE013F7654
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Aug 2021 15:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240249AbhHYMAO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Aug 2021 08:00:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238434AbhHYMAO (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Aug 2021 08:00:14 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FD1C061757;
-        Wed, 25 Aug 2021 04:59:28 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id bq28so3964159lfb.7;
-        Wed, 25 Aug 2021 04:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Sh8Hhajj0pnPnQiiu2aiUUMwiCEAyqctL4Ajg0R6YEk=;
-        b=B991xy72YQIKeK0YL5CfnvOiwxExWCwzKOYLrnvKItU/etqhJMEKUz7vP9FXPGV+tN
-         R835TLWh68zmwjW6AD/WIdDH9ucNKaeetxUlQEB1f1faIk6+LeE/obwFpDi27ryBN/5s
-         oK41Udd/lIgQD3ZgHCMv7tDY0u1AiGAujDl1gJotGb4wI4NiGhjuQJlb6tHaIqHLSgxu
-         n7dwouk7paFuajiTYIjBAHmWSGj+asfv7tTZN5hjDR29CmqHfTJePRDiXsKGO7yfsWpv
-         FH/lspZH+agBQkPTOaZeuwaCVkBz7OTVMklUjSm+glte/NAt0uO12lWT+CPt+Qv9+Lut
-         zsyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Sh8Hhajj0pnPnQiiu2aiUUMwiCEAyqctL4Ajg0R6YEk=;
-        b=sqes4Jy+Oa0rRNO4X9+sruIQ8OuhoaY5Ikq1CLu48nbtdylZM6wlMThklm2yt4ewSk
-         4e1bzLlNj+UaNWicAo7bAGymAiVDygKkW5u1mnGm75U9grCQjSRYsuNf22m2E+xv8+KC
-         Hq6gO6gFGG/6eEmY5cOMD///9CgbTLjFxnwQBF2hW/fmT8wiJM7TSGS8tMaNOLIDRGKE
-         LTQJUPj6jwcrO/b71iEOccUsjrGUiESNm5vdPIU+Gbtqi5kGYqJrb/jNLPNJTsUmkRdo
-         ZAcb6uBdrgikWKnXU181pG8V9NFvWtqw2CuHHzunzw1ifei3TOoTHEiXTG/VDihRWEsk
-         S2NA==
-X-Gm-Message-State: AOAM5318hc7IaD40CundDYxwr+6p9G4QvS1hVGtVWtL0OFwC/a28oyBW
-        74Tbh5Xzp4d5AMVYn88Vxgd8685la8UbDs5k7U0=
-X-Google-Smtp-Source: ABdhPJxKumqkjQ/ZfaCK/Nc1KFD2ooxUYCqnUe8SWu8yZCKpTaP98/h7PeQqDZDQpVbBRdfWVKdV/A==
-X-Received: by 2002:a19:c350:: with SMTP id t77mr1506784lff.33.1629892766712;
-        Wed, 25 Aug 2021 04:59:26 -0700 (PDT)
-Received: from [10.0.0.40] (91-155-111-71.elisa-laajakaista.fi. [91.155.111.71])
-        by smtp.gmail.com with ESMTPSA id k23sm2104796ljg.73.2021.08.25.04.59.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 04:59:26 -0700 (PDT)
-Subject: Re: [PATCH] kconfig: forbid symbols that end with '_MODULE'
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, arnd@arndb.de
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-References: <20210825041637.365171-1-masahiroy@kernel.org>
-From:   =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Message-ID: <9df591f6-53fc-4567-8758-0eb1be4eade5@gmail.com>
-Date:   Wed, 25 Aug 2021 14:59:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S241416AbhHYNwq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Aug 2021 09:52:46 -0400
+Received: from mail-bn8nam12on2080.outbound.protection.outlook.com ([40.107.237.80]:2208
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S240294AbhHYNwq (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 25 Aug 2021 09:52:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bT0tWTbuWudaogVMMVrBopuHIVNRZNLwErfOvKS7OffcqlwVgiD7/3hqdnMgN3w+QF4GUySEKSqamqTjv8HF5fumczIkWu5yLbEkWEumrVmfCbF71FuVGyWYY4M1sOwz2flIkz8krCPRtZy7lwznVEgd187FTICTyKL4uVlOpO7I8MPoyPTiwbannG0BKJtdz+0mn9K46RD42YuXlvY7VMwzFOqvfUU6V/Xsf9DlNAwwa9mganaVOdqZ0aCZNWR++dkOUARWTCiUHSP5ihXYJ9gVQ3d/jZT5xe4RxPMjLPQWbG6e+54PUsmt55yqlAXCne+/56chgTPyFbMUGP3roQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0yrSRaR+bqQt1ZpL8ctIvtTSSPVi3OiuoGWr8xwrr2w=;
+ b=hMDFihFat+7GhovQ9F49bcN7GUkDLl7WWO2+oKE0eYBtR8elFdMdCVVS9UxT3pdCPec76b21va6e7WeAJPOzZU58sHFn+HzjhDLSL1I2IGD7dwuqJGET/Z8W8SVeo/ef+jcDlPfWGzUKm8V2jsDF/YDt0rHlEmeM4pqYak/vLS6CTkrCL8vwLnwkhi/ic6CI7FQTs7n4tmjHG3ceUWxKscJ6R6a0L5qVLl9b9k42FzRwsKw/BYKrSDWo5zz8goI3YdycauyrLV7s896onW2j4iHU4XrpwFzTPR0ipU8EGstFdXsGrjq7t3kRjpQmupaGA7rilD16sQyiknE6UcR6Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.35) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0yrSRaR+bqQt1ZpL8ctIvtTSSPVi3OiuoGWr8xwrr2w=;
+ b=XfE+WGlUKm0urIgzKXxKwOxq/sRxlL9y4YAfgLlbTNDd5KgwIsrv27cWlsbfBPPdpTmdeqoUmhEESdoGC7Hx14iM0cJR0FPytq6goce7gBFlCOiCCSQZVXkh2c1JQDt3B5p5OrmROOnWtlHtud1MantyJHt4re/vXgE5HErPxqhgY4xzUUL6mzUgWQnnRRzIezG0RZxpTn3A5sxZy8rAnvrEuyLfnARM9qBddrJ5B/W9Ld6q5sD0w2NVsoe2Rv2G78fdwAx29bOlWvtQRZ4dS2EjaLMKJ+TnU0O5Pv/YS+A7Q5v0o2KVltqQxC6/YvJSgC8dikZuIugg03VZjzAk8w==
+Received: from MWHPR22CA0059.namprd22.prod.outlook.com (2603:10b6:300:12a::21)
+ by BY5PR12MB4067.namprd12.prod.outlook.com (2603:10b6:a03:212::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.21; Wed, 25 Aug
+ 2021 13:51:58 +0000
+Received: from CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:12a:cafe::5b) by MWHPR22CA0059.outlook.office365.com
+ (2603:10b6:300:12a::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.18 via Frontend
+ Transport; Wed, 25 Aug 2021 13:51:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.35; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.35) by
+ CO1NAM11FT014.mail.protection.outlook.com (10.13.175.99) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4457.17 via Frontend Transport; Wed, 25 Aug 2021 13:51:57 +0000
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 25 Aug
+ 2021 13:51:57 +0000
+Received: from vdi.nvidia.com (172.20.187.5) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 25 Aug 2021 06:51:53 -0700
+From:   Yishai Hadas <yishaih@nvidia.com>
+To:     <bhelgaas@google.com>, <corbet@lwn.net>,
+        <alex.williamson@redhat.com>, <diana.craciun@oss.nxp.com>,
+        <kwankhede@nvidia.com>, <eric.auger@redhat.com>,
+        <masahiroy@kernel.org>, <michal.lkml@markovi.net>
+CC:     <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>, <mgurtovoy@nvidia.com>,
+        <jgg@nvidia.com>, <yishaih@nvidia.com>, <maorg@nvidia.com>,
+        <leonro@nvidia.com>
+Subject: [PATCH V4 00/13] Introduce vfio_pci_core subsystem
+Date:   Wed, 25 Aug 2021 16:51:26 +0300
+Message-ID: <20210825135139.79034-1-yishaih@nvidia.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20210825041637.365171-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ee104d5b-ef27-47b1-9234-08d967cf8194
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4067:
+X-Microsoft-Antispam-PRVS: <BY5PR12MB40676716AC508C0FC511999EC3C69@BY5PR12MB4067.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: q7ax3xXo2P+VybE99ppf1yIAbUKFa/mB/ckki+sFHE6BdVU87J0bEDA4nCiiHzYzaNqP4hFAI4lnZYJDpTv4dKzMOnfxYy0ANgNlJ614J0Mokqdgr8RRmTL12ODgZ52ysKB8A2hs27I/mV86tpHKwGSyIXcJJP8pWPtLGNRtpPKdaWeRHa7Pn0YmLVdwL18PdvIHbP+ULYNu4fxK98cj0cFAK0A1MAh8+xS3MxJqY7EVGYg51OOf1xVtOm2TYU+2pXIZP7Oh6YOs9Yh+HTMceOLZd6z6jiLjm4UY1OWxnpNIuIpG+Hcba7Ga+6uOXmbzDOw7xSUqXb8LgH2i7j1j2Fe8okILJY+2KSMNUho6qnplXUaOa0N50EtPLc0RsL+VeXiZXM0kXFZRGy1U+5pAtuVBMEnrrs0ttw56puyoYUczU2BZM1T+wBRGh+O0Yowq9t58v4YLs6zf/uM3SKdMg8BmrMdspIb/jLwpxFueUL14RB2UjDFvJB/z9lyJqRymFjvVwBKxX5i5d7Zts7t3pB7YHbaogh52/inQ5+GccA3HrUmQcx4qHEjLdviz5cziUhI8KYpCIADXmbCW8D7NkV+ooAr3hmq3Eta3BeLHTK0kOF5rCojWQNa8cmLHt6D0ecgO5eUQFwYNkqYnwFJJa2VoefTqejpeDJmziQ9noH2EVa/GqyqSD+cg9Wer3UopKQ7U1peP94iwC/oXkyzbNb50dTWCeiFmHDsIPuYeZJLHAvliYlCJenVN/4mTRWcDSyNbZfcKsV9RTSeHqJiqKRkiN5hnJ3+V0oFa11iDnhMeTIa49OHoppq+RRGGvdU3DgMgLmpSNU8SDg6cGqFezQqTGREEmynyeX2Xg1BZ2co=
+X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(36840700001)(46966006)(82740400003)(70206006)(426003)(2906002)(6666004)(8676002)(336012)(26005)(356005)(186003)(70586007)(5660300002)(36756003)(110136005)(86362001)(4326008)(478600001)(966005)(2616005)(82310400003)(54906003)(7696005)(7636003)(83380400001)(36906005)(7416002)(316002)(36860700001)(107886003)(47076005)(1076003)(8936002)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 13:51:57.8205
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee104d5b-ef27-47b1-9234-08d967cf8194
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4067
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+From Max Gurtovoy:
+====================
+This series splits the vfio_pci driver into two parts, a PCI driver and
+a subsystem driver that will also be library of code. The main PCI
+driver, vfio_pci.ko, will remain as before and it will use the library
+module vfio_pci_core.ko to help create the vfio_device.
 
-On 25/08/2021 07:16, Masahiro Yamada wrote:
-> Kconfig (syncconfig) generates include/generated/autoconf.h to make
-> CONFIG options available to the pre-processor.
-> 
-> The macros are suffixed with '_MODULE' for symbols with the value 'm'.
-> 
-> Here is a conflict; CONFIG_FOO=m results in '#define CONFIG_FOO_MODULE 1',
-> but CONFIG_FOO_MODULE=y also results in the same define.
-> 
-> fixdep always assumes CONFIG_FOO_MODULE comes from CONFIG_FOO=m, so the
-> dependency is not properly tracked for symbols that end with '_MODULE'.
-> 
-> This commit makes Kconfig error out if it finds a symbol suffixed with
-> '_MODULE'. This restriction does not exist if the module feature is not
-> supported (at least from the Kconfig perspective).
-> 
-> It detected one error:
->   error: SND_SOC_DM365_VOICE_CODEC_MODULE: symbol name must not end with '_MODULE'
-> 
-> Rename it to SND_SOC_DM365_VOICE_CODEC_MODULAR. Commit 147162f57515
-> ("ASoC: ti: fix SND_SOC_DM365_VOICE_CODEC dependencies") added it for
-> internal use. So, this renaming has no impact on users.
-> 
-> Remove a comment from drivers/net/wireless/intel/iwlwifi/Kconfig since
-> this is a hard error now.
-> 
-> Add a comment to include/linux/kconfig.h in order not to worry observant
-> developers.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  drivers/net/wireless/intel/iwlwifi/Kconfig |  1 -
->  include/linux/kconfig.h                    |  3 ++
->  scripts/kconfig/parser.y                   | 40 +++++++++++++++++++++-
->  sound/soc/ti/Kconfig                       |  2 +-
->  4 files changed, 43 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/net/wireless/intel/iwlwifi/Kconfig b/drivers/net/wireless/intel/iwlwifi/Kconfig
-> index 1085afbefba8..5b238243617c 100644
-> --- a/drivers/net/wireless/intel/iwlwifi/Kconfig
-> +++ b/drivers/net/wireless/intel/iwlwifi/Kconfig
-> @@ -70,7 +70,6 @@ config IWLMVM
->  	  of the devices that use this firmware is available here:
->  	  https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi#firmware
->  
-> -# don't call it _MODULE -- will confuse Kconfig/fixdep/...
->  config IWLWIFI_OPMODE_MODULAR
->  	bool
->  	default y if IWLDVM=m
-> diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-> index 20d1079e92b4..54f677e742fe 100644
-> --- a/include/linux/kconfig.h
-> +++ b/include/linux/kconfig.h
-> @@ -53,6 +53,9 @@
->   * IS_MODULE(CONFIG_FOO) evaluates to 1 if CONFIG_FOO is set to 'm', 0
->   * otherwise.  CONFIG_FOO=m results in "#define CONFIG_FOO_MODULE 1" in
->   * autoconf.h.
-> + * CONFIG_FOO_MODULE=y would also result in "#define CONFIG_FOO_MODULE 1",
-> + * but Kconfig forbids symbol names that end with '_MODULE', so that would
-> + * not happen.
->   */
->  #define IS_MODULE(option) __is_defined(option##_MODULE)
->  
-> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> index 2af7ce4e1531..b0f73f74ccd3 100644
-> --- a/scripts/kconfig/parser.y
-> +++ b/scripts/kconfig/parser.y
-> @@ -475,6 +475,37 @@ assign_val:
->  
->  %%
->  
-> +/*
-> + * Symbols suffixed with '_MODULE' would cause a macro conflict in autoconf.h,
-> + * and also confuse the interaction between syncconfig and fixdep.
-> + * Error out if a symbol with the '_MODULE' suffix is found.
-> + */
-> +static int sym_check_name(struct symbol *sym)
-> +{
-> +	static const char *suffix = "_MODULE";
-> +	static const size_t suffix_len = strlen("_MODULE");
-> +	char *name;
-> +	size_t len;
-> +
-> +	name = sym->name;
-> +
-> +	if (!name)
-> +		return 0;
-> +
-> +	len = strlen(name);
-> +
-> +	if (len < suffix_len)
-> +		return 0;
-> +
-> +	if (strcmp(name + len - suffix_len, suffix))
-> +		return 0;
-> +
-> +	fprintf(stderr, "error: %s: symbol name must not end with '%s'\n",
-> +		name, suffix);
-> +
-> +	return -1;
-> +}
-> +
->  void conf_parse(const char *name)
->  {
->  	struct symbol *sym;
-> @@ -493,8 +524,15 @@ void conf_parse(const char *name)
->  
->  	if (yynerrs)
->  		exit(1);
-> -	if (!modules_sym)
-> +
-> +	if (modules_sym) {
-> +		for_all_symbols(i, sym) {
-> +			if (sym_check_name(sym))
-> +				yynerrs++;
-> +		}
-> +	} else {
->  		modules_sym = sym_find( "n" );
-> +	}
->  
->  	if (!menu_has_prompt(&rootmenu)) {
->  		current_entry = &rootmenu;
-> diff --git a/sound/soc/ti/Kconfig b/sound/soc/ti/Kconfig
-> index 698d7bc84dcf..c56a5789056f 100644
-> --- a/sound/soc/ti/Kconfig
-> +++ b/sound/soc/ti/Kconfig
-> @@ -211,7 +211,7 @@ config SND_SOC_DM365_VOICE_CODEC
->  	  Say Y if you want to add support for SoC On-chip voice codec
->  endchoice
->  
-> -config SND_SOC_DM365_VOICE_CODEC_MODULE
-> +config SND_SOC_DM365_VOICE_CODEC_MODULAR
+This series is intended to solve the issues that were raised in the
+previous attempts for extending vfio-pci for device specific
+functionality:
 
-This Kconfig option is only used to select the codecs needed for the
-voice mode, I think it would be better to use something like
+1.
+https://lore.kernel.org/kvm/20200518024202.13996-1-yan.y.zhao@intel.com
+   by Yan Zhao
+2.
+https://lore.kernel.org/kvm/20210702095849.1610-1-shameerali.kolothum.thodi@huawei.com
+   by Longfang Liu
 
-SND_SOC_DM365_SELECT_VOICE_CODECS ?
+Also to support proposed future changes to virtio and other common
+protocols to support migration:
 
->  	def_tristate y
->  	depends on SND_SOC_DM365_VOICE_CODEC && SND_SOC
->  	select MFD_DAVINCI_VOICECODEC
-> 
+https://lists.oasis-open.org/archives/virtio-comment/202106/msg00044.html
+
+This subsystem framework will also ease adding new device specific
+functionality to VFIO devices in the future by allowing another module
+to provide the pci_driver that can setup a number of details before
+registering to the VFIO subsystem, such as injecting its own operations.
+
+This series also extends the "driver_override" mechanism. A flag is
+added for PCI drivers that will declare themselves as "driver_override"
+capable which sends their match table to the modules.alias file but
+otherwise leaves them outside of the normal driver core auto-binding
+world, like vfio_pci.
+
+In order to get the best match for "driver_override" drivers, one can
+create a userspace program to inspect the modules.alias, an example can
+be found at:
+
+https://github.com/maxgurtovoy/linux_tools/blob/main/vfio/bind_vfio_pci_driver.py
+
+Which finds the 'best match' according to a simple algorithm: "the
+driver with the fewest '*' matches wins."
+
+For example, the vfio-pci driver will match to any pci device. So it
+will have the maximal '*' matches.
+
+In case we are looking for a match to a mlx5 based device, we'll have a
+match to vfio-pci.ko and mlx5-vfio-pci.ko. We'll prefer mlx5-vfio-pci.ko
+since it will have less '*' matches (probably vendor and device IDs will
+match). This will work in the future for NVMe/Virtio devices that can
+match according to a class code or other criteria.
+
+v4:
+Patch #6:
+- Delete might_sleep() from the vfio_pci_sriov_configure() path as the
+  annotation through mutex_lock() which is used down the road is enough
+  on its own.
+
+Patch #13:
+- Add include/linux/vfio_pci_core.h to the MAINTAINERS file as was
+  previously asked by Alex Williamson.
+
+v3:
+Patch #6:
+- Upon error flow, print PF driver name instead of hard-coded vfio-pci.
+Patch #9:
+- Split into two patches and follow the notes given by Bjorn Helgaas.
+
+v2:
+Patch #6:
+- Drop DRIVER_VERSION as it's useless and not required any more.
+
+Patch #9:
+- Follow Bjorn Helgaas suggestion to enable having "vfio_" prefix in
+  modules.alias file without the unnecessary VFIO connection in
+  pci_match_device.
+
+- Add the sequence of commands/algorithm that is required by
+  userspace to discover the matching driver to the commit message to let
+  the patch documentation be self-contained.
+
+Patch #12:
+- Save compatibility with Kconfig as was asked in the mailing list.
+- Drop DRIVER_VERSION as it's useless and not required any more.
+
+Yishai
+
+Jason Gunthorpe (2):
+  vfio: Use select for eventfd
+  vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
+
+Max Gurtovoy (10):
+  vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
+  vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
+  vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
+  vfio/pci: Rename ops functions to fit core namings
+  vfio/pci: Include vfio header in vfio_pci_core.h
+  vfio/pci: Split the pci_driver code out of vfio_pci_core.c
+  vfio/pci: Move igd initialization to vfio_pci.c
+  PCI: Add 'override_only' field to struct pci_device_id
+  PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
+  vfio/pci: Introduce vfio_pci_core.ko
+
+Yishai Hadas (1):
+  vfio/pci: Move module parameters to vfio_pci.c
+
+ Documentation/PCI/pci.rst                     |    1 +
+ MAINTAINERS                                   |    1 +
+ drivers/pci/pci-driver.c                      |   28 +-
+ drivers/vfio/Kconfig                          |   29 +-
+ drivers/vfio/fsl-mc/Kconfig                   |    3 +-
+ drivers/vfio/mdev/Kconfig                     |    1 -
+ drivers/vfio/pci/Kconfig                      |   40 +-
+ drivers/vfio/pci/Makefile                     |    8 +-
+ drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
+ drivers/vfio/pci/vfio_pci_config.c            |   70 +-
+ drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
+ drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
+ drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
+ drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
+ drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
+ drivers/vfio/platform/Kconfig                 |    6 +-
+ drivers/vfio/platform/reset/Kconfig           |    4 +-
+ include/linux/mod_devicetable.h               |    6 +
+ include/linux/pci.h                           |   29 +
+ .../linux/vfio_pci_core.h                     |   89 +-
+ scripts/mod/devicetable-offsets.c             |    1 +
+ scripts/mod/file2alias.c                      |    8 +-
+ 22 files changed, 2516 insertions(+), 2311 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_core.c
+ rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
 
 -- 
-Péter
+2.18.1
+
