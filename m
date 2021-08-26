@@ -2,109 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A71A43F8717
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Aug 2021 14:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5A403F90A8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Aug 2021 01:00:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242437AbhHZMRD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Aug 2021 08:17:03 -0400
-Received: from codesynthesis.com ([188.40.148.39]:49622 "EHLO
-        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242415AbhHZMRC (ORCPT
+        id S243775AbhHZWWA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Aug 2021 18:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45381 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243760AbhHZWWA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Aug 2021 08:17:02 -0400
-Received: from brak.codesynthesis.com (197-255-152-207.static.adept.co.za [197.255.152.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by codesynthesis.com (Postfix) with ESMTPSA id 4760D5F7CB;
-        Thu, 26 Aug 2021 12:16:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
-        s=mail1; t=1629980173;
-        bh=Wcp+spva27SDUMn5lh3p20Ss4YEIqbN0awnBME542Vc=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
-        b=eaN58FnQWvzkHM296c9v+VrbfZQ49nAoJFz9UJX992sl6ORTlxe4hFsAr3kmjn3+t
-         t5lEvmW+IVk4jEzoiuoeNBve+Q7EZho2ZKqCc+YHWky+7OHD4gqhxts5aFcXdUu8m7
-         Dt/Fa1lmZldSU/4Yqq4NDO/p7NvA9IWQyisNDs0bNN4ANOx074wGDTokR0YA4ACnu2
-         LKLauFGA+Ax0Q5OAJ+yYB1fC8Ogp1vvo1YbNQpSHPEcDPcn3XCwUbCSe3FIFj2lsGJ
-         EeW5BL4FEolSf6EvSnLdd3szd8mf6pUEYEDBdaA+hzAiN9600nM1WcfKnNZT+FiZuc
-         hfcHt8oR5T2cw==
-Received: by brak.codesynthesis.com (Postfix, from userid 1000)
-        id F0E911A800C4; Thu, 26 Aug 2021 14:16:09 +0200 (SAST)
-Date:   Thu, 26 Aug 2021 14:16:09 +0200
-From:   Boris Kolpackov <boris@codesynthesis.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-wireless@vger.kernel.org, Networking <netdev@vger.kernel.org>
-Subject: Re: [PATCH] kconfig: forbid symbols that end with '_MODULE'
-Message-ID: <boris.20210826140701@codesynthesis.com>
-References: <20210825041637.365171-1-masahiroy@kernel.org>
- <boris.20210825172545@codesynthesis.com>
- <CAK7LNAS-NhR=94uHYcZUhRkdUEm=dYZSRbGKkB5zJJGNRw0z2A@mail.gmail.com>
+        Thu, 26 Aug 2021 18:22:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630016471;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
+        b=SpUL2EN9m3B+cWKmrBo/UFN9CEgN+hY3Sg9BmGaoDLIQP+tFXphc9VVpnoDVX8Es+75AEv
+        XeCzqBBPc0ONCa2qxVHGNWi9YvYZylVEOZzn5qDQB0lhXL8AjVdjfu0ImKZ00rLagBjxDj
+        BM5WLTh6zOIdzkx4pn5Ob1aB3V7pw88=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-WYoXGS0zPZm3mv3UZpc0bg-1; Thu, 26 Aug 2021 18:21:10 -0400
+X-MC-Unique: WYoXGS0zPZm3mv3UZpc0bg-1
+Received: by mail-ot1-f71.google.com with SMTP id v11-20020a056830140b00b0051af4c9ee9fso1830224otp.16
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Aug 2021 15:21:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
+        b=YCXrhSFgDFnv8dYlZSqOT0MxO6LH1ajws4r59pyMzs5uLhvljFMOGZ5uWi0/a6iKcJ
+         BCUEBcQ3NmYcBUHXGiWJtUUGvd/ohkLFpBC7Wgl3jyBhYvOUXfWzLDmxzPJO9uM4Zc/p
+         d6k3Poz7cmwa4vHjbQBEVYu2uf+v123wVFJyicON5k8BKsWv/6gtDN95F7O6eTRNBQEr
+         i35bKEtiw9sxTdpdUcvgD8U2sxvtNwUnxYR5NcG8Q/V+6KPkif9cKEMB5tnVGLCNDkFN
+         vSx5QE1J5S2t1AWNpsInEmQYUlljDec8I/oRc/7VnuSV9h65nPdsXCwayGRhtF0qInG2
+         t3ig==
+X-Gm-Message-State: AOAM530wSWiwN1QzcjUKi1kGbTARg5I2lgvQek9kqKktTQVF+XiAyt9w
+        KvfAGyMo8EfXbPKfO5v/zQeziRa7xuWgWVEkUp9Tiqsnh+rEfKvAhxZ5pp2g0mf7eC/5kf62MJS
+        RBwBt41cHJsxDl94yTM+AYEy2
+X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965328oic.63.1630016469675;
+        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4wg/4PueI4scRfq8vf8o5WoWu5Cqwvs4cYyqbBPHaHmLY1mmgaQFiaPn6NoNF0UOWDizXew==
+X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965308oic.63.1630016469544;
+        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+        by smtp.gmail.com with ESMTPSA id s24sm840218otp.37.2021.08.26.15.21.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
+Date:   Thu, 26 Aug 2021 16:21:08 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Yishai Hadas <yishaih@nvidia.com>
+Cc:     <bhelgaas@google.com>, <corbet@lwn.net>,
+        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
+        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
+        <michal.lkml@markovi.net>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <mgurtovoy@nvidia.com>, <jgg@nvidia.com>, <maorg@nvidia.com>,
+        <leonro@nvidia.com>
+Subject: Re: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
+Message-ID: <20210826162108.4fc8b844.alex.williamson@redhat.com>
+In-Reply-To: <20210826103912.128972-1-yishaih@nvidia.com>
+References: <20210826103912.128972-1-yishaih@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAS-NhR=94uHYcZUhRkdUEm=dYZSRbGKkB5zJJGNRw0z2A@mail.gmail.com>
-Organization: Code Synthesis
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-
-> On Thu, Aug 26, 2021 at 12:42 AM Boris Kolpackov
-> <boris@codesynthesis.com> wrote:
-> >
-> > Masahiro Yamada <masahiroy@kernel.org> writes:
-> >
-> > > Kconfig (syncconfig) generates include/generated/autoconf.h to make
-> > > CONFIG options available to the pre-processor.
-> > >
-> > > The macros are suffixed with '_MODULE' for symbols with the value 'm'.
-> > >
-> > > Here is a conflict; CONFIG_FOO=m results in '#define CONFIG_FOO_MODULE 1',
-> > > but CONFIG_FOO_MODULE=y also results in the same define.
-> > >
-> > > fixdep always assumes CONFIG_FOO_MODULE comes from CONFIG_FOO=m, so the
-> > > dependency is not properly tracked for symbols that end with '_MODULE'.
-> >
-> > It seem to me the problem is in autoconf.h/fixdep, not in the Kconfig
-> > language.
+On Thu, 26 Aug 2021 13:38:59 +0300
+Yishai Hadas <yishaih@nvidia.com> wrote:
 > 
-> So, what is your suggestion for doing this correctly?
-> (of course without breaking the compatibility
-> because this is how the kernel is configured/built
-> for more than 20 years)
-
-Yes, I appreciate that fixing this properly may not be an option
-due to backwards-compatibility. How about then moving the check
-from the language closer to the place where it will actually be
-an issue. Specifically, can the error be triggered when we are
-about to write #define to autoconf.h and see that the name ends
-with _MODULE?
-
-
-> > I know you don't care, but I will voice my objection, for the record:
-> > Kconfig is used by projects other than the Linux kernel and some of
-> > them do not use the autoconf.h functionality. For such projects this
-> > restriction seems arbitrary and potentially backwards-incompatible.
+> Jason Gunthorpe (2):
+>   vfio: Use select for eventfd
+>   vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
 > 
-> I am not sure what your worry is, but this check resides in
-> "if (modules_sym)" conditional, so projects using Kconfig but
-> not module functionality (e.g. buildroot) will not be  affected.
+> Max Gurtovoy (10):
+>   vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
+>   vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
+>   vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
+>   vfio/pci: Rename ops functions to fit core namings
+>   vfio/pci: Include vfio header in vfio_pci_core.h
+>   vfio/pci: Split the pci_driver code out of vfio_pci_core.c
+>   vfio/pci: Move igd initialization to vfio_pci.c
+>   PCI: Add 'override_only' field to struct pci_device_id
+>   PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
+>   vfio/pci: Introduce vfio_pci_core.ko
+> 
+> Yishai Hadas (1):
+>   vfio/pci: Move module parameters to vfio_pci.c
+> 
+>  Documentation/PCI/pci.rst                     |    1 +
+>  MAINTAINERS                                   |    1 +
+>  drivers/pci/pci-driver.c                      |   28 +-
+>  drivers/vfio/Kconfig                          |   29 +-
+>  drivers/vfio/fsl-mc/Kconfig                   |    3 +-
+>  drivers/vfio/mdev/Kconfig                     |    1 -
+>  drivers/vfio/pci/Kconfig                      |   40 +-
+>  drivers/vfio/pci/Makefile                     |    8 +-
+>  drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
+>  drivers/vfio/pci/vfio_pci_config.c            |   70 +-
+>  drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
+>  drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
+>  drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
+>  drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
+>  drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
+>  drivers/vfio/platform/Kconfig                 |    6 +-
+>  drivers/vfio/platform/reset/Kconfig           |    4 +-
+>  include/linux/mod_devicetable.h               |    6 +
+>  include/linux/pci.h                           |   29 +
+>  .../linux/vfio_pci_core.h                     |   89 +-
+>  scripts/mod/devicetable-offsets.c             |    1 +
+>  scripts/mod/file2alias.c                      |   17 +-
+>  22 files changed, 2525 insertions(+), 2311 deletions(-)
+>  create mode 100644 drivers/vfio/pci/vfio_pci_core.c
+>  rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
 
-The Kconfig module semantics is actually general enough that a
-project other than the Linux kernel could reuse it. (I've written
-more on this possibility here[1]).
+Applied to vfio next branch for v5.15.  Thanks,
 
-[1] https://build2.org/libbuild2-kconfig/doc/build2-kconfig-manual.xhtml#lang-mod
+Alex 
+
