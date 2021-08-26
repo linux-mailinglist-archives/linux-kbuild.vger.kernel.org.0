@@ -2,233 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D9793F8076
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Aug 2021 04:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF10B3F81DD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Aug 2021 07:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236452AbhHZCaF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Aug 2021 22:30:05 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:49430 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236341AbhHZCaF (ORCPT
+        id S238262AbhHZFFt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Aug 2021 01:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238002AbhHZFFs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Aug 2021 22:30:05 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 17Q2T2HF007418;
-        Thu, 26 Aug 2021 11:29:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 17Q2T2HF007418
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1629944943;
-        bh=nhsNDBtebvHsUPUvr/G9QvWMQeecme+7wcswpepJRZg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rQ+lyNmFM5eaAxgStAoXTmP6Y6h+8ewkmnRP9nC51jxmPAjaOq4ogzUkJpDBZTaNF
-         HA7l/zpAHFMOvsY6L+ZSE6/YfJ9onLbz3yzUVmWw932gRGp0BwaXVgxz0CLz7PJSdd
-         KKVC/0AjOP8JfH9Yxr+ilaBql0RBQZoIw9yrazYn/W3j/tEM8AlZycUZxrJx0csJik
-         2f9D346PSR342NLYkB0D/xR5Wm9Wd9JtpuDTZ1aaRagFSZfsRn/iHsO7KEkgGE22pD
-         +mIFrBEPxM8kQnBB/ZqCRjx388o3KyvknvnacVQn94rRkFTajYfVfI1we/K2KK4wpH
-         GSclM8U3uyUHQ==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id j187so1393498pfg.4;
-        Wed, 25 Aug 2021 19:29:03 -0700 (PDT)
-X-Gm-Message-State: AOAM530/i0tv0FLJrFLNgxur/YPyXBgCb6PIlSVlY+MXV1O5roRhYVvn
-        BIFLKC0IasqutLDjaVp38BooiyjnQ+2P2YP/xjM=
-X-Google-Smtp-Source: ABdhPJwwlP7PCNjslmyo5yR609R7WW/wRzQQGe7mqFLUz3FdVmlyPiGja/E6H9UbwHCjku2hsLeSB2jltn/jv1aaFCY=
-X-Received: by 2002:aa7:98da:0:b029:3e0:8b98:df83 with SMTP id
- e26-20020aa798da0000b02903e08b98df83mr1335775pfm.63.1629944942299; Wed, 25
- Aug 2021 19:29:02 -0700 (PDT)
+        Thu, 26 Aug 2021 01:05:48 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319FAC0613D9
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Aug 2021 22:05:02 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id k24so2051214pgh.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Aug 2021 22:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=H+ke82JqnNzuF+ETLARNzezEA9Zqm2D4YO8akYC5ijQ=;
+        b=TXfA89AwrHNBCE0emeWk24ecxJ5IcsflSZCiMHER4Vz/S6r2VxQGH+ZyLfhNaiGz2X
+         8hn6ZM+WaZgk8lsalj+53TMWoYSZihHlWGdPZZQ2Lk7u4nLLuXnHnUhhUYlLqCs+ltCD
+         YCETgE3Vuy9QfKCuisQgOQr6bNjw6Az3WpSOo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=H+ke82JqnNzuF+ETLARNzezEA9Zqm2D4YO8akYC5ijQ=;
+        b=bqTxTKvdm1lC2Qg4sYHVHOoALW9FzoDQmiiIUoDagy/ryE6t1imd+ZuqwrOZfZ2T3T
+         uGNJH6V6kjTSY89gHcsSuNOr6BfUdKQZr8ardsvq4fpvveJktqX6PdFroUg0iW/TsPF7
+         tiXUcMZk+8Dh/9sDqRhFTa2r8P1/8xtSMqQBT2ehPFjcgc6moIhbp5ZmMJ+uvxhzvIEm
+         k75kk34TrzSMunM2ZIIckw14CcQCG6fF2PUyELIE2beRFGfHj3RJFZt2JO7ToWfRxYuY
+         bNhjeeCR0/U2UcfAwQV6Ci2iDBbTVUA1sSUgxU1qw/eZFP5yNRbO0OYaMXgJgX9mYsVf
+         1INw==
+X-Gm-Message-State: AOAM531cxc8wLXe3qx63WQcbDdBNdFPgw6yjXqfbZnrgUKGC2AS++tIj
+        MJfQ5hpBHiCYWlXw4opvCDtcAw==
+X-Google-Smtp-Source: ABdhPJx2VMSKs/v7tqMFkn/Q6/kBji0mAtIa+Anlr5oH0jYuxB1l7qI8qu3PXXevarRmfGhnqeoBRA==
+X-Received: by 2002:a63:c158:: with SMTP id p24mr1726458pgi.336.1629954301691;
+        Wed, 25 Aug 2021 22:05:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d18sm1812151pgk.24.2021.08.25.22.05.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Aug 2021 22:05:00 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Keith Packard <keithp@keithp.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org
+Subject: [PATCH v2 4/5] Makefile: Enable -Warray-bounds
+Date:   Wed, 25 Aug 2021 22:04:57 -0700
+Message-Id: <20210826050458.1540622-5-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210826050458.1540622-1-keescook@chromium.org>
+References: <20210826050458.1540622-1-keescook@chromium.org>
 MIME-Version: 1.0
-References: <20210825041637.365171-1-masahiroy@kernel.org> <9df591f6-53fc-4567-8758-0eb1be4eade5@gmail.com>
-In-Reply-To: <9df591f6-53fc-4567-8758-0eb1be4eade5@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 26 Aug 2021 11:28:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATDMzR1DnwwAcQFHaKZeGVYDZ1oDKL-QOe_7DaB_yByAA@mail.gmail.com>
-Message-ID: <CAK7LNATDMzR1DnwwAcQFHaKZeGVYDZ1oDKL-QOe_7DaB_yByAA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: forbid symbols that end with '_MODULE'
-To:     =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-wireless@vger.kernel.org, Networking <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; h=from:subject; bh=oefMcHZzjrqvoOMjUB7suXN8EJKiDU2oIYgtW+uUBtg=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhJyD5aFIio04DmLvoRaIim4FnyDX46vN/W1R6TAc9 7X8LHOKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYScg+QAKCRCJcvTf3G3AJnbVD/ 99uKUWved0lEF54nU1F7qKRM+Mv7siWIawdByX70YCMH1LpDZs6ja7HAHyb5nY0zJbQwGopcJsFn11 yntizr+UNLRhKE+CI5hmHijdbpaXrvNxCaSJF+DAkyEjqlmlAHSm1FWzX2ffYiEMhJTdPUebBpDVYr xwj4co1+92cPTQZg9VaD5UN55j9gc46QTYRsyvBl2jxtW8DPSVTWy7vaCya9Bn4TY5evml2nwFt3p+ sf7fn9Y1rf8xHpOEa+gNVbFst4tZ3KV9UupkpsSLi7+VLwDm9g2fwhma1aWdrtuO3q7iBbKEs3Y2Qq ans0Np+r32K3v5Pm7PYx8VDN9zn0LvK9Oc4Gsm6blZyPCqulPENZid0NeFXBICff4z2MgWn+UR4fyJ EqSn/aDYwWG6PjKkkfVr4NZr/olZHzwEhpaqReNAWzV01WUSmo+cmq3LIR7SslJXMiPM9F33KwApfq guhvH6SLi67EfhowGkIyFpDil1Keh+khqje+ZsIJgTqAhiBF72scXtqvP73hNT6w3M5x46LZyRLDbN TjvGaYP/k4JRtFdZYCxLFFVDov+8nlgA09DuTuePiFy68KyvBo1pZPZSNJejo1N5DSu5ll3PmckN+A IwAMOP/e2UwotUVUgDM95mAQA/ypXqzU/BhSxY9MkQfLOT5IAjW2i5ByugJw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 8:59 PM P=C3=A9ter Ujfalusi <peter.ujfalusi@gmail.c=
-om> wrote:
->
-> Hi,
->
-> On 25/08/2021 07:16, Masahiro Yamada wrote:
-> > Kconfig (syncconfig) generates include/generated/autoconf.h to make
-> > CONFIG options available to the pre-processor.
-> >
-> > The macros are suffixed with '_MODULE' for symbols with the value 'm'.
-> >
-> > Here is a conflict; CONFIG_FOO=3Dm results in '#define CONFIG_FOO_MODUL=
-E 1',
-> > but CONFIG_FOO_MODULE=3Dy also results in the same define.
-> >
-> > fixdep always assumes CONFIG_FOO_MODULE comes from CONFIG_FOO=3Dm, so t=
-he
-> > dependency is not properly tracked for symbols that end with '_MODULE'.
-> >
-> > This commit makes Kconfig error out if it finds a symbol suffixed with
-> > '_MODULE'. This restriction does not exist if the module feature is not
-> > supported (at least from the Kconfig perspective).
-> >
-> > It detected one error:
-> >   error: SND_SOC_DM365_VOICE_CODEC_MODULE: symbol name must not end wit=
-h '_MODULE'
-> >
-> > Rename it to SND_SOC_DM365_VOICE_CODEC_MODULAR. Commit 147162f57515
-> > ("ASoC: ti: fix SND_SOC_DM365_VOICE_CODEC dependencies") added it for
-> > internal use. So, this renaming has no impact on users.
-> >
-> > Remove a comment from drivers/net/wireless/intel/iwlwifi/Kconfig since
-> > this is a hard error now.
-> >
-> > Add a comment to include/linux/kconfig.h in order not to worry observan=
-t
-> > developers.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  drivers/net/wireless/intel/iwlwifi/Kconfig |  1 -
-> >  include/linux/kconfig.h                    |  3 ++
-> >  scripts/kconfig/parser.y                   | 40 +++++++++++++++++++++-
-> >  sound/soc/ti/Kconfig                       |  2 +-
-> >  4 files changed, 43 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/net/wireless/intel/iwlwifi/Kconfig b/drivers/net/w=
-ireless/intel/iwlwifi/Kconfig
-> > index 1085afbefba8..5b238243617c 100644
-> > --- a/drivers/net/wireless/intel/iwlwifi/Kconfig
-> > +++ b/drivers/net/wireless/intel/iwlwifi/Kconfig
-> > @@ -70,7 +70,6 @@ config IWLMVM
-> >         of the devices that use this firmware is available here:
-> >         https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi#firmw=
-are
-> >
-> > -# don't call it _MODULE -- will confuse Kconfig/fixdep/...
-> >  config IWLWIFI_OPMODE_MODULAR
-> >       bool
-> >       default y if IWLDVM=3Dm
-> > diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-> > index 20d1079e92b4..54f677e742fe 100644
-> > --- a/include/linux/kconfig.h
-> > +++ b/include/linux/kconfig.h
-> > @@ -53,6 +53,9 @@
-> >   * IS_MODULE(CONFIG_FOO) evaluates to 1 if CONFIG_FOO is set to 'm', 0
-> >   * otherwise.  CONFIG_FOO=3Dm results in "#define CONFIG_FOO_MODULE 1"=
- in
-> >   * autoconf.h.
-> > + * CONFIG_FOO_MODULE=3Dy would also result in "#define CONFIG_FOO_MODU=
-LE 1",
-> > + * but Kconfig forbids symbol names that end with '_MODULE', so that w=
-ould
-> > + * not happen.
-> >   */
-> >  #define IS_MODULE(option) __is_defined(option##_MODULE)
-> >
-> > diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> > index 2af7ce4e1531..b0f73f74ccd3 100644
-> > --- a/scripts/kconfig/parser.y
-> > +++ b/scripts/kconfig/parser.y
-> > @@ -475,6 +475,37 @@ assign_val:
-> >
-> >  %%
-> >
-> > +/*
-> > + * Symbols suffixed with '_MODULE' would cause a macro conflict in aut=
-oconf.h,
-> > + * and also confuse the interaction between syncconfig and fixdep.
-> > + * Error out if a symbol with the '_MODULE' suffix is found.
-> > + */
-> > +static int sym_check_name(struct symbol *sym)
-> > +{
-> > +     static const char *suffix =3D "_MODULE";
-> > +     static const size_t suffix_len =3D strlen("_MODULE");
-> > +     char *name;
-> > +     size_t len;
-> > +
-> > +     name =3D sym->name;
-> > +
-> > +     if (!name)
-> > +             return 0;
-> > +
-> > +     len =3D strlen(name);
-> > +
-> > +     if (len < suffix_len)
-> > +             return 0;
-> > +
-> > +     if (strcmp(name + len - suffix_len, suffix))
-> > +             return 0;
-> > +
-> > +     fprintf(stderr, "error: %s: symbol name must not end with '%s'\n"=
-,
-> > +             name, suffix);
-> > +
-> > +     return -1;
-> > +}
-> > +
-> >  void conf_parse(const char *name)
-> >  {
-> >       struct symbol *sym;
-> > @@ -493,8 +524,15 @@ void conf_parse(const char *name)
-> >
-> >       if (yynerrs)
-> >               exit(1);
-> > -     if (!modules_sym)
-> > +
-> > +     if (modules_sym) {
-> > +             for_all_symbols(i, sym) {
-> > +                     if (sym_check_name(sym))
-> > +                             yynerrs++;
-> > +             }
-> > +     } else {
-> >               modules_sym =3D sym_find( "n" );
-> > +     }
-> >
-> >       if (!menu_has_prompt(&rootmenu)) {
-> >               current_entry =3D &rootmenu;
-> > diff --git a/sound/soc/ti/Kconfig b/sound/soc/ti/Kconfig
-> > index 698d7bc84dcf..c56a5789056f 100644
-> > --- a/sound/soc/ti/Kconfig
-> > +++ b/sound/soc/ti/Kconfig
-> > @@ -211,7 +211,7 @@ config SND_SOC_DM365_VOICE_CODEC
-> >         Say Y if you want to add support for SoC On-chip voice codec
-> >  endchoice
-> >
-> > -config SND_SOC_DM365_VOICE_CODEC_MODULE
-> > +config SND_SOC_DM365_VOICE_CODEC_MODULAR
->
-> This Kconfig option is only used to select the codecs needed for the
-> voice mode, I think it would be better to use something like
->
-> SND_SOC_DM365_SELECT_VOICE_CODECS ?
+With the recent fixes for flexible arrays and expanded FORTIFY_SOURCE
+coverage, it is now possible to enable -Warray-bounds. Since both
+GCC and Clang include -Warray-bounds in -Wall, we just need to stop
+disabling it.
 
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Co-developed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
-I do not have a strong opinion.
-I am fine with any name unless it ends with _MODULE.
+diff --git a/Makefile b/Makefile
+index e4f5895badb5..8e7e73a642e2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -995,7 +995,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+ 
+ # We'll want to enable this eventually, but it's not going away for 5.7 at least
+ KBUILD_CFLAGS += $(call cc-disable-warning, zero-length-bounds)
+-KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
+ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
+ 
+ # Another good warning that we'll want to enable eventually
+-- 
+2.30.2
 
-
-The sound subsystem maintainers and Arnd,
-author of 147162f575152db800 are CC'ed.
-
-If they suggest a better name, I'd be happy to adopt it.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
