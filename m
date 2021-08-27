@@ -2,127 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5A403F90A8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Aug 2021 01:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A166C3F9A91
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Aug 2021 16:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243775AbhHZWWA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Aug 2021 18:22:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45381 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243760AbhHZWWA (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Aug 2021 18:22:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630016471;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
-        b=SpUL2EN9m3B+cWKmrBo/UFN9CEgN+hY3Sg9BmGaoDLIQP+tFXphc9VVpnoDVX8Es+75AEv
-        XeCzqBBPc0ONCa2qxVHGNWi9YvYZylVEOZzn5qDQB0lhXL8AjVdjfu0ImKZ00rLagBjxDj
-        BM5WLTh6zOIdzkx4pn5Ob1aB3V7pw88=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-WYoXGS0zPZm3mv3UZpc0bg-1; Thu, 26 Aug 2021 18:21:10 -0400
-X-MC-Unique: WYoXGS0zPZm3mv3UZpc0bg-1
-Received: by mail-ot1-f71.google.com with SMTP id v11-20020a056830140b00b0051af4c9ee9fso1830224otp.16
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Aug 2021 15:21:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZgK0Vzj/PyGVf287gkB5KcGajjxflHWYHigJAJkYE8o=;
-        b=YCXrhSFgDFnv8dYlZSqOT0MxO6LH1ajws4r59pyMzs5uLhvljFMOGZ5uWi0/a6iKcJ
-         BCUEBcQ3NmYcBUHXGiWJtUUGvd/ohkLFpBC7Wgl3jyBhYvOUXfWzLDmxzPJO9uM4Zc/p
-         d6k3Poz7cmwa4vHjbQBEVYu2uf+v123wVFJyicON5k8BKsWv/6gtDN95F7O6eTRNBQEr
-         i35bKEtiw9sxTdpdUcvgD8U2sxvtNwUnxYR5NcG8Q/V+6KPkif9cKEMB5tnVGLCNDkFN
-         vSx5QE1J5S2t1AWNpsInEmQYUlljDec8I/oRc/7VnuSV9h65nPdsXCwayGRhtF0qInG2
-         t3ig==
-X-Gm-Message-State: AOAM530wSWiwN1QzcjUKi1kGbTARg5I2lgvQek9kqKktTQVF+XiAyt9w
-        KvfAGyMo8EfXbPKfO5v/zQeziRa7xuWgWVEkUp9Tiqsnh+rEfKvAhxZ5pp2g0mf7eC/5kf62MJS
-        RBwBt41cHJsxDl94yTM+AYEy2
-X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965328oic.63.1630016469675;
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4wg/4PueI4scRfq8vf8o5WoWu5Cqwvs4cYyqbBPHaHmLY1mmgaQFiaPn6NoNF0UOWDizXew==
-X-Received: by 2002:a05:6808:7:: with SMTP id u7mr12965308oic.63.1630016469544;
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
-        by smtp.gmail.com with ESMTPSA id s24sm840218otp.37.2021.08.26.15.21.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 15:21:09 -0700 (PDT)
-Date:   Thu, 26 Aug 2021 16:21:08 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Yishai Hadas <yishaih@nvidia.com>
-Cc:     <bhelgaas@google.com>, <corbet@lwn.net>,
-        <diana.craciun@oss.nxp.com>, <kwankhede@nvidia.com>,
-        <eric.auger@redhat.com>, <masahiroy@kernel.org>,
-        <michal.lkml@markovi.net>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-        <mgurtovoy@nvidia.com>, <jgg@nvidia.com>, <maorg@nvidia.com>,
-        <leonro@nvidia.com>
-Subject: Re: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Message-ID: <20210826162108.4fc8b844.alex.williamson@redhat.com>
-In-Reply-To: <20210826103912.128972-1-yishaih@nvidia.com>
-References: <20210826103912.128972-1-yishaih@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S231675AbhH0ODs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Aug 2021 10:03:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45302 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244821AbhH0ODp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 27 Aug 2021 10:03:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A91060F25;
+        Fri, 27 Aug 2021 14:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1630072976;
+        bh=OyaTCDm5vZvhy4U/W+GLWVTstNRbyz9YgcJskrj8wkQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2TtPPCf+LNZnOsmLvAt9fUc5OzpV+f1ui/mrVuQC5Y7ImvGFnotOSUyq4gY/q8pre
+         GiBds2poXTHLvcaBEqnwYawae2sBQ7JnFOeI00lMERtULkhi7E5728cVkdRxH1yxEt
+         j2icDYo7tnhEa7qnCC+ZSLgzFmUwZdEFtT4D4JL8=
+Date:   Fri, 27 Aug 2021 16:02:49 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Subject: Re: [PATCH 18/20] kbuild: sh: remove unused install script
+Message-ID: <YSjwiQu1kz7CJCrq@kroah.com>
+References: <20210407053419.449796-1-gregkh@linuxfoundation.org>
+ <20210407053419.449796-19-gregkh@linuxfoundation.org>
+ <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQ07ycpjJQGwbtq1ii3k9rh2CZVN6MVxkfMb=+Vgs9zqw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 26 Aug 2021 13:38:59 +0300
-Yishai Hadas <yishaih@nvidia.com> wrote:
+On Wed, Aug 25, 2021 at 12:22:03AM +0900, Masahiro Yamada wrote:
+> On Wed, Apr 7, 2021 at 2:35 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > The sh arch has a install.sh script, but no Makefile actually calls it.
+> > Remove it to keep anyone from accidentally calling it in the future.
+> >
+> > Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > Cc: Rich Felker <dalias@libc.org>
+> > Cc: linux-sh@vger.kernel.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  arch/sh/boot/compressed/install.sh | 56 ------------------------------
+> >  1 file changed, 56 deletions(-)
+> >  delete mode 100644 arch/sh/boot/compressed/install.sh
+> >
+> > diff --git a/arch/sh/boot/compressed/install.sh b/arch/sh/boot/compressed/install.sh
+> > deleted file mode 100644
+> > index f9f41818b17e..000000000000
+> > --- a/arch/sh/boot/compressed/install.sh
+> > +++ /dev/null
+> > @@ -1,56 +0,0 @@
+> > -#!/bin/sh
+> > -#
+> > -# arch/sh/boot/install.sh
+> > -#
+> > -# This file is subject to the terms and conditions of the GNU General Public
+> > -# License.  See the file "COPYING" in the main directory of this archive
+> > -# for more details.
+> > -#
+> > -# Copyright (C) 1995 by Linus Torvalds
+> > -#
+> > -# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
+> > -# Adapted from code in arch/i386/boot/install.sh by Russell King
+> > -# Adapted from code in arch/arm/boot/install.sh by Stuart Menefy
+> > -#
+> > -# "make install" script for sh architecture
+> > -#
+> > -# Arguments:
+> > -#   $1 - kernel version
+> > -#   $2 - kernel image file
+> > -#   $3 - kernel map file
+> > -#   $4 - default install path (blank if root directory)
+> > -#
+> > -
+> > -# User may have a custom install script
+> > -
+> > -if [ -x /sbin/${INSTALLKERNEL} ]; then
+> > -  exec /sbin/${INSTALLKERNEL} "$@"
+> > -fi
+> > -
+> > -if [ "$2" = "zImage" ]; then
+> > -# Compressed install
+> > -  echo "Installing compressed kernel"
+> > -  if [ -f $4/vmlinuz-$1 ]; then
+> > -    mv $4/vmlinuz-$1 $4/vmlinuz.old
+> > -  fi
+> > -
+> > -  if [ -f $4/System.map-$1 ]; then
+> > -    mv $4/System.map-$1 $4/System.old
+> > -  fi
+> > -
+> > -  cat $2 > $4/vmlinuz-$1
+> > -  cp $3 $4/System.map-$1
+> > -else
+> > -# Normal install
+> > -  echo "Installing normal kernel"
+> > -  if [ -f $4/vmlinux-$1 ]; then
+> > -    mv $4/vmlinux-$1 $4/vmlinux.old
+> > -  fi
+> > -
+> > -  if [ -f $4/System.map ]; then
+> > -    mv $4/System.map $4/System.old
+> > -  fi
+> > -
+> > -  cat $2 > $4/vmlinux-$1
+> > -  cp $3 $4/System.map
+> > -fi
+> > --
+> > 2.31.1
+> >
 > 
-> Jason Gunthorpe (2):
->   vfio: Use select for eventfd
->   vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on'
 > 
-> Max Gurtovoy (10):
->   vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
->   vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
->   vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
->   vfio/pci: Rename ops functions to fit core namings
->   vfio/pci: Include vfio header in vfio_pci_core.h
->   vfio/pci: Split the pci_driver code out of vfio_pci_core.c
->   vfio/pci: Move igd initialization to vfio_pci.c
->   PCI: Add 'override_only' field to struct pci_device_id
->   PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
->   vfio/pci: Introduce vfio_pci_core.ko
+> This one is applicable independently.
 > 
-> Yishai Hadas (1):
->   vfio/pci: Move module parameters to vfio_pci.c
-> 
->  Documentation/PCI/pci.rst                     |    1 +
->  MAINTAINERS                                   |    1 +
->  drivers/pci/pci-driver.c                      |   28 +-
->  drivers/vfio/Kconfig                          |   29 +-
->  drivers/vfio/fsl-mc/Kconfig                   |    3 +-
->  drivers/vfio/mdev/Kconfig                     |    1 -
->  drivers/vfio/pci/Kconfig                      |   40 +-
->  drivers/vfio/pci/Makefile                     |    8 +-
->  drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
->  drivers/vfio/pci/vfio_pci_config.c            |   70 +-
->  drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
->  drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
->  drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
->  drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
->  drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
->  drivers/vfio/platform/Kconfig                 |    6 +-
->  drivers/vfio/platform/reset/Kconfig           |    4 +-
->  include/linux/mod_devicetable.h               |    6 +
->  include/linux/pci.h                           |   29 +
->  .../linux/vfio_pci_core.h                     |   89 +-
->  scripts/mod/devicetable-offsets.c             |    1 +
->  scripts/mod/file2alias.c                      |   17 +-
->  22 files changed, 2525 insertions(+), 2311 deletions(-)
->  create mode 100644 drivers/vfio/pci/vfio_pci_core.c
->  rename drivers/vfio/pci/vfio_pci_private.h => include/linux/vfio_pci_core.h (56%)
+> Applied to linux-kbuild. Thanks.
 
-Applied to vfio next branch for v5.15.  Thanks,
+Hey, nice, thanks!
 
-Alex 
+I'll work on the rest of the patches in this series after the next merge
+window is over...
 
+greg k-h
