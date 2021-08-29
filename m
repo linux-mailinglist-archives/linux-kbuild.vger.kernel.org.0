@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD28B3FAF15
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Aug 2021 01:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F473FAF1A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Aug 2021 01:42:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbhH2XYa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 Aug 2021 19:24:30 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:25100 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbhH2XYa (ORCPT
+        id S230147AbhH2XnT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Aug 2021 19:43:19 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:34546 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230134AbhH2XnS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 Aug 2021 19:24:30 -0400
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 17TNNI7T002570;
-        Mon, 30 Aug 2021 08:23:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 17TNNI7T002570
+        Sun, 29 Aug 2021 19:43:18 -0400
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 17TNfuLw026504;
+        Mon, 30 Aug 2021 08:41:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 17TNfuLw026504
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1630279399;
-        bh=2DtSTvJOOglI5huxNjXBZUxQQ+1yrflPwCKreUr+MBQ=;
+        s=dec2015msa; t=1630280517;
+        bh=D64RZDatLPGJKNWc3VFraw+rV9oh++4qeXxN/a79Z8E=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IuOWKMXDXERVu47ew/FL0427j/zqGLbfmr05iFF7utbvQhZEbpFefPEhYbpa497bV
-         +hO0xe9D573iPMpSW/gDBl6OzubHiQGinxPRpiCfzmaPcNGB9L0IGZjp+du9qrW+nF
-         HKGOWB+K4F4M4xgl7ZgjLAFhjAi1WgibsoPyqVehaXwqIU5aTcxwz2x6x/G9Rt8Mxd
-         LVTyIbeLt60CRcXfvDqwRwUkOzF+CYQbN89FBmgL23YRBkN8GU2rS+PmyL1VqFz1Vy
-         r6V5kiIL0K70ypbRIa24kSNdcAtDEa46tXzVr9xncE8rLD7hBahtMh0/2FlBSXB21g
-         FieV1qdFJxoqw==
-X-Nifty-SrcIP: [209.85.210.174]
-Received: by mail-pf1-f174.google.com with SMTP id 18so10724113pfh.9;
-        Sun, 29 Aug 2021 16:23:19 -0700 (PDT)
-X-Gm-Message-State: AOAM532zZs9ZGcLN8yK8kAEXc+3WsL0RP7xxtCMM1U5J/GpI8+Bk8AVD
-        9vHbMVDW3H/DfqX6T+8/vYwvZYBSvxl33ZnAQZA=
-X-Google-Smtp-Source: ABdhPJzUCVajjAjtIPOlHmuafkHnWx1YjOjQJXTyhDxOiW0pb1Ms5KYKdS/7nkXNOZZ0D9JhpKTTOuwsC2yhH27fee8=
-X-Received: by 2002:a63:a58:: with SMTP id z24mr18994549pgk.175.1630279398215;
- Sun, 29 Aug 2021 16:23:18 -0700 (PDT)
+        b=Jk4Bhci3GGLA+mXf3dHQsXOrDZXfWqZyokltRbYxTZrW3qDk0Ev0A9LBEXStssiac
+         aLzndeRst/crsE+dx8MfGW3Sy+jd5EE13B35D1w6/vE/q0j8T8W25a61s+LfH+lkRW
+         iA3/WG1NhhDPEQSx4wTG4JJzAAmFWpPDDUGLZjach5u8OdDy4F88YPAIERHXHx9mNr
+         79jtYGiWvxJMllqkCQavoixNw1J4XYYeVsyoKfhFvCAVXE40o0Ekg1PVuNrUmoADLr
+         +eH3iBlgVSdiVGw0rhhKfJv3AP6sBRE+NSzonwVOzSpRbE9knNpXlLGHGXJTq1MGWb
+         tGFjDd4nJJUTA==
+X-Nifty-SrcIP: [209.85.215.172]
+Received: by mail-pg1-f172.google.com with SMTP id k24so11715489pgh.8;
+        Sun, 29 Aug 2021 16:41:56 -0700 (PDT)
+X-Gm-Message-State: AOAM530VJf2v9Onr9u6qYDqZBH8krjlipSSPtk7oJF8XGrETtF23yPuZ
+        H8g3tGEsDZ+jmYGFVoxiHk/t2Tm/mWVPKUU9k8M=
+X-Google-Smtp-Source: ABdhPJyzXQcbdJQ6cet6xGcAAgCmJ3tBeDLBzcob+G5fIUcaJEsK6vMdHctKc05DHuACbOKlKLroA1imvjpjz2KEtSs=
+X-Received: by 2002:a63:dd51:: with SMTP id g17mr18928498pgj.47.1630280516114;
+ Sun, 29 Aug 2021 16:41:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210822192205.43210-1-arielmarcovitch@gmail.com>
- <20210822192205.43210-4-arielmarcovitch@gmail.com> <CAK7LNARmSmTTPRWcgcPF8kRntSFuaPkLD0A=xuz=CAp4SzxV=Q@mail.gmail.com>
- <b7f9e9a8-6854-ef3b-a20c-3b4b3d2d8440@gmail.com>
-In-Reply-To: <b7f9e9a8-6854-ef3b-a20c-3b4b3d2d8440@gmail.com>
+ <20210822192205.43210-3-arielmarcovitch@gmail.com> <CAK7LNATy17OQ900ThKJwHRy35+4Yg=9CRNg9Zp0tZ_O=uQ+kaw@mail.gmail.com>
+ <2bba4c0a-8639-1d3a-5dd5-8e2576f6ab77@gmail.com>
+In-Reply-To: <2bba4c0a-8639-1d3a-5dd5-8e2576f6ab77@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 30 Aug 2021 08:22:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARehxwwKXWVLcBFTCAOu8x-MhiGzv6S3nsWV0QGz8G6iA@mail.gmail.com>
-Message-ID: <CAK7LNARehxwwKXWVLcBFTCAOu8x-MhiGzv6S3nsWV0QGz8G6iA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] checkkconfigsymbols.py: Forbid passing 'HEAD' to --commit
-To:     Ariel Marcovitch <trhtkmarco@gmail.com>
-Cc:     Ariel Marcovitch <arielmarcovitch@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+Date:   Mon, 30 Aug 2021 08:41:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATy+ptW8agt04nauMfgCvAFccstrpbwd0Y+Vt5xqdNLhg@mail.gmail.com>
+Message-ID: <CAK7LNATy+ptW8agt04nauMfgCvAFccstrpbwd0Y+Vt5xqdNLhg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] checkkconfigsymbols.py: Fix Kconfig parsing to find
+ 'if' lines
+To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Valentin Rothberg <valentinrothberg@gmail.com>
@@ -55,81 +55,164 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 29, 2021 at 10:23 PM Ariel Marcovitch <trhtkmarco@gmail.com> wrote:
+On Sun, Aug 29, 2021 at 10:18 PM Ariel Marcovitch
+<arielmarcovitch@gmail.com> wrote:
 >
-> Hello!
+> Hello again!
 >
-> On 24/08/2021 16:31, Masahiro Yamada wrote:
-> > On Mon, Aug 23, 2021 at 4:23 AM Ariel Marcovitch
-> > <arielmarcovitch@gmail.com> wrote:
-> >> As opposed to the --diff option, --commit can get ref names instead of
-> >> commit hashes.
-> >>
-> >> When using the --commit option, the script resets the working directory
-> >> to the commit before the given ref, by adding '~' to the end of the ref.
-> >>
-> >> However, the 'HEAD' ref is relative, and so when the working directory
-> >> is reset to 'HEAD~', 'HEAD' points to what was 'HEAD~'. Then when the
-> >> script resets to 'HEAD' it actually stays in the same commit. In this
-> >> case, the script won't report any cases because there is no diff between
-> >> the cases of the two refs.
-> >>
-> >> Prevent the user from using HEAD refs.
-> >>
-> >> A better solution might be to resolve the refs before doing the
-> >> reset, but for now just disallow such refs.
-> >
-> > Better than doing nothing.
-> > So, applied to linux-kbuild.
-> >
-> >
-> >
-> >
-> >
-> >> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
-> >> ---
-> >>   scripts/checkkconfigsymbols.py | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/scripts/checkkconfigsymbols.py b/scripts/checkkconfigsymbols.py
-> >> index 875e9a2c14b2..6259698e662d 100755
-> >> --- a/scripts/checkkconfigsymbols.py
-> >> +++ b/scripts/checkkconfigsymbols.py
-> >> @@ -103,6 +103,9 @@ def parse_options():
-> >>                        "continue.")
-> >>
-> >>       if args.commit:
-> >> +        if args.commit.startswith('HEAD'):
-> >> +            sys.exit("The --commit option can't get use the HEAD ref")
->
-> Just realized that the message says "can't get use" which doesn't make
-> much sense :)
->
-> Do you want me to send a new patch to fix it?
+> On 24/08/2021 16:30, Masahiro Yamada wrote:
+>  > On Mon, Aug 23, 2021 at 4:22 AM Ariel Marcovitch
+>  > <arielmarcovitch@gmail.com> wrote:
+>  >>
+>  >> When parsing Kconfig files to find symbol definitions and references,
+>  >> lines after a 'help' line are skipped until a new config definition
+>  >> starts.
+>  >>
+>  >> However, it is quite common to define a config and then make some other
+>  >> configs depend on it by adding an 'if' line. This kind of kconfig
+>  >> statement usually appears after a config definition which might contain
+>  >> a 'help' section. The 'if' line is skipped in parse_kconfig_file()
+>  >> because it is not a config definition.
+>  >>
+>  >> This means that symbols referenced in this kind of statements are
+>  >> ignored by this function and thus are not considered undefined
+>  >> references in case the symbol is not defined.
+>  >>
+>  >> The REGEX_KCONFIG_STMT regex can't be used because the other types of
+>  >> statements can't break help lines.
+>  >>
+>  >> Define a new regex for matching 'if' statements and stop the 'help'
+>  >> skipping in case it is encountered.
+>  >>
+>  >> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
+>  >> ---
+>  >>  scripts/checkkconfigsymbols.py | 8 +++++++-
+>  >>  1 file changed, 7 insertions(+), 1 deletion(-)
+>  >>
+>  >> diff --git a/scripts/checkkconfigsymbols.py
+> b/scripts/checkkconfigsymbols.py
+>  >> index b9b0f15e5880..875e9a2c14b2 100755
+>  >> --- a/scripts/checkkconfigsymbols.py
+>  >> +++ b/scripts/checkkconfigsymbols.py
+>  >> @@ -26,6 +26,7 @@ EXPR = r"(?:" + OPERATORS + r"|\s|" + SYMBOL + r")+"
+>  >>  DEFAULT = r"default\s+.*?(?:if\s.+){,1}"
+>  >>  STMT = r"^\s*(?:if|select|imply|depends\s+on|(?:" + DEFAULT +
+> r"))\s+" + EXPR
+>  >>  SOURCE_SYMBOL = r"(?:\W|\b)+[D]{,1}CONFIG_(" + SYMBOL + r")"
+>  >> +IF_LINE = r"^\s*(?:if)\s+" + EXPR
+>  >
+>  >
+>  > Why is it enclosed by "(?: )"   ?
+>  >
+>  > "(?:if)"  seems to the same as "if"
+> Oh you are absolutely right.
+> I just mindlessly copied the STMT regex and removed the other types :)
+>  >
+>  >
+>  >
+>  >
+>  >
+>  >
+>  >>
+>  >>  # regex objects
+>  >>  REGEX_FILE_KCONFIG = re.compile(r".*Kconfig[\.\w+\-]*$")
+>  >> @@ -35,11 +36,11 @@ REGEX_KCONFIG_DEF = re.compile(DEF)
+>  >>  REGEX_KCONFIG_EXPR = re.compile(EXPR)
+>  >>  REGEX_KCONFIG_STMT = re.compile(STMT)
+>  >>  REGEX_KCONFIG_HELP = re.compile(r"^\s+help\s*$")
+>  >> +REGEX_KCONFIG_IF_LINE = re.compile(IF_LINE)
+>  >>  REGEX_FILTER_SYMBOLS = re.compile(r"[A-Za-z0-9]$")
+>  >>  REGEX_NUMERIC = re.compile(r"0[xX][0-9a-fA-F]+|[0-9]+")
+>  >>  REGEX_QUOTES = re.compile("(\"(.*?)\")")
+>  >>
+>  >> -
+>  >>  def parse_options():
+>  >>      """The user interface of this module."""
+>  >>      usage = "Run this tool to detect Kconfig symbols that are
+> referenced but " \
+>  >> @@ -445,6 +446,11 @@ def parse_kconfig_file(kfile):
+>  >>          line = line.strip('\n')
+>  >>          line = line.split("#")[0]  # ignore comments
+>  >>
+>  >> +        # 'if EXPR' lines can be after help lines
+>  >> +        # The if line itself is handled later
+>  >> +        if REGEX_KCONFIG_IF_LINE.match(line):
+>  >> +            skip = False
+>  >> +
+>  >
+>  >
+>  > I do not think this is the right fix.
+>  > There are similar patterns where
+>  > config references are ignored.
+>  >
+>  > For example, FOO and BAR are ignored
+>  > in the following cases.
+>  >
+>  > ex1)
+>  >
+>  > choice
+>  >           prompt "foo"
+>  >           default FOO
+>  >
+>  >
+>  >
+>  > ex2)
+>  >
+>  > menu "bar"
+>  >            depends on BAR
+>  >
+>  >
+>  >
+>  >
+>  > The help block ends with shallower indentation.
+> So IIUC we need to measure the indentation when we encounter a help
+> statement and in the next lines look for a line with a different depth
+> (which is not an empty line because these are allowed).
 
-OK, I dropped 3/3 from my tree.
-
-Please send v2.
 
 
+If you want to implement it precisely, yes.
+
+
+Or, if you want to adopt a simpler
+solution, detect the following keywords.
+
+comment
+if
+menu
+choice
+
+
+This is not precise, but it will work
+in most cases.
+
+
+
+In the following example, the first 'menu'
+is just a comment.
+The second 'menu' is a keyword since it has
+a shallower indentation.
+
+
+
+    help
+       blah blah
+       menu blah blah
+       blah blah
+  menu "menu prompt"
+     depends on FOO
 
 
 
 
-> >> +
-> >>           args.find = False
-> >>
-> >>       if args.ignore:
-> >> --
-> >> 2.25.1
-> >>
-> >
-> Thanks for your time :)
->
-> Ariel Marcovitch
->
 
 
--- 
+
+
+
+
+
+
+--
 Best Regards
 Masahiro Yamada
