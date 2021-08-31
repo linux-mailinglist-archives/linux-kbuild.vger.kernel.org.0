@@ -2,90 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BF53FCC56
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Aug 2021 19:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 646483FCC58
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Aug 2021 19:31:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbhHaRbY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Aug 2021 13:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51516 "EHLO
+        id S240349AbhHaRcF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Aug 2021 13:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234077AbhHaRbX (ORCPT
+        with ESMTP id S240335AbhHaRcE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Aug 2021 13:31:23 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30912C061760
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Aug 2021 10:30:28 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id z24-20020a17090acb1800b0018e87a24300so56007pjt.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Aug 2021 10:30:28 -0700 (PDT)
+        Tue, 31 Aug 2021 13:32:04 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9C1C061764
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Aug 2021 10:31:07 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id j2so11080058pll.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Aug 2021 10:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=RR58B/xYGJafxin5HeHSX4dLzWc56hmmhBLa05Y8cXM=;
-        b=AbxW1+lW0iR9IecIcWmDkhs34/VdSO4avGg/BAMtpRoucC0VTQ+bku0ZpnWNCtdKKd
-         s04U+9eOwwvYZUIT5xLheScJ37r88IsGEBmXVifrWhSlfnwu7wRjEOv2nS97FgdFwNca
-         WWTsln9Gem/D1y8mj8uSkF/n1DgfvLwBwDnfE=
+        bh=5LyN0K+Wus5Cj53RnJaq/QRwIimxfpbtiHPTvrng6hg=;
+        b=nyzULMjwjJw6h/+Oy1rkXR5IyeiOrfFqiN6AVnkctw3ssI+hirKxSRuQEze7nxWScm
+         YPrM+qgb1UTHnIPbwGJYwy+z5jKknx/1TrCDo0rja5PKQCb4h2KcYHtyzpzzLcUKWX/j
+         vuM7sAb3MX8hLz/wqRYrvDUxUbKZS5r+txjmw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=RR58B/xYGJafxin5HeHSX4dLzWc56hmmhBLa05Y8cXM=;
-        b=bpWJHvmfgDvljDUBtJRBM3j1r9eQ3JEqKCGO6ARWH2wVVFkJsZvOnW/SMR0IrsLLwf
-         iwVDxN87J6tUtvCX1S799uQfgzEORbc+nK2HERGcPNEI4Dxy54ChwGHr4UnHbJug72bk
-         bvyxy+XiCtUqTjsVzMbe/J/OV+/Uc3w5mS0wBPjSRbp3w7XLRH8xt4dPFhGDf2PPe8/Y
-         sdy5IeQAyWx0moFbbxHD8SQa0kUsrT5MSQlWJMowHMVqFL64LOx3kusrOH9eNHLDnNv3
-         j1bNctfmF9LS97a3kw2+zJjGyu2dHxUStIbZuC/TG72Vhjs4L/y9/Ck3ylGz6PUFyOwZ
-         bD2g==
-X-Gm-Message-State: AOAM532nKL6tf7u3PdJmaKhZzxHMn6ebWWIx1ArGXbgzhlHsXEsvv4W1
-        OE4FMV1kFgd+/mW1wIL1SsU2FQ==
-X-Google-Smtp-Source: ABdhPJzn2E3XqZObb7PyG8evez59tKrv/PLIVSkTIsUT6DkRP7iTI6Mib+vjLKFL2rm1r/lNLENCFQ==
-X-Received: by 2002:a17:902:b093:b029:12c:843:b55a with SMTP id p19-20020a170902b093b029012c0843b55amr5725338plr.83.1630431027801;
-        Tue, 31 Aug 2021 10:30:27 -0700 (PDT)
+        bh=5LyN0K+Wus5Cj53RnJaq/QRwIimxfpbtiHPTvrng6hg=;
+        b=kGPy8gEtQfVRj1/LNP8E+EIkeNofwFs2jyYF96Xic7ad08+kQGp/01Z3AjDXGJ6bWM
+         e8qbyVCwI3WLKLWqgksq+hHrb+reUXPkLpMEL2S9b90SIpWESUxSFQeY23FSuCmye3kX
+         Iykvdac/bQEkcwM7HbNSqJeXWuAlahNSem5517TQWIy5jjYEZHGBbL0VI59ETcFWRxdj
+         yznZ1Sa1xOj5UiB3D9/MHoZ5TEJWiU+8EjJnb66f1Bf8eWmc6EAeVsnZH1x2XzEws+Xn
+         ndv/QWGeZayNUvtkkjwnH+ATekvHYctPRHgCP45AB1Y2BmXfNzqcN4TBkvBFPAcQHdjm
+         BTRw==
+X-Gm-Message-State: AOAM530kgEvzeJhk4N6SkjX4+xNQvMX3eFQCjwYsizp+tek4N61bRSXd
+        7bs/JrO8LwH1irqCrqyzaRiMSg==
+X-Google-Smtp-Source: ABdhPJyreXlCVuGBRZGGEG/FVzXeBVHZmYwNxr4ysj6JV2xB/EulpLX2NMh4JPN80o8MPLbWFFUx1A==
+X-Received: by 2002:a17:902:8606:b029:12c:2625:76cf with SMTP id f6-20020a1709028606b029012c262576cfmr5692548plo.17.1630431067343;
+        Tue, 31 Aug 2021 10:31:07 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q3sm21692389pgf.18.2021.08.31.10.30.26
+        by smtp.gmail.com with ESMTPSA id c24sm10985547pfd.145.2021.08.31.10.31.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 10:30:26 -0700 (PDT)
-Date:   Tue, 31 Aug 2021 10:30:25 -0700
+        Tue, 31 Aug 2021 10:31:06 -0700 (PDT)
+Date:   Tue, 31 Aug 2021 10:31:05 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/13] kbuild: store the objtool command in *.cmd files
-Message-ID: <202108311030.41739E4@keescook>
+Subject: Re: [PATCH v2 04/13] kbuild: factor out OBJECT_FILES_NON_STANDARD
+ check into a macro
+Message-ID: <202108311030.CEA8856D@keescook>
 References: <20210831074004.3195284-1-masahiroy@kernel.org>
- <20210831074004.3195284-4-masahiroy@kernel.org>
+ <20210831074004.3195284-5-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210831074004.3195284-4-masahiroy@kernel.org>
+In-Reply-To: <20210831074004.3195284-5-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 31, 2021 at 04:39:54PM +0900, Masahiro Yamada wrote:
-> objtool_dep includes include/config/{ORC_UNWINDER,STACK_VALIDATION}
-> so that all the objects are rebuilt when any of CONFIG_ORC_UNWINDER
-> and CONFIG_STACK_VALIDATION is toggled.
+On Tue, Aug 31, 2021 at 04:39:55PM +0900, Masahiro Yamada wrote:
+> The OBJECT_FILES_NON_STANDARD check is quite long.
 > 
-> As you can see in 'objtool_args', there are more CONFIG options
-> that affect the objtool command line.
-> 
-> Adding more and more include/config/* is ugly and unmaintainable.
-> 
-> Another issue is that non-standard objects are needlessly rebuilt.
-> Objects specified as OBJECT_FILES_NON_STANDARD is not processed by
-> objtool, but they are rebuilt anyway when CONFIG_ORC_UNWINDER or
-> CONFIG_STACK_VALIDATION is toggled. This is not a big deal, but
-> better to fix.
-> 
-> A cleaner and more precise fix is to include the objtool command in
-> *.cmd files so any command change is naturally detected by if_change.
+> Factor it out into a new macro, objtool-enabled, to not repeat it.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Yeah, nice solution for this.
+Looks right to me.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
