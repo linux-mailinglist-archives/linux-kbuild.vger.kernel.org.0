@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C853FC3D3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Aug 2021 10:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 351843FC3CC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Aug 2021 10:22:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240013AbhHaHlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Aug 2021 03:41:39 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:65502 "EHLO
+        id S239973AbhHaHlh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Aug 2021 03:41:37 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:65505 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239963AbhHaHlh (ORCPT
+        with ESMTP id S239753AbhHaHlh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 31 Aug 2021 03:41:37 -0400
 Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 17V7e8ET031407;
+        by conuserg-12.nifty.com with ESMTP id 17V7e8EU031407;
         Tue, 31 Aug 2021 16:40:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 17V7e8ET031407
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 17V7e8EU031407
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1630395610;
-        bh=he0soOQ9zzS0EzRT7ss9wp82TUPgR4Xe2OuH8qT/+Mc=;
+        s=dec2015msa; t=1630395611;
+        bh=TzRYWVEk2uz94kf4FQhuvI8YUyXUVwnUiVEt4iPFvzA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rvWR40xMo1Hm/hVMrMD+Bc2+eWrTXElooQDdUIghCUwpMP0QxbTILhAjnMsO4aCcP
-         dxVGBnckkIrM8l87V1PXJtitDGKQpLkIWikIOUJ4DQBk7o+a0m78auYtP6orH45Dev
-         M3pChKLZNt3H9jXqDX6CdUZuwKypGVz7DxNhGeNMn8wNqLjFI4pSyzmsfBPUvRB6GJ
-         a/bK0hznGQDmWDVckAFr9dvmaFof4Lc73DJiKN0dx6IRsNvS4PujaQUlufElqcqrP+
-         i46ile+RPt2VhDcHlL0VQlQ+ekYtvfTwqdSSmlWip+gHD3A69Xh0gB/4NdjoyBopxx
-         xD+/ehkyvsN2Q==
+        b=YV0BB8hpH+EngEJ8p93dSMnC+X7XsB37dsgBJG//v3zTXdiC+oOyLCs4V21Yf7AiF
+         nlnhFR6+P4bRKkFo6yWmQvIunylwKehEmBBKfn1j51mBz5NPqOuT10VPpbywlO7KTx
+         S3nd82f5XXZND6U/oJ+eCRXrhHF3niyR7XHWekvg3UaNUFk9qqpM9G89ZeyA6fdfP7
+         BHbLn0V8qRyPU6DxNZDqz+BCODYEBAc+fRPrgfPpo3jw4XppM94kTYgjbJN9GtHub8
+         l/EhySD1nv3fs4mWBAbRxgnExLqmQwvl+lUlKpD7TTRbKEIsMfZPwesYEtnOY7YrTR
+         cRtWYbrRHbVUg==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 02/13] kbuild: rename __objtool_obj to objtool
-Date:   Tue, 31 Aug 2021 16:39:53 +0900
-Message-Id: <20210831074004.3195284-3-masahiroy@kernel.org>
+Subject: [PATCH v2 03/13] kbuild: store the objtool command in *.cmd files
+Date:   Tue, 31 Aug 2021 16:39:54 +0900
+Message-Id: <20210831074004.3195284-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210831074004.3195284-1-masahiroy@kernel.org>
 References: <20210831074004.3195284-1-masahiroy@kernel.org>
@@ -45,59 +45,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Rename __objtool_obj to objtool, and move it out of the
-'ifndef CONFIG_LTO_CLANG' conditional, so it can be used for
-cmd_cc_lto_link_modules as well.
+objtool_dep includes include/config/{ORC_UNWINDER,STACK_VALIDATION}
+so that all the objects are rebuilt when any of CONFIG_ORC_UNWINDER
+and CONFIG_STACK_VALIDATION is toggled.
+
+As you can see in 'objtool_args', there are more CONFIG options
+that affect the objtool command line.
+
+Adding more and more include/config/* is ugly and unmaintainable.
+
+Another issue is that non-standard objects are needlessly rebuilt.
+Objects specified as OBJECT_FILES_NON_STANDARD is not processed by
+objtool, but they are rebuilt anyway when CONFIG_ORC_UNWINDER or
+CONFIG_STACK_VALIDATION is toggled. This is not a big deal, but
+better to fix.
+
+A cleaner and more precise fix is to include the objtool command in
+*.cmd files so any command change is naturally detected by if_change.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ scripts/Makefile.build | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 17508c0e4358..e78096cd396b 100644
+index e78096cd396b..021ae0146913 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -225,6 +225,8 @@ endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
+@@ -155,7 +155,7 @@ $(obj)/%.ll: $(src)/%.c FORCE
+ # (See cmd_cc_o_c + relevant part of rule_cc_o_c)
  
- ifdef CONFIG_STACK_VALIDATION
+ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
+-      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $<
++      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< $(cmd_objtool)
  
-+objtool := $(objtree)/tools/objtool/objtool
-+
- objtool_args =								\
- 	$(if $(CONFIG_UNWINDER_ORC),orc generate,check)			\
- 	$(if $(part-of-module), --module)				\
-@@ -236,17 +238,15 @@ objtool_args =								\
- 
- ifndef CONFIG_LTO_CLANG
- 
--__objtool_obj := $(objtree)/tools/objtool/objtool
--
- # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
- # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
+ ifdef CONFIG_MODVERSIONS
+ # When module versioning is enabled the following steps are executed:
+@@ -243,7 +243,7 @@ ifndef CONFIG_LTO_CLANG
  # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
  cmd_objtool = $(if $(patsubst y%,, \
  	$(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n), \
--	$(__objtool_obj) $(objtool_args) $@)
-+	$(objtool) $(objtool_args) $@)
+-	$(objtool) $(objtool_args) $@)
++	; $(objtool) $(objtool_args) $@)
  objtool_obj = $(if $(patsubst y%,, \
  	$(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n), \
--	$(__objtool_obj))
-+	$(objtool))
- 
+ 	$(objtool))
+@@ -251,10 +251,8 @@ objtool_obj = $(if $(patsubst y%,, \
  endif # CONFIG_LTO_CLANG
  endif # CONFIG_STACK_VALIDATION
-@@ -300,8 +300,7 @@ cmd_cc_lto_link_modules =						\
- ifdef CONFIG_STACK_VALIDATION
- # objtool was skipped for LLVM bitcode, run it now that we have compiled
- # modules into native code
--cmd_cc_lto_link_modules += ;						\
--	$(objtree)/tools/objtool/objtool $(objtool_args) --module $@
-+cmd_cc_lto_link_modules += ; $(objtool) $(objtool_args) --module $@
- endif
  
- $(obj)/%.lto.o: $(obj)/%.o FORCE
+-# Rebuild all objects when objtool changes, or is enabled/disabled.
+-objtool_dep = $(objtool_obj)					\
+-	      $(wildcard include/config/ORC_UNWINDER		\
+-			 include/config/STACK_VALIDATION)
++# Rebuild all objects when objtool changes
++objtool_dep = $(objtool_obj)
+ 
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+ cmd_gen_ksymdeps = \
+@@ -269,7 +267,6 @@ define rule_cc_o_c
+ 	$(call cmd,gen_ksymdeps)
+ 	$(call cmd,checksrc)
+ 	$(call cmd,checkdoc)
+-	$(call cmd,objtool)
+ 	$(call cmd,modversions_c)
+ 	$(call cmd,record_mcount)
+ endef
+@@ -277,7 +274,6 @@ endef
+ define rule_as_o_S
+ 	$(call cmd_and_fixdep,as_o_S)
+ 	$(call cmd,gen_ksymdeps)
+-	$(call cmd,objtool)
+ 	$(call cmd,modversions_S)
+ endef
+ 
+@@ -365,7 +361,7 @@ $(obj)/%.s: $(src)/%.S FORCE
+ 	$(call if_changed_dep,cpp_s_S)
+ 
+ quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
+-      cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $<
++      cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
+ 
+ ifdef CONFIG_ASM_MODVERSIONS
+ 
 -- 
 2.30.2
 
