@@ -2,209 +2,300 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1633FB925
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Aug 2021 17:42:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699163FC07E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Aug 2021 03:34:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237547AbhH3Plv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Aug 2021 11:41:51 -0400
-Received: from mga05.intel.com ([192.55.52.43]:43616 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237187AbhH3Plu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Aug 2021 11:41:50 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10092"; a="303874716"
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="303874716"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2021 08:40:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,363,1620716400"; 
-   d="scan'208";a="466151168"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by orsmga007.jf.intel.com with ESMTP; 30 Aug 2021 08:40:55 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Mon, 30 Aug 2021 08:40:54 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Mon, 30 Aug 2021 08:40:54 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Mon, 30 Aug 2021 08:40:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VLkXqn6/vkOzaScw0W9wEklyj4zAHu/l4qIEV6N3UXoVy9mECksWvJmGLl07rPqIxrcBLo7rAGSNxlaMSdSCJrHdAAY3k3xPFv4uIEf6Asqm8cxPlb0USkBSHAK7gbpwi9dbVaPD6sPrGvlKZQfnjUqag/0VGHddqzttqp9m+f9WPpUgm6vJyNnaNNCcWAtglf1d0S7vTs0R1kvYlwNAnagkWmz+w0L9BRB8dwCfMcf7ykLlZes63mK85fj4sMFpPFD6iLn173yuLDUrBg6eZEPFKOezYuoeAhM+qL9WLPQjBGy5OR++0vzB2/RkiTllLGbawLLW3SGHkU0iafr4+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xgf/sAQDv1MpyNvWnCOdRuiQO+k/BcM+xzy8/DkPNdI=;
- b=PyvV5TfPFVWQfK6K+7KhGq29DrRzv8w+YfrmC4W4evxFzVd23YjR9ttSFl1eZA/ABxA3tVCODVIKaXG9Osha9UMfVQwJl2eP/CK1lmRhsQ6zqPuq6h6sPDtEKT6B7TFofwUnWOOK4ESeicycJVmxU/Lrk8BM690psNulBpLX+7URA334/cW0yzryFzDpqq1yMk53SBBHUmWhBISV3wVcj5vrlyFjvZ6NqxP+foaEVYO+/FCYPYll81oQOs86FwwpSJ/vw+VgigEhtMr1DFfuErxuROGv28/aG5S8TLTzcOEIUfrikAR7f5qZuFwlZIZoCaXoghczYokHPRL4ylBp7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xgf/sAQDv1MpyNvWnCOdRuiQO+k/BcM+xzy8/DkPNdI=;
- b=X1aq+DngkvcfSpnX4iMzhcEZIegoIQASNNghps+cOymxlnKVkT6S29s1SzrWp1P8qDLjC+eYo86CaaURMPTtaodspWm29VpNhsvzwdJpNK6dvjs0PssKJK6b5w35yHGkQmNMl5XigZxb/LQbPeoWyLD/vh6gw2M2vSF0DTSx+gc=
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com (2603:10b6:5:c::28) by
- DM5PR1101MB2236.namprd11.prod.outlook.com (2603:10b6:4:58::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.17; Mon, 30 Aug 2021 15:40:53 +0000
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::1801:b765:5ffd:d121]) by DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::1801:b765:5ffd:d121%3]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
- 15:40:53 +0000
-From:   "Xu, Terrence" <terrence.xu@intel.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-CC:     "bhelgaas@google.com" <bhelgaas@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "diana.craciun@oss.nxp.com" <diana.craciun@oss.nxp.com>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "eric.auger@redhat.com" <eric.auger@redhat.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "mgurtovoy@nvidia.com" <mgurtovoy@nvidia.com>,
-        "jgg@nvidia.com" <jgg@nvidia.com>,
-        "maorg@nvidia.com" <maorg@nvidia.com>,
-        "leonro@nvidia.com" <leonro@nvidia.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>
-Subject: RE: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Thread-Topic: [PATCH V5 00/13] Introduce vfio_pci_core subsystem
-Thread-Index: AQHXmmaz1ZiP+FI92ECDLhV+GQ7uqKuGXIgAgAXXhpA=
-Date:   Mon, 30 Aug 2021 15:40:53 +0000
-Message-ID: <DM6PR11MB3177A7D59FAB8EE420F14BC5F0CB9@DM6PR11MB3177.namprd11.prod.outlook.com>
-References: <20210826103912.128972-1-yishaih@nvidia.com>
- <20210826162108.4fc8b844.alex.williamson@redhat.com>
-In-Reply-To: <20210826162108.4fc8b844.alex.williamson@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 000256ca-1bdf-4b07-5de0-08d96bcc8d14
-x-ms-traffictypediagnostic: DM5PR1101MB2236:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR1101MB2236689271E2C40494E88D99F0CB9@DM5PR1101MB2236.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mgoiCLes5+aaluH2TIIiBjkLh+HJJpCvqQsQOjv0SPcXri+SMWaLy3Berc+BziFX7vr2vwaqeX6p0KdhsTOJRRcriyQ830EOLd6OKkeZ9ij+ACfWMBORCl7gt6NxJmfR6W7I3E5zW5FXxQ0iLPucbRsm9a0OWS2enBJHdjpdXL6b6/Bb/gHhFAT66JO0mw9/vcEtoxT5axTEm7XdwnF1Nq85cHWKpfDvpQsN2hiksaWd+GdD8RDfI4p41G0gzYEScyfUuZSOs4QtOeayMnqH+vWA61lTT722Of7wayyD6gTMLJvVN35ovEu/nBuYg644GWKumUumwl/9cntWa3M3k0W0K4Ks2Cjub6PtYcay8GGn7f+e61EkqIhceffThuZ6rMChbfKIFg4ZbnABXtSQI2c+fSlBMn1Vf+AX4+SZXxHWTlK407NXz0Y+SLmpDMMxTb07XuLEhMccol8HX1sKgJ0yWP5F1MkkejsoSCmaHS8JBP7owkQcLeTCdRTL5yprRSjhqXT2qyRBuSRcck29CmMjUrrdHce3CH5tl9N830HqxWbjWIU8f+JdPBIWAPmQa+QjqyIqvvsfjsZYC1YM2MOchJ6tUToUslO6dEckZGA0dWq8MLklZdiIT4QcJ4rLjXry5iiT65UwntFn8e2WtZpRpZJFkI7znDf4He0qbJOExcxC4FBnVJSa8FVJ82TnurqoQpyE/rv+ogZaJkwgFg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3177.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(366004)(136003)(346002)(38070700005)(33656002)(86362001)(316002)(54906003)(110136005)(7416002)(478600001)(64756008)(7696005)(66476007)(122000001)(107886003)(83380400001)(52536014)(71200400001)(9686003)(38100700002)(5660300002)(6506007)(2906002)(55016002)(186003)(4326008)(26005)(8936002)(8676002)(66946007)(66446008)(66556008)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?a4fBqYTYrMKhJkR1fvFbGYwjRmwMUJGh7aKVqYW52Cs4dnx4hydy9R/rPcFW?=
- =?us-ascii?Q?h6JRWHZThpANxfqaNTRA7UgTuRhFfAfDiBPq1B0cAZBflOtAUXSexqVOne6O?=
- =?us-ascii?Q?hv/nu8fk8QA5oTo1d5fLEVrjkvtxGCkINSILbcWOpHNQeb961ahgFWvOm9Yh?=
- =?us-ascii?Q?WufS6hrj+H4ssG1aE6zbPgX+HyGhwc7qh9hWnQkdctlKlbr7Uh7MNKlk5HgV?=
- =?us-ascii?Q?FLg1OhAaZnER52pKFBB2cLp941+IZbFOrsTmyC1F3GC8ba6yothKY3DEHoQi?=
- =?us-ascii?Q?I225ZexI/NnBBSf0XoF4tCT1WlcbdUug3GSUuN9vtyHyFzMOADsTfzEI0IsJ?=
- =?us-ascii?Q?GYSxrJf2Mlv1URs3wtrIRCR/D2pivju8gzw3cReUG+hLnUCxq+MA7R7Dfsz2?=
- =?us-ascii?Q?8S9mhF1HZxsXn+40DPUwh1uh5jWfyA+l7/r1K5XVkwvJdB0zsxSuGr5fllNa?=
- =?us-ascii?Q?RHIsTnYKOSgP4TdjB7MFZ9OqivTVp8hpmiPkOPr82lx11PBV/6o14Jm0bdVP?=
- =?us-ascii?Q?JKEaBYXdwVD4qdwJKwySIT584SR4dfiZPgCXUymDh4JRAb/Ne2cZETDLZN7G?=
- =?us-ascii?Q?LMyN24B0oEvvVvez5MzX1Khmf+dgtIL6zMX6KqdLe02Zskw21EFNf2qTrjxV?=
- =?us-ascii?Q?ZVHrl/E4u0r2JTRuAGvcGgABHf4baCTI3Q7ivLBfL7wq0p3E+MWnGUFf3Trb?=
- =?us-ascii?Q?Ad6Doe7fgv0da/OXjj575uhlj3zq48LIW/xo5DClBK/7lJmzIRmvBOOm0hWt?=
- =?us-ascii?Q?U5G+DRyGpb3oPJZsUGMeLDFGJ2sggz/OdXl0V/WhfneChQ/WXyGp0GzhJeBh?=
- =?us-ascii?Q?DQ1/MkXqD+DbvICbmCqOrFYpuA43m0cL221xHmcjkmw2KAgThj28+yUOUt1E?=
- =?us-ascii?Q?n7KvYQrUaCCQZT1olIfdmvOf8tfqjst/5X2y1fxqaWT8MvFLxvz5Ppy8Xr3+?=
- =?us-ascii?Q?UWysCA7j1Z5jce18eHPVGmQ3RMjQrN62HWhQ2CfBXxN7BADfs+ITOwrYbd7q?=
- =?us-ascii?Q?qBRkLETkZaCbmogsoSbDssRd4l2XFbT8bXllSErROSxEjyQxpR3JYygW5ck9?=
- =?us-ascii?Q?9WKVF7KM6Xsd7KwIddfLvqtu0NQlHLCiDw7p8FnL8AuXluQEIK9LK2bC77ir?=
- =?us-ascii?Q?0X4a0kicYAQmn8n7vJfeDF3K10+GP2RNr0f7zVlneRo3OdnCu+vgSMM3e+bK?=
- =?us-ascii?Q?b9KQvm+HZ4wthKvXNJiDiQx+kptRcsq0+1yaRP1NuOGDSSNiO5y83VMBh1vU?=
- =?us-ascii?Q?Z/2t9GTIKs4iM65u0IQ4lPfUpqkBibn35nf0jv/42/hPdKcSJr9Ko0M7nGqd?=
- =?us-ascii?Q?f2PQBSAQ6HY/l0KBdna7V5SL?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S239191AbhHaBfJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Aug 2021 21:35:09 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:27942 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231297AbhHaBfJ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 30 Aug 2021 21:35:09 -0400
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 17V1XjDV011046;
+        Tue, 31 Aug 2021 10:33:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 17V1XjDV011046
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1630373626;
+        bh=izy3AjAJdYXTfDP1zxVU0AUkl7ehRuklfEIlDdeT5/8=;
+        h=From:Date:Subject:To:Cc:From;
+        b=SkbztkCE3mZWXHgzTTTL9hMFHYWBgd4JY2WB5Zh+ceAeORiKwJH0St9b7aC/8XGV+
+         KVhzRWsTbzlU25N13FcpnZ4EvEHR1w4e2lIzi+xcnXkDWdEEiiDMYMgKwwjGuMONV4
+         aZF/BYL5Y1AtrgXUyhwW/5+erabXGfIzecE9DGzFhlC5CByijgMyRQQ3jaPY6am2H6
+         HubvHLm40Ho7oiacTeY3doyIMj91pXCvuBB5dCD9uXunGyskDLaQ8vdPM/nEnVPpBd
+         0Q+0r9ENLhQOtG04N+7G/+Mj3JTkX0mxZLmqx+WfPlry9+XBt98o1XnvznaYf7wI9m
+         5IsHBdmZRh81w==
+X-Nifty-SrcIP: [209.85.216.42]
+Received: by mail-pj1-f42.google.com with SMTP id 28-20020a17090a031cb0290178dcd8a4d1so1036813pje.0;
+        Mon, 30 Aug 2021 18:33:45 -0700 (PDT)
+X-Gm-Message-State: AOAM530nYUmL6KXcDGEsnG3W5sMH3s2oXWH46C8JtD7pY5Lhgc3ykBxW
+        UHPWOJRt0AdztfcAcodKAGURUjb4uSVeUvnfJKU=
+X-Google-Smtp-Source: ABdhPJzZnseS4NcI4lsC2EWfIYwMLy00QI1+NIIURNGbiUwRr1BraTXiMKTfC0H8XexqFk+PbjmO6Ds0rToeW23fV9c=
+X-Received: by 2002:a17:902:c149:b0:132:86ed:3545 with SMTP id
+ 9-20020a170902c14900b0013286ed3545mr2236976plj.47.1630373624636; Mon, 30 Aug
+ 2021 18:33:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 000256ca-1bdf-4b07-5de0-08d96bcc8d14
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2021 15:40:53.2589
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: V9T4fscDXU4zfe3OZsOQIOPmA9zno2sH4nY/peT4foMj05Qd/51iafjRkuJWAlPu5cFQwgNfXPidb6PH0yeSjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2236
-X-OriginatorOrg: intel.com
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 31 Aug 2021 10:33:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATrzUSQg8pnpG1cDbA0sRdAeQGyy7d3ZqFJ4HMZymB=xQ@mail.gmail.com>
+Message-ID: <CAK7LNATrzUSQg8pnpG1cDbA0sRdAeQGyy7d3ZqFJ4HMZymB=xQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v5.15-rc1
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> -----Original Message-----
-> From: Alex Williamson <alex.williamson@redhat.com>
-> Sent: Friday, August 27, 2021 6:21 AM
->=20
-> On Thu, 26 Aug 2021 13:38:59 +0300
-> Yishai Hadas <yishaih@nvidia.com> wrote:
-> >
-> > Jason Gunthorpe (2):
-> >   vfio: Use select for eventfd
-> >   vfio: Use kconfig if XX/endif blocks instead of repeating 'depends on=
-'
-> >
-> > Max Gurtovoy (10):
-> >   vfio/pci: Rename vfio_pci.c to vfio_pci_core.c
-> >   vfio/pci: Rename vfio_pci_private.h to vfio_pci_core.h
-> >   vfio/pci: Rename vfio_pci_device to vfio_pci_core_device
-> >   vfio/pci: Rename ops functions to fit core namings
-> >   vfio/pci: Include vfio header in vfio_pci_core.h
-> >   vfio/pci: Split the pci_driver code out of vfio_pci_core.c
-> >   vfio/pci: Move igd initialization to vfio_pci.c
-> >   PCI: Add 'override_only' field to struct pci_device_id
-> >   PCI / VFIO: Add 'override_only' support for VFIO PCI sub system
-> >   vfio/pci: Introduce vfio_pci_core.ko
-> >
-> > Yishai Hadas (1):
-> >   vfio/pci: Move module parameters to vfio_pci.c
-> >
-> >  Documentation/PCI/pci.rst                     |    1 +
-> >  MAINTAINERS                                   |    1 +
-> >  drivers/pci/pci-driver.c                      |   28 +-
-> >  drivers/vfio/Kconfig                          |   29 +-
-> >  drivers/vfio/fsl-mc/Kconfig                   |    3 +-
-> >  drivers/vfio/mdev/Kconfig                     |    1 -
-> >  drivers/vfio/pci/Kconfig                      |   40 +-
-> >  drivers/vfio/pci/Makefile                     |    8 +-
-> >  drivers/vfio/pci/vfio_pci.c                   | 2262 +----------------
-> >  drivers/vfio/pci/vfio_pci_config.c            |   70 +-
-> >  drivers/vfio/pci/vfio_pci_core.c              | 2158 ++++++++++++++++
-> >  drivers/vfio/pci/vfio_pci_igd.c               |   19 +-
-> >  drivers/vfio/pci/vfio_pci_intrs.c             |   42 +-
-> >  drivers/vfio/pci/vfio_pci_rdwr.c              |   18 +-
-> >  drivers/vfio/pci/vfio_pci_zdev.c              |    4 +-
-> >  drivers/vfio/platform/Kconfig                 |    6 +-
-> >  drivers/vfio/platform/reset/Kconfig           |    4 +-
-> >  include/linux/mod_devicetable.h               |    6 +
-> >  include/linux/pci.h                           |   29 +
-> >  .../linux/vfio_pci_core.h                     |   89 +-
-> >  scripts/mod/devicetable-offsets.c             |    1 +
-> >  scripts/mod/file2alias.c                      |   17 +-
-> >  22 files changed, 2525 insertions(+), 2311 deletions(-)  create mode
-> > 100644 drivers/vfio/pci/vfio_pci_core.c  rename
-> > drivers/vfio/pci/vfio_pci_private.h =3D> include/linux/vfio_pci_core.h
-> > (56%)
-> Applied to vfio next branch for v5.15.  Thanks,
->=20
-> Alex
-We verified the Intel KVMGT and GVT-d KVM feature, no regression be introdu=
-ced by these patch series.
-Tested-by: Terrence Xu <terrence.xu@intel.com>
+Hi Linus,
 
-Thanks
-Terrence
+Please pull Kbuild updates for v5.15-rc1.
+
+
+This pull request is randomly touching many files in the tree,
+most of which are <stdarg.h> cleanups.
+
+
+After pulling this, you may see new warnings like this:
+
+    arch/x86/entry/vdso/Makefile:135: FORCE prerequisite is missing
+
+They are just trivial Makefile mistakes, and patches
+already exist. So, they will be fixed sooner or later.
+
+
+
+Thanks.
+
+
+
+
+The following changes since commit 36a21d51725af2ce0700c6ebcb6b9594aac658a6:
+
+  Linux 5.14-rc5 (2021-08-08 13:49:31 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+kbuild-v5.15
+
+for you to fetch changes up to 26d5313d02e4c5ca05bbf01e162abad7eebda906:
+
+  checkkconfigsymbols.py: Fix the '--ignore' option (2021-08-27 14:07:07 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v5.15
+
+ - Add -s option (strict mode) to merge_config.sh to make it fail when
+   any symbol is redefined.
+
+ - Show a warning if a different compiler is used for building external
+   modules.
+
+ - Infer --target from ARCH for CC=clang to let you cross-compile the
+   kernel without CROSS_COMPILE.
+
+ - Make the integrated assembler default (LLVM_IAS=1) for CC=clang.
+
+ - Add <linux/stdarg.h> to the kernel source instead of borrowing
+   <stdarg.h> from the compiler.
+
+ - Remove -isystem from the global compiler flag (except nds32) so
+   nobody will accidentally include unintended headers.
+
+ - Add Nick Desaulniers as a Kbuild reviewer.
+
+ - Drop stale cc-option tests.
+
+ - Fix the combination of CONFIG_TRIM_UNUSED_KSYMS and CONFIG_LTO_CLANG
+   to handle symbols in inline assembly.
+
+ - Show a warning if 'FORCE' is missing for if_changed rules.
+
+ - Various cleanups
+
+----------------------------------------------------------------
+Alexey Dobriyan (3):
+      isystem: trim/fixup stdarg.h and other headers
+      isystem: ship and use stdarg.h
+      isystem: delete global -isystem compile option
+
+Ariel Marcovitch (1):
+      checkkconfigsymbols.py: Fix the '--ignore' option
+
+Greg Kroah-Hartman (1):
+      kbuild: sh: remove unused install script
+
+Masahiro Yamada (16):
+      kbuild: do not require sub-make for separate output tree builds
+      scripts: make some scripts executable
+      kbuild: warn if a different compiler is used for external module builds
+      kbuild: check CONFIG_AS_IS_LLVM instead of LLVM_IAS
+      kbuild: macrofy the condition of if_changed and friends
+      kbuild: warn if FORCE is missing for if_changed(_dep,_rule) and filechk
+      kbuild: Fix 'no symbols' warning when CONFIG_TRIM_UNUSD_KSYMS=y
+      security: remove unneeded subdir-$(CONFIG_...)
+      sparc: move the install rule to arch/sparc/Makefile
+      ia64: move core-y in arch/ia64/Makefile to arch/ia64/Kbuild
+      gen_compile_commands: extract compiler command from a series of commands
+      kbuild: remove unused quiet_cmd_update_lto_symversions
+      kbuild: remove stale *.symversions
+      kbuild: merge vmlinux_link() between the ordinary link and Clang LTO
+      kbuild: do not remove 'linux' link in scripts/link-vmlinux.sh
+      kbuild: merge vmlinux_link() between ARCH=um and other architectures
+
+Matthias Maennich (1):
+      scripts: merge_config: add strict mode to fail upon any redefinition
+
+Nathan Chancellor (4):
+      kbuild: Remove -Wno-format-invalid-specifier from clang block
+      kbuild: Add a comment above -Wno-gnu
+      kbuild: Shuffle blank line to improve comment meaning
+      kbuild: Switch to 'f' variants of integrated assembler flag
+
+Nick Desaulniers (9):
+      Makefile: move initial clang flag handling into scripts/Makefile.clang
+      Makefile: infer --target from ARCH for CC=clang
+      Documentation/llvm: update CROSS_COMPILE inferencing
+      scripts/Makefile.clang: default to LLVM_IAS=1
+      MAINTAINERS: add Nick to Kbuild reviewers
+      Makefile: remove stale cc-option checks
+      s390: replace cc-option-yn uses with cc-option
+      arc: replace cc-option-yn uses with cc-option
+      x86: remove cc-option-yn test for -mtune=
+
+Sami Tolvanen (1):
+      kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG
+
+ Documentation/kbuild/llvm.rst
+ | 25 +++++++--
+ MAINTAINERS                                                            |  2 +
+ Makefile
+ | 92 ++++++++++++++++++----------------
+ arch/arc/Makefile                                                      |  3 +-
+ arch/arm/kernel/process.c                                              |  2 -
+ arch/arm/mach-bcm/bcm_kona_smc.c                                       |  2 -
+ arch/arm64/kernel/process.c                                            |  3 --
+ arch/arm64/lib/Makefile                                                |  2 +
+ arch/ia64/Kbuild                                                       |  2 +
+ arch/ia64/Makefile                                                     |  2 -
+ arch/mips/Makefile                                                     |  2 +-
+ arch/nds32/Makefile                                                    |  2 +
+ arch/openrisc/kernel/process.c                                         |  2 -
+ arch/parisc/kernel/firmware.c                                          |  2 +-
+ arch/parisc/kernel/process.c                                           |  3 --
+ arch/powerpc/kernel/prom.c                                             |  1 -
+ arch/powerpc/kernel/prom_init.c                                        |  2 +-
+ arch/powerpc/kernel/rtas.c                                             |  2 +-
+ arch/powerpc/kernel/udbg.c                                             |  2 +-
+ arch/powerpc/lib/Makefile                                              |  2 +
+ arch/riscv/Makefile                                                    |  2 +-
+ arch/s390/Makefile
+ | 14 +++---
+ arch/s390/boot/pgm_check_info.c                                        |  2 +-
+ arch/sh/boot/compressed/install.sh
+ | 56 ---------------------
+ arch/sparc/Makefile                                                    |  3 +-
+ arch/sparc/boot/Makefile                                               |  4 --
+ arch/sparc/kernel/process_32.c                                         |  3 --
+ arch/sparc/kernel/process_64.c                                         |  3 --
+ arch/um/Makefile                                                       |  6 +--
+ arch/um/drivers/rtc_user.c                                             |  1 +
+ arch/um/drivers/vector_user.c                                          |  1 +
+ arch/um/include/shared/irq_user.h                                      |  1 -
+ arch/um/include/shared/os.h                                            |  1 -
+ arch/um/os-Linux/signal.c                                              |  2 +-
+ arch/um/os-Linux/util.c                                                |  1 +
+ arch/x86/Makefile                                                      |  2 +-
+ arch/x86/Makefile_32.cpu                                               |  6 ---
+ arch/x86/boot/boot.h                                                   |  2 +-
+ crypto/Makefile                                                        |  2 +
+ drivers/block/xen-blkback/xenbus.c                                     |  1 -
+ drivers/firmware/efi/libstub/efi-stub-helper.c                         |  2 +-
+ drivers/firmware/efi/libstub/vsprintf.c                                |  2 +-
+ drivers/gpu/drm/amd/display/dc/dc_helper.c                             |  2 +-
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h                        |  1 -
+ drivers/gpu/drm/drm_print.c                                            |  2 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.h                           |  1 -
+ drivers/isdn/capi/capiutil.c                                           |  2 +-
+ drivers/macintosh/macio-adb.c                                          |  1 -
+ drivers/macintosh/via-cuda.c                                           |  2 +-
+ drivers/macintosh/via-macii.c                                          |  2 -
+ drivers/macintosh/via-pmu.c                                            |  2 +-
+ drivers/net/wireless/intersil/orinoco/hermes.c                         |  1 -
+ drivers/net/wwan/iosm/iosm_ipc_imem.h                                  |  1 -
+ drivers/pinctrl/aspeed/pinmux-aspeed.h                                 |  1 -
+ drivers/scsi/elx/efct/efct_driver.h                                    |  1 -
+ drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_local.h |  2 -
+ drivers/staging/media/atomisp/pci/hive_isp_css_include/print_support.h |  2 +-
+ drivers/staging/media/atomisp/pci/ia_css_env.h                         |  2 +-
+ .../staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h   |  2 +-
+ drivers/staging/media/atomisp/pci/sh_css_internal.h                    |  2 +-
+ drivers/xen/xen-scsiback.c                                             |  2 -
+ fs/befs/debug.c                                                        |  2 +-
+ fs/reiserfs/prints.c                                                   |  2 +-
+ fs/ufs/super.c                                                         |  2 +-
+ include/acpi/platform/acgcc.h                                          |  2 +-
+ include/linux/filter.h                                                 |  2 -
+ include/linux/kernel.h                                                 |  2 +-
+ include/linux/mISDNif.h                                                |  1 -
+ include/linux/printk.h                                                 |  2 +-
+ include/linux/stdarg.h
+ | 11 ++++
+ include/linux/string.h                                                 |  2 +-
+ kernel/debug/kdb/kdb_support.c                                         |  1 -
+ lib/Kconfig.debug                                                      |  2 +
+ lib/debug_info.c                                                       |  3 +-
+ lib/kasprintf.c                                                        |  2 +-
+ lib/kunit/string-stream.h                                              |  2 +-
+ lib/raid6/Makefile                                                     |  4 ++
+ lib/vsprintf.c                                                         |  2 +-
+ mm/kfence/report.c                                                     |  2 +-
+ net/batman-adv/log.c                                                   |  2 +-
+ scripts/Kbuild.include
+ | 13 +++--
+ scripts/Makefile.build
+ | 30 ++++++++++-
+ scripts/Makefile.clang
+ | 35 +++++++++++++
+ scripts/Makefile.lib                                                   |  7 +++
+ scripts/Makefile.modfinal
+ | 21 +-------
+ scripts/Makefile.modpost
+ | 22 ++------
+ scripts/as-version.sh                                                  |  8 +--
+ scripts/checkdeclares.pl                                               |  0
+ scripts/checkkconfigsymbols.py                                         |  2 +-
+ scripts/clang-tools/gen_compile_commands.py                            |  2 +-
+ scripts/gcc-plugins/gen-random-seed.sh                                 |  0
+ scripts/gen_autoksyms.sh
+ | 12 -----
+ scripts/gen_ksymdeps.sh                                                |  8 ++-
+ scripts/kconfig/merge_config.sh
+ | 15 ++++++
+ scripts/link-vmlinux.sh
+ | 81 +++++++++++++-----------------
+ scripts/syscallnr.sh                                                   |  0
+ scripts/xen-hypercalls.sh                                              |  0
+ security/Makefile
+ | 11 ----
+ sound/aoa/codecs/onyx.h                                                |  1 -
+ sound/aoa/codecs/tas.c                                                 |  1 -
+ sound/core/info.c                                                      |  1 -
+ 101 files changed, 298 insertions(+), 323 deletions(-)
+ delete mode 100644 arch/sh/boot/compressed/install.sh
+ create mode 100644 include/linux/stdarg.h
+ create mode 100644 scripts/Makefile.clang
+ mode change 100644 => 100755 scripts/checkdeclares.pl
+ mode change 100644 => 100755 scripts/gcc-plugins/gen-random-seed.sh
+ mode change 100644 => 100755 scripts/syscallnr.sh
+ mode change 100644 => 100755 scripts/xen-hypercalls.sh
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
