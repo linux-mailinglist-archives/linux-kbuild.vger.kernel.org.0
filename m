@@ -2,83 +2,234 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DD9F3FE502
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Sep 2021 23:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674D73FE738
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Sep 2021 03:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343833AbhIAVhM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Sep 2021 17:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44998 "EHLO
+        id S229835AbhIBBiA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Sep 2021 21:38:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241103AbhIAVhL (ORCPT
+        with ESMTP id S231658AbhIBBh7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Sep 2021 17:37:11 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D65C061575
-        for <linux-kbuild@vger.kernel.org>; Wed,  1 Sep 2021 14:36:14 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id l10so2023297lfg.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 01 Sep 2021 14:36:14 -0700 (PDT)
+        Wed, 1 Sep 2021 21:37:59 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9F13C061760
+        for <linux-kbuild@vger.kernel.org>; Wed,  1 Sep 2021 18:37:01 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id g14so382280pfm.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 01 Sep 2021 18:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IYemb+IVIGMJMpiffbPQhUFiWax0UjI4yymjBbO+x2M=;
-        b=L3OYKEs58Snx5mC+czL344+tZCIO7gfpz++GT7mAJJ9TkuGPjlXiYIOypkBLHsfxzx
-         ds+STBdb8Ysq9cPQg06QQe80hsqF++3uZ2kqZQdkxsBDjcVYbjIWPXjRsuzwUZsae9l9
-         mKlZ8KFBOIQgr5ExFEYl0ynTDLEaiIPke2C9g=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FZj7bQstLxvnggT+mYiVUDNrPe/KHWsDuFwFpohZ6DE=;
+        b=Yz45njvZVO+Cpr39aEBvL0FTZkY5Blnr5hSWS3nvZDHVvt9nqI3D43b3ByvoUj8ALi
+         XaYzeq0y+rrbu/B617KfdfkLiwyeEwL/XJtt1vxFN3sW32gL26ZF1eArH00fHhn9u6sW
+         l3BWFO4oXlVM/JcD7m9CWcHLzQKYeyGNWEGoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IYemb+IVIGMJMpiffbPQhUFiWax0UjI4yymjBbO+x2M=;
-        b=az9Ke+gtblia5qtUFRR4PUJN3A0QaAOT2/+GS1liGVHTku6GDqjGkEYF5Zxl0gOvnY
-         aLZaRPA5Zz/rDfFReht1aJGhJoz+bjIuZvkfxZSrWLTqT/Q2n4nyMf+fJXz+Qi96nk6q
-         SYu0hGVABRM2Oj95FLZFpq36byXAdI579hNn0sZRsbt6/LsRsrhzkCVl2bSDQwtPdWIq
-         pPFa6O/gE6fpekHoJSJwd5DcyIPTS2ST7mYJibdqBM2olIrm4yVYQ4Vapm7E2jq68IfF
-         Q8i+UmI4Mkm4fg5OUk05DgUIU/fxqtdzn7G3VRQ+BjP2jw2GDOpm4hI38vaB2nJgAIPB
-         tv7A==
-X-Gm-Message-State: AOAM531YCrPwqTOi9ncQg/nMsjQB5cYYC5h5hqsSawIxHt5OrhW4EaU4
-        kdQUhx5zXS0Lp4GKeZ8CbHLDaVe3jsvlKqEU
-X-Google-Smtp-Source: ABdhPJymKgQCzXiMzVJ50eSOs/4zU+VYauyzb+/gs3jofeJbw8WweAA7oKPMUCAu/k0odOI2+lV/Rw==
-X-Received: by 2002:a19:6510:: with SMTP id z16mr1079519lfb.566.1630532172518;
-        Wed, 01 Sep 2021 14:36:12 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id u3sm66584lft.149.2021.09.01.14.36.11
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 14:36:12 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id m28so2003022lfj.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 01 Sep 2021 14:36:11 -0700 (PDT)
-X-Received: by 2002:a05:6512:128a:: with SMTP id u10mr1107687lfs.40.1630532171691;
- Wed, 01 Sep 2021 14:36:11 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FZj7bQstLxvnggT+mYiVUDNrPe/KHWsDuFwFpohZ6DE=;
+        b=Ehqp3pN8iyi5aY6cELgyRNITECCw31o5NVy2ZuUUNkR8O7a+DH3h7lRlZLvYh10pXD
+         DUa/XV4CUU/4Vqxfcr4qk99BiQ7Ky++tE72tRUJ0oFJ5TXfzwT+LPEi/MbPShSD+7s9e
+         iQV2G6aA5wSgLMlSuxfFU7NiNTpsR9gN/dp64NzminUN6knDAKo4eyet0RFnDxiwbGMY
+         wEsrnT42EWCKR1mFBo14rUmq1gFE7hEueQsLxf6JrlsswoKKopyN/x5e6jpvpN364RN1
+         5x9OOE/KUO/dAdqnUyxAJGx2Fywq/0ZdwEXYCyKrGo0cZTPgS+/XV7x2HjQ5CTT780Pw
+         wOVg==
+X-Gm-Message-State: AOAM532cXt3HmEro33bBy1m+BxU2hUMEQw9Ig+9j1ZCv6xt+0smVeO8I
+        ot6XWZ856GTY7Vjpqjaer/Cn9Q==
+X-Google-Smtp-Source: ABdhPJzhAG9s+9WAnP6Ve94qoEOufRZ1W4NPrrIfMRuirMeW2MzBIWdc511hGMVFoIq7dNJHgFeSRQ==
+X-Received: by 2002:a62:7c05:0:b0:40b:5d8f:6a56 with SMTP id x5-20020a627c05000000b0040b5d8f6a56mr778489pfc.74.1630546621308;
+        Wed, 01 Sep 2021 18:37:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z131sm197063pfc.159.2021.09.01.18.37.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 18:37:00 -0700 (PDT)
+Date:   Wed, 1 Sep 2021 18:36:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org,
+        Kristen C Accardi <kristen.c.accardi@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marta A Plantykow <marta.a.plantykow@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH v6 kspp-next 00/22] Function Granular KASLR
+Message-ID: <202109011815.1C439A6DA9@keescook>
+References: <20210831144114.154-1-alexandr.lobakin@intel.com>
+ <202108311010.8250B34D5@keescook>
+ <20210901103658.228-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-References: <CAK7LNATrzUSQg8pnpG1cDbA0sRdAeQGyy7d3ZqFJ4HMZymB=xQ@mail.gmail.com>
-In-Reply-To: <CAK7LNATrzUSQg8pnpG1cDbA0sRdAeQGyy7d3ZqFJ4HMZymB=xQ@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linuxfoundation.org>
-Date:   Wed, 1 Sep 2021 14:35:55 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjbjVb5wNURa7-_PtvKqf96X-7a1OoUDPJjo9rz68YB=Q@mail.gmail.com>
-Message-ID: <CAHk-=wjbjVb5wNURa7-_PtvKqf96X-7a1OoUDPJjo9rz68YB=Q@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v5.15-rc1
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210901103658.228-1-alexandr.lobakin@intel.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 30, 2021 at 6:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> After pulling this, you may see new warnings like this:
->
->     arch/x86/entry/vdso/Makefile:135: FORCE prerequisite is missing
->
-> They are just trivial Makefile mistakes, and patches
-> already exist. So, they will be fixed sooner or later.
+On Wed, Sep 01, 2021 at 12:36:58PM +0200, Alexander Lobakin wrote:
+> Without FG-KASLR, we have only one .text section, and the total
+> section number is relatively small.
+> With FG-KASLR enabled, we have 40K+ separate text sections (I have
+> 40K on a setup with ClangLTO and ClangCFI and about 48K on a
+> "regular" one) and each of them is described in the ELF header. Plus
+> a separate .rela.text section for every single of them. That's the
+> main reason of the size increases.
 
-I refuse to have new warnings in my tree, particularly during the merge window.
+If you have the size comparisons handy, I'd love to see them. My memory
+from v5 was that none of that end up in-core. And in that case, why
+limit the entropy of the resulting layout?
 
-So I will not be pulling this, since I do indeed see those warnings
-when doing my test builds.
+> We still have LD_ORPHAN_WARN on non-FG-KASLR builds, but we also
+> have a rather different set of sections with FG-KASLR enabled. For
+> example, I noticed the appearing of .symtab_shndx section only in
+> virtue of LD_ORPHAN_WARN. So it's kinda not the same.
 
-                Linus
+Agreed: I'd rather have LD_ORPHAN_WARN always enabled.
+
+> I don't see a problem in this extra minute. FG-KASLR is all about
+
+But not at this cost. Maybe the x86 maintainers will disagree, but I see
+this as a prohibitive cost to doing development work under FGKASLR, and
+if we expect this to become the default in distros, no one is going to
+be happy with that change. Link time dominates the partial rebuild time,
+so my opinion is that it should not be so inflated if not absolutely
+needed. Perhaps once the link time bugs in ld.bfd and ld.lld get fixed,
+but not now.
+
+> security, and you often pay something for this. We already have a
+> size increase, and a small delay while booting, and we can't get
+> rid of them. With orphan sections you leave a space for potentional
+
+There's a difference between development time costs and run time costs.
+I don't think the LD_ORPHAN_WARN coverage is worth it in this case.
+
+Either way, we need to fix the linker.
+
+> flaws of the code, linker and/or linker script, which is really
+> unwanted in case of a security feature.
+> After all, ClangLTO increases the linking time at lot, and
+> TRIM_UNUSED_KSYMS builds almost the entire kernel two times in a
+> row, but nobody complains about this as there's nothing we can do
+> with it and it's the price you pay for the optimizations, so again,
+> I don't see a problem here.
+
+I get what you mean with regard to getting the perfect situation, but
+the kernel went 29 years without LD_ORPHAN_WARN. :) Anyway, we'll see
+what other folks think, I guess.
+
+> I still don't get why you're trying to split this series into two.
+> It's been almost a year since v5 was published, I doubt you can get
+> "basic FG-KASLR" accepted quickly just because it was reviewed back
+> then.
+
+Well, because it was blocked then by a single bug, and everything else
+you've described are distinct improvements on v5, so to me it makes
+sense to have it separated into those phases. I don't mean split the
+series, I mean rearrange the series so that a rebased v5 is at the
+start, and the improvements follow.
+
+> I prefer to provide a full picture of what I'm trying to bring, so
+> the community could review it all and throw much more ideas and
+> stuff.
+
+Understood. I am suggesting some ideas about how it might help with
+review. :)
+
+> > > * It's now fully compatible with ClangLTO, ClangCFI,
+> > >   CONFIG_LD_ORPHAN_WARN and some more stuff landed since the last
+> > >   revision was published;
+> > 
+> > FWIW, v5 was was too. :) I didn't have to do anything to v5 to make it
+> > work with ClangLTO and ClangCFI.
+> 
+> Once again, repeating the thing I wrote earlier in our discussion:
+> ClangCFI, at least shadowed implementation, requires the first text
+> section of the module to be page-aligned and contain __cfi_check()
+> at the very beginning of this section. With FG-KASLR and without
+> special handling, this section gets randomized along with the
+> others, and ClangCFI either rejects almost all modules or panics
+> the kernel.
+
+Ah-ha, thanks. I must have missed your answer to this earlier. I had
+probably done my initial v5 testing without modules.
+
+> > Great, this is a good start. One place we saw problems in the past was
+> > with i386 build gotchas, so that'll need testing too.
+> 
+> For now, FG_KASLR for x86 depends on X86_64. We might relax this
+> dependency later after enough testing or whatsoever (like it's been
+> done for ClangLTO).
+
+Yes, but we've had a history of making big patches that do _intend_ to
+break the i386 build, but they do anyway. Hence my question.
+
+> > Sounds good. It might be easier to base the series on linux-next, so a
+> > smaller series. Though given the merge window just opened, it might make
+> > more sense for a v7 to be based on v5.15-rc2 in three weeks.
+> 
+> I don't usually base any series on linux-next, because it contains
+> all the changes from all "for-next" branches and repos, while the
+> series finally gets accepted to the specific repo based on just
+> v5.x-rc1 (sometimes on -rc2). This may bring additional apply/merge
+> problems.
+
+Understood. I just find it confusing to include patches on lkml that
+already exist in a -next branch. Perhaps base on kbuild -next?
+
+> > > Kees Cook (2):
+> > >   x86/boot: Allow a "silent" kaslr random byte fetch
+> > >   x86/boot/compressed: Avoid duplicate malloc() implementations
+> > 
+> > These two can get landed right away -- they're standalone fixes that
+> > can safely go in -tip.
+> > 
+> > > 
+> > > Kristen Carlson Accardi (9):
+> > >   x86: tools/relocs: Support >64K section headers
+> > 
+> > Same for this.
+> 
+> They make little to no sense for non-FG-KASLR systems. And none of
+> them are "pure" fixes.
+> The same could be said about e.g. ORC lookup patch, but again, it
+> makes no sense right now.
+
+*shrug* They're trivial changes that have been reviewed before, so it
+seems like we can avoid resending them every time.
+
+> > I suspect it'll still be easier to review this series as a rebase v5
+> > followed by the evolutionary improvements, since the "basic FGKASLR" has
+> > been reviewed in the past, and is fairly noninvasive. The changes for
+> > ASM, new .text rules, etc, make a lot more changes that I think would be
+> > nice to have separate so reasonable a/b testing can be done.
+> 
+> I don't see a point in testing it two times instead of just one, as
+> well as in delivering this feature in two halves. It sounds like
+> "let's introduce ClangLTO, but firstly only for modules, as LTO for
+> vmlinux requires changes in objtool code and a special handling for
+> the initcalls".
+> The changes you mentioned only seem invasive, in fact, they can
+> carry way less harm than the "basic FG-KASLR" itself.
+
+Mostly it's a question of building on prior testing (v5 worked), so that
+new changes can be debugged if they cause problems. Regardless, it's
+been so long, perhaps it won't matter to other reviewers and they'll
+want to just start over from scratch.
+
+-Kees
+
+-- 
+Kees Cook
