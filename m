@@ -2,87 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 918414002D2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Sep 2021 18:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9514007BE
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Sep 2021 00:06:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349827AbhICQDD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Sep 2021 12:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59962 "EHLO
+        id S234631AbhICWHS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Sep 2021 18:07:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349836AbhICQDD (ORCPT
+        with ESMTP id S233367AbhICWHS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Sep 2021 12:03:03 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2210C061757
-        for <linux-kbuild@vger.kernel.org>; Fri,  3 Sep 2021 09:02:02 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id w4so10261578ljh.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 09:02:02 -0700 (PDT)
+        Fri, 3 Sep 2021 18:07:18 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4097C061575
+        for <linux-kbuild@vger.kernel.org>; Fri,  3 Sep 2021 15:06:17 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id s16so486054qvt.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 15:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
-        b=asGUuMHPXeQXCb5nqi6dzhAErIG7kM8cyK01AC7EgH+pI6vGW0WEOSLX06tdWZATVa
-         Pet3lLv0HGK+7MgFrsW35uUZshEqMYQS8Wr+LpvIlIiD6MR+2JBsgHwnkW74eFpZ9qUP
-         kBadcohrMHtAPcceLY8xpEaZjPcjBc+Ospe12JnY/9EL6K4EK3/+urv97oK4J7WZWaw0
-         2G1RFX+Zg8vO1AT0KCGYomgsfElE0qNwl2y1vUX0a4mfmM3xHTBWStPU1SeIuBma5Swj
-         6fhZ0g/BVvNuLBAVP4Q9hLKB0gfSB0YCeGMtzqgxgGvnxJEN4K57KoG3bgkOhdCzxkRW
-         g3gQ==
+        d=broadcom.com; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=xKcsIX3BfLBwQgdXTJ8xpZnHGVXMHnmcgqRZLMQsLms=;
+        b=e0hA8wdoOpUzzJq5zimuZoliotF/jZH+dEmCYrj3QzZzypb/hy90w3lEgfJCGKupgL
+         vUsN4iHKw0jdZE1Cvm71LTj/85tzxaBKAHKCOiAXZVH9LrHE55qmasJOGxflSWiE4yhm
+         bZGSg1v3GSZNvbX+cEWFIPyuyoFwe6M3J3Z+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
-        b=TnlGSrIdPgSAhENu1LDFvda6l8tCwS9lTUUH8Hk/3FdnUoT6gcSxswLmG1CwtbgxJ3
-         YA7PYXrZaZE9XghLxE+YtQZNw6cdvcD9/KNWZ7z42RC2MQPq1VwBPrPLYMl0OhGmYApf
-         /pXyuU5vjrzhj5563swMHHj8LtMfMyQO3Z7DZ2NvdHlT+xz7J6ykCqd+LZm5kd8h0rA6
-         kMsky0vWbYHmIWzlo5+JceoUF/zriESQo6C7gjbeMkamU7zZQAtk5ywlBmH61/TUiBLe
-         NxTRzPfmmGlJbwtIqIZilz/VrZ/60jcreS7h6RcZCzOsdtGTyxr8rjR6NONdj5tM1AKA
-         rlcw==
-X-Gm-Message-State: AOAM530iExv2l7YZOacqFfH1hAJp3Ds/M2I/+wRw5v8lYbfgzq2iKPUY
-        72voITvYPnaCwC2ajgV7/qI7UJGpPLKrTHyXfMc=
-X-Google-Smtp-Source: ABdhPJyF5zSsE2px1psAONtdhRVdSR5IGQMoQ5pQZoATmg4l+9mATKW2+2QQEed0JWRrDBg81tNcrWvOq/jXKoT7mJA=
-X-Received: by 2002:a2e:b6c8:: with SMTP id m8mr3325491ljo.449.1630684920826;
- Fri, 03 Sep 2021 09:02:00 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=xKcsIX3BfLBwQgdXTJ8xpZnHGVXMHnmcgqRZLMQsLms=;
+        b=ks+xVykmnHndkAsfOYPfoPLeoZDZFKyCLgl6fwZPZnPUqfRbvTzaxHQd5Nw5N5aOX7
+         zsCu66gKBDdZKHjfv9V09cgQh0S1ZRPjQBbybjpz+StO5CJ95jMSVHTuYLwrSNsai6tO
+         aXxDhu+n+GrFisONrcrRRF0iz0njcR1y6r09jGyFDnSHOnZScy4C2BxwFjW+8vUquXx2
+         2xewniVPciPPRmPMBluYKXffpx49XojGGWgUqLmrtnrUAQ960xpsX7t87REB0yLoczG9
+         Td8aQ/1y7LreG5F3CefKxTgNY8hfhqAJeFDGb+T+K5rhHjNsXUrE8PdPWKR6JP0Xg1Vd
+         3M7g==
+X-Gm-Message-State: AOAM531IFnMsd3KiTGaNvZbKVpsvZJHjdhzNPj/pLJuBGWEhrTne6ZSU
+        85QEcD2+JlrN+ACtrdgQOaJxX6OR77Xc3LDoHOoKPw8kd6/BsHoA
+X-Google-Smtp-Source: ABdhPJwlbA8ZvmxrMRfWZiXhit//urNbuikAJziCnd9qByfUTVm9Z47/FOzIOnNP/nFB0d34eKqM8oCrVGjGNR/iN0s=
+X-Received: by 2002:a0c:e910:: with SMTP id a16mr1320836qvo.37.1630706776789;
+ Fri, 03 Sep 2021 15:06:16 -0700 (PDT)
 MIME-Version: 1.0
-Sender: nicolemarois55@gmail.com
-Received: by 2002:a05:6512:1504:0:0:0:0 with HTTP; Fri, 3 Sep 2021 09:01:59
- -0700 (PDT)
-From:   "Mrs.Nicole  Marois" <nicole1563marois@gmail.com>
-Date:   Fri, 3 Sep 2021 16:01:59 +0000
-X-Google-Sender-Auth: F-9mwj4kwJBrX9stp0n7Ee6qkyw
-Message-ID: <CAH=VPVN1pKhdVv2bjzwghwwCAowL3UsXobgFOF8aUqqLt4HYEQ@mail.gmail.com>
-Subject: Hello Dear,
-To:     undisclosed-recipients:;
+From:   Markus Mayer <mmayer@broadcom.com>
+Date:   Fri, 3 Sep 2021 15:06:05 -0700
+Message-ID: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
+Subject: Module build problems with gmake 3.x
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Kbuild Mailing List <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Dear,
+Hi,
 
-Please do not feel disturbed for contacting you, based on the critical
-condition I find mine self though, it's not financial problem, but my
-health you might have know that cancer is not what to talk home about,
-I am married to Mr.Duclos Marois who worked with Tunisia embassy in
-Burkina Faso for nine years before he died in the year 2012.We were
-married for eleven years without a child. He died after a brief
-illness that lasted for five days.
+We are running into build issues with some external kernel modules if
+the GNUmake version is 3.x and the kernel is recent(-ish). The culprit
+seems to be the sub-make invocation when GNUmake < 4 is detected:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=688931a5ad4e
 
-Since his death I decided not to remarry, When my late husband was
-alive he deposited the sum of US$ 9.2m (Nine million two hundred
-thousand dollars) in a bank in Burkina Faso, Presently this money is
-still in bank. And My Doctor told me that I don't have much time to
-live because of the cancer problem, Having known my condition I
-decided to hand you over this fond to take care of the less-privileged
-people, you will utilize this money the way I am going to instruct
-herein. I want you to take 30 Percent of the total money for your
-personal use While 70% of the money will go to charity" people and
-helping the orphanage.
+The module build works fine for older kernels (those not containing
+this patch) even with GNUmake 3.81. And it works fine with GNUmake >=
+4 with any kernel, even those with the above patch. In other words, if
+the sub-make invocation doesn't take place (either because make is new
+enough or because the kernel doesn't have the version check yet), our
+module build does work as intended.
 
-I don't want my husband's efforts to be used by the Government. I grew
-up as an Orphan and I don't have anybody as my family member,
+Due to how the build is integrated with other components, we need to
+be calling "make -e" to have environment variables take precedence,
+which seems to be another piece of the puzzle. The problem doesn't
+seem to be happening without "-e".
+
+The ingredients for our problem, therefore, seem to be:
+    * old GNUmake (<4)
+    * newish kernel  (>=5.1)
+    * run make -e
+
+I should also mention that the kernel module is being cross-compiled
+for ARM and ARM64, although that does not seem to be playing a role
+here. In my example below, I was using the native compiler.
+
+The problem we are observing is that the contents of $(M) and
+$(CFLAGS_MODULE) are lost during the extra sub-make invocation that is
+conditional upon GNUmake < 4. There might be other lost variables,
+too, but we haven't noticed any effects if there are.
+
+Losing $(M) causes the build to go off the rails completely. This is
+easily detected and can be worked around by setting $(KBUILD_EXTMOD)
+directly and foregoing $(M) on the command line altogether. The loss
+of $(CFLAGS_MODULE) is a little more insidious, since the build does
+succeed even when it's empty. However, required defines remain unset
+despite being set in the top-level makefile. The resulting kernel
+module doesn't work (which can lead to a lot of head scratching). I
+also don't know of a way of working around losing CFLAGS_MODULE's
+contents.
+
+I was able to reproduce the loss of $(M) quite easily doing something like this:
+
+obj-m += hello.o
+
+all:
+        ${MAKE} -C $(KERNEL_DIR) -e M=$(PWD) modules
+
+clean:
+        make -C $(KERNEL_DIR) M=$(PWD) clean
+
+Instead of building the out-of-tree hello.ko, which we are asking it
+to do, it'll go off and build all the in-kernel modules instead. Since
+it sees $(M) as empty, it just executes "make modules".
+
+Unfortunately, I have NOT been successful reproducing losing the
+contents of $(CFLAGS_MODULE) in a simple test environment. In my
+tests, it was always retained. Nonetheless, in the actual build
+environment, it does get lost. And only in the combination of new-ish
+kernel and old-ish make, i.e. whenever the sub-make invocation happens
+due to the make version.
+
+BTW, commenting out the make version test does make our module build
+work. So, it is definitely related to that code snippet. (Of course,
+building on a reasonably recent Linux distro also makes everything
+work, but that isn't possible for us in all circumstances.)
+
+Do you have any thoughts on this or any pointers? Is there a way this
+issue could be resolved? It does seem like the version check has some
+unintended side-effects, even if the scenario in which one would come
+across them is fairly uncommon and most developers will never
+experience them.
+
+I am willing to try out any suggestions or provide further information
+if needed.
 
 Regards,
-
-Mrs.Nicole Marois.
-written from Hospital.
+-Markus
