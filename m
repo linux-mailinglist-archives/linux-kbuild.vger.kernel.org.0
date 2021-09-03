@@ -2,94 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE28B3FF803
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Sep 2021 01:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7A423FF868
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Sep 2021 02:40:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345788AbhIBXod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Sep 2021 19:44:33 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:53417 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345767AbhIBXod (ORCPT
+        id S243139AbhICAlM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Sep 2021 20:41:12 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:30496 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238860AbhICAlL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Sep 2021 19:44:33 -0400
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 182NhGBM002354;
-        Fri, 3 Sep 2021 08:43:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 182NhGBM002354
+        Thu, 2 Sep 2021 20:41:11 -0400
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1830dpfU020723;
+        Fri, 3 Sep 2021 09:39:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1830dpfU020723
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1630626197;
-        bh=CgOu7BX9iv37SF0xKSnHydEjRylYWO03h6ffcdcVd0k=;
+        s=dec2015msa; t=1630629592;
+        bh=1Y6XFgB9/D7mjEiysoImroDcHiCWsyF8Liocy0ZJmiw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SbyppZezlbDIbjPj8zAqQbKQbbcY8jbwf2jwS4N9SS1QZ+HFqk3/Nb2oVjkkYjYp4
-         11sdasa9LDGYV1M3pS5Yl9piBCrBNWuVVQhNpKmzLFOawE6SpaoVCSfeRfvYndXlyQ
-         BV299vPM2Pd/9Fr+WL+mts4zzWPLjNC4mxcUuQLzh++5Wwjp1mMsXHDQ5HA+h8+wej
-         l0spYT0bjfn2921/RQ6lOmnNgvlea8v3Rtcc63UF1y/X6xFD2ENUwjkeGoqWBaTBKP
-         +gM+vJXk64SGyPXbb3a9um+5sfZRh6mTAyzy2gtWH0V4DQ/FtUe4Hsvzse1/OLt/0p
-         c1I1I5WXyQk2w==
-X-Nifty-SrcIP: [209.85.214.180]
-Received: by mail-pl1-f180.google.com with SMTP id c5so1300352plz.2;
-        Thu, 02 Sep 2021 16:43:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533lbxmUPeJPGccl+VEc8tnlf1A2bdgyZ/3wNj7sBvh+ht7RXahH
-        PLRQWnyOGRB9k9zgfgd62pWi1wOy1k+Xhs94cMw=
-X-Google-Smtp-Source: ABdhPJx8yOcv4vLxTqdEA1damqUdEXGLfoErCyqMlNmqUeixlsYRrdRjkIVpY2cbYFEmUffPru6+oEHOUatXkbmhS+k=
-X-Received: by 2002:a17:90a:19da:: with SMTP id 26mr6670037pjj.198.1630626196620;
- Thu, 02 Sep 2021 16:43:16 -0700 (PDT)
+        b=l29+RcAmQyS/huREVYv7UUXZT0hnO9UqzEujgTND96AUt5CRF/JlgQi+Xsjvocrd1
+         N6xe77cP39v3f6RoWjEKH4kKSk973gCgM2eKAXIalYoyGR/08SzEn/mJp4DIrXF4yp
+         HpbpnICOoy9knu0z5JmiQuLwvBejcN7ED/s4hKhpDrf2i0l3duAdHHYelsIq58JKqF
+         xHIVYANXkwIZ3wgFvabcR3o9yiWysEV3qxqBW/RMRtshdoS+eHc/5dUqltJSDrcaQa
+         DbV0odkBPqvTflQBGE9tLBXTu0FkxgaxbZspIxZuuPYrjZbfQHgSxONj+YN2PtTCyq
+         2DxUAjLnWmIHw==
+X-Nifty-SrcIP: [209.85.215.178]
+Received: by mail-pg1-f178.google.com with SMTP id e7so3836973pgk.2;
+        Thu, 02 Sep 2021 17:39:51 -0700 (PDT)
+X-Gm-Message-State: AOAM533uGroDCCyUTEmU+kT+cRdSyzKhm+nUsMxRzuLMr885fVZXgGH5
+        YNW4SzdMsERsTLtewnoZsT2WloPc7kgE5plk/es=
+X-Google-Smtp-Source: ABdhPJwzGYK4C5mlWmXEBMlp5fYhPEu8sKt5Gfs99DD7/XU6ShATFMOMttNOuk1lZQhNUYUZGpV1RJS5uaqcmAdlGv0=
+X-Received: by 2002:a63:d40a:: with SMTP id a10mr1047510pgh.7.1630629590936;
+ Thu, 02 Sep 2021 17:39:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210831074004.3195284-1-masahiroy@kernel.org>
- <20210831074004.3195284-6-masahiroy@kernel.org> <CAKwvOdmsnuv6qa5USKqqhg419FGD55U2zGw_KngmBcz_UDOOcg@mail.gmail.com>
-In-Reply-To: <CAKwvOdmsnuv6qa5USKqqhg419FGD55U2zGw_KngmBcz_UDOOcg@mail.gmail.com>
+ <20210831074004.3195284-7-masahiroy@kernel.org> <202108311034.D4B1410@keescook>
+In-Reply-To: <202108311034.D4B1410@keescook>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 3 Sep 2021 08:42:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQeYJJuKTsYxyXV-_7bKfwWgS+Pa8FTadg_p-XHb0NPLg@mail.gmail.com>
-Message-ID: <CAK7LNAQeYJJuKTsYxyXV-_7bKfwWgS+Pa8FTadg_p-XHb0NPLg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] kbuild: detect objtool update without using .SECONDEXPANSION
-To:     Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 3 Sep 2021 09:39:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATkducKiw8==u4477JGfyb5vnvbp2gM2s9ndZ_8owXfeg@mail.gmail.com>
+Message-ID: <CAK7LNATkducKiw8==u4477JGfyb5vnvbp2gM2s9ndZ_8owXfeg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] kbuild: reuse $(cmd_objtool) for cmd_cc_lto_link_modules
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 1, 2021 at 2:33 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Wed, Sep 1, 2021 at 2:35 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Tue, Aug 31, 2021 at 12:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Tue, Aug 31, 2021 at 04:39:57PM +0900, Masahiro Yamada wrote:
+> > For CONFIG_LTO_CLANG=y, the objtool processing is not possible at the
+> > compilation, hence postponed by the link time.
 > >
-> > Redo commit 8852c5524029 ("kbuild: Fix objtool dependency for
-> > 'OBJECT_FILES_NON_STANDARD_<obj> := n'") to add the objtool
-> > dependency in a cleaner way.
+> > Reuse $(cmd_objtool) for CONFIG_LTO_CLANG=y by defining objtool-enabled
+> > properly.
 > >
-> > Using .SECONDEXPANSION ends up with unreadable code due to escaped
-> > dollars. Also, it is not efficient because the second half of
-> > Makefile.build is parsed twice every time.
+> > For CONFIG_LTO_CLANG=y:
 > >
-> > Append the objtool dependency to the *.cmd files at the build time.
+> >   objtool-enabled is off for %.o compilation
+> >   objtool-enabled is on  for %.lto link
 > >
-> > This is what fixdep and gen_ksymdeps.sh already do. So, following the
-> > same pattern seems a natural solution.
+> > For CONFIG_LTO_CLANG=n:
 > >
-> > This allows us to drop $$(objtool_deps) entirely.
->
-> s/objtool_deps/objtool_dep/
->
+> >   objtool-enabled is on for %.o compilation
+> >       (but, it depends on OBJECT_FILE_NON_STANDARD)
+> >
+> > Set part-of-module := y for %.lto.o to avoid repeating --module.
 > >
 > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/Makefile.build | 28 +++++++++++++++++-----------
+> >  1 file changed, 17 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index 21b55f37a23f..afc906cd7256 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -236,20 +236,26 @@ objtool_args =                                                          \
+> >       $(if $(CONFIG_X86_SMAP), --uaccess)                             \
+> >       $(if $(CONFIG_FTRACE_MCOUNT_USE_OBJTOOL), --mcount)
+> >
+> > -ifndef CONFIG_LTO_CLANG
+> > +cmd_objtool = $(if $(objtool-enabled), ; $(objtool) $(objtool_args) $@)
+> > +cmd_gen_objtooldep = $(if $(objtool-enabled), { echo ; echo '$@: $$(wildcard $(objtool))' ; } >> $(dot-target).cmd)
+> > +
+> > +endif # CONFIG_STACK_VALIDATION
+> > +
+> > +ifdef CONFIG_LTO_CLANG
+> > +
+> > +# Skip objtool for LLVM bitcode
+> > +$(obj)/%o: objtool-enabled :=
 >
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> You and Josh should be cc'ing each other explicitly on these kind of changes.
->
+> Is this intentionally "%o" instead of "%.o"?
+
+Good catch.
+
+No, it is not intentional.
+
+I will fix "%o" to "%.o"
 
 
-FWIW, this is the entire patch set if Josh is interested:
+> (And it later overridden by the "%.lto.o" rule?
 
-https://patchwork.kernel.org/project/linux-kbuild/list/?series=539621
+No, opposite.
+
+While building %.lto.o, we want to set objtool-enabled.
+But, we want to cancel it for %.o
 
 
---
+
+
+-- 
 Best Regards
 Masahiro Yamada
