@@ -2,98 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96BFA4002A1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Sep 2021 17:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 918414002D2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Sep 2021 18:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349664AbhICPxD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Sep 2021 11:53:03 -0400
-Received: from mail-oo1-f53.google.com ([209.85.161.53]:46990 "EHLO
-        mail-oo1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235632AbhICPxD (ORCPT
+        id S1349827AbhICQDD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Sep 2021 12:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349836AbhICQDD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Sep 2021 11:53:03 -0400
-Received: by mail-oo1-f53.google.com with SMTP id z1-20020a4a2241000000b0028e8dfb83b4so1630275ooe.13;
-        Fri, 03 Sep 2021 08:52:03 -0700 (PDT)
+        Fri, 3 Sep 2021 12:03:03 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2210C061757
+        for <linux-kbuild@vger.kernel.org>; Fri,  3 Sep 2021 09:02:02 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id w4so10261578ljh.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 09:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
+        b=asGUuMHPXeQXCb5nqi6dzhAErIG7kM8cyK01AC7EgH+pI6vGW0WEOSLX06tdWZATVa
+         Pet3lLv0HGK+7MgFrsW35uUZshEqMYQS8Wr+LpvIlIiD6MR+2JBsgHwnkW74eFpZ9qUP
+         kBadcohrMHtAPcceLY8xpEaZjPcjBc+Ospe12JnY/9EL6K4EK3/+urv97oK4J7WZWaw0
+         2G1RFX+Zg8vO1AT0KCGYomgsfElE0qNwl2y1vUX0a4mfmM3xHTBWStPU1SeIuBma5Swj
+         6fhZ0g/BVvNuLBAVP4Q9hLKB0gfSB0YCeGMtzqgxgGvnxJEN4K57KoG3bgkOhdCzxkRW
+         g3gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zVNFfi09M86JT10bziJ/Y2VXfaqfqBBOkyrez5O9qP0=;
-        b=UQjzBDOxQzB8cHcdtIDH7m/zjyCfeiJ8fkBV/yWRyNizq3sH0eOyHwPo7rwii5q67S
-         8PvhAC7gvwk2p8c22O02DHCwgsfdrRnC/xG07m/ILnXOw34OgfnRVLny5hySJCx8BG13
-         thw4tcyIKlTHYjpLtHpROjTLp15igbkhBvP8OK292JRlJWlNPWFWRu/Mr4wkYyIRpP+S
-         DuOgkIl1EmC8WJRw/Ak4Oo7axNXpXIoNod21t9FMcQTvlmgNrwi99j8ExUx1UXdi6CNF
-         zUL/2CRWqr+9i/7Es+FkP8GqEDHz0t3psuIy76s+DWXKa6zO7FNatyg1JqhA/6pkac+I
-         TEDQ==
-X-Gm-Message-State: AOAM532seHlaSxzOS6ghaeQOVDgiivMR6S4+dKwJB72sDZyBIG0OR+Yl
-        M9ejmCVmu/yzHJEW5uOtF6hB7ClnVg==
-X-Google-Smtp-Source: ABdhPJxcvlH+serFrOMN+1im9jrwrFaOlEPVYa9rWqoDua+9mdAm1Le4cY9xy6dYpTU8oTbI2QEzBA==
-X-Received: by 2002:a4a:1506:: with SMTP id 6mr3518815oon.93.1630684322565;
-        Fri, 03 Sep 2021 08:52:02 -0700 (PDT)
-Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.googlemail.com with ESMTPSA id b25sm1078381ooq.6.2021.09.03.08.52.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 08:52:01 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org
-Cc:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Tom Rini <trini@konsulko.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: Enable DT schema checks for %.dtb targets
-Date:   Fri,  3 Sep 2021 10:52:01 -0500
-Message-Id: <20210903155201.3004567-1-robh@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=Qdp0SHs3xmfRjgLIyqNwEa9EGz3sQom2u8TOqtBT/Zc=;
+        b=TnlGSrIdPgSAhENu1LDFvda6l8tCwS9lTUUH8Hk/3FdnUoT6gcSxswLmG1CwtbgxJ3
+         YA7PYXrZaZE9XghLxE+YtQZNw6cdvcD9/KNWZ7z42RC2MQPq1VwBPrPLYMl0OhGmYApf
+         /pXyuU5vjrzhj5563swMHHj8LtMfMyQO3Z7DZ2NvdHlT+xz7J6ykCqd+LZm5kd8h0rA6
+         kMsky0vWbYHmIWzlo5+JceoUF/zriESQo6C7gjbeMkamU7zZQAtk5ywlBmH61/TUiBLe
+         NxTRzPfmmGlJbwtIqIZilz/VrZ/60jcreS7h6RcZCzOsdtGTyxr8rjR6NONdj5tM1AKA
+         rlcw==
+X-Gm-Message-State: AOAM530iExv2l7YZOacqFfH1hAJp3Ds/M2I/+wRw5v8lYbfgzq2iKPUY
+        72voITvYPnaCwC2ajgV7/qI7UJGpPLKrTHyXfMc=
+X-Google-Smtp-Source: ABdhPJyF5zSsE2px1psAONtdhRVdSR5IGQMoQ5pQZoATmg4l+9mATKW2+2QQEed0JWRrDBg81tNcrWvOq/jXKoT7mJA=
+X-Received: by 2002:a2e:b6c8:: with SMTP id m8mr3325491ljo.449.1630684920826;
+ Fri, 03 Sep 2021 09:02:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Sender: nicolemarois55@gmail.com
+Received: by 2002:a05:6512:1504:0:0:0:0 with HTTP; Fri, 3 Sep 2021 09:01:59
+ -0700 (PDT)
+From:   "Mrs.Nicole  Marois" <nicole1563marois@gmail.com>
+Date:   Fri, 3 Sep 2021 16:01:59 +0000
+X-Google-Sender-Auth: F-9mwj4kwJBrX9stp0n7Ee6qkyw
+Message-ID: <CAH=VPVN1pKhdVv2bjzwghwwCAowL3UsXobgFOF8aUqqLt4HYEQ@mail.gmail.com>
+Subject: Hello Dear,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It is possible to build a single dtb, but not with DT schema validation
-enabled. Enable the schema validation to run for %.dtb targets. Anyone
-building a dtb for a specific platform *should* pay attention to schema
-warnings.
+Hello Dear,
 
-This could be supported with a separate %.dt.yaml target instead.
-However, the .dt.yaml format is considered an intermediate format and
-could possibly go away at some point if schema checking is integrated
-into dtc. Also, the plan is to enable the schema checks by default once
-platforms are free of warnings, and this is a move in that direction.
+Please do not feel disturbed for contacting you, based on the critical
+condition I find mine self though, it's not financial problem, but my
+health you might have know that cancer is not what to talk home about,
+I am married to Mr.Duclos Marois who worked with Tunisia embassy in
+Burkina Faso for nine years before he died in the year 2012.We were
+married for eleven years without a child. He died after a brief
+illness that lasted for five days.
 
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tom Rini <trini@konsulko.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Since his death I decided not to remarry, When my late husband was
+alive he deposited the sum of US$ 9.2m (Nine million two hundred
+thousand dollars) in a bank in Burkina Faso, Presently this money is
+still in bank. And My Doctor told me that I don't have much time to
+live because of the cancer problem, Having known my condition I
+decided to hand you over this fond to take care of the less-privileged
+people, you will utilize this money the way I am going to instruct
+herein. I want you to take 30 Percent of the total money for your
+personal use While 70% of the money will go to charity" people and
+helping the orphanage.
 
-diff --git a/Makefile b/Makefile
-index ec9e8a0fe298..01b888cfe1dc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1399,8 +1399,8 @@ endif
- 
- ifneq ($(dtstree),)
- 
--%.dtb: include/config/kernel.release scripts_dtc
--	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-+%.dtb: dt_binding_check include/config/kernel.release scripts_dtc
-+	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@ $(dtstree)/$*.dt.yaml
- 
- %.dtbo: include/config/kernel.release scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-@@ -1409,7 +1409,7 @@ PHONY += dtbs dtbs_install dtbs_check
- dtbs: include/config/kernel.release scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree)
- 
--ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
-+ifneq ($(filter dtbs_check %.dtb, $(MAKECMDGOALS)),)
- export CHECK_DTBS=y
- dtbs: dt_binding_check
- endif
--- 
-2.30.2
+I don't want my husband's efforts to be used by the Government. I grew
+up as an Orphan and I don't have anybody as my family member,
 
+Regards,
+
+Mrs.Nicole Marois.
+written from Hospital.
