@@ -2,132 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A9514007BE
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Sep 2021 00:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6685400802
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Sep 2021 00:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234631AbhICWHS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Sep 2021 18:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59388 "EHLO
+        id S236137AbhICWy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Sep 2021 18:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233367AbhICWHS (ORCPT
+        with ESMTP id S236029AbhICWyZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Sep 2021 18:07:18 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4097C061575
-        for <linux-kbuild@vger.kernel.org>; Fri,  3 Sep 2021 15:06:17 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id s16so486054qvt.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 15:06:17 -0700 (PDT)
+        Fri, 3 Sep 2021 18:54:25 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F5BEC061575
+        for <linux-kbuild@vger.kernel.org>; Fri,  3 Sep 2021 15:53:25 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id h1so1064560ljl.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 15:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=xKcsIX3BfLBwQgdXTJ8xpZnHGVXMHnmcgqRZLMQsLms=;
-        b=e0hA8wdoOpUzzJq5zimuZoliotF/jZH+dEmCYrj3QzZzypb/hy90w3lEgfJCGKupgL
-         vUsN4iHKw0jdZE1Cvm71LTj/85tzxaBKAHKCOiAXZVH9LrHE55qmasJOGxflSWiE4yhm
-         bZGSg1v3GSZNvbX+cEWFIPyuyoFwe6M3J3Z+Y=
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s1UusdViFFBuetq7EEGyT5944Rjn0sdVUBMj3i15uGo=;
+        b=Ztib0QRdS0bP2LnfrFdyNx6hgh7WNpI8kVdoZ4Ov6xduTcI+EtN0o1KUtBqCh16jhd
+         XSy6ppmLA3eSUrpsOeaP3FQ5O+9b1tARfqIXLeUbkgZPSq+Vtfici2L7tAXB6QKOilck
+         S4M5Xbnhon1Xwfh8+N7hhZrAQAVXxbOmJ0714=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=xKcsIX3BfLBwQgdXTJ8xpZnHGVXMHnmcgqRZLMQsLms=;
-        b=ks+xVykmnHndkAsfOYPfoPLeoZDZFKyCLgl6fwZPZnPUqfRbvTzaxHQd5Nw5N5aOX7
-         zsCu66gKBDdZKHjfv9V09cgQh0S1ZRPjQBbybjpz+StO5CJ95jMSVHTuYLwrSNsai6tO
-         aXxDhu+n+GrFisONrcrRRF0iz0njcR1y6r09jGyFDnSHOnZScy4C2BxwFjW+8vUquXx2
-         2xewniVPciPPRmPMBluYKXffpx49XojGGWgUqLmrtnrUAQ960xpsX7t87REB0yLoczG9
-         Td8aQ/1y7LreG5F3CefKxTgNY8hfhqAJeFDGb+T+K5rhHjNsXUrE8PdPWKR6JP0Xg1Vd
-         3M7g==
-X-Gm-Message-State: AOAM531IFnMsd3KiTGaNvZbKVpsvZJHjdhzNPj/pLJuBGWEhrTne6ZSU
-        85QEcD2+JlrN+ACtrdgQOaJxX6OR77Xc3LDoHOoKPw8kd6/BsHoA
-X-Google-Smtp-Source: ABdhPJwlbA8ZvmxrMRfWZiXhit//urNbuikAJziCnd9qByfUTVm9Z47/FOzIOnNP/nFB0d34eKqM8oCrVGjGNR/iN0s=
-X-Received: by 2002:a0c:e910:: with SMTP id a16mr1320836qvo.37.1630706776789;
- Fri, 03 Sep 2021 15:06:16 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s1UusdViFFBuetq7EEGyT5944Rjn0sdVUBMj3i15uGo=;
+        b=Yz/9BOWpBtOnOAojwBvMC5yUESb7yaIQMkKb22odV7QMTZjFT5S/RVHw6APjIJcoT2
+         3+VJOlHgsCJ1HNuCkWH62BXMaNntDU+sXcQVrDvmWoXe+QXKbmUO1il8VZkeg95hnyNj
+         DNQozTw15PlDsvbxDPvFN84oBWODTqvHOaY6Z0mKgkK8WmKjBVfDy3rM/Mk/KjOHjlu7
+         cuJusjNWxMktlbjRfkT/FkWwYf8WciFSt6A+zcNQ1qbVpMQBLW7RSo+6kD+tRbXZ5eQf
+         9rM1W9FoTxoj3VqSVl/D5Bimf1t0SsR11VQvyeN7I7y/98maSADeXa0QD/TXPT+wWroQ
+         GeNQ==
+X-Gm-Message-State: AOAM530S6LC5YvdGFzNeZ8xJ9By8NAxG1XsNISOgPf9aGznPVuayyJJL
+        U/c7zP9tBirDHXj5lWFxqfAI631NLdGDq5Wqheo=
+X-Google-Smtp-Source: ABdhPJwAYSjuf/mnOwpC/M8s14NsW2EdQHIETBu3POrbeE89JM5puX8iQU6c2KkQxc8b6VoTJneEMg==
+X-Received: by 2002:a2e:bf09:: with SMTP id c9mr903311ljr.348.1630709602680;
+        Fri, 03 Sep 2021 15:53:22 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id z2sm72079lfh.161.2021.09.03.15.53.21
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Sep 2021 15:53:22 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id l10so1237686lfg.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 03 Sep 2021 15:53:21 -0700 (PDT)
+X-Received: by 2002:a05:6512:3d28:: with SMTP id d40mr840792lfv.474.1630709601452;
+ Fri, 03 Sep 2021 15:53:21 -0700 (PDT)
 MIME-Version: 1.0
-From:   Markus Mayer <mmayer@broadcom.com>
-Date:   Fri, 3 Sep 2021 15:06:05 -0700
-Message-ID: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
-Subject: Module build problems with gmake 3.x
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Kbuild Mailing List <linux-kbuild@vger.kernel.org>
+References: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linuxfoundation.org>
+Date:   Fri, 3 Sep 2021 15:53:05 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com>
+Message-ID: <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com>
+Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Thu, Sep 2, 2021 at 4:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> I fixed the warnings observed in the previous PR.
 
-We are running into build issues with some external kernel modules if
-the GNUmake version is 3.x and the kernel is recent(-ish). The culprit
-seems to be the sub-make invocation when GNUmake < 4 is detected:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=688931a5ad4e
+Ok, let's try it again.
 
-The module build works fine for older kernels (those not containing
-this patch) even with GNUmake 3.81. And it works fine with GNUmake >=
-4 with any kernel, even those with the above patch. In other words, if
-the sub-make invocation doesn't take place (either because make is new
-enough or because the kernel doesn't have the version check yet), our
-module build does work as intended.
+>  - Add <linux/stdarg.h> to the kernel source instead of borrowing
+>    <stdarg.h> from the compiler.
 
-Due to how the build is integrated with other components, we need to
-be calling "make -e" to have environment variables take precedence,
-which seems to be another piece of the puzzle. The problem doesn't
-seem to be happening without "-e".
+So I certainly agree with the reasoning, but this worries me a bit.
 
-The ingredients for our problem, therefore, seem to be:
-    * old GNUmake (<4)
-    * newish kernel  (>=5.1)
-    * run make -e
+stdarg is truly intimately an internal compiler file, in ways that
+stddef (to pick another example) isn't.
 
-I should also mention that the kernel module is being cross-compiled
-for ARM and ARM64, although that does not seem to be playing a role
-here. In my example below, I was using the native compiler.
+Yeah, yeah, offsetof() is "kind of compiler internal", and we end up
+using __compiler_offsetof(), but in the absence of that we *can* just
+do it by hand. So offsetof() really is one of those things where we
+can just do our own version if some compiler is being difficult.
 
-The problem we are observing is that the contents of $(M) and
-$(CFLAGS_MODULE) are lost during the extra sub-make invocation that is
-conditional upon GNUmake < 4. There might be other lost variables,
-too, but we haven't noticed any effects if there are.
+But va_start and friends absolutely *must* match the exact compiler version.
 
-Losing $(M) causes the build to go off the rails completely. This is
-easily detected and can be worked around by setting $(KBUILD_EXTMOD)
-directly and foregoing $(M) on the command line altogether. The loss
-of $(CFLAGS_MODULE) is a little more insidious, since the build does
-succeed even when it's empty. However, required defines remain unset
-despite being set in the top-level makefile. The resulting kernel
-module doesn't work (which can lead to a lot of head scratching). I
-also don't know of a way of working around losing CFLAGS_MODULE's
-contents.
+It does look like both gcc and clang have just standardized on using
+__builtin_xyz for all the different stdarg things, and so I approve of
+what that <linux/stdarg.h> ended up looking like.
 
-I was able to reproduce the loss of $(M) quite easily doing something like this:
+But at the same time, it does make me go "ok, this is a big new
+assumption that we've consciously avoided for a long time".
 
-obj-m += hello.o
+Nick is already on the cc here for other reasons, but let's add the
+clang-built list and Nathan explicitly. Because this basically
+codifies that
 
-all:
-        ${MAKE} -C $(KERNEL_DIR) -e M=$(PWD) modules
+    typedef __builtin_va_list va_list;
+    #define va_start(v, l)  __builtin_va_start(v, l)
+    #define va_end(v)       __builtin_va_end(v)
+    #define va_arg(v, T)    __builtin_va_arg(v, T)
+    #define va_copy(d, s)   __builtin_va_copy(d, s)
 
-clean:
-        make -C $(KERNEL_DIR) M=$(PWD) clean
+being the way all the supported compilers work.
 
-Instead of building the out-of-tree hello.ko, which we are asking it
-to do, it'll go off and build all the in-kernel modules instead. Since
-it sees $(M) as empty, it just executes "make modules".
+Did people talk to any gcc maintainers too? We don't have the same
+kind of "gcc kernel people" list or contacts. The above builtins have
+been the case for a long long time for gcc, so I don't think it's
+wrong or likely to change, but I think it would be a good thing to
+just make compiler people aware of how we're now relying on that
+explicitly.
 
-Unfortunately, I have NOT been successful reproducing losing the
-contents of $(CFLAGS_MODULE) in a simple test environment. In my
-tests, it was always retained. Nonetheless, in the actual build
-environment, it does get lost. And only in the combination of new-ish
-kernel and old-ish make, i.e. whenever the sub-make invocation happens
-due to the make version.
+(Side note: Linux using the compiler <stdarg.h> goes so far back that
+it very much predates all those nice builtins. I still have memories
+of <stdarg.h> being a collection of nasty per-architecture messes back
+in the bad old days. So I'm actually happy we can do this now, but
+there most definitely was a time when we really really had to use the
+compiler-provided stdarg.h).
 
-BTW, commenting out the make version test does make our module build
-work. So, it is definitely related to that code snippet. (Of course,
-building on a reasonably recent Linux distro also makes everything
-work, but that isn't possible for us in all circumstances.)
-
-Do you have any thoughts on this or any pointers? Is there a way this
-issue could be resolved? It does seem like the version check has some
-unintended side-effects, even if the scenario in which one would come
-across them is fairly uncommon and most developers will never
-experience them.
-
-I am willing to try out any suggestions or provide further information
-if needed.
-
-Regards,
--Markus
+                Linus
