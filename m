@@ -2,66 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAB59402103
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Sep 2021 23:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B214402117
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Sep 2021 23:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233562AbhIFVKc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Sep 2021 17:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37866 "EHLO
+        id S236804AbhIFV0H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Sep 2021 17:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbhIFVKZ (ORCPT
+        with ESMTP id S236768AbhIFV0F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Sep 2021 17:10:25 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C73C061575
-        for <linux-kbuild@vger.kernel.org>; Mon,  6 Sep 2021 14:09:19 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id s12so13229268ljg.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Sep 2021 14:09:19 -0700 (PDT)
+        Mon, 6 Sep 2021 17:26:05 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3945AC061575
+        for <linux-kbuild@vger.kernel.org>; Mon,  6 Sep 2021 14:25:00 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id s12so13280395ljg.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Sep 2021 14:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MpoW7+4bCye+SeExcKZK2eoEgcuVbF8tuM5mlM4JK9M=;
-        b=iY3QXx/8LAgnq6Y5Josw+UIssquPRTay+X0/utkiPhEcU14USp+B0Ws3YtjZ2fQ5+S
-         T1yNNfFL0tHpFVuVOkaS8hui5kRcMxONlYEC4/VNoUbZbWBEghFQo3qy8mhu7FY/5ByJ
-         NQfz2k8q7ae0m+2pgo10RQ+f9SRxmF13xXJAY=
+        bh=bOYkPNs6kBoQRrkZjo5EV/GM+dOfmzNF/MWgTdiF+c0=;
+        b=MkdrdbxR65lqXV6wJ76/tFuL8QFam88AtYhA62tPAFEBbcHMyPy2haH+G7bq4zt8uf
+         REzVQUd74s4JolJRn/LNNZongzDJAYYklBtf0kLdPjPBrHUnv5eSWvqP1WD0VeTKi9ce
+         6WQQIA8wPCjNjMPZ7rtqv0bOQhEIJWtKwcdxk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MpoW7+4bCye+SeExcKZK2eoEgcuVbF8tuM5mlM4JK9M=;
-        b=PpDw0vqNCeREUO3bSX5R6x3FpArcBhEtbfkoZ5/HM3xaICOQZZhqgCcQQlnhTkJrgf
-         7w2V2lcVcW0Tnb/WBuO2bc687u3Y+kSUwjxoRLFLMZYAZrluUWpzocjURkEli+PcnTxJ
-         CqRVhxWHsKJkHZ78Uj2GBdqcBNIhXZR1Fw+g2uu6+GaieDqJCFJ3i3PwgJD0x3XaUMH2
-         KYxnK+b2KrJ2si4czPwZ/nEU9TEXLRtfvJ6QBYuaeKUx0sDuxrH08Xx221IfybfbDGgS
-         raAoTfUG5ViYCoq+H1WIgbcyrKKlkhycJembRf7yN+JuWB+sAx6X1aY0nqtFUKFgNHE7
-         qg5g==
-X-Gm-Message-State: AOAM532x/GAVKHlVglO4p7dmSntzf0aimGwCLaEWhicMavf3VfP1EUcc
-        WCqfcushRuTgPYeKuZXDZWHa8gJh1ZjzZaED
-X-Google-Smtp-Source: ABdhPJxo0ZVK7xk8YTdEltGEcZp7E9KWWDVIaEQavoJ8PJ0g6ECW+YzTpSRnTw64xHW4Ztm+WuWq0g==
-X-Received: by 2002:a2e:509:: with SMTP id 9mr12464030ljf.453.1630962556668;
-        Mon, 06 Sep 2021 14:09:16 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
-        by smtp.gmail.com with ESMTPSA id n5sm1198329ljj.97.2021.09.06.14.09.14
+        bh=bOYkPNs6kBoQRrkZjo5EV/GM+dOfmzNF/MWgTdiF+c0=;
+        b=IhK8hKZxv8NQYaPmf7Mv2BZYg2u+9l7GmKb7rN5++3sVX6xyE1MubO1gxbpioMdqu2
+         /D4LhxdorYa5oYTypau6lv79mWp51g/vd+tuV9GJxqeYrpso96xRxGc37iW5L66P7nex
+         AHASNSwY8n2IM/XeWB75mjYpCWGTPfkvTAGkDjAtGTspcO5cqftaAIXYR6+wVK4R03Yr
+         ILJm1sjpnG/S8tZUte5NpKlQNIDQwMUqNOt66u2I2ieNOoMA3sXs0OwyLEs0uQr1JtAh
+         d2lIvzXzlEWa4efvLxu4c48CQI7YGhZZza/H1DxJVVtzno0sZY/6GaA5UctPBohFxvLc
+         RHlQ==
+X-Gm-Message-State: AOAM530Z/Hrw2ZMiQ2oXtl9yUzvHK+UcrJoswReczWMls50qCiByRmw5
+        MH8JfOMd7pJ+1Vc0SDVTNWaUPjU6Al/lxG7o
+X-Google-Smtp-Source: ABdhPJxxDVP2e0HZvpFWIOhaLRSeWsFGPVz8bUTVcHFCI05OtCRjmJsrBBeA7MEZd3DT1ZviuSvNaw==
+X-Received: by 2002:a2e:7303:: with SMTP id o3mr11805222ljc.273.1630963498362;
+        Mon, 06 Sep 2021 14:24:58 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id k20sm1204144ljc.2.2021.09.06.14.24.55
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Sep 2021 14:09:14 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id y6so13175237lje.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Sep 2021 14:09:14 -0700 (PDT)
-X-Received: by 2002:a2e:8185:: with SMTP id e5mr11756332ljg.31.1630962554175;
- Mon, 06 Sep 2021 14:09:14 -0700 (PDT)
+        Mon, 06 Sep 2021 14:24:56 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id w4so13179719ljh.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Sep 2021 14:24:55 -0700 (PDT)
+X-Received: by 2002:a2e:b53a:: with SMTP id z26mr11643568ljm.95.1630963495713;
+ Mon, 06 Sep 2021 14:24:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <871r644bd2.fsf@oldenburg.str.redhat.com> <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com>
  <20210904191531.GS1583@gate.crashing.org> <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
  <20210906154642.GV1583@gate.crashing.org> <CAHk-=wj=WpWO_V86cZH99LgZGBbvdDb4wR26ce5van0hJqjzLA@mail.gmail.com>
  <20210906172701.GX1583@gate.crashing.org> <CAHk-=wh0MBVfA89WLWnCiSnJ2a=hSAoSxfG-jyf7JJeBDPK3ew@mail.gmail.com>
  <87lf49wodu.fsf@oldenburg.str.redhat.com> <20210906194808.GY1583@gate.crashing.org>
- <20210906201432.GZ920497@tucnak>
-In-Reply-To: <20210906201432.GZ920497@tucnak>
+ <20210906201432.GZ920497@tucnak> <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linuxfoundation.org>
-Date:   Mon, 6 Sep 2021 14:08:58 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
-Message-ID: <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
+Date:   Mon, 6 Sep 2021 14:24:39 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wikLP4KbTUUY_OKL6doyztjqFNKu_Q713vcrkjthc4S0g@mail.gmail.com>
+Message-ID: <CAHk-=wikLP4KbTUUY_OKL6doyztjqFNKu_Q713vcrkjthc4S0g@mail.gmail.com>
 Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
 To:     Jakub Jelinek <jakub@redhat.com>
 Cc:     Segher Boessenkool <segher@kernel.crashing.org>,
@@ -78,80 +78,38 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 6, 2021 at 1:14 PM Jakub Jelinek <jakub@redhat.com> wrote:
+On Mon, Sep 6, 2021 at 2:08 PM Linus Torvalds
+<torvalds@linuxfoundation.org> wrote:
 >
-> the only guaranteed APIs are
-> those provided by the headers (x86intrin.h/*mmintrin.h etc. on x86,
-> arm_{neon,sve}.h etc. on arm*, ...)
+> And you think that we're making it harder for compiler people, but
+> that's not at all the case.
+>
+> You really don't want to deal with us saying "you can't do that" when
+> you do something that is
 
-You guys realize we don't use those, do you?
+That got cut short when I went off to adding the examples of errors
+that happen for those intrinsics headers.
 
-And you don't seem to realize that you are actively arguing *AGAINST*
-what you think you argue for.
+But it was supposed to be "when you do something that is not valid in
+the kernel".
 
-That "immintrin.h" file, for example, is simply not usable for the
-kernel. I just checked.
+There are some *very* core header files that the kernel cannot include
+from outside. That "stdlib.h" thing already came up in the errors I
+quoted.
 
-Why? Because it ends up doing exactly all those things that MUST NOT
-be done for the kernel.
+But I think you'll find that you guys want to include things like
+<errno.h> too, and you'll probably add others (<types.h>? things like
+that) simply because they always work fine in user space, and you'd
+not even notice.
 
-   In file included from
-/usr/lib/gcc/x86_64-redhat-linux/11/include/xmmintrin.h:34,
-                    from
-/usr/lib/gcc/x86_64-redhat-linux/11/include/immintrin.h:31,
-                    from t.c:1:
-   /usr/lib/gcc/x86_64-redhat-linux/11/include/mm_malloc.h:27:10:
-fatal error: stdlib.h: No such file or directory
-      27 | #include <stdlib.h>
-         |          ^~~~~~~~~~
+Header file include chains get messy very quickly, and very easily.
 
-Oops.
+I'm pretty sure you guys don't really want to deal with the pain that
+is crazy kernel people that have their very bare environment.
 
-And no, it doesn't work trying to include some specific avx2intrin.h
-file either:
+So you may *think* you want the kernel to use your header files
+"because compiler portability". Instead, you should be very thankful
+that we don't, and that you don't have to deal with our mess any more
+than you already do.
 
-   /usr/lib/gcc/x86_64-redhat-linux/11/include/avx2intrin.h:25:3:
-error: #error "Never use <avx2intrin.h> directly; include
-<immintrin.h> instead."
-      25 | # error "Never use <avx2intrin.h> directly; include
-<immintrin.h> instead."
-         |   ^~~~~
-
-Very similar things happens if you try to use that <stdint.h> file
-that somebody mentioned earlier.
-
-Guys, you don't understand how limited the kernel header files are - on purpose.
-
-You also don't seem to realize how hard it is to separate out the
-user-land crap that we really cannot use, and must not use.
-
-And you think that we're making it harder for compiler people, but
-that's not at all the case.
-
-You really don't want to deal with us saying "you can't do that" when
-you do something that is
-
-Yes, <stdarg.h> has historically worked for us, and it's pretty much
-the only one.
-
-All your arguments about how people need to use the standard headers
-are basically worthless, because you have never actually tried to use
-them in a standalone project, have you?
-
-So just face it - stdarg.h is special.
-
-And it's not clear that there's any reason why the kernel should
-include the one that comes with the compiler, when the kernel cannot
-use any of the other header files that come with the compiler anyway.
-
-And ALL of your arguments about how we must use compiler header files
-are COMPLETE GARBAGE, because you didn't even look at them, did you?
-
-See?
-
-So stop making arguments out of ignorance. Because that's literally
-what you are doing. You've never tried to make those header files
-standalone, and you don't have any idea of how nasty it would be if
-you were forced to.
-
-               Linus
+          Linus
