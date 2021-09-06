@@ -2,41 +2,26 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7BC94016A6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Sep 2021 08:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E566401DCA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Sep 2021 17:51:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229792AbhIFGz2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Sep 2021 02:55:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38301 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239458AbhIFGz2 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Sep 2021 02:55:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1630911263;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=I0Wqq4Jy8iaEMvTgV2vlnpJmZdhB/J5L3qG8Ebh53Cs=;
-        b=RlBZBUXiHt8lAQY2HYvXaI0ohzuOpTmqzu6ETw72wxvvFxcG/k9JrLix6wyGk41Q4yioJp
-        aJitVMmLjlL0ZxlWnCIBdJN2/eN7V3kqCIJFW2ffB/884ajfM6zZYjT6ovVJSMw+q4Qop0
-        F4/nf82+QLmrVkW7LRx5I7Pw2Fb1j0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-URXiBfWjOkuQsCM7reUm2w-1; Mon, 06 Sep 2021 02:54:20 -0400
-X-MC-Unique: URXiBfWjOkuQsCM7reUm2w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8718918397A6;
-        Mon,  6 Sep 2021 06:54:18 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.194.140])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A11C31045E85;
-        Mon,  6 Sep 2021 06:54:15 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
+        id S242243AbhIFPwO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Sep 2021 11:52:14 -0400
+Received: from gate.crashing.org ([63.228.1.57]:56697 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231359AbhIFPwO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 6 Sep 2021 11:52:14 -0400
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 186Fkn6J005485;
+        Mon, 6 Sep 2021 10:46:49 -0500
+Received: (from segher@localhost)
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 186Fkmi9005477;
+        Mon, 6 Sep 2021 10:46:48 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date:   Mon, 6 Sep 2021 10:46:42 -0500
+From:   Segher Boessenkool <segher@kernel.crashing.org>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     Florian Weimer <fweimer@redhat.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -45,64 +30,128 @@ Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
 Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
-References: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com>
-        <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com>
-        <3b461878-a4a0-2f84-e177-9daf8fe285e7@kernel.org>
-        <878s0c4vng.fsf@oldenburg.str.redhat.com>
-        <20210904131911.GP1583@gate.crashing.org>
-        <871r644bd2.fsf@oldenburg.str.redhat.com>
-        <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com>
-Date:   Mon, 06 Sep 2021 08:54:13 +0200
-In-Reply-To: <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com>
-        (Linus Torvalds's message of "Sat, 4 Sep 2021 10:22:25 -0700")
-Message-ID: <87a6kq2nze.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Message-ID: <20210906154642.GV1583@gate.crashing.org>
+References: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com> <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com> <3b461878-a4a0-2f84-e177-9daf8fe285e7@kernel.org> <878s0c4vng.fsf@oldenburg.str.redhat.com> <20210904131911.GP1583@gate.crashing.org> <871r644bd2.fsf@oldenburg.str.redhat.com> <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com> <20210904191531.GS1583@gate.crashing.org> <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
+User-Agent: Mutt/1.4.2.3i
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-* Linus Torvalds:
+On Sat, Sep 04, 2021 at 12:58:50PM -0700, Linus Torvalds wrote:
+> On Sat, Sep 4, 2021 at 12:18 PM Segher Boessenkool
+> <segher@kernel.crashing.org> wrote:
+> > And the C standard requires you to use these headers to use some
+> > features of the C language
+> 
+> That's really the point here: we don't care AT ALL.
+> 
+> The C standard headers are simply not relevant for the kernel. Never
+> have been, never will be.
 
-> On Sat, Sep 4, 2021 at 8:19 AM Florian Weimer <fweimer@redhat.com> wrote:
->>
->> In any case, it would be nice to know what the real motivation is.
->
-> I don't know about the original motivation, but the reason I like that
-> patch after-the-fact is that I've actually been in situations where I
-> test out self-built compilers without installing them.
+Yes they are.  It is the single standard way to get the functionality
+you want.
 
-Does this really simplify matters?  Why wouldn't the gcc compiler driver
-find cc1, but not be able to pass the right path options, so that the
-include/ subdirectory can be located as well?
+These are not library headers.  These headers are provided by the
+compiler itself.  (The one exception is limits.h, but you have no use
+for that in the kernel anyway).
 
-> Then it's convenient to have a completely standalone kernel tree.
+> We care about the low-level compiler infrastructure, not the standard C headers.
 
-The final patch in the series is here:
+I don't know why you think you can separate that.  Take <stdarg.h> --
+there is no other (portable, standard) way to implement receiving
+variadic arguments.
 
-  isystem: delete global -isystem compile option
-  <https://lore.kernel.org/linux-kernel/YQhY40teUJcTc5H4@localhost.localdomain/>
+Yes you can mimic what GCC currently does in its <stdarg.h>, and hope
+that keeps working on later versions of GCC, and on all older compiler
+versions you care about, and that it works on other compilers as well.
 
-It's still not self-contained.  And it seems that there has been quite a
-bit of fallout from the removal of <stddef.h>.
+> Those standards are designed for - and try to cater to - a completely
+> different audience.
 
-> Nobody cares about things like <stdatomic.h> They are completely
-> irrelevant for the kernel, exactly because we've always just done our
-> own, or used __builtin_xyz() for things.
+"""
+  This International Standard specifies the form and establishes the
+  interpretation of programs expressed in the programming language C.
+  Its purpose is to promote portability, reliability, maintainability,
+  and efficient execution of C language programs on a variety of
+  computing systems.
+"""
 
-Apparently, some people care enough about <stdatomic.h> to prevent its
-use.  I still have not seen an explanation.  Maybe it's because we
-haven't Cc:ed the patch author so far (oops).
+Is the kernel not written in C?  The C standard is not the POSIX
+standard, or anything like it.
 
-Alexey, why are <stdatomic.h> and <float.h> so special that you called
-them out in your patch?
+> We do our own type system, and again, we don't care at all about the C
+> "official" type system and odd name rules that change from one version
+> to the other.
 
-If it's about unintended use of libatomic, then maybe we should work on
-a proper compiler option that also works for __atomic builtins and the
-_Atomic keyword.
+<stdint.h> has existed since C99, and has not relevantly changed since.
 
-Thanks,
-Florian
+And you *do* care about this feature, deeply.  That is why the kernel
+has u8, for the exact same reason standard C has uint8_t: to get exact
+width integer types.  The kernel could just include the standard header
+and then
+  typedef uint8_t u8;
+instead of the dance it currently goes through.
 
+> We generally *cannot* use the system header files, because they bring
+> in things that the kernel simply cannot handle.
+
+Like?
+
+These header files are part of the compiler.  The compiler is required
+to provide these to be a C compiler.  Without using those header files
+there is no portable way to use some important features of C.
+
+These are not library headers.  These are not headers provided by some
+third party.  These headers are an intricate part of the compiler
+itself.
+
+> > You also need <stdint.h> and <stddef.h>.
+> 
+> No, you really don't.
+> 
+> We avoid those intentionally, and always have. Because the system
+> header files have never been a good match.
+
+Linux re-implements all of it.  It *does* need it, it just has its own
+implementation if it.  It needs the features it provides.
+
+> But it does look like gcc and clang have both ended up exposing the
+> interfaces the same way, using the __buildin_xyz model to just wrap
+> the standard names in a namespace-clean way.
+> 
+> That really wasn't historically true. Back in the bad old days of
+> varargs etc, you literally had "va_list" be a "char *" and the
+> accessor functions were magic macros that updated things by hand by
+> the size of the arguments etc...
+
+Before C90 there was <varargs.h> instead, and that was like that indeed.
+The standard C <stdarg.h> header *cannot* be implemented in terms of
+other building blocks in C.  This is the underlying theme of all
+standard C headers.
+
+> In ways that a lot of other "standard C header files" very much are
+> *not* - many of those are about the types that the system provides.
+> 
+> And in fact often the kernel is the *source* and definition of parts of them.
+
+That is not true at all.  These headers in no way depend on Linux or any
+other OS.  Some of it is mandated by the C standard, some of it is
+mandated by the low-level ABI used (the size of an int for example, that
+kind of thing).  But none of it is from any kernel.
+
+
+I get that long ago in the dark ages Linux had to implement many things
+from scratch.  And that implementing things from scratch is more fun
+anyway.  Also, everything seems to work now, tinkering with it is not
+necessarily the best idea.
+
+But that does not mean that if you had to start over you should not use
+the standard C headers, or that it would be a bad idea to use them more
+often now.
+
+
+Segher
