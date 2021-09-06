@@ -2,68 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9585400CDA
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Sep 2021 21:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7BC94016A6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Sep 2021 08:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232831AbhIDUAM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Sep 2021 16:00:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231185AbhIDUAM (ORCPT
+        id S229792AbhIFGz2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Sep 2021 02:55:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38301 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239458AbhIFGz2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Sep 2021 16:00:12 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4836EC061757
-        for <linux-kbuild@vger.kernel.org>; Sat,  4 Sep 2021 12:59:10 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id w4so4187838ljh.13
-        for <linux-kbuild@vger.kernel.org>; Sat, 04 Sep 2021 12:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mJYg48y01Ixecv219BnfLeDPB5wbBC3ssZt6PfPcF54=;
-        b=KbVKhyqGoTFA9+zvg9VyF1GK8M2l3z5EQv1RyW4PNlggVQQx/3hGyV9qhYUJcjiXE6
-         ldRXmnMnFC39k8SWW6iJn/73m4GacJAiONs8EAQ8qrTaVb/4o8e0QiL3JRkFfgcoY7eU
-         jdfrz7quMmpAM5dB0E6H19QJ3K5eI+9VVohSo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mJYg48y01Ixecv219BnfLeDPB5wbBC3ssZt6PfPcF54=;
-        b=qKH7i6CtlYLbsCqd3iXwHq6nWWwnj2qB57LqxlPu1rRPC0ElnOVfILR38hsFWBzQhe
-         uyT1nHcyeUh9Zu1lRXRMUcUmt0cuxmKajSMCwl4mWkL3RId8eotmsW6qOj7z5fHdIJo/
-         fhAy2P4Uhqsg+sCjmfNhKAnnrZ0cQ1lXlk+Xs4v21V37H7Rq7kV1Ok8SE2+eUmQSIfMB
-         ukS3q7GLnjBPUP2fIwYYMFaKgim2xT0cQ3B+driCDOziBvIraGLTp911XNNMcwUKNmhB
-         oBjEsJxJh23loxKTRzBL/KStvrejGF5Zc/C1Vsl29fa+RiO8Pe5XAvQHWs3qLAnvrZpl
-         msUQ==
-X-Gm-Message-State: AOAM533xsm/kIqvvTxKLinEccIN6zyRL61JmXE3WJM4uN7aMUIGH6B32
-        XPGAFKyKS7J/DWY7oBrntQTCo0avjwGYGTjm
-X-Google-Smtp-Source: ABdhPJwTpuktHaFIacsG+7K9HWRUDhLKXfDeMVCGovYTEP+OEozBeGNs/JYps3B5E5sWeDc/K+btFQ==
-X-Received: by 2002:a2e:509:: with SMTP id 9mr4086024ljf.453.1630785547323;
-        Sat, 04 Sep 2021 12:59:07 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id f12sm318748lfm.56.2021.09.04.12.59.06
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Sep 2021 12:59:06 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id s10so5207705lfr.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 04 Sep 2021 12:59:06 -0700 (PDT)
-X-Received: by 2002:a05:6512:3da5:: with SMTP id k37mr3993613lfv.655.1630785546572;
- Sat, 04 Sep 2021 12:59:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com>
- <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com>
- <3b461878-a4a0-2f84-e177-9daf8fe285e7@kernel.org> <878s0c4vng.fsf@oldenburg.str.redhat.com>
- <20210904131911.GP1583@gate.crashing.org> <871r644bd2.fsf@oldenburg.str.redhat.com>
- <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com> <20210904191531.GS1583@gate.crashing.org>
-In-Reply-To: <20210904191531.GS1583@gate.crashing.org>
-From:   Linus Torvalds <torvalds@linuxfoundation.org>
-Date:   Sat, 4 Sep 2021 12:58:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
-Message-ID: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
-Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
-To:     Segher Boessenkool <segher@kernel.crashing.org>
-Cc:     Florian Weimer <fweimer@redhat.com>,
+        Mon, 6 Sep 2021 02:55:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1630911263;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=I0Wqq4Jy8iaEMvTgV2vlnpJmZdhB/J5L3qG8Ebh53Cs=;
+        b=RlBZBUXiHt8lAQY2HYvXaI0ohzuOpTmqzu6ETw72wxvvFxcG/k9JrLix6wyGk41Q4yioJp
+        aJitVMmLjlL0ZxlWnCIBdJN2/eN7V3kqCIJFW2ffB/884ajfM6zZYjT6ovVJSMw+q4Qop0
+        F4/nf82+QLmrVkW7LRx5I7Pw2Fb1j0g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-URXiBfWjOkuQsCM7reUm2w-1; Mon, 06 Sep 2021 02:54:20 -0400
+X-MC-Unique: URXiBfWjOkuQsCM7reUm2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8718918397A6;
+        Mon,  6 Sep 2021 06:54:18 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.194.140])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A11C31045E85;
+        Mon,  6 Sep 2021 06:54:15 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Alexey Dobriyan <adobriyan@gmail.com>
+Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
@@ -71,69 +44,65 @@ Cc:     Florian Weimer <fweimer@redhat.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
+References: <CAK7LNAQ0Q6CdXaD-dVGj_e3O3JYs_crpejWKpXHYQJYxyk-1VQ@mail.gmail.com>
+        <CAHk-=wgoX0pVqNMMOcrhq=nuOfoZB_3qihyHB3y1S8qo=MDs6w@mail.gmail.com>
+        <3b461878-a4a0-2f84-e177-9daf8fe285e7@kernel.org>
+        <878s0c4vng.fsf@oldenburg.str.redhat.com>
+        <20210904131911.GP1583@gate.crashing.org>
+        <871r644bd2.fsf@oldenburg.str.redhat.com>
+        <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com>
+Date:   Mon, 06 Sep 2021 08:54:13 +0200
+In-Reply-To: <CAHk-=wi+XKYN+3u=_fm=ExqpEaHdER0XuKxVauHYVCPKpKR97Q@mail.gmail.com>
+        (Linus Torvalds's message of "Sat, 4 Sep 2021 10:22:25 -0700")
+Message-ID: <87a6kq2nze.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 4, 2021 at 12:18 PM Segher Boessenkool
-<segher@kernel.crashing.org> wrote:
+* Linus Torvalds:
+
+> On Sat, Sep 4, 2021 at 8:19 AM Florian Weimer <fweimer@redhat.com> wrote:
+>>
+>> In any case, it would be nice to know what the real motivation is.
 >
-> And the C standard requires you to use these headers to use some
-> features of the C language
+> I don't know about the original motivation, but the reason I like that
+> patch after-the-fact is that I've actually been in situations where I
+> test out self-built compilers without installing them.
 
-That's really the point here: we don't care AT ALL.
+Does this really simplify matters?  Why wouldn't the gcc compiler driver
+find cc1, but not be able to pass the right path options, so that the
+include/ subdirectory can be located as well?
 
-The C standard headers are simply not relevant for the kernel. Never
-have been, never will be.
+> Then it's convenient to have a completely standalone kernel tree.
 
-We care about the low-level compiler infrastructure, not the standard C headers.
+The final patch in the series is here:
 
-Those standards are designed for - and try to cater to - a completely
-different audience.
+  isystem: delete global -isystem compile option
+  <https://lore.kernel.org/linux-kernel/YQhY40teUJcTc5H4@localhost.localdomain/>
 
-We do atomics, and we do not care at all about the mis-designed C++
-standard atomics.
+It's still not self-contained.  And it seems that there has been quite a
+bit of fallout from the removal of <stddef.h>.
 
-We do our own type system, and again, we don't care at all about the C
-"official" type system and odd name rules that change from one version
-to the other.
+> Nobody cares about things like <stdatomic.h> They are completely
+> irrelevant for the kernel, exactly because we've always just done our
+> own, or used __builtin_xyz() for things.
 
-That has always been the case.
+Apparently, some people care enough about <stdatomic.h> to prevent its
+use.  I still have not seen an explanation.  Maybe it's because we
+haven't Cc:ed the patch author so far (oops).
 
-We generally *cannot* use the system header files, because they bring
-in things that the kernel simply cannot handle.
+Alexey, why are <stdatomic.h> and <float.h> so special that you called
+them out in your patch?
 
-That's entirely obvious for things like <stdio.h>, but it's actually
-true even for other things.
+If it's about unintended use of libatomic, then maybe we should work on
+a proper compiler option that also works for __atomic builtins and the
+_Atomic keyword.
 
-> You also need <stdint.h> and <stddef.h>.
+Thanks,
+Florian
 
-No, you really don't.
-
-We avoid those intentionally, and always have. Because the system
-header files have never been a good match.
-
-Now, <stdarg.h> is actually special for the kernel, exactly because
-unlike other header files, that one really ended up being something
-that historically wasn't exposed in any other way and wasn't doable
-sanely inside the kernel.
-
-But it does look like gcc and clang have both ended up exposing the
-interfaces the same way, using the __buildin_xyz model to just wrap
-the standard names in a namespace-clean way.
-
-That really wasn't historically true. Back in the bad old days of
-varargs etc, you literally had "va_list" be a "char *" and the
-accessor functions were magic macros that updated things by hand by
-the size of the arguments etc...
-
-So <stdarg.h> is historically very very special, and tied to compiler
-implementation details.
-
-In ways that a lot of other "standard C header files" very much are
-*not* - many of those are about the types that the system provides.
-
-And in fact often the kernel is the *source* and definition of parts of them.
-
-             Linus
