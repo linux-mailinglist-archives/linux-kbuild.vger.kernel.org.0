@@ -2,26 +2,26 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 383C5402B35
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Sep 2021 16:57:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98CAE402BD5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Sep 2021 17:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344856AbhIGO6F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Sep 2021 10:58:05 -0400
-Received: from gate.crashing.org ([63.228.1.57]:41622 "EHLO gate.crashing.org"
+        id S231443AbhIGPcR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Sep 2021 11:32:17 -0400
+Received: from gate.crashing.org ([63.228.1.57]:49179 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344752AbhIGO6E (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Sep 2021 10:58:04 -0400
+        id S1345158AbhIGPcQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 7 Sep 2021 11:32:16 -0400
 Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 187Eqm0Y009137;
-        Tue, 7 Sep 2021 09:52:48 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 187FQwd6012880;
+        Tue, 7 Sep 2021 10:26:58 -0500
 Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 187EqlAQ009134;
-        Tue, 7 Sep 2021 09:52:47 -0500
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 187FQuaU012874;
+        Tue, 7 Sep 2021 10:26:56 -0500
 X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Tue, 7 Sep 2021 09:52:47 -0500
+Date:   Tue, 7 Sep 2021 10:26:56 -0500
 From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Jakub Jelinek <jakub@redhat.com>
-Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -31,42 +31,91 @@ Cc:     Linus Torvalds <torvalds@linuxfoundation.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
 Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
-Message-ID: <20210907145247.GH1583@gate.crashing.org>
-References: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com> <20210906154642.GV1583@gate.crashing.org> <CAHk-=wj=WpWO_V86cZH99LgZGBbvdDb4wR26ce5van0hJqjzLA@mail.gmail.com> <20210906172701.GX1583@gate.crashing.org> <CAHk-=wh0MBVfA89WLWnCiSnJ2a=hSAoSxfG-jyf7JJeBDPK3ew@mail.gmail.com> <87lf49wodu.fsf@oldenburg.str.redhat.com> <20210906194808.GY1583@gate.crashing.org> <20210906201432.GZ920497@tucnak> <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com> <20210906215218.GA920497@tucnak>
+Message-ID: <20210907152656.GI1583@gate.crashing.org>
+References: <20210906154642.GV1583@gate.crashing.org> <CAHk-=wj=WpWO_V86cZH99LgZGBbvdDb4wR26ce5van0hJqjzLA@mail.gmail.com> <20210906172701.GX1583@gate.crashing.org> <CAHk-=wh0MBVfA89WLWnCiSnJ2a=hSAoSxfG-jyf7JJeBDPK3ew@mail.gmail.com> <87lf49wodu.fsf@oldenburg.str.redhat.com> <20210906194808.GY1583@gate.crashing.org> <20210906201432.GZ920497@tucnak> <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com> <20210906215218.GA920497@tucnak> <CAHk-=wiKy45R2vMHhjr16_Q+iYea-70byuj=mHLvp1GURqdYPA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210906215218.GA920497@tucnak>
+In-Reply-To: <CAHk-=wiKy45R2vMHhjr16_Q+iYea-70byuj=mHLvp1GURqdYPA@mail.gmail.com>
 User-Agent: Mutt/1.4.2.3i
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 06, 2021 at 11:52:18PM +0200, Jakub Jelinek wrote:
-> On Mon, Sep 06, 2021 at 02:08:58PM -0700, Linus Torvalds wrote:
-> There is a stddef.h include too and that's it
-> (I must say I don't see the reason for that include though).
+On Mon, Sep 06, 2021 at 03:24:41PM -0700, Linus Torvalds wrote:
+> On Mon, Sep 6, 2021 at 2:52 PM Jakub Jelinek <jakub@redhat.com> wrote:
+> >
+> > It is actually not that bad, stdlib.h is indeed included there because of 2
+> > intrinsics out of more than 5000 and when one doesn't need those, just
+> > #define _MM_MALLOC_H_INCLUDED
+> 
+> .. and on clang?
 
-Yeah me neither.  Maybe the header used NULL before?
+Clang apparently has __MM_MALLOC_H  as header guard here.  But Clang
+does say
+  #if __STDC_HOSTED__
+  #include <mm_malloc.h>
+  #endif
+so they do not have this bug in the first place.  GCC should fix this as
+well.  I filed <https://gcc.gnu.org/PR102231>.  Thanks for bringing thisd
+to our attention!
 
-> Other compiler provided headers (not talking about C++ now) also have no
-> or very limited includes, including stddef.h, stdarg.h, stdatomic.h, etc.
-> The only exceptions are tgmath.h which isn't usable without libc
-> math.h/complex.h,
+> There, I think you have to undefine __STDC_HOSTED__. Maybe by using
+> -ffreestanding?
 
-<tgmath.h> is only for hosted environments.  That requires a C library
-for GCC (we do not implement this stuff ourselves).  The compiler and
-the C library have to work together to get this done, and the relation
-between GCC and Glibc has been a bit too tight for this, it is true.
+That defines it to 0, instead, as required by the C standard:
+$ :|gcc -E -dM -|grep HOSTED
+#define __STDC_HOSTED__ 1
+$ :|gcc -E -dM - -ffreestanding|grep HOSTED
+#define __STDC_HOSTED__ 0
 
-But a kernel build is not in a hosted environment.
+Yes, that is how this works: the command line flag says how the macro
+should be defined by the compiler (and changing it in your code is UB
+btw).
 
-> in some cases stdint.h and limits.h which are in some
-> configurations provided both by the C library and the compiler and include
-> each other in that case (but e.g. stdint.h has an alternate version that
-> only uses compiler provided builtin macros) and openacc.h.
+> Except if you use -ffreestanding, you lose some very bvasic
+> functionality (*),
 
-On what targets is <stdint.h> still problematic?  And <limits.h>?
+(see below)
+
+> And they should very much *not*at*all* be considered some kind of
+> sacred "this is the only way to do things". Because that is clearly
+> not true, and has *never* been true.
+
+Take for example <stdint.h>.  There is no other way to find out what
+types to use for exact-width integers.  Unless you really want to do
+  typedef unsigned int __attribute__((mode (DI))) u64;
+but that is rather unportable to other compilers but GCC.
+
+<stdint.h> *is* the only portable way for getting exact-width integers
+(and some other things).  This is not something we decide, it is not
+something you can decide, it follows directly from the C standard.
+
+Using it is easy.  Not using it leads to the forest of include files and
+preprocessor conditionals the kernel currently uses.
+
+> The usable header files are the odd special case, not the general case.
+> 
+> Really.
+> 
+> Is it really so hard to just admit that the kernel shouldn't use those
+> headers? When we have 30 years of experience in doing exactly that?
+
+That isn't the core issue at hand.  Yes, Linux has implemented all of it
+manually historically, and there even were good reasons for some of
+that.  That does not mean that it would be a good idea to throw out the
+few standard C headers it does use, and implement those with compiler
+internal interfaces instead, which we advice you against.
+
+> (*) iirc, with -ffreestanding gcc doesn't do all the basic memcpy()
+> optimizations. But I forget the exact details.
+
+I would love to hear any details about that.
+
+I do know the Glibc headers do (or did?) some premature optimisation
+wrt. some mem* and str*, hurting performance on newer compilers.  But
+you should not be using the Glibc headers for compiling the kernel at
+all anyway, so maybe there was some bug thereabouts?
 
 
 Segher
