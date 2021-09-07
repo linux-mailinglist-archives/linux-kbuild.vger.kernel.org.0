@@ -2,99 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF39403129
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 00:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6766440312E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 00:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240071AbhIGWnL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Sep 2021 18:43:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230070AbhIGWnL (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Sep 2021 18:43:11 -0400
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92436C061575;
-        Tue,  7 Sep 2021 15:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=cgU+bSRWkgQbjbTYWVtop6TutVa0+8sECDPga2WxPJ0=; b=hH0ey3gKs99jalCd/bE9dKnWeh
-        YGUpKDVsO1lLUb62Te01hx69O9aNKm8+HPelyfZuDY0fjiU/mMPtc1yPcDM3KfL1+/QYfyW4TepmM
-        o/WvDDCgfZetkbvHH9teuf3LmqKHAjih3By6CbsronjSiZd+Os/JNfnY63C4LNzKy3TFELNQXNraU
-        2LDBOmWtTCAwCMVaRdLLFSBDR/e0FAaXg5Y0C35GwQpBHrMPJeDbEEULYkvmrq3Hcwh3XSi1WBBIS
-        6Oe3w6I07Hvof4bbCQU1iOEbQ7dbqFoB8KHwdg8geZzHTFOEPkxMmKmgXpRdYgBSFu9kqCKvi44fW
-        MyOkscUQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mNjn1-004y8l-6W; Tue, 07 Sep 2021 22:42:03 +0000
-Subject: Re: [PATCH] Makefile: use -Wno-main in the full kernel tree
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        id S1344607AbhIGWvs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Sep 2021 18:51:48 -0400
+Received: from gate.crashing.org ([63.228.1.57]:34906 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1344396AbhIGWvs (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 7 Sep 2021 18:51:48 -0400
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 187MgSFs013086;
+        Tue, 7 Sep 2021 17:42:29 -0500
+Received: (from segher@localhost)
+        by gate.crashing.org (8.14.1/8.14.1/Submit) id 187MgRGq013085;
+        Tue, 7 Sep 2021 17:42:27 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date:   Tue, 7 Sep 2021 17:42:27 -0500
+From:   Segher Boessenkool <segher@kernel.crashing.org>
+To:     Marco Elver <elver@google.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        llvm@lists.linux.dev,
+        LSM List <linux-security-module@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mark Brown <broonie@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vipin Sharma <vipinsh@google.com>,
+        Chris Down <chris@chrisdown.name>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Vlastimil Babka <vbabka@suse.cz>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-References: <20210813224131.25803-1-rdunlap@infradead.org>
- <CAHk-=wj4chmL3TUdXHhAV+eU-YVNj-ZtZBjNJEFBzTnPMP3_bA@mail.gmail.com>
- <CAHk-=wgnvC=Tyejg_ts1O7yZYRxAgS+mxStCWM+PcyFPnaw1sw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <73ee98a4-c4a5-04f3-6280-dcd67507d889@infradead.org>
-Date:   Tue, 7 Sep 2021 15:42:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=wgnvC=Tyejg_ts1O7yZYRxAgS+mxStCWM+PcyFPnaw1sw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Revert "Enable '-Werror' by default for all kernel builds"
+Message-ID: <20210907224227.GL1583@gate.crashing.org>
+References: <20210907183843.33028-1-ndesaulniers@google.com> <CAHk-=whJOxDefgSA1_ojGbweRJGonWX9_nihA-=fbXFV1DhuxQ@mail.gmail.com> <CAKwvOdkuYoke=Sa8Qziveo9aSA2zaNWEcKW8LZLg+d3TPwHkoA@mail.gmail.com> <YTfkO2PdnBXQXvsm@elver.google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YTfkO2PdnBXQXvsm@elver.google.com>
+User-Agent: Mutt/1.4.2.3i
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/16/21 5:33 PM, Linus Torvalds wrote:
-> On Fri, Aug 13, 2021 at 2:01 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->>  From a quick google, it seems like '-Wmain' means something else for
->> clang. But it is probably ok.
-> 
-> So the warnings that clang gives with -Wmain seem to be much more reasonable.
-> 
-> Which makes me think that the '-Wno-main' thing would likely be better
-> as a gcc-only thing.
-> 
-> Maybe something like this instead?
-> 
->                Linus
-> 
+On Wed, Sep 08, 2021 at 12:14:19AM +0200, Marco Elver wrote:
+> Here's a datapoint: I had to disable CONFIG_WERROR on a bunch of syzbot
+> instances which started failing because of -Werror [1], because syzbot's
+> time is better spent on fuzzing, and having the odd warning in some
+> subsystem penalize fuzzing of the entire kernel is not appropriate.
 
-Linus,
+Similarly, I have to disable -Werror (which various archs and subsystems
+already use) whenever I test building the kernel with new toolchains.
+It is the biggest set of kernel patches I keep, already, since many
+years.
 
-Can we get your version of this patch merged?
+I actually have good hopes that a centralised -Werror thing will make
+this easier :-)
+
+Maybe there can be an E=[01] kernel build flag to disable / enable
+CONFIG_WERROR?  Something that will override it for just that command.
+This would make life easier for many use cases, while at the same time
+not being something that people can "forget" they did.
 
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Should I resend the full patch?
-
----
-  Makefile | 2 ++
-  1 file changed, 2 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index c19d1638da25..a33fba083df7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -803,6 +803,8 @@ else
-  # Disabled for clang while comment to attribute conversion happens and
-  # https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
-  KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=5,)
-+# gcc inanely warns about local variables called 'main'
-+KBUILD_CFLAGS += -Wno-main
-  endif
-  
-  # These warnings generated too much noise in a regular build.
-
+Segher
