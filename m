@@ -2,76 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81ED8403D6A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 18:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C69403D6E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 18:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348078AbhIHQNo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Sep 2021 12:13:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37344 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhIHQNn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Sep 2021 12:13:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DBCBC6113E;
-        Wed,  8 Sep 2021 16:12:33 +0000 (UTC)
-Date:   Wed, 8 Sep 2021 12:12:29 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-toolchains@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Brown <broonie@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vipin Sharma <vipinsh@google.com>,
-        Chris Down <chris@chrisdown.name>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Revert "Enable '-Werror' by default for all kernel
- builds"
-Message-ID: <YTjg7T4HI+pA4hI4@home.goodmis.org>
-References: <20210907183843.33028-1-ndesaulniers@google.com>
- <CAHk-=whJOxDefgSA1_ojGbweRJGonWX9_nihA-=fbXFV1DhuxQ@mail.gmail.com>
+        id S244084AbhIHQO7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Sep 2021 12:14:59 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:54553 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237223AbhIHQO7 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 8 Sep 2021 12:14:59 -0400
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 188GDMLn005223;
+        Thu, 9 Sep 2021 01:13:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 188GDMLn005223
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1631117603;
+        bh=GeoJfu9VzrOcwmMmfHoNFG8Q7Y6TysUiEZUa7Yh76hM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HQfbYqnm1mdEmOwRDTlMbgL7NWqx0YjtIAAZoG+FMtM/3wezswpnhbyAnTy9i2IB7
+         7wIsqfjvpG46+RrXX4NaDlLZKNW16bDQDOVWXN0VdpQIOpeDPMAJSdl5U7IFDOYtXs
+         FJapMf3Iyc9D7IbuFj5dSH2mxR8ORrKXY0GsKD4eoOt3IiLx1Ab/h8kGUAwcClHDpW
+         zU0sSdERzk/tHqH/ED0li7m+lQw67a9sYxh8HSmEs4Ps4zFCtlMvpMVj87s+MHAUtg
+         VIDwmVVhYyubZioKluugndZCbvdO2xrg7blJT/ajgzm4/Fu9Hn+WemkDsirS3ab+HE
+         J7sbrvnExGgyQ==
+X-Nifty-SrcIP: [209.85.210.170]
+Received: by mail-pf1-f170.google.com with SMTP id x19so2475144pfu.4;
+        Wed, 08 Sep 2021 09:13:23 -0700 (PDT)
+X-Gm-Message-State: AOAM532MpRzQ4ObjyKTcVzlg/8dZjn8ELWQrqq3zQUJQs6eDtJjXh5wS
+        RiockiQNK+SeZ9uQsk92bZIpTIXJ//Sy4J2cC+o=
+X-Google-Smtp-Source: ABdhPJwqG+I6Nwp5ZizwgLF/rOn19ikLOvLQW+llgL6w0HwZyvvIivlHeXvnkkPtW/1XQwBO3VLD/x8CDG+sjv6AbA4=
+X-Received: by 2002:a63:9313:: with SMTP id b19mr4421474pge.128.1631117602216;
+ Wed, 08 Sep 2021 09:13:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whJOxDefgSA1_ojGbweRJGonWX9_nihA-=fbXFV1DhuxQ@mail.gmail.com>
+References: <20210831074004.3195284-1-masahiroy@kernel.org>
+ <20210831074004.3195284-4-masahiroy@kernel.org> <20210904180434.qkdbs27i5f2vtoxv@treble>
+ <20210904184530.k6nwfesugx2su2hy@treble>
+In-Reply-To: <20210904184530.k6nwfesugx2su2hy@treble>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 9 Sep 2021 01:12:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT64yiN2GG2R9hQXg8wPzL4D4WgWikLNxcp_TYzZ3ijqg@mail.gmail.com>
+Message-ID: <CAK7LNAT64yiN2GG2R9hQXg8wPzL4D4WgWikLNxcp_TYzZ3ijqg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/13] kbuild: store the objtool command in *.cmd files
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 07, 2021 at 12:16:22PM -0700, Linus Torvalds wrote:
-> 
-> That's the POINT of that commit. That "but but but I have thousands of
-> warnings" is not acceptable.
+On Sun, Sep 5, 2021 at 3:45 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+>
+> On Sat, Sep 04, 2021 at 11:04:37AM -0700, Josh Poimboeuf wrote:
+> > On Tue, Aug 31, 2021 at 04:39:54PM +0900, Masahiro Yamada wrote:
+> > > objtool_dep includes include/config/{ORC_UNWINDER,STACK_VALIDATION}
+> > > so that all the objects are rebuilt when any of CONFIG_ORC_UNWINDER
+> > > and CONFIG_STACK_VALIDATION is toggled.
+> > >
+> > > As you can see in 'objtool_args', there are more CONFIG options
+> > > that affect the objtool command line.
+> > >
+> > > Adding more and more include/config/* is ugly and unmaintainable.
+> > >
+> > > Another issue is that non-standard objects are needlessly rebuilt.
+> > > Objects specified as OBJECT_FILES_NON_STANDARD is not processed by
+> > > objtool, but they are rebuilt anyway when CONFIG_ORC_UNWINDER or
+> > > CONFIG_STACK_VALIDATION is toggled. This is not a big deal, but
+> > > better to fix.
+> > >
+> > > A cleaner and more precise fix is to include the objtool command in
+> > > *.cmd files so any command change is naturally detected by if_change.
+> >
+> > Nice improvement, thanks!
+> >
+> > s/CONFIG_ORC_UNWINDER/CONFIG_UNWINDER_ORC/g
+> >
+> > And yes, this means the original ORC unwinder dependency didn't
+> > work:
+> >
+> > > -objtool_dep = $(objtool_obj)                                       \
+> > > -         $(wildcard include/config/ORC_UNWINDER            \
+> > > -                    include/config/STACK_VALIDATION)
+>
+> With the typos fixed, and this dependency bug mentioned in the commit
+> log:
 
-I'm actually surprised you did this after the discussion with gcc warning
-about using "main" as a local variable.
 
-> My "no warnings" policy isn't exactly new, and people shouldn't be
-> shocked when I then say "time to clean up *YOUR* house too".
+Ah, nice catch.
 
-Note, ktest has a way to create a list of current warnings, and then test your
-code against it, and will fail on any new warning. I run this on all my pull
-requests to make sure that I do not introduce any new warnings.
 
-That said, I still get bug reports on various configs that I did not test,
-where my code introduces a warning. I hate to be the one that fails their
-builds.
 
-It's not the configs that have something enabled, its the configs that have
-something not enabled, where another config depends on it.
+commit 11af847446ed0d131cf24d16a7ef3d5ea7a49554
+missed to adjust the dependency part.
 
-I'm not against the -Werror. I just don't want to be changing local variables
-called "main" because it breaks someones build due to some daft warning that
-the compiler is emitting.
+I will update the commit log
+and mention this breakage.
 
--- Steve
 
+
+
+
+
+
+> Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+>
+> --
+> Josh
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
