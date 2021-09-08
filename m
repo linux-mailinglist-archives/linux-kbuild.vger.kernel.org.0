@@ -2,118 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C69403D6E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 18:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F33403E21
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 19:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244084AbhIHQO7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Sep 2021 12:14:59 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:54553 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237223AbhIHQO7 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Sep 2021 12:14:59 -0400
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 188GDMLn005223;
-        Thu, 9 Sep 2021 01:13:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 188GDMLn005223
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631117603;
-        bh=GeoJfu9VzrOcwmMmfHoNFG8Q7Y6TysUiEZUa7Yh76hM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HQfbYqnm1mdEmOwRDTlMbgL7NWqx0YjtIAAZoG+FMtM/3wezswpnhbyAnTy9i2IB7
-         7wIsqfjvpG46+RrXX4NaDlLZKNW16bDQDOVWXN0VdpQIOpeDPMAJSdl5U7IFDOYtXs
-         FJapMf3Iyc9D7IbuFj5dSH2mxR8ORrKXY0GsKD4eoOt3IiLx1Ab/h8kGUAwcClHDpW
-         zU0sSdERzk/tHqH/ED0li7m+lQw67a9sYxh8HSmEs4Ps4zFCtlMvpMVj87s+MHAUtg
-         VIDwmVVhYyubZioKluugndZCbvdO2xrg7blJT/ajgzm4/Fu9Hn+WemkDsirS3ab+HE
-         J7sbrvnExGgyQ==
-X-Nifty-SrcIP: [209.85.210.170]
-Received: by mail-pf1-f170.google.com with SMTP id x19so2475144pfu.4;
-        Wed, 08 Sep 2021 09:13:23 -0700 (PDT)
-X-Gm-Message-State: AOAM532MpRzQ4ObjyKTcVzlg/8dZjn8ELWQrqq3zQUJQs6eDtJjXh5wS
-        RiockiQNK+SeZ9uQsk92bZIpTIXJ//Sy4J2cC+o=
-X-Google-Smtp-Source: ABdhPJwqG+I6Nwp5ZizwgLF/rOn19ikLOvLQW+llgL6w0HwZyvvIivlHeXvnkkPtW/1XQwBO3VLD/x8CDG+sjv6AbA4=
-X-Received: by 2002:a63:9313:: with SMTP id b19mr4421474pge.128.1631117602216;
- Wed, 08 Sep 2021 09:13:22 -0700 (PDT)
+        id S1352374AbhIHRJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Sep 2021 13:09:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52822 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350158AbhIHRJC (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 8 Sep 2021 13:09:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 34BDB61139;
+        Wed,  8 Sep 2021 17:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631120874;
+        bh=80AvqZOv2RZcZbeG+YgdxOHOj1vveJJVoxh9nrQ9MFY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Mnwyjq5BW0zV7+7N3JPvf6PAUAeT/bhKnb04jCd4zUYdWPe3z6+bseg5+aFhz8Pp0
+         peGJih9WiWxGlRxxl//19cwYc21vHId1R+ckzCv2uTzH/xGcC3NQ7uMZ7dEpB7M9FK
+         KU6gYmADQMF8/Hl0NkWzN5l1ohe4II+IJmgsV4R+He3AWPCH27UjjNf7fhAxxIS3LF
+         0owKopXTFG2f0NXAu6CmYAU5KYIaIl/io9CNrZrvnd2ZKKvQCEXLgIfulz3dAxyKLp
+         aaKA7YXmtCZ2y1RG0z7mgCraIhk7kO5V8HjdMM6J5q20HD0T+aEoQb0Y65bj2/tZ2x
+         fk24CIwOH7V+A==
+Date:   Wed, 8 Sep 2021 10:07:48 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Kortan <kortanzh@gmail.com>
+Cc:     ndesaulniers@google.com, masahiroy@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
+Message-ID: <YTjt5C7xTqNLUSl/@archlinux-ax161>
+References: <20210908032847.18683-1-kortanzh@gmail.com>
 MIME-Version: 1.0
-References: <20210831074004.3195284-1-masahiroy@kernel.org>
- <20210831074004.3195284-4-masahiroy@kernel.org> <20210904180434.qkdbs27i5f2vtoxv@treble>
- <20210904184530.k6nwfesugx2su2hy@treble>
-In-Reply-To: <20210904184530.k6nwfesugx2su2hy@treble>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 9 Sep 2021 01:12:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT64yiN2GG2R9hQXg8wPzL4D4WgWikLNxcp_TYzZ3ijqg@mail.gmail.com>
-Message-ID: <CAK7LNAT64yiN2GG2R9hQXg8wPzL4D4WgWikLNxcp_TYzZ3ijqg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/13] kbuild: store the objtool command in *.cmd files
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210908032847.18683-1-kortanzh@gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Sep 5, 2021 at 3:45 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Sat, Sep 04, 2021 at 11:04:37AM -0700, Josh Poimboeuf wrote:
-> > On Tue, Aug 31, 2021 at 04:39:54PM +0900, Masahiro Yamada wrote:
-> > > objtool_dep includes include/config/{ORC_UNWINDER,STACK_VALIDATION}
-> > > so that all the objects are rebuilt when any of CONFIG_ORC_UNWINDER
-> > > and CONFIG_STACK_VALIDATION is toggled.
-> > >
-> > > As you can see in 'objtool_args', there are more CONFIG options
-> > > that affect the objtool command line.
-> > >
-> > > Adding more and more include/config/* is ugly and unmaintainable.
-> > >
-> > > Another issue is that non-standard objects are needlessly rebuilt.
-> > > Objects specified as OBJECT_FILES_NON_STANDARD is not processed by
-> > > objtool, but they are rebuilt anyway when CONFIG_ORC_UNWINDER or
-> > > CONFIG_STACK_VALIDATION is toggled. This is not a big deal, but
-> > > better to fix.
-> > >
-> > > A cleaner and more precise fix is to include the objtool command in
-> > > *.cmd files so any command change is naturally detected by if_change.
-> >
-> > Nice improvement, thanks!
-> >
-> > s/CONFIG_ORC_UNWINDER/CONFIG_UNWINDER_ORC/g
-> >
-> > And yes, this means the original ORC unwinder dependency didn't
-> > work:
-> >
-> > > -objtool_dep = $(objtool_obj)                                       \
-> > > -         $(wildcard include/config/ORC_UNWINDER            \
-> > > -                    include/config/STACK_VALIDATION)
->
-> With the typos fixed, and this dependency bug mentioned in the commit
-> log:
+On Wed, Sep 08, 2021 at 11:28:48AM +0800, Kortan wrote:
+> We need to import the 'sys' package since the script has called
+> sys.exit() method.
+> 
+> Signed-off-by: Kortan <kortanzh@gmail.com>
 
+Thank you for making those changes!
 
-Ah, nice catch.
+I should have mentioned that this probably warrants a Fixes: tag, which
+can be generated by running:
 
+$ git show -s --format='Fixes: %h ("%s")' 6ad7cbc01527223f3f92baac9b122f15651cf76b
+Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
 
+as that was the patch that introduced this issue. I personally have a
+git alias for this as it comes up enough.
 
-commit 11af847446ed0d131cf24d16a7ef3d5ea7a49554
-missed to adjust the dependency part.
+$ git config --get alias.fixes
+show -s --format="Fixes: %h (\"%s\")"
 
-I will update the commit log
-and mention this breakage.
+I do not think this warrants a v3, just something to keep in mind for
+the future.
 
+Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-
-
-
-
-
-> Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
->
-> --
-> Josh
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+> ---
+> Changes v1 -> v2:
+> * Fix commit title.
+> * Improve commit message. 
+> 
+>  scripts/clang-tools/gen_compile_commands.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index 0033eedce003..1d1bde1fd45e 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -13,6 +13,7 @@ import logging
+>  import os
+>  import re
+>  import subprocess
+> +import sys
+>  
+>  _DEFAULT_OUTPUT = 'compile_commands.json'
+>  _DEFAULT_LOG_LEVEL = 'WARNING'
+> -- 
+> 2.33.0
+> 
+> 
