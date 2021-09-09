@@ -2,121 +2,144 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFE564048D4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 13:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7887404C70
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 13:56:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234349AbhIILDO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 07:03:14 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:57718 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234216AbhIILDO (ORCPT
+        id S1343571AbhIIL5F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 07:57:05 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:33810 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244846AbhIILyq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:03:14 -0400
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 189B1nr9024809;
-        Thu, 9 Sep 2021 20:01:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 189B1nr9024809
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631185310;
-        bh=nZfFg/JwDacjaTOLCboRuBQ6A+RYt6dHwDsyrC1BjG0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gsGVGB59VhtqgkNoD6ckbHiPd97O406ngyVMGyakbRrILR6n1qazziSVIMrXNDwWP
-         cdWp3nwXqvVKmOjMggDRFgUhQaylFu7n2tYV3Ug4jeY2aebw144sH+gCRew8HX39Jn
-         8pjUlF4jArb82Y6/x9bhetRQBXr/fk81pY8PVv7crBrnV70IHvT3gC72mae+sIX6cM
-         hnBZyZRvs+a6GK4LKEISKv8ZkRJR60e74sS/DCmhqCCmwEhoNrRmJLQCBI0yIg2k7J
-         pfqI3JdgdRcKIz7DU/slolyS+ZruWfiQizTWbHcDn3/Cio19Xu8oukTuVJZEjxdY7a
-         kpv/xL9d47RmA==
-X-Nifty-SrcIP: [209.85.210.176]
-Received: by mail-pf1-f176.google.com with SMTP id m26so1454291pff.3;
-        Thu, 09 Sep 2021 04:01:49 -0700 (PDT)
-X-Gm-Message-State: AOAM532lOqbxb0ebhVp8O9ns/Wcc+EJ9MNOhJyf19M3lADmzdHKdl5Cs
-        kic/t/4i91gflZmEC1zqwbkuFxd7VhKDlO1ljwg=
-X-Google-Smtp-Source: ABdhPJyw7Aayt9CY7VD9ORFmSgdPI2JfaYnLCELWBhkqW4xRoDatIy6RguQ8KldM3TDq1+wUZAQPMJYM66AGuzCxbm0=
-X-Received: by 2002:aa7:9e8d:0:b0:406:be8:2413 with SMTP id
- p13-20020aa79e8d000000b004060be82413mr2637188pfq.66.1631185309107; Thu, 09
- Sep 2021 04:01:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210908032847.18683-1-kortanzh@gmail.com> <YTjt5C7xTqNLUSl/@archlinux-ax161>
-In-Reply-To: <YTjt5C7xTqNLUSl/@archlinux-ax161>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 9 Sep 2021 20:01:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATA2-4jSfOCmdtgQ+cuAyXhyLCBuVEZkZ3nONZFV8z3EA@mail.gmail.com>
-Message-ID: <CAK7LNATA2-4jSfOCmdtgQ+cuAyXhyLCBuVEZkZ3nONZFV8z3EA@mail.gmail.com>
-Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Kortan <kortanzh@gmail.com>,
+        Thu, 9 Sep 2021 07:54:46 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 98B442237B;
+        Thu,  9 Sep 2021 11:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1631188415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=eQS9ZQeFJQGmX5k5doxlCL9tdEWoOdO3DeKwN1zi5T0=;
+        b=00v59IeElg7EiE7DHb1zWtlUZ3YJjEriMz7GShwSI6HjWFzOHS2CdJ7M8fAz9nQNtDDcbs
+        J94bvmK7f4pGSSFGQotiPbZkObv+nYsyIAt733HOZLRCX7yJf4RBKu48LKihYPWrZIbBaf
+        eTzw669qmbL0RhD8IQ34BLGFO+BFHEE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1631188415;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=eQS9ZQeFJQGmX5k5doxlCL9tdEWoOdO3DeKwN1zi5T0=;
+        b=p8MQdENfUnWaooQFXZj2H0QuLNNlmNpjSCkjq7a3nqRLLVr7DZorlFYl4fe7CAR7GhGKtc
+        Yfa5jdGKWMEhqCDg==
+Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 3BD0DA3CFC;
+        Thu,  9 Sep 2021 11:53:35 +0000 (UTC)
+Date:   Thu, 9 Sep 2021 13:53:35 +0200 (CEST)
+From:   Miroslav Benes <mbenes@suse.cz>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+cc:     linux-hardening@vger.kernel.org,
+        Kristen C Accardi <kristen.c.accardi@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        llvm@lists.linux.dev,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marta A Plantykow <marta.a.plantykow@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH v6 kspp-next 16/22] livepatch: only match unique symbols
+ when using fgkaslr
+In-Reply-To: <20210831144114.154-17-alexandr.lobakin@intel.com>
+Message-ID: <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
+References: <20210831144114.154-1-alexandr.lobakin@intel.com> <20210831144114.154-17-alexandr.lobakin@intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 2:07 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Wed, Sep 08, 2021 at 11:28:48AM +0800, Kortan wrote:
-> > We need to import the 'sys' package since the script has called
-> > sys.exit() method.
-> >
-> > Signed-off-by: Kortan <kortanzh@gmail.com>
->
-> Thank you for making those changes!
->
-> I should have mentioned that this probably warrants a Fixes: tag, which
-> can be generated by running:
->
-> $ git show -s --format='Fixes: %h ("%s")' 6ad7cbc01527223f3f92baac9b122f15651cf76b
-> Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
->
-> as that was the patch that introduced this issue. I personally have a
-> git alias for this as it comes up enough.
->
-> $ git config --get alias.fixes
-> show -s --format="Fixes: %h (\"%s\")"
->
-> I do not think this warrants a v3, just something to keep in mind for
-> the future.
->
-> Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Hi,
 
+On Tue, 31 Aug 2021, Alexander Lobakin wrote:
 
-Applied to linux-kbuild
-with Fixes and Nathan's Reviewed-by.
-Thanks.
+> From: Kristen Carlson Accardi <kristen@linux.intel.com>
+> 
+> If any type of function granular randomization is enabled, the sympos
+> algorithm will fail, as it will be impossible to resolve symbols when
+> there are duplicates using the previous symbol position.
+> 
+> Override the value of sympos to always be zero if fgkaslr is enabled for
+> either the core kernel or modules, forcing the algorithm
+> to require that only unique symbols are allowed to be patched.
+> 
+> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> ---
+>  kernel/livepatch/core.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+> index 335d988bd811..852bbfa9da7b 100644
+> --- a/kernel/livepatch/core.c
+> +++ b/kernel/livepatch/core.c
+> @@ -169,6 +169,17 @@ static int klp_find_object_symbol(const char *objname, const char *name,
+>  	else
+>  		kallsyms_on_each_symbol(klp_find_callback, &args);
+>  
+> +	/*
+> +	 * If any type of function granular randomization is enabled, it
+> +	 * will be impossible to resolve symbols when there are duplicates
+> +	 * using the previous symbol position (i.e. sympos != 0). Override
+> +	 * the value of sympos to always be zero in this case. This will
+> +	 * force the algorithm to require that only unique symbols are
+> +	 * allowed to be patched.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_FG_KASLR))
+> +		sympos = 0;
+> +
 
+I ran the live patching tests and no problem occurred, which is great. We 
+do not have a test for old_sympos, which makes the testing less telling, 
+but at least nothing blows up with the section randomization itself.
 
+However, I want to reiterate what I wrote for the same patch in v5 
+series.
 
-> > ---
-> > Changes v1 -> v2:
-> > * Fix commit title.
-> > * Improve commit message.
-> >
-> >  scripts/clang-tools/gen_compile_commands.py | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> > index 0033eedce003..1d1bde1fd45e 100755
-> > --- a/scripts/clang-tools/gen_compile_commands.py
-> > +++ b/scripts/clang-tools/gen_compile_commands.py
-> > @@ -13,6 +13,7 @@ import logging
-> >  import os
-> >  import re
-> >  import subprocess
-> > +import sys
-> >
-> >  _DEFAULT_OUTPUT = 'compile_commands.json'
-> >  _DEFAULT_LOG_LEVEL = 'WARNING'
-> > --
-> > 2.33.0
-> >
-> >
+The above hunk should work, but I wonder if we should make it more 
+explicit. With the change the user will get the error with "unresolvable 
+ambiguity for symbol..." if they specify sympos and the symbol is not 
+unique. It could confuse them.
 
+So, how about it making it something like
 
+if (IS_ENABLED(CONFIG_FG_KASLR) || IS_ENABLED(CONFIG_MODULE_FG_KASLR))
+        if (sympos) {
+                pr_err("fgkaslr is enabled, specifying sympos for symbol '%s' in object '%s' does not work.\n",
+                        name, objname);
+                *addr = 0;
+                return -EINVAL;
+        }
 
--- 
-Best Regards
-Masahiro Yamada
+? (there could be goto to the error out at the end of the function to 
+save copy-pasting).
+
+In that case, if sympos is not specified, the user will get the message 
+which matches the reality. If the user specifies it, they will get the 
+error in case of fgkaslr (no matter if the symbol is found or not).
+
+What do you think?
+
+Miroslav
