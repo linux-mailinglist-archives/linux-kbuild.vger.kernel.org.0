@@ -2,91 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31F33403E21
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Sep 2021 19:07:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70564044DA
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 07:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352374AbhIHRJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Sep 2021 13:09:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52822 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350158AbhIHRJC (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Sep 2021 13:09:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 34BDB61139;
-        Wed,  8 Sep 2021 17:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631120874;
-        bh=80AvqZOv2RZcZbeG+YgdxOHOj1vveJJVoxh9nrQ9MFY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mnwyjq5BW0zV7+7N3JPvf6PAUAeT/bhKnb04jCd4zUYdWPe3z6+bseg5+aFhz8Pp0
-         peGJih9WiWxGlRxxl//19cwYc21vHId1R+ckzCv2uTzH/xGcC3NQ7uMZ7dEpB7M9FK
-         KU6gYmADQMF8/Hl0NkWzN5l1ohe4II+IJmgsV4R+He3AWPCH27UjjNf7fhAxxIS3LF
-         0owKopXTFG2f0NXAu6CmYAU5KYIaIl/io9CNrZrvnd2ZKKvQCEXLgIfulz3dAxyKLp
-         aaKA7YXmtCZ2y1RG0z7mgCraIhk7kO5V8HjdMM6J5q20HD0T+aEoQb0Y65bj2/tZ2x
-         fk24CIwOH7V+A==
-Date:   Wed, 8 Sep 2021 10:07:48 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Kortan <kortanzh@gmail.com>
-Cc:     ndesaulniers@google.com, masahiroy@kernel.org,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
-Message-ID: <YTjt5C7xTqNLUSl/@archlinux-ax161>
-References: <20210908032847.18683-1-kortanzh@gmail.com>
+        id S1350660AbhIIFQb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 01:16:31 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:29468 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1350499AbhIIFQb (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 9 Sep 2021 01:16:31 -0400
+X-Greylist: delayed 93880 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 Sep 2021 01:16:31 EDT
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 1895EtRZ031230;
+        Thu, 9 Sep 2021 14:14:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 1895EtRZ031230
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1631164495;
+        bh=ghCcarr3Wa8g2fBREVBbfn3a3wQyCXTSnt9W+mVN4Mw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rGqgIpLlT7n/rxTXzUo+6MUEomBhjVrmkJT2P1Im6Y/S1T9ntkNciz/Qymu546Q/J
+         6bFNFQz5G2o3Ez4a2w3Kck8x9R2Vfg9mdsssZNfYlhvCOjS2euWNZPgoz6/FwQ3PBZ
+         BgeWVPb39rsU7WA9lXdR5mdukFPrv3xEXjA0ePLlrHvB0PPcGWvNRgplB5fDiD1y2B
+         g3CB35uBI0PeWaBpym9q/TOCGxmEG0VtiVZvQLSL4YgTpp2JCQBmwKVOKvGj6E9hDa
+         cSBK2wIGgqkoZxrmPMDZ3RZe1GRdVlDrQv/pvE8Yd/GV7b2MOQoyGkOYJr/Kwvqltz
+         WYKLNTbB9MbiA==
+X-Nifty-SrcIP: [209.85.216.46]
+Received: by mail-pj1-f46.google.com with SMTP id u11-20020a17090adb4b00b00181668a56d6so565225pjx.5;
+        Wed, 08 Sep 2021 22:14:55 -0700 (PDT)
+X-Gm-Message-State: AOAM532YT1HxsNSNtDpcdJDdQFNZjYWhD/6W+vXuvWiNoj4mJy4InI4+
+        +j7TQkR8mqB+5BcsBgtGOb8W9YT2i26hNGa53Ng=
+X-Google-Smtp-Source: ABdhPJwZNsMXFApjgplVXDMFN/yESX/46Fzfe2Fjn/3/fRjwdi4HheLFDoRreqN1vd/j/Idb5fi7KFiatlzL1Zk90CU=
+X-Received: by 2002:a17:902:6b42:b0:13a:54d0:39c4 with SMTP id
+ g2-20020a1709026b4200b0013a54d039c4mr1244141plt.42.1631164494718; Wed, 08 Sep
+ 2021 22:14:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210908032847.18683-1-kortanzh@gmail.com>
+References: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
+ <20210906154642.GV1583@gate.crashing.org> <CAHk-=wj=WpWO_V86cZH99LgZGBbvdDb4wR26ce5van0hJqjzLA@mail.gmail.com>
+ <20210906172701.GX1583@gate.crashing.org> <CAHk-=wh0MBVfA89WLWnCiSnJ2a=hSAoSxfG-jyf7JJeBDPK3ew@mail.gmail.com>
+ <87lf49wodu.fsf@oldenburg.str.redhat.com> <20210906194808.GY1583@gate.crashing.org>
+ <20210906201432.GZ920497@tucnak> <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
+ <20210906215218.GA920497@tucnak> <20210907145247.GH1583@gate.crashing.org>
+In-Reply-To: <20210907145247.GH1583@gate.crashing.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 9 Sep 2021 14:14:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATNZRbdxCkdu=+wW1bcyoX0YcZYRTSW129n7AnnLyKbWg@mail.gmail.com>
+Message-ID: <CAK7LNATNZRbdxCkdu=+wW1bcyoX0YcZYRTSW129n7AnnLyKbWg@mail.gmail.com>
+Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
+To:     Segher Boessenkool <segher@kernel.crashing.org>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
+        Linus Torvalds <torvalds@linuxfoundation.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 08, 2021 at 11:28:48AM +0800, Kortan wrote:
-> We need to import the 'sys' package since the script has called
-> sys.exit() method.
-> 
-> Signed-off-by: Kortan <kortanzh@gmail.com>
+On Tue, Sep 7, 2021 at 11:54 PM Segher Boessenkool
+<segher@kernel.crashing.org> wrote:
+>
+> On Mon, Sep 06, 2021 at 11:52:18PM +0200, Jakub Jelinek wrote:
+> > On Mon, Sep 06, 2021 at 02:08:58PM -0700, Linus Torvalds wrote:
+> > There is a stddef.h include too and that's it
+> > (I must say I don't see the reason for that include though).
+>
+> Yeah me neither.  Maybe the header used NULL before?
+>
+> > Other compiler provided headers (not talking about C++ now) also have no
+> > or very limited includes, including stddef.h, stdarg.h, stdatomic.h, etc.
+> > The only exceptions are tgmath.h which isn't usable without libc
+> > math.h/complex.h,
+>
+> <tgmath.h> is only for hosted environments.  That requires a C library
+> for GCC (we do not implement this stuff ourselves).  The compiler and
+> the C library have to work together to get this done, and the relation
+> between GCC and Glibc has been a bit too tight for this, it is true.
+>
+> But a kernel build is not in a hosted environment.
+>
+> > in some cases stdint.h and limits.h which are in some
+> > configurations provided both by the C library and the compiler and include
+> > each other in that case (but e.g. stdint.h has an alternate version that
+> > only uses compiler provided builtin macros) and openacc.h.
+>
+> On what targets is <stdint.h> still problematic?  And <limits.h>?
 
-Thank you for making those changes!
 
-I should have mentioned that this probably warrants a Fixes: tag, which
-can be generated by running:
+Since commit 0c79a8e29b5fcbcbfd611daf9d500cfad8370fcf
+all architectures in the kernel space use the same fixed-width
+types, which are defined by
+include/uapi/asm-generic/int-ll64.h
 
-$ git show -s --format='Fixes: %h ("%s")' 6ad7cbc01527223f3f92baac9b122f15651cf76b
-Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
+So, u32 is always 'unsigned int',
+and u64 is always 'unsigned long long'.
 
-as that was the patch that introduced this issue. I personally have a
-git alias for this as it comes up enough.
+It is convenient for printk() in common code
+because we can always use the 'll' prefix for u64.
 
-$ git config --get alias.fixes
-show -s --format="Fixes: %h (\"%s\")"
 
-I do not think this warrants a v3, just something to keep in mind for
-the future.
+  u32 foo = 1;
+  u64 bar = 1;
 
-Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+  printk("foo = %u\n", foo);
+  printk("bar = %llu\n, bar);
 
-> ---
-> Changes v1 -> v2:
-> * Fix commit title.
-> * Improve commit message. 
-> 
->  scripts/clang-tools/gen_compile_commands.py | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> index 0033eedce003..1d1bde1fd45e 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -13,6 +13,7 @@ import logging
->  import os
->  import re
->  import subprocess
-> +import sys
->  
->  _DEFAULT_OUTPUT = 'compile_commands.json'
->  _DEFAULT_LOG_LEVEL = 'WARNING'
-> -- 
-> 2.33.0
-> 
-> 
+
+
+If we use compiler-provided <stdint.h>,
+it is not convenient for printk() because
+uint64_t is 'unsigned long' on some compilers
+and 'unsigned long long' on others.
+
+<intypes.h> provides macros such as PRIx64
+
+    uint32_t foo = 1;
+    uint64_t bar = 1;
+
+    printk("foo = %" PRIu32 "\n", foo);
+    printk("bar = %" PRIu64 "\n", bar);
+
+
+This works, but ends up with ugly code,
+which I want to avoid.
+
+
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
