@@ -2,95 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E77CC405AB7
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 18:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4459C405BE5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 19:20:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233932AbhIIQYB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 12:24:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58306 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233698AbhIIQYB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 12:24:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71811611CA;
-        Thu,  9 Sep 2021 16:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631204571;
-        bh=4I5qNtFV3fFaY9KGvcMMXKDeg8djcA9vyBIRdTx5RfU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L2jiRGNyqbNgYSS5tFb/URcYneH9PHH0S1ckdfHbLiSBMTdeAD5pgcNEGglUC6lgp
-         UTTJJ65kmU3UQexh3ABoK5iXAc1XlGdVtLWSm5Vc7OGvvCtAAmmuo7psgor/A1rPqx
-         y/464eot2n32AC9O16F6vP6Qfwpl8setqOUQ7CFrAJRbAwcceA2ozyvRJoCJfgUDOw
-         dXd3sz21NsLIksusCcaESwiEZSG/bplO3jeG1lT8oZDGBG6N9WkPECntlFn8g1kAAL
-         j3LQ8ND5RuNbJzburOr8YLUP0MEe1IlZpZ568ZxHpBvvRbBMm1e1sqkGzADI77MEZq
-         Yj7TDmtB35YAA==
-Received: by mail-ej1-f46.google.com with SMTP id me10so4717877ejb.11;
-        Thu, 09 Sep 2021 09:22:51 -0700 (PDT)
-X-Gm-Message-State: AOAM5300sQqlSSHa/+VNhBei9gGCYPC+rrIzXWuNABwTcUFT7YdRYB3E
-        SXfze0gPN3JVklHLuIL3u1d5K6UYwN9/+OYD4A==
-X-Google-Smtp-Source: ABdhPJyYmirRxOMx/nkH5R0TN8ujUXKi8h/ubE2E96R+jKgo81BsMpD1j5g4ryjgyCeJ1PiNDEhi53QjrYrJil3MHLs=
-X-Received: by 2002:a17:906:7250:: with SMTP id n16mr4205561ejk.147.1631204570030;
- Thu, 09 Sep 2021 09:22:50 -0700 (PDT)
+        id S232978AbhIIRVP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 13:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232723AbhIIRVO (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 9 Sep 2021 13:21:14 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13913C061575
+        for <linux-kbuild@vger.kernel.org>; Thu,  9 Sep 2021 10:20:05 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id f18so5087031lfk.12
+        for <linux-kbuild@vger.kernel.org>; Thu, 09 Sep 2021 10:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kqUD7oeU8HrXDjBJQpN5xhdFutamIM3hkjDh1/885jM=;
+        b=H77m2xie2dGASo7ILgUvr71C7Qyqg/VE3sFblaFoqMcqegsT2Wn5FRFaHIJlFTVlba
+         x10XdWIQ+3jezU+CqJLCBLOeH5ldw9YTYCWs+c49pMo+ohTapGe4pvcWOvqj66oYYvRg
+         ZMwZVaJkS+WD8bUQTy81ixX5ca0baC8Vc7U8kFHWQvyCTM1rh2ZX/e4Gn2zEN2xENstY
+         jsMQCjl3jUAIAn9FSS6mniigRNYmjyNfVFodERHKVr+CtAKg852CAmf4TdCKzP7XQMSd
+         6rNyqLQuD0nT7qQKmLWgBE11J6elARXD5DAmUHWbDWYwWoZIgvkw6oQDQ4SugROj1qQv
+         TzaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kqUD7oeU8HrXDjBJQpN5xhdFutamIM3hkjDh1/885jM=;
+        b=v6qNZAK8lUGHvv3HBgXESfQnhZao1HFnwMpmDRKr/UWR3LpJSKK0KZ9EEq3qpKj99e
+         be2q2AHpAXOap02QnxveHYDHkViYJ4NKX6GW4yOM5vVOmbR30QsJhqKh1I3DEEDN3RPb
+         CNpAd55S+r4A/6/V4jxPHuiy7WgTjmIhHUFPOU603dk+Msyl8dNEuEtRZsm/uDDIQz9N
+         QFo+4L8zjrmHaxkvWFOlst0fGaOd7Q/NQsjHRBG2evjNnENuYlzfp1Hs6eNzWANUXwj6
+         yo9PrCXhiHq3T4b2le7zrswLkp3QOY5PCp1SSEFrNPGpMttfhs+GrdCvKJBqtPeI311V
+         t6aA==
+X-Gm-Message-State: AOAM533PcsKvSPTyiZsxHJ9HghkYmNMqbFudMIMceBTaRWj6tTDw0Zpy
+        hueBlr+U1n5xGScL2VShknCo1QdJzTifvtGv1o/sy1UOy2Q=
+X-Google-Smtp-Source: ABdhPJx1Gd3h1I6lfLJre8pI7N4/5nUmVmFOR0uKMHU0YO+3eibPqTMvFa8njk1IhOYBx9H5vzTMz3NF2T9TAa4YYFk=
+X-Received: by 2002:a05:6512:139c:: with SMTP id p28mr642656lfa.523.1631208003105;
+ Thu, 09 Sep 2021 10:20:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210903155201.3004567-1-robh@kernel.org> <CAK7LNATxdf0o90C--qwumTbLyiSjt4m3m7-QSKYB31ZJ0ARA6w@mail.gmail.com>
-In-Reply-To: <CAK7LNATxdf0o90C--qwumTbLyiSjt4m3m7-QSKYB31ZJ0ARA6w@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 9 Sep 2021 11:22:38 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJYsbe=Gk1bsMM+OxVMDxepsT2Fiz=sNsi_svgF1XjU6g@mail.gmail.com>
-Message-ID: <CAL_JsqJYsbe=Gk1bsMM+OxVMDxepsT2Fiz=sNsi_svgF1XjU6g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Enable DT schema checks for %.dtb targets
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Tom Rini <trini@konsulko.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <1631173363-40160-1-git-send-email-ashimida@linux.alibaba.com>
+In-Reply-To: <1631173363-40160-1-git-send-email-ashimida@linux.alibaba.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 9 Sep 2021 10:19:52 -0700
+Message-ID: <CAKwvOdnuiV3mHxxCpWbMaZn9vggL4B+PPrMtuX=QOO-yUQj2mA@mail.gmail.com>
+Subject: Re: [PATCH] [RFC] kbuild: add CLANG_TRIPLE to prevent clang from
+ compiling with wrong --target
+To:     ashimida <ashimida@linux.alibaba.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Alistair Delva <adelva@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 8:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Sep 9, 2021 at 12:42 AM ashimida <ashimida@linux.alibaba.com> wrote:
 >
-> On Sat, Sep 4, 2021 at 12:52 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > It is possible to build a single dtb, but not with DT schema validation
-> > enabled. Enable the schema validation to run for %.dtb targets. Anyone
-> > building a dtb for a specific platform *should* pay attention to schema
-> > warnings.
-> >
-> > This could be supported with a separate %.dt.yaml target instead.
-> > However, the .dt.yaml format is considered an intermediate format and
-> > could possibly go away at some point if schema checking is integrated
-> > into dtc. Also, the plan is to enable the schema checks by default once
-> > platforms are free of warnings, and this is a move in that direction.
-> >
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Tom Rini <trini@konsulko.com>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: linux-kbuild@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  Makefile | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index ec9e8a0fe298..01b888cfe1dc 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1399,8 +1399,8 @@ endif
-> >
-> >  ifneq ($(dtstree),)
-> >
-> > -%.dtb: include/config/kernel.release scripts_dtc
-> > -       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-> > +%.dtb: dt_binding_check include/config/kernel.release scripts_dtc
-> > +       $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@ $(dtstree)/$*.dt.yaml
-> >
-> >  %.dtbo: include/config/kernel.release scripts_dtc
-> >         $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+> Kernel compiled with tool chain CROSS_COMPILE=aarch64-linux-android-
+> will panic during the startup phase.
 >
+> Clang's --target option comes from $(CROSS_COMPILE). At the time
+> -fstack-protector-strong is enabled, and compiled with command:
+> make CC=clang HOSTCC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-
 >
-> Why didn't you change the %.dtbo part?
+> clang will insert code like:
+>    mrs     x8, TPIDR_EL0        //default value is zero
+>    str     x8, [sp]
+>    ldr     x8, [x8, #40]        //access addr 0x40
+>
+> instead of the code that accesses __stack_chk_guard to get the
+> canary, which will cause the kernel to crash due to 0x40
+> address access.
+>
+> This patch (from android) is used to remind the user that current
+> tool chain cannot be used as the "--target" of clang, the user
+> should specify an additional "--target" through CLANG_TRIPLE.
 
-Right, it should.
+Hi Ashimida,
+Thanks for sending this patch; I recognize it from Android, which we
+had to carry for years due to:
+1. reliance on GNU `as` ie. "GAS"
+2. not distributing binary prefixes of GNU binutils with a target
+triple that clang recognized. (ie. Android's binutils were prefixed
+aarch64-linux-android- while Clang expected something more like
+aarch64-linux-gnu for --target=)
 
-Rob
+We solved this by working out the issues in clang's assembler.  With
+LLVM=1 LLVM_IAS=1, we no longer rely on GNU binutils, and no longer
+need such patch.  You'll find it's been dropped from Android Common
+Kernels now.  With mainline, LLVM_IAS=1 is now the default when
+building with LLVM=1, and CROSS_COMPILE is now inferred from ARCH for
+LLVM=1 as well.
+
+So all you should need is:
+$ ARCH=arm64 make LLVM=1 -j$(nproc)
+
+Is there a reason why the above doesn't work for you?  I do not wish
+to see this patch upstream (or downstream; it should be unnecessary).
+
+>
+> Signed-off-by: ashimida <ashimida@linux.alibaba.com>
+> ---
+>  Makefile                 | 6 +++++-
+>  scripts/clang-android.sh | 4 ++++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+>  create mode 100755 scripts/clang-android.sh
+>
+> diff --git a/Makefile b/Makefile
+> index 61741e9..09bb314 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -586,7 +586,11 @@ CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -
+>
+>  ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+>  ifneq ($(CROSS_COMPILE),)
+> -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
+> +CLANG_TRIPLE    ?= $(CROSS_COMPILE)
+> +CLANG_FLAGS     += --target=$(notdir $(CLANG_TRIPLE:%-=%))
+> +ifeq ($(shell $(srctree)/scripts/clang-android.sh $(CC) $(CLANG_FLAGS)), y)
+> +$(error "Clang with Android --target detected. Did you specify CLANG_TRIPLE?")
+> +endif
+>  endif
+>  ifeq ($(LLVM_IAS),1)
+>  CLANG_FLAGS    += -integrated-as
+> diff --git a/scripts/clang-android.sh b/scripts/clang-android.sh
+> new file mode 100755
+> index 0000000..9186c4f
+> --- /dev/null
+> +++ b/scripts/clang-android.sh
+> @@ -0,0 +1,4 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +$* -dM -E - </dev/null 2>&1 | grep -q __ANDROID__ && echo "y"
+> --
+> 2.7.4
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
