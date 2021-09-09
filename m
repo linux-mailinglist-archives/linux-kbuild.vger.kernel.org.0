@@ -2,148 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4459C405BE5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 19:20:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91B6A405BEF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 19:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232978AbhIIRVP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 13:21:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
+        id S240530AbhIIRXt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 13:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbhIIRVO (ORCPT
+        with ESMTP id S240926AbhIIRXs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 13:21:14 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13913C061575
-        for <linux-kbuild@vger.kernel.org>; Thu,  9 Sep 2021 10:20:05 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id f18so5087031lfk.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 09 Sep 2021 10:20:04 -0700 (PDT)
+        Thu, 9 Sep 2021 13:23:48 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA53FC061575
+        for <linux-kbuild@vger.kernel.org>; Thu,  9 Sep 2021 10:22:38 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id k13so5157859lfv.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 09 Sep 2021 10:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kqUD7oeU8HrXDjBJQpN5xhdFutamIM3hkjDh1/885jM=;
-        b=H77m2xie2dGASo7ILgUvr71C7Qyqg/VE3sFblaFoqMcqegsT2Wn5FRFaHIJlFTVlba
-         x10XdWIQ+3jezU+CqJLCBLOeH5ldw9YTYCWs+c49pMo+ohTapGe4pvcWOvqj66oYYvRg
-         ZMwZVaJkS+WD8bUQTy81ixX5ca0baC8Vc7U8kFHWQvyCTM1rh2ZX/e4Gn2zEN2xENstY
-         jsMQCjl3jUAIAn9FSS6mniigRNYmjyNfVFodERHKVr+CtAKg852CAmf4TdCKzP7XQMSd
-         6rNyqLQuD0nT7qQKmLWgBE11J6elARXD5DAmUHWbDWYwWoZIgvkw6oQDQ4SugROj1qQv
-         TzaA==
+        bh=pf0sRl8GXCP8dz4WMUu5tGxz1KupPTUSRLTXOLgH9SU=;
+        b=daKTLDBvTN5qMOW0vOaEkHQg4/ZsrtihPsz6YVNP0kYXHwUiYsbXYMn5llV712jFEs
+         ZOfDTsSc3X+W8b0ARaG41CZ7yM1F4kQJvfjfPIynsgelm+Qi2jJbS+UKD93oh9dHk54v
+         /Ce0lj2gwvzaRE2LZQM69aFFd/Y9x7Rfpgy5s3lL+R6HZ0LH71fmVYi7K5RNPEP1Cmgk
+         Gb1avWRyW13ODPiwB4R586e12yqY1QSBx7BLX8EC03SQeKvOLtV4+yE3anQK+R5cVENa
+         m0OxekpciEuc3h395jhA1GSXpVRhKd+XqjHVggplMObVpgKpn/cvVA45k81c9iHt62sr
+         T+9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kqUD7oeU8HrXDjBJQpN5xhdFutamIM3hkjDh1/885jM=;
-        b=v6qNZAK8lUGHvv3HBgXESfQnhZao1HFnwMpmDRKr/UWR3LpJSKK0KZ9EEq3qpKj99e
-         be2q2AHpAXOap02QnxveHYDHkViYJ4NKX6GW4yOM5vVOmbR30QsJhqKh1I3DEEDN3RPb
-         CNpAd55S+r4A/6/V4jxPHuiy7WgTjmIhHUFPOU603dk+Msyl8dNEuEtRZsm/uDDIQz9N
-         QFo+4L8zjrmHaxkvWFOlst0fGaOd7Q/NQsjHRBG2evjNnENuYlzfp1Hs6eNzWANUXwj6
-         yo9PrCXhiHq3T4b2le7zrswLkp3QOY5PCp1SSEFrNPGpMttfhs+GrdCvKJBqtPeI311V
-         t6aA==
-X-Gm-Message-State: AOAM533PcsKvSPTyiZsxHJ9HghkYmNMqbFudMIMceBTaRWj6tTDw0Zpy
-        hueBlr+U1n5xGScL2VShknCo1QdJzTifvtGv1o/sy1UOy2Q=
-X-Google-Smtp-Source: ABdhPJx1Gd3h1I6lfLJre8pI7N4/5nUmVmFOR0uKMHU0YO+3eibPqTMvFa8njk1IhOYBx9H5vzTMz3NF2T9TAa4YYFk=
-X-Received: by 2002:a05:6512:139c:: with SMTP id p28mr642656lfa.523.1631208003105;
- Thu, 09 Sep 2021 10:20:03 -0700 (PDT)
+        bh=pf0sRl8GXCP8dz4WMUu5tGxz1KupPTUSRLTXOLgH9SU=;
+        b=s3vg7ZY0eWEmKsoQuDmQLxZUJh0gPojrJLKXvUF0DWcEgNycN1KJLbwfThR0f5u5of
+         aKSO9PNFw9vkWPsvHHVGxKsupcPp4rPKvKbSYiZfu9vmDuUiU5yEh3jf0DBD3ViCvsVw
+         PKzH8yyWay72+4wZgGZY/fs60YlpyqYXPU3hg04nD74B1cTtE5wnn455qAMa21EfmVvN
+         OnRvcOZUrjJt6/Aog15DAVTJMR5VruDnVcGy6y5s9ARfJ52/O8n/XlcS9x9RE6FksxTQ
+         9euoDEPApTPdP2Ja6gZ7QeZo4b+6PU0IpuC4nA7AA4tAxk1A3LHgvY+fpO4GOx3hHnD7
+         0Yrw==
+X-Gm-Message-State: AOAM532Vj+zv/1yo0ZffXcPVLDnt3r6fOUD4hFOZCz3lJXPwU5d+zpFV
+        UZohquXrQrX1KtrrHM11fqNuIUVDMI6AZmVJjiwvzw==
+X-Google-Smtp-Source: ABdhPJxPnUFGnHCFACHUOS5JkTg4Je24SkkSbC9505ix4KQDPJriLY181s+I1NSidhRL8eaex1JEKrBepc6IZqYy9P8=
+X-Received: by 2002:a05:6512:139c:: with SMTP id p28mr649503lfa.523.1631208157162;
+ Thu, 09 Sep 2021 10:22:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <1631173363-40160-1-git-send-email-ashimida@linux.alibaba.com>
-In-Reply-To: <1631173363-40160-1-git-send-email-ashimida@linux.alibaba.com>
+References: <20210908032847.18683-1-kortanzh@gmail.com>
+In-Reply-To: <20210908032847.18683-1-kortanzh@gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 9 Sep 2021 10:19:52 -0700
-Message-ID: <CAKwvOdnuiV3mHxxCpWbMaZn9vggL4B+PPrMtuX=QOO-yUQj2mA@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] kbuild: add CLANG_TRIPLE to prevent clang from
- compiling with wrong --target
-To:     ashimida <ashimida@linux.alibaba.com>
-Cc:     masahiroy@kernel.org, michal.lkml@markovi.net, nathan@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Alistair Delva <adelva@google.com>
+Date:   Thu, 9 Sep 2021 10:22:26 -0700
+Message-ID: <CAKwvOdnReHxf7ysorwTZtN65Hbw4dTk-z8fAQUaKCvEQ_a97eg@mail.gmail.com>
+Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
+To:     Kortan <kortanzh@gmail.com>
+Cc:     nathan@kernel.org, masahiroy@kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 9, 2021 at 12:42 AM ashimida <ashimida@linux.alibaba.com> wrote:
+On Tue, Sep 7, 2021 at 8:30 PM Kortan <kortanzh@gmail.com> wrote:
 >
-> Kernel compiled with tool chain CROSS_COMPILE=aarch64-linux-android-
-> will panic during the startup phase.
+> We need to import the 'sys' package since the script has called
+> sys.exit() method.
 >
-> Clang's --target option comes from $(CROSS_COMPILE). At the time
-> -fstack-protector-strong is enabled, and compiled with command:
-> make CC=clang HOSTCC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-
->
-> clang will insert code like:
->    mrs     x8, TPIDR_EL0        //default value is zero
->    str     x8, [sp]
->    ldr     x8, [x8, #40]        //access addr 0x40
->
-> instead of the code that accesses __stack_chk_guard to get the
-> canary, which will cause the kernel to crash due to 0x40
-> address access.
->
-> This patch (from android) is used to remind the user that current
-> tool chain cannot be used as the "--target" of clang, the user
-> should specify an additional "--target" through CLANG_TRIPLE.
+> Signed-off-by: Kortan <kortanzh@gmail.com>
 
-Hi Ashimida,
-Thanks for sending this patch; I recognize it from Android, which we
-had to carry for years due to:
-1. reliance on GNU `as` ie. "GAS"
-2. not distributing binary prefixes of GNU binutils with a target
-triple that clang recognized. (ie. Android's binutils were prefixed
-aarch64-linux-android- while Clang expected something more like
-aarch64-linux-gnu for --target=)
+I'm quite sure I've run this script before; how have we not noticed
+such an issue before?
 
-We solved this by working out the issues in clang's assembler.  With
-LLVM=1 LLVM_IAS=1, we no longer rely on GNU binutils, and no longer
-need such patch.  You'll find it's been dropped from Android Common
-Kernels now.  With mainline, LLVM_IAS=1 is now the default when
-building with LLVM=1, and CROSS_COMPILE is now inferred from ARCH for
-LLVM=1 as well.
-
-So all you should need is:
-$ ARCH=arm64 make LLVM=1 -j$(nproc)
-
-Is there a reason why the above doesn't work for you?  I do not wish
-to see this patch upstream (or downstream; it should be unnecessary).
-
->
-> Signed-off-by: ashimida <ashimida@linux.alibaba.com>
 > ---
->  Makefile                 | 6 +++++-
->  scripts/clang-android.sh | 4 ++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
->  create mode 100755 scripts/clang-android.sh
+> Changes v1 -> v2:
+> * Fix commit title.
+> * Improve commit message.
 >
-> diff --git a/Makefile b/Makefile
-> index 61741e9..09bb314 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -586,7 +586,11 @@ CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -
+>  scripts/clang-tools/gen_compile_commands.py | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
->  ifneq ($(CROSS_COMPILE),)
-> -CLANG_FLAGS    += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> +CLANG_TRIPLE    ?= $(CROSS_COMPILE)
-> +CLANG_FLAGS     += --target=$(notdir $(CLANG_TRIPLE:%-=%))
-> +ifeq ($(shell $(srctree)/scripts/clang-android.sh $(CC) $(CLANG_FLAGS)), y)
-> +$(error "Clang with Android --target detected. Did you specify CLANG_TRIPLE?")
-> +endif
->  endif
->  ifeq ($(LLVM_IAS),1)
->  CLANG_FLAGS    += -integrated-as
-> diff --git a/scripts/clang-android.sh b/scripts/clang-android.sh
-> new file mode 100755
-> index 0000000..9186c4f
-> --- /dev/null
-> +++ b/scripts/clang-android.sh
-> @@ -0,0 +1,4 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +$* -dM -E - </dev/null 2>&1 | grep -q __ANDROID__ && echo "y"
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index 0033eedce003..1d1bde1fd45e 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -13,6 +13,7 @@ import logging
+>  import os
+>  import re
+>  import subprocess
+> +import sys
+>
+>  _DEFAULT_OUTPUT = 'compile_commands.json'
+>  _DEFAULT_LOG_LEVEL = 'WARNING'
 > --
-> 2.7.4
+> 2.33.0
 >
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210908032847.18683-1-kortanzh%40gmail.com.
+
 
 
 -- 
