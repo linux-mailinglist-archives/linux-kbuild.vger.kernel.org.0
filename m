@@ -2,88 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2520404684
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 09:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFE564048D4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 13:02:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242958AbhIIHoC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 03:44:02 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:51510 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232549AbhIIHoC (ORCPT
+        id S234349AbhIILDO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 07:03:14 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:57718 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234216AbhIILDO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 03:44:02 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R351e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UnmHPCV_1631173364;
-Received: from localhost(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0UnmHPCV_1631173364)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 09 Sep 2021 15:42:51 +0800
-From:   ashimida <ashimida@linux.alibaba.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net, nathan@kernel.org,
-        ndesaulniers@google.com
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        ashimida <ashimida@linux.alibaba.com>
-Subject: [PATCH] [RFC] kbuild: add CLANG_TRIPLE to prevent clang from compiling with wrong --target
-Date:   Thu,  9 Sep 2021 15:42:43 +0800
-Message-Id: <1631173363-40160-1-git-send-email-ashimida@linux.alibaba.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 9 Sep 2021 07:03:14 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 189B1nr9024809;
+        Thu, 9 Sep 2021 20:01:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 189B1nr9024809
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1631185310;
+        bh=nZfFg/JwDacjaTOLCboRuBQ6A+RYt6dHwDsyrC1BjG0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gsGVGB59VhtqgkNoD6ckbHiPd97O406ngyVMGyakbRrILR6n1qazziSVIMrXNDwWP
+         cdWp3nwXqvVKmOjMggDRFgUhQaylFu7n2tYV3Ug4jeY2aebw144sH+gCRew8HX39Jn
+         8pjUlF4jArb82Y6/x9bhetRQBXr/fk81pY8PVv7crBrnV70IHvT3gC72mae+sIX6cM
+         hnBZyZRvs+a6GK4LKEISKv8ZkRJR60e74sS/DCmhqCCmwEhoNrRmJLQCBI0yIg2k7J
+         pfqI3JdgdRcKIz7DU/slolyS+ZruWfiQizTWbHcDn3/Cio19Xu8oukTuVJZEjxdY7a
+         kpv/xL9d47RmA==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id m26so1454291pff.3;
+        Thu, 09 Sep 2021 04:01:49 -0700 (PDT)
+X-Gm-Message-State: AOAM532lOqbxb0ebhVp8O9ns/Wcc+EJ9MNOhJyf19M3lADmzdHKdl5Cs
+        kic/t/4i91gflZmEC1zqwbkuFxd7VhKDlO1ljwg=
+X-Google-Smtp-Source: ABdhPJyw7Aayt9CY7VD9ORFmSgdPI2JfaYnLCELWBhkqW4xRoDatIy6RguQ8KldM3TDq1+wUZAQPMJYM66AGuzCxbm0=
+X-Received: by 2002:aa7:9e8d:0:b0:406:be8:2413 with SMTP id
+ p13-20020aa79e8d000000b004060be82413mr2637188pfq.66.1631185309107; Thu, 09
+ Sep 2021 04:01:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210908032847.18683-1-kortanzh@gmail.com> <YTjt5C7xTqNLUSl/@archlinux-ax161>
+In-Reply-To: <YTjt5C7xTqNLUSl/@archlinux-ax161>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 9 Sep 2021 20:01:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATA2-4jSfOCmdtgQ+cuAyXhyLCBuVEZkZ3nONZFV8z3EA@mail.gmail.com>
+Message-ID: <CAK7LNATA2-4jSfOCmdtgQ+cuAyXhyLCBuVEZkZ3nONZFV8z3EA@mail.gmail.com>
+Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Kortan <kortanzh@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kernel compiled with tool chain CROSS_COMPILE=aarch64-linux-android-
-will panic during the startup phase.
+On Thu, Sep 9, 2021 at 2:07 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Wed, Sep 08, 2021 at 11:28:48AM +0800, Kortan wrote:
+> > We need to import the 'sys' package since the script has called
+> > sys.exit() method.
+> >
+> > Signed-off-by: Kortan <kortanzh@gmail.com>
+>
+> Thank you for making those changes!
+>
+> I should have mentioned that this probably warrants a Fixes: tag, which
+> can be generated by running:
+>
+> $ git show -s --format='Fixes: %h ("%s")' 6ad7cbc01527223f3f92baac9b122f15651cf76b
+> Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
+>
+> as that was the patch that introduced this issue. I personally have a
+> git alias for this as it comes up enough.
+>
+> $ git config --get alias.fixes
+> show -s --format="Fixes: %h (\"%s\")"
+>
+> I do not think this warrants a v3, just something to keep in mind for
+> the future.
+>
+> Fixes: 6ad7cbc01527 ("Makefile: Add clang-tidy and static analyzer support to makefile")
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Clang's --target option comes from $(CROSS_COMPILE). At the time
--fstack-protector-strong is enabled, and compiled with command:
-make CC=clang HOSTCC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-
 
-clang will insert code like:
-   mrs     x8, TPIDR_EL0	//default value is zero
-   str     x8, [sp]
-   ldr     x8, [x8, #40]	//access addr 0x40
+Applied to linux-kbuild
+with Fixes and Nathan's Reviewed-by.
+Thanks.
 
-instead of the code that accesses __stack_chk_guard to get the
-canary, which will cause the kernel to crash due to 0x40
-address access.
 
-This patch (from android) is used to remind the user that current
-tool chain cannot be used as the "--target" of clang, the user
-should specify an additional "--target" through CLANG_TRIPLE.
 
-Signed-off-by: ashimida <ashimida@linux.alibaba.com>
----
- Makefile                 | 6 +++++-
- scripts/clang-android.sh | 4 ++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
- create mode 100755 scripts/clang-android.sh
+> > ---
+> > Changes v1 -> v2:
+> > * Fix commit title.
+> > * Improve commit message.
+> >
+> >  scripts/clang-tools/gen_compile_commands.py | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> > index 0033eedce003..1d1bde1fd45e 100755
+> > --- a/scripts/clang-tools/gen_compile_commands.py
+> > +++ b/scripts/clang-tools/gen_compile_commands.py
+> > @@ -13,6 +13,7 @@ import logging
+> >  import os
+> >  import re
+> >  import subprocess
+> > +import sys
+> >
+> >  _DEFAULT_OUTPUT = 'compile_commands.json'
+> >  _DEFAULT_LOG_LEVEL = 'WARNING'
+> > --
+> > 2.33.0
+> >
+> >
 
-diff --git a/Makefile b/Makefile
-index 61741e9..09bb314 100644
---- a/Makefile
-+++ b/Makefile
-@@ -586,7 +586,11 @@ CC_VERSION_TEXT = $(subst $(pound),,$(shell $(CC) --version 2>/dev/null | head -
- 
- ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
- ifneq ($(CROSS_COMPILE),)
--CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-+CLANG_TRIPLE    ?= $(CROSS_COMPILE)
-+CLANG_FLAGS     += --target=$(notdir $(CLANG_TRIPLE:%-=%))
-+ifeq ($(shell $(srctree)/scripts/clang-android.sh $(CC) $(CLANG_FLAGS)), y)
-+$(error "Clang with Android --target detected. Did you specify CLANG_TRIPLE?")
-+endif
- endif
- ifeq ($(LLVM_IAS),1)
- CLANG_FLAGS	+= -integrated-as
-diff --git a/scripts/clang-android.sh b/scripts/clang-android.sh
-new file mode 100755
-index 0000000..9186c4f
---- /dev/null
-+++ b/scripts/clang-android.sh
-@@ -0,0 +1,4 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+$* -dM -E - </dev/null 2>&1 | grep -q __ANDROID__ && echo "y"
+
+
 -- 
-2.7.4
-
+Best Regards
+Masahiro Yamada
