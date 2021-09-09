@@ -2,144 +2,206 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7887404C70
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 13:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FF4405182
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 14:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343571AbhIIL5F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 07:57:05 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:33810 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244846AbhIILyq (ORCPT
+        id S245055AbhIIMgw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 08:36:52 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:37308 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245505AbhIIMVW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:54:46 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 98B442237B;
-        Thu,  9 Sep 2021 11:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1631188415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eQS9ZQeFJQGmX5k5doxlCL9tdEWoOdO3DeKwN1zi5T0=;
-        b=00v59IeElg7EiE7DHb1zWtlUZ3YJjEriMz7GShwSI6HjWFzOHS2CdJ7M8fAz9nQNtDDcbs
-        J94bvmK7f4pGSSFGQotiPbZkObv+nYsyIAt733HOZLRCX7yJf4RBKu48LKihYPWrZIbBaf
-        eTzw669qmbL0RhD8IQ34BLGFO+BFHEE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1631188415;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eQS9ZQeFJQGmX5k5doxlCL9tdEWoOdO3DeKwN1zi5T0=;
-        b=p8MQdENfUnWaooQFXZj2H0QuLNNlmNpjSCkjq7a3nqRLLVr7DZorlFYl4fe7CAR7GhGKtc
-        Yfa5jdGKWMEhqCDg==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 3BD0DA3CFC;
-        Thu,  9 Sep 2021 11:53:35 +0000 (UTC)
-Date:   Thu, 9 Sep 2021 13:53:35 +0200 (CEST)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-cc:     linux-hardening@vger.kernel.org,
-        Kristen C Accardi <kristen.c.accardi@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marta A Plantykow <marta.a.plantykow@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 kspp-next 16/22] livepatch: only match unique symbols
- when using fgkaslr
-In-Reply-To: <20210831144114.154-17-alexandr.lobakin@intel.com>
-Message-ID: <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
-References: <20210831144114.154-1-alexandr.lobakin@intel.com> <20210831144114.154-17-alexandr.lobakin@intel.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        Thu, 9 Sep 2021 08:21:22 -0400
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 189CJdS2020498
+        for <linux-kbuild@vger.kernel.org>; Thu, 9 Sep 2021 21:19:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 189CJdS2020498
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1631189979;
+        bh=CQQRyHB1KNx3qRzbikLQLOX+N/k41wFdP4y3OXQBr4g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=X7m8WDe6Iy52qTHSZ7R3sAD9CfFfZjWDmPsYqmv1fZUUAmKrH+h0aIfd0rh4mv1u+
+         N3oLR6qGE8NiMGQhTQi8NQTVj94l48MQ8L03KADS1E6AOC4++XKNRFjZRxI4WhUXWy
+         Lt1v8Phuf49ItJvBWHmil6XMvx7biA5cIrdcoXb+4BMmpgyMI0LvOWnsFk8QZyY97f
+         Z3av6WWzWhJo69T67/ag8vgJmvKFwnRjF6D77+iDzqYX41ElUVTAs/eaxuJNrslP5M
+         +wzN6ihYGl2KNl7mX9h8aS+4zv86NwI8bVuuKD0k/ZOGqt4qdnBtil0d7N3vdSzvXW
+         qOFWBmTt0d/7A==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id e7so941120plh.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 09 Sep 2021 05:19:39 -0700 (PDT)
+X-Gm-Message-State: AOAM5303bl3FXFE5/HO2xvsJLAWSX5FVJqpzpWpP+5XWe+/YvoM8H2CW
+        OiLRRT5hdLLiPPfmnyXRp7NJ9MVoMUABkk0Qdik=
+X-Google-Smtp-Source: ABdhPJwRKRWQFbAIFBcFudkvcRFEbLhDaiNtLIUyrjJlY6G++tS58bRI1kHzS/1k8EALhAsRr2WnS0uZ0ZBojhFrEVM=
+X-Received: by 2002:a17:90a:d307:: with SMTP id p7mr2357690pju.144.1631189978688;
+ Thu, 09 Sep 2021 05:19:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
+In-Reply-To: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 9 Sep 2021 21:19:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASbE5=rMGCf6=Jr597okmZChy4t5sNt0O8Z9PACb=DsKg@mail.gmail.com>
+Message-ID: <CAK7LNASbE5=rMGCf6=Jr597okmZChy4t5sNt0O8Z9PACb=DsKg@mail.gmail.com>
+Subject: Re: Module build problems with gmake 3.x
+To:     Markus Mayer <mmayer@broadcom.com>
+Cc:     Kbuild Mailing List <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Sat, Sep 4, 2021 at 7:06 AM Markus Mayer <mmayer@broadcom.com> wrote:
+>
+> Hi,
+>
+> We are running into build issues with some external kernel modules if
+> the GNUmake version is 3.x and the kernel is recent(-ish). The culprit
+> seems to be the sub-make invocation when GNUmake < 4 is detected:
+>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=688931a5ad4e
+>
+> The module build works fine for older kernels (those not containing
+> this patch) even with GNUmake 3.81. And it works fine with GNUmake >=
+> 4 with any kernel, even those with the above patch. In other words, if
+> the sub-make invocation doesn't take place (either because make is new
+> enough or because the kernel doesn't have the version check yet), our
+> module build does work as intended.
+>
+> Due to how the build is integrated with other components, we need to
+> be calling "make -e" to have environment variables take precedence,
+> which seems to be another piece of the puzzle. The problem doesn't
+> seem to be happening without "-e".
+>
+> The ingredients for our problem, therefore, seem to be:
+>     * old GNUmake (<4)
+>     * newish kernel  (>=5.1)
+>     * run make -e
+>
+> I should also mention that the kernel module is being cross-compiled
+> for ARM and ARM64, although that does not seem to be playing a role
+> here. In my example below, I was using the native compiler.
+>
+> The problem we are observing is that the contents of $(M) and
+> $(CFLAGS_MODULE) are lost during the extra sub-make invocation that is
+> conditional upon GNUmake < 4. There might be other lost variables,
+> too, but we haven't noticed any effects if there are.
+>
+> Losing $(M) causes the build to go off the rails completely. This is
+> easily detected and can be worked around by setting $(KBUILD_EXTMOD)
+> directly and foregoing $(M) on the command line altogether. The loss
+> of $(CFLAGS_MODULE) is a little more insidious, since the build does
+> succeed even when it's empty. However, required defines remain unset
+> despite being set in the top-level makefile. The resulting kernel
+> module doesn't work (which can lead to a lot of head scratching). I
+> also don't know of a way of working around losing CFLAGS_MODULE's
+> contents.
 
-On Tue, 31 Aug 2021, Alexander Lobakin wrote:
 
-> From: Kristen Carlson Accardi <kristen@linux.intel.com>
-> 
-> If any type of function granular randomization is enabled, the sympos
-> algorithm will fail, as it will be impossible to resolve symbols when
-> there are duplicates using the previous symbol position.
-> 
-> Override the value of sympos to always be zero if fgkaslr is enabled for
-> either the core kernel or modules, forcing the algorithm
-> to require that only unique symbols are allowed to be patched.
-> 
-> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
-> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> ---
->  kernel/livepatch/core.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
-> index 335d988bd811..852bbfa9da7b 100644
-> --- a/kernel/livepatch/core.c
-> +++ b/kernel/livepatch/core.c
-> @@ -169,6 +169,17 @@ static int klp_find_object_symbol(const char *objname, const char *name,
->  	else
->  		kallsyms_on_each_symbol(klp_find_callback, &args);
->  
-> +	/*
-> +	 * If any type of function granular randomization is enabled, it
-> +	 * will be impossible to resolve symbols when there are duplicates
-> +	 * using the previous symbol position (i.e. sympos != 0). Override
-> +	 * the value of sympos to always be zero in this case. This will
-> +	 * force the algorithm to require that only unique symbols are
-> +	 * allowed to be patched.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_FG_KASLR))
-> +		sympos = 0;
-> +
+I sometimes test GNU make 3.81 for kernel builds, but I have not tested
+the -e option.
 
-I ran the live patching tests and no problem occurred, which is great. We 
-do not have a test for old_sympos, which makes the testing less telling, 
-but at least nothing blows up with the section randomization itself.
+Now I tested the -e option, and it worked for me.
+Both $(M) and $(KBUILD_EXTMOD) were correctly set.
 
-However, I want to reiterate what I wrote for the same patch in v5 
-series.
+So, I did not observe anything you claim.
 
-The above hunk should work, but I wonder if we should make it more 
-explicit. With the change the user will get the error with "unresolvable 
-ambiguity for symbol..." if they specify sympos and the symbol is not 
-unique. It could confuse them.
 
-So, how about it making it something like
 
-if (IS_ENABLED(CONFIG_FG_KASLR) || IS_ENABLED(CONFIG_MODULE_FG_KASLR))
-        if (sympos) {
-                pr_err("fgkaslr is enabled, specifying sympos for symbol '%s' in object '%s' does not work.\n",
-                        name, objname);
-                *addr = 0;
-                return -EINVAL;
-        }
+> I was able to reproduce the loss of $(M) quite easily doing something like this:
+>
+> obj-m += hello.o
+>
+> all:
+>         ${MAKE} -C $(KERNEL_DIR) -e M=$(PWD) modules
+>
+> clean:
+>         make -C $(KERNEL_DIR) M=$(PWD) clean
 
-? (there could be goto to the error out at the end of the function to 
-save copy-pasting).
 
-In that case, if sympos is not specified, the user will get the message 
-which matches the reality. If the user specifies it, they will get the 
-error in case of fgkaslr (no matter if the symbol is found or not).
 
-What do you think?
 
-Miroslav
+
+I ran this Makefile with GNU Make 3.81
+
+
+masahiro@oscar:~/workspace/hello$ cat Makefile
+obj-m += hello.o
+
+KERNEL_DIR := $(HOME)/ref/linux
+
+all:
+        ${MAKE} -C $(KERNEL_DIR) -e M=$(PWD) modules
+
+clean:
+        make -C $(KERNEL_DIR) M=$(PWD) clean
+masahiro@oscar:~/workspace/hello$ make-3.81 --version
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for x86_64-unknown-linux-gnu
+masahiro@oscar:~/workspace/hello$ make-3.81
+make-3.81 -C /home/masahiro/ref/linux -e
+M=/home/masahiro/workspace/hello modules
+make-3.81[1]: Entering directory `/home/masahiro/ref/linux'
+make-3.81[2]: Entering directory `/home/masahiro/ref/linux'
+  CC [M]  /home/masahiro/workspace/hello/hello.o
+  MODPOST /home/masahiro/workspace/hello/Module.symvers
+  CC [M]  /home/masahiro/workspace/hello/hello.mod.o
+  LD [M]  /home/masahiro/workspace/hello/hello.ko
+make-3.81[2]: Leaving directory `/home/masahiro/ref/linux'
+make-3.81[1]: Leaving directory `/home/masahiro/ref/linux'
+masahiro@oscar:~/workspace/hello$ ls hello*
+hello.c  hello.ko  hello.mod  hello.mod.c  hello.mod.o  hello.o
+
+
+
+
+
+hello.ko was successfully built.
+
+
+Entering/Leaving directory is eye-sores,
+but presumably it is because MAKEFLAGS is overridden
+by the environment since you gave -e.
+
+I do not understand your motivation for using -e, though.
+
+
+
+
+
+
+> Instead of building the out-of-tree hello.ko, which we are asking it
+> to do, it'll go off and build all the in-kernel modules instead. Since
+> it sees $(M) as empty, it just executes "make modules".
+>
+> Unfortunately, I have NOT been successful reproducing losing the
+> contents of $(CFLAGS_MODULE) in a simple test environment. In my
+> tests, it was always retained. Nonetheless, in the actual build
+> environment, it does get lost. And only in the combination of new-ish
+> kernel and old-ish make, i.e. whenever the sub-make invocation happens
+> due to the make version.
+>
+> BTW, commenting out the make version test does make our module build
+> work. So, it is definitely related to that code snippet. (Of course,
+> building on a reasonably recent Linux distro also makes everything
+> work, but that isn't possible for us in all circumstances.)
+>
+> Do you have any thoughts on this or any pointers? Is there a way this
+> issue could be resolved? It does seem like the version check has some
+> unintended side-effects, even if the scenario in which one would come
+> across them is fairly uncommon and most developers will never
+> experience them.
+>
+> I am willing to try out any suggestions or provide further information
+> if needed.
+>
+> Regards,
+> -Markus
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
