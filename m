@@ -2,146 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A70564044DA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 07:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4F6404582
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 08:15:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350660AbhIIFQb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 01:16:31 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:29468 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350499AbhIIFQb (ORCPT
+        id S1352440AbhIIGQZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 02:16:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56612 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1352448AbhIIGQY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 01:16:31 -0400
-X-Greylist: delayed 93880 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 Sep 2021 01:16:31 EDT
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 1895EtRZ031230;
-        Thu, 9 Sep 2021 14:14:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 1895EtRZ031230
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631164495;
-        bh=ghCcarr3Wa8g2fBREVBbfn3a3wQyCXTSnt9W+mVN4Mw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rGqgIpLlT7n/rxTXzUo+6MUEomBhjVrmkJT2P1Im6Y/S1T9ntkNciz/Qymu546Q/J
-         6bFNFQz5G2o3Ez4a2w3Kck8x9R2Vfg9mdsssZNfYlhvCOjS2euWNZPgoz6/FwQ3PBZ
-         BgeWVPb39rsU7WA9lXdR5mdukFPrv3xEXjA0ePLlrHvB0PPcGWvNRgplB5fDiD1y2B
-         g3CB35uBI0PeWaBpym9q/TOCGxmEG0VtiVZvQLSL4YgTpp2JCQBmwKVOKvGj6E9hDa
-         cSBK2wIGgqkoZxrmPMDZ3RZe1GRdVlDrQv/pvE8Yd/GV7b2MOQoyGkOYJr/Kwvqltz
-         WYKLNTbB9MbiA==
-X-Nifty-SrcIP: [209.85.216.46]
-Received: by mail-pj1-f46.google.com with SMTP id u11-20020a17090adb4b00b00181668a56d6so565225pjx.5;
-        Wed, 08 Sep 2021 22:14:55 -0700 (PDT)
-X-Gm-Message-State: AOAM532YT1HxsNSNtDpcdJDdQFNZjYWhD/6W+vXuvWiNoj4mJy4InI4+
-        +j7TQkR8mqB+5BcsBgtGOb8W9YT2i26hNGa53Ng=
-X-Google-Smtp-Source: ABdhPJwZNsMXFApjgplVXDMFN/yESX/46Fzfe2Fjn/3/fRjwdi4HheLFDoRreqN1vd/j/Idb5fi7KFiatlzL1Zk90CU=
-X-Received: by 2002:a17:902:6b42:b0:13a:54d0:39c4 with SMTP id
- g2-20020a1709026b4200b0013a54d039c4mr1244141plt.42.1631164494718; Wed, 08 Sep
- 2021 22:14:54 -0700 (PDT)
+        Thu, 9 Sep 2021 02:16:24 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 18963cdb004569;
+        Thu, 9 Sep 2021 02:14:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cPUonm5kJsYc2X/GGy0xJ2tmTzDsookwnNtXApmtolc=;
+ b=NrJLNRL4xEjUp1z+/jRe3yFzuigHc03eaOxwwrifihwsN+sqwlBg5anjhndNmZhJuGrX
+ zp7VBDPyu6dMj8amk4nETdtLln66fP0tplxQAuQB/WA2sT0SyesvaCIxzq2xqvGUqm09
+ FmJlvYRX2SIKAK7g1vS+dof5/8Cyxic2YCAulXMVh8uLUsUM3mFioi5QfMr0+goLF+4J
+ joRGTbx0+e3qYUH/ds+jOC6DgM8NpcQnMNtCRDjnfKtk5KoUGTcq0YOLqv79g4njT3qw
+ f2uQDrt/1Sc22wnHlB77aYvioOoWnWwwrqFgZN8djBgmUMtAaKRCfcKb2ckkS6ZKeLWw RQ== 
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3axmeqtg97-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 09 Sep 2021 02:14:57 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+        by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1896CAlI007700;
+        Thu, 9 Sep 2021 06:14:55 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma02fra.de.ibm.com with ESMTP id 3axcnk87vk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 09 Sep 2021 06:14:54 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1896EpGp46661900
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 9 Sep 2021 06:14:52 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D918B42041;
+        Thu,  9 Sep 2021 06:14:51 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DBB794203F;
+        Thu,  9 Sep 2021 06:14:50 +0000 (GMT)
+Received: from [9.171.14.134] (unknown [9.171.14.134])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  9 Sep 2021 06:14:50 +0000 (GMT)
+Subject: Re: [PATCH v2 60/63] net/af_iucv: Use struct_group() to zero struct
+ iucv_sock region
+To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     Julian Wiedmann <jwi@linux.ibm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-61-keescook@chromium.org>
+From:   Karsten Graul <kgraul@linux.ibm.com>
+Organization: IBM Deutschland Research & Development GmbH
+Message-ID: <19ff61a0-0cda-6000-ce56-dc6b367c00d6@linux.ibm.com>
+Date:   Thu, 9 Sep 2021 08:14:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <CAHk-=wjc1rxah3xt8mKN=aCxQigjy3-hEf4xh_Y-r=MXAKVrag@mail.gmail.com>
- <20210906154642.GV1583@gate.crashing.org> <CAHk-=wj=WpWO_V86cZH99LgZGBbvdDb4wR26ce5van0hJqjzLA@mail.gmail.com>
- <20210906172701.GX1583@gate.crashing.org> <CAHk-=wh0MBVfA89WLWnCiSnJ2a=hSAoSxfG-jyf7JJeBDPK3ew@mail.gmail.com>
- <87lf49wodu.fsf@oldenburg.str.redhat.com> <20210906194808.GY1583@gate.crashing.org>
- <20210906201432.GZ920497@tucnak> <CAHk-=wi80NGPppGmBpc5zuGRAsv4_7qsDu7ehW515J2FJoezAQ@mail.gmail.com>
- <20210906215218.GA920497@tucnak> <20210907145247.GH1583@gate.crashing.org>
-In-Reply-To: <20210907145247.GH1583@gate.crashing.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 9 Sep 2021 14:14:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATNZRbdxCkdu=+wW1bcyoX0YcZYRTSW129n7AnnLyKbWg@mail.gmail.com>
-Message-ID: <CAK7LNATNZRbdxCkdu=+wW1bcyoX0YcZYRTSW129n7AnnLyKbWg@mail.gmail.com>
-Subject: Re: [GIT PULL v2] Kbuild updates for v5.15-rc1
-To:     Segher Boessenkool <segher@kernel.crashing.org>
-Cc:     Jakub Jelinek <jakub@redhat.com>,
-        Linus Torvalds <torvalds@linuxfoundation.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        llvm@lists.linux.dev, linux-toolchains@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210818060533.3569517-61-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: oFVZQt8pTzxySj5pZJpy_ghkEsh5Wye4
+X-Proofpoint-ORIG-GUID: oFVZQt8pTzxySj5pZJpy_ghkEsh5Wye4
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-09-09_01:2021-09-07,2021-09-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ phishscore=0 adultscore=0 suspectscore=0 malwarescore=0 mlxlogscore=968
+ priorityscore=1501 clxscore=1011 lowpriorityscore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
+ definitions=main-2109090035
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 7, 2021 at 11:54 PM Segher Boessenkool
-<segher@kernel.crashing.org> wrote:
->
-> On Mon, Sep 06, 2021 at 11:52:18PM +0200, Jakub Jelinek wrote:
-> > On Mon, Sep 06, 2021 at 02:08:58PM -0700, Linus Torvalds wrote:
-> > There is a stddef.h include too and that's it
-> > (I must say I don't see the reason for that include though).
->
-> Yeah me neither.  Maybe the header used NULL before?
->
-> > Other compiler provided headers (not talking about C++ now) also have no
-> > or very limited includes, including stddef.h, stdarg.h, stdatomic.h, etc.
-> > The only exceptions are tgmath.h which isn't usable without libc
-> > math.h/complex.h,
->
-> <tgmath.h> is only for hosted environments.  That requires a C library
-> for GCC (we do not implement this stuff ourselves).  The compiler and
-> the C library have to work together to get this done, and the relation
-> between GCC and Glibc has been a bit too tight for this, it is true.
->
-> But a kernel build is not in a hosted environment.
->
-> > in some cases stdint.h and limits.h which are in some
-> > configurations provided both by the C library and the compiler and include
-> > each other in that case (but e.g. stdint.h has an alternate version that
-> > only uses compiler provided builtin macros) and openacc.h.
->
-> On what targets is <stdint.h> still problematic?  And <limits.h>?
+On 18/08/2021 08:05, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+> 
+> Add struct_group() to mark the region of struct iucv_sock that gets
+> initialized to zero. Avoid the future warning:
+> 
+> In function 'fortify_memset_chk',
+>     inlined from 'iucv_sock_alloc' at net/iucv/af_iucv.c:476:2:
+> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+>   199 |    __write_overflow_field(p_size_field, size);
+>       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Cc: Julian Wiedmann <jwi@linux.ibm.com>
+> Cc: Karsten Graul <kgraul@linux.ibm.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: linux-s390@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  include/net/iucv/af_iucv.h | 10 ++++++----
+>  net/iucv/af_iucv.c         |  2 +-
+>  2 files changed, 7 insertions(+), 5 deletions(-)
 
+No objections.
+Acked-by: Karsten Graul <kgraul@linux.ibm.com>
 
-Since commit 0c79a8e29b5fcbcbfd611daf9d500cfad8370fcf
-all architectures in the kernel space use the same fixed-width
-types, which are defined by
-include/uapi/asm-generic/int-ll64.h
-
-So, u32 is always 'unsigned int',
-and u64 is always 'unsigned long long'.
-
-It is convenient for printk() in common code
-because we can always use the 'll' prefix for u64.
-
-
-  u32 foo = 1;
-  u64 bar = 1;
-
-  printk("foo = %u\n", foo);
-  printk("bar = %llu\n, bar);
-
-
-
-If we use compiler-provided <stdint.h>,
-it is not convenient for printk() because
-uint64_t is 'unsigned long' on some compilers
-and 'unsigned long long' on others.
-
-<intypes.h> provides macros such as PRIx64
-
-    uint32_t foo = 1;
-    uint64_t bar = 1;
-
-    printk("foo = %" PRIu32 "\n", foo);
-    printk("bar = %" PRIu64 "\n", bar);
-
-
-This works, but ends up with ugly code,
-which I want to avoid.
-
-
-
-
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Thank you.
