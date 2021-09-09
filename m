@@ -2,100 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04589405D56
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 21:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C0B405EE5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Sep 2021 23:31:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237494AbhIIT34 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 15:29:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39090 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235517AbhIIT3x (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 15:29:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8DA3B6103E;
-        Thu,  9 Sep 2021 19:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631215724;
-        bh=P1QW69W98o9fYQWfC2nvqxZ7tCZTgXSiiFrDQUDOq4g=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=KCcBYkPN1YBlsfHI/xJgEAb+qWL9qW7neS03S58btYL5tyraju+1ILF33AqCqsh1v
-         2WetDPFkGrhIxe2biqouVvyezah4rzl06ZxNLFQfhzKLY7K1jAb0zbqLt7mtHpbC4j
-         fzLDa/UqdKy3IatHqdqWzp1zPSY5bqcWo91G7Gy00aUxhLH57QMmycBtm86RYToI6X
-         nrzqf3L7wMO6qb3rjR0GTc2LPCmRlMEQ2RW6P/asVf9P5CHOvpiKmguhXfGHCexJmC
-         SKtGAUt6NK1MPxPo8lqko1KFDvs3cFP7yIrzh+oQtIX3Pz+vj3didenCRaEu1lNrlm
-         9AkulQ5RyX6MA==
-Subject: Re: [PATCH v2] gen_compile_commands: fix missing 'sys' package
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kortan <kortanzh@gmail.com>
-Cc:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, clang-built-linux@googlegroups.com,
-        linux-kernel@vger.kernel.org
-References: <20210908032847.18683-1-kortanzh@gmail.com>
- <CAKwvOdnReHxf7ysorwTZtN65Hbw4dTk-z8fAQUaKCvEQ_a97eg@mail.gmail.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <5fbef4f5-30bb-5cb7-71c5-ae6a48c1822a@kernel.org>
-Date:   Thu, 9 Sep 2021 12:28:43 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S1348393AbhIIVco (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Sep 2021 17:32:44 -0400
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:41629 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347899AbhIIVcm (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 9 Sep 2021 17:32:42 -0400
+Received: by mail-oi1-f175.google.com with SMTP id 6so4448559oiy.8;
+        Thu, 09 Sep 2021 14:31:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4RGipb3g9UyGGbTnPe+UXBQocgQri+M+u0rf69gVlyU=;
+        b=kua8rCpvSgpDQ5tL+6uktjqQ4CiZfh8EjR7pXzHwHeMsP1bTOKOuPBddT63Y9/lpXh
+         eNne8cN8yvFRuLHwpljU5cFV9k76CF4ADbYdME8wzYzi86L/08+kOct1El+P+Mqn1SeM
+         cz6KZ0V9YkGiz8HZhAbES+dpcJC+QtLrhyRNiKG7L0ckC0PfbD2zeVx/vrQd5ThbzHOb
+         lWZMGq6puGyzz+re2nTIEMAiM5kegW/aSpp8Puhj8WNGXDTyiM/VbrPbUaNQg2yFTHDa
+         XCKLNPWHkAEHs4EKVnFTmdOQCAByx9IxFGIqk92JCFjjrNwtYQFaRRYxyan2lC0cVKna
+         3vvg==
+X-Gm-Message-State: AOAM531RehDSoG7B/EJtzJlk2Or9/PtA5cqB8hNjdn20oby/7w7Blx0m
+        4fxl/xzX/Sti1kAsGVUoYw==
+X-Google-Smtp-Source: ABdhPJxjPch2dyLlqk9vwZMGMtLlzJCA5Y28kCLbGxV+UcOlddl4grhLvoxGHj6VSU7s1UUryJS5IA==
+X-Received: by 2002:aca:3051:: with SMTP id w78mr1553627oiw.159.1631223091455;
+        Thu, 09 Sep 2021 14:31:31 -0700 (PDT)
+Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.googlemail.com with ESMTPSA id m24sm694929oie.50.2021.09.09.14.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 14:31:30 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH 8/8] kbuild: Enable dtc 'unit_address_format' warning by default
+Date:   Thu,  9 Sep 2021 16:31:18 -0500
+Message-Id: <20210909213118.1087083-9-robh@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210909213118.1087083-1-robh@kernel.org>
+References: <20210909213118.1087083-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdnReHxf7ysorwTZtN65Hbw4dTk-z8fAQUaKCvEQ_a97eg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 9/9/2021 10:22 AM, 'Nick Desaulniers' via Clang Built Linux wrote:
-> On Tue, Sep 7, 2021 at 8:30 PM Kortan <kortanzh@gmail.com> wrote:
->>
->> We need to import the 'sys' package since the script has called
->> sys.exit() method.
->>
->> Signed-off-by: Kortan <kortanzh@gmail.com>
-> 
-> I'm quite sure I've run this script before; how have we not noticed
-> such an issue before?
+With all the 'unit_address_format' warnings fixed, enable the warning by
+default.
 
-Nobody hitting the error paths in this script?
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ scripts/Makefile.lib | 1 -
+ 1 file changed, 1 deletion(-)
 
-$ cat test.py
-import sys
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 54582673fc1a..56d50eb0cd80 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -310,7 +310,6 @@ DTC_FLAGS += -Wno-interrupt_provider
+ # Disable noisy checks by default
+ ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+ DTC_FLAGS += -Wno-unit_address_vs_reg \
+-	-Wno-unit_address_format \
+ 	-Wno-avoid_unnecessary_addr_size \
+ 	-Wno-alias_paths \
+ 	-Wno-graph_child_address \
+-- 
+2.30.2
 
-if __name__ == '__main__':
-     a = int(sys.argv[1])
-     print("a = %d" % a)
-     if a == 2:
-         printf(os.uname())
-
-$ python3 test.py 1
-
-$ python3 test.py 2
-a = 2
-Traceback (most recent call last):
-   File "/home/nathan/test.py", line 7, in <module>
-     print(os.uname())
-NameError: name 'os' is not defined
-
->> ---
->> Changes v1 -> v2:
->> * Fix commit title.
->> * Improve commit message.
->>
->>   scripts/clang-tools/gen_compile_commands.py | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
->> index 0033eedce003..1d1bde1fd45e 100755
->> --- a/scripts/clang-tools/gen_compile_commands.py
->> +++ b/scripts/clang-tools/gen_compile_commands.py
->> @@ -13,6 +13,7 @@ import logging
->>   import os
->>   import re
->>   import subprocess
->> +import sys
->>
->>   _DEFAULT_OUTPUT = 'compile_commands.json'
->>   _DEFAULT_LOG_LEVEL = 'WARNING'
->> --
->> 2.33.0
->>
