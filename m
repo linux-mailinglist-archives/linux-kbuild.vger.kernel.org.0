@@ -2,145 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1448F406B67
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Sep 2021 14:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C804A406CB5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Sep 2021 15:10:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233109AbhIJMbW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Sep 2021 08:31:22 -0400
-Received: from mga04.intel.com ([192.55.52.120]:57381 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232997AbhIJMbW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Sep 2021 08:31:22 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="219205329"
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; 
-   d="scan'208";a="219205329"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 05:30:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; 
-   d="scan'208";a="431539785"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga006.jf.intel.com with ESMTP; 10 Sep 2021 05:30:05 -0700
-Received: from alobakin-mobl.ger.corp.intel.com (alobakin-mobl.ger.corp.intel.com [10.237.140.50])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 18ACU3af025901;
-        Fri, 10 Sep 2021 13:30:03 +0100
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Miroslav Benes <mbenes@suse.cz>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org,
-        Kristen C Accardi <kristen.c.accardi@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
+        id S233185AbhIJNLS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Sep 2021 09:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233318AbhIJNLP (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 10 Sep 2021 09:11:15 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A0AC061574;
+        Fri, 10 Sep 2021 06:10:03 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id n2so4055624lfk.0;
+        Fri, 10 Sep 2021 06:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=439WSCXghGLfxplaln+p2Ld0eH8qy3v3OuLBfSe5paw=;
+        b=Olo36lTI6w1D4K/USoWPbMfsUWM84YPKKQ8GzfyOJe8Ct5D8akwQrFvX/Y6PHDjIq8
+         oUEHNf0kiZV6uUWNH/rtKZOCebDPG5Dm+ohB/ofc5OFQ76lGpsL/H80BZnpLKfAVR5Hw
+         3kJX7ypayVXm/OtFfGiJIYeADCyNWmWhaLJAKSxebdWcOFoG6lqGXrBGuNHLegGSqGh0
+         oPYYHnLST7MzVQYp0UrarZfhIH+z19TOVMdsaaq7Dn8oDKykMjM1XD+t+TwQeNt9BpLH
+         2e9DbM0Qo5V62kW+sfwgNr+SiE3U1WDSQKUcPmu3LjSd+QXq+Otq5sd3zHP7xCJpY/OJ
+         b41Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=439WSCXghGLfxplaln+p2Ld0eH8qy3v3OuLBfSe5paw=;
+        b=G0vYXKW+hl7odGPDpye5fkjtLmGAXxp8HgmNinsRt+FhzKMiFA9qn7f00aR+djuG4q
+         TsjD7gakChabwl1MSa8wA849ckKiMmR4SOjEryEtSYqb/kbZwS8ciHaIEibaQz0ciLCG
+         6n3j35VETmcd+C9ii0ciVmzMpzXX2U6iduUeFmiev4IirWMeaDwR/fPfXsN/fif60/yP
+         AwzUd0vo9C3WJK3hlKT46y6nO9DR0JfGJZgl363CMTcVChx6e4OqlP9pu8CtGpP7meBd
+         u/8YXi1nB81f6c5/1LDzzrl7IZmGWJsuwoJvTLl+2cJvRynXgLy9IEIYXqT4aUvYX8sh
+         dyHQ==
+X-Gm-Message-State: AOAM533Dai1Z/aK5U6bheGG0hAA4yYRF8IuN52pcTsw1ypq0cpQgVksP
+        cAtX1qm7sZCUsqBJtZYkIp9cihfNsIPhjw==
+X-Google-Smtp-Source: ABdhPJwFKbYIctuBc85bTEN7vgMikt755m6pZHqu8DQNw7X8HcvavPlwEzC7YXRteiEIA2p2tSZEGA==
+X-Received: by 2002:a05:6512:3e28:: with SMTP id i40mr3851671lfv.10.1631279401506;
+        Fri, 10 Sep 2021 06:10:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:a31a:e13a:eb00:c5cf:27cc:1ef2:859])
+        by smtp.gmail.com with ESMTPSA id u21sm547999lfc.239.2021.09.10.06.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 06:10:01 -0700 (PDT)
+From:   Piotr Gorski <lucjan.lucjanov@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marta A Plantykow <marta.a.plantykow@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 kspp-next 16/22] livepatch: only match unique symbols when using fgkaslr
-Date:   Fri, 10 Sep 2021 14:29:53 +0200
-Message-Id: <20210910122953.400-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
-References: <20210831144115.154-1-alexandr.lobakin@intel.com> <20210831144114.154-17-alexandr.lobakin@intel.com> <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
+        Piotr Gorski <lucjan.lucjanov@gmail.com>
+Subject: [PATCH] kbuild: use smaller dictionary size for zstd module compression
+Date:   Fri, 10 Sep 2021 15:09:54 +0200
+Message-Id: <20210910130954.1392104-1-lucjan.lucjanov@gmail.com>
+X-Mailer: git-send-email 2.33.0.142.ge0a2f5cbc5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Miroslav Benes <mbenes@suse.cz>
-Date: Thu, 9 Sep 2021 13:53:35 +0200 (CEST)
+By default, zstd without parameters uses a dictionary size of 8 MB.
+However, most modules are much smaller than that.
+Use a dictionary size of 2 MB for module compression, resulting in
+slightly higher compression speed while still maintaining a good
+compression ratio.
+The --zstd=wlog=21 option is equivalent to --lzma2=dict=2MiB used in XZ compression.
 
-> Hi,
+Signed-off-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+---
+ scripts/Makefile.modinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi!
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index ff9b09e4cfca..c3475e5aca7c 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -97,7 +97,7 @@ quiet_cmd_gzip = GZIP    $@
+ quiet_cmd_xz = XZ      $@
+       cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
+ quiet_cmd_zstd = ZSTD    $@
+-      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
++      cmd_zstd = $(ZSTD) --zstd=wlog=21 -T0 --rm -f -q $<
+ 
+ $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+ 	$(call cmd,gzip)
+-- 
+2.33.0.142.ge0a2f5cbc5
 
-> On Tue, 31 Aug 2021, Alexander Lobakin wrote:
-> 
-> > From: Kristen Carlson Accardi <kristen@linux.intel.com>
-> > 
-> > If any type of function granular randomization is enabled, the sympos
-> > algorithm will fail, as it will be impossible to resolve symbols when
-> > there are duplicates using the previous symbol position.
-> > 
-> > Override the value of sympos to always be zero if fgkaslr is enabled for
-> > either the core kernel or modules, forcing the algorithm
-> > to require that only unique symbols are allowed to be patched.
-> > 
-> > Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
-> > Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> > ---
-> >  kernel/livepatch/core.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
-> > index 335d988bd811..852bbfa9da7b 100644
-> > --- a/kernel/livepatch/core.c
-> > +++ b/kernel/livepatch/core.c
-> > @@ -169,6 +169,17 @@ static int klp_find_object_symbol(const char *objname, const char *name,
-> >  	else
-> >  		kallsyms_on_each_symbol(klp_find_callback, &args);
-> >  
-> > +	/*
-> > +	 * If any type of function granular randomization is enabled, it
-> > +	 * will be impossible to resolve symbols when there are duplicates
-> > +	 * using the previous symbol position (i.e. sympos != 0). Override
-> > +	 * the value of sympos to always be zero in this case. This will
-> > +	 * force the algorithm to require that only unique symbols are
-> > +	 * allowed to be patched.
-> > +	 */
-> > +	if (IS_ENABLED(CONFIG_FG_KASLR))
-> > +		sympos = 0;
-> > +
-> 
-> I ran the live patching tests and no problem occurred, which is great. We 
-> do not have a test for old_sympos, which makes the testing less telling, 
-> but at least nothing blows up with the section randomization itself.
-
-Great, thanks!
-
-> However, I want to reiterate what I wrote for the same patch in v5 
-> series.
-> 
-> The above hunk should work, but I wonder if we should make it more 
-> explicit. With the change the user will get the error with "unresolvable 
-> ambiguity for symbol..." if they specify sympos and the symbol is not 
-> unique. It could confuse them.
-> 
-> So, how about it making it something like
-> 
-> if (IS_ENABLED(CONFIG_FG_KASLR) || IS_ENABLED(CONFIG_MODULE_FG_KASLR))
->         if (sympos) {
->                 pr_err("fgkaslr is enabled, specifying sympos for symbol '%s' in object '%s' does not work.\n",
->                         name, objname);
->                 *addr = 0;
->                 return -EINVAL;
->         }
-> 
-> ? (there could be goto to the error out at the end of the function to 
-> save copy-pasting).
-> 
-> In that case, if sympos is not specified, the user will get the message 
-> which matches the reality. If the user specifies it, they will get the 
-> error in case of fgkaslr (no matter if the symbol is found or not).
-
-Not familiar with livepatching unfortunately, hope Kristen and/or
-Kees will comment on this. Looks fine for me anyways.
-
-> What do you think?
-> 
-> Miroslav
-
-Thanks,
-Al
