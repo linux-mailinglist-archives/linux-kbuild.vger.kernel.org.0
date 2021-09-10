@@ -2,200 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 940F540659D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Sep 2021 04:16:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1448F406B67
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Sep 2021 14:30:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbhIJCRO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Sep 2021 22:17:14 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:49919 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbhIJCRO (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Sep 2021 22:17:14 -0400
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 18A2FX2P009316;
-        Fri, 10 Sep 2021 11:15:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 18A2FX2P009316
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631240133;
-        bh=7gootp9O4wXfYwFe7ItspToaq1GC2C7fuCeIs01oPRA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kf4rXseJysJvIb7HHBGdgBJaUVb37r7dBQOumyjzrbPl0AhomEb6aSkWihANy1pk4
-         CUj+dvcLmwglmP55EIHPfwbT0JCKfWxbQ0NS7mzYuIGvPpl2KSaEhCOlfdQ2ebGxod
-         YXFdOXLsWW+wqjvy6lmpbcFCpCOqqgahSORrS1OENzEPiaTwiGlioHzM3OnXszZqqN
-         PLoY6JHaqDVQX36Bq1CEoc+C2G01rsxR9bQPcMNWiENlYYDWgxCOI0gygqmnoLQgZm
-         BlWcf0MbjmJzv/+UZef+u+8k4NX9R2LVmsfOFTu0kALHvCOWoqI8DuHnLXyUC6C8+i
-         11TY5L7pWOhEA==
-X-Nifty-SrcIP: [209.85.214.171]
-Received: by mail-pl1-f171.google.com with SMTP id n18so183174plp.7;
-        Thu, 09 Sep 2021 19:15:33 -0700 (PDT)
-X-Gm-Message-State: AOAM53039cS5OEgJAssi1z8Rt0dOOz441HsFshtdiJBiOEyM21Y6YWlw
-        wwMHEJrKJtecMEoXpJTiFSgZ8bt7EmWbJx3AqiI=
-X-Google-Smtp-Source: ABdhPJwFaASA+3q61HDfTo1a+LFxZXKVWtflYH/3nJWMG2HMfCIro78z/6ihz8sEV9Em2NUj53ZBVCazA72sf8kxIRQ=
-X-Received: by 2002:a17:90a:d307:: with SMTP id p7mr5918490pju.144.1631240132781;
- Thu, 09 Sep 2021 19:15:32 -0700 (PDT)
+        id S233109AbhIJMbW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Sep 2021 08:31:22 -0400
+Received: from mga04.intel.com ([192.55.52.120]:57381 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232997AbhIJMbW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 10 Sep 2021 08:31:22 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="219205329"
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; 
+   d="scan'208";a="219205329"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2021 05:30:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; 
+   d="scan'208";a="431539785"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga006.jf.intel.com with ESMTP; 10 Sep 2021 05:30:05 -0700
+Received: from alobakin-mobl.ger.corp.intel.com (alobakin-mobl.ger.corp.intel.com [10.237.140.50])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 18ACU3af025901;
+        Fri, 10 Sep 2021 13:30:03 +0100
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Miroslav Benes <mbenes@suse.cz>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-hardening@vger.kernel.org,
+        Kristen C Accardi <kristen.c.accardi@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Lukasz Czapnik <lukasz.czapnik@intel.com>,
+        Marta A Plantykow <marta.a.plantykow@intel.com>,
+        Michal Kubiak <michal.kubiak@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@intel.com>,
+        linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH v6 kspp-next 16/22] livepatch: only match unique symbols when using fgkaslr
+Date:   Fri, 10 Sep 2021 14:29:53 +0200
+Message-Id: <20210910122953.400-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
+References: <20210831144115.154-1-alexandr.lobakin@intel.com> <20210831144114.154-17-alexandr.lobakin@intel.com> <alpine.LSU.2.21.2109091347400.20761@pobox.suse.cz>
 MIME-Version: 1.0
-References: <20210901175326.568535-1-arielmarcovitch@gmail.com>
-In-Reply-To: <20210901175326.568535-1-arielmarcovitch@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 10 Sep 2021 11:14:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS2AA=0UxJudhuxmRJkWfXb2=fELc9cA6eH+cvSkOc=7Q@mail.gmail.com>
-Message-ID: <CAK7LNAS2AA=0UxJudhuxmRJkWfXb2=fELc9cA6eH+cvSkOc=7Q@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Create links to main menu items in search
-To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 2, 2021 at 2:53 AM Ariel Marcovitch
-<arielmarcovitch@gmail.com> wrote:
->
-> When one searches for a main menu item, links aren't created for it like
-> with the rest of the symbols.
->
-> This happens because we trace the item until we get to the rootmenu, but
-> we don't include it in the path of the item. The rationale was probably
-> that we don't want to show the main menu in the path of all items,
-> because it is redundant.
->
-> However, when an item has only the rootmenu in its path it should be
-> included, because this way the user can jump to its location.
->
-> In case the item is a direct child of the rootmenu, show it in the
-> 'Location:' section as 'Main Menu'.
->
-> This makes the 'if (i > 0)' superfluous because each item with prompt
-> will have at least one menu in its path.
->
-> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
-> ---
->  scripts/kconfig/menu.c | 40 ++++++++++++++++++++++++++--------------
->  1 file changed, 26 insertions(+), 14 deletions(-)
->
-> diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-> index 606ba8a63c24..8d7e3b07bf93 100644
-> --- a/scripts/kconfig/menu.c
-> +++ b/scripts/kconfig/menu.c
-> @@ -712,6 +712,7 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
->         int i, j;
->         struct menu *submenu[8], *menu, *location = NULL;
->         struct jump_key *jump = NULL;
-> +       const char *prompt = NULL;
+From: Miroslav Benes <mbenes@suse.cz>
+Date: Thu, 9 Sep 2021 13:53:35 +0200 (CEST)
 
+> Hi,
 
-Can you move this to the for-loop ?
+Hi!
 
-The initializer is unneeded.
+> On Tue, 31 Aug 2021, Alexander Lobakin wrote:
+> 
+> > From: Kristen Carlson Accardi <kristen@linux.intel.com>
+> > 
+> > If any type of function granular randomization is enabled, the sympos
+> > algorithm will fail, as it will be impossible to resolve symbols when
+> > there are duplicates using the previous symbol position.
+> > 
+> > Override the value of sympos to always be zero if fgkaslr is enabled for
+> > either the core kernel or modules, forcing the algorithm
+> > to require that only unique symbols are allowed to be patched.
+> > 
+> > Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+> > Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> > ---
+> >  kernel/livepatch/core.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+> > index 335d988bd811..852bbfa9da7b 100644
+> > --- a/kernel/livepatch/core.c
+> > +++ b/kernel/livepatch/core.c
+> > @@ -169,6 +169,17 @@ static int klp_find_object_symbol(const char *objname, const char *name,
+> >  	else
+> >  		kallsyms_on_each_symbol(klp_find_callback, &args);
+> >  
+> > +	/*
+> > +	 * If any type of function granular randomization is enabled, it
+> > +	 * will be impossible to resolve symbols when there are duplicates
+> > +	 * using the previous symbol position (i.e. sympos != 0). Override
+> > +	 * the value of sympos to always be zero in this case. This will
+> > +	 * force the algorithm to require that only unique symbols are
+> > +	 * allowed to be patched.
+> > +	 */
+> > +	if (IS_ENABLED(CONFIG_FG_KASLR))
+> > +		sympos = 0;
+> > +
+> 
+> I ran the live patching tests and no problem occurred, which is great. We 
+> do not have a test for old_sympos, which makes the testing less telling, 
+> but at least nothing blows up with the section randomization itself.
 
+Great, thanks!
 
->
->         str_printf(r, "  Prompt: %s\n", prop->text);
->
-> @@ -735,6 +736,13 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
->                 if (location == NULL && accessible)
->                         location = menu;
+> However, I want to reiterate what I wrote for the same patch in v5 
+> series.
+> 
+> The above hunk should work, but I wonder if we should make it more 
+> explicit. With the change the user will get the error with "unresolvable 
+> ambiguity for symbol..." if they specify sympos and the symbol is not 
+> unique. It could confuse them.
+> 
+> So, how about it making it something like
+> 
+> if (IS_ENABLED(CONFIG_FG_KASLR) || IS_ENABLED(CONFIG_MODULE_FG_KASLR))
+>         if (sympos) {
+>                 pr_err("fgkaslr is enabled, specifying sympos for symbol '%s' in object '%s' does not work.\n",
+>                         name, objname);
+>                 *addr = 0;
+>                 return -EINVAL;
 >         }
-> +
-> +       /* If we have only the root menu, show it */
-> +       if (i == 0) {
-> +               location = &rootmenu;
-> +               submenu[i++] = location;
-> +       }
+> 
+> ? (there could be goto to the error out at the end of the function to 
+> save copy-pasting).
+> 
+> In that case, if sympos is not specified, the user will get the message 
+> which matches the reality. If the user specifies it, they will get the 
+> error in case of fgkaslr (no matter if the symbol is found or not).
 
+Not familiar with livepatching unfortunately, hope Kristen and/or
+Kees will comment on this. Looks fine for me anyways.
 
-Instead of handling this as a special case,
-can we include the rootmenu all the time?
+> What do you think?
+> 
+> Miroslav
 
-We can change the for-loop condition to:
-
-        for (i = 0; menu && i < 8; menu = menu->parent) {
-
-
-
-
-
-
->         if (head && location) {
->                 jump = xmalloc(sizeof(struct jump_key));
->
-> @@ -758,21 +766,25 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
->                 list_add_tail(&jump->entries, head);
->         }
->
-> -       if (i > 0) {
-> -               str_printf(r, "  Location:\n");
-> -               for (j = 4; --i >= 0; j += 2) {
-> -                       menu = submenu[i];
-> -                       if (jump && menu == location)
-> -                               jump->offset = strlen(r->s);
-> -                       str_printf(r, "%*c-> %s", j, ' ',
-> -                                  menu_get_prompt(menu));
-> -                       if (menu->sym) {
-> -                               str_printf(r, " (%s [=%s])", menu->sym->name ?
-> -                                       menu->sym->name : "<choice>",
-> -                                       sym_get_string_value(menu->sym));
-> -                       }
-> -                       str_append(r, "\n");
-> +       str_printf(r, "  Location:\n");
-> +       for (j = 4; --i >= 0; j += 2) {
-> +               menu = submenu[i];
-> +               if (jump && menu == location)
-> +                       jump->offset = strlen(r->s);
-> +
-> +               /* The real rootmenu prompt is ugly */
-> +               if (menu == &rootmenu)
-> +                       prompt = "Main Menu";
-
-Can you use "Main menu" for the consistency
-with scripts/kconfig/parser.y line 501?
-
-
-> +               else
-> +                       prompt = menu_get_prompt(menu);
-
-
-I think it is better to omit '->' for the rootmenu.
-
-
-               if (menu == &rootmenu) {
-                       prompt = "Main menu";
-                       marker = "";
-               } else {
-                       prompt = menu_get_prompt(menu);
-                       marker = "->";
-               }
-
-               str_printf(r, "%*c%s %s", j, ' ', marker, prompt);
-
-
-
-Maybe, this will make the help look cleaner.
-
-
-
-
-
-> +               str_printf(r, "%*c-> %s", j, ' ', prompt);
-> +               if (menu->sym) {
-> +                       str_printf(r, " (%s [=%s])", menu->sym->name ?
-> +                               menu->sym->name : "<choice>",
-> +                               sym_get_string_value(menu->sym));
->                 }
-> +               str_append(r, "\n");
->         }
->  }
->
->
-> base-commit: 087e856cfb76e9eef9a3a6e000854794f3c36e24
-> --
-> 2.25.1
->
-
-
---
-Best Regards
-
-Masahiro Yamada
+Thanks,
+Al
