@@ -2,244 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AAF7407D07
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Sep 2021 13:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BDC8407DC2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Sep 2021 16:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231194AbhILLjY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Sep 2021 07:39:24 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:35851 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhILLjX (ORCPT
+        id S229762AbhILOSe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Sep 2021 10:18:34 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:21470 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229653AbhILOSd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Sep 2021 07:39:23 -0400
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 18CBbsRb027075;
-        Sun, 12 Sep 2021 20:37:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 18CBbsRb027075
+        Sun, 12 Sep 2021 10:18:33 -0400
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 18CEGol4006440;
+        Sun, 12 Sep 2021 23:16:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 18CEGol4006440
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1631446674;
-        bh=ly5ftrKcwPbL9gQv/TIb6sLo/0/Qxq4PSRjVpwiujBc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CCvVoM46bCnr2OfgFCYM4lotVckMydg3//aQO7NWC0e8W8gcr/k/kYYvtcLo3W8z4
-         cEn6hk5eneK0G/o3PDt9MdPttteIR4ZOyuDUgk9Q6tXSpFXGvIQaYW2Kfk3BgG6o+K
-         UQY24XvLBJfY3OHAu54Kshmm41lzRk1HrEjszNe33jSM4um90xFTpicCFHG4m0s8OJ
-         U/HM9qmE+itkfbocSmHHcNlXWIAb5ufT0g2v/ee0n8W/7t3ZlZyl7QT1j2rRoGzKwW
-         /dFBb+tGY9P/qiskHxS+X7/kmMrr1C7JYjXWl5HNNn1LUi9jEpdAWs7Fi/LxX7lUXi
-         xg2sUPdbjrxpQ==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id dw14so3441197pjb.1;
-        Sun, 12 Sep 2021 04:37:54 -0700 (PDT)
-X-Gm-Message-State: AOAM531hf9qvkfqfIQMw6Q4SJ0FkqVyIMsXwxFRnW3rZvERp0F4svfxF
-        k2CWlLg1ZbDIB7GcS4vS0saQ9PT1Hd5hN1a7XNE=
-X-Google-Smtp-Source: ABdhPJz92Xn2uVWqffIfnHnPr0bCRgZxHTz8PuzFvkLhVmspf2EoBXMPBrb0z57yTZMCHTc0wjR23kCxmuNCxCOTOC0=
-X-Received: by 2002:a17:90a:192:: with SMTP id 18mr7285146pjc.119.1631446673554;
- Sun, 12 Sep 2021 04:37:53 -0700 (PDT)
+        s=dec2015msa; t=1631456210;
+        bh=mUE5TZhSM6+EnO03EYazo5pvOxxyFpUDsSyvSAqRKFQ=;
+        h=From:Date:Subject:To:Cc:From;
+        b=FvGSBScnFjLv7wFZbe0JM8FGb17KuS/fanmQ/g0kgoUFRiLIGdNKUK2C8VSmqKOvo
+         Lz3HrxXu8CJwtnZWB+WbWPjKXSNQ7/5xwOxPaIDm4G8Tvz0lI7g6g+96Cyq4ely+WZ
+         c0vJ/yplCsKHxgrsrNwBXgjwBNNMaZJ0o3ZWkRCtCxRbV3iMWUdDfwVB/30M5NrU+6
+         zonWfqW7/lJIKwiA1p0RGa+prJyY1ToF5CaL2JE7JJl3IKR4q+PAuANuLJ2+dizttL
+         jVcOowCx6eoLoUhA0mbcrwmhXdTceQUSYGz32C66oVaEeIhfSpNQaBIuLBrB6W8rx7
+         GaSGrsN/vOngA==
+X-Nifty-SrcIP: [209.85.210.179]
+Received: by mail-pf1-f179.google.com with SMTP id q22so6449443pfu.0;
+        Sun, 12 Sep 2021 07:16:50 -0700 (PDT)
+X-Gm-Message-State: AOAM533Db/bIMpVv62g4+4xRdMpbFkL5kgrEgy/AfKnppHk5wDnWMIWm
+        q90PMtjHOk3KEC5ikRBZW+/1g19BUM+DLCKrFgw=
+X-Google-Smtp-Source: ABdhPJygPtrF/m4AyVCF2kV3PP4uDllCLLXkRbbAQGuijqmnXnW0Ln1ad0zjjQZPoQD01+FQw5NYbCPIb5SFId4cjDo=
+X-Received: by 2002:a65:40c4:: with SMTP id u4mr6872951pgp.186.1631456209429;
+ Sun, 12 Sep 2021 07:16:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901175326.568535-1-arielmarcovitch@gmail.com>
- <CAK7LNAS2AA=0UxJudhuxmRJkWfXb2=fELc9cA6eH+cvSkOc=7Q@mail.gmail.com> <e4c0d198-0ae6-e415-51b5-0a33ff4fb82e@gmail.com>
-In-Reply-To: <e4c0d198-0ae6-e415-51b5-0a33ff4fb82e@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 12 Sep 2021 20:37:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATBzA96PneYHbdAZu8sbCvUGnbdS8ZxG_gq_t--D2oiSg@mail.gmail.com>
-Message-ID: <CAK7LNATBzA96PneYHbdAZu8sbCvUGnbdS8ZxG_gq_t--D2oiSg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Create links to main menu items in search
-To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Sun, 12 Sep 2021 23:16:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATSGpfQNZ+0V7NeSzMkDp4wsb9PUXSUyDbxpMfDvLaBxA@mail.gmail.com>
+Message-ID: <CAK7LNATSGpfQNZ+0V7NeSzMkDp4wsb9PUXSUyDbxpMfDvLaBxA@mail.gmail.com>
+Subject: [GIT PULL] more Kbuild updates for v5.15-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Sep 12, 2021 at 3:18 AM Ariel Marcovitch
-<arielmarcovitch@gmail.com> wrote:
->
-> On 10/09/2021 5:14, Masahiro Yamada wrote:
-> >On Thu, Sep 2, 2021 at 2:53 AM Ariel Marcovitch
-> ><arielmarcovitch@gmail.com> wrote:
-> >>
-> >>When one searches for a main menu item, links aren't created for it like
-> >>with the rest of the symbols.
-> >>
-> >>This happens because we trace the item until we get to the rootmenu, but
-> >>we don't include it in the path of the item. The rationale was probably
-> >>that we don't want to show the main menu in the path of all items,
-> >>because it is redundant.
-> >>
-> >>However, when an item has only the rootmenu in its path it should be
-> >>included, because this way the user can jump to its location.
-> >>
-> >>In case the item is a direct child of the rootmenu, show it in the
-> >>'Location:' section as 'Main Menu'.
-> >>
-> >>This makes the 'if (i > 0)' superfluous because each item with prompt
-> >>will have at least one menu in its path.
-> >>
-> >>Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
-> >>---
-> >>scripts/kconfig/menu.c | 40 ++++++++++++++++++++++++++--------------
-> >>1 file changed, 26 insertions(+), 14 deletions(-)
-> >>
-> >>diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-> >>index 606ba8a63c24..8d7e3b07bf93 100644
-> >>--- a/scripts/kconfig/menu.c
-> >>+++ b/scripts/kconfig/menu.c
-> >>@@ -712,6 +712,7 @@ static void get_prompt_str(struct gstr *r, struct
-> property *prop,
-> >>int i, j;
-> >>struct menu *submenu[8], *menu, *location = NULL;
-> >>struct jump_key *jump = NULL;
-> >>+const char *prompt = NULL;
-> >
-> >
-> >Can you move this to the for-loop ?
-> >
-> >The initializer is unneeded.
-> >
-> >
-> >>
-> >>str_printf(r, " Prompt: %s\n", prop->text);
-> >>
-> >>@@ -735,6 +736,13 @@ static void get_prompt_str(struct gstr *r, struct
-> property *prop,
-> >>if (location == NULL && accessible)
-> >>location = menu;
-> >>}
-> >>+
-> >>+/* If we have only the root menu, show it */
-> >>+if (i == 0) {
-> >>+location = &rootmenu;
-> >>+submenu[i++] = location;
-> >>+}
-> >
-> >
-> >Instead of handling this as a special case,
-> >can we include the rootmenu all the time?
-> >
-> >We can change the for-loop condition to:
-> >
-> >for (i = 0; menu && i < 8; menu = menu->parent) {
-> Of course.
-> However, it means search entries will get a bit larger. I guess it is
-> worth it?
+Hi Linus,
 
-I think so.
-The result is more consistent.
+Please pull some more Kbuild updates.
+
+One remarkable change might be
+"isystem: delete global -isystem compile option".
+
+This is related to the <linux/stdarg.h> introduction, which
+some people were opposed to.
+Since you were positive about the <linux/stdarg.h> addition,
+I hope the -isystem removal is OK as well.
+
+The rest are clean-ups and fixes.
+
+Thanks.
 
 
 
 
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >>if (head && location) {
-> >>jump = xmalloc(sizeof(struct jump_key));
-> >>
-> >>@@ -758,21 +766,25 @@ static void get_prompt_str(struct gstr *r, struct
-> property *prop,
-> >>list_add_tail(&jump->entries, head);
-> >>}
-> >>
-> >>-if (i > 0) {
-> >>-str_printf(r, " Location:\n");
-> >>-for (j = 4; --i >= 0; j += 2) {
-> >>-menu = submenu[i];
-> >>-if (jump && menu == location)
-> >>-jump->offset = strlen(r->s);
-> >>-str_printf(r, "%*c-> %s", j, ' ',
-> >>-menu_get_prompt(menu));
-> >>-if (menu->sym) {
-> >>-str_printf(r, " (%s [=%s])", menu->sym->name ?
-> >>-menu->sym->name : "<choice>",
-> >>-sym_get_string_value(menu->sym));
-> >>-}
-> >>-str_append(r, "\n");
-> >>+str_printf(r, " Location:\n");
-> >>+for (j = 4; --i >= 0; j += 2) {
-> >>+menu = submenu[i];
-> >>+if (jump && menu == location)
-> >>+jump->offset = strlen(r->s);
-> >>+
-> >>+/* The real rootmenu prompt is ugly */
-> >>+if (menu == &rootmenu)
-> >>+prompt = "Main Menu";
-> >
-> >Can you use "Main menu" for the consistency
-> >with scripts/kconfig/parser.y line 501?
-> >
-> Seems reasonable. Just to clarify, the prompt there is not relevant
-> for linux's Kconfig right?
-> >
-> >>+else
-> >>+prompt = menu_get_prompt(menu);
-> >
-> >
-> >I think it is better to omit '->' for the rootmenu.
-> >
-> >
-> >if (menu == &rootmenu) {
-> >prompt = "Main menu";
-> >marker = "";
-> >} else {
-> >prompt = menu_get_prompt(menu);
-> >marker = "->";
-> >}
-> >
-> >str_printf(r, "%*c%s %s", j, ' ', marker, prompt);
-> >
-> Perhaps it will be better to split to separate printfs? I think it
-> will be cleaner. It will make the extra vars unneeded as well.
+The following changes since commit 926de8c4326c14fcf35f1de142019043597a4fac:
 
-I am fine with it.
+  Merge tag 'acpi-5.15-rc1-3' of
+git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
+(2021-09-10 13:29:04 -0700)
 
+are available in the Git repository at:
 
-> Also, the results look a bit weird... maybe we should use a different
-> marker for rootmenu, like '--' or something?
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v5.15-2
 
+for you to fetch changes up to a9086b878b7fd65894eb8cb1fa395dd469970566:
 
-How does it look weird?
+  gen_compile_commands: fix missing 'sys' package (2021-09-12 19:45:00 +0900)
 
+----------------------------------------------------------------
+Kbuild updates for v5.15 (2nd)
 
+ - Remove -isystem from the global compiler flag (except nds32) so
+   nobody will accidentally include unintended headers.
 
+ - Clean up the build dependencies on objtool.
 
+ - Fix bugs in checkkconfigsymbols.py.
 
+ - Fix missing sys import in gen_compile_commands.py.
 
-> >
-> >
-> >Maybe, this will make the help look cleaner.
-> >
-> >
-> >
-> >
-> >
-> >>+str_printf(r, "%*c-> %s", j, ' ', prompt);
-> >>+if (menu->sym) {
-> >>+str_printf(r, " (%s [=%s])", menu->sym->name ?
-> >>+menu->sym->name : "<choice>",
-> >>+sym_get_string_value(menu->sym));
-> >>}
-> >>+str_append(r, "\n");
-> >>}
-> >>}
-> >>
-> >>
-> >>base-commit: 087e856cfb76e9eef9a3a6e000854794f3c36e24
-> >>--
-> >>2.25.1
-> >>
-> >
-> >
-> >--
-> >Best Regards
-> >
-> >Masahiro Yamada
-> Thanks for the comments :)
-> Ariel Marcovitch
+----------------------------------------------------------------
+Alexey Dobriyan (1):
+      isystem: delete global -isystem compile option
 
+Ariel Marcovitch (2):
+      checkkconfigsymbols.py: Forbid passing 'HEAD' to --commit
+      checkkconfigsymbols.py: Remove skipping of help lines in
+parse_kconfig_file
+
+Kortan (1):
+      gen_compile_commands: fix missing 'sys' package
+
+Masahiro Yamada (7):
+      nios2: move the install rule to arch/nios2/Makefile
+      kbuild: move objtool_args back to scripts/Makefile.build
+      kbuild: rename __objtool_obj and reuse it for cmd_cc_lto_link_modules
+      kbuild: store the objtool command in *.cmd files
+      kbuild: factor out OBJECT_FILES_NON_STANDARD check into a macro
+      kbuild: detect objtool update without using .SECONDEXPANSION
+      kbuild: reuse $(cmd_objtool) for cmd_cc_lto_link_modules
+
+ Makefile                                    |  2 +-
+ arch/arm64/lib/Makefile                     |  2 ++
+ arch/nds32/Makefile                         |  2 ++
+ arch/nios2/Makefile                         |  3 ++-
+ arch/nios2/boot/Makefile                    |  3 ---
+ arch/powerpc/lib/Makefile                   |  2 ++
+ crypto/Makefile                             |  2 ++
+ lib/raid6/Makefile                          |  4 +++
+ scripts/Makefile.build                      | 63
+++++++++++++++++++++++++-------------------
+ scripts/Makefile.lib                        | 11 --------
+ scripts/checkkconfigsymbols.py              | 11 +++-----
+ scripts/clang-tools/gen_compile_commands.py |  1 +
+ 12 files changed, 55 insertions(+), 51 deletions(-)
 
 
 -- 
