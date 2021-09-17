@@ -2,54 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D2B240FD6A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Sep 2021 17:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8EDF40FF89
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Sep 2021 20:41:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243170AbhIQP7O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Sep 2021 11:59:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57610 "EHLO
+        id S240687AbhIQSmY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Sep 2021 14:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243130AbhIQP7N (ORCPT
+        with ESMTP id S240462AbhIQSmY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Sep 2021 11:59:13 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845E2C061767
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Sep 2021 08:57:51 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id t20so7245134pju.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Sep 2021 08:57:51 -0700 (PDT)
+        Fri, 17 Sep 2021 14:42:24 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E07A2C061574
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Sep 2021 11:41:01 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id d42so14952126lfv.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Sep 2021 11:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=r6MdFPfPUAZH3+HZlPktkkcgyhh/J6s1d9EKnLc8sLI=;
-        b=cVRmNTsiGusduzzBZ0I0VDwRsgxPiX0DIHlnWw6Se7sfNbDpGRiSTLvTlZtIThSTQO
-         8Iq2NwZoaHIDpechq2RhvvyJvdrbKPHw1+n+7wPIlBMrVoDW3PXN++ki6UAMxgRCzQMe
-         1l//5Z7Px9GtWSlr/+iGzFDVVYKKNPnCzniEM=
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Cpak71tpwGIH8sDgLDrdJbMzVDQHoqt6rJZasCMwdzc=;
+        b=PPZqYKySWRBXLCmQqLignaVRzeemkJWbOSVm4Nk3LB3/dwYqxZT99gFitFC859Cqmo
+         5dHLqIWjBbL09xTf3eNTCSAzEfwW62QnHoObFrYVOWn0PPzzY6lksRvKhahbrO9bPfvT
+         /jfwN2l8iu/pKIRl254LqCHUDuwZMUECiAh00=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=r6MdFPfPUAZH3+HZlPktkkcgyhh/J6s1d9EKnLc8sLI=;
-        b=6jn0AiX36aZgpT3Pf2KNBqFWQ2fqvK6cKZ5RWTRE1eqtUQdNXQPD8QwjXdeFmbYBmU
-         95S0hdiGvgw82WyYuuAUXLkGAjYtNlP+JKF+FbDWw7L1T6LSmiH29vZ7imGfbSosPrq+
-         Oxp5ddKYXgsWYokmxIsleOcrnBDzK+ElvEHgB9WDlotGnDUfC32KOD85hO/LHesiZdJ1
-         Fbkb3e93UEKH12VLmnldE+JfblPCJqtcQFO8mV6ccGQVsJOZWy2Q50UqL83ekqT0QCiv
-         Hb2xy6HDRkVZ9Emsv6l8zOUAr5Ch91qN1DhYDMpmU6RiUHTYLnHyLRhRsJZPunWCEyUk
-         dcpQ==
-X-Gm-Message-State: AOAM533ocJ2eDhsD9Zih+ZcL3vO/Lk2VDrCKEEYpuOWXsYao8g8KqbVr
-        DoTjrVBWF4d9a3SrHzSavHbH8Q==
-X-Google-Smtp-Source: ABdhPJz9vij1VDEQP6wMABN1KinAsDThb7qqcjn08XngLn0itqVa2eHpdQK0v808VVyWyogNtOKZyw==
-X-Received: by 2002:a17:902:c411:b0:13c:9748:badf with SMTP id k17-20020a170902c41100b0013c9748badfmr10322686plk.18.1631894271017;
-        Fri, 17 Sep 2021 08:57:51 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k3sm10981540pjg.43.2021.09.17.08.57.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 08:57:50 -0700 (PDT)
-Date:   Fri, 17 Sep 2021 08:57:49 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Arnd Bergmann <arnd@arndb.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Cpak71tpwGIH8sDgLDrdJbMzVDQHoqt6rJZasCMwdzc=;
+        b=zFwJA+hO8uPV2NGS/8adrvuME/HpqjFXrpeeIZjCQfkqn5q8DSW30397QDDUOAxWqz
+         QqXvcm/qZOhJrhYRpTNQa+Rjr/v3PJ5HKAoDxCzOcEZFsZ6/kdbcrhkq4/uWIfsqdIIt
+         B8xPnvtr9PY0D5lG7AblfyeGbnxwZtXJCOnK0t+D+Fu4blawQgZ5nm6O/tIKKAkeOxeZ
+         FmiSChyqT9rB/PKvuaz6k9W5NuyC7u4KHybthWrKKVOxVT5/As0yIlUdYbw5qJEndYAF
+         S63BjosYMPUusxYiu0WPQ9A1D6LbHwKrvSbe5Q/OBVdu+hEm2O+UGWeoo1OubP2xKBtv
+         C07g==
+X-Gm-Message-State: AOAM5309t4cKRqtBsmKQiyuXJoRlQHsO+eLBA6SaFK4A7utbQI+HqfAL
+        MGf4YTVgK425kpcoun3AsQd7819B71dDWsPG16U=
+X-Google-Smtp-Source: ABdhPJwrYn84w9dpiRz0KWh3kktx1Bz+4/8zTSdQBUF4sbV5QfFeN9XieeBF2NgxnnZ3JWmWbvxqeA==
+X-Received: by 2002:a2e:8810:: with SMTP id x16mr11332770ljh.410.1631904060093;
+        Fri, 17 Sep 2021 11:41:00 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id w2sm585609lfl.155.2021.09.17.11.40.59
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Sep 2021 11:40:59 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id m3so34404973lfu.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Sep 2021 11:40:59 -0700 (PDT)
+X-Received: by 2002:a19:ae15:: with SMTP id f21mr9099719lfc.402.1631904049054;
+ Fri, 17 Sep 2021 11:40:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210917061104.2680133-1-brendanhiggins@google.com>
+ <20210917061104.2680133-6-brendanhiggins@google.com> <202109170856.8DDB49112D@keescook>
+In-Reply-To: <202109170856.8DDB49112D@keescook>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 17 Sep 2021 11:40:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whck4RtO7yp-jKK8QQc0bCDZBkdHc=3pGiFsFjwnQ+-mw@mail.gmail.com>
+Message-ID: <CAHk-=whck4RtO7yp-jKK8QQc0bCDZBkdHc=3pGiFsFjwnQ+-mw@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] mmc: sdhci-of-aspeed: build kunit tests without
+ structleak plugin
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Brendan Higgins <brendanhiggins@google.com>,
         Shuah Khan <shuah@kernel.org>, David Gow <davidgow@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Rafael Wysocki <rafael@kernel.org>,
         Jonathan Cameron <jic23@kernel.org>,
         Lars-Peter Clausen <lars@metafoo.de>,
@@ -63,67 +77,22 @@ Cc:     Brendan Higgins <brendanhiggins@google.com>,
         <linux-kselftest@vger.kernel.org>,
         KUnit Development <kunit-dev@googlegroups.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        gregkh <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-hardening@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-hardening@vger.kernel.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v1 6/6] bitfield: build kunit tests without structleak
- plugin
-Message-ID: <202109170857.80F9B319@keescook>
-References: <20210917061104.2680133-1-brendanhiggins@google.com>
- <20210917061104.2680133-7-brendanhiggins@google.com>
- <CAK8P3a21j9yJe_X=kU6v2YgOnrhunRbPv+O6STSH71qTb7xnfg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a21j9yJe_X=kU6v2YgOnrhunRbPv+O6STSH71qTb7xnfg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 17, 2021 at 09:22:08AM +0200, Arnd Bergmann wrote:
-> On Fri, Sep 17, 2021 at 8:11 AM Brendan Higgins
-> <brendanhiggins@google.com> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > The structleak plugin causes the stack frame size to grow immensely:
-> >
-> > lib/bitfield_kunit.c: In function 'test_bitfields_constants':
-> > lib/bitfield_kunit.c:93:1: error: the frame size of 7440 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
-> >
-> > Turn it off in this file.
-> >
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > ---
-> >  lib/Makefile | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/lib/Makefile b/lib/Makefile
-> > index 5efd1b435a37c..c93c4b59af969 100644
-> > --- a/lib/Makefile
-> > +++ b/lib/Makefile
-> > @@ -351,7 +351,7 @@ obj-$(CONFIG_OBJAGG) += objagg.o
-> >  obj-$(CONFIG_PLDMFW) += pldmfw/
-> >
-> >  # KUnit tests
-> > -CFLAGS_bitfield_kunit.o := $(call cc-option,-Wframe-larger-than=10240)
-> > +CFLAGS_bitfield_kunit.o := $(call cc-option,-Wframe-larger-than=10240) $(DISABLE_STRUCTLEAK_PLUGIN)
-> 
-> I think the  $(call cc-option,-Wframe-larger-than=10240) needs to be dropped
-> here. This was not in my original patch and it is definitely broken on
-> all architectures
-> with 8KB stack size or less if the function needs that much. What is the amount
-> of actual stack usage you observe without this? If we still get a warning, then
-> I think this needs to be fixed in the code.
+On Fri, Sep 17, 2021 at 8:57 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> This isn't a stand-alone test object, so I'm less excited about
+> disabling STRUCTLEAK here.
 
-With the frame-larger-than dropped:
+Yeah, please don't do this for things that aren't pure tests. You're
+now disabling security measures (even if I hate the gcc plugins and
+hope they will go away).
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
-
--- 
-Kees Cook
+             Linus
