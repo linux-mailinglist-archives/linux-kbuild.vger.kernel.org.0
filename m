@@ -2,113 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B754119C3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Sep 2021 18:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10C5B4121F0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Sep 2021 20:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233724AbhITQ23 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Sep 2021 12:28:29 -0400
-Received: from mail-ua1-f52.google.com ([209.85.222.52]:39439 "EHLO
-        mail-ua1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbhITQ21 (ORCPT
+        id S1358915AbhITSLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Sep 2021 14:11:07 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:58230 "EHLO
+        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1358913AbhITSIx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Sep 2021 12:28:27 -0400
-Received: by mail-ua1-f52.google.com with SMTP id o13so11529695uat.6;
-        Mon, 20 Sep 2021 09:27:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9xo0jIRnxuOOhc30CoYi6LuiF/umxAgJKZ4MGnDGawY=;
-        b=AvbAGzmFZrVlKy02rhpai2UDe2k2fRcVQCIo8Cf5AP/tqrfdBVVqyhHDCGwVloe8GA
-         i1Y+ItCUBbpJps8OjHbxe5ce1r/TzjRnz3njhy3XP5/0Nn+SrSbCASMbhGurJ0VDf0CF
-         Sv8/55IjhgONNhrn6xLPlDoCuGn7SJUt10L/CrPRHn6eI5q9gQ1jJUWhyFLElXH9Tmt1
-         bZM5hV2y+sqxFsKDT1LN3XKQq1Kea8jnmScItGLZRqB9uXpfogHTd+S4NZrMNJtnEHDf
-         Ax9Kdr+kC2JAHEFC/HAthiHSA4jJjl2lS7V6AemPEj1MPFOa+HAFY1MecWYb+jjbu+Ly
-         HinA==
-X-Gm-Message-State: AOAM533GBVXpl2NVjfxeQGFZW/t1rw/hT6Qs6T22J0IxAyIj1r1UAELu
-        7LjRf+xMJ6wU+U3NaGNZs+uedINMh7s3YeGwjLQ=
-X-Google-Smtp-Source: ABdhPJwoB/0/VBD9Bv7XJkpjjyCTFva9x1S/l0eGg68vZoWX7Uope7tWe5j8vOPoSsjhkKDy81kIFBG7m6cIsfz+iVo=
-X-Received: by 2002:ab0:6dc7:: with SMTP id r7mr12548577uaf.14.1632155219490;
- Mon, 20 Sep 2021 09:26:59 -0700 (PDT)
+        Mon, 20 Sep 2021 14:08:53 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0Up4MQOX_1632161238;
+Received: from ashimida.local(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0Up4MQOX_1632161238)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 21 Sep 2021 02:07:22 +0800
+Subject: Re: [PATCH] [RFC/RFT]SCS:Add gcc plugin to support Shadow Call Stack
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        keescook@chromium.org, ndesaulniers@google.com,
+        akpm@linux-foundation.org, tglx@linutronix.de,
+        peterz@infradead.org, samitolvanen@google.com, frederic@kernel.org,
+        rppt@kernel.org, yifeifz2@illinois.edu, viresh.kumar@linaro.org,
+        colin.king@canonical.com, andreyknvl@gmail.com,
+        mark.rutland@arm.com, ojeda@kernel.org, will@kernel.org,
+        ardb@kernel.org, luc.vanoostenryck@gmail.com, elver@google.com,
+        nivedita@alum.mit.edu, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+References: <1632069436-25075-1-git-send-email-ashimida@linux.alibaba.com>
+ <YUeva0jP7P2qCr+R@archlinux-ax161>
+From:   Dan Li <ashimida@linux.alibaba.com>
+Message-ID: <1e00d088-4ced-d345-63b0-7428e9b8452a@linux.alibaba.com>
+Date:   Tue, 21 Sep 2021 02:07:17 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20210907183843.33028-1-ndesaulniers@google.com>
- <CAHk-=whJOxDefgSA1_ojGbweRJGonWX9_nihA-=fbXFV1DhuxQ@mail.gmail.com>
- <CAKwvOdkuYoke=Sa8Qziveo9aSA2zaNWEcKW8LZLg+d3TPwHkoA@mail.gmail.com>
- <YTfkO2PdnBXQXvsm@elver.google.com> <CAHk-=wgPaQsEr+En=cqCqAC_sWmVP6x5rD2rmZRomH9EnTQL7Q@mail.gmail.com>
- <c8fb537f-26e5-b305-6bc5-06f0d27a4029@infradead.org> <20210913093256.GA12225@amd>
- <YT8d5a6ZVW7JlsRl@kroah.com> <20210913100230.GB11752@amd>
-In-Reply-To: <20210913100230.GB11752@amd>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Sep 2021 18:26:48 +0200
-Message-ID: <CAMuHMdXGK165nXPJSDdB1hsAfqu3nprXtskZz4z1GcgH_vz+ow@mail.gmail.com>
-Subject: Re: [PATCH] Revert "Enable '-Werror' by default for all kernel builds"
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-toolchains@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mark Brown <broonie@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vipin Sharma <vipinsh@google.com>,
-        Chris Down <chris@chrisdown.name>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YUeva0jP7P2qCr+R@archlinux-ax161>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 13, 2021 at 12:50 PM Pavel Machek <pavel@ucw.cz> wrote:
-> > > Do we really want developers treat warnings as errors? When the code
-> > > is okay but some random version of gcc dislikes it...
-> > >
-> > > Plus, there's question of stable. We already get ton of churn there
-> > > ("this fixes random warning"). WERROR will only encourage that...
-> >
-> > I will not be backporting this patch to older stable kernels, but I
-> > _want_ to see stable builds build with no warnings.  When we add
-> > warnings, they are almost always things we need to fix up properly.
->
-> Well, everyone _wants_ to see clean builds... unless the price is too
-> high.
->
-> > Over time, I have worked to reduce the number of build warnings in older
-> > stable kernels.  For newer versions of gcc, sometimes that is
-> > impossible, but we are close...
->
-> You clearly can't backport this patch, but for 5.16-stable, you'll
-> have it in, and now warnings are same as errors... and I don't believe
-> that's good idea for stable.
+Hi Nathan,
 
-The good thing about the config option is that there's now a single point
-to enable or disable -Werror.  In the past, maintainers sprinkled -Werror
-all over the various Makefiles in the tree, which means you have to
-edit multiple files to disable it again.
+Thanks for your comments.
+I rewrite the configuration as follows:
 
-Background: I've been investigating an issue that involved building old
-v2.6.x kernels. Apart from having to use very old compilers, it still caused
-compiler warnings that obviously weren't seen with the slightly different
-compiler versions used by maintainers who added -Werror.
+1) Change the plugin to be enabled by default, and add this option to CC_FLAGS_SCS to keep its behavior consistent with clang
+---
+diff --git a/Makefile b/Makefile
+@@ -923,12 +923,6 @@ KBUILD_CFLAGS_KERNEL += -ffunction-sections -fdata-sections
+-ifdef CONFIG_SHADOW_CALL_STACK
+-CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+-KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+-export CC_FLAGS_SCS
+-endif
 
-Gr{oetje,eeting}s,
+@@ -1034,6 +1028,20 @@ include-$(CONFIG_GCC_PLUGINS)	+= scripts/Makefile.gcc-plugins
+  include $(addprefix $(srctree)/, $(include-y))
++ifdef CONFIG_SHADOW_CALL_STACK
++
++ifdef CONFIG_CC_IS_CLANG
++CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
++endif
++
++ifdef CONFIG_CC_IS_GCC
++CC_FLAGS_SCS	:= $(ENABLE_SHADOW_CALL_STACK_PLUGIN)
++endif
++
++KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
++export CC_FLAGS_SCS
++endif
 
-                        Geert
+diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+@@ -46,6 +46,13 @@ ifdef CONFIG_GCC_PLUGIN_ARM_SSP_PER_TASK
++gcc-plugin-$(CONFIG_GCC_PLUGIN_SHADOW_CALL_STACK) += arm64_scs_plugin.so
++gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_SHADOW_CALL_STACK)	\
++		+= -DSHADOW_CALL_STACK_PLUGIN
++ifdef CONFIG_GCC_PLUGIN_SHADOW_CALL_STACK
++    ENABLE_SHADOW_CALL_STACK_PLUGIN += -fplugin-arg-arm64_scs_plugin-enable
++endif
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2) Whether SCS is turned on or not is determined by CONFIG_SHADOW_CALL_STACK
+    * GCC_PLUGIN_SHADOW_CALL_STACK is only used to indicate whether current platform needs the support of the gcc SCS plugin
+      - It only enabled on ARM64 platform with gcc which does not support SCS(!CC_HAVE_SHADOW_CALL_STACK)
+      - If one compiler supports SCS (clang or gcc), then CC_HAVE_SHADOW_CALL_STACK should be true at this time, and the plugin is automatically closed
+    * As long as the current platform can support SCS(compiler or plugin), ARCH_SUPPORTS_SHADOW_CALL_STACK is always selected
+    * CONFIG_SHADOW_CALL_STACK no longer depends on CC_IS_CLANG
+---
+diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+@@ -19,6 +19,15 @@ menuconfig GCC_PLUGINS
++config GCC_PLUGIN_SHADOW_CALL_STACK
++	bool "GCC Shadow Call Stack plugin"
++	depends on (!CC_HAVE_SHADOW_CALL_STACK) && ARM64
++	default y
++	help	....
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+diff --git a/arch/Kconfig b/arch/Kconfig
+@@ -594,7 +594,7 @@ config ARCH_SUPPORTS_SHADOW_CALL_STACK
+  
+  config SHADOW_CALL_STACK
+  	bool "Clang Shadow Call Stack"
+-	depends on CC_IS_CLANG && ARCH_SUPPORTS_SHADOW_CALL_STACK
++	depends on ARCH_SUPPORTS_SHADOW_CALL_STACK
+  	depends on DYNAMIC_FTRACE_WITH_REGS || !FUNCTION_GRAPH_TRACER
+  	help
+  	  This option enables Clang's Shadow Call Stack, which uses a
+	
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+@@ -81,7 +81,7 @@ config ARM64
+-	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
++	select ARCH_SUPPORTS_SHADOW_CALL_STACK if (CC_HAVE_SHADOW_CALL_STACK || GCC_PLUGIN_SHADOW_CALL_STACK)
+  	select ARCH_SUPPORTS_LTO_CLANG if CPU_LITTLE_ENDIAN
+@@ -1060,9 +1060,13 @@ config HW_PERF_EVENTS
+  # Supported by clang >= 7.0
+  config CC_HAVE_SHADOW_CALL_STACK
+-	def_bool $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18)
++	def_bool (CC_IS_CLANG && $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18))
+
+
+On 9/20/21 5:45 AM, Nathan Chancellor wrote:
+> Hi Dan,
+>> diff --git a/Makefile b/Makefile
+>>   ifdef CONFIG_SHADOW_CALL_STACK
+> 
+> I would rather see this become
+> 
+> ifeq ($(CONFIG_SHADOW_CALL_STACK)$(CONFIG_CC_IS_CLANG), yy)
+> ...
+> endif
+> 
+> rather than just avoiding assigning to CC_FLAGS_SCS.
+> 
+> However, how does disabling the shadow call stack plugin work for a
+> whole translation unit or directory? There are a few places where
+> CC_FLAGS_SCS are filtered out and I am not sure I see where that happens
+> here? It looks like the plugin has a disabled option but I do not see it
+> hooked in anywhere.
+   In the new code, translation unit can only enable SCS when CC_FLAGS_SCS is specified.
+   This behavior will be consistent with clang.
+   If there are other problems in the future, those two can be modified together.
+> 
+>> -CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>> +CC_FLAGS_SCS	:= $(if $(CONFIG_CC_IS_CLANG),-fsanitize=shadow-call-stack,)
+
+>>   KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+>>   export CC_FLAGS_SCS
+>>   endif
+>> diff --git a/arch/Kconfig b/arch/Kconfig
+>> index 98db634..81ff127 100644
+>> --- a/arch/Kconfig
+>> +++ b/arch/Kconfig
+>> @@ -594,7 +594,7 @@ config ARCH_SUPPORTS_SHADOW_CALL_STACK
+>>   
+>>   config SHADOW_CALL_STACK
+>>   	bool "Clang Shadow Call Stack"
+>> -	depends on CC_IS_CLANG && ARCH_SUPPORTS_SHADOW_CALL_STACK
+>> +	depends on (CC_IS_CLANG && ARCH_SUPPORTS_SHADOW_CALL_STACK) || GCC_PLUGIN_SHADOW_CALL_STACK
+> 
+> Is this logic right? SHADOW_CALL_STACK is only supported by arm64 (as
+> they set ARCH_SUPPORTS_SHADOW_CALL_STACK) but now you are enabling it
+> for any architecture, even though it seems like it still only works on
+> arm64. I think this wants to be
+> 
+> depends on (CC_IS_CLANG || GCC_PLUGIN_SHADOW_CALL_STACK) && ARCH_SUPPORTS_SHADOW_CALL_STACK
+> 
+   It's modified to rely only on ARCH_SUPPORTS_SHADOW_CALL_STACK	
+>> --- a/scripts/gcc-plugins/Kconfig
+>> +++ b/scripts/gcc-plugins/Kconfig
+>> @@ -19,6 +19,14 @@ menuconfig GCC_PLUGINS
+>>   
+>>   if GCC_PLUGINS
+>>   
+>> +config GCC_PLUGIN_SHADOW_CALL_STACK
+>> +	bool "GCC Shadow Call Stack plugin"
+> 
+> This should also have a
+> 
+> depends on ARCH_SUPPORTS_SHADOW_CALL_STACK
+> 
+> if you are selecting SHADOW_CALL_STACK, as selecting does not account
+> for dependencies.
+   Select is removed from the code above
+>> +	select SHADOW_CALL_STACK
+>> +	help
+>> +	  This plugin is used to support the kernel CONFIG_SHADOW_CALL_STACK
+>> +	  compiled by gcc. Its principle is basically the same as that of CLANG.
+>> +	  For more information, please refer to "config SHADOW_CALL_STACK"
+>> +
+>>   config GCC_PLUGIN_CYC_COMPLEXITY
+>>   	bool "Compute the cyclomatic complexity of a function" if EXPERT
+>>   	depends on !COMPILE_TEST	# too noisy
+> 
+> Cheers,
+> Nathan
+> 
