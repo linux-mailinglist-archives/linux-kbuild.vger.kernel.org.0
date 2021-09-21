@@ -2,416 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E2C6412E70
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Sep 2021 08:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43838413E2E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Sep 2021 01:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229632AbhIUGBs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Sep 2021 02:01:48 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:47559 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229619AbhIUGBs (ORCPT
+        id S231298AbhIVAAN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Sep 2021 20:00:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229824AbhIVAAM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Sep 2021 02:01:48 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R871e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=26;SR=0;TI=SMTPD_---0Up6QHrG_1632204012;
-Received: from 192.168.2.142(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0Up6QHrG_1632204012)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 21 Sep 2021 14:00:15 +0800
-Subject: Re: [PATCH] [RFC/RFT]SCS:Add gcc plugin to support Shadow Call Stack
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Colin King <colin.king@canonical.com>, andreyknvl@gmail.com,
-        Mark Rutland <mark.rutland@arm.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Will Deacon <will@kernel.org>,
-        luc.vanoostenryck@gmail.com, Marco Elver <elver@google.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hardening@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-References: <1632069436-25075-1-git-send-email-ashimida@linux.alibaba.com>
- <CAMj1kXGQ+x243wK-8NP+kxs2dCgSa+MD5+Tv3Xzo3510Td1t3Q@mail.gmail.com>
- <bbe282c6-64f4-cd95-5d64-8266d52ee7a1@linux.alibaba.com>
- <CAMj1kXGr7ZzBmr-SrxmBsqWvn+NSPC_VKAr5gqx1WN-91i7wpg@mail.gmail.com>
-From:   Dan Li <ashimida@linux.alibaba.com>
-Message-ID: <94198e26-2cfd-fdc8-7427-d41437cae964@linux.alibaba.com>
-Date:   Tue, 21 Sep 2021 14:00:12 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.1
+        Tue, 21 Sep 2021 20:00:12 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7537C061574
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Sep 2021 16:58:43 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id l13so1068726qtv.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Sep 2021 16:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yU7CBNNgEweZ+nqz6U6hKBlswHgC/fIemANqvxqpZ2U=;
+        b=R9LogSUZN76uI//toRZWTFC85KzcPTU8Pz8QQPdNwcu077IgU3iYhJLtcrQb/eMifK
+         ZkB4D1Ha8Pfennb/BvR5VvGTXXSvkEzFyKoeyy2cU+/GiN2g/MCqBFJCkg++7tAVJtmg
+         r0gqWDoHGoggpo4brjbvHapAKS4ORKTICuxrQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yU7CBNNgEweZ+nqz6U6hKBlswHgC/fIemANqvxqpZ2U=;
+        b=Y1OqMmhQH6YsR7yGhmTvqhsOECRZf3xU8/DpMJJuLfu90ylQGnjNlWie9QTTdFuyM/
+         8ACkKWoFSVIU8mNEBA70uMYfZkAavJCos8yeZFhCTymsZeeQijD68ylmtvq0EkKH5Lga
+         1K1UuESdQH7LifVniF+xS75y/R6/ibrQEktP6qipBKPaiu2iqStB929i7j0CwZPU65Gx
+         j276h/kgL9d/e3/9ea16dpxui6RZX2xDPpWqhtCwmZkPwBjby0NXH4Z/4WpTfOEn8dja
+         XT1CQNZTAnnXkPUwb1WNjln/DdPApF57RLRAIBjcuvPwbtvLjhJtnPDrkXXk/9sNFs5+
+         THqg==
+X-Gm-Message-State: AOAM5317E4uQUuQFbuGcMsmnneQdWjl6YOlqhynCYhWTFOfJQEKUZI/C
+        jeKp6wlbpFIj1MblIpj4Qj8S8Xtr4cuDSTXXreqxoPs+caK8fA==
+X-Google-Smtp-Source: ABdhPJzwQD2oEWBIAjmCoNsRdiWMAzZjMXTudmGS3Y7v1RrcmbPPAw+nXjsJ2XgkBjKDTrAjhi8AlxCGKi1yLg8GRp8=
+X-Received: by 2002:ac8:534b:: with SMTP id d11mr352064qto.167.1632268722732;
+ Tue, 21 Sep 2021 16:58:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXGr7ZzBmr-SrxmBsqWvn+NSPC_VKAr5gqx1WN-91i7wpg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
+ <CAK7LNASbE5=rMGCf6=Jr597okmZChy4t5sNt0O8Z9PACb=DsKg@mail.gmail.com>
+ <CAGt4E5u3YAM16HgoRAbW3Zs3LVJWKosCzp0rDqvQfmzZeXz2nA@mail.gmail.com> <CAK7LNATTwCuR=4a0MWzW4j1O1DMwayePKCL9KDe+UBUz1Aqmag@mail.gmail.com>
+In-Reply-To: <CAK7LNATTwCuR=4a0MWzW4j1O1DMwayePKCL9KDe+UBUz1Aqmag@mail.gmail.com>
+From:   Markus Mayer <mmayer@broadcom.com>
+Date:   Tue, 21 Sep 2021 16:58:31 -0700
+Message-ID: <CAGt4E5uknp3vZwk10S+BHHQ016FQFbL3z9rs-h6aM31sYrNXZQ@mail.gmail.com>
+Subject: Re: Module build problems with gmake 3.x
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Kbuild Mailing List <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 9/21/21 5:22 AM, Ard Biesheuvel wrote:
-> On Mon, 20 Sept 2021 at 20:53, Dan Li <ashimida@linux.alibaba.com> wrote:
->>
->> Hi Ard,
->>
->> Thanks for your comment.
->>
->> I pasted a copy of the config code in my last email, could you please check it again?
->>
->> On 9/20/21 3:18 PM, Ard Biesheuvel wrote:
->>> Hi Dan,
->>>
->>> On Sun, 19 Sept 2021 at 18:37, Dan Li <ashimida@linux.alibaba.com> wrote:
->>>>
->>>> The Clang-based shadow call stack protection has been integrated into the
->>>> mainline, but kernel compiled by gcc cannot enable this feature for now.
->>>>
->>>> This Patch supports gcc-based SCS protection by adding a plugin.
->>>>
->>>
->>> Thanks for working on this. I had a stab at this myself about 2 years
->>> ago and couldn't make it work.
->>>
->>>> For each function that x30 will be pushed onto the stack during execution,
->>>> this plugin:
->>>> 1) insert "str x30, [x18], #8" at the entry of the function to save x30
->>>>      to current SCS
->>>> 2) insert "ldr x30, [x18, #-8]!"  before the exit of this function to
->>>>      restore x30
->>>>
->>>
->>> This logic seems sound to me, but it would be nice if someone more
->>> familiar with Clang's implementation could confirm that it is really
->>> this simple.
->>>
->>> Looking at your plugin, there is an issue with tail calls, and I don't
->>> think Clang simply disables those altogether as well, right?
->>
->> I am not familiar with clang's code, the logic comes from clang's description and the
->> disassembled binary code for now, so it may be different from the actual situation.
->>
-> 
-> OK
-> 
->> The tail call could be handled (theoretically), and I will try to solve the issue in
->> the next version.
->>>
->>>>    ifdef CONFIG_SHADOW_CALL_STACK
->>>> -CC_FLAGS_SCS   := -fsanitize=shadow-call-stack
->>>> +CC_FLAGS_SCS   := $(if $(CONFIG_CC_IS_CLANG),-fsanitize=shadow-call-stack,)
->>>
->>> This variable should contain whatever needs to be added to the
->>> compiler comamand line
->>     In the new code, an 'enable' option is added here to enable the plugin
->>>>    KBUILD_CFLAGS  += $(CC_FLAGS_SCS)
->>>>    export CC_FLAGS_SCS
->>>>    endif
->>>> diff --git a/arch/Kconfig b/arch/Kconfig
->>>> index 98db634..81ff127 100644
->>>> --- a/arch/Kconfig
->>>> +++ b/arch/Kconfig
->>>> @@ -594,7 +594,7 @@ config ARCH_SUPPORTS_SHADOW_CALL_STACK
->>>>
->>>>    config SHADOW_CALL_STACK
->>>>           bool "Clang Shadow Call Stack"
->>>> -       depends on CC_IS_CLANG && ARCH_SUPPORTS_SHADOW_CALL_STACK
->>>> +       depends on (CC_IS_CLANG && ARCH_SUPPORTS_SHADOW_CALL_STACK) || GCC_PLUGIN_SHADOW_CALL_STACK
->>>
->>> This logic needs to be defined in such a way that a builtin
->>> implementation provided by GCC will take precedence once it becomes
->>> available.
->>>
->>     In new code, if gcc supports SCS in the future, the plugin will be closed due to
->>     CC_HAVE_SHADOW_CALL_STACK is true.
->>>>           depends on DYNAMIC_FTRACE_WITH_REGS || !FUNCTION_GRAPH_TRACER
->>>>           help
->>>>             This option enables Clang's Shadow Call Stack, which uses a
->>>> diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
->>>> index ab9eb4c..2534195e 100644
->>>> --- a/scripts/gcc-plugins/Kconfig
->>>> +++ b/scripts/gcc-plugins/Kconfig
->>>> @@ -19,6 +19,14 @@ menuconfig GCC_PLUGINS
->>>>
->>>>    if GCC_PLUGINS
->>>>
->>>> +config GCC_PLUGIN_SHADOW_CALL_STACK
->>>> +       bool "GCC Shadow Call Stack plugin"
->>>> +       select SHADOW_CALL_STACK
->>>
->>> You shouldn't 'select' something like this if the symbol has its own
->>> dependencies which may be unsatisfied, as this causes a Kconfig
->>> warning. Also, en/disabling shadow call stacks for the architecture
->>> should be done from the arch's 'kernel features' menu, it shouldn't be
->>> buried in the GCC plugins menu.
->>      I removed 'select' in the new version.
->>      SCS's enable is changed to rely on CONFIG_SHADOW_CALL_STACK in arch/kernel,
->>      the GCC_PLUGIN_SHADOW_CALL_STACK config is just to add a usable platform to it.
->>>> +       help
->>>> +         This plugin is used to support the kernel CONFIG_SHADOW_CALL_STACK
->>>> +         compiled by gcc. Its principle is basically the same as that of CLANG.
->>>> +         For more information, please refer to "config SHADOW_CALL_STACK"
->>>> +
->>>> +__visible int plugin_is_GPL_compatible;
->>>> +
->>>> +static struct plugin_info arm64_scs_plugin_info = {
->>>> +       .version        = "20210926vanilla",
->>>
->>> I will respond to this obvious invitation at bikeshedding by saying
->>> that 'salted caramel' is clearly the superior flavor of ice cream.
->>     I'm sorry, as a non-native English speaker, I think I might not understand
->>     what you mean here. My intention is to say that this is the first/initial
->>     version, do I miss something?
-> 
-> It was a joke - don't worry about it.
-> 
->>>> +       .help           = "disable\tdo not activate plugin\n"
->>>> +                         "verbose\tprint all debug infos\n",
->>>> +};
->>>> +static unsigned int arm64_scs_execute(void)
->>>> +{
->>>> +       rtx_insn *insn;
->>>> +       enum scs_state state = SCS_SEARCHING_FIRST_INSN;
->>>> +
->>>> +       for (insn = get_insns(); insn; insn = NEXT_INSN(insn)) {
->>>> +               rtx mark = NULL;
->>>> +
->>>> +               switch (GET_CODE(insn)) {
->>>> +               case NOTE:
->>>> +               case BARRIER:
->>>> +               case CODE_LABEL:
->>>> +               case INSN:
->>>> +               case DEBUG_INSN:
->>>> +               case JUMP_INSN:
->>>> +               case JUMP_TABLE_DATA:
->>>> +                       break;
->>>> +               case CALL_INSN:
->>>> +                       if (SIBLING_CALL_P(insn)) {
->>>> +                               error(G_("Sibling call found in func:%s, file:%s\n"),
->>>> +                                               get_name(current_function_decl),
->>>> +                                               main_input_filename);
->>>> +                               gcc_unreachable();
->>>> +                       }
->>>
->>> Sibling calls are an important optimization, not only for performance
->>> but also for stack utilization, so this needs to be fixed. Can you
->>> elaborate on the issue you are working around here?
->>>
->>     Since the ARM64 has disabled sibling calls (-fno-optimize-sibling-calls) by default,
->>     there is almost no sibling call appear in the kernel I encountered.
-> 
-> What do you mean this is disabled by default? Is that a compiler
-> setting or a Linux setting?
-It's a linux setting in aarch64 kernel.
-
-In aarch64, since CONFIG_FRAME_POINTER is always selected, -fno-optimize-sibling-calls is
-usually enable by default, and I think sibling calls rarely appear (I only encountered
-it once in my cases from bsp's code):
-
-./arch/arm64/Kconfig
-config ARM64
-...
-select FRAME_POINTER
-
-./Makefile
-ifdef CONFIG_FRAME_POINTER
-KBUILD_CFLAGS   += -fno-omit-frame-pointer -fno-optimize-sibling-calls
-...
-
-
->>     So I did not provide support for it, and I will fix this issue in the next version.
->>>> +                       break;
->>>> +               default:
->>>> +                       error(G_("Invalid rtx_insn seqs found with type:%s in func:%s, file:%s\n"),
->>>> +                                       GET_RTX_NAME(GET_CODE(insn)),
->>>> +                                       get_name(current_function_decl), main_input_filename);
->>>> +                       gcc_unreachable();
->>>> +                       break;
->>>> +               }
->>>> +               /* A function return insn was found */
->>>> +               if (ANY_RETURN_P(PATTERN(insn))) {
->>>> +                       /* There should be an epilogue before 'RETURN' inst */
->>>> +                       if (GET_CODE(PATTERN(insn)) == RETURN) {
->>>> +                               gcc_assert(state == SCS_FOUND_ONE_EPILOGUE_NOTE);
->>>> +                               state = SCS_SEARCHING_FUNC_RETURN;
->>>> +                       }
->>>> +
->>>> +                       /* There is no epilogue before 'SIMPLE_RETURN' insn */
->>>> +                       if (GET_CODE(PATTERN(insn)) == SIMPLE_RETURN)
->>>> +                               gcc_assert(state == SCS_SEARCHING_FUNC_RETURN);
->>>
->>> These assert()s will crash the compiler if the RTL doesn't have quite
->>> the right structure, correct? Could we issue a warning instead, saying
->>> function 'x' could not be handled, and back out gracefully (i.e.,
->>> don't insert the push either)?
->>>
->>      Sure, I think I need to dynamically mark all instrumented positions here,
->>      and then confirm that the instruction sequence is correct before inserting in batches.
-> 
-> Yes, that sounds more suitable.
-> 
->>>> +
->>>> +                       /* Insert scs pop instruction(s) before return insn */
->>>> +                       mark = gen_scs_pop(RESERVED_LOCATION_COUNT);
->>>> +                       emit_insn_before(mark, insn);
->>>> +               }
->>>> +       }
->>>> +       return 0;
->>>> +}
->>>> +
->>>> +static tree handle_noscs_attribute(tree *node, tree name, tree args __unused, int flags,
->>>> +               bool *no_add_attrs)
->>>> +{
->>>> +       *no_add_attrs = true;
->>>> +
->>>> +       gcc_assert(DECL_P(*node));
->>>> +       switch (TREE_CODE(*node)) {
->>>> +       default:
->>>> +               error(G_("%qE attribute can be applies to function decl only (%qE)"), name, *node);
->>>> +               gcc_unreachable();
->>>> +
->>>> +       case FUNCTION_DECL:     /* the attribute is only used for function declarations */
->>>> +               break;
->>>> +       }
->>>> +
->>>> +       *no_add_attrs = false;
->>>
->>> I'm not familiar with this idiom: what is the purpose of setting this
->>> to true initially and then to false again when the expected flow
->>> through the function is to do nothing at all?
->>>
->>      This is my mistake, at the beginning default case only return 0 directly after a warning;
->>      At that time, if *no_add_attrs is true, the corresponding attribute will not be added to 'node',
->>      and it means __noscs attribute can only be added for FUNCTION_DECL.
->>      For now, *no_add_attrs = true; is useless, it should be deleted.
->>
->>      But if, as you said, try to back out gracefully, is it better to report warning in the default case?
-> 
-> error() just terminates the compile with an error, right? I think that is fine.
-> 
-   Yes. I got it.
-
->>>> +       return NULL_TREE;
->>>> +}
->>>> +
->>>> +static void (*old_override_options_after_change)(void);
->>>> +
->>>> +static void scs_override_options_after_change(void)
->>>> +{
->>>> +       if (old_override_options_after_change)
->>>> +               old_override_options_after_change();
->>>> +
->>>> +       flag_optimize_sibling_calls = 0;
->>>> +}
->>>> +
->>>> +static void callback_before_start_unit(void *gcc_data __unused, void *user_data __unused)
->>>> +{
->>>> +       /* Turn off sibling call to avoid inserting duplicate scs pop codes */
->>>
->>> Sibling calls will restore x30 before the calk, right? So where do the
->>> duplicate pops come from?
->>      a sibling call could be like:
->>      stp     x29, x30, [sp, #-xx]!
->>      .......
->>      ldp     x29, x30, [sp], #xx
->>      ---> p1
->>      b       callee
->>      ldp     x29, x30, [sp], #xx
->>      ---> p2
->>      ret
->>
->>      What i mean here is if we need to insert, the scs pop code should be insert in both p1/p2,
-> 
-> Yes, so you have to identify the 'b' insn as a function return so it
-> is treated the same.
+On Sun, 12 Sept 2021 at 09:04, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-   Thanks, let me try.
->>>
->>>> +       old_override_options_after_change = targetm.override_options_after_change;
->>>> +       targetm.override_options_after_change = scs_override_options_after_change;
->>>> +
->>>> +       flag_optimize_sibling_calls = 0;
->>>
->>> Do we need this twice?
->>     I think so, there are functions similar to push/pop in gcc (cl_optimization_restore/save)
->>     * callback_before_start_unit is used to set zero during initialization
->>     * scs_override_options_after_change is used to reset to 0 after a 'push' occurs
-> 
-> OK
-> 
->>>> +}
->>>> +
->>>> +#define PASS_NAME arm64_scs
->>>> +#define TODO_FLAGS_FINISH (TODO_dump_func | TODO_verify_rtl_sharing)
->>>> +#include "gcc-generate-rtl-pass.h"
->>>> +
->>>> +__visible int plugin_init(struct plugin_name_args *plugin_info, struct plugin_gcc_version *version)
->>>> +{
->>>> +       int i;
->>>> +       const char * const plugin_name = plugin_info->base_name;
->>>> +       const int argc = plugin_info->argc;
->>>> +       const struct plugin_argument * const argv = plugin_info->argv;
->>>> +       bool enable = true;
->>>> +
->>>> +       PASS_INFO(arm64_scs, "shorten", 1, PASS_POS_INSERT_BEFORE);
->>>> +
->>>> +       if (!plugin_default_version_check(version, &gcc_version)) {
->>>> +               error(G_("Incompatible gcc/plugin versions"));
->>>> +               return 1;
->>>> +       }
->>>> +
->>>> +       if (strncmp(lang_hooks.name, "GNU C", 5) && !strncmp(lang_hooks.name, "GNU C+", 6)) {
->>>> +               inform(UNKNOWN_LOCATION, G_("%s supports C only, not %s"), plugin_name,
->>>> +                               lang_hooks.name);
->>>> +               enable = false;
->>>> +       }
->>>> +
->>>
->>> Do we need this check?
->>     This code is copied from structleak_plugin.c, I misunderstood the meaning here, and I will delete it later
-> 
-> OK. Kees should correct me if I'm wrong, but we use GCC in the kernel
-> only to compile C files, so this check should be redundant.
-> 
-> 
->>>
->>>> +       for (i = 0; i < argc; ++i) {
->>>> +               if (!strcmp(argv[i].key, "disable")) {
->>>> +                       enable = false;
->>>> +                       continue;
->>>> +               }
->>>> +               if (!strcmp(argv[i].key, "verbose")) {
->>>> +                       verbose = true;
->>>> +                       continue;
->>>> +               }
->>>> +               error(G_("unknown option '-fplugin-arg-%s-%s'"), plugin_name, argv[i].key);
->>>> +       }
->>>> +
->>>> +       register_callback(plugin_name, PLUGIN_INFO, NULL, &arm64_scs_plugin_info);
->>>> +
->>>> +       register_callback(plugin_name, PLUGIN_ATTRIBUTES, scs_register_attributes, NULL);
->>>> +
->>>> +       if (!enable) {
->>>> +               v_info("Plugin disabled for file:%s\n", main_input_filename);
->>>> +               return 0;
->>>> +       }
->>>> +
->>>> +       register_callback(plugin_name, PLUGIN_START_UNIT, callback_before_start_unit, NULL);
->>>> +
->>>> +       register_callback(plugin_name, PLUGIN_PASS_MANAGER_SETUP, NULL, &arm64_scs_pass_info);
->>>> +
->>>> +       return 0;
->>>> +}
->>>> --
->>>> 2.7.4
->>>>
+> On Sat, Sep 11, 2021 at 7:45 AM Markus Mayer <mmayer@broadcom.com> wrote:
+> >
+> > Here is what I have.
+> >
+> > $ cat Makefile
+> >
+> > export KERNEL_DIR = /local/users/mmayer/linux-5.4
+>
+>
+> From this line, I understand how to reproduce the case.
+>
+> The key is 'linux-5.4'
+
+Sorry about that. I am glad to not be dealing with 4.9 that much
+anymore, so 5.4 is still "new-ish" to me. And 5.10 is the bleeding
+edge in my world. Goes to show that everything is relative.
+
+> In your initial email, you mentioned that this happened on
+>
+>   * newish kernel  (>=5.1)
+>
+> So, I used the latest kernel for testing,
+> but this does not happen after
+> bcf637f54f6d2515d4c9c81808faf01848916152
+> because the M= parameter is parsed before the sub-make.
+>
+> By running your test code on linux 5.4, yes,
+> I can observe the same symptom.
+
+Thanks for trying out a 5.4 kernel.
+
+> The root case seams, GNU Make changes
+> the origin of variables to 'environment'.
+> I do not know if it is an intended behavior.
+> (maybe, better to ask the GNU Make maintainer)
+
+[...]
+
+> So, this is what your can tell:
+>
+> - The behavior of the -e option seems to have a weird
+>     side-effect.
+>     Later, I will ask this to the GNU Make maintainer
+>     to see whether it is a bug or not.
+>
+> - I do not want to support the -e option.  I do not think
+>   it is a commonly-used option because you are the
+>   first person who asked this since Linux 5.4.
+>   (notice Linux 5.4 is almost two years old)
+>
+>  - If you use the latest kernel
+>     (after bcf637f54f6d251), you will be able to build
+>     external modules with the -e option.
+>     But, I recommend you to not use -e.
+>
+>  - If you still insist on the -e option on Linux 5.4,
+>     you can cherry-pick bcf637f54f6d251
+>     (but it is out of scope of the support of the community)
+>
+> Maybe, better to consider removing the -e option.
+
+I will forward the recommendation to see what can be done. Cherry
+picking the patch you are recommending should tide us over in the
+meantime. I will give it a shot.
+
+Thanks for your help.
+
+Regards,
+-Markus
