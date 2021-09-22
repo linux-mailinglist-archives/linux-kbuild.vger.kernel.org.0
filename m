@@ -2,129 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43838413E2E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Sep 2021 01:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 183D641426F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Sep 2021 09:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbhIVAAN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Sep 2021 20:00:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbhIVAAM (ORCPT
+        id S233059AbhIVHTV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Sep 2021 03:19:21 -0400
+Received: from codesynthesis.com ([188.40.148.39]:49652 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232946AbhIVHTU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Sep 2021 20:00:12 -0400
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7537C061574
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Sep 2021 16:58:43 -0700 (PDT)
-Received: by mail-qt1-x836.google.com with SMTP id l13so1068726qtv.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Sep 2021 16:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yU7CBNNgEweZ+nqz6U6hKBlswHgC/fIemANqvxqpZ2U=;
-        b=R9LogSUZN76uI//toRZWTFC85KzcPTU8Pz8QQPdNwcu077IgU3iYhJLtcrQb/eMifK
-         ZkB4D1Ha8Pfennb/BvR5VvGTXXSvkEzFyKoeyy2cU+/GiN2g/MCqBFJCkg++7tAVJtmg
-         r0gqWDoHGoggpo4brjbvHapAKS4ORKTICuxrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yU7CBNNgEweZ+nqz6U6hKBlswHgC/fIemANqvxqpZ2U=;
-        b=Y1OqMmhQH6YsR7yGhmTvqhsOECRZf3xU8/DpMJJuLfu90ylQGnjNlWie9QTTdFuyM/
-         8ACkKWoFSVIU8mNEBA70uMYfZkAavJCos8yeZFhCTymsZeeQijD68ylmtvq0EkKH5Lga
-         1K1UuESdQH7LifVniF+xS75y/R6/ibrQEktP6qipBKPaiu2iqStB929i7j0CwZPU65Gx
-         j276h/kgL9d/e3/9ea16dpxui6RZX2xDPpWqhtCwmZkPwBjby0NXH4Z/4WpTfOEn8dja
-         XT1CQNZTAnnXkPUwb1WNjln/DdPApF57RLRAIBjcuvPwbtvLjhJtnPDrkXXk/9sNFs5+
-         THqg==
-X-Gm-Message-State: AOAM5317E4uQUuQFbuGcMsmnneQdWjl6YOlqhynCYhWTFOfJQEKUZI/C
-        jeKp6wlbpFIj1MblIpj4Qj8S8Xtr4cuDSTXXreqxoPs+caK8fA==
-X-Google-Smtp-Source: ABdhPJzwQD2oEWBIAjmCoNsRdiWMAzZjMXTudmGS3Y7v1RrcmbPPAw+nXjsJ2XgkBjKDTrAjhi8AlxCGKi1yLg8GRp8=
-X-Received: by 2002:ac8:534b:: with SMTP id d11mr352064qto.167.1632268722732;
- Tue, 21 Sep 2021 16:58:42 -0700 (PDT)
+        Wed, 22 Sep 2021 03:19:20 -0400
+Received: from brak.codesynthesis.com (197-255-152-207.static.adept.co.za [197.255.152.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id B169D602A0;
+        Wed, 22 Sep 2021 07:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1632295069;
+        bh=c2UpXL4PSLygQM+bqjl2J+S9hO6kM62k4HRY4VC2ziQ=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=I+TzQHQ8SZED5DYDOKTb1U637g23JhDwGOKKgQc+Nh4Vg4kp/9+cJM1teBEwe89xq
+         C6A9l3iw/DA9T8wC0eZzkr/s45KFZ2w5lsVsxkAKHysug1B4QMb0Ia7KyZepX4NI3H
+         fyBkk08gKYVOF3mw30GFJ5Ng1GnbHwn8qf4j7yud4tgt814e6M6NuuwYhdaF0Jxy4f
+         IhLe9y9fiqEtTYz/P9f30/S7oZ69KNsiNyNyyhOxG4MlEnbGndjkX/PD1Jv6im/0Qs
+         8hk1pGsyfa18onu5yn11EnAYy+VeslqjT3Rk1F6vGxqml5k2szPFmL6EWbMFYhiZKn
+         PvZwrsIrGcVOg==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 452951A800C4; Wed, 22 Sep 2021 09:17:44 +0200 (SAST)
+Date:   Wed, 22 Sep 2021 09:17:44 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Richard Weinberger <richard@nod.at>
+Cc:     masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/2] kconfig: Deny command substitution in string values
+Message-ID: <boris.20210922090732@codesynthesis.com>
+References: <20210920213957.1064-1-richard@nod.at>
+ <20210920213957.1064-2-richard@nod.at>
 MIME-Version: 1.0
-References: <CAGt4E5tzxtCLaasW_Es4oqx+H2iH=Qmid8YG-gtZrCcK7n_B2g@mail.gmail.com>
- <CAK7LNASbE5=rMGCf6=Jr597okmZChy4t5sNt0O8Z9PACb=DsKg@mail.gmail.com>
- <CAGt4E5u3YAM16HgoRAbW3Zs3LVJWKosCzp0rDqvQfmzZeXz2nA@mail.gmail.com> <CAK7LNATTwCuR=4a0MWzW4j1O1DMwayePKCL9KDe+UBUz1Aqmag@mail.gmail.com>
-In-Reply-To: <CAK7LNATTwCuR=4a0MWzW4j1O1DMwayePKCL9KDe+UBUz1Aqmag@mail.gmail.com>
-From:   Markus Mayer <mmayer@broadcom.com>
-Date:   Tue, 21 Sep 2021 16:58:31 -0700
-Message-ID: <CAGt4E5uknp3vZwk10S+BHHQ016FQFbL3z9rs-h6aM31sYrNXZQ@mail.gmail.com>
-Subject: Re: Module build problems with gmake 3.x
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kbuild Mailing List <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210920213957.1064-2-richard@nod.at>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, 12 Sept 2021 at 09:04, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Sat, Sep 11, 2021 at 7:45 AM Markus Mayer <mmayer@broadcom.com> wrote:
-> >
-> > Here is what I have.
-> >
-> > $ cat Makefile
-> >
-> > export KERNEL_DIR = /local/users/mmayer/linux-5.4
->
->
-> From this line, I understand how to reproduce the case.
->
-> The key is 'linux-5.4'
+Richard Weinberger <richard@nod.at> writes:
 
-Sorry about that. I am glad to not be dealing with 4.9 that much
-anymore, so 5.4 is still "new-ish" to me. And 5.10 is the bleeding
-edge in my world. Goes to show that everything is relative.
+> The post processed .config file will get included in shell
+> and makefiles.
 
-> In your initial email, you mentioned that this happened on
->
->   * newish kernel  (>=5.1)
->
-> So, I used the latest kernel for testing,
-> but this does not happen after
-> bcf637f54f6d2515d4c9c81808faf01848916152
-> because the M= parameter is parsed before the sub-make.
->
-> By running your test code on linux 5.4, yes,
-> I can observe the same symptom.
+That depends on who you ask: a number of projects other than the
+Linux kernel use kconfig for configuration and some of them do
+neither of those. I also don't believe the Linux kernel sources
+.config in shell (but I may be wrong).
 
-Thanks for trying out a 5.4 kernel.
 
-> The root case seams, GNU Make changes
-> the origin of variables to 'environment'.
-> I do not know if it is an intended behavior.
-> (maybe, better to ask the GNU Make maintainer)
+> So make sure that a string does not contain
+> symbols that allow command substitution.
+> If such a malformed string is found, return empty string
+> and report it.
 
-[...]
+So effectively it's now impossible to include ` or $ in kconfig
+string values. Seems like a major, backwards-incompatible
+restriction.
 
-> So, this is what your can tell:
->
-> - The behavior of the -e option seems to have a weird
->     side-effect.
->     Later, I will ask this to the GNU Make maintainer
->     to see whether it is a bug or not.
->
-> - I do not want to support the -e option.  I do not think
->   it is a commonly-used option because you are the
->   first person who asked this since Linux 5.4.
->   (notice Linux 5.4 is almost two years old)
->
->  - If you use the latest kernel
->     (after bcf637f54f6d251), you will be able to build
->     external modules with the -e option.
->     But, I recommend you to not use -e.
->
->  - If you still insist on the -e option on Linux 5.4,
->     you can cherry-pick bcf637f54f6d251
->     (but it is out of scope of the support of the community)
->
-> Maybe, better to consider removing the -e option.
-
-I will forward the recommendation to see what can be done. Cherry
-picking the patch you are recommending should tide us over in the
-meantime. I will give it a shot.
-
-Thanks for your help.
-
-Regards,
--Markus
+I think if this is really desired, then it should be re-done with
+escaping (similar to ") rather than outright banning inconvenient 
+characters.
