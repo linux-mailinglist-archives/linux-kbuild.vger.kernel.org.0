@@ -2,143 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8139E4194B8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Sep 2021 15:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56542419679
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Sep 2021 16:34:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234531AbhI0NBu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Sep 2021 09:01:50 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:28823 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234525AbhI0NBu (ORCPT
+        id S234730AbhI0OgI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Sep 2021 10:36:08 -0400
+Received: from codesynthesis.com ([188.40.148.39]:48670 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234816AbhI0OgG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Sep 2021 09:01:50 -0400
-Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 18RCxmY1008626;
-        Mon, 27 Sep 2021 21:59:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 18RCxmY1008626
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1632747588;
-        bh=FVRbPiKa9Q9U12bZidya5lMmin6Kd3S7T6He0P3mOBE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IzOHqc+NE4a3ybS6O2tukVGGzNpiguMWddgxxQjxbI6u480DhTY5tgfIwmg0t+5gn
-         g94rJqImAeN2xU9f5VMW24FIrOh+Wnju5oZc6W+glBXqPf8KXdLnmsYPlBP02fBkye
-         wf9mfynJcHjhH/gBkqlXP5WCfRNHyQrlQLTmBYLRxOtmw4bRIXfkjJiCdmHd1rjKAF
-         k/U6sYau7tylbQO3Qk/tzt3W7Q8Dlspl4pIoGSBFypw5TGYGD6vQ41wjpD+zE6Bn0L
-         H4NvUx3XTT1c8SvQiKurjmc7Fu9BWC66nYD/5WXDOZOyq5Ia5AKYBESa/LGSP2jvYQ
-         XEVFk3c3Qn/kA==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: remove 'const' from the return type of sym_escape_string()
-Date:   Mon, 27 Sep 2021 21:59:44 +0900
-Message-Id: <20210927125944.819010-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        Mon, 27 Sep 2021 10:36:06 -0400
+Received: from brak.codesynthesis.com (197-255-152-207.static.adept.co.za [197.255.152.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id 52D8660394;
+        Mon, 27 Sep 2021 14:34:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1632753267;
+        bh=p/ihu8msFz+EyYA+lzoyRImdv9Ww85GzPMhVGKFYUOY=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=kjKFhs7ZGVIogd7UMSNjynLfZALTbKfroTp7SWwYsTPudidXwUZ6ttURTYlD1DY+z
+         EMppxwZCdWTfoYWvVWmb1cmIW11Zk8u8vDjHtcdBIaet2XqSJvyYAO2gOR47eD/BxB
+         1kJKAnCPbMoBMmh0pYveKFGXrHMcD8MAik3ZoTBsvQjIWj7VBC0Z5eUFM02WnpYm19
+         PzfxiGzQNv5Knx5woXm8ColX8BD6wvRpgnJNpdHJwDmUt+h11m0TQOVbtXtYp8Z9kz
+         9J0XQKikP9DV8FtAid9pYcoB1tpt7MA1NycChg+PpIIa/XMJIiEOMCGKKVQiGY7Deq
+         grZuS9skcJy3A==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id B40DE1A800C4; Mon, 27 Sep 2021 16:34:22 +0200 (SAST)
+Date:   Mon, 27 Sep 2021 16:34:22 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Richard Weinberger <richard@nod.at>
+Cc:     masahiroy <masahiroy@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH 2/2] kconfig: Deny command substitution in string values
+Message-ID: <boris.20210927162833@codesynthesis.com>
+References: <20210920213957.1064-1-richard@nod.at>
+ <20210920213957.1064-2-richard@nod.at>
+ <boris.20210922090732@codesynthesis.com>
+ <1402570794.96583.1632295660867.JavaMail.zimbra@nod.at>
+ <boris.20210922165140@codesynthesis.com>
+ <1942256037.97524.1632327460626.JavaMail.zimbra@nod.at>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1942256037.97524.1632327460626.JavaMail.zimbra@nod.at>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-sym_escape_string() returns a malloc'ed memory, so it must be freed
-when it is done.
+Richard Weinberger <richard@nod.at> writes:
 
-Currently, sym_escape_string() returns the malloc'ed memory as
-(const char *), then it is casted to (void *) when it is passed to
-free(). This is odd.
+> Yes. auto.conf is .config post processed.
+> This is exactly where my mitigation takes place.
 
-The return type of sym_escape_string() should be (char *).
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/conf.c      | 10 +++++-----
- scripts/kconfig/confdata.c  |  8 ++++----
- scripts/kconfig/lkc_proto.h |  2 +-
- scripts/kconfig/symbol.c    |  3 ++-
- 4 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index a6dad4a2e7a2..d8e1994bfed0 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -647,15 +647,15 @@ static void check_conf(struct menu *menu)
- 		switch (input_mode) {
- 		case listnewconfig:
- 			if (sym->name) {
--				const char *str;
--
- 				if (sym->type == S_STRING) {
-+					char *str;
-+
- 					str = sym_escape_string(sym);
- 					printf("%s%s=%s\n", CONFIG_, sym->name, str);
--					free((void *)str);
-+					free(str);
- 				} else {
--					str = sym_get_string_value(sym);
--					printf("%s%s=%s\n", CONFIG_, sym->name, str);
-+					printf("%s%s=%s\n", CONFIG_, sym->name,
-+					       sym_get_string_value(sym));
- 				}
- 			}
- 			break;
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 4e053f2477f9..f7eac4beb128 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -728,7 +728,7 @@ static struct conf_printer header_printer_cb =
- static void conf_write_symbol(FILE *fp, struct symbol *sym,
- 			      struct conf_printer *printer, void *printer_arg)
- {
--	const char *str;
-+	char *str;
- 
- 	switch (sym->type) {
- 	case S_UNKNOWN:
-@@ -736,11 +736,11 @@ static void conf_write_symbol(FILE *fp, struct symbol *sym,
- 	case S_STRING:
- 		str = sym_escape_string(sym);
- 		printer->print_symbol(fp, sym, str, printer_arg);
--		free((void *)str);
-+		free(str);
- 		break;
- 	default:
--		str = sym_get_string_value(sym);
--		printer->print_symbol(fp, sym, str, printer_arg);
-+		printer->print_symbol(fp, sym, sym_get_string_value(sym),
-+				      printer_arg);
- 	}
- }
- 
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index 035cc522808b..7ce4b666bba8 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -18,7 +18,7 @@ extern struct symbol * symbol_hash[SYMBOL_HASHSIZE];
- 
- struct symbol * sym_lookup(const char *name, int flags);
- struct symbol * sym_find(const char *name);
--const char * sym_escape_string(struct symbol *sym);
-+char *sym_escape_string(struct symbol *sym);
- struct symbol ** sym_re_search(const char *pattern);
- const char * sym_type_name(enum symbol_type type);
- void sym_calc_value(struct symbol *sym);
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 4a31bb943f79..57189a1ad797 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -871,7 +871,8 @@ struct symbol *sym_find(const char *name)
- 	return symbol;
- }
- 
--const char *sym_escape_string(struct symbol *sym)
-+/* the returned pointer must be freed on the caller side */
-+char *sym_escape_string(struct symbol *sym)
- {
- 	const char *in, *p;
- 	size_t reslen;
--- 
-2.30.2
-
+No, sym_escape_string_value() is called by conf_write_symbol()
+which in turn is called from conf_write() and conf_write_defconfig()
+(used to write .config files) besides conf_write_autoconf() (used to
+write auto.conf).
