@@ -2,111 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C3AB41A7C6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Sep 2021 07:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8756441ACA2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Sep 2021 12:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239428AbhI1F7d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Sep 2021 01:59:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48784 "EHLO mail.kernel.org"
+        id S240101AbhI1KL6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Sep 2021 06:11:58 -0400
+Received: from mail.avm.de ([212.42.244.94]:34188 "EHLO mail.avm.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239199AbhI1F6l (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Sep 2021 01:58:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1997461266;
-        Tue, 28 Sep 2021 05:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632808604;
-        bh=9XYhxWHvugaXUYp0Mrx7sZwFT1FDnAgQlbvApNOr2+Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IDbTbR77lowQ2y9htl4J/sbn6KqjUvqZekyjAm8wYjt/QdCkzNErko4DiRpx6sr5v
-         bh5G7/tuLopx3nfHvAeqqjdZMwrd+IKeFT5j5bi9yXmedYq3DR51Y9odX/CN3Z4JsC
-         iMxWblqa2Yxc+UKULmal7Jo/XBA/UAEu4C0BU6sZuUyBS/E0Jv9MbVIXHwvkEifTm8
-         4pCQKwj8NAJ3NOR1mPy7jmN6yym49vUGA/WsuwGV6fx/k3qB1TvBpYn+a6bAQLyL5k
-         mrDjid7AC8oZBZydkNYQzlDWqxt7sGVjd2ni1npb3Dim/vOYqbOcK9+eO7fA743ZT4
-         pwW3wl/Fl7uKQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Marco Elver <elver@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, masahiroy@kernel.org,
-        michal.lkml@markovi.net, kasan-dev@googlegroups.com,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.14 40/40] kasan: always respect CONFIG_KASAN_STACK
-Date:   Tue, 28 Sep 2021 01:55:24 -0400
-Message-Id: <20210928055524.172051-40-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210928055524.172051-1-sashal@kernel.org>
-References: <20210928055524.172051-1-sashal@kernel.org>
+        id S240055AbhI1KL6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 28 Sep 2021 06:11:58 -0400
+X-Greylist: delayed 369 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Sep 2021 06:11:57 EDT
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Tue, 28 Sep 2021 12:04:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1632823448; bh=xwk5aKeuA2SmiAZZesWO8p3LrHak6bCLbAoWOMLvJes=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OM9CneT5RaWM+p+70FjKkzYucbSl512yBMIB0BLlIJX9AJo2YE+iudAzE7zROvaCu
+         JXO1IZAGAXmToYa4l7jIFKBoKMOoUyE8Bvq5E2Jjc8FhFeJ+bSFDipCfmWeMvrBnmi
+         HlQrPw0rK+8ddzvChivdRl1HNBdVi4xH9TsqKG/8=
+Received: from deb-nschier.ads.avm.de (unknown [172.17.24.144])
+        by mail-auth.avm.de (Postfix) with ESMTPSA id 80539804BC;
+        Tue, 28 Sep 2021 12:04:08 +0200 (CEST)
+Date:   Tue, 28 Sep 2021 12:04:07 +0200
+From:   Nicolas Schier <n.schier@avm.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kconfig: remove 'const' from the return type of
+ sym_escape_string()
+Message-ID: <YVLol5WyUCrKu7tY@deb-nschier.ads.avm.de>
+References: <20210927125944.819010-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210927125944.819010-1-masahiroy@kernel.org>
+X-purgate-ID: 149429::1632823448-000004DC-7AF8A00D/0/0
+X-purgate-type: clean
+X-purgate-size: 3640
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nathan Chancellor <nathan@kernel.org>
+On Mon, Sep 27, 2021 at 09:59:44PM +0900, Masahiro Yamada wrote:
+> sym_escape_string() returns a malloc'ed memory, so it must be freed
+> when it is done.
+> 
+> Currently, sym_escape_string() returns the malloc'ed memory as
+> (const char *), then it is casted to (void *) when it is passed to
+> free(). This is odd.
+> 
+> The return type of sym_escape_string() should be (char *).
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 19532869feb9b0a97d17ddc14609d1e53a5b60db ]
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-Currently, the asan-stack parameter is only passed along if
-CFLAGS_KASAN_SHADOW is not empty, which requires KASAN_SHADOW_OFFSET to
-be defined in Kconfig so that the value can be checked.  In RISC-V's
-case, KASAN_SHADOW_OFFSET is not defined in Kconfig, which means that
-asan-stack does not get disabled with clang even when CONFIG_KASAN_STACK
-is disabled, resulting in large stack warnings with allmodconfig:
-
-  drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c:117:12: error: stack frame size (14400) exceeds limit (2048) in function 'lb035q02_connect' [-Werror,-Wframe-larger-than]
-  static int lb035q02_connect(struct omap_dss_device *dssdev)
-             ^
-  1 error generated.
-
-Ensure that the value of CONFIG_KASAN_STACK is always passed along to
-the compiler so that these warnings do not happen when
-CONFIG_KASAN_STACK is disabled.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1453
-References: 6baec880d7a5 ("kasan: turn off asan-stack for clang-8 and earlier")
-Link: https://lkml.kernel.org/r/20210922205525.570068-1-nathan@kernel.org
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: Marco Elver <elver@google.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Makefile.kasan | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index 801c415bac59..b9e94c5e7097 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -33,10 +33,11 @@ else
- 	CFLAGS_KASAN := $(CFLAGS_KASAN_SHADOW) \
- 	 $(call cc-param,asan-globals=1) \
- 	 $(call cc-param,asan-instrumentation-with-call-threshold=$(call_threshold)) \
--	 $(call cc-param,asan-stack=$(stack_enable)) \
- 	 $(call cc-param,asan-instrument-allocas=1)
- endif
- 
-+CFLAGS_KASAN += $(call cc-param,asan-stack=$(stack_enable))
-+
- endif # CONFIG_KASAN_GENERIC
- 
- ifdef CONFIG_KASAN_SW_TAGS
--- 
-2.33.0
+> ---
+> 
+>  scripts/kconfig/conf.c      | 10 +++++-----
+>  scripts/kconfig/confdata.c  |  8 ++++----
+>  scripts/kconfig/lkc_proto.h |  2 +-
+>  scripts/kconfig/symbol.c    |  3 ++-
+>  4 files changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index a6dad4a2e7a2..d8e1994bfed0 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -647,15 +647,15 @@ static void check_conf(struct menu *menu)
+>  		switch (input_mode) {
+>  		case listnewconfig:
+>  			if (sym->name) {
+> -				const char *str;
+> -
+>  				if (sym->type == S_STRING) {
+> +					char *str;
+> +
+>  					str = sym_escape_string(sym);
+>  					printf("%s%s=%s\n", CONFIG_, sym->name, str);
+> -					free((void *)str);
+> +					free(str);
+>  				} else {
+> -					str = sym_get_string_value(sym);
+> -					printf("%s%s=%s\n", CONFIG_, sym->name, str);
+> +					printf("%s%s=%s\n", CONFIG_, sym->name,
+> +					       sym_get_string_value(sym));
+>  				}
+>  			}
+>  			break;
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 4e053f2477f9..f7eac4beb128 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -728,7 +728,7 @@ static struct conf_printer header_printer_cb =
+>  static void conf_write_symbol(FILE *fp, struct symbol *sym,
+>  			      struct conf_printer *printer, void *printer_arg)
+>  {
+> -	const char *str;
+> +	char *str;
+>  
+>  	switch (sym->type) {
+>  	case S_UNKNOWN:
+> @@ -736,11 +736,11 @@ static void conf_write_symbol(FILE *fp, struct symbol *sym,
+>  	case S_STRING:
+>  		str = sym_escape_string(sym);
+>  		printer->print_symbol(fp, sym, str, printer_arg);
+> -		free((void *)str);
+> +		free(str);
+>  		break;
+>  	default:
+> -		str = sym_get_string_value(sym);
+> -		printer->print_symbol(fp, sym, str, printer_arg);
+> +		printer->print_symbol(fp, sym, sym_get_string_value(sym),
+> +				      printer_arg);
+>  	}
+>  }
+>  
+> diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
+> index 035cc522808b..7ce4b666bba8 100644
+> --- a/scripts/kconfig/lkc_proto.h
+> +++ b/scripts/kconfig/lkc_proto.h
+> @@ -18,7 +18,7 @@ extern struct symbol * symbol_hash[SYMBOL_HASHSIZE];
+>  
+>  struct symbol * sym_lookup(const char *name, int flags);
+>  struct symbol * sym_find(const char *name);
+> -const char * sym_escape_string(struct symbol *sym);
+> +char *sym_escape_string(struct symbol *sym);
+>  struct symbol ** sym_re_search(const char *pattern);
+>  const char * sym_type_name(enum symbol_type type);
+>  void sym_calc_value(struct symbol *sym);
+> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+> index 4a31bb943f79..57189a1ad797 100644
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -871,7 +871,8 @@ struct symbol *sym_find(const char *name)
+>  	return symbol;
+>  }
+>  
+> -const char *sym_escape_string(struct symbol *sym)
+> +/* the returned pointer must be freed on the caller side */
+> +char *sym_escape_string(struct symbol *sym)
+>  {
+>  	const char *in, *p;
+>  	size_t reslen;
+> -- 
+> 2.30.2
+> 
 
