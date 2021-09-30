@@ -2,151 +2,215 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97F0641DF6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Sep 2021 18:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9368541E1D0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Sep 2021 20:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352117AbhI3Qoj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Sep 2021 12:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
+        id S1343496AbhI3S4R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Sep 2021 14:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352253AbhI3Qoi (ORCPT
+        with ESMTP id S231637AbhI3S4Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Sep 2021 12:44:38 -0400
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0DCC061773
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
-Received: by mail-vs1-xe42.google.com with SMTP id i30so8049604vsj.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
+        Thu, 30 Sep 2021 14:56:16 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0519C06176A
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 11:54:33 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id b15so29173757lfe.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 11:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=e/UXzsfuMGIOVlEbRTLr+LyiVLu+rk+C86Y8q3wW3py4w/E1lywchmha62s+vfDZU/
-         lDQlChCZPR0Za0O6XXqtSxHBkfDknZqHefn4JFrkJFXhtuUvXTNIb7ZXsWI1pIEy9aKF
-         J+djW1pExW+Vz85wenMcmdbvW0bRnZDuP+wBc22G8Whb+0otHmzIHD67VnaqAJJUyu2N
-         hp4Za3TRZCMM+8F1AYe4GrnZp3bXTXub14cfh+ybnoNZRNie6weSCM9l03xMOWyM6gUq
-         cOWLOgcQaxZV3c17cAG9jP+Q1Y80xOUJKYUrvTJKkS/GdFi05lMHEwckwq/k9WX3uZHS
-         4nOw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5IZ/hLvOUSgpP0wYol2FuuiQb+HBe9aBEaCiGK4+fa4=;
+        b=RS7k61yWDY7k3lLrpz1Swp2qdYm4uhh+IQmQn4jDiN9TysKG0ay3jy/ufrUGOKrfw9
+         df0z/Wvx3KX2Ip2iU2QuWrEJOIHyyGZdotfqboUxby/doCtTLRAYGi/NyIXVL3JY8Yuy
+         aYMJ7Bs++uYAqCpShvMpqWVXTEL6Bcu5WNE/c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=Id4UkTZrOXog6iPH0yG+r59VoNnnUTWbUnkaSTiN85tN2YtEJwfesgOBswHWU9nuCs
-         4Z1JHba53u27/+XieDYy+P1066UgJWsUqrIG1yLnVhOFqxzjqrkpvSVXcvIHh7QqbZDZ
-         p55munGqZ6tOn7FH9PeNUmwcRRNCZb9mU6VXpzigRUZXFPu5DU0WshY2P16wWaB9YETs
-         fnfzyIfRudGWMrRCr0l7uHZVBdAayZ6+4DIAajHvYLnRfyTjTO2le4q+8SJ50oI2pcMp
-         eP1uhcs0Ssi0d66LXayf1PYie8qG1fnIvQLwbe9BLzFPp85qO6CZWXsz0zVD9KTxEnfY
-         INYA==
-X-Gm-Message-State: AOAM530I50BlyIh2VwWMfkeTWL4WUZPmvjYwLV/5Xerv2meRBpkUsT/6
-        Vd1rKxmPkkmbECaxOWnOwV88RO2X8yWdQKZ7868=
-X-Google-Smtp-Source: ABdhPJy7YLP+m8kssI0cTAGZRObkTi7kloVEv0tm4oNDkoblCKkCMeQNyi2yuMCtLxU0suy9Uh8HC/qWBrEk3sGZi/s=
-X-Received: by 2002:a67:ce14:: with SMTP id s20mr160974vsl.34.1633020174218;
- Thu, 30 Sep 2021 09:42:54 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5IZ/hLvOUSgpP0wYol2FuuiQb+HBe9aBEaCiGK4+fa4=;
+        b=sbAkmAPNgVC4GTERwJ0h7NYt/s37KbfbDeYNlRRI8ORQ/kMddThApJMLJfmtgvtgJ9
+         vsrllb1f69BUyz7iawKOU51wW8tlLeLA6lJH2TgLZKsnTMmnje4KoOQr5Zj+0ue7Q3p6
+         tm/uubkpXCOb96UMQRbTy6oGwAN28/dbMo4l9f95gza25EqUBsOuQX01ifMT0WqUXMg0
+         PSOvF7zWh+l7cgMptD5U4T8KsSZdtRsI9ltAYiQpYS8WKc/H8nUVdGqz916NlgaemY0F
+         QPn4teuQD210nTPLNIuCGlkHK3HrRs9SqIhbzhUSGKaBGKuv90eCwymMa7yUR1BgjPte
+         Vnrg==
+X-Gm-Message-State: AOAM532y5eoetRiQP0AsDN9ftGo424KbvmhvTATBWy1DN+or7jGeXh8g
+        bbyxnxflCVlM6Etm2r86LZEHqIMiIO/MjkuQl4M=
+X-Google-Smtp-Source: ABdhPJxKQE092R1yhpgO3l6GWN6Cufgvbu1ektm4YETJ6OKWKcXQWK+z2HSiYXJ7XhTwVPHidPSaiw==
+X-Received: by 2002:a2e:1559:: with SMTP id 25mr7839946ljv.359.1633028071792;
+        Thu, 30 Sep 2021 11:54:31 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id p11sm459766lfe.66.2021.09.30.11.54.29
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Sep 2021 11:54:30 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id x27so28914614lfa.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 11:54:29 -0700 (PDT)
+X-Received: by 2002:a19:ef01:: with SMTP id n1mr849824lfh.150.1633028069266;
+ Thu, 30 Sep 2021 11:54:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
- 09:42:53 -0700 (PDT)
-Reply-To: irenezakari24@gmail.com
-From:   Irene zakari <irenezakari88@gmail.com>
-Date:   Thu, 30 Sep 2021 09:42:53 -0700
-Message-ID: <CAFT8PFEiwji_tfJHzDxnx3mKwhExLN5n90A8Y-61JNL4AkCEFw@mail.gmail.com>
-Subject: PLEASE I NEED YOUR HELP
-To:     undisclosed-recipients:;
+References: <20210929225850.3889950-1-ndesaulniers@google.com>
+ <CAHk-=wh0BNEDz+uOdJWG8iW=n0PeOEjZpHyuSN2g0pKSCj+6iQ@mail.gmail.com> <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com>
+In-Reply-To: <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 30 Sep 2021 11:54:13 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
+Message-ID: <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: add allow list for llvm IPSCCP
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello   ..
+On Wed, Sep 29, 2021 at 5:19 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+> ...
+> arch/x86/mm/amdtopology.c:110:7: remark: 'test_bit' not inlined into
+> 'amd_numa_init' because too costly to inline (cost=115, threshold=45)
+> [-Rpass-missed=inline]
+>                 if (node_isset(nodeid, numa_nodes_parsed)) {
 
-How do you do over there? I hope you are doing well?
+Yeah, I think that we should just do the __always_inline thing.
 
-My name is Irene. (24 years), i am single, from Gambia, the only child
-of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
-(Building Construction Company in The Gambia) also the CEO of Bernard
-Import and Export (GAMBIA).
+I'd rather have the stupid debug code overhead in the caller - that
+may end up knowing that the pointer actually is so that the debug code
+goes away - than have "test_bit()" uninlined because there's so much
+crazy debug code in it.
 
-As a matter of fact my mother died when i was barely 4 years old
-according to my late father and because of the type of love he had for
-my mother made him to remain UN-married till he left the ghost..
+I also happen to believe that we have too much crazy "instrumentation" crap.
 
-So after the death of my father as a result of assassinate, his brother (My
-Uncle) who is the purchasing and marketing sale manager of my late
-fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
-convert all the properties and resources of my late father into his
-which i quarreled with him and it made him to lay his anger on me to
-the extent of hiring an assassins to kill me but to God be the glory i
-succeeded by making a way to Burkina faso for my dear life.
-Honestly i do live a fearful life even here in Burkina faso because of
-those Assassins coming after me .
+Why is that test_bit() word read so magical that it merits a
+"instrument_atomic_read()"?
 
-I would want to live and study in your country for my better future.
-because my father same blood brother wanted to force me into undecided
-marriage, just for me to leave my father home and went and live with
-another man I never know as he want to occupied all my father home
-and maybe to sold it as my father no longer alive, I'm the only child
-daughter my father born, '' but he don't know that i am not
-interesting in any of my father properties or early marriage for now,
-because i still have future to think about and to focus on my studies
-first as i was doing my first year in the University before the death
-of my father.
+But I absolutely detest how KCSAN and some other tooling seems to get
+a free pass on doing stupid things, just because they generated bad
+warnings so then they can freely generate these much more fundamental
+problems because the result is a f*cking mess.
 
-Actually what I want to discuss with you is about my personal issue
-concern funds my late father deposited in a bank outside my country,
-worth $4.5 million united state dollars. i need your assistance to
-receive and invest this funds in your country.
+> Though for the defconfig case...somehow the cost is more than with the
+> sanitizers...
 
-Please help me, I am sincere to you and I want to be member of your
-family as well if you wouldn't mind to accept me and lead me to better
-future in your country.
+Maybe the solution is that if you have some of the crazy sanitizers,
+we just say "the end result is not worth even checking". And stop
+checking all the section mismatches, and all the stack size things.
 
-All the documents the bank issue to my father during time of deposit
-is with me now.
-I already notify the bank on phone about the death of my father and
-they are surprise for the news and accept that my father is their good
-customer.
-I will be happy if this money can be invested in any business of your
-choice and it will be under your control till i finished my education,
-also I'm assuring you good relationship and I am ready to discuss the
-amount of money to give you from this money for your help.
+Because it looks like this is more of a real issue:
 
-Therefore, I shall give you the bank contact and other necessary
-information in my next email if you will only promise me that you will
-not/never betray and disclosed this matter to anybody, because, this
-money is the only hope i have for survival on earth since I have lost
-my parents.
+> arch/x86/mm/amdtopology.c:157:7: remark: '__nodes_weight' not inlined
+> into 'amd_numa_init' because too costly to inline (cost=930,
+> threshold=45) [-Rpass-missed=inline]
+>         if (!nodes_weight(numa_nodes_parsed))
+>              ^
 
-Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
-CERTIFICATE here with me, but before I give you further information, i
-will like to know your full data
+Hmm. That's just a "bitmap_weight()", and that function in turn is
+__always_inline.
 
-1. Full Name: ........................
-2. Address: ..................
-3. Nationality: ........... Sex................
-4. Age:........... Date of Birth:................
-5. Occupation:...................
-.....
-6. Phone: ........... Fax:.........................
-7. State of Origin: .......Country:..............
-8. Occupation:...................
-................
-9. Marital status........... E-mail address's: ............
-10. Scan copy of your ID card or Driving License/Photo:............
-DECLARATION:
+And the *reason* it is __always_inline is that it really wants to act
+as a macro, and look at the second argument and do special things if
+it is a small constant value.
 
-so that i will be fully sure that i am not trusting the wrong person.
-and it will also give me the mind to send you the bank contact for you
-to communicate with them for more verification about this money. and
-to know you more better.
+And it looks like clang messes things up by simply not doing enough
+simplification before inlining decisions, so it all looks very
+complicated to clang, even though when you actually generate code, you
+have one (of two) very simple code sequences.
 
-Meanwhile, you can reach me through my pastor,his name is Pastor Paul
-any time you call, tell him that you want to speak with me because
-right now i am living in the church here in Burkina faso and i don't
-want to stay here any longer,
-send for me to speak with you his phone number is this(+226 75213646)
+> > Wouldn't it be better to make
+> > them always-inline?
+>
+> Perhaps, see what that might look like:
+> https://github.com/ClangBuiltLinux/linux/issues/1302#issuecomment-807260475
+> Does that look better?
 
-I will stop here and i will be waiting for your reply and feel free
-ask any thing you want to know about me.
-Please help me, I would be highly appreciated
-Have nice day.
-From Irene
+I suspect that in this case, because of clang deficiencies, that
+__always_inline actually is the right thing to do at least on
+__nodes_weight.
+
+Looking at your comment lower down
+
+  https://github.com/ClangBuiltLinux/linux/issues/1302#issuecomment-807757878
+
+I really think this is a clang bug, and that you need to do certain
+simplifications both before _and_ after inlining.
+
+Before, because of the inlining cost decisions particularly wrt
+constant arguments.
+
+After, because successful inlining changes things completely.
+
+Marking __nodes_weight() be __always_inline just works around clang
+being broken in this regard.
+
+It is _possible_ that it might help to make bitmap_weight() be a macro
+instead of an inline function, but it's a kind of sad state of affairs
+if that is required.
+
+And it might well fail - if you don't do the constant propagation
+before making inlining decisions, you'll _still_ end up thinking that
+bitmap_weight() is very costly because you don't do that
+__builtin_constant_p() lowering.
+
+And then you end up using the (much more expensive) generic function
+instead of the cheap "look, for single words this is a trivial" thing.
+
+> Part of me feels like modpost not warning on those is permitting a
+> "memory leak," in so far as code that's only called from .init callers
+> is never reclaimed. Or leaving behind gadgets...
+
+I think we can just treat modpost as a "good heuristic".  If it
+catches all the normal cases, it's fine - but it must not have false
+positives.
+
+That's basically true of all warnings. False positive warnings make a
+warning worthless. That's just *basic*.
+
+So the gcc thing is a "ok, we know compilers mess this up if they do
+partial inlining with constant propagation, so we will suppress what
+is quite likely a false positive for that case".
+
+That clang patch, in comparison? That's just a hack enumerating random
+cases. TRhere is no logic to it, and there is absolutely zero
+maintainability. It will cause us to forever just add other random
+cases to the list, making the whole tooling entirely pointless.
+
+See the difference?
+
+Maybe clang should just adopt the gcc naming convention, so that we
+can just use the gcc heuristic.
+
+> > clear case of "this inlining failed". This ad-hoc list has cases of
+> > things that are clearly wrong in general ("test_bit()" must not use
+> > initdata), and that "ok, the function just doesn't have the right
+> > section marker.
+>
+> Sorry, what do you mean "test_bit() must not use initdata?" Because it
+> can lead to problems like this? Or...?
+
+No, I mean that it is completely unacceptable to add some crazy rule
+like "you can access this init-data  from any context, as long as you
+use test_bit to do so".
+
+That's basically what your rule does. And it's a FUNDAMENTALLY invalid
+rule. It's simply not true.  The rule is invalid, it's just that clang
+has made such a mess of it that in one particular case it happens to
+be true.
+
+The gcc "rule" is much more reasonable: it's *not* saying "it's ok to
+access this init-data from test_bit". The gcc rule says "we know gcc
+messes up our heuristics when out-of-lining with constprop, so we just
+won't warn because false positives are bad, bad, bad.
+
+One rule is fundamentally garbage and wrong. The other rule is a
+generic "we know this situation cannot be tested for". Very different.
+
+                  Linus
