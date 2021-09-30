@@ -2,110 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FDA441E227
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Sep 2021 21:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A857E41E3D8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 00:27:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344172AbhI3TXz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Sep 2021 15:23:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48548 "EHLO
+        id S1344560AbhI3W2w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Sep 2021 18:28:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343832AbhI3TXz (ORCPT
+        with ESMTP id S1343578AbhI3W2v (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Sep 2021 15:23:55 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFFFC06176A
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 12:22:12 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id f15so6768556qtv.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 12:22:12 -0700 (PDT)
+        Thu, 30 Sep 2021 18:28:51 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC02C06176C
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 15:27:08 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id n18so7597389pgm.12
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 15:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A/tuWyi96ya0DlbzWNr34/HVx+HP3Iol741vjN64iIc=;
-        b=AnkZHp5Jxa0Wk/NFWfm8jROZ4vvwpLiSaBjXqAL2Oj1rT8lPI5/T+3P56rGO8gKyxc
-         kvInbIhXASrI/xTvh9/fbw4QmCGU0MaFulfd4JkXMuFWPqLvO4VCU+udtyP9m4y21FSZ
-         Rw2TC2kmSA+ecaVyQDNVXPE9k049LXNX+T1MU=
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=36j5L3IXWBXJSa10uMT5uD6s/Y5u7bDApoWqfRj3glw=;
+        b=jdF4+GGFPTaheVbue765+UfgFhpqgRf4n2s6bFx1BdfagCMTvVJMI5rPIAsyJxBIUp
+         /wGNVS5PAsmda7VGWicIS0lb7cjah8fETmzwWJksUMDbKsbCYNLWuZdJZ40Usk5gnrrU
+         +C63RBPWlPJP62rZ6V8t/R4q8cigpMX4rIgYk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A/tuWyi96ya0DlbzWNr34/HVx+HP3Iol741vjN64iIc=;
-        b=QjWCrSiCfW5lfDR6Fsj7GJ8U4G/rijTowUHAHNxu7EK4P2/mQhwvHIyf83JbV860BU
-         KzsLCu8Zw0uZVJpko7PM51IGJ1fpAD7vGhdknSSKXVHOG3Yd71fZc0WnJNBIzlbJ3b0Z
-         viBc/Uh520umoEn2qBBiSF8+og1zbsH1L7TFFstipM3FVlHqnlh8L48+FeRwp/gY74ST
-         +6IVzjuXxuwncZvitDRdNNXwG7S9Q3Nk3MCRafZhLvbI96gRJsUSwiXbrW8ZWlESCLfo
-         raTz2MupSDkqueiRjx7fOUSLB0UuKe9m2Bn+8ZYtzsBUz5qAF1pxARkGBOs5ANhNKZUn
-         QrFg==
-X-Gm-Message-State: AOAM530x0R8Gf4GbXW7t3Yf+ibupt3PPKHlg+welLdXTvmRBSYWzIDVh
-        7igDE8AVIVyA7ZN3JkIhyKnwn7Od6AW0Z6rNBF0qRA==
-X-Google-Smtp-Source: ABdhPJxJw9NOE+4sYLYwSXZW1wIgp8Fr2yvM5tOgUuMt++tcPCBQPGyBPdWLTJb4BqiUEnUe0uPUQw==
-X-Received: by 2002:ac8:5345:: with SMTP id d5mr8398642qto.94.1633029730943;
-        Thu, 30 Sep 2021 12:22:10 -0700 (PDT)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id k19sm2053841qko.115.2021.09.30.12.22.10
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Sep 2021 12:22:10 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id i84so15572001ybc.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 12:22:10 -0700 (PDT)
-X-Received: by 2002:a25:6b11:: with SMTP id g17mr1212374ybc.251.1633029729737;
- Thu, 30 Sep 2021 12:22:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210929225850.3889950-1-ndesaulniers@google.com>
- <CAHk-=wh0BNEDz+uOdJWG8iW=n0PeOEjZpHyuSN2g0pKSCj+6iQ@mail.gmail.com>
- <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com> <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
-In-Reply-To: <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 30 Sep 2021 12:21:29 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wix+P0EtxFSEhmubWNZ++Qg1fj46e32uEKo+mzPu0jPAA@mail.gmail.com>
-Message-ID: <CAHk-=wix+P0EtxFSEhmubWNZ++Qg1fj46e32uEKo+mzPu0jPAA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: add allow list for llvm IPSCCP
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=36j5L3IXWBXJSa10uMT5uD6s/Y5u7bDApoWqfRj3glw=;
+        b=KjGnF4/xSnUCQYv5Ruig5uWm4mMAtA15p8SQO12fOTqv/Bax4VPu5ofUbHGGHerORq
+         gfQHiRjQ9xj8LZhHVNzv7WuTEFQzHTySrkGF5+4pLl7BvpVUpy4eFbCiaMM9RgpSQLlg
+         bI0T1rZsnr09xZaPALX6zXWyaxLTXaHnwJP5H0Wp8AyxYN81RN+9wcxvMQSG66cF4zn1
+         Weq0diDqTkyODnNegegl4WdADPaWIYUeNAv5VDyN0EFCrLX2b0JX1xbnTkMOZRadFs05
+         gky4me3TpXHx34feaWExEcAKIfb3Ack0E+EZkaCpiWV4NuY3V7ac2jcPTtvPsVo0jpuz
+         UkBw==
+X-Gm-Message-State: AOAM531ftHk/lzAnNWy7y6x+h7P9bstrJK05d1PuWHfnXnCOtwhzZLAC
+        rXDAhtAVQdFYKf9eNSbCINaMfA==
+X-Google-Smtp-Source: ABdhPJzwvdcLzYPcnUhMbdaXUYsbzCJISTZjEr818vMUHCmvn0wRC/EuUIDTvv2mbQ0uruyIeNqBeA==
+X-Received: by 2002:a63:1104:: with SMTP id g4mr6808034pgl.403.1633040828353;
+        Thu, 30 Sep 2021 15:27:08 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w14sm4014005pge.40.2021.09.30.15.27.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Sep 2021 15:27:07 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, Joe Perches <joe@perches.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH v3 0/8] Add __alloc_size()
+Date:   Thu, 30 Sep 2021 15:26:56 -0700
+Message-Id: <20210930222704.2631604-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2796; h=from:subject; bh=I3VSaYm9ezb7bHImNRkPHiAlz1ym/3eSqmSHHw7PzPc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhVjm2trNkLaQC+FMTfijdk1cGylQunUf+UbapBw2l aTY8uFmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYVY5tgAKCRCJcvTf3G3AJqQFD/ 9YSlk3PdAdtRBkTdXkwP8owLGfO+VnOq9vtRzRbsuSKa7C8/IvCCNxD16nC3XgUP+A3X9DeEeZpxtN KQQXav7b2c9MVVtP9HKO6AeJzfz0IEGECZ9KI+Om3wXz+qsFv+fZCWl4UmNQKT1vr+SDRyEINCKxGZ ExiIpojTRrbldN7lLHazXnka1vOiJ8O1zA8zi8fjhL2Lb+oj2/7/HUXzK7cOKdG/+FQ2ku14z+hnVT Fn3ErgRyIZxOuaCPtryDdLV7nNoSmxT9f9UFP2uWIZ5SU6gPOfEI7frcGyIm/IlMXNcdTBMhNK8UhY 65VQezKn/Uk3bD4JOquuWhail4ChaSiWz/h/rY5VbegnJrC66iy96m6zTOmFqmPpYjCsVCR2VFUWuf FrYMjVOEO36ewYrtLO1ZjP6c9/AahG4Z6Nq75Or9T9JLHKcvSP06DtEC4H/aApy80DQqKojn/TJSTV wuVss9nAR6pZniVZ32+7TIfb9VbNbz1q4KGxkgFn46pkNlb8s0h9x0X7mjw6QgnnSkvocacbtiOvx0 SQisQwgvoDLZYG9YIvVpGJxy8TeyCBmt6LLM0ecQmxk+H5Q6PwgQAH6s6Eg5ofM+TMmgIJwHsdN82F OuoVLbrzAV/9M48u+Nw5VdALC6BZmelf+t3IXv0xggKtQwplVG9fyn3dmBsQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 11:54 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Hmm. That's just a "bitmap_weight()", and that function in turn is
-> __always_inline.
->
-> And the *reason* it is __always_inline is that it really wants to act
-> as a macro, and look at the second argument and do special things if
-> it is a small constant value.
+Hi Andrew,
 
-Looking around, it's not the only one. A lot of the bitmap functions
-do that, but it looks like we're missing a few __always_inline cases.
+This is a refresh of the __alloc_size series you have in -mm
+currently. This addresses the issues[1] Linus had with attribute
+location and the redundant use of __malloc. These are meant to replace
+the following patches:
 
-I wonder if we should have a macro to generate those "do X or Y
-depending on small_const_nbits()" - and have it generate
-__always_inline functions.
+compiler-attributes-add-__alloc_size-for-better-bounds-checking.patch
+compiler-attributes-add-__alloc_size-for-better-bounds-checking-fix.patch
+checkpatch-add-__alloc_size-to-known-attribute.patch
+slab-clean-up-function-declarations.patch
+slab-add-__alloc_size-attributes-for-better-bounds-checking.patch
+mm-page_alloc-add-__alloc_size-attributes-for-better-bounds-checking.patch
+percpu-add-__alloc_size-attributes-for-better-bounds-checking.patch
+mm-vmalloc-add-__alloc_size-attributes-for-better-bounds-checking.patch
+rapidio-avoid-bogus-__alloc_size-warning.patch
 
-Of course, some of those functions have more complex "check at build
-time" cases, like that bitmap_clear/set() thing that has a special
-case for when it just turns into "memset()"
+Thanks!
 
-We have a lot of these kinds of situations where we have a "generic"
-function that specializes itself based on arguments. And yes, they are
-often recursive, so that you need more than one level of inlining to
-actually determine what the arguments are.
+-Kees
 
-I don't know if we might have some way to mark these (and detect the
-cases where they don't get inlined and we lose the vasy basic
-optimizations).
+[1] https://lore.kernel.org/mm-commits/CAHk-=wgfbSyW6QYd5rmhSHRoOQ=ZvV+jLn1U8U4nBDgBuaOAjQ@mail.gmail.com/
 
-It's kind of similar to the _Generic() thing that does different
-things based on static types, it's just that it does it based on
-argument ranges.
+v3:
+- move attribute logic around to better handle GCC's weird behavior
+- merge __malloc into the __alloc_size macro (Linus)
+- refactor attribute positions (Linus)
+v2: https://lore.kernel.org/lkml/20210818214021.2476230-1-keescook@chromium.org
+v1: https://lore.kernel.org/lkml/20210818050841.2226600-1-keescook@chromium.org
 
-          Linus
+Original cover letter:
+
+GCC and Clang both use the "alloc_size" attribute to assist with bounds
+checking around the use of allocation functions. Add the attribute,
+adjust the Makefile to silence needless warnings, and add the hints to
+the allocators where possible. These changes have been in use for a
+while now in GrapheneOS.
+
+Kees Cook (8):
+  rapidio: Avoid bogus __alloc_size warning
+  Compiler Attributes: add __alloc_size() for better bounds checking
+  slab: Clean up function prototypes
+  slab: Add __alloc_size attributes for better bounds checking
+  mm/kvmalloc: Add __alloc_size attributes for better bounds checking
+  mm/vmalloc: Add __alloc_size attributes for better bounds checking
+  mm/page_alloc: Add __alloc_size attributes for better bounds checking
+  percpu: Add __alloc_size attributes for better bounds checking
+
+ Makefile                                 | 15 ++++
+ drivers/rapidio/devices/rio_mport_cdev.c |  9 ++-
+ include/linux/compiler-gcc.h             |  8 ++
+ include/linux/compiler_attributes.h      | 10 +++
+ include/linux/compiler_types.h           | 12 +++
+ include/linux/gfp.h                      |  4 +-
+ include/linux/mm.h                       | 16 ++--
+ include/linux/percpu.h                   |  6 +-
+ include/linux/slab.h                     | 99 +++++++++++++-----------
+ include/linux/vmalloc.h                  | 22 +++---
+ scripts/checkpatch.pl                    |  3 +-
+ 11 files changed, 128 insertions(+), 76 deletions(-)
+
+-- 
+2.30.2
+
