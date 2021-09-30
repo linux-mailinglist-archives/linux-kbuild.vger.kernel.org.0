@@ -2,171 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E206141DA25
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Sep 2021 14:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97F0641DF6B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Sep 2021 18:42:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351057AbhI3Msl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Sep 2021 08:48:41 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:50937 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349794AbhI3Msk (ORCPT
+        id S1352117AbhI3Qoj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Sep 2021 12:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352253AbhI3Qoi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Sep 2021 08:48:40 -0400
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 18UCkUsI031268;
-        Thu, 30 Sep 2021 21:46:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 18UCkUsI031268
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1633005991;
-        bh=QTVmnlg4EXLgMNWGaqhRXsGICBaozUUHczJ1G+1ORRY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=D33rLXJOw70Lqc/bx5R09SiHYnqukGKFFrxXGSdRtJ/9+Fn+kNo9ScxJrpyQcCVOM
-         rH9wOhmGwe79sWJbRI4qX+A0RADYSsAviBlDz9UbOh+7K3qfJyeAHcSOMyaMwf1Cnz
-         XQqevDoRbnKkP+7ts1DBHIuRyOuoUOYbCotYCoZ//3ZbxOSgQq20OjX5x4q2erkFgA
-         Tpc2VhxBIyIBTCUNJ1nTkj4l/F4doW+KwGAy8wZZnkiWnR8NjstETbhLRXipCEEsVu
-         XiMwiTNvn6DbseeelapnulpgJ1OPymLeCo4plhiaSSWVD4Gap0E36ddLW2Tpp7R9Ze
-         IjXCYATtosEVg==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id t4so3947641plo.0;
-        Thu, 30 Sep 2021 05:46:31 -0700 (PDT)
-X-Gm-Message-State: AOAM533vg4etZygjbmuEvvhftMnrXu/ehjB5nVnBn0BO02GxtLN5mscc
-        5yq8EKopRd/KkAiFH+GkX2dYpSHms6scsHweuyY=
-X-Google-Smtp-Source: ABdhPJzpyqDL9Jf0nePfabDpHndqVil4Vjv6FnbbrifNx1wHyynn37xAtjzHeX5fXEI0C52sV3wFfJicViO3UHPhR5s=
-X-Received: by 2002:a17:90a:4414:: with SMTP id s20mr6243842pjg.144.1633005990304;
- Thu, 30 Sep 2021 05:46:30 -0700 (PDT)
+        Thu, 30 Sep 2021 12:44:38 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B0DCC061773
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id i30so8049604vsj.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Sep 2021 09:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=e/UXzsfuMGIOVlEbRTLr+LyiVLu+rk+C86Y8q3wW3py4w/E1lywchmha62s+vfDZU/
+         lDQlChCZPR0Za0O6XXqtSxHBkfDknZqHefn4JFrkJFXhtuUvXTNIb7ZXsWI1pIEy9aKF
+         J+djW1pExW+Vz85wenMcmdbvW0bRnZDuP+wBc22G8Whb+0otHmzIHD67VnaqAJJUyu2N
+         hp4Za3TRZCMM+8F1AYe4GrnZp3bXTXub14cfh+ybnoNZRNie6weSCM9l03xMOWyM6gUq
+         cOWLOgcQaxZV3c17cAG9jP+Q1Y80xOUJKYUrvTJKkS/GdFi05lMHEwckwq/k9WX3uZHS
+         4nOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=Id4UkTZrOXog6iPH0yG+r59VoNnnUTWbUnkaSTiN85tN2YtEJwfesgOBswHWU9nuCs
+         4Z1JHba53u27/+XieDYy+P1066UgJWsUqrIG1yLnVhOFqxzjqrkpvSVXcvIHh7QqbZDZ
+         p55munGqZ6tOn7FH9PeNUmwcRRNCZb9mU6VXpzigRUZXFPu5DU0WshY2P16wWaB9YETs
+         fnfzyIfRudGWMrRCr0l7uHZVBdAayZ6+4DIAajHvYLnRfyTjTO2le4q+8SJ50oI2pcMp
+         eP1uhcs0Ssi0d66LXayf1PYie8qG1fnIvQLwbe9BLzFPp85qO6CZWXsz0zVD9KTxEnfY
+         INYA==
+X-Gm-Message-State: AOAM530I50BlyIh2VwWMfkeTWL4WUZPmvjYwLV/5Xerv2meRBpkUsT/6
+        Vd1rKxmPkkmbECaxOWnOwV88RO2X8yWdQKZ7868=
+X-Google-Smtp-Source: ABdhPJy7YLP+m8kssI0cTAGZRObkTi7kloVEv0tm4oNDkoblCKkCMeQNyi2yuMCtLxU0suy9Uh8HC/qWBrEk3sGZi/s=
+X-Received: by 2002:a67:ce14:: with SMTP id s20mr160974vsl.34.1633020174218;
+ Thu, 30 Sep 2021 09:42:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929225850.3889950-1-ndesaulniers@google.com>
- <CAHk-=wh0BNEDz+uOdJWG8iW=n0PeOEjZpHyuSN2g0pKSCj+6iQ@mail.gmail.com> <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com>
-In-Reply-To: <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 30 Sep 2021 21:45:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+N2tyesqcooB91wtUD81S+M7wgd+kVW6iF3v83CYgaw@mail.gmail.com>
-Message-ID: <CAK7LNAT+N2tyesqcooB91wtUD81S+M7wgd+kVW6iF3v83CYgaw@mail.gmail.com>
-Subject: Re: [PATCH] modpost: add allow list for llvm IPSCCP
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev
+Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
+ 09:42:53 -0700 (PDT)
+Reply-To: irenezakari24@gmail.com
+From:   Irene zakari <irenezakari88@gmail.com>
+Date:   Thu, 30 Sep 2021 09:42:53 -0700
+Message-ID: <CAFT8PFEiwji_tfJHzDxnx3mKwhExLN5n90A8Y-61JNL4AkCEFw@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 9:19 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Wed, Sep 29, 2021 at 4:28 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Wed, Sep 29, 2021 at 3:59 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > +static const struct secref_exception secref_allowlist[] = {
-> > > +       { .fromsym = "__first_node", .tosym = "numa_nodes_parsed" },
-> > > +       { .fromsym = "__next_node", .tosym = "numa_nodes_parsed" },
-> > > +       { .fromsym = "__nodes_weight", .tosym = "numa_nodes_parsed" },
-> > > +       { .fromsym = "early_get_smp_config", .tosym = "x86_init" },
-> > > +       { .fromsym = "test_bit", .tosym = "numa_nodes_parsed" },
-> > > +};
->
-> Thanks for your feedback.  This has been a long-standing issue with no
-> clear path forward; I was looking forward to your input.
->
-> >
-> > This list is basically made-up and random.
->
-> Definitely brittle.  And it contains checks that are specific to
-> basically one set of configs for one arch. It sucks to pay that cost
-> for unaffected architectures.
->
-> > Why did those functions not get inlined?
->
-> $ make LLVM=1 -j72 allmodconfig
-> $ make LLVM=1 -j72 arch/x86/mm/amdtopology.o KCFLAGS=-Rpass-missed=inline.
-> ...
-> arch/x86/mm/amdtopology.c:110:7: remark: 'test_bit' not inlined into
-> 'amd_numa_init' because too costly to inline (cost=115, threshold=45)
-> [-Rpass-missed=inline]
->                 if (node_isset(nodeid, numa_nodes_parsed)) {
->                     ^
-> arch/x86/mm/amdtopology.c:157:7: remark: '__nodes_weight' not inlined
-> into 'amd_numa_init' because too costly to inline (cost=60,
-> threshold=45) [-Rpass-missed=inline]
->         if (!nodes_weight(numa_nodes_parsed))
->              ^
-> arch/x86/mm/amdtopology.c:171:2: remark: 'early_get_smp_config' not
-> inlined into 'amd_numa_init' because too costly to inline (cost=85,
-> threshold=45) [-Rpass-missed=inline]
->         early_get_smp_config();
->         ^
-> arch/x86/mm/amdtopology.c:178:2: remark: '__first_node' not inlined
-> into 'amd_numa_init' because too costly to inline (cost=70,
-> threshold=45) [-Rpass-missed=inline]
->         for_each_node_mask(i, numa_nodes_parsed)
->         ^
-> arch/x86/mm/amdtopology.c:178:2: remark: '__next_node' not inlined
-> into 'amd_numa_init' because too costly to inline (cost=95,
-> threshold=45) [-Rpass-missed=inline]
->
->
-> ie. for allmodconfig, the sanitizers add too much instrumentation to
-> the callees that they become too large to be considered profitable to
-> inline by the cost model.  Note that LLVM's inliner works bottom up,
-> not top down.
->
-> Though for the defconfig case...somehow the cost is more than with the
-> sanitizers...
->
-> arch/x86/mm/amdtopology.c:157:7: remark: '__nodes_weight' not inlined
-> into 'amd_numa_init' because too costly to inline (cost=930,
-> threshold=45) [-Rpass-missed=inline]
->         if (!nodes_weight(numa_nodes_parsed))
->              ^
->
-> Looking at the output of `make LLVM=1 -j72
-> arch/x86/mm/amdtopology.ll`, @__nodes_weight is just some inline asm
-> (.altinstructions). I wonder if I need to teach the cost model about
-> `asm inline`...
->
-> For the allmodconfig build it looks like `__nodes_weight` calls
-> `__bitmap_weight` and the code coverage runtime hooks.
->
-> > Wouldn't it be better to make
-> > them always-inline?
->
-> Perhaps, see what that might look like:
-> https://github.com/ClangBuiltLinux/linux/issues/1302#issuecomment-807260475
-> Does that look better?
->
-> > Or, like in at least the early_get_smp_config() case, just make it be
-> > marked __init, so that if it doesn't get inlined it gets the right
-> > section?
->
-> In the case of early_get_smp_config(), that's what Boris suggested:
-> https://lore.kernel.org/lkml/20210225114533.GA380@zn.tnic/
+Hello   ..
 
+How do you do over there? I hope you are doing well?
 
-__init works particularly for early_get_smp_config().
+My name is Irene. (24 years), i am single, from Gambia, the only child
+of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
+(Building Construction Company in The Gambia) also the CEO of Bernard
+Import and Export (GAMBIA).
 
-For static line helpers that are called from __init and non-__init functions,
-maybe __ref will work.
+As a matter of fact my mother died when i was barely 4 years old
+according to my late father and because of the type of love he had for
+my mother made him to remain UN-married till he left the ghost..
 
-In my understanding, the .ref.text section is not free'd,
-but modpost bypasses the section mismatch checks.
+So after the death of my father as a result of assassinate, his brother (My
+Uncle) who is the purchasing and marketing sale manager of my late
+fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
+convert all the properties and resources of my late father into his
+which i quarreled with him and it made him to lay his anger on me to
+the extent of hiring an assassins to kill me but to God be the glory i
+succeeded by making a way to Burkina faso for my dear life.
+Honestly i do live a fearful life even here in Burkina faso because of
+those Assassins coming after me .
 
-I am not sure what is a better approach for generic cases,
-__always_inline, __ref, or what else?
+I would want to live and study in your country for my better future.
+because my father same blood brother wanted to force me into undecided
+marriage, just for me to leave my father home and went and live with
+another man I never know as he want to occupied all my father home
+and maybe to sold it as my father no longer alive, I'm the only child
+daughter my father born, '' but he don't know that i am not
+interesting in any of my father properties or early marriage for now,
+because i still have future to think about and to focus on my studies
+first as i was doing my first year in the University before the death
+of my father.
 
+Actually what I want to discuss with you is about my personal issue
+concern funds my late father deposited in a bank outside my country,
+worth $4.5 million united state dollars. i need your assistance to
+receive and invest this funds in your country.
 
-I am not a big fan of this patch, at least...
-(The reason was already stated by Linus)
+Please help me, I am sincere to you and I want to be member of your
+family as well if you wouldn't mind to accept me and lead me to better
+future in your country.
 
+All the documents the bank issue to my father during time of deposit
+is with me now.
+I already notify the bank on phone about the death of my father and
+they are surprise for the news and accept that my father is their good
+customer.
+I will be happy if this money can be invested in any business of your
+choice and it will be under your control till i finished my education,
+also I'm assuring you good relationship and I am ready to discuss the
+amount of money to give you from this money for your help.
 
--- 
-Best Regards
-Masahiro Yamada
+Therefore, I shall give you the bank contact and other necessary
+information in my next email if you will only promise me that you will
+not/never betray and disclosed this matter to anybody, because, this
+money is the only hope i have for survival on earth since I have lost
+my parents.
+
+Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
+CERTIFICATE here with me, but before I give you further information, i
+will like to know your full data
+
+1. Full Name: ........................
+2. Address: ..................
+3. Nationality: ........... Sex................
+4. Age:........... Date of Birth:................
+5. Occupation:...................
+.....
+6. Phone: ........... Fax:.........................
+7. State of Origin: .......Country:..............
+8. Occupation:...................
+................
+9. Marital status........... E-mail address's: ............
+10. Scan copy of your ID card or Driving License/Photo:............
+DECLARATION:
+
+so that i will be fully sure that i am not trusting the wrong person.
+and it will also give me the mind to send you the bank contact for you
+to communicate with them for more verification about this money. and
+to know you more better.
+
+Meanwhile, you can reach me through my pastor,his name is Pastor Paul
+any time you call, tell him that you want to speak with me because
+right now i am living in the church here in Burkina faso and i don't
+want to stay here any longer,
+send for me to speak with you his phone number is this(+226 75213646)
+
+I will stop here and i will be waiting for your reply and feel free
+ask any thing you want to know about me.
+Please help me, I would be highly appreciated
+Have nice day.
+From Irene
