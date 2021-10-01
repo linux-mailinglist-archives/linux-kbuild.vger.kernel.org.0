@@ -2,164 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3173B41EBEC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 13:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4FF641EC43
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 13:35:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353914AbhJALbe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Oct 2021 07:31:34 -0400
-Received: from mail.avm.de ([212.42.244.119]:59744 "EHLO mail.avm.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353902AbhJALbc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Oct 2021 07:31:32 -0400
-Received: from mail-notes.avm.de (mail-notes.avm.de [172.16.0.1])
-        by mail.avm.de (Postfix) with ESMTP
-        for <linux-kbuild@vger.kernel.org>; Fri,  1 Oct 2021 13:29:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1633087783; bh=RlNM0TgJbqwGyS7qd1mq0/neCkw0zZkWlkjkYNyK8Eo=;
-        h=Date:Subject:References:In-Reply-To:To:Cc:From:From;
-        b=xhlCSgPccWO3Q1PxrG0/Cxl96m0Qgl2+C6J31abh09wWhpwB5KltTApkz/4oOOTqI
-         kCAvFXaYzoJByfCgCRxrMgQmxwKOMToH0sJ36gRztj5MiHbsfdEZ9wOxezc3xLSjhV
-         nId/o2NODJrVs/czYtrr4JYT3S+lMv5Uu2GLjejM=
-Received: from mail.avm.de ([212.42.244.94])
-          by mail-notes.avm.de (HCL Domino Release 11.0.1FP3)
-          with ESMTP id 2021100113283188-8256 ;
-          Fri, 1 Oct 2021 13:28:31 +0200 
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS
-        for <n.schier@mail-notes.avm.de>; Fri,  1 Oct 2021 13:28:31 +0200 (CEST)
-Received: from deb-nschier.ads.avm.de (unknown [172.17.24.144])
-        by mail-auth.avm.de (Postfix) with ESMTPSA id 58DCC80521
-        for <n.schier@avm.de>; Fri,  1 Oct 2021 13:28:31 +0200 (CEST)
-Received: by deb-nschier.ads.avm.de (Postfix)
-        id 499A27FEFB; Fri,  1 Oct 2021 13:28:31 +0200 (CEST)
-Date:   Fri, 1 Oct 2021 13:28:31 +0200
-Subject: Re: [PATCH 10/10] [for next only] kconfig: generate
- include/generated/rustc_cfg
-References: <20211001053253.1223316-1-masahiroy@kernel.org>
- <20211001053253.1223316-10-masahiroy@kernel.org>
+        id S1354034AbhJALhC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Oct 2021 07:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354043AbhJALhA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 1 Oct 2021 07:37:00 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41DEBC061780
+        for <linux-kbuild@vger.kernel.org>; Fri,  1 Oct 2021 04:35:13 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id v18so32942689edc.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 01 Oct 2021 04:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=kb6MbLUy++O6PNHhKSFPx9v4fFtwpvxJeNblR4kji6+6qq2Lucl0Bos7Wr8pcLX+hO
+         tRyb9xiWVR8p706SNC+HizJNgSL5UH7etOYT4KJNUPAxZsx19kSXdlPSkzuaY1jTWaLY
+         4tzz18G2my1E8FkqDzcvEfU/fmLr7epbivZsMIbMD2QsJgHn219yKjZHacudF+1Otelk
+         Ps1x6eI3Y+KniUoXNyOSthjl8bPizc7o0PNNLM7mCUJWrsXs698IFJfmckZW2ZuwAS6o
+         Sx6QKffvmRb5RhKFnE364qOhRDY4B39bqiG8gRsgkqiSO/SRZOJpzUOpTrf/l9gFCHVc
+         XGiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=5L/E4eErsLvrvRSyjenHMn1XgR3BfAibYkaUBTxnmho=;
+        b=oAqxlnei2kaBK75o9AIEOszaCDWuI21Z9x33fuqmC74fm582CEyJO2XqJo3gYm6c2g
+         2VoBtx9M1GIBS3jdU9wyYFyQeZTPmbKga8ghG+I5YXDSZVqVKuY4fV7RXMWmQ/fzwxqc
+         4nv3JpKWyhJNUKisW+leyehmIkzy7C3SZddCz4GJoUg+1OoH13RHWJFccmfCYDNnU6hn
+         sPupsv5fYS6ejGE+quFAQPlMT34xXf4NkD9NeLrGdwPWucQVRyRIwmkBZXkVdh2KGtS2
+         N+5CY2p/Bjk1RXGafA0h8Jjuz39ZF0F40xPCkiZ4tPy7vN+5u4VpfiTptcmzAAb9Em4U
+         5zDg==
+X-Gm-Message-State: AOAM533PQSWae39M/bTYVTwuaEBoBPQ0cjjkHvSbTGJYL8q3blhCMIUG
+        uwzBYVUd0q4sGNLkAuIDakKd8VkfLGgMbg4J8vk8nl5TUf1zKA==
+X-Google-Smtp-Source: ABdhPJxO5JZDMou4ZeNj31LReXKwuJbss5Bcqb0SVbR3DI9xevoj0I1eyLAyk/Sg0BjFpvAB7vI/ZitZ52WunSuQcUw=
+X-Received: by 2002:a17:906:3882:: with SMTP id q2mr5834865ejd.396.1633088100599;
+ Fri, 01 Oct 2021 04:35:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211001053253.1223316-10-masahiroy@kernel.org>
-Message-Id: <20211001112831.499A27FEFB@deb-nschier.ads.avm.de>
-X-TNEFEvaluated: 1
-Sensitivity: 
-To:     "Masahiro Yamada" <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   n.schier@avm.de
-X-Mailer: Lotus Domino Web Server Release 11.0.1FP3 March 31, 2021
-X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP3|March 31, 2021) at
- 01.10.2021 13:28:31,
-        Serialize by http on ANIS1/AVM(Release 11.0.1FP3|March 31, 2021) at
- 01.10.2021 13:29:42,
-        Serialize complete at 01.10.2021 13:29:42,
-        Serialize by Router on ANIS1/AVM(Release 11.0.1FP3|March 31, 2021) at
- 01.10.2021 13:29:42
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Notes-Item: linux-kbuild@vger.kernel.org; name=AltBlindCopyTo
-X-purgate-ID: 149429::1633087783-0000056E-DE22831C/0/0
-X-purgate-type: clean
-X-purgate-size: 3050
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Received: by 2002:a17:906:724a:0:0:0:0 with HTTP; Fri, 1 Oct 2021 04:34:58
+ -0700 (PDT)
+Reply-To: joymat52@gmail.com
+From:   Joyce Thomas <tjoyc1234@gmail.com>
+Date:   Fri, 1 Oct 2021 04:34:58 -0700
+Message-ID: <CAF-RpUjEy3ZrsPpj7r5ZFKjGM=JQyOMzOcWwONVKJZrBckwU0Q@mail.gmail.com>
+Subject: ATTN:
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 01, 2021 at 02:32:53PM +0900, Masahiro Yamada wrote:
-> This patch is not intended for the mainline.
-> 
-> I created this patch for Stephen Rothwell to resolve the merge
-> conflicts more easily.
-> 
-> The Rust tree is touching scripts/kconfig/confdata.c to generate
-> include/generated/rustc_cfg, which would cause complicated conflicts
-> with changes from the kbuild tree.
-> 
-> I re-implemented it to produce the equaivalent rustc_cfg.
-> 
-> I also fixed the memory leak; the original code from the Rust tree
-> did not free the malloc'ed pointer.
-> 
-> Stephen:
-> When you resolve the conflicts in confdata.c, please take this one.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/kconfig/confdata.c | 42 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index 9ece2f3b61a6..4767f3810cf4 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -603,6 +603,9 @@ static const struct comment_style comment_style_c = {
->  
->  static void conf_write_heading(FILE *fp, const struct comment_style *cs)
->  {
-> +	if (!cs) /* no heading for rustc_cfg? */
-> +		return;
-> +
->  	fprintf(fp, "%s\n", cs->comment_block_begin);
->  
->  	fprintf(fp, "%s Automatically generated file; DO NOT EDIT.\n",
-> @@ -750,6 +753,39 @@ static void print_symbol_for_c(FILE *fp, struct symbol *sym)
->  	free(escaped);
->  }
->  
-> +/* rustc configuration */
-> +static void print_symbol_for_rustc_cfg(FILE *fp, struct symbol *sym)
-> +{
-> +	const char *val;
-> +	char *escaped;
-> +
-> +	if (sym->type == S_UNKNOWN)
-> +		return;
-> +
-> +	val = sym_get_string_value(sym);
-> +	escaped = escape_string_value(val);
-> +
-> +	if (sym->type == S_BOOLEAN || sym->type == S_TRISTATE) {
-> +		if (*val == 'n')
-> +			return;
-
-I'd expect a "free(escaped);" here.
-
-> +
-> +		/*
-> +		 * To have similar functionality to the C macro `IS_ENABLED()`
-> +		 * we provide an empty `--cfg CONFIG_X` here in both `y`
-> +		 * and `m` cases.
-> +		 *
-> +		 * Then, the common `fprintf()` below will also give us
-> +		 * a `--cfg CONFIG_X="y"` or `--cfg CONFIG_X="m"`, which can
-> +		 * be used as the equivalent of `IS_BUILTIN()`/`IS_MODULE()`.
-> +		 */
-> +		fprintf(fp, "--cfg=%s%s\n", CONFIG_, sym->name);
-> +	}
-> +
-> +	fprintf(fp, "--cfg=%s%s=%s\n", CONFIG_, sym->name, escaped);
-> +
-> +	free(escaped);
-> +}
-> +
->  /*
->   * Write out a minimal config.
->   * All values that has default values are skipped as this is redundant.
-> @@ -1129,6 +1165,12 @@ int conf_write_autoconf(int overwrite)
->  	if (ret)
->  		return ret;
->  
-> +	ret = __conf_write_autoconf("include/generated/rustc_cfg",
-> +				    print_symbol_for_rustc_cfg,
-> +				    NULL);
-> +	if (ret)
-> +		return ret;
-> +
->  	/*
->  	 * Create include/config/auto.conf. This must be the last step because
->  	 * Kbuild has a dependency on auto.conf and this marks the successful
-> -- 
-> 2.30.2
-> 
+Hello Dear
+My Name is Mr. Joyce Thomas. Contact me for more information on the
+transfer of ($7.9 million dollars) left by my late client from your
+Country. I want to present you as a business partner and next of kin
+of the fund. I will give you the details of this transaction, as soon
+as I hear from you. I need the information below:
+Full Name:
+Address:
+Occupation:
+Age:
+Personal Email:
+Personal Telephone:
+Best Regards,
+Mr.Joyce  Thomas
