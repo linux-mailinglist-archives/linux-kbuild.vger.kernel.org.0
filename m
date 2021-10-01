@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F7541E733
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 07:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D66041E72B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 07:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352106AbhJAFfT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Oct 2021 01:35:19 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:25306 "EHLO
+        id S1352024AbhJAFfJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Oct 2021 01:35:09 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:25305 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351940AbhJAFfH (ORCPT
+        with ESMTP id S241541AbhJAFfG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Oct 2021 01:35:07 -0400
+        Fri, 1 Oct 2021 01:35:06 -0400
 Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 1915WwVU000646;
-        Fri, 1 Oct 2021 14:32:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 1915WwVU000646
+        by conuserg-10.nifty.com with ESMTP id 1915WwVV000646;
+        Fri, 1 Oct 2021 14:33:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 1915WwVV000646
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1633066379;
-        bh=dDFYdiulkWQCG/5vLkVRQ/0UbsBnq2pxgy3dX8uzS1M=;
+        s=dec2015msa; t=1633066380;
+        bh=fQ8kuzKZhFdV66W9VpMSV4OyHXc8vSXpDVIuBoKabHQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X4nYFSsAWwlYPQcu4i6XZnWtvfC50yJj1fSP9JTSZ4IV5rohr1iAQKfbBRbLm69rJ
-         qNHZxnHNcwf3vF6+XPJaRJ0d41ucJEEEfuYCaVeP6yKelmxPnx7l6w2EB+En3P8+Xr
-         HDeEAr9ZXCXpvMd5st4EnSFE45WBqBnMnxmhKLMR+I5nyyzmuQ1KeK29Fb16cT/4GG
-         ALf6v+3npomUhj3izg0fV6XxeY0BMRtghzTuUNIBVD5wJ2+pKkYymYFxjUiC74mssO
-         KM2osbpPydV2dPEpPjR0gsoSyyhzRd0SjBh9GYmcXlX7qwiIygkjgn/1WJum43eFLP
-         B6a/b7uCY9NqQ==
+        b=IZDaBStGJluPWW8kX5Jx91FTyB8BWmra6pY/KBedZ6yXMBivP9Sik9EuAYBJsqRmz
+         IdlRhP/Zz+aGPN0PDqFolignpilGmU511TrkvVm6C2NhXq14ESSGSlJ9dE1phb3BjT
+         Gc4wdrR8/ZQqvXfXTgqo657CYGO44ZjVpBkQOeUvkfpOX0ZSJB1ACKkGDQDcRbzmI0
+         XO2Y85cEfwJiL4GsF7m30akxh144LP2NGIcwyWr7/OQgybJlJP4kEvsS90811KMIMK
+         39WJYfg8j4X+d/t6ey844dzzYtQ01/rOV06CxrzOLHYMy+aJwBz/yV9V4QPnlySWFr
+         EMJzgiSH+YdBw==
 X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 02/10] kconfig: refactor conf_write_heading()
-Date:   Fri,  1 Oct 2021 14:32:45 +0900
-Message-Id: <20211001053253.1223316-2-masahiroy@kernel.org>
+Subject: [PATCH 03/10] kconfig: refactor conf_write_symbol()
+Date:   Fri,  1 Oct 2021 14:32:46 +0900
+Message-Id: <20211001053253.1223316-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211001053253.1223316-1-masahiroy@kernel.org>
 References: <20211001053253.1223316-1-masahiroy@kernel.org>
@@ -43,174 +43,225 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-All the call sites of conf_write_heading() pass NULL to the third
-argument, and it is not used in the function.
+I do not think 'struct conf_printer' is so useful.
 
-Also, the print_comment hooks are doing much more complex than
-needed.
-
-Rewrite the code.
+Add simple functions, print_symbol_for_*() to write out one symbol.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/confdata.c | 95 +++++++++++++-------------------------
- 1 file changed, 33 insertions(+), 62 deletions(-)
+ scripts/kconfig/confdata.c | 136 ++++++++++++++++---------------------
+ 1 file changed, 57 insertions(+), 79 deletions(-)
 
 diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 9b2271eb43d6..ed1bb8ba971b 100644
+index ed1bb8ba971b..ce11e7442d12 100644
 --- a/scripts/kconfig/confdata.c
 +++ b/scripts/kconfig/confdata.c
-@@ -161,7 +161,6 @@ static int conf_touch_dep(const char *name)
- 
- struct conf_printer {
- 	void (*print_symbol)(FILE *, struct symbol *, const char *, void *);
--	void (*print_comment)(FILE *, const char *, void *);
- };
- 
- static void conf_warning(const char *fmt, ...)
-@@ -594,6 +593,36 @@ int conf_read(const char *name)
+@@ -11,6 +11,7 @@
+ #include <fcntl.h>
+ #include <limits.h>
+ #include <stdarg.h>
++#include <stdbool.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -159,10 +160,6 @@ static int conf_touch_dep(const char *name)
  	return 0;
  }
  
-+struct comment_style {
-+	const char *comment_line;
-+	const char *comment_block_begin;
-+	const char *comment_block_end;
-+};
-+
-+static const struct comment_style comment_style_pound = {
-+	.comment_line = "#",
-+	.comment_block_begin = "#",
-+	.comment_block_end = "#",
-+};
-+
-+static const struct comment_style comment_style_c = {
-+	.comment_line = " *",
-+	.comment_block_begin = "/*",
-+	.comment_block_end = " */",
-+};
-+
-+static void conf_write_heading(FILE *fp, const struct comment_style *cs)
-+{
-+	fprintf(fp, "%s\n", cs->comment_block_begin);
-+
-+	fprintf(fp, "%s Automatically generated file; DO NOT EDIT.\n",
-+		cs->comment_line);
-+
-+	fprintf(fp, "%s %s\n", cs->comment_line, rootmenu.prompt->text);
-+
-+	fprintf(fp, "%s\n", cs->comment_block_end);
-+}
-+
- /*
-  * Kconfig configuration printer
-  *
-@@ -625,30 +654,9 @@ kconfig_print_symbol(FILE *fp, struct symbol *sym, const char *value, void *arg)
- 	fprintf(fp, "%s%s=%s\n", CONFIG_, sym->name, value);
- }
- 
--static void
--kconfig_print_comment(FILE *fp, const char *value, void *arg)
--{
--	const char *p = value;
--	size_t l;
+-struct conf_printer {
+-	void (*print_symbol)(FILE *, struct symbol *, const char *, void *);
+-};
 -
--	for (;;) {
--		l = strcspn(p, "\n");
--		fprintf(fp, "#");
--		if (l) {
--			fprintf(fp, " ");
--			xfwrite(p, l, 1, fp);
--			p += l;
+ static void conf_warning(const char *fmt, ...)
+ 	__attribute__ ((format (printf, 1, 2)));
+ 
+@@ -629,91 +626,52 @@ static void conf_write_heading(FILE *fp, const struct comment_style *cs)
+  * This printer is used when generating the resulting configuration after
+  * kconfig invocation and `defconfig' files. Unset symbol might be omitted by
+  * passing a non-NULL argument to the printer.
+- *
+  */
+-static void
+-kconfig_print_symbol(FILE *fp, struct symbol *sym, const char *value, void *arg)
+-{
+-
+-	switch (sym->type) {
+-	case S_BOOLEAN:
+-	case S_TRISTATE:
+-		if (*value == 'n') {
+-			bool skip_unset = (arg != NULL);
+-
+-			if (!skip_unset)
+-				fprintf(fp, "# %s%s is not set\n",
+-				    CONFIG_, sym->name);
+-			return;
 -		}
--		fprintf(fp, "\n");
--		if (*p++ == '\0')
--			break;
+-		break;
+-	default:
+-		break;
 -	}
+-
+-	fprintf(fp, "%s%s=%s\n", CONFIG_, sym->name, value);
 -}
--
- static struct conf_printer kconfig_printer_cb =
++enum output_n { OUTPUT_N, OUTPUT_N_AS_UNSET, OUTPUT_N_NONE };
+ 
+-static struct conf_printer kconfig_printer_cb =
++static void __print_symbol(FILE *fp, struct symbol *sym, enum output_n output_n,
++			   bool escape_string)
  {
- 	.print_symbol = kconfig_print_symbol,
--	.print_comment = kconfig_print_comment,
- };
+-	.print_symbol = kconfig_print_symbol,
+-};
++	const char *val;
++	char *escaped = NULL;
  
- /*
-@@ -697,32 +705,9 @@ header_print_symbol(FILE *fp, struct symbol *sym, const char *value, void *arg)
- 
- }
- 
+-/*
+- * Header printer
+- *
+- * This printer is used when generating the `include/generated/autoconf.h' file.
+- */
 -static void
--header_print_comment(FILE *fp, const char *value, void *arg)
+-header_print_symbol(FILE *fp, struct symbol *sym, const char *value, void *arg)
 -{
--	const char *p = value;
--	size_t l;
--
--	fprintf(fp, "/*\n");
--	for (;;) {
--		l = strcspn(p, "\n");
--		fprintf(fp, " *");
--		if (l) {
--			fprintf(fp, " ");
--			xfwrite(p, l, 1, fp);
--			p += l;
++	if (sym->type == S_UNKNOWN)
++		return;
+ 
+-	switch (sym->type) {
+-	case S_BOOLEAN:
+-	case S_TRISTATE: {
+-		const char *suffix = "";
++	val = sym_get_string_value(sym);
+ 
+-		switch (*value) {
+-		case 'n':
+-			break;
+-		case 'm':
+-			suffix = "_MODULE";
+-			/* fall through */
+-		default:
+-			fprintf(fp, "#define %s%s%s 1\n",
+-			    CONFIG_, sym->name, suffix);
 -		}
--		fprintf(fp, "\n");
--		if (*p++ == '\0')
--			break;
+-		break;
++	if ((sym->type == S_BOOLEAN || sym->type == S_TRISTATE) &&
++	    output_n != OUTPUT_N && *val == 'n') {
++		if (output_n == OUTPUT_N_AS_UNSET)
++			fprintf(fp, "# %s%s is not set\n", CONFIG_, sym->name);
++		return;
+ 	}
+-	case S_HEX: {
+-		const char *prefix = "";
+ 
+-		if (value[0] != '0' || (value[1] != 'x' && value[1] != 'X'))
+-			prefix = "0x";
+-		fprintf(fp, "#define %s%s %s%s\n",
+-		    CONFIG_, sym->name, prefix, value);
+-		break;
 -	}
--	fprintf(fp, " */\n");
--}
--
- static struct conf_printer header_printer_cb =
- {
- 	.print_symbol = header_print_symbol,
--	.print_comment = header_print_comment,
- };
- 
- static void conf_write_symbol(FILE *fp, struct symbol *sym,
-@@ -746,20 +731,6 @@ static void conf_write_symbol(FILE *fp, struct symbol *sym,
- 	free(escaped);
- }
- 
--static void
--conf_write_heading(FILE *fp, struct conf_printer *printer, void *printer_arg)
--{
--	char buf[256];
--
--	snprintf(buf, sizeof(buf),
--	    "\n"
--	    "Automatically generated file; DO NOT EDIT.\n"
--	    "%s\n",
--	    rootmenu.prompt->text);
--
--	printer->print_comment(fp, buf, printer_arg);
--}
--
- /*
-  * Write out a minimal config.
-  * All values that has default values are skipped as this is redundant.
-@@ -876,7 +847,7 @@ int conf_write(const char *name)
- 	if (!out)
- 		return 1;
- 
--	conf_write_heading(out, &kconfig_printer_cb, NULL);
-+	conf_write_heading(out, &comment_style_pound);
- 
- 	if (!conf_get_changed())
- 		sym_clear_all_valid();
-@@ -1080,8 +1051,8 @@ int conf_write_autoconf(int overwrite)
- 		return 1;
+-	case S_STRING:
+-	case S_INT:
+-		fprintf(fp, "#define %s%s %s\n",
+-		    CONFIG_, sym->name, value);
+-		break;
+-	default:
+-		break;
++	if (sym->type == S_STRING && escape_string) {
++		escaped = sym_escape_string_value(val);
++		val = escaped;
  	}
  
--	conf_write_heading(out, &kconfig_printer_cb, NULL);
--	conf_write_heading(out_h, &header_printer_cb, NULL);
-+	conf_write_heading(out, &comment_style_pound);
-+	conf_write_heading(out_h, &comment_style_c);
++	fprintf(fp, "%s%s=%s\n", CONFIG_, sym->name, val);
++
++	free(escaped);
+ }
  
- 	for_all_symbols(i, sym) {
- 		sym_calc_value(sym);
+-static struct conf_printer header_printer_cb =
++static void print_symbol_for_dotconfig(FILE *fp, struct symbol *sym)
+ {
+-	.print_symbol = header_print_symbol,
+-};
++	__print_symbol(fp, sym, OUTPUT_N_AS_UNSET, true);
++}
++
++static void print_symbol_for_autoconf(FILE *fp, struct symbol *sym)
++{
++	__print_symbol(fp, sym, OUTPUT_N_NONE, true);
++}
+ 
+-static void conf_write_symbol(FILE *fp, struct symbol *sym,
+-			      struct conf_printer *printer, void *printer_arg)
++static void print_symbol_for_c(FILE *fp, struct symbol *sym)
+ {
+ 	const char *val;
++	const char *sym_suffix = "";
++	const char *val_prefix = "";
+ 	char *escaped = NULL;
+ 
+ 	if (sym->type == S_UNKNOWN)
+@@ -721,12 +679,32 @@ static void conf_write_symbol(FILE *fp, struct symbol *sym,
+ 
+ 	val = sym_get_string_value(sym);
+ 
+-	if (sym->type == S_STRING) {
++	switch (sym->type) {
++	case S_BOOLEAN:
++	case S_TRISTATE:
++		switch (*val) {
++		case 'n':
++			return;
++		case 'm':
++			sym_suffix = "_MODULE";
++			/* fall through */
++		default:
++			val = "1";
++		}
++		break;
++	case S_HEX:
++		if (val[0] != '0' || (val[1] != 'x' && val[1] != 'X'))
++			val_prefix = "0x";
++		break;
++	case S_STRING:
+ 		escaped = sym_escape_string_value(val);
+ 		val = escaped;
++	default:
++		break;
+ 	}
+ 
+-	printer->print_symbol(fp, sym, val, printer_arg);
++	fprintf(fp, "#define %s%s%s %s%s\n", CONFIG_, sym->name, sym_suffix,
++		val_prefix, val);
+ 
+ 	free(escaped);
+ }
+@@ -787,7 +765,7 @@ int conf_write_defconfig(const char *filename)
+ 						goto next_menu;
+ 				}
+ 			}
+-			conf_write_symbol(out, sym, &kconfig_printer_cb, NULL);
++			print_symbol_for_dotconfig(out, sym);
+ 		}
+ next_menu:
+ 		if (menu->list != NULL) {
+@@ -874,7 +852,7 @@ int conf_write(const char *name)
+ 				need_newline = false;
+ 			}
+ 			sym->flags |= SYMBOL_WRITTEN;
+-			conf_write_symbol(out, sym, &kconfig_printer_cb, NULL);
++			print_symbol_for_dotconfig(out, sym);
+ 		}
+ 
+ next:
+@@ -1060,8 +1038,8 @@ int conf_write_autoconf(int overwrite)
+ 			continue;
+ 
+ 		/* write symbols to auto.conf and autoconf.h */
+-		conf_write_symbol(out, sym, &kconfig_printer_cb, (void *)1);
+-		conf_write_symbol(out_h, sym, &header_printer_cb, NULL);
++		print_symbol_for_autoconf(out, sym);
++		print_symbol_for_c(out_h, sym);
+ 	}
+ 	fclose(out);
+ 	fclose(out_h);
 -- 
 2.30.2
 
