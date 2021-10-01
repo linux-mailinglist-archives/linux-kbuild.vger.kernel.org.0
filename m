@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 771D041EC58
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 13:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6633B41EC59
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Oct 2021 13:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354046AbhJALjm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Oct 2021 07:39:42 -0400
+        id S1354057AbhJALjn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Oct 2021 07:39:43 -0400
 Received: from mga11.intel.com ([192.55.52.93]:47222 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353912AbhJALjl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Oct 2021 07:39:41 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="222207482"
+        id S1354007AbhJALjm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 1 Oct 2021 07:39:42 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="222207483"
 X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
-   d="scan'208";a="222207482"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+   d="scan'208";a="222207483"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2021 04:37:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; 
-   d="scan'208";a="520998784"
+   d="scan'208";a="619033767"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Oct 2021 04:37:54 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2021 04:37:54 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 125FF1AD; Fri,  1 Oct 2021 14:37:59 +0300 (EEST)
+        id 1B872177; Fri,  1 Oct 2021 14:38:00 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tomas Winkler <tomas.winkler@intel.com>,
@@ -35,93 +35,114 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v3 1/4] modpost: Mark uuid_le type only for MEI
-Date:   Fri,  1 Oct 2021 14:37:44 +0300
-Message-Id: <20211001113747.64040-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 2/4] uuid: Make guid_t completely internal type to the kernel
+Date:   Fri,  1 Oct 2021 14:37:45 +0300
+Message-Id: <20211001113747.64040-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211001113747.64040-1-andriy.shevchenko@linux.intel.com>
+References: <20211001113747.64040-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The uuid_le type is used only for MEI ABI, do not advertise it for others.
-Due to above, bury add_uuid() in its only user.
+The guid_t type was defined in UAPI by mistake.
+Keep it an internal type and leave uuid_le UAPI
+for it's only user, i.e. MEI.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
 v3: no change
- scripts/mod/file2alias.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ include/linux/uuid.h      | 20 ++++++++++++++++----
+ include/uapi/linux/uuid.h | 14 +++++---------
+ 2 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 49aba862073e..c9c9c2328e26 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -34,19 +34,22 @@ typedef Elf64_Addr	kernel_ulong_t;
- typedef uint32_t	__u32;
- typedef uint16_t	__u16;
- typedef unsigned char	__u8;
+diff --git a/include/linux/uuid.h b/include/linux/uuid.h
+index 8cdc0d3567cd..5be158a49e11 100644
+--- a/include/linux/uuid.h
++++ b/include/linux/uuid.h
+@@ -8,15 +8,25 @@
+ #ifndef _LINUX_UUID_H_
+ #define _LINUX_UUID_H_
+ 
+-#include <uapi/linux/uuid.h>
+ #include <linux/string.h>
+ 
+ #define UUID_SIZE 16
+ 
++typedef struct {
++	__u8 b[UUID_SIZE];
++} guid_t;
 +
  typedef struct {
- 	__u8 b[16];
- } guid_t;
+ 	__u8 b[UUID_SIZE];
+ } uuid_t;
+ 
++#define GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
++((guid_t)								\
++{{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
++   (b) & 0xff, ((b) >> 8) & 0xff,					\
++   (c) & 0xff, ((c) >> 8) & 0xff,					\
++   (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }})
++
+ #define UUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
+ ((uuid_t)								\
+ {{ ((a) >> 24) & 0xff, ((a) >> 16) & 0xff, ((a) >> 8) & 0xff, (a) & 0xff, \
+@@ -97,10 +107,12 @@ extern const u8 uuid_index[16];
+ int guid_parse(const char *uuid, guid_t *u);
+ int uuid_parse(const char *uuid, uuid_t *u);
  
 -/* backwards compatibility, don't use in new code */
--typedef struct {
--	__u8 b[16];
--} uuid_le;
- typedef struct {
- 	__u8 b[16];
- } uuid_t;
-+
- #define	UUID_STRING_LEN		36
- 
+-static inline int uuid_le_cmp(const guid_t u1, const guid_t u2)
 +/* MEI UUID type, don't use anywhere else */
-+typedef struct {
-+	__u8 b[16];
-+} uuid_le;
++#include <uapi/linux/uuid.h>
 +
- /* Big exception to the "don't include kernel headers into userspace, which
-  * even potentially has different endianness and word sizes, since
-  * we handle those differences explicitly below */
-@@ -104,17 +107,6 @@ static inline void add_wildcard(char *str)
- 		strcat(str + len, "*");
++static inline int uuid_le_cmp(const uuid_le u1, const uuid_le u2)
+ {
+-	return memcmp(&u1, &u2, sizeof(guid_t));
++	return memcmp(&u1, &u2, sizeof(uuid_le));
  }
  
--static inline void add_uuid(char *str, uuid_le uuid)
--{
--	int len = strlen(str);
--
--	sprintf(str + len, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
--		uuid.b[3], uuid.b[2], uuid.b[1], uuid.b[0],
--		uuid.b[5], uuid.b[4], uuid.b[7], uuid.b[6],
--		uuid.b[8], uuid.b[9], uuid.b[10], uuid.b[11],
--		uuid.b[12], uuid.b[13], uuid.b[14], uuid.b[15]);
--}
--
- /**
-  * Check that sizeof(device_id type) are consistent with size of section
-  * in .o file. If in-consistent then userspace and kernel does not agree
-@@ -1211,12 +1203,16 @@ static int do_mei_entry(const char *filename, void *symval,
- 			char *alias)
- {
- 	DEF_FIELD_ADDR(symval, mei_cl_device_id, name);
--	DEF_FIELD_ADDR(symval, mei_cl_device_id, uuid);
-+	DEF_FIELD(symval, mei_cl_device_id, uuid);
- 	DEF_FIELD(symval, mei_cl_device_id, version);
+ #endif
+diff --git a/include/uapi/linux/uuid.h b/include/uapi/linux/uuid.h
+index e5a7eecef7c3..c3e175f686f4 100644
+--- a/include/uapi/linux/uuid.h
++++ b/include/uapi/linux/uuid.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+- * UUID/GUID definition
++ * MEI UUID definition
+  *
+  * Copyright (C) 2010, Intel Corp.
+  *	Huang Ying <ying.huang@intel.com>
+@@ -22,21 +22,17 @@
  
- 	sprintf(alias, MEI_CL_MODULE_PREFIX);
- 	sprintf(alias + strlen(alias), "%s:",  (*name)[0]  ? *name : "*");
--	add_uuid(alias, *uuid);
-+	sprintf(alias + strlen(alias), "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-+		uuid.b[3], uuid.b[2], uuid.b[1], uuid.b[0],
-+		uuid.b[5], uuid.b[4], uuid.b[7], uuid.b[6],
-+		uuid.b[8], uuid.b[9], uuid.b[10], uuid.b[11],
-+		uuid.b[12], uuid.b[13], uuid.b[14], uuid.b[15]);
- 	ADD(alias, ":", version != MEI_CL_VERSION_ANY, version);
+ typedef struct {
+ 	__u8 b[16];
+-} guid_t;
++} uuid_le;
  
- 	strcat(alias, ":*");
+-#define GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
+-((guid_t)								\
++#define UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)		\
++((uuid_le)								\
+ {{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
+    (b) & 0xff, ((b) >> 8) & 0xff,					\
+    (c) & 0xff, ((c) >> 8) & 0xff,					\
+    (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }})
+ 
+-/* backwards compatibility, don't use in new code */
+-typedef guid_t uuid_le;
+-#define UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)		\
+-	GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)
+ #define NULL_UUID_LE							\
+ 	UUID_LE(0x00000000, 0x0000, 0x0000, 0x00, 0x00, 0x00, 0x00,	\
+-	     0x00, 0x00, 0x00, 0x00)
++		0x00, 0x00, 0x00, 0x00)
+ 
+ #endif /* _UAPI_LINUX_UUID_H_ */
 -- 
 2.33.0
 
