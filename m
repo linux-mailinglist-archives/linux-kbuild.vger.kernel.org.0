@@ -2,224 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3012D41F834
-	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Oct 2021 01:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C573D41FA78
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Oct 2021 10:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbhJAX2T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Oct 2021 19:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231265AbhJAX2S (ORCPT
+        id S232635AbhJBJA3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 2 Oct 2021 05:00:29 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:39572 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232633AbhJBJA3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Oct 2021 19:28:18 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC49C06177F
-        for <linux-kbuild@vger.kernel.org>; Fri,  1 Oct 2021 16:26:33 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id y26so44727995lfa.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 Oct 2021 16:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8tTUgmxOrN1sCYAfdmVo+uo+55hwpJgWtC1Rrm4Zacc=;
-        b=J1FyGsaRsU+Qrv4JnJo48w/0H8gWXHKnylcwU852VNVpuRr98sndqv4uCu7zoLGO09
-         F5RPGJBJbEldivNftWR3SS5dmfayBQgwTyAHOEQgH6EI/Bw0iPe5NtFr9Xt2LxBb2otY
-         qG+MHHK0NL7gXyp/xI+qCTOtDUSZSQgf2MNM3heBo+6OhK90Zahrjs28SB9svBu9lWvL
-         sbQiuHjnTHddhIigj/K1I5KvKY+NkPHfSIKqhvDR8UkqSmlUhYQuHYBByXglJR6YzBzF
-         B968GVMElaWEUFq17FZIcRGpMIq6iFdu/uUCdrBBAyk1KNfNKCpVA+6I3rDgAIPSt2M6
-         ocVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8tTUgmxOrN1sCYAfdmVo+uo+55hwpJgWtC1Rrm4Zacc=;
-        b=8JtncGebg2VYizamkdUcdVXW3ZBlX/ijWBJAYkxtJarqsPw7G7/ndRf6hVY9VCTBG7
-         hC72jAdmHnSgFU38gpKla9eVpAGsrvWE6BJHoNQGFwgH8N0xpU/sJ5PPHXZSZPX2S2qv
-         H2CEkSvdsSp4elRXz0S6RJg20xRnGAtmUXGsPuEzhRZg9L8yOq4PkVC6e39ZPxH6CCm8
-         zYXyA+32uZydQlcLSsz9gRMIwiKE5XdGUZn7aQKLggdwM3uamkUvUA1LC5TlUbqmaoek
-         1YVwKWAILgCTgrXieoYXXLOaclM+WRSRE2DOoBU7yFLW2CgV4bOMYnf/q5Xv47fisb9T
-         0Epw==
-X-Gm-Message-State: AOAM533Ilw1dhHsu3/nKpHkDNIGXw8GNyMJevTEzyAJWkNQiI5hpywHQ
-        wPp8xrkH96naxBe6lbULYY6XG2RtsUKftf2KUTvv+w==
-X-Google-Smtp-Source: ABdhPJxo49ZwH3QpNDLKU1AVzVgp43CjeYXT1p2Ey2CEVGiEgFqYSWfOIfTby8WekIo8MKrNQW2c/GlAe74rl0IxKf4=
-X-Received: by 2002:a05:6512:705:: with SMTP id b5mr768733lfs.82.1633130791771;
- Fri, 01 Oct 2021 16:26:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210929225850.3889950-1-ndesaulniers@google.com>
- <CAHk-=wh0BNEDz+uOdJWG8iW=n0PeOEjZpHyuSN2g0pKSCj+6iQ@mail.gmail.com>
- <CAKwvOdn-Z1q99zZW4GQ2aNnVMQ_JYuczrResTG7tvcfv0WLJ-w@mail.gmail.com> <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
-In-Reply-To: <CAHk-=wip2uVAaRtPNFF4+C2ZmkUZ+rs2-676syUR_kJ9+8hFNA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 1 Oct 2021 16:26:19 -0700
-Message-ID: <CAKwvOdkXR+gHCRgLq5htCgykOuWiOAhV6qgCGcXnfde5nLKKWA@mail.gmail.com>
-Subject: Re: [PATCH] modpost: add allow list for llvm IPSCCP
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Bill Wendling <morbo@google.com>
+        Sat, 2 Oct 2021 05:00:29 -0400
+Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 1928wSeR001590;
+        Sat, 2 Oct 2021 17:58:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 1928wSeR001590
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1633165109;
+        bh=y6Vdz3468vq7hD6hH4Mvs2Z+5nlR8gIOTry/lN1Mlss=;
+        h=From:To:Cc:Subject:Date:From;
+        b=x4FRvnXIrDygPqS2aa61BxsaCyQsbu40QLhpCn7kef4mDk3c6JPFuO6sd3Inl9Knx
+         XG8QweY7RzM3pQEgak848gfgzcRItbSOpJVgNYYFjbs0qjDapKgrVbMdUtK7BwVcM5
+         rXMR3C2MJ27xGmAwxEm9SxanVFBH8b2YYeE1VDvolAm4Qb+pLyZ/CwFrn9EV/lqoW2
+         QDf89zT9ukrYDP7cCKDKc5e7DxToMBR7fVwD77oZwwQSxoTNb54Pnga4g119ETNowZ
+         P9pzQzRqsHeLecyUbyfxk/Cz2lFf9Re416j3gQEPza69BaTp1kEI1Dunn1XsksqRzi
+         jT/05c5vRdR+Q==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 10/10] [for -next only] kconfig: generate include/generated/rustc_cfg
+Date:   Sat,  2 Oct 2021 17:58:23 +0900
+Message-Id: <20211002085823.1280124-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 11:54 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, Sep 29, 2021 at 5:19 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> > ...
-> > arch/x86/mm/amdtopology.c:110:7: remark: 'test_bit' not inlined into
-> > 'amd_numa_init' because too costly to inline (cost=115, threshold=45)
-> > [-Rpass-missed=inline]
-> >                 if (node_isset(nodeid, numa_nodes_parsed)) {
->
-> Yeah, I think that we should just do the __always_inline thing.
->
-> I'd rather have the stupid debug code overhead in the caller - that
-> may end up knowing that the pointer actually is so that the debug code
-> goes away - than have "test_bit()" uninlined because there's so much
-> crazy debug code in it.
->
-> I also happen to believe that we have too much crazy "instrumentation" crap.
->
-> Why is that test_bit() word read so magical that it merits a
-> "instrument_atomic_read()"?
->
-> But I absolutely detest how KCSAN and some other tooling seems to get
-> a free pass on doing stupid things, just because they generated bad
-> warnings so then they can freely generate these much more fundamental
-> problems because the result is a f*cking mess.
->
-> > Though for the defconfig case...somehow the cost is more than with the
-> > sanitizers...
->
-> Maybe the solution is that if you have some of the crazy sanitizers,
-> we just say "the end result is not worth even checking". And stop
-> checking all the section mismatches, and all the stack size things.
->
-> Because it looks like this is more of a real issue:
->
-> > arch/x86/mm/amdtopology.c:157:7: remark: '__nodes_weight' not inlined
-> > into 'amd_numa_init' because too costly to inline (cost=930,
-> > threshold=45) [-Rpass-missed=inline]
-> >         if (!nodes_weight(numa_nodes_parsed))
-> >              ^
->
-> Hmm. That's just a "bitmap_weight()", and that function in turn is
-> __always_inline.
->
-> And the *reason* it is __always_inline is that it really wants to act
-> as a macro, and look at the second argument and do special things if
-> it is a small constant value.
->
-> And it looks like clang messes things up by simply not doing enough
-> simplification before inlining decisions, so it all looks very
-> complicated to clang, even though when you actually generate code, you
-> have one (of two) very simple code sequences.
->
-> > > Wouldn't it be better to make
-> > > them always-inline?
-> >
-> > Perhaps, see what that might look like:
-> > https://github.com/ClangBuiltLinux/linux/issues/1302#issuecomment-807260475
-> > Does that look better?
->
-> I suspect that in this case, because of clang deficiencies, that
-> __always_inline actually is the right thing to do at least on
-> __nodes_weight.
->
-> Looking at your comment lower down
->
->   https://github.com/ClangBuiltLinux/linux/issues/1302#issuecomment-807757878
->
-> I really think this is a clang bug, and that you need to do certain
-> simplifications both before _and_ after inlining.
->
-> Before, because of the inlining cost decisions particularly wrt
-> constant arguments.
->
-> After, because successful inlining changes things completely.
+This patch is not intended for the mainline.
 
-I made that comment because our LowerConstantIntrinsics pass was
-simplifying our internal representation of __builtin_constant_p and
-__builtin_object_size in the same pass, after inlining.
+I created this patch for Stephen Rothwell to resolve the merge
+conflicts in linux-next more easily.
 
-For the case of (defconfig) __nodes_weight not being inlined into
-amd_numa_init, it's because hweight_long is a huge block of code all
-predicated on __builtin_constant_p (BCP).  Because we evaluate (BCP)
-AFTER inlining which is very much necessary for the semantics of BCP,
-we don't eliminate that entire block.  Playing with the cost model
-though...
+The Rust tree is touching scripts/kconfig/confdata.c to generate
+include/generated/rustc_cfg, which would cause complicated conflicts
+with changes from the kbuild tree.
 
-we basically have the pattern:
+I re-implemented it to produce the equaivalent rustc_cfg.
 
-void caller (void) {
-  caller(42);
-}
-void callee (int x) {
-  if (__builtin_constant_p(x)) {
-    // M "instructions"
-  } else {
-    // N "instructions"
-  }
-}
+I also fixed the memory leak; the original code from the Rust tree
+did not free the malloc'ed pointer.
 
-the current cost model says that the cost of inlining callee into
-caller is ~ M + N + C.  If we knew that BCP would fold away based on
-inling, and which way, we might be able to consider the cost just M +
-C or N + C.
+Stephen:
+When you resolve the conflicts in confdata.c, please take this one.
 
-In the case of "(defconfig) __nodes_weight not being inlined into
-amd_numa_init" M >> N, and yet after inlining BCP evaluates to false
-(so the estimated cost was M + N but in actuality was closer to N).
-(See how big __const_hweight64 is before BCP evaluation; in this case
-callee is the analog for hweight64).
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-I guess if the argument to BCP is a parameter of callee (brittle),
-then we perhaps should be able to figure whether BCP would evaluate to
-true or false, then properly select M or N.
+Changes for v2:
+ - Fix memory leak for *val == 'n' case.
 
-Ok, let me see if I can go build that into the cost model...and if
-that actually helps any of these cases...
 
-Though I do wonder what happens when there's more than one level here...ie.
+ scripts/kconfig/confdata.c | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-void caller (void) { mid(42): }
-void mid (int x) { callee(x); }
-void callee (int x) { if __builtin_constant_p(x) /* M */; else /* N */; }
-
-or
-
-void caller0 (void) { mid(42): } // BCP would be true
-void caller1 (int x) { mid(x); } // BCP would be false
-void mid (int x) { callee(x); } // looking just at the call site, BCP
-would be false
-void callee (int x) { if __builtin_constant_p(x) /* M */; else /* N */; }
-
-(Sorry for the brain dump; this is more for me than for you. Good chat!)
-
->
-> Marking __nodes_weight() be __always_inline just works around clang
-> being broken in this regard.
->
-> It is _possible_ that it might help to make bitmap_weight() be a macro
-> instead of an inline function, but it's a kind of sad state of affairs
-> if that is required.
->
-> And it might well fail - if you don't do the constant propagation
-> before making inlining decisions, you'll _still_ end up thinking that
-> bitmap_weight() is very costly because you don't do that
-> __builtin_constant_p() lowering.
->
-> And then you end up using the (much more expensive) generic function
-> instead of the cheap "look, for single words this is a trivial" thing.
-
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 9ece2f3b61a6..ad371d71c842 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -603,6 +603,9 @@ static const struct comment_style comment_style_c = {
+ 
+ static void conf_write_heading(FILE *fp, const struct comment_style *cs)
+ {
++	if (!cs) /* no heading for rustc_cfg? */
++		return;
++
+ 	fprintf(fp, "%s\n", cs->comment_block_begin);
+ 
+ 	fprintf(fp, "%s Automatically generated file; DO NOT EDIT.\n",
+@@ -750,6 +753,38 @@ static void print_symbol_for_c(FILE *fp, struct symbol *sym)
+ 	free(escaped);
+ }
+ 
++/* rustc configuration */
++static void print_symbol_for_rustc_cfg(FILE *fp, struct symbol *sym)
++{
++	const char *val;
++	char *escaped;
++
++	if (sym->type == S_UNKNOWN)
++		return;
++
++	val = sym_get_string_value(sym);
++
++	if ((sym->type == S_BOOLEAN || sym->type == S_TRISTATE) && *val == 'n')
++		return;
++
++	/*
++	 * To have similar functionality to the C macro `IS_ENABLED()` we
++	 * provide an empty `--cfg CONFIG_X` here in both `y` and `m` cases.
++	 *
++	 * Then, the common `fprintf()` below will also give us a
++	 * `--cfg CONFIG_X="y"` or `--cfg CONFIG_X="m"`, which can be used as
++	 * the equivalent of `IS_BUILTIN()`/`IS_MODULE()`.
++	 */
++	if (sym->type == S_BOOLEAN || sym->type == S_TRISTATE)
++		fprintf(fp, "--cfg=%s%s\n", CONFIG_, sym->name);
++
++	escaped = escape_string_value(val);
++
++	fprintf(fp, "--cfg=%s%s=%s\n", CONFIG_, sym->name, escaped);
++
++	free(escaped);
++}
++
+ /*
+  * Write out a minimal config.
+  * All values that has default values are skipped as this is redundant.
+@@ -1129,6 +1164,12 @@ int conf_write_autoconf(int overwrite)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = __conf_write_autoconf("include/generated/rustc_cfg",
++				    print_symbol_for_rustc_cfg,
++				    NULL);
++	if (ret)
++		return ret;
++
+ 	/*
+ 	 * Create include/config/auto.conf. This must be the last step because
+ 	 * Kbuild has a dependency on auto.conf and this marks the successful
 -- 
-Thanks,
-~Nick Desaulniers
+2.30.2
+
