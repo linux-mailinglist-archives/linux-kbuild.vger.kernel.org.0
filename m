@@ -2,41 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9879422AE8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 16:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86FFE422B2A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 16:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235790AbhJEOWr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Oct 2021 10:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S235259AbhJEOj0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Oct 2021 10:39:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235294AbhJEOWp (ORCPT
+        with ESMTP id S234084AbhJEOjZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Oct 2021 10:22:45 -0400
+        Tue, 5 Oct 2021 10:39:25 -0400
 Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33077C061749;
-        Tue,  5 Oct 2021 07:20:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCDCC061749;
+        Tue,  5 Oct 2021 07:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9cd4fflbhPi+WS75BLlYH8Lxr29xEplX+5DiCepdM6M=; b=OnNnDZAKK+pQ6EIA+ZWx48Di7m
-        tMp2OUnjS87vId8Dy0d5hZTjGs7cBq59swnhV9JCKGUAzFnr4WwA+9tlVSLgeXL/JLufkRzubC33Q
-        2l6MC4iBv8AJKNMMFJIyUSiJGVQMVoVnkPXvew12mA05UqHbUmiSw5/xcYTn8smG0rJ7m4vpEQQri
-        uJzZ1wwm3TM8a92IqmGWFaJB9LOc9VPHqCAvbTIjN2+tUGfSHPwL5UelwKcDGytuynF2iS4WBAAmX
-        cYg84BxxaLFmdMUPQ4PYoo8sij9dMymbE4t8KP5tgclSAt9k3YtZPnwReEUI5PfzlKFGo4C/q161H
-        qyQQ4eEw==;
+        bh=NXVT547q11vxBmN0JnCHuyJ+/+kUBjr0nC1nL/Y5gs8=; b=mP1JnpeUdMoGUG0of2rU8oOvaR
+        n7csvi9rY8/SEFwTuD6fzd+RSWW8AjhudXBQEJl2V5sOSMGFsjQbWG/AH5UhHDHKEuXfglXOGm25M
+        JgVLJRTXxeg/i3Gq7waOsj2cBgOS3kPVMTolADirJaGu8H0NCsnkgZtZ7+Mf5WKWa/8kRTyIUFUBI
+        q8PL3uMiyVJJmGBXP7KUAhgouW2MeZzn4zZny0oK8FZ18stFi47qmgU3NROIBuavFPsqzM/F+bNuZ
+        xmAPZ5YvZqGVFtxTLfqX9PFJdQW9XVgPe1GCuqvR59RoAecUagUq6sUF1/NG3yy8HzY6st8oSDua+
+        Njbx8NBw==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXlJ8-0083tX-1Y; Tue, 05 Oct 2021 14:20:38 +0000
+        id 1mXlZI-00846d-FS; Tue, 05 Oct 2021 14:37:20 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 28D5230003C;
-        Tue,  5 Oct 2021 16:20:37 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9DD7930019C;
+        Tue,  5 Oct 2021 16:37:19 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 100B321339B6B; Tue,  5 Oct 2021 16:20:37 +0200 (CEST)
-Date:   Tue, 5 Oct 2021 16:20:37 +0200
+        id 7D60D2038E211; Tue,  5 Oct 2021 16:37:19 +0200 (CEST)
+Date:   Tue, 5 Oct 2021 16:37:19 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Marco Elver <elver@google.com>
 Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
@@ -53,35 +53,29 @@ Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH -rcu/kcsan 04/23] kcsan: Add core support for a subset of
- weak memory modeling
-Message-ID: <YVxfNbTgT7GN21I1@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH -rcu/kcsan 23/23] objtool, kcsan: Remove memory barrier
+ instrumentation from noinstr
+Message-ID: <YVxjH2AtjvB8BDMD@hirez.programming.kicks-ass.net>
 References: <20211005105905.1994700-1-elver@google.com>
- <20211005105905.1994700-5-elver@google.com>
- <YVxKplLAMJJUlg/w@hirez.programming.kicks-ass.net>
- <CANpmjNMk0ubjYEVjdx=gg-S=zy7h=PSjZDXZRVfj_BsNzd6zkg@mail.gmail.com>
+ <20211005105905.1994700-24-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNMk0ubjYEVjdx=gg-S=zy7h=PSjZDXZRVfj_BsNzd6zkg@mail.gmail.com>
+In-Reply-To: <20211005105905.1994700-24-elver@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 03:13:25PM +0200, Marco Elver wrote:
-> On Tue, 5 Oct 2021 at 14:53, Peter Zijlstra <peterz@infradead.org> wrote:
-
-> > And since you want to mark these functions as uaccess_safe, there must
-> > not be any tracing on, hence notrace.
+On Tue, Oct 05, 2021 at 12:59:05PM +0200, Marco Elver wrote:
+> Teach objtool to turn instrumentation required for memory barrier
+> modeling into nops in noinstr text.
 > 
-> In the Makefile we've relied on:
-> 
->   CFLAGS_REMOVE_core.o = $(CC_FLAGS_FTRACE)
-> 
-> just to disable it for all code here. That should be enough, right?
+> The __tsan_func_entry/exit calls are still emitted by compilers even
+> with the __no_sanitize_thread attribute. The memory barrier
+> instrumentation will be inserted explicitly (without compiler help), and
+> thus needs to also explicitly be removed.
 
-I find these implicit notrace thingies terribly confusing :/ I've
-reported fail to rostedt a number of times only to be (re)told about
-these Makefile level thingies.
+How is arm64 and others using kernel/entry + noinstr going to fix this?
 
-Ideally we'd script notrace on every implicit symbol or something.
+ISTR they fully rely on the compilers not emitting instrumentation,
+since they don't have objtool to fix up stray issues like this.
