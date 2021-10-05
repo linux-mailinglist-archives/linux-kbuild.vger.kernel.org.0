@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F2D442242A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 13:00:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22EAB42242F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 13:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234483AbhJELCA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Oct 2021 07:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51970 "EHLO
+        id S233991AbhJELCI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Oct 2021 07:02:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234388AbhJELBt (ORCPT
+        with ESMTP id S234399AbhJELBu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Oct 2021 07:01:49 -0400
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com [IPv6:2a00:1450:4864:20::34a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3279C06174E
-        for <linux-kbuild@vger.kernel.org>; Tue,  5 Oct 2021 03:59:58 -0700 (PDT)
-Received: by mail-wm1-x34a.google.com with SMTP id f12-20020a1c6a0c000000b0030d696e3798so922909wmc.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Oct 2021 03:59:58 -0700 (PDT)
+        Tue, 5 Oct 2021 07:01:50 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38090C061767
+        for <linux-kbuild@vger.kernel.org>; Tue,  5 Oct 2021 04:00:00 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id 90-20020aed3163000000b002a6bd958077so22834003qtg.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 Oct 2021 04:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=8oN1Tye/sfpVxOoza0f1n5GzdtTeuegmg43uvYtdPIg=;
-        b=JR+7ySSAMEpVVTM6D2YKngKa55UUG1VVZQnyRxXIyzXpzoQNrVnKws9O6c14cXxPwd
-         INzUT4hbmUIZKpi/WwWkbvlBLP3f6RJ5sb4NKLOjGuW/HYy6T641SHN9h1zbgCuD7oYE
-         80xrasUK/KIw88sVd48bY+UtIi0HACEexOxFhdW/QYxL0sgz51eAxG1F6rhB2duP2kS3
-         AyXSGkUVQuwNUtXc6OB0F8lOBPqeTTAtqSv/bg6+JyxEHwfmQuUrZAwiS73926J4xrGP
-         m/QvobQGvrhCojz9NZ4rux+arbUnUXzgp3RSeNgCjKRaFJWFGXvb0zMeuxHLqpfYZOsX
-         tA7Q==
+        bh=L+fd37WmAy2s0UaVk4scjeutYzqXSn/VtNkU4zfPMW8=;
+        b=qNNeZUdV2JGQxqGAo0/w6qMrKU3JqbUS9b0UVnph3olpHC5JuF75PQnrF4tPQkaaHk
+         uxAiGqYUYiZzozbFUT442/Q47um4vQjTpcSyhBKv9wrbtGVBMTYLAlw+3qhp0Htre9a0
+         w1LGGJDilUSoft9nkOwZPxOJJphY5JlzaV3yd0hK10HtSab4buxxfEGxBJVxwotHlLWe
+         ldMX0ltHwaGlkflpxIrbB2XQVE9eDPHfd+0ATGTLzGBMApuyBfBVj5xYBwyJBLsVfhOv
+         dIpkvoWqnmm7/3PM3DIjKLk4cVMlKH4X+BSsVH7yq/ZooQiPRnS35swDppdCwbcRedEx
+         votQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=8oN1Tye/sfpVxOoza0f1n5GzdtTeuegmg43uvYtdPIg=;
-        b=PhjftI7M7fBVNwpdqMCzTb4etk5Onn7DxOfXcO2Zfm1cj9jDYl4j5WujrGAgC+0uic
-         bBFMQS2SgBmrjA5oUOeYzW41tydwBOShZemdPUHfGKFq4ctB0sP3kOGiiVbL7i0zEIQx
-         TRHMCfm90zyKWWYH+0SWsnhIyekA9eCF0ajH9xUiihIUVEGKhCiRScedLzU9vweb639F
-         wsiL1wNQizI2GTnZH2GvjXB0j8g+yTDg+KvwsEZLjmRS4Tn9UhHpHz28e55b/PQ5A2qA
-         1WuW3/v8PFyW9ofokX8JZV2ixS/WX6B28asi8iEfQbuUVlbh6D+whnSdaem8j7GyBaRt
-         Yxrw==
-X-Gm-Message-State: AOAM531woEHJoLWQTqfTOFIa3Z28dAo+3JFOuqWVKVdo+PR/Qgi6xzVZ
-        +v6XygOymGUGG0habnA5DsqwHfWFig==
-X-Google-Smtp-Source: ABdhPJy7sDB39VOxOxsRAKuuX8CFXz7P4SVeWe0jzLrvHE/6h7oC9R7eAIwMkt4fHa1OL+Wfu4H07SBgjw==
+        bh=L+fd37WmAy2s0UaVk4scjeutYzqXSn/VtNkU4zfPMW8=;
+        b=XikY2wWXRa2KL87qvtlWm2fCLd018uO0jAk9qYPPkKBRPnR0TOrMWg0/ubL5rIcmJ2
+         Eq8WUj4yTW3IZ8Maaak6J0r23XRkXKfC7vJ8aPynewPaimGsjvXk4mwT0JYeWbiBshjX
+         Sgxt/fVXGi3TrDdq8KABKbY9Moo2QcnM4nuaSeo5hzJXk9xmDBEnPRG1tL5yCwgG7Ysj
+         OcC7hMI+59WHGyV5jdn8kGbkUsH2bPQwh7pY2O8T/WOKjQDUyuF17HgTdyu7XXmQmrnK
+         JBBN2uNrLo69Tghv0iZo397J0l3JjkvXaM71ow4Dt4rSsstjX6JQ3v3r9nbCEYsfaaxL
+         Xeqw==
+X-Gm-Message-State: AOAM5308B7+YmLdl8M30NefF4nIpxmWWyw1Duu9cFHVDeERYgMRTI/ki
+        dFdSHeQ7cqFEltw6M9S2Pl11A0PNsQ==
+X-Google-Smtp-Source: ABdhPJxH1CU4wC0r2IQDVPstmeRQev0ImQ7cg+e7CJoF4IERulSuQC3qqUPSqtroDZUVOx2jurztMzMl6g==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:e44f:5054:55f8:fcb8])
- (user=elver job=sendgmr) by 2002:a05:600c:3b26:: with SMTP id
- m38mr553969wms.0.1633431596812; Tue, 05 Oct 2021 03:59:56 -0700 (PDT)
-Date:   Tue,  5 Oct 2021 12:58:48 +0200
+ (user=elver job=sendgmr) by 2002:a05:6214:1083:: with SMTP id
+ o3mr435430qvr.57.1633431599435; Tue, 05 Oct 2021 03:59:59 -0700 (PDT)
+Date:   Tue,  5 Oct 2021 12:58:49 +0200
 In-Reply-To: <20211005105905.1994700-1-elver@google.com>
-Message-Id: <20211005105905.1994700-7-elver@google.com>
+Message-Id: <20211005105905.1994700-8-elver@google.com>
 Mime-Version: 1.0
 References: <20211005105905.1994700-1-elver@google.com>
 X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
-Subject: [PATCH -rcu/kcsan 06/23] kcsan, kbuild: Add option for barrier
- instrumentation only
+Subject: [PATCH -rcu/kcsan 07/23] kcsan: Call scoped accesses reordered in reports
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, "Paul E . McKenney" <paulmck@kernel.org>
 Cc:     Alexander Potapenko <glider@google.com>,
@@ -74,37 +73,72 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Source files that disable KCSAN via KCSAN_SANITIZE := n, remove all
-instrumentation, including explicit barrier instrumentation. With
-instrumentation for memory barriers, in few places it is required to
-enable just the explicit instrumentation for memory barriers to avoid
-false positives.
-
-Providing the Makefile variable KCSAN_INSTRUMENT_BARRIERS_obj.o or
-KCSAN_INSTRUMENT_BARRIERS (for all files) set to 'y' only enables the
-explicit barrier instrumentation.
+The scoping of an access simply denotes the scope in which it may be
+reordered. However, in reports, it'll be less confusing to say the
+access is "reordered". This is more accurate when the race occurred.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- scripts/Makefile.lib | 5 +++++
- 1 file changed, 5 insertions(+)
+ kernel/kcsan/kcsan_test.c |  4 ++--
+ kernel/kcsan/report.c     | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 54582673fc1a..2118f63b2bc5 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -182,6 +182,11 @@ ifeq ($(CONFIG_KCSAN),y)
- _c_flags += $(if $(patsubst n%,, \
- 	$(KCSAN_SANITIZE_$(basetarget).o)$(KCSAN_SANITIZE)y), \
- 	$(CFLAGS_KCSAN))
-+# Some uninstrumented files provide implied barriers required to avoid false
-+# positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation only.
-+_c_flags += $(if $(patsubst n%,, \
-+	$(KCSAN_INSTRUMENT_BARRIERS_$(basetarget).o)$(KCSAN_INSTRUMENT_BARRIERS)n), \
-+	-D__KCSAN_INSTRUMENT_BARRIERS__)
- endif
+diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+index 660729238588..6e3c2b8bc608 100644
+--- a/kernel/kcsan/kcsan_test.c
++++ b/kernel/kcsan/kcsan_test.c
+@@ -213,9 +213,9 @@ static bool report_matches(const struct expect_report *r)
+ 		const bool is_atomic = (ty & KCSAN_ACCESS_ATOMIC);
+ 		const bool is_scoped = (ty & KCSAN_ACCESS_SCOPED);
+ 		const char *const access_type_aux =
+-				(is_atomic && is_scoped)	? " (marked, scoped)"
++				(is_atomic && is_scoped)	? " (marked, reordered)"
+ 				: (is_atomic			? " (marked)"
+-				   : (is_scoped			? " (scoped)" : ""));
++				   : (is_scoped			? " (reordered)" : ""));
  
- # $(srctree)/$(src) for including checkin headers from generated source files
+ 		if (i == 1) {
+ 			/* Access 2 */
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index fc15077991c4..1b0e050bdf6a 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -215,9 +215,9 @@ static const char *get_access_type(int type)
+ 	if (type & KCSAN_ACCESS_ASSERT) {
+ 		if (type & KCSAN_ACCESS_SCOPED) {
+ 			if (type & KCSAN_ACCESS_WRITE)
+-				return "assert no accesses (scoped)";
++				return "assert no accesses (reordered)";
+ 			else
+-				return "assert no writes (scoped)";
++				return "assert no writes (reordered)";
+ 		} else {
+ 			if (type & KCSAN_ACCESS_WRITE)
+ 				return "assert no accesses";
+@@ -240,17 +240,17 @@ static const char *get_access_type(int type)
+ 	case KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+ 		return "read-write (marked)";
+ 	case KCSAN_ACCESS_SCOPED:
+-		return "read (scoped)";
++		return "read (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_ATOMIC:
+-		return "read (marked, scoped)";
++		return "read (marked, reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE:
+-		return "write (scoped)";
++		return "write (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+-		return "write (marked, scoped)";
++		return "write (marked, reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE:
+-		return "read-write (scoped)";
++		return "read-write (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+-		return "read-write (marked, scoped)";
++		return "read-write (marked, reordered)";
+ 	default:
+ 		BUG();
+ 	}
 -- 
 2.33.0.800.g4c38ced690-goog
 
