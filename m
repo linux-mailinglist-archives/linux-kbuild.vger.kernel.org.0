@@ -2,43 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99F63422598
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 13:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A93884225BA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 13:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234480AbhJELrm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Oct 2021 07:47:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34394 "EHLO
+        id S234488AbhJELwp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Oct 2021 07:52:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234470AbhJELrm (ORCPT
+        with ESMTP id S233672AbhJELwo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Oct 2021 07:47:42 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCEE4C061749;
-        Tue,  5 Oct 2021 04:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=13tbC3Gouv1KRuynQBuv27/8d3oljsFDDnHed+AikeM=; b=EVw7JiEFdV5SlTVzmRuKnKgJED
-        c7kubDpkb7h3Eo0dgRFGgGgcl1izIDoJk8/TjXaLh/087IQjgt+nSw2E25nslh8AwCi7G7Tsa1n5r
-        czkemzGUZ1BKeMejmh9FJNDSVCH7sL+dz1Ojl+LS5S2KKh/1H97+6b30+yk2QJ2IEUy/oRD18smKq
-        4OetEGFo3uH/u0+/oOQfXwZDh6c4hRXE2xKXGV2tCtMVYqv/3ZE1l+WClIdix4CjoGfPBWaQqgrOX
-        HDqWyoxVha2sOiVOgAPm936wfY0cVg3mcO15d8JYtHT/ZiMitGbJ6af7FnimRqgVOeOBUYROEay4z
-        zVvaQ6MQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mXit5-0082aO-Hm; Tue, 05 Oct 2021 11:45:35 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 86EB13002DE;
-        Tue,  5 Oct 2021 13:45:34 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 740772038E207; Tue,  5 Oct 2021 13:45:34 +0200 (CEST)
-Date:   Tue, 5 Oct 2021 13:45:34 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Marco Elver <elver@google.com>
+        Tue, 5 Oct 2021 07:52:44 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB82CC061749
+        for <linux-kbuild@vger.kernel.org>; Tue,  5 Oct 2021 04:50:53 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id s69so25774071oie.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 Oct 2021 04:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZXyHYhWprLF6VOTKKbJ9elBPTHHvHE5sqZFrMqC4ukc=;
+        b=AdpPxdZ9CqU5FBxAA98Y3fzXjRIpzwI+jLyQpXlS0B2Zag9lwe0Tm/W8yG54SJ9A9u
+         ZloN1JllYx08BhPRvTu5lLeMVb90zvrbUzw51Q/oTdDElg8798X7vT7CKO7GyYUcONLE
+         k9O1RUB4qxTUoeLEVIq3Grm6ll7KDg+JufpDII0qJIcg/GKTG35cmkQ5XWHVutEWOyV9
+         afmn3IVBAGabm9Ko1S1/pP/T924r2z5QRlfubG528dYb2KvZAfCV+7dPjVhxdNnppO46
+         HYvS1v3YPsVAuU8KqDjulvXw2WkI0lv0lSxJUhzjPCzS4XqZ3dFKVW9ScGGE+fi2AxGF
+         NvfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZXyHYhWprLF6VOTKKbJ9elBPTHHvHE5sqZFrMqC4ukc=;
+        b=EJahQ2YcyioSzZ4WRrOkAkMfDXlKgjhOihqtbesS+FBoychdi3qBrmCFqbu8zWnLZP
+         j+0aWIJk7Zks9ZmO75Sl5wuuyZ8LCmpNRnzDSuBg8RKRss7LNTQR6V0SPDDTbuw09SiA
+         k7DB6KctGP5A/gfCLpxpyUPWpe0wmIqlzGuYQkvn3R+PDih0mbz3Le0rPQrZoG25mTs3
+         yL3pyyc8s3jYSQuAs4ufRNiSBl/QXuvQKwzFK5ghAThVfSo2jCTYt5LAIAUxN1SxZMf9
+         Xkg3CTUtrC0pn1xdYTnDskQVEBap1k2uTl/JOXxFUE83zAPU16TW6SEh7QNEIHyO8Coz
+         4mqA==
+X-Gm-Message-State: AOAM531bLBxdyFcp9qhs+w4nm0tJHNtEu27vd789Hew3pATttBcXCIkI
+        +P6H8bSiKc+qM3VDPAmfz1tjnA0BCS7XCuzrtohPxw==
+X-Google-Smtp-Source: ABdhPJxU3FVSA1SHRlaHXINF41V/Q42Bl2cBP1TOm69/Ej2eU70kaiasNkoR/CPckzvekLYzclXnlPHunaY5s8EHghQ=
+X-Received: by 2002:a54:4618:: with SMTP id p24mr2068916oip.134.1633434652953;
+ Tue, 05 Oct 2021 04:50:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211005105905.1994700-1-elver@google.com> <20211005105905.1994700-6-elver@google.com>
+ <YVw53mP3VkWyCzxn@hirez.programming.kicks-ass.net> <YVw63tqctCMm+d7M@hirez.programming.kicks-ass.net>
+In-Reply-To: <YVw63tqctCMm+d7M@hirez.programming.kicks-ass.net>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 5 Oct 2021 13:50:41 +0200
+Message-ID: <CANpmjNOXWtUg9qsLJ6m9n3GYZf-AHE_21=zLnFnUMDBHMP2umg@mail.gmail.com>
+Subject: Re: [PATCH -rcu/kcsan 05/23] kcsan: Add core memory barrier
+ instrumentation functions
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
         Alexander Potapenko <glider@google.com>,
         Boqun Feng <boqun.feng@gmail.com>,
@@ -53,83 +68,37 @@ Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
         linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH -rcu/kcsan 05/23] kcsan: Add core memory barrier
- instrumentation functions
-Message-ID: <YVw63tqctCMm+d7M@hirez.programming.kicks-ass.net>
-References: <20211005105905.1994700-1-elver@google.com>
- <20211005105905.1994700-6-elver@google.com>
- <YVw53mP3VkWyCzxn@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YVw53mP3VkWyCzxn@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 01:41:18PM +0200, Peter Zijlstra wrote:
-> On Tue, Oct 05, 2021 at 12:58:47PM +0200, Marco Elver wrote:
-> > +static __always_inline void kcsan_atomic_release(int memorder)
-> > +{
-> > +	if (memorder == __ATOMIC_RELEASE ||
-> > +	    memorder == __ATOMIC_SEQ_CST ||
-> > +	    memorder == __ATOMIC_ACQ_REL)
-> > +		__kcsan_release();
-> > +}
-> > +
-> >  #define DEFINE_TSAN_ATOMIC_LOAD_STORE(bits)                                                        \
-> >  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder);                      \
-> >  	u##bits __tsan_atomic##bits##_load(const u##bits *ptr, int memorder)                       \
-> >  	{                                                                                          \
-> > +		kcsan_atomic_release(memorder);                                                    \
-> >  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
-> >  			check_access(ptr, bits / BITS_PER_BYTE, KCSAN_ACCESS_ATOMIC, _RET_IP_);    \
-> >  		}                                                                                  \
-> > @@ -1156,6 +1187,7 @@ EXPORT_SYMBOL(__tsan_init);
-> >  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder);                   \
-> >  	void __tsan_atomic##bits##_store(u##bits *ptr, u##bits v, int memorder)                    \
-> >  	{                                                                                          \
-> > +		kcsan_atomic_release(memorder);                                                    \
-> >  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
-> >  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> >  				     KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC, _RET_IP_);          \
-> > @@ -1168,6 +1200,7 @@ EXPORT_SYMBOL(__tsan_init);
-> >  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder);                 \
-> >  	u##bits __tsan_atomic##bits##_##op(u##bits *ptr, u##bits v, int memorder)                  \
-> >  	{                                                                                          \
-> > +		kcsan_atomic_release(memorder);                                                    \
-> >  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
-> >  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> >  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> > @@ -1200,6 +1233,7 @@ EXPORT_SYMBOL(__tsan_init);
-> >  	int __tsan_atomic##bits##_compare_exchange_##strength(u##bits *ptr, u##bits *exp,          \
-> >  							      u##bits val, int mo, int fail_mo)    \
-> >  	{                                                                                          \
-> > +		kcsan_atomic_release(mo);                                                          \
-> >  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
-> >  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> >  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> > @@ -1215,6 +1249,7 @@ EXPORT_SYMBOL(__tsan_init);
-> >  	u##bits __tsan_atomic##bits##_compare_exchange_val(u##bits *ptr, u##bits exp, u##bits val, \
-> >  							   int mo, int fail_mo)                    \
-> >  	{                                                                                          \
-> > +		kcsan_atomic_release(mo);                                                          \
-> >  		if (!IS_ENABLED(CONFIG_KCSAN_IGNORE_ATOMICS)) {                                    \
-> >  			check_access(ptr, bits / BITS_PER_BYTE,                                    \
-> >  				     KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE |                  \
-> > @@ -1246,6 +1281,7 @@ DEFINE_TSAN_ATOMIC_OPS(64);
-> >  void __tsan_atomic_thread_fence(int memorder);
-> >  void __tsan_atomic_thread_fence(int memorder)
-> >  {
-> > +	kcsan_atomic_release(memorder);
-> >  	__atomic_thread_fence(memorder);
-> >  }
-> >  EXPORT_SYMBOL(__tsan_atomic_thread_fence);
-> 
-> I find that very hard to read.. kcsan_atomic_release() it not in fact a
-> release. It might be a release if @memorder implies one.
+On Tue, 5 Oct 2021 at 13:45, Peter Zijlstra <peterz@infradead.org> wrote:
+> On Tue, Oct 05, 2021 at 01:41:18PM +0200, Peter Zijlstra wrote:
+> > On Tue, Oct 05, 2021 at 12:58:47PM +0200, Marco Elver wrote:
+> > > +static __always_inline void kcsan_atomic_release(int memorder)
+> > > +{
+> > > +   if (memorder == __ATOMIC_RELEASE ||
+> > > +       memorder == __ATOMIC_SEQ_CST ||
+> > > +       memorder == __ATOMIC_ACQ_REL)
+> > > +           __kcsan_release();
+> > > +}
+> > > +
+[...]
+> > > +   kcsan_atomic_release(memorder);
+> > >     __atomic_thread_fence(memorder);
+> > >  }
+> > >  EXPORT_SYMBOL(__tsan_atomic_thread_fence);
+> >
+> > I find that very hard to read.. kcsan_atomic_release() it not in fact a
+> > release. It might be a release if @memorder implies one.
 
-Also, what's the atomic part signify? Is that because you're modeling
-the difference in acquire/release semantics between
-smp_load_{acquire,release}() and atomic*_{acquire,release}() ?
+You're right, this name can be improved.
+`kcsan_atomic_builtin_memorder(..)` is probably better
 
+> Also, what's the atomic part signify? Is that because you're modeling
+> the difference in acquire/release semantics between
+> smp_load_{acquire,release}() and atomic*_{acquire,release}() ?
+
+Sorry, just a bad name. It's about the builtins. The above suggested
+name should hopefully be clearer.
