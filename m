@@ -2,74 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CEF5422CD8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Oct 2021 17:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E2D1423596
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Oct 2021 03:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231513AbhJEPrK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Oct 2021 11:47:10 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:54006 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236225AbhJEPpg (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Oct 2021 11:45:36 -0400
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 195FhVOe018297;
-        Wed, 6 Oct 2021 00:43:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 195FhVOe018297
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1633448612;
-        bh=7KHzNJArunt+AsZQcYX78r05TGgrRkmM/OebmoHU69I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YxT73IQ81QudBOGAj4BAW5zoykIp0GNFGGa8drvpaWabJOEzytzaKrfnPO3GRaus7
-         pNv8h76mzquXi8aXMcbsLB7HSh8x9OPyCfIP6HJpUlhTfMrx+2+wIgaNEgBq/njWl5
-         SRpVHSo6a3eSd8KQDC2sKljYFk6rklTQ57eC70hxJLuzVHet5ajrB6fgLa4n9T6i/d
-         28YnXkHEN+DBIZnk795lNn9utPG6jCC7lTLNZW5SUW4GZRfgJFn4MOGBXrF9tNoN94
-         HldKvWTBdzQGyY9joM7cwZ585xreAl2cvq3DNAipnAxpGNIcNMHcQOs5sS0/u+i9+r
-         MFqnraxFGLqPA==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id np13so4440625pjb.4;
-        Tue, 05 Oct 2021 08:43:31 -0700 (PDT)
-X-Gm-Message-State: AOAM5306jRA1p1pEPIdFlnvQjxkYd1iGQj6XdaKp+ulshoOQVfRDaGRj
-        38IT4MXDd27emopMNAEnZDwPeZUsZyJNnV9RHYM=
-X-Google-Smtp-Source: ABdhPJxa0XnjdhgyGfp1YcU5HxWZALDV0EYXv+orqK/WSc01E/ow6WDMY6Pe9Plq+sfbz7omUjr2mMhKD6v6JOELnOQ=
-X-Received: by 2002:a17:902:6b01:b0:13e:50bb:790f with SMTP id
- o1-20020a1709026b0100b0013e50bb790fmr5873181plk.42.1633448610986; Tue, 05 Oct
- 2021 08:43:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210920213957.1064-1-richard@nod.at> <CAK7LNAQd1d89J8GjLExgeirQ3cR+tnP6GMgekeBcrGJ-=ArrCQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQd1d89J8GjLExgeirQ3cR+tnP6GMgekeBcrGJ-=ArrCQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 6 Oct 2021 00:42:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASS0NeAhwevT1AXoknRJK0RQdysK0F9Rp=F9PXxGB+j5g@mail.gmail.com>
-Message-ID: <CAK7LNASS0NeAhwevT1AXoknRJK0RQdysK0F9Rp=F9PXxGB+j5g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: Refactor sym_escape_string_value
-To:     Richard Weinberger <richard@nod.at>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S237056AbhJFBtL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Oct 2021 21:49:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60526 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229908AbhJFBtL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 5 Oct 2021 21:49:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9D00A611CC;
+        Wed,  6 Oct 2021 01:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1633484838;
+        bh=Xt+wZ6PkpbqGmpCET0SN48ylqvwvPAINuGHGp2TK1uY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=IxA2DMOOXNCn02Sbwsru0IXmgNMs9rv4nMcyqr06+2YctzkpKzNPO6CCXPdKM1Np0
+         t7lmbu0FEO37bLus65CjV0G166hksDhs7XFigmUyv4IM9aFkaL9zjCRpK2rOMsWEqX
+         EkL6cytWknEjtB//VUBv0jEX19efvyxzhNHUIrns=
+Date:   Tue, 5 Oct 2021 18:47:17 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andy Whitcroft <apw@canonical.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Tejun Heo <tj@kernel.org>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] slab: Add __alloc_size attributes for better
+ bounds checking
+Message-Id: <20211005184717.65c6d8eb39350395e387b71f@linux-foundation.org>
+In-Reply-To: <20210930222704.2631604-5-keescook@chromium.org>
+References: <20210930222704.2631604-1-keescook@chromium.org>
+        <20210930222704.2631604-5-keescook@chromium.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 9:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Sep 21, 2021 at 6:42 AM Richard Weinberger <richard@nod.at> wrote:
-> >
-> > sym_escape_string_value() can take a struct symbol directly
-> > and use sym_get_string_value() itself to obtain the string value.
-> > We will need struct symbol later for error reporting.
-> >
-> > Signed-off-by: Richard Weinberger <richard@nod.at>
-> > ---
->
-> I think this is a nice clean-up regardless of 2/2.
-> Applied to linux-kbuild. Thanks.
->
+On Thu, 30 Sep 2021 15:27:00 -0700 Kees Cook <keescook@chromium.org> wrote:
 
-I changed my mind after all.
-I dropped this patch to clean up the code in a different way.
+> As already done in GrapheneOS, add the __alloc_size attribute for regular
+> kmalloc interfaces, to provide additional hinting for better bounds
+> checking, assisting CONFIG_FORTIFY_SOURCE and other compiler
+> optimizations.
 
+x86_64 allmodconfig:
 
--- 
-Best Regards
-Masahiro Yamada
+In file included from ./arch/x86/include/asm/preempt.h:7,
+                 from ./include/linux/preempt.h:78,
+                 from ./include/linux/spinlock.h:55,
+                 from ./include/linux/mmzone.h:8,
+                 from ./include/linux/gfp.h:6,
+                 from ./include/linux/mm.h:10,
+                 from ./include/linux/mman.h:5,
+                 from lib/test_kasan_module.c:10:
+In function 'check_copy_size',
+    inlined from 'copy_user_test' at ./include/linux/uaccess.h:191:6:
+./include/linux/thread_info.h:213:4: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
+  213 |    __bad_copy_to();
+      |    ^~~~~~~~~~~~~~~
+In function 'check_copy_size',
+    inlined from 'copy_user_test' at ./include/linux/uaccess.h:199:6:
+./include/linux/thread_info.h:211:4: error: call to '__bad_copy_from' declared with attribute error: copy source size is too small
+  211 |    __bad_copy_from();
+      |    ^~~~~~~~~~~~~~~~~
+make[1]: *** [lib/test_kasan_module.o] Error 1
+make: *** [lib] Error 2
+
