@@ -2,111 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C04426A1C
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Oct 2021 13:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70294427339
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Oct 2021 23:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241923AbhJHLuK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Oct 2021 07:50:10 -0400
-Received: from hypnos.jasiak.dev ([54.37.136.131]:59820 "EHLO
-        hypnos.jasiak.dev" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240772AbhJHLt7 (ORCPT
+        id S243490AbhJHVxf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Oct 2021 17:53:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231774AbhJHVxe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Oct 2021 07:49:59 -0400
-X-Greylist: delayed 532 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Oct 2021 07:49:58 EDT
-From:   =?UTF-8?q?Pawe=C5=82=20Jasiak?= <pawel@jasiak.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jasiak.dev; s=2021;
-        t=1633693141;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=B6XIaZTr2HvdhOCxFxUI4pMeKIDCo+enKkSdts+y4sc=;
-        b=CoxcmQ8mmnhQ97HKWiyP9OViWTqsF4uZDTeBjXe8S63cReHVw5UwvVmcAuZC6i7qeftRCC
-        NcOadwBEInRzmIXI6op39Icp+qxsRueQHaMc/SW8/52qqNoCQ/jy2NdOYhSCj0YO+FrOEY
-        k7nHvIKiQjMZp+A/brjc+Do+tRU/ccO0femYlTb9sN7HjUx4gJUreNSYzTBJBVeKgzyolt
-        Wd2JbyiwnlkRXXA8tIjxrZ/tdhFaYK+LDVWnPER0aEf9rmA74Dw2Um9ptj14pCj2ziVjoc
-        42KSD56fzr8ZI6YEBldgBsisS+z1csECzo8S2kP+EqT8eXIDbSqkT94HUI72Uw==
-Cc:     =?UTF-8?q?Pawe=C5=82=20Jasiak?= <pawel@jasiak.dev>,
+        Fri, 8 Oct 2021 17:53:34 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E741C061570
+        for <linux-kbuild@vger.kernel.org>; Fri,  8 Oct 2021 14:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=BOIJaRSfpKY+mhtnrEFxb7cgPtuJ/B0W3GbcwDdP/a0=; b=orB7rxnMC07hrJlTRg9lihqrX4
+        QXKeWEwyUeQGtECACD6pePzu8GNSlFHozkBBfbJDNh5vGsdwnof3FOnCloqsO5cUWmouraPvhLTty
+        rB4KhM9/x+Zrmb9O2SR86qktqAi1nQlOU61Q8Jx6XXXYVoUOZvkhcncPqbZnqcNpTAWZ5YwHkXQUc
+        JKdXcfQtneiSZgHdC1ze5u6+9WG+ZwPBoCNb9F6oD1APx0g4QwrdalRYW59nQzWnLtCVyhYx/nUBk
+        Dp2eQtkwTmBsEKqrg/+cAu5cskVbidu4aeu55KBv2Buo0u2a8DISWgTL4OFMBfzBC4YBWOfrc1dYP
+        pCufcP7w==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mYxmA-004F0S-B0; Fri, 08 Oct 2021 21:51:34 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: Add make tarzst-pkg build option
-Date:   Fri,  8 Oct 2021 13:37:59 +0200
-Message-Id: <20211008113800.85155-1-pawel@jasiak.dev>
+        linux-kbuild@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-um@lists.infradead.org, x86@kernel.org
+Subject: [PATCH] um: Add missing "FORCE" target when using if_changed
+Date:   Fri,  8 Oct 2021 14:51:33 -0700
+Message-Id: <20211008215133.9371-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Authentication-Results: ORIGINATING;
-        auth=pass smtp.auth=pawel@jasiak.dev smtp.mailfrom=pawel@jasiak.dev
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add tarzst-pkg and perf-tarzst-src-pkg targets to build zstd compressed
-tarballs.
+'make ARCH=um' says:
 
-Signed-off-by: Paweł Jasiak <pawel@jasiak.dev>
+../arch/x86/um/Makefile:44: FORCE prerequisite is missing
+
+and adding "FORCE" there makes it be quiet, so do it.  :)
+
+Fixes: e1f86d7b4b2a ("kbuild: warn if FORCE is missing for if_changed(_dep,_rule) and filechk")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: linux-kbuild@vger.kernel.org
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: linux-um@lists.infradead.org
+Cc: x86@kernel.org
 ---
- scripts/Makefile.package | 10 +++++++---
- scripts/package/buildtar |  4 ++++
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ arch/x86/um/Makefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index b74c65284fb2..77b612183c08 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -103,7 +103,7 @@ snap-pkg:
+--- linux-next-20211007.orig/arch/x86/um/Makefile
++++ linux-next-20211007/arch/x86/um/Makefile
+@@ -40,7 +40,7 @@ $(obj)/user-offsets.s: c_flags = -Wp,-MD
+ 	-Iarch/x86/include/generated
+ targets += user-offsets.s
  
- # tarball targets
- # ---------------------------------------------------------------------------
--tar-pkgs := dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
-+tar-pkgs := dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg tarzst-pkg
- PHONY += $(tar-pkgs)
- $(tar-pkgs):
- 	$(MAKE) -f $(srctree)/Makefile
-@@ -130,10 +130,12 @@ $(if $(findstring tar-src,$@),,                                     \
- $(if $(findstring bz2,$@),$(KBZIP2),                                 \
- $(if $(findstring gz,$@),$(KGZIP),                                  \
- $(if $(findstring xz,$@),$(XZ),                                     \
--$(error unknown target $@))))                                       \
-+$(if $(findstring zst,$@),$(ZSTD),                                  \
-+$(error unknown target $@)))))                                      \
- 	-f -9 $(perf-tar).tar)
+-include/generated/user_constants.h: $(obj)/user-offsets.s
++include/generated/user_constants.h: $(obj)/user-offsets.s FORCE
+ 	$(call filechk,offsets,__USER_CONSTANT_H__)
  
--perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg perf-tarxz-src-pkg
-+perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg \
-+		 perf-tarxz-src-pkg perf-tarzst-src-pkg
- PHONY += $(perf-tar-pkgs)
- $(perf-tar-pkgs):
- 	$(call cmd,perf_tar)
-@@ -153,9 +155,11 @@ help:
- 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
- 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
- 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
-+	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
- 	@echo '  perf-tar-src-pkg    - Build $(perf-tar).tar source tarball'
- 	@echo '  perf-targz-src-pkg  - Build $(perf-tar).tar.gz source tarball'
- 	@echo '  perf-tarbz2-src-pkg - Build $(perf-tar).tar.bz2 source tarball'
- 	@echo '  perf-tarxz-src-pkg  - Build $(perf-tar).tar.xz source tarball'
-+	@echo '  perf-tarzst-src-pkg - Build $(perf-tar).tar.zst source tarball'
- 
- .PHONY: $(PHONY)
-diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-index 221aa7df008d..cb54c7f1aa80 100755
---- a/scripts/package/buildtar
-+++ b/scripts/package/buildtar
-@@ -39,6 +39,10 @@ case "${1}" in
- 		opts="-I ${XZ}"
- 		tarball=${tarball}.xz
- 		;;
-+	tarzst-pkg)
-+		opts="-I ${ZSTD}"
-+		tarball=${tarball}.zst
-+		;;
- 	*)
- 		echo "Unknown tarball target \"${1}\" requested, please add it to ${0}." >&2
- 		exit 1
--- 
-2.33.0
-
+ UNPROFILE_OBJS := stub_segv.o
