@@ -2,75 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 098834268A9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Oct 2021 13:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C04426A1C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Oct 2021 13:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240126AbhJHL1U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Oct 2021 07:27:20 -0400
-Received: from m12-17.163.com ([220.181.12.17]:39482 "EHLO m12-17.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240084AbhJHL1J (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Oct 2021 07:27:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=5HVMS
-        eqZsrmCC0TSlZDhftcpk/fS1mwC4NRf/YiHee8=; b=RfJGL1+0m15Dr70k4QY6l
-        V1xKeqldshiDjynfah48JYD5WAkH65lD8RvF/jR8OLPal6gfk+3suwNqsh7EH9ia
-        S0xe5jVOPztpEl8VEA/ayFzYwVmMN++zju8ZLbNMvPXjU19tkPa1prgSYhwFiHV1
-        5OykwXcUgrJELQiZWsT26k=
-Received: from localhost (unknown [49.235.41.28])
-        by smtp13 (Coremail) with SMTP id EcCowACHsIR3KmBhHRbaQQ--.23614S2;
-        Fri, 08 Oct 2021 19:24:39 +0800 (CST)
-Date:   Fri, 8 Oct 2021 19:24:38 +0800
-From:   Hui Su <suhui_kernel@163.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts: update the comments of kallsyms support
-Message-ID: <20211008112438.GA1243425@localhost.localdomain>
+        id S241923AbhJHLuK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Oct 2021 07:50:10 -0400
+Received: from hypnos.jasiak.dev ([54.37.136.131]:59820 "EHLO
+        hypnos.jasiak.dev" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240772AbhJHLt7 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 8 Oct 2021 07:49:59 -0400
+X-Greylist: delayed 532 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Oct 2021 07:49:58 EDT
+From:   =?UTF-8?q?Pawe=C5=82=20Jasiak?= <pawel@jasiak.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jasiak.dev; s=2021;
+        t=1633693141;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=B6XIaZTr2HvdhOCxFxUI4pMeKIDCo+enKkSdts+y4sc=;
+        b=CoxcmQ8mmnhQ97HKWiyP9OViWTqsF4uZDTeBjXe8S63cReHVw5UwvVmcAuZC6i7qeftRCC
+        NcOadwBEInRzmIXI6op39Icp+qxsRueQHaMc/SW8/52qqNoCQ/jy2NdOYhSCj0YO+FrOEY
+        k7nHvIKiQjMZp+A/brjc+Do+tRU/ccO0femYlTb9sN7HjUx4gJUreNSYzTBJBVeKgzyolt
+        Wd2JbyiwnlkRXXA8tIjxrZ/tdhFaYK+LDVWnPER0aEf9rmA74Dw2Um9ptj14pCj2ziVjoc
+        42KSD56fzr8ZI6YEBldgBsisS+z1csECzo8S2kP+EqT8eXIDbSqkT94HUI72Uw==
+Cc:     =?UTF-8?q?Pawe=C5=82=20Jasiak?= <pawel@jasiak.dev>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Add make tarzst-pkg build option
+Date:   Fri,  8 Oct 2021 13:37:59 +0200
+Message-Id: <20211008113800.85155-1-pawel@jasiak.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-CM-TRANSID: EcCowACHsIR3KmBhHRbaQQ--.23614S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar45ZFW8Ar45XF1DurW7urg_yoW8JFWxpa
-        9Yk3yDZF18GrykZw17Zr4j9ry2gFn5GrZ7XryDKF4jyF98Zw10v3sF9w47J3yDGrWxAF1x
-        Xrn7XrZFga4DArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jVFALUUUUU=
-X-Originating-IP: [49.235.41.28]
-X-CM-SenderInfo: 5vxk3xhbnh20lho6il2tof0z/1tbiMxcmbVXl+eF6EQAAss
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+        auth=pass smtp.auth=pawel@jasiak.dev smtp.mailfrom=pawel@jasiak.dev
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-update the comments of kallsyms support
+Add tarzst-pkg and perf-tarzst-src-pkg targets to build zstd compressed
+tarballs.
 
-Signed-off-by: Hui Su <suhui_kernel@163.com>
+Signed-off-by: Paweł Jasiak <pawel@jasiak.dev>
 ---
- scripts/link-vmlinux.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/Makefile.package | 10 +++++++---
+ scripts/package/buildtar |  4 ++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index d74cee5c4326..a98c4f045302 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -369,14 +369,14 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
- 	# kallsyms support
- 	# Generate section listing all symbols and add it into vmlinux
- 	# It's a three step process:
--	# 1)  Link .tmp_vmlinux1 so it has all symbols and sections,
-+	# 1)  Link .tmp_vmlinux.kallsyms1 so it has all symbols and sections,
- 	#     but __kallsyms is empty.
- 	#     Running kallsyms on that gives us .tmp_kallsyms1.o with
- 	#     the right size
--	# 2)  Link .tmp_vmlinux2 so it now has a __kallsyms section of
-+	# 2)  Link .tmp_vmlinux.kallsyms2 so it now has a __kallsyms section of
- 	#     the right size, but due to the added section, some
- 	#     addresses have shifted.
--	#     From here, we generate a correct .tmp_kallsyms2.o
-+	#     From here, we generate a correct .tmp_vmlinux.kallsyms2.o
- 	# 3)  That link may have expanded the kernel image enough that
- 	#     more linker branch stubs / trampolines had to be added, which
- 	#     introduces new names, which further expands kallsyms. Do another
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index b74c65284fb2..77b612183c08 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -103,7 +103,7 @@ snap-pkg:
+ 
+ # tarball targets
+ # ---------------------------------------------------------------------------
+-tar-pkgs := dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
++tar-pkgs := dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg tarzst-pkg
+ PHONY += $(tar-pkgs)
+ $(tar-pkgs):
+ 	$(MAKE) -f $(srctree)/Makefile
+@@ -130,10 +130,12 @@ $(if $(findstring tar-src,$@),,                                     \
+ $(if $(findstring bz2,$@),$(KBZIP2),                                 \
+ $(if $(findstring gz,$@),$(KGZIP),                                  \
+ $(if $(findstring xz,$@),$(XZ),                                     \
+-$(error unknown target $@))))                                       \
++$(if $(findstring zst,$@),$(ZSTD),                                  \
++$(error unknown target $@)))))                                      \
+ 	-f -9 $(perf-tar).tar)
+ 
+-perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg perf-tarxz-src-pkg
++perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg \
++		 perf-tarxz-src-pkg perf-tarzst-src-pkg
+ PHONY += $(perf-tar-pkgs)
+ $(perf-tar-pkgs):
+ 	$(call cmd,perf_tar)
+@@ -153,9 +155,11 @@ help:
+ 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
+ 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+ 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
++	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
+ 	@echo '  perf-tar-src-pkg    - Build $(perf-tar).tar source tarball'
+ 	@echo '  perf-targz-src-pkg  - Build $(perf-tar).tar.gz source tarball'
+ 	@echo '  perf-tarbz2-src-pkg - Build $(perf-tar).tar.bz2 source tarball'
+ 	@echo '  perf-tarxz-src-pkg  - Build $(perf-tar).tar.xz source tarball'
++	@echo '  perf-tarzst-src-pkg - Build $(perf-tar).tar.zst source tarball'
+ 
+ .PHONY: $(PHONY)
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index 221aa7df008d..cb54c7f1aa80 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -39,6 +39,10 @@ case "${1}" in
+ 		opts="-I ${XZ}"
+ 		tarball=${tarball}.xz
+ 		;;
++	tarzst-pkg)
++		opts="-I ${ZSTD}"
++		tarball=${tarball}.zst
++		;;
+ 	*)
+ 		echo "Unknown tarball target \"${1}\" requested, please add it to ${0}." >&2
+ 		exit 1
 -- 
-2.25.1
-
+2.33.0
 
