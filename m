@@ -2,181 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DF3042ACF2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 21:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60B2542AD6A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 21:45:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232482AbhJLTJR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Oct 2021 15:09:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39750 "EHLO
+        id S233161AbhJLTrC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Oct 2021 15:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231751AbhJLTJR (ORCPT
+        with ESMTP id S232145AbhJLTrC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Oct 2021 15:09:17 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA155C061745
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Oct 2021 12:07:14 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id c16so1260154lfb.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Oct 2021 12:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IKQxVqcAmgZKu/tSeqOwVg3gX23vstZQejnJbzgCj/s=;
-        b=O4WgFNaEVppR1TUAUoEoywmWCYqdP5jCd+B/Qe6JnWekMkgzuxLiy3+qaGLweJf805
-         gVJd5R9BMgaixfNdxd/Q6+QTmhtTW5QcJXimmpmMIZB9DkN9q3OJmZssS1N9AgOnMj3M
-         f18kWRNZVTIa1r14GnqNVIyY/bv279PES1d8YM9czLF5iuqsiKtvFTDtZ6kid5+lHpWr
-         sV58kNm5NatfWCuvvZ4vVAZnZn1xB+Wlbk8TBq8dE4HLtexh7Xx7+yeOZV9x+2LcVzbf
-         CUwIbAfiEpqGBBIMu2cssUyTCAgtLYmw3R7oyaHNB2qdnST6Eq08JBmtbgKezNmR3oto
-         Y4MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IKQxVqcAmgZKu/tSeqOwVg3gX23vstZQejnJbzgCj/s=;
-        b=QvkBJ1lLP1hGgZARIgtWfC3sOLUstfLvMNv7PEBROc92mP9PrVrFFFJfXn+Vn5Xdb0
-         E4E2DEyS4qTrlG2GQiJlPYaWdLvn2yXdtl+0e+4waD4iLuUh0wBOdtW3gRT2sYkg7p8U
-         eV52OEZTNA6l3dXR1zQZg3/d3qn2+FWom7Y/fRCU9uvVO+46O3zHOPh4Z92msKb4KeED
-         Vhpo7NMtox6E1tVTBxsUIkLwNy/mjhgWH4AD1He6jZduSU3i0T3SZEBMb0drXb9zc/4p
-         Lgg28VWdsLcl2sEZJHlVue+sHhTTAi8UiR/u3yVMMtK/dgO2Wr88fsL41Tr3Bp6WOPDj
-         wK6g==
-X-Gm-Message-State: AOAM532BrvqKReSaMHDZVQgmyQQb15GkxJMAm8nuX//ZtF+7kOU8478A
-        Zor+wl8ipSLbkEeRldIg86s2It+YytldOlp9vd28Ab4tBYc=
-X-Google-Smtp-Source: ABdhPJyF0EUYiKnUt0ZEwpD2Kg4rJqw/Uya9fqRNtXwfVqd4j8R7NL7QDCaGvzhUA1GbBJrHaPdfATqmUxOhhuEtNzU=
-X-Received: by 2002:a2e:8695:: with SMTP id l21mr9515526lji.339.1634065632961;
- Tue, 12 Oct 2021 12:07:12 -0700 (PDT)
+        Tue, 12 Oct 2021 15:47:02 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C266C061570;
+        Tue, 12 Oct 2021 12:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=GmU52LcW7Taz8iLhrlrmKLg+fN7VX8YQj3FglOsUxIY=; b=AGUZK/dPN8t3DXvNoq81McZnaY
+        UrsyS5/mPfHu0D/VTsca2GryE+M692JCl8iV6GLJeF/mwa1QzyvzqtPqUf3UDQjWzaFTkljt3TmrT
+        qay2VRaewVq5O6R9O+P6MVPLcF62jMITDxSSgVDiwNW0ENppKVRaS+tBDRu5Ko6TQT8j6Sg/SV6sT
+        hnsGKcxzcmH2a+7W72VQh5QGufTAr9EGeom2cKIoOiovhVj55lNIqVzD91toVznbsEDO1OcAjRdQA
+        iHBlWqe71WFSM/g3ya+7huTI/iJyLdTiTPh8P2McGGGH0+Xi7GgLtNIj3Z8lszg2MKWiGFCYHC/LS
+        gQhlEEyQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1maNhr-00DscO-RL; Tue, 12 Oct 2021 19:44:59 +0000
+Subject: Re: [RFC PATCH] kbuild: only prompt for compressors that are actually
+ usable
+To:     Vegard Nossum <vegard.nossum@oracle.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211012170121.31549-1-vegard.nossum@oracle.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <adfb38d7-8ce5-3266-df5a-e38e3597d994@infradead.org>
+Date:   Tue, 12 Oct 2021 12:44:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211012032503.459821-1-masahiroy@kernel.org>
-In-Reply-To: <20211012032503.459821-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 12 Oct 2021 12:07:02 -0700
-Message-ID: <CAKwvOdnFLV0xQYbiouvf8zibKq-pKo7q0R9QVC7ywWLYMHHZ7w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: split DEBUG_CFLAGS out to scripts/Makefile.debug
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211012170121.31549-1-vegard.nossum@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 8:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> To slim down the top Makefile, split out the code block surrounded by
-> ifdef CONFIG_DEBUG_INFO ... endif.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On 10/12/21 10:01 AM, Vegard Nossum wrote:
+> If a given compression algorithm for the kernel image is not usable on
+> the host system, there is no point prompting for it.
+> 
+> We can use the kconfig preprocessing feature to check if the command is
+> available or not. I've chosen to test this using "which", which exits
+> with success if the given command exists in PATH (or it is an absolute
+> path), which mimics exactly how it would be found in the kernel's
+> Makefiles.
 
-Reviewed-by: Nick Desaulniers <ndesauniers@google.com>
+Hi Vegard,
 
+I have made a few patches that used "which", but I was always told
+that the POSIX spelling of that command is "command -v", so that is
+preferable.
+
+> This uses the make variables that are set in Makefile and/or the
+> command line, so you can do e.g.
+> 
+>    make KGZIP=pigz menuconfig
+> 
+> and it will test for the correct program.
+> 
+> I am intentionally adding these dependencies to e.g. KERNEL_LZ4, as
+> opposed to HAVE_KERNEL_LZ4, since the latter are "select"-ed
+> unconditionally by the architectures that use them, so they are not
+> suitable for depending on anything else.
+> 
+> I've put RFC in the subject as maybe there are downsides to this that
+> I'm not aware of.
+> 
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 > ---
->
->  Makefile               | 39 +--------------------------------------
->  scripts/Makefile.debug | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 38 deletions(-)
->  create mode 100644 scripts/Makefile.debug
->
-> diff --git a/Makefile b/Makefile
-> index ee5896261d2f..8e3224470dc1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -847,44 +847,6 @@ ifdef CONFIG_ZERO_CALL_USED_REGS
->  KBUILD_CFLAGS  += -fzero-call-used-regs=used-gpr
->  endif
->
-> -DEBUG_CFLAGS   :=
-> -
-> -ifdef CONFIG_DEBUG_INFO
-> -
-> -ifdef CONFIG_DEBUG_INFO_SPLIT
-> -DEBUG_CFLAGS   += -gsplit-dwarf
-> -else
-> -DEBUG_CFLAGS   += -g
-> -endif
-> -
-> -ifndef CONFIG_AS_IS_LLVM
-> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> -endif
-> -
-> -ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
-> -DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> -endif
-> -
-> -ifdef CONFIG_DEBUG_INFO_REDUCED
-> -DEBUG_CFLAGS   += -fno-var-tracking
-> -ifdef CONFIG_CC_IS_GCC
-> -DEBUG_CFLAGS   += -femit-struct-debug-baseonly
-> -endif
-> -endif
-> -
-> -ifdef CONFIG_DEBUG_INFO_COMPRESSED
-> -DEBUG_CFLAGS   += -gz=zlib
-> -KBUILD_AFLAGS  += -gz=zlib
-> -KBUILD_LDFLAGS += --compress-debug-sections=zlib
-> -endif
-> -
-> -endif # CONFIG_DEBUG_INFO
-> -
-> -KBUILD_CFLAGS += $(DEBUG_CFLAGS)
-> -export DEBUG_CFLAGS
-> -
->  ifdef CONFIG_FUNCTION_TRACER
->  ifdef CONFIG_FTRACE_MCOUNT_USE_CC
->    CC_FLAGS_FTRACE      += -mrecord-mcount
-> @@ -1033,6 +995,7 @@ KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
->
->  # include additional Makefiles when needed
->  include-y                      := scripts/Makefile.extrawarn
-> +include-$(CONFIG_DEBUG_INFO)   += scripts/Makefile.debug
->  include-$(CONFIG_KASAN)                += scripts/Makefile.kasan
->  include-$(CONFIG_KCSAN)                += scripts/Makefile.kcsan
->  include-$(CONFIG_UBSAN)                += scripts/Makefile.ubsan
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> new file mode 100644
-> index 000000000000..9f39b0130551
-> --- /dev/null
-> +++ b/scripts/Makefile.debug
-> @@ -0,0 +1,33 @@
-> +DEBUG_CFLAGS   :=
-> +
-> +ifdef CONFIG_DEBUG_INFO_SPLIT
-> +DEBUG_CFLAGS   += -gsplit-dwarf
-> +else
-> +DEBUG_CFLAGS   += -g
-> +endif
-> +
-> +ifndef CONFIG_AS_IS_LLVM
-> +KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> +endif
-> +
-> +ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
-> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> +endif
-> +
-> +ifdef CONFIG_DEBUG_INFO_REDUCED
-> +DEBUG_CFLAGS   += -fno-var-tracking
-> +ifdef CONFIG_CC_IS_GCC
-> +DEBUG_CFLAGS   += -femit-struct-debug-baseonly
-> +endif
-> +endif
-> +
-> +ifdef CONFIG_DEBUG_INFO_COMPRESSED
-> +DEBUG_CFLAGS   += -gz=zlib
-> +KBUILD_AFLAGS  += -gz=zlib
-> +KBUILD_LDFLAGS += --compress-debug-sections=zlib
-> +endif
-> +
-> +KBUILD_CFLAGS += $(DEBUG_CFLAGS)
-> +export DEBUG_CFLAGS
-> --
-> 2.30.2
->
+>   init/Kconfig | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
 
 -- 
-Thanks,
-~Nick Desaulniers
+~Randy
