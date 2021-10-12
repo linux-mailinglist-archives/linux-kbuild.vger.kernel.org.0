@@ -2,104 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D4B429BA8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 04:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EA0A429BAB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 04:55:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231649AbhJLCyk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Oct 2021 22:54:40 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:52443 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231790AbhJLCyk (ORCPT
+        id S231649AbhJLC5c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Oct 2021 22:57:32 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:23655 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231791AbhJLC5c (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Oct 2021 22:54:40 -0400
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 19C2q77p020888;
-        Tue, 12 Oct 2021 11:52:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 19C2q77p020888
+        Mon, 11 Oct 2021 22:57:32 -0400
+Received: from grover.RMN.KIBA.LAB.jp (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 19C2tHgu006145;
+        Tue, 12 Oct 2021 11:55:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 19C2tHgu006145
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1634007128;
-        bh=trZNy2SOmOFqSbX3fgMgW1+O8/BOm+x1o2j/beOb/7I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uhPvL0juPQFB+0g19tLRt9shxybBpUQ47ebM5AUNlOhm6mfiAqrw/Cb5Dd5EJrgcq
-         km+g338ZBRRzX6MMvLo/jkVO8dQ0gjEOySA18JyGsFlkrGUEI+fckiq67fgsHN5DMv
-         4BVNlBZfy66EEvfZIUIbRqC4MAFlQ2u4YcfVNd8KXVJ1rCCpTieCexsSzPBTWrIami
-         fag3aY1R4FDADpGCVmDWJPqi1Img6a4ozi1Lne3M3FMjDimXaYyIRH/VvljdcbePq8
-         rKOP0hNDDOzDR0dx42b4P58Bm8ZcCGNIregzi4t1I67Ey4ggkD8VNlzFSMFuMDmmyk
-         WDrkpHtA2QXMA==
-X-Nifty-SrcIP: [209.85.214.171]
-Received: by mail-pl1-f171.google.com with SMTP id g5so9513081plg.1;
-        Mon, 11 Oct 2021 19:52:07 -0700 (PDT)
-X-Gm-Message-State: AOAM5324k+StPuGUskKe3cpXsT8IASxjraRC6HUtYKM6O92QMaaxCRX1
-        gxu0luBrCZJylM/TnbGrz3dC66U3owqQV6S4ZCk=
-X-Google-Smtp-Source: ABdhPJxgUSB+eGWq/P7GmhRltLD7uwZ6Www8ovmlHRZU7yZzL0MA6xIWY+izQliR+nQWS3xchfMpxi/OQrDUj+DrrUs=
-X-Received: by 2002:a17:90b:1d06:: with SMTP id on6mr3095062pjb.119.1634007127136;
- Mon, 11 Oct 2021 19:52:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211008112438.GA1243425@localhost.localdomain>
-In-Reply-To: <20211008112438.GA1243425@localhost.localdomain>
+        s=dec2015msa; t=1634007318;
+        bh=iGUsNJiesUCJuiMYmwPeollH/LLyJvPcYCPtTzfg4mQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DzhHsFgk8chfZh1nGTQzVVUpu/75Y95H7OLia0mrHif1tGNwv2e1yhZFPW6wDWxP0
+         hPMrJlycR97sfe/FBpEh6HVHKyKY5EKvnBDlZb6E/wxTc3NOyjaI16QIMKBA1mClku
+         dJxay74d7KKbVRvbJmiySHt4a+lH2s8ygq+YNyG7N1hiwU65HVfGnVqHcwaPaVam1c
+         HB3vBUefiZsMJBdFZsiMc1pBrJLPcgk2+p/l3Yjscb3HJ23aEsuEvy3bI8mSu8qmef
+         OXZwLqdufbStYxaHOQcTHiNoa5eMw5KzmvXcX3MFf+HaGj00aFy97Ujg2rM1O3cY5n
+         vtoQI/iHhbvIg==
+X-Nifty-SrcIP: [133.32.232.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 12 Oct 2021 11:51:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARhAXKhRbm6UAJ9q=C17XXAUc5M1CPDS=a7-3-X0B1FzQ@mail.gmail.com>
-Message-ID: <CAK7LNARhAXKhRbm6UAJ9q=C17XXAUc5M1CPDS=a7-3-X0B1FzQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts: update the comments of kallsyms support
-To:     Hui Su <suhui_kernel@163.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] gen_init_cpio: add static const qualifiers
+Date:   Tue, 12 Oct 2021 11:55:14 +0900
+Message-Id: <20211012025514.448804-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 8, 2021 at 8:25 PM Hui Su <suhui_kernel@163.com> wrote:
->
-> update the comments of kallsyms support
->
-> Signed-off-by: Hui Su <suhui_kernel@163.com>
-> ---
+Add 'const' to constant arrays. I also added missing 'static'.
 
-I added
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Fixes: af73d78bd384 ("kbuild: Remove debug info from kallsyms linking")
+ usr/gen_init_cpio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-Applied to linux-kbuild. Thanks.
-
-
-
-
->  scripts/link-vmlinux.sh | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index d74cee5c4326..a98c4f045302 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -369,14 +369,14 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
->         # kallsyms support
->         # Generate section listing all symbols and add it into vmlinux
->         # It's a three step process:
-> -       # 1)  Link .tmp_vmlinux1 so it has all symbols and sections,
-> +       # 1)  Link .tmp_vmlinux.kallsyms1 so it has all symbols and sections,
->         #     but __kallsyms is empty.
->         #     Running kallsyms on that gives us .tmp_kallsyms1.o with
->         #     the right size
-> -       # 2)  Link .tmp_vmlinux2 so it now has a __kallsyms section of
-> +       # 2)  Link .tmp_vmlinux.kallsyms2 so it now has a __kallsyms section of
->         #     the right size, but due to the added section, some
->         #     addresses have shifted.
-> -       #     From here, we generate a correct .tmp_kallsyms2.o
-> +       #     From here, we generate a correct .tmp_vmlinux.kallsyms2.o
->         # 3)  That link may have expanded the kernel image enough that
->         #     more linker branch stubs / trampolines had to be added, which
->         #     introduces new names, which further expands kallsyms. Do another
-> --
-> 2.25.1
->
->
-
-
+diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+index 03b21189d58b..bf5b98c6cf8d 100644
+--- a/usr/gen_init_cpio.c
++++ b/usr/gen_init_cpio.c
+@@ -188,7 +188,7 @@ struct generic_type {
+ 	mode_t mode;
+ };
+ 
+-static struct generic_type generic_type_table[] = {
++static const struct generic_type generic_type_table[] = {
+ 	[GT_DIR] = {
+ 		.type = "dir",
+ 		.mode = S_IFDIR
+@@ -491,7 +491,7 @@ static void usage(const char *prog)
+ 		prog);
+ }
+ 
+-struct file_handler file_handler_table[] = {
++static const struct file_handler file_handler_table[] = {
+ 	{
+ 		.type    = "file",
+ 		.handler = cpio_mkfile_line,
 -- 
-Best Regards
-Masahiro Yamada
+2.30.2
+
