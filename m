@@ -2,148 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDFF9429B52
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 04:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19D4B429BA8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 04:52:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbhJLCN7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Oct 2021 22:13:59 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:62931 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbhJLCN7 (ORCPT
+        id S231649AbhJLCyk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Oct 2021 22:54:40 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:52443 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231790AbhJLCyk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Oct 2021 22:13:59 -0400
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 19C2BTTZ009734;
-        Tue, 12 Oct 2021 11:11:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 19C2BTTZ009734
+        Mon, 11 Oct 2021 22:54:40 -0400
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 19C2q77p020888;
+        Tue, 12 Oct 2021 11:52:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 19C2q77p020888
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1634004690;
-        bh=eGW6T4VJlT52JcnIFl4q6FgJvMhLi7Ij7bqrkiVx/Sk=;
+        s=dec2015msa; t=1634007128;
+        bh=trZNy2SOmOFqSbX3fgMgW1+O8/BOm+x1o2j/beOb/7I=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0YnaHWPlQVOJvbJwUUGUFQ4bBHOVpbi3em9M80y45paEP25PO/5ASR4YagahFt+YM
-         lJuavrlYvlia5mAG047OGuwNvCx8a2R8MyJSOIAcLKYgJKxrnF7Nrkb4S/xpVxrBhV
-         y+1iZwIXMnSZCG+DxnFigeiXlH12u7fGFtzWWZKNTvPvK3gVJtSWzPDgUhaJs/pjPW
-         evG2j4zbCKEJIHypXgVgZ/cPJZGSkoEPek6IEV7eVEwE+2HmXoeyDAwiIJUAcU9BT1
-         ZjZBjA6E/vW2Yqgpf4qWQLkyLCEgOPPC/zO8xqJrMwnLcFTD6pbzpF8fpKBNYsffaU
-         Aox759g8L2dTA==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id ls14-20020a17090b350e00b001a00e2251c8so1348832pjb.4;
-        Mon, 11 Oct 2021 19:11:30 -0700 (PDT)
-X-Gm-Message-State: AOAM532gXpUZx+fg1trpx7IwpMi8/PtKFmLPLUP9+Ig4ObPAjRX2UjOm
-        eW+7fy0MOwUM0GYiDwOCQvxvu9glDPvXE92yOvk=
-X-Google-Smtp-Source: ABdhPJzxBTT/SvWzURVQRplBhLfCCDo3bYohh30l2YZgPu6I/gv0RAHjVZH9g4t9sPFmi4NBAQFbHySaHXKYyLKFScc=
-X-Received: by 2002:a17:902:f703:b029:12c:982:c9ae with SMTP id
- h3-20020a170902f703b029012c0982c9aemr27861383plo.20.1634004689469; Mon, 11
- Oct 2021 19:11:29 -0700 (PDT)
+        b=uhPvL0juPQFB+0g19tLRt9shxybBpUQ47ebM5AUNlOhm6mfiAqrw/Cb5Dd5EJrgcq
+         km+g338ZBRRzX6MMvLo/jkVO8dQ0gjEOySA18JyGsFlkrGUEI+fckiq67fgsHN5DMv
+         4BVNlBZfy66EEvfZIUIbRqC4MAFlQ2u4YcfVNd8KXVJ1rCCpTieCexsSzPBTWrIami
+         fag3aY1R4FDADpGCVmDWJPqi1Img6a4ozi1Lne3M3FMjDimXaYyIRH/VvljdcbePq8
+         rKOP0hNDDOzDR0dx42b4P58Bm8ZcCGNIregzi4t1I67Ey4ggkD8VNlzFSMFuMDmmyk
+         WDrkpHtA2QXMA==
+X-Nifty-SrcIP: [209.85.214.171]
+Received: by mail-pl1-f171.google.com with SMTP id g5so9513081plg.1;
+        Mon, 11 Oct 2021 19:52:07 -0700 (PDT)
+X-Gm-Message-State: AOAM5324k+StPuGUskKe3cpXsT8IASxjraRC6HUtYKM6O92QMaaxCRX1
+        gxu0luBrCZJylM/TnbGrz3dC66U3owqQV6S4ZCk=
+X-Google-Smtp-Source: ABdhPJxgUSB+eGWq/P7GmhRltLD7uwZ6Www8ovmlHRZU7yZzL0MA6xIWY+izQliR+nQWS3xchfMpxi/OQrDUj+DrrUs=
+X-Received: by 2002:a17:90b:1d06:: with SMTP id on6mr3095062pjb.119.1634007127136;
+ Mon, 11 Oct 2021 19:52:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211008113800.85155-1-pawel@jasiak.dev>
-In-Reply-To: <20211008113800.85155-1-pawel@jasiak.dev>
+References: <20211008112438.GA1243425@localhost.localdomain>
+In-Reply-To: <20211008112438.GA1243425@localhost.localdomain>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 12 Oct 2021 11:10:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASH2EaZ=SyxQ-xhmUn_0GXuvOJDRU3e=LVvTLdYruM=Bw@mail.gmail.com>
-Message-ID: <CAK7LNASH2EaZ=SyxQ-xhmUn_0GXuvOJDRU3e=LVvTLdYruM=Bw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add make tarzst-pkg build option
-To:     =?UTF-8?Q?Pawe=C5=82_Jasiak?= <pawel@jasiak.dev>
+Date:   Tue, 12 Oct 2021 11:51:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARhAXKhRbm6UAJ9q=C17XXAUc5M1CPDS=a7-3-X0B1FzQ@mail.gmail.com>
+Message-ID: <CAK7LNARhAXKhRbm6UAJ9q=C17XXAUc5M1CPDS=a7-3-X0B1FzQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts: update the comments of kallsyms support
+To:     Hui Su <suhui_kernel@163.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 8, 2021 at 8:48 PM Pawe=C5=82 Jasiak <pawel@jasiak.dev> wrote:
+On Fri, Oct 8, 2021 at 8:25 PM Hui Su <suhui_kernel@163.com> wrote:
 >
-> Add tarzst-pkg and perf-tarzst-src-pkg targets to build zstd compressed
-> tarballs.
+> update the comments of kallsyms support
 >
-> Signed-off-by: Pawe=C5=82 Jasiak <pawel@jasiak.dev>
+> Signed-off-by: Hui Su <suhui_kernel@163.com>
+> ---
+
+I added
+
+Fixes: af73d78bd384 ("kbuild: Remove debug info from kallsyms linking")
 
 
 Applied to linux-kbuild. Thanks.
 
 
-> ---
->  scripts/Makefile.package | 10 +++++++---
->  scripts/package/buildtar |  4 ++++
->  2 files changed, 11 insertions(+), 3 deletions(-)
+
+
+>  scripts/link-vmlinux.sh | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index b74c65284fb2..77b612183c08 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -103,7 +103,7 @@ snap-pkg:
->
->  # tarball targets
->  # ----------------------------------------------------------------------=
------
-> -tar-pkgs :=3D dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
-> +tar-pkgs :=3D dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg tarzst-pkg
->  PHONY +=3D $(tar-pkgs)
->  $(tar-pkgs):
->         $(MAKE) -f $(srctree)/Makefile
-> @@ -130,10 +130,12 @@ $(if $(findstring tar-src,$@),,                    =
-                 \
->  $(if $(findstring bz2,$@),$(KBZIP2),                                 \
->  $(if $(findstring gz,$@),$(KGZIP),                                  \
->  $(if $(findstring xz,$@),$(XZ),                                     \
-> -$(error unknown target $@))))                                       \
-> +$(if $(findstring zst,$@),$(ZSTD),                                  \
-> +$(error unknown target $@)))))                                      \
->         -f -9 $(perf-tar).tar)
->
-> -perf-tar-pkgs :=3D perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-p=
-kg perf-tarxz-src-pkg
-> +perf-tar-pkgs :=3D perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-p=
-kg \
-> +                perf-tarxz-src-pkg perf-tarzst-src-pkg
->  PHONY +=3D $(perf-tar-pkgs)
->  $(perf-tar-pkgs):
->         $(call cmd,perf_tar)
-> @@ -153,9 +155,11 @@ help:
->         @echo '  targz-pkg           - Build the kernel as a gzip compres=
-sed tarball'
->         @echo '  tarbz2-pkg          - Build the kernel as a bzip2 compre=
-ssed tarball'
->         @echo '  tarxz-pkg           - Build the kernel as a xz compresse=
-d tarball'
-> +       @echo '  tarzst-pkg          - Build the kernel as a zstd compres=
-sed tarball'
->         @echo '  perf-tar-src-pkg    - Build $(perf-tar).tar source tarba=
-ll'
->         @echo '  perf-targz-src-pkg  - Build $(perf-tar).tar.gz source ta=
-rball'
->         @echo '  perf-tarbz2-src-pkg - Build $(perf-tar).tar.bz2 source t=
-arball'
->         @echo '  perf-tarxz-src-pkg  - Build $(perf-tar).tar.xz source ta=
-rball'
-> +       @echo '  perf-tarzst-src-pkg - Build $(perf-tar).tar.zst source t=
-arball'
->
->  .PHONY: $(PHONY)
-> diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-> index 221aa7df008d..cb54c7f1aa80 100755
-> --- a/scripts/package/buildtar
-> +++ b/scripts/package/buildtar
-> @@ -39,6 +39,10 @@ case "${1}" in
->                 opts=3D"-I ${XZ}"
->                 tarball=3D${tarball}.xz
->                 ;;
-> +       tarzst-pkg)
-> +               opts=3D"-I ${ZSTD}"
-> +               tarball=3D${tarball}.zst
-> +               ;;
->         *)
->                 echo "Unknown tarball target \"${1}\" requested, please a=
-dd it to ${0}." >&2
->                 exit 1
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index d74cee5c4326..a98c4f045302 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -369,14 +369,14 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
+>         # kallsyms support
+>         # Generate section listing all symbols and add it into vmlinux
+>         # It's a three step process:
+> -       # 1)  Link .tmp_vmlinux1 so it has all symbols and sections,
+> +       # 1)  Link .tmp_vmlinux.kallsyms1 so it has all symbols and sections,
+>         #     but __kallsyms is empty.
+>         #     Running kallsyms on that gives us .tmp_kallsyms1.o with
+>         #     the right size
+> -       # 2)  Link .tmp_vmlinux2 so it now has a __kallsyms section of
+> +       # 2)  Link .tmp_vmlinux.kallsyms2 so it now has a __kallsyms section of
+>         #     the right size, but due to the added section, some
+>         #     addresses have shifted.
+> -       #     From here, we generate a correct .tmp_kallsyms2.o
+> +       #     From here, we generate a correct .tmp_vmlinux.kallsyms2.o
+>         # 3)  That link may have expanded the kernel image enough that
+>         #     more linker branch stubs / trampolines had to be added, which
+>         #     introduces new names, which further expands kallsyms. Do another
 > --
-> 2.33.0
+> 2.25.1
+>
 >
 
 
---=20
+-- 
 Best Regards
 Masahiro Yamada
