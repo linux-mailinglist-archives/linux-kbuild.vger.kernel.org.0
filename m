@@ -2,121 +2,181 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDC9442AC9E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 20:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF3042ACF2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 21:07:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234736AbhJLSzT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Oct 2021 14:55:19 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:35971 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234843AbhJLSzO (ORCPT
+        id S232482AbhJLTJR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Oct 2021 15:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231751AbhJLTJR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Oct 2021 14:55:14 -0400
-Received: from leknes.fjasle.eu ([92.116.69.156]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N1feo-1mlBed29zE-011yD0; Tue, 12 Oct 2021 20:52:51 +0200
-Received: from fjasle.eu (localhost [IPv6:::1])
-        by leknes.fjasle.eu (Postfix) with ESMTP id D83683C007;
-        Tue, 12 Oct 2021 20:52:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1634064767; bh=7zC+WU8rJSnsIS5MS/l/G4k7mDre/ViawLNf4HaOAng=;
-        h=From:To:Cc:Subject:Date:From;
-        b=F4oj/qS12S6P1MZfApXUCHML0BQqwnUAa2PgiZ+LJoXiBG2WEAWlru3jkk2ES5HwH
-         pwpcY0sQbt5vakvMPmp8UoAdOg3XHOEPM9NsxYKFJX8ix8L63719QVuQlEF8BLKcIw
-         JPHHwfQy42W05Pgphk1tNfJIR2hoLZGRGw0gpTBs=
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     Nicolas Schier <nicolas@fjasle.eu>,
-        =?UTF-8?q?Thomas=20K=C3=BChnel?= <thomas.kuehnel@avm.de>
-Subject: [PATCH v2] initramfs: Check timestamp to prevent broken cpio archive
-Date:   Tue, 12 Oct 2021 18:52:34 +0000
-Message-Id: <20211012185234.3295982-1-nicolas@fjasle.eu>
-X-Mailer: git-send-email 2.30.1
+        Tue, 12 Oct 2021 15:09:17 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA155C061745
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Oct 2021 12:07:14 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id c16so1260154lfb.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Oct 2021 12:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IKQxVqcAmgZKu/tSeqOwVg3gX23vstZQejnJbzgCj/s=;
+        b=O4WgFNaEVppR1TUAUoEoywmWCYqdP5jCd+B/Qe6JnWekMkgzuxLiy3+qaGLweJf805
+         gVJd5R9BMgaixfNdxd/Q6+QTmhtTW5QcJXimmpmMIZB9DkN9q3OJmZssS1N9AgOnMj3M
+         f18kWRNZVTIa1r14GnqNVIyY/bv279PES1d8YM9czLF5iuqsiKtvFTDtZ6kid5+lHpWr
+         sV58kNm5NatfWCuvvZ4vVAZnZn1xB+Wlbk8TBq8dE4HLtexh7Xx7+yeOZV9x+2LcVzbf
+         CUwIbAfiEpqGBBIMu2cssUyTCAgtLYmw3R7oyaHNB2qdnST6Eq08JBmtbgKezNmR3oto
+         Y4MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IKQxVqcAmgZKu/tSeqOwVg3gX23vstZQejnJbzgCj/s=;
+        b=QvkBJ1lLP1hGgZARIgtWfC3sOLUstfLvMNv7PEBROc92mP9PrVrFFFJfXn+Vn5Xdb0
+         E4E2DEyS4qTrlG2GQiJlPYaWdLvn2yXdtl+0e+4waD4iLuUh0wBOdtW3gRT2sYkg7p8U
+         eV52OEZTNA6l3dXR1zQZg3/d3qn2+FWom7Y/fRCU9uvVO+46O3zHOPh4Z92msKb4KeED
+         Vhpo7NMtox6E1tVTBxsUIkLwNy/mjhgWH4AD1He6jZduSU3i0T3SZEBMb0drXb9zc/4p
+         Lgg28VWdsLcl2sEZJHlVue+sHhTTAi8UiR/u3yVMMtK/dgO2Wr88fsL41Tr3Bp6WOPDj
+         wK6g==
+X-Gm-Message-State: AOAM532BrvqKReSaMHDZVQgmyQQb15GkxJMAm8nuX//ZtF+7kOU8478A
+        Zor+wl8ipSLbkEeRldIg86s2It+YytldOlp9vd28Ab4tBYc=
+X-Google-Smtp-Source: ABdhPJyF0EUYiKnUt0ZEwpD2Kg4rJqw/Uya9fqRNtXwfVqd4j8R7NL7QDCaGvzhUA1GbBJrHaPdfATqmUxOhhuEtNzU=
+X-Received: by 2002:a2e:8695:: with SMTP id l21mr9515526lji.339.1634065632961;
+ Tue, 12 Oct 2021 12:07:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NeJxAKI2+LIiBxhxiGuPj3uVVd5QakhhDqeBj6VLA6ETCJvkL86
- buOppCzqk9YTh4beTvYxXTXEATsGCfWO1brETAaR7315IkAst26AkhTIdYwqHsU6OMBuXqf
- VF4CoKIooxsPDOmJaaSYkktZJHmK1o/tsBqHTxEvyzg8c0YY9+FQ8gW+8odOsRJXs+PJwCP
- cjaYAn9nDPrVcSQR+m/7w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NgeIJsSzXho=:H/IYCmVXQbA/Y3KLxqLYf5
- hlQ050XIsGVoLSsy0XhjriQptdoMA0CeIrHuEo0TcR5YK4GhkqVB4NaydinS8UUUqfRzI/ue4
- k8TuKi9SHpAntBE5y9AZsw3HGGereSYbjbP9aBkoUb+1hk3aRqyiUE96MMnWsU/dvz9l3iDBn
- zNS971eczXtqksltPVIenE349dBnS8mtixmzHf+4IBHICBWcqMuF/DrRcQkQ+Wk+pgkA8rz4l
- U7FTUuUaYxsC/jG07mlkWi/IDirhSEtM2Vme+afpUwPpvpLCLqFAP5b7SvV37pS/ZnIc+3KxE
- 585UjH7Qpm5f4PljZWMIAEpM4YbVvYv/SdHYBaK0aNt02w9KrxVgLnA3lwAx9xpU/6aIK6czQ
- EE1qID7qr0BpcyQx9k5V3n3Fj0or+znP8Ifq+cCI9hs7FYfB3yI4VNrcwIaS2qIM4mfK9eZEy
- mOltvXnD4nfEKZvEABUc698Ga+ZP0+4SuFsOZKHvIXcq8PT+PnoYT/+wh0zedLCCsr1v1oIJp
- 7FezmPyfzqYuQAKWrTtuTBoCQKEZ5/L2QFVOMvJcv5P7OMDmV8Fj/D56L/JaVZedPRsCqOsdM
- 9eYhcLsjZze1w7xkOkAox52LoX86JKEvBOpwzyLVmX0yFRO+1BdK2zhZGqX6CXOLH8XhycG43
- 8e5xafO9NlT3RYKWMweRAkRwQ1w6GTnlP8NrYdEzs8KlGOAjP+naqKQ81Aaf2QCjuPh+o5bVA
- gqEfzgR+w2B5Az9a9Stx5h3krPiBNfTM8Q0qGg==
+References: <20211012032503.459821-1-masahiroy@kernel.org>
+In-Reply-To: <20211012032503.459821-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 12 Oct 2021 12:07:02 -0700
+Message-ID: <CAKwvOdnFLV0xQYbiouvf8zibKq-pKo7q0R9QVC7ywWLYMHHZ7w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: split DEBUG_CFLAGS out to scripts/Makefile.debug
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Cpio format reserves 8 bytes for an ASCII representation of a time_t timestamp.
-While 2106-02-07 06:28:15 UTC (time_t = 0xffffffff) is still some years in the
-future, a poorly chosen date string for KBUILD_BUILD_TIMESTAMP, converted into
-seconds since the epoch, might lead to exceeded cpio timestamp limits that
-result in a broken cpio archive.  Add timestamp checks to prevent overrun of
-the 8-byte cpio header field.
+On Mon, Oct 11, 2021 at 8:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> To slim down the top Makefile, split out the code block surrounded by
+> ifdef CONFIG_DEBUG_INFO ... endif.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-My colleague Thomas Kühnel discovered the behaviour, when we accidentally fed
-SOURCE_DATE_EPOCH to KBUILD_BUILD_TIMESTAMP as is: some timestamps (e.g.
-1607420928 = 2021-12-08 10:48:48) will be interpreted by `date` as a valid date
-specification of science fictional times (here: year 160742).  Even though this
-is bad input for KBUILD_BUILD_TIMESTAMP, it should not break the initramfs
-cpio format.
+Reviewed-by: Nick Desaulniers <ndesauniers@google.com>
 
-Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Thomas Kühnel <thomas.kuehnel@avm.de>
----
- usr/gen_init_cpio.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+> ---
+>
+>  Makefile               | 39 +--------------------------------------
+>  scripts/Makefile.debug | 33 +++++++++++++++++++++++++++++++++
+>  2 files changed, 34 insertions(+), 38 deletions(-)
+>  create mode 100644 scripts/Makefile.debug
+>
+> diff --git a/Makefile b/Makefile
+> index ee5896261d2f..8e3224470dc1 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -847,44 +847,6 @@ ifdef CONFIG_ZERO_CALL_USED_REGS
+>  KBUILD_CFLAGS  += -fzero-call-used-regs=used-gpr
+>  endif
+>
+> -DEBUG_CFLAGS   :=
+> -
+> -ifdef CONFIG_DEBUG_INFO
+> -
+> -ifdef CONFIG_DEBUG_INFO_SPLIT
+> -DEBUG_CFLAGS   += -gsplit-dwarf
+> -else
+> -DEBUG_CFLAGS   += -g
+> -endif
+> -
+> -ifndef CONFIG_AS_IS_LLVM
+> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
+> -endif
+> -
+> -ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+> -DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> -endif
+> -
+> -ifdef CONFIG_DEBUG_INFO_REDUCED
+> -DEBUG_CFLAGS   += -fno-var-tracking
+> -ifdef CONFIG_CC_IS_GCC
+> -DEBUG_CFLAGS   += -femit-struct-debug-baseonly
+> -endif
+> -endif
+> -
+> -ifdef CONFIG_DEBUG_INFO_COMPRESSED
+> -DEBUG_CFLAGS   += -gz=zlib
+> -KBUILD_AFLAGS  += -gz=zlib
+> -KBUILD_LDFLAGS += --compress-debug-sections=zlib
+> -endif
+> -
+> -endif # CONFIG_DEBUG_INFO
+> -
+> -KBUILD_CFLAGS += $(DEBUG_CFLAGS)
+> -export DEBUG_CFLAGS
+> -
+>  ifdef CONFIG_FUNCTION_TRACER
+>  ifdef CONFIG_FTRACE_MCOUNT_USE_CC
+>    CC_FLAGS_FTRACE      += -mrecord-mcount
+> @@ -1033,6 +995,7 @@ KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+>
+>  # include additional Makefiles when needed
+>  include-y                      := scripts/Makefile.extrawarn
+> +include-$(CONFIG_DEBUG_INFO)   += scripts/Makefile.debug
+>  include-$(CONFIG_KASAN)                += scripts/Makefile.kasan
+>  include-$(CONFIG_KCSAN)                += scripts/Makefile.kcsan
+>  include-$(CONFIG_UBSAN)                += scripts/Makefile.ubsan
+> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
+> new file mode 100644
+> index 000000000000..9f39b0130551
+> --- /dev/null
+> +++ b/scripts/Makefile.debug
+> @@ -0,0 +1,33 @@
+> +DEBUG_CFLAGS   :=
+> +
+> +ifdef CONFIG_DEBUG_INFO_SPLIT
+> +DEBUG_CFLAGS   += -gsplit-dwarf
+> +else
+> +DEBUG_CFLAGS   += -g
+> +endif
+> +
+> +ifndef CONFIG_AS_IS_LLVM
+> +KBUILD_AFLAGS  += -Wa,-gdwarf-2
+> +endif
+> +
+> +ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> +endif
+> +
+> +ifdef CONFIG_DEBUG_INFO_REDUCED
+> +DEBUG_CFLAGS   += -fno-var-tracking
+> +ifdef CONFIG_CC_IS_GCC
+> +DEBUG_CFLAGS   += -femit-struct-debug-baseonly
+> +endif
+> +endif
+> +
+> +ifdef CONFIG_DEBUG_INFO_COMPRESSED
+> +DEBUG_CFLAGS   += -gz=zlib
+> +KBUILD_AFLAGS  += -gz=zlib
+> +KBUILD_LDFLAGS += --compress-debug-sections=zlib
+> +endif
+> +
+> +KBUILD_CFLAGS += $(DEBUG_CFLAGS)
+> +export DEBUG_CFLAGS
+> --
+> 2.30.2
+>
+
 
 -- 
-Changes v1 to v2:
-  * add timezone name (UTC) to specific time stamps
-  * fix typo: results -> result 
-
-diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-index 03b21189d58b..584ea45cff70 100644
---- a/usr/gen_init_cpio.c
-+++ b/usr/gen_init_cpio.c
-@@ -320,6 +320,12 @@ static int cpio_mkfile(const char *name, const char *location,
- 		goto error;
- 	}
- 
-+	if (buf.st_mtime > 0xffffffff) {
-+		fprintf(stderr, "%s: Timestamp exceeds maximum cpio timestamp, clipping.\n",
-+			location);
-+		buf.st_mtime = 0xffffffff;
-+	}
-+
- 	filebuf = malloc(buf.st_size);
- 	if (!filebuf) {
- 		fprintf (stderr, "out of memory\n");
-@@ -551,6 +557,17 @@ int main (int argc, char *argv[])
- 		}
- 	}
- 
-+	/*
-+	 * Timestamps after 2106-02-07 06:28:15 UTC have an ascii hex time_t
-+	 * representation that exceeds 8 chars and breaks the cpio header
-+	 * specification.
-+	 */
-+	if (default_mtime > 0xffffffff) {
-+		fprintf(stderr, "ERROR: Timestamp 0x%08x too large for cpio format\n",
-+			default_mtime);
-+		exit(1);
-+	}
-+
- 	if (argc - optind != 1) {
- 		usage(argv[0]);
- 		exit(1);
--- 
-2.30.1
-
+Thanks,
+~Nick Desaulniers
