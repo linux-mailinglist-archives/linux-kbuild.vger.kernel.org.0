@@ -2,162 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BE1342B248
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 03:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9142A42B251
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 03:41:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231200AbhJMBhF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Oct 2021 21:37:05 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:54782 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231337AbhJMBhF (ORCPT
+        id S232630AbhJMBnm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Oct 2021 21:43:42 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:47469 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231200AbhJMBnl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Oct 2021 21:37:05 -0400
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 19D1YjgN010005;
-        Wed, 13 Oct 2021 10:34:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 19D1YjgN010005
+        Tue, 12 Oct 2021 21:43:41 -0400
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 19D1f2cT032406;
+        Wed, 13 Oct 2021 10:41:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 19D1f2cT032406
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1634088885;
-        bh=Rum5tYvv5Fo1dRwnGCxHyKMZgx+WDyy9BHLvS2hSW2c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b3tYroIrUf8xtVNAyrYAprxjm9+4krBIcXjGTza3sVk7r2PMCI0Dc183TARIT8dCx
-         lkOnnIGBXuYTGa6FYHHu4Z5Gay0rp2DgUIMGNG8XRICoYzwjH0kWxOD3KPN3/S/R5I
-         mYeOKVlEqMqAKkEAYEJX7ivJ4E+/lXn2QiWIRItMDgwTro1lEoqdxd9UuQ43OpfILi
-         0+CWXXwVfBlTcyseBIVKm05vrxZvfqDS0hUBl5W8Ew/dEft8q6nk59LFXAknnTS/Ck
-         tHFxAGNBDCl47Aufhv+mrmapYTz0sWbLwLq97uLAjfaCHwA6mN3cXtoosmJoxqeIgm
-         sTR97bM8uOE5Q==
-X-Nifty-SrcIP: [209.85.215.180]
-Received: by mail-pg1-f180.google.com with SMTP id e7so764387pgk.2;
-        Tue, 12 Oct 2021 18:34:45 -0700 (PDT)
-X-Gm-Message-State: AOAM533OYXo0nbH3fHWJqwk7hnNmY+Jr6dUPeLWBKeovLoU/kO0oux+A
-        cvOTAjDhq88z1YPEXQMv28IFVIp7cyCOX6wZj8k=
-X-Google-Smtp-Source: ABdhPJx74hz1HXrwV9KFueIsSEub6ZjaQ3PXlDu2yws3N9VLdQgcBUCbjABYJ7am6LjIUW4dReFUoKYAL+gC7pWhfi8=
-X-Received: by 2002:a63:3d8f:: with SMTP id k137mr25871214pga.21.1634088884658;
- Tue, 12 Oct 2021 18:34:44 -0700 (PDT)
+        s=dec2015msa; t=1634089263;
+        bh=R7m4FOJaxwF5u6woKIjKGg6BVz0jl0+g2IHcSsMR7kM=;
+        h=References:In-Reply-To:From:Date:Subject:To:From;
+        b=IR7juhxMMMlPCHjJPP8bSlqp3i88p66RoD6KFVwDC5I5s0OhXzMpDYIh7iIoGEY5e
+         kDjpAEmA7NZkuzX12DDB6G+cv4ay4U06sAwtbKQ9gD+TUzHp/FqKdw1THYT9zl4spl
+         fy3FdeLxouegAbSOfzd/5g3+EaD3HywJBgAshvQvny/jnIJ9qjc4mmagSDs9L1BmWC
+         rH+6MmFINfVSSlRnQ48H2253usCkwW7YUMc30NiCacG45b7g2/E9eoXGnC1fhZPhw7
+         L+CZOY/kZ2aV1aI4q0sY+O3kGB8XNkAq+rxHChrASAsj8by6E7hOUfPysphV/IwT5U
+         GYwAZz45abieg==
+X-Nifty-SrcIP: [209.85.216.53]
+Received: by mail-pj1-f53.google.com with SMTP id oa4so982727pjb.2;
+        Tue, 12 Oct 2021 18:41:02 -0700 (PDT)
+X-Gm-Message-State: AOAM532jYs8xfLimceD7WTR6TFdBA61hlffO76NsrnJZhpG48N522lY5
+        1IHrtuBJvfM1zlqaSCRgi3FEAh++yn6w54ghk3g=
+X-Google-Smtp-Source: ABdhPJy6mWJwsP++gd10Dm+UA5Xg8dGCwy4UaPvVicmimh/YjoUeAlqE9n2ux3BdEYnlB+0La6Pd/qMb5eyWBh5uwco=
+X-Received: by 2002:a17:90b:4c86:: with SMTP id my6mr10019901pjb.77.1634089261793;
+ Tue, 12 Oct 2021 18:41:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211012170121.31549-1-vegard.nossum@oracle.com>
-In-Reply-To: <20211012170121.31549-1-vegard.nossum@oracle.com>
+References: <20211007185900.2801788-1-nicolas@fjasle.eu> <CAK7LNASDu7RK0vLtx1991abx880DtQHK+U2FK3qKbH5Kcz3ipw@mail.gmail.com>
+ <YWVHV8v3m+L+BH9s@fjasle.eu>
+In-Reply-To: <YWVHV8v3m+L+BH9s@fjasle.eu>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 13 Oct 2021 10:34:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT_0PnW0opWQoCiF5mWH4YEKxXHbdiTrSGqGFRv5nhY=w@mail.gmail.com>
-Message-ID: <CAK7LNAT_0PnW0opWQoCiF5mWH4YEKxXHbdiTrSGqGFRv5nhY=w@mail.gmail.com>
-Subject: Re: [RFC PATCH] kbuild: only prompt for compressors that are actually usable
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 13 Oct 2021 10:40:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQu6XeHRu-F2UT_uHYUVxGczp5x946wwrPDataPZPKXZA@mail.gmail.com>
+Message-ID: <CAK7LNAQu6XeHRu-F2UT_uHYUVxGczp5x946wwrPDataPZPKXZA@mail.gmail.com>
+Subject: Re: [PATCH] initramfs: Check timestamp to prevent broken cpio archive
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        =?UTF-8?Q?Thomas_K=C3=BChnel?= <thomas.kuehnel@avm.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 2:01 AM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+On Tue, Oct 12, 2021 at 5:29 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
 >
-> If a given compression algorithm for the kernel image is not usable on
-> the host system, there is no point prompting for it.
+> On Tue, Oct 12, 2021 at 11:02:33AM +0900, Masahiro Yamada wrote:
+> > Date: Tue, 12 Oct 2021 11:02:33 +0900
+> > From: Masahiro Yamada <masahiroy@kernel.org>
+> > To: Nicolas Schier <nicolas@fjasle.eu>
+> > Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Kbu=
+ild
+> >  mailing list <linux-kbuild@vger.kernel.org>, Thomas K=C3=BChnel
+> >  <thomas.kuehnel@avm.de>
+> > Subject: Re: [PATCH] initramfs: Check timestamp to prevent broken cpio
+> >  archive
+> > Message-ID: <CAK7LNASDu7RK0vLtx1991abx880DtQHK+U2FK3qKbH5Kcz3ipw@mail.g=
+mail.com>
+> >
+> > On Fri, Oct 8, 2021 at 3:59 AM Nicolas Schier <nicolas@fjasle.eu> wrote=
+:
+> > >
+> > > Cpio format reserves 8 bytes for an ASCII representation of a time_t =
+timestamp.
+> > > While 2106-02-07 06:28:15 (time_t =3D 0xffffffff) is still some years=
+ in the
+> > > future, a poorly chosen date string for KBUILD_BUILD_TIMESTAMP, conve=
+rted into
+> > > seconds since the epoch, might lead to exceeded cpio timestamp limits=
+ that
+> > > results in a broken cpio archive.  Add timestamp checks to prevent ov=
+errun of
+> > > the 8-byte cpio header field.
+> >
+> > Out of curiosity, how did you figure out
+> > "2106-02-07 06:28:15" was the overflow point?
+> > Is it affected by leap seconds?
+> >
+> >
+> > I got ffff816f
+> >
+> >
+> > $ printf "%x"  $(date -d'2106-02-07 06:28:15'  +%s)
+> > ffff816f
 >
-> We can use the kconfig preprocessing feature to check if the command is
-> available or not. I've chosen to test this using "which", which exits
-> with success if the given command exists in PATH (or it is an absolute
-> path), which mimics exactly how it would be found in the kernel's
-> Makefiles.
+> You have a local time zone offset of -9h?
+> I just did
 >
-> This uses the make variables that are set in Makefile and/or the
-> command line, so you can do e.g.
+> $ TZ=3DUTC date -d@$((0xffffffff))
+> Sun Feb  7 06:28:15 UTC 2106
 >
->   make KGZIP=pigz menuconfig
+> I should have mentioned the time zone info in the commit message.
 >
-> and it will test for the correct program.
+
+
+Ah, time zone!
+
+Right, my time zone is JST (+09:00).
+
+And, thanks for the update.
+
+
+
+
+
 >
-> I am intentionally adding these dependencies to e.g. KERNEL_LZ4, as
-> opposed to HAVE_KERNEL_LZ4, since the latter are "select"-ed
-> unconditionally by the architectures that use them, so they are not
-> suitable for depending on anything else.
 >
-> I've put RFC in the subject as maybe there are downsides to this that
-> I'm not aware of.
+> > > My colleague Thomas K=C3=BChnel discovered the behaviour, when we acc=
+identally fed
+> > > SOURCE_DATE_EPOCH to KBUILD_BUILD_TIMESTAMP as is: some timestamps (e=
+.g.
+> > > 1607420928 =3D 2021-12-08 10:48:48) will be interpreted by `date` as =
+a valid date
+> > > specification of science fictional times (here: year 160742).  Even t=
+hough this
+> > > is bad input for KBUILD_BUILD_TIMESTAMP, it should not break the init=
+ramfs
+> > > cpio format.
+> > >
+> > > Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
+> > > Cc: Thomas K=C3=BChnel <thomas.kuehnel@avm.de>
+> > > ---
+> > >  usr/gen_init_cpio.c | 17 +++++++++++++++++
+> > >  1 file changed, 17 insertions(+)
+> > >
+> > > diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+> > > index 03b21189d58b..983dcdd35925 100644
+> > > --- a/usr/gen_init_cpio.c
+> > > +++ b/usr/gen_init_cpio.c
+> > > @@ -320,6 +320,12 @@ static int cpio_mkfile(const char *name, const c=
+har *location,
+> > >                 goto error;
+> > >         }
+> > >
+> > > +       if (buf.st_mtime > 0xffffffff) {
+> > > +               fprintf(stderr, "%s: Timestamp exceeds maximum cpio t=
+imestamp, clipping.\n",
+> > > +                       location);
+> > > +               buf.st_mtime =3D 0xffffffff;
+> > > +       }
+> > > +
+> > >         filebuf =3D malloc(buf.st_size);
+> > >         if (!filebuf) {
+> > >                 fprintf (stderr, "out of memory\n");
+> > > @@ -551,6 +557,17 @@ int main (int argc, char *argv[])
+> > >                 }
+> > >         }
+> > >
+> > > +       /*
+> > > +        * Timestamps after 2106-02-07 06:28:15 have an ascii hex tim=
+e_t
+> > > +        * representation that exceeds 8 chars and breaks the cpio he=
+ader
+> > > +        * specification.
+> > > +        */
+> > > +       if (default_mtime > 0xffffffff) {
+> > > +               fprintf(stderr, "ERROR: Timestamp 0x%08x too large fo=
+r cpio format\n",
+> > > +                       default_mtime);
+> > > +               exit(1);
+> > > +       }
+> > > +
+> > >         if (argc - optind !=3D 1) {
+> > >                 usage(argv[0]);
+> > >                 exit(1);
+> > > --
+> > > 2.30.1
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
 >
-> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> ---
-
-
-I think we should keep the host-tools dependency open in general.
-You can easily install necessary packages.
-
-
-
-
-
-
-
-
->  init/Kconfig | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 11f8a845f259d..f03f2b7962027 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -250,6 +250,7 @@ choice
->  config KERNEL_GZIP
->         bool "Gzip"
->         depends on HAVE_KERNEL_GZIP
-> +       depends on $(success,which $(KGZIP))
->         help
->           The old and tried gzip compression. It provides a good balance
->           between compression ratio and decompression speed.
-> @@ -257,6 +258,7 @@ config KERNEL_GZIP
->  config KERNEL_BZIP2
->         bool "Bzip2"
->         depends on HAVE_KERNEL_BZIP2
-> +       depends on $(success,which $(KBZIP2))
->         help
->           Its compression ratio and speed is intermediate.
->           Decompression speed is slowest among the choices.  The kernel
-> @@ -267,6 +269,7 @@ config KERNEL_BZIP2
->  config KERNEL_LZMA
->         bool "LZMA"
->         depends on HAVE_KERNEL_LZMA
-> +       depends on $(success,which $(LZMA))
->         help
->           This compression algorithm's ratio is best.  Decompression speed
->           is between gzip and bzip2.  Compression is slowest.
-> @@ -275,6 +278,7 @@ config KERNEL_LZMA
->  config KERNEL_XZ
->         bool "XZ"
->         depends on HAVE_KERNEL_XZ
-> +       depends on $(success,which $(XZ))
->         help
->           XZ uses the LZMA2 algorithm and instruction set specific
->           BCJ filters which can improve compression ratio of executable
-> @@ -290,6 +294,7 @@ config KERNEL_XZ
->  config KERNEL_LZO
->         bool "LZO"
->         depends on HAVE_KERNEL_LZO
-> +       depends on $(success,which $(KLZOP))
->         help
->           Its compression ratio is the poorest among the choices. The kernel
->           size is about 10% bigger than gzip; however its speed
-> @@ -298,6 +303,7 @@ config KERNEL_LZO
->  config KERNEL_LZ4
->         bool "LZ4"
->         depends on HAVE_KERNEL_LZ4
-> +       depends on $(success,which $(LZ4))
->         help
->           LZ4 is an LZ77-type compressor with a fixed, byte-oriented encoding.
->           A preliminary version of LZ4 de/compression tool is available at
-> @@ -310,6 +316,7 @@ config KERNEL_LZ4
->  config KERNEL_ZSTD
->         bool "ZSTD"
->         depends on HAVE_KERNEL_ZSTD
-> +       depends on $(success,which $(ZSTD))
->         help
->           ZSTD is a compression algorithm targeting intermediate compression
->           with fast decompression speed. It will compress better than GZIP and
 > --
-> 2.23.0.718.g5ad94255a8
->
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
 
 
--- 
+
+--=20
 Best Regards
 Masahiro Yamada
