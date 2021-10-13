@@ -2,110 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0773842ADAB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Oct 2021 22:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BE1342B248
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 03:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232419AbhJLUSX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Oct 2021 16:18:23 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:34013 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231902AbhJLUSX (ORCPT
+        id S231200AbhJMBhF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Oct 2021 21:37:05 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:54782 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231337AbhJMBhF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Oct 2021 16:18:23 -0400
-Received: from leknes.fjasle.eu ([92.116.69.156]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MvsR7-1mqxEn0HId-00suTC; Tue, 12 Oct 2021 22:16:06 +0200
-Received: from lillesand.fjasle.eu (unknown [10.10.0.51])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits)
-         client-signature RSA-PSS (2048 bits))
-        (Client CN "lillesand.fjasle.eu", Issuer "Fake LE Intermediate X1" (not verified))
-        by leknes.fjasle.eu (Postfix) with ESMTPS id B154B3C007;
-        Tue, 12 Oct 2021 22:16:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1634069763; bh=LQDleuZl/HuBtpl53wDXL/ybm9OyRT9GfmM6iM8JNWc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xayWlG+vdfVa/b51CYSxn44cFoU3w6CE7DW9r2TPgHfkL7PuXfcHS3gKtZ9gIz3yA
-         m0Oky5smn5vU5LpGqILwKjdQFRQbr2bCps7U0G7oyowJNAxAn0yU/jWbNhS5x9P45e
-         7lauwdI+ahF7fpQu7WLki+1gVMlWYGEezsaXRoC0=
-Received: by lillesand.fjasle.eu (Postfix, from userid 1000)
-        id 1BB621045BD; Tue, 12 Oct 2021 22:16:02 +0200 (CEST)
-Date:   Tue, 12 Oct 2021 22:16:01 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gen_init_cpio: add static const qualifiers
-Message-ID: <YWXtAf2aAYyhCgvw@lillesand.fjasle.eu>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211012025514.448804-1-masahiroy@kernel.org>
+        Tue, 12 Oct 2021 21:37:05 -0400
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 19D1YjgN010005;
+        Wed, 13 Oct 2021 10:34:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 19D1YjgN010005
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1634088885;
+        bh=Rum5tYvv5Fo1dRwnGCxHyKMZgx+WDyy9BHLvS2hSW2c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=b3tYroIrUf8xtVNAyrYAprxjm9+4krBIcXjGTza3sVk7r2PMCI0Dc183TARIT8dCx
+         lkOnnIGBXuYTGa6FYHHu4Z5Gay0rp2DgUIMGNG8XRICoYzwjH0kWxOD3KPN3/S/R5I
+         mYeOKVlEqMqAKkEAYEJX7ivJ4E+/lXn2QiWIRItMDgwTro1lEoqdxd9UuQ43OpfILi
+         0+CWXXwVfBlTcyseBIVKm05vrxZvfqDS0hUBl5W8Ew/dEft8q6nk59LFXAknnTS/Ck
+         tHFxAGNBDCl47Aufhv+mrmapYTz0sWbLwLq97uLAjfaCHwA6mN3cXtoosmJoxqeIgm
+         sTR97bM8uOE5Q==
+X-Nifty-SrcIP: [209.85.215.180]
+Received: by mail-pg1-f180.google.com with SMTP id e7so764387pgk.2;
+        Tue, 12 Oct 2021 18:34:45 -0700 (PDT)
+X-Gm-Message-State: AOAM533OYXo0nbH3fHWJqwk7hnNmY+Jr6dUPeLWBKeovLoU/kO0oux+A
+        cvOTAjDhq88z1YPEXQMv28IFVIp7cyCOX6wZj8k=
+X-Google-Smtp-Source: ABdhPJx74hz1HXrwV9KFueIsSEub6ZjaQ3PXlDu2yws3N9VLdQgcBUCbjABYJ7am6LjIUW4dReFUoKYAL+gC7pWhfi8=
+X-Received: by 2002:a63:3d8f:: with SMTP id k137mr25871214pga.21.1634088884658;
+ Tue, 12 Oct 2021 18:34:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211012025514.448804-1-masahiroy@kernel.org>
-X-Operating-System: Debian GNU/Linux bookworm/sid
-Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:Ku+FsTCfat9GTGn2tgaOHAuhW66U27su1DHY6wHGF+GaELZcKEM
- ChpeBWZuOTqZhQX//q09VCI47WotTGvpqsNKdMkrvdQnDsaBiqOHK5+yLK5ELZYt2CUSgsl
- UU/X9xUKPCJKUgt78tLXxQNcD42aWdEoHMUq5ndTUjGVC10gou72YrmWLkGpk3EvZIs3JbJ
- 3ukCS+0vKdlRbLvxo1i7A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8jkUQ8zTMAU=:GolrPx098A3UjKRPMdBums
- AHjek80rnliD7MWQuN7/gHMqBM+179Uvr1JHenGN6ZI48ZbkSojD/dmawqrSkaTCnqlgOab9u
- BePovc4Eb1ZOqBRFJ0WdOZMoiYhFoEPlELtqj4eTZV7xV6pxocuraYXCG9mg/AAk9EnsBVs73
- V5LWBROMjl22MRyg1vavePl0bug99PhFVuPipvhAoLnHUsZyR5qtinbutPEMaO5lJvMyrgxeD
- I2WCQ4rVkIX3a4dpygjbNxtbV1IL1BsDOkJGL1t3Uz2zkr2Q6khbrfbTZVK7gK6wcDrFElTyi
- W/61vc/m3DitaVI7purcKiPlEuWqBVkYGJlo+vkv05PctlujWXb7cvyivi76URTMfw+wSFGTH
- cEB8u0H0U5FE8le4nbZCqPtUOEJHovaXtKHULUOtqTZwke4TsiztPQctXdydsMC/kttrIN+v4
- QDN3yVFVqVMbc3ihD7qAMTylV4aVhd+CXTQrgE6lgD/UJ6W2oQpW3+px2w4ObIKRhCBrq8YsC
- WMpMqk9WxEAtx3VDMSGJ+kQSr5TPmohP2JXRiewtWCAo5b+Se1iuBsNQGzXLIIp3fBRW130qZ
- C4pISVsl1pXkQX2kfLcTqQ88484A9YkT/kMVWrugNvevH4Y0egWBx+8aOLmXHjSHXTc5qyehE
- 28P7HA6sTTvs9npBSYmkStOF5V3OEdXlTl1zRR+Z7yeM5m0BqjPuC0Y4zlEky4CbYdDM28S8H
- KM9sN2kEeAw8oB0kMJYO4XaBq7QFEQUCjrIKLA==
+References: <20211012170121.31549-1-vegard.nossum@oracle.com>
+In-Reply-To: <20211012170121.31549-1-vegard.nossum@oracle.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 13 Oct 2021 10:34:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT_0PnW0opWQoCiF5mWH4YEKxXHbdiTrSGqGFRv5nhY=w@mail.gmail.com>
+Message-ID: <CAK7LNAT_0PnW0opWQoCiF5mWH4YEKxXHbdiTrSGqGFRv5nhY=w@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: only prompt for compressors that are actually usable
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On ti. 12. okt. 2021 kl. 11.55 +0000 Masahiro Yamada wrote:
-> Add 'const' to constant arrays. I also added missing 'static'.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
+On Wed, Oct 13, 2021 at 2:01 AM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+>
+> If a given compression algorithm for the kernel image is not usable on
+> the host system, there is no point prompting for it.
+>
+> We can use the kconfig preprocessing feature to check if the command is
+> available or not. I've chosen to test this using "which", which exits
+> with success if the given command exists in PATH (or it is an absolute
+> path), which mimics exactly how it would be found in the kernel's
+> Makefiles.
+>
+> This uses the make variables that are set in Makefile and/or the
+> command line, so you can do e.g.
+>
+>   make KGZIP=pigz menuconfig
+>
+> and it will test for the correct program.
+>
+> I am intentionally adding these dependencies to e.g. KERNEL_LZ4, as
+> opposed to HAVE_KERNEL_LZ4, since the latter are "select"-ed
+> unconditionally by the architectures that use them, so they are not
+> suitable for depending on anything else.
+>
+> I've put RFC in the subject as maybe there are downsides to this that
+> I'm not aware of.
+>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 > ---
-> 
->  usr/gen_init_cpio.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-> index 03b21189d58b..bf5b98c6cf8d 100644
-> --- a/usr/gen_init_cpio.c
-> +++ b/usr/gen_init_cpio.c
-> @@ -188,7 +188,7 @@ struct generic_type {
->  	mode_t mode;
->  };
->  
-> -static struct generic_type generic_type_table[] = {
-> +static const struct generic_type generic_type_table[] = {
->  	[GT_DIR] = {
->  		.type = "dir",
->  		.mode = S_IFDIR
-> @@ -491,7 +491,7 @@ static void usage(const char *prog)
->  		prog);
->  }
->  
-> -struct file_handler file_handler_table[] = {
-> +static const struct file_handler file_handler_table[] = {
->  	{
->  		.type    = "file",
->  		.handler = cpio_mkfile_line,
-> -- 
-> 2.30.2
-> 
+
+
+I think we should keep the host-tools dependency open in general.
+You can easily install necessary packages.
+
+
+
+
+
+
+
+
+>  init/Kconfig | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 11f8a845f259d..f03f2b7962027 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -250,6 +250,7 @@ choice
+>  config KERNEL_GZIP
+>         bool "Gzip"
+>         depends on HAVE_KERNEL_GZIP
+> +       depends on $(success,which $(KGZIP))
+>         help
+>           The old and tried gzip compression. It provides a good balance
+>           between compression ratio and decompression speed.
+> @@ -257,6 +258,7 @@ config KERNEL_GZIP
+>  config KERNEL_BZIP2
+>         bool "Bzip2"
+>         depends on HAVE_KERNEL_BZIP2
+> +       depends on $(success,which $(KBZIP2))
+>         help
+>           Its compression ratio and speed is intermediate.
+>           Decompression speed is slowest among the choices.  The kernel
+> @@ -267,6 +269,7 @@ config KERNEL_BZIP2
+>  config KERNEL_LZMA
+>         bool "LZMA"
+>         depends on HAVE_KERNEL_LZMA
+> +       depends on $(success,which $(LZMA))
+>         help
+>           This compression algorithm's ratio is best.  Decompression speed
+>           is between gzip and bzip2.  Compression is slowest.
+> @@ -275,6 +278,7 @@ config KERNEL_LZMA
+>  config KERNEL_XZ
+>         bool "XZ"
+>         depends on HAVE_KERNEL_XZ
+> +       depends on $(success,which $(XZ))
+>         help
+>           XZ uses the LZMA2 algorithm and instruction set specific
+>           BCJ filters which can improve compression ratio of executable
+> @@ -290,6 +294,7 @@ config KERNEL_XZ
+>  config KERNEL_LZO
+>         bool "LZO"
+>         depends on HAVE_KERNEL_LZO
+> +       depends on $(success,which $(KLZOP))
+>         help
+>           Its compression ratio is the poorest among the choices. The kernel
+>           size is about 10% bigger than gzip; however its speed
+> @@ -298,6 +303,7 @@ config KERNEL_LZO
+>  config KERNEL_LZ4
+>         bool "LZ4"
+>         depends on HAVE_KERNEL_LZ4
+> +       depends on $(success,which $(LZ4))
+>         help
+>           LZ4 is an LZ77-type compressor with a fixed, byte-oriented encoding.
+>           A preliminary version of LZ4 de/compression tool is available at
+> @@ -310,6 +316,7 @@ config KERNEL_LZ4
+>  config KERNEL_ZSTD
+>         bool "ZSTD"
+>         depends on HAVE_KERNEL_ZSTD
+> +       depends on $(success,which $(ZSTD))
+>         help
+>           ZSTD is a compression algorithm targeting intermediate compression
+>           with fast decompression speed. It will compress better than GZIP and
+> --
+> 2.23.0.718.g5ad94255a8
+>
+
 
 -- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+Best Regards
+Masahiro Yamada
