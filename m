@@ -2,146 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16D6942B82B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 08:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6D442B847
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 09:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238193AbhJMHBV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Oct 2021 03:01:21 -0400
-Received: from mail-ua1-f42.google.com ([209.85.222.42]:46020 "EHLO
-        mail-ua1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbhJMHBT (ORCPT
+        id S232006AbhJMHDp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Oct 2021 03:03:45 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:54890 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231346AbhJMHDo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Oct 2021 03:01:19 -0400
-Received: by mail-ua1-f42.google.com with SMTP id 64so2466055uab.12;
-        Tue, 12 Oct 2021 23:59:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vLmWoWym/1fKiJu7c9gpS1cDGT+57poTvw7kTscrC00=;
-        b=Gg+JGh/RyVv0o+fGhBa/WFOeEb2LNvd/qL4Tom37dhPYvviNUEwuLUQtdctYvsC2zO
-         dXxTr6BCjLALaPjwKnpYkaMsJEG4PS0aehh9MrByP4nyPyqJu3p81T/w9dqicVwv9yLp
-         dN18x6SzUIAsuKay+DiAAObgmB95M0qESd/IMJBkREfjiPfypsXJ+G0Kxg6DK8yLz6xr
-         t+zJTsY8hEJg60v2sBuClsciRjfkcXlxfQ/ML2jTqaE6MR7f9/EGOpsPW4sFtwMzSWRw
-         oRZew4j7Fk2Fo4n/N+blry6VUeqkJOXy7rC1NuLsBt936oXaxOQM1jLfSFadS4JA7FzP
-         CdgA==
-X-Gm-Message-State: AOAM5327PtGL95WWpRA6LPgNlrxRV6JY7GWmyYquyUn9e9UJz8ka6TBT
-        6JBxFIUJEgVv6akYZmd2u7CeD/PsniKn8S6JxRQ=
-X-Google-Smtp-Source: ABdhPJzwsQvQy07KzSSKF36slqOOCBmzhi7G4XFKh+MxO1aqVfgv6UylAsUlKqrZrwFEymqmWaysD4XtAMh8gSFAJlY=
-X-Received: by 2002:a67:d583:: with SMTP id m3mr36353545vsj.41.1634108355035;
- Tue, 12 Oct 2021 23:59:15 -0700 (PDT)
+        Wed, 13 Oct 2021 03:03:44 -0400
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 19D71OH4011797;
+        Wed, 13 Oct 2021 16:01:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 19D71OH4011797
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1634108485;
+        bh=dW44K0fonPJ8UjFfN6cGem0R0vP/XKyHNFnnWHXMbnc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Zncc5dLu2xeH+46pjkKIRt34hQ9VBLzBu0+5ZwmfuE7ESzeBVV6yspRIM4AyyFOUj
+         c0wqq5Hm1jQ8ZeIBw0QmkwKGJnu4NqN5E959fk/SBseKQaLG4beiRqBQ+HVuaWlXOi
+         1g8sbbp/R/nQXMYVCprnvrddL+PomMPfyDEGCNDgftVBsvpn2sg497LwvcEwgn/knQ
+         5us+qVTq6FExT/k98APkPL5uK87DR1/JrCYy0gOfk8punPH72iHbCLDYWLZNJ3MQS/
+         7jbbZEZQOu3sAgbPINfCLcDYfxEcjW1I3WqxnkYMk010ltdYSrO8wk94vGsegtut/N
+         tP2+A7FOxbGiw==
+X-Nifty-SrcIP: [209.85.214.170]
+Received: by mail-pl1-f170.google.com with SMTP id g9so1142626plo.12;
+        Wed, 13 Oct 2021 00:01:25 -0700 (PDT)
+X-Gm-Message-State: AOAM533yZTevl441fDPv4pwYRMt/FkKPwzosU5LfYgkSuwy1AAH/fzYZ
+        ZB/2Z0T8Z5YFWwyjEoiLz2gdu3wdy0nHPgTqx7A=
+X-Google-Smtp-Source: ABdhPJyg9Bv04HQDJ7uIQbpcQ+Bkz8Yt7hWnrXOix9Ihwb1fVIQEpqQA1RUaMRuT6GTBhmw2frKE51aJe+EWtiUVDxU=
+X-Received: by 2002:a17:90b:4ac1:: with SMTP id mh1mr11361427pjb.144.1634108483842;
+ Wed, 13 Oct 2021 00:01:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211013063622.548590-1-masahiroy@kernel.org> <20211013063622.548590-2-masahiroy@kernel.org>
-In-Reply-To: <20211013063622.548590-2-masahiroy@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Oct 2021 08:59:03 +0200
-Message-ID: <CAMuHMdUQVpvvq=ZqjL97gV6AxS5eGm4mRS=gL4PPwWiBS-v5AA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: use more subdir- for visiting subdirectories
- while cleaning
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Chris Zankel <chris@zankel.net>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Julien Thierry <jthierry@redhat.com>,
-        Kees Cook <keescook@chromium.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Michal Simek <monstr@monstr.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Hu <nickhu@andestech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rich Felker <dalias@libc.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Rob Herring <robh@kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        William Cohen <wcohen@redhat.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+References: <20211012170121.31549-1-vegard.nossum@oracle.com>
+ <CAK7LNAT_0PnW0opWQoCiF5mWH4YEKxXHbdiTrSGqGFRv5nhY=w@mail.gmail.com> <68df3063-1dda-4736-27b4-8716321620c7@oracle.com>
+In-Reply-To: <68df3063-1dda-4736-27b4-8716321620c7@oracle.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 13 Oct 2021 16:00:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARsA8P=OmRzMqc9Xa3TWw=zk+Fi7WUGENdOCYaF6fYMrw@mail.gmail.com>
+Message-ID: <CAK7LNARsA8P=OmRzMqc9Xa3TWw=zk+Fi7WUGENdOCYaF6fYMrw@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: only prompt for compressors that are actually usable
+To:     Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        "moderated list:H8/300 ARCHITECTURE" 
-        <uclinux-h8-devel@lists.sourceforge.jp>, x86@kernel.org
+        Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 8:43 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> Documentation/kbuild/makefiles.rst suggests to use "archclean" for
-> cleaning arch/$(SRCARCH)/boot/.
+On Wed, Oct 13, 2021 at 2:39 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
 >
-> Since commit d92cc4d51643 ("kbuild: require all architectures to have
-> arch/$(SRCARCH)/Kbuild"), we can use the "subdir- += boot" trick for
-> all architectures. This can take advantage of the parallel option (-j)
-> for "make clean".
 >
-> I also cleaned up the comments. The "archdep" target does not exist.
+> On 10/13/21 3:34 AM, Masahiro Yamada wrote:
+> > On Wed, Oct 13, 2021 at 2:01 AM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+> >>
+> >> If a given compression algorithm for the kernel image is not usable on
+> >> the host system, there is no point prompting for it.
+> >>
+> >> We can use the kconfig preprocessing feature to check if the command is
+> >> available or not. I've chosen to test this using "which", which exits
+> >> with success if the given command exists in PATH (or it is an absolute
+> >> path), which mimics exactly how it would be found in the kernel's
+> >> Makefiles.
+> >>
+> >> This uses the make variables that are set in Makefile and/or the
+> >> command line, so you can do e.g.
+> >>
+> >>   make KGZIP=pigz menuconfig
+> >>
+> >> and it will test for the correct program.
+> >>
+> >> I am intentionally adding these dependencies to e.g. KERNEL_LZ4, as
+> >> opposed to HAVE_KERNEL_LZ4, since the latter are "select"-ed
+> >> unconditionally by the architectures that use them, so they are not
+> >> suitable for depending on anything else.
+> >>
+> >> I've put RFC in the subject as maybe there are downsides to this that
+> >> I'm not aware of.
+> >>
+> >> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> >> ---
+> >
+> >
+> > I think we should keep the host-tools dependency open in general.
+> > You can easily install necessary packages.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> So just to be clear, you object to the patch because it hides the
+> possibility of using a different compression algorithm from the user and
+> doesn't give them a chance to know that it exists when it's not already
+> installed?
 
->  arch/m68k/Makefile                 |  4 +---
+Yes, I object to it.
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> I don't really think this is much different from any other choice block
+> in the config where the visibility of the choices have dependencies on
+> other config options.
+
+Kconfig checks some compiler features, otherwise we have no way
+to avoid build errors.
+
+
+> In my case, the reason for doing this patch was that I was seeing build
+> failures during randomized testing (satrandconfig) due to missing
+> programs, and these build failures appear only at the end of potentially
+> very time-consuming builds.
+
+I do not know Oracle's case, but
+I think other CI systems install all needed packages for randconfig.
+
+Similar discussions happened a couple of times in the past.
+We keep the tools dependency open since it is just a matter of
+"apt install" or "dnf install" basically.
+
+
+
+"and equally importantly, your build servers will actually do a better
+job of covering the different build options."  (Linus Torvalds) [1]
+
+[1]: https://lore.kernel.org/all/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@mail.gmail.com/
+
+
+
+
+> Maybe we can introduce a new option similar to COMPILE_TEST (or
+> ADVANCED_OPTIONS) so that the options are showed by default, even when
+> the host program is not available?
+
+
+I do not think it is worth it.
+
+
+
+
+> +config UNAVAILABLE_COMPRESSORS
+> +       bool "Prompt for compressors that are not available"
+> +       help
+> +         Note: Enabling this option can lead to build failures if
+> +         the chosen compressor is not available on the host machine.
+>
+>  config KERNEL_GZIP
+>         bool "Gzip"
+>         depends on HAVE_KERNEL_GZIP
+> +       depends on UNAVAILABLE_COMPRESSORS || $(success,which $(KGZIP))
+>         help
+>           The old and tried gzip compression. It provides a good balance
+>           between compression ratio and decompression speed.
+>
+>
+> Vegard
+
+
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best Regards
+Masahiro Yamada
