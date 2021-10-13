@@ -2,104 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AACCA42C914
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 20:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A310742CA04
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Oct 2021 21:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238739AbhJMSwW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Oct 2021 14:52:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54664 "EHLO
+        id S231246AbhJMT2i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Oct 2021 15:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231445AbhJMSwU (ORCPT
+        with ESMTP id S238924AbhJMT2h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Oct 2021 14:52:20 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D75C061749
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Oct 2021 11:50:17 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id i24so15451893lfj.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Oct 2021 11:50:17 -0700 (PDT)
+        Wed, 13 Oct 2021 15:28:37 -0400
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 144A7C061570
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Oct 2021 12:26:34 -0700 (PDT)
+Received: by mail-ua1-x941.google.com with SMTP id e7so6684604ual.11
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Oct 2021 12:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b8/P8tB/Z2lB3uczx8fuNs4yrMjdgai73jQwqgSmb8k=;
-        b=kDywsRyuPxVHakfyaPBhZGFsKn8P4P0Orn2Y9o0bfVo3J1d4YQZHM3XDib2XXfdWRs
-         KTmYLFOmkI72Z1QGH14GvjX6AYTmZDaS5dPBLcz6wdhhka5qkR2cU5HScrfq4eii9joB
-         kJjGWi78b/h0zw8iYk9t9gAym09ABl/pER9JXtJLYgxQ76TT9SVBaLAHX0NHc43gYtpv
-         IT8uisa6SAJ5YyHZQGUMVqG+3X4K8BBUc6GIlt52UJw1KnuqCIAIzZwGOt7sIWLXLM4M
-         bbF0pE5C2+pwsgZA7jHkaRqoaaFO9M5F6awahLSQp4rxAF+ikhwtg2LfOdeyXOevu15n
-         rmFA==
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=2We0R3YOEtfGO0N4TonRJQPc5H4OgkDk0mTHRTD6OTM=;
+        b=jcMmaxYx2ZUpq0dEf4V0Ub/tP0k5KcejC/lfUedR/H3TWlU3FrgmSZWjklJzRFP+Oi
+         7Ym8eTFiIS3Rh69h+JTkmv9enBc9xNgqGGDTTXsp9SNnZGDriWUdwvscCoAhMSep+sgl
+         Lv+R0VRNFUuPoIcULmpRA+uv45k//v/CwMBI6X278qoQ0UherutKuMXZHqJ+3euWJqft
+         HmxwaN8kOjxY1zL764ICmtL9Or1uNEbDdrFhQcRv9Z9s80RXlZ+4GYtr8yDKfFCx9aNj
+         LFNO/bfAiL3NqAnJz3RmeAtBr7/bF8FVf0yQrhbAz6sO5njOia0YjgBCvz13cKKstlas
+         1Qlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b8/P8tB/Z2lB3uczx8fuNs4yrMjdgai73jQwqgSmb8k=;
-        b=Jp03eXKgM1plGW458wxSkFbJ+z2Dws/dgb9H3W4hFA5I0905wEuNO+FOIZUmVtSTtf
-         qDi4sS7QOFDCoOevSSE/SJFSKJESA3AdCo0qPhH7Cpv36sg9AMEN14K1x4dWicg3kZzy
-         SR2aCNHwptBHaU3Z8GuKsJuRz6e07MHT6w/KsTNWRSPc+sELJ2F7XqqSungpc7mPCQ3C
-         WsywMP3sk8379vO4rmAjZttbrGxDlhQazCLJD8qq/ka1ht/QSwPo9Q2nQ/2F+4VE7099
-         Mq9/jR/MfqmDhFHRDeL0MZKxUGmbaLu1lEIIoNwyn9oeVWXNC1ZcQEG2qbt9Kru6ZU+n
-         FLRQ==
-X-Gm-Message-State: AOAM530E6eVE88z2y5NKtBsXZmpiS8NkBf7CxBIjxSOKwDDrxACSCmU6
-        TlX7N+QSEYDql2EIcTaG0xpQ0XPFJfdKtSUES63k/Q==
-X-Google-Smtp-Source: ABdhPJybMQxtFkt+CSaxFXxXt2PhnxWlWW8tmKXXryRxD06ne8odxGrqIGRARW9LCy1ltHsb2ZBF1fp2E4wP78hKYmc=
-X-Received: by 2002:a05:6512:4c7:: with SMTP id w7mr700247lfq.444.1634151015014;
- Wed, 13 Oct 2021 11:50:15 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=2We0R3YOEtfGO0N4TonRJQPc5H4OgkDk0mTHRTD6OTM=;
+        b=ed+ZNM1UH72vf36xLKu0PkWVAuIk9vf5javVf3vNvk9yH9/5vAhBbfdYHsO8u3NuLF
+         T1ntF50XR5kDwoYMZ3nKjVVqHbzAoJgOcj0rtdPXE3xTT5BG+oP1ixuWCj7OAR41FurE
+         7n7VSWD3kCOUBFXnchmh64NzC+Dxi6ZY1TYfTDR69c6+qg6swXVh0PaEgI+U29/XmM1C
+         Rf3JfhpNYlIZvgRZv0VOm9qgmn9qmqZ7jTK055kvBgrAfUI9PceayANNHgQFh+XH4z5S
+         tWk1x70hWRqX67wjafbdogNWyBo0x5GyV7cgu1YgWngLd7pk3z2CBojBOfAp94KsWlRl
+         R7NA==
+X-Gm-Message-State: AOAM531GF0SlPLHN44bVO02OBL3uN9UQTLV2IHl/ZYqHo0MTfu+EYJms
+        39Ulc5uqcbddSlYi9+aHQAJN1jH1L3jEDlnXT6o=
+X-Google-Smtp-Source: ABdhPJzaBeMsi5hkFSrpyENcJLemFvy954QxFGgIeG3YWZvLuqc7I0hqFH3j5c4OSdi83dZWV0vHsJ1FBQmFE31WsLI=
+X-Received: by 2002:ab0:4750:: with SMTP id i16mr1350696uac.54.1634153193123;
+ Wed, 13 Oct 2021 12:26:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1634148189-29393-1-git-send-email-ashimida@linux.alibaba.com>
-In-Reply-To: <1634148189-29393-1-git-send-email-ashimida@linux.alibaba.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 13 Oct 2021 11:50:03 -0700
-Message-ID: <CAKwvOd=qxHU41HFEWLAz6DOvSMPdW863E9SKVe0PFK0ePDvizQ@mail.gmail.com>
-Subject: Re: [PATCH] [PATCH V3]ARM64: SCS: Add gcc plugin to support Shadow
- Call Stack
-To:     Dan Li <ashimida@linux.alibaba.com>
-Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        catalin.marinas@arm.com, will@kernel.org, keescook@chromium.org,
-        nathan@kernel.org, tglx@linutronix.de, akpm@linux-foundation.org,
-        samitolvanen@google.com, frederic@kernel.org, rppt@kernel.org,
-        mark.rutland@arm.com, yifeifz2@illinois.edu, rostedt@goodmis.org,
-        viresh.kumar@linaro.org, andreyknvl@gmail.com,
-        colin.king@canonical.com, ojeda@kernel.org,
-        luc.vanoostenryck@gmail.com, elver@google.com,
-        nivedita@alum.mit.edu, ardb@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-hardening@vger.kernel.org, clang-built-linux@googlegroups.com
+Received: by 2002:a59:becb:0:b0:235:7d8d:df0 with HTTP; Wed, 13 Oct 2021
+ 12:26:32 -0700 (PDT)
+Reply-To: mallyson2021@gmail.com
+From:   Mohamed Allyson <mohamed.allyson2015@gmail.com>
+Date:   Wed, 13 Oct 2021 12:26:32 -0700
+Message-ID: <CAHu39-SDvVHAZpwYS741tM8fRS5ivKPLq5-=+szRiT5Hq101Uw@mail.gmail.com>
+Subject: I NEED YOUR URGENT RESPOND PLEASE
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 11:03 AM Dan Li <ashimida@linux.alibaba.com> wrote:
->
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 62c3c1d..da2da8c 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -81,7 +81,7 @@ config ARM64
->         select ARCH_SUPPORTS_DEBUG_PAGEALLOC
->         select ARCH_SUPPORTS_HUGETLBFS
->         select ARCH_SUPPORTS_MEMORY_FAILURE
-> -       select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
-> +       select ARCH_SUPPORTS_SHADOW_CALL_STACK if (CC_HAVE_SHADOW_CALL_STACK || GCC_PLUGIN_SHADOW_CALL_STACK)
->         select ARCH_SUPPORTS_LTO_CLANG if CPU_LITTLE_ENDIAN
->         select ARCH_SUPPORTS_LTO_CLANG_THIN
->         select ARCH_SUPPORTS_CFI_CLANG
-> @@ -1062,7 +1062,7 @@ config ARCH_HAS_FILTER_PGPROT
->
->  # Supported by clang >= 7.0
->  config CC_HAVE_SHADOW_CALL_STACK
-> -       def_bool $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18)
-> +       def_bool (CC_IS_CLANG && $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18))
+Hello Dear Friend,
 
-I guess since clang supported SCS since clang-7, but the minimally
-supported version of clang according to
-Documentation/process/changes.rst is 10.0.1, then this could be:
+My name is Mr.Mohamed Allyson. I have decided to seek a confidential
+co-operation  with you in the execution of the deal described
+here-under for our both  mutual benefit and I hope you will keep it a
+top secret because of the nature  of the transaction, During the
+course of our bank year auditing, I discovered  an unclaimed/abandoned
+fund, sum total of {US$19.3 Million United State  Dollars} in the bank
+account that belongs to a Saudi Arabia businessman Who unfortunately
+lost his life and entire family in a Motor Accident.
 
-def_boot CC_IS_CLANG || $(cc-option, -fsanitize=shadow-call-stack -ffixed-x18)
+Now our bank has been waiting for any of the relatives to come-up for
+the claim but nobody has done that. I personally has been unsuccessful
+in locating any of the relatives, now, I sincerely seek your consent
+to present you as the next of kin / Will Beneficiary to the deceased
+so that the proceeds of this account valued at {US$19.3 Million United
+State Dollars} can be paid to you, which we will share in these
+percentages ratio, 60% to me and 40% to you. All I request is your
+utmost sincere co-operation; trust and maximum confidentiality to
+achieve this project successfully. I have carefully mapped out the
+moralities for execution of this transaction under a legitimate
+arrangement to protect you from any breach of the law both in your
+country and here in Burkina Faso when the fund is being transferred to
+your bank account.
 
-Then we won't have to touch it again once SCS lands in upstream GCC,
-as the cc-option test will start to pass?
--- 
-Thanks,
-~Nick Desaulniers
+I will have to provide all the relevant document that will be
+requested to indicate that you are the rightful beneficiary of this
+legacy and our bank will release the fund to you without any further
+delay, upon your consideration and acceptance of this offer, please
+send me the following information as stated below so we can proceed
+and get this fund transferred to your designated bank account
+immediately.
+
+-Your Full Name:
+-Your Contact Address:
+-Your direct Mobile telephone Number:
+-Your Date of Birth:
+-Your occupation:
+
+I await your swift response and re-assurance.
+
+Best regards,
+Mr.Mohamed Allyson.
