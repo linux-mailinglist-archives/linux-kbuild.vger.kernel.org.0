@@ -2,98 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1869A42D666
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Oct 2021 11:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F5142E18F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Oct 2021 20:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbhJNJtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Oct 2021 05:49:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36750 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229988AbhJNJtF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Oct 2021 05:49:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E2C22610CC;
-        Thu, 14 Oct 2021 09:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634204820;
-        bh=iDTopwqbmzinhy2WDBTM0BLIidMVT/cz6C/ntNs7/Hk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PkKUs94XsJkeJMfhunVJx/fHZwkZmlJ2BzzqUDp2+wpiJCjJFAe8k4I9TILwBTIWF
-         9g1/Zc4evcPlTW+ZQ9WrsKk+hMGdHh/irjtNFavhAkL6QTDIxo11g+Pso6AplI81cy
-         NX863loeIjwt53ifYUJdh4neEFDJgzkBPscP5ar4LKxqzGuOmTVv1a20T5RHRVtXO/
-         TEOqatMR8Yo93dIRZ0wXlKdqwdVxUYmT8pgci+7XN2vmC0B66tyTUvfRUOQSlyU8NY
-         oZ5d2S6s3mDB07dD3M5xXJUR4jIQYgxC07f3EavqpTb/pJxHn2C6vGEluygxjTxwRg
-         gmAFdwlk/mUaQ==
-Received: by mail-oi1-f171.google.com with SMTP id n64so7727578oih.2;
-        Thu, 14 Oct 2021 02:47:00 -0700 (PDT)
-X-Gm-Message-State: AOAM532fMiuwYxM5lVTcp6bW5O5flqcCQOjwxiUvOM2QpbQMPJ6S9LNS
-        YqrxokTWFHdtBHFrGnwJTTd6alHgb5C0y+0FAnM=
-X-Google-Smtp-Source: ABdhPJxcEjkB0IHaV3b2ZutNR9uVHbuth9q3bNDjrzoMwIcbnBzYNmZ1qBa3e6aI4D2mmHdl/modbyW9//GhLqhmAag=
-X-Received: by 2002:aca:32c2:: with SMTP id y185mr12156681oiy.47.1634204820213;
- Thu, 14 Oct 2021 02:47:00 -0700 (PDT)
+        id S231676AbhJNSrE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Oct 2021 14:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230384AbhJNSrD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 14 Oct 2021 14:47:03 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 804CFC061570
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Oct 2021 11:44:58 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id y26so31099979lfa.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Oct 2021 11:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dJip7K+K6ddBDtyVBqOLOFvZRLq1b7ylvd2srRqWSRQ=;
+        b=BAYxaUWxXUxQONyuWASTyK+bHA+njF/YXdfOKoOr0yKb89IvBjdGBJ9ekpPxyJ5i/5
+         I5pCp13CoRNHDz7Bxvz7164291WUkaHFlkzuTAetlo8K1BOP7tBNdy9ur8ZWwSJBRyqz
+         i/+ihD+8JmhU39vlgaA6e9MGXLeEMgi5oOTXZ/c+riG4Hdf2E38UCYijkzr4h33Impay
+         HAiV45LSP1JgoXhxT5Pcl8bz/IbWtFQdj3eY8vPhyK290PUMecQPyYtj9Y7SMK0zJ3P3
+         v59QP2utklEbO1OGdcEWnw3nhixELcy4jFllgeKvwniO6VH7ZvinU7lHroWHUZHQfEEQ
+         0Tsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dJip7K+K6ddBDtyVBqOLOFvZRLq1b7ylvd2srRqWSRQ=;
+        b=dFqxQIjQ4FoWlHhhxR3wKH6xdsvp7qXuYLH7+ZYU0qIdWfY1J4o6MFIYAiYbeC2/4L
+         W2/enfXvNHktLM5Uht7zjP3eHugbdOdCoSHYos53nFnloEew0B7YaZZrJzwbenZjCIEg
+         wNgCESQGOBnaRRSbRY5RUJK5Wut4ZLZjuYrVmBShupcPoe1wwDXOxKCA5AWXNWDFG7Ws
+         6LUteP23VNHbjqYchodBVb0r/oxagv9tCoA/oCswW3nJKbVpamrCPYpRKQZKVqaZhcct
+         rUTzRS2ItBTaclB2D24iAFKl9KwWmwFyvEveNmgDZZnRTXWe+hZmGyUhqlfdVs7xpYH+
+         nJrw==
+X-Gm-Message-State: AOAM531c4/K3wdSUllRZ2r+SQuzhMZNaBJOS5D4rR+2v52Q8NtPUtAd/
+        QfYKeumfWdP9fyCwp2fhx2a+lCP1mzC86/A25/RQ7g==
+X-Google-Smtp-Source: ABdhPJzGVUPpKHDk8B/STzPaOM5nnzXJ4BTUz5HiVetGlGu1MCNmmT8SopdnT/9yBvlWIbHCOnoArkh9v9ibtRLCh+c=
+X-Received: by 2002:a05:6512:3ba3:: with SMTP id g35mr6810880lfv.651.1634237096625;
+ Thu, 14 Oct 2021 11:44:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211013200536.1851070-1-willy@infradead.org>
-In-Reply-To: <20211013200536.1851070-1-willy@infradead.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 14 Oct 2021 11:46:48 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEJ+RThJ83H2VNAmOKkVdhTAUCUF61u9JTv6ccc9uVTDw@mail.gmail.com>
-Message-ID: <CAMj1kXEJ+RThJ83H2VNAmOKkVdhTAUCUF61u9JTv6ccc9uVTDw@mail.gmail.com>
-Subject: Re: [PATCH] builddeb: Support signing kernels with a Machine Owner Key
-To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        efi@lists.einval.com, debian-kernel@lists.debian.org,
-        linux-efi <linux-efi@vger.kernel.org>
+References: <1634167668-60198-1-git-send-email-ashimida@linux.alibaba.com>
+In-Reply-To: <1634167668-60198-1-git-send-email-ashimida@linux.alibaba.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 14 Oct 2021 11:44:45 -0700
+Message-ID: <CAKwvOdkv70XDdK-k3n4ycFQsz+h7V-sTiH8RuxxaLofp-okweQ@mail.gmail.com>
+Subject: Re: [PATCH] [PATCH V4]ARM64: SCS: Add gcc plugin to support Shadow
+ Call Stack
+To:     Dan Li <ashimida@linux.alibaba.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        catalin.marinas@arm.com, will@kernel.org, keescook@chromium.org,
+        nathan@kernel.org, tglx@linutronix.de, akpm@linux-foundation.org,
+        samitolvanen@google.com, frederic@kernel.org, rppt@kernel.org,
+        mark.rutland@arm.com, yifeifz2@illinois.edu, rostedt@goodmis.org,
+        viresh.kumar@linaro.org, andreyknvl@gmail.com,
+        colin.king@canonical.com, ojeda@kernel.org,
+        luc.vanoostenryck@gmail.com, elver@google.com,
+        nivedita@alum.mit.edu, ardb@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hardening@vger.kernel.org, clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 13 Oct 2021 at 22:07, Matthew Wilcox (Oracle)
-<willy@infradead.org> wrote:
+ On Wed, Oct 13, 2021 at 4:28 PM Dan Li <ashimida@linux.alibaba.com> wrote:
 >
-> If the config file specifies a signing key, use it to sign
-> the kernel so that machines with SecureBoot enabled can boot.
-> See https://wiki.debian.org/SecureBoot
+> - This function can be used to test whether the shadow stack is effective:
+> //noinline void __noscs scs_test(void)
+> noinline void scs_test(void)
+> {
+>     register unsigned long *sp asm("sp");
+>     unsigned long * lr = sp + 1;
 >
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-
-For the change itself
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
-although I'd suggest to fix the subject not to refer to Machine Owner
-Keys, as I don't see anything shim related here (i.e., if you sign
-using a key that is listed in db, it should also work)
-
-
-> ---
->  scripts/package/builddeb | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>     asm volatile("":::"x30");
+>     *lr = 0;
+> }
 >
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 91a502bb97e8..4fa6ff2b5cac 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -147,7 +147,15 @@ else
->         cp System.map "$tmpdir/boot/System.map-$version"
->         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
->  fi
-> -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
-> +
-> +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
-> +if is_enabled CONFIG_MODULE_SIG; then
-> +       cert=$srctree/$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
-> +       key=${cert%pem}priv
-> +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
-> +else
-> +       cp "$vmlinux" "$tmpdir/$installed_image_path"
-> +fi
+> when compiled with:
+> CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
+> CONFIG_ARM64_PTR_AUTH_KERNEL=y
+> CONFIG_ARM64_BTI_KERNEL=y
 >
->  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
->         # Only some architectures with OF support have this target
-> --
-> 2.32.0
+> ffff800010013b60 <scs_test>:
+> ffff800010013b60:       d503245f        bti     c
+> ffff800010013b64:       d503201f        nop
+> ffff800010013b68:       d503201f        nop
+> ffff800010013b6c:       d503233f        paciasp
+> ffff800010013b70:       f800865e        str     x30, [x18], #8
+> ffff800010013b74:       a9bf7bfd        stp     x29, x30, [sp, #-16]!
+> ffff800010013b78:       910003fd        mov     x29, sp
+> ffff800010013b7c:       910003e0        mov     x0, sp
+> ffff800010013b80:       f900041f        str     xzr, [x0, #8]
+> ffff800010013b84:       a8c17bfd        ldp     x29, x30, [sp], #16
+> ffff800010013b88:       f85f8e5e        ldr     x30, [x18, #-8]!
+> ffff800010013b8c:       d50323bf        autiasp
+> ffff800010013b90:       d65f03c0        ret
 >
+> If SCS protection is enabled, this function will return normally.
+> If the function has __noscs attribute (scs disabled), it will crash due to 0
+> address access.
+> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+> index cb9217f..426c8e5 100644
+> --- a/include/linux/compiler-gcc.h
+> +++ b/include/linux/compiler-gcc.h
+> @@ -50,6 +50,10 @@
+>  #define __latent_entropy __attribute__((latent_entropy))
+>  #endif
+>
+> +#if defined(SHADOW_CALL_STACK_PLUGIN) && !defined(__CHECKER__)
+> +#define __noscs __attribute__((no_shadow_call_stack))
+> +#endif
+
+Cool this is a nice addition, and something I don't think that clang
+has.  For any new feature, having a function attribute to disable it
+at the function granularity is nice, and plays better with LTO than -f
+group flags.  Though that begs the question: what happens if a __noscs
+callee is inlined into a non-__noscs caller, or vice versa?
+
+I noticed that __noscs isn't actually applied anywhere in the kernel,
+yet, at least in this series.  Were there any places necessary that
+you've found thus far?
+
+Overall, I'm happy with the patch and am ready to ack it, but I would
+like to see a link to to the upstream GCC feature request for SCS (and
+one created if it doesn't exist) cited explicitly in the commit
+message.  I think that would be a good demonstration that this can or
+will be upstreamed into the compiler proper for the compiler vendors
+to maintain, rather than the kernel folks.  The compiler vendors may
+have further feedback on the approach, such as my question above
+pertaining to inlining.
+-- 
+Thanks,
+~Nick Desaulniers
