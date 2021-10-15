@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D8CB42FBC0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Oct 2021 21:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8692F42FBD0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Oct 2021 21:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242542AbhJOTNK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Oct 2021 15:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36842 "EHLO
+        id S242694AbhJOTP7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Oct 2021 15:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232055AbhJOTNJ (ORCPT
+        with ESMTP id S242670AbhJOTPy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Oct 2021 15:13:09 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC802C061570
-        for <linux-kbuild@vger.kernel.org>; Fri, 15 Oct 2021 12:11:02 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id g36so29001784lfv.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 15 Oct 2021 12:11:02 -0700 (PDT)
+        Fri, 15 Oct 2021 15:15:54 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD883C061764
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Oct 2021 12:13:46 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id y26so45902741lfa.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Oct 2021 12:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oI0JQpdNcS1rPABaNRpOZ/cT39QBnr4F5JH8mM3KD1w=;
-        b=KItGKghbFy6S8IwlkpEtP4HNbtAfKfSjgliZYr6bPw6mL8dfVSVPPw+Lu6A3D6KYGG
-         JL6+RBOsqVCU63RCfXhpXlk9/+Od7crS2PHmqiaTBP4vaYWJC8bpMmWXSDhfIaJCfV9x
-         KV7yHlxcxqHOZl3G2UPtEQbwkzn4SeJokDnkr5D6uE1SuAkNwE+Os6wBth3CI/ZCjZnJ
-         Fl7nxdD3gZBsmghjKmNQyoN/DtGfjys0qypNRPMsb730as0k1sPUN9PL7I8LoXNold+W
-         oKG8PJms0LcTJcgMvueNQDJMwRWsCmSQyRGJoWkFMc6KF85C5Nc8KvAQE9EebTj1WNR7
-         yqUw==
+        bh=HBzr0B3tGGPW4EBa2LvZed6scqvnq5Oml+sl03YQDio=;
+        b=BA/5lSdu+5ROrNUsKhvi+0xgDXMbeH1IeW/bUOWfcmhvn1b5gplsN/lhjVCre6mi7A
+         T02zPFwlJIn5jPNjwH4oOtQyucvs6lBBcy+OrsPY3YL/FYdY0J233zlFzQbbtj4HgTc2
+         L9417guhXF0JmPaEr+m4IC2Neu+S/CP0pe8W1DeWsGEaRfcbKuXMoiVVLIsmZUAZYhDW
+         i839MhmZ7hNt4oiL/fD/Ou4ujKkHeGGDRRmS1Lm9czlqguFwu1qDQyHbuiiIuclaTR8n
+         zgTo8mkTKOfB8QZ+Z9qaTsaUNQSAUoM7AdYTjJhuqe3g1u8w9OuBkFHS5pOcW6IIJz3a
+         cmzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oI0JQpdNcS1rPABaNRpOZ/cT39QBnr4F5JH8mM3KD1w=;
-        b=ym8VYComucy/jxnygs1uwqWYfFwarrzAG/YSjAE2TIyygcVXU5OyHz4Ix4eqlhCUWk
-         1KnYXlhq6l6NCg1uawm4cslBmZYzQgQTtAto312C6oEVi+FL3Ca5IgGLngd6p/N2fVR+
-         m3bm0rpMEVnWLk+L0tDUwsr0BYZ+l5jFvUSHGvLxJzAnQ5CrTyQhy4bfjf8Z+L6NwTk5
-         dioG6yk4rEFUcAudwKzxgFyvVtLEMMcOjhRWth9Ggt/e9xDvO4eC6wsVxD+GqA2m1E7w
-         GqwVYNTHCcXZl60QAR+mDT8/E5tBj+wNd/EYzqO8kEzysCZHD2fbhBekaPUbitd0F1V4
-         470Q==
-X-Gm-Message-State: AOAM532Ww497quxT1DKrqZkx7nlsc/tpwYoyk3CQ7dUMlwqjNpmJFz/7
-        vBOiLzdjw9i3T0DQzZ7V67u4pBEhKXOx+GVFaLNLbg==
-X-Google-Smtp-Source: ABdhPJxJPbFY1d2ckPhtr+TsSG22LMoybIwYHl50ZAsM2+uDTJMohjuxtsNO4gx/E6FVg7uvt9WPFt5c5aoDLal6yWY=
-X-Received: by 2002:a05:651c:1108:: with SMTP id d8mr14747364ljo.220.1634325060799;
- Fri, 15 Oct 2021 12:11:00 -0700 (PDT)
+        bh=HBzr0B3tGGPW4EBa2LvZed6scqvnq5Oml+sl03YQDio=;
+        b=oOw7GVDcRFG2oabOu2OBRYV0LeZroYSyutWzaLQAeSkgrSsTuANDrBx0NYXdhyVF6C
+         +zrZr/hVKmGDv9sQDf1Ut9LnNyM6pkhwrplepCt15NZjO3xi+thaF9gMfSN7/gaI/1VN
+         g9LySqNUdzSGshiL8ax9JpLwX1um1WQ119sXwfV5ID29cxupKqTDnYJ0/mHrHu2Dxzze
+         VACTkREOQ3BBlOMGMXJmPIrOYkN9g37V6e+9dk6KnCzWl13oeci78HLUqRUJR9SM8UaX
+         jkEfSXuhrSi69i6zEzhNCxfxycgpiEGh0lmhJk7HHnrEUyHdl8GLWiaLb+IdTRbIRjr6
+         L3AA==
+X-Gm-Message-State: AOAM5315R9V68UgoBXs0hww4+Mx1j92Z1gSCiMkz/F6S7RDmcVH1gBpT
+        m/BP/JKSp114BaOmZjJQiBurCnn/QLKGBGfb6lM5uw==
+X-Google-Smtp-Source: ABdhPJz8/p6IXPlhwfOmIFLJc3rweNG7wsVdft9QVM6g2UNGOxECgfrMdFD6Bhxm1ySa6xlaQxoW0bTsBpferjnjiCE=
+X-Received: by 2002:a05:6512:3ba3:: with SMTP id g35mr13415925lfv.651.1634325224740;
+ Fri, 15 Oct 2021 12:13:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <1634167668-60198-1-git-send-email-ashimida@linux.alibaba.com>
  <CAKwvOdkv70XDdK-k3n4ycFQsz+h7V-sTiH8RuxxaLofp-okweQ@mail.gmail.com> <722d9662-e27c-2efb-e8cf-d505b6950475@linux.alibaba.com>
 In-Reply-To: <722d9662-e27c-2efb-e8cf-d505b6950475@linux.alibaba.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 15 Oct 2021 12:10:49 -0700
-Message-ID: <CAKwvOdmfbcT5bWhm5zVhuBRjx4PxLXY8dKUCV0JFrSKRy1Bpwg@mail.gmail.com>
+Date:   Fri, 15 Oct 2021 12:13:33 -0700
+Message-ID: <CAKwvOdnMvBP-1=YbXTpYOgWqCBy44tUvWdtMXp8p485bYnPYNQ@mail.gmail.com>
 Subject: Re: [PATCH] [PATCH V4]ARM64: SCS: Add gcc plugin to support Shadow
  Call Stack
 To:     Dan Li <ashimida@linux.alibaba.com>
@@ -76,26 +76,102 @@ On Fri, Oct 15, 2021 at 11:29 AM Dan Li <ashimida@linux.alibaba.com> wrote:
 >
 >
 > On 10/15/21 2:44 AM, Nick Desaulniers wrote:
-> > Overall, I'm happy with the patch and am ready to ack it, but I would
-> > like to see a link to to the upstream GCC feature request for SCS (and
-> > one created if it doesn't exist) cited explicitly in the commit
-> > message.  I think that would be a good demonstration that this can or
-> > will be upstreamed into the compiler proper for the compiler vendors
-> > to maintain, rather than the kernel folks.  The compiler vendors may
-> > have further feedback on the approach, such as my question above
-> > pertaining to inlining.
+> >   On Wed, Oct 13, 2021 at 4:28 PM Dan Li <ashimida@linux.alibaba.com> wrote:
+> >> --- a/include/linux/compiler-gcc.h
+> >> +++ b/include/linux/compiler-gcc.h
+> >> @@ -50,6 +50,10 @@
+> >>   #define __latent_entropy __attribute__((latent_entropy))
+> >>   #endif
+> >>
+> >> +#if defined(SHADOW_CALL_STACK_PLUGIN) && !defined(__CHECKER__)
+> >> +#define __noscs __attribute__((no_shadow_call_stack))
+> >> +#endif
 > >
-> I have submitted a feature request to the gcc community, and waiting
-> for a follow-up response.
+> > Cool this is a nice addition, and something I don't think that clang
+> > has.  For any new feature, having a function attribute to disable it
+> > at the function granularity is nice, and plays better with LTO than -f
+> > group flags.  Though that begs the question: what happens if a __noscs
+> > callee is inlined into a non-__noscs caller, or vice versa?
+> Thanks Nick,
 >
-> Is it fine to add the following description in [PATCH V5]?
+> According to my understanding, all inline optimizations in gcc should
+> happen before inserting scs insns (scs and paciasp/autiasp use the
+> same insertion point). Therefore, the check for the __noscs attribute
+> will also occur after all inlining is completed.
 >
-> A similar feature request has also been sent to gcc.
-> link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102768
+> As in the following example:
+> - Since __noscs attribute is specified, scs_test1 does not insert scs insns
+> - Since normal functions scs_test2/3 uses x30, it needs to insert scs insns
+> - Since __noscs attribute is specified, scs_test4 after inlining does not
+> need to insert scs insns
+>
+> __always_inline __noscs void scs_test1(void)
+> {
+>      asm volatile("mov x1, x1\n\t":::"x30");
+> }
+>
+> //scs insns inserted after function inline
+> void scs_test2(void)
+> {
+>      scs_test1();
+> }
 
-Yes, and you can include
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-too.
+That may be surprising to developers.  Perhaps __always_inline on
+scs_test1 is distracting this test case, but I suspect it may not make
+a difference.  This particular issue comes up time and again with
+stack protectors; ie. the callee is marked no stack protector, then
+gets inlined into a caller and suddenly gets a stack protector.
+
+>
+> __always_inline void scs_test3(void)
+> {
+>      asm volatile("mov x3, x3\n\t":::"x30");
+> }
+>
+> //no scs insns inserted
+> __noscs void scs_test4(void)
+> {
+>      scs_test3();
+> }
+>
+> ffff800010012900 <scs_test1>:
+> ffff800010012900:       a9bf7bfd        stp     x29, x30, [sp, #-16]!
+> ffff800010012904:       910003fd        mov     x29, sp
+> ffff800010012908:       aa0103e1        mov     x1, x1
+> ffff80001001290c:       a8c17bfd        ldp     x29, x30, [sp], #16
+> ffff800010012910:       d65f03c0        ret
+>
+> ffff800010012914 <scs_test2>:
+> ffff800010012914:       f800865e        str     x30, [x18], #8
+> ffff800010012918:       a9bf7bfd        stp     x29, x30, [sp, #-16]!
+> ffff80001001291c:       910003fd        mov     x29, sp
+> ffff800010012920:       aa0103e1        mov     x1, x1
+> ffff800010012924:       a8c17bfd        ldp     x29, x30, [sp], #16
+> ffff800010012928:       f85f8e5e        ldr     x30, [x18, #-8]!
+> ffff80001001292c:       d65f03c0        ret
+>
+> ffff800010012930 <scs_test3>:
+> ffff800010012930:       f800865e        str     x30, [x18], #8
+> ffff800010012934:       a9bf7bfd        stp     x29, x30, [sp, #-16]!
+> ffff800010012938:       910003fd        mov     x29, sp
+> ffff80001001293c:       aa0303e3        mov     x3, x3
+> ffff800010012940:       a8c17bfd        ldp     x29, x30, [sp], #16
+> ffff800010012944:       f85f8e5e        ldr     x30, [x18, #-8]!
+> ffff800010012948:       d65f03c0        ret
+> ffff80001001294c:       d503201f        nop
+>
+> ffff800010012950 <scs_test4>:
+> ffff800010012950:       a9bf7bfd        stp     x29, x30, [sp, #-16]!
+> ffff800010012954:       910003fd        mov     x29, sp
+> ffff800010012958:       aa0303e3        mov     x3, x3
+> ffff80001001295c:       a8c17bfd        ldp     x29, x30, [sp], #16
+> ffff800010012960:       d65f03c0        ret
+> > I noticed that __noscs isn't actually applied anywhere in the kernel,
+> > yet, at least in this series.  Were there any places necessary that
+> > you've found thus far?
+> At present, I have not found a function that must use the __noscs
+> attribute in the kernel. I have only used this attribute in test cases.
+
 
 -- 
 Thanks,
