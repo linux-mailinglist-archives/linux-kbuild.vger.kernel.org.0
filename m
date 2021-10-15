@@ -2,182 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB67C42FD3D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Oct 2021 23:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4CB942FDA8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Oct 2021 23:52:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234323AbhJOVLq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Oct 2021 17:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234257AbhJOVLp (ORCPT
+        id S238707AbhJOVyR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Oct 2021 17:54:17 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:60782 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229921AbhJOVyR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Oct 2021 17:11:45 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93F0C061570;
-        Fri, 15 Oct 2021 14:09:38 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id r134so9173265iod.11;
-        Fri, 15 Oct 2021 14:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=YNpQQVSWroKAuwC5UuKPiU7mURzWsyubKVyYeWLs8+g=;
-        b=oi1+0T20an49s5CDeWeeJydx7NnCyGlYcNCY8HrZXBcSv9xoZQQnFi9ywLRriPGdr6
-         qudl1OOjImSiBDWFed1YW6Id5h2UY45MqQn0rh0hsk10se0Ow3NtdmoYie6Wf/A+T9+t
-         orjszynzQ0gDabjt6gvL/77sYF83TQRQwNwRToZNsOU6pNZMXKXBZD9iJkXBvZTbuOMN
-         PL45gIzU8Jv9zN1hciWKxGKdY6LFjNec0ymQq4byhP34RPVWS0JiPQyOhUTt8d2Sww9e
-         6sJ1Eks+EnGj8i2ownluYmcU3kQwoGc4wzPLYh00SzycqEO81Dumx6K5WQVbh82NDcMs
-         d57A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=YNpQQVSWroKAuwC5UuKPiU7mURzWsyubKVyYeWLs8+g=;
-        b=Nvb77/R2UC361LRYuzGuYqJERI2XJhm4M3LzkCdnvIBnEmlyEPD9GPugZBtXF5+2zW
-         0CKMJw8hJ0RQH1PNZNgTfOHbVGmxoMeI7F5fPiA3MrLFt8fE1ZmegQHOpWgHFveb0lxu
-         SQg0CP5r9DXuX0MoRaCJeseOmldrGChazh8tfDNOZi07mxWcv7wGIHjR5OmQ4pXlkdl9
-         lMTtq4zlSjVcbg2T4ulSt399JKxqUSev6QGJVv2NJmP+CEhmI5Y0Pm6L23MmzMmIihH4
-         txhXOIyHWdedE7p2zh7cuRh8XV1VLW7PWdcmAhS5POcJETbbCjLks6hP4GBkW3+aesiV
-         C+Rg==
-X-Gm-Message-State: AOAM531iIA+gTccFPqeYuXAYAm6munEjYTufeUCQf72XrqDAyjWfxXWw
-        qQxS+m01s8F3l8+fm3BQvB4lrrR5pDJoLLfab3o=
-X-Google-Smtp-Source: ABdhPJwNHMuJdFv5OsLXSbaXl6t1UaleaMHzJy6EthxddRG46f4m4rR0YdTy2mlgiRyrZDlIM8Rf+ky5htBI36XHwA4=
-X-Received: by 2002:a05:6638:1192:: with SMTP id f18mr9632310jas.114.1634332178263;
- Fri, 15 Oct 2021 14:09:38 -0700 (PDT)
+        Fri, 15 Oct 2021 17:54:17 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=28;SR=0;TI=SMTPD_---0UsFO8L2_1634334723;
+Received: from ashimida.local(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0UsFO8L2_1634334723)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sat, 16 Oct 2021 05:52:05 +0800
+Subject: Re: [PATCH] [PATCH V4]ARM64: SCS: Add gcc plugin to support Shadow
+ Call Stack
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        catalin.marinas@arm.com, will@kernel.org, keescook@chromium.org,
+        nathan@kernel.org, tglx@linutronix.de, akpm@linux-foundation.org,
+        samitolvanen@google.com, frederic@kernel.org, rppt@kernel.org,
+        mark.rutland@arm.com, yifeifz2@illinois.edu, rostedt@goodmis.org,
+        viresh.kumar@linaro.org, andreyknvl@gmail.com,
+        colin.king@canonical.com, ojeda@kernel.org,
+        luc.vanoostenryck@gmail.com, elver@google.com,
+        nivedita@alum.mit.edu, ardb@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hardening@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <1634167668-60198-1-git-send-email-ashimida@linux.alibaba.com>
+ <CAKwvOdkv70XDdK-k3n4ycFQsz+h7V-sTiH8RuxxaLofp-okweQ@mail.gmail.com>
+ <722d9662-e27c-2efb-e8cf-d505b6950475@linux.alibaba.com>
+ <CAKwvOdnMvBP-1=YbXTpYOgWqCBy44tUvWdtMXp8p485bYnPYNQ@mail.gmail.com>
+From:   Dan Li <ashimida@linux.alibaba.com>
+Message-ID: <d1873b11-2aa2-d08c-921c-0a28c4edd33f@linux.alibaba.com>
+Date:   Sat, 16 Oct 2021 05:52:03 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20211012032503.459821-1-masahiroy@kernel.org>
-In-Reply-To: <20211012032503.459821-1-masahiroy@kernel.org>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 15 Oct 2021 23:09:01 +0200
-Message-ID: <CA+icZUV=XTDSiZQwg7=kMkqkS1hyST_yqAwm+6Zd3_X6ApHbbA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: split DEBUG_CFLAGS out to scripts/Makefile.debug
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKwvOdnMvBP-1=YbXTpYOgWqCBy44tUvWdtMXp8p485bYnPYNQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 5:25 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> To slim down the top Makefile, split out the code block surrounded by
-> ifdef CONFIG_DEBUG_INFO ... endif.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Nice.
 
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+On 10/16/21 3:13 AM, Nick Desaulniers wrote:
+> On Fri, Oct 15, 2021 at 11:29 AM Dan Li <ashimida@linux.alibaba.com> wrote:
+>>
+>>
+>>
+>> On 10/15/21 2:44 AM, Nick Desaulniers wrote:
+>>>    On Wed, Oct 13, 2021 at 4:28 PM Dan Li <ashimida@linux.alibaba.com> wrote:
+>>>> --- a/include/linux/compiler-gcc.h
+>>>> +++ b/include/linux/compiler-gcc.h
+>>>> @@ -50,6 +50,10 @@
+>>>>    #define __latent_entropy __attribute__((latent_entropy))
+>>>>    #endif
+>>>>
+>>>> +#if defined(SHADOW_CALL_STACK_PLUGIN) && !defined(__CHECKER__)
+>>>> +#define __noscs __attribute__((no_shadow_call_stack))
+>>>> +#endif
+>>>
+>>> Cool this is a nice addition, and something I don't think that clang
+>>> has.  For any new feature, having a function attribute to disable it
+>>> at the function granularity is nice, and plays better with LTO than -f
+>>> group flags.  Though that begs the question: what happens if a __noscs
+>>> callee is inlined into a non-__noscs caller, or vice versa?
+>> Thanks Nick,
+>>
+>> According to my understanding, all inline optimizations in gcc should
+>> happen before inserting scs insns (scs and paciasp/autiasp use the
+>> same insertion point). Therefore, the check for the __noscs attribute
+>> will also occur after all inlining is completed.
+>>
+>> As in the following example:
+>> - Since __noscs attribute is specified, scs_test1 does not insert scs insns
+>> - Since normal functions scs_test2/3 uses x30, it needs to insert scs insns
+>> - Since __noscs attribute is specified, scs_test4 after inlining does not
+>> need to insert scs insns
+>>
+>> __always_inline __noscs void scs_test1(void)
+>> {
+>>       asm volatile("mov x1, x1\n\t":::"x30");
+>> }
+>>
+>> //scs insns inserted after function inline
+>> void scs_test2(void)
+>> {
+>>       scs_test1();
+>> }
+> 
+> That may be surprising to developers.  Perhaps __always_inline on
+> scs_test1 is distracting this test case, but I suspect it may not make
+> a difference.  This particular issue comes up time and again with
+> stack protectors; ie. the callee is marked no stack protector, then
+> gets inlined into a caller and suddenly gets a stack protector.
+>
+Yes.
 
-- Sedat -
+I haven’t noticed this issue. I just took a quick look at the stack
+canary code, and found that the instructions are generated in the
+RTL stage like scs/pac (AST => GIMPLE => RTL => asm output), and
+the inlining should have been completed before this.
 
-> ---
->
->  Makefile               | 39 +--------------------------------------
->  scripts/Makefile.debug | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 38 deletions(-)
->  create mode 100644 scripts/Makefile.debug
->
-> diff --git a/Makefile b/Makefile
-> index ee5896261d2f..8e3224470dc1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -847,44 +847,6 @@ ifdef CONFIG_ZERO_CALL_USED_REGS
->  KBUILD_CFLAGS  += -fzero-call-used-regs=used-gpr
->  endif
->
-> -DEBUG_CFLAGS   :=
-> -
-> -ifdef CONFIG_DEBUG_INFO
-> -
-> -ifdef CONFIG_DEBUG_INFO_SPLIT
-> -DEBUG_CFLAGS   += -gsplit-dwarf
-> -else
-> -DEBUG_CFLAGS   += -g
-> -endif
-> -
-> -ifndef CONFIG_AS_IS_LLVM
-> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> -endif
-> -
-> -ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> -dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
-> -DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> -endif
-> -
-> -ifdef CONFIG_DEBUG_INFO_REDUCED
-> -DEBUG_CFLAGS   += -fno-var-tracking
-> -ifdef CONFIG_CC_IS_GCC
-> -DEBUG_CFLAGS   += -femit-struct-debug-baseonly
-> -endif
-> -endif
-> -
-> -ifdef CONFIG_DEBUG_INFO_COMPRESSED
-> -DEBUG_CFLAGS   += -gz=zlib
-> -KBUILD_AFLAGS  += -gz=zlib
-> -KBUILD_LDFLAGS += --compress-debug-sections=zlib
-> -endif
-> -
-> -endif # CONFIG_DEBUG_INFO
-> -
-> -KBUILD_CFLAGS += $(DEBUG_CFLAGS)
-> -export DEBUG_CFLAGS
-> -
->  ifdef CONFIG_FUNCTION_TRACER
->  ifdef CONFIG_FTRACE_MCOUNT_USE_CC
->    CC_FLAGS_FTRACE      += -mrecord-mcount
-> @@ -1033,6 +995,7 @@ KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
->
->  # include additional Makefiles when needed
->  include-y                      := scripts/Makefile.extrawarn
-> +include-$(CONFIG_DEBUG_INFO)   += scripts/Makefile.debug
->  include-$(CONFIG_KASAN)                += scripts/Makefile.kasan
->  include-$(CONFIG_KCSAN)                += scripts/Makefile.kcsan
->  include-$(CONFIG_UBSAN)                += scripts/Makefile.ubsan
-> diff --git a/scripts/Makefile.debug b/scripts/Makefile.debug
-> new file mode 100644
-> index 000000000000..9f39b0130551
-> --- /dev/null
-> +++ b/scripts/Makefile.debug
-> @@ -0,0 +1,33 @@
-> +DEBUG_CFLAGS   :=
-> +
-> +ifdef CONFIG_DEBUG_INFO_SPLIT
-> +DEBUG_CFLAGS   += -gsplit-dwarf
-> +else
-> +DEBUG_CFLAGS   += -g
-> +endif
-> +
-> +ifndef CONFIG_AS_IS_LLVM
-> +KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> +endif
-> +
-> +ifndef CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
-> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
-> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
-> +endif
-> +
-> +ifdef CONFIG_DEBUG_INFO_REDUCED
-> +DEBUG_CFLAGS   += -fno-var-tracking
-> +ifdef CONFIG_CC_IS_GCC
-> +DEBUG_CFLAGS   += -femit-struct-debug-baseonly
-> +endif
-> +endif
-> +
-> +ifdef CONFIG_DEBUG_INFO_COMPRESSED
-> +DEBUG_CFLAGS   += -gz=zlib
-> +KBUILD_AFLAGS  += -gz=zlib
-> +KBUILD_LDFLAGS += --compress-debug-sections=zlib
-> +endif
-> +
-> +KBUILD_CFLAGS += $(DEBUG_CFLAGS)
-> +export DEBUG_CFLAGS
-> --
-> 2.30.2
->
+Generally, instructions that are sensitive to assembly order can
+only be inserted during RTL, otherwise their order is difficult to
+guarantee. I think this may be the reason why the similar problem
+always appears.
