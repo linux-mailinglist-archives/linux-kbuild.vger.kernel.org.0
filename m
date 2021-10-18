@@ -2,68 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94CF64328A2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Oct 2021 22:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C92C64328EC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Oct 2021 23:15:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhJRUyd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Oct 2021 16:54:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52408 "EHLO
+        id S229674AbhJRVRN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Oct 2021 17:17:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhJRUyc (ORCPT
+        with ESMTP id S233730AbhJRVRM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Oct 2021 16:54:32 -0400
+        Mon, 18 Oct 2021 17:17:12 -0400
 Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D2FC06161C;
-        Mon, 18 Oct 2021 13:52:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33982C06161C;
+        Mon, 18 Oct 2021 14:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ZV5+WcCEKk90ojpXM/Oql5rLKslHw/tmipq6bTY9rn8=; b=ycMUFEsjkqUPB4ncHsCJB+IHFK
-        XRKYg4ag3GWc/xw/zHMblCYs/27Wrp9RnHIgrYEFznE2ZSdqefZE/WhclnstlUtoeRfKxhLdW0d2P
-        RmS/8MFTaPaw111dlZ/EMWkgFjG3T0uOAbcSMyN1ZeFPvjmayoUHuJX3wghntVmzPUVvuudXfG06h
-        9ghxu/n7+rR+wAQHD/zyUCjrx+uqdLmzGHJ8aSAzqPHRnPTI1XmQNcw6Tgmh3FoD/yToM81aKpj95
-        j7Wgl6fmEh/WaxLmuT3ntpnO9uBrt2qM5RtJY7V6KZ3qn1UO/yR1cve1J229lVf98Uznj0PlzVy/N
-        XxKy7dFg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mcZcH-00HFWp-Lo; Mon, 18 Oct 2021 20:52:17 +0000
-Date:   Mon, 18 Oct 2021 13:52:17 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=3dv8mkMWsgCVE8kAOdL+ki0THnK3KShualtOVVGyBhA=; b=xv3c+rLvuXJ93/BRgWH/bdzgZe
+        AxoPWZE60XMt4MnHp995KEieE603qV72iNC6tGJrHWymj5Enmx+zmwuS58Z3SfEesvcjLA9ztJZAc
+        5GpbM0UDGtJBv8GMtHxfQ0jDtGQSP/iLhs55pkiLoi9OJma7mZ5U2YTNgNwwcp3KIb+S5bUF8yQFe
+        YQ7lBDDS+uNEyGV/ILw2g23CZOAXZ/1s12uEkR/2kV72PcYzcWmTyRzU4SDPLcIHCJFZ2zf19lDQR
+        gBVK7XMs/uOnMo8paq/msFK7KmMxSIVDAKS/ZKD4q2lNLeoA/eg7gM2Bjv6aLDb98XbUzXBuRjjPC
+        fzfyUdsg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mcZyG-00HJ10-Ij; Mon, 18 Oct 2021 21:15:00 +0000
+Subject: Re: linux-next: Tree for Oct 18 ('make' error on ARCH=um)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: Kconfig issue with LOG_CPU_MAX_BUF_SHIFT + BASE_SMALL
-Message-ID: <YW3egZRCwQPsnuMM@bombadil.infradead.org>
-References: <f6856be8-54b7-0fa0-1d17-39632bf29ada@oracle.com>
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>
+References: <20211018203023.036d8362@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a1b2bdda-d1cf-807b-6a84-73a3e347639c@infradead.org>
+Date:   Mon, 18 Oct 2021 14:14:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6856be8-54b7-0fa0-1d17-39632bf29ada@oracle.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <20211018203023.036d8362@canb.auug.org.au>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 11:21:22AM +0200, Vegard Nossum wrote:
-> The most straightforward fix seems to be change init/Kconfig and
-> LOG_CPU_MAX_BUF_SHIFT to say:
+On 10/18/21 2:30 AM, Stephen Rothwell wrote:
+> Hi all,
 > 
->   default 12 if BASE_SMALL=0
->   default 0 if BASE_SMALL!=0
+> Changes since 20211015:
+> 
 
-Thanks for reporting! Please feel free to send a patch with a Fixes
-annotation.
+UML (arch=um) with SUBARCH of i386 or x86_64,
+using gcc, not clang:
 
-> In fact, I'm not sure what the point of BASE_SMALL is in the first
-> place. Should we get rid of it altogether? (git blame says it's been
-> there since the initial commit.)
+make[1]: Entering directory '/work/lnx/next/linux-next-20211018/UM64'
+../scripts/Makefile.clang:19: *** Specify CROSS_COMPILE or add '--target=' option to scripts/Makefile.clang.  Stop.
+make[1]: Leaving directory '/work/lnx/next/linux-next-20211018/UM64'
+make: *** [Makefile:226: __sub-make] Error 2
 
-That's just the inverse of BASE_FULL, if you'd like to remove BASE_SMALL
-take it up with the folks with added BASE_FULL, but I have a feeling
-that may not be something they are up for.
 
-  Luis
+Just use a make target of defconfig:
+
+make ARCH=um SUBARCH=x86_64 O=UM64 defconfig
+
+-- 
+~Randy
