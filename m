@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27066434825
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 11:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6F7A43482B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 11:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbhJTJsG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Oct 2021 05:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42478 "EHLO
+        id S230029AbhJTJtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Oct 2021 05:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbhJTJsF (ORCPT
+        with ESMTP id S229632AbhJTJtG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Oct 2021 05:48:05 -0400
-Received: from out3.mail.ruhr-uni-bochum.de (out3.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:8:1001::8693:359b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D64C06161C
-        for <linux-kbuild@vger.kernel.org>; Wed, 20 Oct 2021 02:45:51 -0700 (PDT)
-Received: from mx3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by out3.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HZ5Mf0dykz8SB1;
-        Wed, 20 Oct 2021 11:45:50 +0200 (CEST)
+        Wed, 20 Oct 2021 05:49:06 -0400
+Received: from out1.mail.ruhr-uni-bochum.de (out1.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:8:1001::8693:3595])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E907EC06161C
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Oct 2021 02:46:51 -0700 (PDT)
+Received: from mx1.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by out1.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HZ5Np4tmMz8S6W;
+        Wed, 20 Oct 2021 11:46:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rub.de; s=mail-2017;
-        t=1634723150; bh=5SQfu9IzddQVcJkR9bXghCWcsgSu/q0P9JH0yd2ui/Y=;
+        t=1634723210; bh=roT9zTzwyw8G/G65efyW2SFc7r0pJ9I7dEDFal3bM9M=;
         h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=pDUf/gS3LuGzTD/tEs1Gq+MjLCFPQQbaOCh+ZZuvzmGyFZfE+m5Zy/WueKLKXLAIe
-         F+U72GTCxMf5XHIZxzxTnarfRDBilvka6BlhH3P5ZVAwEKFVtSMXLeoX8u80quUQv4
-         decA+20GtkVfGLXcGlC7lXAxxQ3GEx6ggULck+BY=
-Received: from out3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by mx3.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HZ5Md6vXSz8S9w;
-        Wed, 20 Oct 2021 11:45:49 +0200 (CEST)
+        b=sNIB2n6yiZZTNmOvzoWENoaTGUcWN4JRXd0WpbDAh6SZRvqhTct48SpVVt6Kvho/J
+         x8hvAlFtqv0rIsqT3neYj+4ZNAOqg97k+N0pI+YzfriN1kXwYfPLR0rlJvTO0p9iTr
+         jQkyEJYXsm1dpYU0ZBhbQLGHX+0VBP0n/fR3nN+8=
+Received: from out1.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by mx1.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HZ5Np3rnnz8S4S;
+        Wed, 20 Oct 2021 11:46:50 +0200 (CEST)
+X-RUB-Notes: Internal origin=IPv6:2a05:3e00:c:1001::8693:2aec
 X-Envelope-Sender: <thorsten.berger@rub.de>
-X-RUB-Notes: Internal origin=134.147.42.236
-Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [134.147.42.236])
-        by out3.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HZ5Md5J2sz8S7h;
-        Wed, 20 Oct 2021 11:45:49 +0200 (CEST)
+Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2aec])
+        by out1.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HZ5Np2F1Xz8S6R;
+        Wed, 20 Oct 2021 11:46:50 +0200 (CEST)
 X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.1 at mx3.mail.ruhr-uni-bochum.de
+X-Virus-Scanned: clamav-milter 0.103.1 at mx1.mail.ruhr-uni-bochum.de
 Received: from [192.168.188.22] (unknown [5.63.49.65])
-        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HZ5Md2b5qzDgys;
-        Wed, 20 Oct 2021 11:45:49 +0200 (CEST)
+        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HZ5Nn6Y5GzDgyn;
+        Wed, 20 Oct 2021 11:46:49 +0200 (CEST)
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.103.0 at mail2.mail.ruhr-uni-bochum.de
-Message-ID: <492928ed-2c67-de0c-7f22-996795bf9cb3@rub.de>
-Date:   Wed, 20 Oct 2021 11:45:47 +0200
+Message-ID: <f9d744b3-5c49-f9c4-cc25-73770d18f1ac@rub.de>
+Date:   Wed, 20 Oct 2021 11:46:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: [RFC 09/12] Add files with utility functions
+Subject: [RFC 10/12] Add tools
 Content-Language: en-US
 From:   Thorsten Berger <thorsten.berger@rub.de>
 To:     linux-kbuild@vger.kernel.org
@@ -71,22 +71,204 @@ Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 
 ---
- scripts/kconfig/cf_satutils.c | 536 ++++++++++++++++++++++++++++++++++
- scripts/kconfig/cf_satutils.h |  30 ++
- scripts/kconfig/cf_utils.c    | 510 ++++++++++++++++++++++++++++++++
- scripts/kconfig/cf_utils.h    |  90 ++++++
- 4 files changed, 1166 insertions(+)
- create mode 100644 scripts/kconfig/cf_satutils.c
- create mode 100644 scripts/kconfig/cf_satutils.h
- create mode 100644 scripts/kconfig/cf_utils.c
- create mode 100644 scripts/kconfig/cf_utils.h
+ scripts/kconfig/cfconfig.c    | 176 ++++++++++++++
+ scripts/kconfig/cfoutconfig.c | 128 +++++++++++
+ scripts/kconfig/configfix.c   | 420 ++++++++++++++++++++++++++++++++++
+ scripts/kconfig/configfix.h   |  41 ++++
+ 4 files changed, 765 insertions(+)
+ create mode 100644 scripts/kconfig/cfconfig.c
+ create mode 100644 scripts/kconfig/cfoutconfig.c
+ create mode 100644 scripts/kconfig/configfix.c
+ create mode 100644 scripts/kconfig/configfix.h
 
-diff --git a/scripts/kconfig/cf_satutils.c b/scripts/kconfig/cf_satutils.c
+diff --git a/scripts/kconfig/cfconfig.c b/scripts/kconfig/cfconfig.c
 new file mode 100644
-index 000000000000..84d8c46ad686
+index 000000000000..105bdf5d3f4e
 --- /dev/null
-+++ b/scripts/kconfig/cf_satutils.c
-@@ -0,0 +1,536 @@
++++ b/scripts/kconfig/cfconfig.c
+@@ -0,0 +1,176 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
++ */
++
++#define _GNU_SOURCE
++#include <assert.h>
++#include <locale.h>
++#include <stdarg.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <time.h>
++#include <unistd.h>
++
++#include "configfix.h"
++
++static struct symbol * read_symbol_from_stdin(void);
++static struct symbol_dvalue * sym_create_sdv(struct symbol *sym, char *input);
++static void handle_fixes(struct sfl_list *diag);
++
++/* -------------------------------------- */
++
++int main(int argc, char *argv[])
++{
++    CFDEBUG = true;
++
++    if (argc > 1 && !strcmp(argv[1], "-s")) {
++        printd("\nHello configfix!\n\n");
++
++        run_satconf_cli(argv[2]);
++        return EXIT_SUCCESS;
++    }
++
++    printd("\nCLI for configfix!\n");
++
++    init_config(argv[1]);
++
++    struct sfl_list *diagnoses;
++    struct sdv_list *symbols;
++
++    while(1) {
++        /* create the array */
++        symbols = sdv_list_init();
++
++        /* ask for user input */
++        struct symbol *sym = read_symbol_from_stdin();
++
++        printd("Found symbol %s, type %s\n\n", sym->name, sym_type_name(sym->type));
++        printd("Current value: %s\n", sym_get_string_value(sym));
++        printd("Desired value: ");
++
++        char input[100];
++        fgets(input, 100, stdin);
++        strtok(input, "\n");
++
++        struct symbol_dvalue *sdv = sym_create_sdv(sym, input);
++        sdv_list_add(symbols, sdv);
++
++        diagnoses = run_satconf(symbols);
++        handle_fixes(diagnoses);
++    }
++
++    return EXIT_SUCCESS;
++}
++
++/*
++ * read a symbol name from stdin
++ */
++static struct symbol * read_symbol_from_stdin(void)
++{
++    char input[100];
++    struct symbol *sym = NULL;
++
++    printd("\n");
++    while (sym == NULL) {
++        printd("Enter symbol name: ");
++        fgets(input, 100, stdin);
++        strtok(input, "\n");
++        sym = sym_find(input);
++    }
++
++    return sym;
++}
++
++/*
++ * create a symbol_dvalue struct containing the symbol and the desired value
++ */
++static struct symbol_dvalue * sym_create_sdv(struct symbol *sym, char *input)
++{
++    struct symbol_dvalue *sdv = malloc(sizeof(struct symbol_dvalue));
++    sdv->sym = sym;
++    sdv->type = sym_is_boolean(sym) ? SDV_BOOLEAN : SDV_NONBOOLEAN;
++
++    if (sym_is_boolean(sym)) {
++        if (strcmp(input, "y") == 0)
++            sdv->tri = yes;
++        else if (strcmp(input, "m") == 0)
++            sdv->tri = mod;
++        else if (strcmp(input, "n") == 0)
++            sdv->tri = no;
++        else
++            perror("Not a valid tristate value.");
++
++        /* sanitize input for booleans */
++        if (sym->type == S_BOOLEAN && sdv->tri == mod)
++            sdv->tri = yes;
++    } else if (sym_is_nonboolean(sym)) {
++        sdv->nb_val = str_new();
++        str_append(&sdv->nb_val, input);
++    }
++
++    return sdv;
++}
++
++/*
++ * print the diagnoses of type symbol_fix
++ */
++static void print_diagnoses_symbol(struct sfl_list *diag_sym)
++{
++    struct sfl_node *arr;
++    unsigned int i = 1;
++
++    sfl_list_for_each(arr, diag_sym) {
++        printd(" %d: ", i++);
++        print_diagnosis_symbol(arr->elem);
++    }
++}
++
++static void apply_all_adiagnoses(struct sfl_list *diag) {
++    printd("Applying all diagnoses now...\n");
++
++    unsigned int counter = 1;
++    struct sfl_node *node;
++    sfl_list_for_each(node, diag) {
++        printd("\nDiagnosis %d:\n", counter++);
++        apply_fix(node->elem);
++
++        printd("\nResetting config.\n");
++        conf_read(NULL);
++    }
++}
++
++/*
++ * print all void print_fixes()
++ */
++static void handle_fixes(struct sfl_list *diag)
++{
++    printd("=== GENERATED DIAGNOSES ===\n");
++    printd("-1: No changes wanted\n");
++    printd(" 0: Apply all diagnoses\n");
++    print_diagnoses_symbol(diag);
++
++    int choice;
++    printd("\n> Choose option: ");
++    scanf("%d", &choice);
++
++    if (choice == -1 || choice > diag->size)
++        return;
++
++    if (choice == 0) {
++        apply_all_adiagnoses(diag);
++        return;
++    }
++
++    unsigned int counter;
++    struct sfl_node *node = diag->head;
++    for (counter = 1; counter < choice; counter++)
++        node = node->next;
++
++    apply_fix(node->elem);
++
++    printd("\nResetting config.\n");
++    conf_read(NULL);
++}
+diff --git a/scripts/kconfig/cfoutconfig.c b/scripts/kconfig/cfoutconfig.c
+new file mode 100644
+index 000000000000..4164e25e66aa
+--- /dev/null
++++ b/scripts/kconfig/cfoutconfig.c
+@@ -0,0 +1,128 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
@@ -105,1171 +287,588 @@ index 000000000000..84d8c46ad686
 +
 +#include "configfix.h"
 +
-+static void unfold_cnf_clause(struct pexpr *e);
-+static void build_cnf_tseytin(struct pexpr *e);
++#define OUTFILE_CONSTRAINTS "./scripts/kconfig/cfout_constraints.txt"
++#define OUTFILE_DIMACS "./scripts/kconfig/cfout_constraints.dimacs"
 +
-+static void build_cnf_tseytin_top_and(struct pexpr *e);
-+static void build_cnf_tseytin_top_or(struct pexpr *e);
-+
-+static void build_cnf_tseytin_tmp(struct pexpr *e, struct fexpr *t);
-+static void build_cnf_tseytin_and(struct pexpr *e, struct fexpr *t);
-+static void build_cnf_tseytin_or(struct pexpr *e, struct fexpr *t);
-+static int pexpr_satval(struct pexpr *e);
-+
-+static PicoSAT *pico;
++static void write_constraints_to_file(void);
++static void write_dimacs_to_file(PicoSAT *pico);
 +
 +/* -------------------------------------- */
 +
-+/*
-+ * initialize PicoSAT
-+ */
-+PicoSAT * initialize_picosat(void)
++int main(int argc, char *argv[])
 +{
-+    printd("\nInitializing PicoSAT...");
++    clock_t start, end;
++    double time;
++
++    printf("\nCreating constraints and CNF clauses...");
++    /* measure time for constructing constraints and clauses */
++    start = clock();
++
++    /* parse Kconfig-file and read .config */
++    init_config(argv[1]);
++
++    /* initialize satmap and cnf_clauses */
++    init_data();
++
++    /* creating constants */
++    create_constants();
++
++    /* assign SAT variables & create sat_map */
++    assign_sat_variables();
++
++    /* get the constraints */
++    get_constraints();
++
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++
++    printd("done. (%.6f secs.)\n", time);
++
++    /* start PicoSAT */
 +    PicoSAT *pico = picosat_init();
 +    picosat_enable_trace_generation(pico);
-+    printd("done.\n");
++    printd("Building CNF-clauses...");
++    start = clock();
 +
-+    return pico;
++    /* construct the CNF clauses */
++    construct_cnf_clauses(pico);
++
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++    printf("done. (%.6f secs.)\n", time);
++
++    printf("\n");
++
++    /* write constraints into file */
++    start = clock();
++    printf("Writing constraints...");
++    write_constraints_to_file();
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++    printf("done. (%.6f secs.)\n", time);
++
++    /* write SAT problem in DIMACS into file */
++    start = clock();
++    printf("Writing SAT problem in DIMACS...");
++    write_dimacs_to_file(pico);
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++    printf("done. (%.6f secs.)\n", time);
++
++    printf("\nConstraints have been written into %s\n", OUTFILE_CONSTRAINTS);
++    printf("DIMACS-output has been written into %s\n", OUTFILE_DIMACS);
++
++    return 0;
 +}
 +
-+/*
-+ * construct the CNF-clauses from the constraints
-+ */
-+void construct_cnf_clauses(PicoSAT *p)
++static void write_constraints_to_file(void)
 +{
-+    pico = p;
++    FILE *fd = fopen(OUTFILE_CONSTRAINTS, "w");
 +    unsigned int i;
 +    struct symbol *sym;
 +
-+    /* adding unit-clauses for constants */
-+    sat_add_clause(2, pico, -(const_false->satval));
-+    sat_add_clause(2, pico, const_true->satval);
++    for_all_symbols(i, sym) {
++        if (sym->type == S_UNKNOWN) continue;
 +
++        struct pexpr_node *node;
++        pexpr_list_for_each(node, sym->constraints) {
++            struct gstr s = str_new();
++            pexpr_as_char(node->elem, &s, 0);
++            fprintf(fd, "%s\n", str_get(&s));
++            str_free(&s);
++        }
++    }
++    fclose(fd);
++}
++
++static void add_comment(FILE *fd, struct fexpr *e)
++{
++    fprintf(fd, "c %d %s\n", e->satval, str_get(&e->name));
++}
++
++static void write_dimacs_to_file(PicoSAT *pico)
++{
++    FILE *fd = fopen(OUTFILE_DIMACS, "w");
++
++    unsigned int i;
++    for (i = 1; i < sat_variable_nr; i++)
++        add_comment(fd, &satmap[i]);
++
++    picosat_print(pico, fd);
++    fclose(fd);
++}
+diff --git a/scripts/kconfig/configfix.c b/scripts/kconfig/configfix.c
+new file mode 100644
+index 000000000000..e226541e10f9
+--- /dev/null
++++ b/scripts/kconfig/configfix.c
+@@ -0,0 +1,420 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
++ */
++
++#define _GNU_SOURCE
++#include <assert.h>
++#include <locale.h>
++#include <stdarg.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <time.h>
++#include <unistd.h>
++
++#include "configfix.h"
++
++unsigned int sat_variable_nr = 1;
++unsigned int tmp_variable_nr = 1;
++
++struct fexpr *satmap;
++size_t satmap_size;
++
++struct sdv_list *sdv_symbols; /* array with conflict-symbols */
++
++bool CFDEBUG = false;
++bool stop_rangefix = false;
++
++struct fexpr *const_false; /* constant False */
++struct fexpr *const_true; /* constant True */
++struct fexpr *symbol_yes_fexpr; /* symbol_yes as fexpr */
++struct fexpr *symbol_mod_fexpr; /* symbol_mod as fexpr */
++struct fexpr *symbol_no_fexpr; /* symbol_no_as fexpr */
++
++static PicoSAT *pico;
++static bool init_done = false;
++static struct sym_list *conflict_syms;
++
++static bool sdv_within_range(struct sdv_list *symbols);
++
++/* -------------------------------------- */
++
++int run_satconf_cli(const char *Kconfig_file)
++{
++    clock_t start, end;
++    double time;
++
++    if (!init_done) {
++        printd("Init...");
++        /* measure time for constructing constraints and clauses */
++        start = clock();
++
++        /* parse Kconfig-file and read .config */
++        init_config(Kconfig_file);
++
++        /* initialize satmap and cnf_clauses */
++        init_data();
++
++        /* creating constants */
++        create_constants();
++
++        /* assign SAT variables & create sat_map */
++        assign_sat_variables();
++
++        /* get the constraints */
++        get_constraints();
++
++        /* print all symbols and its constraints */
++        //         print_all_symbols();
++
++        end = clock();
++        time = ((double)(end - start)) / CLOCKS_PER_SEC;
++
++        printd("done. (%.6f secs.)\n", time);
++
++        init_done = true;
++    }
++
++    /* start PicoSAT */
++    PicoSAT *pico = initialize_picosat();
++    printd("Building CNF-clauses...");
++    start = clock();
++
++    /* construct the CNF clauses */
++    construct_cnf_clauses(pico);
++
++    end = clock();
++    time = ((double)(end - start)) / CLOCKS_PER_SEC;
++
++    printd("done. (%.6f secs.)\n", time);
++
++    /* add assumptions for all other symbols */
++    printd("Adding assumptions...");
++    start = clock();
++
++    unsigned int i;
++    struct symbol *sym;
 +    for_all_symbols(i, sym) {
 +        if (sym->type == S_UNKNOWN)
 +            continue;
 +
-+        struct pexpr_node *node;
-+        pexpr_list_for_each(node, sym->constraints) {
-+            if (pexpr_is_cnf(node->elem))
-+                unfold_cnf_clause(node->elem);
-+            else
-+                build_cnf_tseytin(node->elem);
-+        }
++        if (!sym->name || !sym_has_prompt(sym))
++            continue;
++
++        sym_add_assumption(pico, sym);
++
 +    }
++
++    end = clock();
++    time = ((double)(end - start)) / CLOCKS_PER_SEC;
++
++    printd("done. (%.6f secs.)\n", time);
++
++    picosat_solve(pico);
++
++    printd("\n===> STATISTICS <===\n");
++    printd("Constraints  : %d\n", count_counstraints());
++    printd("CNF-clauses  : %d\n", picosat_added_original_clauses(pico));
++    printd("SAT-variables: %d\n", picosat_variables(pico));
++    printd("Temp vars    : %d\n", tmp_variable_nr - 1);
++    printd("PicoSAT time : %.6f secs.\n", picosat_seconds(pico));
++
++    return EXIT_SUCCESS;
 +}
 +
 +/*
-+ * helper function to add an expression to a CNF-clause
++ * called from satdvconfig
 + */
-+static void unfold_cnf_clause_util(struct pexpr *e)
++struct sfl_list *run_satconf(struct sdv_list *symbols)
 +{
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        picosat_add(pico, e->left.fexpr->satval);
-+        break;
-+    case PE_OR:
-+        unfold_cnf_clause_util(e->left.pexpr);
-+        unfold_cnf_clause_util(e->right.pexpr);
-+        break;
-+    case PE_NOT:
-+        picosat_add(pico, -(e->left.pexpr->left.fexpr->satval));
-+        break;
-+    default:
-+        perror("Not in CNF, FE_EQUALS.");
-+    }
-+}
-+
-+/*
-+ * extract the variables from a pexpr in CNF
-+ */
-+static void unfold_cnf_clause(struct pexpr *e)
-+{
-+    if (!pexpr_is_cnf(e))
-+        return;
-+
-+    unfold_cnf_clause_util(e);
-+
-+    picosat_add(pico, 0);
-+}
-+
-+/*
-+ * build CNF-clauses for a pexpr not in CNF
-+ */
-+static void build_cnf_tseytin(struct pexpr *e)
-+{
-+    switch (e->type) {
-+    case PE_AND:
-+        build_cnf_tseytin_top_and(e);
-+        break;
-+    case PE_OR:
-+        build_cnf_tseytin_top_or(e);
-+        break;
-+    default:
-+        perror("Expression not a propositional logic formula. root.");
-+    }
-+}
-+
-+/*
-+ * split up a pexpr of type AND as both sides must be satisfied
-+ */
-+static void build_cnf_tseytin_top_and(struct pexpr *e)
-+{
-+    if (pexpr_is_cnf(e->left.pexpr))
-+        unfold_cnf_clause(e->left.pexpr);
-+    else
-+        build_cnf_tseytin(e->left.pexpr);
-+
-+    if (pexpr_is_cnf(e->right.pexpr))
-+        unfold_cnf_clause(e->right.pexpr);
-+    else
-+        build_cnf_tseytin(e->right.pexpr);
-+
-+}
-+
-+static void build_cnf_tseytin_top_or(struct pexpr *e)
-+{
-+    struct fexpr *t1 = NULL, *t2 = NULL;
-+    int a, b;
-+
-+    /* set left side */
-+    if (pexpr_is_symbol(e->left.pexpr)) {
-+        a = pexpr_satval(e->left.pexpr);
-+    } else {
-+        t1 = create_tmpsatvar();
-+        a = t1->satval;
-+    }
-+
-+    /* set right side */
-+    if (pexpr_is_symbol(e->right.pexpr)) {
-+        b = pexpr_satval(e->right.pexpr);
-+    } else {
-+        t2 = create_tmpsatvar();
-+        b = t2->satval;
-+    }
-+
-+    /* A v B */
-+    sat_add_clause(3, pico, a, b);
-+
-+    /* traverse down the tree to build more constraints if needed */
-+    if (!pexpr_is_symbol(e->left.pexpr)) {
-+        if (t1 == NULL)
-+            perror("t1 is NULL.");
-+
-+        build_cnf_tseytin_tmp(e->left.pexpr, t1);
-+
-+    }
-+
-+    if (!pexpr_is_symbol(e->right.pexpr)) {
-+        if (t2 == NULL)
-+            perror("t2 is NULL.");
-+
-+        build_cnf_tseytin_tmp(e->right.pexpr, t2);
-+    }
-+}
-+
-+/*
-+ * build the sub-expressions
-+ */
-+static void build_cnf_tseytin_tmp(struct pexpr *e, struct fexpr *t)
-+{
-+    switch (e->type) {
-+    case PE_AND:
-+        build_cnf_tseytin_and(e, t);
-+        break;
-+    case PE_OR:
-+        build_cnf_tseytin_or(e, t);
-+        break;
-+    default:
-+        perror("Expression not a propositional logic formula. root.");
-+    }
-+}
-+
-+/*
-+ * build the Tseytin sub-expressions for a pexpr of type AND
-+ */
-+static void build_cnf_tseytin_and(struct pexpr *e, struct fexpr *t)
-+{
-+    struct fexpr *t1 = NULL, *t2 = NULL;
-+    int a, b, c;
-+
-+    /* set left side */
-+    if (pexpr_is_symbol(e->left.pexpr)) {
-+        a = pexpr_satval(e->left.pexpr);
-+    } else {
-+        t1 = create_tmpsatvar();
-+        a = t1->satval;
-+    }
-+
-+    /* set right side */
-+    if (pexpr_is_symbol(e->right.pexpr)) {
-+        b = pexpr_satval(e->right.pexpr);
-+    } else {
-+        t2 = create_tmpsatvar();
-+        b = t2->satval;
-+    }
-+
-+    c = t->satval;
-+
-+    /* -A v -B v C */
-+    sat_add_clause(4, pico, -a, -b, c);
-+    /* A v -C */
-+    sat_add_clause(3, pico, a, -c);
-+    /* B v -C */
-+    sat_add_clause(3, pico, b, -c);
-+
-+    /* traverse down the tree to build more constraints if needed */
-+    if (!pexpr_is_symbol(e->left.pexpr)) {
-+        if (t1 == NULL)
-+            perror("t1 is NULL.");
-+
-+        build_cnf_tseytin_tmp(e->left.pexpr, t1);
-+    }
-+    if (!pexpr_is_symbol(e->right.pexpr)) {
-+        if (t2 == NULL)
-+            perror("t2 is NULL.");
-+
-+        build_cnf_tseytin_tmp(e->right.pexpr, t2);
-+    }
-+}
-+
-+/*
-+ * build the Tseytin sub-expressions for a pexpr of type
-+ */
-+static void build_cnf_tseytin_or(struct pexpr *e, struct fexpr *t)
-+{
-+    struct fexpr *t1 = NULL, *t2 = NULL;
-+    int a, b, c;
-+
-+    /* set left side */
-+    if (pexpr_is_symbol(e->left.pexpr)) {
-+        a = pexpr_satval(e->left.pexpr);
-+    } else {
-+        t1 = create_tmpsatvar();
-+        a = t1->satval;
-+    }
-+
-+    /* set right side */
-+    if (pexpr_is_symbol(e->right.pexpr)) {
-+        b = pexpr_satval(e->right.pexpr);
-+    } else {
-+        t2 = create_tmpsatvar();
-+        b = t2->satval;
-+    }
-+
-+    c = t->satval;
-+
-+    /* A v B v -C */
-+    sat_add_clause(4, pico, a, b, -c);
-+    /* -A v C */;
-+    sat_add_clause(3, pico, -a, c);
-+    /* -B v C */
-+    sat_add_clause(3, pico, -b, c);
-+
-+    /* traverse down the tree to build more constraints if needed */
-+    if (!pexpr_is_symbol(e->left.pexpr)) {
-+        if (t1 == NULL)
-+            perror("t1 is NULL.");
-+
-+        build_cnf_tseytin_tmp(e->left.pexpr, t1);
-+    }
-+    if (!pexpr_is_symbol(e->right.pexpr)) {
-+        if (t2 == NULL)
-+            perror("t2 is NULL.");
-+        build_cnf_tseytin_tmp(e->right.pexpr, t2);
-+    }
-+}
-+
-+/*
-+ * add a clause to PicoSAT
-+ * First argument must be the SAT solver
-+ */
-+void sat_add_clause(int num, ...)
-+{
-+    if (num <= 1)
-+        return;
-+
-+    va_list valist;
-+    int i, *lit;
-+    PicoSAT *pico;
-+
-+
-+    va_start(valist, num);
-+
-+    pico = va_arg(valist, PicoSAT *);
-+
-+    /* access all the arguments assigned to valist */
-+    for (i = 1; i < num; i++) {
-+        lit = xmalloc(sizeof(int));
-+        *lit = va_arg(valist, int);
-+        picosat_add(pico, *lit);
-+    }
-+    picosat_add(pico, 0);
-+
-+    va_end(valist);
-+}
-+
-+/*
-+ * return the SAT-variable for a pexpr that is a symbol
-+ */
-+static int pexpr_satval(struct pexpr *e)
-+{
-+    if (!pexpr_is_symbol(e)) {
-+        perror("pexpr is not a symbol.");
-+        return -1;
-+    }
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        return e->left.fexpr->satval;
-+    case PE_NOT:
-+        return -(e->left.pexpr->left.fexpr->satval);
-+    default:
-+        perror("Not a symbol.");
-+    }
-+
-+    return -1;
-+}
-+
-+/*
-+ * start PicoSAT
-+ */
-+void picosat_solve(PicoSAT *pico)
-+{
-+    printd("Solving SAT-problem...");
-+
 +    clock_t start, end;
 +    double time;
++
++    /* check whether all values can be applied -> no need to run */
++    if (sdv_within_range(symbols)) {
++        printd("\nAll symbols are already within range.\n\n");
++        return sfl_list_init();
++    }
++
++    if (!init_done) {
++        printd("\n");
++        printd("Init...");
++
++        /* measure time for constructing constraints and clauses */
++        start = clock();
++
++        /* initialize satmap and cnf_clauses */
++        init_data();
++
++        /* creating constants */
++        create_constants();
++
++        /* assign SAT variables & create sat_map */
++        assign_sat_variables();
++
++        /* get the constraints */
++        get_constraints();
++
++        end = clock();
++        time = ((double)(end - start)) / CLOCKS_PER_SEC;
++
++        printd("done. (%.6f secs.)\n", time);
++
++        /* start PicoSAT */
++        pico = initialize_picosat();
++        printd("Building CNF-clauses...");
++        start = clock();
++
++        /* construct the CNF clauses */
++        construct_cnf_clauses(pico);
++
++        end = clock();
++        time = ((double)(end - start)) / CLOCKS_PER_SEC;
++
++        printd("done. (%.6f secs.)\n", time);
++
++        printd("CNF-clauses added: %d\n",
++               picosat_added_original_clauses(pico));
++
++        init_done = true;
++    }
++
++    /* copy array with symbols to change */
++    sdv_symbols = sdv_list_copy(symbols);
++
++    /* add assumptions for conflict-symbols */
++    sym_add_assumption_sdv(pico, sdv_symbols);
++
++    /* add assumptions for all other symbols */
++    struct symbol *sym;
++    unsigned int i;
++    for_all_symbols(i, sym) {
++        if (sym->type == S_UNKNOWN)
++            continue;
++
++        if (!sym_is_sdv(sdv_symbols, sym))
++            sym_add_assumption(pico, sym);
++    }
++
++    /* store the conflict symbols */
++    conflict_syms = sym_list_init();
++    struct sdv_node *node;
++    sdv_list_for_each(node, sdv_symbols)
++        sym_list_add(conflict_syms, node->elem->sym);
++
++    printd("Solving SAT-problem...");
 +    start = clock();
 +
 +    int res = picosat_sat(pico, -1);
 +
 +    end = clock();
-+    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++    time = ((double)(end - start)) / CLOCKS_PER_SEC;
 +    printd("done. (%.6f secs.)\n\n", time);
 +
++    struct sfl_list *ret;
 +    if (res == PICOSAT_SATISFIABLE) {
 +        printd("===> PROBLEM IS SATISFIABLE <===\n");
 +
++        ret = sfl_list_init();
++
 +    } else if (res == PICOSAT_UNSATISFIABLE) {
 +        printd("===> PROBLEM IS UNSATISFIABLE <===\n");
++        printd("\n");
 +
-+        /* print unsat core */
-+        printd("\nPrinting unsatisfiable core:\n");
-+        struct fexpr *e;
-+
-+        int *lit = malloc(sizeof(int));
-+        const int *i = picosat_failed_assumptions(pico);
-+        *lit = abs(*i++);
-+
-+        while (*lit != 0) {
-+            e = &satmap[*lit];
-+
-+            printd("(%d) %s <%d>\n", *lit, str_get(&e->name), e->assumption);
-+            *lit = abs(*i++);
-+        }
-+    }
-+    else {
-+        printd("Unknown if satisfiable.\n");
-+    }
-+}
-+
-+/*
-+ * add assumption for a symbol to the SAT-solver
-+ */
-+void sym_add_assumption(PicoSAT *pico, struct symbol *sym)
-+{
-+    if (sym_is_boolean(sym)) {
-+        int tri_val = sym_get_tristate_value(sym);
-+        sym_add_assumption_tri(pico, sym, tri_val);
-+        return;
-+    }
-+
-+    if (sym_is_nonboolean(sym)) {
-+        struct fexpr *e = sym->nb_vals->head->elem;
-+
-+        struct fexpr_node *node;
-+
-+        const char *string_val = sym_get_string_value(sym);
-+
-+        if (sym->type == S_STRING && !strcmp(string_val, ""))
-+            return;
-+
-+        /* symbol does not have a value */
-+        if (!sym_nonbool_has_value_set(sym)) {
-+
-+            /* set value for sym=n */
-+            picosat_assume(pico, e->satval);
-+            e->assumption = true;
-+
-+            struct fexpr_node *node;
-+            for (node = sym->nb_vals->head->next; node != NULL; node = node->next) {
-+                picosat_assume(pico, -(node->elem->satval));
-+                node->elem->assumption = false;
-+            }
-+
-+            return;
-+        }
-+
-+        /* symbol does have a value set */
-+
-+        /* set value for sym=n */
-+        picosat_assume(pico, -(e->satval));
-+        e->assumption = false;
-+
-+        /* set value for all other fexpr */
-+        fexpr_list_for_each(node, sym->nb_vals) {
-+            if (node->prev == NULL)
-+                continue;
-+
-+            if (strcmp(str_get(&node->elem->nb_val), string_val) == 0) {
-+                picosat_assume(pico, node->elem->satval);
-+                node->elem->assumption = true;
-+            } else {
-+                picosat_assume(pico, -(node->elem->satval));
-+                node->elem->assumption = false;
-+            }
-+        }
-+    }
-+}
-+
-+/*
-+ * add assumption for a boolean symbol to the SAT-solver
-+ */
-+void sym_add_assumption_tri(PicoSAT *pico, struct symbol *sym, tristate tri_val)
-+{
-+    if (sym->type == S_BOOLEAN) {
-+        int a = sym->fexpr_y->satval;
-+        switch (tri_val) {
-+        case no:
-+            picosat_assume(pico, -a);
-+            sym->fexpr_y->assumption = false;
-+            break;
-+        case mod:
-+            perror("Should not happen. Boolean symbol is set to mod.\n");
-+            break;
-+        case yes:
-+
-+            picosat_assume(pico, a);
-+            sym->fexpr_y->assumption = true;
-+            break;
-+        }
-+    }
-+    if (sym->type == S_TRISTATE) {
-+        int a = sym->fexpr_y->satval;
-+        int a_m = sym->fexpr_m->satval;
-+        switch (tri_val) {
-+        case no:
-+            picosat_assume(pico, -a);
-+            picosat_assume(pico, -a_m);
-+            sym->fexpr_y->assumption = false;
-+            sym->fexpr_m->assumption = false;
-+            break;
-+        case mod:
-+            picosat_assume(pico, -a);
-+            picosat_assume(pico, a_m);
-+            sym->fexpr_y->assumption = false;
-+            sym->fexpr_m->assumption = true;
-+            break;
-+        case yes:
-+            picosat_assume(pico, a);
-+            picosat_assume(pico, -a_m);
-+            sym->fexpr_y->assumption = true;
-+            sym->fexpr_m->assumption = false;
-+            break;
-+        }
-+    }
-+}
-+
-+/*
-+ * add assumptions for the symbols to be changed to the SAT solver
-+ */
-+void sym_add_assumption_sdv(PicoSAT *pico, struct sdv_list *list)
-+{
-+    struct symbol_dvalue *sdv;
-+    struct sdv_node *node;
-+    sdv_list_for_each(node, list) {
-+        sdv = node->elem;
-+
-+        int lit_y = sdv->sym->fexpr_y->satval;
-+
-+        if (sdv->sym->type == S_BOOLEAN) {
-+            switch (sdv->tri) {
-+            case yes:
-+                picosat_assume(pico, lit_y);
-+                break;
-+            case no:
-+                picosat_assume(pico, -lit_y);
-+                break;
-+            case mod:
-+                perror("Should not happen.\n");
-+            }
-+        } else if (sdv->sym->type == S_TRISTATE) {
-+            int lit_m = sdv->sym->fexpr_m->satval;
-+            switch (sdv->tri) {
-+            case yes:
-+                picosat_assume(pico, lit_y);
-+                picosat_assume(pico, -lit_m);
-+                break;
-+            case mod:
-+                picosat_assume(pico, -lit_y);
-+                picosat_assume(pico, lit_m);
-+                break;
-+            case no:
-+                picosat_assume(pico, -lit_y);
-+                picosat_assume(pico, -lit_m);
-+            }
-+        }
-+    }
-+}
-diff --git a/scripts/kconfig/cf_satutils.h b/scripts/kconfig/cf_satutils.h
-new file mode 100644
-index 000000000000..d5caf87e3427
---- /dev/null
-+++ b/scripts/kconfig/cf_satutils.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
-+ */
-+
-+#ifndef CF_SATUTILS_H
-+#define CF_SATUTILS_H
-+
-+/* initialize PicoSAT */
-+PicoSAT * initialize_picosat(void);
-+
-+/* construct the CNF-clauses from the constraints */
-+void construct_cnf_clauses(PicoSAT *pico);
-+
-+/* add a clause to to PicoSAT */
-+void sat_add_clause(int num, ...);
-+
-+/* start PicoSAT */
-+void picosat_solve(PicoSAT *pico);
-+
-+/* add assumption for a symbol to the SAT-solver */
-+void sym_add_assumption(PicoSAT *pico, struct symbol *sym);
-+
-+/* add assumption for a boolean symbol to the SAT-solver */
-+void sym_add_assumption_tri(PicoSAT *pico, struct symbol *sym, tristate tri_val);
-+
-+/* add assumptions for the symbols to be changed to the SAT solver */
-+void sym_add_assumption_sdv(PicoSAT *pico, struct sdv_list *list);
-+
-+#endif
-diff --git a/scripts/kconfig/cf_utils.c b/scripts/kconfig/cf_utils.c
-new file mode 100644
-index 000000000000..36d7ab374f6d
---- /dev/null
-+++ b/scripts/kconfig/cf_utils.c
-@@ -0,0 +1,510 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
-+ */
-+
-+#define _GNU_SOURCE
-+#include <assert.h>
-+#include <locale.h>
-+#include <stdarg.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <ctype.h>
-+
-+#include "configfix.h"
-+
-+#define SATMAP_INIT_SIZE 2
-+
-+/*
-+ * parse Kconfig-file and read .config
-+ */
-+void init_config(const char *Kconfig_file)
-+{
-+    conf_parse(Kconfig_file);
-+    conf_read(NULL);
-+}
-+
-+/*
-+ * initialize satmap and cnf_clauses_map
-+ */
-+void init_data(void)
-+{
-+    /* create hashtable with all fexpr */
-+    satmap = xcalloc(SATMAP_INIT_SIZE, sizeof(*satmap));
-+    satmap_size = SATMAP_INIT_SIZE;
-+
-+    printd("done.\n");
-+}
-+
-+/*
-+ * bool-symbols have 1 variable (X), tristate-symbols have 2 variables (X, X_m)
-+ */
-+static void create_sat_variables(struct symbol *sym)
-+{
-+    sym->constraints = pexpr_list_init();
-+    sym_create_fexpr(sym);
-+}
-+
-+/*
-+ * assign SAT-variables to all fexpr and create the sat_map
-+ */
-+void assign_sat_variables(void)
-+{
-+    unsigned int i;
-+    struct symbol *sym;
-+
-+    printd("Creating SAT-variables...");
-+
-+    for_all_symbols(i, sym)
-+        create_sat_variables(sym);
-+
-+    printd("done.\n");
-+}
-+
-+/*
-+ * create True/False constants
-+ */
-+void create_constants(void)
-+{
-+    printd("Creating constants...");
-+
-+    /* create TRUE and FALSE constants */
-+    const_false = fexpr_create(sat_variable_nr++, FE_FALSE, "False");
-+    fexpr_add_to_satmap(const_false);
-+
-+    const_true = fexpr_create(sat_variable_nr++, FE_TRUE, "True");
-+    fexpr_add_to_satmap(const_true);
-+
-+    /* add fexpr of constants to tristate constants */
-+    symbol_yes.fexpr_y = const_true;
-+    symbol_yes.fexpr_m = const_false;
-+
-+    symbol_mod.fexpr_y = const_false;
-+    symbol_mod.fexpr_m = const_true;
-+
-+    symbol_no.fexpr_y = const_false;
-+    symbol_no.fexpr_m = const_false;
-+
-+    /* create symbols yes/mod/no as fexpr */
-+    symbol_yes_fexpr = fexpr_create(0, FE_SYMBOL, "y");
-+    symbol_yes_fexpr->sym = &symbol_yes;
-+    symbol_yes_fexpr->tri = yes;
-+
-+    symbol_mod_fexpr = fexpr_create(0, FE_SYMBOL, "m");
-+    symbol_mod_fexpr->sym = &symbol_mod;
-+    symbol_mod_fexpr->tri = mod;
-+
-+    symbol_no_fexpr = fexpr_create(0, FE_SYMBOL, "n");
-+    symbol_no_fexpr->sym = &symbol_no;
-+    symbol_no_fexpr->tri = no;
-+
-+    printd("done.\n");
-+}
-+
-+/*
-+ * create a temporary SAT-variable
-+ */
-+struct fexpr * create_tmpsatvar(void)
-+{
-+    struct fexpr *t = fexpr_create(sat_variable_nr++, FE_TMPSATVAR, "");
-+    str_append(&t->name, get_tmp_var_as_char(tmp_variable_nr++));
-+    fexpr_add_to_satmap(t);
-+
-+    return t;
-+}
-+
-+/*
-+ * return a temporary SAT variable as string
-+ */
-+char * get_tmp_var_as_char(int i)
-+{
-+    char *val = malloc(sizeof(char) * 18);
-+    snprintf(val, 18, "T_%d", i);
-+    return val;
-+}
-+
-+/*
-+ * return a tristate value as a char *
-+ */
-+char * tristate_get_char(tristate val)
-+{
-+    switch (val) {
-+    case yes:
-+        return "yes";
-+    case mod:
-+        return "mod";
-+    case no:
-+        return "no";
-+    default:
-+        return "";
-+    }
-+}
-+
-+/*
-+ *check whether an expr can evaluate to mod
-+ */
-+bool expr_can_evaluate_to_mod(struct expr *e)
-+{
-+    if (!e)
-+        return false;
-+
-+    switch (e->type) {
-+    case E_SYMBOL:
-+        return e->left.sym == &symbol_mod || e->left.sym->type == S_TRISTATE ? true : false;
-+    case E_AND:
-+    case E_OR:
-+        return expr_can_evaluate_to_mod(e->left.expr) || expr_can_evaluate_to_mod(e->right.expr);
-+    case E_NOT:
-+        return expr_can_evaluate_to_mod(e->left.expr);
-+    default:
-+        return false;
-+    }
-+}
-+
-+/*
-+ * check whether an expr is a non-Boolean constant
-+ */
-+bool expr_is_nonbool_constant(struct expr *e)
-+{
-+    if (e->type != E_SYMBOL)
-+        return false;
-+    if (e->left.sym->type != S_UNKNOWN)
-+        return false;
-+
-+    if (e->left.sym->flags & SYMBOL_CONST)
-+        return true;
-+
-+    return string_is_number(e->left.sym->name) || string_is_hex(e->left.sym->name);
-+}
-+
-+/*
-+ * check whether a symbol is a non-Boolean constant
-+ */
-+bool sym_is_nonbool_constant(struct symbol *sym)
-+{
-+    if (sym->type != S_UNKNOWN)
-+        return false;
-+
-+    if (sym->flags & SYMBOL_CONST)
-+        return true;
-+
-+    return string_is_number(sym->name) || string_is_hex(sym->name);
-+}
-+
-+/*
-+ * print an expr
-+ */
-+static void print_expr_util(struct expr *e, int prevtoken)
-+{
-+    if (!e)
-+        return;
-+
-+    switch (e->type) {
-+    case E_SYMBOL:
-+        if (sym_get_name(e->left.sym) != NULL)
-+            printf("%s", sym_get_name(e->left.sym));
-+        else
-+            printf("left was null\n");
-+        break;
-+    case E_NOT:
-+        printf("!");
-+        print_expr_util(e->left.expr, E_NOT);
-+        break;
-+    case E_AND:
-+        if (prevtoken != E_AND && prevtoken != 0)
-+            printf("(");
-+        print_expr_util(e->left.expr, E_AND);
-+        printf(" && ");
-+        print_expr_util(e->right.expr, E_AND);
-+        if (prevtoken != E_AND && prevtoken != 0)
-+            printf(")");
-+        break;
-+    case E_OR:
-+        if (prevtoken != E_OR && prevtoken != 0)
-+            printf("(");
-+        print_expr_util(e->left.expr, E_OR);
-+        printf(" || ");
-+        print_expr_util(e->right.expr, E_OR);
-+        if (prevtoken != E_OR && prevtoken != 0)
-+            printf(")");
-+        break;
-+    case E_EQUAL:
-+    case E_UNEQUAL:
-+        if (e->left.sym->name)
-+            printf("%s", e->left.sym->name);
-+        else
-+            printf("left was null\n");
-+        printf("%s", e->type == E_EQUAL ? "=" : "!=");
-+        printf("%s", e->right.sym->name);
-+        break;
-+    case E_LEQ:
-+    case E_LTH:
-+        if (e->left.sym->name)
-+            printf("%s", e->left.sym->name);
-+        else
-+            printf("left was null\n");
-+        printf("%s", e->type == E_LEQ ? "<=" : "<");
-+        printf("%s", e->right.sym->name);
-+        break;
-+    case E_GEQ:
-+    case E_GTH:
-+        if (e->left.sym->name)
-+            printf("%s", e->left.sym->name);
-+        else
-+            printf("left was null\n");
-+        printf("%s", e->type == E_GEQ ? ">=" : ">");
-+        printf("%s", e->right.sym->name);
-+        break;
-+    case E_RANGE:
-+        printf("[");
-+        printf("%s", e->left.sym->name);
-+        printf(" ");
-+        printf("%s", e->right.sym->name);
-+        printf("]");
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+void print_expr(char *tag, struct expr *e, int prevtoken)
-+{
-+    printf("%s ", tag);
-+    print_expr_util(e, prevtoken);
-+    printf("\n");
-+}
-+
-+/*
-+ * check, if the symbol is a tristate-constant
-+ */
-+bool sym_is_tristate_constant(struct symbol *sym) {
-+    return sym == &symbol_yes || sym == &symbol_mod || sym == &symbol_no;
-+}
-+
-+/*
-+ * check, if a symbol is of type boolean or tristate
-+ */
-+bool sym_is_boolean(struct symbol *sym)
-+{
-+    return sym->type == S_BOOLEAN || sym->type == S_TRISTATE;
-+}
-+
-+/*
-+ * check, if a symbol is a boolean/tristate or a tristate constant
-+ */
-+bool sym_is_bool_or_triconst(struct symbol *sym)
-+{
-+    return sym_is_tristate_constant(sym) || sym_is_boolean(sym);
-+}
-+
-+/*
-+ * check, if a symbol is of type int, hex, or string
-+ */
-+bool sym_is_nonboolean(struct symbol *sym)
-+{
-+    return sym->type == S_INT || sym->type == S_HEX || sym->type == S_STRING;
-+}
-+
-+/*
-+ * check, if a symbol has a prompt
-+ */
-+bool sym_has_prompt(struct symbol *sym)
-+{
-+    struct property *prop;
-+
-+    for_all_prompts(sym, prop)
-+        return true;
-+
-+    return false;
-+}
-+
-+/*
-+ * return the prompt of the symbol if there is one, NULL otherwise
-+ */
-+struct property * sym_get_prompt(struct symbol *sym)
-+{
-+    struct property *prop;
-+
-+    for_all_prompts(sym, prop)
-+        return prop;
-+
-+    return NULL;
-+}
-+
-+/*
-+ * return the condition for the property, True if there is none
-+ */
-+struct pexpr * prop_get_condition(struct property *prop)
-+{
-+    if (prop == NULL)
-+        return NULL;
-+
-+    /* if there is no condition, return True */
-+    if (!prop->visible.expr)
-+        return pexf(const_true);
-+
-+    return expr_calculate_pexpr_both(prop->visible.expr);
-+}
-+
-+/*
-+ * return the default property, NULL if none exists or can be satisfied
-+ */
-+struct property *sym_get_default_prop(struct symbol *sym)
-+{
-+    struct property *prop;
-+
-+    for_all_defaults(sym, prop) {
-+        prop->visible.tri = expr_calc_value(prop->visible.expr);
-+        if (prop->visible.tri != no)
-+            return prop;
-+    }
-+    return NULL;
-+}
-+
-+/*
-+ * check whether a non-boolean symbol has a value set
-+ */
-+bool sym_nonbool_has_value_set(struct symbol *sym)
-+{
-+    if (!sym_is_nonboolean(sym))
-+        return false;
-+
-+    const char *string_val = sym_get_string_value(sym);
-+
-+    if (strcmp(string_val, "") != 0)
-+        return true;
-+
-+    /* a HEX/INT symbol cannot have value "" */
-+    if (sym->type == S_HEX || sym->type == S_INT)
-+        return false;
-+
-+    /* cannot have a value with unmet dependencies */
-+    if (sym->dir_dep.expr && sym->dir_dep.tri == no)
-+        return false;
-+
-+    /* visible prompt => value set */
-+    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt != NULL && prompt->visible.tri != no)
-+        return true;
-+
-+    /* invisible prompt => must get value from default value */
-+    struct property *p = sym_get_default_prop(sym);
-+    if (p == NULL)
-+        return false;
-+
-+    if (!strcmp(sym_get_string_default(sym), ""))
-+        return true;
-+
-+    return false;
-+}
-+
-+/*
-+ * return the name of the symbol or the prompt-text, if it is a choice symbol
-+ */
-+char * sym_get_name(struct symbol *sym)
-+{
-+    if (sym_is_choice(sym)) {
-+        struct property *prompt = sym_get_prompt(sym);
-+        if (prompt == NULL)
-+            return "";
-+
-+        return strdup(prompt->text);
++        ret = rangefix_run(pico);
 +    } else {
-+        return sym->name;
++        printd("Unknown if satisfiable.\n");
++
++        ret = sfl_list_init();
 +    }
++
++    sdv_list_free(sdv_symbols);
++
++    return ret;
 +}
 +
 +/*
-+ * check whether symbol is to be changed
++ * check whether a symbol is a conflict symbol
 + */
-+bool sym_is_sdv(struct sdv_list *list, struct symbol *sym)
++static bool sym_is_conflict_sym(struct symbol *sym)
 +{
-+    struct sdv_node *node;
-+    sdv_list_for_each(node, list)
-+        if (sym == node->elem->sym)
-+            return true;
++    struct sym_node *node;
++    sym_list_for_each(node,
++              conflict_syms) if (sym == node->elem) return true;
 +
 +    return false;
 +}
 +
 +/*
-+ * print a symbol's name
++ * check whether all conflict symbols are set to their target values
 + */
-+void print_sym_name(struct symbol *sym)
++static bool syms_have_target_value(struct sfix_list *list)
 +{
-+    printf("Symbol: ");
-+    if (sym_is_choice(sym)) {
-+        struct property *prompt = sym_get_prompt(sym);
-+        printf("(Choice) %s", prompt->text);
-+    } else  {
-+        printf("%s", sym->name);
-+    }
-+    printf("\n");
-+}
++    struct symbol_fix *fix;
++    struct sfix_node *node;
 +
-+/*
-+ * print all constraints for a symbol
-+ */
-+void print_sym_constraint(struct symbol* sym)
-+{
-+    struct pexpr_node *node;
-+    pexpr_list_for_each(node, sym->constraints)
-+        pexpr_print("::", node->elem, -1);
-+}
++    sfix_list_for_each(node, list) {
++        fix = node->elem;
 +
-+/*
-+ * print a default map
-+ */
-+void print_default_map(struct defm_list *map)
-+{
-+    struct default_map *entry;
-+    struct defm_node *node;
++        if (!sym_is_conflict_sym(fix->sym))
++            continue;
 +
-+    defm_list_for_each(node, map) {
-+        entry = node->elem;
-+        struct gstr s = str_new();
-+        str_append(&s, "\t");
-+        str_append(&s, str_get(&entry->val->name));
-+        str_append(&s, " ->");
-+        pexpr_print(strdup(str_get(&s)), entry->e, -1);
-+        str_free(&s);
-+    }
-+}
++        sym_calc_value(fix->sym);
 +
-+/*
-+ * check whether a string is a number
-+ */
-+bool string_is_number(char *s)
-+{
-+    int len = strlen(s);
-+    int i = 0;
-+    while (i < len) {
-+        if (!isdigit(s[i]))
-+            return false;
-+        i++;
++        if (sym_is_boolean(fix->sym)) {
++            if (fix->tri != sym_get_tristate_value(fix->sym))
++                return false;
++        } else {
++            if (strcmp(str_get(&fix->nb_val),
++                   sym_get_string_value(fix->sym)) != 0)
++                return false;
++        }
 +    }
 +
 +    return true;
 +}
 +
 +/*
-+ * check whether a string is a hexadecimal number
++ *
++ * apply the fixes from a diagnosis
 + */
-+bool string_is_hex(char *s)
++int apply_fix(struct sfix_list *fix)
 +{
-+    int len = strlen(s);
-+    int i = 2;
-+    if (len >= 3 && s[0] == '0' && s[1] == 'x') {
-+        while (i < len) {
-+            if (!isxdigit(s[i]))
-+                return false;
-+            i++;
++    struct symbol_fix *sfix;
++    struct sfix_node *node, *next;
++    unsigned int no_symbols_set = 0, iterations = 0, manually_changed = 0;
++
++    struct sfix_list *tmp = sfix_list_copy(fix);
++
++    printd("Trying to apply fixes now...\n");
++
++    while (no_symbols_set < fix->size && !syms_have_target_value(fix)) {
++        if (iterations > fix->size * 2) {
++            printd("\nCould not apply all values :-(.\n");
++            return manually_changed;
 +        }
-+        return true;
-+    } else {
-+        return false;
++
++        for (node = tmp->head; node != NULL;) {
++            sfix = node->elem;
++
++            /* update symbol's current value */
++            sym_calc_value(sfix->sym);
++
++            /* value already set? */
++            if (sfix->type == SF_BOOLEAN) {
++                if (sfix->tri == sym_get_tristate_value(sfix->sym)) {
++                    next = node->next;
++                    sfix_list_delete(tmp, node);
++                    node = next;
++                    no_symbols_set++;
++                    continue;
++                }
++            } else if (sfix->type == SF_NONBOOLEAN) {
++                if (strcmp(str_get(&sfix->nb_val),
++                       sym_get_string_value(sfix->sym)) == 0) {
++                    next = node->next;
++                    sfix_list_delete(tmp, node);
++                    node = next;
++                    no_symbols_set++;
++                    continue;
++                }
++            } else {
++                perror("Error applying fix. Value set for disallowed.");
++            }
++
++            /* could not set value, try next */
++            if (sfix->type == SF_BOOLEAN) {
++                if (!sym_set_tristate_value(sfix->sym,
++                                sfix->tri)) {
++                    node = node->next;
++                    continue;
++                }
++            } else if (sfix->type == SF_NONBOOLEAN) {
++                if (!sym_set_string_value(
++                        sfix->sym,
++                        str_get(&sfix->nb_val))) {
++                    node = node->next;
++                    continue;
++                }
++            } else {
++                perror("Error applying fix. Value set for disallowed.");
++            }
++
++            /* could set value, remove from tmp */
++            manually_changed++;
++            if (sfix->type == SF_BOOLEAN) {
++                printd("%s set to %s.\n",
++                       sym_get_name(sfix->sym),
++                       tristate_get_char(sfix->tri));
++            } else if (sfix->type == SF_NONBOOLEAN) {
++                printd("%s set to %s.\n",
++                       sym_get_name(sfix->sym),
++                       str_get(&sfix->nb_val));
++            }
++
++            next = node->next;
++            sfix_list_delete(tmp, node);
++            node = next;
++            no_symbols_set++;
++        }
++
++        iterations++;
 +    }
++
++    printd("Fixes successfully applied.\n");
++
++    return manually_changed;
 +}
-diff --git a/scripts/kconfig/cf_utils.h b/scripts/kconfig/cf_utils.h
++
++/*
++ * stop RangeFix after the next iteration
++ */
++void interrupt_rangefix(void)
++{
++    stop_rangefix = true;
++}
++
++/*
++ * check whether all symbols are already within range
++ */
++static bool sdv_within_range(struct sdv_list *symbols)
++{
++    struct symbol_dvalue *sdv;
++    struct sdv_node *node;
++
++    sdv_list_for_each(node, symbols) {
++        sdv = node->elem;
++
++        assert(sym_is_boolean(sdv->sym));
++
++        if (sdv->tri == sym_get_tristate_value(sdv->sym))
++            continue;
++
++        if (!sym_tristate_within_range(sdv->sym, sdv->tri))
++            return false;
++    }
++
++    return true;
++}
++
++struct sfix_list *select_solution(struct sfl_list *solutions, int index)
++{
++    struct sfl_node *node = solutions->head;
++    unsigned int counter;
++    for (counter = 0; counter < index; counter++)
++        node = node->next;
++
++    return node->elem;
++}
++
++struct symbol_fix *select_symbol(struct sfix_list *solution, int index)
++{
++    struct sfix_node *node = solution->head;
++    unsigned int counter;
++    for (counter = 0; counter < index; counter++)
++        node = node->next;
++
++    return node->elem;
++}
+diff --git a/scripts/kconfig/configfix.h b/scripts/kconfig/configfix.h
 new file mode 100644
-index 000000000000..91f9bbf26191
+index 000000000000..0abaf433f41c
 --- /dev/null
-+++ b/scripts/kconfig/cf_utils.h
-@@ -0,0 +1,90 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/scripts/kconfig/configfix.h
+@@ -0,0 +1,41 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
 + */
 +
-+#ifndef CF_UTILS_H
-+#define CF_UTILS_H
++#ifndef CONFIGFIX_H
++#define CONFIGFIX_H
 +
-+/* parse Kconfig-file and read .config */
-+void init_config (const char *Kconfig_file);
++/* make functions accessible from xconfig */
++#ifdef __cplusplus
++extern "C" {
++#endif
 +
-+/* initialize satmap and cnf_clauses */
-+void init_data(void);
++/* include internal definitions */
++#define LKC_DIRECT_LINK
++#include "lkc.h"
 +
-+/* assign SAT-variables to all fexpr and create the sat_map */
-+void assign_sat_variables(void);
++/* include own definitions */
++#include "cf_defs.h"
 +
-+/* create True/False constants */
-+void create_constants(void);
++/* include other header files needed */
++#include "picosat.h"
++#include "cf_constraints.h"
++#include "cf_expr.h"
++#include "cf_rangefix.h"
++#include "cf_satutils.h"
++#include "cf_utils.h"
 +
-+/* create a temporary SAT-variable */
-+struct fexpr * create_tmpsatvar(void);
++/* external functions */
++struct sfl_list *run_satconf(struct sdv_list *symbols);
++int apply_fix(struct sfix_list *fix);
++int run_satconf_cli(const char *Kconfig_file);
++void interrupt_rangefix(void);
++struct sfix_list *select_solution(struct sfl_list *solutions, int index);
++struct symbol_fix *select_symbol(struct sfix_list *solution, int index);
 +
-+/* return a temporary SAT variable as string */
-+char * get_tmp_var_as_char(int i);
-+
-+/* return a tristate value as a char * */
-+char * tristate_get_char(tristate val);
-+
-+/* check whether an expr can evaluate to mod */
-+bool expr_can_evaluate_to_mod(struct expr *e);
-+
-+/* check whether an expr is a non-Boolean constant */
-+bool expr_is_nonbool_constant(struct expr *e);
-+
-+/* check whether a symbol is a non-Boolean constant */
-+bool sym_is_nonbool_constant(struct symbol *sym);
-+
-+/* print an expr */
-+void print_expr(char *tag, struct expr *e, int prevtoken);
-+
-+/* check, if the symbol is a tristate-constant */
-+bool sym_is_tristate_constant(struct symbol *sym);
-+
-+/* check, if a symbol is of type boolean or tristate */
-+bool sym_is_boolean(struct symbol *sym);
-+
-+/* check, if a symbol is a boolean/tristate or a tristate constant */
-+bool sym_is_bool_or_triconst(struct symbol *sym);
-+
-+/* check, if a symbol is of type int, hex, or string */
-+bool sym_is_nonboolean(struct symbol *sym);
-+
-+/* check, if a symbol has a prompt */
-+bool sym_has_prompt(struct symbol *sym);
-+
-+/* return the prompt of the symbol, if there is one */
-+struct property * sym_get_prompt(struct symbol *sym);
-+
-+/* return the condition for the property, True if there is none */
-+struct pexpr * prop_get_condition(struct property *prop);
-+
-+/* return the default property, NULL if none exists or can be satisfied */
-+struct property *sym_get_default_prop(struct symbol *sym);
-+
-+/* check whether a non-boolean symbol has a value set */
-+bool sym_nonbool_has_value_set(struct symbol *sym);
-+
-+/* return the name of the symbol */
-+char * sym_get_name(struct symbol *sym);
-+
-+/* check whether symbol is to be changed */
-+bool sym_is_sdv(struct sdv_list *list, struct symbol *sym);
-+
-+/* print a symbol's name */
-+void print_sym_name(struct symbol *sym);
-+
-+/* print all constraints for a symbol */
-+void print_sym_constraint(struct symbol *sym);
-+
-+/* print a default map */
-+void print_default_map(struct defm_list *map);
-+
-+/* check whether a string is a number */
-+bool string_is_number(char *s);
-+
-+/* check whether a string is a hexadecimal number */
-+bool string_is_hex(char *s);
-+
++/* make functions accessible from xconfig */
++#ifdef __cplusplus
++}
++#endif
 +#endif
 -- 
 2.33.0
