@@ -2,176 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AB74435395
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 21:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8824C4354DA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 22:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231493AbhJTTRY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Oct 2021 15:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231470AbhJTTRY (ORCPT
+        id S230052AbhJTVBk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Oct 2021 17:01:40 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58015 "EHLO
+        gandalf.ozlabs.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230049AbhJTVBj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Oct 2021 15:17:24 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B062DC061753
-        for <linux-kbuild@vger.kernel.org>; Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id r2so23375343pgl.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i22CGOfMdCgEzNofkN2ujFXF/VRH37ibkrOAmDeTGJk=;
-        b=JpcmTmu47LLgTalrcwHRfbvnurUdEUIPsEFm+gDXyWzHYc7ndXQEKbhgm4vo91rqt1
-         TMNIN7Qa9dCpB6e3ViS2EZ+qPxoTjr6dHBkYXKic25otGOFt5rTop+eIp8mnFDNRwpGt
-         aje3upgjKjBAz6T1loijjMNJQqfNOXXET2wlA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i22CGOfMdCgEzNofkN2ujFXF/VRH37ibkrOAmDeTGJk=;
-        b=T5kJHNBxE+6EX5eW0rtAFKkum5Z0eKJoTfOsO4LTBKzMJytFrbecNISFleCYQpqvYT
-         6EV6y8wKxifEYh+9ix2RIpRWjCrSyErWkbLPRjPrTOadgVtdgnhFBtWm69vh8khG/LU9
-         9rln5jmuFj0baAr+HFbeJ2neAWgZvGKRiuWWq1hw9M/Ok7zPHlsPoLPjeaMuMRTyHyeV
-         AQOhno6VLBooMjoJb3K1vVtfu4xlYVA9areMCTplOad03n+j6eXv+lsiJsfKhx4LZnWY
-         NQtjOHBA3HG+ZWMsMP+fKm8igMXwLmEVG8BmHoPT92QbPkUcjtCb1eav3KfGMwuPOY5n
-         Rv/w==
-X-Gm-Message-State: AOAM530NePKeWT6/x4qOp8/SpWcAx49O0NiFqamH53juddB0pky7p5T2
-        UF6vfwyog09nx1ZQEg50NmeU6g==
-X-Google-Smtp-Source: ABdhPJwlN6e6EukdLBE/1sEfEDDBaNtAFd50dDayRvjCFtYq+pdfXTDmzg6uAqxABX6av/5tLtlX3w==
-X-Received: by 2002:aa7:94a8:0:b0:44c:f3e0:81fb with SMTP id a8-20020aa794a8000000b0044cf3e081fbmr797733pfl.6.1634757309155;
-        Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p12sm3981100pfh.52.2021.10.20.12.15.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 12:15:08 -0700 (PDT)
-Date:   Wed, 20 Oct 2021 12:15:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-        llvm@lists.linux.dev, Dan Li <ashimida@linux.alibaba.com>,
-        ardb@kernel.org, ojeda@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] gcc-plugins: Explicitly document purpose and
- deprecation schedule
-Message-ID: <202110201212.43DC4A24@keescook>
-References: <20211020173554.38122-1-keescook@chromium.org>
- <20211020173554.38122-2-keescook@chromium.org>
- <YXBVx+0YjoMtQ27T@archlinux-ax161>
+        Wed, 20 Oct 2021 17:01:39 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4HZNJh0W9cz4xbY;
+        Thu, 21 Oct 2021 07:59:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+        s=201702; t=1634763559;
+        bh=C0b3hYLhUCLhY/QAW3vmGSj026zviXMrdnNfnNI5iyI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hgg9FxcYS7/jt5TDamrW4JA23UE+GPP1hTPO+Wf0r4SM+K/LaizGNrtNLOPtyqE3P
+         Hj1o53PUR6mt1t6Ke3/S7Zdbc/CsJVo7Lfh2bqR6R/YkHJ7WNMmIJsFSEcxJN1Kgx3
+         m2E6IidYGoI+8//iYEdy14to6F+7I62XZXP3dkR+JycdpUPZAHZdGglUZqiAnTTFau
+         SogK1rExymCByr99pM6jtS/d0xlSvr61hqeuSbzH3jmepA/h0aAWOoV6nS1OHCr4O2
+         Ade17mOSszvmOOTnl9JQAVgtDwvlCgkbpxpdD41qXdZtyYIAz37o9zOzhtETokkQH4
+         beByRtdX/PFiQ==
+Date:   Thu, 21 Oct 2021 07:59:13 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Fox Chen <foxhlchen@gmail.com>,
+        Ayaan Zaidi <zaidi.ayaan@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>, Yuki Okushi <jtitor@2k36.org>
+Subject: Re: linux-next: Tree for Oct 18 ('make' error on ARCH=um)
+Message-ID: <20211021075913.3d6f8adb@canb.auug.org.au>
+In-Reply-To: <b0eddd67-e62f-c6c3-37d1-8c69f27c51fb@infradead.org>
+References: <20211018203023.036d8362@canb.auug.org.au>
+        <a1b2bdda-d1cf-807b-6a84-73a3e347639c@infradead.org>
+        <20211019085811.362b4304@canb.auug.org.au>
+        <CANiq72=+5w7KzVKmN57ud5+GGEiuRbtgezfROGAuO=b-OYeWAA@mail.gmail.com>
+        <20211020155627.7d6f6637@canb.auug.org.au>
+        <81c2e5c6-7388-3d1d-87a9-1b000517661b@infradead.org>
+        <b0eddd67-e62f-c6c3-37d1-8c69f27c51fb@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXBVx+0YjoMtQ27T@archlinux-ax161>
+Content-Type: multipart/signed; boundary="Sig_/YFuEnSKXicKp7XvjTGlhP4K";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 10:45:43AM -0700, Nathan Chancellor wrote:
-> On Wed, Oct 20, 2021 at 10:35:53AM -0700, Kees Cook wrote:
-> > GCC plugins should only exist when some compiler feature needs to be
-> > proven but does not exist in either GCC nor Clang. For example, if a
-> > desired feature is already in Clang, it should be added to GCC upstream.
-> > Document this explicitly.
-> > 
-> > Additionally, mark the plugins with matching upstream GCC features as
-> > removable past their respective GCC versions.
-> > 
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Michal Marek <michal.lkml@markovi.net>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: James Morris <jmorris@namei.org>
-> > Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: linux-hardening@vger.kernel.org
-> > Cc: linux-kbuild@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-security-module@vger.kernel.org
-> > Cc: llvm@lists.linux.dev
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Seems reasonable to me.
-> 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+--Sig_/YFuEnSKXicKp7XvjTGlhP4K
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+Hi Randy,
 
-> 
-> One comment below.
-> 
-> > ---
-> >  Documentation/kbuild/gcc-plugins.rst | 26 ++++++++++++++++++++++++++
-> >  scripts/gcc-plugins/Kconfig          |  4 ++--
-> >  security/Kconfig.hardening           |  9 ++++++---
-> >  3 files changed, 34 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
-> > index 3349966f213d..4b28c7a4032f 100644
-> > --- a/Documentation/kbuild/gcc-plugins.rst
-> > +++ b/Documentation/kbuild/gcc-plugins.rst
-> > @@ -32,6 +32,32 @@ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
-> >  .. [7] https://pax.grsecurity.net/
-> >  
-> >  
-> > +Purpose
-> > +=======
-> > +
-> > +GCC plugins are designed to provide a place to experiment with potential
-> > +compiler features that are neither in GCC nor Clang upstream. Once
-> > +their utility is proven, the goal is to upstream the feature into GCC
-> > +(and Clang), and then to finally remove them from the kernel once the
-> > +feature is available in all supported versions of GCC.
-> > +
-> > +Specifically, new plugins should implement only features that have no
-> > +upstream compiler support (in either GCC or Clang).
-> > +
-> > +When a feature exists in Clang but not GCC, effort should be made to
-> > +bring the feature to upstream GCC (rather than just as a kernel-specific
-> > +GCC plugin), so the entire ecosystem can benefit from it.
-> > +
-> > +Similarly, even if a feature provided by a GCC plugin does *not* exist
-> > +in Clang, but the feature is proven to be useful, effort should be spent
-> > +to upstream the feature to GCC (and Clang).
-> > +
-> > +After a feature is available in upstream GCC, the plugin will be made
-> > +unbuildable for the corresponding GCC version (and later). Once all
-> > +kernel-supported versions of GCC provide the feature, the plugin will
-> > +be removed from the kernel.
-> > +
-> > +
-> >  Files
-> >  =====
-> >  
-> > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> > index ab9eb4cbe33a..3f5d3580ec06 100644
-> > --- a/scripts/gcc-plugins/Kconfig
-> > +++ b/scripts/gcc-plugins/Kconfig
-> > @@ -37,6 +37,8 @@ config GCC_PLUGIN_CYC_COMPLEXITY
-> >  
-> >  config GCC_PLUGIN_SANCOV
-> >  	bool
-> > +	# Plugin can be removed once the kernel only supports GCC 6.1.0+
-> > +	depends on !CC_HAS_SANCOV_TRACE_PC
-> 
-> This symbol is not user selectable and the one place that does select it
-> only does so when !CC_HAS_SANCOV_TRACE_PC so this seems pointless to me.
-> 
-> Keep the comment, ditch the depends?
+On Wed, 20 Oct 2021 07:46:24 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
+te:
+>
+> No problems like this in linux-next 2021-10-20.
 
-I had a similar thought, and in the end, I decided I wanted to always
-enforce the GCC feature check through a depends, with a comment about
-the expected version. I want to make sure we don't use plugins if an
-upstream feature is already available. It happens that SANCOV was
-effectively the first to do this, but it did so on the other side and I
-wanted it repeated here so it was "self contained".
+Excellent, thanks.
 
--Kees
+--=20
+Cheers,
+Stephen Rothwell
 
--- 
-Kees Cook
+--Sig_/YFuEnSKXicKp7XvjTGlhP4K
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFwgyEACgkQAVBC80lX
+0GwC2Qf7BxUbVTPtimV8VXVOL1I/Ahks5nPzI6tI5l7qGtsNVHLbtIF56EiIxLXk
+auT4QNSdysrlafV4dzRZPxA5DcXcYrpvfRcO75NuY+UB7aL45l0BU2T/xJrZk9Io
+vQ7QaHvn8Hw7hZzK0pXoaxRX2WQixCFJIVsuEMD1BrgNzHxLFa/5N7DYdZTkT1s9
+7yJXKH+DNiobOZXLXR7Zfm+DRfKUXHFOMAMdZLthngnTfd9LDlLqwOK4t3sl+4fj
+1APoIHirsD9alN45IVTS+o51JmcnF6X0fpmZJPptV81fu+q1sLgFbYRwDq5zYig+
+Evb2MxSTmucy16DUsqyCyvOhiqRYaQ==
+=47v7
+-----END PGP SIGNATURE-----
+
+--Sig_/YFuEnSKXicKp7XvjTGlhP4K--
