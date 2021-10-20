@@ -2,56 +2,29 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 492EC435196
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 19:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF4D4351CF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Oct 2021 19:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbhJTRqq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Oct 2021 13:46:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbhJTRqp (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Oct 2021 13:46:45 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07960C06161C;
-        Wed, 20 Oct 2021 10:44:30 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id l7so9659849iln.8;
-        Wed, 20 Oct 2021 10:44:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uSdR0ukf9MlQw9KUu/xtTk/HmpUv660FPwNY/MfGT4o=;
-        b=hdFDeDsMdZPC3CyXZupqyaqcQ5EjCtOPqYNwZnwX2knJhX/sWq6/az7oIIDrEBrV/O
-         59Apb8EHMcg9E/9F0lGwZ/5JcqbintrbhXJNJZzxO4+aLiwZNPRBj8epO9RpNDQmuiKy
-         3myuj3JIHUcKvURcFQZKWyR3Dq+wOYMDODjXia9WpAQyrOH2wY3ZGzKR8k+S+zWTbIWl
-         aGjfbpYz0doWKKoR0WMYqHcOIrs7dVhC236M+9c/4oeVXrLA7pK1wLIPzqet/7TY8ZlS
-         qm1BY90M4jkJjwmVGXR+LqHDk+K6fGQKeOHp8At0UW6fYQ/a1cC9M0n1v/TM6UpsiSk/
-         dvdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uSdR0ukf9MlQw9KUu/xtTk/HmpUv660FPwNY/MfGT4o=;
-        b=TG2wCXjTnDONNnqnKc+Z3CxP+Bt7b89VtFe/jpVbEj6IMwj6F1uuZqVLv2bCmvdgLd
-         4kgOpQjEQk4Cov4S8RER+gcOoARm/SNZRO6g/BTyh7TFeLdqQrbMjB9WUeVrUdfJChWQ
-         TRfxov7fgapK+B5Iq00RVEGXwpAUUHZzVvhs4ZHHM9vm3aBM2FvE1M/lIzP+XcyqtPf3
-         f1f0ksLJtb2Prz0yrqFBaSUYWKuIIshExUiQgI9YWrbju1n3RpIL3wZc7a0Fklx8Dg+g
-         kWikVE3CffW3KPlUPVVK+a2XP5rIa0Ez+qEv0Ww0QwQWUEzygJj3ODKGEJozrSqu/rdX
-         l1GA==
-X-Gm-Message-State: AOAM530yOBnvN9Wk0SnoLcnaeadE8sxUoNckofNkFSaUgExFx78xfSJr
-        0tJHSAHre3dL+p6/nG48PlMhpwBk4b1HDOScCAdrRZTmCr1YCQ==
-X-Google-Smtp-Source: ABdhPJzLXc+w8dZc7PkAAF2DvdK8GG3MKotQo258y6c5dZJtGp1ELkFyLeJXvfxvmuELWtwQ/2tPWq2LzglvyuhuLw8=
-X-Received: by 2002:a05:6e02:1688:: with SMTP id f8mr362093ila.72.1634751870235;
- Wed, 20 Oct 2021 10:44:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211020173554.38122-1-keescook@chromium.org> <20211020173554.38122-2-keescook@chromium.org>
-In-Reply-To: <20211020173554.38122-2-keescook@chromium.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 20 Oct 2021 19:44:19 +0200
-Message-ID: <CANiq72kCQa7_3JkUqO2=mdj+P2zcjPYJUai0oip5DN7Aaq_ySQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gcc-plugins: Explicitly document purpose and
- deprecation schedule
+        id S231134AbhJTRsj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Oct 2021 13:48:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50974 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231425AbhJTRsE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 20 Oct 2021 13:48:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 38F77611C7;
+        Wed, 20 Oct 2021 17:45:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634751950;
+        bh=6FFtYVTMs5VxUoN/PJRKD1y8Z7V3rM+KFsxoD3doo5Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D1cmrXcBkVR8o69ab4FwSusT9UlwFA3kFQ5NISY7yh23A938955Vv4iM1kxtJKTAp
+         f3flx6msgAUQkV/UE2BIsidAvOfTU8pPCihQd1X1iTRji3TlHj+U3mPExoyE2KdP2V
+         neropzxmFFDzU/vAz24v+Pgo1677pfk+c0f4YilLX8olohHYZajB1TLh2BnCGus8AE
+         mu7M48LyXIjHXxzY4LnmdQKd7jwRzMnqnf8yennPQjgamLtEOqiCjLQbRUaqNTUnwC
+         sbCVA5z+zpf4rA2syfIibzx8nPVkTWJ7NvlSjyPVXC7tDSIULSeAsRHYPKDFFMp3ne
+         Xj6xDgifIZ3qQ==
+Date:   Wed, 20 Oct 2021 10:45:43 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -59,38 +32,157 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         James Morris <jmorris@namei.org>,
         "Serge E. Hallyn" <serge@hallyn.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
         llvm@lists.linux.dev, Dan Li <ashimida@linux.alibaba.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        ardb@kernel.org, ojeda@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] gcc-plugins: Explicitly document purpose and
+ deprecation schedule
+Message-ID: <YXBVx+0YjoMtQ27T@archlinux-ax161>
+References: <20211020173554.38122-1-keescook@chromium.org>
+ <20211020173554.38122-2-keescook@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020173554.38122-2-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 7:35 PM Kees Cook <keescook@chromium.org> wrote:
->
+On Wed, Oct 20, 2021 at 10:35:53AM -0700, Kees Cook wrote:
+> GCC plugins should only exist when some compiler feature needs to be
+> proven but does not exist in either GCC nor Clang. For example, if a
+> desired feature is already in Clang, it should be added to GCC upstream.
+> Document this explicitly.
+> 
+> Additionally, mark the plugins with matching upstream GCC features as
+> removable past their respective GCC versions.
+> 
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: linux-hardening@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-security-module@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Seems reasonable to me.
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+One comment below.
+
+> ---
+>  Documentation/kbuild/gcc-plugins.rst | 26 ++++++++++++++++++++++++++
+>  scripts/gcc-plugins/Kconfig          |  4 ++--
+>  security/Kconfig.hardening           |  9 ++++++---
+>  3 files changed, 34 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+> index 3349966f213d..4b28c7a4032f 100644
+> --- a/Documentation/kbuild/gcc-plugins.rst
+> +++ b/Documentation/kbuild/gcc-plugins.rst
+> @@ -32,6 +32,32 @@ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
+>  .. [7] https://pax.grsecurity.net/
+>  
+>  
 > +Purpose
 > +=======
-
-Sounds good to me.
-
+> +
+> +GCC plugins are designed to provide a place to experiment with potential
+> +compiler features that are neither in GCC nor Clang upstream. Once
+> +their utility is proven, the goal is to upstream the feature into GCC
+> +(and Clang), and then to finally remove them from the kernel once the
+> +feature is available in all supported versions of GCC.
+> +
+> +Specifically, new plugins should implement only features that have no
+> +upstream compiler support (in either GCC or Clang).
+> +
+> +When a feature exists in Clang but not GCC, effort should be made to
+> +bring the feature to upstream GCC (rather than just as a kernel-specific
+> +GCC plugin), so the entire ecosystem can benefit from it.
+> +
+> +Similarly, even if a feature provided by a GCC plugin does *not* exist
+> +in Clang, but the feature is proven to be useful, effort should be spent
+> +to upstream the feature to GCC (and Clang).
+> +
+> +After a feature is available in upstream GCC, the plugin will be made
+> +unbuildable for the corresponding GCC version (and later). Once all
+> +kernel-supported versions of GCC provide the feature, the plugin will
+> +be removed from the kernel.
+> +
+> +
+>  Files
+>  =====
+>  
+> diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+> index ab9eb4cbe33a..3f5d3580ec06 100644
+> --- a/scripts/gcc-plugins/Kconfig
+> +++ b/scripts/gcc-plugins/Kconfig
+> @@ -37,6 +37,8 @@ config GCC_PLUGIN_CYC_COMPLEXITY
+>  
 >  config GCC_PLUGIN_SANCOV
->         bool
-> +       # Plugin can be removed once the kernel only supports GCC 6.1.0+
+>  	bool
+> +	# Plugin can be removed once the kernel only supports GCC 6.1.0+
+> +	depends on !CC_HAS_SANCOV_TRACE_PC
 
-Since we are just giving the major in the other cases below, I would
-just say GCC 6+ here (the numbering scheme changed in GCC 5 already).
+This symbol is not user selectable and the one place that does select it
+only does so when !CC_HAS_SANCOV_TRACE_PC so this seems pointless to me.
 
-Thanks for adding the versions, by the way -- this is useful long-term
-and not always done for other things...
+Keep the comment, ditch the depends?
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
+>  	help
+>  	  This plugin inserts a __sanitizer_cov_trace_pc() call at the start of
+>  	  basic blocks. It supports all gcc versions with plugin support (from
+> @@ -83,8 +85,6 @@ config GCC_PLUGIN_RANDSTRUCT
+>  	  the existing seed and will be removed by a make mrproper or
+>  	  make distclean.
+>  
+> -	  Note that the implementation requires gcc 4.7 or newer.
+> -
+>  	  This plugin was ported from grsecurity/PaX. More information at:
+>  	   * https://grsecurity.net/
+>  	   * https://pax.grsecurity.net/
+> diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+> index 90cbaff86e13..d30c6225de74 100644
+> --- a/security/Kconfig.hardening
+> +++ b/security/Kconfig.hardening
+> @@ -53,7 +53,8 @@ choice
+>  
+>  	config GCC_PLUGIN_STRUCTLEAK_USER
+>  		bool "zero-init structs marked for userspace (weak)"
+> -		depends on GCC_PLUGINS
+> +		# Plugin can be removed once the kernel only supports GCC 12+
+> +		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+>  		select GCC_PLUGIN_STRUCTLEAK
+>  		help
+>  		  Zero-initialize any structures on the stack containing
+> @@ -64,7 +65,8 @@ choice
+>  
+>  	config GCC_PLUGIN_STRUCTLEAK_BYREF
+>  		bool "zero-init structs passed by reference (strong)"
+> -		depends on GCC_PLUGINS
+> +		# Plugin can be removed once the kernel only supports GCC 12+
+> +		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+>  		depends on !(KASAN && KASAN_STACK)
+>  		select GCC_PLUGIN_STRUCTLEAK
+>  		help
+> @@ -82,7 +84,8 @@ choice
+>  
+>  	config GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
+>  		bool "zero-init everything passed by reference (very strong)"
+> -		depends on GCC_PLUGINS
+> +		# Plugin can be removed once the kernel only supports GCC 12+
+> +		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+>  		depends on !(KASAN && KASAN_STACK)
+>  		select GCC_PLUGIN_STRUCTLEAK
+>  		help
+> -- 
+> 2.30.2
+> 
