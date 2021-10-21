@@ -2,164 +2,186 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3740436079
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 13:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 968BD4364BC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 16:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbhJULpK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Oct 2021 07:45:10 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:13964 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230283AbhJULpH (ORCPT
+        id S231627AbhJUOvr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Oct 2021 10:51:47 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:48616 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231522AbhJUOvq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Oct 2021 07:45:07 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HZlt60JQCzWlZk;
-        Thu, 21 Oct 2021 19:41:02 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Thu, 21 Oct 2021 19:42:50 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Thu, 21 Oct 2021 19:42:49 +0800
-Message-ID: <352c54e1-b164-38d9-43fb-dbc28ab38ac7@huawei.com>
-Date:   Thu, 21 Oct 2021 19:42:48 +0800
+        Thu, 21 Oct 2021 10:51:46 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=ashimida@linux.alibaba.com;NM=1;PH=DS;RN=29;SR=0;TI=SMTPD_---0UtAB4.e_1634827764;
+Received: from ashimida.local(mailfrom:ashimida@linux.alibaba.com fp:SMTPD_---0UtAB4.e_1634827764)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 21 Oct 2021 22:49:25 +0800
+Subject: Re: [PATCH] [PATCH V5]ARM64: SCS: Add gcc plugin to support Shadow
+ Call Stack
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Qing Zhao <qing.zhao@oracle.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>, masahiroy@kernel.org,
+        michal.lkml@markovi.net, catalin.marinas@arm.com, will@kernel.org,
+        nathan@kernel.org, ndesaulniers@google.com, tglx@linutronix.de,
+        akpm@linux-foundation.org, frederic@kernel.org, rppt@kernel.org,
+        mark.rutland@arm.com, yifeifz2@illinois.edu, rostedt@goodmis.org,
+        viresh.kumar@linaro.org, andreyknvl@gmail.com,
+        colin.king@canonical.com, ojeda@kernel.org,
+        luc.vanoostenryck@gmail.com, elver@google.com,
+        nivedita@alum.mit.edu, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-hardening@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <1634337180-92127-1-git-send-email-ashimida@linux.alibaba.com>
+ <202110191006.68BB660@keescook>
+From:   Dan Li <ashimida@linux.alibaba.com>
+Message-ID: <a8d3fbb8-916a-13db-fc60-4ed7881d2bdb@linux.alibaba.com>
+Date:   Thu, 21 Oct 2021 22:49:23 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 2/2] riscv: switch to relative exception tables
+In-Reply-To: <202110191006.68BB660@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Jisheng Zhang <jszhang3@mail.ustc.edu.cn>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-CC:     <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-kbuild@vger.kernel.org>
-References: <20211020220529.54ccf4e9@xhacker>
- <20211020220700.04bcdeca@xhacker>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <20211020220700.04bcdeca@xhacker>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
 
-On 2021/10/20 22:07, Jisheng Zhang wrote:
-> From: Jisheng Zhang <jszhang@kernel.org>
+On 10/20/21 5:40 AM, Kees Cook wrote:
+> On Sat, Oct 16, 2021 at 06:33:00AM +0800, Dan Li wrote:
+>> This patch supports gcc-based SCS protection on ARM64 by adding a plugin.
+>>
+>> For each function that x30 will be pushed onto the stack during execution,
+>> this plugin, similar to gcc's pac implementation, will normally:
+>> 1) insert "str x30, [x18], #8" at the beginning of function's prologue
+>> 2) insert "ldr x30, [x18, #-8]!" immediately before function's
+>> epilogue return/sibling calls
+>>
+>> If pac is enabled, scs push/pop will be inserted between paciasp/autiasp.
+>>
+>> At present, this patch has been successfully compiled in the following
+>> gcc versions based on defconfig with kernel 5.14 and startup normally
+>> with commands:
+>>
+>> make ARCH=arm64 defconfig
+>> ./scripts/config -e CONFIG_GCC_PLUGINS -e CONFIG_SHADOW_CALL_STACK \
+>> -e CONFIG_GCC_PLUGIN_SHADOW_CALL_STACK
+>> make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+>>
+>> Tested gcc version:
+>> * 6.3.1
+>> * 7.3.1
+>> * 7.5.0
+>> * 8.2.1
+>> * 9.2.0
+>> * 10.3.1
+>>
+>> A similar feature request has also been sent to gcc.
+>> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102768
+>>
+>> Signed-off-by: Dan Li <ashimida@linux.alibaba.com>
+>> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
 > 
-> Similar as other architectures such as arm64, x86 and so on, use
-> offsets relative to the exception table entry values rather than
-> absolute addresses for both the exception locationand the fixup.
+> This is very cool; thanks for working on this! I am, however, struggling
+> with a few overlapping issues that touch this area of functionality.
+> I'll try to give you some background on my thoughts here...
 > 
-> However, RISCV label difference will actually produce two relocations,
-> a pair of R_RISCV_ADD32 and R_RISCV_SUB32. Take below simple code for
-> example:
+> For a while now, it's been made clear that Linus isn't a fan[1] of the
+> gcc-plugins (and Masahiro hasn't been too happy either, as the plugins
+> complicate[2] things for the build infrastructure). However, it's been
+> pretty important for proving out various compiler-provided security
+> defenses. I view them as being in one of three states:
 > 
-> $ cat test.S
-> .section .text
-> 1:
->          nop
-> .section __ex_table,"a"
->          .balign 4
->          .long (1b - .)
-> .previous
+> 1) stuff that isn't available in either compiler
+> 	- e.g. structure randomization
+> 	- e.g. per-task canaries on arm32
+> 2) stuff that is in Clang but stalled/unlikely in GCC
+> 	- e.g. stack initialization
+> 3) deprecated
 > 
-> $ riscv64-linux-gnu-gcc -c test.S
-> $ riscv64-linux-gnu-readelf -r test.o
-> Relocation section '.rela__ex_table' at offset 0x100 contains 2 entries:
->    Offset          Info           Type           Sym. Value    Sym. Name + Addend
-> 000000000000  000600000023 R_RISCV_ADD32     0000000000000000 .L1^B1 + 0
-> 000000000000  000500000027 R_RISCV_SUB32     0000000000000000 .L0  + 0
+> State 1 hasn't changed much really, and serves as a good "try out this
+> idea and see if people want it", as a jumping-off point for actually
+> getting the feature into GCC and Clang proper.
 > 
-> The modpost will complain the R_RISCV_SUB32 relocation, so we need to
-> patch modpost.c to skip this relocation for .rela__ex_table section.
+> State 2 is what happens with something from State 1 gets implemented in
+> Clang but not GCC. (i.e. Clang upstream has been convinced of the
+> utility of a given feature, which should help with upstreaming it to
+> GCC.)
 > 
-> After this patch, the __ex_table section size of defconfig vmlinux is
-> reduced from 7072 Bytes to 3536 Bytes.
+> State 3 is what happens when the feature exists in GCC, but not in all GCC
+> versions supported by the kernel. It makes a plugin follow the kernel's
+> GCC deprecation schedule.
 > 
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-> ---
+> Notably, since we don't have Clang plugins, there's no corresponding
+> "State 2" for where something is in GCC but not Clang, but we can still
+> enable it under Clang builds.
+> 
+> Anyway, this is a long way to say that I don't think I want to add
+> a new gcc-plugin when it is at "State 2" (i.e. Clang has support but
+> GCC doesn't.) There's no need to "prove" that the compiler feature is
+> generally desirable, so it's best to get this into GCC directly.
+> 
+Thank for your sharing kees,
 
+I learned the history of discussions about plugins, and also just saw
+your latest patch[1].
 
+It sounds reasonable that the kernel should not rely on GCC plugins as
+much as possible, and it's better to submit such features to GCC first.
 
-...
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index cb8ab7d91d30..0aa14b5bd124 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1830,6 +1830,27 @@ static int addend_mips_rel(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
->   	return 0;
->   }
->   
-> +#ifndef EM_RISCV
-> +#define EM_RISCV		243
-> +#endif
-> +
-> +#ifndef R_RISCV_SUB32
-> +#define R_RISCV_SUB32		39
-> +#endif
-> +
-> +static int addend_riscv_rela(struct elf_info *elf, Elf_Shdr *sechdr, Elf_Rela *r)
-> +{
-> +	unsigned int r_typ = ELF_R_TYPE(r->r_info);
-> +	const char *fromsec;
-> +
-> +	fromsec = sech_name(elf, sechdr);
-> +	fromsec += strlen(".rela");
-> +
-> +	if (!strcmp("__ex_table", fromsec) && r_typ == R_RISCV_SUB32)
-> +		return 1;	/* skip this */
-> +	return 0;
-> +}
-> +
->   static void section_rela(const char *modname, struct elf_info *elf,
->   			 Elf_Shdr *sechdr)
->   {
-> @@ -1866,6 +1887,12 @@ static void section_rela(const char *modname, struct elf_info *elf,
->   		r_sym = ELF_R_SYM(r.r_info);
->   #endif
->   		r.r_addend = TO_NATIVE(rela->r_addend);
-> +		switch (elf->hdr->e_machine) {
-> +		case EM_RISCV:
-> +			if (addend_riscv_rela(elf, sechdr, &r))
-directly use
-if (!strcmp("__ex_table", fromsec) && ELF_R_TYPE(r.r_info) == R_RISCV_SUB32)
+But we often face the problem of low compiler version in practice. Those
+who really care about security should choose to switch to the appropriate
+version, but it may not always be easy for security guys to push compiler
+guys or customers to make changes. It's even more annoying when this
+happens frequently. Providing plugins for lower versions of GCC will make
+such things easier.
 
-> +				continue;
-> +			break;
-> +		}
->   		sym = elf->symtab_start + r_sym;
->   		/* Skip special sections */
->   		if (is_shndx_special(sym->st_shndx))
-> diff --git a/scripts/sorttable.c b/scripts/sorttable.c
-> index 6ee4fa882919..39e86e4acea3 100644
-> --- a/scripts/sorttable.c
-> +++ b/scripts/sorttable.c
-> @@ -346,6 +346,7 @@ static int do_file(char const *const fname, void *addr)
->   	case EM_PARISC:
->   	case EM_PPC:
->   	case EM_PPC64:
-> +	case EM_RISCV:
->   		custom_sort = sort_relative_table;
->   		break;
->   	case EM_ARCOMPACT:
-> @@ -353,7 +354,6 @@ static int do_file(char const *const fname, void *addr)
->   	case EM_ARM:
->   	case EM_MICROBLAZE:
->   	case EM_MIPS:
-> -	case EM_RISCV:
->   	case EM_XTENSA:
->   		break;
->   	default:
+At the same time, it sounds more reasonable to dynamically select pac/scs
+for SCS, but there are also gcc <7 versions that may need to be supported.
+Another case is forward edge KCFI, I'm not sure if there are other ways to
+support low version gcc besides plugins (please let me know if so)
+
+So what I want to say is, after both GCC and CLANG support a feature
+(in "State 3"), could it be allowed to support for this feature
+in lower versions of gcc through a plugin?
+
+[1]https://lore.kernel.org/all/20211020173554.38122-1-keescook@chromium.org/
+
+> On top of this, there is the interaction between SCS and PAC, in the
+> sense that the kernel will need to be able to dynamically select between
+> SCS and PAC (likely via the "alternatives" infrastructure), and that
+> needs work for Clang too, so it'd be a good time to coordinate this with
+> GCC. (Sami and Ard have been working[3] on this, though I realize I don't
+> think there was a specific bug for it, so I've opened one now[4]).
+>
+I'm not sure, maybe it's a stupid question ...
+
+Do SCS and PAC have to choose one or the other? Although the two are
+similar in theory, they can be implemented without conflict. If they are
+turned on at the same time, it may usually makes the attacker think about
+one more step.
+
+In the case that both can be supported at the same time, is it better to
+let the user decide whether to open at the same time?
+
+> So, I think the best way forward with this would be to implement this as
+> a feature in GCC directly, and to see if there's some way to coordinate
+> work with Sami, Ard, Qing, and other folks who look into this.
+> 
+> -Kees
+> 
+> [1] https://lore.kernel.org/lkml/202103031334.8D898CA@keescook/
+> [2] https://lore.kernel.org/lkml/20200729031537.37926-1-masahiroy@kernel.org/
+> [3] https://lore.kernel.org/all/20211013152243.2216899-1-ardb@kernel.org/
+> [4] https://github.com/KSPP/linux/issues/168
+> 
+>> 2.7.4
+>>
+>> -- 
+>> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/1634337180-92127-1-git-send-email-ashimida%40linux.alibaba.com.
 > 
