@@ -2,94 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F58435F07
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 12:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 768EF436066
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 13:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbhJUKaq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Oct 2021 06:30:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230077AbhJUKah (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Oct 2021 06:30:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 874596120C;
-        Thu, 21 Oct 2021 10:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634812101;
-        bh=XZqwcRi8eGbcHfTa8FsBo0CyV+VMmanZEXSL34v2xNA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LSIZboXeBiM2XeY8Wt+EdS5vzOT0y1ZBbT9bRqQsj3JP7BP/yWGDJFdQJDSckB09B
-         7uqGgy/9ZJHs5HkWP1mzK+b4YDPzJqFGxOwtsNXcSuJd++RJzuPnbSBghUV5uvPrQr
-         48FXQ0hb3XPEUFdAkHZ8go/OfpfNzL7Oi+qwtMWOwsIoe54SPCBCf3WNrap+GInr0V
-         yGABj0eWy+Oy4uHPhX+84IqzwjRnnFriSooLwDn9DdP3ldmXSfRxTG8Sqpob+snAai
-         xloBuBSX8vt6kna/4iXumpsepFj39VfqjUz5ICYwwc7ll2r4XouRi6EbQQOqDpLgmh
-         FssfdAsIY4+8g==
-Received: by mail-oi1-f170.google.com with SMTP id o83so295125oif.4;
-        Thu, 21 Oct 2021 03:28:21 -0700 (PDT)
-X-Gm-Message-State: AOAM532DDyVNWD56Lze+VMe2j0wrKXyHFoz1vzJF7HGTawJ3pxUd+IoB
-        fsnsREcnrxDYexSext4MlwHcM8cep6MuXn6B43k=
-X-Google-Smtp-Source: ABdhPJwJS57ISbZcVKqBAD81WN0NdiqSiFCaDg4V8so9PFGuh1YHfNT+etwlr7CUC37Bkxt5mEwG0tXwsqwrLAT+eTk=
-X-Received: by 2002:aca:4bc4:: with SMTP id y187mr3602617oia.174.1634812100804;
- Thu, 21 Oct 2021 03:28:20 -0700 (PDT)
+        id S230105AbhJULlB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Oct 2021 07:41:01 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:13963 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229765AbhJULlA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 21 Oct 2021 07:41:00 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HZlnL63ZLzZcKY;
+        Thu, 21 Oct 2021 19:36:54 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 19:38:42 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 19:38:42 +0800
+Message-ID: <bd3419a3-b858-1a4d-a081-d09bbc56eaa7@huawei.com>
+Date:   Thu, 21 Oct 2021 19:38:41 +0800
 MIME-Version: 1.0
-References: <20211020173554.38122-1-keescook@chromium.org>
-In-Reply-To: <20211020173554.38122-1-keescook@chromium.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 21 Oct 2021 12:28:09 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEw2P+Q2Nd-+vf6U5apx+v5Q4TTW6y0m-MFaB1O2OAehQ@mail.gmail.com>
-Message-ID: <CAMj1kXEw2P+Q2Nd-+vf6U5apx+v5Q4TTW6y0m-MFaB1O2OAehQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] gcc-plugins: Explicitly document purpose and
- deprecation schedule
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Dan Li <ashimida@linux.alibaba.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/2] riscv: consolidate __ex_table construction
+Content-Language: en-US
+To:     Jisheng Zhang <jszhang3@mail.ustc.edu.cn>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>
+CC:     <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>
+References: <20211020220529.54ccf4e9@xhacker>
+ <20211020220610.25443e4c@xhacker>
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <20211020220610.25443e4c@xhacker>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 20 Oct 2021 at 19:35, Kees Cook <keescook@chromium.org> wrote:
->
-> Hi,
->
-> GCC plugins should only exist when some compiler feature needs to be
-> proven but does not exist in either GCC nor Clang. For example, if a
-> desired feature is already in Clang, it should be added to GCC upstream.
-> Document this explicitly.
->
-> I'll put this in -next unless there are objections. :)
->
-> Thanks!
->
-> -Kees
->
->
-> Kees Cook (2):
->   gcc-plugins: Explicitly document purpose and deprecation schedule
->   gcc-plugins: Remove cyc_complexity
->
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
->  Documentation/kbuild/gcc-plugins.rst        | 28 ++++++++-
->  scripts/Makefile.gcc-plugins                |  2 -
->  scripts/gcc-plugins/Kconfig                 | 20 +-----
->  scripts/gcc-plugins/cyc_complexity_plugin.c | 69 ---------------------
->  security/Kconfig.hardening                  |  9 ++-
->  5 files changed, 34 insertions(+), 94 deletions(-)
->  delete mode 100644 scripts/gcc-plugins/cyc_complexity_plugin.c
->
-> --
-> 2.30.2
->
+On 2021/10/20 22:06, Jisheng Zhang wrote:
+> From: Jisheng Zhang <jszhang@kernel.org>
+> 
+> Consolidate all the __ex_table constuction code with a _ASM_EXTABLE
+> helper.
+> 
+> There should be no functional change as a result of this patch.
+> 
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>   arch/riscv/include/asm/futex.h   | 12 +++-------
+>   arch/riscv/include/asm/uaccess.h | 40 +++++++++++---------------------
+>   2 files changed, 17 insertions(+), 35 deletions(-)
+> 
+> diff --git a/arch/riscv/include/asm/futex.h b/arch/riscv/include/asm/futex.h
+> index 1b00badb9f87..3191574e135c 100644
+> --- a/arch/riscv/include/asm/futex.h
+> +++ b/arch/riscv/include/asm/futex.h
+> @@ -30,10 +30,7 @@
+>   	"3:	li %[r],%[e]				\n"	\
+>   	"	jump 2b,%[t]				\n"	\
+>   	"	.previous				\n"	\
+> -	"	.section __ex_table,\"a\"		\n"	\
+> -	"	.balign " RISCV_SZPTR "			\n"	\
+> -	"	" RISCV_PTR " 1b, 3b			\n"	\
+> -	"	.previous				\n"	\
+> +		_ASM_EXTABLE(1b, 3b)				\
+>   	: [r] "+r" (ret), [ov] "=&r" (oldval),			\
+>   	  [u] "+m" (*uaddr), [t] "=&r" (tmp)			\
+>   	: [op] "Jr" (oparg), [e] "i" (-EFAULT)			\
+> @@ -103,11 +100,8 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
+>   	"4:	li %[r],%[e]				\n"
+>   	"	jump 3b,%[t]				\n"
+>   	"	.previous				\n"
+> -	"	.section __ex_table,\"a\"		\n"
+> -	"	.balign " RISCV_SZPTR "			\n"
+> -	"	" RISCV_PTR " 1b, 4b			\n"
+> -	"	" RISCV_PTR " 2b, 4b			\n"
+> -	"	.previous				\n"
+> +		_ASM_EXTABLE(1b, 4b)			\
+> +		_ASM_EXTABLE(2b, 4b)			\
+>   	: [r] "+r" (ret), [v] "=&r" (val), [u] "+m" (*uaddr), [t] "=&r" (tmp)
+>   	: [ov] "Jr" (oldval), [nv] "Jr" (newval), [e] "i" (-EFAULT)
+>   	: "memory");
+> diff --git a/arch/riscv/include/asm/uaccess.h b/arch/riscv/include/asm/uaccess.h
+> index f314ff44c48d..35802e72ace8 100644
+> --- a/arch/riscv/include/asm/uaccess.h
+> +++ b/arch/riscv/include/asm/uaccess.h
+> @@ -10,6 +10,12 @@
+>   
+>   #include <asm/pgtable.h>		/* for TASK_SIZE */
+>   
+> +#define _ASM_EXTABLE(from, to)						\
+> +	"	.pushsection	__ex_table, \"a\"\n"			\
+> +	"	.balign "	RISCV_SZPTR "	 \n"			\
+> +	"	" RISCV_PTR	"(" #from "), (" #to ")\n"		\
+> +	"	.popsection\n"
+> +
+
+The jump_label mechanism could use this macro too,
+see arch/riscv/include/asm/jump_label.h, maybe move the above into asm.h
+and also do some replace in next patch ?
+
+Question: the jump label use relative address, but why not trigger the 
+Section mismatch issue?
