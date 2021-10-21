@@ -2,80 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7196443576E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 02:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C68EE43586E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 03:46:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232033AbhJUA0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Oct 2021 20:26:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43916 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232112AbhJUAZX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Oct 2021 20:25:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F4C0613A2;
-        Thu, 21 Oct 2021 00:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634775788;
-        bh=pNZwSpSFEOCU7NUQbTWtrABmKlokw4WqU2KF4TizP0M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=T6aD2R0XRkBx6qQZ2spbuuPmpGrdv5RlO2Z4cfFpD8SI9WFMrqHxB8joQXlNq44kh
-         +TeJ7W+9KnVpG6Yx9kFqHwz3+AYrxpfpnx90vjM+HRoCsN6d6Mfx8zEVxynJOfVmRe
-         CmEs03ZTVbkTZhFaFsNJ1v0kWyn5qOmDdxx5unN+F5eAD/lwm6vXngcKZpMnBYRuvB
-         tRxAa0jioCB6CIe5WCWe5UmoWjk5LqbYfEatn0Qmqrig/8F37xGTStW/+cDNtWt3b7
-         M4kErU3XiLPrlE19bYULXVR8G1yJ3OKrTJ5DCNd6e4hbwKvk5YZNgjHY+XSVmexduc
-         nKCfYGEaAldGw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, masahiroy@kernel.org,
-        michal.lkml@markovi.net, linux-hardening@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/10] gcc-plugins/structleak: add makefile var for disabling structleak
-Date:   Wed, 20 Oct 2021 20:22:56 -0400
-Message-Id: <20211021002305.1129633-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
+        id S230192AbhJUBtD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Oct 2021 21:49:03 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:26176 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230103AbhJUBtD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 20 Oct 2021 21:49:03 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HZVfz3npVz8tkv;
+        Thu, 21 Oct 2021 09:45:31 +0800 (CST)
+Received: from kwepemm600003.china.huawei.com (7.193.23.202) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 09:46:46 +0800
+Received: from [10.67.110.146] (10.67.110.146) by
+ kwepemm600003.china.huawei.com (7.193.23.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 09:46:45 +0800
+Subject: Re: [QUESTION] Compile error on ppc32 with compilation option
+ '-fdata-sections'
+To:     Kees Cook <keescook@chromium.org>
+CC:     <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
+        <daniel@iogearbox.net>, <andriin@fb.com>,
+        <linux-kbuild@vger.kernel.org>
+References: <fe5a0d0c-0394-5866-8b92-e91f348a3a2a@huawei.com>
+ <202110200954.F8F7A52@keescook>
+From:   Ye Weihua <yeweihua4@huawei.com>
+Message-ID: <cfee6631-173c-f906-3567-017bb34dfd01@huawei.com>
+Date:   Thu, 21 Oct 2021 09:46:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <202110200954.F8F7A52@keescook>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.67.110.146]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemm600003.china.huawei.com (7.193.23.202)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Brendan Higgins <brendanhiggins@google.com>
 
-[ Upstream commit 554afc3b9797511e3245864e32aebeb6abbab1e3 ]
+On 2021/10/21 0:55, Kees Cook wrote:
+> On Tue, Oct 19, 2021 at 10:14:34AM +0800, Ye Weihua wrote:
+>> Hi,
+>>
+>>
+>> When I was compiling the ppc32 kernel with the compilation option
+>> '-fdata-sections', a compilation error occurred and the message was as
+>> follows:
+>>
+>>
+>>      "Inconsistent kallsyms data
+>>
+>>      Try make KALLSYMS_EXTRA_PASS=1 as a workaround"
+>>
+>>
+>> After comparing the symbol tables, I found that the "_end" and "__bss_stop"
+>> positions in Symtem.map and tmp_System.map are different: in Symtem.map they
+>> are in the middle of the symbol table. In tmp_System.map, they are at the
+>> end of the symbol table.
+>>
+>>
+>> commit af73d78bd384aa9b add "strip-debug" to improve performance. However,
+>> the addition takes effect only for tmp_vmlinux but not for vmlinux. As a
+>> result, the symbol tables are different after the "-fdata-sections"
+>> compilation option is enabled.
+>>
+>>
+>> How the "strip-debug" compilation option affects symbol table order?
+>>
+>> Can "strip-debug" be added during vmlinux generation?
+> How did you add -fdata-sections? There needs to be a lot of special
+> handling to use that option...
 
-KUnit and structleak don't play nice, so add a makefile variable for
-enabling structleak when it complains.
+I added "-fdata-sections" to the "CFLAGS_KERNEL" field and "-Wl,--gc-sections" to "LDFLAGS_VMLINUX" in Makefile. I've configured it this way on other architectures, but I haven't had the same problem with the exception of ppc32. Are there any other configurations or steps required?
 
-Co-developed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: David Gow <davidgow@google.com>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Makefile.gcc-plugins | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
-index 0a482f341576..93ca13e4f8f9 100644
---- a/scripts/Makefile.gcc-plugins
-+++ b/scripts/Makefile.gcc-plugins
-@@ -17,6 +17,10 @@ gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STRUCTLEAK_VERBOSE)	\
- 		+= -fplugin-arg-structleak_plugin-verbose
- gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL)	\
- 		+= -fplugin-arg-structleak_plugin-byref-all
-+ifdef CONFIG_GCC_PLUGIN_STRUCTLEAK
-+    DISABLE_STRUCTLEAK_PLUGIN += -fplugin-arg-structleak_plugin-disable
-+endif
-+export DISABLE_STRUCTLEAK_PLUGIN
- gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STRUCTLEAK)		\
- 		+= -DSTRUCTLEAK_PLUGIN
- 
--- 
-2.33.0
+Thanks.
 
