@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB1FF43571D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 02:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B33E43574E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Oct 2021 02:25:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbhJUAYi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Oct 2021 20:24:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43280 "EHLO mail.kernel.org"
+        id S232288AbhJUAZj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Oct 2021 20:25:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44056 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231947AbhJUAYN (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Oct 2021 20:24:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0CEA46135F;
-        Thu, 21 Oct 2021 00:21:56 +0000 (UTC)
+        id S231863AbhJUAYz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 20 Oct 2021 20:24:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EF3C60FDA;
+        Thu, 21 Oct 2021 00:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634775718;
-        bh=HE4PmzW54rEQQgoPfYsS2lGpZo21B1lfgplaFYBTJBo=;
+        s=k20201202; t=1634775760;
+        bh=qEYQFf0VxEija/mw0Byd80LlBxff9kFHIH+fV2S1Zzo=;
         h=From:To:Cc:Subject:Date:From;
-        b=hnCk+3r7MynwQCLzhskUQpZgdGsy1ot1+kXN2sIz6OKbAao6AIajI1YKgP8hZKLyD
-         9LXn/jx2322apKkOiTMf+OQ1gu+ExoNrhdmBHyMHU9ZPe7UW3ZKt7zIApfQu+B1GEr
-         A33WD1v3XFKIojpbejMjVhjZKoBk/wwmO6/nEPvyM/T6zeLSBFSd4bPl5Dyr5XO+f1
-         4zatNbq+DW/6aK9r650Usva6LweyfVhzFZg5+Xq/62OVJ21Oa5cVXCyBuzh4GJ2eDF
-         u6JkCzyOk9vmYu4txTvLEQl8YlVM3zpvGRBgZuRLDH9wAejnxCaiGctyikbBv+T80I
-         I34PQpfdQL1Cw==
+        b=IzW+oBztTwdosMTnKkuLxL+hsd3cYuNaNNMTlkqoW3vpWl1kFZpFkJIcdcwJtgdpl
+         3mGVehtrc4rRdQwjfDEiNQZ6l7CSSSwF3nQ/a2sL3SwjCUF0iyp0UcVbJ472w6yxPm
+         gXmGLTKIJDAr3eSCMi3g3vG48VDW01gC7DBr07W+DAa76qRb4HQDifKYQre2kCx1pP
+         wzUsJDoPMNUtiq3b3q7zSGMUPf302V8j10WuVDf2w5zNjNbiLXgQjuhPs/YMlI7sbJ
+         yExvcHeQlD86em2wyRH9orgkNJuSYG9hGzRyYrxuvxEawAB547GKQ2mDHEfx+TQhtV
+         EebBWpzDbsInw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Brendan Higgins <brendanhiggins@google.com>,
@@ -32,9 +32,9 @@ Cc:     Brendan Higgins <brendanhiggins@google.com>,
         Sasha Levin <sashal@kernel.org>, masahiroy@kernel.org,
         michal.lkml@markovi.net, linux-hardening@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 01/14] gcc-plugins/structleak: add makefile var for disabling structleak
-Date:   Wed, 20 Oct 2021 20:21:42 -0400
-Message-Id: <20211021002155.1129292-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/11] gcc-plugins/structleak: add makefile var for disabling structleak
+Date:   Wed, 20 Oct 2021 20:22:27 -0400
+Message-Id: <20211021002238.1129482-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 X-stable: review
@@ -62,7 +62,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
-index 952e46876329..4aad28480035 100644
+index 5f7df50cfe7a..63d21489216b 100644
 --- a/scripts/Makefile.gcc-plugins
 +++ b/scripts/Makefile.gcc-plugins
 @@ -19,6 +19,10 @@ gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF)		\
