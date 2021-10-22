@@ -2,49 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF03343783B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Oct 2021 15:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E127C437840
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Oct 2021 15:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232113AbhJVNpe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Oct 2021 09:45:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbhJVNpc (ORCPT
+        id S232113AbhJVNqo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Oct 2021 09:46:44 -0400
+Received: from out3.mail.ruhr-uni-bochum.de ([134.147.53.155]:56247 "EHLO
+        out3.mail.ruhr-uni-bochum.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230342AbhJVNqo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Oct 2021 09:45:32 -0400
-Received: from out2.mail.ruhr-uni-bochum.de (out2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2ae5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F87C061764
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 Oct 2021 06:43:14 -0700 (PDT)
-Received: from mx2.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by out2.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HbQXd42q5z8SNQ;
-        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
+        Fri, 22 Oct 2021 09:46:44 -0400
+Received: from mx3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by out3.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HbQZ06102z8SF7;
+        Fri, 22 Oct 2021 15:44:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rub.de; s=mail-2017;
-        t=1634910193; bh=UW0RRMdNYIYpTUexTiHncCxXdqsj1VNJIwvwd1uOB7U=;
+        t=1634910264; bh=bKnMrK73hAqZqR0N6bsEG8P+vUo330PcIkQBC6ocRmQ=;
         h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=T72T9rpdXPMLxpGsb9wbmLk4oICdwvvxkF3Tdgtad2hJmbDNx0U3Bs8ylsIumdzB5
-         /HhmTdGvK8hK0IwWzJlkHJGfHwa3lMOW3cY6JOALMBNM8cuPn/TVWsZr7v/WrClN1Z
-         sm9FemJaDE8onRahyoWTlljYUP8ZmLKK2efdEdPk=
-Received: from out2.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by mx2.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HbQXd398wz8SNB;
-        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
-X-RUB-Notes: Internal origin=IPv6:2a05:3e00:c:1001::8693:2aec
+        b=RAksyYAt4gWoe98m/EEi5QCz3YFy/P2lUSyrt26Bddk3FwQOBTJPr9v1w+95APSus
+         CqT7m/WLdSj/Jfq28VwJgGrvlwkRgogejWg056ab3Yuj7zcJ+LVPBUerx50EloiQ45
+         Xo4V4J6NQc7BSQjCED4A83ALqoxh/cm5KWSjXDts=
+Received: from out3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by mx3.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HbQZ05K5Sz8SG0;
+        Fri, 22 Oct 2021 15:44:24 +0200 (CEST)
+X-RUB-Notes: Internal origin=134.147.42.236
 X-Envelope-Sender: <thorsten.berger@rub.de>
-Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2aec])
-        by out2.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HbQXd1Ldnz8SRm;
-        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
+Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [134.147.42.236])
+        by out3.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HbQZ03y2Rz8SDc;
+        Fri, 22 Oct 2021 15:44:24 +0200 (CEST)
 X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.1 at mx2.mail.ruhr-uni-bochum.de
+X-Virus-Scanned: clamav-milter 0.103.1 at mx3.mail.ruhr-uni-bochum.de
 Received: from [10.150.66.4] (nb02.ig09.ruhr-uni-bochum.de [10.150.66.4])
-        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HbQXc6QNtzDgyh;
-        Fri, 22 Oct 2021 15:43:12 +0200 (CEST)
+        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HbQZ029CVzDgyc;
+        Fri, 22 Oct 2021 15:44:24 +0200 (CEST)
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.103.0 at mail2.mail.ruhr-uni-bochum.de
-Message-ID: <0aad8a90-2704-4f8b-625c-0ee591109738@rub.de>
-Date:   Fri, 22 Oct 2021 15:43:10 +0200
+Message-ID: <6917af58-6735-7265-472f-17a732f19741@rub.de>
+Date:   Fri, 22 Oct 2021 15:44:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: [RFC v3 07/12] Add files for handling expressions
+Subject: [RFC v3 08/12] Add files for RangeFix
 Content-Language: en-US
 From:   Thorsten Berger <thorsten.berger@rub.de>
 To:     linux-kbuild@vger.kernel.org
@@ -70,24 +67,22 @@ Suggested-by: Sarah Nadi <nadi@ualberta.ca>
 Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 
-To translate the Kconfig-model into propositional logic and resolve
-conflicts, we need to handle propostional formulas.
-These files contain many functions and macros to deal with
-propositional formulas.
+The algorithm RangeFix is used to resolve the conflicts. This is the
+implementation of the algorithm.
 
 ---
- scripts/kconfig/cf_expr.c | 2146 +++++++++++++++++++++++++++++++++++++
- scripts/kconfig/cf_expr.h |  237 ++++
- 2 files changed, 2383 insertions(+)
- create mode 100644 scripts/kconfig/cf_expr.c
- create mode 100644 scripts/kconfig/cf_expr.h
+ scripts/kconfig/cf_rangefix.c | 1017 +++++++++++++++++++++++++++++++++
+ scripts/kconfig/cf_rangefix.h |   18 +
+ 2 files changed, 1035 insertions(+)
+ create mode 100644 scripts/kconfig/cf_rangefix.c
+ create mode 100644 scripts/kconfig/cf_rangefix.h
 
-diff --git a/scripts/kconfig/cf_expr.c b/scripts/kconfig/cf_expr.c
+diff --git a/scripts/kconfig/cf_rangefix.c b/scripts/kconfig/cf_rangefix.c
 new file mode 100644
-index 000000000000..7ca0ff4bc6ad
+index 000000000000..9b5773188175
 --- /dev/null
-+++ b/scripts/kconfig/cf_expr.c
-@@ -0,0 +1,2146 @@
++++ b/scripts/kconfig/cf_rangefix.c
+@@ -0,0 +1,1017 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
@@ -106,2375 +101,1027 @@ index 000000000000..7ca0ff4bc6ad
 +
 +#include "configfix.h"
 +
-+static void create_fexpr_bool(struct symbol *sym);
-+static void create_fexpr_nonbool(struct symbol *sym);
-+static void create_fexpr_unknown(struct symbol *sym);
-+static void create_fexpr_choice(struct symbol *sym);
++#define MAX_DIAGNOSES 3
++#define MAX_SECONDS 120
++#define PRINT_UNSAT_CORE true
++#define PRINT_DIAGNOSES false
++#define PRINT_DIAGNOSIS_FOUND true
++#define MINIMISE_DIAGNOSES false
++#define MINIMISE_UNSAT_CORE true
 +
-+static void pexpr_print_util(struct pexpr *e, int prevtoken);
++static struct fexl_list *diagnoses;
++static struct sfl_list *diagnoses_symbol;
 +
-+static int trans_count;
++static struct fexl_list * generate_diagnoses(PicoSAT *pico);
++
++static void add_fexpr_to_constraint_set(struct fexpr_list *C);
++static void set_assumptions(PicoSAT *pico, struct fexpr_list *c);
++static void fexpr_add_assumption(PicoSAT *pico, struct fexpr *e, int satval);
++static struct fexpr_list * get_unsat_core_soft(PicoSAT *pico);
++static struct fexpr_list * minimise_unsat_core(PicoSAT *pico, struct fexpr_list *C);
 +
 +
-+/*
-+ *  create a fexpr
-+ */
-+struct fexpr * fexpr_create(int satval, enum fexpr_type type, char *name)
++static struct fexpr_list * get_difference(struct fexpr_list *C, struct fexpr_list *E0);
++static bool has_intersection(struct fexpr_list *e, struct fexpr_list *X);
++static struct fexpr_list * fexpr_list_union(struct fexpr_list *A, struct fexpr_list *B);
++static struct fexl_list * fexl_list_union(struct fexl_list *A, struct fexl_list *B);
++static bool is_subset_of(struct fexpr_list *A, struct fexpr_list *B);
++static void print_unsat_core(struct fexpr_list *list);
++static bool diagnosis_contains_fexpr(struct fexpr_list *diagnosis, struct fexpr *e);
++static bool diagnosis_contains_symbol(struct sfix_list *diagnosis, struct symbol *sym);
++
++static void print_diagnoses(struct fexl_list *diag);
++static void print_diagnoses_symbol(struct sfl_list *diag_sym);
++
++static struct sfl_list * convert_diagnoses(struct fexl_list *diagnoses);
++static struct sfix_list * convert_diagnosis(struct fexpr_list *diagnosis);
++static struct symbol_fix * symbol_fix_create(struct fexpr *e, enum symbolfix_type type, struct fexpr_list *diagnosis);
++static struct sfl_list * minimise_diagnoses(PicoSAT *pico, struct fexl_list *diagnoses);
++
++static tristate calculate_new_tri_val(struct fexpr *e, struct fexpr_list *diagnosis);
++static const char * calculate_new_string_value(struct fexpr *e, struct fexpr_list *diagnosis);
++
++/* count assumptions, only used for debugging */
++static unsigned int nr_of_assumptions = 0, nr_of_assumptions_true = 0;
++
++/* -------------------------------------- */
++
++struct sfl_list * rangefix_run(PicoSAT *pico)
 +{
-+    struct fexpr *e = xcalloc(1, sizeof(*e));
-+    e->satval = satval;
-+    e->type = type;
-+    e->name = str_new();
-+    e->assumption = false;
-+    str_append(&e->name, name);
++    printd("Starting RangeFix...\n");
++    printd("Generating diagnoses...");
++    clock_t start, end;
++    double time;
++    start = clock();
 +
-+    return e;
-+}
++    /* generate the diagnoses */
++    diagnoses = generate_diagnoses(pico);
 +
-+/*
-+ * create the fexpr for a symbol
-+ */
-+void sym_create_fexpr(struct symbol *sym)
-+{
-+    if (sym_is_choice(sym))
-+        create_fexpr_choice(sym);
-+    else if (sym_is_boolean(sym))
-+        create_fexpr_bool(sym);
-+    else if (sym_is_nonboolean(sym))
-+        create_fexpr_nonbool(sym);
-+    else
-+        create_fexpr_unknown(sym);
-+}
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++    printd("Generating diagnoses...done. (%.6f secs.)\n", time);
 +
-+/*
-+ * create the fexpr for symbols with reverse dependencies
-+ */
-+static void create_fexpr_selected(struct symbol *sym)
-+{
-+    /* fexpr_sel_y */
-+    struct fexpr *fexpr_sel_y = fexpr_create(sat_variable_nr++, FE_SELECT, sym->name);
-+    str_append(&fexpr_sel_y->name, "_sel_y");
-+    fexpr_sel_y->sym = sym;
-+    fexpr_add_to_satmap(fexpr_sel_y);
-+
-+    sym->fexpr_sel_y = fexpr_sel_y;
-+
-+    /* fexpr_sel_m */
-+    if (sym->type == S_BOOLEAN)
-+        return;
-+    struct fexpr *fexpr_sel_m = fexpr_create(sat_variable_nr++, FE_SELECT, sym->name);
-+    str_append(&fexpr_sel_m->name, "_sel_m");
-+    fexpr_sel_m->sym = sym;
-+    fexpr_add_to_satmap(fexpr_sel_m);
-+
-+    sym->fexpr_sel_m = fexpr_sel_m;
-+}
-+
-+/*
-+ * create the fexpr for a boolean/tristate symbol
-+ */
-+static void create_fexpr_bool(struct symbol *sym)
-+{
-+    struct fexpr *fexpr_y = fexpr_create(sat_variable_nr++, FE_SYMBOL, sym->name);
-+    fexpr_y->sym = sym;
-+    fexpr_y->tri = yes;
-+    fexpr_add_to_satmap(fexpr_y);
-+
-+    sym->fexpr_y = fexpr_y;
-+
-+    struct fexpr *fexpr_m;
-+    if (sym->type == S_TRISTATE) {
-+        fexpr_m = fexpr_create(sat_variable_nr++, FE_SYMBOL, sym->name);
-+        str_append(&fexpr_m->name, "_MODULE");
-+        fexpr_m->sym = sym;
-+        fexpr_m->tri = mod;
-+        fexpr_add_to_satmap(fexpr_m);
-+    } else {
-+        fexpr_m = const_false;
++    if (PRINT_DIAGNOSES) {
++        printd("Diagnoses (only for debugging):\n");
++        print_diagnoses(diagnoses);
++        printd("\n");
 +    }
 +
-+    sym->fexpr_m = fexpr_m;
++    /* convert diagnoses of fexpr to diagnoses of symbols */
++    if (MINIMISE_DIAGNOSES)
++        diagnoses_symbol = minimise_diagnoses(pico, diagnoses);
++    else
++        diagnoses_symbol = convert_diagnoses(diagnoses);
 +
-+    if (sym->rev_dep.expr)
-+        create_fexpr_selected(sym);
++    printd("\n");
++
++    return diagnoses_symbol;
 +}
 +
 +/*
-+ * create the fexpr for a non-boolean symbol
++ * generate the diagnoses
 + */
-+static void create_fexpr_nonbool(struct symbol *sym)
++static struct fexl_list * generate_diagnoses(PicoSAT *pico)
 +{
-+    sym->fexpr_y = const_false;
-+    sym->fexpr_m = const_false;
-+    sym->nb_vals = fexpr_list_init();
++    struct fexpr_list *C = fexpr_list_init();
++    struct fexl_list *E = fexl_list_init();
++    struct fexl_list *R = fexl_list_init();
++    struct fexpr_list *X, *e, *x_set, *E1, *E2;
++    struct fexl_list *E_R_Union;
 +
-+    /* default values */
-+    char int_values[][2] = {"n", "0", "1"};
-+    char hex_values[][4] = {"n", "0x0", "0x1"};
-+    char string_values[][9] = {"n", "", "nonempty"};
++    /* create constraint set C */
++    add_fexpr_to_constraint_set(C);
 +
-+    int i;
-+    for (i = 0; i < 3; i++) {
-+        struct fexpr *e = fexpr_create(sat_variable_nr++, FE_NONBOOL, sym->name);
-+        e->sym = sym;
-+        str_append(&e->name, "=");
-+        e->nb_val = str_new();
++    if (PRINT_UNSAT_CORE)
++        printd("\n");
 +
-+        switch (sym->type) {
-+        case S_INT:
-+            str_append(&e->name, int_values[i]);
-+            str_append(&e->nb_val, int_values[i]);
-+            break;
-+        case S_HEX:
-+            str_append(&e->name, hex_values[i]);
-+            str_append(&e->nb_val, hex_values[i]);
-+            break;
-+        case S_STRING:
-+            str_append(&e->name, string_values[i]);
-+            str_append(&e->nb_val, string_values[i]);
-+            break;
-+        default:
-+            break;
++    /* init E with an empty diagnosis */
++    struct fexpr_list *empty_diagnosis = fexpr_list_init();
++    fexl_list_add(E, empty_diagnosis);
++
++    /* start the clock */
++    clock_t start_t, end_t;
++    double time_t;
++    start_t = clock();
++
++    while (E->size > 0) {
++        /* get random diagnosis */
++        struct fexpr_list *E0 = E->head->elem;
++
++        /* calculate C\E0 */
++        struct fexpr_list *c = get_difference(C, E0);
++
++        /* set assumptions */
++        nr_of_assumptions = 0;
++        nr_of_assumptions_true = 0;
++        set_assumptions(pico, c);
++
++        int res = picosat_sat(pico, -1);
++
++        if (res == PICOSAT_SATISFIABLE) {
++            if (PRINT_DIAGNOSIS_FOUND && CFDEBUG)
++                fexpr_list_print("DIAGNOSIS FOUND", E0);
++
++            fexl_list_delete(E, E->head);
++            if (E0->size > 0)
++                fexl_list_add(R, E0);
++            else
++                fexpr_list_free(E0);
++
++            fexpr_list_free(c);
++
++            if (R->size >= MAX_DIAGNOSES)
++                goto DIAGNOSES_FOUND;
++
++            continue;
++
++        } else if (res == PICOSAT_UNSATISFIABLE) {
++
++        } else if (res == PICOSAT_UNKNOWN) {
++            printd("UNKNOWN\n");
++        } else {
++            perror("Doh.");
 +        }
 +
-+        fexpr_list_add(sym->nb_vals, e);
-+        fexpr_add_to_satmap(e);
-+    }
-+}
++        /* check elapsed time */
++        end_t = clock();
++        time_t = ((double) (end_t - start_t)) / CLOCKS_PER_SEC;
++        if (time_t > (double) MAX_SECONDS)
++            goto DIAGNOSES_FOUND;
 +
++        /* get unsat core from SAT solver */
++        X = get_unsat_core_soft(pico);
 +
-+/*
-+ * set fexpr_y and fexpr_m simply to False
-+ */
-+static void create_fexpr_unknown(struct symbol *sym)
-+{
-+    sym->fexpr_y = const_false;
-+    sym->fexpr_m = const_false;
-+}
++        /* minimise the unsat core */
++        if (MINIMISE_UNSAT_CORE)
++            X = minimise_unsat_core(pico, X);
 +
++        if (PRINT_UNSAT_CORE)
++            print_unsat_core(X);
 +
-+/*
-+ * create the fexpr for a choice symbol
-+ */
-+static void create_fexpr_choice(struct symbol *sym)
-+{
-+    if (!sym_is_boolean(sym))
-+        return;
++        struct fexl_node *node, *tmp;
++        for (node = E->head; node != NULL;) {
++            /* get partial diagnosis */
++            e = node->elem;
 +
-+    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt == NULL) {
-+        perror("Choice symbol should have a prompt.");
-+        return;
-+    }
++            /* check, if there is an intersection between e and X
++             * if there is, go to the next partial diagnosis */
++            if (has_intersection(e, X)) {
++                node = node->next;
++                continue;
++            }
 +
-+    char *name = strdup(prompt->text);
++            /* for each fexpr in the core */
++            struct fexpr_node *fnode;
++            fexpr_list_for_each(fnode, X) {
++                struct fexpr *x = fnode->elem;
 +
-+    /* remove spaces */
-+    char *write = name, *read = name;
-+    do {
-+        if (*read != ' ')
-+            *write++ = *read;
-+    } while (*read++);
++                /* create {x} */
++                x_set = fexpr_list_init();
++                fexpr_list_add(x_set, x);
 +
-+    struct fexpr *fexpr_y = fexpr_create(sat_variable_nr++, FE_CHOICE, "Choice_");
-+    str_append(&fexpr_y->name, name);
-+    fexpr_y->sym = sym;
-+    fexpr_y->tri = yes;
-+    fexpr_add_to_satmap(fexpr_y);
++                /* create E' = e ∪ {x} */
++                E1 = fexpr_list_union(e, x_set);
 +
-+    sym->fexpr_y = fexpr_y;
++                /* create (E\e) ∪ R */
++                E_R_Union = fexl_list_copy(E);
++                fexl_list_delete_elem(E_R_Union, e);
++                E_R_Union = fexl_list_union(E_R_Union, R);
 +
-+    struct fexpr *fexpr_m;
-+    if (sym->type == S_TRISTATE) {
-+        fexpr_m = fexpr_create(sat_variable_nr++, FE_CHOICE, "Choice_");
-+        str_append(&fexpr_m->name, name);
-+        str_append(&fexpr_m->name, "_MODULE");
-+        fexpr_m->sym = sym;
-+        fexpr_m->tri = mod;
-+        fexpr_add_to_satmap(fexpr_m);
-+    } else {
-+        fexpr_m = const_false;
-+    }
-+    sym->fexpr_m = fexpr_m;
-+}
++                bool E2_subset_of_E1 = false;
 +
-+/*
-+ * evaluate an unequality between a non-Boolean symbol and a constant
-+ */
-+static struct pexpr * expr_eval_unequal_nonbool_const(struct symbol *sym, struct symbol *compval, enum expr_type type)
-+{
-+    if (!sym || !compval)
-+        return pexf(const_false);
++                /* E" ∈ (E\e) ∪ R */
++                struct fexl_node *lnode;
++                fexl_list_for_each(lnode, E_R_Union) {
++                    E2 = lnode->elem;
 +
-+    int base = 0;
-+    switch (sym->type) {
-+    case S_INT:
-+        base = 10;
-+        break;
-+    case S_HEX:
-+        base = 16;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    struct pexpr *c = pexf(const_false);
-+    long val = strtol(compval->name, NULL, base);
-+
-+    struct fexpr_node *node;
-+    struct fexpr *fe;
-+    for (node = sym->nb_vals->head->next; node != NULL; node = node->next) {
-+        fe = node->elem;
-+        long symval = strtol(str_get(&fe->nb_val), NULL, base);
-+
-+        switch (type) {
-+        case E_LTH:
-+            if (symval < val)
-+                c = pexpr_or(c, pexf(fe));
-+            break;
-+        case E_LEQ:
-+            if (symval <= val)
-+                c = pexpr_or(c, pexf(fe));
-+            break;
-+        case E_GTH:
-+            if (symval > val)
-+                c = pexpr_or(c, pexf(fe));
-+            break;
-+        case E_GEQ:
-+            if (symval >= val)
-+                c = pexpr_or(c, pexf(fe));
-+            break;
-+        default:
-+            perror("Illegal unequal.");
-+        }
-+    }
-+
-+    return c;
-+}
-+
-+/*
-+ * evaluate an unequality between 2 Boolean symbols
-+ */
-+static struct pexpr * expr_eval_unequal_bool(struct symbol *left, struct symbol *right, enum expr_type type)
-+{
-+    if (!left || !right)
-+        return pexf(const_false);
-+
-+    if (!sym_is_boolean(left) || !sym_is_boolean(right)) {
-+        perror("Comparing 2 symbols that should be boolean.");
-+        return pexf(const_false);
-+    }
-+
-+    struct pexpr *c = pexf(const_false);
-+    switch (type) {
-+    case E_LTH:
-+        c = pexpr_and(
-+            pexpr_not(sym_get_fexpr_both(left)),
-+            sym_get_fexpr_both(right));
-+        if (left->type == S_TRISTATE)
-+            c = pexpr_or(c,
-+                pexpr_and
-+                    (pexf(left->fexpr_m),
-+                     pexf(right->fexpr_y)));
-+        break;
-+    case E_LEQ:
-+        c = pexpr_and(pexf(left->fexpr_y), pexf(right->fexpr_y));
-+        if (left->type == S_TRISTATE)
-+            c = pexpr_or(c,
-+                pexpr_and(
-+                    pexf(left->fexpr_m),
-+                    sym_get_fexpr_both(right)));
-+        c = pexpr_or(c, pexpr_not(sym_get_fexpr_both(left)));
-+        break;
-+    case E_GTH:
-+        c = pexpr_and(
-+            sym_get_fexpr_both(left),
-+            pexpr_not(sym_get_fexpr_both(right)));
-+        if (right->type == S_TRISTATE)
-+            c = pexpr_or(c,
-+                pexpr_and
-+                    (pexf(left->fexpr_y),
-+                     pexf(right->fexpr_m)));
-+        break;
-+    case E_GEQ:
-+        c = pexpr_and(pexf(left->fexpr_y), pexf(right->fexpr_y));
-+        if (right->type == S_TRISTATE)
-+            c = pexpr_or(c,
-+                pexpr_and(
-+                    sym_get_fexpr_both(left),
-+                    pexf(right->fexpr_m)));
-+        c = pexpr_or(c, pexpr_not(sym_get_fexpr_both(right)));
-+        break;
-+    default:
-+        perror("Wrong type in expr_eval_unequal_bool.");
-+    }
-+
-+    return c;
-+}
-+/*
-+ * calculate, when expr will evaluate to yes or mod
-+ */
-+struct pexpr * expr_calculate_pexpr_both(struct expr *e)
-+{
-+    if (!e)
-+        return pexf(const_false);
-+
-+    if (!expr_can_evaluate_to_mod(e))
-+        return expr_calculate_pexpr_y(e);
-+
-+    switch (e->type) {
-+    case E_SYMBOL:
-+        return pexpr_or(expr_calculate_pexpr_m(e), expr_calculate_pexpr_y(e));
-+    case E_AND:
-+        return expr_calculate_pexpr_both_and(e->left.expr, e->right.expr);
-+    case E_OR:
-+        return expr_calculate_pexpr_both_or(e->left.expr, e->right.expr);
-+    case E_NOT:
-+        return pexpr_or(expr_calculate_pexpr_m(e), expr_calculate_pexpr_y(e));
-+    case E_EQUAL:
-+        return expr_calculate_pexpr_y_equals(e);
-+    case E_UNEQUAL:
-+        return expr_calculate_pexpr_y_unequals(e);
-+    case E_LTH:
-+    case E_LEQ:
-+    case E_GTH:
-+    case E_GEQ:
-+        return expr_calculate_pexpr_y_comp(e);
-+    default:
-+        // TODO
-+        perror("Unhandled type - expr_calculate_pexpr_both");
-+        return NULL;
-+    }
-+}
-+
-+/*
-+ * calculate, when expr will evaluate to yes
-+ */
-+struct pexpr * expr_calculate_pexpr_y(struct expr *e){
-+    if (!e)
-+        return NULL;
-+
-+    switch (e->type) {
-+    case E_SYMBOL:
-+        return pexf(e->left.sym->fexpr_y);
-+    case E_AND:
-+        return expr_calculate_pexpr_y_and(e->left.expr, e->right.expr);
-+    case E_OR:
-+        return expr_calculate_pexpr_y_or(e->left.expr, e->right.expr);
-+    case E_NOT:
-+        return expr_calculate_pexpr_y_not(e->left.expr);
-+    case E_EQUAL:
-+        return expr_calculate_pexpr_y_equals(e);
-+    case E_UNEQUAL:
-+        return expr_calculate_pexpr_y_unequals(e);
-+    case E_LTH:
-+    case E_LEQ:
-+    case E_GTH:
-+    case E_GEQ:
-+        return expr_calculate_pexpr_y_comp(e);
-+    default:
-+        perror("Unhandled type - expr_calculate_pexpr_y");
-+        return NULL;
-+    }
-+}
-+
-+/*
-+ * calculate, when expr will evaluate to mod
-+ */
-+struct pexpr * expr_calculate_pexpr_m(struct expr *e){
-+    if (!e)
-+        return NULL;
-+
-+    if (!expr_can_evaluate_to_mod(e))
-+        return pexf(const_false);
-+
-+    switch (e->type) {
-+    case E_SYMBOL:
-+        return pexf(e->left.sym->fexpr_m);
-+    case E_AND:
-+        return expr_calculate_pexpr_m_and(e->left.expr, e->right.expr);
-+    case E_OR:
-+        return expr_calculate_pexpr_m_or(e->left.expr, e->right.expr);
-+    case E_NOT:
-+        return expr_calculate_pexpr_m_not(e->left.expr);
-+    default:
-+        perror("Trying to evaluate to mod.");
-+        return NULL;
-+    }
-+}
-+
-+/*
-+ * calculate, when expr of type AND will evaluate to yes
-+ * A && B
-+ */
-+struct pexpr * expr_calculate_pexpr_y_and(struct expr *a, struct expr *b)
-+{
-+    return pexpr_and(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b));
-+}
-+
-+/*
-+ * calculate, when expr of type AND will evaluate to mod
-+ * (A || A_m) && (B || B_m) && !(A && B)
-+ */
-+struct pexpr * expr_calculate_pexpr_m_and(struct expr *a, struct expr *b)
-+{
-+    struct pexpr *topright = pexpr_not(pexpr_and(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b)));
-+    struct pexpr *ll_left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
-+    struct pexpr *ll_right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
-+    struct pexpr *topleft = pexpr_and(ll_left, ll_right);
-+
-+    return pexpr_and(topleft, topright);
-+}
-+
-+/*
-+ * calculate, when expr of type AND will evaluate to mod or yes
-+ * (A || A_m) && (B || B_m)
-+ */
-+struct pexpr * expr_calculate_pexpr_both_and(struct expr *a, struct expr *b)
-+{
-+    struct pexpr *left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
-+    struct pexpr *right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
-+    return pexpr_and(left, right);
-+}
-+
-+/*
-+ * calculate, when expr of type OR will evaluate to yes
-+ * A || B
-+ */
-+struct pexpr * expr_calculate_pexpr_y_or(struct expr *a, struct expr *b)
-+{
-+    return pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b));
-+}
-+
-+/*
-+ * calculate, when expr of type OR will evaluate to mod
-+ * (A_m || B_m) && !A && !B
-+ */
-+struct pexpr * expr_calculate_pexpr_m_or(struct expr *a, struct expr *b)
-+{
-+    struct pexpr *topright = pexpr_not(expr_calculate_pexpr_y(b));
-+    struct pexpr *lowerleft = pexpr_or(expr_calculate_pexpr_m(a), expr_calculate_pexpr_m(b));
-+    struct pexpr *topleft = pexpr_and(lowerleft, pexpr_not(expr_calculate_pexpr_y(a)));
-+
-+    return pexpr_and(topleft, topright);
-+}
-+
-+/*
-+ * calculate, when expr of type OR will evaluate to mod or yes
-+ * (A_m || A || B_m || B)
-+ */
-+struct pexpr * expr_calculate_pexpr_both_or(struct expr *a, struct expr *b)
-+{
-+    struct pexpr *left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
-+    struct pexpr *right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
-+    return pexpr_or(left, right);
-+}
-+
-+/*
-+ * calculate, when expr of type NOT will evaluate to yes
-+ * !(A || A_m)
-+ */
-+struct pexpr * expr_calculate_pexpr_y_not(struct expr * e)
-+{
-+    return pexpr_not(pexpr_or(expr_calculate_pexpr_y(e), expr_calculate_pexpr_m(e)));
-+}
-+
-+/*
-+ * calculate, when expr of type NOT will evaluate to mod
-+ * A_m
-+ */
-+struct pexpr * expr_calculate_pexpr_m_not(struct expr * e)
-+{
-+    return expr_calculate_pexpr_m(e);
-+}
-+
-+static struct pexpr * equiv_pexpr(struct pexpr *a, struct pexpr *b)
-+{
-+    struct pexpr *yes = pexpr_and(a, b);
-+    struct pexpr *not = pexpr_and(pexpr_not(a), pexpr_not(b));
-+
-+    return pexpr_or(yes, not);
-+}
-+
-+/*
-+ * create the fexpr of a non-boolean symbol for a specific value
-+ */
-+struct fexpr * sym_create_nonbool_fexpr(struct symbol *sym, char *value)
-+{
-+
-+    if (!strcmp(value, "")) {
-+        if (sym->type == S_STRING)
-+            return sym->nb_vals->head->next->elem;
-+        else
-+            return sym->nb_vals->head->elem;
-+    }
-+
-+    struct fexpr *e = sym_get_nonbool_fexpr(sym, value);
-+
-+    /* fexpr already exists */
-+    if (e != NULL)
-+        return e;
-+
-+    char *s = value;
-+    if (sym->type == S_INT && !string_is_number(value)) {
-+        struct symbol *tmp = sym_find(value);
-+
-+        if (tmp != NULL)
-+            s = (char *) tmp->curr.val;
-+    } else if (sym->type == S_HEX && !string_is_hex(value)) {
-+        struct symbol *tmp = sym_find(value);
-+
-+        if (tmp != NULL)
-+            s = (char *) tmp->curr.val;
-+    } else if (sym->type == S_STRING) {
-+        struct symbol *tmp = sym_find(value);
-+
-+        if (tmp != NULL)
-+            s = (char *) tmp->curr.val;
-+    }
-+
-+    if (!strcmp(s, "")) {
-+        if (sym->type == S_STRING)
-+            return sym->nb_vals->head->next->elem;
-+        else
-+            return sym->nb_vals->head->elem;
-+    }
-+
-+    e = sym_get_nonbool_fexpr(sym, s);
-+    if (e != NULL)
-+        return e;
-+
-+    e = fexpr_create(sat_variable_nr++, FE_NONBOOL, sym->name);
-+    e->sym = sym;
-+    str_append(&e->name, "=");
-+    str_append(&e->name, s);
-+    e->nb_val = str_new();
-+    str_append(&e->nb_val, s);
-+
-+    fexpr_list_add(sym->nb_vals, e);
-+    fexpr_add_to_satmap(e);
-+
-+    return e;
-+}
-+
-+/*
-+ * return the fexpr of a non-boolean symbol for a specific value, NULL if non-existent
-+ */
-+struct fexpr * sym_get_nonbool_fexpr(struct symbol *sym, char *value)
-+{
-+    struct fexpr_node *e;
-+    fexpr_list_for_each(e, sym->nb_vals) {
-+        if (strcmp(str_get(&e->elem->nb_val), value) == 0)
-+            return e->elem;
-+    }
-+
-+    return NULL;
-+}
-+
-+/*
-+ * return the fexpr of a non-boolean symbol for a specific value, if it exists
-+ * otherwise create it
-+ */
-+struct fexpr * sym_get_or_create_nonbool_fexpr(struct symbol *sym, char *value)
-+{
-+    struct fexpr *e = sym_get_nonbool_fexpr(sym, value);
-+
-+    if (e != NULL)
-+        return e;
-+    else
-+        return sym_create_nonbool_fexpr(sym, value);
-+}
-+
-+/*
-+ * calculate, when expr of type EQUAL will evaluate to yes
-+ */
-+struct pexpr * expr_calculate_pexpr_y_equals(struct expr *e)
-+{
-+    /* comparing 2 tristate constants */
-+    if (sym_is_tristate_constant(e->left.sym) && sym_is_tristate_constant(e->right.sym))
-+        return e->left.sym == e->right.sym ? pexf(const_true) : pexf(const_false);
-+
-+    /* comparing 2 nonboolean constants */
-+    if (sym_is_nonbool_constant(e->left.sym) && sym_is_nonbool_constant(e->right.sym))
-+        return strcmp(e->left.sym->name, e->right.sym->name) == 0 ? pexf(const_true) : pexf(const_false);
-+
-+    /* comparing 2 boolean/tristate incl. yes/mod/no constants */
-+    if (sym_is_bool_or_triconst(e->left.sym) && sym_is_bool_or_triconst(e->right.sym)) {
-+        struct pexpr *yes = equiv_pexpr(pexf(e->left.sym->fexpr_y), pexf(e->right.sym->fexpr_y));
-+        struct pexpr *mod = equiv_pexpr(pexf(e->left.sym->fexpr_m), pexf(e->right.sym->fexpr_m));
-+
-+        return pexpr_and(yes, mod);
-+    }
-+
-+    /* comparing nonboolean with a constant */
-+    if (sym_is_nonboolean(e->left.sym) && sym_is_nonbool_constant(e->right.sym)) {
-+        return pexf(sym_get_or_create_nonbool_fexpr(e->left.sym, e->right.sym->name));
-+    }
-+    if (sym_is_nonbool_constant(e->left.sym) && sym_is_nonboolean(e->right.sym))
-+        return pexf(sym_get_or_create_nonbool_fexpr(e->right.sym, e->left.sym->name));
-+
-+    /* comparing nonboolean with tristate constant, will never be true */
-+    if (sym_is_nonboolean(e->left.sym) && sym_is_tristate_constant(e->right.sym))
-+        return pexf(const_false);
-+    if (sym_is_tristate_constant(e->left.sym) && sym_is_nonboolean(e->right.sym))
-+        return pexf(const_false);
-+
-+    /* comparing 2 nonboolean symbols */
-+    if (sym_is_nonboolean(e->left.sym) && sym_is_nonboolean(e->right.sym)) {
-+        struct pexpr *c = pexf(const_false);
-+        struct fexpr_node *node1, *node2;
-+        struct fexpr *e1, *e2;
-+        for (node1 = e->left.sym->nb_vals->head->next; node1 != NULL; node1 = node1->next) {
-+            e1 = node1->elem;
-+            for (node2 = e->right.sym->nb_vals->head->next; node2 != NULL; node2 = node2->next) {
-+                e2 = node2->elem;
-+                if (!strcmp(str_get(&e1->nb_val), str_get(&e2->nb_val))) {
-+                    c = pexpr_or(c, pexpr_and(pexf(e1), pexf(e2)));
-+                    break;
++                    /* E" ⊆ E' ? */
++                    if (is_subset_of(E2, E1)) {
++                        E2_subset_of_E1 = true;
++                        break;
++                    }
 +                }
++
++                fexl_list_free(E_R_Union);
++
++                /* ∄ E" ⊆ E' */
++                if (!E2_subset_of_E1)
++                    fexl_list_add(E, E1);
++                else
++                    fexpr_list_free(E1);
++            }
++
++            fexpr_list_free(e);
++
++            tmp = node->next;
++            fexl_list_delete(E, node);
++            node = tmp;
++        }
++        fexpr_list_free(X);
++        fexpr_list_free(c);
++    }
++
++DIAGNOSES_FOUND:
++    fexpr_list_free(C);
++    fexl_list_free(E);
++
++    return R;
++}
++
++/*
++ * add the fexpr to the constraint set C
++ */
++static void add_fexpr_to_constraint_set(struct fexpr_list *C)
++{
++    unsigned int i, nr_sym = 0, nr_fexpr = 0;
++    struct symbol *sym;
++    for_all_symbols(i, sym) {
++        /* must be a proper symbol */
++        if (sym->type == S_UNKNOWN)
++            continue;
++
++        /* don't need the conflict symbols
++         * they are handled seperately */
++        if (sym_is_sdv(sdv_symbols, sym))
++            continue;
++
++        /* must have a prompt and a name */
++        if (!sym->name || !sym_has_prompt(sym))
++            continue;
++
++        nr_sym++;
++
++        if (sym->type == S_BOOLEAN) {
++            fexpr_list_add(C, sym->fexpr_y);
++            nr_fexpr++;
++        } else if (sym->type == S_TRISTATE) {
++            fexpr_list_add(C, sym->fexpr_y);
++            fexpr_list_add(C, sym->fexpr_m);
++            nr_fexpr += 2;
++        } else if (sym->type == S_INT || sym->type == S_HEX || sym->type == S_STRING) {
++            struct fexpr_node *node;
++            fexpr_list_for_each(node, sym->nb_vals) {
++                fexpr_list_add(C, node->elem);
++                nr_fexpr++;
++            }
++        } else {
++            perror("Error adding variables to constraint set C.");
++        }
++    }
++}
++
++/*
++ * check whether the fexpr symbolises the no-value-set fexpr for a non-boolean symbol
++ */
++static bool fexpr_is_novalue(struct fexpr *e)
++{
++    if (!sym_is_nonboolean(e->sym))
++        return false;
++
++    return e == e->sym->nb_vals->head->elem;
++}
++
++static void set_assumptions_sdv(PicoSAT *pico, struct sdv_list *arr)
++{
++    struct symbol_dvalue *sdv;
++    struct sdv_node *node;
++    struct symbol *sym;
++
++    sdv_list_for_each(node, arr) {
++        sdv = node->elem;
++        sym = sdv->sym;
++
++        int lit_y = sym->fexpr_y->satval;
++
++        if (sym->type == S_BOOLEAN) {
++            switch (sdv->tri) {
++            case yes:
++                picosat_assume(pico, lit_y);
++                sym->fexpr_y->assumption = true;
++                nr_of_assumptions_true++;
++                break;
++            case no:
++                picosat_assume(pico, -lit_y);
++                sym->fexpr_y->assumption = false;
++                break;
++            case mod:
++                perror("Should not happen.\n");
++            }
++            nr_of_assumptions++;
++        } else if (sym->type == S_TRISTATE) {
++            int lit_m = sym->fexpr_m->satval;
++            switch (sdv->tri) {
++            case yes:
++                picosat_assume(pico, lit_y);
++                sym->fexpr_y->assumption = true;
++                picosat_assume(pico, -lit_m);
++                sym->fexpr_m->assumption = false;
++                nr_of_assumptions_true++;
++                break;
++            case mod:
++                picosat_assume(pico, -lit_y);
++                sym->fexpr_y->assumption = false;
++                picosat_assume(pico, lit_m);
++                sym->fexpr_m->assumption = true;
++                nr_of_assumptions_true++;
++                break;
++            case no:
++                picosat_assume(pico, -lit_y);
++                sym->fexpr_y->assumption = false;
++                picosat_assume(pico, -lit_m);
++                sym->fexpr_y->assumption = false;
++            }
++            nr_of_assumptions += 2;
++        }
++    }
++}
++
++/*
++ * set the assumptions for the next run of Picosat
++ */
++static void set_assumptions(PicoSAT *pico, struct fexpr_list *c)
++{
++    struct fexpr_node *node;
++    fexpr_list_for_each(node, c)
++        fexpr_add_assumption(pico, node->elem, node->elem->satval);
++
++    /* set assumptions for the conflict-symbols */
++    set_assumptions_sdv(pico, sdv_symbols);
++}
++
++/*
++ * set the assumtption for a fexpr for the next run of Picosat
++ */
++static void fexpr_add_assumption(PicoSAT *pico, struct fexpr *e, int satval)
++{
++    struct symbol *sym = e->sym;
++
++    if (sym->type == S_BOOLEAN) {
++        int tri_val = sym_get_tristate_value(sym);
++
++        if (tri_val == yes) {
++            picosat_assume(pico, satval);
++            e->assumption = true;
++            nr_of_assumptions_true++;
++        } else {
++            picosat_assume(pico, -satval);
++            e->assumption = false;
++        }
++        nr_of_assumptions++;
++    }
++
++    if (sym->type == S_TRISTATE) {
++        int tri_val = sym_get_tristate_value(sym);
++
++        if (e->tri == yes) {
++            if (tri_val == yes) {
++                picosat_assume(pico, satval);
++                e->assumption = true;
++                nr_of_assumptions_true++;
++            } else {
++                picosat_assume(pico, -satval);
++                e->assumption = false;
++            }
++        } else if (e->tri == mod) {
++            if (tri_val == mod) {
++                picosat_assume(pico, satval);
++                e->assumption = true;
++                nr_of_assumptions_true++;
++            } else {
++                picosat_assume(pico, -satval);
++                e->assumption = false;
 +            }
 +        }
-+        return c;
++        nr_of_assumptions++;
 +    }
 +
-+    /* comparing boolean item with nonboolean constant, will never be true */
-+    if (sym_is_tristate_constant(e->left.sym) && sym_is_nonbool_constant(e->right.sym))
-+        return pexf(const_false);
-+    if (sym_is_nonbool_constant(e->left.sym) && sym_is_tristate_constant(e->right.sym))
-+        return pexf(const_false);
++    if (sym->type == S_INT || sym->type == S_HEX || sym->type == S_STRING) {
 +
-+    /* comparing symbol of type unknown with tristate constant */
-+    if (e->left.sym->type == S_UNKNOWN && sym_is_tristate_constant(e->right.sym))
-+        return pexf(const_false);
-+    if (sym_is_tristate_constant(e->left.sym) && e->right.sym->type == S_UNKNOWN)
-+        return pexf(const_false);
++        char *string_val = (char *) sym_get_string_value(sym);
 +
-+    /* any other comparison is not supported and should not be executed */
-+    perror("Unsupported equality.");
-+    print_expr(":", e, 0);
-+
-+    return pexf(const_false);
-+}
-+
-+/*
-+ * transform an UNEQUAL into a Not(EQUAL)
-+ */
-+struct pexpr * expr_calculate_pexpr_y_unequals(struct expr *e)
-+{
-+    return pexpr_not(expr_calculate_pexpr_y_equals(e));
-+}
-+
-+struct pexpr * expr_calculate_pexpr_y_comp(struct expr *e)
-+{
-+    if (!e)
-+        return NULL;
-+
-+    switch (e->type) {
-+    case E_LTH:
-+    case E_LEQ:
-+    case E_GTH:
-+    case E_GEQ:
-+        /* compare non-Boolean symbol with constant */
-+        if (sym_is_nonboolean(e->left.sym) &&
-+            e->right.sym->type == S_UNKNOWN &&
-+            string_is_number(e->right.sym->name)
-+        ) {
-+            return expr_eval_unequal_nonbool_const(e->left.sym, e->right.sym, e->type);
-+        }
-+        if (sym_is_nonboolean(e->right.sym) &&
-+            e->left.sym->type == S_UNKNOWN &&
-+            string_is_number(e->left.sym->name)
-+        ) {
-+            return expr_eval_unequal_nonbool_const(e->right.sym, e->left.sym, e->type);
-+        }
-+
-+        /* compare 2 Boolean symbols */
-+        if (sym_is_boolean(e->left.sym) && sym_is_boolean(e->right.sym))
-+            return expr_eval_unequal_bool(e->left.sym, e->right.sym, e->type);
-+
-+        return pexf(const_false);
-+    default:
-+        perror("Unhandled type - expr_calculate_pexpr_y_comp");
-+        return NULL;
-+    }
-+}
-+
-+/*
-+ * macro to create a pexpr of type AND
-+ */
-+struct pexpr * pexpr_and(struct pexpr *a, struct pexpr *b)
-+{
-+    /* simplifications:
-+     * expr && False -> False
-+     * expr && True  -> expr
-+     * expr && expr  -> expr
-+     */
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
-+        return a;
-+
-+    if (b->type == PE_SYMBOL && b->left.fexpr == const_false)
-+        return b;
-+
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
-+        return b;
-+
-+    if (b->type == PE_SYMBOL && b->left.fexpr == const_true)
-+        return a;
-+
-+    /* A && A -> A */
-+    if (pexpr_eq(a,b))
-+        return a;
-+
-+    /* (A && B) && C -> A && B if B == C */
-+    if (a->type == PE_AND && pexpr_eq(a->right.pexpr, b))
-+        return a;
-+    /* A && (B && C) -> B && C if A == B */
-+    if (b->type == PE_AND && pexpr_eq(a, b->left.pexpr))
-+        return b;
-+
-+    /* (A || B) && (C || D) -> A || (B && D) if A == C */
-+    if (a->type == PE_OR && b->type == PE_OR && (
-+        pexpr_eq(a->left.pexpr, b->left.pexpr)
-+    ))
-+        return pexpr_or(a->left.pexpr,
-+                pexpr_and(a->right.pexpr, b->right.pexpr));
-+    /* (A || B) && (C || D) -> B || (A && C) if B == D */
-+    if (a->type == PE_OR && b->type == PE_OR && (
-+        pexpr_eq(a->right.pexpr, b->right.pexpr)
-+    ))
-+        return pexpr_or(a->right.pexpr,
-+                pexpr_and(a->left.pexpr, b->left.pexpr));
-+    /* (A || B) && (C || D) -> A || (B && C) if A == D */
-+    if (a->type == PE_OR && b->type == PE_OR && (
-+        pexpr_eq(a->left.pexpr, b->right.pexpr)
-+    ))
-+        return pexpr_or(a->left.pexpr,
-+                pexpr_and(a->right.pexpr, b->left.pexpr));
-+    /* (A || B) && (C || D) -> B || (A && D) if B == C */
-+    if (a->type == PE_OR && b->type == PE_OR && (
-+        pexpr_eq(a->right.pexpr, b->left.pexpr)
-+    ))
-+        return pexpr_or(a->right.pexpr,
-+                pexpr_and(a->left.pexpr, b->right.pexpr));
-+
-+    struct pexpr *e = xcalloc(1, sizeof(*e));
-+    e->type = PE_AND;
-+    e->left.pexpr = a;
-+    e->right.pexpr = b;
-+
-+    return e;
-+}
-+
-+/*
-+ * macro to create a pexpr of type OR
-+ */
-+struct pexpr * pexpr_or(struct pexpr *a, struct pexpr *b)
-+{
-+    /* simplifications:
-+     * expr || False -> expr
-+     * expr || True  -> True
-+     * expr || expr  -> expr
-+     */
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
-+        return b;
-+
-+    if (b->type == PE_SYMBOL && b->left.fexpr == const_false)
-+        return a;
-+
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
-+        return a;
-+
-+    if (b->type == PE_SYMBOL && b->left.fexpr == const_true)
-+        return b;
-+
-+    /* A || A -> A */
-+    if (pexpr_eq(a,b))
-+        return a;
-+
-+    /* A || (B && C) -> A if (A == B || A == C) */
-+    if (b->type == PE_AND && (
-+        pexpr_eq(a, b->left.pexpr) || pexpr_eq(a, b->right.pexpr)
-+    ))
-+        return a;
-+    /* (A && B) || C -> C if (A == C || B == C) */
-+    if (a->type == PE_AND && (
-+        pexpr_eq(a->left.pexpr, b) || pexpr_eq(a->right.pexpr, b)
-+    ))
-+        return b;
-+
-+    /* -A || B -> True if A == B */
-+    if (a->type == PE_NOT && pexpr_eq(a->left.pexpr, b))
-+        return pexf(const_true);
-+    /* A || -B -> True if A == B */
-+    if (b->type == PE_NOT && pexpr_eq(a, b->left.pexpr))
-+        return pexf(const_true);
-+
-+    /* (A && B) || (C && D) -> A && (B || D) if (A == C) */
-+    if (a->type == PE_AND && b->type == PE_AND &&
-+        pexpr_eq(a->left.pexpr, b->left.pexpr)
-+    )
-+        return pexpr_and(a->left.pexpr,
-+                 pexpr_or(a->right.pexpr, b->right.pexpr));
-+    /* (A && B) || (C && D) -> B && (A || C) if (B == D) */
-+    if (a->type == PE_AND && b->type == PE_AND &&
-+        pexpr_eq(a->right.pexpr, b->right.pexpr)
-+    )
-+        return pexpr_and(a->right.pexpr,
-+                 pexpr_or(a->left.pexpr, b->left.pexpr));
-+    /* (A && B) || (C && D) -> A && (B || C) if (A == D) */
-+    if (a->type == PE_AND && b->type == PE_AND &&
-+        pexpr_eq(a->left.pexpr, b->right.pexpr)
-+    )
-+        return pexpr_and(a->left.pexpr,
-+                 pexpr_or(a->right.pexpr, b->left.pexpr));
-+    /* (A && B) || (C && D) -> B && (A || D) if (B == C) */
-+    if (a->type == PE_AND && b->type == PE_AND &&
-+        pexpr_eq(a->right.pexpr, b->left.pexpr)
-+    )
-+        return pexpr_and(a->right.pexpr,
-+                 pexpr_or(a->left.pexpr, b->right.pexpr));
-+
-+    /* (A && B) || (C || D) -> C || D if
-+     * A == C || A == D || B == C || B == D */
-+    if (a->type == PE_AND && b->type == PE_OR && (
-+        pexpr_eq(a->left.pexpr, b->left.pexpr) ||
-+        pexpr_eq(a->left.pexpr, b->right.pexpr) ||
-+        pexpr_eq(a->right.pexpr, b->left.pexpr) ||
-+        pexpr_eq(a->right.pexpr, b->right.pexpr)
-+    ))
-+        return b;
-+    /* (C || D) || (A && B) -> C || D if
-+     * A == C || A == D || B == C || B == D */
-+    if (a->type == PE_OR && b->type == PE_AND && (
-+        pexpr_eq(a->left.pexpr, b->left.pexpr) ||
-+        pexpr_eq(a->left.pexpr, b->right.pexpr) ||
-+        pexpr_eq(a->right.pexpr, b->left.pexpr) ||
-+        pexpr_eq(a->right.pexpr, b->right.pexpr)
-+    ))
-+        return a;
-+
-+    struct pexpr *e = xcalloc(1, sizeof(*e));
-+    e->type = PE_OR;
-+    e->left.pexpr = a;
-+    e->right.pexpr = b;
-+
-+    return e;
-+}
-+
-+/*
-+ * macro to create a pexpr of type NOT
-+ */
-+struct pexpr * pexpr_not(struct pexpr *a)
-+{
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
-+        return pexf(const_true);
-+    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
-+        return pexf(const_false);
-+
-+    /* eliminate double negation */
-+    if (a->type == PE_NOT)
-+        return a->left.pexpr;
-+
-+    /* De Morgan */
-+    if (a->type == PE_AND) {
-+        struct pexpr *e = xcalloc(1, sizeof(*e));
-+        e->type = PE_OR;
-+        e->left.pexpr = pexpr_not(a->left.pexpr);
-+        e->right.pexpr = pexpr_not(a->right.pexpr);
-+        return e;
-+    }
-+    if (a->type == PE_OR) {
-+        struct pexpr *e = xcalloc(1, sizeof(*e));
-+        e->type = PE_AND;
-+        e->left.pexpr = pexpr_not(a->left.pexpr);
-+        e->right.pexpr = pexpr_not(a->right.pexpr);
-+        return e;
-+    }
-+
-+    struct pexpr *e = xcalloc(1, sizeof(*e));
-+    e->type = PE_NOT;
-+    e->left.pexpr = a;
-+    return e;
-+}
-+
-+/*
-+ * macro to construct a pexpr for "A implies B"
-+ */
-+struct pexpr * pexpr_implies(struct pexpr *a, struct pexpr *b)
-+{
-+    /* A => B -> True if A == B */
-+    if (pexpr_eq(a, b))
-+        return pexf(const_true);
-+
-+    /* (A => B && C) -> (A => C) if A == B */
-+    if (b->type == PE_AND && pexpr_eq(a, b->left.pexpr))
-+        return pexpr_implies(a, b->right.pexpr);
-+    /* (A => B && C) -> (A => B) if A == C */
-+    if (b->type == PE_AND && pexpr_eq(a, b->right.pexpr))
-+        return pexpr_implies(a, b->left.pexpr);
-+
-+    /* (A => B || C) -> True if (A == B || A == C) */
-+    if (b->type == PE_OR && (
-+        pexpr_eq(a, b->left.pexpr) || pexpr_eq(a, b->right.pexpr)
-+    ))
-+        return pexf(const_true);
-+
-+    /* (A && B => C) -> True if (A == C || B == C) */
-+    if (a->type == PE_AND && (
-+        pexpr_eq(a->left.pexpr, b) || pexpr_eq(a->right.pexpr, b)
-+    ))
-+        return pexf(const_true);
-+
-+    return pexpr_or(pexpr_not(a), b);
-+}
-+
-+/*
-+ * check whether a pexpr is in CNF
-+ */
-+bool pexpr_is_cnf(struct pexpr *e)
-+{
-+    if (!e)
-+        return false;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        return true;
-+    case PE_AND:
-+        return false;
-+    case PE_OR:
-+        return pexpr_is_cnf(e->left.pexpr) && pexpr_is_cnf(e->right.pexpr);
-+    case PE_NOT:
-+        return e->left.pexpr->type == PE_SYMBOL;
-+    }
-+
-+    return false;
-+}
-+
-+/*
-+ * check whether a pexpr is in NNF
-+ */
-+bool pexpr_is_nnf(struct pexpr *e)
-+{
-+    if (!e)
-+        return false;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        return true;
-+    case PE_AND:
-+    case PE_OR:
-+        return pexpr_is_nnf(e->left.pexpr) && pexpr_is_nnf(e->right.pexpr);
-+    case PE_NOT:
-+        return e->left.pexpr->type == PE_SYMBOL;
-+    }
-+
-+    return false;
-+}
-+
-+/*
-+ * return fexpr_both for a symbol
-+ */
-+struct pexpr * sym_get_fexpr_both(struct symbol *sym)
-+{
-+    return sym->type == S_TRISTATE ? pexpr_or(pexf(sym->fexpr_m), pexf(sym->fexpr_y)) : pexf(sym->fexpr_y);
-+}
-+
-+/*
-+ * return fexpr_sel_both for a symbol
-+ */
-+struct pexpr * sym_get_fexpr_sel_both(struct symbol *sym)
-+{
-+    if (!sym->rev_dep.expr)
-+        return pexf(const_false);
-+
-+    return sym->type == S_TRISTATE ? pexpr_or(pexf(sym->fexpr_sel_m), pexf(sym->fexpr_sel_y)) : pexf(sym->fexpr_sel_y);
-+}
-+
-+/*
-+ * check, if the fexpr is a symbol, a True/False-constant, a literal symbolizing a non-boolean or a choice symbol
-+ */
-+bool fexpr_is_symbol(struct fexpr *e)
-+{
-+    return e->type == FE_SYMBOL || e->type == FE_FALSE || e->type == FE_TRUE || e->type == FE_NONBOOL || e->type == FE_CHOICE || e->type == FE_SELECT || e->type == FE_NPC;
-+}
-+
-+/*
-+ * check whether a pexpr is a symbol or a negated symbol
-+ */
-+bool pexpr_is_symbol(struct pexpr *e)
-+{
-+    return e->type == PE_SYMBOL || (e->type == PE_NOT && e->left.pexpr->type == PE_SYMBOL);
-+}
-+
-+/*
-+ * check whether the fexpr is a constant (true/false)
-+ */
-+bool fexpr_is_constant(struct fexpr *e)
-+{
-+    return e == const_true || e == const_false;
-+}
-+
-+/*
-+ * add a fexpr to the satmap
-+ */
-+void fexpr_add_to_satmap(struct fexpr *e)
-+{
-+    if (e->satval >= satmap_size) {
-+        satmap = xrealloc(satmap, satmap_size * 2 * sizeof(*satmap));
-+        satmap_size *= 2;
-+    }
-+
-+    satmap[e->satval] = *e;
-+}
-+
-+/*
-+ * print a fexpr
-+ */
-+void fexpr_print(char *tag, struct fexpr *e)
-+{
-+    if (!e)
-+        return;
-+
-+    printf("%s: %s\n", tag, str_get(&e->name));
-+}
-+
-+/*
-+ * write an fexpr into a string (format needed for testing)
-+ */
-+void fexpr_as_char(struct fexpr *e, struct gstr *s)
-+{
-+    if (!e)
-+        return;
-+
-+    switch (e->type) {
-+    case FE_SYMBOL:
-+    case FE_CHOICE:
-+    case FE_SELECT:
-+    case FE_NPC:
-+    case FE_NONBOOL:
-+        str_append(s, "definedEx(");
-+        str_append(s, str_get(&e->name));
-+        str_append(s, ")");
-+        return;
-+    case FE_FALSE:
-+        str_append(s, "0");
-+        return;
-+    case FE_TRUE:
-+        str_append(s, "1");
-+        return;
-+    default:
-+        return;
-+    }
-+}
-+
-+/*
-+ * write a pexpr into a string
-+ */
-+void pexpr_as_char(struct pexpr *e, struct gstr *s, int parent)
-+{
-+    if (!e)
-+        return;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        if (e->left.fexpr == const_false) {
-+            str_append(s, "0");
++        if (sym->type == S_STRING && !strcmp(string_val, ""))
 +            return;
++
++        /* check, if e symbolises the no-value-set fexpr */
++        if (fexpr_is_novalue(e)) {
++            if (!sym_nonbool_has_value_set(sym)) {
++                picosat_assume(pico, satval);
++                e->assumption = true;
++                nr_of_assumptions_true++;
++            } else {
++                picosat_assume(pico, -satval);
++                e->assumption = false;
++            }
 +        }
-+        if (e->left.fexpr == const_true) {
-+            str_append(s, "1");
-+            return;
++        /* check whena string-symbol has value "" */
++        else if (sym->type == S_STRING && !strcmp(string_val, "")) {
++            if (sym_nonbool_has_value_set(sym)) {
++                picosat_assume(pico, satval);
++                e->assumption = true;
++                nr_of_assumptions_true++;
++            } else {
++                picosat_assume(pico, -satval);
++                e->assumption = false;
++            }
 +        }
-+        str_append(s, "definedEx(");
-+        str_append(s, str_get(&e->left.fexpr->name));
-+        str_append(s, ")");
-+        return;
-+    case PE_AND:
-+        /* need this hack for the FeatureExpr parser */
-+        if (parent != PE_AND)
-+            str_append(s, "(");
-+        pexpr_as_char(e->left.pexpr, s, PE_AND);
-+        str_append(s, " && ");
-+        pexpr_as_char(e->right.pexpr, s, PE_AND);
-+        if (parent != PE_AND)
-+            str_append(s, ")");
-+        return;
-+    case PE_OR:
-+        if (parent != PE_OR)
-+            str_append(s, "(");
-+        pexpr_as_char(e->left.pexpr, s, PE_OR);
-+        str_append(s, " || ");
-+        pexpr_as_char(e->right.pexpr, s, PE_OR);
-+        if (parent != PE_OR)
-+            str_append(s, ")");
-+        return;
-+    case PE_NOT:
-+        str_append(s, "!");
-+        pexpr_as_char(e->left.pexpr, s, PE_NOT);
-+        return;
-+    }
-+}
-+
-+/*
-+ * write a pexpr into a string
-+ */
-+void pexpr_as_char_short(struct pexpr *e, struct gstr *s, int parent)
-+{
-+    if (!e)
-+        return;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        str_append(s, str_get(&e->left.fexpr->name));
-+        return;
-+    case PE_AND:
-+        /* need this hack for the FeatureExpr parser */
-+        if (parent != PE_AND)
-+            str_append(s, "(");
-+        pexpr_as_char_short(e->left.pexpr, s, PE_AND);
-+        str_append(s, " && ");
-+        pexpr_as_char_short(e->right.pexpr, s, PE_AND);
-+        if (parent != PE_AND)
-+            str_append(s, ")");
-+        return;
-+    case PE_OR:
-+        if (parent != PE_OR)
-+            str_append(s, "(");
-+        pexpr_as_char_short(e->left.pexpr, s, PE_OR);
-+        str_append(s, " || ");
-+        pexpr_as_char_short(e->right.pexpr, s, PE_OR);
-+        if (parent != PE_OR)
-+            str_append(s, ")");
-+        return;
-+    case PE_NOT:
-+        str_append(s, "!");
-+        pexpr_as_char_short(e->left.pexpr, s, PE_NOT);
-+        return;
-+    }
-+}
-+
-+/*
-+ * check whether a pexpr contains a specific fexpr
-+ */
-+bool pexpr_contains_fexpr(struct pexpr *e, struct fexpr *fe)
-+{
-+    if (!e)
-+        return false;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        return e->left.fexpr->satval == fe->satval;
-+    case PE_AND:
-+    case PE_OR:
-+        return pexpr_contains_fexpr(e->left.pexpr, fe) ||
-+            pexpr_contains_fexpr(e->right.pexpr, fe);
-+    case PE_NOT:
-+        return e->left.pexpr->left.fexpr->satval == fe->satval;
-+    }
-+
-+    return false;
-+}
-+
-+/*
-+ * init list of fexpr
-+ */
-+struct fexpr_list * fexpr_list_init()
-+{
-+    struct fexpr_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of fexpr_list
-+ */
-+struct fexl_list * fexl_list_init()
-+{
-+    struct fexl_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of pexpr
-+ */
-+struct pexpr_list * pexpr_list_init()
-+{
-+    struct pexpr_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of symbol_fix
-+ */
-+struct sfix_list * sfix_list_init(void)
-+{
-+    struct sfix_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of symbol_fix
-+ */
-+struct sfl_list * sfl_list_init(void)
-+{
-+    struct sfl_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of symbol_dvalue
-+ */
-+struct sdv_list * sdv_list_init(void)
-+{
-+    struct sdv_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of symbols
-+ */
-+struct sym_list * sym_list_init(void)
-+{
-+    struct sym_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of default_maps
-+ */
-+struct defm_list * defm_list_init(void)
-+{
-+    struct defm_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * init list of properties
-+ */
-+struct prop_list *prop_list_init(void)
-+{
-+    struct prop_list *list = xcalloc(1, sizeof(*list));
-+    list->head = NULL;
-+    list->tail = NULL;
-+    list->size = 0;
-+
-+    return list;
-+}
-+
-+/*
-+ * add element to tail of a fexpr_list
-+ */
-+void fexpr_list_add(struct fexpr_list *list, struct fexpr *fe)
-+{
-+    struct fexpr_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = fe;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a fexl_list
-+ */
-+void fexl_list_add(struct fexl_list *list, struct fexpr_list *elem)
-+{
-+    struct fexl_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = elem;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a pexpr_list
-+ */
-+void pexpr_list_add(struct pexpr_list *list, struct pexpr *e)
-+{
-+    struct pexpr_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = e;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a sfix_list
-+ */
-+void sfix_list_add(struct sfix_list *list, struct symbol_fix *fix)
-+{
-+    struct sfix_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = fix;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a sfl_list
-+ */
-+void sfl_list_add(struct sfl_list *list, struct sfix_list *elem)
-+{
-+    struct sfl_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = elem;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a sdv_list
-+ */
-+void sdv_list_add(struct sdv_list *list, struct symbol_dvalue *sdv)
-+{
-+    struct sdv_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = sdv;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a sym_list
-+ */
-+void sym_list_add(struct sym_list *list, struct symbol *sym)
-+{
-+    struct sym_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = sym;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a defm_list
-+ */
-+void defm_list_add(struct defm_list *list, struct default_map *map)
-+{
-+    struct defm_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = map;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * add element to tail of a prop_list
-+ */
-+void prop_list_add(struct prop_list *list, struct property *prop)
-+{
-+    struct prop_node *node = xcalloc(1, sizeof(*node));
-+    node->elem = prop;
-+
-+    if (list->size == 0) {
-+        list->head = node;
-+        list->tail = node;
-+    } else {
-+        node->prev = list->tail;
-+        list->tail = node;
-+        node->prev->next = node;
-+    }
-+
-+    list->size++;
-+}
-+
-+/*
-+ * delete an element from a fexpr_list
-+ */
-+void fexpr_list_delete(struct fexpr_list *list, struct fexpr_node *node)
-+{
-+    if (list->size == 0 || node == NULL)
-+        return;
-+
-+    if (node == list->head)
-+        list->head = node->next;
-+    else
-+        node->prev->next = node->next;
-+
-+    if (node == list->tail)
-+        list->tail = node->prev;
-+    else
-+        node->next->prev = node->prev;
-+
-+    list->size--;
-+    free(node);
-+}
-+
-+/*
-+ * delete an element from a fexpr_list
-+ */
-+void sfix_list_delete(struct sfix_list *list, struct sfix_node *node)
-+{
-+    if (list->size == 0 || node == NULL)
-+        return;
-+
-+    if (node == list->head)
-+        list->head = node->next;
-+    else
-+        node->prev->next = node->next;
-+
-+    if (node == list->tail)
-+        list->tail = node->prev;
-+    else
-+        node->next->prev = node->prev;
-+
-+    list->size--;
-+    free(node);
-+}
-+
-+/*
-+ * delete an element from a fexpr_list
-+ */
-+void pexpr_list_delete(struct pexpr_list *list, struct pexpr_node *node)
-+{
-+    if (list->size == 0 || node == NULL)
-+        return;
-+
-+    if (node == list->head)
-+        list->head = node->next;
-+    else
-+        node->prev->next = node->next;
-+
-+    if (node == list->tail)
-+        list->tail = node->prev;
-+    else
-+        node->next->prev = node->prev;
-+
-+    list->size--;
-+    free(node);
-+}
-+
-+/*
-+ * delete an element from a fexl_list
-+ */
-+void fexl_list_delete(struct fexl_list *list, struct fexl_node *node)
-+{
-+    if (list->size == 0 || node == NULL)
-+        return;
-+
-+    if (node == list->head)
-+        list->head = node->next;
-+    else
-+        node->prev->next = node->next;
-+
-+    if (node == list->tail)
-+        list->tail = node->prev;
-+    else
-+        node->next->prev = node->prev;
-+
-+    list->size--;
-+    free(node);
-+}
-+
-+/*
-+ * delete the first occurence of elem in an fexl_list
-+ */
-+void fexl_list_delete_elem(struct fexl_list *list, struct fexpr_list *elem)
-+{
-+    struct fexl_node *node, *to_delete = NULL;
-+    fexl_list_for_each(node, list) {
-+        if (node->elem == elem) {
-+            to_delete = node;
-+            break;
++        else {
++            if (!strcmp(str_get(&e->nb_val), string_val)) {
++                picosat_assume(pico, satval);
++                e->assumption = true;
++                nr_of_assumptions_true++;
++            } else {
++                picosat_assume(pico, -satval);
++                e->assumption = false;
++            }
 +        }
++        nr_of_assumptions++;
 +    }
-+
-+    if (to_delete != NULL)
-+        fexl_list_delete(list, to_delete);
 +}
 +
 +/*
-+ * make a shallow copy of a fexpr_list
++ * get the unsatisfiable soft constraints from the last run of Picosat
 + */
-+struct fexpr_list * fexpr_list_copy(struct fexpr_list *list)
++static struct fexpr_list * get_unsat_core_soft(PicoSAT* pico)
 +{
 +    struct fexpr_list *ret = fexpr_list_init();
-+    struct fexpr_node *node;
-+    fexpr_list_for_each(node, list)
-+        fexpr_list_add(ret, node->elem);
++    struct fexpr *e;
 +
-+    return ret;
-+}
++    int *lit = malloc(sizeof(int));
++    const int *i = picosat_failed_assumptions(pico);
++    *lit = abs(*i++);
 +
-+/*
-+ * make a shallow copy of a fexl_list
-+ */
-+struct fexl_list * fexl_list_copy(struct fexl_list *list)
-+{
-+    struct fexl_list *ret = fexl_list_init();
-+    struct fexl_node *node;
-+    fexl_list_for_each(node, list)
-+        fexl_list_add(ret, node->elem);
++    while (*lit != 0) {
++        e = &satmap[*lit];
 +
-+    return ret;
-+}
++        if (!sym_is_sdv(sdv_symbols, e->sym))
++            fexpr_list_add(ret, e);
 +
-+/*
-+ * make a shallow copy of a sdv_list
-+ */
-+struct sdv_list * sdv_list_copy(struct sdv_list *list)
-+{
-+    struct sdv_list *ret = sdv_list_init();
-+    struct sdv_node *node;
-+    sdv_list_for_each(node, list)
-+        sdv_list_add(ret, node->elem);
-+
-+
-+    return ret;
-+}
-+
-+/*
-+ * make a shallow copy of a sfix_list
-+ */
-+struct sfix_list * sfix_list_copy(struct sfix_list *list)
-+{
-+    struct sfix_list *ret = sfix_list_init();
-+    struct sfix_node *node;
-+    sfix_list_for_each(node, list)
-+        sfix_list_add(ret, node->elem);
-+
-+    return ret;
-+}
-+
-+/*
-+ * print a fexpr_list
-+ */
-+void fexpr_list_print(char *title, struct fexpr_list *list)
-+{
-+    struct fexpr_node *node;
-+    printf("%s: [", title);
-+
-+    fexpr_list_for_each(node, list) {
-+        printf("%s", str_get(&node->elem->name));
-+        if (node->next != NULL)
-+            printf(", ");
++        *lit = abs(*i++);
 +    }
 +
-+    printf("]\n");
++    return ret;
 +}
 +
 +/*
-+ * print a fexl_list
++ * minimise the unsat core C
 + */
-+void fexl_list_print(char *title, struct fexl_list *list)
++static struct fexpr_list * minimise_unsat_core(PicoSAT *pico, struct fexpr_list *C)
 +{
-+    struct fexl_node *node;
-+    printf("%s:\n", title);
++    /* no need to check further */
++    if (C->size == 1)
++        return C;
 +
-+    fexl_list_for_each(node, list)
-+        fexpr_list_print(":", node->elem);
-+}
++    struct fexpr_list *c_set;
++    struct fexpr_node *node, *tmp;
 +
-+/*
-+ * print a pexpr_list
-+ */
-+void pexpr_list_print(char *title, struct pexpr_list *list)
-+{
-+    struct pexpr_node *node;
-+    printf("%s: [", title);
++    for (node = C->head; node != NULL;) {
++        if (C->size == 1)
++            return C;
 +
-+    pexpr_list_for_each(node, list) {
-+        pexpr_print_util(node->elem, -1);
-+        if (node->next != NULL)
-+            printf(", ");
-+    }
++        /* create C\c */
++        c_set = fexpr_list_init();
++        fexpr_list_add(c_set, node->elem);
++        struct fexpr_list *t = get_difference(C, c_set);
 +
-+    printf("]\n");
-+}
++        /* invoke PicoSAT */
++        set_assumptions(pico, t);
 +
-+/*
-+ * free an fexpr_list
-+ */
-+void fexpr_list_free(struct fexpr_list *list)
-+{
-+    struct fexpr_node *node = list->head, *tmp;
++        int res = picosat_sat(pico, -1);
 +
-+    while (node != NULL) {
 +        tmp = node->next;
-+        free(node);
++
++        if (res == PICOSAT_UNSATISFIABLE)
++            fexpr_list_delete(C, node);
++
 +        node = tmp;
++
++        fexpr_list_free(c_set);
++        fexpr_list_free(t);
 +    }
 +
-+    free(list);
++    return C;
 +}
 +
-+/*
-+ * free an fexl_list
-+ */
-+void fexl_list_free(struct fexl_list *list){
-+    struct fexl_node *node = list->head, *tmp;
-+
-+    while (node != NULL) {
-+        tmp = node->next;
-+        free(node);
-+        node = tmp;
-+    }
-+
-+    free(list);
-+}
 +
 +/*
-+ * free a sdv_list
++ * Calculate C\E0
 + */
-+void sdv_list_free(struct sdv_list *list)
++static struct fexpr_list * get_difference(struct fexpr_list *C, struct fexpr_list *E0)
 +{
-+    struct sdv_node *node = list->head, *tmp;
++    struct fexpr_list *ret = fexpr_list_init();
++    struct fexpr_node *node1, *node2;
++    bool found;
 +
-+    while (node != NULL) {
-+        tmp = node->next;
-+        free(node);
-+        node = tmp;
-+    }
-+
-+    free(list);
-+}
-+
-+/*
-+ * simplify a pexpr in-place
-+ *     pexpr && False -> False
-+ *     pexpr && True  -> pexpr
-+ *     pexpr || False -> pexpr
-+ *     pexpr || True  -> True
-+ */
-+static struct pexpr * pexpr_eliminate_yn(struct pexpr *e)
-+{
-+    struct pexpr *tmp;
-+
-+    if (e) switch (e->type) {
-+    case PE_AND:
-+        e->left.pexpr = pexpr_eliminate_yn(e->left.pexpr);
-+        e->right.pexpr = pexpr_eliminate_yn(e->right.pexpr);
-+        if (e->left.pexpr->type == PE_SYMBOL) {
-+            if (e->left.pexpr->left.fexpr == const_false) {
-+                pexpr_free(e->left.pexpr);
-+                pexpr_free(e->right.pexpr);
-+                e->type = PE_SYMBOL;
-+                e->left.fexpr = const_false;
-+                e->right.pexpr = NULL;
-+                return e;
-+            } else if (e->left.pexpr->left.fexpr == const_true) {
-+                free(e->left.pexpr);
-+                tmp = e->right.pexpr;
-+                *e = *(e->right.pexpr);
-+                free(tmp);
-+                return e;
++    fexpr_list_for_each(node1, C) {
++        found = false;
++        fexpr_list_for_each(node2, E0) {
++            if (node1->elem->satval == node2->elem->satval) {
++                found = true;
++                break;
 +            }
 +        }
-+        if (e->right.pexpr->type == PE_SYMBOL) {
-+            if (e->right.pexpr->left.fexpr == const_false) {
-+                pexpr_free(e->left.pexpr);
-+                pexpr_free(e->right.pexpr);
-+                e->type = PE_SYMBOL;
-+                e->left.fexpr = const_false;
-+                e->right.fexpr = NULL;
-+                return e;
-+            } else if (e->right.pexpr->left.fexpr == const_true) {
-+                free(e->right.pexpr);
-+                tmp = e->left.pexpr;
-+                *e = *(e->left.pexpr);
-+                free(tmp);
-+                return e;
-+            }
-+        }
-+        break;
-+    case PE_OR:
-+        e->left.pexpr = pexpr_eliminate_yn(e->left.pexpr);
-+        e->right.pexpr = pexpr_eliminate_yn(e->right.pexpr);
-+        if (e->left.pexpr->type == PE_SYMBOL) {
-+            if (e->left.pexpr->left.fexpr == const_false) {
-+                free(e->left.pexpr);
-+                tmp = e->right.pexpr;
-+                *e = *(e->right.pexpr);
-+                free(tmp);
-+                return e;
-+            } else if (e->left.pexpr->left.fexpr == const_true) {
-+                pexpr_free(e->left.pexpr);
-+                pexpr_free(e->right.pexpr);
-+                e->type = PE_SYMBOL;
-+                e->left.fexpr = const_true;
-+                e->right.pexpr = NULL;
-+            }
-+        }
-+        if (e->right.pexpr->type == PE_SYMBOL) {
-+            if (e->right.pexpr->left.fexpr == const_false) {
-+                free(e->right.pexpr);
-+                tmp = e->left.pexpr;
-+                *e = *(e->left.pexpr);
-+                free(tmp);
-+                return e;
-+            } else if (e->right.pexpr->left.fexpr == const_true) {
-+                pexpr_free(e->left.pexpr);
-+                pexpr_free(e->right.pexpr);
-+                e->type = PE_SYMBOL;
-+                e->left.fexpr = const_true;
-+                e->right.pexpr = NULL;
-+                return e;
-+            }
-+        }
-+    default:
-+        ;
++        if (!found)
++            fexpr_list_add(ret, node1->elem);
 +    }
 +
-+    return e;
++    return ret;
 +}
 +
 +/*
-+ * copy a pexpr
++ * check, if there is an intersection between e and X
 + */
-+struct pexpr * pexpr_copy(const struct pexpr *org)
++static bool has_intersection(struct fexpr_list *e, struct fexpr_list *X)
 +{
-+    struct pexpr *e;
-+
-+    if (!org)
-+        return NULL;
-+
-+    e = xmalloc(sizeof(*org));
-+    memcpy(e, org, sizeof(*org));
-+    switch (org->type) {
-+    case PE_SYMBOL:
-+        e->left = org->left;
-+        break;
-+    case PE_AND:
-+    case PE_OR:
-+        e->left.pexpr = pexpr_copy(org->left.pexpr);
-+        e->right.pexpr = pexpr_copy(org->right.pexpr);
-+        break;
-+    case PE_NOT:
-+        e->left.pexpr = pexpr_copy(org->left.pexpr);
-+        break;
-+    }
-+
-+    return e;
-+}
-+
-+/*
-+ * free a pexpr
-+ */
-+void pexpr_free(struct pexpr *e)
-+{
-+    if (!e)
-+        return;
-+
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        break;
-+    case PE_AND:
-+    case PE_OR:
-+        pexpr_free(e->left.pexpr);
-+        pexpr_free(e->right.pexpr);
-+        break;
-+    case PE_NOT:
-+        pexpr_free(e->left.pexpr);
-+        break;
-+    }
-+
-+    free(e);
-+}
-+
-+#define e1 (*ep1)
-+#define e2 (*ep2)
-+/*
-+ * pexpr_eliminate_eq() helper
-+ */
-+static void __pexpr_eliminate_eq(enum pexpr_type type, struct pexpr **ep1, struct pexpr **ep2)
-+{
-+    /* recurse down to the leaves */
-+    if (e1->type == type) {
-+        __pexpr_eliminate_eq(type, &e1->left.pexpr, &e2);
-+        __pexpr_eliminate_eq(type, &e1->right.pexpr, &e2);
-+        return;
-+    }
-+    if (e2->type == type) {
-+        __pexpr_eliminate_eq(type, &e1, &e2->left.pexpr);
-+        __pexpr_eliminate_eq(type, &e1, &e2->right.pexpr);
-+        return;
-+    }
-+
-+    /* e1 and e2 are leaves. Compare them. */
-+    if (e1->type == PE_SYMBOL && e2->type == PE_SYMBOL &&
-+        e1->left.fexpr->satval == e2->left.fexpr->satval &&
-+        (e1->left.fexpr == const_true || e2->left.fexpr == const_false))
-+        return;
-+    if (!pexpr_eq(e1, e2))
-+        return;
-+
-+    /* e1 and e2 are equal leaves. Prepare them for elimination. */
-+    trans_count++;
-+    pexpr_free(e1);
-+    pexpr_free(e2);
-+    switch (type) {
-+    case PE_AND:
-+        e1 = pexf(const_true);
-+        e2 = pexf(const_true);
-+        break;
-+    case PE_OR:
-+        e1 = pexf(const_false);
-+        e2 = pexf(const_false);
-+        break;
-+    default:
-+        ;
-+    }
-+}
-+
-+/*
-+ * rewrite pexpr ep1 and ep2 to remove operands common to both
-+ */
-+static void pexpr_eliminate_eq(struct pexpr **ep1, struct pexpr **ep2)
-+{
-+    if (!e1 || !e2)
-+        return;
-+
-+    switch (e1->type) {
-+    case PE_AND:
-+    case PE_OR:
-+        __pexpr_eliminate_eq(e1->type, ep1, ep2);
-+    default:
-+        ;
-+    }
-+    if (e1->type != e2->type) switch (e2->type) {
-+    case PE_AND:
-+    case PE_OR:
-+        __pexpr_eliminate_eq(e2->type, ep1, ep2);
-+    default:
-+        ;
-+    }
-+    e1 = pexpr_eliminate_yn(e1);
-+    e2 = pexpr_eliminate_yn(e2);
-+}
-+#undef e1
-+#undef e2
-+
-+/*
-+ * check whether 2 pexpr are equal
-+ */
-+bool pexpr_eq(struct pexpr *e1, struct pexpr *e2)
-+{
-+    bool res;
-+    int old_count;
-+
-+    if (!e1 || !e2)
-+        return false;
-+
-+    if (e1->type != e2->type)
-+        return false;
-+
-+    switch (e1->type) {
-+    case PE_SYMBOL:
-+        return e1->left.fexpr->satval == e2->left.fexpr->satval;
-+    case PE_AND:
-+    case PE_OR:
-+        e1 = pexpr_copy(e1);
-+        e2 = pexpr_copy(e2);
-+        old_count = trans_count;
-+        pexpr_eliminate_eq(&e1, &e2);
-+        res = (e1->type == PE_SYMBOL && e2->type == PE_SYMBOL &&
-+            e1->left.fexpr->satval == e2->left.fexpr->satval);
-+        pexpr_free(e1);
-+        pexpr_free(e2);
-+        trans_count = old_count;
-+        return res;
-+    case PE_NOT:
-+        return pexpr_eq(e1->left.pexpr, e2->left.pexpr);
-+    }
++    struct fexpr_node *node1, *node2;
++    fexpr_list_for_each(node1, e)
++        fexpr_list_for_each(node2, X)
++            if (node1->elem->satval == node2->elem->satval)
++                return true;
 +
 +    return false;
 +}
 +
 +/*
-+ * print a pexpr
++ * get the union of 2 fexpr_list
 + */
-+static void pexpr_print_util(struct pexpr *e, int prevtoken)
++static struct fexpr_list * fexpr_list_union(struct fexpr_list *A, struct fexpr_list *B)
 +{
-+    if (!e)
-+        return;
++    struct fexpr_list *ret = fexpr_list_copy(A);
++    struct fexpr_node *node1, *node2;
++    bool found;
 +
-+    switch (e->type) {
-+    case PE_SYMBOL:
-+        printf("%s", str_get(&e->left.fexpr->name));
-+        break;
-+    case PE_AND:
-+        if (prevtoken != PE_AND && prevtoken != -1)
-+            printf("(");
-+        pexpr_print_util(e->left.pexpr, PE_AND);
-+        printf(" && ");
-+        pexpr_print_util(e->right.pexpr, PE_AND);
-+        if (prevtoken != PE_AND && prevtoken != -1)
-+            printf(")");
-+        break;
-+    case PE_OR:
-+        if (prevtoken != PE_OR && prevtoken != -1)
-+            printf("(");
-+        pexpr_print_util(e->left.pexpr, PE_OR);
-+        printf(" || ");
-+        pexpr_print_util(e->right.pexpr, PE_OR);
-+        if (prevtoken != PE_OR && prevtoken != -1)
-+            printf(")");
-+        break;
-+    case PE_NOT:
-+        printf("!");
-+        pexpr_print_util(e->left.pexpr, PE_NOT);
-+        break;
++    fexpr_list_for_each(node2, B) {
++        found = false;
++        fexpr_list_for_each(node1, A) {
++            if (node2->elem->satval == node1->elem->satval) {
++                found = true;
++                break;
++            }
++        }
++        if (!found)
++            fexpr_list_add(ret, node2->elem);
 +    }
-+}
-+void pexpr_print(char *tag, struct pexpr *e, int prevtoken)
-+{
-+    printf("%s: ", tag);
-+    pexpr_print_util(e, prevtoken);
-+    printf("\n");
++
++    return ret;
 +}
 +
 +/*
-+ * convert a fexpr to a pexpr
++ * get the union of 2 fexl_list
 + */
-+struct pexpr * pexf(struct fexpr *fe)
++static struct fexl_list * fexl_list_union(struct fexl_list *A, struct fexl_list *B)
 +{
-+    struct pexpr *pe = xcalloc(1, sizeof(*pe));
-+    pe->type = PE_SYMBOL;
-+    pe->left.fexpr = fe;
-+    return pe;
-+}
++    struct fexl_list *ret = fexl_list_copy(A);
++    struct fexl_node *node1, *node2;
++    bool found;
 +
-+static struct pexpr * pexpr_join_or(struct pexpr *e1, struct pexpr *e2)
-+{
-+    if (pexpr_eq(e1, e2))
-+        return pexpr_copy(e1);
-+    else
-+        return NULL;
-+}
++    fexl_list_for_each(node2, B) {
++        found = false;
++        fexl_list_for_each(node1, A) {
++            if (node2->elem == node1->elem) {
++                found = true;
++                break;
++            }
++        }
++        if (!found)
++            fexl_list_add(ret, node2->elem);
++    }
 +
-+static struct pexpr * pexpr_join_and(struct pexpr *e1, struct pexpr *e2)
-+{
-+    if (pexpr_eq(e1, e2))
-+        return pexpr_copy(e1);
-+    else
-+        return NULL;
++    return ret;
 +}
 +
 +/*
-+ * pexpr_eliminate_dups() helper.
++ * check, whether A is a subset of B
 + */
-+static void pexpr_eliminate_dups1(enum pexpr_type type, struct pexpr **ep1, struct pexpr **ep2)
++static bool is_subset_of(struct fexpr_list *A, struct fexpr_list *B)
 +{
-+#define e1 (*ep1)
-+#define e2 (*ep2)
++    struct fexpr_node *node1, *node2;
++    bool found;
 +
-+    struct pexpr *tmp;
-+
-+    /* recurse down to leaves */
-+    if (e1->type == type) {
-+        pexpr_eliminate_dups1(type, &e1->left.pexpr, &e2);
-+        pexpr_eliminate_dups1(type, &e1->right.pexpr, &e2);
-+        return;
-+    }
-+    if (e2->type == type) {
-+        pexpr_eliminate_dups1(type, &e1, &e2->left.pexpr);
-+        pexpr_eliminate_dups1(type, &e1, &e2->right.pexpr);
-+        return;
++    fexpr_list_for_each(node1, A) {
++        found = false;
++        fexpr_list_for_each(node2, B) {
++            if (node1->elem->satval == node2->elem->satval) {
++                found = true;
++                break;
++            }
++        }
++        if (!found)
++            return false;
 +    }
 +
-+    /* e1 and e2 are leaves. Compare them. */
++    return true;
++}
 +
-+    if (e1 == e2)
-+        return;
++/*
++ * print an unsat core
++ */
++static void print_unsat_core(struct fexpr_list *list)
++{
++    struct fexpr_node *node;
++    printd("Unsat core: [");
 +
-+    switch (e1->type) {
-+    case PE_AND:
-+    case PE_OR:
-+        pexpr_eliminate_dups1(e1->type, &e1, &e1);
++    fexpr_list_for_each(node, list) {
++        printd("%s", str_get(&node->elem->name));
++        printd(" <%s>", node->elem->assumption == true ? "T" : "F");
++        if (node->next != NULL)
++            printd(", ");
++    }
++
++    printd("]\n");
++}
++
++
++/*
++ * check if a diagnosis contains a fexpr
++ */
++static bool diagnosis_contains_fexpr(struct fexpr_list *diagnosis, struct fexpr *e)
++{
++    struct fexpr_node *node;
++
++    fexpr_list_for_each(node, diagnosis)
++        if (node->elem->satval == e->satval)
++            return true;
++
++    return false;
++}
++
++/*
++ * check if a diagnosis contains a symbol
++ */
++static bool diagnosis_contains_symbol(struct sfix_list *diagnosis, struct symbol *sym)
++{
++    struct sfix_node *node;
++
++    sfix_list_for_each(node, diagnosis)
++        if (sym == node->elem->sym)
++            return true;
++
++    return false;
++}
++
++/*
++ * print the diagnoses of type fexpr_list
++ */
++static void print_diagnoses(struct fexl_list *diag)
++{
++    struct fexl_node *lnode;
++    unsigned int i = 1;
++
++    fexl_list_for_each(lnode, diag) {
++        printd("%d: [", i++);
++        struct fexpr_node *node;
++        fexpr_list_for_each(node, lnode->elem) {
++            char *new_val = node->elem->assumption ? "false" : "true";
++            printd("%s => %s", str_get(&node->elem->name), new_val);
++            if (node->next != NULL)
++                printd(", ");
++        }
++        printd("]\n");
++    }
++}
++
++/*
++ * print a single diagnosis of type symbol_fix
++ */
++void print_diagnosis_symbol(struct sfix_list *diag_sym)
++{
++    struct symbol_fix *fix;
++    struct sfix_node *node;
++
++    printd("[");
++
++    sfix_list_for_each(node, diag_sym) {
++        fix = node->elem;
++
++        if (fix->type == SF_BOOLEAN) {
++            printd("%s => %s", fix->sym->name, tristate_get_char(fix->tri));
++        } else if (fix->type == SF_NONBOOLEAN) {
++            printd("%s => %s", fix->sym->name, str_get(&fix->nb_val));
++        } else {
++            perror("NB not yet implemented.");
++        }
++
++        if (node->next != NULL)
++            printd(", ");
++    }
++    printd("]\n");
++}
++
++/*
++ * print the diagnoses of type symbol_fix
++ */
++static void print_diagnoses_symbol(struct sfl_list *diag_sym)
++{
++    struct sfl_node *arr;
++    unsigned int i = 1;
++
++    sfl_list_for_each(arr, diag_sym) {
++        printd("%d: ", i++);
++        print_diagnosis_symbol(arr->elem);
++    }
++}
++
++/*
++ * convert a single diagnosis of fexpr into a diagnosis of symbols
++ */
++static struct sfix_list * convert_diagnosis(struct fexpr_list *diagnosis)
++{
++    struct sfix_list *diagnosis_symbol = sfix_list_init();
++    struct fexpr *e;
++    struct symbol_fix *fix;
++    struct symbol_dvalue *sdv;
++
++    /* set the values for the conflict symbols */
++    struct sdv_node *snode;
++    sdv_list_for_each(snode, sdv_symbols) {
++        sdv = snode->elem;
++        fix = xcalloc(1, sizeof(*fix));
++        fix->sym = sdv->sym;
++        fix->type = SF_BOOLEAN;
++        fix->tri = sdv->tri;
++        sfix_list_add(diagnosis_symbol, fix);
++    }
++
++    struct fexpr_node * fnode;
++    fexpr_list_for_each(fnode, diagnosis) {
++        e = fnode->elem;
++
++        /* diagnosis already contains symbol, so continue */
++        if (diagnosis_contains_symbol(diagnosis_symbol, e->sym))
++            continue;
++
++        enum symbolfix_type type;
++        if (sym_is_boolean(e->sym))
++            type = SF_BOOLEAN;
++        else if (sym_is_nonboolean(e->sym))
++            type = SF_NONBOOLEAN;
++        else
++            type = SF_DISALLOWED;
++        fix = symbol_fix_create(e, type, diagnosis);
++
++        sfix_list_add(diagnosis_symbol, fix);
++    }
++
++    return diagnosis_symbol;
++}
++
++/*
++ * convert the diagnoses of fexpr into diagnoses of symbols
++ * it is easier to handle symbols when applying fixes
++ */
++static struct sfl_list * convert_diagnoses(struct fexl_list *diag_arr)
++{
++    diagnoses_symbol = sfl_list_init();
++
++    struct fexl_node *lnode;
++    fexl_list_for_each(lnode, diag_arr) {
++        struct sfix_list *fix = convert_diagnosis(lnode->elem);
++        sfl_list_add(diagnoses_symbol, fix);
++    }
++
++    return diagnoses_symbol;
++}
++
++/*
++ * create a symbol_fix given a fexpr
++ */
++static struct symbol_fix * symbol_fix_create(struct fexpr *e, enum symbolfix_type type, struct fexpr_list *diagnosis)
++{
++    struct symbol_fix *fix = malloc(sizeof(struct symbol_fix));
++    fix->sym = e->sym;
++    fix->type = type;
++
++    switch(type) {
++    case SF_BOOLEAN:
++        fix->tri = calculate_new_tri_val(e, diagnosis);
++        break;
++    case SF_NONBOOLEAN:
++        fix->nb_val = str_new();
++        str_append(&fix->nb_val, calculate_new_string_value(e, diagnosis));
++        break;
 +    default:
-+        ;
++        perror("Illegal symbolfix_type.\n");
 +    }
 +
-+    switch (type) {
-+    case PE_AND:
-+        tmp = pexpr_join_and(e1, e2);
-+        if (tmp) {
-+            pexpr_free(e1);
-+            pexpr_free(e2);
-+            e1 = pexf(const_true);
-+            e2 = tmp;
-+            trans_count++;
-+        }
-+        break;
-+    case PE_OR:
-+        tmp = pexpr_join_or(e1, e2);
-+        if (tmp) {
-+            pexpr_free(e1);
-+            pexpr_free(e2);
-+            e1 = pexf(const_false);
-+            e2 = tmp;
-+            trans_count++;
-+        }
-+        break;
-+    default:
-+        ;
-+    }
-+
-+#undef e1
-+#undef e2
++    return fix;
 +}
 +
 +/*
-+ * eliminate duplicate and redundant operands
++ * remove symbols from the diagnosis, which will be set automatically:
++ * 1. symbol gets selected
++ * 2. choice symbol gets enabled/disabled automatically
++ * 3. symbol uses a default value
 + */
-+struct pexpr * pexpr_eliminate_dups(struct pexpr *e)
++static struct sfl_list * minimise_diagnoses(PicoSAT *pico, struct fexl_list *diagnoses)
 +{
-+    if (!e)
-+        return e;
++    clock_t start, end;
++    double time;
 +
-+    int oldcount = trans_count;
-+    while (true) {
-+        trans_count = 0;
-+        switch (e->type) {
-+        case PE_AND:
-+        case PE_OR:
-+            pexpr_eliminate_dups1(e->type, &e, &e);
-+        default:
-+            ;
++    printd("Minimising diagnoses...");
++
++    start = clock();
++
++    struct fexpr_list *d;
++    struct sfix_list *diagnosis_symbol;
++    struct sfl_list *diagnoses_symbol = sfl_list_init();
++    struct fexpr *e;
++    int satval, deref = 0;
++    struct symbol_fix *fix;
++
++    /* create soft constraint set C */
++    struct fexpr_list *C = fexpr_list_init();
++    add_fexpr_to_constraint_set(C);
++
++    struct fexl_node *flnode;
++    fexl_list_for_each(flnode, diagnoses) {
++        d = flnode->elem;
++
++        /* set assumptions for those symbols that don't need to be changed */
++        set_assumptions(pico, get_difference(C, d));
++
++        /* flip the assumptions from the diagnosis */
++        struct fexpr_node *fnode;
++        fexpr_list_for_each(fnode, d) {
++            e = fnode->elem;
++            satval = e->assumption ? -(e->satval) : e->satval;
++            picosat_assume(pico, satval);
 +        }
-+        if (!trans_count)
-+            /* no simplification done in this pass. We're done. */
-+            break;
-+        e = pexpr_eliminate_yn(e);
++
++        int res = picosat_sat(pico, -1);
++        if (res != PICOSAT_SATISFIABLE)
++            perror("Diagnosis not satisfiable (minimise).");
++
++        diagnosis_symbol = convert_diagnosis(d);
++
++        /* check if symbol gets selected */
++        struct sfix_node *snode;
++        for (snode = diagnosis_symbol->head; snode != NULL;) {
++            fix = snode->elem;
++
++            /* symbol is never selected, continue */
++            if (!fix->sym->fexpr_sel_y) {
++                snode = snode->next;
++                continue;
++            }
++
++            /* check, whether the symbol was selected anyway */
++            if (fix->sym->type == S_BOOLEAN && fix->tri == yes) {
++                deref = picosat_deref(pico, fix->sym->fexpr_sel_y->satval);
++            } else if (fix->sym->type == S_TRISTATE && fix->tri == yes) {
++                deref = picosat_deref(pico, fix->sym->fexpr_sel_y->satval);
++            } else if (fix->sym->type == S_TRISTATE && fix->tri == mod) {
++                deref = picosat_deref(pico, fix->sym->fexpr_sel_m->satval);
++            }
++
++            if (deref == 1) {
++                struct sfix_node *tmp = snode->next;
++                sfix_list_delete(diagnosis_symbol, snode);
++                snode = tmp;
++            } else {
++                deref = 0;
++                snode = snode->next;
++            }
++        }
++        sfl_list_add(diagnoses_symbol, diagnosis_symbol);
 +    }
-+    trans_count = oldcount;
-+    return e;
++
++    end = clock();
++    time = ((double) (end - start)) / CLOCKS_PER_SEC;
++
++    printd("done. (%.6f secs.)\n", time);
++
++    return diagnoses_symbol;
 +}
-diff --git a/scripts/kconfig/cf_expr.h b/scripts/kconfig/cf_expr.h
++
++/*
++ * list the diagnoses and let user choose a diagnosis to be applied
++ */
++struct sfix_list * choose_fix(struct sfl_list *diag)
++{
++    printd("=== GENERATED DIAGNOSES ===\n");
++    printd("0: No changes wanted\n");
++    print_diagnoses_symbol(diag);
++
++    int choice;
++    printd("\n> Choose option: ");
++    scanf("%d", &choice);
++
++    /* no changes wanted */
++    if (choice == 0)
++        return NULL;
++
++    /* invalid choice */
++    if (choice > diag->size)
++        return NULL;
++
++    unsigned int counter;
++    struct sfl_node *node = diag->head;
++    for (counter = 1; counter < choice; counter++)
++        node = node->next;
++
++    return node->elem;
++}
++
++
++/*
++ * calculate the new value for a boolean symbol given a diagnosis and an fexpr
++ */
++static tristate calculate_new_tri_val(struct fexpr *e, struct fexpr_list *diagnosis)
++{
++    assert(sym_is_boolean(e->sym));
++
++    /* return the opposite of the last assumption for booleans */
++    if (e->sym->type == S_BOOLEAN)
++        return e->assumption ? no : yes;
++
++    /* new values for tristate must be deduced from the diagnosis */
++    if (e->sym->type == S_TRISTATE) {
++        /* fexpr_y */
++        if (e->tri == yes) {
++            if (e->assumption == true)
++                /*
++                 * if diagnosis contains fexpr_m, fexpr_m was false
++                 * => new value is mod
++                 */
++                return diagnosis_contains_fexpr(diagnosis, e->sym->fexpr_m) ? mod : no;
++            else if (e->assumption == false)
++                /*
++                 * if fexpr_y is set to true, the new value must be yes
++                 */
++                return yes;
++        }
++        /* fexpr_m */
++        if (e->tri == mod) {
++            if (e->assumption == true)
++                /*
++                 * if diagnosis contains fexpr_y, fexpr_y was false
++                 * => new value is yes
++                 */
++                return diagnosis_contains_fexpr(diagnosis, e->sym->fexpr_m) ? yes : no;
++            else if (e->assumption == false)
++                /*
++                 * if diagnosis contains fexpr_m, the new value must be mod
++                 */
++                return mod;
++        }
++        perror("Should not get here.\n");
++    }
++
++    perror("Error calculating new tristate value.\n");
++    return no;
++}
++
++/*
++ * calculate the new value for a non-boolean symbol given a diagnosis and an fexpr
++ */
++static const char * calculate_new_string_value(struct fexpr *e, struct fexpr_list *diagnosis)
++{
++    assert(sym_is_nonboolean(e->sym));
++
++    /* if assumption was false before, this is the new value because only 1 variable can be true */
++    if (e->assumption == false)
++        return str_get(&e->nb_val);
++
++    /* a diagnosis always contains 2 variables for the same non-boolean symbol
++    * one is set to true, the other to false
++    * otherwise you'd set 2 variables to true, which is not allowed */
++    struct fexpr_node *node;
++    struct fexpr *e2;
++    fexpr_list_for_each(node, diagnosis) {
++        e2 = node->elem;
++
++        /* not interested in other symbols or the same fexpr */
++        if (e->sym != e2->sym || e->satval == e2->satval)
++            continue;
++
++        return str_get(&e2->nb_val);
++    }
++
++    perror("Error calculating new string value.\n");
++    return "";
++}
+diff --git a/scripts/kconfig/cf_rangefix.h b/scripts/kconfig/cf_rangefix.h
 new file mode 100644
-index 000000000000..cc612866fed4
+index 000000000000..0daf29cb70b9
 --- /dev/null
-+++ b/scripts/kconfig/cf_expr.h
-@@ -0,0 +1,237 @@
++++ b/scripts/kconfig/cf_rangefix.h
+@@ -0,0 +1,18 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
 + */
 +
-+#ifndef CF_EXPR_H
-+#define CF_EXPR_H
++#ifndef CF_RANGEFIX_H
++#define CF_RANGEFIX_H
 +
-+#define fexpr_list_for_each(node, list) \
-+    for (node = list->head; node != NULL; node = node->next)
++/* initialize RangeFix and return the diagnoses */
++struct sfl_list * rangefix_run(PicoSAT *pico);
 +
-+#define fexl_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
++/* ask user which fix to apply */
++struct sfix_list * choose_fix(struct sfl_list *diag);
 +
-+#define pexpr_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define sdv_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define sfix_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define sfl_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define sym_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define defm_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+#define prop_list_for_each(node, list) \
-+    fexpr_list_for_each(node, list)
-+
-+/* create a fexpr */
-+struct fexpr * fexpr_create(int satval, enum fexpr_type type, char *name);
-+
-+/* create the fexpr for a symbol */
-+void sym_create_fexpr (struct symbol *sym);
-+
-+struct pexpr * expr_calculate_pexpr_both(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_y(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_m(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_y_and(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_m_and(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_both_and(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_y_or(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_m_or(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_both_or(struct expr *a, struct expr *b);
-+struct pexpr * expr_calculate_pexpr_y_not(struct expr * e);
-+struct pexpr * expr_calculate_pexpr_m_not(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_y_equals(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_y_unequals(struct expr *e);
-+struct pexpr * expr_calculate_pexpr_y_comp(struct expr *e);
-+
-+/* macro to create a pexpr of type AND */
-+struct pexpr * pexpr_and(struct pexpr *a, struct pexpr *b);
-+
-+/* macro to create a pexpr of type OR */
-+struct pexpr * pexpr_or(struct pexpr *a, struct pexpr *b);
-+
-+/* macro to create a pexpr of type NOT */
-+struct pexpr * pexpr_not(struct pexpr *a);
-+
-+/* check whether a pexpr is in CNF */
-+bool pexpr_is_cnf(struct pexpr *e);
-+
-+/* check whether a pexpr is in NNF */
-+bool pexpr_is_nnf(struct pexpr *e);
-+
-+/* return fexpr_both for a symbol */
-+struct pexpr * sym_get_fexpr_both(struct symbol *sym);
-+
-+/* return fexpr_sel_both for a symbol */
-+struct pexpr * sym_get_fexpr_sel_both(struct symbol *sym);
-+
-+/* create the fexpr of a non-boolean symbol for a specific value */
-+struct fexpr * sym_create_nonbool_fexpr(struct symbol *sym, char *value);
-+
-+/* return the fexpr of a non-boolean symbol for a specific value, NULL if non-existent */
-+struct fexpr * sym_get_nonbool_fexpr(struct symbol *sym, char *value);
-+
-+/*
-+ * return the fexpr of a non-boolean symbol for a specific value, if it exists
-+ * otherwise create it
-+ */
-+struct fexpr * sym_get_or_create_nonbool_fexpr(struct symbol *sym, char *value);
-+
-+/* macro to construct a pexpr for "A implies B" */
-+struct pexpr * pexpr_implies(struct pexpr *a, struct pexpr *b);
-+
-+/* check, if the fexpr is a symbol, a True/False-constant, a literal symbolising a non-boolean or a choice symbol */
-+bool fexpr_is_symbol(struct fexpr *e);
-+
-+/* check whether a pexpr is a symbol or a negated symbol */
-+bool pexpr_is_symbol(struct pexpr *e);
-+
-+/* check whether the fexpr is a constant (true/false) */
-+bool fexpr_is_constant(struct fexpr *e);
-+
-+/* add a fexpr to the satmap */
-+void fexpr_add_to_satmap(struct fexpr *e);
-+
-+/* print an fexpr */
-+void fexpr_print(char *tag, struct fexpr *e);
-+
-+/* write an fexpr into a string (format needed for testing) */
-+void fexpr_as_char(struct fexpr *e, struct gstr *s);
-+
-+/* write pn pexpr into a string */
-+void pexpr_as_char_short(struct pexpr *e, struct gstr *s, int parent);
-+
-+/* write an fexpr into a string (format needed for testing) */
-+void pexpr_as_char(struct pexpr *e, struct gstr *s, int parent);
-+
-+/* check whether a pexpr contains a specific fexpr */
-+bool pexpr_contains_fexpr(struct pexpr *e, struct fexpr *fe);
-+
-+/* init list of fexpr */
-+struct fexpr_list * fexpr_list_init(void);
-+
-+/* init list of fexpr_list */
-+struct fexl_list * fexl_list_init(void);
-+
-+/* init list of pexpr */
-+struct pexpr_list * pexpr_list_init(void);
-+
-+/* init list of symbol_fix */
-+struct sfix_list * sfix_list_init(void);
-+
-+/* init list of sfix_list */
-+struct sfl_list * sfl_list_init(void);
-+
-+/* init list of symbol_dvalue */
-+struct sdv_list * sdv_list_init(void);
-+
-+/* init list of symbols */
-+struct sym_list * sym_list_init(void);
-+
-+/* init list of default_maps */
-+struct defm_list * defm_list_init(void);
-+
-+/* init list of properties */
-+struct prop_list *prop_list_init(void);
-+
-+/* add element to tail of a fexpr_list */
-+void fexpr_list_add(struct fexpr_list *list, struct fexpr *fe);
-+
-+/* add element to tail of a fexl_list */
-+void fexl_list_add(struct fexl_list *list, struct fexpr_list *elem);
-+
-+/* add element to tail of a pexpr_list */
-+void pexpr_list_add(struct pexpr_list *list, struct pexpr *e);
-+
-+/* add element to tail of a sfix_list */
-+void sfix_list_add(struct sfix_list *list, struct symbol_fix *fix);
-+
-+/* add element to tail of a sfl_list */
-+void sfl_list_add(struct sfl_list *list, struct sfix_list *elem);
-+
-+/* add element to tail of a sdv_list */
-+void sdv_list_add(struct sdv_list *list, struct symbol_dvalue *sdv);
-+
-+/* add element to tail of a sym_list */
-+void sym_list_add(struct sym_list *list, struct symbol *sym);
-+
-+/* add element to tail of a defm_list */
-+void defm_list_add(struct defm_list *list, struct default_map *map);
-+
-+/* add element to tail of a prop_list */
-+void prop_list_add(struct prop_list *list, struct property *prop);
-+
-+/* delete an element from a fexpr_list */
-+void fexpr_list_delete(struct fexpr_list *list, struct fexpr_node *node);
-+
-+/* delete an element from a fexpr_list */
-+void fexl_list_delete(struct fexl_list *list, struct fexl_node *node);
-+
-+/* delete the first occurence of elem in an fexl_list */
-+void fexl_list_delete_elem(struct fexl_list *list, struct fexpr_list *elem);
-+
-+/* delete an element from a pexpr_list */
-+void pexpr_list_delete(struct pexpr_list *list, struct pexpr_node *node);
-+
-+/* delete an element from a sfix_list */
-+void sfix_list_delete(struct sfix_list *list, struct sfix_node *node);
-+
-+/* make a shallow copy of a fexpr_list */
-+struct fexpr_list * fexpr_list_copy(struct fexpr_list *list);
-+
-+/* make a shallow copy of a fexpr_list */
-+struct fexl_list * fexl_list_copy(struct fexl_list *list);
-+
-+/* make a shallow copy of a sdv_list */
-+struct sdv_list * sdv_list_copy(struct sdv_list *list);
-+
-+/* make a shallow copy of a sfix_list */
-+struct sfix_list * sfix_list_copy(struct sfix_list *list);
-+
-+/* print a fexpr_list */
-+void fexpr_list_print(char *title, struct fexpr_list *list);
-+
-+/* print a fexl_list */
-+void fexl_list_print(char *title, struct fexl_list *list);
-+
-+/* print a pexpr_list */
-+void pexpr_list_print(char *title, struct pexpr_list *list);
-+
-+/* free an fexpr_list */
-+void fexpr_list_free(struct fexpr_list *list);
-+
-+/* free an fexl_list */
-+void fexl_list_free(struct fexl_list *list);
-+
-+/* free a sdv_list */
-+void sdv_list_free(struct sdv_list *list);
-+
-+/* check whether 2 pexpr are equal */
-+bool pexpr_eq(struct pexpr *e1, struct pexpr *e2);
-+
-+/* copy a pexpr */
-+struct pexpr * pexpr_copy(const struct pexpr *org);
-+
-+/* free a pexpr */
-+void pexpr_free(struct pexpr *e);
-+
-+/* print a pexpr  */
-+void pexpr_print(char *tag, struct pexpr *e, int prevtoken);
-+
-+/* convert a fexpr to a pexpr */
-+struct pexpr * pexf(struct fexpr *fe);
-+
-+/* eliminate duplicate and redundant operands */
-+struct pexpr * pexpr_eliminate_dups(struct pexpr *e);
++/* print a single diagnosis of type symbol_fix */
++void print_diagnosis_symbol(struct sfix_list *diag_sym);
 +
 +#endif
 -- 
