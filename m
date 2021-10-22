@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E2143783A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Oct 2021 15:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF03343783B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Oct 2021 15:43:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbhJVNoV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Oct 2021 09:44:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
+        id S232113AbhJVNpe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Oct 2021 09:45:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbhJVNoU (ORCPT
+        with ESMTP id S230342AbhJVNpc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Oct 2021 09:44:20 -0400
-Received: from out3.mail.ruhr-uni-bochum.de (out3.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:8:1001::8693:359b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA639C061764
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 Oct 2021 06:42:02 -0700 (PDT)
-Received: from mx3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by out3.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HbQWF12Q0z8S78;
-        Fri, 22 Oct 2021 15:42:01 +0200 (CEST)
+        Fri, 22 Oct 2021 09:45:32 -0400
+Received: from out2.mail.ruhr-uni-bochum.de (out2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2ae5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F87C061764
+        for <linux-kbuild@vger.kernel.org>; Fri, 22 Oct 2021 06:43:14 -0700 (PDT)
+Received: from mx2.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by out2.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4HbQXd42q5z8SNQ;
+        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rub.de; s=mail-2017;
-        t=1634910121; bh=8BBA7Dt5HM/SaaXrViaenXtkqZerKcCQEGxu2W5MblA=;
+        t=1634910193; bh=UW0RRMdNYIYpTUexTiHncCxXdqsj1VNJIwvwd1uOB7U=;
         h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=1ueJMUxOQwEPrU0BF7ZQaijgnV+ekVLLwDs2QMYDm3ZN8sAw7UZ4Gu13QONlnMzoY
-         anaIr/++SFYeyX1SoM59az8UTjMalkSAZGKdn5uyxQFxbsIBs68YRlTX/JRYdCs7Z2
-         wVTVLDGxP9/Ehhy8/v6hyJnrmdMWgn9mzcVjmWAM=
-Received: from out3.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
-        by mx3.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HbQWF0LPGz8S6t;
-        Fri, 22 Oct 2021 15:42:01 +0200 (CEST)
+        b=T72T9rpdXPMLxpGsb9wbmLk4oICdwvvxkF3Tdgtad2hJmbDNx0U3Bs8ylsIumdzB5
+         /HhmTdGvK8hK0IwWzJlkHJGfHwa3lMOW3cY6JOALMBNM8cuPn/TVWsZr7v/WrClN1Z
+         sm9FemJaDE8onRahyoWTlljYUP8ZmLKK2efdEdPk=
+Received: from out2.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by mx2.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4HbQXd398wz8SNB;
+        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
 X-RUB-Notes: Internal origin=IPv6:2a05:3e00:c:1001::8693:2aec
 X-Envelope-Sender: <thorsten.berger@rub.de>
 Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2aec])
-        by out3.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HbQWD662xz8S6B;
-        Fri, 22 Oct 2021 15:42:00 +0200 (CEST)
+        by out2.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4HbQXd1Ldnz8SRm;
+        Fri, 22 Oct 2021 15:43:13 +0200 (CEST)
 X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.1 at mx3.mail.ruhr-uni-bochum.de
+X-Virus-Scanned: clamav-milter 0.103.1 at mx2.mail.ruhr-uni-bochum.de
 Received: from [10.150.66.4] (nb02.ig09.ruhr-uni-bochum.de [10.150.66.4])
-        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HbQWD4CjGzDh0h;
-        Fri, 22 Oct 2021 15:42:00 +0200 (CEST)
+        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4HbQXc6QNtzDgyh;
+        Fri, 22 Oct 2021 15:43:12 +0200 (CEST)
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.103.0 at mail2.mail.ruhr-uni-bochum.de
-Message-ID: <3d287808-ec2b-9a22-3b33-f50b707f6372@rub.de>
-Date:   Fri, 22 Oct 2021 15:41:58 +0200
+Message-ID: <0aad8a90-2704-4f8b-625c-0ee591109738@rub.de>
+Date:   Fri, 22 Oct 2021 15:43:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: [RFC v3 06/12] Add files for building constraints
+Subject: [RFC v3 07/12] Add files for handling expressions
 Content-Language: en-US
 From:   Thorsten Berger <thorsten.berger@rub.de>
 To:     linux-kbuild@vger.kernel.org
@@ -70,22 +70,24 @@ Suggested-by: Sarah Nadi <nadi@ualberta.ca>
 Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 
-These files translate the Kconfig-model into propositional logic and store
-the constraints for each symbol in the corresponding struct.
+To translate the Kconfig-model into propositional logic and resolve
+conflicts, we need to handle propostional formulas.
+These files contain many functions and macros to deal with
+propositional formulas.
 
 ---
- scripts/kconfig/cf_constraints.c | 1219 ++++++++++++++++++++++++++++++
- scripts/kconfig/cf_constraints.h |   23 +
- 2 files changed, 1242 insertions(+)
- create mode 100644 scripts/kconfig/cf_constraints.c
- create mode 100644 scripts/kconfig/cf_constraints.h
+ scripts/kconfig/cf_expr.c | 2146 +++++++++++++++++++++++++++++++++++++
+ scripts/kconfig/cf_expr.h |  237 ++++
+ 2 files changed, 2383 insertions(+)
+ create mode 100644 scripts/kconfig/cf_expr.c
+ create mode 100644 scripts/kconfig/cf_expr.h
 
-diff --git a/scripts/kconfig/cf_constraints.c b/scripts/kconfig/cf_constraints.c
+diff --git a/scripts/kconfig/cf_expr.c b/scripts/kconfig/cf_expr.c
 new file mode 100644
-index 000000000000..d1f3b2bd9945
+index 000000000000..7ca0ff4bc6ad
 --- /dev/null
-+++ b/scripts/kconfig/cf_constraints.c
-@@ -0,0 +1,1219 @@
++++ b/scripts/kconfig/cf_expr.c
+@@ -0,0 +1,2146 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
@@ -101,1131 +103,210 @@ index 000000000000..d1f3b2bd9945
 +#include <string.h>
 +#include <time.h>
 +#include <unistd.h>
-+#include <ctype.h>
 +
 +#include "configfix.h"
 +
-+#define KCR_CMP false
-+#define NPC_OPTIMISATION true
++static void create_fexpr_bool(struct symbol *sym);
++static void create_fexpr_nonbool(struct symbol *sym);
++static void create_fexpr_unknown(struct symbol *sym);
++static void create_fexpr_choice(struct symbol *sym);
 +
-+static void init_constraints(void);
-+static void get_constraints_bool(void);
-+static void get_constraints_select(void);
-+static void get_constraints_nonbool(void);
++static void pexpr_print_util(struct pexpr *e, int prevtoken);
 +
-+static void build_tristate_constraint_clause(struct symbol *sym);
++static int trans_count;
 +
-+static void add_selects_kcr(struct symbol *sym);
-+static void add_selects(struct symbol *sym);
-+
-+static void add_dependencies_bool(struct symbol* sym);
-+static void add_dependencies_bool_kcr(struct symbol* sym);
-+static void add_dependencies_nonbool(struct symbol *sym);
-+
-+static void add_choice_prompt_cond(struct symbol *sym);
-+static void add_choice_dependencies(struct symbol *sym);
-+static void add_choice_constraints(struct symbol *sym);
-+static void add_invisible_constraints(struct symbol *sym);
-+static void sym_nonbool_at_least_1(struct symbol *sym);
-+static void sym_nonbool_at_most_1(struct symbol *sym);
-+static void sym_add_nonbool_values_from_default_range(struct symbol *sym);
-+static void sym_add_range_constraints(struct symbol *sym);
-+static void sym_add_nonbool_prompt_constraint(struct symbol *sym);
-+
-+static struct default_map * create_default_map_entry(struct fexpr *val, struct pexpr *e);
-+static struct defm_list * get_defaults(struct symbol *sym);
-+static struct pexpr * get_default_y(struct defm_list *list);
-+static struct pexpr * get_default_m(struct defm_list *list);
-+static struct pexpr *get_default_any(struct symbol *sym);
-+static long sym_get_range_val(struct symbol *sym, int base);
-+
-+/* -------------------------------------- */
 +
 +/*
-+ * build the constraints for each symbol
++ *  create a fexpr
 + */
-+void get_constraints(void)
++struct fexpr * fexpr_create(int satval, enum fexpr_type type, char *name)
 +{
-+    printd("Building constraints...");
++    struct fexpr *e = xcalloc(1, sizeof(*e));
++    e->satval = satval;
++    e->type = type;
++    e->name = str_new();
++    e->assumption = false;
++    str_append(&e->name, name);
 +
-+    init_constraints();
-+    get_constraints_bool();
-+    get_constraints_select();
-+    get_constraints_nonbool();
++    return e;
 +}
 +
 +/*
-+ * need to go through the constraints once to find all "known values"
-+ * for the non-Boolean symbols
++ * create the fexpr for a symbol
 + */
-+static void init_constraints(void)
++void sym_create_fexpr(struct symbol *sym)
 +{
-+    unsigned int i;
-+    struct symbol *sym;
-+    struct property *p;
-+    for_all_symbols(i, sym) {
-+        if (sym->type == S_UNKNOWN)
-+            continue;
-+
-+        if (sym_is_boolean(sym)) {
-+            for_all_properties(sym, p, P_SELECT)
-+                expr_calculate_pexpr_both(p->visible.expr);
-+
-+            for_all_properties(sym, p, P_IMPLY)
-+                expr_calculate_pexpr_both(p->visible.expr);
-+        }
-+
-+        if (sym->dir_dep.expr)
-+            expr_calculate_pexpr_both(sym->dir_dep.expr);
-+
-+        struct property *prompt = sym_get_prompt(sym);
-+        if (prompt != NULL && prompt->visible.expr) {
-+            expr_calculate_pexpr_both(prompt->visible.expr);
-+            get_defaults(sym);
-+        }
-+
-+        if (sym_is_nonboolean(sym)) {
-+            for_all_defaults(sym, p) {
-+                if (p == NULL)
-+                    continue;
-+
-+                sym_create_nonbool_fexpr(sym, p->expr->left.sym->name);
-+            }
-+            for_all_properties(sym, p, P_RANGE) {
-+                if (p == NULL)
-+                    continue;
-+
-+                sym_create_nonbool_fexpr(sym, p->expr->left.sym->name);
-+                sym_create_nonbool_fexpr(sym, p->expr->right.sym->name);
-+            }
-+            const char *curr = sym_get_string_value(sym);
-+            if (strcmp(curr, "") != 0)
-+                sym_create_nonbool_fexpr(sym, (char *) curr);
-+        }
-+
-+        if (sym->type == S_HEX || sym->type == S_INT)
-+            sym_add_nonbool_values_from_default_range(sym);
-+    }
-+}
-+
-+
-+/*
-+ *  build constraints for boolean symbols
-+ */
-+static void get_constraints_bool(void)
-+{
-+    unsigned int i;
-+    struct symbol *sym;
-+    for_all_symbols(i, sym) {
-+
-+        if (!sym_is_boolean(sym))
-+            continue;
-+
-+        /* build tristate constraints */
-+        if (sym->type == S_TRISTATE)
-+            build_tristate_constraint_clause(sym);
-+
-+        /* build constraints for select statements
-+         * need to treat choice symbols seperately */
-+        if (!KCR_CMP) {
-+            add_selects(sym);
-+        } else {
-+            if (sym->rev_dep.expr && !sym_is_choice(sym) && !sym_is_choice_value(sym))
-+                add_selects_kcr(sym);
-+        }
-+
-+        /* build constraints for dependencies for booleans */
-+        if (sym->dir_dep.expr && !sym_is_choice(sym) && !sym_is_choice_value(sym)) {
-+            if (!KCR_CMP)
-+                add_dependencies_bool(sym);
-+            else
-+                add_dependencies_bool_kcr(sym);
-+        }
-+
-+        /* build constraints for choice prompts */
-+        if (sym_is_choice(sym))
-+            add_choice_prompt_cond(sym);
-+
-+        /* build constraints for dependencies (choice symbols and options) */
-+        if (sym_is_choice(sym) || sym_is_choice_value(sym))
-+            add_choice_dependencies(sym);
-+
-+        /* build constraints for the choice groups */
-+        if (sym_is_choice(sym))
-+            add_choice_constraints(sym);
-+
-+
-+        /* build invisible constraints */
-+        add_invisible_constraints(sym);
-+    }
++    if (sym_is_choice(sym))
++        create_fexpr_choice(sym);
++    else if (sym_is_boolean(sym))
++        create_fexpr_bool(sym);
++    else if (sym_is_nonboolean(sym))
++        create_fexpr_nonbool(sym);
++    else
++        create_fexpr_unknown(sym);
 +}
 +
 +/*
-+* build the constraints for select-variables
-+* skip non-Booleans, choice symbols/options och symbols without rev_dir
-+*/
-+static void get_constraints_select(void)
-+{
-+    unsigned int i;
-+    struct symbol *sym;
-+    for_all_symbols(i, sym) {
-+        if (KCR_CMP)
-+            continue;
-+
-+        if (!sym_is_boolean(sym))
-+            continue;
-+
-+        if (sym_is_choice(sym) || sym_is_choice_value(sym))
-+            continue;
-+
-+        if (!sym->rev_dep.expr)
-+            continue;
-+
-+        if (sym->list_sel_y == NULL)
-+            continue;
-+
-+        struct pexpr *sel_y = pexpr_implies(
-+                    pexf(sym->fexpr_sel_y),
-+                    pexf(sym->fexpr_y));
-+        sym_add_constraint(sym, sel_y);
-+
-+        struct pexpr *c1 = pexpr_implies(
-+                    pexf(sym->fexpr_sel_y),
-+                    sym->list_sel_y);
-+        sym_add_constraint(sym, c1);
-+
-+        /* only continue for tristates */
-+        if (sym->type == S_BOOLEAN)
-+            continue;
-+
-+        struct pexpr *sel_m = pexpr_implies(
-+                    pexf(sym->fexpr_sel_m),
-+                    sym_get_fexpr_both(sym));
-+        sym_add_constraint(sym, sel_m);
-+
-+        struct pexpr *c2 = pexpr_implies(
-+                    pexf(sym->fexpr_sel_m),
-+                    sym->list_sel_m);
-+        sym_add_constraint(sym, c2);
-+    }
-+}
-+
-+/*
-+ * build constraints for non-booleans
++ * create the fexpr for symbols with reverse dependencies
 + */
-+static void get_constraints_nonbool(void)
++static void create_fexpr_selected(struct symbol *sym)
 +{
-+    unsigned int i;
-+    struct symbol *sym;
-+    for_all_symbols(i, sym) {
++    /* fexpr_sel_y */
++    struct fexpr *fexpr_sel_y = fexpr_create(sat_variable_nr++, FE_SELECT, sym->name);
++    str_append(&fexpr_sel_y->name, "_sel_y");
++    fexpr_sel_y->sym = sym;
++    fexpr_add_to_satmap(fexpr_sel_y);
 +
-+        if (!sym_is_nonboolean(sym))
-+            continue;
++    sym->fexpr_sel_y = fexpr_sel_y;
 +
-+        /* the symbol must have a value, if there is a prompt */
-+        if (sym_has_prompt(sym))
-+            sym_add_nonbool_prompt_constraint(sym);
-+
-+        /* build the range constraints for int/hex */
-+        if (sym->type == S_HEX || sym->type == S_INT)
-+            sym_add_range_constraints(sym);
-+
-+        /* build constraints for dependencies for non-booleans */
-+        if (sym->dir_dep.expr)
-+            add_dependencies_nonbool(sym);
-+
-+        /* build invisible constraints */
-+        add_invisible_constraints(sym);
-+
-+        /* exactly one of the symbols must be true */
-+        sym_nonbool_at_least_1(sym);
-+        sym_nonbool_at_most_1(sym);
-+    }
-+}
-+
-+/*
-+ * enforce tristate constraints
-+ */
-+static void build_tristate_constraint_clause(struct symbol *sym)
-+{
-+    if (sym->type != S_TRISTATE)
++    /* fexpr_sel_m */
++    if (sym->type == S_BOOLEAN)
 +        return;
++    struct fexpr *fexpr_sel_m = fexpr_create(sat_variable_nr++, FE_SELECT, sym->name);
++    str_append(&fexpr_sel_m->name, "_sel_m");
++    fexpr_sel_m->sym = sym;
++    fexpr_add_to_satmap(fexpr_sel_m);
 +
-+    struct pexpr *X = pexf(sym->fexpr_y), *X_m = pexf(sym->fexpr_m), *modules = pexf(modules_sym->fexpr_y);
-+
-+    /* -X v -X_m */
-+    struct pexpr *c = pexpr_or(pexpr_not(X), pexpr_not(X_m));
-+    sym_add_constraint(sym, c);
-+
-+    /* X_m -> MODULES */
-+    if (modules_sym->fexpr_y != NULL) {
-+        struct pexpr *c2 = pexpr_implies(X_m, modules);
-+        sym_add_constraint(sym, c2);
-+    }
++    sym->fexpr_sel_m = fexpr_sel_m;
 +}
 +
 +/*
-+ * build the select constraints
-+ * - RDep(X) implies X
++ * create the fexpr for a boolean/tristate symbol
 + */
-+static void add_selects_kcr(struct symbol *sym)
++static void create_fexpr_bool(struct symbol *sym)
 +{
-+    struct pexpr *rdep_y = expr_calculate_pexpr_y(sym->rev_dep.expr);
-+    struct pexpr *c1 = pexpr_implies(rdep_y, pexf(sym->fexpr_y));
-+    sym_add_constraint(sym, c1);
++    struct fexpr *fexpr_y = fexpr_create(sat_variable_nr++, FE_SYMBOL, sym->name);
++    fexpr_y->sym = sym;
++    fexpr_y->tri = yes;
++    fexpr_add_to_satmap(fexpr_y);
 +
-+    struct pexpr *rdep_both = expr_calculate_pexpr_both(sym->rev_dep.expr);
-+    struct pexpr *c2 = pexpr_implies(rdep_both, sym_get_fexpr_both(sym));
-+    sym_add_constraint(sym, c2);
-+}
++    sym->fexpr_y = fexpr_y;
 +
-+/*
-+ * build the select constraints simplified
-+ * - RDep(X) implies X
-+ */
-+static void add_selects(struct symbol *sym)
-+{
-+    if (!sym_is_boolean(sym))
-+        return;
-+
-+    struct property *p;
-+    for_all_properties(sym, p, P_SELECT) {
-+        struct symbol *selected = p->expr->left.sym;
-+
-+        if (selected->type == S_UNKNOWN)
-+            continue;
-+
-+        if (!selected->rev_dep.expr)
-+            continue;
-+
-+        struct pexpr *cond_y = pexf(const_true);
-+        struct pexpr *cond_both = pexf(const_true);
-+        if (p->visible.expr) {
-+            cond_y = expr_calculate_pexpr_y(p->visible.expr);
-+            cond_both = expr_calculate_pexpr_both(p->visible.expr);
-+        }
-+
-+        if (selected->type == S_BOOLEAN) {
-+            /* imply that symbol is selected to y */
-+            struct pexpr *e1 = pexpr_and(cond_both, sym_get_fexpr_both(sym));
-+            struct pexpr *c1 = pexpr_implies(e1, pexf(selected->fexpr_sel_y));
-+            sym_add_constraint(selected, c1);
-+
-+            if (selected->list_sel_y == NULL)
-+                selected->list_sel_y = e1;
-+            else
-+                selected->list_sel_y = pexpr_or(selected->list_sel_y, e1);
-+        }
-+
-+        if (selected->type == S_TRISTATE) {
-+            /* imply that symbol is selected to y */
-+            struct pexpr *e2 = pexpr_and(cond_y, pexf(sym->fexpr_y));
-+            struct pexpr *c2 = pexpr_implies(e2, pexf(selected->fexpr_sel_y));
-+            sym_add_constraint(selected, c2);
-+
-+            if (selected->list_sel_y == NULL)
-+                selected->list_sel_y = e2;
-+            else
-+                selected->list_sel_y = pexpr_or(selected->list_sel_y, e2);
-+
-+            /* imply that symbol is selected to m */
-+            struct pexpr *e3 = pexpr_and(cond_both, sym_get_fexpr_both(sym));
-+            struct pexpr *c3 = pexpr_implies(e3, pexf(selected->fexpr_sel_m));
-+            sym_add_constraint(selected, c3);
-+
-+            if (selected->list_sel_m == NULL)
-+                selected->list_sel_m = e3;
-+            else
-+                selected->list_sel_m = pexpr_or(selected->list_sel_m, e3);
-+        }
-+    }
-+}
-+
-+/*
-+ * build the dependency constraints for booleans
-+ *  - X implies Dep(X) or RDep(X)
-+ */
-+static void add_dependencies_bool(struct symbol *sym)
-+{
-+    if (!sym_is_boolean(sym) || !sym->dir_dep.expr)
-+        return;
-+
-+    struct pexpr *dep_both = expr_calculate_pexpr_both(sym->dir_dep.expr);
-+
++    struct fexpr *fexpr_m;
 +    if (sym->type == S_TRISTATE) {
-+        struct pexpr *dep_y = expr_calculate_pexpr_y(sym->dir_dep.expr);
-+        struct pexpr *sel_y = sym->rev_dep.expr ? pexf(sym->fexpr_sel_y) : pexf(const_false);
-+
-+        struct pexpr *c1 = pexpr_implies(pexf(sym->fexpr_y), pexpr_or(dep_y, sel_y));
-+
-+        sym_add_constraint(sym, c1);
-+
-+        struct pexpr *c2 = pexpr_implies(pexf(sym->fexpr_m), pexpr_or(dep_both, sym_get_fexpr_sel_both(sym)));
-+
-+        sym_add_constraint(sym, c2);
-+    } else if (sym->type == S_BOOLEAN) {
-+        struct pexpr *c = pexpr_implies(pexf(sym->fexpr_y), pexpr_or(dep_both, sym_get_fexpr_sel_both(sym)));
-+        sym_add_constraint(sym, c);
-+    }
-+}
-+
-+/*
-+ * build the dependency constraints for booleans (KCR)
-+ *  - X implies Dep(X) or RDep(X)
-+ */
-+static void add_dependencies_bool_kcr(struct symbol *sym)
-+{
-+    if (!sym_is_boolean(sym) || !sym->dir_dep.expr)
-+        return;
-+
-+    struct pexpr *dep_both = expr_calculate_pexpr_both(sym->dir_dep.expr);
-+
-+    struct pexpr *sel_both = sym->rev_dep.expr ? expr_calculate_pexpr_both(sym->rev_dep.expr) : pexf(const_false);
-+
-+    if (sym->type == S_TRISTATE) {
-+        struct pexpr *dep_y = expr_calculate_pexpr_y(sym->dir_dep.expr);
-+        struct pexpr *sel_y = sym->rev_dep.expr ? expr_calculate_pexpr_y(sym->rev_dep.expr) : pexf(const_false);
-+        struct pexpr *c1 = pexpr_implies(pexf(sym->fexpr_y), pexpr_or(dep_y, sel_y));
-+        sym_add_constraint(sym, c1);
-+
-+        struct pexpr *c2 = pexpr_implies(pexf(sym->fexpr_m), pexpr_or(dep_both, sel_both));
-+        sym_add_constraint(sym, c2);
-+    } else if (sym->type == S_BOOLEAN) {
-+        struct pexpr *c = pexpr_implies(pexf(sym->fexpr_y), pexpr_or(dep_both, sel_both));
-+        sym_add_constraint(sym, c);
-+    }
-+}
-+
-+/*
-+ * build the dependency constraints for non-booleans
-+ * X_i implies Dep(X)
-+ */
-+static void add_dependencies_nonbool(struct symbol *sym)
-+{
-+    if (!sym_is_nonboolean(sym) || !sym->dir_dep.expr || sym->rev_dep.expr)
-+        return;
-+
-+    struct pexpr *dep_both = expr_calculate_pexpr_both(sym->dir_dep.expr);
-+
-+    struct pexpr *nb_vals = pexf(const_false);
-+    struct fexpr_node *node;
-+    /* can skip the first non-boolean value, since this is 'n' */
-+    fexpr_list_for_each(node, sym->nb_vals) {
-+        if (node->prev == NULL)
-+            continue;
-+
-+        nb_vals = pexpr_or(nb_vals, pexf(node->elem));
-+    }
-+
-+    struct pexpr *c = pexpr_implies(nb_vals, dep_both);
-+    sym_add_constraint(sym, c);
-+}
-+
-+/*
-+ * build the constraints for the choice prompt
-+ */
-+static void add_choice_prompt_cond(struct symbol* sym)
-+{
-+    if (!sym_is_boolean(sym))
-+        return;
-+
-+    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt == NULL)
-+        return;
-+
-+    struct pexpr *promptCondition = prompt->visible.expr ? expr_calculate_pexpr_both(prompt->visible.expr) : pexf(const_true);
-+
-+    struct pexpr *fe_both = sym_get_fexpr_both(sym);
-+
-+    if (!sym_is_optional(sym)) {
-+        struct pexpr *req_cond = pexpr_implies(promptCondition, fe_both);
-+        sym_add_constraint(sym, req_cond);
-+    }
-+
-+    struct pexpr *pr_cond = pexpr_implies(fe_both, promptCondition);
-+    sym_add_constraint(sym, pr_cond);
-+}
-+
-+/*
-+ * build constraints for dependencies (choice symbols and options)
-+ */
-+static void add_choice_dependencies(struct symbol *sym)
-+{
-+    if (!sym_is_choice(sym) || !sym_is_choice_value(sym))
-+        return;
-+
-+    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt == NULL)
-+        return;
-+
-+    struct expr *to_parse;
-+    if (sym_is_choice(sym)) {
-+        if (!prompt->visible.expr)
-+            return;
-+        to_parse = prompt->visible.expr;
++        fexpr_m = fexpr_create(sat_variable_nr++, FE_SYMBOL, sym->name);
++        str_append(&fexpr_m->name, "_MODULE");
++        fexpr_m->sym = sym;
++        fexpr_m->tri = mod;
++        fexpr_add_to_satmap(fexpr_m);
 +    } else {
-+        if (!sym->dir_dep.expr)
-+            return;
-+        to_parse = sym->dir_dep.expr;
++        fexpr_m = const_false;
 +    }
 +
-+    struct pexpr *dep_both = expr_calculate_pexpr_both(to_parse);
++    sym->fexpr_m = fexpr_m;
 +
-+    if (sym->type == S_TRISTATE) {
-+        struct pexpr *dep_y = expr_calculate_pexpr_y(to_parse);
-+        struct pexpr *c1 = pexpr_implies(pexf(sym->fexpr_y), dep_y);
-+        sym_add_constraint_eq(sym, c1);
-+
-+        struct pexpr *c2 = pexpr_implies(pexf(sym->fexpr_m), dep_both);
-+        sym_add_constraint_eq(sym, c2);
-+    } else if (sym->type == S_BOOLEAN) {
-+        struct pexpr *c = pexpr_implies(pexf(sym->fexpr_y), dep_both);
-+        sym_add_constraint_eq(sym, c);
-+    }
++    if (sym->rev_dep.expr)
++        create_fexpr_selected(sym);
 +}
 +
 +/*
-+ * build constraints for the choice groups
++ * create the fexpr for a non-boolean symbol
 + */
-+static void add_choice_constraints(struct symbol *sym)
++static void create_fexpr_nonbool(struct symbol *sym)
 +{
-+    if (!sym_is_boolean(sym))
-+        return;
++    sym->fexpr_y = const_false;
++    sym->fexpr_m = const_false;
++    sym->nb_vals = fexpr_list_init();
 +
-+    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt == NULL)
-+        return;
++    /* default values */
++    char int_values[][2] = {"n", "0", "1"};
++    char hex_values[][4] = {"n", "0x0", "0x1"};
++    char string_values[][9] = {"n", "", "nonempty"};
 +
-+    struct symbol *choice, *choice2;
-+    struct sym_node *node, *node2;
-+
-+    /* create list of all choice options */
-+    struct sym_list *items = sym_list_init();
-+    /* create list of choice options with a prompt */
-+    struct sym_list *promptItems = sym_list_init();
-+
-+    struct property *prop;
-+    for_all_choices(sym, prop) {
-+        struct expr *expr;
-+        expr_list_for_each_sym(prop->expr, expr, choice) {
-+            sym_list_add(items, choice);
-+            if (sym_get_prompt(choice) != NULL)
-+                sym_list_add(promptItems, choice);
-+        }
-+    }
-+
-+    /* if the choice is set to yes, at least one child must be set to yes */
-+    struct pexpr *c1 = NULL;
-+    sym_list_for_each(node, promptItems) {
-+        choice = node->elem;
-+        c1 = node->prev == NULL ? pexf(choice->fexpr_y) : pexpr_or(c1, pexf(choice->fexpr_y));
-+    }
-+    if (c1 != NULL) {
-+        struct pexpr *c2 = pexpr_implies(pexf(sym->fexpr_y), c1);
-+        sym_add_constraint(sym, c2);
-+    }
-+
-+    /* every choice option (even those without a prompt) implies the choice */
-+    sym_list_for_each(node, items) {
-+        choice = node->elem;
-+        c1 = pexpr_implies(sym_get_fexpr_both(choice), sym_get_fexpr_both(sym));
-+        sym_add_constraint(sym, c1);
-+    }
-+
-+    /* choice options can only select mod, if the entire choice is mod */
-+    if (sym->type == S_TRISTATE) {
-+        sym_list_for_each(node, items) {
-+            choice = node->elem;
-+            if (choice->type == S_TRISTATE) {
-+                c1 = pexpr_implies(pexf(choice->fexpr_m), pexf(sym->fexpr_m));
-+                sym_add_constraint(sym, c1);
-+            }
-+        }
-+    }
-+
-+    /* tristate options cannot be m, if the choice symbol is boolean */
-+    if (sym->type == S_BOOLEAN) {
-+        sym_list_for_each(node, items) {
-+            choice = node->elem;
-+            if (choice->type == S_TRISTATE)
-+                sym_add_constraint(sym, pexpr_not(pexf(choice->fexpr_m)));
-+        }
-+    }
-+
-+    /* all choice options are mutually exclusive for yes */
-+    sym_list_for_each(node, promptItems) {
-+        choice = node->elem;
-+        for (node2 = node->next; node2 != NULL; node2 = node2->next) {
-+            choice2 = node2->elem;
-+            c1 = pexpr_or(pexpr_not(pexf(choice->fexpr_y)), pexpr_not(pexf(choice2->fexpr_y)));
-+            sym_add_constraint(sym, c1);
-+        }
-+    }
-+
-+    /* if one choice option with a prompt is set to yes,
-+     * then no other option may be set to mod */
-+    if (sym->type == S_TRISTATE) {
-+        sym_list_for_each(node, promptItems) {
-+            choice = node->elem;
-+
-+            struct sym_list *tmp = sym_list_init();
-+            for (node2 = node->next; node2 != NULL; node2 = node2->next) {
-+                choice2 = node2->elem;
-+                if (choice2->type == S_TRISTATE)
-+                    sym_list_add(tmp, choice2);
-+            }
-+            if (tmp->size == 0) continue;
-+
-+            sym_list_for_each(node2, tmp) {
-+                choice2 = node2->elem;
-+                if (node2->prev == NULL)
-+                    c1 = pexpr_not(pexf(choice2->fexpr_m));
-+                else
-+                    c1 = pexpr_and(c1, pexpr_not(pexf(choice2->fexpr_m)));
-+            }
-+            c1 = pexpr_implies(pexf(choice->fexpr_y), c1);
-+            sym_add_constraint(sym, c1);
-+        }
-+    }
-+}
-+
-+/*
-+ * build the constraints for invisible options such as defaults
-+ */
-+static void add_invisible_constraints(struct symbol *sym)
-+{
-+    struct property *prompt = sym_get_prompt(sym);
-+
-+    /* no constraints for the prompt, nothing to do here */
-+    if (prompt != NULL && !prompt->visible.expr)
-+        return;
-+
-+    struct pexpr *promptCondition_both, *promptCondition_yes, *noPromptCond;
-+    if (prompt == NULL) {
-+        promptCondition_both = pexf(const_false);
-+        promptCondition_yes = pexf(const_false);
-+        noPromptCond = pexf(const_true);
-+    } else {
-+        promptCondition_both = pexf(const_false);
-+        promptCondition_yes = pexf(const_false);
-+
-+        /* some symbols have multiple prompts */
-+        struct property *p;
-+        for_all_prompts(sym, p) {
-+            promptCondition_both = pexpr_or(promptCondition_both,
-+                expr_calculate_pexpr_both(p->visible.expr));
-+            promptCondition_yes = pexpr_or(promptCondition_yes,
-+                expr_calculate_pexpr_y(p->visible.expr));
-+        }
-+        noPromptCond = pexpr_not(promptCondition_both);
-+    }
-+
-+    struct pexpr *npc;
-+    if (NPC_OPTIMISATION) {
-+        struct fexpr * npc_fe = fexpr_create(sat_variable_nr++, FE_NPC, "");
-+        if (sym_is_choice(sym))
-+            str_append(&npc_fe->name, "Choice_");
-+
-+        str_append(&npc_fe->name, sym_get_name(sym));
-+        str_append(&npc_fe->name, "_NPC");
-+        sym->noPromptCond = npc_fe;
-+        fexpr_add_to_satmap(npc_fe);
-+
-+        npc = pexf(npc_fe);
-+
-+        struct pexpr *c = pexpr_implies(noPromptCond, npc);
-+
-+        if (!sym_is_choice_value(sym) && !sym_is_choice(sym))
-+            sym_add_constraint(sym, c);
-+    } else {
-+        npc = noPromptCond;
-+    }
-+
-+    struct defm_list *defaults = get_defaults(sym);
-+    struct pexpr *default_y = get_default_y(defaults);
-+    struct pexpr *default_m = get_default_m(defaults);
-+    struct pexpr *default_both = pexpr_or(default_y, default_m);
-+
-+    /* tristate elements are only selectable as yes, if they are visible as yes */
-+    if (sym->type == S_TRISTATE) {
-+        struct pexpr *e1 = pexpr_implies(promptCondition_both, pexpr_implies(pexf(sym->fexpr_y), promptCondition_yes));
-+        sym_add_constraint(sym, e1);
-+    }
-+
-+    /* if invisible and off by default, then a symbol can only be deactivated by its reverse dependencies */
-+    if (sym->type == S_TRISTATE) {
-+        struct pexpr *sel_y, *sel_m, *sel_both;
-+        if (sym->fexpr_sel_y != NULL) {
-+            sel_y = pexpr_implies(pexf(sym->fexpr_y), pexf(sym->fexpr_sel_y));
-+            sel_m = pexpr_implies(pexf(sym->fexpr_m), pexf(sym->fexpr_sel_m));
-+            sel_both = pexpr_implies(pexf(sym->fexpr_y), pexpr_or(pexf(sym->fexpr_sel_m), pexf(sym->fexpr_sel_y)));
-+        } else {
-+            sel_y = pexpr_not(pexf(sym->fexpr_y));
-+            sel_m = pexpr_not(pexf(sym->fexpr_m));
-+            sel_both = sel_y;
-+        }
-+
-+        struct pexpr *c1 = pexpr_implies(pexpr_not(default_y), sel_y);
-+        struct pexpr *c2 = pexpr_implies(pexf(modules_sym->fexpr_y), c1);
-+        struct pexpr *c3 = pexpr_implies(npc, c2);
-+        sym_add_constraint(sym, c3);
-+
-+        struct pexpr *d1 = pexpr_implies(pexpr_not(default_m), sel_m);
-+        struct pexpr *d2 = pexpr_implies(pexf(modules_sym->fexpr_y), d1);
-+        struct pexpr *d3 = pexpr_implies(npc, d2);
-+        sym_add_constraint(sym, d3);
-+
-+        struct pexpr *e1 = pexpr_implies(pexpr_not(default_both), sel_both);
-+        struct pexpr *e2 = pexpr_implies(pexpr_not(pexf(modules_sym->fexpr_y)), e1);
-+        struct pexpr *e3 = pexpr_implies(npc, e2);
-+        sym_add_constraint(sym, e3);
-+    } else if (sym->type == S_BOOLEAN) {
-+        struct pexpr *sel_y;
-+        if (sym->fexpr_sel_y != NULL)
-+            sel_y = pexpr_implies(pexf(sym->fexpr_y), pexf(sym->fexpr_sel_y)); //sym->fexpr_sel_y;
-+        else
-+            sel_y = pexpr_not(pexf(sym->fexpr_y));
-+
-+        struct pexpr *e1 = pexpr_implies(pexpr_not(default_both), sel_y);
-+        struct pexpr *e2 = pexpr_implies(npc, e1);
-+
-+        sym_add_constraint_eq(sym, e2);
-+    } else {
-+        struct pexpr *default_any = get_default_any(sym);
-+        struct pexpr *e1 = pexf(const_true);
-+        struct fexpr_node *node;
-+        for (node = sym->nb_vals->head->next; node != NULL; node = node->next)
-+            e1 = pexpr_and(e1, pexpr_not(pexf(node->elem)));
-+
-+        struct pexpr *e2 = pexpr_implies(pexpr_not(default_any), e1);
-+        struct pexpr *e3 = pexpr_implies(npc, e2);
-+
-+        sym_add_constraint(sym, e3);
-+    }
-+
-+    /* if invisible and on by default, then a symbol can only be deactivated by its dependencies */
-+    if (sym->type == S_TRISTATE) {
-+        if (defaults->size == 0)
-+            return;
-+
-+        struct pexpr *e1 = pexpr_implies(npc, pexpr_implies(default_y, pexf(sym->fexpr_y)));
-+        sym_add_constraint(sym, e1);
-+
-+        struct pexpr *e2 = pexpr_implies(npc, pexpr_implies(default_m, sym_get_fexpr_both(sym)));
-+        sym_add_constraint(sym, e2);
-+    } else if (sym->type == S_BOOLEAN) {
-+        if (defaults->size == 0)
-+            return;
-+
-+        struct pexpr *c = pexpr_implies(default_both, pexf(sym->fexpr_y));
-+
-+        // TODO tristate choice hack
-+
-+        struct pexpr *c2 = pexpr_implies(npc, c);
-+        sym_add_constraint(sym, c2);
-+    } else {
-+        struct defm_node *node;
-+        struct pexpr *cond, *c;
-+        struct fexpr *f;
-+        defm_list_for_each(node, defaults) {
-+            f = node->elem->val;
-+            cond = node->elem->e;
-+            c = pexpr_implies(npc, pexpr_implies(cond, pexf(f)));
-+            sym_add_constraint(sym, c);
-+        }
-+    }
-+}
-+
-+/*
-+ * add the known values from the default and range properties
-+ */
-+static void sym_add_nonbool_values_from_default_range(struct symbol *sym)
-+{
-+    struct property *p;
-+
-+    for_all_defaults(sym, p) {
-+        if (p == NULL)
-+            continue;
-+
-+        /* add the value to known values, if it doesn't exist yet */
-+        sym_create_nonbool_fexpr(sym, p->expr->left.sym->name);
-+    }
-+
-+    for_all_properties(sym, p, P_RANGE) {
-+        if (p == NULL)
-+            continue;
-+
-+        /* add the values to known values, if they don't exist yet */
-+        sym_create_nonbool_fexpr(sym, p->expr->left.sym->name);
-+        sym_create_nonbool_fexpr(sym, p->expr->right.sym->name);
-+    }
-+}
-+
-+/*
-+ * build the range constraints for int/hex
-+ */
-+static void sym_add_range_constraints(struct symbol *sym)
-+{
-+    struct property *prop;
-+    struct pexpr *prevs, *propCond;
-+    struct pexpr_list *prevCond = pexpr_list_init();
-+    for_all_properties(sym, prop, P_RANGE) {
-+        if (prop == NULL)
-+            continue;
-+
-+        prevs = pexf(const_true);
-+        propCond = prop_get_condition(prop);
-+
-+        if (prevCond->size == 0) {
-+            prevs = propCond;
-+        } else {
-+            struct pexpr_node *node;
-+            pexpr_list_for_each(node, prevCond)
-+                prevs = pexpr_and(pexpr_not(node->elem), prevs);
-+
-+            prevs = pexpr_and(propCond, prevs);
-+        }
-+        pexpr_list_add(prevCond, propCond);
-+
-+        int base;
-+        long long range_min, range_max, tmp;
++    int i;
++    for (i = 0; i < 3; i++) {
++        struct fexpr *e = fexpr_create(sat_variable_nr++, FE_NONBOOL, sym->name);
++        e->sym = sym;
++        str_append(&e->name, "=");
++        e->nb_val = str_new();
 +
 +        switch (sym->type) {
 +        case S_INT:
-+            base = 10;
++            str_append(&e->name, int_values[i]);
++            str_append(&e->nb_val, int_values[i]);
 +            break;
 +        case S_HEX:
-+            base = 16;
++            str_append(&e->name, hex_values[i]);
++            str_append(&e->nb_val, hex_values[i]);
++            break;
++        case S_STRING:
++            str_append(&e->name, string_values[i]);
++            str_append(&e->nb_val, string_values[i]);
 +            break;
 +        default:
-+            return;
++            break;
 +        }
 +
-+        range_min = sym_get_range_val(prop->expr->left.sym, base);
-+        range_max = sym_get_range_val(prop->expr->right.sym, base);
-+
-+        /* can skip the first non-boolean value, since this is 'n' */
-+        struct fexpr_node *node;
-+        fexpr_list_for_each(node, sym->nb_vals) {
-+            if (node->prev == NULL)
-+                continue;
-+
-+            tmp = strtoll(str_get(&node->elem->nb_val), NULL, base);
-+
-+            /* known value is in range, nothing to do here */
-+            if (tmp >= range_min && tmp <= range_max)
-+                continue;
-+
-+            struct pexpr *not_nb_val = pexpr_not(pexf(node->elem));
-+            if (tmp < range_min) {
-+                struct pexpr *c = pexpr_implies(prevs, not_nb_val);
-+                sym_add_constraint(sym, c);
-+            }
-+
-+            if (tmp > range_max) {
-+                struct pexpr *c = pexpr_implies(prevs, not_nb_val);
-+                sym_add_constraint(sym, c);
-+            }
-+        }
++        fexpr_list_add(sym->nb_vals, e);
++        fexpr_add_to_satmap(e);
 +    }
 +}
 +
++
 +/*
-+ * at least 1 of the known values for a non-boolean symbol must be true
++ * set fexpr_y and fexpr_m simply to False
 + */
-+static void sym_nonbool_at_least_1(struct symbol *sym)
++static void create_fexpr_unknown(struct symbol *sym)
 +{
-+    if (!sym_is_nonboolean(sym))
++    sym->fexpr_y = const_false;
++    sym->fexpr_m = const_false;
++}
++
++
++/*
++ * create the fexpr for a choice symbol
++ */
++static void create_fexpr_choice(struct symbol *sym)
++{
++    if (!sym_is_boolean(sym))
 +        return;
 +
-+    struct pexpr *e = NULL;
-+    struct fexpr_node *node;
-+    fexpr_list_for_each(node, sym->nb_vals) {
-+        if (node->prev == NULL)
-+            e = pexf(node->elem);
-+        else
-+            e = pexpr_or(e, pexf(node->elem));
-+    }
-+    sym_add_constraint(sym, e);
-+}
-+
-+/*
-+ * at most 1 of the known values for a non-boolean symbol can be true
-+ */
-+static void sym_nonbool_at_most_1(struct symbol *sym)
-+{
-+    if (!sym_is_nonboolean(sym))
-+        return;
-+
-+    struct pexpr *e1, *e2;
-+    struct fexpr_node *node1, *node2;
-+    fexpr_list_for_each(node1, sym->nb_vals) {
-+        e1 = pexf(node1->elem);
-+        for (node2 = node1->next; node2 != NULL; node2 = node2->next) {
-+            e2 = pexf(node2->elem);
-+            struct pexpr *e = pexpr_or(pexpr_not(e1), pexpr_not(e2));
-+            sym_add_constraint(sym, e);
-+        }
-+    }
-+}
-+
-+/*
-+ * a visible prompt for a non-boolean implies a value for the symbol
-+ */
-+static void sym_add_nonbool_prompt_constraint(struct symbol *sym)
-+{
 +    struct property *prompt = sym_get_prompt(sym);
-+    if (prompt == NULL)
++    if (prompt == NULL) {
++        perror("Choice symbol should have a prompt.");
 +        return;
++    }
 +
-+    struct pexpr *promptCondition = prop_get_condition(prompt);
-+    struct pexpr *n = pexf(sym_get_nonbool_fexpr(sym, "n"));
++    char *name = strdup(prompt->text);
 +
-+    if (n->type != PE_SYMBOL)
-+        return;
-+    if (n->left.fexpr == NULL)
-+        return;
++    /* remove spaces */
++    char *write = name, *read = name;
++    do {
++        if (*read != ' ')
++            *write++ = *read;
++    } while (*read++);
 +
-+    struct pexpr *c = pexpr_implies(promptCondition, pexpr_not(n));
++    struct fexpr *fexpr_y = fexpr_create(sat_variable_nr++, FE_CHOICE, "Choice_");
++    str_append(&fexpr_y->name, name);
++    fexpr_y->sym = sym;
++    fexpr_y->tri = yes;
++    fexpr_add_to_satmap(fexpr_y);
 +
-+    sym_add_constraint(sym, c);
-+}
++    sym->fexpr_y = fexpr_y;
 +
-+static struct default_map * create_default_map_entry(struct fexpr *val, struct pexpr *e)
-+{
-+    struct default_map *map = malloc(sizeof(struct default_map));
-+    map->val = val;
-+    map->e = e;
-+
-+    return map;
-+}
-+
-+static struct pexpr * findDefaultEntry(struct fexpr *val, struct defm_list *defaults)
-+{
-+    struct defm_node *node;
-+    defm_list_for_each(node, defaults)
-+        if (val == node->elem->val)
-+            return node->elem->e;
-+
-+    return pexf(const_false);
-+}
-+
-+/* add a default value to the list */
-+
-+/*
-+ * return all defaults for a symbol
-+ */
-+static struct pexpr *covered;
-+static bool is_tri_as_num(struct symbol *sym) {
-+    if (!sym->name)
-+        return false;
-+
-+    return !strcmp(sym->name, "0") ||
-+        !strcmp(sym->name, "1") ||
-+        !strcmp(sym->name, "2");
-+}
-+static void add_to_default_map(struct defm_list *defaults, struct default_map *entry, struct symbol *sym)
-+{
-+    /* as this is a map, the entry must be replaced if it already exists */
-+    if (sym_is_boolean(sym)) {
-+        struct default_map *map;
-+        struct defm_node *node;
-+        defm_list_for_each(node, defaults) {
-+            map = node->elem;
-+            if (map->val->sym == entry->val->sym) {
-+                map->e = entry->e;
-+                return;
-+            }
-+        }
-+        defm_list_add(defaults, entry);
++    struct fexpr *fexpr_m;
++    if (sym->type == S_TRISTATE) {
++        fexpr_m = fexpr_create(sat_variable_nr++, FE_CHOICE, "Choice_");
++        str_append(&fexpr_m->name, name);
++        str_append(&fexpr_m->name, "_MODULE");
++        fexpr_m->sym = sym;
++        fexpr_m->tri = mod;
++        fexpr_add_to_satmap(fexpr_m);
 +    } else {
-+        struct default_map *map;
-+        struct defm_node *node;
-+        defm_list_for_each(node, defaults) {
-+            map = node->elem;
-+            if (map->val->satval == entry->val->satval) {
-+                map->e = entry->e;
-+                return;
-+            }
-+        }
-+        defm_list_add(defaults, entry);
++        fexpr_m = const_false;
 +    }
-+}
-+static void updateDefaultList(struct fexpr *val, struct pexpr *newCond, struct defm_list *result, struct symbol *sym)
-+{
-+    struct pexpr *prevCond = findDefaultEntry(val, result);
-+    struct pexpr *cond = pexpr_or(prevCond, pexpr_and(newCond, pexpr_not(covered)));
-+    struct default_map *entry = create_default_map_entry(val, cond);
-+    add_to_default_map(result, entry, sym);
-+    covered = pexpr_or(covered, newCond);
-+}
-+static void add_defaults(struct prop_list *defaults, struct expr *ctx, struct defm_list *result, struct symbol *sym)
-+{
-+    struct prop_node *node;
-+    struct property *p;
-+    struct expr *expr;
-+
-+    prop_list_for_each(node, defaults) {
-+        p = node->elem;
-+        if (p->visible.expr) {
-+            if (ctx == NULL)
-+                expr = p->visible.expr;
-+            else
-+                expr = expr_alloc_and(p->visible.expr, ctx);
-+        } else {
-+            if (ctx == NULL)
-+                expr = expr_alloc_symbol(&symbol_yes);
-+            else
-+                expr = expr_alloc_and(expr_alloc_symbol(&symbol_yes), ctx);
-+        }
-+
-+        /* if tristate and def.value = y */
-+        if (p->expr->type == E_SYMBOL && sym->type == S_TRISTATE && p->expr->left.sym == &symbol_yes) {
-+            struct pexpr *expr_y = expr_calculate_pexpr_y(expr);
-+            struct pexpr *expr_m = expr_calculate_pexpr_m(expr);
-+
-+            updateDefaultList(symbol_yes_fexpr, expr_y, result, sym);
-+            updateDefaultList(symbol_mod_fexpr, expr_m, result, sym);
-+        }
-+        /* if def.value = n/m/y */
-+        else if (p->expr->type == E_SYMBOL && sym_is_tristate_constant(p->expr->left.sym)) {
-+            struct fexpr *s;
-+            if (p->expr->left.sym == &symbol_yes)
-+                s = symbol_yes_fexpr;
-+            else if (p->expr->left.sym == &symbol_mod)
-+                s = symbol_mod_fexpr;
-+            else
-+                s = symbol_no_fexpr;
-+
-+            updateDefaultList(s, expr_calculate_pexpr_both(expr), result, sym);
-+        }
-+        /* if def.value = n/m/y, but written as 0/1/2 for a boolean */
-+        else if (sym_is_boolean(sym) &&
-+            p->expr->type == E_SYMBOL &&
-+            p->expr->left.sym->type == S_UNKNOWN &&
-+            is_tri_as_num(p->expr->left.sym)) {
-+
-+            struct fexpr *s;
-+            if (!strcmp(p->expr->left.sym->name, "0"))
-+                s = symbol_no_fexpr;
-+            else if (!strcmp(p->expr->left.sym->name, "1"))
-+                s = symbol_mod_fexpr;
-+            else
-+                s = symbol_yes_fexpr;
-+
-+            updateDefaultList(s, expr_calculate_pexpr_both(expr), result, sym);
-+        }
-+        /* if def.value = non-boolean constant */
-+        else if (expr_is_nonbool_constant(p->expr)) {
-+            struct fexpr *s = sym_get_or_create_nonbool_fexpr(sym, p->expr->left.sym->name);
-+            updateDefaultList(s, expr_calculate_pexpr_both(expr), result, sym);
-+        }
-+        /* any expression which evaluates to n/m/y for a tristate */
-+        else if (sym->type == S_TRISTATE) {
-+            struct expr *e_tmp = expr_alloc_and(p->expr, expr);
-+            struct pexpr *expr_y = expr_calculate_pexpr_y(e_tmp);
-+            struct pexpr *expr_m = expr_calculate_pexpr_m(e_tmp);
-+            updateDefaultList(symbol_yes_fexpr, expr_y, result, sym);
-+            updateDefaultList(symbol_mod_fexpr, expr_m, result, sym);
-+        }
-+        /* if non-boolean && def.value = non-boolean symbol */
-+        else if (p->expr->type == E_SYMBOL && sym_is_nonboolean(sym) && sym_is_nonboolean(p->expr->left.sym)) {
-+            struct prop_list *nb_sym_defaults = prop_list_init();
-+            struct property *p_tmp;
-+            for_all_defaults(p->expr->left.sym, p_tmp)
-+                prop_list_add(nb_sym_defaults, p_tmp);
-+
-+            add_defaults(nb_sym_defaults, expr, result, sym);
-+        }
-+        /* any expression which evaluates to n/m/y */
-+        else {
-+            struct expr *e_tmp = expr_alloc_and(p->expr, expr);
-+            struct pexpr *expr_both = expr_calculate_pexpr_both(e_tmp);
-+            updateDefaultList(symbol_yes_fexpr, expr_both, result, sym);
-+        }
-+    }
-+}
-+static struct defm_list * get_defaults(struct symbol *sym)
-+{
-+    struct defm_list *result = defm_list_init();
-+    covered = pexf(const_false);
-+
-+    struct prop_list *defaults = prop_list_init();
-+    struct property *p;
-+    for_all_defaults(sym, p)
-+        prop_list_add(defaults, p);
-+
-+    add_defaults(defaults, NULL, result, sym);
-+
-+    return result;
++    sym->fexpr_m = fexpr_m;
 +}
 +
 +/*
-+ * return the default_map for "y", False if it doesn't exist
++ * evaluate an unequality between a non-Boolean symbol and a constant
 + */
-+static struct pexpr * get_default_y(struct defm_list *list)
++static struct pexpr * expr_eval_unequal_nonbool_const(struct symbol *sym, struct symbol *compval, enum expr_type type)
 +{
-+    struct default_map *entry;
-+    struct defm_node *node;
++    if (!sym || !compval)
++        return pexf(const_false);
 +
-+    defm_list_for_each(node, list) {
-+        entry = node->elem;
-+        if (entry->val->type == FE_SYMBOL && entry->val->sym == &symbol_yes)
-+            return entry->e;
-+    }
-+
-+    return pexf(const_false);
-+}
-+
-+/*
-+ * return the default map for "m", False if it doesn't exist
-+ */
-+static struct pexpr *get_default_m(struct defm_list *list)
-+{
-+    struct default_map *entry;
-+    struct defm_node *node;
-+
-+    defm_list_for_each(node, list) {
-+        entry = node->elem;
-+        if (entry->val->type == FE_SYMBOL && entry->val->sym == &symbol_mod)
-+            return entry->e;
-+    }
-+
-+    return pexf(const_false);
-+}
-+
-+/*
-+ * return the constraint when _some_ default value will be applied
-+ */
-+static struct pexpr *get_default_any(struct symbol *sym)
-+{
-+    if (!sym_is_nonboolean(sym))
-+        return NULL;
-+
-+    struct property *prop;
-+    struct expr *e;
-+    struct pexpr *p = pexf(const_false);
-+    for_all_defaults(sym, prop) {
-+        if (prop->visible.expr)
-+            e = prop->visible.expr;
-+        else
-+            e = expr_alloc_symbol(&symbol_yes);
-+
-+        if (expr_can_evaluate_to_mod(e))
-+            p = pexpr_or(p, expr_calculate_pexpr_both(e));
-+
-+        p = pexpr_or(p, expr_calculate_pexpr_y(e));
-+    }
-+
-+    return p;
-+}
-+
-+/*
-+ * get the value for the range
-+ */
-+static long sym_get_range_val(struct symbol *sym, int base)
-+{
-+    sym_calc_value(sym);
++    int base = 0;
 +    switch (sym->type) {
 +    case S_INT:
 +        base = 10;
@@ -1236,106 +317,2167 @@ index 000000000000..d1f3b2bd9945
 +    default:
 +        break;
 +    }
-+    return strtol(sym->curr.val, NULL, base);
-+}
 +
-+/*
-+ * count the number of all constraints
-+ */
-+unsigned int count_counstraints(void)
-+{
-+    unsigned int i, c = 0;
-+    struct symbol *sym;
-+    for_all_symbols(i, sym) {
-+        if (sym->type == S_UNKNOWN)
-+            continue;
++    struct pexpr *c = pexf(const_false);
++    long val = strtol(compval->name, NULL, base);
 +
-+        c += sym->constraints->size;
++    struct fexpr_node *node;
++    struct fexpr *fe;
++    for (node = sym->nb_vals->head->next; node != NULL; node = node->next) {
++        fe = node->elem;
++        long symval = strtol(str_get(&fe->nb_val), NULL, base);
++
++        switch (type) {
++        case E_LTH:
++            if (symval < val)
++                c = pexpr_or(c, pexf(fe));
++            break;
++        case E_LEQ:
++            if (symval <= val)
++                c = pexpr_or(c, pexf(fe));
++            break;
++        case E_GTH:
++            if (symval > val)
++                c = pexpr_or(c, pexf(fe));
++            break;
++        case E_GEQ:
++            if (symval >= val)
++                c = pexpr_or(c, pexf(fe));
++            break;
++        default:
++            perror("Illegal unequal.");
++        }
 +    }
 +
 +    return c;
 +}
 +
 +/*
-+ * add a constraint for a symbol
++ * evaluate an unequality between 2 Boolean symbols
 + */
-+void sym_add_constraint(struct symbol *sym, struct pexpr *constraint)
++static struct pexpr * expr_eval_unequal_bool(struct symbol *left, struct symbol *right, enum expr_type type)
 +{
-+    if (!constraint)
-+        return;
++    if (!left || !right)
++        return pexf(const_false);
 +
-+    /* no need to add that */
-+    if (constraint->type == PE_SYMBOL && constraint->left.fexpr == const_true)
-+        return;
++    if (!sym_is_boolean(left) || !sym_is_boolean(right)) {
++        perror("Comparing 2 symbols that should be boolean.");
++        return pexf(const_false);
++    }
 +
-+    /* this should never happen */
-+    if (constraint->type == PE_SYMBOL && constraint->left.fexpr == const_false)
-+        perror("Adding const_false.");
++    struct pexpr *c = pexf(const_false);
++    switch (type) {
++    case E_LTH:
++        c = pexpr_and(
++            pexpr_not(sym_get_fexpr_both(left)),
++            sym_get_fexpr_both(right));
++        if (left->type == S_TRISTATE)
++            c = pexpr_or(c,
++                pexpr_and
++                    (pexf(left->fexpr_m),
++                     pexf(right->fexpr_y)));
++        break;
++    case E_LEQ:
++        c = pexpr_and(pexf(left->fexpr_y), pexf(right->fexpr_y));
++        if (left->type == S_TRISTATE)
++            c = pexpr_or(c,
++                pexpr_and(
++                    pexf(left->fexpr_m),
++                    sym_get_fexpr_both(right)));
++        c = pexpr_or(c, pexpr_not(sym_get_fexpr_both(left)));
++        break;
++    case E_GTH:
++        c = pexpr_and(
++            sym_get_fexpr_both(left),
++            pexpr_not(sym_get_fexpr_both(right)));
++        if (right->type == S_TRISTATE)
++            c = pexpr_or(c,
++                pexpr_and
++                    (pexf(left->fexpr_y),
++                     pexf(right->fexpr_m)));
++        break;
++    case E_GEQ:
++        c = pexpr_and(pexf(left->fexpr_y), pexf(right->fexpr_y));
++        if (right->type == S_TRISTATE)
++            c = pexpr_or(c,
++                pexpr_and(
++                    sym_get_fexpr_both(left),
++                    pexf(right->fexpr_m)));
++        c = pexpr_or(c, pexpr_not(sym_get_fexpr_both(right)));
++        break;
++    default:
++        perror("Wrong type in expr_eval_unequal_bool.");
++    }
 +
-+    pexpr_list_add(sym->constraints, constraint);
++    return c;
++}
++/*
++ * calculate, when expr will evaluate to yes or mod
++ */
++struct pexpr * expr_calculate_pexpr_both(struct expr *e)
++{
++    if (!e)
++        return pexf(const_false);
 +
-+    if (!pexpr_is_nnf(constraint))
-+        pexpr_print("Not NNF:", constraint, -1);
++    if (!expr_can_evaluate_to_mod(e))
++        return expr_calculate_pexpr_y(e);
++
++    switch (e->type) {
++    case E_SYMBOL:
++        return pexpr_or(expr_calculate_pexpr_m(e), expr_calculate_pexpr_y(e));
++    case E_AND:
++        return expr_calculate_pexpr_both_and(e->left.expr, e->right.expr);
++    case E_OR:
++        return expr_calculate_pexpr_both_or(e->left.expr, e->right.expr);
++    case E_NOT:
++        return pexpr_or(expr_calculate_pexpr_m(e), expr_calculate_pexpr_y(e));
++    case E_EQUAL:
++        return expr_calculate_pexpr_y_equals(e);
++    case E_UNEQUAL:
++        return expr_calculate_pexpr_y_unequals(e);
++    case E_LTH:
++    case E_LEQ:
++    case E_GTH:
++    case E_GEQ:
++        return expr_calculate_pexpr_y_comp(e);
++    default:
++        // TODO
++        perror("Unhandled type - expr_calculate_pexpr_both");
++        return NULL;
++    }
 +}
 +
 +/*
-+ * add a constraint for a symbol, but check for duplicate constraints
++ * calculate, when expr will evaluate to yes
 + */
-+void sym_add_constraint_eq(struct symbol *sym, struct pexpr *constraint)
-+{
-+    if (!constraint)
-+        return;
++struct pexpr * expr_calculate_pexpr_y(struct expr *e){
++    if (!e)
++        return NULL;
 +
-+    /* no need to add that */
-+    if (constraint->type == PE_SYMBOL && constraint->left.fexpr == const_true)
-+        return;
-+
-+    /* this should never happen */
-+    if (constraint->type == PE_SYMBOL && constraint->left.fexpr == const_false)
-+        perror("Adding const_false.");
-+
-+    /* check the constraints for the same symbol */
-+    struct pexpr_node *node;
-+    pexpr_list_for_each(node, sym->constraints)
-+        if (pexpr_eq(constraint, node->elem))
-+            return;
-+
-+    pexpr_list_add(sym->constraints, constraint);
-+
-+    if (!pexpr_is_nnf(constraint))
-+        pexpr_print("Not NNF:", constraint, -1);
++    switch (e->type) {
++    case E_SYMBOL:
++        return pexf(e->left.sym->fexpr_y);
++    case E_AND:
++        return expr_calculate_pexpr_y_and(e->left.expr, e->right.expr);
++    case E_OR:
++        return expr_calculate_pexpr_y_or(e->left.expr, e->right.expr);
++    case E_NOT:
++        return expr_calculate_pexpr_y_not(e->left.expr);
++    case E_EQUAL:
++        return expr_calculate_pexpr_y_equals(e);
++    case E_UNEQUAL:
++        return expr_calculate_pexpr_y_unequals(e);
++    case E_LTH:
++    case E_LEQ:
++    case E_GTH:
++    case E_GEQ:
++        return expr_calculate_pexpr_y_comp(e);
++    default:
++        perror("Unhandled type - expr_calculate_pexpr_y");
++        return NULL;
++    }
 +}
-diff --git a/scripts/kconfig/cf_constraints.h b/scripts/kconfig/cf_constraints.h
++
++/*
++ * calculate, when expr will evaluate to mod
++ */
++struct pexpr * expr_calculate_pexpr_m(struct expr *e){
++    if (!e)
++        return NULL;
++
++    if (!expr_can_evaluate_to_mod(e))
++        return pexf(const_false);
++
++    switch (e->type) {
++    case E_SYMBOL:
++        return pexf(e->left.sym->fexpr_m);
++    case E_AND:
++        return expr_calculate_pexpr_m_and(e->left.expr, e->right.expr);
++    case E_OR:
++        return expr_calculate_pexpr_m_or(e->left.expr, e->right.expr);
++    case E_NOT:
++        return expr_calculate_pexpr_m_not(e->left.expr);
++    default:
++        perror("Trying to evaluate to mod.");
++        return NULL;
++    }
++}
++
++/*
++ * calculate, when expr of type AND will evaluate to yes
++ * A && B
++ */
++struct pexpr * expr_calculate_pexpr_y_and(struct expr *a, struct expr *b)
++{
++    return pexpr_and(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b));
++}
++
++/*
++ * calculate, when expr of type AND will evaluate to mod
++ * (A || A_m) && (B || B_m) && !(A && B)
++ */
++struct pexpr * expr_calculate_pexpr_m_and(struct expr *a, struct expr *b)
++{
++    struct pexpr *topright = pexpr_not(pexpr_and(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b)));
++    struct pexpr *ll_left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
++    struct pexpr *ll_right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
++    struct pexpr *topleft = pexpr_and(ll_left, ll_right);
++
++    return pexpr_and(topleft, topright);
++}
++
++/*
++ * calculate, when expr of type AND will evaluate to mod or yes
++ * (A || A_m) && (B || B_m)
++ */
++struct pexpr * expr_calculate_pexpr_both_and(struct expr *a, struct expr *b)
++{
++    struct pexpr *left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
++    struct pexpr *right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
++    return pexpr_and(left, right);
++}
++
++/*
++ * calculate, when expr of type OR will evaluate to yes
++ * A || B
++ */
++struct pexpr * expr_calculate_pexpr_y_or(struct expr *a, struct expr *b)
++{
++    return pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_y(b));
++}
++
++/*
++ * calculate, when expr of type OR will evaluate to mod
++ * (A_m || B_m) && !A && !B
++ */
++struct pexpr * expr_calculate_pexpr_m_or(struct expr *a, struct expr *b)
++{
++    struct pexpr *topright = pexpr_not(expr_calculate_pexpr_y(b));
++    struct pexpr *lowerleft = pexpr_or(expr_calculate_pexpr_m(a), expr_calculate_pexpr_m(b));
++    struct pexpr *topleft = pexpr_and(lowerleft, pexpr_not(expr_calculate_pexpr_y(a)));
++
++    return pexpr_and(topleft, topright);
++}
++
++/*
++ * calculate, when expr of type OR will evaluate to mod or yes
++ * (A_m || A || B_m || B)
++ */
++struct pexpr * expr_calculate_pexpr_both_or(struct expr *a, struct expr *b)
++{
++    struct pexpr *left = pexpr_or(expr_calculate_pexpr_y(a), expr_calculate_pexpr_m(a));
++    struct pexpr *right = pexpr_or(expr_calculate_pexpr_y(b), expr_calculate_pexpr_m(b));
++    return pexpr_or(left, right);
++}
++
++/*
++ * calculate, when expr of type NOT will evaluate to yes
++ * !(A || A_m)
++ */
++struct pexpr * expr_calculate_pexpr_y_not(struct expr * e)
++{
++    return pexpr_not(pexpr_or(expr_calculate_pexpr_y(e), expr_calculate_pexpr_m(e)));
++}
++
++/*
++ * calculate, when expr of type NOT will evaluate to mod
++ * A_m
++ */
++struct pexpr * expr_calculate_pexpr_m_not(struct expr * e)
++{
++    return expr_calculate_pexpr_m(e);
++}
++
++static struct pexpr * equiv_pexpr(struct pexpr *a, struct pexpr *b)
++{
++    struct pexpr *yes = pexpr_and(a, b);
++    struct pexpr *not = pexpr_and(pexpr_not(a), pexpr_not(b));
++
++    return pexpr_or(yes, not);
++}
++
++/*
++ * create the fexpr of a non-boolean symbol for a specific value
++ */
++struct fexpr * sym_create_nonbool_fexpr(struct symbol *sym, char *value)
++{
++
++    if (!strcmp(value, "")) {
++        if (sym->type == S_STRING)
++            return sym->nb_vals->head->next->elem;
++        else
++            return sym->nb_vals->head->elem;
++    }
++
++    struct fexpr *e = sym_get_nonbool_fexpr(sym, value);
++
++    /* fexpr already exists */
++    if (e != NULL)
++        return e;
++
++    char *s = value;
++    if (sym->type == S_INT && !string_is_number(value)) {
++        struct symbol *tmp = sym_find(value);
++
++        if (tmp != NULL)
++            s = (char *) tmp->curr.val;
++    } else if (sym->type == S_HEX && !string_is_hex(value)) {
++        struct symbol *tmp = sym_find(value);
++
++        if (tmp != NULL)
++            s = (char *) tmp->curr.val;
++    } else if (sym->type == S_STRING) {
++        struct symbol *tmp = sym_find(value);
++
++        if (tmp != NULL)
++            s = (char *) tmp->curr.val;
++    }
++
++    if (!strcmp(s, "")) {
++        if (sym->type == S_STRING)
++            return sym->nb_vals->head->next->elem;
++        else
++            return sym->nb_vals->head->elem;
++    }
++
++    e = sym_get_nonbool_fexpr(sym, s);
++    if (e != NULL)
++        return e;
++
++    e = fexpr_create(sat_variable_nr++, FE_NONBOOL, sym->name);
++    e->sym = sym;
++    str_append(&e->name, "=");
++    str_append(&e->name, s);
++    e->nb_val = str_new();
++    str_append(&e->nb_val, s);
++
++    fexpr_list_add(sym->nb_vals, e);
++    fexpr_add_to_satmap(e);
++
++    return e;
++}
++
++/*
++ * return the fexpr of a non-boolean symbol for a specific value, NULL if non-existent
++ */
++struct fexpr * sym_get_nonbool_fexpr(struct symbol *sym, char *value)
++{
++    struct fexpr_node *e;
++    fexpr_list_for_each(e, sym->nb_vals) {
++        if (strcmp(str_get(&e->elem->nb_val), value) == 0)
++            return e->elem;
++    }
++
++    return NULL;
++}
++
++/*
++ * return the fexpr of a non-boolean symbol for a specific value, if it exists
++ * otherwise create it
++ */
++struct fexpr * sym_get_or_create_nonbool_fexpr(struct symbol *sym, char *value)
++{
++    struct fexpr *e = sym_get_nonbool_fexpr(sym, value);
++
++    if (e != NULL)
++        return e;
++    else
++        return sym_create_nonbool_fexpr(sym, value);
++}
++
++/*
++ * calculate, when expr of type EQUAL will evaluate to yes
++ */
++struct pexpr * expr_calculate_pexpr_y_equals(struct expr *e)
++{
++    /* comparing 2 tristate constants */
++    if (sym_is_tristate_constant(e->left.sym) && sym_is_tristate_constant(e->right.sym))
++        return e->left.sym == e->right.sym ? pexf(const_true) : pexf(const_false);
++
++    /* comparing 2 nonboolean constants */
++    if (sym_is_nonbool_constant(e->left.sym) && sym_is_nonbool_constant(e->right.sym))
++        return strcmp(e->left.sym->name, e->right.sym->name) == 0 ? pexf(const_true) : pexf(const_false);
++
++    /* comparing 2 boolean/tristate incl. yes/mod/no constants */
++    if (sym_is_bool_or_triconst(e->left.sym) && sym_is_bool_or_triconst(e->right.sym)) {
++        struct pexpr *yes = equiv_pexpr(pexf(e->left.sym->fexpr_y), pexf(e->right.sym->fexpr_y));
++        struct pexpr *mod = equiv_pexpr(pexf(e->left.sym->fexpr_m), pexf(e->right.sym->fexpr_m));
++
++        return pexpr_and(yes, mod);
++    }
++
++    /* comparing nonboolean with a constant */
++    if (sym_is_nonboolean(e->left.sym) && sym_is_nonbool_constant(e->right.sym)) {
++        return pexf(sym_get_or_create_nonbool_fexpr(e->left.sym, e->right.sym->name));
++    }
++    if (sym_is_nonbool_constant(e->left.sym) && sym_is_nonboolean(e->right.sym))
++        return pexf(sym_get_or_create_nonbool_fexpr(e->right.sym, e->left.sym->name));
++
++    /* comparing nonboolean with tristate constant, will never be true */
++    if (sym_is_nonboolean(e->left.sym) && sym_is_tristate_constant(e->right.sym))
++        return pexf(const_false);
++    if (sym_is_tristate_constant(e->left.sym) && sym_is_nonboolean(e->right.sym))
++        return pexf(const_false);
++
++    /* comparing 2 nonboolean symbols */
++    if (sym_is_nonboolean(e->left.sym) && sym_is_nonboolean(e->right.sym)) {
++        struct pexpr *c = pexf(const_false);
++        struct fexpr_node *node1, *node2;
++        struct fexpr *e1, *e2;
++        for (node1 = e->left.sym->nb_vals->head->next; node1 != NULL; node1 = node1->next) {
++            e1 = node1->elem;
++            for (node2 = e->right.sym->nb_vals->head->next; node2 != NULL; node2 = node2->next) {
++                e2 = node2->elem;
++                if (!strcmp(str_get(&e1->nb_val), str_get(&e2->nb_val))) {
++                    c = pexpr_or(c, pexpr_and(pexf(e1), pexf(e2)));
++                    break;
++                }
++            }
++        }
++        return c;
++    }
++
++    /* comparing boolean item with nonboolean constant, will never be true */
++    if (sym_is_tristate_constant(e->left.sym) && sym_is_nonbool_constant(e->right.sym))
++        return pexf(const_false);
++    if (sym_is_nonbool_constant(e->left.sym) && sym_is_tristate_constant(e->right.sym))
++        return pexf(const_false);
++
++    /* comparing symbol of type unknown with tristate constant */
++    if (e->left.sym->type == S_UNKNOWN && sym_is_tristate_constant(e->right.sym))
++        return pexf(const_false);
++    if (sym_is_tristate_constant(e->left.sym) && e->right.sym->type == S_UNKNOWN)
++        return pexf(const_false);
++
++    /* any other comparison is not supported and should not be executed */
++    perror("Unsupported equality.");
++    print_expr(":", e, 0);
++
++    return pexf(const_false);
++}
++
++/*
++ * transform an UNEQUAL into a Not(EQUAL)
++ */
++struct pexpr * expr_calculate_pexpr_y_unequals(struct expr *e)
++{
++    return pexpr_not(expr_calculate_pexpr_y_equals(e));
++}
++
++struct pexpr * expr_calculate_pexpr_y_comp(struct expr *e)
++{
++    if (!e)
++        return NULL;
++
++    switch (e->type) {
++    case E_LTH:
++    case E_LEQ:
++    case E_GTH:
++    case E_GEQ:
++        /* compare non-Boolean symbol with constant */
++        if (sym_is_nonboolean(e->left.sym) &&
++            e->right.sym->type == S_UNKNOWN &&
++            string_is_number(e->right.sym->name)
++        ) {
++            return expr_eval_unequal_nonbool_const(e->left.sym, e->right.sym, e->type);
++        }
++        if (sym_is_nonboolean(e->right.sym) &&
++            e->left.sym->type == S_UNKNOWN &&
++            string_is_number(e->left.sym->name)
++        ) {
++            return expr_eval_unequal_nonbool_const(e->right.sym, e->left.sym, e->type);
++        }
++
++        /* compare 2 Boolean symbols */
++        if (sym_is_boolean(e->left.sym) && sym_is_boolean(e->right.sym))
++            return expr_eval_unequal_bool(e->left.sym, e->right.sym, e->type);
++
++        return pexf(const_false);
++    default:
++        perror("Unhandled type - expr_calculate_pexpr_y_comp");
++        return NULL;
++    }
++}
++
++/*
++ * macro to create a pexpr of type AND
++ */
++struct pexpr * pexpr_and(struct pexpr *a, struct pexpr *b)
++{
++    /* simplifications:
++     * expr && False -> False
++     * expr && True  -> expr
++     * expr && expr  -> expr
++     */
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
++        return a;
++
++    if (b->type == PE_SYMBOL && b->left.fexpr == const_false)
++        return b;
++
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
++        return b;
++
++    if (b->type == PE_SYMBOL && b->left.fexpr == const_true)
++        return a;
++
++    /* A && A -> A */
++    if (pexpr_eq(a,b))
++        return a;
++
++    /* (A && B) && C -> A && B if B == C */
++    if (a->type == PE_AND && pexpr_eq(a->right.pexpr, b))
++        return a;
++    /* A && (B && C) -> B && C if A == B */
++    if (b->type == PE_AND && pexpr_eq(a, b->left.pexpr))
++        return b;
++
++    /* (A || B) && (C || D) -> A || (B && D) if A == C */
++    if (a->type == PE_OR && b->type == PE_OR && (
++        pexpr_eq(a->left.pexpr, b->left.pexpr)
++    ))
++        return pexpr_or(a->left.pexpr,
++                pexpr_and(a->right.pexpr, b->right.pexpr));
++    /* (A || B) && (C || D) -> B || (A && C) if B == D */
++    if (a->type == PE_OR && b->type == PE_OR && (
++        pexpr_eq(a->right.pexpr, b->right.pexpr)
++    ))
++        return pexpr_or(a->right.pexpr,
++                pexpr_and(a->left.pexpr, b->left.pexpr));
++    /* (A || B) && (C || D) -> A || (B && C) if A == D */
++    if (a->type == PE_OR && b->type == PE_OR && (
++        pexpr_eq(a->left.pexpr, b->right.pexpr)
++    ))
++        return pexpr_or(a->left.pexpr,
++                pexpr_and(a->right.pexpr, b->left.pexpr));
++    /* (A || B) && (C || D) -> B || (A && D) if B == C */
++    if (a->type == PE_OR && b->type == PE_OR && (
++        pexpr_eq(a->right.pexpr, b->left.pexpr)
++    ))
++        return pexpr_or(a->right.pexpr,
++                pexpr_and(a->left.pexpr, b->right.pexpr));
++
++    struct pexpr *e = xcalloc(1, sizeof(*e));
++    e->type = PE_AND;
++    e->left.pexpr = a;
++    e->right.pexpr = b;
++
++    return e;
++}
++
++/*
++ * macro to create a pexpr of type OR
++ */
++struct pexpr * pexpr_or(struct pexpr *a, struct pexpr *b)
++{
++    /* simplifications:
++     * expr || False -> expr
++     * expr || True  -> True
++     * expr || expr  -> expr
++     */
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
++        return b;
++
++    if (b->type == PE_SYMBOL && b->left.fexpr == const_false)
++        return a;
++
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
++        return a;
++
++    if (b->type == PE_SYMBOL && b->left.fexpr == const_true)
++        return b;
++
++    /* A || A -> A */
++    if (pexpr_eq(a,b))
++        return a;
++
++    /* A || (B && C) -> A if (A == B || A == C) */
++    if (b->type == PE_AND && (
++        pexpr_eq(a, b->left.pexpr) || pexpr_eq(a, b->right.pexpr)
++    ))
++        return a;
++    /* (A && B) || C -> C if (A == C || B == C) */
++    if (a->type == PE_AND && (
++        pexpr_eq(a->left.pexpr, b) || pexpr_eq(a->right.pexpr, b)
++    ))
++        return b;
++
++    /* -A || B -> True if A == B */
++    if (a->type == PE_NOT && pexpr_eq(a->left.pexpr, b))
++        return pexf(const_true);
++    /* A || -B -> True if A == B */
++    if (b->type == PE_NOT && pexpr_eq(a, b->left.pexpr))
++        return pexf(const_true);
++
++    /* (A && B) || (C && D) -> A && (B || D) if (A == C) */
++    if (a->type == PE_AND && b->type == PE_AND &&
++        pexpr_eq(a->left.pexpr, b->left.pexpr)
++    )
++        return pexpr_and(a->left.pexpr,
++                 pexpr_or(a->right.pexpr, b->right.pexpr));
++    /* (A && B) || (C && D) -> B && (A || C) if (B == D) */
++    if (a->type == PE_AND && b->type == PE_AND &&
++        pexpr_eq(a->right.pexpr, b->right.pexpr)
++    )
++        return pexpr_and(a->right.pexpr,
++                 pexpr_or(a->left.pexpr, b->left.pexpr));
++    /* (A && B) || (C && D) -> A && (B || C) if (A == D) */
++    if (a->type == PE_AND && b->type == PE_AND &&
++        pexpr_eq(a->left.pexpr, b->right.pexpr)
++    )
++        return pexpr_and(a->left.pexpr,
++                 pexpr_or(a->right.pexpr, b->left.pexpr));
++    /* (A && B) || (C && D) -> B && (A || D) if (B == C) */
++    if (a->type == PE_AND && b->type == PE_AND &&
++        pexpr_eq(a->right.pexpr, b->left.pexpr)
++    )
++        return pexpr_and(a->right.pexpr,
++                 pexpr_or(a->left.pexpr, b->right.pexpr));
++
++    /* (A && B) || (C || D) -> C || D if
++     * A == C || A == D || B == C || B == D */
++    if (a->type == PE_AND && b->type == PE_OR && (
++        pexpr_eq(a->left.pexpr, b->left.pexpr) ||
++        pexpr_eq(a->left.pexpr, b->right.pexpr) ||
++        pexpr_eq(a->right.pexpr, b->left.pexpr) ||
++        pexpr_eq(a->right.pexpr, b->right.pexpr)
++    ))
++        return b;
++    /* (C || D) || (A && B) -> C || D if
++     * A == C || A == D || B == C || B == D */
++    if (a->type == PE_OR && b->type == PE_AND && (
++        pexpr_eq(a->left.pexpr, b->left.pexpr) ||
++        pexpr_eq(a->left.pexpr, b->right.pexpr) ||
++        pexpr_eq(a->right.pexpr, b->left.pexpr) ||
++        pexpr_eq(a->right.pexpr, b->right.pexpr)
++    ))
++        return a;
++
++    struct pexpr *e = xcalloc(1, sizeof(*e));
++    e->type = PE_OR;
++    e->left.pexpr = a;
++    e->right.pexpr = b;
++
++    return e;
++}
++
++/*
++ * macro to create a pexpr of type NOT
++ */
++struct pexpr * pexpr_not(struct pexpr *a)
++{
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_false)
++        return pexf(const_true);
++    if (a->type == PE_SYMBOL && a->left.fexpr == const_true)
++        return pexf(const_false);
++
++    /* eliminate double negation */
++    if (a->type == PE_NOT)
++        return a->left.pexpr;
++
++    /* De Morgan */
++    if (a->type == PE_AND) {
++        struct pexpr *e = xcalloc(1, sizeof(*e));
++        e->type = PE_OR;
++        e->left.pexpr = pexpr_not(a->left.pexpr);
++        e->right.pexpr = pexpr_not(a->right.pexpr);
++        return e;
++    }
++    if (a->type == PE_OR) {
++        struct pexpr *e = xcalloc(1, sizeof(*e));
++        e->type = PE_AND;
++        e->left.pexpr = pexpr_not(a->left.pexpr);
++        e->right.pexpr = pexpr_not(a->right.pexpr);
++        return e;
++    }
++
++    struct pexpr *e = xcalloc(1, sizeof(*e));
++    e->type = PE_NOT;
++    e->left.pexpr = a;
++    return e;
++}
++
++/*
++ * macro to construct a pexpr for "A implies B"
++ */
++struct pexpr * pexpr_implies(struct pexpr *a, struct pexpr *b)
++{
++    /* A => B -> True if A == B */
++    if (pexpr_eq(a, b))
++        return pexf(const_true);
++
++    /* (A => B && C) -> (A => C) if A == B */
++    if (b->type == PE_AND && pexpr_eq(a, b->left.pexpr))
++        return pexpr_implies(a, b->right.pexpr);
++    /* (A => B && C) -> (A => B) if A == C */
++    if (b->type == PE_AND && pexpr_eq(a, b->right.pexpr))
++        return pexpr_implies(a, b->left.pexpr);
++
++    /* (A => B || C) -> True if (A == B || A == C) */
++    if (b->type == PE_OR && (
++        pexpr_eq(a, b->left.pexpr) || pexpr_eq(a, b->right.pexpr)
++    ))
++        return pexf(const_true);
++
++    /* (A && B => C) -> True if (A == C || B == C) */
++    if (a->type == PE_AND && (
++        pexpr_eq(a->left.pexpr, b) || pexpr_eq(a->right.pexpr, b)
++    ))
++        return pexf(const_true);
++
++    return pexpr_or(pexpr_not(a), b);
++}
++
++/*
++ * check whether a pexpr is in CNF
++ */
++bool pexpr_is_cnf(struct pexpr *e)
++{
++    if (!e)
++        return false;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        return true;
++    case PE_AND:
++        return false;
++    case PE_OR:
++        return pexpr_is_cnf(e->left.pexpr) && pexpr_is_cnf(e->right.pexpr);
++    case PE_NOT:
++        return e->left.pexpr->type == PE_SYMBOL;
++    }
++
++    return false;
++}
++
++/*
++ * check whether a pexpr is in NNF
++ */
++bool pexpr_is_nnf(struct pexpr *e)
++{
++    if (!e)
++        return false;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        return true;
++    case PE_AND:
++    case PE_OR:
++        return pexpr_is_nnf(e->left.pexpr) && pexpr_is_nnf(e->right.pexpr);
++    case PE_NOT:
++        return e->left.pexpr->type == PE_SYMBOL;
++    }
++
++    return false;
++}
++
++/*
++ * return fexpr_both for a symbol
++ */
++struct pexpr * sym_get_fexpr_both(struct symbol *sym)
++{
++    return sym->type == S_TRISTATE ? pexpr_or(pexf(sym->fexpr_m), pexf(sym->fexpr_y)) : pexf(sym->fexpr_y);
++}
++
++/*
++ * return fexpr_sel_both for a symbol
++ */
++struct pexpr * sym_get_fexpr_sel_both(struct symbol *sym)
++{
++    if (!sym->rev_dep.expr)
++        return pexf(const_false);
++
++    return sym->type == S_TRISTATE ? pexpr_or(pexf(sym->fexpr_sel_m), pexf(sym->fexpr_sel_y)) : pexf(sym->fexpr_sel_y);
++}
++
++/*
++ * check, if the fexpr is a symbol, a True/False-constant, a literal symbolizing a non-boolean or a choice symbol
++ */
++bool fexpr_is_symbol(struct fexpr *e)
++{
++    return e->type == FE_SYMBOL || e->type == FE_FALSE || e->type == FE_TRUE || e->type == FE_NONBOOL || e->type == FE_CHOICE || e->type == FE_SELECT || e->type == FE_NPC;
++}
++
++/*
++ * check whether a pexpr is a symbol or a negated symbol
++ */
++bool pexpr_is_symbol(struct pexpr *e)
++{
++    return e->type == PE_SYMBOL || (e->type == PE_NOT && e->left.pexpr->type == PE_SYMBOL);
++}
++
++/*
++ * check whether the fexpr is a constant (true/false)
++ */
++bool fexpr_is_constant(struct fexpr *e)
++{
++    return e == const_true || e == const_false;
++}
++
++/*
++ * add a fexpr to the satmap
++ */
++void fexpr_add_to_satmap(struct fexpr *e)
++{
++    if (e->satval >= satmap_size) {
++        satmap = xrealloc(satmap, satmap_size * 2 * sizeof(*satmap));
++        satmap_size *= 2;
++    }
++
++    satmap[e->satval] = *e;
++}
++
++/*
++ * print a fexpr
++ */
++void fexpr_print(char *tag, struct fexpr *e)
++{
++    if (!e)
++        return;
++
++    printf("%s: %s\n", tag, str_get(&e->name));
++}
++
++/*
++ * write an fexpr into a string (format needed for testing)
++ */
++void fexpr_as_char(struct fexpr *e, struct gstr *s)
++{
++    if (!e)
++        return;
++
++    switch (e->type) {
++    case FE_SYMBOL:
++    case FE_CHOICE:
++    case FE_SELECT:
++    case FE_NPC:
++    case FE_NONBOOL:
++        str_append(s, "definedEx(");
++        str_append(s, str_get(&e->name));
++        str_append(s, ")");
++        return;
++    case FE_FALSE:
++        str_append(s, "0");
++        return;
++    case FE_TRUE:
++        str_append(s, "1");
++        return;
++    default:
++        return;
++    }
++}
++
++/*
++ * write a pexpr into a string
++ */
++void pexpr_as_char(struct pexpr *e, struct gstr *s, int parent)
++{
++    if (!e)
++        return;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        if (e->left.fexpr == const_false) {
++            str_append(s, "0");
++            return;
++        }
++        if (e->left.fexpr == const_true) {
++            str_append(s, "1");
++            return;
++        }
++        str_append(s, "definedEx(");
++        str_append(s, str_get(&e->left.fexpr->name));
++        str_append(s, ")");
++        return;
++    case PE_AND:
++        /* need this hack for the FeatureExpr parser */
++        if (parent != PE_AND)
++            str_append(s, "(");
++        pexpr_as_char(e->left.pexpr, s, PE_AND);
++        str_append(s, " && ");
++        pexpr_as_char(e->right.pexpr, s, PE_AND);
++        if (parent != PE_AND)
++            str_append(s, ")");
++        return;
++    case PE_OR:
++        if (parent != PE_OR)
++            str_append(s, "(");
++        pexpr_as_char(e->left.pexpr, s, PE_OR);
++        str_append(s, " || ");
++        pexpr_as_char(e->right.pexpr, s, PE_OR);
++        if (parent != PE_OR)
++            str_append(s, ")");
++        return;
++    case PE_NOT:
++        str_append(s, "!");
++        pexpr_as_char(e->left.pexpr, s, PE_NOT);
++        return;
++    }
++}
++
++/*
++ * write a pexpr into a string
++ */
++void pexpr_as_char_short(struct pexpr *e, struct gstr *s, int parent)
++{
++    if (!e)
++        return;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        str_append(s, str_get(&e->left.fexpr->name));
++        return;
++    case PE_AND:
++        /* need this hack for the FeatureExpr parser */
++        if (parent != PE_AND)
++            str_append(s, "(");
++        pexpr_as_char_short(e->left.pexpr, s, PE_AND);
++        str_append(s, " && ");
++        pexpr_as_char_short(e->right.pexpr, s, PE_AND);
++        if (parent != PE_AND)
++            str_append(s, ")");
++        return;
++    case PE_OR:
++        if (parent != PE_OR)
++            str_append(s, "(");
++        pexpr_as_char_short(e->left.pexpr, s, PE_OR);
++        str_append(s, " || ");
++        pexpr_as_char_short(e->right.pexpr, s, PE_OR);
++        if (parent != PE_OR)
++            str_append(s, ")");
++        return;
++    case PE_NOT:
++        str_append(s, "!");
++        pexpr_as_char_short(e->left.pexpr, s, PE_NOT);
++        return;
++    }
++}
++
++/*
++ * check whether a pexpr contains a specific fexpr
++ */
++bool pexpr_contains_fexpr(struct pexpr *e, struct fexpr *fe)
++{
++    if (!e)
++        return false;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        return e->left.fexpr->satval == fe->satval;
++    case PE_AND:
++    case PE_OR:
++        return pexpr_contains_fexpr(e->left.pexpr, fe) ||
++            pexpr_contains_fexpr(e->right.pexpr, fe);
++    case PE_NOT:
++        return e->left.pexpr->left.fexpr->satval == fe->satval;
++    }
++
++    return false;
++}
++
++/*
++ * init list of fexpr
++ */
++struct fexpr_list * fexpr_list_init()
++{
++    struct fexpr_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of fexpr_list
++ */
++struct fexl_list * fexl_list_init()
++{
++    struct fexl_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of pexpr
++ */
++struct pexpr_list * pexpr_list_init()
++{
++    struct pexpr_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of symbol_fix
++ */
++struct sfix_list * sfix_list_init(void)
++{
++    struct sfix_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of symbol_fix
++ */
++struct sfl_list * sfl_list_init(void)
++{
++    struct sfl_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of symbol_dvalue
++ */
++struct sdv_list * sdv_list_init(void)
++{
++    struct sdv_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of symbols
++ */
++struct sym_list * sym_list_init(void)
++{
++    struct sym_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of default_maps
++ */
++struct defm_list * defm_list_init(void)
++{
++    struct defm_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * init list of properties
++ */
++struct prop_list *prop_list_init(void)
++{
++    struct prop_list *list = xcalloc(1, sizeof(*list));
++    list->head = NULL;
++    list->tail = NULL;
++    list->size = 0;
++
++    return list;
++}
++
++/*
++ * add element to tail of a fexpr_list
++ */
++void fexpr_list_add(struct fexpr_list *list, struct fexpr *fe)
++{
++    struct fexpr_node *node = xcalloc(1, sizeof(*node));
++    node->elem = fe;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a fexl_list
++ */
++void fexl_list_add(struct fexl_list *list, struct fexpr_list *elem)
++{
++    struct fexl_node *node = xcalloc(1, sizeof(*node));
++    node->elem = elem;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a pexpr_list
++ */
++void pexpr_list_add(struct pexpr_list *list, struct pexpr *e)
++{
++    struct pexpr_node *node = xcalloc(1, sizeof(*node));
++    node->elem = e;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a sfix_list
++ */
++void sfix_list_add(struct sfix_list *list, struct symbol_fix *fix)
++{
++    struct sfix_node *node = xcalloc(1, sizeof(*node));
++    node->elem = fix;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a sfl_list
++ */
++void sfl_list_add(struct sfl_list *list, struct sfix_list *elem)
++{
++    struct sfl_node *node = xcalloc(1, sizeof(*node));
++    node->elem = elem;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a sdv_list
++ */
++void sdv_list_add(struct sdv_list *list, struct symbol_dvalue *sdv)
++{
++    struct sdv_node *node = xcalloc(1, sizeof(*node));
++    node->elem = sdv;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a sym_list
++ */
++void sym_list_add(struct sym_list *list, struct symbol *sym)
++{
++    struct sym_node *node = xcalloc(1, sizeof(*node));
++    node->elem = sym;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a defm_list
++ */
++void defm_list_add(struct defm_list *list, struct default_map *map)
++{
++    struct defm_node *node = xcalloc(1, sizeof(*node));
++    node->elem = map;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * add element to tail of a prop_list
++ */
++void prop_list_add(struct prop_list *list, struct property *prop)
++{
++    struct prop_node *node = xcalloc(1, sizeof(*node));
++    node->elem = prop;
++
++    if (list->size == 0) {
++        list->head = node;
++        list->tail = node;
++    } else {
++        node->prev = list->tail;
++        list->tail = node;
++        node->prev->next = node;
++    }
++
++    list->size++;
++}
++
++/*
++ * delete an element from a fexpr_list
++ */
++void fexpr_list_delete(struct fexpr_list *list, struct fexpr_node *node)
++{
++    if (list->size == 0 || node == NULL)
++        return;
++
++    if (node == list->head)
++        list->head = node->next;
++    else
++        node->prev->next = node->next;
++
++    if (node == list->tail)
++        list->tail = node->prev;
++    else
++        node->next->prev = node->prev;
++
++    list->size--;
++    free(node);
++}
++
++/*
++ * delete an element from a fexpr_list
++ */
++void sfix_list_delete(struct sfix_list *list, struct sfix_node *node)
++{
++    if (list->size == 0 || node == NULL)
++        return;
++
++    if (node == list->head)
++        list->head = node->next;
++    else
++        node->prev->next = node->next;
++
++    if (node == list->tail)
++        list->tail = node->prev;
++    else
++        node->next->prev = node->prev;
++
++    list->size--;
++    free(node);
++}
++
++/*
++ * delete an element from a fexpr_list
++ */
++void pexpr_list_delete(struct pexpr_list *list, struct pexpr_node *node)
++{
++    if (list->size == 0 || node == NULL)
++        return;
++
++    if (node == list->head)
++        list->head = node->next;
++    else
++        node->prev->next = node->next;
++
++    if (node == list->tail)
++        list->tail = node->prev;
++    else
++        node->next->prev = node->prev;
++
++    list->size--;
++    free(node);
++}
++
++/*
++ * delete an element from a fexl_list
++ */
++void fexl_list_delete(struct fexl_list *list, struct fexl_node *node)
++{
++    if (list->size == 0 || node == NULL)
++        return;
++
++    if (node == list->head)
++        list->head = node->next;
++    else
++        node->prev->next = node->next;
++
++    if (node == list->tail)
++        list->tail = node->prev;
++    else
++        node->next->prev = node->prev;
++
++    list->size--;
++    free(node);
++}
++
++/*
++ * delete the first occurence of elem in an fexl_list
++ */
++void fexl_list_delete_elem(struct fexl_list *list, struct fexpr_list *elem)
++{
++    struct fexl_node *node, *to_delete = NULL;
++    fexl_list_for_each(node, list) {
++        if (node->elem == elem) {
++            to_delete = node;
++            break;
++        }
++    }
++
++    if (to_delete != NULL)
++        fexl_list_delete(list, to_delete);
++}
++
++/*
++ * make a shallow copy of a fexpr_list
++ */
++struct fexpr_list * fexpr_list_copy(struct fexpr_list *list)
++{
++    struct fexpr_list *ret = fexpr_list_init();
++    struct fexpr_node *node;
++    fexpr_list_for_each(node, list)
++        fexpr_list_add(ret, node->elem);
++
++    return ret;
++}
++
++/*
++ * make a shallow copy of a fexl_list
++ */
++struct fexl_list * fexl_list_copy(struct fexl_list *list)
++{
++    struct fexl_list *ret = fexl_list_init();
++    struct fexl_node *node;
++    fexl_list_for_each(node, list)
++        fexl_list_add(ret, node->elem);
++
++    return ret;
++}
++
++/*
++ * make a shallow copy of a sdv_list
++ */
++struct sdv_list * sdv_list_copy(struct sdv_list *list)
++{
++    struct sdv_list *ret = sdv_list_init();
++    struct sdv_node *node;
++    sdv_list_for_each(node, list)
++        sdv_list_add(ret, node->elem);
++
++
++    return ret;
++}
++
++/*
++ * make a shallow copy of a sfix_list
++ */
++struct sfix_list * sfix_list_copy(struct sfix_list *list)
++{
++    struct sfix_list *ret = sfix_list_init();
++    struct sfix_node *node;
++    sfix_list_for_each(node, list)
++        sfix_list_add(ret, node->elem);
++
++    return ret;
++}
++
++/*
++ * print a fexpr_list
++ */
++void fexpr_list_print(char *title, struct fexpr_list *list)
++{
++    struct fexpr_node *node;
++    printf("%s: [", title);
++
++    fexpr_list_for_each(node, list) {
++        printf("%s", str_get(&node->elem->name));
++        if (node->next != NULL)
++            printf(", ");
++    }
++
++    printf("]\n");
++}
++
++/*
++ * print a fexl_list
++ */
++void fexl_list_print(char *title, struct fexl_list *list)
++{
++    struct fexl_node *node;
++    printf("%s:\n", title);
++
++    fexl_list_for_each(node, list)
++        fexpr_list_print(":", node->elem);
++}
++
++/*
++ * print a pexpr_list
++ */
++void pexpr_list_print(char *title, struct pexpr_list *list)
++{
++    struct pexpr_node *node;
++    printf("%s: [", title);
++
++    pexpr_list_for_each(node, list) {
++        pexpr_print_util(node->elem, -1);
++        if (node->next != NULL)
++            printf(", ");
++    }
++
++    printf("]\n");
++}
++
++/*
++ * free an fexpr_list
++ */
++void fexpr_list_free(struct fexpr_list *list)
++{
++    struct fexpr_node *node = list->head, *tmp;
++
++    while (node != NULL) {
++        tmp = node->next;
++        free(node);
++        node = tmp;
++    }
++
++    free(list);
++}
++
++/*
++ * free an fexl_list
++ */
++void fexl_list_free(struct fexl_list *list){
++    struct fexl_node *node = list->head, *tmp;
++
++    while (node != NULL) {
++        tmp = node->next;
++        free(node);
++        node = tmp;
++    }
++
++    free(list);
++}
++
++/*
++ * free a sdv_list
++ */
++void sdv_list_free(struct sdv_list *list)
++{
++    struct sdv_node *node = list->head, *tmp;
++
++    while (node != NULL) {
++        tmp = node->next;
++        free(node);
++        node = tmp;
++    }
++
++    free(list);
++}
++
++/*
++ * simplify a pexpr in-place
++ *     pexpr && False -> False
++ *     pexpr && True  -> pexpr
++ *     pexpr || False -> pexpr
++ *     pexpr || True  -> True
++ */
++static struct pexpr * pexpr_eliminate_yn(struct pexpr *e)
++{
++    struct pexpr *tmp;
++
++    if (e) switch (e->type) {
++    case PE_AND:
++        e->left.pexpr = pexpr_eliminate_yn(e->left.pexpr);
++        e->right.pexpr = pexpr_eliminate_yn(e->right.pexpr);
++        if (e->left.pexpr->type == PE_SYMBOL) {
++            if (e->left.pexpr->left.fexpr == const_false) {
++                pexpr_free(e->left.pexpr);
++                pexpr_free(e->right.pexpr);
++                e->type = PE_SYMBOL;
++                e->left.fexpr = const_false;
++                e->right.pexpr = NULL;
++                return e;
++            } else if (e->left.pexpr->left.fexpr == const_true) {
++                free(e->left.pexpr);
++                tmp = e->right.pexpr;
++                *e = *(e->right.pexpr);
++                free(tmp);
++                return e;
++            }
++        }
++        if (e->right.pexpr->type == PE_SYMBOL) {
++            if (e->right.pexpr->left.fexpr == const_false) {
++                pexpr_free(e->left.pexpr);
++                pexpr_free(e->right.pexpr);
++                e->type = PE_SYMBOL;
++                e->left.fexpr = const_false;
++                e->right.fexpr = NULL;
++                return e;
++            } else if (e->right.pexpr->left.fexpr == const_true) {
++                free(e->right.pexpr);
++                tmp = e->left.pexpr;
++                *e = *(e->left.pexpr);
++                free(tmp);
++                return e;
++            }
++        }
++        break;
++    case PE_OR:
++        e->left.pexpr = pexpr_eliminate_yn(e->left.pexpr);
++        e->right.pexpr = pexpr_eliminate_yn(e->right.pexpr);
++        if (e->left.pexpr->type == PE_SYMBOL) {
++            if (e->left.pexpr->left.fexpr == const_false) {
++                free(e->left.pexpr);
++                tmp = e->right.pexpr;
++                *e = *(e->right.pexpr);
++                free(tmp);
++                return e;
++            } else if (e->left.pexpr->left.fexpr == const_true) {
++                pexpr_free(e->left.pexpr);
++                pexpr_free(e->right.pexpr);
++                e->type = PE_SYMBOL;
++                e->left.fexpr = const_true;
++                e->right.pexpr = NULL;
++            }
++        }
++        if (e->right.pexpr->type == PE_SYMBOL) {
++            if (e->right.pexpr->left.fexpr == const_false) {
++                free(e->right.pexpr);
++                tmp = e->left.pexpr;
++                *e = *(e->left.pexpr);
++                free(tmp);
++                return e;
++            } else if (e->right.pexpr->left.fexpr == const_true) {
++                pexpr_free(e->left.pexpr);
++                pexpr_free(e->right.pexpr);
++                e->type = PE_SYMBOL;
++                e->left.fexpr = const_true;
++                e->right.pexpr = NULL;
++                return e;
++            }
++        }
++    default:
++        ;
++    }
++
++    return e;
++}
++
++/*
++ * copy a pexpr
++ */
++struct pexpr * pexpr_copy(const struct pexpr *org)
++{
++    struct pexpr *e;
++
++    if (!org)
++        return NULL;
++
++    e = xmalloc(sizeof(*org));
++    memcpy(e, org, sizeof(*org));
++    switch (org->type) {
++    case PE_SYMBOL:
++        e->left = org->left;
++        break;
++    case PE_AND:
++    case PE_OR:
++        e->left.pexpr = pexpr_copy(org->left.pexpr);
++        e->right.pexpr = pexpr_copy(org->right.pexpr);
++        break;
++    case PE_NOT:
++        e->left.pexpr = pexpr_copy(org->left.pexpr);
++        break;
++    }
++
++    return e;
++}
++
++/*
++ * free a pexpr
++ */
++void pexpr_free(struct pexpr *e)
++{
++    if (!e)
++        return;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        break;
++    case PE_AND:
++    case PE_OR:
++        pexpr_free(e->left.pexpr);
++        pexpr_free(e->right.pexpr);
++        break;
++    case PE_NOT:
++        pexpr_free(e->left.pexpr);
++        break;
++    }
++
++    free(e);
++}
++
++#define e1 (*ep1)
++#define e2 (*ep2)
++/*
++ * pexpr_eliminate_eq() helper
++ */
++static void __pexpr_eliminate_eq(enum pexpr_type type, struct pexpr **ep1, struct pexpr **ep2)
++{
++    /* recurse down to the leaves */
++    if (e1->type == type) {
++        __pexpr_eliminate_eq(type, &e1->left.pexpr, &e2);
++        __pexpr_eliminate_eq(type, &e1->right.pexpr, &e2);
++        return;
++    }
++    if (e2->type == type) {
++        __pexpr_eliminate_eq(type, &e1, &e2->left.pexpr);
++        __pexpr_eliminate_eq(type, &e1, &e2->right.pexpr);
++        return;
++    }
++
++    /* e1 and e2 are leaves. Compare them. */
++    if (e1->type == PE_SYMBOL && e2->type == PE_SYMBOL &&
++        e1->left.fexpr->satval == e2->left.fexpr->satval &&
++        (e1->left.fexpr == const_true || e2->left.fexpr == const_false))
++        return;
++    if (!pexpr_eq(e1, e2))
++        return;
++
++    /* e1 and e2 are equal leaves. Prepare them for elimination. */
++    trans_count++;
++    pexpr_free(e1);
++    pexpr_free(e2);
++    switch (type) {
++    case PE_AND:
++        e1 = pexf(const_true);
++        e2 = pexf(const_true);
++        break;
++    case PE_OR:
++        e1 = pexf(const_false);
++        e2 = pexf(const_false);
++        break;
++    default:
++        ;
++    }
++}
++
++/*
++ * rewrite pexpr ep1 and ep2 to remove operands common to both
++ */
++static void pexpr_eliminate_eq(struct pexpr **ep1, struct pexpr **ep2)
++{
++    if (!e1 || !e2)
++        return;
++
++    switch (e1->type) {
++    case PE_AND:
++    case PE_OR:
++        __pexpr_eliminate_eq(e1->type, ep1, ep2);
++    default:
++        ;
++    }
++    if (e1->type != e2->type) switch (e2->type) {
++    case PE_AND:
++    case PE_OR:
++        __pexpr_eliminate_eq(e2->type, ep1, ep2);
++    default:
++        ;
++    }
++    e1 = pexpr_eliminate_yn(e1);
++    e2 = pexpr_eliminate_yn(e2);
++}
++#undef e1
++#undef e2
++
++/*
++ * check whether 2 pexpr are equal
++ */
++bool pexpr_eq(struct pexpr *e1, struct pexpr *e2)
++{
++    bool res;
++    int old_count;
++
++    if (!e1 || !e2)
++        return false;
++
++    if (e1->type != e2->type)
++        return false;
++
++    switch (e1->type) {
++    case PE_SYMBOL:
++        return e1->left.fexpr->satval == e2->left.fexpr->satval;
++    case PE_AND:
++    case PE_OR:
++        e1 = pexpr_copy(e1);
++        e2 = pexpr_copy(e2);
++        old_count = trans_count;
++        pexpr_eliminate_eq(&e1, &e2);
++        res = (e1->type == PE_SYMBOL && e2->type == PE_SYMBOL &&
++            e1->left.fexpr->satval == e2->left.fexpr->satval);
++        pexpr_free(e1);
++        pexpr_free(e2);
++        trans_count = old_count;
++        return res;
++    case PE_NOT:
++        return pexpr_eq(e1->left.pexpr, e2->left.pexpr);
++    }
++
++    return false;
++}
++
++/*
++ * print a pexpr
++ */
++static void pexpr_print_util(struct pexpr *e, int prevtoken)
++{
++    if (!e)
++        return;
++
++    switch (e->type) {
++    case PE_SYMBOL:
++        printf("%s", str_get(&e->left.fexpr->name));
++        break;
++    case PE_AND:
++        if (prevtoken != PE_AND && prevtoken != -1)
++            printf("(");
++        pexpr_print_util(e->left.pexpr, PE_AND);
++        printf(" && ");
++        pexpr_print_util(e->right.pexpr, PE_AND);
++        if (prevtoken != PE_AND && prevtoken != -1)
++            printf(")");
++        break;
++    case PE_OR:
++        if (prevtoken != PE_OR && prevtoken != -1)
++            printf("(");
++        pexpr_print_util(e->left.pexpr, PE_OR);
++        printf(" || ");
++        pexpr_print_util(e->right.pexpr, PE_OR);
++        if (prevtoken != PE_OR && prevtoken != -1)
++            printf(")");
++        break;
++    case PE_NOT:
++        printf("!");
++        pexpr_print_util(e->left.pexpr, PE_NOT);
++        break;
++    }
++}
++void pexpr_print(char *tag, struct pexpr *e, int prevtoken)
++{
++    printf("%s: ", tag);
++    pexpr_print_util(e, prevtoken);
++    printf("\n");
++}
++
++/*
++ * convert a fexpr to a pexpr
++ */
++struct pexpr * pexf(struct fexpr *fe)
++{
++    struct pexpr *pe = xcalloc(1, sizeof(*pe));
++    pe->type = PE_SYMBOL;
++    pe->left.fexpr = fe;
++    return pe;
++}
++
++static struct pexpr * pexpr_join_or(struct pexpr *e1, struct pexpr *e2)
++{
++    if (pexpr_eq(e1, e2))
++        return pexpr_copy(e1);
++    else
++        return NULL;
++}
++
++static struct pexpr * pexpr_join_and(struct pexpr *e1, struct pexpr *e2)
++{
++    if (pexpr_eq(e1, e2))
++        return pexpr_copy(e1);
++    else
++        return NULL;
++}
++
++/*
++ * pexpr_eliminate_dups() helper.
++ */
++static void pexpr_eliminate_dups1(enum pexpr_type type, struct pexpr **ep1, struct pexpr **ep2)
++{
++#define e1 (*ep1)
++#define e2 (*ep2)
++
++    struct pexpr *tmp;
++
++    /* recurse down to leaves */
++    if (e1->type == type) {
++        pexpr_eliminate_dups1(type, &e1->left.pexpr, &e2);
++        pexpr_eliminate_dups1(type, &e1->right.pexpr, &e2);
++        return;
++    }
++    if (e2->type == type) {
++        pexpr_eliminate_dups1(type, &e1, &e2->left.pexpr);
++        pexpr_eliminate_dups1(type, &e1, &e2->right.pexpr);
++        return;
++    }
++
++    /* e1 and e2 are leaves. Compare them. */
++
++    if (e1 == e2)
++        return;
++
++    switch (e1->type) {
++    case PE_AND:
++    case PE_OR:
++        pexpr_eliminate_dups1(e1->type, &e1, &e1);
++    default:
++        ;
++    }
++
++    switch (type) {
++    case PE_AND:
++        tmp = pexpr_join_and(e1, e2);
++        if (tmp) {
++            pexpr_free(e1);
++            pexpr_free(e2);
++            e1 = pexf(const_true);
++            e2 = tmp;
++            trans_count++;
++        }
++        break;
++    case PE_OR:
++        tmp = pexpr_join_or(e1, e2);
++        if (tmp) {
++            pexpr_free(e1);
++            pexpr_free(e2);
++            e1 = pexf(const_false);
++            e2 = tmp;
++            trans_count++;
++        }
++        break;
++    default:
++        ;
++    }
++
++#undef e1
++#undef e2
++}
++
++/*
++ * eliminate duplicate and redundant operands
++ */
++struct pexpr * pexpr_eliminate_dups(struct pexpr *e)
++{
++    if (!e)
++        return e;
++
++    int oldcount = trans_count;
++    while (true) {
++        trans_count = 0;
++        switch (e->type) {
++        case PE_AND:
++        case PE_OR:
++            pexpr_eliminate_dups1(e->type, &e, &e);
++        default:
++            ;
++        }
++        if (!trans_count)
++            /* no simplification done in this pass. We're done. */
++            break;
++        e = pexpr_eliminate_yn(e);
++    }
++    trans_count = oldcount;
++    return e;
++}
+diff --git a/scripts/kconfig/cf_expr.h b/scripts/kconfig/cf_expr.h
 new file mode 100644
-index 000000000000..dca89ca1640e
+index 000000000000..cc612866fed4
 --- /dev/null
-+++ b/scripts/kconfig/cf_constraints.h
-@@ -0,0 +1,23 @@
++++ b/scripts/kconfig/cf_expr.h
+@@ -0,0 +1,237 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2021 Patrick Franz <deltaone@debian.org>
 + */
 +
-+#ifndef CF_CONSTRAINTS_H
-+#define CF_CONSTRAINTS_H
++#ifndef CF_EXPR_H
++#define CF_EXPR_H
 +
-+/* build the constraints for each symbol */
-+void get_constraints(void);
++#define fexpr_list_for_each(node, list) \
++    for (node = list->head; node != NULL; node = node->next)
 +
-+/* count the number of all constraints */
-+unsigned int count_counstraints(void);
++#define fexl_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
 +
-+/* add a constraint for a symbol */
-+void sym_add_constraint(struct symbol *sym, struct pexpr *constraint);
++#define pexpr_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
 +
-+void sym_add_constraint_fexpr(struct symbol *sym, struct fexpr *constraint);
++#define sdv_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
 +
-+/* add a constraint for a symbol, but check for duplicate constraints */
-+void sym_add_constraint_eq(struct symbol *sym, struct pexpr *constraint);
++#define sfix_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
++
++#define sfl_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
++
++#define sym_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
++
++#define defm_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
++
++#define prop_list_for_each(node, list) \
++    fexpr_list_for_each(node, list)
++
++/* create a fexpr */
++struct fexpr * fexpr_create(int satval, enum fexpr_type type, char *name);
++
++/* create the fexpr for a symbol */
++void sym_create_fexpr (struct symbol *sym);
++
++struct pexpr * expr_calculate_pexpr_both(struct expr *e);
++struct pexpr * expr_calculate_pexpr_y(struct expr *e);
++struct pexpr * expr_calculate_pexpr_m(struct expr *e);
++struct pexpr * expr_calculate_pexpr_y_and(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_m_and(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_both_and(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_y_or(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_m_or(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_both_or(struct expr *a, struct expr *b);
++struct pexpr * expr_calculate_pexpr_y_not(struct expr * e);
++struct pexpr * expr_calculate_pexpr_m_not(struct expr *e);
++struct pexpr * expr_calculate_pexpr_y_equals(struct expr *e);
++struct pexpr * expr_calculate_pexpr_y_unequals(struct expr *e);
++struct pexpr * expr_calculate_pexpr_y_comp(struct expr *e);
++
++/* macro to create a pexpr of type AND */
++struct pexpr * pexpr_and(struct pexpr *a, struct pexpr *b);
++
++/* macro to create a pexpr of type OR */
++struct pexpr * pexpr_or(struct pexpr *a, struct pexpr *b);
++
++/* macro to create a pexpr of type NOT */
++struct pexpr * pexpr_not(struct pexpr *a);
++
++/* check whether a pexpr is in CNF */
++bool pexpr_is_cnf(struct pexpr *e);
++
++/* check whether a pexpr is in NNF */
++bool pexpr_is_nnf(struct pexpr *e);
++
++/* return fexpr_both for a symbol */
++struct pexpr * sym_get_fexpr_both(struct symbol *sym);
++
++/* return fexpr_sel_both for a symbol */
++struct pexpr * sym_get_fexpr_sel_both(struct symbol *sym);
++
++/* create the fexpr of a non-boolean symbol for a specific value */
++struct fexpr * sym_create_nonbool_fexpr(struct symbol *sym, char *value);
++
++/* return the fexpr of a non-boolean symbol for a specific value, NULL if non-existent */
++struct fexpr * sym_get_nonbool_fexpr(struct symbol *sym, char *value);
++
++/*
++ * return the fexpr of a non-boolean symbol for a specific value, if it exists
++ * otherwise create it
++ */
++struct fexpr * sym_get_or_create_nonbool_fexpr(struct symbol *sym, char *value);
++
++/* macro to construct a pexpr for "A implies B" */
++struct pexpr * pexpr_implies(struct pexpr *a, struct pexpr *b);
++
++/* check, if the fexpr is a symbol, a True/False-constant, a literal symbolising a non-boolean or a choice symbol */
++bool fexpr_is_symbol(struct fexpr *e);
++
++/* check whether a pexpr is a symbol or a negated symbol */
++bool pexpr_is_symbol(struct pexpr *e);
++
++/* check whether the fexpr is a constant (true/false) */
++bool fexpr_is_constant(struct fexpr *e);
++
++/* add a fexpr to the satmap */
++void fexpr_add_to_satmap(struct fexpr *e);
++
++/* print an fexpr */
++void fexpr_print(char *tag, struct fexpr *e);
++
++/* write an fexpr into a string (format needed for testing) */
++void fexpr_as_char(struct fexpr *e, struct gstr *s);
++
++/* write pn pexpr into a string */
++void pexpr_as_char_short(struct pexpr *e, struct gstr *s, int parent);
++
++/* write an fexpr into a string (format needed for testing) */
++void pexpr_as_char(struct pexpr *e, struct gstr *s, int parent);
++
++/* check whether a pexpr contains a specific fexpr */
++bool pexpr_contains_fexpr(struct pexpr *e, struct fexpr *fe);
++
++/* init list of fexpr */
++struct fexpr_list * fexpr_list_init(void);
++
++/* init list of fexpr_list */
++struct fexl_list * fexl_list_init(void);
++
++/* init list of pexpr */
++struct pexpr_list * pexpr_list_init(void);
++
++/* init list of symbol_fix */
++struct sfix_list * sfix_list_init(void);
++
++/* init list of sfix_list */
++struct sfl_list * sfl_list_init(void);
++
++/* init list of symbol_dvalue */
++struct sdv_list * sdv_list_init(void);
++
++/* init list of symbols */
++struct sym_list * sym_list_init(void);
++
++/* init list of default_maps */
++struct defm_list * defm_list_init(void);
++
++/* init list of properties */
++struct prop_list *prop_list_init(void);
++
++/* add element to tail of a fexpr_list */
++void fexpr_list_add(struct fexpr_list *list, struct fexpr *fe);
++
++/* add element to tail of a fexl_list */
++void fexl_list_add(struct fexl_list *list, struct fexpr_list *elem);
++
++/* add element to tail of a pexpr_list */
++void pexpr_list_add(struct pexpr_list *list, struct pexpr *e);
++
++/* add element to tail of a sfix_list */
++void sfix_list_add(struct sfix_list *list, struct symbol_fix *fix);
++
++/* add element to tail of a sfl_list */
++void sfl_list_add(struct sfl_list *list, struct sfix_list *elem);
++
++/* add element to tail of a sdv_list */
++void sdv_list_add(struct sdv_list *list, struct symbol_dvalue *sdv);
++
++/* add element to tail of a sym_list */
++void sym_list_add(struct sym_list *list, struct symbol *sym);
++
++/* add element to tail of a defm_list */
++void defm_list_add(struct defm_list *list, struct default_map *map);
++
++/* add element to tail of a prop_list */
++void prop_list_add(struct prop_list *list, struct property *prop);
++
++/* delete an element from a fexpr_list */
++void fexpr_list_delete(struct fexpr_list *list, struct fexpr_node *node);
++
++/* delete an element from a fexpr_list */
++void fexl_list_delete(struct fexl_list *list, struct fexl_node *node);
++
++/* delete the first occurence of elem in an fexl_list */
++void fexl_list_delete_elem(struct fexl_list *list, struct fexpr_list *elem);
++
++/* delete an element from a pexpr_list */
++void pexpr_list_delete(struct pexpr_list *list, struct pexpr_node *node);
++
++/* delete an element from a sfix_list */
++void sfix_list_delete(struct sfix_list *list, struct sfix_node *node);
++
++/* make a shallow copy of a fexpr_list */
++struct fexpr_list * fexpr_list_copy(struct fexpr_list *list);
++
++/* make a shallow copy of a fexpr_list */
++struct fexl_list * fexl_list_copy(struct fexl_list *list);
++
++/* make a shallow copy of a sdv_list */
++struct sdv_list * sdv_list_copy(struct sdv_list *list);
++
++/* make a shallow copy of a sfix_list */
++struct sfix_list * sfix_list_copy(struct sfix_list *list);
++
++/* print a fexpr_list */
++void fexpr_list_print(char *title, struct fexpr_list *list);
++
++/* print a fexl_list */
++void fexl_list_print(char *title, struct fexl_list *list);
++
++/* print a pexpr_list */
++void pexpr_list_print(char *title, struct pexpr_list *list);
++
++/* free an fexpr_list */
++void fexpr_list_free(struct fexpr_list *list);
++
++/* free an fexl_list */
++void fexl_list_free(struct fexl_list *list);
++
++/* free a sdv_list */
++void sdv_list_free(struct sdv_list *list);
++
++/* check whether 2 pexpr are equal */
++bool pexpr_eq(struct pexpr *e1, struct pexpr *e2);
++
++/* copy a pexpr */
++struct pexpr * pexpr_copy(const struct pexpr *org);
++
++/* free a pexpr */
++void pexpr_free(struct pexpr *e);
++
++/* print a pexpr  */
++void pexpr_print(char *tag, struct pexpr *e, int prevtoken);
++
++/* convert a fexpr to a pexpr */
++struct pexpr * pexf(struct fexpr *fe);
++
++/* eliminate duplicate and redundant operands */
++struct pexpr * pexpr_eliminate_dups(struct pexpr *e);
 +
 +#endif
 -- 
 2.33.0
-
 
 
