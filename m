@@ -2,92 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23902438974
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Oct 2021 16:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC944438CA4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Oct 2021 01:52:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231534AbhJXOLL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 24 Oct 2021 10:11:11 -0400
-Received: from bbox.sascha.silbe.org ([46.38.230.149]:57291 "EHLO
-        bbox.sascha.silbe.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbhJXOLK (ORCPT
+        id S229554AbhJXXy7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 24 Oct 2021 19:54:59 -0400
+Received: from out1.mail.ruhr-uni-bochum.de ([134.147.53.149]:34436 "EHLO
+        out1.mail.ruhr-uni-bochum.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230022AbhJXXyx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 24 Oct 2021 10:11:10 -0400
-Received: from brick.sascha.silbe.org (brick.sascha.silbe.org [192.168.1.34])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "brick.sascha.silbe.org", Issuer "stunnel Pseudo-CA" (verified OK))
-        by bbox.sascha.silbe.org (Postfix) with ESMTPS id CE14A60C88;
-        Sun, 24 Oct 2021 16:00:17 +0200 (CEST)
-Received: (nullmailer pid 647843 invoked by uid 71000);
-        Sun, 24 Oct 2021 14:00:16 -0000
-From:   Sascha Silbe <x-linux@se-silbe.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: deb-pkg: invoke linux-base scripts if installed
-Date:   Sun, 24 Oct 2021 15:58:38 +0200
-Message-Id: <20211024135838.647689-3-x-linux@se-silbe.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211024135838.647689-1-x-linux@se-silbe.de>
-References: <20211024135838.647689-1-x-linux@se-silbe.de>
+        Sun, 24 Oct 2021 19:54:53 -0400
+Received: from mx1.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by out1.mail.ruhr-uni-bochum.de (Postfix mo-ext) with ESMTP id 4Hcvyk0DBrz8SB0;
+        Mon, 25 Oct 2021 01:52:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rub.de; s=mail-2017;
+        t=1635119550; bh=v3nLSaMKwQv96gq0H1/Y2TXvumS4hOJ1fcAm3catQUA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=DVDbhNqzxTpHhMOgT8pPEEfClwiNWEHK5HP7efWqLWM+BEuRt893R/dd/7hVvPr1S
+         I3tlsQg/b30DC/J/c6I2zWEJaQ0r9WOJnErmgvgnaAFQRJSaYROgpS8fj3xKp1A/vB
+         ED792S9Q52pzn0wVGoE1SbZntoKKIKWW2WtnLxhA=
+Received: from out1.mail.ruhr-uni-bochum.de (localhost [127.0.0.1])
+        by mx1.mail.ruhr-uni-bochum.de (Postfix idis) with ESMTP id 4Hcvyj65Qsz8S61;
+        Mon, 25 Oct 2021 01:52:29 +0200 (CEST)
+X-RUB-Notes: Internal origin=IPv6:2a05:3e00:c:1001::8693:2aec
+X-Envelope-Sender: <thorsten.berger@rub.de>
+Received: from mail2.mail.ruhr-uni-bochum.de (mail2.mail.ruhr-uni-bochum.de [IPv6:2a05:3e00:c:1001::8693:2aec])
+        by out1.mail.ruhr-uni-bochum.de (Postfix mi-int) with ESMTP id 4Hcvyj2b7hz8S60;
+        Mon, 25 Oct 2021 01:52:29 +0200 (CEST)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.1 at mx1.mail.ruhr-uni-bochum.de
+Received: from [192.168.188.22] (unknown [45.93.106.182])
+        by mail2.mail.ruhr-uni-bochum.de (Postfix) with ESMTPSA id 4Hcvyh4Gb1zDgyV;
+        Mon, 25 Oct 2021 01:52:28 +0200 (CEST)
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.0 at mail2.mail.ruhr-uni-bochum.de
+Message-ID: <82bcea90-b71f-05bb-1efc-8fa623d07d96@rub.de>
+Date:   Mon, 25 Oct 2021 01:52:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [RFC v3 03/12] Add picosat.c (2/3)
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        deltaone@debian.org, phayax@gmail.com,
+        Eugene Groshev <eugene.groshev@gmail.com>,
+        Sarah Nadi <nadi@ualberta.ca>, Mel Gorman <mgorman@suse.de>,
+        "Luis R. Rodriguez" <mcgrof@suse.com>
+References: <7706ed5e-4771-770a-5cf2-d3c8346fa1dc@rub.de>
+ <61051172-6078-4920-a335-3ad1c8ab0d1c@rub.de>
+ <CAK7LNAR=S0tVNdQXGg+MKMK7vA-YZawhw08QfFwifxEGJRWayA@mail.gmail.com>
+From:   Thorsten Berger <thorsten.berger@rub.de>
+In-Reply-To: <CAK7LNAR=S0tVNdQXGg+MKMK7vA-YZawhw08QfFwifxEGJRWayA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Sascha Silbe <x-linux@infra-silbe.de>
+On 24.10.2021 11:05, Masahiro Yamada wrote:
+> On Fri, Oct 22, 2021 at 10:38 PM Thorsten Berger <thorsten.berger@rub.de> wrote:
+>> The second part of picosat.c
+>>
+>> ---
+>
+> Most of the patches in this series are corrupted.
+>
+> Both 'git am' and 'patch' failed.
+>
+> masahiro@grover:~/workspace/linux-kbuild$ git am
+> ~/Downloads/RFC-v3-03-12-Add-picosat.c-2-3.patch
+> Applying: Add picosat.c (2/3)
+> error: corrupt patch at line 10
+> Patch failed at 0001 Add picosat.c (2/3)
+> hint: Use 'git am --show-current-patch=diff' to see the failed patch
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+>
+>
+> $ patch -p1 <  ~/Downloads/RFC-v3-03-12-Add-picosat.c-2-3.patch
+> patching file scripts/kconfig/picosat.c
+> patch: **** malformed patch at line 82:        {
+>
+>
+>
+>
+>
+> Each line of the diff context should begin with
+> a space, '+', or '-'.
+>
+> But the offending line starts with 0xc2, 0xa0.
+> Strange.
+>
+>
+>
+> Could you re-check the patch format and resend?
+Thanks for working on it!
 
-Kernel images built from source can be installed and used manually. On
-systems where "flash-kernel" is used, new versions will be picked up
-automatically and used on next boot. However on systems relying on
-symlinks this does not happen as the symlinks are not updated, unlike
-with stock Debian kernels.
+Sorry for that, we probably made some stupid beginner mistakes. Patrick Franz is looking into it.
+> (or can you push your branch to somewhere?)
+It's here: https://github.com/delta-one/linux/tree/configfix-next
+>
+> One more request:
+>
+> Please tell me which version of picosat
+> (http://fmv.jku.at/picosat/) you imported.
+Picosat 965
+>
+> Thanks.
 
-To fix this invoke the scripts from linux-base if they are installed
-just like the maintainer scripts of the stock Debian kernel packages
-do.
-
-Signed-off-by: Sascha Silbe <x-linux@infra-silbe.de>
----
- scripts/package/builddeb | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 91a502bb97e8a..69e0c51d324e0 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -202,6 +202,28 @@ export DEB_MAINT_PARAMS="\$*"
- # Tell initramfs builder whether it's wanted
- export INITRD=$(if_enabled_echo CONFIG_BLK_DEV_INITRD Yes No)
- 
-+# Call linux-base scripts if they are installed
-+if command -v linux-update-symlinks > /dev/null; then
-+    if [ $script = preinst ] && [ "\$1" = install ]; then
-+        mkdir -p /lib/modules/$version
-+        touch /lib/modules/$version/.fresh-install
-+    elif [ $script = postinst ] && [ "\$1" = configure ]; then
-+        if [ -f /lib/modules/$version/.fresh-install ]; then
-+            linux-update-symlinks install $version /$installed_image_path
-+            rm /lib/modules/$version/.fresh-install
-+        else
-+            linux-update-symlinks upgrade $version /$installed_image_path
-+        fi
-+    elif [ $script = prerm ] && [ "\$1" = remove ]; then
-+        linux-check-removal $version
-+    elif [ $script = postrm ]; then
-+        rm -f /lib/modules/$version/.fresh-install
-+        if [ "\$1" != upgrade ]; then
-+            linux-update-symlinks remove $version /$installed_image_path
-+        fi
-+    fi
-+fi
-+
- test -d $debhookdir/$script.d && run-parts --arg="$version" --arg="/$installed_image_path" $debhookdir/$script.d
- exit 0
- EOF
--- 
-2.30.2
+Best, Thorsten
 
