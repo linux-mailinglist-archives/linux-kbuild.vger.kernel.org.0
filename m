@@ -2,203 +2,196 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A6443E66F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 18:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF86943E6F4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 19:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhJ1Qq0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Oct 2021 12:46:26 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:48295 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbhJ1Qq0 (ORCPT
+        id S230230AbhJ1RRP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Oct 2021 13:17:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43890 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230174AbhJ1RRP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Oct 2021 12:46:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635439439; x=1666975439;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XbQPuBSMPzhXAvXT//JyOTFVXRJxMwHnIWgwQC0OXOk=;
-  b=OH29ob1NddYDdb37ruEKFdbTv2ucci6G/6v0G2L5aPO0BJYCmXBGrPEP
-   tFv26tISnwTOXFZuO3E/hTSD8u3n1zutRd7C9CgYTc2M2odWYlCqj4wm0
-   +B4Y8U90Xl4wZt9XdVtyx2nAkxlH9Hsj3yYdR/K//zBd0Doz1OfM6Nc8G
-   s=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 28 Oct 2021 09:43:59 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 09:43:59 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 28 Oct 2021 09:43:58 -0700
-Received: from qian-HP-Z2-SFF-G5-Workstation.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 28 Oct 2021 09:43:57 -0700
-From:   Qian Cai <quic_qiancai@quicinc.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Qian Cai <quic_qiancai@quicinc.com>
-Subject: [PATCH] configs: Introduce debug.config for CI-like setup
-Date:   Thu, 28 Oct 2021 12:43:20 -0400
-Message-ID: <20211028164320.17348-1-quic_qiancai@quicinc.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 28 Oct 2021 13:17:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1635441287;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CKzHPmwBuuVZ+sZfNezc+/bbA27vHU7b9f4gWlByyIQ=;
+        b=IxkGjMLMiNn8ARMW53Z4KknYeeB9aOlQGagwrkKPuD9NVzWuKu32y4CVEjupCIIClqP8u+
+        6rxbM9XkUsofTKNbJ72r6gSBbiTFwRZ03MC1B03wxDGaSqinDn8D4gERDwONyV22Gl7j8w
+        o1jDSwudDjWxanYpUCSjqWzM6mgmDxY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-gSpzzVjBPX-FW9nZp5O7-Q-1; Thu, 28 Oct 2021 13:14:46 -0400
+X-MC-Unique: gSpzzVjBPX-FW9nZp5O7-Q-1
+Received: by mail-wr1-f72.google.com with SMTP id y16-20020a5d4710000000b0017440201e67so1901568wrq.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Oct 2021 10:14:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CKzHPmwBuuVZ+sZfNezc+/bbA27vHU7b9f4gWlByyIQ=;
+        b=GlHfwPfpx4GVMXRq3cm8E8NJqDUKNy8VJvSO2Yy/KJ+MVv83cQSzhBPt97bfNDj1rJ
+         703bvaIXVnaVAPtxYEoC8rIcNpH9NfttJK3lWF4nmL82SptJU5Uf3hHfEa8sJvjWC8Oe
+         2zVJYiay+/Y3UuiPbKl5IS/2R6h7qt19gvgILM2nlmsk35iL2CLKtHEx/Mk2EwwekiH3
+         XQqe62w2KV4ji5zB6QVZseFUjcmG3GZ1AC7uTrMiMXh10HuT76oood2PGTfoXoeM8J5z
+         pnksPjLlaOBCPRxgcqCfxs0DowEjp1D5TlfJ1/msEbi0FQoPPQpozv/iSFM0eIq6o2cv
+         2wEg==
+X-Gm-Message-State: AOAM533RX+XBkDxc5zhImuNxBZBk1FXIe86+HQcExNw6YJwAYaVfWORw
+        UQlIp05RvZbK6RAILoYBrbXs4u/u89PsiaOVzqO1i4rKlxREpXZe48561b/lqU0ikNgejbp0ohn
+        dOX2q8iGbW+BrgsWkESG/ZCNy
+X-Received: by 2002:adf:ed0b:: with SMTP id a11mr7293700wro.272.1635441285336;
+        Thu, 28 Oct 2021 10:14:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw35HfQ+pQU0AFKLh9Ihxe6USnrLC12wWLMPS8do1Rh2m1MMZwSyYrnpEMNB35BsmYAUvAm4g==
+X-Received: by 2002:adf:ed0b:: with SMTP id a11mr7293680wro.272.1635441285173;
+        Thu, 28 Oct 2021 10:14:45 -0700 (PDT)
+Received: from krava (nat-pool-brq-u.redhat.com. [213.175.37.12])
+        by smtp.gmail.com with ESMTPSA id q14sm6541592wmq.4.2021.10.28.10.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 10:14:44 -0700 (PDT)
+Date:   Thu, 28 Oct 2021 19:14:37 +0200
+From:   Jiri Olsa <jolsa@redhat.com>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>
+Subject: Re: [PATCHv2 bpf-next] kbuild: Unify options for BTF generation for
+ vmlinux and modules
+Message-ID: <YXrafRBGp9E4+EEm@krava>
+References: <20211026212419.144077-1-jolsa@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211026212419.144077-1-jolsa@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some general debugging features like kmemleak, KASAN, lockdep, UBSAN etc
-help fix many viruses like a microscope. On the other hand, those features
-are scatter around and mixed up with more situational debugging options
-making them difficult to consume properly. This cold help amplify the
-general debugging/testing efforts and help establish sensitive default
-values for those options across the broad.
+On Tue, Oct 26, 2021 at 11:24:19PM +0200, Jiri Olsa wrote:
+> Using new PAHOLE_FLAGS variable to pass extra arguments to
+> pahole for both vmlinux and modules BTF data generation.
+> 
+> Adding new scripts/pahole-flags.sh script that detect and
+> prints pahole options.
+> 
+> Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
 
-The config is based on years' experiences running daily CI inside the
-largest enterprise Linux distro company to seek regressions on
-linux-next builds on different bare-metal and virtual platforms. This is
-more of some art than science. It can be used for example,
+I'm checking on reported build failures and will send v3
 
-$ make ARCH=arm64 defconfig debug.config
+jirka
 
-Signed-off-by: Qian Cai <quic_qiancai@quicinc.com>
----
- kernel/configs/debug.config | 119 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 119 insertions(+)
- create mode 100644 kernel/configs/debug.config
-
-diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-new file mode 100644
-index 000000000000..baba7e4cdda4
---- /dev/null
-+++ b/kernel/configs/debug.config
-@@ -0,0 +1,119 @@
-+# Keep alphabetically sorted.
-+#
-+# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-+# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
-+# CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF is not set
-+# CONFIG_DEBUG_PAGEALLOC is not set
-+# CONFIG_DEBUG_RODATA_TEST is not set
-+# CONFIG_DEBUG_WX is not set
-+# CONFIG_KFENCE is not set
-+# CONFIG_PAGE_POISONING is not set
-+# CONFIG_PROVE_RAW_LOCK_NESTING is not set
-+# CONFIG_SLUB_STATS is not set
-+# CONFIG_UBSAN_ALIGNMENT is not set
-+# CONFIG_UBSAN_DIV_ZERO is not set
-+# CONFIG_UBSAN_TRAP is not set
-+# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
-+CONFIG_BRANCH_PROFILE_NONE=y
-+CONFIG_BUG_ON_DATA_CORRUPTION=y
-+CONFIG_CONTEXT_SWITCH_TRACER=y
-+CONFIG_DEBUG_ATOMIC_SLEEP=y
-+CONFIG_DEBUG_BUGVERBOSE=y
-+CONFIG_DEBUG_FS_ALLOW_ALL=y
-+CONFIG_DEBUG_FS=y
-+CONFIG_DEBUG_INFO=y
-+CONFIG_DEBUG_IRQFLAGS=y
-+CONFIG_DEBUG_KERNEL=y
-+CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN=y
-+CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE=40000
-+CONFIG_DEBUG_KMEMLEAK=y
-+CONFIG_DEBUG_LIST=y
-+CONFIG_DEBUG_LOCK_ALLOC=y
-+CONFIG_DEBUG_MUTEXES=y
-+CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-+CONFIG_DEBUG_OBJECTS_FREE=y
-+CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-+CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
-+CONFIG_DEBUG_OBJECTS_TIMERS=y
-+CONFIG_DEBUG_OBJECTS_WORK=y
-+CONFIG_DEBUG_OBJECTS=y
-+CONFIG_DEBUG_PER_CPU_MAPS=y
-+CONFIG_DEBUG_RT_MUTEXES=y
-+CONFIG_DEBUG_RWSEMS=y
-+CONFIG_DEBUG_SECTION_MISMATCH=y
-+CONFIG_DEBUG_SPINLOCK=y
-+CONFIG_DEBUG_STACK_USAGE=y
-+CONFIG_DEBUG_VIRTUAL=y
-+CONFIG_DEBUG_VM_PGFLAGS=y
-+CONFIG_DEBUG_VM_RB=y
-+CONFIG_DEBUG_VM_VMACACHE=y
-+CONFIG_DEBUG_VM=y
-+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
-+CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=120
-+CONFIG_DETECT_HUNG_TASK=y
-+CONFIG_DYNAMIC_DEBUG_CORE=y
-+CONFIG_DYNAMIC_DEBUG=y
-+CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
-+CONFIG_DYNAMIC_FTRACE=y
-+CONFIG_EVENT_TRACING=y
-+CONFIG_FRAME_POINTER=y
-+CONFIG_FRAME_WARN=2048
-+CONFIG_FTRACE_MCOUNT_RECORD=y
-+CONFIG_FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY=y
-+CONFIG_FTRACE=y
-+CONFIG_FUNCTION_TRACER=y
-+CONFIG_GENERIC_PTDUMP=y
-+CONFIG_GENERIC_TRACER=y
-+CONFIG_IO_STRICT_DEVMEM=y
-+CONFIG_KASAN_GENERIC=y
-+CONFIG_KASAN_INLINE=y
-+CONFIG_KASAN_STACK=y
-+CONFIG_KASAN_VMALLOC=y
-+CONFIG_KASAN=y
-+CONFIG_LOCK_DEBUGGING_SUPPORT=y
-+CONFIG_LOCKDEP_BITS=15
-+CONFIG_LOCKDEP_CHAINS_BITS=16
-+CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
-+CONFIG_LOCKDEP_STACK_TRACE_BITS=19
-+CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
-+CONFIG_LOCKDEP=y
-+CONFIG_LOCKUP_DETECTOR=y
-+CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-+CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-+CONFIG_MAGIC_SYSRQ_SERIAL=y
-+CONFIG_MAGIC_SYSRQ=y
-+CONFIG_NOP_TRACER=y
-+CONFIG_PAGE_EXTENSION=y
-+CONFIG_PAGE_OWNER=y
-+CONFIG_PANIC_ON_OOPS_VALUE=1
-+CONFIG_PANIC_ON_OOPS=y
-+CONFIG_PANIC_TIMEOUT=0
-+CONFIG_PREEMPTIRQ_TRACEPOINTS=y
-+CONFIG_PRINTK_CALLER=y
-+CONFIG_PRINTK_TIME=y
-+CONFIG_PROVE_LOCKING=y
-+CONFIG_PROVE_RCU_LIST=y
-+CONFIG_PROVE_RCU=y
-+CONFIG_PTDUMP_CORE=y
-+CONFIG_PTDUMP_DEBUGFS=y
-+CONFIG_RCU_CPU_STALL_TIMEOUT=60
-+CONFIG_RING_BUFFER=y
-+CONFIG_SCHED_INFO=y
-+CONFIG_SCHED_STACK_END_CHECK=y
-+CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-+CONFIG_SLUB_DEBUG_ON=y
-+CONFIG_SOFTLOCKUP_DETECTOR=y
-+CONFIG_STACKTRACE=y
-+CONFIG_STRICT_DEVMEM=y
-+CONFIG_SYMBOLIC_ERRNAME=y
-+CONFIG_TRACE_CLOCK=y
-+CONFIG_TRACE_IRQFLAGS=y
-+CONFIG_TRACING_SUPPORT=y
-+CONFIG_TRACING=y
-+CONFIG_UBSAN_BOOL=y
-+CONFIG_UBSAN_BOUNDS=y
-+CONFIG_UBSAN_ENUM=y
-+CONFIG_UBSAN_ONLY_BOUNDS=y
-+CONFIG_UBSAN_SHIFT=y
-+CONFIG_UBSAN_UNREACHABLE=y
-+CONFIG_UBSAN=y
--- 
-2.30.2
+> ---
+> v2 changes:
+>   - posting separately from original patchset
+>   - added Andrii's ack
+> 
+>  Makefile                  |  3 +++
+>  scripts/Makefile.modfinal |  2 +-
+>  scripts/link-vmlinux.sh   | 11 +----------
+>  scripts/pahole-flags.sh   | 20 ++++++++++++++++++++
+>  4 files changed, 25 insertions(+), 11 deletions(-)
+>  create mode 100755 scripts/pahole-flags.sh
+> 
+> diff --git a/Makefile b/Makefile
+> index 437ccc66a1c2..ee514b80c62e 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -480,6 +480,8 @@ LZ4		= lz4c
+>  XZ		= xz
+>  ZSTD		= zstd
+>  
+> +PAHOLE_FLAGS	= $(shell PAHOLE=$(PAHOLE) scripts/pahole-flags.sh)
+> +
+>  CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+>  		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
+>  NOSTDINC_FLAGS :=
+> @@ -534,6 +536,7 @@ export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+>  export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
+>  export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
+>  export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+> +export PAHOLE_FLAGS
+>  
+>  # Files to ignore in find ... statements
+>  
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index 1fb45b011e4b..7f39599e9fae 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -40,7 +40,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
+>  quiet_cmd_btf_ko = BTF [M] $@
+>        cmd_btf_ko = 							\
+>  	if [ -f vmlinux ]; then						\
+> -		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
+> +		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
+>  		$(RESOLVE_BTFIDS) -b vmlinux $@; 			\
+>  	else								\
+>  		printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index d74cee5c4326..3ea7cece7c97 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -205,7 +205,6 @@ vmlinux_link()
+>  gen_btf()
+>  {
+>  	local pahole_ver
+> -	local extra_paholeopt=
+>  
+>  	if ! [ -x "$(command -v ${PAHOLE})" ]; then
+>  		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
+> @@ -220,16 +219,8 @@ gen_btf()
+>  
+>  	vmlinux_link ${1}
+>  
+> -	if [ "${pahole_ver}" -ge "118" ] && [ "${pahole_ver}" -le "121" ]; then
+> -		# pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
+> -		extra_paholeopt="${extra_paholeopt} --skip_encoding_btf_vars"
+> -	fi
+> -	if [ "${pahole_ver}" -ge "121" ]; then
+> -		extra_paholeopt="${extra_paholeopt} --btf_gen_floats"
+> -	fi
+> -
+>  	info "BTF" ${2}
+> -	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${extra_paholeopt} ${1}
+> +	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${PAHOLE_FLAGS} ${1}
+>  
+>  	# Create ${2} which contains just .BTF section but no symbols. Add
+>  	# SHF_ALLOC because .BTF will be part of the vmlinux image. --strip-all
+> diff --git a/scripts/pahole-flags.sh b/scripts/pahole-flags.sh
+> new file mode 100755
+> index 000000000000..2b99fc77019c
+> --- /dev/null
+> +++ b/scripts/pahole-flags.sh
+> @@ -0,0 +1,20 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +extra_paholeopt=
+> +
+> +if ! [ -x "$(command -v ${PAHOLE})" ]; then
+> +	return
+> +fi
+> +
+> +pahole_ver=$(${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
+> +
+> +if [ "${pahole_ver}" -ge "118" ] && [ "${pahole_ver}" -le "121" ]; then
+> +	# pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
+> +	extra_paholeopt="${extra_paholeopt} --skip_encoding_btf_vars"
+> +fi
+> +if [ "${pahole_ver}" -ge "121" ]; then
+> +	extra_paholeopt="${extra_paholeopt} --btf_gen_floats"
+> +fi
+> +
+> +echo ${extra_paholeopt}
+> -- 
+> 2.31.1
+> 
 
