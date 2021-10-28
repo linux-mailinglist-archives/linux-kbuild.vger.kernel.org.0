@@ -2,196 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF86943E6F4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 19:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEE443E777
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 19:44:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbhJ1RRP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Oct 2021 13:17:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43890 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230174AbhJ1RRP (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Oct 2021 13:17:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635441287;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CKzHPmwBuuVZ+sZfNezc+/bbA27vHU7b9f4gWlByyIQ=;
-        b=IxkGjMLMiNn8ARMW53Z4KknYeeB9aOlQGagwrkKPuD9NVzWuKu32y4CVEjupCIIClqP8u+
-        6rxbM9XkUsofTKNbJ72r6gSBbiTFwRZ03MC1B03wxDGaSqinDn8D4gERDwONyV22Gl7j8w
-        o1jDSwudDjWxanYpUCSjqWzM6mgmDxY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-gSpzzVjBPX-FW9nZp5O7-Q-1; Thu, 28 Oct 2021 13:14:46 -0400
-X-MC-Unique: gSpzzVjBPX-FW9nZp5O7-Q-1
-Received: by mail-wr1-f72.google.com with SMTP id y16-20020a5d4710000000b0017440201e67so1901568wrq.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 Oct 2021 10:14:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CKzHPmwBuuVZ+sZfNezc+/bbA27vHU7b9f4gWlByyIQ=;
-        b=GlHfwPfpx4GVMXRq3cm8E8NJqDUKNy8VJvSO2Yy/KJ+MVv83cQSzhBPt97bfNDj1rJ
-         703bvaIXVnaVAPtxYEoC8rIcNpH9NfttJK3lWF4nmL82SptJU5Uf3hHfEa8sJvjWC8Oe
-         2zVJYiay+/Y3UuiPbKl5IS/2R6h7qt19gvgILM2nlmsk35iL2CLKtHEx/Mk2EwwekiH3
-         XQqe62w2KV4ji5zB6QVZseFUjcmG3GZ1AC7uTrMiMXh10HuT76oood2PGTfoXoeM8J5z
-         pnksPjLlaOBCPRxgcqCfxs0DowEjp1D5TlfJ1/msEbi0FQoPPQpozv/iSFM0eIq6o2cv
-         2wEg==
-X-Gm-Message-State: AOAM533RX+XBkDxc5zhImuNxBZBk1FXIe86+HQcExNw6YJwAYaVfWORw
-        UQlIp05RvZbK6RAILoYBrbXs4u/u89PsiaOVzqO1i4rKlxREpXZe48561b/lqU0ikNgejbp0ohn
-        dOX2q8iGbW+BrgsWkESG/ZCNy
-X-Received: by 2002:adf:ed0b:: with SMTP id a11mr7293700wro.272.1635441285336;
-        Thu, 28 Oct 2021 10:14:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw35HfQ+pQU0AFKLh9Ihxe6USnrLC12wWLMPS8do1Rh2m1MMZwSyYrnpEMNB35BsmYAUvAm4g==
-X-Received: by 2002:adf:ed0b:: with SMTP id a11mr7293680wro.272.1635441285173;
-        Thu, 28 Oct 2021 10:14:45 -0700 (PDT)
-Received: from krava (nat-pool-brq-u.redhat.com. [213.175.37.12])
-        by smtp.gmail.com with ESMTPSA id q14sm6541592wmq.4.2021.10.28.10.14.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 10:14:44 -0700 (PDT)
-Date:   Thu, 28 Oct 2021 19:14:37 +0200
-From:   Jiri Olsa <jolsa@redhat.com>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S230380AbhJ1Rqj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Oct 2021 13:46:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49752 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229610AbhJ1Rqi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 28 Oct 2021 13:46:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A93660F38;
+        Thu, 28 Oct 2021 17:44:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635443051;
+        bh=0L2qrlxhpMUF7fTdRz7zfOLtpAuVLxVyftNL4daqgMM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Uaidu29HzagQtZy/rDOEXnhhBYuazWeFxUkwAZBdKASEYkA7RfBco4V9mGy2DOJ79
+         l/eZTLVJur3foZrC9HbhB2bDVHwFy3vZ0Qrp3xQXlzUPi0lwEivPTXUkF4Zork2jF3
+         bjTs5qJ6fzubzZj7Eozq7uDhuqZ/rW36l8DGEX/AV83sSr3TOlAzdcfQMhW0WPiImz
+         BPvyR700KxhxR5DIy5Hsn1BwEajfvLgJyS35EWm1bPA5ypr559r9iNNiwxkNS/069O
+         UnHBLeSqtkm3YgzLXUk3L2KQoPQbvVxMeD/VPKCXlTPP6t+bmtUi6/4ImGYUu2hU/g
+         IhZehfEOUGFgQ==
+Date:   Thu, 28 Oct 2021 10:44:06 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>
-Subject: Re: [PATCHv2 bpf-next] kbuild: Unify options for BTF generation for
- vmlinux and modules
-Message-ID: <YXrafRBGp9E4+EEm@krava>
-References: <20211026212419.144077-1-jolsa@kernel.org>
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH] kbuild: Support clang-$ver builds
+Message-ID: <YXrhZoOgv5dtFMTs@archlinux-ax161>
+References: <YXqpFHeY26sEbort@hirez.programming.kicks-ass.net>
+ <CAK7LNATUpgfKJvjp0+8H6VfMLMio9+BCoyj00mAO8FcaVGCqjg@mail.gmail.com>
+ <YXqwZq53WUiTeqI7@hirez.programming.kicks-ass.net>
+ <YXqyHhWGJfDkuxjP@hirez.programming.kicks-ass.net>
+ <YXq72/yPe76DhDLu@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211026212419.144077-1-jolsa@kernel.org>
+In-Reply-To: <YXq72/yPe76DhDLu@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 11:24:19PM +0200, Jiri Olsa wrote:
-> Using new PAHOLE_FLAGS variable to pass extra arguments to
-> pahole for both vmlinux and modules BTF data generation.
+On Thu, Oct 28, 2021 at 05:03:55PM +0200, Peter Zijlstra wrote:
+> On Thu, Oct 28, 2021 at 04:22:22PM +0200, Peter Zijlstra wrote:
+> > On Thu, Oct 28, 2021 at 04:15:02PM +0200, Peter Zijlstra wrote:
+> > > On Thu, Oct 28, 2021 at 11:07:40PM +0900, Masahiro Yamada wrote:
+> > > > On Thu, Oct 28, 2021 at 10:44 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > Debian (and derived) distros ship their compilers as -$ver suffixed
+> > > > > binaries. For gcc it is sufficent to use:
+> > > > >
+> > > > >  $ make CC=gcc-12
+> > > > >
+> > > > > However, clang builds (esp. clang-lto) need a whole array of tools to be
+> > > > > exactly right, leading to unweildy stuff like:
+> > > > >
+> > > > >  $ make CC=clang-13 LD=ld.lld=14 AR=llvm-ar-13 NM=llvm-nm-13 OBJCOPY=llvm-objcopy-13 OBJDUMP=llvm-objdump-13 READELF=llvm-readelf-13 STRIP=llvm-strip-13 LLVM=1
+> > > > >
+> > > > > which is, quite franktly, totally insane and unusable. Instead use the
+> > > > > already mandatory LLVM variable to convey this, enabling one such as
+> > > > > myself to use:
+> > > > >
+> > > > >  $ make LLVM=-13
+> > > > >
+> > > > > This also lets one quickly test different clang versions.
+> > > > 
+> > > > 
+> > > > Please read the commit log of
+> > > > a0d1c951ef08ed24f35129267e3595d86f57f5d3
+> > > 
+> > > That's yuck, I like LLVM=-13 or LLVM=-12 much better to select between
+> > > compilers. Means I don't have to remember wth they live and or wreck
+> > > PATH.
+> > 
+> > Even better, why not do something like:
+> > 
+> > if test "${CC:0:5}" == "clang"
+> > then
+> > 	LLVM=1
+> > 	LLVM_SFX=${CC:5}
+> > fi
+> > 
+> > Then we can simply use: make CC=clang-12 and have it all just work.
+> > 
 > 
-> Adding new scripts/pahole-flags.sh script that detect and
-> prints pahole options.
-> 
-> Acked-by: Andrii Nakryiko <andrii@kernel.org>
-> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
+> Like so..
 
-I'm checking on reported build failures and will send v3
+I like the first iteration of this idea most, as CC=clang does not
+currently imply using all LLVM tools. There are some architectures that
+work with CC=clang but not LLVM=1 so I am not sure we want that meaning
+to change.
 
-jirka
+I do think this issue of Debian's different clang versions needs to be
+resolved as more and more LLVM features are being developed and non-LLVM
+or ClangBuiltLinux developers want to test these features and make sure
+that they work properly. There are a few different options:
+
+1. Take Peter's first patch so that LLVM=1 and LLVM=-# can be used. The
+   documentation should be updated to convey this change. The argument
+   against doing this might be that Debian/Ubuntu/derivatives of either
+   are special for using versioned suffixes and we do not want to add
+   this to the build system but I think that might be short sighted.
+   Peter's patch is not super complex nor does it change the status quo
+   of LLVM=1.
+
+2. Update the documentation to describe using the
+
+   $ PATH=/usr/lib/llvm-#/bin:$PATH make LLVM=1 ...
+
+   trick. This has been the preferred method for using different
+   versions of LLVM but it has never been documented anywhere. This
+   would allow us to keep the current build infrastructure while giving
+   people clear instructions for how to handle different versions of
+   clang. As Peter has noted, this would require people who are not
+   familiar with building with LLVM to be constantly looking at the
+   documentation to remember the command to invoke, whereas with
+   LLVM=-#, it is easy to remember.
+
+3. Explore recommending update-alternatives in the documentation or
+   working with Debian to provide this automatically. As this is a
+   Debian and derivatives only problem, a solution for it could come
+   from the distribution itself. I found one post from a few years ago
+   that talks about this but a command to use all LLVM tools from a
+   particular version would be rather unweildy:
+
+   https://askubuntu.com/questions/791616/set-clang-3-8-as-default
+
+Overall, I think I like #1 the best. It is not that much more
+complicated than what we have now and it leaves it entirely up to the
+user how they want to build and it is hard for them to shoot themselves
+in the foot. I am open to other suggestions or arguments though :)
+
+Cheers,
+Nathan
 
 > ---
-> v2 changes:
->   - posting separately from original patchset
->   - added Andrii's ack
-> 
->  Makefile                  |  3 +++
->  scripts/Makefile.modfinal |  2 +-
->  scripts/link-vmlinux.sh   | 11 +----------
->  scripts/pahole-flags.sh   | 20 ++++++++++++++++++++
->  4 files changed, 25 insertions(+), 11 deletions(-)
->  create mode 100755 scripts/pahole-flags.sh
+>  Makefile                       | 26 ++++++++++++++++----------
+>  tools/scripts/Makefile.include | 22 ++++++++++++++--------
+>  2 files changed, 30 insertions(+), 18 deletions(-)
 > 
 > diff --git a/Makefile b/Makefile
-> index 437ccc66a1c2..ee514b80c62e 100644
+> index 30c7c81d0437..1d0d4494e01d 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -480,6 +480,8 @@ LZ4		= lz4c
->  XZ		= xz
->  ZSTD		= zstd
+> @@ -423,9 +423,15 @@ HOST_LFS_CFLAGS := $(shell getconf LFS_CFLAGS 2>/dev/null)
+>  HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
+>  HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
 >  
-> +PAHOLE_FLAGS	= $(shell PAHOLE=$(PAHOLE) scripts/pahole-flags.sh)
+> +CC_BASE = $(shell echo $(CC) | cut -b "1-5")
+> +ifeq ($(shell test $(CC_BASE) = clang; echo $$?),0)
+> +LLVM := 1
+> +LLVM_SFX := $(shell echo $(CC) | cut -b "6-")
+> +endif
 > +
->  CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
->  		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
->  NOSTDINC_FLAGS :=
-> @@ -534,6 +536,7 @@ export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
->  export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
->  export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
->  export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
-> +export PAHOLE_FLAGS
+>  ifneq ($(LLVM),)
+> -HOSTCC	= clang
+> -HOSTCXX	= clang++
+> +HOSTCC	= clang$(LLVM_SFX)
+> +HOSTCXX	= clang++$(LLVM_SFX)
+>  else
+>  HOSTCC	= gcc
+>  HOSTCXX	= g++
+> @@ -443,14 +449,14 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>  # Make variables (CC, etc...)
+>  CPP		= $(CC) -E
+>  ifneq ($(LLVM),)
+> -CC		= clang
+> -LD		= ld.lld
+> -AR		= llvm-ar
+> -NM		= llvm-nm
+> -OBJCOPY		= llvm-objcopy
+> -OBJDUMP		= llvm-objdump
+> -READELF		= llvm-readelf
+> -STRIP		= llvm-strip
+> +CC		= clang$(LLVM_SFX)
+> +LD		= ld.lld$(LLVM_SFX)
+> +AR		= llvm-ar$(LLVM_SFX)
+> +NM		= llvm-nm$(LLVM_SFX)
+> +OBJCOPY		= llvm-objcopy$(LLVM_SFX)
+> +OBJDUMP		= llvm-objdump$(LLVM_SFX)
+> +READELF		= llvm-readelf$(LLVM_SFX)
+> +STRIP		= llvm-strip$(LLVM_SFX)
+>  else
+>  CC		= $(CROSS_COMPILE)gcc
+>  LD		= $(CROSS_COMPILE)ld
+> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
+> index 071312f5eb92..94c41083a7c7 100644
+> --- a/tools/scripts/Makefile.include
+> +++ b/tools/scripts/Makefile.include
+> @@ -51,12 +51,18 @@ define allow-override
+>      $(eval $(1) = $(2)))
+>  endef
 >  
->  # Files to ignore in find ... statements
->  
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 1fb45b011e4b..7f39599e9fae 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -40,7 +40,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->  quiet_cmd_btf_ko = BTF [M] $@
->        cmd_btf_ko = 							\
->  	if [ -f vmlinux ]; then						\
-> -		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J --btf_base vmlinux $@; \
-> +		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
->  		$(RESOLVE_BTFIDS) -b vmlinux $@; 			\
->  	else								\
->  		printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index d74cee5c4326..3ea7cece7c97 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -205,7 +205,6 @@ vmlinux_link()
->  gen_btf()
->  {
->  	local pahole_ver
-> -	local extra_paholeopt=
->  
->  	if ! [ -x "$(command -v ${PAHOLE})" ]; then
->  		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
-> @@ -220,16 +219,8 @@ gen_btf()
->  
->  	vmlinux_link ${1}
->  
-> -	if [ "${pahole_ver}" -ge "118" ] && [ "${pahole_ver}" -le "121" ]; then
-> -		# pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
-> -		extra_paholeopt="${extra_paholeopt} --skip_encoding_btf_vars"
-> -	fi
-> -	if [ "${pahole_ver}" -ge "121" ]; then
-> -		extra_paholeopt="${extra_paholeopt} --btf_gen_floats"
-> -	fi
-> -
->  	info "BTF" ${2}
-> -	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${extra_paholeopt} ${1}
-> +	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${PAHOLE_FLAGS} ${1}
->  
->  	# Create ${2} which contains just .BTF section but no symbols. Add
->  	# SHF_ALLOC because .BTF will be part of the vmlinux image. --strip-all
-> diff --git a/scripts/pahole-flags.sh b/scripts/pahole-flags.sh
-> new file mode 100755
-> index 000000000000..2b99fc77019c
-> --- /dev/null
-> +++ b/scripts/pahole-flags.sh
-> @@ -0,0 +1,20 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
+> +CC_BASE = $(shell echo $(CC) | cut -b "1-5")
+> +ifeq ($(shell test $(CC_BASE) = clang; echo $$?),0)
+> +LLVM := 1
+> +LLVM_SFX := $(shell echo $(CC) | cut -b "6-")
+> +endif
 > +
-> +extra_paholeopt=
-> +
-> +if ! [ -x "$(command -v ${PAHOLE})" ]; then
-> +	return
-> +fi
-> +
-> +pahole_ver=$(${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
-> +
-> +if [ "${pahole_ver}" -ge "118" ] && [ "${pahole_ver}" -le "121" ]; then
-> +	# pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
-> +	extra_paholeopt="${extra_paholeopt} --skip_encoding_btf_vars"
-> +fi
-> +if [ "${pahole_ver}" -ge "121" ]; then
-> +	extra_paholeopt="${extra_paholeopt} --btf_gen_floats"
-> +fi
-> +
-> +echo ${extra_paholeopt}
-> -- 
-> 2.31.1
-> 
-
+>  ifneq ($(LLVM),)
+> -$(call allow-override,CC,clang)
+> -$(call allow-override,AR,llvm-ar)
+> -$(call allow-override,LD,ld.lld)
+> -$(call allow-override,CXX,clang++)
+> -$(call allow-override,STRIP,llvm-strip)
+> +$(call allow-override,CC,clang$(LLVM_SFX))
+> +$(call allow-override,AR,llvm-ar$(LLVM_SFX))
+> +$(call allow-override,LD,ld.lld$(LLVM_SFX))
+> +$(call allow-override,CXX,clang++$(LLVM_SFX))
+> +$(call allow-override,STRIP,llvm-strip$(LLVM_SFX))
+>  else
+>  # Allow setting various cross-compile vars or setting CROSS_COMPILE as a prefix.
+>  $(call allow-override,CC,$(CROSS_COMPILE)gcc)
+> @@ -69,9 +75,9 @@ endif
+>  CC_NO_CLANG := $(shell $(CC) -dM -E -x c /dev/null | grep -Fq "__clang__"; echo $$?)
+>  
+>  ifneq ($(LLVM),)
+> -HOSTAR  ?= llvm-ar
+> -HOSTCC  ?= clang
+> -HOSTLD  ?= ld.lld
+> +HOSTAR  ?= llvm-ar$(LLVM_SFX)
+> +HOSTCC  ?= clang$(LLVM_SFX)
+> +HOSTLD  ?= ld.lld$(LLVM_SFX)
+>  else
+>  HOSTAR  ?= ar
+>  HOSTCC  ?= gcc
