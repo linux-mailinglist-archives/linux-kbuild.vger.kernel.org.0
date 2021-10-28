@@ -2,90 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D58F43DF84
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 12:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94F0743E199
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 15:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbhJ1KzG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Oct 2021 06:55:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbhJ1Kyx (ORCPT
+        id S230135AbhJ1NJJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Oct 2021 09:09:09 -0400
+Received: from codesynthesis.com ([188.40.148.39]:36448 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229981AbhJ1NJJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Oct 2021 06:54:53 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B86FC0432C7
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 Oct 2021 03:52:23 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id bi35so12610427lfb.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 Oct 2021 03:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
-         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
-         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
-         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
-         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
-         gaRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
-        b=5xrseoth7Y7P2cbPHe6CXaxYu77LLqpK29BoORPTe7DlyM5oEhjigrwPFU/tI1GBpt
-         xpFOQvQt0w+QEPcCqOMBC+AUUqAvLptDssbpd2W4T5+Gedjhy0xetuHWQIrHucHdY0VA
-         pVjhUy4GPnggetwkXHrznQgVxvKYfZsBhEn5Awd6kHm+OTYm4eL4KZPElguWTQgSI7S+
-         WPTjkzLUDN+Rlp1BkRyAJ2CtYpht6u69FL60nzOIagnHKYJt/CN9QY0iR2ufvE8PCiKX
-         KFfEo66ZHAXtmiF5mdwOluMhoKSVlHJ05uh0Oi2NLAMaCGG/XEUTPFHYu4kxJCmJvRvc
-         SsGA==
-X-Gm-Message-State: AOAM530v755f0HLHS58c0kdrGdpAJOLAHptvRbCJvFY3oZ+r5YUIvges
-        WoFVd7aSdSK4SC+jJ0/QziWEp1iDSSRnETRcki+N83bcKa/jRHkd
-X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
-X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
- Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
+        Thu, 28 Oct 2021 09:09:09 -0400
+Received: from brak.codesynthesis.com (197-255-152-207.static.adept.co.za [197.255.152.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id 2AC6E5FBE9;
+        Thu, 28 Oct 2021 13:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1635426400;
+        bh=v+3YIgNCTv7aNbgNvB98CxLZZapfYiWkFYFX6lFFUos=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=ec08ADUTDXXkILIgThJbXFWjYAd47BVKLOY616uNCI5Xe6y2jXZjgHrZJqB50EvLB
+         eLN96xfM6c/SpWRonVo7JLaYCziP2n1YnfkKlCrLJ4r3jZsPu1kiekiXmFTrrurfKM
+         4zAmIYIX4/Os5D344rZyJqaLpIYw6ORhjvAhLCjGfQX9IMPqi7VFO40JP+GZrb2eO4
+         b0wcZTsYLI5aiueVnjy5HhOP2Acpsa5DPlOZG7UPA3PrV4m/rgLYUbE5HvQnX+qqDq
+         pHjxMo8q6VE+CmtktLWOyI/XZZZHjGppzqHknpauYs+2/Vi5b94c4uk4z4HpMsqlWY
+         fhh02IOqqEYbA==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 96D6F1A800C4; Thu, 28 Oct 2021 15:06:36 +0200 (SAST)
+Date:   Thu, 28 Oct 2021 15:06:36 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org
+Subject: Out of kernel kconfig patches rebased on 5.15
+Message-ID: <boris.20211028145351@codesynthesis.com>
 MIME-Version: 1.0
-Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
- -0700 (PDT)
-Reply-To: aabdulwalialhashmi@gmail.com
-From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
-Date:   Thu, 28 Oct 2021 03:52:09 -0700
-Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
-Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-Greetings,
+If anyone is interested in the kconfig functionality outside of the
+kernel, I've rebased my portability patches on 5.15-rc7:
 
-Firstly, I apologize for encroaching into your privacy in this manner
-as it may seem unethical though it is a matter of great importance.
+https://github.com/build2-packaging/kconfig/tree/upstream-5.15-rc7
 
-I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
+There is also the liblkc library and conf/qconf configurators based
+on this (similar to the now abandoned kconfig-frontends project):
 
-I am contacting you because my status would not permit me to do this
-alone as it is concerning our customer and an investment placed under
-our bank's management over 5 years ago.
+https://github.com/build2-packaging/kconfig
 
-I have a proposal I would love to discuss with you which will be very
-beneficial to both of us. It's regarding my late client who has a huge
-deposit with my bank.
+Masahiro, if you like any of the patches, let me know and I will
+send them for upsteaming (I don't want to make extra noise trying
+all of them since most are probably not welcome):
 
-He is from your country and shares the same last name with you.
-
-I want to seek your consent to present you as the next of kin to my
-late client who died and left a huge deposit with my bank.
-
-I would respectfully request that you keep the contents of this mail
-confidential and respect the integrity of the information you come by
-as a result of this mail.
-
-Please kindly get back to me for more details if I can TRUST YOU.{
-aabdulwalialhashmi@gmail.com }
-
-Regards
-Abdulwali Alhashmi
-Treasury and Deposit Management,
-Cayman National Bank Cayman Islands
+https://github.com/build2-packaging/kconfig/commits/upstream-5.15-rc7
