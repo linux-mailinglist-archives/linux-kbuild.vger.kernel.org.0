@@ -2,74 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B904243E340
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 16:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B163843E346
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Oct 2021 16:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbhJ1ORP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Oct 2021 10:17:15 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:53011 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230258AbhJ1ORP (ORCPT
+        id S230480AbhJ1ORr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Oct 2021 10:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230258AbhJ1ORp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Oct 2021 10:17:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635430488; x=1666966488;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=bMUYINU1qv85LuldYKLFMYVsWuEupSSSUwCLfiLT3L0=;
-  b=xzRQQfvmtRIZ4IOJFvjc8NCk+eblgEe00IaNgDo/py3p4uc2IrVEVhB8
-   yH3HmLq2fvFqaQMqSkdpgCdcNu0guP03nLvpqQETI+SU0oDSq8HRQKIth
-   kkgVJz9WOs7yzdCXZnpiOPsu39xrF2GG+fz3bWt8n+Z43RKwi7EYWCy6S
-   0=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Oct 2021 07:14:48 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 07:14:48 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 28 Oct 2021 07:14:47 -0700
-Received: from [10.110.38.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Thu, 28 Oct 2021
- 07:14:47 -0700
-Subject: Re: Introduce "make debugconfig"
+        Thu, 28 Oct 2021 10:17:45 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EEBCC061570;
+        Thu, 28 Oct 2021 07:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bc40OkCZc3qUDZQjfILbCSwNeOqpl7xu1nq2tjombnE=; b=OasiJD/TSM+8sTYgzQS3HNGf4Y
+        BPt+VlI7/h1xQuXFHQoMlWvk02dD1LnN72xe2sehiX6aJSttPoR0pnL6g27KAIICkpTmfoecce/uO
+        hOas2Wb6v1iiZWcMhIa4Vb04tNAwkjPjse2/GkpP4JpGAAcxS1BGhC8NAfzECJejIOXoSXwqNXLqV
+        4bYu2Ce5FADs4o3oDPLN4DmJnxAlEUc3N1pffjh/9PWCALKgKdhJN23s5Vved+cYoIH5wBPRUlOpm
+        sQd1894HT9r6V0M8HM3AXalADo3rr6SPuflGYwjBAckY7/i0rRs9WP1ggWynGcW+Da3kpxeEsUBzY
+        +e/K0VFA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mg6BL-00Cofl-JY; Thu, 28 Oct 2021 14:15:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 87C0E30022C;
+        Thu, 28 Oct 2021 16:15:02 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6ABB32C41F782; Thu, 28 Oct 2021 16:15:02 +0200 (CEST)
+Date:   Thu, 28 Oct 2021 16:15:02 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-CC:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
-References: <962c0565-89a3-c6d2-37e0-a93c8c753d57@quicinc.com>
- <CAK7LNAQX2GiUB04fOm7p=F+H5p9XFQjt9hEPSZS4JR+FZK6PZg@mail.gmail.com>
-From:   Qian Cai <quic_qiancai@quicinc.com>
-Message-ID: <1e21fddd-cdb9-a986-ae53-6e1a288b817e@quicinc.com>
-Date:   Thu, 28 Oct 2021 10:14:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH] kbuild: Support clang-$ver builds
+Message-ID: <YXqwZq53WUiTeqI7@hirez.programming.kicks-ass.net>
+References: <YXqpFHeY26sEbort@hirez.programming.kicks-ass.net>
+ <CAK7LNATUpgfKJvjp0+8H6VfMLMio9+BCoyj00mAO8FcaVGCqjg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQX2GiUB04fOm7p=F+H5p9XFQjt9hEPSZS4JR+FZK6PZg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATUpgfKJvjp0+8H6VfMLMio9+BCoyj00mAO8FcaVGCqjg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 10/28/21 10:03 AM, Masahiro Yamada wrote:
->> The idea is to have a debugconfig inside kernel/configs/ and update
->> scripts/kconfig/Makefile
+On Thu, Oct 28, 2021 at 11:07:40PM +0900, Masahiro Yamada wrote:
+> On Thu, Oct 28, 2021 at 10:44 PM Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > Hi,
+> >
+> > Debian (and derived) distros ship their compilers as -$ver suffixed
+> > binaries. For gcc it is sufficent to use:
+> >
+> >  $ make CC=gcc-12
+> >
+> > However, clang builds (esp. clang-lto) need a whole array of tools to be
+> > exactly right, leading to unweildy stuff like:
+> >
+> >  $ make CC=clang-13 LD=ld.lld=14 AR=llvm-ar-13 NM=llvm-nm-13 OBJCOPY=llvm-objcopy-13 OBJDUMP=llvm-objdump-13 READELF=llvm-readelf-13 STRIP=llvm-strip-13 LLVM=1
+> >
+> > which is, quite franktly, totally insane and unusable. Instead use the
+> > already mandatory LLVM variable to convey this, enabling one such as
+> > myself to use:
+> >
+> >  $ make LLVM=-13
+> >
+> > This also lets one quickly test different clang versions.
 > 
-> Please do not wire it up to Makefile.
+> 
+> Please read the commit log of
+> a0d1c951ef08ed24f35129267e3595d86f57f5d3
 
-Masahiro, I am afraid I don't follow here. I meant that in order for
-"make help" to show things like:
-
-debug.config - Enable Kconfig items for running kernel for general debugging
-
-It needs to modify scripts/kconfig/Makefile or use a arch-specific
-Makefile like kvm_guest.config. Do you mean you would prefer the latter?
+That's yuck, I like LLVM=-13 or LLVM=-12 much better to select between
+compilers. Means I don't have to remember wth they live and or wreck
+PATH.
