@@ -2,209 +2,196 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A3043F582
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Oct 2021 05:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF00343F949
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Oct 2021 10:54:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbhJ2Drd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Oct 2021 23:47:33 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:22800 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231611AbhJ2Drc (ORCPT
+        id S229986AbhJ2I5V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Oct 2021 04:57:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229797AbhJ2I5U (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Oct 2021 23:47:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635479105; x=1667015105;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=naRok50L8z+Gq6O3oKapVcQxMNbixW5H72GMSVPA0mI=;
-  b=kAacePV86sCotR0v4m2INtir7HDFH9uYvJKi5dx9fxHEDWlyuVGlwAoY
-   g83bloOPTzJXiA6mFUpd92bAXpU3N1cT5t/KbDsBg6jOB4xBvVHvcZlJY
-   nLr0HIciekXzbjdTX5pURJJFKOjm+Xj3g+MD0p88kkAIkB9+7XthzcD3l
-   8=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 28 Oct 2021 20:45:04 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 20:45:03 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 28 Oct 2021 20:45:03 -0700
-Received: from qian-HP-Z2-SFF-G5-Workstation.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 28 Oct 2021 20:45:02 -0700
-From:   Qian Cai <quic_qiancai@quicinc.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Qian Cai <quic_qiancai@quicinc.com>
-Subject: [PATCH v2] configs: Introduce debug.config for CI-like setup
-Date:   Thu, 28 Oct 2021 23:44:34 -0400
-Message-ID: <20211029034434.24553-1-quic_qiancai@quicinc.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 29 Oct 2021 04:57:20 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D7FC061570;
+        Fri, 29 Oct 2021 01:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=pEwMErrKlTCn2rLDRGmwB6C9zC7PLQBRH5hp0mxseNM=; b=k9gE7vx4vhH/g8JoH7RXhyKT89
+        H8yTOFR244Xi2csk9HEITDQO0BBwZSEFi7+bXNODZhR+OvIF1XvxVwZ5wjBP2DLf567ssPSUAfJXV
+        yLb5pGAL+LSWtE9+GisKUush7vgPJKCh81aezNh3ewKh9yhzIVGRdFGyJ+5Tu0nQNIT5NUuytrs/K
+        Pfn8r7tlaT0n1aevAmwv8vJAScaJinPX15uiLJKkCbUglFfpJuE5mJEB0Hm3eu68YGqbA6lu6x7lD
+        5u7fDvKyC4rrh3/+Aum8HdCNdyQPPXYAgi67rPYS5nlruXByzMiYmETu/g0wOaAHmmwdNhtFLtktP
+        Pmjr3fYg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mgNeq-00D3MU-HJ; Fri, 29 Oct 2021 08:54:40 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 4618330001C;
+        Fri, 29 Oct 2021 10:54:39 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 2DA772BD30FAC; Fri, 29 Oct 2021 10:54:39 +0200 (CEST)
+Date:   Fri, 29 Oct 2021 10:54:39 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH] kbuild: Support clang-$ver builds
+Message-ID: <YXu2z6FQ6Z7qtjbk@hirez.programming.kicks-ass.net>
+References: <YXqpFHeY26sEbort@hirez.programming.kicks-ass.net>
+ <CAK7LNATUpgfKJvjp0+8H6VfMLMio9+BCoyj00mAO8FcaVGCqjg@mail.gmail.com>
+ <YXqwZq53WUiTeqI7@hirez.programming.kicks-ass.net>
+ <YXqyHhWGJfDkuxjP@hirez.programming.kicks-ass.net>
+ <YXq72/yPe76DhDLu@hirez.programming.kicks-ass.net>
+ <YXrhZoOgv5dtFMTs@archlinux-ax161>
+ <20211028204855.GP174703@worktop.programming.kicks-ass.net>
+ <CAKwvOd=x9E=7WcCiieso-CDiiU-wMFcXL4W3V5j8dq7BL5QT+w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=x9E=7WcCiieso-CDiiU-wMFcXL4W3V5j8dq7BL5QT+w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some general debugging features like kmemleak, KASAN, lockdep, UBSAN etc
-help fix many viruses like a microscope. On the other hand, those features
-are scatter around and mixed up with more situational debugging options
-making them difficult to consume properly. This cold help amplify the
-general debugging/testing efforts and help establish sensitive default
-values for those options across the broad.
+On Thu, Oct 28, 2021 at 04:27:55PM -0700, Nick Desaulniers wrote:
+> On Thu, Oct 28, 2021 at 1:49 PM Peter Zijlstra <peterz@infradead.org> wrote:
 
-The config is based on years' experiences running daily CI inside the
-largest enterprise Linux distro company to seek regressions on
-linux-next builds on different bare-metal and virtual platforms. This is
-more of some art than science. It can be used for example,
+> > > 2. Update the documentation to describe using the
+> > >
+> > >    $ PATH=/usr/lib/llvm-#/bin:$PATH make LLVM=1 ...
+> > >
+> > >    trick. This has been the preferred method for using different
+> > >    versions of LLVM but it has never been documented anywhere. This
+> > >    would allow us to keep the current build infrastructure while giving
+> > >    people clear instructions for how to handle different versions of
+> > >    clang. As Peter has noted, this would require people who are not
+> > >    familiar with building with LLVM to be constantly looking at the
+> > >    documentation to remember the command to invoke, whereas with
+> > >    LLVM=-#, it is easy to remember.
+> >
+> > Right, this is no more than a crude hack and is super unfriendly. It
+> > should never have been accepted.
+> 
+> Lots of tools modify PATH in your `.bashrc` or `.zshrc` etc.  I don't
+> see how that's any different, other than one off commands in which you
+> actually intend to use a specific version.
 
-$ make ARCH=arm64 defconfig debug.config
+Typically /etc/profile.d/ stuff adds to PATH for easy access to
+installed programs but it is very poor at handling conflicting versions
+of the same program (IIRC you get the first one).
 
-Signed-off-by: Qian Cai <quic_qiancai@quicinc.com>
----
-v2:
-Double the size of CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE due to the most
-of defconfigs used 4KB page instead of 64KB which would consume more early
-kmemleak objects to track early_pgtable_alloc(). Otherwise, we could
-run out of kmemleak early memory pool and disable kmemleak entirely.
+Why should I want to remember where clang-12 vs gcc-9 lives? I don't
+want to remember or even type those paths, Debian has already kindly
+given me these unambiguous names to use.
 
- kernel/configs/debug.config | 119 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 119 insertions(+)
- create mode 100644 kernel/configs/debug.config
+> > So how about we do the below instead? Then the normal way of things will
+> > be:
+> >
+> >  $ make CC=clang-12
+> >
+> > and it will all *just*work*. The incomplete LLVM archs can revert back
+> > to the old hybrid (clang+binutils) way of things by doing:
+> >
+> >  $ make CC=clang LLVM=0
+> >
+> > Which explicitly states, use clang but don't use the full llvm suite. Or
+> > they can do that CONFIG_LLVM_BROKEN (or whatever) to have them default
+> > to LLVM=0
+> >
+> > ifdef CONFIG_LLVM_BROKEN
+> > LLVM ?= 0
+> > endif
+> >
+> > in front of the CC magic in the below patch should take care of that.
+> 
+> I don't think setting CC should affect LD and friends (if you were
+> suggesting that CC=clang-12 replace LLVM=1).  
 
-diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-new file mode 100644
-index 000000000000..fea127155eb6
---- /dev/null
-+++ b/kernel/configs/debug.config
-@@ -0,0 +1,119 @@
-+# Keep alphabetically sorted.
-+#
-+# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-+# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
-+# CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF is not set
-+# CONFIG_DEBUG_PAGEALLOC is not set
-+# CONFIG_DEBUG_RODATA_TEST is not set
-+# CONFIG_DEBUG_WX is not set
-+# CONFIG_KFENCE is not set
-+# CONFIG_PAGE_POISONING is not set
-+# CONFIG_PROVE_RAW_LOCK_NESTING is not set
-+# CONFIG_SLUB_STATS is not set
-+# CONFIG_UBSAN_ALIGNMENT is not set
-+# CONFIG_UBSAN_DIV_ZERO is not set
-+# CONFIG_UBSAN_TRAP is not set
-+# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
-+CONFIG_BRANCH_PROFILE_NONE=y
-+CONFIG_BUG_ON_DATA_CORRUPTION=y
-+CONFIG_CONTEXT_SWITCH_TRACER=y
-+CONFIG_DEBUG_ATOMIC_SLEEP=y
-+CONFIG_DEBUG_BUGVERBOSE=y
-+CONFIG_DEBUG_FS_ALLOW_ALL=y
-+CONFIG_DEBUG_FS=y
-+CONFIG_DEBUG_INFO=y
-+CONFIG_DEBUG_IRQFLAGS=y
-+CONFIG_DEBUG_KERNEL=y
-+CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN=y
-+CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE=80000
-+CONFIG_DEBUG_KMEMLEAK=y
-+CONFIG_DEBUG_LIST=y
-+CONFIG_DEBUG_LOCK_ALLOC=y
-+CONFIG_DEBUG_MUTEXES=y
-+CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-+CONFIG_DEBUG_OBJECTS_FREE=y
-+CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-+CONFIG_DEBUG_OBJECTS_RCU_HEAD=y
-+CONFIG_DEBUG_OBJECTS_TIMERS=y
-+CONFIG_DEBUG_OBJECTS_WORK=y
-+CONFIG_DEBUG_OBJECTS=y
-+CONFIG_DEBUG_PER_CPU_MAPS=y
-+CONFIG_DEBUG_RT_MUTEXES=y
-+CONFIG_DEBUG_RWSEMS=y
-+CONFIG_DEBUG_SECTION_MISMATCH=y
-+CONFIG_DEBUG_SPINLOCK=y
-+CONFIG_DEBUG_STACK_USAGE=y
-+CONFIG_DEBUG_VIRTUAL=y
-+CONFIG_DEBUG_VM_PGFLAGS=y
-+CONFIG_DEBUG_VM_RB=y
-+CONFIG_DEBUG_VM_VMACACHE=y
-+CONFIG_DEBUG_VM=y
-+CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
-+CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=120
-+CONFIG_DETECT_HUNG_TASK=y
-+CONFIG_DYNAMIC_DEBUG_CORE=y
-+CONFIG_DYNAMIC_DEBUG=y
-+CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
-+CONFIG_DYNAMIC_FTRACE=y
-+CONFIG_EVENT_TRACING=y
-+CONFIG_FRAME_POINTER=y
-+CONFIG_FRAME_WARN=2048
-+CONFIG_FTRACE_MCOUNT_RECORD=y
-+CONFIG_FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY=y
-+CONFIG_FTRACE=y
-+CONFIG_FUNCTION_TRACER=y
-+CONFIG_GENERIC_PTDUMP=y
-+CONFIG_GENERIC_TRACER=y
-+CONFIG_IO_STRICT_DEVMEM=y
-+CONFIG_KASAN_GENERIC=y
-+CONFIG_KASAN_INLINE=y
-+CONFIG_KASAN_STACK=y
-+CONFIG_KASAN_VMALLOC=y
-+CONFIG_KASAN=y
-+CONFIG_LOCK_DEBUGGING_SUPPORT=y
-+CONFIG_LOCKDEP_BITS=15
-+CONFIG_LOCKDEP_CHAINS_BITS=16
-+CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
-+CONFIG_LOCKDEP_STACK_TRACE_BITS=19
-+CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
-+CONFIG_LOCKDEP=y
-+CONFIG_LOCKUP_DETECTOR=y
-+CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-+CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-+CONFIG_MAGIC_SYSRQ_SERIAL=y
-+CONFIG_MAGIC_SYSRQ=y
-+CONFIG_NOP_TRACER=y
-+CONFIG_PAGE_EXTENSION=y
-+CONFIG_PAGE_OWNER=y
-+CONFIG_PANIC_ON_OOPS_VALUE=1
-+CONFIG_PANIC_ON_OOPS=y
-+CONFIG_PANIC_TIMEOUT=0
-+CONFIG_PREEMPTIRQ_TRACEPOINTS=y
-+CONFIG_PRINTK_CALLER=y
-+CONFIG_PRINTK_TIME=y
-+CONFIG_PROVE_LOCKING=y
-+CONFIG_PROVE_RCU_LIST=y
-+CONFIG_PROVE_RCU=y
-+CONFIG_PTDUMP_CORE=y
-+CONFIG_PTDUMP_DEBUGFS=y
-+CONFIG_RCU_CPU_STALL_TIMEOUT=60
-+CONFIG_RING_BUFFER=y
-+CONFIG_SCHED_INFO=y
-+CONFIG_SCHED_STACK_END_CHECK=y
-+CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-+CONFIG_SLUB_DEBUG_ON=y
-+CONFIG_SOFTLOCKUP_DETECTOR=y
-+CONFIG_STACKTRACE=y
-+CONFIG_STRICT_DEVMEM=y
-+CONFIG_SYMBOLIC_ERRNAME=y
-+CONFIG_TRACE_CLOCK=y
-+CONFIG_TRACE_IRQFLAGS=y
-+CONFIG_TRACING_SUPPORT=y
-+CONFIG_TRACING=y
-+CONFIG_UBSAN_BOOL=y
-+CONFIG_UBSAN_BOUNDS=y
-+CONFIG_UBSAN_ENUM=y
-+CONFIG_UBSAN_ONLY_BOUNDS=y
-+CONFIG_UBSAN_SHIFT=y
-+CONFIG_UBSAN_UNREACHABLE=y
-+CONFIG_UBSAN=y
--- 
-2.30.2
+Why not? Why should clang not default to ld.lld? If you want weird mixes
+you can always override them.
 
+Again, why should CC=clang not default to the whole LLVM suite? Why
+should using LLVM as a whole, be made more difficult? It's almost as if
+you don't want people to use it.
+
+You're explicitly making clang-lto/cfi difficult to use; is that on
+purpose?
+
+> Like Nathan, I'm
+> sympathetic and think that your first patch is probably closer to what
+> I'd accept, but it needs to handle non-suffixed versions (looks like
+> it should) and add this info to Documentations/kbuild/llvm.rst.
+
+That first patch has some issues there, but should be fixable. The
+latest CC= using one works there. As does the below.
+
+
+--- a/Makefile
++++ b/Makefile
+@@ -423,9 +423,27 @@ HOST_LFS_CFLAGS := $(shell getconf LFS_C
+ HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
+ HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
+ 
+-ifneq ($(LLVM),)
+-HOSTCC	= clang
+-HOSTCXX	= clang++
++# powerpc and s390 don't yet work with LLVM as a whole
++ifeq ($(ARCH),powerpc)
++LLVM = 0
++endif
++ifeq ($(ARCH),s390)
++LLVM = 0
++endif
++
++# otherwise, if CC=clang, default to using LLVM to enable LTO
++CC_BASE := $(shell echo $(CC) | cut -b "1-5")
++ifeq ($(shell test "$(CC_BASE)" = "clang"; echo $$?),0)
++LLVM ?= 1
++LLVM_SFX := $(shell echo $(CC) | cut -b "6-")
++endif
++
++# if not set by now, do not use LLVM
++LLVM ?= 0
++
++ifneq ($(LLVM),0)
++HOSTCC	= clang$(LLVM_SFX)
++HOSTCXX	= clang++$(LLVM_SFX)
+ else
+ HOSTCC	= gcc
+ HOSTCXX	= g++
+@@ -442,15 +460,15 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS)
+ 
+ # Make variables (CC, etc...)
+ CPP		= $(CC) -E
+-ifneq ($(LLVM),)
+-CC		= clang
+-LD		= ld.lld
+-AR		= llvm-ar
+-NM		= llvm-nm
+-OBJCOPY		= llvm-objcopy
+-OBJDUMP		= llvm-objdump
+-READELF		= llvm-readelf
+-STRIP		= llvm-strip
++ifneq ($(LLVM),0)
++CC		= clang$(LLVM_SFX)
++LD		= ld.lld$(LLVM_SFX)
++AR		= llvm-ar$(LLVM_SFX)
++NM		= llvm-nm$(LLVM_SFX)
++OBJCOPY		= llvm-objcopy$(LLVM_SFX)
++OBJDUMP		= llvm-objdump$(LLVM_SFX)
++READELF		= llvm-readelf$(LLVM_SFX)
++STRIP		= llvm-strip$(LLVM_SFX)
+ else
+ CC		= $(CROSS_COMPILE)gcc
+ LD		= $(CROSS_COMPILE)ld
