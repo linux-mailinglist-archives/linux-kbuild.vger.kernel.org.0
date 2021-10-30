@@ -2,233 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1E8144098D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Oct 2021 16:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E2D440ACD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Oct 2021 19:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229993AbhJ3OhK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 30 Oct 2021 10:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52320 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbhJ3OhJ (ORCPT
+        id S230169AbhJ3R7o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Oct 2021 13:59:44 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:44890 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229694AbhJ3R7n (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 30 Oct 2021 10:37:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97BC2C061570;
-        Sat, 30 Oct 2021 07:34:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ba2xFt3kXSmSTLD8SqkglhCszGSJjIidpOhGBZZRwqs=; b=KxNTFF6MESt7Owjy7Rsimcsszl
-        9FviqkuUnjHAEdEUcpb27yNW2R3RQl4BZ2BpEpgKnVGmCQgS43k8yyDkiEwOmJIXh9ny17Oqy49fk
-        PDzxT4IF3ecJyJ+aS8I9Pl95V3b/lHt+cppYj8q6WWrmZVghxldeDp6c0yugf64yb86maeZhY0XW6
-        M4ELbvaS5q42icbzRDk3cL6+bH2lFgfKSth6aBFEFmuvDPZNSdnDF8V0ZJ41dihgWJ3r1h5l6jHoC
-        2yuB27lUIfCxkj/34CUOzYY9V4KFnELO6o+846IGnZxokUITPIP03oyMWbD8H19o9GstbZWmtYv4X
-        f5ChCmVg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mgpQ1-002TG3-24; Sat, 30 Oct 2021 14:33:22 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id C89129816BA; Sat, 30 Oct 2021 16:33:11 +0200 (CEST)
-Date:   Sat, 30 Oct 2021 16:33:11 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: Support clang-$ver builds
-Message-ID: <20211030143311.GH174730@worktop.programming.kicks-ass.net>
-References: <YXqpFHeY26sEbort@hirez.programming.kicks-ass.net>
- <CAK7LNATUpgfKJvjp0+8H6VfMLMio9+BCoyj00mAO8FcaVGCqjg@mail.gmail.com>
- <YXqwZq53WUiTeqI7@hirez.programming.kicks-ass.net>
- <YXqyHhWGJfDkuxjP@hirez.programming.kicks-ass.net>
- <YXq72/yPe76DhDLu@hirez.programming.kicks-ass.net>
- <YXrhZoOgv5dtFMTs@archlinux-ax161>
- <20211028204855.GP174703@worktop.programming.kicks-ass.net>
- <CAKwvOd=x9E=7WcCiieso-CDiiU-wMFcXL4W3V5j8dq7BL5QT+w@mail.gmail.com>
- <YXu2z6FQ6Z7qtjbk@hirez.programming.kicks-ass.net>
+        Sat, 30 Oct 2021 13:59:43 -0400
+Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 19UHu9ZN031733;
+        Sun, 31 Oct 2021 02:56:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 19UHu9ZN031733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1635616570;
+        bh=qkGeLWQC26K1A738fV8OMPZP57XqUFsp45igjPTx/bg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=r347laL2nS42a2UnSdjwFIWAJZPlL7JdUQ0HRPBC6zkd4u0Lr3rMlJekr4+Oi57Jk
+         H7FVwmUorrRuwiGn1u5+BcdbknzZw1VAVJ9mMKuo004rgpojvEMs3/Ih4eYUuIxAiR
+         L0og2PtGWKdGT7fv0SVg7QlDLvKBMUpZCp+Ux9a/eMG5EZvhmo7/qcinVHfuYDUHV2
+         n0CniivUkMj/HenAMuvjUlwCZqQSZuqf88e4XqB9mCIYx0p1HNjQXDYiFNjGctYYCy
+         UcW2ILIMjNUqBU1Z0LHr+7RSbOB44BqySJcVygqWDw4z104GsDvvIccInt9sw3iysU
+         y41UwOJDXQ1kQ==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org, patches@arm.linux.org.uk
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Rich Felker <dalias@libc.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-kernel@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: [PATCH] sh: decompressor: do not copy source files while building
+Date:   Sun, 31 Oct 2021 02:56:04 +0900
+Message-Id: <20211030175604.1716611-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXu2z6FQ6Z7qtjbk@hirez.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+As commit 7ae4a78daacf ("ARM: 8969/1: decompressor: simplify libfdt
+builds") stated, copying source files during the build time may not
+end up with as clean code as expected.
 
-Latestest greatness... :-)
+Do similar for sh to clean up the Makefile and .gitignore.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
-Subject: kbuild: Fix clang/llvm build infra
 
-Debian (and derived) distros ship their compilers as -$ver suffixed
-binaries. For gcc it is sufficent to use:
+ arch/sh/boot/compressed/.gitignore |  5 -----
+ arch/sh/boot/compressed/Makefile   | 24 ++++++------------------
+ arch/sh/boot/compressed/ashiftrt.S |  2 ++
+ arch/sh/boot/compressed/ashldi3.c  |  2 ++
+ arch/sh/boot/compressed/ashlsi3.S  |  2 ++
+ arch/sh/boot/compressed/ashrsi3.S  |  2 ++
+ arch/sh/boot/compressed/lshrsi3.S  |  2 ++
+ scripts/remove-stale-files         |  5 +++++
+ 8 files changed, 21 insertions(+), 23 deletions(-)
+ create mode 100644 arch/sh/boot/compressed/ashiftrt.S
+ create mode 100644 arch/sh/boot/compressed/ashldi3.c
+ create mode 100644 arch/sh/boot/compressed/ashlsi3.S
+ create mode 100644 arch/sh/boot/compressed/ashrsi3.S
+ create mode 100644 arch/sh/boot/compressed/lshrsi3.S
 
- $ make CC=gcc-12
-
-However, clang builds (esp. clang-lto) need a whole array of tools to be
-exactly right, leading to unweildy stuff like:
-
- $ make CC=clang-13 LD=ld.lld=14 AR=llvm-ar-13 NM=llvm-nm-13 OBJCOPY=llvm-objcopy-13 OBJDUMP=llvm-objdump-13 READELF=llvm-readelf-13 STRIP=llvm-strip-13 LLVM=1
-
-which is, quite franktly, totally insane and unusable. Instead make
-the CC variable DTRT, enabling one such as myself to use:
-
- $ make CC=clang-13
-
-This also lets one quickly test different clang versions.
-Additionally, also support path based LLVM suites like:
-
- $ make CC=/opt/llvm/bin/clang
-
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- Makefile                       |   45 +++++++++++++++++++++++++++---------
- tools/scripts/Makefile.include |   50 ++++++++++++++++++++++++++++-------------
- 2 files changed, 68 insertions(+), 27 deletions(-)
-
---- a/Makefile
-+++ b/Makefile
-@@ -423,9 +423,29 @@ HOST_LFS_CFLAGS := $(shell getconf LFS_C
- HOST_LFS_LDFLAGS := $(shell getconf LFS_LDFLAGS 2>/dev/null)
- HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
+diff --git a/arch/sh/boot/compressed/.gitignore b/arch/sh/boot/compressed/.gitignore
+index 37aa53057369..cd16663bc7c8 100644
+--- a/arch/sh/boot/compressed/.gitignore
++++ b/arch/sh/boot/compressed/.gitignore
+@@ -1,7 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-ashiftrt.S
+-ashldi3.c
+-ashlsi3.S
+-ashrsi3.S
+-lshrsi3.S
+ vmlinux.bin.*
+diff --git a/arch/sh/boot/compressed/Makefile b/arch/sh/boot/compressed/Makefile
+index 589d2d8a573d..2f53babd9249 100644
+--- a/arch/sh/boot/compressed/Makefile
++++ b/arch/sh/boot/compressed/Makefile
+@@ -5,12 +5,12 @@
+ # create a compressed vmlinux image from the original vmlinux
+ #
  
--ifneq ($(LLVM),)
--HOSTCC	= clang
--HOSTCXX	= clang++
-+# powerpc and s390 don't yet work with LLVM as a whole
-+ifeq ($(ARCH),powerpc)
-+LLVM = 0
-+endif
-+ifeq ($(ARCH),s390)
-+LLVM = 0
-+endif
++OBJECTS := head_32.o misc.o cache.o piggy.o \
++	   ashiftrt.o ashldi3.o ashrsi3.o ashlsi3.o lshrsi3.o
 +
-+# otherwise, if CC=clang, default to using LLVM to enable LTO
-+CC_BASE := $(shell echo $(CC) | sed 's/.*\///')
-+CC_NAME := $(shell echo $(CC_BASE) | cut -b "1-5")
-+ifeq ($(shell test "$(CC_NAME)" = "clang"; echo $$?),0)
-+LLVM ?= 1
-+LLVM_PFX := $(shell echo $(CC) | sed 's/\(.*\/\)\?.*/\1/')
-+LLVM_SFX := $(shell echo $(CC_BASE) | cut -b "6-")
-+endif
-+
-+# if not set by now, do not use LLVM
-+LLVM ?= 0
-+
-+ifneq ($(LLVM),0)
-+HOSTCC	= $(LLVM_PFX)clang$(LLVM_SFX)
-+HOSTCXX	= $(LLVM_PFX)clang++$(LLVM_SFX)
- else
- HOSTCC	= gcc
- HOSTCXX	= g++
-@@ -442,15 +462,15 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS)
+ targets		:= vmlinux vmlinux.bin vmlinux.bin.gz \
+ 		   vmlinux.bin.bz2 vmlinux.bin.lzma \
+-		   vmlinux.bin.xz vmlinux.bin.lzo \
+-		   head_32.o misc.o piggy.o
+-
+-OBJECTS = $(obj)/head_32.o $(obj)/misc.o $(obj)/cache.o
++		   vmlinux.bin.xz vmlinux.bin.lzo $(OBJECTS)
  
- # Make variables (CC, etc...)
- CPP		= $(CC) -E
--ifneq ($(LLVM),)
--CC		= clang
--LD		= ld.lld
--AR		= llvm-ar
--NM		= llvm-nm
--OBJCOPY		= llvm-objcopy
--OBJDUMP		= llvm-objdump
--READELF		= llvm-readelf
--STRIP		= llvm-strip
-+ifneq ($(LLVM),0)
-+CC		= $(LLVM_PFX)clang$(LLVM_SFX)
-+LD		= $(LLVM_PFX)ld.lld$(LLVM_SFX)
-+AR		= $(LLVM_PFX)llvm-ar$(LLVM_SFX)
-+NM		= $(LLVM_PFX)llvm-nm$(LLVM_SFX)
-+OBJCOPY		= $(LLVM_PFX)llvm-objcopy$(LLVM_SFX)
-+OBJDUMP		= $(LLVM_PFX)llvm-objdump$(LLVM_SFX)
-+READELF		= $(LLVM_PFX)llvm-readelf$(LLVM_SFX)
-+STRIP		= $(LLVM_PFX)llvm-strip$(LLVM_SFX)
- else
- CC		= $(CROSS_COMPILE)gcc
- LD		= $(CROSS_COMPILE)ld
-@@ -461,6 +481,7 @@ OBJDUMP		= $(CROSS_COMPILE)objdump
- READELF		= $(CROSS_COMPILE)readelf
- STRIP		= $(CROSS_COMPILE)strip
- endif
+ GCOV_PROFILE := n
+ 
+@@ -33,21 +33,9 @@ ccflags-remove-$(CONFIG_MCOUNT) += -pg
+ LDFLAGS_vmlinux := --oformat $(ld-bfd) -Ttext $(IMAGE_OFFSET) -e startup \
+ 		   -T $(obj)/../../kernel/vmlinux.lds
+ 
+-#
+-# Pull in the necessary libgcc bits from the in-kernel implementation.
+-#
+-lib1funcs-y	:= ashiftrt.S ashldi3.c ashrsi3.S ashlsi3.S lshrsi3.S
+-lib1funcs-obj   := \
+-	$(addsuffix .o, $(basename $(addprefix $(obj)/, $(lib1funcs-y))))
+-
+-lib1funcs-dir		:= $(srctree)/arch/$(SRCARCH)/lib
+-
+-KBUILD_CFLAGS += -I$(lib1funcs-dir) -DDISABLE_BRANCH_PROFILING
+-
+-$(addprefix $(obj)/,$(lib1funcs-y)): $(obj)/%: $(lib1funcs-dir)/% FORCE
+-	$(call cmd,shipped)
++KBUILD_CFLAGS += -DDISABLE_BRANCH_PROFILING
+ 
+-$(obj)/vmlinux: $(OBJECTS) $(obj)/piggy.o $(lib1funcs-obj) FORCE
++$(obj)/vmlinux: $(addprefix $(obj)/, $(OBJECTS)) FORCE
+ 	$(call if_changed,ld)
+ 
+ $(obj)/vmlinux.bin: vmlinux FORCE
+diff --git a/arch/sh/boot/compressed/ashiftrt.S b/arch/sh/boot/compressed/ashiftrt.S
+new file mode 100644
+index 000000000000..0f3b291a3f4b
+--- /dev/null
++++ b/arch/sh/boot/compressed/ashiftrt.S
+@@ -0,0 +1,2 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#include "../../lib/ashiftrt.S"
+diff --git a/arch/sh/boot/compressed/ashldi3.c b/arch/sh/boot/compressed/ashldi3.c
+new file mode 100644
+index 000000000000..7cebd646df83
+--- /dev/null
++++ b/arch/sh/boot/compressed/ashldi3.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include "../../lib/ashldi3.c"
+diff --git a/arch/sh/boot/compressed/ashlsi3.S b/arch/sh/boot/compressed/ashlsi3.S
+new file mode 100644
+index 000000000000..e354262b275f
+--- /dev/null
++++ b/arch/sh/boot/compressed/ashlsi3.S
+@@ -0,0 +1,2 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#include "../../lib/ashlsi3.S"
+diff --git a/arch/sh/boot/compressed/ashrsi3.S b/arch/sh/boot/compressed/ashrsi3.S
+new file mode 100644
+index 000000000000..e564be9a4dcd
+--- /dev/null
++++ b/arch/sh/boot/compressed/ashrsi3.S
+@@ -0,0 +1,2 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#include "../../lib/ashrsi3.S"
+diff --git a/arch/sh/boot/compressed/lshrsi3.S b/arch/sh/boot/compressed/lshrsi3.S
+new file mode 100644
+index 000000000000..5a8281b7e516
+--- /dev/null
++++ b/arch/sh/boot/compressed/lshrsi3.S
+@@ -0,0 +1,2 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#include "../../lib/lshrsi3.S"
+diff --git a/scripts/remove-stale-files b/scripts/remove-stale-files
+index eb630ee287c3..ad5ba3ee1f5e 100755
+--- a/scripts/remove-stale-files
++++ b/scripts/remove-stale-files
+@@ -28,4 +28,9 @@ if [ -n "${building_out_of_srctree}" ]; then
+ 	do
+ 		rm -f arch/arm/boot/compressed/${f}
+ 	done
 +
- PAHOLE		= pahole
- RESOLVE_BTFIDS	= $(objtree)/tools/bpf/resolve_btfids/resolve_btfids
- LEX		= flex
---- a/tools/scripts/Makefile.include
-+++ b/tools/scripts/Makefile.include
-@@ -51,12 +51,32 @@ define allow-override
-     $(eval $(1) = $(2)))
- endef
- 
--ifneq ($(LLVM),)
--$(call allow-override,CC,clang)
--$(call allow-override,AR,llvm-ar)
--$(call allow-override,LD,ld.lld)
--$(call allow-override,CXX,clang++)
--$(call allow-override,STRIP,llvm-strip)
-+# powerpc and s390 don't yet work with LLVM as a whole
-+ifeq ($(ARCH),powerpc)
-+LLVM = 0
-+endif
-+ifeq ($(ARCH),s390)
-+LLVM = 0
-+endif
-+
-+# otherwise, if CC=clang, default to using LLVM to enable LTO
-+CC_BASE := $(shell echo $(CC) | sed 's/.*\///')
-+CC_NAME := $(shell echo $(CC_BASE) | cut -b "1-5")
-+ifeq ($(shell test "$(CC_NAME)" = "clang"; echo $$?),0)
-+LLVM ?= 1
-+LLVM_PFX := $(shell echo $(CC) | sed 's/\(.*\/\)\?.*/\1/')
-+LLVM_SFX := $(shell echo $(CC_BASE) | cut -b "6-")
-+endif
-+
-+# if not set by now, do not use LLVM
-+LLVM ?= 0
-+
-+ifneq ($(LLVM),0)
-+$(call allow-override,CC,$(LLVM_PFX)clang$(LLVM_SFX))
-+$(call allow-override,AR,$(LLVM_PFX)llvm-ar$(LLVM_SFX))
-+$(call allow-override,LD,$(LLVM_PFX)ld.lld$(LLVM_SFX))
-+$(call allow-override,CXX,$(LLVM_PFX)clang++$(LLVM_SFX))
-+$(call allow-override,STRIP,$(LLVM_PFX)llvm-strip$(LLVM_SFX))
- else
- # Allow setting various cross-compile vars or setting CROSS_COMPILE as a prefix.
- $(call allow-override,CC,$(CROSS_COMPILE)gcc)
-@@ -68,10 +88,10 @@ endif
- 
- CC_NO_CLANG := $(shell $(CC) -dM -E -x c /dev/null | grep -Fq "__clang__"; echo $$?)
- 
--ifneq ($(LLVM),)
--HOSTAR  ?= llvm-ar
--HOSTCC  ?= clang
--HOSTLD  ?= ld.lld
-+ifneq ($(LLVM),0)
-+HOSTAR  ?= $(LLVM_PFX)llvm-ar$(LLVM_SFX)
-+HOSTCC  ?= $(LLVM_PFX)clang$(LLVM_SFX)
-+HOSTLD  ?= $(LLVM_PFX)ld.lld$(LLVM_SFX)
- else
- HOSTAR  ?= ar
- HOSTCC  ?= gcc
-@@ -79,11 +99,11 @@ HOSTLD  ?= ld
- endif
- 
- # Some tools require Clang, LLC and/or LLVM utils
--CLANG		?= clang
--LLC		?= llc
--LLVM_CONFIG	?= llvm-config
--LLVM_OBJCOPY	?= llvm-objcopy
--LLVM_STRIP	?= llvm-strip
-+CLANG		?= $(LLVM_PFX)clang$(LLVM_SFX)
-+LLC		?= $(LLVM_PFX)llc$(LLVM_SFX)
-+LLVM_CONFIG	?= $(LLVM_PFX)llvm-config$(LLVM_SFX)
-+LLVM_OBJCOPY	?= $(LLVM_PFX)llvm-objcopy$(LLVM_SFX)
-+LLVM_STRIP	?= $(LLVM_PFX)llvm-strip$(LLVM_SFX)
- 
- ifeq ($(CC_NO_CLANG), 1)
- EXTRA_WARNINGS += -Wstrict-aliasing=3
++	for f in ashiftrt.S ashldi3.c ashrsi3.S ashlsi3.S lshrsi3.S
++	do
++		rm -f arch/sh/boot/compressed/${f}
++	done
+ fi
+-- 
+2.30.2
+
