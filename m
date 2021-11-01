@@ -2,150 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15278441E04
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Nov 2021 17:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0739441ED4
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Nov 2021 17:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232693AbhKAQXa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Nov 2021 12:23:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53568 "EHLO
+        id S231303AbhKAQzQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Nov 2021 12:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232711AbhKAQX3 (ORCPT
+        with ESMTP id S229844AbhKAQzP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Nov 2021 12:23:29 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73DFAC061767
-        for <linux-kbuild@vger.kernel.org>; Mon,  1 Nov 2021 09:20:54 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so355777pjb.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Nov 2021 09:20:54 -0700 (PDT)
+        Mon, 1 Nov 2021 12:55:15 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D688C061766
+        for <linux-kbuild@vger.kernel.org>; Mon,  1 Nov 2021 09:52:42 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id n11so9104865iod.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Nov 2021 09:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
-        b=OHjfuxxdfClfMEvZDiRQncM/tj04Oc4zKUcJsre2fgbrUibg0OrOYtxJvVFbiYWF/V
-         QV1/1BkSOuYAiHB/7n6GnABT8PtXMjdF0q/3kN7tXSbbW0ibOXOrXBZIBg62Du0E12fR
-         r2TOG2W15LOqdfoteLKwfqdg6gxPX1atPhYAw=
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=LjD4GxWdc2zr8/9EZOl5q2FS3VyqZrhxuRWYjSCst2U=;
+        b=KiSk8LZhR7EZ/6Y/XeCSQZEjR7gPdV1w/ihpXQJrwiIBFMuPhCVhIFeiQYWo8CYa1z
+         Df7GWUMVZkI3hloAM9BQvv3bkbNMij0XMwazsTY8oHQdeOvNzVB96famhHLiW9AGecDM
+         nZHhwuzvLgGIp1JqYojKJyYDWTJlUNK/54Vdeygvt+B6ds8+KAmvLvUfMhsJFII+kv+G
+         VIFaN68qihLLN53lLk/R0TQJZxCO1qStepUqEyJ2hs4MG7+kYIafTRbZvGAZw0PaNxnG
+         lavTjPsXn+2suPlGogjD3moJmOFQACURdndJBOGmcDzAQXfJZ1pRPYYrPe69ClDZiNRk
+         5RuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
-        b=mg9jvsLhmzNCIaO1CA4fsdKtvBdWXmagYld2JovrWycz4aO0xdUPqYstvXK8wYJWGp
-         DQdP4p1NScQk4J46E2hoLWMtEGCE4aNm2AnwQBYFhHhbpw8l2nzgG1GrJj3SIr0L0QHH
-         gHTTxFnX/HmGGM+Ce3K5UoV1hJ0Joi2Cb7J6UmoJKlW5QR+Wec66wC9dQKXCsA+Qqa++
-         x6AK8Y1kYof4k1OK5KNLqZcv/CbQ91iEWWRFiWztWMm+J8cWeGjtyDax0ZJc/E3pP8dJ
-         pSgBpqSsh9p65MHchly3GDJ79y1WaN0sAMT/2X4gkYpms12HZNbMnNZOBKvIcCbkq5ex
-         rOTQ==
-X-Gm-Message-State: AOAM531BMsPV1BuKGKzfrfswVDjxRdanUGvjHoPthrUlUbTx86bN3MdL
-        JWiHdQkb436Pmgosmvv5zkxAPWyPZdniPw==
-X-Google-Smtp-Source: ABdhPJx8302mlq2+2oG33p1FJwabY8ZQ+cEyzVsGqRt9mxOuWC/f5cg60TkG3G0h376S22Pc08/BlA==
-X-Received: by 2002:a17:902:70c5:b0:13f:f941:9ad6 with SMTP id l5-20020a17090270c500b0013ff9419ad6mr26059732plt.28.1635783653857;
-        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p23sm18296772pjg.55.2021.11.01.09.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
-Date:   Mon, 1 Nov 2021 09:20:52 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, "KE.LI" <like1@oppo.com>,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Will Deacon <will@kernel.org>,
-        Ye Guojin <ye.guojin@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [GIT PULL] hardening updates for v5.16-rc1
-Message-ID: <202111010917.75B96F4E@keescook>
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=LjD4GxWdc2zr8/9EZOl5q2FS3VyqZrhxuRWYjSCst2U=;
+        b=Jl5TgdNbLeriBdICvjgXRkvqberZBZ7XWgZowoNkVZX7GQjZUwW5Ba21+Lchiy3hP6
+         G+cv0diGVBLCds7DAmK0jktC5vGs/UAQSLbEr1tJaYn9fUuAY+kDuRI1JaRoJ46tQiQD
+         ZXk5PvsABvGbnh3Vc34TM2a0eCJlRfQLJB4p7cxBHwWbUCLKmk6lKWPBa7LBuQFIoV/8
+         L5TlFL3fxDnJi2F7AX1+Ay+IRfl1OdLZ+Ch1f78J6pdLeHCuYCxZaz/Q1FpEprqsjMuU
+         n+lQfAOO0mExB0sqlL/TF5/R6SxAK0raZ+iSbL93RaRcrjtpK2+hTOR9gM0GuV1xmX9x
+         IjGw==
+X-Gm-Message-State: AOAM531vG8D+do0BxLNVmdN3GvRdZxk29Sxk3+Vd8q3wM6GS87SP2bCt
+        ockhNbOySmvglEuFiXiQoKdWxZgHBMzoZnqXzGk=
+X-Google-Smtp-Source: ABdhPJyJawcz7J3D3BhTKOOSV5gD20ZECyj0S5nLNNDsEKYR56W4l7eyyzYWS0luko/WegN6zPQS90X2lc3hLZwF7BQ=
+X-Received: by 2002:a02:7047:: with SMTP id f68mr9473228jac.109.1635785561397;
+ Mon, 01 Nov 2021 09:52:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sender: readsghfrdfrsafxgf@gmail.com
+Received: by 2002:a05:6e02:1bee:0:0:0:0 with HTTP; Mon, 1 Nov 2021 09:52:41
+ -0700 (PDT)
+From:   Mrs Carlsen monika <carlsen.monika@gmail.com>
+Date:   Mon, 1 Nov 2021 17:52:41 +0100
+X-Google-Sender-Auth: D9QI990OBmKiogm5tZnMWTUO9YM
+Message-ID: <CAAbfOQwdBV60-k=B_-MyrH-mKBBi5KD0Juf1sxg3SZrrLJeBjg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+ I sent this mail praying it will found you in a good condition of
+health, since I myself are in a very critical health condition in
+which I sleep every night without knowing if I may be alive to see the
+next day.I'm Mrs.Monika John Carlsen, wife of late Mr John Carlsen, a
+widow suffering from long time illness.i have some funds i inherited
+from my late husband, the sum of (elevenmilliondollars) my Doctor told
+me recently that I have serious sickness which is cancer problem. What
+disturbs me most is my stroke sickness.Having known my condition,I
+decided to donate this fund to a good person that will utilize it the
+way i am going to instruct herein.I need a very honest and God fearing
+person who can claim this money and use it for Charity works,for
+orphanages,widows and also build schools for less privileges that will
+be named after my late husband if possible and to promote the word of
+God and the effort that the house of God is maintained.
 
-Please pull these hardening updates for v5.16-rc1. These are various
-compiler-related hardening feature updates. Notable is the addition of an
-explicit limited rationale for, and deprecation schedule of, gcc-plugins.
-More details in the tag below.
+I do not want a situation where this money will be used in an ungodly
+manner.That's why I'm taking this decision. I'm not afraid of death so
+I know where I'm going.I accept this decision because I do not have
+any child who will inherit this money after I die. Please I want your
+sincerely and urgent answer to know if you will be able to execute
+this project, and I will give you more information on how the fund
+will be transferred to your bank account.I'm waiting for your reply.
 
-Thanks!
-
--Kees
-
-The following changes since commit e4e737bb5c170df6135a127739a9e6148ee3da82:
-
-  Linux 5.15-rc2 (2021-09-19 17:28:22 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v5.16-rc1
-
-for you to fetch changes up to 6425392acf24b6d469932dd1b217dc7b20d6447f:
-
-  gcc-plugins: remove duplicate include in gcc-common.h (2021-10-21 08:41:51 -0700)
-
-----------------------------------------------------------------
-compiler hardening updates for v5.16-rc1
-
-This collects various compiler hardening feature related updates:
-
-- gcc-plugins:
-  - remove support for GCC 4.9 and older (Ard Biesheuvel)
-  - remove duplicate include in gcc-common.h (Ye Guojin)
-  - Explicitly document purpose and deprecation schedule (Kees Cook)
-  - Remove cyc_complexity (Kees Cook)
-
-- instrumentation:
-  - Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO (Kees Cook)
-
-- Clang LTO:
-  - kallsyms: strip LTO suffixes from static functions (Nick Desaulniers)
-
-----------------------------------------------------------------
-Ard Biesheuvel (1):
-      gcc-plugins: remove support for GCC 4.9 and older
-
-Kees Cook (3):
-      hardening: Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO
-      gcc-plugins: Explicitly document purpose and deprecation schedule
-      gcc-plugins: Remove cyc_complexity
-
-Nick Desaulniers (1):
-      kallsyms: strip LTO suffixes from static functions
-
-Ye Guojin (1):
-      gcc-plugins: remove duplicate include in gcc-common.h
-
- Documentation/kbuild/gcc-plugins.rst               |  28 ++++-
- Makefile                                           |   6 +-
- kernel/kallsyms.c                                  |  46 +++++--
- scripts/Makefile.gcc-plugins                       |   2 -
- scripts/gcc-plugins/Kconfig                        |  20 +---
- scripts/gcc-plugins/cyc_complexity_plugin.c        |  69 -----------
- scripts/gcc-plugins/gcc-common.h                   | 132 +--------------------
- scripts/gcc-plugins/gcc-generate-gimple-pass.h     |  19 ---
- scripts/gcc-plugins/gcc-generate-ipa-pass.h        |  19 ---
- scripts/gcc-plugins/gcc-generate-rtl-pass.h        |  19 ---
- scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h |  19 ---
- scripts/gcc-plugins/structleak_plugin.c            |   2 -
- security/Kconfig.hardening                         |  14 ++-
- 13 files changed, 75 insertions(+), 320 deletions(-)
- delete mode 100644 scripts/gcc-plugins/cyc_complexity_plugin.c
-
--- 
-Kees Cook
+Best Regards,
+Mrs. Monika John Carlsen
