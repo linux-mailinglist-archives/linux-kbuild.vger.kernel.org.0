@@ -2,71 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4361D441B33
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Nov 2021 13:32:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A41C441C14
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Nov 2021 15:00:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232405AbhKAMfX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Nov 2021 08:35:23 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:52835 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232029AbhKAMfW (ORCPT
+        id S231693AbhKAODW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Nov 2021 10:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49992 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232157AbhKAODW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Nov 2021 08:35:22 -0400
+        Mon, 1 Nov 2021 10:03:22 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C44C061714
+        for <linux-kbuild@vger.kernel.org>; Mon,  1 Nov 2021 07:00:48 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id t127so44751485ybf.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Nov 2021 07:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635769969; x=1667305969;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=8IVlbd60CPyDWVek2Gr4+wVOTu29dbilRXC6UZZbq6M=;
-  b=G1wewsZphSPWpuNPCeCEA6y2DolmNMSyZS5fHedP5B21b6oC7e/zMjaW
-   IfI5tuflkaCBVwZjaJfVl3zRUV2dO89xPUTjlvNtfAp69Mzs902kvItJv
-   BgpnDU/0RhY6yCCb95frDmOYCU+82wnlsLqeujwsaSWVUiM3N/zI3oedh
-   w=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Nov 2021 05:32:49 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2021 05:32:49 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Mon, 1 Nov 2021 05:32:49 -0700
-Received: from [10.110.103.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7; Mon, 1 Nov 2021
- 05:32:48 -0700
-Subject: Re: [PATCH v2] configs: Introduce debug.config for CI-like setup
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20211029034434.24553-1-quic_qiancai@quicinc.com>
- <20211029093115.6ychbe56pnebzi43@maple.lan>
- <e0301a5f-a2c7-eedb-90b1-1d6d631fcc47@quicinc.com>
- <20211029161952.u4g7vutcz3qd57lo@maple.lan>
-From:   Qian Cai <quic_qiancai@quicinc.com>
-Message-ID: <9b5e6938-9e31-b846-a936-072a34020d87@quicinc.com>
-Date:   Mon, 1 Nov 2021 08:32:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=+mcTZ2eqc3eLQRfLqaTPyOtzxWrRbXuCUvN2Q5tWSyo=;
+        b=V2NXgItPTm/OrLHuGMISs/nrxEVVq0+2zPAxfKLB7kIuCMw1Ez5CxcCi8BOXNRE7sZ
+         11oJIHsfSitmZ4V1HzickVs/OcppA4O1mqh55z59M4+1mRmqAgjcqp5fjO0mU5l3vk+Y
+         iuKuWmClVacbou75vqNLA2THlPLztul93N16+aiAjMmF7aqzK/vzvfsOzLsFTHhqOGKw
+         15ae8LnLC+GOEvCErQcO3VeTIoYPS+Ab9axwNpHcvMnBNrukWlbtHccI/65liq80rpaa
+         bUJuvlU/MJC1lBeMspALiLcNZNLLOrbJ9LOz9Uck5yOI3PKC4C595mNybCGzPePIVy/x
+         m5WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=+mcTZ2eqc3eLQRfLqaTPyOtzxWrRbXuCUvN2Q5tWSyo=;
+        b=L799kGgjLuANWqG7QWFwJ//07fzynDLFDkcCayuCMmGfKknBq9ieZRFzhUqi20QLOv
+         MGUrPG5u7r936ZE17Spuy0SipZYZQTpGx/c9MRKnWksJsvdJqLMwpko4wsPr+5su7iNt
+         oN4iS2CMpGb/ojxppG2T9axCd7HZ2X6Ad7QcjZCN1MCLkBetspPTajn/VAKsKcQaAIaY
+         42inHqWVgY74bo51Vk0ROtmKQ/0lsWZHz/IvnOnGTS+21dPnOPhuikBA9Xmdm2lLAIxc
+         dObEk6SRznevpb+YJ8V15ZkT6n0nQoWrhM39ljdYW6UZSTZH5Kpr3X0dc33KCcPU8gjU
+         glNg==
+X-Gm-Message-State: AOAM5302cE26z//ncPjWZUaF8lKeL5qLD/gu+PQOv4Ikb6pBbgqcBxEU
+        DfKbc828C7QssjKGiGGs5ZLM/1qkm1egETK3l+U=
+X-Google-Smtp-Source: ABdhPJxDrrMjkeIhlAkahZQjmYOmllFV97CXQaTp/AN50DcpQq6wK7MIoh0PGxDTmkmn4QKqjK63FimATpK905CNcqg=
+X-Received: by 2002:a5b:783:: with SMTP id b3mr29389115ybq.328.1635775247652;
+ Mon, 01 Nov 2021 07:00:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211029161952.u4g7vutcz3qd57lo@maple.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Received: by 2002:a25:51c5:0:0:0:0:0 with HTTP; Mon, 1 Nov 2021 07:00:47 -0700 (PDT)
+Reply-To: michellegoodman035@gmail.com
+From:   Shayma <shaymamarwan08@gmail.com>
+Date:   Mon, 1 Nov 2021 14:00:47 +0000
+Message-ID: <CA+HOoT3d8T-LZFVFAVKeNZxGWcUixG5ACLdyesNz0JjekSwCGg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 10/29/21 12:19 PM, Daniel Thompson wrote:
-> My feedback came about because, in alphabetic form, it is not easy to
-> see which ftrace tracers are enabled (because they are named
-> CONFIG_<feature>_TRACER they appear all over the place).
-
-Good point, Daniel. I also think the existing categories could change
-but are fairly stable. I'll reorganize them.
+TWVyaGFiYSB1bWFyxLFtIG1lc2FqxLFtxLEgYWxtxLHFn3PEsW7EsXpkxLFyLg0KaMSxemzEsSB0
+ZXBraWxlcmUgaWh0aXlhY8SxbSB2YXINCg0KVGXFn2Vra8O8cmxlci4NCk1pY2hlbGxlDQo=
