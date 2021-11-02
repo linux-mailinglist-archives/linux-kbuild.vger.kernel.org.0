@@ -2,77 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F0BF44250C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Nov 2021 02:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37470442D31
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Nov 2021 12:51:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231168AbhKBBWl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Nov 2021 21:22:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53432 "EHLO mail.kernel.org"
+        id S230504AbhKBLxk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Nov 2021 07:53:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57480 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230511AbhKBBWk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Nov 2021 21:22:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id D1889610A2;
-        Tue,  2 Nov 2021 01:20:06 +0000 (UTC)
+        id S229720AbhKBLxj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 2 Nov 2021 07:53:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8BAA60F5A;
+        Tue,  2 Nov 2021 11:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635816006;
-        bh=7ygTD1Mm21sW96aUbajwM3zn19p5y604kj6kGRqhAXI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=NeR5lZcy0en4juTCM7gVKbTsY/Q5+g6gaKDV1KYjwIAko2Da1+Ns8+gQCjasS2Uos
-         4LLkGG04J3EW49y5FNQ1m4mb2aW4eOug7GWXtFCuOp2/PPphgFQxh7KJT1DYx4xA4c
-         i/kWGB6u2qjnDVSclVojwsTpg36Rnoyzoz2LnFmApdYcIwd5z9E3cFRxNuDTAolNpF
-         FteuSp8hNF055pfPQihP5GfUugTLFmZkLr0SGFcvd0VOMuIPkY4N3Nih07Qf/bsqub
-         wWcOCcZGb6KiDzHygqdrYmr9XiuMpXQQl7CY5nqefMzKTaFeS6+za2IUb9XH/7O7Jp
-         WUU2okv6DLjyA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id C5CA860BD0;
-        Tue,  2 Nov 2021 01:20:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1635853864;
+        bh=dqJN2Gi6q7TPSF77o6RQLRWPsFd/JVJbppmgYInfGv8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=nrrauIoQWCLjHnJV4rwpOzX2ac87/ZtDlNMSEV6MKg9vOdLreBYmoyc400xNpNfZH
+         Rmlrf0jQyLtJf0bllBRc/QbwTFmsYDUHzvbpHyzge1yqnJMbkl7+ClMHQZuVD+nrwi
+         9mcmwp/ccnxVm2h8ufjseCAb1CvvSdTKYrpuR8a+7KF6FrGojKjOzCWy3m7biDn1y4
+         YccZjkRj4nGzGozfqBeNmQDckxGzLZHpgY0eSaR+ZDPfGckr38ti02CHrkaQCKmXMO
+         DcQt0m2nCwh0DzPoqkG2UFMsDNtBh9tysmL8ZF6pM9wfvFFWjqZ3UvDT/rjnChGuAZ
+         32I5UGdrp6ahg==
+Date:   Tue, 2 Nov 2021 12:50:59 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        platform-driver-x86@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/6] MODULE_DEVICE_TABLE() support for the ISHTP bus
+In-Reply-To: <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2111021249520.12554@cbobk.fhfr.pm>
+References: <20211029152901.297939-1-linux@weissschuh.net> <883db585-c9bb-5255-4ddd-f093616af1a1@redhat.com> <1bb82b37-06e4-4937-ba0d-57fd301eaf2e@t-8ch.de> <85cb78cd-92d9-69ed-9360-f5d6f8f904af@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCHv3 bpf-next] kbuild: Unify options for BTF generation for
- vmlinux and modules
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163581600680.29215.13986498417182964591.git-patchwork-notify@kernel.org>
-Date:   Tue, 02 Nov 2021 01:20:06 +0000
-References: <20211029125729.70002-1-jolsa@kernel.org>
-In-Reply-To: <20211029125729.70002-1-jolsa@kernel.org>
-To:     Jiri Olsa <jolsa@redhat.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, lkp@intel.com, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@chromium.org
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello:
+On Mon, 1 Nov 2021, Hans de Goede wrote:
 
-This patch was applied to bpf/bpf-next.git (master)
-by Andrii Nakryiko <andrii@kernel.org>:
-
-On Fri, 29 Oct 2021 14:57:29 +0200 you wrote:
-> Using new PAHOLE_FLAGS variable to pass extra arguments to
-> pahole for both vmlinux and modules BTF data generation.
+> >> Since most of the changes here are under drivers/hid and since the latter
+> >> patches depend on 1/6, I believe it would be best to merge the entire series
+> >> through the HID tree, here is my ack for this:
+> >>
+> >> Acked-by: Hans de Goede <hdegoede@redhat.com>
+> > 
+> > Please note that patch 6 modifies a driver that is not yet available in the HID
+> > and 5.15 trees but only in pdx86/for-next.
 > 
-> Adding new scripts/pahole-flags.sh script that detect and
-> prints pahole options.
+> Right, but given where we are in the cycle this is going to be something to
+> merge post 5.16-rc1 anyways which resolves the dependency issue.
 > 
-> [ fixed issues found by kernel test robot ]
-> Cc: kernel test robot <lkp@intel.com>
-> Acked-by: Andrii Nakryiko <andrii@kernel.org>
-> Signed-off-by: Jiri Olsa <jolsa@kernel.org>
-> 
-> [...]
+> I guess it might be good to send this our in a later pull-req as a fix series
+> for a later 5.16-rc# though, to avoid the eclite and chrome-ec drivers from
+> autoloading on all systems with an ISH, even though they usually will not be
+> used there.
 
-Here is the summary with links:
-  - [PATCHv3,bpf-next] kbuild: Unify options for BTF generation for vmlinux and modules
-    https://git.kernel.org/bpf/bpf-next/c/9741e07ece7c
+I'll be happy to take this as 5.16 fixups after the merge window is over 
+(I am not adding anything new to the branches now, before Linus merges HID 
+tree), but I'd still like to see Ack from Srinivas.
 
-You are awesome, thank you!
+Thanks,
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Jiri Kosina
+SUSE Labs
 
