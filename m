@@ -2,76 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5DF14460D9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Nov 2021 09:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43E9F4462F2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Nov 2021 12:41:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232105AbhKEIuB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Nov 2021 04:50:01 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:30008 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231634AbhKEIuB (ORCPT
+        id S231184AbhKELnk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Nov 2021 07:43:40 -0400
+Received: from codesynthesis.com ([188.40.148.39]:60664 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229863AbhKELnj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Nov 2021 04:50:01 -0400
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 1A58koj8013729;
-        Fri, 5 Nov 2021 17:46:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 1A58koj8013729
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1636102010;
-        bh=hEhJl2HdynqX/cF0owA6s9AgGPrScZoY2qglPu0+FfE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ak8PZCssR7Bow/bWI9HqjRhuTFrqtAjgowh/6OzS4z572N9CbgdblEi/vi7bYk7k+
-         Yeclupgq0S1Et8ceLVDGxlNp0PhD7H4tLaDiVBWs2nNPl2FZOhojvFcAB/8ILJ5g18
-         yA+Ri3qRpjqblI3QcMSt5XwCTgbuFz2ynwS3k4MDt5I8ZaoixRdVl+ANkO4MmLos2f
-         HYJQJw/3PG42yjIpzLL+jfKy1Ro/ENTBBWR8nTKnoILqA39F6NgAMehZwYSjVUwJsW
-         gzDhnet41AJtzzDlEo4JekafOUOKkrFTKzR0tV5ldc0ZMgQP2lqFm0udsQjKgXn7d3
-         P63MI3uuPC8aQ==
-X-Nifty-SrcIP: [209.85.214.180]
-Received: by mail-pl1-f180.google.com with SMTP id t21so10672472plr.6;
-        Fri, 05 Nov 2021 01:46:50 -0700 (PDT)
-X-Gm-Message-State: AOAM5328U2f2SmNDmtpEQpukVfw9M0BXvN1m9Xo3QHjC/hajjG46aWXc
-        2YRye0EOYqTU46xBvYgawtsgXyJNWHeTGa+1Rqo=
-X-Google-Smtp-Source: ABdhPJygdgn5UgdZjMaG+cOCSDm3kljTr1w8GPZi1lXnvecM9e+48pkqKi3e0chVMcGUZx2vmzk2NLRgodiaolvYSaE=
-X-Received: by 2002:a17:902:6b83:b0:141:6368:3562 with SMTP id
- p3-20020a1709026b8300b0014163683562mr49190366plk.42.1636102009703; Fri, 05
- Nov 2021 01:46:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211001053253.1223316-1-masahiroy@kernel.org>
- <20211001053253.1223316-3-masahiroy@kernel.org> <boris.20211028071331@codesynthesis.com>
-In-Reply-To: <boris.20211028071331@codesynthesis.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 5 Nov 2021 17:46:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASx05b8pWJDaBbRE8rMZ_ceL1qFCMZQ9Dy21pJsuTM_+w@mail.gmail.com>
-Message-ID: <CAK7LNASx05b8pWJDaBbRE8rMZ_ceL1qFCMZQ9Dy21pJsuTM_+w@mail.gmail.com>
-Subject: Re: [PATCH 03/10] kconfig: refactor conf_write_symbol()
-To:     Boris Kolpackov <boris@codesynthesis.com>
+        Fri, 5 Nov 2021 07:43:39 -0400
+Received: from brak.codesynthesis.com (197-255-152-207.static.adept.co.za [197.255.152.207])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id CB61B605A6;
+        Fri,  5 Nov 2021 11:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1636112459;
+        bh=GYg53yeeoA/Wt1qwgUzlcZdcaUJ9Yg+EcWoqR+UG4ao=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=el6+tlzMqkW6VVTAUifGFqW1+VyXncJ3SkEEgvkhbrLt+5GQO+RLPWJ+ENSqGUDU1
+         VPMHlZiHL5QCNN7fjvREVVTVUWE1uBdfCoAnfXPH1IgtuxVN0eeIrOA0C4F9k2CL1B
+         s4sb0DvX4oYUb0PxXVt/NjN4+ICdu0bbJMkdWAhYn31jhzhSoPdORK5aieNNCUbwZb
+         C/t5JFzxaY2XBhM9i3GsxZusZbfbinNqaAu0f56NsAVPkZDisd07r1xNyY9Pv8QEr+
+         0zRo8na7H1ekm2h17UmVqWKu9gUoFyCsmo/K63gBqhvtyLugwrHoj1estlSYWUCIWD
+         RrVJVr0jg9BJA==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 3BCDA1A800C4; Fri,  5 Nov 2021 13:40:54 +0200 (SAST)
+Date:   Fri, 5 Nov 2021 13:40:54 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 03/10] kconfig: refactor conf_write_symbol()
+Message-ID: <boris.20211105133811@codesynthesis.com>
+References: <20211001053253.1223316-1-masahiroy@kernel.org>
+ <20211001053253.1223316-3-masahiroy@kernel.org>
+ <boris.20211028071331@codesynthesis.com>
+ <CAK7LNASx05b8pWJDaBbRE8rMZ_ceL1qFCMZQ9Dy21pJsuTM_+w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASx05b8pWJDaBbRE8rMZ_ceL1qFCMZQ9Dy21pJsuTM_+w@mail.gmail.com>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 2:16 PM Boris Kolpackov <boris@codesynthesis.com> wrote:
->
-> Masahiro Yamada <masahiroy@kernel.org> writes:
->
-> > +static void __print_symbol(FILE *fp, struct symbol *sym, enum output_n output_n,
->
-> Identifier that start with double underscore are reserved. The same
-> goes for __conf_write_autoconf() in another patch.
+Masahiro Yamada <masahiroy@kernel.org> writes:
 
+> Without this patch, there are some functions that start with double
+> underscores.
+> 
+> For example,
+> 
+>   __expr_eliminate_eq() in scripts/kconfig/expr.c
+>   __expand_string()  in scripts/kconfig/preprocess.c
+> 
+> Are they problematic as well?
 
-Without this patch, there are some functions that start with double underscores.
-
-For example,
-
-  __expr_eliminate_eq() in scripts/kconfig/expr.c
-  __expand_string()  in scripts/kconfig/preprocess.c
-
-Are they problematic as well?
-
-
--- 
-Best Regards
-Masahiro Yamada
+Yes, they could be potentially problematic. Identifiers that start
+with double underscores or with a single underscore followed by an
+uppercase letter are reserved for use by the C implementation (for
+example, as a pre-defined macro).
