@@ -2,62 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DB0B447B12
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Nov 2021 08:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F7A447C45
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Nov 2021 09:51:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237910AbhKHHan (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Nov 2021 02:30:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237828AbhKHHaT (ORCPT
+        id S238187AbhKHIyB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Nov 2021 03:54:01 -0500
+Received: from mail.widealism.pl ([54.37.225.213]:43414 "EHLO
+        mail.widealism.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238169AbhKHIyA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Nov 2021 02:30:19 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74713C06120E
-        for <linux-kbuild@vger.kernel.org>; Sun,  7 Nov 2021 23:27:33 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id g14so58054275edz.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 07 Nov 2021 23:27:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=lohGAXI96njXpZ5r6vgYlUkp2V68iRMzDV25uaLpmT1WmpX2h0YNNnPekuKOrJR7Hh
-         rCcmOUgGjsAkeHEvvQCkM6ux+TyqL0CqGbf0IPfL8V+eIKLF7r3X9QWFup/xVl2xV9qZ
-         NGc0LQ7JpvXhk+YTEHFaFd2QnuENE8mCWi0drmIQkANv1zf9DM6Bfjx/yF/A/b9RtJFU
-         CT2DuJeqJ7evq+rJKQgmUSCIg2GjkqvLZlnb0ekZ1/3u7apFf2k73Uqo2u8YZ8hKmOIw
-         ZGA3M8LZJFGSmW3P+nQyYMCLCtL13s+WCsnPOmCuuFd5xieMsN0vbLhindKIE3OfrP6U
-         BcYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=CB1qnSrUmv31o0g/DiCwdFuq6dueRb8vlJ9KWdlSOhY7gl32JCT1BR/88gX3WIsT2T
-         ek1AmZwPHlXJX2JVKHqy/BT+edz9GT+6sETzlaLdxjuGijnrWvYe+rvnHRtWCMOi1/Th
-         JgoCAEKZyPv7fDmcfjOTMupAAdymMoV8Ehos2pK61poCwAM6QMAYUs06xxh8tC8LFOr4
-         4zWzZNzpzY7RUqx6/B1cQHl5p4MJdyAlz3qtjFWPbutYQvconms3sW8uffQ0I5o3Vjw7
-         /QIAnZ9AulyFpi1QE/W4dso/FcCJp+oOZ4MOr6cGvTEAXCWwenP3sxEylMYtVygOAU00
-         KlkA==
-X-Gm-Message-State: AOAM530rqzOO7qN/mLOht6sEOmDETg+jeHVFRYUJ+TIbdFMu4MGxWu+o
-        A27cyiRkJ76K72m4mwCTl/abRiejrSfbGQx3W/rAb7Q8PzU=
-X-Google-Smtp-Source: ABdhPJwiROS9SRRNMvDLES4YHo6uT5d60ZUwIiFmBNAm9OxEfLgMU9cee9PqVQWim0XNVifN/Rk5vWcyMQ7rvBndYNE=
-X-Received: by 2002:a05:6402:557:: with SMTP id i23mr66769092edx.176.1636356441798;
- Sun, 07 Nov 2021 23:27:21 -0800 (PST)
+        Mon, 8 Nov 2021 03:54:00 -0500
+X-Greylist: delayed 598 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Nov 2021 03:54:00 EST
+Received: by mail.widealism.pl (Postfix, from userid 1002)
+        id 03081A1F3A; Mon,  8 Nov 2021 08:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=widealism.pl; s=mail;
+        t=1636360878; bh=bqoy2af4nNqJWeTGDKLL/P5JaMXiWzeLCDaV12Cv6Qs=;
+        h=Date:From:To:Subject:From;
+        b=K6RRJDs4kH07/kjeyNC/bAt0HBMvOF2mPyulOL1glZwprUazQgeI0efj3QmUDnAqa
+         QVgTpX11BWJBRMNFxrUOgt+5j2DPqrsOYLEJpXmZxkp/ulAw0S1sWYKhyzSl5l52YV
+         g/ksP8CeCFfbOm3f0zlITjZu+mjCsGQttyttrZ0hF0QPUKQgfbzC3aqLPeyHlc8UE+
+         LQWevDZ7y5/BRi/OfuQn9NidIC7hZCsZgF2ZBvH2HpeKCpzH+dGcnh+DRHXtTQij83
+         HNQTfvHAA7EIjktCLYmVNO5VMNoLq9/pT5KKyLHcj62htyVZkr40xDtnfPMdG94wO2
+         FQy7XRjtTZHSQ==
+Received: by mail.widealism.pl for <linux-kbuild@vger.kernel.org>; Mon,  8 Nov 2021 08:41:09 GMT
+Message-ID: <20211108074500-0.1.2r.2nn2.0.n7eh7xj3pm@widealism.pl>
+Date:   Mon,  8 Nov 2021 08:41:09 GMT
+From:   =?UTF-8?Q? "Miko=C5=82aj_Lewandowski" ?= 
+        <mikolaj.lewandowski@widealism.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Nowe stawki dla Fotowoltaiki
+X-Mailer: mail.widealism.pl
 MIME-Version: 1.0
-Received: by 2002:a50:2501:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 23:27:21 -0800 (PST)
-Reply-To: mariaschaefler@gmx.com
-From:   Maria Schaefler <ziskoraa@gmail.com>
-Date:   Mon, 8 Nov 2021 07:27:21 +0000
-Message-ID: <CAJh0FjiFL7uihMBL6ckYO8FJ6tnzM+tBivU2c60yDbG14LZLeA@mail.gmail.com>
-Subject: MY HEART CHOOSE YOU.
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Given my current state of health, I have decided to donate what I
-inherited from my late husband to you to help the poor and needy. I am
-Mrs Maria Schaefler,a 57years old dying woman. I was diagnosed for
-cancer about 2 years ago and I have few months to live according to
-medical experts. Email me for my directives
+Dzie=C5=84 dobry,
+
+w zwi=C4=85zku z podniesieniem ceny zakupu energii, kt=C3=B3ra b=C4=99dzi=
+e zdecydowanie wy=C5=BCsza ni=C5=BC cena sprzeda=C5=BCy nadwy=C5=BCek pr=C4=
+=85du, warto rozwa=C5=BCy=C4=87 instalacj=C4=99 fotowoltaiki jeszcze prze=
+d ko=C5=84cem tego roku - to jedyny spos=C3=B3b na zachowanie mo=C5=BCliw=
+o=C5=9Bci korzystania ze starych zasad.
+
+Czy chcieliby Pa=C5=84stwo zapozna=C4=87 si=C4=99 z mo=C5=BCliwo=C5=9Bcia=
+mi inwestycji w PV dopasowanymi do Pa=C5=84stwa obiektu?
+
+
+Pozdrawiam,
+Miko=C5=82aj Lewandowski
