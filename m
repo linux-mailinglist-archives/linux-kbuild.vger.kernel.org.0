@@ -2,115 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D8044D5E4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 12:35:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5926E44DCDA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 22:05:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233090AbhKKLiJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Nov 2021 06:38:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44726 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233077AbhKKLiJ (ORCPT
+        id S232666AbhKKVIU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Nov 2021 16:08:20 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:55277 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229785AbhKKVIT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Nov 2021 06:38:09 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0745DC0613F5;
-        Thu, 11 Nov 2021 03:35:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=PnbX+gQU93tJ4Oopo9HMKbJdOiep79gIINOH60lEP+Q=; b=Y25YDRrKPguEKSeTtTUSYmFzie
-        uXPhh8AI174gyUJEzYFhj0TJ/dQg6+lsaH86PhNMqeKZlJuXDKlKV8xN9vLccNk8ghuixW/20cCad
-        mETlQ138dCBSEHPY65HbPbce25H4Hg8mJfvqq8GMsLa+L8snnlf0rKMSFg5vK/1LwUXTY/Wrh877q
-        4tOU+2QExR/CFrHWKAwsF778j6LUSvHP9QElOM7qMWcNRzlrB3x/AZgY+QiPgUog3NU9pP0H4Z5x7
-        HvHZBFwWf4Gly6gVTeieIsXJU8hXwfb6plEGA8NLU78c06J7L8FEnQvfrFySib8nSCOFqDzHQOTW4
-        YSpqFf0Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ml8MA-00FSKN-3e; Thu, 11 Nov 2021 11:35:02 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F07A930001B;
-        Thu, 11 Nov 2021 12:35:00 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id DB9E6203BF719; Thu, 11 Nov 2021 12:35:00 +0100 (CET)
-Date:   Thu, 11 Nov 2021 12:35:00 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Marco Elver <elver@google.com>
-Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH -rcu/kcsan 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <YYz/5BgYwHQceKx4@hirez.programming.kicks-ass.net>
-References: <20211005105905.1994700-1-elver@google.com>
- <20211005105905.1994700-24-elver@google.com>
- <YVxjH2AtjvB8BDMD@hirez.programming.kicks-ass.net>
- <YVxrn2658Xdf0Asf@elver.google.com>
- <CANpmjNPk9i9Ap6LRuS32dRRCOrs4YwDP-EhfX-niCXu7zH2JOg@mail.gmail.com>
+        Thu, 11 Nov 2021 16:08:19 -0500
+Received: from leknes.fjasle.eu ([92.116.65.223]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MOzKm-1n448p2HPQ-00PJwc; Thu, 11 Nov 2021 22:04:31 +0100
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 14D833C563; Thu, 11 Nov 2021 22:04:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1636664669; bh=E9zRL4wp69cueK3T0b6a6zpUpjWFIzefnR0viafArLA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wqCnbgCpZW3hdHjlP2UnZ287DMugL2ceaJCZdLoYuRG5L1PqawgPHsvE8u7hXFO5R
+         wRXvfrzb6wMfgkPEfkV5ED3cM9cXa5Om+Zr1RKIYJMlo/mGS37X3MytMQew4KiR2oj
+         Q9WGLa96mzPjNr0w20xwb/3HZWfd5XyxaCfWcrwE=
+Date:   Thu, 11 Nov 2021 22:04:28 +0100
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH v2] scripts/config: allow "O=config-dir" option
+Message-ID: <YY2FXErXArNnKwDh@fjasle.eu>
+References: <20211102224041.5105-1-rdunlap@infradead.org>
+ <CAK7LNAQg0Dmj03xLWvz4=Y6n6VoiOnn-hkHrR7_MTgE5obt_7w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANpmjNPk9i9Ap6LRuS32dRRCOrs4YwDP-EhfX-niCXu7zH2JOg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQg0Dmj03xLWvz4=Y6n6VoiOnn-hkHrR7_MTgE5obt_7w@mail.gmail.com>
+X-Provags-ID: V03:K1:KEgiijC07xwaSkYU63nzWVP2XqOJppvdWCAZnjlVWeGvEHfF5is
+ 36Lu/X+BwO1ppBlOyVhTBuP2QgsDqzrFPAz8F1Fkt0ntFyxrYpxrArLmatV0r7I/+4TlRjU
+ O05hwKcZari8f+pp+vOPnVHZprgtaqsal7vOyFGk/eYkLbMsGldCETBR/mti/pljx6EFj5f
+ GZ0/QWJCPii1Qu1zRGLEg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6MitMX78nJM=:jnJ9ptHn6X+BGSmAqhyAsG
+ GcPy0/UhDTKd/0CXjYXv6RiyjkRutc8FOjtNONA8NNCQWgCu/5UtJkCTNDkQNYRIN+ew0SU9r
+ n7cs9wM+ZAQ08ER4eYjmmP1hg9SqFO6yKNM3spX8SPTAz2SEiVTXSQ5BF4t4QCmsNv/nhPHVt
+ 2taH8J//QC1mC8jr/ayEk4gjg8EttKNV368LWPyesfEhBvt8zHD42mAsB9mhqLqibkwLEaof/
+ r838T12UDMzEJEvetTZtx3weSVAjpzOFnWju4KS9M0IeYKDiUbpF7VqiohTlWyoK6aZr/nnm6
+ xl2gXvJnBQy4ptLHn9jfqJWAdIKy3XKUIiISxItbpXV2g9C6L6F0F5VY6aFBRhXdw9RVryYOy
+ o54EW4PYw7GWmcEZ43KEKM5I69YGUWvwdio+auOwllCgRLFd5h92JHfeF7VsSkE65KlVPcD/c
+ sDUVfaUAyUhRWyNSjRt80HSQxIJWwu8FoVsx7h8B3Yw2Hp6ryM7Iya59t3WxRGYPZqyNl4gP5
+ BtwT4JmaMd5JNPvNnDwLwAbbXsvWmasSLFIzh27t7BLHUItZI6GNNOD0CXuh6MMOvGrcbDEVS
+ xNa239AZQlcJ+tFljqBVLBdjOsXPovTtP1SmR88Pcr7gPVkH5X1ZMfar+iLO3CRoz2kT4hkoi
+ LEiY5vjcGDs8xl71ctyOQxwEz+AqrwplkU39Yl1j7Ej8DUCw3YjRLMOuzSkfSwUSaxHc=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 11:11:00AM +0100, Marco Elver wrote:
-> On Tue, 5 Oct 2021 at 17:13, Marco Elver <elver@google.com> wrote:
+Hi Masahiro,
 
-> > So this is where I'd like to hear if the approach of:
+On Fri, Nov 05, 2021 at 12:41:59AM +0900 Masahiro Yamada wrote:
+> On Wed, Nov 3, 2021 at 7:40 AM Randy Dunlap <rdunlap@infradead.org> wrote:
 > >
-> >  | #if !defined(CONFIG_ARCH_WANTS_NO_INSTR) || defined(CONFIG_STACK_VALIDATION)
-> >  | ...
-> >  | #else
-> >  | #define kcsan_noinstr noinstr
-> >  | static __always_inline bool within_noinstr(unsigned long ip)
-> >  | {
-> >  |      return (unsigned long)__noinstr_text_start <= ip &&
-> >  |             ip < (unsigned long)__noinstr_text_end;
-
-Provided these turn into compile time constants this stands a fair
-chance of working I suppose. Once this needs data loads things get a
-*lot* more tricky.
-
-> >  | }
-> >  | #endif
+> > Support "O=config-dir" as the location of the .config file
+> > like (some) other kernel build (make) tools do.
 > >
-> > and then (using the !STACK_VALIDATION definitions)
+> > Also check for the existence of the config-dir/config-file
+> > and report if there is no such file instead of letting grep
+> > report that there is no such file.
 > >
-> >  | kcsan_noinstr void instrumentation_may_appear_in_noinstr(void)
-> >  | {
-> >  |      if (within_noinstr(_RET_IP_))
-> >  |              return;
-> >
-> > works for the non-x86 arches that select ARCH_WANTS_NO_INSTR.
-> >
-> > If it doesn't I can easily just remove kcsan_noinstr/within_noinstr, and
-> > add a "depends on !ARCH_WANTS_NO_INSTR || STACK_VALIDATION" to the
-> > KCSAN_WEAK_MEMORY option.
-> >
-> > Looking at a previous discussion [1], however, I was under the
-> > impression that this would work.
-> >
-> > [1] https://lkml.kernel.org/r/CANpmjNMAZiW-Er=2QDgGP+_3hg1LOvPYcbfGSPMv=aR6MVTB-g@mail.gmail.com
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> > ---
 > 
-> I'll send v2 of this series after 5.16-rc1. So far I think we haven't
-> been able to say the above doesn't work, which means I'll assume it
-> works on non-x86 architectures with ARCH_WANTS_NO_INSTR until we get
-> evidence of the opposite.
+> Why don't you use  --file path/to/output/dir/.config ?
 
-Fair enough.
+I did not ask for the patch, but it matches some typical situations I
+experience at work.  Building kernels out-of-source w/ 'O=' but modifying
+.config with the '--file' option does not feel "natural". And 'O=' in
+scripts/config allows reusing make arguments (readline/bash's ESC-n ESC-.).
+
+Having the 'O=' argument, it might allow fixing the '--refresh' option to
+support out-of-source builds.
+
+Thus, no really great points from me.
+
+Kind regards,
+Nicolas
+
+
+> > v2:
+> > - use 'shellcheck' and other recommendations from Nicolas
+> > - move one comment from the commit description to under the "---" line
+> >
+> > Someone asked for this "feature" a few months ago but I don't
+> > recall who it was.
+> >
+> >  scripts/config |   44 +++++++++++++++++++++++++++++++++++++++-----
+> >  1 file changed, 39 insertions(+), 5 deletions(-)
+> >
+> > --- linux-next-20211102.orig/scripts/config
+> > +++ linux-next-20211102/scripts/config
+> > @@ -37,6 +37,7 @@ commands:
+> >
+> >  options:
+> >         --file config-file   .config file to change (default .config)
+> > +       O=config-dir         Specify the directory location of the config-file
+> >         --keep-case|-k       Keep next symbols' case (dont' upper-case it)
+> >
+> >  $myname doesn't check the validity of the .config file. This is done at next
+> > @@ -124,15 +125,48 @@ undef_var() {
+> >         txt_delete "^# $name is not set" "$FN"
+> >  }
+> >
+> > -if [ "$1" = "--file" ]; then
+> > -       FN="$2"
+> > -       if [ "$FN" = "" ] ; then
+> > +DIR=
+> > +FN=
+> > +
+> > +while [ "$DIR" = "" ] || [ "$FN" = "" ]; do
+> > +
+> > +       if [ "$1" = "" ] ; then
+> >                 usage
+> >         fi
+> > -       shift 2
+> > -else
+> > +       if [ "$1" = "--file" ]; then
+> > +               FN="$2"
+> > +               if [ "$FN" = "" ] ; then
+> > +                       usage
+> > +               fi
+> > +               shift 2
+> > +               continue
+> > +       fi
+> > +
+> > +       optn=$1
+> > +       optnlen=${#optn}
+> > +       if [ "$optnlen" -gt 1 ] && [ "${optn:0:2}" = "O=" ]; then
+> > +               DIR=${optn:2}
+> > +               shift
+> > +               if [ "$DIR" = "" ]; then
+> > +                       usage
+> > +               fi
+> > +               continue
+> > +       fi
+> > +       break   # something other than --file or O=dir
+> > +done
+> > +
+> > +if [ "$FN" = "" ]; then
+> >         FN=.config
+> >  fi
+> > +if [ "$DIR" != "" ]; then
+> > +       DIR=$DIR"/"
+> > +fi
+> > +FN="${DIR}${FN}"
+> > +
+> > +if [ ! -r "$FN" ]; then
+> > +       echo "No such config file: $FN"
+> > +       exit
+> > +fi
+> >
+> >  if [ "$1" = "" ] ; then
+> >         usage
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
+
+-- 
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
