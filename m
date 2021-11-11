@@ -2,28 +2,29 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E9DC44D562
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 11:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98DCC44D568
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 11:57:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232854AbhKKK7O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Nov 2021 05:59:14 -0500
-Received: from foss.arm.com ([217.140.110.172]:37014 "EHLO foss.arm.com"
+        id S232366AbhKKK74 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Nov 2021 05:59:56 -0500
+Received: from foss.arm.com ([217.140.110.172]:37058 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232832AbhKKK7O (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Nov 2021 05:59:14 -0500
+        id S229668AbhKKK74 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 11 Nov 2021 05:59:56 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B718101E;
-        Thu, 11 Nov 2021 02:56:25 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41DEDD6E;
+        Thu, 11 Nov 2021 02:57:07 -0800 (PST)
 Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.196.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1099C3F70D;
-        Thu, 11 Nov 2021 02:56:22 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 292E93F70D;
+        Thu, 11 Nov 2021 02:57:05 -0800 (PST)
 From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Mike Galbraith <efault@gmx.de>, Marco Elver <elver@google.com>
+To:     Marco Elver <elver@google.com>
 Cc:     linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
         Frederic Weisbecker <frederic@kernel.org>,
+        Mike Galbraith <efault@gmx.de>,
         Dmitry Vyukov <dvyukov@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -32,49 +33,58 @@ Cc:     linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
-In-Reply-To: <26fd47db11763a9c79662a66eed2dbdbcbedaa8a.camel@gmx.de>
-References: <20211110202448.4054153-1-valentin.schneider@arm.com> <20211110202448.4054153-3-valentin.schneider@arm.com> <a7c704c2ae77e430d7f0657c5db664f877263830.camel@gmx.de> <803a905890530ea1b86db6ac45bd1fd940cf0ac3.camel@gmx.de> <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de> <CANpmjNPeRwupeg=S8yGGUracoehSUbS-Fkfb8juv5mYN36uiqg@mail.gmail.com> <26fd47db11763a9c79662a66eed2dbdbcbedaa8a.camel@gmx.de>
-Date:   Thu, 11 Nov 2021 10:56:20 +0000
-Message-ID: <8735o3rmej.mognet@arm.com>
+Subject: Re: [PATCH v2 4/5] kscan: Use preemption model accessors
+In-Reply-To: <YYzeOQNFmuieCk3T@elver.google.com>
+References: <20211110202448.4054153-1-valentin.schneider@arm.com> <20211110202448.4054153-5-valentin.schneider@arm.com> <YYzeOQNFmuieCk3T@elver.google.com>
+Date:   Thu, 11 Nov 2021 10:57:02 +0000
+Message-ID: <871r3nrmdd.mognet@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/11/21 11:32, Mike Galbraith wrote:
-> On Thu, 2021-11-11 at 10:36 +0100, Marco Elver wrote:
->> I guess the question is if is_preempt_full() should be true also if
->> is_preempt_rt() is true?
->
-> That's what CONFIG_PREEMPTION is.  More could follow, but it was added
-> to allow multiple models to say "preemptible".
+On 11/11/21 10:11, Marco Elver wrote:
+> Subject s/kscan/kcsan/
 >
 
-That's what I was gonna say, but you can have CONFIG_PREEMPTION while being
-is_preempt_none() due to PREEMPT_DYNAMIC...
+Woops...
 
->> Not sure all cases are happy with that, e.g. the kernel/trace/trace.c
->> case, which wants to print the precise preemption level.
->
-> Yeah, that's the "annoying" bit, needing one oddball model accessor
-> that isn't about a particular model.
->
->> To avoid confusion, I'd introduce another helper that says true if the
->> preemption level is "at least full", currently that'd be "full or rt".
->> Something like is_preempt_full_or_rt() (but might as well write
->> "is_preempt_full() || is_preempt_rt()"), or is_preemption() (to match
->> that Kconfig variable, although it's slightly confusing). The
->> implementation of that helper can just be a static inline function
->> returning "is_preempt_full() || is_preempt_rt()".
+> On Wed, Nov 10, 2021 at 08:24PM +0000, Valentin Schneider wrote:
+>> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
+>> preemption model of the live kernel. Use the newly-introduced accessors
+>> instead.
 >>
->> Would that help?
+>> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
 >
-> Yeah, as it sits two accessors are needed, one that says PREEMPT the
-> other PREEMPTION, spelling optional.
+> Reviewed-by: Marco Elver <elver@google.com>
 >
-
-Per the above, I think we need the full || rt thingie.
-
->       -Mike
+> Though it currently doesn't compile as a module due to missing
+> EXPORT_SYMBOL of is_preempt*().
+>
+>> ---
+>>  kernel/kcsan/kcsan_test.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+>> index dc55fd5a36fc..14d811eb9a21 100644
+>> --- a/kernel/kcsan/kcsan_test.c
+>> +++ b/kernel/kcsan/kcsan_test.c
+>> @@ -1005,13 +1005,13 @@ static const void *nthreads_gen_params(const void *prev, char *desc)
+>>      else
+>>              nthreads *= 2;
+>>
+>> -	if (!IS_ENABLED(CONFIG_PREEMPT) || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
+>> +	if (!is_preempt_full() || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
+>>              /*
+>>               * Without any preemption, keep 2 CPUs free for other tasks, one
+>>               * of which is the main test case function checking for
+>>               * completion or failure.
+>>               */
+>> -		const long min_unused_cpus = IS_ENABLED(CONFIG_PREEMPT_NONE) ? 2 : 0;
+>> +		const long min_unused_cpus = is_preempt_none() ? 2 : 0;
+>>              const long min_required_cpus = 2 + min_unused_cpus;
+>>
+>>              if (num_online_cpus() < min_required_cpus) {
+>> --
+>> 2.25.1
