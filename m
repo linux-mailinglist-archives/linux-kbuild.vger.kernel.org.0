@@ -2,64 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E28FB44D427
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 10:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BD4544D435
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 10:40:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbhKKJjT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Nov 2021 04:39:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46260 "EHLO
+        id S232630AbhKKJmv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Nov 2021 04:42:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbhKKJjT (ORCPT
+        with ESMTP id S232600AbhKKJmu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Nov 2021 04:39:19 -0500
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F1EC061767
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 01:36:30 -0800 (PST)
-Received: by mail-ot1-x329.google.com with SMTP id h19-20020a9d3e53000000b0056547b797b2so7229583otg.4
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 01:36:30 -0800 (PST)
+        Thu, 11 Nov 2021 04:42:50 -0500
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7CA0C061767
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 01:40:01 -0800 (PST)
+Received: by mail-ot1-x32a.google.com with SMTP id r10-20020a056830080a00b0055c8fd2cebdso8074816ots.6
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 01:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FQNotspdE85/ckyfVd22yizASeOICaHxBSL2D6Rwwpw=;
-        b=UpJAsHH3wXt4nQODZVjA9FrGKUqqDF32IatYTS1SYxwoDbaRut+X6zfgkOHGkn0yt0
-         CNegVOkjnK2sjy9Nms1243+zJFMjwFxKJ0owcLdYwK4/PjI+gpArN+24oajV3xi/bhAy
-         y4ZTyZR4eWiJ2OqOTzZEw2+igo64Nc8xI9URhaWwqZL/ND7O6tYzZtsA/GOBw2sWuoEm
-         +sywwDbjeG7T5ZEbZY9f9HgkehvolqW8JKcnjE2AosQdOyQoLdVupvgtXCV4bh2itKzF
-         r4pIhz+pgijcQhHbDC5rWqcGvaxt/0sD85qniaK0p3CW+j8Sz9/u8rlcxct8jbsPhSNe
-         rQ8A==
+        bh=6/bKopAPmkHa57hfJnxgSr31+HwEgFYE/Py/TQAdG68=;
+        b=gkiWiOX8zlm9XT8Og6moU9xIJyu8+w/wkXHcSyju6P6MfcJ+1eMp46rl/6GcYATuSD
+         2lPIpohCRFh7xvqOYiub6Ne4RHSEdGx9iFmYpyAsiq3v8QkHfNUJorlkCpu59ecFoyDX
+         5cQ+gXFtQLFy6nzBtySiGlpS4F3A0n+VJS6gxzp6HcokIb00BTd0Hc6kjoNNwCCC2c/w
+         ZdaDUyw/oqZOrPVWQ0w/HvLeXtkQbp1Qk8FLjaPH5u8mH1zES5uW7Hh7l8usP8LoHwFM
+         rbM/lILsGVEEwAsxpEXLBi0WLmXQFnRPjUj7OPMUk81PvcRFPIE0OTrfSX25AJlr9m4G
+         0XHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FQNotspdE85/ckyfVd22yizASeOICaHxBSL2D6Rwwpw=;
-        b=Qs2s35dQDMv+UQV9O522kObaFT5rVyLs3Zf4WaaCOZyusE7owmKCFm9ooranQQY3+5
-         8Yu8hms6PZsV/BbsLex6aZ3ydVuq3yhnwSSWQ42jyb+yeXG/7pYkm5wVpgOp/KFrsbfS
-         5td0g6sJKsLX+pi1HhTY8YmTtGXVW9qdD6fp6me1NFBPkSIkYXBDx2WmkehyDyzJy8+q
-         fxvXR2ydBlCikFyxREXO/RE8kYrADRrsfjZK+GFWfzVbqs2m4DfIKZQ5n1P+82nAaAEZ
-         HDzSlJdb5nlhPbiV04KDQGa38+3XgGAVCb2MlRDumyfCVx6uzSCvonlQSrBwJ0vOjOaf
-         vzPA==
-X-Gm-Message-State: AOAM530xBagvWUeWFbhdcGpn6cSdCm4eSRc5T194MUMkxQcdP40hXi+e
-        JXCsM+uZ27IczdH9ew6qv/L6EwrUvMdJ6qCmzoPZUQ==
-X-Google-Smtp-Source: ABdhPJyQO1Ypmss7F9JtBJvfyJ2T6gA/zHz3aGDcxE2LvRHMlB0JEESu8sJ8bZ99S47xs/37ijAQqTB+ACr333KyuJw=
-X-Received: by 2002:a9d:77d1:: with SMTP id w17mr4791136otl.329.1636623388618;
- Thu, 11 Nov 2021 01:36:28 -0800 (PST)
+        bh=6/bKopAPmkHa57hfJnxgSr31+HwEgFYE/Py/TQAdG68=;
+        b=07oV8BXF6oOgiGWsl0MieR+2QHUmpfv2ZtrPBHRtVY5/N/BOdmQNc2ilVZRaTcRgcm
+         NVSA7Avx7HzqGTk8OzibvmApGJGlyGb4HEoroLjfcGrTMfZ0wwhGTB7kCeMfTpGDkNLW
+         zCz9u8FxpHc6gHUCVt+3/yeGCJclB4eamc10aWBAd5N1RH/8kNStiTw/q6cmdryufOjp
+         o6pvC7LmDvZbXabPHgR0f5oVCOKW918zTk6tIfcZY6VkIkgsu8tlp32pTwghIWuShkmN
+         gs4S+GGBBlvB5At0nF9iznN3P8FpDXhLMKEW2OvkVAi2K+P0g6AcQMLjF7Hg4TcJw4Z6
+         oBPQ==
+X-Gm-Message-State: AOAM533Ey1cKkm9FmFdSaD0USlZbmgNXgqMmoMdx9ntEZFrXou3/GGXC
+        ENBVwsdbQXdMHGM9U8pgYl/TxWxG8WkHfcwa/ulPdQ==
+X-Google-Smtp-Source: ABdhPJwHNib4Izwq5VRvwx+F+i/iw/cbi3VPdxj/5KCILWR5ZipAgx6octOLOllqAzJpni78t8/MutpmCyKpGH1Zi1I=
+X-Received: by 2002:a9d:77d1:: with SMTP id w17mr4805850otl.329.1636623600901;
+ Thu, 11 Nov 2021 01:40:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20211110202448.4054153-1-valentin.schneider@arm.com>
- <20211110202448.4054153-3-valentin.schneider@arm.com> <a7c704c2ae77e430d7f0657c5db664f877263830.camel@gmx.de>
- <803a905890530ea1b86db6ac45bd1fd940cf0ac3.camel@gmx.de> <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de>
-In-Reply-To: <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de>
+ <20211110202448.4054153-5-valentin.schneider@arm.com> <YYzeOQNFmuieCk3T@elver.google.com>
+In-Reply-To: <YYzeOQNFmuieCk3T@elver.google.com>
 From:   Marco Elver <elver@google.com>
-Date:   Thu, 11 Nov 2021 10:36:17 +0100
-Message-ID: <CANpmjNPeRwupeg=S8yGGUracoehSUbS-Fkfb8juv5mYN36uiqg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
-To:     Mike Galbraith <efault@gmx.de>
-Cc:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+Date:   Thu, 11 Nov 2021 10:39:49 +0100
+Message-ID: <CANpmjNPvYZSSLnsg_BGfzb=Yu4bTvCp+N14FHcJfUDjDgzrywg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] kscan: Use preemption model accessors
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
         Frederic Weisbecker <frederic@kernel.org>,
+        Mike Galbraith <efault@gmx.de>,
         Dmitry Vyukov <dvyukov@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -73,60 +72,41 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 11 Nov 2021 at 04:47, Mike Galbraith <efault@gmx.de> wrote:
+On Thu, 11 Nov 2021 at 10:11, Marco Elver <elver@google.com> wrote:
 >
-> On Thu, 2021-11-11 at 04:35 +0100, Mike Galbraith wrote:
-> > On Thu, 2021-11-11 at 04:16 +0100, Mike Galbraith wrote:
-> > > On Wed, 2021-11-10 at 20:24 +0000, Valentin Schneider wrote:
-> > > >
-> > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > > > index 5f8db54226af..0640d5622496 100644
-> > > > --- a/include/linux/sched.h
-> > > > +++ b/include/linux/sched.h
-> > > > @@ -2073,6 +2073,22 @@ static inline void cond_resched_rcu(void)
-> > > >  #endif
-> > > >  }
-> > > >
-> > > > +#ifdef CONFIG_PREEMPT_DYNAMIC
-> > > > +
-> > > > +extern bool is_preempt_none(void);
-> > > > +extern bool is_preempt_voluntary(void);
-> > > > +extern bool is_preempt_full(void);
-> > > > +
-> > > > +#else
-> > > > +
-> > > > +#define is_preempt_none() IS_ENABLED(CONFIG_PREEMPT_NONE)
-> > > > +#define is_preempt_voluntary()
-> > > > IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY)
-> > > > +#define is_preempt_full() IS_ENABLED(CONFIG_PREEMPT)
-> > >
-> > > I think that should be IS_ENABLED(CONFIG_PREEMPTION), see
-> > > c1a280b68d4e.
-> > >
-> > > Noticed while applying the series to an RT tree, where tglx
-> > > has done that replacement to the powerpc spot your next patch
-> > > diddles.
+> Subject s/kscan/kcsan/
+>
+> On Wed, Nov 10, 2021 at 08:24PM +0000, Valentin Schneider wrote:
+> > Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
+> > preemption model of the live kernel. Use the newly-introduced accessors
+> > instead.
 > >
-> > Damn, then comes patch 5 properly differentiating PREEMPT/PREEMPT_RT.
+> > Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
 >
-> So I suppose the powerpc spot should remain CONFIG_PREEMPT and become
-> CONFIG_PREEMPTION when the RT change gets merged, because that spot is
-> about full preemptibility, not a distinct preemption model.
+> Reviewed-by: Marco Elver <elver@google.com>
 >
-> That's rather annoying :-/
+> Though it currently doesn't compile as a module due to missing
+> EXPORT_SYMBOL of is_preempt*().
+>
+> > ---
+> >  kernel/kcsan/kcsan_test.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+> > index dc55fd5a36fc..14d811eb9a21 100644
+> > --- a/kernel/kcsan/kcsan_test.c
+> > +++ b/kernel/kcsan/kcsan_test.c
+> > @@ -1005,13 +1005,13 @@ static const void *nthreads_gen_params(const void *prev, char *desc)
+> >       else
+> >               nthreads *= 2;
+> >
+> > -     if (!IS_ENABLED(CONFIG_PREEMPT) || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
+> > +     if (!is_preempt_full() || !IS_ENABLED(CONFIG_KCSAN_INTERRUPT_WATCHER)) {
 
-I guess the question is if is_preempt_full() should be true also if
-is_preempt_rt() is true?
+In case you introduce the 5th helper I suggested
+(is_preempt_full_or_rt() or whatever you'll call it), this one can be
+switched, because this check really does want to know if "at least
+full preemption" and not "precisely full preemption".
 
-Not sure all cases are happy with that, e.g. the kernel/trace/trace.c
-case, which wants to print the precise preemption level.
-
-To avoid confusion, I'd introduce another helper that says true if the
-preemption level is "at least full", currently that'd be "full or rt".
-Something like is_preempt_full_or_rt() (but might as well write
-"is_preempt_full() || is_preempt_rt()"), or is_preemption() (to match
-that Kconfig variable, although it's slightly confusing). The
-implementation of that helper can just be a static inline function
-returning "is_preempt_full() || is_preempt_rt()".
-
-Would that help?
+Thanks,
+-- Marco
