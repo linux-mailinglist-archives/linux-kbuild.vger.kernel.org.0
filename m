@@ -2,125 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F34644D4D3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 11:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C71FB44D50A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 11:33:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232719AbhKKKPR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Nov 2021 05:15:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232531AbhKKKPP (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Nov 2021 05:15:15 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2BBC061766
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 02:12:26 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id u74so10687816oie.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Nov 2021 02:12:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x2JqhGMyfJOncOO31VPKGQJKmpqXdotolWXJ0Sscp8s=;
-        b=CkvxSK1EjyO2pbzkq70likXbwf1/G65ullJU9N53M5lbs4WkwpWvQGJ+xxcsj3R4uD
-         vcqB3rJiaK92xh67IbFVu3lAHIG/znWaTUQunSIypYeP4CnnjeTNGIm+mf+o07hHuzxl
-         uGRxyXOIOSGr3YpDTGHVku9ehCQPRKdT4tIjm0CwEBIHtMVhOjrry3RqCIKnpqVak7aE
-         eT5E5GPsB+qwjtDL4GJrrCHtn/xG1iVwritcMgG8snngv+U9QVZApUx9jhk85/z97JqK
-         c2iyK+Ej5z+UF/7SIqqzQxvu4fH5Ror0RgY3cEcQrowltSXdyTVkGunN2QHGRAJExYJh
-         ldjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x2JqhGMyfJOncOO31VPKGQJKmpqXdotolWXJ0Sscp8s=;
-        b=sc0KgJQclRdUfPZEEKlxmnL7IWu3L+LEk04P6nInO/0g/q1uuJ2Ajd+EyAtYeYACca
-         xXAnETqrqZ9BQQrVrYJjfCTAkd6MQ4YrqdgtrjXnTIIuzSjaXYDkuvJRkkODxNM8VF1m
-         mSGAPVhMUYilqmHL/RgwMRvIsQjWzJfDMaOOjTa1mSI34tW6rqa0i9qtH1gY5/6zaXV2
-         84yyEjPcmi2fP5IE6LlRzHZv6imLUFXNr6MoQPcg2y8HESeIt6LKjOuS5TkThsDxx6oJ
-         XA7Al9ndnWmDaSQKQyrFj+0R6ATCWYsdy1Z3u3pj6/Oy2I07yLkEwWuTrjFCXnlDSn3G
-         h+3w==
-X-Gm-Message-State: AOAM530DBw1i1WU3jH9mTQH3SKjO+58hRJf73pe37JdGfOKXjnG1PSNA
-        mFEp44FWRwF26a138RPKIgT5uVt4HTvoKPWZT+p6og==
-X-Google-Smtp-Source: ABdhPJz7epDTv5uCxOQ8Cm3nb9HVHDMTO19qLrlz3UwOWboYoIDGzDq9VXXEzngFTMgtlnhp8icDZqg8O4nzWcv7HOo=
-X-Received: by 2002:a05:6808:118c:: with SMTP id j12mr5116357oil.65.1636625545648;
- Thu, 11 Nov 2021 02:12:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20211005105905.1994700-1-elver@google.com> <20211005105905.1994700-24-elver@google.com>
- <YVxjH2AtjvB8BDMD@hirez.programming.kicks-ass.net> <YVxrn2658Xdf0Asf@elver.google.com>
-In-Reply-To: <YVxrn2658Xdf0Asf@elver.google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 11 Nov 2021 11:11:00 +0100
-Message-ID: <CANpmjNPk9i9Ap6LRuS32dRRCOrs4YwDP-EhfX-niCXu7zH2JOg@mail.gmail.com>
-Subject: Re: [PATCH -rcu/kcsan 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S229668AbhKKKgR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Nov 2021 05:36:17 -0500
+Received: from mout.gmx.net ([212.227.15.19]:37269 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232318AbhKKKgQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 11 Nov 2021 05:36:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1636626768;
+        bh=uMU1373AJ5b0uKpR/RatT/DkoeOsKokoX2iJcNWel8U=;
+        h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
+        b=R6tRD/0BVuDwwwdLGMrLggr5YULeD4oqnyRIH5CNFpi7zf0fPlL8KdTd3DubtpxnF
+         TCwvVXpzfm2wa4sNntEzGf5Ae2LdEy2TBUjwjRohKn0yaY/wU4L2pSvAIIE7YIHfzw
+         IcKO+1MHeHt3cuvhrv0WSMsYPannhyTsciJc0Z1k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from homer.fritz.box ([212.114.172.107]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M7b2d-1mmUIP1zLR-0083Gp; Thu, 11
+ Nov 2021 11:32:48 +0100
+Message-ID: <26fd47db11763a9c79662a66eed2dbdbcbedaa8a.camel@gmx.de>
+Subject: Re: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
+From:   Mike Galbraith <efault@gmx.de>
+To:     Marco Elver <elver@google.com>
+Cc:     Valentin Schneider <valentin.schneider@arm.com>,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
+        Frederic Weisbecker <frederic@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 11 Nov 2021 11:32:40 +0100
+In-Reply-To: <CANpmjNPeRwupeg=S8yGGUracoehSUbS-Fkfb8juv5mYN36uiqg@mail.gmail.com>
+References: <20211110202448.4054153-1-valentin.schneider@arm.com>
+         <20211110202448.4054153-3-valentin.schneider@arm.com>
+         <a7c704c2ae77e430d7f0657c5db664f877263830.camel@gmx.de>
+         <803a905890530ea1b86db6ac45bd1fd940cf0ac3.camel@gmx.de>
+         <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de>
+         <CANpmjNPeRwupeg=S8yGGUracoehSUbS-Fkfb8juv5mYN36uiqg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.0 
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:uuwX788BL/oP1FC37c/JIA2AX9+HNeNHkFeDgDrreyZCxwfBg0P
+ B+LG2N6R4OuzGdOAYShamBgnrdfwteiTsZbAt3bWKAG4xA8ILr8IE8V8eRKdYmsI+QT4ieO
+ hSGLZCIAvzMybM5e4d039bw+2e9jg0wvFDF+Hvd9V0aPc42JqL2Hq55llwqtmw1QBPduxu9
+ rFSdKtZIpm4OcQmGqQUXQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tJHMHumK5Ow=:WzGr7EVNBA75U29zZgCq9T
+ SH5u6IUYmUgYVPKQC6dyltXmdR8eq//e3pTu2OzThSYmBIu9/NaxZ2/IA2sKuJiyK+yFTzrz5
+ I/HO/mwgHzqLmwD/0DWQMgoQhcJpYCfbUYZYKy2TLdqLRVhNV1A2Cjk2BZZuEU4Do2CUwT/eM
+ wIpShikX11920Uxw/YETz5drZBAPyyvz9zJqk/yQ+rc1KXFv2e0FBOJfDN6wEd+Gvq5+cjGLR
+ dyGZUYeYODZMUpuAR85mw6IR2cGW64i+9ROqZnuoDJdUJwBRt+1vI6UopW20ZAPB/6XSgIzoh
+ 6Qs6/0y24T0Er4XHnZTI2cxFbzvUnZKvsR4fvInhTvyNC83jalZoD1Bj1iMtAIY+QIVXLv36B
+ EXoxruXp/NcOvv19ewBKC9sC3iOmUxILYXSVj8UevLj7pjHUJ3Uu5EXqdLz7yT23WIbN3WDig
+ CeBx418hv8rdQKUQbvsxRGQUbuKhDkKh3z5e8gLXQqFumqYJGhKfmjmdMWSfA6zHwzaA59KS3
+ LPz6U15vXGZ6c/2oKKQqPRWTF8pS9TwACFE/m96KICA5cmF1WA6aV3ryOGXmsyVWSFunp1Xnj
+ xZzIm3kkyWYtZ0Fn92uNtY2TecsMSPaxL8sNQjbv8mkMzJwFpskie7EeHrKwBKM6jqtyHqD5B
+ 8kyqZ6IMr+cytx1g56gpncODPICpz4oRGhGVvF7pwteqmz4jEZ9JWbf/4vegn1Ak3iF3gPZMy
+ vSQ6BrmBGzZc7t2mMtOXTWPCVApr4Q+uOifNKAEMe241zzCFDUvW+pOFXeUVLEaDU43IwDudY
+ 6MCeRNbQctVEBAKnkUQS0Il/dZw5JazqlnaS+aeeYHa8AwzmoqazLXcfq6OuwXJ8SEE1xj9M/
+ BkhTYFoSE4jk6klAhutpMoNIKHo1L6ZYEQkj4ZQVR1vsW4SJax+xiSDDvdlUzRIU4LLOgYA/V
+ aHo+bkLFBdQ+afhD7Hf65ElPd7tZCgK4bAQL3A2Yjp/2g4iJo39sib4bpoEylT0GjY2v0SLhz
+ KqXTT4atTgR1C/Gw4S5+sH+Xz7Kwu/yZKR3BWH3smtCZrUkBNdhxpFKI6IXxJdOHsdn7oGbho
+ RB/Uuzm8D7VlZw=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 5 Oct 2021 at 17:13, Marco Elver <elver@google.com> wrote:
-> On Tue, Oct 05, 2021 at 04:37PM +0200, Peter Zijlstra wrote:
-> > On Tue, Oct 05, 2021 at 12:59:05PM +0200, Marco Elver wrote:
-> > > Teach objtool to turn instrumentation required for memory barrier
-> > > modeling into nops in noinstr text.
+On Thu, 2021-11-11 at 10:36 +0100, Marco Elver wrote:
+> On Thu, 11 Nov 2021 at 04:47, Mike Galbraith <efault@gmx.de> wrote:
+> >
+> > On Thu, 2021-11-11 at 04:35 +0100, Mike Galbraith wrote:
+> > > On Thu, 2021-11-11 at 04:16 +0100, Mike Galbraith wrote:
+> > > > On Wed, 2021-11-10 at 20:24 +0000, Valentin Schneider wrote:
+> > > > >
+> > > > > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > > > > index 5f8db54226af..0640d5622496 100644
+> > > > > --- a/include/linux/sched.h
+> > > > > +++ b/include/linux/sched.h
+> > > > > @@ -2073,6 +2073,22 @@ static inline void cond_resched_rcu(void)
+> > > > > =C2=A0#endif
+> > > > > =C2=A0}
+> > > > >
+> > > > > +#ifdef CONFIG_PREEMPT_DYNAMIC
+> > > > > +
+> > > > > +extern bool is_preempt_none(void);
+> > > > > +extern bool is_preempt_voluntary(void);
+> > > > > +extern bool is_preempt_full(void);
+> > > > > +
+> > > > > +#else
+> > > > > +
+> > > > > +#define is_preempt_none() IS_ENABLED(CONFIG_PREEMPT_NONE)
+> > > > > +#define is_preempt_voluntary()
+> > > > > IS_ENABLED(CONFIG_PREEMPT_VOLUNTARY)
+> > > > > +#define is_preempt_full() IS_ENABLED(CONFIG_PREEMPT)
+> > > >
+> > > > I think that should be IS_ENABLED(CONFIG_PREEMPTION), see
+> > > > c1a280b68d4e.
+> > > >
+> > > > Noticed while applying the series to an RT tree, where tglx
+> > > > has done that replacement to the powerpc spot your next patch
+> > > > diddles.
 > > >
-> > > The __tsan_func_entry/exit calls are still emitted by compilers even
-> > > with the __no_sanitize_thread attribute. The memory barrier
-> > > instrumentation will be inserted explicitly (without compiler help), and
-> > > thus needs to also explicitly be removed.
+> > > Damn, then comes patch 5 properly differentiating PREEMPT/PREEMPT_RT=
+.
 > >
-> > How is arm64 and others using kernel/entry + noinstr going to fix this?
+> > So I suppose the powerpc spot should remain CONFIG_PREEMPT and become
+> > CONFIG_PREEMPTION when the RT change gets merged, because that spot is
+> > about full preemptibility, not a distinct preemption model.
 > >
-> > ISTR they fully rely on the compilers not emitting instrumentation,
-> > since they don't have objtool to fix up stray issues like this.
+> > That's rather annoying :-/
 >
-> So this is where I'd like to hear if the approach of:
->
->  | #if !defined(CONFIG_ARCH_WANTS_NO_INSTR) || defined(CONFIG_STACK_VALIDATION)
->  | ...
->  | #else
->  | #define kcsan_noinstr noinstr
->  | static __always_inline bool within_noinstr(unsigned long ip)
->  | {
->  |      return (unsigned long)__noinstr_text_start <= ip &&
->  |             ip < (unsigned long)__noinstr_text_end;
->  | }
->  | #endif
->
-> and then (using the !STACK_VALIDATION definitions)
->
->  | kcsan_noinstr void instrumentation_may_appear_in_noinstr(void)
->  | {
->  |      if (within_noinstr(_RET_IP_))
->  |              return;
->
-> works for the non-x86 arches that select ARCH_WANTS_NO_INSTR.
->
-> If it doesn't I can easily just remove kcsan_noinstr/within_noinstr, and
-> add a "depends on !ARCH_WANTS_NO_INSTR || STACK_VALIDATION" to the
-> KCSAN_WEAK_MEMORY option.
->
-> Looking at a previous discussion [1], however, I was under the
-> impression that this would work.
->
-> [1] https://lkml.kernel.org/r/CANpmjNMAZiW-Er=2QDgGP+_3hg1LOvPYcbfGSPMv=aR6MVTB-g@mail.gmail.com
+> I guess the question is if is_preempt_full() should be true also if
+> is_preempt_rt() is true?
 
-I'll send v2 of this series after 5.16-rc1. So far I think we haven't
-been able to say the above doesn't work, which means I'll assume it
-works on non-x86 architectures with ARCH_WANTS_NO_INSTR until we get
-evidence of the opposite.
+That's what CONFIG_PREEMPTION is.  More could follow, but it was added
+to allow multiple models to say "preemptible".
+
+> Not sure all cases are happy with that, e.g. the kernel/trace/trace.c
+> case, which wants to print the precise preemption level.
+
+Yeah, that's the "annoying" bit, needing one oddball model accessor
+that isn't about a particular model.
+
+> To avoid confusion, I'd introduce another helper that says true if the
+> preemption level is "at least full", currently that'd be "full or rt".
+> Something like is_preempt_full_or_rt() (but might as well write
+> "is_preempt_full() || is_preempt_rt()"), or is_preemption() (to match
+> that Kconfig variable, although it's slightly confusing). The
+> implementation of that helper can just be a static inline function
+> returning "is_preempt_full() || is_preempt_rt()".
+>
+> Would that help?
+
+Yeah, as it sits two accessors are needed, one that says PREEMPT the
+other PREEMPTION, spelling optional.
+
+	-Mike
