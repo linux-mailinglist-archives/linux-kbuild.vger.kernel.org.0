@@ -2,87 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B90C744D08A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 04:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC57D44D10D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Nov 2021 05:55:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231185AbhKKD67 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Nov 2021 22:58:59 -0500
-Received: from mout.gmx.net ([212.227.17.20]:59619 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231171AbhKKD66 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Nov 2021 22:58:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1636602934;
-        bh=dQamGkACivMnZRQUR0T76ZNCpqCZTQRKjl1oGTBkQl8=;
-        h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
-        b=Yves5vPe/SSFfHtPUADj0VB94SOMy+Zbo9BW9i0rMDRhU4a3IKmVsbXjZsGRD85I3
-         gJj8zpq1uFPc1rATTH8J1TPUMKGlCcO9NP+DzBGeVDhCxdSsCgAurU1xj5zx34n4l2
-         Xq+ie3YoounjpMWE4L+AkvetI2TekH7IfLvQ1LqA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from homer.fritz.box ([212.114.172.107]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MuUjC-1mTu4a2aTy-00rXfd; Thu, 11
- Nov 2021 04:55:34 +0100
-Message-ID: <952135b1fcfdabe40c2cfaf2ef0a5b90ede418fe.camel@gmx.de>
-Subject: Re: [PATCH v2 2/5] preempt/dynamic: Introduce preempt mode accessors
-From:   Mike Galbraith <efault@gmx.de>
+        id S233245AbhKKE6U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Nov 2021 23:58:20 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:57459 "EHLO
+        gandalf.ozlabs.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233092AbhKKE6U (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 10 Nov 2021 23:58:20 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4HqTtS41wYz4xbs;
+        Thu, 11 Nov 2021 15:55:28 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1636606530;
+        bh=GCVMUlmIvsbs8ofijos/QMPB8fyrPXIzfNWltTIec0g=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=qCM/P8yF3p0irn0/dtMmMfI4uHveOGQ7sKdYMeoJlHGC+sdX0SFPl62PUHPn9j0SI
+         ZeMkNjKtdrSCztYOPnsyKYRXWVKeFrbJfAAjy/vPI041IpnfL4sckQWiUQnh6usAE6
+         8asvi/faiow9Hp5v1LHlZ5ypCQXvaoMC3pL1IXS7dZFbja0g6QGpd5tiqlm3nFjmYv
+         RqSoIkIE7GocK03amwDHrCBn/C6gtLIclVwHYImcfNhqGNffJQn8I4TUN09I6fgPU7
+         T+Mr3pthkmMKgPX1W7PTOo2yGb2pFppAbTtgUBckS8uUZ4fPawjUYKcF6MFZnddv9J
+         yYHCHuxVNMvVA==
+From:   Michael Ellerman <mpe@ellerman.id.au>
 To:     Valentin Schneider <valentin.schneider@arm.com>,
         linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Cc:     Marco Elver <elver@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@kernel.org>,
         Frederic Weisbecker <frederic@kernel.org>,
+        Mike Galbraith <efault@gmx.de>, Marco Elver <elver@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Paul Mackerras <paulus@samba.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 11 Nov 2021 04:55:30 +0100
-In-Reply-To: <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de>
+Subject: Re: [PATCH v2 3/5] powerpc: Use preemption model accessors
+In-Reply-To: <20211110202448.4054153-4-valentin.schneider@arm.com>
 References: <20211110202448.4054153-1-valentin.schneider@arm.com>
-         <20211110202448.4054153-3-valentin.schneider@arm.com>
-         <a7c704c2ae77e430d7f0657c5db664f877263830.camel@gmx.de>
-         <803a905890530ea1b86db6ac45bd1fd940cf0ac3.camel@gmx.de>
-         <a7febd8825a2ab99bd1999664c6d4aa618b49442.camel@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.0 
+ <20211110202448.4054153-4-valentin.schneider@arm.com>
+Date:   Thu, 11 Nov 2021 15:55:27 +1100
+Message-ID: <87o86rmgu8.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qqcgSnijT7Gw/VNX30SqkB8YdoGSCJKiue2bRmosehBHInhIZuM
- 6DZWOjxgWyIEvIeL7Gc976oonmjoY3HIceHHbwHi72bdnd2Gy+AWDEjKmA0WKHQ0CELOyD3
- xLnU0oKxZOds2XaKZjWN/+cAkATrBuJlSJHbhDH0nCttt8tD52gDip/JCkLGmF9g5w8sHqC
- GkJN8GHNKWsuhjUFrVHNg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eEWI9N1+sSQ=:MUAOZY4Ngrc5ZNOlWGZeyG
- pqP9pc6zPRXcdR6ad8Xlc+jc/mJNRz+Svfzr7MggeZQ4eDj6OQQLgRBCcikSL5USnqjUEW2m6
- CWQTp3BrwaZxxZfBpbB4N5WjczQDNDhDOq4Zhiw/d9yZmjBCFWl15FHE4Yw7tZe3OsD9XPHik
- 0R3Bzs1tINPwcjUn/tYIL8ARKxF+4yYyDUwHNpwAzN4I+C4iLftcHSQmAiY3m/PcxCr0SGj/f
- v92/Cj4MYzGzv4wMgSX0gZEQ8tKREivmzKTRixKodssvflrbLcWGC6z9rkeB2lRwvE4sqQ2k6
- RGpLkQ85dvunXUzXAWY2O2cZNW2gd1M0Y+hV9g5PcQYW5XXURp2SahMbiHxRJD3SqnNLL0TP5
- AEwRNCFXr0n2ytyl7yOjHZUx5p7iAXiMycNMCmgLe/yk2sl+z24zHY/7mpJGIzQSmR5SiY7iJ
- c1eTW+cCdCN+QQbxuB2ejtjLjSlSd4/V38A0HyKe2Pihq6/hibzabFGY97qrqLkOa5j+6ytfY
- SI2/UUA63c2utNAC4Pf+6X1sLgLOQXpSGOvsD20ME9W8WHyfZXE3Gt2QxvMMyiPh9byqwCs2o
- XtRlwHqpz4UBv+r6abzjlPfrHN3RJehVLXRF1vwv61Z409xa+8BMLs5GxvQUnFaBjjNj6cMsG
- H2NDDkM6RaioEStzakCkr7XcPhIw/0eOq+KqxVKKWSeFGC5vYTodArZzCe/HgZ2ML/z8KCX4p
- LvoMc/RcpnOThvUU6MFO4bvISSXSGhop94bgbRZ30uxYIGa06Gyu1RDDux6OKMYdQdq+kM6ZR
- 9ozvD36JiV5Ynq1VumV8SSjmd7hMyKeCv9GGg4gh9UAQIXTlyBcBkhcnATofgc5dZhl/fFIrG
- apDn2e0weD8Qpta82xhkPEyV3eM+8eHD1XbAKarChCaFU+FtBuLcCI9yXwDtsqR2PqXJkchLX
- nkz07bbCfKZGvPGTOpE8Pr7jrXB1lMYEv+rXjI5E+y632R7B5CHDLfZqz4Jxhnsjzf/9+8UX9
- 2tpkU4324OelND7dC7BLMQWSLkGV7RU7pLqYHUvmE0L1uK4cVtn5zg+6Qa/dDVyfhCiVF306W
- rVFnq0DtdWAPmE=
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 2021-11-11 at 04:47 +0100, Mike Galbraith wrote:
+Valentin Schneider <valentin.schneider@arm.com> writes:
+> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
+> preemption model of the live kernel. Use the newly-introduced accessors
+> instead.
 >
-> So I suppose the powerpc spot should remain CONFIG_PREEMPT and become
-> CONFIG_PREEMPTION when the RT change gets merged, because that spot is
-> about full preemptibility, not a distinct preemption model.
+> sched_init() -> preempt_dynamic_init() happens way before IRQs are set up,
+> so this should be fine.
 
-KCSAN needs a little help to be usable by RT, but ditto that spot.
+Despite the name interrupt_exit_kernel_prepare() is called before IRQs
+are setup, traps and page faults are "interrupts" here.
 
-	-Mike
+So I'm not sure about adding that call there, because it will trigger a
+WARN if called early in boot, which will trigger a trap and depending on
+the context we may not survive.
+
+I'd be happier if we can make it a build-time check.
+
+cheers
+
+> diff --git a/arch/powerpc/kernel/interrupt.c b/arch/powerpc/kernel/interrupt.c
+> index de10a2697258..c56c10b59be3 100644
+> --- a/arch/powerpc/kernel/interrupt.c
+> +++ b/arch/powerpc/kernel/interrupt.c
+> @@ -552,7 +552,7 @@ notrace unsigned long interrupt_exit_kernel_prepare(struct pt_regs *regs)
+>  		/* Returning to a kernel context with local irqs enabled. */
+>  		WARN_ON_ONCE(!(regs->msr & MSR_EE));
+>  again:
+> -		if (IS_ENABLED(CONFIG_PREEMPT)) {
+> +		if (is_preempt_full()) {
+>  			/* Return to preemptible kernel context */
+>  			if (unlikely(current_thread_info()->flags & _TIF_NEED_RESCHED)) {
+>  				if (preempt_count() == 0)
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index aac8c0412ff9..1cb31bbdc925 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -265,7 +265,7 @@ static int __die(const char *str, struct pt_regs *regs, long err)
+>  	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
+>  	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+>  	       PAGE_SIZE / 1024, get_mmu_str(),
+> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+> +	       is_preempt_full() ? " PREEMPT" : "",
+>  	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+>  	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
+>  	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
+> -- 
+> 2.25.1
