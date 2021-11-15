@@ -2,38 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 343FE44FBCE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Nov 2021 22:26:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A12C44FC8E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Nov 2021 01:18:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236372AbhKNV26 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 14 Nov 2021 16:28:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37162 "EHLO mail.kernel.org"
+        id S233236AbhKOAUx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 14 Nov 2021 19:20:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45860 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236366AbhKNV2x (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 14 Nov 2021 16:28:53 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E964361073;
-        Sun, 14 Nov 2021 21:25:57 +0000 (UTC)
+        id S229507AbhKOAUu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 14 Nov 2021 19:20:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DFE1860F44;
+        Mon, 15 Nov 2021 00:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636925158;
-        bh=2spCuxQ2K3w5slj51MhDystRvnTlw57S5B68mW15EH4=;
+        s=k20201202; t=1636935476;
+        bh=+oQE67zSDKDG/9Y86hCe3ln8eOzRm82kVNTPNRyu5pQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eu0e7TsmbEXqaAdVV4okGHXQANWcGiGCwwplUSSacG/XCUO7tLEOhJdcsHVT7SSQ6
-         MfktXA+0Nq6Q1caoiSysp3DGrphv3JFpDBs7H8vIIF1WuOVnC5MbQFSnETukvWwhLW
-         9nhrgEzh1vAmPenKqewBlw4dZg2jj5O0LFOZ+OcA7h20KZQOzkNvFrZXl0oSdeltM2
-         n19Sra6J27rDg3Vz/4WiDteC4GY844CH1+3LakI7TS9AOAzubBKxoudzFvhYkwixbq
-         /fWvbfM1h5oAGMfTs2XxXq4+4NrpenqkJTdtZtAhDiJKx8HMMiGIX7AWgGmDwV9Hal
-         l0lYQZ7gm2VPQ==
-Date:   Sun, 14 Nov 2021 15:31:00 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
+        b=okPlKD2nsAQNoWuuKOM6ZQcOiMejAiLGDtuRM7TtGJI4O766HmvTSVQKdc05p7T/4
+         i9wPSVHz3jC804hlxMytLb08YArasA6bc3LosWBs4+7edJt00t5cWpoTYLOYF8TumP
+         kHydrz4TrDyQDhYf4mPd/QwGNTUMYbWebGY03xYMmXqqsBUpNPFRXzCxIli05tUJxn
+         4F/C5Cx/2riov8Kb3e/3t1bbkzKHfhQBh4ki6/o2QyUnhK1fqD4ehWDbR5OFiUAkvJ
+         8gSJxH+bwwwUyUPoJY8fED+0Jwjm06C/QCWKwoqctlOLfQuH8rxh2m/XOQ9qd42ppn
+         IJ6+64rdkBK9g==
+Date:   Sun, 14 Nov 2021 17:17:51 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
         llvm@lists.linux.dev
 Subject: Re: [PATCH] kconfig: Add support for -Wimplicit-fallthrough
-Message-ID: <20211114213100.GA41124@embeddedor>
+Message-ID: <YZGnL3nfA5876hX3@archlinux-ax161>
 References: <20211114005725.GA27075@embeddedor>
  <YZF9MY6rRLQwdTgM@archlinux-ax161>
 MIME-Version: 1.0
@@ -70,15 +69,38 @@ On Sun, Nov 14, 2021 at 02:18:41PM -0700, Nathan Chancellor wrote:
 > > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 > 
 > This appears to do the right thing with both clang-13 and clang-14.
-> 
+
+Now that I gave this a look for the GCC side, I think it is wrong.
+
+-Wimplicit-fallthrough=5 was under cc-option because it was only
+available in GCC 7.x and newer so the build is now broken for GCC 5.x
+and 6.x:
+
+gcc: error: unrecognized command line option '-Wimplicit-fallthrough=5';
+did you mean '-Wno-fallthrough'?
+
+I think this needs to be added (I can send a formal patch tomorrow
+unless someone wants to beat me to it):
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 036b750e8d8a..85882c317235 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -887,7 +887,7 @@ config CC_HAS_INT128
+ 
+ config CC_IMPLICIT_FALLTHROUGH
+ 	string
+-	default "-Wimplicit-fallthrough=5" if CC_IS_GCC
++	default "-Wimplicit-fallthrough=5" if $(cc-option,-Wimplicit-fallthrough=5)
+ 	default "-Wimplicit-fallthrough" if CC_IS_CLANG && $(cc-option,-Wunreachable-code-fallthrough)
+ 
+ #
+
+Cheers,
+Nathan
+
 > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 > Tested-by: Nathan Chancellor <nathan@kernel.org>
-
-Thanks, Nathan.
-
---
-Gustavo
-
 > 
 > It feels a little odd to have this in Kconfig but if it works and gets
 > the warning enabled, then so be it.
@@ -132,3 +154,4 @@ Gustavo
 > > 2.27.0
 > > 
 > > 
+> 
