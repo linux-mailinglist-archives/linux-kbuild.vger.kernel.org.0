@@ -2,76 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E596545085C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Nov 2021 16:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F56C4518AD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Nov 2021 00:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbhKOPdq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Nov 2021 10:33:46 -0500
-Received: from foss.arm.com ([217.140.110.172]:56642 "EHLO foss.arm.com"
+        id S1347737AbhKOXFX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Nov 2021 18:05:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236522AbhKOPc7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Nov 2021 10:32:59 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EF1C6D;
-        Mon, 15 Nov 2021 07:30:02 -0800 (PST)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.196.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 557F03F766;
-        Mon, 15 Nov 2021 07:30:00 -0800 (PST)
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mike Galbraith <efault@gmx.de>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2 3/5] powerpc: Use preemption model accessors
-In-Reply-To: <87o86rmgu8.fsf@mpe.ellerman.id.au>
-References: <20211110202448.4054153-1-valentin.schneider@arm.com> <20211110202448.4054153-4-valentin.schneider@arm.com> <87o86rmgu8.fsf@mpe.ellerman.id.au>
-Date:   Mon, 15 Nov 2021 15:29:53 +0000
-Message-ID: <87lf1pqvwu.mognet@arm.com>
+        id S1350947AbhKOXDI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 15 Nov 2021 18:03:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7B8146124B;
+        Mon, 15 Nov 2021 23:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637017209;
+        bh=N8vy7Ciqk3MUgXenShMP/984Gc3+qw7T2saMQMt4meQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=o5ILMxlQKhBlia8NToVIE/JiaA+lzdTYNM02/IaXtZxIfeNBN3h3IHVRga4kOnFBN
+         8RLq351UP05ECIqSCKjSCZc9zborUmxl2c7B4pqZW/eKvE1ZuXLguXpKGkcVpRx3ZT
+         J8VfnxVseZPlEWSobch4MptDZHhtnMTyLZmoNJ4YuxApJNesZeLV1J7oIS9mBjCMms
+         sduBa4sxE+K5Au3G+tLOu/8a2o96MAOX6AJBtB+IMV4YHLTLRiyGwJBbKaZ0nFgJQs
+         k7XdKeiOHHuboHAnMkir+OCps24pz2R8A2h6Vw+ySDoSizWgd0dMWxeEEXTpYshjTK
+         41uLR/q9K+EkQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 6AE5C6095A;
+        Mon, 15 Nov 2021 23:00:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf] samples: bpf: fix build error due to -isystem removal
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163701720943.28601.12990584204511867827.git-patchwork-notify@kernel.org>
+Date:   Mon, 15 Nov 2021 23:00:09 +0000
+References: <20211115130741.3584-1-alexandr.lobakin@intel.com>
+In-Reply-To: <20211115130741.3584-1-alexandr.lobakin@intel.com>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, jesse.brandeburg@intel.com,
+        maciej.fijalkowski@intel.com, michal.swiatkowski@linux.intel.com,
+        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, adobriyan@gmail.com, masahiroy@kernel.org,
+        ardb@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello:
 
-Doh, thought I had sent this one out already...
+This patch was applied to bpf/bpf.git (master)
+by Daniel Borkmann <daniel@iogearbox.net>:
 
-On 11/11/21 15:55, Michael Ellerman wrote:
-> Valentin Schneider <valentin.schneider@arm.com> writes:
->> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
->> preemption model of the live kernel. Use the newly-introduced accessors
->> instead.
->>
->> sched_init() -> preempt_dynamic_init() happens way before IRQs are set up,
->> so this should be fine.
->
-> Despite the name interrupt_exit_kernel_prepare() is called before IRQs
-> are setup, traps and page faults are "interrupts" here.
->
-> So I'm not sure about adding that call there, because it will trigger a
-> WARN if called early in boot, which will trigger a trap and depending on
-> the context we may not survive.
->
-> I'd be happier if we can make it a build-time check.
->
+On Mon, 15 Nov 2021 14:07:41 +0100 you wrote:
+> Since recent Kbuild updates we no longer include files from compiler
+> directories. However, samples/bpf/hbm_kern.h hasn't been tuned for
+> this (LLVM 13):
+> 
+>   CLANG-bpf  samples/bpf/hbm_out_kern.o
+> In file included from samples/bpf/hbm_out_kern.c:55:
+> samples/bpf/hbm_kern.h:12:10: fatal error: 'stddef.h' file not found
+>          ^~~~~~~~~~
+> 1 error generated.
+>   CLANG-bpf  samples/bpf/hbm_edt_kern.o
+> In file included from samples/bpf/hbm_edt_kern.c:53:
+> samples/bpf/hbm_kern.h:12:10: fatal error: 'stddef.h' file not found
+>          ^~~~~~~~~~
+> 1 error generated.
+> 
+> [...]
 
-This can't be done at build-time for PREEMPT_DYNAMIC, but that can be
-punted off to whoever will implement ppc support for that :-) AFAICT if
-this can't use preempt_dynamic_mode (due to how "late" it is setup), the
-preempt_schedule_irq() needs to go and ppc needs to use irqentry_exit() /
-irqentry_exit_cond_resched().
+Here is the summary with links:
+  - [bpf] samples: bpf: fix build error due to -isystem removal
+    https://git.kernel.org/bpf/bpf/c/6e528ca494d4
 
-I dropped that for v2.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> cheers
->
+
