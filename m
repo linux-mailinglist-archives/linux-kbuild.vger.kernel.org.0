@@ -2,82 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F56C4518AD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Nov 2021 00:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE80453087
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Nov 2021 12:28:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347737AbhKOXFX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Nov 2021 18:05:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55952 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350947AbhKOXDI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Nov 2021 18:03:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7B8146124B;
-        Mon, 15 Nov 2021 23:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637017209;
-        bh=N8vy7Ciqk3MUgXenShMP/984Gc3+qw7T2saMQMt4meQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=o5ILMxlQKhBlia8NToVIE/JiaA+lzdTYNM02/IaXtZxIfeNBN3h3IHVRga4kOnFBN
-         8RLq351UP05ECIqSCKjSCZc9zborUmxl2c7B4pqZW/eKvE1ZuXLguXpKGkcVpRx3ZT
-         J8VfnxVseZPlEWSobch4MptDZHhtnMTyLZmoNJ4YuxApJNesZeLV1J7oIS9mBjCMms
-         sduBa4sxE+K5Au3G+tLOu/8a2o96MAOX6AJBtB+IMV4YHLTLRiyGwJBbKaZ0nFgJQs
-         k7XdKeiOHHuboHAnMkir+OCps24pz2R8A2h6Vw+ySDoSizWgd0dMWxeEEXTpYshjTK
-         41uLR/q9K+EkQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 6AE5C6095A;
-        Mon, 15 Nov 2021 23:00:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S234956AbhKPLba (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Nov 2021 06:31:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54326 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235013AbhKPLa4 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 16 Nov 2021 06:30:56 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCAD8C061A09
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Nov 2021 03:26:59 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id u18so36871307wrg.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Nov 2021 03:26:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=49VN2EPgYHrEXK97OpQX0CxGM5w7EiGtxSfN5GFh/XE=;
+        b=VPSdTQPJ5hxea0d4B/OGzopTdVjRnbFmJz+O0tAMBIW+kVpQPKiYwfvCdPxAiu9RO7
+         oe9kEcogTcLI4iYVrS1eOtN05ZsYHexXSFFQpbbx9c1Ayow9QIMNNWeK3yqQOqbV6uta
+         lYm4w6zcQWO4dqR/GNjN0aurI02r6lW3XO4xQxM/13UYVUY6ET4f0O8Iq4IG8IZUtkwp
+         NHbrha8XPUVMG3Xu1I5WAylPedohg9BtJHXmX/E5I/oVcL5vEd+kv9L+n5IA0SK5OUNr
+         Wzfz9JBOv9okjRvaOWABxHrvDpiLS87CruKZfKxQJvud8svtNp7BgBXzyICxaDFUC026
+         9ZZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=49VN2EPgYHrEXK97OpQX0CxGM5w7EiGtxSfN5GFh/XE=;
+        b=C+yIAloL686htBX801qe7nwepPPA6xud8DKXXUyF30j0XJWpMuodRqPfTBRYZMqACj
+         SIyk7fZh0umuTz/U/VPyGo3VHjGehlnz0et37dxUwJkfcshKIe1qzQ/36LnlZaYMi/GM
+         oTiNa+wMKELRCkFotTjVYAFZpgaMV72diXPf4y+rKLHj1Q7vTCZec18QFUvr+utroh6T
+         RYvXYevwXfVdoFu8F4iui2ts2Aka8UAaZyubmrYqfm7w+Ljg/GxtpSaoLssVSfuRGy6g
+         NL/LzdL+wW+nkmVofy8zCQolUepZdiQZja+nX0VfuGjSxqaDmC4V+uHJn9tUnZFPv6Qx
+         kTew==
+X-Gm-Message-State: AOAM531lm5blOfN3OAN5npra6A2Gc7byO9NPWO5X1adnQR4dXr01gvNU
+        mHuB2JfDKo8rLrNH3HUYNeBI7qalCgEAw3vXRhc=
+X-Google-Smtp-Source: ABdhPJx7V7Pzab1iLpC1tLfl5XTeFedl5ZB5PcVwW8xnRDThhRI1kD0wWb7jxJL13vcYZKWR942PRdG0Y0xdZFQs61A=
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr8132229wrp.209.1637062018294;
+ Tue, 16 Nov 2021 03:26:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf] samples: bpf: fix build error due to -isystem removal
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163701720943.28601.12990584204511867827.git-patchwork-notify@kernel.org>
-Date:   Mon, 15 Nov 2021 23:00:09 +0000
-References: <20211115130741.3584-1-alexandr.lobakin@intel.com>
-In-Reply-To: <20211115130741.3584-1-alexandr.lobakin@intel.com>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, jesse.brandeburg@intel.com,
-        maciej.fijalkowski@intel.com, michal.swiatkowski@linux.intel.com,
-        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, nathan@kernel.org,
-        ndesaulniers@google.com, adobriyan@gmail.com, masahiroy@kernel.org,
-        ardb@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
+Received: by 2002:a05:600c:3b97:0:0:0:0 with HTTP; Tue, 16 Nov 2021 03:26:57
+ -0800 (PST)
+Reply-To: ebodrdickson1020@gmail.com
+From:   "Dr.Dickson Ebo" <drdicksonelo1023@gmail.com>
+Date:   Tue, 16 Nov 2021 03:26:57 -0800
+Message-ID: <CABq-xD7ZFmUMjZ9aWbbAm9nEKVBK1nOq1MtQg6NNJHmUXBtxzg@mail.gmail.com>
+Subject: hi
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello:
+Finance and Audit Department, Zenith Bank Plc.
 
-This patch was applied to bpf/bpf.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+The President of the Federal Republic of Nigeria through the Zenith
+International Bank Nigeria PLC has released your
+Contract/Inheritance/Compensation Fund.
 
-On Mon, 15 Nov 2021 14:07:41 +0100 you wrote:
-> Since recent Kbuild updates we no longer include files from compiler
-> directories. However, samples/bpf/hbm_kern.h hasn't been tuned for
-> this (LLVM 13):
-> 
->   CLANG-bpf  samples/bpf/hbm_out_kern.o
-> In file included from samples/bpf/hbm_out_kern.c:55:
-> samples/bpf/hbm_kern.h:12:10: fatal error: 'stddef.h' file not found
->          ^~~~~~~~~~
-> 1 error generated.
->   CLANG-bpf  samples/bpf/hbm_edt_kern.o
-> In file included from samples/bpf/hbm_edt_kern.c:53:
-> samples/bpf/hbm_kern.h:12:10: fatal error: 'stddef.h' file not found
->          ^~~~~~~~~~
-> 1 error generated.
-> 
-> [...]
+Kindly get back to us as soon as possible.
 
-Here is the summary with links:
-  - [bpf] samples: bpf: fix build error due to -isystem removal
-    https://git.kernel.org/bpf/bpf/c/6e528ca494d4
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yours faithfully,
+Dr. Dickson Ebo.
