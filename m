@@ -2,136 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A08745330D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Nov 2021 14:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 255D2454529
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Nov 2021 11:46:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236736AbhKPNpf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Nov 2021 08:45:35 -0500
-Received: from pegase2.c-s.fr ([93.17.235.10]:56943 "EHLO pegase2.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236819AbhKPNoE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Nov 2021 08:44:04 -0500
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4HtnJf0bH4z9sSJ;
-        Tue, 16 Nov 2021 14:41:06 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id u7mAiaYI_xFI; Tue, 16 Nov 2021 14:41:05 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4HtnJd6N0tz9sSH;
-        Tue, 16 Nov 2021 14:41:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id C51128B77A;
-        Tue, 16 Nov 2021 14:41:05 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id Nh3y__qSDvzK; Tue, 16 Nov 2021 14:41:05 +0100 (CET)
-Received: from [192.168.234.8] (unknown [192.168.234.8])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 036078B763;
-        Tue, 16 Nov 2021 14:41:04 +0100 (CET)
-Message-ID: <431fb6da-fe21-c5a6-bfb3-4e26bdc153b4@csgroup.eu>
-Date:   Tue, 16 Nov 2021 14:41:03 +0100
+        id S236519AbhKQKs6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Nov 2021 05:48:58 -0500
+Received: from mail-lf1-f43.google.com ([209.85.167.43]:44872 "EHLO
+        mail-lf1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231777AbhKQKs5 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 17 Nov 2021 05:48:57 -0500
+Received: by mail-lf1-f43.google.com with SMTP id y26so6113406lfa.11;
+        Wed, 17 Nov 2021 02:45:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QTiDoGA76puJ8yYVWohueCxv2yQdFsswHJPx2rPbTXw=;
+        b=khjmMgN2W5nU6PmxD95JH8W8/XQXpdpDQkIzZ35/yPpNtcoUfY63gHBF2kjo629Yf9
+         ZXVXb4qt/A1tZlm4DYQ30VI+XM89TgPUE2wGMmV0YWYf8UrSBd4pKYB2Hp641V2ghGV6
+         2X0gOY5UL6yhQ2/vIHyEsOQUvfI0NWnN/TSPiDooR+c74HhwIrOhMcY7YoXW8nYegv3X
+         mo2Uv4b0pVGufpDMKOlvOS2y1eVq6vyKKd5cc7aRmlAXH4HdikIOIBC8yeak1u9fQSt8
+         MSuuyRuxqkP4Oiyg4XXSQxrK0BTNRW9pHVv4PqewWDc6hKSi9JkwAP4pgNa/iGTj6HxW
+         zFSQ==
+X-Gm-Message-State: AOAM532tlc5ZrUCeR8yzDSGsXsMnM4S5v+BCmmdarLI88NYNLcOPCt4b
+        J+pVwyEr1sMC2fb9EvP6aTyIeIsxugo=
+X-Google-Smtp-Source: ABdhPJwfQYz0YjUdOOl6rMiTdMbq5B161cMwiiA36EWoEutPzlVDGmi8SGnawkXU70IJakyfTW/35A==
+X-Received: by 2002:a05:6512:33d4:: with SMTP id d20mr14107144lfg.664.1637145958420;
+        Wed, 17 Nov 2021 02:45:58 -0800 (PST)
+Received: from kladdkakan.. ([185.213.154.234])
+        by smtp.gmail.com with ESMTPSA id a12sm1431141lfk.227.2021.11.17.02.45.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 02:45:57 -0800 (PST)
+From:   =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
+To:     josh@joshtriplett.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
+Subject: [PATCH] kconfig: Add `make mod2noconfig` to disable module options
+Date:   Wed, 17 Nov 2021 11:45:53 +0100
+Message-Id: <20211117104553.765556-1-bjorn@kernel.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <37c3a9d3d6fceba0f55d05e7558370e3f60b8bf0.1634492509.git.josh@joshtriplett.org>
+References: <37c3a9d3d6fceba0f55d05e7558370e3f60b8bf0.1634492509.git.josh@joshtriplett.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 3/5] powerpc: Use preemption model accessors
-Content-Language: fr-FR
-To:     Valentin Schneider <valentin.schneider@arm.com>,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Cc:     Marco Elver <elver@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mike Galbraith <efault@gmx.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>
-References: <20211110202448.4054153-1-valentin.schneider@arm.com>
- <20211110202448.4054153-4-valentin.schneider@arm.com>
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20211110202448.4054153-4-valentin.schneider@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-Le 10/11/2021 à 21:24, Valentin Schneider a écrit :
-> Per PREEMPT_DYNAMIC, checking CONFIG_PREEMPT doesn't tell you the actual
-> preemption model of the live kernel. Use the newly-introduced accessors
-> instead.
-
-Is that change worth it for now ? As far as I can see powerpc doesn't 
-have DYNAMIC PREEMPT, a lot of work needs to be done before being able 
-to use it:
-- Implement GENERIC_ENTRY
-- Implement STATIC_CALLS (already done on PPC32, to be done on PPC64)
-
+Josh Triplett wrote:
+> When converting a modular kernel to a monolithic kernel, once the kernel
+> works without loading any modules, this helps to quickly disable all the
+> modules before turning off module support entirely.
 > 
-> sched_init() -> preempt_dynamic_init() happens way before IRQs are set up,
-> so this should be fine.
-
-It looks like you are mixing up interrupts and IRQs (also known as 
-"external interrupts").
-
-ISI (Instruction Storage Interrupt) and DSI (Data Storage Interrupt) for 
-instance are also interrupts. They happen everytime there is a page 
-fault so may happen pretty early.
-
-Traps generated by WARN_ON() are also interrupts that may happen at any 
-time.
-
+> Refactor conf_rewrite_mod_or_yes to a more general
+> conf_rewrite_tristates that accepts an old and new state.
 > 
-> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
-> ---
->   arch/powerpc/kernel/interrupt.c | 2 +-
->   arch/powerpc/kernel/traps.c     | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/powerpc/kernel/interrupt.c b/arch/powerpc/kernel/interrupt.c
-> index de10a2697258..c56c10b59be3 100644
-> --- a/arch/powerpc/kernel/interrupt.c
-> +++ b/arch/powerpc/kernel/interrupt.c
-> @@ -552,7 +552,7 @@ notrace unsigned long interrupt_exit_kernel_prepare(struct pt_regs *regs)
->   		/* Returning to a kernel context with local irqs enabled. */
->   		WARN_ON_ONCE(!(regs->msr & MSR_EE));
->   again:
-> -		if (IS_ENABLED(CONFIG_PREEMPT)) {
-> +		if (is_preempt_full()) {
+> Signed-off-by: Josh Triplett <josh@joshtriplett.org>
 
-I think the cost of that additionnal test should be analysed. Maybe it's 
-worth not doing the test at all and check _TIF_NEED_RESCHED everytime, 
-unless that recurrent test is changed into a jump label as suggested in 
-patch 2.
+Hmm, I don't think this was picked up yet?
 
+FWIW,
 
->   			/* Return to preemptible kernel context */
->   			if (unlikely(current_thread_info()->flags & _TIF_NEED_RESCHED)) {
->   				if (preempt_count() == 0)
-> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
-> index aac8c0412ff9..1cb31bbdc925 100644
-> --- a/arch/powerpc/kernel/traps.c
-> +++ b/arch/powerpc/kernel/traps.c
-> @@ -265,7 +265,7 @@ static int __die(const char *str, struct pt_regs *regs, long err)
->   	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
->   	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
->   	       PAGE_SIZE / 1024, get_mmu_str(),
-> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
-> +	       is_preempt_full() ? " PREEMPT" : "",
->   	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
->   	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
->   	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
-> 
-
-Would it be interesting as well to know that we are indeed in a DYNAMIC 
-PREEMPT context when dying ?
-
-Christophe
+Tested-by: Björn Töpel <bjorn@kernel.org>
