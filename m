@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B722C455A9D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Nov 2021 12:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC27455A92
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Nov 2021 12:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344186AbhKRLj7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Nov 2021 06:39:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60420 "EHLO
+        id S1344114AbhKRLju (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Nov 2021 06:39:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344264AbhKRLjU (ORCPT
+        with ESMTP id S1344217AbhKRLjB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Nov 2021 06:39:20 -0500
+        Thu, 18 Nov 2021 06:39:01 -0500
 Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34951C061227;
-        Thu, 18 Nov 2021 03:35:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C74AC061210;
+        Thu, 18 Nov 2021 03:35:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
         Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
-        Content-Transfer-Encoding; bh=2FKmJS6pPsuFItuqwY5/BZNuOqJxZWzsh/
-        DAz8KS9ck=; b=Ki5YfVoOfVm5ifuMWBYH8GFbkiM/fkkj9SyV3yNcGZ2gA2de1H
-        maQk39tTqQ+V2MFQ1PUUxy2hR8t3Pl57rjNL0RLfAR0TltLmUOdJgSnp0sBr+2E9
-        8cWGJFhBxydmHw/hW65F0isu5GH1BsI7P4hKjOIV0996V5ErqabxA5ubg=
+        Content-Transfer-Encoding; bh=3i4Rp/q45W+TZIYLx/C3ZWYjrNyJFZoaEf
+        azRHAUX/o=; b=R7L6Vq068WV7uimSlqXh2xRnhfbz3P3uUPJ43k2X8EZXRHEj4b
+        Yq1efcLblCThAwNAEmRWo0kzIxW3/bi3pA763T/YIIQGCguwUso/Ck8LY1LG2dX2
+        1d+8Z8aLkb4Fw2StcKU7ylLXYT/3w9uzvCGFtcGkONca+cg8WoWW+DGAA=
 Received: from xhacker (unknown [101.86.18.22])
-        by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygBnLsxMOpZhi51cAQ--.6032S3;
-        Thu, 18 Nov 2021 19:34:38 +0800 (CST)
-Date:   Thu, 18 Nov 2021 19:24:42 +0800
+        by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygAHD99XOpZhwZ1cAQ--.27562S7;
+        Thu, 18 Nov 2021 19:34:56 +0800 (CST)
+Date:   Thu, 18 Nov 2021 19:25:14 +0800
 From:   Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
 To:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
@@ -46,30 +46,30 @@ Cc:     Kefeng Wang <wangkefeng.wang@huawei.com>,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Subject: [PATCH 06/12] riscv: extable: use `ex` for `exception_table_entry`
-Message-ID: <20211118192442.3ef1c1cc@xhacker>
+Subject: [PATCH 07/12] riscv: lib: uaccess: fold fixups into body
+Message-ID: <20211118192514.13d3e873@xhacker>
 In-Reply-To: <20211118192130.48b8f04c@xhacker>
 References: <20211118192130.48b8f04c@xhacker>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: LkAmygBnLsxMOpZhi51cAQ--.6032S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFy3GFyxJF1UurW3Cw4rKrg_yoWkKFX_Ga
-        4I9a4kWrW5JF4fGF1DKrs5Ary8KrZaqr4kGw4Iy34qyF17WrWjkr4qv3ZxJrn2gr1rZr47
-        AFZ7XrW3GryaqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbSAYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7
-        IE14v26r18M28IrcIa0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CE
-        w4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6x
-        kF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIE
-        c7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
-        8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCF
-        s4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20x
-        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
-        3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIx
-        AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
-        cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
-        IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j1T5LUUUUU=
+X-CM-TRANSID: LkAmygAHD99XOpZhwZ1cAQ--.27562S7
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy3ur13GF4DZFW3AFy7ZFb_yoW8Ww13pw
+        1xur9rKw45Wrn7uFZ2yry5XF1rWa1fXF1UArW7Kw15ZrnFvr1vyFnYq39rWryDJFWrAF4x
+        WF9ayr4rGryYk37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBCb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+        8067AKxVWUAVCq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28C
+        jxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI
+        8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E
+        87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64
+        kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+        72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42
+        xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+        GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI4
+        8JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWx
+        Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0x
+        vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxU775rUUUUU
 X-CM-SenderInfo: xmv2xttqjtqzxdloh3xvwfhvlgxou0/
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -77,41 +77,64 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Jisheng Zhang <jszhang@kernel.org>
 
-The var name "fixup" is a bit confusing, since this is a
-exception_table_entry. Use "ex" instead  to refer to an entire entry.
-In subsequent patches we'll use `fixup` to refer to the fixup
-field specifically.
+uaccess functions such __asm_copy_to_user(),  __arch_copy_from_user()
+and __clear_user() place their exception fixups in the `.fixup` section
+without any clear association with themselves. If we backtrace the
+fixup code, it will be symbolized as an offset from the nearest prior
+symbol.
+
+Similar as arm64 does, we must move fixups into the body of the
+functions themselves, after the usual fast-path returns.
+
+Inline assembly will be dealt with in subsequent patches.
 
 Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
 ---
- arch/riscv/mm/extable.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ arch/riscv/lib/uaccess.S | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/arch/riscv/mm/extable.c b/arch/riscv/mm/extable.c
-index d41bf38e37e9..3c561f1d0115 100644
---- a/arch/riscv/mm/extable.c
-+++ b/arch/riscv/mm/extable.c
-@@ -13,15 +13,15 @@
+diff --git a/arch/riscv/lib/uaccess.S b/arch/riscv/lib/uaccess.S
+index 55f80f84e23f..047f517ac780 100644
+--- a/arch/riscv/lib/uaccess.S
++++ b/arch/riscv/lib/uaccess.S
+@@ -173,6 +173,13 @@ ENTRY(__asm_copy_from_user)
+ 	csrc CSR_STATUS, t6
+ 	li	a0, 0
+ 	ret
++
++	/* Exception fixup code */
++10:
++	/* Disable access to user memory */
++	csrs CSR_STATUS, t6
++	mv a0, t5
++	ret
+ ENDPROC(__asm_copy_to_user)
+ ENDPROC(__asm_copy_from_user)
+ EXPORT_SYMBOL(__asm_copy_to_user)
+@@ -218,19 +225,12 @@ ENTRY(__clear_user)
+ 	addi a0, a0, 1
+ 	bltu a0, a3, 5b
+ 	j 3b
+-ENDPROC(__clear_user)
+-EXPORT_SYMBOL(__clear_user)
  
- bool fixup_exception(struct pt_regs *regs)
- {
--	const struct exception_table_entry *fixup;
-+	const struct exception_table_entry *ex;
- 
--	fixup = search_exception_tables(regs->epc);
--	if (!fixup)
-+	ex = search_exception_tables(regs->epc);
-+	if (!ex)
- 		return false;
- 
- 	if (regs->epc >= BPF_JIT_REGION_START && regs->epc < BPF_JIT_REGION_END)
--		return rv_bpf_fixup_exception(fixup, regs);
-+		return rv_bpf_fixup_exception(ex, regs);
- 
--	regs->epc = (unsigned long)&fixup->fixup + fixup->fixup;
-+	regs->epc = (unsigned long)&ex->fixup + ex->fixup;
- 	return true;
- }
+-	.section .fixup,"ax"
+-	.balign 4
+-	/* Fixup code for __copy_user(10) and __clear_user(11) */
+-10:
+-	/* Disable access to user memory */
+-	csrs CSR_STATUS, t6
+-	mv a0, t5
+-	ret
++	/* Exception fixup code */
+ 11:
++	/* Disable access to user memory */
+ 	csrs CSR_STATUS, t6
+ 	mv a0, a1
+ 	ret
+-	.previous
++ENDPROC(__clear_user)
++EXPORT_SYMBOL(__clear_user)
 -- 
 2.33.0
 
