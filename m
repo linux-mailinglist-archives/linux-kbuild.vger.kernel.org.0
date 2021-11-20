@@ -2,69 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5924457DF0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Nov 2021 13:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 410CF457F06
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Nov 2021 16:42:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237502AbhKTMfi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 20 Nov 2021 07:35:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42172 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237511AbhKTMfh (ORCPT
+        id S234841AbhKTPpO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 20 Nov 2021 10:45:14 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:44548 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229710AbhKTPpO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 20 Nov 2021 07:35:37 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321B8C061756
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Nov 2021 04:32:34 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id d24so23133237wra.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Nov 2021 04:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=w2dLnl5hsLVKZTBAdcVFnDnMtM7+guW1LU+8LG4nir0=;
-        b=cQ4sa0RLmxPwPFn1iQHtDPNnu3wxt85tlCuJmDnpCjgmGMxx8i/oateruVYQAvti5I
-         A5qE92dvGm+x1YP+CbK5Tq5OhtXE6vNimcHv6le77OfesyWmtCYZNXHE5+IG0f8L2bT0
-         Lci51QRfH33/4FHSDCeiE4klj7YMLnup6Z9AxKwmd8q2vBCk3OtwmaYj1bSnn6G8m6GQ
-         mxOZ3RS8pA3iEAA55aU8/EBq9h3Po0DLytgYovDVsFfbT36OHdQaUGwPLJ3lG01hFOha
-         WpkBpT9gzq2iO8UbGhiS6xFhyGI26B7QXEWnQJX1hxeVH8W2rTVUYcpRy/W1U7h8dL8Y
-         peJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=w2dLnl5hsLVKZTBAdcVFnDnMtM7+guW1LU+8LG4nir0=;
-        b=x0cgJaSMwWMREzMi8fJm3ppl1iZq1z6ASrPUlHk7yXRKWmd8w212GbuLAliNYCGHhE
-         FcCvC8UH5Q8mMueET25o0qNyiBZPHm8rY+/zu/GQp7WF1HUyG+LH6vupXfbLeBQV/Vrt
-         FNOHePS9w+JCrcyCv27C/Tj8gxGQ6FRYduwZYk8FIIQ7TwQHznTII8NZdM+PemuP4vvh
-         WOKPetEvALyMivh9TgvscdbuWbFOe9zJ1YUa4m2U3FodJhOVqZlWrcLe6vHrjOVsOict
-         jIJ+Xa81qjsc3rCrgzNDOdZleOTfiu0n5isXYxkbhMcXDGrKzM6qOMxXa0kj49ucxvii
-         91bA==
-X-Gm-Message-State: AOAM5311fvjKa3+V+561uwC5zekb86b9l6tzQGBgvAG49FvIbUCTr9qr
-        qauRXkxUJDl3VvNeeKfo+o+vEGSrZ2eywpllszQ=
-X-Google-Smtp-Source: ABdhPJx6LRHkcC/2nzZUXHHyWAv8qwOLcVanyMaZO5SAGCaEWZSePdj6KgMnXbsAIfz8H/8CWMAmDV2d6TwcaPqmMOI=
-X-Received: by 2002:a05:6000:144a:: with SMTP id v10mr18155356wrx.315.1637411552709;
- Sat, 20 Nov 2021 04:32:32 -0800 (PST)
+        Sat, 20 Nov 2021 10:45:14 -0500
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1AKFfvLL005387;
+        Sun, 21 Nov 2021 00:41:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1AKFfvLL005387
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1637422917;
+        bh=lgx7/B5LBDShU1ck6mKJVdFhxM5TLJnhbJF13VJy6SE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0/i4U0iK8PbxKP9vSiHGZ7iW1WXV2hy945MD6Qzw2hCSiJsL/PUH69EWt/1DiAJJJ
+         vd5cRbNMMtt/xvYNabrUQGoEVH+UiWd2ECwgdbfGplunkDCpTMS9Xky6uw8/8+YZNc
+         zYk4GdB8rcB8PMMkXD5qaYq0xbNwnfcOOmzz6OTCn1XD5T0Yn1XPT1InTPkdkRIIxi
+         N9TXEXpsnvuy754hN43IuLKbm8shPKhePfVlHIiO5XlMQ/+aTPUCLpHse76v91YBW2
+         yOvBh6gxtPbGmbO+PPDW3MEsenFr/UhxntTYZ2iYqctPwgVZyLnV6sdGIitMQbFYVf
+         7VTaC3zRrljrQ==
+X-Nifty-SrcIP: [209.85.216.41]
+Received: by mail-pj1-f41.google.com with SMTP id gb13-20020a17090b060d00b001a674e2c4a8so11326724pjb.4;
+        Sat, 20 Nov 2021 07:41:57 -0800 (PST)
+X-Gm-Message-State: AOAM532qqbR/LXj7brQvJ6BkY6SYQUdTnfp/cCgHcOzimobV8o+sxrcY
+        1aUh/IHZxSQii6j+AvqPEzt0Rgo5CshstN4OWT0=
+X-Google-Smtp-Source: ABdhPJwVUYeujMmnX3vjPno4Xgi8Jxp6tUOfjMgRLAWLiXFH1MTXk0VbQwM+FILOl+co3sAy7uFq3LI2d6oixqJRrpU=
+X-Received: by 2002:a17:902:bc85:b0:143:954e:8548 with SMTP id
+ bb5-20020a170902bc8500b00143954e8548mr85962221plb.82.1637422916723; Sat, 20
+ Nov 2021 07:41:56 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:adf:f989:0:0:0:0:0 with HTTP; Sat, 20 Nov 2021 04:32:32
- -0800 (PST)
-Reply-To: mitchellvivian01@gamil.com
-From:   Mitchell Vivian <duplanmartine36@gmail.com>
-Date:   Sat, 20 Nov 2021 12:32:32 +0000
-Message-ID: <CAO-XXH5BAMnqsibuyWBB1vSqWFvEU_Fm4N1zBDf2pLptoHQP0A@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
+References: <37c3a9d3d6fceba0f55d05e7558370e3f60b8bf0.1634492509.git.josh@joshtriplett.org>
+ <20211117104553.765556-1-bjorn@kernel.org>
+In-Reply-To: <20211117104553.765556-1-bjorn@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 21 Nov 2021 00:41:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATpRBm9jgDd2-2rOtAzHXprEQyUh0PoyicszEWJ97qM4w@mail.gmail.com>
+Message-ID: <CAK7LNATpRBm9jgDd2-2rOtAzHXprEQyUh0PoyicszEWJ97qM4w@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Add `make mod2noconfig` to disable module options
+To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc:     Josh Triplett <josh@joshtriplett.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello
+On Wed, Nov 17, 2021 at 7:46 PM Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wr=
+ote:
+>
+> Josh Triplett wrote:
+> > When converting a modular kernel to a monolithic kernel, once the kerne=
+l
+> > works without loading any modules, this helps to quickly disable all th=
+e
+> > modules before turning off module support entirely.
+> >
+> > Refactor conf_rewrite_mod_or_yes to a more general
+> > conf_rewrite_tristates that accepts an old and new state.
+> >
+> > Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+>
+> Hmm, I don't think this was picked up yet?
+>
+> FWIW,
+>
+> Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
 
-My name is Miss Vivian Mitchell. I want to donate my fund $ 4.5
-million USD to you on a charity name to help the poor People.
 
-As soon as I read from you I will give you more details on how to
-achieve this goal and get this fund transferred into your bank
-account.
+Applied to linux-kbuild.
+Thanks.
 
-Thanks have a nice day,
-Miss.vivian
+--=20
+Best Regards
+Masahiro Yamada
