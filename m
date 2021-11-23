@@ -2,113 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F69E459A0E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Nov 2021 03:22:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 879DB459AED
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Nov 2021 05:12:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbhKWCZX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Nov 2021 21:25:23 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:38164 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232613AbhKWCZW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Nov 2021 21:25:22 -0500
-Received: from [10.180.13.93] (unknown [10.180.13.93])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axp+hCUJxhcHQAAA--.2721S2;
-        Tue, 23 Nov 2021 10:21:55 +0800 (CST)
-Subject: Re: [PATCH v1 1/2] modpost: file2alias: fixup mdio alias garbled code
- in modules.alias
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        zhuyinbo@loongson.cn, "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
+        id S232196AbhKWEQD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Nov 2021 23:16:03 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:46896 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230018AbhKWEQC (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 22 Nov 2021 23:16:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=H92rqvyk1rd6DC1X2BlHwRhmAU3aWdL4gDetNR6UYCE=; b=Yu
+        g/OmU6VIJcDQwIDWURwxEfRenbGeLy4KwS6BVDRoUb2nBWXw6/ijN9s4Esqc+4nQ1YN8y8OcZ1l/X
+        XgUcQOBTjuUd3h9iPSUV/BoWDalkNVn2kSm0yvCIVZthl/RYiW7f0T0GxR6X8wTTpXWxCb49S2ctY
+        yXM71yMxHsFFtIE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mpNAU-00EMZb-CN; Tue, 23 Nov 2021 05:12:30 +0100
+Date:   Tue, 23 Nov 2021 05:12:30 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     zhuyinbo <zhuyinbo@loongson.cn>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>, linux@armlinux.org.uk,
+        davem@davemloft.net, kuba@kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        netdev@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] modpost: file2alias: fixup mdio alias garbled
+ code in modules.alias
+Message-ID: <YZxqLi7/JDN9mQoK@lunn.ch>
 References: <1637583298-20321-1-git-send-email-zhuyinbo@loongson.cn>
  <YZukJBsf3qMOOK+Y@lunn.ch>
-From:   zhuyinbo <zhuyinbo@loongson.cn>
-Message-ID: <d91dae2f-54db-5f8d-9ecb-56a0c556c694@loongson.cn>
-Date:   Tue, 23 Nov 2021 10:21:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ <5b561d5f-d7ac-4d90-e69e-5a80a73929e0@loongson.cn>
 MIME-Version: 1.0
-In-Reply-To: <YZukJBsf3qMOOK+Y@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9Axp+hCUJxhcHQAAA--.2721S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw17AFy3Ww48JFW7CrW8tFb_yoW8Cr17pF
-        WxtryrGrWkXrn3CFs3JryUCFWUA392kw45t34DtFZa93y7ury2vay2grWI93yxZrs2y34j
-        gryUWF109FyDZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
-        4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-        Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
-        WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-        Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVW8ZVWrXwCY02Avz4
-        vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
-        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-        6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJV
-        W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRMXdj
-        DUUUU
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
+In-Reply-To: <5b561d5f-d7ac-4d90-e69e-5a80a73929e0@loongson.cn>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Nov 23, 2021 at 09:33:03AM +0800, zhuyinbo wrote:
+> 
+> 在 2021/11/22 下午10:07, Andrew Lunn 写道:
+> 
+>     On Mon, Nov 22, 2021 at 08:14:57PM +0800, Yinbo Zhu wrote:
+> 
+>         After module compilation, module alias mechanism will generate a ugly
+>         mdio modules alias configure if ethernet phy was selected, this patch
+>         is to fixup mdio alias garbled code.
+> 
+>         In addition, that ugly alias configure will cause ethernet phy module
+>         doens't match udev, phy module auto-load is fail, but add this patch
+>         that it is well mdio driver alias configure match phy device uevent.
+> 
+>     What PHY do you have problems with? What is the PHY id and which
+>     driver should be loaded.
+> 
+>     This code has existed a long time, so suddenly saying it is wrong and
+>     changing it needs a good explanation why it is wrong. Being ugly is
+>     not a good reason.
+> 
+>         Andrew
+> 
+> Hi Andrew,
+> 
+>     Use default mdio configure, After module compilation, mdio alias configure
+> is following and it doesn't match
+> 
+>     the match phy dev(mdio dev)  uevent, because the mdio alias configure 
+> "0000000101000001000011111001????"  include "?" and
 
-在 2021/11/22 下午10:07, Andrew Lunn 写道:
-> On Mon, Nov 22, 2021 at 08:14:57PM +0800, Yinbo Zhu wrote:
->> After module compilation, module alias mechanism will generate a ugly
->> mdio modules alias configure if ethernet phy was selected, this patch
->> is to fixup mdio alias garbled code.
->>
->> In addition, that ugly alias configure will cause ethernet phy module
->> doens't match udev, phy module auto-load is fail, but add this patch
->> that it is well mdio driver alias configure match phy device uevent.
-> What PHY do you have problems with? What is the PHY id and which
-> driver should be loaded.
+A PHY ID generally break up into 3 parts.
 
-     about that phy id,  phy dev read it from  PHY Identifier 1 and 
-Identifier 2 register, phy driver will call MODULE_DEVICE_TABLE to 
-configure
+The OUI of the manufacture.
+The device.
+The revision
 
-     phy id to mdio_device_id, phy id was used to do a match phy driver 
-with phy device.  that phy problems is phy driver was select 'M' then it
+The ? means these bits don't matter. Those correspond to the
+revision. Generally, a driver can driver any revision of the PHY,
+which is why those bits don't matter.
 
-     doesn't be auto load.
-> This code has existed a long time, so suddenly saying it is wrong and
-> changing it needs a good explanation why it is wrong. Being ugly is
-> not a good reason.
->
->      Andrew
+So when a driver probes with the id 00000001010000010000111110010110
+we expect user space to find the best match, performing wildcard
+expansion. So the ? will match anything.
 
-Hi Andrew,
+Since this is worked for a long time, do you have an example where it
+is broken? If so, which PHY driver? If it is broken, no driver is
+loaded, or the wrong driver is loaded, i expect it is a bug in a
+specific driver. And we should fix that bug in the specific driver.
 
-     Use default mdio configure, After module compilation, mdio alias 
-configure is "alias mdio:0000000101000001000011111001???? marvell"
-
-     and it doesn't match  the match phy dev(mdio dev)  uevent, because 
-the mdio alias configure "0000000101000001000011111001????"
-
-    include "?" and  "binary number",   as general, uevent it include 
-one string or some string that string consist of one character and one 
-hexadecimal digit ,
-
-     which uevent is reported by mdio when mdio register a device for 
-ethernet phy device, only uevent from phy dev match alias configure from
-
-     phy driver that phy driver will can be auto-load when phy driver 
-was selected  'M'.
-
-
-BRs
-
-Yinbo Zhu.
-
+     Andrew
