@@ -2,220 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E3145A181
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Nov 2021 12:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B190145A38E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Nov 2021 14:19:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234778AbhKWLc4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Nov 2021 06:32:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232670AbhKWLcz (ORCPT
+        id S235713AbhKWNWx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Nov 2021 08:22:53 -0500
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:43647 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233234AbhKWNWw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Nov 2021 06:32:55 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCC3C061574
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Nov 2021 03:29:47 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id p3-20020a05600c1d8300b003334fab53afso1913863wms.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Nov 2021 03:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RCz+vh2bGRc6vOt1cmcyty/tcvje22f5Ps81nyvaJl8=;
-        b=iORsK4eh4R+VVO0sDDWs6uTCsHBtofK80yTNi9dqOfNYeed7XHyX/ZfeH+Dt/A2Mmr
-         ibZcB9b26lSFWliz15RiW1sj9gi+8SymVg50wZHsg4kCilz1jTj457cJpB+lC0i2Jw0t
-         7zk4vqDtR4SIpE4Ak5/Ihi93S1MuMyeQh3TV/q8qcP77MzIAGUzsEhpHJvK4n3rgn5Vx
-         B1wfxE32t81OHx+/2be9ibS6Pif8hlJKRWcKJftKQ+ehU3nb+NOxk46JYSgNYRj5qr1r
-         my70BvYQfLjB6Fbt7G3JOfy+QD0RhUzJi1S7h4rogn5D8SGsHp4Ikmb4/hSnuYfHnP9x
-         ZVjg==
+        Tue, 23 Nov 2021 08:22:52 -0500
+Received: by mail-oo1-f46.google.com with SMTP id w5-20020a4a2745000000b002c2649b8d5fso6966387oow.10;
+        Tue, 23 Nov 2021 05:19:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RCz+vh2bGRc6vOt1cmcyty/tcvje22f5Ps81nyvaJl8=;
-        b=IkHU3ZhM5DD76Hfx98/zq761weFki2V1XHo/ceX1M7zfyPSC4uhgHqBVnRFuOGKyS0
-         n5mPZJi+Ncgv/8Bay/AD5PEaTEUtLlLYLdcLzSEP04HUvVk4S8SnDZKc5WE7hGLp/Ipn
-         40y6J7DhUyCRFZ0lDaueFNNOZR9BPRPEXExP9beTW5242nAvQOsOM2YDReJBJafXVDzi
-         iK3vpie3HPPKfgZ5L3JIf4+mPo2PchVsKmt2I5VEf987AQRswLcO4u1sqpJ6O0h5gSV/
-         JADceUc1jG5u/UdqW/i2zjvK9O0Vdsx383L4gOIEgujNYFQ6fXzfAXind5TGuFNSHnfR
-         bzDg==
-X-Gm-Message-State: AOAM531DK0RwhMMtxpGxUx1jvisAUZoQDfW1QImMKAqrc4tzIuvlgXWk
-        QIjECZsxTQaAw2rwH+2v86sHEw==
-X-Google-Smtp-Source: ABdhPJxgNU3F5ZbiL2IqSNSUEI6y0Mv5STMnCz4bk2DhNavYM0VNX4mAmCashJwrmSsH5krcZ0V+eg==
-X-Received: by 2002:a05:600c:1c20:: with SMTP id j32mr2110302wms.1.1637666985890;
-        Tue, 23 Nov 2021 03:29:45 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:1444:3668:5c57:85cc])
-        by smtp.gmail.com with ESMTPSA id k27sm1041180wms.41.2021.11.23.03.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 03:29:44 -0800 (PST)
-Date:   Tue, 23 Nov 2021 12:29:39 +0100
-From:   Marco Elver <elver@google.com>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <YZzQoz0e/oiutuq5@elver.google.com>
-References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-24-elver@google.com>
- <20211119203135.clplwzh3hyo5xddg@treble>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sxbm5nZuxDktECFOUcgXGTkmQEJlkXm+UQAvKfd0Kcw=;
+        b=mvIZSRRstoDDJUR3+mmLSzn8fqBURUL2JlI4/Frf4C5a1N1wjF+v56uIhWx1YQ6hIU
+         2dRlJni8qcx7RNXE/GL3pu+VAv4UTqUgv0o0BPxl1qPIMETntN/kFAcnpoZUrd76KegU
+         EKQW2pSud38zRmUCW7u3aRvEpqa57hx5kLNxJpFfSThGzmmlFeGfKmPN1gM2ntWdyv6r
+         2K2zy/YtYJXicIGjMq8lQO4aP9dlCmJCRrZ18lWH4dxrRs0a7kbT707/Ermt9GwlRTOZ
+         iHZj2FfFaNhu+t2/hEMpJXlTJejai2RmZvQ9M4xDAe0JogPrmv2xKN1LX2XKwKVhUUIN
+         EpOg==
+X-Gm-Message-State: AOAM531CX/cyV9bldIBySkzO0zA6rfPkTAyy3w7GuJYD/LNAvoOh+1Pk
+        WbbJ3XOnhaH2aQ5OION/ViKK3GF1OW9tVoWM0vM=
+X-Google-Smtp-Source: ABdhPJx4LJPjPNqz/sXcVDWL5tamzih4SOz6Sq7UGTbN97hIVt3zgoG90+osvpCrjRpDoZ3z/WaeE3Jdprr6Jm1J/tY=
+X-Received: by 2002:a4a:1d82:: with SMTP id 124mr2868847oog.91.1637673583839;
+ Tue, 23 Nov 2021 05:19:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211119203135.clplwzh3hyo5xddg@treble>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-13-keescook@chromium.org>
+In-Reply-To: <20210818060533.3569517-13-keescook@chromium.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 23 Nov 2021 14:19:25 +0100
+Message-ID: <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use
+ struct_group() for memcpy() region
+To:     Kees Cook <keescook@chromium.org>, Zhang Rui <rui.zhang@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list:NETWORKING DRIVERS (WIRELESS)" 
+        <linux-wireless@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 19, 2021 at 12:31PM -0800, Josh Poimboeuf wrote:
-> On Thu, Nov 18, 2021 at 09:10:27AM +0100, Marco Elver wrote:
-[...]
-> > +	if (insn->sec->noinstr && sym->removable_instr) {
-[...]
-> I'd love to have a clearer name than 'removable_instr', though I'm
-> having trouble coming up with something.
-[...]
+On Wed, Aug 18, 2021 at 8:08 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), avoid intentionally writing across
+> neighboring fields.
+>
+> Use struct_group() in struct art around members weight, and ac[0-9]_max,
+> so they can be referenced together. This will allow memcpy() and sizeof()
+> to more easily reason about sizes, improve readability, and avoid future
+> warnings about writing beyond the end of weight.
+>
+> "pahole" shows no size nor member offset changes to struct art.
+> "objdump -d" shows no meaningful object code changes (i.e. only source
+> line number induced differences).
+>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Amit Kucheria <amitk@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-I now have the below as v3 of this patch. The naming isn't entirely
-obvious, but coming up with a short name for this is tricky, but
-hopefully the comments make it clear. We can of course still pick
-another name.
+Rui, Srinivas, any comments here?
 
-Does that look reasonable?
-
-Note, I'd like this series to sit in -next for a while (probably from
-some time next week after sending v3 if there are no further
-complaints). By default everything will be picked up by the -rcu tree,
-and we're targeting Linux 5.18.
-
-If you feel there might be objtool conflicts coming, this patch could be
-taken through another tree as there are no hard dependencies, as long as
-this patch reaches mainline before or with the rest.
-
-Thanks,
--- Marco
-
------- >8 ------
-
-From: Marco Elver <elver@google.com>
-Date: Mon, 9 Aug 2021 12:11:14 +0200
-Subject: [PATCH] objtool, kcsan: Remove memory barrier instrumentation from
- noinstr
-
-Teach objtool to turn instrumentation required for memory barrier
-modeling into nops in noinstr text.
-
-The __tsan_func_entry/exit calls are still emitted by compilers even
-with the __no_sanitize_thread attribute. The memory barrier
-instrumentation will be inserted explicitly (without compiler help), and
-thus needs to also explicitly be removed.
-
-Signed-off-by: Marco Elver <elver@google.com>
----
-v3:
-* s/removable_instr/profiling_func/ (suggested by Josh Poimboeuf)
-* Fix and add more comments.
-
-v2:
-* Rewrite after rebase to v5.16-rc1.
----
- tools/objtool/check.c               | 41 ++++++++++++++++++++++++-----
- tools/objtool/include/objtool/elf.h |  2 +-
- 2 files changed, 36 insertions(+), 7 deletions(-)
-
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 61dfb66b30b6..a78186c583f4 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -1072,11 +1072,11 @@ static void annotate_call_site(struct objtool_file *file,
- 	}
- 
- 	/*
--	 * Many compilers cannot disable KCOV with a function attribute
--	 * so they need a little help, NOP out any KCOV calls from noinstr
--	 * text.
-+	 * Many compilers cannot disable KCOV or sanitizer calls with a function
-+	 * attribute so they need a little help, NOP out any such calls from
-+	 * noinstr text.
- 	 */
--	if (insn->sec->noinstr && sym->kcov) {
-+	if (insn->sec->noinstr && sym->profiling_func) {
- 		if (reloc) {
- 			reloc->type = R_NONE;
- 			elf_write_reloc(file->elf, reloc);
-@@ -1991,6 +1991,35 @@ static int read_intra_function_calls(struct objtool_file *file)
- 	return 0;
- }
- 
-+/*
-+ * Return true if name matches an instrumentation function, where calls to that
-+ * function from noinstr code can safely be removed, but compilers won't do so.
-+ */
-+static bool is_profiling_func(const char *name)
-+{
-+	/*
-+	 * Many compilers cannot disable KCOV with a function attribute.
-+	 */
-+	if (!strncmp(name, "__sanitizer_cov_", 16))
-+		return true;
-+
-+	/*
-+	 * Compilers currently do not remove __tsan_func_entry/exit with the
-+	 * __no_sanitize_thread attribute, remove them.
-+	 *
-+	 * Memory barrier instrumentation is not emitted by the compiler, but
-+	 * inserted explicitly, so we need to also remove them.
-+	 */
-+	if (!strncmp(name, "__tsan_func_", 12) ||
-+	    !strcmp(name, "__kcsan_mb") ||
-+	    !strcmp(name, "__kcsan_wmb") ||
-+	    !strcmp(name, "__kcsan_rmb") ||
-+	    !strcmp(name, "__kcsan_release"))
-+		return true;
-+
-+	return false;
-+}
-+
- static int classify_symbols(struct objtool_file *file)
- {
- 	struct section *sec;
-@@ -2011,8 +2040,8 @@ static int classify_symbols(struct objtool_file *file)
- 			if (!strcmp(func->name, "__fentry__"))
- 				func->fentry = true;
- 
--			if (!strncmp(func->name, "__sanitizer_cov_", 16))
--				func->kcov = true;
-+			if (is_profiling_func(func->name))
-+				func->profiling_func = true;
- 		}
- 	}
- 
-diff --git a/tools/objtool/include/objtool/elf.h b/tools/objtool/include/objtool/elf.h
-index cdc739fa9a6f..d22336781401 100644
---- a/tools/objtool/include/objtool/elf.h
-+++ b/tools/objtool/include/objtool/elf.h
-@@ -58,7 +58,7 @@ struct symbol {
- 	u8 static_call_tramp : 1;
- 	u8 retpoline_thunk   : 1;
- 	u8 fentry            : 1;
--	u8 kcov              : 1;
-+	u8 profiling_func    : 1;
- 	struct list_head pv_target;
- };
- 
--- 
-2.34.0.rc2.393.gf8c9666880-goog
-
+> ---
+>  .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
+>  .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
+>  2 files changed, 29 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> index a478cff8162a..e90690a234c4 100644
+> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> @@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
+>                 get_single_name(arts[i].source, art_user[i].source_device);
+>                 get_single_name(arts[i].target, art_user[i].target_device);
+>                 /* copy the rest int data in addition to source and target */
+> -               memcpy(&art_user[i].weight, &arts[i].weight,
+> -                       sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
+> +               BUILD_BUG_ON(sizeof(art_user[i].data) !=
+> +                            sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
+> +               memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
+>         }
+>
+>         if (copy_to_user(ubuf, art_user, art_len))
+> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> index 58822575fd54..78d942477035 100644
+> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> @@ -17,17 +17,19 @@
+>  struct art {
+>         acpi_handle source;
+>         acpi_handle target;
+> -       u64 weight;
+> -       u64 ac0_max;
+> -       u64 ac1_max;
+> -       u64 ac2_max;
+> -       u64 ac3_max;
+> -       u64 ac4_max;
+> -       u64 ac5_max;
+> -       u64 ac6_max;
+> -       u64 ac7_max;
+> -       u64 ac8_max;
+> -       u64 ac9_max;
+> +       struct_group(data,
+> +               u64 weight;
+> +               u64 ac0_max;
+> +               u64 ac1_max;
+> +               u64 ac2_max;
+> +               u64 ac3_max;
+> +               u64 ac4_max;
+> +               u64 ac5_max;
+> +               u64 ac6_max;
+> +               u64 ac7_max;
+> +               u64 ac8_max;
+> +               u64 ac9_max;
+> +       );
+>  } __packed;
+>
+>  struct trt {
+> @@ -47,17 +49,19 @@ union art_object {
+>         struct {
+>                 char source_device[8]; /* ACPI single name */
+>                 char target_device[8]; /* ACPI single name */
+> -               u64 weight;
+> -               u64 ac0_max_level;
+> -               u64 ac1_max_level;
+> -               u64 ac2_max_level;
+> -               u64 ac3_max_level;
+> -               u64 ac4_max_level;
+> -               u64 ac5_max_level;
+> -               u64 ac6_max_level;
+> -               u64 ac7_max_level;
+> -               u64 ac8_max_level;
+> -               u64 ac9_max_level;
+> +               struct_group(data,
+> +                       u64 weight;
+> +                       u64 ac0_max_level;
+> +                       u64 ac1_max_level;
+> +                       u64 ac2_max_level;
+> +                       u64 ac3_max_level;
+> +                       u64 ac4_max_level;
+> +                       u64 ac5_max_level;
+> +                       u64 ac6_max_level;
+> +                       u64 ac7_max_level;
+> +                       u64 ac8_max_level;
+> +                       u64 ac9_max_level;
+> +               );
+>         };
+>         u64 __data[ACPI_NR_ART_ELEMENTS];
+>  };
+> --
+> 2.30.2
+>
