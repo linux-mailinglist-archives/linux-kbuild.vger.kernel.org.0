@@ -2,53 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D117E45C8AC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Nov 2021 16:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 802CC45C8AE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Nov 2021 16:30:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237670AbhKXPd4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Nov 2021 10:33:56 -0500
-Received: from sonic314-19.consmr.mail.gq1.yahoo.com ([98.137.69.82]:44926
-        "EHLO sonic314-19.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234707AbhKXPdz (ORCPT
+        id S239618AbhKXPeA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Nov 2021 10:34:00 -0500
+Received: from sonic310-21.consmr.mail.gq1.yahoo.com ([98.137.69.147]:38589
+        "EHLO sonic310-21.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238586AbhKXPd7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Nov 2021 10:33:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1637767844; bh=XhUUxjuDvptKLJmrBs1uaon9Jq/bsYpRu4clgNCUXf8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=eiATKAgsEGyDielN9rfTfID9WYxK0eNYYjrcjjvL0VpxRN9zd6u0GFxh1z31/z9M5pX6MclpZFUE9+IW4d2dp+mveKD2Hvkf6A1PIMi9db8YLkcEOInRB6W94qxMhvnw1ObckUHUgC+shNg4/suMu4HKFCj1duMZL+TqQJcN69RxgrLncu61EAdWpV9ylp9lrIWjn7KYZcgXSbDZ/JyfOWdJC4QURy3Mmo2wUW8ZSYDFfvvGy6YgntEqqJM71QToJm6iJopQje42Tj0imejWTlS+Fy2r5hXIRy2Z71BzDeNsr3mYIYCiXaKf1NiID/O/70yGlSGmZNMT7OuC9zsDoQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637767844; bh=Y0tsWZ3NpEp7iADcCQGT0zSo6gszppwbH0BG/sb2BR/=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=daJZxq/dlzaVtJq96iSwB+YaCt8y0VCZPTFylsbvMa9DZdgC3Ko6AkXt3BxAwgU+ernbYCpB6hXKsbLo+6gZc8C6p5tDLtr1DmIiy+3UtcKvnVM2z33MZ4MyvcnPmVFujCQXvpgqpOxL1waHKmKtCrf+hOC5NM/zj6J/+iKV725ErMIEICPVJH8+BCmhPGh9E10D2Ymt2X7eCY/UtYnByLsDDDmuyVDaDxENXgm/sGs4KdBVXn6EEytqXX/DF/MRvdhOcySZWHvV+gpHhHCozIkN0fq/s5Gzwo9Cr9FCWCbArKyB5qHRJBhj5TdAdr921qFpBgDsBxwMNepAMd0P7g==
-X-YMail-OSG: SUZIVvcVM1kb2NG45uhb5_akOT7iweFTm7OMdRe0o_IP_x_pDq0xgOwmkXYT80W
- ZGZH14xCQ3nl9mGrS_Tv2NM9.pMgE6s1V.ktW8LJmpifmh3oqQK3fbZ8LlrpfLEvbTS98WW.Jx55
- Oi7atP9kGf1X0vG3i4ga0A1vnZihwOGHXGyCm0if2EIvffDZ9VUgN3byoVJTAmPXOExUD_.nmLQr
- 7nZxBJ6YcwX0Szn9Nj7_ubhEn8vKKoKN7qkB6XUlgRG22hMiihivwEtJL.Qoyd5NgcxQjOYxY.eB
- A1t1Sr5xwmOjGVqB9DJ7OsjTYmoULYhgW.1VwohvcUzycayTrjhoA9SNcBiZ1GqERVlrGxNfYFcN
- EZdKG7ZLieo9Mxp5gaJutpXFDou661QXu2Ph.zJu6UmlQfW2PdoY33lEjL5Pr1YJWtLgjWYV53gl
- NCZwnLaTKrukw.tPao1qOO1URbpJJ1oE7IVWXI1EZ6ATj6kElJCdAxcs0nvrjbP41mWNxJOHWWhA
- aczkSOR7kb29j35us2Hqm3kECj.hEgyEPOdoyhSjkXwA6RcB.maAJ1quEC8_pzQ0cTaqHjs.7wuP
- CsY7bOTGahPQqljthaPXpkELq9aXdjfnV1f1MWUFBPDiRs8dylO7L6LiuwAhARe2L6f6BHvSUfpQ
- xpKBXF986cgxccrOMGhVSVsJru37u2RrJXD.pHyqlZTehC1vdj9DUBEZgJILyV2_ss.sf7cU61h.
- UpqueIKaXg4Fhnezj0K44Fx9LXAgPIFBlBgY.j3BFfTswCDAyFysIMvPF3_aomEnumHaw2bfwwf7
- s4V7LIo3ZsA9tivql3VqHUeUj6y5GbSihYO_1mftLTbii.wdfq_nV1.PgnHXOf32AQ10u8b9LKvg
- QmhV4dWjIV2pipkZfixdQ_.JpcEgh82oORJq2Yi_J2CFn_o_SrWqfX772CCZPKGgNCKVjHt1aDs2
- 1IDhvKhq.vg8KKRTLpthSGWhTgfxlSahgPARLbTDmjiTZko4TEH6zSXCN2HFC5FW_004szaaD8GB
- W4c1BXYB_34hgiWkKI4427G49SuSlLrGKfvtmkz.h7UiPxS6sSfCbZc8l9XEJGi0RU5sgCOjJnhu
- YJfxNilX7cE9xJ_ZrztsxCksADp5G32zcqTkZMz92KeyYgKgGq9TpIIuYq7_g9wKVmODnqMGjFkH
- ADkam4OdG.T8ytCrbToi.c1qL6cvSPw3GuGOOEQ1.O0CMPpr6RVl5ljYuKczZmrpIFePiK.CAZWh
- 445jyyEYBNvsYFLlt.zLhxVGSXYttt_UERvHKGWKSUc6zTg0TErQsjQvTcoo7CkTTYQz0u5nZW6_
- nxvS2NKK9BRHS6MNTC6XrPEcFzYTLPIzEHaFZdUk8_eB_x.SljDpOLSig4nu7pLotyYBrLksfF09
- CQjLnwkxLycfsAuCwwf_ycqF9aZQyJ6UzoUBNccnVVUdOIhJHqycB.2UR.sQ7Ej1XwkW1d0AY9tI
- QBwsGYJF9DhKWr.vXfSo6vpPKX7jQHU7rJBMUBjF7eQR_F8zvHOehRRdsdh7oxdq9T6ZVoNqlBks
- Veoww_BVu7vHQlTt433sVnv0mJWTZ0N8.dl89_9kJnc3SXQbQAxjX3l7F7nzLC7z_rY7FjfEilhG
- lC7vQbs5V4daGUkmGOIgUFiCjB3omkHoX2_gygUDFhsDYWBwxcVNYWnWuLO4EByMUgoV6h34Bsmz
- zhjxAAKmwUTvPqESVSSb1zIBj8VMQxbL1bdmBGOEmx_P9b9OFSI3NZ.6xp9Lwnejfy1KI_scQ.eJ
- _Rz0udSknxzi1Z8Ua1DcaaO0JseuOy5H3navvAQXutiKGdjxkIABeTZHVuEFsg4gXVFEtBCOIdtp
- lNu9TQd8Dm2ygLCdf6fGk2TIJhT4boYMawO6Md5_8SU5YrLF.gee.EbSjPbfCfSTqT1w0r4t4wl2
- WPgNBoNqgv_9EyniVDfrsYSlLNSzn26wGTapilEphT.Qm0CSlTWI5pHpBV7I0HEZFnp6OqCLGsBU
- fo_tXosVq1_OCCybeHPjUzlA2ZnIpAwbrycLqy66i8A9UebsEPk5YjqesvSOCatDJ.4VDEiqo9r9
- c.fAQ7DvnHnIJ35GPV2fvf9KmdiK.Ltis.A1DhHGeCufBJDUyDAx_VFq2yalQQDotDsTCOSgpUSk
- bXPL57dUyeX1Gt5cSeyIrX1JtgNkTJtKpv9Ap7TA_rYNkkeHdR0cJCaQQOsCbfY4JY4iUtYIRP5P
- mg7JeZZdgmmpen_ICJZcg4Me2hzyBd2XKEoDvNMOTdhuzAzZYCK3cJR9lBcLeQKiC83iX
+        Wed, 24 Nov 2021 10:33:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1637767849; bh=sZfrWG5Xvk1chzVi4S16DUIyfYrQAOBdWOyCjDnxAs8=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=I5Z7WOXDusts6iVDUN8wxnh2N0zM4DHk0f5EcG6aNH957XxwtolvQ8KkMC7z7szTzV0j49+6SLRgFLRMCNV9Yor+StDnZg4HGlbiJuBwOnAc+ameVxAiqvKSNqdeoJ3KLFmOOQp4iT3s7wyxjQzCykLrV7FcbICkrUzYgaCp9pxb/eN6ddcNvRCQynIabIks0judljqNLDoNKtZ6wAXHB4KXH2+FCRGG+C7wb962T/u0EZtWUah2wP+IBtYUD2OLmcdQKe9+nNBNsuhoXzhutgfpsr0JFCqd09CZ91bdlvjGq2KrwXk2YZWTr+VNeTXDIzIN3w6BejAi4mW6nCZAbA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637767849; bh=2MLcPnpndP6JxWngdhJ2fz3QQCi0VBWOA3SQ1tdekOY=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=BUS+imbxef+7ojjgeyVjo74ec2dPgrOMIdA6FZPW1YET5K/D6fXB88Iw2Vqf89qbTl1lqOlPClhNRp5X3H5/O+3n9auY+Pj5ntUDdc6S9fZY4Eyi+UkrBV+SFn0Ept5G0d1NPK5JpR6ny87iNmVnwMGfbOP5IKCanz4dZge7J38od1HzVaijguGuxLvSEuE4WNjbyy+NDBiCz+MeEZhoDgwbjePxTP7r+vw1663JqdhGX7/YjOcMM3b8woAto+DV27tXKUJ/P65rlreBDkxGNblztAwNDgasoDV+P8hgJVtMgNE8j+1Plx/dxHaYH5828iaRppGwCkxuC4+9LC5auQ==
+X-YMail-OSG: LmQt4OMVM1m.3BUvGeFKMDq40CX9uy8DvVOtveKQG5e7D9s_LuApCOb54XUCbmT
+ m1jDkLyKOoID3UFe05VYKqKyYapOwiqHltUCS_AL_28NBGN9NXXM.Kpn27uu1.6xedQU3fUktefU
+ zWz5e1yCmLJnQ1jwQpCc3BCr2nNlMp_hwrMKUADN8U3J.JwlsNoGkl5L9uv6Am95mdc2momjaPUD
+ 01nRSaHWiqSSSGY1rnsPrGxNyPpzLU3wvVSs0txky16LpxIpOjR5l4f1NxVa0hzWNhsYQEn5Aptt
+ pInmcWWIe7kwQJZMzWU23A5pBx2TdOv77BIABb6DUQrvciKq1cgkDuo.pLhvap0sXbbh_BidchH_
+ vtWoccQJu1MBNMIemF_kpUgXnlPJeS_RYTvTDa7N1OawllYrUK8mNF.gMnq0_hs_O8z98rJKPT3q
+ BLUD_U0A79x.ZF3FxlS35OYHVZ0r4EkJtC.aQNiIm2p5kdk02EnzTmYF5o0b_4uPWKGLXBV4u.YV
+ q1aF.qqBmhP8Jmd3Dupp6VzGcqp7qBe_eG7VPTbEWzNO6Ve7dmtzpArxCQdjZrtsBPN0W4k_YHiL
+ NBAhFL2etUAmRgcvKZWZxekDZ5EUpvBrcz1hwv39uJahAzUMdAZUkpf1DpXn1qjPYhEINbyAgtOV
+ mD2zBfSicPRVn3dAgxdFowcl7NRML2IyS.ZorYi5.HNLie1Xb0Cxy6E0EhGOVnBy9k2LPUkYzI60
+ wHa7Fug9qetMzcQ30.IvC5Ou56og6Tzvj1GUFFnOidjosI9shCuXL2w6EeN5O0PMRC_Jehcxt88O
+ LJAWTclHQTKH7LygxaO3YZz40CuTpsBBxh6ot9AfXe.qOsWfwinBHk7ChktAO4G55kV21ytdzV8Q
+ LV8ICQCP6qxCNUhfkEpCzoxG09CTdA2tqozsUJOTMEkiuWb8xv1H05W3hM82XZ77JB975X0CvoJv
+ obAxLXJtJRHHsgUOh_r.Gx245FVDJns_OOHzSHhmFxDVA3PKNfwLSoRZB42pdwrjAI3RKvmpnt5p
+ kTXelyQB8dmH_dmGxuMZ4jClVuhUE8LpvGCQAnoINAVAOPkojWixKdw_CHsAWWNHuH6sjPswvfPl
+ POZFy6n1m40ydgTgA15JVIXLhnnTbv3x.eg3bWyaEupykkUuYCmQyKOew1n_0y6i1U09Z3qrLj7P
+ pIEtExjyjp03wf22FYUlXA8UZH9PCV9p1wHVZ.VDWyhCNRnsO1rX34Nqb9IdFgF8aIKRHLyqt7AX
+ D.wFlXGa905xNvG8dkzY0YE9Oe0pv8ezQWJzQSwIsw8p6zzXDlW87zHkiXUeiRy1hvefxTJ3QWLV
+ 7yCEgxx0FeyfiPwULbHYFaVoSvTxzPxf4p4a_A9lB7ZfO0wmYSX9j3gUU7.6KNJ1LFqoUFAn_GEG
+ GgwOdmosa51vzaPr7mT.gphGOegmPFyc8P.LQyG4Eaa9rXWNGKyTmPoemlwsyY72EMPPiksqyLvJ
+ 2HWf70keBVnyIwHekrIg96bBKsNgXRHf.dGmfH8VtbKQ0.9X6d4c7EIcBdwSyzr9bKFKIHwtvJ34
+ O9mCpKRqtqW_6zR0WIxgb.nxEo.EIQhHWN5Ligv6xUouKd70ffAYbRr0e7YshahZBsoa17qoA1bz
+ JV1fUMkGHsm8C0La.3FtV.wE8ub80pa97Hn5GrAnSk8S.OglKDeX7_8U_KtJR568A1PNDRk2Jc6N
+ Ng6xPcPU9EuyRtkq.EDTD5co6KVQ3qdxA5pEXAakpBkUCfA0nR6d7UFgw8Xe8fkg4ffbhkt.M5bR
+ tTJHfi.Xaf_Y4ihvhIeoAS_EE7MewUZpCNlJYq6SKVQZxyldjcowAwWmFsQFPYLSFEEGUWehTPo7
+ JrC.KmmIx.ITwxpfA5JGX7dvG2g_uokMmfffToGx8gZjYH6prZa1V6PrYvizQCV.jL2Xv1LGWheR
+ qYKJ3FPKBddc1g.WThejQNoMV9I3.olpOGoVQAdTlHxPsIJcqhKJVwfaYCkClXAjZrG0dfDDbaXC
+ 8Rf052pMC8xuI94vU6DbqUx.5VODycTB922x0kil8Hv6KCYd7vPWROepYbUH.0SQwkUgST0kE2Uc
+ rW9IDkTYr3Q2PCrSdFeyIReNtWmyajwMVe056iBCXe9q.wQTtUYhqQ6qpCsybghhepXbNpRovDCG
+ C9JVy0sh_2wQXiqul2ji.yxTgJgUqEY0gITSgOlyoJKNnGb4PTBAqeXdF0Z9qSJznbUn6CfGwE58
+ 8w1AXIDxc1.G5j.1irPRplK0wG51DpaZN3bHoBE9YmfciUmgbITti6BnxvRwU9hZOiatAXxpkLHg
+ fXYlB4qY-
 X-Sonic-MF: <alex_y_xu@yahoo.ca>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.gq1.yahoo.com with HTTP; Wed, 24 Nov 2021 15:30:44 +0000
-Received: by kubenode516.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID b36b65c048e84da1f7ce293b01997ba8;
-          Wed, 24 Nov 2021 15:30:42 +0000 (UTC)
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.gq1.yahoo.com with HTTP; Wed, 24 Nov 2021 15:30:49 +0000
+Received: by kubenode520.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID a9ce41034f328ae2261d33f37437d315;
+          Wed, 24 Nov 2021 15:30:46 +0000 (UTC)
 From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
 To:     Michael Forney <forney@google.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
@@ -59,116 +60,65 @@ To:     Michael Forney <forney@google.com>,
         Kees Cook <keescook@chromium.org>,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Cc:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: [PATCH v2 1/2] kbuild: use perl instead of shell to get file size
-Date:   Wed, 24 Nov 2021 10:31:04 -0500
-Message-Id: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+Subject: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to zstd
+Date:   Wed, 24 Nov 2021 10:31:05 -0500
+Message-Id: <20211124153105.155739-2-alex_y_xu@yahoo.ca>
 X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+References: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <20211124153105.155739-1-alex_y_xu.ref@yahoo.ca>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This makes it easier to get the size of multiple files. Perl is already
-a requirement for all builds to do header checks, so this is not an
-additional dependency.
----
- arch/arm/boot/deflate_xip_data.sh | 2 +-
- arch/powerpc/boot/wrapper         | 2 +-
- scripts/Makefile.lib              | 9 ++-------
- scripts/file-size.pl              | 8 ++++++++
- scripts/file-size.sh              | 4 ----
- scripts/link-vmlinux.sh           | 4 ++--
- 6 files changed, 14 insertions(+), 15 deletions(-)
- create mode 100755 scripts/file-size.pl
- delete mode 100755 scripts/file-size.sh
+Otherwise, it allocates 2 GB of memory at once. Even though the majority
+of this memory is never touched, the default heuristic overcommit
+refuses this request if less than 2 GB of RAM+swap is currently
+available. This results in "zstd: error 11 : Allocation error : not
+enough memory" and the kernel failing to build.
 
-diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xip_data.sh
-index 304495c3c2c5..14cfa2babb93 100755
---- a/arch/arm/boot/deflate_xip_data.sh
-+++ b/arch/arm/boot/deflate_xip_data.sh
-@@ -43,7 +43,7 @@ data_start=$(($__data_loc - $base_offset))
- data_end=$(($_edata_loc - $base_offset))
- 
- # Make sure data occupies the last part of the file.
--file_end=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$XIPIMAGE")
-+file_end=$(${PERL} "${srctree}/scripts/file-size.pl" "$XIPIMAGE")
- if [ "$file_end" != "$data_end" ]; then
- 	printf "end of xipImage doesn't match with _edata_loc (%#x vs %#x)\n" \
- 	       $(($file_end + $base_offset)) $_edata_loc 1>&2
-diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
-index 9184eda780fd..9f9ee8613432 100755
---- a/arch/powerpc/boot/wrapper
-+++ b/arch/powerpc/boot/wrapper
-@@ -380,7 +380,7 @@ vmz="$tmpdir/`basename \"$kernel\"`.$ext"
- 
- # Calculate the vmlinux.strip size
- ${CROSS}objcopy $objflags "$kernel" "$vmz.$$"
--strip_size=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$vmz.$$")
-+strip_size=$(${PERL} "${srctree}/scripts/file-size.pl" "$vmz.$$")
- 
- if [ -z "$cacheit" -o ! -f "$vmz$compression" -o "$vmz$compression" -ot "$kernel" ]; then
-     # recompress the image if we need to
+When the size is specified, zstd will reduce the memory request
+appropriately. For typical kernel sizes of ~32 MB, the largest mmap
+request will be reduced to 512 MB, which will succeed on all but the
+smallest devices.
+
+For inputs around this size, --stream-size --no-content-size may
+slightly decrease the compressed size, or slightly increase it:
+https://github.com/facebook/zstd/issues/2848.
+
+Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
+---
+ scripts/Makefile.lib | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index d1f865b8c0cb..ca901814986a 100644
+index ca901814986a..c98a82ca38e6 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -379,13 +379,8 @@ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+@@ -466,12 +466,20 @@ quiet_cmd_xzmisc = XZMISC  $@
+ # single pass, so zstd doesn't need to allocate a window buffer. When streaming
+ # decompression is used, like initramfs decompression, zstd22 should likely not
+ # be used because it would require zstd to allocate a 128 MB buffer.
++#
++# --stream-size to reduce zstd memory usage (otherwise zstd -22 --ultra
++# allocates, but does not use, 2 GB) and potentially improve compression.
++#
++# --no-content-size to save three bytes which we do not use (we use size_append).
++
++# zstd --stream-size is only supported since 1.4.4
++zstd_stream_size = $(shell $(ZSTD) -1c --stream-size=0 --no-content-size </dev/null >/dev/null 2>&1 && printf '%s' '--stream-size=$(total_size) --no-content-size')
  
- # Bzip2 and LZMA do not include size in file... so we have to fake that;
- # append the size as a 32-bit littleendian number as gzip does.
--size_append = printf $(shell						\
--dec_size=0;								\
--for F in $(real-prereqs); do					\
--	fsize=$$($(CONFIG_SHELL) $(srctree)/scripts/file-size.sh $$F);	\
--	dec_size=$$(expr $$dec_size + $$fsize);				\
--done;									\
--printf "%08x\n" $$dec_size |						\
-+total_size = $(shell $(PERL) $(srctree)/scripts/file-size.pl $(real-prereqs))
-+size_append = printf $(shell printf "%08x\n" $(total_size) |		\
- 	sed 's/\(..\)/\1 /g' | {					\
- 		read ch0 ch1 ch2 ch3;					\
- 		for ch in $$ch3 $$ch2 $$ch1 $$ch0; do			\
-diff --git a/scripts/file-size.pl b/scripts/file-size.pl
-new file mode 100755
-index 000000000000..170bb6d048fa
---- /dev/null
-+++ b/scripts/file-size.pl
-@@ -0,0 +1,8 @@
-+#!/usr/bin/perl -w
-+# SPDX-License-Identifier: GPL-2.0
-+my $total = 0;
-+foreach (@ARGV) {
-+    @stat = stat $_ or die "$_: $!";
-+    $total += $stat[7];
-+}
-+print "$total\n";
-diff --git a/scripts/file-size.sh b/scripts/file-size.sh
-deleted file mode 100755
-index 7eb7423416b5..000000000000
---- a/scripts/file-size.sh
-+++ /dev/null
-@@ -1,4 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--set -- $(ls -dn "$1")
--printf '%s\n' "$5"
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 5cdd9bc5c385..c3fa38bd18ab 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -384,8 +384,8 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
- 	kallsyms_step 2
+ quiet_cmd_zstd = ZSTD    $@
+-      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
++      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -19; $(size_append); } > $@
  
- 	# step 3
--	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso_prev})
--	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
-+	size1=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso_prev})
-+	size2=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso})
+ quiet_cmd_zstd22 = ZSTD22  $@
+-      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
++      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -22 --ultra; $(size_append); } > $@
  
- 	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
- 		kallsyms_step 3
+ # ASM offsets
+ # ---------------------------------------------------------------------------
 -- 
 2.34.0
 
