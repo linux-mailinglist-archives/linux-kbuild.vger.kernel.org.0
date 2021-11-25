@@ -2,133 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB67045EC07
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Nov 2021 11:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2424A45FBAC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Nov 2021 03:12:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231586AbhKZLCw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Nov 2021 06:02:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232041AbhKZLAv (ORCPT
+        id S1348226AbhK0CPq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Nov 2021 21:15:46 -0500
+Received: from mail.daesangagung.co.id ([117.54.218.101]:44800 "EHLO
+        mail.daesangagung.co.id" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241891AbhK0CNq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Nov 2021 06:00:51 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79C4C08EA3D;
-        Fri, 26 Nov 2021 02:28:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TV9geI3pefr1PEB8Jp2tszmjn2Seeeo5pcnatqfJP5k=; b=rKXbP9Y5VpN5pXTkZNjF7zTtW7
-        xXUXssxHzuVMj2cp0fBi25HRXYaOx9UnukCbdLjxDKyP04jn+VQ6ixQ0XjpgRrrBzxJC33IN2gOr8
-        7fDOylJO1uy+3skZvcVBGoQKIMNJQjQ/kbPZ30qYaWSgRnKZKeJrUrTwco+uuFKyy4LKOcSXxSkKW
-        TZv4W8YkOkyWj8bP/EfUJsiSWV6bIxnLxMoVnHGnrSCCG03qCsDCdAZHQRpUZgjW/8JHukgUBlKxU
-        VyODCr/GYdbPLCWJncPB5SupN8swCpk7IAAdF4A7kfK6zQdXLz0m1JhGmg1271OltvuCD1jwOR55E
-        fve85ZmA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55910)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1mqYST-0002wP-Ag; Fri, 26 Nov 2021 10:27:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1mqYSR-0003CQ-Ee; Fri, 26 Nov 2021 10:27:55 +0000
-Date:   Fri, 26 Nov 2021 10:27:55 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     zhuyinbo <zhuyinbo@loongson.cn>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        davem@davemloft.net, kuba@kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, ndesaulniers@google.com
-Subject: Re: [PATCH v1 1/2] modpost: file2alias: fixup mdio alias garbled
- code in modules.alias
-Message-ID: <YaC2qyfGhOnT3Nve@shell.armlinux.org.uk>
-References: <1637583298-20321-1-git-send-email-zhuyinbo@loongson.cn>
- <YZukJBsf3qMOOK+Y@lunn.ch>
- <5b561d5f-d7ac-4d90-e69e-5a80a73929e0@loongson.cn>
- <YZxqLi7/JDN9mQoK@lunn.ch>
- <0a9e959a-bcd1-f649-b4cd-bd0f65fc71aa@loongson.cn>
- <YZzykR2rcXnu/Hzx@lunn.ch>
- <92c667be-7d33-7742-5fb9-7e5670024911@loongson.cn>
+        Fri, 26 Nov 2021 21:13:46 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id B11F180BC8355;
+        Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id KP-98jJa8OIL; Fri, 26 Nov 2021 00:25:04 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daesangagung.co.id (Postfix) with ESMTP id 9CAE7809F6432;
+        Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+X-Virus-Scanned: amavisd-new at daesangagung.co.id
+Received: from mail.daesangagung.co.id ([127.0.0.1])
+        by localhost (mail.daesangagung.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id wLAkd3Q9MCXI; Thu, 25 Nov 2021 20:16:56 +0700 (WIB)
+Received: from User (_gateway [10.0.22.111])
+        by mail.daesangagung.co.id (Postfix) with SMTP id 335C4809F6434;
+        Thu, 25 Nov 2021 11:25:13 +0700 (WIB)
+Reply-To: <sarb_bnk086@meta.ua>
+From:   "Hsbc Bank London" <info@daesangagung.co.id>
+Subject: Your Approved Payment !
+Date:   Wed, 24 Nov 2021 20:25:30 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <92c667be-7d33-7742-5fb9-7e5670024911@loongson.cn>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-Id: <20211125042513.335C4809F6434@mail.daesangagung.co.id>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 26, 2021 at 05:34:36PM +0800, zhuyinbo wrote:
-> Hi Andrew,
-> 
-> 
->     I don't get udev log, but I can find that phy module wether be load by
-> lsmod ways,  and you can try
-> 
->     it in any a phy deice and in any arch platform.   in addition,  I will
-> send v2 version patch that need consider
-> 
->     some phy device doesn't follow IEEE802.3 protocol strictly and doesn't
-> read phy id from phy register successfully,
+THE WORLDS LOCAL BANK
+International Banking
+FOREIGN EXCHANGE UNIT
 
-I'm not sure I understand what you've said above correctly.
+RE: MANDATORY RELEASE ORDER OF YOUR OVERDUE FUND
 
-You seem to be saying that the module has been loaded (it appears in
-lsmod) but it doesn't get bound to the PHY device? If that is correct,
-there isn't a problem with the modalias, but there's something wrong
-in the driver matching.
+Dear Valued Beneficiary:
 
-The last sentence seems to point at a completely different problem -
-one concerning an inability to correctly read the PHY ID from the PHY
-itself. If that's the case, then that isn't a problem with modalias,
-it's a problem with reading the PHY ID.
+We are pleased to inform you that we have finally concluded arrangement towards your refund/lottery pay out which has been delayed for a Long Period of time because of your Cooperation and Dealings with Wrong Officials and importers of banks as your fund returned back to us on the 4th of Jan 2021 when we confirmed the rate of delays and questionable activities that has been related by the previous administrative banks alongside with others that collaborated in delaying the release of your fund after all charges and payments demanded were paid.
 
+Recently, the Ministry of Finance of United Kingdom, Bank of England, HSBC Bank Plc UK and United Kingdom Inland Revenue Services held a meeting on how this fund will be released to the beneficiaries to their designated bank accounts in their country without further delay since we are in the first half of the economic year 2021 and it is now overdue to be released as the said funds belongs to them.
 
-The existing modalias scheme doesn't care about the format of the ID.
-Normally the least significant four bits are the PHY revision, but that
-doesn't always hold. Let's take a couple of examples:
+We apologize for the delay of the payment and all the inconveniences that this might have caused you during this period of time. However we have instructed all the banks in the globe which we previously asked to help us pay out this fund to the general public to STOP the process of the release of the fund due to their incompetence and negligence of duty towards the release of this fund. After our findings, some were arrested and charged for theft according to Section 1 of the Theft Act 1978, as amended by the Theft (Amendment) Act 1996 law of the United Kingdom.
 
-The PHY ID for a Marvell PHY is 0x01410dd1. This will expand to:
+The Bank of England Governor (Mr Andrew Bailey) has given serious warning and Instructions and ordered the Inland Revenue Services Department of England to quickly release all on hold funds which are in their escrow account to the sole beneficiaries which you are among those who will receive their Inheritance funds.
 
-mdio:00000001010000010000110111010001
+Please contact ONLY the Executive member of the Monetary Policy Committee of South African Reserve Bank (Dr Rashad Cassim) on his email: sarb_bnk086@meta.ua to advise you on how to procure the certificate of claim as the law of South Africa demands that without it there will not be any payment whether pending loan amount, lottery fund, inheritance funds or whatsoever fund locally or internationally perhaps you have not yet received it.
 
-The kernel modalias tables will be generated from an ID of 0x01410dd0
-with a mask of 0xfffffff0. The mask means "ignore the bottom four bits".
-So, we end up with this in the module's alias table:
+Provide below details to Dr Rashad Cassim for his clarification:
 
-mdio:0000000101000001000011011101????
+Full Name....... Tel.................
 
-udev knows that "?" is a wildcard. Consequently the above matches.
+Address......... Amount..............
 
-On an Atheros PHY, this has an ID value of 0x004dd072. The driver also
-has a value of 0x004dd072 and a mask of 0xffffffef, meaning bit 4 is
-ignored:
+City............ Country.............
 
-mdio:00000000010011011101000001110010 <= PHY ID
-mdio:000000000100110111010000011?0010 <= module alias table
+Copies of documents pertaining to the fund.
 
-This will also match a PHY with id 0x004dd062.
-
-mdio:00000000010011011101000001100010 <= PHY ID
-
-The current modalias approach is flexible. Publishing the raw hex ID
-and having an exact match is too inflexible for phylib and will lead to
-users reporting regressions.
-
-Please show us:
-
-1) the contents of the phy_id file for the PHY you are having problems
-   with. This can be found in /sys/bus/mdio_bus/devices/.../phy_id
-
-2) which driver in the kernel is a problem.
-
-Thanks.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Best Regards,
+Mr.James Emmett.
+Chief Executive Officer, HSBC Bank plc.
+United Kingdom
