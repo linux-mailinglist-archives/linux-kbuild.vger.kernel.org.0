@@ -2,121 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 370BF45CB71
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Nov 2021 18:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5163345DE97
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Nov 2021 17:23:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349931AbhKXR4V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Nov 2021 12:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44741 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1349953AbhKXR4U (ORCPT
+        id S233368AbhKYQ0z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Nov 2021 11:26:55 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:63099 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233969AbhKYQYy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Nov 2021 12:56:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637776389;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mASyT0OMl03qWDFFy00mhqeWIkZHCHpjVkFxkJ6erhk=;
-        b=gqtDLTFmO0qgymnX+dm+kwESu4jensgURt4UVaSaw6rNLuzM/MGEnbMaWizNFWTrMMXJ/Y
-        Hud6oaQwHEqv3Q2iol9JDYalR4ly5CoFzjH/EBlOEi5pklRNeLV1+/qJI68EudEOEtBR85
-        g/u1NQdFXLXYrVsUklT4G6pcjzYWE5o=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-rVOyo6PEO4apvJ8CEN8Kdg-1; Wed, 24 Nov 2021 12:53:08 -0500
-X-MC-Unique: rVOyo6PEO4apvJ8CEN8Kdg-1
-Received: by mail-oi1-f199.google.com with SMTP id bi9-20020a056808188900b002bc4f64083aso1976011oib.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Nov 2021 09:53:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mASyT0OMl03qWDFFy00mhqeWIkZHCHpjVkFxkJ6erhk=;
-        b=PbVSuQwf55raEOb7V1dYHzNY7tf2qM08iDYW80+hA42fX8kASrSUh3yomuXkgGgryX
-         bjGdcocmvao2JVlIxU1li130SEZJ5bXbSt0ozAt/5WtptG6nabJmb+TLViT/uJSL4ssT
-         lABHwlxrOPqkrfUca6jnJ2BX5JnpavVqPsvzON8EWlOiQXaMc7imr89E65x9jUA1J6YQ
-         1Ed3HvIgVOAY+iq63uv+LU0PAMacFy+xPWSmrt0UJAMby0/Gw67eS4wQ9vMF8/MjKbVj
-         AfGYkIPdsP6rbCf1OP931Bz+mKmu0uOSIl6B2ax7I6FgkswEPci/50VACJxzqds1hX0k
-         fNlw==
-X-Gm-Message-State: AOAM530boy3JyliTvb+amNPgheOhrV53tInNcemLfVWrSfdWG7htwyO4
-        nztuMbQREVNnzptWUZTC/h5Z6Wuvxp+6eKaYlU1O6VnuMizVp/rOPP7htVfEgGSz2gCIT/Q9YLW
-        tY/vX7dEzUvHXx3sIMaDGBAmX
-X-Received: by 2002:a54:4f1d:: with SMTP id e29mr8178809oiy.179.1637776387519;
-        Wed, 24 Nov 2021 09:53:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwRWB6L5DthV9JqtypnlgpgoikvWzzaSh5YU1GEzYTaFfOEcTtDdkodALrrMwzR5kHOWImEJg==
-X-Received: by 2002:a54:4f1d:: with SMTP id e29mr8178778oiy.179.1637776387316;
-        Wed, 24 Nov 2021 09:53:07 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::15])
-        by smtp.gmail.com with ESMTPSA id bj8sm123395oib.51.2021.11.24.09.53.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 09:53:06 -0800 (PST)
-Date:   Wed, 24 Nov 2021 09:53:03 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Marco Elver <elver@google.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <20211124175303.nwuk2zlnwkr7fj5f@treble>
-References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-24-elver@google.com>
- <20211119203135.clplwzh3hyo5xddg@treble>
- <YZzQoz0e/oiutuq5@elver.google.com>
+        Thu, 25 Nov 2021 11:24:54 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20211125162142euoutp01fe7dff96aaadda9137f35fa6733f2627~61onZhb1R2063920639euoutp01D
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Nov 2021 16:21:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20211125162142euoutp01fe7dff96aaadda9137f35fa6733f2627~61onZhb1R2063920639euoutp01D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1637857302;
+        bh=E56KINwcJaJWD0b7KZk2YjPG+prT8IwamA6iLmOBNZs=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=eS6Jebj7dLe739QNxJZqOkmzLGa08V39xTZSws/nukf994axlRUTXl2MAaGYMw/ta
+         OS6g3RIQJvrx1Op7zj6DLO8R2PisQ7uRjXRaqYDloG+/VohTHmwH3m81L5mQACZHjU
+         d8YoGYJX62HQgWj+N3jxznehSGDNsdsnjaNCCAps=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20211125162141eucas1p186b234e4d3299583bbce1f28acd369f8~61om0mMvc3041330413eucas1p17;
+        Thu, 25 Nov 2021 16:21:41 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 49.FF.10260.518BF916; Thu, 25
+        Nov 2021 16:21:41 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20211125162141eucas1p288a33941afc09ce74bd59368495c8581~61omdCCbu2868228682eucas1p2N;
+        Thu, 25 Nov 2021 16:21:41 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20211125162141eusmtrp1dc6666b40ea51ccebc16c795edd7fbff~61omb08HU0630206302eusmtrp1N;
+        Thu, 25 Nov 2021 16:21:41 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-b2-619fb81563ed
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id F0.7C.09404.418BF916; Thu, 25
+        Nov 2021 16:21:40 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.46]) by eusmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20211125162140eusmtip19d9c3d57bd9319d5ae9c31fc98734a99~61omSNDUb1770817708eusmtip1e;
+        Thu, 25 Nov 2021 16:21:40 +0000 (GMT)
+From:   =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] streamline_config.pl: show the full Kconfig name
+Date:   Thu, 25 Nov 2021 17:20:54 +0100
+Message-Id: <20211125162055.3583991-1-l.stelmach@samsung.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YZzQoz0e/oiutuq5@elver.google.com>
+Organization: Samsung R&D Institute Poland
+X-Developer-Signature: v=1; a=openpgp-sha256; l=746;
+        i=l.stelmach@samsung.com; h=from:subject;
+        bh=miFX6uUFc+6RBx/jw8/b9IDeEKjHrGiRMZXpsqew9UQ=;
+        b=owEBbQGS/pANAwAIAbCuHpyYpYAQAcsmYgBhn7fmkbDcGMBxWShZRsOCB4BS/GJG+0gmHhx3piy6
+        fL98LqGJATMEAAEIAB0WIQRem7KqOr2QYRWv1RCwrh6cmKWAEAUCYZ+35gAKCRCwrh6cmKWAEPCSCA
+        CegdFHh41MlgYoSGeBo7TyJo5AjLf+fe04mUkm7tRPoCbwddVNLBBCnkXZEV3QSkhHrubM181S3vlZ
+        OjpFFZOa/N8mUNHi3zeiVc0NKx4snGKw9Qea/r4gdiSUcHz6FjxUEyhT9Vw8y2N3r5s72mSnePhwnR
+        CJ/BPMG3z8u80Fw4clrZiVgCYLSmH2TMzmwG53PubA9p7nT5MlYYGFkdF/2yAcNtgJrCuLmJX6cEWB
+        MDE2d8Rz7YoikAkSLPyLAkvZCIlY7zkJFuZ6x6gBPzAXViv0GC5cD9OMY0NgMKq1VvD+WDrTDgRnm+
+        eooAZ5az78qqY/vuvlgzo+CSCS1oLm
+X-Developer-Key: i=l.stelmach@samsung.com; a=openpgp;
+        fpr=A2B9843766B15A4D32BCBF0DEC1B3A02E80CD5C8
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLIsWRmVeSWpSXmKPExsWy7djP87qiO+YnGkzeKWBx89AKRos/u3Yw
+        WVzeNYfNYu2Ru+wWDx/cYHVg9di0qpPNo2/LKkaPz5vkApijuGxSUnMyy1KL9O0SuDIWH5nL
+        WPCGtWLrrOAGxmcsXYycHBICJhL9N58ydzFycQgJrGCU+HvgFQuE84VRYvnlRYwgVUICnxkl
+        7s5OhOk4dLWPDaJoOaPExw/H2CGc54wSk77dYAapYhNwlOhfeoIVxBYR0JK4s7SDFaSIWWAN
+        o8Tl/utMIAlhoKKLz2+CrWARUJU4MW0D2FG8ArYSB36tZYVYJy/Rdn06I0RcUOLkzCdgNfxA
+        Q9c0XQe7VUJgFqvE/66lzBANKRIPL7eCNTADNTdvnc0MUXSAQ2LCh/dsEEUuElNOdbBD2MIS
+        r45vgbJlJE5P7gGaygFk10tMnmQG0dvDKLFtzg9okFlL3Dn3iw2khllAU2L9Ln2IsKPElHsv
+        2SBa+SRuvBWEOIFPYtK26cwQYV6JjjYhiGoViXX9e1gmMCrPQvLZLCRHz0KYv4CReRWjeGpp
+        cW56arFxXmq5XnFibnFpXrpecn7uJkZgCjn97/jXHYwrXn3UO8TIxMF4iFGCg1lJhNc5cH6i
+        EG9KYmVValF+fFFpTmrxIUZpDhYlcV6RPw2JQgLpiSWp2ampBalFMFkmDk6pBqbZhkL6F3cl
+        HepT5FxoXb7y9Qk9669Fx5pDzqvefOR1TeuAxewFGY9YYqoTev+lbFSr9lseuWe3qeQzqdXb
+        3bwKrpzbsTiAPdl7jV2AOOuBGf8WeV9N2B7vUBgR83Se6VTeyZy6v1q8t/nWxN8u/Pj6olJC
+        Su0V5sjVPnEls+31ex10fvVvWr4m8xnX/MPiTCys9RG3D739Zskc8n1a2pYb7Lu32tgxlIpm
+        qudKtLVG7pofP6PiRkvV7HOfCvXDOYvipzB6Wlz+4Tnvn9XeSMeDdr6Zmdoxy2Sn6l54EvHD
+        /NpkbU22BZ/rLn45rx69Stfy/bXIP/tO7Jqu4pi4K+PX55MneLbsXPTiXEBe8RclluKMREMt
+        5qLiRAC1NxE3kAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplkeLIzCtJLcpLzFFi42I5/e/4XV2RHfMTDZqWmVrcPLSC0eLPrh1M
+        Fpd3zWGzWHvkLrvFwwc3WB1YPTat6mTz6NuyitHj8ya5AOYoPZui/NKSVIWM/OISW6VoQwsj
+        PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYzFR+YyFrxhrdg6K7iB8RlLFyMnh4SA
+        icShq31sXYxcHEICSxkl9pxuYu9i5ABKSEmsnJsOUSMs8edaFxuILSTwlFHi+vNkEJtNwFGi
+        f+kJVhBbREBL4s7SDlaQOcwC6xgl5k79yQ6SEAYquvj8JiOIzSKgKnFi2gawxbwCthIHfq1l
+        hVggL9F2fTojRFxQ4uTMJywgNzALqEusnycEEuYHmr+m6ToLyHwJgQ5WiafPDzJC9CZJHFi/
+        DsxmBprTvHU28wRGoVlIRs1CGDULSdUCRuZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgfGy
+        7djPLTsYV776qHeIkYmD8RCjBAezkgivc+D8RCHelMTKqtSi/Pii0pzU4kOMpkCvTWSWEk3O
+        B0ZsXkm8oZmBqaGJmaWBqaWZsZI4r2dBR6KQQHpiSWp2ampBahFMHxMHp1QDU45Vz57V27c0
+        /d+0+01X7MKPa6RNzM5NedRYuG5655r0kn+WK52n3oyZk/R3mriSrNnvJZHtzfuDdx+4KZQx
+        Y5m5UpRw2FGRdhfzPo/nzx/HlHcc2SSfK/nt7aX5j3x5PKyadmvbxDp//OaTVlWQZ+rBlWW0
+        ZLbkO83n51fKlLMLF5anXzw6Z16MtVWDlubxj6XTHxiH3fp5bHXB73f/rOz6BD6+q1uzZvn8
+        oAWVB/1NbILZL+quzHe5P3/mvFrDe+3nePwfrvox49wh180bXfcn+p1MzV6o3LJ1cYJUlZJ+
+        WdXlOx7HDs28dPX/71SuNuF2qZtBcz+s4Djb0LVPRfqQdmxjHBevtZdUl9lKQSWW4oxEQy3m
+        ouJEALDuwEsgAwAA
+X-CMS-MailID: 20211125162141eucas1p288a33941afc09ce74bd59368495c8581
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211125162141eucas1p288a33941afc09ce74bd59368495c8581
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211125162141eucas1p288a33941afc09ce74bd59368495c8581
+References: <CGME20211125162141eucas1p288a33941afc09ce74bd59368495c8581@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 12:29:39PM +0100, Marco Elver wrote:
-> On Fri, Nov 19, 2021 at 12:31PM -0800, Josh Poimboeuf wrote:
-> > On Thu, Nov 18, 2021 at 09:10:27AM +0100, Marco Elver wrote:
-> [...]
-> > > +	if (insn->sec->noinstr && sym->removable_instr) {
-> [...]
-> > I'd love to have a clearer name than 'removable_instr', though I'm
-> > having trouble coming up with something.
-> [...]
-> 
-> I now have the below as v3 of this patch. The naming isn't entirely
-> obvious, but coming up with a short name for this is tricky, but
-> hopefully the comments make it clear. We can of course still pick
-> another name.
-> 
-> Does that look reasonable?
-> 
-> Note, I'd like this series to sit in -next for a while (probably from
-> some time next week after sending v3 if there are no further
-> complaints). By default everything will be picked up by the -rcu tree,
-> and we're targeting Linux 5.18.
-> 
-> If you feel there might be objtool conflicts coming, this patch could be
-> taken through another tree as there are no hard dependencies, as long as
-> this patch reaches mainline before or with the rest.
-> 
-> Thanks,
-> -- Marco
+Show the very same file name that was passed to open()
+in case the operation failed.
 
-Looks good to me.  I don't know of any upcoming conflicts, feel free to
-carry it with your series for now.
+Signed-off-by: Łukasz Stelmach <l.stelmach@samsung.com>
+---
+ scripts/kconfig/streamline_config.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
-
+diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+index 1a5fea0519eb..3387ad7508f7 100755
+--- a/scripts/kconfig/streamline_config.pl
++++ b/scripts/kconfig/streamline_config.pl
+@@ -170,7 +170,7 @@ sub read_kconfig {
+ 	$source =~ s/\$\($env\)/$ENV{$env}/;
+     }
+ 
+-    open(my $kinfile, '<', $source) || die "Can't open $kconfig";
++    open(my $kinfile, '<', $source) || die "Can't open $source";
+     while (<$kinfile>) {
+ 	chomp;
+ 
 -- 
-Josh
+2.30.2
 
