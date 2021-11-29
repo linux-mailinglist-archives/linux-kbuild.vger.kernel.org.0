@@ -2,85 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86EE146222C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Nov 2021 21:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95240462273
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Nov 2021 21:47:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbhK2UaC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Nov 2021 15:30:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59270 "EHLO
+        id S234657AbhK2UuZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Nov 2021 15:50:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234743AbhK2UZ7 (ORCPT
+        with ESMTP id S234894AbhK2UsY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Nov 2021 15:25:59 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E827C0254FD;
-        Mon, 29 Nov 2021 09:01:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05213B81261;
-        Mon, 29 Nov 2021 17:01:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF54C53FD0;
-        Mon, 29 Nov 2021 17:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638205281;
-        bh=5lvhSd/r5Bz+9HqEC9NczjkzGVk2pSL4AVcx7svZ7Ko=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IvXcRnCIYhSoj4jJ4znxB57N5Y1WjY7FI0LEnnD0MzQBU6+PKQV+VjZocHm9vUlZR
-         JyldbIHKDUgxbtIqxJWA0Q8MetGJfhQ0bbBmVD/CxwMUhkSL0w96dZSYhqh4+umk5d
-         bYgvEZYYtWTXaXV/fQNoaddWFk3hIgkyozJPGP0LCDIIA0Xy7RP44HPFa+FqQKZ6X7
-         33f4VqzkTnx2HLyhtp4I0vMQsD9jS7JUO3g+DOwSC8Nx/GGiiLhC2JDix73xFsLZFn
-         HLZALfVERur0p1l3Bqp2sWr8UBgrdhBGiybdehFcgVCQwlCDSGw67PLjMhzaQtjJOm
-         3zLSM5awteDsg==
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Mon, 29 Nov 2021 15:48:24 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E067FC08EC1F;
+        Mon, 29 Nov 2021 09:27:39 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id w22so22582554ioa.1;
+        Mon, 29 Nov 2021 09:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wrGFhL5nOtXhmiJzkqjUxe8GF1wNu9qcRKkCoZjMWXQ=;
+        b=DCJXCOwVOX664MqyL5+MD32jM9hvaUge59YYsU99LvkkBA7Smxq6v8nJb4QwmE/GBT
+         CStijYOqpNxckcXejJVl6W/xXcZ0bRPHuU7+/IpBFpDAhJ+67z8MoeJY2chHKK3SASnI
+         uZkZCHYEzgKtKWYW6jy2rCio1X/PuJt1qf8EbUzOBCEg7NVPByVWiLXgv0vFKkoUIU6f
+         RpywVmgTo+V8ncY7PL9OhJBoAw7+bnjk36ICZClclFlhUg8bPTFsIzA6Y7b/U3r56Sn0
+         /M6CTNlBaLRQ8WJjeBe96dSktIyk3r6ZnCNZ2hwg6hLrfxRaTxXoGJ1GBRd0PlfE69O4
+         pDwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wrGFhL5nOtXhmiJzkqjUxe8GF1wNu9qcRKkCoZjMWXQ=;
+        b=U5whWEMrC4GV2KrjeJAcsDctKLxjWAF9fAzWy8aYbSaBlOEpLIsEFB9LOdwEwdrZ0h
+         59F9PTR4kUil4GBj9bcuZ75A9G5y75YMr5OphihxYI/ju/2JsVm/Ko9uWNDCVhdTwnZn
+         c6KyM2iehmUBTYfw2XWjTxnza0iANHTUPq6Bqj3FWFmVg2zobcgyfHiUm2RE98dVIF+W
+         3KjusyvYuLb6mZnUNpIUv7vch/Z5Ki8tbxYz41DPglnzvOp13V7fdOPno8YsyrTkzfRR
+         67hzCbQkn0IhIt6L1Xlt5Co9JeaEogmZtigim9y5Jsq6RRLXnXDDkBPaohqj6VmHE9LU
+         aykg==
+X-Gm-Message-State: AOAM531ya0nyBXjI6TjSzzB/pNI+jt+SY4YvZ+7OhfW9ae+qubKX9IGL
+        f2PG3lAv/Kvpb8Z/xSgwvF+/wzPS5BOxeuG+Ov8=
+X-Google-Smtp-Source: ABdhPJwbIuxigybLWCK3iRwGHDf3f9obH4Ajtc2RJYfTi2iTkZPNYjc22hORdU2OiXk1YcRoLM/ZHngHZyOaMDcDmYg=
+X-Received: by 2002:a02:cb8f:: with SMTP id u15mr76513020jap.131.1638206859331;
+ Mon, 29 Nov 2021 09:27:39 -0800 (PST)
+MIME-Version: 1.0
+References: <20211129165803.470795-1-nathan@kernel.org>
+In-Reply-To: <20211129165803.470795-1-nathan@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 29 Nov 2021 18:27:28 +0100
+Message-ID: <CANiq72msbRw12Rv=tXJf4r0gjWfMvKqMCkjEU_2XcyJUmVHG_w@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/6] Bump minimum supported version of LLVM to 11.0.0
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Miguel Ojeda <ojeda@kernel.org>,
         Sami Tolvanen <samitolvanen@google.com>,
         Tom Stellard <tstellar@redhat.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>, cki-project@redhat.com,
-        kernelci@groups.io, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH RFC 3/6] arch/Kconfig: Remove CLANG_VERSION check in HAS_LTO_CLANG
-Date:   Mon, 29 Nov 2021 09:58:00 -0700
-Message-Id: <20211129165803.470795-4-nathan@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211129165803.470795-1-nathan@kernel.org>
-References: <20211129165803.470795-1-nathan@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Jakub Kicinski <kuba@kernel.org>,
+        CKI Project <cki-project@redhat.com>, kernelci@groups.io,
+        llvm@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The minimum supported version of LLVM has been raised to 11.0.0, meaning
-this check is always true, so it can be dropped.
+On Mon, Nov 29, 2021 at 6:01 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> tree. If that is not true, scream so that we can see what can be done
 
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- arch/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The patches themselves look good to me. Let's see if somebody screams! :)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index d3c4ab249e9c..86e071f693ce 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -648,8 +648,7 @@ config ARCH_SUPPORTS_LTO_CLANG_THIN
- 
- config HAS_LTO_CLANG
- 	def_bool y
--	# Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
--	depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD && AS_IS_LLVM
-+	depends on CC_IS_CLANG && LD_IS_LLD && AS_IS_LLVM
- 	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
- 	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
- 	depends on ARCH_SUPPORTS_LTO_CLANG
--- 
-2.34.1
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
 
+Cheers,
+Miguel
