@@ -2,16 +2,16 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95240462273
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Nov 2021 21:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CBBF4624B7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Nov 2021 23:23:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234657AbhK2UuZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Nov 2021 15:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        id S231702AbhK2W0R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Nov 2021 17:26:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234894AbhK2UsY (ORCPT
+        with ESMTP id S233716AbhK2WZP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Nov 2021 15:48:24 -0500
+        Mon, 29 Nov 2021 17:25:15 -0500
 Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
         by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E067FC08EC1F;
         Mon, 29 Nov 2021 09:27:39 -0800 (PST)
