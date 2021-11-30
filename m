@@ -2,21 +2,44 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E78DB462EC1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Nov 2021 09:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0027462F58
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Nov 2021 10:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234986AbhK3Isq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Nov 2021 03:48:46 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:45244 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S239664AbhK3Isq (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Nov 2021 03:48:46 -0500
-Received: from [10.180.13.93] (unknown [10.180.13.93])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxismT5KVh97YBAA--.3687S2;
-        Tue, 30 Nov 2021 16:45:14 +0800 (CST)
-Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled code
- in modules.alias
-To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        id S240033AbhK3JRN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Nov 2021 04:17:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239975AbhK3JRN (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 30 Nov 2021 04:17:13 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F7C6C061574;
+        Tue, 30 Nov 2021 01:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=vfVip3MECDMyIeGOjjxOzB5Bg6GorsBInxU7fF3JLNk=; b=DrWmzB52bwYOVZnn9XW/xn966p
+        wM8uPLC9lMkhhsGtHmuQQcA16+MZIb95IyR8S+DdigP9XAOJRJqOQme4d/z5FC7AJb6KyB2k04KwH
+        Gy/Ut0u3JjGf7IsuOuAuchiQRnxAeFgqVXKO2KMgu+/10xTE+wW0yRrvWd4N56l85f6YrZj6VZ4mm
+        s9iNaNYmwIjxEYgSFVrATGdILbxl4Vs4wQSWxzHBTgnI6dqGpxFjS3pFtVksdUCh3d8UpnDPphthC
+        ubVWpsxA2OhjBreggjgn0l+7Q7iqwBGI8jQ5FPRp5XGPHptTY747JizcQicCp95XptVYPaMsi4c/3
+        SR8sXNug==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55972)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1mrzCk-0006eg-Ss; Tue, 30 Nov 2021 09:13:38 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1mrzCh-0006vi-Rz; Tue, 30 Nov 2021 09:13:35 +0000
+Date:   Tue, 30 Nov 2021 09:13:35 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -24,122 +47,35 @@ To:     Heiner Kallweit <hkallweit1@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
- <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
-From:   zhuyinbo <zhuyinbo@loongson.cn>
-Cc:     Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, zhuyinbo@loongson.cn
-Message-ID: <a569842b-a1e9-0ace-67a4-96d4d0429fbd@loongson.cn>
-Date:   Tue, 30 Nov 2021 16:45:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Subject: Re: [PATCH v3 1/2] modpost: file2alias: make mdio alias configure
+ match mdio uevent
+Message-ID: <YaXrP1AyZ3AWaQzt@shell.armlinux.org.uk>
+References: <1638260517-13634-1-git-send-email-zhuyinbo@loongson.cn>
 MIME-Version: 1.0
-In-Reply-To: <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxismT5KVh97YBAA--.3687S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw17XF1xGFy8Jr1xZF17trb_yoW5Xr4UpF
-        W3GFy5KFWkGF429a1F93WUWryUXw47Kr95Wa1jqF1vgF9Iyry0vr4SkF4Sga4kZFZ2va40
-        g3W5uFyDur4DZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-        0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
-        8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-        xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-        AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
-        cIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-        v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1638260517-13634-1-git-send-email-zhuyinbo@loongson.cn>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Nov 30, 2021 at 04:21:56PM +0800, Yinbo Zhu wrote:
+> The do_mdio_entry was responsible for generating a phy alias configure
+> that according to the phy driver's mdio_device_id, before apply this
+> patch, which alias configure is like "alias mdio:000000010100000100001
+> 1011101????", it doesn't match the phy_id of mdio_uevent, because of
+> the phy_id was a hexadecimal digit and the mido uevent is consisit of
+> phy_id with the char 'p', the uevent string is different from alias.
+> Add this patch that mdio alias configure will can match mdio uevent.
 
-在 2021/11/26 下午6:21, Heiner Kallweit 写道:
-> On 26.11.2021 10:45, Yinbo Zhu wrote:
->> After module compilation, module alias mechanism will generate a ugly
->> mdio modules alias configure if ethernet phy was selected, this patch
->> is to fixup mdio alias garbled code.
->>
->> In addition, that ugly alias configure will cause ethernet phy module
->> doens't match udev, phy module auto-load is fail, but add this patch
->> that it is well mdio driver alias configure match phy device uevent.
->>
-> I think Andrew asked you for an example already.
-> For which PHY's the driver isn't auto-loaded?
+This is getting rediculous. You don't appear to be listening to the
+technical feedback on your patches, and are just reposting the same
+patches. I don't see any point in giving the same feedback, so I'll
+keep this brief for both patches:
 
-I test that use marvell phy, another colleague use motorcomm phy,  which 
-auto load function was all fail.
+NAK.
 
-and I need to emphasize one thing that the mdio auto load issue is 
-generally issue, not special phy issue.
-
-
->
-> In addition your commit descriptions are hard to read, especially the
-> one for patch 2. Could you please try to change them to proper English?
-> Not being a native speaker myself ..
-I had changed commit information as v3 version, please you check.
->> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
->> ---
->> Change in v2:
->> 		Add a MDIO_ANY_ID for considering some special phy device
->> 		which phy id doesn't be read from phy register.
->>
->>
->>   include/linux/mod_devicetable.h |  2 ++
->>   scripts/mod/file2alias.c        | 17 +----------------
->>   2 files changed, 3 insertions(+), 16 deletions(-)
->>
->> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
->> index ae2e75d..7bd23bf 100644
->> --- a/include/linux/mod_devicetable.h
->> +++ b/include/linux/mod_devicetable.h
->> @@ -595,6 +595,8 @@ struct platform_device_id {
->>   	kernel_ulong_t driver_data;
->>   };
->>   
->> +#define MDIO_ANY_ID (~0)
->> +
->>   #define MDIO_NAME_SIZE		32
->>   #define MDIO_MODULE_PREFIX	"mdio:"
->>   
->> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
->> index 49aba86..63f3149 100644
->> --- a/scripts/mod/file2alias.c
->> +++ b/scripts/mod/file2alias.c
->> @@ -1027,24 +1027,9 @@ static int do_platform_entry(const char *filename,
->>   static int do_mdio_entry(const char *filename,
->>   			 void *symval, char *alias)
->>   {
->> -	int i;
->>   	DEF_FIELD(symval, mdio_device_id, phy_id);
->> -	DEF_FIELD(symval, mdio_device_id, phy_id_mask);
->> -
->>   	alias += sprintf(alias, MDIO_MODULE_PREFIX);
->> -
->> -	for (i = 0; i < 32; i++) {
->> -		if (!((phy_id_mask >> (31-i)) & 1))
->> -			*(alias++) = '?';
->> -		else if ((phy_id >> (31-i)) & 1)
->> -			*(alias++) = '1';
->> -		else
->> -			*(alias++) = '0';
->> -	}
->> -
->> -	/* Terminate the string */
->> -	*alias = 0;
->> -
->> +	ADD(alias, "p", phy_id != MDIO_ANY_ID, phy_id);
->>   	return 1;
->>   }
->>   
->>
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
