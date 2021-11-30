@@ -2,155 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54E2746333B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Nov 2021 12:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B719463EE1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Nov 2021 20:53:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240998AbhK3Lu4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Nov 2021 06:50:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45566 "EHLO
+        id S229789AbhK3T4x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Nov 2021 14:56:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241287AbhK3Lu3 (ORCPT
+        with ESMTP id S1343531AbhK3T4x (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Nov 2021 06:50:29 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231E7C061763;
-        Tue, 30 Nov 2021 03:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ZHmEYF4LZeF4drtWTO7d/7EufUy+uE8BPoSmH0E4R64=; b=Jhj9YSp2RJQcU2ECFjWZaMYhua
-        JUhlttpK8G8pMJvU0PVvvVKhg/RJwZaqUBg77r+n7xCEgflF91GNrnigEJu2nklPDmHtU+WrhsPPR
-        wTHs3GOgl/zjGAZtdODWlPh+wR9W14vDejxNFwedsM6B7Zm2fTtMGROQWRb2idvl+HvV1it/r06sq
-        RUi+mt/P4jkCqz05xpQLiMqwYhbMPjsFcuwv32qRNgEmDDmyEu0DcrB9oKZi0MC0phS3046LjgYMZ
-        rd6n/8gaEAT8LcwTWDjHnFAkE5JpGaXL9rTDzU3/oPCc2zf6E1qnIN49BMr8ytt9pLXh052h7pQ8E
-        UEBXry5A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55976)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1ms1bA-0006nS-LC; Tue, 30 Nov 2021 11:47:00 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1ms1b6-000719-Mn; Tue, 30 Nov 2021 11:46:56 +0000
-Date:   Tue, 30 Nov 2021 11:46:56 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Yinbo Zhu <zhuyinbo@loongson.cn>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled
- code in modules.alias
-Message-ID: <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
-References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
- <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
+        Tue, 30 Nov 2021 14:56:53 -0500
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDC5C061746
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Nov 2021 11:53:34 -0800 (PST)
+Received: by mail-oi1-x232.google.com with SMTP id bj13so43492776oib.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Nov 2021 11:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=8OI3fn/D0tpVt5kezlEtyVyudNoVFRpyBkJURCL4fgY=;
+        b=Eu/oHb4yBr6i/hXuZx78y/CoTolcO79vUhGwJm4wH+YJ9mj3JX06ivVb58+DEsDhks
+         twOd0uvUygX4NFU0wXkZ+YH8zpUvanWSoOiMxV2kOtYFSyxNUdTzLVcY3Qhrj1CHnpNU
+         Fq0rSQib28aBENQbm/oktcBOs+682PKYZ5FmKCe3URFvUR9/LM7glnuPIPNAmur448a0
+         xjRRqCRTU2hMZxgG9zI7jmGmaQG71rW65RI2ygoM2Zen7PPS1QxgqgX15+/d+8ZqDVkh
+         Lk4yDnQNfr+JHgJjrqYsggvFd30GEbJ5qknQcU1OTkDehyuBwKVJ8lqJndMV5ry49/7g
+         PrBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=8OI3fn/D0tpVt5kezlEtyVyudNoVFRpyBkJURCL4fgY=;
+        b=kZxKlT+hpiHBSJEGCiJrLiE2Pp3Fvs1HkPlo7MdwafF6LugW813DrkXfYV2qHSbxNy
+         VWSmiwlEqEuQI8p0dzdfYKDXGxR2GtZXIm9HoWI8hH0DZ4/W4LOwluxpYoowHXSH90La
+         05cTJkS/8KNsgXEn2BHmnkmjTnZxQiPxp0MVfMQe2OZqX5jYgxP76MBJBShMNdaebksT
+         Nf693KFEAcvPgWf0rTbjjd4MfGKNIZ28Bl5Srw9gBLGJhIQirUhLyGJpK45XgTOhx7Nj
+         reBxDGlaCQSeIK0DWzreSTP2hq8cr1QrhLjrosj3Xz8PjOAFm2epzQB904SlHKYBFci4
+         sC9g==
+X-Gm-Message-State: AOAM532Zrbf6Cdr4HhwanQlmKq1PQ4Aoi3KxfnnqzQHc4C+NnTf/33jN
+        UvChnLIBTdPagQCigosFyt/jbWTbJ+SIWCwdn5o=
+X-Google-Smtp-Source: ABdhPJydm+u8YBdfN1XZO3AqoHSlgTprFXpRCBPxj//ZI1wnV1FUhiYzt4KDJx1NgXQgO0mXIiXCAV90mFZXqmlORDI=
+X-Received: by 2002:a05:6808:4d2:: with SMTP id a18mr1071206oie.99.1638302013165;
+ Tue, 30 Nov 2021 11:53:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Reply-To: ahmeddrali60@gmail.com
+Sender: francismaselli4@gmail.com
+Received: by 2002:a4a:d813:0:0:0:0:0 with HTTP; Tue, 30 Nov 2021 11:53:32
+ -0800 (PST)
+From:   "Dr.Ali Ahmed" <ahmeddrali60@gmail.com>
+Date:   Tue, 30 Nov 2021 11:53:32 -0800
+X-Google-Sender-Auth: ENG7H0nf7xvGDXgKFLURzC8ifp0
+Message-ID: <CAG68mNczOhKDVzZFmxLe9DoejOeMestwOiM2eCD5cB2G0Py1mw@mail.gmail.com>
+Subject: VERY VERY URGENT,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 26, 2021 at 11:21:03AM +0100, Heiner Kallweit wrote:
-> On 26.11.2021 10:45, Yinbo Zhu wrote:
-> > After module compilation, module alias mechanism will generate a ugly
-> > mdio modules alias configure if ethernet phy was selected, this patch
-> > is to fixup mdio alias garbled code.
-> > 
-> > In addition, that ugly alias configure will cause ethernet phy module
-> > doens't match udev, phy module auto-load is fail, but add this patch
-> > that it is well mdio driver alias configure match phy device uevent.
-> > 
-> I think Andrew asked you for an example already.
-> For which PHY's the driver isn't auto-loaded?
-> 
-> In addition your commit descriptions are hard to read, especially the
-> one for patch 2. Could you please try to change them to proper English?
-> Not being a native speaker myself ..
+Dear Friend,
 
-Let's clear this up. PHY module loading is quite different - it does
-_not_ use MODALIAS nor does it use the usual udev approach.
+I Dr.Ali Ahmed, With due respect, I have decided to contact you on a
+business transaction that will be beneficial to both of us.At the bank
+last account and  auditing evaluation, my staff came across an old
+account which was being maintained by a foreign client who we learned
+was among the deceased passengers of a motor accident on
+November.2003, the deceased was unable to run this account since his
+death. The Account has  remained dormant without the knowledge of his
+family since it was put in a  safe deposit account in the bank for
+future investment by the client.
 
-The modalias strings use aliases of the form "mdio:<semi-binary-string>"
-with "?" used as a wildcard for each bit not in the mask. This is an
-entirely appropriate scheme to use, as it allows matching an ID with
-an arbitary mask. There is nothing wrong with this format - it may be
-a bit on the long side, but it is an entirely valid solution.
+Since his demise, even the members of his family haven't applied for
+claims over this fund and it has been in the safe deposit account
+until I discovered that it cannot be claimed since our client
+isaforeign national and we are sure that he has no next of kin here to
+file claims over the money. As the director of the department, this
+discovery was brought to my office so as to decide what is to be
+done.I decided to seek ways through which to transfer this money out
+of the bank and out of the country too.
 
-The kernel has never generated a MODALIAS of this form, which is fine,
-because we don't use MODALIAS or the uevent/udev approach to loading
-the modules.
+The total amount in the account is USD $18.6 million with my positions
+as staff of the bank,I am handicapped because I cannot operate foreign
+accounts and cannot lay a bonafide claim over this money. The client
+was a foreign  national and you will only be asked to act as his next
+of kin and I will supply you with all the necessary information and
+bank data to assist you in being able to transfer this money to any
+bank of your  choice where this money could be transferred into.The
+total sum will be shared as follows: 50% for me, 50% for you and
+expenses incidental occur  during the transfer will be incur by both
+of us. The transfer is risk free on both sides hence you are going to
+follow my instruction till the fund  transfer to your account. Since I
+work in this bank that is why you should  be confident in the success
+of this transaction because you will be updated with information as
+and when desired.
 
-We instead use phy_request_driver_module() at PHY device creation time
-to explicitly request modprobe to load a module of the form
-"mdio:<binary-id>" which we know works (I have had the marvell10g and
-bcm84881 modules autoloaded as a result of inserting SFPs.)
+I will wish you to keep this transaction secret and confidential as I
+am hoping to retire with my share of this money at the end of the
+transaction  which will be when this money is safe in your account.I
+will then come over to your country for sharing according to the
+previously agreed percentages. You might even have to advise me on
+possibilities of investment in your country or elsewhere of our
+choice. May God help you to help me to a restive retirement,Amen,And
+You have to  contact me through my private e-mail
+at(ahmeddrali60@gmail.com)Please for further information and inquiries
+feel free to contact me back immediately for more explanation and
+better understanding I want you to assure me your capability of
+handling this  project with trust by providing me your following
+information details such as:
 
-However, this won't work for PHY devices created _before_ the kernel
-has mounted the rootfs, whether or not they end up being used. So,
-every PHY mentioned in DT will be created before the rootfs is mounted,
-and none of these PHYs will have their modules loaded.
+(1)NAME..............
+(2)AGE:................
+(3)SEX:.....................
+(4)PHONE NUMBER:.................
+(5)OCCUPATION:.....................
+(6)YOUR COUNTRY:.....................
 
-I believe this is the root cause of Yinbo Zhu's issue.
-
-However, changing the modalias format that we use is not a solution -
-it _will_ cause DSA module loading to break. We've been here with the
-SPI subsystem, where a patch was merged to change the modalias format
-allegedly to fix loading of one or two modules, resulting in the
-spi-nor driver failing to load (as it had done for years) - and the
-resulting change was reverted and the revert backported to all the
-stable trees. It created quite a mess. Linus has always been very clear
-that if fixing one issue causes regressions, then the fix is wrong and
-needs to be reverted. This is exactly what happened in the case of SPI.
-
-This teaches us a lesson: changes to any modalias scheme that has been
-in use for years need _extremely_ careful consideration and thorough
-testing as they risk causing regressions. Without that, such changes
-can result in difficult decisions where no matter what decision is
-made, some breakage occurs as a result of sorting out the resulting
-mess from not having considered the change carefully enough. It is far
-better to avoid boxing oneself into a corner.
-
-We can see that Yinbo Zhu's changes to fix his issue will cause
-regressions with DSA, so it is simply an unacceptable fix. Reposting
-the same code will _never_ change that fact. So please, Yinbo Zhu, stop
-reposting your change. It is provably regression-creating and as such
-will never be accepted. You also seem to be resistant to feedback -
-I've asked you to separate out the "mdio_bus" change but you still have
-not in your version 3 posted today. Therefore, I will assume that you
-won't read this email, and in future if I see those patches again, I
-will reply with a one-line "NAK" and a reference to this email.
-
-We instead need a different approach to solving this issue. What that
-approach is, I'm not sure right now - the tooling is setup to only
-permit one MODALIAS published by the kernel, so we can't publish both
-a DT based modalias and a mdio: based modalias together. It's one or
-the other.
-
-What we _could_ do is review all device trees and PHY drivers to see
-whether DT modaliases are ever used for module loading. If they aren't,
-then we _could_ make the modalias published by the kernel conditional
-on the type of mdio device - continue with the DT approach for non-PHY
-devices, and switch to the mdio: scheme for PHY devices. I repeat, this
-can only happen if no PHY drivers match using the DT scheme, otherwise
-making this change _will_ cause a regression.
-
-The alternative is we simply declare that udev based module auto-loading
-of PHY drivers required for PHYs in DT is simply not supported, and is
-something we are unable to support. For something like root-NFS or IP
-autoconfiguration by the kernel, that is already the case - the PHY
-driver modules _must_ be built-in to the kernel in just the same way as
-the network driver modules must be.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Yours sincerely,
+Dr.Ali Ahmed
