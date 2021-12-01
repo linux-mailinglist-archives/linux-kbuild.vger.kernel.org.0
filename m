@@ -2,86 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B93734643FF
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Dec 2021 01:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B859D4649CE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Dec 2021 09:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345849AbhLAAmn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Nov 2021 19:42:43 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:60636 "EHLO vps0.lunn.ch"
+        id S1347998AbhLAIkZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Dec 2021 03:40:25 -0500
+Received: from mail.turdin.pl ([192.36.61.133]:50630 "EHLO mail.turdin.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345842AbhLAAmj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Nov 2021 19:42:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=608yLKex6XYgV+g/m4R7ht8LzMMA5ClHN0ihJzPay4E=; b=eqc1n/z0ERx0FVdWXF0KvBKBOj
-        QIncAsAjaXMecwZ1XG9uOlMGD3QQQCDEth1cFK/EbqEstavyoICzJUAi0acnU9GR9sobW4rIxID9y
-        gydq3iHrW0GFWDRRc+gra468Dz2AvKi4pBXB/8hc9VSxjtpqFFEteI1cJGc2a3ocp0X4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1msDe9-00F9tw-0y; Wed, 01 Dec 2021 01:38:53 +0100
-Date:   Wed, 1 Dec 2021 01:38:53 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Yinbo Zhu <zhuyinbo@loongson.cn>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled
- code in modules.alias
-Message-ID: <YabEHd+Z5SPAhAT5@lunn.ch>
-References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
- <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
- <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
+        id S230433AbhLAIkZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 1 Dec 2021 03:40:25 -0500
+Received: by mail.turdin.pl (Postfix, from userid 1001)
+        id D0BC6407BB; Wed,  1 Dec 2021 09:31:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=turdin.pl; s=mail;
+        t=1638347481; bh=XaT7mT4SK/f5y1+MxXu7tm8Cnvp42FwxSkmBkhjvZHA=;
+        h=Date:From:To:Subject:From;
+        b=gV9rm59aulYA+1XXswVE5Zw/XLjX8KPw7WucEtr6tvgclZbdO9cBVGI6w2c3wWFv8
+         1++zp6Ak3H7JnlbFcc9mNqYZ0y3s74NAiuHp5/QNLqkm+HyQEcUeaX82snduiyPkU3
+         v65KSTIbB2HaEhVXJ9CCsluDMWifdsD21TIE2phVp9nc0thkh6HsAUjSzA+Smqvd29
+         /hZts/3OevsHnDrIrvw5iOJFJXfyA7V/u1mpSlbEXZPdBLgPiIACaxfCA9Bl7eX+IZ
+         BpYQpx78IR4i38kBA/e/XHNC1dHBzTNKaeEOYjlhruJDC7VR4wrJC9g9F4qnU95pP2
+         NJU3KN8UO2RSA==
+Received: by mail.turdin.pl for <linux-kbuild@vger.kernel.org>; Wed,  1 Dec 2021 08:31:08 GMT
+Message-ID: <20211201084500-0.1.b.ewh.0.7jrlm1v08t@turdin.pl>
+Date:   Wed,  1 Dec 2021 08:31:08 GMT
+From:   =?UTF-8?Q? "Miko=C5=82aj_Lewandowski" ?= 
+        <mikolaj.lewandowski@turdin.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Nowe stawki dla Fotowoltaiki 
+X-Mailer: mail.turdin.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> However, this won't work for PHY devices created _before_ the kernel
-> has mounted the rootfs, whether or not they end up being used. So,
-> every PHY mentioned in DT will be created before the rootfs is mounted,
-> and none of these PHYs will have their modules loaded.
+Dzie=C5=84 dobry,
 
-Hi Russell
+w zwi=C4=85zku z podniesieniem ceny zakupu energii, kt=C3=B3ra b=C4=99dzi=
+e zdecydowanie wy=C5=BCsza ni=C5=BC cena sprzeda=C5=BCy nadwy=C5=BCek pr=C4=
+=85du, warto rozwa=C5=BCy=C4=87 instalacj=C4=99 fotowoltaiki jeszcze prze=
+d ko=C5=84cem tego roku - to jedyny spos=C3=B3b na zachowanie mo=C5=BCliw=
+o=C5=9Bci korzystania ze starych zasad.
 
-I think what you are saying here is, if the MAC or MDIO bus driver is
-built in, the PHY driver also needs to be built in?
+Czy chcieliby Pa=C5=84stwo zapozna=C4=87 si=C4=99 z mo=C5=BCliwo=C5=9Bcia=
+mi inwestycji w PV dopasowanymi do Pa=C5=84stwa obiektu?
 
-If the MAC or MDIO bus driver is a module, it means the rootfs has
-already been mounted in order to get these modules. And so the PHY
-driver as a module will also work.
 
-> I believe this is the root cause of Yinbo Zhu's issue.
-
-You are speculating that in Yinbo Zhu case, the MAC driver is built
-in, the PHY is a module. The initial request for the firmware fails.
-Yinbo Zhu would like udev to try again later when the modules are
-available.
-
-> What we _could_ do is review all device trees and PHY drivers to see
-> whether DT modaliases are ever used for module loading. If they aren't,
-> then we _could_ make the modalias published by the kernel conditional
-> on the type of mdio device - continue with the DT approach for non-PHY
-> devices, and switch to the mdio: scheme for PHY devices. I repeat, this
-> can only happen if no PHY drivers match using the DT scheme, otherwise
-> making this change _will_ cause a regression.
-
-Take a look at
-drivers/net/mdio/of_mdio.c:whitelist_phys[] and the comment above it.
-
-So there are some DT blobs out there with compatible strings for
-PHYs. I've no idea if they actually load that way, or the standard PHY
-mechanism is used.
-
-	Andrew
+Pozdrawiam
+Miko=C5=82aj Lewandowski
