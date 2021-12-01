@@ -2,136 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B62464A4A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Dec 2021 10:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAC0E464CFD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Dec 2021 12:34:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbhLAJFm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Dec 2021 04:05:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55564 "EHLO
+        id S1349049AbhLALhz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231344AbhLAJFm (ORCPT
+        with ESMTP id S1349021AbhLALhj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Dec 2021 04:05:42 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C21C061574;
-        Wed,  1 Dec 2021 01:02:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4zsv56du9WrDnNkABuKCURrUGUFAX77zWaFiEC1rNsc=; b=lgPsvb1WOVk2xcPXEnNGCe8Ydz
-        2aM74xPuH9Mlq8qbhWO5yOtWXd3xT1Qtbjnd12qLzoRzESoW+6LdP08m8CmTnC/A5iC5jy9omZXNV
-        Cq9QP1nT2eI5jPgJXhfw2NNQpgtI0Sfq+XQ2j/eoohNiOTf8L2/vPS2kpVkCPlR5R49NIAtZ5GX5a
-        9Uq+5sOCHReHkHMF845bt/NYIIN+Nt61uitjtFmg/8Yf/0txdq3hMPvVoDYvwMEDYqtgL/p0Estnm
-        XFAQnybA5YHTqtjq5o3vhcOgpQ1O6UA5rB4P5pFbuoDhSulqpEwzFDYtdMpvLVBohW2M/CmTCXD2X
-        Y8H+LMTA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56000)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1msLVB-0007ks-2a; Wed, 01 Dec 2021 09:02:09 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1msLV7-0007ry-1T; Wed, 01 Dec 2021 09:02:05 +0000
-Date:   Wed, 1 Dec 2021 09:02:05 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        Yinbo Zhu <zhuyinbo@loongson.cn>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled
- code in modules.alias
-Message-ID: <Yac6DakLxBxFgfZk@shell.armlinux.org.uk>
-References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
- <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
- <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
- <YabEHd+Z5SPAhAT5@lunn.ch>
+        Wed, 1 Dec 2021 06:37:39 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792F8C06139B
+        for <linux-kbuild@vger.kernel.org>; Wed,  1 Dec 2021 03:34:11 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id o4so24070650pfp.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 01 Dec 2021 03:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=W7/oD4A+QAyIol4uudyuMgIJ/COLTKjp5tZa3mgZXLas0h5Etc11YOZrAa4SWdjw/p
+         mLDaEg4po+4NQ655m8viInJW3bMp4rbj14/BmRX9k5CpocinGnWL/JT43rU0ZD8be/gh
+         cusLnIvy5u2UJYsP3Q7chiJh/U/C9IagVMjeHUZSCyazjj2gv86k9EcJmIAryDBJaTyF
+         cue1teVRNJF299rc2OvDY0YhbwcqSkRwL+kLAWkRyQduGCIiBtbs4Zw4BBW5QDcDDsFj
+         SMSAfJRpfhQ8zn3YEdyNbBMy1IzSYrAyBg1ZVnkKSbOYUFwljBwPGe3nuJNLqzu6bOqH
+         GcRQ==
+X-Gm-Message-State: AOAM5312+CkugR/gK+9NTDnnX+MVigneFQnjRXURGA+QNaE7iY8EiC1K
+        v1pf5/mYymN2ElZ1PMxlv4SSCbbvSo1ytYDcq5lnk5xYK94=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YabEHd+Z5SPAhAT5@lunn.ch>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 01, 2021 at 01:38:53AM +0100, Andrew Lunn wrote:
-> > However, this won't work for PHY devices created _before_ the kernel
-> > has mounted the rootfs, whether or not they end up being used. So,
-> > every PHY mentioned in DT will be created before the rootfs is mounted,
-> > and none of these PHYs will have their modules loaded.
-> 
-> Hi Russell
-> 
-> I think what you are saying here is, if the MAC or MDIO bus driver is
-> built in, the PHY driver also needs to be built in?
-> 
-> If the MAC or MDIO bus driver is a module, it means the rootfs has
-> already been mounted in order to get these modules. And so the PHY
-> driver as a module will also work.
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-Yes, because the module loading is performed by phy_device_create() when
-it calls phy_request_driver_module(), which will happen when either the
-MDIO bus is scanned or the DT is parsed for the PHY nodes.
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
-> > I believe this is the root cause of Yinbo Zhu's issue.
-> 
-> You are speculating that in Yinbo Zhu case, the MAC driver is built
-> in, the PHY is a module. The initial request for the firmware fails.
+Your Names: |
+Address: |
 
-s/firmware/module/ and it could also be the MDIO bus driver that is
-built in.
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
 
-> Yinbo Zhu would like udev to try again later when the modules are
-> available.
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
 
-I think so - it's speculation because it seems quite difficult to find
-out detailed information.
-
-> > What we _could_ do is review all device trees and PHY drivers to see
-> > whether DT modaliases are ever used for module loading. If they aren't,
-> > then we _could_ make the modalias published by the kernel conditional
-> > on the type of mdio device - continue with the DT approach for non-PHY
-> > devices, and switch to the mdio: scheme for PHY devices. I repeat, this
-> > can only happen if no PHY drivers match using the DT scheme, otherwise
-> > making this change _will_ cause a regression.
-> 
-> Take a look at
-> drivers/net/mdio/of_mdio.c:whitelist_phys[] and the comment above it.
-> 
-> So there are some DT blobs out there with compatible strings for
-> PHYs. I've no idea if they actually load that way, or the standard PHY
-> mechanism is used.
-
-Well, this suggests we have no instances - if none of our modules
-contain a DT table to match a PHY-driver, then we should be pretty
-safe.
-
-$ grep phy_driver drivers/net -rl | xargs grep 'MODULE_ALIAS\|MODULE_DEVICE.*of'
-drivers/net/phy/xilinx_gmii2rgmii.c:MODULE_DEVICE_TABLE(of, xgmiitorgmii_of_match);
-drivers/net/mdio/mdio-moxart.c:MODULE_DEVICE_TABLE(of, moxart_mdio_dt_ids);
-drivers/net/dsa/mt7530.c:MODULE_DEVICE_TABLE(of, mt7530_of_match);
-
-All three look to be false hits - none are phy drivers themselves, they
-just reference "phy_driver". So, I think we can say that we have no
-instances of PHY driver being matched using DT in net-next in
-drivers/net. Hopefully, there aren't any PHY drivers elsewhere in the
-kernel tree.
-
-That is not true universally for all MDIO though - as
-xilinx_gmii2rgmii.c clearly shows. That is a MDIO driver which uses DT
-the compatible string to do the module load. So, we have proof there
-that Yinbo Zhu's change will definitely cause a regression which we
-can not allow.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Regards.
+Mrs ORGIL BAATAR
