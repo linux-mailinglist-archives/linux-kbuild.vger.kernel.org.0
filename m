@@ -2,100 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4207C465F4F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Dec 2021 09:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B13F4662C5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Dec 2021 12:52:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241248AbhLBIa4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Dec 2021 03:30:56 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:32413 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238764AbhLBIa4 (ORCPT
+        id S243919AbhLBLzn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Dec 2021 06:55:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231177AbhLBLzm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Dec 2021 03:30:56 -0500
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 1B28QxlN006678;
-        Thu, 2 Dec 2021 17:26:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1B28QxlN006678
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1638433619;
-        bh=/yQg01BYOJFXppdxBduRNih3r4B6OrrFie8TdUvWsH4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JXmvbWDwG9IKGlbZi3rbZ3DTGFqHrgLL6Wyi619NwvTKYg8SHvNOybbAxsGCdO5xu
-         VbcVLiI7JlVuom+6954OzZVFHrAQQh7Q7TD8PIonFkZLHYzlRsyDyoW1Cq7Ii3YV3I
-         a/aAQNHf7HDmnAqcUIJ9Ls+C3LZrzPL6OHxVVPyTlBfR4xBKOiKx30wsOTi2Zujxgf
-         w6c/XhJ5i31O+1loPUWXpp85931taW/uJbfgZJKbCH/QqS8x3rD82cHMXE6Md/2ydt
-         JfekgAj+MXdPlj3EW2wlizT7qgZgy8THxlcxRKRmU42qTVO+ObvwY/g34km16pYT9p
-         b67OTJ/Qdxktg==
-X-Nifty-SrcIP: [209.85.210.180]
-Received: by mail-pf1-f180.google.com with SMTP id o4so27185407pfp.13;
-        Thu, 02 Dec 2021 00:26:59 -0800 (PST)
-X-Gm-Message-State: AOAM531WuF2zNyUTA5yII3D3aikMz6xZSxn0UtLyJHYZSgwkWdQkrM6B
-        4sue8ZQM/9ElJ9FwOyR24Ts/iVAd6ujzS5t2V3k=
-X-Google-Smtp-Source: ABdhPJxcPQ85vfjbSc2TTaMucoAVuXnzpKovoHhZYYdrtl4XmPNKKDlS6sEvhw15FBEyiNyupWGC01mqEQnCKEu0WzM=
-X-Received: by 2002:a65:50c6:: with SMTP id s6mr8754532pgp.352.1638433618425;
- Thu, 02 Dec 2021 00:26:58 -0800 (PST)
+        Thu, 2 Dec 2021 06:55:42 -0500
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD65C06174A
+        for <linux-kbuild@vger.kernel.org>; Thu,  2 Dec 2021 03:52:20 -0800 (PST)
+Received: by mail-pj1-x1042.google.com with SMTP id gx15-20020a17090b124f00b001a695f3734aso4462968pjb.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Dec 2021 03:52:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DFlTNViKuey67Q7yBsdWv0pUYLxio2bNMrfzQIZzSeU=;
+        b=iiLi6ch3Y9XN9Rd67o4BUihhpdvhbOIRIZRqFbyutliXJ2bfK8Seehkri0+XuiRBch
+         cizeXrfyxJcSzliCBVuaNsb2FNAPMQHiBP4Bdbk8mtNs2v+SSUq92P4IfatbmULbTufe
+         bagzbMXBioMf/HlqB2IpPJgHkaA70QXMS+GToKlM5Q65Te0ocF2S3CvnKNVR4ww7sGuK
+         0KUvhV683fErAFP/2kGcqqPTCxVjeqjwW2VyJkKwOOgnJHWtOITWDfzK1McwKmRQZ6lp
+         gpV/dkcfRICHqxSeOBQffK+BTk2QOEcglw17LYIiajLruj6dUPaY3tpBH7RzrJmrL3Hb
+         d6iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DFlTNViKuey67Q7yBsdWv0pUYLxio2bNMrfzQIZzSeU=;
+        b=tyaQeLRsaqZ0uQsnlBbINAv+AduMN6UxXEpGv8/uiM6VAJdI9Ks9I/wOrk/XbZBH80
+         U2Mc8P9jqJKP1nosvdO/a/jcbTkdtbmNKT2ZjI8lr2VqMMpsBV2WBf0txZsNwpU5kUAr
+         B9YKWQZrMqlKEfw4Nu0tYBk3VjfrNojYCW/KIFgJTAI8gOvDndxqdKi0rwrS39I8PBIH
+         cnWwheiIEVcu68VDyaxeUofrMT/CUu+/YLUZbL1WUR5XS3vi64XxQll5DlbpNnj8zZrQ
+         ij2jppd5Aoew73G803vwlgT9u/hSQtYhbyWXsWEmgxAVKncW3uYT/vqEWXvAQQJ1YKY+
+         OYrA==
+X-Gm-Message-State: AOAM5322ZzBEEr7QhBww+KpedhbYFH0Mrbsh8LbTAjbzmqe8uEoFQ09B
+        2b/RX2p4nRjkNZXocDA9wgNzEnbNhM0KX91XJPU=
+X-Google-Smtp-Source: ABdhPJyp4rfjGGC+BsDIVWEWIV7HAhCgWuYqUr2LQlUVfV51N1yebXBs9uGumFGwvHkcT0mnDLAxqOsAdKhb+KJFL/o=
+X-Received: by 2002:a17:90a:e012:: with SMTP id u18mr5552130pjy.103.1638445939945;
+ Thu, 02 Dec 2021 03:52:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20211129165803.470795-1-nathan@kernel.org> <202112011140.DA93B3E@keescook>
-In-Reply-To: <202112011140.DA93B3E@keescook>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 2 Dec 2021 17:26:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASW2F3SxgR6ydMaW7-ZumsxDv2QQTDqVxqJA1JWN3r4FA@mail.gmail.com>
-Message-ID: <CAK7LNASW2F3SxgR6ydMaW7-ZumsxDv2QQTDqVxqJA1JWN3r4FA@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/6] Bump minimum supported version of LLVM to 11.0.0
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Tom Stellard <tstellar@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>, cki-project@redhat.com,
-        kernelci@groups.io, llvm@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Received: by 2002:a17:90a:b889:0:0:0:0 with HTTP; Thu, 2 Dec 2021 03:52:19
+ -0800 (PST)
+Reply-To: fp2324024@gmail.com
+From:   Frank Peters <fatimayusuf973@gmail.com>
+Date:   Thu, 2 Dec 2021 03:52:19 -0800
+Message-ID: <CAP4YtnRVkZSTomV34HVNv-S3bv=EHYm5sP7eXMHdrNs0=QF=NA@mail.gmail.com>
+Subject: Hello Dear,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 4:41 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Mon, Nov 29, 2021 at 09:57:57AM -0700, Nathan Chancellor wrote:
-> > This patch series raises the minimum supported version of LLVM to
-> > 11.0.0.
-> >
-> > Patch #1 outlines the issue, goes over the potential impact of the
-> > change, and does the actual bump. Subsequent patches clean up the
-> > various checks that are always true after the bump.
-> >
-> > I have marked this revision as RFC to give various parties the option to
-> > comment on this bump before it is done, namely KernelCI and Linaro's
-> > LKFT, who are still testing clang-10. I have added some other folks to
-> > CC that I know are testing with clang to see if this impacts them in any
-> > way (as I would like to impact as few people as possible) but as far as
-> > I am aware, most other CIs and developers are testing closer to tip of
-> > tree. If that is not true, scream so that we can see what can be done
-> > about that. If I missed anyone who is actively testing with clang,
-> > please key them in and I will make sure to include them in future
-> > revisions (if any are needed).
-> >
-> > It probably makes sense for this series to live in -mm.
->
-> Sounds good to me. Thanks!
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
->
-> --
-> Kees Cook
+Hello Dear,
 
+Greetings, to you. I have come across your name and contact as search
+the mail for a very good partner.
 
-Only positive feedback so far.
+Briefly I will explain a business to you and if it would be to your
+interest, then we can move ahead to effectively build this business
+relationship.
 
-All applied to linux-kbuild.
+I have inherited the sum of 5 million dollars from my late father. The
+funds had been with a bank here in my country.
 
+As a result of some agreement clause, they could not release the funds
+to me here locally.
 
--- 
-Best Regards
-Masahiro Yamada
+In one occasion I went to the bank, a director of the bank called me
+and explained to me that even if I want to transfer the funds out to
+the account of a foreign partner, that it would take much time,lawyers
+and many expenses. He explained to me that the rigors are so much and
+most foreign partners might not be interested to involve in such
+expenditure because of the fear of scam.
+
+He advised me that, I can get a foreign partner but instead of
+transferring the funds to the account of the foreign partner, the bank
+will offer an ATM card to my partner.
+
+The ATM card is a PREMIUM PLATINUM CARD and this would allow us to
+make withdrawals of the fund in your country to the tune of
+25,000-500,000 dollars per day.
+
+He explained to me that the card is good and would be sent to the
+contact of my foreign partner by DHL or FEDEX.
+
+ If you are interested to partner with me, please reach back to me for
+details and we can also discuss my investment plans.
+
+Kind Regards,
+Frank Peters.
