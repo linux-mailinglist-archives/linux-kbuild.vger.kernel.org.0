@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0FE6466EAD
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 01:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B9FC466EC7
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 01:49:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349968AbhLCAtR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Dec 2021 19:49:17 -0500
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:55730 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S238220AbhLCAtR (ORCPT
+        id S1377887AbhLCAws (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Dec 2021 19:52:48 -0500
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:48742 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1377798AbhLCAwr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Dec 2021 19:49:17 -0500
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-        by m0001303.ppops.net (8.16.1.2/8.16.1.2) with SMTP id 1B2JSriX017248;
-        Thu, 2 Dec 2021 16:45:53 -0800
+        Thu, 2 Dec 2021 19:52:47 -0500
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2NlILW029286;
+        Thu, 2 Dec 2021 16:49:24 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : references : in-reply-to : content-type : content-id
  : mime-version; s=facebook;
- bh=am4feINdttY2HvsSmtFYOW9/ifpAWI8+mGYJHWHiXLA=;
- b=MQN8IdoefdJoStdEzwvVOMY+EjBw1GfLiRNB3BbpQOMjes5ieOmT6a6uuCa8uHYH63Sg
- RkSNlZbLXfIUaQis+/89AyYUZdtZua0cMmiRdbkBsHkjnO4zt9BtXsbOhppVOr7fjULi
- KOIyzp3EuUv/PbaAbBHVSJPQ7d0HSHl3yxc= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by m0001303.ppops.net with ESMTP id 3cptg6y573-2
+ bh=ol2kAdDvSnkVhCCfQ7nX9QrEdWXLW1s6kNYpwokefQ0=;
+ b=MRZsBoEWnMUz4FFPmbqYJnNKKj4edfoaTgG7+xCsy9wb3mw0z0rjpG+e2YUwKxCLmDPB
+ 1BrjPtmgcZrQ4ECZd2GX7qVS/Gj71P4xJ/FY7r9bJ+0sX0eVl14wD/6laEhKVUmgxVlz
+ +yipIBgZAGV7MYpcjFXdZ+rNGHvZbLetU70= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by mx0a-00082601.pphosted.com with ESMTP id 3cpt15wj6d-3
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 02 Dec 2021 16:45:53 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP Server
+        Thu, 02 Dec 2021 16:49:24 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.230) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 2 Dec 2021 16:45:52 -0800
+ 15.1.2308.20; Thu, 2 Dec 2021 16:49:22 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N19AFxLvUwYwA0I0dbFY6h/daLwcBucbPFL2XsLQQQ8gvtZDNWBWEgiXRX0hzq7PUgZ7lHvapFkFWIn0kSapGsYsMcVOmbGhOgPo1V2ypfQPkfDyElMx2EIVkIV7AoFcTPvNjQWSdu//aLBQmOpEmh8+s6pgCi1/+wujXxvIwZtI2muTc0pdIv8MWE8l/XJj4aduW4dG9BvKNo0Tw1YLpxyBW5g4TAFhjhkzphsatzuarS4J+LQeVNRjLF4YevwWesG10fkjNeyq2wktrVP94nAlx/ONnpKaLII4NTvaa+iDJvNPx5E934MTyGQscprLuIZ89orHVlAt/vtxS+KJRQ==
+ b=a4xVN5BDd/W/xL0RyYOXamZFpxkJ6OCykSpVaRUlzPPNKenc5hpmCIjWQO/3dh8SdQZtOrLnn6MRxue7lqW5obrRBQfMzTxkv1LHfXxjgidsjvjNDgXMX4p8bDWlBoghKVPGRRvyVF0dr510gbtA52YaY8pG8XnpfV3kdNJ6lpBh+BhjCZTiFmPmSjIV6qqUMVYChF+bxZf6uSFktOSijrWIFv9jT1H3Hax0IxuyiJS7URnfqMdUpyyXwjWKSQQ9gG7aYIeLjpZzfSdjMTzvvgzdIJ0wC3dCrxlo1XjpOcCUZvVfuRiNpgDPihIoBcwj1qx8X2OjNdYoRzIpJe4D+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=am4feINdttY2HvsSmtFYOW9/ifpAWI8+mGYJHWHiXLA=;
- b=jY1zLTXNyAxz2cj9voiIWFpOUfdpfqtTCmZw0DoPv0e4IkJpFnyqcNIyK3+0djvwfuTiNqHYNqDCqCor7Uk+IPMaAaJO0KH3sm6S8W2HgPSDA3W9PD82sc/NLMa9tfuDEIPwQNF0QieQljO87MtSTTwJfgwlntEZlivxe7E9mpf9jscWrGaCqdzlfnYf2RGxwJ311TvCnSX/DG8W3iMDnUI4eF8I2+cBEnzDIFZE+cg5Qvb5b2pR6jLUPa3UOp+h0udfIWmsGYebcWoJ/dM4m/8cAXJ0N3S5XIavuXIUQ7BfuftRMpZ7/g7BTg9hRdlvTkmm5aXmj0sL5FDOCTMgGA==
+ bh=ol2kAdDvSnkVhCCfQ7nX9QrEdWXLW1s6kNYpwokefQ0=;
+ b=dqi1aZr+RUjCQa/GWD1zfur6L+xofepCTZlfxCV5tjHeH/FYpP/TjRhbrf/BC9fm2aKq5M31Ibx55sGtnNAVeEMpTAQKvNeZ1fhiYiSsxjPis9sM30TJmxkuZZ0RU/lyGv4bgq6UCPu21qrZ47laUziZnCXqfe2TScHq2d3SjRrutErRvtifyjtT33YT6W14HAfFWKEcpiRnsMlltkyekV8b8VukVvx/WwqECBtJKmH9loEPY3/0rwvtPB3uyeiSkv40S0T2iC12i1seqnuGrQtkZXb0lre817W9lSaZlpNdMMBMTgpThRGtFNQuOVinI7xZCjHwmgOUyelYEuGhyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
  header.d=fb.com; arc=none
 Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
- by BYAPR15MB3366.namprd15.prod.outlook.com (2603:10b6:a03:10d::21) with
+ by BYAPR15MB3095.namprd15.prod.outlook.com (2603:10b6:a03:fe::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Fri, 3 Dec
- 2021 00:45:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Fri, 3 Dec
+ 2021 00:49:15 +0000
 Received: from BY5PR15MB3667.namprd15.prod.outlook.com
  ([fe80::8d7d:240:3369:11b4]) by BY5PR15MB3667.namprd15.prod.outlook.com
  ([fe80::8d7d:240:3369:11b4%6]) with mapi id 15.20.4734.024; Fri, 3 Dec 2021
- 00:45:46 +0000
+ 00:49:15 +0000
 From:   Nick Terrell <terrelln@fb.com>
 To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
 CC:     Michael Forney <forney@google.com>,
@@ -60,83 +60,85 @@ CC:     Michael Forney <forney@google.com>,
         Kees Cook <keescook@chromium.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] kbuild: use perl instead of shell to get file size
-Thread-Topic: [PATCH v2 1/2] kbuild: use perl instead of shell to get file
- size
-Thread-Index: AQHX4UhEMAJasQNrTUa+7KWlM097GKwf+6WA
-Date:   Fri, 3 Dec 2021 00:45:46 +0000
-Message-ID: <5AD03AD1-4422-4F91-85DF-086E11A47FA9@fb.com>
-References: <20211124153105.155739-1-alex_y_xu.ref@yahoo.ca>
- <20211124153105.155739-1-alex_y_xu@yahoo.ca>
-In-Reply-To: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+Subject: Re: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to
+ zstd
+Thread-Topic: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to
+ zstd
+Thread-Index: AQHX4UhKidKPr3kbgE2o2YP10PuuiKwf/KCA
+Date:   Fri, 3 Dec 2021 00:49:15 +0000
+Message-ID: <A5D1EDEE-8979-43A1-B36C-9216602150EA@fb.com>
+References: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+ <20211124153105.155739-2-alex_y_xu@yahoo.ca>
+In-Reply-To: <20211124153105.155739-2-alex_y_xu@yahoo.ca>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: becd6309-5761-4a71-cbfd-08d9b5f63e54
-x-ms-traffictypediagnostic: BYAPR15MB3366:
-x-microsoft-antispam-prvs: <BYAPR15MB3366EB34E852BE5CB464123EAB6A9@BYAPR15MB3366.namprd15.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: bb7be305-9c59-4c24-2d5e-08d9b5f6bb42
+x-ms-traffictypediagnostic: BYAPR15MB3095:
+x-microsoft-antispam-prvs: <BYAPR15MB3095E2B67A15CC89867EBCA2AB6A9@BYAPR15MB3095.namprd15.prod.outlook.com>
 x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /3aYjwlC0fkd0/+tslfb6lx8narvvPfOBuyQFwllKy8M4bd/nhKjfuOa8t9vUEUGfmWr5VzRDl3edXoENhcwHETl3DS3UfNtlLcj0T8uHBq5ksgoJrHVf/k+P8USnFyIY5gqWh2R8bI23jJgaVC/mzwkNZ4k0VECDHvBgCe/vKk225qYrwl1GB9zf4hI4FE+1CEenue9qAgm6aHN7xGl4Hw2kdJzKCc3M47hKhPgsK/umnNs4B3kDy46/ahLrDeqpLcNI1skVOA92p0d/4y04+0Et9FBmJLzuBIGL5ofig7Dm3FhfPYHfQRg03+jTfgtKyWzN00WlGgi5o7FKZnep9htkWvc/u4szIZ4v7RhD6d4NP04p1yv6riyTlTI19XNDLr5JXEtkXlYrvOd/pFiiOvIgGfX2LBbrpevvjQ+NCKOwm/7io5iJj3Wn1WPwPey6fj2AAa8rmHeNDmiFg6eAcTqcGvx90e7GVl7pLxhEuM3SSZArB8CNvpvwT9h8EEl0DF6YhJN9lHXxtOJZRU8mDCZxdZayZp0KKuceS4vNqeaUqEd3/2p1N+7Md5uQmc2LxC5Eb7Ly59VAGYJJ978PA7Ux0CJQ8UcT3GbdKntYW5wMY3wAzh3bziLmmArfbdaQZdCV/cYOvTNQynfLonZDEVewMmMAZVXUn5xJiGkv18Z3AZxLSS9LVhKL2CEjzv95O84PJNFULt2j/LcgJTkZVOu/XXUdZ/V6LD3oJtJ1b8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(7416002)(66946007)(91956017)(6916009)(186003)(2616005)(8676002)(36756003)(86362001)(6512007)(5660300002)(33656002)(54906003)(53546011)(66476007)(71200400001)(83380400001)(316002)(66446008)(4326008)(2906002)(64756008)(122000001)(6486002)(6506007)(8936002)(76116006)(38070700005)(66556008)(38100700002)(508600001)(45980500001);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: 2VulVMFQfZokRBRUZ/5QuSrdznxWex/42uXXA6rkcEL19LSZLsslQESJ3Z27OJ4zxYz8SjLcrYfXdDJTTXu+7YPtVK2Tc/nEnkgNqD4ZEucamCZ6SA6m2lWyvKpZs0631IBMqB+CuporGkWJXomjddGH/G34hbBbCoXtx/JTMecMklLrt9ZoQHtE9l+uZ7jkJnt+57B6eeLuPqjptGlAjzBKhVPimsWXACJijESwrfsqwua/Xr263oVIYUt/Q5ti02+VoBjp/fZ3mMhQA6dcOihLOxgw8sRWVPz94wecNOfKPiy31wlyra8f7g80TL8+wQ45+A5gUDalk2Kv3iR2soSd1i4bD+GlUU4scrl03SBQp12FqeFGsemRb4W1z9zybRydxZNLgUiWg8ZnYL58y89k7WNHukznHrjE8DqNGaTuZGmqWQciL242i5UyRwNyhFWpQHPSqMk6z1G31w4LGgYr4svYvZs5C9k68mfy56fJDg4aDb/Q0txY9b5DPKihwQFFkru35v9UH3rpyucoZecoWmOsJjOraZeknynZ8SWLkFx5yWJkgVVwD36AvDK80LkvRnx/0+WUnL6hAyRM1UZWaWQH2ic4Wm1R896qwpBsNV8cJNcRpKFdG5PMkt9LYR8XJK3XgGZYNYpGAq4a8YpIf3vv5jcmc6253Cg038nnVqP9QYma6LylQ0ukBONTkmi1/DnyVIyW6mB2yLIO50Vs7K2EXLw7KII/363W9o5RrStLFf8ld2o00YGwvxwxB2buUV//yIHW07ILfzUJWfYpZNvSdfiia2FUGgp/l5yxET/dA/FaYvFE1HY5TXbN
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(54906003)(83380400001)(53546011)(966005)(71200400001)(316002)(7416002)(6506007)(38100700002)(508600001)(33656002)(5660300002)(186003)(66476007)(66556008)(91956017)(36756003)(122000001)(2906002)(66946007)(8676002)(86362001)(6916009)(6512007)(66446008)(76116006)(6486002)(8936002)(2616005)(38070700005)(64756008)(45980500001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8/ge/M1FbraA+SGFAswLbB6+Sw2Az4OUGsNo0I9C+5JtHjtKI9MDaFecoTWC?=
- =?us-ascii?Q?Ja99eWerRsF9O4+UVpqCfnCuqEhRcaDlkyzF4x71bFbwaPyaCA871PJn60Ky?=
- =?us-ascii?Q?psnRImvrd7JdUV+RI2uKDk5O1O2P22sxfPHyqGp5IDqEAxekHysOvHRAqf6t?=
- =?us-ascii?Q?Yc+G5tJusom+gRRezW6PLzmOi1ZapXfRWy6s3Tl1qORKoHPEQjFIC4q1Gg54?=
- =?us-ascii?Q?DV6znVLbK5osbtaBuEn4Wyn9O93ZiduW3bNmntNk4fMxvF5eceVmifKhp73p?=
- =?us-ascii?Q?F7VBeU5DeMla49MMIh7WmfjY+gjiGC9hxNnm3BWPGq62rjcjthUZMzj8yyAV?=
- =?us-ascii?Q?YxDAuWCuZePc900/shjARLBTScD6yMaiuN7MYsSJ34qbh3J701hkYPdopodo?=
- =?us-ascii?Q?TiSPa7QQUbLMFXpJuEHMBYjofRCvui8t+SFVCq54ecKOqBQr5rQ/m7UBjb0Z?=
- =?us-ascii?Q?FeOsY8KhRF/J8GjQ/7aK9g+Lt8v88kmVMlDT6a2uewoPGoTJhTBq1yVTrUAr?=
- =?us-ascii?Q?64UXyYU76Z+dKJfMnl0xozxl7ywxEeeyPLalen5anbVWKJdQ7qaxlC0YsOkU?=
- =?us-ascii?Q?fTipEujaokwgGjwD/Tvy2c6K0RcowijiX8lEv7m/JTuXhg2/vWO4++l2Yvcj?=
- =?us-ascii?Q?fS7ej5vRnP3ry+WtuZ2otFFFP/ivAUIl0LOfWEcVeSWtqQXmMRPCOa2alnat?=
- =?us-ascii?Q?k/ex4hlGM9iLzCXzodyqwL0mSLUs+h8miANTC7ky6DdtQqmmIWf8kVDZ9Z/6?=
- =?us-ascii?Q?gTxxbf34P35tWxpOFTYfPdZUIHuZFsUMHkVE3+PSnwtHyKl7GAuy1IBkvfui?=
- =?us-ascii?Q?AAHlAOo7iWpYSmrGViIkDiUGmh1MHgVog0h0kRLa7y6VbOtO0zUOB3dhruB8?=
- =?us-ascii?Q?NuZTYVea318OujPtTfbXVQa8UokmMtvZndfSmHFIiSwFw/BWsIvEOib6eBVr?=
- =?us-ascii?Q?ZmckniyyO88YfP0pHSCfG8HP5GypANF94dJhZ/BGC21dG5534YkB6ywxyXEA?=
- =?us-ascii?Q?lceAxPpZZB1EtJ7O++FyOmvxZbTkKUNNQ+zhbZ2GURdgR06CXNS+0GYnV4tg?=
- =?us-ascii?Q?rTLvxeeNmSHHIAm0G+hO5/midvVhNboP/R87aThDM+Sp0z65NaeRZKKiQJi5?=
- =?us-ascii?Q?jhnJreIgR6j8GZwHRvX98IDhXazImxYrh1Phmn3kN431GzDD4VWmEtbTyl3S?=
- =?us-ascii?Q?TnwNeASEKqzs88+BizS/aEiNBfr5IraodWeWbdM5E7uYUFbTs4lYDWUAHdnF?=
- =?us-ascii?Q?4TAtj1whqj5Pu0CDqyrB/JCLkjK2iirUbRT2mg/C5Co/oQMuQLzRtTuX7TJO?=
- =?us-ascii?Q?I/rSXBynUyoPHOBntv+aDHcfzreI2t7Y+7HF3s0TC9TaoI9xlAZFZBRozAeo?=
- =?us-ascii?Q?scOVVl6RY3gQSU6V86mlsi0y5j1h5US8i7tx/yvZDNFpKzPlbKqgvbsntFiX?=
- =?us-ascii?Q?DaEpjPe23LgC77LH9CJJdlcom4GuHLqyx4x0CEqS4NE+juX8Trxsf1ePrIGk?=
- =?us-ascii?Q?l8rIe2BbcSmBi/O8B3ZghW2oH/9J5yf5+f3WC2zUsNNxErKWuMNj2B4F7gNE?=
- =?us-ascii?Q?pRcmIlZAu/y3fDWa6Q4pEeavGtJ3qFh9ZaxK1hv/To3lJcYHbCpbngBa6LSC?=
- =?us-ascii?Q?gg=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ykketfHj9kKDZgQIzO12gGejCPKeDJxggcisZYOuiKicPQBfJhq+Jy2UsfcK?=
+ =?us-ascii?Q?U5OoThKMHDDJc4fiYFrKENABcVukzV/pBzw4rkpsw1dwaNx+O0vu8fBwkyWf?=
+ =?us-ascii?Q?XSoalV2mpm+Od/BOB4rllpyg4HjNWjwXJyXEEb3NX4OO9nQ+8j7BVmv0uNIO?=
+ =?us-ascii?Q?ax8LL8kEcfBcoCL7PqQJ6mE0smPaVpXzKiFP+EfW0HxJ15oOAytY5bxJCDIB?=
+ =?us-ascii?Q?VG4SKvteYnezF1I6gNc+INXclcqTOM2MAAlDMOy9ZSnFQGWw85fN47DrBSvF?=
+ =?us-ascii?Q?1tDhR/mDyHJ1SojnWfVkNl8dOGuU+hJOjohNDi7JFuGGzlbr4qN/ch8bRKG5?=
+ =?us-ascii?Q?thoCwjcJ1GkJ1k2AdF8n7ijVp8NpQbvTMSEiaIoWzm6zT9exZTFli7dP6D9x?=
+ =?us-ascii?Q?T3RO5LcRKxw96PWMgfLczjVIt8o+XOHovnw5xDPmCxDN1yTmnCXR4SH3POSN?=
+ =?us-ascii?Q?1ktHMXkZFNkhOr4g4tk6qqDJKV0ciW2TrabkusMHoIOhQBcOdOmOcRwCWWpk?=
+ =?us-ascii?Q?bjXkUT/3Y29KsZUf5PjwQJlOTlglLq4V9Ig621F0/xPyIjWl7PE29r6v47qn?=
+ =?us-ascii?Q?Bh9H35IHT3o5tC4IQNW+QacpdxFYKmKxLT19c5hxd+noHHZSKUPnv+ZidXK6?=
+ =?us-ascii?Q?OXOTo+lINFITDUeO8Mu2zw2gjvTrh7AHAkttErmpELNcbdO7A+6MowsQg2dh?=
+ =?us-ascii?Q?pS3ot+wswecHdZVOszVUyb9iT2g+n9BkihaWFtH1aDIiP/Vs3ag3xXRgKYSA?=
+ =?us-ascii?Q?lufmsLa7y/dYhyv1ounEX4Wtd6z2JZ7VY8nQi40TW5TAA4sDcgucpmDKQQpv?=
+ =?us-ascii?Q?4KL780scHNFdIQqn8vCU/XQ3KyYglezXO56TSE5bUFUsI6xNNKz8tUrk0UyC?=
+ =?us-ascii?Q?lniuUwVA1nDNS/N9bjpI8SIKs+nuHCYNdSbyAA485FQaLwLCxq6Ou56TT//T?=
+ =?us-ascii?Q?B+zm7rvlLCOQBwAeCiXb8swRal1rLuwvx0VUtCnLrvgXKxL/FghP4P6eqvYA?=
+ =?us-ascii?Q?Ms+KTqXQI/rqqfmxMCdf9nj2ts97kEGOP+37wsxhBawGuCWN55ukNU2QLn1O?=
+ =?us-ascii?Q?JLCQBjoUtDrMdOoPISvUl37R3MSfE7H+H/40e6B6BnjLDfrzWOM3r9NkJC7B?=
+ =?us-ascii?Q?3bzDOwZAII7aQRljEyPXITfSD6xRRw7Q82+Qsa7a0JqgbAM1oGvUT1Tn3Ruu?=
+ =?us-ascii?Q?b47jnjeK0tQEZOAJENoo3vl3r7cxgxLGARFMgI26wlqdZMRZsZadzCMkYsX6?=
+ =?us-ascii?Q?TjNya9k5QfwnuhwPFJu9cU0tnh+l4uZnzDhZXra0FGAPEG5sUrM0UM2tIGuS?=
+ =?us-ascii?Q?ZE16q1WEAQtF4C36SPsrMICsltu4NjmEOK/un6B0pOM7w6SPBBX8PFJorZOq?=
+ =?us-ascii?Q?qV+oPlbAZ/T5ZgomT4Diip5TNkYQEe3VY8+QXoGZv12C65TQRmdXqplzgDHh?=
+ =?us-ascii?Q?+X7hhEt12xYn1hLkkMLAuc0JF+R2BUVZ8JWzZG4oe91HzStYUbVUSwhv2PvP?=
+ =?us-ascii?Q?BddXEfSwtoUE5uUTdbniStrBs5WoyLYaH0UgijxtbWfYxkVccdLo8CmJhDjY?=
+ =?us-ascii?Q?ICplCZEaAQkk9mhfmJmNf798W2gHXqWu1llS8GzLAn1yQU7TVrf1LQ4MbD2B?=
+ =?us-ascii?Q?3A=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A933AC9D04844C459588F6B0AD4F9470@namprd15.prod.outlook.com>
-MIME-Version: 1.0
+Content-ID: <127822EA6563EB4F92020D35FEC15355@namprd15.prod.outlook.com>
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: becd6309-5761-4a71-cbfd-08d9b5f63e54
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2021 00:45:46.1303
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb7be305-9c59-4c24-2d5e-08d9b5f6bb42
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2021 00:49:15.7474
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uUk83/Ao9HuFzlnJ8kSipBJqbZAjdRM2cfTbELD5yPzGMSZpq69E3QA/4iv2HC9M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3366
+X-MS-Exchange-CrossTenant-userprincipalname: 0rRbdAqoj4Al3wUrQ+BA7MFV3oqO2IETjrB4p4w0z5A1WzfjC1u1o5e70G2IBaEg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3095
 X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: 1zZlm07UV4CawWZbwHOMIyrSS6MaaCin
-X-Proofpoint-GUID: 1zZlm07UV4CawWZbwHOMIyrSS6MaaCin
+X-Proofpoint-ORIG-GUID: hptTKVYwZcD1nxZnPMxpK8rjHaUt9QW0
+X-Proofpoint-GUID: hptTKVYwZcD1nxZnPMxpK8rjHaUt9QW0
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-02_16,2021-12-02_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 malwarescore=0
- phishscore=0 mlxscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- clxscore=1015 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112030004
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxscore=0 malwarescore=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112030004
 X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -146,105 +148,53 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 > On Nov 24, 2021, at 7:31 AM, Alex Xu (Hello71) <alex_y_xu@yahoo.ca> wrote:
 > 
-> This makes it easier to get the size of multiple files. Perl is already
-> a requirement for all builds to do header checks, so this is not an
-> additional dependency.
+> Otherwise, it allocates 2 GB of memory at once. Even though the majority
+> of this memory is never touched, the default heuristic overcommit
+> refuses this request if less than 2 GB of RAM+swap is currently
+> available. This results in "zstd: error 11 : Allocation error : not
+> enough memory" and the kernel failing to build.
+> 
+> When the size is specified, zstd will reduce the memory request
+> appropriately. For typical kernel sizes of ~32 MB, the largest mmap
+> request will be reduced to 512 MB, which will succeed on all but the
+> smallest devices.
+> 
+> For inputs around this size, --stream-size --no-content-size may
+> slightly decrease the compressed size, or slightly increase it:
+> https://github.com/facebook/zstd/issues/2848.
+> 
+> Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
 > ---
-> arch/arm/boot/deflate_xip_data.sh | 2 +-
-> arch/powerpc/boot/wrapper         | 2 +-
-> scripts/Makefile.lib              | 9 ++-------
-> scripts/file-size.pl              | 8 ++++++++
-> scripts/file-size.sh              | 4 ----
-> scripts/link-vmlinux.sh           | 4 ++--
-> 6 files changed, 14 insertions(+), 15 deletions(-)
-> create mode 100755 scripts/file-size.pl
-> delete mode 100755 scripts/file-size.sh
+> scripts/Makefile.lib | 12 ++++++++++--
+> 1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xip_data.sh
-> index 304495c3c2c5..14cfa2babb93 100755
-> --- a/arch/arm/boot/deflate_xip_data.sh
-> +++ b/arch/arm/boot/deflate_xip_data.sh
-> @@ -43,7 +43,7 @@ data_start=$(($__data_loc - $base_offset))
-> data_end=$(($_edata_loc - $base_offset))
-> 
-> # Make sure data occupies the last part of the file.
-> -file_end=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$XIPIMAGE")
-> +file_end=$(${PERL} "${srctree}/scripts/file-size.pl" "$XIPIMAGE")
-> if [ "$file_end" != "$data_end" ]; then
-> 	printf "end of xipImage doesn't match with _edata_loc (%#x vs %#x)\n" \
-> 	       $(($file_end + $base_offset)) $_edata_loc 1>&2
-> diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
-> index 9184eda780fd..9f9ee8613432 100755
-> --- a/arch/powerpc/boot/wrapper
-> +++ b/arch/powerpc/boot/wrapper
-> @@ -380,7 +380,7 @@ vmz="$tmpdir/`basename \"$kernel\"`.$ext"
-> 
-> # Calculate the vmlinux.strip size
-> ${CROSS}objcopy $objflags "$kernel" "$vmz.$$"
-> -strip_size=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$vmz.$$")
-> +strip_size=$(${PERL} "${srctree}/scripts/file-size.pl" "$vmz.$$")
-> 
-> if [ -z "$cacheit" -o ! -f "$vmz$compression" -o "$vmz$compression" -ot "$kernel" ]; then
->     # recompress the image if we need to
 > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index d1f865b8c0cb..ca901814986a 100644
+> index ca901814986a..c98a82ca38e6 100644
 > --- a/scripts/Makefile.lib
 > +++ b/scripts/Makefile.lib
-> @@ -379,13 +379,8 @@ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+> @@ -466,12 +466,20 @@ quiet_cmd_xzmisc = XZMISC  $@
+> # single pass, so zstd doesn't need to allocate a window buffer. When streaming
+> # decompression is used, like initramfs decompression, zstd22 should likely not
+> # be used because it would require zstd to allocate a 128 MB buffer.
+> +#
+> +# --stream-size to reduce zstd memory usage (otherwise zstd -22 --ultra
+> +# allocates, but does not use, 2 GB) and potentially improve compression.
+> +#
+> +# --no-content-size to save three bytes which we do not use (we use size_append).
+> +
+> +# zstd --stream-size is only supported since 1.4.4
+> +zstd_stream_size = $(shell $(ZSTD) -1c --stream-size=0 --no-content-size </dev/null >/dev/null 2>&1 && printf '%s' '--stream-size=$(total_size) --no-content-size')
 > 
-> # Bzip2 and LZMA do not include size in file... so we have to fake that;
-> # append the size as a 32-bit littleendian number as gzip does.
-> -size_append = printf $(shell						\
-> -dec_size=0;								\
-> -for F in $(real-prereqs); do					\
-> -	fsize=$$($(CONFIG_SHELL) $(srctree)/scripts/file-size.sh $$F);	\
-> -	dec_size=$$(expr $$dec_size + $$fsize);				\
-> -done;									\
-> -printf "%08x\n" $$dec_size |						\
-> +total_size = $(shell $(PERL) $(srctree)/scripts/file-size.pl $(real-prereqs))
-> +size_append = printf $(shell printf "%08x\n" $(total_size) |		\
-> 	sed 's/\(..\)/\1 /g' | {					\
-> 		read ch0 ch1 ch2 ch3;					\
-> 		for ch in $$ch3 $$ch2 $$ch1 $$ch0; do			\
-> diff --git a/scripts/file-size.pl b/scripts/file-size.pl
-> new file mode 100755
-> index 000000000000..170bb6d048fa
-> --- /dev/null
-> +++ b/scripts/file-size.pl
-> @@ -0,0 +1,8 @@
-> +#!/usr/bin/perl -w
-> +# SPDX-License-Identifier: GPL-2.0
-> +my $total = 0;
-> +foreach (@ARGV) {
-> +    @stat = stat $_ or die "$_: $!";
-> +    $total += $stat[7];
-> +}
-> +print "$total\n";
-> diff --git a/scripts/file-size.sh b/scripts/file-size.sh
-> deleted file mode 100755
-> index 7eb7423416b5..000000000000
-> --- a/scripts/file-size.sh
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -#!/bin/sh
-> -# SPDX-License-Identifier: GPL-2.0
-> -set -- $(ls -dn "$1")
-> -printf '%s\n' "$5"
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 5cdd9bc5c385..c3fa38bd18ab 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -384,8 +384,8 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
-> 	kallsyms_step 2
+> quiet_cmd_zstd = ZSTD    $@
+> -      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
+> +      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -19; $(size_append); } > $@
 > 
-> 	# step 3
-> -	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso_prev})
-> -	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
-> +	size1=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso_prev})
-> +	size2=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso})
+> quiet_cmd_zstd22 = ZSTD22  $@
+> -      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
+> +      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -22 --ultra; $(size_append); } > $@
 > 
-> 	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
-> 		kallsyms_step 3
+> # ASM offsets
+> # ---------------------------------------------------------------------------
 > -- 
 > 2.34.0
 > 
@@ -252,3 +202,7 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 You can add:
 
 Tested-by: Nick Terrell <terrelln@fb.com>
+Reviewed-by: Nick Terrell <terrelln@fb.com>
+
+Best,
+Nick Terrell
