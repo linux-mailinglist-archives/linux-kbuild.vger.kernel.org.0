@@ -2,189 +2,212 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55C5946788F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 14:38:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1E864678F2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 14:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381179AbhLCNlv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Dec 2021 08:41:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41640 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381177AbhLCNlv (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Dec 2021 08:41:51 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5BCC06173E
-        for <linux-kbuild@vger.kernel.org>; Fri,  3 Dec 2021 05:38:27 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so4890788wmj.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Dec 2021 05:38:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XKWNlK6eqjb2it0WQV9hI/kmA0UJJKcU6ddC1EoDvZA=;
-        b=HTAt8exYA2oGWdUvyaIulWi5ZrRu1EP1zOo6h5d9RTG5YftvuG3b2lj6JMbaPob9Y3
-         CG3VP1AS2aVWNtGmqgX+E2dJjL8e122T5NqzVpCrZkFfGKMonaLd+UTmI7vy1xD1fdtu
-         TAXRX1UqRSrrwqiViqF8NVyx2LHRZMSmHOuRr9ZGt9z8uCHlBPMx19vMSX8DTulR09mZ
-         DiOxG63p2Klg6emq/gaoEvMMugh9EG/ki+M79OexpJkfjP5xV94nTMN9SWXRwqVudRu7
-         rlP7DpXlmgkubv9dluoD8edmXOqWTei6e5CTY/sKF3P9qZ54fGERnXjN91KfNbpBHPhS
-         v/sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XKWNlK6eqjb2it0WQV9hI/kmA0UJJKcU6ddC1EoDvZA=;
-        b=FHChvwgqS9mEzgsmXrGRF4vqwbWLmO7x6KdJLcWHdCWVv9mpIS3S5I2RDdNW+earBp
-         FXUrOuWELHr6ZK16Xeyf61RM9dyWnEVgPh/c7VJx4smsxL0leTBsvLyq8akNazsqtCUd
-         YXprDwH5MX+XI1WXgysmA0FyFkiOh+frLoK4XDgfMW0OwjxTuZ19BBUCOk5oDStorecD
-         S8T1YXV8vzU67N7W46Qgyu6+hI3wcc+tSzLJEkMcqYeYNjm8YWpWF1GkkoLL+16hIILx
-         qYmtIjzN/aPFfORXQIKmtOVrEfeXpGBuyH4kIIqsEd12h+1NdqEceA7FicNPUsg5Nyvh
-         l8Pg==
-X-Gm-Message-State: AOAM533gQRnnCOH99biBqE/ko1wBtvXBLZJ6iizXvCg57YbkQkoxlIum
-        BkpGP6t6hht2cYsOL2d+4AVr/w==
-X-Google-Smtp-Source: ABdhPJzluDmTysh0GugLGjeBq1MHPEpecFu9Be6OBqJA5ain2+YgtDJeklqeQZTz2qRvcDpIxpJx6g==
-X-Received: by 2002:a05:600c:3486:: with SMTP id a6mr14948178wmq.32.1638538705645;
-        Fri, 03 Dec 2021 05:38:25 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:cb5f:d3e:205e:c7c4])
-        by smtp.gmail.com with ESMTPSA id m34sm5459401wms.25.2021.12.03.05.38.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 05:38:24 -0800 (PST)
-Date:   Fri, 3 Dec 2021 14:38:17 +0100
-From:   Marco Elver <elver@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        id S1381281AbhLCODQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Dec 2021 09:03:16 -0500
+Received: from mga09.intel.com ([134.134.136.24]:35042 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1352843AbhLCODQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 3 Dec 2021 09:03:16 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="236787135"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; 
+   d="scan'208";a="236787135"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2021 05:59:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; 
+   d="scan'208";a="478332089"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by orsmga002.jf.intel.com with ESMTP; 03 Dec 2021 05:59:43 -0800
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1B3DxfX7005810;
+        Fri, 3 Dec 2021 13:59:41 GMT
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Tom Stellard <tstellar@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>, cki-project@redhat.com,
-        kernelci@groups.io, llvm@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        glider@google.com
-Subject: Re: [PATCH RFC 0/6] Bump minimum supported version of LLVM to 11.0.0
-Message-ID: <YaodyZzu0MTCJcvO@elver.google.com>
-References: <20211129165803.470795-1-nathan@kernel.org>
- <202112011140.DA93B3E@keescook>
- <CAK7LNASW2F3SxgR6ydMaW7-ZumsxDv2QQTDqVxqJA1JWN3r4FA@mail.gmail.com>
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v8 03/14] x86: Add support for function granular KASLR
+Date:   Fri,  3 Dec 2021 14:57:25 +0100
+Message-Id: <20211203135725.82097-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <Yang97SFfwuqTNzK@hirez.programming.kicks-ass.net>
+References: <20211202223214.72888-1-alexandr.lobakin@intel.com> <20211202223214.72888-4-alexandr.lobakin@intel.com> <Yang97SFfwuqTNzK@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASW2F3SxgR6ydMaW7-ZumsxDv2QQTDqVxqJA1JWN3r4FA@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 02, 2021 at 05:26PM +0900, Masahiro Yamada wrote:
-> On Thu, Dec 2, 2021 at 4:41 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Mon, Nov 29, 2021 at 09:57:57AM -0700, Nathan Chancellor wrote:
-> > > This patch series raises the minimum supported version of LLVM to
-> > > 11.0.0.
-[...]
-> Only positive feedback so far.
+From: Peter Zijlstra <peterz@infradead.org>
+Date: Fri, 3 Dec 2021 10:18:47 +0100
+
+> On Thu, Dec 02, 2021 at 11:32:03PM +0100, Alexander Lobakin wrote:
+> > From: Kristen Carlson Accardi <kristen@linux.intel.com>
+> > 
+> > This commit contains the changes required to re-layout the kernel text
+> > sections generated by -ffunction-sections shortly after decompression.
+> > Documentation of the feature is also added.
+> > 
+> > After decompression, the decompressed image's elf headers are parsed.
+> > In order to manually update certain data structures that are built with
+> > relative offsets during the kernel build process, certain symbols are
+> > not stripped by objdump and their location is retained in the elf symbol
+> > tables. These addresses are saved.
+> > 
+> > If the image was built with -ffunction-sections, there will be ELF section
+> > headers present which contain information about the address range of each
+> > section. Anything that is not broken out into function sections (i.e. is
+> > consolidated into .text) is left in it's original location, but any other
+> > executable section which begins with ".text." is located and shuffled
+> > randomly within the remaining text segment address range.
+> > 
+> > After the sections have been copied to their new locations, but before
+> > relocations have been applied, the kallsyms tables must be updated to
+> > reflect the new symbol locations. Because it is expected that these tables
+> > will be sorted by address, the kallsyms tables will need to be sorted
+> > after the update.
+> > 
+> > When applying relocations, the address of the relocation needs to be
+> > adjusted by the offset from the original location of the section that was
+> > randomized to it's new location. In addition, if a value at that relocation
+> > was a location in the text segment that was randomized, it's value will be
+> > adjusted to a new location.
+> > 
+> > After relocations have been applied, the exception table must be updated
+> > with new symbol locations, and then re-sorted by the new address. The
+> > orc table will have been updated as part of applying relocations, but since
+> > it is expected to be sorted by address, it will need to be resorted.
 > 
-> All applied to linux-kbuild.
+> 
+> > +static long addr_kallsyms_names;
+> > +static long addr_kallsyms_offsets;
+> > +static long addr_kallsyms_num_syms;
+> > +static long addr_kallsyms_relative_base;
+> > +static long addr_kallsyms_markers;
+> > +static long addr___start___ex_table;
+> > +static long addr___stop___ex_table;
+> > +static long addr___altinstr_replacement;
+> > +static long addr___altinstr_replacement_end;
+> > +static long addr__stext;
+> > +static long addr__etext;
+> > +static long addr__sinittext;
+> > +static long addr__einittext;
+> > +static long addr___start_orc_unwind_ip;
+> > +static long addr___stop_orc_unwind_ip;
+> > +static long addr___start_orc_unwind;
+> 
+> > +void post_relocations_cleanup(unsigned long map)
+> > +{
+> > +	if (!nofgkaslr) {
+> > +		update_ex_table(map);
+> > +		sort_ex_table(map);
+> > +		update_orc_table(map);
+> > +		sort_orc_table(map);
+> > +	}
+> > +
+> > +	/*
+> > +	 * maybe one day free will do something. So, we "free" this memory
+> > +	 * in either case
+> > +	 */
+> > +	free(sections);
+> > +	free(sechdrs);
+> > +}
+> > +
+> > +void pre_relocations_cleanup(unsigned long map)
+> > +{
+> > +	if (nofgkaslr)
+> > +		return;
+> > +
+> > +	sort_kallsyms(map);
+> > +}
+> 
+> > diff --git a/arch/x86/boot/compressed/vmlinux.symbols b/arch/x86/boot/compressed/vmlinux.symbols
+> > new file mode 100644
+> > index 000000000000..da41f3ee153c
+> > --- /dev/null
+> > +++ b/arch/x86/boot/compressed/vmlinux.symbols
+> > @@ -0,0 +1,19 @@
+> > +kallsyms_offsets
+> > +kallsyms_addresses
+> > +kallsyms_num_syms
+> > +kallsyms_relative_base
+> > +kallsyms_names
+> > +kallsyms_token_table
+> > +kallsyms_token_index
+> > +kallsyms_markers
+> > +__start___ex_table
+> > +__stop___ex_table
+> > +__altinstr_replacement
+> > +__altinstr_replacement_end
+> > +_sinittext
+> > +_einittext
+> > +_stext
+> > +_etext
+> > +__start_orc_unwind_ip
+> > +__stop_orc_unwind_ip
+> > +__start_orc_unwind
+> 
+> So please don't make it hard to add sections; the above has far too much
+> duplication. For example you can trivially generate the addr_ symbol and
+> the .symbol file from a common include file and a bit of macro wrappery,
+> ideally that macro wrappery would also specify the sort location and
+> function such that you can also generate those pre_ and post_ functions.
 
-Some of the "dynamic" checks for compiler support unfortunately aren't
-as easily grepable -- as far as I can tell, we can also include the
-below, which would save us 2 cc-option invocations for all clang builds.
+Re automatical generation using some wrappery -- sounds nice.
+I mostly was only doing makeup for Kristen's commits so didn't pay
+attention to that duplication.
 
-And just in case:
+> And this is only for sections that need to be sorted right? There's
+> currently a patch in flight to also pre-sort the ftrace table.
 
-Acked-by: Marco Elver <elver@google.com>
+Kallsyms, ORC tables and extable are getting sorted. text, inittext
+and altinstr_replacement related symbols are needed to perform
+shuffling (text) and relocation fixups (altinsr, inittext).
 
-for the rest as well.
+> All unsorted or runtime sorted sections are fine since they're fixed up
+> by the relocations?
+
+Right.
+
+> Is it at all feasible to share the comparison functions between the
+> various sorters?
+
+They look very similar, I think it'd be fine to merge them (seems
+like not only cmp, but adjust functions as well).
 
 Thanks,
--- Marco
-
------- >8 ------
-
-From: Marco Elver <elver@google.com>
-Date: Fri, 3 Dec 2021 14:18:44 +0100
-Subject: [PATCH] Revert "ubsan, kcsan: Don't combine sanitizer with kcov on
- clang"
-
-This reverts commit ea91a1d45d19469001a4955583187b0d75915759.
-
-The minimum Clang version is now 11.0, which fixed the UBSAN/KCSAN vs.
-KCOV incompatibilities.
-
-Link: https://bugs.llvm.org/show_bug.cgi?id=45831
-Signed-off-by: Marco Elver <elver@google.com>
----
- lib/Kconfig.kcsan | 11 -----------
- lib/Kconfig.ubsan | 12 ------------
- 2 files changed, 23 deletions(-)
-
-diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-index e0a93ffdef30..b81454b2a0d0 100644
---- a/lib/Kconfig.kcsan
-+++ b/lib/Kconfig.kcsan
-@@ -10,21 +10,10 @@ config HAVE_KCSAN_COMPILER
- 	  For the list of compilers that support KCSAN, please see
- 	  <file:Documentation/dev-tools/kcsan.rst>.
- 
--config KCSAN_KCOV_BROKEN
--	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
--	depends on CC_IS_CLANG
--	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=thread -fsanitize-coverage=trace-pc)
--	help
--	  Some versions of clang support either KCSAN and KCOV but not the
--	  combination of the two.
--	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
--	  in newer releases.
--
- menuconfig KCSAN
- 	bool "KCSAN: dynamic data race detector"
- 	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
- 	depends on DEBUG_KERNEL && !KASAN
--	depends on !KCSAN_KCOV_BROKEN
- 	select STACKTRACE
- 	help
- 	  The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
-diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-index e5372a13511d..31f38e7fe948 100644
---- a/lib/Kconfig.ubsan
-+++ b/lib/Kconfig.ubsan
-@@ -27,16 +27,6 @@ config UBSAN_TRAP
- 	  the system. For some system builders this is an acceptable
- 	  trade-off.
- 
--config UBSAN_KCOV_BROKEN
--	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
--	depends on CC_IS_CLANG
--	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=bounds -fsanitize-coverage=trace-pc)
--	help
--	  Some versions of clang support either UBSAN or KCOV but not the
--	  combination of the two.
--	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
--	  in newer releases.
--
- config CC_HAS_UBSAN_BOUNDS
- 	def_bool $(cc-option,-fsanitize=bounds)
- 
-@@ -46,7 +36,6 @@ config CC_HAS_UBSAN_ARRAY_BOUNDS
- config UBSAN_BOUNDS
- 	bool "Perform array index bounds checking"
- 	default UBSAN
--	depends on !UBSAN_KCOV_BROKEN
- 	depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS
- 	help
- 	  This option enables detection of directly indexed out of bounds
-@@ -72,7 +61,6 @@ config UBSAN_ARRAY_BOUNDS
- config UBSAN_LOCAL_BOUNDS
- 	bool "Perform array local bounds checking"
- 	depends on UBSAN_TRAP
--	depends on !UBSAN_KCOV_BROKEN
- 	depends on $(cc-option,-fsanitize=local-bounds)
- 	help
- 	  This option enables -fsanitize=local-bounds which traps when an
--- 
-2.34.0.384.gca35af8252-goog
-
+Al
