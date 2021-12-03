@@ -2,179 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD619467A9D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 16:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA32A467B72
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Dec 2021 17:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352847AbhLCPyi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Dec 2021 10:54:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44004 "EHLO
+        id S1352658AbhLCQgi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Dec 2021 11:36:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245094AbhLCPyi (ORCPT
+        with ESMTP id S240590AbhLCQgi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Dec 2021 10:54:38 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF7BC061751;
-        Fri,  3 Dec 2021 07:51:13 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 84943B8289C;
-        Fri,  3 Dec 2021 15:51:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1DEC53FAD;
-        Fri,  3 Dec 2021 15:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638546671;
-        bh=vGP9h9M+lhHdW4WxmHWlKVgyayWG3b+7X0BPqkAv044=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A3CjN3sIImGyYV/stTqQmD1jYrx+zxyigD9Nrgyk3AeTu8CyQAuGVFLab/nccicSM
-         lCOnGU6yoBpW38gg3LQdC03w5iQjHiBvrNR610uhnv71hLWMCDVTgytWiC949qXNma
-         UrHlyiTXomEcGnsFAiu6xy3jblgHDBQl/AF5zVey2vmhtNBLjW39DAdxY05KIEf8F9
-         Wu6+vG/AEP2VaFq0QENw18IzSw2Moc2AMPCPU90BaPeMcoarRyK/rPNDT48JvKK58p
-         nTv/d4EmzfAwGIeqow3XeY6K1z89VVkhk/5IfSZpuyoiwQRf+qcETwY7CR0gqaoZbr
-         qRYlm9ezAE7AA==
-Date:   Fri, 3 Dec 2021 08:51:04 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 3 Dec 2021 11:36:38 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9D7C061751;
+        Fri,  3 Dec 2021 08:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=QjwBqRRkSrixSh/IDyfbmaebOro1hr1dDZ0gMoqAxDY=; b=filV5mfIAXvfm0uzdKd9gxn+Ac
+        /Z+Bd/HBfONMrS6Ywwq2Z1V9I2sh7rZnRhXrZb+mLZf65ChTQzrJUzraRuiPZrarIhntiH3mwAljC
+        BLpVdZnwOqd0WZVg9w1rzQnTT7SZJzrZ3SB4ic9vMTZx47mGfdxhg6qjQOmTQ1RurUee0ohGp6MrC
+        46nDrNFg0zbkY2BN0n0ou4kE11nRCvkPZiZsLAOE2bhH4e4V9FDaIUuJiNh54VF+CW2y5W8kS79v9
+        ZVzvesXBl8G8PJYmPI6bdsJ6+T/Gavx2XwBzBd0urakpY2UvJY15R/ay4wJJ1JSgCfCn4qqb8Z5wF
+        fhXW5HFQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mtBUA-009OIf-6T; Fri, 03 Dec 2021 16:32:35 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 37CEC9810D4; Fri,  3 Dec 2021 17:32:34 +0100 (CET)
+Date:   Fri, 3 Dec 2021 17:32:34 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
         Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Tom Stellard <tstellar@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>, cki-project@redhat.com,
-        kernelci@groups.io, llvm@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        glider@google.com
-Subject: Re: [PATCH RFC 0/6] Bump minimum supported version of LLVM to 11.0.0
-Message-ID: <Yao86FeC2ybOobLO@archlinux-ax161>
-References: <20211129165803.470795-1-nathan@kernel.org>
- <202112011140.DA93B3E@keescook>
- <CAK7LNASW2F3SxgR6ydMaW7-ZumsxDv2QQTDqVxqJA1JWN3r4FA@mail.gmail.com>
- <YaodyZzu0MTCJcvO@elver.google.com>
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v8 00/14] Function Granular KASLR
+Message-ID: <20211203163234.GJ16608@worktop.programming.kicks-ass.net>
+References: <20211202223214.72888-1-alexandr.lobakin@intel.com>
+ <YanzpvmaX1JWYf9t@hirez.programming.kicks-ass.net>
+ <20211203144136.82915-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YaodyZzu0MTCJcvO@elver.google.com>
+In-Reply-To: <20211203144136.82915-1-alexandr.lobakin@intel.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 02:38:17PM +0100, Marco Elver wrote:
-> On Thu, Dec 02, 2021 at 05:26PM +0900, Masahiro Yamada wrote:
-> > On Thu, Dec 2, 2021 at 4:41 AM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > On Mon, Nov 29, 2021 at 09:57:57AM -0700, Nathan Chancellor wrote:
-> > > > This patch series raises the minimum supported version of LLVM to
-> > > > 11.0.0.
-> [...]
-> > Only positive feedback so far.
+On Fri, Dec 03, 2021 at 03:41:36PM +0100, Alexander Lobakin wrote:
+> From: Peter Zijlstra <peterz@infradead.org>
+> Date: Fri, 3 Dec 2021 11:38:30 +0100
+> 
+> > On Thu, Dec 02, 2021 at 11:32:00PM +0100, Alexander Lobakin wrote:
 > > 
-> > All applied to linux-kbuild.
+> > > feat        make -j65 boot    vmlinux.o vmlinux  bzImage  bogoops/s
+> > > Relocatable 4m38.478s 24.440s 72014208  58579520  9396192 57640.39
+> > > KASLR       4m39.344s 24.204s 72020624  87805776  9740352 57393.80
+> > > FG-K 16 fps 6m16.493s 25.429s 83759856  87194160 10885632 57784.76
+> > > FG-K 8 fps  6m20.190s 25.094s 83759856  88741328 10985248 56625.84
+> > > FG-K 1 fps  7m09.611s 25.922s 83759856  95681128 11352192 56953.99
+> > 
+> > :sadface: so at best it makes my kernel compiles ~50% slower. Who would
+> > ever consider doing that? It's like retpolines weren't bad enough; lets
+> > heap on the fail?
 > 
-> Some of the "dynamic" checks for compiler support unfortunately aren't
-> as easily grepable -- as far as I can tell, we can also include the
-> below, which would save us 2 cc-option invocations for all clang builds.
+> I was waiting for that :D
 > 
-> And just in case:
-> 
-> Acked-by: Marco Elver <elver@google.com>
-> 
-> for the rest as well.
-> 
-> Thanks,
-> -- Marco
-> 
-> ------ >8 ------
-> 
-> From: Marco Elver <elver@google.com>
-> Date: Fri, 3 Dec 2021 14:18:44 +0100
-> Subject: [PATCH] Revert "ubsan, kcsan: Don't combine sanitizer with kcov on
->  clang"
-> 
-> This reverts commit ea91a1d45d19469001a4955583187b0d75915759.
-> 
-> The minimum Clang version is now 11.0, which fixed the UBSAN/KCSAN vs.
-> KCOV incompatibilities.
-> 
-> Link: https://bugs.llvm.org/show_bug.cgi?id=45831
-> Signed-off-by: Marco Elver <elver@google.com>
+> I know it's horrible for now, but there are some points to consider:
+>  - folks who are placing hardening over everything don't mind
+>    compile times most likely;
+>  - linkers choking on huge LD scripts is actually a bug in their
+>    code. They process 40k sections as orphans (without a generated
+>    LD script) for a split second, so they're likely able to do the
+>    same with it. Our position here is that after FG-KASLR landing
+>    we'll report it and probably look into linkers' code to see if
+>    that can be addressed (Kees et al are on this AFAIU);
+>  - ClangLTO (at least "Fat", not sure about Thin as I didn't used
+>    it) thinks on vmlinux.o for ~5 minutes on 8-core Skylake. Still,
+>    it is here in mainline and is widely (relatively) used.
+>    I know FG-KASLR stuff is way more exotic, but anyways.
+>  - And the last one: I wouldn't consider FG-KASLR production ready
+>    as Kees would like to see it. Apart from compilation time, you
+>    get random performance {in,de}creases here-and-there all over
+>    the kernel and modules you can't predict at all.
+>    I guess it would become better later on when/if we introduce
+>    profiling-based function placement (there are some discussions
+>    around that and one related article is referred in the orig
+>    cover letter), but dunno for now.
+>    There's one issue in the current code as well -- PTI switching
+>    code is in .entry.text which doesn't currently get randomized.
+>    So it can probably be hunted using gadget collectors I guess?
 
-Thanks!
+Oooh, so those compile times are not, as one would expect the compile
+times for a set .config but with different kernel, but instead for a
+varying .config on the same kernel?
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+IOW, they don't represent the run-time overhead of this thing, but
+merely the toolchain overhead of all this.
 
-> ---
->  lib/Kconfig.kcsan | 11 -----------
->  lib/Kconfig.ubsan | 12 ------------
->  2 files changed, 23 deletions(-)
-> 
-> diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> index e0a93ffdef30..b81454b2a0d0 100644
-> --- a/lib/Kconfig.kcsan
-> +++ b/lib/Kconfig.kcsan
-> @@ -10,21 +10,10 @@ config HAVE_KCSAN_COMPILER
->  	  For the list of compilers that support KCSAN, please see
->  	  <file:Documentation/dev-tools/kcsan.rst>.
->  
-> -config KCSAN_KCOV_BROKEN
-> -	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
-> -	depends on CC_IS_CLANG
-> -	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=thread -fsanitize-coverage=trace-pc)
-> -	help
-> -	  Some versions of clang support either KCSAN and KCOV but not the
-> -	  combination of the two.
-> -	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
-> -	  in newer releases.
-> -
->  menuconfig KCSAN
->  	bool "KCSAN: dynamic data race detector"
->  	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
->  	depends on DEBUG_KERNEL && !KASAN
-> -	depends on !KCSAN_KCOV_BROKEN
->  	select STACKTRACE
->  	help
->  	  The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index e5372a13511d..31f38e7fe948 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -27,16 +27,6 @@ config UBSAN_TRAP
->  	  the system. For some system builders this is an acceptable
->  	  trade-off.
->  
-> -config UBSAN_KCOV_BROKEN
-> -	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
-> -	depends on CC_IS_CLANG
-> -	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=bounds -fsanitize-coverage=trace-pc)
-> -	help
-> -	  Some versions of clang support either UBSAN or KCOV but not the
-> -	  combination of the two.
-> -	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
-> -	  in newer releases.
-> -
->  config CC_HAS_UBSAN_BOUNDS
->  	def_bool $(cc-option,-fsanitize=bounds)
->  
-> @@ -46,7 +36,6 @@ config CC_HAS_UBSAN_ARRAY_BOUNDS
->  config UBSAN_BOUNDS
->  	bool "Perform array index bounds checking"
->  	default UBSAN
-> -	depends on !UBSAN_KCOV_BROKEN
->  	depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS
->  	help
->  	  This option enables detection of directly indexed out of bounds
-> @@ -72,7 +61,6 @@ config UBSAN_ARRAY_BOUNDS
->  config UBSAN_LOCAL_BOUNDS
->  	bool "Perform array local bounds checking"
->  	depends on UBSAN_TRAP
-> -	depends on !UBSAN_KCOV_BROKEN
->  	depends on $(cc-option,-fsanitize=local-bounds)
->  	help
->  	  This option enables -fsanitize=local-bounds which traps when an
-> -- 
-> 2.34.0.384.gca35af8252-goog
-> 
+So what is the actual runtime overhead of all this?
