@@ -2,84 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E654684F7
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 14:16:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A52FC4685D9
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 16:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385021AbhLDNUK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Dec 2021 08:20:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385019AbhLDNUJ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Dec 2021 08:20:09 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43557C0613F8
-        for <linux-kbuild@vger.kernel.org>; Sat,  4 Dec 2021 05:16:44 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id t19so11710944oij.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 04 Dec 2021 05:16:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=s9AET8gddXmTfSEYan0YzVPlvY7Qx+o9JwbCmFPuMIY=;
-        b=W726Fu3COlOOpNifTY0o8Of1hSncyeLWCH37pXs3Fj0dlezNzu3FvuX0jy7gPOwB3b
-         hUt784Z4fGpsR3oTql6rVvQGzP1f1S82fHIrJ4N1h0yhIkxsF/xI+W4CK5YG3uq1gqFf
-         l8T+9yKfVIhz0UwvJHqwG+St+HWP2yYFBnOezXbZ0ueBXDgDQE/nCTaxrrd4ChLXSB/A
-         /RTwCK6GMAPzgRj6+4r28estTgUheUlJQZSFaGUv2BRLbSE8EGC1eMHnHYk5E+gDQMRm
-         337wLmydedUo04djsGw8qFRjMLSHmykrkw4E8Jm7T7IKYf6ueemPrDrJ03er5Cqok1Z0
-         bcKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=s9AET8gddXmTfSEYan0YzVPlvY7Qx+o9JwbCmFPuMIY=;
-        b=Uk1N+09DZbIDEPHcbSYER4KDCg5C0bMs/+xk1flsVcSAWIqJUXpY3OyfjggDVxw286
-         eHlbmkI3gG6/eqnkG7dUyYVjIVI56zNiUIJpuS9tRs3UgxkgsFg7QIg1jB0R9BmcR511
-         QcYrufsZdva5139NpkR/yi1mPCsZYWnEGnCbKcJpMlh1xm3yEAe5zkvRaygs6UaFPHaH
-         k4mwTb7FYMksou/t3h88FniJNzkOHLVVaPjCOhoilaxP25MPNWicXqLrPF/0dlDQfzNT
-         UEnBXss5v49bAcuTOjmXPDhQkpNR4I67cpNYKX10yY/IcJNKfwUM3KerSP4V1jRmB005
-         Y7Iw==
-X-Gm-Message-State: AOAM533j6L2hgiGJCM8zfeuYYg44TNk94kx9hcm3Y10WUlG9UKkIpO5b
-        YlQzOIcvQpSywp2GU+oRfb6bGtjfJwZaI6aMVtE=
-X-Google-Smtp-Source: ABdhPJyJVtOLiw8oalcG+KEKcOXlKZUZssQnu7RALqvfa4t9RICM/V3Qcj3lSPbTuQ4Z7VhcAblbJ29EjdIbT2TfZg0=
-X-Received: by 2002:a05:6808:199c:: with SMTP id bj28mr15302340oib.98.1638623803469;
- Sat, 04 Dec 2021 05:16:43 -0800 (PST)
+        id S242074AbhLDPPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Dec 2021 10:15:33 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:38786 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236002AbhLDPPc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 4 Dec 2021 10:15:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=Tk/UqSNzICTCyklEj06uzagFaWHZBnaPByLqiCpPEh8=; b=L61e0AiozsAIdFBUauvAEIiDbV
+        uK0AgSSdx9G/n7kKFtPwWz3tjjtX3Wn3L47QxkJhL0R5pO43+C5QSD+LBQnWJea4pe6olZtfx4/q0
+        dZhhTIR1DxD/TVXCUrurZF7y2hI5bH+ZTiJjfSM4/bE8BUrPMFFBJ/fQhMsT2AAdWyNA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mtWhe-00FVjc-2u; Sat, 04 Dec 2021 16:11:54 +0100
+Date:   Sat, 4 Dec 2021 16:11:54 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] modpost: file2alias: make mdio alias configure
+ match mdio uevent
+Message-ID: <YauFOgy6tjH+kf3J@lunn.ch>
+References: <1638609208-10339-1-git-send-email-zhuyinbo@loongson.cn>
 MIME-Version: 1.0
-Received: by 2002:ac9:6854:0:0:0:0:0 with HTTP; Sat, 4 Dec 2021 05:16:42 -0800 (PST)
-Reply-To: drharunabello4@gmail.com
-From:   Dr Haruna Bello <lawyhdry74@gmail.com>
-Date:   Sat, 4 Dec 2021 05:16:42 -0800
-Message-ID: <CAKwh5A9OcMF=Qwp9EQBLEw_mTKLUpivG8-yqpXbMazgb8GfXvQ@mail.gmail.com>
-Subject: GOOD DAY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1638609208-10339-1-git-send-email-zhuyinbo@loongson.cn>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
+On Sat, Dec 04, 2021 at 05:13:27PM +0800, Yinbo Zhu wrote:
+> The do_mdio_entry was responsible for generating a phy alias configure
+> that according to the phy driver's mdio_device_id, before apply this
+> patch, which alias configure is like "alias mdio:000000010100000100001
+> 1011101????", it doesn't match the phy_id of mdio_uevent, because of
+> the phy_id was a hexadecimal digit and the mido uevent is consisit of
+> phy_id with the char 'p', the uevent string is different from alias.
+> Add this patch that mdio alias configure will can match mdio uevent.
+> 
+> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+> ---
+> Change in v4:
+> 		Add following explain information.
 
-Hello Dear,
+Adding an explanation will not stop the regression happening. You will
+continue to get a NACK while your change causes a regression. Please
+do not post again until you have addressed the regression.
 
-I am Dr Haruna Bello
-
-I have a Project of 18.5 Million Us Dollars to do with You
-Hence You Co-operate with me  I am assured you the said amount will
-enter your given Bank account.
-If you agree with me , further details of the Project will be
-forwarded to you as soon as I receive your wiliness to join hand with
-me.
-Am awaiting your urgent response with this informations
-Name:...................
-Sex:...............
-Age:...................
-Occupation:........
-Address:...............
-Pasport/Id Card.........
-Tel/ Fax:...............
-State:.............
-Country Of origin:..........
-Have a nice day!!
-
-My Private Email-{drharunabello4@gmail.com}
-
-Dr Haruna Bello
+   Andrew
