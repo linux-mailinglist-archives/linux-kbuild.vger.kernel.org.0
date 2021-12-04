@@ -2,92 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C6644684F4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 14:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E654684F7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 14:16:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384960AbhLDNQ6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Dec 2021 08:16:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45438 "EHLO
+        id S1385021AbhLDNUK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Dec 2021 08:20:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbhLDNQ6 (ORCPT
+        with ESMTP id S1385019AbhLDNUJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Dec 2021 08:16:58 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8EDC061751;
-        Sat,  4 Dec 2021 05:13:32 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id v11so11774219wrw.10;
-        Sat, 04 Dec 2021 05:13:32 -0800 (PST)
+        Sat, 4 Dec 2021 08:20:09 -0500
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43557C0613F8
+        for <linux-kbuild@vger.kernel.org>; Sat,  4 Dec 2021 05:16:44 -0800 (PST)
+Received: by mail-oi1-x232.google.com with SMTP id t19so11710944oij.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 04 Dec 2021 05:16:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=Tsd1rE26zaiSJkO/71hza3dNv3C8IY+YEVzWQKSlv74=;
-        b=cF2QdOFhWmuloOtISN2U4eqYZq4v7OZZLqHN6yGnXuUzrGf8LDCcIatJZnbj4TqXgQ
-         odL4HBncm3UtgUolGcMaNvAq+Lm+wPmaWKR9hRAxQJA/nzqSb/4sjEVl+3I6jCY4Gxhx
-         7b+K8GbKi2RPNcDgCY7cDOkFXzjJsoBhEn0v99uy8rdkMt3vJ+E94MeGJisZIzrJl60W
-         F78ZM9hjRMt6j2niHM0LNTe/6hXOiNLl9F8WzOohsbJXT/sfHwcR9cf6xHKgomNLK5om
-         PHZlYBf6t0uF1P7z/xYq+LGgzTXejqx76BYxxczjvYxaVS9d9K99wLkw5qRip62yKQ8c
-         Pwvw==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=s9AET8gddXmTfSEYan0YzVPlvY7Qx+o9JwbCmFPuMIY=;
+        b=W726Fu3COlOOpNifTY0o8Of1hSncyeLWCH37pXs3Fj0dlezNzu3FvuX0jy7gPOwB3b
+         hUt784Z4fGpsR3oTql6rVvQGzP1f1S82fHIrJ4N1h0yhIkxsF/xI+W4CK5YG3uq1gqFf
+         l8T+9yKfVIhz0UwvJHqwG+St+HWP2yYFBnOezXbZ0ueBXDgDQE/nCTaxrrd4ChLXSB/A
+         /RTwCK6GMAPzgRj6+4r28estTgUheUlJQZSFaGUv2BRLbSE8EGC1eMHnHYk5E+gDQMRm
+         337wLmydedUo04djsGw8qFRjMLSHmykrkw4E8Jm7T7IKYf6ueemPrDrJ03er5Cqok1Z0
+         bcKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mime-version:content-disposition;
-        bh=Tsd1rE26zaiSJkO/71hza3dNv3C8IY+YEVzWQKSlv74=;
-        b=DBlwCw9cyL9qUd9vfivZY0H6Eqqzi/zuPyRU/1JwAZcuwl2I1B3QT38+QX+tN1GOTs
-         khHs1dCNLPVnjOxTB39t6YuHIO0Gn53TOLpCR+Y51VQqRj0de1tZHwELODuhxYBDvv9D
-         HQ/fI9FuMeyGKXrQ3wpG8jL7WehWbONmrhGZB78ccY6zeEb9M+q/jYnPGzHkbiIBely/
-         w07Fh3f6Yp7ocY5xLIxxxFsypjA3XmmCYm+OewC48ZVNC8BXDbVL18/fUCbB06Rz6srK
-         dYggWdHyvsUy5CWZxBDFmkBjA/r1XBztS1Gra6pKXlPhPH7d31R0oZTGnHUl6iCj5OST
-         6FLg==
-X-Gm-Message-State: AOAM532eiH1h6VD24+osl5wORBsHSU+vjqdnryqyup+tze7sDl9h6Nbw
-        wUPXaOE6TML3hhPv81fxqq/ejli8nJQulg==
-X-Google-Smtp-Source: ABdhPJwexm3vBI0A446S2gqJvn7oE41xBxIDGyAnF9mp9lh5FdNC3L9Ul4eVSHAImDy+u7AuyAU8QA==
-X-Received: by 2002:adf:f6cf:: with SMTP id y15mr28197130wrp.56.1638623611122;
-        Sat, 04 Dec 2021 05:13:31 -0800 (PST)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
-        by smtp.gmail.com with ESMTPSA id x13sm5748925wrr.47.2021.12.04.05.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 05:13:30 -0800 (PST)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Date:   Sat, 4 Dec 2021 14:13:29 +0100
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Makefile: CC_IMPLICIT_FALLTHROUGH passed quoted as argument to gcc
-Message-ID: <YatpectAYsWnmPy2@eldamar.lan>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=s9AET8gddXmTfSEYan0YzVPlvY7Qx+o9JwbCmFPuMIY=;
+        b=Uk1N+09DZbIDEPHcbSYER4KDCg5C0bMs/+xk1flsVcSAWIqJUXpY3OyfjggDVxw286
+         eHlbmkI3gG6/eqnkG7dUyYVjIVI56zNiUIJpuS9tRs3UgxkgsFg7QIg1jB0R9BmcR511
+         QcYrufsZdva5139NpkR/yi1mPCsZYWnEGnCbKcJpMlh1xm3yEAe5zkvRaygs6UaFPHaH
+         k4mwTb7FYMksou/t3h88FniJNzkOHLVVaPjCOhoilaxP25MPNWicXqLrPF/0dlDQfzNT
+         UEnBXss5v49bAcuTOjmXPDhQkpNR4I67cpNYKX10yY/IcJNKfwUM3KerSP4V1jRmB005
+         Y7Iw==
+X-Gm-Message-State: AOAM533j6L2hgiGJCM8zfeuYYg44TNk94kx9hcm3Y10WUlG9UKkIpO5b
+        YlQzOIcvQpSywp2GU+oRfb6bGtjfJwZaI6aMVtE=
+X-Google-Smtp-Source: ABdhPJyJVtOLiw8oalcG+KEKcOXlKZUZssQnu7RALqvfa4t9RICM/V3Qcj3lSPbTuQ4Z7VhcAblbJ29EjdIbT2TfZg0=
+X-Received: by 2002:a05:6808:199c:: with SMTP id bj28mr15302340oib.98.1638623803469;
+ Sat, 04 Dec 2021 05:16:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: by 2002:ac9:6854:0:0:0:0:0 with HTTP; Sat, 4 Dec 2021 05:16:42 -0800 (PST)
+Reply-To: drharunabello4@gmail.com
+From:   Dr Haruna Bello <lawyhdry74@gmail.com>
+Date:   Sat, 4 Dec 2021 05:16:42 -0800
+Message-ID: <CAKwh5A9OcMF=Qwp9EQBLEw_mTKLUpivG8-yqpXbMazgb8GfXvQ@mail.gmail.com>
+Subject: GOOD DAY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Gustavo,
+-- 
 
-Since dee2b702bcf0 ("kconfig: Add support for -Wimplicit-fallthrough")
-CONFIG_CC_IMPLICIT_FALLTHROUGH value is passed quoted to the gcc
-invocation.
+Hello Dear,
 
-This appears to cause issues for (external) module builds. It was
-reported in Debian for the nvidia module, cf.
-https://bugs.debian.org/1001083 but might happen as well in other
-cases.
+I am Dr Haruna Bello
 
-Andreas suggested to replace the
+I have a Project of 18.5 Million Us Dollars to do with You
+Hence You Co-operate with me  I am assured you the said amount will
+enter your given Bank account.
+If you agree with me , further details of the Project will be
+forwarded to you as soon as I receive your wiliness to join hand with
+me.
+Am awaiting your urgent response with this informations
+Name:...................
+Sex:...............
+Age:...................
+Occupation:........
+Address:...............
+Pasport/Id Card.........
+Tel/ Fax:...............
+State:.............
+Country Of origin:..........
+Have a nice day!!
 
-KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+My Private Email-{drharunabello4@gmail.com}
 
-with
-
-KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(patsubst "%",%,$(CONFIG_CC_IMPLICIT_FALLTHROUGH))
-
-Is this something you would consider doing or should the issue be
-handled exclusively in the particular OOT module build case?
-
-Regards,
-Salvatore
+Dr Haruna Bello
