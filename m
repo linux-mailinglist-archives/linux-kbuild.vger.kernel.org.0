@@ -2,163 +2,188 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15B474686D3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 18:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE02246879F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 22:06:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231436AbhLDR6a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Dec 2021 12:58:30 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:51281 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231254AbhLDR6a (ORCPT
+        id S233156AbhLDVJc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Dec 2021 16:09:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232749AbhLDVJc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Dec 2021 12:58:30 -0500
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 1B4HshGU007696;
-        Sun, 5 Dec 2021 02:54:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1B4HshGU007696
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1638640483;
-        bh=o7GC++yWEN8HKw/ffwwt/qH7JU8tT43ItqFd1nlqzaU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=G3v/omwpp4pdyk7EKkF+id7J+gxgDwZiQuU7HjuxxFr2JoOfWx+FfY77Snfd63izu
-         /+Yyu8RwrucpQpOGLBFDYqIwoPkn7I7Aos/U4HgVtMsbbXgHcDw7LaTJ+NNe1aUv1k
-         QAlHOwzNhiG5aK8efn7oEjuT3X75p91gk7+63uTEF4r3cDNng2gJKydoSebO/3okch
-         wYmZa3YtLezN3Oqe1qVXHYMzrOqCmwuO6/7fGHHi0rqwMyX9SsIifRvcJA2UhRMsqY
-         hm/ZvjbdevU60cKkmsNF7LJzUVHdI0FNXpYtYM/j1kJgDNughNYyqlvryUtg6mngvR
-         cGk61H12NCBTg==
-X-Nifty-SrcIP: [209.85.214.169]
-Received: by mail-pl1-f169.google.com with SMTP id p18so4289053plf.13;
-        Sat, 04 Dec 2021 09:54:43 -0800 (PST)
-X-Gm-Message-State: AOAM530liP/fMW07HxKyzKg0vo2NS4VjKJ9gZvt7lrNxNLL4u+HuoOAw
-        q9bq67iTbYqmVgeY6REoAchJojBoRceOyrFvTc8=
-X-Google-Smtp-Source: ABdhPJwfKs42p3AOfZfEkP0pTRjVHs3s5xdm6UxjRzm3FL2xZi7jhXNLcTuKy9+bHP051pmQ3nDmoWVppgKxFiWdcPU=
-X-Received: by 2002:a17:90a:fb43:: with SMTP id iq3mr11480514pjb.144.1638640482675;
- Sat, 04 Dec 2021 09:54:42 -0800 (PST)
-MIME-Version: 1.0
-References: <YatpectAYsWnmPy2@eldamar.lan> <CAHk-=whTTWUyL5j5_-UeRT6k9VcJM_VOfjiKuU2NBJkxhbnXpw@mail.gmail.com>
-In-Reply-To: <CAHk-=whTTWUyL5j5_-UeRT6k9VcJM_VOfjiKuU2NBJkxhbnXpw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 5 Dec 2021 02:54:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR-VXwHFEJqCcrFDZj+_4+Xd6oynbj_0eS8N504_ydmyw@mail.gmail.com>
-Message-ID: <CAK7LNAR-VXwHFEJqCcrFDZj+_4+Xd6oynbj_0eS8N504_ydmyw@mail.gmail.com>
-Subject: Re: Makefile: CC_IMPLICIT_FALLTHROUGH passed quoted as argument to gcc
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Salvatore Bonaccorso <carnil@debian.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Sat, 4 Dec 2021 16:09:32 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D17BAC061751;
+        Sat,  4 Dec 2021 13:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=JMDfMLkmy9vZ+DWnVm3H854hWHUeVhzdVnP8kYwWhWw=; b=YTLEawqfbScqsn20pWtQNsfSNj
+        EvcnePg4REVrqzqP/Dn/dnygAsYHl2yvWml9F3e+jmH+cmYdtpqQwkg+FDHO0A7MHVyCK9Is4Sb55
+        OEUOUSfEG0plmTSjQ3F7aqggXGEVqQn8ADQKSv82VM/e2s2gYc7wo6jOo4GnGnmgufWIY/DjznM4q
+        /rLqSG+RJPaqKQOdgYhXnOkCkxwnq0/FFXjhyZyGJpbcQn4oNNp3XMEABdc/7XXgT5s2ZXonkEkP/
+        FCcca97gg/cJZVdGXYSfo3lgOqDf3AykfHNo2WFNuD5odngsT63BlsWwvLY73MhUoaSPwUv6psGka
+        XyJsEJ8g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56066)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1mtcEK-0003XU-0K; Sat, 04 Dec 2021 21:06:00 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1mtcEF-0002ix-7E; Sat, 04 Dec 2021 21:05:55 +0000
+Date:   Sat, 4 Dec 2021 21:05:55 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Yinbo Zhu <zhuyinbo@loongson.cn>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v3 1/2] modpost: file2alias: make mdio alias configure
+ match mdio uevent
+Message-ID: <YavYM2cs0RuY0JdM@shell.armlinux.org.uk>
+References: <1638260517-13634-1-git-send-email-zhuyinbo@loongson.cn>
+ <YaXrP1AyZ3AWaQzt@shell.armlinux.org.uk>
+ <ea3f6904-c610-0ee6-fbab-913ba6ae36c5@loongson.cn>
+ <Yas2+yq3h5/Bfvy9@shell.armlinux.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yas2+yq3h5/Bfvy9@shell.armlinux.org.uk>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Dec 5, 2021 at 1:53 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Sat, Dec 4, 2021 at 5:13 AM Salvatore Bonaccorso <carnil@debian.org> wrote:
-> >
-> > Andreas suggested to replace the
-> >
-> > KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
-> >
-> > with
-> >
-> > KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(patsubst "%",%,$(CONFIG_CC_IMPLICIT_FALLTHROUGH))
->
-> Ugh. I think the external build environment is a bit broken, but
-> whatever. The above is ugly but I guess it works.
->
-> Another alternative would be to make the Kconfig strings simply not
-> have '"' as part of them.
->
-> When you do
->
->     a = "hello"
->     print $a
->
-> in any normal language, you generally wouldn't expect it to print the
-> quotes, it should just print the bare word.
->
-> But that's what the Kconfig string language basically does in this
-> case. And I guess several users expect and take advantage of that ;(
->
-> Masahiro? Comments?
+On Sat, Dec 04, 2021 at 09:38:03AM +0000, Russell King (Oracle) wrote:
+> I have told you several times to separate out the change to the name
+> used in bus_type. You have completely ignored that. I will quite simply
+> NAK that patch every time you post it as long as you have not made that
+> change.
+> 
+> I have told you that your patch will cause regressions. You continue
+> to repost it. I will NAK your patch as long as it contains a known
+> regression because causing a regression is totally _unacceptable_.
 
-Yes, you get to the point.
+Here is a patch that stands a far better chance of being acceptable
+and resolving your issue. Please test this patch and check whether
+it solves your issue.
 
-In fact, this is in my TODO list for a while
-(and this is the reason I was doing prerequisite Kconfig refactoring
-in the previous development cycle).
-I will try to find some spare time to complete this work.
+If it does not solve your issue, then please post a _full_ kernel
+boot log and provide your kernel configuration (the .config file).
 
+Thanks.
 
+8<====
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [PATCH net-next] net: phy: generate PHY mdio modalias
 
-Kconfig generates two similar files,
+The modalias string provided in the uevent sysfs file does not conform
+to the format used in PHY driver modules. One of the reasons is that
+udev loading of PHY driver modules has not been an expected use case.
 
- -   .config
- -   include/config/auto.conf
+This patch changes the MODALIAS entry for only PHY devices from:
+	MODALIAS=of:Nethernet-phyT(null)
+to:
+	MODALIAS=mdio:00000000001000100001010100010011
 
-Changing the format of the .config is presumably problematic
-since it is the saved user configuration as well.
+Other MDIO devices (such as DSA) remain as before.
 
-It is possible (and more reasonable) to change include/config/auto.conf
-so strings are not quoted.
+However, having udev automatically load the module has the advantage
+of making use of existing functionality to have the module loaded
+before the device is bound to the driver, thus taking advantage of
+multithreaded boot systems, potentially decreasing the boot time.
 
-In Makefiles, quotations are just normal characters; they have no
-special functionality.
+However, this patch will not solve any issues with the driver module
+not being loaded prior to the network device needing to use the PHY.
+This is something that is completely out of control of any patch to
+change the uevent mechanism.
 
-So, in Makefile context, it is more handy to do
+Reported-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ drivers/net/phy/mdio_bus.c   |  8 ++++++++
+ drivers/net/phy/phy_device.c | 14 ++++++++++++++
+ include/linux/mdio.h         |  2 ++
+ 3 files changed, 24 insertions(+)
 
-     CONFIG_X=foo bar
-
-instead of
-
-    CONFIG_X="foo bar"
-
-
-
-One problem is include/config/auto.conf is included not only by Makefiles
-but also by shell scripts.
-
-
-In shell context, the right hand side must be quoted
-in case the value contains spaces.
-
-   CONFIG_X="foo bar"
-
-
-
-My plan is to fix
-  scripts/link-vmlinux.sh
-  scripts/gen_autoksyms.sh
-etc. to not directly include the auto.conf.
-Later, change Kconfig to generate the auto.conf without "".
-
-
-
-In the meantime,
-
-KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(patsubst
-"%",%,$(CONFIG_CC_IMPLICIT_FALLTHROUGH))
-
- or if you prefer slightly shorter form,
-
-KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH:"%"=%)
-
-will be a workaround.
-
-
-
-
-
->
->              Linus
-
+diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
+index 9b6f2df07211..68cf59ce7343 100644
+--- a/drivers/net/phy/mdio_bus.c
++++ b/drivers/net/phy/mdio_bus.c
+@@ -994,8 +994,16 @@ static int mdio_bus_match(struct device *dev, struct device_driver *drv)
+ 
+ static int mdio_uevent(struct device *dev, struct kobj_uevent_env *env)
+ {
++	struct mdio_device *mdio = to_mdio_device(dev);
+ 	int rc;
+ 
++	/* Use the device-specific uevent if specified */
++	if (mdio->bus_uevent) {
++		rc = mdio->bus_uevent(mdio, env);
++		if (rc != -ENODEV)
++			return rc;
++	}
++
+ 	/* Some devices have extra OF data and an OF-style MODALIAS */
+ 	rc = of_device_uevent_modalias(dev, env);
+ 	if (rc != -ENODEV)
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 74d8e1dc125f..208ef5342798 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -565,6 +565,19 @@ static int phy_request_driver_module(struct phy_device *dev, u32 phy_id)
+ 	return 0;
+ }
+ 
++static int phy_bus_uevent(struct mdio_device *mdiodev,
++			  struct kobj_uevent_env *env)
++{
++	struct phy_device *phydev;
++
++	phydev = container_of(mdiodev, struct phy_device, mdio);
++
++	add_uevent_var(env, "MODALIAS=" MDIO_MODULE_PREFIX MDIO_ID_FMT,
++		       MDIO_ID_ARGS(phydev->phy_id));
++
++	return 0;
++}
++
+ struct phy_device *phy_device_create(struct mii_bus *bus, int addr, u32 phy_id,
+ 				     bool is_c45,
+ 				     struct phy_c45_device_ids *c45_ids)
+@@ -584,6 +597,7 @@ struct phy_device *phy_device_create(struct mii_bus *bus, int addr, u32 phy_id,
+ 	mdiodev->dev.type = &mdio_bus_phy_type;
+ 	mdiodev->bus = bus;
+ 	mdiodev->bus_match = phy_bus_match;
++	mdiodev->bus_uevent = phy_bus_uevent;
+ 	mdiodev->addr = addr;
+ 	mdiodev->flags = MDIO_DEVICE_FLAG_PHY;
+ 	mdiodev->device_free = phy_mdio_device_free;
+diff --git a/include/linux/mdio.h b/include/linux/mdio.h
+index 9f3587a61e14..fb97cbf65ec7 100644
+--- a/include/linux/mdio.h
++++ b/include/linux/mdio.h
+@@ -38,6 +38,8 @@ struct mdio_device {
+ 	char modalias[MDIO_NAME_SIZE];
+ 
+ 	int (*bus_match)(struct device *dev, struct device_driver *drv);
++	int (*bus_uevent)(struct mdio_device *mdiodev,
++			  struct kobj_uevent_env *env);
+ 	void (*device_free)(struct mdio_device *mdiodev);
+ 	void (*device_remove)(struct mdio_device *mdiodev);
+ 
+-- 
+2.30.2
 
 
 -- 
-Best Regards
-Masahiro Yamada
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
