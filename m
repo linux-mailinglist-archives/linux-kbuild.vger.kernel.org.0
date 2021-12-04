@@ -2,123 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D764683AA
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 10:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C6644684F4
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Dec 2021 14:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384519AbhLDJmR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Dec 2021 04:42:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
+        id S1384960AbhLDNQ6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Dec 2021 08:16:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384511AbhLDJmL (ORCPT
+        with ESMTP id S229837AbhLDNQ6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Dec 2021 04:42:11 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11FDC061751;
-        Sat,  4 Dec 2021 01:38:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=rYta9gPwuaVvMDMj1SLe7iAQbRnQu1U6Lp/ngUwMtJU=; b=uU1yR8SjvptWkMxfjLOVVkRM+b
-        p/FRdejrX42VNZl5uqo3HG+U2BsZ5DiJnrLcwTZv3lShRLai1yw73PiT13m1BMUrhTexAt1PZHYer
-        3Lje0RFAb0IwOOkEckbX4vMmc3rXu2arr9AcIcbJcVrd9Uy129ivqAQK30+PaaHLDvnhPbGrnIS7K
-        nl65DBIcxFvj6MA7Drivm9+iik9cZr7mCtdzfrh+0JQ8YswpAToohKNcCP0CDHsACLPlYBqaznjwg
-        ifMjoczMhnFeFhey5ZFLUlyiIesJzt/+g0FYXpouTx1hytlslB4ZDxspZlCQdoBroE31j64N0S7L6
-        x4QaVtSQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56048)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1mtRV9-0003C4-FX; Sat, 04 Dec 2021 09:38:39 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1mtRV8-0002IW-Md; Sat, 04 Dec 2021 09:38:38 +0000
-Date:   Sat, 4 Dec 2021 09:38:38 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Yinbo Zhu <zhuyinbo@loongson.cn>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        Sat, 4 Dec 2021 08:16:58 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8EDC061751;
+        Sat,  4 Dec 2021 05:13:32 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id v11so11774219wrw.10;
+        Sat, 04 Dec 2021 05:13:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Tsd1rE26zaiSJkO/71hza3dNv3C8IY+YEVzWQKSlv74=;
+        b=cF2QdOFhWmuloOtISN2U4eqYZq4v7OZZLqHN6yGnXuUzrGf8LDCcIatJZnbj4TqXgQ
+         odL4HBncm3UtgUolGcMaNvAq+Lm+wPmaWKR9hRAxQJA/nzqSb/4sjEVl+3I6jCY4Gxhx
+         7b+K8GbKi2RPNcDgCY7cDOkFXzjJsoBhEn0v99uy8rdkMt3vJ+E94MeGJisZIzrJl60W
+         F78ZM9hjRMt6j2niHM0LNTe/6hXOiNLl9F8WzOohsbJXT/sfHwcR9cf6xHKgomNLK5om
+         PHZlYBf6t0uF1P7z/xYq+LGgzTXejqx76BYxxczjvYxaVS9d9K99wLkw5qRip62yKQ8c
+         Pwvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition;
+        bh=Tsd1rE26zaiSJkO/71hza3dNv3C8IY+YEVzWQKSlv74=;
+        b=DBlwCw9cyL9qUd9vfivZY0H6Eqqzi/zuPyRU/1JwAZcuwl2I1B3QT38+QX+tN1GOTs
+         khHs1dCNLPVnjOxTB39t6YuHIO0Gn53TOLpCR+Y51VQqRj0de1tZHwELODuhxYBDvv9D
+         HQ/fI9FuMeyGKXrQ3wpG8jL7WehWbONmrhGZB78ccY6zeEb9M+q/jYnPGzHkbiIBely/
+         w07Fh3f6Yp7ocY5xLIxxxFsypjA3XmmCYm+OewC48ZVNC8BXDbVL18/fUCbB06Rz6srK
+         dYggWdHyvsUy5CWZxBDFmkBjA/r1XBztS1Gra6pKXlPhPH7d31R0oZTGnHUl6iCj5OST
+         6FLg==
+X-Gm-Message-State: AOAM532eiH1h6VD24+osl5wORBsHSU+vjqdnryqyup+tze7sDl9h6Nbw
+        wUPXaOE6TML3hhPv81fxqq/ejli8nJQulg==
+X-Google-Smtp-Source: ABdhPJwexm3vBI0A446S2gqJvn7oE41xBxIDGyAnF9mp9lh5FdNC3L9Ul4eVSHAImDy+u7AuyAU8QA==
+X-Received: by 2002:adf:f6cf:: with SMTP id y15mr28197130wrp.56.1638623611122;
+        Sat, 04 Dec 2021 05:13:31 -0800 (PST)
+Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
+        by smtp.gmail.com with ESMTPSA id x13sm5748925wrr.47.2021.12.04.05.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Dec 2021 05:13:30 -0800 (PST)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Date:   Sat, 4 Dec 2021 14:13:29 +0100
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] net: mdio: rework mdio_uevent for mdio ethernet
- phy device
-Message-ID: <Yas3HpT59X4dnXCg@shell.armlinux.org.uk>
-References: <1638609208-10339-1-git-send-email-zhuyinbo@loongson.cn>
- <1638609208-10339-2-git-send-email-zhuyinbo@loongson.cn>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Makefile: CC_IMPLICIT_FALLTHROUGH passed quoted as argument to gcc
+Message-ID: <YatpectAYsWnmPy2@eldamar.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1638609208-10339-2-git-send-email-zhuyinbo@loongson.cn>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 04, 2021 at 05:13:28PM +0800, Yinbo Zhu wrote:
-> The of_device_uevent_modalias is service for 'of' type platform driver
-> , which ask the first args must be 'of' that use MODULE_DEVICE_TABLE
-> when driver was exported, but ethernet phy is a kind of 'mdio' type
-> device and it is inappropriate if driver use 'of' type for exporting,
-> in fact, most mainstream ethernet phy driver hasn't used 'of' type,
-> even though phy driver was exported use 'of' type and it's irrelevant
-> with mdio_uevent, at this time, platform_uevent was responsible for
-> reporting uevent to match modules.alias configure, so, whatever that
-> of_device_uevent_modalias was unnecessary, this patch was to remove it
-> and add phy_id as modio uevent then ethernet phy module auto load
-> function will work well.
-> 
-> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+Hi Gustavo,
 
-NAK.
+Since dee2b702bcf0 ("kconfig: Add support for -Wimplicit-fallthrough")
+CONFIG_CC_IMPLICIT_FALLTHROUGH value is passed quoted to the gcc
+invocation.
 
-> ---
-> 
->  drivers/net/phy/mdio_bus.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
-> index 6865d93..999f0d4 100644
-> --- a/drivers/net/phy/mdio_bus.c
-> +++ b/drivers/net/phy/mdio_bus.c
-> @@ -962,12 +962,12 @@ static int mdio_bus_match(struct device *dev, struct device_driver *drv)
->  
->  static int mdio_uevent(struct device *dev, struct kobj_uevent_env *env)
->  {
-> -	int rc;
-> +	struct phy_device *pdev;
->  
-> -	/* Some devices have extra OF data and an OF-style MODALIAS */
-> -	rc = of_device_uevent_modalias(dev, env);
-> -	if (rc != -ENODEV)
-> -		return rc;
-> +	pdev = to_phy_device(dev);
-> +
-> +	if (add_uevent_var(env, "MODALIAS=mdio:p%08X", pdev->phy_id))
-> +		return -ENOMEM;
->  
->  	return 0;
->  }
-> @@ -991,7 +991,7 @@ static int mdio_uevent(struct device *dev, struct kobj_uevent_env *env)
->  };
->  
->  struct bus_type mdio_bus_type = {
-> -	.name		= "mdio_bus",
-> +	.name		= "mdio",
->  	.dev_groups	= mdio_bus_dev_groups,
->  	.match		= mdio_bus_match,
->  	.uevent		= mdio_uevent,
-> -- 
-> 1.8.3.1
-> 
-> 
+This appears to cause issues for (external) module builds. It was
+reported in Debian for the nvidia module, cf.
+https://bugs.debian.org/1001083 but might happen as well in other
+cases.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Andreas suggested to replace the
+
+KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+
+with
+
+KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(patsubst "%",%,$(CONFIG_CC_IMPLICIT_FALLTHROUGH))
+
+Is this something you would consider doing or should the issue be
+handled exclusively in the particular OOT module build case?
+
+Regards,
+Salvatore
