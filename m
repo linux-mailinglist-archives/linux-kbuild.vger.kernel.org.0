@@ -2,104 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91F95468CE4
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Dec 2021 20:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 756A3468CFA
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Dec 2021 20:28:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237653AbhLETGZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Dec 2021 14:06:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38772 "EHLO
+        id S232951AbhLETb3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Dec 2021 14:31:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237649AbhLETGZ (ORCPT
+        with ESMTP id S237950AbhLETb3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Dec 2021 14:06:25 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE70C061714;
-        Sun,  5 Dec 2021 11:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=SOXl9o+NM3H17iooiOp+N4HYzAPe9LLAu+twEINB+rs=; b=fny8pUDOqLGtQTWhQp0lxnx4LC
-        sAqFhxpZ6TBXxEN/9/qgPc0TcyBu6c0DRRakioc2++zW39hd7gcSg2qKP1Zm+CS2i0P4GWEEYZOsm
-        /+4cUOQXApIDGxGgcD08H0FYQvjglwsAkooyiczEc+LSaPtwAFsJiyPXTLmyZvrH6KVfwQVw5Z4LJ
-        0HfT5VrZFaw3A89G1aEqnwecrcw88ckGpDhBI+amQmteYzsXN8R6cnyO2iE1wP8Q6lMwW+em13I17
-        6aEXC38vhkfXUH6Wedmab81fRv42sUf412Ag5zdOP+d65SeoaIb9638w5aG8tLaDAHCJEfEH9TuHi
-        fJ/oPZLA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56088)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1mtwmh-00047b-Sw; Sun, 05 Dec 2021 19:02:51 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1mtwme-0003cE-PB; Sun, 05 Dec 2021 19:02:48 +0000
-Date:   Sun, 5 Dec 2021 19:02:48 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Yinbo Zhu <zhuyinbo@loongson.cn>,
-        Heiner Kallweit <hkallweit1@gmail.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 1/2] modpost: file2alias: make mdio alias configure
- match mdio uevent
-Message-ID: <Ya0M2E+Pqvh1FvPF@shell.armlinux.org.uk>
-References: <1638260517-13634-1-git-send-email-zhuyinbo@loongson.cn>
- <YaXrP1AyZ3AWaQzt@shell.armlinux.org.uk>
- <ea3f6904-c610-0ee6-fbab-913ba6ae36c5@loongson.cn>
- <Yas2+yq3h5/Bfvy9@shell.armlinux.org.uk>
- <YavYM2cs0RuY0JdM@shell.armlinux.org.uk>
- <YazhPOIIzpl43tzq@lunn.ch>
+        Sun, 5 Dec 2021 14:31:29 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD176C061751
+        for <linux-kbuild@vger.kernel.org>; Sun,  5 Dec 2021 11:28:01 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id d10so25533500ybn.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 11:28:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=A9HUhmJkBkBT+xu9ZLPAv3zuwUrTwcu9m6a6g5e2TW7SSj9G4B4pOF+mGASk4Eg8y3
+         h/H/dEdzJXxmIHNn9PJKjkAevrHN8bICGEE2avMyt4MqSalLTV+MGgWVy2NdaqylOpNT
+         o6roc+lpPChKUzf6UljrMl3a61DTAnvhTSH8Oj/8XWlJHEq9PuQ5ySoJGZ+9pMYyFAOw
+         oELR5C54VkCnAqb+EvP6hOtd6EffgIWLeWy01acdmQv/FjN2aT7QV0jZZcHq8l5/l8Wy
+         GQNovzb/hz4eG+BpEK++1NDe8J8noU8t3VP4VgzWbdXcR5GlkhPPEVgFWVgN85XzFhbw
+         liOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=spPpZvCI5I2rNcj/ftSRBIPOgGqYJ2iiIFuEpVzndehylehgl5N4wS18YvrNahMIiP
+         JF17m4WkoThmTZWRySCEJsIUIVMLph3R5ntbzm3RDoP+qbFup9+fM9vc53xrsdTJkVFM
+         jnjexX3BH/4R4KIRRah0dNrnvj6JutACQydie/dYSFwbkF6zxTGOGoahrZ0e4CcWL819
+         d/XuDKeLH9ori5JX2FD73nz4wWJOfRd/W9dTVxQ+Uzf4fjebn3r8lUy6ty4VnwgPWg5u
+         LvAJw83UrrA84eWhxdE1PMn2NrCjg32PKwIV7RAoRItUqp28k4jBU+tlhF0chCvW5N+8
+         IOgg==
+X-Gm-Message-State: AOAM531Hx9+NhLK3pTl6LCDPv5Ln1mUgMtjBBDAk85ILtTy/nPZGUdn/
+        6Zwwmv4vmIUAVWvzJlmTIHYK+Pcud4QjSOxMUrM=
+X-Google-Smtp-Source: ABdhPJyTCadKsyDJ1lVsUs/9Q6OPkP+sKU2ZDjXker0Ey+1AA1ddmS/Ww7NX1n+0iaRc5UyxdKr/e2kaX6u1QoYuwt8=
+X-Received: by 2002:a25:60a:: with SMTP id 10mr38471764ybg.704.1638732480774;
+ Sun, 05 Dec 2021 11:28:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YazhPOIIzpl43tzq@lunn.ch>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Received: by 2002:a05:7108:2e8e:0:0:0:0 with HTTP; Sun, 5 Dec 2021 11:28:00
+ -0800 (PST)
+Reply-To: giorgiobugatto@gmail.com
+From:   Giorgio Bugatto <1965adamsj@gmail.com>
+Date:   Sun, 5 Dec 2021 20:28:00 +0100
+Message-ID: <CAHaZNUaxhh_xOLBEHm-d0q+ZS2-quHONsb=PKTMUPvuK6TXozQ@mail.gmail.com>
+Subject: Good evening to you , my name is Giorgio Bugatto , i sent you a mail
+ and there was no response , please confirm that you did get this mail .
+ Regards. Giorgio Bugatto
+To:     1965adamsj <1965adamsj@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Dec 05, 2021 at 04:56:44PM +0100, Andrew Lunn wrote:
-> > This patch changes the MODALIAS entry for only PHY devices from:
-> > 	MODALIAS=of:Nethernet-phyT(null)
-> > to:
-> > 	MODALIAS=mdio:00000000001000100001010100010011
-> 
-> Hi Russell
-> 
-> You patch looks good for the straight forward cases.
-> 
-> What happens in the case of
-> 
->         ethernet-phy@0 {
->             compatible = "ethernet-phy-ieee802.3-c45";
-> 
-> 
-> Does this get appended to the end, or does it overwrite?
 
-Hmm, good point, I'd forgotten about clause 45 PHYs - we need to dig
-the first existing ID out of the clause 45 ID array and use that
-instead. That said, we don't publish the ID through the "phy_id"
-sysfs file either for clause 45.
-
-I don't believe it's possible to publish multiple modalias strings.
-
-This gives a problem for clause 45 PHYs which can have a different ID
-for each MMD, and the driver might match on only one of those. 88x3310
-is an example where different MMDs have different IDs. The mechanism
-we have in phy_device_create() gets around that, because we call
-phy_request_driver_module() for every ID there is in the hope that one
-of those will load the appropriate driver, but as I say, I don't
-believe that's a possibility via the udev approach.
-
-So I think we may have to say that clause 45 PHYs can't reliably use
-the conventional udev mechanism.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
