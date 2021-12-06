@@ -2,95 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 159B746A0E1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 17:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E642D46A0A1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 17:05:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386431AbhLFQRC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 11:17:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1385759AbhLFQOp (ORCPT
+        id S1346038AbhLFQIe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 11:08:34 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:38706 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351129AbhLFQG2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 11:14:45 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB74FC04979B
-        for <linux-kbuild@vger.kernel.org>; Mon,  6 Dec 2021 07:59:51 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso10774206wml.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Dec 2021 07:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qKFLPUKAa7OWKjD98YceVg+3L0lW6XY0YaSbke6RvEA=;
-        b=BZmRiBSmEjX1xv6jlNmmKweTonCeu0/GTdnWKR4xPldXRrloeFZZV2AbOUMrK5LNFj
-         1ZJ4LC7vE0c1+qTRprn+Wa0CDQmOIKVWEOWJGayNSTEeHAbEmMGToeMrinnZf4AOTPjQ
-         /bOKn7R6kHCjttxXgkpCQOkBKrByqhiwH/tsXIuIgC1Nl3a4ZsKW+GaHLgE6YozZEgJm
-         8pkOT9wWpu3pt/uVSY5axVfyMn9UQOnkYok1UMnDa9OTzeO48hpUSejPiwbi2cu4Jx3l
-         GBvJ8sEYc5IYXaEVE2IUDpo4hplXBA6jdPOUbLjXWv8qjTtOo4n15Cuz4MTsWOQZGpri
-         +wdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qKFLPUKAa7OWKjD98YceVg+3L0lW6XY0YaSbke6RvEA=;
-        b=eYvVSl2wPzXP/E77VBM2QYzGvuWizt1orw7Vw2zM8tAYgKeJzVI+ujIP7n5+L9i3kB
-         +a0qp/JXD1bOR/UqEsplHkXP0jUSBDXlP+AuJX8iW1qKttNuGE5+Mq70GGD1Fpf7Ax70
-         T1V7t1cXGvjja45VnMYELyCYY3Lye7WBAxOZUNpVThacB5mLaqSljy4ka/dTmKne90Q4
-         a/uZfVv5KjiZXzZyKH6Ln0sQG4P9ZKpziryU6/qtF6o5vRvNnjmVA+ZWBGTceBAusJN4
-         MyrReORvHq7NAiexMfu6jpgAIcQgXwIRW7XPpvoSE3xze+UXKoDqB6Zt/gJRrgEBQZ+U
-         uhfQ==
-X-Gm-Message-State: AOAM530a9Bw7tkJFXcAEz0D7kFgysw/HyaxyjOFm9F+xSCMi9uOxGq6Z
-        HvVsk37YS0bmJ+oPEYlFDMGX
-X-Google-Smtp-Source: ABdhPJwnspMRmoyUi4srXnq8Tw3fHM2QuYOgprN9iorBNAKCjrVCTJvypFqIsV83vgw7o9fkQ8qBBQ==
-X-Received: by 2002:a05:600c:2292:: with SMTP id 18mr39943412wmf.6.1638806390069;
-        Mon, 06 Dec 2021 07:59:50 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:209:5566:e6d4:87df:ddb6])
-        by smtp.gmail.com with ESMTPSA id v15sm12195776wro.35.2021.12.06.07.59.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 07:59:49 -0800 (PST)
-Date:   Mon, 6 Dec 2021 15:59:46 +0000
-From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Mon, 6 Dec 2021 11:06:28 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 094C6B8106E;
+        Mon,  6 Dec 2021 16:02:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA70C341C1;
+        Mon,  6 Dec 2021 16:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1638806572;
+        bh=aEA+zbr/2e313qxCZtQKliOVh8taWZktVYjisW7n1q4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=x+5mcrelHG21G3wg59PiRl6Pb88/oJBV5tjSfEMSuAJalPJCVrKAvdCCqdo2oI1Ex
+         /KZ3nPGhhvEWAxgSGriUQln7i+Ue5cYxybNvxFGyo4Eiq3/1rliLDLoqSx6YD/WRZC
+         0VrX+xkj/rmQWzUL9qkv01hUGoSIGLkiPbaLeLXo=
+Date:   Mon, 6 Dec 2021 17:02:13 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Gary Guo <gary@garyguo.net>,
-        Wayne Campbell <wcampbell1995@gmail.com>
-Subject: Re: [RFC PATCH 19/19] drivers: android: Binder IPC in Rust
-Message-ID: <Ya4zco0QFG0K5kO+@google.com>
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+Subject: Re: [PATCH 11/19] vsprintf: add new `%pA` format specifier
+Message-ID: <Ya40Bcv+eFkqc9jv@kroah.com>
 References: <20211206140313.5653-1-ojeda@kernel.org>
- <20211206140313.5653-20-ojeda@kernel.org>
- <Ya4lu3k9HxLRe1Tv@kroah.com>
+ <20211206140313.5653-12-ojeda@kernel.org>
+ <Ya4mAqoOa8zIeZGZ@kroah.com>
+ <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ya4lu3k9HxLRe1Tv@kroah.com>
+In-Reply-To: <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 04:01:15PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Dec 06, 2021 at 03:03:13PM +0100, Miguel Ojeda wrote:
-> > From: Wedson Almeida Filho <wedsonaf@google.com>
-> > 
-> > A port to Rust of the Android Binder IPC mechanism.
-> > 
-> > This module is a work in progress and will be sent for review later
-> > on, as well as separately from the Rust support.
-> > 
-> > However, it is included to show how an actual working module
-> > written in Rust may look like.
+On Mon, Dec 06, 2021 at 04:56:32PM +0100, Miguel Ojeda wrote:
+> On Mon, Dec 6, 2021 at 4:46 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > That should be in a .h file somewhere.  Remember, don't put #ifdef in .c
+> > files please.
 > 
-> Have you all tested this against the userspace binder tests?  And is it
-> up to date with the features of the in-kernel binder driver?
+> Will do, thanks for reviewing!
+> 
+> > Same here, this should not be needed if you put it in a .h file
+> > correctly.
+> 
+> This one is mimicking the `CONFIG_BLOCK` one (`case 'g'` a bit above)
+> -- but we can change it, of course.
 
-Very little has changed here since the last submission, namely: using
-credentials for security callbacks, and replacing `Arc` with `Ref` (i.e., using
-refcount_t to manage ref-counted allocations).
-
-As the message tries to indicate, this is submitted as an example and WIP, it
-doesn't have feature parity with the C version yet.
+That should be changed as well :)
