@@ -2,69 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E642D46A0A1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 17:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB16046A09F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 17:05:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346038AbhLFQIe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 11:08:34 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:38706 "EHLO
+        id S1356950AbhLFQId (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 11:08:33 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:38730 "EHLO
         ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351129AbhLFQG2 (ORCPT
+        with ESMTP id S1388867AbhLFQG2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Mon, 6 Dec 2021 11:06:28 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 094C6B8106E;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 87AC6B81085;
+        Mon,  6 Dec 2021 16:02:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5FBFC341C1;
         Mon,  6 Dec 2021 16:02:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA70C341C1;
-        Mon,  6 Dec 2021 16:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638806572;
-        bh=aEA+zbr/2e313qxCZtQKliOVh8taWZktVYjisW7n1q4=;
+        s=korg; t=1638806575;
+        bh=uVeYzty1HG19livy6ELAjstEtph8/Hc5u5Bi9nTH8kw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x+5mcrelHG21G3wg59PiRl6Pb88/oJBV5tjSfEMSuAJalPJCVrKAvdCCqdo2oI1Ex
-         /KZ3nPGhhvEWAxgSGriUQln7i+Ue5cYxybNvxFGyo4Eiq3/1rliLDLoqSx6YD/WRZC
-         0VrX+xkj/rmQWzUL9qkv01hUGoSIGLkiPbaLeLXo=
-Date:   Mon, 6 Dec 2021 17:02:13 +0100
+        b=vAYDrWm9W8KJgUkQoumuvor614pQUlcQ8Dc4x8o90uekejGpdm9+i3ys4C7fw4wRu
+         0dWc9S3PYl7JsdHvnnUbFjAKVHSBInmUt6JSB7tyXWAZ+RSRZrZgnu8tRJ8ouC9Nlk
+         SUxchdNZAOWm6kWyy6A5nIKKk+gERMLVqEHZ7Mtw=
+Date:   Mon, 6 Dec 2021 17:02:32 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+To:     Wedson Almeida Filho <wedsonaf@google.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gary Guo <gary@garyguo.net>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 11/19] vsprintf: add new `%pA` format specifier
-Message-ID: <Ya40Bcv+eFkqc9jv@kroah.com>
+        Finn Behrens <me@kloenk.de>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Wayne Campbell <wcampbell1995@gmail.com>
+Subject: Re: [RFC PATCH 19/19] drivers: android: Binder IPC in Rust
+Message-ID: <Ya40GOSIrWVC2ZSq@kroah.com>
 References: <20211206140313.5653-1-ojeda@kernel.org>
- <20211206140313.5653-12-ojeda@kernel.org>
- <Ya4mAqoOa8zIeZGZ@kroah.com>
- <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
+ <20211206140313.5653-20-ojeda@kernel.org>
+ <Ya4lu3k9HxLRe1Tv@kroah.com>
+ <Ya4zco0QFG0K5kO+@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
+In-Reply-To: <Ya4zco0QFG0K5kO+@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 04:56:32PM +0100, Miguel Ojeda wrote:
-> On Mon, Dec 6, 2021 at 4:46 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > That should be in a .h file somewhere.  Remember, don't put #ifdef in .c
-> > files please.
+On Mon, Dec 06, 2021 at 03:59:46PM +0000, Wedson Almeida Filho wrote:
+> On Mon, Dec 06, 2021 at 04:01:15PM +0100, Greg Kroah-Hartman wrote:
+> > On Mon, Dec 06, 2021 at 03:03:13PM +0100, Miguel Ojeda wrote:
+> > > From: Wedson Almeida Filho <wedsonaf@google.com>
+> > > 
+> > > A port to Rust of the Android Binder IPC mechanism.
+> > > 
+> > > This module is a work in progress and will be sent for review later
+> > > on, as well as separately from the Rust support.
+> > > 
+> > > However, it is included to show how an actual working module
+> > > written in Rust may look like.
+> > 
+> > Have you all tested this against the userspace binder tests?  And is it
+> > up to date with the features of the in-kernel binder driver?
 > 
-> Will do, thanks for reviewing!
+> Very little has changed here since the last submission, namely: using
+> credentials for security callbacks, and replacing `Arc` with `Ref` (i.e., using
+> refcount_t to manage ref-counted allocations).
 > 
-> > Same here, this should not be needed if you put it in a .h file
-> > correctly.
-> 
-> This one is mimicking the `CONFIG_BLOCK` one (`case 'g'` a bit above)
-> -- but we can change it, of course.
+> As the message tries to indicate, this is submitted as an example and WIP, it
+> doesn't have feature parity with the C version yet.
 
-That should be changed as well :)
+You might want to say that in the changelog text so I don't keep asking
+every time it gets posted :)
+
+thanks,
+
+greg k-h
