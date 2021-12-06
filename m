@@ -2,146 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6E34690B1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 08:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 020964690DD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 08:34:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238355AbhLFHTw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 02:19:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238261AbhLFHTv (ORCPT
+        id S238479AbhLFHiC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 02:38:02 -0500
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:51556 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229652AbhLFHiB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 02:19:51 -0500
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C151C0613F8
-        for <linux-kbuild@vger.kernel.org>; Sun,  5 Dec 2021 23:16:23 -0800 (PST)
-Received: by mail-oi1-x233.google.com with SMTP id q25so19979766oiw.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 23:16:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kMt90pKBGW/au5Bipth7kSeTJYiTzTjqmOMqmPuidYA=;
-        b=XEkNxxxqqg+NZL/6yCqEZBN2SeXMqSO5LfwtQ38GYELUORg3SUHVW8Q5aVqB7bhGqn
-         P4iX/WHdPtE2QjtkMfpoDJLQXNyPbDZrMsykHhDPapvSd5QU7F3VliQV9Yy6W3/x1/yp
-         SPQHl5+NAMtC+/KeBPgVEFMP73nHOjUip8Pe4dz+ysEDvSgMxniak2Xxhya2c2DVmQoB
-         PAasdNsXl2mjxk6waC9R44KBY4SXaQNbBsyaROg55cDONmTVDVBc7DjWKqjzSswf44xw
-         uR5reE0LtjENxNpcjPtWEzqZ5Ub/3t0LHAu34RONtIOSh3hnK5gcV77ZKBM4aWABzWMB
-         VIWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kMt90pKBGW/au5Bipth7kSeTJYiTzTjqmOMqmPuidYA=;
-        b=yiv4hc9WGIzMSKLhxN2+8I8VK9inFW5bee+mjKrPBiwZaocId1hiyvD8pKgCEStyg5
-         Qn5zUcz652hYsswbr56almGTrqXkRq8hsqmztvFGTnxWB9sQqnM7rfVHHDBiuqkrTOWF
-         hQnDv6yQWIJH5vA5YROYSxSU5PpBzR664QSkhJmF3qILB4GI1kd2NNIlfcgpd1ll0QrF
-         esVG5LwH8IjUmhuGvw+JkwzD+bBoxNABSN4GnsncdvUCRZ8RAci0VKxX8uNZ7G43X4Se
-         PLTeJQJ2y4zdDYQEVNy8lIWhJHt9EIj09ApA5RO1RfzTHGXgpDo3FXM3EDgQY66V5n5a
-         pl7g==
-X-Gm-Message-State: AOAM532tYa56//xfvC2MggMjsA/3kh6e5IidZWyYjDF0ZOzCp3pR3aCH
-        2B1lJqhh7S/5yHpMia4Flr128+b0rKOfwFiWJWxKIw==
-X-Google-Smtp-Source: ABdhPJwuGLpnUIDTjpBX3F4eSh7hJt4tJrtZLc3E+7J6kt6gm5BiWZwD1+kzTVPh5ygzYL7/rFy9FoV52gjMqiSEDPo=
-X-Received: by 2002:aca:af50:: with SMTP id y77mr22543199oie.134.1638774982675;
- Sun, 05 Dec 2021 23:16:22 -0800 (PST)
+        Mon, 6 Dec 2021 02:38:01 -0500
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 01A5A891AF;
+        Mon,  6 Dec 2021 20:34:30 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1638776070;
+        bh=0Tnh/7w8NutVos3QgBFtkzzrU7g1CNwyGaPWqav3wEk=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To;
+        b=s2o4Z/C5OwBdzomv0/r4RKL5oBduMJtlOnTiVi0LzNdtOxsvRHjRU3izmTXZXn9x/
+         VOBSdQ9JrXFE0a382pSUg9luKx0keB8QE4pDVEPTFDp7HeOIvxtIGVKEWZkB/tMXcD
+         qkN38JpwpGu7UcutFeF1KWsRQTKefkuykhq7ptJt5V7VkLsHg8ii8/IQDykR+t/hXY
+         Vhso2OuscgkwjVVmFpAUGBnEcLuU+ox9oozT8SJ6ucJIS0f47eZIePKIr/cgNLlNvh
+         bWrX4CISNU/V46KALrowXz4+lHunLP0UGJvOMGtdqyfY+eT1t7/Idu4CEJasnLbiyS
+         AdqTRgCNbV4zw==
+Received: from svr-chch-ex1.atlnz.lc (Not Verified[2001:df5:b000:bc8::77]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+        id <B61adbd050001>; Mon, 06 Dec 2021 20:34:29 +1300
+Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
+ svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 6 Dec 2021 20:34:29 +1300
+Received: from svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8]) by
+ svr-chch-ex1.atlnz.lc ([fe80::409d:36f5:8899:92e8%12]) with mapi id
+ 15.00.1497.026; Mon, 6 Dec 2021 20:34:29 +1300
+From:   Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To:     Rob Herring <robh@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+CC:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Tom Rini <trini@konsulko.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v2] kbuild: Enable DT schema checks for %.dtb targets
+Thread-Topic: [PATCH v2] kbuild: Enable DT schema checks for %.dtb targets
+Thread-Index: AQHX6nO08beVuCfA/0Kxy5t++H/TdQ==
+Date:   Mon, 6 Dec 2021 07:34:29 +0000
+Message-ID: <cc083619-3744-5979-4750-9c26f016505c@alliedtelesis.co.nz>
+References: <20210913145146.766080-1-robh@kernel.org>
+In-Reply-To: <20210913145146.766080-1-robh@kernel.org>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.32.1.11]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <35AEF6AEF7C697438B51A1095FF4B995@atlnz.lc>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20211130114433.2580590-1-elver@google.com> <20211130114433.2580590-9-elver@google.com>
- <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
-In-Reply-To: <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 6 Dec 2021 08:16:11 +0100
-Message-ID: <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=XOZOtjpE c=1 sm=1 tr=0 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=oKJsc7D3gJEA:10 a=IkcTkHD0fZMA:10 a=IOMw9HtfNCkA:10 a=KKAkSRfTAAAA:8 a=k-42gJp3AAAA:8 a=VwQbUJbxAAAA:8 a=bYLquNiKjVeCADY__y4A:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=uCSXFHLys93vLW5PjgO_:22 a=AjGcO6oz07-iQ99wixmX:22
+X-SEG-SpamProfiler-Score: 0
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 6 Dec 2021 at 06:04, Boqun Feng <boqun.feng@gmail.com> wrote:
->
-> Hi,
->
-> On Tue, Nov 30, 2021 at 12:44:16PM +0100, Marco Elver wrote:
-> > Also show the location the access was reordered to. An example report:
-> >
-> > | ==================================================================
-> > | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
-> > |
-> > | read-write to 0xffffffffc01e61a8 of 8 bytes by task 2311 on cpu 5:
-> > |  test_kernel_wrong_memorder+0x57/0x90
-> > |  access_thread+0x99/0xe0
-> > |  kthread+0x2ba/0x2f0
-> > |  ret_from_fork+0x22/0x30
-> > |
-> > | read-write (reordered) to 0xffffffffc01e61a8 of 8 bytes by task 2310 on cpu 7:
-> > |  test_kernel_wrong_memorder+0x57/0x90
-> > |  access_thread+0x99/0xe0
-> > |  kthread+0x2ba/0x2f0
-> > |  ret_from_fork+0x22/0x30
-> > |   |
-> > |   +-> reordered to: test_kernel_wrong_memorder+0x80/0x90
-> > |
->
-> Should this be "reordered from" instead of "reordered to"? For example,
-> if the following case needs a smp_mb() between write to A and write to
-> B, I think currently it will report as follow:
->
->         foo() {
->                 WRITE_ONCE(A, 1); // let's say A's address is 0xaaaa
->                 bar() {
->                         WRITE_ONCE(B, 1); // Assume B's address is 0xbbbb
->                                           // KCSAN find the problem here
->                 }
->         }
->
->         <report>
->         | write (reordered) to 0xaaaa of ...:
->         | bar+0x... // address of the write to B
->         | foo+0x... // address of the callsite to bar()
->         | ...
->         |  |
->         |  +-> reordered to: foo+0x... // address of the write to A
->
-> But since the access reported here is the write to A, so it's a
-> "reordered from" instead of "reordered to"?
-
-Perhaps I could have commented on this in the commit message to avoid
-the confusion, but per its updated comment replace_stack_entry()
-"skips to the first entry that matches the function of @ip, and then
-replaces that entry with @ip, returning the entries to skip with
-@replaced containing the replaced entry."
-
-When a reorder_access is set up, the ip to it is stored, which is
-what's passed to @ip of replace_stack_entry(). It effectively swaps
-the top frame where the race occurred with where the original access
-happened. This all works because the runtime is careful to only keep
-reorder_accesses valid until the original function where it occurred
-is left.
-
-So in your above example you need to swap "reordered to" and the top
-frame of the stack trace.
-
-The implementation is a little trickier of course, but I really wanted
-the main stack trace to look like any other non-reordered access,
-which starts from the original access, and only have the "reordered
-to" location be secondary information.
-
-The foundation for doing this this was put in place here:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6c65eb75686f
-
-Thanks,
--- Marco
+SGkgUm9iLA0KDQpPbiAxNC8wOS8yMSAyOjUxIGFtLCBSb2IgSGVycmluZyB3cm90ZToNCj4gSXQg
+aXMgcG9zc2libGUgdG8gYnVpbGQgYSBzaW5nbGUgZHRiLCBidXQgbm90IHdpdGggRFQgc2NoZW1h
+IHZhbGlkYXRpb24NCj4gZW5hYmxlZC4gRW5hYmxlIHRoZSBzY2hlbWEgdmFsaWRhdGlvbiB0byBy
+dW4gZm9yICUuZHRiIGFuZCAlLmR0Ym8NCj4gdGFyZ2V0cy4gQW55b25lIGJ1aWxkaW5nIGEgZHRi
+IGZvciBhIHNwZWNpZmljIHBsYXRmb3JtICpzaG91bGQqIHBheQ0KPiBhdHRlbnRpb24gdG8gc2No
+ZW1hIHdhcm5pbmdzLg0KPg0KPiBUaGlzIGNvdWxkIGJlIHN1cHBvcnRlZCB3aXRoIGEgc2VwYXJh
+dGUgJS5kdC55YW1sIHRhcmdldCBpbnN0ZWFkLg0KPiBIb3dldmVyLCB0aGUgLmR0LnlhbWwgZm9y
+bWF0IGlzIGNvbnNpZGVyZWQgYW4gaW50ZXJtZWRpYXRlIGZvcm1hdCBhbmQNCj4gY291bGQgcG9z
+c2libHkgZ28gYXdheSBhdCBzb21lIHBvaW50IGlmIHNjaGVtYSBjaGVja2luZyBpcyBpbnRlZ3Jh
+dGVkDQo+IGludG8gZHRjLiBBbHNvLCB0aGUgcGxhbiBpcyB0byBlbmFibGUgdGhlIHNjaGVtYSBj
+aGVja3MgYnkgZGVmYXVsdCBvbmNlDQo+IHBsYXRmb3JtcyBhcmUgZnJlZSBvZiB3YXJuaW5ncywg
+YW5kIHRoaXMgaXMgYSBtb3ZlIGluIHRoYXQgZGlyZWN0aW9uLg0KDQpKdXN0IHN0YXJ0ZWQgYnVp
+bGRpbmcgNS4xNi1yYzQgYW5kIGhpdCB0aGUgZm9sbG93aW5nIGVycm9yDQoNCi91c3Ivc3JjL2xp
+bnV4L3NjcmlwdHMvZHRjL01ha2VmaWxlOjIzOiAqKiogZHRjIG5lZWRzIGxpYnlhbWwgZm9yIERU
+IA0Kc2NoZW1hIHZhbGlkYXRpb24gc3VwcG9ydC4gSW5zdGFsbCB0aGUgbmVjZXNzYXJ5IGxpYnlh
+bWwgZGV2ZWxvcG1lbnQgDQpwYWNrYWdlLi7CoCBTdG9wLg0KbWFrZTogKioqIFsvdXNyL3NyYy9s
+aW51eC9NYWtlZmlsZToxNDA1OiBzY3JpcHRzX2R0Y10gRXJyb3IgMg0KbWFrZTogKioqIFdhaXRp
+bmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4NCg0KSSB0cmFja2VkIGl0IGJhY2sgdG8gdGhpcyBw
+YXRjaCBhbmQgSSBnYXRoZXIgdGhhdCB0aGUgImVycm9yIiBpcyB2ZXJ5IA0KbXVjaCBpbnRlbmRl
+ZC4gRml4aW5nIGl0IG1lYW5zIEkgbmVlZCB0byBnZXQgYSBuYXRpdmUgbGlieWFtbCBpbnRvIG15
+IA0KY3Jvc3MgdG9vbGNoYWluLCB3aGljaCBpcyBkb2FibGUgYnV0IGEgYml0IG9mIGEgaGFzc2xl
+LiBUaGlzIHByb2JhYmx5IA0KYWZmZWN0cyBvdGhlciBtZXRhIGJ1aWxkIHN5c3RlbXMgbGlrZSBi
+dWlsZHJvb3QgYW5kIHlvY3RvLg0KDQpJIHRoaW5rIEkgdW5kZXJzdGFuZCB3aGF0IHlvdSdyZSBn
+ZXR0aW5nIGF0IGJ1dCBpcyBpdCBwb3NzaWJsZSB0byBoYXZlIA0Kc29tZSBraW5kIG9mIGVzY2Fw
+ZSBoYXRjaCB0byBhdm9pZCBoYXZpbmcgdG8gYWRkIGEgYnVpbGQgdGltZSB0b29sIA0KZGVwZW5k
+ZW5jeSAob3IgZXZlbiBidW5kbGluZyBsaWJ5YW1sIG5leHQgdG8gc2NyaXB0cy9kdGMpPw0KDQpJ
+IGFsc28gbm90aWNlIHRoYXQgd2hlbiBJIGRvIHN1cHBseSBhIHRvb2xjaGFpbiB3aXRoIGxpYnlh
+bWwgdGhlIGJ1aWxkIA0KdGltZXMgYXJlIGltcGFjdGVkIGJ5IGEgbm90aWNhYmxlIGZhY3Rvci4N
+Cg0KPiBDYzogRG1pdHJ5IEJhcnlzaGtvdiA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPg0K
+PiBDYzogVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4NCj4gQ2M6IE1hc2FoaXJvIFlhbWFk
+YSA8bWFzYWhpcm95QGtlcm5lbC5vcmc+DQo+IENjOiBsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwu
+b3JnDQo+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+IC0t
+LQ0KPiB2MjoNCj4gICAtIEFsc28gZW5hYmxlIHNjaGVtYSBjaGVja3Mgb24gJS5kdGJvIHRhcmdl
+dHMNCj4gLS0tDQo+ICAgTWFrZWZpbGUgfCAxMCArKysrKy0tLS0tDQo+ICAgMSBmaWxlIGNoYW5n
+ZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL01h
+a2VmaWxlIGIvTWFrZWZpbGUNCj4gaW5kZXggN2NmZTRmZjM2ZjQ0Li5jNTdhNzY1N2M4ZGQgMTAw
+NjQ0DQo+IC0tLSBhL01ha2VmaWxlDQo+ICsrKyBiL01ha2VmaWxlDQo+IEBAIC0xNDAyLDE3ICsx
+NDAyLDE3IEBAIGVuZGlmDQo+ICAgDQo+ICAgaWZuZXEgKCQoZHRzdHJlZSksKQ0KPiAgIA0KPiAt
+JS5kdGI6IGluY2x1ZGUvY29uZmlnL2tlcm5lbC5yZWxlYXNlIHNjcmlwdHNfZHRjDQo+IC0JJChR
+KSQoTUFLRSkgJChidWlsZCk9JChkdHN0cmVlKSAkKGR0c3RyZWUpLyRADQo+ICslLmR0YjogZHRf
+YmluZGluZ19jaGVjayBpbmNsdWRlL2NvbmZpZy9rZXJuZWwucmVsZWFzZSBzY3JpcHRzX2R0Yw0K
+PiArCSQoUSkkKE1BS0UpICQoYnVpbGQpPSQoZHRzdHJlZSkgJChkdHN0cmVlKS8kQCAkKGR0c3Ry
+ZWUpLyQqLmR0LnlhbWwNCj4gICANCj4gLSUuZHRibzogaW5jbHVkZS9jb25maWcva2VybmVsLnJl
+bGVhc2Ugc2NyaXB0c19kdGMNCj4gLQkkKFEpJChNQUtFKSAkKGJ1aWxkKT0kKGR0c3RyZWUpICQo
+ZHRzdHJlZSkvJEANCj4gKyUuZHRibzogZHRfYmluZGluZ19jaGVjayBpbmNsdWRlL2NvbmZpZy9r
+ZXJuZWwucmVsZWFzZSBzY3JpcHRzX2R0Yw0KPiArCSQoUSkkKE1BS0UpICQoYnVpbGQpPSQoZHRz
+dHJlZSkgJChkdHN0cmVlKS8kQCAkKGR0c3RyZWUpLyQqLmR0LnlhbWwNCj4gICANCj4gICBQSE9O
+WSArPSBkdGJzIGR0YnNfaW5zdGFsbCBkdGJzX2NoZWNrDQo+ICAgZHRiczogaW5jbHVkZS9jb25m
+aWcva2VybmVsLnJlbGVhc2Ugc2NyaXB0c19kdGMNCj4gICAJJChRKSQoTUFLRSkgJChidWlsZCk9
+JChkdHN0cmVlKQ0KPiAgIA0KPiAtaWZuZXEgKCQoZmlsdGVyIGR0YnNfY2hlY2ssICQoTUFLRUNN
+REdPQUxTKSksKQ0KPiAraWZuZXEgKCQoZmlsdGVyIGR0YnNfY2hlY2sgJS5kdGIgJS5kdGJvLCAk
+KE1BS0VDTURHT0FMUykpLCkNCj4gICBleHBvcnQgQ0hFQ0tfRFRCUz15DQo+ICAgZHRiczogZHRf
+YmluZGluZ19jaGVjaw0KPiAgIGVuZGlm
