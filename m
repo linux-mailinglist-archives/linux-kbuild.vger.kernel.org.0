@@ -2,121 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5CE46904F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 07:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E30946909A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 08:01:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237616AbhLFGH3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 01:07:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32141 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237611AbhLFGH2 (ORCPT
+        id S238221AbhLFHFE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 02:05:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238108AbhLFHFE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 01:07:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638770640;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Wo70tjI7q1UAqboatbwLl0h/uu/FTe3Affu+qnLiGkQ=;
-        b=I+YD0h8PopC/clkNTf8IQ4Lek1PWY38J6Nm7Y3G3nMz/n9VgFlE2DxpuUg18FgKKBsPwuu
-        wAJtE/f38QLRLl3BE8PWRinJzMSvjtjBlA50K7XOEGsFgT/PYSiXx6azxm/zRWqUuYHUrT
-        2kQqgPE/ZTWM0O0+K/Yfn/353BTf9Sg=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-zvJGqa4rMUqvlrn8cfpZ2A-1; Mon, 06 Dec 2021 01:03:58 -0500
-X-MC-Unique: zvJGqa4rMUqvlrn8cfpZ2A-1
-Received: by mail-qv1-f70.google.com with SMTP id e14-20020a0562140d8e00b003bace92a1feso10733801qve.5
-        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 22:03:58 -0800 (PST)
+        Mon, 6 Dec 2021 02:05:04 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FAAC0613F8
+        for <linux-kbuild@vger.kernel.org>; Sun,  5 Dec 2021 23:01:35 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id n66so19737424oia.9
+        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 23:01:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gB5LF9YPwwTzjtszS9NiPGbxbvt4uXsWrHHq1Mo0sqY=;
+        b=pfdkMFZhQiBvWr4WiE+V9LycNs7cwBCQYUt2PXd1tvMVTYvNhEcm5BTZ6oiJAT9xNH
+         2XBC5LCm7nJOu2wfwsCbEE9PTQ6O8ru9EkQC379YociLkihwhenYcjXy8pYO9UOt3ScQ
+         SfQr+OpBEq2PFpvZqnQx0G9WzRWeCFOlFOK9qXJjrj9KEX0KtL3jUYh2Zexn6R3KaCXm
+         jZh0Hk4B8wJl5d7Cox7K7fKV5V9OgsY1YeOAWZVGhf+ogQjJnVGXzS9345cYCzbvtUwJ
+         s4WvNBZu8n6x75z/fwWyHkp3agBwAQLaAxaprOh96TYa2TOO6B6Gv0nUd/plFCYBQpHk
+         fU1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Wo70tjI7q1UAqboatbwLl0h/uu/FTe3Affu+qnLiGkQ=;
-        b=EtL5P+Yg1mXyLfhSt8TX3zDCt6A4gJEjYVmXWMZwdfSkjytSkdb19Le/q5fCBB+b1H
-         /m4xPypPi9DCI8hC5c8RXPqaOnyeFGuqRJqfB6NI9cnIAsrdF9OBoFc3FY4aVBz3HCNn
-         j/ay/Wq4tCbeoDdp90lgkN0F/8YcPPCz3ADGHV8hryzcEvjG5+pdLSSamhfuyE4WVyKS
-         X5t3gLIvxF6vOWdScbLDQNib4qEGC/2EFotjvsfYxNBSkBAAWbWGpO5mTERknCzOYTLM
-         MZ4Ip5kxNQ7I1p7PyN/LMk5tnX4MQVvqF/rmpaENg8YXYcbHQ+jdbT/g8/J/Ygdr2sBu
-         3lxg==
-X-Gm-Message-State: AOAM533mRJZcVj5aagrGwgI9KD5A7NJylXO8CzJGOeZMjF5uf0ANe+dA
-        V+5Vw6Pv9u0ubC5YrKuVn9zBz/moiM49XYYExuC04RofleFziMaguFqqZKsS+401/aXxlhr5QMd
-        yZziV3H0SLtsC0Cbf20Q3erPx
-X-Received: by 2002:ac8:5bcf:: with SMTP id b15mr37503565qtb.474.1638770637762;
-        Sun, 05 Dec 2021 22:03:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwBlcOgv7DcKhfVmXiMUiPn6jj3Lbd0IoNd3WtPjyxukoKwU1wdw7FB6qmJfkTYOfo/DTS8HA==
-X-Received: by 2002:ac8:5bcf:: with SMTP id b15mr37503536qtb.474.1638770637542;
-        Sun, 05 Dec 2021 22:03:57 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::45])
-        by smtp.gmail.com with ESMTPSA id y20sm6176312qkj.24.2021.12.05.22.03.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 22:03:56 -0800 (PST)
-Date:   Sun, 5 Dec 2021 22:03:50 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gB5LF9YPwwTzjtszS9NiPGbxbvt4uXsWrHHq1Mo0sqY=;
+        b=eU/EJfMaC9aVL371pFx7auIqkDDGinaEGixj4YYIHcMkD6H7xU3Wrv0sIDksv0z/1N
+         5ZKa2sEUlJFbCIgco6+dMfy/0/SO2ktPPXQYbjCHBus5o2i+oGGr8D/y+GhIA5JJRXo5
+         wqNMpmRjw2WBfkjyo56Unli9QmsMaLlyb6MyThwF5YH917BLDnZiscqi1bnzFX0k188Q
+         XfraMY3hGMaIKkh7F5VG8uUQ2onMVE6ek9MPSloXQTAWocj/ReoV/l/lMcylDeZGfOcv
+         Y8jYmXRIB8bLWyjJUWB/e4HR7HkgyJi6SEh7fR1HubKVjg+94xIyVTbJu+XR9dshQsLN
+         6lXQ==
+X-Gm-Message-State: AOAM530nPjJX2m9uMWps7vIfWp9NptOocaiKfXlYDJGV/rp8rCXFT4Uf
+        9xjF2hpZ2okWaItw30FGpF1wXSZ//hUJQ14Ux6/2hg==
+X-Google-Smtp-Source: ABdhPJz2VEzeFRmQbkvN/DYiD+KZA8vOAtqU+2Td6RPO0eQreX0PlwZ++Fy4+DwuMSt5s1I6lLNqm2t8c+9sdNh1+kM=
+X-Received: by 2002:aca:af50:: with SMTP id y77mr22500904oie.134.1638774094811;
+ Sun, 05 Dec 2021 23:01:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20211203235346.110809-1-keescook@chromium.org>
+In-Reply-To: <20211203235346.110809-1-keescook@chromium.org>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 6 Dec 2021 08:00:00 +0100
+Message-ID: <CANpmjNPn4kVRfb2R=_QyKQtmj-TN+=xn3sHkQwNsq4fcJuvNzQ@mail.gmail.com>
+Subject: Re: [PATCH] ubsan: Remove CONFIG_UBSAN_OBJECT_SIZE
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v8 08/14] livepatch: only match unique symbols when using
- FG-KASLR
-Message-ID: <20211206060350.f4hqug2jhgjlaw3c@treble>
-References: <20211202223214.72888-1-alexandr.lobakin@intel.com>
- <20211202223214.72888-9-alexandr.lobakin@intel.com>
- <YansAlTr0/MfNxWc@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YansAlTr0/MfNxWc@hirez.programming.kicks-ass.net>
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 11:05:54AM +0100, Peter Zijlstra wrote:
-> On Thu, Dec 02, 2021 at 11:32:08PM +0100, Alexander Lobakin wrote:
-> > If any type of function granular randomization is enabled, the sympos
-> > algorithm will fail, as it will be impossible to resolve symbols when
-> > there are duplicates using the previous symbol position.
-> > 
-> > We could override sympos to 0, but make it more clear to the user
-> > and bail out if the symbol is not unique.
-> 
-> Since we're going lots of horrendous things already, why can't we fix
-> this duplicate nonsense too?
+On Sat, 4 Dec 2021 at 00:53, Kees Cook <keescook@chromium.org> wrote:
+> The object-size sanitizer is redundant to -Warray-bounds, and
+> inappropriately performs its checks at run-time when all information
+> needed for the evaluation is available at compile-time, making it quite
+> difficult to use:
+>
+> https://bugzilla.kernel.org/show_bug.cgi?id=214861
+>
+> With -Warray-bounds almost enabled globally, it doesn't make sense to
+> keep this around.
+>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-I assume you mean using this new linker flag: "-z unique-symbol"
+Reviewed-by: Marco Elver <elver@google.com>
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=26391
+Thank you!
 
--- 
-Josh
-
+> ---
+>  lib/Kconfig.ubsan      | 13 -------------
+>  lib/test_ubsan.c       | 22 ----------------------
+>  scripts/Makefile.ubsan |  1 -
+>  3 files changed, 36 deletions(-)
+>
+> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> index e5372a13511d..236c5cefc4cc 100644
+> --- a/lib/Kconfig.ubsan
+> +++ b/lib/Kconfig.ubsan
+> @@ -112,19 +112,6 @@ config UBSAN_UNREACHABLE
+>           This option enables -fsanitize=unreachable which checks for control
+>           flow reaching an expected-to-be-unreachable position.
+>
+> -config UBSAN_OBJECT_SIZE
+> -       bool "Perform checking for accesses beyond the end of objects"
+> -       default UBSAN
+> -       # gcc hugely expands stack usage with -fsanitize=object-size
+> -       # https://lore.kernel.org/lkml/CAHk-=wjPasyJrDuwDnpHJS2TuQfExwe=px-SzLeN8GFMAQJPmQ@mail.gmail.com/
+> -       depends on !CC_IS_GCC
+> -       depends on $(cc-option,-fsanitize=object-size)
+> -       help
+> -         This option enables -fsanitize=object-size which checks for accesses
+> -         beyond the end of objects where the optimizer can determine both the
+> -         object being operated on and its size, usually seen with bad downcasts,
+> -         or access to struct members from NULL pointers.
+> -
+>  config UBSAN_BOOL
+>         bool "Perform checking for non-boolean values used as boolean"
+>         default UBSAN
+> diff --git a/lib/test_ubsan.c b/lib/test_ubsan.c
+> index 7e7bbd0f3fd2..2062be1f2e80 100644
+> --- a/lib/test_ubsan.c
+> +++ b/lib/test_ubsan.c
+> @@ -79,15 +79,6 @@ static void test_ubsan_load_invalid_value(void)
+>         eval2 = eval;
+>  }
+>
+> -static void test_ubsan_null_ptr_deref(void)
+> -{
+> -       volatile int *ptr = NULL;
+> -       int val;
+> -
+> -       UBSAN_TEST(CONFIG_UBSAN_OBJECT_SIZE);
+> -       val = *ptr;
+> -}
+> -
+>  static void test_ubsan_misaligned_access(void)
+>  {
+>         volatile char arr[5] __aligned(4) = {1, 2, 3, 4, 5};
+> @@ -98,29 +89,16 @@ static void test_ubsan_misaligned_access(void)
+>         *ptr = val;
+>  }
+>
+> -static void test_ubsan_object_size_mismatch(void)
+> -{
+> -       /* "((aligned(8)))" helps this not into be misaligned for ptr-access. */
+> -       volatile int val __aligned(8) = 4;
+> -       volatile long long *ptr, val2;
+> -
+> -       UBSAN_TEST(CONFIG_UBSAN_OBJECT_SIZE);
+> -       ptr = (long long *)&val;
+> -       val2 = *ptr;
+> -}
+> -
+>  static const test_ubsan_fp test_ubsan_array[] = {
+>         test_ubsan_shift_out_of_bounds,
+>         test_ubsan_out_of_bounds,
+>         test_ubsan_load_invalid_value,
+>         test_ubsan_misaligned_access,
+> -       test_ubsan_object_size_mismatch,
+>  };
+>
+>  /* Excluded because they Oops the module. */
+>  static const test_ubsan_fp skip_ubsan_array[] = {
+>         test_ubsan_divrem_overflow,
+> -       test_ubsan_null_ptr_deref,
+>  };
+>
+>  static int __init test_ubsan_init(void)
+> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> index 9e2092fd5206..7099c603ff0a 100644
+> --- a/scripts/Makefile.ubsan
+> +++ b/scripts/Makefile.ubsan
+> @@ -8,7 +8,6 @@ ubsan-cflags-$(CONFIG_UBSAN_LOCAL_BOUNDS)       += -fsanitize=local-bounds
+>  ubsan-cflags-$(CONFIG_UBSAN_SHIFT)             += -fsanitize=shift
+>  ubsan-cflags-$(CONFIG_UBSAN_DIV_ZERO)          += -fsanitize=integer-divide-by-zero
+>  ubsan-cflags-$(CONFIG_UBSAN_UNREACHABLE)       += -fsanitize=unreachable
+> -ubsan-cflags-$(CONFIG_UBSAN_OBJECT_SIZE)       += -fsanitize=object-size
+>  ubsan-cflags-$(CONFIG_UBSAN_BOOL)              += -fsanitize=bool
+>  ubsan-cflags-$(CONFIG_UBSAN_ENUM)              += -fsanitize=enum
+>  ubsan-cflags-$(CONFIG_UBSAN_TRAP)              += -fsanitize-undefined-trap-on-error
+> --
+> 2.30.2
+>
