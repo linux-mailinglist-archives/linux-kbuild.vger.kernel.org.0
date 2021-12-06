@@ -2,62 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CB946ADC9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 23:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3923046AE2F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Dec 2021 00:02:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243758AbhLFW6F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 17:58:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377169AbhLFW5s (ORCPT
+        id S1377943AbhLFXFm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 18:05:42 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:40904 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1377807AbhLFXFg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 17:57:48 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDF4C061354
-        for <linux-kbuild@vger.kernel.org>; Mon,  6 Dec 2021 14:54:18 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id r130so11572357pfc.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Dec 2021 14:54:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pNo4IfZlV3J4pS3tbYIeKamcl57Bc4Ek2OWv5IwnAaY=;
-        b=PBC7aJPAt7hOkjKH6srXe0pQKBcbGLudTwJCoTmKf05RQPtYp2fp6keA9kjd3znXGe
-         RW1IBU8smdbZ+dxuxoIngI+SJs9rkPEN/RQPX9bdlR7soU83g4OTDSj8/O5QzP0nl0WF
-         2i562tsDog2ui5nBp8A7mLvtAEfZafGKhHxL8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pNo4IfZlV3J4pS3tbYIeKamcl57Bc4Ek2OWv5IwnAaY=;
-        b=QjkIHyWF5r4lUv9ecN1L75DcgUxE/ft0SfxHKK+GVu0kMz5Ql5AnTbypQOJH4XnugZ
-         /sbq4cWEWtfb/vHiHGaadq8b2uyhEy5irySbRpF5muuoTD09jmdnYHe1dwMc7lmFKGO4
-         AAUrLHc2DloUngtCIPay+yxBdYCLVBuPJsLLix8/efGPxMEEP6pbxf/2Lt90LSHgDp1m
-         UchpiQUkPjnXCVpgIOQ3hd7KtVcMbs6j2kcvBYvi7/bs67vf7XzXDUqU3rGxCKNJWZ4f
-         cBpwI/i2AIULsvL4J4EAPwk6u7llbxkhccxSJnwFGL9N2NR/uJ7tiT8KGtU3t2+4R+31
-         HUuQ==
-X-Gm-Message-State: AOAM531v0ly0w8gamhnsfDEqgjAhrb668d3ssxj7dBTiGyM1kwbECW9i
-        SN38ryjtGIUL9ji7otJiCXgA0Q==
-X-Google-Smtp-Source: ABdhPJwRN5DiaXl8zfMv29z1JHsbcy56J3T2wC8JlWPgGqnoVni85BBce+QQmsjuL6CCytwgZWEiqg==
-X-Received: by 2002:a05:6a00:189d:b0:4ae:da96:e13e with SMTP id x29-20020a056a00189d00b004aeda96e13emr6239589pfh.77.1638831258185;
-        Mon, 06 Dec 2021 14:54:18 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id rm10sm400633pjb.29.2021.12.06.14.54.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 14:54:17 -0800 (PST)
-Date:   Mon, 6 Dec 2021 14:54:17 -0800
-From:   Kees Cook <keescook@chromium.org>
+        Mon, 6 Dec 2021 18:05:36 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 59E0FB811E6;
+        Mon,  6 Dec 2021 23:02:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66321C341C6;
+        Mon,  6 Dec 2021 23:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638831725;
+        bh=NktSKKCyxPf1U561lMnFH1c2P6B5aq6u94x7DTPVBwI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pKSQgLcAGoJGcH6xMTF67D+FqkgV8hlcnIE3D48uVWDU3a633jB9PLyZH3089V1pA
+         BCRgdJ9n/WTW27wGNkk5yk29CJt0It6+pY+rqprVdx5jH6OGg817w9E40k8TdAtE6f
+         a3pG/HUW66/evYIvm8aM5/E9A+SdiDAHs+HEPyRRJ1YiBVe2sqoSGRbxNcSj2C3DWu
+         /pnhurD6xNHiKwW5eyOWTs2Hb71/SAjcNkI4UGNAPDD+kdJGk6m5jR1kAhM4ZSJBP5
+         1fBFAe7iMi873wYxXBTCbhhv5ELE3SEKM5RWYFoBpyyUQmsKpY2x2uaBIKh6wdFa8p
+         uQNQO4RT1Djqw==
+Date:   Mon, 6 Dec 2021 16:01:59 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
 To:     Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+Cc:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: Makefile: CC_IMPLICIT_FALLTHROUGH passed quoted as argument to
  gcc
-Message-ID: <202112061453.CF34EC9@keescook>
+Message-ID: <Ya6WZw3s4EdGbp3a@archlinux-ax161>
 References: <YatpectAYsWnmPy2@eldamar.lan>
  <CAHk-=whTTWUyL5j5_-UeRT6k9VcJM_VOfjiKuU2NBJkxhbnXpw@mail.gmail.com>
  <CAK7LNAR-VXwHFEJqCcrFDZj+_4+Xd6oynbj_0eS8N504_ydmyw@mail.gmail.com>
@@ -188,9 +172,6 @@ On Mon, Dec 06, 2021 at 11:02:05PM +0100, Salvatore Bonaccorso wrote:
 > 
 > Does the following look correct, as well from formal style/commit
 > description? I have not yet done many contributions directly.
-
-Looks good to me; thanks!
-
 > 
 > Regards,
 > Salvatore
@@ -219,10 +200,25 @@ Looks good to me; thanks!
 > Link: https://bugs.debian.org/1001083
 > Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Does anyone have a preference as to who should take this? Gustavo,
-Marahiro, me, or Linus directly?
-
--- 
-Kees Cook
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 8e35d7804fef..ef967a26bcd3 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -789,7 +789,7 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+>  KBUILD_CFLAGS += $(stackp-flags-y)
+>  
+>  KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
+> -KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+> +KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH:"%"=%)
+>  
+>  ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_CPPFLAGS += -Qunused-arguments
+> -- 
+> 2.34.1
+> 
