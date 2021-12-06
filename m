@@ -2,181 +2,246 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDF3846987B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 15:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0C12469909
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 15:32:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343844AbhLFOWF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 09:22:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42416 "EHLO
+        id S1344303AbhLFOgR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 09:36:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244558AbhLFOWF (ORCPT
+        with ESMTP id S1343717AbhLFOgR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 09:22:05 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9C6C061746;
-        Mon,  6 Dec 2021 06:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=U62ZcSPWhWgjkAasz/W1SPJ0TKrJujh2fnjbz+MxAoM=; b=iHirtUCCzQZTUjaCuIKdBFIo0N
-        SpYk42ie9tcAtRHyapcdPNV5Fx5jAGO0RaXPJgvZCk4AgzWJOp+SdL70ucoco8QXOVrzwo3OZEs4L
-        X49XO1GLEMAxC29lbNH/O31Vx3X2I8N1qe9l9A9D1PMH3HvjRcTrP3yTnYpokTApqfVfkn0aSw7t8
-        UzPkXZmjBzEkQ0MOXbViIUIyGyKItBLg7t/NMPL4z1VCrHka1Ng8dmGY/JRN/WGeCNWC9adqEkS2x
-        ZK0N685y74M3YIiWrvR1/+QCEZDO3VA2BEWh0w1L7ALG43STkHYvH7FI+OTbQ7eaBzHFNUIERwbue
-        X8a+00AQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1muEp7-004omM-3h; Mon, 06 Dec 2021 14:18:33 +0000
-Date:   Mon, 6 Dec 2021 14:18:33 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Gary Guo <gary@garyguo.net>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH 01/19] kallsyms: support "big" kernel symbols
-Message-ID: <Ya4bucmvLBJRWhvn@casper.infradead.org>
-References: <20211206140313.5653-1-ojeda@kernel.org>
- <20211206140313.5653-2-ojeda@kernel.org>
+        Mon, 6 Dec 2021 09:36:17 -0500
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE61C061746;
+        Mon,  6 Dec 2021 06:32:48 -0800 (PST)
+Received: by mail-io1-xd34.google.com with SMTP id c3so13146168iob.6;
+        Mon, 06 Dec 2021 06:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FHezbGrYlKxA1aTrkxNXSkuk1RduKCiWsmFP87kNHNY=;
+        b=GXfZLWErwVXNUIWTHzJ3JSvvaZ1ekUxwLx/RO6eG2oqG8RKwA83QEHyf6Lgu2pvH2e
+         6EAZXpfRzfvbjY71KDHAzWFUD1D5xnfkxDwd1DAzcCl83aTQm6Ne32mTBtwoQgT1CHUV
+         2W8cDfYJZTbjYPvaVlm+oBaInxz7hnYHaJtrKCW3ZUfFjBzMZQu8pSL7cZgSKpwByPwK
+         gdOYhET5KSaY7yVXH/pmeLnQFr/R51Qxn+A8CxvMJ/5bQhb/CoYCURhE7gJQplzFUgS0
+         HnBwT1uFanfIiFq2JoHW276Mrtt8WTSgmVf7U/BsIzKfQ9A9GkpI3mSaOpkBHdDcbQTZ
+         Mhyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FHezbGrYlKxA1aTrkxNXSkuk1RduKCiWsmFP87kNHNY=;
+        b=ENhmfjl4NnLq3ESXjO7YkZN38/qBXQO/ZCKTaOckHdABTUan9C4DUmbSOZ6y0pPCZy
+         +Rqtxbn8WTvmzvqhJS9YR9e+AM65ewGFZNClcISC6I7xyVO/06tJOs2kQeiqTxozH52M
+         XKU4HyFBfUt19IT78u2wGiK8g++kgrft1fPXmU+Nf/wREBHRES3HGg3ITWlZyGvhTUFv
+         SlUpFUBHHREI1KyCA6oXjS3UzNs2SrfuH5aEss9hq6oRXhRiVTFtY4MASdM//7OheSpw
+         e63o1tOScnlHAL08DjdN1arbCoKc9VGdoccx1zv3iKhzOrPvaSQGiHkk6fHCOZ6YaDBF
+         i/4A==
+X-Gm-Message-State: AOAM533ppt6gZ0q2zFOHb9iKHPxfXwZmvgYTEmVbP8l+5d58zJrGqvX2
+        oOlsQbnkrZSCNoIiy/2hPF8=
+X-Google-Smtp-Source: ABdhPJx2s79y4UV6UfCELoWwjsBXrn2U9Tro1XMfsLGc7m27xn/DOl5d0HW/E8jg1uMWElErsFJE7A==
+X-Received: by 2002:a02:a708:: with SMTP id k8mr42965751jam.26.1638801167426;
+        Mon, 06 Dec 2021 06:32:47 -0800 (PST)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id y8sm6337176iox.32.2021.12.06.06.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 06:32:46 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 8E52D27C0054;
+        Mon,  6 Dec 2021 09:32:44 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 06 Dec 2021 09:32:44 -0500
+X-ME-Sender: <xms:Cx-uYQs85A1MMXJYGuWqEJ7Z5H0fYWyIBMsroi5ZcJYhDA_0sXEVKw>
+    <xme:Cx-uYdeOOSQTLomCC91P6fvNfLUaBzynTvS8S1IJqe42v_kaQOsPATPLrlpxDh5K-
+    VsJpX9OMQqwUGTEww>
+X-ME-Received: <xmr:Cx-uYbxTazrQNhAmwOJDGcwBcZKt0G6ftpVDE7070sHyD2fzk1MP_1dE6sw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeevieejtdfhieejfeduheehvdevgedugeethefggfdtvdeutdevgeetvddvfeeg
+    tdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:Cx-uYTP7IMvllYtCuW-96zpzDKmquPq_Oc0AMq8B6-3JLGB89W1FVQ>
+    <xmx:Cx-uYQ-LAihlYOGwm6Zoiy1lOqxm_kftsSxg_LPN5by606Y0o4ftaA>
+    <xmx:Cx-uYbVLvwYrqkFwFZoM7PbDfKREKDylKP9K-SP5OD6QDsGQMr7wcg>
+    <xmx:DB-uYT3XFpOMXfNRE9xfxrXZdDXokmbhrddzAfQotajWX2sPWXYz3F-Xqns>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Dec 2021 09:32:43 -0500 (EST)
+Date:   Mon, 6 Dec 2021 22:31:24 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Marco Elver <elver@google.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
+Message-ID: <Ya4evHE7uQ9eXpax@boqun-archlinux>
+References: <20211130114433.2580590-1-elver@google.com>
+ <20211130114433.2580590-9-elver@google.com>
+ <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
+ <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211206140313.5653-2-ojeda@kernel.org>
+In-Reply-To: <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 03:02:55PM +0100, Miguel Ojeda wrote:
-> Rust symbols can become quite long due to namespacing introduced
-> by modules, types, traits, generics, etc.
+On Mon, Dec 06, 2021 at 08:16:11AM +0100, Marco Elver wrote:
+> On Mon, 6 Dec 2021 at 06:04, Boqun Feng <boqun.feng@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, Nov 30, 2021 at 12:44:16PM +0100, Marco Elver wrote:
+> > > Also show the location the access was reordered to. An example report:
+> > >
+> > > | ==================================================================
+> > > | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
+> > > |
+> > > | read-write to 0xffffffffc01e61a8 of 8 bytes by task 2311 on cpu 5:
+> > > |  test_kernel_wrong_memorder+0x57/0x90
+> > > |  access_thread+0x99/0xe0
+> > > |  kthread+0x2ba/0x2f0
+> > > |  ret_from_fork+0x22/0x30
+> > > |
+> > > | read-write (reordered) to 0xffffffffc01e61a8 of 8 bytes by task 2310 on cpu 7:
+> > > |  test_kernel_wrong_memorder+0x57/0x90
+> > > |  access_thread+0x99/0xe0
+> > > |  kthread+0x2ba/0x2f0
+> > > |  ret_from_fork+0x22/0x30
+> > > |   |
+> > > |   +-> reordered to: test_kernel_wrong_memorder+0x80/0x90
+> > > |
+> >
+> > Should this be "reordered from" instead of "reordered to"? For example,
+> > if the following case needs a smp_mb() between write to A and write to
+> > B, I think currently it will report as follow:
+> >
+> >         foo() {
+> >                 WRITE_ONCE(A, 1); // let's say A's address is 0xaaaa
+> >                 bar() {
+> >                         WRITE_ONCE(B, 1); // Assume B's address is 0xbbbb
+> >                                           // KCSAN find the problem here
+> >                 }
+> >         }
+> >
+> >         <report>
+> >         | write (reordered) to 0xaaaa of ...:
+> >         | bar+0x... // address of the write to B
+> >         | foo+0x... // address of the callsite to bar()
+> >         | ...
+> >         |  |
+> >         |  +-> reordered to: foo+0x... // address of the write to A
+> >
+> > But since the access reported here is the write to A, so it's a
+> > "reordered from" instead of "reordered to"?
 > 
-> Increasing to 255 is not enough in some cases, and therefore
-> we need to introduce longer lengths to the symbol table.
+> Perhaps I could have commented on this in the commit message to avoid
+> the confusion, but per its updated comment replace_stack_entry()
+> "skips to the first entry that matches the function of @ip, and then
+> replaces that entry with @ip, returning the entries to skip with
+> @replaced containing the replaced entry."
 > 
-> In order to avoid increasing all lengths to 2 bytes (since most
-> of them are small, including many Rust ones), we use ULEB128 to
-> keep smaller symbols in 1 byte, with the rest in 2 bytes.
+> When a reorder_access is set up, the ip to it is stored, which is
+> what's passed to @ip of replace_stack_entry(). It effectively swaps
+> the top frame where the race occurred with where the original access
+> happened. This all works because the runtime is careful to only keep
+> reorder_accesses valid until the original function where it occurred
+> is left.
 > 
-> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Co-developed-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-> Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 
-Who are all these people, who didn't actually do any of this
-implementation, and where am I who did?
+Thanks for the explanation, I was missing the swap here. However...
 
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  kernel/kallsyms.c  | 26 ++++++++++++++++++++++----
->  scripts/kallsyms.c | 29 ++++++++++++++++++++++++++---
->  2 files changed, 48 insertions(+), 7 deletions(-)
+> So in your above example you need to swap "reordered to" and the top
+> frame of the stack trace.
 > 
-> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-> index 3011bc33a5ba..80702273494a 100644
-> --- a/kernel/kallsyms.c
-> +++ b/kernel/kallsyms.c
-> @@ -69,12 +69,20 @@ static unsigned int kallsyms_expand_symbol(unsigned int off,
->  	data = &kallsyms_names[off];
->  	len = *data;
->  	data++;
-> +	off++;
-> +
-> +	/* If MSB is 1, it is a "big" symbol, so needs an additional byte. */
-> +	if ((len & 0x80) != 0) {
-> +		len = (len & 0x7F) | (*data << 7);
-> +		data++;
-> +		off++;
-> +	}
->  
->  	/*
->  	 * Update the offset to return the offset for the next symbol on
->  	 * the compressed stream.
->  	 */
-> -	off += len + 1;
-> +	off += len;
->  
->  	/*
->  	 * For every byte on the compressed symbol data, copy the table
-> @@ -127,7 +135,7 @@ static char kallsyms_get_symbol_type(unsigned int off)
->  static unsigned int get_symbol_offset(unsigned long pos)
->  {
->  	const u8 *name;
-> -	int i;
-> +	int i, len;
->  
->  	/*
->  	 * Use the closest marker we have. We have markers every 256 positions,
-> @@ -141,8 +149,18 @@ static unsigned int get_symbol_offset(unsigned long pos)
->  	 * so we just need to add the len to the current pointer for every
->  	 * symbol we wish to skip.
->  	 */
-> -	for (i = 0; i < (pos & 0xFF); i++)
-> -		name = name + (*name) + 1;
-> +	for (i = 0; i < (pos & 0xFF); i++) {
-> +		len = *name;
-> +
-> +		/*
-> +		 * If MSB is 1, it is a "big" symbol, so we need to look into
-> +		 * the next byte (and skip it, too).
-> +		 */
-> +		if ((len & 0x80) != 0)
-> +			len = ((len & 0x7F) | (name[1] << 7)) + 1;
-> +
-> +		name = name + len + 1;
-> +	}
->  
->  	return name - kallsyms_names;
->  }
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 54ad86d13784..79b11bb7f07d 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -470,12 +470,35 @@ static void write_src(void)
->  		if ((i & 0xFF) == 0)
->  			markers[i >> 8] = off;
->  
-> -		printf("\t.byte 0x%02x", table[i]->len);
-> +		/* There cannot be any symbol of length zero. */
-> +		if (table[i]->len == 0) {
-> +			fprintf(stderr, "kallsyms failure: "
-> +				"unexpected zero symbol length\n");
-> +			exit(EXIT_FAILURE);
-> +		}
-> +
-> +		/* Only lengths that fit in up-to-two-byte ULEB128 are supported. */
-> +		if (table[i]->len > 0x3FFF) {
-> +			fprintf(stderr, "kallsyms failure: "
-> +				"unexpected huge symbol length\n");
-> +			exit(EXIT_FAILURE);
-> +		}
-> +
-> +		/* Encode length with ULEB128. */
-> +		if (table[i]->len <= 0x7F) {
-> +			/* Most symbols use a single byte for the length. */
-> +			printf("\t.byte 0x%02x", table[i]->len);
-> +			off += table[i]->len + 1;
-> +		} else {
-> +			/* "Big" symbols use two bytes. */
-> +			printf("\t.byte 0x%02x, 0x%02x",
-> +				(table[i]->len & 0x7F) | 0x80,
-> +				(table[i]->len >> 7) & 0x7F);
-> +			off += table[i]->len + 2;
-> +		}
->  		for (k = 0; k < table[i]->len; k++)
->  			printf(", 0x%02x", table[i]->sym[k]);
->  		printf("\n");
-> -
-> -		off += table[i]->len + 1;
->  	}
->  	printf("\n");
->  
-> -- 
-> 2.34.0
+
+IIUC, the report for my above example will be:
+
+         | write (reordered) to 0xaaaa of ...:
+         | foo+0x... // address of the write to A
+         | ...
+         |  |
+         |  +-> reordered to: foo+0x... // address of the callsite to bar() in foo()
+
+, right? Because in replace_stack_entry(), it's not the top frame where
+the race occurred that gets swapped, it's the frame which belongs to the
+same function as the original access that gets swapped. In other words,
+when KCSAN finds the problem, top entries of the calling stack are:
+
+	[0] bar+0x.. // address of the write to B
+	[1] foo+0x.. // address of the callsite to bar() in foo()
+
+after replace_stack_entry(), they changes to:
+
+	[0] bar+0x.. // address of the write to B
+skip  ->[1] foo+0x.. // address of the write to A
+
+, as a result the report won't mention bar() at all.
+
+And I think a better report will be:
+
+         | write (reordered) to 0xaaaa of ...:
+         | foo+0x... // address of the write to A
+         | ...
+         |  |
+         |  +-> reordered to: bar+0x... // address of the write to B in bar()
+
+because it tells users the exact place the accesses get reordered. That
+means maybe we want something as below? Not completely tested, but I
+play with scope checking a bit, seems it gives what I want. Thoughts?
+
+Regards,
+Boqun
+
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index 67794404042a..b495ed3aa637 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -324,7 +324,10 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
+        else
+                goto fallback;
+
+-       for (skip = 0; skip < num_entries; ++skip) {
++       skip = get_stack_skipnr(stack_entries, num_entries);
++       *replaced = stack_entries[skip];
++
++       for (;skip < num_entries; ++skip) {
+                unsigned long func = stack_entries[skip];
+
+                if (!kallsyms_lookup_size_offset(func, &symbolsize, &offset))
+@@ -332,7 +335,6 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
+                func -= offset;
+
+                if (func == target_func) {
+-                       *replaced = stack_entries[skip];
+                        stack_entries[skip] = ip;
+                        return skip;
+                }
+
+> The implementation is a little trickier of course, but I really wanted
+> the main stack trace to look like any other non-reordered access,
+> which starts from the original access, and only have the "reordered
+> to" location be secondary information.
 > 
+> The foundation for doing this this was put in place here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6c65eb75686f
+> 
+> Thanks,
+> -- Marco
