@@ -2,296 +2,278 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C84546A31C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 18:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0204F46A4D3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 19:43:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243572AbhLFRmd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 12:42:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243543AbhLFRmc (ORCPT
+        id S1347271AbhLFSqf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 13:46:35 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:54758 "EHLO
+        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238859AbhLFSqd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 12:42:32 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ECFFC061746;
-        Mon,  6 Dec 2021 09:39:03 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 447E6CE173F;
-        Mon,  6 Dec 2021 17:39:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688CDC341C1;
-        Mon,  6 Dec 2021 17:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638812339;
-        bh=viapyMP+uWweUhUtSebtUlHGJOGRA2C6UPmzpvE8xJY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=exsO6t4pmiT/cTp0u+pjPqE2UN77Jro5Fa9COX2N1ZWb5cLUIQHyaonWb2YHaUkQu
-         1bA2XzSw4H1B1VxZOurxRqwc5+4KTsDs5LQtkUNMcPGgn2FMA3JAVInXRk5uKCLRPo
-         rRTiujw8hJbNGZATgGz+kXFphXeIMwwKypjMNl1T8kt+Xk7BNPl0b/9Mu4bCipNW9k
-         Lj1kjG4FUPLlyI7APSFAJws73AxTJso7IojAvMwkNIDbvDReClUBa7lMXW1HOCDLlk
-         vQzpGwcEfOnxmpktFdHzdfyqkXnd6zS6316nAt3u64ct23hVJHO6HUSbz4FsjJIsk8
-         2Mz4O9w4n3ICQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 0AB175C1461; Mon,  6 Dec 2021 09:38:59 -0800 (PST)
-Date:   Mon, 6 Dec 2021 09:38:59 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Marco Elver <elver@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        Mon, 6 Dec 2021 13:46:33 -0500
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B6HvtTb003048;
+        Mon, 6 Dec 2021 10:43:03 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : mime-version; s=facebook;
+ bh=HL6HrgcNBvs0UlPx6XJwaFBGowJMDwcC8IbqbjXQj9U=;
+ b=f+qBNNQgCvp2ugsmGHQy7P9WGOu9KqXX+YDrF3JcuEUGPHCPX0+t5p+U+KOLtHmfAoFd
+ wsoDe1fNvNbo+C8xL6sQLvTCblHsrCi99HGrKZrfabdmFkariAmLJQv2syktUgDwtbsE
+ gsI6/Dnz3TAghHKIqgRZQ2SnsY7PDSKS1ZA= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by mx0a-00082601.pphosted.com with ESMTP id 3csjxxtard-3
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 06 Dec 2021 10:43:03 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 6 Dec 2021 10:42:59 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JoTprzfVWz2QT2Xg8aVsFMOYU0597vL/rY1hoEM2UqKjdJShnH7/+b2hxHKGwHJADkcOFMC/XautL8RkcnwCuhUAxWhuTTlMHFHyQFerQnMECg4RCex/ZSeFUzu35GHmStfF7ZGYnOxoYQcAzy3BksEOCJv9XV67Jp0UH55tyB1ZyUOvvp/uJRblDtkaKwvAgm9uX7YlEn+tzR5SBnivL9P83k+0/bnx9phUO8Qfl+147PkRzZvdFBfNomEyr9QEl6Ea4SDhOq7UCw/SBHDpveLiNip1d11U05/+2Z+1TISfsnL5W0KQP+OVN87e9c0Y6O+C6JbITdD32cBroT5uKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HL6HrgcNBvs0UlPx6XJwaFBGowJMDwcC8IbqbjXQj9U=;
+ b=a/udDzmFcPnvTKd0jOquSAKStafDxbbh7zPc3HrJuKRrFaAcDDiLQi6ZJa023EYvqkDAsAnUeDaDmVKoR217/c3MjkJYTlsRMaE+OmZ22s8q65OqaaqfuciNiVOjCxvOljIuLmt6JhvULQbDoNW14p2ajKraIXlqz0W7UPcgFQ5flRBu1gsWrfEuHgLuSIl/l3OEwr0do1XEczVnajZfs/VqKPLKhj+LjYCFWPmDAe/XXQQeQ05CytC9Uw5Het333FNRVXWYvWeXlYB3S8dk+cQWcu4PxA0T2cbzpgWXc/+PXuC0D+/ZVXbJFD3vzKMttSl8FJ5fg6rQO8H8RAvJ+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
+ by BY5PR15MB3620.namprd15.prod.outlook.com (2603:10b6:a03:1f8::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16; Mon, 6 Dec
+ 2021 18:42:58 +0000
+Received: from BY5PR15MB3667.namprd15.prod.outlook.com
+ ([fe80::848a:51b3:982e:de87]) by BY5PR15MB3667.namprd15.prod.outlook.com
+ ([fe80::848a:51b3:982e:de87%4]) with mapi id 15.20.4755.022; Mon, 6 Dec 2021
+ 18:42:57 +0000
+From:   Nick Terrell <terrelln@fb.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+CC:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
+        Michael Forney <forney@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
-Message-ID: <20211206173859.GA641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211130114433.2580590-1-elver@google.com>
- <20211130114433.2580590-9-elver@google.com>
- <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
- <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
- <Ya4evHE7uQ9eXpax@boqun-archlinux>
- <Ya40hEQv5SEu7ZeL@elver.google.com>
- <Ya5FaU9e6XY8vHJR@boqun-archlinux>
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to
+ zstd
+Thread-Topic: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to
+ zstd
+Thread-Index: AQHX4UhKidKPr3kbgE2o2YP10PuuiKwkkw+AgAFMjIA=
+Date:   Mon, 6 Dec 2021 18:42:57 +0000
+Message-ID: <F49C6875-FFDD-4314-A202-0C428B525A6A@fb.com>
+References: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+ <20211124153105.155739-2-alex_y_xu@yahoo.ca>
+ <CAK7LNASO_EmCp2zR_sBq_YNiw83Px8pKhcW78HKv1My7eKB+2w@mail.gmail.com>
+In-Reply-To: <CAK7LNASO_EmCp2zR_sBq_YNiw83Px8pKhcW78HKv1My7eKB+2w@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 68d0ddbc-654e-4501-8f38-08d9b8e83919
+x-ms-traffictypediagnostic: BY5PR15MB3620:EE_
+x-microsoft-antispam-prvs: <BY5PR15MB362056A9E92EA0E81A41FF3EAB6D9@BY5PR15MB3620.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FEdd2gvIlEnYhX4mh+IKTD8+95fTAdCKzjEAwZEQvBnE1Yhyu3oc5NC/PV171GR/3yh7Urgu9IjoWY7NWUfDwiatsmB+IjVMsiiGEAbSNpu7kUWqNGYQzcINeGEGDV82GwccEL1+CfOM0IWPQvcNYJerTkotsHlUXGgCG5N4iyEdCgbY9IlTy94I0xeCNmdUwVclbhxJIya6j6mRFWlolzzro5j3eLPKYA11TSQBep1EoQ++UXDrXGU9ZRraNfwLbvTOaKcQ01iHEP3zRnWd6vxtu+iZlttNAVm1xnX8ERKyuvjwxjWlrYQIzIbNYlZ6zy4790fIpG6f6vG4liiag1EGGG8WMwtU+IBn/XUhLkjojVFjjbjddRuT3YNZBjkIL7a0MedijLFHQGjIfN3VFIQiMXAXCT9VwqMXiX1UsZJjh6FbFJXXnkB8e5ptAHhoP3HGJ9C7GN8IZlDRngU8CbbMuTe5WGwdNmDMKOPvlbDiICoAxlpGr8xeOCHPiY2cEMyZIHhpIbjFP5xUSFHdXgkHVPX49BZT1SaKKYJbTC3U/dt1Tw/CidPBCMEZi2zhwlNfulWBoHnA/cGv8pbDaJnIM2s0bt/bD9lBesX5aSD72FfYRA/qFZuRlbDvyaLQaY86nBAd0P3G5D33YK8N2X3h02LHSgwvlvliTDOaJu2JZoWjGGzQ1rWQqDeP0Vv4NfKL5HSeLMbAX+LItmXx8Ncl3a+YIkYV0UoDCQEw9gpAqh2ybtj5L8tQ3UCRNP9zQnXcngVUIMUsohaDAxRuTQlPRTquUdiZAXEp0DJ9xZc8DmV4vpczlYJr0XNUCRWHUwexQyzaWu165eoiS1ZyUA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(122000001)(966005)(186003)(66556008)(64756008)(66446008)(38100700002)(8936002)(6506007)(6512007)(76116006)(53546011)(6916009)(66946007)(54906003)(33656002)(5660300002)(316002)(26005)(86362001)(66476007)(2616005)(71200400001)(508600001)(4326008)(8676002)(2906002)(6486002)(7416002)(36756003)(38070700005)(83380400001)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?IbZgJtL+SotSSm4NIigua96IL9+XU/QTw8cAaUspy1FtxtE+CpGEUASpdUb0?=
+ =?us-ascii?Q?sJsgH1UpbFxzfzZdlm4XW1oIxj/c8Z/JpdRcRLtjPAKJtkV7fAg6ZUj8v9Pp?=
+ =?us-ascii?Q?YyY4r9qo+Wz1tp4QCb9ja3JyzdudebLad1rTv25W02qgEVkBCK2bhDgqCJ3x?=
+ =?us-ascii?Q?yVcYEmAmrtlSFwqJk0UkvpN78X49AkMoNqKwlpFLVS0Yqz2uOS0c0moeEMrX?=
+ =?us-ascii?Q?AOrJB8JRTPHQAyqy9XlQPku3gdUHA+2C77QjYX+Ic7RrMWpui4e6t4eXbiu1?=
+ =?us-ascii?Q?b46I3cEDqJr67WNQWC4k4I/821cblROBJXzNnEeAi3YxGwXIs/cE0tu3KmJP?=
+ =?us-ascii?Q?Pj5cK3UUkoVN6PZoBtMDoYec8R/H3eli5NwSbjxiSJeamy96MGr/gzuR4ASb?=
+ =?us-ascii?Q?WBLuGoHYCBMdrYbqkRz4Owwr84wfhkr55esMPCRbhCULrZp8O1h5RYGVc+PF?=
+ =?us-ascii?Q?+0xpNcLJSl+fn7GeKlZIDw+0N+HJ0mlUgL8Sq5AF+N6pzKwMxHW+agW91Bfz?=
+ =?us-ascii?Q?wCibrZBFDDkrus0iPKjNV4KR3tkZxc3glFbOD8WAQmAJ6NEmqEGIF86OSEr6?=
+ =?us-ascii?Q?q2StmJ/x0EGT0X3tkf3EjGjd5JLd+1IlgVKpt1pXv6UF1n1nXg/xkzlecYWa?=
+ =?us-ascii?Q?DK50P/ScoumYi2KMMIniTFX4CDpVbFebR03BW85E7KgQ+AIbH6Y7F5HFJDj4?=
+ =?us-ascii?Q?HVZsz326e5N6IpZqoPF2Mw1/PSwpzraemStgLWY6345a0M0yzL1WpKGGxrq7?=
+ =?us-ascii?Q?J/qX8SwsXw5mPHycrI5wf7po9KWl0WlyRYHae9/3Zmy9MXY5fJxxMKb3aGWy?=
+ =?us-ascii?Q?bm+hqm0/qu0QgYaYWL9ck2j1mOB43E/lc7XZiqDMbXEZbJylglPOCBTD2Ypl?=
+ =?us-ascii?Q?ZbpNZA2RvVKxgmfsjrZXCR/Sy17tJtfTMOE/iEU+PcnUgoy2hhT34jWE6xCJ?=
+ =?us-ascii?Q?3opdN/DKMFhDS1FBtu53m/sYJzdjEkeOi06PQz0n95OItnkT4bukAmMZYMIk?=
+ =?us-ascii?Q?U+ptBVlk6LMg1WHuZvBVFgOfOCNOWhm89u3i0TnPBpGBcA6hF9yfNlESp3h5?=
+ =?us-ascii?Q?UOwtIg30bGwF9OVVMQIB79wbzYB680LzIDullfs7taeIXI4p9F0DbYkybZT7?=
+ =?us-ascii?Q?jEqn8pQ4PgdPvncs595GqSqqLfE6U7kw3jHbvvzINt7RovYDyiDfxs4RSxO3?=
+ =?us-ascii?Q?Ef02ElELdxAswrShwUP8UUMdSKEUo0Il1S79pMnLE7yWIo37BqBoxMu2vQLQ?=
+ =?us-ascii?Q?dvzkF8R5ouZCgkEsdup8y0KZgj7fBmmPUcHXNIT2IYvSZoYZsZVyO1z3IetT?=
+ =?us-ascii?Q?RNBeFTauf3UO3zjf/aauJFQfWY2O9/jK/SoqVOdnoeSxVylskvg7RVMvB+5g?=
+ =?us-ascii?Q?i4WcxXcXcCkabVrkfS+8TkdBf7sAlI0058sJiU+fPcP8kqtH8WuWgVy7+P9G?=
+ =?us-ascii?Q?27GKIOoTv3BwFw2BE80SPQ1WzVc5Fdv+oiL/I8mss3s30ioX9UA+Ps+fmG/t?=
+ =?us-ascii?Q?iYB+6rlw11S0v2PZFNb6ZuPUzhHmZdb6aEdknfXqrQHVxEH5m7b14PZu5dRI?=
+ =?us-ascii?Q?LlL4r26ZWiIoOhQQt2w=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <5C371F601D27E84B9FDB758ACFB85FF1@namprd15.prod.outlook.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68d0ddbc-654e-4501-8f38-08d9b8e83919
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2021 18:42:57.8442
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nP9SLovl4uuhISZ14JkLYzEoX0DgiOgi4jYDRSJ8sRt5tfNxZHeidbgpyvxMNQ2Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3620
+X-OriginatorOrg: fb.com
+X-Proofpoint-ORIG-GUID: nWXTKUejND0PqCs0GWRKTEFOA2VlB3eE
+X-Proofpoint-GUID: nWXTKUejND0PqCs0GWRKTEFOA2VlB3eE
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ya5FaU9e6XY8vHJR@boqun-archlinux>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-06_07,2021-12-06_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=fb_outbound_notspam policy=fb_outbound score=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 malwarescore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112060112
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 01:16:25AM +0800, Boqun Feng wrote:
-> On Mon, Dec 06, 2021 at 05:04:20PM +0100, Marco Elver wrote:
-> > On Mon, Dec 06, 2021 at 10:31PM +0800, Boqun Feng wrote:
-> > [...]
-> > > Thanks for the explanation, I was missing the swap here. However...
-> > > 
-> > > > So in your above example you need to swap "reordered to" and the top
-> > > > frame of the stack trace.
-> > > > 
-> > 
-> > Apologies, I wasn't entirely precise ... what you say below is correct.
-> > 
-> > > IIUC, the report for my above example will be:
-> > > 
-> > >          | write (reordered) to 0xaaaa of ...:
-> > >          | foo+0x... // address of the write to A
-> > >          | ...
-> > >          |  |
-> > >          |  +-> reordered to: foo+0x... // address of the callsite to bar() in foo()
-> > > 
-> > > , right? Because in replace_stack_entry(), it's not the top frame where
-> > > the race occurred that gets swapped, it's the frame which belongs to the
-> > > same function as the original access that gets swapped. In other words,
-> > > when KCSAN finds the problem, top entries of the calling stack are:
-> > > 
-> > > 	[0] bar+0x.. // address of the write to B
-> > > 	[1] foo+0x.. // address of the callsite to bar() in foo()
-> > > 
-> > > after replace_stack_entry(), they changes to:
-> > > 
-> > > 	[0] bar+0x.. // address of the write to B
-> > > skip  ->[1] foo+0x.. // address of the write to A
-> > > 
-> > > , as a result the report won't mention bar() at all.
-> > 
-> > Correct.
-> > 
-> > > And I think a better report will be:
-> > > 
-> > >          | write (reordered) to 0xaaaa of ...:
-> > >          | foo+0x... // address of the write to A
-> > >          | ...
-> > >          |  |
-> > >          |  +-> reordered to: bar+0x... // address of the write to B in bar()
-> > > 
-> > > because it tells users the exact place the accesses get reordered. That
-> > > means maybe we want something as below? Not completely tested, but I
-> > > play with scope checking a bit, seems it gives what I want. Thoughts?
-> > 
-> > This is problematic because it makes it much harder to actually figure
-> > out what's going on, given "reordered to" isn't a full stack trace. So
-> > if you're deep in some call hierarchy, seeing a random "reordered to"
-> > line is quite useless. What I want to see, at the very least, is the ip
-> > to the same function where the original access happened.
-> > 
-> > We could of course try and generate a full stack trace at "reordered
-> > to", but this would entail
-> > 
-> > 	a) allocating 2x unsigned long[64] on the stack (or moving to
-> > 	   static storage),
-> > 	b) further increasing the report length,
-> > 	c) an even larger number of possibly distinct reports for the
-> > 	   same issue; this makes deduplication even harder.
-> > 
-> > The reason I couldn't justify all that is that when I looked through
-> > several dozen "reordered to" reports, I never found anything other than
-> > the ip in the function frame of the original access useful. That, and in
-> > most cases the "reordered to" location was in the same function or in an
-> > inlined function.
-> > 
-> > The below patch would do what you'd want I think.
-> > 
-> > My opinion is to err on the side of simplicity until there is evidence
-> > we need it. Of course, if you have a compelling reason that we need it
-> > from the beginning, happy to send it as a separate patch on top.
-> > 
-> > What do you think?
-> > 
-> 
-> Totally agreed. It's better to keep it simple until people report that
-> they want to see more information to resolve the issues. And thanks for
-> looking into the "double stack traces", that looks good to me too.
-> 
-> For the original patch, feel free to add:
-> 
-> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 
-Thank you both!  I will add Boqun's Reviewed-by on the next rebase.
 
-							Thanx, Paul
-
-> Regards,
-> Boqun
+> On Dec 5, 2021, at 2:52 PM, Masahiro Yamada <masahiroy@kernel.org> wrote:
 > 
-> > Thanks,
-> > -- Marco
-> > 
-> > ------ >8 ------
-> > 
-> > From: Marco Elver <elver@google.com>
-> > Date: Mon, 6 Dec 2021 16:35:02 +0100
-> > Subject: [PATCH] kcsan: Show full stack trace of reordered-to accesses
-> > 
-> > Change reports involving reordered accesses to show the full stack trace
-> > of "reordered to" accesses. For example:
-> > 
-> >  | ==================================================================
-> >  | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
-> >  |
-> >  | read-write to 0xffffffffc02d01e8 of 8 bytes by task 2481 on cpu 2:
-> >  |  test_kernel_wrong_memorder+0x57/0x90
-> >  |  access_thread+0xb7/0x100
-> >  |  kthread+0x2ed/0x320
-> >  |  ret_from_fork+0x22/0x30
-> >  |
-> >  | read-write (reordered) to 0xffffffffc02d01e8 of 8 bytes by task 2480 on cpu 0:
-> >  |  test_kernel_wrong_memorder+0x57/0x90
-> >  |  access_thread+0xb7/0x100
-> >  |  kthread+0x2ed/0x320
-> >  |  ret_from_fork+0x22/0x30
-> >  |   |
-> >  |   +-> reordered to: test_delay+0x31/0x110
-> >  |                     test_kernel_wrong_memorder+0x80/0x90
-> >  |
-> >  | Reported by Kernel Concurrency Sanitizer on:
-> >  | CPU: 0 PID: 2480 Comm: access_thread Not tainted 5.16.0-rc1+ #2
-> >  | Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 04/01/2014
-> >  | ==================================================================
-> > 
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> >  kernel/kcsan/report.c | 33 +++++++++++++++++++++++----------
-> >  1 file changed, 23 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
-> > index 67794404042a..a8317d5f5123 100644
-> > --- a/kernel/kcsan/report.c
-> > +++ b/kernel/kcsan/report.c
-> > @@ -317,22 +317,29 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
-> >  {
-> >  	unsigned long symbolsize, offset;
-> >  	unsigned long target_func;
-> > -	int skip;
-> > +	int skip, i;
-> >  
-> >  	if (kallsyms_lookup_size_offset(ip, &symbolsize, &offset))
-> >  		target_func = ip - offset;
-> >  	else
-> >  		goto fallback;
-> >  
-> > -	for (skip = 0; skip < num_entries; ++skip) {
-> > +	skip = get_stack_skipnr(stack_entries, num_entries);
-> > +	for (i = 0; skip < num_entries; ++skip, ++i) {
-> >  		unsigned long func = stack_entries[skip];
-> >  
-> >  		if (!kallsyms_lookup_size_offset(func, &symbolsize, &offset))
-> >  			goto fallback;
-> >  		func -= offset;
-> >  
-> > +		replaced[i] = stack_entries[skip];
-> >  		if (func == target_func) {
-> > -			*replaced = stack_entries[skip];
-> > +			/*
-> > +			 * There must be at least 1 entry left in the original
-> > +			 * @stack_entries, so we know that we will never occupy
-> > +			 * more than @num_entries - 1 of @replaced.
-> > +			 */
-> > +			replaced[i + 1] = 0;
-> >  			stack_entries[skip] = ip;
-> >  			return skip;
-> >  		}
-> > @@ -341,6 +348,7 @@ replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned lon
-> >  fallback:
-> >  	/* Should not happen; the resulting stack trace is likely misleading. */
-> >  	WARN_ONCE(1, "Cannot find frame for %pS in stack trace", (void *)ip);
-> > +	replaced[0] = 0;
-> >  	return get_stack_skipnr(stack_entries, num_entries);
-> >  }
-> >  
-> > @@ -365,11 +373,16 @@ static int sym_strcmp(void *addr1, void *addr2)
-> >  }
-> >  
-> >  static void
-> > -print_stack_trace(unsigned long stack_entries[], int num_entries, unsigned long reordered_to)
-> > +print_stack_trace(unsigned long stack_entries[], int num_entries, unsigned long *reordered_to)
-> >  {
-> >  	stack_trace_print(stack_entries, num_entries, 0);
-> > -	if (reordered_to)
-> > -		pr_err("  |\n  +-> reordered to: %pS\n", (void *)reordered_to);
-> > +	if (reordered_to[0]) {
-> > +		int i;
-> > +
-> > +		pr_err("  |\n  +-> reordered to: %pS\n", (void *)reordered_to[0]);
-> > +		for (i = 1; i < NUM_STACK_ENTRIES && reordered_to[i]; ++i)
-> > +			pr_err("                    %pS\n", (void *)reordered_to[i]);
-> > +	}
-> >  }
-> >  
-> >  static void print_verbose_info(struct task_struct *task)
-> > @@ -390,12 +403,12 @@ static void print_report(enum kcsan_value_change value_change,
-> >  			 struct other_info *other_info,
-> >  			 u64 old, u64 new, u64 mask)
-> >  {
-> > -	unsigned long reordered_to = 0;
-> > +	unsigned long reordered_to[NUM_STACK_ENTRIES] = { 0 };
-> >  	unsigned long stack_entries[NUM_STACK_ENTRIES] = { 0 };
-> >  	int num_stack_entries = stack_trace_save(stack_entries, NUM_STACK_ENTRIES, 1);
-> > -	int skipnr = sanitize_stack_entries(stack_entries, num_stack_entries, ai->ip, &reordered_to);
-> > +	int skipnr = sanitize_stack_entries(stack_entries, num_stack_entries, ai->ip, reordered_to);
-> >  	unsigned long this_frame = stack_entries[skipnr];
-> > -	unsigned long other_reordered_to = 0;
-> > +	unsigned long other_reordered_to[NUM_STACK_ENTRIES] = { 0 };
-> >  	unsigned long other_frame = 0;
-> >  	int other_skipnr = 0; /* silence uninit warnings */
-> >  
-> > @@ -408,7 +421,7 @@ static void print_report(enum kcsan_value_change value_change,
-> >  	if (other_info) {
-> >  		other_skipnr = sanitize_stack_entries(other_info->stack_entries,
-> >  						      other_info->num_stack_entries,
-> > -						      other_info->ai.ip, &other_reordered_to);
-> > +						      other_info->ai.ip, other_reordered_to);
-> >  		other_frame = other_info->stack_entries[other_skipnr];
-> >  
-> >  		/* @value_change is only known for the other thread */
-> > -- 
-> > 2.34.1.400.ga245620fadb-goog
-> > 
+> On Thu, Nov 25, 2021 at 12:30 AM Alex Xu (Hello71) <alex_y_xu@yahoo.ca> wrote:
+>> 
+>> Otherwise, it allocates 2 GB of memory at once. Even though the majority
+>> of this memory is never touched, the default heuristic overcommit
+>> refuses this request if less than 2 GB of RAM+swap is currently
+>> available. This results in "zstd: error 11 : Allocation error : not
+>> enough memory" and the kernel failing to build.
+>> 
+>> When the size is specified, zstd will reduce the memory request
+>> appropriately. For typical kernel sizes of ~32 MB, the largest mmap
+>> request will be reduced to 512 MB, which will succeed on all but the
+>> smallest devices.
+>> 
+>> For inputs around this size, --stream-size --no-content-size may
+>> slightly decrease the compressed size, or slightly increase it:
+>> https://github.com/facebook/zstd/issues/2848.
+>> 
+>> Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
+> 
+> 
+> 
+> 
+> The reason why we need this workaround is just because we do
+> "cat and compress".  zstd must allocate a huge memory beforehand
+> since it cannot predict how long the stream it will receive.
+> 
+> If zstd is given with a file name, it can fstat it to know its file size
+> and allocate the minimal amount of memory.
+> 
+> 
+> This is my test.
+> I used 'ulimit' to set the upper limit of the memory the zstd can use.
+> 
+> 
+> [test steps]
+> 
+>  # Create a 1kB file
+>  $ truncate --size=1k dummy
+> 
+>  # Set the memory size limit to 10MB
+>  $ ulimit -S -v 10240
+> 
+>  # Pass the file as a argument; success
+>  $ zstd -19 -o dummy.zst dummy
+>  dummy                :  2.15%   (  1024 =>     22 bytes, dummy.zst)
+> 
+>  # cat and zstd; fail
+>  $ cat dummy | zstd -19 > dummy.zst
+>  zstd: error 11 : Allocation error : not enough memory
+> 
+>  # cat and zstd --stream-size; success
+>  $ cat dummy | zstd -19 --stream-size=1024 > dummy.zst
+> 
+> 
+> 
+> 
+> scripts/Makefile.modinst was written in such a way
+> that zstd can know the file size by itself.
+> 
+>      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
+> 
+> 
+> We cannot rewrite scripts/Makefile.lib in that way because
+> arch/x86/boot/compress/Makefile concatenates two files before
+> compression. And this is the only use-case of this feature.
+> 
+> So, I am seriously considering to revert this commit:
+> 
+> commit d3dd3b5a29bb9582957451531fed461628dfc834
+> Author: H. Peter Anvin <hpa@zytor.com>
+> Date:   Tue May 5 21:17:15 2009 -0700
+> 
+>    kbuild: allow compressors (gzip, bzip2, lzma) to take multiple inputs
+> 
+> 
+> 
+> 
+> With that commit reverted, zstd will take a single input file,
+> and we can do "zstd -o <output> <input>".
+> 
+> 
+> So, I will take some time to investigate that approach.
+
+This will definitely work from a zstd perspective. All versions
+of zstd will downsize their memory usage to match the file size.
+
+Best,
+Nick Terrell
+
+>> ---
+>> scripts/Makefile.lib | 12 ++++++++++--
+>> 1 file changed, 10 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+>> index ca901814986a..c98a82ca38e6 100644
+>> --- a/scripts/Makefile.lib
+>> +++ b/scripts/Makefile.lib
+>> @@ -466,12 +466,20 @@ quiet_cmd_xzmisc = XZMISC  $@
+>> # single pass, so zstd doesn't need to allocate a window buffer. When streaming
+>> # decompression is used, like initramfs decompression, zstd22 should likely not
+>> # be used because it would require zstd to allocate a 128 MB buffer.
+>> +#
+>> +# --stream-size to reduce zstd memory usage (otherwise zstd -22 --ultra
+>> +# allocates, but does not use, 2 GB) and potentially improve compression.
+>> +#
+>> +# --no-content-size to save three bytes which we do not use (we use size_append).
+>> +
+>> +# zstd --stream-size is only supported since 1.4.4
+>> +zstd_stream_size = $(shell $(ZSTD) -1c --stream-size=0 --no-content-size </dev/null >/dev/null 2>&1 && printf '%s' '--stream-size=$(total_size) --no-content-size')
+>> 
+>> quiet_cmd_zstd = ZSTD    $@
+>> -      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
+>> +      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -19; $(size_append); } > $@
+>> 
+>> quiet_cmd_zstd22 = ZSTD22  $@
+>> -      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
+>> +      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -22 --ultra; $(size_append); } > $@
+>> 
+>> # ASM offsets
+>> # ---------------------------------------------------------------------------
+>> --
+>> 2.34.0
+>> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
+
