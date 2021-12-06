@@ -2,180 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E30946909A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 08:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6E34690B1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Dec 2021 08:16:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238221AbhLFHFE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Dec 2021 02:05:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54832 "EHLO
+        id S238355AbhLFHTw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Dec 2021 02:19:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238108AbhLFHFE (ORCPT
+        with ESMTP id S238261AbhLFHTv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Dec 2021 02:05:04 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FAAC0613F8
-        for <linux-kbuild@vger.kernel.org>; Sun,  5 Dec 2021 23:01:35 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id n66so19737424oia.9
-        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 23:01:35 -0800 (PST)
+        Mon, 6 Dec 2021 02:19:51 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C151C0613F8
+        for <linux-kbuild@vger.kernel.org>; Sun,  5 Dec 2021 23:16:23 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id q25so19979766oiw.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 05 Dec 2021 23:16:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gB5LF9YPwwTzjtszS9NiPGbxbvt4uXsWrHHq1Mo0sqY=;
-        b=pfdkMFZhQiBvWr4WiE+V9LycNs7cwBCQYUt2PXd1tvMVTYvNhEcm5BTZ6oiJAT9xNH
-         2XBC5LCm7nJOu2wfwsCbEE9PTQ6O8ru9EkQC379YociLkihwhenYcjXy8pYO9UOt3ScQ
-         SfQr+OpBEq2PFpvZqnQx0G9WzRWeCFOlFOK9qXJjrj9KEX0KtL3jUYh2Zexn6R3KaCXm
-         jZh0Hk4B8wJl5d7Cox7K7fKV5V9OgsY1YeOAWZVGhf+ogQjJnVGXzS9345cYCzbvtUwJ
-         s4WvNBZu8n6x75z/fwWyHkp3agBwAQLaAxaprOh96TYa2TOO6B6Gv0nUd/plFCYBQpHk
-         fU1w==
+        bh=kMt90pKBGW/au5Bipth7kSeTJYiTzTjqmOMqmPuidYA=;
+        b=XEkNxxxqqg+NZL/6yCqEZBN2SeXMqSO5LfwtQ38GYELUORg3SUHVW8Q5aVqB7bhGqn
+         P4iX/WHdPtE2QjtkMfpoDJLQXNyPbDZrMsykHhDPapvSd5QU7F3VliQV9Yy6W3/x1/yp
+         SPQHl5+NAMtC+/KeBPgVEFMP73nHOjUip8Pe4dz+ysEDvSgMxniak2Xxhya2c2DVmQoB
+         PAasdNsXl2mjxk6waC9R44KBY4SXaQNbBsyaROg55cDONmTVDVBc7DjWKqjzSswf44xw
+         uR5reE0LtjENxNpcjPtWEzqZ5Ub/3t0LHAu34RONtIOSh3hnK5gcV77ZKBM4aWABzWMB
+         VIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gB5LF9YPwwTzjtszS9NiPGbxbvt4uXsWrHHq1Mo0sqY=;
-        b=eU/EJfMaC9aVL371pFx7auIqkDDGinaEGixj4YYIHcMkD6H7xU3Wrv0sIDksv0z/1N
-         5ZKa2sEUlJFbCIgco6+dMfy/0/SO2ktPPXQYbjCHBus5o2i+oGGr8D/y+GhIA5JJRXo5
-         wqNMpmRjw2WBfkjyo56Unli9QmsMaLlyb6MyThwF5YH917BLDnZiscqi1bnzFX0k188Q
-         XfraMY3hGMaIKkh7F5VG8uUQ2onMVE6ek9MPSloXQTAWocj/ReoV/l/lMcylDeZGfOcv
-         Y8jYmXRIB8bLWyjJUWB/e4HR7HkgyJi6SEh7fR1HubKVjg+94xIyVTbJu+XR9dshQsLN
-         6lXQ==
-X-Gm-Message-State: AOAM530nPjJX2m9uMWps7vIfWp9NptOocaiKfXlYDJGV/rp8rCXFT4Uf
-        9xjF2hpZ2okWaItw30FGpF1wXSZ//hUJQ14Ux6/2hg==
-X-Google-Smtp-Source: ABdhPJz2VEzeFRmQbkvN/DYiD+KZA8vOAtqU+2Td6RPO0eQreX0PlwZ++Fy4+DwuMSt5s1I6lLNqm2t8c+9sdNh1+kM=
-X-Received: by 2002:aca:af50:: with SMTP id y77mr22500904oie.134.1638774094811;
- Sun, 05 Dec 2021 23:01:34 -0800 (PST)
+        bh=kMt90pKBGW/au5Bipth7kSeTJYiTzTjqmOMqmPuidYA=;
+        b=yiv4hc9WGIzMSKLhxN2+8I8VK9inFW5bee+mjKrPBiwZaocId1hiyvD8pKgCEStyg5
+         Qn5zUcz652hYsswbr56almGTrqXkRq8hsqmztvFGTnxWB9sQqnM7rfVHHDBiuqkrTOWF
+         hQnDv6yQWIJH5vA5YROYSxSU5PpBzR664QSkhJmF3qILB4GI1kd2NNIlfcgpd1ll0QrF
+         esVG5LwH8IjUmhuGvw+JkwzD+bBoxNABSN4GnsncdvUCRZ8RAci0VKxX8uNZ7G43X4Se
+         PLTeJQJ2y4zdDYQEVNy8lIWhJHt9EIj09ApA5RO1RfzTHGXgpDo3FXM3EDgQY66V5n5a
+         pl7g==
+X-Gm-Message-State: AOAM532tYa56//xfvC2MggMjsA/3kh6e5IidZWyYjDF0ZOzCp3pR3aCH
+        2B1lJqhh7S/5yHpMia4Flr128+b0rKOfwFiWJWxKIw==
+X-Google-Smtp-Source: ABdhPJwuGLpnUIDTjpBX3F4eSh7hJt4tJrtZLc3E+7J6kt6gm5BiWZwD1+kzTVPh5ygzYL7/rFy9FoV52gjMqiSEDPo=
+X-Received: by 2002:aca:af50:: with SMTP id y77mr22543199oie.134.1638774982675;
+ Sun, 05 Dec 2021 23:16:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20211203235346.110809-1-keescook@chromium.org>
-In-Reply-To: <20211203235346.110809-1-keescook@chromium.org>
+References: <20211130114433.2580590-1-elver@google.com> <20211130114433.2580590-9-elver@google.com>
+ <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
+In-Reply-To: <Ya2Zpf8qpgDYiGqM@boqun-archlinux>
 From:   Marco Elver <elver@google.com>
-Date:   Mon, 6 Dec 2021 08:00:00 +0100
-Message-ID: <CANpmjNPn4kVRfb2R=_QyKQtmj-TN+=xn3sHkQwNsq4fcJuvNzQ@mail.gmail.com>
-Subject: Re: [PATCH] ubsan: Remove CONFIG_UBSAN_OBJECT_SIZE
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
+Date:   Mon, 6 Dec 2021 08:16:11 +0100
+Message-ID: <CANpmjNMirKGSBW2m+bWRM9_FnjK3_HjnJC=dhyMktx50mwh1GQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/25] kcsan: Show location access was reordered to
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, 4 Dec 2021 at 00:53, Kees Cook <keescook@chromium.org> wrote:
-> The object-size sanitizer is redundant to -Warray-bounds, and
-> inappropriately performs its checks at run-time when all information
-> needed for the evaluation is available at compile-time, making it quite
-> difficult to use:
+On Mon, 6 Dec 2021 at 06:04, Boqun Feng <boqun.feng@gmail.com> wrote:
 >
-> https://bugzilla.kernel.org/show_bug.cgi?id=214861
+> Hi,
 >
-> With -Warray-bounds almost enabled globally, it doesn't make sense to
-> keep this around.
+> On Tue, Nov 30, 2021 at 12:44:16PM +0100, Marco Elver wrote:
+> > Also show the location the access was reordered to. An example report:
+> >
+> > | ==================================================================
+> > | BUG: KCSAN: data-race in test_kernel_wrong_memorder / test_kernel_wrong_memorder
+> > |
+> > | read-write to 0xffffffffc01e61a8 of 8 bytes by task 2311 on cpu 5:
+> > |  test_kernel_wrong_memorder+0x57/0x90
+> > |  access_thread+0x99/0xe0
+> > |  kthread+0x2ba/0x2f0
+> > |  ret_from_fork+0x22/0x30
+> > |
+> > | read-write (reordered) to 0xffffffffc01e61a8 of 8 bytes by task 2310 on cpu 7:
+> > |  test_kernel_wrong_memorder+0x57/0x90
+> > |  access_thread+0x99/0xe0
+> > |  kthread+0x2ba/0x2f0
+> > |  ret_from_fork+0x22/0x30
+> > |   |
+> > |   +-> reordered to: test_kernel_wrong_memorder+0x80/0x90
+> > |
 >
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Should this be "reordered from" instead of "reordered to"? For example,
+> if the following case needs a smp_mb() between write to A and write to
+> B, I think currently it will report as follow:
+>
+>         foo() {
+>                 WRITE_ONCE(A, 1); // let's say A's address is 0xaaaa
+>                 bar() {
+>                         WRITE_ONCE(B, 1); // Assume B's address is 0xbbbb
+>                                           // KCSAN find the problem here
+>                 }
+>         }
+>
+>         <report>
+>         | write (reordered) to 0xaaaa of ...:
+>         | bar+0x... // address of the write to B
+>         | foo+0x... // address of the callsite to bar()
+>         | ...
+>         |  |
+>         |  +-> reordered to: foo+0x... // address of the write to A
+>
+> But since the access reported here is the write to A, so it's a
+> "reordered from" instead of "reordered to"?
 
-Reviewed-by: Marco Elver <elver@google.com>
+Perhaps I could have commented on this in the commit message to avoid
+the confusion, but per its updated comment replace_stack_entry()
+"skips to the first entry that matches the function of @ip, and then
+replaces that entry with @ip, returning the entries to skip with
+@replaced containing the replaced entry."
 
-Thank you!
+When a reorder_access is set up, the ip to it is stored, which is
+what's passed to @ip of replace_stack_entry(). It effectively swaps
+the top frame where the race occurred with where the original access
+happened. This all works because the runtime is careful to only keep
+reorder_accesses valid until the original function where it occurred
+is left.
 
-> ---
->  lib/Kconfig.ubsan      | 13 -------------
->  lib/test_ubsan.c       | 22 ----------------------
->  scripts/Makefile.ubsan |  1 -
->  3 files changed, 36 deletions(-)
->
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index e5372a13511d..236c5cefc4cc 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -112,19 +112,6 @@ config UBSAN_UNREACHABLE
->           This option enables -fsanitize=unreachable which checks for control
->           flow reaching an expected-to-be-unreachable position.
->
-> -config UBSAN_OBJECT_SIZE
-> -       bool "Perform checking for accesses beyond the end of objects"
-> -       default UBSAN
-> -       # gcc hugely expands stack usage with -fsanitize=object-size
-> -       # https://lore.kernel.org/lkml/CAHk-=wjPasyJrDuwDnpHJS2TuQfExwe=px-SzLeN8GFMAQJPmQ@mail.gmail.com/
-> -       depends on !CC_IS_GCC
-> -       depends on $(cc-option,-fsanitize=object-size)
-> -       help
-> -         This option enables -fsanitize=object-size which checks for accesses
-> -         beyond the end of objects where the optimizer can determine both the
-> -         object being operated on and its size, usually seen with bad downcasts,
-> -         or access to struct members from NULL pointers.
-> -
->  config UBSAN_BOOL
->         bool "Perform checking for non-boolean values used as boolean"
->         default UBSAN
-> diff --git a/lib/test_ubsan.c b/lib/test_ubsan.c
-> index 7e7bbd0f3fd2..2062be1f2e80 100644
-> --- a/lib/test_ubsan.c
-> +++ b/lib/test_ubsan.c
-> @@ -79,15 +79,6 @@ static void test_ubsan_load_invalid_value(void)
->         eval2 = eval;
->  }
->
-> -static void test_ubsan_null_ptr_deref(void)
-> -{
-> -       volatile int *ptr = NULL;
-> -       int val;
-> -
-> -       UBSAN_TEST(CONFIG_UBSAN_OBJECT_SIZE);
-> -       val = *ptr;
-> -}
-> -
->  static void test_ubsan_misaligned_access(void)
->  {
->         volatile char arr[5] __aligned(4) = {1, 2, 3, 4, 5};
-> @@ -98,29 +89,16 @@ static void test_ubsan_misaligned_access(void)
->         *ptr = val;
->  }
->
-> -static void test_ubsan_object_size_mismatch(void)
-> -{
-> -       /* "((aligned(8)))" helps this not into be misaligned for ptr-access. */
-> -       volatile int val __aligned(8) = 4;
-> -       volatile long long *ptr, val2;
-> -
-> -       UBSAN_TEST(CONFIG_UBSAN_OBJECT_SIZE);
-> -       ptr = (long long *)&val;
-> -       val2 = *ptr;
-> -}
-> -
->  static const test_ubsan_fp test_ubsan_array[] = {
->         test_ubsan_shift_out_of_bounds,
->         test_ubsan_out_of_bounds,
->         test_ubsan_load_invalid_value,
->         test_ubsan_misaligned_access,
-> -       test_ubsan_object_size_mismatch,
->  };
->
->  /* Excluded because they Oops the module. */
->  static const test_ubsan_fp skip_ubsan_array[] = {
->         test_ubsan_divrem_overflow,
-> -       test_ubsan_null_ptr_deref,
->  };
->
->  static int __init test_ubsan_init(void)
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 9e2092fd5206..7099c603ff0a 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -8,7 +8,6 @@ ubsan-cflags-$(CONFIG_UBSAN_LOCAL_BOUNDS)       += -fsanitize=local-bounds
->  ubsan-cflags-$(CONFIG_UBSAN_SHIFT)             += -fsanitize=shift
->  ubsan-cflags-$(CONFIG_UBSAN_DIV_ZERO)          += -fsanitize=integer-divide-by-zero
->  ubsan-cflags-$(CONFIG_UBSAN_UNREACHABLE)       += -fsanitize=unreachable
-> -ubsan-cflags-$(CONFIG_UBSAN_OBJECT_SIZE)       += -fsanitize=object-size
->  ubsan-cflags-$(CONFIG_UBSAN_BOOL)              += -fsanitize=bool
->  ubsan-cflags-$(CONFIG_UBSAN_ENUM)              += -fsanitize=enum
->  ubsan-cflags-$(CONFIG_UBSAN_TRAP)              += -fsanitize-undefined-trap-on-error
-> --
-> 2.30.2
->
+So in your above example you need to swap "reordered to" and the top
+frame of the stack trace.
+
+The implementation is a little trickier of course, but I really wanted
+the main stack trace to look like any other non-reordered access,
+which starts from the original access, and only have the "reordered
+to" location be secondary information.
+
+The foundation for doing this this was put in place here:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6c65eb75686f
+
+Thanks,
+-- Marco
