@@ -2,127 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C72F46B264
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Dec 2021 06:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 586F346B504
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Dec 2021 09:01:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234691AbhLGFfV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Dec 2021 00:35:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57176 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234542AbhLGFfU (ORCPT
+        id S231923AbhLGIFZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Dec 2021 03:05:25 -0500
+Received: from mail-ua1-f51.google.com ([209.85.222.51]:35717 "EHLO
+        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230128AbhLGIFY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Dec 2021 00:35:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638855110;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=e4ghYP9B13gGvmZuLKDuOchy2naysfKvbuf3lUvYkHc=;
-        b=ILiCplrXUFLPc9DWwvemnd0a7H8UajIsai+WDTBPSFqVOugb7C9EGBpKD6/g293lrKu3db
-        0+AS4lCMlDed30cFg8udqjK6CY2qt7tOggyaYKTypCVVaMHk3kWEdgS06mbFkVF2vegMZI
-        RNXhAIDla1xuLJWGGXx04X13+BUA4hM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-WVP1OJM5Ptqgb3ogu87rUQ-1; Tue, 07 Dec 2021 00:31:49 -0500
-X-MC-Unique: WVP1OJM5Ptqgb3ogu87rUQ-1
-Received: by mail-qv1-f70.google.com with SMTP id q9-20020ad45749000000b003bdeb0612c5so15559289qvx.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Dec 2021 21:31:48 -0800 (PST)
+        Tue, 7 Dec 2021 03:05:24 -0500
+Received: by mail-ua1-f51.google.com with SMTP id l24so24938571uak.2;
+        Tue, 07 Dec 2021 00:01:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e4ghYP9B13gGvmZuLKDuOchy2naysfKvbuf3lUvYkHc=;
-        b=7vDLHQeOK4GSiGbl1RLU597PptH3qGK3LcQFlCw6bBXjmXVq/xwp9rWyRjCd8QPlk5
-         YTjCvekQc0soJ7+8heViPOtKiBxsUSg5V9AInS4gmPSW4fsB/mMyV+GAC+IeeO8FF60W
-         FcTRkL9P9zkqjtxe8SRzGfegtHki/wu5VRdVY7JmaWXMjhlGvoPQ2H/ZnX0EoZjdKqLp
-         Y6XE15C2eLc1YZyIV+LmDumw1vKMNfYJwSd29w9vSNMYJsE3yEvPAjFqsS5FFbHacr2O
-         DJbTTHAbqMNuM4GXsSpv3fU7j0CrSQ8O8XEjsKA+ZKsMw0XJ5bnLMqjgxANVVq9v8z8N
-         v1Qg==
-X-Gm-Message-State: AOAM532fwzOKCK9zB3JSNb9RwyXlENQGTE8cUmkDoT7PRafgtc0PKQHY
-        0FsqQL3Hc6o36pQYxNAEmd08ScuCIi01qhQGpCHnpTYbXGCE8BTTv0S1lw+DFEgNf2/BEfjXORf
-        iQf5LEqF8CkeajYrrdYm7QCAt
-X-Received: by 2002:ac8:5b51:: with SMTP id n17mr19545771qtw.182.1638855108528;
-        Mon, 06 Dec 2021 21:31:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz454uO8EitNs/c6PtV9eniUKNKiTCgR5+N8W4WMPq1f0ryP+2pFiwPH4C3lFPQ4hkn9zJMiQ==
-X-Received: by 2002:ac8:5b51:: with SMTP id n17mr19545750qtw.182.1638855108304;
-        Mon, 06 Dec 2021 21:31:48 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::45])
-        by smtp.gmail.com with ESMTPSA id s12sm8814877qtk.61.2021.12.06.21.31.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 21:31:47 -0800 (PST)
-Date:   Mon, 6 Dec 2021 21:31:42 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, X86 ML <x86@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        live-patching@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v8 07/14] kallsyms: Hide layout
-Message-ID: <20211207053142.d4xvkqs57zob2v2i@treble>
-References: <20211202223214.72888-1-alexandr.lobakin@intel.com>
- <20211202223214.72888-8-alexandr.lobakin@intel.com>
- <Yanqz7o4IH5MkDp8@hirez.programming.kicks-ass.net>
- <CAMj1kXFLJcfUqEoz0NAb49=XJG=5LAwEPSwCQ-y7sN31C1U6AQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KcN9ex+/pkEUzYHt8cZEAymXHVVW/XeHcDIVVJmtosQ=;
+        b=3ou7026aCzMbupKxsaxruMUPEjUE2p0n5TvMtRmTJ+eU6ZB2N+bxTZEHLWypwyNnXb
+         PSlW3LSMT8WIxBC6ZyhbfgeqQIFsjU0YH+PPOc21NsXUshZQCAby1C3+EXQ88iqDeMi0
+         idbM6D7geAWDWATzVYcF9K7GpWsv5TkWVBgkfNjXxhwRkWBe1Uwy8EhpcZwk7Maq7r6n
+         nTUN3UVrVcJkH0UIaachMAgxyx+e1gWCYR9iQYYKyqYeN4vcQKY9Ll3iFzgrx+3HZNNI
+         RT931vB+b/Aoyw9QUpYiumxSoO2Oz6hD9r83MpJcOaz6rQ1wxGr52ChkpKTNO7pCk5pX
+         IlCw==
+X-Gm-Message-State: AOAM533IHl0T2AWLOERgTEKoluWWGr2g54syf9n/c6nPNiKUSWxKiW9R
+        YRLx8ls8Sq2PdZtmJImQOMgKyLlqZx9+sA==
+X-Google-Smtp-Source: ABdhPJydBKYqevBdzHMgW/m6kC9Fo9xXsIpa+uAeautL6qV1lVBcBEiALuPk9xTzp30sDKyFGuINdg==
+X-Received: by 2002:a67:6187:: with SMTP id v129mr42218061vsb.68.1638864114049;
+        Tue, 07 Dec 2021 00:01:54 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id f132sm5790722vkf.18.2021.12.07.00.01.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Dec 2021 00:01:53 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id t13so24817604uad.9;
+        Tue, 07 Dec 2021 00:01:53 -0800 (PST)
+X-Received: by 2002:a67:c106:: with SMTP id d6mr43341091vsj.77.1638864113376;
+ Tue, 07 Dec 2021 00:01:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXFLJcfUqEoz0NAb49=XJG=5LAwEPSwCQ-y7sN31C1U6AQ@mail.gmail.com>
+References: <20211203234155.2319803-1-gsomlo@gmail.com> <20211203234155.2319803-4-gsomlo@gmail.com>
+ <CACPK8XfO_8=vgedmZddz1YmWbyxiM1-azF_j88wEBHzXnP6y_g@mail.gmail.com>
+ <CAMuHMdXxO-CP0Ao8q8r4Gw5e5FzCznhSxt2JWz13zbnt2tnzVQ@mail.gmail.com> <CACPK8XdF6WQDj9X1Nr0Hf6EzPkQtXBo75dj_WPsFq6nzfWPUrA@mail.gmail.com>
+In-Reply-To: <CACPK8XdF6WQDj9X1Nr0Hf6EzPkQtXBo75dj_WPsFq6nzfWPUrA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 7 Dec 2021 09:01:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXvHYB++NDCxgBkyhvxu57pGYVGUN4rcr=g+pXoUK+ZQw@mail.gmail.com>
+Message-ID: <CAMuHMdXvHYB++NDCxgBkyhvxu57pGYVGUN4rcr=g+pXoUK+ZQw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] mmc: Add driver for LiteX's LiteSDCard interface
+To:     Joel Stanley <joel@jms.id.au>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Gabriel Somlo <gsomlo@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Karol Gugala <kgugala@antmicro.com>,
+        Mateusz Holenko <mholenko@antmicro.com>,
+        Kamil Rakoczy <krakoczy@antmicro.com>,
+        mdudek@internships.antmicro.com,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Stafford Horne <shorne@gmail.com>,
+        david.abdurachmanov@sifive.com,
+        Florent Kermarrec <florent@enjoy-digital.fr>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 11:03:35AM +0100, Ard Biesheuvel wrote:
-> On Fri, 3 Dec 2021 at 11:01, Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Thu, Dec 02, 2021 at 11:32:07PM +0100, Alexander Lobakin wrote:
-> > > From: Kristen Carlson Accardi <kristen@linux.intel.com>
+Hi Joel,
+
+On Tue, Dec 7, 2021 at 12:51 AM Joel Stanley <joel@jms.id.au> wrote:
+> On Mon, 6 Dec 2021 at 12:16, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > +       depends on OF && LITEX
 > > >
-> > > This patch makes /proc/kallsyms display in a random order, rather
-> > > than sorted by address in order to hide the newly randomized address
-> > > layout.
+> > > I don't like having litex drivers depend on the LITEX kconfig. The
+> > > symbol is not user visible, and to enable it we need to build in the
+> > > litex controller driver, which platforms may or may not have.
+> > >
+> > > The microwatt platform is an example of a SoC that embeds some LITEX
+> > > IP, but may or may not be a litex SoC.
 > >
-> > Is there a reason to not always do this? That is, why are we keeping two
-> > copies of this code around? Less code is more better etc..
-> 
-> +1.
-> 
-> IIRC I made the exact same point when this patch was sent out by
-> Kristen a while ago.
+> > I do like the LITEX dependency, as it allows us to gate off a bunch of
+> > related drivers, and avoid annoying users with questions about them,
+> > using a single symbol.
+>
+> I appreciate your concern.
+>
+> We could do this:
+>
+>         depends on PPC_MICROWATT || LITEX || COMPILE_TEST
+>
+> It's unfortunate that kconfig doesn't let us describe the difference
+> between "this driver requires this symbol" as it won't build and "this
+> driver is only useful when this symbol is enabled". Traditionally I
+> write kconfig to represent only the former, whereas you prefer both.
 
-Yes.  Alexander, I'd recommend going back to the review comments from
-Kristen's last posting, they may have been missed.
+The former is expressed using:
 
--- 
-Josh
+    depends on FOO
 
+The latter using:
+
+    depends on BAR || COMPILE_TEST
+
+Traditionally we only had the former. But with the introduction of
+more and more dummy symbols for the !CONFIG_BAR case, the amount of
+questions asked during configuration has become overwhelming.  At the
+current pace, we'll reach 20K config symbols by v5.24 or so...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
