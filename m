@@ -2,63 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3387746DEB3
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Dec 2021 23:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E59446DEDA
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Dec 2021 00:07:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237416AbhLHWz5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Dec 2021 17:55:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
+        id S229870AbhLHXLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Dec 2021 18:11:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234435AbhLHWz5 (ORCPT
+        with ESMTP id S229453AbhLHXLH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Dec 2021 17:55:57 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9833C061746;
-        Wed,  8 Dec 2021 14:52:24 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id p65so4613587iof.3;
-        Wed, 08 Dec 2021 14:52:24 -0800 (PST)
+        Wed, 8 Dec 2021 18:11:07 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7CEC061746;
+        Wed,  8 Dec 2021 15:07:35 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id m9so4715230iop.0;
+        Wed, 08 Dec 2021 15:07:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=LGrqkR/C9an0vJ81QFVP7yrSB4MKsuP1Qtuq0+7PDTs=;
-        b=qtCkg3AEHt9KZvFv27AxZOPDhiyQTEalWwlECrnoY3J42vrvN+KOD9kOJoZjG9OSSl
-         AQtGufR39Vsm6oVTBRMmIE7Hb5DoqAsiQN2duIaEi6ZOkafN1qLWO1TPYSkqjQKBvWRr
-         MEneMfKPU1BlcD7nYcylWSG/zbzhbyrroOTPej1mMkdUIXCQGPF9l0EBNgc7slOiAbU/
-         11OeLFPxnzmhxRqUlEMdV44f16mCamPogP8fN4OuMrIUpBAwg8IIRkBnrCM2jV/Vy3A1
-         AtzlbDKnCgZgUzC/TNua+aiJvXNWOEl3XtOU8kj01YXMUFOBVw4vU/0FXhw0HkIWQlax
-         SiZQ==
+        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
+        b=A716lHua5S8Q0I6LxK8EbL72dqrwmaFOaGZWKh8i2V6ZCefvzwrlTpqmZbofBkji3o
+         eTcY11faHhDvzaWnlyJPjD7MAItParYA6jFITwEW1GmuBNmQpivoeP+lvJXzQFzoRt4o
+         KrRJYahvYIy5j7BOUkX/gYL9MMLme5cBDW81kzuBpbmOLzqNYjLQEj7lfLjINBTl62tu
+         6LKR4U7ia3Uft+usQCy2zYjuO84q0t57aRNsJGok6UcRGOFTAq8e022/6KwyGFU2QJ0w
+         XRDya9VZc8Wt9YttyS8IJyQLAL9LeHUiAnj73F7pRVE9OPVsxiUNFKczmtlJ85+QhuBd
+         +20g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LGrqkR/C9an0vJ81QFVP7yrSB4MKsuP1Qtuq0+7PDTs=;
-        b=KByB4qO2inUQk7AqIzU8cnt2OdD3wZKLsE26zBr6++5GHGfGKkkPiOwZr13CI0tkA7
-         rOkul6sdEnoNAun6u2VkSBrz0DI+bwRFl4hb/OJ55W+NZO3MgVIgdMaPi6wqOYxZPoeP
-         uV7cw2yi03CCPZzc+Z7TWEn0nKkvFudxis6/SirjzgmvOMyJxKfDQat4E/XwQxvIrwUO
-         oTTdeaQyN7j86P1syiexchCnH6r67/RJTSNybKpQ6eujUNUSSmkaP1FKuni/NznRKmjB
-         DqYwKOy0ao2tGqSeDKxg9TGHlCYaucASpBf+mcfdCxQGAN9DzB4chHF2dVLU+vxvRlkR
-         EM/Q==
-X-Gm-Message-State: AOAM533GaUs4axqyW5EMCTb+MgZIn+tQqjAYow0LPMulNlUowP3BgHJY
-        6Z23IgPtys+WiDS7l+C8j95f9SWv34zI3QYsuQg=
-X-Google-Smtp-Source: ABdhPJyavX5M+GuCfLeHUrBbhwLQLTulvc+eZRg9a6Kyv4WBQ4kLn+WrBRryfp3O9RSjBPTxnNQpJm0O4YiIpmt1OcE=
-X-Received: by 2002:a05:6638:19a:: with SMTP id a26mr3884482jaq.133.1639003943906;
- Wed, 08 Dec 2021 14:52:23 -0800 (PST)
+        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
+        b=0r/oyFZmwd46PgC/k+pk3QFzxDVuUmqv6gfWtQc4FbQ/LrCEKSpgHOIG7bPo21LoEI
+         Z+WybU/tv6ZCw9A8SgHf5IeXvjVITAFV1iyoZYltsCE4pwNHWjxF6VqKfyPizQQK7LzR
+         syeiSCGijbFObQSght9SFNX3CAvUPR38vChkaTzNAmflEfL+77eJXQpoBvF8yxqfKJlF
+         LzPmLVJtH750Dm9DiUcQFtnBVO59YlV2BqRV/MO+fIA9AJjBMU1ugIDqY6JzCYEiuhmn
+         lxMEEXMGbxWeGvD1BGGMIgOe8zie/5uVU0bhVoHbfNLx4KiEcQ6TXu4kwmOhEMw/vVDE
+         8Flw==
+X-Gm-Message-State: AOAM530W2QdisLTdEge3nn2PAYxMyJCT9/sblgcX6TIJBnXEgB+I7VWC
+        97dRcgLGiKRw1DmMNE6IFwzfYz1Tf2x+UOr2VD4=
+X-Google-Smtp-Source: ABdhPJy5PjPkLmDXdBa8v9cvnb0J8BYP4vtPofj3T3hO/HPtklP9pPvbbe0+0XmfCKfw0H5ANish9+gJVfHa7ILR6mI=
+X-Received: by 2002:a02:c78e:: with SMTP id n14mr3798423jao.40.1639004854486;
+ Wed, 08 Dec 2021 15:07:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-16-ojeda@kernel.org>
- <CAKwvOd=7QTUH69+ZbT7e8einvgcosTbDkyohmPaUBv6_y8RfrQ@mail.gmail.com>
-In-Reply-To: <CAKwvOd=7QTUH69+ZbT7e8einvgcosTbDkyohmPaUBv6_y8RfrQ@mail.gmail.com>
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-15-ojeda@kernel.org>
+ <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
+In-Reply-To: <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
 From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 8 Dec 2021 23:52:13 +0100
-Message-ID: <CANiq72mYmzwADwJFbOpAPh5YF59RxP-ZoHm-DD=uVdj+yKB_Kw@mail.gmail.com>
-Subject: Re: [PATCH 15/19] Kbuild: add Rust support
+Date:   Thu, 9 Dec 2021 00:07:24 +0100
+Message-ID: <CANiq72n1DehytS+n2_RbJf0uAROTD2c48voDWVGEWPaPr_V4qQ@mail.gmail.com>
+Subject: Re: [PATCH 14/19] docs: add Rust documentation
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
@@ -67,152 +66,44 @@ Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Wedson Almeida Filho <wedsonaf@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Sven Van Asbroeck <thesven73@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
         Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Douglas Su <d0u9.su@outlook.com>,
-        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
-        Antonio Terceiro <antonio.terceiro@linaro.org>,
-        Daniel Xu <dxu@dxuuu.xyz>
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nick,
-
-On Tue, Dec 7, 2021 at 11:45 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Wed, Dec 8, 2021 at 2:30 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> Can we update some Kconfig checks to fix that?
+> I'm sure Documentation/rust/ will grow over time; there's certainly
+> more that can be added and core kernel devs will have more questions
 
-Yes, I can definitely add that.
+Indeed -- the comment is only trying to emphasize (or explain) that
+this might be a difference with respect to C, i.e. that we should try
+to put as much of the documentation as possible closer to the code,
+rather than create "far" files in `Documentation/rust`. I will try to
+clarify the comment.
 
-> Consider putting clippy specific flags in their own variable, and/or
-> just adding them to KBUILD_RUSTFLAGS only when clippy is actually
-> being used.
+> But I read through all that was added here and didn't find anything
+> problematic IMO.  I didn't verify the png's are actually the logo...
 
-This was actually the original approach, but I simplified it -- there
-is no need to put them on their own.
+Thanks for reading through all of it!
 
-Unless, of course, what you want is shorter verbose output -- is this
-what you are referring to?
+> I don't think `make htmldocs` produced any new warnings, though it's
+> not exactly warning free at the moment (pre-existing before this
+> series).
 
-> ... here. Should we sink the check for origin CLIPPY? Can we also
-> match how we check for LLVM=1 rather than checking the variables
-> origin?  Especially since KBUILD_CLIPPY isn't exported, it seems it's
-> not used outside of this file, IIUC?
+Yeah, I also run `make htmldocs` before submitting the patch series
+rounds. And indeed, there are quite a few warnings (20+?), but none
+coming from `Documentation/rust` that I could see.
 
-I am mimicking what we do for the checkers etc., since that is the
-closest to Clippy.
+> How is rust-logo.png being included in the docs? Is there something
+> with RST that isn't grep'able for rust-logo.png?
 
-> Is this used in a different patch in the series? ^
-
-`RUSTC_BOOTSTRAP` is used to be able to use stable releases of the
-compiler with unstable features (it should go away, eventually).
-
-> If z and s are distinct opt levels, then rustc should really be using
-> s rather than z.  IME, z has created larger images than s due to LLVM
-> aggressively emitting libcalls, regardless of the cost of call setup.
-> See also commit a75bb4eb9e56 ("Revert "kbuild: use -Oz instead of -Os
-> when using clang")
-
-Sounds good. In any case, I will check with upstream Rust if they are
-used (or planned to be used) for any optimization purposes even before
-LLVM is reached.
-
-> oh boy. I wonder which configs change the above values? ;) Can rustc
-> still override these via command line flags?
-
-No, it cannot. This is actually a topic I brought up at LPC. Ideally,
-we would get `rustc` to support similar command line flags as GCC and
-Clang do to customize the targets.
-
-The good news are that it seems upstream may be open to accept flags
-to customize targets. They may use it as a way to stabilize parts of
-the custom target spec piece by piece, instead of stabilizing the
-custom target spec files.
-
-We also raised the issue at the Rust CTCFT meeting a couple of weeks ago.
-
-> So this is like turning on -fsanitize=signed-integer-overflow and
-> -fsanitize=unsigned-integer-overflow by default?
-
-Not exactly -- in the Rust case, it is a (Rust) panic. So it would be
-closer to `-fno-sanitize-recover`.
-
-> A rust panic or a kernel panic?
-
-The former -- which currently means `BUG()`. However, there could
-perhaps be other alternatives. There was a bit of discussion about
-this around Kangrejos time but nothing conclusive.
-
-> This should really be the only option here. I still don't see the
-> point of allowing wacky combinations of configs where we differ from C
-> code.  The more combinations will just frustrate randconfig builds.
-
-I don't have a strong opinion -- but I have not heard from others either...
-
-Regarding `randconfig`, we could restrict it, no?
-
-> Seeing repeated filter-out rules makes me wonder if we could DRY up
-> some of these rules with function definitions?
-
-Yeah, there are also some factoring out that I could do. I grew the
-file over time and while I am using target-specific variables to
-generalize a bit too, it can still be taken further.
-
-I have some other changes planned to the build process, so I will
-probably take the chance to clean up a bit as well.
-
-> Are there links to corresponding feature requests upstream so that one
-> day we can drop technical debt here?  In particular, having to create
-> a custom sysroot as is done here isn't particularly pretty.
->
-> I'd be curious if we could remove the dependency on cargo for rust tests.
-
-Yes, we have brought this up to upstream, for instance in the Rust
-CTCFT meeting: https://rust-lang.github.io/ctcft/meetings/2021-11-22.html
-
-In general, I track all feature requests etc. in this "live" issue
-(see also the linked ones from there):
-https://github.com/Rust-for-Linux/linux/issues/2
-
-> Do we denote the conflict in KCONFIG?
-
-No, but yeah, we could. However, I am not sure if we want to denote
-them for something so experimental, though (another question is
-whether we warn the user about GCC+Rust builds in general).
-
-Or, if we are going to be serious about GCC already (i.e. before we
-have actual codegen through GCC for Rust), then I would say we need a
-better solution to the problem (like the "check-if-correct" approach
-you suggested a while ago, or a proper GCC backend for `bindgen`).
-
-> Why do we need to strip out all these warning flags when running
-> bindgen?  Should be just be using -w to silence all warnings from
-> clang when invoking bindgen?
-
-Hmm... is there any possibility that we silence something that we care
-actually about? I guess we would get the same diagnostics in normal
-Clang/LLVM builds, so maybe it is fine. And even if not, perhaps we
-should just simplify anyway, given it is GCC+Rust builds we are
-talking about.
-
-> I don't understand why the PowerPC specific flags are pulled out, but
-> the x86 specific ones (like most of the -m flags in the initial
-> defiition of bindgen_skip_c_flags) are not.
-
-No particular reason. When the list of archs started to grow, I
-decided it would be better to start splitting them out. I will clean
-that out.
-
-> This doesn't accidentally export non-GPL symbols as GPL does it?
-
-It does, but that is fine -- it is the other way around the one that
-would "open" the kernel unexpectedly.
-
-Thanks a lot for the throughout review!
+At the moment, the assets are simply copied to the output folder, in
+the `rust/Makefile`. (I should provide an SVG too or remove the
+reference to it, by the way).
 
 Cheers,
 Miguel
