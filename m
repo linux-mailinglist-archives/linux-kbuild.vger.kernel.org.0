@@ -2,107 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DFD346C9F0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Dec 2021 02:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91A9646CF88
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Dec 2021 09:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235025AbhLHBdj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Dec 2021 20:33:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238989AbhLHBdj (ORCPT
+        id S229566AbhLHI7k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Dec 2021 03:59:40 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:56742 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229505AbhLHI7k (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Dec 2021 20:33:39 -0500
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00531C061756
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Dec 2021 17:30:07 -0800 (PST)
-Received: by mail-lj1-x22c.google.com with SMTP id p8so1361051ljo.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Dec 2021 17:30:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oY1YzqKk4aWlmDE7Q71zlaeF3NQefpgJ3dA3BCsYPu4=;
-        b=TanE49c9j+vNtjsphwwu+auu7KpkPp9t6oDpqsR9KpWE2jkcvQhEk6OEOBCjxsocAo
-         IpFwWN9l/B5J2eGgk8Y/vEQssZ1DEE2Grjx3JXxUG5gFO0yQIcTfFqYYHIa2ppmo+sPs
-         VWZcZQW5df3SiZwqVx2vzkLqDxpHWIMAbJtmHYirApmq3Mzz5Vhuud99RWwRaquR5hMn
-         Rl/NLQg6IDpEvVQd29AbrfdbUwbZiQEjwTsBqxB786bbtei5ynb0q6Bd293w+peeoXJ/
-         xQPVxcvPmcIujIKv/yI/7zQUozAsGlfWK9iB9HCWkYAqVqbngMaLTia8w1gyyeVuZqxR
-         upfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oY1YzqKk4aWlmDE7Q71zlaeF3NQefpgJ3dA3BCsYPu4=;
-        b=fXZl0jrqc7ETR8bgfKS+srQU0FisGAx4x0fLWRxWFL1O0yRlTpNM/m5IeAUV/KRwTI
-         iA04zW4Vihzw0snvaWjmtnyhyDW+y94ZpZIsews1GrpTYdJt/XnmQclYihankBPe0tQd
-         DKuwAhzFxr+SwwiAiuWjx4YspiP6wZRNa1XC/nGb5NO5ZrqFM2h6pWGLBONKXH/0q7es
-         EjTjZP02s2gw9Kl6f/05d5a7NJ3pRfJizfmeRN0LPQ29oZfodJ6vvGLpdVWta+cQ7JQK
-         Y+OSrSuUQ/s1/brNNNOorkPa4Pn9/9qR+VEiFpLbeqkN+6WQ6U1tKamvc2AV5Z2gq/hX
-         Q2qg==
-X-Gm-Message-State: AOAM530QJXKlQzYuStF11C3EaTnS/Im0zmvpabvtZ6PbMq+LDNzfmQbU
-        WRDQPtQGPN9egTggn3TloejTk/XQeBGM/JSPKv5I5g==
-X-Google-Smtp-Source: ABdhPJxmd2LH6zwPwgpPDbCVOETpHSXAwZjmhvHQMjUkXqasuAqG1D74p/kFoM4q8OpYs6prJvtVqpiLKndVoC9He3Y=
-X-Received: by 2002:a05:651c:292:: with SMTP id b18mr47002761ljo.220.1638927005840;
- Tue, 07 Dec 2021 17:30:05 -0800 (PST)
+        Wed, 8 Dec 2021 03:59:40 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 71F89CE2047;
+        Wed,  8 Dec 2021 08:56:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3ECDC341CA;
+        Wed,  8 Dec 2021 08:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638953765;
+        bh=Eko2Wx5nQFmKXKDz/fQjLDLX7s8lD39IKs1xuw9o9eE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GL61B9bP8nKh/AVPPXDP2hg7HRYePKblkrrjbrt7WwjOM2gbdH5PHi2hRN/QguBIx
+         afexMjiieoRW26lRI7JW/i4FAp9++wgrI1WAYZhDxQLNWqTpNkF8NH3aFTM+TB1WiT
+         grPkvEhrzjPdUFSDRYT+DppzUIfY+c/WOft99xgESJ3yyx2lBtpkA5sOpwiikVkqCe
+         b7B/YQrRUzbNmxLMiSyczlvHUGEsndguKWzUY+HStexYYY3LDY4WYFFwaa6jMMxcSQ
+         LSJP8KNlAiQL3VbAAcilxHMt7TCiMwjd+f/ErOcnxZYMp7CIq/VJNTvqepEKTVMOwT
+         3ed1+lTCa62ag==
+Received: by mail-wm1-f45.google.com with SMTP id p18so1219825wmq.5;
+        Wed, 08 Dec 2021 00:56:05 -0800 (PST)
+X-Gm-Message-State: AOAM531o8bROVimOt9AfGfPUiHuTWfI1xXEeSFr2iRtHHpsEOJTWV2YS
+        oQimL8XTh8y7lAwj6aMK4ZYXKvmQjtWMVYcV6mg=
+X-Google-Smtp-Source: ABdhPJy+2il4LRg7kk5tsC0x987FYl7fnjjaweB7d96yKIBcRmeTEesTtuvHseEiSldzBXHu11OvpGO2ElHDQrl+ht8=
+X-Received: by 2002:a1c:1c1:: with SMTP id 184mr14374486wmb.1.1638953763912;
+ Wed, 08 Dec 2021 00:56:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-15-ojeda@kernel.org>
-In-Reply-To: <20211206140313.5653-15-ojeda@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 7 Dec 2021 17:29:53 -0800
-Message-ID: <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
-Subject: Re: [PATCH 14/19] docs: add Rust documentation
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>
+References: <20211207150927.3042197-1-arnd@kernel.org> <20211207150927.3042197-3-arnd@kernel.org>
+ <CAHk-=wgwQg=5gZZ6ewusLHEAw-DQm7wWm7aoQt6TYO_xb0cBog@mail.gmail.com>
+In-Reply-To: <CAHk-=wgwQg=5gZZ6ewusLHEAw-DQm7wWm7aoQt6TYO_xb0cBog@mail.gmail.com>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Wed, 8 Dec 2021 09:55:47 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3Uy0k+SnWYqz7FMsQsu14VzivMJcjGDRBLv17adFYywA@mail.gmail.com>
+Message-ID: <CAK8P3a3Uy0k+SnWYqz7FMsQsu14VzivMJcjGDRBLv17adFYywA@mail.gmail.com>
+Subject: Re: [RFC 2/3] headers: introduce linux/struct_types.h
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        kernel test robot <lkp@intel.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tejun Heo <tj@kernel.org>, kernelci@groups.io,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 6, 2021 at 6:07 AM Miguel Ojeda <ojeda@kernel.org> wrote:
+On Tue, Dec 7, 2021 at 7:17 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Most of the documentation for Rust is written within the source code
-> itself, as it is idiomatic for Rust projects. This applies to both
-> the shared infrastructure at `rust/` as well as any other Rust module
-> (e.g. drivers) written across the kernel.
-
-I'm sure Documentation/rust/ will grow over time; there's certainly
-more that can be added and core kernel devs will have more questions
-over time. I'm still running into a SNAFU actually building; see
-https://lore.kernel.org/lkml/CAKwvOdk9VNenJJN5HnPpGgsHT+OsRsgPGSesQgqMP2aLPWy0NQ@mail.gmail.com/.
-
-But I read through all that was added here and didn't find anything
-problematic IMO.  I didn't verify the png's are actually the logo...
-
-I don't think `make htmldocs` produced any new warnings, though it's
-not exactly warning free at the moment (pre-existing before this
-series).
-
-> However, these documents contain general information that does not
-> fit particularly well in the source code, like the Quick Start guide.
+> On Tue, Dec 7, 2021 at 7:10 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> >
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Working towards a cleaner header structure, start by moving the most
+> > commonly embedded structures into a single header file that itself
+> > has only a minimum set of indirect includes. At this moment, this
+> > include structures for
 >
-> It also contains a few binary assets used for the `rustdoc` target
-> and a few other small changes elsewhere in the documentation folder.
-
-How is rust-logo.png being included in the docs? Is there something
-with RST that isn't grep'able for rust-logo.png?
-
-> --
-> 2.34.0
+> Ugh. I liked your 1/3 patch, but I absolutely detest this one.
 >
+> It makes no sense to me, and just makes that header file a completely
+> random collection of some random structure types.
+>
+> And I absolutely hate how it splits out the definition of the struct
+> from basic core infrastructure (initializers etc random inline
+> functions) for said structures.
+>
+> So no. NAK on this one. I think it's a disaster.
 
+Ok, thank you for taking a look!
 
---
-Thanks,
-~Nick Desaulniers
+Here is what I'd try next based on the feedback:
+
+- reduce patch 1 somewhat to only include the types that have a strong reason
+  to get moved to linux/types.h, describing them individually but leaving them
+  it as a single combined patch
+
+- keep patch 3, but leave 'struct super_block' in linux/fs.h for the moment
+  because  of 'struct list_lru'.
+
+- drop patch 2, but instead find a new home for each structure (along with
+  its initializers) if needed for defining the types in the new linux/fs_types.h
+  without too many indirect includes. I'll skip the structs that would be needed
+  later for mm.h/sched.h/device.h/.... for the moment.
+
+For the added headers, do you have a preference for whether to try grouping
+them logically or not? I could either split them out individually into many new
+headers (xarray_types.h, idr_types.h, percpu_rwsem_types.h, rwsem_types.h,
+...), or combine some of them when they define related types.
+
+        Arnd
