@@ -2,108 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E59446DEDA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Dec 2021 00:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAF3546E1BD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Dec 2021 06:07:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhLHXLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Dec 2021 18:11:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
+        id S229746AbhLIFL0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Dec 2021 00:11:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbhLHXLH (ORCPT
+        with ESMTP id S229676AbhLIFL0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Dec 2021 18:11:07 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7CEC061746;
-        Wed,  8 Dec 2021 15:07:35 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id m9so4715230iop.0;
-        Wed, 08 Dec 2021 15:07:35 -0800 (PST)
+        Thu, 9 Dec 2021 00:11:26 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304DCC061746
+        for <linux-kbuild@vger.kernel.org>; Wed,  8 Dec 2021 21:07:53 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id u11so3040197plf.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 08 Dec 2021 21:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
-        b=A716lHua5S8Q0I6LxK8EbL72dqrwmaFOaGZWKh8i2V6ZCefvzwrlTpqmZbofBkji3o
-         eTcY11faHhDvzaWnlyJPjD7MAItParYA6jFITwEW1GmuBNmQpivoeP+lvJXzQFzoRt4o
-         KrRJYahvYIy5j7BOUkX/gYL9MMLme5cBDW81kzuBpbmOLzqNYjLQEj7lfLjINBTl62tu
-         6LKR4U7ia3Uft+usQCy2zYjuO84q0t57aRNsJGok6UcRGOFTAq8e022/6KwyGFU2QJ0w
-         XRDya9VZc8Wt9YttyS8IJyQLAL9LeHUiAnj73F7pRVE9OPVsxiUNFKczmtlJ85+QhuBd
-         +20g==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=oAc97uz2Cujqe9KFIgnuc9y5PwmUaHTfcJnGM0LYlTM=;
+        b=hzVw2WlgWT+n2fokbrz+vPrl1Fvko1T4p4j8g82IVa6WBD30MO0Z2ZcNGf0aPqtS9e
+         wIa1wpat9swFKgNduKo1OTZG+DRN3C1v3q3iOOIksw6IgiyFRvTK7wB+V7p7r0pZw82v
+         dsugPtXIUWsFbVrD/keLyM3owwB5OM8sttnqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
-        b=0r/oyFZmwd46PgC/k+pk3QFzxDVuUmqv6gfWtQc4FbQ/LrCEKSpgHOIG7bPo21LoEI
-         Z+WybU/tv6ZCw9A8SgHf5IeXvjVITAFV1iyoZYltsCE4pwNHWjxF6VqKfyPizQQK7LzR
-         syeiSCGijbFObQSght9SFNX3CAvUPR38vChkaTzNAmflEfL+77eJXQpoBvF8yxqfKJlF
-         LzPmLVJtH750Dm9DiUcQFtnBVO59YlV2BqRV/MO+fIA9AJjBMU1ugIDqY6JzCYEiuhmn
-         lxMEEXMGbxWeGvD1BGGMIgOe8zie/5uVU0bhVoHbfNLx4KiEcQ6TXu4kwmOhEMw/vVDE
-         8Flw==
-X-Gm-Message-State: AOAM530W2QdisLTdEge3nn2PAYxMyJCT9/sblgcX6TIJBnXEgB+I7VWC
-        97dRcgLGiKRw1DmMNE6IFwzfYz1Tf2x+UOr2VD4=
-X-Google-Smtp-Source: ABdhPJy5PjPkLmDXdBa8v9cvnb0J8BYP4vtPofj3T3hO/HPtklP9pPvbbe0+0XmfCKfw0H5ANish9+gJVfHa7ILR6mI=
-X-Received: by 2002:a02:c78e:: with SMTP id n14mr3798423jao.40.1639004854486;
- Wed, 08 Dec 2021 15:07:34 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=oAc97uz2Cujqe9KFIgnuc9y5PwmUaHTfcJnGM0LYlTM=;
+        b=7c/EXvpRMa7BJkhQ42B8hE3uNM3zcQfjH2DLEoG+0PcPXJfzrcLKUNJnPUlHS9c4/X
+         2EpE43w26Xr4zxvvwM6PF3AycoK03f6QkgOthxY4yz8Zqj4TlxoOyqyYMTFYrdeQN9gc
+         ERIaGw9k21IzNqurNZnPpoXRvbTqP8Hk2qM6kzuOPkHn40BhnbvlYZNxlTKapB1G9hEF
+         C6+TC9zRqoKhBNSWxzDR4EOe6nLoSTzoBInpMer/s2ngEIQRqhlI9RSJ7o+mc9a0bSyt
+         zqbIYskCt0cU/JI7zvtuGtAyu3s2fqaqtcJzxz/mGPM4KgZgRNnwfeZa9Tdd6/IvmSVX
+         uDHA==
+X-Gm-Message-State: AOAM533nNY/rJpA8peu7j7RZXvnry6sChG5HLVMhFl6/BRfBflPyEKj5
+        N2N1EyMUn+Gb6O3InaBq7n++xouH4H9+dQ==
+X-Google-Smtp-Source: ABdhPJzlX3NyyqZi6qmRsJyuu1pf9MJan5+mqXSsAqrMOgSJPV6WtN88xlUoNYPYv7C0HWsHNNPRjA==
+X-Received: by 2002:a17:903:300d:b0:142:744f:c74d with SMTP id o13-20020a170903300d00b00142744fc74dmr66055721pla.26.1639026472470;
+        Wed, 08 Dec 2021 21:07:52 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 59sm4273835pjz.34.2021.12.08.21.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 21:07:52 -0800 (PST)
+Date:   Wed, 8 Dec 2021 21:07:51 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: question about all*config and COMPILE_TEST
+Message-ID: <202112082057.C993DC6881@keescook>
 MIME-Version: 1.0
-References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-15-ojeda@kernel.org>
- <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 9 Dec 2021 00:07:24 +0100
-Message-ID: <CANiq72n1DehytS+n2_RbJf0uAROTD2c48voDWVGEWPaPr_V4qQ@mail.gmail.com>
-Subject: Re: [PATCH 14/19] docs: add Rust documentation
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 8, 2021 at 2:30 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> I'm sure Documentation/rust/ will grow over time; there's certainly
-> more that can be added and core kernel devs will have more questions
+Hi,
 
-Indeed -- the comment is only trying to emphasize (or explain) that
-this might be a difference with respect to C, i.e. that we should try
-to put as much of the documentation as possible closer to the code,
-rather than create "far" files in `Documentation/rust`. I will try to
-clarify the comment.
+tl;dr: is there a way to force a config default to "off" under
+all*config builds, but still leave it configurable? (i.e. not "depends
+on !COMPILE_TEST")
 
-> But I read through all that was added here and didn't find anything
-> problematic IMO.  I didn't verify the png's are actually the logo...
+I'm trying to understand a Kconfig behavior with regard to
+COMPILE_TEST. I'm able to use an "all*config" target, followed by specific
+additional config changes (e.g. turning off KCOV), but I can't enable
+things like DEBUG_INFO because of their "depends on !COMPILE_TEST".
+Whenever I want to examine debug info from all*config build I need to
+patch lib/Kconfig.debug to remove the depends. I was hoping I could,
+instead do:
 
-Thanks for reading through all of it!
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 0e2de4b375f3..e8533ffc92c3 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -212,7 +212,8 @@ menu "Compile-time checks and compiler options"
+ 
+ config DEBUG_INFO
+ 	bool "Compile the kernel with debug info"
+-	depends on DEBUG_KERNEL && !COMPILE_TEST
++	depends on DEBUG_KERNEL
++	default n if COMPILE_TEST
+ 	help
+ 	  If you say Y here the resulting kernel image will include
+ 	  debugging info resulting in a larger kernel image.
 
-> I don't think `make htmldocs` produced any new warnings, though it's
-> not exactly warning free at the moment (pre-existing before this
-> series).
+Which would turn this off when COMPILE_TEST was enabled, but I assume it
+doesn't work because an all*config target turns everything on first, and
+therefore this "default" gets ignored since DEBUG_INFO already has a
+value set.
 
-Yeah, I also run `make htmldocs` before submitting the patch series
-rounds. And indeed, there are quite a few warnings (20+?), but none
-coming from `Documentation/rust` that I could see.
+I then thought I could use:
 
-> How is rust-logo.png being included in the docs? Is there something
-> with RST that isn't grep'able for rust-logo.png?
+	default !COMPILE_TEST
 
-At the moment, the assets are simply copied to the output folder, in
-the `rust/Makefile`. (I should provide an SVG too or remove the
-reference to it, by the way).
+since this works:
 
-Cheers,
-Miguel
+config WERROR
+        bool "Compile the kernel with warnings as errors"
+        default COMPILE_TEST
+
+but I think the above is a no-op: it's the same as not having
+"default COMPILE_TEST" when doing an all*config build: it'll be enabled
+not because of COMPILE_TEST but because of the all*config pass.
+
+How can I make DEBUG_INFO configurable, but default off under
+all*config?
+
+Thanks!
+
+-- 
+Kees Cook
