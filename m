@@ -2,79 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B14E471700
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Dec 2021 22:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54DF6471C9D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Dec 2021 20:31:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231648AbhLKV6Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Dec 2021 16:58:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbhLKV6U (ORCPT
+        id S229895AbhLLTbD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Dec 2021 14:31:03 -0500
+Received: from conuserg-08.nifty.com ([210.131.2.75]:25054 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229600AbhLLTbC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Dec 2021 16:58:20 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3E8C0698C5
-        for <linux-kbuild@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id r25so40101885edq.7
-        for <linux-kbuild@vger.kernel.org>; Sat, 11 Dec 2021 13:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
-        b=SOBkDHN1upt351fJGA10IENq8Lskn6OtfiA/mtFXWwbxNo6rK0VqMIikUbNdR10QL9
-         NEz57nH7+DwD4ui2QjR5G0PDUg/x30DeYlpAViKmfLpj6c8owgTXHIRe2HlXrWJIYspc
-         p1qexb7VgQzyxOs2U317jKWC2PVt5FsJQNP/qzuU8HlodfKZxoIrg2Y5u0+UlgiuF7n+
-         KF6xHlFhNhhV0WZH+n1XpQNFkro1//sIniT/eC7+Qq7omDixZHJ42uWefxucVRQsgqoP
-         MP9jAyQEdDJw2KiXunMshfyB4wcDGfWvxehuLHSr6op0i/Er4qRI4zT2OKxsbV2QjSnP
-         PYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
-        b=t/ka6VaoKwhf8vOJxvWS8wCTb9ja2dh97GWxHlz9UwmBi9oRn5PBQV2lsYHKHxAOU/
-         vdJ2cRWt4g7xIOkPEtsPZ4OAA2tutwJBAi3BcFrBZ222kPFXEQck5hn50pc8RBwWCSq1
-         zSFFVqdvLqJPt+8rYMJlJEHj8U463CC/ofl9+qu/CuWKrpUEGnVB20hPIxUJhhLPtfn7
-         FPel+0ATfVCJg2MEObjqjzj/ZTLqGeG+GbgrwJIVmAlIFVOFCs5igMUaxmQTD/5T2oeB
-         nMkwTJcc7DH3167n/19Xpip2VKRarlNtAZ9aW5P93gUMJ7hJO5s661WaecGcTqhpVlR9
-         mKEQ==
-X-Gm-Message-State: AOAM530yzjtVQRoPrLHwxtwlZkuy7Fv4xgPLMh9N08ac0u0fUvgQk2y7
-        2WkUNoG5ZQ7wNxrwOXuJX/f5XRfQUmSNrAC9/Z4=
-X-Google-Smtp-Source: ABdhPJxTVLquc00JfCv8xmVg6F+Df36Ax6F8m8eI1vWHtjjPBaUzu2dvtxl/29t2QJINStCFpJhLct20UqzajIEroTA=
-X-Received: by 2002:a17:907:6da2:: with SMTP id sb34mr33325880ejc.509.1639259897490;
- Sat, 11 Dec 2021 13:58:17 -0800 (PST)
+        Sun, 12 Dec 2021 14:31:02 -0500
+Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 1BCJTqAk000552;
+        Mon, 13 Dec 2021 04:29:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 1BCJTqAk000552
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1639337393;
+        bh=FXw958wyo8ETkKfX7PUkbCcYnUmIcy1cqQ//+4bN/Sg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ohvtGUFWSUwc68OTx4V2VSL2Wv0mzlcaItMXt9jwLUaF37y0y5w++Hdivpi6k8cgz
+         96UrTLG0976RF4BOZrskI2YFO7GJcwbVMIOsHgqei7Ikn2o774YMePwh7y5izqUokg
+         CM7vSOxLPHo1LhvsfCOImQlYbnRzAirsTYvDqDKMXfzrlVhrkH3IyGiTW7fyjG9xbG
+         YaGLO2pExbYrar9c6TQUHzJBdUcz1e4kQyoJySslYGnzo0WkOiYsNnKxxv9L+rsN9w
+         tWYebiiak+JP/IvuNV2UB/8Zh2bcuwiqEESoUaLYux/i/xNJTvwaoHv/R27ZerMBBS
+         TaXme7Ke5Dxuw==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Michal Simek <michal.simek@xilinx.com>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 00/10] kbuild: do not quote string values in Makefile
+Date:   Mon, 13 Dec 2021 04:29:31 +0900
+Message-Id: <20211212192941.1149247-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Reply-To: martinafrancis022@gmail.com
-Sender: rebeccaalhajidangombe@gmail.com
-Received: by 2002:a17:907:94d3:0:0:0:0 with HTTP; Sat, 11 Dec 2021 13:58:16
- -0800 (PST)
-From:   Martina Francis <martinafrancis61@gmail.com>
-Date:   Sat, 11 Dec 2021 13:58:16 -0800
-X-Google-Sender-Auth: QI6h_ccu4Os7HpLN5lf7FmNkMqQ
-Message-ID: <CANadOMYJBdKak2aObykULF4gdU88=OTR03g+XDqpCofMfFracg@mail.gmail.com>
-Subject: Bom Dia meu querido
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---=20
-Bom Dia meu querido,
-Como vai voc=C3=AA hoje, meu nome =C3=A9 Dona Martina Francis, uma vi=C3=BA=
-va doente.
-Eu tenho um fundo de doa=C3=A7=C3=A3o de ($ 2.700.000,00 USD) MILH=C3=95ES =
-que quero
-doar atrav=C3=A9s de voc=C3=AA para ajudar os =C3=B3rf=C3=A3os, vi=C3=BAvas=
-, deficientes
-f=C3=ADsicos e casas de caridade.
 
-Por favor, volte para mim imediatamente ap=C3=B3s ler esta mensagem para
-obter mais detalhes sobre esta agenda humanit=C3=A1ria.
+This patch refactors the code as outlined in:
 
-Deus te aben=C3=A7oe enquanto espero sua resposta.
-Sua irm=C3=A3.
+  https://lore.kernel.org/linux-kbuild/CAK7LNAR-VXwHFEJqCcrFDZj+_4+Xd6oynbj_0eS8N504_ydmyw@mail.gmail.com/
 
-Sra. Martina Francis.
+First some patches refactor certs/Makefile. This Makefile is written
+in a too complicated way.
+
+I will revert cd8c917a56f20f48748dd43d9ae3caff51d5b987
+after this lands in the upstream.
+
+
+
+Masahiro Yamada (10):
+  certs: use $@ to simplify the key generation rule
+  certs: unify duplicated cmd_extract_certs and improve the log
+  certs: remove unneeded -I$(srctree) option for system_certificates.o
+  certs: refactor file cleaning
+  certs: remove misleading comments about GCC PR
+  kbuild: stop using config_filename in scripts/Makefile.modsign
+  certs: simplify $(srctree)/ handling and remove config_filename macro
+  kbuild: do not include include/config/auto.conf from shell scripts
+  kbuild: do not quote string values in include/config/auto.conf
+  microblaze: use built-in function to get CPU_{MAJOR,MINOR,REV}
+
+ Makefile                                      |  6 +--
+ arch/arc/Makefile                             |  4 +-
+ arch/arc/boot/dts/Makefile                    |  4 +-
+ arch/h8300/boot/dts/Makefile                  |  6 +--
+ arch/microblaze/Makefile                      |  8 ++--
+ arch/nds32/boot/dts/Makefile                  |  7 +--
+ arch/nios2/boot/dts/Makefile                  |  2 +-
+ arch/openrisc/boot/dts/Makefile               |  7 +--
+ arch/powerpc/boot/Makefile                    |  2 +-
+ arch/riscv/boot/dts/canaan/Makefile           |  4 +-
+ arch/sh/boot/dts/Makefile                     |  4 +-
+ arch/xtensa/Makefile                          |  2 +-
+ arch/xtensa/boot/dts/Makefile                 |  5 +-
+ certs/Makefile                                | 48 ++++++-------------
+ drivers/acpi/Makefile                         |  2 +-
+ drivers/base/firmware_loader/builtin/Makefile |  4 +-
+ init/Makefile                                 |  2 +-
+ net/wireless/Makefile                         |  4 +-
+ scripts/Kbuild.include                        | 47 ------------------
+ scripts/Makefile.modinst                      |  4 +-
+ scripts/gen_autoksyms.sh                      |  6 +--
+ scripts/kconfig/confdata.c                    |  2 +-
+ scripts/link-vmlinux.sh                       | 47 +++++++++---------
+ scripts/setlocalversion                       |  9 ++--
+ usr/Makefile                                  |  2 +-
+ 25 files changed, 74 insertions(+), 164 deletions(-)
+
+-- 
+2.32.0
+
