@@ -2,87 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBAD547223F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Dec 2021 09:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BD94729F2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Dec 2021 11:28:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232809AbhLMITn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Dec 2021 03:19:43 -0500
-Received: from mga17.intel.com ([192.55.52.151]:3580 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231514AbhLMITm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Dec 2021 03:19:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639383582; x=1670919582;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CcZ6j7wZRf+2nO2/s1OWKAqqclg5MMxFBTOMiZbC45I=;
-  b=DW1zPGlIITPQkfX2x521OWGxU6/2MI8tYGJrOkRV/piZQHPvmV2XTo08
-   5qtb/Q3b0YY53s0wvXHJSedmOB4SOCNxJEBFo8Uqd8ansf8l3acUWnTuZ
-   11TlzA+3ShWG6dsfs0LOmcouJN5NUMrrQ3rBzOZI/6RUJpz5rluaDof7P
-   XIbEgDStx+lrSyd+TKwBD+gW41qBjQHE39hf928ovP77byEmxxSUACh/2
-   F4BkIzNLmOg+avMTDDDJ4kzhVGVi44Xk/Xl02pjJ+D+mjQMeSt53HcJyw
-   KBXKwjT1KJSINLZQxQtRYnrrJ+pisakyetLjFmtwuUBEzjSlx9AskUjhq
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="219368214"
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; 
-   d="scan'208";a="219368214"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2021 00:19:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; 
-   d="scan'208";a="481436005"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 13 Dec 2021 00:19:41 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mwgYe-0006SQ-Dp; Mon, 13 Dec 2021 08:19:40 +0000
-Date:   Mon, 13 Dec 2021 16:18:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kbuild@vger.kernel.org
-Subject: [masahiroy-kbuild:testing-kconfig 24/25] scripts/gen_autoksyms.sh:
- 1526: include/config/auto.conf: Syntax error: "(" unexpected
-Message-ID: <202112131617.gF1CreGQ-lkp@intel.com>
+        id S239111AbhLMK2F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Dec 2021 05:28:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240510AbhLMK0h (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 13 Dec 2021 05:26:37 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBC6C08EB32;
+        Mon, 13 Dec 2021 02:00:51 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id y196so11456001wmc.3;
+        Mon, 13 Dec 2021 02:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2J3WjUUDZRJctdcJl6/snud+aQbH4TqfkyM0/+9MbGI=;
+        b=HypspHRWAWDb0rHyq47aLfBUtix48TRHayaWJOCh5uPH8KKIg8/zhItvVjRNYLc+I4
+         5BunMEsQf0ycC1ysUhASXrHP4/P133GjW2h/fInQuMSYelrVChIecqQPvm6mV519REgd
+         WhRvkW42MPcdViOtISTuItmGNJimzO6pkaNc4bT9KMb9XAV1PCHkXbHuYFzb7XhnRCWv
+         4qOhBC9IJsLoWDPHU9NxivG7Pn+HMr0B4Ly+l0LEZX4R2jYPJDltczSaP7Qp5Bq6JonC
+         YRK8u5Luq9pf8kWynRsp2hEJO8zpPRtCSgHZfUhAi4DrL0gza5b6oDNlXIKW2ofRx5k/
+         4ntQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2J3WjUUDZRJctdcJl6/snud+aQbH4TqfkyM0/+9MbGI=;
+        b=TyxYl2BraDM1S1hlZqGQwIKC4tl44B4AZdsPjpZpQLerc1nNcHLdSxui9QsiP8wdXx
+         lGNutLDdlVC62h3TwbtIvlnNLjGNihGHe+XLlMasF52SbhSCNj2fnTwAFPWg7bqT93SA
+         lGKRKQvVdE5gNn3i9YlRzBD02Sco94PpubRN00ugRcForG2NXZHDWOWD2t3oNMcGMJ39
+         7vF09i5t4rBU9PaOYhAkdz9P+JZ67bymltV9hQTUupF5Top7mj5yGR+SlBZMsUQB4qgP
+         sA+SvB3CXND0zSIk0p0ZkqdzRRYnzLacM7IKE9MVxfoAGgWXaWAJqzJMAw0uw9sB0j/g
+         WJng==
+X-Gm-Message-State: AOAM531Hb9zZmASts9u9SJYDchNDvVQzXqaSDH5gqgRg6icaUtFbnN+Y
+        r6WkNQVXaoNUjUpkX3U37y0=
+X-Google-Smtp-Source: ABdhPJzySgR4gq8pBxNNwNaxt133hwPgUa7GfoJEXYD0w+IgEkrfVZPmO2xDFBxhYc4pkgSGAqUg2w==
+X-Received: by 2002:a05:600c:510d:: with SMTP id o13mr35926524wms.104.1639389649930;
+        Mon, 13 Dec 2021 02:00:49 -0800 (PST)
+Received: from localhost.localdomain ([2a00:a040:197:458f:acc5:ce9c:f048:f197])
+        by smtp.googlemail.com with ESMTPSA id s8sm11826590wra.9.2021.12.13.02.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 02:00:49 -0800 (PST)
+From:   Ariel Marcovitch <arielmarcovitch@gmail.com>
+To:     masahiroy@kernel.org
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ariel Marcovitch <arielmarcovitch@gmail.com>
+Subject: [PATCH 0/2] kconfig: Improve comment blocks in the .config file
+Date:   Mon, 13 Dec 2021 12:00:41 +0200
+Message-Id: <20211213100043.45645-1-arielmarcovitch@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Hi there!
 
-First bad commit (maybe != root cause):
+This series attempts to make the .config file format make more sense.
+Currently menuconfig blocks look exactly like regular configs while
+comment blocks look almost exactly like menu blocks.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git testing-kconfig
-head:   e0b2802c637b32a68e0a9f99fc4bb1102518bf79
-commit: 24b17f5f009bd77f46c48645dfd03d430439bd43 [24/25] kbuild: do not quote string values in include/config/auto.conf
-config: x86_64-randconfig-a003-20211213 (https://download.01.org/0day-ci/archive/20211213/202112131617.gF1CreGQ-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2ddb6c8ac29412b1361810972e15221fa021c)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?id=24b17f5f009bd77f46c48645dfd03d430439bd43
-        git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-        git fetch --no-tags masahiroy-kbuild testing-kconfig
-        git checkout 24b17f5f009bd77f46c48645dfd03d430439bd43
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 prepare
+The first patch makes menuconfig blocks look the same as menu blocks.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+The second makes comment blocks look different than menu blocks.
 
-All errors (new ones prefixed by >>):
+The format for comment blocks in the second patch is a suggestion. I
+realize some people will think the '###' prefix is distasteful. I'm open
+to other options as well, I just couldn't think of a better option that
+starts with '#', looks different from a menu and can't be confused with
+a disabled config.
 
->> scripts/gen_autoksyms.sh: 1526: include/config/auto.conf: Syntax error: "(" unexpected
-   make[1]: *** [Makefile:1151: include/generated/autoksyms.h] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:219: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+Ariel Marcovitch (2):
+  kconfig: Show menuconfigs as menus in the .config file
+  kconfig: Make comments look different than menus in .config
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ scripts/kconfig/confdata.c | 34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
+
+
+base-commit: e06a61a89ccd3edda046c78f9d08aa045b8c4d32
+-- 
+2.25.1
+
