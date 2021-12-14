@@ -2,111 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B20AA472D5D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Dec 2021 14:34:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0D2473A6A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Dec 2021 02:46:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237642AbhLMNeJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Dec 2021 08:34:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237638AbhLMNeJ (ORCPT
+        id S241215AbhLNBqN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Dec 2021 20:46:13 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:33611 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229593AbhLNBqM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Dec 2021 08:34:09 -0500
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8800EC061574;
-        Mon, 13 Dec 2021 05:34:08 -0800 (PST)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Mon, 13 Dec 2021 14:34:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1639402447; bh=+dc+6tzjoJlOfZESnyJg2NqDO3PbqPjD88TylPg6x5k=;
-        h=Resent-From:Resent-Date:Resent-To:Date:From:To:Cc:Subject:
-         References:In-Reply-To:From;
-        b=SzZaJ5tLj1HxI2FEQih/A25O/XUYNpgVvBx52UGZbsOWfjqcebHpSptR3apELzcPv
-         gxok7saAO/8r//Z3F1NcEo89laOi52XCD+942oGQaUgaku+TV87SSdroBal0Ce/UJ5
-         DyErhYCLDjWl7SjoF4WU5gi2yPU9Tl7yMXwzZdzY=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPSA id 999C6804FF;
-        Mon, 13 Dec 2021 14:34:06 +0100 (CET)
-Received: from mail.avm.de ([212.42.244.94])
-          by mail-notes.avm.de (HCL Domino Release 11.0.1FP4)
-          with ESMTP id 2021121314180464-9437 ;
-          Mon, 13 Dec 2021 14:18:04 +0100 
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail.avm.de (Postfix) with ESMTP
-        for <n.schier@avm.de>; Mon, 13 Dec 2021 14:18:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1639401484; bh=+dc+6tzjoJlOfZESnyJg2NqDO3PbqPjD88TylPg6x5k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EkxnHO7efqzBwu0hVQr4I/ucyG/8H1A5y14vlw5itwwwAZC5GL7ZPWXNvIbWvRc26
-         aQlxV+E4eRK6Sl+9KWDSUG1Q6v6PmuZAoZcZupEuyxRRRzriX+p7xQbQI73RPlr9ud
-         Vp/vQtgs7NnVDWh84tVo4n5Z0cVkDsAWvJdhFaXM=
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 7BD9A18176D; Mon, 13 Dec 2021 14:18:04 +0100 (CET)
-Date:   Mon, 13 Dec 2021 14:18:04 +0100
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
+        Mon, 13 Dec 2021 20:46:12 -0500
+X-Greylist: delayed 108911 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Dec 2021 20:46:11 EST
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 1BE1jwdd025815;
+        Tue, 14 Dec 2021 10:45:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 1BE1jwdd025815
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1639446358;
+        bh=8T5YBD0SbT8hN4Yx/A5u1O0M20Sl6k1S2CdKGVz6Y3U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZfFrDE1reKOnJzvz0drTawAsKKTP+zomRYHMgD3cPDWF7NyO//w6c/APxI53ohhX1
+         mcqo2rms66UlsJvljCalW8PWISakk4ghhWpwYlaOQLjgj6GyAIvjC1XmstxWT7RlTp
+         0prmKUVhY0PVcMb31p7YvtpGqpfHBDC7HwTzTV2KjJiYV75IsDwXQUtZhLbmr+4/dd
+         jGdpCGQB0qjJ6Agl7M5DAeINdDSFRrEuyCd8W+QFRt+JpVH5fXx1KDW4MHmthOxaCm
+         Ewz+z1FadGyRz724kXGbk4tTuVDnqBMSgMdmMthJ1xWBJWE2DD9/lkp+ILlNZlMxiR
+         TRCm5NZ6lQX5g==
+X-Nifty-SrcIP: [209.85.215.181]
+Received: by mail-pg1-f181.google.com with SMTP id r138so16053565pgr.13;
+        Mon, 13 Dec 2021 17:45:58 -0800 (PST)
+X-Gm-Message-State: AOAM531dujZrONsvDWUiRcH75Vc+VCRp2UHWCEElWK9AgDSGuzQGtfL+
+        wSbC9q7qzoGyQHCBnd/DEP63wjFOH62Jg53lUUY=
+X-Google-Smtp-Source: ABdhPJxrvr0qnfF5hod7LzeFLaiFe9CTKegtoDEceJuaJKt4xz74aC7K36R71IQSQm3XG4OTdgqZl05U7GLoxJBHw8c=
+X-Received: by 2002:a65:430a:: with SMTP id j10mr1684265pgq.126.1639446357619;
+ Mon, 13 Dec 2021 17:45:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20211212192941.1149247-1-masahiroy@kernel.org>
+ <20211212192941.1149247-2-masahiroy@kernel.org> <YbdD9nnoZnK0QKeg@buildd.core.avm.de>
+In-Reply-To: <YbdD9nnoZnK0QKeg@buildd.core.avm.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 14 Dec 2021 10:45:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQxvQ2U3y_eJi8EeO3SNbzVHWBmaAyEN_1rq-TMPfyLHw@mail.gmail.com>
+Message-ID: <CAK7LNAQxvQ2U3y_eJi8EeO3SNbzVHWBmaAyEN_1rq-TMPfyLHw@mail.gmail.com>
+Subject: Re: [PATCH 01/10] certs: use $@ to simplify the key generation rule
+To:     Nicolas Schier <n.schier@avm.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Simek <michal.simek@xilinx.com>,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         David Howells <dhowells@redhat.com>,
         David Woodhouse <dwmw2@infradead.org>,
         keyrings@vger.kernel.org, Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH 10/10] microblaze: use built-in function to get
- CPU_{MAJOR,MINOR,REV}
-Message-ID: <YbdIDBIPz/Yyi2cw@buildd.core.avm.de>
-References: <20211212192941.1149247-1-masahiroy@kernel.org>
- <20211212192941.1149247-11-masahiroy@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20211212192941.1149247-11-masahiroy@kernel.org>
-X-MIMETrack: Itemize by SMTP Server on ANIS1/AVM(Release 11.0.1FP4|October 01,
- 2021) at 13.12.2021 14:18:04,  Serialize by http on ANIS1/AVM(Release
- 11.0.1FP4|October 01, 2021) at 13.12.2021 14:18:58,    Serialize complete at
- 13.12.2021 14:18:58
-X-TNEFEvaluated: 1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Notes-UNID: 07DBF18074CC90F87F10266110A523D0
-X-purgate-ID: 149429::1639402447-0000056E-41EE63CB/0/0
-X-purgate-type: clean
-X-purgate-size: 1161
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 13, 2021 at 04:29:41AM +0900, Masahiro Yamada wrote:
-> Use built-in functions instead of shell commands to avoid forking
-> processes.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+On Mon, Dec 13, 2021 at 10:30 PM Nicolas Schier <n.schier@avm.de> wrote:
+>
+> On Mon, Dec 13, 2021 at 04:29:32AM +0900, Masahiro Yamada wrote:
+> > Do not repeat $(obj)/signing_key.pem
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  certs/Makefile | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/certs/Makefile b/certs/Makefile
+> > index a702b70f3cb9..97fd6cc02972 100644
+> > --- a/certs/Makefile
+> > +++ b/certs/Makefile
+> > @@ -61,8 +61,7 @@ keytype-$(CONFIG_MODULE_SIG_KEY_TYPE_ECDSA) := -newkey ec -pkeyopt ec_paramgen_c
+> >  quiet_cmd_gen_key = GENKEY  $@
+> >        cmd_gen_key = openssl req -new -nodes -utf8 -$(CONFIG_MODULE_SIG_HASH) -days 36500 \
+> >               -batch -x509 -config $(obj)/x509.genkey \
+>
+> Don't you want to replace $< too?
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Ah, goot catch! Thanks.
 
-> 
->  arch/microblaze/Makefile | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/microblaze/Makefile b/arch/microblaze/Makefile
-> index a25e76d89e86..1826d9ce4459 100644
-> --- a/arch/microblaze/Makefile
-> +++ b/arch/microblaze/Makefile
-> @@ -6,9 +6,9 @@ UTS_SYSNAME = -DUTS_SYSNAME=\"Linux\"
->  # What CPU version are we building for, and crack it open
->  # as major.minor.rev
->  CPU_VER   := $(CONFIG_XILINX_MICROBLAZE0_HW_VER)
-> -CPU_MAJOR := $(shell echo $(CPU_VER) | cut -d '.' -f 1)
-> -CPU_MINOR := $(shell echo $(CPU_VER) | cut -d '.' -f 2)
-> -CPU_REV   := $(shell echo $(CPU_VER) | cut -d '.' -f 3)
-> +CPU_MAJOR := $(word 1, $(subst ., , $(CPU_VER)))
-> +CPU_MINOR := $(word 2, $(subst ., , $(CPU_VER)))
-> +CPU_REV   := $(word 3, $(subst ., , $(CPU_VER)))
->  
->  export CPU_VER CPU_MAJOR CPU_MINOR CPU_REV
->  
-> -- 
-> 2.32.0
-> 
+I will change it as well.
+
+
+
+
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
+>
+> > -             -outform PEM -out $(obj)/signing_key.pem \
+> > -             -keyout $(obj)/signing_key.pem $(keytype-y) 2>&1
+> > +             -outform PEM -out $@ -keyout $@ $(keytype-y) 2>&1
+> >
+> >  $(obj)/signing_key.pem: $(obj)/x509.genkey FORCE
+> >       $(call if_changed,gen_key)
+> > --
+> > 2.32.0
+> >
+
+
+
+--
+Best Regards
+Masahiro Yamada
