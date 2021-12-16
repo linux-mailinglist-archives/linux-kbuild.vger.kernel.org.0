@@ -2,70 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2957A47732D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Dec 2021 14:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2557477FC6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Dec 2021 23:04:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232125AbhLPNbq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 Dec 2021 08:31:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
+        id S234459AbhLPWEK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Dec 2021 17:04:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234508AbhLPNbq (ORCPT
+        with ESMTP id S237406AbhLPWEI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 Dec 2021 08:31:46 -0500
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5976C06173E
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 05:31:45 -0800 (PST)
-Received: by mail-yb1-xb42.google.com with SMTP id v138so64676578ybb.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 05:31:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=t+k1vMicazZQGgJua3VBr5ex8kbXiYjORBm2hnGSMD4=;
-        b=AUwAObsrJvoB4lcr1thwJFnfOVN2iABshY6QoUiy3ecQ6AtLNMpcFThnfSU+EfTR04
-         cXUtK5ZNCgWrl7zW9OD+TIC1AizmcL4nDAX5MlPOFoviIdaaN+sqyTX8YBY5lck4Wu7x
-         WGDAPppIktjkbMGX4pPvkjWokOoKTHGW95YZeFyykeN84zCMS8x05JgO/b+o96tmoknY
-         L3I8tTZ5sKamHSrRt7gzlovJkphgN4gbY7fDxWFS0ChuWmULc5c/pfe2Uhi4HTZVVZxS
-         YZ7z0eP38W7Zkt1phS4tJbdz6z1GgYheXFKbti1vdHnulkzCDeXSG/7oUMHgNHQqaL5a
-         w9Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=t+k1vMicazZQGgJua3VBr5ex8kbXiYjORBm2hnGSMD4=;
-        b=wJkDeYBRSsfW+JfaiYqxOtX27JjBLTMc9pTTi49HsDBvoMe05hvr3n0J6Lsk4wH9zB
-         pHLv7SOlEjJHgEC2YXtq2sVUunyWUVTsiJBOJl5SLP0n3yHfjPSsH2LAc7x0XTqmjv+x
-         rANuYo4cdTsv++r6DyYL2NGBdQiOiCwNeMSEUXTtxY6HGDsanYlsj1umTvZEG/dCWtuT
-         XrGYC258/wKChHIydV5qdcZdDsZVFG24QVxqxO9vfKSaRQxzuRZU33E9rLbTgNyL1DtX
-         0fyZbixTnBKG8C7mmVU0D+U6/TiwMUTDMPi3oouNOqMNjC7GcxoL6YlaDoummNH6CxFT
-         wFsA==
-X-Gm-Message-State: AOAM533Qnp7K2fA1oh9An2gqkw1WGEMMRbaizA+XgWX7GdGGLEauguwA
-        G9bN+ZH55GCYERwoc6Mzs9N3vTCwCddWaNBBjz4=
-X-Google-Smtp-Source: ABdhPJzoDJYJuuFLTWn4jda4nsSwe5iVtMczS2H1kBappCR3Gfnrdue0scGkVmpgNPgcMYv09PmpPNOcqeeUYFUfk08=
-X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr13982958ybt.156.1639661505029;
- Thu, 16 Dec 2021 05:31:45 -0800 (PST)
+        Thu, 16 Dec 2021 17:04:08 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E96EC061574;
+        Thu, 16 Dec 2021 14:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=WAO9hZDcRjB3YCaMlbfdToabQWYt+lhc7ogLYgYfO5A=; b=BWGZ6AuNjpRoC8kgaS6A7mi51K
+        YFPoVwlchEV30CCdSpYhu0huiVuYRRrZu0SADS2YdW3szrKx1THYtThkjR/aEZ3h78wQP+KeDkTiS
+        IAMLKNAjPtvKgsFYD2nggsPLjR0pF9NF6UThOYDcwJXp9Nwtr19GplvwXs8TOWcMpGOYkWA1cU+DO
+        v/CiyT1lUk4WN98ka624Fur6Sh8EWIjiEkXTPUVEffDNXJmaMpfGItLmg21h5Y6JvX3Y4sJYy0EQi
+        HaE4FYPYXGaM9Xd0/85bCmNV0kzRKE9WL4LmNpCCQkDYeBGxevc6fdGDEeu4KZMiYmkjzBTBz0mCM
+        BWmglKEQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mxyr2-00G00R-Sb; Thu, 16 Dec 2021 22:04:00 +0000
+Date:   Thu, 16 Dec 2021 22:04:00 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        efi@lists.einval.com,
+        debian-kernel <debian-kernel@lists.debian.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>
+Subject: Re: [PATCH] builddeb: Support signing kernels with a Machine Owner
+ Key
+Message-ID: <Ybu30C6Nc7Mbo8MQ@casper.infradead.org>
+References: <20211013200536.1851070-1-willy@infradead.org>
+ <CAMj1kXEJ+RThJ83H2VNAmOKkVdhTAUCUF61u9JTv6ccc9uVTDw@mail.gmail.com>
+ <CAK7LNASfr4pxmXWO8WLPM4j1NiJ6+dAO_QyUmRREzJUXJNozFw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7110:6789:b0:11b:c4e9:10a with HTTP; Thu, 16 Dec 2021
- 05:31:44 -0800 (PST)
-Reply-To: lindajonathan993@gmail.com
-From:   Miss Linda <lindajonathan720@gmail.com>
-Date:   Thu, 16 Dec 2021 13:31:44 +0000
-Message-ID: <CAPy9JB_K0w4X0M7M3428SxiaCnb2QsgFemjou5GXRNuWQE3TPg@mail.gmail.com>
-Subject: Hi my love
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASfr4pxmXWO8WLPM4j1NiJ6+dAO_QyUmRREzJUXJNozFw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hey dear
+On Thu, Nov 04, 2021 at 06:28:40PM +0900, Masahiro Yamada wrote:
+> On Thu, Oct 14, 2021 at 6:47 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Wed, 13 Oct 2021 at 22:07, Matthew Wilcox (Oracle)
+> > <willy@infradead.org> wrote:
+> > >
+> > > If the config file specifies a signing key, use it to sign
+> > > the kernel so that machines with SecureBoot enabled can boot.
+> > > See https://wiki.debian.org/SecureBoot
+> > >
+> > > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> >
+> > For the change itself
+> >
+> > Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > although I'd suggest to fix the subject not to refer to Machine Owner
+> > Keys, as I don't see anything shim related here (i.e., if you sign
+> > using a key that is listed in db, it should also work)
+> >
+> >
+> > > ---
+> > >  scripts/package/builddeb | 10 +++++++++-
+> > >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > > index 91a502bb97e8..4fa6ff2b5cac 100755
+> > > --- a/scripts/package/builddeb
+> > > +++ b/scripts/package/builddeb
+> > > @@ -147,7 +147,15 @@ else
+> > >         cp System.map "$tmpdir/boot/System.map-$version"
+> > >         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
+> > >  fi
+> > > -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
+> > > +
+> > > +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
+> > > +if is_enabled CONFIG_MODULE_SIG; then
+> > > +       cert=$srctree/$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
+> > > +       key=${cert%pem}priv
+> > > +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
+> > > +else
+> > > +       cp "$vmlinux" "$tmpdir/$installed_image_path"
+> > > +fi
+> > >
+> > >  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
+> > >         # Only some architectures with OF support have this target
+> > > --
+> > > 2.32.0
+> > >
+> 
+> How to compile this patch?
+> 
+> "make  bindeb-pkg" fails with
+> Can't load key from file './certs/signing_key.priv'
 
-Nice to meet you, Am Miss Linda I found your email here in google
-search and I picked
-interest to contact you. I've something very important which I would like
-to discuss with you and I would appreciate if you respond back to me
-through my email address as to tell you more
+I'm sorry; I missed this email.
 
-about me with my
-photos, my private email as fellows??   lindajonathan993@gmail.com
+I don't know why you're seeing this error, exactly.  I'm just trying to
+automate the step here:
 
-From, Linda
+https://wiki.debian.org/SecureBoot#Using_your_key_to_sign_your_kernel
+
+Have you followed the other steps on that page; ie do you have:
+signing_key.priv, signing_key.der and signing_key.pem files?
+
+> 
+> Also, sbsign emits "Invalid DOS header magic" error
+> if CONFIG_EFI_STUB is not set.
+> 
+> The CONFIG name might depend on arch.
+> CONFIG_EFI for ARCH=arm64, but CONFIG_EFI_STUB for ARCH=x86.
+> 
+> 
+> If you require sbsign, you need to update Build-Depends ?
+
+It looks like we should add a few extra checks before running sbsign ...
+
+> sh ./scripts/package/builddeb
+> Can't load key from file './certs/signing_key.priv'
+> 139999825022720:error:02001002:system library:fopen:No such file or
+> directory:../crypto/bio/bss_file.c:69:fopen('./certs/signing_key.priv','r')
+> 139999825022720:error:2006D080:BIO routines:BIO_new_file:no such
+> file:../crypto/bio/bss_file.c:76:
+> make[4]: *** [scripts/Makefile.package:87: intdeb-pkg] Error 1
+> make[3]: *** [Makefile:1539: intdeb-pkg] Error 2
+> make[2]: *** [debian/rules:13: binary-arch] Error 2
+> dpkg-buildpackage: error: debian/rules binary subprocess returned exit status 2
+> make[1]: *** [scripts/Makefile.package:83: bindeb-pkg] Error 2
+> make: *** [Makefile:1539: bindeb-pkg] Error 2
+
+
