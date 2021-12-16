@@ -2,86 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA04847709D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Dec 2021 12:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2957A47732D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Dec 2021 14:31:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233387AbhLPLml (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60210 "EHLO
+        id S232125AbhLPNbq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Dec 2021 08:31:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233259AbhLPLm3 (ORCPT
+        with ESMTP id S234508AbhLPNbq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 Dec 2021 06:42:29 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62807C06173F
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 03:42:29 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id z9so25080963qtj.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 03:42:29 -0800 (PST)
+        Thu, 16 Dec 2021 08:31:46 -0500
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5976C06173E
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 05:31:45 -0800 (PST)
+Received: by mail-yb1-xb42.google.com with SMTP id v138so64676578ybb.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 Dec 2021 05:31:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=XAiY5JQCbKhUV3kfV68NxknTY8076aQ+jZiIG+NNSnrj8SbWsLA5ZyVis9Hv7MDsX5
-         Wp1aJ8rEmDfQ1U3vhA+W5Q6fUW0sQxhqwaHiosPbQFbyYijHt4Icvm/T0vEK5/kKmBc+
-         QqELCOAj0es+5TzRQyWwGBhwQGehjbOewfhMN3/S4hQw7QoR6Y3+tDzh1TbUcqm1TT9t
-         NYT2/qpfB6ahTcpnyVYoBu/0br0EmuZ66fyA68h0ieuZcBkGcxPgfheRqd2GHCJMPyzP
-         6QgpFUXd/uCVTtz1/hZUUGudKd9Q0ZImcSJeB1tjd8lIsCPvJkt1eKVnbTcB60Kk9v0/
-         CoRA==
+        bh=t+k1vMicazZQGgJua3VBr5ex8kbXiYjORBm2hnGSMD4=;
+        b=AUwAObsrJvoB4lcr1thwJFnfOVN2iABshY6QoUiy3ecQ6AtLNMpcFThnfSU+EfTR04
+         cXUtK5ZNCgWrl7zW9OD+TIC1AizmcL4nDAX5MlPOFoviIdaaN+sqyTX8YBY5lck4Wu7x
+         WGDAPppIktjkbMGX4pPvkjWokOoKTHGW95YZeFyykeN84zCMS8x05JgO/b+o96tmoknY
+         L3I8tTZ5sKamHSrRt7gzlovJkphgN4gbY7fDxWFS0ChuWmULc5c/pfe2Uhi4HTZVVZxS
+         YZ7z0eP38W7Zkt1phS4tJbdz6z1GgYheXFKbti1vdHnulkzCDeXSG/7oUMHgNHQqaL5a
+         w9Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=vuCFaYxPlalMuS5zRqlHHgma/PO8rWDnXMTAblcRl5acO5SqjHBSfJlHEueVjCVCAh
-         OpWScDnXQc1EX3JKQ/OxFd1ZGdLag8GK6GtgmDIkzMVoP//BTnA7fFftbmY4ZIw0iRYt
-         NwhQjTntkdEFDqi+qkMzYlReaV35ZY7aJ7JEvYJFmgQtR+U0QwEtTV7mwOzmxFyJ1gXq
-         Gdr90w0s2J+BB8P6LlChFNf/NskckFAw3UZlPkUuzAa6/tk4m7gaJvu45nZsy//QQ+Pk
-         2sNNwnoVhzkYv2mF+U0HAEK2ADr3C/8MlbpyYmNkN8hD3GcgZm1cIKn4uODnidqJMwKy
-         VdGA==
-X-Gm-Message-State: AOAM532pxcBT9wSi3pLjZ/tM1+QbFfax5Kuus0Pxc2gCnHDjUthnW7id
-        paugfsudTt3I9BggS++DIW/vtdirJU7S80W6ZHI=
-X-Google-Smtp-Source: ABdhPJxzAaV5DauAecsJzqBWmheSvDxk3ghiLfb6YRovClVg4kL4yUlGwYUFAnV+1q8jYrfo3AT6l8iJutzsg/2jTPA=
-X-Received: by 2002:a05:622a:1d4:: with SMTP id t20mr16497208qtw.84.1639654948506;
- Thu, 16 Dec 2021 03:42:28 -0800 (PST)
+        bh=t+k1vMicazZQGgJua3VBr5ex8kbXiYjORBm2hnGSMD4=;
+        b=wJkDeYBRSsfW+JfaiYqxOtX27JjBLTMc9pTTi49HsDBvoMe05hvr3n0J6Lsk4wH9zB
+         pHLv7SOlEjJHgEC2YXtq2sVUunyWUVTsiJBOJl5SLP0n3yHfjPSsH2LAc7x0XTqmjv+x
+         rANuYo4cdTsv++r6DyYL2NGBdQiOiCwNeMSEUXTtxY6HGDsanYlsj1umTvZEG/dCWtuT
+         XrGYC258/wKChHIydV5qdcZdDsZVFG24QVxqxO9vfKSaRQxzuRZU33E9rLbTgNyL1DtX
+         0fyZbixTnBKG8C7mmVU0D+U6/TiwMUTDMPi3oouNOqMNjC7GcxoL6YlaDoummNH6CxFT
+         wFsA==
+X-Gm-Message-State: AOAM533Qnp7K2fA1oh9An2gqkw1WGEMMRbaizA+XgWX7GdGGLEauguwA
+        G9bN+ZH55GCYERwoc6Mzs9N3vTCwCddWaNBBjz4=
+X-Google-Smtp-Source: ABdhPJzoDJYJuuFLTWn4jda4nsSwe5iVtMczS2H1kBappCR3Gfnrdue0scGkVmpgNPgcMYv09PmpPNOcqeeUYFUfk08=
+X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr13982958ybt.156.1639661505029;
+ Thu, 16 Dec 2021 05:31:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:28
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:28 +0000
-Message-ID: <CAONDhKOtxcgjB1YEPd0RXNOVbbQ8k-9k32v_cdFxEKFzk62kJg@mail.gmail.com>
-Subject: Urgent
+Received: by 2002:a05:7110:6789:b0:11b:c4e9:10a with HTTP; Thu, 16 Dec 2021
+ 05:31:44 -0800 (PST)
+Reply-To: lindajonathan993@gmail.com
+From:   Miss Linda <lindajonathan720@gmail.com>
+Date:   Thu, 16 Dec 2021 13:31:44 +0000
+Message-ID: <CAPy9JB_K0w4X0M7M3428SxiaCnb2QsgFemjou5GXRNuWQE3TPg@mail.gmail.com>
+Subject: Hi my love
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-Urgent
+Hey dear
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
+Nice to meet you, Am Miss Linda I found your email here in google
+search and I picked
+interest to contact you. I've something very important which I would like
+to discuss with you and I would appreciate if you respond back to me
+through my email address as to tell you more
 
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
+about me with my
+photos, my private email as fellows??   lindajonathan993@gmail.com
 
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
-
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
-
-Remain blessed.
-Mrs Selvia Santiago.
+From, Linda
