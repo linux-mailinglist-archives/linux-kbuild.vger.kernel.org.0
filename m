@@ -2,64 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1FEA478C92
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Dec 2021 14:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA5C2478C9A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Dec 2021 14:46:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236735AbhLQNoo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Dec 2021 08:44:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
+        id S234227AbhLQNqD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Dec 2021 08:46:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236709AbhLQNon (ORCPT
+        with ESMTP id S231609AbhLQNqC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Dec 2021 08:44:43 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800B1C061574;
-        Fri, 17 Dec 2021 05:44:43 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id w1so1624324ilh.9;
-        Fri, 17 Dec 2021 05:44:43 -0800 (PST)
+        Fri, 17 Dec 2021 08:46:02 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1B8C061574;
+        Fri, 17 Dec 2021 05:46:02 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id 15so1656236ilq.2;
+        Fri, 17 Dec 2021 05:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=/1U8rmm2v6IW4IrlYfu1WGU3nMyw7RqXx+g8a0tWtd8=;
-        b=J7gTZ5TlrzQDpy3rrzs2OPkxDkRN8Dlke+E+3xJl+6SbHzTuzoDgXjjl0t2CJjrDLy
-         pO0Sg4QrDFHAdMaHwr6c2Ve3txnkLqqhVgAfDndOYO4S3fct3uYmfBO2kL8CvOXgp67x
-         O359f5MCFQwYMYZBDac4HTrVXnXLOQQTEa3leh4kGoD3/P45UxVEMF6N2h5hnLDvJrUO
-         AOvTmuj557deI/P2K1dCNQmWRBNyhxb2vxs5OrPG7PfoUH4yE+2OPUQcE9ExMnykbu5/
-         jizkXWMJaWSYEzL8KVWCwbNSeGoJLmo82qgOha5fGyVd3HWz9zovyZ51buC9vjHHy2Am
-         2u+g==
+        bh=qgrS7E3XcHULU38AeYS0xaGxT73tcnKL3TyYG3y9bqg=;
+        b=AjgEcYcYzS/Y0zJiLkYbI8OQ3xtN2kU8UMjn4pL8IBMjr5giVKImFN38yAphQEWl1s
+         w4ZwNF5nK53TawZCO3PfAwFPjzFkQCvb4vW7GD/Z89VJt2FgI2kHJXHmEMrsZ2iFPuTC
+         PiP7jvRcfL87jAQ6eawnMYTpkaGdZAtUaWeOgujdmL+g9SFMU4YxP3ad86SFeDJep0cN
+         v6WTHiB/3zfzJ/vZjSeQ4IarLUBfk/Hx85KQHOzXRcfukqanNiBW53D6578qtSO5BiTS
+         s9WthGa0TAk+vBDffjfXqPZ7BrPdjkgFrV0qi31IBLVSqos2jLuPEJTR07NEaQzUXcjI
+         IyBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=/1U8rmm2v6IW4IrlYfu1WGU3nMyw7RqXx+g8a0tWtd8=;
-        b=2pxU3PDk8Hwwsb37YvMsVilPAKw+1fQ6j90mW9+6GaOIroUcL11uyhTiZjauxC+6za
-         CXL5jgYftpyksJufrCY5f+4Ot3LsoDNjCa1iJOie04YuTAN0H6epd4rwSPcCaFbExTIs
-         JsRwyECcZdnDKCYk73O4qJ8fQQ49QCISRZ/u2mqkztfat03e9uc4Sb1mb64y52envo97
-         aEUHC8DpJXR1s9Q585GnylA/YeTRuJ/SF52LgaX1A9pFQS+kXWQa9mEVhYADbvvQBgwu
-         WrF2OHbxBDCgD22dF2Ro02NM/614EOTxDP1+HtNpRj9p21pMgTTBeLsu9TMDUU/bh3GH
-         58Yg==
-X-Gm-Message-State: AOAM533/+koahT9RZvG3IFZAGUvvPd8wy1J9b4SdxEUcTD1567RSJW7t
-        nUPx/8Wsqpr2LI7fQIPC8pBfux4+ZlSYupGTEPA=
-X-Google-Smtp-Source: ABdhPJyekkbwWcJQs6XjMX15028dFAptq/1f6BUnjcBFltMAWPJUtvD9jqGfG3HcakoEEBti8xAUenGk38bfuQzMQuc=
-X-Received: by 2002:a05:6e02:180d:: with SMTP id a13mr1518285ilv.1.1639748682866;
- Fri, 17 Dec 2021 05:44:42 -0800 (PST)
+        bh=qgrS7E3XcHULU38AeYS0xaGxT73tcnKL3TyYG3y9bqg=;
+        b=iZfsVS6VwTjiWoWPTzTt5mYUDotUCX+/17FkDVcTaovgTgOwoD/9D6almrMscoaDPr
+         3q7oRZ/pKbnVKJpRWiRQylfGEmNKEdmZQaNhG0pbbBD1iEOU9xNxkyFSyC2QqQlvNdCg
+         Sl/I99Vufy7KSqqH9YoWpWuvE7OiT5B+nfPCSvIx0c2PpZnmBNsoUTw5grMZQ+DW8kTM
+         y8wFlpw1pRdjTsqjkgZk0uG01BCupC6lKkbaAQe2lhqzDGY9Yqssx8Qn0CkX4hsTzTfc
+         egMdhIDlWtljxiYObmDapilPtJDUqPQb469YOEXruzR9eIJN/ug4rYotIY3Z6rOSRNHd
+         /K/Q==
+X-Gm-Message-State: AOAM530YqZ/fmF7yb2CR1m2zsRILYN+2PXIh+UxGhYWJFSOr3RQ0sgZi
+        UyBSfvrGT5I7DdfEH4W3myr3Wkqi8BErAwMoW5M=
+X-Google-Smtp-Source: ABdhPJy1MmQ+5IWglVnvLfoOYwlga+ZOFvXoxLDo1e1fWucF4PdPYNbSlZy6qJ0ahti+hIsBRaxhJhMltupU1JSeDOM=
+X-Received: by 2002:a05:6e02:1889:: with SMTP id o9mr1599950ilu.4.1639748761970;
+ Fri, 17 Dec 2021 05:46:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124153105.155739-1-alex_y_xu@yahoo.ca> <20211124153105.155739-2-alex_y_xu@yahoo.ca>
- <CA+icZUUZwGG-mJg26DOmadZksm4fMCE5QUmnX4ZghWxXzAy9HQ@mail.gmail.com>
-In-Reply-To: <CA+icZUUZwGG-mJg26DOmadZksm4fMCE5QUmnX4ZghWxXzAy9HQ@mail.gmail.com>
+References: <20211124153105.155739-1-alex_y_xu.ref@yahoo.ca> <20211124153105.155739-1-alex_y_xu@yahoo.ca>
+In-Reply-To: <20211124153105.155739-1-alex_y_xu@yahoo.ca>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 17 Dec 2021 14:44:06 +0100
-Message-ID: <CA+icZUXLrENSgHJHy1Huy-tX-STpEQXyjQGO_fmdnhq7oMKhzA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: pass --stream-size --no-content-size to zstd
-To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
-        Nick Terrell <terrelln@fb.com>
+Date:   Fri, 17 Dec 2021 14:45:25 +0100
+Message-ID: <CA+icZUWKPG_iaeSiE0Xb3Z2+F4NxPG-Kg=pdLkaCPFkJ6Fo3OA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: use perl instead of shell to get file size
+To:     alex_y_xu@yahoo.ca
 Cc:     Michael Forney <forney@google.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
+        Nick Terrell <terrelln@fb.com>, Ingo Molnar <mingo@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -67,91 +65,131 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 9:51 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+On Wed, Nov 24, 2021 at 4:30 PM Alex Xu (Hello71) <alex_y_xu@yahoo.ca> wrote:
 >
-> On Wed, Nov 24, 2021 at 4:30 PM Alex Xu (Hello71) <alex_y_xu@yahoo.ca> wrote:
-> >
-> > Otherwise, it allocates 2 GB of memory at once. Even though the majority
-> > of this memory is never touched, the default heuristic overcommit
-> > refuses this request if less than 2 GB of RAM+swap is currently
-> > available. This results in "zstd: error 11 : Allocation error : not
-> > enough memory" and the kernel failing to build.
-> >
-> > When the size is specified, zstd will reduce the memory request
-> > appropriately. For typical kernel sizes of ~32 MB, the largest mmap
-> > request will be reduced to 512 MB, which will succeed on all but the
-> > smallest devices.
-> >
-> > For inputs around this size, --stream-size --no-content-size may
-> > slightly decrease the compressed size, or slightly increase it:
-> > https://github.com/facebook/zstd/issues/2848.
-> >
->
-> Hi Alex and Nick T.,
->
-> some questions:
->
-> Can I apply this patch as a single patch - without patch 1/2?
->
-> Is there an impact also on the kernel's ZRAM/ZSWAP support plus using
-> ZSTD as (de)comp-algo?
->
-> Here I have:
->
-> $ grep -i zstd /boot/config-5.15.7-1-amd64-clang13-lto | egrep -i 'zram|zswap'
-> CONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD=y
-> CONFIG_ZSWAP_COMPRESSOR_DEFAULT="zstd"
-> CONFIG_ZRAM_DEF_COMP_ZSTD=y
-> CONFIG_ZRAM_DEF_COMP="zstd"
->
+> This makes it easier to get the size of multiple files. Perl is already
+> a requirement for all builds to do header checks, so this is not an
+> additional dependency.
 
-$ egrep 'stream-size' build-log_5.15.9-1-amd64-clang13-lto.txt
-49360:  { cat arch/x86/boot/compressed/vmlinux.bin
-arch/x86/boot/compressed/vmlinux.relocs | zstd --stream-size=53340760
---no-content-size -22 --ultra; printf \130\352
-\055\003; } > arch/x86/boot/compressed/vmlinux.bin.zst
+$ egrep -B1 -A4 'file-size.pl' build-log_5.15.9-1-amd64-clang13-lto.txt
+49219-+ clang -nostdinc -I./arch/x86/include
+-I./arch/x86/include/generated -I./include -I./arch/x86/include/uapi
+-I./arch/x86/include/generated/uapi -I./include/uapi
+-I./include/generated/uapi -include ./include/linux/compiler-version.h
+-include ./include/linux/kconfig.h -D__KERNEL__ -Qunused-arguments
+-fmacro-prefix-map=./= -D__AS
+SEMBLY__ -fno-PIE --target=x86_64-linux-gnu -fintegrated-as
+-Werror=unknown-warning-option -Werror=ignored-optimization-argument
+-m64 -DCC_USING_NOP_MCOUNT -DCC_USING_
+FENTRY -fno-lto -c -o .tmp_vmlinux.kallsyms2.o .tmp_vmlinux.kallsyms2.S
+49220:+ perl ./scripts/file-size.pl .tmp_vmlinux.kallsyms1.o
+49221-+ size1=1932072
+49222:+ perl ./scripts/file-size.pl .tmp_vmlinux.kallsyms2.o
+49223-+ size2=1932072
+49224-+ [ 1932072 -ne 1932072 ]
+49225-+ [ -n  ]
+49226-+ vmlinux_link vmlinux .tmp_vmlinux.kallsyms2.o .btf.vmlinux.bin.o
 
 Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 
 - Sedat -
 
-> Thanks.
+> ---
+>  arch/arm/boot/deflate_xip_data.sh | 2 +-
+>  arch/powerpc/boot/wrapper         | 2 +-
+>  scripts/Makefile.lib              | 9 ++-------
+>  scripts/file-size.pl              | 8 ++++++++
+>  scripts/file-size.sh              | 4 ----
+>  scripts/link-vmlinux.sh           | 4 ++--
+>  6 files changed, 14 insertions(+), 15 deletions(-)
+>  create mode 100755 scripts/file-size.pl
+>  delete mode 100755 scripts/file-size.sh
 >
-> Regards,
-> - Sedat -
+> diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xip_data.sh
+> index 304495c3c2c5..14cfa2babb93 100755
+> --- a/arch/arm/boot/deflate_xip_data.sh
+> +++ b/arch/arm/boot/deflate_xip_data.sh
+> @@ -43,7 +43,7 @@ data_start=$(($__data_loc - $base_offset))
+>  data_end=$(($_edata_loc - $base_offset))
 >
-> > Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
-> > ---
-> >  scripts/Makefile.lib | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index ca901814986a..c98a82ca38e6 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -466,12 +466,20 @@ quiet_cmd_xzmisc = XZMISC  $@
-> >  # single pass, so zstd doesn't need to allocate a window buffer. When streaming
-> >  # decompression is used, like initramfs decompression, zstd22 should likely not
-> >  # be used because it would require zstd to allocate a 128 MB buffer.
-> > +#
-> > +# --stream-size to reduce zstd memory usage (otherwise zstd -22 --ultra
-> > +# allocates, but does not use, 2 GB) and potentially improve compression.
-> > +#
-> > +# --no-content-size to save three bytes which we do not use (we use size_append).
-> > +
-> > +# zstd --stream-size is only supported since 1.4.4
-> > +zstd_stream_size = $(shell $(ZSTD) -1c --stream-size=0 --no-content-size </dev/null >/dev/null 2>&1 && printf '%s' '--stream-size=$(total_size) --no-content-size')
-> >
-> >  quiet_cmd_zstd = ZSTD    $@
-> > -      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
-> > +      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -19; $(size_append); } > $@
-> >
-> >  quiet_cmd_zstd22 = ZSTD22  $@
-> > -      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
-> > +      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) $(zstd_stream_size) -22 --ultra; $(size_append); } > $@
-> >
-> >  # ASM offsets
-> >  # ---------------------------------------------------------------------------
-> > --
-> > 2.34.0
-> >
+>  # Make sure data occupies the last part of the file.
+> -file_end=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$XIPIMAGE")
+> +file_end=$(${PERL} "${srctree}/scripts/file-size.pl" "$XIPIMAGE")
+>  if [ "$file_end" != "$data_end" ]; then
+>         printf "end of xipImage doesn't match with _edata_loc (%#x vs %#x)\n" \
+>                $(($file_end + $base_offset)) $_edata_loc 1>&2
+> diff --git a/arch/powerpc/boot/wrapper b/arch/powerpc/boot/wrapper
+> index 9184eda780fd..9f9ee8613432 100755
+> --- a/arch/powerpc/boot/wrapper
+> +++ b/arch/powerpc/boot/wrapper
+> @@ -380,7 +380,7 @@ vmz="$tmpdir/`basename \"$kernel\"`.$ext"
+>
+>  # Calculate the vmlinux.strip size
+>  ${CROSS}objcopy $objflags "$kernel" "$vmz.$$"
+> -strip_size=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" "$vmz.$$")
+> +strip_size=$(${PERL} "${srctree}/scripts/file-size.pl" "$vmz.$$")
+>
+>  if [ -z "$cacheit" -o ! -f "$vmz$compression" -o "$vmz$compression" -ot "$kernel" ]; then
+>      # recompress the image if we need to
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index d1f865b8c0cb..ca901814986a 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -379,13 +379,8 @@ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+>
+>  # Bzip2 and LZMA do not include size in file... so we have to fake that;
+>  # append the size as a 32-bit littleendian number as gzip does.
+> -size_append = printf $(shell                                           \
+> -dec_size=0;                                                            \
+> -for F in $(real-prereqs); do                                   \
+> -       fsize=$$($(CONFIG_SHELL) $(srctree)/scripts/file-size.sh $$F);  \
+> -       dec_size=$$(expr $$dec_size + $$fsize);                         \
+> -done;                                                                  \
+> -printf "%08x\n" $$dec_size |                                           \
+> +total_size = $(shell $(PERL) $(srctree)/scripts/file-size.pl $(real-prereqs))
+> +size_append = printf $(shell printf "%08x\n" $(total_size) |           \
+>         sed 's/\(..\)/\1 /g' | {                                        \
+>                 read ch0 ch1 ch2 ch3;                                   \
+>                 for ch in $$ch3 $$ch2 $$ch1 $$ch0; do                   \
+> diff --git a/scripts/file-size.pl b/scripts/file-size.pl
+> new file mode 100755
+> index 000000000000..170bb6d048fa
+> --- /dev/null
+> +++ b/scripts/file-size.pl
+> @@ -0,0 +1,8 @@
+> +#!/usr/bin/perl -w
+> +# SPDX-License-Identifier: GPL-2.0
+> +my $total = 0;
+> +foreach (@ARGV) {
+> +    @stat = stat $_ or die "$_: $!";
+> +    $total += $stat[7];
+> +}
+> +print "$total\n";
+> diff --git a/scripts/file-size.sh b/scripts/file-size.sh
+> deleted file mode 100755
+> index 7eb7423416b5..000000000000
+> --- a/scripts/file-size.sh
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -set -- $(ls -dn "$1")
+> -printf '%s\n' "$5"
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 5cdd9bc5c385..c3fa38bd18ab 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -384,8 +384,8 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
+>         kallsyms_step 2
+>
+>         # step 3
+> -       size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso_prev})
+> -       size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
+> +       size1=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso_prev})
+> +       size2=$(${PERL} "${srctree}/scripts/file-size.pl" ${kallsymso})
+>
+>         if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
+>                 kallsyms_step 3
+> --
+> 2.34.0
+>
