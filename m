@@ -2,119 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72BA94797F3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Dec 2021 02:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9416C479852
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Dec 2021 04:11:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbhLRBDN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Dec 2021 20:03:13 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:27350 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbhLRBDL (ORCPT
+        id S231757AbhLRDL0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Dec 2021 22:11:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229984AbhLRDL0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Dec 2021 20:03:11 -0500
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 1BI12mhi002928;
-        Sat, 18 Dec 2021 10:02:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BI12mhi002928
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1639789369;
-        bh=g8kubEqzXtZebCqaSj9BAbqYgVkf91ju4F7inIn8m3A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HQhqD+YdFOz/Ik3CiDJJHisluY+hIeooMONVi2AArR7U/FX/HzVd8IQPGdAODydCU
-         FNjE9bOyfEOSwSifeecA3gLKsW1OeiMGuTRF4p7WiSmz9gLip48gyo3Dy3GDQrKS4D
-         LOZWV0SE6kKGk+CyfUOud5w7gK9r4yLdvr811KXpFX7oy6mbjVFL3kgDnJv4ek0O1B
-         kQAUP+umUawzx50N10vOdSECmnsLS3QGSgkM/6vjyLN77LAuEYxZDE7IpH2xlhb0bB
-         9yAFWDIo5vxC6MS8Bu/iDnJNyUao+sOksgnxRbTJAtVpytt3LcNZDWHSl3inv/OaeH
-         wQVzPFOAI2/lg==
-X-Nifty-SrcIP: [209.85.210.173]
-Received: by mail-pf1-f173.google.com with SMTP id k64so3555716pfd.11;
-        Fri, 17 Dec 2021 17:02:48 -0800 (PST)
-X-Gm-Message-State: AOAM533XZVhXvQpb233pLg2ZOVwCaA41kqestkwg1nF0Ea10zRhz11H3
-        j+vhuor31e9rGKj8HLWNVL9ibSCrD2Zv4ppeujw=
-X-Google-Smtp-Source: ABdhPJzGjAbGv+I/bTwhfwziv7WOMTBsph6E+WB3YL1WNppfKcKxQIdMdXPcqqda5/GSDFyziRC3MBP9P76MWkCI0SA=
-X-Received: by 2002:a05:6a00:2d1:b0:4af:437c:5f50 with SMTP id
- b17-20020a056a0002d100b004af437c5f50mr5577166pft.32.1639789367863; Fri, 17
- Dec 2021 17:02:47 -0800 (PST)
+        Fri, 17 Dec 2021 22:11:26 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22455C061574;
+        Fri, 17 Dec 2021 19:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=62FmL4o33C3xs2kZTlQ+wejDM0H9nh66m1ctzivTtUE=; b=eSd7P83jhUrAuGbLQ+RoODXHa/
+        tkFjCFGCbqE/QQFwGyGlvF17x5YSM5C0KeN8bGVREpPNi3ygOpelT1xV0dRsVqmhaQLdeTgUOzizL
+        ARfxFWsBWexrtfCYYDqtFV2wvRHtGUY+aG8XGchB6OVhkH37yOUVOGgnZiATfq2yGPyiFXYspiK3w
+        R/fv148vOxnpav2l2deLRI73kDVSTJ5IGyFBspdXLB2kIRGGgOdqzDpUBKZI4tBGCwz+4RnRQnnP5
+        EIPtXYisfxkseY4ZUXbqcfWN5anaKje7sK+Xc6aYC+Q2hlDHWSS7AR51oGH2iNuDD/8MCo+87FykI
+        +ULYqqiw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1myQ83-00HHCH-MC; Sat, 18 Dec 2021 03:11:23 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-kernel@vger.kernel.org, efi@lists.einval.com,
+        debian-kernel@lists.debian.org, linux-efi@vger.kernel.org,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2] builddeb: Support signing kernels with the module signing key
+Date:   Sat, 18 Dec 2021 03:11:22 +0000
+Message-Id: <20211218031122.4117631-1-willy@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211207140334.10461-1-semen.protsenko@linaro.org> <CAPLW+4n-BjSHK4gdP=cGvAE+pZDfvYTO4yy09yNRJgSXt2VArg@mail.gmail.com>
-In-Reply-To: <CAPLW+4n-BjSHK4gdP=cGvAE+pZDfvYTO4yy09yNRJgSXt2VArg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 18 Dec 2021 10:02:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQdPMjZozjuwp5Z=_pXi-7JMXXcG0CMW+dWWX4GxJX-qg@mail.gmail.com>
-Message-ID: <CAK7LNAQdPMjZozjuwp5Z=_pXi-7JMXXcG0CMW+dWWX4GxJX-qg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Report enabled nodes with duplicated address
-To:     Sam Protsenko <semen.protsenko@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        DTML <devicetree@vger.kernel.org>,
-        linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 1:11 AM Sam Protsenko
-<semen.protsenko@linaro.org> wrote:
->
-> On Tue, 7 Dec 2021 at 16:03, Sam Protsenko <semen.protsenko@linaro.org> wrote:
-> >
-> > Duplicated unit address is a normal case, as long as no more than one
-> > node using that address is enabled. Having duplicated addresses is
-> > already allowed by '-Wno-unique_unit_address' in DTC_FLAGS. But two
-> > simultaneously enabled nodes sharing the same address is usually
-> > incorrect. Add '-Wunique_unit_address_if_enabled' flag to report
-> > warnings for such case when doing "make dtbs_check".
-> >
-> > Signed-off-by: Sam Protsenko <semen.protsenko@linaro.org>
-> > Reported-by: Rob Herring <robh@kernel.org>
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > ---
-> > NOTE: After applying this patch, a lot of warnings appear on "make
-> > dtbs_check". I'm not completely sure if it's ok, so feel free to Nack.
-> >
->
-> Hi Rob,
->
-> Do you think this patch is feasible? You asked me to send it before,
-> though I now see it leads to a lot of errors being revealed when doing
-> "make dtbs" and "make dtbs_check". Please let me know if it's Ack or
-> Nack -- I'm fine with any resolution, just want to know if I should
-> continue to carry it in my local branch or drop it.
->
-> Thanks!
+If the config file specifies a signing key, use it to sign
+the kernel so that machines with SecureBoot enabled can boot.
+See https://wiki.debian.org/SecureBoot
 
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+v2:
+ - Handle private keys stored in the pem file as well as adjacent to the
+   certificate
+ - Handle certificate paths specified relative to both dsttree and srctree
+   (as well as absolute)
+ - Only try to sign the executable if EFI_STUB is enabled
+ - Only try to execute sbsign if it's in $PATH
 
-This is up to Rob.
-I do not mind either way.
+ scripts/package/builddeb | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
->
-> >  scripts/Makefile.lib | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index ce6142238835..2f00c996d2e3 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -315,7 +315,8 @@ DTC_FLAGS += -Wno-unit_address_vs_reg \
-> >         -Wno-alias_paths \
-> >         -Wno-graph_child_address \
-> >         -Wno-simple_bus_reg \
-> > -       -Wno-unique_unit_address
-> > +       -Wno-unique_unit_address \
-> > +       -Wunique_unit_address_if_enabled
-> >  endif
-> >
-> >  ifneq ($(findstring 2,$(KBUILD_EXTRA_WARN)),)
-> > --
-> > 2.30.2
-> >
-
-
-
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 91a502bb97e8..9dd92fd02b12 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -147,7 +147,30 @@ else
+ 	cp System.map "$tmpdir/boot/System.map-$version"
+ 	cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
+ fi
+-cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
++
++vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
++key=
++if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; then
++	cert=$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
++	if [ ! -f $cert ]; then
++		cert=$srctree/$cert
++	fi
++
++	key=${cert%pem}priv
++	if [ ! -f $key ]; then
++		key=$cert
++	fi
++
++	if ! command -v sbsign >/dev/null; then
++		key=
++	fi
++fi
++
++if [ -n "$key" ]; then
++	sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
++else
++	cp "$vmlinux" "$tmpdir/$installed_image_path"
++fi
+ 
+ if is_enabled CONFIG_OF_EARLY_FLATTREE; then
+ 	# Only some architectures with OF support have this target
 -- 
-Best Regards
-Masahiro Yamada
+2.33.0
+
