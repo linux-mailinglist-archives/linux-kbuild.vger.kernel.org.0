@@ -2,101 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9416C479852
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Dec 2021 04:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5569B479E8A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Dec 2021 01:24:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231757AbhLRDL0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Dec 2021 22:11:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47028 "EHLO
+        id S231418AbhLSAYZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Dec 2021 19:24:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbhLRDL0 (ORCPT
+        with ESMTP id S231199AbhLSAYZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Dec 2021 22:11:26 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22455C061574;
-        Fri, 17 Dec 2021 19:11:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=62FmL4o33C3xs2kZTlQ+wejDM0H9nh66m1ctzivTtUE=; b=eSd7P83jhUrAuGbLQ+RoODXHa/
-        tkFjCFGCbqE/QQFwGyGlvF17x5YSM5C0KeN8bGVREpPNi3ygOpelT1xV0dRsVqmhaQLdeTgUOzizL
-        ARfxFWsBWexrtfCYYDqtFV2wvRHtGUY+aG8XGchB6OVhkH37yOUVOGgnZiATfq2yGPyiFXYspiK3w
-        R/fv148vOxnpav2l2deLRI73kDVSTJ5IGyFBspdXLB2kIRGGgOdqzDpUBKZI4tBGCwz+4RnRQnnP5
-        EIPtXYisfxkseY4ZUXbqcfWN5anaKje7sK+Xc6aYC+Q2hlDHWSS7AR51oGH2iNuDD/8MCo+87FykI
-        +ULYqqiw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1myQ83-00HHCH-MC; Sat, 18 Dec 2021 03:11:23 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, efi@lists.einval.com,
-        debian-kernel@lists.debian.org, linux-efi@vger.kernel.org,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] builddeb: Support signing kernels with the module signing key
-Date:   Sat, 18 Dec 2021 03:11:22 +0000
-Message-Id: <20211218031122.4117631-1-willy@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        Sat, 18 Dec 2021 19:24:25 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB13BC06173E
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Dec 2021 16:24:24 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id 193so5920594qkh.10
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Dec 2021 16:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=ttyGAnC6DkJUu9yUKghQOutRdQihW4nBSca09uaHzXk=;
+        b=NmPlmGPYDdSW2bXQrEPaAkpMk3nxXl0y3QnQgymW9b1gdV/fY4rw+yQ0CQrgNNuSOg
+         mUbq68f/09xpLLxThPJu9KZHsfhHDVw+sgxxnJfM1KyQdw0gDV2cb//4CFec4eWUHswz
+         1bljYP5PygpeLw++rwJ1zjx0ECC5QQcB3f8og9s0Rsc9qCwTbGQ9NxdwQaL2pFnkCE8k
+         6V6HnPh1ocmExue1TDmnTAnXVtVEl6qAqxXkOjpGhpZrEjCkXFiSGbm9jBAOG7IufQBJ
+         YUp4aapfghOr6SIdVvjuzH7KfVl/T/J6LmGFirCEI5i2XRSIJaH84Ba8CLOxEo5rqWqr
+         n3BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=ttyGAnC6DkJUu9yUKghQOutRdQihW4nBSca09uaHzXk=;
+        b=Xv9KZa2WYP/IAdJ8QqjY8kuCFbJWS8ZgV40ijW+333eBtIjFDemJQNBTOBF5q26ZdS
+         NEwPME2p+9Uasr5dYxpF/juISSmS/GFiqvqBuLQWXSwwUodsXn2RiEqgQJ0BWUFteBIK
+         MqC8XeK6TkKcmhcyoR5ho0NpbhmH0cocB3lTkHMAszdWYCIGj1Cm2Ks4CviLg2UDqSAU
+         ++yJsDfNBvFOInCCzssUV7xvQJpTQZtCKG6fusI6PkPONtc1eFnXHzB/tc8d1HrZE+E9
+         oruvNVqVAmrjBGI69gRmrIPETEGjZueXA9fqXSQlEZIPNAWFmFwEtv95bD8UmTZcnJOA
+         oB/Q==
+X-Gm-Message-State: AOAM532lOwafaksbozWb2AVEoNgxj/936d3bdaUb3JODPfMpkdgKB4ON
+        tBGEV4KKLn5bzmb/uCjt1VTjsu9mxZKuTTHLxOU=
+X-Google-Smtp-Source: ABdhPJzcmnGqGvFKrcqsRyy2FdX0EXiS43NPexJZyywvkY4SWMXIAPqwVFRCh3/gTRn2RewuqL1gLOLq0DRsEUtfE3U=
+X-Received: by 2002:ae9:f716:: with SMTP id s22mr5957504qkg.212.1639873463484;
+ Sat, 18 Dec 2021 16:24:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6214:2405:0:0:0:0 with HTTP; Sat, 18 Dec 2021 16:24:22
+ -0800 (PST)
+Reply-To: mrsbastienmarion@gmail.com
+From:   Mrs Bastien Marion <ikennaikenna140@gmail.com>
+Date:   Sun, 19 Dec 2021 00:24:22 +0000
+Message-ID: <CAE52L4sMmZvMzPbfFz8p00kBcDwhJhdyCV2TwGmO8u0NOeRzAw@mail.gmail.com>
+Subject: Greetings, this is humanitarian work
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the config file specifies a signing key, use it to sign
-the kernel so that machines with SecureBoot enabled can boot.
-See https://wiki.debian.org/SecureBoot
+I'AM SUFFERING FROM CANCER OF THE HEART
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
-v2:
- - Handle private keys stored in the pem file as well as adjacent to the
-   certificate
- - Handle certificate paths specified relative to both dsttree and srctree
-   (as well as absolute)
- - Only try to sign the executable if EFI_STUB is enabled
- - Only try to execute sbsign if it's in $PATH
+Dear Friend.
 
- scripts/package/builddeb | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+Greetings to you in the name of the Lord God Almighty am Mrs Bastien Marion
+From (Paris) France, but am based in Burkina Faso Africa for eight
+years now as a business woman dealing on gold exportation and cotton
+Sales. But I have been suffering from this deadly disease called
+cancer for long and the doctor just said I have just few weeks to
+live.
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 91a502bb97e8..9dd92fd02b12 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -147,7 +147,30 @@ else
- 	cp System.map "$tmpdir/boot/System.map-$version"
- 	cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
- fi
--cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
-+
-+vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
-+key=
-+if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; then
-+	cert=$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
-+	if [ ! -f $cert ]; then
-+		cert=$srctree/$cert
-+	fi
-+
-+	key=${cert%pem}priv
-+	if [ ! -f $key ]; then
-+		key=$cert
-+	fi
-+
-+	if ! command -v sbsign >/dev/null; then
-+		key=
-+	fi
-+fi
-+
-+if [ -n "$key" ]; then
-+	sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
-+else
-+	cp "$vmlinux" "$tmpdir/$installed_image_path"
-+fi
- 
- if is_enabled CONFIG_OF_EARLY_FLATTREE; then
- 	# Only some architectures with OF support have this target
--- 
-2.33.0
+I know it will be difficult for you to believe my story now,
+but this is the situation I found myself in, it=E2=80=99s not my desire to =
+be
+on a sick bed today but God knows best,
 
+Now that I am about to end the race like this, without any family
+Members and no child. I have $6.8 Million US DOLLARS in BANK OF AFRICA
+(B.O.A) Burkina Faso it=E2=80=99s all my life savings, I instructed the Ban=
+k
+to give it to St Andrews Missionary and Home Kizito Orphanage in
+Burkina Faso. But my mind is not at rest because i do not trust them,
+I am writing this letter now through the help of my computer beside my
+sick bed.
+
+I will instruct the bank to transfer this fund to you as a foreigner
+but you have to promise me that you will take 40 Percent(%) of the
+total money for your personal use While 60 Percent (%) of the money
+will go to charity, Orphanage and less Privileges" people in the
+street and helping the Needy. I grew up as an Orphan and I don't have
+anybody as my family member, just to Endeavour that the house of God
+is maintained. Am doing this so that God will forgive my sins and
+accept my soul because this sickness has suffered me so much.
+
+As soon as I receive your reply I shall give you the contact of the
+bank and I will also instruct my Bank Manager to issue you an
+authority letter that will prove you the present beneficiary of the
+money in the bank that is if you assure me that you will act
+accordingly as I Stated herein.
+
+I look forward to getting a reply from you.
+
+Thanks and God bless you,
+Mrs Bastien Marion.
