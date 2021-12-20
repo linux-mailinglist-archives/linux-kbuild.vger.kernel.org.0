@@ -2,96 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4486847A6A6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Dec 2021 10:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C01147A8F7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Dec 2021 12:49:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230441AbhLTJMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Dec 2021 04:12:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
+        id S231447AbhLTLtK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Dec 2021 06:49:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230324AbhLTJMf (ORCPT
+        with ESMTP id S231408AbhLTLtJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Dec 2021 04:12:35 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EC7C06173E
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 01:12:35 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id y22so35587993edq.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 01:12:34 -0800 (PST)
+        Mon, 20 Dec 2021 06:49:09 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301B7C061574
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 03:49:09 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id w64so15326176oif.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 03:49:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=jGQh2Zl818G1tF0nVPUmp4kI247aa5EVon23vUrDvZ8=;
-        b=QHtRiCVzl3fEvfFwOoD5F8CeWqwAc6YSYRTktp3hFda3rYptb7liw0cbovSdTwXySe
-         MtV4Hog2M6Gdzs6KLphJY0W+XdKXPAESJaCTbnnPdXdx+XZtu7Raq5FCgb80kB9+Rld1
-         EWAgOY76qfchhkfOMBcNKGUDO93z+4+QAQ3l7hS8Pgu9mMczfXnwheVa0duyCD/PQ+i9
-         zsGYFgGiKxRVOfh96GuvaAMOgIJnBR6mP/xzSLrLxzILldjXFOJo58SgrKcGaXAVRZQT
-         v9zKs0EBXF88HOXwf87n6K6wXj9b187pxuPO+enjmgvUPcK+loPDrhFm0HHHrI2kHhvH
-         +PjA==
+        h=mime-version:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=+FcpPLSB7aOfVVSSoVP6b2vMEs38lfQNures1SEaO8Y=;
+        b=lW3pBHdFPa8FRywbyh6vkBhVb1fBy4P9G9Dnw+MJ4H3Z28IPdC0g74xC8hPHMB5C8H
+         K02QnueUj34LHK8SNSnwcx6rZZVO3aWUHJGxVDQhb96EOgk5pGjgA43ftLLQhDnXPGfN
+         6nx+5aHbzZwkJM7gRxJkgaV+xLeF1DgiAaO1Hwpu4vDejMQCbNFJ5lWU3kgBvuJH4CtR
+         2Qedk+hEJM0tTg/zSRarqeLwrIIPdoWLhVFQV2s9wmnA8izYaCCoCMmFCyn77foTQpc2
+         TecgyMNpNzNO110imEdwqACZsEGu+Ak1rk5/2x9cjLvCIpuk1gMVds58wraLy9TS1j1Z
+         LEpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=jGQh2Zl818G1tF0nVPUmp4kI247aa5EVon23vUrDvZ8=;
-        b=aiESgBRJVYMFodghBOqV/tddFlhMZyxUw7DT1T0dLC3wJMdTn4cDD5qV4AwTiFeIha
-         HREL8T4q6jtMpqKj1MsI/v9c/aIRRCQ61yiqv2ah+52NYrGH8nLaN2nL2bnPyCGx3786
-         +k1bAkeh/SUpGRGj8hmBXEBu3Wd8y/IzO+UVmcUBATpItgs/yinRo6P5buEmF4jL2Ltn
-         2FYXbZQ6LrcfEnm+XBZvPr4AEdbNk4bu5eLRkvDubH8SmMw0IQlYAC9FgDqnZVO9P5lS
-         UOMfu14i3TWfW1kts6q6J4QSo5BGK5TXT/qezFsZs/h0a7u/txNO/aiTuxrkpx1t8M2x
-         qAxQ==
-X-Gm-Message-State: AOAM532TjBOj9ouoZc3Q2tWwKK4GmI2nHlSum8cl6FrZsoDjLz2WDkHM
-        Wmy57LGy7E0Bnm7g1qIfLIr5/QR0uOvsq+7trio=
-X-Google-Smtp-Source: ABdhPJxZDeg+1GLkk/XbTVOzMhxHNkNnkoaTb0lcIk/9MaiA4GVqzgrmI8nfF7vQUHDxFutrnpaZTWJOdqOG8LICc/Y=
-X-Received: by 2002:a05:6402:518c:: with SMTP id q12mr236240edd.312.1639991553614;
- Mon, 20 Dec 2021 01:12:33 -0800 (PST)
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to:content-transfer-encoding;
+        bh=+FcpPLSB7aOfVVSSoVP6b2vMEs38lfQNures1SEaO8Y=;
+        b=1mUFdMQQQpjxzLqLIqJA5JD6JUJEsDwnePasS+Brt5cGP/hVVxBlxMGUj0WQI4YH67
+         e3Do5OewBQ+UunaZHsRhY9DNK8feNpnpC9xes1cgTULejk5YU1HWERgJ/Yk82icBw2Td
+         DO/MJc68e37BDdH5eWV/umakBgQRW7lKHOacoD/oG1Rk19v/d8oLw2jy3hD8fc4pyuXn
+         +EkUz66BIAnXSKv+GIwg/Qc+KT0OKbg2uWBryeRcEMYTAYOwOU0R8GQm439Dz3v+Kiko
+         DcR/k7HL0HnTxty3e5YLBODaZ4VIfvzOIiboV04PC0btcRazUMe5y02eyPBKwO3rhT8Q
+         EIiA==
+X-Gm-Message-State: AOAM532JMp7yldifULrJyFMz1ldUhYptMshLJDdAW6sHYiIP/8BfvwF4
+        suobAe5u9h/dSKcxNoEP+NtlGvDi7ixQsx8uTkk=
+X-Google-Smtp-Source: ABdhPJwEcBTrlHzxvD8zDUuFJsRVQ3YkFEhSqyPY5BjDjMzK+6vgoy9kWGrSYDi91Ki1cL7yfDZ2aJDEsqcHO8LOik0=
+X-Received: by 2002:aca:ab84:: with SMTP id u126mr17076404oie.41.1640000948499;
+ Mon, 20 Dec 2021 03:49:08 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:907:2cf4:0:0:0:0 with HTTP; Mon, 20 Dec 2021 01:12:32
+Sender: mgaddafi863@gmail.com
+Received: by 2002:a05:6839:a49:0:0:0:0 with HTTP; Mon, 20 Dec 2021 03:49:08
  -0800 (PST)
-Reply-To: ali.muhammad22@aol.com
-From:   mrs aisha gambo <chinonsoa66@gmail.com>
-Date:   Mon, 20 Dec 2021 10:12:32 +0100
-Message-ID: <CAGFd-fesJmd5ZS0wkhnStD5_gSMLZMw24QApaG62Vg2i6RQkew@mail.gmail.com>
-Subject: Dear friend Contact my secretary with this Email(ali.muhammad22@)aol.com
+From:   "Mrs.aisha Gaddafi" <aishagaddagfi@gmail.com>
+Date:   Mon, 20 Dec 2021 11:49:08 +0000
+X-Google-Sender-Auth: TnDNhh542_WNtjgiCUbcGn8x4pA
+Message-ID: <CAKUUf1NoACW8aDRtD9SOkz6HsA2G+PjL4cxMyV5yTiPaB9qGUA@mail.gmail.com>
+Subject: Hello My Dear friend.
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear friend Contact my secretary with this Email(ali.muhammad22@)aol.com
+--=20
+COULD YOU ASSIST ME?
+I am sending my greetings to you from the Sultanate of Oman, in the
+capital city of Muscat.
 
-
-We are inform you about your long overdue Payment outstanding in our
-records. We saw your name in the Central Computer among list of unpaid
-inheritance claims individuals and we have update you through your
-email, we have already arranged your payment to be paid to you,
-through ATM Visa Card.
-
-Your name appeared among the beneficiaries who will receive sum of
-Five Millions Two-Hundred Thousands United State Dollars
-(USD$5.200,000.00) through ATM Visa Card was set up for you, this will
-enable you to withdraw your funds in any ATM Machines in your country.
-
-You should contact my secretary in Burkina Faso his Name Mr ali
-muhammad Email.ali.muhammad22@gmail.com
-
-Tell/advice him to send your ATM Visa Card sum of Five Millions
-Two-Hundred Thousands United State Dollars (USD$5.200,000.00) we are
-kept for you, get in touch with my secretary, his name Mr ali muhammad
-instructs him where to send you the ATM Visa Card worth of Five
-Millions Two-Hundred Thousands United State Dollars (USD$5.200,000.00)
-to you.
-
-I hope you understood the reason why this big amount of money was kept for you??
- Please inform me immediately you received the ATM Visa Card sum of
-Five Millions Two-Hundred Thousands United State Dollars
-(USD$5.200,000.00) so that i will tell our managing director that you
-have already received your ATM Visa card.
-
-You should remembered that I have forwarded instructions to the
-secretary on your behalf to send the ATM Visa Card to you immediately,
-feel free to contact the secretary so that he will send the ATM Visa
-Card sum of Five Millions Two-Hundred Thousands United State Dollars
-(USD$5.200,000.00) to you immediately without delay.
-
-Yours faithfully
-Mrs aisha gambo.
+Note, I come across your e-mail contact prior a private search while
+in need of your assistances.
+May i use this medium to open a mutual communication with you, and
+seeking your acceptance towards investing in your country under your
+management as my partner, My name is Aisha Gaddafi and presently
+living in Oman, i am a Widow and single Mother with three Children,
+the only biological Daughter of late Libyan President (Late Colonel
+Muammar Gaddafi) and presently i am under political asylum protection
+by the Omani Government.
+I have funds worth =E2=80=9CTwenty Seven Million Five Hundred Thousand Unit=
+ed
+State Dollars=E2=80=9D -$27.500.000.00 US Dollars which i want to entrust o=
+n
+you for investment project in your country. If you are willing to
+handle this project on my behalf, kindly reply urgent to enable me
+provide you more details to start the transfer process.
+Thanks
+Yours Truly Aisha
