@@ -2,84 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C01147A8F7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Dec 2021 12:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF0C47B12D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Dec 2021 17:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231447AbhLTLtK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Dec 2021 06:49:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbhLTLtJ (ORCPT
+        id S238533AbhLTQhT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Dec 2021 11:37:19 -0500
+Received: from smtpout140.security-mail.net ([85.31.212.145]:48553 "EHLO
+        fx405.security-mail.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238502AbhLTQhT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Dec 2021 06:49:09 -0500
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301B7C061574
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 03:49:09 -0800 (PST)
-Received: by mail-oi1-x236.google.com with SMTP id w64so15326176oif.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 03:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=+FcpPLSB7aOfVVSSoVP6b2vMEs38lfQNures1SEaO8Y=;
-        b=lW3pBHdFPa8FRywbyh6vkBhVb1fBy4P9G9Dnw+MJ4H3Z28IPdC0g74xC8hPHMB5C8H
-         K02QnueUj34LHK8SNSnwcx6rZZVO3aWUHJGxVDQhb96EOgk5pGjgA43ftLLQhDnXPGfN
-         6nx+5aHbzZwkJM7gRxJkgaV+xLeF1DgiAaO1Hwpu4vDejMQCbNFJ5lWU3kgBvuJH4CtR
-         2Qedk+hEJM0tTg/zSRarqeLwrIIPdoWLhVFQV2s9wmnA8izYaCCoCMmFCyn77foTQpc2
-         TecgyMNpNzNO110imEdwqACZsEGu+Ak1rk5/2x9cjLvCIpuk1gMVds58wraLy9TS1j1Z
-         LEpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to:content-transfer-encoding;
-        bh=+FcpPLSB7aOfVVSSoVP6b2vMEs38lfQNures1SEaO8Y=;
-        b=1mUFdMQQQpjxzLqLIqJA5JD6JUJEsDwnePasS+Brt5cGP/hVVxBlxMGUj0WQI4YH67
-         e3Do5OewBQ+UunaZHsRhY9DNK8feNpnpC9xes1cgTULejk5YU1HWERgJ/Yk82icBw2Td
-         DO/MJc68e37BDdH5eWV/umakBgQRW7lKHOacoD/oG1Rk19v/d8oLw2jy3hD8fc4pyuXn
-         +EkUz66BIAnXSKv+GIwg/Qc+KT0OKbg2uWBryeRcEMYTAYOwOU0R8GQm439Dz3v+Kiko
-         DcR/k7HL0HnTxty3e5YLBODaZ4VIfvzOIiboV04PC0btcRazUMe5y02eyPBKwO3rhT8Q
-         EIiA==
-X-Gm-Message-State: AOAM532JMp7yldifULrJyFMz1ldUhYptMshLJDdAW6sHYiIP/8BfvwF4
-        suobAe5u9h/dSKcxNoEP+NtlGvDi7ixQsx8uTkk=
-X-Google-Smtp-Source: ABdhPJwEcBTrlHzxvD8zDUuFJsRVQ3YkFEhSqyPY5BjDjMzK+6vgoy9kWGrSYDi91Ki1cL7yfDZ2aJDEsqcHO8LOik0=
-X-Received: by 2002:aca:ab84:: with SMTP id u126mr17076404oie.41.1640000948499;
- Mon, 20 Dec 2021 03:49:08 -0800 (PST)
-MIME-Version: 1.0
-Sender: mgaddafi863@gmail.com
-Received: by 2002:a05:6839:a49:0:0:0:0 with HTTP; Mon, 20 Dec 2021 03:49:08
- -0800 (PST)
-From:   "Mrs.aisha Gaddafi" <aishagaddagfi@gmail.com>
-Date:   Mon, 20 Dec 2021 11:49:08 +0000
-X-Google-Sender-Auth: TnDNhh542_WNtjgiCUbcGn8x4pA
-Message-ID: <CAKUUf1NoACW8aDRtD9SOkz6HsA2G+PjL4cxMyV5yTiPaB9qGUA@mail.gmail.com>
-Subject: Hello My Dear friend.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 20 Dec 2021 11:37:19 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by fx405.security-mail.net (Postfix) with ESMTP id 5062D323929
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Dec 2021 17:29:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1640017771;
+        bh=+RmLMtxX7FEN4IP7pR/HhRRUDtp+lqKsB5xfR+wF64I=;
+        h=From:To:Cc:Subject:Date;
+        b=vfAkcw+nldrsgjJZ5/wE/0Bxp2voIMzThXZY5Ldf38SM5TfqTLlB1GwSAxo9nj67u
+         Pa7uKMFkKvQHU9esNMIuznWliO6pNeDw86mhPc/Ddi7xLoijghM00X64jVBALDqksd
+         BOyRUn+VgGxLpnXUyied2oVA2ogZ5rEue1SDVJ+Q=
+Received: from fx405 (localhost [127.0.0.1])
+        by fx405.security-mail.net (Postfix) with ESMTP id D5985323924;
+        Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <7ebe.61c0af6a.9a7cb.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+        by fx405.security-mail.net (Postfix) with ESMTPS id 9BC8132391A;
+        Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id 7F4AE27E03B2;
+        Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 6888D27E03C3;
+        Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 6888D27E03C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1640017770;
+        bh=WbRuSIXCPsRLvTvUsXmCiMuFeokonVum93L3sosHuvk=;
+        h=From:To:Date:Message-Id;
+        b=fgTU/b8i0nkxl9bmgNo/plv4DQhHuSbOYE98UNNycVl+y9Wbo18JEYCb1tXmn/8gQ
+         BO8NDTDh+xubvisNkX7/RrAzPQhepRakF77FJJwcpsCRXUqhXYN+5HnC3dxlwx8K3o
+         X5XVCnoi6OFGEWH1iTvjO+qeQ1DFss4U5jdq3xFo=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id GiLzh3VgZV6S; Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+Received: from junon.lin.mbt.kalray.eu (unknown [192.168.37.161])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 4FACD27E03B2;
+        Mon, 20 Dec 2021 17:29:30 +0100 (CET)
+From:   Yann Sionneau <ysionneau@kalray.eu>
+To:     linux-kbuild@vger.kernel.org
+Cc:     ysionneau@kalray.eu, robh@kernel.org
+Subject: [PATCH 0/1] Use target CPP to pre-process dts as supported flag checks are done on target toolchain
+Date:   Mon, 20 Dec 2021 17:29:24 +0100
+Message-Id: <20211220162925.14441-1-ysionneau@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: by Secumail
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---=20
-COULD YOU ASSIST ME?
-I am sending my greetings to you from the Sultanate of Oman, in the
-capital city of Muscat.
+Hello, 
 
-Note, I come across your e-mail contact prior a private search while
-in need of your assistances.
-May i use this medium to open a mutual communication with you, and
-seeking your acceptance towards investing in your country under your
-management as my partner, My name is Aisha Gaddafi and presently
-living in Oman, i am a Widow and single Mother with three Children,
-the only biological Daughter of late Libyan President (Late Colonel
-Muammar Gaddafi) and presently i am under political asylum protection
-by the Omani Government.
-I have funds worth =E2=80=9CTwenty Seven Million Five Hundred Thousand Unit=
-ed
-State Dollars=E2=80=9D -$27.500.000.00 US Dollars which i want to entrust o=
-n
-you for investment project in your country. If you are willing to
-handle this project on my behalf, kindly reply urgent to enable me
-provide you more details to start the transfer process.
-Thanks
-Yours Truly Aisha
+I have encountered an issue with the following setup: 
+* host toolchain gcc 7.5.0 (Ubuntu 18.04 LTS)
+* target toolchain gcc 9.4.1
+
+In this case I got build error while compiling DTBs because of the following flag: -fmacro-prefix-map
+This flag was known to my target toolchain (CC) but not by my HOSTCC.
+One might say that Ubuntu 18.04 is pretty old and I should upgrade but I think it's fundamentally broken to check flags on toolchain A and use them on toolchain B. We could have other issues like this in the future.
+I'm proposing this change to open the discussion.
+Regards, 
+
+Yann Sionneau (1):
+  Use target CPP to pre-process dts as supported flag checks are done on
+    target toolchain
+
+ scripts/Makefile.lib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.17.1
+
