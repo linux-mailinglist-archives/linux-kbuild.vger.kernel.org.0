@@ -2,105 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05ED047BC7F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Dec 2021 10:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFBE847BCF9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Dec 2021 10:37:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233810AbhLUJHA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Dec 2021 04:07:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55984 "EHLO
+        id S233216AbhLUJh1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Dec 2021 04:37:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233724AbhLUJG7 (ORCPT
+        with ESMTP id S236423AbhLUJh1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Dec 2021 04:06:59 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EAA2C061574;
-        Tue, 21 Dec 2021 01:06:59 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id mj19so11908556pjb.3;
-        Tue, 21 Dec 2021 01:06:59 -0800 (PST)
+        Tue, 21 Dec 2021 04:37:27 -0500
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB2BC06173F
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Dec 2021 01:37:27 -0800 (PST)
+Received: by mail-ot1-x343.google.com with SMTP id 47-20020a9d0332000000b005798ac20d72so15917293otv.9
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Dec 2021 01:37:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N643qODObMfL9L1/g/1n2bseGjAXlA8RjjI6V7Orn/I=;
-        b=I0IIjepgJAWMRIJPwNK02TWa7KuObVxcCG70vJYLzc2FdpQzktOtzZ6mSyeoJh3Gad
-         9BnK+ubuQsbLRee8XEZ9cw0K8grIhEae9vP9nuYfRjNejViywbTIEl5B7y3R4CyM81Yn
-         bIiz5MEQhyDAlgv8xfuvRFv//fngmH/Gu/PDnS0qnLlHs+Qw798keqD4uzoMz784GTFo
-         NcjVWUOf/gLx+CgIQPZ/xtS6kCl5PJlipOqf+D/O8QZcjoJacvqe+6X87lI3tSXHtBpa
-         wQl0WYFQzAxdEff3tsWbCsHLNYVhk5wIfh9Bkm7GlyhaeUclc5TEiUkeXzHIka8yHJm7
-         ZApw==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=8a9jSCLKF6USXoSLs09wzJOkanaknr953a1I5RC2HsQ=;
+        b=pfzD5Cos/i2gyQ5NJh5JWwvqgt2YUghl1mYeczTvVoQ7TW5TwkwtX4DgvGsegvKmUg
+         CmYDInZgWhQeQAjXBY8Tc3/hEvsQ1l6umIZealhgCwIMlJ8Ul/5w/ntGlKJJBqInV7EB
+         2fj6Q4/iOyW3i22BJHthKGxdagfc4PQ2zvfP+FDrjOheNwnDIcmFxKz+pQ+AUOHDGJ6E
+         9V2wOmxoAEVbzKrinSyQY4VZeKJwNdLLDph7pbZQU8IKUDh0U2qTUgjTLSgVwwNkQSyq
+         K6RQaR8/fOpgKZ0D33sXF0NgDXmZXtSzIFrCmRKgbC10U/QF7+Bl0u8F/rk9F+8jP+QF
+         qfBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N643qODObMfL9L1/g/1n2bseGjAXlA8RjjI6V7Orn/I=;
-        b=R8oKxKZABBTBS4GHAYEQHAFCoJ5v8pK88U7ZDGdMcjakMcAcYCQqb7W+MNSpIfUNAZ
-         p1+qNzL5cMXuYSCP+Ui+O4+s7Z+5aOy44dUnN/XWS+KkZNa8mSfiyMMqQE3BV3fkEDjJ
-         TQV9ZSzz+w5lhpcr7oTDPLpl0uIMm7SAjONQEfSn3RR4Q/C217lKF8rOAi9xzqejvJLf
-         2+YY+1TQv1sO1Mw5+9CtNfAqhWfGxh+cKjyE0T+7iN1bFkfyULy0VxRh/hOGXQO9ESg+
-         BFa+zvuzjTLeMtQjPLiw65U5V9sEIljOtYX92grbVpxN3r1xtB2ZquoaHAKe8BzDYPJe
-         77JA==
-X-Gm-Message-State: AOAM5318qkCLdMGPhHENW8vW4u9m2sxN2Fp4iQNyjDpzNIAw/LflgJhH
-        Yw8N8EV8wI+BMpmfKjlvSgLiK7I5SgqiFHDP3OC0zevPHmoMZA==
-X-Google-Smtp-Source: ABdhPJzgw0XSQ0PEbFId/kW5N00d2Ow9tUj/8cxC4EWUKabTG+exkL3QzuOJmR3BHIW8rwSPpIk7oPcc5DD+uZiwfeA=
-X-Received: by 2002:a17:902:ea03:b0:148:ea19:557 with SMTP id
- s3-20020a170902ea0300b00148ea190557mr2290853plg.129.1640077618944; Tue, 21
- Dec 2021 01:06:58 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=8a9jSCLKF6USXoSLs09wzJOkanaknr953a1I5RC2HsQ=;
+        b=f0Njmgjs3oXaLQQ9iby2FRut/j92i+/08X0FQW1GUsIK+Ud/CngHD///O8iQlWgzgA
+         NuXejig2pW2bJ0hrwTRpBVm1CqOEtmCQC/a2QaXqxF3bviq4u4jBtZfiBErdErtZCHHj
+         YEK8z2JC2f2OiTlxTiW+g10xB31eK6Jx+lWel0xoXzcvjmaUr2B0qGgzrrZVc3fE/pE0
+         Aqt4VD61xZhsiccWIZs6gslcD39FyXgK9qh558RacGSR5rlx2UwUVPBZwsNL9HW4EJqg
+         zDK0lGMuH9oYn9pQAHTXoi+wGLUwgignVml62gBoyxurgd7FCioV/82+qAD48I42HWWP
+         lJMQ==
+X-Gm-Message-State: AOAM532kGsYBE987UdFlugjcJ0vjJaUCxQXPXx+HfHObEHC3a9H92DoF
+        euXrnB7vZOuS6uMrVsbFQNRy4yNyzy5DQMCGCXw=
+X-Google-Smtp-Source: ABdhPJy477qWPScZ9JxyjTNbwth7rI/nlLMCy26TBTapThiAIRVVXKHzCfZV4BXowBUi5Q3qIfAGIoeOzxZmDukYiCY=
+X-Received: by 2002:a9d:8e9:: with SMTP id 96mr1686264otf.192.1640079446375;
+ Tue, 21 Dec 2021 01:37:26 -0800 (PST)
 MIME-Version: 1.0
-References: <LO2P265MB2671DF8D82C0C6A1504D85D6939F9@LO2P265MB2671.GBRP265.PROD.OUTLOOK.COM>
- <LO2P265MB267173F563B0A2CA5995FA2C939F9@LO2P265MB2671.GBRP265.PROD.OUTLOOK.COM>
- <106F23FD-3768-4CF0-893D-EDFE4A0BA2BF@sophos.com> <YbEIe+jxzQTFPHwk@bombadil.infradead.org>
- <DB2D69B2-B523-4626-BDCE-CE7DEFCD9268@sophos.com> <YbJpvT/zRBuyuNxT@bombadil.infradead.org>
- <DFAD7F0E-4D95-40FC-8FB6-D488EB81A530@sophos.com> <YcDXrwXDw7nI6u2b@bombadil.infradead.org>
-In-Reply-To: <YcDXrwXDw7nI6u2b@bombadil.infradead.org>
-From:   Vimal Agrawal <avimalin@gmail.com>
-Date:   Tue, 21 Dec 2021 14:36:48 +0530
-Message-ID: <CALkUMdSPZ2Qr8CYMpckRsjizyPapcOcd77_JOcj=73nervwOEg@mail.gmail.com>
-Subject: Re: [PATCH] kernel/module.c: fix for symbol decode in stack trace for
- stripped modules
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Vimal Agrawal <Vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "jeyu@kernel.org" <jeyu@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Received: by 2002:a4a:ca16:0:0:0:0:0 with HTTP; Tue, 21 Dec 2021 01:37:25
+ -0800 (PST)
+Reply-To: oueka63@gmail.com
+From:   malik <hddv2728@gmail.com>
+Date:   Tue, 21 Dec 2021 10:37:25 +0100
+Message-ID: <CAMH5xN1oAnZmezJNvL1-iYL9cOBFMh7yh3PrvRb0pQDrzE204w@mail.gmail.com>
+Subject: Are You Interested
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Luis,
+Greeting
 
-Please see https://github.com/crash-utility/crash/commit/03e3937ec7d1b356039433137cc6e531379ca454
-( function store_module_symbols_v2  in file symbols.c). This was one
-of the initial commit for crash utility.
+I am Dr Malik Ouedra, I currently hold the post as the Audit Account
+Manager of our bank in Ouagadougou Branch,Burkina Faso.I was elected
+to the Board of Directors of the Commercial Bank of Burkina Faso in
+2000, for the first three year term. In August 2004 I was elected to
+serve as the Chairman of the Board and Managing Director of the Bank,
 
-I will work on linux-next and update you.
+I got your contact from a reliable web directory. After much
+consideration In developed the trust on you after one week of fasting
+and praying.
 
-Vimal
+Due to the trust, I made up my mind to disclose this confidential
+business to you.We are in position to reclaim and inherit the sum of
+US$15.8 Million Dollars without any trouble or hindrance from a
+dormant account which remains unclaimed since 7 years ago, the owner
+of this account died.
 
-On Tue, Dec 21, 2021 at 12:51 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Mon, Dec 20, 2021 at 08:57:46AM +0000, Vimal Agrawal wrote:
-> > Hi Luis,
-> >
-> > Sorry for goof up with inline replies. I found that gmail supports bottom-posting so I will be replying inline from gmail next time. I will send the next patch using git send-email.
-> >
-> > Looks like it has been there in crash source for very long.
-> >
-> > store_module_symbols_v2
-> >         sprintf(buf2, "%s%s", "_MODULE_START_", mod_name);
-> >             sprintf(buf3, "%s%s", "_MODULE_INIT_START_", mod_name);
->
-> Can you point to the commit that added it? Preferably if you can have
-> a URL I can just use to see the change?
->
-> > I will test it first on latest ubuntu which has kernel version 5.13.0-22.
->
-> No, that's not sufficient, I really want you to use either Linus' latest
-> tree or linux-next.
->
->   Luis
+This is a U.S Dollar=E2=80=99s account and the beneficiary died without tra=
+ce
+of his family or relatives to claim the fund.
+
+I am looking for a reliable business partner to present for the
+inheritance, This may not be your area of business but it will be
+another income and benefit for both of us; I will give you more
+specific profit details when I receive feedback from you if you are
+interested.
+
+Warm Regards
+Dr Malik Ouedra,
+77577886
