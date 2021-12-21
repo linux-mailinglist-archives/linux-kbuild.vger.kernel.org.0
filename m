@@ -2,77 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 153CE47C95D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Dec 2021 23:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C004747C97F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Dec 2021 00:09:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233641AbhLUWq6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Dec 2021 17:46:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbhLUWq5 (ORCPT
+        id S235079AbhLUXJ4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Dec 2021 18:09:56 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:32364 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235435AbhLUXJ4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Dec 2021 17:46:57 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B571AC061574;
-        Tue, 21 Dec 2021 14:46:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=h90gh4tcJW1V6SNXPxKfbHdkwYNTgO5Pfs3QrMt4cfI=; b=jlkprZSBA0/TzLU+ihi32lUFm6
-        E56aTPhkdc+bB+P33zBxsHHEyi348mPILu7I3GymDwe+nvRGg4izF3/g948Jr9mWsbMEHypbOBktv
-        SaI5QOZFsfPwIQMtMh3PmsQjY3z6hOAzMF+dKtF99GpIwFYUgSC3Ln+dtHElXnl+PpfI72gNRXUCR
-        nn46hWLbMpSxz0qHxV2hTZMc+90RWbIL4M2eTBHylVB+rtt+FzzGi7q/2HMryX6tamrVgLLAfNwrO
-        mmnB6MzgTDe3+s9bxJf2YCv9OTqQkpia0s+P8tz9w1NWp7qHYZSknu7nypYSkntLi6MkFCTklESDv
-        3FQRQukA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mznuE-008f53-RB; Tue, 21 Dec 2021 22:46:50 +0000
-Date:   Tue, 21 Dec 2021 14:46:50 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Vimal Agrawal <avimalin@gmail.com>
-Cc:     Vimal Agrawal <Vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "jeyu@kernel.org" <jeyu@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kernel/module.c: fix for symbol decode in stack trace
- for stripped modules
-Message-ID: <YcJZWiQ407ZxMM+y@bombadil.infradead.org>
-References: <LO2P265MB2671DF8D82C0C6A1504D85D6939F9@LO2P265MB2671.GBRP265.PROD.OUTLOOK.COM>
- <LO2P265MB267173F563B0A2CA5995FA2C939F9@LO2P265MB2671.GBRP265.PROD.OUTLOOK.COM>
- <106F23FD-3768-4CF0-893D-EDFE4A0BA2BF@sophos.com>
- <YbEIe+jxzQTFPHwk@bombadil.infradead.org>
- <DB2D69B2-B523-4626-BDCE-CE7DEFCD9268@sophos.com>
- <YbJpvT/zRBuyuNxT@bombadil.infradead.org>
- <DFAD7F0E-4D95-40FC-8FB6-D488EB81A530@sophos.com>
- <YcDXrwXDw7nI6u2b@bombadil.infradead.org>
- <CALkUMdSPZ2Qr8CYMpckRsjizyPapcOcd77_JOcj=73nervwOEg@mail.gmail.com>
+        Tue, 21 Dec 2021 18:09:56 -0500
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1BLN9NcI025170
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 08:09:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BLN9NcI025170
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1640128163;
+        bh=7ghHEC5zMeaZ9cAWekt874db1AAG4xjmi08/W4tY3pw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LLmrDcqEtgL4cYtUhNBmkLv+gAx7AXzL7yW4DFZDC7uNn40uHJkABB6dZzTQJ0KZc
+         zOItWy7lR6DJBhbDe+IRiTVyuYbS3UuN3lmE/prTx1K5jugLs8NPF+DzgpI7KfpOXU
+         jx1AfNZVfjbnemjsKDPCGHL4aeaBT7P3Clo7RX49gecRc1fb61e3pva4bXRNWVtJCA
+         DB9WtA5Qucl8Wrq2vznzLMj73e0O1bV8EL1Q/zflMsFcesAZ2D7eJVH/bLgIJhRnbV
+         pQtZ9ptUONeMDFu53LW5R84syCEIjQcLx6iAMKDEWSaXF2LiYHyAdZn1HX//BJPYID
+         rUUQMLznY9tgQ==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id jw3so581221pjb.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Dec 2021 15:09:23 -0800 (PST)
+X-Gm-Message-State: AOAM5335V897TQOIXQ9OOgOMnCQpqVHmBLD1ac+s5SJL9U/TjZFYArwS
+        0YpkdhP24QkVDRFTQfXVeCf9vmbzYzwsrMQRgHw=
+X-Google-Smtp-Source: ABdhPJwLvuUdyhT9h+rrZntqar5HZlO5Y6f12kHeITWxSjtrdzUzmuKI1G/g2fAdmOsRa/Esx6S3ARO/j4BnVtYDbG0=
+X-Received: by 2002:a17:90a:680a:: with SMTP id p10mr485621pjj.144.1640128162702;
+ Tue, 21 Dec 2021 15:09:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALkUMdSPZ2Qr8CYMpckRsjizyPapcOcd77_JOcj=73nervwOEg@mail.gmail.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+References: <20211220162925.14441-1-ysionneau@kalray.eu>
+In-Reply-To: <20211220162925.14441-1-ysionneau@kalray.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 22 Dec 2021 08:08:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARL-S45PxLsN5c52e6WD=SSth8eq2QDe6dJcLv7YA0nGA@mail.gmail.com>
+Message-ID: <CAK7LNARL-S45PxLsN5c52e6WD=SSth8eq2QDe6dJcLv7YA0nGA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] Use target CPP to pre-process dts as supported flag
+ checks are done on target toolchain
+To:     Yann Sionneau <ysionneau@kalray.eu>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 02:36:48PM +0530, Vimal Agrawal wrote:
-> Hi Luis,
-> 
-> Please see https://github.com/crash-utility/crash/commit/03e3937ec7d1b356039433137cc6e531379ca454
-> ( function store_module_symbols_v2  in file symbols.c). This was one
-> of the initial commit for crash utility.
+On Tue, Dec 21, 2021 at 1:37 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
+>
+> Hello,
+>
+> I have encountered an issue with the following setup:
+> * host toolchain gcc 7.5.0 (Ubuntu 18.04 LTS)
+> * target toolchain gcc 9.4.1
+>
+> In this case I got build error while compiling DTBs because of the following flag: -fmacro-prefix-map
 
-OK then I see no good reason to follow that convetion.
-I'd much prefer if we use our own and make it mean something a bit more
-obvious and clear as I had suggested.
+-fmacro-prefix-map is never used for compiling DTBs.
 
-> I will work on linux-next and update you.
+If it is, it is a bug.
+But, I do not see such a case.
 
-Great.
 
-  Luis
+
+> This flag was known to my target toolchain (CC) but not by my HOSTCC.
+> One might say that Ubuntu 18.04 is pretty old and I should upgrade but I think it's fundamentally broken to check flags on toolchain A and use them on toolchain B. We could have other issues like this in the future.
+> I'm proposing this change to open the discussion.
+> Regards,
+>
+> Yann Sionneau (1):
+>   Use target CPP to pre-process dts as supported flag checks are done on
+>     target toolchain
+>
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> --
+> 2.17.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
