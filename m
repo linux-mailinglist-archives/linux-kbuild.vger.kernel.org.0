@@ -2,46 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C004747C97F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Dec 2021 00:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9144C47C984
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Dec 2021 00:11:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235079AbhLUXJ4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Dec 2021 18:09:56 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:32364 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235435AbhLUXJ4 (ORCPT
+        id S235697AbhLUXLn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Dec 2021 18:11:43 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:50389 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235616AbhLUXLm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Dec 2021 18:09:56 -0500
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 1BLN9NcI025170
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 08:09:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BLN9NcI025170
+        Tue, 21 Dec 2021 18:11:42 -0500
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 1BLNBQ9a032621
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 08:11:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 1BLNBQ9a032621
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1640128163;
-        bh=7ghHEC5zMeaZ9cAWekt874db1AAG4xjmi08/W4tY3pw=;
+        s=dec2015msa; t=1640128286;
+        bh=+u45vcldtVPnNJ6wF5zGzY+YAtVUec3hLaKzgflcEQ0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LLmrDcqEtgL4cYtUhNBmkLv+gAx7AXzL7yW4DFZDC7uNn40uHJkABB6dZzTQJ0KZc
-         zOItWy7lR6DJBhbDe+IRiTVyuYbS3UuN3lmE/prTx1K5jugLs8NPF+DzgpI7KfpOXU
-         jx1AfNZVfjbnemjsKDPCGHL4aeaBT7P3Clo7RX49gecRc1fb61e3pva4bXRNWVtJCA
-         DB9WtA5Qucl8Wrq2vznzLMj73e0O1bV8EL1Q/zflMsFcesAZ2D7eJVH/bLgIJhRnbV
-         pQtZ9ptUONeMDFu53LW5R84syCEIjQcLx6iAMKDEWSaXF2LiYHyAdZn1HX//BJPYID
-         rUUQMLznY9tgQ==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id jw3so581221pjb.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Dec 2021 15:09:23 -0800 (PST)
-X-Gm-Message-State: AOAM5335V897TQOIXQ9OOgOMnCQpqVHmBLD1ac+s5SJL9U/TjZFYArwS
-        0YpkdhP24QkVDRFTQfXVeCf9vmbzYzwsrMQRgHw=
-X-Google-Smtp-Source: ABdhPJwLvuUdyhT9h+rrZntqar5HZlO5Y6f12kHeITWxSjtrdzUzmuKI1G/g2fAdmOsRa/Esx6S3ARO/j4BnVtYDbG0=
-X-Received: by 2002:a17:90a:680a:: with SMTP id p10mr485621pjj.144.1640128162702;
- Tue, 21 Dec 2021 15:09:22 -0800 (PST)
+        b=zQaMVZNxvNy3S8vrlmuDuU4cnP3+q+F+MnD9q/Ciki3TX2ilsgnTj3iyjX6TdqIfW
+         zsJY/fLS4vjJ35cffPqX/gZhuakI1kGltLPzGNMmDBW3ZJu2ac6vm4AnJMFlWXr8rR
+         jQGKo4eBT2Ap29/nekF8r9fK/9W8Y30u7m7DGLCjGUK4JyhqCGKccSK1vTSy3opHe7
+         GWqs66Hy7SFAy8lBJrctVqq1iHgQMNLKMiih47ngSB1DHEb7RfYvE8FuzjgHiGx8Gr
+         xB94dE4iHgMSmqnygZYQ+iozV3tOIfzn9TXDs5QTeFFTo/b1n/Dt6z/okCOQ/pg90d
+         g93StdO+ArWpg==
+X-Nifty-SrcIP: [209.85.214.169]
+Received: by mail-pl1-f169.google.com with SMTP id z3so410219plg.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Dec 2021 15:11:26 -0800 (PST)
+X-Gm-Message-State: AOAM532MPTnqAd4B8XQxO9fKdegI39dnC1w3melmtdzCwBIDCuDQOHIl
+        BlJTmZcMw/5iRaQryvflJ8JSRu2Qccs5Mlfcm4g=
+X-Google-Smtp-Source: ABdhPJxcijCNvrwvnM54VjGkvz/z0djtWVboIrnv02hha1oF1lmykXFXdBF2X1yUtNg5D/t9SbllPc9lOHlrWotORTM=
+X-Received: by 2002:a17:902:9a47:b0:148:a2f7:9d69 with SMTP id
+ x7-20020a1709029a4700b00148a2f79d69mr531218plv.136.1640128285682; Tue, 21 Dec
+ 2021 15:11:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20211220162925.14441-1-ysionneau@kalray.eu>
-In-Reply-To: <20211220162925.14441-1-ysionneau@kalray.eu>
+References: <20211220162925.14441-1-ysionneau@kalray.eu> <20211220162925.14441-2-ysionneau@kalray.eu>
+In-Reply-To: <20211220162925.14441-2-ysionneau@kalray.eu>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 22 Dec 2021 08:08:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARL-S45PxLsN5c52e6WD=SSth8eq2QDe6dJcLv7YA0nGA@mail.gmail.com>
-Message-ID: <CAK7LNARL-S45PxLsN5c52e6WD=SSth8eq2QDe6dJcLv7YA0nGA@mail.gmail.com>
-Subject: Re: [PATCH 0/1] Use target CPP to pre-process dts as supported flag
+Date:   Wed, 22 Dec 2021 08:10:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQdxcs61Nspf0b3tZa1NYqXGH_0DU=_1qd3EpHzKJ2J2w@mail.gmail.com>
+Message-ID: <CAK7LNAQdxcs61Nspf0b3tZa1NYqXGH_0DU=_1qd3EpHzKJ2J2w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Use target CPP to pre-process dts as supported flag
  checks are done on target toolchain
 To:     Yann Sionneau <ysionneau@kalray.eu>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
@@ -51,35 +52,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 1:37 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
+On Tue, Dec 21, 2021 at 1:36 AM Yann Sionneau <ysionneau@kalray.eu> wrote:
 >
-> Hello,
->
-> I have encountered an issue with the following setup:
-> * host toolchain gcc 7.5.0 (Ubuntu 18.04 LTS)
-> * target toolchain gcc 9.4.1
->
-> In this case I got build error while compiling DTBs because of the following flag: -fmacro-prefix-map
-
--fmacro-prefix-map is never used for compiling DTBs.
-
-If it is, it is a bug.
-But, I do not see such a case.
+> If some flag is not supported by host toolchain but is supported by target toolchain, then
+> using host toolchain will fail here because the checks are only done on target toolchain.
 
 
+Then,
+some flag is not supported by target toolchain but is supported by
+host toolchain
 
-> This flag was known to my target toolchain (CC) but not by my HOSTCC.
-> One might say that Ubuntu 18.04 is pretty old and I should upgrade but I think it's fundamentally broken to check flags on toolchain A and use them on toolchain B. We could have other issues like this in the future.
-> I'm proposing this change to open the discussion.
-> Regards,
->
-> Yann Sionneau (1):
->   Use target CPP to pre-process dts as supported flag checks are done on
->     target toolchain
->
+
+> Signed-off-by: Yann Sionneau <ysionneau@kalray.eu>
+> ---
 >  scripts/Makefile.lib | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 94133708889d..1d11b7a23957 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -316,7 +316,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+>         $(call if_changed,dt_S_dtb)
+>
+>  quiet_cmd_dtc = DTC     $@
+> -cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+> +cmd_dtc = $(CC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+
+This change is not sensible at all.
+
+
+This is a partial revert of the following:
+
+commit 37c8a5fafa3bb7dcdd51774be353be6cb2912b86
+Author: Rob Herring <robh@kernel.org>
+Date:   Wed Jan 10 15:19:37 2018 -0600
+
+    kbuild: consolidate Devicetree dtb build rules
+
+
+
+
+
+>         $(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+>                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+>                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
 > --
 > 2.17.1
 >
