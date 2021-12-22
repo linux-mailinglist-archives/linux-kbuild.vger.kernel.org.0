@@ -2,96 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 763FC47D460
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Dec 2021 16:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E7D47D46D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Dec 2021 16:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235736AbhLVPtv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Dec 2021 10:49:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52124 "EHLO
+        id S241578AbhLVPzf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Dec 2021 10:55:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241525AbhLVPtu (ORCPT
+        with ESMTP id S241570AbhLVPzf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Dec 2021 10:49:50 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76A11C061574
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 07:49:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=/+kIYMglsJl/FwZjHdEx/6c4AhNi7/Hrh2QKPZ9ZKzk=; b=HtVhgiNqZS4HsJXVDdLma0VFQ0
-        hmwOKUHXBTQn+T1E+sneW3iQdnOzJmZ+Pzpy+p+zGetoWWP3HzfucSGZOgyJkDsUKVuv3QVUebTtY
-        LQjF0PMS5fkiCec01CeH8fj8ARUO/HySWIn67rX59ZGNLlCuwLz/vIDhpmKn7LbhajvkXn6LhJbUu
-        AYfpt2qXYR+g1lam3f74qT1FKjRU/5Sz5SiZygSOfxOEgQZqP9RTt0kbYW/jBKP2HCyXv/SjskVi3
-        eY3lo1CzYjdqzAkhLI44RnMg4wC4FCLTKVY35gRtbQFZLkRgD2z8oTEo+Ku/V37jwyNdqdM83dtd8
-        +ByP4vxg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n03s3-003Ugy-5z; Wed, 22 Dec 2021 15:49:39 +0000
-Message-ID: <d96ded7a-f584-db38-4170-c991b772a136@infradead.org>
-Date:   Wed, 22 Dec 2021 07:49:32 -0800
+        Wed, 22 Dec 2021 10:55:35 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F25F6C061574
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 07:55:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C3323B81D5E
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 15:55:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3605FC36AEB
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 15:55:32 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="SF0OnoZN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1640188529;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5rRpmwgqeBAiX9i8pgR+tn6NsjHEoaRQIM91cMm/3OY=;
+        b=SF0OnoZNBGiQfzbalI2TnNYfM56XClT6xcCgCRV5KJ/Yeu6UXe2isSFP7o8hIaSMCEe788
+        JN5LDmpgqV6J2jnpd+hZP2AHv8sDdZhfZQe8NuU6/kh8LcBgZ3PignzWltJiAEecjvo8hQ
+        ja9Sxjy0C5fSHZ8JUU92zf5/uHHLGwA=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c9ccce60 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO)
+        for <linux-kbuild@vger.kernel.org>;
+        Wed, 22 Dec 2021 15:55:28 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id x32so7894531ybi.12
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Dec 2021 07:55:28 -0800 (PST)
+X-Gm-Message-State: AOAM532JN3LKUOPSrurKx6So+DFiVsfZWp6o4ZkdHVvshGccMpLDX818
+        w+MV+vrNVQVf/7etjlNIqPyvcaWXvvQZkucKMFQ=
+X-Google-Smtp-Source: ABdhPJyOo4YxpfsXTwf+1FFh95fJ2SMUJWWjjm+qpaFHpBEEjuOkOVx+lic96WpzczPOc4FQZsz4r/QzudJ4z8MlSEM=
+X-Received: by 2002:a25:ab86:: with SMTP id v6mr5090603ybi.457.1640188526759;
+ Wed, 22 Dec 2021 07:55:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
+References: <20211222143628.618436-1-Jason@zx2c4.com> <d96ded7a-f584-db38-4170-c991b772a136@infradead.org>
+In-Reply-To: <d96ded7a-f584-db38-4170-c991b772a136@infradead.org>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Wed, 22 Dec 2021 16:55:15 +0100
+X-Gmail-Original-Message-ID: <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
+Message-ID: <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
 Subject: Re: [PATCH RFC kbuild] lib/crypto: blake2s: include as built-in
-Content-Language: en-US
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        yamada.masahiro@socionext.com, ardb@kernel.org,
-        linux-kbuild@vger.kernel.org
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20211222143628.618436-1-Jason@zx2c4.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20211222143628.618436-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, Dec 22, 2021 at 4:49 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> If lib-y ignores (drops) an object file (usually because it is not used),
+> the usual way to force it to be included is to add it to obj-y instead
+> of lib-y (see many examples in lib/Makefile).
 
+This is not a problem with lib-y. This is a problem with libs-y. Note
+the 's'. The former is working as expected. The latter controls
+whether a directory's lib.a is picked up. For whatever reason, the
+build system isn't respecting a libs-y declaration added to
+lib/Makefile like it respects for one added to arch/*/Makefile.
 
-On 12/22/21 06:36, Jason A. Donenfeld wrote:
-> In preparation for using blake2s in the RNG, we change the way that it
-> is wired-in to the build system. Instead of kconfig mazes and ifdefs, we
-> use weak symbols, so that an arch version can override the generic
-> version. Then we include the generic version in lib-y, so that it can be
-> removed from the image if the arch version doesn't fallback to it (as is
-> the case on arm though not x86). The result should be a bit simpler and
-> smaller than the code it replaces.
-> 
-> Discussed-with: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> Hi Masahiro,
-> 
-> This is a commit I'm working on as part of a change to the RNG, which
-> got broken out into something standalone because it wound up being a bit
-> more involved than originally conceived. With Ard's help, this is using
-> weak symbols with the generic code in lib-y, but the only way we figured
-> to actually include the lib.a file was via this unseemly
-> KBUILD_VMLINUX_LIBS line below, which doesn't seem very okay. I tried
-> adding `libs-y += lib/crypto/` to lib/Makefile, but it seemed like the
-> build system ignored it. I figure there's probably a right way to do
-> this, so thought I should send you this RFC to look at first.
+> However, this may cause problems with weak symbols. I don't recall it being
+> used in that scenario.
 
-If lib-y ignores (drops) an object file (usually because it is not used),
-the usual way to force it to be included is to add it to obj-y instead
-of lib-y (see many examples in lib/Makefile).
+The reason we're using lib-y is so that unused code is pruned in the
+case that the weak symbol isn't used. IOW, a usual use for lib-y. And
+it works just fine. As mentioned, the issue is just with libs-y not
+finding that lib.a file.
 
-However, this may cause problems with weak symbols. I don't recall it being
-used in that scenario.
-
-
-> Alternatively, if the KBUILD_VMLINUX_LIBS trick is somehow okay, that'd
-> be useful to know too.
-> 
-> Thanks,
-> Jason
-
-
--- 
-~Randy
+Jason
