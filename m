@@ -2,121 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F63747DBF3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Dec 2021 01:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14D7947E18C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Dec 2021 11:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239660AbhLWAZF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Dec 2021 19:25:05 -0500
-Received: from mga09.intel.com ([134.134.136.24]:53166 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345845AbhLWAYk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Dec 2021 19:24:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640219080; x=1671755080;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=fdl2pqtwfSmHqco13iW37DLHxkjyBxAhNXlPzt3ZhyI=;
-  b=cE7W8nuAgefwVtoAivMYMLt96NsHMrrAwna3IsRzh/kC5ZR2rkAU39zR
-   l7WqCutTqVlqH4MVT8W9tQDqbFVrbW92l2QQOixhAWQNe2XGr+QqreiTB
-   cWnUqX3M7JaXW/PQqmHsVLguEMHauKduUR+vQgWq+YJ7NPTtdOZtb4wE0
-   1hW5lMuBYTyj6lNieVmtNZqA0VC8+cq4D2Xm8UPWCzcyAwOQxnznm/MaY
-   rCJpn598xXC0+5wFcJm3y3c/i6QKoXSPIQ4jS3tWjWXg8Vh40Qq3/J+/v
-   Th2BkF1xRAuvz43cMN9eV8kTnI6qWs1zVv5La3obLMf2U/r1RYxjqucvM
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240533513"
-X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; 
-   d="scan'208";a="240533513"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2021 16:23:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; 
-   d="scan'208";a="521881999"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2021 16:23:39 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1BN0N79K032467;
-        Thu, 23 Dec 2021 00:23:37 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     linux-hardening@vger.kernel.org, x86@kernel.org
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: [PATCH v9 15/15] maintainers: add MAINTAINERS entry for FG-KASLR
-Date:   Thu, 23 Dec 2021 01:22:09 +0100
-Message-Id: <20211223002209.1092165-16-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
+        id S239469AbhLWKhB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Dec 2021 05:37:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50298 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239374AbhLWKhA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 23 Dec 2021 05:37:00 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AE93C061401;
+        Thu, 23 Dec 2021 02:37:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=9CTXoMz+nAirRgLcZXJGcmLtCkLkirPVQ2I7ACSu0t4=; b=NBkgL0qZPWtsIce+oEUpbhHkYz
+        L+y40PGH97mD2t0zGz4QBL5W6T8YNI5q6KgXC+Bj0zE1B05PJZTHHTWwLv0yT6uRHsNFXG13TnHPu
+        glytwUMa/u9nQd2PTZ8OEAiAd9IoLKS6lNbSr1hzjyEHL/dtoIc6JDDC/HAmtKVlfapFujfXbm4yt
+        1X5ESVZvpp8HgWZZnDd7H1zs8g0NfPMGVozlUvXg93Le0hrOSbGTiayQ1xdR2joX8gv5Lfbo1RO7n
+        75vVQCYnaql2D+nymcsdRXDk7pRVZdK2jajE97x+tAEmTyxuHhGP4fc8Wgq+nJaEBfI6J3fTqC7CW
+        D33xqP0Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n0LSq-00CVsC-HQ; Thu, 23 Dec 2021 10:36:48 +0000
+Date:   Thu, 23 Dec 2021 02:36:48 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Vimal Agrawal <avimalin@gmail.com>
+Cc:     mcgrof@kernel.org, vimal.Agrawal@sophos.com, masahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        JBeulich@suse.com, jeffm@suse.com, sam@ravnborg.org,
+        linux-kbuild@vger.kernel.org, jeyu@kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
+ INSTALL_MOD_STRIP= "--strip-unneeded" is used
+Message-ID: <YcRRQCMZFepB/hzX@infradead.org>
+References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org>
+ <20211222132332.7817-1-vimal.agrawal@sophos.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211222132332.7817-1-vimal.agrawal@sophos.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add an entry for FG-KASLR containing the maintainers, reviewers,
-public mailing lists, files and so on.
+On Wed, Dec 22, 2021 at 06:53:32PM +0530, Vimal Agrawal wrote:
+> If kernel modules are stripped off symbols (e.g. built by using strip
+> --strip-unneeded option) then stack traces in dmesg do not show symbol
 
-Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+We never build modules with that ёption, so this is completely pointless.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8912b2c1260c..efdb313b6813 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7853,6 +7853,18 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/fujitsu-tablet.c
- 
-+FUNCTION-GRAINED KASLR (FG-KASLR)
-+M:	Alexander Lobakin <alexandr.lobakin@intel.com>
-+R:	Kristen Carlson Accardi <kristen@linux.intel.com>
-+R:	Kees Cook <keescook@chromium.org>
-+L:	linux-hardening@vger.kernel.org
-+S:	Supported
-+F:	Documentation/security/fgkaslr.rst
-+F:	arch/x86/boot/compressed/fgkaslr.c
-+F:	arch/x86/boot/compressed/gen-symbols.h
-+F:	arch/x86/boot/compressed/utils.c
-+F:	scripts/generate_text_sections.pl
-+
- FUSE: FILESYSTEM IN USERSPACE
- M:	Miklos Szeredi <miklos@szeredi.hu>
- L:	linux-fsdevel@vger.kernel.org
--- 
-2.33.1
-
+NAK.
