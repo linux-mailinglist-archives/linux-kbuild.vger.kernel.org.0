@@ -2,61 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D9B47E856
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Dec 2021 20:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EFAA47EC2D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Dec 2021 07:38:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240569AbhLWT15 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Dec 2021 14:27:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56776 "EHLO
+        id S241344AbhLXGiT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Dec 2021 01:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244877AbhLWT1z (ORCPT
+        with ESMTP id S229862AbhLXGiT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Dec 2021 14:27:55 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF69C06175C
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Dec 2021 11:27:54 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id o12so14474471lfk.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Dec 2021 11:27:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=PA5Eb3SKatYFaqsO/40bx9AAytaL07oA6ydkj8EAbzQ=;
-        b=CBPA4ALIypkAp1JGR53249NWjS2ISum3yTx+qhIi2R0i7JWzCjFjGKT62N6pAbNYuw
-         hCJ+laW2V9hJTUsof1tHYBnpCigPQvWli0wGO+aeZvQWk7moqFR/lFDqzuKrtDlaLFFz
-         2+ktVE3UgAph/DsEp7qLna13OfX4E8o2QNgiagbWnGCkUon3Ebho+zrb1XrDrmXRikcL
-         TWGPDcshijjLNDHuXRdCWd5ZrsrU4+VqwNiFwfFss6SDmbZxfNoRLe/1YFIYEbnc9Xu4
-         lj39pVYpGp68XVpIoExoClPXsdw6wQnna/xMVu3kH3crdB7y3cTWR4AkUgVAKq2whLwu
-         ODNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=PA5Eb3SKatYFaqsO/40bx9AAytaL07oA6ydkj8EAbzQ=;
-        b=PWAd78tErExNu89KqD4V7K9HaGc/k0zGYJH7IcQpX5KMsJQjGV083mgnG3cb4j5z1F
-         q7guEfhUY1Vru5EOj076+cYE4+zH336pKQvm7wIU4fvx8vkil1Z2wkgHH3nZ2XlzptO6
-         0hWC/O6HecqnO3hmLzjNfvUAo8vkiCGL3+h9n3K8mle68BTxDJa6J2mHyt6xCiLE6JrL
-         F++Mvew9f3NBqJ+Mp5Xol/Erol9K+Y5PhCH3w/6ZCF3s5H6XkQiwgntI5kXe4QarDUDV
-         H9mU5fk0gC45Qzhd0XcSW1kjfoe0lj9H9yUpQCLKFllH9eNfQQdOH44kKJ9RqRO3wwgA
-         o3vQ==
-X-Gm-Message-State: AOAM532hJD3YIF6GmL+FSQ85urZ8NLknLrxRJG6kRMkED+1uzvsfnbEc
-        TBNNzOztRAjc7GlbR0Y+IRfoV3KSUiWza7EMh9I=
-X-Google-Smtp-Source: ABdhPJwl+N2X5TF9aqmmQwNU5NykOChaz69zL7yPj0EG0oButYrkHL2sx+F1GWdzjTQjR0LAnak1lukH6YKKBwj8Wtg=
-X-Received: by 2002:a05:6512:15a7:: with SMTP id bp39mr1583529lfb.363.1640287672745;
- Thu, 23 Dec 2021 11:27:52 -0800 (PST)
+        Fri, 24 Dec 2021 01:38:19 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B77FC061401;
+        Thu, 23 Dec 2021 22:38:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=B+P6/b0Tq7K4487B9M5tJlyJyCrS1rmaPRalccK0nLM=; b=BE8KiPx2efWAi46hmsX9ctm9FN
+        uUpMc3hmUlqSgFHhGgCK57aW86dQ/BvimE8JxtBjzOmlDhh+OCOttS1/6kgFmaVFuiD7Y1B2xYOxV
+        rxqTTC4611IZYe3JlaA96rGvavoyXjgVTH8MUrnnH5D8jTLNlg0/17xYT9sQRIq9cOWX3x3RGlF66
+        OJbZvvl9Z5I5ce939Hnwn7v28xXTtwyenz+maWEGt+/wRb7i9l0OtkwvnVi6ctgXAZ3n+IuYEaSlm
+        sjpWXlYvkRvLyVsrqf56EN/5bHXx8RhV9xd7iFJ7kBsz/P0GhxBqgc5usArz6BOMWoYZTtA3uevdA
+        W7Y2YD2Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n0eDW-00DnyK-1T; Fri, 24 Dec 2021 06:38:14 +0000
+Date:   Thu, 23 Dec 2021 22:38:14 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v9 00/15] Function Granular KASLR
+Message-ID: <YcVq1pMHWvPFHH5g@infradead.org>
+References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Received: by 2002:ab3:73d5:0:0:0:0:0 with HTTP; Thu, 23 Dec 2021 11:27:52
- -0800 (PST)
-Reply-To: revfrpaulwilliams2@gmail.com
-From:   "Rev. Fr. Paul Williams" <melindagatesfoundation84@gmail.com>
-Date:   Fri, 24 Dec 2021 00:57:52 +0530
-Message-ID: <CANLnpRvNsPEZuGysAzb=MJUYuO8bQRDAzFFwzyhTVA-qk6ZT+A@mail.gmail.com>
-Subject: Donation From Williams Foundation.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Contact Rev. Fr. Paul Williams Immediately For A Charity Donation Of
-$6,200,000.00 United States Dollars At E-Mail:
-revfrpaulwilliams2@gmail.com
+On Thu, Dec 23, 2021 at 01:21:54AM +0100, Alexander Lobakin wrote:
+> This is a massive rework and a respin of Kristen Accardi's marvellous
+> FG-KASLR series (v5).
+
+Here would be the place to explain what this series actually does and
+why it is marvellous.
