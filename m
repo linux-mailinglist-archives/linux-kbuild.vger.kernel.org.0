@@ -2,84 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F79C47EC3A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Dec 2021 07:48:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DB0247EE12
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Dec 2021 10:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245745AbhLXGsH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Dec 2021 01:48:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
+        id S1352357AbhLXJwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Dec 2021 04:52:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229832AbhLXGsG (ORCPT
+        with ESMTP id S1352355AbhLXJwh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Dec 2021 01:48:06 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B25C061401;
-        Thu, 23 Dec 2021 22:48:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=aNK0QUdexJ+kRgB+i3vf9HVKEuQOqBN6P2TycATdPsk=; b=WhaFslx7HqTY91sXHE9t0kpF03
-        F7dmblQhF9onaIX36ER27pRpZ2XU3o+AZQ9AtzZJcTjc2uFFD2kpW3qDeR2g+6UXJ03xCfrwDsPRp
-        6FDbgyvG7HW89GpY04paPpc3WWQ4SXYWSgsQvIUUOO7eJGkPqBsBYYHNZmicLZs1jE7EFMik0MrSB
-        tq8wbFZzqhS1kN9TF/9PihhK+gwOuvBXZM7XreMIVSEQL1RxrUuEFTUxshlNU+kxhXFn6+MUvRy/S
-        bvk+o+rmx9zwqBKV5UPRDGsKHWV86Abg0efutnrAPaEv6G43Mk0pYrRO098LTTmDVLjT4XmBYF8es
-        v4fb/Bnw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n0eMt-00DoS6-Op; Fri, 24 Dec 2021 06:47:55 +0000
-Date:   Thu, 23 Dec 2021 22:47:55 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Vimal Agrawal <avimalin@gmail.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Vimal Agrawal <vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        jeyu@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
- INSTALL_MOD_STRIP= "--strip-unneeded" is used
-Message-ID: <YcVtG26b/sO9k7ox@infradead.org>
-References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org>
- <20211222132332.7817-1-vimal.agrawal@sophos.com>
- <YcRRQCMZFepB/hzX@infradead.org>
- <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
+        Fri, 24 Dec 2021 04:52:37 -0500
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CFADC061757
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Dec 2021 01:52:37 -0800 (PST)
+Received: by mail-qk1-x743.google.com with SMTP id i187so5792728qkf.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Dec 2021 01:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=fhlAkhfwhfYTBffQYQUn0vupCYE93mmQpSRup4KXEaaYadOYR8UgCSUVFn3GC7TCeP
+         s5kQmtI7y0mJ/0AQmT9N787ioZIqQuVwnGZ2+Y6wx7lHWcyPKVIIp5uxluyQW+a9+jf1
+         i/PLPFN5UQ3g3t5acDamlRWb/8SG3n3GtxNz+HmpBHdQyTY5B4hNNFpwaHdeQq2wE7bh
+         ktZhvrmHPviBRgY6Y/RMAOfpe3Mdo17AZIkdo/pXilxFSi8xzy8oTSoKEUrXctV1Gpr0
+         RjTPKrtaf14v7o+lMFTiNd0venJ2A9K4HX7u3014qx5rhDnqrgqLDrDI+P/mg4avw3Zj
+         GDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=DA2RfWm5BfTc8dY4tRUxJejPvziWb2AgHmDwtjqgqi8=;
+        b=FcN9rHreuVEhv/idfXvCPLtXikpzEGaLWj8t8LjzqmMGRBJ51Geqf53toZALmFGUZL
+         YAxc5qUK1mAMGrWdOVOY1jOKVo1FzWEsvVy/cAbU+6GQETUpgorIVZNKUhm/PfkVTNU5
+         4h/9tZbOpFtyeQEVrvOktf7baobx48Xifk1EOsLlbJYj6KIu5bcsnH/IgZ+l3SuhGFCk
+         YqhunEVkzdefougzSFenU1VgbzcTjQWrw6SYFMPyefg+W7UsNhangkJ9hxKocPJqMiiG
+         9e8A2FS0VupHYhjd61ArjuRGEhE45M9ZP/y+AMEBSg7CX7aeXJ8B/NwRvg1vzF+aa55h
+         pECw==
+X-Gm-Message-State: AOAM532LhS6/jjLxcxEBvUitoKwCym9lBSTyvj/yHnBFv/e4oOwNFFID
+        RJoqdOCwiO3DpYeVT+MDjacIMzYSbGkM5AQBaYU=
+X-Google-Smtp-Source: ABdhPJxlCw+KHNyyR9iQXdI8cpBlrPvOHqahh32hTaXuRCnoOxHYS+Sn6mG9tFYk+g7wgOuzMgKim4Rx4hvzFvCe0X4=
+X-Received: by 2002:a37:9d14:: with SMTP id g20mr4209278qke.324.1640339556223;
+ Fri, 24 Dec 2021 01:52:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Received: by 2002:ad4:5c62:0:0:0:0:0 with HTTP; Fri, 24 Dec 2021 01:52:35
+ -0800 (PST)
+Reply-To: williamsreneta2019@gmail.com
+From:   MISS WILLIAMS <info.turvateealfastar@gmail.com>
+Date:   Fri, 24 Dec 2021 01:52:35 -0800
+Message-ID: <CAM-qQYb9Jy9asSxG-v6nkchS_PYdB=CZw5khAJsqUMk95gbM4Q@mail.gmail.com>
+Subject: Greetings Dearest One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 04:39:15PM +0530, Vimal Agrawal wrote:
-> Hi Christoph,
-> 
-> On Thu, Dec 23, 2021 at 4:06 PM Christoph Hellwig <hch@infradead.org> wrote:
-> >
-> > We never build modules with that ёption, so this is completely pointless.
-> >
-> we use openwrt for build and packaging and it has been using this
-> option for long.
-> 
-> kbuild documentation says the following for INSTALL_MOD_STRIP:
-> If this variable is specified, it will cause modules to be stripped
-> after they are installed. If INSTALL_MOD_STRIP is ‘1’, then the
-> default option –strip-debug will be used. Otherwise, the
-> INSTALL_MOD_STRIP value will be used as the option(s) to the strip
-> command.
-> 
-> So if kbuild does not support INSTALL_MOD_STRIP=--strip-unneeded
-> option then we should call out what it supports and should not even
-> allow what is not supported. We don't know what other options others
-> may be using but if we allow it then we should support it and it
-> should not behave erratic just because someone is using a
-> non-recommended option.
+Greetings Dearest One,
 
-I don't think we can support passing arbitrary linker options and
-expects things to work.  If we want to support --strip-unneeded
-it needs a good rationale and be added as a direct config option.
+How are you today, together with your family?Hope fine.I would like to
+use this opportunity to introduce myself to you. I am Miss Reneta
+Williams, From Benin Republic, West Africa. And my late parents are
+Mr. and Mrs. Dikko Williams; my father was a highly reputable business
+magnet who operated in Benin Republic during his days.
+
+I am writing this mail to you with tears and sorrow from my heart.
+With due respect trust and humanity, I know this mail will come to you
+as a surprise since we haven't known or come across each other before,
+considering the fact that I sourced your email contact through the
+Internet in search of trusted person who can be trusted and will
+assist me.
+
+It is sad to say that he passed away mysteriously in France during one
+of his business trips abroad. Though his sudden death was linked or
+rather suspected to have been masterminded by an uncle of his who
+traveled with him at that time. But God knows the truth! My mother
+died when I was just 6yrs old, and since then my father took me so
+special.
+
+Before his death, he called me and informed me that he has the sum of
+Eighteen Million Five Hundred , United State Dollar
+(USD$18.500,000.00) left in fixed deposit account in one of the
+leading banks in Africa. He further told me that he deposited the
+money in my name, and also gave me all the necessary but legal
+documents to this fund with the bank.
+
+I am 21 years old and a university undergraduate and really don't know
+what to do. Now I want an account overseas where I can transfer this
+funds and after the transaction I will come and reside permanently in
+your country till such a time that it will be convenient for me to
+return back home if I so desire.
+
+The death of my father actually brought sorrow to my life. I also want
+to invest the fund under your care because I am ignorant of business
+world. I am in a sincere desire of your humble assistance in this
+regards. Your suggestions and ideas will be highly regarded.
+
+Now permit me to ask these few questions:
+
+1. Can you honestly help me from your heart?
+
+2. Can I completely trust you?
+
+3. What percentage of the total amount in question will be good for
+you after the money is in your account?
+
+Please, consider this and get back to me as soon as
+possible.Immediately and confirm your willingness on this my
+email(williamsreneta2019@gmail.com), here is one of my Picture and
+also i will inform you more details involved in this matter.
+
+Regards,
+
+Miss Reneta Williams.
