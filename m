@@ -2,88 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ED8347EF36
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Dec 2021 14:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4416347F199
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Dec 2021 02:08:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235765AbhLXNfd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Dec 2021 08:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40052 "EHLO
+        id S229821AbhLYBIP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Dec 2021 20:08:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234576AbhLXNfc (ORCPT
+        with ESMTP id S229549AbhLYBIP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Dec 2021 08:35:32 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97489C061401;
-        Fri, 24 Dec 2021 05:35:31 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 628A46206B;
-        Fri, 24 Dec 2021 13:35:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F333CC36AE5;
-        Fri, 24 Dec 2021 13:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1640352930;
-        bh=C0Ei2STE2Eswy4QsYT97mZyVXgT9au/IrEwQygw0g4Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a+0mBKZhgOVLSuIvKb4xawquloUPrnJnIL1kyUMPmVeEV38pg0hFMGy7DsuRkduZA
-         Ug9fjSc3CrXmZK6ow7w96yxKDwJyAPLk/K/gp3i7OkQTIBhWuY4FYGnenc5pJeooXb
-         xZmHEbjClzkw9jdtvzD1SUwUhtIjr6F9/KIm30Nk=
-Date:   Fri, 24 Dec 2021 14:35:16 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, tytso@mit.edu,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] lib/crypto: blake2s: include as built-in
-Message-ID: <YcXMlPc0Fs55cdsB@kroah.com>
-References: <20211223141113.1240679-1-Jason@zx2c4.com>
+        Fri, 24 Dec 2021 20:08:15 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05A7C061401;
+        Fri, 24 Dec 2021 17:08:14 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so9472620pjq.4;
+        Fri, 24 Dec 2021 17:08:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EL3Dq5TmzKZTYH6R2nxXnIMQFNr3bo4ypkh6vrYhshc=;
+        b=ANTs6AaMh9Xv+SEq9FN84UnQyFkAK1wzteyLgRzWsZm/ZIXEny+gVkpCCF38PmCCPD
+         U3kVZ17ysox/ZyS+K2kYpIuRBKB7eTCl3r04NqQ/013gVFmp5eQUcU0890833IUYF9kZ
+         wiVgM5kJsRssyTvs/JvHwiyYbncWnH2EKHVp9uw97vjCm+AaIb2VUlzDR998e0qfYHwH
+         44Tq0lIMr9S0xcf78NXAlzvWPCTBG9HJCkrflYqYbyrMsJ6vrp68nc4WHSGMjVAbW/vj
+         XE2FQZrk7zzAiTZplGbydnc7CNJuAGcUVU/sHqsv5QQyCREB1oOk5eGr016PuYKzIiCQ
+         mLTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EL3Dq5TmzKZTYH6R2nxXnIMQFNr3bo4ypkh6vrYhshc=;
+        b=ShZBsrZPEyapMIPQNsq4mYVLCMqek/MvIft9DShmyqgT+h/ZQ+Xb6OtktI5eN0ukhN
+         L5T6UZEndJ98j6uukZJlwXx8ZJUiYGzvphYaw/YDWHZYKC0TC75k+2cmRaM2KyTOFrbj
+         G5MkrHyXH4y7RJSwteo/z2TpPa2iQg0bb3AEVgUSe5wdHrNUGAyij4MlUbaBddpGblQo
+         B3um8gxAHP5FgMYgVkt5VBIz8GIpHr485AjCbkv5PNQq9xfUXUwLBXch0Lao/RxoRpOC
+         ysbWzABn9RjWxi5NC329nswB9lMJyZrTWKcV22evzvnmp0jsMGPqYra/G0rQzilVsI+c
+         lJkg==
+X-Gm-Message-State: AOAM532BV2tQgokPIgq1NlfaRTqGPyN/PEijnZaN4Ry7H9GE1aDe+qYI
+        vQn/IH0QBVCy/LkvQ/rQh7B5PNEKfbMjKr5SMVk=
+X-Google-Smtp-Source: ABdhPJzfK61jo474Cn7NsNqiEL1YxMVo77g1HDHOVNp8m8YOqeXaNFT2FKY6v56SdxDN1qkFoVjO/Q1A6KMul1lntKc=
+X-Received: by 2002:a17:903:1212:b0:148:ac36:25fb with SMTP id
+ l18-20020a170903121200b00148ac3625fbmr8470206plh.147.1640394493261; Fri, 24
+ Dec 2021 17:08:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211223141113.1240679-1-Jason@zx2c4.com>
+References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org> <20211222132332.7817-1-vimal.agrawal@sophos.com>
+ <YcRRQCMZFepB/hzX@infradead.org> <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
+ <YcVtG26b/sO9k7ox@infradead.org>
+In-Reply-To: <YcVtG26b/sO9k7ox@infradead.org>
+From:   Vimal Agrawal <avimalin@gmail.com>
+Date:   Sat, 25 Dec 2021 06:38:02 +0530
+Message-ID: <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
+Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
+ INSTALL_MOD_STRIP= "--strip-unneeded" is used
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Vimal Agrawal <vimal.Agrawal@sophos.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
+        jeyu@kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 03:11:12PM +0100, Jason A. Donenfeld wrote:
-> In preparation for using blake2s in the RNG, we change the way that it
-> is wired-in to the build system. Instead of kconfig mazes and ifdefs, we
-> use weak symbols, so that an arch version can override the generic
-> version. Then we include the generic version in lib-y, so that it can be
-> removed from the image if the arch version doesn't fallback to it (as is
-> the case on arm though not x86). The result should be a bit simpler and
-> smaller than the code it replaces.
-> 
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> Herbert - I intend to take this via the crng/random.git tree, since it
-> forms a dependency and I'd like to send a pull early in 5.17 cycle.
-> 
->  Makefile                          |  2 +-
->  arch/arm/crypto/Kconfig           |  3 +--
->  arch/arm/crypto/blake2s-core.S    |  8 ++++----
->  arch/arm/crypto/blake2s-glue.c    |  6 +++---
->  arch/s390/configs/debug_defconfig |  1 -
->  arch/s390/configs/defconfig       |  1 -
->  arch/x86/crypto/blake2s-glue.c    | 11 +++++------
->  crypto/Kconfig                    |  5 +----
->  drivers/net/Kconfig               |  1 -
->  include/crypto/internal/blake2s.h |  6 +++---
->  lib/Makefile                      |  2 +-
->  lib/crypto/Kconfig                | 25 -------------------------
->  lib/crypto/Makefile               |  7 +++----
->  lib/crypto/blake2s-generic.c      |  6 +++++-
->  lib/crypto/blake2s.c              |  6 ------
->  15 files changed, 27 insertions(+), 63 deletions(-)
+On Fri, Dec 24, 2021 at 12:17 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> I don't think we can support passing arbitrary linker options and
+> expects things to work.  If we want to support --strip-unneeded
+> it needs a good rationale and be added as a direct config option.
+INSTALL_MOD_STRIP was provided to give flexibility for providing
+strippping options. It will be a separate discussion if we want to
+continue allowing this flexibility or not but it is available now. I
+see that it works but just that it is behaving erratically during
+symbol decodes. I tried few other stripping options. --strip-all does
+not work and insmod fails as it needs some symbols which is fine as it
+is hinting the user there is a problem with stripping option. This is
+not the case with --strip-unneeded option as it builds and loads/works
+fine but fails to decode symbols properly sometimes.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+One of the rationale for --strip-unneeded option is that it
+significantly reduces the size of .ko without affecting its
+functionality ( though debuggability takes a hit). I guess many
+platforms/products that need limited memory footprint might be using
+this option.
+
+I am fine if we decide to say that --strip-unneeded option is not
+supported by kbuild/INSTALL_MOD_STRIP which is not the case now. In
+that case, I agree that this patch will not even be required.
+
+Vimal
