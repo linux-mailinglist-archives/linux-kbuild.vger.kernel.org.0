@@ -2,88 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5665647F27C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Dec 2021 08:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A84B947F2C5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Dec 2021 10:27:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhLYHL6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 Dec 2021 02:11:58 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:55056 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbhLYHL6 (ORCPT
+        id S229602AbhLYJ1t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Dec 2021 04:27:49 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:36628 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229590AbhLYJ1s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 Dec 2021 02:11:58 -0500
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 1BP7BWVV001098
-        for <linux-kbuild@vger.kernel.org>; Sat, 25 Dec 2021 16:11:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BP7BWVV001098
+        Sat, 25 Dec 2021 04:27:48 -0500
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 1BP9RTeH004895;
+        Sat, 25 Dec 2021 18:27:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 1BP9RTeH004895
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1640416293;
-        bh=gDGRYJrELfCdr1wCObW5FHn1ofl6SkPM0EVN1BVHC9Y=;
+        s=dec2015msa; t=1640424449;
+        bh=jgxVp0+hzHhAZSEC48cVfqqHG3Y9AaeF03F4b3mLM8I=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rdypqm7GXk5lZczktCSbYGDL0IDgsTlAZmtZ/fH94Su81JFg6NEN6Dz9xRahf9fu+
-         Cyt7LXGTpU6Aaj8mMEOjzwxyFsXqgUL2dkB6mIiyEN0UErwU/gSeyQ+VNU42epKklV
-         GdexiOhwuf/e12wPuiALaBcoXgtN/21Wh2G0XsJTEGJTVylpajzX/X8LRY9tvVoYJm
-         /6Z+CefaVkWAPKamPBk+zmKpWX//kmyKf9+wXnL0O+kAyRc8m0YstIcYZGhZOiKPRI
-         roP0VU0dOS+2fU1sYJ2Cm2nt7HQ5ajBMpbYjqyhZSViTtlNLCM8I6DInTdGO2otuPf
-         qnlWPbcUi78Eg==
-X-Nifty-SrcIP: [209.85.216.53]
-Received: by mail-pj1-f53.google.com with SMTP id l10-20020a17090a384a00b001b22190e075so8106467pjf.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 24 Dec 2021 23:11:32 -0800 (PST)
-X-Gm-Message-State: AOAM532OshLj2mU5ng8De66Gp0TE44P0uAcP6gQJKrbZUghwaCxvh2di
-        UaAWtGN/OhfyY+j3vSAqgBcXsM2BLsy6dvy85mM=
-X-Google-Smtp-Source: ABdhPJwYstefHCriB1x7TyYOABouFU3araAuEi3dAC4FwshlmSQCdDOFZRX0sTGmOBeQzZUIrBjObAvb1vlvfkgoUb0=
-X-Received: by 2002:a17:902:b206:b0:149:3b5d:2b8b with SMTP id
- t6-20020a170902b20600b001493b5d2b8bmr9255549plr.162.1640416291927; Fri, 24
- Dec 2021 23:11:31 -0800 (PST)
+        b=AmbhxEcpihmN9MdEnDDZ1nVt31TPGukbUgVT4V8J8vFZEDMNoYV+YEWXADdWK9A/s
+         NNIqCTisnGlVQuKSegPMaEUXazGp8b4sYcoJVlN1Jb6+KXNScvZyS/mcudGq6+X2YG
+         BH+Ul4Fm24DwXzh7RTx3bnCvyazUBNEXnGZUZvqfTDqw/uWlRHFHqzp2u+vKE4cuY0
+         d8/9Mkwjjp3EwxDJiG5U6ZkmMzvhWoGcTbEbhne/TRDmhQfb6jllsQN/8sLcxgZStC
+         5sUN85+dnmvBZPufQMDXxjcAH8UstT6kkn+2TbRyBI98GQpUJHzsBGdtgUSEd2sY/z
+         5wOJhu/kIkkxQ==
+X-Nifty-SrcIP: [209.85.210.172]
+Received: by mail-pf1-f172.google.com with SMTP id c2so9485227pfc.1;
+        Sat, 25 Dec 2021 01:27:29 -0800 (PST)
+X-Gm-Message-State: AOAM533ZDgma3U/HJ5AqW0WLKw1ZYVnusmF5S4uTqlhnqLqNLF4jeDip
+        cyf5YA/M+QiAmjW+ZNhnz8dIcDinHQfJE1lhdTE=
+X-Google-Smtp-Source: ABdhPJxYL1ONJdnvk57/qcJ7sTORdC8ycxF2/MS3/yv/oUZB9Mj/KGRaiUEF/pHx/egQFPWwmJj/jJ+mnexCKsE4YCs=
+X-Received: by 2002:a05:6a00:1484:b0:4bb:86a:c061 with SMTP id
+ v4-20020a056a00148400b004bb086ac061mr9959483pfu.36.1640424448714; Sat, 25 Dec
+ 2021 01:27:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20211222143628.618436-1-Jason@zx2c4.com> <d96ded7a-f584-db38-4170-c991b772a136@infradead.org>
- <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
-In-Reply-To: <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
+References: <20211223141113.1240679-1-Jason@zx2c4.com>
+In-Reply-To: <20211223141113.1240679-1-Jason@zx2c4.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 25 Dec 2021 16:10:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQViiExZQTKiRVE_2wiQVjeS+MLCvJO_xn3sJaqcuoPfA@mail.gmail.com>
-Message-ID: <CAK7LNAQViiExZQTKiRVE_2wiQVjeS+MLCvJO_xn3sJaqcuoPfA@mail.gmail.com>
-Subject: Re: [PATCH RFC kbuild] lib/crypto: blake2s: include as built-in
+Date:   Sat, 25 Dec 2021 18:26:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARjb4=9JOVDdfUg1sxLG4OH-Eko44iEewbr+0Wd+CNf1Q@mail.gmail.com>
+Message-ID: <CAK7LNARjb4=9JOVDdfUg1sxLG4OH-Eko44iEewbr+0Wd+CNf1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] lib/crypto: blake2s: include as built-in
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Ard Biesheuvel <ardb@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Herbert Xu <herbert@gondor.apana.org.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 12:55 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Thu, Dec 23, 2021 at 11:11 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> On Wed, Dec 22, 2021 at 4:49 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > If lib-y ignores (drops) an object file (usually because it is not used),
-> > the usual way to force it to be included is to add it to obj-y instead
-> > of lib-y (see many examples in lib/Makefile).
+> In preparation for using blake2s in the RNG, we change the way that it
+> is wired-in to the build system. Instead of kconfig mazes and ifdefs, we
+> use weak symbols, so that an arch version can override the generic
+> version. Then we include the generic version in lib-y, so that it can be
+> removed from the image if the arch version doesn't fallback to it (as is
+> the case on arm though not x86).
+
+
+As I replied in another email, this does not work like that.
+
+Since 7273ad2b08f8ac9563579d16a3cf528857b26f49,
+libs-y are all linked when CONFIG_MODULES=y.
+
+
+
+So, what this patch is doing are:
+
+ - Add __weak to the generic function
+ - Make modules into built-in.
+
+
+Both generic functions and ARM-specific ones
+will remain in vmlinux.
+
+__weak makes it difficult to track which function is
+actually used.
+Using #ifdef CONFIG_* (as the current code does)
+is better.
+
+
+
 >
-> This is not a problem with lib-y. This is a problem with libs-y. Note
-> the 's'. The former is working as expected. The latter controls
-> whether a directory's lib.a is picked up. For whatever reason, the
-> build system isn't respecting a libs-y declaration added to
-> lib/Makefile like it respects for one added to arch/*/Makefile.
->
-> > However, this may cause problems with weak symbols. I don't recall it being
-> > used in that scenario.
->
-> The reason we're using lib-y is so that unused code is pruned in the
-> case that the weak symbol isn't used. IOW, a usual use for lib-y. And
-> it works just fine. As mentioned, the issue is just with libs-y not
-> finding that lib.a file.
+> diff --git a/Makefile b/Makefile
+> index d85f1ff79f5c..892ea632ea63 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -668,7 +668,7 @@ drivers-y   := drivers/ sound/
+>  drivers-$(CONFIG_SAMPLES) += samples/
+>  drivers-$(CONFIG_NET) += net/
+>  drivers-y      += virt/
+> -libs-y         := lib/
+> +libs-y         := lib/ lib/crypto/
 
-lib-y does not work like that.
 
-See commit 7273ad2b08f8ac9563579d16a3cf528857b26f49
+If this is merged, someone will try to
+add random patterns.
+libs-y         := lib/ lib/crypto/ lib/foo/bar/ lib/foo/ba/baz
 
-When CONFIG_MODULES=y (this is true for most of usecases),
-there is not much difference between obj-y and lib-y.
 
-So, weak functions will remain in vmlinux even if they are unused.
+
+lib-y and libs-y are a bad idea in the first place
+and should not be extended any more.
+
+Since this patch is not working as the commit description
+claims, and it is going in the bad direction, so
+
+NACK
+
 
 
 
