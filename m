@@ -2,96 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4416347F199
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Dec 2021 02:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5665647F27C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Dec 2021 08:11:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbhLYBIP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Dec 2021 20:08:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbhLYBIP (ORCPT
+        id S230299AbhLYHL6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Dec 2021 02:11:58 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:55056 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230298AbhLYHL6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Dec 2021 20:08:15 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B05A7C061401;
-        Fri, 24 Dec 2021 17:08:14 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so9472620pjq.4;
-        Fri, 24 Dec 2021 17:08:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EL3Dq5TmzKZTYH6R2nxXnIMQFNr3bo4ypkh6vrYhshc=;
-        b=ANTs6AaMh9Xv+SEq9FN84UnQyFkAK1wzteyLgRzWsZm/ZIXEny+gVkpCCF38PmCCPD
-         U3kVZ17ysox/ZyS+K2kYpIuRBKB7eTCl3r04NqQ/013gVFmp5eQUcU0890833IUYF9kZ
-         wiVgM5kJsRssyTvs/JvHwiyYbncWnH2EKHVp9uw97vjCm+AaIb2VUlzDR998e0qfYHwH
-         44Tq0lIMr9S0xcf78NXAlzvWPCTBG9HJCkrflYqYbyrMsJ6vrp68nc4WHSGMjVAbW/vj
-         XE2FQZrk7zzAiTZplGbydnc7CNJuAGcUVU/sHqsv5QQyCREB1oOk5eGr016PuYKzIiCQ
-         mLTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EL3Dq5TmzKZTYH6R2nxXnIMQFNr3bo4ypkh6vrYhshc=;
-        b=ShZBsrZPEyapMIPQNsq4mYVLCMqek/MvIft9DShmyqgT+h/ZQ+Xb6OtktI5eN0ukhN
-         L5T6UZEndJ98j6uukZJlwXx8ZJUiYGzvphYaw/YDWHZYKC0TC75k+2cmRaM2KyTOFrbj
-         G5MkrHyXH4y7RJSwteo/z2TpPa2iQg0bb3AEVgUSe5wdHrNUGAyij4MlUbaBddpGblQo
-         B3um8gxAHP5FgMYgVkt5VBIz8GIpHr485AjCbkv5PNQq9xfUXUwLBXch0Lao/RxoRpOC
-         ysbWzABn9RjWxi5NC329nswB9lMJyZrTWKcV22evzvnmp0jsMGPqYra/G0rQzilVsI+c
-         lJkg==
-X-Gm-Message-State: AOAM532BV2tQgokPIgq1NlfaRTqGPyN/PEijnZaN4Ry7H9GE1aDe+qYI
-        vQn/IH0QBVCy/LkvQ/rQh7B5PNEKfbMjKr5SMVk=
-X-Google-Smtp-Source: ABdhPJzfK61jo474Cn7NsNqiEL1YxMVo77g1HDHOVNp8m8YOqeXaNFT2FKY6v56SdxDN1qkFoVjO/Q1A6KMul1lntKc=
-X-Received: by 2002:a17:903:1212:b0:148:ac36:25fb with SMTP id
- l18-20020a170903121200b00148ac3625fbmr8470206plh.147.1640394493261; Fri, 24
- Dec 2021 17:08:13 -0800 (PST)
+        Sat, 25 Dec 2021 02:11:58 -0500
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1BP7BWVV001098
+        for <linux-kbuild@vger.kernel.org>; Sat, 25 Dec 2021 16:11:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BP7BWVV001098
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1640416293;
+        bh=gDGRYJrELfCdr1wCObW5FHn1ofl6SkPM0EVN1BVHC9Y=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rdypqm7GXk5lZczktCSbYGDL0IDgsTlAZmtZ/fH94Su81JFg6NEN6Dz9xRahf9fu+
+         Cyt7LXGTpU6Aaj8mMEOjzwxyFsXqgUL2dkB6mIiyEN0UErwU/gSeyQ+VNU42epKklV
+         GdexiOhwuf/e12wPuiALaBcoXgtN/21Wh2G0XsJTEGJTVylpajzX/X8LRY9tvVoYJm
+         /6Z+CefaVkWAPKamPBk+zmKpWX//kmyKf9+wXnL0O+kAyRc8m0YstIcYZGhZOiKPRI
+         roP0VU0dOS+2fU1sYJ2Cm2nt7HQ5ajBMpbYjqyhZSViTtlNLCM8I6DInTdGO2otuPf
+         qnlWPbcUi78Eg==
+X-Nifty-SrcIP: [209.85.216.53]
+Received: by mail-pj1-f53.google.com with SMTP id l10-20020a17090a384a00b001b22190e075so8106467pjf.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 24 Dec 2021 23:11:32 -0800 (PST)
+X-Gm-Message-State: AOAM532OshLj2mU5ng8De66Gp0TE44P0uAcP6gQJKrbZUghwaCxvh2di
+        UaAWtGN/OhfyY+j3vSAqgBcXsM2BLsy6dvy85mM=
+X-Google-Smtp-Source: ABdhPJwYstefHCriB1x7TyYOABouFU3araAuEi3dAC4FwshlmSQCdDOFZRX0sTGmOBeQzZUIrBjObAvb1vlvfkgoUb0=
+X-Received: by 2002:a17:902:b206:b0:149:3b5d:2b8b with SMTP id
+ t6-20020a170902b20600b001493b5d2b8bmr9255549plr.162.1640416291927; Fri, 24
+ Dec 2021 23:11:31 -0800 (PST)
 MIME-Version: 1.0
-References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org> <20211222132332.7817-1-vimal.agrawal@sophos.com>
- <YcRRQCMZFepB/hzX@infradead.org> <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
- <YcVtG26b/sO9k7ox@infradead.org>
-In-Reply-To: <YcVtG26b/sO9k7ox@infradead.org>
-From:   Vimal Agrawal <avimalin@gmail.com>
-Date:   Sat, 25 Dec 2021 06:38:02 +0530
-Message-ID: <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
-Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
- INSTALL_MOD_STRIP= "--strip-unneeded" is used
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Vimal Agrawal <vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        jeyu@kernel.org, linux-kernel@vger.kernel.org
+References: <20211222143628.618436-1-Jason@zx2c4.com> <d96ded7a-f584-db38-4170-c991b772a136@infradead.org>
+ <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
+In-Reply-To: <CAHmME9oKMm_VZ10yArhstX4_=f6Vj6Po-uii_0t_wjtiG81dvg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 25 Dec 2021 16:10:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQViiExZQTKiRVE_2wiQVjeS+MLCvJO_xn3sJaqcuoPfA@mail.gmail.com>
+Message-ID: <CAK7LNAQViiExZQTKiRVE_2wiQVjeS+MLCvJO_xn3sJaqcuoPfA@mail.gmail.com>
+Subject: Re: [PATCH RFC kbuild] lib/crypto: blake2s: include as built-in
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 24, 2021 at 12:17 PM Christoph Hellwig <hch@infradead.org> wrote:
+On Thu, Dec 23, 2021 at 12:55 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> I don't think we can support passing arbitrary linker options and
-> expects things to work.  If we want to support --strip-unneeded
-> it needs a good rationale and be added as a direct config option.
-INSTALL_MOD_STRIP was provided to give flexibility for providing
-strippping options. It will be a separate discussion if we want to
-continue allowing this flexibility or not but it is available now. I
-see that it works but just that it is behaving erratically during
-symbol decodes. I tried few other stripping options. --strip-all does
-not work and insmod fails as it needs some symbols which is fine as it
-is hinting the user there is a problem with stripping option. This is
-not the case with --strip-unneeded option as it builds and loads/works
-fine but fails to decode symbols properly sometimes.
+> On Wed, Dec 22, 2021 at 4:49 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> > If lib-y ignores (drops) an object file (usually because it is not used),
+> > the usual way to force it to be included is to add it to obj-y instead
+> > of lib-y (see many examples in lib/Makefile).
+>
+> This is not a problem with lib-y. This is a problem with libs-y. Note
+> the 's'. The former is working as expected. The latter controls
+> whether a directory's lib.a is picked up. For whatever reason, the
+> build system isn't respecting a libs-y declaration added to
+> lib/Makefile like it respects for one added to arch/*/Makefile.
+>
+> > However, this may cause problems with weak symbols. I don't recall it being
+> > used in that scenario.
+>
+> The reason we're using lib-y is so that unused code is pruned in the
+> case that the weak symbol isn't used. IOW, a usual use for lib-y. And
+> it works just fine. As mentioned, the issue is just with libs-y not
+> finding that lib.a file.
 
-One of the rationale for --strip-unneeded option is that it
-significantly reduces the size of .ko without affecting its
-functionality ( though debuggability takes a hit). I guess many
-platforms/products that need limited memory footprint might be using
-this option.
+lib-y does not work like that.
 
-I am fine if we decide to say that --strip-unneeded option is not
-supported by kbuild/INSTALL_MOD_STRIP which is not the case now. In
-that case, I agree that this patch will not even be required.
+See commit 7273ad2b08f8ac9563579d16a3cf528857b26f49
 
-Vimal
+When CONFIG_MODULES=y (this is true for most of usecases),
+there is not much difference between obj-y and lib-y.
+
+So, weak functions will remain in vmlinux even if they are unused.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
