@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D954647FDB5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Dec 2021 14:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A8247FDCB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Dec 2021 15:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232937AbhL0Nre (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Dec 2021 08:47:34 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:58674 "EHLO
+        id S237139AbhL0OUY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Dec 2021 09:20:24 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:39160 "EHLO
         dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232865AbhL0Nre (ORCPT
+        with ESMTP id S234125AbhL0OUX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Dec 2021 08:47:34 -0500
+        Mon, 27 Dec 2021 09:20:23 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1B32961014;
-        Mon, 27 Dec 2021 13:47:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF49C36AEA;
-        Mon, 27 Dec 2021 13:47:32 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D7DF6103A;
+        Mon, 27 Dec 2021 14:20:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30BFBC36AE7;
+        Mon, 27 Dec 2021 14:20:22 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="m6K7mCkz"
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="HZ7iJT1P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1640612851;
+        t=1640614820;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Mw04Hy4b2cOaW12WoxSoSLPuxrkVuHsyMw/zIqNIXeI=;
-        b=m6K7mCkzGI7vvQxDQ4h34CdtnI3WwdKIAsseaSb5DnqEKP77zVcdPRcuNqiSoLW2DIuT63
-        y13DGerqlemLRKbduQONAycf4qvzcIecViDZZIRr3nmg59oXjvMzY24OeO1HkeXGEQTib+
-        apoekLdxkeyqvbkcJ7v/QEkDxM2ISpk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fb978993 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Mon, 27 Dec 2021 13:47:31 +0000 (UTC)
+        bh=zu0+mW2r5ArBxXzfUyWg2lmosvSTmElEZH1Jh93IfQQ=;
+        b=HZ7iJT1P5vkcRdntuoVZEzieYfNS77pCtscMxoo7WpZ5RwP1SIcziM8Zb5VxhQC06CyUBE
+        u51rlwZetmNV16cRIHIS6ongmqtDHsF0FiHVCVUfZhS48Y8JX0EC1ND84JQ+JHt4Qp32+Q
+        0yzt0hYOnKeun30eV5PB/1w0VBqjdVg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 43be61b5 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Mon, 27 Dec 2021 14:20:20 +0000 (UTC)
 From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
@@ -42,11 +42,11 @@ Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
         linux-kbuild@vger.kernel.org,
         Herbert Xu <herbert@gondor.apana.org.au>,
         linux-crypto@vger.kernel.org
-Subject: [PATCH v3] lib/crypto: blake2s: include as built-in
-Date:   Mon, 27 Dec 2021 14:47:22 +0100
-Message-Id: <20211227134722.74110-1-Jason@zx2c4.com>
-In-Reply-To: <CAHmME9p95g0yWcRBfbrx_kX56HqFZrw8xcOLt6cn5fzVSCQXyg@mail.gmail.com>
-References: <CAHmME9p95g0yWcRBfbrx_kX56HqFZrw8xcOLt6cn5fzVSCQXyg@mail.gmail.com>
+Subject: [PATCH v4] lib/crypto: blake2s: include as built-in
+Date:   Mon, 27 Dec 2021 15:20:16 +0100
+Message-Id: <20211227142016.166116-1-Jason@zx2c4.com>
+In-Reply-To: <20211227134722.74110-1-Jason@zx2c4.com>
+References: <20211227134722.74110-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -72,6 +72,8 @@ Herbert - As mentioned with the vPrev, I intend to take this via the
 crng/random.git tree, since it forms a dependency and I'd like to send a
 pull early in 5.17 cycle.
 
+Changes v3->v4:
+- Keep the generic one for the generic shash implementation.
 Changes v2->v3:
 - Rather than using lib-y, use obj-y, and retain the kconfig symbols
   for selection.
@@ -79,14 +81,13 @@ Changes v2->v3:
  arch/arm/crypto/blake2s-core.S    |  8 ++++----
  arch/arm/crypto/blake2s-glue.c    |  6 +++---
  arch/x86/crypto/blake2s-glue.c    | 11 +++++------
- crypto/Kconfig                    |  1 -
  drivers/net/Kconfig               |  1 -
  include/crypto/internal/blake2s.h |  6 +++---
  lib/crypto/Kconfig                | 13 ++-----------
  lib/crypto/Makefile               |  9 ++++-----
  lib/crypto/blake2s-generic.c      |  6 +++++-
  lib/crypto/blake2s.c              |  6 ------
- 10 files changed, 26 insertions(+), 41 deletions(-)
+ 9 files changed, 26 insertions(+), 40 deletions(-)
 
 diff --git a/arch/arm/crypto/blake2s-core.S b/arch/arm/crypto/blake2s-core.S
 index 86345751bbf3..df40e46601f1 100644
@@ -180,18 +181,6 @@ index a40365ab301e..ef91a3167d27 100644
  }
  
  #define BLAKE2S_ALG(name, driver_name, digest_size)			\
-diff --git a/crypto/Kconfig b/crypto/Kconfig
-index 285f82647d2b..f2cb34515afa 100644
---- a/crypto/Kconfig
-+++ b/crypto/Kconfig
-@@ -685,7 +685,6 @@ config CRYPTO_BLAKE2B
- 
- config CRYPTO_BLAKE2S
- 	tristate "BLAKE2s digest algorithm"
--	select CRYPTO_LIB_BLAKE2S_GENERIC
- 	select CRYPTO_HASH
- 	help
- 	  Implementation of cryptographic hash function BLAKE2s
 diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
 index 6cccc3dc00bc..b2a4f998c180 100644
 --- a/drivers/net/Kconfig
