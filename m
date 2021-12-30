@@ -2,80 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B7D4818D9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Dec 2021 04:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0CAE481AF4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Dec 2021 10:00:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235139AbhL3DLh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Dec 2021 22:11:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
+        id S237996AbhL3JA2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Dec 2021 04:00:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231751AbhL3DLh (ORCPT
+        with ESMTP id S229567AbhL3JA2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Dec 2021 22:11:37 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FECC061574;
-        Wed, 29 Dec 2021 19:11:37 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id rj2-20020a17090b3e8200b001b1944bad25so21880449pjb.5;
-        Wed, 29 Dec 2021 19:11:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:date:subject:from:to:cc:message-id:thread-topic
-         :mime-version:content-transfer-encoding;
-        bh=7Nem74KuuHseAPVfu0c2z21Jh9upLuJ739RMkcYrDuI=;
-        b=m1hlT5NXkg7Q8ztFBHfeXU+BIUXPLiEbuQSEpD+tQKsyAQVw+hONr8MBie7VxG7NTw
-         sliMIIank2mko3YrM3o6xy1JjX4x3c8wtHO/UK7FYVwsXMs48N4pvQorj4dHKdMNcLX7
-         x+NtUr5b5+fQfeGV54CigUj0QXIwmjAIMmERox858v9L+TSLPfhQ1ikWQUsnEVHS1b2q
-         XbX2CvUVYLMLxOv8HXO+LOAXraPBQNM7uWqc4AZewDSsvlZGlGJbClme1nz0VVRAtccp
-         WWxE8YVrBAnSLm5hUUnceIDP4Jo43Xr6ZW6kT+UKiXmBo9tFrxcyILYcPUClz893GZmd
-         B8Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:user-agent:date:subject:from:to:cc:message-id
-         :thread-topic:mime-version:content-transfer-encoding;
-        bh=7Nem74KuuHseAPVfu0c2z21Jh9upLuJ739RMkcYrDuI=;
-        b=KfPK3BXD2hhiXl51KO8ayVfMXnPWxg9Q8tPaL5uFapVrCfMuffiZfesr3JM7BgNppw
-         80iKscPQ+FnOPsm0LgR4wY0P7VY5pRBW2YWRn8kxt57Pqnw6JsZ9KJgvKSPxJb8vAysE
-         n1vO2wlZt0bjJJqBwJAAuXho2WnK45lrK5wPwMWgWA3k/mtgmh4nCCnAj8yLtnekE390
-         O6Lk6ev0hxrVSnA4ECu0ZDU2ellfdYVuWMuGffCpYhtO0jK3IKRhfHRk7tRwTRCHKVK8
-         g4KbZonG4tidX+kiMQ57sGXQZkxGSDlKPgc+j6cnNK1qHkP5VAIVZiP6R1vT+lRrF0VH
-         dIWQ==
-X-Gm-Message-State: AOAM531JeS0ctrAHO/gq/J5GVlrNWkUSLRFZ6kQcO4jIqTabUWckeVz6
-        yENWmuHxSsRSIAJE8ymOd3XX8lvi1HZ8jghq
-X-Google-Smtp-Source: ABdhPJy7nO/NEQDTzk7fINXBvC7u0Bl4YumSta1Nsck7xoPQgGu87mRm4OevzDtWH7jmTe+apLttkg==
-X-Received: by 2002:a17:902:a404:b0:148:b897:c658 with SMTP id p4-20020a170902a40400b00148b897c658mr29322287plq.71.1640833896223;
-        Wed, 29 Dec 2021 19:11:36 -0800 (PST)
-Received: from [30.135.82.251] ([23.98.35.75])
-        by smtp.gmail.com with ESMTPSA id b21sm23720026pfv.74.2021.12.29.19.11.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Dec 2021 19:11:35 -0800 (PST)
-User-Agent: Microsoft-MacOutlook/16.56.21121100
-Date:   Thu, 30 Dec 2021 11:11:33 +0800
-Subject: Missing closing files in linux/scripts/kconfig/confdata.c
-From:   Ryan Cai <ycaibb@gmail.com>
-To:     <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Message-ID: <1B559478-D266-4D77-B9D5-F6F21D9EFB83@gmail.com>
-Thread-Topic: Missing closing files in linux/scripts/kconfig/confdata.c
-Mime-version: 1.0
-Content-type: text/plain;
-        charset="UTF-8"
-Content-transfer-encoding: 7bit
+        Thu, 30 Dec 2021 04:00:28 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BC2C061574;
+        Thu, 30 Dec 2021 01:00:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=vFgwQFGnP1+nZeL5xidq9k2TiaD3WdltS2FPFb0c2qA=; b=hSaUvXVYJLH2XhksKFosQF2YHU
+        dGP5innnv/tBj7GGtJdnhhYyL6mWSDOrz1NIx6rv4mYjbHi7dEyC4CPSPe4JlCgVOyo9rYxQdsD8q
+        EQ8XSLZ5mZRJVuVC5qyz5p9S2SzO0De2a5XnNwxaI0dz1ksfOmZ0YqcwaYGQfKRR1FaxYxnIktniK
+        LSsuBJ9c8O5Bw+3/8Fo5/U5wkfG0lR9oDKlVz9GxIjrQhq2DOKWmaIivzRsc+z3/wCSt2kSTNgWaS
+        SnJjoKqTvyOarGUHx025oaka8eR1wQ0Cxieh8IWOHBM+LfioMEXHdnMqa3mKdC8jNPLJLi0q63zpo
+        LCfE3baA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n2rIM-0046EG-3y; Thu, 30 Dec 2021 09:00:22 +0000
+Date:   Thu, 30 Dec 2021 01:00:22 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v9 00/15] Function Granular KASLR
+Message-ID: <Yc11JrelnWJgV7KX@infradead.org>
+References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
+ <YcVq1pMHWvPFHH5g@infradead.org>
+ <20211227183318.1447690-1-alexandr.lobakin@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211227183318.1447690-1-alexandr.lobakin@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Kernel maintainers,
+On Mon, Dec 27, 2021 at 07:33:18PM +0100, Alexander Lobakin wrote:
+> From: Christoph Hellwig <hch@infradead.org>
+> Date: Thu, 23 Dec 2021 22:38:14 -0800
+> 
+> > On Thu, Dec 23, 2021 at 01:21:54AM +0100, Alexander Lobakin wrote:
+> > > This is a massive rework and a respin of Kristen Accardi's marvellous
+> > > FG-KASLR series (v5).
+> > 
+> > Here would be the place to explain what this series actually does and
+> > why it is marvellous.
+> 
+> As I took this project over from another developer/team, I decided
+> to preserve the original cover letter and append it to the end of
+> mine, as well as to keep most of the original code in the separate
+> commits from mine.
+> For sure I could redo this if needed, is it really so?
 
-          1. In linux/scripts/kconfig/confdata.c (conf_write_autoconf_cmd), the file opened at Line 946 may not closed when going to Line 981.
-          Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L964-L981
-         
-         2. In linux/scripts/kconfig/confdata.c (__conf_write_autoconf), the file opened at Line1081 may not closed when going to Line 1095,
-           Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L1081-L1095
-
-           I think, the fix is inserting fclose before the returning. Should it be a bug? I can send a patch for these.
-
-
-Best,
-Ryan
-
-
+A cover letter needs to explain what you're doing for the reader.
+No one is going to page forever to look for that.
