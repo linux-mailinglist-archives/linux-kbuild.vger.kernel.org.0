@@ -2,148 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EE5C480BC6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Dec 2021 18:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0B7D4818D9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Dec 2021 04:11:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236073AbhL1RFG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Dec 2021 12:05:06 -0500
-Received: from mga09.intel.com ([134.134.136.24]:23840 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233280AbhL1RFF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Dec 2021 12:05:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640711105; x=1672247105;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KHhXdEfIwTp7IIrrW70KmlJrU5+AcMwf8sgzb0u1BTQ=;
-  b=BQDV12zufIn3y7kViZ5Jpt3ulVBzf1xgHYmdvpui4sYL++yBRhMLLgZl
-   +In54oVBpemChMdhPSSao9SBGGuQnw129cutz7Qf/nNUzRCAFu7YWz9R2
-   GxD3zZn3E64NTF62bjny9/LAO6irwQAZcUtaMYwEa2FUmSNP83yXJQxHU
-   0Z9wgDM+bnvLBFseQ3FQ4ne1jZh4VKaDmMBeEuEKGlgQCkglp0egUZOAw
-   Uc7z7Dlj7IfP9sX+k+2BvvismjYilXtXFrvVgBSma1hHoodEN3fhtyl1j
-   cgprRmSQTooX90qS62YE/hsf/m7imZoI75H3rmwRsPJBt8R2BRSmon1qS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10211"; a="241195850"
-X-IronPort-AV: E=Sophos;i="5.88,242,1635231600"; 
-   d="scan'208";a="241195850"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2021 09:05:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,242,1635231600"; 
-   d="scan'208";a="572369723"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by fmsmga008.fm.intel.com with ESMTP; 28 Dec 2021 09:04:56 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1BSH4sNa000463;
-        Tue, 28 Dec 2021 17:04:54 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v9 01/15] modpost: fix removing numeric suffixes
-Date:   Tue, 28 Dec 2021 18:03:08 +0100
-Message-Id: <20211228170308.1454063-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <YcovajZkEd0WY8p4@zn.tnic>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com> <20211223002209.1092165-2-alexandr.lobakin@intel.com> <YcShenJgaOeOdbIj@zn.tnic> <20211227182246.1447062-1-alexandr.lobakin@intel.com> <YcovajZkEd0WY8p4@zn.tnic>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S235139AbhL3DLh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Dec 2021 22:11:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231751AbhL3DLh (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 29 Dec 2021 22:11:37 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FECC061574;
+        Wed, 29 Dec 2021 19:11:37 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id rj2-20020a17090b3e8200b001b1944bad25so21880449pjb.5;
+        Wed, 29 Dec 2021 19:11:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:date:subject:from:to:cc:message-id:thread-topic
+         :mime-version:content-transfer-encoding;
+        bh=7Nem74KuuHseAPVfu0c2z21Jh9upLuJ739RMkcYrDuI=;
+        b=m1hlT5NXkg7Q8ztFBHfeXU+BIUXPLiEbuQSEpD+tQKsyAQVw+hONr8MBie7VxG7NTw
+         sliMIIank2mko3YrM3o6xy1JjX4x3c8wtHO/UK7FYVwsXMs48N4pvQorj4dHKdMNcLX7
+         x+NtUr5b5+fQfeGV54CigUj0QXIwmjAIMmERox858v9L+TSLPfhQ1ikWQUsnEVHS1b2q
+         XbX2CvUVYLMLxOv8HXO+LOAXraPBQNM7uWqc4AZewDSsvlZGlGJbClme1nz0VVRAtccp
+         WWxE8YVrBAnSLm5hUUnceIDP4Jo43Xr6ZW6kT+UKiXmBo9tFrxcyILYcPUClz893GZmd
+         B8Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:user-agent:date:subject:from:to:cc:message-id
+         :thread-topic:mime-version:content-transfer-encoding;
+        bh=7Nem74KuuHseAPVfu0c2z21Jh9upLuJ739RMkcYrDuI=;
+        b=KfPK3BXD2hhiXl51KO8ayVfMXnPWxg9Q8tPaL5uFapVrCfMuffiZfesr3JM7BgNppw
+         80iKscPQ+FnOPsm0LgR4wY0P7VY5pRBW2YWRn8kxt57Pqnw6JsZ9KJgvKSPxJb8vAysE
+         n1vO2wlZt0bjJJqBwJAAuXho2WnK45lrK5wPwMWgWA3k/mtgmh4nCCnAj8yLtnekE390
+         O6Lk6ev0hxrVSnA4ECu0ZDU2ellfdYVuWMuGffCpYhtO0jK3IKRhfHRk7tRwTRCHKVK8
+         g4KbZonG4tidX+kiMQ57sGXQZkxGSDlKPgc+j6cnNK1qHkP5VAIVZiP6R1vT+lRrF0VH
+         dIWQ==
+X-Gm-Message-State: AOAM531JeS0ctrAHO/gq/J5GVlrNWkUSLRFZ6kQcO4jIqTabUWckeVz6
+        yENWmuHxSsRSIAJE8ymOd3XX8lvi1HZ8jghq
+X-Google-Smtp-Source: ABdhPJy7nO/NEQDTzk7fINXBvC7u0Bl4YumSta1Nsck7xoPQgGu87mRm4OevzDtWH7jmTe+apLttkg==
+X-Received: by 2002:a17:902:a404:b0:148:b897:c658 with SMTP id p4-20020a170902a40400b00148b897c658mr29322287plq.71.1640833896223;
+        Wed, 29 Dec 2021 19:11:36 -0800 (PST)
+Received: from [30.135.82.251] ([23.98.35.75])
+        by smtp.gmail.com with ESMTPSA id b21sm23720026pfv.74.2021.12.29.19.11.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 Dec 2021 19:11:35 -0800 (PST)
+User-Agent: Microsoft-MacOutlook/16.56.21121100
+Date:   Thu, 30 Dec 2021 11:11:33 +0800
+Subject: Missing closing files in linux/scripts/kconfig/confdata.c
+From:   Ryan Cai <ycaibb@gmail.com>
+To:     <masahiroy@kernel.org>
+CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Message-ID: <1B559478-D266-4D77-B9D5-F6F21D9EFB83@gmail.com>
+Thread-Topic: Missing closing files in linux/scripts/kconfig/confdata.c
+Mime-version: 1.0
+Content-type: text/plain;
+        charset="UTF-8"
+Content-transfer-encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Borislav Petkov <bp@alien8.de>
-Date: Mon, 27 Dec 2021 22:26:02 +0100
+Dear Kernel maintainers,
 
-> On Mon, Dec 27, 2021 at 07:22:46PM +0100, Alexander Lobakin wrote:
-> > It's just a couple lines below. I trigger this using `-z uniq-symbol`
-> > which uses numeric suffixes for globals as well.
-> 
-> Aha, so that's for the fgkaslr purposes now.
+          1. In linux/scripts/kconfig/confdata.c (conf_write_autoconf_cmd), the file opened at Line 946 may not closed when going to Line 981.
+          Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L964-L981
+         
+         2. In linux/scripts/kconfig/confdata.c (__conf_write_autoconf), the file opened at Line1081 may not closed when going to Line 1095,
+           Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L1081-L1095
 
-Well, linking using unique names is meant to be used always
-when available and livepatching is enabled, at least I hope so.
+           I think, the fix is inserting fclose before the returning. Should it be a bug? I can send a patch for these.
 
-> 
-> > It fixes a commit dated 2014, thus Cc:stable. Although the
-> > remove_dot() might've been introduced for neverlanded GCC LTO, but
-> > in fact numeric suffixes are used a lot by the toolchains in regular
-> > builds as well. Just not for globals, that's why it's "well hidden".
-> 
-> Does "well hidden" warrant a stable backport then? Because if no
-> toolchain is using numeric suffixes for globals, then no need for the
-> stable tag, I'd say.
 
-Hmm, makes sense. The fact that I haven't seen any similar reports
-or issues (even on LTO builds) sorta says there are no benefits from
-backporting this.
-Ok, I'll drop the tag. It's never too late anyway to port this in
-case someone will face it.
+Best,
+Ryan
 
-> 
-> > I thought it's a common saying in commit messages, isn't it?
-> 
-> Lemme give you my canned and a lot more eloquent explanation for that:
-> 
-> "Please use passive voice in your commit message: no "we" or "I", etc,
-> and describe your changes in imperative mood.
-> 
-> Also, pls read section "2) Describe your changes" in
-> Documentation/process/submitting-patches.rst for more details.
-> 
-> Also, see section "Changelog" in
-> Documentation/process/maintainer-tip.rst
-> 
-> Bottom line is: personal pronouns are ambiguous in text, especially with
-> so many parties/companies/etc developing the kernel so let's avoid them
-> please."
-> 
-> Thx.
 
-Ah, you're right. "Common used" doesn't mean "correct". I'll fix it
-in the next spin being published after accumulating a bunch more
-comments.
-Thanks!
-
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
-
-Al
