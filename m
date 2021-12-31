@@ -2,143 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA444820A8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Dec 2021 23:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C4ED482284
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Dec 2021 07:44:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242274AbhL3WgF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Dec 2021 17:36:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242253AbhL3WgE (ORCPT
+        id S241083AbhLaGo2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 31 Dec 2021 01:44:28 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:63455 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229699AbhLaGo2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Dec 2021 17:36:04 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EFF3C061574;
-        Thu, 30 Dec 2021 14:36:04 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7F75A1EC047E;
-        Thu, 30 Dec 2021 23:35:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1640903758;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+KKK4IGlu+3zrarQbibZbQT1tUBU7oUm6HKnQkbdmKE=;
-        b=oPfknaqMGvn+62MYRbhhvqwCuLoSX5p58SSeK+N4oF9aZ7sLgUjP1n1DDIVFgf4UX6SjD4
-        BtjJXy4Yp4keYM2xcOguHwNaMZcxUdIa08dtUo7yvrKUQnGgdp8B3NQYFmeSY4AG9kn321
-        5gYDtf918vXXIlR8BZolIn+c0jp1L1w=
-Date:   Thu, 30 Dec 2021 23:36:00 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v9 03/15] kallsyms: Hide layout
-Message-ID: <Yc40UKmylVh38vl5@zn.tnic>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
- <20211223002209.1092165-4-alexandr.lobakin@intel.com>
+        Fri, 31 Dec 2021 01:44:28 -0500
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1BV6i1LH031944;
+        Fri, 31 Dec 2021 15:44:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BV6i1LH031944
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1640933042;
+        bh=GT91TcNIPBXDZB5upjF3cU0X71wUr8B4PKDoP48+hTU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ARTZCU30+eWCX8tC8LXWGc8BC53uuZ/o1Gaku/GIgNBu6eNXL6/UUqcLQZAQLAvPY
+         Tyqt+eEql7Dncia5JJg0m3B0WSJy7NSecr4WCqB26XsamdTvzMhyUb6zT02nwENqmH
+         /OQLxyok7n/tbH848X6xycOWuelkP7tJiPnPA9qUo1E7xlDvZ4Tb093c13w8LKS+KC
+         lR5jG1vPSGRNuvB4M/HOFC1IrOOU36E9qrDsFz1q6CXrHee6RlsuLONgErGEWHXHBe
+         uduGI8Lc6nOX3OhHzCXzo7Puz5FjSNRsISU2q2cgPUskNwQ5VdYuIBQ70r2xVgcfVR
+         wKPTyWJvUztfw==
+X-Nifty-SrcIP: [209.85.215.170]
+Received: by mail-pg1-f170.google.com with SMTP id a23so23191020pgm.4;
+        Thu, 30 Dec 2021 22:44:02 -0800 (PST)
+X-Gm-Message-State: AOAM531U53cLNTPmve74uBv8dvf0nOOoFGFTEZKri2MrlEf85F8eGLyO
+        Y4uxeIZvwnwi51/DA/YrBXb9ngJ1eB4g57KGZeY=
+X-Google-Smtp-Source: ABdhPJzWTpKMeT6Dto5fEr50qh7Nt1g71CJKnOhU7QPxjOiB0td/DuEXDtV2IWK40EOhoB6fayjUTi0OVU6uPmbkVvk=
+X-Received: by 2002:a63:3753:: with SMTP id g19mr8666029pgn.126.1640933041443;
+ Thu, 30 Dec 2021 22:44:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211223002209.1092165-4-alexandr.lobakin@intel.com>
+References: <1B559478-D266-4D77-B9D5-F6F21D9EFB83@gmail.com>
+In-Reply-To: <1B559478-D266-4D77-B9D5-F6F21D9EFB83@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 31 Dec 2021 15:43:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT_REk8M-DmCWBcfTBXfQcg=djnSeHRV9STh_SJGcEVbw@mail.gmail.com>
+Message-ID: <CAK7LNAT_REk8M-DmCWBcfTBXfQcg=djnSeHRV9STh_SJGcEVbw@mail.gmail.com>
+Subject: Re: Missing closing files in linux/scripts/kconfig/confdata.c
+To:     Ryan Cai <ycaibb@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 01:21:57AM +0100, Alexander Lobakin wrote:
-> Subject: Re: [PATCH v9 03/15] kallsyms: Hide layout
+On Thu, Dec 30, 2021 at 12:11 PM Ryan Cai <ycaibb@gmail.com> wrote:
+>
+> Dear Kernel maintainers,
+>
+>           1. In linux/scripts/kconfig/confdata.c (conf_write_autoconf_cmd), the file opened at Line 946 may not closed when going to Line 981.
+>           Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L964-L981
+>
+>          2. In linux/scripts/kconfig/confdata.c (__conf_write_autoconf), the file opened at Line1081 may not closed when going to Line 1095,
+>            Location: https://github.com/torvalds/linux/blob/e851dfae4371d3c751f1e18e8eb5eba993de1467/scripts/kconfig/confdata.c#L1081-L1095
+>
+>            I think, the fix is inserting fclose before the returning. Should it be a bug? I can send a patch for these.
+>
 
-That title is kinda laconic...
+Yes, they are both bugs.
+Thanks for catching them.
 
-> From: Kristen Carlson Accardi <kristen@linux.intel.com>
-> 
-> This patch makes /proc/kallsyms display in a random order, rather
 
-Avoid having "This patch" or "This commit" in the commit message. It is
-tautologically useless.
-
-Also, do
-
-$ git grep 'This patch' Documentation/process
-
-for more details.
-
-> than sorted by address in order to hide the newly randomized address
-> layout.
-
-Sorted by address?
-
-My /proc/kallsyms says
-
-$ awk '{ print $1 }' /proc/kallsyms | uniq -c
- 119086 0000000000000000
-
-so all the addresses are 0. Aha, and when I list them as root, only then
-I see non-null addresses.
-
-So why do we that patch at all?
-
-> alobakin:
-> Don't depend FG-KASLR and always do that for unpriviledged accesses
-
-Unknown word [unpriviledged] in commit message, suggestions:
-        ['unprivileged', 'underprivileged', 'privileged']
-
-> as suggested by several folks.
-> Also, introduce and use a shuffle_array() macro which shuffles an
-> array using Fisher-Yates.
-
-Fisher-Yates what?
-
-/me goes and looks at the wikipedia article.
-
-Aha, a Fisher-Yates shuffle algoithm.
-
-Don't be afraid to explain more in your commit messages and make them
-more reader-friendly.
-
-> We'll make use of it several more times
-> later on.
-
-Not important for this commit.
-
-...
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best Regards
+Masahiro Yamada
