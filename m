@@ -2,40 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B3C64827E3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Jan 2022 16:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFD9482CB8
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Jan 2022 21:42:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232507AbiAAP7y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Jan 2022 10:59:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59336 "EHLO
+        id S229809AbiABUme (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 Jan 2022 15:42:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbiAAP7x (ORCPT
+        with ESMTP id S229804AbiABUme (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Jan 2022 10:59:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86248C061574;
-        Sat,  1 Jan 2022 07:59:53 -0800 (PST)
+        Sun, 2 Jan 2022 15:42:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CE79C061761;
+        Sun,  2 Jan 2022 12:42:32 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1FABE60B46;
-        Sat,  1 Jan 2022 15:59:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E6AC36AEA;
-        Sat,  1 Jan 2022 15:59:50 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ACD23B80E18;
+        Sun,  2 Jan 2022 20:42:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2EEAC36AEB;
+        Sun,  2 Jan 2022 20:42:28 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Uksrn5Aw"
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Kj8/hOfS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1641052788;
+        t=1641156146;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MXfRnkGZJ721hGiwJRuhfNcDbk4qEezkQtUg9hAhwak=;
-        b=Uksrn5AwO7ZV/ulrAmHz96YhaBly5CAE5fC7+BYdwIZhWnQjWB5jjwsK3HNoVAQgVDUwiR
-        aBqhV3k+a95FIegl3DzFLNjxNbXiz0prqbzs8Hligu6YEPJmssMTFf60D+wlTpX4ajZKXv
-        t/SgURm4WGxX6ZwLUARhf7GUPNGJfe8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 54effb9e (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Sat, 1 Jan 2022 15:59:48 +0000 (UTC)
+        bh=ivPQ1nJAqDCUFO3os4uPrVwQF3x8O4Z5PJ1BEASox+U=;
+        b=Kj8/hOfS7FHeMWaGZ5tK3wWp8zut4gVQzQTjDXgB9VilmWCR3Y1YbStsrj/BUCedZOCnWw
+        HQk/1OJJeFhxHxQYbAXEFlBKeDzO3kI7QakHVjrWyUlzFDB+71LBkJXjsVoIhBzvXnc8Zc
+        TFinSl9siYJnz5LKpzb3HibsmAmmgTY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id defc2ace (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Sun, 2 Jan 2022 20:42:26 +0000 (UTC)
 From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
@@ -45,11 +45,11 @@ Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
         linux-kbuild@vger.kernel.org,
         Herbert Xu <herbert@gondor.apana.org.au>,
         linux-crypto@vger.kernel.org
-Subject: [PATCH v5] lib/crypto: blake2s: include as built-in
-Date:   Sat,  1 Jan 2022 16:59:37 +0100
-Message-Id: <20220101155937.381821-1-Jason@zx2c4.com>
-In-Reply-To: <20211227142016.166116-1-Jason@zx2c4.com>
-References: <20211227142016.166116-1-Jason@zx2c4.com>
+Subject: [PATCH v6] lib/crypto: blake2s: include as built-in
+Date:   Sun,  2 Jan 2022 21:42:03 +0100
+Message-Id: <20220102204203.521148-1-Jason@zx2c4.com>
+In-Reply-To: <20220101155937.381821-1-Jason@zx2c4.com>
+References: <20220101155937.381821-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -75,21 +75,37 @@ Herbert - As mentioned with the vPrev, I intend to take this via the
 crng/random.git tree, since it forms a dependency and I'd like to send a
 pull early in 5.17 cycle.
 
+Changes v5->v6:
+- Make accelerated versions bool instead of tristate.
 Changes v4->v5:
 - Move sourcing the lib/crypto Kconfig file outside of 'if CRYPTO'.
 
+ arch/arm/crypto/Kconfig           |  2 +-
  arch/arm/crypto/blake2s-core.S    |  8 ++++----
  arch/arm/crypto/blake2s-glue.c    |  6 +++---
  arch/x86/crypto/blake2s-glue.c    | 11 +++++------
- crypto/Kconfig                    |  3 ++-
+ crypto/Kconfig                    |  5 +++--
  drivers/net/Kconfig               |  1 -
  include/crypto/internal/blake2s.h |  6 +++---
  lib/crypto/Kconfig                | 13 ++-----------
  lib/crypto/Makefile               |  9 ++++-----
  lib/crypto/blake2s-generic.c      |  6 +++++-
  lib/crypto/blake2s.c              |  6 ------
- 10 files changed, 28 insertions(+), 41 deletions(-)
+ 11 files changed, 30 insertions(+), 43 deletions(-)
 
+diff --git a/arch/arm/crypto/Kconfig b/arch/arm/crypto/Kconfig
+index 2b575792363e..f1bcf804b8b5 100644
+--- a/arch/arm/crypto/Kconfig
++++ b/arch/arm/crypto/Kconfig
+@@ -63,7 +63,7 @@ config CRYPTO_SHA512_ARM
+ 	  using optimized ARM assembler and NEON, when available.
+ 
+ config CRYPTO_BLAKE2S_ARM
+-	tristate "BLAKE2s digest algorithm (ARM)"
++	bool "BLAKE2s digest algorithm (ARM)"
+ 	select CRYPTO_ARCH_HAVE_LIB_BLAKE2S
+ 	help
+ 	  BLAKE2s digest algorithm optimized with ARM scalar instructions.  This
 diff --git a/arch/arm/crypto/blake2s-core.S b/arch/arm/crypto/blake2s-core.S
 index 86345751bbf3..df40e46601f1 100644
 --- a/arch/arm/crypto/blake2s-core.S
@@ -183,9 +199,18 @@ index a40365ab301e..ef91a3167d27 100644
  
  #define BLAKE2S_ALG(name, driver_name, digest_size)			\
 diff --git a/crypto/Kconfig b/crypto/Kconfig
-index 285f82647d2b..55718de56137 100644
+index 285f82647d2b..b7a2e50dcbc8 100644
 --- a/crypto/Kconfig
 +++ b/crypto/Kconfig
+@@ -702,7 +702,7 @@ config CRYPTO_BLAKE2S
+ 	  See https://blake2.net for further information.
+ 
+ config CRYPTO_BLAKE2S_X86
+-	tristate "BLAKE2s digest algorithm (x86 accelerated version)"
++	bool "BLAKE2s digest algorithm (x86 accelerated version)"
+ 	depends on X86 && 64BIT
+ 	select CRYPTO_LIB_BLAKE2S_GENERIC
+ 	select CRYPTO_ARCH_HAVE_LIB_BLAKE2S
 @@ -1919,9 +1919,10 @@ config CRYPTO_STATS
  config CRYPTO_HASH_INFO
  	bool
