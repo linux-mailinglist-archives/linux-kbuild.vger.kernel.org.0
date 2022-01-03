@@ -2,44 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFE3F483186
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jan 2022 14:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A739248319D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jan 2022 14:55:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233195AbiACNo6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Jan 2022 08:44:58 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:38308 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbiACNo6 (ORCPT
+        id S232209AbiACNzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Jan 2022 08:55:46 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:35014 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229531AbiACNzp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Jan 2022 08:44:58 -0500
+        Mon, 3 Jan 2022 08:55:45 -0500
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 9DB211F38B;
-        Mon,  3 Jan 2022 13:44:56 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTP id EDE5E2113D;
+        Mon,  3 Jan 2022 13:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1641217496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1641218144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=fTJ1dFgK+e5nEjMCy1hx4JFFE95pm729J/0lTIXNYPQ=;
-        b=mj/DmFRpnAQn6IsHlOFXXObU9OcYXvK0jsyh+ZGcLL1aRwhrlgcwlyqpLesy26E7TcXv2r
-        C2FsSdeaVOAAG0b+6tEscjs264JEFqMhWjZu7GVZsBpjyOwQWx25m9Dc2eOAFtYFG/uLFO
-        GUGIzHt3y/sAqQ9s1xoPs9kLRHm0Fyc=
+        bh=Bp7Ls3jIW7OioFy5buHPAXWHWAQcKF9WssyJmKxPbcg=;
+        b=ceCleNSEp/E5buzpPY3bEceRgi7vPX6LyXo9jAQXAaWU5s21DTY9xp4z8cl2wm9fVzILtM
+        q/8hOLECrn9dX1HxtE+Bapekrx5Yhsrxd+YNutzZwYuooC0KwhAJKjz+mxK5dQ+X0m/KQe
+        Wxk/79WuOZu7qvROwMjALGXZabC/bNI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1641217496;
+        s=susede2_ed25519; t=1641218144;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=fTJ1dFgK+e5nEjMCy1hx4JFFE95pm729J/0lTIXNYPQ=;
-        b=d/FL6e2yBkq7hBqztokwqPKphOccyHc7hm6myfbJoGFBNUPn0kCU/krfro7FkpPomzr8nD
-        QZ5nL5sD+G3EvJBA==
+        bh=Bp7Ls3jIW7OioFy5buHPAXWHWAQcKF9WssyJmKxPbcg=;
+        b=zIL7Pnzdd/6fJg54rccwAz40rGXhxdEhihowTu7q3ad6bgpciI8rB5JWx8sbGxN/4/XCGN
+        CPbCrCrb0B9KjJDA==
 Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 3E6D3A3B8D;
-        Mon,  3 Jan 2022 13:44:54 +0000 (UTC)
-Date:   Mon, 3 Jan 2022 14:44:09 +0100 (CET)
+        by relay2.suse.de (Postfix) with ESMTPS id 07708A3B81;
+        Mon,  3 Jan 2022 13:55:43 +0000 (UTC)
+Date:   Mon, 3 Jan 2022 14:55:42 +0100 (CET)
 From:   Miroslav Benes <mbenes@suse.cz>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+To:     =?UTF-8?Q?F=C4=81ng-ru=C3=AC_S=C3=B2ng?= <maskray@google.com>
+cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
         Jesse Brandeburg <jesse.brandeburg@intel.com>,
         Kristen Carlson Accardi <kristen@linux.intel.com>,
         Kees Cook <keescook@chromium.org>,
@@ -58,7 +60,6 @@ cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
         "David S. Miller" <davem@davemloft.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Andy Lutomirski <luto@kernel.org>,
@@ -75,75 +76,55 @@ cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
         llvm@lists.linux.dev
 Subject: Re: [PATCH v9 02/15] livepatch: use `-z unique-symbol` if available
  to nuke pos-based search
-In-Reply-To: <20211223002209.1092165-3-alexandr.lobakin@intel.com>
-Message-ID: <alpine.LSU.2.21.2201031438350.15051@pobox.suse.cz>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com> <20211223002209.1092165-3-alexandr.lobakin@intel.com>
+In-Reply-To: <CAFP8O3K1mkiCGMTEeuSifZtr2piHsKTjP5TOA25nqpv2SrbzYQ@mail.gmail.com>
+Message-ID: <alpine.LSU.2.21.2201031447140.15051@pobox.suse.cz>
+References: <20211223002209.1092165-1-alexandr.lobakin@intel.com> <20211223002209.1092165-3-alexandr.lobakin@intel.com> <Yc2Tqc69W9ukKDI1@zn.tnic> <CAFP8O3K1mkiCGMTEeuSifZtr2piHsKTjP5TOA25nqpv2SrbzYQ@mail.gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/mixed; boundary="1678380546-1741337215-1641218143=:15051"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> --- a/kernel/livepatch/core.c
-> +++ b/kernel/livepatch/core.c
-> @@ -143,11 +143,13 @@ static int klp_find_callback(void *data, const char *name,
->  	args->count++;
->  
->  	/*
-> -	 * Finish the search when the symbol is found for the desired position
-> -	 * or the position is not defined for a non-unique symbol.
-> +	 * Finish the search when unique symbol names are enabled
-> +	 * or the symbol is found for the desired position or the
-> +	 * position is not defined for a non-unique symbol.
->  	 */
-> -	if ((args->pos && (args->count == args->pos)) ||
-> -	    (!args->pos && (args->count > 1)))
-> +	if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL) ||
-> +	    (args->pos && args->count == args->pos) ||
-> +	    (!args->pos && args->count > 1))
->  		return 1;
->  
->  	return 0;
-> @@ -171,17 +173,21 @@ static int klp_find_object_symbol(const char *objname, const char *name,
->  
->  	/*
->  	 * Ensure an address was found. If sympos is 0, ensure symbol is unique;
-> -	 * otherwise ensure the symbol position count matches sympos.
-> +	 * otherwise ensure the symbol position count matches sympos. If the LD
-> +	 * `-z unique` flag is enabled, sympos checks are not relevant.
->  	 */
-> -	if (args.addr == 0)
-> +	if (args.addr == 0) {
->  		pr_err("symbol '%s' not found in symbol table\n", name);
-> -	else if (args.count > 1 && sympos == 0) {
-> +	} else if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL)) {
-> +		goto out_ok;
-> +	} else if (args.count > 1 && sympos == 0) {
->  		pr_err("unresolvable ambiguity for symbol '%s' in object '%s'\n",
->  		       name, objname);
->  	} else if (sympos != args.count && sympos > 0) {
->  		pr_err("symbol position %lu for symbol '%s' in object '%s' not found\n",
->  		       sympos, name, objname ? objname : "vmlinux");
->  	} else {
-> +out_ok:
->  		*addr = args.addr;
->  		return 0;
->  	}
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I think it would be better to return to something like
+--1678380546-1741337215-1641218143=:15051
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL))
-        sympos = 0;
+On Thu, 30 Dec 2021, Fāng-ruì Sòng wrote:
 
-in klp_find_object_symbol() just after kallsyms search is performed.
+> On Thu, Dec 30, 2021 at 3:11 AM Borislav Petkov <bp@alien8.de> wrote:
+> >
+> > On Thu, Dec 23, 2021 at 01:21:56AM +0100, Alexander Lobakin wrote:
+> > > [PATCH v9 02/15] livepatch: use `-z unique-symbol` if available to nuke pos-based search
 
-You would not need the above changes at all. I did not like it before when 
-sympos clearing was proposed, but the situation was different back then. 
-'-z unique-symbol' was not available. It has changed and we have a 
-guarantee that symbols are unique now. There would not be any impact on 
-the user.
+...
 
-What do you think?
+> Apologies since I haven't read the patch series.
+> 
+> The option does not exist in ld.lld and I am a bit concerning about
+> its semantics: https://maskray.me/blog/2020-11-15-explain-gnu-linker-options#z-unique-symbol
+> 
+> I thought that someone forwarded my comments (originally posted months
+> on a feature request ago) here but seems not.
+> (I am a ld.lld maintainer.)
 
-Miroslav
+Do you mean 
+https://lore.kernel.org/all/20210123225928.z5hkmaw6qjs2gu5g@google.com/T/#u 
+?
+
+Unfortunately, it did not lead anywhere. I think that '-z unique-symbol' 
+option should work fine as long as the live patching is concerned. Maybe I 
+misunderstood but your concerns mentioned at the blog do not apply. The 
+stability is not an issue for us since we (KLP) always work with already 
+built and fixed kernel. And(at least) GCC already uses number suffices for 
+IPA clones and it has not been a problem anywhere.
+
+Am I wrong?
+
+Thanks
+
+Miroslav 
+--1678380546-1741337215-1641218143=:15051--
