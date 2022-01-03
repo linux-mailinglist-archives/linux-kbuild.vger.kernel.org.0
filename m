@@ -2,57 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26825482D66
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jan 2022 02:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D21482D9E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jan 2022 04:23:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231208AbiACBYE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 Jan 2022 20:24:04 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:32936 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbiACBYE (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 2 Jan 2022 20:24:04 -0500
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id A810772C90A;
-        Mon,  3 Jan 2022 04:24:02 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id 7A7117CCA32; Mon,  3 Jan 2022 04:24:02 +0300 (MSK)
-Date:   Mon, 3 Jan 2022 04:24:02 +0300
-From:   "Dmitry V. Levin" <ldv@altlinux.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usr/include/Makefile: add linux/nfc.h to the compile-test
- coverage
-Message-ID: <20220103012402.GA25177@altlinux.org>
+        id S229513AbiACDXq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 Jan 2022 22:23:46 -0500
+Received: from helcar.hmeau.com ([216.24.177.18]:58842 "EHLO fornost.hmeau.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229515AbiACDXp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 2 Jan 2022 22:23:45 -0500
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+        by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
+        id 1n4Dwc-0006Rn-K0; Mon, 03 Jan 2022 14:23:35 +1100
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Mon, 03 Jan 2022 14:23:34 +1100
+Date:   Mon, 3 Jan 2022 14:23:34 +1100
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v6] lib/crypto: blake2s: include as built-in
+Message-ID: <YdJsNrsXqPf0CNEc@gondor.apana.org.au>
+References: <20220101155937.381821-1-Jason@zx2c4.com>
+ <20220102204203.521148-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220102204203.521148-1-Jason@zx2c4.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As linux/nfc.h userspace compilation was finally fixed by commits
-79b69a83705e621b258ac6d8ae6d3bfdb4b930aa and
-7175f02c4e5f5a9430113ab9ca0fd0ce98b28a51, there is no need to keep
-the compile-test exception for it in usr/include/Makefile.
+On Sun, Jan 02, 2022 at 09:42:03PM +0100, Jason A. Donenfeld wrote:
+> In preparation for using blake2s in the RNG, we change the way that it
+> is wired-in to the build system. Instead of using ifdefs to select the
+> right symbol, we use weak symbols. And because ARM doesn't need the
+> generic implementation, we make the generic one default only if an arch
+> library doesn't need it already, and then have arch libraries that do
+> need it opt-in.
+> 
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: linux-crypto@vger.kernel.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+> Herbert - As mentioned with the vPrev, I intend to take this via the
+> crng/random.git tree, since it forms a dependency and I'd like to send a
+> pull early in 5.17 cycle.
 
-Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
----
- usr/include/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+At this point I think we should push this through crypto.  The
+changes are too invasive with respect to the crypto Kconfig files.
 
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 1c2ae1368079..295d51e6ade0 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -34,7 +34,6 @@ no-header-test += linux/hdlc/ioctl.h
- no-header-test += linux/ivtv.h
- no-header-test += linux/kexec.h
- no-header-test += linux/matroxfb.h
--no-header-test += linux/nfc.h
- no-header-test += linux/omap3isp.h
- no-header-test += linux/omapfb.h
- no-header-test += linux/patchkey.h
+> diff --git a/crypto/Kconfig b/crypto/Kconfig
+> index 285f82647d2b..b7a2e50dcbc8 100644
+> --- a/crypto/Kconfig
+> +++ b/crypto/Kconfig
+> @@ -702,7 +702,7 @@ config CRYPTO_BLAKE2S
+>  	  See https://blake2.net for further information.
+>  
+>  config CRYPTO_BLAKE2S_X86
+> -	tristate "BLAKE2s digest algorithm (x86 accelerated version)"
+> +	bool "BLAKE2s digest algorithm (x86 accelerated version)"
+>  	depends on X86 && 64BIT
+>  	select CRYPTO_LIB_BLAKE2S_GENERIC
+>  	select CRYPTO_ARCH_HAVE_LIB_BLAKE2S
 
+This will break when CRYPTO is disabled because the x86 crypto
+glue code depends on the crypto subsystem.
+
+Cheers,
 -- 
-ldv
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
