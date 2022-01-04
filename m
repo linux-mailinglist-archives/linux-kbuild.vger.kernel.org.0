@@ -2,209 +2,213 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD9EB484257
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jan 2022 14:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7764844E2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jan 2022 16:40:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233461AbiADNZS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jan 2022 08:25:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232029AbiADNZS (ORCPT
+        id S231428AbiADPk6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jan 2022 10:40:58 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:54087 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229821AbiADPk6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jan 2022 08:25:18 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD529C061761;
-        Tue,  4 Jan 2022 05:25:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=dlRlk2wYEk2DcEqB0eWfT2wU9WqSJ+uo3N+tcXCm11Y=; b=KGMx4rfBbqbGNXr4D1mA4fjhfh
-        prgjQ8LufvAghOqFX3n7LpJZa7dIK0XyL5tKpCKnLpP2ahG/Or7tGusW2PkO0g6WumQpB0g9vGIjn
-        +kpHW3+GQjc+BdCxh0MANNaPiX6OEEvLO26mAWYKEqNBh6VzONfdOz1wY1jNyMVU7NWLQhmYkwTyx
-        kX5Xw0Myy6K75K0ZwFm9T0nklXDQvwnaSvUx0vt9HQ625UXKFJmK+gI8LrwH1WlHsc9SvibNtbuBO
-        zFxooRd09L1LIZi7fjB6KbA7fksTeo0wPKnBtMm9KSVitb/+EY33LyDRYRjDVMAW2Mh27sPtXdRe6
-        jFLWHteg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:56562)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1n4joK-00071l-2M; Tue, 04 Jan 2022 13:25:08 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1n4joF-0007Gq-MK; Tue, 04 Jan 2022 13:25:03 +0000
-Date:   Tue, 4 Jan 2022 13:25:03 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     zhuyinbo <zhuyinbo@loongson.cn>
-Cc:     Andrew Lunn <andrew@lunn.ch>, hkallweit1@gmail.com,
-        davem@davemloft.net, kuba@kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, ndesaulniers@google.com,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled
- code in modules.alias
-Message-ID: <YdRKr4rxUj9EnDh3@shell.armlinux.org.uk>
-References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
- <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
- <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
- <YabEHd+Z5SPAhAT5@lunn.ch>
- <f91f4fff-8bdf-663b-68f5-b8ccbd0c187a@loongson.cn>
- <257a0fbf-941e-2d9e-50b4-6e34d7061405@loongson.cn>
+        Tue, 4 Jan 2022 10:40:58 -0500
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 204FeZ83025435;
+        Wed, 5 Jan 2022 00:40:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 204FeZ83025435
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1641310836;
+        bh=DugniExp2XmgLl7ZzfeuQ1Apx6MUJTA6MNRLje4FSnQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=wfkpwjQNUXgqtfaBO2x0igGFWj/mss3d3tVx063RGEUhBS+12Nsyt/RKTcLku6VMA
+         cfyD6SYCIaoE/MYSv0Ov9sEW+ngUfa5MAKKU5m+x3S7N2SWLZE8EYEYnBoZWO4dDhz
+         ivGfBUlAtODhITCovvOJ+cQy4DjwSEzpm8iOo7NLei5zziYRkcGxRNeXNToixaCfUO
+         1NXTSTqPtebvQ58Wx2vV8LWdebo0BLBmz510nkPgTn/MrL/wwLxXvD+sj4pZWc5kW5
+         8U1oQ8EFRz/sX2/FI2TzFZqwS3tuBsFvqURiTPQ6hGO2J3DbwrBPD+IS3fG66r6wV0
+         hYgog4OjXr45w==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id 205so32583564pfu.0;
+        Tue, 04 Jan 2022 07:40:35 -0800 (PST)
+X-Gm-Message-State: AOAM532VCyCNrdUzlLbrewLzQlE+814KKU7OsH9wwHGjry/jd5VVHr+f
+        Gv571brAn3yt1bfl0s+WnJB+0xCLwcG1MU4nuEQ=
+X-Google-Smtp-Source: ABdhPJyhXYYQVBVnRK8+v8MvikdEObQrQhD09k7c68rzG/jmhd4ynmP2j4kUAeZ+ERWFy95lpGKawC962FaMod+Rp/o=
+X-Received: by 2002:a63:3753:: with SMTP id g19mr22939727pgn.126.1641310834718;
+ Tue, 04 Jan 2022 07:40:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <257a0fbf-941e-2d9e-50b4-6e34d7061405@loongson.cn>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20211218031122.4117631-1-willy@infradead.org>
+In-Reply-To: <20211218031122.4117631-1-willy@infradead.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 5 Jan 2022 00:39:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
+Message-ID: <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
+Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
+ signing key
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        efi@lists.einval.com,
+        debian-kernel <debian-kernel@lists.debian.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 09:11:56PM +0800, zhuyinbo wrote:
-> From the present point of view, no matter what the situation, my supplement
-> can cover udev or request_module for auto load module.
-> 
-> if that phy driver isn't platform driver my patch cover it I think there is
-> no doubt, if phy driver is platform driver and platform driver udev will
-> cover it. My only requestion is the request_module not work well.
-> 
-> about xgmiitorgmii_of_match that it belongs to platform driver load, please
-> you note. and about your doubt usepace whether disable module load that
-> module load function is okay becuase other device driver auto load is okay.
-
-xgmiitorgmii is *not* a platform driver.
-
-> > Please report back what the following command produces on your
-> > problem system:
-> >
-> > /sbin/modprobe -vn mdio:00000001010000010000110111010001
-> >
-> > Thanks.
-> 
-> [root@localhost ~]# lsmod | grep marvell
-> [root@localhost ~]# ls
-> /lib/modules/4.19.190+/kernel/drivers/net/phy/marvell.ko
-> /lib/modules/4.19.190+/kernel/drivers/net/phy/marvell.ko
-> [root@localhost ~]# /sbin/modprobe -vn mdio:00000001010000010000110111010001
-> insmod /lib/modules/4.19.190+/kernel/drivers/net/phy/marvell.ko
-> insmod /lib/modules/4.19.190+/kernel/drivers/net/phy/marvell.ko
-> [root@localhost ~]#
-> [root@localhost ~]# cat /proc/sys/kernel/modprobe
-> /sbin/modprobe
-
-Great, so the current scheme using "mdio:<binary digits>" works
-perfectly for you. What is missing is having that modalias in the
-uevent file.
-
-So, my patch on the 4th December should cause the marvell module to
-be loaded at boot time. Please test that patch ASAP, which I have
-already asked you to do. I'll include it again in this email so you
-don't have to hunt for it.
-
-8<===
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: [PATCH] net: phy: generate PHY mdio modalias
-
-The modalias string provided in the uevent sysfs file does not conform
-to the format used in PHY driver modules. One of the reasons is that
-udev loading of PHY driver modules has not been an expected use case.
-
-This patch changes the MODALIAS entry for only PHY devices from:
-        MODALIAS=of:Nethernet-phyT(null)
-to:
-        MODALIAS=mdio:00000000001000100001010100010011
-
-Other MDIO devices (such as DSA) remain as before.
-
-However, having udev automatically load the module has the advantage
-of making use of existing functionality to have the module loaded
-before the device is bound to the driver, thus taking advantage of
-multithreaded boot systems, potentially decreasing the boot time.
-
-However, this patch will not solve any issues with the driver module
-not being loaded prior to the network device needing to use the PHY.
-This is something that is completely out of control of any patch to
-change the uevent mechanism.
-
-Reported-by: Yinbo Zhu <zhuyinbo@loongson.cn>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- drivers/net/phy/mdio_bus.c   |  8 ++++++++
- drivers/net/phy/phy_device.c | 14 ++++++++++++++
- include/linux/mdio.h         |  2 ++
- 3 files changed, 24 insertions(+)
-
-diff --git a/drivers/net/phy/mdio_bus.c b/drivers/net/phy/mdio_bus.c
-index 4638d7375943..663bd98760fb 100644
---- a/drivers/net/phy/mdio_bus.c
-+++ b/drivers/net/phy/mdio_bus.c
-@@ -1010,8 +1010,16 @@ static int mdio_bus_match(struct device *dev, struct device_driver *drv)
- 
- static int mdio_uevent(struct device *dev, struct kobj_uevent_env *env)
- {
-+	struct mdio_device *mdio = to_mdio_device(dev);
- 	int rc;
- 
-+	/* Use the device-specific uevent if specified */
-+	if (mdio->bus_uevent) {
-+		rc = mdio->bus_uevent(mdio, env);
-+		if (rc != -ENODEV)
-+			return rc;
-+	}
-+
- 	/* Some devices have extra OF data and an OF-style MODALIAS */
- 	rc = of_device_uevent_modalias(dev, env);
- 	if (rc != -ENODEV)
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 23667658b9c6..f4c2057f0202 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -563,6 +563,19 @@ static int phy_request_driver_module(struct phy_device *dev, u32 phy_id)
- 	return 0;
- }
- 
-+static int phy_bus_uevent(struct mdio_device *mdiodev,
-+			  struct kobj_uevent_env *env)
-+{
-+	struct phy_device *phydev;
-+
-+	phydev = container_of(mdiodev, struct phy_device, mdio);
-+
-+	add_uevent_var(env, "MODALIAS=" MDIO_MODULE_PREFIX MDIO_ID_FMT,
-+		       MDIO_ID_ARGS(phydev->phy_id));
-+
-+	return 0;
-+}
-+
- struct phy_device *phy_device_create(struct mii_bus *bus, int addr, u32 phy_id,
- 				     bool is_c45,
- 				     struct phy_c45_device_ids *c45_ids)
-@@ -582,6 +595,7 @@ struct phy_device *phy_device_create(struct mii_bus *bus, int addr, u32 phy_id,
- 	mdiodev->dev.type = &mdio_bus_phy_type;
- 	mdiodev->bus = bus;
- 	mdiodev->bus_match = phy_bus_match;
-+	mdiodev->bus_uevent = phy_bus_uevent;
- 	mdiodev->addr = addr;
- 	mdiodev->flags = MDIO_DEVICE_FLAG_PHY;
- 	mdiodev->device_free = phy_mdio_device_free;
-diff --git a/include/linux/mdio.h b/include/linux/mdio.h
-index df9c96e56907..5c6676d3de23 100644
---- a/include/linux/mdio.h
-+++ b/include/linux/mdio.h
-@@ -38,6 +38,8 @@ struct mdio_device {
- 	char modalias[MDIO_NAME_SIZE];
- 
- 	int (*bus_match)(struct device *dev, struct device_driver *drv);
-+	int (*bus_uevent)(struct mdio_device *mdiodev,
-+			  struct kobj_uevent_env *env);
- 	void (*device_free)(struct mdio_device *mdiodev);
- 	void (*device_remove)(struct mdio_device *mdiodev);
- 
--- 
-2.30.2
++CC the maintainers of CERTIFICATE HANDLING
+M:      David Howells <dhowells@redhat.com>
+M:      David Woodhouse <dwmw2@infradead.org>
+L:      keyrings@vger.kernel.org
 
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+
+
+On Sat, Dec 18, 2021 at 12:11 PM Matthew Wilcox (Oracle)
+<willy@infradead.org> wrote:
+>
+> If the config file specifies a signing key, use it to sign
+> the kernel so that machines with SecureBoot enabled can boot.
+> See https://wiki.debian.org/SecureBoot
+>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+> v2:
+>  - Handle private keys stored in the pem file as well as adjacent to the
+>    certificate
+>  - Handle certificate paths specified relative to both dsttree and srctree
+>    (as well as absolute)
+>  - Only try to sign the executable if EFI_STUB is enabled
+>  - Only try to execute sbsign if it's in $PATH
+>
+>  scripts/package/builddeb | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 91a502bb97e8..9dd92fd02b12 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -147,7 +147,30 @@ else
+>         cp System.map "$tmpdir/boot/System.map-$version"
+>         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
+>  fi
+> -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
+> +
+> +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
+> +key=
+> +if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; then
+> +       cert=$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
+> +       if [ ! -f $cert ]; then
+> +               cert=$srctree/$cert
+> +       fi
+> +
+> +       key=${cert%pem}priv
+> +       if [ ! -f $key ]; then
+> +               key=$cert
+> +       fi
+
+
+I still do not understand this part.
+
+It is true that the Debian document you referred to creates separate files
+for the key and the certificate:
+  # openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform
+DER -out MOK.der -days 36500 -subj "/CN=My Name/" -nodes
+
+but, is such a use-case possible in Kbuild?
+
+
+In the old days, yes, the key and the certificate were stored in separate files.
+(the key in *.priv and the certificate in *.x509)
+
+
+Please read this commit:
+
+
+commit fb1179499134bc718dc7557c7a6a95dc72f224cb
+Author: David Woodhouse <David.Woodhouse@intel.com>
+Date:   Mon Jul 20 21:16:30 2015 +0100
+
+    modsign: Use single PEM file for autogenerated key
+
+    The current rule for generating signing_key.priv and signing_key.x509 is
+    a classic example of a bad rule which has a tendency to break parallel
+    make. When invoked to create *either* target, it generates the other
+    target as a side-effect that make didn't predict.
+
+    So let's switch to using a single file signing_key.pem which contains
+    both key and certificate. That matches what we do in the case of an
+    external key specified by CONFIG_MODULE_SIG_KEY anyway, so it's also
+    slightly cleaner.
+
+    Signed-off-by: David Woodhouse <David.Woodhouse@intel.com>
+    Signed-off-by: David Howells <dhowells@redhat.com>
+
+
+
+
+Since then, both key and certificate are stored in a single *.pem file.
+
+
+The motivation for this change is still questionable to me;
+the commit description sounds like they merged *.priv and *.x509
+into *.pem just because they could not write a correct Makefile.
+(If requested, I can write a correct Makefile that works in parallel build)
+
+But, anyway, as long as I read the current code, we never
+have a separate *.priv file.
+
+
+The help message of the config option supports my view.
+
+
+config MODULE_SIG_KEY
+        string "File name or PKCS#11 URI of module signing key"
+        default "certs/signing_key.pem"
+        depends on MODULE_SIG || (IMA_APPRAISE_MODSIG && MODULES)
+        help
+         Provide the file name of a private key/certificate in PEM format,
+         or a PKCS#11 URI according to RFC7512. The file should contain, or
+         the URI should identify, both the certificate and its corresponding
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         private key.
+         ^^^^^^^^^^^
+
+
+
+I CC'ed  David Howells, David Woodhouse, keyrings@vger.kernel.org
+in case I understood wrong.
+
+
+
+
+
+
+
+
+
+
+
+
+> +       if ! command -v sbsign >/dev/null; then
+> +               key=
+> +       fi
+> +fi
+> +
+> +if [ -n "$key" ]; then
+> +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
+> +else
+> +       cp "$vmlinux" "$tmpdir/$installed_image_path"
+> +fi
+>
+>  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
+>         # Only some architectures with OF support have this target
+> --
+> 2.33.0
+>
+
+
+--
+Best Regards
+Masahiro Yamada
