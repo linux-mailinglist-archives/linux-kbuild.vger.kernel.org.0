@@ -2,117 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA0C748353D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jan 2022 17:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA4C04839BA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jan 2022 02:22:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234916AbiACQ70 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Jan 2022 11:59:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbiACQ7Z (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Jan 2022 11:59:25 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F192C061761;
-        Mon,  3 Jan 2022 08:59:25 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C1C0D1EC01CE;
-        Mon,  3 Jan 2022 17:59:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1641229159;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ts44VVgH9vdtQvsOCoUEuFivddAMNPUEDPS8OSJXVYg=;
-        b=nfC00FSml3Yvgxtd6HqgtS5JNr6Fc3GQM8Jd7kUwmMzWTxwFIpSWVhWlp+t04uFD+vAopj
-        Hp1ptTv1Kkc09sOxjZNrhllxxBJUSrPBfumpaXkvyRa7LH6qeYMtZ5/MtQyvWeL9ge8Xds
-        LA/roCFzE0evxqS+dGv8CFS9MHoGXBg=
-Date:   Mon, 3 Jan 2022 17:59:27 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S230229AbiADBWD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Jan 2022 20:22:03 -0500
+Received: from helcar.hmeau.com ([216.24.177.18]:58904 "EHLO fornost.hmeau.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230227AbiADBWC (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 3 Jan 2022 20:22:02 -0500
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+        by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
+        id 1n4YWO-0001Ly-LN; Tue, 04 Jan 2022 12:21:53 +1100
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Tue, 04 Jan 2022 12:21:52 +1100
+Date:   Tue, 4 Jan 2022 12:21:52 +1100
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v9 03/15] kallsyms: Hide layout
-Message-ID: <YdMrb/t2zJbpLYj0@zn.tnic>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
- <20211223002209.1092165-4-alexandr.lobakin@intel.com>
- <Yc40UKmylVh38vl5@zn.tnic>
- <20220103154023.7326-1-alexandr.lobakin@intel.com>
+        linux-kbuild@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v7] lib/crypto: blake2s: include as built-in
+Message-ID: <YdOhMPwL9sXllm8X@gondor.apana.org.au>
+References: <CAHmME9oPcEjRnqDesPNKJNOsT+i9vmWRxy9c62t+Xu9Nohsi2A@mail.gmail.com>
+ <20220103123152.1043972-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220103154023.7326-1-alexandr.lobakin@intel.com>
+In-Reply-To: <20220103123152.1043972-1-Jason@zx2c4.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 03, 2022 at 04:40:23PM +0100, Alexander Lobakin wrote:
-> "kallsyms: randomize /proc/kallsyms output order"?
+On Mon, Jan 03, 2022 at 01:31:52PM +0100, Jason A. Donenfeld wrote:
+> In preparation for using blake2s in the RNG, we change the way that it
+> is wired-in to the build system. Instead of using ifdefs to select the
+> right symbol, we use weak symbols. And because ARM doesn't need the
+> generic implementation, we make the generic one default only if an arch
+> library doesn't need it already, and then have arch libraries that do
+> need it opt-in. So that the arch libraries can remain tristate rather
+> than bool, we then split the shash part from the glue code.
+> 
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: linux-crypto@vger.kernel.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+> Herbert - As discussed, I still intend to take this via the
+> crng/random.git tree because it forms a dependency, and I'd like to send
+> a pull very early in the 5.17 cycle. I've taken some care to minimize
+> changes to the {arch/*/}crypto/Kconfig files, as you mentioned this
+> might cause some conflicts. Your tree should work cleanly on top of this
+> commit.
 
-Better.
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
 
-> It displays zeros for non-roots, but the symbols are still sorted by
-> their addresses. As a result, if you leak one address, you could
-> determine some others.
+> Changes v6->v7:
+> - Split arch shash implementations out from the glue code, so that they
+>   can remain as tristates, and we thus don't need to touch
+>   arch/*/crypto/Kconfig at all.
 
-Because if an attacker has the corresponding vmlinux, he has the offsets
-too so, game over?
+This looks good to me although I confess that I haven't actually
+tried to build it :) Hopefully the build robots will take care of
+this.
 
-> This is especially critical with FG-KASLR as its text layout is
-> random each time and sorted /proc/kallsyms would make the entire
-> feature useless.
-
-Do you notice how exactly this needs to absolutely be in the commit
-message? Instead of that "this patch" bla which is more or less obvious.
-
-IOW, always talk about *why* you're doing a change.
-
-> I either have some problems with checkpatch + codespell, or they
-> missed all that typos you're noticing. Thanks, and apologies =\
-
-No worries, and thank python's enchant module which I use to spellcheck
-stuff.
-
-So lemme look at the actual patch then :)
-
-Thx.
-
+Thanks,
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
