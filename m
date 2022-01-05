@@ -2,51 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 126E5485B31
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jan 2022 23:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C594485B5F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jan 2022 23:11:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244661AbiAEWBU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Jan 2022 17:01:20 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:34034 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244642AbiAEWBT (ORCPT
+        id S244776AbiAEWLi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Jan 2022 17:11:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244897AbiAEWKk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Jan 2022 17:01:19 -0500
+        Wed, 5 Jan 2022 17:10:40 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9832C028C37;
+        Wed,  5 Jan 2022 14:09:24 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 69124B81E1E;
-        Wed,  5 Jan 2022 22:01:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19CDDC36AE9;
-        Wed,  5 Jan 2022 22:01:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 73402B81E03;
+        Wed,  5 Jan 2022 22:09:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08390C36AEB;
+        Wed,  5 Jan 2022 22:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641420077;
-        bh=fGwTRDuVF+fKROM7EVE56WWnOBQmtM9MvKOiwSb97EU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kKMNYrQoE/kJKn7YgT4SuEu2Ihru/LMcoIqTYdl5SYtDpDKjvWz3iLeBiAIM4tUZu
-         GSROL5U0sEuC5Qg9DMR1Ic8Acps1SvmLR7fEceTxE2S/0OEFBcD8xo4V34ScATZltY
-         LqFZSTn9hnt3w3j89LPYIJU1G4RnIS1e2yoz2jMU08rK0P/QQcD9rlZ6YaTCW1TpYF
-         9jRjr0KlDTPRwG6FLZXWC78Vu1Dc/nhdo7nSet9IVaDbJEhtmfZ0Bz2FZyapk9LK3H
-         dTWUdhNgRjsPl/HCa9HHS/B0aZSLbOatwee5dnLCgyrfZHoRpp8l0xe4q0mLfXetRG
-         /VgJlJ4C0QbDA==
-Received: by mail-wm1-f42.google.com with SMTP id l4so576101wmq.3;
-        Wed, 05 Jan 2022 14:01:17 -0800 (PST)
-X-Gm-Message-State: AOAM530u/AZtvoKnqaIRbjvrw/mvSzIxdn+NXLxzrLAgUC8iYycgRoV3
-        oPD7Qz0M3sNJQgzHf58KdnvSU8njC3U+TWxkKTw=
-X-Google-Smtp-Source: ABdhPJxzvAuf64nd+pKFSeKKJjOM9uB1guqN3HkcOSX+PZ+qq8aWvjetqRzveAEsdlJiXdsoDnRlWaMb/udbrs97tAw=
-X-Received: by 2002:a05:600c:1991:: with SMTP id t17mr4568252wmq.25.1641420075501;
- Wed, 05 Jan 2022 14:01:15 -0800 (PST)
-MIME-Version: 1.0
-References: <CAHmME9oPcEjRnqDesPNKJNOsT+i9vmWRxy9c62t+Xu9Nohsi2A@mail.gmail.com>
- <20220103123152.1043972-1-Jason@zx2c4.com> <YdOhMPwL9sXllm8X@gondor.apana.org.au>
- <CAMj1kXFhygHnB12g9MD0wMo_deZ6xd7FMEzbrvEvKVtqYdskAQ@mail.gmail.com> <YdYTUCR2GM/6CXmF@gmail.com>
-In-Reply-To: <YdYTUCR2GM/6CXmF@gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Wed, 5 Jan 2022 23:01:04 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
-Message-ID: <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
-Subject: Re: [PATCH v7] lib/crypto: blake2s: include as built-in
-To:     Eric Biggers <ebiggers@kernel.org>
+        s=k20201202; t=1641420562;
+        bh=S+XtvRE89tjU5l89WgMe94h1a9C/AdLNuAKpkHw23jk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=a93lWP1be3Xk6AQlYnJLNR6YxCTouuSPyp2fRr8I0LnHejmReYKmDXcW2ZsPAEGbh
+         mUn5gfrIi0eLWj63nRzykBWw/2+IessCkznJzLWXJ+Keotm2w6SJQqxktfGNGVcDU2
+         BEsDRpg703DrY56pPIxVDvPujTI4cdW4xjzQRXERk7W+FIcOe0C2bPsXKEr7JQpxsR
+         E9ou6kTQamG7m/ktgvYRYC8lFPSatGodlOoDrsjxTx3Sv2xykoLDVkdvRL6ZuNfrBp
+         gBQBP2a+ZQj3VAEju00SqKu+b9i2fKHdvr0pzIZGxH72hmbXjcNQRY1mYQH1WElUTY
+         BKsk0J3Dn1HkA==
+Date:   Wed, 5 Jan 2022 14:09:20 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Ard Biesheuvel <ardb@kernel.org>
 Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
         "Jason A. Donenfeld" <Jason@zx2c4.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -54,22 +42,43 @@ Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v7] lib/crypto: blake2s: include as built-in
+Message-ID: <YdYXEBhc7vuY+GQW@gmail.com>
+References: <CAHmME9oPcEjRnqDesPNKJNOsT+i9vmWRxy9c62t+Xu9Nohsi2A@mail.gmail.com>
+ <20220103123152.1043972-1-Jason@zx2c4.com>
+ <YdOhMPwL9sXllm8X@gondor.apana.org.au>
+ <CAMj1kXFhygHnB12g9MD0wMo_deZ6xd7FMEzbrvEvKVtqYdskAQ@mail.gmail.com>
+ <YdYTUCR2GM/6CXmF@gmail.com>
+ <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 5 Jan 2022 at 22:53, Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Tue, Jan 04, 2022 at 06:02:52PM +0100, Ard Biesheuvel wrote:
-> > The only downside here is that the ARM/x86 accelerated shashes and the
-> > generic shash now use the same core transform, right?
->
-> I don't see how this is the case, given that crypto/blake2s_generic.c still uses
-> blake2s_compress_generic(), not blake2s_compress().
->
+On Wed, Jan 05, 2022 at 11:01:04PM +0100, Ard Biesheuvel wrote:
+> On Wed, 5 Jan 2022 at 22:53, Eric Biggers <ebiggers@kernel.org> wrote:
+> >
+> > On Tue, Jan 04, 2022 at 06:02:52PM +0100, Ard Biesheuvel wrote:
+> > > The only downside here is that the ARM/x86 accelerated shashes and the
+> > > generic shash now use the same core transform, right?
+> >
+> > I don't see how this is the case, given that crypto/blake2s_generic.c still uses
+> > blake2s_compress_generic(), not blake2s_compress().
+> >
+> 
+> Ah ok, I stand corrected then.
+> 
+> So what are your thoughts on this? Should we keep the shashes while
+> they have no users?
 
-Ah ok, I stand corrected then.
+I don't know.  Removing unused stuff is good per se, but I wouldn't have
+expected this to be something that is being considered here.  It's not like this
+is a "controversial" algorithm, blake2b is already supported, and there could be
+users of it already (dm-integrity, dm-verity, AF_ALG, etc.).  If this is going
+to happen, then the acceptance criteria for new algorithms need to get *much*
+stricter, so that algorithms aren't constantly being added and removed.
 
-So what are your thoughts on this? Should we keep the shashes while
-they have no users?
+- Eric
