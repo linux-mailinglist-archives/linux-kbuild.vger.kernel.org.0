@@ -2,58 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 012E4484BB7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jan 2022 01:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09CA3484CD8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jan 2022 04:25:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236751AbiAEA2t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jan 2022 19:28:49 -0500
-Received: from helcar.hmeau.com ([216.24.177.18]:58966 "EHLO fornost.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236750AbiAEA2t (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jan 2022 19:28:49 -0500
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-        by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
-        id 1n4uAQ-0006EQ-Qg; Wed, 05 Jan 2022 11:28:39 +1100
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Wed, 05 Jan 2022 11:28:38 +1100
-Date:   Wed, 5 Jan 2022 11:28:38 +1100
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S230046AbiAEDZE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jan 2022 22:25:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229769AbiAEDZD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 4 Jan 2022 22:25:03 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B00EC061784
+        for <linux-kbuild@vger.kernel.org>; Tue,  4 Jan 2022 19:25:03 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id t123so33903680pfc.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 04 Jan 2022 19:25:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wkuN5scY3yiYZRl2fRuA4WGrOv7r3w+Jln9UFNacBQM=;
+        b=sMREvPRxGZUwa08eFtR2hiuXSNQvK2z3b4UkIDQKPgoibmig3YKSC5pe3mtAttY7h4
+         XwK6GVkzJlAQFD2wxzX0eBRmZPIqCLwyrJwVVyBuYbzzF8v1N7MwQVj3P7PuIuTVvo0A
+         rEP82aGHqFCbL7ltVQA9rwNIlRiurCUsJqIQJ75u9fKPGEUjWr+Bd51S25yKt9bNwyWq
+         rcSVy1OCjWXA6fj3PLmN+GdKcNL6LzYc5Ao8OxtZok7AYQCkWdnX56ev9cPw3c3+UGgs
+         dVVe/F8gBmvEA8sYC1WCJBKNz2MM65RNUa7GnJFiSHqVSKWr0g4rG/r7YmFBeeHCDHyO
+         Sfog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wkuN5scY3yiYZRl2fRuA4WGrOv7r3w+Jln9UFNacBQM=;
+        b=SHROYen+chwXOkrPme1or8W2aglMJwMjNO85vL4nYrfOcVrz7O9RIaohFrpNbADIry
+         xuHPyU2AJmy5lMxvLEsUKPAgaJPYZosvV+uj6vxw5ttsprXFLriWVvob79LIq/c+QfiC
+         Ngzios+ciogAuGq1e3b1Abu16Goke4cFcMdRZwih++oa1z4Ye1tAnLjrLEfUkygTsEv+
+         58ox5bG6nBPipipjvQ8WWHqzddg4FBjewK7LUFmciQeeP0svWQDSEgNyiRj5avrwXKmN
+         0V7tOVhrP5ydzvwr95KoCydgjaOMV0gDGRbz+praiWiq8Fx6pcjE12HjHFfHOAd/9P86
+         pvOw==
+X-Gm-Message-State: AOAM533Sm3U3rkgxH+ihzaSkVaQBe5D3pKSNADZ2WKd6EPXdnGkL6AMs
+        7n02OPFjQrDcYR5d2v0A82POUA==
+X-Google-Smtp-Source: ABdhPJwILBGPaWIQmEOPR6iQ9ZbM+KK4UsIg1jEugYbcKOG7KIm+OYdMXveHNWvOBlsyyUCtrfOdgA==
+X-Received: by 2002:a63:8149:: with SMTP id t70mr46472429pgd.71.1641353102364;
+        Tue, 04 Jan 2022 19:25:02 -0800 (PST)
+Received: from google.com ([2620:15c:2ce:200:b78:5a0b:6f2e:23e9])
+        by smtp.gmail.com with ESMTPSA id a15sm663138pjo.49.2022.01.04.19.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jan 2022 19:25:02 -0800 (PST)
+Date:   Tue, 4 Jan 2022 19:24:56 -0800
+From:   =?utf-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     Miroslav Benes <mbenes@suse.cz>, Borislav Petkov <bp@alien8.de>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH v7] lib/crypto: blake2s: include as built-in
-Message-ID: <YdTmNqpGxRKZTPsw@gondor.apana.org.au>
-References: <CAHmME9oPcEjRnqDesPNKJNOsT+i9vmWRxy9c62t+Xu9Nohsi2A@mail.gmail.com>
- <20220103123152.1043972-1-Jason@zx2c4.com>
- <YdOhMPwL9sXllm8X@gondor.apana.org.au>
- <CAMj1kXFhygHnB12g9MD0wMo_deZ6xd7FMEzbrvEvKVtqYdskAQ@mail.gmail.com>
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v9 02/15] livepatch: use `-z unique-symbol` if available
+ to nuke pos-based search
+Message-ID: <20220105032456.hs3od326sdl4zjv4@google.com>
+References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
+ <20211223002209.1092165-3-alexandr.lobakin@intel.com>
+ <Yc2Tqc69W9ukKDI1@zn.tnic>
+ <CAFP8O3K1mkiCGMTEeuSifZtr2piHsKTjP5TOA25nqpv2SrbzYQ@mail.gmail.com>
+ <alpine.LSU.2.21.2201031447140.15051@pobox.suse.cz>
+ <20220103160615.7904-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXFhygHnB12g9MD0wMo_deZ6xd7FMEzbrvEvKVtqYdskAQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220103160615.7904-1-alexandr.lobakin@intel.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 06:02:52PM +0100, Ard Biesheuvel wrote:
+On 2022-01-03, Alexander Lobakin wrote:
+>From: Miroslav Benes <mbenes@suse.cz>
+>Date: Mon, 3 Jan 2022 14:55:42 +0100 (CET)
 >
-> The only downside here is that the ARM/x86 accelerated shashes and the
-> generic shash now use the same core transform, right? Given that the
-> generic blake2s shash is never used for anything in the kernel, the
-> only reason for its existence was to be able to use the randomized
-> crypto testing infrastructure to test the arch code.
-> 
-> Ergo, there is no point in retaining the blake2s shashes and we can
-> simply remove all of them. (Note that blake2b is used as an shash via
-> the crypto API by btrfs, but blake2s is only used via the library API)
+>> On Thu, 30 Dec 2021, Fāng-ruì Sòng wrote:
+>>
+>> > On Thu, Dec 30, 2021 at 3:11 AM Borislav Petkov <bp@alien8.de> wrote:
+>> > >
+>> > > On Thu, Dec 23, 2021 at 01:21:56AM +0100, Alexander Lobakin wrote:
+>> > > > [PATCH v9 02/15] livepatch: use `-z unique-symbol` if available to nuke pos-based search
+>>
+>> ...
+>>
+>> > Apologies since I haven't read the patch series.
+>> >
+>> > The option does not exist in ld.lld and I am a bit concerning about
+>> > its semantics: https://maskray.me/blog/2020-11-15-explain-gnu-linker-options#z-unique-symbol
+>> >
+>> > I thought that someone forwarded my comments (originally posted months
+>> > on a feature request ago) here but seems not.
+>> > (I am a ld.lld maintainer.)
+>>
+>> Do you mean
+>> https://lore.kernel.org/all/20210123225928.z5hkmaw6qjs2gu5g@google.com/T/#u
+>> ?
+>>
+>> Unfortunately, it did not lead anywhere. I think that '-z unique-symbol'
+>> option should work fine as long as the live patching is concerned. Maybe I
+>> misunderstood but your concerns mentioned at the blog do not apply. The
+>> stability is not an issue for us since we (KLP) always work with already
+>> built and fixed kernel. And(at least) GCC already uses number suffices for
+>> IPA clones and it has not been a problem anywhere.
 
-I have no objections to removing blake2s.
+The stability problem may not happen frequently but is possible if the
+compiler performs some IPA with new code.
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Such disturbence is probably more likely with LTO or PGO.
+For Clang LTO, Makefile currently specifies -mllvm -import-instr-limit=5.
+If a function close to the boundary happens to cross the boundary,
+if inlined into other translation units, the stability issue may affect
+many translation units.
+
+>LLD doesn't have such an option, so FG-KASLR + livepatching builds
+>wouldn't be available for LLVM with the current approach (or we'd
+>still need a stub that prints "FG-KASLR is not compatible with
+>sympos != 0").
+>Unfortunately, I discovered this a bit late, just after sending this
+>revision.
+>
+>OTOH, there's no easy alternative. <file + function> pair looks
+>appealing, but is it even possible for now to implement in the
+>kernel without much refactoring?
+
+<file + symbol> pair looks good to me and will solve the stability problem.
