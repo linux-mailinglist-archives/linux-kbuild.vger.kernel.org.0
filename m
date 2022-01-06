@@ -2,77 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB4F44862DD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jan 2022 11:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C051B48648A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jan 2022 13:46:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237878AbiAFKXQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Jan 2022 05:23:16 -0500
-Received: from foss.arm.com ([217.140.110.172]:51770 "EHLO foss.arm.com"
+        id S238943AbiAFMqq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Jan 2022 07:46:46 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:54380 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237872AbiAFKXQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Jan 2022 05:23:16 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8011411D4;
-        Thu,  6 Jan 2022 02:23:15 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.10.56])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E38C3F774;
-        Thu,  6 Jan 2022 02:23:12 -0800 (PST)
-Date:   Thu, 6 Jan 2022 10:23:06 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     jszhang3@mail.ustc.edu.cn, tglx@linutronix.de,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, bjorn@kernel.org, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, john.fastabend@gmail.com,
-        kpsingh@kernel.org, masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, wangkefeng.wang@huawei.com,
-        tongtiangen@huawei.com, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 09/12] riscv: extable: add `type` and `data` fields
-Message-ID: <YdbAgybzS2Uw9/qC@FVFF77S0Q05N>
-References: <20211118152155.GB9977@lakrids.cambridge.arm.com>
- <mhng-84ef2902-21c8-4cde-9d02-aa89f913a981@palmer-ri-x1c9>
+        id S238901AbiAFMqp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 6 Jan 2022 07:46:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=sb5puHWrCBvPHq+ETTuUx1fhkZYhyUxCv8saF9jxTbk=; b=wzrUKkcdWONH11pxB5CtDOKnoc
+        go1Euvv5rNqrgnRjhUHLI9vh8vpwuV0mdMgQxVO4pu+kc9iNBZcbXqdW5g+Ui6++lQ/82QIySmV0V
+        FluVH8QZLuWquQAScCHMcOYH33sV3dKv67gPkJJM+M5sGpXhz3Al4uaBOyEBvtvYGllM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1n5SA0-000eXn-3X; Thu, 06 Jan 2022 13:46:28 +0100
+Date:   Thu, 6 Jan 2022 13:46:28 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     zhuyinbo <zhuyinbo@loongson.cn>
+Cc:     hkallweit1@gmail.com, kuba@kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] modpost: file2alias: fixup mdio alias garbled
+ code in modules.alias
+Message-ID: <YdbkpPDMkzqYzyg7@lunn.ch>
+References: <1637919957-21635-1-git-send-email-zhuyinbo@loongson.cn>
+ <c6d37ae0-9ccb-a527-4f55-e96972813a53@gmail.com>
+ <YaYPMOJ/+OXIWcnj@shell.armlinux.org.uk>
+ <YabEHd+Z5SPAhAT5@lunn.ch>
+ <f91f4fff-8bdf-663b-68f5-b8ccbd0c187a@loongson.cn>
+ <257a0fbf-941e-2d9e-50b4-6e34d7061405@loongson.cn>
+ <ba055ee6-9d81-3088-f395-8e4e1d9ba136@loongson.cn>
+ <5838a64c-5d0a-60a1-c699-727bff1cc715@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <mhng-84ef2902-21c8-4cde-9d02-aa89f913a981@palmer-ri-x1c9>
+In-Reply-To: <5838a64c-5d0a-60a1-c699-727bff1cc715@loongson.cn>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 05, 2022 at 07:21:26PM -0800, Palmer Dabbelt wrote:
-> On Thu, 18 Nov 2021 07:21:55 PST (-0800), mark.rutland@arm.com wrote:
-> > On Thu, Nov 18, 2021 at 07:42:49PM +0800, Jisheng Zhang wrote:
-> > > On Thu, 18 Nov 2021 19:26:05 +0800 Jisheng Zhang wrote:
-> > > Hi Mark, Thomas,
-> > > 
-> > > x86 and arm64 version of sort_relative_table routine are the same, I want to
-> > > unify them, and then use the common function for riscv, but I'm not sure
-> > > which name is better. Could you please suggest?
-> > 
-> > I sent a patch last week which unifies them as
-> > sort_relative_table_with_data():
-> > 
-> >   https://lore.kernel.org/linux-arm-kernel/20211108114220.32796-1-mark.rutland@arm.com/
-> > 
-> > Thomas, are you happy with that patch?
-> > 
-> > With your ack it could go via the riscv tree for v5.17 as a preparatory
-> > cleanup in this series.
-> > 
-> > Maybe we could get it in as a cleanup for v5.16-rc{2,3} ?
+> Hi phy maintainer,
 > 
-> I don't see anything on that thread, and looks like last time I had to touch
-> sorttable I just took it via the RISC-V tree.  I went ahead and put Mark's
-> patch, along with this patch set, on my for-next. 
+> What's your viewpoint?
 
-FWIW, that sounds good to me. Thanks for picking that up!
+Russell is a PHY Maintainer.
 
-> I had to fix up a few minor issues, so LMK if anything went off the rails.
+I suggest you stop arguing with him. Test what Russell proposes, and
+let him know if it solves the problem you were seeing.
 
-I assume that was just for this patch set, as I couldn't spot any change to my
-patch in the riscv for-next branch.
-
-Thanks,
-Mark.
+	Andrew
