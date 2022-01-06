@@ -2,83 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C594485B5F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jan 2022 23:11:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26B98485F24
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jan 2022 04:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244776AbiAEWLi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Jan 2022 17:11:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34830 "EHLO
+        id S229769AbiAFDV2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Jan 2022 22:21:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244897AbiAEWKk (ORCPT
+        with ESMTP id S229543AbiAFDV1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Jan 2022 17:10:40 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9832C028C37;
-        Wed,  5 Jan 2022 14:09:24 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 73402B81E03;
-        Wed,  5 Jan 2022 22:09:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08390C36AEB;
-        Wed,  5 Jan 2022 22:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641420562;
-        bh=S+XtvRE89tjU5l89WgMe94h1a9C/AdLNuAKpkHw23jk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a93lWP1be3Xk6AQlYnJLNR6YxCTouuSPyp2fRr8I0LnHejmReYKmDXcW2ZsPAEGbh
-         mUn5gfrIi0eLWj63nRzykBWw/2+IessCkznJzLWXJ+Keotm2w6SJQqxktfGNGVcDU2
-         BEsDRpg703DrY56pPIxVDvPujTI4cdW4xjzQRXERk7W+FIcOe0C2bPsXKEr7JQpxsR
-         E9ou6kTQamG7m/ktgvYRYC8lFPSatGodlOoDrsjxTx3Sv2xykoLDVkdvRL6ZuNfrBp
-         gBQBP2a+ZQj3VAEju00SqKu+b9i2fKHdvr0pzIZGxH72hmbXjcNQRY1mYQH1WElUTY
-         BKsk0J3Dn1HkA==
-Date:   Wed, 5 Jan 2022 14:09:20 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH v7] lib/crypto: blake2s: include as built-in
-Message-ID: <YdYXEBhc7vuY+GQW@gmail.com>
-References: <CAHmME9oPcEjRnqDesPNKJNOsT+i9vmWRxy9c62t+Xu9Nohsi2A@mail.gmail.com>
- <20220103123152.1043972-1-Jason@zx2c4.com>
- <YdOhMPwL9sXllm8X@gondor.apana.org.au>
- <CAMj1kXFhygHnB12g9MD0wMo_deZ6xd7FMEzbrvEvKVtqYdskAQ@mail.gmail.com>
- <YdYTUCR2GM/6CXmF@gmail.com>
- <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXHS8Gr9wbbbzvX+7u7qk0bAhgTpQw-bEB5Y_gmrcJ8iGw@mail.gmail.com>
+        Wed, 5 Jan 2022 22:21:27 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607F4C061245
+        for <linux-kbuild@vger.kernel.org>; Wed,  5 Jan 2022 19:21:27 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id d10-20020a17090a498a00b001b33bc40d01so593332pjh.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 05 Jan 2022 19:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L1kt8i+PKHaNiwL3dKZWcYg8PXU//JPnPYFIcwDdGfc=;
+        b=2R0Da2tFc7++Xc3yybYIx+8Lh8wqtM9Mjox4PAZuIEDFcqITJek0A59lpXRvWUlXk0
+         uF53KE3M8oeji64aGEwHFwT3WuJpkD+dBsw7/yt4ubkkB8RynEGp3sfCH/ChZNHdRwKV
+         wABF92HSTztHwKgLaHghfMnbWBLGRE5sSZVgf1vJ2XOGqIkPIbjgSN5Ko5Ug0MmuwO6n
+         5PoPoJpw9tpp4ir0O4bJ8UNC9v4JELpYzA2L/Db9H3U+iYpeHBAOM8ZbeHareODlS+Zv
+         AfkBEf8hxLpqlT3pBLEj4e2rA0NByIlRmkZFefYd6/xhOPOueMj/79HVhTXkMXJ1XGqO
+         qvFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=L1kt8i+PKHaNiwL3dKZWcYg8PXU//JPnPYFIcwDdGfc=;
+        b=v2cF/dY+ISx5fPyCGN78Oe0EgTh4Uw80/AOOeIuH9zdSN5XuRSrvUWDv+WSXvktQUh
+         nvht0szkBposcSYKjrXJH8Ye5BXTtMe9rACyNS/5PGQCgui95YdyHDdS2ShkATy3sZi9
+         f9+NgRmZIbbAUo3JyYjoPbabDVQpavYXYboTuktu6yLFJDXChnjWITeLIux2UdrkYeMz
+         GvqDE/1NvuoQOBUq0oOHKbggNnh8XichSBkoZVgfizz9uZE6RxupdJCjDQeAHUKnzLwY
+         w2Z19mmLRtzKoW2z30XMln496AV247o1Af7BsJXLGsiUgpXCC1Yje5T+siLm/ROhFdb+
+         yAIg==
+X-Gm-Message-State: AOAM530WXTFUlgBg8wwuxFnYS+fkg1MMTQmBfiLUYYzz8nIsv06nCW/1
+        ab/+uojH44AN+yJEeUK229pVbQhrO6BM/g==
+X-Google-Smtp-Source: ABdhPJx+qsaW9e3nS8xYE3uGzJD868WVU1ZiRYqaH/dQax0aODKoR/36iJxLlMJS1PRFkPjsegb6YA==
+X-Received: by 2002:a17:903:1cf:b0:149:b6f:4e98 with SMTP id e15-20020a17090301cf00b001490b6f4e98mr56918701plh.118.1641439286739;
+        Wed, 05 Jan 2022 19:21:26 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id q21sm467662pfu.176.2022.01.05.19.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 19:21:26 -0800 (PST)
+Date:   Wed, 05 Jan 2022 19:21:26 -0800 (PST)
+X-Google-Original-Date: Wed, 05 Jan 2022 19:20:58 PST (-0800)
+Subject:     Re: [PATCH 09/12] riscv: extable: add `type` and `data` fields
+In-Reply-To: <20211118152155.GB9977@lakrids.cambridge.arm.com>
+CC:     jszhang3@mail.ustc.edu.cn, tglx@linutronix.de,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, bjorn@kernel.org, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, john.fastabend@gmail.com,
+        kpsingh@kernel.org, masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, wangkefeng.wang@huawei.com,
+        tongtiangen@huawei.com, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kbuild@vger.kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     mark.rutland@arm.com
+Message-ID: <mhng-84ef2902-21c8-4cde-9d02-aa89f913a981@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 05, 2022 at 11:01:04PM +0100, Ard Biesheuvel wrote:
-> On Wed, 5 Jan 2022 at 22:53, Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > On Tue, Jan 04, 2022 at 06:02:52PM +0100, Ard Biesheuvel wrote:
-> > > The only downside here is that the ARM/x86 accelerated shashes and the
-> > > generic shash now use the same core transform, right?
-> >
-> > I don't see how this is the case, given that crypto/blake2s_generic.c still uses
-> > blake2s_compress_generic(), not blake2s_compress().
-> >
-> 
-> Ah ok, I stand corrected then.
-> 
-> So what are your thoughts on this? Should we keep the shashes while
-> they have no users?
+On Thu, 18 Nov 2021 07:21:55 PST (-0800), mark.rutland@arm.com wrote:
+> On Thu, Nov 18, 2021 at 07:42:49PM +0800, Jisheng Zhang wrote:
+>> On Thu, 18 Nov 2021 19:26:05 +0800 Jisheng Zhang wrote:
+>>
+>> > From: Jisheng Zhang <jszhang@kernel.org>
+>> >
+>> > This is a riscv port of commit d6e2cc564775("arm64: extable: add `type`
+>> > and `data` fields").
+>> >
+>> > We will add specialized handlers for fixups, the `type` field is for
+>> > fixup handler type, the `data` field is used to pass specific data to
+>> > each handler, for example register numbers.
+>> >
+>> > Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+>
+>> > diff --git a/scripts/sorttable.c b/scripts/sorttable.c
+>> > index 0c031e47a419..5b5472b543f5 100644
+>> > --- a/scripts/sorttable.c
+>> > +++ b/scripts/sorttable.c
+>> > @@ -376,9 +376,11 @@ static int do_file(char const *const fname, void *addr)
+>> >  	case EM_PARISC:
+>> >  	case EM_PPC:
+>> >  	case EM_PPC64:
+>> > -	case EM_RISCV:
+>> >  		custom_sort = sort_relative_table;
+>> >  		break;
+>> > +	case EM_RISCV:
+>> > +		custom_sort = arm64_sort_relative_table;
+>>
+>> Hi Mark, Thomas,
+>>
+>> x86 and arm64 version of sort_relative_table routine are the same, I want to
+>> unify them, and then use the common function for riscv, but I'm not sure
+>> which name is better. Could you please suggest?
+>
+> I sent a patch last week which unifies them as
+> sort_relative_table_with_data():
+>
+>   https://lore.kernel.org/linux-arm-kernel/20211108114220.32796-1-mark.rutland@arm.com/
+>
+> Thomas, are you happy with that patch?
+>
+> With your ack it could go via the riscv tree for v5.17 as a preparatory
+> cleanup in this series.
+>
+> Maybe we could get it in as a cleanup for v5.16-rc{2,3} ?
 
-I don't know.  Removing unused stuff is good per se, but I wouldn't have
-expected this to be something that is being considered here.  It's not like this
-is a "controversial" algorithm, blake2b is already supported, and there could be
-users of it already (dm-integrity, dm-verity, AF_ALG, etc.).  If this is going
-to happen, then the acceptance criteria for new algorithms need to get *much*
-stricter, so that algorithms aren't constantly being added and removed.
+I don't see anything on that thread, and looks like last time I had to 
+touch sorttable I just took it via the RISC-V tree.  I went ahead and 
+put Mark's patch, along with this patch set, on my for-next.  I had to 
+fix up a few minor issues, so LMK if anything went off the rails.
 
-- Eric
+Thanks!
