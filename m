@@ -2,75 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0668D488E17
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jan 2022 02:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F38CF48977C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jan 2022 12:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237776AbiAJBez (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 9 Jan 2022 20:34:55 -0500
-Received: from server.dyf.wja.mybluehostin.me ([162.214.55.177]:59270 "EHLO
-        server.dyf.wja.mybluehostin.me" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237767AbiAJBez (ORCPT
+        id S244760AbiAJLcP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Jan 2022 06:32:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244737AbiAJLbv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 9 Jan 2022 20:34:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=doublejackmediaworks.com; s=default; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=BgnyLwSYyPmBsHH5Ialx/iqAjBMONIC4lZoM51/3Ayw=; b=JI8+RgV5amJMo2yXBW0vrhCFmm
-        6eDJ/Rm97lMBbPHz1H7qubgXppCZOI4bqQSF4Q5c3QCZ3ojWy2/6xQvEDBwZQ7RcrGSDFNx17d98m
-        dNR33P8/XgG9mQjdzCzU5I+bZoJJIPx9TCSsg5NHQ0b1s/RYUNYeNTjAP88BAS5KxuRSPfbwy/PYK
-        lG/k/etptndmr8NmnXgnflIQypplSBxGpZRNObjD2rV/LYn/rGm+yC7ZBjRK5lBbi+lIuZLwEsTuv
-        Owq+gAOfGWkgER0IMP9aXIn5lCeZ5pTbVrQfDIH+NgGmHA32t5MuPMQ/BntDDKj9vfyrmhUFvuxZk
-        kOSfCYJQ==;
-Received: from [46.183.221.108] (port=54612 helo=siskiyouartists.org)
-        by server.dyf.wja.mybluehostin.me with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <smtpfox-pvnym@siskiyouartists.org>)
-        id 1n6jaI-0006RN-F9
-        for linux-kbuild@vger.kernel.org; Sun, 09 Jan 2022 18:34:54 -0700
-Reply-To: Mb.realabogados@outlook.com
-From:   MB & ASSOCIADOS ABG <smtpfox-pvnym@siskiyouartists.org>
-To:     linux-kbuild@vger.kernel.org
-Subject: COOPRATION/TRANSFER
-Date:   10 Jan 2022 03:34:53 +0200
-Message-ID: <20220110033452.85D8AC9273757177@siskiyouartists.org>
+        Mon, 10 Jan 2022 06:31:51 -0500
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3440DC06173F;
+        Mon, 10 Jan 2022 03:31:51 -0800 (PST)
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Mon, 10 Jan 2022 12:31:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1641814309; bh=+3+XudVZJVlSF4hofBLXncn1knHit7hhlLwg5tcx9vE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=E/k8e89+sCIX3aQ0iNCG3Pv2AvcHnHHe1kto/10wnFFkObLqwkmG5UqCMWq21o25Z
+         G/dJhs9B+2UaJMDL6RHQS9OoIAJIfm42P/ZBldUjsEqKing+VVnBFnEDch2uBPbYYJ
+         2T67DnuPXcNunSXonHWi41dvqQ0zjYBFsdjrrI5k=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+        by mail-auth.avm.de (Postfix) with ESMTPSA id 3962D80514;
+        Mon, 10 Jan 2022 12:31:49 +0100 (CET)
+Date:   Mon, 10 Jan 2022 12:31:48 +0100
+From:   Nicolas Schier <n.schier@avm.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH 1/5] sh: rename suffix-y to suffix_y
+Message-ID: <YdwZJO/ar+GHuBd1@buildd.core.avm.de>
+References: <20220109181529.351420-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server.dyf.wja.mybluehostin.me
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - siskiyouartists.org
-X-Get-Message-Sender-Via: server.dyf.wja.mybluehostin.me: authenticated_id: smtpfox-61wkh@doublejackmediaworks.com
-X-Authenticated-Sender: server.dyf.wja.mybluehostin.me: smtpfox-61wkh@doublejackmediaworks.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220109181529.351420-1-masahiroy@kernel.org>
+X-purgate-ID: 149429::1641814309-0000056E-303CD523/0/0
+X-purgate-type: clean
+X-purgate-size: 3575
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello, Peace be unto you!
+On Mon, Jan 10, 2022 at 03:15:25AM +0900, Masahiro Yamada wrote:
+> 'export suffix-y' does not work reliably because hyphens are disallowed
+> in shell variables.
+> 
+> A similar issue was fixed by commit 2bfbe7881ee0 ("kbuild: Do not use
+> hyphen in exported variable name").
+> 
+> If I do similar in dash, ARCH=sh fails to build.
+> 
+>   $ mv linux linux~
+>   $ cd linux~
+>   $ dash
+>   $ make O=foo/bar ARCH=sh CROSS_COMPILE=sh4-linux-gnu- defconfig all
+>   make[1]: Entering directory '/home/masahiro/linux~/foo/bar'
+>     [ snip ]
+>   make[4]: *** No rule to make target 'arch/sh/boot/compressed/vmlinux.bin.', needed by 'arch/sh/boot/compressed/piggy.o'.  Stop.
+>   make[3]: *** [/home/masahiro/linux~/arch/sh/boot/Makefile:40: arch/sh/boot/compressed/vmlinux] Error 2
+>   make[2]: *** [/home/masahiro/linux~/arch/sh/Makefile:194: zImage] Error 2
+>   make[1]: *** [/home/masahiro/linux~/Makefile:350: __build_one_by_one] Error 2
+>   make[1]: Leaving directory '/home/masahiro/linux~/foo/bar'
+>   make: *** [Makefile:219: __sub-make] Error 2
+> 
+> The maintainer of GNU Make stated that there is no consistent way to
+> export variables that do not meet the shell's naming criteria.
+> (https://savannah.gnu.org/bugs/?55719)
+> 
+> Consequently, you cannot use hyphens in exported variables.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-I am pleased to introduce myself to you though it may surprise
-you receiving this letter from me since there has been no
-previous correspondence between us. Nevertheless, I am Barrister
-Martin Barreno. an attorney at law / solicitor with MB &
-Associates which is one of the reliable law firms here in Spain.
-A client of mine died and he left behind the sum of 8,500,000.00
-EURO, as the personal attorney to my late client, the bank has
-asked me to provide them my client's next of kin whom they will
-return the fund, I need your consent to present you to the bank
-and they will transfer the 8,500,000 Euro to you.
-Let me know if you are interested in my proposal for further
-explanation and details. Please contact me through my private
-Email: mb.realabogados@outlook.com
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-Thanks & Best regards,
-MARTIN BARENO ESQ.
-MB & ASSOCIADOS ABG
-Email: mb.realabogados@outlook.com
+> 
+>  arch/sh/boot/Makefile            | 16 ++++++++--------
+>  arch/sh/boot/compressed/Makefile |  2 +-
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/arch/sh/boot/Makefile b/arch/sh/boot/Makefile
+> index 5c123f5b2797..1f5d2df3c7e0 100644
+> --- a/arch/sh/boot/Makefile
+> +++ b/arch/sh/boot/Makefile
+> @@ -19,12 +19,12 @@ CONFIG_ZERO_PAGE_OFFSET	?= 0x00001000
+>  CONFIG_ENTRY_OFFSET	?= 0x00001000
+>  CONFIG_PHYSICAL_START	?= $(CONFIG_MEMORY_START)
+>  
+> -suffix-y := bin
+> -suffix-$(CONFIG_KERNEL_GZIP)	:= gz
+> -suffix-$(CONFIG_KERNEL_BZIP2)	:= bz2
+> -suffix-$(CONFIG_KERNEL_LZMA)	:= lzma
+> -suffix-$(CONFIG_KERNEL_XZ)	:= xz
+> -suffix-$(CONFIG_KERNEL_LZO)	:= lzo
+> +suffix_y := bin
+> +suffix_$(CONFIG_KERNEL_GZIP)	:= gz
+> +suffix_$(CONFIG_KERNEL_BZIP2)	:= bz2
+> +suffix_$(CONFIG_KERNEL_LZMA)	:= lzma
+> +suffix_$(CONFIG_KERNEL_XZ)	:= xz
+> +suffix_$(CONFIG_KERNEL_LZO)	:= lzo
+>  
+>  targets := zImage vmlinux.srec romImage uImage uImage.srec uImage.gz \
+>  	   uImage.bz2 uImage.lzma uImage.xz uImage.lzo uImage.bin \
+> @@ -106,10 +106,10 @@ OBJCOPYFLAGS_uImage.srec := -I binary -O srec
+>  $(obj)/uImage.srec: $(obj)/uImage FORCE
+>  	$(call if_changed,objcopy)
+>  
+> -$(obj)/uImage: $(obj)/uImage.$(suffix-y)
+> +$(obj)/uImage: $(obj)/uImage.$(suffix_y)
+>  	@ln -sf $(notdir $<) $@
+>  	@echo '  Image $@ is ready'
+>  
+>  export CONFIG_PAGE_OFFSET CONFIG_MEMORY_START CONFIG_BOOT_LINK_OFFSET \
+>         CONFIG_PHYSICAL_START CONFIG_ZERO_PAGE_OFFSET CONFIG_ENTRY_OFFSET \
+> -       KERNEL_MEMORY suffix-y
+> +       KERNEL_MEMORY suffix_y
+> diff --git a/arch/sh/boot/compressed/Makefile b/arch/sh/boot/compressed/Makefile
+> index cf3174df7859..c1eb9a62de55 100644
+> --- a/arch/sh/boot/compressed/Makefile
+> +++ b/arch/sh/boot/compressed/Makefile
+> @@ -64,5 +64,5 @@ OBJCOPYFLAGS += -R .empty_zero_page
+>  
+>  LDFLAGS_piggy.o := -r --format binary --oformat $(ld-bfd) -T
+>  
+> -$(obj)/piggy.o: $(obj)/vmlinux.scr $(obj)/vmlinux.bin.$(suffix-y) FORCE
+> +$(obj)/piggy.o: $(obj)/vmlinux.scr $(obj)/vmlinux.bin.$(suffix_y) FORCE
+>  	$(call if_changed,ld)
+> -- 
+> 2.32.0
+> 
