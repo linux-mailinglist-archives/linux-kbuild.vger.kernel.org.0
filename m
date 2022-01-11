@@ -2,82 +2,219 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5449F48B149
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jan 2022 16:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC22348B7F0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jan 2022 21:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343658AbiAKPuK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Jan 2022 10:50:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47098 "EHLO
+        id S240188AbiAKUO6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Jan 2022 15:14:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229868AbiAKPuK (ORCPT
+        with ESMTP id S238819AbiAKUO5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Jan 2022 10:50:10 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B7AC06173F;
-        Tue, 11 Jan 2022 07:50:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qOEManFFF/BXlKCeJbWOHviQUdQHvRMg2IeFAr2Wkyw=; b=r5HfzORtD1IRGl3YcIl/ZGdcYY
-        c6QpHh4pauZJ9VIeXnrZwrYa6E9N50fJKPU5jcr9ZHz+MuSJwi8sL7VlMH+/AXi8yRLuphf5eLSw0
-        MwaIovFKOC7ZdoEhXuq+M6VE/5X1rbx8jAqM42uV+bNlEgtrwkkt9r0aiv4M4Gj88EW2lqoCmanJr
-        uR82TvEMsu99PsQDrzTGF8Gai8gHGt0ku/cDjNqOrzjFiOj2Y2gyTXCVdhkCQ1xT0n2UYbQsaylNd
-        lzHIjXhAeX8d2WyGFROjMBeCsM/JswR28dBVXpikQqg65GsD6DarJjFot9pZeNgZGqNsAkF3eqqF8
-        xFPfsBng==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n7JPJ-00GnAY-Jk; Tue, 11 Jan 2022 15:49:57 +0000
-Date:   Tue, 11 Jan 2022 07:49:57 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Vimal Agrawal <avimalin@gmail.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Vimal Agrawal <vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        jeyu@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
- INSTALL_MOD_STRIP= "--strip-unneeded" is used
-Message-ID: <Yd2nJZRtc3OjPb0w@bombadil.infradead.org>
-References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org>
- <20211222132332.7817-1-vimal.agrawal@sophos.com>
- <YcRRQCMZFepB/hzX@infradead.org>
- <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
- <YcVtG26b/sO9k7ox@infradead.org>
- <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
+        Tue, 11 Jan 2022 15:14:57 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FCE9C061748
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jan 2022 12:14:57 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id b13so1084163edn.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jan 2022 12:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Yz1QeCMypWRNHsaswZGWwNkZnFrocm7g8332CrVVw7w=;
+        b=joYOFYv/akVdeZNliDu9ngr4oF8Str+p+zfuE2UHLGo6eotnFohRy8qOVkHRoFprJf
+         4Z08fya2igdFtlQ71lBPGvGcmW1J+pbzEjfUj8mRmVLajVqcCvgK1uB+y2ipPy+3t77N
+         ivpO9cGtSyB5q9W65j7gQTgIIX1hvi/S+tJBE5W9zJU0HlDm00x4n4VBs19xteo/+OW2
+         3bTpqg9eFKyOf8jodMkbNGBT9w+t4ejaR9Umj5JxAgp3IRzyF3ly+CA18YFBh41s4qHP
+         ZG4xiRC1tdNqP7OWw4X59m+A1/eLHBm2lDX00a9F93bWZEZWDC5z2SUDQWhWWBSU3bv3
+         +muw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Yz1QeCMypWRNHsaswZGWwNkZnFrocm7g8332CrVVw7w=;
+        b=rNNCzuh1TFfU2g53bupQNTF2gsa79hJrUw85Q/eaNV98ZGZ20+O0kNPS2RZMsOtdQx
+         HhD3Lo0DSmhc0Gw200watGn9sXbyEOm++PSIOzLhtqxICV9zAsOQOg6Dimhf2X5T/1Rn
+         jIY4211BYJyXCDMTQZdu93vYGPFuPsi/durmfE1F5rTf37fP4WFlyGVqFI4Ha4JsTu2z
+         NbdFUW6vGZdc7cbLmE0BJHLPdpLNFketrf9/9JGenl10YFibjDxkMFrzv2u9Il8EIOKX
+         f2pbKO3dJeg7siOqBT/hblRWfXsmigMVf4lCcULh780gVpVmOxhHqCnHN23AAXm14p5t
+         Qy1w==
+X-Gm-Message-State: AOAM530ugGJ3bGw+j9j/U4ppD9OoXl8JBMdAlIw4mPpQ3qKgmkvMWjJm
+        uV3upjG37CZfwa5U0Lfz45gOcv/zDS/CLpxnE7OrLA==
+X-Google-Smtp-Source: ABdhPJzjbWryRfVW6tYMprX3pcitcY3S0LHecAMbw6En56cZDxaeTrpfssB6hszQpxXVXdRFwzyblHSlRK9kOS065/E=
+X-Received: by 2002:a05:6402:5214:: with SMTP id s20mr6013113edd.13.1641932095386;
+ Tue, 11 Jan 2022 12:14:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+References: <20211215172349.388497-1-willmcvicker@google.com>
+ <CAK7LNAT=U9xE5QTPThRTf3V=WEh3WmUh6w-89mm+APjnYp701Q@mail.gmail.com> <CABYd82YUpf5OCuE6q87UZ5+LiRtxqd2yiM25s85KQnxTFcyRzQ@mail.gmail.com>
+In-Reply-To: <CABYd82YUpf5OCuE6q87UZ5+LiRtxqd2yiM25s85KQnxTFcyRzQ@mail.gmail.com>
+From:   Will McVicker <willmcvicker@google.com>
+Date:   Tue, 11 Jan 2022 12:14:39 -0800
+Message-ID: <CABYd82YK=QVQAuJUrqsNXx33SvcX=1J2xNfHt-rTzMBmUh=_iA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: install the modules.order for external modules
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Dec 25, 2021 at 06:38:02AM +0530, Vimal Agrawal wrote:
-> On Fri, Dec 24, 2021 at 12:17 PM Christoph Hellwig <hch@infradead.org> wrote:
+On Mon, Dec 20, 2021 at 10:13 AM Will McVicker <willmcvicker@google.com> wrote:
+>
+> On Fri, Dec 17, 2021 at 5:01 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > I don't think we can support passing arbitrary linker options and
-> > expects things to work.  If we want to support --strip-unneeded
-> > it needs a good rationale and be added as a direct config option.
-> INSTALL_MOD_STRIP was provided to give flexibility for providing
-> strippping options.
+> > (Cc: Lucas De Marchi)
+> >
+> > On Thu, Dec 16, 2021 at 2:23 AM Will McVicker <willmcvicker@google.com> wrote:
+> > >
+> > > Add support to install the modules.order file for external modules
+> > > during module_install in order to retain the Makefile ordering
+> > > of external modules. This helps reduce the extra steps necessary to
+> > > properly order loading of external modules when there are multiple
+> > > kernel modules compiled within a given KBUILD_EXTMOD directory.
+> > >
+> > > To handle compiling multiple external modules within the same
+> > > INSTALL_MOD_DIR, kbuild will append a suffix to the installed
+> > > modules.order file defined like so:
+> > >
+> > >   echo ${KBUILD_EXTMOD} | sed 's:[./_]:_:g'
+> > >
+> > > Ex:
+> > >   KBUILD_EXTMOD=/mnt/a.b/c-d/my_driver results in:
+> > >   modules.order._mnt_a_b_c_d_my_driver
+> > >
+> > > The installed module.order.$(extmod_suffix) files can then be cat'd
+> > > together to create a single modules.order file which would define the
+> > > order to load all of the modules during boot.
+> >
+> >
+> > So, the user must do this manually?
+> >
+> > cat extra/modules.order._mnt_a_b_c_d_my_driver  \
+> >    extra/modules.order._mnt_e_f_g_h_my_driver \
+> >    >> modules.order
+> >
+> > This is so ugly, and incomplete.
+> >
+> > I cc'ed the kmod maintainer, who may have
+> > comments or better approach.
+> >
+> >
+> >
+> >
+> >
+> >
+> > > Signed-off-by: Will McVicker <willmcvicker@google.com>
+> > > ---
+> > >  scripts/Makefile.modinst | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > >
+> > > diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> > > index ff9b09e4cfca..2e2e31696fd6 100644
+> > > --- a/scripts/Makefile.modinst
+> > > +++ b/scripts/Makefile.modinst
+> > > @@ -24,6 +24,10 @@ suffix-$(CONFIG_MODULE_COMPRESS_XZ)  := .xz
+> > >  suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)  := .zst
+> > >
+> > >  modules := $(patsubst $(extmod_prefix)%, $(dst)/%$(suffix-y), $(modules))
+> > > +ifneq ($(KBUILD_EXTMOD),)
+> > > +extmod_suffix := $(subst /,_,$(subst .,_,$(subst -,_,$(KBUILD_EXTMOD))))
+> > > +modules += $(dst)/modules.order.$(extmod_suffix)
+> > > +endif
+> > >
+> > >  __modinst: $(modules)
+> > >         @:
+> > > @@ -82,6 +86,12 @@ $(dst)/%.ko: $(extmod_prefix)%.ko FORCE
+> > >         $(call cmd,strip)
+> > >         $(call cmd,sign)
+> > >
+> > > +ifneq ($(KBUILD_EXTMOD),)
+> > > +$(dst)/modules.order.$(extmod_suffix): $(MODORDER) FORCE
+> > > +       $(call cmd,install)
+> > > +       @sed -i "s:^$(KBUILD_EXTMOD):$(INSTALL_MOD_DIR):g" $@
+> > > +endif
+> > > +
+> > >  else
+> > >
+> > >  $(dst)/%.ko: FORCE
+> > > --
+> > > 2.34.1.173.g76aa8bc2d0-goog
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
+> >
+> > --
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+> >
+>
+> Hi Masahiro,
+>
+> Thanks for your response! I agree with you that this is ugly and would
+> love feedback on the direction to take this. With regards to
+> incompleteness, the existing kbuild implementation for external
+> modules is already incomplete in the sense that it doesn't even
+> attempt to install the already generated modules.order files to
+> INSTALL_MOD_DIR. I believe this patch gets us a little closer to
+> closing the gap, but agree it's nowhere complete. I would be happy to
+> fully close the gap if I knew that it would be accepted or welcomed.
+> Let me give you some insight on how we currently do this on Android
+> and how this patch changes that.
+>
+> Currently, the Android build.sh script (which is used to compile the
+> Android Common Kernel) supports the build variable EXT_MODULES which
+> is a list of paths to external modules to be compiled. The build
+> script loops through this list and calls "make modules" and "make
+> modules_install" to compile and install the external modules. Then,
+> the build script creates the modules.order file like this:
+>
+> cd ${MODLIB}
+> find extra -type f -name "*.ko" | sort >> modules.order
+>
+> Sorting is used so that the modules.order file is deterministic. This
+> proposed patch allows us to use the Makefile defined ordering instead
+> of this sorted ordering. In Android the paths to external modules must
+> be relative to the kernel repository. For example, the kernel and all
+> external modules are all cloned within a root directory and the paths
+> in EXT_MODULES are all relative to the root directory. So our build.sh
+> script can use the relative path from the root directory as part of
+> INSTALL_MOD_DIR to get rid of the suffix ugliness. For example, we can
+> do this:
+>
+> for EXT_MOD in ${EXT_MODULES}; do
+>   # make modules
+>   make -C ${EXT_MOD} ...
+>   # make modules_install
+>   make -C ${EXT_MOD} ...  INSTALL_MOD_DIR="extra/${EXT_MOD}" modules_install
+> done
+>
+> for EXT_MOD in ${EXT_MODULES}; do
+>   modules_order_file=$(ls ${MODLIB}/extra/${EXT_MOD}/modules.order.*)
+>   cat ${modules_order_file} >> ${MODLIB}/modules.order
+> done
+>
+> Since kbuild doesn't know about how many external modules there are
+> nor does it retain any information about each individual call to "make
+> modules" or "make modules_install", we can't do the concatenation
+> within the Makefile.modinst script. To close the gap, we could add an
+> additional make target that one could call after all of the external
+> modules have been installed to do this concatenation, but I wasn't
+> sure how open everyone would be to accepting this. Let me know your
+> thoughts on that.
+>
+> Thanks,
+> Will
 
-Yes but the point here is the heuristic you are adding for
-when "--strip-unneeded" is used is now *always* being used and
-we have no way of knowing this. So I'd agree with Christoph that
-if we want to support this it might make sense to make a kconfig
-option for enabling "--strip-unneeded" and then another for this
-heuristic.
+Friendly reminder on this patch now that most are back from the holiday break.
 
-You may want to work on top of Aaron's patches as that would make
-adding new kconfig entries for modules much cleaner:
+Lucas, could you comment please?
 
-https://lkml.kernel.org/r/20220106234319.2067842-1-atomlin@redhat.com
-
-I hope to review those this week, so I might have a tree you can
-work off on by the end of this or next week.
-
-  Luis
+Thanks,
+Will
