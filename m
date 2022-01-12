@@ -2,94 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C771448C00F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jan 2022 09:37:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEC4148C5C4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jan 2022 15:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351686AbiALIhC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jan 2022 03:37:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351683AbiALIhA (ORCPT
+        id S1354069AbiALOPL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Jan 2022 09:15:11 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:48160 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1354039AbiALOPB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jan 2022 03:37:00 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89DCC06173F;
-        Wed, 12 Jan 2022 00:36:59 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id b1-20020a17090a990100b001b14bd47532so3452100pjp.0;
-        Wed, 12 Jan 2022 00:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u/AGUJXTV3RJzKFVC/1AlVAFi3VGx3YRi9Fz4vF86OE=;
-        b=kJGQzSA8wm9GUywxJv6Dh1yCd9QwyuFQT0nGHSeRYtlOqVIlQpuPc9idMLJlz7sh0/
-         ppNlymZ/FjJyB3b6/axRb7LvLMnczhAj81o74/BBXKTiAVOS2Xs8qWpDCGV/fDm6soQw
-         f+rUm6KPHKLk68YY7YWfEXVilHv20yioAA+j5Zkwqbbl7Ohqdfdz4hDrG8Je2rNiWcK3
-         lZLwS/fubbsCfhsITXmClXayLn59+4YDXEAskzLZT6R5Tl1rdyPnEbkbPkjFy76/U8lj
-         d+sq8ktyyLD9JuaQvrv0MA3oijLSiCZk0C3KQcQEaK1gj2E3rPcWW724ftDA/48E+O3T
-         WASA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u/AGUJXTV3RJzKFVC/1AlVAFi3VGx3YRi9Fz4vF86OE=;
-        b=rzUWoQIrGXuXJ7i93mMaop6nwkiNHxj5snwfeZtGvfqu/qNeJe6jLsWYzf+PqusOQR
-         b7no0dHudoQislN8I5Z3SGf4ulu6JSCYZlUUizJpphtLYnQ51idnZVqtu+o9GeW7Ztfp
-         PujZ4bTQSJiWGuuDLPmNuIyURH9nYTBQ0+Szqexe5dRgja1UUlUhm3MoUeXS/5rsneeA
-         qzzBrG8Jl/K8SXWAXgA7y/kBO2hgIWW+6e+UwJXdCEyj5f9+Bi3wYxF/0UjeytGhXr3v
-         ueZ+Y7dUUaDYEAnNgP5WtNA1z0kp5npKbixw0Zby9SQLw5+yovTIbXdxemgdY4WpM6ak
-         lobg==
-X-Gm-Message-State: AOAM5302QlDA3iB1qTgjwsUC5jnuxzwraIIyxCDhNNNSDJNgBZG47cGF
-        OtF7wt05CFU1jz21pkQAWdbE3BLCcqSdILA8kBo=
-X-Google-Smtp-Source: ABdhPJyNX2nArwYqWEzFXAMJOv5WPVJgHTKefluCjgIIR4PTGos3vmJacXniZc35MPudbVTB1ouwrVEs6/fg6ZdJqzQ=
-X-Received: by 2002:a17:902:bcc1:b0:149:a13f:af62 with SMTP id
- o1-20020a170902bcc100b00149a13faf62mr8163903pls.147.1641976619148; Wed, 12
- Jan 2022 00:36:59 -0800 (PST)
+        Wed, 12 Jan 2022 09:15:01 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 744B4615A3;
+        Wed, 12 Jan 2022 14:15:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E64C36B01;
+        Wed, 12 Jan 2022 14:15:00 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="k/fuybhK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1641996897;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=q0bG03tyBiW+TFtys/zYaZD8KtKEQEo+RRgWwpyCios=;
+        b=k/fuybhK99zjwRcCn6Jq1ZGyKdmRD9QiyrcE4qDzQbSx1K2//VT4GsAz/lFF57ubfryesb
+        s3zFQCTbxxNEVrhtiFjiQWv+hlXuJxwRlyHTJUSvjOMxw+rUizRCBHBb/+CCu6/s3j+B1N
+        l8PDjDkOITbYvvP0W2XHGWa/MbP2LNo=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f36a452d (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Wed, 12 Jan 2022 14:14:57 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id d7so6747496ybo.5;
+        Wed, 12 Jan 2022 06:14:57 -0800 (PST)
+X-Gm-Message-State: AOAM531WFOULZKue4ZV61OCYWgoGLeVouJmWPmbx1oNdoYr6Z/8j5/VN
+        KfFw8e1bjr20XWDHgdV3soKovUfh64CE7KX1I7M=
+X-Google-Smtp-Source: ABdhPJxWEk/fjWwRjUrzUZ/0PUBN7H4kioCkdryNaHm58QCv9stZMl0MeZMtfhzENU/cQxohaQZyBINgvceqWHuYB0w=
+X-Received: by 2002:a25:a0c4:: with SMTP id i4mr13145078ybm.457.1641996896142;
+ Wed, 12 Jan 2022 06:14:56 -0800 (PST)
 MIME-Version: 1.0
-References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org> <20211222132332.7817-1-vimal.agrawal@sophos.com>
- <YcRRQCMZFepB/hzX@infradead.org> <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
- <YcVtG26b/sO9k7ox@infradead.org> <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
- <Yd2nJZRtc3OjPb0w@bombadil.infradead.org>
-In-Reply-To: <Yd2nJZRtc3OjPb0w@bombadil.infradead.org>
-From:   Vimal Agrawal <avimalin@gmail.com>
-Date:   Wed, 12 Jan 2022 14:06:48 +0530
-Message-ID: <CALkUMdSc8eNbqptTihwzqhpL9qhGS0xUFr=AFXs3COvpyBoQiw@mail.gmail.com>
-Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
- INSTALL_MOD_STRIP= "--strip-unneeded" is used
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Vimal Agrawal <vimal.Agrawal@sophos.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        jeyu@kernel.org, linux-kernel@vger.kernel.org
+References: <20220112140137.728162-1-jforbes@fedoraproject.org>
+ <CAHmME9rJFVeWL=SFTkM8=+2te_GnH4n-THH+F3p5mnHfCkhZ4w@mail.gmail.com>
+ <CAMj1kXHubNk3gRTOmD1rOCifCUE4O6=TvNr_XhP1tNcCBuzfBQ@mail.gmail.com>
+ <CAHmME9oKEawBAGSN_tdpBDe2_vRUE8Gh+GMXn+d94A6te4FJPQ@mail.gmail.com>
+ <CAMj1kXGzzHefRu1wcgDsYpybSDrUK__FXE-Mjm2r1fg2xiz6Jg@mail.gmail.com>
+ <CAHmME9p25W3Pg4T4Pers+hxryhAcQZEZMx5uueF3a-oCr7ABuA@mail.gmail.com> <CAMj1kXEgE-3Pnnak-RZAPch=ma399Ki4jrMb8j32x2AFyZZALA@mail.gmail.com>
+In-Reply-To: <CAMj1kXEgE-3Pnnak-RZAPch=ma399Ki4jrMb8j32x2AFyZZALA@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Wed, 12 Jan 2022 15:14:45 +0100
+X-Gmail-Original-Message-ID: <CAHmME9oTsOZCJoPUT=LwUuwWHbAa_N1MRoGjTYY5Poj4tr0+Zg@mail.gmail.com>
+Message-ID: <CAHmME9oTsOZCJoPUT=LwUuwWHbAa_N1MRoGjTYY5Poj4tr0+Zg@mail.gmail.com>
+Subject: Re: [PATCH v2] lib/crypto: add prompts back to crypto libraries
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     "Justin M. Forbes" <jforbes@fedoraproject.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Justin Forbes <jmforbes@linuxtx.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 9:19 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> Yes but the point here is the heuristic you are adding for
-> when "--strip-unneeded" is used is now *always* being used and
-> we have no way of knowing this. So I'd agree with Christoph that
-> if we want to support this it might make sense to make a kconfig
-> option for enabling "--strip-unneeded" and then another for this
-> heuristic.
+On Wed, Jan 12, 2022 at 3:13 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Wed, 12 Jan 2022 at 15:12, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > On Wed, Jan 12, 2022 at 3:08 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > >
+> > > On Wed, 12 Jan 2022 at 15:08, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > > >
+> > > > On Wed, Jan 12, 2022 at 3:06 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > > >
+> > > > > On Wed, 12 Jan 2022 at 15:05, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > > > > >
+> > > > > > This commit also needs this snippet:
+> > > > > >
+> > > > >
+> > > > > Why?
+> > > >
+> > > > So that the menu of crypto library options is inside of the library
+> > > > menu. Otherwise this will appear inside of the _root_ menu, which
+> > > > isn't what we want.
+> > >
+> > > Why not? I think that's fine.
+> >
+> > It's really not appropriate there. Look:
+> >
+> > - Justin vanilla: https://i.imgur.com/14UBpML.png
+> > - Justin + Jason: https://i.imgur.com/lDfZnma.png
+> >
+> > We really don't want another top level menu. We're not that important.
+> > Rather, crypto libraries are but one ordinary subset of ordinary
+> > libraries, just like how the build system does it too.
+>
+> I disagree. The root menu is a jumble of things already, and having
+> this one at the root is really not a problem.
 
-This heuristic is applicable to any case when an address inside a
-module can not be decoded to any known symbol. e.g. anyone can still
-build with ----strip-all though module load fails with this option.
-but one can add or remove symbols manually or use objcopy or some
-other utility to play with symbols. It does not matter for
-functionality much if symbols are available or not and it is just that
-symbol decodes in traces are not providing help as it displays
-absolute address in such cases.
-
-There are several options in strip command and we can't have kconfig
-for each such option. All options are supported currently unless the
-module is so broken that it can even be loaded ( e.g. --strip-all
-option).
-
-Vimal
+Should CRC routines also go into a submenu and be put at the root?
+What about other library functions? Library functions belong in the
+library submenu. We don't need our own top level submenu for this. The
+whole point of lib/crypto/ is that they're just boring library
+functions. Libraries! So, part of the libraries menu.
