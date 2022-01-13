@@ -2,168 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DF148CE7C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jan 2022 23:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E6A948DAA7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jan 2022 16:23:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234523AbiALWoP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Jan 2022 17:44:15 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:20917 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234388AbiALWoO (ORCPT
+        id S236098AbiAMPX7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Jan 2022 10:23:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48562 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234077AbiAMPX5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Jan 2022 17:44:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1642027454; x=1673563454;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aSnUNzNu4fdkDZoWyNMpTbF8e00/yoe3/zXs+MhUfC0=;
-  b=c+yHlULksF3QnAG2yI3IsJIRPpIDqX4hSZxXu7aNffOyKTE4yyXj9f4Q
-   woPZL20BLjjRRczgN+m+/cTX/E3e3S78AbGL46I0iyHLQRFYr06wdlkFp
-   M7zakmB6bJqPwpdV0yf0Beev86VpwVXeDLSgqgFq9Ad4R95VJ+CCsJfIe
-   0=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Jan 2022 14:44:14 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 14:44:14 -0800
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 12 Jan 2022 14:44:13 -0800
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Thu, 13 Jan 2022 10:23:57 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDC0C06161C;
+        Thu, 13 Jan 2022 07:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IroWz2/lM7Wq0zfZupLorZG/7/LWfldXQbXxbQlA8Zo=; b=zSJUQV9UpMMjJNxsSi4fjJ59PG
+        qGNTgLClbYM1tS87UTuQnTvrDdyx/zSJzyMEgLPVIIYA0GUibORV3EDbV5W8vHEPiiq5ZFuyftRck
+        0Mm94CgabVsErdZzpLwnM4Fad+C22x4DNDjSZVpSM8GKPCiQMAKOk7RhkpuYLW4Dw+nAPClWkF2GH
+        vFRLDlwXW2d+wTk1SuiYjpaBd8+L6+oHLvk86tGBLDuv77YSQ8axhMySRb64DrqUgVkthyxta+jec
+        I+qli+DtARmzxaRSUoWAaETLFFov2p3nQtu2H2dwiQ+iKaCY9u3/3xD93d3S5TyOyXd7aJ+CiBGin
+        C0QMRylA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n81x3-006NZ6-7T; Thu, 13 Jan 2022 15:23:45 +0000
+Date:   Thu, 13 Jan 2022 07:23:45 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Vimal Agrawal <avimalin@gmail.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Vimal Agrawal <vimal.Agrawal@sophos.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-CC:     Elliot Berman <quic_eberman@quicinc.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: [PATCH] kbuild: Add environment variables for userprogs flags
-Date:   Wed, 12 Jan 2022 14:43:42 -0800
-Message-ID: <20220112224342.958358-1-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
+        jeyu@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kernel/module.c: heuristic enhancement when
+ INSTALL_MOD_STRIP= "--strip-unneeded" is used
+Message-ID: <YeBEAavbBh/MnbEF@bombadil.infradead.org>
+References: <YcJZWiQ407ZxMM+y@bombadil.infradead.org>
+ <20211222132332.7817-1-vimal.agrawal@sophos.com>
+ <YcRRQCMZFepB/hzX@infradead.org>
+ <CALkUMdRxTm6STT4CncTuvQ9hM_bez+B91TsuenEj71KPxFgMsg@mail.gmail.com>
+ <YcVtG26b/sO9k7ox@infradead.org>
+ <CALkUMdSY3XCHqhH9dDQ+0VHykv9AiBiqLgoC+cj5P=9Q1jdXrg@mail.gmail.com>
+ <Yd2nJZRtc3OjPb0w@bombadil.infradead.org>
+ <CALkUMdSc8eNbqptTihwzqhpL9qhGS0xUFr=AFXs3COvpyBoQiw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALkUMdSc8eNbqptTihwzqhpL9qhGS0xUFr=AFXs3COvpyBoQiw@mail.gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Allow additional arguments be passed to userprogs compilation.
-Reproducible clang builds need to provide a sysroot and gcc path to
-ensure same toolchain is used across hosts. KCFLAGS is not currently
-used for any user programs compilation, so add new USERCFLAGS and
-USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+On Wed, Jan 12, 2022 at 02:06:48PM +0530, Vimal Agrawal wrote:
+> On Tue, Jan 11, 2022 at 9:19 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> > Yes but the point here is the heuristic you are adding for
+> > when "--strip-unneeded" is used is now *always* being used and
+> > we have no way of knowing this. So I'd agree with Christoph that
+> > if we want to support this it might make sense to make a kconfig
+> > option for enabling "--strip-unneeded" and then another for this
+> > heuristic.
+> 
+> This heuristic is applicable to any case when an address inside a
+> module can not be decoded to any known symbol. e.g. 
 
-Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
-an environment where a user sysroot is not specifically available.
-Currently, Clang might automatically detect GCC installation on hosts
-which have it installed to a default location in /. With addition of
-these environment variables, our build environment can do like
-"--sysroot=/dev/null" to force sysroot detection to fail.
+You mean it is safe for that case too? If so can you add this to the
+commit log as well?
 
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
----
- Documentation/kbuild/kbuild.rst | 8 ++++++++
- Makefile                        | 9 ++++++---
- init/Kconfig                    | 8 ++++----
- usr/include/Makefile            | 3 +++
- 4 files changed, 21 insertions(+), 7 deletions(-)
+> anyone can still
+> build with ----strip-all though module load fails with this option.
+> but one can add or remove symbols manually or use objcopy or some
+> other utility to play with symbols. It does not matter for
+> functionality much if symbols are available or not and it is just that
+> symbol decodes in traces are not providing help as it displays
+> absolute address in such cases.
+> 
+> There are several options in strip command and we can't have kconfig
+> for each such option. 
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 2d1fc03d346e..16e90a3ae01b 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -77,6 +77,14 @@ HOSTLDLIBS
- ----------
- Additional libraries to link against when building host programs.
- 
-+USERCFLAGS
-+----------
-+Additional options used for $(CC) when compiling userprogs.
-+
-+USERLDFLAGS
-+----------
-+Additional options used for $(LD) when linking userprogs.
-+
- KBUILD_KCONFIG
- --------------
- Set the top-level Kconfig file to the value of this environment
-diff --git a/Makefile b/Makefile
-index 45278d508d81..4a55537c8ca0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -431,15 +431,17 @@ HOSTCC	= gcc
- HOSTCXX	= g++
- endif
- 
--export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
--			      -O2 -fomit-frame-pointer -std=gnu89
--export KBUILD_USERLDFLAGS :=
-+KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-+		     -O2 -fomit-frame-pointer -std=gnu89
-+KBUILD_USERLDFLAGS := $(USERLDFLAGGS)
- 
- KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
- KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
- KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
- KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
- 
-+KBUILD_USERCFLAGS   += $(USERCFLAGS)
-+
- # Make variables (CC, etc...)
- CPP		= $(CC) -E
- ifneq ($(LLVM),)
-@@ -530,6 +532,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
- export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
- export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
-+export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
- 
- export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
- export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-diff --git a/init/Kconfig b/init/Kconfig
-index f2ae41e6717f..164706c38e8b 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -62,13 +62,13 @@ config LLD_VERSION
- 
- config CC_CAN_LINK
- 	bool
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
- 
- config CC_CAN_LINK_STATIC
- 	bool
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
--	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
- 
- config CC_HAS_ASM_GOTO
- 	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 1c2ae1368079..6a8c7dd9ccaf 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
- # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
- UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
- 
-+# USERCFLAGS might contain sysroot location for CC
-+UAPI_CFLAGS += $(USERCFLAGS)
-+
- override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
- 
- # The following are excluded for now because they fail to build.
--- 
-2.25.1
+This is a good point. Pointing out it is safe regardless of the
+situation in the commit log I think does this heuristic more justice.
 
+Can you resend with that being clarified? I'll still have to test this.
+Can you also use the modules-next tree? I'll still have to test this.
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/ branch modules-next
+
+  Luis
+
+> All options are supported currently unless the
+> module is so broken that it can even be loaded ( e.g. --strip-all
+> option).
+> 
+> Vimal
