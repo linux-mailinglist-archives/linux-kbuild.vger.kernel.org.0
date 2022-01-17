@@ -2,472 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BA649018E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jan 2022 06:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0281A49022D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jan 2022 07:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234400AbiAQFhG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Jan 2022 00:37:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56838 "EHLO
+        id S231905AbiAQGzv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Jan 2022 01:55:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234271AbiAQFfm (ORCPT
+        with ESMTP id S229610AbiAQGzv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Jan 2022 00:35:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A061C061401;
-        Sun, 16 Jan 2022 21:35:05 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2017AB80DD4;
-        Mon, 17 Jan 2022 05:35:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410A3C36AEF;
-        Mon, 17 Jan 2022 05:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642397704;
-        bh=YfaDv06BXB2vhOi7t8OnatRddAO5fe8xwS7BiXE+lsM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W2A45r6dHb+GkW0RJuEv+ZInuVwFbYacGvu4C81M28A62GKwzn1FUA6+9s1vJchP7
-         VogH6ozwpWrKWnu2EVX4+xZG/lgrv2+7oc+VpPQerexv+E3ug9827rEF4JN4rGT8fq
-         gGE+6FX4AMs33X2l3QFDzesJ9XMbeKXDI6GOV7Dx/wMCpZq0BOe/Q150e4ep0nWcbM
-         Ef8Pve24NV/W3e/u5LfOwDuQVY6Qu1h685NQ2P5u+8YyxBO5Jlh+D1wZ+6AM6y/aYK
-         MT51erNT8JCQhOhIx4Q0MOCxSQLKebmzApQ1pJROgJDBcR0bDlk7NFq4UXPEUZdyue
-         n10CID1ZHQYiA==
-From:   Miguel Ojeda <ojeda@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: [RFC PATCH v3 18/19] drivers: gpio: PrimeCell PL061 in Rust
-Date:   Mon, 17 Jan 2022 06:33:48 +0100
-Message-Id: <20220117053349.6804-19-ojeda@kernel.org>
-In-Reply-To: <20220117053349.6804-1-ojeda@kernel.org>
-References: <20220117053349.6804-1-ojeda@kernel.org>
+        Mon, 17 Jan 2022 01:55:51 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD8DFC061574;
+        Sun, 16 Jan 2022 22:55:50 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id q75so2318081pgq.5;
+        Sun, 16 Jan 2022 22:55:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PfQMAq/Apehq7M5Ow53bRLVJzOggGb2+TxDkeBg8WQY=;
+        b=g9FexeYLN6Foe1JOmn8J/R40DoW7gzPiOgFjOGDBHWvZNXFmQXILDJWlwDmhWujVKL
+         QkcgEFaeE0w2ojy/mTfdKtiHyDTrQhxnONS0UVyfd5wW031p0oc+OQBMret+HfQLuKa6
+         Mr/jDsWuEoP4P4V4WTLJIhjkxE8IS/szltd2qwEXEVvF4hcEY9p/tdrX9XAatiCyDfoI
+         gU0EVrSKIJ1xxqjEhfGbcOk1j0m/BkPBKPhQSRZWSkxOP+V/o649Wz+R/QsFh1sxGZN0
+         C+muS/UvSDCXb/TxP3NeSjBCFggnpGEm1zVWAAIkiUDMEqNIDhEIPCjqsnpDA3Wb0R0L
+         eQMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PfQMAq/Apehq7M5Ow53bRLVJzOggGb2+TxDkeBg8WQY=;
+        b=2Dyvvt7rV3fspI5BF4CvuuJYGzb2mhPtZi6mDeCcKAYXLfWyQxdA/+9lTiGxynG8YU
+         qff8amCaQ0uI68aEiuDJXa5kRgWcZmhy7axA8V8YhCdr6DNnfOi3DNp4uEqHyUNAgz+5
+         pQWAKJ/Zm/4VlXisTdMrdP2JoYx05nc7Yk+1E4NTg1dfeYBmgmlrtXfVRnOtHZF6kOid
+         YxyjYjvZQ8RM9Z5oAE/p/DTJSyHHvUhFXQn74nGr0W2VvqffxP6lnqCnRCiK9S0nxx24
+         ydBDkH518xuOMIrJ7lAZwMY9a71kOwf7SHPwZKxObkwTYbiImueVuyl4irqxOZUTOthn
+         kFDw==
+X-Gm-Message-State: AOAM533eOFfDAVexbQKC1Op8hqS/RQRksXbekI1DpLCVVSsBjY5GqT/z
+        nKYYFTO/7nU0aCw6kcvWPAo=
+X-Google-Smtp-Source: ABdhPJz0lvhduC7ISc1QJRct9JcjWyVgEI4VVibFWtEEa8MdAOsan7i4Gpg+fhF/LOjeCRdqRc+vKw==
+X-Received: by 2002:a05:6a00:1a4a:b0:4c3:18c8:3595 with SMTP id h10-20020a056a001a4a00b004c318c83595mr10488854pfv.61.1642402550243;
+        Sun, 16 Jan 2022 22:55:50 -0800 (PST)
+Received: from vimal-VirtualBox.. ([49.207.201.237])
+        by smtp.gmail.com with ESMTPSA id d11sm12832234pfu.211.2022.01.16.22.55.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jan 2022 22:55:49 -0800 (PST)
+From:   Vimal Agrawal <avimalin@gmail.com>
+X-Google-Original-From: Vimal Agrawal <vimal.agrawal@sophos.com>
+To:     mcgrof@kernel.org
+Cc:     vimal.Agrawal@sophos.com, hch@infradead.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        JBeulich@suse.com, jeffm@suse.com, sam@ravnborg.org,
+        linux-kbuild@vger.kernel.org, jeyu@kernel.org,
+        linux-kernel@vger.kernel.org, avimalin@gmail.com,
+        Vimal Agrawal <vimal.agrawal@sophos.com>
+Subject: [PATCH v3] kernel/module.c: heuristic enhancement in case symbols are missing e.g. when INSTALL_MOD_STRIP= "--strip-unneeded" is used
+Date:   Mon, 17 Jan 2022 12:24:52 +0530
+Message-Id: <20220117065452.83894-1-vimal.agrawal@sophos.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <YeBEAavbBh/MnbEF@bombadil.infradead.org>
+References: <YeBEAavbBh/MnbEF@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Wedson Almeida Filho <wedsonaf@google.com>
+If kernel modules are stripped off symbols for some reason (e.g. built by
+using strip --strip-unneeded option) then stack traces in dmesg do not show
+symbol name for address. It just prints absolute address sometimes (if
+there is no good match with any symbol)
+e.g.
 
-A port to Rust of the PrimeCell PL061 GPIO driver.
+[245864.699580]  do_nmi+0x12f/0x370
+[245864.699583]  end_repeat_nmi+0x16/0x50
+[245864.699585] RIP: 0010:0xffffffffc06b67ec                           <<<<<<<<
+[245864.699585] RSP: 0000:ffffaaa540cffe48 EFLAGS: 00000097
+[245864.699586] RAX: 0000000000000001 RBX: ffff93357a729000 RCX: 0000000000000001
+[245864.699587] RDX: ffff93357a729050 RSI: 0000000000000000 RDI: ffff93357a729000
+[245864.699588] RBP: ffff9335cf521300 R08: 0000000000000001 R09: 0000000000000004
+[245864.699588] R10: ffffaaa545b23ed0 R11: 0000000000000001 R12: ffffffffc06b61a0
+[245864.699589] R13: ffffaaa540cffe60 R14: ffff9335c77fa3c0 R15: ffff9335cf51d7c0
+[245864.699590]  ? 0xffffffffc06b61a0
+[245864.699592]  ? 0xffffffffc06b67ec                                  <<<<<<<<
+[245864.699593]  ? 0xffffffffc06b67ec
+[245864.699594]  </NMI>
 
-This module is a work in progress and will be sent for review later
-on, as well as separately from the Rust support.
+Note RIP: 0010:0xffffffffc06b67ec and 0xffffffffc06b67ec printed in above
+stack trace as absolute address.
+There is no easy way in case box crashes as we loose information on load
+address of specific module. This changes the symbol decoding (in kernel/
+module.c) such that it can print offset from start of section (.text or
+.init.text) in case there is no good match with any symbol.
 
-However, it is included to show how an actual working module
-written in Rust may look like.
+It will now decode address in such cases to [module]+ offset/size or
+[module __init]+offset/size depending on where the address lies (in
+core/.text or init/.init.text section of module).
 
-Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+One can use objdump/readelf/nm to find symbols with offset from
+.init.text and .text sections.
+
+steps to reproduce the problem:
+-------------------------------
+1. Add WARN_ON_ONCE(1) in module e.g. test_module.c
+2. Build and strip the module using --strip-unneeded option
+3. Load the module and check RIP in dmesg
+
+tests done:
+-----------
+1. Added WARN_ON_ONE(1) in functions of a module for testing
+-------------------------------------------------------------
+[  407.934085] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
+[  407.934087] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[  407.934088] RIP: 0010:[module __init]+0x4/0x7 [test_module]
+[  407.934097] Code: Unable to access opcode bytes at RIP 0xffffffffc07edfda.
+[  407.934098] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
+[  407.934100] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[  407.934101] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
+[  407.934102] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
+[  407.934103] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
+[  407.934104] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
+[  407.934105] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
+[  407.934107] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  407.934108] CR2: ffffffffc07edfda CR3: 00000000063ea006 CR4: 00000000000706f0
+[  407.934113] Call Trace:
+[  407.934114]  <TASK>
+[  407.934116]  ? init_module+0x55/0xff9 [test_module]
+...
+[  407.934232] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
+[  407.934234] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[  407.934242] RIP: 0010:[module]+0x4/0x7 [test_module]
+[  407.934248] Code: Unable to access opcode bytes at RIP 0xffffffffc07e1fda.
+[  407.934249] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
+[  407.934251] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[  407.934252] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
+[  407.934253] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
+[  407.934254] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
+[  407.934255] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
+[  407.934256] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
+[  407.934257] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  407.934258] CR2: ffffffffc07e1fda CR3: 00000000063ea006 CR4: 00000000000706f0
+[  407.934260] Call Trace:
+[  407.934260]  <TASK>
+[  407.934261]  ? init_module+0x5a/0xff9 [test_module]
+
+note that it is able to decode RIP to an offset from module start or
+init start now.
+
+tested on linux->next (tag next-20211220)
+
+Signed-off-by: Vimal Agrawal <vimal.agrawal@sophos.com>
 ---
- drivers/gpio/Kconfig            |   8 +
- drivers/gpio/Makefile           |   1 +
- drivers/gpio/gpio_pl061_rust.rs | 362 ++++++++++++++++++++++++++++++++
- 3 files changed, 371 insertions(+)
- create mode 100644 drivers/gpio/gpio_pl061_rust.rs
+ kernel/module.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index 60d9374c72c0..8bc208ece49d 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -471,6 +471,14 @@ config GPIO_PL061
- 	help
- 	  Say yes here to support the PrimeCell PL061 GPIO device.
+diff --git a/kernel/module.c b/kernel/module.c
+index 24dab046e16c..4de15c06e760 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -4270,14 +4270,21 @@ static const char *find_kallsyms_symbol(struct module *mod,
+ 					unsigned long *offset)
+ {
+ 	unsigned int i, best = 0;
+-	unsigned long nextval, bestval;
++	unsigned long baseval, nextval, bestval;
+ 	struct mod_kallsyms *kallsyms = rcu_dereference_sched(mod->kallsyms);
++	char *module_base_name;
  
-+config GPIO_PL061_RUST
-+	tristate "PrimeCell PL061 GPIO support written in Rust"
-+	depends on ARM_AMBA && RUST
-+	select IRQ_DOMAIN
-+	select GPIOLIB_IRQCHIP
-+	help
-+	  Say yes here to support the PrimeCell PL061 GPIO device
+ 	/* At worse, next value is at end of module */
+-	if (within_module_init(addr, mod))
++	if (within_module_init(addr, mod)) {
++		baseval = (unsigned long)mod->init_layout.base;
+ 		nextval = (unsigned long)mod->init_layout.base+mod->init_layout.text_size;
+-	else
++		module_base_name = "[module __init]";
 +
- config GPIO_PMIC_EIC_SPRD
- 	tristate "Spreadtrum PMIC EIC support"
- 	depends on MFD_SC27XX_PMIC || COMPILE_TEST
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 71ee9fc2ff83..5021316a5037 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -118,6 +118,7 @@ obj-$(CONFIG_GPIO_PCIE_IDIO_24)		+= gpio-pcie-idio-24.o
- obj-$(CONFIG_GPIO_PCI_IDIO_16)		+= gpio-pci-idio-16.o
- obj-$(CONFIG_GPIO_PISOSR)		+= gpio-pisosr.o
- obj-$(CONFIG_GPIO_PL061)		+= gpio-pl061.o
-+obj-$(CONFIG_GPIO_PL061_RUST)		+= gpio_pl061_rust.o
- obj-$(CONFIG_GPIO_PMIC_EIC_SPRD)	+= gpio-pmic-eic-sprd.o
- obj-$(CONFIG_GPIO_PXA)			+= gpio-pxa.o
- obj-$(CONFIG_GPIO_RASPBERRYPI_EXP)	+= gpio-raspberrypi-exp.o
-diff --git a/drivers/gpio/gpio_pl061_rust.rs b/drivers/gpio/gpio_pl061_rust.rs
-new file mode 100644
-index 000000000000..40dbd7bed849
---- /dev/null
-+++ b/drivers/gpio/gpio_pl061_rust.rs
-@@ -0,0 +1,362 @@
-+// SPDX-License-Identifier: GPL-2.0
++	} else {
++		baseval = (unsigned long)mod->core_layout.base;
+ 		nextval = (unsigned long)mod->core_layout.base+mod->core_layout.text_size;
++		module_base_name = "[module]";
++	}
+ 
+ 	bestval = kallsyms_symbol_value(&kallsyms->symtab[best]);
+ 
+@@ -4308,6 +4315,19 @@ static const char *find_kallsyms_symbol(struct module *mod,
+ 			nextval = thisval;
+ 	}
+ 
++	if ((is_module_text_address(addr) &&
++		(bestval < baseval || bestval > nextval))) {
++		/*
++		 * return MODULE base and offset if we could not find
++		 * any best match for text address
++		 */
++		if (size)
++			*size = nextval - baseval;
++		if (offset)
++			*offset = addr - baseval;
++		return module_base_name;
++	}
 +
-+//! Driver for the ARM PrimeCell(tm) General Purpose Input/Output (PL061).
-+//!
-+//! Based on the C driver written by Baruch Siach <baruch@tkos.co.il>.
-+
-+#![no_std]
-+#![feature(global_asm, allocator_api)]
-+
-+use kernel::{
-+    amba, bit, bits_iter, define_amba_id_table, device, gpio,
-+    io_mem::IoMem,
-+    irq::{self, ExtraResult, IrqData, LockedIrqData},
-+    power,
-+    prelude::*,
-+    sync::{Ref, RefBorrow, SpinLock},
-+};
-+
-+const GPIODIR: usize = 0x400;
-+const GPIOIS: usize = 0x404;
-+const GPIOIBE: usize = 0x408;
-+const GPIOIEV: usize = 0x40C;
-+const GPIOIE: usize = 0x410;
-+const GPIOMIS: usize = 0x418;
-+const GPIOIC: usize = 0x41C;
-+const GPIO_SIZE: usize = 0x1000;
-+
-+const PL061_GPIO_NR: u16 = 8;
-+
-+#[derive(Default)]
-+struct ContextSaveRegs {
-+    gpio_data: u8,
-+    gpio_dir: u8,
-+    gpio_is: u8,
-+    gpio_ibe: u8,
-+    gpio_iev: u8,
-+    gpio_ie: u8,
-+}
-+
-+#[derive(Default)]
-+struct PL061Data {
-+    csave_regs: ContextSaveRegs,
-+}
-+
-+struct PL061Resources {
-+    base: IoMem<GPIO_SIZE>,
-+    parent_irq: u32,
-+}
-+
-+type PL061Registrations = gpio::RegistrationWithIrqChip<PL061Device>;
-+
-+type DeviceData = device::Data<PL061Registrations, PL061Resources, SpinLock<PL061Data>>;
-+
-+struct PL061Device;
-+
-+impl gpio::Chip for PL061Device {
-+    type Data = Ref<DeviceData>;
-+
-+    kernel::declare_gpio_chip_operations!(
-+        get_direction,
-+        direction_input,
-+        direction_output,
-+        get,
-+        set
-+    );
-+
-+    fn get_direction(data: RefBorrow<'_, DeviceData>, offset: u32) -> Result<gpio::LineDirection> {
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        Ok(if pl061.base.readb(GPIODIR) & bit(offset) != 0 {
-+            gpio::LineDirection::Out
-+        } else {
-+            gpio::LineDirection::In
-+        })
-+    }
-+
-+    fn direction_input(data: RefBorrow<'_, DeviceData>, offset: u32) -> Result {
-+        let _guard = data.lock_irqdisable();
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        let mut gpiodir = pl061.base.readb(GPIODIR);
-+        gpiodir &= !bit(offset);
-+        pl061.base.writeb(gpiodir, GPIODIR);
-+        Ok(())
-+    }
-+
-+    fn direction_output(data: RefBorrow<'_, DeviceData>, offset: u32, value: bool) -> Result {
-+        let woffset = bit(offset + 2).into();
-+        let _guard = data.lock_irqdisable();
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        pl061.base.try_writeb((value as u8) << offset, woffset)?;
-+        let mut gpiodir = pl061.base.readb(GPIODIR);
-+        gpiodir |= bit(offset);
-+        pl061.base.writeb(gpiodir, GPIODIR);
-+
-+        // gpio value is set again, because pl061 doesn't allow to set value of a gpio pin before
-+        // configuring it in OUT mode.
-+        pl061.base.try_writeb((value as u8) << offset, woffset)?;
-+        Ok(())
-+    }
-+
-+    fn get(data: RefBorrow<'_, DeviceData>, offset: u32) -> Result<bool> {
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        Ok(pl061.base.try_readb(bit(offset + 2).into())? != 0)
-+    }
-+
-+    fn set(data: RefBorrow<'_, DeviceData>, offset: u32, value: bool) {
-+        if let Some(pl061) = data.resources() {
-+            let woffset = bit(offset + 2).into();
-+            let _ = pl061.base.try_writeb((value as u8) << offset, woffset);
-+        }
-+    }
-+}
-+
-+impl gpio::ChipWithIrqChip for PL061Device {
-+    fn handle_irq_flow(
-+        data: RefBorrow<'_, DeviceData>,
-+        desc: &irq::Descriptor,
-+        domain: &irq::Domain,
-+    ) {
-+        let chained = desc.enter_chained();
-+
-+        if let Some(pl061) = data.resources() {
-+            let pending = pl061.base.readb(GPIOMIS);
-+            for offset in bits_iter(pending) {
-+                domain.generic_handle_chained(offset, &chained);
-+            }
-+        }
-+    }
-+}
-+
-+impl irq::Chip for PL061Device {
-+    type Data = Ref<DeviceData>;
-+
-+    kernel::declare_irq_chip_operations!(set_type, set_wake);
-+
-+    fn set_type(
-+        data: RefBorrow<'_, DeviceData>,
-+        irq_data: &mut LockedIrqData,
-+        trigger: u32,
-+    ) -> Result<ExtraResult> {
-+        let offset = irq_data.hwirq();
-+        let bit = bit(offset);
-+
-+        if offset >= PL061_GPIO_NR.into() {
-+            return Err(Error::EINVAL);
-+        }
-+
-+        if trigger & (irq::Type::LEVEL_HIGH | irq::Type::LEVEL_LOW) != 0
-+            && trigger & (irq::Type::EDGE_RISING | irq::Type::EDGE_FALLING) != 0
-+        {
-+            pr_err!(
-+                "trying to configure line {} for both level and edge detection, choose one!\n",
-+                offset
-+            );
-+            return Err(Error::EINVAL);
-+        }
-+
-+        let _guard = data.lock_irqdisable();
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+
-+        let mut gpioiev = pl061.base.readb(GPIOIEV);
-+        let mut gpiois = pl061.base.readb(GPIOIS);
-+        let mut gpioibe = pl061.base.readb(GPIOIBE);
-+
-+        if trigger & (irq::Type::LEVEL_HIGH | irq::Type::LEVEL_LOW) != 0 {
-+            let polarity = trigger & irq::Type::LEVEL_HIGH != 0;
-+
-+            // Disable edge detection.
-+            gpioibe &= !bit;
-+            // Enable level detection.
-+            gpiois |= bit;
-+            // Select polarity.
-+            if polarity {
-+                gpioiev |= bit;
-+            } else {
-+                gpioiev &= !bit;
-+            }
-+            irq_data.set_level_handler();
-+            pr_debug!(
-+                "line {}: IRQ on {} level\n",
-+                offset,
-+                if polarity { "HIGH" } else { "LOW" }
-+            );
-+        } else if (trigger & irq::Type::EDGE_BOTH) == irq::Type::EDGE_BOTH {
-+            // Disable level detection.
-+            gpiois &= !bit;
-+            // Select both edges, settings this makes GPIOEV be ignored.
-+            gpioibe |= bit;
-+            irq_data.set_edge_handler();
-+            pr_debug!("line {}: IRQ on both edges\n", offset);
-+        } else if trigger & (irq::Type::EDGE_RISING | irq::Type::EDGE_FALLING) != 0 {
-+            let rising = trigger & irq::Type::EDGE_RISING != 0;
-+
-+            // Disable level detection.
-+            gpiois &= !bit;
-+            // Clear detection on both edges.
-+            gpioibe &= !bit;
-+            // Select edge.
-+            if rising {
-+                gpioiev |= bit;
-+            } else {
-+                gpioiev &= !bit;
-+            }
-+            irq_data.set_edge_handler();
-+            pr_debug!(
-+                "line {}: IRQ on {} edge\n",
-+                offset,
-+                if rising { "RISING" } else { "FALLING}" }
-+            );
-+        } else {
-+            // No trigger: disable everything.
-+            gpiois &= !bit;
-+            gpioibe &= !bit;
-+            gpioiev &= !bit;
-+            irq_data.set_bad_handler();
-+            pr_warn!("no trigger selected for line {}\n", offset);
-+        }
-+
-+        pl061.base.writeb(gpiois, GPIOIS);
-+        pl061.base.writeb(gpioibe, GPIOIBE);
-+        pl061.base.writeb(gpioiev, GPIOIEV);
-+
-+        Ok(ExtraResult::None)
-+    }
-+
-+    fn mask(data: RefBorrow<'_, DeviceData>, irq_data: &IrqData) {
-+        let mask = bit(irq_data.hwirq() % irq::HwNumber::from(PL061_GPIO_NR));
-+        let _guard = data.lock();
-+        if let Some(pl061) = data.resources() {
-+            let gpioie = pl061.base.readb(GPIOIE) & !mask;
-+            pl061.base.writeb(gpioie, GPIOIE);
-+        }
-+    }
-+
-+    fn unmask(data: RefBorrow<'_, DeviceData>, irq_data: &IrqData) {
-+        let mask = bit(irq_data.hwirq() % irq::HwNumber::from(PL061_GPIO_NR));
-+        let _guard = data.lock();
-+        if let Some(pl061) = data.resources() {
-+            let gpioie = pl061.base.readb(GPIOIE) | mask;
-+            pl061.base.writeb(gpioie, GPIOIE);
-+        }
-+    }
-+
-+    // This gets called from the edge IRQ handler to ACK the edge IRQ in the GPIOIC
-+    // (interrupt-clear) register. For level IRQs this is not needed: these go away when the level
-+    // signal goes away.
-+    fn ack(data: RefBorrow<'_, DeviceData>, irq_data: &IrqData) {
-+        let mask = bit(irq_data.hwirq() % irq::HwNumber::from(PL061_GPIO_NR));
-+        let _guard = data.lock();
-+        if let Some(pl061) = data.resources() {
-+            pl061.base.writeb(mask.into(), GPIOIC);
-+        }
-+    }
-+
-+    fn set_wake(data: RefBorrow<'_, DeviceData>, _irq_data: &IrqData, on: bool) -> Result {
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        irq::set_wake(pl061.parent_irq, on)
-+    }
-+}
-+
-+impl amba::Driver for PL061Device {
-+    type Data = Ref<DeviceData>;
-+    type PowerOps = Self;
-+
-+    define_amba_id_table! {(), [
-+        ({id: 0x00041061, mask: 0x000fffff}, None),
-+    ]}
-+
-+    fn probe(dev: &mut amba::Device, _data: Option<&Self::IdInfo>) -> Result<Ref<DeviceData>> {
-+        let res = dev.take_resource().ok_or(Error::ENXIO)?;
-+        let irq = dev.irq(0).ok_or(Error::ENXIO)?;
-+
-+        let mut data = kernel::new_device_data!(
-+            gpio::RegistrationWithIrqChip::new(),
-+            PL061Resources {
-+                // SAFETY: This device doesn't support DMA.
-+                base: unsafe { IoMem::try_new(res)? },
-+                parent_irq: irq,
-+            },
-+            // SAFETY: We call `spinlock_init` below.
-+            unsafe { SpinLock::new(PL061Data::default()) },
-+            "PL061::Registrations"
-+        )?;
-+
-+        // SAFETY: General part of the data is pinned when `data` is.
-+        let gen = unsafe { data.as_mut().map_unchecked_mut(|d| &mut **d) };
-+        kernel::spinlock_init!(gen, "PL061::General");
-+
-+        let data = Ref::<DeviceData>::from(data);
-+
-+        data.resources().ok_or(Error::ENXIO)?.base.writeb(0, GPIOIE); // disable irqs
-+
-+        data.registrations()
-+            .ok_or(Error::ENXIO)?
-+            .as_pinned_mut()
-+            .register::<Self>(PL061_GPIO_NR, None, dev, data.clone(), irq)?;
-+
-+        pr_info!("PL061 GPIO chip registered\n");
-+
-+        Ok(data)
-+    }
-+}
-+
-+impl power::Operations for PL061Device {
-+    type Data = Ref<DeviceData>;
-+
-+    fn suspend(data: RefBorrow<'_, DeviceData>) -> Result {
-+        let mut inner = data.lock();
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+        inner.csave_regs.gpio_data = 0;
-+        inner.csave_regs.gpio_dir = pl061.base.readb(GPIODIR);
-+        inner.csave_regs.gpio_is = pl061.base.readb(GPIOIS);
-+        inner.csave_regs.gpio_ibe = pl061.base.readb(GPIOIBE);
-+        inner.csave_regs.gpio_iev = pl061.base.readb(GPIOIEV);
-+        inner.csave_regs.gpio_ie = pl061.base.readb(GPIOIE);
-+
-+        for offset in 0..PL061_GPIO_NR {
-+            if inner.csave_regs.gpio_dir & bit(offset) != 0 {
-+                if let Ok(v) = <Self as gpio::Chip>::get(data, offset.into()) {
-+                    inner.csave_regs.gpio_data |= (v as u8) << offset;
-+                }
-+            }
-+        }
-+
-+        Ok(())
-+    }
-+
-+    fn resume(data: RefBorrow<'_, DeviceData>) -> Result {
-+        let inner = data.lock();
-+        let pl061 = data.resources().ok_or(Error::ENXIO)?;
-+
-+        for offset in 0..PL061_GPIO_NR {
-+            if inner.csave_regs.gpio_dir & bit(offset) != 0 {
-+                let value = inner.csave_regs.gpio_data & bit(offset) != 0;
-+                let _ = <Self as gpio::Chip>::direction_output(data, offset.into(), value);
-+            } else {
-+                let _ = <Self as gpio::Chip>::direction_input(data, offset.into());
-+            }
-+        }
-+
-+        pl061.base.writeb(inner.csave_regs.gpio_is, GPIOIS);
-+        pl061.base.writeb(inner.csave_regs.gpio_ibe, GPIOIBE);
-+        pl061.base.writeb(inner.csave_regs.gpio_iev, GPIOIEV);
-+        pl061.base.writeb(inner.csave_regs.gpio_ie, GPIOIE);
-+
-+        Ok(())
-+    }
-+
-+    fn freeze(data: RefBorrow<'_, DeviceData>) -> Result {
-+        Self::suspend(data)
-+    }
-+
-+    fn restore(data: RefBorrow<'_, DeviceData>) -> Result {
-+        Self::resume(data)
-+    }
-+}
-+
-+module_amba_driver! {
-+    type: PL061Device,
-+    name: b"pl061_gpio",
-+    author: b"Wedson Almeida Filho",
-+    license: b"GPL v2",
-+}
+ 	if (!best)
+ 		return NULL;
+ 
 -- 
-2.34.1
+2.32.0
 
