@@ -2,80 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 546F5492662
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jan 2022 14:04:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F42492D2B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jan 2022 19:21:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241489AbiARNEH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Jan 2022 08:04:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241428AbiARNEH (ORCPT
+        id S1347984AbiARSVq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Jan 2022 13:21:46 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:33809 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244323AbiARSVp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Jan 2022 08:04:07 -0500
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB57AC06161C
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jan 2022 05:04:06 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id c36so36241656uae.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jan 2022 05:04:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=GBYWqWM5bcyTPpMRjw+CMvFp/tKLaPMzcAuT1RUOMSn+Wto8ut4dgMSaMDNgX3UW1m
-         dR+kFEbJi6vIz0GBnT+gFWhmu8i/NgtCaCITl4U6+X8TE3a55ddWyHpapeuJAgGGCXhF
-         rj/5bqVw/oPbD5megDCH5OKNzw161GgLkEhSCxd0I3sDcWooAhYLoaWSTUdYbtPx5N7u
-         r51EPNHRg0tCOHxPejL/89e/TDwXmSp2aEz/JJkeAipfTKvE084nx7vfxrcKBfa5sYsa
-         N77wQSNnwHXml1g1LjPDDqowSiBxXt6ppz7jtP7cMkkjmGQPv0TZmKmwTngj46DXuNy3
-         uKfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=kt7BSYvG+rr2bLEECwLOEMCvBVZotJIk44/4XcKD9H0=;
-        b=0OwShMMH5BcvcOz04Ky5RZJGVTA8LS5I4pTqkeqjstRkjzeFwg8NjiMMPlMVW4k6kd
-         YJYNr+CCI6tcFY10Z5Q6B26vI2q6QZH+Os8vaSgutWWhj2OM9AKi+Dconj/iZSLvppqy
-         ErpUsSUsnG/zRitOyXMzNX066/HdwToOmkIQIAmP1ROArENds1rq7Jsh87WhEfjn229H
-         FQQlEsycWZOfVydiqTuUzm/eOLsx9oEFwbDfkqloBuoKukdnZzYo9RINrQzImqsuh60S
-         o6Um72o4uiMGagDK4N0vw5ca3ST82LbpmNrD9JlVwGs7vBtUJrjqCFVqoI4YE/XxeOpH
-         SW4w==
-X-Gm-Message-State: AOAM533+c9ugPbmanwF/kNwf76kJx0HD4O4J6aVxk7LYqvkmwSV/NjgV
-        gLbMa6W40kJb7afk+ITL7a759Zb5GZaLxkvXWT8=
-X-Google-Smtp-Source: ABdhPJyHDUyPuNqENNtiqM73zYg9eDs9Ty7W+payRmP7Opc9D9eAR+TNfTe4dsWHkJK2ALvLiD74BH6BmM9C23om8l8=
-X-Received: by 2002:a05:6102:1623:: with SMTP id cu35mr9410784vsb.59.1642511045841;
- Tue, 18 Jan 2022 05:04:05 -0800 (PST)
+        Tue, 18 Jan 2022 13:21:45 -0500
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 20IILSee011882;
+        Wed, 19 Jan 2022 03:21:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 20IILSee011882
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1642530089;
+        bh=RDC2Fjwcdz1UygYpDoeHxvqZCWGtSgJ9ZjIXI8tV+ew=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mfFin+KCmPBqKmbXzoh3r93wOV+yaxUedaMyO9+I3TG8tVz0NoUmSUaInWEyg/QnG
+         0/CNliD0nNuOqCUuIi116VSprw7PMXnGPst2kARVqhpf1o1xvkC2PFql1Ggk9Jc7Vx
+         hbvOgnd16yMyMsNQqCjjwbjSidwSOvjrcedWxTe3Fi5RqGR1QSEYcnFnMx3i6xq2Aw
+         7wEZYCHlYZrQXJGMvS5LiETzLMTRpRDj78uYOWN0ZB8+FJB1/6I5T4MNZt/wDYK7eD
+         PpAwlw8Gvrh4hlhGU7iUKA0jnSivKf3s3+2f/QwvlAKekEpH6hHswrx2MqPJ9jJkjj
+         pNUfU04PtzOcw==
+X-Nifty-SrcIP: [209.85.215.170]
+Received: by mail-pg1-f170.google.com with SMTP id r11so2038420pgr.6;
+        Tue, 18 Jan 2022 10:21:28 -0800 (PST)
+X-Gm-Message-State: AOAM533WSndfyBPrWtLYCZGT26aw4w02jXB5x44k00xy6CNP/GATFrkW
+        Be2326zhhdqx5goIjIUabdDq/rpwRXUxzBr91lM=
+X-Google-Smtp-Source: ABdhPJxppakuZNPZqJ8qO8K8ZnlZedADMwxwZPJWvK53Cb26njShi1VOp3FVrSTverXM6Z5OxoMeUzwigo4tAEzELgU=
+X-Received: by 2002:a63:7148:: with SMTP id b8mr24532460pgn.616.1642530087928;
+ Tue, 18 Jan 2022 10:21:27 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ab0:3793:0:0:0:0:0 with HTTP; Tue, 18 Jan 2022 05:04:05
- -0800 (PST)
-Reply-To: mohsheikhalhamed@gmail.com
-From:   bratikox <bratikox@gmail.com>
-Date:   Tue, 18 Jan 2022 14:04:05 +0100
-Message-ID: <CAFuXTSzAg43y0sHmw5iC2QfX+vW5iMcB937yubTSxVYVaFDHGg@mail.gmail.com>
-Subject: Salam Alaikum /ADIA LOAN OFFER
-To:     undisclosed-recipients:;
+References: <20211213100043.45645-1-arielmarcovitch@gmail.com> <20211213100043.45645-2-arielmarcovitch@gmail.com>
+In-Reply-To: <20211213100043.45645-2-arielmarcovitch@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 19 Jan 2022 03:20:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+Message-ID: <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: Show menuconfigs as menus in the .config file
+To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Salam Alaikum,
+On Mon, Dec 13, 2021 at 7:01 PM Ariel Marcovitch
+<arielmarcovitch@gmail.com> wrote:
+>
+> Until now, menuconfigs were considered configs because they had non-zero
+> sym attribute. This meant that instead of having the nice menu comment
+> block in the .config output file, they were merely shown as single
+> configs.
+>
+> For example:
+> ```Kconfig
+> menu "Foo"
+> endmenu
+>
+> menuconfig BAR
+>         bool "Bar"
+>
+> config OTHER
+>         bool "Other"
+>         depends on BAR
+> ```
+>
+> Will be shown as:
+> ```.config
+>  #
+>  # Foo
+>  #
+>  # end of Foo
 
-We are a United Arab Emirates based investment company known as Abu
-Dhabi Investment Authority working on expanding its portfolio globally
-and financing projects.
 
-We are offering Corporate and Personal Loan at 3.5% Interest Rate for
-a duration of 5 to 10 years.
+I am OK with this patch.
 
-Please get back to us on Email: mohsheikhalhamed@gmail.com ,if you are
-interested for further embellishment.
+Just a nit.
 
-We also pay 2% commission to brokers who introduce project owners for
-finance or other opportunities.
+As far as I tested your sample code (without applying this patch),
+I did not see the line "# end of Foo".
+
+The line "# end of ..." is printed when the last child gets back to
+its parent, but the "Foo" menu has no child menu here.
+
+This is out of scope of this patch, but can you update the
+commit log so it matches the current behavior?
+
+(or add one config into the "Foo" menu)
 
 
- Yours truly,
- Hamed Mohammad
- (Personal Assistant)
- Abu Dhabi Investment Authority
- 211 Corniche, P.O Box 3600
- Abu Dhabi,United Arab Emirates
+
+
+
+
+
+>
+>  CONFIG_BAR=y
+>  CONFIG_OTHER=y
+> ```
+>
+> Instead of using the sym attribute to decide whether or not to print the
+> menu block comment, check menu->prompt->type explicitly (after checking
+> that menu_is_visible(menu) which means menu->prompt is not none). The
+> only prompt types we actually show as menus are P_MENU and P_COMMENT. At
+> the end of the menu we need to show the end of block only for P_MENU
+> (although P_COMMENT prompts will not get to this flow because they don't
+> have children).
+>
+> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
+> ---
+>  scripts/kconfig/confdata.c | 28 +++++++++++++++++-----------
+>  1 file changed, 17 insertions(+), 11 deletions(-)
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 42bc56ee238c..9f2c22f46ee0 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -874,16 +874,21 @@ int conf_write(const char *name)
+>         menu = rootmenu.list;
+>         while (menu) {
+>                 sym = menu->sym;
+> -               if (!sym) {
+> -                       if (!menu_is_visible(menu))
+> -                               goto next;
+> -                       str = menu_get_prompt(menu);
+> -                       fprintf(out, "\n"
+> -                                    "#\n"
+> -                                    "# %s\n"
+> -                                    "#\n", str);
+> -                       need_newline = false;
+> -               } else if (!(sym->flags & SYMBOL_CHOICE) &&
+> +
+> +               if (menu_is_visible(menu)) {
+> +                       enum prop_type type = menu->prompt->type;
+> +
+> +                       if (type == P_MENU || type == P_COMMENT) {
+> +                               str = menu_get_prompt(menu);
+> +                               fprintf(out, "\n"
+> +                                       "#\n"
+> +                                       "# %s\n"
+> +                                       "#\n", str);
+> +                               need_newline = false;
+> +                       }
+> +               }
+> +
+> +               if (sym && !(sym->flags & SYMBOL_CHOICE) &&
+>                            !(sym->flags & SYMBOL_WRITTEN)) {
+>                         sym_calc_value(sym);
+>                         if (!(sym->flags & SYMBOL_WRITE))
+> @@ -904,7 +909,8 @@ int conf_write(const char *name)
+>                 if (menu->next)
+>                         menu = menu->next;
+>                 else while ((menu = menu->parent)) {
+> -                       if (!menu->sym && menu_is_visible(menu) &&
+> +                       if (menu_is_visible(menu) &&
+> +                           menu->prompt->type == P_MENU &&
+>                             menu != &rootmenu) {
+>                                 str = menu_get_prompt(menu);
+>                                 fprintf(out, "# end of %s\n", str);
+> --
+> 2.25.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
