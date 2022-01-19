@@ -2,99 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB9B493B76
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 14:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AF37493B85
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 14:59:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245057AbiASNwK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jan 2022 08:52:10 -0500
-Received: from mga05.intel.com ([192.55.52.43]:59410 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235698AbiASNwK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jan 2022 08:52:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642600330; x=1674136330;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V6xj/70rR9995gOWyZ2fhDWt5YCJUunhJStJfwvw0ds=;
-  b=Qr82z7QNjzR3qw3ritHdY4J04BfnBHWNhuIOzIdVxZmeonYFDNAj164X
-   BQpfpTTgBFz0DxuUnHqYksUXP/NArafEcdN5Kk+6TUPPiwpYEY1pRHIVP
-   gEoK7vvZ5LpGbOy+murd+TwbXOBVUNIdvw94w6Br7pbBxMDMd32WFwWAP
-   fJKSfN1PPQJYTcI3Eohip+vXKeN+voOaqLzTfel2PEnfVax70Cf+l018K
-   /++acZg5REwaEXC8VA6Xi1GcScDf9UWa/jLhgQZ9tModuCxQxK0eiY6RD
-   tpfXH1BWDwjYhG328HwlUnbThszOHYy582jt1bXzw3QWU5UPf2CudRSct
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="331419653"
-X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; 
-   d="scan'208";a="331419653"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2022 05:52:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; 
-   d="scan'208";a="477379673"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2022 05:52:07 -0800
-From:   =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>
-To:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
-        <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] Makefile: Fix build with scan-build
-Date:   Wed, 19 Jan 2022 14:51:47 +0100
-Message-Id: <20220119135147.1859982-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S1354940AbiASN7A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jan 2022 08:59:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345358AbiASN7A (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 19 Jan 2022 08:59:00 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1173C061574;
+        Wed, 19 Jan 2022 05:58:59 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id o9so2911909iob.3;
+        Wed, 19 Jan 2022 05:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rr7tgwlXiamYqI5PxE8u9tBgpAgfCnbjmu6McQy+3E8=;
+        b=c3k179Ess62+zL8DK0kvKFblLESFBULhH6EFR7mX2+AcPuR2SwZyXicsH5dMEaWH2F
+         Gfk8gleCgX7ubWMNKXJrYx8YVQrjJbBLSM1SoSIwwvei1C0BhW+gFBPtgxlASpR56wU1
+         aJfQbN1GAwMYFaa6xaMDDrgKOXY7UlaY2+g1hmJec4/3kkYXgQAahzOtH1RI8xgBgBJO
+         0v9lVadrj6E5XrBuEQDWWFWsW40Ptp965MiGUH2D/oAMPZmxGlod1ii+XF6MFwcEU5o0
+         XRTzfdirWhNT0xK5xrem/VBsRj71+ekH3lNQYaTBX591XRhnUQvjEl0CGRPniP2bERvU
+         LVSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rr7tgwlXiamYqI5PxE8u9tBgpAgfCnbjmu6McQy+3E8=;
+        b=6IEYNz7dksCRwo+viT8MvLDtNDyjBBrgfy19njn31fryadDkiGZW8p7kLkWZjGRCYL
+         /wXtBSup3TzdN6g0ml9NDx1AtKYWBX97hRc6U7BkIbEQcOWqnBuGCoTMLaYcF8IXkTPC
+         gBmeXSXgod80JLX1pwS6G3Jat9uyFsUWIo4NwyFiyaD+EfJt3LW2qvSstos+YJ8Fu5nG
+         AMIwB6QnPw0Xja7LFNlZRIu1hkt0qMekDoqUVjJ1ZxpBa79gUckpb0BoaCqbZVBzMj6t
+         D8tS2UdohcvHfWWlU1BYnFHD1OKyfkCWzxy7zxrmDAQ1LSTxHTmmYxORlTKmF/yHbo5l
+         c1UA==
+X-Gm-Message-State: AOAM531GfFTYHoYa9JqNCye7zhU4JIArbzk2KJtyx26YsWipTygY9H82
+        Ha96YxnBS0JChsacJNutClKC351Z6KQjnrJt+xc=
+X-Google-Smtp-Source: ABdhPJyAY7TZgjrBf0O71sttZA6g3GZXQCpe02yXMAJjfBCii8KQNrLKSMm4qfXNxx47PLyPl5wU7NQOXQxmIxC9PQM=
+X-Received: by 2002:a05:6602:1502:: with SMTP id g2mr14280491iow.155.1642600739171;
+ Wed, 19 Jan 2022 05:58:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220117053349.6804-1-ojeda@kernel.org> <20220117053349.6804-15-ojeda@kernel.org>
+ <87fspk1xoc.fsf@meer.lwn.net>
+In-Reply-To: <87fspk1xoc.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Wed, 19 Jan 2022 14:58:48 +0100
+Message-ID: <CANiq72mXAgOL-ieNnF8CPMnLopeCyWY3aKA0Fx4t_P963ABGJg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/19] docs: add Rust documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
+        Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When building kernel with scan-build for analysis:
-$ scan-build make defconfig
-$ scan-build make menuconfig # disable RETPOLINE
-$ scan-build make -j16 bindeb-pkg
-since commit 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
-it fails with:
-  CC      scripts/mod/empty.o
-could not find clang line
-make[4]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
+On Tue, Jan 18, 2022 at 11:33 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> We have really tried to keep binary files (like PNG images) out of the
+> documentation tree.  If we really need these images, can they be
+> provided in SVG form?
 
-Seems like changes to how -fconserve-stack support was detected broke
-build with scan-build. Revert part of mentioned commit which changed
-that.
+Yeah, they are not critical -- I can change them to a single SVG, or
+use Tux, or drop them (although it is a nice way to tell one is not in
+the Rust standard library docs).
 
-Fixes: 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
-CC: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- Makefile | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Is there a preferred SVG version of Tux? (I cannot find one in the
+tree, only the GIF one at `Doc/logo.gif`). If not, perhaps we could
+ask permission to integrate one like https://github.com/garrett/Tux.
 
-diff --git a/Makefile b/Makefile
-index 765115c99655..1174ccd182f5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -991,9 +991,7 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
- KBUILD_CFLAGS  += -fno-stack-check
- 
- # conserve stack if available
--ifdef CONFIG_CC_IS_GCC
--KBUILD_CFLAGS   += -fconserve-stack
--endif
-+KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
- 
- # Prohibit date/time macros, which would make the build non-deterministic
- KBUILD_CFLAGS   += -Werror=date-time
--- 
-2.25.1
-
+Cheers,
+Miguel
