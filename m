@@ -2,92 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF37493B85
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 14:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C50C49426E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 22:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354940AbiASN7A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jan 2022 08:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345358AbiASN7A (ORCPT
+        id S1357370AbiASVTs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jan 2022 16:19:48 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:45112 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1357364AbiASVTr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jan 2022 08:59:00 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1173C061574;
-        Wed, 19 Jan 2022 05:58:59 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id o9so2911909iob.3;
-        Wed, 19 Jan 2022 05:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rr7tgwlXiamYqI5PxE8u9tBgpAgfCnbjmu6McQy+3E8=;
-        b=c3k179Ess62+zL8DK0kvKFblLESFBULhH6EFR7mX2+AcPuR2SwZyXicsH5dMEaWH2F
-         Gfk8gleCgX7ubWMNKXJrYx8YVQrjJbBLSM1SoSIwwvei1C0BhW+gFBPtgxlASpR56wU1
-         aJfQbN1GAwMYFaa6xaMDDrgKOXY7UlaY2+g1hmJec4/3kkYXgQAahzOtH1RI8xgBgBJO
-         0v9lVadrj6E5XrBuEQDWWFWsW40Ptp965MiGUH2D/oAMPZmxGlod1ii+XF6MFwcEU5o0
-         XRTzfdirWhNT0xK5xrem/VBsRj71+ekH3lNQYaTBX591XRhnUQvjEl0CGRPniP2bERvU
-         LVSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rr7tgwlXiamYqI5PxE8u9tBgpAgfCnbjmu6McQy+3E8=;
-        b=6IEYNz7dksCRwo+viT8MvLDtNDyjBBrgfy19njn31fryadDkiGZW8p7kLkWZjGRCYL
-         /wXtBSup3TzdN6g0ml9NDx1AtKYWBX97hRc6U7BkIbEQcOWqnBuGCoTMLaYcF8IXkTPC
-         gBmeXSXgod80JLX1pwS6G3Jat9uyFsUWIo4NwyFiyaD+EfJt3LW2qvSstos+YJ8Fu5nG
-         AMIwB6QnPw0Xja7LFNlZRIu1hkt0qMekDoqUVjJ1ZxpBa79gUckpb0BoaCqbZVBzMj6t
-         D8tS2UdohcvHfWWlU1BYnFHD1OKyfkCWzxy7zxrmDAQ1LSTxHTmmYxORlTKmF/yHbo5l
-         c1UA==
-X-Gm-Message-State: AOAM531GfFTYHoYa9JqNCye7zhU4JIArbzk2KJtyx26YsWipTygY9H82
-        Ha96YxnBS0JChsacJNutClKC351Z6KQjnrJt+xc=
-X-Google-Smtp-Source: ABdhPJyAY7TZgjrBf0O71sttZA6g3GZXQCpe02yXMAJjfBCii8KQNrLKSMm4qfXNxx47PLyPl5wU7NQOXQxmIxC9PQM=
-X-Received: by 2002:a05:6602:1502:: with SMTP id g2mr14280491iow.155.1642600739171;
- Wed, 19 Jan 2022 05:58:59 -0800 (PST)
+        Wed, 19 Jan 2022 16:19:47 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D4E78B81911;
+        Wed, 19 Jan 2022 21:19:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3949C004E1;
+        Wed, 19 Jan 2022 21:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642627184;
+        bh=rDBAnFk6DtskFzUgU67bbBE23M0Z4VZbBDCK8RsVWHk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TbX9wnTelCF2Npo6lzljQ9/WleD2L6+9VdFH2ul05p9mj69dYgKddHvG1wjdVFrrr
+         xvlv7hYQrM0ZbIDxZaTqcWHgnSY7BOl47u6ZDnwTdu7pm+CRE37IokCNJeMaecZTRe
+         J8lbxgnvG/Ga5hzhsSJAeUyq8sFVgrIVDTwT3hQST5DV5LubwSrTCR2cE/Cd1vRzih
+         I1q+4VjuQbAr9x27NzcN17ekUnIH9VhSUMpOxZ2xCcelyy124XFlr2A2l4r6wz7bzB
+         Jj3bTrnuJ4i0WdPiB+1SQmQPH8YM68nYCn9I0Xd6ZLon4XGIxnFYh4pdWtKRJx/UQE
+         VKIzWE13rBsmw==
+Date:   Wed, 19 Jan 2022 14:19:39 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= 
+        <amadeuszx.slawinski@linux.intel.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: Re: [PATCH] Makefile: Fix build with scan-build
+Message-ID: <YeiAa/eCxVZC+QbS@archlinux-ax161>
+References: <20220119135147.1859982-1-amadeuszx.slawinski@linux.intel.com>
 MIME-Version: 1.0
-References: <20220117053349.6804-1-ojeda@kernel.org> <20220117053349.6804-15-ojeda@kernel.org>
- <87fspk1xoc.fsf@meer.lwn.net>
-In-Reply-To: <87fspk1xoc.fsf@meer.lwn.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 19 Jan 2022 14:58:48 +0100
-Message-ID: <CANiq72mXAgOL-ieNnF8CPMnLopeCyWY3aKA0Fx4t_P963ABGJg@mail.gmail.com>
-Subject: Re: [PATCH v3 14/19] docs: add Rust documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>,
-        Daniel Xu <dxu@dxuuu.xyz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220119135147.1859982-1-amadeuszx.slawinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 11:33 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> We have really tried to keep binary files (like PNG images) out of the
-> documentation tree.  If we really need these images, can they be
-> provided in SVG form?
+On Wed, Jan 19, 2022 at 02:51:47PM +0100, Amadeusz Sławiński wrote:
+> When building kernel with scan-build for analysis:
+> $ scan-build make defconfig
+> $ scan-build make menuconfig # disable RETPOLINE
+> $ scan-build make -j16 bindeb-pkg
+> since commit 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
+> it fails with:
+>   CC      scripts/mod/empty.o
+> could not find clang line
+> make[4]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
+> 
+> Seems like changes to how -fconserve-stack support was detected broke
+> build with scan-build. Revert part of mentioned commit which changed
+> that.
+> 
+> Fixes: 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
+> CC: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> ---
+>  Makefile | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 765115c99655..1174ccd182f5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -991,9 +991,7 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+>  KBUILD_CFLAGS  += -fno-stack-check
+>  
+>  # conserve stack if available
+> -ifdef CONFIG_CC_IS_GCC
+> -KBUILD_CFLAGS   += -fconserve-stack
+> -endif
+> +KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
+>  
+>  # Prohibit date/time macros, which would make the build non-deterministic
+>  KBUILD_CFLAGS   += -Werror=date-time
+> -- 
+> 2.25.1
+> 
 
-Yeah, they are not critical -- I can change them to a single SVG, or
-use Tux, or drop them (although it is a nice way to tell one is not in
-the Rust standard library docs).
+Okay, I think I understand why this happens...
 
-Is there a preferred SVG version of Tux? (I cannot find one in the
-tree, only the GIF one at `Doc/logo.gif`). If not, perhaps we could
-ask permission to integrate one like https://github.com/garrett/Tux.
+scan-build points CC to its CC wrapper [1], ccc-analyzer, which builds the
+code with a compiler [2] then runs clang for the static analyzer [3].
+The problem is that the default compiler for ccc-analyzer is GCC, which
+means that CONFIG_CC_IS_GCC gets set and flags that are supported by GCC
+but not clang will cause the clang analyzer part of ccc-analyzer to
+error because ccc-analyzer just passes all '-f' flags along [4].
+
+Prior to 7d73c3e9c514, there was no error because cc-option would run
+the flag against ccc-analyzer, which would error out for the reason I
+just described, which would prevent the flag from getting added to
+KBUILD_CFLAGS.
+
+Now, -fconserve-stack gets passed along to both gcc and clang but clang
+does not recognize it and errors out.
+
+This should be fixed in clang, which already has the machinery to
+recognize but ignore GCC flags for compatibility reasons (which is
+probably how gcc and clang can use the same flags). I have pushed a
+patch to Phabricator for review:
+
+https://reviews.llvm.org/D117717
+
+You need to disable CONFIG_RETPOLINE for the same reason but I don't
+think working around that in clang is as simple.
+
+Until that fix can proliferate through distributions and such, this is
+not an unreasonable workaround (unless Masahiro or Nick have a better
+idea) but I would really like a comment so that we can revert this once
+that fix is more widely available (it is unlikely that clang will
+actually support this option).
+
+[1]: https://github.com/llvm/llvm-project/blob/3062a1469da0569e714aa4634b29345f6d8c874c/clang/tools/scan-build/bin/scan-build#L1080
+[2]: https://github.com/llvm/llvm-project/blob/fd0782a37bbf7dd4ece721df92c703a381595661/clang/tools/scan-build/libexec/ccc-analyzer#L457
+[3]: https://github.com/llvm/llvm-project/blob/fd0782a37bbf7dd4ece721df92c703a381595661/clang/tools/scan-build/libexec/ccc-analyzer#L783
+[4]: https://github.com/llvm/llvm-project/blob/fd0782a37bbf7dd4ece721df92c703a381595661/clang/tools/scan-build/libexec/ccc-analyzer#L661-L665
 
 Cheers,
-Miguel
+Nathan
