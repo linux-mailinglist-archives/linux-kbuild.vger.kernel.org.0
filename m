@@ -2,93 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C5F4493717
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 10:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 882344937AD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 10:48:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352994AbiASJUZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jan 2022 04:20:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352987AbiASJUZ (ORCPT
+        id S1353216AbiASJsR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jan 2022 04:48:17 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:51144 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353293AbiASJsP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jan 2022 04:20:25 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513D9C06161C
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jan 2022 01:20:25 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id cx27so8317155edb.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jan 2022 01:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CrKLop8goJNAb7F3nsn024T54b0Rb1lNYvD3dS3QIUg=;
-        b=IysqV66EW2ES4sCLHdqMGUXBEuQJc4fTU3SXkhhXKLiMJAWtXrH5G+5FT/Jm4oauK1
-         OndgKqCg0VKgwrpn9LiBUfoANaWFs71Hu8FjcSLktWZFpxHzkgN4PdgqA7jeuFABJwhw
-         AI3KoA629xhfoZN9ioXEHjbTTG8OtmtEmxIb8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CrKLop8goJNAb7F3nsn024T54b0Rb1lNYvD3dS3QIUg=;
-        b=0PR6Kx8/HPHSJQ5FTrVucXUUMh7lsxNqaadfMzLHzxzMaVODJ8B5+cLxLiMui64NP9
-         WjBcBEQHN52UloL6L0Hii0rKBRsypAlzWtC2h510YtNDm7AZ9xsBEnqyAmQeCZu1OCKr
-         ERY1eXj/W6+wMbrIID3v+8VE/4SNWIBAmGsU0WnyUw5k70FFm7KzwxFWYt5jdQwVwdC9
-         YGinPmkfdrZGOzvWC5S+FSUPrMzcque4NwQjZ2no0SzuH84LOW60pGrWuxahMFIdZdpT
-         zYitDHagNQHRMAuayfLDvsnKP2OxZDF5veiSgawyDSKMuvlM2QMGSTxC7lYW/ep1DTI5
-         0Uyg==
-X-Gm-Message-State: AOAM5321JMJFa3gtPjekj0O9ETOsh0JoOV0JdFA9j7ITJ4OtDp0iRWrO
-        UXSBoLwK0asr2yPI2ltXi0HmER896/j2M7QWfWc=
-X-Google-Smtp-Source: ABdhPJwgrLnqpEvntxPkGGxB6cVXfOqCEpAxIxATXjR4KN7UIbSgfzyDJlEU7RTu12FA/6euuy1abg==
-X-Received: by 2002:a17:906:6691:: with SMTP id z17mr23497414ejo.763.1642584023684;
-        Wed, 19 Jan 2022 01:20:23 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com. [209.85.128.47])
-        by smtp.gmail.com with ESMTPSA id h13sm918649edl.96.2022.01.19.01.20.23
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jan 2022 01:20:23 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id c66so3952794wma.5
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Jan 2022 01:20:23 -0800 (PST)
-X-Received: by 2002:a5d:5582:: with SMTP id i2mr3756654wrv.442.1642584022918;
- Wed, 19 Jan 2022 01:20:22 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
-In-Reply-To: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 19 Jan 2022 11:20:06 +0200
-X-Gmail-Original-Message-ID: <CAHk-=wiizVi7p_VbaXgKxSne9fAEqNR8F_ivx95_2mkGOxxPqg@mail.gmail.com>
-Message-ID: <CAHk-=wiizVi7p_VbaXgKxSne9fAEqNR8F_ivx95_2mkGOxxPqg@mail.gmail.com>
+        Wed, 19 Jan 2022 04:48:15 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 35997B81915;
+        Wed, 19 Jan 2022 09:48:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E8BEC340E7;
+        Wed, 19 Jan 2022 09:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642585693;
+        bh=Tp+yamzMMMZE/cJq2iWgjrvAsPDxFtIqy1SheQLqfYM=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=sq0TJLKa6h6g5bOL0n5UFI0YBx4rPvVUkenIUHgAeEkfZyaggw9DUIjkFCk8eq98Y
+         TWNxPc2G2SahqJ11M+yi7bwvE4DDSf7ZZ038T3fa+TcazyosNJV4hGUgE4E4SJpJdB
+         wD8GGmLV4ztXrrg5L2y+ZgLdkd1zxtf3soTVwWXZcAIvMatlmfWbGuqE6J6w2uSwI7
+         KLiazSvWgy93fi2/gxElDUBU75QDCKm7I0khXc4fVbwG3yvT5aOtwhJ3eJRXK2l4xl
+         AZz9QKeft7So+g05qkhOg9FkGhPKKvyRSsj2zy+tEw5hKSUJyH1rQ6RMOjnCAFgzZy
+         LI0OWQuq0RYlQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EF10FF6079B;
+        Wed, 19 Jan 2022 09:48:12 +0000 (UTC)
 Subject: Re: [GIT PULL] Kbuild updates for v5.17-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
+References: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.17
+X-PR-Tracked-Commit-Id: c4d7f40b250c1a4d74ed259e84807f58032507b6
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: fd6f57bfda7c36f2d465cee39d5d8c623db5d7aa
+Message-Id: <164258569297.19279.13038889410759232745.pr-tracker-bot@kernel.org>
+Date:   Wed, 19 Jan 2022 09:48:12 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 9:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> You will see a trivial conflict in scripts/link-vmlinux.sh
-> (commit 72b3942a173c in the mainline
-> vs 7d153696e5db from this PR)
-> The fix is available in linux-next.
+The pull request you sent on Wed, 19 Jan 2022 04:42:17 +0900:
 
-The resolution in linux-next seems to be wrong.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.17
 
-It missed a new case of
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/fd6f57bfda7c36f2d465cee39d5d8c623db5d7aa
 
-        if [ -n "${CONFIG_SLS}" ]; then
+Thank you!
 
-in scripts/link-vmlinux.sh, which no longer works after commit
-7d153696e5db ("kbuild: do not include include/config/auto.conf from
-shell scripts").
-
-That needed to be converted to
-
-        if is_enabled CONFIG_SLS; then
-
-too.
-
-I think that was the only case. Knock wood.
-
-             Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
