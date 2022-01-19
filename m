@@ -2,66 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 882344937AD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 10:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEB9B493B76
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jan 2022 14:53:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353216AbiASJsR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Jan 2022 04:48:17 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:51144 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353293AbiASJsP (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Jan 2022 04:48:15 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 35997B81915;
-        Wed, 19 Jan 2022 09:48:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E8BEC340E7;
-        Wed, 19 Jan 2022 09:48:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642585693;
-        bh=Tp+yamzMMMZE/cJq2iWgjrvAsPDxFtIqy1SheQLqfYM=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=sq0TJLKa6h6g5bOL0n5UFI0YBx4rPvVUkenIUHgAeEkfZyaggw9DUIjkFCk8eq98Y
-         TWNxPc2G2SahqJ11M+yi7bwvE4DDSf7ZZ038T3fa+TcazyosNJV4hGUgE4E4SJpJdB
-         wD8GGmLV4ztXrrg5L2y+ZgLdkd1zxtf3soTVwWXZcAIvMatlmfWbGuqE6J6w2uSwI7
-         KLiazSvWgy93fi2/gxElDUBU75QDCKm7I0khXc4fVbwG3yvT5aOtwhJ3eJRXK2l4xl
-         AZz9QKeft7So+g05qkhOg9FkGhPKKvyRSsj2zy+tEw5hKSUJyH1rQ6RMOjnCAFgzZy
-         LI0OWQuq0RYlQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EF10FF6079B;
-        Wed, 19 Jan 2022 09:48:12 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild updates for v5.17-rc1
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
-References: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAShL3dfQ0Ter2avCvGPjrd0YTJau-S4+8rJyWXmu0tG0Q@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.17
-X-PR-Tracked-Commit-Id: c4d7f40b250c1a4d74ed259e84807f58032507b6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fd6f57bfda7c36f2d465cee39d5d8c623db5d7aa
-Message-Id: <164258569297.19279.13038889410759232745.pr-tracker-bot@kernel.org>
-Date:   Wed, 19 Jan 2022 09:48:12 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id S245057AbiASNwK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Jan 2022 08:52:10 -0500
+Received: from mga05.intel.com ([192.55.52.43]:59410 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235698AbiASNwK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 19 Jan 2022 08:52:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642600330; x=1674136330;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=V6xj/70rR9995gOWyZ2fhDWt5YCJUunhJStJfwvw0ds=;
+  b=Qr82z7QNjzR3qw3ritHdY4J04BfnBHWNhuIOzIdVxZmeonYFDNAj164X
+   BQpfpTTgBFz0DxuUnHqYksUXP/NArafEcdN5Kk+6TUPPiwpYEY1pRHIVP
+   gEoK7vvZ5LpGbOy+murd+TwbXOBVUNIdvw94w6Br7pbBxMDMd32WFwWAP
+   fJKSfN1PPQJYTcI3Eohip+vXKeN+voOaqLzTfel2PEnfVax70Cf+l018K
+   /++acZg5REwaEXC8VA6Xi1GcScDf9UWa/jLhgQZ9tModuCxQxK0eiY6RD
+   tpfXH1BWDwjYhG328HwlUnbThszOHYy582jt1bXzw3QWU5UPf2CudRSct
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="331419653"
+X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; 
+   d="scan'208";a="331419653"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2022 05:52:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; 
+   d="scan'208";a="477379673"
+Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
+  by orsmga006.jf.intel.com with ESMTP; 19 Jan 2022 05:52:07 -0800
+From:   =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
+        <amadeuszx.slawinski@linux.intel.com>
+To:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= 
+        <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] Makefile: Fix build with scan-build
+Date:   Wed, 19 Jan 2022 14:51:47 +0100
+Message-Id: <20220119135147.1859982-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Wed, 19 Jan 2022 04:42:17 +0900:
+When building kernel with scan-build for analysis:
+$ scan-build make defconfig
+$ scan-build make menuconfig # disable RETPOLINE
+$ scan-build make -j16 bindeb-pkg
+since commit 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
+it fails with:
+  CC      scripts/mod/empty.o
+could not find clang line
+make[4]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.17
+Seems like changes to how -fconserve-stack support was detected broke
+build with scan-build. Revert part of mentioned commit which changed
+that.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fd6f57bfda7c36f2d465cee39d5d8c623db5d7aa
+Fixes: 7d73c3e9c514 ("Makefile: remove stale cc-option checks")
+CC: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ Makefile | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Thank you!
-
+diff --git a/Makefile b/Makefile
+index 765115c99655..1174ccd182f5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -991,9 +991,7 @@ KBUILD_CFLAGS	+= -fno-strict-overflow
+ KBUILD_CFLAGS  += -fno-stack-check
+ 
+ # conserve stack if available
+-ifdef CONFIG_CC_IS_GCC
+-KBUILD_CFLAGS   += -fconserve-stack
+-endif
++KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
+ 
+ # Prohibit date/time macros, which would make the build non-deterministic
+ KBUILD_CFLAGS   += -Werror=date-time
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
