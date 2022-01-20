@@ -2,73 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 704214946F8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 06:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2C8494B02
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 10:46:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234514AbiATFcA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jan 2022 00:32:00 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:31328 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbiATFcA (ORCPT
+        id S238495AbiATJqO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jan 2022 04:46:14 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:47360 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359652AbiATJqL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jan 2022 00:32:00 -0500
-Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 20K5V6QW029756;
-        Thu, 20 Jan 2022 14:31:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 20K5V6QW029756
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1642656667;
-        bh=d9AQ7p0brEyjb3LFIQfatzkfmepyjBhtJOzn2i9Uff4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=248if+r239MzF9Dh+IPJUHaWtcOg0BH9566uLFXCCleZOhGHp9qm9Mz+s0bHd0o2s
-         alYyK7wUU+TTT75ivwDzGmAR+TiisibrbW2uJ45r2ZzcQSN8uuU6vFEl7Bpaz8I87F
-         3Yxmx9I1KpQIwB8EYHTzEVkycVG8WbVwDa5tS1OV3Ey9i+iuvDmgVYHR3JrWmgRS/h
-         hX7As8eEiWdNMC8D3IegWZ7E/VG7kPXwRDU1WbF1slT1WojKuBd9iPOzxJljgHunTv
-         EsaY8YYsCatWpMsghcg148jsVxLF23HZ0aQFyrc7GlrATbFBLIiEgpWxu8ML4AzyWv
-         AEJQw8ZVR3loQ==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
+        Thu, 20 Jan 2022 04:46:11 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id D1C5E1F394;
+        Thu, 20 Jan 2022 09:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1642671969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=qgmelI2EkTIKnzmErCnW3xXmYOwhrygdh8cWS2AczRw=;
+        b=Vkra9RNQexMGXwrcVbwrnMdlwfgehiP0GONhnoSmCXpWlc8e3X4AGY/T5hF39dVEmyDz/7
+        wOU0Y+O2KahdlSGZcTOUyiosif2iW/EGUyW7uTROV6g1xHi5M+UwetcRXK9HyUZiJUHNpJ
+        eSZIXlKJExulV/iuABheWV/Uxy9qxnM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1642671969;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type;
+        bh=qgmelI2EkTIKnzmErCnW3xXmYOwhrygdh8cWS2AczRw=;
+        b=M2ZFCf+IYY3U3SzTWu0DBowFJ/0mGYCmiGbQ6oXZnFMZqmjHhbUbstmetZ9EdS0LJAL8Ix
+        k+e2lVEUxd1dFNCg==
+Received: from lion.mk-sys.cz (unknown [10.100.200.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id D70C3A3C44;
+        Thu, 20 Jan 2022 09:46:03 +0000 (UTC)
+Received: by lion.mk-sys.cz (Postfix, from userid 1000)
+        id AC4A0603B9; Thu, 20 Jan 2022 10:46:06 +0100 (CET)
+Date:   Thu, 20 Jan 2022 10:46:06 +0100
+From:   Michal Kubecek <mkubecek@suse.cz>
 To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] Revert "Makefile: Do not quote value for CONFIG_CC_IMPLICIT_FALLTHROUGH"
-Date:   Thu, 20 Jan 2022 14:31:00 +0900
-Message-Id: <20220120053100.408816-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: kbuild/cert rework for 5.17 breaks build with empty
+ CONFIG_MODULE_SIG_KEY
+Message-ID: <20220120094606.2skuyb26yjlnu66q@lion.mk-sys.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zlp7bthohk7hfvou"
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit cd8c917a56f20f48748dd43d9ae3caff51d5b987.
 
-Commit 129ab0d2d9f3 ("kbuild: do not quote string values in
-include/config/auto.conf") provided the final solution.
+--zlp7bthohk7hfvou
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Now reverting the temporary workaround.
+Hello,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+while testing merge window snapshots, I noticed that after commit
+b8c96a6b466c ("certs: simplify $(srctree)/ handling and remove
+config_filename macro"), build with
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    CONFIG_MODULE_SIG=y
+    CONFIG_MODULE_SIG_FORCE=n
+    CONFIG_MODULE_SIG_ALL=n
+    CONFIG_MODULE_SIG_KEY=""
 
-diff --git a/Makefile b/Makefile
-index 3f07f0f04475..c94559a97dca 100644
---- a/Makefile
-+++ b/Makefile
-@@ -778,7 +778,7 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
- KBUILD_CFLAGS += $(stackp-flags-y)
- 
- KBUILD_CFLAGS-$(CONFIG_WERROR) += -Werror
--KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH:"%"=%)
-+KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
- 
- ifdef CONFIG_CC_IS_CLANG
- KBUILD_CPPFLAGS += -Qunused-arguments
--- 
-2.32.0
+(as suggested in Documentation/kbuild/reproducible-builds.rst, section
+"Module signing") fails to build as make executes scripts/extract-cert
+with only one argument (the unquoted empty string has no effect):
 
+  ...
+    certs/extract-cert  certs/signing_key.x509
+  Usage: extract-cert <source> <dest>
+  make[2]: *** [/home/mike/work/git/kernel-upstream/certs/Makefile:78: certs/signing_key.x509] Error 2
+  make[1]: *** [/home/mike/work/git/kernel-upstream/Makefile:1831: certs] Error 2
+  make[1]: Leaving directory '/srv/ram/kobj'
+  make: *** [Makefile:219: __sub-make] Error 2
+
+Should this be considered a bug or is there a different recommended way
+to get reproducible builds now?
+
+Michal
+
+--zlp7bthohk7hfvou
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEWN3j3bieVmp26mKO538sG/LRdpUFAmHpL1YACgkQ538sG/LR
+dpXP2gf9HThoe4kKpmxYCoAAAJINNR9E2LNPlJgzbu7N47BQwYcS6hh/WDBTBoXg
+Rrd6rZiiYWfteekWKbzYs/7UkSk1E8OmMg1PxjxGkjgYPlYvkvumAZcz5bTpAQo/
+TwFzwWLhFVDRlT7k/FddbtJriHien79kumsm0lZtr68nra9jF7x8T6zCFrMoPQQU
+QZllWyfweF1gIyW4B9VCNtvQtArriban+VhyssVKrmtn/8qwz7MQp16V2/JLIx3n
+gwFvTYuNhchnM0f2wBJL6z93CnBfdHyneTTl4GNKceXSQwkLfZwjWdopWCzzDXs8
+eSBtBDqnMns5jweRP4XjIzsiLXq7WA==
+=MDME
+-----END PGP SIGNATURE-----
+
+--zlp7bthohk7hfvou--
