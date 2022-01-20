@@ -2,75 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A14664954E2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 20:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 644AE4954D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 20:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347053AbiATTbR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jan 2022 14:31:17 -0500
-Received: from sdaoden.eu ([217.144.132.164]:50350 "EHLO sdaoden.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231733AbiATTbQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jan 2022 14:31:16 -0500
-X-Greylist: delayed 562 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 Jan 2022 14:31:16 EST
-Received: from kent.sdaoden.eu (kent.sdaoden.eu [10.5.0.2])
-        by sdaoden.eu (Postfix) with ESMTPS id 8A79916057;
-        Thu, 20 Jan 2022 20:21:53 +0100 (CET)
-Received: by kent.sdaoden.eu (Postfix, from userid 1000)
-        id EF55D383E; Thu, 20 Jan 2022 20:21:51 +0100 (CET)
-Date:   Thu, 20 Jan 2022 20:21:51 +0100
-Author: Steffen Nurpmeso <steffen@sdaoden.eu>
-From:   Steffen Nurpmeso <steffen@sdaoden.eu>
+        id S243962AbiATTXc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jan 2022 14:23:32 -0500
+Received: from conuserg-08.nifty.com ([210.131.2.75]:24700 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238482AbiATTXb (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 20 Jan 2022 14:23:31 -0500
+Received: from grover.. (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 20KJMCMN001376;
+        Fri, 21 Jan 2022 04:22:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 20KJMCMN001376
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1642706532;
+        bh=gPoSejFv1rZps1hQ66wlGv5FGinyPUP1BTtRi8b169c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IDKXs+gIUr7RFnQw7j+xeXOXvn3Y8X0iyTPdjYQFqbMQS0oh6KcK9TMkX4XecLvGs
+         nuLRFaDMFe0BhgQ1Fz7q7rCymDP2QsVuMNzvvERlxLGO2ycc3nzw8EripFc+ZUyfHV
+         Kjw40EpE7ZHN+ZNkUimhpG3ycXtlKaS64BIQOWOEyNSlWpmdoDimHpUK9xQ5/2+InC
+         MbZ8b+qVMECaYZwXn/bdSFqH1m7etWdIjCGfXqDvMYKi62ecIi+AKXszYA6uVoXEoO
+         5BmmGWwx1cNy+5SsUQWXf0OyGnjW2qiKFRiDmlAg2znk6ufG5fgUWG9R1AYqWuxpPu
+         7vzIZzUyrqxdQ==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     Steffen Nurpmeso <steffen@sdaoden.eu>
-Subject: Makefile: uses rsync(1), could this be optional?
-Message-ID: <20220120192151.k46VF%steffen@sdaoden.eu>
-User-Agent: s-nail v14.9.23-223-g046972b06d
-OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
- url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
-BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
- the world can make no bugs.
+Cc:     Michal Kubecek <mkubecek@suse.cz>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] certs: Fix build error when CONFIG_MODULE_SIG_KEY is PKCS#11 URI
+Date:   Fri, 21 Jan 2022 04:22:04 +0900
+Message-Id: <20220120192205.525103-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello.
+When CONFIG_MODULE_SIG_KEY is PKCS#11 URL (pkcs11:*), signing_key.x509
+fails to build:
 
-I sent this to linux-kernel@vger.kernel.org on the 15th, which
-seems to be legacy.  Just in case someone is wondering about the
-resend.
+  certs/Makefile:77: *** target pattern contains no '%'.  Stop.
 
-As a not-yet-tested low-quality Makefile suggestion, with modern
-GNU tools and find(1)'s -printf, wouldn't the following code work
-out gracefully in practice?  (Not subscribed.)
+Due to the typo, $(X509_DEP) contains a colon.
 
-Thanks for Linux!
+Fix it.
 
---- Makefile.orig	2022-01-15 19:33:59.337393371 +0100
-+++ Makefile	2022-01-15 19:34:07.447393217 +0100
-@@ -1260,8 +1288,17 @@ export INSTALL_HDR_PATH = $(objtree)/usr
- quiet_cmd_headers_install = INSTALL $(INSTALL_HDR_PATH)/include
-       cmd_headers_install = \
- 	mkdir -p $(INSTALL_HDR_PATH); \
--	rsync -mrl --include='*/' --include='*\.h' --exclude='*' \
--	usr/include $(INSTALL_HDR_PATH)
-+	if command -v rsync; then \
-+		rsync -mrl --include='*/' --include='*\.h' --exclude='*' \
-+		usr/include $(INSTALL_HDR_PATH);\
-+	else \
-+		cd usr;\
-+		find include/ -type f -name '*.h' -printf '%f %h\n' |\
-+		while read f d; do \
-+			mkdir -p $(INSTALL_HDR_PATH)/$$d;\
-+			cp -P $$d/$$f $(INSTALL_HDR_PATH)/$$d/$$f;\
-+		done;\
-+	fi
+Fixes: b8c96a6b466c ("certs: simplify $(srctree)/ handling and remove config_filename macro")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ certs/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/certs/Makefile b/certs/Makefile
+index f7041c29a2e0..0c459cfd09df 100644
+--- a/certs/Makefile
++++ b/certs/Makefile
+@@ -68,7 +68,7 @@ $(obj)/x509.genkey:
+ endif # CONFIG_MODULE_SIG_KEY
  
- PHONY += headers_install
- headers_install: headers
+ # If CONFIG_MODULE_SIG_KEY isn't a PKCS#11 URI, depend on it
+-ifneq ($(filter-out pkcs11:%, %(CONFIG_MODULE_SIG_KEY)),)
++ifneq ($(filter-out pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
+ X509_DEP := $(CONFIG_MODULE_SIG_KEY)
+ endif
+ 
+-- 
+2.32.0
 
---steffen
-|
-|Der Kragenbaer,                The moon bear,
-|der holt sich munter           he cheerfully and one by one
-|einen nach dem anderen runter  wa.ks himself off
-|(By Robert Gernhardt)
