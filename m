@@ -2,102 +2,392 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F2C8494B02
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 10:46:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9D84953EF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jan 2022 19:16:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238495AbiATJqO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jan 2022 04:46:14 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:47360 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359652AbiATJqL (ORCPT
+        id S244000AbiATSQO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jan 2022 13:16:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56784 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243977AbiATSQN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jan 2022 04:46:11 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id D1C5E1F394;
-        Thu, 20 Jan 2022 09:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1642671969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type;
-        bh=qgmelI2EkTIKnzmErCnW3xXmYOwhrygdh8cWS2AczRw=;
-        b=Vkra9RNQexMGXwrcVbwrnMdlwfgehiP0GONhnoSmCXpWlc8e3X4AGY/T5hF39dVEmyDz/7
-        wOU0Y+O2KahdlSGZcTOUyiosif2iW/EGUyW7uTROV6g1xHi5M+UwetcRXK9HyUZiJUHNpJ
-        eSZIXlKJExulV/iuABheWV/Uxy9qxnM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1642671969;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type;
-        bh=qgmelI2EkTIKnzmErCnW3xXmYOwhrygdh8cWS2AczRw=;
-        b=M2ZFCf+IYY3U3SzTWu0DBowFJ/0mGYCmiGbQ6oXZnFMZqmjHhbUbstmetZ9EdS0LJAL8Ix
-        k+e2lVEUxd1dFNCg==
-Received: from lion.mk-sys.cz (unknown [10.100.200.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id D70C3A3C44;
-        Thu, 20 Jan 2022 09:46:03 +0000 (UTC)
-Received: by lion.mk-sys.cz (Postfix, from userid 1000)
-        id AC4A0603B9; Thu, 20 Jan 2022 10:46:06 +0100 (CET)
-Date:   Thu, 20 Jan 2022 10:46:06 +0100
-From:   Michal Kubecek <mkubecek@suse.cz>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: kbuild/cert rework for 5.17 breaks build with empty
- CONFIG_MODULE_SIG_KEY
-Message-ID: <20220120094606.2skuyb26yjlnu66q@lion.mk-sys.cz>
+        Thu, 20 Jan 2022 13:16:13 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237E8C061401
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jan 2022 10:16:13 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id o12so24752236lfu.12
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jan 2022 10:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=J9x2NG+LgE4kaD5UG5LUL0GB0NdPSyzMtwcN6xwlv9c=;
+        b=UuAosnS4uZq9DoXlhTBm4j5l2w1d3uzS1YTDRfj9LBQyPwlz6lHwa3/ypLEr5zmS7k
+         pt/lZDx7hlGBC3crCBzVwmp8t2ixX5/2a0nkfDSp4Kru+pSVPKZtUWhqQYcVdiN5HiUO
+         WpBGKcJpqU7V4pg5PTUGwatPlL+giv/QcjBc3qGRjWYM34j4EdkN+kNyDOqhr54G64ry
+         WWzRfIpb+bYWwx/wBMHhTNpDyimr/Mld0kgdo/BCjycjgRXREiZ8gzJzne/VND60di8c
+         b3wv3kQRT+j0JNBpWPwbhpQzAdrDopXsBMpjb7d3wS2tLfFVQDndXur5qLVBLLAmStJt
+         nU+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=J9x2NG+LgE4kaD5UG5LUL0GB0NdPSyzMtwcN6xwlv9c=;
+        b=bCu6mNbr9yDnjRRZrufT7OqLTzy4iV+blM/ZBLA01ash6d/kLcS5h6bsM/lQT8jFe8
+         gBExJIdRhtLITmGAsqamFuX2FUNii23t1THjiI/Gd6YWXCzUpHBHieHTjENADSF+1Yf2
+         GkfnCqKQ61okpg3A8PW0TVNEftDOs/c+yaUR6ESDB8Wv+ipt9HWUUgzTebPlhVY6pXq3
+         A33/Fr6+OnZ+HIk0xRsKV10qbtnmMbduMhSR2fzll6cJG/hW74weEFqLHmL3cqa9GxDe
+         KnKNYOxpkM2CgViy3j0uVdFPMxhaI3wVLrGf9g+gn67WQgqKAojIV756RMngkvxrIejL
+         ZrIg==
+X-Gm-Message-State: AOAM531rWeKA/0zQ9xS6xxldI23NxK40iH+Yrm22EAsimQMBZc0reSld
+        mHGLhmCdRIzR5980JrdCw9BxdtQcV8Mn9DwbM0j0qQ==
+X-Google-Smtp-Source: ABdhPJybBrwpc3UAc6Gu9IhMW/l96xRVYL7rrYuA41iXQZChzao9yTwmwptotwP66Tm7Frroc0/+6+Z/W8qqzY+Uz2w=
+X-Received: by 2002:a05:6512:130f:: with SMTP id x15mr242448lfu.587.1642702571197;
+ Thu, 20 Jan 2022 10:16:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zlp7bthohk7hfvou"
-Content-Disposition: inline
+References: <20211118192130.48b8f04c@xhacker> <20211118192651.605d0c80@xhacker>
+In-Reply-To: <20211118192651.605d0c80@xhacker>
+From:   Mayuresh Chitale <mchitale@ventanamicro.com>
+Date:   Thu, 20 Jan 2022 23:45:34 +0530
+Message-ID: <CAN37VV6vfee+T18UkbDLe1ts87+Zvg25oQR1+VJD3e6SJFPPiA@mail.gmail.com>
+Subject: Re: [PATCH 11/12] riscv: extable: add a dedicated uaccess handler
+To:     Jisheng Zhang <jszhang3@mail.ustc.edu.cn>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Tong Tiangen <tongtiangen@huawei.com>,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Jisheng,
 
---zlp7bthohk7hfvou
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Just wanted to inform you that this patch breaks the writev02 test
+case in LTP and if it is reverted then the test passes. If we run the
+test through strace then we see that the test hangs and following is
+the last line printed by strace:
 
-Hello,
+"writev(3, [{iov_base=0x7fff848a6000, iov_len=8192}, {iov_base=NULL,
+iov_len=0}]"
 
-while testing merge window snapshots, I noticed that after commit
-b8c96a6b466c ("certs: simplify $(srctree)/ handling and remove
-config_filename macro"), build with
+Thanks,
+Mayuresh.
 
-    CONFIG_MODULE_SIG=y
-    CONFIG_MODULE_SIG_FORCE=n
-    CONFIG_MODULE_SIG_ALL=n
-    CONFIG_MODULE_SIG_KEY=""
 
-(as suggested in Documentation/kbuild/reproducible-builds.rst, section
-"Module signing") fails to build as make executes scripts/extract-cert
-with only one argument (the unquoted empty string has no effect):
-
-  ...
-    certs/extract-cert  certs/signing_key.x509
-  Usage: extract-cert <source> <dest>
-  make[2]: *** [/home/mike/work/git/kernel-upstream/certs/Makefile:78: certs/signing_key.x509] Error 2
-  make[1]: *** [/home/mike/work/git/kernel-upstream/Makefile:1831: certs] Error 2
-  make[1]: Leaving directory '/srv/ram/kobj'
-  make: *** [Makefile:219: __sub-make] Error 2
-
-Should this be considered a bug or is there a different recommended way
-to get reproducible builds now?
-
-Michal
-
---zlp7bthohk7hfvou
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEWN3j3bieVmp26mKO538sG/LRdpUFAmHpL1YACgkQ538sG/LR
-dpXP2gf9HThoe4kKpmxYCoAAAJINNR9E2LNPlJgzbu7N47BQwYcS6hh/WDBTBoXg
-Rrd6rZiiYWfteekWKbzYs/7UkSk1E8OmMg1PxjxGkjgYPlYvkvumAZcz5bTpAQo/
-TwFzwWLhFVDRlT7k/FddbtJriHien79kumsm0lZtr68nra9jF7x8T6zCFrMoPQQU
-QZllWyfweF1gIyW4B9VCNtvQtArriban+VhyssVKrmtn/8qwz7MQp16V2/JLIx3n
-gwFvTYuNhchnM0f2wBJL6z93CnBfdHyneTTl4GNKceXSQwkLfZwjWdopWCzzDXs8
-eSBtBDqnMns5jweRP4XjIzsiLXq7WA==
-=MDME
------END PGP SIGNATURE-----
-
---zlp7bthohk7hfvou--
+On Thu, Nov 18, 2021 at 5:05 PM Jisheng Zhang <jszhang3@mail.ustc.edu.cn> wrote:
+>
+> From: Jisheng Zhang <jszhang@kernel.org>
+>
+> Inspired by commit 2e77a62cb3a6("arm64: extable: add a dedicated
+> uaccess handler"), do similar to riscv to add a dedicated uaccess
+> exception handler to update registers in exception context and
+> subsequently return back into the function which faulted, so we remove
+> the need for fixups specialized to each faulting instruction.
+>
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>  arch/riscv/include/asm/asm-extable.h | 23 +++++++++
+>  arch/riscv/include/asm/futex.h       | 23 +++------
+>  arch/riscv/include/asm/uaccess.h     | 74 +++++++++-------------------
+>  arch/riscv/mm/extable.c              | 27 ++++++++++
+>  4 files changed, 78 insertions(+), 69 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/asm-extable.h b/arch/riscv/include/asm/asm-extable.h
+> index 1b1f4ffd8d37..14be0673f5b5 100644
+> --- a/arch/riscv/include/asm/asm-extable.h
+> +++ b/arch/riscv/include/asm/asm-extable.h
+> @@ -5,6 +5,7 @@
+>  #define EX_TYPE_NONE                   0
+>  #define EX_TYPE_FIXUP                  1
+>  #define EX_TYPE_BPF                    2
+> +#define EX_TYPE_UACCESS_ERR_ZERO       3
+>
+>  #ifdef __ASSEMBLY__
+>
+> @@ -23,7 +24,9 @@
+>
+>  #else /* __ASSEMBLY__ */
+>
+> +#include <linux/bits.h>
+>  #include <linux/stringify.h>
+> +#include <asm/gpr-num.h>
+>
+>  #define __ASM_EXTABLE_RAW(insn, fixup, type, data)     \
+>         ".pushsection   __ex_table, \"a\"\n"            \
+> @@ -37,6 +40,26 @@
+>  #define _ASM_EXTABLE(insn, fixup)      \
+>         __ASM_EXTABLE_RAW(#insn, #fixup, __stringify(EX_TYPE_FIXUP), "0")
+>
+> +#define EX_DATA_REG_ERR_SHIFT  0
+> +#define EX_DATA_REG_ERR                GENMASK(4, 0)
+> +#define EX_DATA_REG_ZERO_SHIFT 5
+> +#define EX_DATA_REG_ZERO       GENMASK(9, 5)
+> +
+> +#define EX_DATA_REG(reg, gpr)                                          \
+> +       "((.L__gpr_num_" #gpr ") << " __stringify(EX_DATA_REG_##reg##_SHIFT) ")"
+> +
+> +#define _ASM_EXTABLE_UACCESS_ERR_ZERO(insn, fixup, err, zero)          \
+> +       __DEFINE_ASM_GPR_NUMS                                           \
+> +       __ASM_EXTABLE_RAW(#insn, #fixup,                                \
+> +                         __stringify(EX_TYPE_UACCESS_ERR_ZERO),        \
+> +                         "("                                           \
+> +                           EX_DATA_REG(ERR, err) " | "                 \
+> +                           EX_DATA_REG(ZERO, zero)                     \
+> +                         ")")
+> +
+> +#define _ASM_EXTABLE_UACCESS_ERR(insn, fixup, err)                     \
+> +       _ASM_EXTABLE_UACCESS_ERR_ZERO(insn, fixup, err, zero)
+> +
+>  #endif /* __ASSEMBLY__ */
+>
+>  #endif /* __ASM_ASM_EXTABLE_H */
+> diff --git a/arch/riscv/include/asm/futex.h b/arch/riscv/include/asm/futex.h
+> index 2e15e8e89502..fc8130f995c1 100644
+> --- a/arch/riscv/include/asm/futex.h
+> +++ b/arch/riscv/include/asm/futex.h
+> @@ -21,20 +21,14 @@
+>
+>  #define __futex_atomic_op(insn, ret, oldval, uaddr, oparg)     \
+>  {                                                              \
+> -       uintptr_t tmp;                                          \
+>         __enable_user_access();                                 \
+>         __asm__ __volatile__ (                                  \
+>         "1:     " insn "                                \n"     \
+>         "2:                                             \n"     \
+> -       "       .section .fixup,\"ax\"                  \n"     \
+> -       "       .balign 4                               \n"     \
+> -       "3:     li %[r],%[e]                            \n"     \
+> -       "       jump 2b,%[t]                            \n"     \
+> -       "       .previous                               \n"     \
+> -               _ASM_EXTABLE(1b, 3b)                            \
+> +       _ASM_EXTABLE_UACCESS_ERR(1b, 2b, %[r])                  \
+>         : [r] "+r" (ret), [ov] "=&r" (oldval),                  \
+> -         [u] "+m" (*uaddr), [t] "=&r" (tmp)                    \
+> -       : [op] "Jr" (oparg), [e] "i" (-EFAULT)                  \
+> +         [u] "+m" (*uaddr)                                     \
+> +       : [op] "Jr" (oparg)                                     \
+>         : "memory");                                            \
+>         __disable_user_access();                                \
+>  }
+> @@ -96,15 +90,10 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
+>         "2:     sc.w.aqrl %[t],%z[nv],%[u]              \n"
+>         "       bnez %[t],1b                            \n"
+>         "3:                                             \n"
+> -       "       .section .fixup,\"ax\"                  \n"
+> -       "       .balign 4                               \n"
+> -       "4:     li %[r],%[e]                            \n"
+> -       "       jump 3b,%[t]                            \n"
+> -       "       .previous                               \n"
+> -               _ASM_EXTABLE(1b, 4b)                    \
+> -               _ASM_EXTABLE(2b, 4b)                    \
+> +               _ASM_EXTABLE_UACCESS_ERR(1b, 3b, %[r])  \
+> +               _ASM_EXTABLE_UACCESS_ERR(2b, 3b, %[r])  \
+>         : [r] "+r" (ret), [v] "=&r" (val), [u] "+m" (*uaddr), [t] "=&r" (tmp)
+> -       : [ov] "Jr" (oldval), [nv] "Jr" (newval), [e] "i" (-EFAULT)
+> +       : [ov] "Jr" (oldval), [nv] "Jr" (newval)
+>         : "memory");
+>         __disable_user_access();
+>
+> diff --git a/arch/riscv/include/asm/uaccess.h b/arch/riscv/include/asm/uaccess.h
+> index 40e6099af488..a4716c026386 100644
+> --- a/arch/riscv/include/asm/uaccess.h
+> +++ b/arch/riscv/include/asm/uaccess.h
+> @@ -81,22 +81,14 @@ static inline int __access_ok(unsigned long addr, unsigned long size)
+>
+>  #define __get_user_asm(insn, x, ptr, err)                      \
+>  do {                                                           \
+> -       uintptr_t __tmp;                                        \
+>         __typeof__(x) __x;                                      \
+>         __asm__ __volatile__ (                                  \
+>                 "1:\n"                                          \
+> -               "       " insn " %1, %3\n"                      \
+> +               "       " insn " %1, %2\n"                      \
+>                 "2:\n"                                          \
+> -               "       .section .fixup,\"ax\"\n"               \
+> -               "       .balign 4\n"                            \
+> -               "3:\n"                                          \
+> -               "       li %0, %4\n"                            \
+> -               "       li %1, 0\n"                             \
+> -               "       jump 2b, %2\n"                          \
+> -               "       .previous\n"                            \
+> -                       _ASM_EXTABLE(1b, 3b)                    \
+> -               : "+r" (err), "=&r" (__x), "=r" (__tmp)         \
+> -               : "m" (*(ptr)), "i" (-EFAULT));                 \
+> +               _ASM_EXTABLE_UACCESS_ERR_ZERO(1b, 2b, %0, %1)   \
+> +               : "+r" (err), "=&r" (__x)                       \
+> +               : "m" (*(ptr)));                                \
+>         (x) = __x;                                              \
+>  } while (0)
+>
+> @@ -108,27 +100,18 @@ do {                                                              \
+>  do {                                                           \
+>         u32 __user *__ptr = (u32 __user *)(ptr);                \
+>         u32 __lo, __hi;                                         \
+> -       uintptr_t __tmp;                                        \
+>         __asm__ __volatile__ (                                  \
+>                 "1:\n"                                          \
+> -               "       lw %1, %4\n"                            \
+> +               "       lw %1, %3\n"                            \
+>                 "2:\n"                                          \
+> -               "       lw %2, %5\n"                            \
+> +               "       lw %2, %4\n"                            \
+>                 "3:\n"                                          \
+> -               "       .section .fixup,\"ax\"\n"               \
+> -               "       .balign 4\n"                            \
+> -               "4:\n"                                          \
+> -               "       li %0, %6\n"                            \
+> -               "       li %1, 0\n"                             \
+> -               "       li %2, 0\n"                             \
+> -               "       jump 3b, %3\n"                          \
+> -               "       .previous\n"                            \
+> -                       _ASM_EXTABLE(1b, 4b)                    \
+> -                       _ASM_EXTABLE(2b, 4b)                    \
+> -               : "+r" (err), "=&r" (__lo), "=r" (__hi),        \
+> -                       "=r" (__tmp)                            \
+> -               : "m" (__ptr[__LSW]), "m" (__ptr[__MSW]),       \
+> -                       "i" (-EFAULT));                         \
+> +               _ASM_EXTABLE_UACCESS_ERR_ZERO(1b, 3b, %0, %1)   \
+> +               _ASM_EXTABLE_UACCESS_ERR_ZERO(2b, 3b, %0, %1)   \
+> +               : "+r" (err), "=&r" (__lo), "=r" (__hi)         \
+> +               : "m" (__ptr[__LSW]), "m" (__ptr[__MSW]))       \
+> +       if (err)                                                \
+> +               __hi = 0;                                       \
+>         (x) = (__typeof__(x))((__typeof__((x)-(x)))(            \
+>                 (((u64)__hi << 32) | __lo)));                   \
+>  } while (0)
+> @@ -216,21 +199,14 @@ do {                                                              \
+>
+>  #define __put_user_asm(insn, x, ptr, err)                      \
+>  do {                                                           \
+> -       uintptr_t __tmp;                                        \
+>         __typeof__(*(ptr)) __x = x;                             \
+>         __asm__ __volatile__ (                                  \
+>                 "1:\n"                                          \
+> -               "       " insn " %z3, %2\n"                     \
+> +               "       " insn " %z2, %1\n"                     \
+>                 "2:\n"                                          \
+> -               "       .section .fixup,\"ax\"\n"               \
+> -               "       .balign 4\n"                            \
+> -               "3:\n"                                          \
+> -               "       li %0, %4\n"                            \
+> -               "       jump 2b, %1\n"                          \
+> -               "       .previous\n"                            \
+> -                       _ASM_EXTABLE(1b, 3b)                    \
+> -               : "+r" (err), "=r" (__tmp), "=m" (*(ptr))       \
+> -               : "rJ" (__x), "i" (-EFAULT));                   \
+> +               _ASM_EXTABLE_UACCESS_ERR(1b, 2b, %0)            \
+> +               : "+r" (err), "=m" (*(ptr))                     \
+> +               : "rJ" (__x));                                  \
+>  } while (0)
+>
+>  #ifdef CONFIG_64BIT
+> @@ -244,22 +220,16 @@ do {                                                              \
+>         uintptr_t __tmp;                                        \
+>         __asm__ __volatile__ (                                  \
+>                 "1:\n"                                          \
+> -               "       sw %z4, %2\n"                           \
+> +               "       sw %z3, %1\n"                           \
+>                 "2:\n"                                          \
+> -               "       sw %z5, %3\n"                           \
+> +               "       sw %z4, %2\n"                           \
+>                 "3:\n"                                          \
+> -               "       .section .fixup,\"ax\"\n"               \
+> -               "       .balign 4\n"                            \
+> -               "4:\n"                                          \
+> -               "       li %0, %6\n"                            \
+> -               "       jump 3b, %1\n"                          \
+> -               "       .previous\n"                            \
+> -                       _ASM_EXTABLE(1b, 4b)                    \
+> -                       _ASM_EXTABLE(2b, 4b)                    \
+> -               : "+r" (err), "=r" (__tmp),                     \
+> +               _ASM_EXTABLE_UACCESS_ERR(1b, 3b, %0)            \
+> +               _ASM_EXTABLE_UACCESS_ERR(2b, 3b, %0)            \
+> +               : "+r" (err),                                   \
+>                         "=m" (__ptr[__LSW]),                    \
+>                         "=m" (__ptr[__MSW])                     \
+> -               : "rJ" (__x), "rJ" (__x >> 32), "i" (-EFAULT)); \
+> +               : "rJ" (__x), "rJ" (__x >> 32));                \
+>  } while (0)
+>  #endif /* CONFIG_64BIT */
+>
+> diff --git a/arch/riscv/mm/extable.c b/arch/riscv/mm/extable.c
+> index 91e52c4bb33a..05978f78579f 100644
+> --- a/arch/riscv/mm/extable.c
+> +++ b/arch/riscv/mm/extable.c
+> @@ -7,10 +7,12 @@
+>   */
+>
+>
+> +#include <linux/bitfield.h>
+>  #include <linux/extable.h>
+>  #include <linux/module.h>
+>  #include <linux/uaccess.h>
+>  #include <asm/asm-extable.h>
+> +#include <asm/ptrace.h>
+>
+>  static inline unsigned long
+>  get_ex_fixup(const struct exception_table_entry *ex)
+> @@ -25,6 +27,29 @@ static bool ex_handler_fixup(const struct exception_table_entry *ex,
+>         return true;
+>  }
+>
+> +static inline void regs_set_gpr(struct pt_regs *regs, unsigned int offset,
+> +                               unsigned long val)
+> +{
+> +       if (unlikely(offset > MAX_REG_OFFSET))
+> +               return;
+> +
+> +       if (!offset)
+> +               *(unsigned long *)((unsigned long)regs + offset) = val;
+> +}
+> +
+> +static bool ex_handler_uaccess_err_zero(const struct exception_table_entry *ex,
+> +                                       struct pt_regs *regs)
+> +{
+> +       int reg_err = FIELD_GET(EX_DATA_REG_ERR, ex->data);
+> +       int reg_zero = FIELD_GET(EX_DATA_REG_ZERO, ex->data);
+> +
+> +       regs_set_gpr(regs, reg_err, -EFAULT);
+> +       regs_set_gpr(regs, reg_zero, 0);
+> +
+> +       regs->epc = get_ex_fixup(ex);
+> +       return true;
+> +}
+> +
+>  bool fixup_exception(struct pt_regs *regs)
+>  {
+>         const struct exception_table_entry *ex;
+> @@ -38,6 +63,8 @@ bool fixup_exception(struct pt_regs *regs)
+>                 return ex_handler_fixup(ex, regs);
+>         case EX_TYPE_BPF:
+>                 return ex_handler_bpf(ex, regs);
+> +       case EX_TYPE_UACCESS_ERR_ZERO:
+> +               return ex_handler_uaccess_err_zero(ex, regs);
+>         }
+>
+>         BUG();
+> --
+> 2.33.0
+>
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
