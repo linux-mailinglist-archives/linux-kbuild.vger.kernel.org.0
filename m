@@ -2,115 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA8854961B6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jan 2022 16:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2534D4962DE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jan 2022 17:36:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381467AbiAUPIg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jan 2022 10:08:36 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:44830 "EHLO mail.skyhub.de"
+        id S239055AbiAUQgK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jan 2022 11:36:10 -0500
+Received: from sdaoden.eu ([217.144.132.164]:50354 "EHLO sdaoden.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238192AbiAUPIg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jan 2022 10:08:36 -0500
-Received: from zn.tnic (dslb-088-067-221-104.088.067.pools.vodafone-ip.de [88.67.221.104])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3496F1EC054E;
-        Fri, 21 Jan 2022 16:08:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1642777710;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=GFj7pSt3cRzl5y+b79elj5aGBrpZoaFIs8Y+/JGYyW8=;
-        b=UjAJO0bd7nBpuV/579xwg7V3vVJbyhwJU+5HtPPNxlwfYiu+yMaMYuLdmzjEwnPA0X1F/r
-        PJvRuXevaRA9P97hZRg7ydVqDq+rbps3/xYbxrOUfYcPEs/QZUR5vRAYz55VayS5DqPn4X
-        n3khUusN+iYIeWihx6H1s7Rw1a/2mig=
-Date:   Fri, 21 Jan 2022 16:08:17 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v9 05/15] x86: support ASM function sections
-Message-ID: <YerMYcin4woehiL9@zn.tnic>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com>
- <20211223002209.1092165-6-alexandr.lobakin@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211223002209.1092165-6-alexandr.lobakin@intel.com>
+        id S234718AbiAUQgI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 21 Jan 2022 11:36:08 -0500
+Received: from kent.sdaoden.eu (kent.sdaoden.eu [10.5.0.2])
+        by sdaoden.eu (Postfix) with ESMTPS id 1355F16057;
+        Fri, 21 Jan 2022 17:36:06 +0100 (CET)
+Received: by kent.sdaoden.eu (Postfix, from userid 1000)
+        id C75E93876; Fri, 21 Jan 2022 17:36:04 +0100 (CET)
+Date:   Fri, 21 Jan 2022 17:36:04 +0100
+Author: Steffen Nurpmeso <steffen@sdaoden.eu>
+From:   Steffen Nurpmeso <steffen@sdaoden.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: Makefile: uses rsync(1), could this be optional?
+Message-ID: <20220121163604.QqCVq%steffen@sdaoden.eu>
+In-Reply-To: <CAK7LNAQOm8NYiTDQnd0P-UsGa7GurffQiWQgGh0Cze4wLmDmgA@mail.gmail.com>
+References: <20220120192151.k46VF%steffen@sdaoden.eu>
+ <CAK7LNAQOm8NYiTDQnd0P-UsGa7GurffQiWQgGh0Cze4wLmDmgA@mail.gmail.com>
+User-Agent: s-nail v14.9.23-223-g046972b06d
+OpenPGP: id=EE19E1C1F2F7054F8D3954D8308964B51883A0DD;
+ url=https://ftp.sdaoden.eu/steffen.asc; preference=signencrypt
+BlahBlahBlah: Any stupid boy can crush a beetle. But all the professors in
+ the world can make no bugs.
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 01:21:59AM +0100, Alexander Lobakin wrote:
-> Address places which need special care and enable
-> CONFIG_ARCH_SUPPORTS_ASM_FUNCTION_SECTIONS.
-> 
-> Notably:
->  - propagate --sectname-subst to aflags in x86/boot/Makefile and
->    x86/boot/compressed/Makefile as both override aflags;
+Guten Tag.
 
-s/aflags/KBUILD_AFLAGS/
+Masahiro Yamada wrote in
+ <CAK7LNAQOm8NYiTDQnd0P-UsGa7GurffQiWQgGh0Cze4wLmDmgA@mail.gmail.com>:
+ |On Fri, Jan 21, 2022 at 4:31 AM Steffen Nurpmeso <steffen@sdaoden.eu> \
+ |wrote:
+ |> I sent this to linux-kernel@vger.kernel.org on the 15th, which
+ |> seems to be legacy.  Just in case someone is wondering about the
+ |> resend.
+ |
+ |I did not see your previous post.
+ |What is bad about using rsync?
 
-Let's be more precise pls.
+Oh really nothing, but this Linux distribution (CRUX) recreates
+Linux headers before the GNU LibC is build, and this is the only
+dependency of rsync around.  And, unless i am mistaken, the other
+code path is more expensive but otherwise functionally equivalent?
 
->  - symbols starting with a dot (like ".Lbad_gs") should be handled
->    manually with SYM_*_START_SECT(.Lbad_gs, bad_gs) as "two dots"
->    is a special (and CPP doesn't want to concatenate two dots in
->    general);
->  - some symbols explicitly need to reside in one section (like
->    kexec control code, hibernation page etc.);
->  - macros creating aliases for functions (like __memcpy() for
->    memcpy() etc.) should go after the main declaration (as
->    aliases should be declared in the same section and they
->    don't have SYM_PUSH_SECTION() inside);
->  - things like ".org", ".align" should be manually pushed to
->    the same section the next symbol goes to;
->  - expand indirect_thunk and .fixup wildcards in vmlinux.lds.S
+ |> As a not-yet-tested low-quality Makefile suggestion, with modern
+ |> GNU tools and find(1)'s -printf, wouldn't the following code work
+ |> out gracefully in practice?  (Not subscribed.)
+ |>
+ |> Thanks for Linux!
+ |>
+ |> --- Makefile.orig       2022-01-15 19:33:59.337393371 +0100
+ |> +++ Makefile    2022-01-15 19:34:07.447393217 +0100
+ |> @@ -1260,8 +1288,17 @@ export INSTALL_HDR_PATH = $(objtree)/usr
+ |>  quiet_cmd_headers_install = INSTALL $(INSTALL_HDR_PATH)/include
+ |>        cmd_headers_install = \
+ |>         mkdir -p $(INSTALL_HDR_PATH); \
+ |> -       rsync -mrl --include='*/' --include='*\.h' --exclude='*' \
+ |> -       usr/include $(INSTALL_HDR_PATH)
+ |> +       if command -v rsync; then \
+ |> +               rsync -mrl --include='*/' --include='*\.h' --exclude='*' \
+ |> \
+ |> +               usr/include $(INSTALL_HDR_PATH);\
+ |> +       else \
+ |> +               cd usr;\
+ |> +               find include/ -type f -name '*.h' -printf '%f %h\n' |\
+ |> +               while read f d; do \
+ |> +                       mkdir -p $(INSTALL_HDR_PATH)/$$d;\
+ |> +                       cp -P $$d/$$f $(INSTALL_HDR_PATH)/$$d/$$f;\
+ |> +               done;\
+ |> +       fi
+ |>
+ |>  PHONY += headers_install
+ |>  headers_install: headers
 
-$ git grep -E "\.fixup" arch/x86/*.S
-$
-
-I guess I'll continue with your new version since a bunch of stuff
-has changed in arch/x86/ in the meantime so that that set would need
-refreshing.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--steffen
+|
+|Der Kragenbaer,                The moon bear,
+|der holt sich munter           he cheerfully and one by one
+|einen nach dem anderen runter  wa.ks himself off
+|(By Robert Gernhardt)
