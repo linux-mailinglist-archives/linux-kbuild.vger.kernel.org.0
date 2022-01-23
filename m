@@ -2,96 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48EA3496CCC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jan 2022 16:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D7E496F47
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Jan 2022 01:50:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234052AbiAVPSu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Jan 2022 10:18:50 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:50789 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233950AbiAVPSt (ORCPT
+        id S231433AbiAWAux (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Jan 2022 19:50:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45474 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230326AbiAWAuw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Jan 2022 10:18:49 -0500
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 20MFIZF3021588;
-        Sun, 23 Jan 2022 00:18:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 20MFIZF3021588
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1642864716;
-        bh=vtxhSxgWZauK31VQ+JzIFDuJH0VqZNP5FvASN3RMRQE=;
-        h=From:Date:Subject:To:Cc:From;
-        b=AbQB+MPC7aybdHZgGMC99Y2NFTphZI1AY1q+pr2X+lXK3lpHtB0xp4AcG9QtdKYAo
-         L8K+OOQHhdc6g+tXFXi8NkfbkAoJ1/Vvfnmt8Gv9pWHca6UppZ4pRl2HiUrMoB4i3p
-         YliduxpbGniFUhcN7aT0jvZ3kZotrSdgFZeqDB2xMBUvWI7x0mufAXrzOXBhWXzSTa
-         B4eUvd10nhwaX7W03KcxKgXunHZsfbHcWk8jCZ3XSKNU6ENL1FCPPG9NupyB8tMcdn
-         anYZR6LSsFmOD9qRq3ZcYj+sdWXOpGK5ED/ThWwFezFkFW69XOl43B87IMaAulqXsK
-         n2/DSuIfRmQYQ==
-X-Nifty-SrcIP: [209.85.215.181]
-Received: by mail-pg1-f181.google.com with SMTP id e16so1497238pgn.4;
-        Sat, 22 Jan 2022 07:18:36 -0800 (PST)
-X-Gm-Message-State: AOAM532a5Tu1e/Ve80juj9i61pbKTBOnFHxy4BJjOdras32cl1x1g42J
-        Y+X7KTGgqoIiKUrlFSoVTIlgIonM6Ng3IsVNgAY=
-X-Google-Smtp-Source: ABdhPJycp1naosm2wQCbiCmcaaIi5n3CRrIFf5KBwH5N+y9k3UimPFBiyAliLFeaSLQF9McXng3zTTZLTxbQqGDTU68=
-X-Received: by 2002:a63:7148:: with SMTP id b8mr6359140pgn.616.1642864715434;
- Sat, 22 Jan 2022 07:18:35 -0800 (PST)
+        Sat, 22 Jan 2022 19:50:52 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA2BC06173B
+        for <linux-kbuild@vger.kernel.org>; Sat, 22 Jan 2022 16:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=6KE9u0XlQjWwkNX3RMAgCuywJ7c9klJivpGecUK1/sU=; b=j3JBsJ+kfcpGVnbmzoXbrpLfII
+        q/ECvxY7IXfY3NnmWNl/akHoq0aTcKUGYaN4mizndMu70t4T/miFfu1W1Kp0GVxcKzZ5X+YiHvYE3
+        /wojkuXvWZvi8tCuEXpDRLIICobsGOWFhIwzQKgdT2UTnkyyxmnHNC/PVcwYJsmfFJ5fJOgX33SOM
+        nj6eUkITaocNSK2LtJHzbtOxtzlTrx9VLr19Y8FfrC5wdXd6qljjUiPtPctR+ymoSix8JoJP5KFu1
+        7pe9XiD1gmWNRC2vmnw4NHBiG84kkOSIVogza5ubrZDK6/Gl6E3ecwsua74fXYJI47TOYHWOOn6h7
+        uV9dZ1FQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nBR5i-00Gizb-Sb; Sun, 23 Jan 2022 00:50:47 +0000
+Message-ID: <1681956b-27ef-ca64-5295-c82e512dd235@infradead.org>
+Date:   Sat, 22 Jan 2022 16:50:43 -0800
 MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 23 Jan 2022 00:17:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASs0jntOj63GoE9Lhasb-7zmVzBcq35CDeKnBqjG_v+kw@mail.gmail.com>
-Message-ID: <CAK7LNASs0jntOj63GoE9Lhasb-7zmVzBcq35CDeKnBqjG_v+kw@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.17-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Makefile: uses rsync(1), could this be optional?
+Content-Language: en-US
+To:     Steffen Nurpmeso <steffen@sdaoden.eu>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20220120192151.k46VF%steffen@sdaoden.eu>
+ <CAK7LNAQOm8NYiTDQnd0P-UsGa7GurffQiWQgGh0Cze4wLmDmgA@mail.gmail.com>
+ <20220121163604.QqCVq%steffen@sdaoden.eu>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220121163604.QqCVq%steffen@sdaoden.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
-
-Please pull Kbuild fixes.
-Thanks.
 
 
+On 1/21/22 08:36, Steffen Nurpmeso wrote:
+> Guten Tag.
+> 
+> Masahiro Yamada wrote in
+>  <CAK7LNAQOm8NYiTDQnd0P-UsGa7GurffQiWQgGh0Cze4wLmDmgA@mail.gmail.com>:
+>  |On Fri, Jan 21, 2022 at 4:31 AM Steffen Nurpmeso <steffen@sdaoden.eu> \
+>  |wrote:
+>  |> I sent this to linux-kernel@vger.kernel.org on the 15th, which
+>  |> seems to be legacy.  Just in case someone is wondering about the
+>  |> resend.
+>  |
+>  |I did not see your previous post.
+>  |What is bad about using rsync?
+> 
+> Oh really nothing, but this Linux distribution (CRUX) recreates
+> Linux headers before the GNU LibC is build, and this is the only
+> dependency of rsync around.  And, unless i am mistaken, the other
+> code path is more expensive but otherwise functionally equivalent?
 
-The following changes since commit 1c52283265a462a100ae63ddf58b4e5884acde86:
+Do we need to add it to Documentation/Changes?
 
-  Merge branch 'akpm' (patches from Andrew) (2022-01-22 11:28:23 +0200)
+>  |> As a not-yet-tested low-quality Makefile suggestion, with modern
+>  |> GNU tools and find(1)'s -printf, wouldn't the following code work
+>  |> out gracefully in practice?  (Not subscribed.)
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.17
-
-for you to fetch changes up to e6340b6526eeec5a00fe26a6ff515afe7d0affa4:
-
-  certs: Fix build error when CONFIG_MODULE_SIG_KEY is empty
-(2022-01-23 00:08:44 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.17
-
- - Bring include/uapi/linux/nfc.h into the UAPI compile-test coverage
-
- - Revert the workaround of CONFIG_CC_IMPLICIT_FALLTHROUGH
-
- - Fix build errors in certs/Makefile
-
-----------------------------------------------------------------
-Dmitry V. Levin (1):
-      usr/include/Makefile: add linux/nfc.h to the compile-test coverage
-
-Masahiro Yamada (3):
-      Revert "Makefile: Do not quote value for CONFIG_CC_IMPLICIT_FALLTHROUGH"
-      certs: Fix build error when CONFIG_MODULE_SIG_KEY is PKCS#11 URI
-      certs: Fix build error when CONFIG_MODULE_SIG_KEY is empty
-
- Makefile             | 2 +-
- certs/Makefile       | 4 ++--
- usr/include/Makefile | 1 -
- 3 files changed, 3 insertions(+), 4 deletions(-)
 
 -- 
-Best Regards
-Masahiro Yamada
+~Randy
