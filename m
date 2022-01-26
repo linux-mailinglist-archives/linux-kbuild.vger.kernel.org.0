@@ -2,232 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD7049D1A2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 19:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8603149D281
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 20:31:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243946AbiAZSV4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Jan 2022 13:21:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57322 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243632AbiAZSVz (ORCPT
+        id S238633AbiAZTb6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Jan 2022 14:31:58 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:59300 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230462AbiAZTb4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Jan 2022 13:21:55 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FFC06173B
-        for <linux-kbuild@vger.kernel.org>; Wed, 26 Jan 2022 10:21:55 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id a28so564283lfl.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 26 Jan 2022 10:21:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oOOemRyWwE9D0y3xTHRIeOznu19i9x/1/A0thcitFs4=;
-        b=HNfRlKC1weHHVajmNNJN2wj8u66lT49ixUC8INgVxvKeo2Bp5FwrasBr988y4tBUU7
-         AvNyB1QlRbq7oKEkjAb/P2w304qOx2oZkgkJJmrHqU7QJZG0flBNxgpgEumqWDwTun37
-         jx1zdSHMg6iVmzoTx0DEGVV3qASbt2R3buFy5+gN/CuqbknibQ+7tBNd45Hh5t4iCN4l
-         xgdIX98GS8mz9g+4IHmXDNvQSZNrEDQHN9DIkWi9S8dyVw7EqS6duYVms71G0Fc0boNv
-         idaK/Z7U4YETvwWnWh0OfochL/AI+GDjZ0L+0H05HNVe7tYSTYgJDDe6U06erJSzb7C7
-         SrCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oOOemRyWwE9D0y3xTHRIeOznu19i9x/1/A0thcitFs4=;
-        b=cIvbxkolU/DvfFZ4W7D4tn3Qd78o1AJjBpSPEK3fNkLtQ3hAcZxpDv8BIQf1oIVOIj
-         DnaCiEtmwYzJN4YGO7pRYcOeomNf8Mg9BfyL5QMhU4tlSdaGxDbOFRtRKtJnHz9E9zBv
-         0P+GyMpYSLekYb7CyugK34vn1zVPiHPXAP5rxr36UhoQQk44mBhX1qhKutkU3ShP9SMn
-         dGY8NFdL1fun/XlANUqGHrM9yPFfbdatalZNzZakO/WdCPEMKLcL5LZ1HDtbCEPRm7Ne
-         mlQyI49UgDX/Df9JxyKnrYGoNAfR/GQ4hV+TlnYhTvwjSGVMMmhIxqMo5diWq8vhyOyM
-         CAgg==
-X-Gm-Message-State: AOAM533gPNRJQFlibyA/aeAKUm/wFXjs9hzJgnGMpXCpe8QHPBaSDheP
-        h2KtakQectCuyZx5EGauInUXPozC7yWSbxztsnoWUy3bakcpQQ==
-X-Google-Smtp-Source: ABdhPJzcbvHPjLT7JnFqtxn6UaoM/biHGm4slpTfDRdZTME9a2GRNBJzBmv5dqWQbeKAJEN6kjawRa6nYITmea4wqcs=
-X-Received: by 2002:a05:6512:3c96:: with SMTP id h22mr34628lfv.489.1643221312650;
- Wed, 26 Jan 2022 10:21:52 -0800 (PST)
+        Wed, 26 Jan 2022 14:31:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF668B81FC7;
+        Wed, 26 Jan 2022 19:31:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C341C340EE;
+        Wed, 26 Jan 2022 19:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643225513;
+        bh=ucEteBwotnn1Ha6nu+IjgIr0CUgPjtW1k50YPm4a4oU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lEz3jDDvFxiSr7MunYwTe6BPZXPpjIZ7KdzxzLSO5hXXb90ajE4CZVyiSLLvqWc3U
+         y+71mfUgMo6FxkcIebZgxAn0uMvb3zCm9g5cU3HDN96cBUh2vdPQMDW1w81yHGIz7w
+         /1Q8cACfLlAFrHULzKu55CiYy0yVpU8CRttsZcUbLzX+5q65Ikwv9lzyUvjUttwvPe
+         3DWuHWd9WCb+Fs196ZciFXBbrgtvWM14H6kLHpxw2gaZBY+AoISvDyxzgcv5HyAWoD
+         jqJr17uW8I+anoDaGxR+ALSh2Vp5jr2ptafHUF+Mx+TiJfcDKa4rafTtc+h/V7wsKu
+         9cPDmldErebwg==
+Received: by mail-ed1-f46.google.com with SMTP id n10so639469edv.2;
+        Wed, 26 Jan 2022 11:31:53 -0800 (PST)
+X-Gm-Message-State: AOAM532M9FQTb2/nBahPgx5tT9dHh1bXG/1tP/05khDWNcL20w8JOiwm
+        9fJklH8nfuvQYB0IL3OinkP46ePjQQyd47jqlg==
+X-Google-Smtp-Source: ABdhPJzzZwFFnb+a2srUYBBy3kED+vdAEKQVQ6wrt45enCL0wO4DwUJ6/eVZ7U30XbUpgrm0fTaG8rYvjLxaObHxXBY=
+X-Received: by 2002:a50:858b:: with SMTP id a11mr445430edh.303.1643225511751;
+ Wed, 26 Jan 2022 11:31:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com>
-In-Reply-To: <20220112224342.958358-1-quic_eberman@quicinc.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 26 Jan 2022 10:21:40 -0800
-Message-ID: <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add environment variables for userprogs flags
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+References: <20210324223713.1334666-1-frowand.list@gmail.com>
+ <20210327174035.GA291160@robh.at.kernel.org> <3e6710e7-08ac-7d1b-aa69-bcd36f0d932a@gmail.com>
+ <CAMuHMdXpGKMi-xv6hZQmmEw0JO=Q0WuvUzwJ2v0O28Tx5uW+sg@mail.gmail.com>
+ <d1aefaae-7b12-b5fb-4b97-7230bd52c1be@gmail.com> <20210526061144.yvoaurpz75a3bsjr@vireshk-i7>
+ <f651e95b-feef-5c86-edba-d6008bc80b34@gmail.com> <YK70Xsl1oXeEQpWZ@yekko>
+ <CAMuHMdWdb2s08a=axC+m88gARSA3enOBnczsN59XL2F9yHXXYA@mail.gmail.com>
+ <YLBnX4PeK51YwUJB@yekko> <CAMuHMdXPn9FHr41xmihuuzNNNKvY-50yAwY4HyuyVo6qBn=Z1w@mail.gmail.com>
+ <CAMuHMdWeL3DOXY3xcPOBW2WDDGW3PxgSM8didt7J1KxSm1ivJg@mail.gmail.com>
+ <CAMuHMdWXXoS9mmX9VWRQyXfmsy8YROgpLZ-xB7zthEdPdM2u4A@mail.gmail.com>
+ <CAMuHMdVWkSnki8VQDaYRzJ8yu8xtEKpXyfQppTtw3wXDQPmYzw@mail.gmail.com>
+ <d4b7ce06-23e7-1c60-cc0c-b6aea07e0a1a@gmail.com> <CAL_JsqKTckMABk6cM8d=boZcHyLdcqYmbzfKDjAHdCXoCPSDtg@mail.gmail.com>
+ <CAMuHMdU4oUKaGxmaPiC=cX0XpHG3KXhr+4MywEfeQ8sq-EG18A@mail.gmail.com>
+In-Reply-To: <CAMuHMdU4oUKaGxmaPiC=cX0XpHG3KXhr+4MywEfeQ8sq-EG18A@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 26 Jan 2022 13:31:40 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL3fHXNdGS=ap6+5Y25T2zmnDYRkt5dNV9mW7hyanVvuw@mail.gmail.com>
+Message-ID: <CAL_JsqL3fHXNdGS=ap6+5Y25T2zmnDYRkt5dNV9mW7hyanVvuw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] of: unittest: rename overlay source files from .dts
+ to .dtso
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 2:44 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+On Fri, Jan 14, 2022 at 3:25 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Allow additional arguments be passed to userprogs compilation.
-> Reproducible clang builds need to provide a sysroot and gcc path to
-> ensure same toolchain is used across hosts. KCFLAGS is not currently
-> used for any user programs compilation, so add new USERCFLAGS and
-> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+> Hi Rob,
 >
-> Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
-> an environment where a user sysroot is not specifically available.
-> Currently, Clang might automatically detect GCC installation on hosts
-> which have it installed to a default location in /. With addition of
-> these environment variables, our build environment can do like
-> "--sysroot=/dev/null" to force sysroot detection to fail.
-
-Hi Elliot,
-Thanks for the patch! Sorry for the delay in reviewing; I didn't quite
-get around to it then went on vacation for a week.  Things get buried
-in my inbox quickly; feel free to ping me if a week goes by with no
-response on whichever channel works best for you.
-
-I'm happy with the intent of this patch; GNU binutils has been removed
-from Android, so supporting CC_CAN_LINK for Android kernel builds has
-been a question I've been thinking about (though, not with higher
-priority with some of our other issues), since we'll need to either
-incorporate musl or bionic libc into our kernel build.  I was thinking
-of adding a SYSROOT command line variable for that, but I see your
-approach is more flexible.
-
-One minor nit below, a typo, a few questions, and in the commit
-message, but this generally LGTM.
-
-For the commit message, I think it would be good to expand `can do
-like "--sysroot=/dev/null"` fully into
-```
-can specify
-$ make USERCFLAGS=--sysroot=/dev/null USERLDFLAGS=-Wl,--sysroot=/dev/null
-```
-
+> On Fri, Jan 14, 2022 at 3:10 AM Rob Herring <robh@kernel.org> wrote:
+> > On Thu, Jan 6, 2022 at 11:23 AM Frank Rowand <frowand.list@gmail.com> wrote:
+> > > Patient Geert has pinged again.
+> >
+> > If it's not a patch to be reviewed, then I'm not going to see it most
+> > likely. I don't read the DT list regularly...
 >
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->  Documentation/kbuild/kbuild.rst | 8 ++++++++
->  Makefile                        | 9 ++++++---
->  init/Kconfig                    | 8 ++++----
->  usr/include/Makefile            | 3 +++
->  4 files changed, 21 insertions(+), 7 deletions(-)
+> Fair enough...
 >
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 2d1fc03d346e..16e90a3ae01b 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -77,6 +77,14 @@ HOSTLDLIBS
->  ----------
->  Additional libraries to link against when building host programs.
+> > > If I remember correctly you guys were not thrilled with this idea, but
+> > > also did not seem strongly against it.  Are you willing to go along
+> > > with .dtso for overlay source files?  If so, I will revive this patch
+> > > series.
+> > >
+> > > David, if you are against supporting .dtso in the dtc compiler then
+> > > the kernel can still support it through make rules.
+> >
+> > I'm not really interested in diverging from dtc. I'd suggest moving
+> > the discussion to dtc list and/or devicetree-spec if you want to get
+> > more attention on this.
 >
-> +USERCFLAGS
-> +----------
-> +Additional options used for $(CC) when compiling userprogs.
-> +
-> +USERLDFLAGS
-> +----------
-> +Additional options used for $(LD) when linking userprogs.
+> What needs to be supported in the dtc compiler?
+> The fallback passed to guess_input_format() is "dts".
+> So this has been working out-of-the-box since forever?
 
-Probably should note the necessity of `-Wl,` prefixes here.
+Ah, okay.
 
-Is `userprogs` cannonical? Yeah, I guess (reading
-Documentation/kbuild/makefiles.rst). I wonder if we should mention
-these in Documentation/kbuild/makefiles.rst as well? Under `5.3
-Controlling compiler options for userspace programs`.
-
-> +
->  KBUILD_KCONFIG
->  --------------
->  Set the top-level Kconfig file to the value of this environment
-> diff --git a/Makefile b/Makefile
-> index 45278d508d81..4a55537c8ca0 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -431,15 +431,17 @@ HOSTCC    = gcc
->  HOSTCXX        = g++
->  endif
+> > Also, keep in mind that extensions also affect MIME types which
+> > someone was also asking about recently.
 >
-> -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -                             -O2 -fomit-frame-pointer -std=gnu89
-> -export KBUILD_USERLDFLAGS :=
-> +KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> +                    -O2 -fomit-frame-pointer -std=gnu89
-> +KBUILD_USERLDFLAGS := $(USERLDFLAGGS)
+> You mean "MIME type of Devicetree Blobs and Sources"[1]?
+> According to [2](2022-01-13), none of that has happened.
 
-^ I think there's an extra G in USERLDFLAGS above.
+This is what I was thinking of:
 
->
->  KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
->  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
->  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
->  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
->
-> +KBUILD_USERCFLAGS   += $(USERCFLAGS)
+https://github.com/devicetree-org/devicetree-specification/issues/46
 
-Since you added USERLDFLAGS to KBUILD_USERLDFLAGS above where it's
-defined, why not do so for USERCFLAGS/KBUILD_USERCFLAGS as well?
+In any case, given everyone is ambivalent, send me an updated patch
+and I'll apply it.
 
-> +
->  # Make variables (CC, etc...)
->  CPP            = $(CC) -E
->  ifneq ($(LLVM),)
-> @@ -530,6 +532,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
->  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
->  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
->  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
-> +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
->
->  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
->  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> diff --git a/init/Kconfig b/init/Kconfig
-> index f2ae41e6717f..164706c38e8b 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -62,13 +62,13 @@ config LLD_VERSION
->
->  config CC_CAN_LINK
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
->
->  config CC_CAN_LINK_STATIC
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
-
-since USERLDFLAGS get passed to $(CC), they will need `-Wl`, prefixes,
-hence the request for expanding the example usage in the commit
-message.
-
->
->  config CC_HAS_ASM_GOTO
->         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> diff --git a/usr/include/Makefile b/usr/include/Makefile
-> index 1c2ae1368079..6a8c7dd9ccaf 100644
-> --- a/usr/include/Makefile
-> +++ b/usr/include/Makefile
-> @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
->  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
->  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
->
-> +# USERCFLAGS might contain sysroot location for CC
-> +UAPI_CFLAGS += $(USERCFLAGS)
-> +
-
-Do we need to worry about USERLDFLAGS here, too? (or usr/Makefile?)
-
->  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
->
->  # The following are excluded for now because they fail to build.
-> --
-> 2.25.1
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+Rob
