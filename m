@@ -2,149 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCB649C131
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 03:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D206349CCBD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 15:52:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236243AbiAZCUT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jan 2022 21:20:19 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:29093 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbiAZCUT (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jan 2022 21:20:19 -0500
-X-Greylist: delayed 70697 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Jan 2022 21:20:18 EST
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 20Q2K38l011369;
-        Wed, 26 Jan 2022 11:20:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 20Q2K38l011369
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1643163603;
-        bh=NdWl0KwbxPAcxWKk3OI0mf1nWCR1CFOUSSVdy5q/57Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RGbUPJMgEgFXMr11YWFoRNcrMdGZaHn8f+NckfU36XynBUzWcokfuuKDD2MjYtxFT
-         wJAIsFzZpyYTNPV3kMGl7kJtJXbQb329v2c6DYfSLq8xTwyFlS610JPog4+sfKCdLQ
-         7HukkDOPnZG6m7PuuIfIeBwlJ6rOffs+qBLgRm/hQpsyUKrYuCB0ZS+NKVueSfJi03
-         PAeGWc/Bw3pUCod5AGCrb6Se3JiBP2AvbuvOLdzM5TG+fPiSSbt4zqvEONC3dt/tzd
-         oIrOV1LjwpwAe+r4bNwBZt3QXQnWZpk/cgrgbk/6lfCgxDAuI8A9JL2xVh6djDiKXc
-         2aCfkaYn1ipCQ==
-X-Nifty-SrcIP: [209.85.215.175]
-Received: by mail-pg1-f175.google.com with SMTP id h23so19842640pgk.11;
-        Tue, 25 Jan 2022 18:20:03 -0800 (PST)
-X-Gm-Message-State: AOAM533rEizy1uNPKcVs8lgySKfGBG3PZNU0S7HwhcmPiIPISdQcKZ7j
-        DvvDG2EW+7IYgco6Bci2WZfnWQNzl0VIrZzvoys=
-X-Google-Smtp-Source: ABdhPJwwWgQ3DGgDxHDnKrFh4JmbcnC+EjCTj7R4RHw0SwNIZ3GLRZEWfZKMQiRBZtpo2DoTmIpgGbD2r08mQv+5xxs=
-X-Received: by 2002:a05:6a00:a8e:b0:4bd:22a:bb1d with SMTP id
- b14-20020a056a000a8e00b004bd022abb1dmr21071279pfl.32.1643163602190; Tue, 25
- Jan 2022 18:20:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20220125064027.873131-1-masahiroy@kernel.org> <CAKwvOdm=-x1EP_xu2V_OZNdPid=gacVzCTx+=uSYqzCv+1Rbfw@mail.gmail.com>
- <87h79rsbxe.fsf@collabora.com>
-In-Reply-To: <87h79rsbxe.fsf@collabora.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Jan 2022 11:19:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSDZUyt_JXhQLKW++9p0NqM1FHncqGMqXPqfU7m3tizA@mail.gmail.com>
-Message-ID: <CAK7LNARSDZUyt_JXhQLKW++9p0NqM1FHncqGMqXPqfU7m3tizA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: unify cmd_copy and cmd_shipped
-To:     Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S242374AbiAZOwG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Jan 2022 09:52:06 -0500
+Received: from mga18.intel.com ([134.134.136.126]:52046 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242393AbiAZOwB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 26 Jan 2022 09:52:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643208721; x=1674744721;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+C7GbNvdhhupsiddx9nyBA2kLdGmDvK2B+OFoSsBS2A=;
+  b=lBIehyv5ZcqCNTcVcY22vJnTvHWgmJhgKUujnC1GIaH5SoRnbzTj5ECX
+   UPyopMkTIeJ84XSizZkQ4/OmV9v5rIL0Y2MwdqqZcfaA4/9Ypehvmk8If
+   0/cGAHSarb+yAok6fS9FROEo6pneH1z3T8ynRr2vySe4ydiEThmfw1Y7s
+   cgEiG0d6hF2+SKXFhT6nlB+Fk5XJCw7JEbV4Jq4EfmbNRb1ObZ/zz2LDR
+   3N7ckSQ7nuMngowD9Wjs+MY1WcCkdWa7PM5FzfTBf66nGMyh4TRDKng/m
+   f7VduCIYkmssF0157ydMaQBoq+zITh9c5Gz/crUAomOeDA1PcZtc/IPRB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="230137337"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="230137337"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 06:52:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="617981478"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Jan 2022 06:51:52 -0800
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 20QEpn8P004691;
+        Wed, 26 Jan 2022 14:51:49 GMT
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Michal Simek <monstr@monstr.eu>,
-        Rob Herring <robh+dt@kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v9 05/15] x86: support ASM function sections
+Date:   Wed, 26 Jan 2022 15:49:52 +0100
+Message-Id: <20220126144952.851066-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <YerMYcin4woehiL9@zn.tnic>
+References: <20211223002209.1092165-1-alexandr.lobakin@intel.com> <20211223002209.1092165-6-alexandr.lobakin@intel.com> <YerMYcin4woehiL9@zn.tnic>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jan 26, 2022 at 7:11 AM Gabriel Krisman Bertazi
-<krisman@collabora.com> wrote:
->
-> Nick Desaulniers <ndesaulniers@google.com> writes:
->
-> > On Mon, Jan 24, 2022 at 10:41 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >>
-> >> cmd_copy and cmd_shipped have similar functionality. The difference is
-> >> that cmd_copy uses 'cp' while cmd_shipped 'cat'.
-> >>
-> >> Unify them into cmd_copy because this macro name is more intuitive.
-> >>
-> >> Going forward, cmd_copy will use 'cat' to avoid the permission issue.
-> >> I also thought of 'cp --no-preserve=mode' but this option is not
-> >> mentioned in the POSIX spec [1], so I am keeping the 'cat' command.
-> >>
-> >> [1]: https://pubs.opengroup.org/onlinepubs/009695299/utilities/cp.html
-> >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >> ---
-> >>
-> >>  arch/microblaze/boot/Makefile     |  2 +-
-> >>  arch/microblaze/boot/dts/Makefile |  2 +-
-> >>  fs/unicode/Makefile               |  2 +-
-> >>  scripts/Makefile.lib              | 12 ++++--------
-> >>  usr/Makefile                      |  4 ++--
-> >>  5 files changed, 9 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/arch/microblaze/boot/Makefile b/arch/microblaze/boot/Makefile
-> >> index cff570a71946..2b42c370d574 100644
-> >> --- a/arch/microblaze/boot/Makefile
-> >> +++ b/arch/microblaze/boot/Makefile
-> >> @@ -29,7 +29,7 @@ $(obj)/simpleImage.$(DTB).ub: $(obj)/simpleImage.$(DTB) FORCE
-> >>         $(call if_changed,uimage)
-> >>
-> >>  $(obj)/simpleImage.$(DTB).unstrip: vmlinux FORCE
-> >> -       $(call if_changed,shipped)
-> >> +       $(call if_changed,copy)
-> >>
-> >>  $(obj)/simpleImage.$(DTB).strip: vmlinux FORCE
-> >>         $(call if_changed,strip)
-> >> diff --git a/arch/microblaze/boot/dts/Makefile b/arch/microblaze/boot/dts/Makefile
-> >> index ef00dd30d19a..b84e2cbb20ee 100644
-> >> --- a/arch/microblaze/boot/dts/Makefile
-> >> +++ b/arch/microblaze/boot/dts/Makefile
-> >> @@ -12,7 +12,7 @@ $(obj)/linked_dtb.o: $(obj)/system.dtb
-> >>  # Generate system.dtb from $(DTB).dtb
-> >>  ifneq ($(DTB),system)
-> >>  $(obj)/system.dtb: $(obj)/$(DTB).dtb
-> >> -       $(call if_changed,shipped)
-> >> +       $(call if_changed,copy)
-> >>  endif
-> >>  endif
-> >>
-> >> diff --git a/fs/unicode/Makefile b/fs/unicode/Makefile
-> >> index 2f9d9188852b..74ae80fc3a36 100644
-> >> --- a/fs/unicode/Makefile
-> >> +++ b/fs/unicode/Makefile
-> >> @@ -31,7 +31,7 @@ $(obj)/utf8data.c: $(obj)/mkutf8data $(filter %.txt, $(cmd_utf8data)) FORCE
-> >>  else
-> >>
-> >>  $(obj)/utf8data.c: $(src)/utf8data.c_shipped FORCE
-> >
-> > do we want to retitle the _shipped suffix for this file to _copy now, too?
-> > fs/unicode/Makefile:11
-> > fs/unicode/Makefile:33
-> > fs/unicode/Makefile:34
->
-> I think _copy doesn't convey the sense that this is distributed with the
-> kernel tree, even though it is also generated from in-tree sources.
-> Even if that is not the original sense of _shipped (is it?), it makes
-> sense to me that way, but _copy doesn't.
->
-> The patch looks good to me, though.
->
-> Reviewed-by: Gabriel Krisman Bertazi <krisman@collabora.com>
->
->
-> >
+From: Borislav Petkov <bp@alien8.de>
+Date: Fri, 21 Jan 2022 16:08:17 +0100
 
-I only renamed the action part (cmd_shipped -> cmd_copy)
-because I thought it was clearer.
+> On Thu, Dec 23, 2021 at 01:21:59AM +0100, Alexander Lobakin wrote:
+> > Address places which need special care and enable
+> > CONFIG_ARCH_SUPPORTS_ASM_FUNCTION_SECTIONS.
+> > 
+> > Notably:
+> >  - propagate --sectname-subst to aflags in x86/boot/Makefile and
+> >    x86/boot/compressed/Makefile as both override aflags;
+> 
+> s/aflags/KBUILD_AFLAGS/
+> 
+> Let's be more precise pls.
+> 
+> >  - symbols starting with a dot (like ".Lbad_gs") should be handled
+> >    manually with SYM_*_START_SECT(.Lbad_gs, bad_gs) as "two dots"
+> >    is a special (and CPP doesn't want to concatenate two dots in
+> >    general);
+> >  - some symbols explicitly need to reside in one section (like
+> >    kexec control code, hibernation page etc.);
+> >  - macros creating aliases for functions (like __memcpy() for
+> >    memcpy() etc.) should go after the main declaration (as
+> >    aliases should be declared in the same section and they
+> >    don't have SYM_PUSH_SECTION() inside);
+> >  - things like ".org", ".align" should be manually pushed to
+> >    the same section the next symbol goes to;
+> >  - expand indirect_thunk and .fixup wildcards in vmlinux.lds.S
+> 
+> $ git grep -E "\.fixup" arch/x86/*.S
+> $
+> 
+> I guess I'll continue with your new version since a bunch of stuff
+> has changed in arch/x86/ in the meantime so that that set would need
+> refreshing.
 
-Actually I do not get the sense of _shipped pretty much, but
-I think we can keep the file suffix part (utf8data.c_shipped) as is.
+Yeah, sure. .fixup usage was removed in particular.
+I'll queue v10 soon.
 
+> 
+> Thx.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
 
--- 
-Best Regards
-Masahiro Yamada
+Thanks for the reviews,
+Al
+
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
