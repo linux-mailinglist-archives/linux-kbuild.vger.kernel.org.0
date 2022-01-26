@@ -2,138 +2,232 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D206349CCBD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 15:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FD7049D1A2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jan 2022 19:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242374AbiAZOwG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Jan 2022 09:52:06 -0500
-Received: from mga18.intel.com ([134.134.136.126]:52046 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242393AbiAZOwB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Jan 2022 09:52:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643208721; x=1674744721;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+C7GbNvdhhupsiddx9nyBA2kLdGmDvK2B+OFoSsBS2A=;
-  b=lBIehyv5ZcqCNTcVcY22vJnTvHWgmJhgKUujnC1GIaH5SoRnbzTj5ECX
-   UPyopMkTIeJ84XSizZkQ4/OmV9v5rIL0Y2MwdqqZcfaA4/9Ypehvmk8If
-   0/cGAHSarb+yAok6fS9FROEo6pneH1z3T8ynRr2vySe4ydiEThmfw1Y7s
-   cgEiG0d6hF2+SKXFhT6nlB+Fk5XJCw7JEbV4Jq4EfmbNRb1ObZ/zz2LDR
-   3N7ckSQ7nuMngowD9Wjs+MY1WcCkdWa7PM5FzfTBf66nGMyh4TRDKng/m
-   f7VduCIYkmssF0157ydMaQBoq+zITh9c5Gz/crUAomOeDA1PcZtc/IPRB
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="230137337"
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="230137337"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 06:52:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="617981478"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Jan 2022 06:51:52 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 20QEpn8P004691;
-        Wed, 26 Jan 2022 14:51:49 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v9 05/15] x86: support ASM function sections
-Date:   Wed, 26 Jan 2022 15:49:52 +0100
-Message-Id: <20220126144952.851066-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <YerMYcin4woehiL9@zn.tnic>
-References: <20211223002209.1092165-1-alexandr.lobakin@intel.com> <20211223002209.1092165-6-alexandr.lobakin@intel.com> <YerMYcin4woehiL9@zn.tnic>
+        id S243946AbiAZSV4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Jan 2022 13:21:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243632AbiAZSVz (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 26 Jan 2022 13:21:55 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FFC06173B
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Jan 2022 10:21:55 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id a28so564283lfl.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Jan 2022 10:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oOOemRyWwE9D0y3xTHRIeOznu19i9x/1/A0thcitFs4=;
+        b=HNfRlKC1weHHVajmNNJN2wj8u66lT49ixUC8INgVxvKeo2Bp5FwrasBr988y4tBUU7
+         AvNyB1QlRbq7oKEkjAb/P2w304qOx2oZkgkJJmrHqU7QJZG0flBNxgpgEumqWDwTun37
+         jx1zdSHMg6iVmzoTx0DEGVV3qASbt2R3buFy5+gN/CuqbknibQ+7tBNd45Hh5t4iCN4l
+         xgdIX98GS8mz9g+4IHmXDNvQSZNrEDQHN9DIkWi9S8dyVw7EqS6duYVms71G0Fc0boNv
+         idaK/Z7U4YETvwWnWh0OfochL/AI+GDjZ0L+0H05HNVe7tYSTYgJDDe6U06erJSzb7C7
+         SrCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oOOemRyWwE9D0y3xTHRIeOznu19i9x/1/A0thcitFs4=;
+        b=cIvbxkolU/DvfFZ4W7D4tn3Qd78o1AJjBpSPEK3fNkLtQ3hAcZxpDv8BIQf1oIVOIj
+         DnaCiEtmwYzJN4YGO7pRYcOeomNf8Mg9BfyL5QMhU4tlSdaGxDbOFRtRKtJnHz9E9zBv
+         0P+GyMpYSLekYb7CyugK34vn1zVPiHPXAP5rxr36UhoQQk44mBhX1qhKutkU3ShP9SMn
+         dGY8NFdL1fun/XlANUqGHrM9yPFfbdatalZNzZakO/WdCPEMKLcL5LZ1HDtbCEPRm7Ne
+         mlQyI49UgDX/Df9JxyKnrYGoNAfR/GQ4hV+TlnYhTvwjSGVMMmhIxqMo5diWq8vhyOyM
+         CAgg==
+X-Gm-Message-State: AOAM533gPNRJQFlibyA/aeAKUm/wFXjs9hzJgnGMpXCpe8QHPBaSDheP
+        h2KtakQectCuyZx5EGauInUXPozC7yWSbxztsnoWUy3bakcpQQ==
+X-Google-Smtp-Source: ABdhPJzcbvHPjLT7JnFqtxn6UaoM/biHGm4slpTfDRdZTME9a2GRNBJzBmv5dqWQbeKAJEN6kjawRa6nYITmea4wqcs=
+X-Received: by 2002:a05:6512:3c96:: with SMTP id h22mr34628lfv.489.1643221312650;
+ Wed, 26 Jan 2022 10:21:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220112224342.958358-1-quic_eberman@quicinc.com>
+In-Reply-To: <20220112224342.958358-1-quic_eberman@quicinc.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 26 Jan 2022 10:21:40 -0800
+Message-ID: <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Add environment variables for userprogs flags
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Matthias Maennich <maennich@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Borislav Petkov <bp@alien8.de>
-Date: Fri, 21 Jan 2022 16:08:17 +0100
+On Wed, Jan 12, 2022 at 2:44 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>
+> Allow additional arguments be passed to userprogs compilation.
+> Reproducible clang builds need to provide a sysroot and gcc path to
+> ensure same toolchain is used across hosts. KCFLAGS is not currently
+> used for any user programs compilation, so add new USERCFLAGS and
+> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+>
+> Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
+> an environment where a user sysroot is not specifically available.
+> Currently, Clang might automatically detect GCC installation on hosts
+> which have it installed to a default location in /. With addition of
+> these environment variables, our build environment can do like
+> "--sysroot=/dev/null" to force sysroot detection to fail.
 
-> On Thu, Dec 23, 2021 at 01:21:59AM +0100, Alexander Lobakin wrote:
-> > Address places which need special care and enable
-> > CONFIG_ARCH_SUPPORTS_ASM_FUNCTION_SECTIONS.
-> > 
-> > Notably:
-> >  - propagate --sectname-subst to aflags in x86/boot/Makefile and
-> >    x86/boot/compressed/Makefile as both override aflags;
-> 
-> s/aflags/KBUILD_AFLAGS/
-> 
-> Let's be more precise pls.
-> 
-> >  - symbols starting with a dot (like ".Lbad_gs") should be handled
-> >    manually with SYM_*_START_SECT(.Lbad_gs, bad_gs) as "two dots"
-> >    is a special (and CPP doesn't want to concatenate two dots in
-> >    general);
-> >  - some symbols explicitly need to reside in one section (like
-> >    kexec control code, hibernation page etc.);
-> >  - macros creating aliases for functions (like __memcpy() for
-> >    memcpy() etc.) should go after the main declaration (as
-> >    aliases should be declared in the same section and they
-> >    don't have SYM_PUSH_SECTION() inside);
-> >  - things like ".org", ".align" should be manually pushed to
-> >    the same section the next symbol goes to;
-> >  - expand indirect_thunk and .fixup wildcards in vmlinux.lds.S
-> 
-> $ git grep -E "\.fixup" arch/x86/*.S
-> $
-> 
-> I guess I'll continue with your new version since a bunch of stuff
-> has changed in arch/x86/ in the meantime so that that set would need
-> refreshing.
+Hi Elliot,
+Thanks for the patch! Sorry for the delay in reviewing; I didn't quite
+get around to it then went on vacation for a week.  Things get buried
+in my inbox quickly; feel free to ping me if a week goes by with no
+response on whichever channel works best for you.
 
-Yeah, sure. .fixup usage was removed in particular.
-I'll queue v10 soon.
+I'm happy with the intent of this patch; GNU binutils has been removed
+from Android, so supporting CC_CAN_LINK for Android kernel builds has
+been a question I've been thinking about (though, not with higher
+priority with some of our other issues), since we'll need to either
+incorporate musl or bionic libc into our kernel build.  I was thinking
+of adding a SYSROOT command line variable for that, but I see your
+approach is more flexible.
 
-> 
-> Thx.
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
+One minor nit below, a typo, a few questions, and in the commit
+message, but this generally LGTM.
 
-Thanks for the reviews,
-Al
+For the commit message, I think it would be good to expand `can do
+like "--sysroot=/dev/null"` fully into
+```
+can specify
+$ make USERCFLAGS=--sysroot=/dev/null USERLDFLAGS=-Wl,--sysroot=/dev/null
+```
 
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
+>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>  Documentation/kbuild/kbuild.rst | 8 ++++++++
+>  Makefile                        | 9 ++++++---
+>  init/Kconfig                    | 8 ++++----
+>  usr/include/Makefile            | 3 +++
+>  4 files changed, 21 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> index 2d1fc03d346e..16e90a3ae01b 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -77,6 +77,14 @@ HOSTLDLIBS
+>  ----------
+>  Additional libraries to link against when building host programs.
+>
+> +USERCFLAGS
+> +----------
+> +Additional options used for $(CC) when compiling userprogs.
+> +
+> +USERLDFLAGS
+> +----------
+> +Additional options used for $(LD) when linking userprogs.
+
+Probably should note the necessity of `-Wl,` prefixes here.
+
+Is `userprogs` cannonical? Yeah, I guess (reading
+Documentation/kbuild/makefiles.rst). I wonder if we should mention
+these in Documentation/kbuild/makefiles.rst as well? Under `5.3
+Controlling compiler options for userspace programs`.
+
+> +
+>  KBUILD_KCONFIG
+>  --------------
+>  Set the top-level Kconfig file to the value of this environment
+> diff --git a/Makefile b/Makefile
+> index 45278d508d81..4a55537c8ca0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -431,15 +431,17 @@ HOSTCC    = gcc
+>  HOSTCXX        = g++
+>  endif
+>
+> -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+> -                             -O2 -fomit-frame-pointer -std=gnu89
+> -export KBUILD_USERLDFLAGS :=
+> +KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+> +                    -O2 -fomit-frame-pointer -std=gnu89
+> +KBUILD_USERLDFLAGS := $(USERLDFLAGGS)
+
+^ I think there's an extra G in USERLDFLAGS above.
+
+>
+>  KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
+>  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
+>  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+>  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>
+> +KBUILD_USERCFLAGS   += $(USERCFLAGS)
+
+Since you added USERLDFLAGS to KBUILD_USERLDFLAGS above where it's
+defined, why not do so for USERCFLAGS/KBUILD_USERCFLAGS as well?
+
+> +
+>  # Make variables (CC, etc...)
+>  CPP            = $(CC) -E
+>  ifneq ($(LLVM),)
+> @@ -530,6 +532,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
+>  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+>  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+>  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+> +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
+>
+>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+>  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+> diff --git a/init/Kconfig b/init/Kconfig
+> index f2ae41e6717f..164706c38e8b 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -62,13 +62,13 @@ config LLD_VERSION
+>
+>  config CC_CAN_LINK
+>         bool
+> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
+> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
+> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
+>
+>  config CC_CAN_LINK_STATIC
+>         bool
+> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
+> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
+> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
+> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
+
+since USERLDFLAGS get passed to $(CC), they will need `-Wl`, prefixes,
+hence the request for expanding the example usage in the commit
+message.
+
+>
+>  config CC_HAS_ASM_GOTO
+>         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+> diff --git a/usr/include/Makefile b/usr/include/Makefile
+> index 1c2ae1368079..6a8c7dd9ccaf 100644
+> --- a/usr/include/Makefile
+> +++ b/usr/include/Makefile
+> @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+>  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+>
+> +# USERCFLAGS might contain sysroot location for CC
+> +UAPI_CFLAGS += $(USERCFLAGS)
+> +
+
+Do we need to worry about USERLDFLAGS here, too? (or usr/Makefile?)
+
+>  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
+>
+>  # The following are excluded for now because they fail to build.
+> --
+> 2.25.1
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
