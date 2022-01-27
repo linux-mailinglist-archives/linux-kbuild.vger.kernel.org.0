@@ -2,90 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DC1949E0C2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jan 2022 12:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB36549ED2F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jan 2022 22:11:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240143AbiA0L0t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jan 2022 06:26:49 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:48852 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240138AbiA0L0s (ORCPT
+        id S1344289AbiA0VLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jan 2022 16:11:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344223AbiA0VK7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jan 2022 06:26:48 -0500
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 20RBQU8V021491;
-        Thu, 27 Jan 2022 20:26:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 20RBQU8V021491
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1643282791;
-        bh=RkEfetbAwyaUhGDT+EAfXqGsSOduHgaH5G5FwAahVv4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2yqGvMFVnZnm5EncvLDkncnwfLXuX/lQhe94ikeoTObRS08+sRpzyNhcJE5C7GZsF
-         8vwzgG1N/XWaEgJgZrKb7Bm7wNbW3asmraCHzOPPDetsLu7Fe1BuITnHaRfXk2RuB4
-         U1NavlE/YPa2paEtlIBf6gxXJm1ynMmFod0gS2qFrvSWbzRNEjAuq+6nU961NoBCtJ
-         4pWxIzaPX0bWnTtOeitStFbpW/MuCNfsn4pn65CVYfnbm3kJujSZmKe4S4xkXfFYbb
-         OmeEO4wndG85iDBayWcB4aW+v0RNO2ja/zKy0g4orvDZzm3S02phfV0byE90sgeKBN
-         5J2Sljzs07T7g==
-X-Nifty-SrcIP: [209.85.215.172]
-Received: by mail-pg1-f172.google.com with SMTP id g2so2003426pgo.9;
-        Thu, 27 Jan 2022 03:26:31 -0800 (PST)
-X-Gm-Message-State: AOAM532iInOYajZLlficeeR0d065ANhtpGIPleWvR/r5VeCV1jLvmtGz
-        g6PxmCBJrcIFTAkdKcu+WkGe5IzeGwN65QC6Yxo=
-X-Google-Smtp-Source: ABdhPJxylLzS7QiwRjU95VnYBhK6t0BqF1mUWAON9YxU6ylmqVuezv2muXVgvl9NwL8CyMo7NifaCtd0QaHlfL3IfXA=
-X-Received: by 2002:a65:58cc:: with SMTP id e12mr2486659pgu.126.1643282790440;
- Thu, 27 Jan 2022 03:26:30 -0800 (PST)
+        Thu, 27 Jan 2022 16:10:59 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F5FC061714
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 13:10:59 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id y17so3564652qtx.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 13:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
+        b=m0D8ivz9PDCDCKh/arptMpR3/ao+LhFd+WDbL0Ndw6mZAYZf1UgxGLzVj40s+AmZjb
+         DuEwjd7NT9LFwA9OjKx7vr7puLYpS6zkJNbh+1BfuQgx4db+dU06Jgc7C75K093Hwjn/
+         9mCc5rYI5j3y1VvMx9vpxL5dad+OafMT9QhIQgFRN9dvv+QgByQ7o1yzKGSP02L54Znm
+         q7FBXWGkelfiR3xpWnnkdKDqg2UlG70uCnsM1s4SP7cRlEb+IJNQAjeVKHpZy42mZonq
+         RnHAdJAaDrxUHvlQWr6CsD5rnkBvpJUkcJOYzRgUFr/Bb7DCHALpPY9Ux9K4Rjywr0lt
+         YgYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
+        b=wB0BV0MzZbH1Oqhg7Bddfp4RENEIy7F4i6Otu9cXERykOYXwH0BG9DOFDyGeaUPnJ8
+         AonVmwExGJRF5IoAxsEECOtvu5QVQvNH/K3cc870XuriJR/RcIrkMcHPWW2pSbf44CZ4
+         sBeXJjT2lTdqFsp+iUGtrK9eghrs+f99wpif01r8tMpDBPj1pWtJ7KIz4HV2SjyNKyf5
+         I2Mkw9dtCO/i2HC6lpt8BVinTdtRwLcPejQpOvlCijrygHUksITpfHdMuDDLngKrxTCR
+         IAa1/rWe1QZocxth8IXHiqMwigh3pwKHSDqvRUooM9f2rKOyHHI83Vjh9LyjImLoVUwQ
+         jblQ==
+X-Gm-Message-State: AOAM532Zi+FulyBgUgh2//Bt471HXfpEVI+hm7gVH/VdXdrfwsTJV+ks
+        uZuRK897+75ldbRV2LQQIj97Kl09H7zePW01Z+6h1fapQ5A=
+X-Google-Smtp-Source: ABdhPJxjfwa8g49rNfb5xQ4Dtq316EM5E6QepnaR+uvM+BcTaI+qmB/caHz8VslukXXXqzp0798ys0wp0mZ+YQ4gMH8=
+X-Received: by 2002:ac8:4e48:: with SMTP id e8mr4202203qtw.64.1643317847801;
+ Thu, 27 Jan 2022 13:10:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com> <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 27 Jan 2022 20:25:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATQ3oW0rQz0M5xvWGqYmFZPeB2bgrdLUBobCRVNvoWZyA@mail.gmail.com>
-Message-ID: <CAK7LNATQ3oW0rQz0M5xvWGqYmFZPeB2bgrdLUBobCRVNvoWZyA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add environment variables for userprogs flags
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Elliot Berman <quic_eberman@quicinc.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Matthias Maennich <maennich@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev
+Received: by 2002:a05:6214:e4b:0:0:0:0 with HTTP; Thu, 27 Jan 2022 13:10:46
+ -0800 (PST)
+Reply-To: eanna00111@gmail.com
+From:   Mrs Anna Edward <mussaaliooooo7@gmail.com>
+Date:   Thu, 27 Jan 2022 13:10:46 -0800
+Message-ID: <CAFbf-n2dj0f-EXo2OhZA4D_6QXVYoysuMB5_+AOQv9Sb_nGe0w@mail.gmail.com>
+Subject: Urgent Reply
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 3:21 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+Greeting to you,
+Please forgive me for stressing you with my predicaments and I sorry
+to approach you through this media because it serves the fastest means
+of communication. I came across your E-mail from my personal search
+and I decided to contact you believing you will be honest to fulfill
+my final wish before I die.
 
->
-> >
-> >  config CC_HAS_ASM_GOTO
-> >         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> > diff --git a/usr/include/Makefile b/usr/include/Makefile
-> > index 1c2ae1368079..6a8c7dd9ccaf 100644
-> > --- a/usr/include/Makefile
-> > +++ b/usr/include/Makefile
-> > @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
-> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
-> >  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
-> >
-> > +# USERCFLAGS might contain sysroot location for CC
-> > +UAPI_CFLAGS += $(USERCFLAGS)
-> > +
-> Do we need to worry about USERLDFLAGS here, too? (or usr/Makefile?)
+I am Mrs Anna Edward, 63 years, from USA, I am childless and I am
+suffering from a pro-long critical cancer, my doctors confirmed I may
+not live beyond two months from now as my ill health has defiled all
+forms of medical treatment. Since my days are numbered, I have decided
+willingly to fulfill my long-time promise to donate you the sum
+($5.000.000.00) million dollars I inherited from my late husband Mr.
+Edward Herbart, foreign bank account over years. I need a very honest
+person who can assist in transfer of this money to his or her account
+and use the funds for charity work of God while you use 50% for
+yourself. I want you to know there is no risk involved; it is 100%
+hitch free & safe.
 
+If you are interested in assisting in getting this fund into your
+account for a charity project to fulfill my promise before I die
+please let me know immediately.
 
-I do not think so.
-
-usr/include/Makefile does not link the objects.
-
-(  $(CC) -S   stops after the compilation stage)
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+I will appreciate your utmost confidentiality as I wait for your reply.
+Best Regards,
+Mrs Anna Edward
