@@ -2,96 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D72A4A03EC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jan 2022 23:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3104A0436
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Jan 2022 00:26:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351436AbiA1Wte (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jan 2022 17:49:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349922AbiA1Wt3 (ORCPT
+        id S1344371AbiA1X0a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jan 2022 18:26:30 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:13919 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233182AbiA1X03 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jan 2022 17:49:29 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACBE0C06173B
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jan 2022 14:49:28 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id x23so14756513lfc.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jan 2022 14:49:28 -0800 (PST)
+        Fri, 28 Jan 2022 18:26:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ga12vASgQepzopTf7itk5qo6jciiWvEYo54yaueBv/k=;
-        b=ocuHiLSMSPTflZxrNNESvCIQ9i+7KDA5CgbR62QaQKXXDLgjYsHYlv8V7w7m89YSBv
-         uqDFU8pu0wkTuGojbwMOm4xC4j81ouCZqMQUv4ylul1TzqWYa5Ej6sz/dpO4Xx6Tk5av
-         UXItrbB9Ml1gsjXRDAWJ85uAnmftgLgl+I/3ZPdhD7ISL1Rx/oofWx6I5gZvy0O+ebnd
-         CCtov4e6Wjt3VZbONDqtD2zgyJK7ekvkOfRukUUMmiEIf1WPwG/vQtQg51YleVk2+yru
-         vtbMsL+rLA3DMH7e2gqooF1lNdWj9PV5SMlT604dQ55IYytTAWSziScWu9bvSVp9McF6
-         OPmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ga12vASgQepzopTf7itk5qo6jciiWvEYo54yaueBv/k=;
-        b=n4+d34w66eYuWf0t/lL+myYVXbChh2jDW7WKlLE7aZbksqlvpbs2xR6W+/SdyQcD8l
-         Jxklhtqzvh63wOmLhbXgL3meoWSSo896+ykgfl1/ysunTUIx/MJmUVHOQ/3ZM5aXZ1RQ
-         de2Y0PeGwJgm+h5ylv7fj0o3/ttGfnsgRxm2Q4o4TU+Pnzqh+JRki2bXM6yVwafJx/gF
-         AUCts6SUH1sGWjKWJMvhRXS0EnjUBeVxe60WFzlrUY9m1SaOaCEBR7on4Kds8BpOI1Js
-         hJsXUdBKmp/LcXXHUPH/DKQp3npKMnzXajP9msLrqfdxwonHfvRYLontouPC3Wkhalw1
-         Qn0Q==
-X-Gm-Message-State: AOAM531MdtTVXdYD/AVemrnngJjsepUGronoKKeY/GCxnKW+7EK3v6xL
-        +3eYIpFxNE7alNKUOlrgGPJxVaS5vzwZuTm9aBKtkg==
-X-Google-Smtp-Source: ABdhPJzaJFI+R0ILoPy/Efjd+HHvfSdGQyGuwezXUpAsCFmnl8paU8d50L8ZlP2AF/lXoKPXGH4nExxQp3vxfXwFFHg=
-X-Received: by 2002:a05:6512:3ba5:: with SMTP id g37mr7601124lfv.651.1643410166929;
- Fri, 28 Jan 2022 14:49:26 -0800 (PST)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1643412389; x=1674948389;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=gaeFT6+rwIwh7KdRBiFX2XPa3nQt2Oi6p4+k5qcmksM=;
+  b=U740x/uKVBbpW2ka5eJsM5nG9jT9tptlWtFGpZC+5oceXRpxRsi5hUpr
+   hMuW67Xp8KhE9oerMjeGMWFqRvITwFwtmcGpdc/dsCkkPe2JWSypVTWQQ
+   x1s4yM/czZFWON7r5A+k+sh8T8ZeYPfgiF0wnPSuzAm1Q9seEZVlkvX2k
+   g=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Jan 2022 15:26:29 -0800
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2022 15:26:29 -0800
+Received: from [10.110.48.15] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 28 Jan
+ 2022 15:26:28 -0800
+Message-ID: <094ab4eb-b877-2a14-d6c8-1d9e28335d7d@quicinc.com>
+Date:   Fri, 28 Jan 2022 15:26:26 -0800
 MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com>
- <20220128220841.3222637-1-quic_eberman@quicinc.com> <20220128224528.f7ejzw55t6kfefmm@google.com>
-In-Reply-To: <20220128224528.f7ejzw55t6kfefmm@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 28 Jan 2022 14:49:15 -0800
-Message-ID: <CAKwvOd=Ab+GWNzSC6eaDWTVDF6gJQ9fDDMT3hep-DzhrEA6DpQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
 Subject: Re: [PATCH v2] kbuild: Add environment variables for userprogs flags
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+Content-Language: en-US
+To:     Nick Desaulniers <ndesaulniers@google.com>
+CC:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Matthias Maennich" <maennich@google.com>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <llvm@lists.linux.dev>, Fangrui Song <maskray@google.com>
+References: <20220112224342.958358-1-quic_eberman@quicinc.com>
+ <20220128220841.3222637-1-quic_eberman@quicinc.com>
+ <20220128224528.f7ejzw55t6kfefmm@google.com>
+ <CAKwvOd=Ab+GWNzSC6eaDWTVDF6gJQ9fDDMT3hep-DzhrEA6DpQ@mail.gmail.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <CAKwvOd=Ab+GWNzSC6eaDWTVDF6gJQ9fDDMT3hep-DzhrEA6DpQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
- On Fri, Jan 28, 2022 at 2:45 PM Fangrui Song <maskray@google.com> wrote:
->
-> On 2022-01-28, Elliot Berman wrote:
-> >Allow additional arguments be passed to userprogs compilation.
-> >Reproducible clang builds need to provide a sysroot and gcc path to
-> >ensure same toolchain is used across hosts. KCFLAGS is not currently
-> >used for any user programs compilation, so add new USERCFLAGS and
-> >USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
-> >
-> >Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
-> >an environment where a user sysroot is not specifically available.
-> >Currently, Clang might automatically detect GCC installation on hosts
-> >which have it installed to a default location in /. With addition of
-> >these environment variables, you can specify flags such as:
-> >
-> >$ make USERCFLAGS=--sysroot=/dev/null USERLDFLAGS=-Wl,--sysroot=/dev/null
-> >
-> >to force sysroot detection to fail.
->
-> -Wl,--sysroot=/dev/null => --sysroot
->
-> As I mentioned in
-> https://lore.kernel.org/all/20220128031549.w5a4bilxbkppagfu@google.com/
-> -Wl,--sysroot=/dev/null does not suppress search paths like -L/lib .
 
-In that case, Elliot, can you please test whether USERLDFLAGS is
-necessary to be specified AT ALL? Maybe we can drop that addition from
-this patch if so?
--- 
-Thanks,
-~Nick Desaulniers
+
+On 1/28/2022 2:49 PM, Nick Desaulniers wrote:
+>   On Fri, Jan 28, 2022 at 2:45 PM Fangrui Song <maskray@google.com> wrote:
+>>
+>> On 2022-01-28, Elliot Berman wrote:
+>>> Allow additional arguments be passed to userprogs compilation.
+>>> Reproducible clang builds need to provide a sysroot and gcc path to
+>>> ensure same toolchain is used across hosts. KCFLAGS is not currently
+>>> used for any user programs compilation, so add new USERCFLAGS and
+>>> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+>>>
+>>> Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
+>>> an environment where a user sysroot is not specifically available.
+>>> Currently, Clang might automatically detect GCC installation on hosts
+>>> which have it installed to a default location in /. With addition of
+>>> these environment variables, you can specify flags such as:
+>>>
+>>> $ make USERCFLAGS=--sysroot=/dev/null USERLDFLAGS=-Wl,--sysroot=/dev/null
+>>>
+>>> to force sysroot detection to fail.
+>>
+>> -Wl,--sysroot=/dev/null => --sysroot
+>>
+>> As I mentioned in
+>> https://lore.kernel.org/all/20220128031549.w5a4bilxbkppagfu@google.com/
+>> -Wl,--sysroot=/dev/null does not suppress search paths like -L/lib .
+> 
+> In that case, Elliot, can you please test whether USERLDFLAGS is
+> necessary to be specified AT ALL? Maybe we can drop that addition from
+> this patch if so?
+
+USERLDFLAGS as --sysroot=/dev/null isn't necessary and not needed for 
+the Android kernel usecase. I've included here since we have HOSTLDFLAGS 
+and LDFLAGS for host programs and kernel respectively.
