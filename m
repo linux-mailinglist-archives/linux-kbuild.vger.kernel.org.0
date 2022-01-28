@@ -2,84 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB36549ED2F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jan 2022 22:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D0149F12B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jan 2022 03:41:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344289AbiA0VLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jan 2022 16:11:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344223AbiA0VK7 (ORCPT
+        id S1345492AbiA1Cls (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jan 2022 21:41:48 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:20782 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241696AbiA1Clr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jan 2022 16:10:59 -0500
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F5FC061714
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 13:10:59 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id y17so3564652qtx.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 13:10:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
-        b=m0D8ivz9PDCDCKh/arptMpR3/ao+LhFd+WDbL0Ndw6mZAYZf1UgxGLzVj40s+AmZjb
-         DuEwjd7NT9LFwA9OjKx7vr7puLYpS6zkJNbh+1BfuQgx4db+dU06Jgc7C75K093Hwjn/
-         9mCc5rYI5j3y1VvMx9vpxL5dad+OafMT9QhIQgFRN9dvv+QgByQ7o1yzKGSP02L54Znm
-         q7FBXWGkelfiR3xpWnnkdKDqg2UlG70uCnsM1s4SP7cRlEb+IJNQAjeVKHpZy42mZonq
-         RnHAdJAaDrxUHvlQWr6CsD5rnkBvpJUkcJOYzRgUFr/Bb7DCHALpPY9Ux9K4Rjywr0lt
-         YgYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=wXM0hly6tyNlZq07rMipvtfpnu3wRqtV0B2JSV05g3E=;
-        b=wB0BV0MzZbH1Oqhg7Bddfp4RENEIy7F4i6Otu9cXERykOYXwH0BG9DOFDyGeaUPnJ8
-         AonVmwExGJRF5IoAxsEECOtvu5QVQvNH/K3cc870XuriJR/RcIrkMcHPWW2pSbf44CZ4
-         sBeXJjT2lTdqFsp+iUGtrK9eghrs+f99wpif01r8tMpDBPj1pWtJ7KIz4HV2SjyNKyf5
-         I2Mkw9dtCO/i2HC6lpt8BVinTdtRwLcPejQpOvlCijrygHUksITpfHdMuDDLngKrxTCR
-         IAa1/rWe1QZocxth8IXHiqMwigh3pwKHSDqvRUooM9f2rKOyHHI83Vjh9LyjImLoVUwQ
-         jblQ==
-X-Gm-Message-State: AOAM532Zi+FulyBgUgh2//Bt471HXfpEVI+hm7gVH/VdXdrfwsTJV+ks
-        uZuRK897+75ldbRV2LQQIj97Kl09H7zePW01Z+6h1fapQ5A=
-X-Google-Smtp-Source: ABdhPJxjfwa8g49rNfb5xQ4Dtq316EM5E6QepnaR+uvM+BcTaI+qmB/caHz8VslukXXXqzp0798ys0wp0mZ+YQ4gMH8=
-X-Received: by 2002:ac8:4e48:: with SMTP id e8mr4202203qtw.64.1643317847801;
- Thu, 27 Jan 2022 13:10:47 -0800 (PST)
+        Thu, 27 Jan 2022 21:41:47 -0500
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 20S2fY8X008122;
+        Fri, 28 Jan 2022 11:41:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 20S2fY8X008122
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1643337694;
+        bh=4JwARZdKVo3l5mCIOwcu21mpuSYlPGM/jXChU9Tmvv8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lMJ1QSht7dX1owf3nll55YpxS/G/4siojSVe7w7p2iLOjEA5y0bMCCqyjSJUN/54B
+         +eSlP9dCRjPQUnQd3pqwf3YCEEtCw+z/shb0W6gc2VZT4iOj8Kxeg/j+pXouSgNUjs
+         B8oxA1r5s9CiIsu3waOEi6UawlRbFKmYdCSjCTub2bIzh9fh+/JDV2Uz+NQ4XOSoKC
+         lD0X3ilOn6GUkg0CjTtQ4EB4CAq/rOIiT+SzHTrkKxH1sPyK37BKuZJeaai8uHJu6S
+         hhD+LSPmPrRt5zH0pevbvO9ztWegM52QpkEoxZ3LWd4Q8UPHPOZgqSZHfr2yXA0iT/
+         AXH44hL8KcwtQ==
+X-Nifty-SrcIP: [209.85.216.45]
+Received: by mail-pj1-f45.google.com with SMTP id d5so5161591pjk.5;
+        Thu, 27 Jan 2022 18:41:34 -0800 (PST)
+X-Gm-Message-State: AOAM533WE2OgiQsewbJZXxBa0Lu0n8DGYHp/J7JO2FiHfZRkWFtc8krV
+        FstK4jae3NaRXdcDKdDabGfeE8f8PQkj2NneJ0Y=
+X-Google-Smtp-Source: ABdhPJy1GiKZizyfLYhMezNIV1ytKYsoKKMkU59dG1DjFD/iKFc6IodPKJ/Y/ET9SfcyfEuczaNspQfIJ50T03XKddU=
+X-Received: by 2002:a17:90b:1647:: with SMTP id il7mr9537952pjb.119.1643337693823;
+ Thu, 27 Jan 2022 18:41:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6214:e4b:0:0:0:0 with HTTP; Thu, 27 Jan 2022 13:10:46
- -0800 (PST)
-Reply-To: eanna00111@gmail.com
-From:   Mrs Anna Edward <mussaaliooooo7@gmail.com>
-Date:   Thu, 27 Jan 2022 13:10:46 -0800
-Message-ID: <CAFbf-n2dj0f-EXo2OhZA4D_6QXVYoysuMB5_+AOQv9Sb_nGe0w@mail.gmail.com>
-Subject: Urgent Reply
-To:     undisclosed-recipients:;
+References: <20220112224342.958358-1-quic_eberman@quicinc.com>
+In-Reply-To: <20220112224342.958358-1-quic_eberman@quicinc.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 28 Jan 2022 11:40:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ4wXjLfz_+6QeT06tKr_2Pan0qtxf=adKQtCNagZ+5wQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ4wXjLfz_+6QeT06tKr_2Pan0qtxf=adKQtCNagZ+5wQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Add environment variables for userprogs flags
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Matthias Maennich <maennich@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Greeting to you,
-Please forgive me for stressing you with my predicaments and I sorry
-to approach you through this media because it serves the fastest means
-of communication. I came across your E-mail from my personal search
-and I decided to contact you believing you will be honest to fulfill
-my final wish before I die.
+(+CC: Arnd)
 
-I am Mrs Anna Edward, 63 years, from USA, I am childless and I am
-suffering from a pro-long critical cancer, my doctors confirmed I may
-not live beyond two months from now as my ill health has defiled all
-forms of medical treatment. Since my days are numbered, I have decided
-willingly to fulfill my long-time promise to donate you the sum
-($5.000.000.00) million dollars I inherited from my late husband Mr.
-Edward Herbart, foreign bank account over years. I need a very honest
-person who can assist in transfer of this money to his or her account
-and use the funds for charity work of God while you use 50% for
-yourself. I want you to know there is no risk involved; it is 100%
-hitch free & safe.
+On Thu, Jan 13, 2022 at 7:44 AM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>
+> Allow additional arguments be passed to userprogs compilation.
+> Reproducible clang builds need to provide a sysroot and gcc path to
+> ensure same toolchain is used across hosts. KCFLAGS is not currently
+> used for any user programs compilation, so add new USERCFLAGS and
+> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+>
+> Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
+> an environment where a user sysroot is not specifically available.
+> Currently, Clang might automatically detect GCC installation on hosts
+> which have it installed to a default location in /. With addition of
+> these environment variables, our build environment can do like
+> "--sysroot=/dev/null" to force sysroot detection to fail.
+>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
 
-If you are interested in assisting in getting this fund into your
-account for a charity project to fulfill my promise before I die
-please let me know immediately.
 
-I will appreciate your utmost confidentiality as I wait for your reply.
-Best Regards,
-Mrs Anna Edward
+> --- a/usr/include/Makefile
+> +++ b/usr/include/Makefile
+> @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+>  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+>
+> +# USERCFLAGS might contain sysroot location for CC
+> +UAPI_CFLAGS += $(USERCFLAGS)
+>
+
+I am OK with this patch, but I was not sure with this line.
+
+Initially, I thought exported UAPI headers should be self-contained.
+In other words, we should be able to compile-test them without
+relying on compiler or libc headers.
+
+Is this achievable or not?
+
+I think Arnd is an expert in this area.
+I hope some input from him.
+
+
+
+
+
+ +
+>  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
+>
+>  # The following are excluded for now because they fail to build.
+> --
+> 2.25.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
