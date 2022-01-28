@@ -2,251 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0737B49F1B5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jan 2022 04:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F5C449F7AD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jan 2022 11:56:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345649AbiA1DPz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jan 2022 22:15:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57516 "EHLO
+        id S1347912AbiA1K4t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jan 2022 05:56:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345628AbiA1DPz (ORCPT
+        with ESMTP id S244101AbiA1K4t (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jan 2022 22:15:55 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6851AC06173B
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 19:15:54 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id q75so4049619pgq.5
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jan 2022 19:15:54 -0800 (PST)
+        Fri, 28 Jan 2022 05:56:49 -0500
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54E9C061714
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jan 2022 02:56:48 -0800 (PST)
+Received: by mail-wm1-x349.google.com with SMTP id s190-20020a1ca9c7000000b00347c6c39d9aso2794288wme.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jan 2022 02:56:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tZcF1ys+J7GpUFASVAGN6Rdu8oCjA7Z3iypwWHCPy8A=;
-        b=gqxpQ0nasANrfgltMjn/UOliGsx/M5Umfd72JjWUW0y8yKFeSco7vy+1wCHMAW8xnj
-         Dcc2akETfd1yWkgWkbHsmV4FRnqHHC6nH2MVji2noPC3VA6GbnL3SKJkJFmt6fM7P1h9
-         SgywbWj6wiGSforGMZ4BA2Ag8qiZh7AWGguN1PI4J+7OVcxbRMohccvA4b9B7h2rJF80
-         n6oz9z2dgmg81U1o2W7CUFLc2Lt4TR4+pPta3CODTyEpseDhGifE1unpNCShesZFbkwp
-         4iwc8gaO/cwNpI85QYa0I5hySL7VCDHegj1wOE8dwq6cClnRcUG52qBBpNvho3B2dOJG
-         Su2Q==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=hOuzpWzwLqePrG7KzMy6POmcapEVAbM5YRYunKpotWo=;
+        b=fhKHd24To3BSoahiJrP4xlDXKpCv3i4ceobI3bbA37VyEE3jRp+O4mYy3/TpA/jZUB
+         78s9JcvafHZk3Nv+QJ6aCkxV9DZmzWwQgza39CikAKbFpAJH0gRfvxzJxrMR/iUme2H3
+         jBo52tynN+ZI9p0SCpL3h18OjUIbSbtNRMJGh80vv2vTRQiN+lFaGOP/UvUEWZe+EzBd
+         qo4vUcf5tsb7t+H7W+pSujNUVMXKA/ziuTBUv4540NXCHFMarAxcrf7im8cjNoxjH+Eq
+         XhJqmEV3hYNuBw30oMLQ+eJLGDpd3lfJyo0cx764C6KNLR1EY9entQi/H9+gyre8f59f
+         GQKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tZcF1ys+J7GpUFASVAGN6Rdu8oCjA7Z3iypwWHCPy8A=;
-        b=wTYxfS16xU+1KppCUQ7iBb6f6AYM8N/Rx9AEccD1PGvnJDUapq/D6tW5oFTpGpU2G0
-         /iHyCI4NDU+fgk3hACGmZoXxJNl6IXjiSxB0aHLXgFWirza81dlUaozp0Faqs/mn1XNN
-         feZgcWpiChp7YI5kQ9RcT6vbip+3gB7Y3IrCXLo64hdJTysXHOKqy71XOLLLn9ybx/9z
-         Y7v9Yd7Ul7a26DSytxH5uoRl85gR4a7DuQO9sJZ0Lj0i24UiPN5n4UviHXhfkKA4Z+o0
-         NHq5fc7iOQtPKqSH4Cm1/X611+3uGryx1dnNrz3sijWS5OmwNCoe6L3skZMFvlaotiGO
-         aNdg==
-X-Gm-Message-State: AOAM533aTT+ENAIZ/5HJnlTXcfX41AxHFrzBxj1JNLhxZHFkc+Cupx+5
-        HUBuGEYJDcvOzQs31IaBgDtJng==
-X-Google-Smtp-Source: ABdhPJyyOfTrUzr+qvId4zhmjXJ6JWJJMgPDTtPVeTnXiqVP6kUN+6+UkWJsa3wtypi+dlPGwh7JYQ==
-X-Received: by 2002:a63:3d0a:: with SMTP id k10mr5055355pga.179.1643339753623;
-        Thu, 27 Jan 2022 19:15:53 -0800 (PST)
-Received: from google.com ([2620:15c:2ce:200:e361:f314:a42:f5f8])
-        by smtp.gmail.com with ESMTPSA id j18sm7353848pfj.13.2022.01.27.19.15.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 19:15:53 -0800 (PST)
-Date:   Thu, 27 Jan 2022 19:15:49 -0800
-From:   Fangrui Song <maskray@google.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Elliot Berman <quic_eberman@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=hOuzpWzwLqePrG7KzMy6POmcapEVAbM5YRYunKpotWo=;
+        b=J6ubEUrQjfKWIRXZZcXQO73JDEX7z7j7e986BPEIah186zPnex0Aij2j7UiLbLEWQU
+         xXmlDh5DbTr/ua5Jwd/LwYESY1wSr+x9TLjxD3/V7B7v+LPA0G7s7hnWZ56RW6jSBaZo
+         zCNNoRNmcVaumPpi13HhyziYcfUlgZjFK/SEyQJy992CgALAhB7KPwlPBv9SIaUaGUqI
+         6CMX8TAPI48G2Zz15+j4DjScOtOiceUYayTzpvpCBx2TmkiYWb8UMveLdPqFnJ2iHLp2
+         O71yCLIVPV/DK2m1YykEYBSO1+h9xO9KWD11P3rnNlBKAEqqCvZ8xjGh5nShYoPvyurm
+         /Ojg==
+X-Gm-Message-State: AOAM531/c03RK2a5iS26epe1ihMc8NgvAlWrNrkQDVEYdxboRJlVQlsr
+        EvCLTizBH6MTGAx6jYzU6uS57Tf3gA==
+X-Google-Smtp-Source: ABdhPJzZhi7RO2wuFmy6tcbCdw7/usEDleeyJpfpVLQrgRK/raZHfrPpldl5/HboAaShtwFxDIU0Zk2/tQ==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:f088:5245:7f91:d730])
+ (user=elver job=sendgmr) by 2002:a1c:a544:: with SMTP id o65mr15295285wme.160.1643367407413;
+ Fri, 28 Jan 2022 02:56:47 -0800 (PST)
+Date:   Fri, 28 Jan 2022 11:56:31 +0100
+Message-Id: <20220128105631.509772-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.0.rc0.227.g00780c9af4-goog
+Subject: [PATCH] Revert "ubsan, kcsan: Don't combine sanitizer with kcov on clang"
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: Add environment variables for userprogs flags
-Message-ID: <20220128031549.w5a4bilxbkppagfu@google.com>
-References: <20220112224342.958358-1-quic_eberman@quicinc.com>
- <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdk73a6FT3o7Pn7_dRM3U=dbrXy+iqmLC6n5msSNMzOTGQ@mail.gmail.com>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2022-01-26, Nick Desaulniers wrote:
->On Wed, Jan 12, 2022 at 2:44 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>
->> Allow additional arguments be passed to userprogs compilation.
->> Reproducible clang builds need to provide a sysroot and gcc path to
->> ensure same toolchain is used across hosts. KCFLAGS is not currently
->> used for any user programs compilation, so add new USERCFLAGS and
->> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
->>
->> Specifically, I'm trying to force CC_CAN_LINK to consistently fail in
->> an environment where a user sysroot is not specifically available.
->> Currently, Clang might automatically detect GCC installation on hosts
->> which have it installed to a default location in /. With addition of
->> these environment variables, our build environment can do like
->> "--sysroot=/dev/null" to force sysroot detection to fail.
->
->Hi Elliot,
->Thanks for the patch! Sorry for the delay in reviewing; I didn't quite
->get around to it then went on vacation for a week.  Things get buried
->in my inbox quickly; feel free to ping me if a week goes by with no
->response on whichever channel works best for you.
->
->I'm happy with the intent of this patch; GNU binutils has been removed
->from Android, so supporting CC_CAN_LINK for Android kernel builds has
->been a question I've been thinking about (though, not with higher
->priority with some of our other issues), since we'll need to either
->incorporate musl or bionic libc into our kernel build.  I was thinking
->of adding a SYSROOT command line variable for that, but I see your
->approach is more flexible.
->
->One minor nit below, a typo, a few questions, and in the commit
->message, but this generally LGTM.
->
->For the commit message, I think it would be good to expand `can do
->like "--sysroot=/dev/null"` fully into
->```
->can specify
->$ make USERCFLAGS=--sysroot=/dev/null USERLDFLAGS=-Wl,--sysroot=/dev/null
->```
+This reverts commit ea91a1d45d19469001a4955583187b0d75915759.
 
-Is -Wl,--sysroot=/dev/null to override a -Wl,--sysroot specified
-previously on the command line?
+Since df05c0e9496c ("Documentation: Raise the minimum supported version
+of LLVM to 11.0.0") the minimum Clang version is now 11.0, which fixed
+the UBSAN/KCSAN vs. KCOV incompatibilities.
 
-The driver option --sysroot does two things:
+Link: https://bugs.llvm.org/show_bug.cgi?id=45831
+Link: https://lkml.kernel.org/r/YaodyZzu0MTCJcvO@elver.google.com
+Signed-off-by: Marco Elver <elver@google.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+---
+ lib/Kconfig.kcsan | 11 -----------
+ lib/Kconfig.ubsan | 12 ------------
+ 2 files changed, 23 deletions(-)
 
-* Decide include/library search paths (e.g. $sysroot/usr/include, $sysroot/lib64).
-* Pass --sysroot to ld.
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 63b70b8c5551..de022445fbba 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -10,21 +10,10 @@ config HAVE_KCSAN_COMPILER
+ 	  For the list of compilers that support KCSAN, please see
+ 	  <file:Documentation/dev-tools/kcsan.rst>.
+ 
+-config KCSAN_KCOV_BROKEN
+-	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
+-	depends on CC_IS_CLANG
+-	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=thread -fsanitize-coverage=trace-pc)
+-	help
+-	  Some versions of clang support either KCSAN and KCOV but not the
+-	  combination of the two.
+-	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
+-	  in newer releases.
+-
+ menuconfig KCSAN
+ 	bool "KCSAN: dynamic data race detector"
+ 	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
+ 	depends on DEBUG_KERNEL && !KASAN
+-	depends on !KCSAN_KCOV_BROKEN
+ 	select STACKTRACE
+ 	help
+ 	  The Kernel Concurrency Sanitizer (KCSAN) is a dynamic
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index 236c5cefc4cc..f3c57ed51838 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -27,16 +27,6 @@ config UBSAN_TRAP
+ 	  the system. For some system builders this is an acceptable
+ 	  trade-off.
+ 
+-config UBSAN_KCOV_BROKEN
+-	def_bool KCOV && CC_HAS_SANCOV_TRACE_PC
+-	depends on CC_IS_CLANG
+-	depends on !$(cc-option,-Werror=unused-command-line-argument -fsanitize=bounds -fsanitize-coverage=trace-pc)
+-	help
+-	  Some versions of clang support either UBSAN or KCOV but not the
+-	  combination of the two.
+-	  See https://bugs.llvm.org/show_bug.cgi?id=45831 for the status
+-	  in newer releases.
+-
+ config CC_HAS_UBSAN_BOUNDS
+ 	def_bool $(cc-option,-fsanitize=bounds)
+ 
+@@ -46,7 +36,6 @@ config CC_HAS_UBSAN_ARRAY_BOUNDS
+ config UBSAN_BOUNDS
+ 	bool "Perform array index bounds checking"
+ 	default UBSAN
+-	depends on !UBSAN_KCOV_BROKEN
+ 	depends on CC_HAS_UBSAN_ARRAY_BOUNDS || CC_HAS_UBSAN_BOUNDS
+ 	help
+ 	  This option enables detection of directly indexed out of bounds
+@@ -72,7 +61,6 @@ config UBSAN_ARRAY_BOUNDS
+ config UBSAN_LOCAL_BOUNDS
+ 	bool "Perform array local bounds checking"
+ 	depends on UBSAN_TRAP
+-	depends on !UBSAN_KCOV_BROKEN
+ 	depends on $(cc-option,-fsanitize=local-bounds)
+ 	help
+ 	  This option enables -fsanitize=local-bounds which traps when an
+-- 
+2.35.0.rc0.227.g00780c9af4-goog
 
-In ld, it means: if a linker script is in the sysroot directory, when ld opens an
-absolute path file (via INPUT or GROUP), add sysroot before the absolute path.
-In ld, --sysroot=/dev/null is not different --sysroot= (empty value).
-
->>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->> ---
->>  Documentation/kbuild/kbuild.rst | 8 ++++++++
->>  Makefile                        | 9 ++++++---
->>  init/Kconfig                    | 8 ++++----
->>  usr/include/Makefile            | 3 +++
->>  4 files changed, 21 insertions(+), 7 deletions(-)
->>
->> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
->> index 2d1fc03d346e..16e90a3ae01b 100644
->> --- a/Documentation/kbuild/kbuild.rst
->> +++ b/Documentation/kbuild/kbuild.rst
->> @@ -77,6 +77,14 @@ HOSTLDLIBS
->>  ----------
->>  Additional libraries to link against when building host programs.
->>
->> +USERCFLAGS
->> +----------
->> +Additional options used for $(CC) when compiling userprogs.
->> +
->> +USERLDFLAGS
->> +----------
->> +Additional options used for $(LD) when linking userprogs.
->
->Probably should note the necessity of `-Wl,` prefixes here.
->
->Is `userprogs` cannonical? Yeah, I guess (reading
->Documentation/kbuild/makefiles.rst). I wonder if we should mention
->these in Documentation/kbuild/makefiles.rst as well? Under `5.3
->Controlling compiler options for userspace programs`.
->
->> +
->>  KBUILD_KCONFIG
->>  --------------
->>  Set the top-level Kconfig file to the value of this environment
->> diff --git a/Makefile b/Makefile
->> index 45278d508d81..4a55537c8ca0 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -431,15 +431,17 @@ HOSTCC    = gcc
->>  HOSTCXX        = g++
->>  endif
->>
->> -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
->> -                             -O2 -fomit-frame-pointer -std=gnu89
->> -export KBUILD_USERLDFLAGS :=
->> +KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
->> +                    -O2 -fomit-frame-pointer -std=gnu89
->> +KBUILD_USERLDFLAGS := $(USERLDFLAGGS)
->
->^ I think there's an extra G in USERLDFLAGS above.
->
->>
->>  KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
->>  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
->>  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
->>  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
->>
->> +KBUILD_USERCFLAGS   += $(USERCFLAGS)
->
->Since you added USERLDFLAGS to KBUILD_USERLDFLAGS above where it's
->defined, why not do so for USERCFLAGS/KBUILD_USERCFLAGS as well?
->
->> +
->>  # Make variables (CC, etc...)
->>  CPP            = $(CC) -E
->>  ifneq ($(LLVM),)
->> @@ -530,6 +532,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
->>  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
->>  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
->>  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
->> +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
->>
->>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
->>  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
->> diff --git a/init/Kconfig b/init/Kconfig
->> index f2ae41e6717f..164706c38e8b 100644
->> --- a/init/Kconfig
->> +++ b/init/Kconfig
->> @@ -62,13 +62,13 @@ config LLD_VERSION
->>
->>  config CC_CAN_LINK
->>         bool
->> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
->> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
->> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
->> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
->>
->>  config CC_CAN_LINK_STATIC
->>         bool
->> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
->> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
->> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
->> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
->
->since USERLDFLAGS get passed to $(CC), they will need `-Wl`, prefixes,
->hence the request for expanding the example usage in the commit
->message.
->
->>
->>  config CC_HAS_ASM_GOTO
->>         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
->> diff --git a/usr/include/Makefile b/usr/include/Makefile
->> index 1c2ae1368079..6a8c7dd9ccaf 100644
->> --- a/usr/include/Makefile
->> +++ b/usr/include/Makefile
->> @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
->>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
->>  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
->>
->> +# USERCFLAGS might contain sysroot location for CC
->> +UAPI_CFLAGS += $(USERCFLAGS)
->> +
->
->Do we need to worry about USERLDFLAGS here, too? (or usr/Makefile?)
->
->>  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
->>
->>  # The following are excluded for now because they fail to build.
->> --
->> 2.25.1
->>
->
->
->-- 
->Thanks,
->~Nick Desaulniers
