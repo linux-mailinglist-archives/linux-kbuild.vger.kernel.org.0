@@ -2,213 +2,259 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 541904A6722
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Feb 2022 22:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B0B64A677D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Feb 2022 23:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233744AbiBAViV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Feb 2022 16:38:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        id S236910AbiBAWDV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Feb 2022 17:03:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbiBAViU (ORCPT
+        with ESMTP id S236891AbiBAWDV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Feb 2022 16:38:20 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84460C06173B
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Feb 2022 13:38:20 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id k13so4291032lfg.9
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Feb 2022 13:38:20 -0800 (PST)
+        Tue, 1 Feb 2022 17:03:21 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84B0C06173B
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Feb 2022 14:03:20 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id k31so55283059ybj.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Feb 2022 14:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X5lH9MhEDI/fH4JO2AjNw4VWZe37YGfztlIPMSyNebw=;
-        b=hi+suNUqO4leQ1HIfCbFWcnJcoxAWW/Q+zn3N1VjRKX8gYJgw/DUxBq2iz/Lip64Bt
-         oMOezjHarT6TBjJ6URjYNtH9izgGAn3LG6kJ2J4Q5bvEJyITWpQmyuYBwS502rldmZPj
-         jhPq3xQEPhTC7aiHs4UA3iYi1M6nnKFy4K4xiOvTrHnrUTv/5nez5+kV1QGgYwETAPvd
-         PjeLUPNeufRy0jF6TTaDv45iULXgAxWnSSxNYR2mzfoRh2hRpiMpJ4vfJSy6UqZGk0EL
-         hvjsdTAkJ+mG0HqLDp+Zj74IOZkAZ6PyO5u4sqtOdM4SLxchHjhftQnEZfwsxOjUVSTl
-         x4TA==
+         :cc:content-transfer-encoding;
+        bh=KkrfiRtyMaJqqJdjrzkMV83DUGlyweqGta4SJAJDkXw=;
+        b=IGttW2G58AVMdCJ+ZQFSiRfakMSISnO8rp5qj+HW196XjZf2cYHtnTkTPBiXxF08zQ
+         ePpEX0EyvCsK9dd6pSO/+E2OirT+DdcWmZ4xfVhtOrkrfG5JdtLAtZoI2vR2XROZ3YgR
+         uk/hjaLxBx7257IVlCZFC6RpGOzYwiQ2fpUqhb0w6NnH/2a/+EBEIaMhneESxylO19fd
+         /DgMGpq3/4N/uRONAKCYH5TbeRhP5bcmnGHafDaVwSrOtM53I9vZcVMihuHUd1mM81Gb
+         4jEl5JvKWEhuyks+jQJeBUvjK9rw5RK1X0GP6KxL+BwkFMa2OyRyIVoNbZeX3wT+zNPw
+         JxkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X5lH9MhEDI/fH4JO2AjNw4VWZe37YGfztlIPMSyNebw=;
-        b=5EmJshH9zj7Tb0Jpdy1fFfRZ5HngUy+y6j9c47+ZUe8gaFZBVi52ZEcoGDc9oyEtm0
-         f8JWRiXrirXL2xyAtqAU6ALdGCxUGSZ6ckufVp+IL9+ikb5c32yfRZe+UYe3lE3sxnQs
-         i1fQCuyI2MTKZZyxU3fgHcpV0LibPwgWiVybb5aVzgTd9yYkjDa1axR7WILM8Y+icgWv
-         kWem4Kj28iIZ1qsB1/AvECnYEDuLY+oXi2+omon/6ifQaC9svFQXYgdYpYxuzbEqiyA5
-         XavtSztiBmpNrojSfvaIIZm3In74KdHPdukB01iof/aBQ7ze70OscWc7e4O7o5sQkqzg
-         gmxQ==
-X-Gm-Message-State: AOAM532BKPOkQcQN5G8x+oiEfVPMsgMNNSZDVt+zJVsrjISSZzjMhhsy
-        RL0LeWGsny5k7LB7KZf+h6MQHSTAKUNja7zbayDcDA==
-X-Google-Smtp-Source: ABdhPJwly2lJ/2zpKteE8pXdSU5bn85KC+cPZ7btIf6V2eq3JYZQc63MVP1KKxWGQdEtLyvGBNbdj2GmKir4kuNI52c=
-X-Received: by 2002:a19:6449:: with SMTP id b9mr20775601lfj.82.1643751498528;
- Tue, 01 Feb 2022 13:38:18 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KkrfiRtyMaJqqJdjrzkMV83DUGlyweqGta4SJAJDkXw=;
+        b=7ECEqJlBF98+iYEhn/ucwRsY7c2DvTiBRDv/4L2ezr0EAG30FbNlexUo/uTbW8Q5Aw
+         /SK4V/OlE9WSE8cRt44qfzZ92E16HqBgSbl8H6p/uSOriiIjTnYqaUv7jGmXNIMTnrX9
+         RaAcoB3pKs2QZ3u74795DPrLG3kzVc6LJ5Xqz6ScGIt7CKXpEDa2qhP+Uvc+FOwsOMmQ
+         ycB3bHJLpmdBw8CWbM7wPVsqImyLSvmGE0WjFAhZc6qwDIa/SKRgu9ZdXq6E05DooBRC
+         +AU2NPM1J69n5PNzcq11/SgAZdGCqiX9stK7cZFVVCvbcksmKouRA6jVdugjkiIvRO5N
+         QOMg==
+X-Gm-Message-State: AOAM532zawVNoqhi0eR6uaZFvSWdgU992B7ANX8DtcQuKSvu+h8C5wKr
+        fe8KazjbjJ39fVfQMcVeapmEEHdA7sHh2W2HLwU2Ag==
+X-Google-Smtp-Source: ABdhPJyoB+XDP74+DoHXoM1KcCJ6c5iLjHOXoJwPJl/3dkSP3VWhODVzE2FQgbdDwy5YS0yj5v9c78vqz8CjNv2CaDM=
+X-Received: by 2002:a25:c401:: with SMTP id u1mr25600903ybf.190.1643752999816;
+ Tue, 01 Feb 2022 14:03:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com> <20220201213542.2808035-1-quic_eberman@quicinc.com>
-In-Reply-To: <20220201213542.2808035-1-quic_eberman@quicinc.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Feb 2022 13:38:06 -0800
-Message-ID: <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
+References: <20220112224342.958358-1-quic_eberman@quicinc.com>
+ <20220201213542.2808035-1-quic_eberman@quicinc.com> <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
+In-Reply-To: <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
+From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
+Date:   Tue, 1 Feb 2022 14:03:08 -0800
+Message-ID: <CAFP8O3K_=QytpY8h0vGtpNNC5JWLdoyqbtG1bcVuT-iauD_DHA@mail.gmail.com>
 Subject: Re: [PATCH v3] kbuild: Add environment variables for userprogs flags
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Fangrui Song <maskray@google.com>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Elliot Berman <quic_eberman@quicinc.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nathan Chancellor <nathan@kernel.org>,
         Matthias Maennich <maennich@google.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 1, 2022 at 1:36 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+On Tue, Feb 1, 2022 at 1:38 PM Nick Desaulniers <ndesaulniers@google.com> w=
+rote:
 >
-> Allow additional arguments be passed to userprogs compilation.
-> Reproducible clang builds need to provide a sysroot and gcc path to
-> ensure same toolchain is used across hosts. KCFLAGS is not currently
+> On Tue, Feb 1, 2022 at 1:36 PM Elliot Berman <quic_eberman@quicinc.com> w=
+rote:
+> >
+> > Allow additional arguments be passed to userprogs compilation.
+> > Reproducible clang builds need to provide a sysroot and gcc path to
+> > ensure same toolchain is used across hosts. KCFLAGS is not currently
+>
+> ^ ensure the same (maybe Masahiro can fix that up locally when applying)
+>
+> > used for any user programs compilation, so add new USERCFLAGS and
+> > USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+> >
+> > Clang 13+ might detect GCC installation on hosts which have it installe=
+d
+> > to a default location in /. With addition of these environment
+> > variables, you can specify flags such as:
 
-^ ensure the same (maybe Masahiro can fix that up locally when applying)
+s/Clang 13+/Clang/.
 
-> used for any user programs compilation, so add new USERCFLAGS and
-> USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
->
-> Clang 13+ might detect GCC installation on hosts which have it installed
-> to a default location in /. With addition of these environment
-> variables, you can specify flags such as:
->
-> $ make USERCFLAGS=--sysroot=/path/to/sysroot
->
-> This can also be used to specify different sysroots such as musl or
-> bionic which may be installed on the host in paths that the compiler
-> may not search by default.
->
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+Clang has been detecting GCC installation for a long time.
+Clang 13 just improved some detection, but may not be worth mentioning
+in the message.
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> > $ make USERCFLAGS=3D--sysroot=3D/path/to/sysroot
+> >
+> > This can also be used to specify different sysroots such as musl or
+> > bionic which may be installed on the host in paths that the compiler
+> > may not search by default.
+> >
+> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>
+> Thanks for the patch!
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-> ---
+LGTM.
+
+Reviewed-by: Fangrui Song <maskray@google.com>
+
+> > ---
+> >
+> > Changes since v2:
+> >  - Incorporated Nick's suggestions:
+> >    - Addressed docs and commit text comments
+> >    - Introduced KBUILD_USERHOSTCFLAGS as suggested
+> >
+> >  Documentation/kbuild/kbuild.rst    | 11 +++++++++++
+> >  Documentation/kbuild/makefiles.rst |  2 ++
+> >  Makefile                           | 10 ++++++----
+> >  init/Kconfig                       |  8 ++++----
+> >  usr/include/Makefile               |  3 +++
+> >  5 files changed, 26 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbu=
+ild.rst
+> > index 2d1fc03d346e..ef19b9c13523 100644
+> > --- a/Documentation/kbuild/kbuild.rst
+> > +++ b/Documentation/kbuild/kbuild.rst
+> > @@ -77,6 +77,17 @@ HOSTLDLIBS
+> >  ----------
+> >  Additional libraries to link against when building host programs.
+> >
+> > +.. _userkbuildflags:
+> > +
+> > +USERCFLAGS
+> > +----------
+> > +Additional options used for $(CC) when compiling userprogs.
+> > +
+> > +USERLDFLAGS
+> > +-----------
+> > +Additional options used for $(LD) when linking userprogs. userprogs ar=
+e linked
+> > +with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
+> > +
+> >  KBUILD_KCONFIG
+> >  --------------
+> >  Set the top-level Kconfig file to the value of this environment
+> > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/=
+makefiles.rst
+> > index b008b90b92c9..11a296e52d68 100644
+> > --- a/Documentation/kbuild/makefiles.rst
+> > +++ b/Documentation/kbuild/makefiles.rst
+> > @@ -982,6 +982,8 @@ The syntax is quite similar. The difference is to u=
+se "userprogs" instead of
+> >
+> >         When linking bpfilter_umh, it will be passed the extra option -=
+static.
+> >
+> > +       From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuild=
+flags>` will also be used.
+> > +
+> >  5.4 When userspace programs are actually built
+> >  ----------------------------------------------
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 45278d508d81..1d0172449355 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -431,11 +431,12 @@ HOSTCC    =3D gcc
+> >  HOSTCXX        =3D g++
+> >  endif
+> >
+> > -export KBUILD_USERCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prot=
+otypes \
+> > -                             -O2 -fomit-frame-pointer -std=3Dgnu89
+> > -export KBUILD_USERLDFLAGS :=3D
+> > +KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototy=
+pes \
+> > +                        -O2 -fomit-frame-pointer -std=3Dgnu89
+> > +KBUILD_USERCFLAGS  :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
+> > +KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
+> >
+> > -KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOS=
+TCFLAGS)
+> > +KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $=
+(HOSTCFLAGS)
+> >  KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
+> >  KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> >  KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> > @@ -530,6 +531,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHO=
+LE RESOLVE_BTFIDS LEX YACC AW
+> >  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAG=
+S_MODULE
+> > +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
+> >
+> >  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD=
+_LDFLAGS
+> >  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+> > diff --git a/init/Kconfig b/init/Kconfig
+> > index f2ae41e6717f..164706c38e8b 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -62,13 +62,13 @@ config LLD_VERSION
+> >
+> >  config CC_CAN_LINK
+> >         bool
+> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(m64-flag)) if 64BIT
+> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(m32-flag))
+> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
+> >
+> >  config CC_CAN_LINK_STATIC
+> >         bool
+> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(m64-flag) -static) if 64BIT
+> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(m32-flag) -static)
+> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
+> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
+NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
+> >
+> >  config CC_HAS_ASM_GOTO
+> >         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+> > diff --git a/usr/include/Makefile b/usr/include/Makefile
+> > index 1c2ae1368079..0322e567dc1e 100644
+> > --- a/usr/include/Makefile
+> > +++ b/usr/include/Makefile
+> > @@ -12,6 +12,9 @@ UAPI_CFLAGS :=3D -std=3Dc90 -Wall -Werror=3Dimplicit-=
+function-declaration
+> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m=
+64.
+> >  UAPI_CFLAGS +=3D $(filter -m32 -m64, $(KBUILD_CFLAGS))
+> >
+> > +# USERCFLAGS might contain sysroot location for CC.
+> > +UAPI_CFLAGS +=3D $(USERCFLAGS)
+> > +
+> >  override c_flags =3D $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/u=
+sr/include
+> >
+> >  # The following are excluded for now because they fail to build.
+> > --
+> > 2.25.1
+> >
 >
-> Changes since v2:
->  - Incorporated Nick's suggestions:
->    - Addressed docs and commit text comments
->    - Introduced KBUILD_USERHOSTCFLAGS as suggested
 >
->  Documentation/kbuild/kbuild.rst    | 11 +++++++++++
->  Documentation/kbuild/makefiles.rst |  2 ++
->  Makefile                           | 10 ++++++----
->  init/Kconfig                       |  8 ++++----
->  usr/include/Makefile               |  3 +++
->  5 files changed, 26 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 2d1fc03d346e..ef19b9c13523 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -77,6 +77,17 @@ HOSTLDLIBS
->  ----------
->  Additional libraries to link against when building host programs.
->
-> +.. _userkbuildflags:
-> +
-> +USERCFLAGS
-> +----------
-> +Additional options used for $(CC) when compiling userprogs.
-> +
-> +USERLDFLAGS
-> +-----------
-> +Additional options used for $(LD) when linking userprogs. userprogs are linked
-> +with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
-> +
->  KBUILD_KCONFIG
->  --------------
->  Set the top-level Kconfig file to the value of this environment
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index b008b90b92c9..11a296e52d68 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -982,6 +982,8 @@ The syntax is quite similar. The difference is to use "userprogs" instead of
->
->         When linking bpfilter_umh, it will be passed the extra option -static.
->
-> +       From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
-> +
->  5.4 When userspace programs are actually built
->  ----------------------------------------------
->
-> diff --git a/Makefile b/Makefile
-> index 45278d508d81..1d0172449355 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -431,11 +431,12 @@ HOSTCC    = gcc
->  HOSTCXX        = g++
->  endif
->
-> -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -                             -O2 -fomit-frame-pointer -std=gnu89
-> -export KBUILD_USERLDFLAGS :=
-> +KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> +                        -O2 -fomit-frame-pointer -std=gnu89
-> +KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
-> +KBUILD_USERLDFLAGS := $(USERLDFLAGS)
->
-> -KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-> +KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
->  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
->  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
->  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> @@ -530,6 +531,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
->  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
->  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
->  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
-> +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
->
->  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
->  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> diff --git a/init/Kconfig b/init/Kconfig
-> index f2ae41e6717f..164706c38e8b 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -62,13 +62,13 @@ config LLD_VERSION
->
->  config CC_CAN_LINK
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
->
->  config CC_CAN_LINK_STATIC
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
-> +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
->
->  config CC_HAS_ASM_GOTO
->         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> diff --git a/usr/include/Makefile b/usr/include/Makefile
-> index 1c2ae1368079..0322e567dc1e 100644
-> --- a/usr/include/Makefile
-> +++ b/usr/include/Makefile
-> @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
->  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
->  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
->
-> +# USERCFLAGS might contain sysroot location for CC.
-> +UAPI_CFLAGS += $(USERCFLAGS)
-> +
->  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
->
->  # The following are excluded for now because they fail to build.
 > --
-> 2.25.1
->
+> Thanks,
+> ~Nick Desaulniers
 
 
--- 
-Thanks,
-~Nick Desaulniers
+
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
