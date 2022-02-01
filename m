@@ -2,259 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0B64A677D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Feb 2022 23:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CCA54A6874
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 00:22:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236910AbiBAWDV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Feb 2022 17:03:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
+        id S242829AbiBAXWq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Feb 2022 18:22:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236891AbiBAWDV (ORCPT
+        with ESMTP id S242825AbiBAXWp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Feb 2022 17:03:21 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84B0C06173B
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Feb 2022 14:03:20 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id k31so55283059ybj.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Feb 2022 14:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=KkrfiRtyMaJqqJdjrzkMV83DUGlyweqGta4SJAJDkXw=;
-        b=IGttW2G58AVMdCJ+ZQFSiRfakMSISnO8rp5qj+HW196XjZf2cYHtnTkTPBiXxF08zQ
-         ePpEX0EyvCsK9dd6pSO/+E2OirT+DdcWmZ4xfVhtOrkrfG5JdtLAtZoI2vR2XROZ3YgR
-         uk/hjaLxBx7257IVlCZFC6RpGOzYwiQ2fpUqhb0w6NnH/2a/+EBEIaMhneESxylO19fd
-         /DgMGpq3/4N/uRONAKCYH5TbeRhP5bcmnGHafDaVwSrOtM53I9vZcVMihuHUd1mM81Gb
-         4jEl5JvKWEhuyks+jQJeBUvjK9rw5RK1X0GP6KxL+BwkFMa2OyRyIVoNbZeX3wT+zNPw
-         JxkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KkrfiRtyMaJqqJdjrzkMV83DUGlyweqGta4SJAJDkXw=;
-        b=7ECEqJlBF98+iYEhn/ucwRsY7c2DvTiBRDv/4L2ezr0EAG30FbNlexUo/uTbW8Q5Aw
-         /SK4V/OlE9WSE8cRt44qfzZ92E16HqBgSbl8H6p/uSOriiIjTnYqaUv7jGmXNIMTnrX9
-         RaAcoB3pKs2QZ3u74795DPrLG3kzVc6LJ5Xqz6ScGIt7CKXpEDa2qhP+Uvc+FOwsOMmQ
-         ycB3bHJLpmdBw8CWbM7wPVsqImyLSvmGE0WjFAhZc6qwDIa/SKRgu9ZdXq6E05DooBRC
-         +AU2NPM1J69n5PNzcq11/SgAZdGCqiX9stK7cZFVVCvbcksmKouRA6jVdugjkiIvRO5N
-         QOMg==
-X-Gm-Message-State: AOAM532zawVNoqhi0eR6uaZFvSWdgU992B7ANX8DtcQuKSvu+h8C5wKr
-        fe8KazjbjJ39fVfQMcVeapmEEHdA7sHh2W2HLwU2Ag==
-X-Google-Smtp-Source: ABdhPJyoB+XDP74+DoHXoM1KcCJ6c5iLjHOXoJwPJl/3dkSP3VWhODVzE2FQgbdDwy5YS0yj5v9c78vqz8CjNv2CaDM=
-X-Received: by 2002:a25:c401:: with SMTP id u1mr25600903ybf.190.1643752999816;
- Tue, 01 Feb 2022 14:03:19 -0800 (PST)
+        Tue, 1 Feb 2022 18:22:45 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E5BC061714;
+        Tue,  1 Feb 2022 15:22:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 18599B80ADF;
+        Tue,  1 Feb 2022 23:22:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C362C340EB;
+        Tue,  1 Feb 2022 23:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643757762;
+        bh=GSyiEuas7X9TQ7vDaHSUeqwVJQqlDVvyGfSkTQnLBio=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dbhOgBUEGWKCkicvuYk46wyz6gA2IbEw1DPEzUaVbxPf6+7QmcKfSlWPRbJgGcPkm
+         +iXtJjZVgJFBRTtGekgcnK3Rf1Wo5z+QVHCJ8pidqYJx+IaBrTgQ0Q3/TGB+43qt/3
+         iztUZM2xSAGG0fwYfHjtlGerDmjjYfOh6qVSLqy8fJdSsHyGiRta+59uAeXxhkCfyo
+         c+Ko9mjML8HGLsJgB0z8vH+ZpsdWazaq/suYpbh5z8s3NF9K6q2Au9slwapOPGQQJ5
+         UsPG5zUOYysW3lCvtj6Q5Q4fSzD7vrYrHaJvkJHr+TuQvQFMHPnnCu0qoHogZgCv4n
+         LLLaNmT6CqCyg==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] Makefile.extrawarn: Move -Wunaligned-access to W=2
+Date:   Tue,  1 Feb 2022 16:22:29 -0700
+Message-Id: <20220201232229.2992968-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com>
- <20220201213542.2808035-1-quic_eberman@quicinc.com> <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
-In-Reply-To: <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
-From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Date:   Tue, 1 Feb 2022 14:03:08 -0800
-Message-ID: <CAFP8O3K_=QytpY8h0vGtpNNC5JWLdoyqbtG1bcVuT-iauD_DHA@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Add environment variables for userprogs flags
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Elliot Berman <quic_eberman@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 1, 2022 at 1:38 PM Nick Desaulniers <ndesaulniers@google.com> w=
-rote:
->
-> On Tue, Feb 1, 2022 at 1:36 PM Elliot Berman <quic_eberman@quicinc.com> w=
-rote:
-> >
-> > Allow additional arguments be passed to userprogs compilation.
-> > Reproducible clang builds need to provide a sysroot and gcc path to
-> > ensure same toolchain is used across hosts. KCFLAGS is not currently
->
-> ^ ensure the same (maybe Masahiro can fix that up locally when applying)
->
-> > used for any user programs compilation, so add new USERCFLAGS and
-> > USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
-> >
-> > Clang 13+ might detect GCC installation on hosts which have it installe=
-d
-> > to a default location in /. With addition of these environment
-> > variables, you can specify flags such as:
+-Wunaligned-access is a new warning in clang that is default enabled for
+arm and arm64 under certain circumstances within the clang frontend (see
+LLVM commit below). Under an ARCH=arm allmodconfig, there are
+1284 total/70 unique instances of this warning (most of the instances
+are in header files), which is quite noisy.
 
-s/Clang 13+/Clang/.
+To keep the build green through CONFIG_WERROR, only allow this warning
+with W=2, which seems appropriate according to its description:
+"warnings which occur quite often but may still be relevant".
 
-Clang has been detecting GCC installation for a long time.
-Clang 13 just improved some detection, but may not be worth mentioning
-in the message.
+This intentionally does not use the -Wno-... + -W... pattern that the
+rest of the Makefile does because this warning is not enabled for
+anything other than certain arm and arm64 configurations within clang so
+it should only be "not disabled", rather than explicitly enabled, so
+that other architectures are not disturbed by the warning.
 
-> > $ make USERCFLAGS=3D--sysroot=3D/path/to/sysroot
-> >
-> > This can also be used to specify different sysroots such as musl or
-> > bionic which may be installed on the host in paths that the compiler
-> > may not search by default.
-> >
-> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->
-> Thanks for the patch!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Cc: stable@vger.kernel.org
+Link: https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ scripts/Makefile.extrawarn | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-LGTM.
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index d53825503874..5f75fec4d5ac 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -70,6 +70,20 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
+ 
+ KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
+ 
++else
++
++ifdef CONFIG_CC_IS_CLANG
++# While this warning is architecture agnostic, it is only default enabled for
++# 32-bit and 64-bit ARM under certain conditions within clang:
++#
++# https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
++#
++# To allow it to be disabled under a normal build or W=1 but show up under W=2
++# for those configurations, disable it when W=2 is not set, rather than enable
++# -Wunaligned-access in the above block explicitly.
++KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
++endif
++
+ endif
+ 
+ #
 
-Reviewed-by: Fangrui Song <maskray@google.com>
+base-commit: 26291c54e111ff6ba87a164d85d4a4e134b7315c
+-- 
+2.35.1
 
-> > ---
-> >
-> > Changes since v2:
-> >  - Incorporated Nick's suggestions:
-> >    - Addressed docs and commit text comments
-> >    - Introduced KBUILD_USERHOSTCFLAGS as suggested
-> >
-> >  Documentation/kbuild/kbuild.rst    | 11 +++++++++++
-> >  Documentation/kbuild/makefiles.rst |  2 ++
-> >  Makefile                           | 10 ++++++----
-> >  init/Kconfig                       |  8 ++++----
-> >  usr/include/Makefile               |  3 +++
-> >  5 files changed, 26 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbu=
-ild.rst
-> > index 2d1fc03d346e..ef19b9c13523 100644
-> > --- a/Documentation/kbuild/kbuild.rst
-> > +++ b/Documentation/kbuild/kbuild.rst
-> > @@ -77,6 +77,17 @@ HOSTLDLIBS
-> >  ----------
-> >  Additional libraries to link against when building host programs.
-> >
-> > +.. _userkbuildflags:
-> > +
-> > +USERCFLAGS
-> > +----------
-> > +Additional options used for $(CC) when compiling userprogs.
-> > +
-> > +USERLDFLAGS
-> > +-----------
-> > +Additional options used for $(LD) when linking userprogs. userprogs ar=
-e linked
-> > +with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
-> > +
-> >  KBUILD_KCONFIG
-> >  --------------
-> >  Set the top-level Kconfig file to the value of this environment
-> > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/=
-makefiles.rst
-> > index b008b90b92c9..11a296e52d68 100644
-> > --- a/Documentation/kbuild/makefiles.rst
-> > +++ b/Documentation/kbuild/makefiles.rst
-> > @@ -982,6 +982,8 @@ The syntax is quite similar. The difference is to u=
-se "userprogs" instead of
-> >
-> >         When linking bpfilter_umh, it will be passed the extra option -=
-static.
-> >
-> > +       From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuild=
-flags>` will also be used.
-> > +
-> >  5.4 When userspace programs are actually built
-> >  ----------------------------------------------
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 45278d508d81..1d0172449355 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -431,11 +431,12 @@ HOSTCC    =3D gcc
-> >  HOSTCXX        =3D g++
-> >  endif
-> >
-> > -export KBUILD_USERCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prot=
-otypes \
-> > -                             -O2 -fomit-frame-pointer -std=3Dgnu89
-> > -export KBUILD_USERLDFLAGS :=3D
-> > +KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototy=
-pes \
-> > +                        -O2 -fomit-frame-pointer -std=3Dgnu89
-> > +KBUILD_USERCFLAGS  :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
-> > +KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
-> >
-> > -KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOS=
-TCFLAGS)
-> > +KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $=
-(HOSTCFLAGS)
-> >  KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
-> >  KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> >  KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> > @@ -530,6 +531,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHO=
-LE RESOLVE_BTFIDS LEX YACC AW
-> >  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAG=
-S_MODULE
-> > +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
-> >
-> >  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD=
-_LDFLAGS
-> >  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index f2ae41e6717f..164706c38e8b 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -62,13 +62,13 @@ config LLD_VERSION
-> >
-> >  config CC_CAN_LINK
-> >         bool
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(m64-flag)) if 64BIT
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(m32-flag))
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
-> >
-> >  config CC_CAN_LINK_STATIC
-> >         bool
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(m64-flag) -static) if 64BIT
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(m32-flag) -static)
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLA=
-NG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
-> >
-> >  config CC_HAS_ASM_GOTO
-> >         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> > diff --git a/usr/include/Makefile b/usr/include/Makefile
-> > index 1c2ae1368079..0322e567dc1e 100644
-> > --- a/usr/include/Makefile
-> > +++ b/usr/include/Makefile
-> > @@ -12,6 +12,9 @@ UAPI_CFLAGS :=3D -std=3Dc90 -Wall -Werror=3Dimplicit-=
-function-declaration
-> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m=
-64.
-> >  UAPI_CFLAGS +=3D $(filter -m32 -m64, $(KBUILD_CFLAGS))
-> >
-> > +# USERCFLAGS might contain sysroot location for CC.
-> > +UAPI_CFLAGS +=3D $(USERCFLAGS)
-> > +
-> >  override c_flags =3D $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/u=
-sr/include
-> >
-> >  # The following are excluded for now because they fail to build.
-> > --
-> > 2.25.1
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
---=20
-=E5=AE=8B=E6=96=B9=E7=9D=BF
