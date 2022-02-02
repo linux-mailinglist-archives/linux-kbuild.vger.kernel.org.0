@@ -2,126 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 579F94A7580
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 17:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B51D74A75B9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 17:26:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235744AbiBBQJI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Feb 2022 11:09:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
+        id S235226AbiBBQ0L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Feb 2022 11:26:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiBBQJG (ORCPT
+        with ESMTP id S229437AbiBBQ0L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Feb 2022 11:09:06 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B08C061714;
-        Wed,  2 Feb 2022 08:09:06 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id s6-20020a0568301e0600b0059ea5472c98so19875317otr.11;
-        Wed, 02 Feb 2022 08:09:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=v6kuMWAWRh6UNWKt1To15PX+Alnw0cwwwqkktpikgvU=;
-        b=lQg/DOsL9qtQzb83BcwHQB57seYU+r6Wb6Tn+EsFeSafq5cg0JB8z8wGhb8pKi/e/B
-         x08nwRT8WIQdSzde8afN7+G8vSgEcj+un4DDDjOsKw0l3rzFhaW2ShFs9YQBiFfxt7ZT
-         aZBRjlPhbEQ+w/OZUQfec2B5m5Jo+/OB5ByWasga8tKs+bSM2niKgCHQRE8YT+xrZBRx
-         vey3z/Ot7SnDSQQErJ/7J23bOIeKafbiGJ8I0iUDpvWu8U+ZtnTIu6nomw+H6VcC73wM
-         PSgRYH3KYoNqlTuwiHu+7f+vdD+Xj0DAS2cmal5FoT7l6raGVZAOCsTs4Wy05oubFx5j
-         VGmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=v6kuMWAWRh6UNWKt1To15PX+Alnw0cwwwqkktpikgvU=;
-        b=L9pl0y89FQm0tln4OIoFUcqOZzsQ/N33jbxSFDJ390rs9IYGiD071qzkTGGKpjSH79
-         BAhJeZmjcsLnGX0S+GyMNAvzFkHWg1qeFvPQVxncQ61c/vtOzOb3OIN18B6NqCHt6XGh
-         A5ziQcBgq5H5jZIZGSQledXzCoj7Hp4pjHm18eIYOKYXSsMg12/skq4zXUDco5y3+XnU
-         MZYj7nwwYTbUyFV5kep+wmcSy9gdnQVAspvDvdSVTvmx6XsE2Pqzw+PevFcGArWLlSKJ
-         COZbmZS2aN60S6LnTFKc4UbQm4maIcBKZ3sXV50+uy/xCtrSZqk/hDCCpDH/4Px2lgNJ
-         mVWw==
-X-Gm-Message-State: AOAM532Ak+j5XR6ghuI1AsMb18SQe0zSymHv0Dc8ELUffgY5hbgLJqNz
-        7mGz6/HnzJzkixemYns0qTM=
-X-Google-Smtp-Source: ABdhPJwzIPq7/SXvESsrrYxg24FI7X7Ew67gS5YI1WpQh9CGadlW5Tn8no8geA9iu9N2MExRT9mPEw==
-X-Received: by 2002:a9d:73d8:: with SMTP id m24mr17206726otk.52.1643818145370;
-        Wed, 02 Feb 2022 08:09:05 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t22sm6044586oiw.2.2022.02.02.08.09.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 08:09:04 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 2 Feb 2022 08:09:03 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 4/5] Makefile: Enable -Warray-bounds
-Message-ID: <20220202160903.GA2337834@roeck-us.net>
-References: <20210818081118.1667663-1-keescook@chromium.org>
- <20210818081118.1667663-5-keescook@chromium.org>
+        Wed, 2 Feb 2022 11:26:11 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED599C061714;
+        Wed,  2 Feb 2022 08:26:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B5D82B83141;
+        Wed,  2 Feb 2022 16:26:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E672FC004E1;
+        Wed,  2 Feb 2022 16:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643819168;
+        bh=wusIwvpAYb98F0yAZEFXYnS8gtTO5w+x8X+MClA3MHE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Gm2cGMr56Pfad5yvlGq7NpXnmAzGI5MgPTaIWTllBoSrlM62h724XW8dQJhz2lntv
+         6rVxPnPi7O9qviKfc6sVFZX0caLBxpcGyRlEJULRpO+uMDFc7SHzztHX4+88zKEXAk
+         oReL5CuoiXrzaiuHrDyYYN3YwwQZmx1/tXPfjqnmbh270BYjTAWb0AB/aWE5RIYWS/
+         RBtPqt472ang7nDDigm0dFQB2XVKu1IAdofgiqpdp2fE/NvOOMexvbh9Df58obsuPJ
+         uDqvHJG+sbHxcQ3qyp7wxFaqzkxBnn6tZ7WOYZUDvBAeHAJYiDk96KL5uOiwjS2lwv
+         ebgorz+D9R2tA==
+Date:   Wed, 2 Feb 2022 09:26:04 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, "# 3.4.x" <stable@vger.kernel.org>
+Subject: Re: [PATCH] Makefile.extrawarn: Move -Wunaligned-access to W=2
+Message-ID: <YfqwnMB2lLXOuahI@dev-arch.archlinux-ax161>
+References: <20220201232229.2992968-1-nathan@kernel.org>
+ <CAK8P3a2Y8nQ55sycxbpfN=71BNO9wuEDt=Q24ELS_u_WNRpqZw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210818081118.1667663-5-keescook@chromium.org>
+In-Reply-To: <CAK8P3a2Y8nQ55sycxbpfN=71BNO9wuEDt=Q24ELS_u_WNRpqZw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 18, 2021 at 01:11:17AM -0700, Kees Cook wrote:
-> With the recent fixes for flexible arrays and expanded FORTIFY_SOURCE
-> coverage, it is now possible to enable -Warray-bounds. Since both
-> GCC and Clang include -Warray-bounds in -Wall, we just need to stop
-> disabling it.
+On Wed, Feb 02, 2022 at 09:12:06AM +0100, Arnd Bergmann wrote:
+> On Wed, Feb 2, 2022 at 12:22 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > -Wunaligned-access is a new warning in clang that is default enabled for
+> > arm and arm64 under certain circumstances within the clang frontend (see
+> > LLVM commit below). Under an ARCH=arm allmodconfig, there are
+> > 1284 total/70 unique instances of this warning (most of the instances
+> > are in header files), which is quite noisy.
+> >
+> > To keep the build green through CONFIG_WERROR, only allow this warning
+> > with W=2, which seems appropriate according to its description:
+> > "warnings which occur quite often but may still be relevant".
+> >
+> > This intentionally does not use the -Wno-... + -W... pattern that the
+> > rest of the Makefile does because this warning is not enabled for
+> > anything other than certain arm and arm64 configurations within clang so
+> > it should only be "not disabled", rather than explicitly enabled, so
+> > that other architectures are not disturbed by the warning.
+> >
+> > Cc: stable@vger.kernel.org
+> > Link: https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Co-developed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index a4aca01a4835..af22b83cede7 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1072,7 +1072,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
->  
->  # We'll want to enable this eventually, but it's not going away for 5.7 at least
->  KBUILD_CFLAGS += $(call cc-disable-warning, zero-length-bounds)
-> -KBUILD_CFLAGS += -Wno-array-bounds
->  KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
->  
->  # Another good warning that we'll want to enable eventually
+> The warning seems important enough to be considered for W=1 on 32-bit arm,
+> otherwise the chances of anyone actually fixing drivers for it is
+> relatively slim.
 
-alpha:defconfig:
+Fair point, I suppose barely anyone does W=2 builds, which means we
+might as well just disable it outright.
 
-In function '__memset',
-    inlined from '__bad_pagetable' at arch/alpha/mm/init.c:79:2:
-./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
-   37 |                         return __builtin_memset(s, c, n);
-      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-In function '__memset',
-    inlined from '__bad_page' at arch/alpha/mm/init.c:86:2:
-./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
-   37 |                         return __builtin_memset(s, c, n);
-      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-In function '__memset',
-    inlined from 'paging_init' at arch/alpha/mm/init.c:256:2:
-./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
-   37 |                         return __builtin_memset(s, c, n);
+> Can you point post the (sufficiently trimmed) output that you get with
+> the warning
+> enabled in an allmodconfig build?
 
+Sure thing.
 
-xtensa:allmodconfig:
---------------
-Error log:
-In file included from include/linux/uaccess.h:11,
-                 from include/linux/sched/task.h:11,
-                 from arch/xtensa/kernel/process.c:21:
-arch/xtensa/kernel/process.c: In function 'copy_thread':
-arch/xtensa/kernel/process.c:262:52: error: array subscript 53 is above array bounds of 'long unsigned int[16]'
+Here is the trimmed version:
 
+https://gist.github.com/nathanchance/6682e6894f75790059ca698c29212c71/raw/f63d54819afeb96f3ea0bb055096849912ac0185/trimmed.log
+
+Here is the full output of 'make ARCH=arm LLVM=1 allmodconfig':
+
+https://gist.github.com/nathanchance/6682e6894f75790059ca698c29212c71/raw/f63d54819afeb96f3ea0bb055096849912ac0185/full.log
+
+> I'm not sure why this is enabled by default for arm64, which does not have
+> the problem with fixup handlers.
+
+It is not enabled for arm64 for the kernel. If I am reading the commit
+right, it is only enabled for arm64 when -mno-unaligned-access is passed
+or building for OpenBSD, which obviously don't apply to the kernel (see
+AArch64.cpp).
+
+For ARM, we see it in the kernel because it is enabled for any version less
+than 7, according to this block in clang/lib/Driver/ToolChains/Arch/ARM.cpp:
+
+    } else if (Triple.isOSLinux() || Triple.isOSNaCl() ||
+               Triple.isOSWindows()) {
+      if (VersionNum < 7) {
+        Features.push_back("+strict-align");
+        if (!ForAS)
+          CmdArgs.push_back("-Wunaligned-access");
+      }
+
+There is this comment above this block in the source code:
+
+    // Assume pre-ARMv6 doesn't support unaligned accesses.
+    //
+    // ARMv6 may or may not support unaligned accesses depending on the
+    // SCTLR.U bit, which is architecture-specific. We assume ARMv6
+    // Darwin and NetBSD targets support unaligned accesses, and others don't.
+    //
+    // ARMv7 always has SCTLR.U set to 1, but it has a new SCTLR.A bit
+    // which raises an alignment fault on unaligned accesses. Linux
+    // defaults this bit to 0 and handles it as a system-wide (not
+    // per-process) setting. It is therefore safe to assume that ARMv7+
+    // Linux targets support unaligned accesses. The same goes for NaCl
+    // and Windows.
+    //
+    // The above behavior is consistent with GCC.
+
+I notice that CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS under certain
+conditions in arch/arm/Kconfig. Would it be worth telling clang that it
+can generate unaligned accesses in those cases via -munaligned-access or
+would that be too expensive? If we did, these warnings would be
+eliminated for configs with CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y,
+then it could be safely placed under W=1.
+
+Cheers,
+Nathan
