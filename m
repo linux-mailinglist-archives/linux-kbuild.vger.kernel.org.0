@@ -2,59 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 773824A6F62
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 12:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 579F94A7580
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 17:09:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343678AbiBBLCR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Feb 2022 06:02:17 -0500
-Received: from mail.profitfirm24.com.pl ([212.237.10.110]:59400 "EHLO
-        mail.profitfirm24.com.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343617AbiBBLCP (ORCPT
+        id S235744AbiBBQJI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Feb 2022 11:09:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229604AbiBBQJG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Feb 2022 06:02:15 -0500
-Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
-        id 97178A8331; Tue,  1 Feb 2022 09:17:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
-        s=mail; t=1643707456;
-        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-        h=Date:From:To:Subject:From;
-        b=Ix+tZlehSFLyrygQH4+0FiuI5k3+X8gcHO6zeHYJsGapZlKx90yInYTsGq74N38uL
-         be9hBBqDpGt45iooN7lHQumCcUlNQmdjewnUZnF9sQli/X9AXXZDoUEZWggZIROPc1
-         6Kj3k0hjjrcc/gKFi4MRxQxzkOuTqeFG1gxRdQ8wbocxG7VqOGQL26b3oHolZUaRoR
-         BCDErLi6QvViNMwkhFAmrVZSLneKdzBYhQCVuSeL0rr9D8qPqJo7PhmNuRZP6pPMQB
-         4aw4jY32op6um8cqSoEQ4WgnG8ei2Elph8lcVblklYWMzLCX4rtFXegFkgWlTC7fie
-         bbGzOWqlsU7KQ==
-Received: by profitfirm24.com.pl for <linux-kbuild@vger.kernel.org>; Tue,  1 Feb 2022 09:17:20 GMT
-Message-ID: <20220201074652-0.1.b.2ymw.0.3gijmf4kp5@profitfirm24.com.pl>
-Date:   Tue,  1 Feb 2022 09:17:20 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@profitfirm24.com.pl>
-To:     <linux-kbuild@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitfirm24.com.pl
+        Wed, 2 Feb 2022 11:09:06 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05B08C061714;
+        Wed,  2 Feb 2022 08:09:06 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id s6-20020a0568301e0600b0059ea5472c98so19875317otr.11;
+        Wed, 02 Feb 2022 08:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=v6kuMWAWRh6UNWKt1To15PX+Alnw0cwwwqkktpikgvU=;
+        b=lQg/DOsL9qtQzb83BcwHQB57seYU+r6Wb6Tn+EsFeSafq5cg0JB8z8wGhb8pKi/e/B
+         x08nwRT8WIQdSzde8afN7+G8vSgEcj+un4DDDjOsKw0l3rzFhaW2ShFs9YQBiFfxt7ZT
+         aZBRjlPhbEQ+w/OZUQfec2B5m5Jo+/OB5ByWasga8tKs+bSM2niKgCHQRE8YT+xrZBRx
+         vey3z/Ot7SnDSQQErJ/7J23bOIeKafbiGJ8I0iUDpvWu8U+ZtnTIu6nomw+H6VcC73wM
+         PSgRYH3KYoNqlTuwiHu+7f+vdD+Xj0DAS2cmal5FoT7l6raGVZAOCsTs4Wy05oubFx5j
+         VGmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=v6kuMWAWRh6UNWKt1To15PX+Alnw0cwwwqkktpikgvU=;
+        b=L9pl0y89FQm0tln4OIoFUcqOZzsQ/N33jbxSFDJ390rs9IYGiD071qzkTGGKpjSH79
+         BAhJeZmjcsLnGX0S+GyMNAvzFkHWg1qeFvPQVxncQ61c/vtOzOb3OIN18B6NqCHt6XGh
+         A5ziQcBgq5H5jZIZGSQledXzCoj7Hp4pjHm18eIYOKYXSsMg12/skq4zXUDco5y3+XnU
+         MZYj7nwwYTbUyFV5kep+wmcSy9gdnQVAspvDvdSVTvmx6XsE2Pqzw+PevFcGArWLlSKJ
+         COZbmZS2aN60S6LnTFKc4UbQm4maIcBKZ3sXV50+uy/xCtrSZqk/hDCCpDH/4Px2lgNJ
+         mVWw==
+X-Gm-Message-State: AOAM532Ak+j5XR6ghuI1AsMb18SQe0zSymHv0Dc8ELUffgY5hbgLJqNz
+        7mGz6/HnzJzkixemYns0qTM=
+X-Google-Smtp-Source: ABdhPJwzIPq7/SXvESsrrYxg24FI7X7Ew67gS5YI1WpQh9CGadlW5Tn8no8geA9iu9N2MExRT9mPEw==
+X-Received: by 2002:a9d:73d8:: with SMTP id m24mr17206726otk.52.1643818145370;
+        Wed, 02 Feb 2022 08:09:05 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t22sm6044586oiw.2.2022.02.02.08.09.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Feb 2022 08:09:04 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 2 Feb 2022 08:09:03 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 4/5] Makefile: Enable -Warray-bounds
+Message-ID: <20220202160903.GA2337834@roeck-us.net>
+References: <20210818081118.1667663-1-keescook@chromium.org>
+ <20210818081118.1667663-5-keescook@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818081118.1667663-5-keescook@chromium.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Wed, Aug 18, 2021 at 01:11:17AM -0700, Kees Cook wrote:
+> With the recent fixes for flexible arrays and expanded FORTIFY_SOURCE
+> coverage, it is now possible to enable -Warray-bounds. Since both
+> GCC and Clang include -Warray-bounds in -Wall, we just need to stop
+> disabling it.
+> 
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Co-developed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  Makefile | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index a4aca01a4835..af22b83cede7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1072,7 +1072,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+>  
+>  # We'll want to enable this eventually, but it's not going away for 5.7 at least
+>  KBUILD_CFLAGS += $(call cc-disable-warning, zero-length-bounds)
+> -KBUILD_CFLAGS += -Wno-array-bounds
+>  KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
+>  
+>  # Another good warning that we'll want to enable eventually
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+alpha:defconfig:
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+In function '__memset',
+    inlined from '__bad_pagetable' at arch/alpha/mm/init.c:79:2:
+./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
+   37 |                         return __builtin_memset(s, c, n);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+In function '__memset',
+    inlined from '__bad_page' at arch/alpha/mm/init.c:86:2:
+./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
+   37 |                         return __builtin_memset(s, c, n);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+In function '__memset',
+    inlined from 'paging_init' at arch/alpha/mm/init.c:256:2:
+./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
+   37 |                         return __builtin_memset(s, c, n);
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+xtensa:allmodconfig:
+--------------
+Error log:
+In file included from include/linux/uaccess.h:11,
+                 from include/linux/sched/task.h:11,
+                 from arch/xtensa/kernel/process.c:21:
+arch/xtensa/kernel/process.c: In function 'copy_thread':
+arch/xtensa/kernel/process.c:262:52: error: array subscript 53 is above array bounds of 'long unsigned int[16]'
 
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
