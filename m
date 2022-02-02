@@ -1,103 +1,95 @@
 Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CCA54A6874
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 00:22:47 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 760AD4A6CB7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Feb 2022 09:12:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242829AbiBAXWq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Feb 2022 18:22:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36304 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242825AbiBAXWp (ORCPT
+        id S233300AbiBBIM0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Feb 2022 03:12:26 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:34479 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231230AbiBBIMZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Feb 2022 18:22:45 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E5BC061714;
-        Tue,  1 Feb 2022 15:22:45 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 18599B80ADF;
-        Tue,  1 Feb 2022 23:22:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C362C340EB;
-        Tue,  1 Feb 2022 23:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643757762;
-        bh=GSyiEuas7X9TQ7vDaHSUeqwVJQqlDVvyGfSkTQnLBio=;
-        h=From:To:Cc:Subject:Date:From;
-        b=dbhOgBUEGWKCkicvuYk46wyz6gA2IbEw1DPEzUaVbxPf6+7QmcKfSlWPRbJgGcPkm
-         +iXtJjZVgJFBRTtGekgcnK3Rf1Wo5z+QVHCJ8pidqYJx+IaBrTgQ0Q3/TGB+43qt/3
-         iztUZM2xSAGG0fwYfHjtlGerDmjjYfOh6qVSLqy8fJdSsHyGiRta+59uAeXxhkCfyo
-         c+Ko9mjML8HGLsJgB0z8vH+ZpsdWazaq/suYpbh5z8s3NF9K6q2Au9slwapOPGQQJ5
-         UsPG5zUOYysW3lCvtj6Q5Q4fSzD7vrYrHaJvkJHr+TuQvQFMHPnnCu0qoHogZgCv4n
-         LLLaNmT6CqCyg==
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH] Makefile.extrawarn: Move -Wunaligned-access to W=2
-Date:   Tue,  1 Feb 2022 16:22:29 -0700
-Message-Id: <20220201232229.2992968-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        Wed, 2 Feb 2022 03:12:25 -0500
+Received: from mail-ot1-f41.google.com ([209.85.210.41]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MmCyE-1mXHHE0ruy-00i8zw; Wed, 02 Feb 2022 09:12:24 +0100
+Received: by mail-ot1-f41.google.com with SMTP id g15-20020a9d6b0f000000b005a062b0dc12so18723093otp.4;
+        Wed, 02 Feb 2022 00:12:23 -0800 (PST)
+X-Gm-Message-State: AOAM531LUQ2yq1oT+wq/HOQMYue3ShWOE012LvyObfdhRIgkGCEilCj3
+        O12ZoXx2QDnsq4wcjd5YVk0XWEceu3LcjvRAu1c=
+X-Google-Smtp-Source: ABdhPJyEFkk72bdUObGJgIJxLDuxts5d7uWNZdnao0zPMQMtv0LI7rheA2HGG79b1fevO/Ddwrj5pRSA5+k2nVrxNQw=
+X-Received: by 2002:a9d:654f:: with SMTP id q15mr16551925otl.119.1643789542701;
+ Wed, 02 Feb 2022 00:12:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220201232229.2992968-1-nathan@kernel.org>
+In-Reply-To: <20220201232229.2992968-1-nathan@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 2 Feb 2022 09:12:06 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2Y8nQ55sycxbpfN=71BNO9wuEDt=Q24ELS_u_WNRpqZw@mail.gmail.com>
+Message-ID: <CAK8P3a2Y8nQ55sycxbpfN=71BNO9wuEDt=Q24ELS_u_WNRpqZw@mail.gmail.com>
+Subject: Re: [PATCH] Makefile.extrawarn: Move -Wunaligned-access to W=2
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, "# 3.4.x" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:mt6tbiBySZHfkxm45G7nxfsst3aa9Qkpr11AXBACtiMx6RWuAA8
+ g1nSh7H8TEVnHQeqiFAOJdkbI+I5VrlZSWIB6r+WbESRKD59YIrisvNmbXTgqwMxyiE5oK+
+ Ilq8Q1mMoCbX8OJnwBH9C7jjj6ewSOXA5BHUuTZ6l2NlmFmraMRxAyPgPdthKeuKNRcVlSn
+ QHwE39GrKMy7j9qttHUxg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kqe6ME5tNYg=:cBHBgE5qbSlhnrADEmCA7v
+ SOJZETRaMq/uLBzMqmk9PdZs8NyHbxxAm3XH//7B2r9zTJ7T1bqe+QyZctVF6iT4FVfjeSlgm
+ aF5RAXxpMEf5DzPEG0nusfWPX5ge3/pkbgzkNkmm3TByWOJPxjJNvG+KDQCcwk3MHFqw2brMq
+ LYoUaduUocOXUvP94pPqsSwlCITM9ggqa6iSR3iuIFIZFG8E8CKiv2cNo4nnOByRjROtzmQ5T
+ jtAbwcPRX3J7FjB5782BxhPxCsB7hnTvoG8D3STYxSuTn1YBhTYeeAe5XzpgAtzdRDHC370gP
+ tLwSDcnl0UiZ02NaykRMv/gzZQ349G4ljEQhmYOhDe5sZYtHZexPCWkHlBrcRi/bWea/Ak9gv
+ r0AbeQOuqdvTikSUkGAaObvPGIQLzDmwMB5HlNX3uEIPBuPXdHXjbTvo4sw4tkTT43yXojxxP
+ 9itjVFKb3rM7zpepjg02B1/FZgMz0yVQdH6HpVWJ7NSIb1f4XToSfYvNwJq0tHB4ei3SmIcmG
+ 5UrN1i4ok+shUkHare7+5LJrLaBUgZK3sJALlw24E2o6zwEdx8aUbEYlsrMlR1rpK9uPVChGz
+ dDXYNOwoos1Pzo9SXK6vyPb3KWj0ArZccHBjreB6lDI/+8ENNYnvdOjPagAguGZwqHp2oTHv7
+ 4sE8m6acPBcxrIvxxlTvRPgvAuyqRv/os/n9n7zL6dYow+fGksoDsPb0eUoocUAK/mW2p/jRc
+ cQ0UXlK1AVrxaUWdrJVvDBVKR4/F8gXTuPgrfCzig6bacje/Qe5XrYnWfkQFAKGTOJsUV+GyF
+ JLzz6tYayun4NT4bQeVY3MSK85DyY9pqmrO7b3hbHdXOustwV4=
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--Wunaligned-access is a new warning in clang that is default enabled for
-arm and arm64 under certain circumstances within the clang frontend (see
-LLVM commit below). Under an ARCH=arm allmodconfig, there are
-1284 total/70 unique instances of this warning (most of the instances
-are in header files), which is quite noisy.
+On Wed, Feb 2, 2022 at 12:22 AM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> -Wunaligned-access is a new warning in clang that is default enabled for
+> arm and arm64 under certain circumstances within the clang frontend (see
+> LLVM commit below). Under an ARCH=arm allmodconfig, there are
+> 1284 total/70 unique instances of this warning (most of the instances
+> are in header files), which is quite noisy.
+>
+> To keep the build green through CONFIG_WERROR, only allow this warning
+> with W=2, which seems appropriate according to its description:
+> "warnings which occur quite often but may still be relevant".
+>
+> This intentionally does not use the -Wno-... + -W... pattern that the
+> rest of the Makefile does because this warning is not enabled for
+> anything other than certain arm and arm64 configurations within clang so
+> it should only be "not disabled", rather than explicitly enabled, so
+> that other architectures are not disturbed by the warning.
+>
+> Cc: stable@vger.kernel.org
+> Link: https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-To keep the build green through CONFIG_WERROR, only allow this warning
-with W=2, which seems appropriate according to its description:
-"warnings which occur quite often but may still be relevant".
+The warning seems important enough to be considered for W=1 on 32-bit arm,
+otherwise the chances of anyone actually fixing drivers for it is
+relatively slim.
+Can you point post the (sufficiently trimmed) output that you get with
+the warning
+enabled in an allmodconfig build?
 
-This intentionally does not use the -Wno-... + -W... pattern that the
-rest of the Makefile does because this warning is not enabled for
-anything other than certain arm and arm64 configurations within clang so
-it should only be "not disabled", rather than explicitly enabled, so
-that other architectures are not disturbed by the warning.
+I'm not sure why this is enabled by default for arm64, which does not have
+the problem with fixup handlers.
 
-Cc: stable@vger.kernel.org
-Link: https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- scripts/Makefile.extrawarn | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index d53825503874..5f75fec4d5ac 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -70,6 +70,20 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
- 
- KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
- 
-+else
-+
-+ifdef CONFIG_CC_IS_CLANG
-+# While this warning is architecture agnostic, it is only default enabled for
-+# 32-bit and 64-bit ARM under certain conditions within clang:
-+#
-+# https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
-+#
-+# To allow it to be disabled under a normal build or W=1 but show up under W=2
-+# for those configurations, disable it when W=2 is not set, rather than enable
-+# -Wunaligned-access in the above block explicitly.
-+KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
-+endif
-+
- endif
- 
- #
-
-base-commit: 26291c54e111ff6ba87a164d85d4a4e134b7315c
--- 
-2.35.1
-
+       Arnd
