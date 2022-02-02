@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E48FB4A7BA6
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Feb 2022 00:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 821514A7BB7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Feb 2022 00:33:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347992AbiBBXVy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Feb 2022 18:21:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51638 "EHLO
+        id S1348085AbiBBXdP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Feb 2022 18:33:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229764AbiBBXVx (ORCPT
+        with ESMTP id S1348078AbiBBXdP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Feb 2022 18:21:53 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17FD4C061714;
-        Wed,  2 Feb 2022 15:21:53 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id u13so1316341oie.5;
-        Wed, 02 Feb 2022 15:21:53 -0800 (PST)
+        Wed, 2 Feb 2022 18:33:15 -0500
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B966C061714;
+        Wed,  2 Feb 2022 15:33:15 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id x52-20020a05683040b400b0059ea92202daso980169ott.7;
+        Wed, 02 Feb 2022 15:33:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=sender:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=hdKH4tXgHY4cT+RB1bvOiaNomE0XVykpxJcXrke+vqk=;
-        b=ahUVIzCsG7UmQFv3UKQdrfqui2QGTQZCBFE9qIIRoJBK/Vi4phbSMT5axQxpfxM2PD
-         X2L6P853sHMqI3KozRMWBLaotNA80PqAfd0KUZnliq/4RH59DfN098IYFPaTF00s4gPo
-         ZPFgIYIkGGzpvCmdfizsRx1LDy2MeRNNIS7gcen9Ab5iGv4LdIVL0iGyAvzR7MV718hj
-         D8f5TqjhePo6h2EzeAfl41GFuNptREP9wDGvr5ksdFboplULvmcaOgpAZtj44A6f2TmV
-         27gTnWUDzQpK6hM02lcHNuNCNCtcwh2/+noRaDkbuNq9FjHDnGSnyM5RLTlgOeydJ6II
-         r+bQ==
+        bh=/6Cf3W9mkudiHFUznEhVCKbOqbQxkWdOxnCU/ygpF28=;
+        b=TWaEs79JtjrcHTSbcrAqPmFzFOOWnARfpwzPp2C5rcZCCDU3n1/MaPIHrcmUI9y0gb
+         3BMP1lLY574eEgpFQrd8i6DEYYdh5A+AW2XUqCH/IHsnGbFbW8OGQMXStI2OSSEeNtnC
+         2uDg2DUSa7Lho9RKJhIrCDYX76O78hlROcVy4v6YUKMMtvpNwh2nLT30uHlYJiRH7AzS
+         Renh+llJVBBHKSdqelhdavlknNKWPUPZLkmbX5olI92+ek1EnkuVf3RW/4z4TmwshOJX
+         1rUWCsOpUjvI5UjKeKR2QmD1I/U3iw93wQm3B950LOMR3jSQXL17hZURwqicshn6WFkY
+         PjYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
          :subject:content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=hdKH4tXgHY4cT+RB1bvOiaNomE0XVykpxJcXrke+vqk=;
-        b=6DMBLcu+mAAJHHOgZjepk0XHKhBzIfGCYSlkS7DwkwX7iNKXLURtOMhAixnTwuZUuY
-         6jCLl2aTGsAALTKeCVV6NVA7x/Y2dMzbakShKqSnVIU8NxXxC46z0subif5Ixd9w7XLl
-         ULGAYOb8OVnDuKNgDJa1mq2KRew2u1a5MP44K7H5AUeGiFFZHu0U81QXD37Bp1PDlo5p
-         ePA9/t8kiQRoRdRrzEzqHKgWiQ0jtft+ELI+JLkhLwrB3S76jSbV63uOhQQMo7goK6An
-         TGW0ts8rptf/St6GUvBzbDEGJsq8i/r/PWgBACxfzJT05UxWV5tTUF0tPDt4ZkntbCE4
-         yjNw==
-X-Gm-Message-State: AOAM530HrLlBm20p0tqZD4KKEWKeKVr/mK3Trq+jjpyUrtXNyXODc2uY
-        oIoNzDBD66ss0GWteIA2cJk=
-X-Google-Smtp-Source: ABdhPJyF9ihmFyrP/iAi+4muZGLyMY6QrV946GJop1i1WoECKvVAUcx7ezlVj7IYKEUkVl2UcXpFNQ==
-X-Received: by 2002:a05:6808:1aa6:: with SMTP id bm38mr5803076oib.109.1643844112525;
-        Wed, 02 Feb 2022 15:21:52 -0800 (PST)
+        bh=/6Cf3W9mkudiHFUznEhVCKbOqbQxkWdOxnCU/ygpF28=;
+        b=kuTFmWhyRy+AK/EKS+dKtRdSYYX+6hBBHgWbdDses5jlRpoRJ6QhzVO0uwUGW2g2bC
+         am7e1tIHnq7h+kbh0+CGjBnZTxjEu6xB+74RlfTzOjwPP6+S3+eCyfKicCwaJ5AbnYDE
+         AprA1cy7+g+pJ+0oHAfTRxWZjMsdPnU9MEK3UPZilXTv4RkiS+w4C11ljDu2RKqK9OgG
+         VYfCarjex1o5osY9AEguvYNWkZYhByCyuBhrZVtg+L3UaCO5sXPlKgQvK3nNOttcEdeK
+         oaaGAJsf3Vq0Q/ufme6ZAXL4Dlt1+Fz4DDIF7gm676kpVp+4vQPVe8Jh9bre30CedtX5
+         TsPg==
+X-Gm-Message-State: AOAM531S3lXmMyUwAAflJXwHMpkxNumAznRtXDcWdg+dLtu1LcFfq7gq
+        76n722Jd+JXjagARu/4MLt8=
+X-Google-Smtp-Source: ABdhPJxOgmXoa6PCzUc7JfZNj++eKlj2RApzxbX5R+TNdRwnor8TLrUrfkCNVsoYb2zA/cflqexsBA==
+X-Received: by 2002:a9d:1f0:: with SMTP id e103mr14998061ote.234.1643844794500;
+        Wed, 02 Feb 2022 15:33:14 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s11sm15250609otq.69.2022.02.02.15.21.51
+        by smtp.gmail.com with ESMTPSA id y4sm19010868otj.22.2022.02.02.15.33.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Feb 2022 15:21:51 -0800 (PST)
+        Wed, 02 Feb 2022 15:33:14 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <5ce016f8-fb4b-ef50-c543-886b4cfda225@roeck-us.net>
-Date:   Wed, 2 Feb 2022 15:21:49 -0800
+Message-ID: <cbf0cf07-2350-ed23-f6be-b2686c6a0cea@roeck-us.net>
+Date:   Wed, 2 Feb 2022 15:33:11 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -66,16 +66,16 @@ Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org
 References: <20210818081118.1667663-1-keescook@chromium.org>
  <20210818081118.1667663-5-keescook@chromium.org>
- <20220202160903.GA2337834@roeck-us.net> <202202021409.2AA6A4246@keescook>
+ <20220202160903.GA2337834@roeck-us.net> <202202021254.5A1FD4FFBF@keescook>
 From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <202202021409.2AA6A4246@keescook>
+In-Reply-To: <202202021254.5A1FD4FFBF@keescook>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2/2/22 14:11, Kees Cook wrote:
+On 2/2/22 12:56, Kees Cook wrote:
 > On Wed, Feb 02, 2022 at 08:09:03AM -0800, Guenter Roeck wrote:
 >> On Wed, Aug 18, 2021 at 01:11:17AM -0700, Kees Cook wrote:
 >>> With the recent fixes for flexible arrays and expanded FORTIFY_SOURCE
@@ -123,15 +123,29 @@ On 2/2/22 14:11, Kees Cook wrote:
 >> ./arch/alpha/include/asm/string.h:37:32: error: '__builtin_memset' offset [0, 8191] is out of the bounds [0, 0] [-Werror=array-bounds]
 >>     37 |                         return __builtin_memset(s, c, n);
 > 
-> Ah! With Arnd and Nathan's help, I saw:
-> https://lore.kernel.org/all/20210912160149.2227137-3-linux@roeck-us.net/
-
-Guilty as charged. Sorry, I didn't try to analyze the problem,
-or I might have noticed (and saved you some work).
-
-Guenter
-
-> which is solving the same problem (just manifested through different
-> diagnostics). The same solution works here. I'll get the patches sent...
+> Thanks! I'll take a look. Every instance of the "[0, 0]" bounds means
+> the compiler believes there's a way for the destination to be determined
+> at compile-time to be NULL.
+> 
+>> xtensa:allmodconfig:
+>> --------------
+>> Error log:
+>> In file included from include/linux/uaccess.h:11,
+>>                   from include/linux/sched/task.h:11,
+>>                   from arch/xtensa/kernel/process.c:21:
+>> arch/xtensa/kernel/process.c: In function 'copy_thread':
+>> arch/xtensa/kernel/process.c:262:52: error: array subscript 53 is above array bounds of 'long unsigned int[16]'
+> 
+> I assume this is a weird cast. I will also check this one out.
 > 
 
+                                 int callinc = (regs->areg[0] >> 30) & 3;
+                                 int caller_ars = XCHAL_NUM_AREGS - callinc * 4;
+                                 put_user(regs->areg[caller_ars+1],
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+                                          (unsigned __user*)(usp - 12));
+
+I think the problem is that XCHAL_NUM_AREGS can be up to 64,
+but the size of struct pt_regs->areg[] is fixed to 16.
+
+Guenter
