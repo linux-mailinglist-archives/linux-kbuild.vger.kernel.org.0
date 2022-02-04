@@ -2,66 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 782C04A7F34
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Feb 2022 07:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BA334A954B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Feb 2022 09:39:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236537AbiBCGHB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Feb 2022 01:07:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
+        id S1354942AbiBDIjy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Feb 2022 03:39:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236271AbiBCGHA (ORCPT
+        with ESMTP id S233838AbiBDIjy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Feb 2022 01:07:00 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5794FC061714;
-        Wed,  2 Feb 2022 22:07:00 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id h125so1462263pgc.3;
-        Wed, 02 Feb 2022 22:07:00 -0800 (PST)
+        Fri, 4 Feb 2022 03:39:54 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B5E3C061714;
+        Fri,  4 Feb 2022 00:39:54 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id j16so4564741plx.4;
+        Fri, 04 Feb 2022 00:39:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oEVq5Aw8C7IrD63fuw2vvXKG01QmH5pZ1I0qXHV9G3I=;
-        b=HghP9cyA6N5u0/1vjJO/prNcLOwbVLhOnjmMiFNCNZHO8qcm3d3ykk84fjihlNqu+1
-         zRFQVQgEi/ov7WNLN6K8aeBBcyv8DawDCUa2RDrgLRJB4+/FPjFmRC2A//MXpQu5eIqy
-         RlpQmB8pwwXjuamiqfveFgpedPDescCPFtC0HGkWDkyZ7XXXv9NPYVt4392EnLpq6H7p
-         oI3RswIIuCo7Wooy1FajqyF4CTweLkNr4WFYRPMwISeYoxYZ1FsI7xX02UuOs4iRW1Yn
-         My2TLS50jru+hEHQdQ2Ksje/Yd7oNFtWy68o0jLu0PuZzMEWOM8ElPWq8v4G6uHKOMWn
-         tjZQ==
+        bh=PjmllJnCzdLeudw4omc83lv2WMyg+Kaf/IkNgbRVUK0=;
+        b=ikCrqBKmF0FOlv3xA/SHqjD9rSotMOMvsWGdBP5J5GAFwwVHYGPo4gt5G+qSO3QlPk
+         MtYaiFFHI7KE3SdQs3Rml3RRvfXAFGwRAR2cBkIH5+F+yMNa5WOmBu0asO3XJ2Gveylj
+         gDOmvXUkSZTXclZVHlEdzC5+tlsrLxEZaQT9B6kfH/GhXdoNs9h5vs5ZAteSk/xIot3g
+         KV0LXPFCV2Hd3u8c6Zv6j8RhN+RrPBInSU9SY5kdaSo7b8WzwaeN4MjkjJKf9LQpzgaY
+         UJbAPo0z+abiOqR7A8RCL3hCKOodI0xPLy2d25IIZL0wRRMGswmSRCpGq/7WukDpPXn6
+         x7Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oEVq5Aw8C7IrD63fuw2vvXKG01QmH5pZ1I0qXHV9G3I=;
-        b=t3icDAaVM9IEMdA0+WKSN0YRBqrJtkVCfaaAdwcf2ySgcOX5Gy5ZF9ZRdPx68rSs9R
-         zsYoA/agDtB5p1ZgnPG++6AApE38Z8xyp7c+0E3XKLaLWE5D8Mu3Z1P4DDx4d69ylSuv
-         XLJU19Ww+cCvGBNcJFNpEsC8CA1OFj1L+fmF7EdDpXCYXOSqvw1EHWcIcie2p7FlQ2DZ
-         nvO9qh0xhIo6tdh+7b1dBawolJg59iPifO3pHwQb6xoUtSUcFzKNYri+tquNwtMmFqgc
-         L3uH1YokvE33qkik6wPvQYCFJ6AKjkuv+sG7nFdnKga6T8ESSvN3dgIMxNS0PiizGmoS
-         S+kg==
-X-Gm-Message-State: AOAM531dJ2qErVVPh1GlxBGEYBPWGYvATwWuqhthpltUyv7idibQ5AAP
-        FuTjkILTIaBdPomOeXGBEVQ=
-X-Google-Smtp-Source: ABdhPJyvdnX1ThzBs8PA90WGwirRbfyDzb5GgSYgsOFvMqlv747RzAkLzuTGYm+wi8rTxvVcI8IKig==
-X-Received: by 2002:a63:3189:: with SMTP id x131mr26612065pgx.302.1643868419689;
-        Wed, 02 Feb 2022 22:06:59 -0800 (PST)
+        bh=PjmllJnCzdLeudw4omc83lv2WMyg+Kaf/IkNgbRVUK0=;
+        b=x8wT9mNhHCxrCSJZ5FJXc0sTfBs7eW+6O3X2bibfmKWdFTYZO0Za3sz6Cjd5n/90SH
+         z3gRuJfFEOJ50237sxp9+SEicet9QeiMaDNtYb+KtmnnXnsFl1RZK5z/DOnF8QdTYrRk
+         j7uloaK5D84AjSNsu+Ieway0v0Sb1kctfnuZJGM5Q9Z0vjrqcoyzggL1xsnKXRPx0epV
+         4aW50bp/o0OKN5zlpIxxb5SfITH2qG3jmPb3sfeynKlLMidQaIFp3C99Gi2znEAvZbWl
+         kqZnL2PInjACwd1rif1/1L2E9tkIEhMM2yipIQ0Vx6kf8CQM1NxZpRVULXuGX8dkpI14
+         l9OA==
+X-Gm-Message-State: AOAM530imrSsmXqp234JDhrjlFgsRb1e8DKlceeSBCpCT8X+pwGJKKBT
+        fNVFsUeN+J2GhCl/GZTVK70=
+X-Google-Smtp-Source: ABdhPJwWFnyi+SvvkIw1fZV8QjAtPAf7NXd64jQIgWj9ur1Gl//q+IZbKASSHYbm3LPLN3Z/jbSE6A==
+X-Received: by 2002:a17:90b:4a09:: with SMTP id kk9mr1945026pjb.107.1643963993495;
+        Fri, 04 Feb 2022 00:39:53 -0800 (PST)
 Received: from vimal-VirtualBox.. ([49.207.201.237])
-        by smtp.gmail.com with ESMTPSA id q21sm28818184pfu.104.2022.02.02.22.06.54
+        by smtp.gmail.com with ESMTPSA id a13sm122683pfv.97.2022.02.04.00.39.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 22:06:59 -0800 (PST)
+        Fri, 04 Feb 2022 00:39:53 -0800 (PST)
 From:   Vimal Agrawal <avimalin@gmail.com>
 X-Google-Original-From: Vimal Agrawal <vimal.agrawal@sophos.com>
 To:     mcgrof@kernel.org
-Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        hch@infradead.org, masahiroy@kernel.org, michal.lkml@markovi.net,
+Cc:     hch@infradead.org, masahiroy@kernel.org, michal.lkml@markovi.net,
         ndesaulniers@google.com, JBeulich@suse.com, jeffm@suse.com,
         sam@ravnborg.org, linux-kbuild@vger.kernel.org, jeyu@kernel.org,
-        avimalin@gmail.com, vimal.agrawal@sophos.com
-Subject: [PATCH v4] modules: add heuristic when stripping unneeded symbols
-Date:   Thu,  3 Feb 2022 11:36:41 +0530
-Message-Id: <20220203060641.119522-1-vimal.agrawal@sophos.com>
+        linux-kernel@vger.kernel.org, avimalin@gmail.com,
+        nishit.shah@sophos.com, Vimal Agrawal <vimal.agrawal@sophos.com>,
+        Dirk VanDerMerwe <Dirk.VanDerMerwe@Sophos.com>
+Subject: [PATCH v5] modules: add heuristic when stripping unneeded symbols
+Date:   Fri,  4 Feb 2022 14:09:32 +0530
+Message-Id: <20220204083933.136096-1-vimal.agrawal@sophos.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <Yfrncd3voPOB7PdB@bombadil.infradead.org>
-References: <Yfrncd3voPOB7PdB@bombadil.infradead.org>
+In-Reply-To: <20220203060641.119522-1-vimal.agrawal@sophos.com>
+References: <20220203060641.119522-1-vimal.agrawal@sophos.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -155,6 +156,8 @@ init start now.
 tested on linux->next (tag next-20211220)
 
 Signed-off-by: Vimal Agrawal <vimal.agrawal@sophos.com>
+Acked-by: Nishit Shah <nishit.shah@sophos.com>
+Suggested-by: Dirk VanDerMerwe <Dirk.VanDerMerwe@Sophos.com>
 ---
  kernel/module.c | 26 +++++++++++++++++++++++---
  1 file changed, 23 insertions(+), 3 deletions(-)
