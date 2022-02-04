@@ -2,202 +2,221 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E32A4AA292
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Feb 2022 22:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2290C4AA323
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Feb 2022 23:30:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242599AbiBDVsD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Feb 2022 16:48:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S243305AbiBDWas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Feb 2022 17:30:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241199AbiBDVsC (ORCPT
+        with ESMTP id S241600AbiBDWas (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Feb 2022 16:48:02 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBAEC061714;
-        Fri,  4 Feb 2022 13:48:02 -0800 (PST)
+        Fri, 4 Feb 2022 17:30:48 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDE04D210536;
+        Fri,  4 Feb 2022 14:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9SYfsWFzOeb2t2NENOBafiesrt6p/JNoCmuAqtMpJAg=; b=bClA98KAJMM6GWkA04NvL6lMLs
-        5R/oagRcsrlwoKvHitnHDU36SqDiBSGUAjMXvJ3vkOIRvEF3ZErEa/BArBHgrk4K59XavAZp1kfdi
-        JPTNqFU1FGsjnluIGWLFfRX77wbXMe74POx2jNJ7ly9wxkW2tiNpOFokkImRnZFPYRfJzu90eymC2
-        1LhbRTD6KnBNF76eMoIcJPPbqLIQVjW7cdVBC5/N+Zycse2fU3KIYAwJWH/IdIeehbBjy4Js+AMoi
-        osU4WJcYbjbZzgXo31dSCyt14LeSB9pvNfU1DVTVKKuV1V6NKRJBBbGqcPV7uoWZm50heOWs5KM9X
-        FpDBPp+Q==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nG6Qp-005Ua8-BS; Fri, 04 Feb 2022 21:47:51 +0000
-Date:   Fri, 4 Feb 2022 13:47:51 -0800
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Vimal Agrawal <avimalin@gmail.com>
-Cc:     hch@infradead.org, masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, JBeulich@suse.com, jeffm@suse.com,
-        sam@ravnborg.org, linux-kbuild@vger.kernel.org, jeyu@kernel.org,
-        linux-kernel@vger.kernel.org, nishit.shah@sophos.com,
-        Vimal Agrawal <vimal.agrawal@sophos.com>,
-        Dirk VanDerMerwe <Dirk.VanDerMerwe@sophos.com>
-Subject: Re: [PATCH v5] modules: add heuristic when stripping unneeded symbols
-Message-ID: <Yf2fB4mzdLiWtoki@bombadil.infradead.org>
-References: <20220203060641.119522-1-vimal.agrawal@sophos.com>
- <20220204083933.136096-1-vimal.agrawal@sophos.com>
+        bh=xTp3Q2jI2XaBeoi1nbsAVKpQRvbNFVMVH1ilN5edRx4=; b=GH9JnzK99Po0eYdjai64S8QnF0
+        Lj0VRYWj/+hscHz6Qkx997MjtRw0WFm/6BkGTHzav4FU4eBbj753B7c06LNRbu5duKmkoVV0mNfQa
+        88nEWj1d4eM6hVg8r/q7aoMx64xXMcd51yE1C01pn6vLPX+ba6xVgEzdY7jGaMgAMwDNU6GrboSwA
+        2Fgj7vuaiF4RAAdFWTvLzao9Vw7jhP9/IU6BcztMzbUUKVMJjOg8EL5HKsi2JKQqR96GzA5ywvCmr
+        f+EEx8sC5ozcE+3g0RyC/FBloDMhsn0kFKBopi1BjUQcahk4LGpKLmVAfETjS3yxYr34/U9MAqaQq
+        MamaUIEg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nG76J-007fDo-8l; Fri, 04 Feb 2022 22:30:43 +0000
+Date:   Fri, 4 Feb 2022 22:30:43 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        efi@lists.einval.com,
+        debian-kernel <debian-kernel@lists.debian.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
+Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
+ signing key
+Message-ID: <Yf2pE4BxpaBQhaJ9@casper.infradead.org>
+References: <20211218031122.4117631-1-willy@infradead.org>
+ <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220204083933.136096-1-vimal.agrawal@sophos.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
-X-Spam-Status: No, score=-2.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 04, 2022 at 02:09:32PM +0530, Vimal Agrawal wrote:
-> If kernel modules are stripped off symbols for some reason then stack
-> traces in dmesg do not show symbol name for address. It just prints
-> absolute address sometimes (if there is no good match with any symbol)
-> 
-> This was seen with OpenWrt which uses option INSTALL_MOD_STRIP=
-> "--strip-unneeded" at kernel/module build/install time, and so modules
-> are stripped off unneeded symbols.
-> 
-> [245864.699580]  do_nmi+0x12f/0x370
-> [245864.699583]  end_repeat_nmi+0x16/0x50
-> [245864.699585] RIP: 0010:0xffffffffc06b67ec                           <<<<<<<<
-> [245864.699585] RSP: 0000:ffffaaa540cffe48 EFLAGS: 00000097
-> [245864.699586] RAX: 0000000000000001 RBX: ffff93357a729000 RCX: 0000000000000001
-> [245864.699587] RDX: ffff93357a729050 RSI: 0000000000000000 RDI: ffff93357a729000
-> [245864.699588] RBP: ffff9335cf521300 R08: 0000000000000001 R09: 0000000000000004
-> [245864.699588] R10: ffffaaa545b23ed0 R11: 0000000000000001 R12: ffffffffc06b61a0
-> [245864.699589] R13: ffffaaa540cffe60 R14: ffff9335c77fa3c0 R15: ffff9335cf51d7c0
-> [245864.699590]  ? 0xffffffffc06b61a0
-> [245864.699592]  ? 0xffffffffc06b67ec                                  <<<<<<<<
-> [245864.699593]  ? 0xffffffffc06b67ec
-> [245864.699594]  </NMI>
-> 
-> Note RIP: 0010:0xffffffffc06b67ec and 0xffffffffc06b67ec printed in above
-> stack trace as absolute address. There is no easy way in case box crashes
-> as we loose information on load address of specific module.
-> 
-> This changes the symbol decoding (in kernel/module.c) such that it can
-> print offset from start of section (.text or .init.text) in case there
-> is no good match with any symbol.
-> 
-> It will now decode address in such cases to [module]+ offset/size or
-> [module __init]+offset/size depending on where the address lies (in
-> core/.text or init/.init.text section of module).
-> 
-> One can use objdump/readelf/nm to find symbols with offset from .init.text
-> and .text sections.
-> 
-> steps to reproduce the problem:
-> -------------------------------
-> 1. Add WARN_ON_ONCE(1) in module e.g. test_module.c
-> 2. Build and strip the module using --strip-unneeded option
-> 3. Load the module and check RIP in dmesg
-> 
-> tests done:
-> -----------
-> 1. Added WARN_ON_ONE(1) in functions of a module for testing
-> -------------------------------------------------------------
-> [  407.934085] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
-> [  407.934087] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-> [  407.934088] RIP: 0010:[module __init]+0x4/0x7 [test_module]
-> [  407.934097] Code: Unable to access opcode bytes at RIP 0xffffffffc07edfda.
-> [  407.934098] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
-> [  407.934100] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> [  407.934101] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
-> [  407.934102] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
-> [  407.934103] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
-> [  407.934104] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
-> [  407.934105] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
-> [  407.934107] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  407.934108] CR2: ffffffffc07edfda CR3: 00000000063ea006 CR4: 00000000000706f0
-> [  407.934113] Call Trace:
-> [  407.934114]  <TASK>
-> [  407.934116]  ? init_module+0x55/0xff9 [test_module]
-> ...
-> [  407.934232] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
-> [  407.934234] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-> [  407.934242] RIP: 0010:[module]+0x4/0x7 [test_module]
-> [  407.934248] Code: Unable to access opcode bytes at RIP 0xffffffffc07e1fda.
-> [  407.934249] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
-> [  407.934251] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> [  407.934252] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
-> [  407.934253] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
-> [  407.934254] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
-> [  407.934255] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
-> [  407.934256] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
-> [  407.934257] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  407.934258] CR2: ffffffffc07e1fda CR3: 00000000063ea006 CR4: 00000000000706f0
-> [  407.934260] Call Trace:
-> [  407.934260]  <TASK>
-> [  407.934261]  ? init_module+0x5a/0xff9 [test_module]
-> 
-> note that it is able to decode RIP to an offset from module start or
-> init start now.
-> 
-> tested on linux->next (tag next-20211220)
-> 
-> Signed-off-by: Vimal Agrawal <vimal.agrawal@sophos.com>
-> Acked-by: Nishit Shah <nishit.shah@sophos.com>
-> Suggested-by: Dirk VanDerMerwe <Dirk.VanDerMerwe@Sophos.com>
-> ---
->  kernel/module.c | 26 +++++++++++++++++++++++---
->  1 file changed, 23 insertions(+), 3 deletions(-)
-> 
-> diff --git a/kernel/module.c b/kernel/module.c
-> index 24dab046e16c..4de15c06e760 100644
-> --- a/kernel/module.c
-> +++ b/kernel/module.c
-> @@ -4270,14 +4270,21 @@ static const char *find_kallsyms_symbol(struct module *mod,
->  					unsigned long *offset)
->  {
->  	unsigned int i, best = 0;
-> -	unsigned long nextval, bestval;
-> +	unsigned long baseval, nextval, bestval;
->  	struct mod_kallsyms *kallsyms = rcu_dereference_sched(mod->kallsyms);
-> +	char *module_base_name;
->  
->  	/* At worse, next value is at end of module */
-> -	if (within_module_init(addr, mod))
-> +	if (within_module_init(addr, mod)) {
-> +		baseval = (unsigned long)mod->init_layout.base;
->  		nextval = (unsigned long)mod->init_layout.base+mod->init_layout.text_size;
-> -	else
-> +		module_base_name = "[module __init]";
-> +
-> +	} else {
-> +		baseval = (unsigned long)mod->core_layout.base;
->  		nextval = (unsigned long)mod->core_layout.base+mod->core_layout.text_size;
-> +		module_base_name = "[module]";
-> +	}
->  
->  	bestval = kallsyms_symbol_value(&kallsyms->symtab[best]);
->  
-> @@ -4308,6 +4315,19 @@ static const char *find_kallsyms_symbol(struct module *mod,
->  			nextval = thisval;
->  	}
->  
-> +	if ((is_module_text_address(addr) &&
-> +		(bestval < baseval || bestval > nextval))) {
-> +		/*
-> +		 * return MODULE base and offset if we could not find
-> +		 * any best match for text address
-> +		 */
-> +		if (size)
-> +			*size = nextval - baseval;
-> +		if (offset)
-> +			*offset = addr - baseval;
-> +		return module_base_name;
-> +	}
-> +
+On Wed, Jan 05, 2022 at 12:39:57AM +0900, Masahiro Yamada wrote:
+> +CC the maintainers of CERTIFICATE HANDLING
+> M:      David Howells <dhowells@redhat.com>
+> M:      David Woodhouse <dwmw2@infradead.org>
+> L:      keyrings@vger.kernel.org
 
-You did not explain why you change your code to not use the below
-(!best) branch. I'd much prefer it there as that is when we know
-for sure we have no real symbol defined.
+Davids, can one of you respond to this?
 
-  Luis
+> On Sat, Dec 18, 2021 at 12:11 PM Matthew Wilcox (Oracle)
+> <willy@infradead.org> wrote:
+> >
+> > If the config file specifies a signing key, use it to sign
+> > the kernel so that machines with SecureBoot enabled can boot.
+> > See https://wiki.debian.org/SecureBoot
+> >
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> > ---
+> > v2:
+> >  - Handle private keys stored in the pem file as well as adjacent to the
+> >    certificate
+> >  - Handle certificate paths specified relative to both dsttree and srctree
+> >    (as well as absolute)
+> >  - Only try to sign the executable if EFI_STUB is enabled
+> >  - Only try to execute sbsign if it's in $PATH
+> >
+> >  scripts/package/builddeb | 25 ++++++++++++++++++++++++-
+> >  1 file changed, 24 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > index 91a502bb97e8..9dd92fd02b12 100755
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -147,7 +147,30 @@ else
+> >         cp System.map "$tmpdir/boot/System.map-$version"
+> >         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
+> >  fi
+> > -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$installed_image_path"
+> > +
+> > +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
+> > +key=
+> > +if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; then
+> > +       cert=$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
+> > +       if [ ! -f $cert ]; then
+> > +               cert=$srctree/$cert
+> > +       fi
+> > +
+> > +       key=${cert%pem}priv
+> > +       if [ ! -f $key ]; then
+> > +               key=$cert
+> > +       fi
+> 
+> 
+> I still do not understand this part.
+> 
+> It is true that the Debian document you referred to creates separate files
+> for the key and the certificate:
+>   # openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform
+> DER -out MOK.der -days 36500 -subj "/CN=My Name/" -nodes
+> 
+> but, is such a use-case possible in Kbuild?
+
+I don't think it matters whether *Kbuild* can generate one file or
+two.  If somebody follows the *Debian* document, they will have
+two files.  It would surely be desirable that if somebody has followed
+the Debian instructions that we would then sign the kernel using the
+keys they previously generated.
+
+> In the old days, yes, the key and the certificate were stored in separate files.
+> (the key in *.priv and the certificate in *.x509)
+> 
+> 
+> Please read this commit:
+> 
+> 
+> commit fb1179499134bc718dc7557c7a6a95dc72f224cb
+> Author: David Woodhouse <David.Woodhouse@intel.com>
+> Date:   Mon Jul 20 21:16:30 2015 +0100
+> 
+>     modsign: Use single PEM file for autogenerated key
+> 
+>     The current rule for generating signing_key.priv and signing_key.x509 is
+>     a classic example of a bad rule which has a tendency to break parallel
+>     make. When invoked to create *either* target, it generates the other
+>     target as a side-effect that make didn't predict.
+> 
+>     So let's switch to using a single file signing_key.pem which contains
+>     both key and certificate. That matches what we do in the case of an
+>     external key specified by CONFIG_MODULE_SIG_KEY anyway, so it's also
+>     slightly cleaner.
+> 
+>     Signed-off-by: David Woodhouse <David.Woodhouse@intel.com>
+>     Signed-off-by: David Howells <dhowells@redhat.com>
+> 
+> 
+> 
+> 
+> Since then, both key and certificate are stored in a single *.pem file.
+
+I did read that commit.  I think it's a terrible idea.  If the
+secret key & the certificate are stored in the same file, it's
+no better than a symmetric cipher.  Not even SSH does this!
+
+> The motivation for this change is still questionable to me;
+> the commit description sounds like they merged *.priv and *.x509
+> into *.pem just because they could not write a correct Makefile.
+> (If requested, I can write a correct Makefile that works in parallel build)
+> 
+> But, anyway, as long as I read the current code, we never
+> have a separate *.priv file.
+> 
+> 
+> The help message of the config option supports my view.
+> 
+> 
+> config MODULE_SIG_KEY
+>         string "File name or PKCS#11 URI of module signing key"
+>         default "certs/signing_key.pem"
+>         depends on MODULE_SIG || (IMA_APPRAISE_MODSIG && MODULES)
+>         help
+>          Provide the file name of a private key/certificate in PEM format,
+>          or a PKCS#11 URI according to RFC7512. The file should contain, or
+>          the URI should identify, both the certificate and its corresponding
+>                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>          private key.
+>          ^^^^^^^^^^^
+> 
+> 
+> 
+> I CC'ed  David Howells, David Woodhouse, keyrings@vger.kernel.org
+> in case I understood wrong.
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> > +       if ! command -v sbsign >/dev/null; then
+> > +               key=
+> > +       fi
+> > +fi
+> > +
+> > +if [ -n "$key" ]; then
+> > +       sbsign --key $key --cert $cert "$vmlinux" --output "$tmpdir/$installed_image_path"
+> > +else
+> > +       cp "$vmlinux" "$tmpdir/$installed_image_path"
+> > +fi
+> >
+> >  if is_enabled CONFIG_OF_EARLY_FLATTREE; then
+> >         # Only some architectures with OF support have this target
+> > --
+> > 2.33.0
+> >
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
