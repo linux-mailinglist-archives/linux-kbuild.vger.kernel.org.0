@@ -2,114 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A2C4AC012
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 14:52:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BDD54AC010
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 14:52:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242253AbiBGNvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S238328AbiBGNvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Mon, 7 Feb 2022 08:51:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35046 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387200AbiBGNdl (ORCPT
+        with ESMTP id S1387223AbiBGNrv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Feb 2022 08:33:41 -0500
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8978C0401C6;
-        Mon,  7 Feb 2022 05:33:40 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 22F3D5C0326;
-        Mon,  7 Feb 2022 08:33:40 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 07 Feb 2022 08:33:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm1; bh=G8QFiH78/k8QSA
-        C89RuN2OaBGSt/zrl07wOdzwSoXJc=; b=VTJ2yP5HMleEb7qCIs5v6d3Uxqtnz+
-        LA+AqFfAFOR5SV3gSapNSx/b2Vw+Fv5R2mhxD4kLaVDFA+WjCjhDnhheKZNAX8uA
-        ntYwr6xTKfm0Q5QhitcA9uipFQTS2lNn6BHKjQ1J16wHHyYeaCjpOMwUUh/q4WGL
-        OxyUKi1vAZhz61YnPb+z/zsRn5RvrO/kYsYhSXQ/wHvR3WTu4z4Kk6aT3914JMmI
-        K2B570Aj788uYsiP3jCqp8gib8D1TvBZefZSNhJNX0jBKRCucHAYIBa1UUdFfbgq
-        b9pJdBJBBRmt454IrjIyZ62iA5BKgcxMAZked29G/NXB5xLtlf/7XZPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=G8QFiH78/k8QSAC89RuN2OaBGSt/zrl07wOdzwSoX
-        Jc=; b=lFyQzrA5HbhukKXsZy5uGyZh+cPTsZDf7kK+jz3Jdn7rri8EOdEZma9OD
-        sEmpZ9zXt2c/bL8ZgV4V9jvwWgclNufayAj0sD/oiCRCDJG7Ckc0GSTvi6rwwlVA
-        vsL2XdkNoug2yejmFWry8Pg0Belb0yxeFjXdgkLNQ0s6Sdgi0AxCjHinLuVbdoUk
-        LLso76WnO1ofmtyh3Kx6VmyOXE4w9DvbegdLoKursUQFSyXkQ01EmED8OIKmhM62
-        e8e2KET45UEnOc9XUWiOU8Op1A6weP6rh82KTsNUchczUbeda90BzDvbcZqFAZZy
-        dRGXw5ge2psrhuXII6wfq6cmSKWlQ==
-X-ME-Sender: <xms:sx8BYv9-UUzhvhYIQtIxYUiCIue2lOuXHwPqyGJn_zZdkaSzSUoFoQ>
-    <xme:sx8BYrtI1jOlwOXAE4lK4hSfgOv6OMZWSGuEQznq2JOO031ceodJ4dRjWbfbinZxv
-    iM7lXFSThh7Jy8fJSs>
-X-ME-Received: <xmr:sx8BYtBRWcVmES2pv-OrSdiWIVrIypigziZ2l_W6-PcSFOnpZJ3fghETCOHwmKs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
-    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
-    ftrfgrthhtvghrnhepheeiuddvvefhkeejfedttdekieethfdukedvieeuueelgfelieej
-    geehvdekudelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:sx8BYrchLFed4y2yKMqf8NHZgCYvBnSbfBUviASxdS1KU9QDtH1J3Q>
-    <xmx:sx8BYkOJDMfTKDzvqB32CVSVZJxEAU7kuznvBK8XJf69gjJzcHNXtQ>
-    <xmx:sx8BYtk_UyhY-0wMr3AdO_G_O1Ipq55IBpfO_mxuv_tNT7c_7ws7og>
-    <xmx:tB8BYu0Ma0m1SDam0r7qEZPtuPxaCTJTulZ_1fPEPOZwgItU_pBXiA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 08:33:39 -0500 (EST)
-Message-ID: <d0742b0f-ee22-f352-b89b-50bc5021fd2a@flygoat.com>
-Date:   Mon, 7 Feb 2022 13:33:38 +0000
+        Mon, 7 Feb 2022 08:47:51 -0500
+Received: from condef-04.nifty.com (condef-04.nifty.com [202.248.20.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B97FC043181;
+        Mon,  7 Feb 2022 05:47:50 -0800 (PST)
+Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-04.nifty.com with ESMTP id 217DjHnk028207;
+        Mon, 7 Feb 2022 22:45:17 +0900
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 217DipVo022226;
+        Mon, 7 Feb 2022 22:44:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 217DipVo022226
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1644241492;
+        bh=QUV0hp+xB/5tu9Im52sNMR58mRLFLhMZGaIvBrJvw+Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nbGi8UszpMuf1YuXNXjb4bnFhY+c9dLrABng6IGMik7U4321n/7HbUJiEz0rSAuDC
+         6cD4A4QDQ5ZU+ZIB75NLw9biK8HJe7RvuCE6Oaeah8sBtulkHBzMZaJ8ZqccnvR94T
+         8QHeSyXccMD9FivQxZQGxxCazVcbFqbzQ7w0olPVGraN8HduDChc5E+KU+1iik4bN4
+         RbJ84oePIAp5VJe3sLn6qaSWVUjD15FoE3+552Fyqti31sjqQKNUXnqw13oGq4IG/9
+         Mln10pW/GTzDiusmCo5z6XHTdkO+l0XGMWniv/oLV5MWBUqeAn5Nbur2rn3TDOHf/2
+         m6XeKpUxo8I+g==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id p22-20020a17090adf9600b001b8783b2647so7391102pjv.5;
+        Mon, 07 Feb 2022 05:44:51 -0800 (PST)
+X-Gm-Message-State: AOAM530WE848O1SolBsVKEVFNF6ZZb6/8pvz4oMm0Bq6Xar8WVOofkpr
+        rjl/ndOur2T772pNwIXXNB4EMCtAEppOeT0YQew=
+X-Google-Smtp-Source: ABdhPJwoBSTLjNxzRqh4wM22ZLkK8Kabb+gW2Gmp9KwL9maZhBzOFDPATsJn2nYLB4bdQjZ3p4Q6cWFtQph98OF4fnk=
+X-Received: by 2002:a17:90b:1647:: with SMTP id il7mr18618035pjb.119.1644241491011;
+ Mon, 07 Feb 2022 05:44:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RFC PATCH for-stable] kbuild: Define
- LINUX_VERSION_{MAJOR,PATCHLEVEL,SUBLEVEL}
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20220207115212.217744-1-jiaxun.yang@flygoat.com>
- <YgEKBAWp+wAWLfFW@kroah.com>
- <4b23a6fe-32df-f20c-eb1b-eea3b01857d1@flygoat.com>
- <YgEbf7oxjSIDQDJo@kroah.com>
-From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <YgEbf7oxjSIDQDJo@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220128220131.10956-1-brenda.streiff@ni.com>
+In-Reply-To: <20220128220131.10956-1-brenda.streiff@ni.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 7 Feb 2022 22:44:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASdD=xHb24sj80CsG90QVDBXFhFV10MvybdwGf2xx27Kw@mail.gmail.com>
+Message-ID: <CAK7LNASdD=xHb24sj80CsG90QVDBXFhFV10MvybdwGf2xx27Kw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: let 'shell' return enough output for deep path names
+To:     Brenda Streiff <brenda.streiff@ni.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sat, Jan 29, 2022 at 7:02 AM Brenda Streiff <brenda.streiff@ni.com> wrot=
+e:
+>
+> The 'shell' built-in only returns the first 256 bytes of the command's
+> output. In some cases, 'shell' is used to return a path; by bumping up
+> the buffer size to 4096 this lets us capture up to PATH_MAX.
+>
+> The specific case where I ran into this was due to commit 1e860048c53e
+> ("gcc-plugins: simplify GCC plugin-dev capability test"). After this
+> change, we now use `$(shell,$(CC) -print-file-name=3Dplugin)` to return
+> a path; if the gcc path is particularly long, then the path ends up
+> truncated at the 256 byte mark, which makes the HAVE_GCC_PLUGINS
+> depends test always fail.
+>
+> Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
+
+Thanks, applied to linux-kbuild,
+(but I dropped the change to tests)
 
 
-在 2022/2/7 13:15, Greg KH 写道:
-> On Mon, Feb 07, 2022 at 12:47:41PM +0000, Jiaxun Yang wrote:
->
-> 在 2022/2/7 12:01, Greg KH 写道:
->>> On Mon, Feb 07, 2022 at 11:52:12AM +0000, Jiaxun Yang wrote:
-[...]
-> Why do you need to do so?
-4.9.297 brings build_bug.h and breaks part of our compat code.
-> My point being that you should not try to duplicate changes that are
-> already in Linus's tree.  What I think you want is commit 88a686728b37
-> ("kbuild: simplify access to the kernel's version") to be backported,
-> right?
->
-> If so, please provide a working backport for all affected kernels and we
-> will be glad to consider it.
-Will do, thanks for pointing!
 
-Thanks.
-- Jiaxun
->
-> thanks,
->
-> greg k-h
 
+
+> ---
+>  scripts/kconfig/preprocess.c                                  | 2 +-
+>  scripts/kconfig/tests/preprocess/builtin_func/Kconfig         | 3 +++
+>  scripts/kconfig/tests/preprocess/builtin_func/expected_stdout | 1 +
+>  3 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+> index 0590f86df6e4..748da578b418 100644
+> --- a/scripts/kconfig/preprocess.c
+> +++ b/scripts/kconfig/preprocess.c
+> @@ -141,7 +141,7 @@ static char *do_lineno(int argc, char *argv[])
+>  static char *do_shell(int argc, char *argv[])
+>  {
+>         FILE *p;
+> -       char buf[256];
+> +       char buf[4096];
+>         char *cmd;
+>         size_t nread;
+>         int i;
+> diff --git a/scripts/kconfig/tests/preprocess/builtin_func/Kconfig b/scri=
+pts/kconfig/tests/preprocess/builtin_func/Kconfig
+> index baa328827911..e9791a97f731 100644
+> --- a/scripts/kconfig/tests/preprocess/builtin_func/Kconfig
+> +++ b/scripts/kconfig/tests/preprocess/builtin_func/Kconfig
+> @@ -25,3 +25,6 @@ $(warning,$(shell,printf 'hello\nworld\n\n4\n\n\n'))
+>  # 'lineno' to the line number.
+>  $(warning,filename=3D$(filename))
+>  $(warning,lineno=3D$(lineno))
+> +
+> +# 'shell' can return more than 256 bytes of output
+> +$(info,$(shell,printf 'hello%01024dworld\n' '0'))
+> diff --git a/scripts/kconfig/tests/preprocess/builtin_func/expected_stdou=
+t b/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
+> index 82de3a7e97de..8e03e4dfe8f6 100644
+> --- a/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
+> +++ b/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
+> @@ -1 +1,2 @@
+>  hello world 0
+> +hello0000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000world
+> --
+> 2.20.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
