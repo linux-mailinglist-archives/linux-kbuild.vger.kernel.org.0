@@ -2,56 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDD54AC010
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 14:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A4E44AC22F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 15:59:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238328AbiBGNvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Feb 2022 08:51:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41876 "EHLO
+        id S232642AbiBGO6n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Feb 2022 09:58:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387223AbiBGNrv (ORCPT
+        with ESMTP id S237959AbiBGOgu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Feb 2022 08:47:51 -0500
-Received: from condef-04.nifty.com (condef-04.nifty.com [202.248.20.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B97FC043181;
-        Mon,  7 Feb 2022 05:47:50 -0800 (PST)
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-04.nifty.com with ESMTP id 217DjHnk028207;
-        Mon, 7 Feb 2022 22:45:17 +0900
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 217DipVo022226;
-        Mon, 7 Feb 2022 22:44:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 217DipVo022226
+        Mon, 7 Feb 2022 09:36:50 -0500
+X-Greylist: delayed 3091 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 06:36:48 PST
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4608C0401C2
+        for <linux-kbuild@vger.kernel.org>; Mon,  7 Feb 2022 06:36:48 -0800 (PST)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 217EaZfx023131
+        for <linux-kbuild@vger.kernel.org>; Mon, 7 Feb 2022 23:36:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 217EaZfx023131
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1644241492;
-        bh=QUV0hp+xB/5tu9Im52sNMR58mRLFLhMZGaIvBrJvw+Q=;
+        s=dec2015msa; t=1644244595;
+        bh=t9yvjc68VF9BvwHS6/KE/sNAqAFy6f/OPM8UO/nfSNE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nbGi8UszpMuf1YuXNXjb4bnFhY+c9dLrABng6IGMik7U4321n/7HbUJiEz0rSAuDC
-         6cD4A4QDQ5ZU+ZIB75NLw9biK8HJe7RvuCE6Oaeah8sBtulkHBzMZaJ8ZqccnvR94T
-         8QHeSyXccMD9FivQxZQGxxCazVcbFqbzQ7w0olPVGraN8HduDChc5E+KU+1iik4bN4
-         RbJ84oePIAp5VJe3sLn6qaSWVUjD15FoE3+552Fyqti31sjqQKNUXnqw13oGq4IG/9
-         Mln10pW/GTzDiusmCo5z6XHTdkO+l0XGMWniv/oLV5MWBUqeAn5Nbur2rn3TDOHf/2
-         m6XeKpUxo8I+g==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id p22-20020a17090adf9600b001b8783b2647so7391102pjv.5;
-        Mon, 07 Feb 2022 05:44:51 -0800 (PST)
-X-Gm-Message-State: AOAM530WE848O1SolBsVKEVFNF6ZZb6/8pvz4oMm0Bq6Xar8WVOofkpr
-        rjl/ndOur2T772pNwIXXNB4EMCtAEppOeT0YQew=
-X-Google-Smtp-Source: ABdhPJwoBSTLjNxzRqh4wM22ZLkK8Kabb+gW2Gmp9KwL9maZhBzOFDPATsJn2nYLB4bdQjZ3p4Q6cWFtQph98OF4fnk=
-X-Received: by 2002:a17:90b:1647:: with SMTP id il7mr18618035pjb.119.1644241491011;
- Mon, 07 Feb 2022 05:44:51 -0800 (PST)
+        b=DHQjp7bDqf4BjMwyZBzFZa6qGSDzTbbTCE0iz73FnaI2vL4bSqe0dnJ8T1QxQzKQO
+         /+DMSYbwBVhXA2U6MSxaLmrpwjG/+e+FhUSRt0bCrJF/b3Y3h+/RJI0HAFKo87dtLd
+         EF7ds3f9bbqnMSM7v9Jd1evU4q/i5a+9z/MAq0N9z93Ky1f3IlGoNU/+mOL7Ywekde
+         oQVbkLzTfURPSWnL6R34I8U37F4QIX3wmx0VAFEvMqvDYthEphD7612RFxEq5UuS66
+         Z+bOLZglngPJG7SHfRVPSEArcuCtO/zeHU3xOdq/0R7tv7tfIy/JoAzywSJ3412LR2
+         NfRjU0KrY0aUg==
+X-Nifty-SrcIP: [209.85.214.181]
+Received: by mail-pl1-f181.google.com with SMTP id y17so11261460plg.7
+        for <linux-kbuild@vger.kernel.org>; Mon, 07 Feb 2022 06:36:35 -0800 (PST)
+X-Gm-Message-State: AOAM532ap/VWMTdF45JoCYrQ5xpoEv733y4pdGCCv2PObRiu1rdwVm1p
+        o60A/VDSRXRv3ryonII1lrxnNk6Xl9C6VBIRp/c=
+X-Google-Smtp-Source: ABdhPJwVq3uJNBx1tJMRux95yTiZ+tfP/NUUt8wD9T6PxmuMUlnB86JeCGOgJHp9uw/rO7wgyT4VplAsXYyLVBGhN/4=
+X-Received: by 2002:a17:902:6948:: with SMTP id k8mr16881537plt.136.1644244594484;
+ Mon, 07 Feb 2022 06:36:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20220128220131.10956-1-brenda.streiff@ni.com>
-In-Reply-To: <20220128220131.10956-1-brenda.streiff@ni.com>
+References: <AS8PR10MB4952A8D70F9AC76F7C2EB4809D259@AS8PR10MB4952.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS8PR10MB4952A8D70F9AC76F7C2EB4809D259@AS8PR10MB4952.EURPRD10.PROD.OUTLOOK.COM>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 7 Feb 2022 22:44:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASdD=xHb24sj80CsG90QVDBXFhFV10MvybdwGf2xx27Kw@mail.gmail.com>
-Message-ID: <CAK7LNASdD=xHb24sj80CsG90QVDBXFhFV10MvybdwGf2xx27Kw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: let 'shell' return enough output for deep path names
-To:     Brenda Streiff <brenda.streiff@ni.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 7 Feb 2022 23:35:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJ4eJ6z78v96iKBnQQNThLzYpZQPgMNGq=ANCZLj9dGA@mail.gmail.com>
+Message-ID: <CAK7LNARJ4eJ6z78v96iKBnQQNThLzYpZQPgMNGq=ANCZLj9dGA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: Do not re-quote string values when invoking
+ shell commands
+To:     Chesnokov Gleb <Chesnokov.G@raidix.com>
+Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -61,86 +59,48 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jan 29, 2022 at 7:02 AM Brenda Streiff <brenda.streiff@ni.com> wrot=
-e:
+On Mon, Jan 31, 2022 at 5:54 PM Chesnokov Gleb <Chesnokov.G@raidix.com> wrote:
 >
-> The 'shell' built-in only returns the first 256 bytes of the command's
-> output. In some cases, 'shell' is used to return a path; by bumping up
-> the buffer size to 4096 this lets us capture up to PATH_MAX.
+> Fix the following shell errors during compilation of external module:
+> /bin/sh: -c: line 1: syntax error near unexpected token `('
+> /bin/sh: -c: line 1: `if [ "gcc (GCC) 11.2.1 20211203 (Red Hat 11.2.1-7)" != ""gcc (GCC) 11.2.1 20211203 (Red Hat 11.2.1-7)"" ]; then \'
 >
-> The specific case where I ran into this was due to commit 1e860048c53e
-> ("gcc-plugins: simplify GCC plugin-dev capability test"). After this
-> change, we now use `$(shell,$(CC) -print-file-name=3Dplugin)` to return
-> a path; if the gcc path is particularly long, then the path ends up
-> truncated at the 256 byte mark, which makes the HAVE_GCC_PLUGINS
-> depends test always fail.
->
-> Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
+> Fixes: 129ab0d2d9f3 ("kbuild: do not quote string values in include/config/auto.conf")
+> Signed-off-by: Gleb Chesnokov <Chesnokov.G@raidix.com>
 
-Thanks, applied to linux-kbuild,
-(but I dropped the change to tests)
+
+The current code works fine.
+Maybe, you are using a stale auto.conf
 
 
 
 
 
 > ---
->  scripts/kconfig/preprocess.c                                  | 2 +-
->  scripts/kconfig/tests/preprocess/builtin_func/Kconfig         | 3 +++
->  scripts/kconfig/tests/preprocess/builtin_func/expected_stdout | 1 +
->  3 files changed, 5 insertions(+), 1 deletion(-)
+>  Makefile | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
-> index 0590f86df6e4..748da578b418 100644
-> --- a/scripts/kconfig/preprocess.c
-> +++ b/scripts/kconfig/preprocess.c
-> @@ -141,7 +141,7 @@ static char *do_lineno(int argc, char *argv[])
->  static char *do_shell(int argc, char *argv[])
->  {
->         FILE *p;
-> -       char buf[256];
-> +       char buf[4096];
->         char *cmd;
->         size_t nread;
->         int i;
-> diff --git a/scripts/kconfig/tests/preprocess/builtin_func/Kconfig b/scri=
-pts/kconfig/tests/preprocess/builtin_func/Kconfig
-> index baa328827911..e9791a97f731 100644
-> --- a/scripts/kconfig/tests/preprocess/builtin_func/Kconfig
-> +++ b/scripts/kconfig/tests/preprocess/builtin_func/Kconfig
-> @@ -25,3 +25,6 @@ $(warning,$(shell,printf 'hello\nworld\n\n4\n\n\n'))
->  # 'lineno' to the line number.
->  $(warning,filename=3D$(filename))
->  $(warning,lineno=3D$(lineno))
-> +
-> +# 'shell' can return more than 256 bytes of output
-> +$(info,$(shell,printf 'hello%01024dworld\n' '0'))
-> diff --git a/scripts/kconfig/tests/preprocess/builtin_func/expected_stdou=
-t b/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
-> index 82de3a7e97de..8e03e4dfe8f6 100644
-> --- a/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
-> +++ b/scripts/kconfig/tests/preprocess/builtin_func/expected_stdout
-> @@ -1 +1,2 @@
->  hello world 0
-> +hello0000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000world
+> diff --git a/Makefile b/Makefile
+> index 1fc3491096cb..72205c83a339 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1714,9 +1714,9 @@ PHONY += prepare
+>  # now expand this into a simple variable to reduce the cost of shell evaluations
+>  prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
+>  prepare:
+> -       @if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ]; then \
+> +       @if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then \
+>                 echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
+> -               echo >&2 "  The kernel was built by: $(CONFIG_CC_VERSION_TEXT)"; \
+> +               echo >&2 "  The kernel was built by: "$(CONFIG_CC_VERSION_TEXT); \
+>                 echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
+>         fi
+>
 > --
-> 2.20.1
->
+> 2.35.0
 
 
---=20
+
+--
 Best Regards
 Masahiro Yamada
