@@ -2,105 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4E44AC22F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 15:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B9F4ACBD7
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 23:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232642AbiBGO6n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Feb 2022 09:58:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46470 "EHLO
+        id S243576AbiBGWIA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Feb 2022 17:08:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237959AbiBGOgu (ORCPT
+        with ESMTP id S243549AbiBGWH6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Feb 2022 09:36:50 -0500
-X-Greylist: delayed 3091 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Feb 2022 06:36:48 PST
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4608C0401C2
-        for <linux-kbuild@vger.kernel.org>; Mon,  7 Feb 2022 06:36:48 -0800 (PST)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 217EaZfx023131
-        for <linux-kbuild@vger.kernel.org>; Mon, 7 Feb 2022 23:36:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 217EaZfx023131
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1644244595;
-        bh=t9yvjc68VF9BvwHS6/KE/sNAqAFy6f/OPM8UO/nfSNE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DHQjp7bDqf4BjMwyZBzFZa6qGSDzTbbTCE0iz73FnaI2vL4bSqe0dnJ8T1QxQzKQO
-         /+DMSYbwBVhXA2U6MSxaLmrpwjG/+e+FhUSRt0bCrJF/b3Y3h+/RJI0HAFKo87dtLd
-         EF7ds3f9bbqnMSM7v9Jd1evU4q/i5a+9z/MAq0N9z93Ky1f3IlGoNU/+mOL7Ywekde
-         oQVbkLzTfURPSWnL6R34I8U37F4QIX3wmx0VAFEvMqvDYthEphD7612RFxEq5UuS66
-         Z+bOLZglngPJG7SHfRVPSEArcuCtO/zeHU3xOdq/0R7tv7tfIy/JoAzywSJ3412LR2
-         NfRjU0KrY0aUg==
-X-Nifty-SrcIP: [209.85.214.181]
-Received: by mail-pl1-f181.google.com with SMTP id y17so11261460plg.7
-        for <linux-kbuild@vger.kernel.org>; Mon, 07 Feb 2022 06:36:35 -0800 (PST)
-X-Gm-Message-State: AOAM532ap/VWMTdF45JoCYrQ5xpoEv733y4pdGCCv2PObRiu1rdwVm1p
-        o60A/VDSRXRv3ryonII1lrxnNk6Xl9C6VBIRp/c=
-X-Google-Smtp-Source: ABdhPJwVq3uJNBx1tJMRux95yTiZ+tfP/NUUt8wD9T6PxmuMUlnB86JeCGOgJHp9uw/rO7wgyT4VplAsXYyLVBGhN/4=
-X-Received: by 2002:a17:902:6948:: with SMTP id k8mr16881537plt.136.1644244594484;
- Mon, 07 Feb 2022 06:36:34 -0800 (PST)
+        Mon, 7 Feb 2022 17:07:58 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00127C061355;
+        Mon,  7 Feb 2022 14:07:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=l7wWM/7p7XzTmhY8BZsL4D072e/QasMVDV2u2jXUfrY=; b=hn6BCjAp2gxmRN151mnG+VR8rY
+        2AQdbOiW4Dxq7NDDRQhXscADWWw6TWPIS8+14A52A77U01tZodRLuUR1WqAyGcWWqffMfgpUA9vWN
+        L+UBSFtcaCX694winIwieaxvtmo1m8fkMdtx3zUM/o4G+b3IyIC9tUMTdhlE0YImYuaWCeFsHHbcO
+        MpeL+ggqrIX4ZbWDXzPB2nOyE9rDftNebyf3WG2eNktx8k5kqWORUaEatODoS6JeMCvMjaXicq439
+        hieni0DwFYZK+Tg+osFFK/eU22RhT6mtms15rmUJvbTjKNi/ythbSG6okbmEeBKwWMJfDpsuo4jOx
+        Hkkdaspw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nHCAh-00Bq5q-S6; Mon, 07 Feb 2022 22:07:43 +0000
+Date:   Mon, 7 Feb 2022 14:07:43 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Vimal Agrawal <avimalin@gmail.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
+        jeyu@kernel.org, linux-kernel@vger.kernel.org,
+        nishit.shah@sophos.com, Vimal Agrawal <vimal.agrawal@sophos.com>,
+        Dirk VanDerMerwe <Dirk.VanDerMerwe@sophos.com>
+Subject: Re: [PATCH v5] modules: add heuristic when stripping unneeded symbols
+Message-ID: <YgGYL1MKEX9t/ciO@bombadil.infradead.org>
+References: <20220203060641.119522-1-vimal.agrawal@sophos.com>
+ <20220204083933.136096-1-vimal.agrawal@sophos.com>
+ <Yf2fB4mzdLiWtoki@bombadil.infradead.org>
+ <CALkUMdRv0tMuLpi3Syw7MndBTa9b0xRLGdb6QvM8Q69zXnmUkw@mail.gmail.com>
 MIME-Version: 1.0
-References: <AS8PR10MB4952A8D70F9AC76F7C2EB4809D259@AS8PR10MB4952.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS8PR10MB4952A8D70F9AC76F7C2EB4809D259@AS8PR10MB4952.EURPRD10.PROD.OUTLOOK.COM>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 7 Feb 2022 23:35:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARJ4eJ6z78v96iKBnQQNThLzYpZQPgMNGq=ANCZLj9dGA@mail.gmail.com>
-Message-ID: <CAK7LNARJ4eJ6z78v96iKBnQQNThLzYpZQPgMNGq=ANCZLj9dGA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kbuild: Do not re-quote string values when invoking
- shell commands
-To:     Chesnokov Gleb <Chesnokov.G@raidix.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALkUMdRv0tMuLpi3Syw7MndBTa9b0xRLGdb6QvM8Q69zXnmUkw@mail.gmail.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 5:54 PM Chesnokov Gleb <Chesnokov.G@raidix.com> wrote:
->
-> Fix the following shell errors during compilation of external module:
-> /bin/sh: -c: line 1: syntax error near unexpected token `('
-> /bin/sh: -c: line 1: `if [ "gcc (GCC) 11.2.1 20211203 (Red Hat 11.2.1-7)" != ""gcc (GCC) 11.2.1 20211203 (Red Hat 11.2.1-7)"" ]; then \'
->
-> Fixes: 129ab0d2d9f3 ("kbuild: do not quote string values in include/config/auto.conf")
-> Signed-off-by: Gleb Chesnokov <Chesnokov.G@raidix.com>
+On Mon, Feb 07, 2022 at 06:51:50PM +0530, Vimal Agrawal wrote:
+> >
+> > You did not explain why you change your code to not use the below
+> > (!best) branch. I'd much prefer it there as that is when we know
+> > for sure we have no real symbol defined.
+> >
+> >   Luis
+> 
+> Actually I had it  under (!best) in my first patch. I had to change it
+> because it was resolving the address to symbols like __this_module for
+> init address at times which is not correct for text address.
 
+Can you say that again?
 
-The current code works fine.
-Maybe, you are using a stale auto.conf
+> It was
+> not entering inside if (!best) as it found some match but the match
+> was not correct.
 
+Is this a summary of what you said above and I could not understand?
 
+OK so you're saying sometimes "best" is not true when we use
+INSTALL_MOD_STRIP="--strip-unneeded"? This is news.
 
+> It could be fine for some non text addresses but not
+> for text addresses.
 
+In particulr you seem to be suggesting that if --strip-unneeded was
+used "best" could be incorrect for !is_module_text_address().
 
-> ---
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 1fc3491096cb..72205c83a339 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1714,9 +1714,9 @@ PHONY += prepare
->  # now expand this into a simple variable to reduce the cost of shell evaluations
->  prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
->  prepare:
-> -       @if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ]; then \
-> +       @if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then \
->                 echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
-> -               echo >&2 "  The kernel was built by: $(CONFIG_CC_VERSION_TEXT)"; \
-> +               echo >&2 "  The kernel was built by: "$(CONFIG_CC_VERSION_TEXT); \
->                 echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
->         fi
->
-> --
-> 2.35.0
+In any case, you completely changed things in your patch and did not
+mention *any* of this in your follow up patch, leaving me to question
+the validity of all this work.
 
+> So I had to move this check out of (!best) and put a check explicitly
+> for text address to avoid any impact on non text addresses by
+> following:
+> 
+> +       if ((is_module_text_address(addr) &&
+> +               (bestval < baseval || bestval > nextval))) {
+> +               /*
+> +                * return MODULE base and offset if we could not find
+> +                * any best match for text address
+> +                */
+> 
+> I tested it on next-20220116-1-gff24014a52c0 today and I am able to
+> repro at least for init address easily with test_module.ko.
 
+I tried to reproduce and couldn't and sent you a configuration to test.
 
---
-Best Regards
-Masahiro Yamada
+> I can update the patch explaining this in comments in between the code.
+
+The above is not clear and you need to make things crystal clear. If the
+existing heuristic for best is not valid all the times it needs to be
+made clear using a comment, sure.
+
+If your heuristic is *better* than the existing heuristic *today*, that
+needs to *also* be clearly spelled out. Your patch does none of this and
+the commit log clearly does not reflect it.
+
+  Luis
