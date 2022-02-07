@@ -2,177 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 771554AC03B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 14:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A2C4AC012
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Feb 2022 14:52:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243146AbiBGNvl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Feb 2022 08:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34028 "EHLO
+        id S242253AbiBGNvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Feb 2022 08:51:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1387139AbiBGNbB (ORCPT
+        with ESMTP id S1387200AbiBGNdl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Feb 2022 08:31:01 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC614C043181;
-        Mon,  7 Feb 2022 05:31:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Y4BPg2UKSHvSGU0CdwH8Mpx1zWYK6Fo9bjYIFzss50c=; b=gO+MTd+cuCgmd2NhvLdFsRvNn0
-        akbAblQsskUvJ9vHv7dbfFYvvZxvaA7RsXU9uplrUQ/gx9JRWDyXTdesuAXL1d3887b0QH07Z1rr9
-        TN1Wdhp4iwncQs2yrHloAGxOfkt7Lc9Xk1Cpj7Sm1RL7QKNbKFX1qDSkFstqs+Uns7l6RoDX9LeiL
-        rw1sgmr6KyIYA3o7LWgRxqwV2B3Nmf24qgIULTi+GyC9fg+yEfmiozkituUB8Zpwf7Wwm+KLNsW84
-        CWLyggEyqT/jVS3/KkdKnZKoEVnT3ZVKVxVFFPYMSOpKp91/LzjjLUmmfGXjWgjAy6MWH9M4KTWQJ
-        kP7emuyQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nH46X-000vOy-3D; Mon, 07 Feb 2022 13:30:53 +0000
-Date:   Mon, 7 Feb 2022 13:30:53 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Ben Hutchings <ben@decadent.org.uk>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        efi@lists.einval.com,
-        debian-kernel <debian-kernel@lists.debian.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
-Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
- signing key
-Message-ID: <YgEfDUh6R5A507QD@casper.infradead.org>
-References: <20211218031122.4117631-1-willy@infradead.org>
- <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
- <YdSOV7LL0vWCMcWl@casper.infradead.org>
- <CAK7LNAQgixJSnDUMfjc+tg90oMdVoh+i5faEn-rqgmHR3Bk6dQ@mail.gmail.com>
+        Mon, 7 Feb 2022 08:33:41 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8978C0401C6;
+        Mon,  7 Feb 2022 05:33:40 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 22F3D5C0326;
+        Mon,  7 Feb 2022 08:33:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 07 Feb 2022 08:33:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm1; bh=G8QFiH78/k8QSA
+        C89RuN2OaBGSt/zrl07wOdzwSoXJc=; b=VTJ2yP5HMleEb7qCIs5v6d3Uxqtnz+
+        LA+AqFfAFOR5SV3gSapNSx/b2Vw+Fv5R2mhxD4kLaVDFA+WjCjhDnhheKZNAX8uA
+        ntYwr6xTKfm0Q5QhitcA9uipFQTS2lNn6BHKjQ1J16wHHyYeaCjpOMwUUh/q4WGL
+        OxyUKi1vAZhz61YnPb+z/zsRn5RvrO/kYsYhSXQ/wHvR3WTu4z4Kk6aT3914JMmI
+        K2B570Aj788uYsiP3jCqp8gib8D1TvBZefZSNhJNX0jBKRCucHAYIBa1UUdFfbgq
+        b9pJdBJBBRmt454IrjIyZ62iA5BKgcxMAZked29G/NXB5xLtlf/7XZPA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=G8QFiH78/k8QSAC89RuN2OaBGSt/zrl07wOdzwSoX
+        Jc=; b=lFyQzrA5HbhukKXsZy5uGyZh+cPTsZDf7kK+jz3Jdn7rri8EOdEZma9OD
+        sEmpZ9zXt2c/bL8ZgV4V9jvwWgclNufayAj0sD/oiCRCDJG7Ckc0GSTvi6rwwlVA
+        vsL2XdkNoug2yejmFWry8Pg0Belb0yxeFjXdgkLNQ0s6Sdgi0AxCjHinLuVbdoUk
+        LLso76WnO1ofmtyh3Kx6VmyOXE4w9DvbegdLoKursUQFSyXkQ01EmED8OIKmhM62
+        e8e2KET45UEnOc9XUWiOU8Op1A6weP6rh82KTsNUchczUbeda90BzDvbcZqFAZZy
+        dRGXw5ge2psrhuXII6wfq6cmSKWlQ==
+X-ME-Sender: <xms:sx8BYv9-UUzhvhYIQtIxYUiCIue2lOuXHwPqyGJn_zZdkaSzSUoFoQ>
+    <xme:sx8BYrtI1jOlwOXAE4lK4hSfgOv6OMZWSGuEQznq2JOO031ceodJ4dRjWbfbinZxv
+    iM7lXFSThh7Jy8fJSs>
+X-ME-Received: <xmr:sx8BYtBRWcVmES2pv-OrSdiWIVrIypigziZ2l_W6-PcSFOnpZJ3fghETCOHwmKs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdehudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
+    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+    ftrfgrthhtvghrnhepheeiuddvvefhkeejfedttdekieethfdukedvieeuueelgfelieej
+    geehvdekudelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:sx8BYrchLFed4y2yKMqf8NHZgCYvBnSbfBUviASxdS1KU9QDtH1J3Q>
+    <xmx:sx8BYkOJDMfTKDzvqB32CVSVZJxEAU7kuznvBK8XJf69gjJzcHNXtQ>
+    <xmx:sx8BYtk_UyhY-0wMr3AdO_G_O1Ipq55IBpfO_mxuv_tNT7c_7ws7og>
+    <xmx:tB8BYu0Ma0m1SDam0r7qEZPtuPxaCTJTulZ_1fPEPOZwgItU_pBXiA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Feb 2022 08:33:39 -0500 (EST)
+Message-ID: <d0742b0f-ee22-f352-b89b-50bc5021fd2a@flygoat.com>
+Date:   Mon, 7 Feb 2022 13:33:38 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQgixJSnDUMfjc+tg90oMdVoh+i5faEn-rqgmHR3Bk6dQ@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [RFC PATCH for-stable] kbuild: Define
+ LINUX_VERSION_{MAJOR,PATCHLEVEL,SUBLEVEL}
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stable@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20220207115212.217744-1-jiaxun.yang@flygoat.com>
+ <YgEKBAWp+wAWLfFW@kroah.com>
+ <4b23a6fe-32df-f20c-eb1b-eea3b01857d1@flygoat.com>
+ <YgEbf7oxjSIDQDJo@kroah.com>
+From:   Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <YgEbf7oxjSIDQDJo@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 07, 2022 at 09:33:46PM +0900, Masahiro Yamada wrote:
-> Added "Ben Hutchings <ben@decadent.org.uk>"
-> 
-> On Wed, Jan 5, 2022 at 3:13 AM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > On Wed, Jan 05, 2022 at 12:39:57AM +0900, Masahiro Yamada wrote:
-> > > > +vmlinux=$($MAKE -s -f $srctree/Makefile image_name)
-> > > > +key=
-> > > > +if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; then
-> > > > +       cert=$(grep ^CONFIG_MODULE_SIG_KEY= include/config/auto.conf | cut -d\" -f2)
-> > > > +       if [ ! -f $cert ]; then
-> > > > +               cert=$srctree/$cert
-> > > > +       fi
-> > > > +
-> > > > +       key=${cert%pem}priv
-> > > > +       if [ ! -f $key ]; then
-> > > > +               key=$cert
-> > > > +       fi
-> > >
-> > >
-> > > I still do not understand this part.
-> > >
-> > > It is true that the Debian document you referred to creates separate files
-> > > for the key and the certificate:
-> > >   # openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform
-> > > DER -out MOK.der -days 36500 -subj "/CN=My Name/" -nodes
-> > >
-> > > but, is such a use-case possible in Kbuild?
-> >
-> > If someone has followed the Debian instructions for creating a MOK,
-> > then they will have two separate files.  We should support both the case
-> > where someone has created a Debian MOK and the case where someone has
-> > used Kbuild to create this foolish blob with both private and public
-> > key in one file.
-> 
-> But, this patch is doing different things than the Debian document.
-> 
-> 
-> The Debian document you referred to says:
->   "Ubuntu puts its MOK key under /var/lib/shim-signed/mok/ and some
->    software such as Oracle's virtualbox package expect the key there
->    so we follow suit (see 989463 for reference) and put it at the same place"
 
-Uhh ... it does now.  It didn't when I originally wrote this patch.
-Apparently it was updated in November:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=989463
 
-> In Debian, MOK is generated under /var/lib/shim-signed/mok/,
-> and its primary use is for signing the kernel.
-> Then, you can reuse it for signing modules as well.
-> 
-> 
-> This patch adopts the opposite direction:
->   Kbuild generates the module signing key, then
->   this patch reuses it for singing the kernel.
+在 2022/2/7 13:15, Greg KH 写道:
+> On Mon, Feb 07, 2022 at 12:47:41PM +0000, Jiaxun Yang wrote:
+>
+> 在 2022/2/7 12:01, Greg KH 写道:
+>>> On Mon, Feb 07, 2022 at 11:52:12AM +0000, Jiaxun Yang wrote:
+[...]
+> Why do you need to do so?
+4.9.297 brings build_bug.h and breaks part of our compat code.
+> My point being that you should not try to duplicate changes that are
+> already in Linus's tree.  What I think you want is commit 88a686728b37
+> ("kbuild: simplify access to the kernel's version") to be backported,
+> right?
+>
+> If so, please provide a working backport for all affected kernels and we
+> will be glad to consider it.
+Will do, thanks for pointing!
 
-The patch only does this because you asked it to be changed to do this!
-Look back at the version I originally sent out.  It didn't generate
-the module signing key at all.  I had no idea the kernel build was even
-capable of doing such a thing until you pointed it out.
+Thanks.
+- Jiaxun
+>
+> thanks,
+>
+> greg k-h
 
-I followed the instructions in the Debian document *that existed at
-the time* (and now apparently we can't see because Debian uses an
-inept type of wiki that can't show old versions).  I generated a key
-and did not store it in the build tree.  I enrolled that key.
-And then I thought "It would be nice if I didn't have to do all this
-manual work after installing a new kernel so that my machine would
-boot".
-
-And here we are, months later, and you're complaining about ...
-something?
-
-> The key is located in the kernel build tree
-> (that is, the key is lost when you run "make mrproper").
-> 
-> You need to "mokutil --import path/to/module/sining/key"
-> every time Kbuild generates a new key.
-> 
-> 
-> 
-> So, another possible approach is:
-> 
-> builddeb signs the kernel with the key
-> in /var/lib/shim-signed/mok/.
-> 
-> I think this is more aligned with the debian documenation.
-> 
-> I added Ben Hutchings, who might give us insights.
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> > > In the old days, yes, the key and the certificate were stored in separate files.
-> > > (the key in *.priv and the certificate in *.x509)
-> > >
-> > >
-> > > Please read this commit:
-> >
-> > Yes, I did.
-> >
-> > > The motivation for this change is still questionable to me;
-> > > the commit description sounds like they merged *.priv and *.x509
-> > > into *.pem just because they could not write a correct Makefile.
-> > > (If requested, I can write a correct Makefile that works in parallel build)
-> >
-> > I think that would be preferable.  Putting the private and public keys
-> > in the same file cannot be good security practice!
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
