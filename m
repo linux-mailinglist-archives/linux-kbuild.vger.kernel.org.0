@@ -2,71 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9B224AD91C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Feb 2022 14:17:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 943F14ADDE6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Feb 2022 17:04:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350600AbiBHNQY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Feb 2022 08:16:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38090 "EHLO
+        id S1343791AbiBHQEX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Feb 2022 11:04:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348284AbiBHNKm (ORCPT
+        with ESMTP id S239269AbiBHQEW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Feb 2022 08:10:42 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22905C03FECE;
-        Tue,  8 Feb 2022 05:10:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=SLOtUPizIxEMzl9MHmssXbkKq3wV6EV1FfuM53oIxG8=; b=DBwru8G20qotyb5cEIMslVov3c
-        TGTgULRVMePaSIfKHeCY43YdN05D97O7K37hs8fQc2ETyaYRHlaggWJ1i4R2+qPbs0tePzIB8dysR
-        2Ut7zGGdYP0JPztkbpWaNoCPqIWSBT3GLimeBBpK4pQwhD2i6jFANoSdCZlP7fOzLX3kXhEr83GIu
-        NY4Ki8Y78QebuMiWK+OzrqH0ycgDEaIRYHdOLFmmB42Wn8eu4CyIIsfJ4QO7/q/EQ5tiC1eORudQz
-        +flOWaS1aWhUwXJX+MB+tt/HP4c9lGh9kkAfLl2DEuK1gDKKG2XvNwp2/OSOXymwi2x9kQYLkFXTR
-        W4SeP7SA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nHQGQ-004rIV-A0; Tue, 08 Feb 2022 13:10:34 +0000
-Date:   Tue, 8 Feb 2022 13:10:34 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Julian Andres Klode <julian.klode@canonical.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Ben Hutchings <ben@decadent.org.uk>,
-        linux-efi <linux-efi@vger.kernel.org>,
+        Tue, 8 Feb 2022 11:04:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D6EC061576;
+        Tue,  8 Feb 2022 08:04:21 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 53FDD6168C;
+        Tue,  8 Feb 2022 16:04:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3931FC004E1;
+        Tue,  8 Feb 2022 16:04:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644336260;
+        bh=fkcM/cj5TPbLIL53k1xCwKgNr/uerJzMAH9JtGLwnIY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W2ObtUKMEXvRy3dBC56Fc90mt+dAL+rivWu2owCuXVq8ZkTywujYcg7GOXvqjaWWp
+         k1pRIEVq8nEywWeHrVSZZCzZ9wVomBrnw5TiJO8JAPHGaQs0/XpWJ+ZhMQgghtnEBQ
+         zt5+pTF0G8ydZtXrTlgEAMNpnskaa3TOQRqYoTqbb82TLr88AyZNd0B5+TlKhp+HFu
+         284mtD2ZKWuxgUlOrQUub9s0VTX9HFVkNtvDeFVONHQTtrxa5k4W0g3Ts8j+0fwE0O
+         PEYwLJnJvqSXkdHI2rljnF9jkSuDrQr8mz9byg6MSbhL6JBxS1RdPOBWzerws73Ax6
+         NPl8wJWcYhfVQ==
+Date:   Tue, 8 Feb 2022 09:04:16 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        efi@lists.einval.com,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
-        David Woodhouse <dwmw2@infradead.org>,
-        debian-kernel <debian-kernel@lists.debian.org>
-Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
- signing key
-Message-ID: <YgJrypdQium7AcWV@casper.infradead.org>
-References: <20211218031122.4117631-1-willy@infradead.org>
- <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
- <YdSOV7LL0vWCMcWl@casper.infradead.org>
- <CAK7LNAQgixJSnDUMfjc+tg90oMdVoh+i5faEn-rqgmHR3Bk6dQ@mail.gmail.com>
- <20220208110122.2z4cmbqexmnxuxld@jak-t480s>
+        llvm@lists.linux.dev, stable <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] Makefile.extrawarn: Move -Wunaligned-access to W=1
+Message-ID: <YgKUgI95kAPKGOZY@dev-arch.archlinux-ax161>
+References: <20220202230515.2931333-1-nathan@kernel.org>
+ <CAKwvOdkQ__2A3NohrcJgF+JABSDnSyEKzD97qVa4cpM==GPONQ@mail.gmail.com>
+ <CAK7LNASCGbLWkDXYqyCf08sFHjGqvqSgmFsJ741MHGSKzkifLg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208110122.2z4cmbqexmnxuxld@jak-t480s>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAK7LNASCGbLWkDXYqyCf08sFHjGqvqSgmFsJ741MHGSKzkifLg@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 12:01:22PM +0100, Julian Andres Klode wrote:
-> It's worth pointing out that in Ubuntu, the generated MOK key
-> is for module signing only (extended key usage 1.3.6.1.4.1.2312.16.1.2),
-> kernels signed with it will NOT be bootable.
+On Tue, Feb 08, 2022 at 01:23:32PM +0900, Masahiro Yamada wrote:
+> On Thu, Feb 3, 2022 at 8:12 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+> >
+> > On Wed, Feb 2, 2022 at 3:07 PM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > -Wunaligned-access is a new warning in clang that is default enabled for
+> > > arm and arm64 under certain circumstances within the clang frontend (see
+> > > LLVM commit below). On v5.17-rc2, an ARCH=arm allmodconfig build shows
+> > > 1284 total/70 unique instances of this warning (most of the instances
+> > > are in header files), which is quite noisy.
+> > >
+> > > To keep a normal build green through CONFIG_WERROR, only show this
+> > > warning with W=1, which will allow automated build systems to catch new
+> > > instances of the warning so that the total number can be driven down to
+> > > zero eventually since catching unaligned accesses at compile time would
+> > > be generally useful.
+> > >
+> > > Cc: stable@vger.kernel.org
+> > > Link: https://github.com/llvm/llvm-project/commit/35737df4dcd28534bd3090157c224c19b501278a
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1569
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1576
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > Thanks to you and Arnd for working out whether this is important to
+> > pursue. Sounds like it is.
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > > ---
+> 
+> 
+> I assume this should be considered as a bug fix
+> to avoid the error for the combination of CONFIG_WERROR=y
+> and the latest Clang.
+> 
+> Applied to linux-kbuild/fixes.
+> Thanks.
 
-Why should these be separate keys?  There's no meaningful security
-boundary between a kernel module and the ernel itself; a kernel
-modulecan, for example, write to CR3, and that's game over for
-any pretence at separation.
+Yes, this is what I was hoping for! Thank you, I'll try to make that
+more clear in the future.
+
+Cheers,
+Nathan
+
+> > >
+> > > v1 -> v2: https://lore.kernel.org/r/20220201232229.2992968-1-nathan@kernel.org/
+> > >
+> > > * Move to W=1 instead of W=2 so that new instances are caught (Arnd).
+> > > * Add links to the ClangBuiltLinux issue tracker.
+> > >
+> > >  scripts/Makefile.extrawarn | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> > > index d53825503874..8be892887d71 100644
+> > > --- a/scripts/Makefile.extrawarn
+> > > +++ b/scripts/Makefile.extrawarn
+> > > @@ -51,6 +51,7 @@ KBUILD_CFLAGS += -Wno-sign-compare
+> > >  KBUILD_CFLAGS += -Wno-format-zero-length
+> > >  KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+> > >  KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+> > > +KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
+> > >  endif
+> > >
+> > >  endif
+> > >
+> > > base-commit: 26291c54e111ff6ba87a164d85d4a4e134b7315c
+> > > --
+> > > 2.35.1
+> > >
+> >
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
