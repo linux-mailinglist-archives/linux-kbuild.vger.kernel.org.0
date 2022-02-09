@@ -1,235 +1,102 @@
 Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CC9A4AE503
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Feb 2022 23:53:43 +0100 (CET)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.lfdr.de (Postfix) with ESMTP id 312E64AF28D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Feb 2022 14:21:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbiBHWxk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Feb 2022 17:53:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54170 "EHLO
+        id S230363AbiBINVK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Feb 2022 08:21:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbiBHWx1 (ORCPT
+        with ESMTP id S229558AbiBINVJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Feb 2022 17:53:27 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D20C0610C5
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Feb 2022 14:53:23 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id i17so743643lfg.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Feb 2022 14:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jGQ2IPV6y93QmCKVWOgR+8jhDK+XNZqO4ZZYPRVX6K0=;
-        b=o0GsLaF8rSoqlEwVtFn5CHwH4SkjeN92qFP9V++vx3eCW33PyI0OQZ8qhqUY1gkOeU
-         lPpQmG81Z/mZmykA9OSllst7yeuTcCbqqaoa9sqntHVbpQV2FwggqsFWKD5QY9H+xfjj
-         tpghwlyu3ewKYXlFG4R0DlZvJIgT1wk9IRr8+WLSoFo0Bq9tYbmHsiLewGsvV4urSvNn
-         xwtJcAwwZQuLrbxP01+lAIVMUd8GVN04Vgs46iD7cK5Rj06Z5JCfgh1xPC2W3G4Qg6wQ
-         wr3ern0EUntvvTynJoLlK+uC5HE/ym9f/FxqsTgSczt93xSQ+mBoQz6yd3XoDP15s0E3
-         mtWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jGQ2IPV6y93QmCKVWOgR+8jhDK+XNZqO4ZZYPRVX6K0=;
-        b=Kq9WioPm5pYXp0dom41OI76m3nsFnBpaHoD6HQHNDCsNCzMVC0dhOzi2Vqf0t2l0WX
-         E1wYvY6z7IAcTgIU4LMIO5cfpOgFUry5Lkud1wDOhKreZDzCxTwxm5UgLYbvfRXfVtee
-         tn3YtHKY2WABWNIUtlvveGCs72DrWkUeJPwqGCz8NW/aLIA6UHhlokTRjxtLGNKaySYl
-         +PNUJAOzas3QYKcN0g0FoWZX0R5kt7qs3wX2vFKCIccnKQdpIAuM7/aJk5RFk1A9xdHQ
-         HERZZOy97llmsG9Wt15H3SGxn5n6tqQcbfzO7HE9BseBAA+yycM9+PT/ISzYaLZuvOXu
-         T1/Q==
-X-Gm-Message-State: AOAM531yecCJvpUyNKiDc7F/OyFMK8QfDEdLyLZzd/Pkyp2kHfQQHpL9
-        Dhhdb9QRjClVFmz0t+eOktC1cTU9axNBO9EV5iMBSA==
-X-Google-Smtp-Source: ABdhPJyoy30+AdO8nclZ+JUPkL/E0gMcFKmU7OKM9AsJzTWIEQtVr08DBWi6Zziy8sPprYX5PFr61Gg7dIOw78F40vU=
-X-Received: by 2002:ac2:5627:: with SMTP id b7mr4520644lff.489.1644360801254;
- Tue, 08 Feb 2022 14:53:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20220112224342.958358-1-quic_eberman@quicinc.com>
- <20220201213542.2808035-1-quic_eberman@quicinc.com> <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
-In-Reply-To: <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 8 Feb 2022 14:53:08 -0800
-Message-ID: <CAKwvOdn0oi+3yEECXLaSzoAdW19SCvpn_8t6yB2wpJE+Fpoy5w@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Add environment variables for userprogs flags
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Fangrui Song <maskray@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, Elliot Berman <quic_eberman@quicinc.com>
+        Wed, 9 Feb 2022 08:21:09 -0500
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C35ECC0613C9;
+        Wed,  9 Feb 2022 05:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1644412871;
+        bh=IBIP7D6ePluxofErTJHBz8DUwJsVyK1rB4p2Vuaclgs=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=isaITEAxFwx6i28OT7uW3+PnTYq2/xBzLsWPsZ0qEaDYDjst8Ycf7Qz3gSadFfmfx
+         OpIUj64P50jD+FjuoaCsyWHbgvYb6tAFlWzNGofyBnHA5fsbTEing9k3B52BmHqrvF
+         I5x8vHPfizGKO0blDoPsztrw2wKGsEG2Iu2XuACs=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 76CD71280B90;
+        Wed,  9 Feb 2022 08:21:11 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 4yZeh4o7Bs5x; Wed,  9 Feb 2022 08:21:11 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1644412871;
+        bh=IBIP7D6ePluxofErTJHBz8DUwJsVyK1rB4p2Vuaclgs=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=isaITEAxFwx6i28OT7uW3+PnTYq2/xBzLsWPsZ0qEaDYDjst8Ycf7Qz3gSadFfmfx
+         OpIUj64P50jD+FjuoaCsyWHbgvYb6tAFlWzNGofyBnHA5fsbTEing9k3B52BmHqrvF
+         I5x8vHPfizGKO0blDoPsztrw2wKGsEG2Iu2XuACs=
+Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4300:c551::527])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 4B0171280B8A;
+        Wed,  9 Feb 2022 08:21:10 -0500 (EST)
+Message-ID: <3d76ff7aab8cdc134aebf16af66582849bd53156.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
+ signing key
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Julian Andres Klode <julian.klode@canonical.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        efi@lists.einval.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        debian-kernel <debian-kernel@lists.debian.org>
+Date:   Wed, 09 Feb 2022 08:21:09 -0500
+In-Reply-To: <YgJrypdQium7AcWV@casper.infradead.org>
+References: <20211218031122.4117631-1-willy@infradead.org>
+         <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
+         <YdSOV7LL0vWCMcWl@casper.infradead.org>
+         <CAK7LNAQgixJSnDUMfjc+tg90oMdVoh+i5faEn-rqgmHR3Bk6dQ@mail.gmail.com>
+         <20220208110122.2z4cmbqexmnxuxld@jak-t480s>
+         <YgJrypdQium7AcWV@casper.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.34.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 1, 2022 at 1:38 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->
-> On Tue, Feb 1, 2022 at 1:36 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >
-> > Allow additional arguments be passed to userprogs compilation.
-> > Reproducible clang builds need to provide a sysroot and gcc path to
-> > ensure same toolchain is used across hosts. KCFLAGS is not currently
->
-> ^ ensure the same (maybe Masahiro can fix that up locally when applying)
+On Tue, 2022-02-08 at 13:10 +0000, Matthew Wilcox wrote:
+> On Tue, Feb 08, 2022 at 12:01:22PM +0100, Julian Andres Klode wrote:
+> > It's worth pointing out that in Ubuntu, the generated MOK key
+> > is for module signing only (extended key usage
+> > 1.3.6.1.4.1.2312.16.1.2), kernels signed with it will NOT be
+> > bootable.
+> 
+> Why should these be separate keys?  There's no meaningful security
+> boundary between a kernel module and the ernel itself; a kernel
+> modulecan, for example, write to CR3, and that's game over for
+> any pretence at separation.
 
-Masahiro,
-What are your thoughts on this patch?  I think this would help Android
-define a musl or bionic sysroot for CC_CAN_LINK and ultimately
-UAPI_HEADER_TEST support.
+It's standard practice for any automated build private key to be
+destroyed immediately to preserve security.  Thus the modules get
+signed with a per kernel ephemeral build key but the MoK key is a long
+term key with a special signing infrastructure, usually burned into the
+distro version of shim.  The kernel signing key usually has to be long
+term because you want shim to boot multiple kernels otherwise upgrading
+becomes a nightmare.
 
->
-> > used for any user programs compilation, so add new USERCFLAGS and
-> > USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
-> >
-> > Clang 13+ might detect GCC installation on hosts which have it installed
-> > to a default location in /. With addition of these environment
-> > variables, you can specify flags such as:
-> >
-> > $ make USERCFLAGS=--sysroot=/path/to/sysroot
-> >
-> > This can also be used to specify different sysroots such as musl or
-> > bionic which may be installed on the host in paths that the compiler
-> > may not search by default.
-> >
-> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->
-> Thanks for the patch!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> > ---
-> >
-> > Changes since v2:
-> >  - Incorporated Nick's suggestions:
-> >    - Addressed docs and commit text comments
-> >    - Introduced KBUILD_USERHOSTCFLAGS as suggested
-> >
-> >  Documentation/kbuild/kbuild.rst    | 11 +++++++++++
-> >  Documentation/kbuild/makefiles.rst |  2 ++
-> >  Makefile                           | 10 ++++++----
-> >  init/Kconfig                       |  8 ++++----
-> >  usr/include/Makefile               |  3 +++
-> >  5 files changed, 26 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> > index 2d1fc03d346e..ef19b9c13523 100644
-> > --- a/Documentation/kbuild/kbuild.rst
-> > +++ b/Documentation/kbuild/kbuild.rst
-> > @@ -77,6 +77,17 @@ HOSTLDLIBS
-> >  ----------
-> >  Additional libraries to link against when building host programs.
-> >
-> > +.. _userkbuildflags:
-> > +
-> > +USERCFLAGS
-> > +----------
-> > +Additional options used for $(CC) when compiling userprogs.
-> > +
-> > +USERLDFLAGS
-> > +-----------
-> > +Additional options used for $(LD) when linking userprogs. userprogs are linked
-> > +with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
-> > +
-> >  KBUILD_KCONFIG
-> >  --------------
-> >  Set the top-level Kconfig file to the value of this environment
-> > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> > index b008b90b92c9..11a296e52d68 100644
-> > --- a/Documentation/kbuild/makefiles.rst
-> > +++ b/Documentation/kbuild/makefiles.rst
-> > @@ -982,6 +982,8 @@ The syntax is quite similar. The difference is to use "userprogs" instead of
-> >
-> >         When linking bpfilter_umh, it will be passed the extra option -static.
-> >
-> > +       From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
-> > +
-> >  5.4 When userspace programs are actually built
-> >  ----------------------------------------------
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 45278d508d81..1d0172449355 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -431,11 +431,12 @@ HOSTCC    = gcc
-> >  HOSTCXX        = g++
-> >  endif
-> >
-> > -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> > -                             -O2 -fomit-frame-pointer -std=gnu89
-> > -export KBUILD_USERLDFLAGS :=
-> > +KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> > +                        -O2 -fomit-frame-pointer -std=gnu89
-> > +KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
-> > +KBUILD_USERLDFLAGS := $(USERLDFLAGS)
-> >
-> > -KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-> > +KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-> >  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
-> >  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> >  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> > @@ -530,6 +531,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
-> >  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
-> > +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
-> >
-> >  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
-> >  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index f2ae41e6717f..164706c38e8b 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -62,13 +62,13 @@ config LLD_VERSION
-> >
-> >  config CC_CAN_LINK
-> >         bool
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
-> >
-> >  config CC_CAN_LINK_STATIC
-> >         bool
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-> > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
-> > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
-> >
-> >  config CC_HAS_ASM_GOTO
-> >         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> > diff --git a/usr/include/Makefile b/usr/include/Makefile
-> > index 1c2ae1368079..0322e567dc1e 100644
-> > --- a/usr/include/Makefile
-> > +++ b/usr/include/Makefile
-> > @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
-> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
-> >  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
-> >
-> > +# USERCFLAGS might contain sysroot location for CC.
-> > +UAPI_CFLAGS += $(USERCFLAGS)
-> > +
-> >  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
-> >
-> >  # The following are excluded for now because they fail to build.
-> > --
-> > 2.25.1
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+James
 
 
-
--- 
-Thanks,
-~Nick Desaulniers
