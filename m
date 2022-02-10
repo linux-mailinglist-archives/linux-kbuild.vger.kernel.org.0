@@ -2,192 +2,258 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F07934B037A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 03:38:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F8814B0226
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 02:27:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbiBJCh5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Feb 2022 21:37:57 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50006 "EHLO
+        id S232139AbiBJB0b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Feb 2022 20:26:31 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:52968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231167AbiBJChz (ORCPT
+        with ESMTP id S232135AbiBJB0Z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Feb 2022 21:37:55 -0500
-X-Greylist: delayed 10800 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 18:37:57 PST
-Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [95.217.213.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9207422BF7;
-        Wed,  9 Feb 2022 18:37:56 -0800 (PST)
-Received: from 168.7-181-91.adsl-dyn.isp.belgacom.be ([91.181.7.168] helo=deadeye)
-        by maynard with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1nHw1T-0005JC-Hv; Thu, 10 Feb 2022 00:05:15 +0100
-Received: from ben by deadeye with local (Exim 4.95)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1nHw1S-001XDV-Ug;
-        Thu, 10 Feb 2022 00:05:14 +0100
-Message-ID: <b5a402d4931a089140ae8dc99ee149e6dd698270.camel@decadent.org.uk>
-Subject: Re: [PATCH v2] builddeb: Support signing kernels with the module
- signing key
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        efi@lists.einval.com,
-        debian-kernel <debian-kernel@lists.debian.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
-Date:   Thu, 10 Feb 2022 00:05:09 +0100
-In-Reply-To: <CAK7LNATT_LMLu1hXy4kANGXN4PRiDq-Pf_kbwJztPDJnLDEF0Q@mail.gmail.com>
-References: <20211218031122.4117631-1-willy@infradead.org>
-         <CAK7LNAQUChvX3NoukBnjBfJJGu+a96pfbM--xHEHOygWPgE9eA@mail.gmail.com>
-         <Yf2pE4BxpaBQhaJ9@casper.infradead.org>
-         <CAK7LNATT_LMLu1hXy4kANGXN4PRiDq-Pf_kbwJztPDJnLDEF0Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-aBq2oCejIqdjMCDPMBMu"
-User-Agent: Evolution 3.42.3-1 
+        Wed, 9 Feb 2022 20:26:25 -0500
+Received: from condef-06.nifty.com (condef-06.nifty.com [202.248.20.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15D520192;
+        Wed,  9 Feb 2022 17:26:06 -0800 (PST)
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-06.nifty.com with ESMTP id 21A0UaTB024452;
+        Thu, 10 Feb 2022 09:30:36 +0900
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 21A0U6Su029232;
+        Thu, 10 Feb 2022 09:30:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 21A0U6Su029232
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1644453007;
+        bh=6klY6ywSHDTIAmjF9MCEJbiIQSicqR7O8sRNcdznk98=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=r6P2WkeMfp/H3RXMD6DzcwlV9NwBjLEOXZoRASN2wuKbY0r2MfWcnjJFQYO20li4Z
+         r36l9GLY/xAc5J2Xai+1gb4fws1qxfu6BuO6/WQ6/VZxkBr7BlJBPFIAD3WZ16h6Os
+         fHszajb7da46jy/QH+686vigTFIWspGksiC8RALLtvMu8fDo7Ryii78/iCBfiU6KxS
+         k+FpDbGKEhCCv3GsUK9BVUV+Bnm56NcYqRWxiA2HEKFs43S7TNz1xxJxtw9O2fVQW+
+         tL5oQWFHYzyB1WUnCogTyewfahMWeYZvoPuSpXdt16dfW5Su55XpePvQsJx2gZVbi0
+         hCyQOR7VmrG8g==
+X-Nifty-SrcIP: [209.85.210.179]
+Received: by mail-pf1-f179.google.com with SMTP id i186so7397347pfe.0;
+        Wed, 09 Feb 2022 16:30:07 -0800 (PST)
+X-Gm-Message-State: AOAM530EGvzi3pUqKjkE+P0rwz+KbuwTG/klEVo0NQnuSx5mgV0BomEF
+        Z3Rswc2r6BXOW5rgZciOVW2dA1qmkXKp+ZzZsyQ=
+X-Google-Smtp-Source: ABdhPJy9PxQxyofxPgV6A6DkaBe7h5z+1tcTNPVaCvhahGvMNZ8PUFa33IO9YCS+eHepbhDA9aj4Q/bzp9Ylq1Q/eNY=
+X-Received: by 2002:a05:6a00:240a:: with SMTP id z10mr4954154pfh.68.1644453006311;
+ Wed, 09 Feb 2022 16:30:06 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 91.181.7.168
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220112224342.958358-1-quic_eberman@quicinc.com>
+ <20220201213542.2808035-1-quic_eberman@quicinc.com> <CAKwvOdmZHmihbf_mLyi=Ncf7FZjjSxxTsHZeaqxk4LKhMHs_iA@mail.gmail.com>
+ <CAKwvOdn0oi+3yEECXLaSzoAdW19SCvpn_8t6yB2wpJE+Fpoy5w@mail.gmail.com>
+In-Reply-To: <CAKwvOdn0oi+3yEECXLaSzoAdW19SCvpn_8t6yB2wpJE+Fpoy5w@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 10 Feb 2022 09:29:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSJcbk+9tfotXj7OR4AjpHcYZVPCuJyaM0BJJXpPvgPA@mail.gmail.com>
+Message-ID: <CAK7LNARSJcbk+9tfotXj7OR4AjpHcYZVPCuJyaM0BJJXpPvgPA@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Add environment variables for userprogs flags
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Fangrui Song <maskray@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, Elliot Berman <quic_eberman@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, Feb 9, 2022 at 7:53 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> On Tue, Feb 1, 2022 at 1:38 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
+> >
+> > On Tue, Feb 1, 2022 at 1:36 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> > >
+> > > Allow additional arguments be passed to userprogs compilation.
+> > > Reproducible clang builds need to provide a sysroot and gcc path to
+> > > ensure same toolchain is used across hosts. KCFLAGS is not currently
+> >
+> > ^ ensure the same (maybe Masahiro can fix that up locally when applying)
+>
+> Masahiro,
+> What are your thoughts on this patch?  I think this would help Android
+> define a musl or bionic sysroot for CC_CAN_LINK and ultimately
+> UAPI_HEADER_TEST support.
 
---=-aBq2oCejIqdjMCDPMBMu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sorry for delay.
 
-On Mon, 2022-02-07 at 22:22 +0900, Masahiro Yamada wrote:
-> On Sat, Feb 5, 2022 at 7:30 AM Matthew Wilcox <willy@infradead.org> wrote=
-:
-> >=20
-> > On Wed, Jan 05, 2022 at 12:39:57AM +0900, Masahiro Yamada wrote:
-> > > +CC the maintainers of CERTIFICATE HANDLING
-> > > M:      David Howells <dhowells@redhat.com>
-> > > M:      David Woodhouse <dwmw2@infradead.org>
-> > > L:      keyrings@vger.kernel.org
-> >=20
-> > Davids, can one of you respond to this?
-> >=20
-> > > On Sat, Dec 18, 2021 at 12:11 PM Matthew Wilcox (Oracle)
-> > > <willy@infradead.org> wrote:
-> > > >=20
-> > > > If the config file specifies a signing key, use it to sign
-> > > > the kernel so that machines with SecureBoot enabled can boot.
-> > > > See https://wiki.debian.org/SecureBoot
-> > > >=20
-> > > > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > > > ---
-> > > > v2:
-> > > >  - Handle private keys stored in the pem file as well as adjacent t=
-o the
-> > > >    certificate
-> > > >  - Handle certificate paths specified relative to both dsttree and =
-srctree
-> > > >    (as well as absolute)
-> > > >  - Only try to sign the executable if EFI_STUB is enabled
-> > > >  - Only try to execute sbsign if it's in $PATH
-> > > >=20
-> > > >  scripts/package/builddeb | 25 ++++++++++++++++++++++++-
-> > > >  1 file changed, 24 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> > > > index 91a502bb97e8..9dd92fd02b12 100755
-> > > > --- a/scripts/package/builddeb
-> > > > +++ b/scripts/package/builddeb
-> > > > @@ -147,7 +147,30 @@ else
-> > > >         cp System.map "$tmpdir/boot/System.map-$version"
-> > > >         cp $KCONFIG_CONFIG "$tmpdir/boot/config-$version"
-> > > >  fi
-> > > > -cp "$($MAKE -s -f $srctree/Makefile image_name)" "$tmpdir/$install=
-ed_image_path"
-> > > > +
-> > > > +vmlinux=3D$($MAKE -s -f $srctree/Makefile image_name)
-> > > > +key=3D
-> > > > +if is_enabled CONFIG_EFI_STUB && is_enabled CONFIG_MODULE_SIG; the=
-n
-> > > > +       cert=3D$(grep ^CONFIG_MODULE_SIG_KEY=3D include/config/auto=
-.conf | cut -d\" -f2)
-> > > > +       if [ ! -f $cert ]; then
-> > > > +               cert=3D$srctree/$cert
-> > > > +       fi
-> > > > +
-> > > > +       key=3D${cert%pem}priv
-> > > > +       if [ ! -f $key ]; then
-> > > > +               key=3D$cert
-> > > > +       fi
-> > >=20
-> > >=20
-> > > I still do not understand this part.
-> > >=20
-> > > It is true that the Debian document you referred to creates separate =
-files
-> > > for the key and the certificate:
-> > >   # openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform
-> > > DER -out MOK.der -days 36500 -subj "/CN=3DMy Name/" -nodes
-> > >=20
-> > > but, is such a use-case possible in Kbuild?
-> >=20
-> > I don't think it matters whether *Kbuild* can generate one file or
-> > two.  If somebody follows the *Debian* document, they will have
-> > two files.  It would surely be desirable that if somebody has followed
-> > the Debian instructions that we would then sign the kernel using the
-> > keys they previously generated.
->=20
->=20
-> If I am not wrong, extracting the key path from
-> CONFIG_MODULE_SIG_KEY is not Debian's way.
->=20
->=20
-> I checked the kernel configuration on bullseye,
-> CONFIG_MODULE_SIG_KEY is empty,
-> while the module signing itself is enabled.
-[...]
 
-For Debian's own packages,=C2=A0we didn't want to use ephemeral module
-signing keys (which break reproducibility) or to expose signing keys to
-the regular build machines.  Instead, Debian has a separate signing
-service that handles the few packages that need it.
+Applied with two fixups in the commit log:
 
-The closest thing to "the Debian way" for signing custom kernels would
-be that wiki page.  But personally, I think making each computer build
-and sign its own kernel and modules undermines any value that Secure
-Boot could provide.
+ ensure same -> ensure the same
+ Clang 13+ might detect  ->  Clang might detect
 
-Ben.
 
---=20
-Ben Hutchings
-Who are all these weirdos? - David Bowie, on joining IRC
 
---=-aBq2oCejIqdjMCDPMBMu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmIESKYACgkQ57/I7JWG
-EQmb6xAAkNQWAGFtqSPFwnPlFI0yN9VItk1/F+f3uTCM/OSPBbcDaYHeG49CDATX
-ivBhSfSosSSNOez4xWelKCnlsNgw8G6nQ+dbalYveO4maeKnq9R3q2loABaQVu6X
-zj0l5CErlRIYHiSjLBm4GM40CnD9BWtK1v2afYNCEzJr+Pv7OQHsX9sL+HVUJPkO
-RiNr3KiCotqYDWs6kPmFDwl7BX5QlYCBKzKCUcQLxwzWsri4oI+9fWOTn9pDxFBg
-J3PqzOcqbS0RuSo+8IqTRSrb4jE1iiEtoTOF8c6536O1Sw+uplhRpbx1x+j+5hmN
-dywjZ6Vv8q5VtIK3gQaPqmF2VzQw2vB/YYmqJW9VGfvyFdFOWHh8WJ96eXor3db+
-VYXRuJD0AjgSgWhApo4NuOYq9Iw9eGD/1BKvgGmgKYSidtMY15PSl440QyHvR7Hj
-CL3y3p9EePAdvRi2SpK59x9yCEA+/z9vVpsM0Q+3/wreJK5Z72Y60rozxpPnMmK7
-9sVcxX90AUZCzeM5oBnZSMvMKqrMatgXlR7N9RQQQQFilcd5AhqrR5RHPNRFVBgM
-YEtI3FkFbN8AvD/O+3AD+IwbDEIeRDBOA2xumFYE+4OmXAEbzQxFg0cLuofiC6hg
-WO/TCcl2oYO22JXQyqAUBQPtx9wwY7hUWUIIH2+mfTykM68GTK0=
-=PubA
------END PGP SIGNATURE-----
 
---=-aBq2oCejIqdjMCDPMBMu--
+
+
+
+
+
+
+
+> >
+> > > used for any user programs compilation, so add new USERCFLAGS and
+> > > USERLDFLAGS which serves similar purpose as HOSTCFLAGS/HOSTLDFLAGS.
+> > >
+> > > Clang 13+ might detect GCC installation on hosts which have it installed
+> > > to a default location in /. With addition of these environment
+> > > variables, you can specify flags such as:
+> > >
+> > > $ make USERCFLAGS=--sysroot=/path/to/sysroot
+> > >
+> > > This can also be used to specify different sysroots such as musl or
+> > > bionic which may be installed on the host in paths that the compiler
+> > > may not search by default.
+> > >
+> > > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> >
+> > Thanks for the patch!
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > > ---
+> > >
+> > > Changes since v2:
+> > >  - Incorporated Nick's suggestions:
+> > >    - Addressed docs and commit text comments
+> > >    - Introduced KBUILD_USERHOSTCFLAGS as suggested
+> > >
+> > >  Documentation/kbuild/kbuild.rst    | 11 +++++++++++
+> > >  Documentation/kbuild/makefiles.rst |  2 ++
+> > >  Makefile                           | 10 ++++++----
+> > >  init/Kconfig                       |  8 ++++----
+> > >  usr/include/Makefile               |  3 +++
+> > >  5 files changed, 26 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+> > > index 2d1fc03d346e..ef19b9c13523 100644
+> > > --- a/Documentation/kbuild/kbuild.rst
+> > > +++ b/Documentation/kbuild/kbuild.rst
+> > > @@ -77,6 +77,17 @@ HOSTLDLIBS
+> > >  ----------
+> > >  Additional libraries to link against when building host programs.
+> > >
+> > > +.. _userkbuildflags:
+> > > +
+> > > +USERCFLAGS
+> > > +----------
+> > > +Additional options used for $(CC) when compiling userprogs.
+> > > +
+> > > +USERLDFLAGS
+> > > +-----------
+> > > +Additional options used for $(LD) when linking userprogs. userprogs are linked
+> > > +with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
+> > > +
+> > >  KBUILD_KCONFIG
+> > >  --------------
+> > >  Set the top-level Kconfig file to the value of this environment
+> > > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> > > index b008b90b92c9..11a296e52d68 100644
+> > > --- a/Documentation/kbuild/makefiles.rst
+> > > +++ b/Documentation/kbuild/makefiles.rst
+> > > @@ -982,6 +982,8 @@ The syntax is quite similar. The difference is to use "userprogs" instead of
+> > >
+> > >         When linking bpfilter_umh, it will be passed the extra option -static.
+> > >
+> > > +       From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
+> > > +
+> > >  5.4 When userspace programs are actually built
+> > >  ----------------------------------------------
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index 45278d508d81..1d0172449355 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -431,11 +431,12 @@ HOSTCC    = gcc
+> > >  HOSTCXX        = g++
+> > >  endif
+> > >
+> > > -export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+> > > -                             -O2 -fomit-frame-pointer -std=gnu89
+> > > -export KBUILD_USERLDFLAGS :=
+> > > +KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+> > > +                        -O2 -fomit-frame-pointer -std=gnu89
+> > > +KBUILD_USERCFLAGS  := $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
+> > > +KBUILD_USERLDFLAGS := $(USERLDFLAGS)
+> > >
+> > > -KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
+> > > +KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
+> > >  KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
+> > >  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> > >  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> > > @@ -530,6 +531,7 @@ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AW
+> > >  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> > >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+> > >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+> > > +export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
+> > >
+> > >  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+> > >  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+> > > diff --git a/init/Kconfig b/init/Kconfig
+> > > index f2ae41e6717f..164706c38e8b 100644
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -62,13 +62,13 @@ config LLD_VERSION
+> > >
+> > >  config CC_CAN_LINK
+> > >         bool
+> > > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
+> > > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
+> > > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+> > > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag))
+> > >
+> > >  config CC_CAN_LINK_STATIC
+> > >         bool
+> > > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
+> > > -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
+> > > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
+> > > +       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
+> > >
+> > >  config CC_HAS_ASM_GOTO
+> > >         def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+> > > diff --git a/usr/include/Makefile b/usr/include/Makefile
+> > > index 1c2ae1368079..0322e567dc1e 100644
+> > > --- a/usr/include/Makefile
+> > > +++ b/usr/include/Makefile
+> > > @@ -12,6 +12,9 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+> > >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+> > >  UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+> > >
+> > > +# USERCFLAGS might contain sysroot location for CC.
+> > > +UAPI_CFLAGS += $(USERCFLAGS)
+> > > +
+> > >  override c_flags = $(UAPI_CFLAGS) -Wp,-MMD,$(depfile) -I$(objtree)/usr/include
+> > >
+> > >  # The following are excluded for now because they fail to build.
+> > > --
+> > > 2.25.1
+> > >
+> >
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+>
+>
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
