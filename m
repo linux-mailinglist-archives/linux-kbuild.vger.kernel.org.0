@@ -2,119 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18B054B01DB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 02:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96D764B06AB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 07:51:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230475AbiBJBUk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Feb 2022 20:20:40 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:37442 "EHLO
+        id S235748AbiBJGvv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Feb 2022 01:51:51 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbiBJBUj (ORCPT
+        with ESMTP id S235797AbiBJGvs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Feb 2022 20:20:39 -0500
-Received: from condef-07.nifty.com (condef-07.nifty.com [202.248.20.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 746072629;
-        Wed,  9 Feb 2022 17:20:38 -0800 (PST)
-Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-07.nifty.com with ESMTP id 21A0sXbt021538;
-        Thu, 10 Feb 2022 09:54:33 +0900
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 21A0s7YW021042;
-        Thu, 10 Feb 2022 09:54:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 21A0s7YW021042
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1644454448;
-        bh=GzF9d1CPJ6YQKFkbbGBhv3+4+f8c6oA7UoFBRscMx1o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xvGvf1XYqFFIJt4Otcj/oDt5pe8gRh6D7SbUOuChUJOgUD5sptvKTvlrK7lDb2hqp
-         NBb0T5F/mj1Zf43Pke58lSfGTU2XaLdZ0HuNo5u6a8xGDLl7i04ApNkv0WijbKup3w
-         +9wZrS6yaJu4vMSopyBIppW8ic52RbYqR9DpZmjqFgRUiy7jhP0jxb/IC/302wis/I
-         GG4RW0/n6aQkhzwUtDXdE6e5KrAXFAIm+cfnhajL2izuqSAxt/df8wFRFWlFh59H9I
-         HJgjz8PmFdnNEU2RmJEq2l+kQF+0mT3HQV8rOzlplllBR2PRCyhJ1nn7AnabZNLobs
-         pofTxmTSjMfNw==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id c8-20020a17090a674800b001b91184b732so4448996pjm.5;
-        Wed, 09 Feb 2022 16:54:08 -0800 (PST)
-X-Gm-Message-State: AOAM533OpxsU4JIrDxZI5PJt4Bd76G/Jbc632UaLIAWf0uqFECOrh08V
-        WKzMTdrpbl8ZfhbMcZd4zRuAEhECJyD+lyX+u14=
-X-Google-Smtp-Source: ABdhPJxYNdvbvsgfJh3s8wRrHOxkb+ZVxnQom67+weOLsIwyXbGJaZTgP6KgRQYD3yXAWw8K9ul72rUx61a9pv7ueFo=
-X-Received: by 2002:a17:903:22c5:: with SMTP id y5mr2853067plg.99.1644454447226;
- Wed, 09 Feb 2022 16:54:07 -0800 (PST)
+        Thu, 10 Feb 2022 01:51:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C51E115B;
+        Wed,  9 Feb 2022 22:51:45 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D0D661CC6;
+        Thu, 10 Feb 2022 06:51:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54377C004E1;
+        Thu, 10 Feb 2022 06:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1644475904;
+        bh=dYbpKbKmMH09KEhVGiK8fe9cVi1GcDr6cnrXLyfYOXY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lSDNVk8oqvt7M2Z4olp9DwmAFM1M5mCGF9pN56kVBW2u+6Wf+nJS7osN/ENcxQodE
+         5E9RwfYZe6Nh8zZdGlR5H55lHt16ZAqwcT9IGEY3Gb7Px+9tJ8c0ptddxMmCbm+rVk
+         dgG2TrRmx7jlGGMvCNPtBAJjD6sNbM75Hi+teE05ZvuZGxnAQcG8nq4GitTrkG03Kq
+         8TuqDkntpHTOGpFQ+c2PAJPSUGKh/0p7KPjWzoZ0+lcW18JBeSgHGXTXVxIZ0g7JOn
+         ipIaAf54uFuGRPftTO/SLdzyXm77FeUbqGzdxkaUrUC/2a15muSiPbooKnzDSgvZfa
+         gYqMeeQaE/yNQ==
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Herring <robh@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Don't report disabled nodes with duplicate addresses
+Date:   Thu, 10 Feb 2022 12:21:32 +0530
+Message-Id: <20220210065132.234341-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20220208062618.1869210-1-masahiroy@kernel.org>
-In-Reply-To: <20220208062618.1869210-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 10 Feb 2022 09:53:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
-Message-ID: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix missing fclose() on error paths
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Ryan Cai <ycaibb@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 8, 2022 at 3:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The file is not closed when ferror() fails.
->
-> Fixes: 00d674cb3536 ("kconfig: refactor conf_write_dep()")
-> Fixes: 57ddd07c4560 ("kconfig: refactor conf_write_autoconf()")
-> Reported-by: Ryan Cai <ycaibb@gmail.com>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+Duplicated unit address is okay if we have only one such node enabled.
+So, remove '-Wno-unique_unit_address' from DTC_FLAGS.
 
+This helps in reducing warnings in qcom dts from
 
-Applied to linux-kbuild/fixes.
+   6483 unique_unit_address
+   1108 simple_bus_reg
+    764 avoid_unnecessary_addr_size
+    712 unit_address_vs_reg
+    120 graph_child_address
+     32 unique_unit_address_if_enabled
 
+after this patch:
+    277 simple_bus_reg
+    191 avoid_unnecessary_addr_size
+    178 unit_address_vs_reg
+     32 unique_unit_address_if_enabled
+     30 graph_child_address
 
->
->  scripts/kconfig/confdata.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index 59717be31210..16897cb8cefd 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -979,10 +979,10 @@ static int conf_write_autoconf_cmd(const char *autoconf_name)
->
->         fprintf(out, "\n$(deps_config): ;\n");
->
-> -       if (ferror(out)) /* error check for all fprintf() calls */
-> -               return -1;
-> -
-> +       ret = ferror(out); /* error check for all fprintf() calls */
->         fclose(out);
-> +       if (ret)
-> +               return -1;
->
->         if (rename(tmp, name)) {
->                 perror("rename");
-> @@ -1093,10 +1093,10 @@ static int __conf_write_autoconf(const char *filename,
->                         print_symbol(file, sym);
->
->         /* check possible errors in conf_write_heading() and print_symbol() */
-> -       if (ferror(file))
-> -               return -1;
-> -
-> +       ret = ferror(file);
->         fclose(file);
-> +       if (ret)
-> +               return -1;
->
->         if (rename(tmp, filename)) {
->                 perror("rename");
-> --
-> 2.32.0
->
+which would help people focus on the actual warnings and fix them.
 
+Suggested-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ scripts/Makefile.lib | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 79be57fdd32a..7e4f6671d950 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -299,7 +299,8 @@ quiet_cmd_gzip = GZIP    $@
+ # DTC
+ # ---------------------------------------------------------------------------
+ DTC ?= $(objtree)/scripts/dtc/dtc
+-DTC_FLAGS += -Wno-interrupt_provider
++DTC_FLAGS += -Wno-interrupt_provider \
++       -Wno-unique_unit_address
+ 
+ # Disable noisy checks by default
+ ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+@@ -307,8 +308,9 @@ DTC_FLAGS += -Wno-unit_address_vs_reg \
+ 	-Wno-avoid_unnecessary_addr_size \
+ 	-Wno-alias_paths \
+ 	-Wno-graph_child_address \
+-	-Wno-simple_bus_reg \
+-	-Wno-unique_unit_address
++	-Wno-simple_bus_reg
++else
++DTC_FLAGS += -Wunique_unit_address_if_enabled
+ endif
+ 
+ ifneq ($(findstring 2,$(KBUILD_EXTRA_WARN)),)
 -- 
-Best Regards
-Masahiro Yamada
+2.31.1
+
