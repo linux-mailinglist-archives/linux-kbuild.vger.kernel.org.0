@@ -2,70 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAFB74B0227
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 02:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B054B01DB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 02:20:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232199AbiBJBZz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Feb 2022 20:25:55 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:51174 "EHLO
+        id S230475AbiBJBUk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Feb 2022 20:20:40 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:37442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232118AbiBJBZl (ORCPT
+        with ESMTP id S229469AbiBJBUj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Feb 2022 20:25:41 -0500
-X-Greylist: delayed 169 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 17:25:43 PST
-Received: from condef-01.nifty.com (condef-01.nifty.com [202.248.20.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B81261F;
-        Wed,  9 Feb 2022 17:25:42 -0800 (PST)
-Received: from conssluserg-03.nifty.com ([10.126.8.82])by condef-01.nifty.com with ESMTP id 21A0nMGk016551;
-        Thu, 10 Feb 2022 09:49:22 +0900
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 21A0n28Z006407;
-        Thu, 10 Feb 2022 09:49:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 21A0n28Z006407
+        Wed, 9 Feb 2022 20:20:39 -0500
+Received: from condef-07.nifty.com (condef-07.nifty.com [202.248.20.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 746072629;
+        Wed,  9 Feb 2022 17:20:38 -0800 (PST)
+Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-07.nifty.com with ESMTP id 21A0sXbt021538;
+        Thu, 10 Feb 2022 09:54:33 +0900
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 21A0s7YW021042;
+        Thu, 10 Feb 2022 09:54:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 21A0s7YW021042
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1644454143;
-        bh=dAKyP6GJpF6V2QvUnN/LuX24hdc1hZvojEh30WfrKgY=;
+        s=dec2015msa; t=1644454448;
+        bh=GzF9d1CPJ6YQKFkbbGBhv3+4+f8c6oA7UoFBRscMx1o=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IG3GM/DeBViLLxnZ3fQanZTvYc802gcfsCckcPHRrgf4Tgn/4P+ZJFsO3kgDlgsmp
-         vI5pkF+QlLMWdv3f52B0XYjh86Z3SnjkGoOvjbmWVbpMB6wBedSkwtS4CKTnv28iJa
-         nvcntW2JHBQU1P18cC/PDDZfNV0aP6i8qf4TEK3NjITMDvsHosz7waB8K9oRFRNhJ4
-         KUJtRKRrIWLIC0b8npHrf3jv1iiMm+KoZawBTUnYsysnbEkuWH9Qlt2IBQoqIsfgQ1
-         ZqEC6DqW6nFmnAOyGwqdyHLC7ab+b2V/y9mylO0uxgtYh/b4C6nJCc6a2jHBRIT0D2
-         1vKnjktfIdKRA==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id h7-20020a17090a648700b001b927560c2bso2785249pjj.1;
-        Wed, 09 Feb 2022 16:49:02 -0800 (PST)
-X-Gm-Message-State: AOAM533uAB+PAvqxxxQOsb9xhjU1ODM3mH87X1FQ4M/cW1gcEx05HHFZ
-        uswokZOlQJDYy/Hrhs0o6o1dMnI3cyZulZxSYX4=
-X-Google-Smtp-Source: ABdhPJz+oomnAexVoHRJuLkhmhIQ/hVUcOzqSdE+0J9BS1NupWTERWXAvLXlLHjA+mI8F9nQCQ7P39mPbMqd7K7oOx4=
-X-Received: by 2002:a17:90b:4a4b:: with SMTP id lb11mr20816pjb.144.1644454142067;
- Wed, 09 Feb 2022 16:49:02 -0800 (PST)
+        b=xvGvf1XYqFFIJt4Otcj/oDt5pe8gRh6D7SbUOuChUJOgUD5sptvKTvlrK7lDb2hqp
+         NBb0T5F/mj1Zf43Pke58lSfGTU2XaLdZ0HuNo5u6a8xGDLl7i04ApNkv0WijbKup3w
+         +9wZrS6yaJu4vMSopyBIppW8ic52RbYqR9DpZmjqFgRUiy7jhP0jxb/IC/302wis/I
+         GG4RW0/n6aQkhzwUtDXdE6e5KrAXFAIm+cfnhajL2izuqSAxt/df8wFRFWlFh59H9I
+         HJgjz8PmFdnNEU2RmJEq2l+kQF+0mT3HQV8rOzlplllBR2PRCyhJ1nn7AnabZNLobs
+         pofTxmTSjMfNw==
+X-Nifty-SrcIP: [209.85.216.47]
+Received: by mail-pj1-f47.google.com with SMTP id c8-20020a17090a674800b001b91184b732so4448996pjm.5;
+        Wed, 09 Feb 2022 16:54:08 -0800 (PST)
+X-Gm-Message-State: AOAM533OpxsU4JIrDxZI5PJt4Bd76G/Jbc632UaLIAWf0uqFECOrh08V
+        WKzMTdrpbl8ZfhbMcZd4zRuAEhECJyD+lyX+u14=
+X-Google-Smtp-Source: ABdhPJxYNdvbvsgfJh3s8wRrHOxkb+ZVxnQom67+weOLsIwyXbGJaZTgP6KgRQYD3yXAWw8K9ul72rUx61a9pv7ueFo=
+X-Received: by 2002:a17:903:22c5:: with SMTP id y5mr2853067plg.99.1644454447226;
+ Wed, 09 Feb 2022 16:54:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208184309.148192-1-nick.alcock@oracle.com> <20220208184309.148192-5-nick.alcock@oracle.com>
-In-Reply-To: <20220208184309.148192-5-nick.alcock@oracle.com>
+References: <20220208062618.1869210-1-masahiroy@kernel.org>
+In-Reply-To: <20220208062618.1869210-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 10 Feb 2022 09:48:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT-4sJj9hzPHS2nb01ri+wRv+O-6N4048N2qTVVxicUfg@mail.gmail.com>
-Message-ID: <CAK7LNAT-4sJj9hzPHS2nb01ri+wRv+O-6N4048N2qTVVxicUfg@mail.gmail.com>
-Subject: Re: [PATCH v8 4/6] kallsyms: introduce sections needed to map symbols
- to built-in modules
-To:     Nick Alcock <nick.alcock@oracle.com>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, bas@baslab.org,
-        tglozar@gmail.com, Ast-x64@protonmail.com, viktor.malik@gmail.com,
-        Daniel Xu <dxu@dxuuu.xyz>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Ian Rogers <irogers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>
+Date:   Thu, 10 Feb 2022 09:53:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
+Message-ID: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: fix missing fclose() on error paths
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Ryan Cai <ycaibb@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -76,144 +60,59 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 9, 2022 at 3:44 AM Nick Alcock <nick.alcock@oracle.com> wrote:
+On Tue, Feb 8, 2022 at 3:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The mapping consists of three new symbols, computed by integrating the
-> information in the (just-added) .tmp_vmlinux.ranges and
-> modules_thick.builtin: taken together, they map address ranges
-> (corresponding to object files on the input) to the names of zero or
-> more modules containing those address ranges.
+> The file is not closed when ferror() fails.
 >
->  - kallsyms_module_addresses/kallsyms_module_offsets encodes the
->    address/offset of each object file (derived from the linker map), in
->    exactly the same way as kallsyms_addresses/kallsyms_offsets does
->    for symbols.  There is no size: instead, the object files are assumed
->    to tile the address space.  (This is slightly more space-efficient
->    than using a size).  Non-text-section addresses are skipped: for now,
->    all the users of this interface only need module/non-module
->    information for instruction pointer addresses, not absolute-addressed
->    symbols and the like.  This restriction can easily be lifted in
->    future.  (Regarding the name: right now the entries correspond pretty
->    closely to object files, so we could call the section
->    kallsyms_objfiles or something, but the optimizer added in the next
->    commit will change this.)
->
->  - kallsyms_module_names encodes the name of each module in a modified
->    form of strtab: notably, if an object file appears in *multiple*
->    modules, all of which are built in, this is encoded via a zero byte,
->    a one-byte module count, then a series of that many null-terminated
->    strings.  As a special case, the table starts with a single zero byte
->    which does *not* represent the start of a multi-module list.
->
->  - kallsyms_modules connects the two, encoding a table associated 1:1
->    with kallsyms_module_addresses / kallsyms_module_offsets, pointing
->    at an offset in kallsyms_module_names describing which module (or
->    modules, for a multi-module list) the code occupying this address
->    range is part of.  If an address range is part of no module (always
->    built-in) it points at 0 (the null byte at the start of the
->    kallsyms_module_names list).
->
-> There is no optimization yet: kallsyms_modules and
-> kallsyms_module_names will almost certainly contain many duplicate
-> entries, and kallsyms_module_{addresses,offsets} may contain
-> consecutive entries that point to the same place.  The size hit is
-> fairly substantial as a result, though still much less than a naive
-> implementation mapping each symbol to a module name would be: 50KiB or
-> so.
->
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-> Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
+> Fixes: 00d674cb3536 ("kconfig: refactor conf_write_dep()")
+> Fixes: 57ddd07c4560 ("kconfig: refactor conf_write_autoconf()")
+> Reported-by: Ryan Cai <ycaibb@gmail.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  Makefile           |   2 +-
->  init/Kconfig       |   8 +
->  scripts/Makefile   |   6 +
->  scripts/kallsyms.c | 366 +++++++++++++++++++++++++++++++++++++++++++--
->  4 files changed, 371 insertions(+), 11 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 5e823fe8390f..b719244cb571 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1151,7 +1151,7 @@ cmd_link-vmlinux =                                                 \
->         $(CONFIG_SHELL) $< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)";    \
->         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
->
-> -vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
-> +vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) modules_thick.builtin FORCE
->         +$(call if_changed_dep,link-vmlinux)
->
->  targets := vmlinux
-> diff --git a/init/Kconfig b/init/Kconfig
-> index e9119bf54b1f..e1ca3d70cb1c 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1530,6 +1530,14 @@ config POSIX_TIMERS
->
->           If unsure say y.
->
-> +config KALLMODSYMS
-> +       default y
-> +       bool "Enable support for /proc/kallmodsyms" if EXPERT
-> +       depends on KALLSYMS
-> +       help
-> +         This option enables the /proc/kallmodsyms file, which maps symbols
-> +         to addresses and their associated modules.
-> +
->  config PRINTK
->         default y
->         bool "Enable support for printk" if EXPERT
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index ce5aa9030b74..c5cc4ac3d660 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -29,6 +29,12 @@ ifdef CONFIG_BUILDTIME_MCOUNT_SORT
->  HOSTCFLAGS_sorttable.o += -DMCOUNT_SORT_ENABLED
->  endif
->
-> +kallsyms-objs  := kallsyms.o
-> +
-> +ifdef CONFIG_KALLMODSYMS
-> +kallsyms-objs += modules_thick.o
-> +endif
-> +
->  # The following programs are only built on demand
->  hostprogs += unifdef
->
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 54ad86d13784..8f87b724d0fa 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -5,7 +5,10 @@
->   * This software may be used and distributed according to the terms
->   * of the GNU General Public License, incorporated herein by reference.
->   *
-> - * Usage: nm -n vmlinux | scripts/kallsyms [--all-symbols] > symbols.S
-> + * Usage: nm -n vmlinux
-> + *        | scripts/kallsyms [--all-symbols] [--absolute-percpu]
-> + *             [--base-relative] [--builtin=modules_thick.builtin]
-> + *        > symbols.S
->   *
->   *      Table compression uses all the unused char codes on the symbols and
->   *  maps these to the most used substrings (tokens). For instance, it might
-> @@ -24,6 +27,10 @@
->  #include <string.h>
->  #include <ctype.h>
->  #include <limits.h>
-> +#include <assert.h>
-> +#include "modules_thick.h"
-> +
-> +#include "../include/generated/autoconf.h"
 
 
-
-I do not remember if I had pointed this out before,
-but including autoconf.h from a host program is wrong.
-
-Do not use ifdef CONFIG_...  in the hostprog code.
-Having --builtin=modules_thick.builtin is enough.
+Applied to linux-kbuild/fixes.
 
 
-
+>
+>  scripts/kconfig/confdata.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 59717be31210..16897cb8cefd 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -979,10 +979,10 @@ static int conf_write_autoconf_cmd(const char *autoconf_name)
+>
+>         fprintf(out, "\n$(deps_config): ;\n");
+>
+> -       if (ferror(out)) /* error check for all fprintf() calls */
+> -               return -1;
+> -
+> +       ret = ferror(out); /* error check for all fprintf() calls */
+>         fclose(out);
+> +       if (ret)
+> +               return -1;
+>
+>         if (rename(tmp, name)) {
+>                 perror("rename");
+> @@ -1093,10 +1093,10 @@ static int __conf_write_autoconf(const char *filename,
+>                         print_symbol(file, sym);
+>
+>         /* check possible errors in conf_write_heading() and print_symbol() */
+> -       if (ferror(file))
+> -               return -1;
+> -
+> +       ret = ferror(file);
+>         fclose(file);
+> +       if (ret)
+> +               return -1;
+>
+>         if (rename(tmp, filename)) {
+>                 perror("rename");
+> --
+> 2.32.0
+>
 
 
 -- 
