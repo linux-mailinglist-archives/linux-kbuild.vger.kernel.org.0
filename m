@@ -2,155 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6FF74B1774
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Feb 2022 22:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E82C14B1D54
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Feb 2022 05:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344534AbiBJVNt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Feb 2022 16:13:49 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41206 "EHLO
+        id S242968AbiBKE2T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Feb 2022 23:28:19 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236222AbiBJVNt (ORCPT
+        with ESMTP id S229483AbiBKE2S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Feb 2022 16:13:49 -0500
-X-Greylist: delayed 307 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Feb 2022 13:13:41 PST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C7AF47;
-        Thu, 10 Feb 2022 13:13:41 -0800 (PST)
-Received: from leknes.fjasle.eu ([46.142.99.154]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Mnac9-1nyzQT0gvl-00jYQB; Thu, 10 Feb 2022 22:08:24 +0100
-Received: from localhost.fjasle.eu (unknown [IPv6:fd00::6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 8705A3C050;
-        Thu, 10 Feb 2022 22:08:19 +0100 (CET)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 25BC318B0; Thu, 10 Feb 2022 22:00:56 +0100 (CET)
-Date:   Thu, 10 Feb 2022 22:00:56 +0100
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: replace $(if A,A,B) with $(or A,B)
-Message-ID: <YgV9CHKpS/ptY3my@bergen.fjasle.eu>
-References: <20220210093342.2118196-1-masahiroy@kernel.org>
+        Thu, 10 Feb 2022 23:28:18 -0500
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959642655;
+        Thu, 10 Feb 2022 20:28:17 -0800 (PST)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 21B4RiCx007739;
+        Fri, 11 Feb 2022 13:27:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 21B4RiCx007739
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1644553664;
+        bh=RlpxWh2Mu1l8iL7mBcRuNEMC5R3LGI3pTx/23psC1Mc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=b499rrOFKuO5a8Iaz2kyPibcaoGaOvRrMeKIMj4KqjqktHMyHRl19kQzCbcAfdDk2
+         cCk2JTh0K6LbABqrN8pw0t/OZ6mQvk6huipJSWfb/3YwQy+zZ6PtrrFDQC8xaB2z4b
+         VaqmBxq90NjGA8iAc0r+BCXBSdt8SYiT91MKjf2p5dAVJZL4S0Nx7LT6c2aMfZwG0E
+         hmSPwyQxFgKJcQWqZNI5fmWB3ru87mLgjp8EhbSR7OwEaj4iqRKfqDUmX94quNIv0V
+         h3hsAndEM7W9xWr/yxgeX9UiT6wzVqIN7vuKxw1kTOlFMemaM18tchEg7tVZFhXxF0
+         8RoubFfB/GLAQ==
+X-Nifty-SrcIP: [209.85.214.169]
+Received: by mail-pl1-f169.google.com with SMTP id w1so3690649plb.6;
+        Thu, 10 Feb 2022 20:27:44 -0800 (PST)
+X-Gm-Message-State: AOAM533vC3sL111IibCTVlfG+GSc+fiYAVAUNAIuXF6pZqXgrY7UYcAQ
+        R/49l2+ghVI1CgWL5Z/QLOh5d9au0zADctBrMG4=
+X-Google-Smtp-Source: ABdhPJzRF/OHWiPVKjd5NDzPVATAyiKpTGDXouwzX7kNnv7ghxNgM/Nf/zSA71ifM6Lq8b25FRTmEypz28n1O/aBvCw=
+X-Received: by 2002:a17:902:6948:: with SMTP id k8mr10720087plt.136.1644553663556;
+ Thu, 10 Feb 2022 20:27:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220210093342.2118196-1-masahiroy@kernel.org>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:apwdst/S/4MvpD5SeWBwUhd/SEKva7BSqmtXbCEgsgotW4V5moE
- KqINi4CGet4lvPWXMlYDaNrgn7V2RTMdF4hBZuZK+OyLzH0RUURko9mYfH4uwgz4Kvw17oi
- RgxVS/4jQqHYDUw2ir9SeZipIYxutwdx7tk6fJa5aa96IvmirbbmtHiJclS8CfgIOoEziwH
- /YvBZXpDJddXhMk8T1zTg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BjgAJG7ufrk=:SKnf7B6DC4QEBqtc8z0vov
- rLMtIJ5Mz0KJm86bSwOrHXAbcjKtUQISLXoGCntfXzlCLvRk9rMgCHv/mDcigFYHHLBjRdyXg
- LhwGl+jasbDhdhQvwSm1BHJQTe/KAm+Xi1CSIFE8+Y2NbkDgql5d8JI6Nhc34mazDWGXZO3X8
- 0tIZNUHW1Xv93qc2A1EZyncCyh5FW+jgQ6Fj/dOH/nTCqEc5vj1pRGa2ZFa4iXRklzaIwnWML
- QwHZuRj1szcJ/mrJSUEvswhG+tBuSawCGe6eZNyflCBOLzGMHqfdoyGwlt1GoXqE53UHYQwiJ
- BPZk+FrIHBzm2AeevAvnBSUMI/+y6OheE0E+YDc9/NMC20Gxgqns1n7C7FX8CtzKM7BXeUvLf
- jCHaxPjlPMq3aRka4E2ye2Cdpg2aFtHvb4/9rcft8byVRdDGEyHqvHgE2FtSiG7JnfuFKZMDW
- J5QVAnzFB59NDEnlZOdwykPiur4NHJe+MNT1o2VnBbFBVvKm0JyE5v4KLj+ODn1+QBseb6x/E
- kJUGSR0WwAcOe2WcJXIfoFrfP+95dUX9gL77JZaxk5loIbObySz03EsRx876eaYfU8vnWABEi
- Tt63qfWTMaC6Wu1Tw/MSEkVBDAbzYd3Gc9X8ERBRdYGIQN3uOTC3f7nVnHHpPPWhLIhQ1l/8G
- YbgboL9PeR+ImjvYIkLG71Jd6/aJJktZbYTM/MiuvpsQUS86YbOrtMCvXPfAl7RNK0/U=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220210062953.21285-1-3090101217@zju.edu.cn>
+In-Reply-To: <20220210062953.21285-1-3090101217@zju.edu.cn>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 11 Feb 2022 13:27:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASrwE3FcoZGK73-0TeH-omk9Yjp1fjcMCOLPpu_xv9_og@mail.gmail.com>
+Message-ID: <CAK7LNASrwE3FcoZGK73-0TeH-omk9Yjp1fjcMCOLPpu_xv9_og@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: fix failing to generate auto.conf
+To:     3090101217@zju.edu.cn
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jing Leng <jleng@ambarella.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-På to. 10. feb. 2022 kl. 18.33 +0000 skrev Masahiro Yamada:
-> Date:   Thu, 10 Feb 2022 18:33:42 +0900
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> To: linux-kbuild@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
-> Subject: [PATCH] kbuild: replace $(if A,A,B) with $(or A,B)
-> Message-Id: <20220210093342.2118196-1-masahiroy@kernel.org>
-> X-Mailer: git-send-email 2.32.0
-> X-Mailing-List: linux-kbuild@vger.kernel.org
-> 
-> $(or ...) is available since GNU Make 3.81, and useful to shorten the
-> code in some places.
-> 
-> Covert as follows:
-> 
->   $(if A,A,B)  -->  $(or A,B)
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Thu, Feb 10, 2022 at 3:40 PM <3090101217@zju.edu.cn> wrote:
+>
+> From: Jing Leng <jleng@ambarella.com>
+>
+> When the KCONFIG_AUTOCONFIG is specified (e.g. export \
+> KCONFIG_AUTOCONFIG=output/config/auto.conf), the directory of
+> include/config/ will not be created, so kconfig can't create deps
+> files in it and auto.conf can't be generated.
+>
+> Signed-off-by: Jing Leng <jleng@ambarella.com>
 > ---
-> 
->  Makefile                                    | 8 ++++----
->  scripts/Makefile.build                      | 3 +--
->  scripts/Makefile.clean                      | 2 +-
->  scripts/Makefile.lib                        | 4 ++--
->  tools/bpf/bpftool/Makefile                  | 4 ++--
->  tools/build/Makefile                        | 2 +-
->  tools/counter/Makefile                      | 2 +-
->  tools/gpio/Makefile                         | 2 +-
->  tools/hv/Makefile                           | 2 +-
->  tools/iio/Makefile                          | 2 +-
->  tools/lib/api/Makefile                      | 2 +-
->  tools/lib/bpf/Makefile                      | 2 +-
->  tools/lib/perf/Makefile                     | 2 +-
->  tools/lib/subcmd/Makefile                   | 2 +-
->  tools/objtool/Makefile                      | 2 +-
->  tools/pci/Makefile                          | 2 +-
->  tools/perf/Makefile.perf                    | 4 ++--
->  tools/power/x86/intel-speed-select/Makefile | 2 +-
->  tools/scripts/utilities.mak                 | 2 +-
->  tools/spi/Makefile                          | 6 +++---
->  tools/tracing/rtla/Makefile                 | 2 +-
->  tools/usb/Makefile                          | 2 +-
->  22 files changed, 30 insertions(+), 31 deletions(-)
-> 
-[...]
-> diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-> index f947b61b2107..df1f6ff7bc49 100644
-> --- a/tools/lib/bpf/Makefile
-> +++ b/tools/lib/bpf/Makefile
-> @@ -60,7 +60,7 @@ ifndef VERBOSE
->    VERBOSE = 0
->  endif
->  
-> -INCLUDES = -I$(if $(OUTPUT),$(OUTPUT),.)				\
-> +INCLUDES = -I$(or $(OUTPUT),.)				\
->  	   -I$(srctree)/tools/include -I$(srctree)/tools/include/uapi
+>  scripts/kconfig/confdata.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 59717be31210..800ecf9934bc 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -994,14 +994,15 @@ static int conf_write_autoconf_cmd(const char *autoconf_name)
+>
+>  static int conf_touch_deps(void)
+>  {
+> -       const char *name;
+> +       const char *name, *tmp;
+>         struct symbol *sym;
+>         int res, i;
+>
+> -       strcpy(depfile_path, "include/config/");
+> -       depfile_prefix_len = strlen(depfile_path);
+> -
+>         name = conf_get_autoconfig_name();
+> +       depfile_prefix_len = ((tmp = strrchr(name, '/'))) ? (tmp - name) + 1 : 0;
+> +       strncpy(depfile_path, name, depfile_prefix_len);
+> +       depfile_path[depfile_prefix_len] = 0;
+> +
+>         conf_read_simple(name, S_DEF_AUTO);
+>         sym_calc_value(modules_sym);
+>
+> --
+> 2.17.1
+>
 
-I think I'd have shortened the whitespaces before the stray backslash.
 
->  
->  export prefix libdir src obj
-> diff --git a/tools/lib/perf/Makefile b/tools/lib/perf/Makefile
-> index 08fe6e3c4089..2d985d6a3a96 100644
-> --- a/tools/lib/perf/Makefile
-> +++ b/tools/lib/perf/Makefile
-> @@ -153,7 +153,7 @@ $(TESTS_STATIC): $(TESTS_IN) $(LIBPERF_A) $(LIBAPI)
->  	$(QUIET_LINK)$(CC) -o $@ $^
->  
->  $(TESTS_SHARED): $(TESTS_IN) $(LIBAPI)
-> -	$(QUIET_LINK)$(CC) -o $@ -L$(if $(OUTPUT),$(OUTPUT),.) $^ -lperf
-> +	$(QUIET_LINK)$(CC) -o $@ -L$(if $(OUTPUT),.) $^ -lperf
+Thanks.
 
-$(if ...)  -> $(or ...)
+I wanted to pick up this patch, but
+could not find it in the patchwork
+(https://patchwork.kernel.org/project/linux-kbuild/list/)
+despite you apparently CC'ed the kbuild ML.
 
-With this one fixed:
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Do you know why?
+(I do not know if the kbuild/kernel ML requires subscription...)
 
-Thanks for that patch.  I have never seen $(or) in use before but it 
-definitively makes sense!
 
-Kind regards,
-Nicolas
+
+If you have a chance for re-submission,
+can you change the code like follows?
+
+     depfile_prefix_len = ((tmp = strrchr(name, '/'))) ? (tmp - name) + 1 : 0;
+
+
+     tmp = tmp = strrchr(name, '/');
+     depfile_prefix_len = tmp ? tmp - name + 1 : 0;
+
+
+Too many parentheses make the code unreadable.
+
+
+
 
 
 -- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+Best Regards
+Masahiro Yamada
