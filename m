@@ -2,100 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E5164B21F9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Feb 2022 10:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F39A4B24B8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Feb 2022 12:48:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237527AbiBKJaJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Feb 2022 04:30:09 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52572 "EHLO
+        id S1349592AbiBKLrG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Feb 2022 06:47:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232075AbiBKJaJ (ORCPT
+        with ESMTP id S233513AbiBKLrG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Feb 2022 04:30:09 -0500
-X-Greylist: delayed 97042 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Feb 2022 01:30:06 PST
-Received: from tkylinode-sdnproxy-1.icoremail.net (tkylinode-sdnproxy-1.icoremail.net [139.162.70.28])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id D049FE18;
-        Fri, 11 Feb 2022 01:30:06 -0800 (PST)
-Received: from jleng.ambarella.net (unknown [180.169.129.130])
-        by mail-app3 (Coremail) with SMTP id cC_KCgA3_0AYLAZiLBUPDQ--.37008S2;
-        Fri, 11 Feb 2022 17:28:00 +0800 (CST)
-From:   3090101217@zju.edu.cn
-To:     masahiroy@kernel.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jing Leng <jleng@ambarella.com>
-Subject: [PATCH v2] kconfig: fix failing to generate auto.conf
-Date:   Fri, 11 Feb 2022 17:27:36 +0800
-Message-Id: <20220211092736.7623-1-3090101217@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAK7LNASrwE3FcoZGK73-0TeH-omk9Yjp1fjcMCOLPpu_xv9_og@mail.gmail.com>
-References: <CAK7LNASrwE3FcoZGK73-0TeH-omk9Yjp1fjcMCOLPpu_xv9_og@mail.gmail.com>
-X-CM-TRANSID: cC_KCgA3_0AYLAZiLBUPDQ--.37008S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF17uFW3Kr4kCrW8urykKrg_yoW8Jw1rpa
-        1Yq345GF4UJF1fCayUJas7u345G3sag3ySgas0vw1xAr1Ikr40k39IkryFgFs8WrZ7JrW5
-        CFWFgFWfGw47AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBSb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAac4AC6xC2jxv24VCS
-        YI8q64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
-        WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
-        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwAKzVCY07xG64k0F24lc2xSY4AK67AK6r4fMxAIw2
-        8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
-        x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
-        CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
-        42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
-        80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUxWSoDUUUU
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwQRBVNG3FHYyQAGsc
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Fri, 11 Feb 2022 06:47:06 -0500
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3EABBF1F
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Feb 2022 03:47:04 -0800 (PST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-217-ln17n9CfNWGBOaqr2sn8hg-1; Fri, 11 Feb 2022 11:47:01 +0000
+X-MC-Unique: ln17n9CfNWGBOaqr2sn8hg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Fri, 11 Feb 2022 11:46:59 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Fri, 11 Feb 2022 11:46:59 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Masahiro Yamada' <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+CC:     Ryan Cai <ycaibb@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] kconfig: fix missing fclose() on error paths
+Thread-Topic: [PATCH] kconfig: fix missing fclose() on error paths
+Thread-Index: AQHYHhxu7b1VG5ftFUSTiQXyYGw6EKyOPQUA
+Date:   Fri, 11 Feb 2022 11:46:59 +0000
+Message-ID: <37efb2079f5443feaf4f0b10e15a57db@AcuMS.aculab.com>
+References: <20220208062618.1869210-1-masahiroy@kernel.org>
+ <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Jing Leng <jleng@ambarella.com>
-
-When the KCONFIG_AUTOCONFIG is specified (e.g. export \
-KCONFIG_AUTOCONFIG=output/config/auto.conf), the directory of
-include/config/ will not be created, so kconfig can't create deps
-files in it and auto.conf can't be generated.
-
-Signed-off-by: Jing Leng <jleng@ambarella.com>
----
- scripts/kconfig/confdata.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 59717be31210..974a079e8901 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -994,14 +994,19 @@ static int conf_write_autoconf_cmd(const char *autoconf_name)
- 
- static int conf_touch_deps(void)
- {
--	const char *name;
-+	const char *name, *tmp;
- 	struct symbol *sym;
- 	int res, i;
- 
--	strcpy(depfile_path, "include/config/");
--	depfile_prefix_len = strlen(depfile_path);
--
- 	name = conf_get_autoconfig_name();
-+	tmp = strrchr(name, '/');
-+	depfile_prefix_len = tmp ? (tmp - name) + 1 : 0;
-+	if (depfile_prefix_len + 1 > sizeof(depfile_path))
-+		return -1;
-+
-+	strncpy(depfile_path, name, depfile_prefix_len);
-+	depfile_path[depfile_prefix_len] = 0;
-+
- 	conf_read_simple(name, S_DEF_AUTO);
- 	sym_calc_value(modules_sym);
- 
--- 
-2.17.1
+RnJvbTogTWFzYWhpcm8gWWFtYWRhDQo+IFNlbnQ6IDEwIEZlYnJ1YXJ5IDIwMjIgMDA6NTQNCj4g
+Pg0KPiA+IFRoZSBmaWxlIGlzIG5vdCBjbG9zZWQgd2hlbiBmZXJyb3IoKSBmYWlscy4NCj4gPg0K
+PiA+IEZpeGVzOiAwMGQ2NzRjYjM1MzYgKCJrY29uZmlnOiByZWZhY3RvciBjb25mX3dyaXRlX2Rl
+cCgpIikNCj4gPiBGaXhlczogNTdkZGQwN2M0NTYwICgia2NvbmZpZzogcmVmYWN0b3IgY29uZl93
+cml0ZV9hdXRvY29uZigpIikNCj4gPiBSZXBvcnRlZC1ieTogUnlhbiBDYWkgPHljYWliYkBnbWFp
+bC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2Vy
+bmVsLm9yZz4NCj4gPiAtLS0NCj4gDQo+IA0KPiBBcHBsaWVkIHRvIGxpbnV4LWtidWlsZC9maXhl
+cy4NCj4gDQo+IA0KPiA+DQo+ID4gIHNjcmlwdHMva2NvbmZpZy9jb25mZGF0YS5jIHwgMTIgKysr
+KysrLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRp
+b25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMg
+Yi9zY3JpcHRzL2tjb25maWcvY29uZmRhdGEuYw0KPiA+IGluZGV4IDU5NzE3YmUzMTIxMC4uMTY4
+OTdjYjhjZWZkIDEwMDY0NA0KPiA+IC0tLSBhL3NjcmlwdHMva2NvbmZpZy9jb25mZGF0YS5jDQo+
+ID4gKysrIGIvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMNCj4gPiBAQCAtOTc5LDEwICs5Nzks
+MTAgQEAgc3RhdGljIGludCBjb25mX3dyaXRlX2F1dG9jb25mX2NtZChjb25zdCBjaGFyICphdXRv
+Y29uZl9uYW1lKQ0KPiA+DQo+ID4gICAgICAgICBmcHJpbnRmKG91dCwgIlxuJChkZXBzX2NvbmZp
+Zyk6IDtcbiIpOw0KPiA+DQo+ID4gLSAgICAgICBpZiAoZmVycm9yKG91dCkpIC8qIGVycm9yIGNo
+ZWNrIGZvciBhbGwgZnByaW50ZigpIGNhbGxzICovDQo+ID4gLSAgICAgICAgICAgICAgIHJldHVy
+biAtMTsNCj4gPiAtDQo+ID4gKyAgICAgICByZXQgPSBmZXJyb3Iob3V0KTsgLyogZXJyb3IgY2hl
+Y2sgZm9yIGFsbCBmcHJpbnRmKCkgY2FsbHMgKi8NCj4gPiAgICAgICAgIGZjbG9zZShvdXQpOw0K
+PiA+ICsgICAgICAgaWYgKHJldCkNCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIC0xOw0KDQpU
+aGVyZSdzIG5vdCBtdWNoIHBvaW50IGNhbGxpbmcgZmVycm9yKCkgdW5sZXNzIHlvdSBjYWxsIGZm
+bHVzaCgpIGZpcnN0Lg0KDQpTaW1pbGFybHkgdGhlcmUncyBhYm91dCB6ZXJvIHBvaW50IGluIGNo
+ZWNraW5nIHRoZSByZXR1cm4gZnJvbSBmcHJpbnRmKCkuDQpBdCBsZWFzdCBJJ3ZlIG5ldmVyIGZv
+dW5kIGFueSBkaXN0cm8gYWRkaW5nICdtdXN0X2NoZWNrJyB0byBmcHJpbnRmKCkuDQooJ211c3Rf
+bm90X2NoZWNrJyB3b3VsZCBiZSBtb3JlIGFwcHJvcHJpYXRlISkNCg0KCURhdmlkDQoNCi0NClJl
+Z2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0
+b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykN
+Cg==
 
