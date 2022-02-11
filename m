@@ -2,91 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F39A4B24B8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Feb 2022 12:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E53F14B2929
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Feb 2022 16:38:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349592AbiBKLrG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Feb 2022 06:47:06 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59218 "EHLO
+        id S1351400AbiBKPiN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Feb 2022 10:38:13 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233513AbiBKLrG (ORCPT
+        with ESMTP id S1351394AbiBKPiM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Feb 2022 06:47:06 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3EABBF1F
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Feb 2022 03:47:04 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-217-ln17n9CfNWGBOaqr2sn8hg-1; Fri, 11 Feb 2022 11:47:01 +0000
-X-MC-Unique: ln17n9CfNWGBOaqr2sn8hg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Fri, 11 Feb 2022 11:46:59 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Fri, 11 Feb 2022 11:46:59 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Masahiro Yamada' <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-CC:     Ryan Cai <ycaibb@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] kconfig: fix missing fclose() on error paths
-Thread-Topic: [PATCH] kconfig: fix missing fclose() on error paths
-Thread-Index: AQHYHhxu7b1VG5ftFUSTiQXyYGw6EKyOPQUA
-Date:   Fri, 11 Feb 2022 11:46:59 +0000
-Message-ID: <37efb2079f5443feaf4f0b10e15a57db@AcuMS.aculab.com>
-References: <20220208062618.1869210-1-masahiroy@kernel.org>
- <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
-In-Reply-To: <CAK7LNASojfnOaAmgwwCsA9J-nhYtRzJx8AKmy8OpRm50uWfegQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Fri, 11 Feb 2022 10:38:12 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D394013A;
+        Fri, 11 Feb 2022 07:38:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=ZsqYYuB5zPz4U2XvwTMc7Gwvie5cfcQX4xHf1kN4geA=; b=lhI/YJi2qjzHxmqjjPK8JUNboc
+        ELI4IMRWe4IJCl+h4E80XJqj1r2cvVckQdNY7MsZ4rSJcC5OHXZnE17vBcaWvad9TqsQS7uYDMZoc
+        zJdah9V3x6bIlCrd4LnTyHADuZU+AWDPwCmox+GPAwDgNzoVJCHCx+M4/jtduxkjqdOmhpbHeVAhw
+        tNoWavJzu7HFS6IlzQhV9C73xEopKbRU4nHMSiPN9uxoAlZAvJ6zIJDJnFDcRGgzqelEJQMVkvmAx
+        YxbR5s1DYOcCPOo1IqIDqjzmY/2yL9NSDDEAomSd5QGOCwT6y6Sx411ri6MQR4hI56UPRhn4RlCL1
+        wlXfZY8A==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nIXyu-0093dN-LI; Fri, 11 Feb 2022 15:37:08 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id F341A98630A; Fri, 11 Feb 2022 16:37:06 +0100 (CET)
+Date:   Fri, 11 Feb 2022 16:37:06 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v10 10/15] FG-KASLR: use a scripted approach to handle
+ .text.* sections
+Message-ID: <20220211153706.GW23216@worktop.programming.kicks-ass.net>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
+ <20220209185752.1226407-11-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209185752.1226407-11-alexandr.lobakin@intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-RnJvbTogTWFzYWhpcm8gWWFtYWRhDQo+IFNlbnQ6IDEwIEZlYnJ1YXJ5IDIwMjIgMDA6NTQNCj4g
-Pg0KPiA+IFRoZSBmaWxlIGlzIG5vdCBjbG9zZWQgd2hlbiBmZXJyb3IoKSBmYWlscy4NCj4gPg0K
-PiA+IEZpeGVzOiAwMGQ2NzRjYjM1MzYgKCJrY29uZmlnOiByZWZhY3RvciBjb25mX3dyaXRlX2Rl
-cCgpIikNCj4gPiBGaXhlczogNTdkZGQwN2M0NTYwICgia2NvbmZpZzogcmVmYWN0b3IgY29uZl93
-cml0ZV9hdXRvY29uZigpIikNCj4gPiBSZXBvcnRlZC1ieTogUnlhbiBDYWkgPHljYWliYkBnbWFp
-bC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2Vy
-bmVsLm9yZz4NCj4gPiAtLS0NCj4gDQo+IA0KPiBBcHBsaWVkIHRvIGxpbnV4LWtidWlsZC9maXhl
-cy4NCj4gDQo+IA0KPiA+DQo+ID4gIHNjcmlwdHMva2NvbmZpZy9jb25mZGF0YS5jIHwgMTIgKysr
-KysrLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRp
-b25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMg
-Yi9zY3JpcHRzL2tjb25maWcvY29uZmRhdGEuYw0KPiA+IGluZGV4IDU5NzE3YmUzMTIxMC4uMTY4
-OTdjYjhjZWZkIDEwMDY0NA0KPiA+IC0tLSBhL3NjcmlwdHMva2NvbmZpZy9jb25mZGF0YS5jDQo+
-ID4gKysrIGIvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMNCj4gPiBAQCAtOTc5LDEwICs5Nzks
-MTAgQEAgc3RhdGljIGludCBjb25mX3dyaXRlX2F1dG9jb25mX2NtZChjb25zdCBjaGFyICphdXRv
-Y29uZl9uYW1lKQ0KPiA+DQo+ID4gICAgICAgICBmcHJpbnRmKG91dCwgIlxuJChkZXBzX2NvbmZp
-Zyk6IDtcbiIpOw0KPiA+DQo+ID4gLSAgICAgICBpZiAoZmVycm9yKG91dCkpIC8qIGVycm9yIGNo
-ZWNrIGZvciBhbGwgZnByaW50ZigpIGNhbGxzICovDQo+ID4gLSAgICAgICAgICAgICAgIHJldHVy
-biAtMTsNCj4gPiAtDQo+ID4gKyAgICAgICByZXQgPSBmZXJyb3Iob3V0KTsgLyogZXJyb3IgY2hl
-Y2sgZm9yIGFsbCBmcHJpbnRmKCkgY2FsbHMgKi8NCj4gPiAgICAgICAgIGZjbG9zZShvdXQpOw0K
-PiA+ICsgICAgICAgaWYgKHJldCkNCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIC0xOw0KDQpU
-aGVyZSdzIG5vdCBtdWNoIHBvaW50IGNhbGxpbmcgZmVycm9yKCkgdW5sZXNzIHlvdSBjYWxsIGZm
-bHVzaCgpIGZpcnN0Lg0KDQpTaW1pbGFybHkgdGhlcmUncyBhYm91dCB6ZXJvIHBvaW50IGluIGNo
-ZWNraW5nIHRoZSByZXR1cm4gZnJvbSBmcHJpbnRmKCkuDQpBdCBsZWFzdCBJJ3ZlIG5ldmVyIGZv
-dW5kIGFueSBkaXN0cm8gYWRkaW5nICdtdXN0X2NoZWNrJyB0byBmcHJpbnRmKCkuDQooJ211c3Rf
-bm90X2NoZWNrJyB3b3VsZCBiZSBtb3JlIGFwcHJvcHJpYXRlISkNCg0KCURhdmlkDQoNCi0NClJl
-Z2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0
-b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykN
-Cg==
+On Wed, Feb 09, 2022 at 07:57:47PM +0100, Alexander Lobakin wrote:
+> +sub read_sections {
+> +	open(my $fh, "\"$readelf\" -SW \"$file\" 2>/dev/null |")
+> +		or die "$0: ERROR: failed to execute \"$readelf\": $!";
+> +
+> +	while (<$fh>) {
+> +		my $name;
+> +		my $align;
+> +		chomp;
+> +
+> +		($name, $align) = $_ =~ /^\s*\[[\s0-9]*\]\s*(\.\S*)\s*[A-Z]*\s*[0-9a-f]{16}\s*[0-9a-f]*\s*[0-9a-f]*\s*[0-9a-f]*\s*[0-9a-f]{2}\s*[A-Z]{2}\s*[0-9]\s*[0-9]\s*([0-9]*)$/;
 
+Is there really no readable way to write this?
+
+> +
+> +		if (!defined($name)) {
+> +			next;
+> +		}
+> +
+> +		## Clang 13 onwards emits __cfi_check_fail only on final
+> +		## linking, so it won't appear in .o files and will be
+> +		## missing in @sections. Add it manually to prevent
+> +		## spawning orphans.
+> +		if ($name eq ".text.__cfi_check_fail") {
+> +			$has_ccf = 1;
+> +		}
+
+How is that relevant, x86-64 doesn't and won't do clang-cfi.
