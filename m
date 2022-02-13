@@ -2,95 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 440B64B3BDA
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Feb 2022 15:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD5FE4B3C50
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Feb 2022 17:54:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236581AbiBMOnb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 13 Feb 2022 09:43:31 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:47012 "EHLO
+        id S237124AbiBMQyG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Feb 2022 11:54:06 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232223AbiBMOnb (ORCPT
+        with ESMTP id S233353AbiBMQyF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 13 Feb 2022 09:43:31 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9B25AEF9;
-        Sun, 13 Feb 2022 06:43:26 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B74A0611AE;
-        Sun, 13 Feb 2022 14:43:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D43C004E1;
-        Sun, 13 Feb 2022 14:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644763405;
-        bh=+cp9bFzWg3wGwAIw5MZ8QkoVpxGR06Zjxx+eGBXCGw8=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Jg1QyIMc8V3GphRky+NikI9HdaTdF40pBqhQ+G+BtFUCG81tTvrYmwLA8c3zqi9EQ
-         wwSSnH9VOh3UkH7Ssoc5T5/lYwvB8h2SqW2Rer6LHpa9bXhtcguAVHlkzq8eYj9qa3
-         OZYdQmNqTS7uyv2AfVEj+UUUDvXd606n9L9qqJlWX/G4TyOzBul2P36fh7qex0ZwGI
-         CrlryOYjpPQR8tsapJF4OCDMsd1sxz8O0W4574BltOz44dxrukIhC9QAiAUokrYVt1
-         pmX6IdHKsJv4A/PuHqyzWoNJh5dApI2oBmlu/53fik15aO2Deux7uu2Xjf1sPmCS4N
-         jqxb1JavYydUQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 9A1DD5C0951; Sun, 13 Feb 2022 06:43:24 -0800 (PST)
-Date:   Sun, 13 Feb 2022 06:43:24 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     Zhouyi Zhou <zhouzhouyi@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rcu <rcu@vger.kernel.org>
-Subject: Re: Set environment variable `KVM` makes build fail
-Message-ID: <20220213144324.GS4285@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <d3e6a461-5b37-ecfb-d63c-d35af27f2682@molgen.mpg.de>
- <CAABZP2yOA2n-xux8uUC72vVYc14JfCawoOzp_pnTGDvY8cRSnw@mail.gmail.com>
- <f63abe64-6d4f-1374-5fd3-874a34c1c22f@molgen.mpg.de>
+        Sun, 13 Feb 2022 11:54:05 -0500
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54B75B8A2;
+        Sun, 13 Feb 2022 08:53:59 -0800 (PST)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 21DGrZBa021369;
+        Mon, 14 Feb 2022 01:53:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 21DGrZBa021369
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1644771215;
+        bh=+Gu+J7mpzu4zj8D3U0/ldielOugTejawUk0SIIRLLo8=;
+        h=From:Date:Subject:To:Cc:From;
+        b=xMnKIGbWLKeLUCUerR4+DlAwnoaMGoV3P0UzSF+4QUW5/L0fQIzyErwWErGbZpj5V
+         o00syuK9O2DGGCifAWV/O5pfFbuz1VI6z+34H7bMwm9e24cwWxaBti6qPN8t9FPXUn
+         jV/L2bts0quBsIKMYF0b+Exwf3vCuG1yT+syDYWx1EjROs0mbl95+rhIrMnMLmd+6b
+         ONAYRAb8pE5mn4gKevpVknqprXgA6VpAyWFsrQXlCeDWozWZ5kPijMcjI9yDMtYpkN
+         uoLWWX/oD2DUZRrRccsU61udrOJfROg6iEbRmBqg7N/2Oe1Dgsfo/RiuQjwn/VuGxV
+         mMSVVDmD01QdQ==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id z16so3317004pfh.3;
+        Sun, 13 Feb 2022 08:53:35 -0800 (PST)
+X-Gm-Message-State: AOAM531iWAm3lgii+yBUSVLibqUx/izJ3Cv8y9th9EqAUtOViZExC1TF
+        vMJib+3FE2snvQgaFOC7yJ6wsDgUu0s8Al7Rkbw=
+X-Google-Smtp-Source: ABdhPJwdHRdwc0VNZSrKWfiIqsTQQzypsaoaXI1wC1/d2WtS04xaCXFwbH3M3Y3hDdEGTmLtsCMeA2cTWuDqjmqeZEs=
+X-Received: by 2002:a63:9307:: with SMTP id b7mr8826126pge.616.1644771214741;
+ Sun, 13 Feb 2022 08:53:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f63abe64-6d4f-1374-5fd3-874a34c1c22f@molgen.mpg.de>
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 14 Feb 2022 01:53:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARgx5NDHT0RdLpogXRQadn8cZYw=D_kQ1jpC0ftJH1eyw@mail.gmail.com>
+Message-ID: <CAK7LNARgx5NDHT0RdLpogXRQadn8cZYw=D_kQ1jpC0ftJH1eyw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.17-rc4
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Feb 13, 2022 at 10:45:11AM +0100, Paul Menzel wrote:
-> Dear Zhouyi,
-> 
-> 
-> Am 13.02.22 um 09:07 schrieb Zhouyi Zhou:, and
-> 
-> > Thank you for your trust in me.
-> 
-> Thank you for your help.
-> 
-> > I think the following patch has a good explanation of what happened ;-)
-> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/tools/testing/selftests/rcutorture/bin/torture.sh?id=a7d89cfb8e1269cb6d22453adba56b8d0218589f
-> > "The torture-test scripting's long-standing use of KVM as the
-> > environment variable tracking the pathname of the rcutorture directory
-> > now conflicts with allmodconfig builds due to the
-> > virt/kvm/Makefile.kvm file's use of this as a makefile variable"
-> 
-> Indeed. In my script I had added the remote for the rcu git archive, but
-> forgot to actually fetch the objects and refs, and missed the error message
-> in the output.
-> 
-> Sorry for the noise, though the variable name should probably namespaced, as
-> at least for the name `KVM` the chance are higher (still very small) that
-> it’s set in the environment.
+Hi Linus,
 
-In -rcu and -next, it is now named "RCUTORTURE".  But if there are
-other rcutorture environment variables in need of namespacing, please
-let me know.
+Please pull Kbuild fixes.
+Thanks.
 
-							Thanx, Paul
+
+
+The following changes since commit dfd42facf1e4ada021b939b4e19c935dcdd55566:
+
+  Linux 5.17-rc3 (2022-02-06 12:20:50 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.17-2
+
+for you to fetch changes up to 1b9e740a81f91ae338b29ed70455719804957b80:
+
+  kconfig: fix failing to generate auto.conf (2022-02-12 23:24:19 +0900)
+
+----------------------------------------------------------------
+ - Fix the truncated path issue for HAVE_GCC_PLUGINS test in Kconfig
+
+ - Move -Wunsligned-access to W=1 builds to avoid sprinkling warnings for
+   the latest Clang
+
+ - Fix missing fclose() in Kconfig
+
+ - Fix Kconfig to touch dep headers correctly when KCONFIG_AUTOCONFIG is
+   overridden.
+
+----------------------------------------------------------------
+Brenda Streiff (1):
+      kconfig: let 'shell' return enough output for deep path names
+
+Jing Leng (1):
+      kconfig: fix failing to generate auto.conf
+
+Masahiro Yamada (1):
+      kconfig: fix missing fclose() on error paths
+
+Nathan Chancellor (1):
+      Makefile.extrawarn: Move -Wunaligned-access to W=1
+
+ scripts/Makefile.extrawarn   |  1 +
+ scripts/kconfig/confdata.c   | 25 +++++++++++++++----------
+ scripts/kconfig/preprocess.c |  2 +-
+ 3 files changed, 17 insertions(+), 11 deletions(-)
+
+-- 
+Best Regards
+Masahiro Yamada
