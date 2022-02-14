@@ -2,130 +2,201 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 095B34B5A4E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Feb 2022 20:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 554B54B5C83
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Feb 2022 22:22:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiBNTB7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Feb 2022 14:01:59 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:36260 "EHLO
+        id S230213AbiBNVVc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Feb 2022 16:21:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiBNTB2 (ORCPT
+        with ESMTP id S230475AbiBNVVb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Feb 2022 14:01:28 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B8FD227A;
-        Mon, 14 Feb 2022 11:01:12 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2193E1F383;
-        Mon, 14 Feb 2022 18:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1644865003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=f+iOC1OijgKnwOeDeGI5sZj1eeXHvVIuPR8OLLmfj1Y=;
-        b=m7JcsLVnh6+9B+5w+vU+hjxLzDc88ZdY3A6A5r+0TmhioRAkB6QK1DKwKAmg8S5I/Ffx5Y
-        nn9196foRWWRGpADWdJbFO2KTy76nsRsBRHRjiVz4hsa4MHkMDJsKYt08KT+Kfao/eHiv+
-        A9vUDkJ3kuXFQQ3umRpXycoRsAHLR/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1644865003;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=f+iOC1OijgKnwOeDeGI5sZj1eeXHvVIuPR8OLLmfj1Y=;
-        b=0UzndL++7JY+Au/wZw9aK83EG62p/EFrmvKqFMHQpFZAg/Bj99Q5Pc96t2pY8yH3x9+SBG
-        fXxVAPBTuyCxI7Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D700813B55;
-        Mon, 14 Feb 2022 18:56:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id JWxzMuqlCmKLSwAAMHmgww
-        (envelope-from <pvorel@suse.cz>); Mon, 14 Feb 2022 18:56:42 +0000
-From:   Petr Vorel <pvorel@suse.cz>
-To:     linux-crypto@vger.kernel.org
-Cc:     Petr Vorel <pvorel@suse.cz>, Nicolai Stange <nstange@suse.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        Mon, 14 Feb 2022 16:21:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A99EF13C3B1
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Feb 2022 13:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1644873681;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Zw0m26jmgL5PSZbxc9F56RhQG8aGfeQzkdtSIlZWESE=;
+        b=DFDQq7MU/Ml96jrV35+CNJC1uE8+u8fAgeeEGMha+1O0rMpbtXcnk7uODTllTXktwMcqEe
+        Jez4RM1MGGYXd2muEC4HKopQJf1QpAKiG0By6X2O7JEYK9KiYuyHHXNpz8FPkkbT+TDJYY
+        oxifW3pxG+vt5CGZ658LW57mcpbEdkQ=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-6Ii92TFKOtSgQhmNArOxVQ-1; Mon, 14 Feb 2022 13:57:55 -0500
+X-MC-Unique: 6Ii92TFKOtSgQhmNArOxVQ-1
+Received: by mail-qv1-f71.google.com with SMTP id p4-20020a05621421e400b0042d006b2328so4020092qvj.15
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Feb 2022 10:57:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Zw0m26jmgL5PSZbxc9F56RhQG8aGfeQzkdtSIlZWESE=;
+        b=GlcmGRZz9xXhjXB7G533hWXLT7TdxRc0kXSafwcaET32hSuH6+T/ApyF17PlITaNYl
+         kQTgK4EXUN8DrUmbji8KjcTA4PU0z4Cbnt9GJAihPTg40DsRDsYmK+RtpATQhWXKUK60
+         9FRfDomOxmsWo4UjQBvSM8fKVO6qdh/OV7O/UzgdL44BVTEHZ5QYEIioP+5F+cczvHmL
+         igLWLAeW3QuF2JCdTYT/b2YNiY/0tFyP0eTHM7CKArJFuTCsgJecaxWi2HLn5Q+Fc0dA
+         MFGzKiTV4LYgHLFptUOPIPpuEPfYE+MtUJV6KwL7nKo1vpsRzG8KAz3Gzdk5xBhW+WRd
+         o7Cg==
+X-Gm-Message-State: AOAM532gPckxM2Huqt5jyzn0nRrVnVmj7lrpacrS23n+5+8gclr7b4nZ
+        GNEtZAluq3wGZQmGBbWsCIkCgTrggqN7LCsi2nuk91hDkE/DaW8kcFhhhVFwRJVSATyU2jxb4Ye
+        q1uFJ/HHbP5KjinLXTvcU59mu
+X-Received: by 2002:ad4:58f1:: with SMTP id di17mr81610qvb.36.1644865075190;
+        Mon, 14 Feb 2022 10:57:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJysuyQMRiLKO/pEhsQy4DxLU5S9UbooAkR2s9LJCJ+c5txevugMskSZ+48nNPU8AiQWi+8+Lg==
+X-Received: by 2002:ad4:58f1:: with SMTP id di17mr81584qvb.36.1644865074915;
+        Mon, 14 Feb 2022 10:57:54 -0800 (PST)
+Received: from treble ([2600:1700:6e32:6c00::35])
+        by smtp.gmail.com with ESMTPSA id i13sm16244149qko.91.2022.02.14.10.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 10:57:54 -0800 (PST)
+Date:   Mon, 14 Feb 2022 10:57:48 -0800
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH 1/1] crypto: vmx: Fix missing dependencies during boot
-Date:   Mon, 14 Feb 2022 19:56:38 +0100
-Message-Id: <20220214185638.1457-1-pvorel@suse.cz>
-X-Mailer: git-send-email 2.35.1
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
+ unique-symbol` is available
+Message-ID: <20220214185748.ite4oxkaynrvjj34@treble>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
+ <20220209185752.1226407-3-alexandr.lobakin@intel.com>
+ <20220211174130.xxgjoqr2vidotvyw@treble>
+ <20220214121447.288695-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220214121447.288695-1-alexandr.lobakin@intel.com>
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-if CRYPTO_DEV_VMX_ENCRYPT=y && !CRYPTO_MANAGER_DISABLE_TESTS
-and either of CRYPTO_AES, CRYPTO_CBC, CRYPTO_CTR or CRYPTO_XTS is built
-as module or disabled, alg_test() from crypto/testmgr.c complains during
-boot about failing to allocate the generic fallback implementations
-(2 == ENOENT):
+NOTE: Maybe -zunique-symbol won't get used after all, based on maskray's
+objections.  Regardless, I'm replying below, because the rest of the
+approach in this patch seems all wrong.
 
-[    0.540953] Failed to allocate xts(aes) fallback: -2
-[    0.541014] alg: skcipher: failed to allocate transform for p8_aes_xts: -2
-[    0.541120] alg: self-tests for p8_aes_xts (xts(aes)) failed (rc=-2)
-[    0.544440] Failed to allocate ctr(aes) fallback: -2
-[    0.544497] alg: skcipher: failed to allocate transform for p8_aes_ctr: -2
-[    0.544603] alg: self-tests for p8_aes_ctr (ctr(aes)) failed (rc=-2)
-[    0.547992] Failed to allocate cbc(aes) fallback: -2
-[    0.548052] alg: skcipher: failed to allocate transform for p8_aes_cbc: -2
-[    0.548156] alg: self-tests for p8_aes_cbc (cbc(aes)) failed (rc=-2)
-[    0.550745] Failed to allocate transformation for 'aes': -2
-[    0.550801] alg: cipher: Failed to load transform for p8_aes: -2
-[    0.550892] alg: self-tests for p8_aes (aes) failed (rc=-2)
+On Mon, Feb 14, 2022 at 01:14:47PM +0100, Alexander Lobakin wrote:
+> From: Josh Poimboeuf <jpoimboe@redhat.com>
+> Date: Fri, 11 Feb 2022 09:41:30 -0800
+> 
+> > On Wed, Feb 09, 2022 at 07:57:39PM +0100, Alexander Lobakin wrote:
+> > > Position-based search, which means that if there are several symbols
+> > > with the same name, the user needs to additionally provide the
+> > > "index" of a desired symbol, is fragile. For example, it breaks
+> > > when two symbols with the same name are located in different
+> > > sections.
+> > > 
+> > > Since a while, LD has a flag `-z unique-symbol` which appends
+> > > numeric suffixes to the functions with the same name (in symtab
+> > > and strtab). It can be used to effectively prevent from having
+> > > any ambiguity when referring to a symbol by its name.
+> > 
+> > In the patch description can you also give the version of binutils (and
+> > possibly other linkers) which have the flag?
+> 
+> Yeah, sure.
 
-Check for these dependencies if crypto tests enabled.
+> > > Check for its availability and always prefer when the livepatching
+> > > is on. It can be used unconditionally later on after broader testing
+> > > on a wide variety of machines, but for now let's stick to the actual
+> > > CONFIG_LIVEPATCH=y case, which is true for most of distro configs
+> > > anyways.
+> > 
+> > Has anybody objected to just enabling it for *all* configs, not just for
+> > livepatch?
+> 
+> A few folks previously.
 
-NOTE: this requires all these dependencies to be builtin if
-!CRYPTO_MANAGER_DISABLE_TESTS, which is too strict on
-CRYPTO_DEV_VMX_ENCRYPT=m.
+Why?  It would be good to document that here.
 
-Fixes: c07f5d3da643 ("crypto: vmx - Adding support for XTS")
-Fixes: d2e3ae6f3aba ("crypto: vmx - Enabling VMX module for PPC64")
+> > I'd much prefer that: the less "special" livepatch is (and the distros
+> > which enable it), the better.  And I think having unique symbols would
+> > benefit some other components.
+> 
+> Agree, I just want this series to be as least invasive for
+> non-FG-KASLR builds as possible.
 
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1195768
+But in a very real sense, this patch is making the series *more*
+invasive by complexifying the config space.
 
-Suggested-by: Nicolai Stange <nstange@suse.de>
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
-Hi,
+Adding -zunique-symbols could have kernel-wide implications.  If there
+were bugs, we'd want to root them out, not hide them behind obscure
+config combinations we hope nobody uses.  Effectively this is
+destabilizing CONFIG_LIVEPATCH.
 
-what am I missing to allow e.g. CRYPTO_AES=m when
-CRYPTO_DEV_VMX_ENCRYPT=m?
+Beyond "least invasive", we also need to consider:
 
-Kind regards,
-Petr
+- What makes fgkaslr most compatible with other features?
+- What makes fgkaslr most palatable for wide use?
+- What's best for the kernel as a whole?
 
- drivers/crypto/vmx/Kconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+It's much better to integrate new features properly with the kernel,
+rather than just grafting them on to the side.  Otherwise it just adds
+technical debt, with no benefit to the rest of the kernel.  Then it
+might as well just remain an out-of-tree patch set.
 
-diff --git a/drivers/crypto/vmx/Kconfig b/drivers/crypto/vmx/Kconfig
-index c85fab7ef0bd..d692802fad9e 100644
---- a/drivers/crypto/vmx/Kconfig
-+++ b/drivers/crypto/vmx/Kconfig
-@@ -2,6 +2,10 @@
- config CRYPTO_DEV_VMX_ENCRYPT
- 	tristate "Encryption acceleration support on P8 CPU"
- 	depends on CRYPTO_DEV_VMX
-+	depends on CRYPTO_MANAGER_DISABLE_TESTS && CRYPTO_AES || CRYPTO_AES=y
-+	depends on CRYPTO_MANAGER_DISABLE_TESTS && CRYPTO_CBC || CRYPTO_CBC=y
-+	depends on CRYPTO_MANAGER_DISABLE_TESTS && CRYPTO_CTR || CRYPTO_CTR=y
-+	depends on CRYPTO_MANAGER_DISABLE_TESTS && CRYPTO_XTS || CRYPTO_XTS=y
- 	select CRYPTO_GHASH
- 	default m
- 	help
+> > > +	if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL))
+> > > +		sympos = 0;
+> > > +
+> > 
+> > Similarly, I don't see a need for this.  If the patch is legit then
+> > sympos should already be zero.  If not, an error gets reported and the
+> > patch fails to load.
+> 
+> Right, but for both those chunks the main idea is to let the
+> compiler optimize-out the code non-actual for unique-symbol builds:
+> 
+> add/remove: 0/0 grow/shrink: 1/2 up/down: 3/-80 (-77)
+> Function                                     old     new   delta
+> klp_find_callback                            139     142      +3
+> klp_find_object_symbol.cold                   85      48     -37
+> klp_find_object_symbol                       168     125     -43
+
+As I said, it's not a hot path, so there's no need to complicate the
+code with edge cases, and remove useful error checking in the process.
+
 -- 
-2.35.1
+Josh
 
