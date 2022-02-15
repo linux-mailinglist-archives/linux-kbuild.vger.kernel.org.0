@@ -2,117 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 649754B7684
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Feb 2022 21:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 598964B763E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Feb 2022 21:49:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242944AbiBOSUE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Feb 2022 13:20:04 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36442 "EHLO
+        id S243335AbiBOS75 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Feb 2022 13:59:57 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241218AbiBOSUD (ORCPT
+        with ESMTP id S243332AbiBOS74 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Feb 2022 13:20:03 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E94119F0C
-        for <linux-kbuild@vger.kernel.org>; Tue, 15 Feb 2022 10:19:53 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id t21so869158edd.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 15 Feb 2022 10:19:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=lY9tt/IhIWv9LzXk1s5BH9xemeCbBCE2YYRK5FOvrNE=;
-        b=XhiGCPJDX1x5n00gfop8vtHbzQ5XsVZvmshgTu4acZkOhiIVmg/2mfQGC7XefOGSQh
-         7QEmeeiaF4k3W7qS2sAFNPenGR196oA+WUOgM2DQXvT/BU9Crqh1zHzDT8I6gukAbcSH
-         hGMB/G1SaWUZOj0oRkIv3C5EcIXNTb0NCynacztYe5+s2TPOQ6Pik+hE6AOGmHOJ+CI7
-         usS3nTdkUOGZpWn3+lCNPo+9+f46XQIwlfOliH5nHYU4O+b8NWRFq8IrwdEPYd51Ztfo
-         CVShgB/CHFN5ZljM+JZt1ah9C79Lfq362kngCQUH5StBUEXRZ4485gF11p4WLnNcO/Ty
-         86rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=lY9tt/IhIWv9LzXk1s5BH9xemeCbBCE2YYRK5FOvrNE=;
-        b=Tn0Tyr5IfXsdEyX9lhu71MnrwR/xAuZdRDDMPg/dOwhUwgXivoDaPaGaHA5TFprTMj
-         8Y4bvOphRNmzIWAJPSUm/4pWrUQ9R+5T5qg+440J0riHi9UMyi/3nhoF3f9pLwekdGMa
-         eai+pWODyIz/oVp5B3LhRl4E2Uo939aYxUptV/KqrC7YhlHQO6JcTPJFIvhMXvwu8Je/
-         jbU1TIhgwoeMa87FqaRnlNnaSMUyZI8d7lic52Y1lGVmlWQmDuPKFN5o4BeBDsoNvCLf
-         LzFBd01WauYXMyASfHw5Zvu8QXvpusX44UaxymNyUQ5PVRKr40oH6sZYbDntI0Ul5ppV
-         yQ2A==
-X-Gm-Message-State: AOAM531AVldrgVSxuEcE05uWhN+nHZ3bJ2iKwXvfFzpzAcdGL87nM3dX
-        JSrFVPXjDRF65m3aQZboatJpyQTJMqXjRIMJVSY=
-X-Google-Smtp-Source: ABdhPJyOokKo/hunjO+CnmnpwKZ0ntLwWp2hx7HBUYTkhBb6eeghBzrAkuDAQczr/LskEt8nG1j3pM9F9r9kIb+Z9z0=
-X-Received: by 2002:aa7:ce90:: with SMTP id y16mr204238edv.292.1644949191868;
- Tue, 15 Feb 2022 10:19:51 -0800 (PST)
+        Tue, 15 Feb 2022 13:59:56 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49330EBBBB;
+        Tue, 15 Feb 2022 10:59:46 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id C3E781F382;
+        Tue, 15 Feb 2022 18:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1644951584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=5YAUHqgVBs+pDipEZBxQHmXGJ42CBpjYidJwV8WeMtc=;
+        b=jB12KMIUWcSWnbHdoRAisy258SrDEEcRYT8dTOTG+Hg5tNVxFSfXqr5Zj8ZzScvwH143ky
+        on/mKMw1ruWYkkNHOv4NPWlTIotJ5gEv5sK4XQinzEL+kHKvD4H05XiiyccsM+lA9+R6/J
+        OmSg/SQrTi3cpPRhALK+ONanH1LWDmM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1644951584;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=5YAUHqgVBs+pDipEZBxQHmXGJ42CBpjYidJwV8WeMtc=;
+        b=3A8UJ97dC6BgqoV4B9DofBSpEYlz/gEdAmvgGUFg5jmrJV6c7+zPmuel4YnhrRWD8Gsa6m
+        CJGqRCW9oG3vyZBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 45EE31376E;
+        Tue, 15 Feb 2022 18:59:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fVAoDyD4C2L2MwAAMHmgww
+        (envelope-from <pvorel@suse.cz>); Tue, 15 Feb 2022 18:59:44 +0000
+From:   Petr Vorel <pvorel@suse.cz>
+To:     linux-crypto@vger.kernel.org
+Cc:     Petr Vorel <pvorel@suse.cz>, Nicolai Stange <nstange@suse.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, leitao@debian.org,
+        Nayna Jain <nayna@linux.ibm.com>,
+        Paulo Flabiano Smorigo <pfsmorigo@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v2 0/2] vmx-crypto: Add missing dependencies
+Date:   Tue, 15 Feb 2022 19:59:34 +0100
+Message-Id: <20220215185936.15576-1-pvorel@suse.cz>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Sender: mrsaliceragnvar@gmail.com
-Received: by 2002:a17:907:9491:0:0:0:0 with HTTP; Tue, 15 Feb 2022 10:19:51
- -0800 (PST)
-From:   Aisha Al-Qaddafi <aishagaddafi1894@gmail.com>
-Date:   Tue, 15 Feb 2022 18:19:51 +0000
-X-Google-Sender-Auth: NlQaCYS33jJ-knYs833tgwmUXrw
-Message-ID: <CAGHGhXAxG0-TBCBdRxXUbdLcEv_XLE9-+OSKLNf=FQ5a18i=Og@mail.gmail.com>
-Subject: Investment proposal,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=7.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_60,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,LOTS_OF_MONEY,MILLION_HUNDRED,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY,URG_BIZ
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:533 listed in]
-        [list.dnswl.org]
-        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
-        *      [score: 0.7304]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [aishagaddafi1894[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 MILLION_HUNDRED BODY: Million "One to Nine" Hundred
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  0.6 URG_BIZ Contains urgent matter
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.9 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Dear Friend,
+Hi,
 
-With due respect to your person and much sincerity of purpose I wish
-to write to you today for our mutual benefit in this investment
-transaction..
-I'm Mrs. Aisha Al-Gaddafi, presently residing herein Oman the
-Southeastern coast of the Arabian Peninsula in Western Asia, I'm a
-single Mother and a widow with three Children. I am the only
-biological Daughter of the late Libyan President (Late Colonel Muammar
-Gaddafi). I have an investment funds worth Twenty Seven Million Five
-Hundred Thousand United State Dollars ($27.500.000.00 ) and i need an
-investment Manager/Partner and because of my Asylum Status I will
-authorize you the ownership of the investment funds, However, I am
-interested in you for investment project assistance in your country,
-may be from there,. we can build a business relationship in the
-nearest future.
+[ Cc powerpc list and VMX people this time ]
 
-I am willing to negotiate an investment/business profit sharing ratio
-with you based on the future investment earning profits. If you are
-willing to handle this project kindly reply urgently to enable me to
-provide you more information about the investment funds..
+changes v1->v2:
+* new commit: crypto: vmx: Turn CRYPTO_DEV_VMX_ENCRYPT into tristate
+* use "select" instead of "depends on" (Nicolai)
+* drop !CRYPTO_MANAGER_DISABLE_TESTS as the dependency is always (Nicolai)
 
-Your urgent reply will be appreciated if only you are interested in
-this investment project.
-Best Regards
-Mrs. Aisha Al-Gaddafi.
+Petr Vorel (2):
+  crypto: vmx: Turn CRYPTO_DEV_VMX_ENCRYPT into tristate
+  crypto: vmx: Add missing dependencies
+
+ MAINTAINERS                            | 2 +-
+ arch/powerpc/configs/powernv_defconfig | 2 +-
+ arch/powerpc/configs/ppc64_defconfig   | 2 +-
+ arch/powerpc/configs/pseries_defconfig | 2 +-
+ drivers/crypto/Kconfig                 | 6 ------
+ drivers/crypto/vmx/Kconfig             | 8 ++++++--
+ 6 files changed, 10 insertions(+), 12 deletions(-)
+
+-- 
+2.35.1
+
