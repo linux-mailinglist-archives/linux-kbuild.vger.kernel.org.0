@@ -2,175 +2,257 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1E984B8C2F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 16:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8189C4B8E2D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 17:39:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233907AbiBPPPg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Feb 2022 10:15:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38918 "EHLO
+        id S236486AbiBPQkA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Feb 2022 11:40:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231866AbiBPPPf (ORCPT
+        with ESMTP id S236499AbiBPQj7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Feb 2022 10:15:35 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C521D11C0F;
-        Wed, 16 Feb 2022 07:15:22 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 5D49C218B0;
-        Wed, 16 Feb 2022 15:15:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1645024521; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yBnvgUiufkd6hqXyIL1xCUzZ9EdBPJ7jQt3pk+22Jeo=;
-        b=aWHBGySjkoi4X4eJw6em22aIBrUvu9NxLgBGA1YPe5teGkVd+OZMbfz5mAR/H5p27cqtNr
-        eTyibmLvFW46B/0440TTtOsAILpkMgsqB/KGMtndC8IzoufDHI25QQen3Or6hJ/HuWla6K
-        Pa5Mx18v2FogkqbxvqZV2A45oG5hbUQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1645024521;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=yBnvgUiufkd6hqXyIL1xCUzZ9EdBPJ7jQt3pk+22Jeo=;
-        b=LP1Mp5P/8Rc3AyVBb8kXt+yBGl6ouToT79WXn4Nyw3u61X15U3AEuc87d4w0SeVJ1668cR
-        KD0RqNXhlm6bqmAA==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 16 Feb 2022 11:39:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6CD6425BD6C
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 08:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1645029586;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=sj3WWuBwzIErWOjbwMSZJMLxlyZh3msqTZyXosAhUY8=;
+        b=OY4KTngbZQtzMkjbHhS044WmP30e9eeTcajB1H5GzvMJrzPdYe1LwaO31Ru3CsJVcuYq3S
+        dt4V+oAuwrAYml9EF06SXxVEoA8kGgc9+lGdyda5d0ern9tZpnmYPZIIapXmgxOYnTkGa5
+        42j+ryYc0ddBEhdhUatPuQC+q+st504=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-552-igHaHbjIMamUf8MK42Fzrw-1; Wed, 16 Feb 2022 11:39:43 -0500
+X-MC-Unique: igHaHbjIMamUf8MK42Fzrw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id EBB23A3B83;
-        Wed, 16 Feb 2022 15:15:20 +0000 (UTC)
-Date:   Wed, 16 Feb 2022 16:15:20 +0100 (CET)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-cc:     =?UTF-8?Q?F=C4=81ng-ru=C3=AC_S=C3=B2ng?= <maskray@google.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
- unique-symbol` is available
-In-Reply-To: <20220211183529.q7qi2qmlyuscxyto@treble>
-Message-ID: <alpine.LSU.2.21.2202161606430.1475@pobox.suse.cz>
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-3-alexandr.lobakin@intel.com> <20220211174130.xxgjoqr2vidotvyw@treble> <CAFP8O3KvZOZJqOR8HYp9xZGgnYf3D8q5kNijZKORs06L-Vit1g@mail.gmail.com>
- <20220211183529.q7qi2qmlyuscxyto@treble>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EAA6814243;
+        Wed, 16 Feb 2022 16:39:42 +0000 (UTC)
+Received: from jlaw-desktop.redhat.com (unknown [10.22.8.49])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E11AD753D6;
+        Wed, 16 Feb 2022 16:39:41 +0000 (UTC)
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+To:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: [RFC PATCH v6 00/12] livepatch: klp-convert tool
+Date:   Wed, 16 Feb 2022 11:39:28 -0500
+Message-Id: <20220216163940.228309-1-joe.lawrence@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="1678380546-2016212218-1645024395=:1475"
-Content-ID: <alpine.LSU.2.21.2202161614020.1475@pobox.suse.cz>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This mostly a rebase update of the livepatch klp-convert tool used to
+generate klp-relocation types (explained in the summary below).
 
---1678380546-2016212218-1645024395=:1475
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.LSU.2.21.2202161614021.1475@pobox.suse.cz>
+I'm marking this as an RFC as it hasn't been extensively tested for all
+livepatch supported arches.  There are may be a few symbol annotation
+changes pending what may be implemented for the FGKASLR patchset, I've
+left a few TODO and // question? marks in the code, etc.  At the same
+time, I think "CET/IBT support and live-patches" highlighted a potential
+need for this tooling, so I'm posting it in its current format for
+discussion.  I'll reply to individual patches to highlight a few points
+of interest.
 
-On Fri, 11 Feb 2022, Josh Poimboeuf wrote:
 
-> On Fri, Feb 11, 2022 at 10:05:02AM -0800, Fāng-ruì Sòng wrote:
-> > On Fri, Feb 11, 2022 at 9:41 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-> > >
-> > > On Wed, Feb 09, 2022 at 07:57:39PM +0100, Alexander Lobakin wrote:
-> > > > Position-based search, which means that if there are several symbols
-> > > > with the same name, the user needs to additionally provide the
-> > > > "index" of a desired symbol, is fragile. For example, it breaks
-> > > > when two symbols with the same name are located in different
-> > > > sections.
-> > > >
-> > > > Since a while, LD has a flag `-z unique-symbol` which appends
-> > > > numeric suffixes to the functions with the same name (in symtab
-> > > > and strtab). It can be used to effectively prevent from having
-> > > > any ambiguity when referring to a symbol by its name.
-> > >
-> > > In the patch description can you also give the version of binutils (and
-> > > possibly other linkers) which have the flag?
-> > 
-> > GNU ld>=2.36 supports -z unique-symbol. ld.lld doesn't support -z unique-symbol.
-> > 
-> > I subscribe to llvm@lists.linux.dev and happen to notice this message
-> > (can't keep up with the changes...)
-> > I am a bit concerned with this option and replied last time on
-> > https://lore.kernel.org/r/20220105032456.hs3od326sdl4zjv4@google.com
-> > 
-> > My full reasoning is on
-> > https://maskray.me/blog/2020-11-15-explain-gnu-linker-options#z-unique-symbol
-> 
-> Ah, right.  Also discussed here:
-> 
->   https://lore.kernel.org/all/20210123225928.z5hkmaw6qjs2gu5g@google.com/T/#u
->   https://lore.kernel.org/all/20210125172124.awabevkpvq4poqxf@treble/
-> 
-> I'm not qualified to comment on LTO/PGO stability issues, but it doesn't
-> sound good.  And we want to support livepatch for LTO kernels.
+Summary
+-------
 
-Hm, bear with me, because I am very likely missing something which is 
-clear to everyone else...
+Livepatches may use symbols which are not contained in its own scope,
+and, because of that, may end up compiled with relocations that will
+only be resolved during module load. Yet, when the referenced symbols
+are not exported, solving this relocation requires information on the
+object that holds the symbol (either vmlinux or modules) and its
+position inside the object, as an object may contain multiple symbols
+with the same name.  Providing such information must be done accordingly
+to what is specified in Documentation/livepatch/module-elf-format.txt.
 
-Is the stability really a problem for the live patching (and I am talking 
-about the live patching only here. It may be a problem elsewhere, but I am 
-just trying to understand.)? I understand that two different kernel builds 
-could have a different name mapping between the original symbols and their 
-unique renames. Not nice. But we can prepare two different live patches 
-for these two different kernels. Something one would like to avoid if 
-possible, but it is not impossible. Am I missing something?
- 
-> Also I realized that this flag would have a negative effect on
-> kpatch-build, as it currently does its analysis on .o files.  So it
-> would have to figure out how to properly detect function renames, to
-> avoid patching the wrong function for example.
+Currently, there is no trivial way to embed the required information as
+requested in the final livepatch elf object. klp-convert solves this
+problem in two different forms: (i) by relying on a symbol map, which is
+built during kernel compilation, to automatically infer the relocation
+targeted symbol, and, when such inference is not possible (ii) by using
+annotations in the elf object to convert the relocation accordingly to
+the specification, enabling it to be handled by the livepatch loader.
 
-Yes, that is unfortunate. And not only for kpatch-build.
+Given the above, add support for symbol mapping in the form of a
+symbols.klp file; add klp-convert tool; integrate klp-convert tool into
+kbuild; make livepatch modules discernible during kernel compilation
+pipeline; add data-structure and macros to enable users to annotate
+livepatch source code; make modpost stage compatible with livepatches;
+update livepatch-sample and update documentation.
 
-> And if LLD doesn't plan to support the flag then it will be a headache
-> for livepatch (and the kernel in general) to deal with the divergent
-> configs.
+The patch was tested under three use-cases:
 
-True.
+use-case 1: There is a relocation in the lp that can be automatically
+resolved by klp-convert.  For example. see the saved_command_line
+variable in lib/livepatch/test_klp_convert2.c.
 
-The position-based approach clearly shows its limits. I like <file+func> 
-approach based on kallsyms tracking, that you proposed elsewhere in the 
-thread, more.
+use-case 2: There is a relocation in the lp that cannot be automatically
+resolved, as the name of the respective symbol appears in multiple
+objects. The livepatch contains an annotation to enable a correct
+relocation.  See the KLP_MODULE_RELOC / KLP_SYMPOS annotation sections
+in lib/livepatch/test_klp_convert{1,2}.c.
 
-Miroslav
---1678380546-2016212218-1645024395=:1475--
+use-case 3: There is a relocation in the lp that cannot be automatically
+resolved similarly as 2, but no annotation was provided in the
+livepatch, triggering an error during compilation.  Reproducible by
+removing the KLP_MODULE_RELOC / KLP_SYMPOS annotation sections in
+lib/livepatch/test_klp_convert{1,2}.c.
+
+Selftests have been added to exercise these klp-convert use-cases
+through several tests.
+
+
+Branches
+--------
+
+
+Previous versions
+-----------------
+
+RFC:
+  https://lore.kernel.org/lkml/cover.1477578530.git.jpoimboe@redhat.com/
+v2:
+  https://lore.kernel.org/lkml/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+v3:
+  https://lore.kernel.org/lkml/20190410155058.9437-1-joe.lawrence@redhat.com/
+v4:
+  https://lore.kernel.org/lkml/20190509143859.9050-1-joe.lawrence@redhat.com/
+v5:
+  (not posted)
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+v6:
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v6
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v6-devel
+
+
+Summary of changes in v5
+------------------------
+
+[For/from Masahiro]
+- rename Symbols.list to symbols.klp
+- remove HOST_EXTRACFLAGS from klp-convert build
+- kbuild tweaks from Masahiro Yamada
+- SPDX instead of the license boilerplate
+
+[Joe]
+- a bunch of small checkpatch, clang-check fixes
+- klp-convert: account for symbols shared across sections
+- klp-convert: sympos endianness for cross-compile
+- klp-convert: implement rela section support list
+- klp-convert: update group sections sh_link
+- klp-convert: flag annotations without relocations
+- klp-convert: allow .rela__jump_table to vmlinux
+- livepatch/selftests: Add __asm__ symbol renaming examples
+- livepatch/selftests: test multiple sections
+- livepatch/selftests: add static keys test
+
+[Miroslav]
+- klp-convert: use _safe list traversals only when required
+- klp-convert: separate rela conversation from removal
+
+
+Summary of changes in v6
+------------------------
+
+[For/from Christophe]
+- klp-convert: Support for ppc32 ELF files
+
+[Joe]
+- livepatch/selftests: add data relocations test
+- klp-convert: move relas to klp_rela_sec tail
+- rebase for v5.17-rc1
+
+
+Joao Moreira (2):
+  kbuild: Support for symbols.klp creation
+  documentation: Update on livepatch elf format
+
+Joe Lawrence (5):
+  livepatch/selftests: add klp-convert
+  livepatch/selftests: test multiple sections
+  livepatch/selftests: add __asm__ symbol renaming examples
+  livepatch/selftests: add data relocations test
+  livepatch/selftests: add static keys test
+
+Josh Poimboeuf (5):
+  livepatch: Create and include UAPI headers
+  livepatch: Add klp-convert tool
+  livepatch: Add klp-convert annotation helpers
+  modpost: Integrate klp-convert
+  livepatch: Add sample livepatch module
+
+ .gitignore                                    |   2 +
+ Documentation/dontdiff                        |   1 +
+ Documentation/livepatch/livepatch.rst         |   3 +
+ Documentation/livepatch/module-elf-format.rst |  42 +-
+ MAINTAINERS                                   |   2 +
+ Makefile                                      |  12 +-
+ include/linux/livepatch.h                     |  13 +
+ include/uapi/linux/livepatch.h                |  25 +
+ kernel/livepatch/core.c                       |   4 +-
+ lib/livepatch/Makefile                        |  12 +
+ lib/livepatch/test_klp_convert.h              |  45 +
+ lib/livepatch/test_klp_convert1.c             | 121 +++
+ lib/livepatch/test_klp_convert2.c             | 110 +++
+ lib/livepatch/test_klp_convert_data.c         | 190 ++++
+ lib/livepatch/test_klp_convert_keys.c         |  91 ++
+ lib/livepatch/test_klp_convert_keys_mod.c     |  52 +
+ lib/livepatch/test_klp_convert_mod_a.c        |  31 +
+ lib/livepatch/test_klp_convert_mod_b.c        |  19 +
+ lib/livepatch/test_klp_convert_mod_c.c        |  36 +
+ lib/livepatch/test_klp_convert_sections.c     | 120 +++
+ samples/livepatch/Makefile                    |   1 +
+ .../livepatch/livepatch-annotated-sample.c    |  93 ++
+ scripts/Makefile                              |   1 +
+ scripts/Makefile.modfinal                     |  38 +-
+ scripts/Makefile.modpost                      |   5 +
+ scripts/livepatch/.gitignore                  |   1 +
+ scripts/livepatch/Makefile                    |   5 +
+ scripts/livepatch/elf.c                       | 813 ++++++++++++++++
+ scripts/livepatch/elf.h                       |  74 ++
+ scripts/livepatch/klp-convert.c               | 885 ++++++++++++++++++
+ scripts/livepatch/klp-convert.h               |  47 +
+ scripts/livepatch/list.h                      | 391 ++++++++
+ scripts/mod/modpost.c                         |  28 +-
+ scripts/mod/modpost.h                         |   1 +
+ .../selftests/livepatch/test-livepatch.sh     | 405 ++++++++
+ 35 files changed, 3708 insertions(+), 11 deletions(-)
+ create mode 100644 include/uapi/linux/livepatch.h
+ create mode 100644 lib/livepatch/test_klp_convert.h
+ create mode 100644 lib/livepatch/test_klp_convert1.c
+ create mode 100644 lib/livepatch/test_klp_convert2.c
+ create mode 100644 lib/livepatch/test_klp_convert_data.c
+ create mode 100644 lib/livepatch/test_klp_convert_keys.c
+ create mode 100644 lib/livepatch/test_klp_convert_keys_mod.c
+ create mode 100644 lib/livepatch/test_klp_convert_mod_a.c
+ create mode 100644 lib/livepatch/test_klp_convert_mod_b.c
+ create mode 100644 lib/livepatch/test_klp_convert_mod_c.c
+ create mode 100644 lib/livepatch/test_klp_convert_sections.c
+ create mode 100644 samples/livepatch/livepatch-annotated-sample.c
+ create mode 100644 scripts/livepatch/.gitignore
+ create mode 100644 scripts/livepatch/Makefile
+ create mode 100644 scripts/livepatch/elf.c
+ create mode 100644 scripts/livepatch/elf.h
+ create mode 100644 scripts/livepatch/klp-convert.c
+ create mode 100644 scripts/livepatch/klp-convert.h
+ create mode 100644 scripts/livepatch/list.h
+
+-- 
+2.26.3
+
