@@ -2,54 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1121A4B8EDD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 18:12:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1922E4B8EF3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 18:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236905AbiBPRMd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Feb 2022 12:12:33 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53002 "EHLO
+        id S236959AbiBPRRf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Feb 2022 12:17:35 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236575AbiBPRMd (ORCPT
+        with ESMTP id S234015AbiBPRRd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Feb 2022 12:12:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 352D113319A
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 09:12:20 -0800 (PST)
+        Wed, 16 Feb 2022 12:17:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81EBABDE55
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 09:17:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645031539;
+        s=mimecast20190719; t=1645031840;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=trNnuhj3H8o+H+1AZglqTOecwQUhO1rBcjpEVqGZc1Q=;
-        b=VReuBWr30kyOUFrHnf3UdLtZpwhIzpJWnGb7QXC3BawTqJn4TQoBp+Jc3+oSwtKbz+0RAM
-        qKQFMkZrrZR8s+5lE2VjizJUeWEfUPe5JwJHzyw6XPQsJupoW9G5/9wFVgkKHm9A80V4on
-        m+CwJNQSoer34NYKj6vy88UhgKLSrkk=
+        bh=l01JrVUK+HQMzPZaZaQKrewFXcNhBlKnH3eIP6lTZ6M=;
+        b=LfakkmYk5DY2AiqU8mKu6gcjcWq6W8f1Ji5Ze3E/Qihy6dxd01u/O4mithGuwbRoHjCbKy
+        VJfalnLf1GCd81/F/8dLROHmq2B/Gb8xbDy6lqECS5hdsrd0C41tbLAvCzq504HMbsOL9f
+        R0dGvO1dU38MedfmPUbo9Sw0uYhdv78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-YwLc1HjRME2tzsKEzIe1tg-1; Wed, 16 Feb 2022 12:12:16 -0500
-X-MC-Unique: YwLc1HjRME2tzsKEzIe1tg-1
+ us-mta-15-V3mfLI-2OVabCLHLrxjONg-1; Wed, 16 Feb 2022 12:17:17 -0500
+X-MC-Unique: V3mfLI-2OVabCLHLrxjONg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C873B80D680;
-        Wed, 16 Feb 2022 17:12:14 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D3DC8143E5;
+        Wed, 16 Feb 2022 17:17:16 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.8.49])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 40FBB62D58;
-        Wed, 16 Feb 2022 17:12:14 +0000 (UTC)
-Date:   Wed, 16 Feb 2022 12:12:12 -0500
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B15E8753ED;
+        Wed, 16 Feb 2022 17:17:15 +0000 (UTC)
+Date:   Wed, 16 Feb 2022 12:17:13 -0500
 From:   Joe Lawrence <joe.lawrence@redhat.com>
 To:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v6 11/12] livepatch/selftests: add data relocations
- test
-Message-ID: <Yg0wbJNYeFIwaisP@redhat.com>
+Subject: Re: [RFC PATCH v6 00/12] livepatch: klp-convert tool
+Message-ID: <Yg0xmWaBDNVmCB3b@redhat.com>
 References: <20220216163940.228309-1-joe.lawrence@redhat.com>
- <20220216163940.228309-12-joe.lawrence@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220216163940.228309-12-joe.lawrence@redhat.com>
+In-Reply-To: <20220216163940.228309-1-joe.lawrence@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
@@ -61,83 +59,31 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 16, 2022 at 11:39:39AM -0500, Joe Lawrence wrote:
+On Wed, Feb 16, 2022 at 11:39:28AM -0500, Joe Lawrence wrote:
 > 
 > [ ... snip ... ]
 > 
-> diff --git a/lib/livepatch/test_klp_convert_data.c b/lib/livepatch/test_klp_convert_data.c
-> new file mode 100644
-> index 000000000000..142422664159
-> --- /dev/null
-> +++ b/lib/livepatch/test_klp_convert_data.c
-> @@ -0,0 +1,190 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (C) 2021 Joe Lawrence <joe.lawrence@redhat.com>
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/cache.h>
-> +#include <linux/livepatch.h>
-> +#include "test_klp_convert.h"
-> +
-> +/* Small global */
-> +int *p_global_small = &global_small;
-> +
-> +/* Small global (const) */
-> +// .rela.data.rel.ro, .rela.rodata supported ???:
-> +int * const p_const_global_small = &const_global_small;
-> +
-> +/* Small file-static */
-> +static int *p_static_small = &static_small;
-> +
-> +/* Small file-static (constant) */
-> +static int * const p_static_const_small = &static_const_small;
-> +
-> +/* Large global */
-> +int *p_global_large[4] = {
-> +	&global_large[0], &global_large[1],
-> +	&global_large[2], &global_large[3],
-> +};
-> +
-> +/* Large global (const) */
-> +// .rela.data.rel.ro, .rela.rodata supported ???:
-> +int * const p_const_global_large[4] = {
-> +	&const_global_large[0], &const_global_large[1],
-> +	&const_global_large[2], &const_global_large[3],
-> +};
-> +
-> +/* Large file-static global */
-> +static int *p_static_large[4] = {
-> +	&static_large[0], &static_large[1],
-> +	&static_large[2], &static_large[3],
-> +};
-> +
-> +/* Large file-static (const) */
-> +static int * const p_static_const_large[4] = {
-> +	&static_const_large[0], &static_const_large[1],
-> +	&static_const_large[2], &static_const_large[3],
-> +};
-> +
-> +// .rela.data.rel.ro, .rela.rodata supported ???:
-> +static int * __ro_after_init p_static_ro_after_init = &static_ro_after_init;
-> +static int * __read_mostly p_static_read_mostly = &static_read_mostly;
+>  lib/livepatch/Makefile                        |  12 +
+>  lib/livepatch/test_klp_convert.h              |  45 +
+>  lib/livepatch/test_klp_convert1.c             | 121 +++
+>  lib/livepatch/test_klp_convert2.c             | 110 +++
+>  lib/livepatch/test_klp_convert_data.c         | 190 ++++
+>  lib/livepatch/test_klp_convert_keys.c         |  91 ++
+>  lib/livepatch/test_klp_convert_keys_mod.c     |  52 +
+>  lib/livepatch/test_klp_convert_mod_a.c        |  31 +
+>  lib/livepatch/test_klp_convert_mod_b.c        |  19 +
+>  lib/livepatch/test_klp_convert_mod_c.c        |  36 +
+>  lib/livepatch/test_klp_convert_sections.c     | 120 +++
 
-This started getting a bit repetitive, and maybe belongs to its own set
-of klp-convert unit tests (as the selftests seem closer to integration
-type tests).
+A general (selftests) question: is there any build mechanism in the
+kernel tree that is used to *expect* build failure?
 
-Anyway, I left in the .rela.<read-only> type relocations as mentioned in
-the [RFC PATCH v6 03/12] livepatch: Add klp-convert tool [1].  We can
-talk about whether such sections should be supported over there.
+Under certain circumstances, we would need klp-convert to fail and it
+would be helpful to test for that.  At the moment I am considered out of
+tree tests that could exercise the code this way, but definitely prefer
+anything that is already in-tree.
 
-As for this test, it currently crashes ppc64le as it generates a late
-klp-relocation type R_PPC64_ADDR64 in a section that was marked RO.
-(IIRC such ppc64le data relocations to other .rela.<text> sections are
-safe as they aren't marked RO.)
-
-[1] https://lore.kernel.org/lkml/Yg0qgtSFNQx5Mo1i@redhat.com/
+Thanks,
 
 -- Joe
 
