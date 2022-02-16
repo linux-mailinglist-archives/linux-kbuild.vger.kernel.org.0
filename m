@@ -2,53 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1922E4B8EF3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 18:17:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBD954B91F3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 20:57:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236959AbiBPRRf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Feb 2022 12:17:35 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38568 "EHLO
+        id S238463AbiBPT6B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Feb 2022 14:58:01 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234015AbiBPRRd (ORCPT
+        with ESMTP id S238450AbiBPT6A (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Feb 2022 12:17:33 -0500
+        Wed, 16 Feb 2022 14:58:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81EBABDE55
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 09:17:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54652222F26
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 11:57:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645031840;
+        s=mimecast20190719; t=1645041466;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=l01JrVUK+HQMzPZaZaQKrewFXcNhBlKnH3eIP6lTZ6M=;
-        b=LfakkmYk5DY2AiqU8mKu6gcjcWq6W8f1Ji5Ze3E/Qihy6dxd01u/O4mithGuwbRoHjCbKy
-        VJfalnLf1GCd81/F/8dLROHmq2B/Gb8xbDy6lqECS5hdsrd0C41tbLAvCzq504HMbsOL9f
-        R0dGvO1dU38MedfmPUbo9Sw0uYhdv78=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=xiLxVyN59oqE7A7718SqSgkuduNadRNJgJwK2/lq92E=;
+        b=YLe1zyKjBBq4/N4O04UJRwLjiPZBdNh4E6hg0Sh1QUryLp50qKmtsd4QlKa4D4Lvmcr2Bt
+        hChdT0nBIolIhClL7B4EStfUXVIoQl5LwUZrHsfAvVNSpgdZ+JLfLgEt6ndQiAKnzW4E35
+        /bzomFteh4+wPaQ3NKJu5TEcp31/ko4=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-V3mfLI-2OVabCLHLrxjONg-1; Wed, 16 Feb 2022 12:17:17 -0500
-X-MC-Unique: V3mfLI-2OVabCLHLrxjONg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D3DC8143E5;
-        Wed, 16 Feb 2022 17:17:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.8.49])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B15E8753ED;
-        Wed, 16 Feb 2022 17:17:15 +0000 (UTC)
-Date:   Wed, 16 Feb 2022 12:17:13 -0500
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-To:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v6 00/12] livepatch: klp-convert tool
-Message-ID: <Yg0xmWaBDNVmCB3b@redhat.com>
-References: <20220216163940.228309-1-joe.lawrence@redhat.com>
+ us-mta-397-gsm2GpF5M6O2HEHsj-D7Vw-1; Wed, 16 Feb 2022 14:57:45 -0500
+X-MC-Unique: gsm2GpF5M6O2HEHsj-D7Vw-1
+Received: by mail-qv1-f71.google.com with SMTP id cg14-20020a05621413ce00b0042c2706a4beso2828065qvb.23
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 11:57:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xiLxVyN59oqE7A7718SqSgkuduNadRNJgJwK2/lq92E=;
+        b=fSqL+Q+PfFn82NEhVnMopQ3ab5uXwCsqPKyWEpXO2iK3w2cu52LaQDBkotS9hzgMdt
+         lUnlPTHMtsWfKdKn4r2WJx8wSBsNjaZzpKrbSb1I3P3AeXhAywdCfFJTGPu6wrk8tx7j
+         clqk43CGKFaFvMd+tIERgIAtq46LxzkUjkNzWSKP8BPrbpapg36cGh0yiwFBnAOpOmec
+         FRLiXyRw/URTnSaRUnf5rgwW49r5hneAp/WxoY1d+OKI1iN0vTdx/f9IPXks/CtSVNe/
+         y0C5EVwc3h1I9Rp4CNFKJIvM0zZd4suyfBeZcWewE6BsJ5l0zLwmQahVJ7svtNUevpLx
+         t9Fw==
+X-Gm-Message-State: AOAM531F6J7jQ88pcKX6KDYHU0cMwWhbFqi6lntzIrW9Euu/XIu9yi0g
+        O+TKQP3zJDObaLvrTOm99NKN1MiQ3LvuKzamRNT5T6PmXsSGDOV/jDF7xpdl4KrRZz7BoPqZG4u
+        rYrRseTHVXZ6Biri+DETsuhhO
+X-Received: by 2002:a05:622a:1349:b0:2d4:7253:a515 with SMTP id w9-20020a05622a134900b002d47253a515mr3268810qtk.602.1645041464722;
+        Wed, 16 Feb 2022 11:57:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJygWGLG5sUSJg9RfvApTNNy6TjsndVIBgztpxG68wFuUHr83ZsEZ3BHwvjzof67oYJOV+7Ieg==
+X-Received: by 2002:a05:622a:1349:b0:2d4:7253:a515 with SMTP id w9-20020a05622a134900b002d47253a515mr3268787qtk.602.1645041464385;
+        Wed, 16 Feb 2022 11:57:44 -0800 (PST)
+Received: from treble ([2600:1700:6e32:6c00::15])
+        by smtp.gmail.com with ESMTPSA id c7sm3530034qtp.61.2022.02.16.11.57.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 11:57:43 -0800 (PST)
+Date:   Wed, 16 Feb 2022 11:57:38 -0800
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Miroslav Benes <mbenes@suse.cz>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
+ unique-symbol` is available
+Message-ID: <20220216195738.vhlot4udoqga4ndm@treble>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
+ <20220209185752.1226407-3-alexandr.lobakin@intel.com>
+ <20220211174130.xxgjoqr2vidotvyw@treble>
+ <alpine.LSU.2.21.2202161601010.1475@pobox.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220216163940.228309-1-joe.lawrence@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <alpine.LSU.2.21.2202161601010.1475@pobox.suse.cz>
 X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -59,31 +113,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 16, 2022 at 11:39:28AM -0500, Joe Lawrence wrote:
+On Wed, Feb 16, 2022 at 04:06:24PM +0100, Miroslav Benes wrote:
+> > > +	/*
+> > > +	 * If the LD's `-z unique-symbol` flag is available and enabled,
+> > > +	 * sympos checks are not relevant.
+> > > +	 */
+> > > +	if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL))
+> > > +		sympos = 0;
+> > > +
+> > 
+> > Similarly, I don't see a need for this.  If the patch is legit then
+> > sympos should already be zero.  If not, an error gets reported and the
+> > patch fails to load.
 > 
-> [ ... snip ... ]
-> 
->  lib/livepatch/Makefile                        |  12 +
->  lib/livepatch/test_klp_convert.h              |  45 +
->  lib/livepatch/test_klp_convert1.c             | 121 +++
->  lib/livepatch/test_klp_convert2.c             | 110 +++
->  lib/livepatch/test_klp_convert_data.c         | 190 ++++
->  lib/livepatch/test_klp_convert_keys.c         |  91 ++
->  lib/livepatch/test_klp_convert_keys_mod.c     |  52 +
->  lib/livepatch/test_klp_convert_mod_a.c        |  31 +
->  lib/livepatch/test_klp_convert_mod_b.c        |  19 +
->  lib/livepatch/test_klp_convert_mod_c.c        |  36 +
->  lib/livepatch/test_klp_convert_sections.c     | 120 +++
+> My concern was that if the patch is not legit (that is, sympos is > 0 for 
+> some reason), the error would be really cryptic and would not help the 
+> user at all. So zeroing sympos seems to be a good idea to me. There is no 
+> harm and the change is very small and compact.
 
-A general (selftests) question: is there any build mechanism in the
-kernel tree that is used to *expect* build failure?
+But wouldn't a cryptic error be better than no error at all?  A bad
+sympos might be indicative of some larger issue, like the wrong symbol
+getting patched.
 
-Under certain circumstances, we would need klp-convert to fail and it
-would be helpful to test for that.  At the moment I am considered out of
-tree tests that could exercise the code this way, but definitely prefer
-anything that is already in-tree.
-
-Thanks,
-
--- Joe
+-- 
+Josh
 
