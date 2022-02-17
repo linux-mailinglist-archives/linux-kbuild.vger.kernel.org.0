@@ -2,89 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0195E4B99FF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Feb 2022 08:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6E54B9DF5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Feb 2022 12:02:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236297AbiBQHqD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Feb 2022 02:46:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37642 "EHLO
+        id S239684AbiBQK7E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Feb 2022 05:59:04 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230237AbiBQHqC (ORCPT
+        with ESMTP id S239589AbiBQK6r (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Feb 2022 02:46:02 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A00E23A1A8;
-        Wed, 16 Feb 2022 23:45:47 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id C4B591F37D;
-        Thu, 17 Feb 2022 07:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1645083945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N1Bwkgc0b1NsSzA+goLBbyLYnuFpjvP2ZA623nZPeoU=;
-        b=LMzvITKL+HRLw4P7XofOjk1T99l49Svs+bIG968ShkCNoMHbk4iFHhRC/+aSeIWvQXhVj4
-        IUWURCieN1XSygVBt+Oo0ERi/4JQeNKE8hwXaYdSwW7+QWRjqLQ8wyIPo1sQSujPmsKUfA
-        xvUKJPohu4obUX4yyl8TAjblL2pnEms=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1645083945;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=N1Bwkgc0b1NsSzA+goLBbyLYnuFpjvP2ZA623nZPeoU=;
-        b=sA66tyj6hGa43RzOunBJ54EjO34EwRWPSAqD7VXSJ/ifWqAqw8zyPNB71MS1Z0JeTybQOl
-        6qqR0AaRmeM7F0Dw==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 17 Feb 2022 05:58:47 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E716D295FC8;
+        Thu, 17 Feb 2022 02:58:02 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 3F741A3B91;
-        Thu, 17 Feb 2022 07:45:44 +0000 (UTC)
-Date:   Thu, 17 Feb 2022 08:45:44 +0100 (CET)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
- unique-symbol` is available
-In-Reply-To: <20220216195738.vhlot4udoqga4ndm@treble>
-Message-ID: <alpine.LSU.2.21.2202170841240.29121@pobox.suse.cz>
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-3-alexandr.lobakin@intel.com> <20220211174130.xxgjoqr2vidotvyw@treble> <alpine.LSU.2.21.2202161601010.1475@pobox.suse.cz> <20220216195738.vhlot4udoqga4ndm@treble>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 6A5C8210E1;
+        Thu, 17 Feb 2022 10:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1645095480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ejJOPMGqoqTuXltYTN+lNUEISoj2/cmQ0coSdRcZq5k=;
+        b=ZmB0wl9B9CgZyZnf/7Ct12lyeIShGiixXlRP9IOq/4vrlpDESTcIN8KW7m/QnQcMLuQUaF
+        bzzZ4SKpatk+xQqopXOBDcul+VBATMS0f79s5N3E4O0RMKPmDp6nhXoD5Wc1GUFzcYSxG+
+        C2S+N2tis9gO5C8RX93fKLmFkW559YU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1645095480;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ejJOPMGqoqTuXltYTN+lNUEISoj2/cmQ0coSdRcZq5k=;
+        b=k0ZVrYblyEUXeXXww5CqhEGKlAS7+qvgR0vU+sdgJQJFmqwkM84m7WcCBoIqxjnrXFRvUf
+        amxF66q1wDa9bnDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC72813DD8;
+        Thu, 17 Feb 2022 10:57:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id dDoXODcqDmJdTgAAMHmgww
+        (envelope-from <pvorel@suse.cz>); Thu, 17 Feb 2022 10:57:59 +0000
+From:   Petr Vorel <pvorel@suse.cz>
+To:     linux-crypto@vger.kernel.org
+Cc:     Petr Vorel <pvorel@suse.cz>, Nicolai Stange <nstange@suse.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, leitao@debian.org,
+        Nayna Jain <nayna@linux.ibm.com>,
+        Paulo Flabiano Smorigo <pfsmorigo@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v3 0/2] vmx-crypto: Add missing dependencies
+Date:   Thu, 17 Feb 2022 11:57:49 +0100
+Message-Id: <20220217105751.6330-1-pvorel@suse.cz>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -95,31 +68,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 16 Feb 2022, Josh Poimboeuf wrote:
+Hi all,
 
-> On Wed, Feb 16, 2022 at 04:06:24PM +0100, Miroslav Benes wrote:
-> > > > +	/*
-> > > > +	 * If the LD's `-z unique-symbol` flag is available and enabled,
-> > > > +	 * sympos checks are not relevant.
-> > > > +	 */
-> > > > +	if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL))
-> > > > +		sympos = 0;
-> > > > +
-> > > 
-> > > Similarly, I don't see a need for this.  If the patch is legit then
-> > > sympos should already be zero.  If not, an error gets reported and the
-> > > patch fails to load.
-> > 
-> > My concern was that if the patch is not legit (that is, sympos is > 0 for 
-> > some reason), the error would be really cryptic and would not help the 
-> > user at all. So zeroing sympos seems to be a good idea to me. There is no 
-> > harm and the change is very small and compact.
-> 
-> But wouldn't a cryptic error be better than no error at all?  A bad
-> sympos might be indicative of some larger issue, like the wrong symbol
-> getting patched.
 
-Maybe you are right. I do not feel confident enough to decide it. So 
-either way would be fine, I guess.
+changes v2->v3:
+* keep CRYPTO_DEV_VMX and merge CRYPTO_DEV_VMX_ENCRYPT into it instead
+  of vice versa (suggested by Nicolai). I have no problem to send
+  another version if maintainers want the original approach.
+* change commit subject to be compatible
+* remove MAINTAINERS changes
 
-Miroslav
+Petr Vorel (2):
+  crypto: vmx - merge CRYPTO_DEV_VMX_ENCRYPT into CRYPTO_DEV_VMX
+  crypto: vmx - add missing dependencies
+
+ arch/powerpc/configs/powernv_defconfig |  2 +-
+ arch/powerpc/configs/ppc64_defconfig   |  2 +-
+ arch/powerpc/configs/pseries_defconfig |  2 +-
+ drivers/crypto/Kconfig                 | 13 +++++++++----
+ drivers/crypto/vmx/Kconfig             | 10 ----------
+ drivers/crypto/vmx/Makefile            |  4 ++--
+ 6 files changed, 14 insertions(+), 19 deletions(-)
+ delete mode 100644 drivers/crypto/vmx/Kconfig
+
+-- 
+2.35.1
+
