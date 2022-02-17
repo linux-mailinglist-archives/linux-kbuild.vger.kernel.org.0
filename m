@@ -2,116 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 472864B93AA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Feb 2022 23:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 032C14B950E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Feb 2022 01:28:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236838AbiBPWNs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Feb 2022 17:13:48 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37390 "EHLO
+        id S229808AbiBQA3A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Feb 2022 19:29:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236747AbiBPWNr (ORCPT
+        with ESMTP id S229777AbiBQA27 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Feb 2022 17:13:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 08ACF2AED8F
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 14:13:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645049612;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GInsY8EWMmzWnfSQud73Z6xT/DOtOKlNQiWr2Elb/hk=;
-        b=gt5ZzQS+E8Z3cPcIVhuK8DF2rNR9fyTOuDz3K96kuuPwEroSyKNmOLex9kHvGVOJo5oiyF
-        +ywTazmMs0hwVa1svmxjp7UxiSqntfingy5+UVIe0/B8uuqkOj5LQJJvjZ5xBvHe9tIyai
-        0cH+sGqwyxebOoafOky5qYzJRNFEeos=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-6rsoPqmLMNCybQkL3GY1bg-1; Wed, 16 Feb 2022 17:13:31 -0500
-X-MC-Unique: 6rsoPqmLMNCybQkL3GY1bg-1
-Received: by mail-qk1-f200.google.com with SMTP id u9-20020ae9c009000000b0049ae89c924aso2445420qkk.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 14:13:31 -0800 (PST)
+        Wed, 16 Feb 2022 19:28:59 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCCB1FCBE6
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 16:28:46 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id v22so2857332pgb.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Feb 2022 16:28:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FGcQO3MYiNVzzOdQ6PURsZcaUd8RxaLP2F5BG8x7eyQ=;
+        b=Lqy2LJOcN+upnxmIuTwy3fpzudc0qiFDVU+dx5qCPOwHk6QfaFIX97c4efamZKjMMi
+         euF0m2g0IF54Vfa68IeK+IXk2NUQXtaq7kA0Uod+Y2cXxKbxzrX4PExsECyuXGTltvrA
+         i2leezKeoQtfK2DYFOiqo//LmWYDTGnE5l2q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GInsY8EWMmzWnfSQud73Z6xT/DOtOKlNQiWr2Elb/hk=;
-        b=OvbBjvCbuMgVRRb7ucKrX56yRLzm9veH34C3Plr7uOaNvSe4djkakp7ryZBlTt2g71
-         sBpEh6RExckn3Ft0nBJ0AVdrMqmgJQVUL5WSOKXcs5RgHFL8b9rYjpFs2RXM2RU+uwCV
-         c7WoiULMNabPAV8l4w6s1YkMATuy4ASoO0DkZuo/5DLFAdJXfeI1w/VDvv52W/UDHiHL
-         Z9LOY2/bIrENpbFLqd5mD1xbvZuXaZEnx+vv1NoAIrEC7sMbIzWB+NvgrzKpg4ZXQS6t
-         Q3+D39dq6naazzSvviKFFzmKEouDFjnAb0YCKTVCVYpChrfhH6BB1/bfXzkDq9bysbLW
-         PNHg==
-X-Gm-Message-State: AOAM532qj1Xq99dryAxUsrZhYdJ8ICab/cF1Zm0der+oXUxDDbZ6aTEn
-        SxjBM//Q4hD3m2yNZfy8x4oW/u1v6rgX2cN6/XLvDoE1j//RqSRt6KVXT+wgiJPgwDtXnGnahyC
-        gkriXfxw2BEXIah4fYuyBxElE
-X-Received: by 2002:a37:bcd:0:b0:508:19df:59ac with SMTP id 196-20020a370bcd000000b0050819df59acmr2498023qkl.227.1645049610683;
-        Wed, 16 Feb 2022 14:13:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylNMRi17SxjrpZK57rI6C9v3gwc8m6LOiygd1+pTiydJMqSsqj+XSkhj9zykPsZ8CKxgwdIw==
-X-Received: by 2002:a37:bcd:0:b0:508:19df:59ac with SMTP id 196-20020a370bcd000000b0050819df59acmr2497996qkl.227.1645049610346;
-        Wed, 16 Feb 2022 14:13:30 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::15])
-        by smtp.gmail.com with ESMTPSA id m22sm19966780qkn.35.2022.02.16.14.13.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FGcQO3MYiNVzzOdQ6PURsZcaUd8RxaLP2F5BG8x7eyQ=;
+        b=sb3pOSTOG/JeH7xx1b0lT2ihMag+8B97DXAmVxPgou7K14PWOCO718EBXl7K+SXE8J
+         Ti5hBQ7OVz9vBmyBPqBujrQePRiCydQgl3cxFQff7SEJhEi36t/gPzrM2704bjHwQtyJ
+         75SVYqF8NuYOoYAgH6fgceLm6bIF/sL1NFL25BkoICbY8VqAsZBaKQVtBuz9a7GPceg0
+         sSDD7xB/DbaD/NYTZFcjgm32JCCYRzR0mPT7+cqbvDj4LNkoUxA2ARoDIPwyCYBdu2+F
+         tY6opeBozFj4fDUHL+ax6yjZLMD6kP9Ku739Y6+l59fjSDYrlzvUvs9AvlK8rfEL0CXN
+         oPMg==
+X-Gm-Message-State: AOAM531U3syl+5kxQvn7CXmpVsXN/RASyHLvQfR0gDHqCgivR877uygf
+        d7RMxgFzr/6bSQOO9+OI/+KVSQ==
+X-Google-Smtp-Source: ABdhPJxm+8yfHYB9vBipUYW1o+9PJNIevacMU+b/iaFcke9KfnDnfNB1BpC49YXhw4myccRnzpcrRQ==
+X-Received: by 2002:a63:8bca:0:b0:370:2717:3756 with SMTP id j193-20020a638bca000000b0037027173756mr396843pge.604.1645057725956;
+        Wed, 16 Feb 2022 16:28:45 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id mj21sm199355pjb.20.2022.02.16.16.28.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 14:13:29 -0800 (PST)
-Date:   Wed, 16 Feb 2022 14:13:24 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        =?utf-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Wed, 16 Feb 2022 16:28:45 -0800 (PST)
+From:   Kees Cook <keescook@chromium.org>
+To:     Jeff Dike <jdike@addtoit.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
- unique-symbol` is available
-Message-ID: <20220216221324.4b4avd5l3qdmqfcv@treble>
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
- <20220209185752.1226407-3-alexandr.lobakin@intel.com>
- <20220211174130.xxgjoqr2vidotvyw@treble>
- <CAFP8O3KvZOZJqOR8HYp9xZGgnYf3D8q5kNijZKORs06L-Vit1g@mail.gmail.com>
- <20220211183529.q7qi2qmlyuscxyto@treble>
- <20220214122433.288910-1-alexandr.lobakin@intel.com>
- <20220214181000.xln2qgyzgswjxwcz@treble>
- <Yg1fab6h1rTjVbYO@redhat.com>
+        David Gow <davidgow@google.com>, linux-um@lists.infradead.org,
+        linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, llvm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH] um: Allow builds with Clang
+Date:   Wed, 16 Feb 2022 16:28:43 -0800
+Message-Id: <20220217002843.2312603-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yg1fab6h1rTjVbYO@redhat.com>
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2149; h=from:subject; bh=vShMU0xnxVexx4MO5nHaUDLC8EDUgfNlHp2nsWHEiy8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBiDZa6UafTd6YGrYc+tswDkAPHU5vTnnAfc+6lyNW/ iJEEJS+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYg2WugAKCRCJcvTf3G3AJrobD/ 94N3eFm682VZ5KXRjhfpVMnBOe7gen8xGGN/fUaNo7D5ELCrVTZ2MtlaOxpZg3gFE2QOS9Qi3KfN4T evcT3Sx7e2eCQQVIH989akOsLuFQkuDsJRZoHarM0gDLFJzqJYV5DD2F2x802pGeBcAYXME1KMkgYv cjzKSXixhur7fi/4i8v1+oGXSW39WRHeZMsb2tZhhiZerHcEkgc2Z5CBLFgBWBNwdcq0G2bza84e8J /LETYVec+LxaEtcVGZEquYASEuBwVhfnU1ELznR5msJ1OE3CpBJdUq9rFIhJY+FpU3yW1O2FSELINI zyUhxrRYDxplhqkV/9AZtB/cNiD4KJpd7yHH19JsB+773pA2qjFHej71yPlqO76eLGq85fnpkPVLAs OeUT9i/B0TfTI9W2PdqsUuXV2EeAUt52hIJ7Tc0bFsewLzdpgwT+88sk5Gx8/X3eR07rEpVTGVPx8d VhPQDd+eYjbAkmdCIco+FoxapSJq/+HtPyDFsrqsJvHyzfaiSXCkHc4cNjJAOB0P+T4/RTrk5EgpIC Q1k75VinAtx6s3sX/wE3+X7/bDeN2MSznWVfMYpwbZuJ42y6W+HD7mZPRXCg+pBUBzo6xPucFqLzXN MpOxLvy+jlg8HUr9uGvI0UoDqaix1aidkMMl2KM5AWa+wnAS5UJHGqjM7euQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -119,63 +76,64 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 16, 2022 at 03:32:41PM -0500, Joe Lawrence wrote:
-> > Right, so we'd have to abandon position-based search in favor of
-> > file+func based search.
-> > 
-> > It's not perfect because there are still a few file+func duplicates.
-> > But it might be good enough.  We would presumably just refuse to patch a
-> > duplicate.  Or we could remove them (and enforce their continued removal
-> > with tooling-based warnings).
-> > 
-> 
-> You're talking about duplicate file+func combinations as stored in the
-> symbol table?
+Add x86-64 target for Clang+um and update user-offsets.c to use
+Clang-friendly assembler, similar to the fix from commit cf0c3e68aa81
+("kbuild: fix asm-offset generation to work with clang").
 
-Right.
+This lets me run KUnit tests with Clang:
 
-> ...
->       6 OBJECT core.c::__func__.3
->       6 OBJECT core.c::__func__.5
->       7 OBJECT core.c::__func__.1
->       8 OBJECT core.c::__func__.0
->       8 OBJECT core.c::__func__.2
-> 
-> We could probably minimize the FUNC duplicates with unique names, but
-> I'm not as optimistic about the OBJECTs as most are created via macros
-> like __already_done.X.  Unless clever macro magic?
+$ ./tools/testing/kunit/kunit.py config --make_options LLVM=1
+...
+$ ./tools/testing/kunit/kunit.py run --make_options LLVM=1
+...
 
-Good point about objects, as we rely on disambiguating them for klp
-relocations.  Luckily, the fact that most of them are created by macros
-is largely a good thing.  We consider most of those to be "special"
-static locals, which don't actually need to be correlated or referenced
-with a klp reloc.
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: David Gow <davidgow@google.com>
+Cc: linux-um@lists.infradead.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: llvm@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ arch/x86/um/user-offsets.c | 4 ++--
+ scripts/Makefile.clang     | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-For example:
-
-- '__func__' is just the function name.  The patched function shouldn't
-  need to reference the original function's function name string.
-
-- '__already_done' is used for printk_once(); no harm in making a new
-  variable initialized to false and printing it again; or converting
-  printk_once() to just printk() to avoid an extra print.
-
-- '__key' is used by lockdep to track lock usage and validate locking
-  order.  It probably makes sense to use a new key in the patched
-  function, since the new function might have different locking
-  behavior.
-
-> Next question: what are the odds that these entries, at least the ones
-> we can't easily rename, need disambiguity for livepatching?  or
-> kpatch-build for related purposes?
-
-I would guess the odds are rather low, given the fact that there are so
-few functions, and we don't care about most of the objects on the list.
-
-If duplicates were to become problematic then we could consider adding
-tooling which warns on a duplicate file:sym pair with the goal of
-eliminating duplicates (exculding the "special" objects).
-
+diff --git a/arch/x86/um/user-offsets.c b/arch/x86/um/user-offsets.c
+index bae61554abcc..d9071827b515 100644
+--- a/arch/x86/um/user-offsets.c
++++ b/arch/x86/um/user-offsets.c
+@@ -10,10 +10,10 @@
+ #include <asm/types.h>
+ 
+ #define DEFINE(sym, val) \
+-	asm volatile("\n->" #sym " %0 " #val : : "i" (val))
++	asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val))
+ 
+ #define DEFINE_LONGS(sym, val) \
+-	asm volatile("\n->" #sym " %0 " #val : : "i" (val/sizeof(unsigned long)))
++	asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val/sizeof(unsigned long)))
+ 
+ void foo(void)
+ {
+diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
+index 51fc23e2e9e5..857b23de51c6 100644
+--- a/scripts/Makefile.clang
++++ b/scripts/Makefile.clang
+@@ -10,6 +10,7 @@ CLANG_TARGET_FLAGS_powerpc	:= powerpc64le-linux-gnu
+ CLANG_TARGET_FLAGS_riscv	:= riscv64-linux-gnu
+ CLANG_TARGET_FLAGS_s390		:= s390x-linux-gnu
+ CLANG_TARGET_FLAGS_x86		:= x86_64-linux-gnu
++CLANG_TARGET_FLAGS_um		:= x86_64-linux-gnu
+ CLANG_TARGET_FLAGS		:= $(CLANG_TARGET_FLAGS_$(SRCARCH))
+ 
+ ifeq ($(CROSS_COMPILE),)
 -- 
-Josh
+2.30.2
 
