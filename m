@@ -2,66 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0C64B97EB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Feb 2022 05:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0195E4B99FF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Feb 2022 08:45:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiBQE4M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Feb 2022 23:56:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52686 "EHLO
+        id S236297AbiBQHqD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Feb 2022 02:46:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbiBQE4L (ORCPT
+        with ESMTP id S230237AbiBQHqC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Feb 2022 23:56:11 -0500
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BB51F227D;
-        Wed, 16 Feb 2022 20:55:57 -0800 (PST)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 21H4tb7b030427;
-        Thu, 17 Feb 2022 13:55:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 21H4tb7b030427
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1645073738;
-        bh=XT+hixO3OHzRLvB8+uXJ8rcVlX1aTroBtBRh2n+1zQY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=y7dYjnFd4wsC3TTZW1BdEoNjB4sXAHPx0oJ8ABx+P0g3nx4tKIj8RHnGp5PTqxZxP
-         F/NwszPL7gcDNXn8C95gahpJKOuhawN36TQNiyqpII8iJ7j1obZhq9H1Jm8mU4AoDo
-         tYEsoc19rtHNgG0UMiUzgfJi6rdU5DmfXuNc6rgFuhRYpHfhA52pBSeYa4fofhQDYN
-         ARoDDn05/6oJ8613UFpkQwaDNAV3QbUGSNTBVmLB+VEJ/3eyMmAXbAvyCJOZ4ZvD2i
-         sKEiwUEm3utUkypeph7bZ8SWyRkIahSFZHZrsY4kepFKduHoMAgcYGBF7Vz4YdhaHP
-         qCnjo7q5wYCSQ==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id ki18-20020a17090ae91200b001b8be87e9abso5284343pjb.1;
-        Wed, 16 Feb 2022 20:55:37 -0800 (PST)
-X-Gm-Message-State: AOAM533LyphR5LuoChSI1L6v+i1cwCPDBAuuII6YV7H09qcfrQ7TkJV3
-        ShZ+OC17RNuDYpHam+P0DZCUBnvvY/L5IuGNDW4=
-X-Google-Smtp-Source: ABdhPJxFswrX5ZhULOVqkkTeNUddZz5GKFlBSh38FlNOFO45DNJA/a61t3Ziez+i+J+9QUNCxhaseXwszlPu87Vxsso=
-X-Received: by 2002:a17:902:e8d7:b0:149:3b5d:2b8b with SMTP id
- v23-20020a170902e8d700b001493b5d2b8bmr1173473plg.162.1645073737215; Wed, 16
- Feb 2022 20:55:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20220217002843.2312603-1-keescook@chromium.org>
-In-Reply-To: <20220217002843.2312603-1-keescook@chromium.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 17 Feb 2022 13:54:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASMobjuAen+_O4eFOgkOoUwf5ANk6_TjL4SdtT47Jge-w@mail.gmail.com>
-Message-ID: <CAK7LNASMobjuAen+_O4eFOgkOoUwf5ANk6_TjL4SdtT47Jge-w@mail.gmail.com>
-Subject: Re: [PATCH] um: Allow builds with Clang
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Thu, 17 Feb 2022 02:46:02 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A00E23A1A8;
+        Wed, 16 Feb 2022 23:45:47 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id C4B591F37D;
+        Thu, 17 Feb 2022 07:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1645083945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=N1Bwkgc0b1NsSzA+goLBbyLYnuFpjvP2ZA623nZPeoU=;
+        b=LMzvITKL+HRLw4P7XofOjk1T99l49Svs+bIG968ShkCNoMHbk4iFHhRC/+aSeIWvQXhVj4
+        IUWURCieN1XSygVBt+Oo0ERi/4JQeNKE8hwXaYdSwW7+QWRjqLQ8wyIPo1sQSujPmsKUfA
+        xvUKJPohu4obUX4yyl8TAjblL2pnEms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1645083945;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=N1Bwkgc0b1NsSzA+goLBbyLYnuFpjvP2ZA623nZPeoU=;
+        b=sA66tyj6hGa43RzOunBJ54EjO34EwRWPSAqD7VXSJ/ifWqAqw8zyPNB71MS1Z0JeTybQOl
+        6qqR0AaRmeM7F0Dw==
+Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 3F741A3B91;
+        Thu, 17 Feb 2022 07:45:44 +0000 (UTC)
+Date:   Thu, 17 Feb 2022 08:45:44 +0100 (CET)
+From:   Miroslav Benes <mbenes@suse.cz>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
-        David Gow <davidgow@google.com>, linux-um@lists.infradead.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, kunit-dev@googlegroups.com,
-        llvm@lists.linux.dev,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        X86 ML <x86@kernel.org>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
+ unique-symbol` is available
+In-Reply-To: <20220216195738.vhlot4udoqga4ndm@treble>
+Message-ID: <alpine.LSU.2.21.2202170841240.29121@pobox.suse.cz>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-3-alexandr.lobakin@intel.com> <20220211174130.xxgjoqr2vidotvyw@treble> <alpine.LSU.2.21.2202161601010.1475@pobox.suse.cz> <20220216195738.vhlot4udoqga4ndm@treble>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,84 +95,31 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 9:28 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Add x86-64 target for Clang+um and update user-offsets.c to use
-> Clang-friendly assembler, similar to the fix from commit cf0c3e68aa81
-> ("kbuild: fix asm-offset generation to work with clang").
->
-> This lets me run KUnit tests with Clang:
->
-> $ ./tools/testing/kunit/kunit.py config --make_options LLVM=1
-> ...
-> $ ./tools/testing/kunit/kunit.py run --make_options LLVM=1
-> ...
->
-> Cc: Jeff Dike <jdike@addtoit.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: David Gow <davidgow@google.com>
-> Cc: linux-um@lists.infradead.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: kunit-dev@googlegroups.com
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/um/user-offsets.c | 4 ++--
->  scripts/Makefile.clang     | 1 +
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/x86/um/user-offsets.c b/arch/x86/um/user-offsets.c
-> index bae61554abcc..d9071827b515 100644
-> --- a/arch/x86/um/user-offsets.c
-> +++ b/arch/x86/um/user-offsets.c
-> @@ -10,10 +10,10 @@
->  #include <asm/types.h>
->
->  #define DEFINE(sym, val) \
-> -       asm volatile("\n->" #sym " %0 " #val : : "i" (val))
-> +       asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val))
->
->  #define DEFINE_LONGS(sym, val) \
-> -       asm volatile("\n->" #sym " %0 " #val : : "i" (val/sizeof(unsigned long)))
-> +       asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val/sizeof(unsigned long)))
->
->  void foo(void)
->  {
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 51fc23e2e9e5..857b23de51c6 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -10,6 +10,7 @@ CLANG_TARGET_FLAGS_powerpc    := powerpc64le-linux-gnu
->  CLANG_TARGET_FLAGS_riscv       := riscv64-linux-gnu
->  CLANG_TARGET_FLAGS_s390                := s390x-linux-gnu
->  CLANG_TARGET_FLAGS_x86         := x86_64-linux-gnu
-> +CLANG_TARGET_FLAGS_um          := x86_64-linux-gnu
+On Wed, 16 Feb 2022, Josh Poimboeuf wrote:
 
+> On Wed, Feb 16, 2022 at 04:06:24PM +0100, Miroslav Benes wrote:
+> > > > +	/*
+> > > > +	 * If the LD's `-z unique-symbol` flag is available and enabled,
+> > > > +	 * sympos checks are not relevant.
+> > > > +	 */
+> > > > +	if (IS_ENABLED(CONFIG_LD_HAS_Z_UNIQUE_SYMBOL))
+> > > > +		sympos = 0;
+> > > > +
+> > > 
+> > > Similarly, I don't see a need for this.  If the patch is legit then
+> > > sympos should already be zero.  If not, an error gets reported and the
+> > > patch fails to load.
+> > 
+> > My concern was that if the patch is not legit (that is, sympos is > 0 for 
+> > some reason), the error would be really cryptic and would not help the 
+> > user at all. So zeroing sympos seems to be a good idea to me. There is no 
+> > harm and the change is very small and compact.
+> 
+> But wouldn't a cryptic error be better than no error at all?  A bad
+> sympos might be indicative of some larger issue, like the wrong symbol
+> getting patched.
 
-Does this work for the i386 host?
+Maybe you are right. I do not feel confident enough to decide it. So 
+either way would be fine, I guess.
 
-UML supports i386 and x86_64 as the host architecture as of now,
-but this always compiles UML for x86_64?
-
-
-
-
-
-
-
->  CLANG_TARGET_FLAGS             := $(CLANG_TARGET_FLAGS_$(SRCARCH))
->
->  ifeq ($(CROSS_COMPILE),)
-> --
-> 2.30.2
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Miroslav
