@@ -2,69 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7024BBFA8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Feb 2022 19:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 925CD4BC003
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Feb 2022 19:56:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237730AbiBRSjq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Feb 2022 13:39:46 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46264 "EHLO
+        id S235443AbiBRS4K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Feb 2022 13:56:10 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235292AbiBRSjp (ORCPT
+        with ESMTP id S235302AbiBRS4K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Feb 2022 13:39:45 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903C524089;
-        Fri, 18 Feb 2022 10:39:28 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id a8so16999386ejc.8;
-        Fri, 18 Feb 2022 10:39:28 -0800 (PST)
+        Fri, 18 Feb 2022 13:56:10 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F5A24CCDB;
+        Fri, 18 Feb 2022 10:55:53 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id p9so17083855ejd.6;
+        Fri, 18 Feb 2022 10:55:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XPv9wzgm5eXSDUL7FuIzzc3fU8coeepn/zPu2iCKfKE=;
-        b=MQG9PtAMTNn84e/Kw4NUhvpfYiTfAIAmqT1PGJ0wORN2nQScSDWvyiBZhwbSGBHIzq
-         RW1yi1QXAVKcL4Bgotb3ErSLUZjmTIPXx6GdnWcwSbVQ7BJ9MvPv0zsyJu5RfG7KPv9U
-         oiYEPpB3YydS7XujQSw2pkbc1teoGRWpf2mJJmXfroVuQPyaFCLwhOM1KK8b58hWRYTP
-         dVf9Y0Cm9dd3ugcjU4j622YN/KpntKCh+4v14/hEtp1IlZYNet7+zUtsxQWraDl90UFs
-         IzrQWkYVmVHGFgjP8+koTbT/XHNfkyQouPYQEjW5HO8xr85UoA+tK1aKuXqkkP7Y5d2H
-         4dvA==
+        bh=C9S0KAwxEIvtCrO/D15JVJx6Fz48S13//eFCQ5KdSr0=;
+        b=NS/nptB6vvX3DFxuXH9LAFzvvi4/H8pVOKKqtn4f5wNhQga6rHX2+X3s55OZLRrpfq
+         yN7v3mxQbQpypnDoSc1sD9HQ6x+0HGNZbkmHyZtJf1rJtG+6dIAbHcXB2kwJhSDHb/Fz
+         AA9a4xSmgjdOy0qQnZt3nOySCBGQgfBc1aFV/a5q71Et1YgCmX4An9g9vmxTnWh16QLf
+         Z0xFgY9M7VwxtypQx1L5ifJjncao1/tgIBpCHa2DBIcx0MlExaunT0hvqBX1YHpsCr3N
+         ZyB+njDi/fAAus9aC2m2UPIYJbzmPJgLQrAUO6cG/IdIrPtPD5sEuP6x+Lg9B5q3dMVX
+         u+WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=XPv9wzgm5eXSDUL7FuIzzc3fU8coeepn/zPu2iCKfKE=;
-        b=nRSz6c5FsJjlEyG4+4xoIgAfVv8qqg5l1k9aXA3+Jk1Cc+ZP3A6c0XxEB2CX5J4FuV
-         rfdZFuXxabzNhDMuXlHEohBSOWGRzbc9Y+Fwt7syPOuO/SfuXdGHnLC5K3lhfCm/J5IU
-         ih9BbXNk2/5LeLnkdWPGJRuKx/k2yOCOipDQA9TOHFJ+dILGNv4Nxx0h4uHUUJJBns7v
-         LGtQA+TF9QoMcj/UZD6zO5dK8UyRqzF1xpKHZ1tMESWZorcJcPUT/R1Ie2vepan4dSKW
-         rQ/vVbrwz/APD/VMRo20Rh6SpcjFNQyjTcINTlavI9djToUoy2s3Wo4HnZVVz2vSxnUw
-         iD7A==
-X-Gm-Message-State: AOAM532soU9U9U8rrCFfKhRW3YVAUJcDrbL6HFWDKze8jvdh62cy3/ux
-        spDor5Ai1wQoiGDUvZuN8HhWLWygD67vzg==
-X-Google-Smtp-Source: ABdhPJw84HaIb839BtmITA2w3xH5gEkODoWbn6CWobM0f3YrOlMC8w5JIUmCdf5QqzA/Svg6BVlnKA==
-X-Received: by 2002:a17:906:2846:b0:6ce:21cd:5398 with SMTP id s6-20020a170906284600b006ce21cd5398mr7714653ejc.49.1645209567050;
-        Fri, 18 Feb 2022 10:39:27 -0800 (PST)
+        bh=C9S0KAwxEIvtCrO/D15JVJx6Fz48S13//eFCQ5KdSr0=;
+        b=Zo6HVwslfVeEQbqqOdST9+v9qHR6QSMHdtZnmi5wTxltxU9cpxL131GFDfu9vsMMRk
+         Yf0ONbcADrM/H7av5fWoXRa8wZKecyK4QlbKzxACN1BJYy2afwpS+b23k8jBoSSUUxIh
+         /wH2l7PAL557TvkkUAL2z4CQ9SHRKpROzMvbJZh1qeLfEXmZygdXEwZ4FTLjmKshabgU
+         YFmEgKtQFgDAdHPwZJJzHzSJRO5f31yO6Bqz3/Y5SWPkuh/LYWCOp+2r89kkhjZsAx26
+         kybrIsDEzqJ/lQtpt+OFWSBRrPTgcOJrPWaR49ZRMpoyM3ZnjMPc3hqw6QcgrYgtqa10
+         YrVQ==
+X-Gm-Message-State: AOAM530v4h+lFg2kt9ayj2LWppDt21gpvSlcQClTnDclaJ4CT5P717YL
+        qNNGcXP2SCmdnfgVQOzzdwYBQKKr/e+29g==
+X-Google-Smtp-Source: ABdhPJyRPIAYWOPFd4ap77k/xfQrHQpF4DUegJjYDzq7KACI5ECN8r4efiiJzDyUzZ3HgTwwLgoChQ==
+X-Received: by 2002:a17:906:3bc9:b0:6d0:8d78:e7e6 with SMTP id v9-20020a1709063bc900b006d08d78e7e6mr5254159ejf.222.1645210551746;
+        Fri, 18 Feb 2022 10:55:51 -0800 (PST)
 Received: from ?IPV6:2a00:a040:197:458f:c93a:90a3:1c34:c6d2? ([2a00:a040:197:458f:c93a:90a3:1c34:c6d2])
-        by smtp.gmail.com with ESMTPSA id i5sm5068089edc.94.2022.02.18.10.39.25
+        by smtp.gmail.com with ESMTPSA id y22sm5373205edc.41.2022.02.18.10.55.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Feb 2022 10:39:26 -0800 (PST)
-Message-ID: <26d74eaa-5c6a-4103-cf77-1356173a3978@gmail.com>
-Date:   Fri, 18 Feb 2022 20:39:24 +0200
+        Fri, 18 Feb 2022 10:55:51 -0800 (PST)
+Message-ID: <8043765d-2aa5-16ad-cc03-127398451e93@gmail.com>
+Date:   Fri, 18 Feb 2022 20:55:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] kconfig: Show menuconfigs as menus in the .config
- file
+Subject: Re: [PATCH 2/2] kconfig: Make comments look different than menus in
+ .config
 Content-Language: en-US
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20211213100043.45645-1-arielmarcovitch@gmail.com>
- <20211213100043.45645-2-arielmarcovitch@gmail.com>
- <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+ <20211213100043.45645-3-arielmarcovitch@gmail.com>
+ <CAK7LNAQb8ivsQX-0YDNx6B_ZTBUq9v7SSG+m8=e1GsGL-DuBsg@mail.gmail.com>
 From:   Ariel Marcovitch <arielmarcovitch@gmail.com>
-In-Reply-To: <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQb8ivsQX-0YDNx6B_ZTBUq9v7SSG+m8=e1GsGL-DuBsg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -77,128 +77,113 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello!
-
-On 18/01/2022 20:20, Masahiro Yamada wrote:
+On 18/01/2022 20:25, Masahiro Yamada wrote:
 > On Mon, Dec 13, 2021 at 7:01 PM Ariel Marcovitch
 > <arielmarcovitch@gmail.com> wrote:
->> Until now, menuconfigs were considered configs because they had non-zero
->> sym attribute. This meant that instead of having the nice menu comment
->> block in the .config output file, they were merely shown as single
->> configs.
+>> Currently, the same code that handles menus in the write to .config
+>> handles comments as well. That's why comments look exactly like menus in
+>> the .config except for the 'end of menu' comments that appear only for
+>> menus. This makes sense because sometimes comments are used as sort of
+>> submenus. However for the other cases, it looks kinda weird because one
+>> might attempt to look for the 'end of menu' for comments as well and be
+>> very confused.
 >>
->> For example:
->> ```Kconfig
->> menu "Foo"
+>> Make comments look different than menus. For the following:
+>> ```kconfig
+>> menu "Stuff"
+>>
+>> config FOO
+>>          def_bool y
+>>
+>> comment "Some comment"
+>>
+>> config BAR
+>>          def_bool n
+>>
 >> endmenu
->>
->> menuconfig BAR
->>          bool "Bar"
->>
->> config OTHER
->>          bool "Other"
->>          depends on BAR
 >> ```
 >>
->> Will be shown as:
->> ```.config
->>   #
->>   # Foo
->>   #
->>   # end of Foo
->
-> I am OK with this patch.
->
-> Just a nit.
->
-> As far as I tested your sample code (without applying this patch),
-> I did not see the line "# end of Foo".
->
-> The line "# end of ..." is printed when the last child gets back to
-> its parent, but the "Foo" menu has no child menu here.
->
-> This is out of scope of this patch, but can you update the
-> commit log so it matches the current behavior?
-
-I saw you added a patch to change that, so now the code sample here is 
-less of a lie :)
-
-I learned my message of never adding code samples to commit messages 
-without testing these as well :)
-
-So is it ready now to be applied on top of your change?
-
-> (or add one config into the "Foo" menu)
->
->
->
->
->
->
->
->>   CONFIG_BAR=y
->>   CONFIG_OTHER=y
+>> The .config will look like this:
 >> ```
+>>   #
+>>   # Stuff
+>>   #
+>>   CONFIG_FOO=y
 >>
->> Instead of using the sym attribute to decide whether or not to print the
->> menu block comment, check menu->prompt->type explicitly (after checking
->> that menu_is_visible(menu) which means menu->prompt is not none). The
->> only prompt types we actually show as menus are P_MENU and P_COMMENT. At
->> the end of the menu we need to show the end of block only for P_MENU
->> (although P_COMMENT prompts will not get to this flow because they don't
->> have children).
+>>   ### Some comment
+>>   # CONFIG_BAR is not defined
+>>   # end of Stuff
+>>
+>> ```
 >>
 >> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
 >> ---
->>   scripts/kconfig/confdata.c | 28 +++++++++++++++++-----------
->>   1 file changed, 17 insertions(+), 11 deletions(-)
+>>   scripts/kconfig/confdata.c | 14 ++++++++++----
+>>   1 file changed, 10 insertions(+), 4 deletions(-)
 >>
 >> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
->> index 42bc56ee238c..9f2c22f46ee0 100644
+>> index 9f2c22f46ee0..d3ec1ad67d92 100644
 >> --- a/scripts/kconfig/confdata.c
 >> +++ b/scripts/kconfig/confdata.c
->> @@ -874,16 +874,21 @@ int conf_write(const char *name)
->>          menu = rootmenu.list;
->>          while (menu) {
->>                  sym = menu->sym;
->> -               if (!sym) {
->> -                       if (!menu_is_visible(menu))
->> -                               goto next;
->> -                       str = menu_get_prompt(menu);
->> -                       fprintf(out, "\n"
->> -                                    "#\n"
->> -                                    "# %s\n"
->> -                                    "#\n", str);
->> -                       need_newline = false;
->> -               } else if (!(sym->flags & SYMBOL_CHOICE) &&
->> +
->> +               if (menu_is_visible(menu)) {
->> +                       enum prop_type type = menu->prompt->type;
->> +
->> +                       if (type == P_MENU || type == P_COMMENT) {
->> +                               str = menu_get_prompt(menu);
->> +                               fprintf(out, "\n"
->> +                                       "#\n"
->> +                                       "# %s\n"
->> +                                       "#\n", str);
->> +                               need_newline = false;
->> +                       }
->> +               }
->> +
->> +               if (sym && !(sym->flags & SYMBOL_CHOICE) &&
->>                             !(sym->flags & SYMBOL_WRITTEN)) {
->>                          sym_calc_value(sym);
->>                          if (!(sym->flags & SYMBOL_WRITE))
->> @@ -904,7 +909,8 @@ int conf_write(const char *name)
->>                  if (menu->next)
->>                          menu = menu->next;
->>                  else while ((menu = menu->parent)) {
->> -                       if (!menu->sym && menu_is_visible(menu) &&
->> +                       if (menu_is_visible(menu) &&
->> +                           menu->prompt->type == P_MENU &&
->>                              menu != &rootmenu) {
+>> @@ -880,10 +880,16 @@ int conf_write(const char *name)
+>>
+>>                          if (type == P_MENU || type == P_COMMENT) {
 >>                                  str = menu_get_prompt(menu);
->>                                  fprintf(out, "# end of %s\n", str);
+>> -                               fprintf(out, "\n"
+>> -                                       "#\n"
+>> -                                       "# %s\n"
+>> -                                       "#\n", str);
+>> +
+>> +                               if (type == P_MENU)
+>> +                                       fprintf(out, "\n"
+>> +                                               "#\n"
+>> +                                               "# %s\n"
+>> +                                               "#\n", str);
+>> +                               else
+>> +                                       fprintf(out, "\n"
+>> +                                               "### %s\n", str);
+>> +
+>>                                  need_newline = false;
+>>                          }
+>>                  }
 >> --
 >> 2.25.1
 >>
+>
+> Since "# CONFIG... is not set" looks like a comment,
+> I am not sure if this improves the visibility.
+
+I agree that adding another '#' signs to the real comments doesn't solve 
+the real
+problem here, being that kconfig uses comments to save actual information
+
+I guess this is for being able to check for a config in shell script 
+with [[ -n $CONFIG_FOO ]]?
+
+Although if that's the case, leaving the config empty has the same 
+effect, no? And then
+we can add a comment to the end of the definition stating that the 
+config is unset.
+Something like this:
+
+CONFIG_FOO=y
+CONFIG_BAR= # is not set
+
+It may break scripts doing something like this:
+
+: ${CONFIG_FOO=?Config FOO must be defined}
+
+But they can be changed to use ':?' instead (which checks for non-zero 
+length string
+rather than whether the variable is defined or not)
+
+Actually, now that I think of it, it might even be an improvement for 
+scripts to be able to tell whether a config isn't defined or whether it 
+has an 'n' value
+
+Anyway, I'm absolutely fine with delaying this patch until we find a 
+solution
+
+>
+> I will not pick up this until I find out what a really good format is.
+Thanks!
