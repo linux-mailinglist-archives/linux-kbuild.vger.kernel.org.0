@@ -2,237 +2,203 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56F2D4BBD8C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Feb 2022 17:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7024BBFA8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Feb 2022 19:39:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237928AbiBRQcK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Feb 2022 11:32:10 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46102 "EHLO
+        id S237730AbiBRSjq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Feb 2022 13:39:46 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231592AbiBRQcJ (ORCPT
+        with ESMTP id S235292AbiBRSjp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Feb 2022 11:32:09 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2C716EA91;
-        Fri, 18 Feb 2022 08:31:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645201912; x=1676737912;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4W6IsG6XIGFsgxzcIzhA34FiQVuplRXxJf4Nr78Hxdk=;
-  b=h3M5r/yP1p4/KqKNOu8HjkQwkgX7KmHaKwZQZPjXS1ix4rcz5EAkHUAT
-   8DRgzyL6FEJ2m3GvzzjSzxhjsdr69TaIxYx2u7vIDgaZhHiugghAYVNOM
-   kyB39oic3rd/O6keoyYTQQGLgJyH8pMbHM2vjNIfS1k1Gi7R6FlTApwdT
-   bh638chiBxtAYTL3iz08zfz4WhRhbqJduZvaDYu2mSApIKWyJ3VtbPjlE
-   sEt7KP3zpMg1fyDWTOshUcnsLO6Pai2WP3b5y5vNoynFq326QgcKPha+G
-   f0XOvPgxSc815+Xw7GYbAQPakud2Hko4JJdD3gQI5xgJo5mHvJKb6JmW7
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10261"; a="275756735"
-X-IronPort-AV: E=Sophos;i="5.88,379,1635231600"; 
-   d="scan'208";a="275756735"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2022 08:31:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,379,1635231600"; 
-   d="scan'208";a="635880026"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Feb 2022 08:31:43 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 21IGVegh000316;
-        Fri, 18 Feb 2022 16:31:40 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Miroslav Benes <mbenes@suse.cz>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        =?UTF-8?Q?F=C4=81ng-ru=C3=AC_S=C3=B2ng?= <maskray@google.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z unique-symbol` is available
-Date:   Fri, 18 Feb 2022 17:31:11 +0100
-Message-Id: <20220218163111.98564-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <alpine.LSU.2.21.2202161606430.1475@pobox.suse.cz>
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-3-alexandr.lobakin@intel.com> <20220211174130.xxgjoqr2vidotvyw@treble> <CAFP8O3KvZOZJqOR8HYp9xZGgnYf3D8q5kNijZKORs06L-Vit1g@mail.gmail.com> <20220211183529.q7qi2qmlyuscxyto@treble> <alpine.LSU.2.21.2202161606430.1475@pobox.suse.cz>
+        Fri, 18 Feb 2022 13:39:45 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903C524089;
+        Fri, 18 Feb 2022 10:39:28 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id a8so16999386ejc.8;
+        Fri, 18 Feb 2022 10:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=XPv9wzgm5eXSDUL7FuIzzc3fU8coeepn/zPu2iCKfKE=;
+        b=MQG9PtAMTNn84e/Kw4NUhvpfYiTfAIAmqT1PGJ0wORN2nQScSDWvyiBZhwbSGBHIzq
+         RW1yi1QXAVKcL4Bgotb3ErSLUZjmTIPXx6GdnWcwSbVQ7BJ9MvPv0zsyJu5RfG7KPv9U
+         oiYEPpB3YydS7XujQSw2pkbc1teoGRWpf2mJJmXfroVuQPyaFCLwhOM1KK8b58hWRYTP
+         dVf9Y0Cm9dd3ugcjU4j622YN/KpntKCh+4v14/hEtp1IlZYNet7+zUtsxQWraDl90UFs
+         IzrQWkYVmVHGFgjP8+koTbT/XHNfkyQouPYQEjW5HO8xr85UoA+tK1aKuXqkkP7Y5d2H
+         4dvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XPv9wzgm5eXSDUL7FuIzzc3fU8coeepn/zPu2iCKfKE=;
+        b=nRSz6c5FsJjlEyG4+4xoIgAfVv8qqg5l1k9aXA3+Jk1Cc+ZP3A6c0XxEB2CX5J4FuV
+         rfdZFuXxabzNhDMuXlHEohBSOWGRzbc9Y+Fwt7syPOuO/SfuXdGHnLC5K3lhfCm/J5IU
+         ih9BbXNk2/5LeLnkdWPGJRuKx/k2yOCOipDQA9TOHFJ+dILGNv4Nxx0h4uHUUJJBns7v
+         LGtQA+TF9QoMcj/UZD6zO5dK8UyRqzF1xpKHZ1tMESWZorcJcPUT/R1Ie2vepan4dSKW
+         rQ/vVbrwz/APD/VMRo20Rh6SpcjFNQyjTcINTlavI9djToUoy2s3Wo4HnZVVz2vSxnUw
+         iD7A==
+X-Gm-Message-State: AOAM532soU9U9U8rrCFfKhRW3YVAUJcDrbL6HFWDKze8jvdh62cy3/ux
+        spDor5Ai1wQoiGDUvZuN8HhWLWygD67vzg==
+X-Google-Smtp-Source: ABdhPJw84HaIb839BtmITA2w3xH5gEkODoWbn6CWobM0f3YrOlMC8w5JIUmCdf5QqzA/Svg6BVlnKA==
+X-Received: by 2002:a17:906:2846:b0:6ce:21cd:5398 with SMTP id s6-20020a170906284600b006ce21cd5398mr7714653ejc.49.1645209567050;
+        Fri, 18 Feb 2022 10:39:27 -0800 (PST)
+Received: from ?IPV6:2a00:a040:197:458f:c93a:90a3:1c34:c6d2? ([2a00:a040:197:458f:c93a:90a3:1c34:c6d2])
+        by smtp.gmail.com with ESMTPSA id i5sm5068089edc.94.2022.02.18.10.39.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Feb 2022 10:39:26 -0800 (PST)
+Message-ID: <26d74eaa-5c6a-4103-cf77-1356173a3978@gmail.com>
+Date:   Fri, 18 Feb 2022 20:39:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] kconfig: Show menuconfigs as menus in the .config
+ file
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211213100043.45645-1-arielmarcovitch@gmail.com>
+ <20211213100043.45645-2-arielmarcovitch@gmail.com>
+ <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+From:   Ariel Marcovitch <arielmarcovitch@gmail.com>
+In-Reply-To: <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Miroslav Benes <mbenes@suse.cz>
-Date: Wed, 16 Feb 2022 16:15:20 +0100 (CET)
+Hello!
 
-> On Fri, 11 Feb 2022, Josh Poimboeuf wrote:
-> 
-> > On Fri, Feb 11, 2022 at 10:05:02AM -0800, Fāng-ruì Sòng wrote:
-> > > On Fri, Feb 11, 2022 at 9:41 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-> > > >
-> > > > On Wed, Feb 09, 2022 at 07:57:39PM +0100, Alexander Lobakin wrote:
-> > > > > Position-based search, which means that if there are several symbols
-> > > > > with the same name, the user needs to additionally provide the
-> > > > > "index" of a desired symbol, is fragile. For example, it breaks
-> > > > > when two symbols with the same name are located in different
-> > > > > sections.
-> > > > >
-> > > > > Since a while, LD has a flag `-z unique-symbol` which appends
-> > > > > numeric suffixes to the functions with the same name (in symtab
-> > > > > and strtab). It can be used to effectively prevent from having
-> > > > > any ambiguity when referring to a symbol by its name.
-> > > >
-> > > > In the patch description can you also give the version of binutils (and
-> > > > possibly other linkers) which have the flag?
-> > > 
-> > > GNU ld>=2.36 supports -z unique-symbol. ld.lld doesn't support -z unique-symbol.
-> > > 
-> > > I subscribe to llvm@lists.linux.dev and happen to notice this message
-> > > (can't keep up with the changes...)
-> > > I am a bit concerned with this option and replied last time on
-> > > https://lore.kernel.org/r/20220105032456.hs3od326sdl4zjv4@google.com
-> > > 
-> > > My full reasoning is on
-> > > https://maskray.me/blog/2020-11-15-explain-gnu-linker-options#z-unique-symbol
-> > 
-> > Ah, right.  Also discussed here:
-> > 
-> >   https://lore.kernel.org/all/20210123225928.z5hkmaw6qjs2gu5g@google.com/T/#u
-> >   https://lore.kernel.org/all/20210125172124.awabevkpvq4poqxf@treble/
-> > 
-> > I'm not qualified to comment on LTO/PGO stability issues, but it doesn't
-> > sound good.  And we want to support livepatch for LTO kernels.
-> 
-> Hm, bear with me, because I am very likely missing something which is 
-> clear to everyone else...
-> 
-> Is the stability really a problem for the live patching (and I am talking 
-> about the live patching only here. It may be a problem elsewhere, but I am 
-> just trying to understand.)? I understand that two different kernel builds 
-> could have a different name mapping between the original symbols and their 
-> unique renames. Not nice. But we can prepare two different live patches 
-> for these two different kernels. Something one would like to avoid if 
-> possible, but it is not impossible. Am I missing something?
->  
-> > Also I realized that this flag would have a negative effect on
-> > kpatch-build, as it currently does its analysis on .o files.  So it
-> > would have to figure out how to properly detect function renames, to
-> > avoid patching the wrong function for example.
-> 
-> Yes, that is unfortunate. And not only for kpatch-build.
-> 
-> > And if LLD doesn't plan to support the flag then it will be a headache
-> > for livepatch (and the kernel in general) to deal with the divergent
-> > configs.
-> 
-> True.
-> 
-> The position-based approach clearly shows its limits. I like <file+func> 
-> approach based on kallsyms tracking, that you proposed elsewhere in the 
-> thread, more.
+On 18/01/2022 20:20, Masahiro Yamada wrote:
+> On Mon, Dec 13, 2021 at 7:01 PM Ariel Marcovitch
+> <arielmarcovitch@gmail.com> wrote:
+>> Until now, menuconfigs were considered configs because they had non-zero
+>> sym attribute. This meant that instead of having the nice menu comment
+>> block in the .config output file, they were merely shown as single
+>> configs.
+>>
+>> For example:
+>> ```Kconfig
+>> menu "Foo"
+>> endmenu
+>>
+>> menuconfig BAR
+>>          bool "Bar"
+>>
+>> config OTHER
+>>          bool "Other"
+>>          depends on BAR
+>> ```
+>>
+>> Will be shown as:
+>> ```.config
+>>   #
+>>   # Foo
+>>   #
+>>   # end of Foo
+>
+> I am OK with this patch.
+>
+> Just a nit.
+>
+> As far as I tested your sample code (without applying this patch),
+> I did not see the line "# end of Foo".
+>
+> The line "# end of ..." is printed when the last child gets back to
+> its parent, but the "Foo" menu has no child menu here.
+>
+> This is out of scope of this patch, but can you update the
+> commit log so it matches the current behavior?
 
-Hmm, same.
+I saw you added a patch to change that, so now the code sample here is 
+less of a lie :)
 
-For FG-KASLR part, `-ffunction-sections` has no options, it only
-appends the function name to the name of a function, i.e. it can
-be only ".text.dup".
-However, LD scripts allow to specify a particular input file for
-the section being described, i.e.:
+I learned my message of never adding code samples to commit messages 
+without testing these as well :)
 
-.text.dup {         .text.file1_dup {
-    (.text.dup) ->      file1.o(.text.dup)
-}                   }
-                    .text.file2_dup {
-                        file2.o(.text.dup)
-                    }
+So is it ready now to be applied on top of your change?
 
-But the problem is that currently vmlinux is being linked from
-vmlinux.o solely, so there are no input files apart from vmlinux.o.
-I could probably (not 100% sure, I'm not deep into the details of
-thin archives) create a temporary linker script for vmlinux.o
-itself to process duplicates. Then vmlinux.o will always have only
-unique section names right from the start.
-It may not worth it: I don't mind that random functions with the
-same name go into one section, it's not a big deal and/or security
-risk, and it doesn't help livepatch which operates with symbol
-names, not sections.
-
-Re livepatch, the best option would probably be storing relative
-paths to the object files in kallsyms. By relative I mean starting
-from $srctree -- this would keep their versatility (no abspaths),
-but provide needed uniquity:
-
-dup()    main.o:dup()    init/main.o:dup()       /mnt/init/main.o:dup()
-dup()    main.o:dup()    foo/bar/main.o:dup()    /mnt/foo/bar/main.o:dup()
-
-                         ^^^^^^ here ^^^^^^
-
-The problem is that kallsyms are being generated at the moment of
-(re)linking vmlinux already and no earlier.
-If I could catch STT_FILE (can't say for sure now), it would provide
-only filenames, so wouldn't be enough.
-...oh wait, kallsyms rely on `nm` output. I checked nm's `-l` which
-tries to find a file corresponding to each symbol and got a nice
-output:
-
-ffffffff8109ad00 T switch_mm_irqs_off	/home/alobakin/Documents/work/xdp_hints/linux/arch/x86/mm/tlb.c:488
-
-So this could be parsed with no issues nto:
-
-name: switch_mm_irqs_off
-addr: 0x9ad00 (rel)
-file: arch/x86/mm/tlb.c
-
-This solves a lot. One problem is that
-
-> time nm -ln vmlinux > ~/Documents/tmp/nml
-nm -ln vmlinux > ~/Documents/tmp/nml  120.80s user 1.77s system 99% cpu 2:02.94 total
-
-it took 2 minutes to generate the whole map (instead of a split
-second) (on 64-core CPU, but I guess nm runs in one thread).
-I guess it can be optimized? I'm no a binutils master (will take a
-look after sending this), is there a way to do it manually skipping
-this nm lag or maybe make nm emit filenames without such delays?
-
-> 
-> Miroslav
-
-Thanks,
-Al
+> (or add one config into the "Foo" menu)
+>
+>
+>
+>
+>
+>
+>
+>>   CONFIG_BAR=y
+>>   CONFIG_OTHER=y
+>> ```
+>>
+>> Instead of using the sym attribute to decide whether or not to print the
+>> menu block comment, check menu->prompt->type explicitly (after checking
+>> that menu_is_visible(menu) which means menu->prompt is not none). The
+>> only prompt types we actually show as menus are P_MENU and P_COMMENT. At
+>> the end of the menu we need to show the end of block only for P_MENU
+>> (although P_COMMENT prompts will not get to this flow because they don't
+>> have children).
+>>
+>> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
+>> ---
+>>   scripts/kconfig/confdata.c | 28 +++++++++++++++++-----------
+>>   1 file changed, 17 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+>> index 42bc56ee238c..9f2c22f46ee0 100644
+>> --- a/scripts/kconfig/confdata.c
+>> +++ b/scripts/kconfig/confdata.c
+>> @@ -874,16 +874,21 @@ int conf_write(const char *name)
+>>          menu = rootmenu.list;
+>>          while (menu) {
+>>                  sym = menu->sym;
+>> -               if (!sym) {
+>> -                       if (!menu_is_visible(menu))
+>> -                               goto next;
+>> -                       str = menu_get_prompt(menu);
+>> -                       fprintf(out, "\n"
+>> -                                    "#\n"
+>> -                                    "# %s\n"
+>> -                                    "#\n", str);
+>> -                       need_newline = false;
+>> -               } else if (!(sym->flags & SYMBOL_CHOICE) &&
+>> +
+>> +               if (menu_is_visible(menu)) {
+>> +                       enum prop_type type = menu->prompt->type;
+>> +
+>> +                       if (type == P_MENU || type == P_COMMENT) {
+>> +                               str = menu_get_prompt(menu);
+>> +                               fprintf(out, "\n"
+>> +                                       "#\n"
+>> +                                       "# %s\n"
+>> +                                       "#\n", str);
+>> +                               need_newline = false;
+>> +                       }
+>> +               }
+>> +
+>> +               if (sym && !(sym->flags & SYMBOL_CHOICE) &&
+>>                             !(sym->flags & SYMBOL_WRITTEN)) {
+>>                          sym_calc_value(sym);
+>>                          if (!(sym->flags & SYMBOL_WRITE))
+>> @@ -904,7 +909,8 @@ int conf_write(const char *name)
+>>                  if (menu->next)
+>>                          menu = menu->next;
+>>                  else while ((menu = menu->parent)) {
+>> -                       if (!menu->sym && menu_is_visible(menu) &&
+>> +                       if (menu_is_visible(menu) &&
+>> +                           menu->prompt->type == P_MENU &&
+>>                              menu != &rootmenu) {
+>>                                  str = menu_get_prompt(menu);
+>>                                  fprintf(out, "# end of %s\n", str);
+>> --
+>> 2.25.1
+>>
