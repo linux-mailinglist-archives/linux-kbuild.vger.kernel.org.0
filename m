@@ -2,134 +2,209 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B96D4BC0F8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Feb 2022 21:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67D734BCBAC
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Feb 2022 03:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238624AbiBRUIi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Feb 2022 15:08:38 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54746 "EHLO
+        id S229746AbiBTCZM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Feb 2022 21:25:12 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbiBRUIg (ORCPT
+        with ESMTP id S229460AbiBTCZM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Feb 2022 15:08:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DCF7F24B2A3
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Feb 2022 12:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1645214896;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qbD0qiU4RjhqV726jofvBeaOVqKh7JjTJAB5iz2l93M=;
-        b=cA7EwE5OdFiTLj2JF3mjF4lI6iI+z3lsffT4McmY3J3L3ZtEAJ3UrMQ8iv6sz+qdHsQ8qz
-        30mp4oi3Pcxr1W2A4iM/+nUzrTY/KIaOOpbqkrkLywNuMpfZqgzBQpt38FoSyXtmly/gPF
-        cB4ISfdUG4W9MIusrvPBxFyUN396AVk=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-St9OrCeeMd-SYn-HUGmXAQ-1; Fri, 18 Feb 2022 15:08:15 -0500
-X-MC-Unique: St9OrCeeMd-SYn-HUGmXAQ-1
-Received: by mail-qv1-f71.google.com with SMTP id kd18-20020a056214401200b0042de5c14702so9979374qvb.12
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Feb 2022 12:08:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qbD0qiU4RjhqV726jofvBeaOVqKh7JjTJAB5iz2l93M=;
-        b=f9r0VksO3Zl141GpmBqmDONXOjZyMWZnzzeTZ4HQXbTc5+YVSl3HCuhlxW4sHVrNmn
-         IcWK1kkg0ePZ5kXsXsBA1FYMe5FZ27+VoIiFO0Sxl0J1O1mSjd3l5Omv8HYgS4fo8cMF
-         xdjscPbk+sA0E2QLqdwaDEAZQb15s8jdiRSmOYb+uRprJ1vjYaz95FOT2NSq5fREVCSA
-         2Nh4Xtp7w6Sc5t79cAHsVLtZUL6+dYAUDxr0VgFSA9FXbEI1H7R+HLw+QD9vTIvBAfCQ
-         zlGcVsgt7MIdx28q7q2WKTWCa35AuuAxlBrP0f/L1+T6e1I+D5ZhaQy76Fj89nrMg4gV
-         K3yQ==
-X-Gm-Message-State: AOAM532SNtHlff+2iGb3YNh2xCnRpf9MIsWqpSe4/1B9bmmL+hdnLj+j
-        AnbbHo/zzZOD/jRcDvgT5CXdF+/XZD7rfU3uKHrp2bo86VKHBdRBfklpNOCx5i1EWFtKrGrjjxS
-        p3WwtsIl+UaIHr6EoJvX7FuT6
-X-Received: by 2002:a05:6214:17c2:b0:42c:b915:69f with SMTP id cu2-20020a05621417c200b0042cb915069fmr7009969qvb.95.1645214894989;
-        Fri, 18 Feb 2022 12:08:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyES3jxSXm6PUQSrWkCWkJOx1aXkyiFLiwQrMEdx8mKix/Dv/YjSGuwkSGrstdFEaba1AKRqg==
-X-Received: by 2002:a05:6214:17c2:b0:42c:b915:69f with SMTP id cu2-20020a05621417c200b0042cb915069fmr7009947qvb.95.1645214894772;
-        Fri, 18 Feb 2022 12:08:14 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::35])
-        by smtp.gmail.com with ESMTPSA id e64sm6288522qkd.122.2022.02.18.12.08.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 12:08:14 -0800 (PST)
-Date:   Fri, 18 Feb 2022 12:08:08 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     Miroslav Benes <mbenes@suse.cz>,
-        =?utf-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>,
-        linux-hardening@vger.kernel.org, x86@kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v10 02/15] livepatch: avoid position-based search if `-z
- unique-symbol` is available
-Message-ID: <20220218200808.juxnoidtxa7fjsk7@treble>
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
- <20220209185752.1226407-3-alexandr.lobakin@intel.com>
- <20220211174130.xxgjoqr2vidotvyw@treble>
- <CAFP8O3KvZOZJqOR8HYp9xZGgnYf3D8q5kNijZKORs06L-Vit1g@mail.gmail.com>
- <20220211183529.q7qi2qmlyuscxyto@treble>
- <alpine.LSU.2.21.2202161606430.1475@pobox.suse.cz>
- <20220218163111.98564-1-alexandr.lobakin@intel.com>
+        Sat, 19 Feb 2022 21:25:12 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7E53982C;
+        Sat, 19 Feb 2022 18:24:51 -0800 (PST)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 21K2OYoS018707;
+        Sun, 20 Feb 2022 11:24:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 21K2OYoS018707
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1645323875;
+        bh=O34aX6v+SKBXjsgb5h1Ozq31/g4h4Tgi9RBNyvaw98E=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RXxga2KOzm3r4xhrcXPo6WQHVRnq7i4PT7bm4MiWn4/nz17E9JHi5bfzce/yA9PRv
+         GWJcfiwEHloEt6kPMDjR4InJe/PFv00y0JFtxcPPL2GmlJ23hQd6kPojp0ehht/U/J
+         LYqgSyU+vrZx3OzuSvk1OWvdxQr9zK4Bw8yoOHXkrGu46YwEec2A5GWwLgc97pXiPt
+         niIk1YkpJwtFCFkD8P6RGzDg+rjWS/g2Yi/HXA18Gv/ytGG1pjbsvb8DxsO3x3igB8
+         6orv4Wt8aw4ONSsZ/YEe2mR9WQ+F1IMOK7q3EKXC5uVPKMKDnlc5BugeZNfbAkyixA
+         Mjr45NxSnE3yQ==
+X-Nifty-SrcIP: [209.85.214.171]
+Received: by mail-pl1-f171.google.com with SMTP id w20so10131433plq.12;
+        Sat, 19 Feb 2022 18:24:35 -0800 (PST)
+X-Gm-Message-State: AOAM532JXjgfAKWOV1j6TIj/aNsBfHaVVu3QfmvZvAvHPfUgsMivDyiY
+        I61TkJm3BLF/nxd4/7bdPNKkjfxRZKYFkM764bg=
+X-Google-Smtp-Source: ABdhPJw0wfu9KLEhzJIJyk0BbMkomyu4Z2OGapPuWgbFerBCzpcR7tJFuPaSxqyY4ATdUPXhuNyqTLVEHLWK6wDsdlw=
+X-Received: by 2002:a17:902:d2d1:b0:149:732e:d335 with SMTP id
+ n17-20020a170902d2d100b00149732ed335mr13611492plc.136.1645323874224; Sat, 19
+ Feb 2022 18:24:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220218163111.98564-1-alexandr.lobakin@intel.com>
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20211213100043.45645-1-arielmarcovitch@gmail.com>
+ <20211213100043.45645-2-arielmarcovitch@gmail.com> <CAK7LNAS+Df_V-B9Qy_39hgUZF1b6UeiHQ5m-25JekiVYSQ67dQ@mail.gmail.com>
+ <26d74eaa-5c6a-4103-cf77-1356173a3978@gmail.com>
+In-Reply-To: <26d74eaa-5c6a-4103-cf77-1356173a3978@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 20 Feb 2022 11:23:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARd8S9V07Z1kE5GtjoV=s2W8Of9=nX-tsAGe9BaxAf2FA@mail.gmail.com>
+Message-ID: <CAK7LNARd8S9V07Z1kE5GtjoV=s2W8Of9=nX-tsAGe9BaxAf2FA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: Show menuconfigs as menus in the .config file
+To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 18, 2022 at 05:31:11PM +0100, Alexander Lobakin wrote:
-> it took 2 minutes to generate the whole map (instead of a split
-> second) (on 64-core CPU, but I guess nm runs in one thread).
-> I guess it can be optimized? I'm no a binutils master (will take a
-> look after sending this), is there a way to do it manually skipping
-> this nm lag or maybe make nm emit filenames without such delays?
+On Sat, Feb 19, 2022 at 3:39 AM Ariel Marcovitch
+<arielmarcovitch@gmail.com> wrote:
+>
+> Hello!
+>
+> On 18/01/2022 20:20, Masahiro Yamada wrote:
+> > On Mon, Dec 13, 2021 at 7:01 PM Ariel Marcovitch
+> > <arielmarcovitch@gmail.com> wrote:
+> >> Until now, menuconfigs were considered configs because they had non-zero
+> >> sym attribute. This meant that instead of having the nice menu comment
+> >> block in the .config output file, they were merely shown as single
+> >> configs.
+> >>
+> >> For example:
+> >> ```Kconfig
+> >> menu "Foo"
+> >> endmenu
+> >>
+> >> menuconfig BAR
+> >>          bool "Bar"
+> >>
+> >> config OTHER
+> >>          bool "Other"
+> >>          depends on BAR
+> >> ```
+> >>
+> >> Will be shown as:
+> >> ```.config
+> >>   #
+> >>   # Foo
+> >>   #
+> >>   # end of Foo
+> >
+> > I am OK with this patch.
+> >
+> > Just a nit.
+> >
+> > As far as I tested your sample code (without applying this patch),
+> > I did not see the line "# end of Foo".
+> >
+> > The line "# end of ..." is printed when the last child gets back to
+> > its parent, but the "Foo" menu has no child menu here.
+> >
+> > This is out of scope of this patch, but can you update the
+> > commit log so it matches the current behavior?
+>
+> I saw you added a patch to change that, so now the code sample here is
+> less of a lie :)
+>
+> I learned my message of never adding code samples to commit messages
+> without testing these as well :)
+>
+> So is it ready now to be applied on top of your change?
 
-Hm, yeah, adding 2 minutes to the link time isn't going to fly ;-)  It
-probably takes a while to parse all the DWARF.
 
-Based on ther other discussions I think just using the basename (main.o)
-in STT_FILE would be good enough.  Some duplicates are probably ok.
+Yes, v2 please.
+
+
+
+
+
+
+
+
+
+
+> > (or add one config into the "Foo" menu)
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >>   CONFIG_BAR=y
+> >>   CONFIG_OTHER=y
+> >> ```
+> >>
+> >> Instead of using the sym attribute to decide whether or not to print the
+> >> menu block comment, check menu->prompt->type explicitly (after checking
+> >> that menu_is_visible(menu) which means menu->prompt is not none). The
+> >> only prompt types we actually show as menus are P_MENU and P_COMMENT. At
+> >> the end of the menu we need to show the end of block only for P_MENU
+> >> (although P_COMMENT prompts will not get to this flow because they don't
+> >> have children).
+> >>
+> >> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
+> >> ---
+> >>   scripts/kconfig/confdata.c | 28 +++++++++++++++++-----------
+> >>   1 file changed, 17 insertions(+), 11 deletions(-)
+> >>
+> >> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> >> index 42bc56ee238c..9f2c22f46ee0 100644
+> >> --- a/scripts/kconfig/confdata.c
+> >> +++ b/scripts/kconfig/confdata.c
+> >> @@ -874,16 +874,21 @@ int conf_write(const char *name)
+> >>          menu = rootmenu.list;
+> >>          while (menu) {
+> >>                  sym = menu->sym;
+> >> -               if (!sym) {
+> >> -                       if (!menu_is_visible(menu))
+> >> -                               goto next;
+> >> -                       str = menu_get_prompt(menu);
+> >> -                       fprintf(out, "\n"
+> >> -                                    "#\n"
+> >> -                                    "# %s\n"
+> >> -                                    "#\n", str);
+> >> -                       need_newline = false;
+> >> -               } else if (!(sym->flags & SYMBOL_CHOICE) &&
+> >> +
+> >> +               if (menu_is_visible(menu)) {
+> >> +                       enum prop_type type = menu->prompt->type;
+> >> +
+> >> +                       if (type == P_MENU || type == P_COMMENT) {
+> >> +                               str = menu_get_prompt(menu);
+> >> +                               fprintf(out, "\n"
+> >> +                                       "#\n"
+> >> +                                       "# %s\n"
+> >> +                                       "#\n", str);
+> >> +                               need_newline = false;
+> >> +                       }
+> >> +               }
+> >> +
+> >> +               if (sym && !(sym->flags & SYMBOL_CHOICE) &&
+> >>                             !(sym->flags & SYMBOL_WRITTEN)) {
+> >>                          sym_calc_value(sym);
+> >>                          if (!(sym->flags & SYMBOL_WRITE))
+> >> @@ -904,7 +909,8 @@ int conf_write(const char *name)
+> >>                  if (menu->next)
+> >>                          menu = menu->next;
+> >>                  else while ((menu = menu->parent)) {
+> >> -                       if (!menu->sym && menu_is_visible(menu) &&
+> >> +                       if (menu_is_visible(menu) &&
+> >> +                           menu->prompt->type == P_MENU &&
+> >>                              menu != &rootmenu) {
+> >>                                  str = menu_get_prompt(menu);
+> >>                                  fprintf(out, "# end of %s\n", str);
+> >> --
+> >> 2.25.1
+> >>
+
+
 
 -- 
-Josh
-
+Best Regards
+Masahiro Yamada
