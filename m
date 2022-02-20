@@ -2,93 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D2144BCDF0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Feb 2022 11:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B514BCF72
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Feb 2022 16:43:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233931AbiBTKBr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Feb 2022 05:01:47 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43888 "EHLO
+        id S241687AbiBTPil (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Feb 2022 10:38:41 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233440AbiBTKBp (ORCPT
+        with ESMTP id S233670AbiBTPik (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Feb 2022 05:01:45 -0500
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F05354685;
-        Sun, 20 Feb 2022 02:01:25 -0800 (PST)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 4E9A41C0B77; Sun, 20 Feb 2022 11:01:24 +0100 (CET)
-Date:   Sun, 20 Feb 2022 11:01:23 +0100
-From:   Pavel Machek <pavel@denx.de>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Brenda Streiff <brenda.streiff@ni.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.19 06/11] kconfig: let 'shell' return enough
- output for deep path names
-Message-ID: <20220220100123.GB7321@amd>
-References: <20220215153104.581786-1-sashal@kernel.org>
- <20220215153104.581786-6-sashal@kernel.org>
+        Sun, 20 Feb 2022 10:38:40 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB0E40A29
+        for <linux-kbuild@vger.kernel.org>; Sun, 20 Feb 2022 07:38:17 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id m17so24398257edc.13
+        for <linux-kbuild@vger.kernel.org>; Sun, 20 Feb 2022 07:38:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ymEpgIXl54yuSlZg88NLeYK1RJf0YDtYgXWD/9J1GQ0=;
+        b=degv64KeFtdi2zbjsMqCg99XUBwRsWWRsat8pVSE1dsJMyLEQebzW+u8gL6CBfEQQn
+         TR573CG7WA+9vnEdvbzyisLdqVfd2L7tW255YjXAv70Nz6z7oKmPah1XlxlqBd5nDgXH
+         ePUhHpcz6Nz3MIgpiiVSbZwwadbd4mnHSGmsNzIMifS2uWsr5SlJ5m2rsNUPByoI5zhb
+         SR83azGcCTW//SbmgQ0y+vLGSla0uKvjbMIVO2C3U/MToeM9d3wUPHwP8BDBVACmWkyb
+         mbrrj1iz1ehyoQ1IJSYmVaPjfehHwDHBxgq0J/uzM167cyMcPy58BK3LuVjr98uUFJPh
+         U0VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ymEpgIXl54yuSlZg88NLeYK1RJf0YDtYgXWD/9J1GQ0=;
+        b=VtCVjcvWR7dQkZ081WfDb8jdN21ripsOsbI7JrwGbxT9hZvu7cnlIUznyBZFObBYuS
+         wMbHwQaEhYCp5krTpTXy0LUv4JHv7+rfwsgv6p4fD2Fn4OSU9wZ6EGDd5pHLBz3jK+Zm
+         isiBMeW11qHOJdc87wmzdPCVI4nbZscMAGi1liWnUMyIh0J+uYQr4vVf82OSpANubUvn
+         kCIQi9Y97Jp+2humCtGELlQRId7BbMFGfXC+fDM9dNKH+3MtJZ5jeyl/N4k2qKBVlp7E
+         5VD53To705sHR8ihRuFUGG/D1NItqczEth2mZeJVePELJ+LNLh2gBAdV2rm7zBCTnptu
+         a1XA==
+X-Gm-Message-State: AOAM532UpIE7DXozw6fFhoNtx90K2mgv78Ulxuxf0laBGYLCcOul2Kdc
+        EAzrWd+U2364mdhA+5stuLTaGFssmWKULKkuOUs=
+X-Google-Smtp-Source: ABdhPJz0AN7o9No0fhs6xZEm8hzyX6WOZhNi8B3U8PCYdBi3itNU8MBgMEdAbbMqhnsTf7H9NACa5LH5MJlqKIgsin0=
+X-Received: by 2002:aa7:ce92:0:b0:40f:b89c:18fe with SMTP id
+ y18-20020aa7ce92000000b0040fb89c18femr17517323edv.67.1645371495858; Sun, 20
+ Feb 2022 07:38:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="tjCHc7DPkfUGtrlw"
-Content-Disposition: inline
-In-Reply-To: <20220215153104.581786-6-sashal@kernel.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Received: by 2002:a54:38c1:0:0:0:0:0 with HTTP; Sun, 20 Feb 2022 07:38:15
+ -0800 (PST)
+Reply-To: fatibaro01@yahoo.com
+From:   Fatimah Baro <imanosose@gmail.com>
+Date:   Sun, 20 Feb 2022 16:38:15 +0100
+Message-ID: <CAFEyOE7M=ZUrSROmPGAE3yrv-g10xHU=UARo1h+trJF7vepfMA@mail.gmail.com>
+Subject: Business invitation
+To:     imanosose <imanosose@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=2.8 required=5.0 tests=ADVANCE_FEE_3_NEW,BAYES_50,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---tjCHc7DPkfUGtrlw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> [ Upstream commit 8a4c5b2a6d8ea079fa36034e8167de87ab6f8880 ]
->=20
-> The 'shell' built-in only returns the first 256 bytes of the command's
-> output. In some cases, 'shell' is used to return a path; by bumping up
-> the buffer size to 4096 this lets us capture up to PATH_MAX.
-
-If the idea is to support up-to PATH_MAX, perhaps open-coded 4096
-should be replaced by PATH_MAX in the code, too?
-
-Best regards,
-								Pavel
-
-> +++ b/scripts/kconfig/preprocess.c
-> @@ -138,7 +138,7 @@ static char *do_lineno(int argc, char *argv[])
->  static char *do_shell(int argc, char *argv[])
->  {
->  	FILE *p;
-> -	char buf[256];
-> +	char buf[4096];
->  	char *cmd;
->  	size_t nread;
->  	int i;
-
---=20
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---tjCHc7DPkfUGtrlw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmISEXMACgkQMOfwapXb+vIWuACePVh9P6XNUf65gNso/je802o0
-jfcAoIaceGroSVxiOUUwf6eqYaKJ01Xr
-=H4bk
------END PGP SIGNATURE-----
-
---tjCHc7DPkfUGtrlw--
+Greetings from Burkina Faso,
+Please pardon me if my request offend your person; I need you to stand
+as my foreign partner for investment in your country. Please reply
+immediately if you are interested, so that I can give you more
+information.
+Fatimah Baro
