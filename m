@@ -2,181 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E93924BCC24
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Feb 2022 05:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D2144BCDF0
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Feb 2022 11:21:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbiBTETD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Feb 2022 23:19:03 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:49652 "EHLO
+        id S233931AbiBTKBr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Feb 2022 05:01:47 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbiBTETC (ORCPT
+        with ESMTP id S233440AbiBTKBp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Feb 2022 23:19:02 -0500
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97453443D4;
-        Sat, 19 Feb 2022 20:18:40 -0800 (PST)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 21K4IRDj025223;
-        Sun, 20 Feb 2022 13:18:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 21K4IRDj025223
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1645330707;
-        bh=wG0O3SlyDxFXA1cB3yTIbsokoTOWhWvZ7Qm9Ehucurc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=a5MEDLU707F40ZiQ1VxjZ6hfWzGhsY5i31KtvvZekVA4qlP/Wkz35ZuD2urj56JaH
-         LjdQwQ5+25MZzni82ixTfzhmwGmVdb48R7uYXk5+JrkrfH3eU//4E0clZckR3zSy0L
-         zNYCcFvQ9J528jZSCAjRirl7FcNgPObuKGa9ngLiFmxq9DlDvLukQL2gjVS5/nU7a9
-         QRKALUprTtDKkUkrpKg2GGMCc5QYCCzjLcIkE/2RXhtk7xMUkLksi/yJ9Fu6Av1iP0
-         2hyvstpznpfdqqVqwpF4mwRSvvJ/D53hUNKT4aWvHpp6z9KpgS46zT3msOcEnKxyWV
-         CoceVlF3Mkc3Q==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id 4so1651635pll.6;
-        Sat, 19 Feb 2022 20:18:27 -0800 (PST)
-X-Gm-Message-State: AOAM532E17NgsJW3PBj0v65jBomFavyDn1chWckaUOSCdml2Rpf5BfKa
-        7vZFXAl3zdYbPEuMYhWW9OFRSUf7rkIJssiKvi8=
-X-Google-Smtp-Source: ABdhPJwfmvP4hkfyE4UoQgIqRjlWMHvhTop4ht9wvPWNIjpJ86GWgr3ApEP3tRI/TT57kEWgxtEUc9KpzvBTy85Tsj4=
-X-Received: by 2002:a17:902:d2d1:b0:149:732e:d335 with SMTP id
- n17-20020a170902d2d100b00149732ed335mr13871010plc.136.1645330706567; Sat, 19
- Feb 2022 20:18:26 -0800 (PST)
+        Sun, 20 Feb 2022 05:01:45 -0500
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F05354685;
+        Sun, 20 Feb 2022 02:01:25 -0800 (PST)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 4E9A41C0B77; Sun, 20 Feb 2022 11:01:24 +0100 (CET)
+Date:   Sun, 20 Feb 2022 11:01:23 +0100
+From:   Pavel Machek <pavel@denx.de>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Brenda Streiff <brenda.streiff@ni.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.19 06/11] kconfig: let 'shell' return enough
+ output for deep path names
+Message-ID: <20220220100123.GB7321@amd>
+References: <20220215153104.581786-1-sashal@kernel.org>
+ <20220215153104.581786-6-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20211213100043.45645-1-arielmarcovitch@gmail.com>
- <20211213100043.45645-3-arielmarcovitch@gmail.com> <CAK7LNAQb8ivsQX-0YDNx6B_ZTBUq9v7SSG+m8=e1GsGL-DuBsg@mail.gmail.com>
- <8043765d-2aa5-16ad-cc03-127398451e93@gmail.com>
-In-Reply-To: <8043765d-2aa5-16ad-cc03-127398451e93@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 20 Feb 2022 13:17:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATFiTyRP3xe_U=kHeDN6ZUNQzXhHTJQysa4szschvS-PA@mail.gmail.com>
-Message-ID: <CAK7LNATFiTyRP3xe_U=kHeDN6ZUNQzXhHTJQysa4szschvS-PA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kconfig: Make comments look different than menus in .config
-To:     Ariel Marcovitch <arielmarcovitch@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="tjCHc7DPkfUGtrlw"
+Content-Disposition: inline
+In-Reply-To: <20220215153104.581786-6-sashal@kernel.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 19, 2022 at 3:55 AM Ariel Marcovitch
-<arielmarcovitch@gmail.com> wrote:
->
-> On 18/01/2022 20:25, Masahiro Yamada wrote:
-> > On Mon, Dec 13, 2021 at 7:01 PM Ariel Marcovitch
-> > <arielmarcovitch@gmail.com> wrote:
-> >> Currently, the same code that handles menus in the write to .config
-> >> handles comments as well. That's why comments look exactly like menus in
-> >> the .config except for the 'end of menu' comments that appear only for
-> >> menus. This makes sense because sometimes comments are used as sort of
-> >> submenus. However for the other cases, it looks kinda weird because one
-> >> might attempt to look for the 'end of menu' for comments as well and be
-> >> very confused.
-> >>
-> >> Make comments look different than menus. For the following:
-> >> ```kconfig
-> >> menu "Stuff"
-> >>
-> >> config FOO
-> >>          def_bool y
-> >>
-> >> comment "Some comment"
-> >>
-> >> config BAR
-> >>          def_bool n
-> >>
-> >> endmenu
-> >> ```
-> >>
-> >> The .config will look like this:
-> >> ```
-> >>   #
-> >>   # Stuff
-> >>   #
-> >>   CONFIG_FOO=y
-> >>
-> >>   ### Some comment
-> >>   # CONFIG_BAR is not defined
-> >>   # end of Stuff
-> >>
-> >> ```
-> >>
-> >> Signed-off-by: Ariel Marcovitch <arielmarcovitch@gmail.com>
-> >> ---
-> >>   scripts/kconfig/confdata.c | 14 ++++++++++----
-> >>   1 file changed, 10 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> >> index 9f2c22f46ee0..d3ec1ad67d92 100644
-> >> --- a/scripts/kconfig/confdata.c
-> >> +++ b/scripts/kconfig/confdata.c
-> >> @@ -880,10 +880,16 @@ int conf_write(const char *name)
-> >>
-> >>                          if (type == P_MENU || type == P_COMMENT) {
-> >>                                  str = menu_get_prompt(menu);
-> >> -                               fprintf(out, "\n"
-> >> -                                       "#\n"
-> >> -                                       "# %s\n"
-> >> -                                       "#\n", str);
-> >> +
-> >> +                               if (type == P_MENU)
-> >> +                                       fprintf(out, "\n"
-> >> +                                               "#\n"
-> >> +                                               "# %s\n"
-> >> +                                               "#\n", str);
-> >> +                               else
-> >> +                                       fprintf(out, "\n"
-> >> +                                               "### %s\n", str);
-> >> +
-> >>                                  need_newline = false;
-> >>                          }
-> >>                  }
-> >> --
-> >> 2.25.1
-> >>
-> >
-> > Since "# CONFIG... is not set" looks like a comment,
-> > I am not sure if this improves the visibility.
->
-> I agree that adding another '#' signs to the real comments doesn't solve
-> the real
-> problem here, being that kconfig uses comments to save actual information
->
-> I guess this is for being able to check for a config in shell script
-> with [[ -n $CONFIG_FOO ]]?
 
-Maybe.
-Also   "ifdef CONFIG_FOO" in Makefile.
+--tjCHc7DPkfUGtrlw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the old days, the .config was directly included.
+Hi!
 
-These days, the .config is used for the purpose of
-saving the configuration, and include/config/auto.conf
+> [ Upstream commit 8a4c5b2a6d8ea079fa36034e8167de87ab6f8880 ]
+>=20
+> The 'shell' built-in only returns the first 256 bytes of the command's
+> output. In some cases, 'shell' is used to return a path; by bumping up
+> the buffer size to 4096 this lets us capture up to PATH_MAX.
 
+If the idea is to support up-to PATH_MAX, perhaps open-coded 4096
+should be replaced by PATH_MAX in the code, too?
 
+Best regards,
+								Pavel
 
->
-> Although if that's the case, leaving the config empty has the same
-> effect, no? And then
-> we can add a comment to the end of the definition stating that the
-> config is unset.
-> Something like this:
->
-> CONFIG_FOO=y
-> CONFIG_BAR= # is not set
+> +++ b/scripts/kconfig/preprocess.c
+> @@ -138,7 +138,7 @@ static char *do_lineno(int argc, char *argv[])
+>  static char *do_shell(int argc, char *argv[])
+>  {
+>  	FILE *p;
+> -	char buf[256];
+> +	char buf[4096];
+>  	char *cmd;
+>  	size_t nread;
+>  	int i;
 
-The most natural expression is:
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
 
-    CONFIG_BAR=n
+--tjCHc7DPkfUGtrlw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iEYEARECAAYFAmISEXMACgkQMOfwapXb+vIWuACePVh9P6XNUf65gNso/je802o0
+jfcAoIaceGroSVxiOUUwf6eqYaKJ01Xr
+=H4bk
+-----END PGP SIGNATURE-----
 
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+--tjCHc7DPkfUGtrlw--
