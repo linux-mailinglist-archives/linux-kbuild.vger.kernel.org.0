@@ -2,40 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 390BD4C0A3A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Feb 2022 04:29:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92BE44C162B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Feb 2022 16:09:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237883AbiBWDaH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Feb 2022 22:30:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55746 "EHLO
+        id S237725AbiBWPKW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Feb 2022 10:10:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237874AbiBWDaG (ORCPT
+        with ESMTP id S233411AbiBWPKV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Feb 2022 22:30:06 -0500
-X-Greylist: delayed 1894 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Feb 2022 19:29:40 PST
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0058639141;
-        Tue, 22 Feb 2022 19:29:39 -0800 (PST)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-        by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
-        id 1nMhrU-0006Db-0w; Wed, 23 Feb 2022 13:58:41 +1100
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Wed, 23 Feb 2022 14:58:40 +1200
-Date:   Wed, 23 Feb 2022 14:58:39 +1200
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Petr Vorel <pvorel@suse.cz>
+        Wed, 23 Feb 2022 10:10:21 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB56B54F1;
+        Wed, 23 Feb 2022 07:09:53 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 41C27212B8;
+        Wed, 23 Feb 2022 15:09:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1645628992;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+bG53Wp6Gl3zxi+iDVlP2+hLh3hp86ZbjZHuT6T3H4c=;
+        b=xS7aTKWI8XT6G562T77CJH92o9fzp6NYMX790K0voS6SNKVFj5iAdczmeOdVLIiYNDLP70
+        VoCtdAGAIaTilxlnT2pFdK2eknkRndK/LPY2z+NpatJ7jeR1VGtTmOubyMnlZDCKTGRz1+
+        Ar7FNLNr9kWvEDB2sXkPsr0OuY7k52Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1645628992;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+bG53Wp6Gl3zxi+iDVlP2+hLh3hp86ZbjZHuT6T3H4c=;
+        b=sxQAYgK9otm3HSE0AEpEYEywkD0OFra5TTgWQTx83lUUmg9KFW+TiHb4MaQCtioGW3pf9E
+        0YrDKER4+2oa62Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF94913D80;
+        Wed, 23 Feb 2022 15:09:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Zo4FLT9OFmIiYAAAMHmgww
+        (envelope-from <pvorel@suse.cz>); Wed, 23 Feb 2022 15:09:51 +0000
+Date:   Wed, 23 Feb 2022 16:09:50 +0100
+From:   Petr Vorel <pvorel@suse.cz>
+To:     Herbert Xu <herbert@gondor.apana.org.au>
 Cc:     linux-crypto@vger.kernel.org, Nicolai Stange <nstange@suse.de>,
         leitao@debian.org, Nayna Jain <nayna@linux.ibm.com>,
         Paulo Flabiano Smorigo <pfsmorigo@gmail.com>,
         linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] crypto: vmx - add missing dependencies
-Message-ID: <YhWi3xAOXlF+tKan@gondor.apana.org.au>
+Subject: Re: [PATCH v3 1/2] crypto: vmx - merge CRYPTO_DEV_VMX_ENCRYPT into
+ CRYPTO_DEV_VMX
+Message-ID: <YhZOPvXEe1avs5uu@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
 References: <20220217105751.6330-1-pvorel@suse.cz>
- <20220217105751.6330-3-pvorel@suse.cz>
+ <20220217105751.6330-2-pvorel@suse.cz>
+ <YhWirRLlQNs3jha/@gondor.apana.org.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220217105751.6330-3-pvorel@suse.cz>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+In-Reply-To: <YhWirRLlQNs3jha/@gondor.apana.org.au>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -44,48 +76,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 11:57:51AM +0100, Petr Vorel wrote:
-> vmx-crypto module depends on CRYPTO_AES, CRYPTO_CBC, CRYPTO_CTR or
-> CRYPTO_XTS, thus add them.
-> 
-> These dependencies are likely to be enabled, but if
-> CRYPTO_DEV_VMX=y && !CRYPTO_MANAGER_DISABLE_TESTS
-> and either of CRYPTO_AES, CRYPTO_CBC, CRYPTO_CTR or CRYPTO_XTS is built
-> as module or disabled, alg_test() from crypto/testmgr.c complains during
-> boot about failing to allocate the generic fallback implementations
-> (2 == ENOENT):
-> 
-> [    0.540953] Failed to allocate xts(aes) fallback: -2
-> [    0.541014] alg: skcipher: failed to allocate transform for p8_aes_xts: -2
-> [    0.541120] alg: self-tests for p8_aes_xts (xts(aes)) failed (rc=-2)
-> [    0.544440] Failed to allocate ctr(aes) fallback: -2
-> [    0.544497] alg: skcipher: failed to allocate transform for p8_aes_ctr: -2
-> [    0.544603] alg: self-tests for p8_aes_ctr (ctr(aes)) failed (rc=-2)
-> [    0.547992] Failed to allocate cbc(aes) fallback: -2
-> [    0.548052] alg: skcipher: failed to allocate transform for p8_aes_cbc: -2
-> [    0.548156] alg: self-tests for p8_aes_cbc (cbc(aes)) failed (rc=-2)
-> [    0.550745] Failed to allocate transformation for 'aes': -2
-> [    0.550801] alg: cipher: Failed to load transform for p8_aes: -2
-> [    0.550892] alg: self-tests for p8_aes (aes) failed (rc=-2)
-> 
-> Fixes: c07f5d3da643 ("crypto: vmx - Adding support for XTS")
-> Fixes: d2e3ae6f3aba ("crypto: vmx - Enabling VMX module for PPC64")
-> 
-> Suggested-by: Nicolai Stange <nstange@suse.de>
-> Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> ---
-> changes v2->v3:
-> * more less the same, just in drivers/crypto/Kconfig (previously it was
->   in drivers/crypto/vmx/Kconfig)
-> * change commit subject to be compatible
-> 
->  drivers/crypto/Kconfig | 4 ++++
->  1 file changed, 4 insertions(+)
+> On Thu, Feb 17, 2022 at 11:57:50AM +0100, Petr Vorel wrote:
+> > CRYPTO_DEV_VMX_ENCRYPT is redundant with CRYPTO_DEV_VMX.
 
-Please respin this patch to add the selects to the existing tristate.
+> > And it also forces CRYPTO_GHASH to be builtin even
+> > CRYPTO_DEV_VMX_ENCRYPT was configured as module.
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+> Just because a tristate sits under a bool, it does not force
+> the options that it selects to y/n.  The select still operates
+> on the basis of the tristate.
+I'm sorry, not sure what I did wrong before. Now it really behaves as expected.
+
+> So I don't see the point to this code churn unless the powerpc
+> folks want to move in this direction.
+Sure (sending now just second commit as requested.
+
+Thank for your review.
+
+Kind regards,
+Petr
+
+> Thanks,
