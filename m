@@ -2,98 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BE44C162B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Feb 2022 16:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C00844C1BF7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Feb 2022 20:16:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237725AbiBWPKW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Feb 2022 10:10:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44464 "EHLO
+        id S244318AbiBWTQd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Feb 2022 14:16:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233411AbiBWPKV (ORCPT
+        with ESMTP id S244305AbiBWTQ0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Feb 2022 10:10:21 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB56B54F1;
-        Wed, 23 Feb 2022 07:09:53 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 41C27212B8;
-        Wed, 23 Feb 2022 15:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1645628992;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+bG53Wp6Gl3zxi+iDVlP2+hLh3hp86ZbjZHuT6T3H4c=;
-        b=xS7aTKWI8XT6G562T77CJH92o9fzp6NYMX790K0voS6SNKVFj5iAdczmeOdVLIiYNDLP70
-        VoCtdAGAIaTilxlnT2pFdK2eknkRndK/LPY2z+NpatJ7jeR1VGtTmOubyMnlZDCKTGRz1+
-        Ar7FNLNr9kWvEDB2sXkPsr0OuY7k52Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1645628992;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+bG53Wp6Gl3zxi+iDVlP2+hLh3hp86ZbjZHuT6T3H4c=;
-        b=sxQAYgK9otm3HSE0AEpEYEywkD0OFra5TTgWQTx83lUUmg9KFW+TiHb4MaQCtioGW3pf9E
-        0YrDKER4+2oa62Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF94913D80;
-        Wed, 23 Feb 2022 15:09:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id Zo4FLT9OFmIiYAAAMHmgww
-        (envelope-from <pvorel@suse.cz>); Wed, 23 Feb 2022 15:09:51 +0000
-Date:   Wed, 23 Feb 2022 16:09:50 +0100
-From:   Petr Vorel <pvorel@suse.cz>
-To:     Herbert Xu <herbert@gondor.apana.org.au>
-Cc:     linux-crypto@vger.kernel.org, Nicolai Stange <nstange@suse.de>,
-        leitao@debian.org, Nayna Jain <nayna@linux.ibm.com>,
-        Paulo Flabiano Smorigo <pfsmorigo@gmail.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] crypto: vmx - merge CRYPTO_DEV_VMX_ENCRYPT into
- CRYPTO_DEV_VMX
-Message-ID: <YhZOPvXEe1avs5uu@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20220217105751.6330-1-pvorel@suse.cz>
- <20220217105751.6330-2-pvorel@suse.cz>
- <YhWirRLlQNs3jha/@gondor.apana.org.au>
+        Wed, 23 Feb 2022 14:16:26 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12DB4198F;
+        Wed, 23 Feb 2022 11:15:57 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id B9D781F44BA3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1645643756;
+        bh=x4JSiCOPtHsEXvsPXBpm2AoOrkiPe4lh9yMOQ/SteAw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CWCww7KqR8hxR5Wnu42ftHnZyk8bwfNctTtGtF+/5zFtTCQqgYP54C/4vYbayXpSl
+         AjQsJ2OieDO1SXF/fsIgBnOaufeKla0AsZeh9WCbLD5pmxTnthifosiqev843rTsWU
+         KOHA/7qXo/OLo/k3631gwv+jZ7gBVABv/QXg+OibsrBt46Ah3aBOPv9FRj1T4LkwDM
+         /Gti9b2RmEWomGRkvsRsZoe+dm5zqPENEaiHSmIRDg+9pL0eAkxRuCuich/WUUohsB
+         JJc+AKYX+FWPezodQUGiQFIo3/TWgE3RH1zlfflPlo44oJTq3Nt9WNbVyTkY0YmJMe
+         s+PI+w5xp++lA==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        kernel@collabora.com, kernelci@groups.io, shuah@kernel.org,
+        linux-kselftest@vger.kernel.org, keescook@chromium.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Makefile: Fix separate output directory build of kselftests
+Date:   Thu, 24 Feb 2022 00:10:15 +0500
+Message-Id: <20220223191016.1658728-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YhWirRLlQNs3jha/@gondor.apana.org.au>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> On Thu, Feb 17, 2022 at 11:57:50AM +0100, Petr Vorel wrote:
-> > CRYPTO_DEV_VMX_ENCRYPT is redundant with CRYPTO_DEV_VMX.
+Build of kselftests fail if kernel's top most Makefile is used for
+running or building kselftests with separate output directory. The
+absolute path is needed to reference other files during this kind of
+build. Set KBUILD_ABS_SRCTREE to use absolute path during the build. It
+fixes the following different types of errors:
 
-> > And it also forces CRYPTO_GHASH to be builtin even
-> > CRYPTO_DEV_VMX_ENCRYPT was configured as module.
+make kselftest-all O=/linux_mainline/build
+Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
 
-> Just because a tristate sits under a bool, it does not force
-> the options that it selects to y/n.  The select still operates
-> on the basis of the tristate.
-I'm sorry, not sure what I did wrong before. Now it really behaves as expected.
+make kselftest-all O=build
+Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
 
-> So I don't see the point to this code churn unless the powerpc
-> folks want to move in this direction.
-Sure (sending now just second commit as requested.
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+I've tested this patch on top of next-20220217. The latest next-20220222
+have missing patches.
+---
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank for your review.
+diff --git a/Makefile b/Makefile
+index 86f633c2809ea..62b3eb8a102ab 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1411,10 +1411,10 @@ tools/%: FORCE
+ 
+ PHONY += kselftest
+ kselftest:
+-	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
++	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests KBUILD_ABS_SRCTREE=1 run_tests
+ 
+ kselftest-%: FORCE
+-	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests $*
++	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests KBUILD_ABS_SRCTREE=1 $*
+ 
+ PHONY += kselftest-merge
+ kselftest-merge:
+-- 
+2.30.2
 
-Kind regards,
-Petr
-
-> Thanks,
