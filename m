@@ -2,359 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB6364C46C8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Feb 2022 14:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A96504C47CC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Feb 2022 15:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238567AbiBYNl2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Feb 2022 08:41:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S234392AbiBYOoc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Feb 2022 09:44:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238555AbiBYNl1 (ORCPT
+        with ESMTP id S230040AbiBYOob (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Feb 2022 08:41:27 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A80210477;
-        Fri, 25 Feb 2022 05:40:55 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id m11so4845936pls.5;
-        Fri, 25 Feb 2022 05:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6VLfZQcoLwApXjj7HHDYoJCfVQGYH2whYsnalsFxv5M=;
-        b=mJfJ6WbNBwELX0FI6s38MXSj4OP9dn9RlYU3cOUhLGtKkXDkXFR6UG7uQL9AsXirtx
-         6Iwh2mOAWJMGhbldp7dJMZvcEMU/j/vU7Cd56C1/OS6YjVpi8q5uUpyWa179wCYTLeYD
-         cvPi/TwxK5U7+Dz8CqGzm8JWyzAY4aSgr4tJeAf467q4u4nl8j5Pr+PWjyvHf5tJ7WNa
-         xPKJbwgUM8f/2IqNVgEiOmMBLAQlbao4HnJGmjU2JzdClhQq9BD2Zfwj71jWm3wNbG/6
-         sByX+1bKaofQaeMKFlSmr/5hQ2xXXaeihPZUpMHa8jDvMkyBK8cJTHcPcObtO9q2qOAJ
-         naKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6VLfZQcoLwApXjj7HHDYoJCfVQGYH2whYsnalsFxv5M=;
-        b=8LSUSCyjQNTYJ0cibBqHTb0HfP32ECcq0tn9eve47dDng+ZgIxre2V0A0iGJnVpXlj
-         +fvEgnOj/E431Kv/YGl061uiun0Afh1r9fsi39Uuokt8RdK8MS0UdplNDOZsoarhrwTH
-         rAR3OpBj7bbhTewyyKcrVU0G7VES70WrbrS7QaVazBZbyGFIWGtaSgEJtBZ5zo8HohSN
-         IEJRKe5OTbT56vwCkbdcp6QnXjgr2qOZhwA+Gm/0X8RaSGfv3ZfkhzKrqekGUim1iLHn
-         vOCmLbeUtELudAvw65FR7SA0K5xxnAVDZyMP3VNeUwMQybMOzDeRmrE11XbLCiAJ/45M
-         +pRg==
-X-Gm-Message-State: AOAM530YwCxT9GgJoJA4OZbIWNQgGVN5mKiWSLEfIHTwZD6lq/DJR9F3
-        4zfOQDMGRJTY/MIlc2RYRVS/KUL9dt7RFDPx0BM=
-X-Google-Smtp-Source: ABdhPJxJUSUnI4YgvDHPiMWcpK3pNrCJihjUQOKIEK8p2ilcfqXah8736FUewiMn8A1x7bG15QESC2LNn82z0SEyTSU=
-X-Received: by 2002:a17:90a:29c4:b0:1b8:cc9c:134e with SMTP id
- h62-20020a17090a29c400b001b8cc9c134emr3212653pjd.134.1645796454548; Fri, 25
- Feb 2022 05:40:54 -0800 (PST)
-MIME-Version: 1.0
-References: <CALkUMdSVV=Vju3TtryObKney7Q1TJLgGd7G7OB4X3FW9eJf4-w@mail.gmail.com>
- <20220208110231.2896-1-vimal.agrawal@sophos.com> <YgKyC4ZRud0JW1PF@bombadil.infradead.org>
- <CALkUMdSeO2pKrVrfo6ReBXs2UX-wsGPPatb-CtyqP02hyjS+mw@mail.gmail.com> <CALkUMdRO+JAF_Dw3Q-mHOxvt7uM6gVDNGAA3OMeCUpnSvi7_Pg@mail.gmail.com>
-In-Reply-To: <CALkUMdRO+JAF_Dw3Q-mHOxvt7uM6gVDNGAA3OMeCUpnSvi7_Pg@mail.gmail.com>
-From:   Vimal Agrawal <avimalin@gmail.com>
-Date:   Fri, 25 Feb 2022 19:10:43 +0530
-Message-ID: <CALkUMdQhg4r8YJRzvv5=HgMgrHE-ay0Pj-q-HiYt9SgtdTXPNw@mail.gmail.com>
-Subject: Re: [PATCH v6] modules: add heuristic when stripping unneeded symbols
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
+        Fri, 25 Feb 2022 09:44:31 -0500
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F02981FED91;
+        Fri, 25 Feb 2022 06:43:58 -0800 (PST)
+Received: from grover.RMN.KIBA.LAB.jp (133-32-176-37.west.xps.vectant.ne.jp [133.32.176.37]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 21PEgqX4020761;
+        Fri, 25 Feb 2022 23:42:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 21PEgqX4020761
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1645800172;
+        bh=I9jAwX0NbU12zK9seDrAyeHVaSvKsx5FCTRWrnYxfAs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ou1p4dPFbNoaxgDMabPHid6Dd3engyNSQW3zicXm5Ju/UJRE4QA7IT8RWL841zLlk
+         Q5+1lTJ1U+o/ppFqIz4bQfOxJpbSI1uRZSv6SD+wTD7ZAx3DR9qMveTQQuT1IXmvtq
+         LN7XbTxZNb1DRUQVtYy6cs9rAfUSbUTaAGdmUkhAWPlgFlkOl9jWSkXvc8FCKkULR5
+         jLSt9HNbvW+R1Zt4JXVh/HmJQGXPzQHE1vHcOHE3FYfhGYJ2Piu5cYokNVIJAOshv5
+         Bjkjr13Uth3k/7xrbi7fknYeCPRZIITfKx/wvrod5o50qwFUz8GA435jCOtnP/QpkC
+         dvyaN8ahi7wNw==
+X-Nifty-SrcIP: [133.32.176.37]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     David Laight <David.Laight@ACULAB.COM>,
+        linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jan Beulich <JBeulich@suse.com>, Jeff Mahoney <jeffm@suse.com>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        jeyu@kernel.org, linux-kernel@vger.kernel.org,
-        Vimal Agrawal <vimal.agrawal@sophos.com>,
-        nishit.shah@sophos.com, gregkh@linuxfoundation.org,
-        Dirk VanDerMerwe <Dirk.VanDerMerwe@sophos.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH v2] fixdep: use fflush() and ferror() to ensure successful write to files
+Date:   Fri, 25 Feb 2022 23:42:45 +0900
+Message-Id: <20220225144245.182659-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Luis,
+Checking the return value of (v)printf does not ensure the successful
+write to the .cmd file.
 
-I tried with your config as well using make oldconfig. It has the same results.
+Call fflush() and ferror() to make sure that everything has been
+written to the file.
 
-Vimal
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-On Fri, Feb 25, 2022 at 1:29 PM Vimal Agrawal <avimalin@gmail.com> wrote:
->
-> Hi Luis,
->
-> I tested with the latest linux->next on KVM VM ( on AWS) and results
-> are the same. Haven't tried with your .config yet.
->
-> [ec2-user@ip-172-31-22-235 lib]$ uname -ra
-> Linux ip-172-31-22-235.ec2.internal 5.17.0-rc5+ #7 SMP PREEMPT Fri Feb
-> 25 07:14:03 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
->
-> 1. without patch
-> =================
-> a) with symbols
-> -----------------
-> [ 2050.306916] symbol name for address of test_module_warn_init is
-> test_module_warn_init+0x0/0x7 [test_module]
-> [ 2050.311348] symbol name for address of test_module_warn_start is
-> test_module_warn_start+0x0/0x8 [test_module]
-> [ 2050.315921] symbol name for address of fun_ptr is
-> fun_ptr+0x0/0xfffffffffffff000 [test_module]
->
-> b) with stripping using --strip-unneeded option
-> --------------------------------------------
-> [ 2131.639375] symbol name for address of test_module_warn_init is
-> __this_module+0x2fc0/0x2fc7 [test_module]
-> [ 2131.643739] symbol name for address of test_module_warn_start is
-> 0xffffffffc01b3000
-> [ 2131.647302] symbol name for address of fun_ptr is
-> cleanup_module+0x1ff8/0xff8 [test_module]
->
-> 2. with patch
-> ==============
-> a) with symbols
-> -----------------
-> [  512.937924] symbol name for address of test_module_warn_init is
-> test_module_warn_init+0x0/0x7 [test_module]
-> [  512.942388] symbol name for address of test_module_warn_start is
-> test_module_warn_start+0x0/0x8 [test_module]
-> [  512.978506] symbol name for address of fun_ptr is
-> fun_ptr+0x0/0xfffffffffffff000 [test_module]
->
-> b) with stripping using --strip-unneeded option
-> --------------------------------------------
-> [  171.976330] symbol name for address of test_module_warn_init is
-> [module __init]+0x0/0x7 [test_module]
-> [  171.980682] symbol name for address of test_module_warn_start is
-> [module]+0x0/0x8 [test_module]
-> [  172.074418] symbol name for address of fun_ptr is
-> cleanup_module+0x1ff8/0xff8 [test_module]
->
-> It is still broken for fun_ptr which is outside the scope of this
-> patch as I mentioned earlier.
->
-> Vimal
->
-> On Tue, Feb 8, 2022 at 11:55 PM Vimal Agrawal <avimalin@gmail.com> wrote:
-> >
-> > > > If kernel modules are stripped off symbols for some reason
-> > >
-> > > For some reason? Are you kidding? It is by design.
-> > >
-> > I meant that symbols can be stripped for various reasons e.g. if
-> > stripped using --strip-unneeded option.
-> >
-> > > > then stack
-> > > > traces in dmesg do not show symbol name for address. It just prints
-> > > > absolute address sometimes (if there is no good match with any symbol)
-> > >
-> > > Yes that is by design.
-> > >
-> > but we can improve it to show the offset from init start or core start
-> > which can help for decoding later.
-> >
-> > > > Note RIP: 0010:0xffffffffc06b67ec and 0xffffffffc06b67ec printed in above
-> > > > stack trace as absolute address. There is no easy way in case box crashes
-> > > > as we loose information on load address of specific module.
-> > >
-> > > Mentioning this note makes little sense, just say how the above doesn't help you
-> > > easily identify the root cause of an address, and how this is just part
-> > > of consequences of stripping symbols. Because developers using
-> > > INSTALL_MOD_STRIP="--strip-unneeded"  know that they are trading off
-> > > debugging live crashes over reducing the kernel and module binary size.
-> > >
-> > Ok
-> >
-> > > > This changes the symbol decoding (in kernel/module.c) such that it can
-> > > > print offset from start of section (.text or .init.text) in case there
-> > > > is no good match with any symbol.
-> > >
-> > > No, this is adding a new heuristic to help in cases where no good match
-> > > for a symbol was found, and typically this can be when symbols are
-> > > stripped.
-> > >
-> > Ok
-> > > > It will now decode address in such cases to [module]+ offset/size or
-> > > > [module __init]+offset/size depending on where the address lies (in
-> > > > core/.text or init/.init.text section of module).
-> > > >
-> > > > One can use objdump/readelf/nm to find symbols with offset from .init.text
-> > > > and .text sections.
-> > > >
-> > > > steps to reproduce the problem:
-> > > > -------------------------------
-> > > > 1. Add WARN_ON_ONCE(1) in module e.g. test_module.c
-> > > > 2. Build and strip the module using --strip-unneeded option
-> > > > 3. Load the module and check RIP in dmesg
-> > > >
-> > > > tests done:
-> > > > -----------
-> > > > 1. Added WARN_ON_ONE(1) in functions of a module for testing
-> > > > -------------------------------------------------------------
-> > > > [  407.934085] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
-> > > > [  407.934087] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-> > > > [  407.934088] RIP: 0010:[module __init]+0x4/0x7 [test_module]
-> > > > [  407.934097] Code: Unable to access opcode bytes at RIP 0xffffffffc07edfda.
-> > > > [  407.934098] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
-> > > > [  407.934100] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> > > > [  407.934101] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
-> > > > [  407.934102] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
-> > > > [  407.934103] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
-> > > > [  407.934104] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
-> > > > [  407.934105] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
-> > > > [  407.934107] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > > [  407.934108] CR2: ffffffffc07edfda CR3: 00000000063ea006 CR4: 00000000000706f0
-> > > > [  407.934113] Call Trace:
-> > > > [  407.934114]  <TASK>
-> > > > [  407.934116]  ? init_module+0x55/0xff9 [test_module]
-> > > > ...
-> > > > [  407.934232] CPU: 0 PID: 2956 Comm: insmod Tainted: G        W   E     5.16.0-rc5-next-20211220+ #2
-> > > > [  407.934234] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-> > > > [  407.934242] RIP: 0010:[module]+0x4/0x7 [test_module]
-> > > > [  407.934248] Code: Unable to access opcode bytes at RIP 0xffffffffc07e1fda.
-> > > > [  407.934249] RSP: 0018:ffffb21440487c20 EFLAGS: 00010202
-> > > > [  407.934251] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> > > > [  407.934252] RDX: 0000000000000000 RSI: ffffffff9c38e5e1 RDI: 0000000000000001
-> > > > [  407.934253] RBP: ffffb21440487c28 R08: 0000000000000000 R09: ffffb21440487a20
-> > > > [  407.934254] R10: ffffb21440487a18 R11: ffffffff9c755248 R12: ffffffffc07ee007
-> > > > [  407.934255] R13: ffff92a0f1e260b0 R14: 0000000000000000 R15: 0000000000000000
-> > > > [  407.934256] FS:  00007f578ebc4400(0000) GS:ffff92a1c0e00000(0000) knlGS:0000000000000000
-> > > > [  407.934257] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > > [  407.934258] CR2: ffffffffc07e1fda CR3: 00000000063ea006 CR4: 00000000000706f0
-> > > > [  407.934260] Call Trace:
-> > > > [  407.934260]  <TASK>
-> > > > [  407.934261]  ? init_module+0x5a/0xff9 [test_module]
-> > > >
-> > > > note that it is able to decode RIP to an offset from module start or
-> > > > init start now.
-> > > >
-> > > > tested on linux->next (tag next-20211220)
-> > > >
-> > > > Signed-off-by: Vimal Agrawal <vimal.agrawal@sophos.com>
-> > > > Acked-by: Nishit Shah <nishit.shah@sophos.com>
-> > > > Suggested-by: Dirk VanDerMerwe <Dirk.VanDerMerwe@Sophos.com>
-> > > > ---
-> > > >  kernel/module.c | 44 +++++++++++++++++++++++++++++++++++++++-----
-> > > >  1 file changed, 39 insertions(+), 5 deletions(-)
-> > > >
-> > > > diff --git a/kernel/module.c b/kernel/module.c
-> > > > index 24dab046e16c..635e631c92f1 100644
-> > > > --- a/kernel/module.c
-> > > > +++ b/kernel/module.c
-> > > > @@ -4260,6 +4260,19 @@ static const char *kallsyms_symbol_name(struct mod_kallsyms *kallsyms, unsigned
-> > > >       return kallsyms->strtab + kallsyms->symtab[symnum].st_name;
-> > > >  }
-> > > >
-> > > > +/*
-> > > > + * Check if module address (addr) passed is as per init passed
-> > > > + * if init is true then check in init layout
-> > > > + * else check in core layout
-> > > > + */
-> > > > +bool match_address_layout(struct module *mod, unsigned long addr, bool init)
-> > > > +{
-> > > > +     if (init)
-> > > > +             return within_module_init(addr, mod);
-> > > > +     else
-> > > > +             return within_module_core(addr, mod);
-> > > > +}
-> > > > +
-> > > >  /*
-> > > >   * Given a module and address, find the corresponding symbol and return its name
-> > > >   * while providing its size and offset if needed.
-> > > > @@ -4270,14 +4283,22 @@ static const char *find_kallsyms_symbol(struct module *mod,
-> > > >                                       unsigned long *offset)
-> > > >  {
-> > > >       unsigned int i, best = 0;
-> > > > -     unsigned long nextval, bestval;
-> > > > +     unsigned long baseval, nextval, bestval;
-> > > >       struct mod_kallsyms *kallsyms = rcu_dereference_sched(mod->kallsyms);
-> > > > +     char *module_base_name;
-> > > > +     bool is_init_address = false;
-> > > >
-> > > >       /* At worse, next value is at end of module */
-> > > > -     if (within_module_init(addr, mod))
-> > > > +     if (within_module_init(addr, mod)) {
-> > > > +             baseval = (unsigned long)mod->init_layout.base;
-> > > >               nextval = (unsigned long)mod->init_layout.base+mod->init_layout.text_size;
-> > > > -     else
-> > > > +             module_base_name = "[module __init]";
-> > > > +             is_init_address = true;
-> > > > +     } else {
-> > > > +             baseval = (unsigned long)mod->core_layout.base;
-> > > >               nextval = (unsigned long)mod->core_layout.base+mod->core_layout.text_size;
-> > > > +             module_base_name = "[module]";
-> > > > +     }
-> > > >
-> > >
-> > >
-> > > To make all this readible and easier to follow please break down your
-> > > work into 3 patches:
-> > >
-> > > 1) You add the above branch and add baseval as you do now and you also
-> > > use it on the nextval assigmment. So something like this:
-> > >
-> > > +             baseval = (unsigned long)mod->init_layout.base;
-> > > -             nextval = (unsigned long)mod->init_layout.base+mod->init_layout.text_size;
-> > > +             nextval = baseval + mod->init_layout.text_size;
-> > >
-> > > You would do that for the core_layout branch too.
-> > >
-> > > This would make only one single change to the code. That is just one
-> > > patch. And that patch introduces no functional changes. You would
-> > > clarify that on the commit log, to make it clear there is no possible
-> > > regression risks with it.
-> > >
-> > > >       bestval = kallsyms_symbol_value(&kallsyms->symtab[best]);
-> > > >
-> > > > @@ -4300,7 +4321,8 @@ static const char *find_kallsyms_symbol(struct module *mod,
-> > > >                   || is_arm_mapping_symbol(kallsyms_symbol_name(kallsyms, i)))
-> > > >                       continue;
-> > > >
-> > > > -             if (thisval <= addr && thisval > bestval) {
-> > > > +             if ((thisval <= addr && thisval > bestval) &&
-> > > > +                     (match_address_layout(mod, thisval, is_init_address))) {
-> > >
-> > > OK your 2nd patch will be:
-> > >
-> > > 2) You add match_address_layout() and the is_init_address bool. This is
-> > > a fix found through code inspection. You can clarify that the issue has
-> > > only been found when --strip-unneeded is used, however, that the fix
-> > > could potentialy solve other false symbol. At this point in time no
-> > > known cases are known where the reported symbol returned is invalid,
-> > > but this sanity check makes sense even for cases where no striping is
-> > > used. You can also mention that you this fix is also being added to
-> > > be able to add a new heuristic later for cases where --strip-unneeded
-> > > is used.
-> > >
-> > > >                       best = i;
-> > > >                       bestval = thisval;
-> > > >               }
-> > > > @@ -4308,8 +4330,20 @@ static const char *find_kallsyms_symbol(struct module *mod,
-> > > >                       nextval = thisval;
-> > > >       }
-> > > >
-> > > > -     if (!best)
-> > > > +     if (!best) {
-> > > > +             if (is_module_text_address(addr)) {
-> > > > +                     /*
-> > > > +                      * return MODULE base and offset if we could not find
-> > > > +                      * any best match for text address
-> > > > +                      */
-> > > > +                     if (size)
-> > > > +                             *size = nextval - baseval;
-> > > > +                     if (offset)
-> > > > +                             *offset = addr - baseval;
-> > > > +                     return module_base_name;
-> > > > +             }
-> > > >               return NULL;
-> > >
-> > > And then patch 3 is this new change. Please test the config I sent you
-> > > though, I have not been able to reproduce your setup yet.
-> > >
-> > >   Luis
-> > sure I will do as suggested. Thanks.
-> >
-> > Vimal
+Changes in v2:
+  - add error message
+
+ scripts/basic/fixdep.c | 46 +++++++++++++++++-------------------------
+ 1 file changed, 19 insertions(+), 27 deletions(-)
+
+diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
+index 44e887cff49b..2328f9a641da 100644
+--- a/scripts/basic/fixdep.c
++++ b/scripts/basic/fixdep.c
+@@ -105,25 +105,6 @@ static void usage(void)
+ 	exit(1);
+ }
+ 
+-/*
+- * In the intended usage of this program, the stdout is redirected to .*.cmd
+- * files. The return value of printf() must be checked to catch any error,
+- * e.g. "No space left on device".
+- */
+-static void xprintf(const char *format, ...)
+-{
+-	va_list ap;
+-	int ret;
+-
+-	va_start(ap, format);
+-	ret = vprintf(format, ap);
+-	if (ret < 0) {
+-		perror("fixdep");
+-		exit(1);
+-	}
+-	va_end(ap);
+-}
+-
+ struct item {
+ 	struct item	*next;
+ 	unsigned int	len;
+@@ -189,7 +170,7 @@ static void use_config(const char *m, int slen)
+ 
+ 	define_config(m, slen, hash);
+ 	/* Print out a dependency path from a symbol name. */
+-	xprintf("    $(wildcard include/config/%.*s) \\\n", slen, m);
++	printf("    $(wildcard include/config/%.*s) \\\n", slen, m);
+ }
+ 
+ /* test if s ends in sub */
+@@ -318,13 +299,13 @@ static void parse_dep_file(char *m, const char *target)
+ 				 */
+ 				if (!saw_any_target) {
+ 					saw_any_target = 1;
+-					xprintf("source_%s := %s\n\n",
+-						target, m);
+-					xprintf("deps_%s := \\\n", target);
++					printf("source_%s := %s\n\n",
++					       target, m);
++					printf("deps_%s := \\\n", target);
+ 				}
+ 				is_first_dep = 0;
+ 			} else {
+-				xprintf("  %s \\\n", m);
++				printf("  %s \\\n", m);
+ 			}
+ 
+ 			buf = read_file(m);
+@@ -347,8 +328,8 @@ static void parse_dep_file(char *m, const char *target)
+ 		exit(1);
+ 	}
+ 
+-	xprintf("\n%s: $(deps_%s)\n\n", target, target);
+-	xprintf("$(deps_%s):\n", target);
++	printf("\n%s: $(deps_%s)\n\n", target, target);
++	printf("$(deps_%s):\n", target);
+ }
+ 
+ int main(int argc, char *argv[])
+@@ -363,11 +344,22 @@ int main(int argc, char *argv[])
+ 	target = argv[2];
+ 	cmdline = argv[3];
+ 
+-	xprintf("cmd_%s := %s\n\n", target, cmdline);
++	printf("cmd_%s := %s\n\n", target, cmdline);
+ 
+ 	buf = read_file(depfile);
+ 	parse_dep_file(buf, target);
+ 	free(buf);
+ 
++	fflush(stdout);
++
++	/*
++	 * In the intended usage, the stdout is redirected to .*.cmd files.
++	 * Call ferror() to catch errors such as "No space left on device".
++	 */
++	if (ferror(stdout)) {
++		fprintf(stderr, "fixdep: not all data was written to the output\n");
++		exit(1);
++	}
++
+ 	return 0;
+ }
+-- 
+2.32.0
+
