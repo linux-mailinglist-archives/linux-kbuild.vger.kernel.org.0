@@ -2,161 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC6884C23C8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Feb 2022 06:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 905624C3ECD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Feb 2022 08:10:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbiBXF7E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Feb 2022 00:59:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S238019AbiBYHK2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Feb 2022 02:10:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbiBXF7D (ORCPT
+        with ESMTP id S232670AbiBYHK1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Feb 2022 00:59:03 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D862649BD
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Feb 2022 21:58:34 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id ay3so827873plb.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Feb 2022 21:58:34 -0800 (PST)
+        Fri, 25 Feb 2022 02:10:27 -0500
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988C71E2FE3
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
+Received: by mail-yb1-xb41.google.com with SMTP id u3so4125675ybh.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Feb 2022 23:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zAnejYzjMLOw9nDkVzejCfKZ6oBBZ5wn5KiXGCpLjMA=;
-        b=ngRxHm3L+/PjW4guu4lIB7R2vAimLs2Yef4Disoe//YgHKnOK/FKD3M2CdZYJjFwjP
-         NPHCFYPZT/Le825KrJuJWI1EwYb4+M1mQ+NIf96KxpVqDlL8bEZx6LB+mKGvJwFkFKVF
-         RqzsPe4Myj0OCUQeY0I7JxpBX8A3GUqjWv/yQ=
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=YxomcVhOZ/D49FW5qhwHTKoVVib0raMx5yC3Cya4g5ngOi0w1jl8BZoM4/clKni9Pb
+         yqoJGrMCYLdk/a/fBmkEj5mgtBGwevKi6DWOOV0i0q7qvExwaF9CzGOrqPOYG/1lG9zD
+         ZwlOgzI2BA+6PahiABm3nQLGehJn3VM6QwcvY/6neMPcrXkzQ9Tl7TGKGYzlEQJljtlD
+         zbhL1ayhMorW5QmGKTl51KHBUSHxXl8QHxXV/adaBlMgVTOPldniBdDjFZpOD9Clltms
+         ZjeouqtAZnm9o9GLdHn3NNZg9HBE79mH3Hh0s/2fuDMGHH/3d5dX93GnySGwNtbU1hfT
+         FGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zAnejYzjMLOw9nDkVzejCfKZ6oBBZ5wn5KiXGCpLjMA=;
-        b=U9a8n1z8/ChXXnnPeFWCHQSaRnp+YweMhL25wTEzZKhtozZQv7nRRs9vFreDk+toxh
-         WynVxf5BYFNMgI7i8syis7rZmsfU1g+o+j2MkZCnDGwNyUVXXPG86Tb8ZlWno6XAlk8/
-         Hd7onfmK76df4l/GHs698n66vNrxyeSvk/wlGk71abW2u7fYfMGNPa/rJBTXuZSmdLrE
-         tKTaL9GtcEd5wmPkmatWp6/DSCxqYVg31diqX5OZwZ6PWhUnO3Pro5wyywdhf1qK4h7L
-         rrV0fa1CkavvKI8YXpbYRewXjfqgd5hBMgvi6OUyVL1e8h5HpSs9vlqG6cFzfnpdBzpe
-         tZrA==
-X-Gm-Message-State: AOAM530mqYzUQsfWWyhgzLKU0Lgh8uXPsa9ezyTYiS4xuObukZ40eEky
-        evgcYHbYibeYM/c3kBjz9x941w==
-X-Google-Smtp-Source: ABdhPJyJ9xUurNYX2PkzlWyR0k1G5n6hF4pFLyT3YuG8dMdiPW/0Tc4RSx6Lns8rrrPi2W3XrglbrQ==
-X-Received: by 2002:a17:90b:17c3:b0:1b8:cda0:bc08 with SMTP id me3-20020a17090b17c300b001b8cda0bc08mr12981731pjb.72.1645682313918;
-        Wed, 23 Feb 2022 21:58:33 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d5-20020a17090acd0500b001b9c05b075dsm4840603pju.44.2022.02.23.21.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 21:58:33 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jeff Dike <jdike@addtoit.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        David Gow <davidgow@google.com>, linux-um@lists.infradead.org,
-        linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, llvm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH v2] um: Allow builds with Clang
-Date:   Wed, 23 Feb 2022 21:58:31 -0800
-Message-Id: <20220224055831.1854786-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Y7X8uyaFI8LljuLAxhyM48+yTSBDN9zANH/IhPwl+SQ=;
+        b=RjxYHPeTlz1FqVuC89E9yxrHDfjc3XcpWagSExt4iQmrrytYDxFu0r0GLC92zjb63Q
+         WRaGrrPr7x2Ugs1DuO5s/qPQex/QiVW5ql2tBwTTylOlUpzf5XLhyyPw5ylJLF9fDB+J
+         LQFwQGsJcvJdFZL2Fww9A2l1Aqg3WwkKRxOaR1ld8f+bryGPNnHhje8sjQDmEz+Ini+l
+         pOS9zluHCcOj06oVHDUdkqLHVWWZK/g5GOr7oOF9jTU7CyiGFFDyBXnG+dFA1cfgPU0p
+         WbIqrB8d7L3aMKmdRNyjplY3XUc4x7opurDn/Aa16Q2NT/tBT68+++Awgt/tmzSQbb4l
+         tMHw==
+X-Gm-Message-State: AOAM530hKjVVp2EXuKqvNnKkOe1McH8AmksO4VR8IqBAxhSPRjCNcJYe
+        MkaGpg2i7bMVTInB1+G0gK8NqIeF44HpPx7Ejs4=
+X-Google-Smtp-Source: ABdhPJzqP1eVeGmxq/Knm0kECMjsxmNWnoVdI9YWwZX0WuM0dRU/22lNt/XNJwSwuYOkYZicPx9TtPhvmt88a1BmNmE=
+X-Received: by 2002:a25:8149:0:b0:623:bc3c:be06 with SMTP id
+ j9-20020a258149000000b00623bc3cbe06mr6240911ybm.223.1645772994878; Thu, 24
+ Feb 2022 23:09:54 -0800 (PST)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3199; h=from:subject; bh=ORjKUvuElRuveNhaPtG55IXvBNRDQtztW8DXNHkaB6o=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBiFx6H2Rp6e7Ak5NdBJtPWHhMi31ltuCxXU+/l480f UATwZt2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYhcehwAKCRCJcvTf3G3AJkQlD/ 4pCZ2mWoBuXFc2QpaBO0O3ONucPC8rUors6QDfZuMU1xAyl8Spj1bUbGEnl1BMT5VYBXBygi5tQqJK DtecMG/4Sy9fGup2xayFUu2DX8O9RHBeV71eroXdeYg2dh0+O1sb5iwXZVbLj3OV6HOGoUkiWDpms3 U6ogMwfe5Mb9GXwSncSK76Cbp9bXnSvRMJTzmxfGJlZ4dGpkRY8a6kMKlxwog8W7wzlM2+BK4MG+D9 s/waoLXueOywfOD63bJDfqHimMj18NbCinyQiTwiqjTFEEEXwjzZ8jlC9jBhfXHbje6Uyn7DNGEiBi 2TmbgbA1Mq09IHEtbQ33ExSsNJl/mcONkTiYEsofTtkCA7KwkLz0yu1RW0SMwanMSq5tL3pzMRmR4c uPEB1vUFm3b6VqDmrsFIEfRmBE8WDEYmaklgv8vxRBlXeu/BPeb4HJAO0Hmuy/jTPwoSr4B7vTlNKD Mux7qGTGcGgOwnFxQ3diqxvi4PnN/UW+6atTfzH2wTVYhNFxQNez0tiMEmAwGP2tJ+2J76UstlpRXY r8V1oopSzb18Qq11SBU53h3tIDPq2gNIvfPmmPOh6MtOjsp7EMCJ9Wk3vcfkHZusGFcxjRJPgJnbBx sC5IKds+n1EERQpguuWcbRt3p5W3K1zvBvcpJQ0aHrutERV3LkYlfSmzO1TA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a81:a389:0:0:0:0:0 with HTTP; Thu, 24 Feb 2022 23:09:54
+ -0800 (PST)
+Reply-To: markwillima00@gmail.com
+From:   Mark <nnannacolins@gmail.com>
+Date:   Thu, 24 Feb 2022 23:09:54 -0800
+Message-ID: <CAJAQTionfYc5m6BnPT_TCmsEnQvktMLHod+ArwPjJ_2yQ_V0RQ@mail.gmail.com>
+Subject: Re: Greetings!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b41 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [nnannacolins[at]gmail.com]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [markwillima00[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add x86-64 target for Clang+um and update user-offsets.c to use
-Clang-friendly assembly, similar to the fix from commit cf0c3e68aa81
-("kbuild: fix asm-offset generation to work with clang").
+Hello,
 
-This lets me run KUnit tests with Clang:
+The HSBC Bank is a financial institution in United Kingdom. We
+promotes long-term,sustainable and broad-based economic growth in
+developing and emerging countries by providing financial support like
+loans and investment to large, small and
+medium-sized companies (SMEs) as well as fast-growing enterprises
+which in turn helps to create secure and permanent jobs and reduce
+poverty.
 
-$ ./tools/testing/kunit/kunit.py config --make_options LLVM=1
-...
-$ ./tools/testing/kunit/kunit.py run --make_options LLVM=1
-...
+If you need fund to promotes your business, project(Project Funding),
+Loan, planning, budgeting and expansion of your business(s) , do not
+hesitate to indicate your interest as we are here to serve you better
+by granting your request.
 
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: David Gow <davidgow@google.com>
-Cc: linux-um@lists.infradead.org
-Cc: linux-kbuild@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: kunit-dev@googlegroups.com
-Cc: llvm@lists.linux.dev
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Link: https://lore.kernel.org/lkml/Yg2YubZxvYvx7%2Fnm@dev-arch.archlinux-ax161/
-Tested-by: David Gow <davidgow@google.com>
-Link: https://lore.kernel.org/lkml/CABVgOSk=oFxsbSbQE-v65VwR2+mXeGXDDjzq8t7FShwjJ3+kUg@mail.gmail.com/
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v1: https://lore.kernel.org/lkml/20220217002843.2312603-1-keescook@chromium.org/
-v2:
- - tweak commit log phrasing and alphabetize targets (nathan)
- - fix a missing implicit fallthrough under 32-bit builds
- - add review tags
----
- arch/um/os-Linux/execvp.c  | 1 +
- arch/x86/um/user-offsets.c | 4 ++--
- scripts/Makefile.clang     | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/arch/um/os-Linux/execvp.c b/arch/um/os-Linux/execvp.c
-index 84a0777c2a45..c09a5fd5e225 100644
---- a/arch/um/os-Linux/execvp.c
-+++ b/arch/um/os-Linux/execvp.c
-@@ -93,6 +93,7 @@ int execvp_noalloc(char *buf, const char *file, char *const argv[])
- 					   up finding no executable we can use, we want to diagnose
- 					   that we did find one but were denied access.  */
- 					got_eacces = 1;
-+					break;
- 				case ENOENT:
- 				case ESTALE:
- 				case ENOTDIR:
-diff --git a/arch/x86/um/user-offsets.c b/arch/x86/um/user-offsets.c
-index bae61554abcc..d9071827b515 100644
---- a/arch/x86/um/user-offsets.c
-+++ b/arch/x86/um/user-offsets.c
-@@ -10,10 +10,10 @@
- #include <asm/types.h>
- 
- #define DEFINE(sym, val) \
--	asm volatile("\n->" #sym " %0 " #val : : "i" (val))
-+	asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val))
- 
- #define DEFINE_LONGS(sym, val) \
--	asm volatile("\n->" #sym " %0 " #val : : "i" (val/sizeof(unsigned long)))
-+	asm volatile("\n.ascii \"->" #sym " %0 " #val "\"": : "i" (val/sizeof(unsigned long)))
- 
- void foo(void)
- {
-diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-index 51fc23e2e9e5..6e49344c6db2 100644
---- a/scripts/Makefile.clang
-+++ b/scripts/Makefile.clang
-@@ -9,6 +9,7 @@ CLANG_TARGET_FLAGS_mips		:= mipsel-linux-gnu
- CLANG_TARGET_FLAGS_powerpc	:= powerpc64le-linux-gnu
- CLANG_TARGET_FLAGS_riscv	:= riscv64-linux-gnu
- CLANG_TARGET_FLAGS_s390		:= s390x-linux-gnu
-+CLANG_TARGET_FLAGS_um		:= x86_64-linux-gnu
- CLANG_TARGET_FLAGS_x86		:= x86_64-linux-gnu
- CLANG_TARGET_FLAGS		:= $(CLANG_TARGET_FLAGS_$(SRCARCH))
- 
--- 
-2.30.2
-
+Thank you
+Mr:Mark
