@@ -2,65 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 511274C96A0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 21:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EED94C96F5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 21:31:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238291AbiCAUZQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Mar 2022 15:25:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
+        id S238331AbiCAUb7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Mar 2022 15:31:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238538AbiCAUXV (ORCPT
+        with ESMTP id S238400AbiCAUby (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Mar 2022 15:23:21 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3391A251A
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Mar 2022 12:20:37 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id bu29so28940905lfb.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Mar 2022 12:20:37 -0800 (PST)
+        Tue, 1 Mar 2022 15:31:54 -0500
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F57B12EE
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Mar 2022 12:28:56 -0800 (PST)
+Received: by mail-lj1-x234.google.com with SMTP id y24so4438605ljh.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Mar 2022 12:28:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PdjKf/a3poLbp/gbxt+Rqw8zr6wpWCPEMBt3Gdf0vVY=;
-        b=K7n4eVxkkqxw4LVOCYp6qjz4Lrn8nUG8scqpDLjNdEqFXZMud6qwqiSVAz5st7Yg7d
-         vC2q3Dqvtvzi4XIPeFoMoc2+dMBhZ16QOgzUWOKknYeZr7LRcjqzvrH7Gver9/sEKKQs
-         f6/zgOwraRIJv6M9/T7aFKvmQFpJdJkC/c588=
+        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
+        b=AXUNohphNBaqg4Ym0QvnB7ovOxC0qHBwQQTkvDU09LsSmaqliomVWRZBWSH9rA/NdX
+         mggO8k84CHtaDmY5vc6klMZugRCimckzfjt5ruN87TRJQCG97xdfs7M+rGBCx/iITiho
+         m3WSdHrV71StH8wJGQD2H6zmXpefAi4NA1HM50JkQz1wBh8FPbo2JL0PJbfCiWj+flF5
+         VPizIjc+dyyhgd2d0QTocmiEr7TKxUjrxGCsDGzMcimHkmBPd+NZjW2RI4B879m3tzhe
+         7OsVy6+c5Q5sdBrzGsalxEeXKu7lIv3BuaHd0Vn77MJW4nH68YFqeea7l79i24g7mXhe
+         HpWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PdjKf/a3poLbp/gbxt+Rqw8zr6wpWCPEMBt3Gdf0vVY=;
-        b=l/hUi9Yf1nChms6qnwH2pIfvukAsmtm4RQ1ZgGdgGqBIckcrVeZxHW9zaab+iguKc/
-         5950v2bwBs2C1f4RABGNMc96lddlZfwCp7CyZp4NPUkUfZbxcCkcG8xvlZHrzJLvkhzE
-         wfE8KWoqGnJzLzkUJ/tNM7136SgJWktdUNcG70SRTBQyFYywYOWeEeHFUpFTxz5WZ0nw
-         rwteUq4XtfOr6fl17IvaDzoYi1+4upXc/IcJfknVpA+9iyZ6zpaiepRgqA06MQiw5rDq
-         6GXkbiy/kGTjfP0iRMwnsMzNRGCpa3hZ2wuxPgvi4om8ersNnVyG6V/fN+INMWVGXE8B
-         lBuQ==
-X-Gm-Message-State: AOAM533FXANIikVxpxRwiRsDOAD1Khr69l5DCUSrY50GwA++AsjJaqSX
-        RBwz7G6Pt1mX03uvz4cNZSau/aSn8zsLODrW5MQ=
-X-Google-Smtp-Source: ABdhPJzFYlhlVdpD4IJCij/y8NJeNSG1OTXGC5GEDA8tu4J/vgbvy8u5a5qxE04HaIuCPYPrOghm3A==
-X-Received: by 2002:ac2:57cf:0:b0:439:94e:7c4a with SMTP id k15-20020ac257cf000000b00439094e7c4amr16644771lfo.23.1646166028108;
-        Tue, 01 Mar 2022 12:20:28 -0800 (PST)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id l26-20020a2e701a000000b002463f024de9sm2151086ljc.110.2022.03.01.12.20.26
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Mar 2022 12:20:26 -0800 (PST)
-Received: by mail-lj1-f181.google.com with SMTP id l12so11540126ljh.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Mar 2022 12:20:26 -0800 (PST)
-X-Received: by 2002:a2e:aa1f:0:b0:244:c2ea:7f20 with SMTP id
- bf31-20020a2eaa1f000000b00244c2ea7f20mr18277669ljb.164.1646166026459; Tue, 01
- Mar 2022 12:20:26 -0800 (PST)
+        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
+        b=pZi8ZglsL2OLcfIfEXCQpfcr6kMVarMQx1pi0SvNcSHwlll3n5UtvDkP785mI43TJd
+         30fFytqdlOOOab4lHunAw7FVjIUekaOBK9SpSHeSCpVzjYrQ3YB+uDW/j6cfEdvrpo09
+         hRZ1skSSzViaNU6n8tTuGH+G+BnlFpl0HexjDwrq4soQX4wYOtBxaFM4DJnX2BVwqZDi
+         YdcFSBxnfr2ZCqv99X3vj9pVjAMqeyj+2lrwApugKGlqHHpTANo5kydY4Wn8400XtVZP
+         aFo+m79ZoamWvbsZgPZngA9sQh7Rgnh08hW7vF2Sl6GpNTQv6KSP2d0Bhm5ibymdvk88
+         M0Tg==
+X-Gm-Message-State: AOAM53113N18ao21ApxPHuOEc2eUPGuS3kxD2gkKgG6/0OY55OVW6O+O
+        7AOBx18t7DeypviJacqCcYGyQ7HK6bPFNejIQm+TZA==
+X-Google-Smtp-Source: ABdhPJz45aoPYRnC0P6aRihQR7uE1J/WWQWC3IT9GukIQheAZ9K3oSg9y9PHLUJG3F+nspjRI+QY5wqfA1AwR9GjK5Q=
+X-Received: by 2002:a05:651c:1542:b0:233:8ff5:eb80 with SMTP id
+ y2-20020a05651c154200b002338ff5eb80mr18018505ljp.352.1646166529822; Tue, 01
+ Mar 2022 12:28:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-2-arnd@kernel.org>
- <CAKwvOdnkfuT_w_0RNCb+WTKJ+282zLKmhB9UNG=D-UFz9VkUng@mail.gmail.com> <CAKwvOdn-PrCUPe2WzLv18AH3=9DjtFES+r=M1DhoQivy8sHm-g@mail.gmail.com>
-In-Reply-To: <CAKwvOdn-PrCUPe2WzLv18AH3=9DjtFES+r=M1DhoQivy8sHm-g@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 1 Mar 2022 12:20:10 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
-Message-ID: <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
+ <CAKwvOdnkfuT_w_0RNCb+WTKJ+282zLKmhB9UNG=D-UFz9VkUng@mail.gmail.com>
+ <CAKwvOdn-PrCUPe2WzLv18AH3=9DjtFES+r=M1DhoQivy8sHm-g@mail.gmail.com> <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
+In-Reply-To: <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 1 Mar 2022 12:28:38 -0800
+Message-ID: <CAKwvOd=TpqiSSh3yqQ2Z44nJArBACvfohVCgd6Ej32rGQMvShA@mail.gmail.com>
 Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
-To:     Nick Desaulniers <ndesaulniers@google.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Arnd Bergmann <arnd@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
@@ -73,28 +67,36 @@ Cc:     Arnd Bergmann <arnd@kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-18.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 12:06 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Tue, Mar 1, 2022 at 12:20 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> That said, there's a few additional places that reset KBUILD_CFLAGS.
+> On Tue, Mar 1, 2022 at 12:06 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > That said, there's a few additional places that reset KBUILD_CFLAGS.
+>
+> Yeah, the boot code and vdso code often sets its own private flags,
+> because it's _so_ different.
+>
+> The generic kernel CFLAGS often don't work at all, because that code
+> may be doing some truly horrendous things.
+>
+> So I agree that this may not catch all the kernel code, but I don't
+> think it's much of a problem.
 
-Yeah, the boot code and vdso code often sets its own private flags,
-because it's _so_ different.
-
-The generic kernel CFLAGS often don't work at all, because that code
-may be doing some truly horrendous things.
-
-So I agree that this may not catch all the kernel code, but I don't
-think it's much of a problem.
-
-             Linus
+Agreed; they can still mirror the style imposed by
+-Wdeclaration-after-statement like the rest of the codebase though.
+-- 
+Thanks,
+~Nick Desaulniers
