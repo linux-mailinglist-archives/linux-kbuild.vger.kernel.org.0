@@ -2,101 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EED94C96F5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 21:31:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B51374C976D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 21:59:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238331AbiCAUb7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Mar 2022 15:31:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
+        id S238312AbiCAVAe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Mar 2022 16:00:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238400AbiCAUby (ORCPT
+        with ESMTP id S236863AbiCAVAe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Mar 2022 15:31:54 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F57B12EE
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Mar 2022 12:28:56 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id y24so4438605ljh.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Mar 2022 12:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
-        b=AXUNohphNBaqg4Ym0QvnB7ovOxC0qHBwQQTkvDU09LsSmaqliomVWRZBWSH9rA/NdX
-         mggO8k84CHtaDmY5vc6klMZugRCimckzfjt5ruN87TRJQCG97xdfs7M+rGBCx/iITiho
-         m3WSdHrV71StH8wJGQD2H6zmXpefAi4NA1HM50JkQz1wBh8FPbo2JL0PJbfCiWj+flF5
-         VPizIjc+dyyhgd2d0QTocmiEr7TKxUjrxGCsDGzMcimHkmBPd+NZjW2RI4B879m3tzhe
-         7OsVy6+c5Q5sdBrzGsalxEeXKu7lIv3BuaHd0Vn77MJW4nH68YFqeea7l79i24g7mXhe
-         HpWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xd7zhNWTAbsjcup8ovj0bhbEUHVo9VN2YG5iXSmKuGY=;
-        b=pZi8ZglsL2OLcfIfEXCQpfcr6kMVarMQx1pi0SvNcSHwlll3n5UtvDkP785mI43TJd
-         30fFytqdlOOOab4lHunAw7FVjIUekaOBK9SpSHeSCpVzjYrQ3YB+uDW/j6cfEdvrpo09
-         hRZ1skSSzViaNU6n8tTuGH+G+BnlFpl0HexjDwrq4soQX4wYOtBxaFM4DJnX2BVwqZDi
-         YdcFSBxnfr2ZCqv99X3vj9pVjAMqeyj+2lrwApugKGlqHHpTANo5kydY4Wn8400XtVZP
-         aFo+m79ZoamWvbsZgPZngA9sQh7Rgnh08hW7vF2Sl6GpNTQv6KSP2d0Bhm5ibymdvk88
-         M0Tg==
-X-Gm-Message-State: AOAM53113N18ao21ApxPHuOEc2eUPGuS3kxD2gkKgG6/0OY55OVW6O+O
-        7AOBx18t7DeypviJacqCcYGyQ7HK6bPFNejIQm+TZA==
-X-Google-Smtp-Source: ABdhPJz45aoPYRnC0P6aRihQR7uE1J/WWQWC3IT9GukIQheAZ9K3oSg9y9PHLUJG3F+nspjRI+QY5wqfA1AwR9GjK5Q=
-X-Received: by 2002:a05:651c:1542:b0:233:8ff5:eb80 with SMTP id
- y2-20020a05651c154200b002338ff5eb80mr18018505ljp.352.1646166529822; Tue, 01
- Mar 2022 12:28:49 -0800 (PST)
+        Tue, 1 Mar 2022 16:00:34 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Mar 2022 12:59:52 PST
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 623AF70337;
+        Tue,  1 Mar 2022 12:59:52 -0800 (PST)
+Received: from mail-wm1-f42.google.com ([209.85.128.42]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MwQw1-1oF3sg3Nxt-00sMy4; Tue, 01 Mar 2022 21:54:47 +0100
+Received: by mail-wm1-f42.google.com with SMTP id c18-20020a7bc852000000b003806ce86c6dso1959111wml.5;
+        Tue, 01 Mar 2022 12:54:47 -0800 (PST)
+X-Gm-Message-State: AOAM530a05NOVHd+QWqarIZf3oTnW50d/On0hNZyH3ZK8It+IbmP7+V+
+        fxvPVWo0MFrrnGUtvC4Pviunihc0Wd3YCjRAppU=
+X-Google-Smtp-Source: ABdhPJyfexIsGrgwygzot8G9sKT9XjsIQsKTtfBymt2kmTT/NR84Ozb3Ztyvv7y1MPCl2UVcmgGXd7qIz2qyYblVz+s=
+X-Received: by 2002:a05:600c:4f8e:b0:381:6de4:fccc with SMTP id
+ n14-20020a05600c4f8e00b003816de4fcccmr7841096wmq.82.1646168087390; Tue, 01
+ Mar 2022 12:54:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-2-arnd@kernel.org>
- <CAKwvOdnkfuT_w_0RNCb+WTKJ+282zLKmhB9UNG=D-UFz9VkUng@mail.gmail.com>
- <CAKwvOdn-PrCUPe2WzLv18AH3=9DjtFES+r=M1DhoQivy8sHm-g@mail.gmail.com> <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
-In-Reply-To: <CAHk-=wh4OdQANe7TLYGdPWUub0MEdbGDr72wpATHxypaSEGAyg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 1 Mar 2022 12:28:38 -0800
-Message-ID: <CAKwvOd=TpqiSSh3yqQ2Z44nJArBACvfohVCgd6Ej32rGQMvShA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
+References: <20220301075839.4156-2-xiam0nd.tong@gmail.com> <202203020135.5duGpXM2-lkp@intel.com>
+ <CAHk-=wiVF0SeV2132vaTAcL1ccVDP25LkAgNgPoHXdFc27x-0g@mail.gmail.com>
+In-Reply-To: <CAHk-=wiVF0SeV2132vaTAcL1ccVDP25LkAgNgPoHXdFc27x-0g@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 1 Mar 2022 21:54:30 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0QAECV=_Bu5xnBxjxUHLcaGjBgJEjfMaeKT7StR=acyQ@mail.gmail.com>
+Message-ID: <CAK8P3a0QAECV=_Bu5xnBxjxUHLcaGjBgJEjfMaeKT7StR=acyQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] Kbuild: compile kernel with gnu11 std
 To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+Cc:     kernel test robot <lkp@intel.com>,
+        Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+        kbuild-all@lists.01.org, Arnd Bergmann <arnd@arndb.de>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        llvm@lists.linux.dev,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-18.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:UyQiCNWs1ZLtkg6WG9++n+3GsQgzK+acpBbi33NPnZxg9U8Lwx5
+ seheEZG2JPgKWzfHK4xhcCJfRX4t/+iKXpgvmzXtudKoVUDl/F6sHKr3OP6lhu9/RZwifnY
+ p1tya+JEk/e9rTfqSpw8IKmfPNNWvzEnpKoLpJ61OmhzKwQwpLD82bRl6diLuPrLup6AlWx
+ B5VLEJrpOJWgaCHKW8SjA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vsttm/+D7CU=:1Sdx8KiiSCJPouRELWDGHf
+ McMVhzXoPD6nxUL5Qa6xVnXmQaDnuJ4BPuvlpXeGWtGQGb3uT5XRGHRAqOob9lvzW/D9x21HQ
+ KjPLwKIz/9xy1KBDym75bhpLIOzRfj1UJiPeKUR1EqCSOZnMlw5O5agGUEgd01h+SUhro5RYk
+ 9oL32khYM6kg1OV00AqTZHSrSFLzCus7s9Gc3RnhMmbMmo0GIR2EzppSiqVOt+MHjg5DO4Qf1
+ MS1LioWFVBx+EJ32Z+4DZV3sqKsOcywJfCptJskcOnGX5hYIG6jVqqrNoxsOBB9JLC53sSz6r
+ 2t5kr3KlKMb80s3T8vbvwr4hsceNlMEWTfKDYLMIcZcGsDg7v6vRnzLEfulCftPOniBFolE1h
+ llT3qd/BX+uACDvqIWYrT4kDsEh6Up8xVIjdkZ2YFMHLXYFwpSTpKKTVB6EdTqIG9NSkoidtP
+ CuufGeDP+y/Qp/4XrsHpuK+lNTWaZRKqaxF56rVANrrD/QrRRxNQLCWuBql43lBb1ynMT0sed
+ jCjIQ42M3xvHRb9jk6o2HferAFWWDG5lTjp25tcK0NdH2uc7E2khsDwqIghdVbfym8+r8DrOD
+ E5B06qpZiqviKYgh95sVwV+3VSs5ylaTyWEDYQqk3OjYZYwqOQPUAGB8JrFLXkvi+MHD6XKjL
+ lQZQr1bsH1+jZn+lyeNbYEqV5IPDxXldImVroekpUudyzFAXBgUv6nwJ6FezX2GYrs2PsvAze
+ mNqaTePmRAVkoyvPBeXX3XJ51Nk4xNet65FkdmP2mdQ8un4QEZpeeRmWbtWc0kf0Ern0BNIRQ
+ jgIWUab9aPQPilgM5t5qiR0w9WM8HSxeYAcjhBXg0RSKdr9jy8=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 1, 2022 at 12:20 PM Linus Torvalds
+On Tue, Mar 1, 2022 at 9:16 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> On Tue, Mar 1, 2022 at 12:06 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
+> On Tue, Mar 1, 2022 at 10:00 AM kernel test robot <lkp@intel.com> wrote:
 > >
-> > That said, there's a few additional places that reset KBUILD_CFLAGS.
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> cc1: warning: result of '-117440512 << 16' requires 44 bits to represent, but 'int' only has 32 bits [-Wshift-overflow=]
 >
-> Yeah, the boot code and vdso code often sets its own private flags,
-> because it's _so_ different.
+> So that's potentially an interesting warning, but this email doesn't
+> actually tell *where* that warning happens.
 >
-> The generic kernel CFLAGS often don't work at all, because that code
-> may be doing some truly horrendous things.
+> I'm not entirely sure why this warning is new to this '-std=gnu11'
+> change, but it's intriguing.
+...
 >
-> So I agree that this may not catch all the kernel code, but I don't
-> think it's much of a problem.
+> Is there some place to actually see the full log (or some way to get a
+> better pointer to just the new warning) to see that actual shift
+> overflow thing?
 
-Agreed; they can still mirror the style imposed by
--Wdeclaration-after-statement like the rest of the codebase though.
--- 
-Thanks,
-~Nick Desaulniers
+gcc-11 only shows the one line warning here. The source is
+
+/* PCI CFG04 status fields */
+#define PCI_CFG04_STAT_BIT      16
+#define PCI_CFG04_STAT          0xffff0000
+#define PCI_CFG04_STAT_66_MHZ   (1 << 21)
+#define PCI_CFG04_STAT_FBB      (1 << 23)
+#define PCI_CFG04_STAT_MDPE     (1 << 24)
+#define PCI_CFG04_STAT_DST      (1 << 25)
+#define PCI_CFG04_STAT_STA      (1 << 27)
+#define PCI_CFG04_STAT_RTA      (1 << 28)
+#define PCI_CFG04_STAT_RMA      (1 << 29)
+#define PCI_CFG04_STAT_SSE      (1 << 30)
+#define PCI_CFG04_STAT_PE       (1 << 31)
+#define KORINA_STAT             (PCI_CFG04_STAT_MDPE | \
+                                 PCI_CFG04_STAT_STA | \
+                                 PCI_CFG04_STAT_RTA | \
+                                 PCI_CFG04_STAT_RMA | \
+                                 PCI_CFG04_STAT_SSE | \
+                                 PCI_CFG04_STAT_PE)
+#define KORINA_CNFG1            ((KORINA_STAT<<16)|KORINA_CMD)
+
+unsigned int korina_cnfg_regs[25] = {
+        KORINA_CNFG1, /* ... */
+};
+
+This looks like an actual bug to me, the bits are shifted 16 bits twice
+by accident, and it's been like this since rb532 was introduced in
+2008.
+
+         Arnd
