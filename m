@@ -2,121 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B4864C910B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 18:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C6B4C926D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 19:00:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235152AbiCARBd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Mar 2022 12:01:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
+        id S233707AbiCASAk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Mar 2022 13:00:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235293AbiCARBd (ORCPT
+        with ESMTP id S229583AbiCASAk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Mar 2022 12:01:33 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BAC21AD82;
-        Tue,  1 Mar 2022 09:00:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E9FA60FCD;
-        Tue,  1 Mar 2022 17:00:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A3DC340EE;
-        Tue,  1 Mar 2022 17:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646154051;
-        bh=h907ipPkeeK8P2nHj6SjBPg75fPHts99jpm7hU3oTe4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uejxuz68JNN+P/Ws/LbTy+IcncnwZTwo3NQso7ZdH7w978wfAVW3186wDBd9SzsvQ
-         kNm3lkRQv5WwuJB/zW5sCTRZw66PNcdHW0Y8xqQzw6dI5HVsJZofimyKsKGnA23U26
-         pm1v1ubbzy45uxc1q1rpOavS/mjiXtwgBo5eyrEsQLMhAHhiNWjvnMUZHulkbiDtey
-         zoovisI+XRC+c3rMe9bDqCkk4dhfLZA9Sz+xxGcMKgexowZ1PBAjwmUFgxDEf7BIU3
-         +QI1xlshWc56KtdACRoQy2cp54d1DnemenhEjTrXbUzW6dj/1IqTUJWR7wl21ymGDK
-         /6i415XEZ/Tqg==
-Date:   Tue, 1 Mar 2022 10:00:45 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-Message-ID: <Yh5RPeqikTtoUS80@dev-arch.archlinux-ax161>
-References: <20220301145233.3689119-1-arnd@kernel.org>
- <20220301145233.3689119-3-arnd@kernel.org>
+        Tue, 1 Mar 2022 13:00:40 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D2B3ED3F;
+        Tue,  1 Mar 2022 09:59:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646157599; x=1677693599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YNeHmdRGaQLAxxHHm0icgDjR5GUsQ65k7RpZGnymZEg=;
+  b=ZIKfiSUr6pnV2g0oIyYmSRBOitP06Ck+5Iz/UpMqin5CxxFpsCyV1Hvl
+   ta0S7k/2XfapLMI5SnYznWb+yzoSui//U7iYIrnT5AWRlXsnbAzcn/41u
+   W7Wa9NSxxI4IS/1zgTNSYe93ucQQG8g9f7/5p3kxM+7LQJxUfw8g9+Fcc
+   xIlsqre/x8d4Mael1SJ62zy/GZjQnlmxPa35yb5FVm8RH1Nw56wn0p22B
+   7sqh2Cx933/HE0fMmEfemLFLF9fP8queiWBo7C6huK1UK94Q+LUL4mF3D
+   yzQzblFjayIrKnrd4iUXiD/CsasAJfqypvCZyKcsxRTtwpvfV/wzK6Osu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10273"; a="240613341"
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
+   d="scan'208";a="240613341"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2022 09:59:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,146,1643702400"; 
+   d="scan'208";a="507891417"
+Received: from lkp-server01.sh.intel.com (HELO 2146afe809fb) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 01 Mar 2022 09:59:55 -0800
+Received: from kbuild by 2146afe809fb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nP6mx-0000ps-3d; Tue, 01 Mar 2022 17:59:55 +0000
+Date:   Wed, 2 Mar 2022 01:59:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+        torvalds@linux-foundation.org
+Cc:     kbuild-all@lists.01.org, arnd@arndb.de, jakobkoschel@gmail.com,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        keescook@chromium.org, jannh@google.com,
+        linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+        netdev@vger.kernel.org, Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Subject: Re: [PATCH 1/6] Kbuild: compile kernel with gnu11 std
+Message-ID: <202203020135.5duGpXM2-lkp@intel.com>
+References: <20220301075839.4156-2-xiam0nd.tong@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220301145233.3689119-3-arnd@kernel.org>
-X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220301075839.4156-2-xiam0nd.tong@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 03:52:33PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> As we change the C language standard for the kernel from gnu89 to
-> gnu11, it makes sense to also update the version for user space
-> compilation.
-> 
-> Some users have older native compilers than what they use for
-> kernel builds, so I considered using gnu99 as the default version
-> for wider compatibility with gcc-4.6 and earlier.
-> 
-> However, testing with older compilers showed that we already require
-> HOSTCC version 5.1 as well because a lot of host tools include
-> linux/compiler.h that uses __has_attribute():
-> 
->   CC      tools/objtool/exec-cmd.o
-> In file included from tools/include/linux/compiler_types.h:36:0,
->                  from tools/include/linux/compiler.h:5,
->                  from exec-cmd.c:2:
-> tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
+Hi Xiaomeng,
 
-For what it's worth, I think this is a bug:
+Thank you for the patch! Perhaps something to improve:
 
-https://lore.kernel.org/r/c1b1a299-c60d-28a4-07ab-1ecd211d6da9@i-love.sakura.ne.jp/
-https://lore.kernel.org/r/20220102120201.594408-1-xu.xin16@zte.com.cn/
+[auto build test WARNING on linux/master]
+[also build test WARNING on vkoul-dmaengine/next soc/for-next linus/master v5.17-rc6 next-20220301]
+[cannot apply to hnaz-mm/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-I never got clear feedback on resolving it from the first thread and
-nobody bothered to pick up the second patch.
+url:    https://github.com/0day-ci/linux/commits/Xiaomeng-Tong/list_for_each_entry-make-iterator-invisiable-outside-the-loop/20220301-160113
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 2c271fe77d52a0555161926c232cd5bc07178b39
+config: mips-rb532_defconfig (https://download.01.org/0day-ci/archive/20220302/202203020135.5duGpXM2-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/84ec4077430a7e8c23ea1ebc7b69e254fda25cb1
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Xiaomeng-Tong/list_for_each_entry-make-iterator-invisiable-outside-the-loop/20220301-160113
+        git checkout 84ec4077430a7e8c23ea1ebc7b69e254fda25cb1
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=mips SHELL=/bin/bash
 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Nobody has yelled that loud though, so this is probably fine.
+All warnings (new ones prefixed by >>):
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>> cc1: warning: result of '-117440512 << 16' requires 44 bits to represent, but 'int' only has 32 bits [-Wshift-overflow=]
+   arch/mips/pci/pci-rc32434.c: In function 'rc32434_pcibridge_init':
+   arch/mips/pci/pci-rc32434.c:111:22: warning: variable 'dummyread' set but not used [-Wunused-but-set-variable]
+     111 |         unsigned int dummyread, pcicntlval;
+         |                      ^~~~~~~~~
 
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 37ef6a555dcd..7c9be7f1ccd4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -432,7 +432,7 @@ HOSTCXX	= g++
->  endif
->  
->  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -			    -O2 -fomit-frame-pointer -std=gnu89 \
-> +			    -O2 -fomit-frame-pointer -std=gnu11 \
->  			    -Wdeclaration-after-statement
->  export KBUILD_USERLDFLAGS :=
->  
-> -- 
-> 2.29.2
-> 
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
