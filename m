@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE1AE4C90F2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 17:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4864C910B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Mar 2022 18:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbiCAQzQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Mar 2022 11:55:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43972 "EHLO
+        id S235152AbiCARBd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Mar 2022 12:01:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232880AbiCAQzQ (ORCPT
+        with ESMTP id S235293AbiCARBd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Mar 2022 11:55:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECE36321;
-        Tue,  1 Mar 2022 08:54:34 -0800 (PST)
+        Tue, 1 Mar 2022 12:01:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BAC21AD82;
+        Tue,  1 Mar 2022 09:00:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9ECEEB8184F;
-        Tue,  1 Mar 2022 16:54:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740C1C340EE;
-        Tue,  1 Mar 2022 16:54:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E9FA60FCD;
+        Tue,  1 Mar 2022 17:00:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A3DC340EE;
+        Tue,  1 Mar 2022 17:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646153672;
-        bh=9NZHNm5f//UknLBQJi8aC7uw9czFahxKr+dcDCmFUCE=;
+        s=k20201202; t=1646154051;
+        bh=h907ipPkeeK8P2nHj6SjBPg75fPHts99jpm7hU3oTe4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DAkNpCOltDdkG4CouhQG0dgkdaSG+j0l1C23qUMaLCvWXveml1Bg7Um3AS0uTmR33
-         Z6yOKIMrLwUHhvy7GfU7WOAEAtARrMJKtdVhHwmHcp7horUQosHtlsFQg5gqUan1XR
-         d0UrTqoxcw3w/XKYLhEEWVhXQ7H8JYmTb7SDLzdNRBXWyJxPAlb+dnJgJnWL5npNeW
-         63xbWytUOsFzaJrkFx9qyR2Ew31u64F7qX9wHQeu3E2JtobC2y8ZxWIiMP3vYgRqh9
-         YRCHyXZxC8WdH460sGtTP9MnHQr6LhQQVgrUVnzWBfQKx4zeBp6yrIhS3qsDwpWV90
-         YFYdZxrdVrO4w==
-Date:   Tue, 1 Mar 2022 09:54:26 -0700
+        b=uejxuz68JNN+P/Ws/LbTy+IcncnwZTwo3NQso7ZdH7w978wfAVW3186wDBd9SzsvQ
+         kNm3lkRQv5WwuJB/zW5sCTRZw66PNcdHW0Y8xqQzw6dI5HVsJZofimyKsKGnA23U26
+         pm1v1ubbzy45uxc1q1rpOavS/mjiXtwgBo5eyrEsQLMhAHhiNWjvnMUZHulkbiDtey
+         zoovisI+XRC+c3rMe9bDqCkk4dhfLZA9Sz+xxGcMKgexowZ1PBAjwmUFgxDEf7BIU3
+         +QI1xlshWc56KtdACRoQy2cp54d1DnemenhEjTrXbUzW6dj/1IqTUJWR7wl21ymGDK
+         /6i415XEZ/Tqg==
+Date:   Tue, 1 Mar 2022 10:00:45 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
 To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -46,15 +46,14 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] treewide: use -Wdeclaration-after-statement
-Message-ID: <Yh5PwhYav2OOxnZV@dev-arch.archlinux-ax161>
+Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
+Message-ID: <Yh5RPeqikTtoUS80@dev-arch.archlinux-ax161>
 References: <20220301145233.3689119-1-arnd@kernel.org>
- <20220301145233.3689119-2-arnd@kernel.org>
+ <20220301145233.3689119-3-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220301145233.3689119-2-arnd@kernel.org>
+In-Reply-To: <20220301145233.3689119-3-arnd@kernel.org>
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -65,83 +64,58 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 03:52:32PM +0100, Arnd Bergmann wrote:
-> From: Mark Rutland <mark.rutland@arm.com>
+On Tue, Mar 01, 2022 at 03:52:33PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> In a subsequent patch we'll move the kernel from using `-std=gnu89` to
-> `-std=gnu11`, permitting the use of additional C11 features such as
-> for-loop initial declarations.
+> As we change the C language standard for the kernel from gnu89 to
+> gnu11, it makes sense to also update the version for user space
+> compilation.
 > 
-> One contentious aspect of C99 is that it permits mixed declarations and
-> code, and for now at least, it seems preferable to enforce that
-> declarations must come first.
+> Some users have older native compilers than what they use for
+> kernel builds, so I considered using gnu99 as the default version
+> for wider compatibility with gcc-4.6 and earlier.
 > 
-> These warnings were already disabled in the kernel itself, but not
-> for KBUILD_USERCFLAGS or the compat VDSO on arch/arm64, which uses
-> a separate set of CFLAGS.
+> However, testing with older compilers showed that we already require
+> HOSTCC version 5.1 as well because a lot of host tools include
+> linux/compiler.h that uses __has_attribute():
 > 
-> This patch fixes an existing violation in modpost.c, which is not
-> reported because of the missing flag in KBUILD_USERCFLAGS:
-> 
-> | scripts/mod/modpost.c: In function ‘match’:
-> | scripts/mod/modpost.c:837:3: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-> |   837 |   const char *endp = p + strlen(p) - 1;
-> |       |   ^~~~~
-> 
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> [arnd: don't add a duplicate flag to the default set, update changelog]
+>   CC      tools/objtool/exec-cmd.o
+> In file included from tools/include/linux/compiler_types.h:36:0,
+>                  from tools/include/linux/compiler.h:5,
+>                  from exec-cmd.c:2:
+> tools/include/linux/compiler-gcc.h:19:5: error: "__has_attribute" is not defined [-Werror=undef]
+
+For what it's worth, I think this is a bug:
+
+https://lore.kernel.org/r/c1b1a299-c60d-28a4-07ab-1ecd211d6da9@i-love.sakura.ne.jp/
+https://lore.kernel.org/r/20220102120201.594408-1-xu.xin16@zte.com.cn/
+
+I never got clear feedback on resolving it from the first thread and
+nobody bothered to pick up the second patch.
+
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Nobody has yelled that loud though, so this is probably fine.
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->  Makefile                          | 3 ++-
->  arch/arm64/kernel/vdso32/Makefile | 1 +
->  scripts/mod/modpost.c             | 4 +++-
->  3 files changed, 6 insertions(+), 2 deletions(-)
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/Makefile b/Makefile
-> index 94fa9a849a7a..37ef6a555dcd 100644
+> index 37ef6a555dcd..7c9be7f1ccd4 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -432,7 +432,8 @@ HOSTCXX	= g++
+> @@ -432,7 +432,7 @@ HOSTCXX	= g++
 >  endif
 >  
 >  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -			      -O2 -fomit-frame-pointer -std=gnu89
-> +			    -O2 -fomit-frame-pointer -std=gnu89 \
-> +			    -Wdeclaration-after-statement
+> -			    -O2 -fomit-frame-pointer -std=gnu89 \
+> +			    -O2 -fomit-frame-pointer -std=gnu11 \
+>  			    -Wdeclaration-after-statement
 >  export KBUILD_USERLDFLAGS :=
 >  
->  KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index 9378ea055bf2..ed181bedbffc 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -68,6 +68,7 @@ VDSO_CFLAGS += -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
->                 -fno-strict-aliasing -fno-common \
->                 -Werror-implicit-function-declaration \
->                 -Wno-format-security \
-> +               -Wdeclaration-after-statement \
->                 -std=gnu11
->  VDSO_CFLAGS  += -O2
->  # Some useful compiler-dependent flags from top-level Makefile
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 6bfa33217914..fe693304b120 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -833,8 +833,10 @@ static int match(const char *sym, const char * const pat[])
->  {
->  	const char *p;
->  	while (*pat) {
-> +		const char *endp;
-> +
->  		p = *pat++;
-> -		const char *endp = p + strlen(p) - 1;
-> +		endp = p + strlen(p) - 1;
->  
->  		/* "*foo*" */
->  		if (*p == '*' && *endp == '*') {
 > -- 
 > 2.29.2
 > 
