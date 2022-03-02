@@ -2,94 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF6914CA90A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Mar 2022 16:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38EA14CA9E9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Mar 2022 17:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243450AbiCBP1z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Mar 2022 10:27:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
+        id S236382AbiCBQPj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Mar 2022 11:15:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243464AbiCBP1z (ORCPT
+        with ESMTP id S230254AbiCBQPj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Mar 2022 10:27:55 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72DF2B0EAF;
-        Wed,  2 Mar 2022 07:27:11 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DAB93B82029;
-        Wed,  2 Mar 2022 15:27:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643C3C004E1;
-        Wed,  2 Mar 2022 15:27:07 +0000 (UTC)
-Date:   Wed, 2 Mar 2022 10:27:05 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Chun-Tse Shao <ctshao@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] config: Using HOSTPKG_CONFIG prefix for pkg-config
-Message-ID: <20220302102705.15c32822@gandalf.local.home>
-In-Reply-To: <CAL_JsqK59GGhYQSEWvb=HtHTwMh=LXomu2zX4dEQeo4s3A0VtQ@mail.gmail.com>
-References: <20220301230629.1892828-1-ctshao@google.com>
-        <CAL_JsqK59GGhYQSEWvb=HtHTwMh=LXomu2zX4dEQeo4s3A0VtQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Wed, 2 Mar 2022 11:15:39 -0500
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D654ECCC5B
+        for <linux-kbuild@vger.kernel.org>; Wed,  2 Mar 2022 08:14:54 -0800 (PST)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+        by localhost (Postfix) with ESMTP id 4K7zj93gF6z9sSp;
+        Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Kz5UkkdHbiDu; Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase2.c-s.fr (Postfix) with ESMTP id 4K7zj92zhyz9sSk;
+        Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 57D488B76D;
+        Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id 2G1Yxp3_d3JX; Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+Received: from [172.25.230.108] (unknown [172.25.230.108])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 1D1358B763;
+        Wed,  2 Mar 2022 17:14:53 +0100 (CET)
+Message-ID: <bdaccb9b-01f5-9c5e-e219-cadb6c4424d7@csgroup.eu>
+Date:   Wed, 2 Mar 2022 17:14:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: powerpc{32,64} randconfigs
+Content-Language: fr-FR
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        PowerPC <linuxppc-dev@lists.ozlabs.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>
+References: <45afab41-cc5f-dffa-712a-d5fb1a9d0a23@infradead.org>
+ <87tuo0az16.fsf@mpe.ellerman.id.au>
+ <4514b768-ef07-0b01-c87e-4c2d9eb95f65@infradead.org>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <4514b768-ef07-0b01-c87e-4c2d9eb95f65@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 2 Mar 2022 08:18:15 -0600
-Rob Herring <robh+dt@kernel.org> wrote:
 
-> On Tue, Mar 1, 2022 at 5:07 PM Chun-Tse Shao <ctshao@google.com> wrote:
-> >
-> > In some parts, pkg-config does not use appropriate $BUILDROOT prefix.  
+
+Le 28/04/2021 à 01:45, Randy Dunlap a écrit :
+> On 4/21/21 12:15 AM, Michael Ellerman wrote:
+>> Randy Dunlap <rdunlap@infradead.org> writes:
 > 
-> The kernel tree knows nothing about buildroot. Please reword this in a
-> more generic way that you need to override the host pkg-config.
-
-I don't even know what $BUILDROOT is ;-)
-
-But I do know that it's good practice to allow pkg-config to be overridden.
-I have several user space tools that needed it done to allow distros to
-install them properly.
-
-Would you be OK with a description like:
-
-    Allow kernel installation packaging to override pkg-config.
-
-?
-
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
 > 
-> > The patch adds HOSTPKG_CONFIG prefix for pkg-config to fix the issue.
+> 
+> Please merge this. :)
+> 
 
-A couple of things. It is consider poor form to reference "the patch".
-Another thing is that this is not a prefix for pkg-config, it is overriding
-what pkg-config is used during the build process.
+Merged as f259fb893c69 ("powerpc/Makefile: Add ppc32/ppc64_randconfig 
+targets")
 
-    Add HOSTPKG_CONFIG to allow tooling that builds the kernel to override
-    what pkg-config and parameters are used.
-
-Something like that.
-
--- Steve
-
-
-
-> >
-> > Signed-off-by: Chun-Tse Shao <ctshao@google.com>
