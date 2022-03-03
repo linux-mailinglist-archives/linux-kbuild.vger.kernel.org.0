@@ -2,152 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE2D44CB6EC
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 07:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DD3B4CB89A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 09:20:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbiCCG11 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Mar 2022 01:27:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
+        id S230343AbiCCIVh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Mar 2022 03:21:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiCCG10 (ORCPT
+        with ESMTP id S230102AbiCCIVh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Mar 2022 01:27:26 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6E11680B6;
-        Wed,  2 Mar 2022 22:26:42 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id i1so3259647ilu.6;
-        Wed, 02 Mar 2022 22:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=6cIMVIL+CCfpPGGYjFcu/o0ZTv3OrIkZlvD7/pJ5jLE=;
-        b=qAPglD6WY9eqhPAwpMIjhiwYNT2dKn4CN38Zc82q2s1SK/f3Natf+VLErUyGTKjrWy
-         CRbOAq9HpURnNbnXCMUOr+t9a1Mn870/X6I7oaKHv1pzPlIbjauqddiERKoJBul3r10s
-         nCWQcGOmXStt50Ncw7yT0WSq1l1J//LuF6ExO0Rn6TUTaWT+RAhlPh71W9bEKT6SNXvG
-         H0szLTUbOPDyzykmzzajMj9cC+kp9+YVW/thD+dHHr6TDs9PFlk+GIUrSrwKCVqRkwMM
-         v8xPgMzjlEaISe+pvI16QKOSkVWMsrLAT0LzSwCDMWsXnMANbDx24bQ13bVNQLl/O3pI
-         +Dug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=6cIMVIL+CCfpPGGYjFcu/o0ZTv3OrIkZlvD7/pJ5jLE=;
-        b=pGXyOJUmUbkEspdVAp0AkMZSEBV4u+ZFeySNOqaH+4tkYSv5SOMA1pTwhJUMds8Fb6
-         qwPJiFbTgGuryIM2LUiPz9WBcqVRAuwv4Au8YMMpgK1M4xreAngZNE2GWQve+gFXzBo5
-         zP4zUB2krmubYtGlzKx0szWol+1K1Atbxdr1y33/ejoSBMM+oRD5rkaF3eJQIH64LD82
-         yMPNiidgduVX3brHneJTC7tqIYp8crXJUdDjX4mMfOYc74BamjQcTKUZtQEny8yW3cC1
-         Y36DVp53unAExLQ33TJtay03BOO0cXYrHEMEMjFG5x0hAAaqjq9hd+DaENwbxv59FHB/
-         2m1g==
-X-Gm-Message-State: AOAM533lRUuMI29Ur//sjef/lcQay9kEDSIKq9zAbmTadg0u1eprdJ06
-        t11fRV28mP9giVvJLL4YW7ko6YVfefNHNFEQWOs=
-X-Google-Smtp-Source: ABdhPJxN4sEwUhUly0CT6JZ3A4I17A47qSawqzxX8rRhMHb82FN8jNix1RE7+RJJ1Gk2Z/4ey0Hz4TWtsMIElevu9YY=
-X-Received: by 2002:a05:6e02:1ba5:b0:2c2:b1a8:efcf with SMTP id
- n5-20020a056e021ba500b002c2b1a8efcfmr26236724ili.20.1646288801478; Wed, 02
- Mar 2022 22:26:41 -0800 (PST)
+        Thu, 3 Mar 2022 03:21:37 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A6B171857;
+        Thu,  3 Mar 2022 00:20:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646295652; x=1677831652;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Sk6+O6+y+LcuLAi9FL2+v3ef2pvnDvKpS+B2HESK5P4=;
+  b=NNpa00Mt2Bqd9ff1xrzUpPxrJG0H0P0osYrX/z/paXC0B+pcayFEE1Tr
+   CbdqWKLG27mD8z2+MVLl0CRxC0KfeCnXpCYY32vb6GjIwi1N1D6XV/tig
+   lu+kv8QPh9+3jHrEFPh/iimCf1VsduNxXaxg+ZcBnNshC9EdeZzyM1tpY
+   Fvg0wvlN3L/kpmhH2B73vBMJa4db/dQwvA/YkDyfmxqnITghm3KmzT4XA
+   G3p8vDlwKpi5LuE9l03ecQIz578biG9QT1XWRhwHBkHo4zvn4hSFHgljM
+   KQr5NA4zF3F24hHf9+vL7LzOYj0azZ4dD7nqlHgH9tWd73KiGVDvBlnQH
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253802431"
+X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; 
+   d="scan'208";a="253802431"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 00:20:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; 
+   d="scan'208";a="535732673"
+Received: from shbuild999.sh.intel.com ([10.239.146.189])
+  by orsmga007.jf.intel.com with ESMTP; 03 Mar 2022 00:20:49 -0800
+From:   Feng Tang <feng.tang@intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        kernel test robot <lkp@intel.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Feng Tang <feng.tang@intel.com>, Guo Ren <guoren@kernel.org>
+Subject: [PATCH] lib/Kconfig.debug: add ARCH dependency for FUNCTION_ALIGN option
+Date:   Thu,  3 Mar 2022 16:20:48 +0800
+Message-Id: <20220303082048.16558-1-feng.tang@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220301145233.3689119-1-arnd@kernel.org> <20220301145233.3689119-3-arnd@kernel.org>
- <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com> <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
-In-Reply-To: <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 3 Mar 2022 07:26:05 +0100
-Message-ID: <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 2, 2022 at 11:54 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Wed, Mar 2, 2022 at 2:14 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Wed, Mar 2, 2022 at 10:47 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > >
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > As we change the C language standard for the kernel from gnu89 to
-> > > gnu11, it makes sense to also update the version for user space
-> > > compilation.
-> > >
-> >
-> > Overdue.
-> >
-> > Can you point me to a lore link where I can easily fetch the full 3/3
-> > v3 patchset?
->
-> Hey Sedat!
->
-> $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel=
-.org/
-> -o - | git am -3
->
+0Day robots reported there is compiling issue for 'csky' ARCH
+when CONFIG_DEBUG_FORCE_DATA_SECTION_ALIGNED is enabled [1]:
 
-Hey Nick!
+"
+All errors (new ones prefixed by >>):
 
-This only applies 1/3.
+   {standard input}: Assembler messages:
+>> {standard input}:2277: Error: pcrel offset for branch to .LS000B too far (0x3c)
+"
 
-$ b4 --version
-0.8.0
+Which has been discussed in [2]. And as there is no solution for csky
+yet, add some dependency for this config to limit it to several ARCHs
+which have no compiling issue so far.
 
-$ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel.o=
-rg/
--o - | git am -3
-Analyzing 14 messages in the thread
-Will use the latest revision: v3
-You can pick other revisions using the -vN flag
-Checking attestation on all messages, may take a moment...
+[1]. https://lore.kernel.org/lkml/202202271612.W32UJAj2-lkp@intel.com/
+[2]. https://www.spinics.net/lists/linux-kbuild/msg30298.html
+
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Guo Ren <guoren@kernel.org>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
 ---
- =E2=9C=93 [PATCH v3 1/3] Kbuild: move to -std=3Dgnu11
-   =E2=9C=93 Signed: DKIM/kernel.org
-   + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (=E2=9C=93 DKIM/ker=
-nel.org)
- ERROR: missing [2/3]!
- ERROR: missing [3/3]!
- ---
- NOTE: install patatt for end-to-end signature verification
----
-Total patches: 1
----
-WARNING: Thread incomplete!
-Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.org
-Base: not specified
-Wende an: Kbuild: move to -std=3Dgnu11
+ lib/Kconfig.debug | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- Sedat -
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index d6b5c94df099..a270a64e4429 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -401,8 +401,8 @@ config SECTION_MISMATCH_WARN_ONLY
+ 	  If unsure, say Y.
+ 
+ config DEBUG_FORCE_FUNCTION_ALIGN_64B
+-	bool "Force all function address 64B aligned" if EXPERT
+-	depends on PPC || ARM || X86
++	bool "Force all function address 64B aligned"
++	depends on EXPERT && (X86_64 || ARM64 || PPC32 || PPC64 || ARC)
+ 	help
+ 	  There are cases that a commit from one domain changes the function
+ 	  address alignment of other domains, and cause magic performance
+-- 
+2.27.0
 
-> https://people.kernel.org/monsieuricon/introducing-b4-and-patch-attestati=
-on
->
-> >
-> > I would like to give this a try on x86-64 with my latest kernel-config
-> > (based on the latest kernel-config v5.17-rc5 from Debian/unstable).
-> >
-> > What Linux source base do I need?
-> > Is Linux v5.17-rc6 good enough (patchset applicable) for testing?
->
-> I suspect so.
-> --
-> Thanks,
-> ~Nick Desaulniers
