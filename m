@@ -2,55 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F054CC3C2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 18:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75FBD4CC415
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 18:38:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235348AbiCCRbo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Mar 2022 12:31:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
+        id S229846AbiCCRip (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Mar 2022 12:38:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233589AbiCCRbn (ORCPT
+        with ESMTP id S230479AbiCCRim (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Mar 2022 12:31:43 -0500
+        Thu, 3 Mar 2022 12:38:42 -0500
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9555E199D51;
-        Thu,  3 Mar 2022 09:30:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B1F5E756;
+        Thu,  3 Mar 2022 09:37:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5C42DB82650;
-        Thu,  3 Mar 2022 17:30:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45241C340E9;
-        Thu,  3 Mar 2022 17:30:54 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 70516B82664;
+        Thu,  3 Mar 2022 17:37:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08654C004E1;
+        Thu,  3 Mar 2022 17:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646328655;
-        bh=GCDTpWwAdbUUe92yPSIjZBhj5yfaiPwzu66bwylkoac=;
+        s=k20201202; t=1646329073;
+        bh=AwsKZjrCfieTvEUDAR753VxI0pVb5/yxhVzdc73s6Yk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CLQazQPiBOZrP69PhmqDFy7s/3OGcDUji9CNq78GafEhJcptBOq9ejoyBYJ2f546B
-         WTlZ8u1FFUpD/OSgSZY6He9snfv0gRmz7lyA01z+f8swbsuntwtgqOlSdC95A9rhzD
-         4EHG/xJLnX+ThYlzbEB371mF/DWMhhm1qjhNHHYZhOO7+PHV6EBURX4/QlJg2a/04b
-         cK6IxzhArX/HTp+RcLIdMrJ/+byFkhr/Hqjfdh68MR5K6wiC4kB9Fz3hjA/9cu5twz
-         SOPBjB6KiiImIA7vzXX5v1kdIK7cVQWHqIsb9S4rGhtqXcJiLS7L+LsHATv9VdVI4o
-         g0bbBtjD2FOMg==
-Date:   Thu, 3 Mar 2022 10:30:47 -0700
+        b=tF5Eio8uUmDzrs/3lfLgba6ZKgS7Ii7J/dwr0kY6gz/UhLzHURAFIaI/M5dyQ6ucz
+         NlbPzoiUdcbga83R9Y7yZr5Q6rOasQ/j1He7GtMgLXb/dSTBXTabb31tRcCwU/Yh9I
+         xK6TxKV9UEG4QZejP9tBw354Xm+JsNnGhWoyRt6s3oFeh2ouyEOXpldXxopj1WfIEf
+         o/RGNS29GXVTg2jsc8SR3sLzL9IqRaGEjML0ROExY5AnsbsL/B7Y/VF7dQKm1xTYx4
+         tS9Gga8Y1p0BkuOS3N875xSu8a9VmeDAwlj2WuBGqeSbLgqoUneElE7AIKAcbMX/2Z
+         K2otOXLxE4u6g==
+Date:   Thu, 3 Mar 2022 10:37:46 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
-To:     David Gow <davidgow@google.com>
-Cc:     Kees Cook <keescook@chromium.org>, Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-um@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] um: clang: Strip out -mno-global-merge from USER_CFLAGS
-Message-ID: <YiD7R2wRxoWxtVq7@dev-arch.thelio-3990X>
-References: <20220303090643.241747-1-davidgow@google.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] Kbuild: use -std=gnu11 for KBUILD_USERCFLAGS
+Message-ID: <YiD86pay2ENCebkR@dev-arch.thelio-3990X>
+References: <20220301145233.3689119-1-arnd@kernel.org>
+ <20220301145233.3689119-3-arnd@kernel.org>
+ <CA+icZUWCTuVeohWvePhxYY3WC9xAYSy9nP1xQQf=tFH_mWDCNQ@mail.gmail.com>
+ <CAKwvOdn04aoWO_384k5HQodwA1-DCFwU50iRXQXh_BQk5pyz7w@mail.gmail.com>
+ <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220303090643.241747-1-davidgow@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+icZUWD_O1WTKNDTj7f+EUxx5Pf=zC53mfOBNgtj1JQwjZVAQ@mail.gmail.com>
 X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -61,63 +69,48 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi David,
+Hi Sedat,
 
-On Thu, Mar 03, 2022 at 05:06:42PM +0800, David Gow wrote:
-> The things built with USER_CFLAGS don't seem to recognise it as a
-> compiler option, and print a warning:
-> clang: warning: argument unused during compilation: '-mno-global-merge' [-Wunused-command-line-argument]
+On Thu, Mar 03, 2022 at 07:26:05AM +0100, Sedat Dilek wrote:
+> Hey Nick!
 > 
-> Fixes: 744814d2fa ("um: Allow builds with Clang")
-> Signed-off-by: David Gow <davidgow@google.com>
+> This only applies 1/3.
+> 
+> $ b4 --version
+> 0.8.0
+> 
+> $ b4 am https://lore.kernel.org/lkml/20220301145233.3689119-1-arnd@kernel.org/
+> -o - | git am -3
+> Analyzing 14 messages in the thread
+> Will use the latest revision: v3
+> You can pick other revisions using the -vN flag
+> Checking attestation on all messages, may take a moment...
 > ---
-> 
-> This warning shows up after merging:
-> https://lore.kernel.org/lkml/20220227184517.504931-6-keescook@chromium.org/
-> 
-> I'm not 100% sure why this is necessary, but it does seem to work. All
-> the attempts to get rid of -mno-global-merge entirely have been met with
-> skepticism, but I'm guessing that it's not a problem for just the UML
-> "user" files, as they shouldn't(?) interact too much with modules.
+>  ✓ [PATCH v3 1/3] Kbuild: move to -std=gnu11
+>    ✓ Signed: DKIM/kernel.org
+>    + Reviewed-by: Nathan Chancellor <nathan@kernel.org> (✓ DKIM/kernel.org)
+>  ERROR: missing [2/3]!
+>  ERROR: missing [3/3]!
+>  ---
+>  NOTE: install patatt for end-to-end signature verification
+> ---
+> Total patches: 1
+> ---
+> WARNING: Thread incomplete!
+> Link: https://lore.kernel.org/r/20220301145233.3689119-1-arnd@kernel.org
+> Base: not specified
+> Wende an: Kbuild: move to -std=gnu11
 
-Thank you for the patch! I think it is correct, as this flag only works
-for AArch64 and ARM, as it is only used in Clang::AddAArch64TargetArgs()
-and Clang::AddARMTargetArgs() in clang/lib/Driver/ToolChains/Clang.cpp,
-which are obviously never called with UML. I am not sure why we do not
-see warning during regular kernel builds, maybe something about how UML
-objects are compiled exposes this?
+It looks like the threading somehow got broken, likely due to the [v3]
+on the first patch and not the second or third:
 
-Regardless, I would definitely like to clean up this instance of the
-warning because I would like to make this warning a hard error so that
-we do not get cryptic cc-option failures:
+This worked for me on v5.17-rc6:
 
-https://github.com/ClangBuiltLinux/linux/issues/1587
+$ for i in $(seq 1 3); do b4 shazam -P _ 20220301145233.3689119-"$i"-arnd@kernel.org; done
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+"b4 shazam" is the equivalent of "b4 am -o - ... | git am" and the
+"-P _" tells b4 to only fetch that exact message ID, not the whole
+thread.
 
-One small comment below.
-
->  arch/um/Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/um/Makefile b/arch/um/Makefile
-> index f2fe63bfd819..320b09cd513c 100644
-> --- a/arch/um/Makefile
-> +++ b/arch/um/Makefile
-> @@ -75,6 +75,10 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
->  		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
->  		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
->  
-> +ifdef CONFIG_CC_IS_CLANG
-
-Is this ifdef needed?
-
-> +USER_CFLAGS := $(patsubst -mno-global-merge,,$(USER_CFLAGS))
-> +endif
-> +
->  #This will adjust *FLAGS accordingly to the platform.
->  include $(srctree)/$(ARCH_DIR)/Makefile-os-$(OS)
->  
-> -- 
-> 2.35.1.616.g0bdcbb4464-goog
-> 
+Cheers,
+Nathan
