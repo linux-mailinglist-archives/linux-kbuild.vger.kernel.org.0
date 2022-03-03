@@ -2,83 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 149834CC3B6
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 18:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15F054CC3C2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Mar 2022 18:31:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235314AbiCCR24 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Mar 2022 12:28:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
+        id S235348AbiCCRbo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Mar 2022 12:31:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234996AbiCCR2z (ORCPT
+        with ESMTP id S233589AbiCCRbn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Mar 2022 12:28:55 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62710BD7FC
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Mar 2022 09:28:08 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id s1so5142570plg.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Mar 2022 09:28:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ucEA3J1ya4GRs+I0A0pxTRPbekYvscFzYo/razXDByg=;
-        b=Z0uYSem8nCEuzkLQw4trl/0KBRyeSAZdP+h9TK9qjKeFB7hJVjfN6qYzPVvZCWUsix
-         GMKeMh8GMvp1HIO4vK85RsmY2JcqYXSfEt2sL2d1pZ+tAnb+3/NLiEJKmLTsBn2QYk8M
-         UaCwZ/3Z1UXG/seNFK/fjDU0v04eieZak7kLA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ucEA3J1ya4GRs+I0A0pxTRPbekYvscFzYo/razXDByg=;
-        b=CPmmI51jkwhcyMC/6lsGWRxkzIPlbD0b2RHWEtiw9ynXDbNq4DEZlDHCfE0hMzypKn
-         gfzw7eDw7bIxF2j0gc3CVNgYN0WHjB1usiSRvpjLbt3TP+75xNPqgPDCKUcn6lWz+OQA
-         bo2CjVW3y3jI+YnUEGzwEL5E6Q3noqlXH02N5U7K51h7SxXSNWP40NyvB5y+Q3rfP87p
-         Jw8XE46LIG9lseh/EQGeXGqhfit/I4wTv0zgVK39aG+jCaPuKeIKgcy9ZIS0XY37raiu
-         CScgkCy7WRIXa1GGTYqUMxQkQ5HVOHSMLPWn9vi1ofj8l4OmXZh5As7Wbp1N6R9BtV8a
-         LoSg==
-X-Gm-Message-State: AOAM5313KGX2NdOoH2TvahIKckQz9hLZQYo2tr4vp6Ur3pf7CZZyAMoA
-        SvXWj3sg97JnMuHfUp7/QUeoqw==
-X-Google-Smtp-Source: ABdhPJy2mzFw4jO2AzK0JYWGiB+koyjvh1Dy0wGqm4Vkn9fhv16PKbXZ5sesO86D7nyMcNXd9iCe1Q==
-X-Received: by 2002:a17:902:d4cc:b0:151:3857:817b with SMTP id o12-20020a170902d4cc00b001513857817bmr31774133plg.139.1646328487821;
-        Thu, 03 Mar 2022 09:28:07 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s9-20020a056a00194900b004e1583f88a2sm3050692pfk.0.2022.03.03.09.28.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 09:28:07 -0800 (PST)
-Date:   Thu, 3 Mar 2022 09:28:04 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Vitor Massaru Iha <vitor@massaru.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Thu, 3 Mar 2022 12:31:43 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9555E199D51;
+        Thu,  3 Mar 2022 09:30:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5C42DB82650;
+        Thu,  3 Mar 2022 17:30:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45241C340E9;
+        Thu,  3 Mar 2022 17:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646328655;
+        bh=GCDTpWwAdbUUe92yPSIjZBhj5yfaiPwzu66bwylkoac=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CLQazQPiBOZrP69PhmqDFy7s/3OGcDUji9CNq78GafEhJcptBOq9ejoyBYJ2f546B
+         WTlZ8u1FFUpD/OSgSZY6He9snfv0gRmz7lyA01z+f8swbsuntwtgqOlSdC95A9rhzD
+         4EHG/xJLnX+ThYlzbEB371mF/DWMhhm1qjhNHHYZhOO7+PHV6EBURX4/QlJg2a/04b
+         cK6IxzhArX/HTp+RcLIdMrJ/+byFkhr/Hqjfdh68MR5K6wiC4kB9Fz3hjA/9cu5twz
+         SOPBjB6KiiImIA7vzXX5v1kdIK7cVQWHqIsb9S4rGhtqXcJiLS7L+LsHATv9VdVI4o
+         g0bbBtjD2FOMg==
+Date:   Thu, 3 Mar 2022 10:30:47 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Kees Cook <keescook@chromium.org>, Jeff Dike <jdike@addtoit.com>,
         Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-kbuild@vger.kernel.org,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        llvm@lists.linux.dev, x86@kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-um@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] UAPI: Introduce KUnit userspace compatibility
-Message-ID: <202203030927.2D794F4@keescook>
-References: <20220227184517.504931-1-keescook@chromium.org>
- <20220227184517.504931-8-keescook@chromium.org>
- <CABVgOSn6Oe8Ke=fnuVwgLh2r8HKjBW8pCe44Z35Qo1bVfz9A-A@mail.gmail.com>
- <YiC9NBjFgGv5T+gF@kroah.com>
+Subject: Re: [PATCH] um: clang: Strip out -mno-global-merge from USER_CFLAGS
+Message-ID: <YiD7R2wRxoWxtVq7@dev-arch.thelio-3990X>
+References: <20220303090643.241747-1-davidgow@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YiC9NBjFgGv5T+gF@kroah.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+In-Reply-To: <20220303090643.241747-1-davidgow@google.com>
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,28 +61,63 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 02:05:56PM +0100, Greg KH wrote:
-> On Thu, Mar 03, 2022 at 04:27:13PM +0800, David Gow wrote:
-> > On Mon, Feb 28, 2022 at 2:45 AM Kees Cook <keescook@chromium.org> wrote:
-> > > diff --git a/include/uapi/misc/kunit.h b/include/uapi/misc/kunit.h
-> > > new file mode 100644
-> > > index 000000000000..afdffda583ae
-> > > --- /dev/null
-> > > +++ b/include/uapi/misc/kunit.h
-> > > @@ -0,0 +1,181 @@
-> > > +#ifndef __UAPI_MISC_KUNIT_H__
-> > > +#define __UAPI_MISC_KUNIT_H__
-> > > +/*
-> > > + * This is a light-weight userspace drop-in replacement for the in-kernel
-> 
-> <snip>
-> 
-> Someone forgot a SPDX license line for the new file.  Didn't checkpatch
-> complain about this?  :(
+Hi David,
 
-Yeah, that file has a bunch of problems. ;) The UAPI header checking
-logic also freaks out, etc, etc. I'll being fixing that and the other
-issues.
+On Thu, Mar 03, 2022 at 05:06:42PM +0800, David Gow wrote:
+> The things built with USER_CFLAGS don't seem to recognise it as a
+> compiler option, and print a warning:
+> clang: warning: argument unused during compilation: '-mno-global-merge' [-Wunused-command-line-argument]
+> 
+> Fixes: 744814d2fa ("um: Allow builds with Clang")
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+> 
+> This warning shows up after merging:
+> https://lore.kernel.org/lkml/20220227184517.504931-6-keescook@chromium.org/
+> 
+> I'm not 100% sure why this is necessary, but it does seem to work. All
+> the attempts to get rid of -mno-global-merge entirely have been met with
+> skepticism, but I'm guessing that it's not a problem for just the UML
+> "user" files, as they shouldn't(?) interact too much with modules.
 
--- 
-Kees Cook
+Thank you for the patch! I think it is correct, as this flag only works
+for AArch64 and ARM, as it is only used in Clang::AddAArch64TargetArgs()
+and Clang::AddARMTargetArgs() in clang/lib/Driver/ToolChains/Clang.cpp,
+which are obviously never called with UML. I am not sure why we do not
+see warning during regular kernel builds, maybe something about how UML
+objects are compiled exposes this?
+
+Regardless, I would definitely like to clean up this instance of the
+warning because I would like to make this warning a hard error so that
+we do not get cryptic cc-option failures:
+
+https://github.com/ClangBuiltLinux/linux/issues/1587
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+One small comment below.
+
+>  arch/um/Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/arch/um/Makefile b/arch/um/Makefile
+> index f2fe63bfd819..320b09cd513c 100644
+> --- a/arch/um/Makefile
+> +++ b/arch/um/Makefile
+> @@ -75,6 +75,10 @@ USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+>  		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
+>  		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
+>  
+> +ifdef CONFIG_CC_IS_CLANG
+
+Is this ifdef needed?
+
+> +USER_CFLAGS := $(patsubst -mno-global-merge,,$(USER_CFLAGS))
+> +endif
+> +
+>  #This will adjust *FLAGS accordingly to the platform.
+>  include $(srctree)/$(ARCH_DIR)/Makefile-os-$(OS)
+>  
+> -- 
+> 2.35.1.616.g0bdcbb4464-goog
+> 
