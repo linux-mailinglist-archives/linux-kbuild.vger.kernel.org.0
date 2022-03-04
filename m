@@ -2,64 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE6134CD5EA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 15:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EC1C4CD673
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 15:31:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239796AbiCDOIO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Mar 2022 09:08:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S231951AbiCDObu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Mar 2022 09:31:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239803AbiCDOIM (ORCPT
+        with ESMTP id S230135AbiCDObt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Mar 2022 09:08:12 -0500
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06331B98B4;
-        Fri,  4 Mar 2022 06:07:24 -0800 (PST)
-Received: by mail-oi1-f176.google.com with SMTP id ay7so7899410oib.8;
-        Fri, 04 Mar 2022 06:07:24 -0800 (PST)
+        Fri, 4 Mar 2022 09:31:49 -0500
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED0C1B6E05;
+        Fri,  4 Mar 2022 06:31:01 -0800 (PST)
+Received: by mail-oi1-f169.google.com with SMTP id a6so7962523oid.9;
+        Fri, 04 Mar 2022 06:31:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ri3M9rEvbqOZtQYvLCw0kYxpmzURzsEZbFbaOsupS2s=;
-        b=0CxaWSHe0/k/VmyK4TfUy//1oCz9pXmtX26BVk067+I3szWXPdkFvG8xknFlp9CloP
-         lVyU2uFWyoCGdUz6Abrs/gbNOJhecef/bsR0EO1YT/QeyAVJiPfbIzLqiqD35AuV+mOw
-         /axcDvQh6AK6jhzr0sxOGtSFUiHAEgpYYT7JUmbrCfUW6B+9CpU3hpl9i1NN0WctSEMl
-         tlSWLemJIkS0ZxFdyI4CEaNDADjx+6uxjqBOuhhWQcGKkWpWeDYZBQgXuCzGcDPXkpCP
-         ppadtwHcWatQx+HKQAKJ2dDxifA357khg+EfG2Z+DirA3hdnPrZ4CUdY9zLO922acopH
-         qoYw==
-X-Gm-Message-State: AOAM533Q3NOC+OPbgAbg30pn+6Ep5t7ofuV9pJb69JH23MBLI8m0gkjO
-        lsdJD0S5ikQSalFYePzo/A==
-X-Google-Smtp-Source: ABdhPJyci6UbkOLrwsWccGvun1sxcDyW/kMEWbKggLvHH1s6vVcgxC1dz4Bb6r88ow5hTuC9ncAQmQ==
-X-Received: by 2002:a05:6808:d52:b0:2d7:4e5a:6edb with SMTP id w18-20020a0568080d5200b002d74e5a6edbmr9428953oik.131.1646402843673;
-        Fri, 04 Mar 2022 06:07:23 -0800 (PST)
+        bh=1PRcoDd6e5pTSWSDNB57phipwxCHGJPb3RfLFoPodZQ=;
+        b=QGnafN8gNDseAT3enl8/d4EcrT0wBouxT07iNMEMqKYtbGOINa4bvdP9AZCrWkFBBK
+         DNw3KwOj4gq7owdO5NfEAmFffk/GKWnmjy9eZzFpXgrHkkpylevav9OB+8hTZ+HuU0TA
+         sCuiAD+WY81sj7DJGuBt7jxcuGnE9s06HwXtdBOk/z6zhPbQQH7HQN/50E6On6e1NLGC
+         vAk9SMilcm/u6Yax4zdA/MzhJKn11BlG6F7JWdNbitia1D2xOderEn1Zfq/OOXrSEkxP
+         C/b/zeEyTS1SR3CvBhZKEwC/ld33EBcgOT8baUo+rCCvZUatREa/odqjE4hJ3PBVXh/y
+         0MUw==
+X-Gm-Message-State: AOAM533DsiwSlvd6NNsmU6TXpi/Auy87QXwjLlhsj6twA6kRYZc9v4fa
+        RPA7tAV2eL2EUSsLEi3mUPrbP8rZ2g==
+X-Google-Smtp-Source: ABdhPJxgFjet6DHJYjwSA/CVxxo72Wc5mEvkMEFHT26L/8KvHO9PM+GrI9tTCN8bOrkkfts2nI26Ag==
+X-Received: by 2002:a05:6808:2095:b0:2d5:328d:f61b with SMTP id s21-20020a056808209500b002d5328df61bmr9500712oiw.9.1646404260980;
+        Fri, 04 Mar 2022 06:31:00 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id a27-20020a4ae93b000000b0031be7c7d2d3sm2446568ooe.0.2022.03.04.06.07.22
+        by smtp.gmail.com with ESMTPSA id r18-20020a056830081200b005ad10dfcf60sm2347847ots.67.2022.03.04.06.30.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 06:07:23 -0800 (PST)
-Received: (nullmailer pid 3842339 invoked by uid 1000);
-        Fri, 04 Mar 2022 14:07:21 -0000
-Date:   Fri, 4 Mar 2022 08:07:21 -0600
+        Fri, 04 Mar 2022 06:31:00 -0800 (PST)
+Received: (nullmailer pid 3877594 invoked by uid 1000);
+        Fri, 04 Mar 2022 14:30:59 -0000
+Date:   Fri, 4 Mar 2022 08:30:59 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <maxime@cerno.tech>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: kbuild: Use DTB files for validation
-Message-ID: <YiIdGTcqDyaaC1i9@robh.at.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: kbuild: Pass DT_SCHEMA_FILES to
+ dt-validate
+Message-ID: <YiIio1dJd5mvMr0v@robh.at.kernel.org>
 References: <20220303224237.2497570-1-robh@kernel.org>
- <20220303224237.2497570-3-robh@kernel.org>
- <YiH+Twl8JnwKPv3a@pendragon.ideasonboard.com>
+ <20220303224237.2497570-2-robh@kernel.org>
+ <CAMuHMdU6g7c9YX0mBAGWbCWgA8exkUSfqn8ZGi_2N+Nz1WT+BA@mail.gmail.com>
+ <YiIa3Ox7UBLyBtoR@robh.at.kernel.org>
+ <CAMuHMdU9yzpLh+S821osed5nuHfc0rONB+i4sPjXsGuKLumgfQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YiH+Twl8JnwKPv3a@pendragon.ideasonboard.com>
+In-Reply-To: <CAMuHMdU9yzpLh+S821osed5nuHfc0rONB+i4sPjXsGuKLumgfQ@mail.gmail.com>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -71,29 +75,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 04, 2022 at 01:55:59PM +0200, Laurent Pinchart wrote:
+On Fri, Mar 04, 2022 at 03:05:13PM +0100, Geert Uytterhoeven wrote:
 > Hi Rob,
 > 
-> Thank you for the patch.
+> On Fri, Mar 4, 2022 at 2:57 PM Rob Herring <robh@kernel.org> wrote:
+> > On Fri, Mar 04, 2022 at 10:32:29AM +0100, Geert Uytterhoeven wrote:
+> > > On Thu, Mar 3, 2022 at 11:43 PM Rob Herring <robh@kernel.org> wrote:
+> > > > In preparation for supporting validation of DTB files, the full
+> > > > processed schema will always be needed in order to extract type
+> > > > information from it. Therefore, the processed schema containing only
+> > > > what DT_SCHEMA_FILES specifies won't work. Instead, dt-validate has
+> > > > gained an option, -l or --limit, to specify which schema(s) to use for
+> > > > validation.
+> > > >
+> > > > As the command line option is new, we the minimum dtschema version must be
+> > > > updated.
+> > > >
+> > > > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > >
+> > > Thanks for your patch!
+> > >
+> > > > --- a/Documentation/devicetree/bindings/Makefile
+> > > > +++ b/Documentation/devicetree/bindings/Makefile
+> > > > @@ -6,7 +6,7 @@ DT_MK_SCHEMA ?= dt-mk-schema
+> > > >  DT_SCHEMA_LINT := $(shell which yamllint || \
+> > > >    echo "warning: yamllint not installed, skipping. To install, run 'pip install yamllint'" >&2)
+> > > >
+> > > > -DT_SCHEMA_MIN_VERSION = 2021.2.1
+> > > > +DT_SCHEMA_MIN_VERSION = 2022.3
+> > >
+> > > This doesn't work as-is, as that version hasn't been tagged yet ;-)
+> >
+> > I had to make sure people are paying attention. You win the prize. :)
+> >
+> > It's there now.
 > 
-> On Thu, Mar 03, 2022 at 04:42:37PM -0600, Rob Herring wrote:
-> > Switch the DT validation to use DTB files directly instead of a DTS to
-> > YAML conversion.
-> > 
-> > The original motivation for supporting validation on DTB files was to
-> > enable running validation on a running system (e.g. 'dt-validate
-> > /sys/firmware/fdt') or other cases where the original source DTS is not
-> > available.
-> > 
-> > The YAML format was not without issues. Using DTBs with the schema type
-> > information solves some of those problems. The YAML format relies on the
-> > DTS source level information including bracketing of properties, size
-> > directives, and phandle tags all of which are lost in a DTB file. While
-> > standardizing the bracketing is a good thing, it does cause a lot of
-> > extra warnings and churn to fix them.
+> Thanks, confirmed.
 > 
-> It does indeed, but it's a bit sad to let that feature go :-S
+> With this series applied, the various salvator-xs DTS files are now
+> throwing up:
+> 
+>     sata: size (19) error for type phandle
+>     backlight: size (11) error for type phandle
 
-I agree, but I think that checking is better served with a DTS linter.
+Those come from the code decoding the properties[1]. Unfortunately, I 
+haven't come up with a prettier way to report those with the filename. I 
+may just remove it because if decoding the property fails, we'll get 
+schema errors later on anyways.
+
+But I don't see any 'sata' properties in the DTS files and 'backlight' 
+is a node. Are you building with '-@'? I probably need to skip 
+__symbols__ nodes. The overlay side is handled because examples are 
+built as overlays (to allow unresolved phandles).
 
 Rob
+
+[1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/dtb.py#L149
