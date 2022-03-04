@@ -2,66 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 799974CCC00
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 03:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5546F4CCC97
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 05:37:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235328AbiCDCwI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Mar 2022 21:52:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38562 "EHLO
+        id S237923AbiCDEhi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Mar 2022 23:37:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231992AbiCDCwH (ORCPT
+        with ESMTP id S237910AbiCDEhg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Mar 2022 21:52:07 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CF40E7AC8;
-        Thu,  3 Mar 2022 18:51:21 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id mv5-20020a17090b198500b001bf2a039831so180700pjb.5;
-        Thu, 03 Mar 2022 18:51:21 -0800 (PST)
+        Thu, 3 Mar 2022 23:37:36 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5255F180D14
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Mar 2022 20:36:49 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id z15-20020a25bb0f000000b00613388c7d99so6374124ybg.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Mar 2022 20:36:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=owY1s88VHqFIqmWlN/4fq6tMIh7jqxjAFgGkmfxykCc=;
-        b=be6F6DUnBVqm6V8lf6rJEZlRStZRBrvf/NOPkoEFbfXxUE3/hQ6TPD10pbNkQro36n
-         X7XWV7VX7RwlfhlghkxS6z4KqHuuY6n0xSK59EAzGhcks76Rg7ENd/tmaL+ivQxo6q6q
-         ck/39o8bSNRHz6V1//cnQYt9KvTBcQP4LFOST9HXS6FRW1HMZ2cn1rf+8v0JbDm2J6D5
-         31dag7spo5VRAo6cPZIsMJM0lFhYVVp6oYxAAXmAOUw2lBTQacPvVqmzt//+4pxDRIDO
-         hmEjg+t8xH7tRnRUjjr9UNmNassjZplIQ892Svbf0c1+cOv+Rs0PpGaRI4rqRnG94XkE
-         Tb1g==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=hVhp0B9PQwo3QVpUi+NI1HAAHxq+/43f5jq0h0ON3rc=;
+        b=FExUDM+QtGlrpOx9rGz2Fa+bDQpFmka6zCE/rTKzwCcAWIfnoZcXeXrKFxNhFsnE2C
+         E6l8TXSOLYl+5HB7NA1NFgtEFjaxCkwRJ42gOFxorun060VHOvwG4dO7+/BFj6P1XBBp
+         nnNqyUkTruTkTLp+7GFYOf9jPip2hwzfByNoweGhp1Yt6rqDAcdoNKtbx1MoMT0ytTV3
+         w53+7zlLjb5noE0qE49+yuSbpUgIu5MIBlWjYMHaKBHDBc9rcCbm9jI50ZVw73N5mmlk
+         Kmfnx62thJdUrj68w3MZObD0sXEixf/K7lcKb3+iemG1wJPFZsf1Mm5aoSazkRYutnH7
+         jn2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=owY1s88VHqFIqmWlN/4fq6tMIh7jqxjAFgGkmfxykCc=;
-        b=WxSHBqRCazYOH0jjpI7oROSmthG+tW1ZG29Oc0aeS8gRqVyy/ws6JDkK6cbLVx6BxW
-         P3c2PHju2Vc6WMGIB/rFoGFNBE508BfTqun7KVO1ZcYiHPWoNzj4CeCxhDeloMedFMIg
-         ia9YzpF7ONGV1hkU/GvgwrQFi0h3hsssbX6FkexcZdW6d3XAYNzypVTf/D0GXppjJx9K
-         dFflOWj8b9+GgvcXIxxDLvasRjeI0EdsByyxL8/dR2gVbR7APrPKVBk0/tmFfGJ4DxTD
-         yMNBCQwuzMy6ahhqsOvfp5MUZmUklXOa2RqqNM/XtT/sYwKkKh11zYlpww9ZnWwl3Y0p
-         Iq7Q==
-X-Gm-Message-State: AOAM532DOBK++rGVh3Iy8Fmxf6VObGXbP8Lij/uGSDTmtec9dGYS/aXb
-        WZzUuAhNhMXn12EU6PE77BA=
-X-Google-Smtp-Source: ABdhPJzFlaLTCsMtGn2cwRd0MGGVF6lbESQ/hRdBkkUekh8Das9Mmy1uSMMmXl5QuWqGAAT+m8xkgQ==
-X-Received: by 2002:a17:90b:1bca:b0:1bf:1a17:beda with SMTP id oa10-20020a17090b1bca00b001bf1a17bedamr4491359pjb.215.1646362280440;
-        Thu, 03 Mar 2022 18:51:20 -0800 (PST)
-Received: from ubuntu.huawei.com ([119.3.119.19])
-        by smtp.googlemail.com with ESMTPSA id w5-20020a056a0014c500b004f3a5535431sm4143781pfu.4.2022.03.03.18.51.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 18:51:19 -0800 (PST)
-From:   Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To:     torvalds@linux-foundation.org
-Cc:     arnd@arndb.de, gregkh@linuxfoundation.org, jakobkoschel@gmail.com,
-        jannh@google.com, keescook@chromium.org,
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=hVhp0B9PQwo3QVpUi+NI1HAAHxq+/43f5jq0h0ON3rc=;
+        b=dU3Jp8RKyQUOr5KVy6ZgF1KTVHbESYOF7DIeIlrKBy4hxdCKPImU0mB5KqMWbP613B
+         H4qbcnryTkm4rZlDRX+nkGX34uETjRISBY7x3lrQu/f77Y9xnwxrq1YkaLYtLFPer5Up
+         7B1k82Z4QAPNZ7zJldhQ9YTdQE9mDDBnVsBYr7jC18v/xQ9THRzAqaBE4/A1rAD2nm1A
+         21aA3KBs8vQXCAQjlXBxLjyeGLAIFUr4TFSL/qMi7wPD2VyRiacyxGCdLXlS4jEPQgZs
+         EOsK2K+3U85iRLysV2Gx/hDgKp+K74cnEdKyk5r7Kyw5IPYaSH5eyHXZxbtwJ4ZMQ5PT
+         akdw==
+X-Gm-Message-State: AOAM532HA8ri1D61QuNahRtwFujkix7aZ/52IElW7OYQATtHkFAzXL/y
+        3WYbLHRFf3LBQlDoZQPqtcM+wY1ZoYI=
+X-Google-Smtp-Source: ABdhPJxVVZFZHqAwY1fPRX9HI0yIhKH2iiN9GsYqQS6rzxP15cyYglv/sh4CkSy/3rdozBTmFM9ySxJLa2U=
+X-Received: from colette.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:306])
+ (user=ctshao job=sendgmr) by 2002:a25:3252:0:b0:628:a874:e41e with SMTP id
+ y79-20020a253252000000b00628a874e41emr9969830yby.484.1646368608392; Thu, 03
+ Mar 2022 20:36:48 -0800 (PST)
+Date:   Fri,  4 Mar 2022 04:14:51 +0000
+Message-Id: <20220304041449.939308-1-ctshao@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v3] config: Allow kernel installation packaging to override pkg-config
+From:   Chun-Tse Shao <ctshao@google.com>
+To:     rostedt@goodmis.org, ndesaulniers@google.com
+Cc:     ctshao@google.com, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, netdev@vger.kernel.org, xiam0nd.tong@gmail.com
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable outside the loop
-Date:   Fri,  4 Mar 2022 10:51:09 +0800
-Message-Id: <20220304025109.15501-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
-References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        keyrings@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-10.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,136 +72,247 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-First of all, thank you very much for your patient reply and valuable
-comments. This is a great inspiration to me.
+[ Resending as a separate thread ]
 
-> On Mon, Feb 28, 2022 at 11:59 PM Xiaomeng Tong <xiam0nd.tong@gmail.com> wrote:
-> >
-> > +#define list_for_each_entry_inside(pos, type, head, member)            \
-> 
-> So as mentioned in another thread, I actually tried exactly this.
-> 
-> And it was horrendous.
-> 
-> It's _technically_ probably a very nice solution, but
+Add HOSTPKG_CONFIG to allow tooling that builds the kernel to override
+what pkg-config and parameters are used.
 
-Yes, I always think it is a perfect solution _technically_, since you
-first proposed in the thread of Jakob's first subject.
+Signed-off-by: Chun-Tse Shao <ctshao@google.com>
+---
+Changes from v2: https://lore.kernel.org/all/20220302193638.11034-1-ctshao@google.com/
+  - Fix more open coded instance of pkg-config in scripts and certs
+  - Tested with make allmodconfig
 
-> 
->  - it means that the already *good* cases are the ones that are
-> penalized by having to change
+Changes from v1: https://lore.kernel.org/all/20220301230629.1892828-1-ctshao@google.com/
+  - Make the commit message more clearer.
+---
 
-Yes, but it also kills potential risks that one day somebody mistakely
-uses iterator after the loop in this already *good* cases, as it removed
-the original declare of pos and any use-after-loop will be catched by
-compiler.
+ Makefile                     |  3 ++-
+ certs/Makefile               |  4 ++--
+ scripts/Makefile             |  4 ++--
+ scripts/dtc/Makefile         |  6 +++---
+ scripts/kconfig/gconf-cfg.sh | 10 +++++-----
+ scripts/kconfig/mconf-cfg.sh | 14 +++++++-------
+ scripts/kconfig/nconf-cfg.sh | 14 +++++++-------
+ scripts/kconfig/qconf-cfg.sh | 14 +++++++-------
+ tools/objtool/Makefile       |  4 ++--
+ 9 files changed, 37 insertions(+), 36 deletions(-)
 
-> 
->  - the syntax of the thing becomes absolutely nasty
-> 
-> which means that _practially_ it's exactly the wrong thing to do.
-> 
-> Just as an example, this is a random current "good user" in kernel/exit.c:
-> 
-> -       list_for_each_entry_safe(p, n, dead, ptrace_entry) {
-> +       list_for_each_entry_safe_inside(p, n, struct task_struct,
-> dead, ptrace_entry) {
-> 
-> and while some of the effects are nice (no need to declare p/n ahead
-> of time), just look at how nasty that line is.
-> 
-> Basically every single use will result in an over-long line. The above
-> example has minimal indentation, almost minimal variable names (to the
-> point of not being very descriptive at all), and one of the most basic
-> kernel structure types. And it still ended up 87 columns wide.
-> 
->  And no, the answer to that is not "do it on multiple lines then".
-> That is just even worse.
+diff --git a/Makefile b/Makefile
+index daeb5c88b50b..f6c5bef7e141 100644
+--- a/Makefile
++++ b/Makefile
+@@ -430,6 +430,7 @@ else
+ HOSTCC	= gcc
+ HOSTCXX	= g++
+ endif
++HOSTPKG_CONFIG	= pkg-config
 
-Two avoid multiple lines,  there are some mitigations:
-1. use a shorter macro name: (add 2 chars)
-list_for_each_entry_i instead of list_for_each_entry_inside
+ export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+ 			      -O2 -fomit-frame-pointer -std=gnu89
+@@ -525,7 +526,7 @@ KBUILD_LDFLAGS_MODULE :=
+ KBUILD_LDFLAGS :=
+ CLANG_FLAGS :=
 
-2. using a shorter type passing to the macro: (add 3 chars)
-+ #define t struct sram_bank_info
-- list_for_each_entry(pos, head, member) {
-+ list_for_each_entry_i(pos, t, head, member) {
+-export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
++export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC HOSTPKG_CONFIG
+ export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+ export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+ export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+diff --git a/certs/Makefile b/certs/Makefile
+index 3ea7fe60823f..fa540d14ef2d 100644
+--- a/certs/Makefile
++++ b/certs/Makefile
+@@ -89,5 +89,5 @@ targets += x509_revocation_list
 
-3. restore all name back to list_for_each_entry after everything is done:
-   (minus 2 chars)
-Although we need replace all the use of list_for_each_entry* (15000+)
-with list_for_each_entry*_i, the work can be done gradually rather
-than all at once. We can incrementally replace these callers until
-all these in the kernel are completely updated with *_i* one. At
-that time, we can just remove the implements of origin macros and rename
-the *_i* macro back to the origin name just in one single patch.
+ hostprogs := extract-cert
 
-4. As you mentioned, the "safe" version of list_for_each_entry do not
-   need "n" argument anymore with the help of -std=gnu11. (minus 3 chars)
+-HOSTCFLAGS_extract-cert.o = $(shell pkg-config --cflags libcrypto 2> /dev/null)
+-HOSTLDLIBS_extract-cert = $(shell pkg-config --libs libcrypto 2> /dev/null || echo -lcrypto)
++HOSTCFLAGS_extract-cert.o = $(shell $(HOSTPKG_CONFIG) --cflags libcrypto 2> /dev/null)
++HOSTLDLIBS_extract-cert = $(shell $(HOSTPKG_CONFIG) --libs libcrypto 2> /dev/null || echo -lcrypto)
+diff --git a/scripts/Makefile b/scripts/Makefile
+index ce5aa9030b74..f084f08ed176 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -14,8 +14,8 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+ HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
+ HOSTLDLIBS_sorttable = -lpthread
+ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+-HOSTCFLAGS_sign-file.o = $(shell pkg-config --cflags libcrypto 2> /dev/null)
+-HOSTLDLIBS_sign-file = $(shell pkg-config --libs libcrypto 2> /dev/null || echo -lcrypto)
++HOSTCFLAGS_sign-file.o = $(shell $(HOSTPKG_CONFIG) --cflags libcrypto 2> /dev/null)
++HOSTLDLIBS_sign-file = $(shell $(HOSTPKG_CONFIG) --libs libcrypto 2> /dev/null || echo -lcrypto)
 
-Thus, after all mitigations applied, the "safe" version adds *no* chars to
-columns wide, and other version adds 3 chars totally, which is acceptable
-to me.
+ ifdef CONFIG_UNWINDER_ORC
+ ifeq ($(ARCH),x86_64)
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 95aaf7431bff..743fc08827ea 100644
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -18,7 +18,7 @@ fdtoverlay-objs	:= $(libfdt) fdtoverlay.o util.o
+ # Source files need to get at the userspace version of libfdt_env.h to compile
+ HOST_EXTRACFLAGS += -I $(srctree)/$(src)/libfdt
 
-> 
-> So I really think this is a major step in the wrong direction.
+-ifeq ($(shell pkg-config --exists yaml-0.1 2>/dev/null && echo yes),)
++ifeq ($(shell $(HOSTPKG_CONFIG) --exists yaml-0.1 2>/dev/null && echo yes),)
+ ifneq ($(CHECK_DT_BINDING)$(CHECK_DTBS),)
+ $(error dtc needs libyaml for DT schema validation support. \
+ 	Install the necessary libyaml development package.)
+@@ -27,9 +27,9 @@ HOST_EXTRACFLAGS += -DNO_YAML
+ else
+ dtc-objs	+= yamltree.o
+ # To include <yaml.h> installed in a non-default path
+-HOSTCFLAGS_yamltree.o := $(shell pkg-config --cflags yaml-0.1)
++HOSTCFLAGS_yamltree.o := $(shell $(HOSTPKG_CONFIG) --cflags yaml-0.1)
+ # To link libyaml installed in a non-default path
+-HOSTLDLIBS_dtc	:= $(shell pkg-config yaml-0.1 --libs)
++HOSTLDLIBS_dtc	:= $(shell $(HOSTPKG_CONFIG) yaml-0.1 --libs)
+ endif
 
-Maybe yes or maybe no.
-Before the list_for_each_entry_inside way, I have tried something like
-"typeof(pos) pos" way as and before you proposed in the thread of Jakob's
-second subject, to avoid any changes to callers of the macros. But it also
-has potential problems. see my previous reply to you here:
-https://lore.kernel.org/lkml/20220302093106.8402-1-xiam0nd.tong@gmail.com/
+ # Generated files need one more search path to include headers in source tree
+diff --git a/scripts/kconfig/gconf-cfg.sh b/scripts/kconfig/gconf-cfg.sh
+index 480ecd8b9f41..267ef6012203 100755
+--- a/scripts/kconfig/gconf-cfg.sh
++++ b/scripts/kconfig/gconf-cfg.sh
+@@ -3,14 +3,14 @@
 
-> 
-> We should strive for the *bad* cases to have to do extra work, and
-> even there we should really strive for legibility.
+ PKG="gtk+-2.0 gmodule-2.0 libglade-2.0"
 
-Indeed, there are many "multiple lines" problems in the current kernel
-code, for example (drivers/dma/iop-adma.c):
-				list_for_each_entry_from(grp_iter,
-					&iop_chan->chain, chain_node) {
+-if [ -z "$(command -v pkg-config)" ]; then
++if [ -z "$(command -v $(HOSTPKG_CONFIG))" ]; then
+ 	echo >&2 "*"
+ 	echo >&2 "* 'make gconfig' requires 'pkg-config'. Please install it."
+ 	echo >&2 "*"
+ 	exit 1
+ fi
 
-> 
-> Now, I think that "safe" version in particular can be simplified:
-> there's no reason to give the "n" variable a name. Now that we can
-> (with -stc=gnu11) just declare our own variables in the for-loop, the
-> need for that externally visible 'next' declaration just goes away.
-> 
-> So three of those 87 columns are pointless and should be removed. The
-> macro can just internally decare 'n' like it always wanted (but
-> couldn't do due to legacy C language syntax restrictions).
+-if ! pkg-config --exists $PKG; then
++if ! $(HOSTPKG_CONFIG) --exists $PKG; then
+ 	echo >&2 "*"
+ 	echo >&2 "* Unable to find the GTK+ installation. Please make sure that"
+ 	echo >&2 "* the GTK+ 2.0 development package is correctly installed."
+@@ -19,12 +19,12 @@ if ! pkg-config --exists $PKG; then
+ 	exit 1
+ fi
 
-Great, this does reduce three chars. and i will look into other versions.
+-if ! pkg-config --atleast-version=2.0.0 gtk+-2.0; then
++if ! $(HOSTPKG_CONFIG) --atleast-version=2.0.0 gtk+-2.0; then
+ 	echo >&2 "*"
+ 	echo >&2 "* GTK+ is present but version >= 2.0.0 is required."
+ 	echo >&2 "*"
+ 	exit 1
+ fi
 
-> 
-> But even with that fixed, it's still a very cumbersome line.
+-echo cflags=\"$(pkg-config --cflags $PKG)\"
+-echo libs=\"$(pkg-config --libs $PKG)\"
++echo cflags=\"$($(HOSTPKG_CONFIG) --cflags $PKG)\"
++echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG)\"
+diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
+index b520e407a8eb..21e40e9a7cd6 100755
+--- a/scripts/kconfig/mconf-cfg.sh
++++ b/scripts/kconfig/mconf-cfg.sh
+@@ -4,16 +4,16 @@
+ PKG="ncursesw"
+ PKG2="ncurses"
 
-With other mitigations mentioned above, the addition to line will be
-acceptable.
+-if [ -n "$(command -v pkg-config)" ]; then
+-	if pkg-config --exists $PKG; then
+-		echo cflags=\"$(pkg-config --cflags $PKG)\"
+-		echo libs=\"$(pkg-config --libs $PKG)\"
++if [ -n "$(command -v $(HOSTPKG_CONFIG))" ]; then
++	if $(HOSTPKG_CONFIG) --exists $PKG; then
++		echo cflags=\"$($(HOSTPKG_CONFIG) --cflags $PKG)\"
++		echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG)\"
+ 		exit 0
+ 	fi
 
-> 
-> Note how the old syntax was "only" 60 characters - long but still
-> quite legible (and would have space for two more levels of indentation
-> without even hitting 80 characters). And that was _despute_ having to
-> have that 'n' declaration.
-> 
-> And yes, the old syntax does require that
-> 
->         struct task_struct *p, *n;
-> 
-> line to declare the types, but that really is not a huge burden, and
-> is not complicated. It's just another "variables of the right type"
-> line (and as mentioned, the 'n' part has always been a C syntax
-> annoyance).
+-	if pkg-config --exists $PKG2; then
+-		echo cflags=\"$(pkg-config --cflags $PKG2)\"
+-		echo libs=\"$(pkg-config --libs $PKG2)\"
++	if $(HOSTPKG_CONFIG) --exists $PKG2; then
++		echo cflags=\"$($(HOSTPKG_CONFIG) --cflags $PKG2)\"
++		echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG2)\"
+ 		exit 0
+ 	fi
+ fi
+diff --git a/scripts/kconfig/nconf-cfg.sh b/scripts/kconfig/nconf-cfg.sh
+index c212255070c0..eec46e627e5c 100755
+--- a/scripts/kconfig/nconf-cfg.sh
++++ b/scripts/kconfig/nconf-cfg.sh
+@@ -4,16 +4,16 @@
+ PKG="ncursesw menuw panelw"
+ PKG2="ncurses menu panel"
 
-Yes, that really is not a huge burden, so is the mitigation 2 mentioned
-above which defining a shorter type passing to the macro, to shorten the 
-new line.
+-if [ -n "$(command -v pkg-config)" ]; then
+-	if pkg-config --exists $PKG; then
+-		echo cflags=\"$(pkg-config --cflags $PKG)\"
+-		echo libs=\"$(pkg-config --libs $PKG)\"
++if [ -n "$(command -v $(HOSTPKG_CONFIG))" ]; then
++	if $(HOSTPKG_CONFIG) --exists $PKG; then
++		echo cflags=\"$($(HOSTPKG_CONFIG) --cflags $PKG)\"
++		echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG)\"
+ 		exit 0
+ 	fi
 
-> 
->               Linus
+-	if pkg-config --exists $PKG2; then
+-		echo cflags=\"$(pkg-config --cflags $PKG2)\"
+-		echo libs=\"$(pkg-config --libs $PKG2)\"
++	if $(HOSTPKG_CONFIG) --exists $PKG2; then
++		echo cflags=\"$($(HOSTPKG_CONFIG) --cflags $PKG2)\"
++		echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG2)\"
+ 		exit 0
+ 	fi
+ fi
+diff --git a/scripts/kconfig/qconf-cfg.sh b/scripts/kconfig/qconf-cfg.sh
+index fa564cd795b7..839b45b5746e 100755
+--- a/scripts/kconfig/qconf-cfg.sh
++++ b/scripts/kconfig/qconf-cfg.sh
+@@ -3,22 +3,22 @@
+
+ PKG="Qt5Core Qt5Gui Qt5Widgets"
+
+-if [ -z "$(command -v pkg-config)" ]; then
++if [ -z "$(command -v $(HOSTPKG_CONFIG))" ]; then
+ 	echo >&2 "*"
+-	echo >&2 "* 'make xconfig' requires 'pkg-config'. Please install it."
++	echo >&2 "* 'make xconfig' requires '$(HOSTPKG_CONFIG)'. Please install it."
+ 	echo >&2 "*"
+ 	exit 1
+ fi
+
+-if pkg-config --exists $PKG; then
+-	echo cflags=\"-std=c++11 -fPIC $(pkg-config --cflags $PKG)\"
+-	echo libs=\"$(pkg-config --libs $PKG)\"
+-	echo moc=\"$(pkg-config --variable=host_bins Qt5Core)/moc\"
++if $(HOSTPKG_CONFIG) --exists $PKG; then
++	echo cflags=\"-std=c++11 -fPIC $($(HOSTPKG_CONFIG) --cflags $PKG)\"
++	echo libs=\"$($(HOSTPKG_CONFIG) --libs $PKG)\"
++	echo moc=\"$($(HOSTPKG_CONFIG) --variable=host_bins Qt5Core)/moc\"
+ 	exit 0
+ fi
+
+ echo >&2 "*"
+-echo >&2 "* Could not find Qt5 via pkg-config."
++echo >&2 "* Could not find Qt5 via $(HOSTPKG_CONFIG)."
+ echo >&2 "* Please install Qt5 and make sure it's in PKG_CONFIG_PATH"
+ echo >&2 "*"
+ exit 1
+diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
+index 92ce4fce7bc7..549acc5859e9 100644
+--- a/tools/objtool/Makefile
++++ b/tools/objtool/Makefile
+@@ -19,8 +19,8 @@ LIBSUBCMD		= $(LIBSUBCMD_OUTPUT)libsubcmd.a
+ OBJTOOL    := $(OUTPUT)objtool
+ OBJTOOL_IN := $(OBJTOOL)-in.o
+
+-LIBELF_FLAGS := $(shell pkg-config libelf --cflags 2>/dev/null)
+-LIBELF_LIBS  := $(shell pkg-config libelf --libs 2>/dev/null || echo -lelf)
++LIBELF_FLAGS := $(shell $(HOSTPKG_CONFIG) libelf --cflags 2>/dev/null)
++LIBELF_LIBS  := $(shell $(HOSTPKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
+
+ all: $(OBJTOOL)
 
 --
-Xiaomeng Tong
+2.35.1.616.g0bdcbb4464-goog
+
