@@ -2,124 +2,401 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DFF44CD6BE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 15:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91D344CD90F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Mar 2022 17:25:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237160AbiCDOuV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Mar 2022 09:50:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35540 "EHLO
+        id S230219AbiCDQ0p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Mar 2022 11:26:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236106AbiCDOuV (ORCPT
+        with ESMTP id S229724AbiCDQ0p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Mar 2022 09:50:21 -0500
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8279811C7D5;
-        Fri,  4 Mar 2022 06:49:33 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id v128so4489228vsb.8;
-        Fri, 04 Mar 2022 06:49:33 -0800 (PST)
+        Fri, 4 Mar 2022 11:26:45 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF7A158D86;
+        Fri,  4 Mar 2022 08:25:54 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id r11so5430671ioh.10;
+        Fri, 04 Mar 2022 08:25:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=2xHmRQi/LfJNuj9TXBlf7WO9x+HDMABaMwKJd5WioNY=;
+        b=Jl7t5LjXHvOddRJy/5jVS12MH72LUBckSgvgGgqsXpWqXJSNPHaxxMjfQcW5zOe2Be
+         c90lCmKk2IVcVB6LXGuj7VG1D/Zn0Zpv6WV3p09YOxwa91oosU38BKYVOu4SynuDXVEr
+         brKTMephc7ycBOddbWy3zxU2yzlLdMOU2jZxNOWkztEHjCn6+gxZODTdLNf/2KdYVeud
+         rPdxc0dcEWBqDk9OG7omopotRQlOjGuXBV+FO3rzKadP1Df56AiYldmP1IR9crhFVIDz
+         47hbdRZDfkxx0pov0eAhAw5qW2r6OPkqwbqm+HzmlSrKruTmZgYGyUgkIAXllVqu3+B4
+         Z6UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nuEFnp8xzEBzIGWOOUSQ4sQ7i7Pz5qWLvQbZ+armpO8=;
-        b=haviDSvEToHq+oI3Eetl1AL8ntiKnRLaPepSe2D0WX0n/ek3B3Ft9ZxndVPIEGGdX0
-         bDhR2B42OeGWM+VOKM7tvp3MerIadSlW9Hm2O5vWHlIKCTDxrDrhi8kSVDo67rNm4iyh
-         WlZT0ZzfF2WJzKQXScTFatzDiEUgXfYCIHKCANI/BAjRMlPL4qB59FV8jzjzpSQoHlEA
-         olJ0zCSrjpCN/AnWY/0A+5nSmoSD11E7fry8ujpEDB6hx5Tb7nWBHb650OJnWwdn+6y/
-         cqQpAJwNXDSIpVsbCkdK7P4H3fNcIucGwLM4l1RHZ2nC7MoZJ7DtLze2xyKnd8ahdjzG
-         m0Kg==
-X-Gm-Message-State: AOAM531xlTxr8vNTTEvwzd95+6+V3qWBVYPkNJGtPYR8AXUxgZrBmqru
-        QWQ2DaDAyNRYyk/XFo1+FoIM6QoWnzyAgg==
-X-Google-Smtp-Source: ABdhPJzQvQioj32KgApOeaq1GlS9nfh/kkwneIiPdzoaZ2YZL+LNGFqOY0L+Ro5yw3li6PUm869NOA==
-X-Received: by 2002:a05:6102:3543:b0:31e:248d:2f97 with SMTP id e3-20020a056102354300b0031e248d2f97mr17230595vss.76.1646405372547;
-        Fri, 04 Mar 2022 06:49:32 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id q65-20020a1fa744000000b0032db512ac39sm739891vke.46.2022.03.04.06.49.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Mar 2022 06:49:32 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id q9so9305779vsg.2;
-        Fri, 04 Mar 2022 06:49:32 -0800 (PST)
-X-Received: by 2002:a05:6102:2922:b0:31e:bd90:f1c3 with SMTP id
- cz34-20020a056102292200b0031ebd90f1c3mr7166946vsb.77.1646405371982; Fri, 04
- Mar 2022 06:49:31 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=2xHmRQi/LfJNuj9TXBlf7WO9x+HDMABaMwKJd5WioNY=;
+        b=SINJEbdNv4/Bb8ipfNXh9j2hThy1WzcaQMt0zOPOSgX/g8aHvLYgR9vcXd2PgRkFpN
+         jfyGPXHH6IH+uub2/6SsdGOx+ynlyd2wySCIh4scjAPylmHt6FoQrPAK18j0+s7LPs9w
+         FV3bOa9Pz5rUNuJXS0cRgRWhAK2sFjpjVk4tjzVEZLJVviCXS+VN1sZ3p5HUijGB/6Yz
+         LiQ7ICken8tdV2zrD2b44Vf64ZmFl8EhPvQHkwzyU5ITpr7mhD1N6NebKJ9lcWEsdZ6x
+         QG+DCdyBfTLWPCAPL69SSXN1Ssl1x0W4HMrHmUh5a5BCU6HNyMI+GBj8YOoXP7hbSDpn
+         FCmQ==
+X-Gm-Message-State: AOAM531DDVX/xq8e9PHkQaLTlAnmyB1qsGwJQAnLSSeZNCXN7ydmx+DJ
+        QNjMDrqrkEOOQp77P+cjL9XiqwSNhyU3+Et1O5A=
+X-Google-Smtp-Source: ABdhPJwHO5Z29mpQuze1Ov/qmebf+RINUPhxOzWiBUFcarI347YRP53iOk8/69lO1wFGJZidLgv7SkbUAHyo02XIEtE=
+X-Received: by 2002:a02:a793:0:b0:311:c031:ea76 with SMTP id
+ e19-20020a02a793000000b00311c031ea76mr33917903jaj.80.1646411153551; Fri, 04
+ Mar 2022 08:25:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20220303224237.2497570-1-robh@kernel.org> <20220303224237.2497570-2-robh@kernel.org>
- <CAMuHMdU6g7c9YX0mBAGWbCWgA8exkUSfqn8ZGi_2N+Nz1WT+BA@mail.gmail.com>
- <YiIa3Ox7UBLyBtoR@robh.at.kernel.org> <CAMuHMdU9yzpLh+S821osed5nuHfc0rONB+i4sPjXsGuKLumgfQ@mail.gmail.com>
- <YiIio1dJd5mvMr0v@robh.at.kernel.org>
-In-Reply-To: <YiIio1dJd5mvMr0v@robh.at.kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Mar 2022 15:49:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXBkLbQVcNYhd=7z0RtU0CicsTF2BQLFRGBX6pNZZVadA@mail.gmail.com>
-Message-ID: <CAMuHMdXBkLbQVcNYhd=7z0RtU0CicsTF2BQLFRGBX6pNZZVadA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: kbuild: Pass DT_SCHEMA_FILES to dt-validate
-To:     Rob Herring <robh@kernel.org>
+References: <20220301145233.3689119-1-arnd@kernel.org>
+In-Reply-To: <20220301145233.3689119-1-arnd@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 4 Mar 2022 17:25:17 +0100
+Message-ID: <CA+icZUW8N25F_9_DVhRiQoe6rnvARH2AhKJgjKeYyNmdz5t_Lw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] [v3] Kbuild: move to -std=gnu11
+To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        David Sterba <dsterba@suse.com>, Alex Shi <alexs@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
+        Miguel Ojeda <ojeda@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Rob,
-
-On Fri, Mar 4, 2022 at 3:31 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Mar 04, 2022 at 03:05:13PM +0100, Geert Uytterhoeven wrote:
-> > On Fri, Mar 4, 2022 at 2:57 PM Rob Herring <robh@kernel.org> wrote:
-> > > On Fri, Mar 04, 2022 at 10:32:29AM +0100, Geert Uytterhoeven wrote:
-> > > > On Thu, Mar 3, 2022 at 11:43 PM Rob Herring <robh@kernel.org> wrote:
-> > > > > In preparation for supporting validation of DTB files, the full
-> > > > > processed schema will always be needed in order to extract type
-> > > > > information from it. Therefore, the processed schema containing only
-> > > > > what DT_SCHEMA_FILES specifies won't work. Instead, dt-validate has
-> > > > > gained an option, -l or --limit, to specify which schema(s) to use for
-> > > > > validation.
-> > > > >
-> > > > > As the command line option is new, we the minimum dtschema version must be
-> > > > > updated.
-> > > > >
-> > > > > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > > > > Signed-off-by: Rob Herring <robh@kernel.org>
-
-> > With this series applied, the various salvator-xs DTS files are now
-> > throwing up:
-> >
-> >     sata: size (19) error for type phandle
-> >     backlight: size (11) error for type phandle
+On Wed, Mar 2, 2022 at 5:29 PM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Those come from the code decoding the properties[1]. Unfortunately, I
-> haven't come up with a prettier way to report those with the filename. I
-> may just remove it because if decoding the property fails, we'll get
-> schema errors later on anyways.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> But I don't see any 'sata' properties in the DTS files and 'backlight'
-> is a node. Are you building with '-@'? I probably need to skip
-> __symbols__ nodes. The overlay side is handled because examples are
-> built as overlays (to allow unresolved phandles).
+> During a patch discussion, Linus brought up the option of changing
+> the C standard version from gnu89 to gnu99, which allows using variable
+> declaration inside of a for() loop. While the C99, C11 and later standard=
+s
+> introduce many other features, most of these are already available in
+> gnu89 as GNU extensions as well.
+>
+> An earlier attempt to do this when gcc-5 started defaulting to
+> -std=3Dgnu11 failed because at the time that caused warnings about
+> designated initializers with older compilers. Now that gcc-5.1 is
+> the minimum compiler version used for building kernels, that is no
+> longer a concern. Similarly, the behavior of 'inline' functions changes
+> between gnu89 using gnu_inline behavior and gnu11 using standard c99+
+> behavior, but this was taken care of by defining 'inline' to include
+> __attribute__((gnu_inline)) in order to allow building with clang a
+> while ago.
+>
+> One minor issue that remains is an added gcc warning for shifts of
+> negative integers when building with -Wextra, which happens with the
+> 'make W=3D1' option, as well as for three drivers in the kernel that alwa=
+ys
+> enable -Wextra, but it was only observed with the i915 driver so far.
+> To be on the safe side, add -Wno-shift-negative-value to any -Wextra
+> in a Makefile.
+>
+> Nathan Chancellor reported an additional -Wdeclaration-after-statement
+> warning that appears in a system header on arm, this still needs a
+> workaround.
+>
+> The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
+> minimal and mainly impact warnings at the -Wpedantic level that the
+> kernel never enables. Between these, gnu11 is the newest version
+> that is supported by all supported compiler versions, though it is
+> only the default on gcc-5, while all other supported versions of
+> gcc or clang default to gnu1x/gnu17.
+>
+> Link: https://lore.kernel.org/lkml/CAHk-=3DwiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdK=
+pcovt8fYbVFW3TA@mail.gmail.com/
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Acked-by: Marco Elver <elver@google.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Acked-by: David Sterba <dsterba@suse.com>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: llvm@lists.linux.dev
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Yes I am. Dropping the "-@" fixes the issue.
+When I saw the first patches in this area, I was thinking what about
+the tools/ build-system?
+This ECO system has its own rules.
 
-Gr{oetje,eeting}s,
+I use CONFIG_DEBUG_INFO_BTF=3Dy in my kernels which means
+tools/bpf/resolve_btfids will be built.
+This uses hardcoded -std=3Dgnu89.
 
-                        Geert
+$ git grep 'std=3Dgnu89' tools/
+tools/lib/bpf/Makefile:override CFLAGS +=3D -std=3Dgnu89
+tools/testing/selftests/sync/Makefile:CFLAGS +=3D -O2 -g -std=3Dgnu89
+-pthread -Wall -Wextra
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Furthermore, we have several places using C99 which can be replaced by C11 =
+now.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+$ git grep 'std=3Dgnu99' tools/ | wc -l
+20
+
+We already have C11 in tools/:
+
+$ git grep 'std=3Dgnu11' tools/
+tools/testing/selftests/wireguard/qemu/Makefile:        $(MUSL_CC) -o
+$@ $(CFLAGS) $(LDFLAGS) -std=3Dgnu11 $<
+
+What about having a central place where we define the
+STD_GNU_C_VERSION (as a suggestion)?
+This might be helpful for people dealing with diverse C version standards.
+
+Also with STD_GNU_CXX_VERSION which is used AFAICS only in tools/:
+
+$ git grep 'std=3Dgnu++' tools/
+tools/build/feature/Makefile:   $(BUILDXX) -std=3Dgnu++11
+tools/build/feature/Makefile:   $(BUILDXX) -std=3Dgnu++14
+                 \
+tools/build/feature/Makefile:   $(BUILDXX) -std=3Dgnu++14
+                 \
+tools/build/feature/Makefile:   $(BUILDXX) -std=3Dgnu++14
+                 \
+tools/perf/Makefile.config:CXXFLAGS +=3D -std=3Dgnu++14 -fno-exceptions -fn=
+o-rtti
+
+Looks like one place should be -std=3Dgnu++14.
+( I had no deeper look. No testing. )
+
+Just some thoughts.
+
+- Sedat -
+
+> ---
+> [v3]
+>  - split out USERCFLAGS to a separate patch
+>  - add -Wdeclaration-after-statement patch from Mark Rutland
+>  - leave out C17 reference
+>  - more rewording the descrption
+>
+> [v2]
+>  - added -std=3Dgnu11 back, rather than just relying on the default
+>  - minor changes to changelog text
+> ---
+>  Documentation/process/programming-language.rst              | 6 +++---
+>  .../translations/it_IT/process/programming-language.rst     | 4 ++--
+>  .../translations/zh_CN/process/programming-language.rst     | 3 +--
+>  .../translations/zh_TW/process/programming-language.rst     | 3 +--
+>  Makefile                                                    | 4 ++--
+>  arch/arm64/kernel/vdso32/Makefile                           | 2 +-
+>  drivers/gpu/drm/i915/Makefile                               | 1 +
+>  drivers/staging/greybus/tools/Makefile                      | 3 ++-
+>  fs/btrfs/Makefile                                           | 1 +
+>  scripts/Makefile.extrawarn                                  | 1 +
+>  10 files changed, 15 insertions(+), 13 deletions(-)
+>
+> diff --git a/Documentation/process/programming-language.rst b/Documentati=
+on/process/programming-language.rst
+> index ec474a70a02f..5fc9160ca1fa 100644
+> --- a/Documentation/process/programming-language.rst
+> +++ b/Documentation/process/programming-language.rst
+> @@ -5,9 +5,9 @@ Programming Language
+>
+>  The kernel is written in the C programming language [c-language]_.
+>  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+> -under ``-std=3Dgnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO =
+C90
+> -(including some C99 features). ``clang`` [clang]_ is also supported, see
+> -docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+> +under ``-std=3Dgnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO =
+C11.
+> +``clang`` [clang]_ is also supported, see docs on
+> +:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+>
+>  This dialect contains many extensions to the language [gnu-extensions]_,
+>  and many of them are used within the kernel as a matter of course.
+> diff --git a/Documentation/translations/it_IT/process/programming-languag=
+e.rst b/Documentation/translations/it_IT/process/programming-language.rst
+> index 41db2598ce11..c1a9b481a6f9 100644
+> --- a/Documentation/translations/it_IT/process/programming-language.rst
+> +++ b/Documentation/translations/it_IT/process/programming-language.rst
+> @@ -10,8 +10,8 @@ Linguaggio di programmazione
+>
+>  Il kernel =C3=A8 scritto nel linguaggio di programmazione C [it-c-langua=
+ge]_.
+>  Pi=C3=B9 precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ u=
+sando
+> -l'opzione ``-std=3Dgnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
+> -dello standard ISO C90 (con l'aggiunta di alcune funzionalit=C3=A0 da C9=
+9).
+> +l'opzione ``-std=3Dgnu11`` [it-gcc-c-dialect-options]_: il dialetto GNU
+> +dello standard ISO C11.
+>  Linux supporta anche ``clang`` [it-clang]_, leggete la documentazione
+>  :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+>
+> diff --git a/Documentation/translations/zh_CN/process/programming-languag=
+e.rst b/Documentation/translations/zh_CN/process/programming-language.rst
+> index 2a47a1d2ec20..fabdc338dbfb 100644
+> --- a/Documentation/translations/zh_CN/process/programming-language.rst
+> +++ b/Documentation/translations/zh_CN/process/programming-language.rst
+> @@ -9,8 +9,7 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>  =E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 :ref:`c-language=
+ <cn_c-language>` =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=
+=A1=AE=E5=9C=B0=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=
+=AF=E7=94=A8 :ref:`gcc <cn_gcc>`
+> -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
+> +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80
+>
+>  =E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=AD=
+=E8=A8=80 :ref:`gnu-extensions <cn_gnu-extensions>` =E7=9A=84=E8=AE=B8=E5=
+=A4=9A=E6=89=A9=E5=B1=95=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=BB=
+=AC=E8=AE=B8=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=
+=E7=94=A8=E3=80=82
+>
+> diff --git a/Documentation/translations/zh_TW/process/programming-languag=
+e.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+> index 54e3699eadf8..144bdaf81a41 100644
+> --- a/Documentation/translations/zh_TW/process/programming-language.rst
+> +++ b/Documentation/translations/zh_TW/process/programming-language.rst
+> @@ -12,8 +12,7 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>  =E5=85=A7=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AA=9E=E8=A8=80 :ref:`c-language=
+ <tw_c-language>` =E7=B7=A8=E5=AF=AB=E7=9A=84=E3=80=82=E6=9B=B4=E6=BA=96=E7=
+=A2=BA=E5=9C=B0=E8=AA=AA=EF=BC=8C=E5=85=A7=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=
+=AF=E7=94=A8 :ref:`gcc <tw_gcc>`
+> -=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80=EF=BC=88
+> -=E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
+> +=E5=9C=A8 ``-std=3Dgnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect=
+-options>` =E4=B8=8B=E7=B7=A8=E8=AD=AF=E7=9A=84=EF=BC=9AISO C11=E7=9A=84 GN=
+U =E6=96=B9=E8=A8=80
+>
+>  =E9=80=99=E7=A8=AE=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=B0=8D=E8=AA=9E=
+=E8=A8=80 :ref:`gnu-extensions <tw_gnu-extensions>` =E7=9A=84=E8=A8=B1=E5=
+=A4=9A=E6=93=B4=E5=B1=95=EF=BC=8C=E7=95=B6=E7=84=B6=EF=BC=8C=E5=AE=83=E5=80=
+=91=E8=A8=B1=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=85=A7=E6=A0=B8=E4=B8=AD=E4=BD=BF=
+=E7=94=A8=E3=80=82
+>
+> diff --git a/Makefile b/Makefile
+> index 289ce2be8032..94fa9a849a7a 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -515,7 +515,7 @@ KBUILD_CFLAGS   :=3D -Wall -Wundef -Werror=3Dstrict-p=
+rototypes -Wno-trigraphs \
+>                    -fno-strict-aliasing -fno-common -fshort-wchar -fno-PI=
+E \
+>                    -Werror=3Dimplicit-function-declaration -Werror=3Dimpl=
+icit-int \
+>                    -Werror=3Dreturn-type -Wno-format-security \
+> -                  -std=3Dgnu89
+> +                  -std=3Dgnu11
+>  KBUILD_CPPFLAGS :=3D -D__KERNEL__
+>  KBUILD_AFLAGS_KERNEL :=3D
+>  KBUILD_CFLAGS_KERNEL :=3D
+> @@ -782,7 +782,7 @@ KBUILD_CFLAGS +=3D $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMP=
+LICIT_FALLTHROUGH)
+>
+>  ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_CPPFLAGS +=3D -Qunused-arguments
+> -# The kernel builds with '-std=3Dgnu89' so use of GNU extensions is acce=
+ptable.
+> +# The kernel builds with '-std=3Dgnu11' so use of GNU extensions is acce=
+ptable.
+>  KBUILD_CFLAGS +=3D -Wno-gnu
+>  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, =
+as the
+>  # source of a reference will be _MergedGlobals and not on of the whiteli=
+sted names.
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
+/Makefile
+> index 6c01b63ff56d..9378ea055bf2 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -68,7 +68,7 @@ VDSO_CFLAGS +=3D -Wall -Wundef -Wstrict-prototypes -Wno=
+-trigraphs \
+>                 -fno-strict-aliasing -fno-common \
+>                 -Werror-implicit-function-declaration \
+>                 -Wno-format-security \
+> -               -std=3Dgnu89
+> +               -std=3Dgnu11
+>  VDSO_CFLAGS  +=3D -O2
+>  # Some useful compiler-dependent flags from top-level Makefile
+>  VDSO_CFLAGS +=3D $(call cc32-option,-Wdeclaration-after-statement,)
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefil=
+e
+> index 1b62b9f65196..1618a6e0af4e 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y +=3D -Wno-unused-parameter
+>  subdir-ccflags-y +=3D -Wno-type-limits
+>  subdir-ccflags-y +=3D -Wno-missing-field-initializers
+>  subdir-ccflags-y +=3D -Wno-sign-compare
+> +subdir-ccflags-y +=3D -Wno-shift-negative-value
+>  subdir-ccflags-y +=3D $(call cc-disable-warning, unused-but-set-variable=
+)
+>  subdir-ccflags-y +=3D $(call cc-disable-warning, frame-address)
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) +=3D -Werror
+> diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/gre=
+ybus/tools/Makefile
+> index ad0ae8053b79..a3bbd73171f2 100644
+> --- a/drivers/staging/greybus/tools/Makefile
+> +++ b/drivers/staging/greybus/tools/Makefile
+> @@ -12,7 +12,8 @@ CFLAGS        +=3D -std=3Dgnu99 -Wall -Wextra -g \
+>             -Wredundant-decls \
+>             -Wcast-align \
+>             -Wsign-compare \
+> -           -Wno-missing-field-initializers
+> +           -Wno-missing-field-initializers \
+> +           -Wno-shift-negative-value
+>
+>  CC     :=3D $(CROSS_COMPILE)gcc
+>
+> diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
+> index 4188ba3fd8c3..99f9995670ea 100644
+> --- a/fs/btrfs/Makefile
+> +++ b/fs/btrfs/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y +=3D $(condflags)
+>  subdir-ccflags-y +=3D -Wno-missing-field-initializers
+>  subdir-ccflags-y +=3D -Wno-sign-compare
+>  subdir-ccflags-y +=3D -Wno-type-limits
+> +subdir-ccflags-y +=3D -Wno-shift-negative-value
+>
+>  obj-$(CONFIG_BTRFS_FS) :=3D btrfs.o
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 8be892887d71..650d0b8ceec3 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -36,6 +36,7 @@ KBUILD_CFLAGS +=3D $(call cc-option, -Wstringop-truncat=
+ion)
+>  KBUILD_CFLAGS +=3D -Wno-missing-field-initializers
+>  KBUILD_CFLAGS +=3D -Wno-sign-compare
+>  KBUILD_CFLAGS +=3D -Wno-type-limits
+> +KBUILD_CFLAGS +=3D -Wno-shift-negative-value
+>
+>  KBUILD_CPPFLAGS +=3D -DKBUILD_EXTRA_WARN1
+>
+> --
+> 2.29.2
+>
