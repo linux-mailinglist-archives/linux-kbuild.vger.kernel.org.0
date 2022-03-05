@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CF064CE3F5
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Mar 2022 10:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3798F4CE4EE
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Mar 2022 13:57:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbiCEJaY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 5 Mar 2022 04:30:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53244 "EHLO
+        id S231256AbiCEM6R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 5 Mar 2022 07:58:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbiCEJaY (ORCPT
+        with ESMTP id S230155AbiCEM6Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 5 Mar 2022 04:30:24 -0500
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8098A17F6AF;
-        Sat,  5 Mar 2022 01:29:33 -0800 (PST)
+        Sat, 5 Mar 2022 07:58:16 -0500
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C206B20FCAD;
+        Sat,  5 Mar 2022 04:57:24 -0800 (PST)
 Received: from grover.. (133-32-176-37.west.xps.vectant.ne.jp [133.32.176.37]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 2259SO9S016984;
-        Sat, 5 Mar 2022 18:28:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 2259SO9S016984
+        by conuserg-10.nifty.com with ESMTP id 225CuBjJ008491;
+        Sat, 5 Mar 2022 21:56:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 225CuBjJ008491
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646472505;
-        bh=WtqUDFVKQZ2zys8nwjVIQbe1cN+xec4kuSb2ZpF2tHE=;
+        s=dec2015msa; t=1646484972;
+        bh=HbfK+WR3fpzTNPKUUwev8caY8oon1l2ZmmSStF5FWqk=;
         h=From:To:Cc:Subject:Date:From;
-        b=zW9fBL972od5EGt7igJI75Dzx4xTIlNW8pEdh06FwznqRh/iDECXiRdCwh2j0TG7u
-         rVKu3lMAzswaeXGWQ1VXY4aO55iJX1fhMcF/s3xLkGdGGFggHms4LA5UDtPYJlv+gb
-         OYi0BqVltOhZktDCLrSqnBF3MWoAVvCdWTVTpvdVWqPxyDK5xCzwfh5OhxbIix1Qv2
-         aX9hSjkPWdS9DOohNbW2m/BJb5z8ARvDLczYq3fzXpzkra2GmTRW22OlOXV1N05QG6
-         VFYpKjq1iLlZdQGKOHtR6U2qn7QJ5kIXC1Sppf5AJqXTQ7fRpUmlq9zhdTUCHscebC
-         nLkbxb2+et1zA==
+        b=p4byQ0dhwMDAe9lQ8Wwi+jhTi0e63Pj73IdRsALxoYau54F84fozgQ/ECJEnk1gty
+         1kPIqroN2GA6uOOQXnWaAUoEbiXKXMcrvJKL8AafM6oo5q5zD878RUDyUlG8ZP/Fy6
+         BiovJEkrtDtyObiqJTyCFU0WUaKZw+XhUCwQudmKspFsA1f88vgoEgBbOIijFadWvl
+         wfoZTzhg/QjzjCOSlji0mXQriUEqRkA0CdfwOXw5PrRqdvMFbGtWkdYN7OZEsNd3ti
+         tc5fke1gp6hGR4FLFKgLklNipVnDCNWr77BY7DoYwcmrO/2q2LrUyHexdQwRgtg8AF
+         kjcUiIeauFghg==
 X-Nifty-SrcIP: [133.32.176.37]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -40,9 +40,9 @@ Cc:     linux-kernel@vger.kernel.org,
         "Dmitry V. Levin" <ldv@altlinux.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] kbuild: add --target to correctly cross-compile UAPI headers with Clang
-Date:   Sat,  5 Mar 2022 18:28:16 +0900
-Message-Id: <20220305092816.92114-1-masahiroy@kernel.org>
+Subject: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI headers with Clang
+Date:   Sat,  5 Mar 2022 21:56:05 +0900
+Message-Id: <20220305125605.149913-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,10 +59,10 @@ When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
 Clang, they are currently compiled for the host target (likely x86_64)
 regardless of the given ARCH=.
 
-As a matter of fact, some exported headers include libc headers.
-For example, include/uapi/sound/asound.h includes <stdlib.h> and <time.h>
-after being exported. It is better to try to match the header search
-paths to the target we are compiling them for.
+In fact, some exported headers include libc headers. For example,
+include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
+The header search paths should match to the target we are compiling
+them for.
 
 Pick up the --target triple from KBUILD_CFLAGS in the same ways as
 commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
@@ -71,31 +71,18 @@ architecture").
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-As far as I tested on Debian, Clang falls back to /usr/include/
-when libc dev package for the specified target is not installed.
-
-For example, --target=aarch64-linux-gnu tries to include
-
-   /usr/aarch64-linux-gnu/include/stdlib.h
-
-, which is available when libc6-dev-arm64-cross is installed.
-
-Otherwise, includes
-
-   /usr/include/stdlib.h
-
-
-
-
+Changes in v2:
+  - Reword the commit description to mention agpgart.h instead of
+    asound.h because the latter is in the no-header-test list.
 
  usr/include/Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 703ee034033e..19ac4b63866d 100644
+index ac206fb27c65..4215801e1110 100644
 --- a/usr/include/Makefile
 +++ b/usr/include/Makefile
-@@ -12,7 +12,7 @@ UAPI_CFLAGS += $(CLANG_FLAGS)
+@@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
  
  # In theory, we do not care -m32 or -m64 for header compile tests.
  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
