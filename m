@@ -2,76 +2,190 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C604CE9CA
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Mar 2022 07:51:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A86134CE9E1
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Mar 2022 08:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231553AbiCFGw3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 6 Mar 2022 01:52:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34542 "EHLO
+        id S229964AbiCFH1W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Mar 2022 02:27:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233097AbiCFGwA (ORCPT
+        with ESMTP id S229445AbiCFH1V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 6 Mar 2022 01:52:00 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F0B70911
-        for <linux-kbuild@vger.kernel.org>; Sat,  5 Mar 2022 22:51:01 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id q5so1600705ljb.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 05 Mar 2022 22:51:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
-        b=KDgAx1nMZI4VA0728iAuqALj69hyn7X0WLLUiz2m+OH09NDtWJqkn0K0IjhaqXccDL
-         nYA9IS56U+BvEYDp5ZuYOTDJ28DkbGQXOo4nCoFRXwOq8btCUGBKve+nLdvXGAtQGfZd
-         8/3HmQyIohZytZNIAaZ2YSJ+VGfF2cuAbX+92kqJIy7dPjcCYPV+qxcIVHj5OJkNioe8
-         RnnPJV63I7FofbcYlKCR7cawwHR+Gyj/OksLFoNh7LOBENUnMHRRrWfgS+R5N0DbQgRd
-         FM7OvtlHYW5haJ9bCovh/xFv8pj40s/F/HFWyLhlvxnDTkjGlvvz7xTkeBicCtgptiHh
-         fIkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=VaaSLAJ+hgNGNq49WyPsh3ndDLo+mnrYcswrOHpJSv8=;
-        b=vS9pflCDA20Hp51UmzbsM7/zQkRQbbQ4DNgmAJniNo3eH58wA9B0bjWAQkpebaV5gg
-         0jemCJx6TfF5bmZm5UBcXWt0T4n8zJow9oD6oHhtn2TKS55mwg3nJTvvaUcg1l3+7z4b
-         i//JkQbxDTwXPfn9E37dLfmrerVdpURZsSa4JNbSNjs17YDdtifkwPNJXO47H2VoDiFq
-         E2nqsk5vai29VC4hH3AMN535F2OZ5Lw7ZL88uDz1v74wAp850crWBEF9XQFVmqJRayue
-         l6csctgdREHFfBllLS8HymYCDR4VoMOYievm8lIxoxjFfP8xoRn4sPSjG6UCkfZrpYM0
-         H25w==
-X-Gm-Message-State: AOAM530ztV9eMms8R9SitKc0diYnpnXa3cZpsZ4lpoceQdUpRdng01r6
-        Ejx7W+hd/RN2lgQCpOcNw/v740OuJtPHFWwO6PYSxE13SH0=
-X-Google-Smtp-Source: ABdhPJzq04i8VJyC6uwySEx5tzgrtxCg/XL0hqdBTWFWm66/zQAuy3m2ubrZV75jrYUP9jvmG0PdhfRUhLuebg8/B7w=
-X-Received: by 2002:a2e:94c7:0:b0:247:de4e:e9bc with SMTP id
- r7-20020a2e94c7000000b00247de4ee9bcmr2397951ljh.397.1646549448778; Sat, 05
- Mar 2022 22:50:48 -0800 (PST)
+        Sun, 6 Mar 2022 02:27:21 -0500
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EBB0554B6;
+        Sat,  5 Mar 2022 23:26:29 -0800 (PST)
+Received: from grover.. (133-32-176-37.west.xps.vectant.ne.jp [133.32.176.37]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 2267Pg0S000471;
+        Sun, 6 Mar 2022 16:25:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 2267Pg0S000471
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646551543;
+        bh=iGaL23V+UQWSGWF3HVRNEhTafOh/eP8Uz3uI3KMOT88=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lktP+QSdEfzeOf4A8e3uTErYMf3ZzjxKDSS7qP5zWQ6s2NCeIUzUi/Ytk6Xlkgmgp
+         Y55WL2kk7q9ommXxsbxmtQkWMDFUrixDQ2DEPTKmtfPAyTfzNljqKqKduD86S0sFIf
+         DIoLmUm8gpqjjBDVNK5kTQ7NkGmr7X4iRWvUFWSHbF+ny4TDahqh6pcMxhoHq1oRlh
+         4qt6frbJglB3hkRO2MI/WQtGioUa6aZ4wmD6pTdd5x3jVr+WhVr4WBxbvh7XaIX2Fs
+         D3xeE33ErPqjbCvH1aj6iHe084O6W50n8OFfJWj+HJ9rn5hNVxC6nZpsW03zh9DpqS
+         0bTEXdRzLuHtQ==
+X-Nifty-SrcIP: [133.32.176.37]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        David Laight <david.laight@aculab.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v3] fixdep: use fflush() and ferror() to ensure successful write to files
+Date:   Sun,  6 Mar 2022 16:25:35 +0900
+Message-Id: <20220306072535.211059-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Reply-To: mrs.susanelwoodhara17@gmail.com
-Sender: mrs.arawyann@gmail.com
-Received: by 2002:ab3:7d89:0:0:0:0:0 with HTTP; Sat, 5 Mar 2022 22:50:48 -0800 (PST)
-From:   Mrs Susan Elwood Hara <mrs.susanelwoodhara17@gmail.com>
-Date:   Sun, 6 Mar 2022 06:50:48 +0000
-X-Google-Sender-Auth: NOWRSnt_sskMD3s295a30bcHvEs
-Message-ID: <CACppo47TD9J4Sy+vaJu1wXHqd88WqFwMNn6OdkY1khwXu3TuFw@mail.gmail.com>
-Subject: GOD BLESS YOU AS YOU REPLY URGENTLY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        SUBJ_ALL_CAPS,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-GOD BLESS YOU AS YOU REPLY URGENTLY
+Currently, fixdep checks the return value from (v)printf(), but it does
+not ensure the complete write to the .cmd file.
 
- Hello Dear,
-Greetings, I am contacting you regarding an important information i
-have for you please reply to confirm your email address and for more
-details Thanks
-Regards
-Mrs Susan Elwood Hara.
+printf() just writes data to the internal buffer, which usually succeeds.
+(Of course, it may fail for another reason, for example when the file
+descriptor is closed, but that is another story.)
+
+When the buffer (4k?) is full, an actual write occurs, and printf() may
+really fail. One of typical cases is "No space left on device" when the
+disk is full.
+
+The data remaining in the buffer will be pushed out to the file when
+the program exits, but we never know if it is successful.
+
+One straight-forward fix would be to add the following code at the end
+of the program.
+
+   ret = fflush(stdout);
+   if (ret < 0) {
+          /* error handling */
+   }
+
+However, it is tedious to check the return code in all the call sites
+of printf(), fflush(), fclose(), and whatever can cause actual writes
+to the end device. Doing that lets the program bail out at the first
+failure but is usually not worth the effort.
+
+Instead, let's check the error status from ferror(). This is 'sticky',
+so you need to check it just once. You still need to call fflush().
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: David Laight <david.laight@aculab.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+
+Changes in v3:
+ - add more detailed explanation. No code change.
+
+ scripts/basic/fixdep.c | 46 +++++++++++++++++-------------------------
+ 1 file changed, 19 insertions(+), 27 deletions(-)
+
+diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
+index 44e887cff49b..2328f9a641da 100644
+--- a/scripts/basic/fixdep.c
++++ b/scripts/basic/fixdep.c
+@@ -105,25 +105,6 @@ static void usage(void)
+ 	exit(1);
+ }
+ 
+-/*
+- * In the intended usage of this program, the stdout is redirected to .*.cmd
+- * files. The return value of printf() must be checked to catch any error,
+- * e.g. "No space left on device".
+- */
+-static void xprintf(const char *format, ...)
+-{
+-	va_list ap;
+-	int ret;
+-
+-	va_start(ap, format);
+-	ret = vprintf(format, ap);
+-	if (ret < 0) {
+-		perror("fixdep");
+-		exit(1);
+-	}
+-	va_end(ap);
+-}
+-
+ struct item {
+ 	struct item	*next;
+ 	unsigned int	len;
+@@ -189,7 +170,7 @@ static void use_config(const char *m, int slen)
+ 
+ 	define_config(m, slen, hash);
+ 	/* Print out a dependency path from a symbol name. */
+-	xprintf("    $(wildcard include/config/%.*s) \\\n", slen, m);
++	printf("    $(wildcard include/config/%.*s) \\\n", slen, m);
+ }
+ 
+ /* test if s ends in sub */
+@@ -318,13 +299,13 @@ static void parse_dep_file(char *m, const char *target)
+ 				 */
+ 				if (!saw_any_target) {
+ 					saw_any_target = 1;
+-					xprintf("source_%s := %s\n\n",
+-						target, m);
+-					xprintf("deps_%s := \\\n", target);
++					printf("source_%s := %s\n\n",
++					       target, m);
++					printf("deps_%s := \\\n", target);
+ 				}
+ 				is_first_dep = 0;
+ 			} else {
+-				xprintf("  %s \\\n", m);
++				printf("  %s \\\n", m);
+ 			}
+ 
+ 			buf = read_file(m);
+@@ -347,8 +328,8 @@ static void parse_dep_file(char *m, const char *target)
+ 		exit(1);
+ 	}
+ 
+-	xprintf("\n%s: $(deps_%s)\n\n", target, target);
+-	xprintf("$(deps_%s):\n", target);
++	printf("\n%s: $(deps_%s)\n\n", target, target);
++	printf("$(deps_%s):\n", target);
+ }
+ 
+ int main(int argc, char *argv[])
+@@ -363,11 +344,22 @@ int main(int argc, char *argv[])
+ 	target = argv[2];
+ 	cmdline = argv[3];
+ 
+-	xprintf("cmd_%s := %s\n\n", target, cmdline);
++	printf("cmd_%s := %s\n\n", target, cmdline);
+ 
+ 	buf = read_file(depfile);
+ 	parse_dep_file(buf, target);
+ 	free(buf);
+ 
++	fflush(stdout);
++
++	/*
++	 * In the intended usage, the stdout is redirected to .*.cmd files.
++	 * Call ferror() to catch errors such as "No space left on device".
++	 */
++	if (ferror(stdout)) {
++		fprintf(stderr, "fixdep: not all data was written to the output\n");
++		exit(1);
++	}
++
+ 	return 0;
+ }
+-- 
+2.32.0
+
