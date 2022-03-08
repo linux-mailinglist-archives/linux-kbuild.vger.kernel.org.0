@@ -2,146 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A76044D232D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Mar 2022 22:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9F14D235E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Mar 2022 22:34:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234950AbiCHVUi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Mar 2022 16:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
+        id S241296AbiCHVfM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Mar 2022 16:35:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242683AbiCHVUh (ORCPT
+        with ESMTP id S239662AbiCHVfL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Mar 2022 16:20:37 -0500
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94F347AD7
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Mar 2022 13:19:38 -0800 (PST)
-Received: by mail-il1-x135.google.com with SMTP id j12so156325ils.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Mar 2022 13:19:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QLkteIHRhUSwMXJUDME8Lv3LFalvJ1bqMQRnTxAe590=;
-        b=HPHLxDYxsD2+TZ97by9ltALMf5ZHAJRHroJziBzdFwPuSJCKFZe4Yg027YVsTH6yCw
-         i3KnR6zXLuQMsYM4TizAFnN6ywf0cp6as6NL0rWeD34y0dg06ufDv99CZ6frUbi4E0uE
-         ISz7vzV+iA8emrmC8AR103T/jvoipxfWillrs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QLkteIHRhUSwMXJUDME8Lv3LFalvJ1bqMQRnTxAe590=;
-        b=jX2FuEiEiYrioaGsJY43H4MNLp7XAMkx8AT5zB+mdhmmLK8+LsqV9Ks+IcBMIuBgTm
-         bEPrOsLOx7BW3mwNugvD1CkWkAkU6YoSQ5PHszrwd9LOVKJJWNZ8nHGdf3ZjP6Y05M/j
-         IX6jqsBftRIeNM6mWRs2Yznqkuv/tBdHalH4UKoBBIzDrYEhthWeksH9M81+wYJVLDW8
-         CYqyd3pQEJ0T6qwX1msRYIlBTXzt1YVn4x2fA41fGk0Id553vkk17wQ+a6RTYHn3Q9f5
-         HZR09FKGF+C4bqbK5+IQwlBOGBqU7WcgCKR2QZcuHVUYrbqE3/ZziN85k8Sti6jfDd0l
-         GPsA==
-X-Gm-Message-State: AOAM533t2STgSyOsLubRUhCdqYZIjWzf+jEi9p6s4eCPz7I6dSlwdBHV
-        XwPN/gb8QzpS0o1j9327QgqeiQ==
-X-Google-Smtp-Source: ABdhPJyv+OH6SuRIzmqviaFC/odZEMdUR/TmLwGhSf+amvFfnigvBORf3Lp73Pst8YT7Bsp/7ZB+pA==
-X-Received: by 2002:a05:6e02:5b1:b0:2c6:218d:fb38 with SMTP id k17-20020a056e0205b100b002c6218dfb38mr17562252ils.266.1646774377886;
-        Tue, 08 Mar 2022 13:19:37 -0800 (PST)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id d7-20020a5d9647000000b00638d53cd21esm11212583ios.26.2022.03.08.13.19.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 13:19:37 -0800 (PST)
-Subject: Re: [PATCH] Makefile: Fix separate output directory build of
- kselftests
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     kernel@collabora.com, kernelci@groups.io, shuah@kernel.org,
-        linux-kselftest@vger.kernel.org, keescook@chromium.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220223191016.1658728-1-usama.anjum@collabora.com>
- <6e954470-f593-e27a-d15c-ecd5c28f4dca@linuxfoundation.org>
- <2ac8cecb-5e14-a8b2-7629-a9ab9d474585@collabora.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <65c11aba-bcab-28f4-a016-8cad128809ad@linuxfoundation.org>
-Date:   Tue, 8 Mar 2022 14:19:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Tue, 8 Mar 2022 16:35:11 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A1B54BF8;
+        Tue,  8 Mar 2022 13:34:14 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C61C0B81DA3;
+        Tue,  8 Mar 2022 21:34:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D0DC340EB;
+        Tue,  8 Mar 2022 21:34:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646775251;
+        bh=7IIRlF+xZDsI23R5QSlPyFV9mzJNQRtaRJDooE6ATGc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CSW01JIzSWeneovsZAbjUGWOojs65aRPa9K80da79jozE3LE+NdwRKGVkzrsM7FIQ
+         9Ur7mfuONJDFbBf9hMHEjtutYfCBBWxJwCuUmm25BTll7XitXVF9W/ysDezVHXt8RB
+         8g5bvPdT3LtrBtSn6XoUr1Bw9JZUdJWvF67eBazA6wMcvqyq2zb5cnw0F+PjR9J1H4
+         isjMZ6dfA6BHB9I83eX/6Ov3PVgLSdzVfuakCt7UYoT7ICJRiS2YvItMOA88F91gN7
+         Ntp7TfykOROEBPCUD8INtR2Vi8i84omMucaOaqOYxfeWCvg1XuO/lUH4KjUFyw2pR8
+         pikqIdlIMuKXw==
+Date:   Tue, 8 Mar 2022 14:34:04 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        llvm@lists.linux.dev, Fangrui Song <maskray@google.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI
+ headers with Clang
+Message-ID: <YifLzLl4IE/xFMdn@dev-arch.thelio-3990X>
+References: <20220305125605.149913-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <2ac8cecb-5e14-a8b2-7629-a9ab9d474585@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220305125605.149913-1-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/8/22 1:11 AM, Muhammad Usama Anjum wrote:
-> On 3/4/22 2:32 AM, Shuah Khan wrote:
->> On 2/23/22 12:10 PM, Muhammad Usama Anjum wrote:
->>> Build of kselftests fail if kernel's top most Makefile is used for
->>> running or building kselftests with separate output directory. The
->>> absolute path is needed to reference other files during this kind of
->>> build. Set KBUILD_ABS_SRCTREE to use absolute path during the build. It
->>> fixes the following different types of errors:
->>>
->>> make kselftest-all O=/linux_mainline/build
->>> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
->>>
->>> make kselftest-all O=build
->>> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
->>>
->>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->>> ---
->>> I've tested this patch on top of next-20220217. The latest next-20220222
->>> have missing patches.
->>
->> Can you give more details on the use-cases you tested? Did you test all
->> the ways kselftest are built?
->>
-> Yeah, I've tried to test all the ways. Here are the different ways I've
-> used to test it:
-> 1) Same directory build of kselftest (this is already working)
-> make kselftest
-> make kselftest-all
-> make kselftest-install
-> make kselftest-clean
-> make kselftest-gen_tar
+On Sat, Mar 05, 2022 at 09:56:05PM +0900, Masahiro Yamada wrote:
+> When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
+> Clang, they are currently compiled for the host target (likely x86_64)
+> regardless of the given ARCH=.
 > 
-> 2) These were failing when separate output directory is specified either
-> as relative or absolute path. After adding this patch, these are also
-> working. kselfetst.rst mentions separate output directory build in this way.
-> make kselftest O=build
-> make kselftest-all O=build
-> make kselftest-install O=build
-> make kselftest-clean O=build
-> make kselftest-gen_tar O=build
+> In fact, some exported headers include libc headers. For example,
+> include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
+> The header search paths should match to the target we are compiling
+> them for.
 > 
-> make kselftest O=/build
-> make kselftest-all O=/build
-> make kselftest-install O=/build
-> make kselftest-clean O=/build
-> make kselftest-gen_tar O=/build
+> Pick up the --target triple from KBUILD_CFLAGS in the same ways as
+> commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
+> architecture").
 > 
-> Tested on top of next-20220307 after applying this patch.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+I suspect that Android will still need to do something with USERCFLAGS
+in its build wrapper to pick up the correct libc (Bionic vs. glibc) but
+that is tangential to this patch, we should still do this change
+regardless.
+
+> ---
 > 
-
-Thank you for testing all these use-cases. This is a good comprehensive
-list. Do you mind sending a doc patch for
-
-Documentation/dev-tools/kselftest.rst
-
-The text here could almost as is as a new section after
-
-Contributing new tests (details) with a new section that outlines
-the tests to run when adding a new test to selftests/Makefile
-and making changes to kselftest common frameowork: selftests/Makefile,
-selftests/lib.mk
-
-Let me know if you are unable to, I will send a patch in.
-
-thanks,
--- Shuah
+> Changes in v2:
+>   - Reword the commit description to mention agpgart.h instead of
+>     asound.h because the latter is in the no-header-test list.
+> 
+>  usr/include/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/usr/include/Makefile b/usr/include/Makefile
+> index ac206fb27c65..4215801e1110 100644
+> --- a/usr/include/Makefile
+> +++ b/usr/include/Makefile
+> @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+>  
+>  # In theory, we do not care -m32 or -m64 for header compile tests.
+>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+> -UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+> +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
+>  
+>  # USERCFLAGS might contain sysroot location for CC.
+>  UAPI_CFLAGS += $(USERCFLAGS)
+> -- 
+> 2.32.0
+> 
