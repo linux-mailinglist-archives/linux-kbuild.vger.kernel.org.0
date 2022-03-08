@@ -2,109 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F36B4D0DF8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Mar 2022 03:24:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3F94D0E12
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Mar 2022 03:41:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244844AbiCHCZh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Mar 2022 21:25:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55264 "EHLO
+        id S236881AbiCHCmw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Mar 2022 21:42:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233449AbiCHCZg (ORCPT
+        with ESMTP id S234531AbiCHCmw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Mar 2022 21:25:36 -0500
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5278133E13;
-        Mon,  7 Mar 2022 18:24:41 -0800 (PST)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 2282OEl5007809;
-        Tue, 8 Mar 2022 11:24:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 2282OEl5007809
+        Mon, 7 Mar 2022 21:42:52 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2895FF8;
+        Mon,  7 Mar 2022 18:41:56 -0800 (PST)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2282fRuk021508;
+        Tue, 8 Mar 2022 11:41:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2282fRuk021508
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646706254;
-        bh=jaudEKd5AZONQq2c9DRIU6gE9ZvBpcFYgzLXJrL6Sw0=;
+        s=dec2015msa; t=1646707287;
+        bh=dIG2VPMsnVYbGxtxO8Vc7Lbp+Yb1NvYeghBz0Pji3jA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vdo1T6brTBldjxNLOGuqABUSsQFHzTkJ9iy2vMvvtO8UrE5EY6+KIogQkMhzIV5Xv
-         RJPFvbEPgbspGqCza4NL3oooBd/5+hO+qPzdzgJaCIhTnETX0q+5g0Xrs84HoPKqT7
-         ExddZnv8JSzx9yPnmZaqWidekORciqOwzvvWNGdtg2LqUDubPMGDNY5iPPidV+/bgM
-         Tjx78XLwewg5D9MkiOwjXVRy+WERevZB37Bd/P2ybczPHifPKUCmpBLrSDsIKaxc4u
-         1L2QnOII3ZE/oFczVoTgwceV0LGSUx1DiFzRA//gHQ4sDKOOZB/TzV1LkNwiL0HLNC
-         1A6CiCQQNHnJA==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id v1-20020a17090a088100b001bf25f97c6eso1127712pjc.0;
-        Mon, 07 Mar 2022 18:24:14 -0800 (PST)
-X-Gm-Message-State: AOAM5314Z6li1UmQ3f43b2+atMNV2OnZNYSr3fdwdC+s8NX01E0ZHGBz
-        Ocr8ICcc+L1+wg+VX8BNPeFW34/I2xNJmH6dRZk=
-X-Google-Smtp-Source: ABdhPJylfrVRKaZ5ZKNaHfBLP2L3/qRhilS0b8BTHyCxMfHdkfkwWWRu608EqycDfzkX3iMRlPIf0QClBAxYTQGO4dQ=
-X-Received: by 2002:a17:902:b183:b0:14f:c266:20d5 with SMTP id
- s3-20020a170902b18300b0014fc26620d5mr15362296plr.136.1646706253754; Mon, 07
- Mar 2022 18:24:13 -0800 (PST)
+        b=FOttpyanVYwF5btaC2s39yxa/odBY3+ChCCItsgPg6qMGOfRHK0S0FKiDfUfwOajR
+         8Vt/Uvxp5F8Tdksl69cCJ/ekw/P6SzR78Ad6cWX3J/WMn8F0bVDKEZQm1+8tNbl3yZ
+         fLAFrjuIN2J8Atj+VdHgbxV+FJFeAtnI7WrC0i9r6/pTwIlA0OA67Ycl+FjUhQ+5h5
+         Jsy4dnfQLcYtiqDfjC6ILQNT9khXJRTI2YnEWIvua9VAvij8dmdeov72J12cGdwxEa
+         m1iOD081PObm+kaIyR/0Cilei8h7fQrncJ1VdFaHWmOlrHoIyayD/IL0mnQeRn8uG+
+         20sYUYoQXjjlw==
+X-Nifty-SrcIP: [209.85.210.173]
+Received: by mail-pf1-f173.google.com with SMTP id d187so16097551pfa.10;
+        Mon, 07 Mar 2022 18:41:27 -0800 (PST)
+X-Gm-Message-State: AOAM530y4X2OBjyicH+fNZIPJa3YbTiOw3orCRVRATeGoNJibSqznrOm
+        ozlNgRRQUmqeRc7+2Nt7VZYVadt5UZmzY8qIzs4=
+X-Google-Smtp-Source: ABdhPJyo1UeijE84hLaWLo4gJvDwARPIDyzyN4dn18Z2U4P8rtqqqsoRri0Oc4An0yMQ3CrQB8gC6XpSjMUifjPusZ8=
+X-Received: by 2002:a05:6a00:a1d:b0:4f6:d122:cd08 with SMTP id
+ p29-20020a056a000a1d00b004f6d122cd08mr16201014pfh.68.1646707286783; Mon, 07
+ Mar 2022 18:41:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20220307223231.608498-1-mst@redhat.com>
-In-Reply-To: <20220307223231.608498-1-mst@redhat.com>
+References: <87k0dbosis.fsf@irisa.fr> <CAK7LNARV4ax0t-drWMx0G==gDmcpXJoOvRuRQ6dS440245AwjQ@mail.gmail.com>
+ <87zgm41xwp.fsf@irisa.fr>
+In-Reply-To: <87zgm41xwp.fsf@irisa.fr>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 8 Mar 2022 11:23:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=fs+VJUZJj7YyprdA6xjx=4bttPRL6e4bvNkEeX9eng@mail.gmail.com>
-Message-ID: <CAK7LNAR=fs+VJUZJj7YyprdA6xjx=4bttPRL6e4bvNkEeX9eng@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: fix config cc version check
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Tue, 8 Mar 2022 11:40:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASmwT3s2s88_wD4FvthCR0=EJYginf5qFXs4dh59oTcoQ@mail.gmail.com>
+Message-ID: <CAK7LNASmwT3s2s88_wD4FvthCR0=EJYginf5qFXs4dh59oTcoQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: add KCONFIG_ALLCONFIG support for tinyconfig
+To:     RANDRIANAINA Georges Aaron <georges-aaron.randrianaina@irisa.fr>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mathieu Acher <mathieu.acher@irisa.fr>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 7:32 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sat, Mar 5, 2022 at 7:44 PM RANDRIANAINA Georges Aaron
+<georges-aaron.randrianaina@irisa.fr> wrote:
 >
-> .config is of the form:
-> CONFIG_CC_VERSION_TEXT="gcc (GCC) 11.2.1 20220127 (Red Hat 11.2.1-9)"
-
-
-No. This was changed.
-
-See this:
-
-$ git show 129ab0d2d9f -- Makefile
-
-
-
-> while CC_VERSION_TEXT is of the form: gcc (GCC) 11.2.1 20220127 (Red Hat 11.2.1-7)
 >
-> thus when comparing these, CONFIG_CC_VERSION_TEXT should not
-> be put in "", otherwise we get () outside "" which shell then
-> tries to evaluate.
+> Masahiro Yamada <masahiroy@kernel.org> writes:
 >
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > On Fri, Mar 4, 2022 at 2:27 AM Randrianaina Georges Aaron
+> > <georges-aaron.randrianaina@irisa.fr> wrote:
+> >>
+> >> Since f8f0d06438e5, tinyconfig overrides KCONFIG_ALLCONFIG to
+> >> include kernel/configs/tiny-base.config. However, this ignores
+> >> user's preset if defined.
+> >>
+> >> This modification checks if the user has set KCONFIG_ALLCONFIG
+> >> and if so, concatenates it with kernel/configs/tiny-base.config
+> >> to be used as preset config symbols.
+> >>
+> >> Signed-off-by: Randrianaina Georges Aaron <georges-aaron.randrianaina@irisa.fr>
+> >> ---
+> >>  scripts/kconfig/Makefile | 6 ++++++
+> >>  1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> >> index b8ef0fb4bbef..337693fb4762 100644
+> >> --- a/scripts/kconfig/Makefile
+> >> +++ b/scripts/kconfig/Makefile
+> >> @@ -102,7 +102,13 @@ configfiles=$(wildcard $(srctree)/kernel/configs/$@ $(srctree)/arch/$(SRCARCH)/c
+> >>
+> >>  PHONY += tinyconfig
+> >>  tinyconfig:
+> >> +ifeq ($(KCONFIG_ALLCONFIG),)
+> >>         $(Q)KCONFIG_ALLCONFIG=kernel/configs/tiny-base.config $(MAKE) -f $(srctree)/Makefile allnoconfig
+> >> +else
+> >> +       $(Q)cat $(KCONFIG_ALLCONFIG) <(echo) kernel/configs/tiny-base.config > .tmp.config
+> >
+> >
+> > I assume "<(echo)" exists here to insert a blank line.
+> > The process substitution is a bash'ism.
+> >
+> > If you execute it on Debian or its variants, where /bin/sh is a symlink
+> > to dash, it fails.
+> >
+> > masahiro@grover:~/ref/linux$ make  KCONFIG_ALLCONFIG=/tmp/dummy.config
+> > tinyconfig
+> > /bin/sh: 1: Syntax error: "(" unexpected
+> > make[1]: *** [scripts/kconfig/Makefile:108: tinyconfig] Error 2
+> > make: *** [Makefile:619: tinyconfig] Error 2
+> >
+> >
+> >
+> > We can delete '<(echo)', but another issue is that this does not work
+> > with O=<dir> option.
 >
-> diff --git a/Makefile b/Makefile
-> index daeb5c88b50b..d5c03c827825 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1714,9 +1714,9 @@ PHONY += prepare
->  # now expand this into a simple variable to reduce the cost of shell evaluations
->  prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
->  prepare:
-> -       @if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ]; then \
-> +       @if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then \
->                 echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
-> -               echo >&2 "  The kernel was built by: $(CONFIG_CC_VERSION_TEXT)"; \
-> +               echo >&2 "  The kernel was built by: "$(CONFIG_CC_VERSION_TEXT)";" \
->                 echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
->         fi
->
-> --
-> MST
->
+> Yes, we can delete `<(echo)`. We can solve the remaining issue by adding
+> `$(srctree)` in the presets' path to make it work with O=<dir>.
+
+
+Yes.
 
 
 -- 
