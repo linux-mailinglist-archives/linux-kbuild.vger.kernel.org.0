@@ -2,126 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE904D2C65
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 10:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C964D3645
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 18:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbiCIJpi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Mar 2022 04:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37602 "EHLO
+        id S237026AbiCIRFT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Mar 2022 12:05:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232167AbiCIJph (ORCPT
+        with ESMTP id S237519AbiCIRDC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Mar 2022 04:45:37 -0500
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CF7151D34;
-        Wed,  9 Mar 2022 01:44:39 -0800 (PST)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 2299i8Kf002563;
-        Wed, 9 Mar 2022 18:44:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2299i8Kf002563
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646819048;
-        bh=hER4wDkzPDYeuX5YXTCLHWyPMXmQXlfRNI070LS7Fuc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=H99cnKd8zfHlSN+CKGTeyjHRQ5zlIhQClYWZ+AL63xqVFu76fzZKaBTOIQDB11s2l
-         lPDoOoAGXAJZT1YUZiiKK1v1Axuy/4qYRQI+HJaOxcpLGkDnfr+WZnyOrAPv4cv+JJ
-         eL4oLrYRAKoMXwbfmEG580AznAN+C8a8O1tZT36TgclPBXEQQXFf04d9phgFMjJEwa
-         nJuQF7sL2MNaKwupQN49MoYOOMLimtzkYxHWo76t9lRQN3KXNomIpUAf76ZQy0mUbb
-         5S+Ks3cMI1aXVueAiSvHIPzsaSZ7yC3yrxW8OCrx0jLh/tMtQQjI4aVLfpvZE4Hy6i
-         lBYbwYwQO3Ujg==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id gj15-20020a17090b108f00b001bef86c67c1so1813522pjb.3;
-        Wed, 09 Mar 2022 01:44:08 -0800 (PST)
-X-Gm-Message-State: AOAM530cMh+6NmzSZFUk5CwIhCRt75eIVrUor87z6To/6bHhBrjbsKiD
-        kDOh7TPQDv0rgyu+F7OfKK8d3r61LrIQ8W/2wuc=
-X-Google-Smtp-Source: ABdhPJz2fauvco4w6RuKKrHiTRo7Qd0dBbamxof+G6aateU579cidz8KSDjhBTyIyYLpGM0SBFLZPLoaR+Hvz2P0jsk=
-X-Received: by 2002:a17:902:eb84:b0:151:f80e:e98b with SMTP id
- q4-20020a170902eb8400b00151f80ee98bmr10573528plg.99.1646819047532; Wed, 09
- Mar 2022 01:44:07 -0800 (PST)
+        Wed, 9 Mar 2022 12:03:02 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B4601B2ACD;
+        Wed,  9 Mar 2022 08:51:11 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 580A91F382;
+        Wed,  9 Mar 2022 16:51:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1646844669;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+ydrdKSlhrPNxyTjqpwFz/lVnyTdgAwQsHL5yVVlnOA=;
+        b=eT82rI/QkvGXelJqBnDXZ6DSfPbxpE/9kD06Wm421Hm28d/zpE1K/K13KnElJN5d398JeQ
+        RonRRpZIKvqzB9DndgVzGEF+km1Drf8ASsp0Z5z3QYRgp3nDF+PHkgDWoDZ0xSUG1Sq9fd
+        +hLU73pHUPEXalYPJ3MNoU06ZwyMbSE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1646844669;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+ydrdKSlhrPNxyTjqpwFz/lVnyTdgAwQsHL5yVVlnOA=;
+        b=yLp5xgKJZ2+1DXVn2EKVVMwLVmSTPLl60bWHoe7jQGGzYDxZ+kesslNxqqwqygWh/uLI0o
+        f+LcpnR/hjl7ZWCQ==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+        by relay2.suse.de (Postfix) with ESMTP id 342BAA3BCC;
+        Wed,  9 Mar 2022 16:51:09 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+        id 9C727DA7DE; Wed,  9 Mar 2022 17:47:13 +0100 (CET)
+Date:   Wed, 9 Mar 2022 17:47:13 +0100
+From:   David Sterba <dsterba@suse.cz>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, alexs@kernel.org,
+        arnd@arndb.de, dsterba@suse.com, elver@google.com,
+        jani.nikula@intel.com, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, mark.rutland@arm.com,
+        ndesaulniers@google.com, ojeda@kernel.org,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH 1/4] [v4] Kbuild: add -Wno-shift-negative-value where
+ -Wextra is used
+Message-ID: <20220309164713.GX12643@suse.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>, alexs@kernel.org,
+        arnd@arndb.de, dsterba@suse.com, elver@google.com,
+        jani.nikula@intel.com, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, mark.rutland@arm.com, ndesaulniers@google.com,
+        ojeda@kernel.org, torvalds@linux-foundation.org
+References: <20220308215615.14183-1-arnd@kernel.org>
+ <20220308215615.14183-2-arnd@kernel.org>
 MIME-Version: 1.0
-References: <87v8wo25we.fsf@irisa.fr>
-In-Reply-To: <87v8wo25we.fsf@irisa.fr>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 9 Mar 2022 18:43:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATrTGhyHSkoZSXVyJM8nZfG3RF8U=pvA7Te8Bt0iW7E7g@mail.gmail.com>
-Message-ID: <CAK7LNATrTGhyHSkoZSXVyJM8nZfG3RF8U=pvA7Te8Bt0iW7E7g@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: add KCONFIG_ALLCONFIG support for tinyconfig
-To:     Randrianaina Georges Aaron <georges-aaron.randrianaina@irisa.fr>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mathieu Acher <mathieu.acher@irisa.fr>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220308215615.14183-2-arnd@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 5:40 PM Randrianaina Georges Aaron
-<georges-aaron.randrianaina@irisa.fr> wrote:
->
-> Since f8f0d06438e5, tinyconfig overrides KCONFIG_ALLCONFIG to include
-> kernel/configs/tiny-base.config. However, this ignores user's preset if
-> defined.
->
-> This modification checks if the user has set KCONFIG_ALLCONFIG and if so,
-> concatenates it with kernel/configs/tiny-base.config to be used as preset
-> config symbols.
->
-> Changes in v2:
-> - Remove `<(echo)` in the cat command as it is not portable
-> - Add $(srctree) in presets' path to make it compatible with O=<dir>
->
-> Signed-off-by: Randrianaina Georges Aaron <georges-aaron.randrianaina@irisa.fr>
+On Tue, Mar 08, 2022 at 10:56:12PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> As a preparation for moving to -std=gnu11, turn off the
+> -Wshift-negative-value option. This warning is enabled by gcc when
+> building with -Wextra for c99 or higher, but not for c89. Since
+> the kernel already relies on well-defined overflow behavior,
+> the warning is not helpful and can simply be disabled in
+> all locations that use -Wextra.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  scripts/kconfig/Makefile | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index b8ef0fb4bbef..58a677db9a73 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -102,7 +102,13 @@ configfiles=$(wildcard $(srctree)/kernel/configs/$@ $(srctree)/arch/$(SRCARCH)/c
->
->  PHONY += tinyconfig
->  tinyconfig:
-> +ifeq ($(KCONFIG_ALLCONFIG),)
->         $(Q)KCONFIG_ALLCONFIG=kernel/configs/tiny-base.config $(MAKE) -f $(srctree)/Makefile allnoconfig
-> +else
-> +       $(Q)cat $(srctree)/$(KCONFIG_ALLCONFIG) $(srctree)/kernel/configs/tiny-base.config > $(srctree)/.tmp.config
+> [v4]
+>   split into a separate patch
+> ---
+>  drivers/gpu/drm/i915/Makefile          | 1 +
+>  drivers/staging/greybus/tools/Makefile | 3 ++-
 
+For
 
-No.  Please remove $(srctree)/ from .tmp.config
+>  fs/btrfs/Makefile                      | 1 +
 
-You should never ever write anything to $(srctree)
-when O= is given.
-
-
-$(srctree)/$(KCONFIG_ALLCONFIG) does not work well.
-It works only when KCONFIG_ALLCOFIG is relative to $(srctree).
-It does not work if it is absolute for example.
-
-
-
-
-
-
-
-
-> +       $(Q)KCONFIG_ALLCONFIG=$(srctree)/.tmp.config $(MAKE) -f $(srctree)/Makefile allnoconfig
-> +       $(Q)rm -f $(srctree)/.tmp.config
-> +endif
->         $(Q)$(MAKE) -f $(srctree)/Makefile tiny.config
->
->  # CHECK: -o cache_dir=<path> working?
-> --
-> 2.34.1
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Acked-by: David Sterba <dsterba@suse.com>
