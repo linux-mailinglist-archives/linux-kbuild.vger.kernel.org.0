@@ -2,116 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 350E34D277D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 05:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 915CF4D2A83
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 09:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbiCICSw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Mar 2022 21:18:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S231297AbiCIIUm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Mar 2022 03:20:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231428AbiCICSv (ORCPT
+        with ESMTP id S231264AbiCIIUc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Mar 2022 21:18:51 -0500
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DBB12A99;
-        Tue,  8 Mar 2022 18:17:41 -0800 (PST)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 2292HRcQ025536;
-        Wed, 9 Mar 2022 11:17:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2292HRcQ025536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1646792247;
-        bh=yrz8MJgeMKuvnz33SMeYLZ7Cine73+llQkRSU7j3OeY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QdLV+YuJnE3AuI25L44qDcEFha7V2tJikwuAbHrYtTptepmqS8wiUbtBjtqUKfiAe
-         GrVcq0Nf1zqBNYDN27k7DKPnorO++0pTgwRsKM/FmO+CaVio1dVjjmRHjNh7nvdN12
-         mnq8a/cyE3WVGk8FBI3Js7IexJIJXuXDmwovsVnUovEf7ioR8AbYSywB/qFq1Cly01
-         cLWX0DcMiW6S9JNVwcNjC5r7LbbjKr9K8LGSQJPy/07z/ZATjmEjMCk0Cd/RwvjwhZ
-         w/j0JU9CtFQ1+eQpoaJt6iY4/UdfEYRQ5jGuAiwMPNLt97UzDe1YtJpEAyhtL4FNAx
-         ZJAQuF3XM469w==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id mg21-20020a17090b371500b001bef9e4657cso3948310pjb.0;
-        Tue, 08 Mar 2022 18:17:27 -0800 (PST)
-X-Gm-Message-State: AOAM532cCXb1Lapn2tEZkEfzwpTyWd29qv3iaHi6klddHoAzQD3TQ7fa
-        4u6egYTHGbd8TGeN7LysFrpEoNM8HdQO+30SNrw=
-X-Google-Smtp-Source: ABdhPJyMpYSk5zXrKpcgek+899vxIgkJpkfAkc4Uc5APGsnHYk6hCj+dOoi9kSCk2xTpgtEh31/JWnYw2PXFOhrKljg=
-X-Received: by 2002:a17:902:eb84:b0:151:f80e:e98b with SMTP id
- q4-20020a170902eb8400b00151f80ee98bmr9234067plg.99.1646792246518; Tue, 08 Mar
- 2022 18:17:26 -0800 (PST)
+        Wed, 9 Mar 2022 03:20:32 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4605140E50;
+        Wed,  9 Mar 2022 00:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646813973; x=1678349973;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=hLBK1t/r9Z48f8dSRNwh+u136IQEg0xMqQ5EbEwvT7Y=;
+  b=aKgwPTuRF6SheFFJ7QFMCagcyzgbcXxjIk4ILwmEGg/0JAI96rN/B/pM
+   ssCkOjdqlEkc1AN4981wf83bBycCVle+fcTWXAtezCd1OD45R5GlL1Vzt
+   8oB34dBAWdgXHB2r7RQjdPbNBm6xSGmKgRbQD9WsO3KznUVRUIjLzpU/k
+   7IYoKT3DTs3d2iDXO9/T1EruotchsJZxxzQuaAAbRjvZg/26m0C2Qa1qU
+   DIlmYkgsJ3wOVwiKtEMg6g2GkRgGjvqGDFeV7yewjEqJxpI0E07TAg1yi
+   md3eV6oYTk3a1+kRfrGXWtdyb6ZxEdgRlHEBTObtqN9bhq1BXF8P7my98
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="254649003"
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
+   d="scan'208";a="254649003"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 00:19:32 -0800
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
+   d="scan'208";a="711860724"
+Received: from byrnec1x-mobl.ger.corp.intel.com (HELO localhost) ([10.252.29.235])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 00:19:27 -0800
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     alexs@kernel.org, arnd@arndb.de, arnd@kernel.org, dsterba@suse.com,
+        elver@google.com, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, mark.rutland@arm.com,
+        ndesaulniers@google.com, ojeda@kernel.org,
+        torvalds@linux-foundation.org
+Subject: Re: [PATCH 1/4] [v4] Kbuild: add -Wno-shift-negative-value where
+ -Wextra is used
+In-Reply-To: <20220308215615.14183-2-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220308215615.14183-1-arnd@kernel.org>
+ <20220308215615.14183-2-arnd@kernel.org>
+Date:   Wed, 09 Mar 2022 10:19:25 +0200
+Message-ID: <87ee3b1qsy.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220308215615.14183-1-arnd@kernel.org> <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 9 Mar 2022 11:16:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
-Message-ID: <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Alex Shi <alexs@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Marco Elver <elver@google.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        llvm@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 9, 2022 at 9:09 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Tue, 08 Mar 2022, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > I've incorporated the feedback from Masahiro Yamada in this
-> > version, splitting out one more patch, rebasing on top of
-> > the kbuild tree, and changing the order of the patches.
-> >
-> > Please apply to the kbuild tree.
+> As a preparation for moving to -std=gnu11, turn off the
+> -Wshift-negative-value option. This warning is enabled by gcc when
+> building with -Wextra for c99 or higher, but not for c89. Since
+> the kernel already relies on well-defined overflow behavior,
+> the warning is not helpful and can simply be disabled in
+> all locations that use -Wextra.
 >
-> I'd actually like to see this as a separate branch, so that I can
-> merge it early - or other peoples git branches end up depending on it.
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-OK, I can apply this to a separate branch, kbuild-gnu11.
-(and I will queue this up shortly because it is already -rc7)
-
-Then, I will send two pull reqs in the next MW,
-but please note they will conflict with each other,
-between this gnu11 patch set and the following
-one in my usual kbuild branch:
-
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808035-1-quic_eberman@quicinc.com/
-
-
-I hope this is not a complex conflict, but please let me know
-if you have any requests to me.
-
-
-
-
-
-> Yeah, it shouldn't change anything on its own, but since it allows for
-> new syntax, we might have other things depending on it (I'm obviously
-> thinking of the list_for_each_entry() series that keeps getting
-> posted).
+> ---
+> [v4]
+>   split into a separate patch
+> ---
+>  drivers/gpu/drm/i915/Makefile          | 1 +
+>  drivers/staging/greybus/tools/Makefile | 3 ++-
+>  fs/btrfs/Makefile                      | 1 +
+>  scripts/Makefile.extrawarn             | 1 +
+>  4 files changed, 5 insertions(+), 1 deletion(-)
 >
->                       Linus
-
-
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 1b62b9f65196..1618a6e0af4e 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y += -Wno-unused-parameter
+>  subdir-ccflags-y += -Wno-type-limits
+>  subdir-ccflags-y += -Wno-missing-field-initializers
+>  subdir-ccflags-y += -Wno-sign-compare
+> +subdir-ccflags-y += -Wno-shift-negative-value
+>  subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
+>  subdir-ccflags-y += $(call cc-disable-warning, frame-address)
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+> diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/greybus/tools/Makefile
+> index ad0ae8053b79..a3bbd73171f2 100644
+> --- a/drivers/staging/greybus/tools/Makefile
+> +++ b/drivers/staging/greybus/tools/Makefile
+> @@ -12,7 +12,8 @@ CFLAGS	+= -std=gnu99 -Wall -Wextra -g \
+>  	    -Wredundant-decls \
+>  	    -Wcast-align \
+>  	    -Wsign-compare \
+> -	    -Wno-missing-field-initializers
+> +	    -Wno-missing-field-initializers \
+> +	    -Wno-shift-negative-value
+>  
+>  CC	:= $(CROSS_COMPILE)gcc
+>  
+> diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
+> index 4188ba3fd8c3..99f9995670ea 100644
+> --- a/fs/btrfs/Makefile
+> +++ b/fs/btrfs/Makefile
+> @@ -17,6 +17,7 @@ subdir-ccflags-y += $(condflags)
+>  subdir-ccflags-y += -Wno-missing-field-initializers
+>  subdir-ccflags-y += -Wno-sign-compare
+>  subdir-ccflags-y += -Wno-type-limits
+> +subdir-ccflags-y += -Wno-shift-negative-value
+>  
+>  obj-$(CONFIG_BTRFS_FS) := btrfs.o
+>  
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 8be892887d71..650d0b8ceec3 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -36,6 +36,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+>  KBUILD_CFLAGS += -Wno-missing-field-initializers
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  KBUILD_CFLAGS += -Wno-type-limits
+> +KBUILD_CFLAGS += -Wno-shift-negative-value
+>  
+>  KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
 
 -- 
-Best Regards
-Masahiro Yamada
+Jani Nikula, Intel Open Source Graphics Center
