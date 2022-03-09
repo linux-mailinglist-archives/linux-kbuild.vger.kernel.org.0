@@ -2,67 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D8E4D270F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 05:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 350E34D277D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 05:07:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbiCIBRo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Mar 2022 20:17:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52234 "EHLO
+        id S231431AbiCICSw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Mar 2022 21:18:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbiCIBRc (ORCPT
+        with ESMTP id S231428AbiCICSv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Mar 2022 20:17:32 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1232DDEF0
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Mar 2022 17:07:10 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id l20so994210lfg.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Mar 2022 17:07:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tYmupwL1NthFsF42+Fr0z4aIrhKGW9iSWfQCfyDDaEk=;
-        b=T9Y8CKYiSW3hGc9HM0/MT5sFo5blD99UIhMWcRbFD5kggM3DUwxybXuISqMFUGIjrg
-         mWQ74CDHtfn9kXLqt5VqIvjs1zPAj3pO65tEdbgr+OX1FrAEaiMiYghKLtQSRfh7w9WS
-         TgKR2SZWDkmK6Hkv45V1e1kyBDZQ0M8AOrIp8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tYmupwL1NthFsF42+Fr0z4aIrhKGW9iSWfQCfyDDaEk=;
-        b=SgXA383eg/76gh/zuUsFKrXF8Sctk+QkZsOM6XDk62Lg3NOXy7THaKmW0oRiGZdWqr
-         IuYxlBuuaSSUbUOTBbep+tC/zXr6cJ0bocU422oP5ZzoDNsb+u5yNjLCnAiz2kE2Yjxw
-         +A0RhdrmIGR6ZNxJnCQIlSVgFSAL39ieq6QgDBkzLJN2O/qgTnKV9y7xQGDQINCLboUD
-         +lHAwohO2IAsNQ4sn6FwsXofNpmwqnbZGij4yKX8ZTVXi8iAls3haKAbk0YMmWzKnFRH
-         fkVoybaydqT16AkZDXfnyUT/YBZbH+Rg0mVuyC1+1rZmjyolBcEUqqU4cQd6b7NUNWVn
-         N47Q==
-X-Gm-Message-State: AOAM530uR0Oq/wXWYlWT5aRRyRM1V3bmamavVCS9tPbWiZZlQFt39QsH
-        8O2B1MdKsSISKv3gM+ukL18SdySX3tG9OSKfP8w=
-X-Google-Smtp-Source: ABdhPJx8K9uUanbmEn0hjOAzghgTI35rfmMcMX5PtReswi/HtViT9K/p5ZS0IXDwtlqKbfWcI/uPdg==
-X-Received: by 2002:a05:6512:400e:b0:447:5d84:c40 with SMTP id br14-20020a056512400e00b004475d840c40mr12162682lfb.591.1646784570866;
-        Tue, 08 Mar 2022 16:09:30 -0800 (PST)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id m25-20020a195219000000b0044846bbda49sm62388lfb.121.2022.03.08.16.09.27
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 16:09:29 -0800 (PST)
-Received: by mail-lj1-f181.google.com with SMTP id s25so851989lji.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Mar 2022 16:09:27 -0800 (PST)
-X-Received: by 2002:a2e:9b10:0:b0:247:f28c:ffd3 with SMTP id
- u16-20020a2e9b10000000b00247f28cffd3mr3400178lji.152.1646784567653; Tue, 08
- Mar 2022 16:09:27 -0800 (PST)
+        Tue, 8 Mar 2022 21:18:51 -0500
+Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DBB12A99;
+        Tue,  8 Mar 2022 18:17:41 -0800 (PST)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 2292HRcQ025536;
+        Wed, 9 Mar 2022 11:17:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2292HRcQ025536
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1646792247;
+        bh=yrz8MJgeMKuvnz33SMeYLZ7Cine73+llQkRSU7j3OeY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QdLV+YuJnE3AuI25L44qDcEFha7V2tJikwuAbHrYtTptepmqS8wiUbtBjtqUKfiAe
+         GrVcq0Nf1zqBNYDN27k7DKPnorO++0pTgwRsKM/FmO+CaVio1dVjjmRHjNh7nvdN12
+         mnq8a/cyE3WVGk8FBI3Js7IexJIJXuXDmwovsVnUovEf7ioR8AbYSywB/qFq1Cly01
+         cLWX0DcMiW6S9JNVwcNjC5r7LbbjKr9K8LGSQJPy/07z/ZATjmEjMCk0Cd/RwvjwhZ
+         w/j0JU9CtFQ1+eQpoaJt6iY4/UdfEYRQ5jGuAiwMPNLt97UzDe1YtJpEAyhtL4FNAx
+         ZJAQuF3XM469w==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id mg21-20020a17090b371500b001bef9e4657cso3948310pjb.0;
+        Tue, 08 Mar 2022 18:17:27 -0800 (PST)
+X-Gm-Message-State: AOAM532cCXb1Lapn2tEZkEfzwpTyWd29qv3iaHi6klddHoAzQD3TQ7fa
+        4u6egYTHGbd8TGeN7LysFrpEoNM8HdQO+30SNrw=
+X-Google-Smtp-Source: ABdhPJyMpYSk5zXrKpcgek+899vxIgkJpkfAkc4Uc5APGsnHYk6hCj+dOoi9kSCk2xTpgtEh31/JWnYw2PXFOhrKljg=
+X-Received: by 2002:a17:902:eb84:b0:151:f80e:e98b with SMTP id
+ q4-20020a170902eb8400b00151f80ee98bmr9234067plg.99.1646792246518; Tue, 08 Mar
+ 2022 18:17:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20220308215615.14183-1-arnd@kernel.org>
-In-Reply-To: <20220308215615.14183-1-arnd@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 8 Mar 2022 16:09:11 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
-Message-ID: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+References: <20220308215615.14183-1-arnd@kernel.org> <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 9 Mar 2022 11:16:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
+Message-ID: <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
 Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Alex Shi <alexs@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        David Sterba <dsterba@suse.com>,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Arnd Bergmann <arnd@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
         Marco Elver <elver@google.com>,
         Jani Nikula <jani.nikula@intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
@@ -72,32 +58,60 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+On Wed, Mar 9, 2022 at 9:09 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> >
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > I've incorporated the feedback from Masahiro Yamada in this
+> > version, splitting out one more patch, rebasing on top of
+> > the kbuild tree, and changing the order of the patches.
+> >
+> > Please apply to the kbuild tree.
 >
-> I've incorporated the feedback from Masahiro Yamada in this
-> version, splitting out one more patch, rebasing on top of
-> the kbuild tree, and changing the order of the patches.
+> I'd actually like to see this as a separate branch, so that I can
+> merge it early - or other peoples git branches end up depending on it.
+
+
+OK, I can apply this to a separate branch, kbuild-gnu11.
+(and I will queue this up shortly because it is already -rc7)
+
+Then, I will send two pull reqs in the next MW,
+but please note they will conflict with each other,
+between this gnu11 patch set and the following
+one in my usual kbuild branch:
+
+https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808035-1-quic_eberman@quicinc.com/
+
+
+I hope this is not a complex conflict, but please let me know
+if you have any requests to me.
+
+
+
+
+
+> Yeah, it shouldn't change anything on its own, but since it allows for
+> new syntax, we might have other things depending on it (I'm obviously
+> thinking of the list_for_each_entry() series that keeps getting
+> posted).
 >
-> Please apply to the kbuild tree.
+>                       Linus
 
-I'd actually like to see this as a separate branch, so that I can
-merge it early - or other peoples git branches end up depending on it.
 
-Yeah, it shouldn't change anything on its own, but since it allows for
-new syntax, we might have other things depending on it (I'm obviously
-thinking of the list_for_each_entry() series that keeps getting
-posted).
 
-                      Linus
+-- 
+Best Regards
+Masahiro Yamada
