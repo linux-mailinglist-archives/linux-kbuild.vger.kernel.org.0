@@ -2,102 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09C964D3645
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Mar 2022 18:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C69134D3DDE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 01:06:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237026AbiCIRFT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Mar 2022 12:05:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41114 "EHLO
+        id S237407AbiCJAHy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 9 Mar 2022 19:07:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237519AbiCIRDC (ORCPT
+        with ESMTP id S236719AbiCJAHx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Mar 2022 12:03:02 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B4601B2ACD;
-        Wed,  9 Mar 2022 08:51:11 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 580A91F382;
-        Wed,  9 Mar 2022 16:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1646844669;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+ydrdKSlhrPNxyTjqpwFz/lVnyTdgAwQsHL5yVVlnOA=;
-        b=eT82rI/QkvGXelJqBnDXZ6DSfPbxpE/9kD06Wm421Hm28d/zpE1K/K13KnElJN5d398JeQ
-        RonRRpZIKvqzB9DndgVzGEF+km1Drf8ASsp0Z5z3QYRgp3nDF+PHkgDWoDZ0xSUG1Sq9fd
-        +hLU73pHUPEXalYPJ3MNoU06ZwyMbSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1646844669;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+ydrdKSlhrPNxyTjqpwFz/lVnyTdgAwQsHL5yVVlnOA=;
-        b=yLp5xgKJZ2+1DXVn2EKVVMwLVmSTPLl60bWHoe7jQGGzYDxZ+kesslNxqqwqygWh/uLI0o
-        f+LcpnR/hjl7ZWCQ==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-        by relay2.suse.de (Postfix) with ESMTP id 342BAA3BCC;
-        Wed,  9 Mar 2022 16:51:09 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id 9C727DA7DE; Wed,  9 Mar 2022 17:47:13 +0100 (CET)
-Date:   Wed, 9 Mar 2022 17:47:13 +0100
-From:   David Sterba <dsterba@suse.cz>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>, alexs@kernel.org,
-        arnd@arndb.de, dsterba@suse.com, elver@google.com,
-        jani.nikula@intel.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, mark.rutland@arm.com,
-        ndesaulniers@google.com, ojeda@kernel.org,
-        torvalds@linux-foundation.org
-Subject: Re: [PATCH 1/4] [v4] Kbuild: add -Wno-shift-negative-value where
- -Wextra is used
-Message-ID: <20220309164713.GX12643@suse.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>, alexs@kernel.org,
-        arnd@arndb.de, dsterba@suse.com, elver@google.com,
-        jani.nikula@intel.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, mark.rutland@arm.com, ndesaulniers@google.com,
-        ojeda@kernel.org, torvalds@linux-foundation.org
+        Wed, 9 Mar 2022 19:07:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65100EBBA0;
+        Wed,  9 Mar 2022 16:06:54 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0158960AFA;
+        Thu, 10 Mar 2022 00:06:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94412C340E8;
+        Thu, 10 Mar 2022 00:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646870813;
+        bh=ymR0+7HJt+j828kNldSOLB8CDGjogSDdd9MtZMnSRf8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kY4jITnnMG2z8hapDLQ2cYnx22dUElqPtYRFwkydqNXC94aVJ4vIe3ToaGgauI/Ei
+         o/PoV/dPeuwBheaYOAfmNgwhXc2T5xK+OoHwgk74JyhTZ+cYTTwL+Yx4VLXQF557Mr
+         eQ6gzsSvwABZk7reqgfbWBsU4RJHb7oKmA1dbdMVejuT3KnntEQsX8It+6/ijhaPmJ
+         GCgsgkzkgh8zLtrr042Vt6IdGjqj7w6etciUlmLiQ1hbMmlrsK4ReWCufg2T0rPGa+
+         1UcnL9YglRTf4F6D20QupWzWYFChxdAnqax/zQnghbnkBNozxhtuX/M7UlTlOV8X3w
+         1WtYGoXz5f45w==
+Date:   Wed, 9 Mar 2022 17:06:45 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Arnd Bergmann <arnd@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        llvm@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
+Message-ID: <YilBFcKIN1Ao5Ld1@dev-arch.thelio-3990X>
 References: <20220308215615.14183-1-arnd@kernel.org>
- <20220308215615.14183-2-arnd@kernel.org>
+ <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+ <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
+ <CAK7LNASuy5hSOU7Y7Tr8_6Ks1ZqEeUKv_-c6fDjMubq0_ENRaw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220308215615.14183-2-arnd@kernel.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAK7LNASuy5hSOU7Y7Tr8_6Ks1ZqEeUKv_-c6fDjMubq0_ENRaw@mail.gmail.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 08, 2022 at 10:56:12PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Mar 09, 2022 at 06:18:18PM +0900, Masahiro Yamada wrote:
+> On Wed, Mar 9, 2022 at 11:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Wed, Mar 9, 2022 at 9:09 AM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> > > >
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > >
+> > > > I've incorporated the feedback from Masahiro Yamada in this
+> > > > version, splitting out one more patch, rebasing on top of
+> > > > the kbuild tree, and changing the order of the patches.
+> > > >
+> > > > Please apply to the kbuild tree.
+> > >
+> > > I'd actually like to see this as a separate branch, so that I can
+> > > merge it early - or other peoples git branches end up depending on it.
+> >
+> >
+> > OK, I can apply this to a separate branch, kbuild-gnu11.
+> > (and I will queue this up shortly because it is already -rc7)
+> >
+> > Then, I will send two pull reqs in the next MW,
+> > but please note they will conflict with each other,
+> > between this gnu11 patch set and the following
+> > one in my usual kbuild branch:
+> >
+> > https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808035-1-quic_eberman@quicinc.com/
+> >
+> >
+> > I hope this is not a complex conflict, but please let me know
+> > if you have any requests to me.
+> >
+> >
+> >
+> >
+> >
 > 
-> As a preparation for moving to -std=gnu11, turn off the
-> -Wshift-negative-value option. This warning is enabled by gcc when
-> building with -Wextra for c99 or higher, but not for c89. Since
-> the kernel already relies on well-defined overflow behavior,
-> the warning is not helpful and can simply be disabled in
-> all locations that use -Wextra.
 > 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> [v4]
->   split into a separate patch
-> ---
->  drivers/gpu/drm/i915/Makefile          | 1 +
->  drivers/staging/greybus/tools/Makefile | 3 ++-
+> All, applied to linux-kbuild/kbuild-gnu11.
+> 
+> If somebody wants to give Reviewed-by, Acked-by, Tested-by, please.
+> 
+> I will append them later.
 
-For
+For the series:
 
->  fs/btrfs/Makefile                      | 1 +
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Acked-by: David Sterba <dsterba@suse.com>
+Cheers,
+Nathan
