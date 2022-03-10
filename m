@@ -2,59 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 088E34D4FE5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 18:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CBA64D50B7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 18:37:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244164AbiCJRHP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Mar 2022 12:07:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
+        id S233085AbiCJRh5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Mar 2022 12:37:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233068AbiCJRHP (ORCPT
+        with ESMTP id S245250AbiCJRhx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Mar 2022 12:07:15 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DE71520D7;
-        Thu, 10 Mar 2022 09:06:13 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: usama.anjum)
-        with ESMTPSA id 6BE891F45B73
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1646931972;
-        bh=iPK6QF0y/6zlgq+bwwi+2moLzboKZdCts+SbXnScr6c=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=dAeAJ3eKo2T57kTi7993ivxvMMFuRq3vBvy1NjXT1qMCLIRZ1OruYTGtFTsAnagSY
-         wsoCWIPZF3EAuCoDjx3VlfhA+mkBHKVjXYSSrvfy/itE5JEBAqwyvgF96v0ZWUaGv4
-         gI5/4fJFLnXrVLQ0WWvJIvFTCSdtZg05jnIPY27YRX/nSom1ELYvdN2wmAQdQncyFA
-         o6oSFMqkCOStk6GvntaG0Yffvup7gVsSQa4in2U1YxQDnmygDnkAo94tYZnLRU+MBM
-         SX6qU3FLezKiMUs8QTG6F88j9gwvj451Jph00jFgbt/cV9Ug24jIF1FprLmXs98pvb
-         B8WJ26PRWcnvg==
-Message-ID: <2e1a658f-de97-c099-f3ef-948bc56df514@collabora.com>
-Date:   Thu, 10 Mar 2022 22:06:04 +0500
+        Thu, 10 Mar 2022 12:37:53 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05203191418;
+        Thu, 10 Mar 2022 09:36:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 937F361DFD;
+        Thu, 10 Mar 2022 17:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69144C340E8;
+        Thu, 10 Mar 2022 17:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1646933811;
+        bh=h0waVYpyuTnkxGPqGqawZDdOqQAy45V3TgKXqVDiUgs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gGgZ9ufXsEo9xVy70iZNBJODuGslQ1+tolhXfEhoXVWR6AqvkeyQcsvQeD/AOt2V4
+         7GfFsQc0SBybJ2TgT/QjnghtIz9FaqXAZcua97AnhAxTWfZzZebelbBOCiHU8DeQjK
+         z7dWBNBei5WZ6MNIHnI4x152MF+LBn3KBWls7cuIwjczDJhFfIMbhz0DNortW5fqIg
+         LeDnJ08FqIqa+M74JiEfpJtCeE/z+XV3CAn8npZPVXcBkF0imyPcw9sOYTllUQT1aD
+         Dl+ym1SUXxpRfOkBQmv4qsjEswk1zps8/YN7keBqTbZeozmOrjrOsFeG9Au5LbJ8Wf
+         nu50xEtAaOVvg==
+Date:   Thu, 10 Mar 2022 10:36:43 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
+Message-ID: <Yio3K4bgdyFEBy7J@dev-arch.thelio-3990X>
+References: <20220304170813.1689186-1-nathan@kernel.org>
+ <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
+ <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
+ <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Cc:     usama.anjum@collabora.com, kernel@collabora.com,
-        kernelci@groups.io, shuah@kernel.org,
-        linux-kselftest@vger.kernel.org, keescook@chromium.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Makefile: Fix separate output directory build of
- kselftests
-Content-Language: en-US
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20220223191016.1658728-1-usama.anjum@collabora.com>
- <6e954470-f593-e27a-d15c-ecd5c28f4dca@linuxfoundation.org>
- <2ac8cecb-5e14-a8b2-7629-a9ab9d474585@collabora.com>
- <65c11aba-bcab-28f4-a016-8cad128809ad@linuxfoundation.org>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <65c11aba-bcab-28f4-a016-8cad128809ad@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,81 +64,132 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/9/22 2:19 AM, Shuah Khan wrote:
-> On 3/8/22 1:11 AM, Muhammad Usama Anjum wrote:
->> On 3/4/22 2:32 AM, Shuah Khan wrote:
->>> On 2/23/22 12:10 PM, Muhammad Usama Anjum wrote:
->>>> Build of kselftests fail if kernel's top most Makefile is used for
->>>> running or building kselftests with separate output directory. The
->>>> absolute path is needed to reference other files during this kind of
->>>> build. Set KBUILD_ABS_SRCTREE to use absolute path during the build. It
->>>> fixes the following different types of errors:
->>>>
->>>> make kselftest-all O=/linux_mainline/build
->>>> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
->>>>
->>>> make kselftest-all O=build
->>>> Makefile:1080: ../scripts/Makefile.extrawarn: No such file or directory
->>>>
->>>> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->>>> ---
->>>> I've tested this patch on top of next-20220217. The latest
->>>> next-20220222
->>>> have missing patches.
->>>
->>> Can you give more details on the use-cases you tested? Did you test all
->>> the ways kselftest are built?
->>>
->> Yeah, I've tried to test all the ways. Here are the different ways I've
->> used to test it:
->> 1) Same directory build of kselftest (this is already working)
->> make kselftest
->> make kselftest-all
->> make kselftest-install
->> make kselftest-clean
->> make kselftest-gen_tar
->>
->> 2) These were failing when separate output directory is specified either
->> as relative or absolute path. After adding this patch, these are also
->> working. kselfetst.rst mentions separate output directory build in
->> this way.
->> make kselftest O=build
->> make kselftest-all O=build
->> make kselftest-install O=build
->> make kselftest-clean O=build
->> make kselftest-gen_tar O=build
->>
->> make kselftest O=/build
->> make kselftest-all O=/build
->> make kselftest-install O=/build
->> make kselftest-clean O=/build
->> make kselftest-gen_tar O=/build
->>
->> Tested on top of next-20220307 after applying this patch.
->>
+On Wed, Mar 09, 2022 at 06:33:40PM +0900, Masahiro Yamada wrote:
+> On Wed, Mar 9, 2022 at 12:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
+> > > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > > >
+> > > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > > > index d32616891dcf..68b74416ec48 100644
+> > > > --- a/Documentation/kbuild/llvm.rst
+> > > > +++ b/Documentation/kbuild/llvm.rst
+> > > > @@ -49,17 +49,36 @@ example: ::
+> > > >  LLVM Utilities
+> > > >  --------------
+> > > >
+> > > > -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
+> > > > -to enable them. ::
+> > > > -
+> > > > -       make LLVM=1
+> > > > -
+> > > > -They can be enabled individually. The full list of the parameters: ::
+> > > > +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
+> > > > +The full list of supported make variables: ::
+> > > >
+> > > >         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> > > >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
+> > > >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
+> > > >
+> > > > +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
+> > > > +
+> > > > +       make LLVM=1
+> > > > +
+> > > > +If your LLVM tools are not available in your PATH, you can supply their
+> > > > +location using the LLVM variable with a trailing slash: ::
+> > > > +
+> > > > +       make LLVM=/path/to/llvm/
+> > > > +
+> > > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
+> > >
+> > > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
+> > > works and (my interpretation of what) Masahiro said "if anyone asks
+> > > for this, here's how we could do that."  I don't think I've seen an
+> > > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
+> > > won't hold this patch up over that.  Either way:
+> >
+> > Right, there has not been an explicit ask for the prefix support yet,
+> > although I know I personally would use it, but I think that it is worth
+> > doing now instead of later for a few reasons:
+> >
+> > 1. It makes path goofs easier to spot. If you do
+> >
+> >      $ PATH=/path/to/llvm:$PATH make LLVM=1 ...
+> >
+> >    with a path to LLVM that does not exist (maybe you are bisecting an
+> >    issue and using a temporary build of LLVM and you forgot the path it
+> >    was in), you fall back to the LLVM tools that are in other places in
+> >    your PATH, which is not what the developer intended. I know that I
+> >    have messed up bisects that way. If you did
+> >
+> >      $ make LLVM=/path/to/llvm/
+> >
+> >    with a path that does not exist, there will be an error much earlier:
+> >
+> >      $ make LLVM=/this/path/does/not/exist/ defconfig
+> >      /bin/sh: line 1: /this/path/does/not/exist/clang: No such file or directory
+> >
+> > 2. It does not take that much more code or documentation to support. It
+> >    is the same amount of code as the suffix and the documentation is
+> >    roughly the same amount of lines as well.
+> >
+> > 3. If we wait to implement the path-based use of $(LLVM), we have three
+> >    "sequence" points: the initial support of $(LLVM), the suffix
+> >    support, and the prefix support. As we are constantly working with
+> >    various trees, it would make it harder to know what to use when. If
+> >    we just do it in the same patch, we know 5.18+ can use both of these
+> >    methods.
+> >
+> > However, at the end of the day, we are a team and if you feel like we
+> > should only have suffix support, I am more than happy to push a v3 that
+> > does just that and we can revist prefix support in the future. Just let
+> > me know!
 > 
-> Thank you for testing all these use-cases. This is a good comprehensive
-> list. Do you mind sending a doc patch for
 > 
-> Documentation/dev-tools/kselftest.rst
+> I do not have a strong opinion about this.
+> (I just mentioned the LLVM=/path/to/llvm/ form because I guessed
+> somebody would request this sooner or later.)
 > 
-> The text here could almost as is as a new section after
 > 
-> Contributing new tests (details) with a new section that outlines
-> the tests to run when adding a new test to selftests/Makefile
-> and making changes to kselftest common frameowork: selftests/Makefile,
-> selftests/lib.mk
-Hi Shuah,
+> If you want me to pick up this version, I will apply it with fixing up
+> a nit pointed out by Kees   (": ::" -> "::")
+> 
+> If you want to send v3, that is fine with me as well.
+> 
+> Please let me know your thoughts.
 
-Yeah, definitely I can write and contribute it. I've noted this. This is
-the last patch I want to get accepted, then I plan to update the
-kselftest documentation (with the things you have mentioned and a few
-more things) and write a blog about how KernelCI has helped in all this.
-> 
-> Let me know if you are unable to, I will send a patch in.
-> 
-> thanks,
-> -- Shuah
+Given Nick's response, please pick up this revision with Kees' nit.
+Thank you!
 
--- 
-Muhammad Usama Anjum
+Cheers,
+Nathan
+
+> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> > >
+> > > > +
+> > > > +If your LLVM tools have a version suffix and you want to test with that
+> > > > +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
+> > > > +can pass the suffix using the ``LLVM`` variable: ::
+> > > > +
+> > > > +       make LLVM=-14
+> > > > +
+> > > > +which will use ``clang-14``, ``ld.lld-14``, etc.
+> > > > +
+> > > > +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
+> > > > +``LLVM=1``.
+> > >
+> > > Hmm... I can see someone's build wrappers setting LLVM=1, then them
+> > > being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
+> > > might expect.  But Masahiro says let's fix this later which is fine.
+> >
+> > Sure, I guess that is a reasonable case to support. I'll see if I can
+> > come up with something that makes sense after this change lands.
+> >
+> > Cheers,
+> > Nathan
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
