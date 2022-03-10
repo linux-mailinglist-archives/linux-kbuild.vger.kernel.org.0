@@ -2,194 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CBA64D50B7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 18:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9CFB4D525F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 20:44:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233085AbiCJRh5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Mar 2022 12:37:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
+        id S241288AbiCJTRV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Mar 2022 14:17:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245250AbiCJRhx (ORCPT
+        with ESMTP id S236720AbiCJTRU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Mar 2022 12:37:53 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05203191418;
-        Thu, 10 Mar 2022 09:36:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 937F361DFD;
-        Thu, 10 Mar 2022 17:36:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69144C340E8;
-        Thu, 10 Mar 2022 17:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646933811;
-        bh=h0waVYpyuTnkxGPqGqawZDdOqQAy45V3TgKXqVDiUgs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gGgZ9ufXsEo9xVy70iZNBJODuGslQ1+tolhXfEhoXVWR6AqvkeyQcsvQeD/AOt2V4
-         7GfFsQc0SBybJ2TgT/QjnghtIz9FaqXAZcua97AnhAxTWfZzZebelbBOCiHU8DeQjK
-         z7dWBNBei5WZ6MNIHnI4x152MF+LBn3KBWls7cuIwjczDJhFfIMbhz0DNortW5fqIg
-         LeDnJ08FqIqa+M74JiEfpJtCeE/z+XV3CAn8npZPVXcBkF0imyPcw9sOYTllUQT1aD
-         Dl+ym1SUXxpRfOkBQmv4qsjEswk1zps8/YN7keBqTbZeozmOrjrOsFeG9Au5LbJ8Wf
-         nu50xEtAaOVvg==
-Date:   Thu, 10 Mar 2022 10:36:43 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>, llvm@lists.linux.dev,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2] kbuild: Make $(LLVM) more flexible
-Message-ID: <Yio3K4bgdyFEBy7J@dev-arch.thelio-3990X>
-References: <20220304170813.1689186-1-nathan@kernel.org>
- <CAKwvOd=Q-7vPaRPj1wQagFsY3txcAKzrqU_D2UAX3h4ym91uUA@mail.gmail.com>
- <Yid6eS7YV4Oxj+hx@dev-arch.thelio-3990X>
- <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
+        Thu, 10 Mar 2022 14:17:20 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497C91592B8
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 11:16:19 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id n19so11144334lfh.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 11:16:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=go92KYaN5aNvN8bXbqqxD++j8ixdpZLOPabJY6m9jQw=;
+        b=LMIIbB0h1/4pQ0VdwUiOVE5d8NYb+t5fKYOcBza0G4sUYUWMDPGXo6a0id4sFW37kU
+         6PZ2zExV/hzV0YuLWmcwShIUaxVm9631BL2nPdiIHiZGdGkS915lgqkRKgnNzjIJRABq
+         3p1plaVXJ4Xyv6Y/3l4odxQrdGFhBBcovjO2Ov1AovSwcNpnnk5EtWg/AIWe9NqtZRNm
+         SpWjOXK61WvLZdF+uhKHXmIVdc8jO6xY5SN7yP/WdujHoRlSZ6/zXbrAz+y7O+Dbtm3g
+         Ozlpm0qv5imV2YW5vd/0MDNm7DFvkJDqOehkFMPsktIyHGsWxGU0R9DWREfGW0uwXnRG
+         lFrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=go92KYaN5aNvN8bXbqqxD++j8ixdpZLOPabJY6m9jQw=;
+        b=A8mh8snJOyP2WnhJuW80idNNnNmHdVvMJXEqSaEQIcEGgSMeTaxgMwLkYhLG3ws1iG
+         lmzoMgLZyQQ2CTKScFFYOglgKAIpxmHB9R94ywr47cd1Cu87A6QD+NtU6VCdqyE0/G15
+         HFisrLMEsBL+WvvMPGDmCT8aQxXcDDxXgqI46Madkf+K/nldwUAy+JY+q7DzU00REB10
+         ttsgLEzFAzWmV2sERQrPC8KsdsdNsjVWun+5FLA3Na5SMemrXuJ93SSHLSkmRmInHXgP
+         hAhTzXv/d9fOb2XPbRDieT6F5CPUZdqdg2lv9yd1x2GI+/HdOSWy+yMPkH/XNxVBjHe2
+         fAnw==
+X-Gm-Message-State: AOAM530LEY7C3Bb3Jn+lzOaZBU0q459yypsF5QBFJKVgWeC4S4zzVtbX
+        TAAqAshx1Lctk5vO6cKMr6QeYUw7X0jv4HMYe9EtIw==
+X-Google-Smtp-Source: ABdhPJzEWqQmXRfdkmydm0aeWMsZ+uV0rW00eQolc1dHSilGfFUrRNnedV8T2t9cApwOAE7/envXItTTv3uQAduPaEY=
+X-Received: by 2002:a05:6512:31d4:b0:445:e4ef:c0f8 with SMTP id
+ j20-20020a05651231d400b00445e4efc0f8mr3847544lfe.626.1646939777382; Thu, 10
+ Mar 2022 11:16:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAThknb0=-XhfB6zspke-sNHMEmTbGy8WVeg20ntT72wqA@mail.gmail.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220305125605.149913-1-masahiroy@kernel.org>
+In-Reply-To: <20220305125605.149913-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 10 Mar 2022 11:16:05 -0800
+Message-ID: <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI
+ headers with Clang
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        David Howells <dhowells@redhat.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Fangrui Song <maskray@google.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 09, 2022 at 06:33:40PM +0900, Masahiro Yamada wrote:
-> On Wed, Mar 9, 2022 at 12:47 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Mon, Mar 07, 2022 at 11:08:29AM -0800, Nick Desaulniers wrote:
-> > > On Fri, Mar 4, 2022 at 9:14 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> > > >
-> > > > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > > > index d32616891dcf..68b74416ec48 100644
-> > > > --- a/Documentation/kbuild/llvm.rst
-> > > > +++ b/Documentation/kbuild/llvm.rst
-> > > > @@ -49,17 +49,36 @@ example: ::
-> > > >  LLVM Utilities
-> > > >  --------------
-> > > >
-> > > > -LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
-> > > > -to enable them. ::
-> > > > -
-> > > > -       make LLVM=1
-> > > > -
-> > > > -They can be enabled individually. The full list of the parameters: ::
-> > > > +LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
-> > > > +The full list of supported make variables: ::
-> > > >
-> > > >         make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > > >           OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
-> > > >           HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> > > >
-> > > > +To simplify the above command, Kbuild supports the ``LLVM`` variable: ::
-> > > > +
-> > > > +       make LLVM=1
-> > > > +
-> > > > +If your LLVM tools are not available in your PATH, you can supply their
-> > > > +location using the LLVM variable with a trailing slash: ::
-> > > > +
-> > > > +       make LLVM=/path/to/llvm/
-> > > > +
-> > > > +which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-> > >
-> > > I don't think we should do this; `PATH=/path/to/llvm/ make LLVM=1`
-> > > works and (my interpretation of what) Masahiro said "if anyone asks
-> > > for this, here's how we could do that."  I don't think I've seen an
-> > > explicit ask for that. I'd rather LLVM= have 2 behaviors than 3, but I
-> > > won't hold this patch up over that.  Either way:
-> >
-> > Right, there has not been an explicit ask for the prefix support yet,
-> > although I know I personally would use it, but I think that it is worth
-> > doing now instead of later for a few reasons:
-> >
-> > 1. It makes path goofs easier to spot. If you do
-> >
-> >      $ PATH=/path/to/llvm:$PATH make LLVM=1 ...
-> >
-> >    with a path to LLVM that does not exist (maybe you are bisecting an
-> >    issue and using a temporary build of LLVM and you forgot the path it
-> >    was in), you fall back to the LLVM tools that are in other places in
-> >    your PATH, which is not what the developer intended. I know that I
-> >    have messed up bisects that way. If you did
-> >
-> >      $ make LLVM=/path/to/llvm/
-> >
-> >    with a path that does not exist, there will be an error much earlier:
-> >
-> >      $ make LLVM=/this/path/does/not/exist/ defconfig
-> >      /bin/sh: line 1: /this/path/does/not/exist/clang: No such file or directory
-> >
-> > 2. It does not take that much more code or documentation to support. It
-> >    is the same amount of code as the suffix and the documentation is
-> >    roughly the same amount of lines as well.
-> >
-> > 3. If we wait to implement the path-based use of $(LLVM), we have three
-> >    "sequence" points: the initial support of $(LLVM), the suffix
-> >    support, and the prefix support. As we are constantly working with
-> >    various trees, it would make it harder to know what to use when. If
-> >    we just do it in the same patch, we know 5.18+ can use both of these
-> >    methods.
-> >
-> > However, at the end of the day, we are a team and if you feel like we
-> > should only have suffix support, I am more than happy to push a v3 that
-> > does just that and we can revist prefix support in the future. Just let
-> > me know!
-> 
-> 
-> I do not have a strong opinion about this.
-> (I just mentioned the LLVM=/path/to/llvm/ form because I guessed
-> somebody would request this sooner or later.)
-> 
-> 
-> If you want me to pick up this version, I will apply it with fixing up
-> a nit pointed out by Kees   (": ::" -> "::")
-> 
-> If you want to send v3, that is fine with me as well.
-> 
-> Please let me know your thoughts.
+On Sat, Mar 5, 2022 at 4:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
+> Clang, they are currently compiled for the host target (likely x86_64)
+> regardless of the given ARCH=.
+>
+> In fact, some exported headers include libc headers. For example,
+> include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
+> The header search paths should match to the target we are compiling
+> them for.
 
-Given Nick's response, please pick up this revision with Kees' nit.
-Thank you!
+Isn't that a bug in that header though? Why does it inconsistently use
+size_t vs. __kernel_size_t. Shouldn't it be consistently using
+__kernel_size_t? (Seeing TRUE/FALSE defined in such a low level header
+is also *yikes*.) Are there platforms where sizeof(size_t) !=
+sizeof(__kernel_size_t)?
 
-Cheers,
-Nathan
+Usually to bootstrap a toolchain you need to start with kernel headers
+to bootstrap the libc.  It seems like some kind of circular dependency
+to me if kernel headers are dependent on libc headers. Hence my
+previous comment about -ffreestanding.
 
-> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > >
-> > > > +
-> > > > +If your LLVM tools have a version suffix and you want to test with that
-> > > > +explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-> > > > +can pass the suffix using the ``LLVM`` variable: ::
-> > > > +
-> > > > +       make LLVM=-14
-> > > > +
-> > > > +which will use ``clang-14``, ``ld.lld-14``, etc.
-> > > > +
-> > > > +``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> > > > +``LLVM=1``.
-> > >
-> > > Hmm... I can see someone's build wrappers setting LLVM=1, then them
-> > > being surprised that appending LLVM=0 doesn't disable LLVM=1 as they
-> > > might expect.  But Masahiro says let's fix this later which is fine.
-> >
-> > Sure, I guess that is a reasonable case to support. I'll see if I can
-> > come up with something that makes sense after this change lands.
-> >
-> > Cheers,
-> > Nathan
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+>
+> Pick up the --target triple from KBUILD_CFLAGS in the same ways as
+> commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
+> architecture").
+
+Oh boy thanks for finding+fixing this! I still suspect we shouldn't
+need a cross-libc for UAPI header testing, and that the kernel headers
+simply need to be cleaned up. But regardless of that it doesn't make
+sense to use the wrong target when checking headers generated for the
+target. Thanks for the patch (and sorry I've been falling behind on
+code review lately).
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> Changes in v2:
+>   - Reword the commit description to mention agpgart.h instead of
+>     asound.h because the latter is in the no-header-test list.
+>
+>  usr/include/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/usr/include/Makefile b/usr/include/Makefile
+> index ac206fb27c65..4215801e1110 100644
+> --- a/usr/include/Makefile
+> +++ b/usr/include/Makefile
+> @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+>
+>  # In theory, we do not care -m32 or -m64 for header compile tests.
+>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+> -UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+> +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
+>
+>  # USERCFLAGS might contain sysroot location for CC.
+>  UAPI_CFLAGS += $(USERCFLAGS)
+> --
+> 2.32.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
