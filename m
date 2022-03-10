@@ -2,73 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9CFB4D525F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Mar 2022 20:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D21A74D5635
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 01:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241288AbiCJTRV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Mar 2022 14:17:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
+        id S1345125AbiCKAA5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Mar 2022 19:00:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236720AbiCJTRU (ORCPT
+        with ESMTP id S1345131AbiCKAAy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Mar 2022 14:17:20 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 497C91592B8
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 11:16:19 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id n19so11144334lfh.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 11:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=go92KYaN5aNvN8bXbqqxD++j8ixdpZLOPabJY6m9jQw=;
-        b=LMIIbB0h1/4pQ0VdwUiOVE5d8NYb+t5fKYOcBza0G4sUYUWMDPGXo6a0id4sFW37kU
-         6PZ2zExV/hzV0YuLWmcwShIUaxVm9631BL2nPdiIHiZGdGkS915lgqkRKgnNzjIJRABq
-         3p1plaVXJ4Xyv6Y/3l4odxQrdGFhBBcovjO2Ov1AovSwcNpnnk5EtWg/AIWe9NqtZRNm
-         SpWjOXK61WvLZdF+uhKHXmIVdc8jO6xY5SN7yP/WdujHoRlSZ6/zXbrAz+y7O+Dbtm3g
-         Ozlpm0qv5imV2YW5vd/0MDNm7DFvkJDqOehkFMPsktIyHGsWxGU0R9DWREfGW0uwXnRG
-         lFrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=go92KYaN5aNvN8bXbqqxD++j8ixdpZLOPabJY6m9jQw=;
-        b=A8mh8snJOyP2WnhJuW80idNNnNmHdVvMJXEqSaEQIcEGgSMeTaxgMwLkYhLG3ws1iG
-         lmzoMgLZyQQ2CTKScFFYOglgKAIpxmHB9R94ywr47cd1Cu87A6QD+NtU6VCdqyE0/G15
-         HFisrLMEsBL+WvvMPGDmCT8aQxXcDDxXgqI46Madkf+K/nldwUAy+JY+q7DzU00REB10
-         ttsgLEzFAzWmV2sERQrPC8KsdsdNsjVWun+5FLA3Na5SMemrXuJ93SSHLSkmRmInHXgP
-         hAhTzXv/d9fOb2XPbRDieT6F5CPUZdqdg2lv9yd1x2GI+/HdOSWy+yMPkH/XNxVBjHe2
-         fAnw==
-X-Gm-Message-State: AOAM530LEY7C3Bb3Jn+lzOaZBU0q459yypsF5QBFJKVgWeC4S4zzVtbX
-        TAAqAshx1Lctk5vO6cKMr6QeYUw7X0jv4HMYe9EtIw==
-X-Google-Smtp-Source: ABdhPJzEWqQmXRfdkmydm0aeWMsZ+uV0rW00eQolc1dHSilGfFUrRNnedV8T2t9cApwOAE7/envXItTTv3uQAduPaEY=
-X-Received: by 2002:a05:6512:31d4:b0:445:e4ef:c0f8 with SMTP id
- j20-20020a05651231d400b00445e4efc0f8mr3847544lfe.626.1646939777382; Thu, 10
- Mar 2022 11:16:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20220305125605.149913-1-masahiroy@kernel.org>
-In-Reply-To: <20220305125605.149913-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 10 Mar 2022 11:16:05 -0800
-Message-ID: <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI
- headers with Clang
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        David Howells <dhowells@redhat.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Fangrui Song <maskray@google.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu, 10 Mar 2022 19:00:54 -0500
+X-Greylist: delayed 339 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Mar 2022 15:59:45 PST
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2621EE02C9;
+        Thu, 10 Mar 2022 15:59:44 -0800 (PST)
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4KF5WG2Pswz9q;
+        Fri, 11 Mar 2022 00:54:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1646956443; bh=ZbM+uUpW63IdB++IxqwwUYhFJXACQMMNBE9FAmZwinc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=kIyR5n+l/hAW3FQWdIPuou+eqg0mMW5LgNePzkqwxnwkrJSckG4TPJkGwK1xSrTjW
+         2d7SnTGSBkjBE5DCFm3+w5fAS33HffsMih9f+Lb6ETSfCSgi0Ri/lg/pbftAkVQwxB
+         WsQpEtxuqsoaD+7Doj4Cpa9GnOl51kFUF57MI6fKEcXcRZ8JOopXSoFMkuaBhHKVud
+         MUxq1sXw2E644SG6lRrCHSjzVYjr5bgwSklrSF4o1zY4BVEz6d1G0EJbMH3L9ZmFqh
+         6s8x/e6xDV79LFHZGarq9eGUTUQPv8u+1OTFAaZ7dtmOMXIvXmBUurzi/xoy2rtkFw
+         CnuvwD5HSkSYw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.5 at mail
+Date:   Fri, 11 Mar 2022 00:54:00 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+Message-ID: <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,71 +58,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 5, 2022 at 4:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
-> Clang, they are currently compiled for the host target (likely x86_64)
-> regardless of the given ARCH=.
->
-> In fact, some exported headers include libc headers. For example,
-> include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
-> The header search paths should match to the target we are compiling
-> them for.
+Hi Linus,
 
-Isn't that a bug in that header though? Why does it inconsistently use
-size_t vs. __kernel_size_t. Shouldn't it be consistently using
-__kernel_size_t? (Seeing TRUE/FALSE defined in such a low level header
-is also *yikes*.) Are there platforms where sizeof(size_t) !=
-sizeof(__kernel_size_t)?
+If the macro implementation doesn't have to be pretty, maybe it could go
+a step further and remember the list_head's offset? That would look
+something like following (expanding on your patch; not compile tested):
 
-Usually to bootstrap a toolchain you need to start with kernel headers
-to bootstrap the libc.  It seems like some kind of circular dependency
-to me if kernel headers are dependent on libc headers. Hence my
-previous comment about -ffreestanding.
+#define list_traversal_head(type,name,target_member) \
+	union { \
+		struct list_head name; \
+		type *name##_traversal_type; \
+		char (*name##_list_head_offset)[offsetof(type, target_member)];  \
+	}
 
->
-> Pick up the --target triple from KBUILD_CFLAGS in the same ways as
-> commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
-> architecture").
+#define list_traversal_entry(ptr, head) \
+	(typeof(*head##_traversal_type))((void *)ptr - sizeof(**head##_list_head_offset))
 
-Oh boy thanks for finding+fixing this! I still suspect we shouldn't
-need a cross-libc for UAPI header testing, and that the kernel headers
-simply need to be cleaned up. But regardless of that it doesn't make
-sense to use the wrong target when checking headers generated for the
-target. Thanks for the patch (and sorry I've been falling behind on
-code review lately).
+#define list_traversal_entry_head(ptr, head) \
+	(struct list_head *)((void *)ptr + sizeof(**head##_list_head_offset))
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+#define list_traversal_entry_is_head(ptr, head) \
+	(list_traversal_entry_head(ptr, head) == (head))
 
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
-> Changes in v2:
->   - Reword the commit description to mention agpgart.h instead of
->     asound.h because the latter is in the no-header-test list.
->
->  usr/include/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/usr/include/Makefile b/usr/include/Makefile
-> index ac206fb27c65..4215801e1110 100644
-> --- a/usr/include/Makefile
-> +++ b/usr/include/Makefile
-> @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
->
->  # In theory, we do not care -m32 or -m64 for header compile tests.
->  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
-> -UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
-> +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
->
->  # USERCFLAGS might contain sysroot location for CC.
->  UAPI_CFLAGS += $(USERCFLAGS)
-> --
-> 2.32.0
->
+#define list_traversal_next_entry(ptr, head) \
+	list_traversal_entry(list_traversal_entry_head(ptr, head)->next)
 
+#define list_traverse(pos, head) \
+	for (typeof(*head##_traversal_type) pos = list_traversal_entry((head)->next); \
+		!list_traversal_entry_head(pos, head) == (head); \
+		pos = list_traversal_next_entry(pos, head))
+
+[Sorry for lack of citations - I found the thread via https://lwn.net/Articles/887097/]
 
 -- 
-Thanks,
-~Nick Desaulniers
+Micha³ Miros³aw
