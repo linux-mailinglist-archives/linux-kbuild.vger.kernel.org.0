@@ -2,193 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494844D56ED
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 01:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE9B34D5711
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 02:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344357AbiCKArt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Mar 2022 19:47:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
+        id S242474AbiCKBCe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Mar 2022 20:02:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344733AbiCKArt (ORCPT
+        with ESMTP id S237426AbiCKBCe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Mar 2022 19:47:49 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF07D1A2757
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 16:46:45 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id bi12so15890161ejb.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 16:46:45 -0800 (PST)
+        Thu, 10 Mar 2022 20:02:34 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CEF81A39E3;
+        Thu, 10 Mar 2022 17:01:31 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id x4so8523626iop.7;
+        Thu, 10 Mar 2022 17:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MWpPevTXD3OVyRVT3kR8OEKqC1/aCzhwDb8lPZGqgeU=;
-        b=CDZNJsuOi788FY8gAuDZGmuG80aZHvreAMuZ2/qjypwYCvKbhskHBt81S8aJWPM1tr
-         hjtcuXwJ4nOsvWb+oryDzTMfn95fyqZB6BBoKlpNGFr0dtAg2Fgg/OYjjxStPVhsQT+H
-         qKo6KFJIMe0zUgg+i5yc+Ratje7eCBQ+C9VR4=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=pRxA0EhnfxgZREQ1JvLzAPp++HtgLS4XlH6e6oYQepQ=;
+        b=Vjyrm+kxdESZsbe9Az2HSAn1ZpwOhiXOQhxWSpGgTSM6JMYxnEEe0SCktudWT3F5XE
+         swt0tuE0Hy+xbGfbZn3E7alYtyxeQI7b30khdNhKZd2moPZ5H/yCp2PUiHKFGDqi4fXv
+         iJu7wQTUj1bxP/oV5fScpxSWxptw7coza83wBrqnoqidrZBXDwx7bg11LchfTWjGofEa
+         pRYj07cJAvx0KLkoncwItp+hX7own7GZp0HIbCa8T5P0L+ffzQy/SOxiuejlFmIXDEbF
+         O7+ZLSSAOm6Tuam5uE5mYwADZzyArnJziKAYIE6kVjMAVypCWgLfj5J81e06T/m8VD18
+         VjkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MWpPevTXD3OVyRVT3kR8OEKqC1/aCzhwDb8lPZGqgeU=;
-        b=q2/RMVSpIwgv73FhY8KeAHxRgPvbme3/hlDIXgWUjSeX4J9eE+4Fn3kL97/p/FE+aF
-         Y1qOTMYlD2g6VAcq6FcypI5AbsYDEQNq2dVLu/VxcprZ6IDjLQbjS6QmccoBVWUzWvr5
-         mQwQ8+npRoPcmyuN74GCvukxZE2OQhstiKjdmg+bf/UQw7kUqsxauSJrNTpFW3m2qY2C
-         XbJwO5iGD74GV9M1YgJLoS5m++xdqsnnHw+yST5b1sTR1AtGXTbkl4vDOO7Jo7PuBHhg
-         HvdkXEWacrQbDP3L4vl80m8d8wsV+jWicKEJmT82gUKsdUzcl4lnQOj7FpYZD4lEn6Bx
-         pYZg==
-X-Gm-Message-State: AOAM5335PTETNZbU5CgWZGuSU5/8gxCqUyIa7hJYkUNrg9G9yV2vuMh2
-        lncKPc04Di8iiA+GGuMPDlQQIxXxFsTXBCkiXbWpow==
-X-Google-Smtp-Source: ABdhPJwIBFoifixGR/mxfVGqBIPW9Qoe/+D8Bt3okVLQx4CODl8cRqLb5n7nORyLXZ+SFzDpEKbCzCxuXrLHr7ocLoQ=
-X-Received: by 2002:a17:906:7316:b0:6d7:16be:b584 with SMTP id
- di22-20020a170906731600b006d716beb584mr6468336ejc.759.1646959604231; Thu, 10
- Mar 2022 16:46:44 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=pRxA0EhnfxgZREQ1JvLzAPp++HtgLS4XlH6e6oYQepQ=;
+        b=BPjaB7L2bpwfMpvvNQKFM12KH4NtoLPQa016Vw0O069OBNZlIjHsWNJi3ZzbxMRkz+
+         djYUjq1A/O8Hom1cSiN6TCZZu8HoAOXTOtFGoaaQBi+H5xXaRd8EbH3PAI1qFyrvn0Ha
+         vK/crG0I5t4XrGLj1sZ+3Fp3U4ANHDloRWH6aw7BRZJbw44kubwTVXOrHPNmI9g+2Rcm
+         TssbnbYHeF+K8WaeV/h0hSuvW6hD2BYqcbtucQVbOaTASO/UFOIf9Fe5hxAQSM/cA94T
+         2Z8fmpf4+Kthn+W8S/PL+zFOmJoWOMx0e55XX1LzrJVZZY46YHA7/g8f8cYPQcENDK2d
+         qQsw==
+X-Gm-Message-State: AOAM531ry1TKf2H+l4HS8xhQc7J1u7AyKwCntF+NZE8t2VFEWG4oVFhe
+        rTIHdsxgWkhJWWTwvEdlUFY4gNgQryorhRaEx+c=
+X-Google-Smtp-Source: ABdhPJzg+9ZIr0/5erj9eCsxaC8HgT2nZx0GKAKjWV4ekUcW2ZeWfYetjEmfk7Yd433gAaCBj883R1wfARex/2tSmKU=
+X-Received: by 2002:a6b:8f15:0:b0:645:dfdb:7a35 with SMTP id
+ r21-20020a6b8f15000000b00645dfdb7a35mr5902984iod.36.1646960490953; Thu, 10
+ Mar 2022 17:01:30 -0800 (PST)
 MIME-Version: 1.0
-References: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
- <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
-In-Reply-To: <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 10 Mar 2022 16:46:33 -0800
-Message-ID: <CAADWXX-Pr-D3wSr5wsqTEOBSJzB9k7bSH+7hnCAj0AeL0=U4mg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakob Koschel <jakobkoschel@gmail.com>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
+References: <20220308215615.14183-1-arnd@kernel.org> <CAHk-=wjsCrVxToP0Zx+cUAVZmSKi=Y6NP1+VnBcoPyPPEBfonQ@mail.gmail.com>
+ <CAK7LNAQoFFVLfkhA7FC9vDbvc4wdLginYeRHL0xHVAumu6p=uw@mail.gmail.com>
+ <CAK7LNASuy5hSOU7Y7Tr8_6Ks1ZqEeUKv_-c6fDjMubq0_ENRaw@mail.gmail.com> <YilBFcKIN1Ao5Ld1@dev-arch.thelio-3990X>
+In-Reply-To: <YilBFcKIN1Ao5Ld1@dev-arch.thelio-3990X>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 11 Mar 2022 02:00:55 +0100
+Message-ID: <CA+icZUX0SXwBF+CzaOAPKzOujSRVOKRZwS7nppPjraLvOSeMDw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] [v4] Kbuild: std=gnu11 changes
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Arnd Bergmann <arnd@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Marco Elver <elver@google.com>,
+        Jani Nikula <jani.nikula@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
+        llvm@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 10, 2022 at 3:54 PM Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.=
-qmqm.pl> wrote:
+On Thu, Mar 10, 2022 at 5:01 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> If the macro implementation doesn't have to be pretty, maybe it could go
-> a step further and remember the list_head's offset? That would look
-> something like following (expanding on your patch; not compile tested):
+> On Wed, Mar 09, 2022 at 06:18:18PM +0900, Masahiro Yamada wrote:
+> > On Wed, Mar 9, 2022 at 11:16 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Wed, Mar 9, 2022 at 9:09 AM Linus Torvalds
+> > > <torvalds@linux-foundation.org> wrote:
+> > > >
+> > > > On Tue, Mar 8, 2022 at 1:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> > > > >
+> > > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > > >
+> > > > > I've incorporated the feedback from Masahiro Yamada in this
+> > > > > version, splitting out one more patch, rebasing on top of
+> > > > > the kbuild tree, and changing the order of the patches.
+> > > > >
+> > > > > Please apply to the kbuild tree.
+> > > >
+> > > > I'd actually like to see this as a separate branch, so that I can
+> > > > merge it early - or other peoples git branches end up depending on it.
+> > >
+> > >
+> > > OK, I can apply this to a separate branch, kbuild-gnu11.
+> > > (and I will queue this up shortly because it is already -rc7)
+> > >
+> > > Then, I will send two pull reqs in the next MW,
+> > > but please note they will conflict with each other,
+> > > between this gnu11 patch set and the following
+> > > one in my usual kbuild branch:
+> > >
+> > > https://patchwork.kernel.org/project/linux-kbuild/patch/20220201213542.2808035-1-quic_eberman@quicinc.com/
+> > >
+> > >
+> > > I hope this is not a complex conflict, but please let me know
+> > > if you have any requests to me.
+> > >
+> > >
+> > >
+> > >
+> > >
+> >
+> >
+> > All, applied to linux-kbuild/kbuild-gnu11.
+> >
+> > If somebody wants to give Reviewed-by, Acked-by, Tested-by, please.
+> >
+> > I will append them later.
+>
+> For the series:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
 
-Oh, I thought of it.
+For the series:
 
-It gets complicated.
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com> # LLVM/Clang v13.0.0 (x86-64)
 
-For example, a type that refers to a list of itself (and 'struct
-task_struct' is one such example) cannot actually refer to that other
-member name while declaring the head entry.
-
-That's true even if the target member was declared before the head
-that points to it - because the type just hasn't been fully
-instantiated yet, so you can't refer to it AT ALL.
-
-And even if that wasn't the case - and we could refer to previous
-members during the initialization of subsequent ones - you'd still end
-up with circular issues when one type has a list of another type,
-which has a list of the first type.
-
-Which I'm also fairly certain does happen.
-
-With regular "circular pointers", the trick is to just pre-declare the type=
-, ie
-
-   struct second;
-
-  struct first {
-     .. define here, can use 'struct second *'
-  };
-
-  struct second {
-    .. define here, can use 'struct first *'
-  };
-
-but that only works as long as you only use a pointer to that type.
-You can't actually use 'offsetof()' of the members that haven't been
-described yet.
-
-Now, you can combine that "pre-declare the type" model with the "do
-the offsetof later", but it gets nasty.
-
-So I actually think it *can* be made to work, but not using your
-"pointer to an array of the right size". I think you have to
-
- - pre-declare another type (the name needs to be a mix of both the
-base type and the target type) with one macro
-
- - use a pointer to that as-yet undefined but declared type it in that
-union defined by list_traversal_head() type
-
- - then, later on, when that target type has been fully defined, have
-a *different* macro that then creates the actual type, which can now
-have the right size, because the target has been declared
-
-But that means that you can't really describe that thing inside just
-the list_traversal_head() thing, you need *another* place that firsat
-declares that type, and then a *third* place that defines that final
-the type once all the pieces are in hand.
-
-So it gets a lot uglier. But yes, I do believe it it's doable with
-those extra steps.
-
-The extra steps can at least be sanity-checked by that name, so
-there's some "cross-verification" that you get all the pieces right,
-but it ends up being pretty nasty.
-
-It's extra nasty because that type-name ends up having to contain both
-the source and destination types, and the member name. We could avoid
-that before, because the 'name##_traversal_type' thing was entirely
-internal to the source structure that contains the head, so we didn't
-need to name that source structure - it was all very naturally
-encapsulated.
-
-So you'd have to do something like
-
-  #define list_traversal_declare(src, head, dst, member) \
-        struct src##_##head##_##dst##_##member##_offset_type
-
-  #define list_traversal_defile(src, head, dst, member) \
-        list_traversal_declare(src,head,dst,member) { \
-                char[offsetof(struct dst, member); \
-        }
-
-   #define list_traversal_head(src, name, dst, member) \
-    union {
-        struct list_head name; \
-        struct dst *name##_traversal_type; \
-        list_traversal_declare(src,head,dst,member) *name##_target_type_off=
-set;
-    }
-
-and then you'd have to do
-
-    list_traversal_declare(task_struct, children, task_struct, sibling);
-
-    struct task_struct {
-        ...
-        list_traversal_entry(task_struct, children, task_struct, sibling);
-        ..
-    };
-
-    list_traversal_define(task_struct, children, task_struct, sibling);
-
-and now list_traversal() itself can use
-'sizeof(*name##_target_type_offset)' to get that offset.
-
-NOTE! All of the above was written in my MUA with absolutely no
-testing, just "I think something like this will work". And note how
-really ugly it gets.
-
-So. Doable? Yes. But at a pretty horrid cost - not just inside the
-"list_traverse()" macro, but in that now the places declaring how the
-list works get much much nastier.
-
-                 Linus
+- Sedat -
