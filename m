@@ -2,152 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA2204D5C19
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 08:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B35DF4D636E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 15:28:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242554AbiCKHQx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Mar 2022 02:16:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56924 "EHLO
+        id S1349270AbiCKO3D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Mar 2022 09:29:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346302AbiCKHQu (ORCPT
+        with ESMTP id S1349241AbiCKO3D (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Mar 2022 02:16:50 -0500
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C987F1B45E4
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 23:15:47 -0800 (PST)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-2dd2c5ef10eso61580717b3.14
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 23:15:47 -0800 (PST)
+        Fri, 11 Mar 2022 09:29:03 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C8315A3B
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 06:27:58 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id m42-20020a05600c3b2a00b00382ab337e14so7564268wms.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 06:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=kehSp/poBksAvN+ookLna3p1CLAB/x6vQemcHHjE9ck=;
-        b=fegh3z766K7XxTtoebS427NIXVyVt0vELknatpspBcD93w7b4yKgCM8VTOA/JwonRG
-         rA+XIToLf/q5jYCMKU1PttLZHvXYU8b3DL9xmEEz/UqE6uODJg+dymzXp38PNK1zNgJk
-         6IGNpHaVAoKQYdyVZf5VzJoz+Yr03u9BIOws5FX/6piicMFh62mjwW9YawDLz9EcXjFR
-         scPRFOv064kITQRykgdBz+yWBFfc7/wl4WNjXVlMmHTG6SCjAZheE5gqCCPSl0gH0Of5
-         bqpRfI2LWAl4P0Bo06c4vhnC89KL6IYzks34DnptJpsluZQIszC276vQBxiEzAjhH5Mu
-         SekA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=MpXiSYabOrYwVZBoUNg0nqtYEvuBi16Uja5dFf2EH0o=;
+        b=k2nh2gjDZ2GWduILDMTVTdPhwUGy/gKiaKiDAAeWeNvWs+qTTrNrgWKCpvV5YZTUem
+         oS/VqO60ezzCYtbnUQI49E+RYcTTpPSClCwilaRKFbUWSxsD5nb47zN5aSspNsfFktFZ
+         FkbA1p2tgEoHpfs74AHjwcd7z1Fmq06KPg4uI1LJjNZjy+w0+El9JAo7Kd2WQgnuoWT+
+         HpMizIPvpJ4kBD8vcbDXLo7JWtSiBBROSlbVgdGvOfUJcbc+q2t6xbeJDOeNJ7IgcDkf
+         oPtG5W7BIAAQOD9tgIZbFNVeFcpnIzkbhUQGtMeyPsJMSxGYr8R3kg3jnU3j/sB/SxSq
+         Xk9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=kehSp/poBksAvN+ookLna3p1CLAB/x6vQemcHHjE9ck=;
-        b=kV6shuDDsZTiG3VRoXEoRheMrJcsc19BMJQoL33ys4nKmNb+BQuUJYc92HkKaErz9r
-         3tCVbyk88G8XoNfPNuqtj14Qqgra6ziFFvRkMknWkAVJmdy8Zt5C3ctM0rPDOq/P4neA
-         KeqyvEGeSyxdcClHTZonAYeHWfWkg1T4z+FksFYJEYAywXVqy31oCcrpcyQja8yokUcl
-         vKSkbRvnYCqveLVwU0xub7NAUrH2fRWrXXzbTRSg7NbntdkmaUhsBdiL2Zl0N0EO1IdV
-         OgX5zPscrNficaK051HStAgI5B4WWiiQZOaxAQtfxKtriLx0T3ircZzEaqMqcRoSSDkF
-         1OFg==
-X-Gm-Message-State: AOAM533R96OjhBuJrJun0LaXEKPdm6tX2gGe5Rc2R/Oiz+Yxq0A5pKIj
-        VbWa8MQfqqtO1L7n+aLOcwIwL4rEcFcriQ==
-X-Google-Smtp-Source: ABdhPJxmCB7rj2KPICFIlO7jQTEBEIX3UJqMDu1xzucTtM+H9C5+zwsTdAQHebuflHkEJq4xsHVsGn3TSZXY/A==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a25:8684:0:b0:629:917:c5c with SMTP id
- z4-20020a258684000000b0062909170c5cmr6701419ybk.403.1646982946981; Thu, 10
- Mar 2022 23:15:46 -0800 (PST)
-Date:   Fri, 11 Mar 2022 15:15:29 +0800
-In-Reply-To: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
-Message-Id: <20220311071529.1836818-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
-X-Mailer: git-send-email 2.35.1.723.g4982287a31-goog
-Subject: [RFC PATCH] list: test: Add a test for list_traverse
-From:   David Gow <davidgow@google.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=MpXiSYabOrYwVZBoUNg0nqtYEvuBi16Uja5dFf2EH0o=;
+        b=x3pXFx4PfFUKGpGLxLFFNjviNwqf6bbd2putZS1kRJ165f/jMSdpRHomF0TBWHj08D
+         a43taeraYqcJki361EFTFZFgD8FGYvckPKeTgRQlZ7/vT3MBNfeNigW0R1Rpvg1bZlUJ
+         BVou1FBp0w3uNs1o8uiOYxmoUroFQcmrVfwP9XjORr33smDnGdTht93VIe9vKyVQjWuR
+         TBTs88r1EJ0iDxeOPWDopriG63Jn2RN3EBgBZ890FuFeu9o2ik7iM81c3wXds9MB6kMl
+         rgngGYlVfuL9zBLFofBDSYJkqCF+V6rFb2mIraK3mH+HquCfrPk89eLi+i6EThq53SPs
+         fgyg==
+X-Gm-Message-State: AOAM532xYfive8gpJMfeNvZGjdXzyVN1i6batQujsREq6DavsO/CjSFh
+        u8WzO5zPcV0wmm7PGHf8t22lQQ==
+X-Google-Smtp-Source: ABdhPJxQojmr11qBMELiUdbxhAZwsibac1eN9niCtFM0AGC0j84YVyfws1DV7ZJcT9GegkvTIMpT+w==
+X-Received: by 2002:a1c:f718:0:b0:380:ed20:6557 with SMTP id v24-20020a1cf718000000b00380ed206557mr16407510wmh.53.1647008876745;
+        Fri, 11 Mar 2022 06:27:56 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id u23-20020a7bcb17000000b0037bdfa1665asm14118274wmj.18.2022.03.11.06.27.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Mar 2022 06:27:56 -0800 (PST)
+Date:   Fri, 11 Mar 2022 14:27:54 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
+Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jakob Koschel <jakobkoschel@gmail.com>,
         Jann Horn <jannh@google.com>,
         Kees Cook <keescook@chromium.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>,
-        kunit-dev@googlegroups.com, David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+ outside the loop
+Message-ID: <20220311142754.a3jnnjqxpok75qgp@maple.lan>
+References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
+ <20220304025109.15501-1-xiam0nd.tong@gmail.com>
+ <CAHk-=wjesxw9U6JvTw34FREFAsayEE196Fi=VHtJXL8_9wgi=A@mail.gmail.com>
+ <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Update the list KUnit test to include a test for the new list_traverse()
-macro. This adds a new 'head' member to the list_test_struct to use as a
-list head, using the list_traverse_head macro.
+On Sat, Mar 05, 2022 at 04:35:36PM -0800, Linus Torvalds wrote:
+> On Sat, Mar 5, 2022 at 1:09 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> What do people think? Is this clever and useful, or just too
+> subtle and odd to exist?
 
-Signed-off-by: David Gow <davidgow@google.com>
----
+> NOTE! I decided to add that "name of the target head in the target
+> type" to the list_traversal_head() macro, but it's not actually used
+> as is. It's more of a wishful "maybe we could add some sanity checking
+> of the target list entries later".
+> 
+> Comments?
 
-If, as seems likely, we're going to introduce new list traversal macros,
-it'd be nice to update the linked list KUnit tests in lib/list-test.c to
-test them. :-)
+It is possible simply to use spelling to help uncover errors in
+list_traverse()?
 
-This patch works against the proposed list_traverse() macro posted here:
-https://lore.kernel.org/all/CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com/
+Something like:
 
-Feel free to use and/or adapt it if this or a similar macro is
-introduced.
+#define list_traversal_head(type, name, target_member) \
+	union { \
+		struct list_head name; \
+		type *name##_traversal_mismatch_##target_member; \
+	}
 
-Cheers,
--- David
+And:
 
----
- lib/list-test.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+#define list_traverse(pos, head, member) \
+	for (typeof(*head##_traversal_mismatch_##member) pos = list_first_entry(head, typeof(*pos), member); \
+		!list_entry_is_head(pos, head, member);	\
+		pos = list_next_entry(pos, member))
 
-diff --git a/lib/list-test.c b/lib/list-test.c
-index ee09505df16f..7fa2622ff9c7 100644
---- a/lib/list-test.c
-+++ b/lib/list-test.c
-@@ -12,6 +12,7 @@
- struct list_test_struct {
- 	int data;
- 	struct list_head list;
-+	list_traversal_head(struct list_test_struct, head, list);
- };
- 
- static void list_test_list_init(struct kunit *test)
-@@ -656,6 +657,28 @@ static void list_test_list_for_each_prev_safe(struct kunit *test)
- 	KUNIT_EXPECT_TRUE(test, list_empty(&list));
- }
- 
-+static void list_test_list_traverse(struct kunit *test)
-+{
-+	struct list_test_struct entries[5], head;
-+	int i = 0;
-+
-+	INIT_LIST_HEAD(&head.head);
-+
-+	for (i = 0; i < 5; ++i) {
-+		entries[i].data = i;
-+		list_add_tail(&entries[i].list, &head.head);
-+	}
-+
-+	i = 0;
-+
-+	list_traverse(cur, &head.head, list) {
-+		KUNIT_EXPECT_EQ(test, cur->data, i);
-+		i++;
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, i, 5);
-+}
-+
- static void list_test_list_for_each_entry(struct kunit *test)
- {
- 	struct list_test_struct entries[5], *cur;
-@@ -733,6 +756,7 @@ static struct kunit_case list_test_cases[] = {
- 	KUNIT_CASE(list_test_list_for_each_prev),
- 	KUNIT_CASE(list_test_list_for_each_safe),
- 	KUNIT_CASE(list_test_list_for_each_prev_safe),
-+	KUNIT_CASE(list_test_list_traverse),
- 	KUNIT_CASE(list_test_list_for_each_entry),
- 	KUNIT_CASE(list_test_list_for_each_entry_reverse),
- 	{},
--- 
-2.35.1.723.g4982287a31-goog
+If I deliberately insert an error into your modified exit.c then the
+resulting errors even make helpful suggestions about what you did
+wrong:
 
+kernel/exit.c:412:32: error: ‘struct task_struct’ has no member named
+‘children_traversal_mismatch_children’; did you mean
+‘children_traversal_mismatch_sibling’?
+
+The suggestions are not always as good as the above
+(children_traversal_mismatch_ptrace_entry suggests
+ptraced_traversal_mismatch_ptrace_entry) but, nevertheless, it does
+ appears to be robust in detecting incorrect traversal.
+
+
+> diff --git a/include/linux/list.h b/include/linux/list.h
+> index dd6c2041d09c..1e8b3e495b51 100644
+> --- a/include/linux/list.h
+> +++ b/include/linux/list.h
+> @@ -25,6 +25,9 @@
+>  #define LIST_HEAD(name) \
+>  	struct list_head name = LIST_HEAD_INIT(name)
+
+Seeing this in the diff did set me thinking about static/global
+list heads.
+
+For architectures without HAVE_LD_DEAD_CODE_DATA_ELIMINATION then the
+"obvious" extension of list_traversal_head() ends up occupying bss
+space. Even replacing the pointer with a zero length array is still
+provoking gcc-11 (arm64) to allocate a byte from bss (often with a lot
+of padding added).
+
+Perhaps in the grand scheme of things this doesn't matter. Across the
+whole tree and all architecture I see only ~1200 instances so even in
+the worst case and with padding everywhere the wasted RAM is only a few
+kb.
+
+Nevertheless I was curious if there is any cunning tricks to avoid
+this? Naturally LIST_HEAD() could just declare a union but that would
+require all sites of use to be updated simultaneously and I rather
+like the way list_traverse_head() is entirely incremental.
+
+
+Daniel.
