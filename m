@@ -2,37 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D21A74D5635
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 01:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 494844D56ED
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 01:47:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345125AbiCKAA5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Mar 2022 19:00:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
+        id S1344357AbiCKArt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Mar 2022 19:47:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345131AbiCKAAy (ORCPT
+        with ESMTP id S1344733AbiCKArt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Mar 2022 19:00:54 -0500
-X-Greylist: delayed 339 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Mar 2022 15:59:45 PST
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2621EE02C9;
-        Thu, 10 Mar 2022 15:59:44 -0800 (PST)
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4KF5WG2Pswz9q;
-        Fri, 11 Mar 2022 00:54:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1646956443; bh=ZbM+uUpW63IdB++IxqwwUYhFJXACQMMNBE9FAmZwinc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=kIyR5n+l/hAW3FQWdIPuou+eqg0mMW5LgNePzkqwxnwkrJSckG4TPJkGwK1xSrTjW
-         2d7SnTGSBkjBE5DCFm3+w5fAS33HffsMih9f+Lb6ETSfCSgi0Ri/lg/pbftAkVQwxB
-         WsQpEtxuqsoaD+7Doj4Cpa9GnOl51kFUF57MI6fKEcXcRZ8JOopXSoFMkuaBhHKVud
-         MUxq1sXw2E644SG6lRrCHSjzVYjr5bgwSklrSF4o1zY4BVEz6d1G0EJbMH3L9ZmFqh
-         6s8x/e6xDV79LFHZGarq9eGUTUQPv8u+1OTFAaZ7dtmOMXIvXmBUurzi/xoy2rtkFw
-         CnuvwD5HSkSYw==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.5 at mail
-Date:   Fri, 11 Mar 2022 00:54:00 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        Thu, 10 Mar 2022 19:47:49 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF07D1A2757
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 16:46:45 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id bi12so15890161ejb.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Mar 2022 16:46:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=MWpPevTXD3OVyRVT3kR8OEKqC1/aCzhwDb8lPZGqgeU=;
+        b=CDZNJsuOi788FY8gAuDZGmuG80aZHvreAMuZ2/qjypwYCvKbhskHBt81S8aJWPM1tr
+         hjtcuXwJ4nOsvWb+oryDzTMfn95fyqZB6BBoKlpNGFr0dtAg2Fgg/OYjjxStPVhsQT+H
+         qKo6KFJIMe0zUgg+i5yc+Ratje7eCBQ+C9VR4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MWpPevTXD3OVyRVT3kR8OEKqC1/aCzhwDb8lPZGqgeU=;
+        b=q2/RMVSpIwgv73FhY8KeAHxRgPvbme3/hlDIXgWUjSeX4J9eE+4Fn3kL97/p/FE+aF
+         Y1qOTMYlD2g6VAcq6FcypI5AbsYDEQNq2dVLu/VxcprZ6IDjLQbjS6QmccoBVWUzWvr5
+         mQwQ8+npRoPcmyuN74GCvukxZE2OQhstiKjdmg+bf/UQw7kUqsxauSJrNTpFW3m2qY2C
+         XbJwO5iGD74GV9M1YgJLoS5m++xdqsnnHw+yST5b1sTR1AtGXTbkl4vDOO7Jo7PuBHhg
+         HvdkXEWacrQbDP3L4vl80m8d8wsV+jWicKEJmT82gUKsdUzcl4lnQOj7FpYZD4lEn6Bx
+         pYZg==
+X-Gm-Message-State: AOAM5335PTETNZbU5CgWZGuSU5/8gxCqUyIa7hJYkUNrg9G9yV2vuMh2
+        lncKPc04Di8iiA+GGuMPDlQQIxXxFsTXBCkiXbWpow==
+X-Google-Smtp-Source: ABdhPJwIBFoifixGR/mxfVGqBIPW9Qoe/+D8Bt3okVLQx4CODl8cRqLb5n7nORyLXZ+SFzDpEKbCzCxuXrLHr7ocLoQ=
+X-Received: by 2002:a17:906:7316:b0:6d7:16be:b584 with SMTP id
+ di22-20020a170906731600b006d716beb584mr6468336ejc.759.1646959604231; Thu, 10
+ Mar 2022 16:46:44 -0800 (PST)
+MIME-Version: 1.0
+References: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+ <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
+In-Reply-To: <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 10 Mar 2022 16:46:33 -0800
+Message-ID: <CAADWXX-Pr-D3wSr5wsqTEOBSJzB9k7bSH+7hnCAj0AeL0=U4mg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -42,53 +60,135 @@ Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
-Message-ID: <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Thu, Mar 10, 2022 at 3:54 PM Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.=
+qmqm.pl> wrote:
+>
+> If the macro implementation doesn't have to be pretty, maybe it could go
+> a step further and remember the list_head's offset? That would look
+> something like following (expanding on your patch; not compile tested):
 
-If the macro implementation doesn't have to be pretty, maybe it could go
-a step further and remember the list_head's offset? That would look
-something like following (expanding on your patch; not compile tested):
+Oh, I thought of it.
 
-#define list_traversal_head(type,name,target_member) \
-	union { \
-		struct list_head name; \
-		type *name##_traversal_type; \
-		char (*name##_list_head_offset)[offsetof(type, target_member)];  \
-	}
+It gets complicated.
 
-#define list_traversal_entry(ptr, head) \
-	(typeof(*head##_traversal_type))((void *)ptr - sizeof(**head##_list_head_offset))
+For example, a type that refers to a list of itself (and 'struct
+task_struct' is one such example) cannot actually refer to that other
+member name while declaring the head entry.
 
-#define list_traversal_entry_head(ptr, head) \
-	(struct list_head *)((void *)ptr + sizeof(**head##_list_head_offset))
+That's true even if the target member was declared before the head
+that points to it - because the type just hasn't been fully
+instantiated yet, so you can't refer to it AT ALL.
 
-#define list_traversal_entry_is_head(ptr, head) \
-	(list_traversal_entry_head(ptr, head) == (head))
+And even if that wasn't the case - and we could refer to previous
+members during the initialization of subsequent ones - you'd still end
+up with circular issues when one type has a list of another type,
+which has a list of the first type.
 
-#define list_traversal_next_entry(ptr, head) \
-	list_traversal_entry(list_traversal_entry_head(ptr, head)->next)
+Which I'm also fairly certain does happen.
 
-#define list_traverse(pos, head) \
-	for (typeof(*head##_traversal_type) pos = list_traversal_entry((head)->next); \
-		!list_traversal_entry_head(pos, head) == (head); \
-		pos = list_traversal_next_entry(pos, head))
+With regular "circular pointers", the trick is to just pre-declare the type=
+, ie
 
-[Sorry for lack of citations - I found the thread via https://lwn.net/Articles/887097/]
+   struct second;
 
--- 
-Micha³ Miros³aw
+  struct first {
+     .. define here, can use 'struct second *'
+  };
+
+  struct second {
+    .. define here, can use 'struct first *'
+  };
+
+but that only works as long as you only use a pointer to that type.
+You can't actually use 'offsetof()' of the members that haven't been
+described yet.
+
+Now, you can combine that "pre-declare the type" model with the "do
+the offsetof later", but it gets nasty.
+
+So I actually think it *can* be made to work, but not using your
+"pointer to an array of the right size". I think you have to
+
+ - pre-declare another type (the name needs to be a mix of both the
+base type and the target type) with one macro
+
+ - use a pointer to that as-yet undefined but declared type it in that
+union defined by list_traversal_head() type
+
+ - then, later on, when that target type has been fully defined, have
+a *different* macro that then creates the actual type, which can now
+have the right size, because the target has been declared
+
+But that means that you can't really describe that thing inside just
+the list_traversal_head() thing, you need *another* place that firsat
+declares that type, and then a *third* place that defines that final
+the type once all the pieces are in hand.
+
+So it gets a lot uglier. But yes, I do believe it it's doable with
+those extra steps.
+
+The extra steps can at least be sanity-checked by that name, so
+there's some "cross-verification" that you get all the pieces right,
+but it ends up being pretty nasty.
+
+It's extra nasty because that type-name ends up having to contain both
+the source and destination types, and the member name. We could avoid
+that before, because the 'name##_traversal_type' thing was entirely
+internal to the source structure that contains the head, so we didn't
+need to name that source structure - it was all very naturally
+encapsulated.
+
+So you'd have to do something like
+
+  #define list_traversal_declare(src, head, dst, member) \
+        struct src##_##head##_##dst##_##member##_offset_type
+
+  #define list_traversal_defile(src, head, dst, member) \
+        list_traversal_declare(src,head,dst,member) { \
+                char[offsetof(struct dst, member); \
+        }
+
+   #define list_traversal_head(src, name, dst, member) \
+    union {
+        struct list_head name; \
+        struct dst *name##_traversal_type; \
+        list_traversal_declare(src,head,dst,member) *name##_target_type_off=
+set;
+    }
+
+and then you'd have to do
+
+    list_traversal_declare(task_struct, children, task_struct, sibling);
+
+    struct task_struct {
+        ...
+        list_traversal_entry(task_struct, children, task_struct, sibling);
+        ..
+    };
+
+    list_traversal_define(task_struct, children, task_struct, sibling);
+
+and now list_traversal() itself can use
+'sizeof(*name##_target_type_offset)' to get that offset.
+
+NOTE! All of the above was written in my MUA with absolutely no
+testing, just "I think something like this will work". And note how
+really ugly it gets.
+
+So. Doable? Yes. But at a pretty horrid cost - not just inside the
+"list_traverse()" macro, but in that now the places declaring how the
+list works get much much nastier.
+
+                 Linus
