@@ -2,56 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B35DF4D636E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 15:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6AA24D6893
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 19:41:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349270AbiCKO3D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Mar 2022 09:29:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
+        id S234936AbiCKSmb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Mar 2022 13:42:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349241AbiCKO3D (ORCPT
+        with ESMTP id S233634AbiCKSma (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Mar 2022 09:29:03 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C8315A3B
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 06:27:58 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id m42-20020a05600c3b2a00b00382ab337e14so7564268wms.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 06:27:58 -0800 (PST)
+        Fri, 11 Mar 2022 13:42:30 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D854E5F8EB
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:26 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id u7so13155006ljk.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=MpXiSYabOrYwVZBoUNg0nqtYEvuBi16Uja5dFf2EH0o=;
-        b=k2nh2gjDZ2GWduILDMTVTdPhwUGy/gKiaKiDAAeWeNvWs+qTTrNrgWKCpvV5YZTUem
-         oS/VqO60ezzCYtbnUQI49E+RYcTTpPSClCwilaRKFbUWSxsD5nb47zN5aSspNsfFktFZ
-         FkbA1p2tgEoHpfs74AHjwcd7z1Fmq06KPg4uI1LJjNZjy+w0+El9JAo7Kd2WQgnuoWT+
-         HpMizIPvpJ4kBD8vcbDXLo7JWtSiBBROSlbVgdGvOfUJcbc+q2t6xbeJDOeNJ7IgcDkf
-         oPtG5W7BIAAQOD9tgIZbFNVeFcpnIzkbhUQGtMeyPsJMSxGYr8R3kg3jnU3j/sB/SxSq
-         Xk9A==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=grwJQHpTejzQ9PPbrhyRjQ3f2c8M8MaXreOB3JRCzH4=;
+        b=XHp3iURq9OeJVvf+OfCRzT7E/cMt2KAuZNAwrYLyP/pzLenBGQ8uLEBnp3WmTUS8nh
+         xRLufqDVNmGWux/1S1hgA4vH49obaGQ9jwyXIaQ1y0Zy8eIP792BUl2Cewf+liru22iE
+         i3hJ3p85HmBfcmjySUXC47mkMZJ5BchuXf6Xk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=MpXiSYabOrYwVZBoUNg0nqtYEvuBi16Uja5dFf2EH0o=;
-        b=x3pXFx4PfFUKGpGLxLFFNjviNwqf6bbd2putZS1kRJ165f/jMSdpRHomF0TBWHj08D
-         a43taeraYqcJki361EFTFZFgD8FGYvckPKeTgRQlZ7/vT3MBNfeNigW0R1Rpvg1bZlUJ
-         BVou1FBp0w3uNs1o8uiOYxmoUroFQcmrVfwP9XjORr33smDnGdTht93VIe9vKyVQjWuR
-         TBTs88r1EJ0iDxeOPWDopriG63Jn2RN3EBgBZ890FuFeu9o2ik7iM81c3wXds9MB6kMl
-         rgngGYlVfuL9zBLFofBDSYJkqCF+V6rFb2mIraK3mH+HquCfrPk89eLi+i6EThq53SPs
-         fgyg==
-X-Gm-Message-State: AOAM532xYfive8gpJMfeNvZGjdXzyVN1i6batQujsREq6DavsO/CjSFh
-        u8WzO5zPcV0wmm7PGHf8t22lQQ==
-X-Google-Smtp-Source: ABdhPJxQojmr11qBMELiUdbxhAZwsibac1eN9niCtFM0AGC0j84YVyfws1DV7ZJcT9GegkvTIMpT+w==
-X-Received: by 2002:a1c:f718:0:b0:380:ed20:6557 with SMTP id v24-20020a1cf718000000b00380ed206557mr16407510wmh.53.1647008876745;
-        Fri, 11 Mar 2022 06:27:56 -0800 (PST)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id u23-20020a7bcb17000000b0037bdfa1665asm14118274wmj.18.2022.03.11.06.27.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Mar 2022 06:27:56 -0800 (PST)
-Date:   Fri, 11 Mar 2022 14:27:54 +0000
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=grwJQHpTejzQ9PPbrhyRjQ3f2c8M8MaXreOB3JRCzH4=;
+        b=y3tg0SzAwSNp+tt/3E06VIvHsB0LWg5O7ZeACvA5ySo7tiC0/6VotCkSvDjfG1ed0w
+         869n8BbJZqOlHN694WRVA2FSrdvZ80YrSLYjHOV4DMJYkTihuRo/R4IRC7v0xn2PMF3e
+         N3ACUrxkS0DAQxISUVwTNV/RcrDrLhXdwLfigYGRrhFbpFAlVPYKvwHCBoJoSyQgb/As
+         j1DsoO8JukB4V5FVJjBgQbdgGvv3wik1efqjLqnBEm/QOiK7/NAXXDxauZrdneAYGVOZ
+         vPd2lH3+yDJ4baNJIyf12ex2PkXVNOP6zeEACIFu5U0L608K07JjKCIa0ijzD89wzM/k
+         VXbw==
+X-Gm-Message-State: AOAM530WE/Mgp9So2tjqxr8lbLV67mEHjWa5jslYFTOMFbFZ7it+LIOW
+        vM7mb05DiH8Fuecsow7gCtBCiImTlgMWLlyEZzg=
+X-Google-Smtp-Source: ABdhPJzfH345BjNeVbC/q7zvYL0n77M8FYADxvlboVxArFXi9g93hmvvdZBB+EyrbC7eUDx/W8+5XQ==
+X-Received: by 2002:a05:651c:1192:b0:246:1d6b:d323 with SMTP id w18-20020a05651c119200b002461d6bd323mr6757282ljo.360.1647024084943;
+        Fri, 11 Mar 2022 10:41:24 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id z10-20020a19504a000000b004483c8359f9sm1739531lfj.131.2022.03.11.10.41.23
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Mar 2022 10:41:23 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id n19so16505821lfh.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:23 -0800 (PST)
+X-Received: by 2002:a05:6512:3a83:b0:447:da72:43f1 with SMTP id
+ q3-20020a0565123a8300b00447da7243f1mr6931391lfu.542.1647024082921; Fri, 11
+ Mar 2022 10:41:22 -0800 (PST)
+MIME-Version: 1.0
+References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
+ <20220304025109.15501-1-xiam0nd.tong@gmail.com> <CAHk-=wjesxw9U6JvTw34FREFAsayEE196Fi=VHtJXL8_9wgi=A@mail.gmail.com>
+ <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com> <20220311142754.a3jnnjqxpok75qgp@maple.lan>
+In-Reply-To: <20220311142754.a3jnnjqxpok75qgp@maple.lan>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 11 Mar 2022 10:41:06 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
+Message-ID: <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+ outside the loop
+To:     Daniel Thompson <daniel.thompson@linaro.org>
 Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,99 +72,55 @@ Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
- outside the loop
-Message-ID: <20220311142754.a3jnnjqxpok75qgp@maple.lan>
-References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
- <20220304025109.15501-1-xiam0nd.tong@gmail.com>
- <CAHk-=wjesxw9U6JvTw34FREFAsayEE196Fi=VHtJXL8_9wgi=A@mail.gmail.com>
- <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 05, 2022 at 04:35:36PM -0800, Linus Torvalds wrote:
-> On Sat, Mar 5, 2022 at 1:09 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> What do people think? Is this clever and useful, or just too
-> subtle and odd to exist?
+On Fri, Mar 11, 2022 at 6:27 AM Daniel Thompson
+<daniel.thompson@linaro.org> wrote:
+>
+> It is possible simply to use spelling to help uncover errors in
+> list_traverse()?
 
-> NOTE! I decided to add that "name of the target head in the target
-> type" to the list_traversal_head() macro, but it's not actually used
-> as is. It's more of a wishful "maybe we could add some sanity checking
-> of the target list entries later".
-> 
-> Comments?
+I'd love to, and thought that would be a lovely idea, but in another
+thread ("") Barnab=C3=A1s P=C5=91cze pointed out that we actually have a fa=
+ir
+number of cases where the list member entries are embedded in internal
+structures and have a '.' in them:
 
-It is possible simply to use spelling to help uncover errors in
-list_traverse()?
+  https://lore.kernel.org/all/wKlkWvCGvBrBjshT6gHT23JY9kWImhFPmTKfZWtN5Bkv_=
+OtIFHTy7thr5SAEL6sYDthMDth-rvFETX-gCZPPCb9t2bO1zilj0Q-OTTSbe00=3D@protonmai=
+l.com/
 
-Something like:
+which means that you can't actually append the target_member name
+except in the simplest cases, because it wouldn't result in one single
+identifier.
 
-#define list_traversal_head(type, name, target_member) \
-	union { \
-		struct list_head name; \
-		type *name##_traversal_mismatch_##target_member; \
-	}
+Otherwise it would be a lovely idea.
 
-And:
+> For architectures without HAVE_LD_DEAD_CODE_DATA_ELIMINATION then the
+> "obvious" extension of list_traversal_head() ends up occupying bss
+> space. Even replacing the pointer with a zero length array is still
+> provoking gcc-11 (arm64) to allocate a byte from bss (often with a lot
+> of padding added).
 
-#define list_traverse(pos, head, member) \
-	for (typeof(*head##_traversal_mismatch_##member) pos = list_first_entry(head, typeof(*pos), member); \
-		!list_entry_is_head(pos, head, member);	\
-		pos = list_next_entry(pos, member))
+I think compilers give objects at least one byte of space, so that two
+different objects get different addresses, and don't compare equal.
 
-If I deliberately insert an error into your modified exit.c then the
-resulting errors even make helpful suggestions about what you did
-wrong:
+That said, I'm not seeing your issue. list_traversal_head() is a
+union, and always has that 'struct list_head' in it, and that's the
+biggest part of the union.
 
-kernel/exit.c:412:32: error: ‘struct task_struct’ has no member named
-‘children_traversal_mismatch_children’; did you mean
-‘children_traversal_mismatch_sibling’?
+IOW, the other parts are (a) never used for anything but their type
+and (b) will not take up any new space that isn't already used by the
+list_head itself.
 
-The suggestions are not always as good as the above
-(children_traversal_mismatch_ptrace_entry suggests
-ptraced_traversal_mismatch_ptrace_entry) but, nevertheless, it does
- appears to be robust in detecting incorrect traversal.
-
-
-> diff --git a/include/linux/list.h b/include/linux/list.h
-> index dd6c2041d09c..1e8b3e495b51 100644
-> --- a/include/linux/list.h
-> +++ b/include/linux/list.h
-> @@ -25,6 +25,9 @@
->  #define LIST_HEAD(name) \
->  	struct list_head name = LIST_HEAD_INIT(name)
-
-Seeing this in the diff did set me thinking about static/global
-list heads.
-
-For architectures without HAVE_LD_DEAD_CODE_DATA_ELIMINATION then the
-"obvious" extension of list_traversal_head() ends up occupying bss
-space. Even replacing the pointer with a zero length array is still
-provoking gcc-11 (arm64) to allocate a byte from bss (often with a lot
-of padding added).
-
-Perhaps in the grand scheme of things this doesn't matter. Across the
-whole tree and all architecture I see only ~1200 instances so even in
-the worst case and with padding everywhere the wasted RAM is only a few
-kb.
-
-Nevertheless I was curious if there is any cunning tricks to avoid
-this? Naturally LIST_HEAD() could just declare a union but that would
-require all sites of use to be updated simultaneously and I rather
-like the way list_traverse_head() is entirely incremental.
-
-
-Daniel.
+                  Linus
