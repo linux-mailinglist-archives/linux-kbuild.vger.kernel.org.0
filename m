@@ -2,67 +2,36 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6AA24D6893
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Mar 2022 19:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 737044D6DFC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Mar 2022 11:24:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234936AbiCKSmb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Mar 2022 13:42:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
+        id S231645AbiCLKZx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Mar 2022 05:25:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233634AbiCKSma (ORCPT
+        with ESMTP id S231233AbiCLKZx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Mar 2022 13:42:30 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D854E5F8EB
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:26 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id u7so13155006ljk.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=grwJQHpTejzQ9PPbrhyRjQ3f2c8M8MaXreOB3JRCzH4=;
-        b=XHp3iURq9OeJVvf+OfCRzT7E/cMt2KAuZNAwrYLyP/pzLenBGQ8uLEBnp3WmTUS8nh
-         xRLufqDVNmGWux/1S1hgA4vH49obaGQ9jwyXIaQ1y0Zy8eIP792BUl2Cewf+liru22iE
-         i3hJ3p85HmBfcmjySUXC47mkMZJ5BchuXf6Xk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=grwJQHpTejzQ9PPbrhyRjQ3f2c8M8MaXreOB3JRCzH4=;
-        b=y3tg0SzAwSNp+tt/3E06VIvHsB0LWg5O7ZeACvA5ySo7tiC0/6VotCkSvDjfG1ed0w
-         869n8BbJZqOlHN694WRVA2FSrdvZ80YrSLYjHOV4DMJYkTihuRo/R4IRC7v0xn2PMF3e
-         N3ACUrxkS0DAQxISUVwTNV/RcrDrLhXdwLfigYGRrhFbpFAlVPYKvwHCBoJoSyQgb/As
-         j1DsoO8JukB4V5FVJjBgQbdgGvv3wik1efqjLqnBEm/QOiK7/NAXXDxauZrdneAYGVOZ
-         vPd2lH3+yDJ4baNJIyf12ex2PkXVNOP6zeEACIFu5U0L608K07JjKCIa0ijzD89wzM/k
-         VXbw==
-X-Gm-Message-State: AOAM530WE/Mgp9So2tjqxr8lbLV67mEHjWa5jslYFTOMFbFZ7it+LIOW
-        vM7mb05DiH8Fuecsow7gCtBCiImTlgMWLlyEZzg=
-X-Google-Smtp-Source: ABdhPJzfH345BjNeVbC/q7zvYL0n77M8FYADxvlboVxArFXi9g93hmvvdZBB+EyrbC7eUDx/W8+5XQ==
-X-Received: by 2002:a05:651c:1192:b0:246:1d6b:d323 with SMTP id w18-20020a05651c119200b002461d6bd323mr6757282ljo.360.1647024084943;
-        Fri, 11 Mar 2022 10:41:24 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id z10-20020a19504a000000b004483c8359f9sm1739531lfj.131.2022.03.11.10.41.23
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Mar 2022 10:41:23 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id n19so16505821lfh.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Mar 2022 10:41:23 -0800 (PST)
-X-Received: by 2002:a05:6512:3a83:b0:447:da72:43f1 with SMTP id
- q3-20020a0565123a8300b00447da7243f1mr6931391lfu.542.1647024082921; Fri, 11
- Mar 2022 10:41:22 -0800 (PST)
-MIME-Version: 1.0
-References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
- <20220304025109.15501-1-xiam0nd.tong@gmail.com> <CAHk-=wjesxw9U6JvTw34FREFAsayEE196Fi=VHtJXL8_9wgi=A@mail.gmail.com>
- <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com> <20220311142754.a3jnnjqxpok75qgp@maple.lan>
-In-Reply-To: <20220311142754.a3jnnjqxpok75qgp@maple.lan>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 11 Mar 2022 10:41:06 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
-Message-ID: <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
- outside the loop
-To:     Daniel Thompson <daniel.thompson@linaro.org>
+        Sat, 12 Mar 2022 05:25:53 -0500
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD5217775A;
+        Sat, 12 Mar 2022 02:24:47 -0800 (PST)
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4KFzSW2sKzzJS;
+        Sat, 12 Mar 2022 11:24:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1647080684; bh=+QR/+RJkyH6iOL9WdEejK5XbutH1cp/++rV5+5TNCEU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fJup2gIGRswfLU52LqyF/nMo3l2iimuu1mZSzsQTuQKGumuX731elm4pQaQoiTA7R
+         MP+HtyE9Dd01XZHadk64vHmOtW7A/XXhdC00IVxtKHeUwUMK+Wmays+UTb155qlIRr
+         ERo2qs8gvRUeRgaHCGixncnt2KIuYg/0uqjni0UXn0NGN4a69IkL+NN0rhmhKXNWqn
+         VXp1Uibi8oRExJlWeKWM1RGkoMm61+GyqDBjYs4Ua8u1U1J1yLdyzWv8L2e0pOKHBr
+         9u5OEs+uczVfBM15y8Ps2Y7TkiyAyfEx917KnhoA0XXx6AnOvWUPIa7r4H4JgieC+1
+         2XDC/8ptw0Fgg==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.103.5 at mail
+Date:   Sat, 12 Mar 2022 11:24:40 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -72,55 +41,105 @@ Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+Message-ID: <Yix06B9rPaGh0dp8@qmqm.qmqm.pl>
+References: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+ <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl>
+ <CAADWXX-Pr-D3wSr5wsqTEOBSJzB9k7bSH+7hnCAj0AeL0=U4mg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAADWXX-Pr-D3wSr5wsqTEOBSJzB9k7bSH+7hnCAj0AeL0=U4mg@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 6:27 AM Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
->
-> It is possible simply to use spelling to help uncover errors in
-> list_traverse()?
+On Thu, Mar 10, 2022 at 04:46:33PM -0800, Linus Torvalds wrote:
+> On Thu, Mar 10, 2022 at 3:54 PM Micha³ Miros³aw <mirq-linux@rere.qmqm.pl> wrote:
+> >
+> > If the macro implementation doesn't have to be pretty, maybe it could go
+> > a step further and remember the list_head's offset? That would look
+> > something like following (expanding on your patch; not compile tested):
+> 
+> Oh, I thought of it.
+> 
+> It gets complicated.
+[...]
 
-I'd love to, and thought that would be a lovely idea, but in another
-thread ("") Barnab=C3=A1s P=C5=91cze pointed out that we actually have a fa=
-ir
-number of cases where the list member entries are embedded in internal
-structures and have a '.' in them:
+It seems that it's not that bad if we don't require checking whether
+a list_head of an entry is only ever used with a single list parent. The
+source type is not needed for the macros, and it turns out that pre-declaring
+the offset type is also not needed.
 
-  https://lore.kernel.org/all/wKlkWvCGvBrBjshT6gHT23JY9kWImhFPmTKfZWtN5Bkv_=
-OtIFHTy7thr5SAEL6sYDthMDth-rvFETX-gCZPPCb9t2bO1zilj0Q-OTTSbe00=3D@protonmai=
-l.com/
+I compile-tested the code below on godbolt.org with -std=c11:
 
-which means that you can't actually append the target_member name
-except in the simplest cases, because it wouldn't result in one single
-identifier.
+struct list_head {
+	struct list_head *prev, *next;
+};
 
-Otherwise it would be a lovely idea.
+#define offsetof __builtin_offsetof
+#define typeof __typeof
 
-> For architectures without HAVE_LD_DEAD_CODE_DATA_ELIMINATION then the
-> "obvious" extension of list_traversal_head() ends up occupying bss
-> space. Even replacing the pointer with a zero length array is still
-> provoking gcc-11 (arm64) to allocate a byte from bss (often with a lot
-> of padding added).
+#define list_traversal_head(name,type,target_member) \
+	union { \
+		struct list_head name; \
+		type *name##_traversal_type; \
+		char (*name##_list_head_offset)[offsetof(type, target_member)];  \
+	}
 
-I think compilers give objects at least one byte of space, so that two
-different objects get different addresses, and don't compare equal.
+#define self_list_ref_offset_type(type,target_member) \
+	type##__##target_member##__offset__
 
-That said, I'm not seeing your issue. list_traversal_head() is a
-union, and always has that 'struct list_head' in it, and that's the
-biggest part of the union.
+#define define_self_list_ref_offset(type,target_member) \
+	self_list_ref_offset_type(type,target_member) \
+	{ char ignoreme__[offsetof(type, target_member)]; }
 
-IOW, the other parts are (a) never used for anything but their type
-and (b) will not take up any new space that isn't already used by the
-list_head itself.
+#define self_list_traversal_head(name,type,target_member) \
+	union { \
+		struct list_head name; \
+		type *name##_traversal_type; \
+		self_list_ref_offset_type(type,target_member) *name##_list_head_offset;  \
+	}
 
-                  Linus
+#define list_traversal_entry(ptr, head) \
+	(typeof(*head##_traversal_type))((void *)ptr - sizeof(**head##_list_head_offset))
+
+#define list_traversal_entry_head(ptr, head) \
+	((struct list_head *)((void *)ptr + sizeof(**head##_list_head_offset)))
+
+#define list_traversal_entry_is_head(ptr, head) \
+	(list_traversal_entry_head(ptr, head) == (head))
+
+#define list_traversal_next_entry(ptr, head) \
+	list_traversal_entry(list_traversal_entry_head(ptr, head)->next, head)
+
+#define list_traverse(pos, head) \
+    for (typeof(*head##_traversal_type) pos = list_traversal_entry((head)->next, head); \
+    !list_traversal_entry_is_head(pos, head); \
+    pos = list_traversal_next_entry(pos,head))
+
+struct entry {
+    self_list_traversal_head(self_list, struct entry, child_head);
+    struct list_head child_head;
+};
+
+define_self_list_ref_offset(struct entry, child_head);
+
+
+void bar(struct entry *b);
+
+void foo(struct entry *a)
+{
+    list_traverse(pos, &a->self_list) {
+        bar(pos);
+    }
+}
+
+-- 
+Micha³ Miros³aw
