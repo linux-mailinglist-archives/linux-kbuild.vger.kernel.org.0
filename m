@@ -2,107 +2,191 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A04D4D710E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Mar 2022 22:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D7F4D7421
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Mar 2022 10:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232749AbiCLVpS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Mar 2022 16:45:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37396 "EHLO
+        id S232537AbiCMJ7T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 13 Mar 2022 05:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232770AbiCLVpR (ORCPT
+        with ESMTP id S231579AbiCMJ7S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Mar 2022 16:45:17 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262391DB8AB
-        for <linux-kbuild@vger.kernel.org>; Sat, 12 Mar 2022 13:44:11 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id c15so165591ljr.9
-        for <linux-kbuild@vger.kernel.org>; Sat, 12 Mar 2022 13:44:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Al6bnHgVgcqWGS7SzpEP6EcNnlitYzP4oWhkmGFLRYg=;
-        b=TUNQe6vdMdyq5Mk9RcZa0WrgFWSQNBekv3itbnQYPfxEcKkulC5M9G35QESGHx3lCs
-         CkiAAaqI2HmrSs4euU/9PrCa+nGQ4kj+UavhRfZqSrLFd9YMMCelxwBYrKyghkz/zT4k
-         cSm+n0RWPhJ3qKq/xEsoqAW/Ef3Ix0mfhyfWA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Al6bnHgVgcqWGS7SzpEP6EcNnlitYzP4oWhkmGFLRYg=;
-        b=V/M25Hw2h8qv1Y+g1EiIfMnMPL1Yyr+i1YIRtGyEMllpDGG0F7MKaSLUSIfD0cyr1e
-         kuRB/YDAXAZimTFIvh8XgE85NcrzNcxqbiHDmders8WTbtNlF7s+k+48YELh+zV98qjC
-         9+a2i+rpOPKfWOVN5IEIpRnzAnp213RKuXRt2sXl9rU2pt8F87O9DJ0JZd6v7xTyV/Rl
-         Ukkff/lbicaBZ/c3xFUrxM5oXcKP2rSbw43yUEI8tzBpJcvNkO2ux6xadfeDwe4ao+e8
-         FszRySbgSoNFmHp0VRDGmVHBdb+sxB1fLHIdAUw3qxs/5WotmwOsp92Ky2ACZDprQH/w
-         HOGw==
-X-Gm-Message-State: AOAM532+HUacAJBIhguUr/OCRtHF8tmaLObL3IsPN9S730qg6vOOqlAk
-        D+7llQXFkJJ3Alk+FP6MM2eDPOAyG/inT++9HO8=
-X-Google-Smtp-Source: ABdhPJzTU+AZqVnLKPqY80vo2dqHTMF1GuiMTsY2rHaSfrVbC91UpEYINB2bmJY4ISo7fd1OQQeEFg==
-X-Received: by 2002:a2e:808b:0:b0:243:f7ef:fbb6 with SMTP id i11-20020a2e808b000000b00243f7effbb6mr9861003ljg.30.1647121449262;
-        Sat, 12 Mar 2022 13:44:09 -0800 (PST)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com. [209.85.167.54])
-        by smtp.gmail.com with ESMTPSA id r7-20020ac25f87000000b004484fed8a9esm2388033lfe.268.2022.03.12.13.44.06
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Mar 2022 13:44:07 -0800 (PST)
-Received: by mail-lf1-f54.google.com with SMTP id z11so20817529lfh.13
-        for <linux-kbuild@vger.kernel.org>; Sat, 12 Mar 2022 13:44:06 -0800 (PST)
-X-Received: by 2002:a05:6512:b13:b0:448:90c6:dc49 with SMTP id
- w19-20020a0565120b1300b0044890c6dc49mr147974lfu.542.1647121446538; Sat, 12
- Mar 2022 13:44:06 -0800 (PST)
+        Sun, 13 Mar 2022 05:59:18 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE48286E28;
+        Sun, 13 Mar 2022 01:58:06 -0800 (PST)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 22D9vU86012387;
+        Sun, 13 Mar 2022 18:57:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 22D9vU86012387
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1647165451;
+        bh=CVkDJWyjpgTbqf6NbvF5iJ65YgXX8GQWf/kMJmCia3g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=r9LI2x/9NAE1AoERxMehOCqYpS9WGx0aX+pWHCwYe9rLf14pmrAZXu0d+6bcuSwjr
+         5NiporrUwu4R2//I8cUEyARY012ijFlVWZJLEKbj7+PW/tLsSR3gIXwzvia8b0MiRV
+         nMC6BELhGc/zWrubnXgpjqB5j5wXWkqFWDlEIwKoy/e35UtiOj50bMLBNbauV+rnEh
+         qiCx8d8pRHVAE2KMSaqjZuXyAIPND7WcLwqp2jCKu9pIp8IrtE5JKMWdjrdzroREjI
+         K3QY4g6m8AFTTD1kWqeQTqMBVxL45YHe5hl9ccyuyKTtv//oVEYpPXPinKsyhtbZ5R
+         ZlmBbXQ3WxaTA==
+X-Nifty-SrcIP: [209.85.210.178]
+Received: by mail-pf1-f178.google.com with SMTP id h2so7769220pfh.6;
+        Sun, 13 Mar 2022 01:57:30 -0800 (PST)
+X-Gm-Message-State: AOAM530acmuzjnJs6hZo7IAG1pAFPqQAAxIoaajNkcfg27XVtOBmeweD
+        sQR+xzwAKm0ncyIS1tJuSPFNpIqxfLk1B/ycq+8=
+X-Google-Smtp-Source: ABdhPJzT5Nq4XZCfY/Rsvf1/ZbAx301JNi+kv1+XtIjZ5cbv7gStF2u34m1AvSCoAQBU1vfZQOvAbOSGxl7Lc/8zh58=
+X-Received: by 2002:a05:6a00:24cd:b0:4f7:2340:a6cf with SMTP id
+ d13-20020a056a0024cd00b004f72340a6cfmr18488551pfv.36.1647165450123; Sun, 13
+ Mar 2022 01:57:30 -0800 (PST)
 MIME-Version: 1.0
-References: <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
- <YiqPmIdZ/RGiaOei@qmqm.qmqm.pl> <CAADWXX-Pr-D3wSr5wsqTEOBSJzB9k7bSH+7hnCAj0AeL0=U4mg@mail.gmail.com>
- <Yix06B9rPaGh0dp8@qmqm.qmqm.pl>
-In-Reply-To: <Yix06B9rPaGh0dp8@qmqm.qmqm.pl>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 12 Mar 2022 13:43:50 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgxtcTbBdtm9ewarth476Wr5vYYnptaWpwdHcML8-xayA@mail.gmail.com>
-Message-ID: <CAHk-=wgxtcTbBdtm9ewarth476Wr5vYYnptaWpwdHcML8-xayA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakob Koschel <jakobkoschel@gmail.com>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
+References: <20220305125605.149913-1-masahiroy@kernel.org> <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 13 Mar 2022 18:56:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASbauVkv298jVZhgEnKGSznKSwyA82kEBL39E1KvsMx3w@mail.gmail.com>
+Message-ID: <CAK7LNASbauVkv298jVZhgEnKGSznKSwyA82kEBL39E1KvsMx3w@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI
+ headers with Clang
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     David Howells <dhowells@redhat.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Fangrui Song <maskray@google.com>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Mar 12, 2022 at 2:24 AM Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.=
-qmqm.pl> wrote:
+On Fri, Mar 11, 2022 at 4:16 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> The source type is not needed for the macros [..]
+> On Sat, Mar 5, 2022 at 4:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
+> > Clang, they are currently compiled for the host target (likely x86_64)
+> > regardless of the given ARCH=.
+> >
+> > In fact, some exported headers include libc headers. For example,
+> > include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
+> > The header search paths should match to the target we are compiling
+> > them for.
+>
+> Isn't that a bug in that header though? Why does it inconsistently use
+> size_t vs. __kernel_size_t. Shouldn't it be consistently using
+> __kernel_size_t? (Seeing TRUE/FALSE defined in such a low level header
+> is also *yikes*.) Are there platforms where sizeof(size_t) !=
+> sizeof(__kernel_size_t)?
 
-Ahh. Yeah, as long as we don't do typedefs, it looks like we don't
-need to pre-declare the member access types.
+size_t and __kernel_size_t are always the same.
 
-I expected that to be required, because function declarations taking
-arguments need it, but that's because they create their own scope.
-Just doing it in a regular struct (or in this case union) declaration
-is fine.
+For uapi headers  (include/uapi, arch/*/include/uapi), __kernel_size_t
+should be used.
 
-So we would only need that post-declaration.
 
-That said, your naming is wrong. It's not just about "self". It's any
-case where the type we iterate over is declared after the type that
-has the head.
+See this series, which is already available in linux-next.
 
-So I suspect it would be a lot better to just always do it, and not do
-that "self vs non-self" distinction.
+https://lore.kernel.org/all/20220210021129.3386083-1-masahiroy@kernel.org/
 
-              Linus
+
+>
+> Usually to bootstrap a toolchain you need to start with kernel headers
+> to bootstrap the libc.  It seems like some kind of circular dependency
+> to me if kernel headers are dependent on libc headers.
+
+Right, ideally, UAPI headers should be self-contained.
+Hence, CONFIG_UAPI_HEADER_TEST exists.
+But, I am not sure how far we can obey this rule.
+
+Arnd Bergmann is an expert in this area.
+
+The number of "no-header-test" in usr/include/Makefile
+is gradually decreasing, but there are still more than 30.
+They must be checked one by one.
+
+
+
+
+
+> Hence my
+> previous comment about -ffreestanding.
+
+To ensure that we are not including any header from the system,
+-nostdinc is a more correct flag.
+
+
+-ffreestanding still allows system headers to be included.
+
+
+I am skeptical about adding -ffreestanding here.
+Please note we are compiling the user-space on the operating
+system (this is what is called "hosted environment", which is
+opposed to the "freestanding environment").
+
+
+
+
+>
+> >
+> > Pick up the --target triple from KBUILD_CFLAGS in the same ways as
+> > commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
+> > architecture").
+>
+> Oh boy thanks for finding+fixing this! I still suspect we shouldn't
+> need a cross-libc for UAPI header testing, and that the kernel headers
+> simply need to be cleaned up. But regardless of that it doesn't make
+> sense to use the wrong target when checking headers generated for the
+> target. Thanks for the patch (and sorry I've been falling behind on
+> code review lately).
+>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >   - Reword the commit description to mention agpgart.h instead of
+> >     asound.h because the latter is in the no-header-test list.
+> >
+> >  usr/include/Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/usr/include/Makefile b/usr/include/Makefile
+> > index ac206fb27c65..4215801e1110 100644
+> > --- a/usr/include/Makefile
+> > +++ b/usr/include/Makefile
+> > @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
+> >
+> >  # In theory, we do not care -m32 or -m64 for header compile tests.
+> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
+> > -UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+> > +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
+> >
+> >  # USERCFLAGS might contain sysroot location for CC.
+> >  UAPI_CFLAGS += $(USERCFLAGS)
+> > --
+> > 2.32.0
+> >
+>
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
