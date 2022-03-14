@@ -2,191 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D7F4D7421
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Mar 2022 10:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2422E4D7D41
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Mar 2022 09:07:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232537AbiCMJ7T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 13 Mar 2022 05:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56468 "EHLO
+        id S230081AbiCNIIj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Mar 2022 04:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231579AbiCMJ7S (ORCPT
+        with ESMTP id S238250AbiCNII1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 13 Mar 2022 05:59:18 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE48286E28;
-        Sun, 13 Mar 2022 01:58:06 -0800 (PST)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 22D9vU86012387;
-        Sun, 13 Mar 2022 18:57:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 22D9vU86012387
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1647165451;
-        bh=CVkDJWyjpgTbqf6NbvF5iJ65YgXX8GQWf/kMJmCia3g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=r9LI2x/9NAE1AoERxMehOCqYpS9WGx0aX+pWHCwYe9rLf14pmrAZXu0d+6bcuSwjr
-         5NiporrUwu4R2//I8cUEyARY012ijFlVWZJLEKbj7+PW/tLsSR3gIXwzvia8b0MiRV
-         nMC6BELhGc/zWrubnXgpjqB5j5wXWkqFWDlEIwKoy/e35UtiOj50bMLBNbauV+rnEh
-         qiCx8d8pRHVAE2KMSaqjZuXyAIPND7WcLwqp2jCKu9pIp8IrtE5JKMWdjrdzroREjI
-         K3QY4g6m8AFTTD1kWqeQTqMBVxL45YHe5hl9ccyuyKTtv//oVEYpPXPinKsyhtbZ5R
-         ZlmBbXQ3WxaTA==
-X-Nifty-SrcIP: [209.85.210.178]
-Received: by mail-pf1-f178.google.com with SMTP id h2so7769220pfh.6;
-        Sun, 13 Mar 2022 01:57:30 -0800 (PST)
-X-Gm-Message-State: AOAM530acmuzjnJs6hZo7IAG1pAFPqQAAxIoaajNkcfg27XVtOBmeweD
-        sQR+xzwAKm0ncyIS1tJuSPFNpIqxfLk1B/ycq+8=
-X-Google-Smtp-Source: ABdhPJzT5Nq4XZCfY/Rsvf1/ZbAx301JNi+kv1+XtIjZ5cbv7gStF2u34m1AvSCoAQBU1vfZQOvAbOSGxl7Lc/8zh58=
-X-Received: by 2002:a05:6a00:24cd:b0:4f7:2340:a6cf with SMTP id
- d13-20020a056a0024cd00b004f72340a6cfmr18488551pfv.36.1647165450123; Sun, 13
- Mar 2022 01:57:30 -0800 (PST)
+        Mon, 14 Mar 2022 04:08:27 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13062C13B
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Mar 2022 01:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647245237; x=1678781237;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wmq+2nELDndHx1nLQlRnhDVX6fwDtkaGap2lECgmvbA=;
+  b=jWh9ToHk4cT7tDTvJdIBkWxwvPV4jPk9V2TNCQjFznyCXmzZ8iGvkpU3
+   NZsjha1y+xPHk+7tpoMz8tg/eooqyVfDnqKeCqnke3PleUFYERy9WDxA0
+   CJBwrJyOcenA3DXHcqQeDE6pJN+qukkmci3uggkfKFfPXBGoMX71Usby9
+   JleysMWACX9YK6YeTNENBZyGfqpE6qKycPsc/16qBy+OjJtNMaYcpkEMs
+   c0HQccb6zGqr5v5AIjap88CMR+DRLs6Ef7Acpr1Ae3EING4wWzEomUdhq
+   1bYEayLLXpXzHNtYsWUZwKHWmQPppSn5XKJ0UIOcPMNT4M1+BW/OA6ZSd
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="253524803"
+X-IronPort-AV: E=Sophos;i="5.90,180,1643702400"; 
+   d="scan'208";a="253524803"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 01:07:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,180,1643702400"; 
+   d="scan'208";a="497517748"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 14 Mar 2022 01:07:14 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nTfjW-0009hz-6k; Mon, 14 Mar 2022 08:07:14 +0000
+Date:   Mon, 14 Mar 2022 16:06:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [masahiroy-kbuild:for-next 3/5] arch/arm/mm/copypage-v4mc.c:70:3:
+ error: implicit declaration of function '__flush_dcache_page' is invalid in
+ C99
+Message-ID: <202203141621.9GAoyWx1-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220305125605.149913-1-masahiroy@kernel.org> <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
-In-Reply-To: <CAKwvOdkYs8wkFOGpPc6SKY8CSFHdT8t_AJdFTkSCr+43dm20Mg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 13 Mar 2022 18:56:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASbauVkv298jVZhgEnKGSznKSwyA82kEBL39E1KvsMx3w@mail.gmail.com>
-Message-ID: <CAK7LNASbauVkv298jVZhgEnKGSznKSwyA82kEBL39E1KvsMx3w@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: add --target to correctly cross-compile UAPI
- headers with Clang
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Fangrui Song <maskray@google.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 11, 2022 at 4:16 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Sat, Mar 5, 2022 at 4:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > When you compile-test UAPI headers (CONFIG_UAPI_HEADER_TEST=y) with
-> > Clang, they are currently compiled for the host target (likely x86_64)
-> > regardless of the given ARCH=.
-> >
-> > In fact, some exported headers include libc headers. For example,
-> > include/uapi/linux/agpgart.h includes <stdlib.h> after being exported.
-> > The header search paths should match to the target we are compiling
-> > them for.
->
-> Isn't that a bug in that header though? Why does it inconsistently use
-> size_t vs. __kernel_size_t. Shouldn't it be consistently using
-> __kernel_size_t? (Seeing TRUE/FALSE defined in such a low level header
-> is also *yikes*.) Are there platforms where sizeof(size_t) !=
-> sizeof(__kernel_size_t)?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+head:   6c4457c324cd9855352e3eb1f965105901e47a6d
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 [3/5] Kbuild: move to -std=gnu11
+config: arm-randconfig-r011-20220313 (https://download.01.org/0day-ci/archive/20220314/202203141621.9GAoyWx1-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 3e4950d7fa78ac83f33bbf1658e2f49a73719236)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?id=e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+        git fetch --no-tags masahiroy-kbuild for-next
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
-size_t and __kernel_size_t are always the same.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-For uapi headers  (include/uapi, arch/*/include/uapi), __kernel_size_t
-should be used.
+All errors (new ones prefixed by >>):
 
-
-See this series, which is already available in linux-next.
-
-https://lore.kernel.org/all/20220210021129.3386083-1-masahiroy@kernel.org/
-
-
->
-> Usually to bootstrap a toolchain you need to start with kernel headers
-> to bootstrap the libc.  It seems like some kind of circular dependency
-> to me if kernel headers are dependent on libc headers.
-
-Right, ideally, UAPI headers should be self-contained.
-Hence, CONFIG_UAPI_HEADER_TEST exists.
-But, I am not sure how far we can obey this rule.
-
-Arnd Bergmann is an expert in this area.
-
-The number of "no-header-test" in usr/include/Makefile
-is gradually decreasing, but there are still more than 30.
-They must be checked one by one.
-
-
-
-
-
-> Hence my
-> previous comment about -ffreestanding.
-
-To ensure that we are not including any header from the system,
--nostdinc is a more correct flag.
-
-
--ffreestanding still allows system headers to be included.
-
-
-I am skeptical about adding -ffreestanding here.
-Please note we are compiling the user-space on the operating
-system (this is what is called "hosted environment", which is
-opposed to the "freestanding environment").
-
-
-
-
->
-> >
-> > Pick up the --target triple from KBUILD_CFLAGS in the same ways as
-> > commit 7f58b487e9ff ("kbuild: make Clang build userprogs for target
-> > architecture").
->
-> Oh boy thanks for finding+fixing this! I still suspect we shouldn't
-> need a cross-libc for UAPI header testing, and that the kernel headers
-> simply need to be cleaned up. But regardless of that it doesn't make
-> sense to use the wrong target when checking headers generated for the
-> target. Thanks for the patch (and sorry I've been falling behind on
-> code review lately).
->
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Changes in v2:
-> >   - Reword the commit description to mention agpgart.h instead of
-> >     asound.h because the latter is in the no-header-test list.
-> >
-> >  usr/include/Makefile | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/usr/include/Makefile b/usr/include/Makefile
-> > index ac206fb27c65..4215801e1110 100644
-> > --- a/usr/include/Makefile
-> > +++ b/usr/include/Makefile
-> > @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
-> >
-> >  # In theory, we do not care -m32 or -m64 for header compile tests.
-> >  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
-> > -UAPI_CFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
-> > +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
-> >
-> >  # USERCFLAGS might contain sysroot location for CC.
-> >  UAPI_CFLAGS += $(USERCFLAGS)
-> > --
-> > 2.32.0
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+>> arch/arm/mm/copypage-v4mc.c:70:3: error: implicit declaration of function '__flush_dcache_page' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   __flush_dcache_page(page_mapping_file(from), from);
+                   ^
+   arch/arm/mm/copypage-v4mc.c:70:3: note: did you mean 'flush_dcache_page'?
+   arch/arm/include/asm/cacheflush.h:292:13: note: 'flush_dcache_page' declared here
+   extern void flush_dcache_page(struct page *);
+               ^
+>> arch/arm/mm/copypage-v4mc.c:74:2: error: implicit declaration of function 'set_top_pte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
+           ^
+>> arch/arm/mm/copypage-v4mc.c:74:34: error: implicit declaration of function 'mk_pte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
+                                           ^
+   arch/arm/mm/copypage-v4mc.c:74:47: error: use of undeclared identifier 'L_PTE_PRESENT'
+           set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
+                                                        ^
+   arch/arm/mm/copypage-v4mc.c:23:35: note: expanded from macro 'minicache_pgprot'
+   #define minicache_pgprot __pgprot(L_PTE_PRESENT | L_PTE_YOUNG | \
+                                     ^
+   arch/arm/mm/copypage-v4mc.c:74:47: error: use of undeclared identifier 'L_PTE_YOUNG'
+   arch/arm/mm/copypage-v4mc.c:23:51: note: expanded from macro 'minicache_pgprot'
+   #define minicache_pgprot __pgprot(L_PTE_PRESENT | L_PTE_YOUNG | \
+                                                     ^
+   arch/arm/mm/copypage-v4mc.c:74:47: error: use of undeclared identifier 'L_PTE_MT_MINICACHE'
+   arch/arm/mm/copypage-v4mc.c:24:7: note: expanded from macro 'minicache_pgprot'
+                                     L_PTE_MT_MINICACHE)
+                                     ^
+   arch/arm/mm/copypage-v4mc.c:74:14: error: use of undeclared identifier 'COPYPAGE_MINICACHE'
+           set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
+                       ^
+   arch/arm/mm/copypage-v4mc.c:76:28: error: use of undeclared identifier 'COPYPAGE_MINICACHE'
+           mc_copy_user_page((void *)COPYPAGE_MINICACHE, kto);
+                                     ^
+   arch/arm/mm/copypage-v4mc.c:64:6: warning: no previous prototype for function 'v4_mc_copy_user_highpage' [-Wmissing-prototypes]
+   void v4_mc_copy_user_highpage(struct page *to, struct page *from,
+        ^
+   arch/arm/mm/copypage-v4mc.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void v4_mc_copy_user_highpage(struct page *to, struct page *from,
+   ^
+   static 
+   arch/arm/mm/copypage-v4mc.c:86:6: warning: no previous prototype for function 'v4_mc_clear_user_highpage' [-Wmissing-prototypes]
+   void v4_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
+        ^
+   arch/arm/mm/copypage-v4mc.c:86:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void v4_mc_clear_user_highpage(struct page *page, unsigned long vaddr)
+   ^
+   static 
+   arch/arm/mm/copypage-v4mc.c:109:21: error: variable has incomplete type 'struct cpu_user_fns'
+   struct cpu_user_fns v4_mc_user_fns __initdata = {
+                       ^
+   arch/arm/mm/copypage-v4mc.c:109:8: note: forward declaration of 'struct cpu_user_fns'
+   struct cpu_user_fns v4_mc_user_fns __initdata = {
+          ^
+   2 warnings and 9 errors generated.
 
 
+vim +/__flush_dcache_page +70 arch/arm/mm/copypage-v4mc.c
 
--- 
-Best Regards
-Masahiro Yamada
+d2bab05ac1f9a2 Russell King    2005-05-10  63  
+7dd8c4f3526b16 Russell King    2009-01-18  64  void v4_mc_copy_user_highpage(struct page *to, struct page *from,
+f00a75c094c340 Russell King    2009-10-05  65  	unsigned long vaddr, struct vm_area_struct *vma)
+d2bab05ac1f9a2 Russell King    2005-05-10  66  {
+5472e862de2bc4 Cong Wang       2011-11-25  67  	void *kto = kmap_atomic(to);
+1c9d3df5e88ad7 Richard Purdie  2006-12-30  68  
+c01778001a4f5a Catalin Marinas 2010-09-13  69  	if (!test_and_set_bit(PG_dcache_clean, &from->flags))
+cb9f753a3731f7 Huang Ying      2018-04-05 @70  		__flush_dcache_page(page_mapping_file(from), from);
+1c9d3df5e88ad7 Richard Purdie  2006-12-30  71  
+bd31b85960a7fc Thomas Gleixner 2009-07-03  72  	raw_spin_lock(&minicache_lock);
+d2bab05ac1f9a2 Russell King    2005-05-10  73  
+67ece1443174d8 Russell King    2011-07-02 @74  	set_top_pte(COPYPAGE_MINICACHE, mk_pte(from, minicache_pgprot));
+d2bab05ac1f9a2 Russell King    2005-05-10  75  
+de27c308223dc9 Russell King    2011-07-02  76  	mc_copy_user_page((void *)COPYPAGE_MINICACHE, kto);
+d2bab05ac1f9a2 Russell King    2005-05-10  77  
+bd31b85960a7fc Thomas Gleixner 2009-07-03  78  	raw_spin_unlock(&minicache_lock);
+063b0a4207e43a Russell King    2008-10-31  79  
+5472e862de2bc4 Cong Wang       2011-11-25  80  	kunmap_atomic(kto);
+d2bab05ac1f9a2 Russell King    2005-05-10  81  }
+d2bab05ac1f9a2 Russell King    2005-05-10  82  
+
+:::::: The code at line 70 was first introduced by commit
+:::::: cb9f753a3731f7fe16447bea45cb6f8e8bb432fb mm: fix races between swapoff and flush dcache
+
+:::::: TO: Huang Ying <ying.huang@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
