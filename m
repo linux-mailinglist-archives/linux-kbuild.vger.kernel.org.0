@@ -2,59 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5BC4D8FB2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Mar 2022 23:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB1BF4D97C4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Mar 2022 10:36:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238636AbiCNWnt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Mar 2022 18:43:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38098 "EHLO
+        id S241929AbiCOJhY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Mar 2022 05:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245670AbiCNWns (ORCPT
+        with ESMTP id S1346667AbiCOJhX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Mar 2022 18:43:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AE7C3EBA9;
-        Mon, 14 Mar 2022 15:42:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5CC9B81082;
-        Mon, 14 Mar 2022 22:42:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03AADC340EC;
-        Mon, 14 Mar 2022 22:42:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647297755;
-        bh=JUEwcNiK+49zfPIzDPSmMO7E/urjuArgsOTyuH002kA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iRIgugiEgu4wfyJ7ZXyXUXw6nf8ah8EpDGWAfepghHf3EwkwlrCA9uJRPRZTHpjIA
-         A/twyEwyPMksx0drjwCuanq/LCIN7ieEiFQ2LFLtg/3ytAS40yOQVn5Z/yVPZk4iRL
-         eJw4FsrzHH1Fk5FoTFjxbGGreT1FhfUKErbZxjy20aAa1IVnupe57hxG/dc/wMz51G
-         OJgGZNG2kqwuNBDZHFP8KwLm2F+qOFYxYaqpIVwCMw9FF5qpkTyVsHIaVvC1F6BD5R
-         10RlnjZM/4bqJCjrqGVZApJX16mecAbJzwEtCAgDKwuABltwb903t0sUhFg9SpbwCh
-         n6YhpwgehobVw==
-Date:   Mon, 14 Mar 2022 23:42:32 +0100
-From:   Frederic Weisbecker <frederic@kernel.org>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>, Mike Galbraith <efault@gmx.de>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 0/4] preempt: PREEMPT vs PREEMPT_DYNAMIC configs fixup
-Message-ID: <20220314224232.GA274290@lothringen>
-References: <20211112185203.280040-1-valentin.schneider@arm.com>
+        Tue, 15 Mar 2022 05:37:23 -0400
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F2B4ECDC
+        for <linux-kbuild@vger.kernel.org>; Tue, 15 Mar 2022 02:36:12 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id 3-20020a056e020ca300b002c2cf74037cso10957163ilg.6
+        for <linux-kbuild@vger.kernel.org>; Tue, 15 Mar 2022 02:36:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=scxpqyv1QCaqaidKXli17C6qUPYI7CzIakzRF5Ou8Kg=;
+        b=dW+xt3P81lvlV9Bx3bOPZWWrtI753AmjZt2ZyLoa/5Pe6XDdYlNX+rBa67D3b6mQEJ
+         0pGXaXqRWyQwvL2NfDCTosKiEH/6hRAdzt6OUBiLCod6f7IcM2NzUhgpLebe2KuzJEYY
+         5ILq5WHEqVGfIVN1HRDXH42WjbnEsMXdbPCfNsRCEO98ZBP9hq9P6ncqQ8Tl0xNjE+sM
+         A22ICFl5VnPDftutgFu/aWe7ifRDu3J8uBT0ZefVSbVe3Bt6HbpV9K7M16XQ4jwoRAHD
+         MJHMQCFdC9g7lvoiDhvruEn4S3SCCuqEmnDUA04prFAhAltkx+z0wafrBigMIIKvQ7fT
+         77RQ==
+X-Gm-Message-State: AOAM531OLFCjcfphP1N3JE7N97B7HtUaxJbMiQr2AkR4LfLnZqlNya8m
+        giv64Ay804gb9fIZxRfcKJi8FJ6zd8wn4+nfpcrE7sKocSdX
+X-Google-Smtp-Source: ABdhPJxuGoffg/pqrbkgpJV8mQBOrM3W+1KUP7ru6GCbSnpEcm7RSNXialOrf39P4ZLfattjVwZw+j4AThI3Al+cbuX6d+5XO7C/
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211112185203.280040-1-valentin.schneider@arm.com>
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Received: by 2002:a05:6602:3415:b0:648:b4f6:6e4d with SMTP id
+ n21-20020a056602341500b00648b4f66e4dmr18825594ioz.98.1647336971535; Tue, 15
+ Mar 2022 02:36:11 -0700 (PDT)
+Date:   Tue, 15 Mar 2022 02:36:11 -0700
+In-Reply-To: <0000000000009e7a1905b8295829@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000003887a05da3e872c@google.com>
+Subject: Re: [syzbot] KASAN: out-of-bounds Read in ath9k_hif_usb_rx_cb (3)
+From:   syzbot <syzbot+3f1ca6a6fec34d601788@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, ath9k-devel@qca.qualcomm.com,
+        chouhan.shreyansh630@gmail.com, davem@davemloft.net,
+        kuba@kernel.org, kvalo@codeaurora.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, netdev@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,57 +61,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 06:51:59PM +0000, Valentin Schneider wrote:
-> Hi folks,
-> 
-> This v3 is mostly about the naming problem - get your paintbrushes ready!
-> 
-> Patches
-> =======
-> 
-> o Patch 1 is the meat of the topic - note that it's now in tip/sched/urgent
-> o Patch 2 introduces helpers for the dynamic preempt state
-> o Patches 3-4 make use of said accessors where relevant.
-> 
-> Testing
-> =======
-> 
-> Briefly tested the dynamic part on an x86 kernel + QEMU.
-> Compile-tested the kcsan test thingie as a module.
-> 
-> Revisions
-> =========
-> 
-> v1: http://lore.kernel.org/r/20211105104035.3112162-1-valentin.schneider@arm.com
-> v1.5: http://lore.kernel.org/r/20211109151057.3489223-1-valentin.schneider@arm.com
-> 
-> v2 -> v3
-> ++++++++
-> 
-> o Turned is_preempt_*() into preempt_model_*() (Frederic)
->   It breaks my rule of "booleans must answer a yes/no question" but is the best
->   I could come with using a "preempt_" prefix
->   
-> o Added preempt_model_preemptible() (Marco)
->   Now used in kcsan_test.c
->   
-> o Dropped powerpc changes
-> 
-> Cheers,
-> Valentin
-> 
-> 
-> Valentin Schneider (4):
->   preempt: Restore preemption model selection configs
+syzbot suspects this issue was fixed by commit:
 
-Seems like this one has been applied from the previous series.
+commit 09688c0166e76ce2fb85e86b9d99be8b0084cdf9
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun Mar 13 20:23:37 2022 +0000
 
->   preempt/dynamic: Introduce preemption model accessors
->   kcsan: Use preemption model accessors
->   ftrace: Use preemption model accessors for trace header printout
+    Linux 5.17-rc8
 
-So for the rest:
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140283ad700000
+start commit:   f5b6eb1e0182 Merge branch 'i2c/for-current' of git://git.k..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8a9e9956ca52a5f6
+dashboard link: https://syzkaller.appspot.com/bug?extid=3f1ca6a6fec34d601788
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=158914ebd00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17720670300000
 
-Acked-by: Frederic Weisbecker <frederic@kernel.org>
+If the result looks correct, please mark the issue as fixed by replying with:
 
-Thanks!
+#syz fix: Linux 5.17-rc8
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
