@@ -2,122 +2,170 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91CF04DABFB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Mar 2022 08:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C719B4DB521
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Mar 2022 16:45:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354292AbiCPHqy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Mar 2022 03:46:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59340 "EHLO
+        id S1357310AbiCPPrF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Mar 2022 11:47:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354294AbiCPHqy (ORCPT
+        with ESMTP id S1343841AbiCPPrE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Mar 2022 03:46:54 -0400
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B84460CC0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Mar 2022 00:45:40 -0700 (PDT)
-Received: by mail-oo1-xc35.google.com with SMTP id p10-20020a056820044a00b00320d7d4af22so1760970oou.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Mar 2022 00:45:40 -0700 (PDT)
+        Wed, 16 Mar 2022 11:47:04 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C94C6D1B5
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Mar 2022 08:45:49 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id h15so3562848wrc.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Mar 2022 08:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=T87zTH0DkphGLesbWlrfLY37BYRGj5Dcsh6fZ7Tb2Io=;
-        b=r1XEXiASBQDYZ5V4TV73TqXbRPkoxgosJdV49eyGOPLU/Y8tV87HdLL086XkKTPyfH
-         MQFEjm1sPu217Jk6SkldXFKawlY+jNY7UCsWGUqkyeWmlP/qecm+wo74TK5aFSoha033
-         nICfZT38j16WTKmtm7Bn7uryf7ZzPLxV0ECLZyJOs3fP6oB6mH6Zf5AdGdrTGttuoMUP
-         2AY6haAAiY4SQTKEonDAlVrpH4NlpowXYIv/6DJYg9h13ril1KbWhfL+0NqaQD0xAlTE
-         Tl65DdltW7v38+WjqbO+OnC0giEL1gO7f1YFUmLZCD8Pjp68bGn6s7naqY0Fmwmg9zrx
-         NtCg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wAgk6NoEkSGQYtklkyp/XBe3mmZFGzBwfiqA3+Hd+Uc=;
+        b=UaDuw6uE+eA3eoFtbNNWGH31fmxdFNfCd+8KTwJiz+XVa67E6qGA7rnSF18inN9r7Y
+         qagW0lhTrjPtdLbMts8uQresOtZcaucElVE6QTjJOHL4nHQiHmARLSAiHbxM+ilNC8I9
+         0pB+mcIYzA8CpBXVvR2Muc6zTjci9aX7iOglulhiX/5PGxKANkvqyGmlBXTy1HgQZtZa
+         dbiMZu3JglXKMidVnZzd7qJ7o28dPtoNgg2mpDLH8lwkr9ymuiri75xLap5GrnGWoiKM
+         2YmMN97zjLq8pQYxfLoXbmyytnuWDrXDEPJT6p/AzVirsoxEYO2L+1VZIt0QeRwrV5A/
+         a5Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=T87zTH0DkphGLesbWlrfLY37BYRGj5Dcsh6fZ7Tb2Io=;
-        b=jsVdhHCGbSl3i6f5UyKQ8DXdvUZvaj645//dPHcx3hsch6CXtLuYnyyC7KJEZb6pXE
-         kZNY2T0cOcDjrzRBL33WUiW80f66hz+nq+VwGVXPymji5B/OgGqraM8GxbKrm6+DGwhb
-         Iwc806jze5OyWOiPjKa/olz6ylfZbWK11weVJeZvaSwiKZw5m7q4ttmBcxjVDVEQA7Nl
-         1/xAvUQHN5UB5xz5emKpA1Zq2wZ4ZXQ0rV0zCi1FsvSAUl3YUSlI2tJ6jO3WQiVgTfuY
-         bmZEIp6radTumTCf0YwFNJdC1ONclFFM8L72Zl74nGMaEKpLeJKHFfznKxFdPHArVpVt
-         9Zxw==
-X-Gm-Message-State: AOAM530tftd/SL/tnrTEYQQui6V31vY4QS/p3Hkjr87yT4pyp2QxWd+Z
-        VBPfs4YE7beYQc9Z4o/hG1xv/jSN/gniKoG91mQjvA==
-X-Google-Smtp-Source: ABdhPJwzCR0t8OhcbK4m9h7T96CulLhfg0yY9yNAWIVbNLOCUnRCPgn7zHvpS8UjmFaaH1ztlBIszs4pNFw+zeng5vg=
-X-Received: by 2002:a05:6870:9619:b0:d9:a25e:ed55 with SMTP id
- d25-20020a056870961900b000d9a25eed55mr2840688oaq.163.1647416739279; Wed, 16
- Mar 2022 00:45:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <0000000000009e7a1905b8295829@google.com> <00000000000003887a05da3e872c@google.com>
- <CAHk-=wj4HBk7o8_dbpk=YiTOFxvE9LTiH8Gk=1kgVxOq1jaH7g@mail.gmail.com>
-In-Reply-To: <CAHk-=wj4HBk7o8_dbpk=YiTOFxvE9LTiH8Gk=1kgVxOq1jaH7g@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 16 Mar 2022 08:45:28 +0100
-Message-ID: <CACT4Y+atgbwmYmiYqhFQT9_oHw5cD5oyp5bNyCJNz34wSaMgmg@mail.gmail.com>
-Subject: Re: [syzbot] KASAN: out-of-bounds Read in ath9k_hif_usb_rx_cb (3)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wAgk6NoEkSGQYtklkyp/XBe3mmZFGzBwfiqA3+Hd+Uc=;
+        b=dG+uMZze0kOLgLbx7GL1wtwrzhuJtXXrKXrUtl/lXPAu7GiKUp30lhQHdp2qfXfAm3
+         A3BV7c4XHRPldVBjGe5WCk9ByqGgEt3/WHTUl8SkUI/eUiTGJuPfwY1OBb0X4mx15Geg
+         WTx93wtFILmy1ZCphNfQK9Uo4QhwS+xfKpW2FzV0E/T0E369bInnBiR/k+8TnfBAyxUU
+         XcyD1iUpavJTYzVV48AO1+6Kr7JSN1+AvBjsMPPtybgY9h0fMmC7NyYGuJx5CQVy+aDP
+         y6XlVf4K083LUO1iKtSkfLHyxcF5xeDgHBmk6FcqUbOumLn9HleLQ0L75as+PNJXtUxW
+         9K+A==
+X-Gm-Message-State: AOAM530JpUozMXk46qQel4cywiPclWN1Pl5Q9pMUO6/Au5JtHx1Pzw/j
+        qfs13NEu0HZPal75jXhG0PURGQ==
+X-Google-Smtp-Source: ABdhPJyMUpPUtVKC6CCFRGjl7Q7U86a/YVte8/m4ryk1rwUIF5Hpq9WZjwkjrrTrbJgh9LWKNGjfCg==
+X-Received: by 2002:a5d:4cc1:0:b0:1f0:98e7:6af0 with SMTP id c1-20020a5d4cc1000000b001f098e76af0mr409578wrt.363.1647445547485;
+        Wed, 16 Mar 2022 08:45:47 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c26cb00b0037ff53511f2sm4927285wmv.31.2022.03.16.08.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 08:45:46 -0700 (PDT)
+Date:   Wed, 16 Mar 2022 15:45:44 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
 To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     syzbot <syzbot+3f1ca6a6fec34d601788@syzkaller.appspotmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        ath9k-devel@qca.qualcomm.com, chouhan.shreyansh630@gmail.com,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
+Cc:     Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:USB GADGET/PERIPHERAL SUBSYSTEM" 
-        <linux-usb@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Netdev <netdev@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Zekun Shen <bruceshenzk@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Linux-MM <linux-mm@kvack.org>, Netdev <netdev@vger.kernel.org>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH 2/6] list: add new MACROs to make iterator invisiable
+ outside the loop
+Message-ID: <20220316154544.bfewwi7zseyyja47@maple.lan>
+References: <CAHk-=whJX52b1jNsmzXeVr6Z898R=9rBcSYx2oLt69XKDbqhOg@mail.gmail.com>
+ <20220304025109.15501-1-xiam0nd.tong@gmail.com>
+ <CAHk-=wjesxw9U6JvTw34FREFAsayEE196Fi=VHtJXL8_9wgi=A@mail.gmail.com>
+ <CAHk-=wiacQM76xec=Hr7cLchVZ8Mo9VDHmXRJzJ_EX4sOsApEA@mail.gmail.com>
+ <20220311142754.a3jnnjqxpok75qgp@maple.lan>
+ <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHk-=wi58pvQhMX2sRt7nKqwHAFAmn27MrJg3XbeJgio6ONgdA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 15 Mar 2022 at 18:08, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Mar 15, 2022 at 2:36 AM syzbot
-> <syzbot+3f1ca6a6fec34d601788@syzkaller.appspotmail.com> wrote:
+On Fri, Mar 11, 2022 at 10:41:06AM -0800, Linus Torvalds wrote:
+> On Fri, Mar 11, 2022 at 6:27 AM Daniel Thompson
+> <daniel.thompson@linaro.org> wrote:
 > >
-> > syzbot suspects this issue was fixed by commit
-> > 09688c0166e7 ("Linux 5.17-rc8")
->
-> No, I'm afraid that means that the bisection is broken:
->
-> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140283ad700000
->
-> and yeah, looking at that log it looks like every single run has
->
->   testing commit [...]
->   run #0: crashed: KASAN: use-after-free Read in ath9k_hif_usb_rx_cb
->   ...
->   # git bisect good [...]
->
-> and you never saw a "bad" commit that didn't have the issue, so the
-> top-of-tree gets marked "good" (and I suspect you intentionally mark
-> the broken case "good" in order to find where it got fixed, so you're
-> using "git bisect" in a reverse way).
->
-> I didn't look closer, but it does seem to not reproduce very reliably,
-> maybe that is what confused the bot originally.
+> > It is possible simply to use spelling to help uncover errors in
+> > list_traverse()?
+> 
+> I'd love to, and thought that would be a lovely idea, but in another
+> thread ("") Barnabás Pőcze pointed out that we actually have a fair
+> number of cases where the list member entries are embedded in internal
+> structures and have a '.' in them:
+> 
+>   https://lore.kernel.org/all/wKlkWvCGvBrBjshT6gHT23JY9kWImhFPmTKfZWtN5Bkv_OtIFHTy7thr5SAEL6sYDthMDth-rvFETX-gCZPPCb9t2bO1zilj0Q-OTTSbe00=@protonmail.com/
+> 
+> which means that you can't actually append the target_member name
+> except in the simplest cases, because it wouldn't result in one single
+> identifier.
+> 
+> Otherwise it would be a lovely idea.
 
-Hi Linus,
+When I prototyped this I did actually include a backdoor to cover
+situations like this but I ended up (incorrectly at appears) editing it
+out for simplicity.
 
-Thanks for taking a look. Yes, it's a "reverse" bisection that tries
-to find the fix.
-And your conclusion re flakiness looks right, there were few runs with
-only 1/20 crashes.
-But the bug looks to be fixed by something anyway. git log on the file
-pretty clearly points to:
+Basically the union is free so we can have more than one type * member:
 
-#syz fix: ath9k: Fix out-of-bound memcpy in ath9k_hif_usb_rx_stream
+#define list_traversal_head(type, name, target_member) \
+       union { \
+               struct list_head name; \
+               type *name##_traversal_type; \
+               type *name##_traversal_mismatch_##target_member; \
+       }
+
+This allows that the single structure cases to be checked whilst nested
+structures (and array which I noticed also crop up) have a trap door such
+as list_traverse_unchecked().
+
+I did a quick grep to estimate how many nested/array cases there are and
+came up with around 2.5% (roughly ~200 in ~8500, counting only the single
+line users of list_for_each_entry() ).
+
+As you say, lovely idea but having to use special API 2.5% of the time
+seems a bit on the high side.
+
+BTW, a complete aside, but whilst I was looking for trouble I also
+spotted code where the list head is an array which means we are not able
+to lookup the travesral type correctly:
+list_for_each_entry(modes[i], &connector->modes, head)
+However I found only one instance of this so it
+much more acceptable rate of special cases than the 2.5% above.
+
+
+> > > [this bit used to quote the definition of LIST_HEAD() ;-) ]
+> > For architectures without HAVE_LD_DEAD_CODE_DATA_ELIMINATION then the
+> > "obvious" extension of list_traversal_head() ends up occupying bss
+> > space. Even replacing the pointer with a zero length array is still
+> > provoking gcc-11 (arm64) to allocate a byte from bss (often with a lot
+> > of padding added).
+> 
+> I think compilers give objects at least one byte of space, so that two
+> different objects get different addresses, and don't compare equal.
+> 
+> That said, I'm not seeing your issue. list_traversal_head() is a
+> union, and always has that 'struct list_head' in it, and that's the
+> biggest part of the union.
+
+Perhaps its a bit overblown for the safe of a few kilobytes (even if
+there were two traversal types members) but I was wondering if there is
+any cunning trick for LIST_HEAD() since we cannot have an anonymous
+union outside a struct. In short, is this the best we can do for
+LIST_TRAVERSE_HEAD():
+
+#define LIST_TRAVERSE_HEAD(type, name, target_member) \
+	type * name##_traversal_type; \
+	struct list_head name = LIST_HEAD_INIT(name)
+
+
+#define STATIC_LIST_TRAVERSE_HEAD(type, name, target_member) \
+	static type * name##_traversal_type; \
+	static list_head name = LIST_HEAD_INIT(name)
+
+
+Daniel.
