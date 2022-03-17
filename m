@@ -2,104 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A554DC0DA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Mar 2022 09:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E0E4DC1A2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Mar 2022 09:44:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbiCQIVG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Mar 2022 04:21:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
+        id S230097AbiCQIpQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Mar 2022 04:45:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbiCQIVF (ORCPT
+        with ESMTP id S231431AbiCQIpP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Mar 2022 04:21:05 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64782163E17;
-        Thu, 17 Mar 2022 01:19:49 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id r11so3191880ila.1;
-        Thu, 17 Mar 2022 01:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xKpTPc+312tnm2IHxxH6ooZEHljJo10HfiNs2G6uyuM=;
-        b=IYovmUnZ+qdsRLQ1RlW0eltHncl82U5coFgPh6DVJO4fxi10qTxiipwvWHXJv95ytF
-         BxdyIrDkLxxrh0NtUQrAEymP5BNUJvIlD7S9DQuW83tYtrBNyis7iQLv+HZHi61ggTnZ
-         CWo25Tuhd3KSsPrtjjLElSyRdl3e7edyJfS3FqHdUG72ryDfjTmRwLpxh8jcxNnVtzs8
-         MsMCjCjD65WFkgOIR8pR8FsprONalIh8LaaFcyuZR199/eOvVb5qTnyYSFGTGKrB3dm7
-         BZ1r3zKxx7zHWKfN9DN6aMpGVj6+wg4KHoLDiHzIOwhItB9s3GerQEP5M3q8CL7HaHAi
-         nheA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xKpTPc+312tnm2IHxxH6ooZEHljJo10HfiNs2G6uyuM=;
-        b=Y8v95/FanijgXhSndBjd5iTydQ7uetNnFXtwddL3bcrB5s2CiZB6iemsG8Vof8kt3A
-         G8A/5NsObzC+x/QckQbPgmyhFzrZjEp3KUxBZzFgfsdNYDkMyEnSfuklTxKGQOUMTxOX
-         A6iBQvkU6ywK4Pmq566AJoSLDU/rvQdUuyOmj9jPM/IKWWQ5aB02en69IDhendkgpPFY
-         9MeaSXLKlAUplDhxGAq5hemFyW+bIUpRzB2/etAFMhmX67jS5OT+AeVY7RWe8MFYNSKx
-         Ac8zNAhtTphJEgZ7tXt+lkRtS+U8y77KJILbi2UwBbcYXyrj0VUp1QJPViSkl90R8BnF
-         lIIQ==
-X-Gm-Message-State: AOAM5339talGBACLQphWWmyLy788RXK41NDjqk2p3xvur5/sG5euOn4V
-        Q/IGD//L+n7swtv2oiPxod5KRr/SSXlYYe0zzxQ=
-X-Google-Smtp-Source: ABdhPJwfd1D3uICD728dSd5iiOOL1/UDS2rL5ofpdJpLCCO+BSm5L/BuS1eQfHG36q5hn1JlxT25xACxZHGY8nuqmZg=
-X-Received: by 2002:a92:c908:0:b0:2c1:a287:8868 with SMTP id
- t8-20020a92c908000000b002c1a2878868mr1289760ilp.321.1647505188872; Thu, 17
- Mar 2022 01:19:48 -0700 (PDT)
+        Thu, 17 Mar 2022 04:45:15 -0400
+Received: from mail.olerise.pl (mail.olerise.pl [46.183.184.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA598B91BC
+        for <linux-kbuild@vger.kernel.org>; Thu, 17 Mar 2022 01:43:59 -0700 (PDT)
+Received: by mail.olerise.pl (Postfix, from userid 1001)
+        id 4B85F46DD9; Thu, 17 Mar 2022 09:40:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=olerise.pl; s=mail;
+        t=1647506554; bh=ZNYiuZLXlxCdAPtstEG/gwJieB5RBwA/cHj1SZ3Mpl0=;
+        h=Date:From:To:Subject:From;
+        b=JJ/dUl0DQh+7407IJxNTS5EPWQs7VNl172vAC9BEeIf3h1qcpHdlb6Lg9SywYv1ZL
+         jUpEAxfqsks3C4BaCFxS/uOLB+PCMTIYxcUaW+cdWNwywhUdP6+opStdflnknaZ0NQ
+         EeBYCakFXpk/LOKexTw0MbubmGqMlSP6JnRbLdN7utqQ6ns1mO3pTdINyswmcD9Euw
+         1PAWDCi/MELr/Zj0e4EjtazDkKGr1BdafvxnQiQcJ1W/d8dV2NMdgHntRNLPhep0Pd
+         Bc/f1pV8tDy1CpeUef7ZOMLVeSjFjhkoFDMF0yJSFhZIhHtu2BI+p3oOuED+ns03lK
+         oq0iGSPo5vL2w==
+Received: by mail.olerise.pl for <linux-kbuild@vger.kernel.org>; Thu, 17 Mar 2022 08:40:21 GMT
+Message-ID: <20220317084500-0.1.2d.ru22.0.kjhi87iijr@olerise.pl>
+Date:   Thu, 17 Mar 2022 08:40:21 GMT
+From:   =?UTF-8?Q? "Miko=C5=82aj_Rudzik" ?= <mikolaj.rudzik@olerise.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
+X-Mailer: mail.olerise.pl
 MIME-Version: 1.0
-References: <20220212130410.6901-16-ojeda@kernel.org> <8baf7006-90ed-25b8-3005-69b5475215cf@gmail.com>
-In-Reply-To: <8baf7006-90ed-25b8-3005-69b5475215cf@gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 17 Mar 2022 09:19:37 +0100
-Message-ID: <CANiq72mQffofeW4C=AWF4CHu=WpgpwB4hAv_q9QiTX_+U38qGg@mail.gmail.com>
-Subject: Re: [PATCH v4 15/20] docs: add Rust documentation
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Boris-Chengbiao Zhou <bobo1239@web.de>,
-        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
-        Gary Guo <gary@garyguo.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Yuki Okushi <jtitor@2k36.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Finn Behrens <me@kloenk.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Sven Van Asbroeck <thesven73@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Wei Liu <wei.liu@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_BL,
+        RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Akira,
+Dzie=C5=84 dobry,
 
-On Mon, Feb 14, 2022 at 11:47 AM Akira Yokosawa <akiyks@gmail.com> wrote:
->
-> > diff --git a/Documentation/rust/logo.svg b/Documentation/rust/logo.svg
-> > new file mode 100644
-> > index 000000000000..65be792a5abe
-> > --- /dev/null
->
-> How about adding a suitable license identifier in a comment?
+chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
+skania nowych zlece=C5=84 ze strony www.
 
-For the next round, I did not apply this suggestion, because it is
-unclear which license identifier to use: it would be probably be the
-same as the `COPYING-logo` one (which would be used also for the Tux
-SVG, if it gets merged -- it was sent a while ago).
+Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
+, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
+=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
+jonowania strony w Google.
 
-Cheers,
-Miguel
+Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+
+
+Pozdrawiam
+Miko=C5=82aj Rudzik
