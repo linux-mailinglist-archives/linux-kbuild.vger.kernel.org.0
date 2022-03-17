@@ -2,173 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BE694DB6E1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Mar 2022 18:05:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03A554DC0DA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Mar 2022 09:19:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351656AbiCPRGd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Mar 2022 13:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
+        id S231140AbiCQIVG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Mar 2022 04:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241750AbiCPRGa (ORCPT
+        with ESMTP id S229977AbiCQIVF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Mar 2022 13:06:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158AE46B3E;
-        Wed, 16 Mar 2022 10:05:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8ECCC617D6;
-        Wed, 16 Mar 2022 17:05:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C11BC340E9;
-        Wed, 16 Mar 2022 17:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1647450315;
-        bh=VAILIcNcuve6zwpUMsnMu0YRMMRvlJ0yTNICt6G+urY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sGjbGSsKOjHVfjg1RR8nfoszypmTCfGdpKLHPee9b+vpktXhKcY08NcuM7VSJdw/W
-         H1TKpfpI6sJQJeM7khd9G9np+PTzUUGtGITTDWAnga5DSuINGkRQPIX6BmuDMzCpH+
-         AS157Qbhb4Zc5QBo46Y/v5ZEvqHzIGHKzkddsyi+vUFRqjxfEVR+HnSw5vavXW1O9V
-         lZPWgVe017c8UqzlaQVxtO/8pUD8Ut2gwoHzPMIvtUxWm1JCdRzuo7ifXuxnEe5vz2
-         OE8/sTFKzujkz89zwZVg4gYp7/Ov+cMoElPEveLaZgpVeuCO02q6nGpeCkG6ZHaEpP
-         DYC5vDC0r6Vzw==
-Date:   Wed, 16 Mar 2022 17:05:09 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [broonie-misc:arm64-sysreg-gen 6/9]
- arch/arm64/include/asm/sysreg.h:125:10: fatal error:
- 'generated/asm/sysreg.h' file not found
-Message-ID: <YjIYxWkVzT0/XYf+@sirena.org.uk>
-References: <202203160508.k7vz4ZxC-lkp@intel.com>
+        Thu, 17 Mar 2022 04:21:05 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64782163E17;
+        Thu, 17 Mar 2022 01:19:49 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id r11so3191880ila.1;
+        Thu, 17 Mar 2022 01:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xKpTPc+312tnm2IHxxH6ooZEHljJo10HfiNs2G6uyuM=;
+        b=IYovmUnZ+qdsRLQ1RlW0eltHncl82U5coFgPh6DVJO4fxi10qTxiipwvWHXJv95ytF
+         BxdyIrDkLxxrh0NtUQrAEymP5BNUJvIlD7S9DQuW83tYtrBNyis7iQLv+HZHi61ggTnZ
+         CWo25Tuhd3KSsPrtjjLElSyRdl3e7edyJfS3FqHdUG72ryDfjTmRwLpxh8jcxNnVtzs8
+         MsMCjCjD65WFkgOIR8pR8FsprONalIh8LaaFcyuZR199/eOvVb5qTnyYSFGTGKrB3dm7
+         BZ1r3zKxx7zHWKfN9DN6aMpGVj6+wg4KHoLDiHzIOwhItB9s3GerQEP5M3q8CL7HaHAi
+         nheA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xKpTPc+312tnm2IHxxH6ooZEHljJo10HfiNs2G6uyuM=;
+        b=Y8v95/FanijgXhSndBjd5iTydQ7uetNnFXtwddL3bcrB5s2CiZB6iemsG8Vof8kt3A
+         G8A/5NsObzC+x/QckQbPgmyhFzrZjEp3KUxBZzFgfsdNYDkMyEnSfuklTxKGQOUMTxOX
+         A6iBQvkU6ywK4Pmq566AJoSLDU/rvQdUuyOmj9jPM/IKWWQ5aB02en69IDhendkgpPFY
+         9MeaSXLKlAUplDhxGAq5hemFyW+bIUpRzB2/etAFMhmX67jS5OT+AeVY7RWe8MFYNSKx
+         Ac8zNAhtTphJEgZ7tXt+lkRtS+U8y77KJILbi2UwBbcYXyrj0VUp1QJPViSkl90R8BnF
+         lIIQ==
+X-Gm-Message-State: AOAM5339talGBACLQphWWmyLy788RXK41NDjqk2p3xvur5/sG5euOn4V
+        Q/IGD//L+n7swtv2oiPxod5KRr/SSXlYYe0zzxQ=
+X-Google-Smtp-Source: ABdhPJwfd1D3uICD728dSd5iiOOL1/UDS2rL5ofpdJpLCCO+BSm5L/BuS1eQfHG36q5hn1JlxT25xACxZHGY8nuqmZg=
+X-Received: by 2002:a92:c908:0:b0:2c1:a287:8868 with SMTP id
+ t8-20020a92c908000000b002c1a2878868mr1289760ilp.321.1647505188872; Thu, 17
+ Mar 2022 01:19:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="47OylaR+d6CbicYl"
-Content-Disposition: inline
-In-Reply-To: <202203160508.k7vz4ZxC-lkp@intel.com>
-X-Cookie: Androphobia:
-X-Spam-Status: No, score=-8.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220212130410.6901-16-ojeda@kernel.org> <8baf7006-90ed-25b8-3005-69b5475215cf@gmail.com>
+In-Reply-To: <8baf7006-90ed-25b8-3005-69b5475215cf@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 17 Mar 2022 09:19:37 +0100
+Message-ID: <CANiq72mQffofeW4C=AWF4CHu=WpgpwB4hAv_q9QiTX_+U38qGg@mail.gmail.com>
+Subject: Re: [PATCH v4 15/20] docs: add Rust documentation
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Wu XiangCheng <bobwxc@email.cn>, Daniel Xu <dxu@dxuuu.xyz>,
+        Gary Guo <gary@garyguo.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Yuki Okushi <jtitor@2k36.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Finn Behrens <me@kloenk.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wei Liu <wei.liu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Akira,
 
---47OylaR+d6CbicYl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Feb 14, 2022 at 11:47 AM Akira Yokosawa <akiyks@gmail.com> wrote:
+>
+> > diff --git a/Documentation/rust/logo.svg b/Documentation/rust/logo.svg
+> > new file mode 100644
+> > index 000000000000..65be792a5abe
+> > --- /dev/null
+>
+> How about adding a suitable license identifier in a comment?
 
-On Wed, Mar 16, 2022 at 05:56:39AM +0800, kernel test robot wrote:
+For the next round, I did not apply this suggestion, because it is
+unclear which license identifier to use: it would be probably be the
+same as the `COPYING-logo` one (which would be used also for the Tux
+SVG, if it gets merged -- it was sent a while ago).
 
-Not deleting context for the benefit of the kbuild people I just CCed...
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git =
-arm64-sysreg-gen
-> head:   72b2ee21681c0c515c6a8bb62bd289766ce324a1
-> commit: caf0e02eaa9ed9bfa50642f0bc2ee008b1c138ff [6/9] arm64/sysreg: Enab=
-le automatic generation of system register definitions
-> config: arm64-randconfig-r006-20220313 (https://download.01.org/0day-ci/a=
-rchive/20220316/202203160508.k7vz4ZxC-lkp@intel.com/config)
-> compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6b2=
-f50fb47da3baeee10b1906da6e30ac5d26ec)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.gi=
-t/commit/?id=3Dcaf0e02eaa9ed9bfa50642f0bc2ee008b1c138ff
->         git remote add broonie-misc https://git.kernel.org/pub/scm/linux/=
-kernel/git/broonie/misc.git
->         git fetch --no-tags broonie-misc arm64-sysreg-gen
->         git checkout caf0e02eaa9ed9bfa50642f0bc2ee008b1c138ff
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
-=3D1 O=3Dbuild_dir ARCH=3Darm64 prepare
->=20
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->=20
-> All errors (new ones prefixed by >>):
->=20
->    In file included from kernel/bounds.c:10:
->    In file included from include/linux/page-flags.h:10:
->    In file included from include/linux/bug.h:5:
->    In file included from arch/arm64/include/asm/bug.h:26:
->    In file included from include/asm-generic/bug.h:22:
->    In file included from include/linux/printk.h:9:
->    In file included from include/linux/cache.h:6:
->    In file included from arch/arm64/include/asm/cache.h:8:
->    In file included from arch/arm64/include/asm/cputype.h:173:
-> >> arch/arm64/include/asm/sysreg.h:125:10: fatal error: 'generated/asm/sy=
-sreg.h' file not found
->    #include "generated/asm/sysreg.h"
->             ^~~~~~~~~~~~~~~~~~~~~~~~
->    1 error generated.
-
-This looks like a kbuild thing which as far as I can see only exists for
-O=3D builds and possibly only with bounds.s - if I look at the full log I
-see that we correctly generated asm/sysreg.h:
-
-  GEN     arch/arm64/include/generated/asm/sysreg.h
-
-but that's only passed to CC (at least for bounds.s) via an
--I./arch/arm64/include/generated so won't be found with the generated/
-prefix.  While this can be avoided by renaming the header and not
-referencing it with the prefix I do see a bunch of other headers
-throughout the tree being included with an explicit generated/ prefix so
-I'm not sure this is what's supposed to be happening, it does seem like
-a landmine somehow.
-
->    make[2]: *** [scripts/Makefile.build:121: kernel/bounds.s] Error 1
->    make[2]: Target '__build' not remade because of errors.
->    make[1]: *** [Makefile:1191: prepare0] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:219: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
->=20
->=20
-> vim +125 arch/arm64/include/asm/sysreg.h
->=20
->    118=09
->    119	/*
->    120	 * Automatically generated definitions for system registers, the
->    121	 * manual encodings below are in the process of being converted to
->    122	 * come from here. The header relies on the definition of sys_reg()
->    123	 * earlier in this file.
->    124	 */
->  > 125	#include "generated/asm/sysreg.h"
->    126=09
->=20
-> ---
-> 0-DAY CI Kernel Test Service
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-
---47OylaR+d6CbicYl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmIyGMUACgkQJNaLcl1U
-h9BGYAf/a5rGPjpj7U3tRYQ0COopaqhrMs7opcgx61qiaTZcuQ5SXro1NBErX1wG
-CvLTBLPSvdgiwuGPMgENDQp+rucshqYV5L6hY1E2FT0zKlViYN11HPEpGK+NBWUK
-FxkLP8AHVmPu13JPyj2cCNDHG9GVsOTjvsC+NWUOkMVA0/sPm1MDHUptOx83B9Hn
-t1JCAFZsdxQRc/9Imjl1yK26sy9OfN21H9OHDbcM239xCKbh4dWjLSCyYlhAtLJI
-7XthTpsa0fm8Xu/mYHb6Gigi+C+w8N6ZMd7bMkWaE246rrrUmnZG9pT0l86B3NMx
-E2ABvY6aKb1jnFPf9wtrPpMmYu5BMg==
-=NUi8
------END PGP SIGNATURE-----
-
---47OylaR+d6CbicYl--
+Cheers,
+Miguel
