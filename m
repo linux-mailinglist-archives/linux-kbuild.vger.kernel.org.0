@@ -2,83 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED10B4E475C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Mar 2022 21:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A273C4E5731
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Mar 2022 18:12:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233316AbiCVUWs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Mar 2022 16:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60368 "EHLO
+        id S245703AbiCWRNi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Mar 2022 13:13:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231730AbiCVUWs (ORCPT
+        with ESMTP id S244072AbiCWRNi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Mar 2022 16:22:48 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A9A657A5
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Mar 2022 13:21:19 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id mp6-20020a17090b190600b001c6841b8a52so4214006pjb.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Mar 2022 13:21:19 -0700 (PDT)
+        Wed, 23 Mar 2022 13:13:38 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79BF07892B
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id b5so2751382ljf.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Mar 2022 10:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OzgKQX00j77D35fg7pwuF5yWqtWZcjI+3JQituFaLCQ=;
-        b=QgPuYPj8mFIyfXoUJGf4zaJXwCzD2PE3f8RlIStxC/NSba12o0kgL7nS/DpSyT3tXq
-         /TfrD02ZwKXySbRTQ2X7BFtrYLC0q4obEWHN5jrCp5RVy6rOktKCV93ytEZmZdA7pU+9
-         N6sxdJmyL1HEx/433DeFCKNlYmctiR3l/q8nby0qDJBRp+dV91SQId4aJNrSEwRe2QzC
-         hx65g4DAdFyBbgKuEcJbQCvHk/2+7vRvpC4W/UXkeL0GP/Sw8mKtJFvpyQZOFsBz52Fe
-         A6Adaz4DjJt3D8FpNmb8FGuztgtOT1vzX+tXelpZN4r5ki+zSrTwdsS1JEpyF1JNPV2v
-         k7rw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
+        b=Inx3pPtFVYpWMK7FixLjIbC1jJxntgKxFxZ0jH6X3A3V4DayOw22Ok5qXfcDFVHksW
+         5Z+y3J3Fpxdxt45EqV9ejbfr/BGgUPJVYjAt8PrdQK+Ldu47SVdHIt+TLQqEqo5qaN0k
+         sSquUwe0j+WFE+jhk4cmjc8l4bgrN6x5TUmwzWlBNIgwdrfsm/To1mdKwqgs/hyp3KVw
+         YlmGCRtvtdOGsveQAz8JBAto90omMtMgAZChFdGkZQQCsWMKgJxds1s315znXohhOVRJ
+         BF8FWP31cfszkf7ExpfbNhunzTTF+m1FakIVwVrJu+J6eMnqRRMZJWa0AFxN/aigXAcf
+         Nnbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OzgKQX00j77D35fg7pwuF5yWqtWZcjI+3JQituFaLCQ=;
-        b=HY66VntIOQo9wZhqUeCcgPMCyI00oHZkP9d4Lv09oIfdNol6tZlQS23lQ2o9zrewOU
-         pbQGUvqZev/k63HtpATtFqcQS5h13U/MFD7+eoxQ/l7li2FfptvLLf26DSkixC25EIaB
-         l87d/E3alweleOxUxo+o66/cKCt4dDM1f1BAQlomxisBHZAnwpwGx3+9nEYLB0ZMBLUW
-         ry2K8g0uO7BSTo9ab2VzGwIwlwQbTOG+UgfYh9KYWYMc/bKn9aWIWTx5iR2vfoGezq91
-         bXWrfHKBMWVBLsGXRbo0tJqn+pV8gxiGWkR75M2YSMi4RzUBqayispWPoUbLKIiZHCjc
-         92iw==
-X-Gm-Message-State: AOAM533HK73xXcQASpqylh/AARBUwE7cniSZSj9mo8fobzzhsYPnuP7z
-        5arySyo+SuSkjt+TxI431h+UwQ==
-X-Google-Smtp-Source: ABdhPJwExt7xSpNVxNS9SolkdaicYIyWQLhE7Kl1FuO/CNsPN1cxEMx698OYo250+QpTB34Qid7eQw==
-X-Received: by 2002:a17:903:32c9:b0:154:3a2d:fa89 with SMTP id i9-20020a17090332c900b001543a2dfa89mr16642693plr.3.1647980479095;
-        Tue, 22 Mar 2022 13:21:19 -0700 (PDT)
-Received: from google.com (223.103.125.34.bc.googleusercontent.com. [34.125.103.223])
-        by smtp.gmail.com with ESMTPSA id me5-20020a17090b17c500b001c63699ff60sm3926048pjb.57.2022.03.22.13.21.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 13:21:18 -0700 (PDT)
-Date:   Tue, 22 Mar 2022 20:21:14 +0000
-From:   Chun-Tse Shao <ctshao@google.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        keyrings@vger.kernel.org, DTML <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4] config: Allow kernel installation packaging to
- override pkg-config
-Message-ID: <YjovutS5McV8A8z4@google.com>
-References: <20220306223016.2239094-1-ctshao@google.com>
- <CAKwvOdnmtRYnSx3VvG=PEnzpzWa8f=0bn1xDymjER5EShS2tmw@mail.gmail.com>
- <YiaMJCHOOuujHwiK@google.com>
- <CAK7LNAS-=Fne6fyiqzQ6DwNLOdF-HAY9Libn10uyV9GmQQMUKQ@mail.gmail.com>
- <YjFQvhv7I6w8xjbK@google.com>
- <CAK7LNATmPXs6f-Oe4XmfcZSRPsCsuexSebA=4-jyNsMYHu9cag@mail.gmail.com>
- <CAKwvOd=D22k53yXFC=E=VkJotn6q-AYCu5QsaFPmH_v+fWGVwA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S5cqrwm6NEPQjFiPbKAqninZQSMn4UOTnCh0iTsFNLo=;
+        b=Kzr98hMXktFI3cOHpOZmJCwB3rQvgG8WfdNbRWueyOgT/RAdsTWn4UOn2mkwqX/7AW
+         aaoodgMA2b3EQ5hsw9k4IWWicVRTSLsdb98x73o2j5e55RrWJEDVlb6NTM8wepzqBJ5u
+         laGow4fUzTBkMOo48G/ktrLejPgj7AQscAoKl8MI9pGYSm2y1DAnR1A2uKXacDIWzjgS
+         /2m1aAjyo9RRXIptjmAfDXtGu4Z/U3a+9mza2R6FDFoFNiGrk6MlpWpIdBRQeJjqktOP
+         RsG24Ra44xlMrfYwXnIBxVR3o2O9mFYf2PeKhW4lMZLUz6FPA6fLoE/YF/6NPJVuF8x2
+         GTZA==
+X-Gm-Message-State: AOAM530cDeenocBV0MWWWuIPazkmvABRXPxT0axEgEsJ9PhE47HLloh1
+        MoJJ3/cPXdNpF3mSamtFDg8GRR0DC7iNICoaGOn4iw==
+X-Google-Smtp-Source: ABdhPJznpm3ZCA3c5phLjI/3h2MA5pz20oijX4CrsCdzRosKuSDTTPndiUuGKIM12svCeiRr5Los/q9NoNLvrKzo2A0=
+X-Received: by 2002:a2e:904c:0:b0:23e:d7ad:3fdd with SMTP id
+ n12-20020a2e904c000000b0023ed7ad3fddmr805064ljg.239.1648055525198; Wed, 23
+ Mar 2022 10:12:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOd=D22k53yXFC=E=VkJotn6q-AYCu5QsaFPmH_v+fWGVwA@mail.gmail.com>
+References: <164724890153.731226.1478494969800777757.stgit@devnote2>
+ <164724892075.731226.14103557516176115189.stgit@devnote2> <20220316191649.GA11547@pswork>
+ <20220318101445.fdb151efe58c6c3a1c572500@kernel.org> <20220321183500.GA4065@pswork>
+ <20220322120311.690f237b63ddfd9c0e4f78ec@kernel.org> <20220322190219.GA26859@pswork>
+ <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+In-Reply-To: <20220323091617.495bfdf5281a543b27f2656f@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 23 Mar 2022 10:11:53 -0700
+Message-ID: <CAKwvOdk8is=R2qhgKuS_CddvtZzgeJC1Uht84x--TcYykfaiHw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] bootconfig: Support embedding a bootconfig file in kernel
+To:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Cc:     Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -90,193 +78,104 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 22, 2022 at 10:19:14AM -0700, Nick Desaulniers wrote:
-> On Tue, Mar 22, 2022 at 12:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Mar 22, 2022 at 5:16 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> On Tue, 22 Mar 2022 20:02:19 +0100
+> Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
+>
+> > Hello Masami Hiramatsu,
 > >
-> > On Wed, Mar 16, 2022 at 11:51 AM Chun-Tse Shao <ctshao@google.com> wrote:
+> > On Tue, Mar 22, 2022 at 12:03:11PM +0900, Masami Hiramatsu wrote:
+> > > On Mon, 21 Mar 2022 19:35:00 +0100
+> > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
 > > >
-> > > Tue, Mar 08, 2022 at 01:01:45PM +0900, Masahiro Yamada wrote:
-> > > > On Tue, Mar 8, 2022 at 7:50 AM Chun-Tse Shao <ctshao@google.com> wrote:
+> > > > Hello Masami Hiramatsu,
+> > > >
+> > > > On Fri, Mar 18, 2022 at 10:14:45AM +0900, Masami Hiramatsu wrote:
+> > > > > On Wed, 16 Mar 2022 20:16:49 +0100
+> > > > > Padmanabha Srinivasaiah <treasure4paddy@gmail.com> wrote:
 > > > > >
-> > > > > On Mon, Mar 07, 2022 at 10:17:17AM -0800, Nick Desaulniers wrote:
-> > > > > > On Sun, Mar 6, 2022 at 2:39 PM Chun-Tse Shao <ctshao@google.com> wrote:
-> > > > > > >
-> > > > > > > Add HOSTPKG_CONFIG to allow tooling that builds the kernel to override
-> > > > > > > what pkg-config and parameters are used.
+> > > > > > Hello Masami Hiramatsu,
 > > > > > >
-> > > > > > Sorry, kind a late thought here for v4, but we don't seem to prefix
-> > > > > > many other host side tools with HOST_, i.e. LEX, YACC, AWK, PERL,
-> > > > > > PYTHON3, etc.  Maybe just having the variable identifier be simply
-> > > > > > PKGCONFIG rather than HOSTPKG_CONFIG then put it at the end of the
-> > > > > > list in the top level Makefile after ZSTD (i.e. the list of host
-> > > > > > tools)?  There's HOST_ prefixes when there's more than one tool
-> > > > > > involved (i.e. host compiler vs target compiler), but I suspect
-> > > > > > there's no such distinction for the existing uses of pkg-config?
-> > > > > >
-> > > > > Thanks for your suggestion, Nick! Yes I think it makes sense with PKGCONFIG
-> > > > > instead of HOSTPKG_CONFIG since there is only one tool involved. I will
-> > > > > work on it and submit a new patch.
+> > > > > > Also noted that a change in default.bconf requries a clean build, is it
+> > > > > > expected behaviour?
+> > > > >
+> > > > > default.bconf will be always updated if CONFIG_EMBED_BOOT_CONFIG=y. So you can
+> > > > > do incremental build. (I tested it with the incremental build environment)
 > > > > >
 > > > >
-> > > > Please hold on.
+> > > > Thanks, your observation made me to further experiment ther incremental build.
 > > > >
-> > > > I was also wondering what to do with the "HOST" prefix.
+> > > > Below are the observations I have:
 > > > >
-> > > > Libraries are usually arch-dependent.
-> > > > (in other words, pkg-config should return different library paths
-> > > > for $(CC) and $(HOSTCC) )
+> > > > When I use GCC for a build; yes, the modified default.conf was observed on
+> > > > the target.
 > > > >
-> > > > You already understood this, so you added "HOST" prefix.
-> > > >
-> > > >
-> > > > Please let me take time for further discussion.
-> > > > I will come back to this when I get some time.
-> > > >
-> > > >
+> > > > But when I use clang; either with FULL or THIN LTO, the modified
+> > > > default.conf doesnt get reflected on the target.
 > > >
-> > > Hi Mashiro,
+> > > Hmm, curious. So you just add 'CC=clang' on the make command line, right?
+> > Yes, CC=clang ARCH=arm64 LLVM=1. As specified here:
+> > https://docs.kernel.org/kbuild/llvm.html.
+
+You should just need LLVM=1 (and ARCH=arm64) at this point. LLVM=1
+implies CC=clang.
+
+Also, here's the start of the lore thread for folks:
+https://lore.kernel.org/linux-doc/164724892075.731226.14103557516176115189.stgit@devnote2/
+
+> >
+> > > Can you confirm that following line in your build log,
 > > >
-> > > I was wondering if you were able to look more into this.
+> > >   GEN     lib/default.bconf
 > > >
-> > > Thank you!
+> > Yes, I do see above line. Indeed lib/default.bconf will get incremental
+> > change.
+> >
+> >   GEN     lib/default.bconf
+> >   CC      lib/bootconfig.o
+> >   AR      lib/lib.a
+> >
+> > > and the timestamp of lib/bootconfig.o is built after lib/default.bconf file?
 > > >
-> > > -CT
+> > Yes, verified timestamp for all above artifacts including vmlinux.o.
+> >
+> > ex:
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 22K Mar 22 14:50
+> > ../out/lib/bootconfig.o
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 355 Mar 22 14:50
+> > ../out/lib/default.bconf
+> > -rw-rw-r-- 1 psrinivasaia psrinivasaia 54M Mar 22 14:50 ../out/vmlinux.o
+> >
+> > As said incremnetal change was refelected in artifact default.bconf.
+> > But not in vmlinux.o/vmlinux, used below command to verify.
+>
+> Interesting! This sounds clang's issue, because the make command rebuilds
+> the object file including new default.bconf, but the linker (lld?)
+> doesn't link it again correctly.
+
+Sounds like missing FORCE directives in the Makefiles, perhaps?
+
+Sami, do you recall any issues like this when implementing
+commit dc5723b02e52 ("kbuild: add support for Clang LTO")
+?
+
+>
+> >
+> > llvm-objdump  -s -j .init.data ../out/vmlinux
+> >
+> > On target too, /proc/bootconfig shows old data.
+> >
+> > > And is that related to CONFIG_LTO? What happen if CONFIG_LTO=n?
 > > >
-> > > > In the meantime,
-> > > >   a8a5cd8b472ca20e5b8fa649c43b3756867322f8
-> > > > as reference info if you have not seen it.
-> > > >
-> > > >
-> > > > How many distros support something like
-> > > > "aarch64-linux-gnu-pkg-config"  ?
-> > > >
-> > > > Ubuntu 18.04 and 20.04 seem to support it.
-> > > > I do not know for others.
-> > > >
-> > > >
-> > > >
-> > > >
-> >
-> >
-> >
-> > Sorry for the delay.
-> > I am OK with the idea of allowing users to override the pkg-config command,
-> > but I tend to take time before making a decision.
-> >
-> >
-> >
-> >
-> > Does anybody have any insight / thoughts about the following points?
-> >
-> >
-> >
-> >
-> >
-> >
-> > [Q1]   with/without "HOST" prefix
-> >
-> >
-> > Apparently, "pkg-config" should return different libs/cflags
-> > for $(CC) and $(HOSTCC).
-> >
-> > I think the non-prefixed macro name "PKG_CONFIG" should be
-> > reserved for $(CC)  (building for the target system).
+> > Yes;  CONFIG_LTO_NONE=y  issue not observed even with LLVM binutils.
 >
-> Ok. I retract my comment on v4 about removing the HOST prefix then.
->
-> >
-> > "HOSTPKG_CONFIG" looks unbalanced
-> > due to the underscore.
-> >
-> > Perhaps, "HOST_PKG_CONFIG" might be better?
->
-> I'm fine with HOSTPKG_CONFIG (what's in v4); follows the style of
-> HOSTCC and HOSTCXX.
->
+> And this issue is related to LTO. Maybe LTO ignores the '.init.data'
+> section update. (Perhaps, LTO only checks the function code hash or
+> something like that instead of the timestamp, and ignore whole object
+> file if all of them are not updated.)
 
-Agree, it should follow the style of HOSTCC/HOSTCXX.
-
-> >
-> >
-> >
-> >
-> > [Q2]    "pkg-config" vs "pkgconf"
-> >
-> > The traditional pkg-config implementation [1] is not actively
-> > maintained these days.
-> > The last commit was more than one year ago.
-> >
-> > The alternative one 'pkgconf' [2] is more active.
-> >
-> > In fact, Fedora already switched to 'pkgconf' [3].
-> > Now 'pkg-config' is just a wrapper of 'pkgconf'.
-> > Many distributions already support pkgconf.
-> >
-> >
-> > I considered the shorter macro name "HOSTPKGCONF" and
-> >
-> >    HOSTPKGCONF  = pkgconf
-> >
-> > but I am not sure if this is the right decision.
-> > Maybe we should stick to "PKG_CONFIG" / "HOST_PKG_CONFIG"
-> > for the macro names.
-> >
-> >
-> >   [1]  https://gitlab.freedesktop.org/pkg-config/pkg-config.git
-> >   [2]  https://github.com/pkgconf/pkgconf.git
-> >   [3]  https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-config_implementation
->
-> If the folks sending this are working on CrOS, better find what's in
-> their build system. Chun-Tse?
->
-> (I feel like I'm behind the times again, like when `apt-get install`
-> became old news in favor of `apt install`...)
->
-
-In Cros we only support pkg-config, and that is the reason we would like
-to make this change in upstream.
-
-> >
-> >
-> >
-> >
-> >
-> > [Q3] What is the trend of handling cross-compile by pkg-config (or pkgconf).
-> >
-> >
-> > By default, pkg-config returns the libs/cflags for native builds.
-> >
-> > For cross builds, the search paths for the *.pc files must be changed
-> > via the "PKG_CONFIG_LIBDIR" environment variable.
-> >
-> > To ease this, some distributions provide  <triplet>-pkg-config
-> > (for example,   aarch64-linux-gnu-pkg-config).
-> > This became the nationale for tools/build/feature/Makefile defining:
-> >
-> >    PKG_CONFIG ?= $(CROSS_COMPILE)pkg-config
-> >
-> > But, this wrapper shell script is not always available.
-> > I do not know how to do it with the LLVM tool suite.
-> > I am not quite sure if this is the global solution.
-> >
-> >
-> > These days, pkgconf supports another way, .personality file [4]
-> > to specify the .pc search paths for cross builds.
-> >
-> > Is it reasonable to use an option to distinguish native / cross builds
-> > and use the same macro   "PKG_CONFIG = pkg-config" everywhere ?
-> >
-> >
-> > [4] http://manpages.ubuntu.com/manpages/focal/en/man5/pkgconf-personality.5.html
->
-> I'm not sure, but do we need to cross that bridge for this patch if
-> it's just adding support for the HOST? No cross pkg-config necessary,
-> yet. (Famous last words).
-
-Agree with Nick.
-
+Sounds like this is a result of the above issue?
+-- 
 Thanks,
-CT
-> --
-> Thanks,
-> ~Nick Desaulniers
+~Nick Desaulniers
