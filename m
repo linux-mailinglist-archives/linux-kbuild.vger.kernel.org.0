@@ -2,52 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E324E751E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Mar 2022 15:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DAD24E7577
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Mar 2022 15:54:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355854AbiCYOgj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Mar 2022 10:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42514 "EHLO
+        id S1354158AbiCYOzy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Mar 2022 10:55:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237056AbiCYOgi (ORCPT
+        with ESMTP id S1349429AbiCYOzx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Mar 2022 10:36:38 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450C854699;
-        Fri, 25 Mar 2022 07:35:03 -0700 (PDT)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 22PEYoDA001738;
-        Fri, 25 Mar 2022 23:34:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 22PEYoDA001738
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648218891;
-        bh=sosyWOYABfHivmikVkrJxLdgAyG42ZrPiILrb7k3JpI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=em2XlG/P0VJO+1mbSUGT9EzZ2/uvnEGuqK3OC3D+nwoGPp5VOoBWGNeN6rXwxwdOJ
-         eDAwgr/awPNiv06C43YC40W88RgdWK7ivQRITlzCXAebwLNhuNs4Ics8H+8t4TZ1op
-         /Mn4WZo2p6bMekAc8Vc/CLh5RRYEjTeLcsZkm5lihKqfn0Cds7Ba0hhScfZSxfvP9F
-         1bkP5MM+0GiMnFHbMRrKGuJ9odkQbSOuzKBSYGB9L7i+3xYQvZstmiY/qFqOjBKZVS
-         NVg21tLYrsjAeczPT7VNQYpnc0vPQ7fX0kXnap1bTcHfVz267QyNGqFvgEPPsBFqSX
-         gVGreE6PTBUYQ==
-X-Nifty-SrcIP: [209.85.216.52]
-Received: by mail-pj1-f52.google.com with SMTP id jx9so7720027pjb.5;
-        Fri, 25 Mar 2022 07:34:51 -0700 (PDT)
-X-Gm-Message-State: AOAM5304PJgUcmIHKfZu6xwvCBPFfu4tU9ScgJcX1DzFuxX7XYi/e4Az
-        ZtcpLMFY7mhBVP56G+0pLCmM0MmjqUevQViYt3o=
-X-Google-Smtp-Source: ABdhPJyJUFYzEdsl9QhQ2x/nN4ufj79OsmqAlSSTs1D9dGQn6408BAISmYDdWCOxYhCRERIM8jPdkO016xH3xxBs2HM=
-X-Received: by 2002:a17:902:b68c:b0:153:bd06:85ad with SMTP id
- c12-20020a170902b68c00b00153bd0685admr11951253pls.99.1648218890237; Fri, 25
- Mar 2022 07:34:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220325131348.3995-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20220325131348.3995-1-andriy.shevchenko@linux.intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 25 Mar 2022 23:34:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR9HS7LK5D-07i8_tFcwd=uiHEFu05n0t_UuFZExcfBpw@mail.gmail.com>
-Message-ID: <CAK7LNAR9HS7LK5D-07i8_tFcwd=uiHEFu05n0t_UuFZExcfBpw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] Makefile.extrawarn: Turn off -Werror when extra
- warnings are enabled
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        Fri, 25 Mar 2022 10:55:53 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D97C31E3D9;
+        Fri, 25 Mar 2022 07:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648220059; x=1679756059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iMJdzvSh02iTfUIow/wuk32++Xjz5o8yCK9oUkyArVs=;
+  b=I1JKq4WSWPsaMph9fAYA+ZgKD27T17h5BncEn9AVsi/9THv3UAC8vERu
+   HMvRHLthqBYAKGOcBmHM5h7LHRaGAnqH4uGB3aqJb0tMROEKZmStj9QyB
+   Oz/avdf/WtDT7obTehu3Z+nXymiffna2EJ/KDVFAXtzZWNLyaLnM8mI1g
+   FjsTX4DpAN1Q0giqe6GIIBQRW9EPznLou5E+wZ2Y/HcZviCasf/ycV1D6
+   HsWvJBo3o4ypCyxvfSrAbqkgQXfrjLg9Xqd+UKyXqn07q3yM+0K0oJ3cL
+   gig8BytkOCuLCZH7eCVbF7AjfxMOem2NGynECCxv/q7BxRxXkSQEbUS/t
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10296"; a="258840228"
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; 
+   d="scan'208";a="258840228"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2022 07:54:19 -0700
+X-IronPort-AV: E=Sophos;i="5.90,209,1643702400"; 
+   d="scan'208";a="650260471"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2022 07:54:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nXlJt-006S3T-Gm;
+        Fri, 25 Mar 2022 16:53:41 +0200
+Date:   Fri, 25 Mar 2022 16:53:41 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -55,63 +51,51 @@ Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Subject: Re: [PATCH v1 1/1] Makefile.extrawarn: Turn off -Werror when extra
+ warnings are enabled
+Message-ID: <Yj3XdSYyxfv5/Al8@smile.fi.intel.com>
+References: <20220325131348.3995-1-andriy.shevchenko@linux.intel.com>
+ <CAK7LNAR9HS7LK5D-07i8_tFcwd=uiHEFu05n0t_UuFZExcfBpw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAR9HS7LK5D-07i8_tFcwd=uiHEFu05n0t_UuFZExcfBpw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 25, 2022 at 10:13 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> When `make W=1 ...` is executed the level 1 warnings become errors,
-> due to recent change in some of the defconfigs, and fail the build.
-> Since there are a lot of warnings on the level 1 are still present
-> in the defconfigs at least for x86, let disable -Werror in such case.
+On Fri, Mar 25, 2022 at 11:34:06PM +0900, Masahiro Yamada wrote:
+> On Fri, Mar 25, 2022 at 10:13 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > When `make W=1 ...` is executed the level 1 warnings become errors,
+> > due to recent change in some of the defconfigs, and fail the build.
+> > Since there are a lot of warnings on the level 1 are still present
+> > in the defconfigs at least for x86, let disable -Werror in such case.
+> 
+> 
+> commit b339ec9c229aaf399296a120d7be0e34fbc355ca
+> made WERROR default to COMPILE_TEST.
+> 
+> WERROR should not be enabled for regular builds.
+> 
+> b9080ba4a6ec should be reverted.
 
+Hmm... works for me, but have you read this discussion:
 
-commit b339ec9c229aaf399296a120d7be0e34fbc355ca
-made WERROR default to COMPILE_TEST.
+https://lore.kernel.org/r/YjsCpoRK7W4l6tSh@zn.tnic
 
-WERROR should not be enabled for regular builds.
-
-b9080ba4a6ec should be reverted.
-
-
-
-
-
-> Fixes: b9080ba4a6ec ("x86/defconfig: Enable WERROR")
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  scripts/Makefile.extrawarn | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 650d0b8ceec3..c81d74ef6c90 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -94,3 +94,10 @@ KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
->  KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
->
->  endif
-> +
-> +#
-> +# Turn off -Werror when extra warnings are enabled
-> +#
-> +ifneq ($(KBUILD_EXTRA_WARN),)
-> +       KBUILD_CFLAGS += -Wno-error
-> +endif
-> --
-> 2.35.1
->
-
+?
 
 -- 
-Best Regards
-Masahiro Yamada
+With Best Regards,
+Andy Shevchenko
+
+
