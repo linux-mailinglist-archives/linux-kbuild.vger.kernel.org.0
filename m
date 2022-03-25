@@ -2,100 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A294E7DBE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Mar 2022 01:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C439B4E7CD1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Mar 2022 01:22:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbiCYUBx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Mar 2022 16:01:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60848 "EHLO
+        id S230215AbiCYTcf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Mar 2022 15:32:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231699AbiCYUBg (ORCPT
+        with ESMTP id S230238AbiCYTcS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Mar 2022 16:01:36 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D126F237FC3;
-        Fri, 25 Mar 2022 12:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648237911; x=1679773911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lrl+aGeTbvJwiVMu8xaP539HJmgEuuOyUPsz3gqZvvs=;
-  b=JM57FRYiBGcwfvjgQFuXwPsE0kYLEryANF2Xq0lZB+3G1QkHV/YgCM8Z
-   lHR2ia1fhKl9A05IkVJ8oXJK9wfSbvr5jrJOYIWZIfxhUuGwAI8lxRgzQ
-   4v+2A4yeyD/FTLdPW3VwOWXgJZD/+w88XXjpXlPgQnsCjM1CKJDMasGJE
-   DiOkHcRSOFrtXSSITlBUFkDrrO9EFnyl0AGbNxG4YIIE5uU8Mav/60ePE
-   myzqb8uV0xbwJdgaZ6AWrnZ4L+evgguBUVTup/mfH8P5rHp9EwJCoCT/a
-   hJ0l6RML67Ao+btb5o7BSImXPcD9rqeAC1Bxr3S/bGxu2PQeoEVMcy6Zc
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10297"; a="256261523"
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; 
-   d="scan'208";a="256261523"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2022 10:52:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,211,1643702400"; 
-   d="scan'208";a="602123064"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2022 10:52:31 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nXo6N-006Wfs-Po;
-        Fri, 25 Mar 2022 19:51:55 +0200
-Date:   Fri, 25 Mar 2022 19:51:55 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v1 1/1] Makefile.extrawarn: Turn off -Werror when extra
- warnings are enabled
-Message-ID: <Yj4BO0wW9Lw/+X4O@smile.fi.intel.com>
-References: <20220325131348.3995-1-andriy.shevchenko@linux.intel.com>
- <CAHk-=wgLZC4d-JjoDyJ-0_JNX+nOnkTQdTGKvOE3fBVNvAq-xw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgLZC4d-JjoDyJ-0_JNX+nOnkTQdTGKvOE3fBVNvAq-xw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Fri, 25 Mar 2022 15:32:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 314FA213508;
+        Fri, 25 Mar 2022 12:07:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5D4CAB829A6;
+        Fri, 25 Mar 2022 19:06:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1BD04C340EE;
+        Fri, 25 Mar 2022 19:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648235218;
+        bh=X08yVSMd8t7AOB7xu0DRbRp3VD4q5j0IOg81yugkmus=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ribhI93LiCbFDJToqS0/f/KZSaIO+A8Yh4ofBnGCC0TLaZO/jUz1fgaVGaoaJaFOX
+         jjfdCvKCG93Dd889dyTXGXtJQpthts7ZkgAn+rdoq5Y0+CJlRQGnYjrqYd2gt9Dd5+
+         4thGoMcBYUeT3Xvcd7XWVFArwSobjUBzawgft3Sr6GLcPHPXCjVOkdcu6IMoBW+KfD
+         Ysa7UUbJTh06yYVwJ4avPbA7Z5HWPlJjjTWBI0zfSaUXlXTORd2YH5QQU3FVZ2ADkK
+         wSyLlBSu1AsdyQGRvnMc4zxDQn8O0ysZtcRmtE8MKHrAdDxgRDP1amBF4Rb2qQ5Cs5
+         0kwzKpMTo8uUA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 08FD2E6BBCA;
+        Fri, 25 Mar 2022 19:06:58 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild -std=gnu11 updates for v5.17-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQ2HET1QHG17m1vdCGMoRm6Lj=sAe+cj2Via_LHx3xBPg@mail.gmail.com>
+References: <CAK7LNAQ2HET1QHG17m1vdCGMoRm6Lj=sAe+cj2Via_LHx3xBPg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQ2HET1QHG17m1vdCGMoRm6Lj=sAe+cj2Via_LHx3xBPg@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild-gnu11-v5.18
+X-PR-Tracked-Commit-Id: 1e24078113ae69c741cb1b03375a9f1490db7308
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 50560ce6a0bdab2fc37384c52aa02c7043909d2c
+Message-Id: <164823521802.3609.14455240159425041368.pr-tracker-bot@kernel.org>
+Date:   Fri, 25 Mar 2022 19:06:58 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 25, 2022 at 10:18:06AM -0700, Linus Torvalds wrote:
-> On Fri, Mar 25, 2022 at 6:13 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > +#
-> > +# Turn off -Werror when extra warnings are enabled
-> > +#
-> > +ifneq ($(KBUILD_EXTRA_WARN),)
-> > +       KBUILD_CFLAGS += -Wno-error
-> > +endif
-> 
-> NAK.
-> 
-> If you enabled CONFIG_WERROR, then you get CONFIG_WERROR.
-> 
-> If you enabled W=1, then you get extra warnings.
-> 
-> If you enabled both, then you get extra warnings and they are errors.
-> 
-> This patch is just stupid.
+The pull request you sent on Fri, 25 Mar 2022 11:37:37 +0900:
 
-Fair enough.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild-gnu11-v5.18
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/50560ce6a0bdab2fc37384c52aa02c7043909d2c
+
+Thank you!
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
