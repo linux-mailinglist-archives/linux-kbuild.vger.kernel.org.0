@@ -2,41 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D7FB4E9A62
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 17:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B8D4E9D67
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 19:23:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242023AbiC1PJp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Mar 2022 11:09:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50418 "EHLO
+        id S237936AbiC1RYA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Mar 2022 13:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238206AbiC1PJn (ORCPT
+        with ESMTP id S237418AbiC1RYA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Mar 2022 11:09:43 -0400
-Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15685F8CC;
-        Mon, 28 Mar 2022 08:08:02 -0700 (PDT)
-Received: from grover.. (133-32-176-37.west.xps.vectant.ne.jp [133.32.176.37]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 22SF7L0W004279;
-        Tue, 29 Mar 2022 00:07:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 22SF7L0W004279
+        Mon, 28 Mar 2022 13:24:00 -0400
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764F564BCE;
+        Mon, 28 Mar 2022 10:22:19 -0700 (PDT)
+Received: from grover.. (133-32-185-133.west.xps.vectant.ne.jp [133.32.185.133]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 22SHLdGY017332;
+        Tue, 29 Mar 2022 02:21:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 22SHLdGY017332
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648480041;
-        bh=ISTtvjUDXjLP9uSMSA+wgYZumpK7DOq5dgiQQSeSIqE=;
+        s=dec2015msa; t=1648488100;
+        bh=a1RDShE0uWC0OhbAt+4QzV+tQ/pdHe8WAiRE756c3W0=;
         h=From:To:Cc:Subject:Date:From;
-        b=KoasDRFT+Y9OH4RDffPN8+zEsxOIaWcbUWh0+/ZgJ5K+Zp9g3FI5rmqtmDp7p5IfL
-         KP2zn9fh5nl1iMa1HZZbglvYL9FKZKMALpoQQX1zxiwMm6n3J0EwwtqxCPJhtofU3F
-         RNSBwxVDeeixYfuPdJhSpcQ/FLZ0QNCmtB0rxah3GcOu3BJs+Yn1hop+MelDiNOxEK
-         uIRDXzzyWroEMhsgyerHPsHjDgBrfbafAaieKWjpoqj6xnIiFV2pT23lxq9EPhqr3S
-         9WM67f+ykjd9c9jAdaj0TJ0wqu70ilVp+14I+BSvpRSPA0W8QobOnHOFxrcoXQpb7M
-         pJiqkIOsmTQ0g==
-X-Nifty-SrcIP: [133.32.176.37]
+        b=RCDk9PCuaJFsqcnuTc1cCV86kdxgz9+vRh03BPeaMVSz9jxwij1W1oCar3Mi7++Q3
+         3LdkaOwdZsqz7bWaGJVQ9U54S0IWu39zjEDVnx/9YcIyg/ox5+gdnDV4EdNgTd6XG0
+         m91SPvkhunrgydwR6iwo6IuoVQLXg6ZNRB8cAA+y3fpUmqLnQ+Vm6n+y9keyuaL5mZ
+         6gIsIKqzPHRO/rTRTqM9z8FgGzOCAqePQIj3lIvtx1YlJf5XBvXj4mDaqj7jOR16cN
+         3ETTch9XoG6fk/EvJpZc0VNUXSPnV+WDgg1mWEF65vxJ+cH664GWI2JWKFlcQRs7Yw
+         DdibEitGXs14Q==
+X-Nifty-SrcIP: [133.32.185.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kconfig: remove stale comment about removed kconfig_print_symbol()
-Date:   Tue, 29 Mar 2022 00:07:10 +0900
-Message-Id: <20220328150710.162368-1-masahiroy@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        David Airlie <airlied@linux.ie>
+Subject: [PATCH 1/2] agpgart.h: do not include <stdlib.h> from exported header
+Date:   Tue, 29 Mar 2022 02:21:29 +0900
+Message-Id: <20220328172130.197319-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,33 +50,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This comment is about kconfig_print_symbol(), which was removed by
-commit 6ce45a91a982 ("kconfig: refactor conf_write_symbol()").
+Commit 35d0f1d54ecd ("include/uapi/linux/agpgart.h: include stdlib.h in
+userspace") included <stdlib.h> to fix the unknown size_t error, but
+I do not think it is the right fix.
+
+This header already uses __kernel_size_t a few lines below.
+
+Replace the remaining size_t, and stop including <stdlib.h>.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/confdata.c | 7 -------
- 1 file changed, 7 deletions(-)
+ include/uapi/linux/agpgart.h | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 0c711a1bdc96..00f93c03aa57 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -658,13 +658,6 @@ static char *escape_string_value(const char *in)
- 	return out;
- }
+diff --git a/include/uapi/linux/agpgart.h b/include/uapi/linux/agpgart.h
+index f5251045181a..9cc3448c0b5b 100644
+--- a/include/uapi/linux/agpgart.h
++++ b/include/uapi/linux/agpgart.h
+@@ -52,7 +52,6 @@
  
--/*
-- * Kconfig configuration printer
-- *
-- * This printer is used when generating the resulting configuration after
-- * kconfig invocation and `defconfig' files. Unset symbol might be omitted by
-- * passing a non-NULL argument to the printer.
-- */
- static void __print_symbol(FILE *fp, struct symbol *sym, bool output_n,
- 			   bool escape_string)
- {
+ #ifndef __KERNEL__
+ #include <linux/types.h>
+-#include <stdlib.h>
+ 
+ struct agp_version {
+ 	__u16 major;
+@@ -64,10 +63,10 @@ typedef struct _agp_info {
+ 	__u32 bridge_id;	/* bridge vendor/device         */
+ 	__u32 agp_mode;		/* mode info of bridge          */
+ 	unsigned long aper_base;/* base of aperture             */
+-	size_t aper_size;	/* size of aperture             */
+-	size_t pg_total;	/* max pages (swap + system)    */
+-	size_t pg_system;	/* max pages (system)           */
+-	size_t pg_used;		/* current pages used           */
++	__kernel_size_t aper_size;	/* size of aperture             */
++	__kernel_size_t pg_total;	/* max pages (swap + system)    */
++	__kernel_size_t pg_system;	/* max pages (system)           */
++	__kernel_size_t pg_used;	/* current pages used           */
+ } agp_info;
+ 
+ typedef struct _agp_setup {
 -- 
 2.32.0
 
