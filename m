@@ -2,130 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AA5E4E9990
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 16:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D7FB4E9A62
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 17:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243859AbiC1OcP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Mar 2022 10:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34618 "EHLO
+        id S242023AbiC1PJp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Mar 2022 11:09:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243860AbiC1OcN (ORCPT
+        with ESMTP id S238206AbiC1PJn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Mar 2022 10:32:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E6541F84;
-        Mon, 28 Mar 2022 07:30:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D9596122F;
-        Mon, 28 Mar 2022 14:30:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92418C004DD;
-        Mon, 28 Mar 2022 14:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648477827;
-        bh=0fJAVjmpmWefISZQ/CbYY4ljN8LhkUpwEfBUSoXFz/o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q8zOPgsibK2EPWrixhHmPrrsyfIIk1vXGGUX4UZPseQI8k2V40kOCDhMYgf0VUJGR
-         UYhNvemk7Iy8rpsOc/X+s+xFW1CgxLztCugnh5d8wPkMH5zoj/ZahjFE29nto9KXuH
-         VeCiHgQ6IInNTVlrwgFCE0c6drf6NLhKNt6ie4DBpLMfRVc7oXZ7AwitTVJJWp2Wdq
-         M5j5kzDgZFq4WzSp62Dh6ogLVerIPjqs6u1tMw6jQfwu2Mv/6QG6Ur+nD22lmO2YgU
-         cDcwX2z29hmohmMdNlMgfN6l9Rftnp5UVjuBI1DNSWtT2Kr9I3ZJuvbjRvYB8YOq1o
-         zUgMva6949LJw==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: [PATCH v5 3/3] docs: bootconfig: Add how to embed the bootconfig into kernel
-Date:   Mon, 28 Mar 2022 23:30:22 +0900
-Message-Id: <164847782202.3060675.17704713855690661713.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <164847778869.3060675.8115416881394543419.stgit@devnote2>
-References: <164847778869.3060675.8115416881394543419.stgit@devnote2>
-User-Agent: StGit/0.19
+        Mon, 28 Mar 2022 11:09:43 -0400
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A15685F8CC;
+        Mon, 28 Mar 2022 08:08:02 -0700 (PDT)
+Received: from grover.. (133-32-176-37.west.xps.vectant.ne.jp [133.32.176.37]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 22SF7L0W004279;
+        Tue, 29 Mar 2022 00:07:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 22SF7L0W004279
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1648480041;
+        bh=ISTtvjUDXjLP9uSMSA+wgYZumpK7DOq5dgiQQSeSIqE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=KoasDRFT+Y9OH4RDffPN8+zEsxOIaWcbUWh0+/ZgJ5K+Zp9g3FI5rmqtmDp7p5IfL
+         KP2zn9fh5nl1iMa1HZZbglvYL9FKZKMALpoQQX1zxiwMm6n3J0EwwtqxCPJhtofU3F
+         RNSBwxVDeeixYfuPdJhSpcQ/FLZ0QNCmtB0rxah3GcOu3BJs+Yn1hop+MelDiNOxEK
+         uIRDXzzyWroEMhsgyerHPsHjDgBrfbafAaieKWjpoqj6xnIiFV2pT23lxq9EPhqr3S
+         9WM67f+ykjd9c9jAdaj0TJ0wqu70ilVp+14I+BSvpRSPA0W8QobOnHOFxrcoXQpb7M
+         pJiqkIOsmTQ0g==
+X-Nifty-SrcIP: [133.32.176.37]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] kconfig: remove stale comment about removed kconfig_print_symbol()
+Date:   Tue, 29 Mar 2022 00:07:10 +0900
+Message-Id: <20220328150710.162368-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add a description how to embed the bootconfig file into kernel.
+This comment is about kconfig_print_symbol(), which was removed by
+commit 6ce45a91a982 ("kconfig: refactor conf_write_symbol()").
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Changes in v5:
-  - Update CONFIG_EMBED_BOOT_CONFIG_FILE which can accept relative path.
- Changes in v3:
-  - Fix typos.
- Changes in v2:
-  - Corrected the text accoding to Randy's suggestion.
-  - Do not reccomend to use relative path for CONFIG_EMBED_BOOT_CONFIG_FILE.
----
- Documentation/admin-guide/bootconfig.rst |   31 +++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-index a1860fc0ca88..83a2a0cc9afa 100644
---- a/Documentation/admin-guide/bootconfig.rst
-+++ b/Documentation/admin-guide/bootconfig.rst
-@@ -158,9 +158,15 @@ Each key-value pair is shown in each line with following style::
- Boot Kernel With a Boot Config
- ==============================
+ scripts/kconfig/confdata.c | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 0c711a1bdc96..00f93c03aa57 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -658,13 +658,6 @@ static char *escape_string_value(const char *in)
+ 	return out;
+ }
  
--Since the boot configuration file is loaded with initrd, it will be added
--to the end of the initrd (initramfs) image file with padding, size,
--checksum and 12-byte magic word as below.
-+There are two options to boot the kernel with bootconfig: attaching the
-+bootconfig to the initrd image or embedding it in the kernel itself.
-+
-+Attaching a Boot Config to Initrd
-+---------------------------------
-+
-+Since the boot configuration file is loaded with initrd by default,
-+it will be added to the end of the initrd (initramfs) image file with
-+padding, size, checksum and 12-byte magic word as below.
- 
- [initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
- 
-@@ -196,6 +202,25 @@ To remove the config from the image, you can use -d option as below::
- Then add "bootconfig" on the normal kernel command line to tell the
- kernel to look for the bootconfig at the end of the initrd file.
- 
-+Embedding a Boot Config into Kernel
-+-----------------------------------
-+
-+If you can not use initrd, you can also embed the bootconfig file in the
-+kernel by Kconfig options. In this case, you need to recompile the kernel
-+with the following configs::
-+
-+ CONFIG_EMBED_BOOT_CONFIG=y
-+ CONFIG_EMBED_BOOT_CONFIG_FILE="/PATH/TO/BOOTCONFIG/FILE"
-+
-+``CONFIG_EMBED_BOOT_CONFIG_FILE`` requires an absolute path or a relative
-+path to the bootconfig file from source tree or object tree.
-+The kernel will embed it as the default bootconfig.
-+
-+Just as when attaching the bootconfig to the initrd, you need ``bootconfig``
-+option on the kernel command line to enable the embedded bootconfig.
-+
-+Note that even if you set this option, you can override the embedded
-+bootconfig by another bootconfig which attached to the initrd.
- 
- Kernel parameters via Boot Config
- =================================
+-/*
+- * Kconfig configuration printer
+- *
+- * This printer is used when generating the resulting configuration after
+- * kconfig invocation and `defconfig' files. Unset symbol might be omitted by
+- * passing a non-NULL argument to the printer.
+- */
+ static void __print_symbol(FILE *fp, struct symbol *sym, bool output_n,
+ 			   bool escape_string)
+ {
+-- 
+2.32.0
 
