@@ -2,337 +2,203 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 464FB4E931D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 13:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 270634E963E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Mar 2022 14:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240539AbiC1LSR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Mar 2022 07:18:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52382 "EHLO
+        id S242292AbiC1MLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Mar 2022 08:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240661AbiC1LSL (ORCPT
+        with ESMTP id S236940AbiC1MK7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Mar 2022 07:18:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D382255492;
-        Mon, 28 Mar 2022 04:16:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1384D61147;
-        Mon, 28 Mar 2022 11:16:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B358AC340EC;
-        Mon, 28 Mar 2022 11:16:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648466189;
-        bh=SEGKAv2y0LvSw8+qA9ED5lVRRO6x9HRUKOz3nmtGoC8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tUTV/QOq7dDA4kcmIkSHlLL/Hr9M04Fs6Vl5W5VQmjdsYu270n5hz/mijUUoBCylW
-         RyysfIlXK7NXFCbLPvxou3Rv/NxGZhCanIVqXYkk1C+xyRGK4VwJGH3PrXY9tHNPTc
-         reOczTlpUZSom/wyacm3f2vHkjY1t++RgYCFKu2IzJxjEJKhWV4F5wvgZbbcTbc1hC
-         044fBGw9JLpSB6LhU+ye76Spr+A37VSsQvcxKkyB0fWpE80MQlGOOhjZsskkHYZhbY
-         5wmKVwR3jKiwjfmAxTg8LdL7sdqj9YsjPQuWPTyl8OF4jgTO11Qvf4gThlBKtpRqyS
-         kIq7WJRMN83ZQ==
-Date:   Mon, 28 Mar 2022 20:16:22 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Mon, 28 Mar 2022 08:10:59 -0400
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84673E5F9;
+        Mon, 28 Mar 2022 05:09:17 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 22SC93bM012079;
+        Mon, 28 Mar 2022 21:09:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 22SC93bM012079
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1648469343;
+        bh=c+gGW+Hvo3/XEWQflB1H1elV17VcXaSFdPpwtt/xXBs=;
+        h=From:Date:Subject:To:Cc:From;
+        b=na13MT7aDkurjoM8uu48kfDnv+m67IUwPnGIaICUE2OCmimlu+kRUEeMMBTqq/hsm
+         DtgRQs1MCKBxfw87BVMEWzGl7kIivHa7iBCPyRcOb1huwC5hPhmp2S2QzIrEroQLhK
+         DKaRxvDH6GTBTGSNiYMT0dUuunqOr1feSKX+U9MxYZnDz8w6Lf/R/Ek5I+t6qZ5j/5
+         L8behEnweKSrQ+TC7wU2QRtoKDn+uZ/JZJ+RzQs3t2t09GPISLLqNr8QsvhDH1L0DA
+         Vrv2DVQE5S3KXubXzApUDZv1suwbOfS8qTV4pHZiMrdY3s+6faFs0uFrlNizV8p+DH
+         EBYyBe3zOTu5w==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id bx24-20020a17090af49800b001c6872a9e4eso15290891pjb.5;
+        Mon, 28 Mar 2022 05:09:03 -0700 (PDT)
+X-Gm-Message-State: AOAM533LX6BIUrl1DF/cnHuMiSajpOcY0Y1joip/hgFgijCzJGYdBPGd
+        D/kY9aqebZsYaUtOLwiwMeLakmGDR0p8xbLtzbU=
+X-Google-Smtp-Source: ABdhPJwYfzvKemZswJY8637ay3aUSXZUmXezfQifjzzQkJ5SZ8jAGwqS70Lj09Aejd1Tj0brVbU9PJR8pr4wk7HTjDQ=
+X-Received: by 2002:a17:902:b183:b0:14f:c266:20d5 with SMTP id
+ s3-20020a170902b18300b0014fc26620d5mr25875877plr.136.1648469342649; Mon, 28
+ Mar 2022 05:09:02 -0700 (PDT)
+MIME-Version: 1.0
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 28 Mar 2022 21:08:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATL4v40ZHJ+Ym3k_fVe4ddmMA3wFQXb5RaTz9hmPebeuQ@mail.gmail.com>
+Message-ID: <CAK7LNATL4v40ZHJ+Ym3k_fVe4ddmMA3wFQXb5RaTz9hmPebeuQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v5.18-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] bootconfig: Support embedding a bootconfig file
- in kernel
-Message-Id: <20220328201622.c0b06c599b2f3dfc971f48eb@kernel.org>
-In-Reply-To: <CAK7LNATv8aHMPazZ1TrLjT4T6SfFSpFJcQNJOVFdc4_noO61Kw@mail.gmail.com>
-References: <164833878595.2575750.1483106296151574233.stgit@devnote2>
-        <164833880897.2575750.113875316750095499.stgit@devnote2>
-        <CAK7LNATv8aHMPazZ1TrLjT4T6SfFSpFJcQNJOVFdc4_noO61Kw@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 28 Mar 2022 15:27:43 +0900
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+Hi Linus,
 
-> On Sun, Mar 27, 2022 at 8:53 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> >
-> > This allows kernel developer to embed a default bootconfig file in
-> > the kernel instead of embedding it in the initrd. This will be good
-> > for who are using the kernel without initrd, or who needs a default
-> > bootconfigs.
-> > This needs to set two kconfigs: CONFIG_EMBED_BOOT_CONFIG=y and set
-> > the file path to CONFIG_EMBED_BOOT_CONFIG_FILE.
-> >
-> > Note that you still need 'bootconfig' command line option to load the
-> > embedded bootconfig. Also if you boot using an initrd with a different
-> > bootconfig, the kernel will use the bootconfig in the initrd, instead
-> > of the default bootconfig.
-> >
-> > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > ---
-> >  Changes in v3:
-> >   - Avoid updating the default.bconf if the file is not changed.
-> > ---
-> >  include/linux/bootconfig.h |   10 ++++++++++
-> >  init/Kconfig               |   21 +++++++++++++++++++++
-> >  init/main.c                |   13 ++++++++-----
-> >  lib/.gitignore             |    1 +
-> >  lib/Makefile               |   10 ++++++++++
-> >  lib/bootconfig.c           |   23 +++++++++++++++++++++++
-> >  6 files changed, 73 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
-> > index a4665c7ab07c..5dbda5e3e9bb 100644
-> > --- a/include/linux/bootconfig.h
-> > +++ b/include/linux/bootconfig.h
-> > @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
-> >  /* XBC cleanup data structures */
-> >  void __init xbc_exit(void);
-> >
-> > +/* XBC embedded bootconfig data in kernel */
-> > +#ifdef CONFIG_EMBED_BOOT_CONFIG
-> > +char * __init xbc_get_embedded_bootconfig(size_t *size);
-> > +#else
-> > +static inline char *xbc_get_embedded_bootconfig(size_t *size)
-> > +{
-> > +       return NULL;
-> > +}
-> > +#endif
-> > +
-> >  #endif
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index beb5b866c318..bff308a782f8 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -1357,6 +1357,27 @@ config BOOT_CONFIG
-> >
-> >           If unsure, say Y.
-> >
-> > +config EMBED_BOOT_CONFIG
-> > +       bool "Embed bootconfig file in the kernel"
-> > +       depends on BOOT_CONFIG
-> > +       default n
-> > +       help
-> > +         Embed a bootconfig file given by EMBED_BOOT_CONFIG_FILE in the
-> > +         kernel. Usually, the bootconfig file is loaded with the initrd
-> > +         image. But if the system doesn't support initrd, this option will
-> > +         help you by embedding a bootconfig file while building the kernel.
-> > +
-> > +         If unsure, say N.
-> > +
-> > +config EMBED_BOOT_CONFIG_FILE
-> > +       string "Embedded bootconfig file path"
-> > +       default ""
-> > +       depends on EMBED_BOOT_CONFIG
-> > +       help
-> > +         Specify a bootconfig file which will be embedded to the kernel.
-> > +         This bootconfig will be used if there is no initrd or no other
-> > +         bootconfig in the initrd.
-> > +
-> >  choice
-> >         prompt "Compiler optimization level"
-> >         default CC_OPTIMIZE_FOR_PERFORMANCE
-> > diff --git a/init/main.c b/init/main.c
-> > index 4f3ba3b84e34..180511324c95 100644
-> > --- a/init/main.c
-> > +++ b/init/main.c
-> > @@ -265,7 +265,7 @@ static int __init loglevel(char *str)
-> >  early_param("loglevel", loglevel);
-> >
-> >  #ifdef CONFIG_BLK_DEV_INITRD
-> > -static void * __init get_boot_config_from_initrd(u32 *_size)
-> > +static void * __init get_boot_config_from_initrd(size_t *_size)
-> >  {
-> >         u32 size, csum;
-> >         char *data;
-> > @@ -411,12 +411,15 @@ static void __init setup_boot_config(void)
-> >         static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
-> >         const char *msg;
-> >         int pos;
-> > -       u32 size;
-> > +       size_t size;
-> >         char *data, *err;
-> >         int ret;
-> >
-> >         /* Cut out the bootconfig data even if we have no bootconfig option */
-> >         data = get_boot_config_from_initrd(&size);
-> > +       /* If there is no bootconfig in initrd, try embedded one. */
-> > +       if (!data)
-> > +               data = xbc_get_embedded_bootconfig(&size);
-> >
-> >         strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
-> >         err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> > @@ -435,8 +438,8 @@ static void __init setup_boot_config(void)
-> >         }
-> >
-> >         if (size >= XBC_DATA_MAX) {
-> > -               pr_err("bootconfig size %d greater than max size %d\n",
-> > -                       size, XBC_DATA_MAX);
-> > +               pr_err("bootconfig size %ld greater than max size %d\n",
-> > +                       (long)size, XBC_DATA_MAX);
-> >                 return;
-> >         }
-> >
-> > @@ -449,7 +452,7 @@ static void __init setup_boot_config(void)
-> >                                 msg, pos);
-> >         } else {
-> >                 xbc_get_info(&ret, NULL);
-> > -               pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
-> > +               pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
-> >                 /* keys starting with "kernel." are passed via cmdline */
-> >                 extra_command_line = xbc_make_cmdline("kernel");
-> >                 /* Also, "init." keys are init arguments */
-> > diff --git a/lib/.gitignore b/lib/.gitignore
-> > index e5e217b8307b..30a2a5db7033 100644
-> > --- a/lib/.gitignore
-> > +++ b/lib/.gitignore
-> > @@ -6,3 +6,4 @@
-> >  /oid_registry_data.c
-> >  /test_fortify.log
-> >  /test_fortify/*.log
-> > +/default.bconf
-> 
-> 
-> I think lib/.gitignore is alphabetically sorted.
-> 
-> Please insert the new one
-> to the proper line.
 
-Ah, OK. Let me fix that.
+Please pull the remaining Kbuild changes.
 
-> > diff --git a/lib/Makefile b/lib/Makefile
-> > index 353bc09ce38d..dd9f3ebb62ca 100644
-> > --- a/lib/Makefile
-> > +++ b/lib/Makefile
-> > @@ -276,6 +276,16 @@ $(foreach file, $(libfdt_files), \
-> >         $(eval CFLAGS_$(file) = -I $(srctree)/scripts/dtc/libfdt))
-> >  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
-> >
-> > +ifeq ($(CONFIG_EMBED_BOOT_CONFIG),y)
-> > +$(obj)/bootconfig.o: $(obj)/default.bconf
-> > +
-> > +targets += default.bconf
-> 
-> 
-> I did not test this patch, but presumably
-> "make clean" will miss to clean up default.bconf
-> 
-> The 'targets' must exist outside the ifeq-block.
-> Move the 'endif' up.
-> 
-> 
-> ifeq ($(CONFIG_EMBED_BOOT_CONFIG),y)
-> $(obj)/bootconfig.o: $(obj)/default.bconf
-> endif
-> 
-> targets += default.bconf
-> 
-> ...
+You will see conflicts in the top Makefile.
+The fix-up is available in linux-next.
+(6c4457c324cd9855352e3eb1f965105901e47a6d)
 
-You're right! I didn't know this behavior. Thanks for the notice.
-I misunderstood that the files in targets always be built...
 
-After moving the 'targets' out of ifeq-block, I confirmed that the
-default.bconf was not generated when CONFIG_EMBED_BOOT_CONFIG is not
-set, and it is cleaned up when CONFIG_EMBED_BOOT_CONFIG=y.
-Thanks!
+Thank you.
 
-> 
-> > +filechk_defbconf = cat /dev/null $(CONFIG_EMBED_BOOT_CONFIG_FILE)
-> > +$(obj)/default.bconf: FORCE
-> > +       $(call filechk,defbconf)
-> 
-> 
-> This will work, but users will be confused when they
-> try to build out-of-tree with the O= option.
-> 
-> If CONFIG_EMBED_BOOT_CONFIG_FILE is a relative path,
-> it is actually relative to the object tree, not the source tree.
 
-Yes, that's right. I would like to fix this issue.
 
-> I am not sure if that is the expected behavior, but it is not documented
-> anywhere.
-> 
-> 
-> If you want to search both in the objtree and srctree,
-> you can write like follows:   [UNTESTED]
-> 
-> 
-> filechk_defbconf = cat $(or $(real-prereqs), /dev/null)
-> $(obj)/default.bconf: $(CONFIG_EMBED_BOOT_CONFIG_FILE) FORCE
->         $(call filechk,defbconf)
+The following changes since commit 754e0b0e35608ed5206d6a67a791563c631cec07:
 
-Great! let me check it works.
+  Linux 5.17-rc4 (2022-02-13 12:13:30 -0800)
 
-Thank you,
+are available in the Git repository at:
 
-> 
-> 
-> 
-> 
-> > +
-> > +endif
-> > +
-> >  lib-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-> >
-> >  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
-> > diff --git a/lib/bootconfig.c b/lib/bootconfig.c
-> > index 74f3201ab8e5..3a3bf3a208e3 100644
-> > --- a/lib/bootconfig.c
-> > +++ b/lib/bootconfig.c
-> > @@ -12,6 +12,29 @@
-> >  #include <linux/kernel.h>
-> >  #include <linux/memblock.h>
-> >  #include <linux/string.h>
-> > +
-> > +#ifdef CONFIG_EMBED_BOOT_CONFIG
-> > +asm (
-> > +"      .pushsection .init.data, \"aw\"                 \n"
-> > +"      .global embedded_bootconfig_data                \n"
-> > +"embedded_bootconfig_data:                             \n"
-> > +"      .incbin \"lib/default.bconf\"                   \n"
-> > +"      .global embedded_bootconfig_data_end            \n"
-> > +"embedded_bootconfig_data_end:                         \n"
-> > +"      .popsection                                     \n"
-> > +);
-> > +
-> > +extern __visible char embedded_bootconfig_data[];
-> > +extern __visible char embedded_bootconfig_data_end[];
-> > +
-> > +char * __init xbc_get_embedded_bootconfig(size_t *size)
-> > +{
-> > +       *size = embedded_bootconfig_data_end - embedded_bootconfig_data;
-> > +       return (*size) ? embedded_bootconfig_data : NULL;
-> > +}
-> > +
-> > +#endif
-> > +
-> >  #else /* !__KERNEL__ */
-> >  /*
-> >   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
-> >
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v5.18
 
+for you to fetch changes up to b0324de9dfba0e05ea7991a91b002c1441bf27e1:
+
+  kbuild: Make $(LLVM) more flexible (2022-03-18 13:45:14 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v5.18
+
+ - Add new environment variables, USERCFLAGS and USERLDFLAGS to allow
+   additional flags to be passed to user-space programs.
+
+ - Fix missing fflush() bugs in Kconfig and fixdep
+
+ - Fix a minor bug in the comment format of the .config file
+
+ - Make kallsyms ignore llvm's local labels, .L*
+
+ - Change the .config format to use CONFIG_FOO=n instead of
+   "# CONFIG_FOO is not set"
+
+ - Fix UAPI compile-test for cross-compiling with Clang
+
+ - Extend the LLVM= syntax to support LLVM=<suffix> form for using a
+   particular version of LLVm, and LLVM=<prefix> form for using custom
+   LLVM in a particular directory path.
+
+ - Clean up Makefiles
+
+----------------------------------------------------------------
+Changbin Du (1):
+      kallsyms: ignore all local labels prefixed by '.L'
+
+Elliot Berman (1):
+      kbuild: Add environment variables for userprogs flags
+
+Masahiro Yamada (11):
+      kbuild: unify cmd_copy and cmd_shipped
+      kbuild: replace $(if A,A,B) with $(or A,B)
+      kconfig: add fflush() before ferror() check
+      kconfig: fix missing '# end of' for empty menu
+      certs: include certs/signing_key.x509 unconditionally
+      certs: simplify empty certs creation in certs/Makefile
+      kconfig: change .config format to use =n instead of "is not set"
+      usr/include: replace extra-y with always-y
+      arch: syscalls: simplify uapi/kapi directory creation
+      fixdep: use fflush() and ferror() to ensure successful write to files
+      kbuild: add --target to correctly cross-compile UAPI headers with Clang
+
+Nathan Chancellor (1):
+      kbuild: Make $(LLVM) more flexible
+
+ Documentation/kbuild/kbuild.rst                             | 11 +++++++
+ Documentation/kbuild/llvm.rst                               | 31
+++++++++++++++----
+ Documentation/kbuild/makefiles.rst                          |  2 ++
+ Makefile                                                    | 44
+++++++++++++++-----------
+ arch/alpha/kernel/syscalls/Makefile                         |  3 +-
+ arch/arm/tools/Makefile                                     |  3 +-
+ arch/ia64/kernel/syscalls/Makefile                          |  3 +-
+ arch/m68k/kernel/syscalls/Makefile                          |  3 +-
+ arch/microblaze/boot/Makefile                               |  2 +-
+ arch/microblaze/boot/dts/Makefile                           |  2 +-
+ arch/microblaze/kernel/syscalls/Makefile                    |  3 +-
+ arch/mips/kernel/syscalls/Makefile                          |  3 +-
+ arch/parisc/kernel/syscalls/Makefile                        |  3 +-
+ arch/powerpc/kernel/syscalls/Makefile                       |  3 +-
+ arch/s390/kernel/syscalls/Makefile                          |  3 +-
+ arch/sh/kernel/syscalls/Makefile                            |  3 +-
+ arch/sparc/kernel/syscalls/Makefile                         |  3 +-
+ arch/x86/entry/syscalls/Makefile                            |  3 +-
+ arch/xtensa/kernel/syscalls/Makefile                        |  3 +-
+ certs/Makefile                                              | 37
++++++++--------------
+ certs/system_certificates.S                                 |  3 --
+ fs/unicode/Makefile                                         |  2 +-
+ init/Kconfig                                                |  8 ++---
+ scripts/Makefile.build                                      |  3 +-
+ scripts/Makefile.clean                                      |  2 +-
+ scripts/Makefile.lib                                        | 16 ++++------
+ scripts/basic/fixdep.c                                      | 46
++++++++++++----------------
+ scripts/kallsyms.c                                          |  2 +-
+ scripts/kconfig/confdata.c                                  | 42
+++++++++++++------------
+ scripts/kconfig/merge_config.sh                             | 19 ++++++-----
+ scripts/kconfig/streamline_config.pl                        |  2 +-
+ scripts/kconfig/tests/choice/alldef_expected_config         |  6 ++--
+ scripts/kconfig/tests/choice/allmod_expected_config         |  4 +--
+ scripts/kconfig/tests/choice/allno_expected_config          |  6 ++--
+ scripts/kconfig/tests/choice/allyes_expected_config         |  8 ++---
+ scripts/kconfig/tests/choice/oldask1_config                 |  2 +-
+ scripts/kconfig/tests/inter_choice/expected_config          |  2 +-
+ scripts/kconfig/tests/new_choice_with_dep/config            |  2 +-
+ scripts/kconfig/tests/no_write_if_dep_unmet/__init__.py     |  7 ++--
+ scripts/kconfig/tests/no_write_if_dep_unmet/expected_config |  2 +-
+ tools/bpf/bpftool/Makefile                                  |  4 +--
+ tools/build/Makefile                                        |  2 +-
+ tools/counter/Makefile                                      |  2 +-
+ tools/gpio/Makefile                                         |  2 +-
+ tools/hv/Makefile                                           |  2 +-
+ tools/iio/Makefile                                          |  2 +-
+ tools/lib/api/Makefile                                      |  2 +-
+ tools/lib/bpf/Makefile                                      |  2 +-
+ tools/lib/perf/Makefile                                     |  2 +-
+ tools/lib/subcmd/Makefile                                   |  2 +-
+ tools/objtool/Makefile                                      |  2 +-
+ tools/pci/Makefile                                          |  2 +-
+ tools/perf/Makefile.perf                                    |  4 +--
+ tools/power/x86/intel-speed-select/Makefile                 |  2 +-
+ tools/scripts/Makefile.include                              | 22 ++++++++-----
+ tools/scripts/utilities.mak                                 |  2 +-
+ tools/spi/Makefile                                          |  6 ++--
+ tools/testing/selftests/lib.mk                              |  8 ++++-
+ tools/tracing/rtla/Makefile                                 |  2 +-
+ tools/usb/Makefile                                          |  2 +-
+ usr/Makefile                                                |  4 +--
+ usr/include/Makefile                                        |  7 ++--
+ 62 files changed, 224 insertions(+), 213 deletions(-)
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+Best Regards
+Masahiro Yamada
