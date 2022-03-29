@@ -2,95 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 856F84EA502
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 04:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E510D4EA7A5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 08:04:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230149AbiC2CR6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Mar 2022 22:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34852 "EHLO
+        id S232099AbiC2GGV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Mar 2022 02:06:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbiC2CRv (ORCPT
+        with ESMTP id S231264AbiC2GGU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Mar 2022 22:17:51 -0400
-Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236693FBD3;
-        Mon, 28 Mar 2022 19:16:09 -0700 (PDT)
-Received: from grover.. (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 22T2FUb2001635;
-        Tue, 29 Mar 2022 11:15:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 22T2FUb2001635
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648520131;
-        bh=g57u72lpAuIX196RYY1FCITKCQY30fd5oZXIlZxKaww=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l8hCku74HD3Zb+GqA+VGBhwEQgwhdlzh/IaKvsr0HdTfirwY7ntObhRNc/1lZzOU+
-         JdSLWVAeF7wuUxHV3wMRYa4Vwx5N5TcrQmTzu0/bjoBsrq3rGJVfgHkvIb4bqavEh8
-         AyeWeqJT04hsVS/kMWGLO8fsZ5Aw2COirfd3vJk5CPw52MeUWZtIugE3A/HHj3Mo3z
-         WW34tmzABrCejEHRCgSxOhWV0RFNixiN2LIxeSYww2loew0E1rA5fAZwvGDJfkmf2H
-         ZNAZ/AuqzETGAMWihcqpoUL1gTDXy7yEp++iU1DtYuvfxcrZY4Jo7CxfaO8IdFvD+W
-         /tZ/1KmX5ggRg==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        Tue, 29 Mar 2022 02:06:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC91D340EE;
+        Mon, 28 Mar 2022 23:04:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 62FB5614D5;
+        Tue, 29 Mar 2022 06:04:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C6EC2BBE4;
+        Tue, 29 Mar 2022 06:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1648533877;
+        bh=Zw3Xh8fbjP2zftckUoT1RTXypyNAxf9E8jIl4L/E890=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bR6w+YPdci2xa0YLOpiFgipiMjVXbqn86z1XDK+vDffw4Hal1PzNq8Crl5CWMc9P5
+         cfuXBE5d/njExkuFrM5ghQLI7abxOc73yf00Wrd/759k67OsjxwTYKIryWTTXIfYuC
+         TRpkw/2UDUqFQ2wOSZznKTavOR8OqHDyarD/uq8A=
+Date:   Tue, 29 Mar 2022 08:04:35 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-kernel@vger.kernel.org, "Dmitry V. Levin" <ldv@altlinux.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH 2/2] kbuild: do not remove empty *.symtypes explicitly
-Date:   Tue, 29 Mar 2022 11:15:20 +0900
-Message-Id: <20220329021520.308997-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220329021520.308997-1-masahiroy@kernel.org>
-References: <20220329021520.308997-1-masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] kbuild: forbid exported headers from including
+ <stdint.h>, <stdbool.h>
+Message-ID: <YkKhc2BbkmdVwKex@kroah.com>
+References: <20220328172130.197319-1-masahiroy@kernel.org>
+ <20220328172130.197319-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328172130.197319-2-masahiroy@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Presumably, 'test -s $@ || rm -f $@' intends to remove the output when
-the genksyms command fails.
+On Tue, Mar 29, 2022 at 02:21:30AM +0900, Masahiro Yamada wrote:
+> Some UAPI headers included <stdlib.h>, like this:
+> 
+>   #ifndef __KERNEL__
+>   #include <stdlib.h>
+>   #endif
+> 
+> As it turned out, they just included it for no good reason.
+> 
+> After some fixes, now I can compile-test UAPI headers
+> (CONFIG_UAPI_HEADER_TEST=y) without <stdlib.h> included.
+> 
+> To avoid somebody getting it back again, this commit adds the dummy
+> header, usr/dummy-include/stdlib.h
+> 
+> I added $(srctree)/usr/dummy-include to the header search paths.
+> Because it is searched before the system directories, if someone
+> tries to include <stdlib.h>, they will see the error message.
+> 
+> While I am here, I also replaced $(objtree)/usr/include with $(obj), but
+> it is just a small refactoring.
+> 
+> If we achieve the situation where none of system headers is included
+> from exported kernel headers (i.e. kernel headers become self-contained),
+> we might be able to add -nostdinc, but that is much far from where we
+> stand now. (see many no-header-test lines in usr/include/Makefile)
+> 
+> As a realistic solution, you can forbid header inclusion individually by
+> putting a dummy header into usr/dummy-include/.
+> 
+> Currently, no header include <stdbool.h>. I put it as well before somebody
+> attempts to use it.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-It is unneeded because .DELETE_ON_ERROR automatically removes the output
-on failure.
+Nice work!
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/Makefile.build | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 3f2985df4d60..974bb6435826 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -135,9 +135,7 @@ genksyms = scripts/genksyms/genksyms		\
- cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
- 
- quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
--cmd_cc_symtypes_c =                                                         \
--    $(call cmd_gensymtypes_c,true,$@) >/dev/null;                           \
--    test -s $@ || rm -f $@
-+      cmd_cc_symtypes_c = $(call cmd_gensymtypes_c,true,$@)
- 
- $(obj)/%.symtypes : $(src)/%.c FORCE
- 	$(call cmd,cc_symtypes_c)
-@@ -348,9 +346,7 @@ cmd_gensymtypes_S =                                                         \
-     $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
- 
- quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
--cmd_cc_symtypes_S =                                                         \
--    $(call cmd_gensymtypes_S,true,$@) >/dev/null;                           \
--    test -s $@ || rm -f $@
-+      cmd_cc_symtypes_S = $(call cmd_gensymtypes_S,true,$@) >/dev/null
- 
- $(obj)/%.symtypes : $(src)/%.S FORCE
- 	$(call cmd,cc_symtypes_S)
--- 
-2.32.0
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
