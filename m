@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 131AD4EB2AC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 19:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C48444EB338
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 20:18:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240176AbiC2R2O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Mar 2022 13:28:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38632 "EHLO
+        id S240451AbiC2ST4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Mar 2022 14:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239057AbiC2R2N (ORCPT
+        with ESMTP id S237314AbiC2STz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Mar 2022 13:28:13 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3FB25B909
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 10:26:29 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 17so24346489ljw.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 10:26:29 -0700 (PDT)
+        Tue, 29 Mar 2022 14:19:55 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401B31DA58
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:18:11 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id t25so31726184lfg.7
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lvT/B5UyGGfXB9H/0ToFtVxAgxElFg49xc7wYGAcXVk=;
-        b=im10hmyQ5qCy+ZyjDuG3axiiK0atBzb6fC/VLF6Rer8NEmi/WqQsBpPa27g123Pjxx
-         c17H1FzBE/heoVIlaMMnBHQYQcJN0st9uHhPT4pZO36m/kVF+wSmZ8IyPv9k7aqBgJBs
-         rjviRIhlX99slvazNJ0/ilL2hgkq0vO1LQTD/lO1fYs0yTza3IlmJfucWhiy5MU+UZiL
-         hSw1YLOkf/ENK9JfjryhtDUunGqyQtxZS8tO+lFTWG7C/wmkYF1Zjht3fpgmiQuZ5+JA
-         GKneT7H2jtkQGPLjiO2WC7p31pi3KdriviLlYl/dg7OIW46sEG0JlcQVB7DYpoib6LWl
-         MH2Q==
+        bh=badPnvYLoc8XodG+san6C71FDRyrQhQ3//Al/NWGAOI=;
+        b=mjBURzk+zh1n20pTJaIBFYAiC21cHwGZvyBQABEoSFKCujzsf4KJRzrudaIeq/lbE0
+         uX4Fy1HwfnDDfJG+vyBTJS7Tliuy7Kka+VKVtYSYcO6OZltmdpQ1LuuePSEZc4D66GZk
+         BMpa0B/+8WxfvNq2vzNPZ4jDD80VpIB/4BigxHrXeZGWYK0tBblQlLSXhzx1DTeYAoIw
+         Acbh6e+ohmbf+XDN4SY2Y3CbElAH73HNyW6bYRqFsb0ANW/4YuIWyWvOfw49cejN1dml
+         ua5PsZ3NEADLPM9E7pUowcUY8vnkO9gzCiBCxgAnDw5yHg+aX6eN/vDQcLJLq6+IguYf
+         DvRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lvT/B5UyGGfXB9H/0ToFtVxAgxElFg49xc7wYGAcXVk=;
-        b=Jp786f1N97dUEFp40XDM7zK3i+YCm03Bad9GBItgDwjlURMmjrIGxHmLyJHoHuCGLH
-         9xOy9WxsL4quc1SlcKoL6dI3UKfKUM2TkxFVbGscX+u3fIDnvgL7Asfkx118u4mVcufx
-         4IJtlDncsOGcIB/bshf7pYE51GNPXEr54nMDKBASD6brYUch7J/T7aCcCYxGexG7OIwL
-         r2EV7pyMLNrV2Mr32SiynGcJyXwZne7LStD0mT/iUuyTPV1mKHkmASlO+nSHyqkMtpUA
-         VFcrdlrDNWsP2Qkyp8rBy0p87BpAYF6Y0pDVNm6FEm3O3UtXE1INgr1WegJIQFwU+4hD
-         euQQ==
-X-Gm-Message-State: AOAM531O4VJ0Nz8cGoHIcirFcag26Pg81PS2Kx+bBwJ2pzcp+PxJF5Oi
-        ygmJGIR4qZgYF8GtzuJqj4To85HHB/GokYrmGJYSrw==
-X-Google-Smtp-Source: ABdhPJxwSBWNiTH2PffW5bH1OLZ2NnJhXodXOyfGKs5tkoYM2T6fdCD0I0cwrpUiTaPInh2XEVaXFnL4ZPvANmU8VHE=
-X-Received: by 2002:a2e:611a:0:b0:249:83e5:9f9b with SMTP id
- v26-20020a2e611a000000b0024983e59f9bmr3659783ljb.165.1648574787837; Tue, 29
- Mar 2022 10:26:27 -0700 (PDT)
+        bh=badPnvYLoc8XodG+san6C71FDRyrQhQ3//Al/NWGAOI=;
+        b=LMoaNnUZZVdfvsnROGK2TQjBQkRDnm51Es2ErtPLAAGJCvQ+RG6HcO3H2p5vOahSs5
+         9zTLCErJa4aasFh1w14jeHmsuIxXOBrx53km1h627ai+QHrO+znVnQ3lQtFoY09vI8S2
+         IEw6tsN6xJi6LXMJPbS4Hpayixlc1260NJ6JC6iOtcRVYBRhd21rO7tqZ8EMUkAg3rtJ
+         kbZ215n14qK4grDQw879/RekxsVNGjLiKMlSieXK6gpF7/zJmawTb9UdCfoWhJUVf6Kl
+         CJPOlI6mnt342IdmctvYeSIXEXJA0cS+egDN0QxcJRFMzbdIUe2p6rSUMmMaRomtN1ta
+         xdRw==
+X-Gm-Message-State: AOAM5308lDgEF5rCIuKWHd6+53eIIx+sujdJt81NoueJ9cfZaG/uNHQw
+        H5so/vYjF9Lj/089g3JUhrl6c2GTHfKTXAqZ1pKMag==
+X-Google-Smtp-Source: ABdhPJyxLBxM9eerhgsyMbYzz8f3HvEow0dSW81FW2BIZoApC9jeij0DvBZyTxbnwgGn63wb2EVs13JDH91DpugBjYo=
+X-Received: by 2002:a05:6512:33d4:b0:44a:9971:de48 with SMTP id
+ d20-20020a05651233d400b0044a9971de48mr3878250lfg.392.1648577889154; Tue, 29
+ Mar 2022 11:18:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220329021437.308790-1-masahiroy@kernel.org>
-In-Reply-To: <20220329021437.308790-1-masahiroy@kernel.org>
+References: <20220329021520.308997-1-masahiroy@kernel.org>
+In-Reply-To: <20220329021520.308997-1-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 29 Mar 2022 10:26:16 -0700
-Message-ID: <CAKwvOd=z5BQcQnhkgMOpZXPLkggmdPo=jvZxXkfVG7D8GuEYRw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix empty ${PYTHON} in scripts/link-vmlinux.sh
+Date:   Tue, 29 Mar 2022 11:17:57 -0700
+Message-ID: <CAKwvOdkP12zrGu4iJStSJ5-pAKFBar=Cxf=CYO5gE9L636q8-w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,44 +69,59 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, Mar 28, 2022 at 7:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The two commits
+> The genksyms command part in cmd_gensymtypes_{c,S} is duplicated.
+> Factor it out into the 'genksyms' macro.
 >
->   d8d2d38275c1 ("kbuild: remove PYTHON variable")
->   a8cccdd95473 ("init: lto: ensure initcall ordering")
->
-> were applied in the same development cycle, in two different trees.
->
-> After they were merged together, this ${PYTHON} expands to an empty
-> string.
->
-> Therefore, ${srctree}/scripts/jobserver-exec is executed directly.
-> (it has the executable bit set)
->
-> This is working but let's fix the code into the intended form.
+> For the readability, I slightly refactor the arguments to genksyms.
 
-Thanks for the patch!
+Looks nicer, thanks for the patch!
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/link-vmlinux.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/Makefile.build | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
 >
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index f704034ebbe6..20f44504a644 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -50,7 +50,7 @@ gen_initcalls()
->  {
->         info GEN .tmp_initcalls.lds
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 9717e6f6fb31..3f2985df4d60 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -125,13 +125,14 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
+>  $(obj)/%.i: $(src)/%.c FORCE
+>         $(call if_changed_dep,cpp_i_c)
 >
-> -       ${PYTHON} ${srctree}/scripts/jobserver-exec             \
-> +       ${PYTHON3} ${srctree}/scripts/jobserver-exec            \
->         ${PERL} ${srctree}/scripts/generate_initcall_order.pl   \
->                 ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}   \
->                 > .tmp_initcalls.lds
+> +genksyms = scripts/genksyms/genksyms           \
+> +       $(if $(1), -T $(2))                     \
+> +       $(if $(CONFIG_MODULE_REL_CRCS), -R)     \
+> +       $(if $(KBUILD_PRESERVE), -p)            \
+> +       -r $(or $(wildcard $(2:.symtypes=.symref), /dev/null))
+> +
+>  # These mirror gensymtypes_S and co below, keep them in synch.
+> -cmd_gensymtypes_c =                                                         \
+> -    $(CPP) -D__GENKSYMS__ $(c_flags) $< |                                   \
+> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
+> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
+> -     $(if $(KBUILD_PRESERVE),-p)                                            \
+> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
+> +cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
+>
+>  quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
+>  cmd_cc_symtypes_c =                                                         \
+> @@ -344,11 +345,7 @@ cmd_gensymtypes_S =                                                         \
+>      $(CPP) $(a_flags) $< |                                                  \
+>       grep "\<___EXPORT_SYMBOL\>" |                                          \
+>       sed 's/.*___EXPORT_SYMBOL[[:space:]]*\([a-zA-Z0-9_]*\)[[:space:]]*,.*/EXPORT_SYMBOL(\1);/' ; } | \
+> -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - |                                \
+> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
+> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
+> -     $(if $(KBUILD_PRESERVE),-p)                                            \
+> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
+> +    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
+>
+>  quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
+>  cmd_cc_symtypes_S =                                                         \
 > --
 > 2.32.0
 >
