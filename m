@@ -2,96 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F62D4EB47A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 22:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B2B4EB5B9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 00:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiC2UMe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Mar 2022 16:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56418 "EHLO
+        id S236456AbiC2WQc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Mar 2022 18:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiC2UMe (ORCPT
+        with ESMTP id S236271AbiC2WQb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Mar 2022 16:12:34 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744B5A27DA
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 13:10:50 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id s13so7869783ljd.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 13:10:50 -0700 (PDT)
+        Tue, 29 Mar 2022 18:16:31 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062C11877D7
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 15:14:48 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id n63-20020a1c2742000000b0038d0c31db6eso2355278wmn.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 15:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0oU9jeX9iLhMYZKUyj4AbviUR1091ghdikwJSuXqLCs=;
-        b=Nsn+ciQzT1Wa4x0yQPbzfiy4QANLLiRrBUKK1/DCgDgUqrMTXpAg947w50LiufKKTr
-         HN5ebNO9/oTpHluLDirWIqISaBp8aGbx2/D2Vgn5Z881qILdQSMotEVnQ10w4VfVbSts
-         PzXEtkY1Xp7HOhvQw5GU8RF4QJFEHAoIF2wh0=
+        d=gmail.com; s=20210112;
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=VePRrWTC+QJ6RXxz7wzXzhNW15EexdQ9UonD9dGLRiZUuIh2WwUO3RqmfVfSRhfXkL
+         F5xmBE8GzURGnyHWYQZlbfRgSTGRQFsIYFo84JYrVD64qP1N0TUREIud7huKwACgycxb
+         e7IwtVza2R2SgoiVbpW1LCfguhm4+bRL2sZcb6kN32dz6eQyhs5F1i+a7ZrInVG8hHIp
+         QdQpRN3++wEgF6Yyx+nX0e/pex7nBqvNHivYyXc2k1ruidvlkR28yWUUvr0hPzXwuNWu
+         chjFiPJclRr0nw14yiOjI4y596XvMtqG+Okx7OdBeiv1bqWNzy6fafs//+wKUNr8z+x7
+         J1GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0oU9jeX9iLhMYZKUyj4AbviUR1091ghdikwJSuXqLCs=;
-        b=UoLjgFSKAnjVCMGKzQabOMcfQN3Ya240v+QMSIrp9VMXvOHOD2tC3I+JSgcQpOntIQ
-         OBE3zIRRMN6s3wODc9nul9XwcvtWB5RPGV1QFlW4288GfCaqnOkYdyX8XihYnCrHVv36
-         ALNvI8d4th0/FcAw0vaM15IV31y7G09pUSIoJ0A2eXOJoxVKrxA30Kdoefzv1IfFqSq3
-         VW+xktadKAVXUWFU1ZwMuUvcoMHWpPZ4h2gpVwcLidmqnciInffnggI1AEVwj3fP9qmv
-         PM8Ds5Mn/iVdBfTjNrbuYpHKMUqDNzbO/rwGoL5IbemhSJZNrUNWo6FfapOqsYI0Xebo
-         c65g==
-X-Gm-Message-State: AOAM533Pd58QdWyB5Rx5eYgTolkSwIKFW+W2gsm4QZ4RSvKOkLBxpz9W
-        VNILmcg4H0i7s/7U+12e2KmYi0t2JeJY2uL9
-X-Google-Smtp-Source: ABdhPJyLEgdyCb17TBeuHZYIWvFAaVtSBhHnt4sf8fI/jPRFyR2rGBpcGvInePstrgL1X2cfbIKVbg==
-X-Received: by 2002:a2e:a7ce:0:b0:249:862b:503 with SMTP id x14-20020a2ea7ce000000b00249862b0503mr4022523ljp.369.1648584648349;
-        Tue, 29 Mar 2022 13:10:48 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id j3-20020a196e03000000b0044a6e47c27esm1709237lfc.48.2022.03.29.13.10.47
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 13:10:47 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id p10so26338815lfa.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 13:10:47 -0700 (PDT)
-X-Received: by 2002:ac2:4203:0:b0:448:8053:d402 with SMTP id
- y3-20020ac24203000000b004488053d402mr4181682lfh.687.1648584646973; Tue, 29
- Mar 2022 13:10:46 -0700 (PDT)
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=5VhzHO6Tp04fFw1FDo7iwcfIJ656rLI2ZQPxGtMGLNKqBU1Y8lKDPO2aaNdWDbNEBd
+         jxPaQH/CYLRWbpkgApneLF4UmIRDydQZl2PzqVGInNYqNfUpTySuKvCN1bdDtZASwTYC
+         2erUYRxL1wcucegmESaknlIazaHOBsxxUFQXjWnYCfVP6leZNiJRaEqWDkiXYw9vGgy3
+         CWa9/0zvLx5bfLGADrE+L/E0fTKKs5Ate/C62QcCjkuFETwbc0WzudXUkerwxtO57vXT
+         ydzYbMT4rApNiZr51YPtJW2z88i9A/plTupgGKBiQ4hs/5jzipeKZ2aPgLPkDIYXI2E8
+         Ndig==
+X-Gm-Message-State: AOAM532t4m2ajrdSum5tZ1Lb0Vfzs51XpNaU/wxeBlPtjjZx0RkZ+Bv4
+        fLP0PX+DwLm93nLsk/9DAgo=
+X-Google-Smtp-Source: ABdhPJweo8RBgJYlXlOjZwfFr7Fgt9fHE4v690RQ+zo7VDnz0/0sQ7IaPuc4uk9Uh7gGZuyyZ4YBEw==
+X-Received: by 2002:a05:600c:3016:b0:38c:8786:d3b6 with SMTP id j22-20020a05600c301600b0038c8786d3b6mr1538898wmh.135.1648592086610;
+        Tue, 29 Mar 2022 15:14:46 -0700 (PDT)
+Received: from [172.20.10.4] ([102.91.4.172])
+        by smtp.gmail.com with ESMTPSA id m13-20020a05600c3b0d00b0038cda9f92fasm3436653wms.0.2022.03.29.15.14.38
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 29 Mar 2022 15:14:43 -0700 (PDT)
+Message-ID: <624384d3.1c69fb81.6baa0.eeb0@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <CAK7LNATL4v40ZHJ+Ym3k_fVe4ddmMA3wFQXb5RaTz9hmPebeuQ@mail.gmail.com>
-In-Reply-To: <CAK7LNATL4v40ZHJ+Ym3k_fVe4ddmMA3wFQXb5RaTz9hmPebeuQ@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 29 Mar 2022 13:10:30 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgxcu9DFkXAOAFdDtLWwuv6qb5iV1E69yWE-JEVsd-NFg@mail.gmail.com>
-Message-ID: <CAHk-=wgxcu9DFkXAOAFdDtLWwuv6qb5iV1E69yWE-JEVsd-NFg@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v5.18-rc1
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Gefeliciteerd, er is geld aan je gedoneerd
+To:     Recipients <adeboyejofolashade55@gmail.com>
+From:   adeboyejofolashade55@gmail.com
+Date:   Tue, 29 Mar 2022 23:14:35 +0100
+Reply-To: mike.weirsky.foundation003@gmail.com
+X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_US_DOLLARS_3 autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I pulled this, and then immediately unpulled.
+Beste begunstigde,
 
-On Mon, Mar 28, 2022 at 5:09 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->  - Change the .config format to use CONFIG_FOO=n instead of
->    "# CONFIG_FOO is not set"
+ Je hebt een liefdadigheidsdonatie van ($ 10.000.000,00) van Mr. Mike Weirs=
+ky, een winnaar van een powerball-jackpotloterij van $ 273 miljoen.  Ik don=
+eer aan 5 willekeurige personen als je deze e-mail ontvangt, dan is je e-ma=
+il geselecteerd na een spin-ball. Ik heb vrijwillig besloten om het bedrag =
+van $ 10 miljoen USD aan jou te doneren als een van de geselecteerde 5, om =
+mijn winst te verifi=EBren
+ =
 
-This is unacceptable.
-
-The change was apparently made to make automation easier, at the
-expense of making it harder for people to parse.
-
-That is not a valid tradeoff.
-
-I _look_ at my config files. Constantly. I don't want some mess where
-it's really damn hard to visually tell the difference between "this is
-enabled" and "this is not enabled".
-
-So no, I'm not pulling this kind of horrible "make it simpler for
-automation, and harder for humans" to read.
-
-                Linus
+  Vriendelijk antwoord op: mike.weirsky.foundation003@gmail.com
+ Voor uw claim.
