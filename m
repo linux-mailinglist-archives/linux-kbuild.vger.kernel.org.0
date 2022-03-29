@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C48444EB338
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 20:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 221864EB34F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Mar 2022 20:28:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240451AbiC2ST4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Mar 2022 14:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57290 "EHLO
+        id S240508AbiC2S3p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Mar 2022 14:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237314AbiC2STz (ORCPT
+        with ESMTP id S238160AbiC2S3o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Mar 2022 14:19:55 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401B31DA58
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:18:11 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id t25so31726184lfg.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:18:11 -0700 (PDT)
+        Tue, 29 Mar 2022 14:29:44 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF1E98F47
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:28:01 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 17so24562560ljw.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 11:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=badPnvYLoc8XodG+san6C71FDRyrQhQ3//Al/NWGAOI=;
-        b=mjBURzk+zh1n20pTJaIBFYAiC21cHwGZvyBQABEoSFKCujzsf4KJRzrudaIeq/lbE0
-         uX4Fy1HwfnDDfJG+vyBTJS7Tliuy7Kka+VKVtYSYcO6OZltmdpQ1LuuePSEZc4D66GZk
-         BMpa0B/+8WxfvNq2vzNPZ4jDD80VpIB/4BigxHrXeZGWYK0tBblQlLSXhzx1DTeYAoIw
-         Acbh6e+ohmbf+XDN4SY2Y3CbElAH73HNyW6bYRqFsb0ANW/4YuIWyWvOfw49cejN1dml
-         ua5PsZ3NEADLPM9E7pUowcUY8vnkO9gzCiBCxgAnDw5yHg+aX6eN/vDQcLJLq6+IguYf
-         DvRw==
+        bh=LEsaIpfGuGJOhUIm0H9UVSLgz5NQlKj2WuLYDNMMKww=;
+        b=nXRNZr4s55P5NZofW2TBn4pudVrihSs1n8yDaT8QdSILssP1d1ZD1Y15RfKpi4KPTr
+         Uu8E1wM9N3iviXIefra9RiwoL8WoXOC+Np8t8QlmnjAH7/i+FAyeTBDWGRyrj379EP0V
+         1I6s9MFc7oCor5UNrveAGVT+vfsRG8QorrL5UbBmOz1RS5Pr/s+ns8vjbyop6NuSp19/
+         fU36wpnxz+JT1p8eCZuem6nNjErOSpOQ5tTLBmcCbZG6kFGwMqY33THXBhwn0OPBkKV4
+         S7E1ztBRBWxx009d0vOMIvZ2y779O+rnyAC0Vv2dA/hfoH7J9qqn6UzJ65nQ6uYu2ivo
+         89Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=badPnvYLoc8XodG+san6C71FDRyrQhQ3//Al/NWGAOI=;
-        b=LMoaNnUZZVdfvsnROGK2TQjBQkRDnm51Es2ErtPLAAGJCvQ+RG6HcO3H2p5vOahSs5
-         9zTLCErJa4aasFh1w14jeHmsuIxXOBrx53km1h627ai+QHrO+znVnQ3lQtFoY09vI8S2
-         IEw6tsN6xJi6LXMJPbS4Hpayixlc1260NJ6JC6iOtcRVYBRhd21rO7tqZ8EMUkAg3rtJ
-         kbZ215n14qK4grDQw879/RekxsVNGjLiKMlSieXK6gpF7/zJmawTb9UdCfoWhJUVf6Kl
-         CJPOlI6mnt342IdmctvYeSIXEXJA0cS+egDN0QxcJRFMzbdIUe2p6rSUMmMaRomtN1ta
-         xdRw==
-X-Gm-Message-State: AOAM5308lDgEF5rCIuKWHd6+53eIIx+sujdJt81NoueJ9cfZaG/uNHQw
-        H5so/vYjF9Lj/089g3JUhrl6c2GTHfKTXAqZ1pKMag==
-X-Google-Smtp-Source: ABdhPJyxLBxM9eerhgsyMbYzz8f3HvEow0dSW81FW2BIZoApC9jeij0DvBZyTxbnwgGn63wb2EVs13JDH91DpugBjYo=
-X-Received: by 2002:a05:6512:33d4:b0:44a:9971:de48 with SMTP id
- d20-20020a05651233d400b0044a9971de48mr3878250lfg.392.1648577889154; Tue, 29
- Mar 2022 11:18:09 -0700 (PDT)
+        bh=LEsaIpfGuGJOhUIm0H9UVSLgz5NQlKj2WuLYDNMMKww=;
+        b=v4keheF6xOm8zHGgAwriwJ9z4EXX18webfuqV7ipxeusXs7zn8AMytjy6OtKKfs1gg
+         KHggqfE1sH+8PtflWyyMO5yKSLYEz35Wc9qoA9HLyjQLtYPbk0ItiY8sdcWeKlfKcQW3
+         U3Y3bk45UD5Vsg9ZVHodbY8xXTUo3xRFuX9Iwn/r5MYcoEyhntSPnrudryD0w8apYJa1
+         MosVZHu1Hjl1we6JGBUpJw6P2M7lmTqjH7RxIWomFnlPAVCdF4ofpCe2Gih5F6QDJn8/
+         ErlVXTxJVkMgyb6ataILcHCdnXydPGerehwApxxwXohkOBoOqPwkHntHo+6V5XfVXvPt
+         mzfQ==
+X-Gm-Message-State: AOAM531DftHkcAqfy7e1pPNvQ6wcZCoU/nRQYR9oZu3QPtWQ1ytDSMm+
+        STlOIPYhbB/UAv1CFt5obMGix4A0Gc2EAoVuIUbO7ACy9+eekg==
+X-Google-Smtp-Source: ABdhPJxyDCbUs3P0iDO3sS8Lwqjr56z3pLlnPDMkaLKE9m1ms3Ks72/ED5j+irAip/mhuPzNFDYxQ7ecavxgAFYsRPE=
+X-Received: by 2002:a2e:611a:0:b0:249:83e5:9f9b with SMTP id
+ v26-20020a2e611a000000b0024983e59f9bmr3897329ljb.165.1648578479300; Tue, 29
+ Mar 2022 11:27:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220329021520.308997-1-masahiroy@kernel.org>
-In-Reply-To: <20220329021520.308997-1-masahiroy@kernel.org>
+References: <20220329021520.308997-1-masahiroy@kernel.org> <20220329021520.308997-2-masahiroy@kernel.org>
+In-Reply-To: <20220329021520.308997-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 29 Mar 2022 11:17:57 -0700
-Message-ID: <CAKwvOdkP12zrGu4iJStSJ5-pAKFBar=Cxf=CYO5gE9L636q8-w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
+Date:   Tue, 29 Mar 2022 11:27:47 -0700
+Message-ID: <CAKwvOdnbEVj=Y-AVSWnOT1g3jUEJdAESHjhny=5d8iXcKWgb9A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: do not remove empty *.symtypes explicitly
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,59 +69,50 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, Mar 28, 2022 at 7:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The genksyms command part in cmd_gensymtypes_{c,S} is duplicated.
-> Factor it out into the 'genksyms' macro.
+> Presumably, 'test -s $@ || rm -f $@' intends to remove the output when
+> the genksyms command fails.
 >
-> For the readability, I slightly refactor the arguments to genksyms.
-
-Looks nicer, thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
+> It is unneeded because .DELETE_ON_ERROR automatically removes the output
+> on failure.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/Makefile.build | 19 ++++++++-----------
->  1 file changed, 8 insertions(+), 11 deletions(-)
+>  scripts/Makefile.build | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
 > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 9717e6f6fb31..3f2985df4d60 100644
+> index 3f2985df4d60..974bb6435826 100644
 > --- a/scripts/Makefile.build
 > +++ b/scripts/Makefile.build
-> @@ -125,13 +125,14 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
->  $(obj)/%.i: $(src)/%.c FORCE
->         $(call if_changed_dep,cpp_i_c)
->
-> +genksyms = scripts/genksyms/genksyms           \
-> +       $(if $(1), -T $(2))                     \
-> +       $(if $(CONFIG_MODULE_REL_CRCS), -R)     \
-> +       $(if $(KBUILD_PRESERVE), -p)            \
-> +       -r $(or $(wildcard $(2:.symtypes=.symref), /dev/null))
-> +
->  # These mirror gensymtypes_S and co below, keep them in synch.
-> -cmd_gensymtypes_c =                                                         \
-> -    $(CPP) -D__GENKSYMS__ $(c_flags) $< |                                   \
-> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
-> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
-> -     $(if $(KBUILD_PRESERVE),-p)                                            \
-> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
-> +cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
+> @@ -135,9 +135,7 @@ genksyms = scripts/genksyms/genksyms                \
+>  cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
 >
 >  quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
->  cmd_cc_symtypes_c =                                                         \
-> @@ -344,11 +345,7 @@ cmd_gensymtypes_S =                                                         \
->      $(CPP) $(a_flags) $< |                                                  \
->       grep "\<___EXPORT_SYMBOL\>" |                                          \
->       sed 's/.*___EXPORT_SYMBOL[[:space:]]*\([a-zA-Z0-9_]*\)[[:space:]]*,.*/EXPORT_SYMBOL(\1);/' ; } | \
-> -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - |                                \
-> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
-> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
-> -     $(if $(KBUILD_PRESERVE),-p)                                            \
-> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
-> +    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
+> -cmd_cc_symtypes_c =                                                         \
+> -    $(call cmd_gensymtypes_c,true,$@) >/dev/null;                           \
+> -    test -s $@ || rm -f $@
+> +      cmd_cc_symtypes_c = $(call cmd_gensymtypes_c,true,$@)
+
+Was it an accident that you removed the redirection of stdout to
+/dev/null here, but not also below?
+If quiet_modtag silences the output, perhaps the redirection should be
+dropped below as well?
+
+>
+>  $(obj)/%.symtypes : $(src)/%.c FORCE
+>         $(call cmd,cc_symtypes_c)
+> @@ -348,9 +346,7 @@ cmd_gensymtypes_S =                                                         \
+>      $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
 >
 >  quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
->  cmd_cc_symtypes_S =                                                         \
+> -cmd_cc_symtypes_S =                                                         \
+> -    $(call cmd_gensymtypes_S,true,$@) >/dev/null;                           \
+> -    test -s $@ || rm -f $@
+> +      cmd_cc_symtypes_S = $(call cmd_gensymtypes_S,true,$@) >/dev/null
+>
+>  $(obj)/%.symtypes : $(src)/%.S FORCE
+>         $(call cmd,cc_symtypes_S)
 > --
 > 2.32.0
 >
