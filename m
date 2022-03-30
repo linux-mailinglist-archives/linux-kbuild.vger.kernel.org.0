@@ -2,62 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 327AB4EBB73
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 09:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDE04EC6A0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 16:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243595AbiC3HIx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Mar 2022 03:08:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
+        id S1346897AbiC3OgX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Mar 2022 10:36:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243633AbiC3HIw (ORCPT
+        with ESMTP id S244899AbiC3OgX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Mar 2022 03:08:52 -0400
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413AA103B9C;
-        Wed, 30 Mar 2022 00:07:08 -0700 (PDT)
-Received: by mail-il1-x12e.google.com with SMTP id r11so13963943ila.1;
-        Wed, 30 Mar 2022 00:07:08 -0700 (PDT)
+        Wed, 30 Mar 2022 10:36:23 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79A641F87;
+        Wed, 30 Mar 2022 07:34:36 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id kd21so14038839qvb.6;
+        Wed, 30 Mar 2022 07:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=MuSE8ky/YceVzy94b3kF16ekfJW+aB742cvLMQSQXSc=;
-        b=aiLiPnzSFaRsLmcV+nHV728jY8NpNqOFPlm6EriArKzB9bht+1+FVZuhgnF+ZEzBnn
-         +DcmewQq00yCh9OqbMDJbQW2LU/9w8DkophPSSOXfO20P1gSJAQAx1k6aPBMGxaZmdXg
-         KtXRLy02yD/3QXxiA5i6+hVaJ9NU8TWnFtXYFQNG1yzyJ87cK61qx341oIou7oYt7M/2
-         xKOeMjRKdGAqGUYYfCcffF5qauE5jeTnoieNAP4GM92i7rDpsPHpiDU4snG3MsnSphpF
-         uwm9lyg9s/J8kHLLvvG5fijWjnKr0cN7xxzyhOTDfj8vynLPGUYylQgJS5CeYKOTOR1x
-         ZLMQ==
+        h=message-id:date:mime-version:user-agent:from:subject:to
+         :content-language;
+        bh=+lg9JnSYDKfs8RkjbzmPWemG+ehaocfcpwkWEPttL1Y=;
+        b=Xi7ED40WCZZM57sQoCmOcrfcy5V+dWCMP5Y1btyV3QlE3hekvLO6635KtKM730FOsc
+         s+MKoDk8y49qKePca7iED4ybfBH7v0+Qed+2LVH2H5GNXbtO+vt0FJN3L9PcZLnjMgRU
+         v+YTjNzAFS5JOwV6taikosttbLfLJXCSt4pB36Uueed02JoASgYeRL/VbHCTAfyCjSpg
+         ITli02fpVsDUAcf/cDLn+GibUa23I98ncq1hJWRIwoX2l8HIMojdCOgPI7nLnXwdGT+B
+         ok3dprIRyLaEObHWDOL1LI1FfUT/r5LhxPRwSOKCqmIbIhfWTrqZIUTh5P978IbED4IJ
+         I7ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=MuSE8ky/YceVzy94b3kF16ekfJW+aB742cvLMQSQXSc=;
-        b=yeIYZt8vRyISkkSFrecPjg+3EjZh9eG0+zYRUsxBYB1Tc3hArrWR3pgXa/mgLFkZFL
-         twQOaimdJ7tySrq0Yt8ScyRfQkifysFiDrZCf3B+hRAOr4aNZx47teyHpdW4Iw+IDYZ5
-         Ye6j/OT/mhyWY/dGfoUGLkysKjR8c6pDNu5AGU7mcVzEekAkLydWnxQmITumf9HuXiJS
-         7N5ob4eTsewenVocruFDvOsJ23OnMLNF28ufxl5fVEtw/9sHiVeiroJrKPbHWB06zSX+
-         ot8xGox9SRl3OMG9+fpVVYMa7vbJbcp5EvU6QtT5xCQHd1LuDLuj3Iq/I+dO9JNBodv/
-         ttHA==
-X-Gm-Message-State: AOAM530ebVq78bOPd2KvdbNMafSVyj1I6MxYlMOip52KUaOSFQ8kwv82
-        D2AuPx9EKEGg3/iursE75z/cp3caNAiakm8UCFo9Igr5Xy/fO9Yr
-X-Google-Smtp-Source: ABdhPJzu1O69f+bLYnC4Zpv50cvaTavd6euepP3ejQNOZAnD+mbkEDOqJiDElsztL7SRsMXc7ei+NPYIECbs1SgSwAw=
-X-Received: by 2002:a92:cda6:0:b0:2c8:8289:c31 with SMTP id
- g6-20020a92cda6000000b002c882890c31mr9715967ild.245.1648624027317; Wed, 30
- Mar 2022 00:07:07 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:content-language;
+        bh=+lg9JnSYDKfs8RkjbzmPWemG+ehaocfcpwkWEPttL1Y=;
+        b=2KLc5+x7DtiFLTJr/qY7W5aM6k4IrIFTy0+TmD4loejcy5CwInLiJ0lJ5hiMc5RyBd
+         N4mO66gyUk+WwsxsFlx6LxSGjKiUlkgpFPq0uyxCqzni96NxoV7VC0GfNfAPPltsakZu
+         M02BvmKEkaI6iiK7wIgvbn0jDnxfHej38MKDmr2za0YuqrzRGs7m4uotCAhHbSyfp2bv
+         y0McOnDbCRolPlQO1ks415n8o9b0URRw5Ns1xcdqJcIHrDR+veDu+/fuQS+hgH7tQDo/
+         +ZNcTvTJncuppPqEMZ/r75KTMsiz7fddOK4rd46bZKr7oIjRTUBuuXQJD6kVL+VWhi1g
+         eF3A==
+X-Gm-Message-State: AOAM5322rGoQWLlUGQbXFjhPq77TyKA8F9ytrKml0BvB7AzFT8q3uPv4
+        bK2Er7oEu4SyZZF8K+EKbP2QPnOhMpm6bAZA
+X-Google-Smtp-Source: ABdhPJyXH2hATliNrToMa3h7CAXz4q1HIaXy50CvB1yU7t+X6ZOY97mDeYMVnBsbp2TwLvpz3ISNrw==
+X-Received: by 2002:a05:6214:765:b0:443:5e47:4573 with SMTP id f5-20020a056214076500b004435e474573mr12959979qvz.79.1648650875702;
+        Wed, 30 Mar 2022 07:34:35 -0700 (PDT)
+Received: from [192.168.1.115] (cable-217-24.sssnet.com. [24.140.217.24])
+        by smtp.gmail.com with ESMTPSA id s131-20020a37a989000000b0067d2e3c51e8sm10930810qke.58.2022.03.30.07.34.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 07:34:34 -0700 (PDT)
+Message-ID: <479c5c98-0e0d-072d-dae1-f91629989e46@gmail.com>
+Date:   Wed, 30 Mar 2022 10:34:32 -0400
 MIME-Version: 1.0
-References: <20220329021437.308790-1-masahiroy@kernel.org> <CAKwvOd=z5BQcQnhkgMOpZXPLkggmdPo=jvZxXkfVG7D8GuEYRw@mail.gmail.com>
-In-Reply-To: <CAKwvOd=z5BQcQnhkgMOpZXPLkggmdPo=jvZxXkfVG7D8GuEYRw@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 30 Mar 2022 09:06:31 +0200
-Message-ID: <CA+icZUUWCAfyznemv6cUYKQSTtPO+9ww7v8oLxK=Hd2o6gMNbg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix empty ${PYTHON} in scripts/link-vmlinux.sh
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From:   Ben Westover <kwestover.kw@gmail.com>
+Subject: [PATCH] riscv: Set SRCARCH to riscv if ARCH is riscv64 or riscv32
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------yHQiUDFiOFXls9MQsNFl0kie"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -68,66 +72,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 30, 2022 at 5:17 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Mon, Mar 28, 2022 at 7:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > The two commits
-> >
-> >   d8d2d38275c1 ("kbuild: remove PYTHON variable")
-> >   a8cccdd95473 ("init: lto: ensure initcall ordering")
-> >
-> > were applied in the same development cycle, in two different trees.
-> >
-> > After they were merged together, this ${PYTHON} expands to an empty
-> > string.
-> >
-> > Therefore, ${srctree}/scripts/jobserver-exec is executed directly.
-> > (it has the executable bit set)
-> >
-> > This is working but let's fix the code into the intended form.
->
-> Thanks for the patch!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------yHQiUDFiOFXls9MQsNFl0kie
+Content-Type: multipart/mixed; boundary="------------MZ7I7miqorRcsG55Xl7s3q92";
+ protected-headers="v1"
+From: Ben Westover <kwestover.kw@gmail.com>
+To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ masahiroy@kernel.org, michal.lkml@markovi.net, ndesaulniers@google.com
+Message-ID: <479c5c98-0e0d-072d-dae1-f91629989e46@gmail.com>
+Subject: [PATCH] riscv: Set SRCARCH to riscv if ARCH is riscv64 or riscv32
 
-Good catch.
-I was not aware that scripts/jobserver-exec was executable.
-Debian/unstable now switched to python v3.10.x as default "python3"
-and I will have this patch in my next series for testing.
-Thanks.
+--------------MZ7I7miqorRcsG55Xl7s3q92
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+When riscv64 or riscv32 are used as the value for ARCH during compilation=
+, like
+in tools that get the ARCH value from uname, set SRCARCH to riscv instead=
+ of
+failing because the riscv64 and riscv32 targets don't exist.
 
-- Sedat -
+Signed-off-by: Ben Westover <kwestover.kw@gmail.com>
+---
+ Makefile | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index c28c5d91e5c8..315c364bf2ba 100644
+--- a/Makefile
++++ b/Makefile
+@@ -408,6 +408,14 @@ ifeq ($(ARCH),parisc64)
+        SRCARCH :=3D parisc
+ endif
+
++# Additional ARCH settings for riscv
++ifeq ($(ARCH),riscv32)
++       SRCARCH :=3D riscv
++endif
++ifeq ($(ARCH),riscv64)
++       SRCARCH :=3D riscv
++endif
++
+ export cross_compiling :=3D
+ ifneq ($(SRCARCH),$(SUBARCH))
+ cross_compiling :=3D 1
+--=20
+2.35.1
 
 
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/link-vmlinux.sh | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > index f704034ebbe6..20f44504a644 100755
-> > --- a/scripts/link-vmlinux.sh
-> > +++ b/scripts/link-vmlinux.sh
-> > @@ -50,7 +50,7 @@ gen_initcalls()
-> >  {
-> >         info GEN .tmp_initcalls.lds
-> >
-> > -       ${PYTHON} ${srctree}/scripts/jobserver-exec             \
-> > +       ${PYTHON3} ${srctree}/scripts/jobserver-exec            \
-> >         ${PERL} ${srctree}/scripts/generate_initcall_order.pl   \
-> >                 ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}   \
-> >                 > .tmp_initcalls.lds
-> > --
-> > 2.32.0
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+--------------MZ7I7miqorRcsG55Xl7s3q92--
+
+--------------yHQiUDFiOFXls9MQsNFl0kie
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEOGnacqRhdU6eNmtFwxHF9U6JtpgFAmJEangFAwAAAAAACgkQwxHF9U6JtpgZ
+4xAAn/q/ybWe+TLW4f/X3/SsAbr+KytS59VHXMsE0cavhd6KvWYA9KKc1jjxbaQAbSHYZcCo5tAB
+sFLAB0gJyLyyev75/FTITMbfCW1ayPwk+HsmRyx9D7yQk8Pi1aGXnF/SAqneITYU10KnjYQP0OA2
+K16o2E+DYLQ66vp0U5BA2gU/NAcN50BXKz+oSZbBZ4CEnvhl+Kpb20ZPhIG/1tmhPYgQLMWJl/F1
+Em7CF3SLj6m1FFt4Z+qJzP3AfXBr6Z9JmqqmFZXxHQeyI0CTywsdQ8C9XLK1CiypNB0ubeT2WXbg
+1qXm5/VWmG9YQh7oVqgtDwbV0NkAWrcYhWGT5CoxkDZnAavfx8wpo7l3EodfekuHt0s2Uei9MP0E
+k6fQEW6a9Cu4fNGY2kmPaUsDVIJHQrUzVz5ltRvdLnkSOQ87S+kxFlGUreSsHb38tnTvfN3gn4uf
+2S41M9o3vwaI/jJ0X5Y5HmB5YYS1kUBB4JYwQMSeKubouc/mrkmlnqhlgl5i8O6/yHbcYbQHIoNk
+HdxpxSsM5WucZj7Opr3SGx+tTXzQXOkeorPPnM+zIy6LR+AvOQDwF4tetX9leOGIOHL382vwaJT8
+xloVcn6ex3qrEHhyaBL0LV3QLN98UKtXTYPWISMlIFpSGvL+6X3ubkhLMrJLcBN9VNc2Cdq4NhLq
+8d4=
+=MkCD
+-----END PGP SIGNATURE-----
+
+--------------yHQiUDFiOFXls9MQsNFl0kie--
