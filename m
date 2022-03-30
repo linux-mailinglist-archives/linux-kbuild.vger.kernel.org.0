@@ -2,119 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A863E4EB849
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 04:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 327AB4EBB73
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 09:07:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240201AbiC3Cag (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Mar 2022 22:30:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33450 "EHLO
+        id S243595AbiC3HIx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Mar 2022 03:08:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233615AbiC3Cag (ORCPT
+        with ESMTP id S243633AbiC3HIw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Mar 2022 22:30:36 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1BCB4707B;
-        Tue, 29 Mar 2022 19:28:51 -0700 (PDT)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 22U2SY9l012583;
-        Wed, 30 Mar 2022 11:28:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 22U2SY9l012583
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648607314;
-        bh=DIW0nIffIPFPic3tK/p4VL1FHqcJBciXVix5FyElOyo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NbDiuji5913GLjhudxdicewhLeotMmptmoRzKH0KMLZJXODYCoJhIVuaXiOucERTN
-         2+ANOTQkPEgLsGEspthoZTbWzqHNYfbMzSbrGXXNYaZeHEMwzSDTzUwtUErIWAeS9H
-         GwK3s2XRFQkuYTBhgmA2dl9jKlvca7xV/c3gzzjXo2xNDwTblgyQEKBL6RG8QLHgyA
-         9MKNlROwSpLT0jXXG7ntLtxxeQbJPFsAM/25jIxHjizGlOvpGcEKLMT61b3ay+xbLS
-         DZcmezStPE0+5FMnkv31cH+nlLhDt6tfMCUrxQWH4Ghj2B7pr/5RY1G/SBtleWLVuO
-         HjGd/4T16y7Lg==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id bx5so19264039pjb.3;
-        Tue, 29 Mar 2022 19:28:34 -0700 (PDT)
-X-Gm-Message-State: AOAM533tS3u3iNPtqPTxDGBB/MvbuF0dBf8Tr356yjBVgDwfaq/BfJFD
-        s+JuY7KRFZRQxQZYpHleoYEvGqe8YVyBuneX1Xg=
-X-Google-Smtp-Source: ABdhPJyKlPeDJO2j4TcBLQ61J3xSdq+dKpklZCUa6rDbRxwt6cK6R+pJ2ZEEtSrXKRUBbaZ8mxhMlRHLtCi5UJdgfIY=
-X-Received: by 2002:a17:90a:840a:b0:1c9:5c4f:5e83 with SMTP id
- j10-20020a17090a840a00b001c95c4f5e83mr2373993pjn.144.1648607313716; Tue, 29
- Mar 2022 19:28:33 -0700 (PDT)
+        Wed, 30 Mar 2022 03:08:52 -0400
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413AA103B9C;
+        Wed, 30 Mar 2022 00:07:08 -0700 (PDT)
+Received: by mail-il1-x12e.google.com with SMTP id r11so13963943ila.1;
+        Wed, 30 Mar 2022 00:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=MuSE8ky/YceVzy94b3kF16ekfJW+aB742cvLMQSQXSc=;
+        b=aiLiPnzSFaRsLmcV+nHV728jY8NpNqOFPlm6EriArKzB9bht+1+FVZuhgnF+ZEzBnn
+         +DcmewQq00yCh9OqbMDJbQW2LU/9w8DkophPSSOXfO20P1gSJAQAx1k6aPBMGxaZmdXg
+         KtXRLy02yD/3QXxiA5i6+hVaJ9NU8TWnFtXYFQNG1yzyJ87cK61qx341oIou7oYt7M/2
+         xKOeMjRKdGAqGUYYfCcffF5qauE5jeTnoieNAP4GM92i7rDpsPHpiDU4snG3MsnSphpF
+         uwm9lyg9s/J8kHLLvvG5fijWjnKr0cN7xxzyhOTDfj8vynLPGUYylQgJS5CeYKOTOR1x
+         ZLMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=MuSE8ky/YceVzy94b3kF16ekfJW+aB742cvLMQSQXSc=;
+        b=yeIYZt8vRyISkkSFrecPjg+3EjZh9eG0+zYRUsxBYB1Tc3hArrWR3pgXa/mgLFkZFL
+         twQOaimdJ7tySrq0Yt8ScyRfQkifysFiDrZCf3B+hRAOr4aNZx47teyHpdW4Iw+IDYZ5
+         Ye6j/OT/mhyWY/dGfoUGLkysKjR8c6pDNu5AGU7mcVzEekAkLydWnxQmITumf9HuXiJS
+         7N5ob4eTsewenVocruFDvOsJ23OnMLNF28ufxl5fVEtw/9sHiVeiroJrKPbHWB06zSX+
+         ot8xGox9SRl3OMG9+fpVVYMa7vbJbcp5EvU6QtT5xCQHd1LuDLuj3Iq/I+dO9JNBodv/
+         ttHA==
+X-Gm-Message-State: AOAM530ebVq78bOPd2KvdbNMafSVyj1I6MxYlMOip52KUaOSFQ8kwv82
+        D2AuPx9EKEGg3/iursE75z/cp3caNAiakm8UCFo9Igr5Xy/fO9Yr
+X-Google-Smtp-Source: ABdhPJzu1O69f+bLYnC4Zpv50cvaTavd6euepP3ejQNOZAnD+mbkEDOqJiDElsztL7SRsMXc7ei+NPYIECbs1SgSwAw=
+X-Received: by 2002:a92:cda6:0:b0:2c8:8289:c31 with SMTP id
+ g6-20020a92cda6000000b002c882890c31mr9715967ild.245.1648624027317; Wed, 30
+ Mar 2022 00:07:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220329021520.308997-1-masahiroy@kernel.org> <20220329021520.308997-2-masahiroy@kernel.org>
- <CAKwvOdnbEVj=Y-AVSWnOT1g3jUEJdAESHjhny=5d8iXcKWgb9A@mail.gmail.com>
-In-Reply-To: <CAKwvOdnbEVj=Y-AVSWnOT1g3jUEJdAESHjhny=5d8iXcKWgb9A@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 30 Mar 2022 11:27:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARUj8tsC-m95-UbQdaQcYTBQWN=7OFQuS81+B9RdLo4KQ@mail.gmail.com>
-Message-ID: <CAK7LNARUj8tsC-m95-UbQdaQcYTBQWN=7OFQuS81+B9RdLo4KQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: do not remove empty *.symtypes explicitly
+References: <20220329021437.308790-1-masahiroy@kernel.org> <CAKwvOd=z5BQcQnhkgMOpZXPLkggmdPo=jvZxXkfVG7D8GuEYRw@mail.gmail.com>
+In-Reply-To: <CAKwvOd=z5BQcQnhkgMOpZXPLkggmdPo=jvZxXkfVG7D8GuEYRw@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 30 Mar 2022 09:06:31 +0200
+Message-ID: <CA+icZUUWCAfyznemv6cUYKQSTtPO+9ww7v8oLxK=Hd2o6gMNbg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix empty ${PYTHON} in scripts/link-vmlinux.sh
 To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 30, 2022 at 3:28 AM Nick Desaulniers
+On Wed, Mar 30, 2022 at 5:17 AM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Mon, Mar 28, 2022 at 7:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > Presumably, 'test -s $@ || rm -f $@' intends to remove the output when
-> > the genksyms command fails.
+> > The two commits
 > >
-> > It is unneeded because .DELETE_ON_ERROR automatically removes the output
-> > on failure.
+> >   d8d2d38275c1 ("kbuild: remove PYTHON variable")
+> >   a8cccdd95473 ("init: lto: ensure initcall ordering")
+> >
+> > were applied in the same development cycle, in two different trees.
+> >
+> > After they were merged together, this ${PYTHON} expands to an empty
+> > string.
+> >
+> > Therefore, ${srctree}/scripts/jobserver-exec is executed directly.
+> > (it has the executable bit set)
+> >
+> > This is working but let's fix the code into the intended form.
+>
+> Thanks for the patch!
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+
+Good catch.
+I was not aware that scripts/jobserver-exec was executable.
+Debian/unstable now switched to python v3.10.x as default "python3"
+and I will have this patch in my next series for testing.
+Thanks.
+
+Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+
+- Sedat -
+
+
 > >
 > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > > ---
 > >
-> >  scripts/Makefile.build | 8 ++------
-> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> >  scripts/link-vmlinux.sh | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 3f2985df4d60..974bb6435826 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -135,9 +135,7 @@ genksyms = scripts/genksyms/genksyms                \
-> >  cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
+> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> > index f704034ebbe6..20f44504a644 100755
+> > --- a/scripts/link-vmlinux.sh
+> > +++ b/scripts/link-vmlinux.sh
+> > @@ -50,7 +50,7 @@ gen_initcalls()
+> >  {
+> >         info GEN .tmp_initcalls.lds
 > >
-> >  quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
-> > -cmd_cc_symtypes_c =                                                         \
-> > -    $(call cmd_gensymtypes_c,true,$@) >/dev/null;                           \
-> > -    test -s $@ || rm -f $@
-> > +      cmd_cc_symtypes_c = $(call cmd_gensymtypes_c,true,$@)
->
-> Was it an accident that you removed the redirection of stdout to
-> /dev/null here, but not also below?
-
-It was an accident. I will fix it. Thanks.
-
-
-
-> If quiet_modtag silences the output, perhaps the redirection should be
-> dropped below as well?
->
-> >
-> >  $(obj)/%.symtypes : $(src)/%.c FORCE
-> >         $(call cmd,cc_symtypes_c)
-> > @@ -348,9 +346,7 @@ cmd_gensymtypes_S =                                                         \
-> >      $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-> >
-> >  quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
-> > -cmd_cc_symtypes_S =                                                         \
-> > -    $(call cmd_gensymtypes_S,true,$@) >/dev/null;                           \
-> > -    test -s $@ || rm -f $@
-> > +      cmd_cc_symtypes_S = $(call cmd_gensymtypes_S,true,$@) >/dev/null
-> >
-> >  $(obj)/%.symtypes : $(src)/%.S FORCE
-> >         $(call cmd,cc_symtypes_S)
+> > -       ${PYTHON} ${srctree}/scripts/jobserver-exec             \
+> > +       ${PYTHON3} ${srctree}/scripts/jobserver-exec            \
+> >         ${PERL} ${srctree}/scripts/generate_initcall_order.pl   \
+> >                 ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}   \
+> >                 > .tmp_initcalls.lds
 > > --
 > > 2.32.0
 > >
@@ -123,9 +131,3 @@ It was an accident. I will fix it. Thanks.
 > --
 > Thanks,
 > ~Nick Desaulniers
-
-
-
--- 
-Best Regards
-Masahiro Yamada
