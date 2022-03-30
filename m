@@ -2,85 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B2B4EB5B9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 00:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 348C44EB83D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 04:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236456AbiC2WQc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Mar 2022 18:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S239929AbiC3CRr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Mar 2022 22:17:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236271AbiC2WQb (ORCPT
+        with ESMTP id S229496AbiC3CRq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Mar 2022 18:16:31 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062C11877D7
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 15:14:48 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id n63-20020a1c2742000000b0038d0c31db6eso2355278wmn.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Mar 2022 15:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:mime-version:content-transfer-encoding
-         :content-description:subject:to:from:date:reply-to;
-        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
-        b=VePRrWTC+QJ6RXxz7wzXzhNW15EexdQ9UonD9dGLRiZUuIh2WwUO3RqmfVfSRhfXkL
-         F5xmBE8GzURGnyHWYQZlbfRgSTGRQFsIYFo84JYrVD64qP1N0TUREIud7huKwACgycxb
-         e7IwtVza2R2SgoiVbpW1LCfguhm4+bRL2sZcb6kN32dz6eQyhs5F1i+a7ZrInVG8hHIp
-         QdQpRN3++wEgF6Yyx+nX0e/pex7nBqvNHivYyXc2k1ruidvlkR28yWUUvr0hPzXwuNWu
-         chjFiPJclRr0nw14yiOjI4y596XvMtqG+Okx7OdBeiv1bqWNzy6fafs//+wKUNr8z+x7
-         J1GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:content-description:subject:to:from:date
-         :reply-to;
-        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
-        b=5VhzHO6Tp04fFw1FDo7iwcfIJ656rLI2ZQPxGtMGLNKqBU1Y8lKDPO2aaNdWDbNEBd
-         jxPaQH/CYLRWbpkgApneLF4UmIRDydQZl2PzqVGInNYqNfUpTySuKvCN1bdDtZASwTYC
-         2erUYRxL1wcucegmESaknlIazaHOBsxxUFQXjWnYCfVP6leZNiJRaEqWDkiXYw9vGgy3
-         CWa9/0zvLx5bfLGADrE+L/E0fTKKs5Ate/C62QcCjkuFETwbc0WzudXUkerwxtO57vXT
-         ydzYbMT4rApNiZr51YPtJW2z88i9A/plTupgGKBiQ4hs/5jzipeKZ2aPgLPkDIYXI2E8
-         Ndig==
-X-Gm-Message-State: AOAM532t4m2ajrdSum5tZ1Lb0Vfzs51XpNaU/wxeBlPtjjZx0RkZ+Bv4
-        fLP0PX+DwLm93nLsk/9DAgo=
-X-Google-Smtp-Source: ABdhPJweo8RBgJYlXlOjZwfFr7Fgt9fHE4v690RQ+zo7VDnz0/0sQ7IaPuc4uk9Uh7gGZuyyZ4YBEw==
-X-Received: by 2002:a05:600c:3016:b0:38c:8786:d3b6 with SMTP id j22-20020a05600c301600b0038c8786d3b6mr1538898wmh.135.1648592086610;
-        Tue, 29 Mar 2022 15:14:46 -0700 (PDT)
-Received: from [172.20.10.4] ([102.91.4.172])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05600c3b0d00b0038cda9f92fasm3436653wms.0.2022.03.29.15.14.38
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Tue, 29 Mar 2022 15:14:43 -0700 (PDT)
-Message-ID: <624384d3.1c69fb81.6baa0.eeb0@mx.google.com>
-Content-Type: text/plain; charset="iso-8859-1"
+        Tue, 29 Mar 2022 22:17:46 -0400
+Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFFE1F1634;
+        Tue, 29 Mar 2022 19:16:00 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 22U2Fb4U003913;
+        Wed, 30 Mar 2022 11:15:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 22U2Fb4U003913
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1648606538;
+        bh=wA/dPX3LwDIECPfacxqAjooeC1LeQc17W0fddzTnLGU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2vn4M+AONv2I9UyXrBZeib9Sgl+/piCVX2+yLV9d5sh97wrnlCyuz3uEvkvgZL5sA
+         egFeth+9RwBkMyMRxlCvccB6dnUX9F/aGDA8YG9MZeScdPruo4OXCCC10YO8grs/eN
+         FIavGXm3qbDVOq1OZmTHuDdWNKlPM2gNGQV/ehUvJ2sNaXc34sAWTtYiXveTIGqA2z
+         raN8h7BxXuVthZrZhBfizwNN++cdxXWpU0BjjjK4Rjve8FDma5ZdhsDZVV+sdc0p/1
+         KwxUkOYEXmK9PdOxXOBHowI/uzo+c0b9qKXOWX4fDsZzkyyFBtZ7H1t1T9ps6+bYDt
+         +ObFL3fQa95zQ==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id f3so16283893pfe.2;
+        Tue, 29 Mar 2022 19:15:38 -0700 (PDT)
+X-Gm-Message-State: AOAM532FTIuW18PeHIQfMPnOIGrBnfsFv3qXk8KEB6yhWDVRTmX1GlpP
+        qGjGy49qsuDh8v5aibSBWCD09W8E9HTD8Za1dWQ=
+X-Google-Smtp-Source: ABdhPJxZ75sP+BLfObkBnYxrplEiiOpmMN9c2KAqkwJgkPqQecf1q2auDRI5qPl0VYzaSGdE0c36F9OuUVyqaNQeD8Y=
+X-Received: by 2002:a05:6a00:a1d:b0:4f6:d122:cd08 with SMTP id
+ p29-20020a056a000a1d00b004f6d122cd08mr31317129pfh.68.1648606537281; Tue, 29
+ Mar 2022 19:15:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Gefeliciteerd, er is geld aan je gedoneerd
-To:     Recipients <adeboyejofolashade55@gmail.com>
-From:   adeboyejofolashade55@gmail.com
-Date:   Tue, 29 Mar 2022 23:14:35 +0100
-Reply-To: mike.weirsky.foundation003@gmail.com
-X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_US_DOLLARS_3 autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+References: <CAK7LNATL4v40ZHJ+Ym3k_fVe4ddmMA3wFQXb5RaTz9hmPebeuQ@mail.gmail.com>
+ <CAHk-=wgxcu9DFkXAOAFdDtLWwuv6qb5iV1E69yWE-JEVsd-NFg@mail.gmail.com>
+In-Reply-To: <CAHk-=wgxcu9DFkXAOAFdDtLWwuv6qb5iV1E69yWE-JEVsd-NFg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 30 Mar 2022 11:14:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQEUydHD1TxgsK1vV5VR-tr98Ej7L=5GphPnAydfWCJ7Q@mail.gmail.com>
+Message-ID: <CAK7LNAQEUydHD1TxgsK1vV5VR-tr98Ej7L=5GphPnAydfWCJ7Q@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild updates for v5.18-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Beste begunstigde,
+On Wed, Mar 30, 2022 at 5:10 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> I pulled this, and then immediately unpulled.
+>
+> On Mon, Mar 28, 2022 at 5:09 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> >  - Change the .config format to use CONFIG_FOO=n instead of
+> >    "# CONFIG_FOO is not set"
+>
+> This is unacceptable.
+>
+> The change was apparently made to make automation easier, at the
+> expense of making it harder for people to parse.
 
- Je hebt een liefdadigheidsdonatie van ($ 10.000.000,00) van Mr. Mike Weirs=
-ky, een winnaar van een powerball-jackpotloterij van $ 273 miljoen.  Ik don=
-eer aan 5 willekeurige personen als je deze e-mail ontvangt, dan is je e-ma=
-il geselecteerd na een spin-ball. Ik heb vrijwillig besloten om het bedrag =
-van $ 10 miljoen USD aan jou te doneren als een van de geselecteerde 5, om =
-mijn winst te verifi=EBren
- =
+Making automation was not the main motivation.
 
-  Vriendelijk antwoord op: mike.weirsky.foundation003@gmail.com
- Voor uw claim.
+We use comment lines in two ways.
+
+[1] disabled option
+     # CONFIG_FOO is not set
+
+[2] real comments
+
+    #
+    # IRQ subsystem
+    #
+    CONFIG_GENERIC_IRQ_PROBE=y
+       [ snip]
+    # CONFIG_GENERIC_IRQ_DEBUGFS is not set
+    # end of IRQ subsystem
+
+
+
+In the current .config format,
+ it is easy to tell the difference between
+"this is enabled" and "this is not enabled",
+but it is hard to tell the difference between
+"this is not enabled" and "this is a comment".
+
+
+I constantly receive some patches (e.g. [1] )
+for better commenting, but the weirdness
+is that Kconfig uses comments to store actual
+information.
+
+[1] https://patchwork.kernel.org/project/linux-kbuild/patch/20211213100043.45645-3-arielmarcovitch@gmail.com/
+
+
+Having said that, you really dislike this change.
+Let me send v2.
+
+
+>
+> That is not a valid tradeoff.
+>
+> I _look_ at my config files. Constantly. I don't want some mess where
+> it's really damn hard to visually tell the difference between "this is
+> enabled" and "this is not enabled".
+>
+> So no, I'm not pulling this kind of horrible "make it simpler for
+> automation, and harder for humans" to read.
+>
+>                 Linus
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
