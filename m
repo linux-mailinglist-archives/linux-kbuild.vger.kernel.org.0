@@ -2,114 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C9934ECC39
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 20:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E01374ECC91
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Mar 2022 20:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350318AbiC3S1W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Mar 2022 14:27:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49798 "EHLO
+        id S244702AbiC3SoD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Mar 2022 14:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350203AbiC3S0p (ORCPT
+        with ESMTP id S1351029AbiC3Snb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Mar 2022 14:26:45 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846984B423
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Mar 2022 11:23:50 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-d6ca46da48so22867651fac.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Mar 2022 11:23:50 -0700 (PDT)
+        Wed, 30 Mar 2022 14:43:31 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B406A517D4;
+        Wed, 30 Mar 2022 11:40:04 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id 10so18904126qtz.11;
+        Wed, 30 Mar 2022 11:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=U1oUia1Thamt6Z7oWm6PGNKOk9RXK6Jv76DGrI1cLcYRcY5/d1Tt5qepQRdZm6lsyq
-         RBa/xpJM28ShOu5ibphzafHjPKptRC4OMeOVco0xYKihrCNFhnaGQOBDSvUdgHWgE3gf
-         cWTbx+dPO2nv/wujOZrrbxfJpePUzp7QZ1RCloUPxJhGXTvBKUziPieC1LSkK8oSaB+t
-         E85QJNBGnQK8HE8wei7Zq5jQSpeI5JY8kzofCGcJSUHLIHQXWsBy6ta+brl9WPLZzyWA
-         2jPBZlOFyxLxFI8awBJCcZtcLmSyu35IRMr8cJ72zb2pokIUUqe6EUB9pKUwVKwbq4my
-         ou5A==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc
+         :references:from:subject:in-reply-to;
+        bh=oMpu/Uq8rY8eahUeZAHaEp88VMX4giAOIULlZrq+voY=;
+        b=oSkpS7AgyvzgbEOaTfVisfi6SR1JA+3VhGV/3mAr2g1PNwOJVuh4nLXbxdbXA0MIcp
+         2sA2laLpD5zPKizoxQwKD3afztwqs9b295kKfrxBw/x7SKuB537Ll4WAhOl3eAOEpjYR
+         OWL3Pqk6i1HPu69vtJObtjMkeXVO8o3BTvsTkVNsquya+u2p6DtIc7nOdpOM7+VrHqGh
+         2egO2EJzr4rb/MEmOeteGY9nTD/eZAayt8TIfIpEgAsqvKhdXUDTFFh4pOKrRjBn3hNq
+         7ETAvyKiyHjrPpplkl20VIJK0Ly7P2U8eqfe9ycYjWdJMjLu6Y3b7vpjXcTuhEvcvgl5
+         HiyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
-        b=q4a4FEtx3LRu3xmy3LeU3M1vrZG6NoWKW3yQHj6gfBUrjyFmTiBK3JzywDWqiUPI7Q
-         QiZL9Mb77mpgkFTleJiGXl6z6Jyr51iAfxvLvv0+E9am97/ztaDDHuHLZEjRRFpbxL6g
-         OxmtZEWQMTOzu14qMPC5yPwT9oJNIigb6ROz+lXp5/aDGlj45gy+ztfHNtrozWDsrBqU
-         ObMZdJzOQ+OUnfS4nAMsmwJvbj470VJtZub+ncAPuHrKwZJlwEnDPKiA0s/6R9ASHcGy
-         Wg7ifYRdjLRrf0dDavx9Ru1rg1Cq0I0Ljw2jXcQ938aW54WUcG49t0XcBjX06VigD2zZ
-         Bagg==
-X-Gm-Message-State: AOAM532R7M0y0W/tCxEfXXjF+3qZWMYrtouF8RmabzXC9I2wGAHvOKmQ
-        7I2ZR4osRa4oS/Fcvia7+7iu+7KS8eXjvLlYnPkn/8RVZXtf
-X-Google-Smtp-Source: ABdhPJzkTl+tJbylc9dRvis6ZhULbTl7j4ynIkLgm4b/Lu4YSrf6PCWjehKBvofPJCmWKHUKJGD0xbE01MjL0VC50Jo=
-X-Received: by 2002:a17:90b:3143:b0:1c7:5cee:3948 with SMTP id
- ip3-20020a17090b314300b001c75cee3948mr852445pjb.140.1648664618224; Wed, 30
- Mar 2022 11:23:38 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to;
+        bh=oMpu/Uq8rY8eahUeZAHaEp88VMX4giAOIULlZrq+voY=;
+        b=JT+a4tTd9zBNEH7aZR4ayI9TxzH1aLdgwUxkKYbeoxXV4qiWwPmf4rzIf3JhhuH/+G
+         C8uhqivtPd1WhSTh35FE+T1kYnJfmORIChK0VIvxcrfFty0YmVEJFqy5eDmpgdRpmfZB
+         9lk7kaMMBb4yCvfz4jNsn70Z1jEwzVnhDCgZDlTxTdx32q7Ks0bF/Ys9SwGPPi3jpWIA
+         n2slPnroItkfaAFTiSEJuoVUec+2v+Uo7NUVvZqq51UzIvl39mYL8AJ59Ixzk2jLV2IQ
+         v7/+W7VksJTZ51mtg/zntHBsDR/eqND8htCsfBXUR+t9LsdymKEavcSgWVrBnEa3EEa8
+         K3pQ==
+X-Gm-Message-State: AOAM531ueNObnmztfe3jqavf0KdWP3cTBcctTayvyfxBc1p/xigusclG
+        Hxzslj65itpzfK6k9RqDTKX9D2j/bqGBoPR8
+X-Google-Smtp-Source: ABdhPJxIAzQxSCHhvGF3MVeIe6kjzdo5jaBsBnVe9sXN2B2N4eOqVg7AIG9XMIMSr8E3Xlc5SUvl1w==
+X-Received: by 2002:a05:622a:5cc:b0:2e1:ecc9:5a2a with SMTP id d12-20020a05622a05cc00b002e1ecc95a2amr893670qtb.554.1648665603802;
+        Wed, 30 Mar 2022 11:40:03 -0700 (PDT)
+Received: from [192.168.1.115] (cable-217-24.sssnet.com. [24.140.217.24])
+        by smtp.gmail.com with ESMTPSA id d11-20020a05620a166b00b0067e380258e7sm11026242qko.73.2022.03.30.11.40.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Mar 2022 11:40:03 -0700 (PDT)
+Message-ID: <e55edf6f-2aac-87a5-c0f8-363a536b9f92@gmail.com>
+Date:   Wed, 30 Mar 2022 14:40:01 -0400
 MIME-Version: 1.0
-Reply-To: isabellasayouba0@gmail.com
-Sender: 040stherchurch@gmail.com
-Received: by 2002:a05:6a20:691d:b0:76:6cf5:d552 with HTTP; Wed, 30 Mar 2022
- 11:23:37 -0700 (PDT)
-From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
-Date:   Wed, 30 Mar 2022 18:23:37 +0000
-X-Google-Sender-Auth: _Xe1kByDkvq-Dn04BagO7gok_qM
-Message-ID: <CAAzQq761QVaWKiKernxpKjqNCK+6V9mRKHBnOcqF8rXJO9Y+aA@mail.gmail.com>
-Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_99,BAYES_999,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+References: <479c5c98-0e0d-072d-dae1-f91629989e46@gmail.com>
+ <CAK7LNASxaJMUAS6vgcDX3jwM9LQj7Lz8RX941FQhrDrtJSt6GA@mail.gmail.com>
+From:   Ben Westover <kwestover.kw@gmail.com>
+Subject: Re: [PATCH] riscv: Set SRCARCH to riscv if ARCH is riscv64 or riscv32
+In-Reply-To: <CAK7LNASxaJMUAS6vgcDX3jwM9LQj7Lz8RX941FQhrDrtJSt6GA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CNumU1QqguCijxQIViP4s0gy"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
-kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
-jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
-kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
-leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
-quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
-seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
-ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
-grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYQ0KQnJvd27msI/jgajn
-tZDlqZrjgZfjgb7jgZfjgZ/jgILlrZDkvpvjgarjgZfjgacxMeW5tOmWk+e1kOWpmuOBl+OBn+OA
-gg0KDQrlvbzjga/jgZ/jgaPjgZ815pel6ZaT57aa44GE44Gf55+t44GE55eF5rCX44Gu5b6M44Gn
-5q2744Gr44G+44GX44Gf44CC5b2844Gu5q275b6M44CB56eB44Gv5YaN5ama44GX44Gq44GE44GT
-44Go44Gr5rG644KB44G+44GX44Gf44CC5Lqh44GP44Gq44Gj44Gf5aSr44GM55Sf44GN44Gm44GE
-44Gf44Go44GN44CB5b2844Gv57eP6aGNODUw5LiH44OJ44Or44KS6aCQ44GR44G+44GX44Gf44CC
-DQrvvIg4MDDkuIc1MDAw44OJ44Or77yJ6KW/44Ki44OV44Oq44Kr44Gu44OW44Or44Kt44OK44OV
-44Kh44K944Gu6aaW6YO944Ov44Ks44OJ44Kl44Kw44O844Gu6YqA6KGM44Gn44CC54++5Zyo44CB
-44GT44Gu44GK6YeR44Gv44G+44Gg6YqA6KGM44Gr44GC44KK44G+44GZ44CC5b2844Gv44GT44Gu
-44GK6YeR44KS44OW44Or44Kt44OK44OV44Kh44K944Gu6Ymx5qWt44GL44KJ44Gu6YeR44Gu6Ly4
-5Ye644Gr5Yip55So44Gn44GN44KL44KI44GG44Gr44GX44G+44GX44Gf44CCDQoNCuacgOi/keOA
-geengeOBruWMu+iAheOBr+engeOBjOeZjOOBqOiEs+WNkuS4reOBruWVj+mhjOOBruOBn+OCgeOB
-qzfjg7bmnIjplpPjga/ntprjgYvjgarjgYTjgaDjgo3jgYbjgajnp4HjgavoqIDjgYTjgb7jgZfj
-gZ/jgILnp4HjgpLmnIDjgoLmgqnjgb7jgZvjgabjgYTjgovjga7jga/ohLPljZLkuK3jga7nl4Xm
-sJfjgafjgZnjgILnp4Hjga7nirbmhYvjgpLnn6XjgaPjgZ/jga7jgafjgIHnp4Hjga/jgZPjga7j
-gYrph5HjgpLjgYLjgarjgZ/jgavmuKHjgZfjgabjgIHmgbXjgb7jgozjgarjgYTkurrjgIXjga7k
-uJboqbHjgpLjgZnjgovjgZPjgajjgavjgZfjgb7jgZfjgZ/jgILjgYLjgarjgZ/jga/jgZPjga7j
-gYrph5HjgpLnp4HjgYzjgZPjgZPjgafmjIfnpLrjgZnjgovmlrnms5XjgafliKnnlKjjgZnjgovj
-gafjgZfjgofjgYbjgILnp4Hjga/jgYLjgarjgZ/jgavjgYLjgarjgZ/jga7lgIvkurrnmoTjgark
-vb/nlKjjga7jgZ/jgoHjgavnt4/jgYrph5Hjga4zMOODkeODvOOCu+ODs+ODiOOCkuWPluOBo+OB
-puassuOBl+OBhOOBp+OBmeOAguOBiumHkeOBrjcw77yF44Gv56eB44Gu5ZCN5YmN44Gn5a2k5YWQ
-6Zmi44KS5bu644Gm44CB6YCa44KK44Gu6LKn44GX44GE5Lq644CF44KS5Yqp44GR44KL44Gf44KB
-44Gr5L2/44GG44Gn44GX44KH44GG44CC56eB44Gv5a2k5YWQ44Go44GX44Gm6IKy44Gh44G+44GX
-44Gf44GM44CB56We44Gu5a6244KS57at5oyB44GZ44KL44Gf44KB44Gg44GR44Gr44CB5a625peP
-44Gr44Gv6Kqw44KC44GE44G+44Gb44KT44CC44GT44Gu55eF5rCX44GM56eB44KS44Go44Gm44KC
-6Ium44GX44KB44Gf44Gu44Gn44CB56We44GM56eB44Gu572q44KS6LWm44GX44CB5qW95ZyS44Gn
-56eB44Gu6a2C44KS5Y+X44GR5YWl44KM44KL44KI44GG44Gr44GT44KM44KS44GX44Gm44GE44KL
-44Gu44Gn44GZ44CCDQoNCui/lOS/oeOCkuWPl+OBkeWPluOCiuasoeesrOOAgeODluODq+OCreOD
-iuODleOCoeOCveOBrumKgOihjOOBrumAo+e1oeWFiOOCkuOBiuefpeOCieOBm+OBl+OBvuOBmeOA
-guOBvuOBn+OAgemKgOihjOOBruePvuWcqOOBruWPl+WPluS6uuOBp+OBguOCi+OBk+OBqOOCkuio
-vOaYjuOBmeOCi+aoqemZkOabuOOCkueZuuihjOOBmeOCi+OCiOOBhumKgOihjOmVt+OBq+aMh+ek
-uuOBl+OBvuOBmeOAguengeOBjOOBk+OBk+OBp+i/sOOBueOBn+OCiOOBhuOBq+OBguOBquOBn+OB
-jOOBneOCjOOBq+W/nOOBmOOBpuihjOWLleOBmeOCi+OBk+OBqOOCkuengeOBq+S/neiovOOBl+OB
-puOBj+OBoOOBleOBhOOAgg0KDQrjgqTjgrbjg5njg6njg7vjgrXjg6jjgqbjg5DlpKvkurrjgYvj
-gonjgIINCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------CNumU1QqguCijxQIViP4s0gy
+Content-Type: multipart/mixed; boundary="------------I9woVjAhPvnj4Iqbm0KgwoD0";
+ protected-headers="v1"
+From: Ben Westover <kwestover.kw@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Michal Marek <michal.lkml@markovi.net>,
+ Nick Desaulniers <ndesaulniers@google.com>
+Message-ID: <e55edf6f-2aac-87a5-c0f8-363a536b9f92@gmail.com>
+Subject: Re: [PATCH] riscv: Set SRCARCH to riscv if ARCH is riscv64 or riscv32
+References: <479c5c98-0e0d-072d-dae1-f91629989e46@gmail.com>
+ <CAK7LNASxaJMUAS6vgcDX3jwM9LQj7Lz8RX941FQhrDrtJSt6GA@mail.gmail.com>
+In-Reply-To: <CAK7LNASxaJMUAS6vgcDX3jwM9LQj7Lz8RX941FQhrDrtJSt6GA@mail.gmail.com>
+
+--------------I9woVjAhPvnj4Iqbm0KgwoD0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Masahiro,
+
+On 3/30/22 11:31 AM, Masahiro Yamada wrote:
+> On Wed, Mar 30, 2022 at 11:34 PM Ben Westover <kwestover.kw@gmail.com> =
+wrote:
+>>
+>> When riscv64 or riscv32 are used as the value for ARCH during compilat=
+ion, like
+>> in tools that get the ARCH value from uname, set SRCARCH to riscv inst=
+ead of
+>> failing because the riscv64 and riscv32 targets don't exist.
+>=20
+> Can you refer to the code that really needs this?
+Some software like DKMS compiles out-of-tree modules by running `uname -m=
+`and
+using that for the ARCH value. Without this patch, that compilation fails=
+ because
+uname shows either riscv64 or riscv32 while riscv should be used.
+This code already exists for sparc and parisc, as well as x86 of course.
+
+Thanks,
+--
+Ben Westover
+
+--------------I9woVjAhPvnj4Iqbm0KgwoD0--
+
+--------------CNumU1QqguCijxQIViP4s0gy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEOGnacqRhdU6eNmtFwxHF9U6JtpgFAmJEpAEFAwAAAAAACgkQwxHF9U6JtphI
+FQ//eBXMorXQ1ynRB84bL3yXZA7QvEoZagpg10OmqZiMoAOetYtmHt5/JSLJNDZZzV1UkI2rmFvu
+V7mgnY5gRTHVexIO/JmGt21iLpTW/ZXljz1hLoyHxWlAeySHlXgRTGyCzJOJlri89WVKqmjV4ZFy
+OdVP+0WbgCWAo3npLcn8yYEkzXhTIoXSZghiwnfWlWfWryn3TjPkBxi5ncpNDLr2u1Imp0Ps8YVp
+dwd5/o2apPCIJ++vVXs12z/YMvORjBk+iLuQkB42SN3tbaBcZKcK3Fbyqyde9WBre/hHx12vwPNa
+1So3POhnM4xRLxSXEqGQhn1JYA4QlbUTFUNHhSjRvOykMZmtih6owc/J8CCa+9xHpWcn/whN6FCq
+J4MEIWmkospWONCQsbEb/gkpTtDLuYla0T2gkCJ233D4pTXejQvmDDFCYkyQzrcSpprWXaMrKzNR
+BwF4zTWDOQeEQbJlxIssWATiXLAYYJ6PT3yddfTkzNOI3cqDSM2LeBMtUkUQvr63eU/OlzH0ClQi
+RJfpUU3ZNBcM5tR2jJ6HaDlP08Dkwegcq6VRfGt0VNvfBHe9T6kYszssQWMEU4c+PlvSh0ETR1Y1
+sduLfQdTcVgTtLV1ZUMkttnblnII6CT6J90B+d8sahlMMXSM+vQSX3ytrENMmzkXn2ZkzvFDWjDw
+bYQ=
+=jQFd
+-----END PGP SIGNATURE-----
+
+--------------CNumU1QqguCijxQIViP4s0gy--
