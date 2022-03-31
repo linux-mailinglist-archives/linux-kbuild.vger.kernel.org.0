@@ -2,74 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2D14EDC0D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 16:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC8AD4EDD8E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 17:42:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237785AbiCaOuO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Mar 2022 10:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54708 "EHLO
+        id S239207AbiCaPm3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Mar 2022 11:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236576AbiCaOuO (ORCPT
+        with ESMTP id S239073AbiCaPmJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Mar 2022 10:50:14 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A213222A2;
-        Thu, 31 Mar 2022 07:48:26 -0700 (PDT)
+        Thu, 31 Mar 2022 11:42:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E8B4C402;
+        Thu, 31 Mar 2022 08:37:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E4229B82147;
-        Thu, 31 Mar 2022 14:48:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E70BC340ED;
-        Thu, 31 Mar 2022 14:48:21 +0000 (UTC)
-Date:   Thu, 31 Mar 2022 10:48:20 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Beau Belgrave <beaub@linux.microsoft.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-trace-devel <linux-trace-devel@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F9C361B6C;
+        Thu, 31 Mar 2022 15:37:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01886C340ED;
+        Thu, 31 Mar 2022 15:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648741028;
+        bh=1WPwzaVch64w0jPi0NN43I4/H8/WTq+VtwzIW+KkQKA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RNmWiGT+crMQsM0b3tQ+NN/NzxNDX8/ABeNcRPmBNkdmXt7kmIb3hVQ0nHMHWfWku
+         9/l2fK1sHy2Elc7UGMtooY/262uX9gkPe2CLYRb1T5z5pfjHi+L0R2Sok2wSRI+4KN
+         xiGlR3mUDFoYPoY0uH6ttuz0i19W5JoJGKAD7XV5RT6lzlKEafCkzoKcOkqzcGhZ7b
+         OfRl/2UvC3QgSmYnSrjhdfvfiMTuCv0O3wj5VlqlXEK61YjhnCQ5jw9AXee1W/nMqO
+         N91d5dq9OkpWt2sQahIYVpKw/gHr48+8zOlpB0wh0ysz9+XjG/KI4Fbu5u0qKb7hvx
+         zZuxrPq+apX9Q==
+Date:   Thu, 31 Mar 2022 08:37:01 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] tracing: do not export user_events uapi
-Message-ID: <20220331104820.4506c8ba@gandalf.local.home>
-In-Reply-To: <CAK7LNAR_2jJWJbaUfLDaDJOuJTx_RHj_Ow5coK1k4Y5HGLRQrA@mail.gmail.com>
-References: <20220330201755.29319-1-mathieu.desnoyers@efficios.com>
-        <20220330162152.17b1b660@gandalf.local.home>
-        <CAK7LNATm5FjZsXL6aKUMhXwQAqTuO9+LmAk3LGjpAib7NZBDmg@mail.gmail.com>
-        <20220331081337.07ddf251@gandalf.local.home>
-        <CAK7LNAR_2jJWJbaUfLDaDJOuJTx_RHj_Ow5coK1k4Y5HGLRQrA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-um@lists.infradead.org, llvm@lists.linux.dev,
+        patches@lists.linux.dev
+Subject: Re: [PATCH 1/2] kbuild: Remove '-mno-global-merge'
+Message-ID: <YkXKnRwvbMdvOtlJ@thelio-3990X>
+References: <20220330234528.1426991-1-nathan@kernel.org>
+ <20220330234528.1426991-2-nathan@kernel.org>
+ <CA+icZUXrVgGyaujA1iQEw5P3nJHVwMtbFxpE2gKktaxW0Xg-wg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUXrVgGyaujA1iQEw5P3nJHVwMtbFxpE2gKktaxW0Xg-wg@mail.gmail.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 31 Mar 2022 23:41:34 +0900
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Mar 31, 2022 at 09:11:12AM +0200, Sedat Dilek wrote:
+> On Thu, Mar 31, 2022 at 5:27 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > This flag is specific to clang, where it is only used by the 32-bit and
+> > 64-bit ARM backends. In certain situations, the presence of this flag
+> > will cause a warning, as shown by commit 6580c5c18fb3 ("um: clang: Strip
+> > out -mno-global-merge from USER_CFLAGS").
+> >
+> > Since commit 61163efae020 ("kbuild: LLVMLinux: Add Kbuild support for
+> > building kernel with Clang") that added this flag back in 2014, there
+> > have been quite a few changes to the GlobalMerge pass in LLVM. Building
+> > several different ARCH=arm and ARCH=arm64 configurations with LLVM 11
+> > (minimum) and 15 (current main version) with this flag removed (i.e.,
+> > with the default of '-mglobal-merge') reveals no modpost warnings, so it
+> > is likely that the issue noted in the comment is no longer relevant due
+> > to changes in LLVM or modpost, meaning this flag can be removed.
+> >
+> > If any new warnings show up that are a result of the removal of this
+> > flag, it can be added back under arch/arm{,64}/Makefile to avoid
+> > warnings on other architectures.
+> >
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> >  Makefile | 4 ----
+> >  1 file changed, 4 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index daeb5c88b50b..f2723d9bfca4 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -784,10 +784,6 @@ ifdef CONFIG_CC_IS_CLANG
+> >  KBUILD_CPPFLAGS += -Qunused-arguments
+> >  # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
+> >  KBUILD_CFLAGS += -Wno-gnu
+> > -# CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
+> > -# source of a reference will be _MergedGlobals and not on of the whitelisted names.
+> > -# See modpost pattern 2
+> > -KBUILD_CFLAGS += -mno-global-merge
+> >  else
+> >
+> >  # gcc inanely warns about local variables called 'main'
+> > --
+> > 2.35.1
+> >
+> 
+> I have tested this several times and was able to boot into bar metal -
+> no problems with building and/or booting my kernel-modules.
+> 
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-> Either 1 or 2 is OK
-> if  you are sure this will be fixed sooner or later.
+I would be very concerned if you did see any impact, given this flag is
+ARM specific :) thanks as always for verifying!
 
-Thanks,
+> Just as a side-note:
+> As with Linux v5.18-rc1 and -std=gnu11 we change the above comment ...?
+> 
+> # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
+> KBUILD_CFLAGS += -Wno-gnu
 
-Then I'll go and pull in Mathieu's patch.
+It was updated as part of the shift to '-std=gnu11':
 
-I want this done too, and I believe Beau has a vested interest to get this
-correctly done as well, thus it should be worked on and hopefully we will
-have something solid by the next merge window.
+https://git.kernel.org/linus/e8c07082a810fbb9db303a2b66b66b8d7e588b53
 
--- Steve
+The UML tree is based on 5.17-rc6, which does not have that change.
+There should not be a merge conflict though.
+
+Cheers,
+Nathan
