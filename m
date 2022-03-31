@@ -2,133 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC8AD4EDD8E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 17:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10974EDE6B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 18:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239207AbiCaPm3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Mar 2022 11:42:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51536 "EHLO
+        id S239650AbiCaQJT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Mar 2022 12:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239073AbiCaPmJ (ORCPT
+        with ESMTP id S233760AbiCaQJS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Mar 2022 11:42:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E8B4C402;
-        Thu, 31 Mar 2022 08:37:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F9C361B6C;
-        Thu, 31 Mar 2022 15:37:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01886C340ED;
-        Thu, 31 Mar 2022 15:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648741028;
-        bh=1WPwzaVch64w0jPi0NN43I4/H8/WTq+VtwzIW+KkQKA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RNmWiGT+crMQsM0b3tQ+NN/NzxNDX8/ABeNcRPmBNkdmXt7kmIb3hVQ0nHMHWfWku
-         9/l2fK1sHy2Elc7UGMtooY/262uX9gkPe2CLYRb1T5z5pfjHi+L0R2Sok2wSRI+4KN
-         xiGlR3mUDFoYPoY0uH6ttuz0i19W5JoJGKAD7XV5RT6lzlKEafCkzoKcOkqzcGhZ7b
-         OfRl/2UvC3QgSmYnSrjhdfvfiMTuCv0O3wj5VlqlXEK61YjhnCQ5jw9AXee1W/nMqO
-         N91d5dq9OkpWt2sQahIYVpKw/gHr48+8zOlpB0wh0ysz9+XjG/KI4Fbu5u0qKb7hvx
-         zZuxrPq+apX9Q==
-Date:   Thu, 31 Mar 2022 08:37:01 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
+        Thu, 31 Mar 2022 12:09:18 -0400
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC7A1F0CB9;
+        Thu, 31 Mar 2022 09:07:30 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 6DF133D4E12;
+        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id JRYGslxfhPRR; Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 18AAA3D4E11;
+        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 18AAA3D4E11
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1648742849;
+        bh=jx6gZg83afo7MOp42wOlJpwj/Jm9YIc4UWICwF/Z2j0=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=MxoPp8bKKDLmzIwiElUJrkDBFIkC/Tr0HvvD/oqo2jBdk4bEwG8EXtSenwTDFjJnn
+         SOPpEU3sM57D0c1BOOeqkYki945UhL/vwX6bo8ovSg2g9M6HHA+yzOBFktuPqXiA0Q
+         ahD2cyihm7uLzv9aQrAgu+MGPgF/lJ3UcxlVgAcVYSh9sRRVVQwvvI55Yspx+kxZUx
+         C8oWwwpyDltHmDupteLWI4LIkO7VCDtHeL7X0goq1o9D39Hx1DM5Fhu+ovdF/EUtih
+         hYhofjbzJ6Bi6Lmwl2d4BAhA/EOJz28Z9Mu/OufavmNCTE3rcLZ+2yEX/Ro0AUZmSS
+         7CP/ZgMXQ1J6w==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id NP21fSpX9mGH; Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 0588F3D4AEE;
+        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
+Date:   Thu, 31 Mar 2022 12:07:28 -0400 (EDT)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     rostedt <rostedt@goodmis.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-um@lists.infradead.org, llvm@lists.linux.dev,
-        patches@lists.linux.dev
-Subject: Re: [PATCH 1/2] kbuild: Remove '-mno-global-merge'
-Message-ID: <YkXKnRwvbMdvOtlJ@thelio-3990X>
-References: <20220330234528.1426991-1-nathan@kernel.org>
- <20220330234528.1426991-2-nathan@kernel.org>
- <CA+icZUXrVgGyaujA1iQEw5P3nJHVwMtbFxpE2gKktaxW0Xg-wg@mail.gmail.com>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Beau Belgrave <beaub@linux.microsoft.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-trace-devel <linux-trace-devel@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        ndesaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Message-ID: <602770698.200731.1648742848915.JavaMail.zimbra@efficios.com>
+In-Reply-To: <20220331081337.07ddf251@gandalf.local.home>
+References: <20220330201755.29319-1-mathieu.desnoyers@efficios.com> <20220330162152.17b1b660@gandalf.local.home> <CAK7LNATm5FjZsXL6aKUMhXwQAqTuO9+LmAk3LGjpAib7NZBDmg@mail.gmail.com> <20220331081337.07ddf251@gandalf.local.home>
+Subject: Re: [PATCH] tracing: do not export user_events uapi
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUXrVgGyaujA1iQEw5P3nJHVwMtbFxpE2gKktaxW0Xg-wg@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF98 (Linux)/8.8.15_GA_4232)
+Thread-Topic: tracing: do not export user_events uapi
+Thread-Index: soUfjk+gMtJ4HZ3jFxLYOaG8qofUxg==
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 09:11:12AM +0200, Sedat Dilek wrote:
-> On Thu, Mar 31, 2022 at 5:27 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > This flag is specific to clang, where it is only used by the 32-bit and
-> > 64-bit ARM backends. In certain situations, the presence of this flag
-> > will cause a warning, as shown by commit 6580c5c18fb3 ("um: clang: Strip
-> > out -mno-global-merge from USER_CFLAGS").
-> >
-> > Since commit 61163efae020 ("kbuild: LLVMLinux: Add Kbuild support for
-> > building kernel with Clang") that added this flag back in 2014, there
-> > have been quite a few changes to the GlobalMerge pass in LLVM. Building
-> > several different ARCH=arm and ARCH=arm64 configurations with LLVM 11
-> > (minimum) and 15 (current main version) with this flag removed (i.e.,
-> > with the default of '-mglobal-merge') reveals no modpost warnings, so it
-> > is likely that the issue noted in the comment is no longer relevant due
-> > to changes in LLVM or modpost, meaning this flag can be removed.
-> >
-> > If any new warnings show up that are a result of the removal of this
-> > flag, it can be added back under arch/arm{,64}/Makefile to avoid
-> > warnings on other architectures.
-> >
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >  Makefile | 4 ----
-> >  1 file changed, 4 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index daeb5c88b50b..f2723d9bfca4 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -784,10 +784,6 @@ ifdef CONFIG_CC_IS_CLANG
-> >  KBUILD_CPPFLAGS += -Qunused-arguments
-> >  # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
-> >  KBUILD_CFLAGS += -Wno-gnu
-> > -# CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
-> > -# source of a reference will be _MergedGlobals and not on of the whitelisted names.
-> > -# See modpost pattern 2
-> > -KBUILD_CFLAGS += -mno-global-merge
-> >  else
-> >
-> >  # gcc inanely warns about local variables called 'main'
-> > --
-> > 2.35.1
-> >
+----- On Mar 31, 2022, at 8:13 AM, rostedt rostedt@goodmis.org wrote:
+
+> On Thu, 31 Mar 2022 16:29:30 +0900
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
 > 
-> I have tested this several times and was able to boot into bar metal -
-> no problems with building and/or booting my kernel-modules.
+>> Well, the intended usage of no-export-headers is to
+>> cater to the UAPI supported by only some architectures.
+>> We have kvm(_para).h here because not all architectures
+>> support kvm.
+>> 
+>> If you do not want to export the UAPI,
+>> you should not put it in include/uapi/.
+>> 
+>> After the API is finalized, you can move it to
+>> include/uapi.
 > 
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-
-I would be very concerned if you did see any impact, given this flag is
-ARM specific :) thanks as always for verifying!
-
-> Just as a side-note:
-> As with Linux v5.18-rc1 and -std=gnu11 we change the above comment ...?
+> So a little bit of background. I and a few others thought it was done, and
+> pushed it to Linus. Then when it made it into his tree (and mentioned on
+> LWN) it got a wider audience that had concerns. After they brought up those
+> concerns, we agreed that this needs a bit more work. I was hoping not to do
+> a full revert and simply marked the change for broken so that it can be
+> worked on upstream with the wider audience. Linus appears to be fine with
+> this approach, as he helped me with my "mark for BROKEN" patch.
 > 
-> # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
-> KBUILD_CFLAGS += -Wno-gnu
+> Mathieu's concern is that this header file could be used in older distros
+> with newer kernels that have it implemented and added this to keep out of
+> those older distros.
+> 
+> The options to make Mathieu sleep better at night are:
+> 
+> 1) this patch
+> 
+> 2) move this file out of uapi.
 
-It was updated as part of the shift to '-std=gnu11':
+I would be fine with this approach as well. This is simple enough:
 
-https://git.kernel.org/linus/e8c07082a810fbb9db303a2b66b66b8d7e588b53
+git mv include/uapi/linux/user_events.h include/linux/
 
-The UML tree is based on 5.17-rc6, which does not have that change.
-There should not be a merge conflict though.
+and:
 
-Cheers,
-Nathan
+diff --git a/kernel/trace/trace_events_user.c b/kernel/trace/trace_events_user.c
+index 8b3d241a31c2..823d7b09dcba 100644
+--- a/kernel/trace/trace_events_user.c
++++ b/kernel/trace/trace_events_user.c
+@@ -18,7 +18,7 @@
+ #include <linux/tracefs.h>
+ #include <linux/types.h>
+ #include <linux/uaccess.h>
+-#include <uapi/linux/user_events.h>
++#include <linux/user_events.h>
+ #include "trace.h"
+ #include "trace_dynevent.h"
+
+Including <linux/user_events.h> will continue to work even when the header is
+moved to uapi in the future.
+
+Thanks,
+
+Mathieu
+
+
+> 
+> 3) revert the entire thing.
+> 
+> I really do not want to do #3 but I am willing to do 1 or 2.
+> 
+> -- Steve
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
