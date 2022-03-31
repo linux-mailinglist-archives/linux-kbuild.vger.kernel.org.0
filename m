@@ -2,190 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6764ED2B4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 06:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2A024ED31D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 06:57:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbiCaEPU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Mar 2022 00:15:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
+        id S229499AbiCaE7d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Mar 2022 00:59:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbiCaEPG (ORCPT
+        with ESMTP id S229483AbiCaE7b (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Mar 2022 00:15:06 -0400
-X-Greylist: delayed 247 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 30 Mar 2022 20:48:12 PDT
-Received: from condef-05.nifty.com (condef-05.nifty.com [202.248.20.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D352976F0;
-        Wed, 30 Mar 2022 20:48:11 -0700 (PDT)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-05.nifty.com with ESMTP id 22V3TdnN022336;
-        Thu, 31 Mar 2022 12:29:39 +0900
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 22V3SnTf021405;
-        Thu, 31 Mar 2022 12:28:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 22V3SnTf021405
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648697329;
-        bh=ebHiMyRXav+yYbj4YhCL/RfqMUHBooyu6ftffopVXqQ=;
-        h=From:Date:Subject:To:Cc:From;
-        b=ZGlny3DA71k8ikJLnGyRECTgQyO7xB3etGAcHL4IWMO2Ll4b1J0pvlKnJM6AWNI/S
-         vehegfWxV6DWJKljebu7hHx/yBy9HapwmdQFKVXH1vMK1S1tG7vvjNshvcQ3MV01dZ
-         sgeWR0KJJfkyuqGs5cIduOFXEjYAScCNprr0D9KZJ+t84TRxO6vcayUiX7EFvKskrZ
-         el+I+pNisq47KJy//MUN31nF4DYYOAoYdfPbJG4DCoazZMpyTv9PPXToP0kI0IrFiM
-         Jp9qzvuPHejQroq+g7vy2v5GWh18a1Gb/0ojfp5VA6Jmaq+hsu078C2rqfsQC2sJ3/
-         5dyf7fD8EwWMA==
-X-Nifty-SrcIP: [209.85.214.174]
-Received: by mail-pl1-f174.google.com with SMTP id x2so22249710plm.7;
-        Wed, 30 Mar 2022 20:28:49 -0700 (PDT)
-X-Gm-Message-State: AOAM531+3HbmcqDSOE5+ATyjEQKbPeMoGSO27dzEpnosi7tjKWvLt/+a
-        ma2aPaSiZb0eUCQ9cfe+Pc3yYBjHSJ121+6EbKM=
-X-Google-Smtp-Source: ABdhPJy9ZE47MB+xD259EDGtBKxUDhqoi9uMl1Rs9lqYW9wobU0i+Q3DHJM1+HZ9gz0lLLrx7ELC6Su6RTCswDVVQZ8=
-X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
- s7-20020a170902988700b001516e1c7082mr3171203plp.162.1648697328481; Wed, 30
- Mar 2022 20:28:48 -0700 (PDT)
+        Thu, 31 Mar 2022 00:59:31 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 181DE32051
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Mar 2022 21:57:45 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id m18so17493095plx.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Mar 2022 21:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RdZk9i6x3JUMXUMZExcnmZQSoLNlGLPED3J5A3uwvzA=;
+        b=AouGX65RPyNIzjTOwJsTyIqO0ld7tKqu63LKiO4H4YaTnus5DJqytPEigiB578vhkK
+         XmFHTMTc4O9rBt+kTr1fnDN3YuObyEDhKu+m884aWlNIJHX+XMjLiREYCay8fAkw6Kv8
+         tqah5zQ70EEIBChOv3Ivtq/GLvXlS9MpjIYt8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RdZk9i6x3JUMXUMZExcnmZQSoLNlGLPED3J5A3uwvzA=;
+        b=12aoHColYPy8LqADLRwZnWPewHHFd8ty5aSmpXNVUvvHC/+iV//cJUenKuZV88Cs0p
+         GrRi/RzGc9HZv59rPxN+GiF6HkzTCe0c2LsGOyOIvmplnKnrEHY+ujSSQ7tidr65ggg3
+         tZFIR4Z8i2JxXyOJCFl2Mu4mRXnqH8hPUXwMHQl/PXfFbN/hlaLXMVsnqTciI+Q8dUkV
+         DxcTdliKp9bDKzV4YF8rwbKlajbGBpE1wKeF7mpKR3po0iMoH0ikGFb6JK1BjN2bUCcs
+         jEPRTiP83H0C0JrQQvAPWfqz1TBcI/cxMdmeG9/Y4UVVxkt5jxDUH1pYkx+SjrbEacL6
+         BkLw==
+X-Gm-Message-State: AOAM5301y910x5UHIve6AMyHX0+cvGfWkfWxmsrFU9/B5T1EUQr0o47U
+        3Eigg54bSwS5NXgCAoCPb3yQPw==
+X-Google-Smtp-Source: ABdhPJzfIRpnfEt5n0GvvQSkKx3DziOK9JbR3UnlvHqsQcFI/ZcBzRB0/k/lBwMSJdHfPCI5q3+6wg==
+X-Received: by 2002:a17:902:be14:b0:14f:ce67:d0a1 with SMTP id r20-20020a170902be1400b0014fce67d0a1mr3162210pls.29.1648702664441;
+        Wed, 30 Mar 2022 21:57:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z9-20020a63b909000000b003823389e47csm20850546pge.9.2022.03.30.21.57.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Mar 2022 21:57:44 -0700 (PDT)
+Date:   Wed, 30 Mar 2022 21:57:43 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-um@lists.infradead.org, llvm@lists.linux.dev,
+        patches@lists.linux.dev
+Subject: Re: [PATCH 1/2] kbuild: Remove '-mno-global-merge'
+Message-ID: <202203302156.87918948B8@keescook>
+References: <20220330234528.1426991-1-nathan@kernel.org>
+ <20220330234528.1426991-2-nathan@kernel.org>
 MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 31 Mar 2022 12:28:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ1OPH-WFLyUfmVMUE4in7tbcdNME-Cp=OvJfUAJAPZ9g@mail.gmail.com>
-Message-ID: <CAK7LNAQ1OPH-WFLyUfmVMUE4in7tbcdNME-Cp=OvJfUAJAPZ9g@mail.gmail.com>
-Subject: [GIT PULL v2] Kbuild updates for v5.18-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330234528.1426991-2-nathan@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Wed, Mar 30, 2022 at 04:45:27PM -0700, Nathan Chancellor wrote:
+> This flag is specific to clang, where it is only used by the 32-bit and
+> 64-bit ARM backends. In certain situations, the presence of this flag
+> will cause a warning, as shown by commit 6580c5c18fb3 ("um: clang: Strip
+> out -mno-global-merge from USER_CFLAGS").
+> 
+> Since commit 61163efae020 ("kbuild: LLVMLinux: Add Kbuild support for
+> building kernel with Clang") that added this flag back in 2014, there
+> have been quite a few changes to the GlobalMerge pass in LLVM. Building
+> several different ARCH=arm and ARCH=arm64 configurations with LLVM 11
+> (minimum) and 15 (current main version) with this flag removed (i.e.,
+> with the default of '-mglobal-merge') reveals no modpost warnings, so it
+> is likely that the issue noted in the comment is no longer relevant due
+> to changes in LLVM or modpost, meaning this flag can be removed.
+> 
+> If any new warnings show up that are a result of the removal of this
+> flag, it can be added back under arch/arm{,64}/Makefile to avoid
+> warnings on other architectures.
+> 
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-This is v2 for the remaining Kbuild changes.
+Yeah, this looks right -- the history of this option seems to show it
+is no longer needed.
 
-I dropped the
-"# CONFIG_FOO is not set"   to CONFIG_FOO=n
-change in Kconfig.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Thank you.
-
-
-
-
-The following changes since commit 754e0b0e35608ed5206d6a67a791563c631cec07:
-
-  Linux 5.17-rc4 (2022-02-13 12:13:30 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-v5.18-v2
-
-for you to fetch changes up to e9c281928c24dfeb86b11c31b53757b6a127f8aa:
-
-  kbuild: Make $(LLVM) more flexible (2022-03-31 12:03:46 +0900)
-
-----------------------------------------------------------------
-Kbuild updates for v5.18
-
- - Add new environment variables, USERCFLAGS and USERLDFLAGS to allow
-   additional flags to be passed to user-space programs.
-
- - Fix missing fflush() bugs in Kconfig and fixdep
-
- - Fix a minor bug in the comment format of the .config file
-
- - Make kallsyms ignore llvm's local labels, .L*
-
- - Fix UAPI compile-test for cross-compiling with Clang
-
- - Extend the LLVM= syntax to support LLVM=<suffix> form for using a
-   particular version of LLVm, and LLVM=<prefix> form for using custom
-   LLVM in a particular directory path.
-
- - Clean up Makefiles
-
-----------------------------------------------------------------
-Changbin Du (1):
-      kallsyms: ignore all local labels prefixed by '.L'
-
-Elliot Berman (1):
-      kbuild: Add environment variables for userprogs flags
-
-Masahiro Yamada (10):
-      kbuild: unify cmd_copy and cmd_shipped
-      kbuild: replace $(if A,A,B) with $(or A,B)
-      kconfig: add fflush() before ferror() check
-      kconfig: fix missing '# end of' for empty menu
-      certs: include certs/signing_key.x509 unconditionally
-      certs: simplify empty certs creation in certs/Makefile
-      usr/include: replace extra-y with always-y
-      arch: syscalls: simplify uapi/kapi directory creation
-      fixdep: use fflush() and ferror() to ensure successful write to files
-      kbuild: add --target to correctly cross-compile UAPI headers with Clang
-
-Nathan Chancellor (1):
-      kbuild: Make $(LLVM) more flexible
-
- Documentation/kbuild/kbuild.rst             | 11 +++++++++++
- Documentation/kbuild/llvm.rst               | 31
-+++++++++++++++++++++++++------
- Documentation/kbuild/makefiles.rst          |  2 ++
- Makefile                                    | 44
-++++++++++++++++++++++++++------------------
- arch/alpha/kernel/syscalls/Makefile         |  3 +--
- arch/arm/tools/Makefile                     |  3 +--
- arch/ia64/kernel/syscalls/Makefile          |  3 +--
- arch/m68k/kernel/syscalls/Makefile          |  3 +--
- arch/microblaze/boot/Makefile               |  2 +-
- arch/microblaze/boot/dts/Makefile           |  2 +-
- arch/microblaze/kernel/syscalls/Makefile    |  3 +--
- arch/mips/kernel/syscalls/Makefile          |  3 +--
- arch/parisc/kernel/syscalls/Makefile        |  3 +--
- arch/powerpc/kernel/syscalls/Makefile       |  3 +--
- arch/s390/kernel/syscalls/Makefile          |  3 +--
- arch/sh/kernel/syscalls/Makefile            |  3 +--
- arch/sparc/kernel/syscalls/Makefile         |  3 +--
- arch/x86/entry/syscalls/Makefile            |  3 +--
- arch/xtensa/kernel/syscalls/Makefile        |  3 +--
- certs/Makefile                              | 37
-+++++++++++--------------------------
- certs/system_certificates.S                 |  3 ---
- fs/unicode/Makefile                         |  2 +-
- init/Kconfig                                |  8 ++++----
- scripts/Makefile.build                      |  3 +--
- scripts/Makefile.clean                      |  2 +-
- scripts/Makefile.lib                        | 16 ++++++----------
- scripts/basic/fixdep.c                      | 46
-+++++++++++++++++++---------------------------
- scripts/kallsyms.c                          |  2 +-
- scripts/kconfig/confdata.c                  | 27 +++++++++++++++------------
- tools/bpf/bpftool/Makefile                  |  4 ++--
- tools/build/Makefile                        |  2 +-
- tools/counter/Makefile                      |  2 +-
- tools/gpio/Makefile                         |  2 +-
- tools/hv/Makefile                           |  2 +-
- tools/iio/Makefile                          |  2 +-
- tools/lib/api/Makefile                      |  2 +-
- tools/lib/bpf/Makefile                      |  2 +-
- tools/lib/perf/Makefile                     |  2 +-
- tools/lib/subcmd/Makefile                   |  2 +-
- tools/objtool/Makefile                      |  2 +-
- tools/pci/Makefile                          |  2 +-
- tools/perf/Makefile.perf                    |  4 ++--
- tools/power/x86/intel-speed-select/Makefile |  2 +-
- tools/scripts/Makefile.include              | 22 ++++++++++++++--------
- tools/scripts/utilities.mak                 |  2 +-
- tools/spi/Makefile                          |  6 +++---
- tools/testing/selftests/lib.mk              |  8 +++++++-
- tools/tracing/rtla/Makefile                 |  2 +-
- tools/usb/Makefile                          |  2 +-
- usr/Makefile                                |  4 ++--
- usr/include/Makefile                        |  7 +++++--
- 51 files changed, 188 insertions(+), 174 deletions(-)
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Kees Cook
