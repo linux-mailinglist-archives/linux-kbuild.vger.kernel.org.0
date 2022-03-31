@@ -2,102 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DEF14EDFAE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 19:31:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 145D04EE124
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 20:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbiCaRdN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Mar 2022 13:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42736 "EHLO
+        id S232565AbiCaSzW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Mar 2022 14:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbiCaRdL (ORCPT
+        with ESMTP id S237374AbiCaSzU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Mar 2022 13:33:11 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3FB1C60F5
-        for <linux-kbuild@vger.kernel.org>; Thu, 31 Mar 2022 10:31:21 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 17so745760lji.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 31 Mar 2022 10:31:20 -0700 (PDT)
+        Thu, 31 Mar 2022 14:55:20 -0400
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97AE949903;
+        Thu, 31 Mar 2022 11:53:32 -0700 (PDT)
+Received: by mail-io1-xd29.google.com with SMTP id z7so617757iom.1;
+        Thu, 31 Mar 2022 11:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=37DeCDWlzdqkrXbAxfAuhXVMiTsGHz0hz+oO3LlsSAk=;
-        b=OpXbfuoWXGtoVCxlYREjKa12nC/ZS5c6WIcrnkI8eccbmu5/uLBWGYimttqpYS8VW3
-         +7YGiaqEFrS3FpnuX2EDtUfr5SLVwwJS16vOz9O1xs7VQoRsqwXQVyTm2DHS+HBbUKJW
-         JcnKmGiKnrrFpcQsKy0swpAqSluMvhVusfDjp7x4US+WiiiWR7htYGSSYN9BMjK+PNzB
-         3bDKkdDzBq8iD1v2ploXFNsOGBgurGnmJmFODojEuOx7h5IJv9a3ZyGps5XW+zm3ZwP3
-         IyNp8IubOAJdKp98Y8byqVMwum46U2PVLc0kWpI3Dx2X+rTq5WlWvdzZTZ10/09brYbh
-         5/SQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=fjHiw3tSlF8xzWdnfkDJb8f7xRlTsPnt1EO5+A/JUI0=;
+        b=IJG/vzXBHrQid5Fx+EDcVAs9Ne8QV4eyVw+Gp8x1ezIxrePb1NplYbLGAZrcslz9xJ
+         6StX0CKnZb5FjBqMF0yZG48YfddNonUtscxgadjdMcB+ky+3dVsLffJK4f4n4PsXGCge
+         dGfmSz8FNMr6ywgtj6OLg/GWLFAhMg7hyzZK8GZTISwvsdFhihDtzoBwGuVodwGAs2lG
+         SpKvZvIjnCrs/B8+AZwhiQXtl/+iPu1vMfm+qErDh6YtYbOQUi/6Lp7MR7XhVxakyavj
+         FqEUuKMab98QbGcLdsdF6vywmlSYTBsrbmbYDSxin/S73pPROkkMZPjuF3mMfrV7BVQU
+         qqdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=37DeCDWlzdqkrXbAxfAuhXVMiTsGHz0hz+oO3LlsSAk=;
-        b=QTgs5pBeAlCw7+f6vB5qrm1Oz8+SFe6uRyNQvLaBIRbOJdVSDODWDrbnTXVWDGwwGY
-         6ogzg2DsQaO/qqNedyI2LqjX2v4kPVPlNP+HH41dtZ+isMi+mQPv91gIDyLIrhd/LJVO
-         fkCXWm2ZlPrdqkR4+iOkAPXKbOFPPNKXw6gepPFh0SGzdj/o0MVI9FGJH9hWzsXqQ1ix
-         YYsFqdXTt9yi4u8omhGZVTG2MtXKrARY+ibUHWUz7j9VIGeYNrlKrZt/8ULaQ1gdReCa
-         knIYjXYffMiLExRsbO4K+oKHopi8ercQVyVWXvnGPgdptjQWhGSCo+90x/C5eG2Gqirr
-         Mqrw==
-X-Gm-Message-State: AOAM531oQjJDcfg+nakAcEnB5MhP9zgmtW2LApzyFZsiHooFck6doBAL
-        4BsqIUasMokywfLKpspvipmMYq2FvlaShccPQ4PjtA==
-X-Google-Smtp-Source: ABdhPJyIrADojlxnjoJbjHABCl+RY1oRMepIxM5nb9mo2vXqxPk9ksIqJg+9gS8ogRsiwQgdyPv54GWhmXZP85nX5oI=
-X-Received: by 2002:a05:651c:1508:b0:249:b843:208f with SMTP id
- e8-20020a05651c150800b00249b843208fmr11115015ljf.239.1648747874376; Thu, 31
- Mar 2022 10:31:14 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=fjHiw3tSlF8xzWdnfkDJb8f7xRlTsPnt1EO5+A/JUI0=;
+        b=Ru0fVPvaAh0dquA1Neo0Btwqhk9oLdzBLFZzvHFHwv9xQxBHOkmPIfgvMV5tCS4FBV
+         +NgdzDIjzthkUcZH3UnLvNZ6EQIL34fiQKHMk7hx9bLQkJnS09NPdCUyWLUNBxr0AZsP
+         tcbTOvQCMkOzQ3IWPXidWH64GuB7df5XE6YHeCMTilN5454qivuyyA9xVOwHW+gz75mn
+         Lc7L22qkn9UKkk7Xw06vzvYdznKwcyaZsutja8NA4wQY6OCaxInUhwp7UPjWq5bBmm6F
+         ZuiqqUTgikZqIPQLsNrWQqHoTFSfV0NCTSmFPPwyZ5xM0zWg89SWP9aLrS77KeR7NLAh
+         Ch5w==
+X-Gm-Message-State: AOAM530t1macq+vXzFhKpkWhWoYRHioydT7o8ffGpnveb7k+W/nUyvWJ
+        KPhxsKEMVCkejMhiPXYX1ZuLbCbFu4doDUH3vfQ=
+X-Google-Smtp-Source: ABdhPJwPysv+BsKwur5Dvxd4Qoxgl32o1LBJWqaDmMm7KgBE0tN7H8IfFeGziEZ59jhgHpSE7+2K37QOmZhQmxtuhnI=
+X-Received: by 2002:a05:6638:a3a:b0:323:5c6d:ae20 with SMTP id
+ 26-20020a0566380a3a00b003235c6dae20mr3877699jao.80.1648752811797; Thu, 31 Mar
+ 2022 11:53:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <164847778869.3060675.8115416881394543419.stgit@devnote2>
- <CAKwvOdmAYQZtzGudBjmiRZNjT+VixTdNbJmYmxc7-gQNCsHfrA@mail.gmail.com> <20220331104531.81d0edf9a85a4f69020a9f13@kernel.org>
-In-Reply-To: <20220331104531.81d0edf9a85a4f69020a9f13@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 31 Mar 2022 10:31:02 -0700
-Message-ID: <CAKwvOdmbMPBOGvcZNURK6qMx8gm7dGFiWmtX_yXheEqQ8CNLsA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] bootconfig: Support embedding a bootconfig in
- kernel for non initrd boot
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20220330234528.1426991-1-nathan@kernel.org> <20220330234528.1426991-2-nathan@kernel.org>
+ <CA+icZUXrVgGyaujA1iQEw5P3nJHVwMtbFxpE2gKktaxW0Xg-wg@mail.gmail.com> <YkXKnRwvbMdvOtlJ@thelio-3990X>
+In-Reply-To: <YkXKnRwvbMdvOtlJ@thelio-3990X>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 31 Mar 2022 20:52:55 +0200
+Message-ID: <CA+icZUV-pHn0mWCnHr2x9SrcbaQos=M=Eg7p2KOaca829DmN_w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: Remove '-mno-global-merge'
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-um@lists.infradead.org, llvm@lists.linux.dev,
+        patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 30, 2022 at 6:45 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Thu, Mar 31, 2022 at 5:37 PM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> Hi Nick,
->
-> On Wed, 30 Mar 2022 11:04:50 -0700
-> Nick Desaulniers <ndesaulniers@google.com> wrote:
->
+> On Thu, Mar 31, 2022 at 09:11:12AM +0200, Sedat Dilek wrote:
+> > On Thu, Mar 31, 2022 at 5:27 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > This flag is specific to clang, where it is only used by the 32-bit and
+> > > 64-bit ARM backends. In certain situations, the presence of this flag
+> > > will cause a warning, as shown by commit 6580c5c18fb3 ("um: clang: Strip
+> > > out -mno-global-merge from USER_CFLAGS").
+> > >
+> > > Since commit 61163efae020 ("kbuild: LLVMLinux: Add Kbuild support for
+> > > building kernel with Clang") that added this flag back in 2014, there
+> > > have been quite a few changes to the GlobalMerge pass in LLVM. Building
+> > > several different ARCH=arm and ARCH=arm64 configurations with LLVM 11
+> > > (minimum) and 15 (current main version) with this flag removed (i.e.,
+> > > with the default of '-mglobal-merge') reveals no modpost warnings, so it
+> > > is likely that the issue noted in the comment is no longer relevant due
+> > > to changes in LLVM or modpost, meaning this flag can be removed.
+> > >
+> > > If any new warnings show up that are a result of the removal of this
+> > > flag, it can be added back under arch/arm{,64}/Makefile to avoid
+> > > warnings on other architectures.
+> > >
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > > ---
+> > >  Makefile | 4 ----
+> > >  1 file changed, 4 deletions(-)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index daeb5c88b50b..f2723d9bfca4 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -784,10 +784,6 @@ ifdef CONFIG_CC_IS_CLANG
+> > >  KBUILD_CPPFLAGS += -Qunused-arguments
+> > >  # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
+> > >  KBUILD_CFLAGS += -Wno-gnu
+> > > -# CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
+> > > -# source of a reference will be _MergedGlobals and not on of the whitelisted names.
+> > > -# See modpost pattern 2
+> > > -KBUILD_CFLAGS += -mno-global-merge
+> > >  else
+> > >
+> > >  # gcc inanely warns about local variables called 'main'
+> > > --
+> > > 2.35.1
+> > >
 > >
-> > Any chance we can use
+> > I have tested this several times and was able to boot into bar metal -
+> > no problems with building and/or booting my kernel-modules.
 > >
-> > CFLAGS_REMOVE_<file>.o := $(CC_FLAGS_LTO)
-> >
-> > a la
-> > commit d2dcd3e37475 ("x86, cpu: disable LTO for cpu.c")
+> > Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 >
-> Hm, this looks good to me. Let me confirm that works.
-> (Does this mean the bootconfig.o will be compiled to elf binary?)
+> I would be very concerned if you did see any impact, given this flag is
+> ARM specific :) thanks as always for verifying!
+>
+> > Just as a side-note:
+> > As with Linux v5.18-rc1 and -std=gnu11 we change the above comment ...?
+> >
+> > # The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
+> > KBUILD_CFLAGS += -Wno-gnu
+>
+> It was updated as part of the shift to '-std=gnu11':
+>
+> https://git.kernel.org/linus/e8c07082a810fbb9db303a2b66b66b8d7e588b53
+>
+> The UML tree is based on 5.17-rc6, which does not have that change.
+> There should not be a merge conflict though.
+>
 
-I know we went with Masahiro's suggestion, which is clever and better,
-but to answer this question; yes, under LTO, the linker can link
-together inputs that are a mix of ELF object files (basically, no LTO
-optimizations) with LLVM IR (w/ LTO optimizations between such files).
--- 
-Thanks,
-~Nick Desaulniers
+Ah OK, a different base for UML.
+
+- Sedat -
