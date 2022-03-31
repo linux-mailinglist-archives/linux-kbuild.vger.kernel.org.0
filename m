@@ -2,49 +2,29 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F10974EDE6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 18:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D784EDF7B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Mar 2022 19:17:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239650AbiCaQJT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Mar 2022 12:09:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
+        id S229549AbiCaRT1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Mar 2022 13:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233760AbiCaQJS (ORCPT
+        with ESMTP id S229449AbiCaRT0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Mar 2022 12:09:18 -0400
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC7A1F0CB9;
-        Thu, 31 Mar 2022 09:07:30 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 6DF133D4E12;
-        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id JRYGslxfhPRR; Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.efficios.com (Postfix) with ESMTP id 18AAA3D4E11;
-        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 18AAA3D4E11
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-        s=default; t=1648742849;
-        bh=jx6gZg83afo7MOp42wOlJpwj/Jm9YIc4UWICwF/Z2j0=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=MxoPp8bKKDLmzIwiElUJrkDBFIkC/Tr0HvvD/oqo2jBdk4bEwG8EXtSenwTDFjJnn
-         SOPpEU3sM57D0c1BOOeqkYki945UhL/vwX6bo8ovSg2g9M6HHA+yzOBFktuPqXiA0Q
-         ahD2cyihm7uLzv9aQrAgu+MGPgF/lJ3UcxlVgAcVYSh9sRRVVQwvvI55Yspx+kxZUx
-         C8oWwwpyDltHmDupteLWI4LIkO7VCDtHeL7X0goq1o9D39Hx1DM5Fhu+ovdF/EUtih
-         hYhofjbzJ6Bi6Lmwl2d4BAhA/EOJz28Z9Mu/OufavmNCTE3rcLZ+2yEX/Ro0AUZmSS
-         7CP/ZgMXQ1J6w==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id NP21fSpX9mGH; Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
-        by mail.efficios.com (Postfix) with ESMTP id 0588F3D4AEE;
-        Thu, 31 Mar 2022 12:07:29 -0400 (EDT)
-Date:   Thu, 31 Mar 2022 12:07:28 -0400 (EDT)
-From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To:     rostedt <rostedt@goodmis.org>
+        Thu, 31 Mar 2022 13:19:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E93DFD14;
+        Thu, 31 Mar 2022 10:17:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 51C96B8218F;
+        Thu, 31 Mar 2022 17:17:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C98DC34110;
+        Thu, 31 Mar 2022 17:17:34 +0000 (UTC)
+Date:   Thu, 31 Mar 2022 13:17:32 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Beau Belgrave <beaub@linux.microsoft.com>,
@@ -56,96 +36,65 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         ndesaulniers <ndesaulniers@google.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Message-ID: <602770698.200731.1648742848915.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20220331081337.07ddf251@gandalf.local.home>
-References: <20220330201755.29319-1-mathieu.desnoyers@efficios.com> <20220330162152.17b1b660@gandalf.local.home> <CAK7LNATm5FjZsXL6aKUMhXwQAqTuO9+LmAk3LGjpAib7NZBDmg@mail.gmail.com> <20220331081337.07ddf251@gandalf.local.home>
 Subject: Re: [PATCH] tracing: do not export user_events uapi
+Message-ID: <20220331131732.5e2305ee@gandalf.local.home>
+In-Reply-To: <602770698.200731.1648742848915.JavaMail.zimbra@efficios.com>
+References: <20220330201755.29319-1-mathieu.desnoyers@efficios.com>
+        <20220330162152.17b1b660@gandalf.local.home>
+        <CAK7LNATm5FjZsXL6aKUMhXwQAqTuO9+LmAk3LGjpAib7NZBDmg@mail.gmail.com>
+        <20220331081337.07ddf251@gandalf.local.home>
+        <602770698.200731.1648742848915.JavaMail.zimbra@efficios.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF98 (Linux)/8.8.15_GA_4232)
-Thread-Topic: tracing: do not export user_events uapi
-Thread-Index: soUfjk+gMtJ4HZ3jFxLYOaG8qofUxg==
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
------ On Mar 31, 2022, at 8:13 AM, rostedt rostedt@goodmis.org wrote:
+On Thu, 31 Mar 2022 12:07:28 -0400 (EDT)
+Mathieu Desnoyers <mathieu.desnoyers@efficios.com> wrote:
 
-> On Thu, 31 Mar 2022 16:29:30 +0900
-> Masahiro Yamada <masahiroy@kernel.org> wrote:
+> diff --git a/kernel/trace/trace_events_user.c b/kernel/trace/trace_events_user.c
+> index 8b3d241a31c2..823d7b09dcba 100644
+> --- a/kernel/trace/trace_events_user.c
+> +++ b/kernel/trace/trace_events_user.c
+> @@ -18,7 +18,7 @@
+>  #include <linux/tracefs.h>
+>  #include <linux/types.h>
+>  #include <linux/uaccess.h>
+> -#include <uapi/linux/user_events.h>
+> +#include <linux/user_events.h>
+>  #include "trace.h"
+>  #include "trace_dynevent.h"
 > 
->> Well, the intended usage of no-export-headers is to
->> cater to the UAPI supported by only some architectures.
->> We have kvm(_para).h here because not all architectures
->> support kvm.
->> 
->> If you do not want to export the UAPI,
->> you should not put it in include/uapi/.
->> 
->> After the API is finalized, you can move it to
->> include/uapi.
-> 
-> So a little bit of background. I and a few others thought it was done, and
-> pushed it to Linus. Then when it made it into his tree (and mentioned on
-> LWN) it got a wider audience that had concerns. After they brought up those
-> concerns, we agreed that this needs a bit more work. I was hoping not to do
-> a full revert and simply marked the change for broken so that it can be
-> worked on upstream with the wider audience. Linus appears to be fine with
-> this approach, as he helped me with my "mark for BROKEN" patch.
-> 
-> Mathieu's concern is that this header file could be used in older distros
-> with newer kernels that have it implemented and added this to keep out of
-> those older distros.
-> 
-> The options to make Mathieu sleep better at night are:
-> 
-> 1) this patch
-> 
-> 2) move this file out of uapi.
+> Including <linux/user_events.h> will continue to work even when the header is
+> moved to uapi in the future.
 
-I would be fine with this approach as well. This is simple enough:
-
-git mv include/uapi/linux/user_events.h include/linux/
-
-and:
+Actually, when I thought of this, I was thinking more of:
 
 diff --git a/kernel/trace/trace_events_user.c b/kernel/trace/trace_events_user.c
-index 8b3d241a31c2..823d7b09dcba 100644
+index 846c27bc7aef..0f3aa855cf72 100644
 --- a/kernel/trace/trace_events_user.c
 +++ b/kernel/trace/trace_events_user.c
-@@ -18,7 +18,7 @@
+@@ -18,7 +18,11 @@
  #include <linux/tracefs.h>
  #include <linux/types.h>
  #include <linux/uaccess.h>
--#include <uapi/linux/user_events.h>
++#ifdef CONFIG_COMPILE_TEST
 +#include <linux/user_events.h>
++#else
+ #include <uapi/linux/user_events.h>
++#endif
  #include "trace.h"
  #include "trace_dynevent.h"
+ 
+That way, when we take it out of broken state, it will fail to compile, and
+remind us to put it back into the uapi directory.
 
-Including <linux/user_events.h> will continue to work even when the header is
-moved to uapi in the future.
-
-Thanks,
-
-Mathieu
-
-
-> 
-> 3) revert the entire thing.
-> 
-> I really do not want to do #3 but I am willing to do 1 or 2.
-> 
-> -- Steve
-
--- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+-- Steve
