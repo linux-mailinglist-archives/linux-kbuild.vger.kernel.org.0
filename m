@@ -2,174 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 328814EF732
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77C8F4EF737
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345532AbiDAPyv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Apr 2022 11:54:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37902 "EHLO
+        id S239282AbiDAPy4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Apr 2022 11:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353489AbiDAPhF (ORCPT
+        with ESMTP id S1351273AbiDAPof (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Apr 2022 11:37:05 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E02299A77;
-        Fri,  1 Apr 2022 08:06:14 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id j15so6425747eje.9;
-        Fri, 01 Apr 2022 08:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1aIdSTD8TnyATUg/08ECyQi65DWuH9gNC6k+3hhp9Dk=;
-        b=l7p4wBJj9lJIaiZLxB+EvoUVmuY93G/f1oiMuCwUSA0gYridJroVuNNR3AJ2aGLLT+
-         9oU+txa+YoeSLF4Q36XTrmPtJKWL6RRwSVLqZMk2gpSb6JC/SJ0rpgLTSaaouzUdJpXZ
-         ZscYjNDWx1vVKHAr+487KRYGnqapS1x6jDyvd3jFMS/qJtsFf6TjvRx2w7HwXgjSb8d4
-         x3UhRDYlb54nDwjGCeUGe6ZjPJ4sioJeHFX1tq1ThYT3wSZg+h8OGLB5G+IKoKM8qrkK
-         UiE9biavXIBl39hB2BOmg8M+ithsu9P1GJDkF19wvVaqc+0xpJzn8cG6JqlfPduYPW7v
-         0VTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1aIdSTD8TnyATUg/08ECyQi65DWuH9gNC6k+3hhp9Dk=;
-        b=z5tba7vP5Um/d7cEMeSQLDNs4nZRK4hQQpIKNNN5SPhRDDBG9z/QAWrXSbOGO8fLDI
-         Mp0eKVQMepKnO9uZpvhM8mZHpoz6gKLiZq5mrHsCPbeVyXViZf5rnFza4eCzm7wcevw2
-         h9nAYUj2vLOtctekM6eEXAmBL6GQx9VDmJsXDeN4FJUKGkwbUP4yOHfsOUiNvLIPTn+c
-         2ja9t4I0m+FjiHgEGEBUeSUknY/8eRXkjbBzM9d+3MDvC0mlKJdMIsp19ZCEyz/aHGYw
-         ml5D/BvXgIUVjM3hRdp6hI0tAcqMPd6aRUi8doA0tsigjA4+B0vgze0tc0LLemI+6dvP
-         ESDA==
-X-Gm-Message-State: AOAM531uRbrsJbZTCVKWZJzb9JtP48gLwCmgIZ9tZOP2rmlCDb7XkqK7
-        l2Mum2TPYUTJtEKLJ3x7Dd7HjWnqWm2TCg==
-X-Google-Smtp-Source: ABdhPJwsmoYsLNouKjrforxkIwsJYsjRWlQ7xS1SqjEHAgbCjUtvNeqpR7jOsQQUMhysQQtEb7SGMA==
-X-Received: by 2002:a17:907:9627:b0:6df:b95b:b028 with SMTP id gb39-20020a170907962700b006dfb95bb028mr214447ejc.568.1648825573025;
-        Fri, 01 Apr 2022 08:06:13 -0700 (PDT)
-Received: from Francescos-Air.fritz.box (host-79-3-210-6.business.telecomitalia.it. [79.3.210.6])
-        by smtp.gmail.com with ESMTPSA id hb6-20020a170907160600b006dff6a979fdsm1110522ejc.51.2022.04.01.08.06.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 08:06:12 -0700 (PDT)
-Date:   Fri, 1 Apr 2022 17:06:10 +0200
-From:   Francesco Duca <f.duca00@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Francesco Duca <s23265@iisve.it>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: use hostname -s along uname to obtain
- LINUX_COMPILE_HOST
-Message-ID: <YkcU4mpNX7AsJgbg@Francescos-Air.fritz.box>
-References: <20220330182329.52310-1-s23265@iisve.it>
- <CAK7LNARvEsh3+dix+EdcXnm2L0rh8hndQD5N2vyc0q_c0Vf7gQ@mail.gmail.com>
- <CAK7LNAQ3cj2M0+k2H0O30wdOwONGE3OVrFJfTHicpqaKPRgG3Q@mail.gmail.com>
+        Fri, 1 Apr 2022 11:44:35 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479C914D007;
+        Fri,  1 Apr 2022 08:18:03 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 231FHNEr002306;
+        Sat, 2 Apr 2022 00:17:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 231FHNEr002306
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1648826243;
+        bh=aWSDnl67ZAVuOzUgpvfUYGuvMYbT+i3ZC0clLwIqow8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HO+aCqANR698vxLRd2zHTiGEPbFLQK11xUb6OWjyYdBitBL71GXZszC12pCmb2dw7
+         +3vwoSpXZ3mBry1PL09RU7uiQ0Oui1V4BHIxsu4JqP3pbixn6q4WhttHBcFi3KB5fV
+         nXa7bQohZqYH1A14kFgPvblae8YLgtvnY601eey+LHVi5FwbV5Y5L5ea86MNGMN3t9
+         uiLFqD87ZGQYEt+fKsbRJ8IWwQPLKShQfMar7heuHDo4ik399knH29W9YZn3eLy7rd
+         fGW+r0IQ+vhBtyLipab6EGjzkBiLWM6a3LO1VSt3c7GzgM7ynbN6IFvd0JYOkJDMp+
+         U6gcwwAv0CNhA==
+X-Nifty-SrcIP: [209.85.216.49]
+Received: by mail-pj1-f49.google.com with SMTP id bx24-20020a17090af49800b001c6872a9e4eso2813207pjb.5;
+        Fri, 01 Apr 2022 08:17:23 -0700 (PDT)
+X-Gm-Message-State: AOAM530H/1agg4r76LI147oTkk9nar47nffPdS11EwK4uV89w2bG1Acl
+        hjTQEMydktztF82vcB1+lcp3sA+oiD/Ks6fh9cs=
+X-Google-Smtp-Source: ABdhPJyLhqMgW9ayGW3v4PXQ+B6/7L5uzpdrCapWyDke96izvWf0Rh0ZSlE2wWBznetoSBd44AMKM/YtlO28NT72+iM=
+X-Received: by 2002:a17:90a:8405:b0:1bc:d521:b2c9 with SMTP id
+ j5-20020a17090a840500b001bcd521b2c9mr12425126pjn.119.1648826242638; Fri, 01
+ Apr 2022 08:17:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQ3cj2M0+k2H0O30wdOwONGE3OVrFJfTHicpqaKPRgG3Q@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220329021437.308790-1-masahiroy@kernel.org>
+In-Reply-To: <20220329021437.308790-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 2 Apr 2022 00:16:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASUgORfWVMVYdJg+qKRSnSuFQhwwPPBhKsN4VwFzbk+=g@mail.gmail.com>
+Message-ID: <CAK7LNASUgORfWVMVYdJg+qKRSnSuFQhwwPPBhKsN4VwFzbk+=g@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix empty ${PYTHON} in scripts/link-vmlinux.sh
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
->And, the intention of this patch is,
->print  Francescos-Air if the 'hostname -s' command is available,
->but Francescos-Air.fritz.box  otherwise, correct  ?
+On Tue, Mar 29, 2022 at 11:15 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The two commits
+>
+>   d8d2d38275c1 ("kbuild: remove PYTHON variable")
+>   a8cccdd95473 ("init: lto: ensure initcall ordering")
+>
+> were applied in the same development cycle, in two different trees.
+>
+> After they were merged together, this ${PYTHON} expands to an empty
+> string.
+>
+> Therefore, ${srctree}/scripts/jobserver-exec is executed directly.
+> (it has the executable bit set)
+>
+> This is working but let's fix the code into the intended form.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-Yes exactly, this is the intention of this patch
+Applied to linux-kbuild/fixes.
 
->error message because   "2>/dev/null" is missing ?
 
-It is missing indeed, i forgot to add it.
+>
+>  scripts/link-vmlinux.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index f704034ebbe6..20f44504a644 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -50,7 +50,7 @@ gen_initcalls()
+>  {
+>         info GEN .tmp_initcalls.lds
+>
+> -       ${PYTHON} ${srctree}/scripts/jobserver-exec             \
+> +       ${PYTHON3} ${srctree}/scripts/jobserver-exec            \
+>         ${PERL} ${srctree}/scripts/generate_initcall_order.pl   \
+>                 ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}   \
+>                 > .tmp_initcalls.lds
+> --
+> 2.32.0
+>
 
-I will send a new v2 patch in a while
 
-On Fri, Apr 01, 2022 at 11:19:22PM +0900, Masahiro Yamada wrote:
-> On Fri, Apr 1, 2022 at 11:04 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Thu, Mar 31, 2022 at 3:23 AM FraSharp <f.duca00@gmail.com> wrote:
-> > >
-> > > From: Francesco Duca <s23265@iisve.it>
-> > >
-> > > * On some systems (e.g. macOS), using commands like 'uname -n' or
-> > >   'hostname' will print something similar to "hostname.domain"
-> >
-> >
-> > Not only macOS, but also on Linux systems such as Fedora, Debian.
-> >
-> > 'uname -s' or 'hostname' prints "hostname.domain"
-> 
-> I mean,
-> 
->     'uname -n' or 'hostname' prints "hostname.domain"
-> 
-> 
-> 
-> >
-> >
-> >
-> > >   ("Francescos-Air.fritz.box" for example), which is very annoying.
-> >
-> > I do not think so.
-> >
-> >
-> > >   What works instead is 'hostname -s', which will only write hostname
-> > >   without the domain ("Francescos-Air" for example),
-> > >   but also keep 'uname -n', as some systems as Arch Linux does not have
-> > >   'hostname' as command.
-> >
-> > If so, on Arch Linux, will this patch spit
-> >   hostname: command not found
-> > error message because   "2>/dev/null" is missing ?
-> >
-> >
-> > And, the intention of this patch is,
-> > print  Francescos-Air if the 'hostname -s' command is available,
-> > but Francescos-Air.fritz.box  otherwise, correct  ?
-> >
-> >
-> >
-> >
-> >
-> >
-> > >
-> > > * This commit is complementary to
-> > >   1e66d50ad3a1dbf0169b14d502be59a4b1213149
-> > >   ("kbuild: Use uname for LINUX_COMPILE_HOST detection")
-> > >
-> > > Signed-off-by: Francesco Duca <s23265@iisve.it>
-> > > ---
-> > >  scripts/mkcompile_h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> > > index ca40a5258..6054e3eee 100755
-> > > --- a/scripts/mkcompile_h
-> > > +++ b/scripts/mkcompile_h
-> > > @@ -34,7 +34,7 @@ else
-> > >         LINUX_COMPILE_BY=$KBUILD_BUILD_USER
-> > >  fi
-> > >  if test -z "$KBUILD_BUILD_HOST"; then
-> > > -       LINUX_COMPILE_HOST=`uname -n`
-> > > +       LINUX_COMPILE_HOST=$(hostname -s || uname -n)
-> > >  else
-> > >         LINUX_COMPILE_HOST=$KBUILD_BUILD_HOST
-> > >  fi
-> > > --
-> > > 2.32.0 (Apple Git-132)
-> > >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-> 
-> 
-> 
-> -- 
-> Best Regards
-> Masahiro Yamada
+-- 
+Best Regards
+Masahiro Yamada
