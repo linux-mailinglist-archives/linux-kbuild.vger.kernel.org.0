@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFA04EF80F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04DE04EF8D0
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 19:21:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244385AbiDAQiw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Apr 2022 12:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
+        id S1345144AbiDARW7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Apr 2022 13:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350581AbiDAQiJ (ORCPT
+        with ESMTP id S242911AbiDARW6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Apr 2022 12:38:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8626C1AA056;
-        Fri,  1 Apr 2022 09:16:39 -0700 (PDT)
+        Fri, 1 Apr 2022 13:22:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247A4C6802;
+        Fri,  1 Apr 2022 10:21:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 39351B82370;
-        Fri,  1 Apr 2022 16:16:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98425C2BBE4;
-        Fri,  1 Apr 2022 16:16:35 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B09BD61CC0;
+        Fri,  1 Apr 2022 17:21:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF3CC2BBE4;
+        Fri,  1 Apr 2022 17:21:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648829796;
-        bh=QX63Fn0eIgqEzcIIs1tirFb9cVGOSCZjLncptockG0w=;
+        s=k20201202; t=1648833668;
+        bh=rSx8N99cHtG8lzV8XmCZYT1IK82L3z6RhBojDkyGxI0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=q1nDlwiu9xUgQzfzc44B/c9aOelMsTe1UrKgUfsMg10qRetGAJe8yFX3jCleyVyYw
-         lBsIU54sESdNSkDqo0w2Lj5vOz6rIaqNcpHTEI+AWykxLqXyDM5PxabEOB0wKvAepF
-         eLHEzYZpDti2+zHcOFhCPAhFU51w5QLf8w/Hy0wFK2KL+QgeV+OkCYw1YuQbqSm0TX
-         tZxvF5xADvH40388zZ7kuvP2Uhl1v2dmHgi28KUYdf2wxU2kSRqFQvlJ3Xp7kQ5wIx
-         w+9MxzNbxsJZCXI0MjVyMq5Z1PyKzUd2UbcLY+c0JWrny+ZxC4bqoe4oM9aPdfi3OL
-         N3+543RJ/ds4w==
-Date:   Fri, 1 Apr 2022 17:16:31 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        b=E2nlMqIqkJIVjKFws5I/zu2WMBz400kfRUc2GTdP3zUZHl+fWtMocpeRLa6uLWl7E
+         BBeY22ZJpWNwMh8GK5PfmVTMwHjO3mmygexiqmEWE9MWAei/4knEA92EkUXQBsf/TA
+         Yh7F4+SBpCJ1iKW1yFlEvMUr/z3r5K5dxLIwzpTapvZzhZf7Xw7Zx8Q47Yfi/6QXHB
+         /QdqgVKsuJtAQJVxORJFBvnfy1ZsTBmPEXDrAqGNujMok/jeXEByHzWaVlk48R4VmX
+         Vxi9HaW7mmLrg76dnnWG+pcUxhQx4JxmE52zsL2Kw7TIno0vRspbE0dB4fOV0NwPg7
+         JXtA0QTe+EhtQ==
+Date:   Fri, 1 Apr 2022 10:21:05 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     FraSharp <f.duca00@gmail.com>
+Cc:     FraSharp <s23265@iisve.it>, Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH] modpost: restore the warning message for missing symbol
- versions
-Message-ID: <YkclXzHamGiOJJGz@sirena.org.uk>
-References: <20220401155610.1280262-1-masahiroy@kernel.org>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: use hostname -s along uname to obtain
+ LINUX_COMPILE_HOST
+Message-ID: <Ykc0ge8SPt/x8IHc@thelio-3990X>
+References: <20220330182329.52310-1-s23265@iisve.it>
+ <20220401151706.30697-1-s23265@iisve.it>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ERM5Vcs9RzIVdQ6X"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220401155610.1280262-1-masahiroy@kernel.org>
-X-Cookie: Universe, n.:
+In-Reply-To: <20220401151706.30697-1-s23265@iisve.it>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -58,29 +58,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Francesco,
 
---ERM5Vcs9RzIVdQ6X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Apr 01, 2022 at 05:17:06PM +0200, FraSharp wrote:
+> * On some systems (e.g. macOS, Debian, Fedora), using commands like 'uname -n' or
+>   'hostname' will print something similar to "hostname.domain"
+>   ("Francescos-Air.fritz.box" for example), which is very annoying.
+>   What works instead is 'hostname -s', which will only write hostname
+>   without the domain ("Francescos-Air" for example),
+>   but also keep 'uname -n', as some systems as Arch Linux does not have
+>   'hostname' as command.
+> 
+> * This commit is complementary to
+>   1e66d50ad3a1dbf0169b14d502be59a4b1213149
+>   ("kbuild: Use uname for LINUX_COMPILE_HOST detection")
+> 
+> Signed-off-by: Francesco Duca <s23265@iisve.it>
+> ---
+>  scripts/mkcompile_h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+> index ca40a5258..3eefbafe5 100755
+> --- a/scripts/mkcompile_h
+> +++ b/scripts/mkcompile_h
+> @@ -34,7 +34,7 @@ else
+>  	LINUX_COMPILE_BY=$KBUILD_BUILD_USER
+>  fi
+>  if test -z "$KBUILD_BUILD_HOST"; then
+> -	LINUX_COMPILE_HOST=`uname -n`
+> +	LINUX_COMPILE_HOST=$(hostname -s 2>/dev/null || uname -n)
+>  else
+>  	LINUX_COMPILE_HOST=$KBUILD_BUILD_HOST
+>  fi
+> -- 
+> 2.32.0 (Apple Git-132)
+> 
 
-On Sat, Apr 02, 2022 at 12:56:10AM +0900, Masahiro Yamada wrote:
-> This log message was accidentally chopped off.
+I personally think this is going to output something objectively worse
+for my use case. I use containers for my main workflow, which have a
+hostname of "container name" and domain name of "host's hostname".
 
-Acked-by: Mark Brown <broonie@kernel.org>
+For example:
 
---ERM5Vcs9RzIVdQ6X
-Content-Type: application/pgp-signature; name="signature.asc"
+$ uname -n
+thelio-3990X
 
------BEGIN PGP SIGNATURE-----
+$ distrobox enter dev-arch
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJHJV8ACgkQJNaLcl1U
-h9BPZgf/Sfv3McX+bh3xSWnkxUleIIraRJQKSsPAS01PUQQ//vHzAJX+OBvTYA3S
-w1u4K6JSQaVyoDSxLUVrT4fVbxrRNESImFDhDl7cFoFtkHAhS1UC010i4UR+g50r
-KOIT5Jqyb7QghVkMo6Ak+bLWfeBf+o49JVz/5l2m6ek6er/QPrKO3/rcSN9dExgS
-PzaAe2y0bkLIxQ04UCudAtF8agSvW4mLQU098KR3zviDAMKRMoAgbEfePS8JgWxE
-RB0wWLaeuBEBSI22a255kd8Z4l4agADtv2QudSH0/mipUySVm/OgOtqxY6GHhRFP
-pgVuBaU+AuIWUmUVU8yKHeagfF6LnA==
-=tYvk
------END PGP SIGNATURE-----
+$ uname -n
+dev-arch.thelio-3990X
 
---ERM5Vcs9RzIVdQ6X--
+With the move to 'hostname -s' by default, I lose the information about
+the main host machine, so I am unable to tell exactly which container
+built the image:
+
+$ hostname -s
+dev-arch
+
+While moving to containers is supposed to help eliminate the need to
+know about a particular machine because it should be the same
+environment, it is still relevant because I build certain tools on some
+machines and not others and I am not necessarily updating each container
+on the same timeline, so it is still useful to have this information
+included in the kernel image for tracking purposes.
+
+Given this is a purely a subjective/cosmetic issue, why can you not just
+add something like
+
+export KBUILD_BUILD_HOST=$(hostname -s)
+
+in your shell's start up file, so that the hostname is in the format
+that you desire?
+
+Cheers,
+Nathan
