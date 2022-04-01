@@ -2,87 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C4BE4EF7DB
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CFA04EF80F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235819AbiDAQ1s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Apr 2022 12:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54004 "EHLO
+        id S244385AbiDAQiw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Apr 2022 12:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234975AbiDAQ10 (ORCPT
+        with ESMTP id S1350581AbiDAQiJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Apr 2022 12:27:26 -0400
-Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEEB164D0D;
-        Fri,  1 Apr 2022 08:57:03 -0700 (PDT)
-Received: from grover.RMN.KIBA.LAB.jp (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 231FuN80009424;
-        Sat, 2 Apr 2022 00:56:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 231FuN80009424
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1648828584;
-        bh=PlEZwHX2+oLbHS/OqLyTr6a9Ci0j5vWgM7qqdsKDhzc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ow5IqK3pQ4IJMKql6ksgcJN7wkIsnA8Ups89tDhP45d4FRq/wJYky4S59luOnrIgh
-         9QaoBMD24OLkzdraqnKEMq+Uyp+A23zYu2Zry4/sWh+suZXE1zQ4UTgbbhfVqgWn8d
-         YhuNF/nyk2lOPdyy+bf2vhGasY17nawl83qc3PJAFYIa1g2jNTFHo7RADGf1gdUKBr
-         wQat478uKPxbQwzKblmIQQB4ZdPyNE0IO+lQBakoRmxZVEUSImFOQrONZwghU+oy0D
-         9r3ycCufKlv82DQUvFc0FQCbBHW+Kw7B+CFfoAe6c+tJEs1G+RWoQ5FXk00/JMnaQh
-         UaHlWLnQ71oRQ==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
+        Fri, 1 Apr 2022 12:38:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8626C1AA056;
+        Fri,  1 Apr 2022 09:16:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 39351B82370;
+        Fri,  1 Apr 2022 16:16:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98425C2BBE4;
+        Fri,  1 Apr 2022 16:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648829796;
+        bh=QX63Fn0eIgqEzcIIs1tirFb9cVGOSCZjLncptockG0w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q1nDlwiu9xUgQzfzc44B/c9aOelMsTe1UrKgUfsMg10qRetGAJe8yFX3jCleyVyYw
+         lBsIU54sESdNSkDqo0w2Lj5vOz6rIaqNcpHTEI+AWykxLqXyDM5PxabEOB0wKvAepF
+         eLHEzYZpDti2+zHcOFhCPAhFU51w5QLf8w/Hy0wFK2KL+QgeV+OkCYw1YuQbqSm0TX
+         tZxvF5xADvH40388zZ7kuvP2Uhl1v2dmHgi28KUYdf2wxU2kSRqFQvlJ3Xp7kQ5wIx
+         w+9MxzNbxsJZCXI0MjVyMq5Z1PyKzUd2UbcLY+c0JWrny+ZxC4bqoe4oM9aPdfi3OL
+         N3+543RJ/ds4w==
+Date:   Fri, 1 Apr 2022 17:16:31 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] modpost: restore the warning message for missing symbol versions
-Date:   Sat,  2 Apr 2022 00:56:10 +0900
-Message-Id: <20220401155610.1280262-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+Subject: Re: [PATCH] modpost: restore the warning message for missing symbol
+ versions
+Message-ID: <YkclXzHamGiOJJGz@sirena.org.uk>
+References: <20220401155610.1280262-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ERM5Vcs9RzIVdQ6X"
+Content-Disposition: inline
+In-Reply-To: <20220401155610.1280262-1-masahiroy@kernel.org>
+X-Cookie: Universe, n.:
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This log message was accidentally chopped off.
 
-I was wondering why this happened, but checking the ML log, Mark
-precisely followed my suggestion [1].
+--ERM5Vcs9RzIVdQ6X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I just used "..." because I was too lazy to type the sentence fully.
-Sorry for the confusion.
+On Sat, Apr 02, 2022 at 12:56:10AM +0900, Masahiro Yamada wrote:
+> This log message was accidentally chopped off.
 
-[1]: https://lore.kernel.org/all/CAK7LNAR6bXXk9-ZzZYpTqzFqdYbQsZHmiWspu27rtsFxvfRuVA@mail.gmail.com/
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Fixes: 4a6795933a89 ("kbuild: modpost: Explicitly warn about unprototyped symbols")
-Cc: Mark Brown <broonie@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+--ERM5Vcs9RzIVdQ6X
+Content-Type: application/pgp-signature; name="signature.asc"
 
- scripts/mod/modpost.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index d10f93aac1c8..ed9d056d2108 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -674,7 +674,7 @@ static void handle_modversion(const struct module *mod,
- 	unsigned int crc;
- 
- 	if (sym->st_shndx == SHN_UNDEF) {
--		warn("EXPORT symbol \"%s\" [%s%s] version ...\n"
-+		warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n"
- 		     "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
- 		     symname, mod->name, mod->is_vmlinux ? "" : ".ko",
- 		     symname);
--- 
-2.32.0
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJHJV8ACgkQJNaLcl1U
+h9BPZgf/Sfv3McX+bh3xSWnkxUleIIraRJQKSsPAS01PUQQ//vHzAJX+OBvTYA3S
+w1u4K6JSQaVyoDSxLUVrT4fVbxrRNESImFDhDl7cFoFtkHAhS1UC010i4UR+g50r
+KOIT5Jqyb7QghVkMo6Ak+bLWfeBf+o49JVz/5l2m6ek6er/QPrKO3/rcSN9dExgS
+PzaAe2y0bkLIxQ04UCudAtF8agSvW4mLQU098KR3zviDAMKRMoAgbEfePS8JgWxE
+RB0wWLaeuBEBSI22a255kd8Z4l4agADtv2QudSH0/mipUySVm/OgOtqxY6GHhRFP
+pgVuBaU+AuIWUmUVU8yKHeagfF6LnA==
+=tYvk
+-----END PGP SIGNATURE-----
 
+--ERM5Vcs9RzIVdQ6X--
