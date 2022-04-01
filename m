@@ -2,113 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C29884EF96D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 19:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9294F4EF9FD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 20:39:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236243AbiDASBa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Apr 2022 14:01:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46130 "EHLO
+        id S1351300AbiDASk7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Apr 2022 14:40:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347853AbiDASBa (ORCPT
+        with ESMTP id S1351295AbiDASk6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Apr 2022 14:01:30 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710E16442
-        for <linux-kbuild@vger.kernel.org>; Fri,  1 Apr 2022 10:59:39 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 17so4960286lji.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 Apr 2022 10:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yVo2yneeaoxV8R6Z7eFrjSGIjEuANhXKz6InNmADjE4=;
-        b=VGVRglkQ5qT4QrFHTstzXLRNvKIXaFc/bd4yzqo+pIEHf/eHKnIB9w4H/LXNbkJgoi
-         07dUE722eMqQPOTQz5VtHjFY4MwJEeQpXLP1cH+bPNKnIJ1wS69+6xZB5jlhq7T9ex8K
-         C92uUGXEqPBNFrHhCfgEe/wnGQjH7eqVizKBxwOeW2xNEMV1/HnyClk7uxDwRjre2+2u
-         OeRWnfIATizFCQmWuUwDf+090/sQv9OT0MQFhF+M+6mMQ8/jZlC2Bna3mKdQnrSNXrGH
-         wFXSkgUYzcHtYdldWljBvbwgz0q96wDMuaAId8QiyjgvR6puPJLuaEAjji9l5sN+N/vl
-         ePgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yVo2yneeaoxV8R6Z7eFrjSGIjEuANhXKz6InNmADjE4=;
-        b=AG2YcagjmpTj3eqhYHsB0W5RUi92UZebfEZMXKrCMMWDZPX1RKfJHTRdcys83SoxPE
-         j+nxn+kRrTpMLdPOX+uhmXXj9jORfZj9NIBgB6DITfrowJGxAcZF4YauM+itwGGD4Th+
-         nk/ioE6MGyeXTv55lVFX/lI0RSjcnrti72x1XWPhnWSNq+TndFCeXOMtcunxz5uwhpQP
-         22GfC0D/Tmw24ZT0fOr56/sPIp5x+jxE3zoFXnUz+ZE3hK2pmgHK6ClPWvLmbaJHS81R
-         Lw9UMRDjDfyhOxDZNCtoLFh4hXn2z5CrkQufV/U+Z9DTv8hc0gWgqW5bzEajJyc6irsk
-         Zdfw==
-X-Gm-Message-State: AOAM530GKfej5JnMK1drRyz3vj1eJsEQLXjJZtlsETogAdyDPHpU7eP3
-        8pystYOf3+Cwk2ktA/tDyqpHeU59Di8/3pBcKoZqvg==
-X-Google-Smtp-Source: ABdhPJz52xEbRMdX+J6RoF1PxIaVh4m7s0dsr5oimFatM/w31uwQdcfsTkc+f2SlEfD8uh7GODGMndZxkW2SY+pQS/k=
-X-Received: by 2002:a05:651c:19a8:b0:249:a7f3:25e7 with SMTP id
- bx40-20020a05651c19a800b00249a7f325e7mr13589488ljb.352.1648835977151; Fri, 01
- Apr 2022 10:59:37 -0700 (PDT)
+        Fri, 1 Apr 2022 14:40:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDAE173B20;
+        Fri,  1 Apr 2022 11:39:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 989A761230;
+        Fri,  1 Apr 2022 18:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DEB4C34111;
+        Fri,  1 Apr 2022 18:39:05 +0000 (UTC)
+Date:   Fri, 1 Apr 2022 14:39:03 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Beau Belgrave <beaub@linux.microsoft.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-trace-devel <linux-trace-devel@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        ndesaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] tracing: Move user_events.h temporarily out of include/uapi
+Message-ID: <20220401143903.188384f3@gandalf.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220401155610.1280262-1-masahiroy@kernel.org>
-In-Reply-To: <20220401155610.1280262-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 1 Apr 2022 10:59:25 -0700
-Message-ID: <CAKwvOdnwSnoiP3Vnf-77VGeD6nKc7gLa-nc-ipoCsRBk2m3ueQ@mail.gmail.com>
-Subject: Re: [PATCH] modpost: restore the warning message for missing symbol versions
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 1, 2022 at 8:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> This log message was accidentally chopped off.
->
-> I was wondering why this happened, but checking the ML log, Mark
-> precisely followed my suggestion [1].
->
-> I just used "..." because I was too lazy to type the sentence fully.
-> Sorry for the confusion.
->
-> [1]: https://lore.kernel.org/all/CAK7LNAR6bXXk9-ZzZYpTqzFqdYbQsZHmiWspu27rtsFxvfRuVA@mail.gmail.com/
->
-> Fixes: 4a6795933a89 ("kbuild: modpost: Explicitly warn about unprototyped symbols")
-> Cc: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+While user_events API is under development and has been marked for broken
+to not let the API become fixed, move the header file out of the uapi
+directory. This is to prevent it from being installed, then later changed,
+and then have an old distro user space update with a new kernel, where
+applications see the user_events being available, but the old header is in
+place, and then they get compiled incorrectly.
 
-> ---
->
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index d10f93aac1c8..ed9d056d2108 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -674,7 +674,7 @@ static void handle_modversion(const struct module *mod,
->         unsigned int crc;
->
->         if (sym->st_shndx == SHN_UNDEF) {
-> -               warn("EXPORT symbol \"%s\" [%s%s] version ...\n"
-> +               warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n"
->                      "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
->                      symname, mod->name, mod->is_vmlinux ? "" : ".ko",
->                      symname);
-> --
-> 2.32.0
->
+Also, surround the include with CONFIG_COMPILE_TEST to the current
+location, but when the BROKEN tag is taken off, it will use the uapi
+directory, and fail to compile. This is a good way to remind us to move
+the header back.
 
+Link: https://lore.kernel.org/all/20220330155835.5e1f6669@gandalf.local.home
+Link: https://lkml.kernel.org/r/20220330201755.29319-1-mathieu.desnoyers@efficios.com
 
+Suggested-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ include/{uapi => }/linux/user_events.h | 0
+ kernel/trace/trace_events_user.c       | 5 +++++
+ 2 files changed, 5 insertions(+)
+ rename include/{uapi => }/linux/user_events.h (100%)
+
+diff --git a/include/uapi/linux/user_events.h b/include/linux/user_events.h
+similarity index 100%
+rename from include/uapi/linux/user_events.h
+rename to include/linux/user_events.h
+diff --git a/kernel/trace/trace_events_user.c b/kernel/trace/trace_events_user.c
+index 846c27bc7aef..706e1686b5eb 100644
+--- a/kernel/trace/trace_events_user.c
++++ b/kernel/trace/trace_events_user.c
+@@ -18,7 +18,12 @@
+ #include <linux/tracefs.h>
+ #include <linux/types.h>
+ #include <linux/uaccess.h>
++/* Reminder to move to uapi when everything works */
++#ifdef CONFIG_COMPILE_TEST
++#include <linux/user_events.h>
++#else
+ #include <uapi/linux/user_events.h>
++#endif
+ #include "trace.h"
+ #include "trace_dynevent.h"
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+2.35.1
+
