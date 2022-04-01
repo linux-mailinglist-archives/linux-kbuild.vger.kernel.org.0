@@ -2,214 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6BA4EF7B0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4BE4EF7DB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Apr 2022 18:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345798AbiDAQPz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Apr 2022 12:15:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
+        id S235819AbiDAQ1s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Apr 2022 12:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350404AbiDAQNw (ORCPT
+        with ESMTP id S234975AbiDAQ10 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Apr 2022 12:13:52 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBD8CC53A;
-        Fri,  1 Apr 2022 08:39:40 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id bg10so6685734ejb.4;
-        Fri, 01 Apr 2022 08:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PeXk7Ks+fNVGI2/bl+W72hWsR2c/g3dfM5gY6CT867Q=;
-        b=Rp7ne8oDad6XcRIlLfpw/9pQd8HXNWf99qahudH0TbQmMk/jdKmCop8mweJieYHEoh
-         m5nkE6Mz/JFKIq+8Lx1O+UbVzwoNyRDG+CnH6DJjlAXnBqjUNiG8qICQCLAYjyzrOgij
-         XKRvYmijSQy5NsQNNEAxvjrhum6RQkB4xYBWDi3h6FL0QnI4BbNDvpvjkDbC9Xp9krUW
-         //NQBllwVlBRCu1/IxgcuXmmar8POPpLY7yiO2zSwUF2AOCV4vOpf6gYSCKBJWrZcu8O
-         RCzLt0mdHcl+gg+ya4zfRgVkvJeEgrzZ16w65ALX9nmd/PDNN0onEHY1HmqkdlomHEMZ
-         NSdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PeXk7Ks+fNVGI2/bl+W72hWsR2c/g3dfM5gY6CT867Q=;
-        b=wum/EfsrYwt7qmsYHM43ez4fKBTETinXGFMNyNdPhz6oXIDgBf5sesrlaMJ2C1x+if
-         yBuOqjnypvoVPQR/8alaROmRej+OuXoifCymC34ZF8YcEOR/FG2ngHH2jNCrOyuAFAvk
-         IHovNLA/WbNRgKJULGoaGqoYD4UY+tlPw3accDsKZnE/ty3t5BJDq8GYc0In/orzP/F7
-         Vy4LZwqyECnsujB8ZIjykOXx2fyQK5Iwy8tUeVXFGTsfzR5BGhk/6hHbl8PNsOYJjYHT
-         C6mWl/rWJRI5qC1e4wR/tAENUr30JJ65rOTJ5Mp3zkL1DEqd2ZfvjIrBijjtPwLEJtfR
-         lE8Q==
-X-Gm-Message-State: AOAM531mxLSryJyiBSzo7msUbXE3cxfMkpT7kZGOc4wxRqJS93xvZfZz
-        pdmn6zcUsrNNhG0GV0y8qhE=
-X-Google-Smtp-Source: ABdhPJyWp/Eh2olp3U5NWRmn07izDA0NLguhIkEt6HwxOfA08cYF3QYfMQFEQswwwVAQOSiMOvttxg==
-X-Received: by 2002:a17:907:6d19:b0:6db:89c8:52e3 with SMTP id sa25-20020a1709076d1900b006db89c852e3mr348766ejc.754.1648827578994;
-        Fri, 01 Apr 2022 08:39:38 -0700 (PDT)
-Received: from Francescos-Air.fritz.box (host-79-3-210-6.business.telecomitalia.it. [79.3.210.6])
-        by smtp.gmail.com with ESMTPSA id 17-20020a170906059100b006cee1bceddasm1134220ejn.130.2022.04.01.08.39.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 08:39:38 -0700 (PDT)
-Date:   Fri, 1 Apr 2022 17:39:36 +0200
-From:   Francesco Duca <f.duca00@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Francesco Duca <s23265@iisve.it>,
+        Fri, 1 Apr 2022 12:27:26 -0400
+Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEEB164D0D;
+        Fri,  1 Apr 2022 08:57:03 -0700 (PDT)
+Received: from grover.RMN.KIBA.LAB.jp (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 231FuN80009424;
+        Sat, 2 Apr 2022 00:56:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 231FuN80009424
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1648828584;
+        bh=PlEZwHX2+oLbHS/OqLyTr6a9Ci0j5vWgM7qqdsKDhzc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ow5IqK3pQ4IJMKql6ksgcJN7wkIsnA8Ups89tDhP45d4FRq/wJYky4S59luOnrIgh
+         9QaoBMD24OLkzdraqnKEMq+Uyp+A23zYu2Zry4/sWh+suZXE1zQ4UTgbbhfVqgWn8d
+         YhuNF/nyk2lOPdyy+bf2vhGasY17nawl83qc3PJAFYIa1g2jNTFHo7RADGf1gdUKBr
+         wQat478uKPxbQwzKblmIQQB4ZdPyNE0IO+lQBakoRmxZVEUSImFOQrONZwghU+oy0D
+         9r3ycCufKlv82DQUvFc0FQCbBHW+Kw7B+CFfoAe6c+tJEs1G+RWoQ5FXk00/JMnaQh
+         UaHlWLnQ71oRQ==
+X-Nifty-SrcIP: [133.32.177.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: use hostname -s along uname to obtain
- LINUX_COMPILE_HOST
-Message-ID: <YkccuNfZOjQ0FQEJ@Francescos-Air.fritz.box>
-References: <20220330182329.52310-1-s23265@iisve.it>
- <CAK7LNARvEsh3+dix+EdcXnm2L0rh8hndQD5N2vyc0q_c0Vf7gQ@mail.gmail.com>
- <CAK7LNAQ3cj2M0+k2H0O30wdOwONGE3OVrFJfTHicpqaKPRgG3Q@mail.gmail.com>
- <YkcU4mpNX7AsJgbg@Francescos-Air.fritz.box>
- <CAK7LNATvFnac4sSFkbtMT-+h6-jGNuCaJpNZOua0g5wg56vRjQ@mail.gmail.com>
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH] modpost: restore the warning message for missing symbol versions
+Date:   Sat,  2 Apr 2022 00:56:10 +0900
+Message-Id: <20220401155610.1280262-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATvFnac4sSFkbtMT-+h6-jGNuCaJpNZOua0g5wg56vRjQ@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> ( <hostname> on Debian vs <hostname>.<domainname> on Arch Linux)
+This log message was accidentally chopped off.
 
-Actually, every time i compiled a kernel (on Arch/Ubuntu), KBUILD_BUILD_HOST it's always <hostname>
-without <domainname>, while on macOS, KBUILD_BUILD_HOST is <hostname>.<domainname>
+I was wondering why this happened, but checking the ML log, Mark
+precisely followed my suggestion [1].
 
-> As I said, it is not annoying.
+I just used "..." because I was too lazy to type the sentence fully.
+Sorry for the confusion.
 
-I said it is annoying just because <hostname>.<domainname> is set on
-macOS only and not on Linux (Arch or Ubuntu).
+[1]: https://lore.kernel.org/all/CAK7LNAR6bXXk9-ZzZYpTqzFqdYbQsZHmiWspu27rtsFxvfRuVA@mail.gmail.com/
 
-Now, it may be a "me only" problem, so i'm not sure, but from my
-experience it only happens on macOS.
+Fixes: 4a6795933a89 ("kbuild: modpost: Explicitly warn about unprototyped symbols")
+Cc: Mark Brown <broonie@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-On Sat, Apr 02, 2022 at 12:22:55AM +0900, Masahiro Yamada wrote:
-> On Sat, Apr 2, 2022 at 12:06 AM Francesco Duca <f.duca00@gmail.com> wrote:
-> >
-> > >And, the intention of this patch is,
-> > >print  Francescos-Air if the 'hostname -s' command is available,
-> > >but Francescos-Air.fritz.box  otherwise, correct  ?
-> >
-> > Yes exactly, this is the intention of this patch
-> >
-> > >error message because   "2>/dev/null" is missing ?
-> >
-> > It is missing indeed, i forgot to add it.
-> >
-> > I will send a new v2 patch in a while
-> >
-> > On Fri, Apr 01, 2022 at 11:19:22PM +0900, Masahiro Yamada wrote:
-> > > On Fri, Apr 1, 2022 at 11:04 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > On Thu, Mar 31, 2022 at 3:23 AM FraSharp <f.duca00@gmail.com> wrote:
-> > > > >
-> > > > > From: Francesco Duca <s23265@iisve.it>
-> > > > >
-> > > > > * On some systems (e.g. macOS), using commands like 'uname -n' or
-> > > > >   'hostname' will print something similar to "hostname.domain"
-> > > >
-> > > >
-> > > > Not only macOS, but also on Linux systems such as Fedora, Debian.
-> > > >
-> > > > 'uname -s' or 'hostname' prints "hostname.domain"
-> > >
-> > > I mean,
-> > >
-> > >     'uname -n' or 'hostname' prints "hostname.domain"
-> > >
-> > >
-> > >
-> > > >
-> > > >
-> > > >
-> > > > >   ("Francescos-Air.fritz.box" for example), which is very annoying.
-> > > >
-> > > > I do not think so.
-> > > >
-> > > >
-> > > > >   What works instead is 'hostname -s', which will only write hostname
-> > > > >   without the domain ("Francescos-Air" for example),
-> > > > >   but also keep 'uname -n', as some systems as Arch Linux does not have
-> > > > >   'hostname' as command.
-> > > >
-> > > > If so, on Arch Linux, will this patch spit
-> > > >   hostname: command not found
-> > > > error message because   "2>/dev/null" is missing ?
-> > > >
-> > > >
-> > > > And, the intention of this patch is,
-> > > > print  Francescos-Air if the 'hostname -s' command is available,
-> > > > but Francescos-Air.fritz.box  otherwise, correct  ?
-> 
-> I do not see a good reason to output different strings on different
-> distributions.
-> ( <hostname> on Debian vs <hostname>.<domainname> on Arch Linux)
-> 
-> 
-> <hostname>.<domainname> is just fine.
-> As I said, it is not annoying.
-> 
-> NACK.
-> 
-> 
-> 
-> 
-> 
-> 
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > >
-> > > > >
-> > > > > * This commit is complementary to
-> > > > >   1e66d50ad3a1dbf0169b14d502be59a4b1213149
-> > > > >   ("kbuild: Use uname for LINUX_COMPILE_HOST detection")
-> > > > >
-> > > > > Signed-off-by: Francesco Duca <s23265@iisve.it>
-> > > > > ---
-> > > > >  scripts/mkcompile_h | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> > > > > index ca40a5258..6054e3eee 100755
-> > > > > --- a/scripts/mkcompile_h
-> > > > > +++ b/scripts/mkcompile_h
-> > > > > @@ -34,7 +34,7 @@ else
-> > > > >         LINUX_COMPILE_BY=$KBUILD_BUILD_USER
-> > > > >  fi
-> > > > >  if test -z "$KBUILD_BUILD_HOST"; then
-> > > > > -       LINUX_COMPILE_HOST=`uname -n`
-> > > > > +       LINUX_COMPILE_HOST=$(hostname -s || uname -n)
-> > > > >  else
-> > > > >         LINUX_COMPILE_HOST=$KBUILD_BUILD_HOST
-> > > > >  fi
-> > > > > --
-> > > > > 2.32.0 (Apple Git-132)
-> > > > >
-> > > >
-> > > >
-> > > > --
-> > > > Best Regards
-> > > > Masahiro Yamada
-> > >
-> > >
-> > >
-> > > --
-> > > Best Regards
-> > > Masahiro Yamada
-> 
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
+ scripts/mod/modpost.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index d10f93aac1c8..ed9d056d2108 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -674,7 +674,7 @@ static void handle_modversion(const struct module *mod,
+ 	unsigned int crc;
+ 
+ 	if (sym->st_shndx == SHN_UNDEF) {
+-		warn("EXPORT symbol \"%s\" [%s%s] version ...\n"
++		warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n"
+ 		     "Is \"%s\" prototyped in <asm/asm-prototypes.h>?\n",
+ 		     symname, mod->name, mod->is_vmlinux ? "" : ".ko",
+ 		     symname);
+-- 
+2.32.0
+
