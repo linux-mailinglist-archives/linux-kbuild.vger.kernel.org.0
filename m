@@ -2,88 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C514C4F1078
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 10:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 643F14F138F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 13:03:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377893AbiDDIGR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 4 Apr 2022 04:06:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45158 "EHLO
+        id S1358950AbiDDLFh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 4 Apr 2022 07:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343920AbiDDIGQ (ORCPT
+        with ESMTP id S236147AbiDDLFg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 4 Apr 2022 04:06:16 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D87FF31DE5;
-        Mon,  4 Apr 2022 01:04:20 -0700 (PDT)
-Received: from mail-wr1-f45.google.com ([209.85.221.45]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mzhzd-1nxVVy0j8j-00vdgg; Mon, 04 Apr 2022 10:04:19 +0200
-Received: by mail-wr1-f45.google.com with SMTP id k23so597882wrd.8;
-        Mon, 04 Apr 2022 01:04:19 -0700 (PDT)
-X-Gm-Message-State: AOAM530YXNFGrNMOFA4dEuOzsAItLv9RtMPpd0ZyYrtM20Nm0TBAhBQG
-        QKSIZpGc1gStJjMZKeUSGwrRj718FSGAchsgeFE=
-X-Google-Smtp-Source: ABdhPJwqJxfqlqagcViI+smBcTQCtvDqO5imtzJeW3lPtlQWh/wDdnZ51ocnA4CpI0iS26royJspuxNotXJbtEBu7nc=
-X-Received: by 2002:a5d:6505:0:b0:205:9a98:e184 with SMTP id
- x5-20020a5d6505000000b002059a98e184mr15354390wru.317.1649059458839; Mon, 04
- Apr 2022 01:04:18 -0700 (PDT)
+        Mon, 4 Apr 2022 07:05:36 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8315B25;
+        Mon,  4 Apr 2022 04:03:35 -0700 (PDT)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 234B3NEQ001658;
+        Mon, 4 Apr 2022 20:03:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 234B3NEQ001658
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1649070203;
+        bh=JG/zbhRcdhdcznjejyKbFMjaPGTJpepqOa9qTr7iSoM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=1RfW205fo5MTTxQ6H4d/yTfBYYZl3gFZRvDg7d3VN8phK15nt8kOZWrE27dfOkRkN
+         TwxsF8vUa0nCy9ufA+lM50D3bAEdlNTbZHh9R7rzZsvNVgH/7Kvi3kYkdQPmJhSiQd
+         0uk8uZ8QiPIt4xQdbvxeAZKM/Mkj/hrdnMZVtZPSjYOqj+dzICLF0Ir9uSSYlWzVc5
+         ts2cWBeg1OzjMNU+RK7QpjvOOeRwGM1Vuilu/7y+AYuGtr1GDNLencM42j/ZscDXb6
+         KB1c50oGYgLbFKDGsznof7aE1pBxComsXRzgxK7RFPI5kxzhpXnXTAbr2HTgIQvANk
+         3pf4Ln1m5quyQ==
+X-Nifty-SrcIP: [209.85.210.180]
+Received: by mail-pf1-f180.google.com with SMTP id h24so4295747pfo.6;
+        Mon, 04 Apr 2022 04:03:23 -0700 (PDT)
+X-Gm-Message-State: AOAM5336t/R0CC04aC+whczX++EoDS5N4SYB9bNSYeY/oNntDLJgJ1il
+        Bxnpke3n+mm89qJW1FCW7ctFBHn/PSTx602wFAs=
+X-Google-Smtp-Source: ABdhPJy2XI7PU06Z81w2Q/TzQqR37viCjtaYtzW7uB0xOB4zElHSENcTHkICyhaiTO8LEh/H5SWQl8PL56i/NBmqoZI=
+X-Received: by 2002:a05:6a00:24d2:b0:4fb:1b6d:ee7d with SMTP id
+ d18-20020a056a0024d200b004fb1b6dee7dmr23384787pfv.36.1649070202372; Mon, 04
+ Apr 2022 04:03:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220404061948.2111820-1-masahiroy@kernel.org>
- <20220404061948.2111820-9-masahiroy@kernel.org> <Ykqh3mEy5uY8spe8@infradead.org>
-In-Reply-To: <Ykqh3mEy5uY8spe8@infradead.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 4 Apr 2022 10:04:02 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a07ZdqA0UBC_qkqzMsZWLUK=Rti3AkFe2VVEWLivuZAqA@mail.gmail.com>
-Message-ID: <CAK8P3a07ZdqA0UBC_qkqzMsZWLUK=Rti3AkFe2VVEWLivuZAqA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] virtio_ring.h: do not include <stdint.h> from
- exported header
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>
+References: <20220307223231.608498-1-mst@redhat.com> <CAK7LNAR=fs+VJUZJj7YyprdA6xjx=4bttPRL6e4bvNkEeX9eng@mail.gmail.com>
+ <t2boae$9u9$1@ciao.gmane.io>
+In-Reply-To: <t2boae$9u9$1@ciao.gmane.io>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 4 Apr 2022 20:02:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQboNkJcmWdq6=P_PQck3oUGNU_d25PHowtYa2sMcMD-w@mail.gmail.com>
+Message-ID: <CAK7LNAQboNkJcmWdq6=P_PQck3oUGNU_d25PHowtYa2sMcMD-w@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: fix config cc version check
+To:     Akemi Yagi <toracat@elrepo.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:xrx78JDc2cIU2KMmuE4laAS0LK4GO0thkkuMWLoJs5LqHA9pfnd
- h4+CwdxRSHUOACc6EbQsSgNU2DoX7sjIgBgciCKjHUZFmkwUOpd+VIz4slIpgol4VDfo4D2
- MqePrLb1dAB/miskZxkpwc3gElTsvndJ7c9oSc1EZEU5azD97bRRTx5dJwAXYJd9XGSn4Uy
- 5eppBOqMT7vX1Hk2u9mTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nIaGZmEwUbM=:cs2DasC4bE/H4q277mj8DL
- STC90UmrPCoOucsGcE33kkNS/YzehPiv78UB2fC60YOKCwD1zBLx4uWkXUC+rwHpAxJJegYyD
- o0A4V5K2Lc8o5L0iR442QOx/fVBdKWltRgYrKtcB8osc0lwCyNmFcZ422ySG+MDiLe4kJqhLc
- xj4tFZOYqvQm41dwSasU/pOpPBjD/PkxhNtmhu2h1LQaqNTMDZ3PoDO5PdoMoXV7KKc6atbzj
- trEIPuLHkcIXSIIZG6j/TSJyqIaXcj/VYy3VCDkAlsgbjpW9mhvcGuIBepJLqcGWfWdQVZ5wY
- Vn53+c8ypzUHe9th7HX0tXinRk1iWzMecYyEdfzIEOX8AJZZwtKgn9KhRWpMc3cXk50ROPDtH
- am3Ga1YXKGQ0AjZ+n0T2W5MhLAB40zIX1MzFLEQZPANeN3fCOmy0fszN6ZYMoZzx9fazbh1ur
- 08PHANRTI7BFOIduSBElr8khbOMhapkqjL3/8Lxm839rIYHFxvhrFNBpsv1QK7C2GwB3L7GqL
- jBooPHHBmA7GF+v7lfydO4LqbHjXdGPUPoPWC1/K0MfsKSkN/XD8n+mDwRJyOYNHfkHzuhsgb
- iIZSxaIuoUFLsWaNeA65GqzWEyRl+iQ92L2FfDJCVA+wSyF2gTFseAHv0V/niTe6sj1KBOeH7
- pmXp/5h8EW7Qe9T7lKHYp2G3aXauNCdn878VfpGqt+hMA9+xgLlh5Eqbvjf77QdbCLgnU35V3
- hCZPQV2PM9Rs0YjhcvPEKzxv9/KLRU+UrUNaMyRpquEYVRTbk90Wb7vY+v2M3sao5Yq1t/+7D
- nSv/iMMWgarTzRiEyq4AetPakj/QdQClItmxgUwtcQdUlfIhnM=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 4, 2022 at 9:44 AM Christoph Hellwig <hch@infradead.org> wrote:
-> On Mon, Apr 04, 2022 at 03:19:48PM +0900, Masahiro Yamada wrote:
-> >       vr->num = num;
-> >       vr->desc = p;
-> >       vr->avail = (struct vring_avail *)((char *)p + num * sizeof(struct vring_desc));
-> > -     vr->used = (void *)(((uintptr_t)&vr->avail->ring[num] + sizeof(__virtio16)
-> > +     vr->used = (void *)(((__kernel_uintptr_t)&vr->avail->ring[num] + sizeof(__virtio16)
-> >               + align-1) & ~(align - 1));
+On Sun, Apr 3, 2022 at 6:11 PM Akemi Yagi <toracat@elrepo.org> wrote:
 >
-> This really does not look like it should be in a uapi header to start
-> with.
+> On Tue, 08 Mar 2022 11:23:31 +0900, Masahiro Yamada wrote:
+>
+> > On Tue, Mar 8, 2022 at 7:32 AM Michael S. Tsirkin <mst@redhat.com>
+> > wrote:
+> >>
+> >> .config is of the form:
+> >> CONFIG_CC_VERSION_TEXT="gcc (GCC) 11.2.1 20220127 (Red Hat 11.2.1-9)"
+> >
+> >
+> > No. This was changed.
+> >
+> > See this:
+> >
+> > $ git show 129ab0d2d9f -- Makefile
+> >
+> >
+> >
+> >> while CC_VERSION_TEXT is of the form: gcc (GCC) 11.2.1 20220127 (Red
+> >> Hat 11.2.1-7)
+> >>
+> >> thus when comparing these, CONFIG_CC_VERSION_TEXT should not be put in
+> >> "", otherwise we get () outside "" which shell then tries to evaluate.
+> >>
+> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >> ---
+> >>  Makefile | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/Makefile b/Makefile index daeb5c88b50b..d5c03c827825
+> >> 100644 --- a/Makefile +++ b/Makefile @@ -1714,9 +1714,9 @@ PHONY +=
+> >> prepare
+> >>  # now expand this into a simple variable to reduce the cost of shell
+> >>  evaluations prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
+> >>  prepare:
+> >> -       @if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ];
+> >> then \
+> >> +       @if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then
+> >> \
+> >>                 echo >&2 "warning: the compiler differs from the one
+> >>                 used to build the kernel"; \
+> >> -               echo >&2 "  The kernel was built by:
+> >> $(CONFIG_CC_VERSION_TEXT)"; \ +               echo >&2 "  The kernel
+> >> was built by: "$(CONFIG_CC_VERSION_TEXT)";" \
+> >>                 echo >&2 "  You are using:
+> >>                 $(CC_VERSION_TEXT)"; \
+> >>         fi
+> >>
+> >> --
+> >> MST
+>
+> I believe the patch proposed by Michael indeed fixes an issue
+> introduced by 129ab0d2d9f (Makefile).
+>
+> Please see the following bug reports:
+>
+> https://elrepo.org/bugs/view.php?id=1215
+> https://elrepo.org/bugs/view.php?id=1214
+>
+> and this forum post:
+>
+> https://www.phoronix.com/forums/forum/software/general-linux-open-source/
+> 1303986-linux-5-17-rc1-released-a-little-bit-early-but-with-shiny-new-
+> features#post1304036
+>
+> Akemi
+>
 
-The header is shared between kernel and other projects using virtio, such as
-qemu and any boot loaders booting from virtio devices. It's not technically a
-/kernel/ ABI, but it is an ABI and for practical reasons the kernel version is
-maintained as the master copy if I understand it correctly.
+I left a comment:
+https://elrepo.org/bugs/view.php?id=1215
 
-       Arnd
+
+This is a bug in ELRepo.
+
+The upstream kernel is good.
+
+Please do not come back to this over again.
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
