@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4CF4F1CC4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 23:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BD14F1CBD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 23:29:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376399AbiDDV2y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 4 Apr 2022 17:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34296 "EHLO
+        id S1379583AbiDDV2m (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 4 Apr 2022 17:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379351AbiDDRCS (ORCPT
+        with ESMTP id S1379403AbiDDRGC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 4 Apr 2022 13:02:18 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4B040A1E
-        for <linux-kbuild@vger.kernel.org>; Mon,  4 Apr 2022 10:00:20 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id bu29so18580711lfb.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 04 Apr 2022 10:00:20 -0700 (PDT)
+        Mon, 4 Apr 2022 13:06:02 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286AE40A22
+        for <linux-kbuild@vger.kernel.org>; Mon,  4 Apr 2022 10:04:06 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id d5so18458793lfj.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 04 Apr 2022 10:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lpp/ozNVnLdvnoTjipCF69sWorB9Ss1eoVxFTqOHzco=;
-        b=qAhAC/REUCwi7i3+1Gzc40RTeFOiNy1TlboqLpEisLYhnCJAXa/9lqOZs0rTOp+HJE
-         QoU2M14FdHiKF46PXJpMy1tdEME2DFFpHWb7R01Fa04jlSB8cySJIUtzZoqBqslP6nmr
-         yKULXcsaq4XnX1xzQAML0+xQc/vc6at+3asgvxssszq0WDVIRxlQU8KubeeFk3eA/Ll2
-         Mg0PXahhIMhtmt+u0ePYuOvJaiVjbD9xDfxtjauRZBKq+4VFE3uVKNqz2FvjJ2q27T49
-         M2EFZ0XvWrd3dWcLtLtIXVHHA6KTPWHYNIB/IwiG3jfccSUrfHKl+CaSCriKsjK9BF9v
-         s5dQ==
+        bh=J334O5uYapL/nSov6BZAzFIp7kzwsiEjIccb8+5N22c=;
+        b=f07uA2nRdSeYaV6J0y8FPL4bPtqDnXuBCANsO8bx0j7F5mJV3d8FyIxuXDZ9mY5LHa
+         GoDjtp8ZFIHxrYd+1KbhjEWgk6q38scATXBkxvTL5bimRO/FxE7oFoKFaFK5u1UPQjhh
+         yEM/yzy4sxr3ObXCNh3tJOi5lsE6MzpZKvwQ1xVizV3wq1ht6lmCPkB336REFQ2Da/8i
+         uAoPQcV5M7F2YHxdHjtPSeiYJBFRtF8s3C/Hk27Qb+29HmpBV0Cj8mXRMJnMoHGZmClv
+         rJJSSIdGGvoR7Lz/ratpwdJS1KfBOdXQfV3LiCnu9zg8jpoJMcCfwSKIEUJWD8/vEuqq
+         NP0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lpp/ozNVnLdvnoTjipCF69sWorB9Ss1eoVxFTqOHzco=;
-        b=2qhRu7Ng+Jl3ETeCnzokN3qR9lsLw2xxz9viJFNaftKVN1joYEiYHnLbhth2i6hGG2
-         48qlKvFKWaIJ2lsWdbYMb5DV5xzVBXR1iOYTvCQYMIPDWsO1/DjbXnA4DDjv8OzwY3st
-         Pb+RMbK+jc3xdeO0ckpUhfOnkoUKXO1wMQsoy5NZ6pTgs6lQbHKngJdgPuF6myFplpz+
-         etyFntP/yDFCyKzOtA2C4i/q+xucLVCIfIJ9bGwkdlIkWqORF3VzIVOkLocZtt0Ew6m7
-         DUSce4th83ssfjrRdQUurAVxIUNhOSwXVW78tCoAHhHRHtYo3zW9RnkIlLizUZBeLZIh
-         Ljvw==
-X-Gm-Message-State: AOAM532YRMBDHztxnC3bXjYeh4wJhXrDjzu63F72XPxicTzKDa55iugc
-        JXCkcNgh/5EEUIJskbg9xSzOdUNK7vMJ4h0wZFufdt+NHRXPoQ==
-X-Google-Smtp-Source: ABdhPJyfnr321gXYxKVcADF7Mg84CJzjSsJG4frp9zc4ju7G/kp2QnXbgnN2lQQYDP3G7rnSfh9tJ0Rm+JoS9AD+qKE=
+        bh=J334O5uYapL/nSov6BZAzFIp7kzwsiEjIccb8+5N22c=;
+        b=4MLkIIIXuQKg6ndXFrvJ3JtY6EN19ILL0u78A247bU+jP6HAHkRH1sFJje7gy/SGFB
+         QoRatLALCYfSKZ16rvbWhlZQIHgSMTkParJuaZqDcgJ4PgirdHkxCZw2l+rHl+YmX3Is
+         N+zYzWrkhdqjq3iLquzrf2I/g5uO8gp0Dum6q79O6lQZqB8Mhg57bF0/eVonb0ei0PHX
+         LrrytcETwvvVrv0MRL+Tqba260lsT0MvBvrReQjkzqLubvcM9TWXqHuOg1JM0nj1eKF0
+         1vHQBZU8/U+TzeEDOuQB+Yz7UQKpGfpoHbaFAxPEsKH0yVIRoiDtqKgJKCqrJHuMk4ab
+         xJ+Q==
+X-Gm-Message-State: AOAM533lolTaK1TheEId0bdKlXqxYvU7ZuMU+k9qQ1/EpzUo+D5E0Apz
+        evjqZsRIMyvOdOSTh8YBR8sjcOq8e0SN1oQECJJALQ==
+X-Google-Smtp-Source: ABdhPJxSX/N/OBaPWataxe8f7C/8UA4YyOws9Udkg9tB+MjsWXVgKMGfJd5zUxPlMjvU6XV3jv/PVlgrCvTkFoyV5Jc=
 X-Received: by 2002:a05:6512:3092:b0:44a:e7bb:e961 with SMTP id
- z18-20020a056512309200b0044ae7bbe961mr303801lfd.190.1649091618372; Mon, 04
- Apr 2022 10:00:18 -0700 (PDT)
+ z18-20020a056512309200b0044ae7bbe961mr314645lfd.190.1649091843129; Mon, 04
+ Apr 2022 10:04:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220402130014.1417773-1-masahiroy@kernel.org>
-In-Reply-To: <20220402130014.1417773-1-masahiroy@kernel.org>
+References: <20220402130014.1417773-1-masahiroy@kernel.org> <20220402130014.1417773-2-masahiroy@kernel.org>
+In-Reply-To: <20220402130014.1417773-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 4 Apr 2022 10:00:07 -0700
-Message-ID: <CAKwvOd=0-dka3RwFSZoizccotYkYZjZf3eyj1nQGKJu65M+S3A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] modpost: remove useless export_from_sec()
+Date:   Mon, 4 Apr 2022 10:03:51 -0700
+Message-ID: <CAKwvOd=r4JQ0p1xRix934oTaF-7zQJiaNo7Er7ExH0_R3AnmZw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] modpost: move export_from_secname() call to more
+ relevant place
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,26 +70,10 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sat, Apr 2, 2022 at 6:00 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> With commit 1743694eb235 ("modpost: stop symbol preloading for
-> modversion CRC") applied, now export_from_sec() is useless.
+> The value returned by export_from_secname() is only used by
+> sym_add_exported().
 >
-> handle_symbol() is called for every symbol in the ELF.
->
-> When 'symname' does not start with "__ksymtab", export_from_sec() is
-> called, and the returned value is stored in 'export'.
->
-> It is used in the last part of handle_symbol():
->
->                 if (strstarts(symname, "__ksymtab_")) {
->                         name = symname + strlen("__ksymtab_");
->                         sym_add_exported(name, mod, export);
->                 }
->
-> 'export' is used only when 'symname' starts with "__ksymtab_".
->
-> So, the value returned by export_from_sec() is never used.
->
-> Remove this useless function. This makes further cleanups possible.
+> Move export_from_secname() just above sym_add_exported().
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -97,81 +82,38 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/mod/modpost.c | 17 +----------------
->  scripts/mod/modpost.h |  4 ----
->  2 files changed, 1 insertion(+), 20 deletions(-)
+>  scripts/mod/modpost.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index ed9d056d2108..194ca9083c7a 100644
+> index 194ca9083c7a..f9e54247ae1d 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -369,16 +369,6 @@ static enum export export_from_secname(struct elf_info *elf, unsigned int sec)
->                 return export_unknown;
->  }
->
-> -static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
-> -{
-> -       if (sec == elf->export_sec)
-> -               return export_plain;
-> -       else if (sec == elf->export_gpl_sec)
-> -               return export_gpl;
-> -       else
-> -               return export_unknown;
-> -}
-> -
->  static const char *namespace_from_kstrtabns(const struct elf_info *info,
->                                             const Elf_Sym *sym)
+> @@ -684,12 +684,8 @@ static void handle_modversion(const struct module *mod,
+>  static void handle_symbol(struct module *mod, struct elf_info *info,
+>                           const Elf_Sym *sym, const char *symname)
 >  {
-> @@ -576,10 +566,7 @@ static int parse_elf(struct elf_info *info, const char *filename)
->                                 fatal("%s has NOBITS .modinfo\n", filename);
->                         info->modinfo = (void *)hdr + sechdrs[i].sh_offset;
->                         info->modinfo_len = sechdrs[i].sh_size;
-> -               } else if (strcmp(secname, "__ksymtab") == 0)
-> -                       info->export_sec = i;
-> -               else if (strcmp(secname, "__ksymtab_gpl") == 0)
-> -                       info->export_gpl_sec = i;
-> +               }
+> -       enum export export;
+>         const char *name;
 >
->                 if (sechdrs[i].sh_type == SHT_SYMTAB) {
->                         unsigned int sh_link_idx;
-> @@ -702,8 +689,6 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
->
->         if (strstarts(symname, "__ksymtab"))
->                 export = export_from_secname(info, get_secindex(info, sym));
-> -       else
-> -               export = export_from_sec(info, get_secindex(info, sym));
->
+> -       if (strstarts(symname, "__ksymtab"))
+> -               export = export_from_secname(info, get_secindex(info, sym));
+> -
 >         switch (sym->st_shndx) {
 >         case SHN_COMMON:
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 0c47ff95c0e2..a85dcec3669a 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -25,7 +25,6 @@
->  #define Elf_Sym     Elf32_Sym
->  #define Elf_Addr    Elf32_Addr
->  #define Elf_Sword   Elf64_Sword
-> -#define Elf_Section Elf32_Half
->  #define ELF_ST_BIND ELF32_ST_BIND
->  #define ELF_ST_TYPE ELF32_ST_TYPE
->
-> @@ -40,7 +39,6 @@
->  #define Elf_Sym     Elf64_Sym
->  #define Elf_Addr    Elf64_Addr
->  #define Elf_Sword   Elf64_Sxword
-> -#define Elf_Section Elf64_Half
->  #define ELF_ST_BIND ELF64_ST_BIND
->  #define ELF_ST_TYPE ELF64_ST_TYPE
->
-> @@ -138,8 +136,6 @@ struct elf_info {
->         Elf_Shdr     *sechdrs;
->         Elf_Sym      *symtab_start;
->         Elf_Sym      *symtab_stop;
-> -       Elf_Section  export_sec;
-> -       Elf_Section  export_gpl_sec;
->         char         *strtab;
->         char         *modinfo;
->         unsigned int modinfo_len;
+>                 if (strstarts(symname, "__gnu_lto_")) {
+> @@ -724,7 +720,11 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
+>         default:
+>                 /* All exported symbols */
+>                 if (strstarts(symname, "__ksymtab_")) {
+> +                       enum export export;
+> +
+>                         name = symname + strlen("__ksymtab_");
+> +                       export = export_from_secname(info,
+> +                                                    get_secindex(info, sym));
+>                         sym_add_exported(name, mod, export);
+>                 }
+>                 if (strcmp(symname, "init_module") == 0)
 > --
 > 2.32.0
 >
