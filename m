@@ -2,146 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 643F14F138F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 13:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80DF54F139B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Apr 2022 13:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358950AbiDDLFh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 4 Apr 2022 07:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50756 "EHLO
+        id S1352785AbiDDLMF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 4 Apr 2022 07:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236147AbiDDLFg (ORCPT
+        with ESMTP id S243187AbiDDLME (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 4 Apr 2022 07:05:36 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8315B25;
-        Mon,  4 Apr 2022 04:03:35 -0700 (PDT)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 234B3NEQ001658;
-        Mon, 4 Apr 2022 20:03:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 234B3NEQ001658
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649070203;
-        bh=JG/zbhRcdhdcznjejyKbFMjaPGTJpepqOa9qTr7iSoM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1RfW205fo5MTTxQ6H4d/yTfBYYZl3gFZRvDg7d3VN8phK15nt8kOZWrE27dfOkRkN
-         TwxsF8vUa0nCy9ufA+lM50D3bAEdlNTbZHh9R7rzZsvNVgH/7Kvi3kYkdQPmJhSiQd
-         0uk8uZ8QiPIt4xQdbvxeAZKM/Mkj/hrdnMZVtZPSjYOqj+dzICLF0Ir9uSSYlWzVc5
-         ts2cWBeg1OzjMNU+RK7QpjvOOeRwGM1Vuilu/7y+AYuGtr1GDNLencM42j/ZscDXb6
-         KB1c50oGYgLbFKDGsznof7aE1pBxComsXRzgxK7RFPI5kxzhpXnXTAbr2HTgIQvANk
-         3pf4Ln1m5quyQ==
-X-Nifty-SrcIP: [209.85.210.180]
-Received: by mail-pf1-f180.google.com with SMTP id h24so4295747pfo.6;
-        Mon, 04 Apr 2022 04:03:23 -0700 (PDT)
-X-Gm-Message-State: AOAM5336t/R0CC04aC+whczX++EoDS5N4SYB9bNSYeY/oNntDLJgJ1il
-        Bxnpke3n+mm89qJW1FCW7ctFBHn/PSTx602wFAs=
-X-Google-Smtp-Source: ABdhPJy2XI7PU06Z81w2Q/TzQqR37viCjtaYtzW7uB0xOB4zElHSENcTHkICyhaiTO8LEh/H5SWQl8PL56i/NBmqoZI=
-X-Received: by 2002:a05:6a00:24d2:b0:4fb:1b6d:ee7d with SMTP id
- d18-20020a056a0024d200b004fb1b6dee7dmr23384787pfv.36.1649070202372; Mon, 04
- Apr 2022 04:03:22 -0700 (PDT)
+        Mon, 4 Apr 2022 07:12:04 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569DC3AA50;
+        Mon,  4 Apr 2022 04:10:06 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: usama.anjum)
+        with ESMTPSA id 231F71F44F1C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1649070605;
+        bh=uJM/eBYziCRkGOrHOqJSiL8T5PL06TZOxD1+cp1k4lI=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=WcxVAn7bem/ad7tCGkNyhTYZGuTiG9TbACZ2HKZn3kk0abKkB6mCKQ86B5fNfagf8
+         2cogEYTERRbxiCrtblpFqezTh9SfWlVYOj2qhYrEpyvvRPuSQEI6MV/AnUNc8Zv2ER
+         l2BywD1pTw1bzWtfKqPRbvgRGO2cL4ctwqk8QjbmBnMD5xp8/YneID54IGN4bWto2R
+         oI1hwKhzaCBut0lQ6kP08E+JitpPC1bi8S9xnWNAUl4NjcIHQdGmT1OHyEzjDLeIAB
+         BOzJFo317z0D7tOS7JnJOwgQAt5mAzGU8Cw2NHny8n+YXErlUq8/j7KgEdQwfJ2EcH
+         71dHdcJuu36Mg==
+Message-ID: <d10a70cf-24a5-997a-09df-0bb2f4146b86@collabora.com>
+Date:   Mon, 4 Apr 2022 16:09:57 +0500
 MIME-Version: 1.0
-References: <20220307223231.608498-1-mst@redhat.com> <CAK7LNAR=fs+VJUZJj7YyprdA6xjx=4bttPRL6e4bvNkEeX9eng@mail.gmail.com>
- <t2boae$9u9$1@ciao.gmane.io>
-In-Reply-To: <t2boae$9u9$1@ciao.gmane.io>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 4 Apr 2022 20:02:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQboNkJcmWdq6=P_PQck3oUGNU_d25PHowtYa2sMcMD-w@mail.gmail.com>
-Message-ID: <CAK7LNAQboNkJcmWdq6=P_PQck3oUGNU_d25PHowtYa2sMcMD-w@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: fix config cc version check
-To:     Akemi Yagi <toracat@elrepo.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Cc:     usama.anjum@collabora.com, Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        kernel@collabora.com, kernelci@groups.io,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Makefile: Fix separate output directory build of
+ kselftests
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Shuah Khan <shuah@kernel.org>
+References: <20220223191016.1658728-1-usama.anjum@collabora.com>
+ <63c5d7ad-b0b2-9b37-16c3-354ac10858b6@collabora.com>
+ <CAK7LNATkTPEBPWBSv6Rum0siHiHcJ0Q7VvPVoUQFH=S0M1fqow@mail.gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CAK7LNATkTPEBPWBSv6Rum0siHiHcJ0Q7VvPVoUQFH=S0M1fqow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 3, 2022 at 6:11 PM Akemi Yagi <toracat@elrepo.org> wrote:
->
-> On Tue, 08 Mar 2022 11:23:31 +0900, Masahiro Yamada wrote:
->
-> > On Tue, Mar 8, 2022 at 7:32 AM Michael S. Tsirkin <mst@redhat.com>
-> > wrote:
-> >>
-> >> .config is of the form:
-> >> CONFIG_CC_VERSION_TEXT="gcc (GCC) 11.2.1 20220127 (Red Hat 11.2.1-9)"
-> >
-> >
-> > No. This was changed.
-> >
-> > See this:
-> >
-> > $ git show 129ab0d2d9f -- Makefile
-> >
-> >
-> >
-> >> while CC_VERSION_TEXT is of the form: gcc (GCC) 11.2.1 20220127 (Red
-> >> Hat 11.2.1-7)
-> >>
-> >> thus when comparing these, CONFIG_CC_VERSION_TEXT should not be put in
-> >> "", otherwise we get () outside "" which shell then tries to evaluate.
-> >>
-> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >> ---
-> >>  Makefile | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Makefile b/Makefile index daeb5c88b50b..d5c03c827825
-> >> 100644 --- a/Makefile +++ b/Makefile @@ -1714,9 +1714,9 @@ PHONY +=
-> >> prepare
-> >>  # now expand this into a simple variable to reduce the cost of shell
-> >>  evaluations prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
-> >>  prepare:
-> >> -       @if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ];
-> >> then \
-> >> +       @if [ "$(CC_VERSION_TEXT)" != $(CONFIG_CC_VERSION_TEXT) ]; then
-> >> \
-> >>                 echo >&2 "warning: the compiler differs from the one
-> >>                 used to build the kernel"; \
-> >> -               echo >&2 "  The kernel was built by:
-> >> $(CONFIG_CC_VERSION_TEXT)"; \ +               echo >&2 "  The kernel
-> >> was built by: "$(CONFIG_CC_VERSION_TEXT)";" \
-> >>                 echo >&2 "  You are using:
-> >>                 $(CC_VERSION_TEXT)"; \
-> >>         fi
-> >>
-> >> --
-> >> MST
->
-> I believe the patch proposed by Michael indeed fixes an issue
-> introduced by 129ab0d2d9f (Makefile).
->
-> Please see the following bug reports:
->
-> https://elrepo.org/bugs/view.php?id=1215
-> https://elrepo.org/bugs/view.php?id=1214
->
-> and this forum post:
->
-> https://www.phoronix.com/forums/forum/software/general-linux-open-source/
-> 1303986-linux-5-17-rc1-released-a-little-bit-early-but-with-shiny-new-
-> features#post1304036
->
-> Akemi
->
+From [Makefile](https://elixir.bootlin.com/linux/latest/source/Makefile):
+```
+ifeq ($(abs_srctree),$(abs_objtree))
+        # building in the source tree
+        srctree := .
+	building_out_of_srctree :=
+else
+        ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
+                # building in a subdirectory of the source tree
+                srctree := ..
+        else
+                srctree := $(abs_srctree)
+        endif
+	building_out_of_srctree := 1
+endif
+```
+`ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))` condition is setting
+`srctree` to `..`. This is wrong. This condition isn't considering that
+`header_install` doesn't depend on `abs_srctree and abs_objtree`. This
+condition needs to be tweaked or removed for the `install_headers` to
+work fine and fix this issue. I've added `KBUILD_ABS_SRCTREE=1` to the
+kselftest target which sets the `srctree` to `abs_srctree` and thus
+forcefully affecting only kselftest targets. This seems like the clean
+fix. Alternatively we should remove this condition `ifeq
+($(abs_srctree)/,$(dir $(abs_objtree)))` but it'll affect other targets
+as well.
 
-I left a comment:
-https://elrepo.org/bugs/view.php?id=1215
+Complete details of investigation can be found here:
+https://github.com/kernelci/kernelci-project/issues/92#issuecomment-1087406222
 
-
-This is a bug in ELRepo.
-
-The upstream kernel is good.
-
-Please do not come back to this over again.
-
-
-
+On 3/17/22 11:08 PM, Masahiro Yamada wrote:
+> On Thu, Mar 17, 2022 at 7:49 PM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> Reminder. Shuah is okay with this patch. Any thoughts?
+> 
+> I do not think this is the right fix,
+> but something you just happen to find working.
+> 
+> 
+> The Make is working in a wrong directory, that is why
+> the relative path does not work
+> (and you use the absolute path to work around it)
+> 
+`ifeq ($(abs_srctree)/,$(dir $(abs_objtree))) \ srctree := ..` has
+broken the `make headers_install` when called through
+selftests/Makefile. We can remove it or use the absolute path each time.
 
 -- 
-Best Regards
-Masahiro Yamada
+Muhammad Usama Anjum
