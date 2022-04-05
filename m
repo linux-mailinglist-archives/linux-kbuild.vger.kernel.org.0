@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D666B4F4083
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8809A4F3FE9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241537AbiDEOLd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 10:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34020 "EHLO
+        id S241703AbiDEOLk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 10:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384117AbiDEM1L (ORCPT
+        with ESMTP id S1384122AbiDEM1L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 5 Apr 2022 08:27:11 -0400
 Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2E1574AB;
-        Tue,  5 Apr 2022 04:35:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D39574BC;
+        Tue,  5 Apr 2022 04:35:18 -0700 (PDT)
 Received: from grover.. (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 235BYCGs000464;
-        Tue, 5 Apr 2022 20:34:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGs000464
+        by conuserg-12.nifty.com with ESMTP id 235BYCGt000464;
+        Tue, 5 Apr 2022 20:34:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGt000464
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649158456;
-        bh=jQYNKCFxuPQP3ZPrlr5taAXi8gXxcKaNemFjBDbWpQI=;
+        s=dec2015msa; t=1649158457;
+        bh=g76dlQF6mmZzr43YQ6WiTAVzfZji/JTWeTt9/x6nhy8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KIbFiadPsQ0UMZCQcC/JAQ4dYrCBvGqON+8YV7gUab1+ukbGOIE3lm8KFYlA+dL6S
-         J5z3+ipr5aPapMUf6ro01z2XRhnGSYgMWgg9/PcbGJ4OGJUbcZeozObKqKS8V1Bgo+
-         n6q8yked1G7CVRG8o5QraRVE+WrNzXCTZ+7RvPaUM4eTNqKVsNY+6bbSuByPRIfuq4
-         8ksMsfKJTh3s6y/zWKTqUXTxKwCslsDVDa3bQ2s9KTqfmdpCh3wtWMKrCJaZ9ziPkn
-         GDx3mhB4z4FIDquk5BpblgbpDe3B3sAogF/KKfwtYVYYpY0VmOW3lXe0yT55uLgud5
-         JfUXVDEqeDvtQ==
+        b=fhkX7GfZ1icPtiA7cEpfvegqzI8mfJATIDbetdt2odNtdCLvwcVJbCeOwONU77Vz4
+         nSePOhux0lQk44IYWxfyYxJwmKw8ZT5qQwaQuMa5RRkjeByWbGxewF0m8GzKNhEjpw
+         3mU7LXD1uWZhPhC1MGCcPsytnpd6qEDZCSRBIG9xJU5clVEv4nv0OImbzNqdgNIc+w
+         qo+J86PA3PYHQr/pkfo5OdrBlC7XpaF3HaBw8740gCbiiKgtIXY7z0/ZilnObun8OT
+         /qBp6C97UmE0EJKvHrXoC8t1Wuct2SKs4qOzErdjGLh5jpcHfrUWWjudhk5MWbXJya
+         dvzaDo8oWbJeg==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v2 06/10] modpost: remove annoying namespace_from_kstrtabns()
-Date:   Tue,  5 Apr 2022 20:33:54 +0900
-Message-Id: <20220405113359.2880241-7-masahiroy@kernel.org>
+Subject: [PATCH v2 07/10] kbuild: get rid of duplication in the first line of *.mod files
+Date:   Tue,  5 Apr 2022 20:33:55 +0900
+Message-Id: <20220405113359.2880241-8-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220405113359.2880241-1-masahiroy@kernel.org>
 References: <20220405113359.2880241-1-masahiroy@kernel.org>
@@ -53,29 +53,20 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There are two call sites for sym_update_namespace().
+The first line of *.mod lists the member objects of the module.
+This list may contain duplication if the same object is added multiple
+times, like this:
 
-When the symbol has no namespace, s->namespace is set to NULL,
-but the conversion from "" to NULL is done in two different places.
+  obj-m := foo.o
+  foo-$(CONFIG_FOO1_X) += foo1.o
+  foo-$(CONFIG_FOO1_Y) += foo1.o
+  foo-$(CONFIG_FOO2_X) += foo2.o
+  foo-$(CONFIG_FOO2_Y) += foo2.o
 
-[1] read_symbols()
-
-  This gets the namespace from __kstrtabns_<symbol>. If the symbol has
-  no namespace, sym_get_data(info, sym) returns the empty string "".
-  namespace_from_kstrtabns() converts it to NULL before it is passed to
-  sym_update_namespace().
-
-[2] read_dump()
-
-  This gets the namespace from the dump file, *.symvers. If the symbol
-  has no namespace, the 'namespace' is the empty string "", which is
-  directly passed into sym_update_namespace(). The conversion from
-  "" to NULL is done in sym_update_namespace().
-
-namespace_from_kstrtabns() exists only for creating this inconsistency.
-
-By removing it, sym_update_namespace() is consistently passed with ""
-when the symbol has no namespace.
+This is probably not a big deal. As far as I know, the only small
+problem is scripts/mod/sumversion.c parses the same file over again.
+This can be avoided by adding $(sort ...). It has a side-effect that
+sorts the objects alphabetically, but it is not a big deal, either.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
@@ -83,48 +74,25 @@ Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Changes in v2:
   - new
 
- scripts/mod/modpost.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ scripts/Makefile.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 2a202764ff48..522d5249d196 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -369,13 +369,6 @@ static enum export export_from_secname(struct elf_info *elf, unsigned int sec)
- 		return export_unknown;
- }
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 3ef2373f0a57..63625877aeae 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -307,8 +307,10 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
+ 	$(call if_changed,cc_prelink_modules)
+ endif
  
--static const char *namespace_from_kstrtabns(const struct elf_info *info,
--					    const Elf_Sym *sym)
--{
--	const char *value = sym_get_data(info, sym);
--	return value[0] ? value : NULL;
--}
--
- static void sym_update_namespace(const char *symname, const char *namespace)
- {
- 	struct symbol *s = find_symbol(symname);
-@@ -391,8 +384,7 @@ static void sym_update_namespace(const char *symname, const char *namespace)
- 	}
++multi-m-prereqs = $(sort $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)))
++
+ cmd_mod = { \
+-	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
++	echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=.o)); \
+ 	$(undefined_syms) echo; \
+ 	} > $@
  
- 	free(s->namespace);
--	s->namespace =
--		namespace && namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
-+	s->namespace = namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
- }
- 
- /**
-@@ -2049,9 +2041,7 @@ static void read_symbols(const char *modname)
- 		/* Apply symbol namespaces from __kstrtabns_<symbol> entries. */
- 		if (strstarts(symname, "__kstrtabns_"))
- 			sym_update_namespace(symname + strlen("__kstrtabns_"),
--					     namespace_from_kstrtabns(&info,
--								      sym));
--
-+					     sym_get_data(&info, sym));
- 		if (strstarts(symname, "__crc_"))
- 			handle_modversion(mod, &info, sym,
- 					  symname + strlen("__crc_"));
 -- 
 2.32.0
 
