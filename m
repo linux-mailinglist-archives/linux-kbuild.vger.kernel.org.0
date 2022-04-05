@@ -2,123 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB194F4F32
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 03:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5C804F4F3D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 03:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442950AbiDFAmb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 20:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42798 "EHLO
+        id S1455960AbiDFAnb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 20:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457629AbiDEQUj (ORCPT
+        with ESMTP id S1457634AbiDEQWt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Apr 2022 12:20:39 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9939BA193
-        for <linux-kbuild@vger.kernel.org>; Tue,  5 Apr 2022 09:18:38 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id t25so24116092lfg.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Apr 2022 09:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wIU2TEaS8WXbUqpi1fM6EfmEmwnBi19lD4NhlLBz3ig=;
-        b=H8/4Lx4V0XygDs2dccjNd7TS7BtZ2fMSdr3xp4cjLVJj1pIAG8E/lefcRKdKOVEcDq
-         0K+DG1Xns7N/k3s/nBe/9wCZfncNH69qMkDM9XvpXMRkvH+bCU2KCXleFNDWKjkqewpk
-         IPy2hfj/pbDYC90dDuVUsKY0KS75145Wb2v/078FGCGX71uwEW/JGKMcMqr+9Cj2bPOp
-         HKSXu5vKjskeXytHF25DvAkVsnlFk15eVE4zcractjvW8tvGzunroHoHyGFtu1iB8E40
-         C7FXx+WgMFYFECMibHGBn5OK/9VMXK53nQXr/V6k+ni5i/+X5vRXaQu+vE2tXjFzGv2x
-         SYWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wIU2TEaS8WXbUqpi1fM6EfmEmwnBi19lD4NhlLBz3ig=;
-        b=49WkdJo2t+vp042rBdaZzN0rZtU2h/q2cr04mLDTUhvFKo1z7iAXHHrBf/KoBwSTs5
-         zSsxaFu0uku4r5symXt1MuzJrSiOHAaXavV4fYss7LBJ2wUTB3TBXcc9CteJJNC84rnl
-         N+EfdOMJJOBJR4ZI/kH70KSS+2mTD7wo+Qd5YiSJuKkuM62EvvE7THigroAAQ1TjvmEd
-         lshRNZUm3MpZDWCURwYbnSHHqd5Dq75XDEM+8kapHYyrRsFupZUdDUzzOrtVHxXLIpVq
-         D4IpSYzMtQzb3C9rw6Wg0uSYr05KBUN+HRGMcs38iCU321OAcDwNUDXr0zylYLPYV6kN
-         Rz8w==
-X-Gm-Message-State: AOAM5329WKUnNR7j6Fa6cTe1lp1zIhcIG2ZKbdXPpE/DLPuapuqfEoZ/
-        y2MjB3q4aDzCZwn+c5zJgD/ENIaeaqhvTfQ68a7G1g==
-X-Google-Smtp-Source: ABdhPJzyIXHKLyRxKNDc0gfAZnnCNVmFVcYvD3pwWFNRifi2q7UjxoNx7BuehqH/sa8M5LtAyeh2d+vmVolrtFy4p0A=
-X-Received: by 2002:a05:6512:3da1:b0:44a:2aeb:28e4 with SMTP id
- k33-20020a0565123da100b0044a2aeb28e4mr3016271lfv.579.1649175515578; Tue, 05
- Apr 2022 09:18:35 -0700 (PDT)
+        Tue, 5 Apr 2022 12:22:49 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783EA68FB8;
+        Tue,  5 Apr 2022 09:20:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 33847B81E76;
+        Tue,  5 Apr 2022 16:20:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C1895C385A5;
+        Tue,  5 Apr 2022 16:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649175648;
+        bh=9P0bvPQE7TMYUDS1QHIUxX2gPSQ2fjCXf7+fuJtJhZk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=DuxV52lKFd1sgfEeUDu9tOfV6G4bvXzk2hAfEUif0dtsVbADNdPFBYFfsMNXTfLkv
+         VPz+SSuWPJiz/2Pt29cWiLakeKR0SIbLT84b2Pt3E8GKMocCT6NBf1+gMiUYSpZR1U
+         5ZrQH2eFiZTVw6Hwf/VR+BVKI8oRuthYG7GkA2B8QeH761kRvg1kukLjz/SiXVMT8k
+         ogt3jYFymRus/NVEDcAyE5tQwCYaN4j3V/CVD6nPyHAEBZ/PbhYFUHS/ZELeTrdjLp
+         4eNyIQomhhBu43ddy3oWEs94w4OA/uuD9XExE+t+c0XbjFvAE88gftmwPdqD5hhn7h
+         wLsEkzxX4J6Ow==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9972CE85D15;
+        Tue,  5 Apr 2022 16:20:48 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220405113359.2880241-1-masahiroy@kernel.org> <20220405113359.2880241-3-masahiroy@kernel.org>
-In-Reply-To: <20220405113359.2880241-3-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 5 Apr 2022 09:18:23 -0700
-Message-ID: <CAKwvOd=13RwpvTQ5O86aQkyrGVSbqJkCWwsvU+DbRsGiKNS71A@mail.gmail.com>
-Subject: Re: [PATCH v2 02/10] kbuild: do not remove empty *.symtypes explicitly
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] tracing: Move user_events.h temporarily out of include/uapi
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164917564862.18481.12734568923836492201.git-patchwork-notify@kernel.org>
+Date:   Tue, 05 Apr 2022 16:20:48 +0000
+References: <20220401143903.188384f3@gandalf.local.home>
+In-Reply-To: <20220401143903.188384f3@gandalf.local.home>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+        beaub@linux.microsoft.com, mhiramat@kernel.org,
+        linux-trace-devel@vger.kernel.org, bpf@vger.kernel.org,
+        netdev@vger.kernel.org, alexei.starovoitov@gmail.com,
+        torvalds@linux-foundation.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, linux-kbuild@vger.kernel.org,
+        masahiroy@kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 4:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Presumably, 'test -s $@ || rm -f $@' intends to remove the output when
-> the genksyms command fails.
->
-> It is unneeded because .DELETE_ON_ERROR automatically removes the output
-> on failure.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hello:
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+This patch was applied to netdev/net-next.git (master)
+by Steven Rostedt (Google) <rostedt@goodmis.org>:
 
-> ---
->
-> Changes in v2:
->   - Fix accidental drop of '> /dev/null'
->
->  scripts/Makefile.build | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 31e0e33dfe5d..3ef2373f0a57 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -135,9 +135,7 @@ genksyms = scripts/genksyms/genksyms                \
->  cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
->
->  quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
-> -cmd_cc_symtypes_c =                                                         \
-> -    $(call cmd_gensymtypes_c,true,$@) >/dev/null;                           \
-> -    test -s $@ || rm -f $@
-> +      cmd_cc_symtypes_c = $(call cmd_gensymtypes_c,true,$@) >/dev/null
->
->  $(obj)/%.symtypes : $(src)/%.c FORCE
->         $(call cmd,cc_symtypes_c)
-> @@ -348,9 +346,7 @@ cmd_gensymtypes_S =                                                         \
->      $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
->
->  quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
-> -cmd_cc_symtypes_S =                                                         \
-> -    $(call cmd_gensymtypes_S,true,$@) >/dev/null;                           \
-> -    test -s $@ || rm -f $@
-> +      cmd_cc_symtypes_S = $(call cmd_gensymtypes_S,true,$@) >/dev/null
->
->  $(obj)/%.symtypes : $(src)/%.S FORCE
->         $(call cmd,cc_symtypes_S)
-> --
-> 2.32.0
->
+On Fri, 1 Apr 2022 14:39:03 -0400 you wrote:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+> 
+> While user_events API is under development and has been marked for broken
+> to not let the API become fixed, move the header file out of the uapi
+> directory. This is to prevent it from being installed, then later changed,
+> and then have an old distro user space update with a new kernel, where
+> applications see the user_events being available, but the old header is in
+> place, and then they get compiled incorrectly.
+> 
+> [...]
 
+Here is the summary with links:
+  - tracing: Move user_events.h temporarily out of include/uapi
+    https://git.kernel.org/netdev/net-next/c/5cfff569cab8
 
+You are awesome, thank you!
 -- 
-Thanks,
-~Nick Desaulniers
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
