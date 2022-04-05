@@ -2,47 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5EC4F43D6
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 00:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E17914F4571
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 00:47:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240925AbiDEOLA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 10:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        id S235990AbiDEOKz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 10:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384218AbiDEM1Q (ORCPT
+        with ESMTP id S1384123AbiDEM1L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Apr 2022 08:27:16 -0400
+        Tue, 5 Apr 2022 08:27:11 -0400
 Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0984E72E1B;
-        Tue,  5 Apr 2022 04:35:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B79574BA;
+        Tue,  5 Apr 2022 04:35:18 -0700 (PDT)
 Received: from grover.. (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 235BYCGu000464;
-        Tue, 5 Apr 2022 20:34:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGu000464
+        by conuserg-12.nifty.com with ESMTP id 235BYCGv000464;
+        Tue, 5 Apr 2022 20:34:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGv000464
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649158458;
-        bh=xHw08sV1P7djqAfiHb5ZZpE2FCl7EdNPfQ2AKXOC1LQ=;
+        s=dec2015msa; t=1649158459;
+        bh=dJWl8ojIyORclruErwON0RrHfXvcLP2fynkVmPN0hbY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tg5lQO4MTmYIwmMFvfiphHN64ZDtYzZrRaOVeSlwLV1dzrrb78p68cE9PM67D4obJ
-         wsGrh6fee1th0zcYazx2Nr7lBvlLaQUbGWe7StvUw4d0qDdJN/zdDPZWUrjCWZvXJk
-         JQUt8NeeQX1ghIZWPw0R59LyRx4+E5Zs1VyTy066BERqDhkfpHwXLItA4Hit3hhPiM
-         ebpysZFpK0nRtmFIuz8W3Ua7vz2apvuBB79fEjUuHOLyDETSlcWCietxKc+yN438nZ
-         JgmdY80OpYgjZfoR+Oy47a4tymUxC+BdgwKLpRVNdqigq39pGF/SdrFlJYQ2oV2K8W
-         Drk2PNJNjC+qQ==
+        b=c1lJuwxNsCFcvhaVqHpTfXivtbScy9J7jZCuY6BemLqdxgLCsO858AV1f5MBe4SWf
+         h92Qwq1gYGNuKxqkI7vXTPMhujVeNcXd2zEbC/03iSyRxGeNzrwSv/hUOlEavBrQV9
+         yKfc1/EAYPKMrNfHi9aM955Y3jQIEWK32rpfA6FsBjYvw5TOZE+6Fzl7OFWgMQIkEd
+         8Oa6ErvPDVrV1iGn5mh6ftuJkYAaszl61BXV+jjTaozNBim+rrKZ0i2Ot18K31NCF5
+         I90Ao5JQGcPEOe7DrktkOEhl2DHQsR0Tt8TZ03FJjkeGG8NXs+7dK0t9AIMKOfTgvx
+         5KhBjObXJrw4A==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Alexander Lobakin <alobakin@pm.me>,
         Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <n.schier@avm.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sami Tolvanen <samitolvanen@google.com>
-Subject: [PATCH v2 08/10] kbuild: split the second line of *.mod into *.usyms
-Date:   Tue,  5 Apr 2022 20:33:56 +0900
-Message-Id: <20220405113359.2880241-9-masahiroy@kernel.org>
+        llvm@lists.linux.dev
+Subject: [PATCH v2 09/10] kbuild: refactor cmd_modversions_c
+Date:   Tue,  5 Apr 2022 20:33:57 +0900
+Message-Id: <20220405113359.2880241-10-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220405113359.2880241-1-masahiroy@kernel.org>
 References: <20220405113359.2880241-1-masahiroy@kernel.org>
@@ -57,195 +55,79 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The *.mod files have two lines; the first line lists the member objects
-of the module, and the second line, if CONFIG_TRIM_UNUSED_KSYMS=y, lists
-the undefined symbols.
+cmd_modversions_c implements two parts; run genksyms to calculate CRCs
+of exported symbols, run $(LD) to update the object with the CRCs. The
+latter is not executed for CONFIG_LTO_CLANG=y since the object is not
+ELF but LLVM bit code at this point.
 
-These two are orthogonal. For further cleanups, lets' split the second
-line out to separate *.usyms files, which are generated only when
-CONFIG_TRIM_UNUSED_KSYMS=y.
+The first part can be unified because we can always use $(NM) instead
+of "$(OBJDUMP) -h" to dump the symbols.
 
-Previously, the list of undefined symbols ended up with a very long
-line, but now symbols are split by new lines.
-
-Use 'sed' like we did before commit 7d32358be8ac ("kbuild: avoid split
-lines in .mod files").
+Split the code into the two macros, cmd_gen_symversions_c and
+cmd_modversions.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2:
-  - new
+ - new
 
- .gitignore                  |  1 +
- Makefile                    |  2 +-
- scripts/Makefile.build      | 17 +++++++++--------
- scripts/adjust_autoksyms.sh |  2 +-
- scripts/gen_autoksyms.sh    | 18 +++++++++++-------
- scripts/mod/sumversion.c    | 11 ++---------
- 6 files changed, 25 insertions(+), 26 deletions(-)
+ scripts/Makefile.build | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 7afd412dadd2..265959544978 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -45,6 +45,7 @@
- *.symversions
- *.tab.[ch]
- *.tar
-+*.usyms
- *.xz
- *.zst
- Module.symvers
-diff --git a/Makefile b/Makefile
-index d9336e783be3..82ee893909e9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1848,7 +1848,7 @@ clean: $(clean-dirs)
- 		-o -name '*.ko.*' \
- 		-o -name '*.dtb' -o -name '*.dtbo' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
- 		-o -name '*.dwo' -o -name '*.lst' \
--		-o -name '*.su' -o -name '*.mod' \
-+		-o -name '*.su' -o -name '*.mod' -o -name '*.usyms' \
- 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
- 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
- 		-o -name '*.asn1.[ch]' \
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 63625877aeae..d934bdf84de4 100644
+index d934bdf84de4..ba2be555f942 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -85,7 +85,8 @@ ifdef need-builtin
- targets-for-builtin += $(obj)/built-in.a
+@@ -169,29 +169,25 @@ ifdef CONFIG_MODVERSIONS
+ #   the actual value of the checksum generated by genksyms
+ # o remove .tmp_<file>.o to <file>.o
+ 
+-ifdef CONFIG_LTO_CLANG
+ # Generate .o.symversions files for each .o with exported symbols, and link these
+ # to the kernel and/or modules at the end.
+-cmd_modversions_c =								\
++gen_symversions =								\
+ 	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
+-		$(call cmd_gensymtypes_c,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
++		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
+ 		    > $@.symversions;						\
+ 	else									\
+ 		rm -f $@.symversions;						\
+-	fi;
+-else
+-cmd_modversions_c =								\
+-	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
+-		$(call cmd_gensymtypes_c,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
+-		    > $(@D)/.tmp_$(@F:.o=.ver);					\
+-										\
++	fi
++
++cmd_gen_symversions_c =	$(call gen_symversions,c)
++
++cmd_modversions =								\
++	if [ -r $@.symversions ]; then						\
+ 		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
+-			-T $(@D)/.tmp_$(@F:.o=.ver);				\
++			-T $@.symversions;					\
+ 		mv -f $(@D)/.tmp_$(@F) $@;					\
+-		rm -f $(@D)/.tmp_$(@F:.o=.ver);					\
+ 	fi
  endif
+-endif
  
--targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-+targets-for-modules := $(foreach suffix, mod $(if $(CONFIG_TRIM_UNUSED_KSYMS), usyms), \
-+				$(patsubst %.o, %.$(suffix), $(filter %.o, $(obj-m))))
+ ifdef CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
+ # compiler will not generate __mcount_loc use recordmcount or recordmcount.pl
+@@ -269,7 +265,8 @@ define rule_cc_o_c
+ 	$(call cmd,checksrc)
+ 	$(call cmd,checkdoc)
+ 	$(call cmd,gen_objtooldep)
+-	$(call cmd,modversions_c)
++	$(call cmd,gen_symversions_c)
++	$(if $(CONFIG_LTO_CLANG),,$(call cmd,modversions))
+ 	$(call cmd,record_mcount)
+ endef
  
- ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
- targets-for-modules += $(patsubst %.o, %.prelink.o, $(filter %.o, $(obj-m)))
-@@ -260,9 +261,6 @@ endif
- ifdef CONFIG_TRIM_UNUSED_KSYMS
- cmd_gen_ksymdeps = \
- 	$(CONFIG_SHELL) $(srctree)/scripts/gen_ksymdeps.sh $@ >> $(dot-target).cmd
--
--# List module undefined symbols
--undefined_syms = $(NM) $< | $(AWK) '$$1 == "U" { printf("%s%s", x++ ? " " : "", $$2) }';
- endif
- 
- define rule_cc_o_c
-@@ -309,14 +307,17 @@ endif
- 
- multi-m-prereqs = $(sort $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)))
- 
--cmd_mod = { \
--	echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=.o)); \
--	$(undefined_syms) echo; \
--	} > $@
-+cmd_mod = echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=.o)) > $@
- 
- $(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o FORCE
- 	$(call if_changed,mod)
- 
-+# List module undefined symbols
-+cmd_undefined_syms = $(NM) $< | sed -n 's/^  *U //p' > $@
-+
-+$(obj)/%.usyms: $(obj)/%$(mod-prelink-ext).o FORCE
-+	$(call if_changed,undefined_syms)
-+
- quiet_cmd_cc_lst_c = MKLST   $@
-       cmd_cc_lst_c = $(CC) $(c_flags) -g -c -o $*.o $< && \
- 		     $(CONFIG_SHELL) $(srctree)/scripts/makelst $*.o \
-diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
-index 59fdb875e818..f1b5ac818411 100755
---- a/scripts/adjust_autoksyms.sh
-+++ b/scripts/adjust_autoksyms.sh
-@@ -35,7 +35,7 @@ case "$KBUILD_VERBOSE" in
- esac
- 
- # Generate a new symbol list file
--$CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh "$new_ksyms_file"
-+$CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh --modorder "$new_ksyms_file"
- 
- # Extract changes between old and new list and touch corresponding
- # dependency files.
-diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
-index 120225c541c5..faacf7062122 100755
---- a/scripts/gen_autoksyms.sh
-+++ b/scripts/gen_autoksyms.sh
-@@ -2,13 +2,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- # Create an autoksyms.h header file from the list of all module's needed symbols
--# as recorded on the second line of *.mod files and the user-provided symbol
--# whitelist.
-+# as recorded in *.usyms files and the user-provided symbol whitelist.
- 
- set -e
- 
--output_file="$1"
--
- # Use "make V=1" to debug this script.
- case "$KBUILD_VERBOSE" in
- *1*)
-@@ -16,6 +13,15 @@ case "$KBUILD_VERBOSE" in
- 	;;
- esac
- 
-+read_modorder=
-+
-+if [ "$1" = --modorder ]; then
-+	shift
-+	read_modorder=1
-+fi
-+
-+output_file="$1"
-+
- needed_symbols=
- 
- # Special case for modversions (see modpost.c)
-@@ -41,10 +47,8 @@ cat > "$output_file" << EOT
- 
- EOT
- 
--[ -f modules.order ] && modlist=modules.order || modlist=/dev/null
--
- {
--	sed 's/ko$/mod/' $modlist | xargs -n1 sed -n -e '2p'
-+	[ -n "${read_modorder}" ] && sed 's/ko$/usyms/' modules.order | xargs cat
- 	echo "$needed_symbols"
- 	[ -n "$ksym_wl" ] && cat "$ksym_wl"
- } | sed -e 's/ /\n/g' | sed -n -e '/^$/!p' |
-diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
-index 905c0ec291e1..0125698f2037 100644
---- a/scripts/mod/sumversion.c
-+++ b/scripts/mod/sumversion.c
-@@ -387,7 +387,7 @@ static int parse_source_files(const char *objfile, struct md4_ctx *md)
- /* Calc and record src checksum. */
- void get_src_version(const char *modname, char sum[], unsigned sumlen)
- {
--	char *buf, *pos, *firstline;
-+	char *buf;
- 	struct md4_ctx md;
- 	char *fname;
- 	char filelist[PATH_MAX + 1];
-@@ -397,15 +397,8 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
- 
- 	buf = read_text_file(filelist);
- 
--	pos = buf;
--	firstline = get_line(&pos);
--	if (!firstline) {
--		warn("bad ending versions file for %s\n", modname);
--		goto free;
--	}
--
- 	md4_init(&md);
--	while ((fname = strsep(&firstline, " "))) {
-+	while ((fname = strsep(&buf, " \n"))) {
- 		if (!*fname)
- 			continue;
- 		if (!(is_static_library(fname)) &&
 -- 
 2.32.0
 
