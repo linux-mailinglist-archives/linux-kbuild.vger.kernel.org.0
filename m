@@ -2,43 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D892A4F41B8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E594F430D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:54:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241009AbiDEOLK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 10:11:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
+        id S245255AbiDEOMI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 10:12:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384133AbiDEM1M (ORCPT
+        with ESMTP id S1384124AbiDEM1L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Apr 2022 08:27:12 -0400
+        Tue, 5 Apr 2022 08:27:11 -0400
 Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21C357B0E;
-        Tue,  5 Apr 2022 04:35:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F13415FFA;
+        Tue,  5 Apr 2022 04:35:18 -0700 (PDT)
 Received: from grover.. (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 235BYCGq000464;
+        by conuserg-12.nifty.com with ESMTP id 235BYCGr000464;
         Tue, 5 Apr 2022 20:34:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGq000464
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGr000464
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649158455;
-        bh=yB8mBxh6zgfFkl1vR4ponG9HVyr7i/FNMeStWHFyu/w=;
+        s=dec2015msa; t=1649158456;
+        bh=hFcfpaL7dMThduj0I/l+DG6RPreS0NdgRlLeoUw6KmA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h0WQLw9dcMALq734ybEzZQq76OeHfQxuob6gpI5eh80gF2Uz9pGzrXICIkcRUStAS
-         K25/8dKR9NZGr0vc0fC/nS68dzZca6mYfVasGPxgZkQqkGfoIVyo5KtEbO3Ev4XUGt
-         pFq5V07TpDITzwvO3b80w1jkFQI8gYbF9tdOTwftw3UvyiSrlJm8aNI3ipxfu8K0q0
-         3WWKcRUZDPrbI8pUPhS7xx1tDmOz7k/xTldK1szWZab7Izbs7rlrPBmNc4wJRFtA34
-         VakyuWNidnh86Yb+lmI3yVGw1ZxyowpWwNuSxjsskejHC6ySAp4SIK+toeONLl114D
-         k9n4B7BiatM+Q==
+        b=oA86deSzKQp4qn7KpcbTtUbYzr1Y9SILHPrE2De6UK9BNz3l8Za8jx9N4LcglG1yz
+         QEtfmoGh03V1kunbAz4L5WlaQjRbKkKxiUTYLFvfWp1zbCuqbLISMt0UHgp+lGX7+w
+         80clyHOE7sEwqKu3+sKV9OeGUd+C3bK5eGaTSYDoIsFQgBHwqrQE92omNx0icEwxth
+         bDjTYb3gxIO0DQNQcYHPiMUEwtLiNn4BemeneIVy/GG+t8t0OP2+0OqCDVZf6Ju2LA
+         6ziVXE8NtAtSZVgFeY31cGb+lvYI4p5UNgUeEQTZlDKeWYyGx1j/kZHy1Xwq68OaQM
+         upnbnG4ShUyNg==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH v2 04/10] modpost: move export_from_secname() call to more relevant place
-Date:   Tue,  5 Apr 2022 20:33:52 +0900
-Message-Id: <20220405113359.2880241-5-masahiroy@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH v2 05/10] modpost: remove redundant initializes for static variables
+Date:   Tue,  5 Apr 2022 20:33:53 +0900
+Message-Id: <20220405113359.2880241-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220405113359.2880241-1-masahiroy@kernel.org>
 References: <20220405113359.2880241-1-masahiroy@kernel.org>
@@ -53,54 +53,42 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The assigned 'export' is only used when
-
-    if (strstarts(symname, "__ksymtab_"))
-
-is met. The else-part of the assignment is the dead code.
-
-Move the export_from_secname() call to where it is used.
+These are initialized with zeros without explicit initializes.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
 
-(no changes since v1)
+Changes in v2:
+  - New
 
- scripts/mod/modpost.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ scripts/mod/modpost.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index eebb32689816..f9e54247ae1d 100644
+index f9e54247ae1d..2a202764ff48 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
-@@ -684,14 +684,8 @@ static void handle_modversion(const struct module *mod,
- static void handle_symbol(struct module *mod, struct elf_info *info,
- 			  const Elf_Sym *sym, const char *symname)
- {
--	enum export export;
- 	const char *name;
+@@ -23,15 +23,15 @@
+ #include "../../include/linux/license.h"
  
--	if (strstarts(symname, "__ksymtab"))
--		export = export_from_secname(info, get_secindex(info, sym));
--	else
--		export = export_unknown;
--
- 	switch (sym->st_shndx) {
- 	case SHN_COMMON:
- 		if (strstarts(symname, "__gnu_lto_")) {
-@@ -726,7 +720,11 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
- 	default:
- 		/* All exported symbols */
- 		if (strstarts(symname, "__ksymtab_")) {
-+			enum export export;
-+
- 			name = symname + strlen("__ksymtab_");
-+			export = export_from_secname(info,
-+						     get_secindex(info, sym));
- 			sym_add_exported(name, mod, export);
- 		}
- 		if (strcmp(symname, "init_module") == 0)
+ /* Are we using CONFIG_MODVERSIONS? */
+-static int modversions = 0;
++static int modversions;
+ /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
+-static int all_versions = 0;
++static int all_versions;
+ /* If we are modposting external module set to 1 */
+-static int external_module = 0;
++static int external_module;
+ /* Only warn about unresolved symbols */
+-static int warn_unresolved = 0;
++static int warn_unresolved;
+ /* How a symbol is exported */
+-static int sec_mismatch_count = 0;
++static int sec_mismatch_count;
+ static int sec_mismatch_warn_only = true;
+ /* ignore missing files */
+ static int ignore_missing_files;
 -- 
 2.32.0
 
