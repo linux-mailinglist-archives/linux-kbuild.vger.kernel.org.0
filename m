@@ -2,131 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEE1E4F4F24
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 03:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D1474F4F26
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 03:58:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1389551AbiDFAly (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 20:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32902 "EHLO
+        id S229797AbiDFAmB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 20:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457786AbiDEQtQ (ORCPT
+        with ESMTP id S1344894AbiDEUVu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Apr 2022 12:49:16 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E42EF7AF
-        for <linux-kbuild@vger.kernel.org>; Tue,  5 Apr 2022 09:47:17 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id e16so24224377lfc.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Apr 2022 09:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UEhM/YV2YdBzzmeRnY7JhZnKZDh2nVlggSS8Y2uY7lI=;
-        b=sUVpCDJQ8J/CRA8PR7PPY48C1InS+CQhJSLs1znkm7e//MzZx9EXf2LdEMJsgySE3X
-         Y8yxY0zXSYvL37Y/zNyAFZTYibEv8PqrpTwowl0xMd7/zBmORHLrvr41WRd83ZkSdD4o
-         e1sQVHSRRQmyx7w9vUVqaBe27zEFh616QD5fSO6hNEt0/0ownUdzSGXXrK6GKyNF5I/3
-         hTsLFm9HbeGonYTzD9z9irJeAfu1Th/QWskdyJ6P0ysm/PVhc2BC+IZifkws8aNTKJZA
-         wjcNCK8Nt6GGzIVo2gAti0iJSH5ytX7DUJQc6A3NnlxRQz0Udzg+BOyLgUXRgnYDlQUQ
-         60IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UEhM/YV2YdBzzmeRnY7JhZnKZDh2nVlggSS8Y2uY7lI=;
-        b=yjQy7NntKxD1qCi4P0vixqJsuXMt8/uH1lR14zGHBiZ5dwScxnGXGMrkqs4lb0ldTI
-         NiahUuCSp5GAHHsquQS7nyNCstc9s1pmc7d36UPR+LjdK3D1YKHfOMGSPw+9iFwlOi8y
-         HewWOopPSJNQ/f1lRtojVBqP7EmkqIuteP7m7HglJS9xXGqLiWdR9pZ+H2/Wpm8QsTLF
-         aqy2KUuinza24+P8hK1cIgM+6nCM2rjRxgwFvJ1oT86PG7KMHmGv27b3S3qgE0P5AZvd
-         r14xuswNxh0kuRbtgOYpwH478yPwCbaOKMc+EXcdMFKt7LW5XAZVV++2sFLqcYYte6Nl
-         3Amg==
-X-Gm-Message-State: AOAM530mUofLjB/jRHBDe5AJugnKLoF/GnDL85k0Yc6UmrOW6M4F7XOJ
-        65JcMPycrWgetCnjDVno0dhugn9mxqtKVGDiNKl3V0e0MSAc4Q==
-X-Google-Smtp-Source: ABdhPJyKkxCjonnx/UVgfMj7EGt2uj4XEQygSAlfsJv6l51yF47d09NTJ20QL1Rq0QmtacVYXuZbQrURhJ4NW2FaMn0=
-X-Received: by 2002:a05:6512:33d4:b0:44a:9971:de48 with SMTP id
- d20-20020a05651233d400b0044a9971de48mr3211524lfg.392.1649177235321; Tue, 05
- Apr 2022 09:47:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220405113359.2880241-1-masahiroy@kernel.org> <20220405113359.2880241-11-masahiroy@kernel.org>
-In-Reply-To: <20220405113359.2880241-11-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 5 Apr 2022 09:47:04 -0700
-Message-ID: <CAKwvOd=cEDiS-XUpGFiF=7uaJSKPmkxK4bv37cr5uHgwC_M3TQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] kbuild: refactor cmd_modversions_S
+        Tue, 5 Apr 2022 16:21:50 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8730B6D1BB;
+        Tue,  5 Apr 2022 13:01:22 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.97.95]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MLAAs-1nKqR22ZFa-00IBZv; Tue, 05 Apr 2022 22:00:46 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id AB29A3C088; Tue,  5 Apr 2022 22:00:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1649188842; bh=Jp5v0unMM8TX1zb3fmwvi3+6Bc6OHGfiq1HG+GUHVyw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HCnghiuB+Wzr1v0Xj7rtxiS0alkX0ofzpVxIAQD6kCNeeJKrRBdzWsEoYLV4WdhGW
+         cK8WpcDjJixQEKeB9CidDTnKmCqBqfYq9K7JWqmuDdZOl3byBsD6cAH/2nOkdkLUED
+         CfyTrc2leT65LiIFaSS13YAg+nRUACsIHfjO8BR8=
+Date:   Tue, 5 Apr 2022 22:00:39 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v2 01/10] kbuild: factor out genksyms command from
+ cmd_gensymtypes_{c,S}
+Message-ID: <Ykyf51yQ78g71veR@fjasle.eu>
+References: <20220405113359.2880241-1-masahiroy@kernel.org>
+ <20220405113359.2880241-2-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220405113359.2880241-2-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:oSARpcPyymoleg6RyJVu0DeVUrsJvspIYHiB+agK3g3YJzi5n23
+ 863JDClt1QRA49iVriE0QcZMU2v6b2K7KfzkkuLmqLyAIpGbVwpjHjseVGhwynDWQrbQYC4
+ I2OVQYgcg/LNYPEPv+xs66YzmYkcsrmOiR+7fJxqGB0+W81LWCfk8CGxLJHYumkD35jqqA8
+ aeaGGVTrYnv7TOF/G7Fvw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:N/nJZWxHmG4=:MQI6zQKrjr6jugH0+jpOEF
+ wzao4WqD3FuYGxHoo/ydg8lwOgcOEQ6JkPuJyfgyweswbZnCO9LIRW0L4pPTYjI19WEcRrpsD
+ ivMrK1eDaO5zabhjp8FvzcZrJ59SmEvp730GNA5kfCKbBBwK6UV0lqW29w7Cf+BfeS7rvC3ek
+ 8oj9iMH/Vk32LfhsDOxY5NG4jR8sUv6YJF7Rd964q9pm1YPYEEdhgLfN4z1KXflWtl4h0jhQ8
+ uS0ThIRnvDkkyqUWpare0mu446VGCw5SGpxXnQv0AC+diuKT55QQMSER4sVTbjLe/vMx3XISZ
+ QKppKbLZeCyN22CoZRhmoa9PUXCI392eEfn4yMj754Cd2o/tlklwvVCEbK2UtdSvIlV/0nthb
+ Zi66yxUV4TvymjT+kBVhRDn58REIHUAuvv9EPH8ro7GJ29dkRMHfNjasqGaMCQGO7k41zaAuT
+ l3UOMnoJ8zTqBERxEYDgjH+e3xqyQXX9wNLrMB+LL1HvtNCXLUkJ68UF7dX6s5lnC62OPi0d0
+ 5JqKTNZqfPp7yreDWBx8j7o7IqP6O1Uu9m7r9r7xJYkj6DNcqpHW2EfGbVqCL5MZV8ia5WneA
+ TbidzkC/Eg2rK6qiVBYz8hl5H687jYGCdL0QOGMBhDp3JATWZ5hP9s4LxYiMc20Pq8JGl1JnQ
+ 6UoThxkOHeOo8y3i3cJe6sGGWH1QLn6GL0O9mvoIHYBlatqByOkRRkC5AIRUUnw1NZe0=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 5, 2022 at 4:34 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Split the code into two macros, cmd_gen_symversions_S for running
-> genksyms, and cmd_modversions for running $(LD) to update the object
-> with CRCs.
->
+On Tue, Apr 05, 2022 at 08:33:49PM +0900 Masahiro Yamada wrote:
+> The genksyms command part in cmd_gensymtypes_{c,S} is duplicated.
+> Factor it out into the 'genksyms' macro.
+> 
+> For the readability, I slightly refactor the arguments to genksyms.
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
 > ---
->
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+> 
 > Changes in v2:
->   - new
->
->  scripts/Makefile.build | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
->
+>   - Fix the location of the closing parenthesis
+> 
+>  scripts/Makefile.build | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
+> 
 > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index ba2be555f942..58be0997c5dd 100644
+> index 9717e6f6fb31..31e0e33dfe5d 100644
 > --- a/scripts/Makefile.build
 > +++ b/scripts/Makefile.build
-> @@ -274,7 +274,8 @@ define rule_as_o_S
->         $(call cmd_and_fixdep,as_o_S)
->         $(call cmd,gen_ksymdeps)
->         $(call cmd,gen_objtooldep)
-> -       $(call cmd,modversions_S)
-> +       $(call cmd,gen_symversions_S)
-> +       $(call cmd,modversions)
->  endef
->
->  # Built-in and composite module parts
-> @@ -366,16 +367,8 @@ ifdef CONFIG_ASM_MODVERSIONS
->  # versioning matches the C process described above, with difference that
->  # we parse asm-prototypes.h C header to get function definitions.
->
-> -cmd_modversions_S =                                                            \
-> -       if $(OBJDUMP) -h $@ | grep -q __ksymtab; then                           \
-> -               $(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))  \
-> -                   > $(@D)/.tmp_$(@F:.o=.ver);                                 \
-> -                                                                               \
-> -               $(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@               \
-> -                       -T $(@D)/.tmp_$(@F:.o=.ver);                            \
-> -               mv -f $(@D)/.tmp_$(@F) $@;                                      \
-> -               rm -f $(@D)/.tmp_$(@F:.o=.ver);                                 \
-> -       fi
-> +cmd_gen_symversions_S = $(call gen_symversions,S)
+> @@ -125,13 +125,14 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
+>  $(obj)/%.i: $(src)/%.c FORCE
+>  	$(call if_changed_dep,cpp_i_c)
+>  
+> +genksyms = scripts/genksyms/genksyms		\
+> +	$(if $(1), -T $(2))			\
+> +	$(if $(CONFIG_MODULE_REL_CRCS), -R)	\
+> +	$(if $(KBUILD_PRESERVE), -p)		\
+> +	-r $(or $(wildcard $(2:.symtypes=.symref)), /dev/null)
 > +
->  endif
->
->  $(obj)/%.o: $(src)/%.S FORCE
-> --
+>  # These mirror gensymtypes_S and co below, keep them in synch.
+> -cmd_gensymtypes_c =                                                         \
+> -    $(CPP) -D__GENKSYMS__ $(c_flags) $< |                                   \
+> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
+> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
+> -     $(if $(KBUILD_PRESERVE),-p)                                            \
+> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
+> +cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
+>  
+>  quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
+>  cmd_cc_symtypes_c =                                                         \
+> @@ -344,11 +345,7 @@ cmd_gensymtypes_S =                                                         \
+>      $(CPP) $(a_flags) $< |                                                  \
+>       grep "\<___EXPORT_SYMBOL\>" |                                          \
+>       sed 's/.*___EXPORT_SYMBOL[[:space:]]*\([a-zA-Z0-9_]*\)[[:space:]]*,.*/EXPORT_SYMBOL(\1);/' ; } | \
+> -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - |                                \
+> -    scripts/genksyms/genksyms $(if $(1), -T $(2))                           \
+> -     $(patsubst y,-R,$(CONFIG_MODULE_REL_CRCS))                             \
+> -     $(if $(KBUILD_PRESERVE),-p)                                            \
+> -     -r $(firstword $(wildcard $(2:.symtypes=.symref) /dev/null))
+> +    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
+>  
+>  quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
+>  cmd_cc_symtypes_S =                                                         \
+> -- 
 > 2.32.0
->
-
+> 
+> 
 
 -- 
-Thanks,
-~Nick Desaulniers
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
