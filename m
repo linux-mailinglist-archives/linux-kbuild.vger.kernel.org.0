@@ -2,111 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF3634F2228
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 06:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A2A24F2293
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 07:27:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbiDEEhY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 00:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
+        id S229793AbiDEF3P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 01:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbiDEEhQ (ORCPT
+        with ESMTP id S229537AbiDEF3N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Apr 2022 00:37:16 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2371EB7CC;
-        Mon,  4 Apr 2022 21:34:41 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id i4so9547120qti.7;
-        Mon, 04 Apr 2022 21:34:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
-        b=Nxjgu29NcyoUQQvdWmirHaBDLtseXhtj7lcWJjMk9Iiw47oNWInUQodWc0CG7OOIRo
-         E5vGW0B+56BtG6tZFcHkF/r0qYJ3UR7Q9Y8sSe5yw5CX6UlPZJFQKpbRaVoqivu0/+tK
-         RuLeUYnPEFT2gS7E1rhJ5Oe2oQUJeEgBgxqTQ11WHHYhUwKXjTceIBr7d2gnRMt5Ms+e
-         U2wai/4F4xmnLRgHhz+DUqe1s/iGgyPlxT87VyoldvzSVvIWSbcueJ2mdPNkr19QOUeW
-         5E0+Qefp34+sdPwxkWORuK4+KUoa6vYSoRkU5OPXhEKTo2LZ7q5rQn/mn51+Mm36wIKi
-         ITig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2F6pdE01x8+LWv49X1XqEP9fwWhAgADePGjVUrJZtBc=;
-        b=PubO/NhdXncb/HflHNhySL39X+g6CHUt+bG/PMtyTx3dwpcVXR3IeSgh94/mLaHKtL
-         P++sLZKOOfThdj4aWNTW0HhGD8EtMTL8e0u/SU2ag92slxdvWjrazwCg0yWI3/6NbFOO
-         QanaBoaugCCsqX6Zey10LzBdCHzQhrtGowjTf+ceQxLtHwxJGY/KVv3CPYkb1GjW7aCF
-         gXw7GfdokADzM9Odv+eSQSi5gi/Hn1A+uBXWV24WnXp9ZSDtp3FoVaWOZ05e+zVhrYzU
-         2SSbmyncTU96r89AWCsPA6933l5ojJ/B3Bc/3pUn5TEHH6hdUYoKFYMLQVr1vADD4CWj
-         vXgw==
-X-Gm-Message-State: AOAM533vlIMn4smct91f/ZXpb9JibD2ILDB/NWFBHNucoibSYCRG3uB4
-        LYsgSnn5WyJ12BoDdTPX8Ru7OJpWZ9DLAQ==
-X-Google-Smtp-Source: ABdhPJzRnztAxZFoPFNYGfQZufiSdZYE3yV4xvWPXjmMbn6lpfGb8r7lTbTB5VYi/wYLefr4FKVxMw==
-X-Received: by 2002:a05:622a:148e:b0:2e2:2ebd:63d9 with SMTP id t14-20020a05622a148e00b002e22ebd63d9mr1438143qtx.601.1649133280094;
-        Mon, 04 Apr 2022 21:34:40 -0700 (PDT)
-Received: from necipappleseed.attlocal.net ([2600:1700:d80:8410:fa3f:95ff:bd13:53a4])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05622a044600b002e1b9be8e6fsm10190386qtx.36.2022.04.04.21.34.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 21:34:39 -0700 (PDT)
-From:   Necip Fazil Yildiran <fazilyildiran@gmail.com>
-To:     masahiroy@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, paul@pgazz.com,
-        fazilyildiran@gmail.com
-Subject: [PATCH] docs: kbuild: add references on Kconfig semantics
-Date:   Tue,  5 Apr 2022 00:33:51 -0400
-Message-Id: <20220405043350.12599-1-fazilyildiran@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 5 Apr 2022 01:29:13 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887A238DB9;
+        Mon,  4 Apr 2022 22:27:15 -0700 (PDT)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 2355Qr35032029;
+        Tue, 5 Apr 2022 14:26:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 2355Qr35032029
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1649136413;
+        bh=9Mjbanc1uTbEmK1mnz01B4FzZRbSAyqrQAUwcuIQyrc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Q7N13ho2VG5rLtdaeG8wrsIrzV2MyavvOTH5wV/PEuj70ICAWET40QbPV5Na0UYu5
+         gr/o8vs8tVjR6GQXuQ9pGjJuCSsB9CzJ2IjWe3oA6QIA4mzE2pV2XLfQ+sY71zNdg5
+         +iXM5AHZ0/PSYam2Pvbwg0ygnLWKI99gDwZbqZ6l6jEvFoxRIgcSTZsJZbtWfdX1ko
+         q/D2JRyuouAYUJ+pRvroBlVKdbxCZUzX+wMceUb19jZomC+ZPHgUqWcEuOWkTLT2Xy
+         DA/frOTo7xheZI0XTJxKvUAe02Mc7lnsfKDA5FuAY/KivXHRHb6f3WUEri5r/8nkyS
+         sSidnkjfA2G7w==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id ch16-20020a17090af41000b001ca867ef52bso1428381pjb.0;
+        Mon, 04 Apr 2022 22:26:53 -0700 (PDT)
+X-Gm-Message-State: AOAM533Gsaw0t7ysT9t08Dx25gL4JrvYA0iNwczQKwEOmNJxqZ7t6fqv
+        7W0arHWQRgYjs7mdlp+d+FSE8arqqF+6cBjztwo=
+X-Google-Smtp-Source: ABdhPJwkdPkqgeF6q282Mp9Vwdv0ZWc0PT6lrZqUk8B5WAzSE3LH6/hQ1oXDCHHPqxwcsVJRZWFxeeXmOrr8mqbYLlk=
+X-Received: by 2002:a17:90b:4d01:b0:1c9:ec79:1b35 with SMTP id
+ mw1-20020a17090b4d0100b001c9ec791b35mr2005151pjb.77.1649136412823; Mon, 04
+ Apr 2022 22:26:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20220329021520.308997-1-masahiroy@kernel.org> <CAKwvOdkP12zrGu4iJStSJ5-pAKFBar=Cxf=CYO5gE9L636q8-w@mail.gmail.com>
+ <CAK7LNASisGfD4vrk2Duswg_tj+LQutd+zdyq9qyFiTptCM7NWA@mail.gmail.com>
+In-Reply-To: <CAK7LNASisGfD4vrk2Duswg_tj+LQutd+zdyq9qyFiTptCM7NWA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 5 Apr 2022 14:26:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAReCMMkOvs13jNyDoEnTgRJ36MC=KrUwCWv0x0TXbQ+fg@mail.gmail.com>
+Message-ID: <CAK7LNAReCMMkOvs13jNyDoEnTgRJ36MC=KrUwCWv0x0TXbQ+fg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: factor out genksyms command from cmd_gensymtypes_{c,S}
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add references to 1) a research paper which provides a definition of
-Kconfig semantics, 2) the kismet tool, which checks for unmet direct
-dependency bugs in Kconfig specifications.
+On Tue, Apr 5, 2022 at 10:55 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Wed, Mar 30, 2022 at 3:18 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Mon, Mar 28, 2022 at 7:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > The genksyms command part in cmd_gensymtypes_{c,S} is duplicated.
+> > > Factor it out into the 'genksyms' macro.
+> > >
+> > > For the readability, I slightly refactor the arguments to genksyms.
+> >
+> > Looks nicer, thanks for the patch!
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > >
+>
+> Applied to linux-kbuild.
 
-Signed-off-by: Paul Gazzillo <paul@pgazz.com>
-Signed-off-by: Necip Fazil Yildiran <fazilyildiran@gmail.com>
----
- Documentation/kbuild/kconfig-language.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+No, this patch is wrong.
+I will send v2 later.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 93a5b6e1fabd..a7173843a294 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -693,6 +693,8 @@ in documenting basic Kconfig syntax a more precise definition of Kconfig
- semantics is welcomed. One project deduced Kconfig semantics through
- the use of the xconfig configurator [1]_. Work should be done to confirm if
- the deduced semantics matches our intended Kconfig design goals.
-+Another project formalized a denotational semantics of a core subset of
-+the Kconfig language [10]_.
- 
- Having well defined semantics can be useful for tools for practical
- evaluation of dependencies, for instance one such case was work to
-@@ -700,6 +702,8 @@ express in boolean abstraction of the inferred semantics of Kconfig to
- translate Kconfig logic into boolean formulas and run a SAT solver on this to
- find dead code / features (always inactive), 114 dead features were found in
- Linux using this methodology [1]_ (Section 8: Threats to validity).
-+The kismet tool, based on the semantics in [10]_, finds abuses of reverse
-+dependencies and has led to dozens of committed fixes to Linux Kconfig files [11]_.
- 
- Confirming this could prove useful as Kconfig stands as one of the leading
- industrial variability modeling languages [1]_ [2]_. Its study would help
-@@ -738,3 +742,5 @@ https://kernelnewbies.org/KernelProjects/kconfig-sat
- .. [7] https://vamos.cs.fau.de
- .. [8] https://undertaker.cs.fau.de
- .. [9] https://www4.cs.fau.de/Publications/2011/tartler_11_eurosys.pdf
-+.. [10] https://paulgazzillo.com/papers/esecfse21.pdf
-+.. [11] https://github.com/paulgazz/kmax
+>
+>
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > >  scripts/Makefile.build | 19 ++++++++-----------
+> > >  1 file changed, 8 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > > index 9717e6f6fb31..3f2985df4d60 100644
+> > > --- a/scripts/Makefile.build
+> > > +++ b/scripts/Makefile.build
+> > > @@ -125,13 +125,14 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
+> > >  $(obj)/%.i: $(src)/%.c FORCE
+> > >         $(call if_changed_dep,cpp_i_c)
+> > >
+> > > +genksyms = scripts/genksyms/genksyms           \
+> > > +       $(if $(1), -T $(2))                     \
+> > > +       $(if $(CONFIG_MODULE_REL_CRCS), -R)     \
+> > > +       $(if $(KBUILD_PRESERVE), -p)            \
+> > > +       -r $(or $(wildcard $(2:.symtypes=.symref), /dev/null))
+
+The position of the closing parenthesis was wrong.
+
+    -r $(or $(wildcard $(2:.symtypes=.symref)), /dev/null)
+
+
+
+
+
+
+
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
