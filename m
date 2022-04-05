@@ -2,33 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8809A4F3FE9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3551F4F4062
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Apr 2022 23:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241703AbiDEOLk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Apr 2022 10:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35302 "EHLO
+        id S241050AbiDEOLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Apr 2022 10:11:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384122AbiDEM1L (ORCPT
+        with ESMTP id S1384116AbiDEM1L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 5 Apr 2022 08:27:11 -0400
 Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D39574BC;
-        Tue,  5 Apr 2022 04:35:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB444574B2;
+        Tue,  5 Apr 2022 04:35:17 -0700 (PDT)
 Received: from grover.. (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 235BYCGt000464;
-        Tue, 5 Apr 2022 20:34:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGt000464
+        by conuserg-12.nifty.com with ESMTP id 235BYCGw000464;
+        Tue, 5 Apr 2022 20:34:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 235BYCGw000464
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649158457;
-        bh=g76dlQF6mmZzr43YQ6WiTAVzfZji/JTWeTt9/x6nhy8=;
+        s=dec2015msa; t=1649158459;
+        bh=gVdAU8NgX5021NtvHRpFHdYK2UvqDo2vrSD9W1vtAMA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fhkX7GfZ1icPtiA7cEpfvegqzI8mfJATIDbetdt2odNtdCLvwcVJbCeOwONU77Vz4
-         nSePOhux0lQk44IYWxfyYxJwmKw8ZT5qQwaQuMa5RRkjeByWbGxewF0m8GzKNhEjpw
-         3mU7LXD1uWZhPhC1MGCcPsytnpd6qEDZCSRBIG9xJU5clVEv4nv0OImbzNqdgNIc+w
-         qo+J86PA3PYHQr/pkfo5OdrBlC7XpaF3HaBw8740gCbiiKgtIXY7z0/ZilnObun8OT
-         /qBp6C97UmE0EJKvHrXoC8t1Wuct2SKs4qOzErdjGLh5jpcHfrUWWjudhk5MWbXJya
-         dvzaDo8oWbJeg==
+        b=HMNX5DFw87nSaiwE1Oo5QFT6reR50jBMkjc3VpbZqaffBYJ707hRf11BYqrmfG7Si
+         OEk8mucbkGCcabxfxTRYnhJtTam4qTUT0s+rlYH4AU6zu91BXOwblHaJB9nlWRMK3k
+         PX/WMesC5umLhTDADPVcsa4/ZIv4Kj3w8rFt4xrVERsnrvYxY+BDQgLVMUyk6hzw6g
+         lxKidVH1fL6pbLHsXTrO+a7YdLlT0lwmsw4LrDPb29fj6n+ifhxZPUky7uYD27diBB
+         nnXV2AUwL6PUhndQZvDnRnOxKOX4jvZ9CTxiJDFL7xaFK1QuE4+e+NdZ8iGSvrtY1k
+         rjviBygrWfAdg==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v2 07/10] kbuild: get rid of duplication in the first line of *.mod files
-Date:   Tue,  5 Apr 2022 20:33:55 +0900
-Message-Id: <20220405113359.2880241-8-masahiroy@kernel.org>
+Subject: [PATCH v2 10/10] kbuild: refactor cmd_modversions_S
+Date:   Tue,  5 Apr 2022 20:33:58 +0900
+Message-Id: <20220405113359.2880241-11-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220405113359.2880241-1-masahiroy@kernel.org>
 References: <20220405113359.2880241-1-masahiroy@kernel.org>
@@ -53,20 +53,9 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The first line of *.mod lists the member objects of the module.
-This list may contain duplication if the same object is added multiple
-times, like this:
-
-  obj-m := foo.o
-  foo-$(CONFIG_FOO1_X) += foo1.o
-  foo-$(CONFIG_FOO1_Y) += foo1.o
-  foo-$(CONFIG_FOO2_X) += foo2.o
-  foo-$(CONFIG_FOO2_Y) += foo2.o
-
-This is probably not a big deal. As far as I know, the only small
-problem is scripts/mod/sumversion.c parses the same file over again.
-This can be avoided by adding $(sort ...). It has a side-effect that
-sorts the objects alphabetically, but it is not a big deal, either.
+Split the code into two macros, cmd_gen_symversions_S for running
+genksyms, and cmd_modversions for running $(LD) to update the object
+with CRCs.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
@@ -74,25 +63,42 @@ Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Changes in v2:
   - new
 
- scripts/Makefile.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/Makefile.build | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 3ef2373f0a57..63625877aeae 100644
+index ba2be555f942..58be0997c5dd 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -307,8 +307,10 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
- 	$(call if_changed,cc_prelink_modules)
+@@ -274,7 +274,8 @@ define rule_as_o_S
+ 	$(call cmd_and_fixdep,as_o_S)
+ 	$(call cmd,gen_ksymdeps)
+ 	$(call cmd,gen_objtooldep)
+-	$(call cmd,modversions_S)
++	$(call cmd,gen_symversions_S)
++	$(call cmd,modversions)
+ endef
+ 
+ # Built-in and composite module parts
+@@ -366,16 +367,8 @@ ifdef CONFIG_ASM_MODVERSIONS
+ # versioning matches the C process described above, with difference that
+ # we parse asm-prototypes.h C header to get function definitions.
+ 
+-cmd_modversions_S =								\
+-	if $(OBJDUMP) -h $@ | grep -q __ksymtab; then				\
+-		$(call cmd_gensymtypes_S,$(KBUILD_SYMTYPES),$(@:.o=.symtypes))	\
+-		    > $(@D)/.tmp_$(@F:.o=.ver);					\
+-										\
+-		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
+-			-T $(@D)/.tmp_$(@F:.o=.ver);				\
+-		mv -f $(@D)/.tmp_$(@F) $@;					\
+-		rm -f $(@D)/.tmp_$(@F:.o=.ver);					\
+-	fi
++cmd_gen_symversions_S = $(call gen_symversions,S)
++
  endif
  
-+multi-m-prereqs = $(sort $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)))
-+
- cmd_mod = { \
--	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
-+	echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=.o)); \
- 	$(undefined_syms) echo; \
- 	} > $@
- 
+ $(obj)/%.o: $(src)/%.S FORCE
 -- 
 2.32.0
 
