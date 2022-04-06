@@ -2,123 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDBEF4F6A1F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 21:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0AA34F6CDE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 23:37:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbiDFTlB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Apr 2022 15:41:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
+        id S236175AbiDFVjk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Apr 2022 17:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiDFTks (ORCPT
+        with ESMTP id S237081AbiDFVh6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Apr 2022 15:40:48 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B872619531F;
-        Wed,  6 Apr 2022 11:13:35 -0700 (PDT)
+        Wed, 6 Apr 2022 17:37:58 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97DDC3B3E4
+        for <linux-kbuild@vger.kernel.org>; Wed,  6 Apr 2022 13:54:14 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id b21so6193835lfb.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 06 Apr 2022 13:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649268823; x=1680804823;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BXJ0GIop+UGWRaFV2rjdj0GKaXIQVFtY0SlM5haDrWY=;
-  b=E8Zv7mLGURkFsCxLUiVXMQOxCUZxhxhLbe++Uwipe7x3cWscrzswCZ07
-   L3h/rzg0PO+MfuxZt0dnen+2RNZReJcT6rw8cWsMRGw74H7gPRN1IaDc7
-   i1Zr3SiOTI8GZIJ6wKWXKg+GFA/M0yU9sC0JNOAR3kXtD87vzBqQjXhVF
-   8=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 06 Apr 2022 11:13:35 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 11:13:20 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 6 Apr 2022 11:13:20 -0700
-Received: from [10.110.72.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 6 Apr 2022
- 11:13:19 -0700
-Message-ID: <960102bb-2944-4be0-ab09-7cd2eb0c2cf9@quicinc.com>
-Date:   Wed, 6 Apr 2022 11:13:18 -0700
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ww++6lY9qtCS7Tb+W0av3e3vzWAaXVMYqc4+oMmKte8=;
+        b=Y7H9oQ83ZoDYg0JVp6YP02u5yok/m9H+AZNO+MhqFB9W1g5zG7tAGi+Oj8SKEPk9NC
+         ueYJqUvbX9+gtEoXkd16FGau9RxsCKE5kYzbhfZVsKGHGWsPbst50jQVVUB+Kbrtupra
+         uQpRAfybu8aJNDdPe6e/52z3hCTj204qqw3VkSQOEZCpJSpSzEUt/d9yBl+4QU+9dLTC
+         hOeoX8BbKtKAVAS7+4Xq5zSIsAO72K5V7oEIsDY0z5H3vIUAJPUUk2kOOJ3bmJzo/a0l
+         CWiZpFAFzAguez+e8/4uzSrjej+N7uFugl1jSssOU2MVfJvhlR9kZ4qj5gT7cDSMm8AD
+         cDtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ww++6lY9qtCS7Tb+W0av3e3vzWAaXVMYqc4+oMmKte8=;
+        b=6kxc8C/aRykC7NsVfb9w9M0nEvVPlb8GvbO+cfa1XLrkzxXK0GA7fRugYkBWy5sylE
+         UBTarcG7BEJ74yJ8pMPHkyhHy9NeyOL5prYLtwH1ToFH1a9ZHtev3qxpzb6avBdvdsxZ
+         ULQUIROGNGsZqIoYbkZZzgtNnOxSG1Dxtr0pYYxfgP9sevD4ZbI6Y2FuORhxYpi9y95g
+         dNdioYz0kY6ndpfMpNc6Jpd81bZxd3Qd1Ca5MCcen0j8ovaMYcHWHyGfL/JKKWmAzy+g
+         7SldrA2HkRUlBkZMwt/fmAq45KHTnQa36MpLUHjv0eUEHK3TTXfHBA4KU8Hmg9rUOsFN
+         TNng==
+X-Gm-Message-State: AOAM532kuluUl/G3pQ3ghp2NvQJYOFuvyl1ByGeOG1p7+GjKhjEKwgeK
+        8YyCe12MU2lT2Yu+d9iFvUqIMdYUhP8w5yKYRQuhfvfPDJU=
+X-Google-Smtp-Source: ABdhPJwPaUYkfsnPk3yf26f0Mn8XqDz21sD5lQkfNpVMQidnilf7I+YC/Lepuh3g5n53maIwiKXy/aHv7TarIED6BLw=
+X-Received: by 2002:a05:6512:b9e:b0:44a:10eb:9607 with SMTP id
+ b30-20020a0565120b9e00b0044a10eb9607mr6999490lfv.626.1649278452698; Wed, 06
+ Apr 2022 13:54:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 7/7] kbuild: read *.mod to get objects passed to $(LD) or
- $(AR)
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        <linux-kbuild@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20220406153023.500847-1-masahiroy@kernel.org>
- <20220406153023.500847-8-masahiroy@kernel.org>
-From:   Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20220406153023.500847-8-masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-2-masahiroy@kernel.org>
+In-Reply-To: <20220406153023.500847-2-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 6 Apr 2022 13:54:01 -0700
+Message-ID: <CAKwvOdmjdF1mE5LYXm67KPT1kLgignZSNmwY5KfAuiu7hUseYQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7] kbuild: reuse suffix-search to refactor multi_depend
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 4/6/2022 8:30 AM, Masahiro Yamada wrote:
-> ld and ar support @file, which command-line options are read from.
-> 
-> Now that *.mod lists the member objects in the correct order, without
-> duplication, it is ready to be passed to ld and ar.
-> 
-> By using the @file syntax, people will not be worried about the pitfall
-> described in the NOTE.
-> 
+On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The complicated part of multi_depend is the same as suffix-search.
+>
+> Reuse it.
+>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
-> 
->   scripts/Makefile.build | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 3da731cf6978..f6a506318795 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -450,22 +450,18 @@ quiet_cmd_ar_lib = AR      $@
->   $(obj)/lib.a: $(lib-y) FORCE
->   	$(call if_changed,ar_lib)
->   
-> -# NOTE:
-> -# Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
-> -# module is turned into a multi object module, $^ will contain header file
-> -# dependencies recorded in the .*.cmd file.
->   ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
->   quiet_cmd_link_multi-m = AR [M]  $@
->   cmd_link_multi-m =						\
->   	$(cmd_update_lto_symversions);				\
->   	rm -f $@; 						\
-> -	$(AR) cDPrsT $@ $(filter %.o,$^)
-> +	$(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
->   else
->   quiet_cmd_link_multi-m = LD [M]  $@
-> -      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
-> +      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@)
->   endif
->   
-> -$(multi-obj-m): FORCE
-> +$(multi-obj-m): %.o: %.mod FORCE
->   	$(call if_changed,link_multi-m)
->   $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
->   
+>
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 9f69ecdd7977..d56cda3c1e8a 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -238,7 +238,7 @@ endif
+>  define multi_depend
+>  $(foreach m, $(notdir $1), \
+>         $(eval $(obj)/$m: \
+> -       $(addprefix $(obj)/, $(foreach s, $3, $($(m:%$(strip $2)=%$(s)))))))
+> +       $(addprefix $(obj)/, $(call suffix-search, $m, $2, $3))))
+>  endef
+>
+>  # Copy a file
+> --
+> 2.32.0
+>
 
-Looks like this also addresses the out-of-tree issue described in 
-<https://lore.kernel.org/linux-kbuild/1610500731-30960-2-git-send-email-jjohnson@codeaurora.org/>
 
-:)
-
-/jeff
+-- 
+Thanks,
+~Nick Desaulniers
