@@ -2,111 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68A4D4F57F7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 10:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43CCD4F5765
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Apr 2022 10:15:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231590AbiDFIeX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Apr 2022 04:34:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49936 "EHLO
+        id S232296AbiDFHgU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Apr 2022 03:36:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241000AbiDFIbl (ORCPT
+        with ESMTP id S1380733AbiDFHEg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Apr 2022 04:31:41 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CAA31DE6FF;
-        Tue,  5 Apr 2022 19:30:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B7351CE20C3;
-        Wed,  6 Apr 2022 02:30:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A41C385A1;
-        Wed,  6 Apr 2022 02:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649212253;
-        bh=kMvDwsLnby/GtbPEZOS6QFj4PiJhpG5J89iehidYyqk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=D0s611AuDog/P1rH2bxfW6i93GJXw3xFSVkYcsSK8ZTn0D7N0GXBglI7ZAJYSICcB
-         pIQge7cNsjIzaTtD+sD9FzRgEvGbxSpx44M1DuJO7sumchaLXP1+fCko1rksqEZMws
-         77XREAht9+1A9S3LXIAKqpNvcxHfwRxX3wP8IsCVSVqE7EJmYXWcIKAl6CvA5GANtA
-         v/NC1DudsTJdjhhqXtozbYRjKSTc+4GYSEy9q2kVuGV6iRm9407B6FW6D18mN0ssZR
-         yorREqmSSt30gXRESA20aC9+lqO14XXSqP96aPdjRVzjZShBzyRaNqMdNjLwh8pujL
-         n/M2x3NHuki/Q==
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: [PATCH v8 0/4] bootconfig: Support embedding a bootconfig in kernel for non initrd boot
-Date:   Wed,  6 Apr 2022 11:30:48 +0900
-Message-Id: <164921224829.1090670.9700650651725930602.stgit@devnote2>
-X-Mailer: git-send-email 2.25.1
-User-Agent: StGit/0.19
+        Wed, 6 Apr 2022 03:04:36 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58850B3699;
+        Tue,  5 Apr 2022 22:30:10 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2365TY6C002095;
+        Wed, 6 Apr 2022 14:29:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2365TY6C002095
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1649222975;
+        bh=cgPdZWVCb6IRSSlmY7h4O7BE/w3T5icCyWQEI+QOK8o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=F2XmJxsfAciKRhWS0WPTJJhAWGPS2iSwCBwb73YwKSv5+V5Ca5MJkosnyHHLjCTL8
+         QTQ2NIBxoE/b07Ga1omX2VQg+My/LXwooJo/6F+LaWDp+6yPYTmguLSIdFwesK50oy
+         ci+7Nwx/5FsH8WDoGCNAqFJtk9r4j82k3IaoNgqpDIylE7psdpr6ar3LdDAzEVM1K4
+         cjeBEDc84VbKbMQEURSDGvYl15VMARF3j6Nrgc9puyXyGVCM6JdiFPVqEhTa1KzUPe
+         cxdqZic2y1hvlRGkLOyAssnRi9i+iLiBp0k3/qJgoSaRBYFJduXFdT9eusO6Tq21KP
+         wc5l+uTu0HGJQ==
+X-Nifty-SrcIP: [209.85.216.42]
+Received: by mail-pj1-f42.google.com with SMTP id j20-20020a17090ae61400b001ca9553d073so1620804pjy.5;
+        Tue, 05 Apr 2022 22:29:35 -0700 (PDT)
+X-Gm-Message-State: AOAM5328mRnTr0/v1YIbieevrjCTyreFAf/wCJKDOAWKIWfKkrkiFcqx
+        OcPQNxW/XjUZpMyPsl0C0T/ZU6mhjQlduSwp7Kg=
+X-Google-Smtp-Source: ABdhPJzLsKiCp/v2xJ1WrG9HWnVaQC0FNsJIJb1jbJiI8YmlDUc3vB+W0TOUVJ+Vd9auxBAptPAaiHDEvPOWTG/3o+Q=
+X-Received: by 2002:a17:902:b183:b0:14f:c266:20d5 with SMTP id
+ s3-20020a170902b18300b0014fc26620d5mr7043436plr.136.1649222974223; Tue, 05
+ Apr 2022 22:29:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220405113359.2880241-1-masahiroy@kernel.org>
+ <20220405113359.2880241-8-masahiroy@kernel.org> <YkyjkAWb56wqL3iK@fjasle.eu>
+In-Reply-To: <YkyjkAWb56wqL3iK@fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 6 Apr 2022 14:28:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATUZesT6JsyrQu-ryU+PahwSwX3UVdxnJhyYDetnR_s1A@mail.gmail.com>
+Message-ID: <CAK7LNATUZesT6JsyrQu-ryU+PahwSwX3UVdxnJhyYDetnR_s1A@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] kbuild: get rid of duplication in the first line
+ of *.mod files
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Wed, Apr 6, 2022 at 5:16 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+>
+> On Tue, Apr 05, 2022 at 08:33:55PM +0900 Masahiro Yamada wrote:
+> > The first line of *.mod lists the member objects of the module.
+> > This list may contain duplication if the same object is added multiple
+> > times, like this:
+> >
+> >   obj-m :=3D foo.o
+> >   foo-$(CONFIG_FOO1_X) +=3D foo1.o
+> >   foo-$(CONFIG_FOO1_Y) +=3D foo1.o
+> >   foo-$(CONFIG_FOO2_X) +=3D foo2.o
+> >   foo-$(CONFIG_FOO2_Y) +=3D foo2.o
+> >
+> > This is probably not a big deal. As far as I know, the only small
+> > problem is scripts/mod/sumversion.c parses the same file over again.
+> > This can be avoided by adding $(sort ...). It has a side-effect that
+> > sorts the objects alphabetically, but it is not a big deal, either.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >   - new
+> >
+> >  scripts/Makefile.build | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index 3ef2373f0a57..63625877aeae 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -307,8 +307,10 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
+> >       $(call if_changed,cc_prelink_modules)
+> >  endif
+> >
+> > +multi-m-prereqs =3D $(sort $(addprefix $(obj)/, $($*-objs) $($*-y) $($=
+*-m)))
+> > +
+> >  cmd_mod =3D { \
+> > -     echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-obj=
+s) $($*-y) $($*-m)), $(@:.mod=3D.o)); \
+> > +     echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=3D.o))=
+; \
+>
+> I'd rather expected to see $(or) here, too, as in commit 5c8166419acf ("k=
+build:
+> replace $(if A,A,B) with $(or A,B)").
 
-Here are the 8th version of the patchset to enable kernel embedded bootconfig
-for non-initrd kernel boot environment. This version fixes a build error when
-CONFIG_BLK_DEV_INITRD=n. Previous version is here [1];
+Ah, good catch.
 
-[1] https://lore.kernel.org/all/164871505771.178991.7870442736805590948.stgit@devnote2/T/#u
+I fixed it up locally.
 
-You can embed a bootconfig file into the kernel as a default bootconfig,
-which will be used if there is no initrd or no bootconfig is attached to initrd. 
-
-This needs 2 options: CONFIG_BOOT_CONFIG_EMBED=y and set the file
-path to CONFIG_BOOT_CONFIG_EMBED_FILE. Even if you embed the bootconfig file
-to the kernel, it will not be enabled unless you pass "bootconfig" kernel
-command line option at boot. Moreover, since this is just a "default"
-bootconfig, you can override it with a new bootconfig if you attach another
-bootconfig to the initrd (if possible).
-The CONFIG_BOOT_CONFIG_EMBED_FILE can take both absolute and relative path.
-
-This is requested by Padmanabha at the below thread[2];
-
-[2] https://lore.kernel.org/all/20220307184011.GA2570@pswork/T/#u
-
-Thank you,
-
----
-
-Masami Hiramatsu (4):
-      bootconfig: Make the bootconfig.o as a normal object file
-      bootconfig: Check the checksum before removing the bootconfig from initrd
-      bootconfig: Support embedding a bootconfig file in kernel
-      docs: bootconfig: Add how to embed the bootconfig into kernel
+Thanks for the review.
 
 
- Documentation/admin-guide/bootconfig.rst |   31 ++++++++++++++++++++++--
- MAINTAINERS                              |    1 +
- include/linux/bootconfig.h               |   10 ++++++++
- init/Kconfig                             |   21 ++++++++++++++++-
- init/main.c                              |   38 +++++++++++++++---------------
- lib/.gitignore                           |    1 +
- lib/Makefile                             |   10 +++++++-
- lib/bootconfig-data.S                    |   10 ++++++++
- lib/bootconfig.c                         |   13 ++++++++++
- 9 files changed, 111 insertions(+), 24 deletions(-)
- create mode 100644 lib/bootconfig-data.S
+>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+>
+> >       $(undefined_syms) echo; \
+> >       } > $@
+> >
+> > --
+> > 2.32.0
+> >
+> >
+>
+> --
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
 
---
-Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
+
+
+--=20
+Best Regards
+Masahiro Yamada
