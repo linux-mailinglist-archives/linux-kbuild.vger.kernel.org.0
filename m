@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02EDB4F86C2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 19:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B99E14F86CB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 20:01:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232635AbiDGSBh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Apr 2022 14:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
+        id S231250AbiDGSDd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Apr 2022 14:03:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346691AbiDGSBf (ORCPT
+        with ESMTP id S232705AbiDGSDc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Apr 2022 14:01:35 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3BC37A90
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 10:59:34 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id x33so4548918lfu.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Apr 2022 10:59:34 -0700 (PDT)
+        Thu, 7 Apr 2022 14:03:32 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0B6BC863
+        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 11:01:30 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id a30so8430564ljq.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Apr 2022 11:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2/Ixb8mIA2M7JIXe7fAe9rthDbNf/SQgIztcewlJmQQ=;
-        b=buXo0yGsMVGnLz+9ouLK4JFFQelyxx4cO5RFmHI4tYFSV2l/gEMwvIe9tDDSZIbsiN
-         jtjB/p/e2I+MKpqjoV/rzYOivXDoAIBXZRyd/aS871BjAnMeZ5siig5fLxm7BUqLITo8
-         rN+hpkILuZTvuG3eXx4DHzeWgQ06y/2N9pTDXNQ2jAT4IhVMm9wGSMCsIzhIrgXDd0Uq
-         0rfaq5CVOkUO2oA8qdZyJiNgPhvl/4e1eOXaP4TPGnSTXr4KvQertjDFWpINeQG5uhbI
-         jg6fYUi1Livn5uv4t9dGXHLGXwRhiVhJ41S8B1+SeOfq4keuYr3Wo97KduZQVyMcvrg4
-         FDKg==
+        bh=nc2KMitqXXwMUX83HKghQR/LRLRxtBXah+9V4xkBICs=;
+        b=hprdGD8oRcrP+d4uMRq8tj1WdE5uLs9uUyfo6bT6s4OBUPvwoSZgf+LKglIBUaAVsq
+         EiLbrypIOSLKiKIYm1K7P8zI23ZeQJubgJBTdKL7UMv96Wr6Dq0XoC1Tn5lrZZIs9R9b
+         wwUpN9IV7XAksdNicmeanV/JLFujJA6YqvRlHAGJEpIJ6qCRLoyuiqSvjWMevdLIlzIn
+         GRpG4fVCfZv9N5jPKhtOUE4KjTYpSOKD/hFkrLvCiZN1VgzqY75o2QB8XK7HZVt98b3g
+         2W97JbUgNeVqqAuRdQjK77H/3HZN1EZ2m8FNKZ19s/iL08Ph4631mVzBRse2KRaVb4bT
+         HvDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2/Ixb8mIA2M7JIXe7fAe9rthDbNf/SQgIztcewlJmQQ=;
-        b=AlcPWXt6FEDaMXEyQEeGZQuUWTmDSDGbmuXOQOb0dh290QKb2beLDFMpLwh+6k1jD6
-         mvZctdelywVcdy8ZP+hLZ8iFEXrpo13uRR0zbQ1fbLwpampd/VsKS3Hidav2+ghIen28
-         xog+q2056Hr01t42OxD7mPse/EnaqIQSL/DAJVEQgECaEnW/uOUfnyOPT98oOOPqX6vI
-         3/G8K5b/lSXq/PDtL2X0hY4aIrymiVAGgtCzQqCFbdw8fQjdc+y82geSQepiprJTWaIj
-         Vl2GH7iPH0xpXppTo9yZzDxjESXO3g5gOmd/r1VaJKdqR5KmBtLRtLoOA2KbADFN0Fqv
-         l4eA==
-X-Gm-Message-State: AOAM5333VvS/E8RnmAz0BXmWlVcP3HSoSjYu6X6XDAJe3vdqCzaiaauh
-        noWv6Kem/Qo0Q1dWg9x2M6QOtEZTRbOWYK33cL63SA==
-X-Google-Smtp-Source: ABdhPJwd0Tn0EHqWJS2TH4O2PKBodEPXj/vOPZQ4lYc3uaV5XgUTF6dL2U2r5QPIROGcac7A1RBwddt6NE7+S9R6A68=
-X-Received: by 2002:a05:6512:108b:b0:44a:6dc2:ffeb with SMTP id
- j11-20020a056512108b00b0044a6dc2ffebmr10400479lfg.184.1649354372922; Thu, 07
- Apr 2022 10:59:32 -0700 (PDT)
+        bh=nc2KMitqXXwMUX83HKghQR/LRLRxtBXah+9V4xkBICs=;
+        b=znSLRx3SpjM5TfbrAhBh6CY7e6/uoV3Hry8SUH7yoIPKyUmLOBMqtgCkbl422Dfa6k
+         tcwC7CtwqUphEExJvrWVzZy2663eVgEFEh1J4Qdc/pUWEIBUSPuMso3MmJKE7VjYGvvL
+         IqayxBAqcsaQh5nQkKAMiUz7AnBfrArHmFxWVu2jv5lafQXor686a3LWLxuzT6qwM4dz
+         II2hF8FzLFshMuNijKYlA4iaXK8np6eLKugE6Uvlk3I4qLY/kUOuruc0gD7o8haRz+7q
+         AvXZvItZ8LioNlWxWOhrSzqNMburdotau4kYbynMLlWXZmKaK6ulxaLEm16+uNGteex3
+         JdHg==
+X-Gm-Message-State: AOAM531FjZfwuNBqrjTpejXAB8bl7HLRtG1QSgwPstEFOLZlS2UTDwo5
+        Lmv6xVX+DLZNF0ETESuflp+gBCfTGb8Q7cQHpYdcG3jxaZo=
+X-Google-Smtp-Source: ABdhPJw+b9H5UOl+Iup4Aed7HFCmh/ChYIP6d74O9NiIa/kpPdqblNww5GkfmHyq7uM3ae0Db/bhBnqUdBm5XK8qJiw=
+X-Received: by 2002:a2e:3a13:0:b0:24b:4025:344 with SMTP id
+ h19-20020a2e3a13000000b0024b40250344mr3190537lja.468.1649354488708; Thu, 07
+ Apr 2022 11:01:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-7-masahiroy@kernel.org>
-In-Reply-To: <20220406153023.500847-7-masahiroy@kernel.org>
+References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-8-masahiroy@kernel.org>
+In-Reply-To: <20220406153023.500847-8-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 7 Apr 2022 10:59:21 -0700
-Message-ID: <CAKwvOdm7NBPj43sRw-_dtjzgpHeOHnQ9uB3rSg3rYhUu0_PN7A@mail.gmail.com>
-Subject: Re: [PATCH 6/7] kbuild: make *.mod not depend on *.o
+Date:   Thu, 7 Apr 2022 11:01:17 -0700
+Message-ID: <CAKwvOdkjPcLvv-AnG+JnP+k_eGd-sZoDwjZuVf6nkp5LyxWXtA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] kbuild: read *.mod to get objects passed to $(LD) or $(AR)
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,72 +69,54 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The dependency
+> ld and ar support @file, which command-line options are read from.
 >
->     $(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o
+> Now that *.mod lists the member objects in the correct order, without
+> duplication, it is ready to be passed to ld and ar.
 >
-> ... exists because *.mod files previously contained undefined symbols,
-> which are computed from *.o files when CONFIG_TRIM_UNUSED_KSYMS=y.
->
-> Now that the undefined symbols are put into separate *.usyms files,
-> there is no reason to make *.mod depend on *.o files.
+> By using the @file syntax, people will not be worried about the pitfall
+> described in the NOTE.
+
+Clever! Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  Makefile               | 3 ++-
->  scripts/Makefile.build | 5 ++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
+>  scripts/Makefile.build | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index 82ee893909e9..e915aacd02b0 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1792,7 +1792,8 @@ ifdef single-build
->
->  # .ko is special because modpost is needed
->  single-ko := $(sort $(filter %.ko, $(MAKECMDGOALS)))
-> -single-no-ko := $(sort $(patsubst %.ko,%.mod, $(MAKECMDGOALS)))
-> +single-no-ko := $(filter-out $(single-ko), $(MAKECMDGOALS)) \
-> +               $(foreach x, o mod, $(patsubst %.ko, %.$x, $(single-ko)))
-
-I'm on board with this patch, and the overall goal with the series. My
-brain is having a hard time parsing `o mod` though. Can you walk me
-through that? Are those targets for .o and .mod files, respectively?
-
->
->  $(single-ko): single_modpost
->         @:
 > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index f7a30f378e20..3da731cf6978 100644
+> index 3da731cf6978..f6a506318795 100644
 > --- a/scripts/Makefile.build
 > +++ b/scripts/Makefile.build
-> @@ -85,7 +85,7 @@ ifdef need-builtin
->  targets-for-builtin += $(obj)/built-in.a
+> @@ -450,22 +450,18 @@ quiet_cmd_ar_lib = AR      $@
+>  $(obj)/lib.a: $(lib-y) FORCE
+>         $(call if_changed,ar_lib)
+>
+> -# NOTE:
+> -# Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
+> -# module is turned into a multi object module, $^ will contain header file
+> -# dependencies recorded in the .*.cmd file.
+>  ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
+>  quiet_cmd_link_multi-m = AR [M]  $@
+>  cmd_link_multi-m =                                             \
+>         $(cmd_update_lto_symversions);                          \
+>         rm -f $@;                                               \
+> -       $(AR) cDPrsT $@ $(filter %.o,$^)
+> +       $(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
+>  else
+>  quiet_cmd_link_multi-m = LD [M]  $@
+> -      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
+> +      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@)
 >  endif
 >
-> -targets-for-modules := $(foreach x, mod $(if $(CONFIG_TRIM_UNUSED_KSYMS), usyms), \
-> +targets-for-modules := $(foreach x, o mod $(if $(CONFIG_TRIM_UNUSED_KSYMS), usyms), \
->                                 $(patsubst %.o, %.$x, $(filter %.o, $(obj-m))))
->
->  ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
-> @@ -306,7 +306,7 @@ endif
->  cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) | \
->         $(AWK) -v RS='( |\n)' '!x[$$0]++' > $@
->
-> -$(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o FORCE
-> +$(obj)/%.mod: FORCE
->         $(call if_changed,mod)
->
->  # List module undefined symbols
-> @@ -469,7 +469,6 @@ $(multi-obj-m): FORCE
+> -$(multi-obj-m): FORCE
+> +$(multi-obj-m): %.o: %.mod FORCE
 >         $(call if_changed,link_multi-m)
 >  $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
 >
-> -targets += $(multi-obj-m)
->  targets := $(filter-out $(PHONY), $(targets))
->
->  # Add intermediate targets:
 > --
 > 2.32.0
 >
