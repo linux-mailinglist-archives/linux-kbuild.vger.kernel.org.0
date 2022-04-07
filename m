@@ -2,171 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7CE4F72AE
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 05:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B03D54F7D7D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 13:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233942AbiDGDLW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Apr 2022 23:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47102 "EHLO
+        id S229480AbiDGLIS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Apr 2022 07:08:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239823AbiDGDLR (ORCPT
+        with ESMTP id S236456AbiDGLHi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Apr 2022 23:11:17 -0400
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com [210.131.2.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D173D21A0DB;
-        Wed,  6 Apr 2022 20:08:46 -0700 (PDT)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 23738PKt004818;
-        Thu, 7 Apr 2022 12:08:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 23738PKt004818
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649300905;
-        bh=lz12cTiaDiO+TL8jlSZOZjXEzJZWXC8B9X7PhEBLIlA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GNfTfySCJG4XngQ3SggY+S2KlsuVAu7ItuQwAE5SoPrOWgwAG2wO7O4A7tN6Wv0BU
-         h7hlBues3HGCt6N/vmCJJrVgFbCas5ZzxHK43tah4c7hZOWsoGRTd4buwp2W+JguEn
-         /UKWsIuGt/NJbN1Ov2Sbnbx8MbjKDRgUAbTrmxdHgahksxS30f0sYdYhmNRBjYS+/C
-         jLV7ILFMxriRXZvNNSwLC7n7qo++rnsmNIa4w6pjhdPJqGjsNkixkyMi4O4/IQqpBb
-         r06m0cKuqoHfdh+OMCFEP7my3FlqCcUIA6EeUf2LeDZIoqnJBfTMcAsshxObPmaC/8
-         PpjVSlpV2s/uw==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id n6-20020a17090a670600b001caa71a9c4aso4888666pjj.1;
-        Wed, 06 Apr 2022 20:08:25 -0700 (PDT)
-X-Gm-Message-State: AOAM530wXYeg46U0lxZ5GuoQU+3TMwydDurQAGqGaGiK5KLWD8km2eue
-        ECgeSaoBBJLVu+fzKy7XUGaFFayH5Oo8edJEZcY=
-X-Google-Smtp-Source: ABdhPJzlZRKhkwV5MU4RvXfPq8Vhv48IcrBcAga8kUFYVd3Fi1XSyXb3I+RYsY89ZiFO5wu2RkhRHOSSXCpJKw0IcXM=
-X-Received: by 2002:a17:902:b183:b0:14f:c266:20d5 with SMTP id
- s3-20020a170902b18300b0014fc26620d5mr11858079plr.136.1649300904628; Wed, 06
- Apr 2022 20:08:24 -0700 (PDT)
+        Thu, 7 Apr 2022 07:07:38 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400401A392
+        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 04:05:37 -0700 (PDT)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 9F68F83515;
+        Thu,  7 Apr 2022 13:05:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1649329535;
+        bh=8C7PAMjAVLXORQO89qd1AmpwvIjkU1CDrI8EKtR18xo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=g7qtj5z9l4MXdyArXB5A3OXJ3cCZ9fkZPt8TJkpISitTL/v+Woj5PV5pWXhDfH5Zs
+         vDoVThkcC2RGdklbgfIGM0qyzElo4plRYKijcoWCx/KNEtyhsXRE5Aj8Jl5kJ+yqjL
+         RWFgoVqFk+Luh+ThU/EQC5QWBen/wChmCcHV2MToaMOjGL+NaLOxzHSfMxfPgTLN6O
+         FeYmMPh8tplqUZkdqhe87VNN1qAz2QyiqBTGhfPP8R2i8VU63yt8W3aq+GGD00/wuy
+         LWtiFL5a63qYwBdeMInNjxkNp/DDYMb8LM/SjJ9/uPtvPcq64h5jwcJ67eK0Ry53kp
+         LPtBq56EmxRQA==
+From:   Marek Vasut <marex@denx.de>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>, Masahiro Yamada <masahiroy@kernel.org>
+Subject: [RFC][PATCH] kbuild: Generate symbols for DTO application in DTBs
+Date:   Thu,  7 Apr 2022 13:05:22 +0200
+Message-Id: <20220407110522.122393-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-8-masahiroy@kernel.org>
- <960102bb-2944-4be0-ab09-7cd2eb0c2cf9@quicinc.com>
-In-Reply-To: <960102bb-2944-4be0-ab09-7cd2eb0c2cf9@quicinc.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 7 Apr 2022 12:07:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAStLCBCur3QnfMnBrOUkixYbJK+C6TZVKYcGX9R3M=ANQ@mail.gmail.com>
-Message-ID: <CAK7LNAStLCBCur3QnfMnBrOUkixYbJK+C6TZVKYcGX9R3M=ANQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] kbuild: read *.mod to get objects passed to $(LD) or $(AR)
-To:     Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 7, 2022 at 3:13 AM Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
->
-> On 4/6/2022 8:30 AM, Masahiro Yamada wrote:
-> > ld and ar support @file, which command-line options are read from.
-> >
-> > Now that *.mod lists the member objects in the correct order, without
-> > duplication, it is ready to be passed to ld and ar.
-> >
-> > By using the @file syntax, people will not be worried about the pitfall
-> > described in the NOTE.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >   scripts/Makefile.build | 10 +++-------
-> >   1 file changed, 3 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 3da731cf6978..f6a506318795 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -450,22 +450,18 @@ quiet_cmd_ar_lib = AR      $@
-> >   $(obj)/lib.a: $(lib-y) FORCE
-> >       $(call if_changed,ar_lib)
-> >
-> > -# NOTE:
-> > -# Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
-> > -# module is turned into a multi object module, $^ will contain header file
-> > -# dependencies recorded in the .*.cmd file.
-> >   ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
-> >   quiet_cmd_link_multi-m = AR [M]  $@
-> >   cmd_link_multi-m =                                          \
-> >       $(cmd_update_lto_symversions);                          \
-> >       rm -f $@;                                               \
-> > -     $(AR) cDPrsT $@ $(filter %.o,$^)
-> > +     $(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
-> >   else
-> >   quiet_cmd_link_multi-m = LD [M]  $@
-> > -      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
-> > +      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@)
-> >   endif
-> >
-> > -$(multi-obj-m): FORCE
-> > +$(multi-obj-m): %.o: %.mod FORCE
-> >       $(call if_changed,link_multi-m)
-> >   $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
-> >
->
-> Looks like this also addresses the out-of-tree issue described in
-> <https://lore.kernel.org/linux-kbuild/1610500731-30960-2-git-send-email-jjohnson@codeaurora.org/>
->
-> :)
->
-> /jeff
+Emit symbols section in DTBs to permit symbol resolution when applying DTOs.
 
-But, not perfectly.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+---
+NOTE: I am sending this as RFC, because I suspect there is a better way how
+      to pass extra flags to DTC during kernel build ?
+      Maybe from shell environment somehow ?
+      Or maybe b7e70391a5451 ("arm64: tegra: Enable device-tree overlay support")
+      is the way to go about this ?
+---
+ arch/arm/boot/dts/Makefile   | 3 +++
+ arch/arm64/boot/dts/Makefile | 3 +++
+ 2 files changed, 6 insertions(+)
 
-This patch fixed the linker part, but the same issue is remaining in cmd_mod.
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 252353fb4e3b3..2d50302d077dd 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1,4 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
++
++DTC_FLAGS += -@
++
+ dtb-$(CONFIG_ARCH_ALPINE) += \
+ 	alpine-db.dtb
+ dtb-$(CONFIG_MACH_ARTPEC6) += \
+diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefile
+index 1ba04e31a4387..f7b3c86517a0e 100644
+--- a/arch/arm64/boot/dts/Makefile
++++ b/arch/arm64/boot/dts/Makefile
+@@ -1,4 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
++
++DTC_FLAGS += -@
++
+ subdir-y += actions
+ subdir-y += allwinner
+ subdir-y += altera
+-- 
+2.35.1
 
-The following patch is an easy fix-up.
-
-
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index f6a506318795..468f9e646370 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -303,8 +303,8 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
-        $(call if_changed,cc_prelink_modules)
- endif
-
--cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o,
--objs -y -m)) | \
--       $(AWK) -v RS='( |\n)' '!x[$$0]++' > $@
-+cmd_mod = echo $(call real-search, $*.o, .o, -objs -y -m) | \
-+       $(AWK) -v RS='( |\n)' '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
-
- $(obj)/%.mod: FORCE
-        $(call if_changed,mod)
-
-
-
-
-
-But, please do not submit a patch yet.
-
-
-This patch series is just preparation for yet another
-bigger clean-up.
-
-One of my big goals is to clean up Clang LTO builds.
-
-Clang LTO made Kbuild really ugly.
-
-I am re-implementing various parts, but I have not
-completed the work yet.
-
-Meanwhile, I incrementally submit prerequisite
-refactoring patches.
-
-The issues of external module builds _might_ be fixed
-as a side-effect of other refactoring, but I am more
-interested in what the final code will look like.
-
---
-Best Regards
-Masahiro Yamada
