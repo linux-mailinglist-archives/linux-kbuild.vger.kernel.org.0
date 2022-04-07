@@ -2,126 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B99E14F86CB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 20:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B434B4F89B7
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 00:15:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231250AbiDGSDd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Apr 2022 14:03:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34674 "EHLO
+        id S230145AbiDGVlY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Apr 2022 17:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232705AbiDGSDc (ORCPT
+        with ESMTP id S231732AbiDGVlX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Apr 2022 14:03:32 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0B6BC863
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 11:01:30 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id a30so8430564ljq.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Apr 2022 11:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nc2KMitqXXwMUX83HKghQR/LRLRxtBXah+9V4xkBICs=;
-        b=hprdGD8oRcrP+d4uMRq8tj1WdE5uLs9uUyfo6bT6s4OBUPvwoSZgf+LKglIBUaAVsq
-         EiLbrypIOSLKiKIYm1K7P8zI23ZeQJubgJBTdKL7UMv96Wr6Dq0XoC1Tn5lrZZIs9R9b
-         wwUpN9IV7XAksdNicmeanV/JLFujJA6YqvRlHAGJEpIJ6qCRLoyuiqSvjWMevdLIlzIn
-         GRpG4fVCfZv9N5jPKhtOUE4KjTYpSOKD/hFkrLvCiZN1VgzqY75o2QB8XK7HZVt98b3g
-         2W97JbUgNeVqqAuRdQjK77H/3HZN1EZ2m8FNKZ19s/iL08Ph4631mVzBRse2KRaVb4bT
-         HvDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nc2KMitqXXwMUX83HKghQR/LRLRxtBXah+9V4xkBICs=;
-        b=znSLRx3SpjM5TfbrAhBh6CY7e6/uoV3Hry8SUH7yoIPKyUmLOBMqtgCkbl422Dfa6k
-         tcwC7CtwqUphEExJvrWVzZy2663eVgEFEh1J4Qdc/pUWEIBUSPuMso3MmJKE7VjYGvvL
-         IqayxBAqcsaQh5nQkKAMiUz7AnBfrArHmFxWVu2jv5lafQXor686a3LWLxuzT6qwM4dz
-         II2hF8FzLFshMuNijKYlA4iaXK8np6eLKugE6Uvlk3I4qLY/kUOuruc0gD7o8haRz+7q
-         AvXZvItZ8LioNlWxWOhrSzqNMburdotau4kYbynMLlWXZmKaK6ulxaLEm16+uNGteex3
-         JdHg==
-X-Gm-Message-State: AOAM531FjZfwuNBqrjTpejXAB8bl7HLRtG1QSgwPstEFOLZlS2UTDwo5
-        Lmv6xVX+DLZNF0ETESuflp+gBCfTGb8Q7cQHpYdcG3jxaZo=
-X-Google-Smtp-Source: ABdhPJw+b9H5UOl+Iup4Aed7HFCmh/ChYIP6d74O9NiIa/kpPdqblNww5GkfmHyq7uM3ae0Db/bhBnqUdBm5XK8qJiw=
-X-Received: by 2002:a2e:3a13:0:b0:24b:4025:344 with SMTP id
- h19-20020a2e3a13000000b0024b40250344mr3190537lja.468.1649354488708; Thu, 07
- Apr 2022 11:01:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-8-masahiroy@kernel.org>
-In-Reply-To: <20220406153023.500847-8-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 7 Apr 2022 11:01:17 -0700
-Message-ID: <CAKwvOdkjPcLvv-AnG+JnP+k_eGd-sZoDwjZuVf6nkp5LyxWXtA@mail.gmail.com>
-Subject: Re: [PATCH 7/7] kbuild: read *.mod to get objects passed to $(LD) or $(AR)
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 7 Apr 2022 17:41:23 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 56E5AFD6D3
+        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 14:39:21 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-320-WR3U6Ba6MeKh1xc75li2gw-1; Thu, 07 Apr 2022 22:39:18 +0100
+X-MC-Unique: WR3U6Ba6MeKh1xc75li2gw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.32; Thu, 7 Apr 2022 22:39:17 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.033; Thu, 7 Apr 2022 22:39:17 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Nick Desaulniers' <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
-        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
+Subject: RE: [PATCH 6/7] kbuild: make *.mod not depend on *.o
+Thread-Topic: [PATCH 6/7] kbuild: make *.mod not depend on *.o
+Thread-Index: AQHYSqlwlFlZ8XvVlkmR3e+Fu9qwr6zk+UXQ
+Date:   Thu, 7 Apr 2022 21:39:16 +0000
+Message-ID: <eedd7486cd484c359be90e6138b0b2be@AcuMS.aculab.com>
+References: <20220406153023.500847-1-masahiroy@kernel.org>
+ <20220406153023.500847-7-masahiroy@kernel.org>
+ <CAKwvOdm7NBPj43sRw-_dtjzgpHeOHnQ9uB3rSg3rYhUu0_PN7A@mail.gmail.com>
+In-Reply-To: <CAKwvOdm7NBPj43sRw-_dtjzgpHeOHnQ9uB3rSg3rYhUu0_PN7A@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> ld and ar support @file, which command-line options are read from.
->
-> Now that *.mod lists the member objects in the correct order, without
-> duplication, it is ready to be passed to ld and ar.
->
-> By using the @file syntax, people will not be worried about the pitfall
-> described in the NOTE.
+RnJvbTogTmljayBEZXNhdWxuaWVycw0KPiBTZW50OiAwNyBBcHJpbCAyMDIyIDE4OjU5DQo+IA0K
+PiBPbiBXZWQsIEFwciA2LCAyMDIyIGF0IDg6MzEgQU0gTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGly
+b3lAa2VybmVsLm9yZz4gd3JvdGU6DQo+ID4NCj4gPiBUaGUgZGVwZW5kZW5jeQ0KPiA+DQo+ID4g
+ICAgICQob2JqKS8lLm1vZDogJChvYmopLyUkKG1vZC1wcmVsaW5rLWV4dCkubw0KPiA+DQo+ID4g
+Li4uIGV4aXN0cyBiZWNhdXNlICoubW9kIGZpbGVzIHByZXZpb3VzbHkgY29udGFpbmVkIHVuZGVm
+aW5lZCBzeW1ib2xzLA0KPiA+IHdoaWNoIGFyZSBjb21wdXRlZCBmcm9tICoubyBmaWxlcyB3aGVu
+IENPTkZJR19UUklNX1VOVVNFRF9LU1lNUz15Lg0KPiA+DQo+ID4gTm93IHRoYXQgdGhlIHVuZGVm
+aW5lZCBzeW1ib2xzIGFyZSBwdXQgaW50byBzZXBhcmF0ZSAqLnVzeW1zIGZpbGVzLA0KPiA+IHRo
+ZXJlIGlzIG5vIHJlYXNvbiB0byBtYWtlICoubW9kIGRlcGVuZCBvbiAqLm8gZmlsZXMuDQo+ID4N
+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
+Pg0KPiA+IC0tLQ0KPiA+DQo+ID4gIE1ha2VmaWxlICAgICAgICAgICAgICAgfCAzICsrLQ0KPiA+
+ICBzY3JpcHRzL01ha2VmaWxlLmJ1aWxkIHwgNSArKy0tLQ0KPiA+ICAyIGZpbGVzIGNoYW5nZWQs
+IDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9N
+YWtlZmlsZSBiL01ha2VmaWxlDQo+ID4gaW5kZXggODJlZTg5MzkwOWU5Li5lOTE1YWFjZDAyYjAg
+MTAwNjQ0DQo+ID4gLS0tIGEvTWFrZWZpbGUNCj4gPiArKysgYi9NYWtlZmlsZQ0KPiA+IEBAIC0x
+NzkyLDcgKzE3OTIsOCBAQCBpZmRlZiBzaW5nbGUtYnVpbGQNCj4gPg0KPiA+ICAjIC5rbyBpcyBz
+cGVjaWFsIGJlY2F1c2UgbW9kcG9zdCBpcyBuZWVkZWQNCj4gPiAgc2luZ2xlLWtvIDo9ICQoc29y
+dCAkKGZpbHRlciAlLmtvLCAkKE1BS0VDTURHT0FMUykpKQ0KPiA+IC1zaW5nbGUtbm8ta28gOj0g
+JChzb3J0ICQocGF0c3Vic3QgJS5rbywlLm1vZCwgJChNQUtFQ01ER09BTFMpKSkNCj4gPiArc2lu
+Z2xlLW5vLWtvIDo9ICQoZmlsdGVyLW91dCAkKHNpbmdsZS1rbyksICQoTUFLRUNNREdPQUxTKSkg
+XA0KPiA+ICsgICAgICAgICAgICAgICAkKGZvcmVhY2ggeCwgbyBtb2QsICQocGF0c3Vic3QgJS5r
+bywgJS4keCwgJChzaW5nbGUta28pKSkNCj4gDQo+IEknbSBvbiBib2FyZCB3aXRoIHRoaXMgcGF0
+Y2gsIGFuZCB0aGUgb3ZlcmFsbCBnb2FsIHdpdGggdGhlIHNlcmllcy4gTXkNCj4gYnJhaW4gaXMg
+aGF2aW5nIGEgaGFyZCB0aW1lIHBhcnNpbmcgYG8gbW9kYCB0aG91Z2guIENhbiB5b3Ugd2FsayBt
+ZQ0KPiB0aHJvdWdoIHRoYXQ/IEFyZSB0aG9zZSB0YXJnZXRzIGZvciAubyBhbmQgLm1vZCBmaWxl
+cywgcmVzcGVjdGl2ZWx5Pw0KDQpJIHRoaW5rIEknZCBkbzoNCnNpbmdsZS1uby1rbyA6PSAkKGZp
+bHRlci1vdXQgJChzaW5nbGUta28pLCAkKE1BS0VDTURHT0FMUykpDQpzaW5nbGUtbm8ta28gKz0g
+JChwYXRzdWJzdCAlLmtvLCAlLm8sICQoc2luZ2xlLWtvKSkNCnNpbmdsZS1uby1rbyArPSAkKHBh
+dHN1YnN0ICUua28sICUubW9kLCAkKHNpbmdsZS1rbykpDQoNCkFsdGhvdWdoIHlvdSBjYW4gdXNl
+IHRoZSBzaW1wbGVyIFNZU1YgbWFrZSBzdWZmaXggc3Vic3RpdHV0aW9uIHN5bnRheDoNCnNpbmds
+ZS1uby1rbyArPSAkKHNpbmdsZS1rbzoua289Lm8pICQoc2luZ2xlLWtvOi5rbz0ubW9kKQ0KDQoJ
+RGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1v
+dW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEz
+OTczODYgKFdhbGVzKQ0K
 
-Clever! Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/Makefile.build | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 3da731cf6978..f6a506318795 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -450,22 +450,18 @@ quiet_cmd_ar_lib = AR      $@
->  $(obj)/lib.a: $(lib-y) FORCE
->         $(call if_changed,ar_lib)
->
-> -# NOTE:
-> -# Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
-> -# module is turned into a multi object module, $^ will contain header file
-> -# dependencies recorded in the .*.cmd file.
->  ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
->  quiet_cmd_link_multi-m = AR [M]  $@
->  cmd_link_multi-m =                                             \
->         $(cmd_update_lto_symversions);                          \
->         rm -f $@;                                               \
-> -       $(AR) cDPrsT $@ $(filter %.o,$^)
-> +       $(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
->  else
->  quiet_cmd_link_multi-m = LD [M]  $@
-> -      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
-> +      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ @$(patsubst %.o,%.mod,$@)
->  endif
->
-> -$(multi-obj-m): FORCE
-> +$(multi-obj-m): %.o: %.mod FORCE
->         $(call if_changed,link_multi-m)
->  $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
->
-> --
-> 2.32.0
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
