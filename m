@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 647124F864C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 19:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDCD74F865F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Apr 2022 19:38:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346066AbiDGRgg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Apr 2022 13:36:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51414 "EHLO
+        id S236889AbiDGRkt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Apr 2022 13:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233096AbiDGRgc (ORCPT
+        with ESMTP id S231700AbiDGRks (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Apr 2022 13:36:32 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5228A152825
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 10:34:30 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id e16so10830676lfc.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Apr 2022 10:34:30 -0700 (PDT)
+        Thu, 7 Apr 2022 13:40:48 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089841B931B
+        for <linux-kbuild@vger.kernel.org>; Thu,  7 Apr 2022 10:38:47 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id s17so449122ljp.8
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Apr 2022 10:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pTS6JoVH0FZyCW8Yz5J0aJH1QFk/MAO8eWoamKneeUI=;
-        b=M3AA7BjRuxkuqzx49jk/NFaKYoTsCoSAWMVVUDjaTI4T8fd3Wy95ngt1pt0dLu6oS1
-         e+5OVOyD/J0SEvSMrLOcvQ5BgTaWRMNPlGBm0z6dB51fCtAsXALVbMv6wXHdac3np803
-         pCISNBcet+jtM2oSeGW+IuxGxybalvArdtuNMHizxV6fpU9GmQI/hHbh7+HIJaaHinX3
-         UMzsCzWRStPg8Y7JlXBsI0By84oyCvllllYm9J2/GErrERQQWisKLIkGaeuNnZoQyEV8
-         7VkOdmoYWocpzBqVSFvaLCz5MRZet9iPTczlHywz7p133HfQYJ7KC4VG6gsOX6WsVXtf
-         FgYA==
+        bh=DqcV7WGARFZ/ffRCyb5YkL9dW7CWUKGQ9qWgIaBP89g=;
+        b=rmw47Rp6LjyE/7b5dpBSuCrYCvciGjeqiD6bEHNgNq+l1RWeFTl00/0A92THJqCbAf
+         +KwzU+VLnFD/Z71HZbfLHG4WorkONaDM+8ZpUbxGyP3OqLl+nHcZRI2Pb5sMsh/ls/6k
+         POAAQsZgyylfPdpKOYADA2pDww5E8S4GZRUwurwJNMRazL9zaZNNTfZ0YBZPB90UqAWR
+         y0hslM2ZSk5LOez6PrkFgPrctMIZpl8w54YeGZk6vKcCLT9qe+bmvNP7igmWy72DFbO0
+         5TL934XIcNGeA/r1JaYPM9uAtASIBYyl1cVno7etcOFmCBb4uktrcoGaKlqcdvfhSpns
+         +APQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pTS6JoVH0FZyCW8Yz5J0aJH1QFk/MAO8eWoamKneeUI=;
-        b=uBDfjroICprMSWIxB/KN/BwRqD5SnPsDVIxhCEbr2R24QOGQBjI6HClM3/O8g7TB0Y
-         9AcLZgc5C54TRuH7+vVr9q8WZZej2u31Qi3LqpykIrw6PDfqOkFf41YcWJVgnPR6MiB8
-         oVM7IjHwAhHdLAOdRFDJXNvTE/85UKMjwzyIrhl7XH/idA+VvUKMJQqzAUuN8hnkVUOE
-         Aw0EFv7r0DczC3vTit0KGd7GC2NOB9SD+ZkRq2hdHQyFHax4yNbFsvy45lU6E1TysTtS
-         kaRzAzMHZksQWj2N1EIGdfvu020+/PpShnr3Yf1dcfrk0joM3mVKGfrp/suP6/zLI4AQ
-         Zmlw==
-X-Gm-Message-State: AOAM530WRkdVlsV8yLwTBtgjVYqlCtnP9O8U8ncvO4H2CXyK1JhQezZK
-        L5g64bEtDJv4wy+2a69+RIVUvvGbNsP4HbaTDE5OwmzF0QE=
-X-Google-Smtp-Source: ABdhPJzswKfjK36kyyP5jTdYD4iVcctmx2qTBsZ56uCoqUldKnYlfpajfq/zzMPxndyjmIwgZzZTYDIazgOd8NR7d6M=
-X-Received: by 2002:a05:6512:108b:b0:44a:6dc2:ffeb with SMTP id
- j11-20020a056512108b00b0044a6dc2ffebmr10335124lfg.184.1649352868337; Thu, 07
- Apr 2022 10:34:28 -0700 (PDT)
+        bh=DqcV7WGARFZ/ffRCyb5YkL9dW7CWUKGQ9qWgIaBP89g=;
+        b=iZkKPeA+cq6FPWxcynNt4bA0GFPICH5AHcPcu+seKaKYup42xm+vXZjapjQefUC5JR
+         ipYZphh5wCEo4uCmPsoFJJWfG9Hjx4cP6VuBQYvM55iUDc8JjUDNpSt/9vg7cBOP+ApL
+         bpA3gPqR5qE7L+xlEPKdu7z4opyrEti4kGxcCtcNNzfoF/gdgubD6fGRUhnSDh/owLw8
+         NRBDmSDGihRFifPMz8If0jvpag7LtPYGRtPaa8rvH/TNKREjkIq1rXEEMZxEYe7yElHM
+         NRwlVMiWETotqOkmmyTggV6AiIeGiusA2TrDNRG3mFfT0NXCSj6LyoRWH1eruKCUxTTT
+         xOgg==
+X-Gm-Message-State: AOAM531YZIIea2gW0Hy/ueNf0l/WEBWzLrXNFSwYU4hB938L+onmn02R
+        52YHN74wCgzaGp+UYsn3FG3AtEBItlUhLkJ2iXSrtib7CGc=
+X-Google-Smtp-Source: ABdhPJyzJHwGpQQsGu9sCrGwCnvvz5UowKYDszfDvjvyB7k4rx0xoF5u9NiSMJf8/kvFr7M28mMrVh9XNfpv6t/0ggw=
+X-Received: by 2002:a2e:8859:0:b0:249:83e5:9f9b with SMTP id
+ z25-20020a2e8859000000b0024983e59f9bmr5022907ljj.165.1649353125074; Thu, 07
+ Apr 2022 10:38:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-3-masahiroy@kernel.org>
-In-Reply-To: <20220406153023.500847-3-masahiroy@kernel.org>
+References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-4-masahiroy@kernel.org>
+In-Reply-To: <20220406153023.500847-4-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 7 Apr 2022 10:34:16 -0700
-Message-ID: <CAKwvOdnqxh2=QrtWmTMuzF4ob0+TBODM4S88J299G2xHz4zfAw@mail.gmail.com>
-Subject: Re: [PATCH 2/7] kbuild: make multi_depend work with targets in subdirectory
+Date:   Thu, 7 Apr 2022 10:38:33 -0700
+Message-ID: <CAKwvOd=PTcAQP9b3wHY=95ESXVQjhwcHrNg5EqC0N5FVUKOJjw@mail.gmail.com>
+Subject: Re: [PATCH 3/7] kbuild: reuse real-search to simplify cmd_mod
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -59,8 +59,8 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,20 +69,8 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Precisely speaking, when you get the stem of the path, you should use
-> $(patsubst $(obj)/%,%,...) instead of $(notdir ...).
->
-> I do not see this usecase, but if you create a composite object in a
-> subdirectory, the Makefile should look like this:
->
->    obj-$(CONFIG_FOO) += dir/foo.o
->    dir/foo-objs      := dir/foo1.o dir/foo2.o
->
-> The member objects should be assigned to dir/foo-objs instead of
-> foo-objs.
->
-> This syntax is more consistent with commit 54b8ae66ae1a ("kbuild:
-> change *FLAGS_<basetarget>.o to take the path relative to $(obj)").
+> The first command in cmd_mod is similar to the real-search macro.
+> Reuse it.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -91,26 +79,22 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/Makefile.lib | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  scripts/Makefile.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index d56cda3c1e8a..0453a1904646 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -236,9 +236,9 @@ endif
->  # Usage:
->  #   $(call multi_depend, multi_used_targets, suffix_to_remove, suffix_to_add)
->  define multi_depend
-> -$(foreach m, $(notdir $1), \
-> -       $(eval $(obj)/$m: \
-> -       $(addprefix $(obj)/, $(call suffix-search, $m, $2, $3))))
-> +$(foreach m, $1, \
-> +       $(eval $m: \
-> +       $(addprefix $(obj)/, $(call suffix-search, $(patsubst $(obj)/%,%,$m), $2, $3))))
->  endef
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index f15c245dc17e..857329844789 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -306,7 +306,7 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
+>  endif
 >
->  # Copy a file
+>  cmd_mod = { \
+> -       echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
+> +       echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)); \
+>         $(undefined_syms) echo; \
+>         } > $@
+>
 > --
 > 2.32.0
 >
