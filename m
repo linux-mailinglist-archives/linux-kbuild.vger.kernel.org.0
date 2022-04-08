@@ -2,112 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8390F4F9E43
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 22:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3CB64F9E4E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 22:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233974AbiDHUi3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 Apr 2022 16:38:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41754 "EHLO
+        id S234093AbiDHUpJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Apr 2022 16:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233905AbiDHUi2 (ORCPT
+        with ESMTP id S234060AbiDHUpI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 Apr 2022 16:38:28 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 331761C4B2D;
-        Fri,  8 Apr 2022 13:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=h1s1cl/MNWphmQvefqBf/suSv8LXWFq0XUy8/QL01ko=; b=jCxIh0U5Itm6wOdVKyoTPtDOmS
-        h+xliojQYmGDxuMt7M/9qtH5lpWyHy+sZh5kGgFJcTL1SaLniX+SW9Q1KkcQHr2HdJLtY4K1uusNv
-        Vd+BEfUdTBp71B0R1yPRkIMIHJyIzaSZ6JIwHlSQBAygnO4PtZbBxEVf6+gHQXV0hWzKpIcNMHR7m
-        pD+b63I50huejCCym8GfCY5otCjl29tettWJF2m3zC60B6HLqD0rSg1v1zNire5ydOkZGQda05K65
-        d+Uqmd3FikSfKx2thSw+WadvnXURMtWqEosxjAa1jjjeDlbkvrAYlZXbhmzetrwgetYvAVaLLy6p4
-        AprZ4NFQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ncvKy-0033Qr-GE; Fri, 08 Apr 2022 20:36:09 +0000
-Message-ID: <81585705-6ed8-12e5-1355-332a6a5d2b17@infradead.org>
-Date:   Fri, 8 Apr 2022 13:36:02 -0700
+        Fri, 8 Apr 2022 16:45:08 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB6FD39174
+        for <linux-kbuild@vger.kernel.org>; Fri,  8 Apr 2022 13:43:03 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id d40so9442623lfv.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 08 Apr 2022 13:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Da2qAwNbvrZU08VFGRkDL3N3/jfO2QzNiebireMf8MI=;
+        b=cIx42nsSypnh3n2cMIa/b98xMgO9TRkrVcj1t+o7OB+VEP4rDNCnCUZoM01F2Nid6i
+         EZpvarMfGLwtINPcThfgNdRlGWhe8v/G7tXyWSs9c5Nu3iEDOMEMTaT3gKa599m/aJ20
+         dZt2soOKlT83ReS7Bsq86K7nO/lELkTjFWeYh/L8yIBRR4ef4eOF4WveeD40O31hdvX7
+         phLyrpYqrMWiKPpusSkxjkp4pRSf3eE7zbfetlM5tXWkvovq1s7RIs5XlaK6YX+a2DSG
+         jR8bU8/HMHmtOxfB4cZHtKWbjRqGqpXyaZ6IjI+lbrLIoiaUAPyDKSzzRfoEwzu3Xjhs
+         7ESA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Da2qAwNbvrZU08VFGRkDL3N3/jfO2QzNiebireMf8MI=;
+        b=DynyFiCtj9UyiaUbgJwv/pmHtwwTE/MyXZCDCCJrYhCgPXMCpdmSskJJZf5z4+UEVF
+         zqeiMC2+Snr3pfqwaJ2iYh0LRO12bpLk8RpFpe75Vm+wxZi4mDhQrEP3+m26f9up3f+A
+         I2hZwiPAf2fWRqf5v1CY0hBOSwRvDRjUBpNSoPuntKSkYfyRzJG4eXHs7Unht3whbnLO
+         njULifBt7znU7JiWLh/xPIPZtooSjwpGRRCS8f508TA7jjHgl/4SzCfCHZyZHB/c7SNl
+         j/rIZdR3fnslcj8WVR3EtSn2076Jr5of+PZmrHL+apGqJ06JWAnJBHkcz868J3E7ujEV
+         GAWg==
+X-Gm-Message-State: AOAM530QCDORQGeQov10LbCCIhric1Cxqgg+mxQrnXRl+0EJBguqb+iv
+        BYtDR1RqsJGnOpOIt8MBZx7l4T6RQoNN4OEPCgecmu5jZPbe2A==
+X-Google-Smtp-Source: ABdhPJyBwA8BhmkEKHcEPRpWRBKh48D8fuSPYzorAnnFv5jxS0dZqPWX+zA3z0NcoxQHW0ZPQEkaQu5rZIFMN3wIHss=
+X-Received: by 2002:a05:6512:3da1:b0:44a:2aeb:28e4 with SMTP id
+ k33-20020a0565123da100b0044a2aeb28e4mr13385275lfv.579.1649450581749; Fri, 08
+ Apr 2022 13:43:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCHv1] kbuild: support W=e to make build abort in case of
- warning
-Content-Language: en-US
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Yann Droneaud <ydroneaud@opteya.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-6-masahiroy@kernel.org>
+ <CAKwvOdnHneCy6YeanmvDrabYMWysfQ=WMopsT_gRyrruT8=1Dw@mail.gmail.com> <CAK7LNATUv2YqGLGMTjzoCWf2tVkeYe6O9xa==wdDr0pgvSnnLQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATUv2YqGLGMTjzoCWf2tVkeYe6O9xa==wdDr0pgvSnnLQ@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 8 Apr 2022 13:42:50 -0700
+Message-ID: <CAKwvOdnj77+8OHGZcJ-pAMcFW1FzjhkPsvs90PPD+L64t0+Mpw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] kbuild: get rid of duplication in *.mod files
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com>
- <20220408084607.106468-1-ydroneaud@opteya.com>
- <CAK7LNAQZLt_OecOogOQiSu5snW+sffsMoFgVcjPTx_idj_=_tQ@mail.gmail.com>
- <CAKwvOd=yNnKsHJo0QWvoTuFF9p-y=cTftTD+7FY-wJ_f23zFTQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAKwvOd=yNnKsHJo0QWvoTuFF9p-y=cTftTD+7FY-wJ_f23zFTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Apr 7, 2022 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Fri, Apr 8, 2022 at 2:55 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+> >
+> > On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > > index 6ae92d119dfa..f7a30f378e20 100644
+> > > --- a/scripts/Makefile.build
+> > > +++ b/scripts/Makefile.build
+> > > @@ -303,7 +303,8 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
+> > >         $(call if_changed,cc_prelink_modules)
+> > >  endif
+> > >
+> > > -cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) > $@
+> > > +cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) | \
+> > > +       $(AWK) -v RS='( |\n)' '!x[$$0]++' > $@
+> >
+> > God AWK is unreadable. Any reason we can't use GNU make's sort builtin?
+> > https://www.gnu.org/software/make/manual/html_node/Text-Functions.html
+>
+>
+> I did that in the previous submission.
+> https://lore.kernel.org/lkml/20220405113359.2880241-8-masahiroy@kernel.org/
+>
+>
+> After some thoughts, I decided to drop duplicates without sorting.
+>
+> If I alphabetically sorted the object list,
+> 7/7 of this series would be impossible.
+>
+>
+> I am not a big fan of AWK, but I do not know a cleaner way.
+> If you know a better idea, please tell me.
 
+```
+# stable_dedup.py
+from sys import argv
 
-On 4/8/22 13:29, Nick Desaulniers wrote:
-> On Fri, Apr 8, 2022 at 4:06 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>
->> On Fri, Apr 8, 2022 at 5:46 PM Yann Droneaud <ydroneaud@opteya.com> wrote:
->>>
->>> When developing new code/feature, CONFIG_WERROR is most
->>> often turned off, especially for people using make W=12 to
->>> get more warnings.
->>>
->>> In such case, turning on -Werror temporarily would require
->>> switching on CONFIG_WERROR in the configuration, building,
->>> then switching off CONFIG_WERROR.
->>>
->>> For this use case, this patch introduces a new 'e' modifier
->>> to W= as a short hand for KCFLAGS+=-Werror" so that -Werror
->>> got added to the kernel (built-in) and modules' CFLAGS.
->>>
->>> Signed-off-by: Yann Droneaud <ydroneaud@opteya.com>
->>> ---
->>>  Makefile                   |  1 +
->>>  scripts/Makefile.extrawarn | 13 +++++++++++--
->>>  2 files changed, 12 insertions(+), 2 deletions(-)
->>>
->>> Changes since v0[0]:
->>>
->>>  - rebase on top of commit 64a91907c896 ("kbuild: refactor scripts/Makefile.extrawarn")
->>>  - document use case after commit 3fe617ccafd6 ("Enable '-Werror' by default for all kernel builds")
->>>
->>> [0] https://lore.kernel.org/all/1422803720-14723-1-git-send-email-ydroneaud@opteya.com/
->>
->>
->> I remembered the previous submission, I liked it, but I had lost it.
->>
->> It seems already 7 years ago, (before I became the Kbuild maintainer).
->> Thanks for coming back to this.
->>
->>
->> I like this, but I will wait some time for review comments.
-> 
-> Dunno, this seems pretty simple:
-> 
-> $ ./scripts/config -e WERROR
-> $ make ... W=12
+wordset = set()
+argv.pop(0)
+for word in argv: wordset.add(word)
+for word in wordset: print(word)
+```
+If that ever shows up in a profile of a kernel build, <set> in C++
+looks pretty similar.  Then that script can be reused in a couple of
+other places, and has a more descriptive name that hints at what it
+does.
 
-Yeah, that's about what I was thinking too..
-
+Compare that with `$(AWK) -v RS='( |\n)' '!x[$$0]++'`.
 -- 
-~Randy
+Thanks,
+~Nick Desaulniers
