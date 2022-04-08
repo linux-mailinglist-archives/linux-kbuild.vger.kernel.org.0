@@ -2,59 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80F9B4F8AE1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 02:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACCC34F8BC8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 02:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231599AbiDGX76 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Apr 2022 19:59:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52726 "EHLO
+        id S232660AbiDHAKj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Apr 2022 20:10:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230207AbiDGX75 (ORCPT
+        with ESMTP id S230286AbiDHAKi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Apr 2022 19:59:57 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C389FF2;
-        Thu,  7 Apr 2022 16:57:55 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 237NvVAu018069;
-        Fri, 8 Apr 2022 08:57:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 237NvVAu018069
+        Thu, 7 Apr 2022 20:10:38 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC7192BE947;
+        Thu,  7 Apr 2022 17:08:33 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 238089EW029103;
+        Fri, 8 Apr 2022 09:08:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 238089EW029103
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649375853;
-        bh=2xt6T2poF3Jb2rXQqjGy0tw2bFfsjebPGhPiXY6x8nE=;
+        s=dec2015msa; t=1649376491;
+        bh=3ILE9JjEnGHo6rfpgFl4AXhrp2l7GfDIN7jxy6B5b/M=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UboELrmsxNtueHP8l9jwLEViCMAzg6Vu8OcdetvULTADwduoRUsU99oGjR8z6aXzr
-         Lu7bRdm80qjBtOxULJmgpbpj2GGCXREw1Weet4CiiDAjA3CBdlhBM+CHgkXUxAwaxL
-         AFywXuSZnKrE8VrUfE+M0dlhFIadNT2PhRUmePckm/WZj9cunkx5rsFI5kZpSaIdSn
-         FargPXkmzARPR1TaZ2rsE2SbJCbVz28LMx2rDAX3X0jHp80Lm+NkWej95YRb7sA6sW
-         7veSKbNIxt9eh9sSytqLRFIPoGS83SbwJYGXx/DfIkwfrUUXgWafKLbfpvCEPNZ8H3
-         d+VksF3eEgy5w==
-X-Nifty-SrcIP: [209.85.208.169]
-Received: by mail-lj1-f169.google.com with SMTP id bn33so9455020ljb.6;
-        Thu, 07 Apr 2022 16:57:32 -0700 (PDT)
-X-Gm-Message-State: AOAM532beJT4hhSQNyGQjk/gl6GTbAQPLchU6fG92VRh0IvaOaeohDxA
-        YZQoUfDpHcWiZYGbQFl3N2u6bnkz2xfhKCwwnbM=
-X-Google-Smtp-Source: ABdhPJwMIyCuy+7fO1cOpOcUkEJiYA0J7US+42V8NnfrzrSAT424OdA+4z/VVcuyjerRs/kH0pR0n7cp5qEzzTnammU=
-X-Received: by 2002:a2e:bf27:0:b0:246:7ed6:33b0 with SMTP id
- c39-20020a2ebf27000000b002467ed633b0mr10441919ljr.167.1649375850933; Thu, 07
- Apr 2022 16:57:30 -0700 (PDT)
+        b=lbFhIYT+/fptE5yUWn+pDOgRM7CMCQawW3yqw4/loG5V6ZGHQRRrvJbXRPaIv4IW/
+         w/xVZq9D4QT+DavM13yRuIBLxI7YqTcwJ1eqsMAF23bbuvCVhZNK8zv0GDSXKKODNJ
+         KRIebOVC0E5sa+6PEPjpio+bEPUvuph2k+nP2AMQaUP14icavp6h5it71D9Zj01WbO
+         Ny5Pb0o8vgpzV3lsT7RzHT+NfHZb5Q9z9VuARYJ7JmY+B38uX0X7T8xmIwcXqryPHJ
+         dT3y7msDAKmfvHGbIycLxtZiauPK48so15R+sOCIYqi+5uE44Gp8RLCijMYUeSKIZv
+         alK/ivHmUe/bg==
+X-Nifty-SrcIP: [209.85.167.41]
+Received: by mail-lf1-f41.google.com with SMTP id b21so12355894lfb.5;
+        Thu, 07 Apr 2022 17:08:10 -0700 (PDT)
+X-Gm-Message-State: AOAM530WXU+VIA8TmsAEzI/h+q8Xh6fejtcuwsvYIGL1whUbS8CSvMMc
+        kKHGyouLGPdcssjOmXthO2mKkH7pYgVv0LZmWcU=
+X-Google-Smtp-Source: ABdhPJz/1J7aUgUB5l1O2+Oj11/+4pVPmBB5llgfuikmpnjBemMRE3oeyBbB6mGCOkdTBOH8bhzYtTEyrY7n4dzDj+c=
+X-Received: by 2002:a05:6512:33cb:b0:464:f5f4:22cb with SMTP id
+ d11-20020a05651233cb00b00464f5f422cbmr3647801lfg.186.1649376489197; Thu, 07
+ Apr 2022 17:08:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-5-masahiroy@kernel.org>
- <CAKwvOdmT0G5b2nz-HBCXOVKaC2h5XNsoNbsAVHTo=86b5pdBDw@mail.gmail.com>
-In-Reply-To: <CAKwvOdmT0G5b2nz-HBCXOVKaC2h5XNsoNbsAVHTo=86b5pdBDw@mail.gmail.com>
+References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-6-masahiroy@kernel.org>
+ <CAKwvOdnHneCy6YeanmvDrabYMWysfQ=WMopsT_gRyrruT8=1Dw@mail.gmail.com>
+In-Reply-To: <CAKwvOdnHneCy6YeanmvDrabYMWysfQ=WMopsT_gRyrruT8=1Dw@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 8 Apr 2022 08:56:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASh58DFSUCe4cJRFkLBK3NE6tT346JT=3yZFkUzFUtLhA@mail.gmail.com>
-Message-ID: <CAK7LNASh58DFSUCe4cJRFkLBK3NE6tT346JT=3yZFkUzFUtLhA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] kbuild: split the second line of *.mod into *.usyms
+Date:   Fri, 8 Apr 2022 09:07:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATUv2YqGLGMTjzoCWf2tVkeYe6O9xa==wdDr0pgvSnnLQ@mail.gmail.com>
+Message-ID: <CAK7LNATUv2YqGLGMTjzoCWf2tVkeYe6O9xa==wdDr0pgvSnnLQ@mail.gmail.com>
+Subject: Re: [PATCH 5/7] kbuild: get rid of duplication in *.mod files
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <alobakin@pm.me>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sami Tolvanen <samitolvanen@google.com>
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -66,47 +62,94 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 8, 2022 at 2:47 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Fri, Apr 8, 2022 at 2:55 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
 > On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > The *.mod files have two lines; the first line lists the member objects
-> > of the module, and the second line, if CONFIG_TRIM_UNUSED_KSYMS=y, lists
-> > the undefined symbols.
+> > It is allowed to add the same objects multiple times to obj-y / obj-m:
+> >
+> >   obj-y += foo.o foo.o foo.o
+> >   obj-m += bar.o bar.o bar.o
+> >
+> > It is also allowed to add the same objects multiple times to a composite
+> > module:
+> >
+> >   obj-m    += foo.o
+> >   foo-objs := foo1.o foo2.o foo2.o foo1.o
+> >
+> > This flexibility is useful because the same object might be selected by
+> > different CONFIG options, like this:
+> >
+> >   obj-m               += foo.o
+> >   foo-y               := foo1.o
+> >   foo-$(CONFIG_FOO_X) += foo2.o
+> >   foo-$(CONFIG_FOO_Y) += foo2.o
+> >
+> > The duplicated objects are omitted at link time. It works naturally in
+> > Makefiles because GNU Make removes duplication in $^ without changing
+> > the order.
+> >
+> > It is working well, almost...
+> >
+> > A small flaw I notice is, *.mod contains duplication in such a case.
+> >
+> > This is probably not a big deal. As far as I know, the only small
+> > problem is scripts/mod/sumversion.c parses the same file multiple
+> > times.
+> >
+> > I am fixing this because I plan to reuse *.mod for other purposes,
+> > where the duplication can be problematic.
+> >
+> > The code change is quite simple. We already use awk to drop duplicated
+> > lines in modules.order (see cmd_modules_order in the same file).
 >
-> Enabling EXPERT and TRIM_UNUSED_KSYMS, I didn't find any .mod files
-> containing a second line that wasn't empty. Is there an example that
-> has such symbol list that I can use to verify?
+> Why does the top level Makefile reassign cmd_modules_order rather than
+> use the original value in scripts/Makefile.build?
 
 
-Modules are usually symbol consumers in order to be useful.
-(and some of them are symbol providers as well).
-
-So, it is rare to see an empty unresolved symbol list.
-
-But, it is theoretically possible to create such a module.
-
-
-This is sample code.
-
-
-obj-m += foo.o
-
-----------------(foo.c begin)----------------
-#include <linux/module.h>
-
-MODULE_LICENSE("GPL");
-----------------(foo.c end)----------------
+Because the top level Makefile does not include scripts/Makefile.build
 
 
 
+> > I copied the code, but changed RS to use spaces as record separators.
+> >
+> > I also changed the file format to list one object per line.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/Makefile.build   | 3 ++-
+> >  scripts/mod/sumversion.c | 2 +-
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index 6ae92d119dfa..f7a30f378e20 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -303,7 +303,8 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
+> >         $(call if_changed,cc_prelink_modules)
+> >  endif
+> >
+> > -cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) > $@
+> > +cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) | \
+> > +       $(AWK) -v RS='( |\n)' '!x[$$0]++' > $@
+>
+> God AWK is unreadable. Any reason we can't use GNU make's sort builtin?
+> https://www.gnu.org/software/make/manual/html_node/Text-Functions.html
 
 
+I did that in the previous submission.
+https://lore.kernel.org/lkml/20220405113359.2880241-8-masahiroy@kernel.org/
 
-> --
-> Thanks,
-> ~Nick Desaulniers
 
+After some thoughts, I decided to drop duplicates without sorting.
+
+If I alphabetically sorted the object list,
+7/7 of this series would be impossible.
+
+
+I am not a big fan of AWK, but I do not know a cleaner way.
+If you know a better idea, please tell me.
 
 
 -- 
