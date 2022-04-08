@@ -2,139 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6B654F8C65
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 05:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C414F9118
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Apr 2022 10:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232712AbiDHCkq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Apr 2022 22:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49270 "EHLO
+        id S231737AbiDHIs3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 Apr 2022 04:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232018AbiDHCkp (ORCPT
+        with ESMTP id S231408AbiDHIs3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Apr 2022 22:40:45 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE9010428D;
-        Thu,  7 Apr 2022 19:38:43 -0700 (PDT)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 2382cNSR030218;
-        Fri, 8 Apr 2022 11:38:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2382cNSR030218
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649385503;
-        bh=k+X8BU90L87wqwuBges12O8eXkSA1qgxyJVoI11kDT4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S+YuyhjGMpP4/Ievn4zIry/9tr5HeyKZLtClkKDxXNLQa92Uov9Hie0tqq6hgKnKA
-         2x0NvYMu+guk/bKOiRmaweoakRuFMkeLSIU1Y1nq2QmDD5q282nyT5BGD5cciEIRkz
-         mdmXkbBiCygZAQnKKdeazQR2vyNIfYkpc0ppBkSyNJsb50DqWYHz638F8utrWgXY22
-         1lX/4aj9CNf1YhU21G4G2lVAQrX22vj+YH3d3/EZKk/zyJ7MzRwA31hc3ypJbKH3xM
-         yggUOGC5OYJwML9FNnOX6JFBzn8qsP+hwhLqwq4kPqboAZ9GWItQahCdEMV6EtYljR
-         6Y3/YQ3HIs/Qg==
-X-Nifty-SrcIP: [209.85.210.182]
-Received: by mail-pf1-f182.google.com with SMTP id a42so676587pfx.7;
-        Thu, 07 Apr 2022 19:38:23 -0700 (PDT)
-X-Gm-Message-State: AOAM533r/VpFKkh4o9QaXXEz1q8WQMmdqmmgpJNCm4m1p3PDKX0BVkyJ
-        ndrFA5vmQqmPFO1GVif8/IgihMIGmxUTomb8vbs=
-X-Google-Smtp-Source: ABdhPJyXwwwejEV82RROrL/bzaqhrV767EkI27pBBBGDTCSllAv8VuvxumVanMN0lR9SxfDvPPfJmj+u3/cc/6wdHe0=
-X-Received: by 2002:a05:6a02:182:b0:374:5a57:cbf9 with SMTP id
- bj2-20020a056a02018200b003745a57cbf9mr13509050pgb.616.1649385502334; Thu, 07
- Apr 2022 19:38:22 -0700 (PDT)
+        Fri, 8 Apr 2022 04:48:29 -0400
+Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A1F31C0A0;
+        Fri,  8 Apr 2022 01:46:25 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e35:39f2:1220:bf15:70c6:368e:e3ba])
+        by smtp1-g21.free.fr (Postfix) with ESMTPS id E9B6FB004B6;
+        Fri,  8 Apr 2022 10:46:17 +0200 (CEST)
+From:   Yann Droneaud <ydroneaud@opteya.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Yann Droneaud <ydroneaud@opteya.com>
+Subject: [PATCHv1] kbuild: support W=e to make build abort in case of warning
+Date:   Fri,  8 Apr 2022 10:46:07 +0200
+Message-Id: <20220408084607.106468-1-ydroneaud@opteya.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com>
+References: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com>
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-7-masahiroy@kernel.org>
- <CAKwvOdm7NBPj43sRw-_dtjzgpHeOHnQ9uB3rSg3rYhUu0_PN7A@mail.gmail.com>
- <eedd7486cd484c359be90e6138b0b2be@AcuMS.aculab.com> <CAK7LNASJKMqfaifGA9r_cYqgkVgL6OPCfjFZCGN4mZwxW_rZvw@mail.gmail.com>
-In-Reply-To: <CAK7LNASJKMqfaifGA9r_cYqgkVgL6OPCfjFZCGN4mZwxW_rZvw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 8 Apr 2022 11:37:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR68JsGK4uqwJEKi8g9-rfjFLt3RX-0PjqcCTTuwCR8ZQ@mail.gmail.com>
-Message-ID: <CAK7LNAR68JsGK4uqwJEKi8g9-rfjFLt3RX-0PjqcCTTuwCR8ZQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] kbuild: make *.mod not depend on *.o
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 8, 2022 at 9:37 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Fri, Apr 8, 2022 at 6:39 AM David Laight <David.Laight@aculab.com> wrote:
-> >
-> > From: Nick Desaulniers
-> > > Sent: 07 April 2022 18:59
-> > >
-> > > On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > The dependency
-> > > >
-> > > >     $(obj)/%.mod: $(obj)/%$(mod-prelink-ext).o
-> > > >
-> > > > ... exists because *.mod files previously contained undefined symbols,
-> > > > which are computed from *.o files when CONFIG_TRIM_UNUSED_KSYMS=y.
-> > > >
-> > > > Now that the undefined symbols are put into separate *.usyms files,
-> > > > there is no reason to make *.mod depend on *.o files.
-> > > >
-> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > ---
-> > > >
-> > > >  Makefile               | 3 ++-
-> > > >  scripts/Makefile.build | 5 ++---
-> > > >  2 files changed, 4 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/Makefile b/Makefile
-> > > > index 82ee893909e9..e915aacd02b0 100644
-> > > > --- a/Makefile
-> > > > +++ b/Makefile
-> > > > @@ -1792,7 +1792,8 @@ ifdef single-build
-> > > >
-> > > >  # .ko is special because modpost is needed
-> > > >  single-ko := $(sort $(filter %.ko, $(MAKECMDGOALS)))
-> > > > -single-no-ko := $(sort $(patsubst %.ko,%.mod, $(MAKECMDGOALS)))
-> > > > +single-no-ko := $(filter-out $(single-ko), $(MAKECMDGOALS)) \
-> > > > +               $(foreach x, o mod, $(patsubst %.ko, %.$x, $(single-ko)))
-> > >
-> > > I'm on board with this patch, and the overall goal with the series. My
-> > > brain is having a hard time parsing `o mod` though. Can you walk me
-> > > through that? Are those targets for .o and .mod files, respectively?
->
->
-> Yes.
->
-> Kbuild can build a module individually.
->
->     make  foo/bar/baz.ko
->
-> (but modpost check does not work well)
->
-> To do this, Kbuild needs to descend to
-> the directory and generate
-> foo/bar/baz.o  and  foo/bar/baz.mod.
->
-> Previously, foo/bar/baz.o was generated as a
-> prerequisite of foo/bar/baz.mod, but now we
-> need to request Kbuild to generate both of them.
->
+When developing new code/feature, CONFIG_WERROR is most
+often turned off, especially for people using make W=12 to
+get more warnings.
 
+In such case, turning on -Werror temporarily would require
+switching on CONFIG_WERROR in the configuration, building,
+then switching off CONFIG_WERROR.
 
-BTW, this feature is broken for CONFIG_LTO_CLANG=y
-because the ELF object is not foo/bar/baz.o
-but foo/bar/baz.prelink.o
-(which was renamed from foo/bar/baz.lto.o).
+For this use case, this patch introduces a new 'e' modifier
+to W= as a short hand for KCFLAGS+=-Werror" so that -Werror
+got added to the kernel (built-in) and modules' CFLAGS.
 
-I will not fix it, though.
+Signed-off-by: Yann Droneaud <ydroneaud@opteya.com>
+---
+ Makefile                   |  1 +
+ scripts/Makefile.extrawarn | 13 +++++++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
+Changes since v0[0]:
 
+ - rebase on top of commit 64a91907c896 ("kbuild: refactor scripts/Makefile.extrawarn")
+ - document use case after commit 3fe617ccafd6 ("Enable '-Werror' by default for all kernel builds")
 
+[0] https://lore.kernel.org/all/1422803720-14723-1-git-send-email-ydroneaud@opteya.com/
 
+diff --git a/Makefile b/Makefile
+index 8c7de9a72ea2..6dc621af18d1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1649,6 +1649,7 @@ help:
+ 	@echo  '		1: warnings which may be relevant and do not occur too often'
+ 	@echo  '		2: warnings which occur quite often but may still be relevant'
+ 	@echo  '		3: more obscure warnings, can most likely be ignored'
++	@echo  '		e: warnings are being treated as errors'
+ 	@echo  '		Multiple levels can be combined with W=12 or W=123'
+ 	@echo  ''
+ 	@echo  'Execute "make" or "make all" to build all targets marked with [*] '
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 650d0b8ceec3..f5f0d6f09053 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -2,8 +2,8 @@
+ # ==========================================================================
+ # make W=... settings
+ #
+-# There are three warning groups enabled by W=1, W=2, W=3.
+-# They are independent, and can be combined like W=12 or W=123.
++# There are four warning groups enabled by W=1, W=2, W=3, and W=e
++# They are independent, and can be combined like W=12 or W=123e.
+ # ==========================================================================
+ 
+ KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+@@ -94,3 +94,12 @@ KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
+ KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
+ 
+ endif
++
++#
++# W=e - error out on warnings
++#
++ifneq ($(findstring e, $(KBUILD_EXTRA_WARN)),)
++
++KBUILD_CFLAGS += -Werror
++
++endif
 -- 
-Best Regards
-Masahiro Yamada
+2.32.0
+
