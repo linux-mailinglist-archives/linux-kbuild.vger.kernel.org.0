@@ -2,67 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCC74FA6CA
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Apr 2022 12:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C29A4FAB2E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Apr 2022 02:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbiDIKfp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 9 Apr 2022 06:35:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52202 "EHLO
+        id S233213AbiDJAJR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 9 Apr 2022 20:09:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239196AbiDIKfo (ORCPT
+        with ESMTP id S233193AbiDJAJQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 9 Apr 2022 06:35:44 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB0A1F0441;
-        Sat,  9 Apr 2022 03:33:35 -0700 (PDT)
-Received: from mail-wm1-f42.google.com ([209.85.128.42]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M9Fvl-1na8Of1Vdn-006M2o; Sat, 09 Apr 2022 12:33:34 +0200
-Received: by mail-wm1-f42.google.com with SMTP id p189so7013115wmp.3;
-        Sat, 09 Apr 2022 03:33:34 -0700 (PDT)
-X-Gm-Message-State: AOAM533Ja5jzzEYAxhkXx5fOeZq+nAJ9hDw1ENGH1q/Ib/N/HOU9RKCo
-        wskc2Y693qi6VbXoHsLeYWlj/3yR099O/dedkpM=
-X-Google-Smtp-Source: ABdhPJwsUBXnmbEbaFsBC7s730nC5Ut/zN3omGoreJ6+U2b6OTYxTOE1rScNMNh2ech3kws1903fK9PVsjEC8+gNr7M=
-X-Received: by 2002:a05:600c:4ecc:b0:38e:354d:909 with SMTP id
- g12-20020a05600c4ecc00b0038e354d0909mr21220146wmq.33.1649500414009; Sat, 09
- Apr 2022 03:33:34 -0700 (PDT)
+        Sat, 9 Apr 2022 20:09:16 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB85176D03;
+        Sat,  9 Apr 2022 17:07:05 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 9B0AA834BC;
+        Sun, 10 Apr 2022 02:07:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1649549222;
+        bh=dpdIuchMh/sX1+3R2GnL2NcCcVnkZt0eIvZvcUYSsO4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZIfP49ovY7/62RcRdZ3lWbl+8ceT5jZKcDmDFzZL0AmKIZqeQZ0vNvpztTmKJV88a
+         XNnlNjQDX+ez/hYDov39dLEZJtBpE8t0gFhFsZKDmveg7q7mljsFYuZYtPPackDgF+
+         LQlUQj8wE67vJOJAWggCas4ggZklaEtN86ArrVtoiyxW5ApRrhw3zxiEK2/rCRsg8m
+         /Ux243dUlerMxrKcq3f8lo9tyUEMbUeoNElMNVouqjpdhgZuX883wX8gRL8VNWeQE5
+         ULM3uyElNwpFP7XXSrAL2q3jG1g6fD/3XkxxNJeYR8IUoFpv4w6GR9I9xdsGVmD96z
+         TKkIDM6C66ATA==
+Message-ID: <88e8194a-1657-c35d-7794-dd377289a77c@denx.de>
+Date:   Sun, 10 Apr 2022 02:07:02 +0200
 MIME-Version: 1.0
-References: <7fad83ecde03540e65677959034315f8fbb3755e.1649434832.git.jpoimboe@redhat.com>
- <CAK7LNARvFcQgEB1b0L6giwx0vD7wU9L-OZ5jvm1c5+StLjeOYQ@mail.gmail.com> <YlCJm8iQBPSOWIT5@hirez.programming.kicks-ass.net>
-In-Reply-To: <YlCJm8iQBPSOWIT5@hirez.programming.kicks-ass.net>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 9 Apr 2022 12:33:18 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3xoUJ=aDROkWQ1Awpu0kiciohL7hJNsQ0Zn0K05bWObQ@mail.gmail.com>
-Message-ID: <CAK8P3a3xoUJ=aDROkWQ1Awpu0kiciohL7hJNsQ0Zn0K05bWObQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Remove CONFIG_DEBUG_SECTION_MISMATCH
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>, X86 ML <x86@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Changbin Du <changbin.du@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:JxkzLmbAzjoD4nIIGLoGD0RXkk7NCWmU9t5QU/LAlA3pXV1AvfZ
- BGImKImCiJzMqGDBRRh5IEtydcco7uziUCiMD6eo7VjffoLcBrZbmFc6O4ed2FV/0ACPUVX
- OTKkkw31TPX+38DMqKt3f18iS2tg1vTg00ln0IfWwdt56MDlCcURHGPABkLxW0nYjfK5QBL
- wdPBqNUO1DfGn7Zg1Rz8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GAYr7Af3suE=:uQxsxpCKe6vXIj9n+dqWgE
- tzAXROn81cOtMmsSy6YCxFQGBD1Z8wVugVrjBDVbZKeCafssOlu/DMPQhxY5lG4vXtWrKM9rm
- NRaPri6Awt/OYtxNPGGx9ld3+1FnUQoImfhwvj3iODbU12iBn95doLGeb/WahLIk4n7e1kVqF
- Ihll4F/ZAa8UTU2Qw3Qxs2xcZZpUmCPTxgEadNB9N0oQyAvH5FbnFf9NXnY6k0cjPomK4zO6J
- w8jUwAfrzuV2MqYjlyVUDi4gybcGW6QOD8tNdwr9GzQxccHpQXby9enqKdr3fSj+dbrQrjKse
- R1sJ51umz7UUlUht3hIzQjLX6cWeB0ye6Gy+DlYZ6Z7D55aZuZ2Hb9JYwdrleTKO/y95Nu7DO
- ujnGkiQ1uxwMM0b1Ug61LdDzzYjwbAivpkVcGDCBBh5tw5ITW3EcQxyj/OAE6q5Sllis3QeD5
- 4L7zPj3IvYbvvwmskmN5s43C7CnfXOX+onsO0jyXc1kkA2tbnaWzdNHFZb6eDIL1AYrLVYijU
- uVNI3O/VzoJQtxEzZAvzL6W1su5uhbY3A1ZdNERBmy/knY2twE2fw6HAK/w8sc5U9C026A6ho
- UETANKcDncdCqfwleCMYhrd+Vj1grIqPmBHeAKSD/sM5EFD3fxo0pN4sAwBZiTt7mEnXdlmLX
- r/ZEsYpxHJr9G80bvEWvaE4eX8vZt1vqbhzRKzQTxjbWlsDMJlrynXaa637QYlvRU/4g=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC][PATCH] kbuild: Generate symbols for DTO application in DTBs
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        DTML <devicetree@vger.kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+References: <20220407110522.122393-1-marex@denx.de>
+ <CAK7LNATp4_Hjte3tj_tqVLzJu30fidAowkrBgXkjC-68FwFzkQ@mail.gmail.com>
+From:   Marek Vasut <marex@denx.de>
+In-Reply-To: <CAK7LNATp4_Hjte3tj_tqVLzJu30fidAowkrBgXkjC-68FwFzkQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,26 +60,53 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 8, 2022 at 9:14 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Sat, Apr 09, 2022 at 03:29:21AM +0900, Masahiro Yamada wrote:
-> > Is [2] caused by dead code that was not optimized out
-> > due to the unusual inlining decisions by the compiler ?
->
-> The complaint is due to SMAP validation; objtool will scream if there's
-> a CALL in between STAC/CLAC. The thinking is that since they open a
-> security window, we want tight code between them. We also very much
-> don't want tracing and other funnies to happen there. As such, any CALL
-> is dis-allowed.
->
-> This weird option is having us upgrade quite a few 'inline' to
-> '__always_inline'.
+On 4/7/22 14:30, Masahiro Yamada wrote:
+> Hi Marek.
+> (+CC Rob, DT ML)
 
-There is also __attribute__((flatten)), which you can add to the caller
-to tell gcc to inline everything it can into this function, without
-having to inline it everywhere else.
+Hi,
 
-Would that work here? It sounds like this is what STAC/CLAC actually
-requires.
+> On Thu, Apr 7, 2022 at 8:05 PM Marek Vasut <marex@denx.de> wrote:
+>>
+>> Emit symbols section in DTBs to permit symbol resolution when applying DTOs.
+> 
+> I CCed DT folks, but if I remember correctly, adding -@ globally
+> was NACKed because it would increase blob size for platforms that
+> do not need overlay.
+> 
+> 
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>> ---
+>> NOTE: I am sending this as RFC, because I suspect there is a better way how
+>>        to pass extra flags to DTC during kernel build ?
+>>        Maybe from shell environment somehow ?
+> 
+> 
+> For local use, yes, you can add -@ from the command line.
+> 
+> Try this:
+> 
+>      DTC_FLAGS=-@  make ARCH=arm64 dtbs
+> 
+> 
+> This is undocumented tip, but it seems to work
+> for the current code.
 
-         Arnd
+This is real nice (and very much what I need), thank you.
+
+>>        Or maybe b7e70391a5451 ("arm64: tegra: Enable device-tree overlay support")
+>>        is the way to go about this ?
+> 
+> 
+> Since commit 15d16d6dadf6947ac7f9a686c615995c5a426ce2,
+> adding -@ is automatic for platforms that support overlay.
+> 
+> 
+> If  <platform>-dtbs exists, -@ is automatically added.
+> 
+> See arch/arm64/boot/dts/xilinx/Makefile
+> as an example code.
+
+Is it now allowed to start upstreaming DT overlays then ?
+That would be nice too.
