@@ -2,132 +2,183 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DACA64FF766
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 15:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C53D4FF774
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 15:12:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233556AbiDMNJo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 09:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45444 "EHLO
+        id S233181AbiDMNOn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Apr 2022 09:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232653AbiDMNJn (ORCPT
+        with ESMTP id S232291AbiDMNOl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 09:09:43 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A680B5DA4E;
-        Wed, 13 Apr 2022 06:07:21 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id x3so1033913wmj.5;
-        Wed, 13 Apr 2022 06:07:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kafA4Cp/nvsG1AFf16x4P3arNB/XPl6avUTek6th6LM=;
-        b=JhqMhVM5H/AR7I/KTvaWwpyBIGvDRUUSTX73lauZ64L74/VO1bBrYLO4kOCXiDsp9b
-         0eYtRMoZ7x+ck797cRJmAfBS061I5aDnEewWtvDE6jhHf8tUivNI/chCSIiU2fvRcrR/
-         tRVSChnBJZ5SsIri4tfjbW9sM5U/BrgcSRF0tzmvBtL75oV4ALTkPWPmLfIHfc1bLnew
-         /Ge8zb3nnBu8FVVJjy63m44WkE5gpeahe5Xy1imr0aH8pYOpFTrFXd7Mf9Tz+fXBqDnN
-         1hjMXg6TlCD/sv/8Vsfi03n2aPOgXeeS0Beh55YH84A3mRAFlePkZiEjp95iKeWOgWSg
-         Ah8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kafA4Cp/nvsG1AFf16x4P3arNB/XPl6avUTek6th6LM=;
-        b=KFPJAyfw+6jxzI3PLt4g6JhWF6Khjyp0nIkR7jz+rAXrsv9jvNzR8ZuCmT8Ebs+2ZU
-         PVfiyAXECjakHTKgEw7F6AHFyB9JHAOrY1Q4ys8n3XS5e673EB35kWCLToT0Xk+TwpsZ
-         E17E1YsOQt395vT28QGpQLpAKwBxiNQxq53yKoe6jBsvgPQ1tmzt+Egp3x5Q248etYaa
-         Lw5qZew12mnCofJFkJSavK/fQcCW2IJ3Be09jx8NErHkegADjOIXeZtzRgZqzW+6NV0y
-         i5m102/eGfZmDmLyLcVAvcXOo1dfVOX/XFl1s8YOQJw2bK7oPxjBefHOuyHWJ5kbjX4I
-         OY9w==
-X-Gm-Message-State: AOAM533Bg8nMkFHJUZfvqt/pY1p9G1epQtNLdJZdn+9BHkf4np+piglR
-        oQWiIEW1IEsE0aWtoTYOh3HMkJ3BKA7idA==
-X-Google-Smtp-Source: ABdhPJz38kWLFzpnLGk8019rjJMv35e3WlH7WmyVRBX8+qR51s+Kqeuhii9sqjD11yXqjzhXO47SZg==
-X-Received: by 2002:a1c:6a02:0:b0:38b:3661:47f1 with SMTP id f2-20020a1c6a02000000b0038b366147f1mr8455676wmc.5.1649855240054;
-        Wed, 13 Apr 2022 06:07:20 -0700 (PDT)
-Received: from nz.home (host81-147-8-147.range81-147.btcentralplus.com. [81.147.8.147])
-        by smtp.gmail.com with ESMTPSA id o17-20020a05600c4fd100b0038cd5074c83sm2749187wmq.34.2022.04.13.06.07.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 06:07:18 -0700 (PDT)
-Received: by nz.home (Postfix, from userid 1000)
-        id 8D7CC2CBD6EC9; Wed, 13 Apr 2022 14:07:17 +0100 (BST)
-Date:   Wed, 13 Apr 2022 14:07:17 +0100
-From:   Sergei Trofimovich <slyich@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     amd-gfx@lists.freedesktop.org, Joe Perches <joe@perches.com>,
-        linux-kbuild@vger.kernel.org, Jakub Jelinek <jakub@redhat.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: gcc inserts __builtin_popcount, causes 'modpost: "__popcountdi2"
- ... amdgpu.ko] undefined'
-Message-ID: <YlbLBUJxMDUBFo+z@nz>
-References: <YlSYv3d9a5cZR9KE@nz>
+        Wed, 13 Apr 2022 09:14:41 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0578F5620E;
+        Wed, 13 Apr 2022 06:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649855540; x=1681391540;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gWgiHZGg2megmlC5cOpZa/9BAqmc+BctVHL1GWqaHXM=;
+  b=V3u5jfXmqiw+g18KXiqpl3ZyF4ZweRQfvPzf0g9jA8Dj5S+2LONjL8Wu
+   Gwk3pnjCkIAnlboeSt4tK8yZHHne4v3sVOesUu6LIoe1qASAy9Io/kYht
+   7jb0nBWT9wcgn17y/kiviYE0kFcn3xscIb6wqElSWWgN+4xPMl61gaGd+
+   bm2XSZrFkjkLorihUSZMdgWGWSHgfDY8f+VXKISVS93id/GrU658JBsOV
+   cS8Vfphj8VvbtDO5Hg6gqr2wikZZQuZDFHBigShZ06Bcl0/CHn6rX/p8y
+   M1GMf9bpv9/G1OQT8VChnpLlqwN+YeW7EQ5oqhZt0O4wFtewtcW9u/5zl
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="260255466"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
+   d="scan'208";a="260255466"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 06:12:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
+   d="scan'208";a="552196530"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 13 Apr 2022 06:12:16 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1necn9-0000Ic-9o;
+        Wed, 13 Apr 2022 13:12:15 +0000
+Date:   Wed, 13 Apr 2022 21:11:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Libo Chen <libo.chen@oracle.com>, gregkh@linuxfoundation.org,
+        masahiroy@kernel.org, tglx@linutronix.de, peterz@infradead.org,
+        mingo@kernel.org, vbabka@suse.cz, akpm@linux-foundation.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
+ dependency for CPUMASK_OFFSTACK
+Message-ID: <202204132113.V7jyB6Zc-lkp@intel.com>
+References: <20220412231508.32629-2-libo.chen@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YlSYv3d9a5cZR9KE@nz>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220412231508.32629-2-libo.chen@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 11, 2022 at 10:08:15PM +0100, Sergei Trofimovich wrote:
-> Current linux-5.17.1 on fresh gcc-12 fails to build with errors like:
-> 
->     ERROR: modpost: "__popcountdi2" [drivers/net/ethernet/broadcom/bnx2x/bnx2x.ko] undefined!
->     ERROR: modpost: "__popcountdi2" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-> 
-> It is occasionally seen by others on previous gcc versions as well:
-> 
->     https://lkml.org/lkml/2021/7/11/261
->     https://lkml.org/lkml/2018/10/24/403
-> 
-> '__popcountdi2' are inserted by gcc for code like the following
-> from 'drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c':
-> 
->     static inline enum mod_hdcp_status validate_bksv(struct mod_hdcp *hdcp)
->     {
->         uint64_t n = 0;
->         uint8_t count = 0;
->         u8 bksv[sizeof(n)] = { };
-> 
->         memcpy(bksv, hdcp->auth.msg.hdcp1.bksv, sizeof(hdcp->auth.msg.hdcp1.bksv));
->         n = *(uint64_t *)bksv;
-> 
->         /* Here gcc inserts 'count = __builtin_popcount(n);' */
->         while (n) {
->                 count++;
->                 n &= (n - 1);
->         }
-> 
->         return (count == 20) ? MOD_HDCP_STATUS_SUCCESS :
->                                MOD_HDCP_STATUS_HDCP1_INVALID_BKSV;
->     }
-> 
-> Note that gcc can insert it regardless of -mno-* options.
-> 
-> How should linux.git handle it? A few options come to mind:
-> 
-> - Perhaps use libgcc.a directly.
-> - Just implement '__popcountdi2'. Example definition from libgcc:
->   https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcc2.c;hb=HEAD#l846
-> - Or workaround it with -fno-builtin-popcount in Makefiles.
-> 
-> CCing people who can help routing it and/or deciding on the fix:
-> amd-gfx@lists.freedesktop.org, Joe Perches, linux-kbuild@vger.kernel.org,
-> Jakub Jelinek, Segher Boessenkool, Thomas Gleixner,Peter Zijlstra, Andy
-> Lutomirski.
+Hi Libo,
 
-There is now a discussion in gcc bugzilla:
+Thank you for the patch! Yet something to improve:
 
-    https://gcc.gnu.org/PR105253
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.18-rc2 next-20220413]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+config: nios2-randconfig-r023-20220413 (https://download.01.org/0day-ci/archive/20220413/202204132113.V7jyB6Zc-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6636f7cf28d2a79cde937c0f212e8a87080da06d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
+        git checkout 6636f7cf28d2a79cde937c0f212e8a87080da06d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 71
+   kernel/workqueue.o: in function `free_workqueue_attrs':
+   workqueue.c:(.text+0x3fb8): undefined reference to `free_cpumask_var'
+   workqueue.c:(.text+0x3fb8): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
+   nios2-linux-ld: kernel/workqueue.o: in function `alloc_workqueue_attrs':
+>> workqueue.c:(.text+0x40d4): undefined reference to `alloc_cpumask_var'
+   workqueue.c:(.text+0x40d4): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
+   nios2-linux-ld: kernel/workqueue.o: in function `workqueue_set_unbound_cpumask':
+   workqueue.c:(.text+0x5584): undefined reference to `zalloc_cpumask_var'
+   workqueue.c:(.text+0x5584): relocation truncated to fit: R_NIOS2_CALL26 against `zalloc_cpumask_var'
+   nios2-linux-ld: workqueue.c:(.text+0x5680): undefined reference to `free_cpumask_var'
+   workqueue.c:(.text+0x5680): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
+   nios2-linux-ld: kernel/workqueue.o: in function `wq_unbound_cpumask_store':
+   workqueue.c:(.text+0x56e0): undefined reference to `zalloc_cpumask_var'
+   workqueue.c:(.text+0x56e0): relocation truncated to fit: R_NIOS2_CALL26 against `zalloc_cpumask_var'
+   nios2-linux-ld: workqueue.c:(.text+0x5718): undefined reference to `free_cpumask_var'
+   workqueue.c:(.text+0x5718): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
+   nios2-linux-ld: kernel/workqueue.o: in function `workqueue_init_early':
+>> workqueue.c:(.init.text+0x1e8): undefined reference to `alloc_cpumask_var'
+   workqueue.c:(.init.text+0x1e8): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 15310
+   kernel/sched/core.o: in function `sched_setaffinity':
+>> core.c:(.text+0x3b40): undefined reference to `alloc_cpumask_var'
+   core.c:(.text+0x3b40): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
+>> nios2-linux-ld: core.c:(.text+0x3b54): undefined reference to `alloc_cpumask_var'
+   core.c:(.text+0x3b54): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
+>> nios2-linux-ld: core.c:(.text+0x3be0): undefined reference to `free_cpumask_var'
+   core.c:(.text+0x3be0): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
+   nios2-linux-ld: core.c:(.text+0x3bf0): undefined reference to `free_cpumask_var'
+   core.c:(.text+0x3bf0): additional relocation overflows omitted from the output
+   nios2-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_setaffinity':
+   core.c:(.text+0x3c64): undefined reference to `alloc_cpumask_var'
+   nios2-linux-ld: core.c:(.text+0x3cc4): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_getaffinity':
+   core.c:(.text+0x3dd4): undefined reference to `alloc_cpumask_var'
+   nios2-linux-ld: core.c:(.text+0x3e20): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: kernel/sched/core.o: in function `sched_init':
+>> core.c:(.init.text+0x27c): undefined reference to `load_balance_mask'
+>> nios2-linux-ld: core.c:(.init.text+0x284): undefined reference to `load_balance_mask'
+>> nios2-linux-ld: core.c:(.init.text+0x28c): undefined reference to `select_idle_mask'
+   nios2-linux-ld: core.c:(.init.text+0x290): undefined reference to `select_idle_mask'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 18
+   kernel/sched/build_utility.o: in function `housekeeping_setup_type':
+   build_utility.c:(.init.text+0x130): undefined reference to `alloc_bootmem_cpumask_var'
+   nios2-linux-ld: kernel/sched/build_utility.o: in function `housekeeping_setup':
+   build_utility.c:(.init.text+0x198): undefined reference to `alloc_bootmem_cpumask_var'
+   nios2-linux-ld: build_utility.c:(.init.text+0x1b4): undefined reference to `alloc_bootmem_cpumask_var'
+   nios2-linux-ld: build_utility.c:(.init.text+0x2f4): undefined reference to `free_bootmem_cpumask_var'
+   nios2-linux-ld: build_utility.c:(.init.text+0x304): undefined reference to `free_bootmem_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 91
+   kernel/profile.o: in function `prof_cpu_mask_proc_write':
+   profile.c:(.text+0x40c): undefined reference to `zalloc_cpumask_var'
+   nios2-linux-ld: profile.c:(.text+0x450): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: kernel/profile.o: in function `profile_init':
+>> profile.c:(.ref.text+0xc0): undefined reference to `alloc_cpumask_var'
+>> nios2-linux-ld: profile.c:(.ref.text+0x134): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 700424681
+   kernel/time/hrtimer.o: in function `clock_was_set':
+>> hrtimer.c:(.text+0xc48): undefined reference to `zalloc_cpumask_var'
+>> nios2-linux-ld: hrtimer.c:(.text+0xd50): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 361628
+   kernel/torture.o: in function `torture_cleanup_begin':
+>> torture.c:(.text+0x758): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: kernel/torture.o: in function `torture_shuffle_init':
+>> torture.c:(.text+0xbe4): undefined reference to `alloc_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 13757
+   block/blk-mq.o: in function `blk_mq_alloc_hctx':
+   blk-mq.c:(.text+0x1550): undefined reference to `zalloc_cpumask_var_node'
+   nios2-linux-ld: blk-mq.c:(.text+0x16d4): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 264202560
+   block/blk-mq-sysfs.o: in function `blk_mq_hw_sysfs_release':
+   blk-mq-sysfs.c:(.text+0x2c0): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 3666
+   drivers/base/cpu.o: in function `print_cpus_offline':
+   cpu.c:(.text+0x94): undefined reference to `alloc_cpumask_var'
+   nios2-linux-ld: cpu.c:(.text+0xec): undefined reference to `free_cpumask_var'
+   nios2-linux-ld: drivers/base/cpu.o: in function `print_cpus_isolated':
+   cpu.c:(.text+0x1b8): undefined reference to `alloc_cpumask_var'
+   nios2-linux-ld: cpu.c:(.text+0x20c): undefined reference to `free_cpumask_var'
 
 -- 
-
-  Sergei
+0-DAY CI Kernel Test Service
+https://01.org/lkp
