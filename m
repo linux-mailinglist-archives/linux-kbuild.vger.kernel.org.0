@@ -2,183 +2,237 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C53D4FF774
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 15:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48B694FF78A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 15:24:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233181AbiDMNOn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 09:14:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
+        id S232732AbiDMN00 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Apr 2022 09:26:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232291AbiDMNOl (ORCPT
+        with ESMTP id S229972AbiDMN0Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 09:14:41 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0578F5620E;
-        Wed, 13 Apr 2022 06:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649855540; x=1681391540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gWgiHZGg2megmlC5cOpZa/9BAqmc+BctVHL1GWqaHXM=;
-  b=V3u5jfXmqiw+g18KXiqpl3ZyF4ZweRQfvPzf0g9jA8Dj5S+2LONjL8Wu
-   Gwk3pnjCkIAnlboeSt4tK8yZHHne4v3sVOesUu6LIoe1qASAy9Io/kYht
-   7jb0nBWT9wcgn17y/kiviYE0kFcn3xscIb6wqElSWWgN+4xPMl61gaGd+
-   bm2XSZrFkjkLorihUSZMdgWGWSHgfDY8f+VXKISVS93id/GrU658JBsOV
-   cS8Vfphj8VvbtDO5Hg6gqr2wikZZQuZDFHBigShZ06Bcl0/CHn6rX/p8y
-   M1GMf9bpv9/G1OQT8VChnpLlqwN+YeW7EQ5oqhZt0O4wFtewtcW9u/5zl
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="260255466"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="260255466"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 06:12:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="552196530"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 13 Apr 2022 06:12:16 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1necn9-0000Ic-9o;
-        Wed, 13 Apr 2022 13:12:15 +0000
-Date:   Wed, 13 Apr 2022 21:11:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Libo Chen <libo.chen@oracle.com>, gregkh@linuxfoundation.org,
-        masahiroy@kernel.org, tglx@linutronix.de, peterz@infradead.org,
-        mingo@kernel.org, vbabka@suse.cz, akpm@linux-foundation.org
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
- dependency for CPUMASK_OFFSTACK
-Message-ID: <202204132113.V7jyB6Zc-lkp@intel.com>
-References: <20220412231508.32629-2-libo.chen@oracle.com>
+        Wed, 13 Apr 2022 09:26:24 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A478D56426;
+        Wed, 13 Apr 2022 06:24:02 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id ks6so3965746ejb.1;
+        Wed, 13 Apr 2022 06:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=pP1xeAExqb4CTu9bCs4vgB8bqAXDBS1r1plYZ1IQFXE=;
+        b=KmrO8j4blCHo3zwskk1V4txTvdy+CeQQ05IFh0SIWyuztV7kB1/bDej6/+TDhDtYnh
+         gWSoFDWr3EY7jkQeCPKYkgJT6DQiXb6D5tecFIUImICPUifjeHqYL45DlWDMFHthlOYj
+         RO08LavvKAR1TMwi1lHLFXXRLUngg2BjVAPMJcmnc2NnPvm1ky/Y9Mo6P9ptwK64nAja
+         xQxVbBXne2z5de3uSJx16+MJ5zkzpgfui3M1Fmnt8Yn5AqSpqzKGF4dnXp92L3DB9oXG
+         +JOxZfBV0Kgp24twotigFv+ruGu9v0zc24ON0kS9GIgMFqxqChXjUM/HPfTC83/oItUH
+         1wzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pP1xeAExqb4CTu9bCs4vgB8bqAXDBS1r1plYZ1IQFXE=;
+        b=OfhLKoO8hdLr3ibczz82yf6La7UWPBS2Rq351YZTvTS/c2cBYUpcddQkFamv28OKC+
+         3zZPxg8JbciFtL201+rrgPjy1YIt5NlD8PxurXQY6o/fV18aTdKRfymKR5wA7dBa55KS
+         haQtTCKzmNium0EVGncq0UX0qxDSQucK1a0eKO8tVivyo0egHpb7zQFcyQoL6kOjAqQr
+         8iI87Bt75piJ0Yx4JSKsdm7nVCrm8IGkfIfgzAq3pd6E35/3LXH+l+/q4H5+0nTG+Yqn
+         Ntk/zJ6Mocmoq2iImuItHHHXSFsKRNHmaFopK3xCb4z/xjo9t8AuwAg7oAzEy1Frg1Tt
+         06TA==
+X-Gm-Message-State: AOAM530knR0RYCaGRjSTQosggkZPhY6zGfsE+VqD5nshZy5O/PXxAwQp
+        fNjWaOcKGRTatwpOKNa0raFEX9McGBduEPFY
+X-Google-Smtp-Source: ABdhPJyeQ1veR9cCtq/ZMPTQQkrUbxN2ENwiLlTIwAaUcb0mJg0b6O8QTvO0SP+9P0o5dKkVBZo3Og==
+X-Received: by 2002:a17:907:7242:b0:6da:b561:d523 with SMTP id ds2-20020a170907724200b006dab561d523mr37375034ejc.118.1649856240896;
+        Wed, 13 Apr 2022 06:24:00 -0700 (PDT)
+Received: from pswork ([62.96.250.75])
+        by smtp.gmail.com with ESMTPSA id u25-20020a170906b11900b006e08588afedsm14214299ejy.132.2022.04.13.06.24.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 06:24:00 -0700 (PDT)
+Date:   Wed, 13 Apr 2022 15:23:59 +0200
+From:   Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v4 0/3] bootconfig: Support embedding a bootconfig in
+ kernel for non initrd boot
+Message-ID: <20220413132359.GA8987@pswork>
+References: <164833878595.2575750.1483106296151574233.stgit@devnote2>
+ <20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220412231508.32629-2-libo.chen@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Libo,
+Hello Masami Hiramatsu,
 
-Thank you for the patch! Yet something to improve:
+Sorry for long delay, was out of town.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v5.18-rc2 next-20220413]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+>On Sun, Mar 27, 2022 at 11:55:26AM +0900, Masami Hiramatsu wrote:
+> Hi Padmanabha,
+> 
+> On Sun, 27 Mar 2022 08:53:06 +0900
+> Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> > 
+> > 
+> > KNOWN ISSUE:
+> > 
+> > According to the report from Padmanabha[3], the embedded bootconfig data may not
+> > be updated if you do incremental build the kernel with CONFIG_LTO. This is
+> > under investigation.
+> 
+> I tried to test this version with LTO_CLANG_FULL and LTO_CLANG_THIN with
+> switching the embedded bootconfig file by CONFIG_EMBED_BOOT_CONFIG_FILE (on x86).
+> 
+> I found that when I use LTO_CLANG_FULL, the embedded bootconfig was updated
+> correctly.
+> But with the LTO_CLANG_THIN, the embedded bootconfig was *NOT* updated.
+> 
+> I used the latest prebuild llvm 15.0.0 on x86 [4]. Padmanabha, can you confirm
+> with this latest LLVM? I guess something wrong with your old LLVM.
+> 
+> [4] https://download.01.org/0day-ci/cross-package/clang-latest/clang-latest/clang.tar.xz
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
-config: nios2-randconfig-r023-20220413 (https://download.01.org/0day-ci/archive/20220413/202204132113.V7jyB6Zc-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6636f7cf28d2a79cde937c0f212e8a87080da06d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
-        git checkout 6636f7cf28d2a79cde937c0f212e8a87080da06d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash
+Thanks for the link for prebuilt llvm 15.0.0.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+[p1] https://www.spinics.net/lists/kernel/msg4307362.html
 
-All errors (new ones prefixed by >>):
+With llvm 15.0.0 and latest patchset v8 for bootconfig [p1] on arm64 the
+test observations are:
 
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 71
-   kernel/workqueue.o: in function `free_workqueue_attrs':
-   workqueue.c:(.text+0x3fb8): undefined reference to `free_cpumask_var'
-   workqueue.c:(.text+0x3fb8): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
-   nios2-linux-ld: kernel/workqueue.o: in function `alloc_workqueue_attrs':
->> workqueue.c:(.text+0x40d4): undefined reference to `alloc_cpumask_var'
-   workqueue.c:(.text+0x40d4): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
-   nios2-linux-ld: kernel/workqueue.o: in function `workqueue_set_unbound_cpumask':
-   workqueue.c:(.text+0x5584): undefined reference to `zalloc_cpumask_var'
-   workqueue.c:(.text+0x5584): relocation truncated to fit: R_NIOS2_CALL26 against `zalloc_cpumask_var'
-   nios2-linux-ld: workqueue.c:(.text+0x5680): undefined reference to `free_cpumask_var'
-   workqueue.c:(.text+0x5680): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
-   nios2-linux-ld: kernel/workqueue.o: in function `wq_unbound_cpumask_store':
-   workqueue.c:(.text+0x56e0): undefined reference to `zalloc_cpumask_var'
-   workqueue.c:(.text+0x56e0): relocation truncated to fit: R_NIOS2_CALL26 against `zalloc_cpumask_var'
-   nios2-linux-ld: workqueue.c:(.text+0x5718): undefined reference to `free_cpumask_var'
-   workqueue.c:(.text+0x5718): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
-   nios2-linux-ld: kernel/workqueue.o: in function `workqueue_init_early':
->> workqueue.c:(.init.text+0x1e8): undefined reference to `alloc_cpumask_var'
-   workqueue.c:(.init.text+0x1e8): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 15310
-   kernel/sched/core.o: in function `sched_setaffinity':
->> core.c:(.text+0x3b40): undefined reference to `alloc_cpumask_var'
-   core.c:(.text+0x3b40): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
->> nios2-linux-ld: core.c:(.text+0x3b54): undefined reference to `alloc_cpumask_var'
-   core.c:(.text+0x3b54): relocation truncated to fit: R_NIOS2_CALL26 against `alloc_cpumask_var'
->> nios2-linux-ld: core.c:(.text+0x3be0): undefined reference to `free_cpumask_var'
-   core.c:(.text+0x3be0): relocation truncated to fit: R_NIOS2_CALL26 against `free_cpumask_var'
-   nios2-linux-ld: core.c:(.text+0x3bf0): undefined reference to `free_cpumask_var'
-   core.c:(.text+0x3bf0): additional relocation overflows omitted from the output
-   nios2-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_setaffinity':
-   core.c:(.text+0x3c64): undefined reference to `alloc_cpumask_var'
-   nios2-linux-ld: core.c:(.text+0x3cc4): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_getaffinity':
-   core.c:(.text+0x3dd4): undefined reference to `alloc_cpumask_var'
-   nios2-linux-ld: core.c:(.text+0x3e20): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: kernel/sched/core.o: in function `sched_init':
->> core.c:(.init.text+0x27c): undefined reference to `load_balance_mask'
->> nios2-linux-ld: core.c:(.init.text+0x284): undefined reference to `load_balance_mask'
->> nios2-linux-ld: core.c:(.init.text+0x28c): undefined reference to `select_idle_mask'
-   nios2-linux-ld: core.c:(.init.text+0x290): undefined reference to `select_idle_mask'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 18
-   kernel/sched/build_utility.o: in function `housekeeping_setup_type':
-   build_utility.c:(.init.text+0x130): undefined reference to `alloc_bootmem_cpumask_var'
-   nios2-linux-ld: kernel/sched/build_utility.o: in function `housekeeping_setup':
-   build_utility.c:(.init.text+0x198): undefined reference to `alloc_bootmem_cpumask_var'
-   nios2-linux-ld: build_utility.c:(.init.text+0x1b4): undefined reference to `alloc_bootmem_cpumask_var'
-   nios2-linux-ld: build_utility.c:(.init.text+0x2f4): undefined reference to `free_bootmem_cpumask_var'
-   nios2-linux-ld: build_utility.c:(.init.text+0x304): undefined reference to `free_bootmem_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 91
-   kernel/profile.o: in function `prof_cpu_mask_proc_write':
-   profile.c:(.text+0x40c): undefined reference to `zalloc_cpumask_var'
-   nios2-linux-ld: profile.c:(.text+0x450): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: kernel/profile.o: in function `profile_init':
->> profile.c:(.ref.text+0xc0): undefined reference to `alloc_cpumask_var'
->> nios2-linux-ld: profile.c:(.ref.text+0x134): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 700424681
-   kernel/time/hrtimer.o: in function `clock_was_set':
->> hrtimer.c:(.text+0xc48): undefined reference to `zalloc_cpumask_var'
->> nios2-linux-ld: hrtimer.c:(.text+0xd50): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 361628
-   kernel/torture.o: in function `torture_cleanup_begin':
->> torture.c:(.text+0x758): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: kernel/torture.o: in function `torture_shuffle_init':
->> torture.c:(.text+0xbe4): undefined reference to `alloc_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 13757
-   block/blk-mq.o: in function `blk_mq_alloc_hctx':
-   blk-mq.c:(.text+0x1550): undefined reference to `zalloc_cpumask_var_node'
-   nios2-linux-ld: blk-mq.c:(.text+0x16d4): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 264202560
-   block/blk-mq-sysfs.o: in function `blk_mq_hw_sysfs_release':
-   blk-mq-sysfs.c:(.text+0x2c0): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: nios2-linux-ld: DWARF error: could not find abbrev number 3666
-   drivers/base/cpu.o: in function `print_cpus_offline':
-   cpu.c:(.text+0x94): undefined reference to `alloc_cpumask_var'
-   nios2-linux-ld: cpu.c:(.text+0xec): undefined reference to `free_cpumask_var'
-   nios2-linux-ld: drivers/base/cpu.o: in function `print_cpus_isolated':
-   cpu.c:(.text+0x1b8): undefined reference to `alloc_cpumask_var'
-   nios2-linux-ld: cpu.c:(.text+0x20c): undefined reference to `free_cpumask_var'
+For bootconfig:
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+I dont observe anymore an issue with incremental builds, irresepctive of LTO
+type selected: FULL/THIN.
+
+For config.gz:
+
+The test observations is exactly similar to yours.
+With LTO_CLANG_THIN configs were *NOT* updated.
+But with LTO_CLANG_FULL confs were updated.
+
+Test results validates and confirms your earlier analysis on issue with
+inline asm and .incbin directive and THIN_LTO. 
+
+> Here is the test procedure.
+> 
+> 1. Prepare 2 different bootconfig files (bconf1, bconf2).
+> 2. Configure kernel with LTO_CLANG and setting the full path of bconf1 to
+>    CONFIG_EMBED_BOOT_CONFIG_FILE.
+> 3. Build the kernel
+> 4. Boot the kernel with "bootconfig" in the kernel cmdline.
+> 5. Check the /proc/bootconfig is same as bconf1.
+> 6. Reconfigure kernel with the full path of *bconf2* to CONFIG_EMBED_BOOT_CONFIG_FILE.
+> 7. Rebuild the kernel (no cleanup)
+> 8. Boot the kernel with "bootconfig" in the kernel cmdline.
+> 9. Check the /proc/bootconfig is same as bconf2.
+> 
+> So with LTO_CLANG_FULL, at the step 9 /proc/bootconfig shows bconf2, but with
+> LTO_CLANG_THIN, it shows bconf1.
+> 
+> In both cases, build log showed that the default.bconf was updated (I confirmed the
+> lib/default.bconf is updated)
+> 
+>   UPD     lib/default.bconf
+>   CC      lib/bootconfig.o
+>   AR      lib/lib.a
+> 
+> 
+> Here is my guess. I found that when we enable LTO_CLANG, the compiler compiles
+> C source file into LLVM IR bitcode.
+> 
+> $ file work/linux/build-x86_64/lib/bootconfig.o 
+> work/linux/build-x86_64/lib/bootconfig.o: LLVM IR bitcode
+> 
+> This means at this point the object file doesn't include the lib/default.bconf
+> because it will be embedded by assembler. The bitcode seems only have the
+> inline asm code (which only has an .incbin directive) as a constatns block[5].
+>
+> [5]
+>   Block ID #11 (CONSTANTS_BLOCK):
+>       Num Instances: 32
+>          Total Size: 54305b/6788.12B/1697W
+>     Percent of file: 19.9792%
+>        Average Size: 1697.03/212.13B/53W
+>   Tot/Avg SubBlocks: 0/0.000000e+00
+>     Tot/Avg Abbrevs: 4/1.250000e-01
+>     Tot/Avg Records: 486/1.518750e+01
+>     Percent Abbrevs: 80.8642%
+> 
+>         Record Histogram:
+>                   Count    # Bits     b/Rec   % Abv  Record Kind
+>                     219      4860      22.2  100.00  INTEGER
+>                     144      1728      12.0  100.00  SETTYPE
+>                      41       656      16.0          NULL
+>                      39      2970      76.2          CE_INBOUNDS_GEP
+>                      26      3504     134.8  100.00  CSTRING
+>                      10     37720    3772.0          INLINEASM
+>                       4        96      24.0  100.00  CE_CAST
+>                       1        58                    CE_CMP
+>                       1        52                    CE_SELECT
+>                       1        46                    CE_BINOP
+> 
+> And when the LLVM runs LTO with THIN mode, it might not update (not rebuild to
+> machine code) that inline asm code block because that block is not updated.
+> I confirmed that the block (bootconfig.o) is not updated after rebuilding
+> the kernel as below.
+>
+Yes, thanks for details. Analysis is in sync with observations from test
+results.
+
+Thanks and Regards,
+Padmanabha.S
+> After step 3.
+> $ llvm-bcanalyzer work/linux/build-x86_64/lib/bootconfig.o > bconf.dump1
+> After step 7.
+> $ llvm-bcanalyzer work/linux/build-x86_64/lib/bootconfig.o > bconf.dump2
+> $ diff bconf.dump*
+> (No difference)
+> 
+> Thank you,
+> 
+> > 
+> > [3] https://lore.kernel.org/all/20220321183500.GA4065@pswork/T/#u
+> > 
+> > Thank you,
+> > 
+> > ---
+> > 
+> > Masami Hiramatsu (3):
+> >       bootconfig: Check the checksum before removing the bootconfig from initrd
+> >       bootconfig: Support embedding a bootconfig file in kernel
+> >       docs: bootconfig: Add how to embed the bootconfig into kernel
+> > 
+> > 
+> >  Documentation/admin-guide/bootconfig.rst |   30 ++++++++++++++++++++++++++---
+> >  include/linux/bootconfig.h               |   10 ++++++++++
+> >  init/Kconfig                             |   21 ++++++++++++++++++++
+> >  init/main.c                              |   31 +++++++++++++++---------------
+> >  lib/.gitignore                           |    1 +
+> >  lib/Makefile                             |   10 ++++++++++
+> >  lib/bootconfig.c                         |   23 ++++++++++++++++++++++
+> >  7 files changed, 108 insertions(+), 18 deletions(-)
+> > 
+> > --
+> > Masami Hiramatsu (Linaro) <mhiramat@kernel.org>
+> 
+> 
+> -- 
+> Masami Hiramatsu <mhiramat@kernel.org>
