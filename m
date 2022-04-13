@@ -2,56 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ACD24FF1AA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 10:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10FF34FF239
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 10:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbiDMIXT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 04:23:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43172 "EHLO
+        id S232222AbiDMIlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Apr 2022 04:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232770AbiDMIXS (ORCPT
+        with ESMTP id S233972AbiDMIlB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:23:18 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED973123C;
-        Wed, 13 Apr 2022 01:20:57 -0700 (PDT)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 23D8KZEC023405;
-        Wed, 13 Apr 2022 17:20:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 23D8KZEC023405
+        Wed, 13 Apr 2022 04:41:01 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C874EA27;
+        Wed, 13 Apr 2022 01:38:33 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 23D8cIC5004168;
+        Wed, 13 Apr 2022 17:38:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23D8cIC5004168
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649838036;
-        bh=en8iih+w2ZnwafPeo1FmApeOuQau/i4oP2CnYw08lQ8=;
+        s=dec2015msa; t=1649839098;
+        bh=tD5ScFHal8it/8NYvNokdNwdBCS6nYo2z9fLwt69gtM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TUVemrg79AlLnWo/ylHmAtbk8jc+l4B90t479+60gDWHz/YfJOK0PCrIFxDqtlML6
-         fsj6EWWaOky0rjMpSXuCdzSiOnohq18eEb2C5/n0+X76s3IGqJcx5TpVYqmRV8RPEG
-         v0VsG1CM1HPBIb48MllInFottyAmI2JaUViWgKm5fhEVxv+/+Pxex5W2+jKas+Uu3y
-         pAc2NpXVYfALJBnAHpydQdbTFUlpFX5nJpWoIdTNZRG7rr1aYJSzyFnfAyHRHJbt97
-         qbpKQU1NDCgeZ42QvPJiw1UoZUafu9q+zh5v1ZVYCoTiYq8OW5iTEMX4ExD+2b/s4W
-         JaWqoqkVDi5tA==
-X-Nifty-SrcIP: [209.85.214.178]
-Received: by mail-pl1-f178.google.com with SMTP id c12so1324753plr.6;
-        Wed, 13 Apr 2022 01:20:35 -0700 (PDT)
-X-Gm-Message-State: AOAM530D3flJFt7qnAEbeEij8Qyjx2DTuQc9TUn4cJBaa+LnTD55fbXk
-        qUfttLmlQ+w9Ln6bfQowTOD43XFn6QJ2OOolN58=
-X-Google-Smtp-Source: ABdhPJwyZa70s+IXjWsWwHTDJ9N7P9YmnxE4D05HXGJhsJyA6sD63qvgowLDRtG4Izyfi0CEq/JNmgcihdCR8PCgiaQ=
-X-Received: by 2002:a17:90a:de87:b0:1cb:b207:a729 with SMTP id
- n7-20020a17090ade8700b001cbb207a729mr9429054pjv.144.1649838034888; Wed, 13
- Apr 2022 01:20:34 -0700 (PDT)
+        b=V0cAa14iNtjtI2uwJtCAI3bNp0AhpEn0j8odLrA3XDqiGNjNRKBp/AOVncco+AT7A
+         TwsALgATn3x786OXaDeqUvwb3By7zT20lVr70Kd+msoaqA0hkU4jLD4mm3rSpgZY2f
+         HkzUkhldPJTudEUMvYxhsNwXSvyro4yEnYO7n9IXrV41m42rPgyK9I7ABuzY4XMCUZ
+         JaxOHu9c98LYFPeLQ1CVg+iANFiddSpAouJoCqKMwiNnMiA47gbpd3kwOkeFJe5z0C
+         rQlrTaplxNzISRbwgF/gUFCQNtQ3/TE2mD8bB+36O7eYCIOy+H685FVvmumGBI8pwO
+         n3/rgaAg6inZw==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id bg24so1306431pjb.1;
+        Wed, 13 Apr 2022 01:38:18 -0700 (PDT)
+X-Gm-Message-State: AOAM532Xpd2DVumc0r/WA5T+924fwG7/7gQJeLQ6n9GvFvPZVq6dnIBo
+        +fBClcVFAvZAB9aYDfk9o9sA0sZqQWGhgLkjo3I=
+X-Google-Smtp-Source: ABdhPJxHW6zTiVnXDm+dMerKl21YroSREGhl4mFnymHGRgnvYYSox/WDDG+/CKbn23ZwzvdMYvCb75NxDuCvPzB2pqE=
+X-Received: by 2002:a17:902:7083:b0:158:41f2:3a83 with SMTP id
+ z3-20020a170902708300b0015841f23a83mr19095045plk.99.1649839097492; Wed, 13
+ Apr 2022 01:38:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406153023.500847-1-masahiroy@kernel.org> <20220406153023.500847-6-masahiroy@kernel.org>
- <CAKwvOdnHneCy6YeanmvDrabYMWysfQ=WMopsT_gRyrruT8=1Dw@mail.gmail.com>
- <CAK7LNATUv2YqGLGMTjzoCWf2tVkeYe6O9xa==wdDr0pgvSnnLQ@mail.gmail.com> <CAKwvOdnj77+8OHGZcJ-pAMcFW1FzjhkPsvs90PPD+L64t0+Mpw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnj77+8OHGZcJ-pAMcFW1FzjhkPsvs90PPD+L64t0+Mpw@mail.gmail.com>
+References: <20220412231508.32629-1-libo.chen@oracle.com> <20220412231508.32629-2-libo.chen@oracle.com>
+ <c7d26e9d-8c70-86a6-cdab-b180a365804f@infradead.org> <157cb46a-d134-2e72-4a65-14e378dd2b8e@oracle.com>
+ <26855467-107d-4ba1-4f32-2afd5918d5b7@infradead.org> <cbb6b94e-3b9d-c7b6-a10e-6203a3a8b3f3@oracle.com>
+ <4c6b3445-78b2-090f-c7c9-291d49c45019@infradead.org> <506db9a9-47ff-658a-a821-27315949e8c3@oracle.com>
+In-Reply-To: <506db9a9-47ff-658a-a821-27315949e8c3@oracle.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 13 Apr 2022 17:19:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQM3m-g=b_MGjr-VefTu4q5ByWYB8VdHqGXwNktZNY1xA@mail.gmail.com>
-Message-ID: <CAK7LNAQM3m-g=b_MGjr-VefTu4q5ByWYB8VdHqGXwNktZNY1xA@mail.gmail.com>
-Subject: Re: [PATCH 5/7] kbuild: get rid of duplication in *.mod files
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Wed, 13 Apr 2022 17:37:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATxMjMV2m+ycs6rVwEgHzL_7zUP+H4W_xr2xEZ1e3cFVg@mail.gmail.com>
+Message-ID: <CAK7LNATxMjMV2m+ycs6rVwEgHzL_7zUP+H4W_xr2xEZ1e3cFVg@mail.gmail.com>
+Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
+ dependency for CPUMASK_OFFSTACK
+To:     Libo Chen <libo.chen@oracle.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -62,213 +72,153 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 9, 2022 at 5:43 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Wed, Apr 13, 2022 at 3:56 PM Libo Chen <libo.chen@oracle.com> wrote:
 >
-> On Thu, Apr 7, 2022 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Fri, Apr 8, 2022 at 2:55 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
-> > >
-> > > On Wed, Apr 6, 2022 at 8:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > > index 6ae92d119dfa..f7a30f378e20 100644
-> > > > --- a/scripts/Makefile.build
-> > > > +++ b/scripts/Makefile.build
-> > > > @@ -303,7 +303,8 @@ $(obj)/%.prelink.o: $(obj)/%.o FORCE
-> > > >         $(call if_changed,cc_prelink_modules)
-> > > >  endif
-> > > >
-> > > > -cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) > $@
-> > > > +cmd_mod = echo $(addprefix $(obj)/, $(call real-search, $*.o, .o, -objs -y -m)) | \
-> > > > +       $(AWK) -v RS='( |\n)' '!x[$$0]++' > $@
-> > >
-> > > God AWK is unreadable. Any reason we can't use GNU make's sort builtin?
-> > > https://www.gnu.org/software/make/manual/html_node/Text-Functions.html
-> >
-> >
-> > I did that in the previous submission.
-> > https://lore.kernel.org/lkml/20220405113359.2880241-8-masahiroy@kernel.org/
-> >
-> >
-> > After some thoughts, I decided to drop duplicates without sorting.
-> >
-> > If I alphabetically sorted the object list,
-> > 7/7 of this series would be impossible.
-> >
-> >
-> > I am not a big fan of AWK, but I do not know a cleaner way.
-> > If you know a better idea, please tell me.
+> Hi Randy
 >
-> ```
-> # stable_dedup.py
-> from sys import argv
+> On 4/12/22 22:54, Randy Dunlap wrote:
+> > Hi Libo,
+> >
+> > On 4/12/22 19:34, Libo Chen wrote:
+> >>
+> >> On 4/12/22 19:13, Randy Dunlap wrote:
+> >>> Hi,
+> >>>
+> >>> On 4/12/22 18:35, Libo Chen wrote:
+> >>>> Hi Randy,
+> >>>>
+> >>>> On 4/12/22 17:18, Randy Dunlap wrote:
+> >>>>> Hi--
+> >>>>>
+> >>>>> On 4/12/22 16:15, Libo Chen wrote:
+> >>>>>> Forcing CPUMASK_OFFSTACK to be conditoned on DEBUG_PER_CPU_MAPS doesn't
+> >>>>>> make a lot of sense nowaday. Even the original patch dating back to 2008,
+> >>>>>> aab46da0520a ("cpumask: Add CONFIG_CPUMASK_OFFSTACK") didn't give any
+> >>>>>> rationale for such dependency.
+> >>>>>>
+> >>>>>> Nowhere in the code supports the presumption that DEBUG_PER_CPU_MAPS is
+> >>>>>> necessary for CONFIG_CPUMASK_OFFSTACK. Make no mistake, it's good to
+> >>>>>> have DEBUG_PER_CPU_MAPS for debugging purpose or precaution, but it's
+> >>>>>> simply not a hard requirement for CPUMASK_OFFSTACK. Moreover, x86 Kconfig
+> >>>>>> already can set CPUMASK_OFFSTACK=y without DEBUG_PER_CPU_MAPS=y.
+> >>>>>> There is no reason other architectures cannot given the fact that they
+> >>>>>> have even fewer, if any, arch-specific CONFIG_DEBUG_PER_CPU_MAPS code than
+> >>>>>> x86.
+> >>>>>>
+> >>>>>> Signed-off-by: Libo Chen <libo.chen@oracle.com>
+> >>>>>> ---
+> >>>>>>     lib/Kconfig | 2 +-
+> >>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/lib/Kconfig b/lib/Kconfig
+> >>>>>> index 087e06b4cdfd..7209039dfb59 100644
+> >>>>>> --- a/lib/Kconfig
+> >>>>>> +++ b/lib/Kconfig
+> >>>>>> @@ -511,7 +511,7 @@ config CHECK_SIGNATURE
+> >>>>>>         bool
+> >>>>>>       config CPUMASK_OFFSTACK
+> >>>>>> -    bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
+> >>>>> This "if" dependency only controls whether the Kconfig symbol's prompt is
+> >>>>> displayed (presented) in kconfig tools. Removing it makes the prompt always
+> >>>>> be displayed.
+> >>>>>
+> >>>>> Any architecture could select (should be able to) CPUMASK_OFFSTACK independently
+> >>>>> of DEBUG_PER_CPU_MAPS.
+> >>>> Do you mean changing arch/xxxx/Kconfig to select CPUMASK_OFFSTACK under some config xxx? That will work but it requires code changes for each architecture.
+> >>>> But if you are talking about setting CONFIG_CPUMASK_OFFSTACK=y without CONFIG_DEBUG_PER_CPU_MAPS directly in config file, I have tried, it doesn't work.
+> >>> I'm just talking about the Kconfig change below.  Not talking about whatever else
+> >>> it might require per architecture.
+> >>>
+> >>> But you say you have tried that and it doesn't work. What part of it doesn't work?
+> >>> The Kconfig part or some code execution?
+> >> oh the Kconfig part. For example, make olddefconfig on a config file with CPUMASK_OFFSTACK=y only turns off CPUMASK_OFFSTACK unless I explicitly set DEBUG_PER_CPU_MAPS=y
+> > I can enable CPUMASK_OFFSTACK for arm64 without having DEBUG_PER_CPU_MAPS enabled.
+> > (with a patch, of course.)
+> > It builds OK. I don't know if it will run OK.
 >
-> wordset = set()
-> argv.pop(0)
-> for word in argv: wordset.add(word)
-> for word in wordset: print(word)
-> ```
-> If that ever shows up in a profile of a kernel build, <set> in C++
-> looks pretty similar.  Then that script can be reused in a couple of
-> other places, and has a more descriptive name that hints at what it
-> does.
+> I am a little confused, did you succeed with your patch (replacing "if"
+> with "depends on") or my patch (removing "if")? Because I definitely
+> cannot enable CPUMASK_OFFSTACK for arm64 without DEBUG_PER_CPUMAPS
+> enabled using your change.
+> > I think that you are arguing for a patch like this:
 >
-> Compare that with `$(AWK) -v RS='( |\n)' '!x[$$0]++'`.
+> I am actually arguing for the opposite, I don't think CPUMASK_OFFSTACK
+> should require DEBUG_PER_CPU_MAPS. They should be separate and
+> independent to each other. So removing "if ..." should be enough in my
+> opinion.
+> > --- a/lib/Kconfig
+> > +++ b/lib/Kconfig
+> > @@ -511,7 +511,8 @@ config CHECK_SIGNATURE
+> >       bool
+> >
+> >   config CPUMASK_OFFSTACK
+> > -     bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
+> > +     bool "Force CPU masks off stack"
+> > +     depends on DEBUG_PER_CPU_MAPS
+>
+> This forces every arch to enable DEBUG_PER_CPU_MAPS if they want to
+> enable CPUMASK_OFFSTACK, it's even stronger than "if". My whole argument
+> is CPUMASK_OFFSTACK should be enable/disabled independent of
+> DEBUG_PER_CPU_MASK
+> >       help
+> >         Use dynamic allocation for cpumask_var_t, instead of putting
+> >         them on the stack.  This is a bit more expensive, but avoids
+> >
+> >
+> > As I said earlier, the "if" on the "bool" line just controls the prompt message.
+> > This patch make CPUMASK_OFFSTACK require DEBUG_PER_CPU_MAPS -- which might be overkill.
+> >
+>
+> Okay I understand now "if" on the "boot" is not a dependency and it only
+> controls the prompt message, then the question is why we cannot enable
+> CPUMASK_OFFSTACK without DEBUG_PER_CPU_MAPS if it only controls prompt
+> message? Is it not the behavior we expect?
+>
 
 
-As I said, I want to drop duplicates without changing the argument order.
+    config CPUMASK_OFFSTACK
+            bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
 
-Your python code shuffles the order since it adds arguments to set() first.
+... is equivalent to this:
 
-
-    $ cat stable_dedup.py
-    #!/usr/bin/python3
-    from sys import argv
-    wordset = set()
-    argv.pop(0)
-    for word in argv: wordset.add(word)
-    for word in wordset: print(word)
-
-    $ ./stable_dedup.py  c b a a b
-    c
-    a
-    b
-
-
-
-Here, the output I expect is "c b a".
-
-
-If I am allowed to change the order, I would use
-Make's $(sort ...) function or "sort -u" shell command.
-
-
-
-
-Of course, it is pretty easy to write a python script
-that dedups arguments without changing the order.
-
-
-    $ cat dedup-by-python
-    #!/usr/bin/python3
-    import sys
-    wordset = set()
-
-    for x in sys.argv[1:]:
-        if x not in wordset:
-            print(x)
-        wordset.add(x)
-
-    $ ./dedup-by-python c b a a b
-    c
-    b
-    a
-
-
-Even this script looks like a bad approach.
-
-
-Please note cmd_mod is invoked as many times
-as the number of modules.
-So, this happens many times, especially for allmodconfig.
-
-
-Python takes a lot of overhead times for initialization.
-
-
-AWK implementation is much faster.
-It is apparent from perf.
+    config CPUMASK_OFFSTACK
+            bool
+            prompt "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
 
 
 
-
-[1] AWK implementation
-
-    $ cat test-data.txt
-    c b a a b
-
-    $ cat dedup-by-awk
-    #!/usr/bin/awk -f
-    BEGIN { RS="( |\n)" }
-    !x[$0]++ { print($0) }
+When DEBUG_PER_CPU_MAPS is disabled, the prompt line is ignored,
+and CPUMASK_OFFSTACK becomes a user-unconfigurable option.
 
 
-    # perf stat  -- ./dedup-by-awk < test-data.txt
-    c
-    b
-    a
+Other options still can select it,
+but users cannot enable it directly from the prompt.
 
- Performance counter stats for './dedup-by-awk':
+I see x86 and powerpc do this.
 
-              1.06 msec task-clock                #    0.790 CPUs
-utilized
-                 0      context-switches          #    0.000 /sec
-                 0      cpu-migrations            #    0.000 /sec
-               201      page-faults               #  189.755 K/sec
-         3,671,995      cycles                    #    3.467 GHz
-         3,932,770      instructions              #    1.07  insn per
-cycle
-           754,811      branches                  #  712.582 M/sec
-            21,154      branch-misses             #    2.80% of all
-branches
-        18,350,660      slots                     #   17.324 G/sec
-         4,173,875      topdown-retiring          #     22.7% retiring
-         2,230,864      topdown-bad-spec          #     12.2% bad
-speculation
-         5,757,069      topdown-fe-bound          #     31.4% frontend
-bound
-         6,188,850      topdown-be-bound          #     33.7% backend
-bound
-
-       0.001341605 seconds time elapsed
-
-       0.001476000 seconds user
-       0.000000000 seconds sys
-
-
-
-[2]  Python implementation
-
-    # perf stat  -- ./dedup-by-python   c b a a b
-   c
-   b
-   a
-
- Performance counter stats for './dedup-by-python c b a a b':
-
-              9.34 msec task-clock                #    0.967 CPUs
-utilized
-                 0      context-switches          #    0.000 /sec
-                 0      cpu-migrations            #    0.000 /sec
-               756      page-faults               #   80.947 K/sec
-        31,045,653      cycles                    #    3.324 GHz
-        39,175,531      instructions              #    1.26  insn per
-cycle
-         8,488,886      branches                  #  908.929 M/sec
-           326,947      branch-misses             #    3.85% of all
-branches
-       152,587,445      slots                     #   16.338 G/sec
-        37,698,074      topdown-retiring          #     24.7% retiring
-        32,911,017      topdown-bad-spec          #     21.6% bad
-speculation
-        55,051,156      topdown-fe-bound          #     36.1% frontend
-bound
-        26,927,196      topdown-be-bound          #     17.6% backend
-bound
-
-       0.009661105 seconds time elapsed
-
-       0.006485000 seconds user
-       0.003242000 seconds sys
+$ kgrep 'select CPUMASK_OFFSTACK'
+./arch/x86/Kconfig:946: select CPUMASK_OFFSTACK
+./arch/powerpc/Kconfig:164: select CPUMASK_OFFSTACK if NR_CPUS >= 8192
 
 
 
 
 
-> --
-> Thanks,
-> ~Nick Desaulniers
 
+
+> Libo
+>
+> >> Libo
+> >>> I'll test the Kconfig part of it later (in a few hours).
+> >>>
+> >>>> Libo
+> >>>>> Is there another problem here?
+> >>>>>
+> >>>>>> +    bool "Force CPU masks off stack"
+> >>>>>>         help
+> >>>>>>           Use dynamic allocation for cpumask_var_t, instead of putting
+> >>>>>>           them on the stack.  This is a bit more expensive, but avoids
+>
 
 
 -- 
