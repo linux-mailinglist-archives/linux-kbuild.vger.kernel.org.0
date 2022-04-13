@@ -2,343 +2,229 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5553E4FF7B6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 15:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A9C4FF922
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 16:41:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235783AbiDMNhR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 09:37:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46226 "EHLO
+        id S234459AbiDMOnl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Apr 2022 10:43:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235778AbiDMNhP (ORCPT
+        with ESMTP id S234466AbiDMOnj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 09:37:15 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B02522E7;
-        Wed, 13 Apr 2022 06:34:53 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id g20so2383834edw.6;
-        Wed, 13 Apr 2022 06:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=sQVZ7J8yQGd+tEY03Cwz/nv0IhDW8+5XIiy/oBZrZmU=;
-        b=pftn6WZdVexdxPPCdRcFSdsCPyzoy4lot+T+SI383R6uVdHdlChwGKFYPIbmJ8Y5sE
-         qVW5AfB9zoVhhCpAPX2b8ha348AX2gckn/7lkG215/mbpSc+apoCc/6+9XqWoZRWTJFk
-         R9OztxL0zXaYjj2gr4eXUMgwyZUno7BxdmwsXJO6qTKYcnCpZM2SMHhDRppCqkZ6oant
-         a5TIEfyo5D1lBd+0Hsq08H19i8z7XIGkYeh9CTG0q2q87OZwKZF9GvFrHcA1mGtwQOIm
-         W9b+ohCvNg/m1Gj0a3XHzYG5XtVfqiCx1tB6PvGEjaSaoYnMq+pYs5UMZ+d5INKihIgc
-         J2rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sQVZ7J8yQGd+tEY03Cwz/nv0IhDW8+5XIiy/oBZrZmU=;
-        b=TECyoqxUODsZ4TL+4wZIYfB6nPn3RkVNZNa8nZfDUN8FByEzcgiTcFowPVqsKs0uiy
-         Nl5Xh1IsZi+HTKODj9ML7wzc6gxYpxUi05qawZ2zU1qKPdGKsVKIZQDA0phMBJe2+Oux
-         xscnsPH2yAJwx7YcUpijpyssScy2Sq11cZHc7dIEB4trgW+wYphbC5Q7U8yaEMtSgQbz
-         ywYXZutKhVmGx1iLfb3FvTlseeckWtTjr8Y2svxvNp8N1ytE0ODt1W2EPUYZn26Rz8/+
-         ciBX+xinYuPnU0eij4h6z8k1Yyaxt/tQ1wLhbxQNOzblTrmKgZLg+nJPZp6v1ACjdgoy
-         I8Xw==
-X-Gm-Message-State: AOAM531stsqaE3ChoYVnsnWZKg/y9Jo81AgcTo3WSl6BIL8wRcksRiQ8
-        UUOhe0SeKFKsxnf4d9dgwBsr3XNmoaNhpaYX
-X-Google-Smtp-Source: ABdhPJzRmYj2t5Pc6U72h12bhsu67TqUTC5LKjjZ+V+xwsTkshlRyzRdpeoOVzWZvJFlVGRz+uhWqA==
-X-Received: by 2002:aa7:da8d:0:b0:41d:71be:d8bd with SMTP id q13-20020aa7da8d000000b0041d71bed8bdmr20002478eds.71.1649856891749;
-        Wed, 13 Apr 2022 06:34:51 -0700 (PDT)
-Received: from pswork ([62.96.250.75])
-        by smtp.gmail.com with ESMTPSA id l15-20020a170906938f00b006e8afb5a7d9sm6894ejx.33.2022.04.13.06.34.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 06:34:51 -0700 (PDT)
-Date:   Wed, 13 Apr 2022 15:34:50 +0200
-From:   Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v8 3/4] bootconfig: Support embedding a bootconfig file
- in kernel
-Message-ID: <20220413133450.GA9228@pswork>
-References: <164921224829.1090670.9700650651725930602.stgit@devnote2>
- <164921227943.1090670.14035119557571329218.stgit@devnote2>
+        Wed, 13 Apr 2022 10:43:39 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9531C40E52;
+        Wed, 13 Apr 2022 07:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649860877; x=1681396877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=linNOV4EomB16L2HapHfKkK9INH52m95HA/3C7Gt7dc=;
+  b=Gf1QutFsWw4xQHNwPWm9xJbrKtf8v3m+AQWMLuHe/JfZhrtmTB+/ZlE6
+   CS5pBlET/nxZTQhDKVRkgdC9eWZQ7jmPfNWaVEdRMRyMJ/lkKWWe2VsMK
+   pCUHjx6VeZfWblhIPknj/rYww0YkT2sfl8Fw93yV1SMnQy6VAgI5RPPOV
+   9GX9ulniC/SrNEkuj0mz8iNHIi6GK5oWL+8u9zOZ8Gf/56HBBd5Gf8Nkx
+   QLUXDfIrJRsIplAv+tzP6AhcxgG21wHMJ0qC8uSyU1Vjh9MQCjGu0V5EF
+   dolLZg3G9NP+C/oXvatb3NHjFMqEJsAHlzvENFUFM5+glN0oMc/8Qe/hb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="242619758"
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; 
+   d="scan'208";a="242619758"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 07:34:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; 
+   d="scan'208";a="645191086"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2022 07:34:19 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1nee4Y-0000NU-RM;
+        Wed, 13 Apr 2022 14:34:18 +0000
+Date:   Wed, 13 Apr 2022 22:33:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Libo Chen <libo.chen@oracle.com>, gregkh@linuxfoundation.org,
+        masahiroy@kernel.org, tglx@linutronix.de, peterz@infradead.org,
+        mingo@kernel.org, vbabka@suse.cz, akpm@linux-foundation.org
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
+ dependency for CPUMASK_OFFSTACK
+Message-ID: <202204132236.KPzXaw0b-lkp@intel.com>
+References: <20220412231508.32629-2-libo.chen@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <164921227943.1090670.14035119557571329218.stgit@devnote2>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220412231508.32629-2-libo.chen@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Masami Hiramatsu,
+Hi Libo,
 
-On Wed, Apr 06, 2022 at 11:31:19AM +0900, Masami Hiramatsu wrote:
-> This allows kernel developer to embed a default bootconfig file in
-> the kernel instead of embedding it in the initrd. This will be good
-> for who are using the kernel without initrd, or who needs a default
-> bootconfigs.
-> This needs to set two kconfigs: CONFIG_BOOT_CONFIG_EMBED=y and set
-> the file path to CONFIG_BOOT_CONFIG_EMBED_FILE.
-> 
-> Note that you still need 'bootconfig' command line option to load the
-> embedded bootconfig. Also if you boot using an initrd with a different
-> bootconfig, the kernel will use the bootconfig in the initrd, instead
-> of the default bootconfig.
-> 
-> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> ---
->  Changes in v8:
->   - Fix a build error in CONFIG_BLK_DEV_INITRD=n case.
->  Changes in v7:
->   - Change kconfig option name to share the common prefix so that
->     we can search it easier.
->   - Make embedded_bootconfig_data readonly.
->   - Select CONFIG_BLK_DEV_INITRD only if CONFIG_BOOT_CONFIG_EMBED=n
->   - Remove redundant default settings for new Kconfig options.
->  Changes in v6:
->   - Split out the .incbin asm part as bootconfig-data.S according to
->     Masahiro's comment.
->  Changes in v5:
->   - Fix .gitignore to be sorted alphabetically.
->   - Make default.bconf is cleaned up correctly.
->   - Allow user to specify relative path to CONFIG_EMBED_BOOT_CONFIG_FILE.
->     (Thanks Masahiro!)
->  Changes in v4:
->   - Avoid updating the default.bconf if the file is not changed.
-> ---
->  MAINTAINERS                |    1 +
->  include/linux/bootconfig.h |   10 ++++++++++
->  init/Kconfig               |   21 ++++++++++++++++++++-
->  init/main.c                |   22 ++++++++++++----------
->  lib/.gitignore             |    1 +
->  lib/Makefile               |    8 ++++++++
->  lib/bootconfig-data.S      |   10 ++++++++++
->  lib/bootconfig.c           |   13 +++++++++++++
->  8 files changed, 75 insertions(+), 11 deletions(-)
->  create mode 100644 lib/bootconfig-data.S
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c10fbd13080a..88c9d62acd90 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7318,6 +7318,7 @@ S:	Maintained
->  F:	Documentation/admin-guide/bootconfig.rst
->  F:	fs/proc/bootconfig.c
->  F:	include/linux/bootconfig.h
-> +F:	lib/bootconfig-data.S
->  F:	lib/bootconfig.c
->  F:	tools/bootconfig/*
->  F:	tools/bootconfig/scripts/*
-> diff --git a/include/linux/bootconfig.h b/include/linux/bootconfig.h
-> index a4665c7ab07c..1611f9db878e 100644
-> --- a/include/linux/bootconfig.h
-> +++ b/include/linux/bootconfig.h
-> @@ -289,4 +289,14 @@ int __init xbc_get_info(int *node_size, size_t *data_size);
->  /* XBC cleanup data structures */
->  void __init xbc_exit(void);
->  
-> +/* XBC embedded bootconfig data in kernel */
-> +#ifdef CONFIG_BOOT_CONFIG_EMBED
-> +const char * __init xbc_get_embedded_bootconfig(size_t *size);
-> +#else
-> +static inline const char *xbc_get_embedded_bootconfig(size_t *size)
-> +{
-> +	return NULL;
-> +}
-> +#endif
-> +
->  #endif
-> diff --git a/init/Kconfig b/init/Kconfig
-> index beb5b866c318..e7c75fb7d244 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1347,7 +1347,7 @@ endif
->  
->  config BOOT_CONFIG
->  	bool "Boot config support"
-> -	select BLK_DEV_INITRD
-> +	select BLK_DEV_INITRD if !BOOT_CONFIG_EMBED
->  	help
->  	  Extra boot config allows system admin to pass a config file as
->  	  complemental extension of kernel cmdline when booting.
-> @@ -1357,6 +1357,25 @@ config BOOT_CONFIG
->  
->  	  If unsure, say Y.
->  
-> +config BOOT_CONFIG_EMBED
-> +	bool "Embed bootconfig file in the kernel"
-> +	depends on BOOT_CONFIG
-> +	help
-> +	  Embed a bootconfig file given by BOOT_CONFIG_EMBED_FILE in the
-> +	  kernel. Usually, the bootconfig file is loaded with the initrd
-> +	  image. But if the system doesn't support initrd, this option will
-> +	  help you by embedding a bootconfig file while building the kernel.
-> +
-> +	  If unsure, say N.
-> +
-> +config BOOT_CONFIG_EMBED_FILE
-> +	string "Embedded bootconfig file path"
-> +	depends on BOOT_CONFIG_EMBED
-> +	help
-> +	  Specify a bootconfig file which will be embedded to the kernel.
-> +	  This bootconfig will be used if there is no initrd or no other
-> +	  bootconfig in the initrd.
-> +
->  choice
->  	prompt "Compiler optimization level"
->  	default CC_OPTIMIZE_FOR_PERFORMANCE
-> diff --git a/init/main.c b/init/main.c
-> index 4f3ba3b84e34..d00c6f77d0e0 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -265,7 +265,7 @@ static int __init loglevel(char *str)
->  early_param("loglevel", loglevel);
->  
->  #ifdef CONFIG_BLK_DEV_INITRD
-> -static void * __init get_boot_config_from_initrd(u32 *_size)
-> +static void * __init get_boot_config_from_initrd(size_t *_size)
->  {
->  	u32 size, csum;
->  	char *data;
-> @@ -312,7 +312,7 @@ static void * __init get_boot_config_from_initrd(u32 *_size)
->  	return data;
->  }
->  #else
-> -static void * __init get_boot_config_from_initrd(u32 *_size)
-> +static void * __init get_boot_config_from_initrd(size_t *_size)
->  {
->  	return NULL;
->  }
-> @@ -409,14 +409,16 @@ static int __init warn_bootconfig(char *str)
->  static void __init setup_boot_config(void)
->  {
->  	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
-> -	const char *msg;
-> -	int pos;
-> -	u32 size;
-> -	char *data, *err;
-> -	int ret;
-> +	const char *msg, *data;
-> +	int pos, ret;
-> +	size_t size;
-> +	char *err;
->  
->  	/* Cut out the bootconfig data even if we have no bootconfig option */
->  	data = get_boot_config_from_initrd(&size);
-> +	/* If there is no bootconfig in initrd, try embedded one. */
-> +	if (!data)
-> +		data = xbc_get_embedded_bootconfig(&size);
->  
->  	strlcpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
->  	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
-> @@ -435,8 +437,8 @@ static void __init setup_boot_config(void)
->  	}
->  
->  	if (size >= XBC_DATA_MAX) {
-> -		pr_err("bootconfig size %d greater than max size %d\n",
-> -			size, XBC_DATA_MAX);
-> +		pr_err("bootconfig size %ld greater than max size %d\n",
-> +			(long)size, XBC_DATA_MAX);
->  		return;
->  	}
->  
-> @@ -449,7 +451,7 @@ static void __init setup_boot_config(void)
->  				msg, pos);
->  	} else {
->  		xbc_get_info(&ret, NULL);
-> -		pr_info("Load bootconfig: %d bytes %d nodes\n", size, ret);
-> +		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
->  		/* keys starting with "kernel." are passed via cmdline */
->  		extra_command_line = xbc_make_cmdline("kernel");
->  		/* Also, "init." keys are init arguments */
-> diff --git a/lib/.gitignore b/lib/.gitignore
-> index e5e217b8307b..54596b634ecb 100644
-> --- a/lib/.gitignore
-> +++ b/lib/.gitignore
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  /crc32table.h
->  /crc64table.h
-> +/default.bconf
->  /gen_crc32table
->  /gen_crc64table
->  /oid_registry_data.c
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 4fc48543dc8f..62a103aaabd4 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -277,6 +277,14 @@ $(foreach file, $(libfdt_files), \
->  lib-$(CONFIG_LIBFDT) += $(libfdt_files)
->  
->  obj-$(CONFIG_BOOT_CONFIG) += bootconfig.o
-> +obj-$(CONFIG_BOOT_CONFIG_EMBED) += bootconfig-data.o
-> +
-> +$(obj)/bootconfig-data.o: $(obj)/default.bconf
-> +
-> +targets += default.bconf
-> +filechk_defbconf = cat $(or $(real-prereqs), /dev/null)
-> +$(obj)/default.bconf: $(CONFIG_BOOT_CONFIG_EMBED_FILE) FORCE
-> +	$(call filechk,defbconf)
->  
->  obj-$(CONFIG_RBTREE_TEST) += rbtree_test.o
->  obj-$(CONFIG_INTERVAL_TREE_TEST) += interval_tree_test.o
-> diff --git a/lib/bootconfig-data.S b/lib/bootconfig-data.S
-> new file mode 100644
-> index 000000000000..ef85ba1a82f4
-> --- /dev/null
-> +++ b/lib/bootconfig-data.S
-> @@ -0,0 +1,10 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Embed default bootconfig in the kernel.
-> + */
-> +	.section .init.rodata, "aw"
-> +	.global embedded_bootconfig_data
-> +embedded_bootconfig_data:
-> +	.incbin "lib/default.bconf"
-> +	.global embedded_bootconfig_data_end
-> +embedded_bootconfig_data_end:
-> diff --git a/lib/bootconfig.c b/lib/bootconfig.c
-> index 74f3201ab8e5..c59d26068a64 100644
-> --- a/lib/bootconfig.c
-> +++ b/lib/bootconfig.c
-> @@ -12,6 +12,19 @@
->  #include <linux/kernel.h>
->  #include <linux/memblock.h>
->  #include <linux/string.h>
-> +
-> +#ifdef CONFIG_BOOT_CONFIG_EMBED
-> +/* embedded_bootconfig_data is defined in bootconfig-data.S */
-> +extern __visible const char embedded_bootconfig_data[];
-> +extern __visible const char embedded_bootconfig_data_end[];
-> +
-> +const char * __init xbc_get_embedded_bootconfig(size_t *size)
-> +{
-> +	*size = embedded_bootconfig_data_end - embedded_bootconfig_data;
-> +	return (*size) ? embedded_bootconfig_data : NULL;
-> +}
-> +#endif
-> +
->  #else /* !__KERNEL__ */
->  /*
->   * NOTE: This is only for tools/bootconfig, because tools/bootconfig will
->
-Tested using llvm 15.0.0 [p1] with FULL and THIN LTO as suggested here [p2],
-with full and incremental builds results are as expected and no issues
-observed.
+Thank you for the patch! Yet something to improve:
 
-[p1] https://download.01.org/0day-ci/cross-package/clang-latest/clang-latest/clang.tar.xz
-[p2] https://lore.kernel.org/lkml/20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org/
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.18-rc2 next-20220413]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks and Regards,
-Padmanabha.S
+url:    https://github.com/intel-lab-lkp/linux/commits/Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e
+config: parisc-randconfig-r014-20220413 (https://download.01.org/0day-ci/archive/20220413/202204132236.KPzXaw0b-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6636f7cf28d2a79cde937c0f212e8a87080da06d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Libo-Chen/lib-Kconfig-remove-DEBUG_PER_CPU_MAPS-dependency-for-CPUMASK_OFFSTACK/20220413-073657
+        git checkout 6636f7cf28d2a79cde937c0f212e8a87080da06d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   hppa-linux-ld: kernel/workqueue.o: in function `free_workqueue_attrs':
+>> kernel/workqueue.c:3370: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/workqueue.o: in function `alloc_workqueue_attrs':
+>> kernel/workqueue.c:3390: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: kernel/workqueue.o: in function `workqueue_set_unbound_cpumask':
+>> kernel/workqueue.c:5390: undefined reference to `zalloc_cpumask_var'
+>> hppa-linux-ld: kernel/workqueue.c:5406: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/workqueue.o: in function `wq_unbound_cpumask_store':
+   kernel/workqueue.c:5664: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: kernel/workqueue.c:5671: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/workqueue.o: in function `workqueue_init_early':
+   kernel/workqueue.c:5995: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.o: in function `sched_setaffinity':
+>> kernel/sched/core.c:7948: undefined reference to `alloc_cpumask_var'
+>> hppa-linux-ld: kernel/sched/core.c:7951: undefined reference to `alloc_cpumask_var'
+>> hppa-linux-ld: kernel/sched/core.c:7978: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.c:7980: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_setaffinity':
+   kernel/sched/core.c:8051: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.c:8057: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.o: in function `__se_sys_sched_getaffinity':
+   kernel/sched/core.c:8108: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.c:8120: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/sched/core.o: in function `sched_init':
+>> kernel/sched/core.c:9499: undefined reference to `load_balance_mask'
+>> hppa-linux-ld: kernel/sched/core.c:9499: undefined reference to `load_balance_mask'
+>> hppa-linux-ld: kernel/sched/core.c:9501: undefined reference to `select_idle_mask'
+>> hppa-linux-ld: kernel/sched/core.c:9501: undefined reference to `select_idle_mask'
+   hppa-linux-ld: kernel/sched/build_utility.o: in function `housekeeping_setup_type':
+>> kernel/sched/isolation.c:104: undefined reference to `alloc_bootmem_cpumask_var'
+   hppa-linux-ld: kernel/sched/build_utility.o: in function `housekeeping_setup':
+   kernel/sched/isolation.c:122: undefined reference to `alloc_bootmem_cpumask_var'
+>> hppa-linux-ld: kernel/sched/isolation.c:128: undefined reference to `alloc_bootmem_cpumask_var'
+>> hppa-linux-ld: kernel/sched/isolation.c:173: undefined reference to `free_bootmem_cpumask_var'
+   hppa-linux-ld: kernel/sched/isolation.c:175: undefined reference to `free_bootmem_cpumask_var'
+   hppa-linux-ld: kernel/taskstats.o: in function `taskstats_user_cmd':
+>> kernel/taskstats.c:441: undefined reference to `alloc_cpumask_var'
+>> hppa-linux-ld: kernel/taskstats.c:457: undefined reference to `alloc_cpumask_var'
+>> hppa-linux-ld: kernel/taskstats.c:464: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/events/core.o: in function `perf_event_init':
+>> kernel/events/core.c:13237: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: fs/io_uring.o: in function `__io_uring_register':
+>> fs/io_uring.c:11472: undefined reference to `alloc_cpumask_var'
+>> hppa-linux-ld: fs/io_uring.c:11488: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: fs/io_uring.c:11493: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: fs/io-wq.o: in function `io_wq_create':
+   fs/io-wq.c:1180: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: fs/io-wq.c:1214: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: fs/io-wq.o: in function `io_wq_put_and_exit':
+   fs/io-wq.c:1290: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: block/blk-mq.o: in function `blk_mq_alloc_hctx':
+   block/blk-mq.c:3528: undefined reference to `zalloc_cpumask_var_node'
+   hppa-linux-ld: block/blk-mq.c:3575: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: drivers/base/cpu.o: in function `print_cpus_offline':
+   drivers/base/cpu.c:245: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: drivers/base/cpu.c:249: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: drivers/base/cpu.o: in function `print_cpus_isolated':
+   drivers/base/cpu.c:274: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: drivers/base/cpu.c:281: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: drivers/net/ethernet/emulex/benet/be_main.o: in function `be_clear_queues':
+   drivers/net/ethernet/emulex/benet/be_main.c:2943: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: drivers/net/ethernet/emulex/benet/be_main.o: in function `be_setup_queues':
+   drivers/net/ethernet/emulex/benet/be_main.c:2981: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: drivers/net/ethernet/sfc/falcon/efx.o: in function `ef4_probe_nic':
+   drivers/net/ethernet/sfc/falcon/efx.c:1329: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: drivers/net/ethernet/sfc/falcon/efx.c:1344: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: net/core/dev.o: in function `netif_get_num_default_rss_queues':
+   net/core/dev.c:3001: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: net/core/dev.c:3009: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/profile.o: in function `prof_cpu_mask_proc_write':
+   kernel/profile.c:361: undefined reference to `zalloc_cpumask_var'
+   hppa-linux-ld: kernel/profile.c:369: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/profile.o: in function `profile_init':
+   kernel/profile.c:114: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: kernel/profile.c:132: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/torture.o: in function `torture_cleanup_begin':
+   kernel/torture.c:591: undefined reference to `free_cpumask_var'
+   hppa-linux-ld: kernel/torture.o: in function `torture_shuffle_init':
+   kernel/torture.c:572: undefined reference to `alloc_cpumask_var'
+   hppa-linux-ld: block/blk-mq-sysfs.o: in function `blk_mq_hw_sysfs_release':
+   block/blk-mq-sysfs.c:41: undefined reference to `free_cpumask_var'
+
+
+vim +3370 kernel/workqueue.c
+
+1fa44ecad2b864 James Bottomley     2006-02-23  3360  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3361  /**
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3362   * free_workqueue_attrs - free a workqueue_attrs
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3363   * @attrs: workqueue_attrs to free
+226223ab3c4118 Tejun Heo           2013-03-12  3364   *
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3365   * Undo alloc_workqueue_attrs().
+226223ab3c4118 Tejun Heo           2013-03-12  3366   */
+513c98d0868295 Daniel Jordan       2019-09-05  3367  void free_workqueue_attrs(struct workqueue_attrs *attrs)
+226223ab3c4118 Tejun Heo           2013-03-12  3368  {
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3369  	if (attrs) {
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02 @3370  		free_cpumask_var(attrs->cpumask);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3371  		kfree(attrs);
+226223ab3c4118 Tejun Heo           2013-03-12  3372  	}
+226223ab3c4118 Tejun Heo           2013-03-12  3373  }
+226223ab3c4118 Tejun Heo           2013-03-12  3374  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3375  /**
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3376   * alloc_workqueue_attrs - allocate a workqueue_attrs
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3377   *
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3378   * Allocate a new workqueue_attrs, initialize with default settings and
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3379   * return it.
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3380   *
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3381   * Return: The allocated new workqueue_attr on success. %NULL on failure.
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3382   */
+513c98d0868295 Daniel Jordan       2019-09-05  3383  struct workqueue_attrs *alloc_workqueue_attrs(void)
+226223ab3c4118 Tejun Heo           2013-03-12  3384  {
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3385  	struct workqueue_attrs *attrs;
+226223ab3c4118 Tejun Heo           2013-03-12  3386  
+be69d00d976957 Thomas Gleixner     2019-06-26  3387  	attrs = kzalloc(sizeof(*attrs), GFP_KERNEL);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3388  	if (!attrs)
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3389  		goto fail;
+be69d00d976957 Thomas Gleixner     2019-06-26 @3390  	if (!alloc_cpumask_var(&attrs->cpumask, GFP_KERNEL))
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3391  		goto fail;
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3392  
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3393  	cpumask_copy(attrs->cpumask, cpu_possible_mask);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3394  	return attrs;
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3395  fail:
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3396  	free_workqueue_attrs(attrs);
+6ba94429c8e7b8 Frederic Weisbecker 2015-04-02  3397  	return NULL;
+226223ab3c4118 Tejun Heo           2013-03-12  3398  }
+226223ab3c4118 Tejun Heo           2013-03-12  3399  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
