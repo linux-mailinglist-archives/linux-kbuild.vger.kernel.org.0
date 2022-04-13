@@ -2,225 +2,283 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FF34FF239
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 10:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 198B64FF367
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Apr 2022 11:24:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232222AbiDMIlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 04:41:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
+        id S234439AbiDMJ1E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Apr 2022 05:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233972AbiDMIlB (ORCPT
+        with ESMTP id S234442AbiDMJ1C (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 04:41:01 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C874EA27;
-        Wed, 13 Apr 2022 01:38:33 -0700 (PDT)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 23D8cIC5004168;
-        Wed, 13 Apr 2022 17:38:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23D8cIC5004168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1649839098;
-        bh=tD5ScFHal8it/8NYvNokdNwdBCS6nYo2z9fLwt69gtM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=V0cAa14iNtjtI2uwJtCAI3bNp0AhpEn0j8odLrA3XDqiGNjNRKBp/AOVncco+AT7A
-         TwsALgATn3x786OXaDeqUvwb3By7zT20lVr70Kd+msoaqA0hkU4jLD4mm3rSpgZY2f
-         HkzUkhldPJTudEUMvYxhsNwXSvyro4yEnYO7n9IXrV41m42rPgyK9I7ABuzY4XMCUZ
-         JaxOHu9c98LYFPeLQ1CVg+iANFiddSpAouJoCqKMwiNnMiA47gbpd3kwOkeFJe5z0C
-         rQlrTaplxNzISRbwgF/gUFCQNtQ3/TE2mD8bB+36O7eYCIOy+H685FVvmumGBI8pwO
-         n3/rgaAg6inZw==
-X-Nifty-SrcIP: [209.85.216.52]
-Received: by mail-pj1-f52.google.com with SMTP id bg24so1306431pjb.1;
-        Wed, 13 Apr 2022 01:38:18 -0700 (PDT)
-X-Gm-Message-State: AOAM532Xpd2DVumc0r/WA5T+924fwG7/7gQJeLQ6n9GvFvPZVq6dnIBo
-        +fBClcVFAvZAB9aYDfk9o9sA0sZqQWGhgLkjo3I=
-X-Google-Smtp-Source: ABdhPJxHW6zTiVnXDm+dMerKl21YroSREGhl4mFnymHGRgnvYYSox/WDDG+/CKbn23ZwzvdMYvCb75NxDuCvPzB2pqE=
-X-Received: by 2002:a17:902:7083:b0:158:41f2:3a83 with SMTP id
- z3-20020a170902708300b0015841f23a83mr19095045plk.99.1649839097492; Wed, 13
- Apr 2022 01:38:17 -0700 (PDT)
+        Wed, 13 Apr 2022 05:27:02 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4090BDF8E;
+        Wed, 13 Apr 2022 02:24:41 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KdcZK6jz6zgYl0;
+        Wed, 13 Apr 2022 17:22:49 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 13 Apr 2022 17:24:39 +0800
+Received: from huawei.com (10.67.174.169) by dggpemm500001.china.huawei.com
+ (7.185.36.107) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 13 Apr
+ 2022 17:24:39 +0800
+From:   Chen Lifu <chenlifu@huawei.com>
+To:     <masahiroy@kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     <chenlifu@huawei.com>
+Subject: [PATCH v3 -next] scripts: add compare-config utility
+Date:   Wed, 13 Apr 2022 17:23:31 +0800
+Message-ID: <20220413092331.203284-1-chenlifu@huawei.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220412231508.32629-1-libo.chen@oracle.com> <20220412231508.32629-2-libo.chen@oracle.com>
- <c7d26e9d-8c70-86a6-cdab-b180a365804f@infradead.org> <157cb46a-d134-2e72-4a65-14e378dd2b8e@oracle.com>
- <26855467-107d-4ba1-4f32-2afd5918d5b7@infradead.org> <cbb6b94e-3b9d-c7b6-a10e-6203a3a8b3f3@oracle.com>
- <4c6b3445-78b2-090f-c7c9-291d49c45019@infradead.org> <506db9a9-47ff-658a-a821-27315949e8c3@oracle.com>
-In-Reply-To: <506db9a9-47ff-658a-a821-27315949e8c3@oracle.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 13 Apr 2022 17:37:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATxMjMV2m+ycs6rVwEgHzL_7zUP+H4W_xr2xEZ1e3cFVg@mail.gmail.com>
-Message-ID: <CAK7LNATxMjMV2m+ycs6rVwEgHzL_7zUP+H4W_xr2xEZ1e3cFVg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
- dependency for CPUMASK_OFFSTACK
-To:     Libo Chen <libo.chen@oracle.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.174.169]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 3:56 PM Libo Chen <libo.chen@oracle.com> wrote:
->
-> Hi Randy
->
-> On 4/12/22 22:54, Randy Dunlap wrote:
-> > Hi Libo,
-> >
-> > On 4/12/22 19:34, Libo Chen wrote:
-> >>
-> >> On 4/12/22 19:13, Randy Dunlap wrote:
-> >>> Hi,
-> >>>
-> >>> On 4/12/22 18:35, Libo Chen wrote:
-> >>>> Hi Randy,
-> >>>>
-> >>>> On 4/12/22 17:18, Randy Dunlap wrote:
-> >>>>> Hi--
-> >>>>>
-> >>>>> On 4/12/22 16:15, Libo Chen wrote:
-> >>>>>> Forcing CPUMASK_OFFSTACK to be conditoned on DEBUG_PER_CPU_MAPS doesn't
-> >>>>>> make a lot of sense nowaday. Even the original patch dating back to 2008,
-> >>>>>> aab46da0520a ("cpumask: Add CONFIG_CPUMASK_OFFSTACK") didn't give any
-> >>>>>> rationale for such dependency.
-> >>>>>>
-> >>>>>> Nowhere in the code supports the presumption that DEBUG_PER_CPU_MAPS is
-> >>>>>> necessary for CONFIG_CPUMASK_OFFSTACK. Make no mistake, it's good to
-> >>>>>> have DEBUG_PER_CPU_MAPS for debugging purpose or precaution, but it's
-> >>>>>> simply not a hard requirement for CPUMASK_OFFSTACK. Moreover, x86 Kconfig
-> >>>>>> already can set CPUMASK_OFFSTACK=y without DEBUG_PER_CPU_MAPS=y.
-> >>>>>> There is no reason other architectures cannot given the fact that they
-> >>>>>> have even fewer, if any, arch-specific CONFIG_DEBUG_PER_CPU_MAPS code than
-> >>>>>> x86.
-> >>>>>>
-> >>>>>> Signed-off-by: Libo Chen <libo.chen@oracle.com>
-> >>>>>> ---
-> >>>>>>     lib/Kconfig | 2 +-
-> >>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>>
-> >>>>>> diff --git a/lib/Kconfig b/lib/Kconfig
-> >>>>>> index 087e06b4cdfd..7209039dfb59 100644
-> >>>>>> --- a/lib/Kconfig
-> >>>>>> +++ b/lib/Kconfig
-> >>>>>> @@ -511,7 +511,7 @@ config CHECK_SIGNATURE
-> >>>>>>         bool
-> >>>>>>       config CPUMASK_OFFSTACK
-> >>>>>> -    bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
-> >>>>> This "if" dependency only controls whether the Kconfig symbol's prompt is
-> >>>>> displayed (presented) in kconfig tools. Removing it makes the prompt always
-> >>>>> be displayed.
-> >>>>>
-> >>>>> Any architecture could select (should be able to) CPUMASK_OFFSTACK independently
-> >>>>> of DEBUG_PER_CPU_MAPS.
-> >>>> Do you mean changing arch/xxxx/Kconfig to select CPUMASK_OFFSTACK under some config xxx? That will work but it requires code changes for each architecture.
-> >>>> But if you are talking about setting CONFIG_CPUMASK_OFFSTACK=y without CONFIG_DEBUG_PER_CPU_MAPS directly in config file, I have tried, it doesn't work.
-> >>> I'm just talking about the Kconfig change below.  Not talking about whatever else
-> >>> it might require per architecture.
-> >>>
-> >>> But you say you have tried that and it doesn't work. What part of it doesn't work?
-> >>> The Kconfig part or some code execution?
-> >> oh the Kconfig part. For example, make olddefconfig on a config file with CPUMASK_OFFSTACK=y only turns off CPUMASK_OFFSTACK unless I explicitly set DEBUG_PER_CPU_MAPS=y
-> > I can enable CPUMASK_OFFSTACK for arm64 without having DEBUG_PER_CPU_MAPS enabled.
-> > (with a patch, of course.)
-> > It builds OK. I don't know if it will run OK.
->
-> I am a little confused, did you succeed with your patch (replacing "if"
-> with "depends on") or my patch (removing "if")? Because I definitely
-> cannot enable CPUMASK_OFFSTACK for arm64 without DEBUG_PER_CPUMAPS
-> enabled using your change.
-> > I think that you are arguing for a patch like this:
->
-> I am actually arguing for the opposite, I don't think CPUMASK_OFFSTACK
-> should require DEBUG_PER_CPU_MAPS. They should be separate and
-> independent to each other. So removing "if ..." should be enough in my
-> opinion.
-> > --- a/lib/Kconfig
-> > +++ b/lib/Kconfig
-> > @@ -511,7 +511,8 @@ config CHECK_SIGNATURE
-> >       bool
-> >
-> >   config CPUMASK_OFFSTACK
-> > -     bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
-> > +     bool "Force CPU masks off stack"
-> > +     depends on DEBUG_PER_CPU_MAPS
->
-> This forces every arch to enable DEBUG_PER_CPU_MAPS if they want to
-> enable CPUMASK_OFFSTACK, it's even stronger than "if". My whole argument
-> is CPUMASK_OFFSTACK should be enable/disabled independent of
-> DEBUG_PER_CPU_MASK
-> >       help
-> >         Use dynamic allocation for cpumask_var_t, instead of putting
-> >         them on the stack.  This is a bit more expensive, but avoids
-> >
-> >
-> > As I said earlier, the "if" on the "bool" line just controls the prompt message.
-> > This patch make CPUMASK_OFFSTACK require DEBUG_PER_CPU_MAPS -- which might be overkill.
-> >
->
-> Okay I understand now "if" on the "boot" is not a dependency and it only
-> controls the prompt message, then the question is why we cannot enable
-> CPUMASK_OFFSTACK without DEBUG_PER_CPU_MAPS if it only controls prompt
-> message? Is it not the behavior we expect?
->
+This is an alternative utility to compare two .config files. Unlike
+existing utilities "diffconfig" in the kernel tree, it prints detailed
+results in table style, and support config name prefix so that it can be
+used elsewhere. It is useful sometimes, for example, to analyze .config
+files through tables, or to compare Buildroot .config.
 
+With grep and awk, it can print similar results like "diffconfg" as well.
 
-    config CPUMASK_OFFSTACK
-            bool "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
+Signed-off-by: Chen Lifu <chenlifu@huawei.com>
+---
+Changes in v3:
+- Add -D option, a combination of -C -O -N, and set it as default mode
 
-... is equivalent to this:
+Changes in v2:
+- Add config name prefix support
 
-    config CPUMASK_OFFSTACK
-            bool
-            prompt "Force CPU masks off stack" if DEBUG_PER_CPU_MAPS
+ scripts/compare-config | 203 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 203 insertions(+)
+ create mode 100755 scripts/compare-config
 
-
-
-When DEBUG_PER_CPU_MAPS is disabled, the prompt line is ignored,
-and CPUMASK_OFFSTACK becomes a user-unconfigurable option.
-
-
-Other options still can select it,
-but users cannot enable it directly from the prompt.
-
-I see x86 and powerpc do this.
-
-$ kgrep 'select CPUMASK_OFFSTACK'
-./arch/x86/Kconfig:946: select CPUMASK_OFFSTACK
-./arch/powerpc/Kconfig:164: select CPUMASK_OFFSTACK if NR_CPUS >= 8192
-
-
-
-
-
-
-
-> Libo
->
-> >> Libo
-> >>> I'll test the Kconfig part of it later (in a few hours).
-> >>>
-> >>>> Libo
-> >>>>> Is there another problem here?
-> >>>>>
-> >>>>>> +    bool "Force CPU masks off stack"
-> >>>>>>         help
-> >>>>>>           Use dynamic allocation for cpumask_var_t, instead of putting
-> >>>>>>           them on the stack.  This is a bit more expensive, but avoids
->
-
-
+diff --git a/scripts/compare-config b/scripts/compare-config
+new file mode 100755
+index 000000000000..f770a1b02170
+--- /dev/null
++++ b/scripts/compare-config
+@@ -0,0 +1,203 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++#
++# An utility to compare two .config files and print the results in table style.
++#
++
++import sys
++import argparse
++import traceback
++
++def args_parser():
++    comment = ("An utility to compare two .config files and "
++               "print the results in table style.")
++    parser = argparse.ArgumentParser(description = comment,
++                                     formatter_class =
++                                         argparse.RawTextHelpFormatter)
++    parser.add_argument(dest = "old_file", nargs = "?",
++                        metavar = "old-file",
++                        default = ".config.old",
++                        help = "specify old .config file "
++                               "(default: .config.old)")
++    parser.add_argument(dest = "new_file", nargs = "?",
++                        metavar = "new-file",
++                        default = ".config",
++                        help = "specify new .config file "
++                               "(default: .config)")
++    parser.add_argument("-S", dest = "S", action = "store_true",
++                        help = "print configs that exist in both files "
++                               "and are equal")
++    parser.add_argument("-C", dest = "C", action = "store_true",
++                        help = "print configs that exist in both files "
++                               "but are not equal")
++    parser.add_argument("-O", dest = "O", action = "store_true",
++                        help = "print configs that only exist in old-file")
++    parser.add_argument("-N", dest = "N", action = "store_true",
++                        help = "print configs that only exist in new-file")
++    parser.add_argument("-D", dest = "D", action = "store_true",
++                        help = "a combination of -C -O -N, it's the default mode")
++    parser.add_argument("-y", dest = "y", action = "store_true",
++                        help = "print configs that are y")
++    parser.add_argument("-n", dest = "n", action = "store_true",
++                        help = "print configs that are n (not set)")
++    parser.add_argument("-m", dest = "m", action = "store_true",
++                        help = "print configs that are m")
++    parser.add_argument("-v", dest = "v", action = "store_true",
++                        help = "print configs that are "
++                               "string/hex/int value")
++    parser.add_argument("--old", dest = "old", action = "store_true",
++                        help = "filter configs base on old-file")
++    parser.add_argument("--new", dest = "new", action = "store_true",
++                        help = "filter configs base on new-file")
++    parser.add_argument("-p", "--prefix", dest = "prefix",
++                        action = "store", default = "CONFIG_",
++                        help = "config name prefix (default: CONFIG_)")
++    return parser
++
++def usage():
++    args_parser().parse_args(["-h"])
++
++def parse_args():
++    args = args_parser().parse_args()
++    setattr(args, "doptions", diff_options(args))
++    setattr(args, "voptions", value_options(args))
++    old = args.old or not args.new
++    new = args.new or not args.old
++    args.old = old
++    args.new = new
++    return args
++
++def diff_options(args):
++    doptions = []
++    if args.S: doptions.append("S")
++    if args.C or args.D: doptions.append("C")
++    if args.O or args.D: doptions.append("O")
++    if args.N or args.D: doptions.append("N")
++    if len(doptions) == 0:
++        doptions = ["C", "O", "N"]
++    return doptions
++
++def value_options(args):
++    voptions = set()
++    if args.y: voptions.add("y")
++    if args.n: voptions.add("n")
++    if args.m: voptions.add("m")
++    if args.v: voptions.add("v")
++    if len(voptions) == 0:
++        voptions = {"y", "n", "m", "v"}
++    return voptions
++
++def test_value(val, voptions):
++    if val is None: return False
++    if val in voptions: return True
++    return (not val in {"y", "n", "m"}) and ("v" in voptions)
++
++def format_exception():
++    es = ""
++    exc_type, exc_value, exc_traceback = sys.exc_info()
++    exc_str = traceback.format_exception(exc_type, exc_value, exc_traceback)
++    for s in exc_str:
++        es += s
++    return es
++
++def read_line(line, prefix):
++    line = line.strip()
++    if line.endswith(" is not set"):
++        beg = line.find(prefix)
++        if beg == -1: return None, None
++        name, val = line[beg:-10].rsplit(" ", 1)
++        return name.strip(), "n"
++    if line.startswith(prefix):
++        if line.find("=") == -1: return None, None
++        name, val = line.split("=", 1)
++        return name.strip(), val.strip()
++    return None, None
++
++def read_file(filename, prefix):
++    configs = {}
++    with open(filename, "r", encoding = "utf-8") as f:
++        for line in f:
++            name, val = read_line(line, prefix)
++            if not name is None: configs[name] = val
++    return configs
++
++def compare_config(args):
++    result = {"S": {}, "C": {}, "O": {}, "N": {}}
++    try:
++        old_configs = read_file(args.old_file, args.prefix)
++        new_configs = read_file(args.new_file, args.prefix)
++        while len(old_configs) > 0:
++            name, old_val = old_configs.popitem()
++            new_val = new_configs.pop(name, None)
++            if new_val is None:
++                result["O"][name] = (old_val, None)
++            elif old_val == new_val:
++                result["S"][name] = (old_val, new_val)
++            else:
++                result["C"][name] = (old_val, new_val)
++        while len(new_configs) > 0:
++            name, new_val = new_configs.popitem()
++            result["N"][name] = (None, new_val)
++    except:
++        print(format_exception())
++        usage()
++    return result
++
++def filter_output(result, args):
++    output = {"S": {}, "C": {}, "O": {}, "N": {}}
++    for opt in args.doptions:
++        for name, val in result[opt].items():
++            if (args.old and test_value(val[0], args.voptions) or
++                args.new and test_value(val[1], args.voptions)):
++                old_val = "-" if val[0] is None else val[0]
++                new_val = "-" if val[1] is None else val[1]
++                output[opt][name] = (old_val, new_val)
++    return output
++
++def print_table(output, args):
++    name_max_len = 8
++    old_max_len  = 8
++    new_max_len  = 8
++    name_list = sum([list(output[opt].keys()) for opt in args.doptions], [])
++    if len(name_list) > 0:
++        name_max_len = len(max(name_list, key = len))
++    val_list = sum([list(output[opt].values()) for opt in args.doptions], [])
++    if len(val_list) > 0:
++        old_max_len = len(max([val[0] for val in val_list], key = len))
++        new_max_len = len(max([val[1] for val in val_list], key = len))
++    diff_max_len = len(max([diff_types[opt] for opt in args.doptions], key = len))
++    header = ["NAME", "DIFF", "OLD", "NEW"]
++    # table row format
++    row = ("{{:{}}}\t{{:{}}}\t{{:{}}}\t{{:{}}}"
++           .format(min(max(name_max_len, len(header[0])), 40),
++                   min(max(diff_max_len, len(header[1])), 40),
++                   min(max(old_max_len,  len(header[2])), 40),
++                   min(max(new_max_len,  len(header[3])), 40)))
++    print(row.format(header[0], header[1], header[2], header[3]))
++    for opt in args.doptions:
++        for name, val in sorted(output[opt].items()):
++            print(row.format(name, diff_types[opt], val[0], val[1]))
++
++def print_summary(output, args):
++    diff_max_len = len(max([diff_types[opt] for opt in args.doptions], key = len))
++    # summary line format
++    line = "{{:{}}}: {{}}".format(max(diff_max_len, 8))
++    print("\nSummary:")
++    print(line.format("Old-file", args.old_file))
++    print(line.format("New-file", args.new_file))
++    total = 0
++    for opt in args.doptions:
++        count = len(output[opt])
++        print(line.format(diff_types[opt], count))
++        total += count
++    print(line.format("Total", total))
++
++def print_result(result, args):
++    output = filter_output(result, args)
++    print_table(output, args)
++    print_summary(output, args)
++
++diff_types = {"S": "Same", "C": "Changed", "O": "Old-only", "N": "New-only"}
++args = parse_args()
++result = compare_config(args)
++print_result(result, args)
 -- 
-Best Regards
-Masahiro Yamada
+2.35.1
+
