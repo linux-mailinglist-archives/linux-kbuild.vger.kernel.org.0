@@ -2,175 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19262501A84
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 19:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28B18501AAB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 20:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242032AbiDNRz3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Apr 2022 13:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49252 "EHLO
+        id S243465AbiDNSCq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Apr 2022 14:02:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343999AbiDNRz1 (ORCPT
+        with ESMTP id S1344388AbiDNSCh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Apr 2022 13:55:27 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49E8EA77A;
-        Thu, 14 Apr 2022 10:52:54 -0700 (PDT)
+        Thu, 14 Apr 2022 14:02:37 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09BED1A822;
+        Thu, 14 Apr 2022 11:00:04 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.96.207]) by mrelayeu.kundenserver.de
  (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N17l4-1o3tnz11OU-012UW0; Thu, 14 Apr 2022 19:51:49 +0200
+ 1MSss2-1nVcem2liQ-00UGG0; Thu, 14 Apr 2022 19:59:58 +0200
 Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 980E23C09F; Thu, 14 Apr 2022 19:51:46 +0200 (CEST)
+        id 5D7C33C09F; Thu, 14 Apr 2022 19:59:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1649958707; bh=nnnc4oWDZ+/0SgGGv7nKMeRbXBb7H8ZHqC1yhEeHGnM=;
+        t=1649959197; bh=VQN2S/HS4qtVdEWnDDxhVYCXlYX5FpPVZ9wVw7UD1CI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JPHzdOIUlqbJiQrhe5jys63FzKQ7rqAlUB2P+ay7JS7cdPUNXSjkmkoi6nJXXTXh4
-         BTH6ZlFM3HMduzW3ORIpTsj0XdyyULX7bYuMr+KuIovUts0ZgUCZT0xOsnT07pOYQ3
-         lIu2DEDliTBFqK8CIe4WrwG0HxYBovwM/JvWnPOs=
-Date:   Thu, 14 Apr 2022 19:51:46 +0200
+        b=YyzfD3/C3r3kED3JZBEVqHPf5ov57h1yPUFvI2d0zNmoIKN08hSvGbUTflseCIt0/
+         ourXnSTpOe5nRkKvcJjoIL6usePSe7nlPjBzgWpj6cEhKkUdWRA4eCAtf0aSTsYECY
+         4kuoNtVPxAIorRy6T/TmWERHZACGwvERft23jPZU=
+Date:   Thu, 14 Apr 2022 19:59:57 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Yann Droneaud <ydroneaud@opteya.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCHv1] kbuild: support W=e to make build abort in case of
- warning
-Message-ID: <YlhfMqQ+ypf4OdkN@fjasle.eu>
-References: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com>
- <20220408084607.106468-1-ydroneaud@opteya.com>
- <CAK7LNAQZLt_OecOogOQiSu5snW+sffsMoFgVcjPTx_idj_=_tQ@mail.gmail.com>
- <CAKwvOd=yNnKsHJo0QWvoTuFF9p-y=cTftTD+7FY-wJ_f23zFTQ@mail.gmail.com>
- <81585705-6ed8-12e5-1355-332a6a5d2b17@infradead.org>
- <CAK7LNAS6ap9dR=kzRgQgt+d7FBBbVrwEqGU9g_pFD+nzMUt+gQ@mail.gmail.com>
- <YlgdF9qmJyYGHKXZ@bergen.fjasle.eu>
- <CAK7LNARVKL4vCRHz5=_sW_oBpkpqhDu5Hp1hfG+Hnwqg-61HVA@mail.gmail.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
+        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v6 02/12] kbuild: Support for symbols.klp creation
+Message-ID: <YlhhHSQIWpLG0Cgn@fjasle.eu>
+References: <20220216163940.228309-1-joe.lawrence@redhat.com>
+ <20220216163940.228309-3-joe.lawrence@redhat.com>
+ <Ylfq7t0uOP7gCPEO@alley>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNARVKL4vCRHz5=_sW_oBpkpqhDu5Hp1hfG+Hnwqg-61HVA@mail.gmail.com>
-X-Provags-ID: V03:K1:7PGJ5D07i4URQABukCoy/Z7dFJNUqjK/2VgD5SJCl3EwyRVm6Gd
- XYMK2DqIegBZabStDu+JTnzINhSeMtjWU4g/4/3+jJxoP2N33j9mMni1fCJiZLk9qv/4abS
- JD375olmfFrBnV26MThA78PNdIclPdQh2TDPI1gOOHjcQ86MQkSr9c3wQb/sZHCkJqysEPQ
- IXUBvdF/EfIVLrCtovLzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Q4RGBuj1j08=:l8w7F9jKG3ojPbiuPDtoXn
- 7vvfLQEK5WrNonlJkhEZJLRIvdaRQJyzaEd2Ntk84jwe9q/zdkwGTfoXnuVkAgIr3bsywh0dI
- SOrQ1n0rCrzPrjDGrTQVe4+7erkw1x2vxY8k6M+IPa5imibKH1Wk8e0xO/HqEqB7ZFe0vFQbS
- lDNHcNFZOL1QiTbdlYj+XU6upq6/R9ImrAYE+cJFcQoxY+wHSwQWfFoxmr/wF/jaJYYjc66mO
- glogJjtuSAJcD7UEFFJgnI/7etK4Blh9PzTqF4rRgJBpM/qSY0X8OgRkctugFbIUqewC7UaE1
- taJamApN6g3FArUXgpTMXj7+t0E7BNwV44fDPfkO73Wo686zjw0aqfiOalJ03LiYgt5ZipEQA
- QOKw7pcFnuXp8kWpSTq+A2BpYuEhEorFMimMd7FoPrjngPCtjHU8nUTI9Q5jvB141gMcImZjB
- SD2dEmY+KeMScESZv3ncqHUhyAQl+szxUftjH3SRhV05S+us473i0GqmSM7jq+0Gcv3UCfdym
- xpRWyQFWRnDB8Zqlq6PMWAnbkFgPd0hq1mRHOM7VlvNJFqR7w2uvFXOGEXMpLpVnlFSZszQOf
- INUmYyqVZgfq8EHWns+tR9acQzb3rcpoi1FHIuu7GsfepPmVo97XDtktRu4O9QOQVEJWCC4Qq
- RsTYNtMKPH5XOvE8wZKVofs0OhyxUT+dyrVYrQxwxGMqv3j47eSLiJiuiLQPX3vxczmo=
+In-Reply-To: <Ylfq7t0uOP7gCPEO@alley>
+X-Provags-ID: V03:K1:MNIlyWDKzHOK9+plu+YrD5bphyLTk8zuBAygxSnAzMDFW2MqHfj
+ VwMF1T23+MBHiWf6OWJ+Lebh1b1LkVZRFrg+O+CYpoI5KVV6L++bzYifLsUWKfun9jlPXVU
+ Uc3VCfX+ZakRONQb85IeuDLoLvYGdiCXvLvV/eGU0nLMmf1CX00dlPFqT5XKaVYF5t5dAHD
+ k+pt1Ho9LK3d9vxB1m2pQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6mWrdTBWKts=:kAL2IXC3yHJxQpUtCdmKMA
+ vJb36zGYN0okRf1VrMX9zah3zhUHkyqj8RudPEZ8wgXhgz041f9VLF6UhRTmAY+4h8G+KUtUx
+ wL7oerEoIdgk1wF5tHdkAP+2qZvSY1d/k7CLflwd2Kyey9LTC+vp50NQD5zVkidjBMtDoeft5
+ csH4YZZ0Lnd/60Auu04zWPY4AKpUZrvlCS3khv6sf2BHE4tvZWT2IDsKoDtSaqHgmYxmqAKzE
+ 0m1YPL5Ljxe3ktLEnHEsXM6nyoMurL00bMD8szr9NzWzIyTI9XWAL9lntGqcNDhJW9DIZMOuE
+ mVpLbp9gTMzKmAnexNdJ8sYN+NXld9kUUvChjMT5jHUlOLap1zkJoJHPbFFZrP2uaVooEu4VP
+ XNy+btlKjZXvXBrnZ3pzR0XOys+EI8XfiHM/+7az9xWjNP8kN1vycp+28OkGJNG9VgMq5UuQz
+ GE62xCbHbUrSyW0srIjrM5/E9ylHsmTogvurTkIW/lAjL2SwVA+TzSe1dUZd+Oywx6gCN4nWH
+ rW6O6g9tO6mhHfIH98HzunC/ukU9epbdIekZkYEWrFRjjRwnIP1b8n4QRfiRttRhFD5XyiPgT
+ Yv2ITTRAI9UOmTS/TVMpiGa/DpsnfvLNr+uRel2lzpt6fwKUiosJkLOkc8+9MK1h+UQA9spZP
+ oOt9Ag/ockXigeMQXhoF5NUnBkRdxoAap//KYUk0z7ddDfzbKqIVYmNeaDSNuyVR2uaU=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        RCVD_IN_MSPIKE_ZBI,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 12:15:40AM +0900 Masahiro Yamada wrote:
-> On Thu, Apr 14, 2022 at 10:19 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
+On Thu, Apr 14, 2022 at 11:35:42AM +0200 Petr Mladek wrote:
+> On Wed 2022-02-16 11:39:30, Joe Lawrence wrote:
+> > From: Joao Moreira <jmoreira@suse.de>
+> > 
+> > For automatic resolution of livepatch relocations, a file called
+> > symbols.klp is used. This file maps symbols within every compiled kernel
+> > object allowing the identification of symbols whose name is unique, thus
+> > relocation can be automatically inferred, or providing information that
+> > helps developers when code annotation is required for solving the
+> > matter.
+> > 
+> > Add support for creating symbols.klp in the main Makefile. First, ensure
+> > that built-in is compiled when CONFIG_LIVEPATCH is enabled (as required
+> > to achieve a complete symbols.klp file). Define the command to build
+> > symbols.klp (cmd_klp_map) and hook it in the modules rule.
+> > 
+> > As it is undesirable to have symbols from livepatch objects inside
+> > symbols.klp, make livepatches discernible by modifying
+> > scripts/Makefile.build to create a .livepatch file for each livepatch in
+> > $(MODVERDIR). This file then used by cmd_klp_map to identify and bypass
+> > livepatches.
 > >
-> > På lø. 09. april 2022 kl. 10.47 +0000 skrev Masahiro Yamada:
-> > > On Sat, Apr 9, 2022 at 5:36 AM Randy Dunlap <rdunlap@infradead.org> Wrote:
-> > > >
-> > > >
-> > > >
-> > > > On 4/8/22 13:29, Nick Desaulniers wrote:
-> > > > > On Fri, Apr 8, 2022 at 4:06 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > >>
-> > > > >> On Fri, Apr 8, 2022 at 5:46 PM Yann Droneaud <ydroneaud@opteya.com> wrote:
-> > > > >>>
-> > > > >>> When developing new code/feature, CONFIG_WERROR is most
-> > > > >>> often turned off, especially for people using make W=12 to
-> > > > >>> get more warnings.
-> > > > >>>
-> > > > >>> In such case, turning on -Werror temporarily would require
-> > > > >>> switching on CONFIG_WERROR in the configuration, building,
-> > > > >>> then switching off CONFIG_WERROR.
-> > > > >>>
-> > > > >>> For this use case, this patch introduces a new 'e' modifier
-> > > > >>> to W= as a short hand for KCFLAGS+=-Werror" so that -Werror
-> > > > >>> got added to the kernel (built-in) and modules' CFLAGS.
-> > > > >>>
-> > > > >>> Signed-off-by: Yann Droneaud <ydroneaud@opteya.com>
-> > > > >>> ---
-> > > > >>>  Makefile                   |  1 +
-> > > > >>>  scripts/Makefile.extrawarn | 13 +++++++++++--
-> > > > >>>  2 files changed, 12 insertions(+), 2 deletions(-)
-> > > > >>>
-> > > > >>> Changes since v0[0]:
-> > > > >>>
-> > > > >>>  - rebase on top of commit 64a91907c896 ("kbuild: refactor scripts/Makefile.extrawarn")
-> > > > >>>  - document use case after commit 3fe617ccafd6 ("Enable '-Werror' by default for all kernel builds")
-> > > > >>>
-> > > > >>> [0] https://lore.kernel.org/all/1422803720-14723-1-git-send-email-ydroneaud@opteya.com/
-> > > > >>
-> > > > >>
-> > > > >> I remembered the previous submission, I liked it, but I had lost it.
-> > > > >>
-> > > > >> It seems already 7 years ago, (before I became the Kbuild maintainer).
-> > > > >> Thanks for coming back to this.
-> > > > >>
-> > > > >>
-> > > > >> I like this, but I will wait some time for review comments.
-> > > > >
-> > > > > Dunno, this seems pretty simple:
-> > > > >
-> > > > > $ ./scripts/config -e WERROR
-> > > > > $ make ... W=12
-> > > >
-> > > > Yeah, that's about what I was thinking too..
-> > >
-> > >
-> > >
-> > > But, you cannot change the .config
-> > > when you build external modules.
-> > >
-> > > "make W=e" might be useful for people who strive to
-> > > keep their downstream modules warning-free.
-> > >
-> > >
-> > > W=e is the same pattern.
-> > > I do not see much downside.
-> >
-> > If I set CONFIG_WERROR=y on the make command line, I could have the
-> > same result, don't I?
-> >
-> >   make CONFIG_WERROR=1 ...
-> >
-> > no matter if in-tree or for external kernel modules.
+> > For identifying livepatches during the build process, a flag variable
+> > LIVEPATCH_$(basetarget).o is considered in scripts/Makefile.build. This
+> > way, set this flag for the livepatch sample Makefile in
+> > samples/livepatch/Makefile.
 > 
-> Yes.
+> I do not see the related code in scripts/Makefile.build.
 > 
-> If you can change the kernel configuration,
-> you can enable CONFIG_WERROR.
+> > Finally, Add a clean rule to ensure that symbols.klp is removed during
+> > clean.
+> > 
+> > Notes:
+> > 
+> > To achieve a correct symbols.klp file, all kernel objects must be
+> > considered, thus, its construction require these objects to be priorly
+> > built. On the other hand, invoking scripts/Makefile.modpost without
+> > having a complete symbols.klp in place would occasionally lead to
+> > in-tree livepatches being post-processed incorrectly.
 > 
-> To build external modules against the read-only
-> /lib/modules/$(uname -r)/build/,
-> it is not so feasible to change the .config file, though.
+> Honestly, I do not understand what it exactly means that "in-tree
+> livepatches would occasionally be post-processed incorrectly".
+> 
+> Is it the problem that modpost is not able to handle the unresolved
+> symbols that have to be updated by klp-convert?
+> 
+> > To prevent this
+> > from becoming a circular dependency, the construction of symbols.klp
+> > uses non-post-processed kernel objects and such does not cause harm as
+> > the symbols normally referenced from within livepatches are visible at
+> > this stage. Also due to these requirements, the spot in-between modules
+> > compilation and the invocation of scripts/Makefile.modpost was picked
+> > for hooking cmd_klp_map.
+> > 
+> > The approach based on .livepatch files was proposed as an alternative to
+> > using MODULE_INFO statements. This approach was originally proposed by
+> > Miroslav Benes as a workaround for identifying livepathes without
+> > depending on modinfo during the modpost stage. It was moved to this
+> > patch as the approach also shown to be useful while building
+> > symbols.klp.
+> 
+> All the tricky code is removed in the 5th patch. My understanding is
+> that the problem causing the cyclic dependency is solved by modifying
+> modpost.
+> 
+> It looks like this patch is outdated and mostly obsoleted. On the
+> other hand, the commit message in 5th patch is too short.
+> 
+> What about merging the two patches and updating the commit message?
 
-hm, I wanted to point out something different.  When I build an external module
-against a read-only kbuild-tree, I _can_ change kconfig values by specifying
-them on the make command line, just as I can add 'W=e':
++1
 
-  make -C /lib/modules/$(uname -r)/build M=~+ CONFIG_SAMPLE_KOBJECT=m CONFIG_WERROR=y
-
-Thus, I suspect, that this is the very same as if I'd run
-
-  make -C /lib/modules/$(uname -r)/build M=~+ CONFIG_SAMPLE_KOBJECT=m W=e
-
-So, "W=e" is actually just a shortcut for "CONFIG_WERROR=1".  Or have I missed
-something?
+Yes, please merge those patches.  These '$(shell ...)' side-effect lines in the
+definition of 'cmd_klp_map' are quite confusing.
 
 Kind regards,
 Nicolas
