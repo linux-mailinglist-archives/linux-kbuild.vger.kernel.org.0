@@ -2,143 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 709E3500C4E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 13:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53CC9500F6F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 15:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242741AbiDNLn5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Apr 2022 07:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52732 "EHLO
+        id S244410AbiDNN1U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Apr 2022 09:27:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242395AbiDNLn4 (ORCPT
+        with ESMTP id S244219AbiDNN0f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Apr 2022 07:43:56 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9209F53E09;
-        Thu, 14 Apr 2022 04:41:31 -0700 (PDT)
-Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1Mnq4Q-1oH5wx3Dq6-00pNtq; Thu, 14 Apr 2022 13:41:29 +0200
-Received: by mail-wr1-f51.google.com with SMTP id g18so6495999wrb.10;
-        Thu, 14 Apr 2022 04:41:27 -0700 (PDT)
-X-Gm-Message-State: AOAM530lsz7qu7JrhcQrSVUm+lY5oqOj72y+Br0tngOpP1f0at7J6mTx
-        Kn9IH5VnpKG/T3fF4JJfxYLqrGELB7OTymIL1sA=
-X-Google-Smtp-Source: ABdhPJxDkbKKBQkTpfl/Oj838rv2VbzeElx6+NcSFuTvJBfQ5J//st0GmYuZABtNrIuj+4aYSg8U+Kt7cb2jJl5ZcKQ=
-X-Received: by 2002:a05:6000:178c:b0:204:648:b4c4 with SMTP id
- e12-20020a056000178c00b002040648b4c4mr1676626wrg.219.1649936487384; Thu, 14
- Apr 2022 04:41:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220412231508.32629-1-libo.chen@oracle.com> <20220412231508.32629-2-libo.chen@oracle.com>
- <c7d26e9d-8c70-86a6-cdab-b180a365804f@infradead.org> <157cb46a-d134-2e72-4a65-14e378dd2b8e@oracle.com>
- <26855467-107d-4ba1-4f32-2afd5918d5b7@infradead.org> <cbb6b94e-3b9d-c7b6-a10e-6203a3a8b3f3@oracle.com>
- <4c6b3445-78b2-090f-c7c9-291d49c45019@infradead.org> <506db9a9-47ff-658a-a821-27315949e8c3@oracle.com>
- <8eb6f58a-2621-0977-1b67-b2c58e4d5fba@infradead.org> <c2e6bb8b-c9d9-ad39-7a8e-3df6849b2fb2@oracle.com>
- <CAK8P3a3wgbYPY6CxbkkFkEboXYLWREaL3oUmHyet5wPYpc4Vng@mail.gmail.com> <ce420ed3-4a36-122f-460d-8cccd0310033@oracle.com>
-In-Reply-To: <ce420ed3-4a36-122f-460d-8cccd0310033@oracle.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 14 Apr 2022 13:41:11 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0uy8JcHP_G_ebz61AMB-Mx6jr5+vuzJHmWbDCajTdTfQ@mail.gmail.com>
-Message-ID: <CAK8P3a0uy8JcHP_G_ebz61AMB-Mx6jr5+vuzJHmWbDCajTdTfQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND 1/1] lib/Kconfig: remove DEBUG_PER_CPU_MAPS
- dependency for CPUMASK_OFFSTACK
-To:     Libo Chen <libo.chen@oracle.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        gregkh <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thu, 14 Apr 2022 09:26:35 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C03E9E9CE;
+        Thu, 14 Apr 2022 06:19:55 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.96.207]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M9Frd-1ncUUo06fH-006M6Y; Thu, 14 Apr 2022 15:16:41 +0200
+Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id F148D3C07B;
+        Thu, 14 Apr 2022 15:16:38 +0200 (CEST)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 176FB489; Thu, 14 Apr 2022 15:09:43 +0200 (CEST)
+Date:   Thu, 14 Apr 2022 15:09:43 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Yann Droneaud <ydroneaud@opteya.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Y7bjTG5yZhKSo0QonGX0bjrqMCV8FqCn2Jc/gpu9j2TXS37tuEO
- BsIiZ4BZNvTNt3uzFLgJmA8czEw6WM4HOxMsyMinuRUWTaiR3RjjgsT5cdWzfOrFldN0Vee
- n1hj4S2GZ5L1NZlkSgHlxKnJxgOK/meswZDx1TcQtRtX7Io3YXXqfNh0p4St2r37C/7/6lr
- lPqD22Ms77jBo7mprkeFA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T3O8cO2vhA4=:mkttKl+5Zwfmc0W5nvAZUV
- uOXYKowyLJD1OMsdExf7wHc7GYnDPvXMrAIGHU4rR9JXbPiHRWNuTL4elvflyp4w6cBBm25rs
- ERAUXp0NX8nAsNqmnC6f1d1/JRQMtXlsCSDO44B6t5+gs0U+/3U3AgwMdu49vq5OdQ02zwJxF
- UbcYTMjp5yUPN7eYGHHk05PO/euvy5411NxYcQu8wlONf9uiPxV9tfDEQuJEp1Gvf2PNPHifM
- JH2WxgoW6aZunT97R7Yras0K20Uz8BOHqY5Eca6EU7c4itA6fRncAToEiFCWmRU6+RRdfEOGV
- 6gTqpHULbtUtJ0YXDSFGWFZGOSJ0UL0hNfKAP2M07OaSJigsuifhsOHh86sqPwXsulHu0E5js
- YNL9IbKWMdO3V4ORkBiUxCUkOe2z/VvdaJBgiBVMELrxLAFLYrhpgxmVV9tYXtAXJESV75g7O
- N9o2S6mnWmINmL4UkiVuSWcGtrvf3pXPQ/nmnjuRzewfy1WdYPvXn/dyL/MDwD7XKwsvgzomx
- SgHx2rYBbno3F2zSef4vQhv6QyK9YiQnlyJ4AQGn6ZQuJv8q0hA5bpr607fhAdmHJZ/5H3qom
- +RpYteJe8AkPdx1NhQo7QKtPbJmG40lyWAkH5V/RYc57un7mfmZBn+a158wSEc3p1YFL3WDuP
- zwJ63bsnaAdHeK5FVLjR6Lz7a03A/IHLusR01Y8Hy/VkCKvtx96Fv8dXR3LevJEUPfSNAxzUd
- 0vohc3fwuhkjjMbOo0K3Z6YoSqUzj+B4lkYO7af+w2beJ7EOuLLTKnrrtM8H3Tletes5j/9C5
- NMKzytmJXEdE1lcSBo/FTYnL1QDXHMqs8eqeAUQ+5kgCN9q5Uk=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCHv1] kbuild: support W=e to make build abort in case of
+ warning
+Message-ID: <YlgdF9qmJyYGHKXZ@bergen.fjasle.eu>
+References: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com>
+ <20220408084607.106468-1-ydroneaud@opteya.com>
+ <CAK7LNAQZLt_OecOogOQiSu5snW+sffsMoFgVcjPTx_idj_=_tQ@mail.gmail.com>
+ <CAKwvOd=yNnKsHJo0QWvoTuFF9p-y=cTftTD+7FY-wJ_f23zFTQ@mail.gmail.com>
+ <81585705-6ed8-12e5-1355-332a6a5d2b17@infradead.org>
+ <CAK7LNAS6ap9dR=kzRgQgt+d7FBBbVrwEqGU9g_pFD+nzMUt+gQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAS6ap9dR=kzRgQgt+d7FBBbVrwEqGU9g_pFD+nzMUt+gQ@mail.gmail.com>
+Jabber-ID: nicolas@jabber.no
+X-Operating-System: Debian GNU/Linux bookworm/sid
+X-Provags-ID: V03:K1:VTplRYcqIA5m2LMYqAqfH7kOd6LlSKl27R7wPnUpoSX7DH+yGlI
+ RdfbT5Dvgi1MV94r997k8qAfnPAh9w/CQ3C7C0GRNvpCsdEA1pn71/H/o3GPfzye/76CSfx
+ dIl8ftEj0I1iuA5ikapiNgX2Rdtf7LnynYC9QbICwSIRgg9t/qJN91tNKyqipzTSYZgwRyU
+ H9kv5Re/u8EPsrx8a1Tjg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:frxQrqfiJnI=:fPuItlHpxR50/T1pphQzzo
+ YNfmgEBLM2Wulpvd6R7Yycyca81nrmYHvKCdFb4vLTkH0Tw8APtUX7ZI/3O2VsVUDUjbbnUbz
+ 19UhkPEzJHAa9XUhhvEafoUgtKDuEZ9Jqgpo1RQK6ASk6yxu2lwKY4r5WS45MngI9Oa/MGyPm
+ s2jpq4OkSPTS40K+3kZbPFRlE2CltVwT38uKO1zbui6HA91gLNY6ftVFKi0S/AySx5h9eLZzj
+ 8tw6dwkL/HL6YNB9P0Wg6zcfyTdaRT5aabguMW+viGWLJN8QSEQgQ9hv7NCah2mLs3hPgdsbK
+ wEzuWvmjFcnHtl5CJLx/25MRinnqPUfb89GhAXAR4LL9J2lSuASkrlJta8SS40JmWEpgTuyOK
+ JodFVro5mQ3TBRh47F0yMhHqp5KfoiIqDAULNDS3TVWYs5eD2nLMG97xJgpOWLCGB4UfsCUnr
+ n4dHxnI2Y9I4Whm1ZNJU0BjEGsp94Czcyui58oOQo9h0MtJM6aWiryQCRfbPRNggqL/NP4q1+
+ n66vqIYQDyn19VmKIJccd0q8zzYDaL573K87fY1gxziLJjEWkgTTdkvwmIslAPExDxXnis2eQ
+ NJqgkhuWJwPG2y/FwUyhobYrrWHud9wj8nE9QXAlvJys6kMDuQG6WBS7Q3ufCQ/NXwXHIXRSq
+ 8LAfQO7c3SAJUri3ZYauvPUH3zCuIohyXQ7u7UmFRdfliHg+2bsEnuxrWS5vy1zxDo74=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_BL,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,RCVD_IN_MSPIKE_ZBI,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 11:50 PM Libo Chen <libo.chen@oracle.com> wrote:
-> On 4/13/22 13:52, Arnd Bergmann wrote:
-> >>> Yes, it is. I don't know that the problem is...
-> >> Masahiro explained that CPUMASK_OFFSTACK can only be configured by
-> >> options not users if DEBUG_PER_CPU_MASK is not enabled. This doesn't
-> >> seem to be what we want.
-> > I think the correct way to do it is to follow x86 and powerpc, and tying
-> > CPUMASK_OFFSTACK to "large" values of CONFIG_NR_CPUS.
-> > For smaller values of NR_CPUS, the onstack masks are obviously
-> > cheaper, we just need to decide what the cut-off point is.
->
-> I agree. It appears enabling CPUMASK_OFFSTACK breaks kernel builds on
-> some architectures such as parisc and nios2 as reported by kernel test
-> robot. Maybe it makes sense to use DEBUG_PER_CPU_MAPS as some kind of
-> guard on CPUMASK_OFFSTACK.
-
-NIOS2 does not support SMP builds at all, so it should never be possible to
-select CPUMASK_OFFSTACK there. We may want to guard
-DEBUG_PER_CPU_MAPS by adding a 'depends on SMP' in order to
-prevent it from getting selected.
-
-For PARISC, the largest configuration is 32-way SMP, so CPUMASK_OFFSTACK
-is clearly pointless there as well, even though it should technically
-be possible
-to support. What is the build error on parisc?
-
-> > In x86, the onstack masks can be selected for normal SMP builds with
-> > up to 512 CPUs, while CONFIG_MAXSMP=y raises the limit to 8192
-> > CPUs while selecting CPUMASK_OFFSTACK.
-> > PowerPC does it the other way round, selecting CPUMASK_OFFSTACK
-> > implicitly whenever NR_CPUS is set to 8192 or more.
+På lø. 09. april 2022 kl. 10.47 +0000 skrev Masahiro Yamada:
+> On Sat, Apr 9, 2022 at 5:36 AM Randy Dunlap <rdunlap@infradead.org> Wrote:
 > >
-> > I think we can easily do the same as powerpc on arm64. With the
-> I am leaning more towards x86's way because even NR_CPUS=160 is too
-> expensive for 4-core arm64 VMs according to apachebench. I highly doubt
-> that there is a good cut-off point to make everybody happy (or not unhappy).
+> >
+> >
+> > On 4/8/22 13:29, Nick Desaulniers wrote:
+> > > On Fri, Apr 8, 2022 at 4:06 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >>
+> > >> On Fri, Apr 8, 2022 at 5:46 PM Yann Droneaud <ydroneaud@opteya.com> wrote:
+> > >>>
+> > >>> When developing new code/feature, CONFIG_WERROR is most
+> > >>> often turned off, especially for people using make W=12 to
+> > >>> get more warnings.
+> > >>>
+> > >>> In such case, turning on -Werror temporarily would require
+> > >>> switching on CONFIG_WERROR in the configuration, building,
+> > >>> then switching off CONFIG_WERROR.
+> > >>>
+> > >>> For this use case, this patch introduces a new 'e' modifier
+> > >>> to W= as a short hand for KCFLAGS+=-Werror" so that -Werror
+> > >>> got added to the kernel (built-in) and modules' CFLAGS.
+> > >>>
+> > >>> Signed-off-by: Yann Droneaud <ydroneaud@opteya.com>
+> > >>> ---
+> > >>>  Makefile                   |  1 +
+> > >>>  scripts/Makefile.extrawarn | 13 +++++++++++--
+> > >>>  2 files changed, 12 insertions(+), 2 deletions(-)
+> > >>>
+> > >>> Changes since v0[0]:
+> > >>>
+> > >>>  - rebase on top of commit 64a91907c896 ("kbuild: refactor scripts/Makefile.extrawarn")
+> > >>>  - document use case after commit 3fe617ccafd6 ("Enable '-Werror' by default for all kernel builds")
+> > >>>
+> > >>> [0] https://lore.kernel.org/all/1422803720-14723-1-git-send-email-ydroneaud@opteya.com/
+> > >>
+> > >>
+> > >> I remembered the previous submission, I liked it, but I had lost it.
+> > >>
+> > >> It seems already 7 years ago, (before I became the Kbuild maintainer).
+> > >> Thanks for coming back to this.
+> > >>
+> > >>
+> > >> I like this, but I will wait some time for review comments.
+> > >
+> > > Dunno, this seems pretty simple:
+> > >
+> > > $ ./scripts/config -e WERROR
+> > > $ make ... W=12
+> >
+> > Yeah, that's about what I was thinking too..
+> 
+> 
+> 
+> But, you cannot change the .config
+> when you build external modules.
+> 
+> "make W=e" might be useful for people who strive to
+> keep their downstream modules warning-free.
+> 
+> 
+> W=e is the same pattern.
+> I do not see much downside.
 
-It seems surprising that you would see any improvement for offstack masks
-when using NR_CPUS=160, that is just three 64-bit words worth of data, but
-it requires allocating the mask dynamically, which takes way more memory
-to initialize.
+If I set CONFIG_WERROR=y on the make command line, I could have the 
+same result, don't I?
 
-> > ApacheBench test you cite in the patch description, what is the
-> > value of NR_CPUS at which you start seeing a noticeable
-> > benefit for offstack masks? Can you do the same test for
-> > NR_CPUS=1024 or 2048?
->
-> As mentioned above, a good cut-off point moves depends on the actual
-> number of CPUs. But yeah I can do the same test for 1024 or even smaller
-> NR_CPUs values on the same 64-core arm64 VM setup.
+  make CONFIG_WERROR=1 ...
 
-If you see an improvement for small NR_CPUS values using offstack masks,
-it's possible that the actual difference is something completely
-different and we
-can just make the on-stack case faster, possibly the cause is something about
-cacheline alignment or inlining decisions using your specific kernel config.
+no matter if in-tree or for external kernel modules.
 
-Are you able to compare the 'perf report' output between runs with either
-size to see where the extra time gets spent?
-
-        Arnd
+Kind regards,
+Nicolas
