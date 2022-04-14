@@ -2,126 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 273C85009FE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 11:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23AB4500A15
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 11:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241856AbiDNJiJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Apr 2022 05:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35376 "EHLO
+        id S232930AbiDNJod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Apr 2022 05:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241846AbiDNJiI (ORCPT
+        with ESMTP id S231321AbiDNJoc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Apr 2022 05:38:08 -0400
+        Thu, 14 Apr 2022 05:44:32 -0400
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245FB21833;
-        Thu, 14 Apr 2022 02:35:44 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id CEAB221618;
-        Thu, 14 Apr 2022 09:35:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1649928942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8qDVaL2jPaWpmlSthq0L6C2U2xFcML4OEXNxlcThRDk=;
-        b=qISJ71ttkLKnBPgGjDPSWPE9eMdsa/ryOsdMWsGEtJd+WYe86gyK9G4PP47b3VNRD6k6jM
-        sSW95joWe4gnys3VAIaBc/1ofE1qze1O5zan16gAKEur4kqwkXq1E+HoQaCVjNOo3oZfkD
-        85UXosrtmIf2LgeOrq4Oh4jBIsBzLns=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0128718349;
+        Thu, 14 Apr 2022 02:42:09 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id ACA28A3B82;
-        Thu, 14 Apr 2022 09:35:42 +0000 (UTC)
-Date:   Thu, 14 Apr 2022 11:35:42 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v6 02/12] kbuild: Support for symbols.klp creation
-Message-ID: <Ylfq7t0uOP7gCPEO@alley>
-References: <20220216163940.228309-1-joe.lawrence@redhat.com>
- <20220216163940.228309-3-joe.lawrence@redhat.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B224921618;
+        Thu, 14 Apr 2022 09:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1649929327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xhIDvCKjfyFxJfvLw8YkmEsEs0zMe7xZBlVmf1UZvqc=;
+        b=nWYLi6h3qRmu62qtpkfGuq7ABIO9ie/jO+FTUGkmm2jz8vHj2w5rhlVyB4Le99PDWR3FC/
+        RUzqsC6LbAjMzixr+DI/wM3McEFQkzpDljVea2RcUjaNKr+ftoZgZRrKZQI8Avd9/JRoZE
+        qM8aKwrqcth6rMFZWvunRPL2AWwft88=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1649929327;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xhIDvCKjfyFxJfvLw8YkmEsEs0zMe7xZBlVmf1UZvqc=;
+        b=gxOv7XA1s08yF06K7CRDDLSNiIcGAhlG2Mj5R37M08QywYdcPKGr/+TsYZ3mzAACTPZ/PN
+        sbqcIijHZ0HTvIDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 852C513A86;
+        Thu, 14 Apr 2022 09:42:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id lI+HH2/sV2JoaQAAMHmgww
+        (envelope-from <jslaby@suse.cz>); Thu, 14 Apr 2022 09:42:07 +0000
+Message-ID: <ace87421-eefb-f4f6-307f-cd2990fb25eb@suse.cz>
+Date:   Thu, 14 Apr 2022 11:42:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220216163940.228309-3-joe.lawrence@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] scripts: dummy-tools, add pahole
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20220414091419.7654-1-jslaby@suse.cz>
+ <CAK7LNATn2QrFn0fTixnbtZ-VOtWid2PvFKPmjfX+z_UtZgTMgA@mail.gmail.com>
+From:   Jiri Slaby <jslaby@suse.cz>
+In-Reply-To: <CAK7LNATn2QrFn0fTixnbtZ-VOtWid2PvFKPmjfX+z_UtZgTMgA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed 2022-02-16 11:39:30, Joe Lawrence wrote:
-> From: Joao Moreira <jmoreira@suse.de>
+On 14. 04. 22, 11:33, Masahiro Yamada wrote:
+> On Thu, Apr 14, 2022 at 6:14 PM Jiri Slaby <jslaby@suse.cz> wrote:
+>>
+>> CONFIG_PAHOLE_VERSION is a part of a config since the commit below. And
+>> when multiple people update the config, this value constantly changes.
+>> Even if they use dummy scripts.
+>>
+>> To fix this:
+>> * add a pahole dummy script returning v99.99 -> 9999
+>> * call it in Makefile taking CROSS_COMPILE into account.
+>>
+>> The latter happens only if $(CROSS_COMPILE)pahole really exists. This is
+>> because a cross pahole likely exists only in dummy tools now, not in
+>> real cross tools.
 > 
-> For automatic resolution of livepatch relocations, a file called
-> symbols.klp is used. This file maps symbols within every compiled kernel
-> object allowing the identification of symbols whose name is unique, thus
-> relocation can be automatically inferred, or providing information that
-> helps developers when code annotation is required for solving the
-> matter.
 > 
-> Add support for creating symbols.klp in the main Makefile. First, ensure
-> that built-in is compiled when CONFIG_LIVEPATCH is enabled (as required
-> to achieve a complete symbols.klp file). Define the command to build
-> symbols.klp (cmd_klp_map) and hook it in the modules rule.
+> I do not think this is the right thing to do.
 > 
-> As it is undesirable to have symbols from livepatch objects inside
-> symbols.klp, make livepatches discernible by modifying
-> scripts/Makefile.build to create a .livepatch file for each livepatch in
-> $(MODVERDIR). This file then used by cmd_klp_map to identify and bypass
-> livepatches.
->
-> For identifying livepatches during the build process, a flag variable
-> LIVEPATCH_$(basetarget).o is considered in scripts/Makefile.build. This
-> way, set this flag for the livepatch sample Makefile in
-> samples/livepatch/Makefile.
+> (As I said somewhere, I am opposed to checking pahole version in Kconfig).
 
-I do not see the related code in scripts/Makefile.build.
+If you ask me, I am all for removal as this causes pain. But it's there, 
+so I cannot do anything about that.
 
-> Finally, Add a clean rule to ensure that symbols.klp is removed during
-> clean.
+> Also, $(CROSS_COMPILE)pahole looks insane.
 > 
-> Notes:
+> You can create a dummy pahole in your local system.
 > 
-> To achieve a correct symbols.klp file, all kernel objects must be
-> considered, thus, its construction require these objects to be priorly
-> built. On the other hand, invoking scripts/Makefile.modpost without
-> having a complete symbols.klp in place would occasionally lead to
-> in-tree livepatches being post-processed incorrectly.
+> $ echo 'echo v99.99' > $HOME/bin/dummy-pahole
+> $ chmod +x  $HOME/bin/dummy-pahole
+> $ make CROSS_COMPILE=scripts/dummy-tools  PAHOLE=dummy-pahole  menuconfig
 
-Honestly, I do not understand what it exactly means that "in-tree
-livepatches would occasionally be post-processed incorrectly".
+Well, the question is how do I that for every kernel developer in SUSE?
 
-Is it the problem that modpost is not able to handle the unresolved
-symbols that have to be updated by klp-convert?
-
-> To prevent this
-> from becoming a circular dependency, the construction of symbols.klp
-> uses non-post-processed kernel objects and such does not cause harm as
-> the symbols normally referenced from within livepatches are visible at
-> this stage. Also due to these requirements, the spot in-between modules
-> compilation and the invocation of scripts/Makefile.modpost was picked
-> for hooking cmd_klp_map.
-> 
-> The approach based on .livepatch files was proposed as an alternative to
-> using MODULE_INFO statements. This approach was originally proposed by
-> Miroslav Benes as a workaround for identifying livepathes without
-> depending on modinfo during the modpost stage. It was moved to this
-> patch as the approach also shown to be useful while building
-> symbols.klp.
-
-All the tricky code is removed in the 5th patch. My understanding is
-that the problem causing the cyclic dependency is solved by modifying
-modpost.
-
-It looks like this patch is outdated and mostly obsoleted. On the
-other hand, the commit message in 5th patch is too short.
-
-What about merging the two patches and updating the commit message?
-
-Best Regards,
-Petr
+thanks,
+-- 
+js
+suse labs
