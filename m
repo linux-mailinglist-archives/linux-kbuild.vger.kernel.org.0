@@ -2,84 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 211DC5003A0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 03:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6905C5008BC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Apr 2022 10:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234861AbiDNB1u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Apr 2022 21:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58554 "EHLO
+        id S235489AbiDNIxJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Apr 2022 04:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239488AbiDNB1o (ORCPT
+        with ESMTP id S241153AbiDNIwu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Apr 2022 21:27:44 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78F224BC2;
-        Wed, 13 Apr 2022 18:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=HXx6rYkI3GUyiug6Zr/czunsgd9I1Y4p0thwJCUsgGg=; b=pN2p/A5bjZtmbORFj5YdUpdlm6
-        8qULReEUe7+5rc0asKPqy2rTYpsPkNtwUqmUBjSMeM45ZtJY7E+0DoSxiRn1rXmJq9ajC//OXje0m
-        EP6iLedYIC1gZUSy8Ives4j8mKq96Ncij176MeU+diN18QwrBKNxjIwfaofincjoh4wEo64ann9yj
-        3UiO5eiq6OEO70dVm2Uy325DQgKK4fmebMY8Vip8O4pyMCi770LJowD/bUmWyzpUwLVdIB4jaHVv1
-        /MVCja7XvoF1Q5ouq8hYwODNDi0jKCZCtDcu1A0XO9oLYgH+tBOMlkAfVQWYIwr6I2fNl9mAgm7oH
-        5tJcx+QA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1neoE6-004qgd-3C; Thu, 14 Apr 2022 01:24:51 +0000
-Message-ID: <787eefd6-1478-b83c-be60-2e71d65ca41c@infradead.org>
-Date:   Wed, 13 Apr 2022 18:24:45 -0700
+        Thu, 14 Apr 2022 04:52:50 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA8E3ED35;
+        Thu, 14 Apr 2022 01:50:26 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 9B7461F746;
+        Thu, 14 Apr 2022 08:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1649926225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XxfuG/w8wazXndKDtI84HuuhaGnd2O75E0snozQKqmw=;
+        b=iz08PdaSiF0q8xS9gHtDXbKt2+Cg2/r7HqDgFIICsQQiDZILaWd0JJv5xY+B7tkb8baXaj
+        d/g4alheoIDrplBYmTpAMVYwdxU4se5s9Lg/RqnKsPM6gHipvoqrCizQoFCzlTSnKSUakj
+        bSSd1i86UcwPu8DuSbq1h6F4shixvBs=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 7AB43A3B88;
+        Thu, 14 Apr 2022 08:50:25 +0000 (UTC)
+Date:   Thu, 14 Apr 2022 10:50:24 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v6 01/12] livepatch: Create and include UAPI headers
+Message-ID: <YlfgUNDQsYw8+ksC@alley>
+References: <20220216163940.228309-1-joe.lawrence@redhat.com>
+ <20220216163940.228309-2-joe.lawrence@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 -next] scripts: add compare-config utility
-Content-Language: en-US
-To:     Chen Lifu <chenlifu@huawei.com>, masahiroy@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220413092331.203284-1-chenlifu@huawei.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220413092331.203284-1-chenlifu@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216163940.228309-2-joe.lawrence@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 4/13/22 02:23, Chen Lifu wrote:
-> This is an alternative utility to compare two .config files. Unlike
-> existing utilities "diffconfig" in the kernel tree, it prints detailed
-> results in table style, and support config name prefix so that it can be
-> used elsewhere. It is useful sometimes, for example, to analyze .config
-> files through tables, or to compare Buildroot .config.
+On Wed 2022-02-16 11:39:29, Joe Lawrence wrote:
+> From: Josh Poimboeuf <jpoimboe@redhat.com>
 > 
-> With grep and awk, it can print similar results like "diffconfg" as well.
+> Define klp prefixes in include/uapi/linux/livepatch.h, and use them for
+> replacing hard-coded values in kernel/livepatch/core.c.
 > 
-> Signed-off-by: Chen Lifu <chenlifu@huawei.com>
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
-> Changes in v3:
-> - Add -D option, a combination of -C -O -N, and set it as default mode
+> Update MAINTAINERS.
 > 
-> Changes in v2:
-> - Add config name prefix support
+> Note: Add defines to uapi as these are also to be used by a newly
+> introduced klp-convert script.
 > 
->  scripts/compare-config | 203 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 203 insertions(+)
->  create mode 100755 scripts/compare-config
+> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+> Signed-off-by: Joao Moreira <jmoreira@suse.de>
+> Signed-off-by: Joe Lawrence <joe.lawrence@redhat.com>
 
+Looks straightforward:
 
--- 
-~Randy
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+
+Best Regards,
+Petr
