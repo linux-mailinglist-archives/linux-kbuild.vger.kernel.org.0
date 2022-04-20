@@ -2,59 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FAD8508D24
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Apr 2022 18:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDB8508DF0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Apr 2022 19:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380513AbiDTQZj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Apr 2022 12:25:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
+        id S231803AbiDTRG0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Apr 2022 13:06:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380384AbiDTQZh (ORCPT
+        with ESMTP id S1380847AbiDTRGX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Apr 2022 12:25:37 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B027A39B99;
-        Wed, 20 Apr 2022 09:22:50 -0700 (PDT)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 23KGMccr017946;
-        Thu, 21 Apr 2022 01:22:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 23KGMccr017946
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650471759;
-        bh=g1D7GXEz3zPiKR6ViztNpGgyzc3O/TLrapN2L8mCzMc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PlXVhddlRZHS7g51tQ+BfT48O30S5ckKf2dyGoE9XPGqopjqbQbwBSmonw+LOZVMY
-         JPfbNYurcmLVb1kSBU0sGPO7oD9NGvcVM4kaXbgD5oTRUSmUTzfqOe/x2DPnw7tlYc
-         TuhZf4ycC20c8u8FYY1O7sauZfN0cHSQM61heYFOxhS0jR8Mb10c7wNi4EFH0xx7az
-         6wFd9Kc4ARi5EhJskbGv3xu62DiOUptmrsVCFvgeIB6a8b0HY99aDzrxZDyAIvCUmP
-         9a/FrpLKZ16J09jX7puGORzTPCsgfEca23uDpdGFvj45dkNKNtKaR+QZtpHmycAhLm
-         Hn8qpqT9+/FSg==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id n33-20020a17090a5aa400b001d28f5ee3f9so2477514pji.4;
-        Wed, 20 Apr 2022 09:22:38 -0700 (PDT)
-X-Gm-Message-State: AOAM531guYGUZZVDfUlNcNraT4SY4gdLlgzgdL/599M8fI8m9rOMJDkz
-        ljO8CiQMUFONZuehtGaSEdrLLT0Gu5SenrPCKvM=
-X-Google-Smtp-Source: ABdhPJxm+6uKlQArnmwWK1to0XFTv3Hj9dLecMwfdgMqj/wvAfg90qkdUljRa/Aqd8G195TpJa7TqkAyVer/swDSKAQ=
-X-Received: by 2002:a17:90a:de87:b0:1cb:b207:a729 with SMTP id
- n7-20020a17090ade8700b001cbb207a729mr5401383pjv.144.1650471757865; Wed, 20
- Apr 2022 09:22:37 -0700 (PDT)
+        Wed, 20 Apr 2022 13:06:23 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F12445ACD
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Apr 2022 10:03:33 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id g19so4128819lfv.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Apr 2022 10:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i7zb1xdIGcft5KjuxIXD0kd0kTQrpdi1VZ2GPgmEzCU=;
+        b=AHchmSeXuHzXFDUaDgShvRCai8mLpYZHd/Imhy9PfmG7BoVBOFGjipRXP1uF0PSBu6
+         +54jbccrghzcIdzQMoEUsausJaWugrfKGRAgqmHVK77pgSOXgRFd8rl87rCOJMHNUYvp
+         weMtyfTg9hhExJqY3sS5LVAibtl2kSY1IVE9mwZctXAwtwgD24INRV8g/jlbv+uV9EOp
+         u0mYeOprHb5d4xEtf7XTaZnpfnH/1cz/5szBV8GyfTh5I+eCd8Fpop1l5bEwhBfNidWS
+         HTJvmKlKPbh33QUS075nUcrTqtb8fV4c6JtOmswU+v2IrbPGHiaomec5GkeHp4S5gPaB
+         eBhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i7zb1xdIGcft5KjuxIXD0kd0kTQrpdi1VZ2GPgmEzCU=;
+        b=MdaZDtbqfkJDshPeLWwYZTzCqCY2jSfJaNRCXeNf5AgFIcgvuJYX6ILfXU4Pi170+7
+         241QNBTzBXUEcOvW7bArjUIRtzXD2ymMuAfYSxhntc56HdKsDm55WF37dJmqha28GFfx
+         00Aau2tql6tFKjA80giFjGHYQkgj1Qtpqo0n56/bOtiFb097IbzGtxpLETcImVvVHuXw
+         dGJvsOo2KzXkFA5D9h/tfVDq4DtWroeOuy8wZgOpo810R9SyTITHOkSpf4fuY3krEwKr
+         YxhmeHwPHCzHZettOUT00vGFv34+cxytCKhaDNiIRvci7BkrwAZIQkyOYlCaCzSqYocQ
+         EInw==
+X-Gm-Message-State: AOAM5328nG6bCM886Zm42oZ/9rHLiiKU+AW721hZAKnS+E32f6G1Q84f
+        1TvbM9M+bUbHr9Lnv6xAf+1I4Akf9CA0c3zErrJQyw==
+X-Google-Smtp-Source: ABdhPJwlL+rR/JdeNcR55WjSnzsYjxZvuzSa6/v0HYURltBvwerT1CbZDnju2U8/G0YnGAawsSrS4iJrm5RlpNhKR+A=
+X-Received: by 2002:a05:6512:1293:b0:471:a1bb:d55d with SMTP id
+ u19-20020a056512129300b00471a1bbd55dmr8469599lfs.190.1650474209797; Wed, 20
+ Apr 2022 10:03:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1422803720-14723-1-git-send-email-ydroneaud@opteya.com> <20220408084607.106468-1-ydroneaud@opteya.com>
-In-Reply-To: <20220408084607.106468-1-ydroneaud@opteya.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 21 Apr 2022 01:21:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARk+mpdQhHnQP8pKf8oAqVVkZaQ+cckdRosFCv_SsHP5Q@mail.gmail.com>
-Message-ID: <CAK7LNARk+mpdQhHnQP8pKf8oAqVVkZaQ+cckdRosFCv_SsHP5Q@mail.gmail.com>
-Subject: Re: [PATCHv1] kbuild: support W=e to make build abort in case of warning
-To:     Yann Droneaud <ydroneaud@opteya.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+References: <7fad83ecde03540e65677959034315f8fbb3755e.1649434832.git.jpoimboe@redhat.com>
+ <CAK7LNARvFcQgEB1b0L6giwx0vD7wU9L-OZ5jvm1c5+StLjeOYQ@mail.gmail.com> <20220409004821.tcztejr2cgsieqaq@treble>
+In-Reply-To: <20220409004821.tcztejr2cgsieqaq@treble>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 20 Apr 2022 10:03:18 -0700
+Message-ID: <CAKwvOdmfUDZPyhtF5fvdKy7i-qRKB7Bmq80DhP0F=yarG+rnpw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Remove CONFIG_DEBUG_SECTION_MISMATCH
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>, X86 ML <x86@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Changbin Du <changbin.du@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,83 +74,122 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 8, 2022 at 5:46 PM Yann Droneaud <ydroneaud@opteya.com> wrote:
+On Fri, Apr 8, 2022 at 5:48 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
 >
-> When developing new code/feature, CONFIG_WERROR is most
-> often turned off, especially for people using make W=12 to
-> get more warnings.
+> On Sat, Apr 09, 2022 at 03:29:21AM +0900, Masahiro Yamada wrote:
+> > > But with -O2, once-called static functions are almost always inlined, so
+> >
+> > "always inlined" per GCC manual.
+> >  -O2, -O3, -O3 enables  -finline-functions-called-once
 >
-> In such case, turning on -Werror temporarily would require
-> switching on CONFIG_WERROR in the configuration, building,
-> then switching off CONFIG_WERROR.
+> Not necessarily.  The manual also says:
 >
-> For this use case, this patch introduces a new 'e' modifier
-> to W= as a short hand for KCFLAGS+=-Werror" so that -Werror
-> got added to the kernel (built-in) and modules' CFLAGS.
+>        -finline-functions-called-once
+>            Consider all "static" functions called once for inlining into
+>            their caller even if they are not marked "inline".  If a call
+>            to a given function is integrated, then the function is not
+>            output as assembler code in its own right.
 >
-> Signed-off-by: Yann Droneaud <ydroneaud@opteya.com>
-> ---
+> So it "considers" inlining them, but it doesn't guarantee it.  And when
+> I looked at the GCC code some months ago I remember seeing a few edge
+> cases where it would inline.
+>
+> > > its usefulness for rooting out mismatch warnings on other configs is
+> > > somewhere between extremely limited and non-existent.  And nowadays we
+> > > have build bots everywhere doing randconfigs continuously, which are
+> > > great for rooting out such edge cases.
+> > >
+> > > Somewhat ironically, the existence of those build bots means we get a
+> > > lot of unrealistic objtool warnings being reported, due to unrealistic
+> > > inlines caused by CONFIG_DEBUG_SECTION_MISMATCH, where the only way to
+> > > silence the warnings is to force a single-called function to be inlined
+> > > with '__always_inline'.
+> > >
+> > > So the limited, hypothetical benefit of "rooting out configs with
+> > > section mismatches" is outweighed by the very real downside of "adding
+> > > lots of unnecessary '__always_inline' annotations".
+> >
+> >
+> > I am confused with the description because
+> > you are talking about two different warnings.
+> >
+> > [1]  modpost warning  (section mismatch)
+> > [2]  objtool warnings
+>
+> It's all a bit confusing.
+>
+> To clarify: in theory, the point of CONFIG_DEBUG_SECTION_MISMATCH was to
+> trigger more *modpost* warnings.  (It may do that, but the extra
+> warnings are probably not realistic.  And even if they were realistic on
+> some configs, they would be found by modpost warnings on those configs
+> found by build bots.)
+>
+> But CONFIG_DEBUG_SECTION_MISMATCH is also triggering more *objtool*
+> warnings, which is a problem because the warnings are not realistic...
+>
+> > For [1], you can add __init marker to the callers,
+> > and that is the right thing to do.
+>
+> Yes, either add __init to the caller or remove __init from the callee.
+>
+> But even if such "inlined single caller" modpost warnings correspond to
+> real world configs (which is very questionable) then we'd expect them to
+> show up in real-world randconfig bot testing, without having the need
+> for CONFIG_DEBUG_SECTION_MISMATCH to root out the rare edge cases.
+>
+> > Is [2] caused by dead code that was not optimized out
+> > due to the unusual inlining decisions by the compiler ?
+>
+> As Peter mentioned it was due to validation of SMAP uaccess rules.
+>
+> > If the issues are all about objtool,
+> > "depends on !STACK_VALIDATION" might be
+> > an alternative approach?
+> >
+> > config DEBUG_SECTION_MISMATCH
+> >            bool "Enable full Section mismatch analysis"
+> >            depends on CC_IS_GCC
+> >            depends on !STACK_VALIDATION        # do not confuse objtool
+>
+> Yes, that would be another way to handle it.  Though that means the
+> option would effectively be dead on x86-64.
 
+Does this series help (or is it related to this thread)?
+https://lore.kernel.org/lkml/cover.1650300597.git.jpoimboe@redhat.com/
+Patch 17/25 seems to make STACK_VALIDATION unwinder-dependent (on
+CONFIG_UNWINDER_FRAME_POINTER)?
 
-Applied to linux-kbuild.
-Thanks.
-
->  Makefile                   |  1 +
->  scripts/Makefile.extrawarn | 13 +++++++++++--
->  2 files changed, 12 insertions(+), 2 deletions(-)
 >
-> Changes since v0[0]:
+> > Now that -Og was already rejected, the possible flag for building the kernel is
+> > -O2, O3, -Os.
+> > All of them enable -finline-functions-called-once.
+> >
+> > So, there is no practical case for -fno-inline-functions-called-once
+> > unless we explicitly enable it.
 >
->  - rebase on top of commit 64a91907c896 ("kbuild: refactor scripts/Makefile.extrawarn")
->  - document use case after commit 3fe617ccafd6 ("Enable '-Werror' by default for all kernel builds")
+> Agreed.
 >
-> [0] https://lore.kernel.org/all/1422803720-14723-1-git-send-email-ydroneaud@opteya.com/
+> > I am OK with this patch, I am still wondering if this could be useful
+> > to detect missing __init markers.
 >
-> diff --git a/Makefile b/Makefile
-> index 8c7de9a72ea2..6dc621af18d1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1649,6 +1649,7 @@ help:
->         @echo  '                1: warnings which may be relevant and do not occur too often'
->         @echo  '                2: warnings which occur quite often but may still be relevant'
->         @echo  '                3: more obscure warnings, can most likely be ignored'
-> +       @echo  '                e: warnings are being treated as errors'
->         @echo  '                Multiple levels can be combined with W=12 or W=123'
->         @echo  ''
->         @echo  'Execute "make" or "make all" to build all targets marked with [*] '
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 650d0b8ceec3..f5f0d6f09053 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -2,8 +2,8 @@
->  # ==========================================================================
->  # make W=... settings
->  #
-> -# There are three warning groups enabled by W=1, W=2, W=3.
-> -# They are independent, and can be combined like W=12 or W=123.
-> +# There are four warning groups enabled by W=1, W=2, W=3, and W=e
-> +# They are independent, and can be combined like W=12 or W=123e.
->  # ==========================================================================
+> So there's two ways to look at this question: at a source level and at a
+> binary level.
 >
->  KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
-> @@ -94,3 +94,12 @@ KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
->  KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
+> At a source level, if there's a non-init function which inlines a
+> single-called __init function, and modpost doesn't notice it (because
+> the __init function doesn't access any __init symbols), then the __init
+> function wrongly has the __init annotation.  But calling that a bug is
+> very questionable, because it's not a real bug in the binary.  IMO it's
+> not worth worrying about, when we have real bugs to fix.
 >
->  endif
-> +
-> +#
-> +# W=e - error out on warnings
-> +#
-> +ifneq ($(findstring e, $(KBUILD_EXTRA_WARN)),)
-> +
-> +KBUILD_CFLAGS += -Werror
-> +
-> +endif
+> At a binary level, if there's a real section mismatch bug with a given
+> config, modpost will warn about it.  This option doesn't affect that.
+>
 > --
-> 2.32.0
+> Josh
 >
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
