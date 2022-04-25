@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BB1050E8AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 265F750E8F0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:56:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236675AbiDYSvb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51336 "EHLO
+        id S242978AbiDYS7g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 14:59:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244701AbiDYSv0 (ORCPT
+        with ESMTP id S244734AbiDYS7f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:51:26 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD6E88231A
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:48:13 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id c15so18972716ljr.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:48:13 -0700 (PDT)
+        Mon, 25 Apr 2022 14:59:35 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 985451229C8
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:56:30 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id g19so27891815lfv.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=97ircpnTlmecwY/7O+f+s+rA+JVviEWlUCrBMQWwcqc=;
-        b=LH4UVHiUiNGOVOcy7rAkGBU3Uqijf2xz8x8fGioIs4FMpDBYDJDYsxQ4gXJWDt8tfu
-         dwjmc/QpOAieK8jh5b7FvvuDCYeaq4DtbzxgIrRdc67VTCz9BySBqpmuxXCrZww5DB8w
-         XK6LIxQeNZSx+s4gqELNTw+jZfOl+Gk4bHKWi3OPz6cRDjIHy6lZF5V4dmEeOv7zoWi7
-         FRenu0w1vcqmdL2GmM6mWp6jrcGS3PjoT2HxJUb1vl4GL1Ejjij3xYg3bIJVV2LnhoTE
-         FcboLj+ify+UEdkej5pwo4FHilN2jpNz2s3FMrc/y8KpjeNdd6GYgNIfDUHKEziP3YW0
-         K95Q==
+        bh=Jyx9VAg/T+a6pNMMHSmxlNhkA8BQhETmaaAMOL1rXa4=;
+        b=tMZZ4zxj/dpWyU3rAZ+bHBaebx7EadCioxFOZg3u5Qd1IYmurkN6KMIasZpgF+4q1U
+         sEQrPMz2QE88U9mUTYSZMfkE4M1jbkZaSsQYjBlhRflcU4+02VligPLY/L4k16twt00q
+         0nTEO0hLBY6CwhOoYNngs4tckWqXE8mt0UEepcOJonLUo4hmrPT0OcQnYUVN0tGbcKoN
+         j4r9JAOEEmStoAOjEw8TjyKStjfoPjm8mT44GSDSfzj8C861Iqyqx8KmM+/dLFxQ1WUV
+         tmwR8a2SUscwFpNZnFjuuCASZW7m3DrSvYl2mQrNqiDIqLBOfmUBvOqjBODYpfVUj7jm
+         1I1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=97ircpnTlmecwY/7O+f+s+rA+JVviEWlUCrBMQWwcqc=;
-        b=67OrC1WsZ6uOGfQB89x5rUzPgL+gP8Gbkt3t7GPkJy1vc30MdIowxWMl86DeI1+2Ae
-         Mv38T4azXCLjVQlJ2Xb6CKDB4DgmXQhqT9SBmuqRSR+y6alRUg/RyQQ5ae27WSmL7LIl
-         jtuOwxTNxvSizYj+Gwnd2zsLfjYesN9GnHh2SmwzAh2xiPOeqHT+F0okXNcG1eaOcukC
-         GJ2ysO+cgs4VBQhtqCbt1sJIn3pk/aZguLFJFQs3rnbyfhknK2746fR5zr9eBTE3j07o
-         hD5ICJuNBDwPEXMMsuOW6Z7TNUYF4NXc81SYwkxyNPepTiiHUBpEqPga9CCx37EiBFph
-         H74A==
-X-Gm-Message-State: AOAM533zd5ubGDw9e8gb9jrL6kv4tleUaaAapqHkxxdbD6zVbb5H9J5X
-        vZd/18qBAWcXJG252YUqL1BF+uxEne/TQKrPKTUGTBZbeJo=
-X-Google-Smtp-Source: ABdhPJxRXmciVkJZwv+akqFKplpsCGdSmQLA0b/s/4YsRcp1++XrM7F1dp5IgDYIENLS8+9Tz0OajwOk7Oy9xPvk5bg=
-X-Received: by 2002:a05:651c:553:b0:24f:18c1:d2a1 with SMTP id
- q19-20020a05651c055300b0024f18c1d2a1mr472938ljp.239.1650912491821; Mon, 25
- Apr 2022 11:48:11 -0700 (PDT)
+        bh=Jyx9VAg/T+a6pNMMHSmxlNhkA8BQhETmaaAMOL1rXa4=;
+        b=1/w+H2zdElUZfXmGlCw1zyVGUdg07aL2q0sMWxGsoojPuH3l4dtgsm4gedaZnoCiMb
+         xH/3Izf1IVeH9IhQhMf3tO+nKVRpvktpeztY0DgwZ+u3DJZijibVo0PsvOhILKG/5w8s
+         eu/+Qmf7h2ZaXdZ+xomBVoSVCBEfiBgLy1LGI8yRt3J6iYRrEPv9LNSIlMjGnO9QiR65
+         eoLAFmKvq4a3jKT7i3xp/MeL/aDHwd4bzpYw4ujgPKPBPv/48mH4hWQ3HJTPJeNhQ6c7
+         HR1D1ovVQjQQ/orGNmuFO8nWm78PyBOLpiMHPC2AHY/HVtGiF2iQ8MlykS8LPTz5Ce5W
+         dUTg==
+X-Gm-Message-State: AOAM5321BiexrQx9aPuMl3nH+HVZoC8hvjrgHGQYRGBeINZx6wPri+eN
+        Zg1tHiLpOpA1dbZsCQPC/S3oCRuPp3+S/7b3mHS8KQ==
+X-Google-Smtp-Source: ABdhPJwkk9WfalacarRaRB/KsFrIqj7GGz2BZSMlaebEITrcDACJMvRtAXqr5dD4RghjVmzivFfFVQPqB6LoZOyJS7g=
+X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id
+ s6-20020ac24646000000b00472108e51afmr1773669lfo.184.1650912988676; Mon, 25
+ Apr 2022 11:56:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-17-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-17-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org>
+ <20220424190811.1678416-7-masahiroy@kernel.org> <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
+In-Reply-To: <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:48:00 -0700
-Message-ID: <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
-Subject: Re: [PATCH 16/27] modpost: make multiple export error
+Date:   Mon, 25 Apr 2022 11:56:17 -0700
+Message-ID: <CAKwvOdmeOYsBGSZrprdtoxcUmpy1oscnBfLUaSARPNKsH4Aeug@mail.gmail.com>
+Subject: Re: [PATCH 06/27] modpost: use bool type where appropriate
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -59,7 +60,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,51 +68,41 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Apr 25, 2022 at 11:34 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> This is currently a warning, but I think modpost should stop building
-> in this case.
->
-> If the same symbol is exported multiple times and we let it keep going,
-> the sanity check becomes difficult.
->
-> Only the legitimate case is that an external module overrides the
-> corresponding in-tree module to provide a different implementation
-> with the same interface.
+> /On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 60 +++++++++++++++++++++----------------------
+> >  scripts/mod/modpost.h | 10 ++++----
+> >  2 files changed, 35 insertions(+), 35 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index f9cbb6b6b7a5..52dd07a36379 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -203,10 +203,10 @@ struct symbol {
+> >         struct symbol *next;
+> >         struct module *module;
+> >         unsigned int crc;
+> > -       int crc_valid;
+> > +       bool crc_valid;
+> >         char *namespace;
+> > -       unsigned int weak:1;
+> > -       unsigned int is_static:1;  /* 1 if symbol is not global */
+> > +       bool weak;
+> > +       bool is_static;         /* true if symbol is not global */
+> >         enum export  export;       /* Type of export */
+> >         char name[];
+> >  };
 
-Could the same module export a weak version of a symbol, and a strong one?
-
-Can kernel modules override in-kernel strong symbols?
-
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/mod/modpost.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 14044cd94aaa..73f0b98e3b5a 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -411,9 +411,9 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
->                 list_add_tail(&s->list, &mod->exported_symbols);
->         } else if (!external_module || s->module->is_vmlinux ||
->                    s->module == mod) {
-> -               warn("%s: '%s' exported twice. Previous export was in %s%s\n",
-> -                    mod->name, name, s->module->name,
-> -                    s->module->is_vmlinux ? "" : ".ko");
-> +               error("%s: '%s' exported twice. Previous export was in %s%s\n",
-> +                     mod->name, name, s->module->name,
-> +                     s->module->is_vmlinux ? "" : ".ko");
->                 return s;
->         }
->
-> --
-> 2.32.0
->
-
-
+This will change the sizeof(struct symbol).  I'm guessing we have lots
+of symbols to process? If we have many live at once, perhaps it would
+be better to keep these as bitfields, but additionally move them to
+the end of the struct definition so as to save space?
 -- 
 Thanks,
 ~Nick Desaulniers
