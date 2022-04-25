@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED9350E877
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443F650E87C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:45:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244487AbiDYSpl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:45:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
+        id S244505AbiDYSsK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 14:48:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244486AbiDYSpk (ORCPT
+        with ESMTP id S244498AbiDYSsG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:45:40 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EAB53E0B
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:42:35 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id l19so6364992ljb.7
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:42:35 -0700 (PDT)
+        Mon, 25 Apr 2022 14:48:06 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841F718A
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:45:01 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id w19so27792606lfu.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:45:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TirRwgljTb63OydsOJ9R6RLPJiUK3wHHOhwLNel8FTw=;
-        b=EEgsvBUfwpFzXZbRjVtvOtLasuyx2i9KStoUbH4fHv0F4KSBI+Ldm68Gt6oo+Dtcas
-         xzBvDMLJCNUGP+LMe1ZLXN8aILpXzCjA7DZGfSuYM502Okb96ZLq7hhMuyn1s6eahI74
-         s9WVa6MINSUHXv9R9zIDszxpK9xMnNLDxn+f1rcIk4ri5MQ+ykyu0YMhsPKy+8z3H4b5
-         LS9lsCvd2DSEdfjB8OO/CB6HYITJt5lh9h4yoj5RTtwQ9WQ78GQauzm13bIHoAZgmmzo
-         jw0WqcE9WAXR5SyF4i0SYQi6GhzcdDbqYCThsXr6wUKi4Bm3d8xDoacxMAu3ZHrV6fUQ
-         F0fA==
+        bh=rPYT150/TgDCQnQi6RAX3N2BAWKYB/YL6OZrjYbF8qs=;
+        b=PzhYBMGk3KmW7fU21XlBba4klpEtyP9pF/8aiI74Vtl/bASHLfyHVC9RublvjZ76Nj
+         EJshZ4vUTZvh/bzH5PDwDsmigevSQK7xIf/Dy+mfP9KxgNfvRYY4/pSMSVJmGXsAOgGT
+         YtPa9FmCbtqWn3Zx84Vmhd0KWeXeEnm7mRfn9N8wh4qm2K6uWiQg6aw3QFz5MxYMdbWv
+         dnafjlHZoCDFG06v2E51q6G5bIKpHZMJH4goSsrv4c9xX8Yf6Aj9+ZhyJIMzO5Vi2Gtj
+         rqRcw35Zu4ClXT7FQwugzuTpDOV9CiMaDP++5kS1fdYNXkZ0OFeycRxLTux+ix2DVDuV
+         /rCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TirRwgljTb63OydsOJ9R6RLPJiUK3wHHOhwLNel8FTw=;
-        b=DQfcschyeJIdT/6+M/EMk7htWXfyodNRRdZUyZYTptenG2/lyi0d4a8YQeMbeStETU
-         fMYLAoFn70bUme8AGB9d5DcYhjr61gtG6u9zQWNTEgWxummhCbow7wM9VOWUW7AY02Ov
-         jVdAO74PDirfFAkNkF0qEuzVuQadrAMnTmPxKQJknYioNzoV5WFc6Hh0ar9v/LLuUIuk
-         C+6tQ+kqSkWIUrn0KcB3yX7AjvJM5Pa58tr6iWcvZpdxLhBjQyUxeZRGrdoCgRpSzzEh
-         OydWC1JTi37jYSmmSwUPsZj+TKp/UQ2LxFN7mL5Yza0IX4fqi8Ap9Kptz/Sbj8HWlOqC
-         lLhA==
-X-Gm-Message-State: AOAM532iLL0X5bkzxkIh5hPDeYzso0jVXllCTMtE8QRPkbLF+k1heb97
-        MMI4oEl4TC1TOw08aEAufXG+prPJ0UGEXJqpS8omYcD7MBM=
-X-Google-Smtp-Source: ABdhPJwsCQvnsTBZgV2Kk2hGpCXcIOtUqcgAFZqJQNwX6Bnx0R7oobBI07BZKO5IkiRo/OvDHd0y6hcBI5tA8eLmkZU=
-X-Received: by 2002:a2e:9ec4:0:b0:24b:115c:aedb with SMTP id
- h4-20020a2e9ec4000000b0024b115caedbmr11671679ljk.235.1650912153025; Mon, 25
- Apr 2022 11:42:33 -0700 (PDT)
+        bh=rPYT150/TgDCQnQi6RAX3N2BAWKYB/YL6OZrjYbF8qs=;
+        b=EgqoES2KBMwUewVWA3uqfF3VPFfL53IMrwVwQYuvf4AVazCpa33/ihN6smsyeIy/fe
+         AETa0zEcOQQgy7A9JVYN0iU7jBZf9LW1o9fTJrf0e5PYGoM5hqrGk5nX6B2EICy3UuZo
+         jHnht2VF+RvHUwAHL0/adM0PF20co8ige/TZjQL/9IufDoUPny7XelzsIU/MTYQpjdaf
+         +J3niMUGWGJ1lynSZEurdeNpILtNcblmAvIH0I8UUtGVAz5Cgb02wTaEGuxk4Xf1IkCp
+         zPzmjNkeLvM5tvMPlXUxxx7QCHF/bvwV623pD+w2qqYxKNu5/niuL2V8N+m2A7Uqh/lO
+         hlcA==
+X-Gm-Message-State: AOAM5320u4hwAcHOP8NbaPXKuN/Omyf0omz8wKnkCkuhgnihk465O3aP
+        /UzNuhSaj1KrqA/JPwY1bajXlMF9K1v0bE5w8Yu4sg==
+X-Google-Smtp-Source: ABdhPJwjgTPoMpc+pBz6fYD1asL1ro/MpPg0IKB3kD8/kkVxYqrx0AlVFLe3aazNH9tSZKtztKmmuHjMoXyvT4rmG+w=
+X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id
+ s6-20020ac24646000000b00472108e51afmr1740247lfo.184.1650912299561; Mon, 25
+ Apr 2022 11:44:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-8-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-8-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-13-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-13-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:42:21 -0700
-Message-ID: <CAKwvOd=2pYsUZkvK-d97xC749mCs1QUUc68BfZdTR1diz52Hww@mail.gmail.com>
-Subject: Re: [PATCH 07/27] modpost: import include/linux/list.h
+Date:   Mon, 25 Apr 2022 11:44:48 -0700
+Message-ID: <CAKwvOd=DHNvJU_tNGNLEVTJQZVOTBB1Y1gpTRmz_=Qr-OBaEGw@mail.gmail.com>
+Subject: Re: [PATCH 12/27] modpost: move struct namespace_list to modpost.c
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,367 +69,61 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Import include/linux/list.h to use convenient list macros in modpost.
+> There is no good reason to define struct namespace_list in modpost.h
 >
-> I dropped kernel-space code such as {WRITE,READ}_ONCE etc. and unneeded
-> macros.
+> struct module has pointers to struct namespace_list, but that does
+> not require the definition of struct namespace_list.
 >
-> I also imported container_of() from include/linux/container_of.h and
-> type definitions from include/linux/types.h.
+> Move it to modpost.c.
 
-Is there a better way to just use the kernel headers? I kind of hate
-copy+paste since the in tree duplication will diverge over time.
+Looks like modpost.h is included in:
+- scripts/mod/sumversion.c
+- scripts/mod/file2alias.c
+- scripts/mod/modpost.c
+
+But indeed, only modpost.c uses struct namespace_list.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/mod/list.h | 336 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 336 insertions(+)
->  create mode 100644 scripts/mod/list.h
+>  scripts/mod/modpost.c | 5 +++++
+>  scripts/mod/modpost.h | 5 -----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/scripts/mod/list.h b/scripts/mod/list.h
-> new file mode 100644
-> index 000000000000..c87583a71714
-> --- /dev/null
-> +++ b/scripts/mod/list.h
-> @@ -0,0 +1,336 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef LIST_H
-> +#define LIST_H
-> +
-> +#include <stdbool.h>
-> +#include <stddef.h>
-> +
-> +/* Are two types/vars the same type (ignoring qualifiers)? */
-> +#define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-> +
-> +/**
-> + * container_of - cast a member of a structure out to the containing structure
-> + * @ptr:       the pointer to the member.
-> + * @type:      the type of the container struct this is embedded in.
-> + * @member:    the name of the member within the struct.
-> + *
-> + */
-> +#define container_of(ptr, type, member) ({                             \
-> +       void *__mptr = (void *)(ptr);                                   \
-> +       _Static_assert(__same_type(*(ptr), ((type *)0)->member) ||      \
-> +                     __same_type(*(ptr), void),                        \
-> +                     "pointer type mismatch in container_of()");       \
-> +       ((type *)(__mptr - offsetof(type, member))); })
-> +
-> +#define LIST_POISON1  ((void *) 0x100)
-> +#define LIST_POISON2  ((void *) 0x122)
-> +
-> +/*
-> + * Circular doubly linked list implementation.
-> + *
-> + * Some of the internal functions ("__xxx") are useful when
-> + * manipulating whole lists rather than single entries, as
-> + * sometimes we already know the next/prev entries and we can
-> + * generate better code by using them directly rather than
-> + * using the generic single-entry routines.
-> + */
-> +
-> +struct list_head {
-> +       struct list_head *next, *prev;
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 4c074d6c1721..6f2748340746 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -281,6 +281,11 @@ static struct symbol *find_symbol(const char *name)
+>         return NULL;
+>  }
+>
+> +struct namespace_list {
+> +       struct namespace_list *next;
+> +       char namespace[];
 > +};
 > +
-> +#define LIST_HEAD_INIT(name) { &(name), &(name) }
-> +
-> +#define LIST_HEAD(name) \
-> +       struct list_head name = LIST_HEAD_INIT(name)
-> +
-> +/**
-> + * INIT_LIST_HEAD - Initialize a list_head structure
-> + * @list: list_head structure to be initialized.
-> + *
-> + * Initializes the list_head to point to itself.  If it is a list header,
-> + * the result is an empty list.
-> + */
-> +static inline void INIT_LIST_HEAD(struct list_head *list)
-> +{
-> +       list->next = list;
-> +       list->prev = list;
-> +}
-> +
-> +/*
-> + * Insert a new entry between two known consecutive entries.
-> + *
-> + * This is only for internal list manipulation where we know
-> + * the prev/next entries already!
-> + */
-> +static inline void __list_add(struct list_head *new,
-> +                             struct list_head *prev,
-> +                             struct list_head *next)
-> +{
-> +       next->prev = new;
-> +       new->next = next;
-> +       new->prev = prev;
-> +       prev->next = new;
-> +}
-> +
-> +/**
-> + * list_add - add a new entry
-> + * @new: new entry to be added
-> + * @head: list head to add it after
-> + *
-> + * Insert a new entry after the specified head.
-> + * This is good for implementing stacks.
-> + */
-> +static inline void list_add(struct list_head *new, struct list_head *head)
-> +{
-> +       __list_add(new, head, head->next);
-> +}
-> +
-> +/**
-> + * list_add_tail - add a new entry
-> + * @new: new entry to be added
-> + * @head: list head to add it before
-> + *
-> + * Insert a new entry before the specified head.
-> + * This is useful for implementing queues.
-> + */
-> +static inline void list_add_tail(struct list_head *new, struct list_head *head)
-> +{
-> +       __list_add(new, head->prev, head);
-> +}
-> +
-> +/*
-> + * Delete a list entry by making the prev/next entries
-> + * point to each other.
-> + *
-> + * This is only for internal list manipulation where we know
-> + * the prev/next entries already!
-> + */
-> +static inline void __list_del(struct list_head *prev, struct list_head *next)
-> +{
-> +       next->prev = prev;
-> +       prev->next = next;
-> +}
-> +
-> +static inline void __list_del_entry(struct list_head *entry)
-> +{
-> +       __list_del(entry->prev, entry->next);
-> +}
-> +
-> +/**
-> + * list_del - deletes entry from list.
-> + * @entry: the element to delete from the list.
-> + * Note: list_empty() on entry does not return true after this, the entry is
-> + * in an undefined state.
-> + */
-> +static inline void list_del(struct list_head *entry)
-> +{
-> +       __list_del_entry(entry);
-> +       entry->next = LIST_POISON1;
-> +       entry->prev = LIST_POISON2;
-> +}
-> +
-> +/**
-> + * list_is_head - tests whether @list is the list @head
-> + * @list: the entry to test
-> + * @head: the head of the list
-> + */
-> +static inline int list_is_head(const struct list_head *list, const struct list_head *head)
-> +{
-> +       return list == head;
-> +}
-> +
-> +/**
-> + * list_empty - tests whether a list is empty
-> + * @head: the list to test.
-> + */
-> +static inline int list_empty(const struct list_head *head)
-> +{
-> +       return head->next == head;
-> +}
-> +
-> +/**
-> + * list_entry - get the struct for this entry
-> + * @ptr:       the &struct list_head pointer.
-> + * @type:      the type of the struct this is embedded in.
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_entry(ptr, type, member) \
-> +       container_of(ptr, type, member)
-> +
-> +/**
-> + * list_first_entry - get the first element from a list
-> + * @ptr:       the list head to take the element from.
-> + * @type:      the type of the struct this is embedded in.
-> + * @member:    the name of the list_head within the struct.
-> + *
-> + * Note, that list is expected to be not empty.
-> + */
-> +#define list_first_entry(ptr, type, member) \
-> +       list_entry((ptr)->next, type, member)
-> +
-> +/**
-> + * list_next_entry - get the next element in list
-> + * @pos:       the type * to cursor
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_next_entry(pos, member) \
-> +       list_entry((pos)->member.next, typeof(*(pos)), member)
-> +
-> +/**
-> + * list_entry_is_head - test if the entry points to the head of the list
-> + * @pos:       the type * to cursor
-> + * @head:      the head for your list.
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_entry_is_head(pos, head, member)                          \
-> +       (&pos->member == (head))
-> +
-> +/**
-> + * list_for_each_entry -       iterate over list of given type
-> + * @pos:       the type * to use as a loop cursor.
-> + * @head:      the head for your list.
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_for_each_entry(pos, head, member)                         \
-> +       for (pos = list_first_entry(head, typeof(*pos), member);        \
-> +            !list_entry_is_head(pos, head, member);                    \
-> +            pos = list_next_entry(pos, member))
-> +
-> +/**
-> + * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-> + * @pos:       the type * to use as a loop cursor.
-> + * @n:         another type * to use as temporary storage
-> + * @head:      the head for your list.
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_for_each_entry_safe(pos, n, head, member)                 \
-> +       for (pos = list_first_entry(head, typeof(*pos), member),        \
-> +               n = list_next_entry(pos, member);                       \
-> +            !list_entry_is_head(pos, head, member);                    \
-> +            pos = n, n = list_next_entry(n, member))
-> +
-> +/*
-> + * Double linked lists with a single pointer list head.
-> + * Mostly useful for hash tables where the two pointer list head is
-> + * too wasteful.
-> + * You lose the ability to access the tail in O(1).
-> + */
-> +
-> +struct hlist_head {
-> +       struct hlist_node *first;
-> +};
-> +
-> +struct hlist_node {
-> +       struct hlist_node *next, **pprev;
-> +};
-> +
-> +#define HLIST_HEAD_INIT { .first = NULL }
-> +#define HLIST_HEAD(name) struct hlist_head name = {  .first = NULL }
-> +#define INIT_HLIST_HEAD(ptr) ((ptr)->first = NULL)
-> +static inline void INIT_HLIST_NODE(struct hlist_node *h)
-> +{
-> +       h->next = NULL;
-> +       h->pprev = NULL;
-> +}
-> +
-> +/**
-> + * hlist_unhashed - Has node been removed from list and reinitialized?
-> + * @h: Node to be checked
-> + *
-> + * Not that not all removal functions will leave a node in unhashed
-> + * state.  For example, hlist_nulls_del_init_rcu() does leave the
-> + * node in unhashed state, but hlist_nulls_del() does not.
-> + */
-> +static inline int hlist_unhashed(const struct hlist_node *h)
-> +{
-> +       return !h->pprev;
-> +}
-> +
-> +static inline void __hlist_del(struct hlist_node *n)
-> +{
-> +       struct hlist_node *next = n->next;
-> +       struct hlist_node **pprev = n->pprev;
-> +
-> +       *pprev = next;
-> +       if (next)
-> +               next->pprev = pprev;
-> +}
-> +
-> +/**
-> + * hlist_del - Delete the specified hlist_node from its list
-> + * @n: Node to delete.
-> + *
-> + * Note that this function leaves the node in hashed state.  Use
-> + * hlist_del_init() or similar instead to unhash @n.
-> + */
-> +static inline void hlist_del(struct hlist_node *n)
-> +{
-> +       __hlist_del(n);
-> +       n->next = LIST_POISON1;
-> +       n->pprev = LIST_POISON2;
-> +}
-> +
-> +/**
-> + * hlist_del_init - Delete the specified hlist_node from its list and initialize
-> + * @n: Node to delete.
-> + *
-> + * Note that this function leaves the node in unhashed state.
-> + */
-> +static inline void hlist_del_init(struct hlist_node *n)
-> +{
-> +       if (!hlist_unhashed(n)) {
-> +               __hlist_del(n);
-> +               INIT_HLIST_NODE(n);
-> +       }
-> +}
-> +
-> +/**
-> + * hlist_add_head - add a new entry at the beginning of the hlist
-> + * @n: new entry to be added
-> + * @h: hlist head to add it after
-> + *
-> + * Insert a new entry after the specified head.
-> + * This is good for implementing stacks.
-> + */
-> +static inline void hlist_add_head(struct hlist_node *n, struct hlist_head *h)
-> +{
-> +       struct hlist_node *first = h->first;
-> +       n->next = first;
-> +       if (first)
-> +               first->pprev = &n->next;
-> +       h->first = n;
-> +       n->pprev = &h->first;
-> +}
-> +
-> +#define hlist_entry(ptr, type, member) container_of(ptr, type, member)
-> +
-> +#define hlist_entry_safe(ptr, type, member) \
-> +       ({ typeof(ptr) ____ptr = (ptr); \
-> +          ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-> +       })
-> +
-> +/**
-> + * hlist_for_each_entry        - iterate over list of given type
-> + * @pos:       the type * to use as a loop cursor.
-> + * @head:      the head for your list.
-> + * @member:    the name of the hlist_node within the struct.
-> + */
-> +#define hlist_for_each_entry(pos, head, member)                                \
-> +       for (pos = hlist_entry_safe((head)->first, typeof(*(pos)), member);\
-> +            pos;                                                       \
-> +            pos = hlist_entry_safe((pos)->member.next, typeof(*(pos)), member))
-> +
-> +/**
-> + * hlist_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-> + * @pos:       the type * to use as a loop cursor.
-> + * @n:         a &struct hlist_node to use as temporary storage
-> + * @head:      the head for your list.
-> + * @member:    the name of the hlist_node within the struct.
-> + */
-> +#define hlist_for_each_entry_safe(pos, n, head, member)                        \
-> +       for (pos = hlist_entry_safe((head)->first, typeof(*pos), member);\
-> +            pos && ({ n = pos->member.next; 1; });                     \
-> +            pos = hlist_entry_safe(n, typeof(*pos), member))
-> +
-> +#endif /* LIST_H */
+>  static bool contains_namespace(struct namespace_list *list,
+>                                const char *namespace)
+>  {
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index 6a90bfc08458..2dbafbda9b0f 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -109,11 +109,6 @@ buf_printf(struct buffer *buf, const char *fmt, ...);
+>  void
+>  buf_write(struct buffer *buf, const char *s, int len);
+>
+> -struct namespace_list {
+> -       struct namespace_list *next;
+> -       char namespace[];
+> -};
+> -
+>  struct module {
+>         struct list_head list;
+>         int gpl_compatible;
 > --
 > 2.32.0
 >
