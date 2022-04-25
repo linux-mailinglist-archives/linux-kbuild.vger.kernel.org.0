@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E764750E804
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD0F50E822
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244300AbiDYSY6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:24:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37240 "EHLO
+        id S244410AbiDYS1u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 14:27:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244272AbiDYSY5 (ORCPT
+        with ESMTP id S244407AbiDYS1p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:24:57 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD5A10773D
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:21:52 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id bq30so27718906lfb.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:21:52 -0700 (PDT)
+        Mon, 25 Apr 2022 14:27:45 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140DC11246C
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:24:41 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id p12so22170328lfs.5
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=da88Nu7vq7XE+J8Tfq4WUYeq5HXdHwOYLlI0FzHNI8I=;
-        b=IDpo6ikWwvM+FaQcO+CIaSuMGHm/JZ3q4SIxY4sRzW0Jyg8HNlBWOW9UsCAdnaNy6g
-         GQrN+3AbAfjDxqxng5pSy+A5fRamOcinx5CaBggk3VVsDLV09qhJOMGy7xi7oxMCKTrx
-         4yEGTR7RIPGAtDBuymTlE4fC6tPmqorfhFuMRFu8WqEVDTj1Glsyn6PsgU/oC4Ea50Uu
-         pTktpdVb88+KGiGuSD+NfiRIFN0oBu/j06GA8pemzdvIXOlD0uCSrmCbzd/l6y1hUzZo
-         g9bv0wfyvQev97QBP/prvaS/npXYApavrvlKxJ2kLhRF1cEtrhw5Epyz7bIrhPOzxErk
-         RKmA==
+        bh=u+Bm1DAFY3a8c577iEDG2hIjq68c814xK3d9uMwZmUM=;
+        b=YhgUKDTxWXPeGRi2+kquXswG35aUOTl/8oXm32nfH4U/Ixt2ZBAnHY0/swZ7jBoPol
+         sESc2sUaZk2B0yfa7VPQFAy3bJK7bM/mNma/RGSoqH68b7vWFTTPl2m8TOmkRAG2gkhD
+         jOuwFtQMVi+5h1WGEhRlen6K3pIR104qz8ZZkltxPfF0e6SsLNP9fC0jiG6wsOUTjwm8
+         uc7uAVbtUz4gd9Gr/dLx28JBzsBUf0319BUy7ZoIK4KQSE3n6njN/1/VxGwTOkVXEfV8
+         zm7DPKEiPVIDsLiPm98mqddIB7E0wRs2Y+zcBxclJxxXiOAGj0s9ncPQd6ksDt4F3Ih+
+         H7iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=da88Nu7vq7XE+J8Tfq4WUYeq5HXdHwOYLlI0FzHNI8I=;
-        b=tTcDomoWxUQxp4C+2wNfAE2xFwhS2uH0k3qUNilMBRA+GCnR4I/Qaws1P0jjz1jjUb
-         P9YOhbYFIBmx11ksOvr70Cj5vSK9kYb+3NGK2pqEKIcgG00U/Fvl2jbC61V4N6chLQZz
-         mPkBi/NnYMvhs3XhWk4N4/G3+sYBFTcOYP2NjHtLIJYj4n7OAHruFufqdX5xriyunVaX
-         jz0rVQLyBIGyZ2KL+XVnxgFwMaVBrXbL2ji/dErQZZ8wf1tNhJmU2IfKcVhBVX81fMPV
-         JFN88Yc/up0aVo5rqG09vc6513wxk1S0zIiRC95MJpGMrdNiT8Z0KOdLdn3eWd7DDDxy
-         5HMg==
-X-Gm-Message-State: AOAM532UMN6qFscKR3STHsbyi4Nbl2mj9yDIamVYzxWrOej64fI4Ka0T
-        aMrdMiel5I7qQTKxYBRNnA96gRgF9ILoz/9k/sGesq8pphI=
-X-Google-Smtp-Source: ABdhPJzVT4Ww3FyZ1/tzCoZ84eU4ZLq3do4Ia7/DX6eU9noDs3zWVOvLLGPOtU8KdI2xszEKyJGmmfN60DRhUlrY5Ks=
-X-Received: by 2002:ac2:5223:0:b0:448:5100:e427 with SMTP id
- i3-20020ac25223000000b004485100e427mr14021593lfl.87.1650910910695; Mon, 25
- Apr 2022 11:21:50 -0700 (PDT)
+        bh=u+Bm1DAFY3a8c577iEDG2hIjq68c814xK3d9uMwZmUM=;
+        b=V0XR0DWw+e1GSUntAyduUlFtjZkyiNYCAgvkNCSy+SEviRM7pBgBC77jjFDpQ5mYIg
+         YQ5Er75VAWaloOrODue5MEAKiybt7Fv3jet1ADYOghv4hxUjI84YGKgek169oQljE7F5
+         DDRfBWMqAj1yGyIAnn01VzkDzC04N3Nucjc2k6otY4zQv+NFE4Mx30trr4IRuvsJR90S
+         +UFyk70xzt3Zsx1URyjfasNjmZGoBIecI3ARuAzslMUI3XC46E/u+Kq09LhlHs+Q+M1N
+         ykXomOtPZFQb4304SSRGPgmLN/xPeISSEGIFL1J+W8BCGEb43pJS1AjTVl1OpapgQryL
+         QGaQ==
+X-Gm-Message-State: AOAM530bYdoJhN6TmVn5jIS5hctk5sFp3AWhGwmuHmParJzVItcg3wG/
+        8mgzFrlYz+atqRmrsu9UIAHMA2vA6pj81KIk/WyPrw==
+X-Google-Smtp-Source: ABdhPJxOcDZUVTz/YHvMTfvHtM7X3O1aySJYZAE8sk2pPu5R2svDimItoW/LQNuuJT2Yz0RxxEoyyr5plEP2rzhchdQ=
+X-Received: by 2002:ac2:4188:0:b0:471:96f4:c1d4 with SMTP id
+ z8-20020ac24188000000b0047196f4c1d4mr14006334lfh.626.1650911079102; Mon, 25
+ Apr 2022 11:24:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-5-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-5-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-6-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-6-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:21:39 -0700
-Message-ID: <CAKwvOdk6WEz-408f_4m=9QeZGPveRX4hF6zxqtMVv1dCET0ruA@mail.gmail.com>
-Subject: Re: [PATCH 04/27] modpost: add a separate error for exported symbols
- without definition
+Date:   Mon, 25 Apr 2022 11:24:27 -0700
+Message-ID: <CAKwvOdm=m7uZC5p52RZTBQ7NpaRS+s_wBtC6K0M1CzQyOUjadA@mail.gmail.com>
+Subject: Re: [PATCH 05/27] modpost: retrieve the module dependency and CRCs in check_exports()
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -70,64 +69,54 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> It took me a while to understand the intent of "exp->module == mod".
+> Do not repeat the similar code.
 >
-> This code goes back to 2003 (pre-git era).
->
-> The commit is not in this git repository, and might be worth a little
-> explanation.
->
-> You can add EXPORT_SYMBOL() with no definition in the same file (but you
-> need to put a declaration).
->
->   int foo(void);
->   EXPORT_SYMBOL(foo);
->
-> This is typical when EXPORT_SYMBOL() is defined in a C file, but the
-> actual implementation is in a separate assembly file. In old days,
-> EXPORT_SYMBOL() were only available in C files (but this limitation
-> does not exist any more).
->
-> Add a separate, clearer message if an exported symbol has no definition.
-> It should be an error even if KBUILD_MODPOST_WARN is given.
->
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=2763b6bcb96e6a38a2fe31108fe5759ec5bcc80a
+> It is simpler to do this in check_exports() instead of add_versions().
 
-Differentiating between the two (and your explanation of how to reach
-such a situation) is a nice touch.
+The 2 loops have been fused into 1. :)
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/mod/modpost.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  scripts/mod/modpost.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index c7cfeeb088f7..969a081dba62 100644
+> index 969a081dba62..f9cbb6b6b7a5 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -2147,13 +2147,18 @@ static void check_exports(struct module *mod)
->         for (s = mod->unres; s; s = s->next) {
->                 const char *basename;
->                 exp = find_symbol(s->name);
-> -               if (!exp || exp->module == mod) {
-> +               if (!exp) {
->                         if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
->                                 modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
->                                             "\"%s\" [%s.ko] undefined!\n",
->                                             s->name, mod->name);
+> @@ -2159,6 +2159,11 @@ static void check_exports(struct module *mod)
+>                               s->name, mod->name);
 >                         continue;
 >                 }
-> +               if (exp->module == mod) {
-> +                       error("\"%s\" [%s.ko] was exported without definition\n",
-> +                             s->name, mod->name);
-> +                       continue;
-> +               }
+> +
+> +               s->module = exp->module;
+> +               s->crc_valid = exp->crc_valid;
+> +               s->crc = exp->crc;
+> +
 >                 basename = strrchr(mod->name, '/');
 >                 if (basename)
 >                         basename++;
+> @@ -2251,16 +2256,7 @@ static void add_staging_flag(struct buffer *b, const char *name)
+>   **/
+>  static void add_versions(struct buffer *b, struct module *mod)
+>  {
+> -       struct symbol *s, *exp;
+> -
+> -       for (s = mod->unres; s; s = s->next) {
+> -               exp = find_symbol(s->name);
+> -               if (!exp || exp->module == mod)
+> -                       continue;
+> -               s->module = exp->module;
+> -               s->crc_valid = exp->crc_valid;
+> -               s->crc = exp->crc;
+> -       }
+> +       struct symbol *s;
+>
+>         if (!modversions)
+>                 return;
 > --
 > 2.32.0
 >
