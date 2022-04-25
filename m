@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AD0F50E822
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C0A50E855
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:35:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244410AbiDYS1u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49446 "EHLO
+        id S240888AbiDYShy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 14:37:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244407AbiDYS1p (ORCPT
+        with ESMTP id S244455AbiDYShe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:27:45 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140DC11246C
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:24:41 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id p12so22170328lfs.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:24:40 -0700 (PDT)
+        Mon, 25 Apr 2022 14:37:34 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262513C73B
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:34:28 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id q14so18939284ljc.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=u+Bm1DAFY3a8c577iEDG2hIjq68c814xK3d9uMwZmUM=;
-        b=YhgUKDTxWXPeGRi2+kquXswG35aUOTl/8oXm32nfH4U/Ixt2ZBAnHY0/swZ7jBoPol
-         sESc2sUaZk2B0yfa7VPQFAy3bJK7bM/mNma/RGSoqH68b7vWFTTPl2m8TOmkRAG2gkhD
-         jOuwFtQMVi+5h1WGEhRlen6K3pIR104qz8ZZkltxPfF0e6SsLNP9fC0jiG6wsOUTjwm8
-         uc7uAVbtUz4gd9Gr/dLx28JBzsBUf0319BUy7ZoIK4KQSE3n6njN/1/VxGwTOkVXEfV8
-         zm7DPKEiPVIDsLiPm98mqddIB7E0wRs2Y+zcBxclJxxXiOAGj0s9ncPQd6ksDt4F3Ih+
-         H7iw==
+        bh=S7v3XlpuvAVGFYesFm6cKxzANGO6Vtw9VjKoiTmexPg=;
+        b=RoxpS2oUaw7T5pPMNHATBxpcgVH3HE+qjJmTyfXgMwsRplFO7/lkx/KY1RF6YtDCA5
+         MRPKOqCuGfN3tbgwb2CRuUDfOtWwSiyI/FguD+zM9JelOCc3PpVht4klYeFrFEJtygtd
+         Q9r7jwxafw1yJngAcasjDrDKSUoIVB4gmku5YmeSsffZPemITMq8AgF0v6BjHBrgGKWq
+         MPSttVokn0wunltWB290eS3ubahNOHakSa9IOSg3ZoQPyL+PKHxoNin8357P7GFqRJaE
+         2qA8Ur5jYVVqf1s2W2outHJ4TRTJm71ArVX5x9pNmXa+4VPsGUXGIGEY3BrdmvUo2csh
+         3K1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=u+Bm1DAFY3a8c577iEDG2hIjq68c814xK3d9uMwZmUM=;
-        b=V0XR0DWw+e1GSUntAyduUlFtjZkyiNYCAgvkNCSy+SEviRM7pBgBC77jjFDpQ5mYIg
-         YQ5Er75VAWaloOrODue5MEAKiybt7Fv3jet1ADYOghv4hxUjI84YGKgek169oQljE7F5
-         DDRfBWMqAj1yGyIAnn01VzkDzC04N3Nucjc2k6otY4zQv+NFE4Mx30trr4IRuvsJR90S
-         +UFyk70xzt3Zsx1URyjfasNjmZGoBIecI3ARuAzslMUI3XC46E/u+Kq09LhlHs+Q+M1N
-         ykXomOtPZFQb4304SSRGPgmLN/xPeISSEGIFL1J+W8BCGEb43pJS1AjTVl1OpapgQryL
-         QGaQ==
-X-Gm-Message-State: AOAM530bYdoJhN6TmVn5jIS5hctk5sFp3AWhGwmuHmParJzVItcg3wG/
-        8mgzFrlYz+atqRmrsu9UIAHMA2vA6pj81KIk/WyPrw==
-X-Google-Smtp-Source: ABdhPJxOcDZUVTz/YHvMTfvHtM7X3O1aySJYZAE8sk2pPu5R2svDimItoW/LQNuuJT2Yz0RxxEoyyr5plEP2rzhchdQ=
-X-Received: by 2002:ac2:4188:0:b0:471:96f4:c1d4 with SMTP id
- z8-20020ac24188000000b0047196f4c1d4mr14006334lfh.626.1650911079102; Mon, 25
- Apr 2022 11:24:39 -0700 (PDT)
+        bh=S7v3XlpuvAVGFYesFm6cKxzANGO6Vtw9VjKoiTmexPg=;
+        b=OiiS8/USuZzP8EA2c4sTq3L2uA5SP4VjgllxWODAasQ3auXbORlTbu/DUb8tbG8dKV
+         GrW70wkVwCxpllb1tV1NNN6S74TdFim/MKth4PtkWjQbwT+08fj1aPKG8jbpXaQlqW7B
+         NS47bdUNq1nm6P4bpzFFY/oMvhxCtGVwj+1o86OrNb5pyTtqNPes2zPbS6ch9xsg6Y+A
+         265QdRJ/iy+kB8SPC9OA8Yhpi04DRb5Q8DmNoKB+8p68MOPeKVQuQLk4NQowXJOQBSOw
+         k9lEJWhlCW3Y8AgMi1SHBigelvLGY5BFnRNlIbZFXyrfjCelQVGjbAqeTqsiVQv7wW6e
+         7DYQ==
+X-Gm-Message-State: AOAM531FlUDZBastumhGpv65epdGhj2Lw1FTKsh533u+Yt+LUOh7xdH/
+        DUoj6YE6KipAxdZujv6aogQ5Wgu6z63Thg87YpzUK0nMVU710g==
+X-Google-Smtp-Source: ABdhPJxWJsAMNKA1K7KOe9udY7Vh7rRYbNz1452U3Mzh0pTj0zkF/8IpBEp80BcjzOTCxJYsmZjQHR15zJX2ylEl4J4=
+X-Received: by 2002:a2e:9b57:0:b0:24f:12ea:fd26 with SMTP id
+ o23-20020a2e9b57000000b0024f12eafd26mr3192452ljj.352.1650911665998; Mon, 25
+ Apr 2022 11:34:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-6-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-6-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-7-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-7-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:24:27 -0700
-Message-ID: <CAKwvOdm=m7uZC5p52RZTBQ7NpaRS+s_wBtC6K0M1CzQyOUjadA@mail.gmail.com>
-Subject: Re: [PATCH 05/27] modpost: retrieve the module dependency and CRCs in check_exports()
+Date:   Mon, 25 Apr 2022 11:34:14 -0700
+Message-ID: <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
+Subject: Re: [PATCH 06/27] modpost: use bool type where appropriate
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -59,7 +59,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,56 +67,275 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+/On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Do not repeat the similar code.
+> Use 'bool' to clarify that the valid value is true or false.
 >
-> It is simpler to do this in check_exports() instead of add_versions().
+> Here is a small note for the conversion.
+>
+> Strictly speaking, module::gpl_compatible was not boolean because
+> new_module() initialized it to -1. Maybe, -1 was used to represent the
+> license is 'unknown', but it is not useful.
+>
+> Since commit 1d6cd3929360 ("modpost: turn missing MODULE_LICENSE() into
+> error"), unknown module license is not allowed anyway.
+>
+> I changed the initializer "= -1" to "= true". This has no functional
+> change.
+>
+> The current code:
+>
+>     if (!mod->gpl_compatible)
+>             check_for_gpl_usage(exp->export, basename, exp->name);
+>
+> ... only checks whether gpl_compabilt is zero or not:
 
-The 2 loops have been fused into 1. :)
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+s/gpl_compabilt/gpl_compatible/
+
+Also the trailing `:` should perhaps be `.`.
+
+Shouldn't gpl_compatible default to false, until proven otherwise?
+What happens if you default to false? Perhaps an identifier like
+`maybe_gpl_compatible` would be more descriptive?
+
+Also, if we're going to rename a few vars, consider using prefixes
+like is_*, has_*, or should_* for some of these to improve the
+readability for boolean variables.
+
+Otherwise LGTM.
 
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
->  scripts/mod/modpost.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
+>  scripts/mod/modpost.c | 60 +++++++++++++++++++++----------------------
+>  scripts/mod/modpost.h | 10 ++++----
+>  2 files changed, 35 insertions(+), 35 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 969a081dba62..f9cbb6b6b7a5 100644
+> index f9cbb6b6b7a5..52dd07a36379 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -2159,6 +2159,11 @@ static void check_exports(struct module *mod)
->                               s->name, mod->name);
->                         continue;
->                 }
-> +
-> +               s->module = exp->module;
-> +               s->crc_valid = exp->crc_valid;
-> +               s->crc = exp->crc;
-> +
->                 basename = strrchr(mod->name, '/');
->                 if (basename)
->                         basename++;
-> @@ -2251,16 +2256,7 @@ static void add_staging_flag(struct buffer *b, const char *name)
->   **/
->  static void add_versions(struct buffer *b, struct module *mod)
->  {
-> -       struct symbol *s, *exp;
-> -
-> -       for (s = mod->unres; s; s = s->next) {
-> -               exp = find_symbol(s->name);
-> -               if (!exp || exp->module == mod)
-> -                       continue;
-> -               s->module = exp->module;
-> -               s->crc_valid = exp->crc_valid;
-> -               s->crc = exp->crc;
-> -       }
-> +       struct symbol *s;
+> @@ -23,20 +23,20 @@
+>  #include "../../include/linux/license.h"
 >
->         if (!modversions)
+>  /* Are we using CONFIG_MODVERSIONS? */
+> -static int modversions;
+> +static bool modversions;
+>  /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
+> -static int all_versions;
+> +static bool all_versions;
+>  /* If we are modposting external module set to 1 */
+> -static int external_module;
+> +static bool external_module;
+>  /* Only warn about unresolved symbols */
+> -static int warn_unresolved;
+> +static bool warn_unresolved;
+>  /* How a symbol is exported */
+>  static int sec_mismatch_count;
+> -static int sec_mismatch_warn_only = true;
+> +static bool sec_mismatch_warn_only = true;
+>  /* ignore missing files */
+> -static int ignore_missing_files;
+> +static bool ignore_missing_files;
+>  /* If set to 1, only warn (instead of error) about missing ns imports */
+> -static int allow_missing_ns_imports;
+> +static bool allow_missing_ns_imports;
+>
+>  static bool error_occurred;
+>
+> @@ -187,7 +187,7 @@ static struct module *new_module(const char *modname)
+>         /* add to list */
+>         strcpy(mod->name, modname);
+>         mod->is_vmlinux = (strcmp(modname, "vmlinux") == 0);
+> -       mod->gpl_compatible = -1;
+> +       mod->gpl_compatible = true;
+>         mod->next = modules;
+>         modules = mod;
+>
+> @@ -203,10 +203,10 @@ struct symbol {
+>         struct symbol *next;
+>         struct module *module;
+>         unsigned int crc;
+> -       int crc_valid;
+> +       bool crc_valid;
+>         char *namespace;
+> -       unsigned int weak:1;
+> -       unsigned int is_static:1;  /* 1 if symbol is not global */
+> +       bool weak;
+> +       bool is_static;         /* true if symbol is not global */
+>         enum export  export;       /* Type of export */
+>         char name[];
+>  };
+> @@ -230,7 +230,7 @@ static inline unsigned int tdb_hash(const char *name)
+>   * Allocate a new symbols for use in the hash of exported symbols or
+>   * the list of unresolved symbols per module
+>   **/
+> -static struct symbol *alloc_symbol(const char *name, unsigned int weak,
+> +static struct symbol *alloc_symbol(const char *name, bool weak,
+>                                    struct symbol *next)
+>  {
+>         struct symbol *s = NOFAIL(malloc(sizeof(*s) + strlen(name) + 1));
+> @@ -239,7 +239,7 @@ static struct symbol *alloc_symbol(const char *name, unsigned int weak,
+>         strcpy(s->name, name);
+>         s->weak = weak;
+>         s->next = next;
+> -       s->is_static = 1;
+> +       s->is_static = true;
+>         return s;
+>  }
+>
+> @@ -250,7 +250,7 @@ static struct symbol *new_symbol(const char *name, struct module *module,
+>         unsigned int hash;
+>
+>         hash = tdb_hash(name) % SYMBOL_HASH_SIZE;
+> -       symbolhash[hash] = alloc_symbol(name, 0, symbolhash[hash]);
+> +       symbolhash[hash] = alloc_symbol(name, false, symbolhash[hash]);
+>
+>         return symbolhash[hash];
+>  }
+> @@ -419,7 +419,7 @@ static void sym_set_crc(const char *name, unsigned int crc)
 >                 return;
+>
+>         s->crc = crc;
+> -       s->crc_valid = 1;
+> +       s->crc_valid = true;
+>  }
+>
+>  static void *grab_file(const char *filename, size_t *size)
+> @@ -716,9 +716,9 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
+>                         sym_add_exported(name, mod, export);
+>                 }
+>                 if (strcmp(symname, "init_module") == 0)
+> -                       mod->has_init = 1;
+> +                       mod->has_init = true;
+>                 if (strcmp(symname, "cleanup_module") == 0)
+> -                       mod->has_cleanup = 1;
+> +                       mod->has_cleanup = true;
+>                 break;
+>         }
+>  }
+> @@ -2008,9 +2008,9 @@ static void read_symbols(const char *modname)
+>                         error("missing MODULE_LICENSE() in %s\n", modname);
+>                 while (license) {
+>                         if (license_is_gpl_compatible(license))
+> -                               mod->gpl_compatible = 1;
+> +                               mod->gpl_compatible = true;
+>                         else {
+> -                               mod->gpl_compatible = 0;
+> +                               mod->gpl_compatible = false;
+>                                 break;
+>                         }
+>                         license = get_next_modinfo(&info, "license", license);
+> @@ -2053,7 +2053,7 @@ static void read_symbols(const char *modname)
+>                                                        sym->st_name));
+>
+>                         if (s)
+> -                               s->is_static = 0;
+> +                               s->is_static = false;
+>                 }
+>         }
+>
+> @@ -2073,7 +2073,7 @@ static void read_symbols(const char *modname)
+>          * the automatic versioning doesn't pick it up, but it's really
+>          * important anyhow */
+>         if (modversions)
+> -               mod->unres = alloc_symbol("module_layout", 0, mod->unres);
+> +               mod->unres = alloc_symbol("module_layout", false, mod->unres);
+>  }
+>
+>  static void read_symbols_from_files(const char *filename)
+> @@ -2305,7 +2305,7 @@ static void add_depends(struct buffer *b, struct module *mod)
+>                 if (s->module->seen)
+>                         continue;
+>
+> -               s->module->seen = 1;
+> +               s->module->seen = true;
+>                 p = strrchr(s->module->name, '/');
+>                 if (p)
+>                         p++;
+> @@ -2422,10 +2422,10 @@ static void read_dump(const char *fname)
+>                 mod = find_module(modname);
+>                 if (!mod) {
+>                         mod = new_module(modname);
+> -                       mod->from_dump = 1;
+> +                       mod->from_dump = true;
+>                 }
+>                 s = sym_add_exported(symname, mod, export_no(export));
+> -               s->is_static = 0;
+> +               s->is_static = false;
+>                 sym_set_crc(symname, crc);
+>                 sym_update_namespace(symname, namespace);
+>         }
+> @@ -2503,7 +2503,7 @@ int main(int argc, char **argv)
+>         while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
+>                 switch (opt) {
+>                 case 'e':
+> -                       external_module = 1;
+> +                       external_module = true;
+>                         break;
+>                 case 'i':
+>                         *dump_read_iter =
+> @@ -2512,28 +2512,28 @@ int main(int argc, char **argv)
+>                         dump_read_iter = &(*dump_read_iter)->next;
+>                         break;
+>                 case 'm':
+> -                       modversions = 1;
+> +                       modversions = true;
+>                         break;
+>                 case 'n':
+> -                       ignore_missing_files = 1;
+> +                       ignore_missing_files = true;
+>                         break;
+>                 case 'o':
+>                         dump_write = optarg;
+>                         break;
+>                 case 'a':
+> -                       all_versions = 1;
+> +                       all_versions = true;
+>                         break;
+>                 case 'T':
+>                         files_source = optarg;
+>                         break;
+>                 case 'w':
+> -                       warn_unresolved = 1;
+> +                       warn_unresolved = true;
+>                         break;
+>                 case 'E':
+>                         sec_mismatch_warn_only = false;
+>                         break;
+>                 case 'N':
+> -                       allow_missing_ns_imports = 1;
+> +                       allow_missing_ns_imports = true;
+>                         break;
+>                 case 'd':
+>                         missing_namespace_deps = optarg;
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index a85dcec3669a..4085bf5b33aa 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -1,4 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+> +#include <stdbool.h>
+>  #include <stdio.h>
+>  #include <stdlib.h>
+>  #include <stdarg.h>
+> @@ -116,11 +117,10 @@ struct module {
+>         struct module *next;
+>         int gpl_compatible;
+>         struct symbol *unres;
+> -       int from_dump;  /* 1 if module was loaded from *.symvers */
+> -       int is_vmlinux;
+> -       int seen;
+> -       int has_init;
+> -       int has_cleanup;
+> +       bool from_dump;         /* true if module was loaded from *.symvers */
+> +       bool is_vmlinux;
+> +       bool seen;
+> +       bool has_init, has_cleanup;
+>         struct buffer dev_table_buf;
+>         char         srcversion[25];
+>         // Missing namespace dependencies
 > --
 > 2.32.0
 >
