@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AE5E50E7D1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCE9C50E7E1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:15:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240150AbiDYSOi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
+        id S239428AbiDYSSy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 14:18:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234370AbiDYSOg (ORCPT
+        with ESMTP id S237262AbiDYSSw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:14:36 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EA411115C
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:11:31 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id k12so3248483lfr.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:11:31 -0700 (PDT)
+        Mon, 25 Apr 2022 14:18:52 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3753B03F
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:15:47 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id s27so3174868ljd.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mgZPcLi8Qc/FYo24I5Ui5ng4v5S2bS11j/TNA42dNdI=;
-        b=AyTemggbe9yNeY3RXNoqcAc/M7mfZVWIDn0MNHEfheqaKT2mcwlb1VrhXvL8uuTyWP
-         CNpuA7a0bg5jbWSiYl+aSOaGguqQA+9lY1Fqi7X4ipyhhZBkLDx7aYGS9i92fZTJ7olj
-         bAGHOsvS2m1+Iwe/cjKA6S/ZrJVP0VywU2AmgY0M5byGjlTdfWSXKWgPtQIel65podM8
-         JRrSuaXT2mgZyZ+OaamNgbFGvPaL0qZpMz5kIc6MnOC6tqpZuikPOsgHwpYlHsnrAfUE
-         JtHEtd/MgNB6te4d8uiGz6w4z8KqV2ijeLHQB9eHKFt4iwRMhm5xLJNutC1Z1Et2HDAO
-         GHKQ==
+        bh=SrA3q5vKgnexwjJdLQyRp9dPvv3gEmYky32fImzfWNM=;
+        b=tnNzFQymgy81reA0SdtSKkRmjtKzwlkfCUQvGH7B7FxvRgOP5O0G6gWrASkUUAJU78
+         Wrv6OHeQPTAlnp6uNUezR6QrCWigfM7Qr4RmaBg3sRQSfcwIrb2HBcHvu/yBqE8SKllL
+         2OQxjHqisYomqKtQHlUL8ut+3aPahVsRSbXBFlf3l9hGtetpIBN4LaCSRdudnhHMe2Sh
+         6b17AD3BIy7+qtvPATr8W9zwnaWK7/NvEwhSDicpgkY8BspqxcJn6DXfn5gMCkW4aQ/6
+         ShX40NDIuY11/907JjNsLCnq8av8gmc/2vW/C/pQy1VeINHEb6+y4wju9Wv7lASvLyDm
+         3J4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mgZPcLi8Qc/FYo24I5Ui5ng4v5S2bS11j/TNA42dNdI=;
-        b=C9i2fyfHzQf9avDTLXP6L6RFuBUR4oZYuG3pGKRWLbNF9mVZbqmHg0iXRGvtFPgS7O
-         BgqGcDDio+9C4guUAwq5OMATBPSNLidsXNVOtHpimrxDvHGIIItjCciI0ry7oZXgrGwF
-         WwZyNcUy+thHOhGsHY/xIXsDg8o3XaSobTJqbR6VqHXf8ZYfdmFBATgv7+k0iguult9l
-         TWtdjVdbjkQzlVdLFGHFVv3xmN/b8WC5b06MRkEpl0X2AkBOLvVINv8BvFsZGcW5oOf9
-         KnE9hVm7QvyGkq0DJcMbweUNefxrcD9RFyPCUM7zE/sw3aIHR2+Ja83Sug+DkIZ8M3P3
-         2xPw==
-X-Gm-Message-State: AOAM5312KLNxwbMi2HBT4HjORQg9qxF5AFm3RHHDr2WXt82SUUhQME//
-        fYjqaQumb4IadaS30B7I5c/LtWtVKHS/XRO//IFIFA==
-X-Google-Smtp-Source: ABdhPJxiQBayWivPSmwOm7iRe8+oFmRUHaUcR4YG3TbfL0hdALVJpOAd5m2+OrL9AulLRlq44PjBgHKNC39atXKgnfg=
-X-Received: by 2002:a05:6512:1d1:b0:471:f63a:b182 with SMTP id
- f17-20020a05651201d100b00471f63ab182mr9720569lfp.392.1650910289712; Mon, 25
- Apr 2022 11:11:29 -0700 (PDT)
+        bh=SrA3q5vKgnexwjJdLQyRp9dPvv3gEmYky32fImzfWNM=;
+        b=T0zGYedydf9eWDx4KFYMBwOVyYqOlhmO6X+biVrNbV5OT0As2XOoeOV8yXUejhQZP4
+         qiSAcZANDxWLgUYAb4xjfjszvCfOhzof5EoC06ucGm67BmZUwiC6tKG0XkVkugIdA2NW
+         MjObJ9sziNvsOueEFGZLIO5K97bDj3Ta/XaArsznCyh+E3et2Gc1UCtrUFnfG+LBil7B
+         PA8PdZ0nmyLEwt/0Um7Vz8EGtxy1owNCxjmXs1DNJyxkaTxTZuJkhMSEYoVEa8qUy4Np
+         lTYjz6KBBgyvflVlXgorGg5Mf+UQPwz/w701oN1e8LzTWWlDnpET4KWDSjtvD/E1ZOTy
+         fExQ==
+X-Gm-Message-State: AOAM530K8CGCvo0Yt8XBBYF15Xa+Swc8woL3fAFCsjKK1WHK7BazlvqM
+        QQVoYARYwtW4wXDVA3w9VzECduI6Jpp+L+y2CvQOGdUjml0=
+X-Google-Smtp-Source: ABdhPJxEwBsQ97Hw9qzkEutYtpAQSiAjp3/B7GwVMw1cNq5pD2OtsI7/Yv6zprYNpd1nT+AQEBddlzn5NaXA2ilTuWU=
+X-Received: by 2002:a05:651c:553:b0:24f:18c1:d2a1 with SMTP id
+ q19-20020a05651c055300b0024f18c1d2a1mr391342ljp.239.1650910545571; Mon, 25
+ Apr 2022 11:15:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-2-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-2-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-3-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-3-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:11:17 -0700
-Message-ID: <CAKwvOdmaezR92E1p7UNGTdJf5D+DbKZEaNwTimxSbHVOjPgnuQ@mail.gmail.com>
-Subject: Re: [PATCH 01/27] modpost: use snprintf() instead of sprintf() for safety
+Date:   Mon, 25 Apr 2022 11:15:28 -0700
+Message-ID: <CAKwvOdnTh+qVRHsQ3YRrZ8b22wmfVUQ3eLd7R8VHJgNw7WA=MQ@mail.gmail.com>
+Subject: Re: [PATCH 02/27] modpost: do not write out any file when error occurred
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -59,7 +59,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,45 +69,34 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Use snprintf() to avoid the potential buffer overflow, and also
-> check the return value to detect the too long path.
+> If an error occurs, modpost will fail anyway. Do not write out
+> any content (, which might be invalid).
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks for the patch!
+The callers could probably do less work before calling write_buf, too,
+but this is ok.
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/mod/modpost.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  scripts/mod/modpost.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 522d5249d196..141370ebbfd3 100644
+> index 141370ebbfd3..f0d48f65fb33 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -2560,6 +2560,7 @@ int main(int argc, char **argv)
+> @@ -2333,6 +2333,9 @@ static void write_buf(struct buffer *b, const char *fname)
+>  {
+>         FILE *file;
 >
->         for (mod = modules; mod; mod = mod->next) {
->                 char fname[PATH_MAX];
-> +               int ret;
->
->                 if (mod->is_vmlinux || mod->from_dump)
->                         continue;
-> @@ -2578,7 +2579,12 @@ int main(int argc, char **argv)
->                 add_moddevtable(&buf, mod);
->                 add_srcversion(&buf, mod);
->
-> -               sprintf(fname, "%s.mod.c", mod->name);
-> +               ret = snprintf(fname, sizeof(fname), "%s.mod.c", mod->name);
-> +               if (ret >= sizeof(fname)) {
-> +                       error("%s: too long path was truncated\n", fname);
-> +                       continue;
-> +               }
+> +       if (error_occurred)
+> +               return;
 > +
->                 write_if_changed(&buf, fname);
->         }
->
+>         file = fopen(fname, "w");
+>         if (!file) {
+>                 perror(fname);
 > --
 > 2.32.0
 >
