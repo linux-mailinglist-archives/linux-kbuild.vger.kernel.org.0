@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8202E510493
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 18:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679F85104FB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 19:12:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350664AbiDZQyk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 12:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34304 "EHLO
+        id S1345286AbiDZRPO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 13:15:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353627AbiDZQyI (ORCPT
+        with ESMTP id S1353891AbiDZRMH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 12:54:08 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C31F19C74A
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:49:38 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id n14so12268230lfu.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:49:37 -0700 (PDT)
+        Tue, 26 Apr 2022 13:12:07 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386923299F
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 10:08:43 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id x33so33092386lfu.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 10:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6cyKMJFzFFXxE/BSvj6oE7ZuzNJmTUgU4USeumAaWKU=;
-        b=p4tlywGR8PjYwMom7BHCxv2X5i78rPZxwzz6q4cGXv7WZf/Nt1zQ+Z2X1ZvTDdG2BD
-         cjhOmt3XVAQQF6BDZWAmQyzbMH8dWZaRTiNs9I8C9Zbx9J4XwMNJ8RNTfDWkkA3C5TuU
-         C+ugUKhpS2PaNZPDCFv+eU2oU/3GdJg17ps9cYxHVE1PP5gWdmUkzlEmWpq0Pa/qxN9w
-         9MqNDbvWBr/Qn6Zot2HBUGRib422n+5oWxF3W7cn2ztKPfkkjpARTLFcW1kltlrHKstM
-         P7JyBoTWCO+PP2Kod2B5gkbm1VbRTh+hZVBNbCrsER6Zjd+TcudpSRKlpDWR7nvylkBF
-         2j8A==
+        bh=mj5YNIpqKili4njrI75f0/IFkDmlnuz7/vAcRFXF5qo=;
+        b=io1nLFMc9+ErVeKm4EDDchVdVYXWmUQ8SmiWSUDjaMpSsm6oWXpCfZj4wr5zNa+Qqv
+         OMlIIEMk6xiz9WnGxyRzQRmb0+VqnuRlAVBJnP+j1MDdagAmzm6iDrPvMufpbyIFcoxk
+         v7x09EqIb7DCKz+eQmrKau4OihA3TSQGvVoZM794wf+uvE75uZVZQ9S9+h5Ax3gsvDqp
+         TfR+sM4zKjIsIQazg+gsigCLkHC8E9Y3PG54FqBIFQBfEXzNkwtLYlGIkUEIRPOKz30e
+         6IfpDWoXlE1BAgwdlCLu1nA1P/tJh27jDlXuB04EGVzlsNYIIaQBZ3HVG6+j+XeKXIj0
+         qnTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6cyKMJFzFFXxE/BSvj6oE7ZuzNJmTUgU4USeumAaWKU=;
-        b=gfgOzLxsEbdMHiANxeVDmCdfEpQC6R4ZYU+in1WCs7aBEG6ipAAPTMwRuI2jwWWr5B
-         gOVezTp4+8kjiB3ormI9CifURN7D3YjPbd3pceQ6cPfZL1BtjR3oltnKZReyoZcKm8SP
-         IpXwCj5vSHa/p7QAaDapBd+TaWCU+bM03i5k1pQ8hfq82VkyAesB7WB7tRLhC+/h/fo1
-         DPOY8nbbLTkMp/tBToZSz8lnEYiAb2w97JeD/StXhLcNrDBT1pULQowTK3oS2z/3JBhM
-         Bjxm+f4T7EqoriEURQu7BfnLu6CLgtDKgKQYYO0At4VhnWwgcaRdlxWWoJsKokY551mJ
-         le8A==
-X-Gm-Message-State: AOAM5329k63G3XGZiOyPDgxWRi8kXdXPUkx/MxZxTlOnLbUBbpv2n423
-        OeupgDuAgq3TCcmacCXGgrIC6uR6YdO82rOvNsDLWMksX8c=
-X-Google-Smtp-Source: ABdhPJxAU6GulMB6PpLc/wJs2tXBNZzsDX0Yvz43RAPDCTxIp0w8zPhLcN1ObELx8w++3my788hiMXABPa9Omrj7NKM=
-X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id
- s6-20020ac24646000000b00472108e51afmr5175944lfo.184.1650991776109; Tue, 26
- Apr 2022 09:49:36 -0700 (PDT)
+        bh=mj5YNIpqKili4njrI75f0/IFkDmlnuz7/vAcRFXF5qo=;
+        b=J4ubCVWJraKIPoqTTSFJXsjoCMaVxC6YPpFNhlf1pfuY8MBcUSfOUJLuSSAVpIDb0B
+         JH+9dkSxnFOEJnkCSIXHvMVKYJvw5wzuKJta+SiwlNVVVGdhXZcJYYuMb+ozuXLnW/AR
+         XvIxyp+wcGxzfd6GyRdXK/EATqnoc1M5Qh/ihqfffyCsRBie7CYH5ga9+N2EAvNLfmjs
+         6EBj5KbqKBbIJxWrgJMfqotncjoISbVf83bWCgwB8ErvLd7T9yAR5VkR1Ln1zD0vYYxt
+         Z8ltAX1u/gzyNIXxbCq+oQSgeRP0mpPvel/dXDDe9hdx4N+giN+Ph1zbFIBxcIr9STDj
+         q+Wg==
+X-Gm-Message-State: AOAM533CeFn/Qn+gvg0jrIgU3ea/4tI9MYr5rOkUxSLhpV5sNDH7p782
+        zR0xy7Bjs6YMBBJ3txIgjxonIFi9ZzlZcPivuwLjxQ==
+X-Google-Smtp-Source: ABdhPJya8Phm79PF7Y31/YZmxkplUDt9LDWp86dvQxAFGd8ZFGIj4Jv0kqJTc68ZS1a4NQqtlQM/NuM719rjq4AgJVo=
+X-Received: by 2002:a05:6512:1d1:b0:471:f63a:b182 with SMTP id
+ f17-20020a05651201d100b00471f63ab182mr13215378lfp.392.1650992917897; Tue, 26
+ Apr 2022 10:08:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-9-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-9-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-11-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-11-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 26 Apr 2022 09:49:24 -0700
-Message-ID: <CAKwvOdmh+ZRu5K-Km0ynDwQi+BNDYKyo=BER6XUo=ik6GtNypA@mail.gmail.com>
-Subject: Re: [PATCH 08/27] modpost: traverse modules in order
+Date:   Tue, 26 Apr 2022 10:08:25 -0700
+Message-ID: <CAKwvOdnysRX_qp1KYSd331G7K863iH-Xiw3UOwKRSQm65u9i-Q@mail.gmail.com>
+Subject: Re: [PATCH 10/27] modpost: traverse unresolved symbols in order
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -59,7 +59,7 @@ Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,31 +69,91 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Currently, modpost manages modules in a singly liked list; it adds a new
+> Currently, modpost manages unresolved in a singly liked list; it adds
 
 s/liked/linked/
 
-> node to the head, and traverses the list from new to old.
+> a new node to the head, and traverses the list from new to old.
 >
-> It works, but the error messages are shown in the reverse order.
->
-> If you have a Makefile like this:
->
->   obj-m += foo.o bar.o
->
-> then, modpost shows error messages in bar.o, foo.o, in this order.
->
-> Use a doubly linked list to keep the order in modules.order; use
-> list_add_tail() for the node addition and list_for_each_entry() for
-> the list traverse.
->
-> Now that the kernel's list macros have been imported to modpost, I will
-> use them actively going forward.
+> Use a doubly linked list to keep the order in the symbol table in the
+> ELF file.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/mod/modpost.c | 20 ++++++++++++++------
+>  scripts/mod/modpost.h |  2 +-
+>  2 files changed, 15 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 1c7d2831e89d..e1eb188d6282 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -185,6 +185,8 @@ static struct module *new_module(const char *modname)
+>         mod = NOFAIL(malloc(sizeof(*mod) + strlen(modname) + 1));
+>         memset(mod, 0, sizeof(*mod));
+>
+> +       INIT_LIST_HEAD(&mod->unresolved_symbols);
+> +
+>         strcpy(mod->name, modname);
+>         mod->is_vmlinux = (strcmp(modname, "vmlinux") == 0);
+>         mod->gpl_compatible = true;
+> @@ -201,6 +203,7 @@ static struct module *new_module(const char *modname)
+>
+>  struct symbol {
+>         struct symbol *next;
+> +       struct list_head list;
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Isn't `list` meant to replace `next`?
+
+>         struct module *module;
+>         unsigned int crc;
+>         bool crc_valid;
+> @@ -255,8 +258,12 @@ static struct symbol *new_symbol(const char *name, struct module *module,
+>
+>  static void sym_add_unresolved(const char *name, struct module *mod, bool weak)
+>  {
+> -       mod->unres = alloc_symbol(name, mod->unres);
+> -       mod->unres->weak = weak;
+> +       struct symbol *sym;
+> +
+> +       sym = alloc_symbol(name, NULL);
+> +       sym->weak = weak;
+> +
+> +       list_add_tail(&sym->list, &mod->unresolved_symbols);
+
+Because I was curious here why NULL was passed, rather than remove the
+assignment to struct symbol's next member in alloc_symbol.
+
+I get why you replace the `unres` member of struct module. I guess I'm
+curious then why yet another list is added to struct symbol, rather
+than replace the next member.
+
+Also, does adding a struct list_head member really not specify the
+_type_ of the next element?  I guess when I look at the definition of
+struct module, at the member unresolved symbols, I don't know whether
+it's a list of struct module* or a list of struct symbol*.
+
+<snip>
+
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index c3b5d2f0e2bb..6a90bfc08458 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -117,7 +117,7 @@ struct namespace_list {
+>  struct module {
+>         struct list_head list;
+>         int gpl_compatible;
+> -       struct symbol *unres;
+> +       struct list_head unresolved_symbols;
+>         bool from_dump;         /* true if module was loaded from *.symvers */
+>         bool is_vmlinux;
+>         bool seen;
+> --
+> 2.32.0
+>
+
+
 -- 
 Thanks,
 ~Nick Desaulniers
