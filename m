@@ -2,129 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79B7850EF95
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 06:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 120C251023E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 17:53:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242568AbiDZEMz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 00:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34778 "EHLO
+        id S1344600AbiDZPz5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 11:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234748AbiDZEMy (ORCPT
+        with ESMTP id S1352633AbiDZPzz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 00:12:54 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3464E17E3E;
-        Mon, 25 Apr 2022 21:09:47 -0700 (PDT)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 23Q49Mom019014;
-        Tue, 26 Apr 2022 13:09:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 23Q49Mom019014
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650946162;
-        bh=vlQmv5riRzngKOKBqAqSk4kL8xP/v527bj+1qTzl/Rs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kDRO6n4gcrugtInPeEtD2mbsqkzimAnrWpgjATsadHhZu2Mi3sukqotidRdr0/5Oy
-         VPhYHBPYXCEJpLzSb+5rq+K3nqW2cE42H6K8ONhywaLUGgve5ql7hcbrYM2WK1G9NA
-         /OqC30MXIOxKCzvK/qT1sUWsmyNEt+Bhink6eUw41ePn92d7GYFHmuAmcilP6Itpw1
-         YEnCme4mVk4EjUOscfA/yCqfleX9hHW7df0Ae/+g4qzBwDRX4t580HHYqZU/2aKVeA
-         CUXWwbUFqAnFvk38Wmzmx1sPBjK2o9T4azPl59o/vr/+9LlI1vTX3aT0OyRykhnE2O
-         pGNktduCLdJeA==
-X-Nifty-SrcIP: [209.85.216.46]
-Received: by mail-pj1-f46.google.com with SMTP id u6-20020a17090a1f0600b001d86bd69427so1355364pja.5;
-        Mon, 25 Apr 2022 21:09:22 -0700 (PDT)
-X-Gm-Message-State: AOAM532dIkyNtxjdZDkVwfmGKsGTXoUHtDDGK/c41iUE7axQxNKv6AKg
-        5lekvUnG9t65YM542UHSWPaLjQ73mIZx/pMAbxo=
-X-Google-Smtp-Source: ABdhPJyeTNXk3eEgUbbGnI1xpxigeGRimHhJalVAMLzx3oMGsvYQPLReffx9PB/krO9KrZOWN3kQB06Mm5If++lLOVw=
-X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
- t23-20020a17090ae51700b001d75bbdf9f0mr24345046pjy.77.1650946161687; Mon, 25
- Apr 2022 21:09:21 -0700 (PDT)
+        Tue, 26 Apr 2022 11:55:55 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B68474DED;
+        Tue, 26 Apr 2022 08:52:47 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id b12so15844769plg.4;
+        Tue, 26 Apr 2022 08:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GC7DL53ai6k3NGlh2GS+CUKAHaq0iiM5lF16d5uI1v8=;
+        b=HjsRLxrVtAKkoXCItST1hFzeyRKLJdMwwGTDD1KhKkHSp9U9y5kpKCLSfd7wMxX0Wy
+         gPeOc0mTaTm5Wgz786M7UZjpZTkjdVxM+UA2cC/eAoZLDIAABa3MJVe1rm/kpv85TtgD
+         3oZfZ331K0YC8NS26H6THAeZKI/bq0FmOIuMAWtQOQs1ZTUm2a2PqBsD/TDYLB0Sxvoa
+         tLH13vv7DUIUcg5Tg+EPNKgtfxR4bIu28DcVgPUi7BuNd0vwHa57NFwbeOZNUtMjCDEN
+         AssUR8EWhtheGo9umFo7IiAMRrQztNiXtorp/cTgg6QiCcak3zOC5t8e7yz6FLJTkUrp
+         t6Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=GC7DL53ai6k3NGlh2GS+CUKAHaq0iiM5lF16d5uI1v8=;
+        b=z32zwswefSS/qE2NAqIcbqnaVzNH2Jzdi6YMEk+g/VzarrfLhcEWd4WjrB3s8cbBwN
+         WKenbNXgULY+zevf3doA0c/dxY4r9+kh+bIGt2AemaBm2auGZlSPGBTJP2ANIV/BvOIq
+         fnFfroLO8aKsgt8dbIn58IIDtV2myYuVF92UiVqKc3UynPGNrw4CFGIu5IGbHEgDpg6I
+         KKd/NobAzo0aNIUBV/Ra+ywORBo5MF01CM4p3FCrp5XRNeVvCKPUWD+patlo69nmhpPq
+         DdJdqH/nVVmD5YHunDsdt17uBhdl2zHooiRzOw/65Ku6ZcIxw1eoPiMvBBduMOGWcC4i
+         P0fg==
+X-Gm-Message-State: AOAM532ILt+iazsKAq6fqMBKK8TucdMybPWbY8Gk7cs9rpEeFdFk1exj
+        lgoD8LREgIOq3qiJ44+1PxI=
+X-Google-Smtp-Source: ABdhPJx1srVR9TBBVXc+NkJTALo2Bg9NrDLgeyjKGSuPMtZpd7O2FF5aF1WXzRnW91TsfavQDbZ3uw==
+X-Received: by 2002:a17:903:1248:b0:151:9708:d586 with SMTP id u8-20020a170903124800b001519708d586mr24057168plh.15.1650988366668;
+        Tue, 26 Apr 2022 08:52:46 -0700 (PDT)
+Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
+        by smtp.gmail.com with ESMTPSA id g10-20020a17090ace8a00b001cd4989ff64sm3515376pju.43.2022.04.26.08.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 08:52:45 -0700 (PDT)
+Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: [RFC PATCH] kbuild: call checksyscalls.sh and check-atomics.sh only if prerequisites change
+Date:   Wed, 27 Apr 2022 00:52:29 +0900
+Message-Id: <20220426155229.436681-1-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-17-masahiroy@kernel.org> <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
-In-Reply-To: <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Apr 2022 13:08:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
-Message-ID: <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
-Subject: Re: [PATCH 16/27] modpost: make multiple export error
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 3:48 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > This is currently a warning, but I think modpost should stop building
-> > in this case.
-> >
-> > If the same symbol is exported multiple times and we let it keep going,
-> > the sanity check becomes difficult.
-> >
-> > Only the legitimate case is that an external module overrides the
-> > corresponding in-tree module to provide a different implementation
-> > with the same interface.
->
-> Could the same module export a weak version of a symbol, and a strong one?
+Currently, checksyscalls.sh and check-atomics.sh are executed
+unconditionally. Most developers will not modify the files being
+checked by those scripts and thus do not need to execute these again
+for each iterative make. Change Kbuild target so that those two
+scripts get executed only if the prerequisite are modified.
 
-No.  There is no concept like   EXPORT_SYMBOL_WEAK.
+In order to implement this we:
 
-I am talking about kmod things.
-You can modprobe an external module instead of the in-kernel one.
+  1. use the if_change macro instead of cmd. c.f. [1]
 
->
-> Can kernel modules override in-kernel strong symbols?
+  2. create two dot files: scripts/.checksyscalls and
+  scripts/atomic/.check-atomics to keep track of whether the script
+  were already executed or not. Otherwise, the prerequisite would
+  always be considered as newer than the target (c.f. output "due to
+  target missing" of make V=2).
 
-Yes, I think so.
+  3. modify the CLEAN_FILES target of the root Makefile to removed the
+  two temporary dot files created in 2.
 
+We also added an additional dependency to include/linux/atomic/* for
+check-atomics.sh to make sure that the script gets executed again if
+the header are modified. check-atomics.sh already has a dependency
+toward include/generated/asm-offsets.h and so no additional
+dependencies were added.
 
->
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 14044cd94aaa..73f0b98e3b5a 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -411,9 +411,9 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
-> >                 list_add_tail(&s->list, &mod->exported_symbols);
-> >         } else if (!external_module || s->module->is_vmlinux ||
-> >                    s->module == mod) {
-> > -               warn("%s: '%s' exported twice. Previous export was in %s%s\n",
-> > -                    mod->name, name, s->module->name,
-> > -                    s->module->is_vmlinux ? "" : ".ko");
-> > +               error("%s: '%s' exported twice. Previous export was in %s%s\n",
-> > +                     mod->name, name, s->module->name,
-> > +                     s->module->is_vmlinux ? "" : ".ko");
-> >                 return s;
-> >         }
-> >
-> > --
-> > 2.32.0
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+[1] https://www.kernel.org/doc/html/latest/kbuild/makefiles.html#command-change-detection
 
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+Sending this as RFC because I am not an expert of Kbuild. The use of
+the dot files was my best shot at tackling this issue. Maybe there is
+a smarter way which I just missed?
 
+If I receive no comments for the next two weeks, I will resend this
+patch without the RFC tag.
+---
+ Kbuild   | 14 ++++++++------
+ Makefile |  3 ++-
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
+diff --git a/Kbuild b/Kbuild
+index fa441b98c9f6..d579f4971aa3 100644
+--- a/Kbuild
++++ b/Kbuild
+@@ -39,21 +39,23 @@ $(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+ #####
+ # Check for missing system calls
+ 
+-always-y += missing-syscalls
++always-y += scripts/.missing-syscalls
+ 
+ quiet_cmd_syscalls = CALL    $<
+       cmd_syscalls = $(CONFIG_SHELL) $< $(CC) $(c_flags) $(missing_syscalls_flags)
+ 
+-missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
+-	$(call cmd,syscalls)
++scripts/.missing-syscalls: scripts/checksyscalls.sh $(offsets-file) FORCE
++	$(call if_changed,syscalls)
++	@touch $@
+ 
+ #####
+ # Check atomic headers are up-to-date
+ 
+-always-y += old-atomics
++always-y += scripts/atomic/.old-atomics
+ 
+ quiet_cmd_atomics = CALL    $<
+       cmd_atomics = $(CONFIG_SHELL) $<
+ 
+-old-atomics: scripts/atomic/check-atomics.sh FORCE
+-	$(call cmd,atomics)
++scripts/atomic/.old-atomics: scripts/atomic/check-atomics.sh $(wildcard include/linux/atomic/*) FORCE
++	$(call if_changed,atomics)
++	@touch $@
+diff --git a/Makefile b/Makefile
+index fa5112a0ec1b..b18af9d4248a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1483,7 +1483,8 @@ endif # CONFIG_MODULES
+ # Directories & files removed with 'make clean'
+ CLEAN_FILES += include/ksym vmlinux.symvers modules-only.symvers \
+ 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
+-	       compile_commands.json .thinlto-cache
++	       compile_commands.json .thinlto-cache \
++	       scripts/.missing-syscalls scripts/atomic/.old-atomics
+ 
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_FILES += include/config include/generated          \
 -- 
-Best Regards
-Masahiro Yamada
+2.35.1
+
