@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4144050EF70
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 05:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB7350EF88
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 06:06:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbiDZECy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 00:02:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57042 "EHLO
+        id S235144AbiDZEJ7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 00:09:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229825AbiDZECx (ORCPT
+        with ESMTP id S234740AbiDZEJ7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 00:02:53 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078DDB1CD;
-        Mon, 25 Apr 2022 20:59:45 -0700 (PDT)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 23Q3xTgm025076;
-        Tue, 26 Apr 2022 12:59:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 23Q3xTgm025076
+        Tue, 26 Apr 2022 00:09:59 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7BB167C1;
+        Mon, 25 Apr 2022 21:06:51 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 23Q46Rwf023756;
+        Tue, 26 Apr 2022 13:06:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23Q46Rwf023756
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650945570;
-        bh=cYiWrPdBFDd0mrnYn09H4oEnjv6RyMZ7n64U8ua0gOY=;
+        s=dec2015msa; t=1650945988;
+        bh=qrC2TpoXIDlISRP2dGG4wJWdMAz97YSJGHJvZ6HNt9g=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NPc1Z9EKm+Rim2o91JcqsiLludqXKEAFP0jMbD9oWluY0aTNEsRAS85T/sIQb5jD4
-         cLI5+i0orrkt/lP/wYa8fJ34H8M3aTBh6f9brzF22m0HTh6Ctqhov49wwRHE3FDcVY
-         tVuv6z6KUWejd3TYiM15bSgBsbp35zpkH4TjQ6pAfY27tl/T0oQjbUVy31gUQ/BpLD
-         JJVEOiEdj/ILRuCF0PtA769j2pHvSRwHP4338w8lEe/n099W7vq306HdLdnnk5wD4p
-         LhSHhEmRQkqbOshaztKCGiefx1uiD+x16KdFUWVfnFshwcwQ8iOzS+nWTeOWU/6rH1
-         HB6jEZ6ontGVA==
-X-Nifty-SrcIP: [209.85.216.53]
-Received: by mail-pj1-f53.google.com with SMTP id l11-20020a17090a49cb00b001d923a9ca99so1350828pjm.1;
-        Mon, 25 Apr 2022 20:59:29 -0700 (PDT)
-X-Gm-Message-State: AOAM530jXRszM248JzQk8E7nBRRn3iFgUjpvF4sXdQHcdemJ7sikTmsM
-        YPj2vLMqiA44VPZ6JiwXndAuIAcn6bwtLnhd0dQ=
-X-Google-Smtp-Source: ABdhPJxqNW2U2AUQwKH629EZ5PUs/ObxZN3krYGMVvx8LRvzNllnHHp1ZqbXQstTuE9vvjtHKkJERoqF9RBgvrl1Sak=
-X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
- s7-20020a170902988700b001516e1c7082mr20907060plp.162.1650945568944; Mon, 25
- Apr 2022 20:59:28 -0700 (PDT)
+        b=Opfe1I/bMtYc/WViUbkQdbx9GVBCBasltY/tw5U7VxW6ImO0/H4/hCwe1BtuCQp4w
+         2Fbway0sj7oWD3SjXpDSFjzgk6bp7oAIDN8QxcZuyFd8d1xvZmGfyDJPekwMBV/zmQ
+         4gJuvIjgshbmPNgkPWLigTCu53W5ZbAKj52Z2hXxJ1J/YsUGaaknCC29evBWT0/d7B
+         4eoAfFJUg5BOdcDz6J+vvka0SmLSy/LlFbmaeKHOSbq043Jh1KOiTG7STSbEYFvynW
+         zDNiD1Iw75jICs2KbOOx1JPuVqOMjReoRQaGr0hDl6319oqVxJqNfFI6RoZZtBHc8v
+         jgV5fN+RqEBEQ==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id d15so29060356pll.10;
+        Mon, 25 Apr 2022 21:06:28 -0700 (PDT)
+X-Gm-Message-State: AOAM530gp4Pj+tJsxjDJ3wBchl2Qe6XoNIsyxj/WdkLEeRgo8thMxPOy
+        r09a1OjPO8+CD0XP2Y/Hh7F+whnqON+CaWeyhBo=
+X-Google-Smtp-Source: ABdhPJwB3we02kFZ9CfPBVaj6tbWqZdcj5GHulST85Pa2lDSH7iho/KxZaUk3SMsns4qIcnmJsbDMdKxR1VrxJXaCh8=
+X-Received: by 2002:a17:90a:8405:b0:1bc:d521:b2c9 with SMTP id
+ j5-20020a17090a840500b001bcd521b2c9mr35376310pjn.119.1650945987044; Mon, 25
+ Apr 2022 21:06:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-10-masahiroy@kernel.org> <CAKwvOdkac4Bk+u=v2dwSD=X0kZo2y4UxRUNHJdYiTLTPSp7=kQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdkac4Bk+u=v2dwSD=X0kZo2y4UxRUNHJdYiTLTPSp7=kQ@mail.gmail.com>
+ <20220424190811.1678416-8-masahiroy@kernel.org> <CAKwvOd=2pYsUZkvK-d97xC749mCs1QUUc68BfZdTR1diz52Hww@mail.gmail.com>
+In-Reply-To: <CAKwvOd=2pYsUZkvK-d97xC749mCs1QUUc68BfZdTR1diz52Hww@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Apr 2022 12:58:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR4N_OAUJJnCoZWA3OKWPFJHgOTLmsgY+DHaXRJFwGsGQ@mail.gmail.com>
-Message-ID: <CAK7LNAR4N_OAUJJnCoZWA3OKWPFJHgOTLmsgY+DHaXRJFwGsGQ@mail.gmail.com>
-Subject: Re: [PATCH 09/27] modpost: add sym_add_unresolved() helper
+Date:   Tue, 26 Apr 2022 13:05:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATOuNJFNS_EFYXYkp73sJ4gWt0w7eaR9fDL+EhTThkNBA@mail.gmail.com>
+Message-ID: <CAK7LNATOuNJFNS_EFYXYkp73sJ4gWt0w7eaR9fDL+EhTThkNBA@mail.gmail.com>
+Subject: Re: [PATCH 07/27] modpost: import include/linux/list.h
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -61,121 +61,35 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 3:41 AM Nick Desaulniers
+On Tue, Apr 26, 2022 at 3:42 AM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > Add a small helper, sym_add_unresolved() to ease the further
-> > refactoring.
+> > Import include/linux/list.h to use convenient list macros in modpost.
 > >
-> > Remove the 'weak' argument from alloc_symbol() because it is sensible
-> > only for unresolved symbols.
+> > I dropped kernel-space code such as {WRITE,READ}_ONCE etc. and unneeded
+> > macros.
+> >
+> > I also imported container_of() from include/linux/container_of.h and
+> > type definitions from include/linux/types.h.
 >
-> I did not yet read the rest of the series to see how else your newly
-> added helper `sym_add_unresolved` is used.
-> Perhaps the callers of `alloc_symbol` should just set the symbol's
-> weak member to true if needed, and alloc_symbol can default to setting
-> it false (as the memset currently does)?
->
-> Then, you don't need the helper, and just `handle_symbol` needs the
-> assignment when `ELF_ST_BIND(sym->st_info) == STB_WEAK`?
+> Is there a better way to just use the kernel headers?
+
+Presumably no.
+include/linux/list.h includes more.
+
+Adding so many #ifdef __KERNEL__ stubs
+would be really ugly.
 
 
-I will change this in the later commit:
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220424190811.1678416-11-masahiroy@kernel.org/
+> I kind of hate
+> copy+paste since the in tree duplication will diverge over time.
 
-I think this is a good case for a new helper.
+I only cherry-picked some macros from include/linux/kernel.h
 
-If you look at the entire series,
-"allocate a new symbol and connect it to the proper linked list or hash_table"
-is consistently done in a helper function.
+No need to resync.
 
-
-Also, I chose the function name as they look symmetrical.
-
- sym_add_unresolved()
- sym_add_exported()
- sym_add_crc()
-
-
-
-
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 19 +++++++++++--------
-> >  1 file changed, 11 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 86416e4af626..1c7d2831e89d 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -230,14 +230,12 @@ static inline unsigned int tdb_hash(const char *name)
-> >   * Allocate a new symbols for use in the hash of exported symbols or
-> >   * the list of unresolved symbols per module
-> >   **/
-> > -static struct symbol *alloc_symbol(const char *name, bool weak,
-> > -                                  struct symbol *next)
-> > +static struct symbol *alloc_symbol(const char *name, struct symbol *next)
-> >  {
-> >         struct symbol *s = NOFAIL(malloc(sizeof(*s) + strlen(name) + 1));
-> >
-> >         memset(s, 0, sizeof(*s));
-> >         strcpy(s->name, name);
-> > -       s->weak = weak;
-> >         s->next = next;
-> >         s->is_static = true;
-> >         return s;
-> > @@ -250,11 +248,17 @@ static struct symbol *new_symbol(const char *name, struct module *module,
-> >         unsigned int hash;
-> >
-> >         hash = tdb_hash(name) % SYMBOL_HASH_SIZE;
-> > -       symbolhash[hash] = alloc_symbol(name, false, symbolhash[hash]);
-> > +       symbolhash[hash] = alloc_symbol(name, symbolhash[hash]);
-> >
-> >         return symbolhash[hash];
-> >  }
-> >
-> > +static void sym_add_unresolved(const char *name, struct module *mod, bool weak)
-> > +{
-> > +       mod->unres = alloc_symbol(name, mod->unres);
-> > +       mod->unres->weak = weak;
-> > +}
-> > +
-> >  static struct symbol *find_symbol(const char *name)
-> >  {
-> >         struct symbol *s;
-> > @@ -701,9 +705,8 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
-> >                         }
-> >                 }
-> >
-> > -               mod->unres = alloc_symbol(symname,
-> > -                                         ELF_ST_BIND(sym->st_info) == STB_WEAK,
-> > -                                         mod->unres);
-> > +               sym_add_unresolved(symname, mod,
-> > +                                  ELF_ST_BIND(sym->st_info) == STB_WEAK);
-> >                 break;
-> >         default:
-> >                 /* All exported symbols */
-> > @@ -2073,7 +2076,7 @@ static void read_symbols(const char *modname)
-> >          * the automatic versioning doesn't pick it up, but it's really
-> >          * important anyhow */
-> >         if (modversions)
-> > -               mod->unres = alloc_symbol("module_layout", false, mod->unres);
-> > +               sym_add_unresolved("module_layout", mod, false);
-> >  }
-> >
-> >  static void read_symbols_from_files(const char *filename)
-> > --
-> > 2.32.0
-> >
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
 
 
 
