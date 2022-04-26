@@ -2,107 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 265F750E8F0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Apr 2022 20:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25EFE50ED8E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 02:25:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242978AbiDYS7g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Apr 2022 14:59:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
+        id S235372AbiDZA27 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Apr 2022 20:28:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244734AbiDYS7f (ORCPT
+        with ESMTP id S240130AbiDZA26 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Apr 2022 14:59:35 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 985451229C8
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:56:30 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id g19so27891815lfv.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Apr 2022 11:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jyx9VAg/T+a6pNMMHSmxlNhkA8BQhETmaaAMOL1rXa4=;
-        b=tMZZ4zxj/dpWyU3rAZ+bHBaebx7EadCioxFOZg3u5Qd1IYmurkN6KMIasZpgF+4q1U
-         sEQrPMz2QE88U9mUTYSZMfkE4M1jbkZaSsQYjBlhRflcU4+02VligPLY/L4k16twt00q
-         0nTEO0hLBY6CwhOoYNngs4tckWqXE8mt0UEepcOJonLUo4hmrPT0OcQnYUVN0tGbcKoN
-         j4r9JAOEEmStoAOjEw8TjyKStjfoPjm8mT44GSDSfzj8C861Iqyqx8KmM+/dLFxQ1WUV
-         tmwR8a2SUscwFpNZnFjuuCASZW7m3DrSvYl2mQrNqiDIqLBOfmUBvOqjBODYpfVUj7jm
-         1I1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jyx9VAg/T+a6pNMMHSmxlNhkA8BQhETmaaAMOL1rXa4=;
-        b=1/w+H2zdElUZfXmGlCw1zyVGUdg07aL2q0sMWxGsoojPuH3l4dtgsm4gedaZnoCiMb
-         xH/3Izf1IVeH9IhQhMf3tO+nKVRpvktpeztY0DgwZ+u3DJZijibVo0PsvOhILKG/5w8s
-         eu/+Qmf7h2ZaXdZ+xomBVoSVCBEfiBgLy1LGI8yRt3J6iYRrEPv9LNSIlMjGnO9QiR65
-         eoLAFmKvq4a3jKT7i3xp/MeL/aDHwd4bzpYw4ujgPKPBPv/48mH4hWQ3HJTPJeNhQ6c7
-         HR1D1ovVQjQQ/orGNmuFO8nWm78PyBOLpiMHPC2AHY/HVtGiF2iQ8MlykS8LPTz5Ce5W
-         dUTg==
-X-Gm-Message-State: AOAM5321BiexrQx9aPuMl3nH+HVZoC8hvjrgHGQYRGBeINZx6wPri+eN
-        Zg1tHiLpOpA1dbZsCQPC/S3oCRuPp3+S/7b3mHS8KQ==
-X-Google-Smtp-Source: ABdhPJwkk9WfalacarRaRB/KsFrIqj7GGz2BZSMlaebEITrcDACJMvRtAXqr5dD4RghjVmzivFfFVQPqB6LoZOyJS7g=
-X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id
- s6-20020ac24646000000b00472108e51afmr1773669lfo.184.1650912988676; Mon, 25
- Apr 2022 11:56:28 -0700 (PDT)
+        Mon, 25 Apr 2022 20:28:58 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 050FF1A060;
+        Mon, 25 Apr 2022 17:25:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=lTmpX84kge9E7ZGQUef7DLb/Hxor4Jf6qlPXm/vpPvI=; b=iYv4uuxx3QPdPG/vhTt3qy/FtD
+        uPTItpjsiqRmbzNzp3BU9uM/5BgThVwoEETQS2tQ15iSS0HLITeAEFjmxcsIm06qBFvZTEKPzhZS9
+        5G8Lb0SjWYSBhXBsDiGwBljxlODgpzjFN72rFK5hx1unzk7zdoHkBrFia6cc4TcYHigbOSrFJYvDf
+        5cnQngbwXFAOjvCctmaYjPjFrD2sHhW0CUwr/kmm5kgBE20l6jDk2y/Fv4IIvwztLj4DIaxAfe8Bl
+        S2bw6GYF0zgc/SGFl9Kh1pJdPCXuMjKF3brumT3ahzBHeOBVXIAwbkFVNr5/IybFuVYBKwQItMIN1
+        Br1Z8wJA==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nj91c-00BviB-Ip; Tue, 26 Apr 2022 00:25:52 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: fix a typo
+Date:   Mon, 25 Apr 2022 17:25:51 -0700
+Message-Id: <20220426002551.20171-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-7-masahiroy@kernel.org> <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
-In-Reply-To: <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 25 Apr 2022 11:56:17 -0700
-Message-ID: <CAKwvOdmeOYsBGSZrprdtoxcUmpy1oscnBfLUaSARPNKsH4Aeug@mail.gmail.com>
-Subject: Re: [PATCH 06/27] modpost: use bool type where appropriate
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 25, 2022 at 11:34 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> /On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 60 +++++++++++++++++++++----------------------
-> >  scripts/mod/modpost.h | 10 ++++----
-> >  2 files changed, 35 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index f9cbb6b6b7a5..52dd07a36379 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -203,10 +203,10 @@ struct symbol {
-> >         struct symbol *next;
-> >         struct module *module;
-> >         unsigned int crc;
-> > -       int crc_valid;
-> > +       bool crc_valid;
-> >         char *namespace;
-> > -       unsigned int weak:1;
-> > -       unsigned int is_static:1;  /* 1 if symbol is not global */
-> > +       bool weak;
-> > +       bool is_static;         /* true if symbol is not global */
-> >         enum export  export;       /* Type of export */
-> >         char name[];
-> >  };
+Fix a typo so that it makes sense.
 
-This will change the sizeof(struct symbol).  I'm guessing we have lots
-of symbols to process? If we have many live at once, perhaps it would
-be better to keep these as bitfields, but additionally move them to
-the end of the struct definition so as to save space?
--- 
-Thanks,
-~Nick Desaulniers
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+---
+ Makefile |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/Makefile
++++ b/Makefile
+@@ -1386,7 +1386,7 @@ scripts_unifdef: scripts_basic
+ # Install
+ 
+ # Many distributions have the custom install script, /sbin/installkernel.
+-# If DKMS is installed, 'make install' will eventually recuses back
++# If DKMS is installed, 'make install' will eventually recurse back
+ # to the this Makefile to build and install external modules.
+ # Cancel sub_make_done so that options such as M=, V=, etc. are parsed.
+ 
