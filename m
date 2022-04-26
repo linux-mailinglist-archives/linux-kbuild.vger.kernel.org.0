@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AB7350EF88
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 06:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B7850EF95
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 06:09:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235144AbiDZEJ7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 00:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52146 "EHLO
+        id S242568AbiDZEMz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 00:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234740AbiDZEJ7 (ORCPT
+        with ESMTP id S234748AbiDZEMy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 00:09:59 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7BB167C1;
-        Mon, 25 Apr 2022 21:06:51 -0700 (PDT)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 23Q46Rwf023756;
-        Tue, 26 Apr 2022 13:06:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23Q46Rwf023756
+        Tue, 26 Apr 2022 00:12:54 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3464E17E3E;
+        Mon, 25 Apr 2022 21:09:47 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 23Q49Mom019014;
+        Tue, 26 Apr 2022 13:09:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 23Q49Mom019014
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650945988;
-        bh=qrC2TpoXIDlISRP2dGG4wJWdMAz97YSJGHJvZ6HNt9g=;
+        s=dec2015msa; t=1650946162;
+        bh=vlQmv5riRzngKOKBqAqSk4kL8xP/v527bj+1qTzl/Rs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Opfe1I/bMtYc/WViUbkQdbx9GVBCBasltY/tw5U7VxW6ImO0/H4/hCwe1BtuCQp4w
-         2Fbway0sj7oWD3SjXpDSFjzgk6bp7oAIDN8QxcZuyFd8d1xvZmGfyDJPekwMBV/zmQ
-         4gJuvIjgshbmPNgkPWLigTCu53W5ZbAKj52Z2hXxJ1J/YsUGaaknCC29evBWT0/d7B
-         4eoAfFJUg5BOdcDz6J+vvka0SmLSy/LlFbmaeKHOSbq043Jh1KOiTG7STSbEYFvynW
-         zDNiD1Iw75jICs2KbOOx1JPuVqOMjReoRQaGr0hDl6319oqVxJqNfFI6RoZZtBHc8v
-         jgV5fN+RqEBEQ==
-X-Nifty-SrcIP: [209.85.214.182]
-Received: by mail-pl1-f182.google.com with SMTP id d15so29060356pll.10;
-        Mon, 25 Apr 2022 21:06:28 -0700 (PDT)
-X-Gm-Message-State: AOAM530gp4Pj+tJsxjDJ3wBchl2Qe6XoNIsyxj/WdkLEeRgo8thMxPOy
-        r09a1OjPO8+CD0XP2Y/Hh7F+whnqON+CaWeyhBo=
-X-Google-Smtp-Source: ABdhPJwB3we02kFZ9CfPBVaj6tbWqZdcj5GHulST85Pa2lDSH7iho/KxZaUk3SMsns4qIcnmJsbDMdKxR1VrxJXaCh8=
-X-Received: by 2002:a17:90a:8405:b0:1bc:d521:b2c9 with SMTP id
- j5-20020a17090a840500b001bcd521b2c9mr35376310pjn.119.1650945987044; Mon, 25
- Apr 2022 21:06:27 -0700 (PDT)
+        b=kDRO6n4gcrugtInPeEtD2mbsqkzimAnrWpgjATsadHhZu2Mi3sukqotidRdr0/5Oy
+         VPhYHBPYXCEJpLzSb+5rq+K3nqW2cE42H6K8ONhywaLUGgve5ql7hcbrYM2WK1G9NA
+         /OqC30MXIOxKCzvK/qT1sUWsmyNEt+Bhink6eUw41ePn92d7GYFHmuAmcilP6Itpw1
+         YEnCme4mVk4EjUOscfA/yCqfleX9hHW7df0Ae/+g4qzBwDRX4t580HHYqZU/2aKVeA
+         CUXWwbUFqAnFvk38Wmzmx1sPBjK2o9T4azPl59o/vr/+9LlI1vTX3aT0OyRykhnE2O
+         pGNktduCLdJeA==
+X-Nifty-SrcIP: [209.85.216.46]
+Received: by mail-pj1-f46.google.com with SMTP id u6-20020a17090a1f0600b001d86bd69427so1355364pja.5;
+        Mon, 25 Apr 2022 21:09:22 -0700 (PDT)
+X-Gm-Message-State: AOAM532dIkyNtxjdZDkVwfmGKsGTXoUHtDDGK/c41iUE7axQxNKv6AKg
+        5lekvUnG9t65YM542UHSWPaLjQ73mIZx/pMAbxo=
+X-Google-Smtp-Source: ABdhPJyeTNXk3eEgUbbGnI1xpxigeGRimHhJalVAMLzx3oMGsvYQPLReffx9PB/krO9KrZOWN3kQB06Mm5If++lLOVw=
+X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
+ t23-20020a17090ae51700b001d75bbdf9f0mr24345046pjy.77.1650946161687; Mon, 25
+ Apr 2022 21:09:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-8-masahiroy@kernel.org> <CAKwvOd=2pYsUZkvK-d97xC749mCs1QUUc68BfZdTR1diz52Hww@mail.gmail.com>
-In-Reply-To: <CAKwvOd=2pYsUZkvK-d97xC749mCs1QUUc68BfZdTR1diz52Hww@mail.gmail.com>
+ <20220424190811.1678416-17-masahiroy@kernel.org> <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
+In-Reply-To: <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Apr 2022 13:05:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATOuNJFNS_EFYXYkp73sJ4gWt0w7eaR9fDL+EhTThkNBA@mail.gmail.com>
-Message-ID: <CAK7LNATOuNJFNS_EFYXYkp73sJ4gWt0w7eaR9fDL+EhTThkNBA@mail.gmail.com>
-Subject: Re: [PATCH 07/27] modpost: import include/linux/list.h
+Date:   Tue, 26 Apr 2022 13:08:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
+Message-ID: <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
+Subject: Re: [PATCH 16/27] modpost: make multiple export error
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -61,35 +61,67 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 3:42 AM Nick Desaulniers
+On Tue, Apr 26, 2022 at 3:48 AM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > Import include/linux/list.h to use convenient list macros in modpost.
+> > This is currently a warning, but I think modpost should stop building
+> > in this case.
 > >
-> > I dropped kernel-space code such as {WRITE,READ}_ONCE etc. and unneeded
-> > macros.
+> > If the same symbol is exported multiple times and we let it keep going,
+> > the sanity check becomes difficult.
 > >
-> > I also imported container_of() from include/linux/container_of.h and
-> > type definitions from include/linux/types.h.
+> > Only the legitimate case is that an external module overrides the
+> > corresponding in-tree module to provide a different implementation
+> > with the same interface.
 >
-> Is there a better way to just use the kernel headers?
+> Could the same module export a weak version of a symbol, and a strong one?
 
-Presumably no.
-include/linux/list.h includes more.
+No.  There is no concept like   EXPORT_SYMBOL_WEAK.
 
-Adding so many #ifdef __KERNEL__ stubs
-would be really ugly.
+I am talking about kmod things.
+You can modprobe an external module instead of the in-kernel one.
+
+>
+> Can kernel modules override in-kernel strong symbols?
+
+Yes, I think so.
 
 
-> I kind of hate
-> copy+paste since the in tree duplication will diverge over time.
-
-I only cherry-picked some macros from include/linux/kernel.h
-
-No need to resync.
-
+>
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 14044cd94aaa..73f0b98e3b5a 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -411,9 +411,9 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
+> >                 list_add_tail(&s->list, &mod->exported_symbols);
+> >         } else if (!external_module || s->module->is_vmlinux ||
+> >                    s->module == mod) {
+> > -               warn("%s: '%s' exported twice. Previous export was in %s%s\n",
+> > -                    mod->name, name, s->module->name,
+> > -                    s->module->is_vmlinux ? "" : ".ko");
+> > +               error("%s: '%s' exported twice. Previous export was in %s%s\n",
+> > +                     mod->name, name, s->module->name,
+> > +                     s->module->is_vmlinux ? "" : ".ko");
+> >                 return s;
+> >         }
+> >
+> > --
+> > 2.32.0
+> >
+>
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
 
 
 
