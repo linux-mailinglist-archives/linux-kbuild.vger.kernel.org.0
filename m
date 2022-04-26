@@ -2,125 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D88451071A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 20:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BD965109E9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 22:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348716AbiDZSh1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 14:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
+        id S1351855AbiDZUP3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 16:15:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351841AbiDZSh1 (ORCPT
+        with ESMTP id S1354789AbiDZUPW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 14:37:27 -0400
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADBF483AA;
-        Tue, 26 Apr 2022 11:34:18 -0700 (PDT)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 23QIXmP9029461;
-        Wed, 27 Apr 2022 03:33:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 23QIXmP9029461
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1650998028;
-        bh=MU07d+AY262zmGtq+SAVA7lALUspXSeSWe02H3uj1Xs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lguVaRuEX3+hSS8983Stao2YuzU83B4mWLci+q6evrHIVLDEnaspCIFhTFyjlNBt4
-         ogjs1QjTWN2sJx57hXaCQZcKe2Qtg07GE4kCNg5wm2cPzDQrQY2RZ/ZffKpKhpRYG/
-         BE7O9Sva9p7379jrfRbt3rYHsCOXBmNq/jTxkrrvtHUKyj1e3x/AX2AHkwUdoakg5t
-         8wbCp7wNM53R3yaIVEQ0SsQHrewmCuyMsDefoxsPihScj9tvQ3y6iAqnNuES1+1hI5
-         2XBMezd4GbfkTfcstdT7KamsdbOegqk8RWDCodwGF59bDGWgO6dQterjWMvBDVAgGD
-         bJul1FngcXvoA==
-X-Nifty-SrcIP: [209.85.214.182]
-Received: by mail-pl1-f182.google.com with SMTP id u7so15679921plg.13;
-        Tue, 26 Apr 2022 11:33:48 -0700 (PDT)
-X-Gm-Message-State: AOAM533T5AKJlZAapqzcV2M+we6IFFYG65pgjH6gDqtEuXzCrcE43jTr
-        po/f+a/PaKmW8K18bJKNT0IlM8gdDeBOMXqvT50=
-X-Google-Smtp-Source: ABdhPJyZ9MX01nIu6mjkQna2NHamZuUGcHbEm8Gxa5aJQzqyZeFUAtdhz+cCf+uq33d0JOiUSGbOfW2CVOxOByuqjV4=
-X-Received: by 2002:a17:90a:e7d2:b0:1d7:4f8d:3ca6 with SMTP id
- kb18-20020a17090ae7d200b001d74f8d3ca6mr28395475pjb.144.1650998027682; Tue, 26
- Apr 2022 11:33:47 -0700 (PDT)
-MIME-Version: 1.0
+        Tue, 26 Apr 2022 16:15:22 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5211B186BDA;
+        Tue, 26 Apr 2022 13:11:48 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.99.192]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MXXdn-1nN8Dl1QXX-00YyYT; Tue, 26 Apr 2022 22:10:58 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 198DB3C088; Tue, 26 Apr 2022 22:10:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1651003856; bh=R/Kw4Op8hyZ4jcPee67qTZrfx8Tg8yOC+/sEkC2esoc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wTIUDYxZf0jXcmnl84CmDsd6y8ocCqm85HkaULylafFos1Pl0b5ahPaM38DvcHUz6
+         GSPPMpBnzjTvKDvf3cYpNeWYO3xoE4aH/j8EupWjse256FH1iNl8UWAdWL6EDZbLEE
+         QSf320O5dKUBT3w7cQsX6UcWZUInR9zDeu0rKbfY=
+Date:   Tue, 26 Apr 2022 22:10:55 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH 00/27] kbuild: yet another series of cleanups (modpost
+ and LTO)
+Message-ID: <YmhRz1SEjpEU8Nty@fjasle.eu>
 References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-17-masahiroy@kernel.org> <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
- <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com> <CAKwvOd=9ffHMynzCPXPAAdz90BcW0JhihjqnRNneFqMq3u+59Q@mail.gmail.com>
-In-Reply-To: <CAKwvOd=9ffHMynzCPXPAAdz90BcW0JhihjqnRNneFqMq3u+59Q@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 27 Apr 2022 03:33:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnQ2QXV9=CyTLq+3rzJ-n8hEhgtuRmj8hBHmX8-8n_cg@mail.gmail.com>
-Message-ID: <CAK7LNASnQ2QXV9=CyTLq+3rzJ-n8hEhgtuRmj8hBHmX8-8n_cg@mail.gmail.com>
-Subject: Re: [PATCH 16/27] modpost: make multiple export error
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
-        autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220424190811.1678416-1-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:122aPGvBqY6tIA/oCXwlRl7Mpi1hoD+1bqMgfw6wBwc7/XwIpVA
+ tF7voRfpYSiI1mICJ7rrQul2yM5xn5+uwMsYJ+4EXwMR9/LRUzyncr6jn2/NiMydmusiw1w
+ 0yLZefHPWffuC7tugEcFuBTX18JjhPH5og9os/6pIZzepIKZgmXYgmRDMwGmEmMRcQXAAfL
+ IhBTu4JaVBHoSOMZ4Xppw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MfXNq7HSm7Y=:8MI0vvK4hksh7bM8YAeCcI
+ 7YqNb4DgX+6BEA+wzM0SfU9HV1BPk0i3J2OMZm3uQ4MHKFsUVDraVvcYdk+c7Ltyp2Dx5n9xG
+ v4fPhyK2d60XIWjCOgAu/krFpmPOw6c7mpRP16JNM4Hyt62Rx0aJyDRtFlA4x9C9mvqNitEmo
+ mrv3qzQXva5a/BJcK9m9sG/YwUANRCCSIPjLOmgDzWumnb0o0/Ia2Mhfy2fqruHKqJbVVskzv
+ gA46poB7oMtBOSdPUwUWl4AVjdl6qFJmEQDuOFX/dmjuZCeKdugz2CgJfNPJG9arEv1x282T/
+ UI5q4j3p3Z+PP1pIPhTHSvHT1ggeenXZbcCz+GgA3eBb2XNFTG/0DiHaO5rvxAja1/FdsyYVz
+ f8u68KnoSFVBAtRGMhdGPeNS34OuMv/GlvPGlGLFvtcGTXAZigvddHgTq//S7pZBE2tCUmLkc
+ FXWJR1wZb1icdKedDjHETRIPUnS/w77peONwXAEtLhPJf5DzWPLQXhu5yf6+f7HroTOm9QFG5
+ Sq5Bx5yrbziU8uKglfwHU3UvGtabaLlIs3ek+IelQ1/h6HNOiaRwq2mSh3WP2I3mcOpbw+J/F
+ UFJX/trsX+0USBvdc0E0QgjAKbuzYckHiciVMRXAu2jdwZS/G50xNjJsJb7K7vn2tnPfQEjsd
+ 0xsBBM7GZo/d25FzkxxHjpg/TCajSoxoUV2MllaBg/8GZP5FaBSQtr+qwMMnbpgbTXM0=
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 1:40 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Mon, Apr 25, 2022 at 9:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Tue, Apr 26, 2022 at 3:48 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > This is currently a warning, but I think modpost should stop building
-> > > > in this case.
-> > > >
-> > > > If the same symbol is exported multiple times and we let it keep going,
-> > > > the sanity check becomes difficult.
-> > > >
-> > > > Only the legitimate case is that an external module overrides the
-> > > > corresponding in-tree module to provide a different implementation
-> > > > with the same interface.
-> > >
-> > > Could the same module export a weak version of a symbol, and a strong one?
-> >
-> > No.  There is no concept like   EXPORT_SYMBOL_WEAK.
-> >
-> > I am talking about kmod things.
-> > You can modprobe an external module instead of the in-kernel one.
->
-> Ok, this patch seems fine to me.
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> --
-> Thanks,
-> ~Nick Desaulniers
+On Mon, Apr 25, 2022 at 04:07:44AM +0900 Masahiro Yamada wrote:
+> This is the third batch of cleanups in this development cycle.
+> 
+> This weekend, I wrote up the code I have been planning.
+> 
+> After a bunch of modpost refactoring, I got rid of the ugly code
+> in Makefiles.
+> 
+> With this, Kbuild will get back much simpler and cleaner.
+> 
 
+Hi Masahiro,
 
-Nick,
+I tried applying the patch set onto your kbuild and
+kbuild-fixes-v5.18, but it didn't apply.  Can you give me
+a hint on your commit base?
 
+Kind regards,
+Nicolas
 
-If useful, I can add more commits to the commit description.
-
-
-I know one example in the tree that exploits this feature.
-
-$ make allmodconfig all
-   You will get drivers/nvdimm/libnvdimm.ko, then
-
-$ make M=tools/testing/nvdimm
-   You will get tools/testing/nvdimm/libnvdimm.ko
-
-The latter is a mocked one that exported the same symbols
-as drivers/nvdimm/libnvdimm.ko
-
-
-
-
-
-
-
-
+> 
+> Masahiro Yamada (27):
+>   modpost: use snprintf() instead of sprintf() for safety
+>   modpost: do not write out any file when error occurred
+>   modpost: remove stale comment about sym_add_exported()
+>   modpost: add a separate error for exported symbols without definition
+>   modpost: retrieve the module dependency and CRCs in check_exports()
+>   modpost: use bool type where appropriate
+>   modpost: import include/linux/list.h
+>   modpost: traverse modules in order
+>   modpost: add sym_add_unresolved() helper
+>   modpost: traverse unresolved symbols in order
+>   modpost: use doubly linked list for dump_lists
+>   modpost: move struct namespace_list to modpost.c
+>   modpost: traverse the namespace_list in order
+>   modpost: dump Module.symvers in the same order of modules.order
+>   modpost: move static EXPORT_SYMBOL check to check_exports()
+>   modpost: make multiple export error
+>   modpost: make sym_add_exported() always allocate a new symbol
+>   modpost: make sym_add_exported() a void function
+>   modpost: use hlist for hash table implementation
+>   modpost: mitigate false-negatives for static EXPORT_SYMBOL checks
+>   kbuild: record symbol versions in *.cmd files
+>   kbuild: generate a list of objects in vmlinux
+>   modpost: retrieve symbol versions by parsing *.cmd files
+>   modpost: generate linker script to collect symbol versions
+>   kbuild: embed symbol versions at final link of vmlinux or modules
+>   kbuild: stop generating *.symversions
+>   kbuild: do not create *.prelink.o for Clang LTO or IBT
+> 
+>  .gitignore                |   1 +
+>  Makefile                  |   1 +
+>  scripts/Kbuild.include    |   4 +
+>  scripts/Makefile.build    | 107 ++------
+>  scripts/Makefile.lib      |   7 -
+>  scripts/Makefile.modfinal |   6 +-
+>  scripts/Makefile.modpost  |   9 +-
+>  scripts/link-vmlinux.sh   |  38 ++-
+>  scripts/mod/file2alias.c  |   2 -
+>  scripts/mod/list.h        | 336 ++++++++++++++++++++++++
+>  scripts/mod/modpost.c     | 529 +++++++++++++++++++++++---------------
+>  scripts/mod/modpost.h     |  27 +-
+>  12 files changed, 731 insertions(+), 336 deletions(-)
+>  create mode 100644 scripts/mod/list.h
+> 
+> -- 
+> 2.32.0
 
 -- 
-Best Regards
-Masahiro Yamada
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
