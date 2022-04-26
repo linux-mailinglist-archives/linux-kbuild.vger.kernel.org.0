@@ -2,64 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 179B4510541
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 19:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D88451071A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 20:34:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233570AbiDZRYY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 13:24:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38276 "EHLO
+        id S1348716AbiDZSh1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 14:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346947AbiDZRYU (ORCPT
+        with ESMTP id S1351841AbiDZSh1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 13:24:20 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C607D3BA4F
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 10:21:11 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id w19so33122097lfu.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 10:21:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vY6n+jio0gwvbbRftwZVfFCV+8S6O4vtPz4jG39i3+s=;
-        b=TWgNkRLLNcjl/XaddvkQE1EterU2lrL5fehRf6oIDjTGVr97VNKpW0uo3KsGV3D18N
-         HnGn/22GaBBZj3uDR7VLh6dk9maG7nV1HxvquyIXqhfXVAORSOyRhrOBwOGWlmWqx7CZ
-         YAFBhI4mT+hhYOcbEIg8podME13jpUF1xd9+2iORyI3MPGLFURtymQEiszOrhzRqq78/
-         8w5RIseWywi/QHWQT+CI9z9PF6SWES4MpGMWFqI0Qy4ROgyjRyxKWQwEwZiJeWJ2qaUt
-         3RLVAStRE/oiOk0nisyZFuUCyXiZiiT46Oy94aqcE60akyN6oADQpk5NlS03rRBYzayI
-         kowQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vY6n+jio0gwvbbRftwZVfFCV+8S6O4vtPz4jG39i3+s=;
-        b=sVkRISM+PHm6Nb3GwiRfDR5Kh9CCLNDDUf0Cn806u4CwphiLiI6cDymmswm9AYB5Oc
-         lUNQW0i7L807TzGipcRQMxgbOzMH15F6FqTUJ4wIxAQCiNPKO6HriP0o1c9aPc45IZkz
-         9f8wUNNHRR+zGc0+NQQ/GVFX5BW4+RMpWxyau7hhfIPLZZGvIHNiJh9I0FezEGR6HzWe
-         wWr5RhS5sUAHvf833+H/i4OatCDdG+xcs533SQgpQsSaXtCIlM6NvOYUErjzOyDhrbGX
-         oz3u1pJQ1T9mqCifUKORtbxOLGmeKIX1AIcKUZI2rHzcn/GYwzX8ahnwsdNQn+LCPfn1
-         QvuA==
-X-Gm-Message-State: AOAM532gN61HoNswmkXlRBfzvEEbFPSPj0v/e5s7oOUOtU/XZWhDIWG6
-        N6uwz5xNbRfGyXxF9U9cNPsX9hkvQKyxGUPdlaeCrw==
-X-Google-Smtp-Source: ABdhPJyhWp+J5ybWMVXvAk8ooMs7uPcSI9Sm8SIIWGzIh31BZvVfqbRuznmM+sw9qijUdRJPxFo3eCsyVhjuM8uWQu0=
-X-Received: by 2002:ac2:5223:0:b0:448:5100:e427 with SMTP id
- i3-20020ac25223000000b004485100e427mr17402224lfl.87.1650993669901; Tue, 26
- Apr 2022 10:21:09 -0700 (PDT)
+        Tue, 26 Apr 2022 14:37:27 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADBF483AA;
+        Tue, 26 Apr 2022 11:34:18 -0700 (PDT)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 23QIXmP9029461;
+        Wed, 27 Apr 2022 03:33:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 23QIXmP9029461
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1650998028;
+        bh=MU07d+AY262zmGtq+SAVA7lALUspXSeSWe02H3uj1Xs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lguVaRuEX3+hSS8983Stao2YuzU83B4mWLci+q6evrHIVLDEnaspCIFhTFyjlNBt4
+         ogjs1QjTWN2sJx57hXaCQZcKe2Qtg07GE4kCNg5wm2cPzDQrQY2RZ/ZffKpKhpRYG/
+         BE7O9Sva9p7379jrfRbt3rYHsCOXBmNq/jTxkrrvtHUKyj1e3x/AX2AHkwUdoakg5t
+         8wbCp7wNM53R3yaIVEQ0SsQHrewmCuyMsDefoxsPihScj9tvQ3y6iAqnNuES1+1hI5
+         2XBMezd4GbfkTfcstdT7KamsdbOegqk8RWDCodwGF59bDGWgO6dQterjWMvBDVAgGD
+         bJul1FngcXvoA==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id u7so15679921plg.13;
+        Tue, 26 Apr 2022 11:33:48 -0700 (PDT)
+X-Gm-Message-State: AOAM533T5AKJlZAapqzcV2M+we6IFFYG65pgjH6gDqtEuXzCrcE43jTr
+        po/f+a/PaKmW8K18bJKNT0IlM8gdDeBOMXqvT50=
+X-Google-Smtp-Source: ABdhPJyZ9MX01nIu6mjkQna2NHamZuUGcHbEm8Gxa5aJQzqyZeFUAtdhz+cCf+uq33d0JOiUSGbOfW2CVOxOByuqjV4=
+X-Received: by 2002:a17:90a:e7d2:b0:1d7:4f8d:3ca6 with SMTP id
+ kb18-20020a17090ae7d200b001d74f8d3ca6mr28395475pjb.144.1650998027682; Tue, 26
+ Apr 2022 11:33:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-14-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-14-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 26 Apr 2022 10:20:58 -0700
-Message-ID: <CAKwvOd=SsRq8YJ7V6XQmFLhOYvvFk0B+Rfftpc_=uEEUfSq6ug@mail.gmail.com>
-Subject: Re: [PATCH 13/27] modpost: traverse the namespace_list in order
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+References: <20220424190811.1678416-1-masahiroy@kernel.org>
+ <20220424190811.1678416-17-masahiroy@kernel.org> <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
+ <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com> <CAKwvOd=9ffHMynzCPXPAAdz90BcW0JhihjqnRNneFqMq3u+59Q@mail.gmail.com>
+In-Reply-To: <CAKwvOd=9ffHMynzCPXPAAdz90BcW0JhihjqnRNneFqMq3u+59Q@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 27 Apr 2022 03:33:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASnQ2QXV9=CyTLq+3rzJ-n8hEhgtuRmj8hBHmX8-8n_cg@mail.gmail.com>
+Message-ID: <CAK7LNASnQ2QXV9=CyTLq+3rzJ-n8hEhgtuRmj8hBHmX8-8n_cg@mail.gmail.com>
+Subject: Re: [PATCH 16/27] modpost: make multiple export error
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,14 +62,65 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Wed, Apr 27, 2022 at 1:40 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Use the doubly linked list to traverse the list in the added order.
-> This makes the code more consistent.
+> On Mon, Apr 25, 2022 at 9:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Tue, Apr 26, 2022 at 3:48 AM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > >
+> > > On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > >
+> > > > This is currently a warning, but I think modpost should stop building
+> > > > in this case.
+> > > >
+> > > > If the same symbol is exported multiple times and we let it keep going,
+> > > > the sanity check becomes difficult.
+> > > >
+> > > > Only the legitimate case is that an external module overrides the
+> > > > corresponding in-tree module to provide a different implementation
+> > > > with the same interface.
+> > >
+> > > Could the same module export a weak version of a symbol, and a strong one?
+> >
+> > No.  There is no concept like   EXPORT_SYMBOL_WEAK.
+> >
+> > I am talking about kmod things.
+> > You can modprobe an external module instead of the in-kernel one.
+>
+> Ok, this patch seems fine to me.
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> --
+> Thanks,
+> ~Nick Desaulniers
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+Nick,
+
+
+If useful, I can add more commits to the commit description.
+
+
+I know one example in the tree that exploits this feature.
+
+$ make allmodconfig all
+   You will get drivers/nvdimm/libnvdimm.ko, then
+
+$ make M=tools/testing/nvdimm
+   You will get tools/testing/nvdimm/libnvdimm.ko
+
+The latter is a mocked one that exported the same symbols
+as drivers/nvdimm/libnvdimm.ko
+
+
+
+
+
+
+
+
 
 -- 
-Thanks,
-~Nick Desaulniers
+Best Regards
+Masahiro Yamada
