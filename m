@@ -2,58 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95C9E510354
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 18:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E5375103B6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Apr 2022 18:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353003AbiDZQdP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Apr 2022 12:33:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40708 "EHLO
+        id S1353059AbiDZQnS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Apr 2022 12:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353008AbiDZQdN (ORCPT
+        with ESMTP id S1347384AbiDZQnP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Apr 2022 12:33:13 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DEF9252
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:30:04 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id l19so10084474ljb.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:30:03 -0700 (PDT)
+        Tue, 26 Apr 2022 12:43:15 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9169413E83
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:40:07 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id q14so22715690ljc.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Apr 2022 09:40:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Yq22b/HAxllmL6hgEgORnDmMTH7ARb+QJMH7dTolZlM=;
-        b=f9JX3iL//TVo3SLhOeUU2LpFUmTDH96Lj++Z7olpnXao0zd/qV0kZifymTBhBvYooF
-         V0KYkCiAuXXOndmp1SvYwVMwnKgeris7HxkMU8406kMsx0IbidjY+T4MkQNUIgGGNCbp
-         QYzHFKqYoE+XTPOE/CSSn2+6n8s/6tmFzijWaJ7pl+2rKbP/NFgG7b+rv48DqWvELyUA
-         ZjwwDQUZBg/2Rhz5V2y0ykguM5AlHWs5klwjHaA48vgvS2BBoyJF3KKtSFW+Txyuxmr1
-         Wl4dii6gNNZl2BmtBltdRHxSoS80T57ZZQbwuU8kuUzB+3tdxMNT3W7tDP0nM4ZsZ6hx
-         kA1w==
+        bh=cB5NjQgyHxPYEpDTZ0PSuz+LJmELdLbWCQhQbA445xM=;
+        b=jIea80rv6317KJHDIdWEbWLBH461Z6ATA9dHEddVM6shF40hnoZ/lnlgYWIl1caWXG
+         Yb/G0dSCt5pOJZdvCTEDTQrIg045MQkLNpLdop5n97g8AavwMV2wfDM3puA15FUjILKx
+         8MBe4JSCXWmgocvd1aXyzegdZiEZFRlgw2J7xvdT1yj4JaKHfkKZeFo/awKotDRDuPJn
+         +RzFukr2Ks+iaDANd0a83Usr7Xto7N6PiN1/9da4lpYRdntlJem0jBBIdrO959nSeSf+
+         Dkj+H1b+xJNcmsONZxRDhqxHl8H0EnAGmUQSo4ts0TxJnlECnnqc/QWm9y4clr6yXM9c
+         OGNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Yq22b/HAxllmL6hgEgORnDmMTH7ARb+QJMH7dTolZlM=;
-        b=q04+xBrSWtyqVJnOCI6892ssYPLOLFp8YnZN00W4kIHkp5t8nBwDm7SJTvXrKUeqff
-         kPQBPewY0YrxJYcEU/ae6sWnupSdLa7xzstLucZy8i3qBpSlw7XjaNJW90XLNuGAv2Ui
-         R+pZP2ZTeZB9RjLpxfaAE9GIDqTdBdY9k+uzgFPC8FU2HEddxLqiZRf61etp9QuNKDez
-         XVo3BEqkBbcY8hZ9QYMtCJ2tsgw9k7HKVoXdHhnNUBLZaZqAzOkh6PJhAeQ8/CZfeAJ3
-         FGGVwFV9FQYKqINzxA8PlkUIRFl9Z+4qP5gkR6axUCPbAawYSXEMM68EGha/6+fAg+pF
-         wrbw==
-X-Gm-Message-State: AOAM5307eMCDfkRVEi2ovwKrB+a7Q8Oy2nb/svgSP53kbnJQlnGFYj/p
-        ule+9AHUu738AmTfl227OdMbqtJFbosEuvpvsDrksg==
-X-Google-Smtp-Source: ABdhPJxtV0frJu8QtkHSjZ7G17y8dVCS1oHhbqWmGgnLfpgcLuyi2Q2tBOYlosgu/7IoqC6Uh3zrzYlorV3mbCXkJXs=
-X-Received: by 2002:a05:651c:553:b0:24f:18c1:d2a1 with SMTP id
- q19-20020a05651c055300b0024f18c1d2a1mr3429125ljp.239.1650990601997; Tue, 26
- Apr 2022 09:30:01 -0700 (PDT)
+        bh=cB5NjQgyHxPYEpDTZ0PSuz+LJmELdLbWCQhQbA445xM=;
+        b=0XmsB7zvjrXkRpLlf1greKawMcBcl/M7JdCxjWsV2s/DW+pyCbpidcxKO0lQ4m04ZI
+         +6rLTfpIq0R4lpYw3mTDtop4zY4kh6s06ZqCCDE0XKuNcoMEw/wP66yVMSDx5GoLAXiv
+         KZ651hhPRS9bgHTUi2AOrLBsZeqUjjHCmy6RSA6+PHdQ/sede5NfWm9gM2bF5L7aX0k9
+         NEFPg/f8I2bJGk2Mr6wr7x+rIB89v6ygNVBpaG6+YynIokk1O5bNxBFNOhkZSop0KZHL
+         LxuE5P/aLpdKS2w5PEvNpQY5rM3AyByKp+8PHsV4OMmUUecPHp+Gd2055A5jX9S8Ve5T
+         jLdQ==
+X-Gm-Message-State: AOAM531EUCVt5HQkNgexbtkC5krGouXqC3/n/AYMcSIpv3GNDuKoItMc
+        pknTUl8T55wTU8PiXNLBUCtsaPr7qzF87khdXamzSw==
+X-Google-Smtp-Source: ABdhPJzCHG1DW6WwNCEQQr1E6ENnVyF3MYLe1M7kwazJPqDOFzVfHEITcsPFkNsdFROU9SnNXltpQ8u9ocAyT++DhiQ=
+X-Received: by 2002:a2e:a7d4:0:b0:24d:b0c3:9683 with SMTP id
+ x20-20020a2ea7d4000000b0024db0c39683mr14669411ljp.472.1650991205358; Tue, 26
+ Apr 2022 09:40:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-8-masahiroy@kernel.org>
-In-Reply-To: <20220424190811.1678416-8-masahiroy@kernel.org>
+References: <20220424190811.1678416-1-masahiroy@kernel.org>
+ <20220424190811.1678416-17-masahiroy@kernel.org> <CAKwvOdk1nt4b9am=_BP=U3igkSRBN14nx+5oS8iaaw9zhbH5JA@mail.gmail.com>
+ <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR-u=EVzPL+iJHoBW62AK2ViD3nVnL79EdxNS03UxmkBA@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 26 Apr 2022 09:29:50 -0700
-Message-ID: <CAKwvOd=Q5WK1790WZP7fj=jY8b2+u-rEnF6XC3uObYwTtYp_eA@mail.gmail.com>
-Subject: Re: [PATCH 07/27] modpost: import include/linux/list.h
+Date:   Tue, 26 Apr 2022 09:39:54 -0700
+Message-ID: <CAKwvOd=9ffHMynzCPXPAAdz90BcW0JhihjqnRNneFqMq3u+59Q@mail.gmail.com>
+Subject: Re: [PATCH 16/27] modpost: make multiple export error
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
@@ -67,58 +70,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Apr 25, 2022 at 9:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Import include/linux/list.h to use convenient list macros in modpost.
+> On Tue, Apr 26, 2022 at 3:48 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > This is currently a warning, but I think modpost should stop building
+> > > in this case.
+> > >
+> > > If the same symbol is exported multiple times and we let it keep going,
+> > > the sanity check becomes difficult.
+> > >
+> > > Only the legitimate case is that an external module overrides the
+> > > corresponding in-tree module to provide a different implementation
+> > > with the same interface.
+> >
+> > Could the same module export a weak version of a symbol, and a strong one?
 >
-> I dropped kernel-space code such as {WRITE,READ}_ONCE etc. and unneeded
-> macros.
+> No.  There is no concept like   EXPORT_SYMBOL_WEAK.
 >
-> I also imported container_of() from include/linux/container_of.h and
-> type definitions from include/linux/types.h.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> I am talking about kmod things.
+> You can modprobe an external module instead of the in-kernel one.
 
-Ok then, just two small nits about two comments, which may have been
-just copied over from the sources.
+Ok, this patch seems fine to me.
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-> ---
->
->  scripts/mod/list.h | 336 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 336 insertions(+)
->  create mode 100644 scripts/mod/list.h
->
-> diff --git a/scripts/mod/list.h b/scripts/mod/list.h
-> new file mode 100644
-> index 000000000000..c87583a71714
-> --- /dev/null
-> +++ b/scripts/mod/list.h
-> @@ -0,0 +1,336 @@
-
-<snip>
-
-> +/**
-> + * list_for_each_entry -       iterate over list of given type
-
-^ Excessive whitespace after the `-`
-
-> + * @pos:       the type * to use as a loop cursor.
-> + * @head:      the head for your list.
-> + * @member:    the name of the list_head within the struct.
-> + */
-> +#define list_for_each_entry(pos, head, member)                         \
-> +       for (pos = list_first_entry(head, typeof(*pos), member);        \
-> +            !list_entry_is_head(pos, head, member);                    \
-> +            pos = list_next_entry(pos, member))
-> +
-> +/**
-> + * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-
-^ This sounds like two sentences and looks like it's missing
-punctuation separating them?
-
-"iterate over list of given type. Safe against removal of list entry"
 -- 
 Thanks,
 ~Nick Desaulniers
