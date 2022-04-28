@@ -2,226 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D304512C1F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 09:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE8B5513484
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 15:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244772AbiD1HEN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Apr 2022 03:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
+        id S1346826AbiD1NJF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Apr 2022 09:09:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244689AbiD1HD4 (ORCPT
+        with ESMTP id S1346832AbiD1NJE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Apr 2022 03:03:56 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B8C0674CF;
-        Thu, 28 Apr 2022 00:00:34 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.49.32]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1Mbzdn-1oHvEf0zZX-00dX7D; Thu, 28 Apr 2022 08:59:50 +0200
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 9BB183C09F;
-        Thu, 28 Apr 2022 08:59:48 +0200 (CEST)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id C234F66B; Thu, 28 Apr 2022 08:59:45 +0200 (CEST)
-Date:   Thu, 28 Apr 2022 08:59:45 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thu, 28 Apr 2022 09:09:04 -0400
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB4EB0A6F;
+        Thu, 28 Apr 2022 06:05:49 -0700 (PDT)
+Received: by mail-oi1-f173.google.com with SMTP id m11so5228110oib.11;
+        Thu, 28 Apr 2022 06:05:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6Q8sY5EYm3EAW/+YeLHV7h7x0ZdCODIrdPi50A0ISao=;
+        b=u++iRuKcHfDFMmWbZnvEIpEYIUADDRqtLhhrwzutcxvS8GTGXzqsZkb2bTXqIRzb5f
+         on3N5xou4Z6Y4cXWfaEzqL3/yGXdu99nk80pbYwvors5f434LNaexTxtFdl1xn/4tDD7
+         KsRL4eiG7xNfTpYIgwXnXeskebRJtEbALXuwR2uHYJAgXLxzOaT4+5g4NpyYCE4rbWc6
+         uP2ixTsn9obX3xVIFUW0U/lPsLTdkF3071g7R5ZclXXL4NQW1ZWLKSKwMonF0d4zk78C
+         I+DY9qlrqh10e5HZ1CX8GKuLzyq2cyUqePnLjW8WnEZoZeYzuFLj4qt+0q554AgBm+pv
+         /0Gg==
+X-Gm-Message-State: AOAM531FgLj7EG7Dvo6K4Hq9cqfRTrpWQJduxwafzMFVEwf4WzzFZyUC
+        rVVtkXUM7fMTrYh+RZMy7g==
+X-Google-Smtp-Source: ABdhPJz6TYrHQtltlSw6ndMYP3gm28JA36oK2lDbmJR8WaKuAC2Bu+/+6uLXbKrudAPgGHRM7xjyoQ==
+X-Received: by 2002:a05:6808:124f:b0:321:855d:5b19 with SMTP id o15-20020a056808124f00b00321855d5b19mr16189828oiv.30.1651151148774;
+        Thu, 28 Apr 2022 06:05:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k4-20020a9d7604000000b00605d52c6472sm2130753otl.9.2022.04.28.06.05.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 06:05:48 -0700 (PDT)
+Received: (nullmailer pid 2066044 invoked by uid 1000);
+        Thu, 28 Apr 2022 13:05:47 -0000
+Date:   Thu, 28 Apr 2022 08:05:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <llvm@lists.linux.dev>
-Subject: Re: [PATCH 27/27] kbuild: do not create *.prelink.o for Clang LTO or
- IBT
-Message-ID: <Ymo7YfSynpexX0cV@bergen.fjasle.eu>
-References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-28-masahiroy@kernel.org>
- <YmoKYjwvX49KLNwT@bergen.fjasle.eu>
- <CAK7LNATJHfGDKfp0q_VH30xKXdsFmveRZ6CNqZpHdjM3UbYG+Q@mail.gmail.com>
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        Bill Mills <bill.mills@linaro.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>
+Subject: Re: [PATCH 1/1] of: unittest: rename overlay source files from .dts
+ to .dtso
+Message-ID: <YmqRK1uWiady7BHD@robh.at.kernel.org>
+References: <CAMuHMdXPn9FHr41xmihuuzNNNKvY-50yAwY4HyuyVo6qBn=Z1w@mail.gmail.com>
+ <CAMuHMdWeL3DOXY3xcPOBW2WDDGW3PxgSM8didt7J1KxSm1ivJg@mail.gmail.com>
+ <CAMuHMdWXXoS9mmX9VWRQyXfmsy8YROgpLZ-xB7zthEdPdM2u4A@mail.gmail.com>
+ <CAMuHMdVWkSnki8VQDaYRzJ8yu8xtEKpXyfQppTtw3wXDQPmYzw@mail.gmail.com>
+ <d4b7ce06-23e7-1c60-cc0c-b6aea07e0a1a@gmail.com>
+ <CAL_JsqKTckMABk6cM8d=boZcHyLdcqYmbzfKDjAHdCXoCPSDtg@mail.gmail.com>
+ <CAMuHMdU4oUKaGxmaPiC=cX0XpHG3KXhr+4MywEfeQ8sq-EG18A@mail.gmail.com>
+ <CAL_JsqL3fHXNdGS=ap6+5Y25T2zmnDYRkt5dNV9mW7hyanVvuw@mail.gmail.com>
+ <CAL_JsqJn459-8wnwT0N0CKumnvh_gDkVdgVebvMVa13oTxfQ=g@mail.gmail.com>
+ <CAMuHMdUyuJbyHthc4ATuRXY=zM_Vbc7DmsZvWgX_u8w3FfhzDg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNATJHfGDKfp0q_VH30xKXdsFmveRZ6CNqZpHdjM3UbYG+Q@mail.gmail.com>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:CWLNrX8xs6OHxyyoHxhJnyCEMmxZqi/vR0bJ46WktHgu4Cr/bKz
- H/L9+edqiM6BEOs0aDumrHESjSMXFyrNGJV4xSUpcYLYibqmsXfygi7Mihp1TE3EjZjazTh
- ZfOo7/P9s1sBN5n8N9+MKCiA+h9xLIvUEPy1fzFa16SH5ingsKyKxaj4N8lXuqIcsYYiTiv
- vvZLenYD54hXU685a3Gqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NO9kZTODQ9A=:AXqrbwC9aH2snoXnSKI68s
- EbLwzhIVBqJ6gtYqmjjhermZUO2Pz5L0BfEfQburmXlbjlFbrnFp5YnwZ4YWqfmr1qiboff8g
- BcM69lJ5XId1NYruqQOpWl6/vq7TD8J2LwbVOjgswImbHZ6mOXmxL1/pALpejU+w4hMpSYov+
- 50nE5HLTfFOutAaWn3cRTCTJshsefOa8rky+BVaU9N2cb8yfrrUPZogRt21GWWtVV5UXNL+Kg
- D/Kc7P7KwWRrHlyOSjR6HmkIOq77Qkq36vGBrWert1oHUSt+NZgvDAf9y7YOZC1RByCsSMr1d
- Y2fazxBaBuAlX9OFH3gttSrohnGFiro46BrmDdFokLiARYysfM79XLrZ9mO0aGa8PnBODJjW9
- dwZaROoygbjxlyP8YFw5mMcR9yTN2FD1Z8OHtSuOpa0yhTflxkRYzHePce+iWb8C7Mng1Wnif
- SabJbfgnrIUxl+ywESKjR63tawM6NhU/C1NlTG0vhNCI+6ZSE8L9bVlbJ3hnc+C8oMO/j/k31
- 0zR5RDuK58g0ag2hmWICuxCy+CYdBXss5Ldak9apePIWc19EWJQ6mIE8E2hthoNRaMKnOkc7O
- QvAU6F2LvRwNxqox/Rul977SYkesxwUGNpC1Z7l20hrl4U4EleKVKaUzBvnfrsSGHd6Fj1kqZ
- fRYwCymUymGC75AJSvI8/ZMiTqikzGO2m1UDAwH02Z/1rfkehM/LyUUWwr0mDum3C4C4=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAMuHMdUyuJbyHthc4ATuRXY=zM_Vbc7DmsZvWgX_u8w3FfhzDg@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu 28 Apr 2022 13:38:39 GMT Masahiro Yamada wrote:
+On Thu, Apr 28, 2022 at 08:25:31AM +0200, Geert Uytterhoeven wrote:
+> Hi Rob,
 > 
-> On Thu, Apr 28, 2022 at 12:31 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
-> >
-> > On Mon 25 Apr 2022 04:08:11 GMT Masahiro Yamada wrote:
-> > > When CONFIG_LTO_CLANG=y, additional intermediate *.prelink.o is
-> > > created
-> > > for each module. Also, objtool is postponed until LLVM bitcode is
-> > > converted to ELF.
+> On Wed, Apr 27, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
+> > On Wed, Jan 26, 2022 at 1:31 PM Rob Herring <robh@kernel.org> wrote:
+> > > On Fri, Jan 14, 2022 at 3:25 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Fri, Jan 14, 2022 at 3:10 AM Rob Herring <robh@kernel.org> wrote:
+> > > > > On Thu, Jan 6, 2022 at 11:23 AM Frank Rowand <frowand.list@gmail.com> wrote:
+> > > > > > Patient Geert has pinged again.
+> > > > >
+> > > > > If it's not a patch to be reviewed, then I'm not going to see it most
+> > > > > likely. I don't read the DT list regularly...
+> > > >
+> > > > Fair enough...
+> > > >
+> > > > > > If I remember correctly you guys were not thrilled with this idea, but
+> > > > > > also did not seem strongly against it.  Are you willing to go along
+> > > > > > with .dtso for overlay source files?  If so, I will revive this patch
+> > > > > > series.
+> > > > > >
+> > > > > > David, if you are against supporting .dtso in the dtc compiler then
+> > > > > > the kernel can still support it through make rules.
+> > > > >
+> > > > > I'm not really interested in diverging from dtc. I'd suggest moving
+> > > > > the discussion to dtc list and/or devicetree-spec if you want to get
+> > > > > more attention on this.
+> > > >
+> > > > What needs to be supported in the dtc compiler?
+> > > > The fallback passed to guess_input_format() is "dts".
+> > > > So this has been working out-of-the-box since forever?
 > > >
-> > > CONFIG_X86_KERNEL_IBT works in a similar way to postpone objtool until
-> > > objects are merged together.
+> > > Ah, okay.
 > > >
-> > > This commit stops generating *.prelink.o, so the build flow will look
-> > > the same with/without LTO.
+> > > > > Also, keep in mind that extensions also affect MIME types which
+> > > > > someone was also asking about recently.
+> > > >
+> > > > You mean "MIME type of Devicetree Blobs and Sources"[1]?
+> > > > According to [2](2022-01-13), none of that has happened.
 > > >
-> > > The following figures show how the LTO build currently works, and
-> > > how this commit is changing it.
+> > > This is what I was thinking of:
 > > >
-> > > Current build flow
-> > > ==================
+> > > https://github.com/devicetree-org/devicetree-specification/issues/46
 > > >
-> > >  [1] single-object module
-> > >
-> > >                                     [+objtool]
-> > >            $(CC)                      $(LD)                $(LD)
-> > >     foo.c --------------------> foo.o -----> foo.prelink.o -----> foo.ko
-> > >                            (LLVM bitcode)        (ELF)       |
-> > >                                                              |
-> > >                                                  foo.mod.o --/
-> > >
-> > >  [2] multi-object module
-> > >                                     [+objtool]
-> > >            $(CC)         $(AR)        $(LD)                $(LD)
-> > >     foo1.c -----> foo1.o -----> foo.o -----> foo.prelink.o -----> foo.ko
-> > >                            |  (archive)          (ELF)       |
-> > >     foo2.c -----> foo2.o --/                                 |
-> > >                 (LLVM bitcode)                   foo.mod.o --/
-> > >
-> > >   One confusion is foo.o in multi-object module is an archive despite of
-> > >   its suffix.
-> > >
-> > > New build flow
-> > > ==============
-> > >
-> > >  [1] single-object module
-> > >
-> > >   Since there is only one object, we do not need to have the LLVM
-> > >   bitcode stage. Use $(CC)+$(LD) to generate an ELF object in one
-> > >   build rule. Of course, only $(CC) is used when LTO is disabled.
-> > >
-> > >            $(CC)+$(LD)[+objtool]           $(LD)
-> > >     foo.c ------------------------> foo.o -------> foo.ko
-> > >                                     (ELF)    |
-> > >                                              |
-> > >                                  foo.mod.o --/
-> > >
-> > >  [2] multi-object module
-> > >
-> > >   Previously, $(AR) was used to combine LLVM bitcode into an archive,
-> > >   but there was not a technical reason to do so.
-> > >   This commit just uses $(LD) to combine and convert them into a single
-> > >   ELF object.
-> > >
-> > >                           [+objtool]
-> > >             $(CC)           $(LD)          $(LD)
-> > >     foo1.c -------> foo1.o -------> foo.o -------> foo.ko
-> > >                               |     (ELF)    |
-> > >     foo2.c -------> foo2.o ---/              |
-> > >                 (LLVM bitcode)   foo.mod.o --/
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  scripts/Kbuild.include    |  4 +++
-> > >  scripts/Makefile.build    | 58 ++++++++++++---------------------------
-> > >  scripts/Makefile.lib      |  7 -----
-> > >  scripts/Makefile.modfinal |  5 ++--
-> > >  scripts/Makefile.modpost  |  9 ++----
-> > >  scripts/mod/modpost.c     |  7 -----
-> > >  6 files changed, 25 insertions(+), 65 deletions(-)
-> > >
-> > > diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> > > index 3514c2149e9d..455a0a6ce12d 100644
-> > > --- a/scripts/Kbuild.include
-> > > +++ b/scripts/Kbuild.include
-> > > @@ -15,6 +15,10 @@ pound := \#
-> > >  # Name of target with a '.' as filename prefix. foo/bar.o => foo/.bar.o
-> > >  dot-target = $(dir $@).$(notdir $@)
-> > >
-> > > +###
-> > > +# Name of target with a '.tmp_' as filename prefix. foo/bar.o => foo/.tmp_bar.o
-> > > +tmp-target = $(dir $@).tmp_$(notdir $@)
-> >
-> > This matches the dot-target definition above, otherwise $(@D).tmp_$(@F)
-> > would be an alternative.
-> 
-> Yes, I intentionally made dot-target and tmp-target look similar.
-> 
-> The difference is $(dir ...) leaves the trailing slash, but $(@D) does not.
-> 
-> The alternative would be
-> $(@D)/.tmp_$(@F)
+> > > In any case, given everyone is ambivalent, send me an updated patch
+> > > and I'll apply it.
 
-ah, yes, thanks.
+^^^^^^^^
 
 > >
-> > > +
-> > >  ###
-> > >  # The temporary file to save gcc -MMD generated dependencies must not
-> > >  # contain a comma
-> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > index 7f199b0a5170..fe4d3a908dd0 100644
-> > > --- a/scripts/Makefile.build
-> > > +++ b/scripts/Makefile.build
-> > > @@ -88,10 +88,6 @@ endif
-> > >  targets-for-modules := $(foreach x, o mod $(if $(CONFIG_TRIM_UNUSED_KSYMS), usyms), \
-> > >                               $(patsubst %.o, %.$x, $(filter %.o, $(obj-m))))
-> > >
-> > > -ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
-> > > -targets-for-modules += $(patsubst %.o, %.prelink.o, $(filter %.o, $(obj-m)))
-> > > -endif
-> > > -
-> > >  ifdef need-modorder
-> > >  targets-for-modules += $(obj)/modules.order
-> > >  endif
-> > > @@ -153,8 +149,16 @@ $(obj)/%.ll: $(src)/%.c FORCE
-> > >  # The C file is compiled and updated dependency information is generated.
-> > >  # (See cmd_cc_o_c + relevant part of rule_cc_o_c)
-> > >
-> > > +is-single-obj-m = $(if $(part-of-module),$(if $(filter $@, $(obj-m)),y))
+> > Ping! Anyone still want this?
 > >
-> > Perhaps using $(and ..,..,y) instead if $(if ..,$(if ..,y))?
+> > What I don't want to see is a mixture of .dts and .dtso. And now I'm
+> > reviewing RPi overlay patches[1] with .dts.
 > 
+> I still prefer .dtso over .dts, as it allows tools to detect the file
+> type without having to read the file's contents.
+> Without this, e.g. make needs to have all overlays listed explicitly
+> in a Makefile.
 > 
-> Good idea!
-> I did not notice this.  I will do it in v2.
-> 
-> 
-> 
-> > >
-> > > -endif
-> > > +delay-objtool := $(or $(CONFIG_LTO_CLANG),$(CONFIG_X86_KERNEL_IBT))
-> > > +
-> > > +$(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
-> >
-> > same here?  $(and) versus $(if ..,$(if ..,y))
-> 
-> I am not sure about this case.
-> The second if-func is  $(if  cond, A, B) form.
+> We do have .c, .h, .s (even .S), .dtsi. So why not .dtso?
 
-Oh, I didn't see it.  Then it might be the best to keep it the way it 
-is.
+Read above! I said to resend this patch and I will apply it.
+
+Rob
