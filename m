@@ -2,190 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C748B5129C8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 05:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F8C35129E9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 05:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241862AbiD1DIc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 Apr 2022 23:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S231407AbiD1DYZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Apr 2022 23:24:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241857AbiD1DIb (ORCPT
+        with ESMTP id S232395AbiD1DYY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 27 Apr 2022 23:08:31 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD9F333;
-        Wed, 27 Apr 2022 20:05:11 -0700 (PDT)
+        Wed, 27 Apr 2022 23:24:24 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BA16AA63;
+        Wed, 27 Apr 2022 20:21:03 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.49.32]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MAwoL-1nZEGc2gll-00BNsv; Thu, 28 Apr 2022 05:04:31 +0200
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N1x6X-1nr2Kj3Je5-012Dp4; Thu, 28 Apr 2022 05:15:08 +0200
+Received: from bergen.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id A0BF03C01C;
-        Thu, 28 Apr 2022 05:04:29 +0200 (CEST)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 5E5083C01C;
+        Thu, 28 Apr 2022 05:15:07 +0200 (CEST)
 Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 0BE665F6; Thu, 28 Apr 2022 05:04:29 +0200 (CEST)
-Date:   Thu, 28 Apr 2022 05:04:28 +0200
+Date:   Thu, 28 Apr 2022 05:15:05 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 25/27] kbuild: embed symbol versions at final link of
- vmlinux or modules
-Message-ID: <YmoEPLkuIZaH4mbW@bergen.fjasle.eu>
+Subject: Re: [PATCH 26/27] kbuild: stop generating *.symversions
+Message-ID: <YmoGuY82c/gGI/sU@bergen.fjasle.eu>
 References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-26-masahiroy@kernel.org>
+ <20220424190811.1678416-27-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220424190811.1678416-26-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-27-masahiroy@kernel.org>
 Jabber-ID: nicolas@jabber.no
 X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:sPLxvyHC97PIhMYAbJr9xnxLkwIAWVPwIXXY+1JKXyagvq11wpe
- YITP+rn1r8efMaix5XiulPZqywP1aAyspZ2bulc3gZMRAK7NtQlP+bm8+GFgmm72VM50wcd
- B0ilI4C3aZ11rPzIdZfoXvPzsLiw3T3OpL0QzYdcnGfTIrj59cKwBxtQ9hsl5H4HksEn3rs
- EO/67yMACQup0ChHYiiBw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MD7ME2icglw=:uT6jCIwnSgZRDqtOBwb0dB
- kRDhk8bIARrgrpoJJ+tIOxn9S0YmQXm+B66WPJtIiN55E3/hUKMNIznw89b+skKK2MfshQGam
- 2NvcZrGqKdcFwAi7thjcqvdfeZBbYEA4AOUlquIGo363fkThfsqEi6iJfbgHY3cT/JsnkjlCC
- 7eLl906mw1z3/bPVJQgRFr8fY0+XAHE5CRpp2Zh9nTbuYfpMbTzQV2li4dQ3MEfddoCO5+pP+
- AGkdg+DVk1p4d8t+0fj+0hiNxkomYTy6Y6Hv70+gAvj1ghG01rnN/4v9kp+q0tQByw9VPoejk
- 1FP63fERbivVd9u+jSyXIao5zSUDQP3wW2ealPXjHIyv6qe+fLnPkwXjNTHCK2uDwPfjrrNrz
- wL5R4AjPor0kwG7CF0TKzX+f9JttrXa/u/oq+PxMd10ZzfdyKdGrjXjy8N1st18Kb3mlZmstz
- 5g2plKlEfr1hb6Djcdwtl4KTAOH/sADrvuMpWhnbmU94aaypxxgRBeLelGyuU72jIhPMGibQS
- tad+/vA+95axaCN8Yg3mJq7snA04ewQG6uhIwum5/SMDR82kxMlS6jBJNBhaZYhQl4WmaxESy
- zFfi4Lm3BDoq6Fh+PRkYYYm79pjqlGKSbpb7V5ZyiBfBto7yD4bqRY1su3k/ZM/MMjxiFZoRN
- nkb3L0g/zjXzo+dsm4TWWKh7d/X+fIlk23TIpSAXvHNhsqvLewYbkjIu66OgjEZbxKXo=
+X-Provags-ID: V03:K1:gbHouD07L/PQUpTRm4orTLoT+o2OS/usSaPG2jhdtKV8sV7qETK
+ 9BfS/o5MzfNuuQc/BllWsHldXuTWCCDhW5cTPQpiiOGx/bjigUCXGTZ6fihetoDlczKHs2q
+ Kx9nFh16eeBhmOUkZr15LBaDWLP6iGr3Ykhfu+6Rr7i0tk0tX29eA2RegKIFSh9Dx22vYV+
+ biqB67Muvia256YiieAbQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p+yQQ+jwB00=:pnfBz+gG1Ny95WMEQBA6K2
+ Mt2Wm7T9s4cB4AxS55ybu6zCLqauWxf2v9i9xPs422LUIb66LfLWGuEeBumwexXv0zap04dZP
+ OECEoV2CAXVFtrYigKxQVzsZRcVwZWOJwk+70Dh+y13UvcZDtV1bAyLHv7LUP69ng6PQUCEAZ
+ kwkkpGELmYuhHm26xaNvANEDKxUVvv4MWyKI+SHddRigJdBGejKehBHv9XRq1kP708t1CdZtt
+ FE/Uhh289nUMJy17HO1F2VbKxfSTWjCjEmHy+ctBvGO45yxNVl4lQH6qSKzPogp2udHYj4LrD
+ n22LWWMmR0nFit1Z/DQ/WJM1CULpjVCqVIjHeO9zH1Lgz/eHw40HjtF0LVgKz583R5cu4KjRE
+ aVL2NI4DhPqEeG4r3s8Pwli4uyrqhM/8JioG9iE1GPvH6UrB0iBr6snHZFI7PaFAkBoc3cp7z
+ ZFPtDoJS6qKtQap2nYfF/O65lRNVxhXzqn7jFxbPXD/ZrYKlZgKkDE5XzriE0BWqUYHSo4OMN
+ fZ7LbayX4LbXGdjqTK0Z644FyilmnmYXeYFgifRipIYbGI/AGT6ci6hHcfERhkp5MsK/ehAt1
+ 1sfBvEx4NusP/eGa0dGpJ+x1Fu2UOKqxF8tcYD4EDWwv/Mbt/cKrTkmsIqIE7ltwb/xmvVHe3
+ hsGV+VHduQjq26076m5Onyq0ru91q3/h/lqc/qct4i05gHlTgVRy2374yGOmrvOz4FkU=
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon 25 Apr 2022 04:08:09 GMT Masahiro Yamada wrote:
-> Do not update objects with version CRCs while the directory 
-> descending.
+On Mon 25 Apr 2022 04:08:10 GMT Masahiro Yamada wrote:
+> Now *.symversions is unneeded. Clean up the Makefile and script.
 > 
-> Do it at the final link stage.
+> I will keep *.symversions in .gitignore and 'make clean' for a while
+> to avoid flooding the output from 'git status'.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
 > ---
 > 
->  scripts/Makefile.build    | 19 +++----------------
->  scripts/Makefile.modfinal |  3 ++-
->  scripts/link-vmlinux.sh   |  4 +++-
->  3 files changed, 8 insertions(+), 18 deletions(-)
+>  scripts/Makefile.build  | 28 ++++------------------------
+>  scripts/link-vmlinux.sh | 19 -------------------
+>  2 files changed, 4 insertions(+), 43 deletions(-)
 > 
 > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index e03e85c90b26..aadc16e04632 100644
+> index aadc16e04632..7f199b0a5170 100644
 > --- a/scripts/Makefile.build
 > +++ b/scripts/Makefile.build
-> @@ -162,12 +162,9 @@ ifdef CONFIG_MODVERSIONS
->  # o if <file>.o doesn't contain a __ksymtab version, i.e. does
->  #   not export symbols, it's done.
->  # o otherwise, we calculate symbol versions using the good old
-> -#   genksyms on the preprocessed source and postprocess them in a way
-> -#   that they are usable as a linker script
-> -# o generate .tmp_<file>.o from <file>.o using the linker to
-> -#   replace the unresolved symbols __crc_exported_symbol with
-> -#   the actual value of the checksum generated by genksyms
-> -# o remove .tmp_<file>.o to <file>.o
-> +#   genksyms on the preprocessed source and dump them into .cmd file.
-> +#   modpost will parse .cmd files to retrieve versions to create linker
-> +#   scripts that are fed to the final linking of vmlinux or modules.
->  
->  # Generate .o.symversions files for each .o with exported symbols, and link these
+> @@ -170,12 +170,9 @@ ifdef CONFIG_MODVERSIONS
 >  # to the kernel and/or modules at the end.
-> @@ -183,12 +180,6 @@ gen_symversions =								\
->  
->  cmd_gen_symversions_c =	$(call gen_symversions,c)
->  
-> -cmd_modversions =								\
-> -	if [ -r $@.symversions ]; then						\
-> -		$(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@ 		\
-> -			-T $@.symversions;					\
-> -		mv -f $(@D)/.tmp_$(@F) $@;					\
-> -	fi
->  endif
->  
->  ifdef CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
-> @@ -268,7 +259,6 @@ define rule_cc_o_c
->  	$(call cmd,checkdoc)
->  	$(call cmd,gen_objtooldep)
->  	$(call cmd,gen_symversions_c)
-> -	$(if $(CONFIG_LTO_CLANG),,$(call cmd,modversions))
->  	$(call cmd,record_mcount)
->  endef
->  
-> @@ -277,7 +267,6 @@ define rule_as_o_S
->  	$(call cmd,gen_ksymdeps)
->  	$(call cmd,gen_objtooldep)
->  	$(call cmd,gen_symversions_S)
-> -	$(call cmd,modversions)
->  endef
->  
->  # Built-in and composite module parts
-> @@ -291,8 +280,6 @@ ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
->  quiet_cmd_cc_prelink_modules = LD [M]  $@
->        cmd_cc_prelink_modules =						\
->  	$(LD) $(ld_flags) -r -o $@					\
-> -               $(shell [ -s $(@:.prelink.o=.o.symversions) ] &&		\
-> -                       echo -T $(@:.prelink.o=.o.symversions))		\
->  		--whole-archive $(filter-out FORCE,$^)			\
->  		$(cmd_objtool)
->  
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 7f39599e9fae..d429e3f9ae1d 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -34,6 +34,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->        cmd_ld_ko_o +=							\
->  	$(LD) -r $(KBUILD_LDFLAGS)					\
->  		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
-> +		$(addprefix -T, $(filter %.symver.lds, $(real-prereqs)))\
->  		-T scripts/module.lds -o $@ $(filter %.o, $^);		\
->  	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
->  
-> @@ -56,7 +57,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
->  
->  
->  # Re-generate module BTFs if either module's .ko or vmlinux changed
-> -$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
-> +$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o $(if $(CONFIG_MODVERSIONS), %.symver.lds) scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
->  	+$(call if_changed_except,ld_ko_o,vmlinux)
->  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index d2c193f82004..66a115f204eb 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -90,7 +90,6 @@ modpost_link()
->  
->  		if is_enabled CONFIG_MODVERSIONS; then
->  			gen_symversions
-> -			lds="${lds} -T .tmp_symversions.lds"
->  		fi
->  
->  		# This might take a while, so indicate that we're doing
-> @@ -196,6 +195,9 @@ vmlinux_link()
+>  gen_symversions =								\
+>  	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
+> -		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
+> -		    > $@.symversions;						\
+>  		echo >> $(dot-target).cmd ;					\
+> -		sed 's/\(.*\) = \(.*\);/$(pound)\1=\2/' $@.symversions >> $(dot-target).cmd ; \
+> -	else									\
+> -		rm -f $@.symversions;						\
+> +		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) | \
+> +		sed 's/\(.*\) = \(.*\);/$(pound)\1=\2/' >> $(dot-target).cmd ; \
+
+I was wondering, whether we should integrate the 'sed' part into 
+genksyms and make it output the lines as we need them.
+If genksyms fails, we now don't see any error code and make will 
+silently continue as the pipe hides genksyms' exit code, right?
+
 >  	fi
 >  
->  	ldflags="${ldflags} ${wl}--script=${objtree}/${KBUILD_LDS}"
-> +	if is_enabled CONFIG_MODVERSIONS; then
-> +		ldflags="${ldflags} ${wl}--script=vmlinux.symver.lds"
-> +	fi
+>  cmd_gen_symversions_c =	$(call gen_symversions,c)
+> @@ -391,17 +388,6 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
+>  $(subdir-builtin): $(obj)/%/built-in.a: $(obj)/% ;
+>  $(subdir-modorder): $(obj)/%/modules.order: $(obj)/% ;
 >  
->  	# The kallsyms linking does not need debug symbols included.
->  	if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
+> -# combine symversions for later processing
+> -ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
+> -      cmd_update_lto_symversions =					\
+> -	rm -f $@.symversions						\
+> -	$(foreach n, $(filter-out FORCE,$^),				\
+> -		$(if $(shell test -s $(n).symversions && echo y),	\
+> -			; cat $(n).symversions >> $@.symversions))
+> -else
+> -      cmd_update_lto_symversions = echo >/dev/null
+> -endif
+> -
+>  #
+>  # Rule to compile a set of .o files into one .a file (without symbol table)
+>  #
+> @@ -409,11 +395,8 @@ endif
+>  quiet_cmd_ar_builtin = AR      $@
+>        cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+>  
+> -quiet_cmd_ar_and_symver = AR      $@
+> -      cmd_ar_and_symver = $(cmd_update_lto_symversions); $(cmd_ar_builtin)
+> -
+>  $(obj)/built-in.a: $(real-obj-y) FORCE
+> -	$(call if_changed,ar_and_symver)
+> +	$(call if_changed,ar_builtin)
+>  
+>  #
+>  # Rule to create modules.order file
+> @@ -433,16 +416,13 @@ $(obj)/modules.order: $(obj-m) FORCE
+>  #
+>  # Rule to compile a set of .o files into one .a file (with symbol table)
+>  #
+> -quiet_cmd_ar_lib = AR      $@
+> -      cmd_ar_lib = $(cmd_update_lto_symversions); $(cmd_ar)
+>  
+>  $(obj)/lib.a: $(lib-y) FORCE
+> -	$(call if_changed,ar_lib)
+> +	$(call if_changed,ar)
+>  
+>  ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
+>  quiet_cmd_link_multi-m = AR [M]  $@
+>  cmd_link_multi-m =						\
+> -	$(cmd_update_lto_symversions);				\
+>  	rm -f $@; 						\
+>  	$(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
+>  else
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 66a115f204eb..e2900d3bd215 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -56,20 +56,6 @@ gen_initcalls()
+>  		> .tmp_initcalls.lds
+>  }
+>  
+> -# If CONFIG_LTO_CLANG is selected, collect generated symbol versions into
+> -# .tmp_symversions.lds
+> -gen_symversions()
+> -{
+> -	info GEN .tmp_symversions.lds
+> -	rm -f .tmp_symversions.lds
+> -
+> -	for o in ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}; do
+> -		if [ -f ${o}.symversions ]; then
+> -			cat ${o}.symversions >> .tmp_symversions.lds
+> -		fi
+> -	done
+> -}
+> -
+>  # Link of vmlinux.o used for section mismatch analysis
+>  # ${1} output file
+>  modpost_link()
+> @@ -88,10 +74,6 @@ modpost_link()
+>  		gen_initcalls
+>  		lds="-T .tmp_initcalls.lds"
+>  
+> -		if is_enabled CONFIG_MODVERSIONS; then
+> -			gen_symversions
+> -		fi
+> -
+>  		# This might take a while, so indicate that we're doing
+>  		# an LTO link
+>  		info LTO ${1}
+> @@ -306,7 +288,6 @@ cleanup()
+>  	rm -f .btf.*
+>  	rm -f .tmp_System.map
+>  	rm -f .tmp_initcalls.lds
+> -	rm -f .tmp_symversions.lds
+>  	rm -f .tmp_vmlinux*
+>  	rm -f System.map
+>  	rm -f vmlinux
 > -- 
 > 2.32.0
 
