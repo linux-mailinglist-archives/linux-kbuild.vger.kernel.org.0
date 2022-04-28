@@ -2,94 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6054513B4B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 20:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 471F7513DE9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Apr 2022 23:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350876AbiD1STz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Apr 2022 14:19:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S1352633AbiD1VxP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Apr 2022 17:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350874AbiD1STu (ORCPT
+        with ESMTP id S1352704AbiD1Vww (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Apr 2022 14:19:50 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01937496BE;
-        Thu, 28 Apr 2022 11:16:34 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id i8so2516705ila.5;
-        Thu, 28 Apr 2022 11:16:34 -0700 (PDT)
+        Thu, 28 Apr 2022 17:52:52 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2CF4C42D5
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Apr 2022 14:49:18 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id q185so8376457ljb.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Apr 2022 14:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=T6XQPBzj4qlVESNMSZre3n1h1i/4cIcF55AXPyrVmO0=;
-        b=b+L+dq2BmBZ5rFSSjn+fZzmtwTSK3h/eTgN3BK+wpEUunnkE+McgN7oLLboGmjrtAj
-         TFTGdCvYZYr4L8lUQyMAYYGiSStwV7B2FtAKG3hdDyD8uxRd87swTSH4uBy7Nom6pN+b
-         mqxXIsrH+XQvZYcj1OdD7cUWJsp5YGsEP/BahEZOBVhzpAIU/tygBQ745CMzJLcCmB2p
-         0VN0PU9xuuSGFfXfqlKTqHqgJ1+B+7v5RfAJ5COEUctUDtU7dXis5pfwhU98cQnLwzqU
-         ugkdUx2i3AjiVzNk3A9ySo2yaovSHYWEY6RpS9zqjVAq7TwKa7Wbrw+od3QgjDDbTmNv
-         NV+g==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+PxAAmkjgu5tODqXDwsgtMxyhrqsec+04FO6jxzyCcc=;
+        b=EgMf4wGlKR2P4qmTIR+eqAHCPohzmdgt/qhnbyKZ4lDdOt7a2A7KkIvmRUYj3ORv/2
+         ctRYHxbEdH2bVz9z7jidHdTMqxGWNNbHKkOcq1JPkBTDkr2KywCmhFn1VIhFj07TRW0J
+         tO44QxZ/hvGFifP6BvM1SsRBXK/Wpt80VuD+LYMULc1NK5J4u7qRHmwTQNRCnIocu6oc
+         2gc0M+ITg74EzCn09TOpQVb2U+Eg/vp0XIn+OY99YAqNaTSkV7FhpYDzkZpuRwvbIak7
+         cDYVACnvJB9wBAtQ/uz0O8N7txvXwNncqCpkJsJ7hXYhVonAw0nwosMtUU0Un9iCH/TS
+         8wDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=T6XQPBzj4qlVESNMSZre3n1h1i/4cIcF55AXPyrVmO0=;
-        b=TItOFLRWKN1HvEMplTGVIQKSkFNCEQxIOkt3cMiW2ey7BZQrHCJc3a8Kb1hN69c3n3
-         qEQaCv4H2CLP8N78fT54bKFiBs9pPJXRdysuq4FCJw+GWsbQzYcXSDq+BMpoCYfo5GbK
-         Y+Yds1GnuOioVgh46DHoZDnXZAD5K72mdLaXQ1RPyBd1dGd/q3IkpVbMknqsgpyMKC5X
-         Dq36Wf5nmSUEWuJxtXxZMV/tMxiDgYWdVr/058clITzkReedLD46EL0avAwayEq1dQWp
-         jiKn18N3VGrNvkEwxhSvfnBv+gm7GoKyy4NtdoExTCdMGP6UGiT/VDmCCa07w7oqWZVe
-         QOig==
-X-Gm-Message-State: AOAM532RoFXglrTQaHSJMqQ0euvyIh5e8f4NUO6zSJHEn1VM8pSsB13I
-        51pTX9EeZqOIIOK0VoJhFyA=
-X-Google-Smtp-Source: ABdhPJw7nR8ryMafd3FK4Xp5kpi8QwxX4jGk+pbNVcIsd5g7BYxHuiLfYeOTHDKBZJrVLy01ZuMLjw==
-X-Received: by 2002:a05:6e02:1905:b0:2cd:9176:58ab with SMTP id w5-20020a056e02190500b002cd917658abmr9225125ilu.81.1651169794434;
-        Thu, 28 Apr 2022 11:16:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:2442:6db0:75d0:a34:61ff:fa0b? ([2600:1700:2442:6db0:75d0:a34:61ff:fa0b])
-        by smtp.gmail.com with ESMTPSA id k17-20020a92c9d1000000b002cacb37614esm302542ilq.43.2022.04.28.11.16.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Apr 2022 11:16:33 -0700 (PDT)
-Message-ID: <93d88940-1fb1-ce6c-4e1e-84bc868e7ff9@gmail.com>
-Date:   Thu, 28 Apr 2022 13:16:31 -0500
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+PxAAmkjgu5tODqXDwsgtMxyhrqsec+04FO6jxzyCcc=;
+        b=HkYCKQUaxcKaEYW2wfN/+a75RA+VgvmQNRm6siamM3L2t17L3jNm8xX4IdNhnddFVR
+         aFX7K/kAvT3HCW4zQ0r+4wkE2xlEjPZghEMuEOabpv6Tt7H1NJxYw7U/Lew1S91FUK4s
+         onfFSMQYWKlEJK0d45JRKDn0yxTW13aasC4Bc2HpNe7HosiLcNQHN74KaqQ6NuqjVjgq
+         a3oh3UAw7USkDI2/xeyFwgn4D7uFCFxq9iW1lIfpPR12BR02TBAgfxD0ixyQNGLE6npp
+         vqkfleIeoHCnXsKEije9doXNfcFQKmkX6WtXjs5v/8T95e5Jdy3PkRNRnMIHseocIUAV
+         uyHQ==
+X-Gm-Message-State: AOAM530ETJABZW6sBl2oD4nfauDTFchjW7/7e10kGvG+9BsVU/FXLUVv
+        g04UQf+QCcb86cJYEgGtHFn9FcyQmYcBZuN9ojTOUg==
+X-Google-Smtp-Source: ABdhPJxeDVaq0Pvja4JeHCOk2oQ2ZlUxjPVKsJFApZLIQJQHRDw1GXu/scJSktw+wQosBxZQ2bpqpujznJscwVBecOQ=
+X-Received: by 2002:a2e:854b:0:b0:24f:b98:e2d2 with SMTP id
+ u11-20020a2e854b000000b0024f0b98e2d2mr17407442ljj.165.1651182556685; Thu, 28
+ Apr 2022 14:49:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/1] of: unittest: rename overlay source files from .dts
- to .dtso
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     David Gibson <david@gibson.dropbear.id.au>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+References: <20220424190811.1678416-1-masahiroy@kernel.org> <20220424190811.1678416-25-masahiroy@kernel.org>
+In-Reply-To: <20220424190811.1678416-25-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 28 Apr 2022 14:49:04 -0700
+Message-ID: <CAKwvOdkJJnJt_jj_1n6QP31UoTqcS5aVUYAExdR8wY61EmRDFQ@mail.gmail.com>
+Subject: Re: [PATCH 24/27] modpost: generate linker script to collect symbol versions
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Anmar Oueja <anmar.oueja@linaro.org>,
-        Bill Mills <bill.mills@linaro.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-References: <CAMuHMdXPn9FHr41xmihuuzNNNKvY-50yAwY4HyuyVo6qBn=Z1w@mail.gmail.com>
- <CAMuHMdWeL3DOXY3xcPOBW2WDDGW3PxgSM8didt7J1KxSm1ivJg@mail.gmail.com>
- <CAMuHMdWXXoS9mmX9VWRQyXfmsy8YROgpLZ-xB7zthEdPdM2u4A@mail.gmail.com>
- <CAMuHMdVWkSnki8VQDaYRzJ8yu8xtEKpXyfQppTtw3wXDQPmYzw@mail.gmail.com>
- <d4b7ce06-23e7-1c60-cc0c-b6aea07e0a1a@gmail.com>
- <CAL_JsqKTckMABk6cM8d=boZcHyLdcqYmbzfKDjAHdCXoCPSDtg@mail.gmail.com>
- <CAMuHMdU4oUKaGxmaPiC=cX0XpHG3KXhr+4MywEfeQ8sq-EG18A@mail.gmail.com>
- <CAL_JsqL3fHXNdGS=ap6+5Y25T2zmnDYRkt5dNV9mW7hyanVvuw@mail.gmail.com>
- <CAL_JsqJn459-8wnwT0N0CKumnvh_gDkVdgVebvMVa13oTxfQ=g@mail.gmail.com>
- <CAMuHMdUyuJbyHthc4ATuRXY=zM_Vbc7DmsZvWgX_u8w3FfhzDg@mail.gmail.com>
- <YmqRK1uWiady7BHD@robh.at.kernel.org>
-From:   Frank Rowand <frowand.list@gmail.com>
-In-Reply-To: <YmqRK1uWiady7BHD@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -97,77 +69,98 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 4/28/22 08:05, Rob Herring wrote:
-> On Thu, Apr 28, 2022 at 08:25:31AM +0200, Geert Uytterhoeven wrote:
->> Hi Rob,
->>
->> On Wed, Apr 27, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
->>> On Wed, Jan 26, 2022 at 1:31 PM Rob Herring <robh@kernel.org> wrote:
->>>> On Fri, Jan 14, 2022 at 3:25 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>>> On Fri, Jan 14, 2022 at 3:10 AM Rob Herring <robh@kernel.org> wrote:
->>>>>> On Thu, Jan 6, 2022 at 11:23 AM Frank Rowand <frowand.list@gmail.com> wrote:
->>>>>>> Patient Geert has pinged again.
->>>>>>
->>>>>> If it's not a patch to be reviewed, then I'm not going to see it most
->>>>>> likely. I don't read the DT list regularly...
->>>>>
->>>>> Fair enough...
->>>>>
->>>>>>> If I remember correctly you guys were not thrilled with this idea, but
->>>>>>> also did not seem strongly against it.  Are you willing to go along
->>>>>>> with .dtso for overlay source files?  If so, I will revive this patch
->>>>>>> series.
->>>>>>>
->>>>>>> David, if you are against supporting .dtso in the dtc compiler then
->>>>>>> the kernel can still support it through make rules.
->>>>>>
->>>>>> I'm not really interested in diverging from dtc. I'd suggest moving
->>>>>> the discussion to dtc list and/or devicetree-spec if you want to get
->>>>>> more attention on this.
->>>>>
->>>>> What needs to be supported in the dtc compiler?
->>>>> The fallback passed to guess_input_format() is "dts".
->>>>> So this has been working out-of-the-box since forever?
->>>>
->>>> Ah, okay.
->>>>
->>>>>> Also, keep in mind that extensions also affect MIME types which
->>>>>> someone was also asking about recently.
->>>>>
->>>>> You mean "MIME type of Devicetree Blobs and Sources"[1]?
->>>>> According to [2](2022-01-13), none of that has happened.
->>>>
->>>> This is what I was thinking of:
->>>>
->>>> https://github.com/devicetree-org/devicetree-specification/issues/46
->>>>
->>>> In any case, given everyone is ambivalent, send me an updated patch
->>>> and I'll apply it.
-> 
-> ^^^^^^^^
-> 
->>>
->>> Ping! Anyone still want this?
->>>
->>> What I don't want to see is a mixture of .dts and .dtso. And now I'm
->>> reviewing RPi overlay patches[1] with .dts.
->>
->> I still prefer .dtso over .dts, as it allows tools to detect the file
->> type without having to read the file's contents.
->> Without this, e.g. make needs to have all overlays listed explicitly
->> in a Makefile.
->>
->> We do have .c, .h, .s (even .S), .dtsi. So why not .dtso?
-> 
-> Read above! I said to resend this patch and I will apply it.
+On Sun, Apr 24, 2022 at 12:10 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Merge version CRCs per vmlinux or per module.
+>
+> These linker scripts will be fed to the final link stage.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  .gitignore            |  1 +
+>  Makefile              |  1 +
+>  scripts/mod/modpost.c | 27 +++++++++++++++++++++++++++
+>  3 files changed, 29 insertions(+)
+>
+> diff --git a/.gitignore b/.gitignore
+> index 265959544978..f9dad6b917e6 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -42,6 +42,7 @@
+>  *.so.dbg
+>  *.su
+>  *.symtypes
+> +*.symver.lds
+>  *.symversions
+>  *.tab.[ch]
+>  *.tar
+> diff --git a/Makefile b/Makefile
+> index 235d68fa1470..0779db3d1c0c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1859,6 +1859,7 @@ clean: $(clean-dirs)
+>                 -o -name '*.c.[012]*.*' \
+>                 -o -name '*.ll' \
+>                 -o -name '*.gcno' \
+> +               -o -name '*.symver.lds' \
+>                 -o -name '*.*.symversions' \) -type f -print | xargs rm -f
+>
+>  # Generate tags for editors
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 43ab4f000ae3..ef779ada04c6 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2577,6 +2577,30 @@ static void write_dump(const char *fname)
+>         free(buf.p);
+>  }
+>
+> +static void write_symversions_lds(struct module *mod)
+> +{
+> +       struct buffer buf = { };
+> +       struct symbol *sym;
+> +       char lds_file[PATH_MAX];
+> +       int ret;
+> +
+> +       ret = snprintf(lds_file, sizeof(lds_file), "%s.symver.lds", mod->name);
+> +       if (ret >= sizeof(lds_file)) {
+> +               error("%s: too long path was truncated\n", lds_file);
+> +               return;
 
-Sorry for the delay.  Earlier I said the I would rework the patch (if needed
-for the current kernel) and resend.  I've been distracted by other things
-like bug fixes.  Otherwise resending this patch is at the top of my todo
-list.
+If this exceptional case occurs, we should probably halt or return an
+error code to main?
 
--Frank
+> +       }
+> +
+> +       list_for_each_entry(sym, &mod->exported_symbols, list) {
+> +               if (!sym->crc_valid)
+> +                       continue;
+> +
+> +               buf_printf(&buf, "__crc_%s = 0x%08x;\n", sym->name, sym->crc);
+> +       }
+> +
+> +       write_if_changed(&buf, lds_file);
+> +       free(buf.p);
+> +}
+> +
+>  static void write_namespace_deps_files(const char *fname)
+>  {
+>         struct module *mod;
+> @@ -2673,6 +2697,9 @@ int main(int argc, char **argv)
+>                 char fname[PATH_MAX];
+>                 int ret;
+>
+> +               if (modversions && !mod->from_dump)
+> +                       write_symversions_lds(mod);
+> +
+>                 if (mod->is_vmlinux || mod->from_dump)
+>                         continue;
+>
+> --
+> 2.32.0
+>
 
-> 
-> Rob
 
+-- 
+Thanks,
+~Nick Desaulniers
