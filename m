@@ -2,51 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF066515C61
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Apr 2022 13:21:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E5AB515CB5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Apr 2022 14:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238835AbiD3LLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 30 Apr 2022 07:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51026 "EHLO
+        id S241700AbiD3MVD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Apr 2022 08:21:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230501AbiD3LLQ (ORCPT
+        with ESMTP id S235874AbiD3MVC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 30 Apr 2022 07:11:16 -0400
+        Sat, 30 Apr 2022 08:21:02 -0400
 Received: from conuserg-11.nifty.com (conuserg-11.nifty.com [210.131.2.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69AFB2183C;
-        Sat, 30 Apr 2022 04:07:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B9A25E;
+        Sat, 30 Apr 2022 05:17:39 -0700 (PDT)
 Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 23UB4siD001142;
-        Sat, 30 Apr 2022 20:04:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 23UB4siD001142
+        by conuserg-11.nifty.com with ESMTP id 23UCHEE1011373;
+        Sat, 30 Apr 2022 21:17:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 23UCHEE1011373
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651316695;
-        bh=qFq62hBbENoaVAD7QD5BdAfmy70jfETPcpl34tqTGjQ=;
+        s=dec2015msa; t=1651321035;
+        bh=v4qZpiglT6xrPTQPd4L6/Mie4jcqQ5qrt6RyWo65A7M=;
         h=From:To:Cc:Subject:Date:From;
-        b=I7Qf2fOElOZRV86gYmAf4dApBSqjae3RPU5dBtFAMNakp0UAMWsj53+BtUffL/s7K
-         fv2rpSJ+kL+TuEfGB90vgdJG7L5vL4+qZs53EDuGOr6QrX8GSCdMgaVPYqn/8/DW9s
-         53f3eFcA24PZXc5Obrlluia7RO7W3lO9oYsvdtwx2dALx+DtJBu4XhIbAiVzobW7Wc
-         kthogHWmHUd87WiJmnJnMHTka7loeCuauLagwZ3dhNjtIJIkqMLj33mfIBEbw/nP2N
-         SZidkAb3XkSTizPaWU3FqEFilx/vQ7FTLTQTq8bwm1M6Q/g7vRVjuFrMK6+Ju4WvyU
-         BnOgzQ2eQ4LlA==
+        b=L2WjNp5nXXERfjMbC+99SvIsQEpIMuw3HRs6TVi81qYC03TPqW4vFfQwzuWJsM0P3
+         2X+NjxOXfxazdJ9KfQWVLhCbPEuO452kGzaR8B30h0Ded7ezwI/m683V3LQjmjcoBF
+         ufx2wmwMfKWHxGUEqMsUyoEQ+HogoqgB5elBB7if70Og4480uuydKJj5p6g5M959ZB
+         uYlFd3Fqb+BLmLIYKIXo1qwNikQCt5iYYQMI+Mu3RXj+6PPJiPd2oKSJ14kx2oNh9r
+         pO02RrsRi2DwwG5L1YeOA3aGZNhJdjB0OG/37Cr0ZBDeatL8sVGX0TqcbBEPAvVMYQ
+         Qgae7SQgEVNRA==
 X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH] kbuild: drop $(objtree)/ prefix support for clean-files
-Date:   Sat, 30 Apr 2022 20:04:09 +0900
-Message-Id: <20220430110409.256858-1-masahiroy@kernel.org>
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/2] ia64: make the install target not depend on any build artifact
+Date:   Sat, 30 Apr 2022 21:16:38 +0900
+Message-Id: <20220430121639.315421-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,50 +49,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I think this hack is a bad idea. arch/powerpc/boot/Makefile is the
-only user. Let's stop doing this.
+The install target should not depend on any build artifact.
+
+The reason is explained in commit 19514fc665ff ("arm, kbuild: make
+"make install" not depend on vmlinux").
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- arch/powerpc/boot/Makefile | 4 ++--
- scripts/Makefile.clean     | 8 +-------
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ arch/ia64/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
-index 4b4827c475c6..008bf0bff186 100644
---- a/arch/powerpc/boot/Makefile
-+++ b/arch/powerpc/boot/Makefile
-@@ -453,8 +453,8 @@ clean-files += $(image-) $(initrd-) cuImage.* dtbImage.* treeImage.* \
- clean-kernel-base := vmlinux.strip vmlinux.bin
- clean-kernel := $(addsuffix .gz,$(clean-kernel-base))
- clean-kernel += $(addsuffix .xz,$(clean-kernel-base))
--# If not absolute clean-files are relative to $(obj).
--clean-files += $(addprefix $(objtree)/, $(clean-kernel))
-+# clean-files are relative to $(obj).
-+clean-files += $(addprefix ../../../, $(clean-kernel))
+diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+index 3b3ac3e1f272..6c4bfa54b703 100644
+--- a/arch/ia64/Makefile
++++ b/arch/ia64/Makefile
+@@ -72,8 +72,8 @@ archheaders:
  
- WRAPPER_OBJDIR := /usr/lib/kernel-wrapper
- WRAPPER_DTSDIR := /usr/lib/kernel-wrapper/dts
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 74cb1c5c3658..878cec648959 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -36,13 +36,7 @@ __clean-files	:= \
+ CLEAN_FILES += vmlinux.gz
  
- __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
+-install: vmlinux.gz
+-	sh $(srctree)/arch/ia64/install.sh $(KERNELRELEASE) $< System.map "$(INSTALL_PATH)"
++install:
++	sh $(srctree)/arch/ia64/install.sh $(KERNELRELEASE) vmlinux.gz System.map "$(INSTALL_PATH)"
  
--# clean-files is given relative to the current directory, unless it
--# starts with $(objtree)/ (which means "./", so do not add "./" unless
--# you want to delete a file from the toplevel object directory).
--
--__clean-files   := $(wildcard                                               \
--		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
--		   $(filter $(objtree)/%, $(__clean-files)))
-+__clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
- 
- # ==========================================================================
- 
+ define archhelp
+   echo '* compressed	- Build compressed kernel image'
 -- 
 2.32.0
 
