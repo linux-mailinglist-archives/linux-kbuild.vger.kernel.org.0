@@ -2,114 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D8CF516449
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 May 2022 13:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0538851645C
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 May 2022 14:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346491AbiEAMBB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 May 2022 08:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57280 "EHLO
+        id S237226AbiEAM25 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 May 2022 08:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244686AbiEAMBA (ORCPT
+        with ESMTP id S234166AbiEAM24 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 May 2022 08:01:00 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421983A5C2;
-        Sun,  1 May 2022 04:57:35 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Krl8S2W6kz4xXh;
-        Sun,  1 May 2022 21:57:28 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1651406250;
-        bh=KLrQiQd2hh/CdsUpLpsJ9wNQAuRET+XGyyixHfrk344=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rfnAWHaonFRnz6CX4sVxw3eZHjjOz4D9N7EJqBE1ipI7gaFq+MUEydrsMMkNN1XV3
-         aSEu6GrtTP7fWb/wAdUbvPPqmF/Rz2J822VD/S253BRxJhKZ1XVsebbSA1zb7wE+S2
-         OyKD6NReOSJoK/gmlrYpe8wMbvtLHHfzP/l++wJw7op30vjeDgZOS3wgbCsTt/+tFo
-         SOb4M9LlHKENd+ypDOthi3jm1q92QnsgQ6kbrn3/slh7+IBtUoWOmTgj1uO40abV8t
-         Gso3VDnoPCz7g2IkVuRgEO51oqRPkePXa/ZSKZ9dun4rFMc5uTCSXqLJ96/4shy1T6
-         0YsikNdHwIWow==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Paul Mackerras <paulus@samba.org>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] kbuild: drop $(objtree)/ prefix support for clean-files
-In-Reply-To: <20220430110409.256858-1-masahiroy@kernel.org>
-References: <20220430110409.256858-1-masahiroy@kernel.org>
-Date:   Sun, 01 May 2022 21:57:24 +1000
-Message-ID: <871qxda2jf.fsf@mpe.ellerman.id.au>
+        Sun, 1 May 2022 08:28:56 -0400
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C298EE017;
+        Sun,  1 May 2022 05:25:27 -0700 (PDT)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 241COxAn017333;
+        Sun, 1 May 2022 21:25:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 241COxAn017333
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1651407900;
+        bh=s9WJsNSqpPu5bcg8syEMbH4y6ywS2B+iJi17yrfL59w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZwU0SrYVAmuqx7ZPBWALLSvJ72XApDjVU/+M8tiMYdoaqL9sEVG/VtUU40ufqmHi8
+         XskoLhhYh+2LRs43jkgv0YVcQOHUuhgZpaAFUzYUBvvTDiPWt/pQvknK21V9xOvX0R
+         DnokeReLawxxnt9Ki9WL90W8Iu2NR3BCO0XCbHWXOPQ3wgrfHNDZbPE+1QZYPREIiS
+         liBuVeUSTyMQXz7/8xDoHfABVegTw7FWscZ7kl0wrkANh82Co7tO9kxNAq2+4aJa/f
+         vJJnrGmUOl/2XZdYADC/w51+LrTbPLPpS02d8A8Fpq9zWcjpfyLKl/gvjbFnurl3eW
+         C9c4eKUdZLDAQ==
+X-Nifty-SrcIP: [209.85.215.179]
+Received: by mail-pg1-f179.google.com with SMTP id bg9so9845821pgb.9;
+        Sun, 01 May 2022 05:25:00 -0700 (PDT)
+X-Gm-Message-State: AOAM5303c3JgWrB+bjObd2EfsYwyucbyozqUnAo4jAviLnxhUaj+HWYe
+        bY+IiuVT4BusS/bLp9IZvPGVL7QBcdJ6tZnzERE=
+X-Google-Smtp-Source: ABdhPJweSJ5bmDryx8QPRvubCmslr51jm3f8PW+XSTdkqy/t55C0Hk6kBtzuRE4UIvahL2188zio4+mAtCSuUoYGj7k=
+X-Received: by 2002:a05:6a00:a02:b0:4fd:f9dd:5494 with SMTP id
+ p2-20020a056a000a0200b004fdf9dd5494mr7285242pfh.68.1651407899203; Sun, 01 May
+ 2022 05:24:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220501084032.1025918-1-masahiroy@kernel.org>
+In-Reply-To: <20220501084032.1025918-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 1 May 2022 21:23:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASYKttAZMnirt-aVSJqbgY1Cagj3URstv-9zs+-RKDi8g@mail.gmail.com>
+Message-ID: <CAK7LNASYKttAZMnirt-aVSJqbgY1Cagj3URstv-9zs+-RKDi8g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/26] kbuild: yet another series of cleanups (modpost
+ and LTO)
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        clang-built-linux <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-> I think this hack is a bad idea. arch/powerpc/boot/Makefile is the
-> only user. Let's stop doing this.
+On Sun, May 1, 2022 at 5:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
 >
->  arch/powerpc/boot/Makefile | 4 ++--
-
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
-
-cheers
-
->  scripts/Makefile.clean     | 8 +-------
->  2 files changed, 3 insertions(+), 9 deletions(-)
+> This is the third batch of cleanups in this development cycle.
 >
-> diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
-> index 4b4827c475c6..008bf0bff186 100644
-> --- a/arch/powerpc/boot/Makefile
-> +++ b/arch/powerpc/boot/Makefile
-> @@ -453,8 +453,8 @@ clean-files += $(image-) $(initrd-) cuImage.* dtbImage.* treeImage.* \
->  clean-kernel-base := vmlinux.strip vmlinux.bin
->  clean-kernel := $(addsuffix .gz,$(clean-kernel-base))
->  clean-kernel += $(addsuffix .xz,$(clean-kernel-base))
-> -# If not absolute clean-files are relative to $(obj).
-> -clean-files += $(addprefix $(objtree)/, $(clean-kernel))
-> +# clean-files are relative to $(obj).
-> +clean-files += $(addprefix ../../../, $(clean-kernel))
->  
->  WRAPPER_OBJDIR := /usr/lib/kernel-wrapper
->  WRAPPER_DTSDIR := /usr/lib/kernel-wrapper/dts
-> diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-> index 74cb1c5c3658..878cec648959 100644
-> --- a/scripts/Makefile.clean
-> +++ b/scripts/Makefile.clean
-> @@ -36,13 +36,7 @@ __clean-files	:= \
->  
->  __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
->  
-> -# clean-files is given relative to the current directory, unless it
-> -# starts with $(objtree)/ (which means "./", so do not add "./" unless
-> -# you want to delete a file from the toplevel object directory).
-> -
-> -__clean-files   := $(wildcard                                               \
-> -		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
-> -		   $(filter $(objtree)/%, $(__clean-files)))
-> +__clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
->  
->  # ==========================================================================
->  
-> -- 
+> Major changes in v2:
+>
+>  - V1 did not work with CONFIG_MODULE_REL_CRCS.
+>    I fixed this for v2.
+>
+>  - Reflect some review comments in v1
+>
+>  - Refactor the code more
+>
+>  - Avoid too long argument error
+>
+
+
+This series is available at:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+lto-cleanup-v2
+
+
+
+
+
+
+
+>
+> Masahiro Yamada (26):
+>   modpost: use bool type where appropriate
+>   modpost: change mod->gpl_compatible to bool type
+>   modpost: import include/linux/list.h
+>   modpost: traverse modules in order
+>   modpost: add sym_add_unresolved() helper
+>   modpost: traverse unresolved symbols in order
+>   modpost: use doubly linked list for dump_lists
+>   modpost: traverse the namespace_list in order
+>   modpost: dump Module.symvers in the same order of modules.order
+>   modpost: move static EXPORT_SYMBOL check to check_exports()
+>   modpost: make multiple export error
+>   modpost: make sym_add_exported() always allocate a new symbol
+>   modpost: split new_symbol() to symbol allocation and hash table
+>     addition
+>   modpost: mitigate false-negatives for static EXPORT_SYMBOL checks
+>   kbuild: record symbol versions in *.cmd files
+>   kbuild: generate a list of objects in vmlinux
+>   modpost: extract symbol versions from *.cmd files
+>   modpost: generate linker script to collect symbol versions
+>   kbuild: embed symbol versions at final link of vmlinux or modules
+>   kbuild: stop merging *.symversions
+>   genksyms: adjust the output format for .cmd files
+>   kbuild: do not create *.prelink.o for Clang LTO or IBT
+>   kbuild: make built-in.a rule robust against too long argument error
+>   kbuild: make *.mod rule robust against too long argument error
+>   modpost: simplify the ->is_static initialization
+>   modpost: use hlist for hash table implementation
+>
+>  .gitignore                  |   1 +
+>  Makefile                    |   1 +
+>  scripts/Kbuild.include      |   4 +
+>  scripts/Makefile.build      | 118 +++------
+>  scripts/Makefile.lib        |   7 -
+>  scripts/Makefile.modfinal   |   6 +-
+>  scripts/Makefile.modpost    |  10 +-
+>  scripts/genksyms/genksyms.c |  17 +-
+>  scripts/link-vmlinux.sh     |  34 +--
+>  scripts/mod/file2alias.c    |   2 -
+>  scripts/mod/list.h          | 265 +++++++++++++++++++
+>  scripts/mod/modpost.c       | 501 ++++++++++++++++++++++--------------
+>  scripts/mod/modpost.h       |  24 +-
+>  scripts/mod/sumversion.c    |   8 +-
+>  14 files changed, 650 insertions(+), 348 deletions(-)
+>  create mode 100644 scripts/mod/list.h
+>
+> --
 > 2.32.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
