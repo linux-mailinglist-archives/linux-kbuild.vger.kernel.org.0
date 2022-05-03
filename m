@@ -2,197 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9613517C23
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 04:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE452517EF2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 09:31:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbiECDAE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 May 2022 23:00:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
+        id S232307AbiECHep (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 May 2022 03:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbiECDAC (ORCPT
+        with ESMTP id S232280AbiECHeo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 May 2022 23:00:02 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6F938796;
-        Mon,  2 May 2022 19:56:31 -0700 (PDT)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2432uH6U011152;
-        Tue, 3 May 2022 11:56:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2432uH6U011152
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651546578;
-        bh=VwNM2W8hTeAPyUymgN9LUFlugNghegTT9oPZA7kVbPw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b7rcSdV7mz/JZOyvIov8Ywq2FD+dsBcn3UMqYkJIP1gOLdkWdlBYmOdv4TrzG4kbY
-         VjYuYP+MtvbDaOyo4z1qm7F/RB0z6RHKHI7Frk/tGi5YYPtGDgFUDb88FXf3NtqCHV
-         nazTTdACqhaUC8YsZVDDsPWJ+wxUPck8/rNIwb2GVm6hR9T67Z2aQFnVGGc5sMYJPb
-         lA6Nstjq6kSFCxstllx4T8P73vkawuyzDA/Mcx8LCSe3FVJ9c1SZBqSj5yUKet+K0y
-         q7si4slZ+OK3Hz6PiZD4w5nU0wrSIajoTdDYkQLLoUSQasl8tlhcqIYDZNp8DYCjqZ
-         CzaFgqaf0HjFA==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id d15so13954621plh.2;
-        Mon, 02 May 2022 19:56:18 -0700 (PDT)
-X-Gm-Message-State: AOAM530xukct0glWTF7DbgChOy4bC6MKR/dMLd2cqmd3SpQ3gHiPFBSV
-        oXR/jOxauaAykjnuLDzAPhs1kogaw9Zu+djvUgQ=
-X-Google-Smtp-Source: ABdhPJzZYa6S1jTp9537Jw6pSz/ivM6fvC6WKnXzu7KP/iqWkJk5Uae3t1lDZwuLeSS6FtfGZY+1F1fh1HqbefqZiXI=
-X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
- t23-20020a17090ae51700b001d75bbdf9f0mr2411545pjy.77.1651546577266; Mon, 02
- May 2022 19:56:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-20-masahiroy@kernel.org>
-In-Reply-To: <20220501084032.1025918-20-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 3 May 2022 11:55:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASzBse=oPA2u4dMJoF9VSJ492K+s=d5Yyn4Aw0dJgu03A@mail.gmail.com>
-Message-ID: <CAK7LNASzBse=oPA2u4dMJoF9VSJ492K+s=d5Yyn4Aw0dJgu03A@mail.gmail.com>
-Subject: Re: [PATCH v2 19/26] kbuild: embed symbol versions at final link of
- vmlinux or modules
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tue, 3 May 2022 03:34:44 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8B817074;
+        Tue,  3 May 2022 00:31:13 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 1FF1E1F749;
+        Tue,  3 May 2022 07:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1651563072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w+PouQmnZ9GsbOBxPEA2aGYdP7XgCY+B9Qhwz2UQ8+Y=;
+        b=ox1CyHAMnWjmEqLQwK8dSc53AwYIueIddr3rIyNhdAh2r9ypOQwtjkrpz55leMI4agVEFu
+        ifQJhpDj2meSrhcdmc3gQKoNNsVuYOX/JYRryRrYxdQrC4tq6KadDhHNSdJoAa4NxZmGNc
+        jChZK/w6hEpO3GjgQW3mNeQDcjqP/fQ=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 148A12C141;
+        Tue,  3 May 2022 07:31:08 +0000 (UTC)
+Date:   Tue, 3 May 2022 09:31:07 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, x86@kernel.org,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org, live-patching@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH v10 01/15] modpost: fix removing numeric suffixes
+Message-ID: <YnDaO5ThkiYkRXbO@alley>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com>
+ <20220209185752.1226407-2-alexandr.lobakin@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209185752.1226407-2-alexandr.lobakin@intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 1, 2022 at 5:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Do not update objects with version CRCs while the directory descending.
->
-> Do it at the final link stage.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Wed 2022-02-09 19:57:38, Alexander Lobakin wrote:
+> `-z unique-symbol` linker flag which is planned to use with FG-KASLR
+> to simplify livepatching (hopefully globally later on) triggers the
+> following:
+> 
+> ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
+> 
+> The reason is that for now the condition from remove_dot():
+> 
+> if (m && (s[n + m] == '.' || s[n + m] == 0))
+> 
+> which was designed to test if it's a dot or a '\0' after the suffix
+> is never satisfied.
+> This is due to that `s[n + m]` always points to the last digit of a
+> numeric suffix, not on the symbol next to it (from a custom debug
+> print added to modpost):
+> 
+> param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
 
+Yup, the + 1  is for the '.' between the symbol name and the number.
+In the order of apperance it would be: n + 1 + m
 
-As 0-day bot reported, this does not work for CONFIG_MODULE_REL_CRCS.
+> So it's off-by-one and was like that since 2014.
+> Fix this for the sake of upcoming features, but don't bother
+> stable-backporting, as it's well hidden -- apart from that LD flag,
+> can be triggered only by GCC LTO which never landed upstream.
+> 
+> Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
 
-I will send v3.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-
-> ---
->
-> (no changes since v1)
->
->  scripts/Makefile.build    | 22 +++-------------------
->  scripts/Makefile.modfinal |  3 ++-
->  scripts/link-vmlinux.sh   |  4 +++-
->  3 files changed, 8 insertions(+), 21 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index a1023868775f..cec17b28de42 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -162,15 +162,9 @@ ifdef CONFIG_MODVERSIONS
->  # o if <file>.o doesn't contain a __ksymtab version, i.e. does
->  #   not export symbols, it's done.
->  # o otherwise, we calculate symbol versions using the good old
-> -#   genksyms on the preprocessed source and postprocess them in a way
-> -#   that they are usable as a linker script
-> -# o generate .tmp_<file>.o from <file>.o using the linker to
-> -#   replace the unresolved symbols __crc_exported_symbol with
-> -#   the actual value of the checksum generated by genksyms
-> -# o remove .tmp_<file>.o to <file>.o
-> -
-> -# Generate .o.symversions files for each .o with exported symbols, and link these
-> -# to the kernel and/or modules at the end.
-> +#   genksyms on the preprocessed source and dump them into the .cmd file.
-> +# o modpost will extract versions from the .cmd file and create linker
-> +#   scripts used to link the kernel and/or modules.
->
->  genksyms_format_rel_crc := [^_]*__crc_\([^ ]*\) = \.; LONG(\([^)]*\)).*
->  genksyms_format_normal := __crc_\(.*\) = \(.*\);
-> @@ -188,12 +182,6 @@ gen_symversions =                                                          \
->
->  cmd_gen_symversions_c =        $(call gen_symversions,c)
->
-> -cmd_modversions =                                                              \
-> -       if [ -r $@.symversions ]; then                                          \
-> -               $(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@               \
-> -                       -T $@.symversions;                                      \
-> -               mv -f $(@D)/.tmp_$(@F) $@;                                      \
-> -       fi
->  endif
->
->  ifdef CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
-> @@ -273,7 +261,6 @@ define rule_cc_o_c
->         $(call cmd,checkdoc)
->         $(call cmd,gen_objtooldep)
->         $(call cmd,gen_symversions_c)
-> -       $(if $(CONFIG_LTO_CLANG),,$(call cmd,modversions))
->         $(call cmd,record_mcount)
->  endef
->
-> @@ -282,7 +269,6 @@ define rule_as_o_S
->         $(call cmd,gen_ksymdeps)
->         $(call cmd,gen_objtooldep)
->         $(call cmd,gen_symversions_S)
-> -       $(call cmd,modversions)
->  endef
->
->  # Built-in and composite module parts
-> @@ -296,8 +282,6 @@ ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
->  quiet_cmd_cc_prelink_modules = LD [M]  $@
->        cmd_cc_prelink_modules =                                         \
->         $(LD) $(ld_flags) -r -o $@                                      \
-> -               $(shell [ -s $(@:.prelink.o=.o.symversions) ] &&                \
-> -                       echo -T $(@:.prelink.o=.o.symversions))         \
->                 --whole-archive $(filter-out FORCE,$^)                  \
->                 $(cmd_objtool)
->
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 7f39599e9fae..d429e3f9ae1d 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -34,6 +34,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->        cmd_ld_ko_o +=                                                   \
->         $(LD) -r $(KBUILD_LDFLAGS)                                      \
->                 $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)              \
-> +               $(addprefix -T, $(filter %.symver.lds, $(real-prereqs)))\
->                 -T scripts/module.lds -o $@ $(filter %.o, $^);          \
->         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
->
-> @@ -56,7 +57,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
->
->
->  # Re-generate module BTFs if either module's .ko or vmlinux changed
-> -$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
-> +$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o $(if $(CONFIG_MODVERSIONS), %.symver.lds) scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
->         +$(call if_changed_except,ld_ko_o,vmlinux)
->  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->         +$(if $(newer-prereqs),$(call cmd,btf_ko))
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index eceb3ee7ec06..8da5c0182665 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -90,7 +90,6 @@ modpost_link()
->
->                 if is_enabled CONFIG_MODVERSIONS; then
->                         gen_symversions
-> -                       lds="${lds} -T .tmp_symversions.lds"
->                 fi
->
->                 # This might take a while, so indicate that we're doing
-> @@ -196,6 +195,9 @@ vmlinux_link()
->         fi
->
->         ldflags="${ldflags} ${wl}--script=${objtree}/${KBUILD_LDS}"
-> +       if is_enabled CONFIG_MODVERSIONS; then
-> +               ldflags="${ldflags} ${wl}--script=vmlinux.symver.lds"
-> +       fi
->
->         # The kallsyms linking does not need debug symbols included.
->         if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
-> --
-> 2.32.0
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Best Regards,
+Petr
