@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63BC2519093
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 23:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B40945190AF
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 23:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243098AbiECVrT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 May 2022 17:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57960 "EHLO
+        id S238169AbiECVtU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 May 2022 17:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243094AbiECVrS (ORCPT
+        with ESMTP id S243170AbiECVtS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 May 2022 17:47:18 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597CD41625
-        for <linux-kbuild@vger.kernel.org>; Tue,  3 May 2022 14:43:40 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id t25so32487914lfg.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 May 2022 14:43:40 -0700 (PDT)
+        Tue, 3 May 2022 17:49:18 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC4E205DE
+        for <linux-kbuild@vger.kernel.org>; Tue,  3 May 2022 14:45:44 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id m23so23611941ljb.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 May 2022 14:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=C756m5N+PAgQRKxR49lEWlxtJ+9ZyoDvXSPO8NFP/os=;
-        b=e0s9a83f4XxcDt4qv0Yq1NGegacSoMfk1kUMm4iSF83ip1Tf+H2yXLO9VDCeKV7C4c
-         /8Fmu1KMTzgp6siIjz8JWGnr3cdCc8kiVoE5MzTOiLMNsIhmDYLoE5F97ElfwQKZOrcW
-         OEhiqQJIZE73f1Aiyi7UfXo/aixlTJlwy22uL5drkN77lnAKcv8aBj1f8PWsKA0vcKKn
-         RcBS9VX50JEaj+xuhLkaBUifaAVgRauwnUb4L3k2gBQukgd93q3BQ/3OdSnKWPkanfqn
-         mgpAkATGRsyCTEZkwnyUNdbSJetOKwkzvx95wVmWpYQqq6YyZYOAQmE1eJR+hTcPA08/
-         lSVQ==
+        bh=mPFz6JxMBLrDOa8D8OvJc8dRpCCIxU0sDb/p3YNgE60=;
+        b=lmPiQyXLF7vDL/rgmpglf9WWSO+z8kznYxL91ts50a6w+mEqSpNfpVYvPX8NhQp8Uv
+         X/du124xd2sLK0hN37As8gjODZqB7+nEa5Ojw3fsU4ghWG9MqhONk4p4S2AkSdAha+Q4
+         nWjHv2JCjU2r4NjrukyVVGh7mDMF25GwNYEFEKLsgEe4mgQN1LKchq6QXfyMHZME69Oi
+         sVMu4O2eJBkRxwhAzCYqr8XwFvwXy/+6QPunVx27zQ1GfcOiAlWuF6IlWhkEaVxMrZUu
+         DOmAJN7R6iQZ2c42KgptDBVAwUuvkS8PAXWIx9U276yeW8HnL3nL3ONiLS18MpqSu50D
+         Yq3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C756m5N+PAgQRKxR49lEWlxtJ+9ZyoDvXSPO8NFP/os=;
-        b=gjPDBCrqXpE+ABNRNqt++cCsIZk+vgEyUUVLxU6+hhf16LDx/H+RrSSj+h8S9SrHWD
-         9Z0Ts9vqNwyCkEyg3BZyIo9ja++eFUzA5FQmkh11BT4HekruicAfgfT2aAlyzckv3alp
-         Z2KpvOUOgBKSun5Q9F36f9VDfme/qEchfXBrgx4VZGQa5Zq31GT/KxQgB/rnpj5HiWUF
-         gWJy3elWVxklxMh+EAkusNgX6Sy/pz55VK4K0goYuQubLaasnHauYHiUskypDBKzEgYo
-         Cjw41RBMu5orCxXuI9G11G3nVfXi4liIrLoAoudM1IaUOF84nMBIXXcB1lKR7niSsdCV
-         KRQg==
-X-Gm-Message-State: AOAM533S55dDeVKNMwMPjrZBMZVxek5YL5LXGQg/2GwbLxhZaP+HdIgM
-        /XpjT7BAs49/Mr/bYfAyw4mYj6V1wg9r9ZXv2g6CHw==
-X-Google-Smtp-Source: ABdhPJxlgenGdZiH7n9vBibI6qkAxNk/xO71M6pNC8Y64omRpD6gBOoI9tnHyN+y+6OlRQe66kztnErFQ3ZDPAGTT9I=
-X-Received: by 2002:a05:6512:1150:b0:473:bdf0:6267 with SMTP id
- m16-20020a056512115000b00473bdf06267mr179381lfg.87.1651614218457; Tue, 03 May
- 2022 14:43:38 -0700 (PDT)
+        bh=mPFz6JxMBLrDOa8D8OvJc8dRpCCIxU0sDb/p3YNgE60=;
+        b=QggXzlhrngNM0qbMdLoc/DcbaCZilSKr8t0vywEckZ5hex7THHIaPWI83/oddEEHgM
+         1AvtzuqcYK5HEWdEztMPKzbnqT71OEUKDKUz71cWc8uvjKNiilBF5hdBmyRbq4wHgXEE
+         jXvlCADbAvff9QAYLlJMTG9Y1DF8e8EIaOLZ2rsV18nK2X4ASNj2Ri6Joz+3wHQfIurY
+         rpJJ9aSR6nfT58k2mMa9FZOrVDaqRNdXUQ3xPlJlp0RAkbbesgM7dvDrOP+mg98J0hRk
+         RcMQu8Zw24e55sUGiDehrFiH7C7cdUSGklNTEZfV3LumENNrwT50Go0hl45pOJg+PfDO
+         1JdQ==
+X-Gm-Message-State: AOAM533aE9OT4HmedySyFQQ9Lozzx64b8MrZM4F096gxF8t5ItSozhhS
+        E1bM3VgydANZVZjvbqYBWyLEma9FX2mq+KZJ6C4HIA==
+X-Google-Smtp-Source: ABdhPJySjBL1p+N3hj3DHEA588S062n0PV+2+6ZoihOmBkqZCW7zz/wum4v3Gn3+fGZHg/XBX9ucA4JJGD0APRkVECY=
+X-Received: by 2002:a05:651c:1a09:b0:250:5bd1:6daf with SMTP id
+ by9-20020a05651c1a0900b002505bd16dafmr5522087ljb.468.1651614342672; Tue, 03
+ May 2022 14:45:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-2-masahiroy@kernel.org>
-In-Reply-To: <20220501084032.1025918-2-masahiroy@kernel.org>
+References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-3-masahiroy@kernel.org>
+In-Reply-To: <20220501084032.1025918-3-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 3 May 2022 14:43:26 -0700
-Message-ID: <CAKwvOdkuWSBShjA2uQEYj5Puyn0bJLdK1JE9Y-P+q9uxNk1A5w@mail.gmail.com>
-Subject: Re: [PATCH v2 01/26] modpost: use bool type where appropriate
+Date:   Tue, 3 May 2022 14:45:31 -0700
+Message-ID: <CAKwvOdnB=vb=jF0e6rnB21SAinTpnN+AxdPeR87qXGY0Hn2edw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/26] modpost: change mod->gpl_compatible to bool type
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,31 +69,39 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, May 1, 2022 at 1:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 96d6b3a16ca2..7ccfcc8899c1 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -1,4 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> +#include <stdbool.h>
->  #include <stdio.h>
->  #include <stdlib.h>
->  #include <stdarg.h>
-> @@ -111,11 +112,10 @@ struct module {
->         struct module *next;
->         int gpl_compatible;
->         struct symbol *unres;
-> -       int from_dump;  /* 1 if module was loaded from *.symvers */
-> -       int is_vmlinux;
-> -       int seen;
-> -       int has_init;
-> -       int has_cleanup;
-> +       bool from_dump;         /* true if module was loaded from *.symvers */
-> +       bool is_vmlinux;
-> +       bool seen;
-> +       bool has_init, has_cleanup;
+> Currently, mod->gpl_compatible is tristate; it is set to -1 by default,
+> then to 1 or 0 when MODULE_LICENSE() is found.
+>
+> Maybe, -1 was chosen to represent the 'unknown' license, but it is not
+> useful.
+>
+> The current code:
+>
+>     if (!mod->gpl_compatible)
+>             check_for_gpl_usage(exp->export, basename, exp->name);
+>
+> ... only cares whether gpl_compatible is zero or not.
+>
+> Change it to a bool type with the initial value 'true', which has no
+> functional change.
+>
+> The default value should be 'true' instead of 'false'.
+>
+> Since commit 1d6cd3929360 ("modpost: turn missing MODULE_LICENSE() into
+> error"), unknown module license is an error.
+>
+> The error message, "missing MODULE_LICENSE()" is enough to explain the
+> issue. It is not sensible to show another message, "GPL-incompatible
+> module ... uses GPL-only symbol".
+>
+> Add comments to explain this.
+>
+> While I was here, I renamed gpl_compatible to is_gpl_compatible for
+> clarification, and also slightly refactored the code.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Consider keeping these on separate lines. Either way:
+Thanks for the patch!
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 -- 
