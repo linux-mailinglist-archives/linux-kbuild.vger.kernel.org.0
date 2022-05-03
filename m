@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B40945190AF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 23:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0871B5190E2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 May 2022 00:07:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238169AbiECVtU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 May 2022 17:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
+        id S229619AbiECVzo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 May 2022 17:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243170AbiECVtS (ORCPT
+        with ESMTP id S243198AbiECVxf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 May 2022 17:49:18 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CC4E205DE
-        for <linux-kbuild@vger.kernel.org>; Tue,  3 May 2022 14:45:44 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id m23so23611941ljb.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 May 2022 14:45:44 -0700 (PDT)
+        Tue, 3 May 2022 17:53:35 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4075143497
+        for <linux-kbuild@vger.kernel.org>; Tue,  3 May 2022 14:49:38 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id j4so32485878lfh.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 May 2022 14:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mPFz6JxMBLrDOa8D8OvJc8dRpCCIxU0sDb/p3YNgE60=;
-        b=lmPiQyXLF7vDL/rgmpglf9WWSO+z8kznYxL91ts50a6w+mEqSpNfpVYvPX8NhQp8Uv
-         X/du124xd2sLK0hN37As8gjODZqB7+nEa5Ojw3fsU4ghWG9MqhONk4p4S2AkSdAha+Q4
-         nWjHv2JCjU2r4NjrukyVVGh7mDMF25GwNYEFEKLsgEe4mgQN1LKchq6QXfyMHZME69Oi
-         sVMu4O2eJBkRxwhAzCYqr8XwFvwXy/+6QPunVx27zQ1GfcOiAlWuF6IlWhkEaVxMrZUu
-         DOmAJN7R6iQZ2c42KgptDBVAwUuvkS8PAXWIx9U276yeW8HnL3nL3ONiLS18MpqSu50D
-         Yq3g==
+        bh=o/vmxG0uAXm0MMXIv9+PUj4CzFiP52VYBcjCVzFbqfs=;
+        b=QqpYLBQkvKbTcScaIrIMqEcoF75/DW7SltbNSDorOxo0UUpKxbYfZoaeW1qxe/iM/O
+         VhUzaYiKX+xxVAaGwsecbB0zGxKGzg4EUXj2PHY7GRi3QvOO/Du61FQZEAV88BvJy6/s
+         LKn/141lYN/evptWnTby5G3MTXILI8hDJlp1hHqgLPxRzUr1VWWMdCQfzxWi8Woo6lHg
+         yQ89PED1pUcjnZiRpN7lgbMH4pcTgidXBewABtjacc7at8gZz0TGBzDKdGM1p3W6IRJz
+         2ld8bDmxBXt1IimXWR1SH9yIv1beIFfLizSfS+API9LCaJqrnI782LXEf2hLdzT6yeex
+         6Azw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mPFz6JxMBLrDOa8D8OvJc8dRpCCIxU0sDb/p3YNgE60=;
-        b=QggXzlhrngNM0qbMdLoc/DcbaCZilSKr8t0vywEckZ5hex7THHIaPWI83/oddEEHgM
-         1AvtzuqcYK5HEWdEztMPKzbnqT71OEUKDKUz71cWc8uvjKNiilBF5hdBmyRbq4wHgXEE
-         jXvlCADbAvff9QAYLlJMTG9Y1DF8e8EIaOLZ2rsV18nK2X4ASNj2Ri6Joz+3wHQfIurY
-         rpJJ9aSR6nfT58k2mMa9FZOrVDaqRNdXUQ3xPlJlp0RAkbbesgM7dvDrOP+mg98J0hRk
-         RcMQu8Zw24e55sUGiDehrFiH7C7cdUSGklNTEZfV3LumENNrwT50Go0hl45pOJg+PfDO
-         1JdQ==
-X-Gm-Message-State: AOAM533aE9OT4HmedySyFQQ9Lozzx64b8MrZM4F096gxF8t5ItSozhhS
-        E1bM3VgydANZVZjvbqYBWyLEma9FX2mq+KZJ6C4HIA==
-X-Google-Smtp-Source: ABdhPJySjBL1p+N3hj3DHEA588S062n0PV+2+6ZoihOmBkqZCW7zz/wum4v3Gn3+fGZHg/XBX9ucA4JJGD0APRkVECY=
-X-Received: by 2002:a05:651c:1a09:b0:250:5bd1:6daf with SMTP id
- by9-20020a05651c1a0900b002505bd16dafmr5522087ljb.468.1651614342672; Tue, 03
- May 2022 14:45:42 -0700 (PDT)
+        bh=o/vmxG0uAXm0MMXIv9+PUj4CzFiP52VYBcjCVzFbqfs=;
+        b=361ABZq/PshAFQGsx33VlFz/LfB+mentK9+y7YYYOA/RXcwXvnBIexv6OlRT5koxNa
+         5UnDGfaejjjBnkyRp9Rdt/EqFYVB/PyJOwHKsnJZNAylol2lZ3eJG3IXVG5j15CqIgY5
+         ZdykW2kZwVzbVTIsQJu/AWY228hOrSoHILg2vwCk/ivVkiMr+ux2fTPuM3rej42JDJrg
+         X5PvurdrvOcSrmRwl9IIJEf4l3bKukis8GYAfVkGlI6RiLt6z3oRgDTA1V/+Uc9B2Sdu
+         /6Muuu+qoptLZvpIoJxxy2K2qoC2rRy8cKuV5OjVUqQisYg8YWMBT+ouBTGVdX0XeWiz
+         LpLw==
+X-Gm-Message-State: AOAM531daDnv/6tXcQvHCDdJyJ7oDeu0MdkoztC7bL/BFZQWnEt4XzaY
+        3X+MjOhPLvY62DBZuELwORgKsGT+ja0bslUSxKDdXw==
+X-Google-Smtp-Source: ABdhPJzaagsuObxjwUJRCDznJNJKNO2WIFr/aIqKEAmCY4cEL2E6lJ8k4xnH+nmBEJkR8X7VfTVYutq4tFRvMcd2s6c=
+X-Received: by 2002:ac2:4646:0:b0:472:108e:51af with SMTP id
+ s6-20020ac24646000000b00472108e51afmr12654280lfo.184.1651614576161; Tue, 03
+ May 2022 14:49:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-3-masahiroy@kernel.org>
-In-Reply-To: <20220501084032.1025918-3-masahiroy@kernel.org>
+References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-7-masahiroy@kernel.org>
+In-Reply-To: <20220501084032.1025918-7-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 3 May 2022 14:45:31 -0700
-Message-ID: <CAKwvOdnB=vb=jF0e6rnB21SAinTpnN+AxdPeR87qXGY0Hn2edw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/26] modpost: change mod->gpl_compatible to bool type
+Date:   Tue, 3 May 2022 14:49:24 -0700
+Message-ID: <CAKwvOdnaFo6uvMEcKwX_jy610XymkMc9GczokYWYWBqeP8zQ2A@mail.gmail.com>
+Subject: Re: [PATCH v2 06/26] modpost: traverse unresolved symbols in order
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Michal Marek <michal.lkml@markovi.net>
@@ -69,39 +69,45 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Sun, May 1, 2022 at 1:42 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Currently, mod->gpl_compatible is tristate; it is set to -1 by default,
-> then to 1 or 0 when MODULE_LICENSE() is found.
+> Currently, modpost manages unresolved in a singly linked list; it adds
+> a new node to the head, and traverses the list from new to old.
 >
-> Maybe, -1 was chosen to represent the 'unknown' license, but it is not
-> useful.
->
-> The current code:
->
->     if (!mod->gpl_compatible)
->             check_for_gpl_usage(exp->export, basename, exp->name);
->
-> ... only cares whether gpl_compatible is zero or not.
->
-> Change it to a bool type with the initial value 'true', which has no
-> functional change.
->
-> The default value should be 'true' instead of 'false'.
->
-> Since commit 1d6cd3929360 ("modpost: turn missing MODULE_LICENSE() into
-> error"), unknown module license is an error.
->
-> The error message, "missing MODULE_LICENSE()" is enough to explain the
-> issue. It is not sensible to show another message, "GPL-incompatible
-> module ... uses GPL-only symbol".
->
-> Add comments to explain this.
->
-> While I was here, I renamed gpl_compatible to is_gpl_compatible for
-> clarification, and also slightly refactored the code.
+> Use a doubly linked list to keep the order in the symbol table in the
+> ELF file.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> (no changes since v1)
 
-Thanks for the patch!
+Technically, you added a comment. :P
+https://lore.kernel.org/linux-kbuild/20220424190811.1678416-11-masahiroy@kernel.org/
+
+>
+>  scripts/mod/modpost.c | 20 ++++++++++++++------
+>  scripts/mod/modpost.h |  2 +-
+>  2 files changed, 15 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index abcdb0677775..c7dda4cfa497 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -185,6 +185,8 @@ static struct module *new_module(const char *modname)
+>         mod = NOFAIL(malloc(sizeof(*mod) + strlen(modname) + 1));
+>         memset(mod, 0, sizeof(*mod));
+>
+> +       INIT_LIST_HEAD(&mod->unresolved_symbols);
+> +
+>         strcpy(mod->name, modname);
+>         mod->is_vmlinux = (strcmp(modname, "vmlinux") == 0);
+>
+> @@ -207,6 +209,7 @@ static struct module *new_module(const char *modname)
+>
+>  struct symbol {
+>         struct symbol *next;
+> +       struct list_head list;  /* link to module::unresolved_symbols */
+
+Thanks. ;)
 Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 -- 
