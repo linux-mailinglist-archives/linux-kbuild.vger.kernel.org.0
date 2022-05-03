@@ -2,45 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7196517C0C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 04:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9613517C23
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 04:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiECCws (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 May 2022 22:52:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36966 "EHLO
+        id S230216AbiECDAE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 May 2022 23:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiECCwr (ORCPT
+        with ESMTP id S230217AbiECDAC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 May 2022 22:52:47 -0400
-Received: from conuserg-07.nifty.com (conuserg-07.nifty.com [210.131.2.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D07C37A34;
-        Mon,  2 May 2022 19:49:14 -0700 (PDT)
-Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 2432lo57029457;
-        Tue, 3 May 2022 11:47:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 2432lo57029457
+        Mon, 2 May 2022 23:00:02 -0400
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6F938796;
+        Mon,  2 May 2022 19:56:31 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 2432uH6U011152;
+        Tue, 3 May 2022 11:56:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2432uH6U011152
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651546070;
-        bh=HpstyiEwSZe2Hh+DERW9DUrly+Xd4WMxUDaMern5gP4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pZEZAOdE6Tewyxkq3crB9PYiAmg777wKSHHqF2R0YUT0bZiTvOImT2rx+xNKnEYZC
-         CFxIRk+yqkdwKanm426DSt64+IXW99prFGswHmqfE323vFvzMrLoiLAdqPnS5/9/k5
-         9DPkRspaaeZ0paMazcQxUWvT+k9HltORE0si5ZeQlhe+5nIDyB8K7dtDtQ3TDnIwR6
-         0lnxQfbK/68w656NuOS1TaQtBWSvLfB7ug3gTZuQU/+BXFaEp5sQ0l8/iNBdfsVePs
-         Pj93tFFnVYZ+V9ls+cBQziaGd7Rm7jH7LtqjI2rxQSNgsUL2N3mY8uUPKUhXV/ZMid
-         9YyTnJu7A7rMw==
-X-Nifty-SrcIP: [133.32.177.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] kbuild: factor out the common installation code into scripts/install.sh
-Date:   Tue,  3 May 2022 11:47:16 +0900
-Message-Id: <20220503024716.76666-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.32.0
+        s=dec2015msa; t=1651546578;
+        bh=VwNM2W8hTeAPyUymgN9LUFlugNghegTT9oPZA7kVbPw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=b7rcSdV7mz/JZOyvIov8Ywq2FD+dsBcn3UMqYkJIP1gOLdkWdlBYmOdv4TrzG4kbY
+         VjYuYP+MtvbDaOyo4z1qm7F/RB0z6RHKHI7Frk/tGi5YYPtGDgFUDb88FXf3NtqCHV
+         nazTTdACqhaUC8YsZVDDsPWJ+wxUPck8/rNIwb2GVm6hR9T67Z2aQFnVGGc5sMYJPb
+         lA6Nstjq6kSFCxstllx4T8P73vkawuyzDA/Mcx8LCSe3FVJ9c1SZBqSj5yUKet+K0y
+         q7si4slZ+OK3Hz6PiZD4w5nU0wrSIajoTdDYkQLLoUSQasl8tlhcqIYDZNp8DYCjqZ
+         CzaFgqaf0HjFA==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id d15so13954621plh.2;
+        Mon, 02 May 2022 19:56:18 -0700 (PDT)
+X-Gm-Message-State: AOAM530xukct0glWTF7DbgChOy4bC6MKR/dMLd2cqmd3SpQ3gHiPFBSV
+        oXR/jOxauaAykjnuLDzAPhs1kogaw9Zu+djvUgQ=
+X-Google-Smtp-Source: ABdhPJzZYa6S1jTp9537Jw6pSz/ivM6fvC6WKnXzu7KP/iqWkJk5Uae3t1lDZwuLeSS6FtfGZY+1F1fh1HqbefqZiXI=
+X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
+ t23-20020a17090ae51700b001d75bbdf9f0mr2411545pjy.77.1651546577266; Mon, 02
+ May 2022 19:56:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220501084032.1025918-1-masahiroy@kernel.org> <20220501084032.1025918-20-masahiroy@kernel.org>
+In-Reply-To: <20220501084032.1025918-20-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 3 May 2022 11:55:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASzBse=oPA2u4dMJoF9VSJ492K+s=d5Yyn4Aw0dJgu03A@mail.gmail.com>
+Message-ID: <CAK7LNASzBse=oPA2u4dMJoF9VSJ492K+s=d5Yyn4Aw0dJgu03A@mail.gmail.com>
+Subject: Re: [PATCH v2 19/26] kbuild: embed symbol versions at final link of
+ vmlinux or modules
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -50,688 +61,138 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Many architectures have similar install.sh scripts.
+On Sun, May 1, 2022 at 5:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Do not update objects with version CRCs while the directory descending.
+>
+> Do it at the final link stage.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-The first half is really generic; verifies that the kernel image and
-System.map exist, then executes ~/bin/${INSTALLKERNEL} or
-/sbin/${INSTALLKERNEL} if available.
 
-The second half is kind of arch-specific. It just copies the kernel image
-and System.map to the destination, but the code is slightly different.
+As 0-day bot reported, this does not work for CONFIG_MODULE_REL_CRCS.
 
-This patch factors out the generic part into scripts/install.sh.
+I will send v3.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v2:
-  - Move the installkernel parameters to scripts/install.sh
+> ---
+>
+> (no changes since v1)
+>
+>  scripts/Makefile.build    | 22 +++-------------------
+>  scripts/Makefile.modfinal |  3 ++-
+>  scripts/link-vmlinux.sh   |  4 +++-
+>  3 files changed, 8 insertions(+), 21 deletions(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index a1023868775f..cec17b28de42 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -162,15 +162,9 @@ ifdef CONFIG_MODVERSIONS
+>  # o if <file>.o doesn't contain a __ksymtab version, i.e. does
+>  #   not export symbols, it's done.
+>  # o otherwise, we calculate symbol versions using the good old
+> -#   genksyms on the preprocessed source and postprocess them in a way
+> -#   that they are usable as a linker script
+> -# o generate .tmp_<file>.o from <file>.o using the linker to
+> -#   replace the unresolved symbols __crc_exported_symbol with
+> -#   the actual value of the checksum generated by genksyms
+> -# o remove .tmp_<file>.o to <file>.o
+> -
+> -# Generate .o.symversions files for each .o with exported symbols, and link these
+> -# to the kernel and/or modules at the end.
+> +#   genksyms on the preprocessed source and dump them into the .cmd file.
+> +# o modpost will extract versions from the .cmd file and create linker
+> +#   scripts used to link the kernel and/or modules.
+>
+>  genksyms_format_rel_crc := [^_]*__crc_\([^ ]*\) = \.; LONG(\([^)]*\)).*
+>  genksyms_format_normal := __crc_\(.*\) = \(.*\);
+> @@ -188,12 +182,6 @@ gen_symversions =                                                          \
+>
+>  cmd_gen_symversions_c =        $(call gen_symversions,c)
+>
+> -cmd_modversions =                                                              \
+> -       if [ -r $@.symversions ]; then                                          \
+> -               $(LD) $(KBUILD_LDFLAGS) -r -o $(@D)/.tmp_$(@F) $@               \
+> -                       -T $@.symversions;                                      \
+> -               mv -f $(@D)/.tmp_$(@F) $@;                                      \
+> -       fi
+>  endif
+>
+>  ifdef CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
+> @@ -273,7 +261,6 @@ define rule_cc_o_c
+>         $(call cmd,checkdoc)
+>         $(call cmd,gen_objtooldep)
+>         $(call cmd,gen_symversions_c)
+> -       $(if $(CONFIG_LTO_CLANG),,$(call cmd,modversions))
+>         $(call cmd,record_mcount)
+>  endef
+>
+> @@ -282,7 +269,6 @@ define rule_as_o_S
+>         $(call cmd,gen_ksymdeps)
+>         $(call cmd,gen_objtooldep)
+>         $(call cmd,gen_symversions_S)
+> -       $(call cmd,modversions)
+>  endef
+>
+>  # Built-in and composite module parts
+> @@ -296,8 +282,6 @@ ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
+>  quiet_cmd_cc_prelink_modules = LD [M]  $@
+>        cmd_cc_prelink_modules =                                         \
+>         $(LD) $(ld_flags) -r -o $@                                      \
+> -               $(shell [ -s $(@:.prelink.o=.o.symversions) ] &&                \
+> -                       echo -T $(@:.prelink.o=.o.symversions))         \
+>                 --whole-archive $(filter-out FORCE,$^)                  \
+>                 $(cmd_objtool)
+>
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index 7f39599e9fae..d429e3f9ae1d 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -34,6 +34,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
+>        cmd_ld_ko_o +=                                                   \
+>         $(LD) -r $(KBUILD_LDFLAGS)                                      \
+>                 $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)              \
+> +               $(addprefix -T, $(filter %.symver.lds, $(real-prereqs)))\
+>                 -T scripts/module.lds -o $@ $(filter %.o, $^);          \
+>         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+>
+> @@ -56,7 +57,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+>
+>
+>  # Re-generate module BTFs if either module's .ko or vmlinux changed
+> -$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
+> +$(modules): %.ko: %$(mod-prelink-ext).o %.mod.o $(if $(CONFIG_MODVERSIONS), %.symver.lds) scripts/module.lds $(if $(KBUILD_BUILTIN),vmlinux) FORCE
+>         +$(call if_changed_except,ld_ko_o,vmlinux)
+>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+>         +$(if $(newer-prereqs),$(call cmd,btf_ko))
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index eceb3ee7ec06..8da5c0182665 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -90,7 +90,6 @@ modpost_link()
+>
+>                 if is_enabled CONFIG_MODVERSIONS; then
+>                         gen_symversions
+> -                       lds="${lds} -T .tmp_symversions.lds"
+>                 fi
+>
+>                 # This might take a while, so indicate that we're doing
+> @@ -196,6 +195,9 @@ vmlinux_link()
+>         fi
+>
+>         ldflags="${ldflags} ${wl}--script=${objtree}/${KBUILD_LDS}"
+> +       if is_enabled CONFIG_MODVERSIONS; then
+> +               ldflags="${ldflags} ${wl}--script=vmlinux.symver.lds"
+> +       fi
+>
+>         # The kallsyms linking does not need debug symbols included.
+>         if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
+> --
+> 2.32.0
+>
 
- Makefile                     |  3 ++-
- arch/arm/Makefile            |  4 ++--
- arch/arm/boot/install.sh     | 21 ------------------
- arch/arm64/Makefile          |  6 ++----
- arch/arm64/boot/install.sh   | 21 ------------------
- arch/ia64/Makefile           |  3 ++-
- arch/ia64/install.sh         | 10 ---------
- arch/m68k/Makefile           |  3 ++-
- arch/m68k/install.sh         | 22 -------------------
- arch/nios2/Makefile          |  3 +--
- arch/nios2/boot/install.sh   | 22 -------------------
- arch/parisc/Makefile         | 11 +++++-----
- arch/parisc/install.sh       | 28 ------------------------
- arch/powerpc/Makefile        |  3 +--
- arch/powerpc/boot/install.sh | 23 --------------------
- arch/riscv/Makefile          |  7 +++---
- arch/riscv/boot/install.sh   | 21 ------------------
- arch/s390/Makefile           |  3 +--
- arch/s390/boot/install.sh    |  6 ------
- arch/sparc/Makefile          |  3 +--
- arch/sparc/boot/install.sh   | 22 -------------------
- arch/x86/Makefile            |  3 +--
- arch/x86/boot/install.sh     | 22 -------------------
- scripts/install.sh           | 41 ++++++++++++++++++++++++++++++++++++
- 24 files changed, 64 insertions(+), 247 deletions(-)
- mode change 100644 => 100755 arch/arm/boot/install.sh
- mode change 100644 => 100755 arch/arm64/boot/install.sh
- mode change 100644 => 100755 arch/ia64/install.sh
- mode change 100644 => 100755 arch/m68k/install.sh
- mode change 100644 => 100755 arch/nios2/boot/install.sh
- mode change 100644 => 100755 arch/parisc/install.sh
- mode change 100644 => 100755 arch/powerpc/boot/install.sh
- mode change 100644 => 100755 arch/riscv/boot/install.sh
- mode change 100644 => 100755 arch/s390/boot/install.sh
- mode change 100644 => 100755 arch/sparc/boot/install.sh
- mode change 100644 => 100755 arch/x86/boot/install.sh
- create mode 100755 scripts/install.sh
 
-diff --git a/Makefile b/Makefile
-index 9a60f732bb3c..154c32af8805 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1298,7 +1298,8 @@ scripts_unifdef: scripts_basic
- # to this Makefile to build and install external modules.
- # Cancel sub_make_done so that options such as M=, V=, etc. are parsed.
- 
--install: sub_make_done :=
-+quiet_cmd_install = INSTALL $(INSTALL_PATH)
-+      cmd_install = unset sub_make_done; $(srctree)/scripts/install.sh
- 
- # ---------------------------------------------------------------------------
- # Tools
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index a2391b8de5a5..187f4b2c5c73 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -318,9 +318,9 @@ $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@
- 	@$(kecho) '  Kernel: $(boot)/$@ is ready'
- 
-+$(INSTALL_TARGETS): KBUILD_IMAGE = $(boot)/$(patsubst %install,%Image,$@)
- $(INSTALL_TARGETS):
--	$(CONFIG_SHELL) $(srctree)/$(boot)/install.sh "$(KERNELRELEASE)" \
--	$(boot)/$(patsubst %install,%Image,$@) System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- PHONY += vdso_install
- vdso_install:
-diff --git a/arch/arm/boot/install.sh b/arch/arm/boot/install.sh
-old mode 100644
-new mode 100755
-index 2a45092a40e3..9ec11fac7d8d
---- a/arch/arm/boot/install.sh
-+++ b/arch/arm/boot/install.sh
-@@ -1,7 +1,5 @@
- #!/bin/sh
- #
--# arch/arm/boot/install.sh
--#
- # This file is subject to the terms and conditions of the GNU General Public
- # License.  See the file "COPYING" in the main directory of this archive
- # for more details.
-@@ -18,25 +16,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
- 
- if [ "$(basename $2)" = "zImage" ]; then
- # Compressed install
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 2f1de88651e6..6d9d4a58b898 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -162,11 +162,9 @@ Image: vmlinux
- Image.%: Image
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
--install: install-image := Image
--zinstall: install-image := Image.gz
-+install: KBUILD_IMAGE := $(boot)/Image
- install zinstall:
--	$(CONFIG_SHELL) $(srctree)/$(boot)/install.sh $(KERNELRELEASE) \
--	$(boot)/$(install-image) System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- PHONY += vdso_install
- vdso_install:
-diff --git a/arch/arm64/boot/install.sh b/arch/arm64/boot/install.sh
-old mode 100644
-new mode 100755
-index d91e1f022573..7399d706967a
---- a/arch/arm64/boot/install.sh
-+++ b/arch/arm64/boot/install.sh
-@@ -1,7 +1,5 @@
- #!/bin/sh
- #
--# arch/arm64/boot/install.sh
--#
- # This file is subject to the terms and conditions of the GNU General Public
- # License.  See the file "COPYING" in the main directory of this archive
- # for more details.
-@@ -18,25 +16,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
- 
- if [ "$(basename $2)" = "Image.gz" ]; then
- # Compressed install
-diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-index 6c4bfa54b703..e55c2f138656 100644
---- a/arch/ia64/Makefile
-+++ b/arch/ia64/Makefile
-@@ -72,8 +72,9 @@ archheaders:
- 
- CLEAN_FILES += vmlinux.gz
- 
-+install: KBUILD_IMAGE := vmlinux.gz
- install:
--	sh $(srctree)/arch/ia64/install.sh $(KERNELRELEASE) vmlinux.gz System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- define archhelp
-   echo '* compressed	- Build compressed kernel image'
-diff --git a/arch/ia64/install.sh b/arch/ia64/install.sh
-old mode 100644
-new mode 100755
-index 0e932f5dcd1a..2d4b66a9f362
---- a/arch/ia64/install.sh
-+++ b/arch/ia64/install.sh
-@@ -1,7 +1,5 @@
- #!/bin/sh
- #
--# arch/ia64/install.sh
--#
- # This file is subject to the terms and conditions of the GNU General Public
- # License.  See the file "COPYING" in the main directory of this archive
- # for more details.
-@@ -17,14 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install - same as make zlilo
- 
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
-diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
-index 740fc97b9c0f..e358605b70ba 100644
---- a/arch/m68k/Makefile
-+++ b/arch/m68k/Makefile
-@@ -138,5 +138,6 @@ CLEAN_FILES += vmlinux.gz vmlinux.bz2
- archheaders:
- 	$(Q)$(MAKE) $(build)=arch/m68k/kernel/syscalls all
- 
-+install: KBUILD_IMAGE := vmlinux.gz
- install:
--	sh $(srctree)/arch/m68k/install.sh $(KERNELRELEASE) vmlinux.gz System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
-diff --git a/arch/m68k/install.sh b/arch/m68k/install.sh
-old mode 100644
-new mode 100755
-index 57d640d4382c..af65e16e5147
---- a/arch/m68k/install.sh
-+++ b/arch/m68k/install.sh
-@@ -15,28 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install - same as make zlilo
- 
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
-diff --git a/arch/nios2/Makefile b/arch/nios2/Makefile
-index 02d678559066..d6a7499b814c 100644
---- a/arch/nios2/Makefile
-+++ b/arch/nios2/Makefile
-@@ -56,8 +56,7 @@ $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(nios2-boot) $(nios2-boot)/$@
- 
- install:
--	sh $(srctree)/$(nios2-boot)/install.sh $(KERNELRELEASE) \
--	$(KBUILD_IMAGE) System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- define archhelp
-   echo  '* vmImage         - Kernel-only image for U-Boot ($(KBUILD_IMAGE))'
-diff --git a/arch/nios2/boot/install.sh b/arch/nios2/boot/install.sh
-old mode 100644
-new mode 100755
-index 3cb3f468bc51..34a2feec42c8
---- a/arch/nios2/boot/install.sh
-+++ b/arch/nios2/boot/install.sh
-@@ -15,28 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install - same as make zlilo
- 
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index 7583fc39ab2d..aca1710fd658 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -184,12 +184,11 @@ vdso_install:
- 	$(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso $@
- 	$(if $(CONFIG_COMPAT_VDSO), \
- 		$(Q)$(MAKE) $(build)=arch/parisc/kernel/vdso32 $@)
--install:
--	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
--			$(KERNELRELEASE) vmlinux System.map "$(INSTALL_PATH)"
--zinstall:
--	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
--			$(KERNELRELEASE) vmlinuz System.map "$(INSTALL_PATH)"
-+
-+install: KBUILD_IMAGE := vmlinux
-+zinstall: KBUILD_IMAGE := vmlinuz
-+install zinstall:
-+	$(call cmd,install)
- 
- CLEAN_FILES	+= lifimage
- MRPROPER_FILES	+= palo.conf
-diff --git a/arch/parisc/install.sh b/arch/parisc/install.sh
-old mode 100644
-new mode 100755
-index 70d3cffb0251..933d031c249a
---- a/arch/parisc/install.sh
-+++ b/arch/parisc/install.sh
-@@ -1,7 +1,5 @@
- #!/bin/sh
- #
--# arch/parisc/install.sh, derived from arch/i386/boot/install.sh
--#
- # This file is subject to the terms and conditions of the GNU General Public
- # License.  See the file "COPYING" in the main directory of this archive
- # for more details.
-@@ -17,32 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -n "${INSTALLKERNEL}" ]; then
--  if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--  if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--  if [ -x /usr/sbin/${INSTALLKERNEL} ]; then exec /usr/sbin/${INSTALLKERNEL} "$@"; fi
--fi
--
--# Default install
- 
- if [ "$(basename $2)" = "vmlinuz" ]; then
- # Compressed install
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index eb541e730d3c..45a9caa37b4e 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -408,8 +408,7 @@ endef
- 
- PHONY += install
- install:
--	sh -x $(srctree)/$(boot)/install.sh "$(KERNELRELEASE)" vmlinux \
--	System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- ifeq ($(KBUILD_EXTMOD),)
- # We need to generate vdso-offsets.h before compiling certain files in kernel/.
-diff --git a/arch/powerpc/boot/install.sh b/arch/powerpc/boot/install.sh
-old mode 100644
-new mode 100755
-index 14473150ddb4..461902c8a46d
---- a/arch/powerpc/boot/install.sh
-+++ b/arch/powerpc/boot/install.sh
-@@ -15,32 +15,9 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
- 
--# Bail with error code if anything goes wrong
- set -e
- 
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install
--
- # this should work for both the pSeries zImage and the iSeries vmlinux.sm
- image_name=`basename $2`
- 
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 7d81102cffd4..2b93ca9f4fc3 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -139,11 +139,10 @@ $(BOOT_TARGETS): vmlinux
- Image.%: Image
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
--install: install-image = Image
--zinstall: install-image = Image.gz
-+install: KBUILD_IMAGE := $(boot)/Image
-+zinstall: KBUILD_IMAGE := $(boot)/Image.gz
- install zinstall:
--	$(CONFIG_SHELL) $(srctree)/$(boot)/install.sh $(KERNELRELEASE) \
--	$(boot)/$(install-image) System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- PHONY += rv32_randconfig
- rv32_randconfig:
-diff --git a/arch/riscv/boot/install.sh b/arch/riscv/boot/install.sh
-old mode 100644
-new mode 100755
-index 18c39159c0ff..4c63f3f0643d
---- a/arch/riscv/boot/install.sh
-+++ b/arch/riscv/boot/install.sh
-@@ -1,7 +1,5 @@
- #!/bin/sh
- #
--# arch/riscv/boot/install.sh
--#
- # This file is subject to the terms and conditions of the GNU General Public
- # License.  See the file "COPYING" in the main directory of this archive
- # for more details.
-@@ -18,25 +16,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
- 
- if [ "$(basename $2)" = "Image.gz" ]; then
- # Compressed install
-diff --git a/arch/s390/Makefile b/arch/s390/Makefile
-index 7a65bca1e5af..cc2425539ef0 100644
---- a/arch/s390/Makefile
-+++ b/arch/s390/Makefile
-@@ -128,8 +128,7 @@ all: bzImage
- KBUILD_IMAGE	:= $(boot)/bzImage
- 
- install:
--	sh -x $(srctree)/$(boot)/install.sh $(KERNELRELEASE) $(KBUILD_IMAGE) \
--	      System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- bzImage: vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
-diff --git a/arch/s390/boot/install.sh b/arch/s390/boot/install.sh
-old mode 100644
-new mode 100755
-index 515b27a996b3..616ba1660f08
---- a/arch/s390/boot/install.sh
-+++ b/arch/s390/boot/install.sh
-@@ -14,12 +14,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
- 
- echo "Warning: '${INSTALLKERNEL}' command not available - additional " \
-      "bootloader config required" >&2
-diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-index c7008bbebc4c..fe58a410b4ce 100644
---- a/arch/sparc/Makefile
-+++ b/arch/sparc/Makefile
-@@ -72,8 +72,7 @@ image zImage uImage tftpboot.img vmlinux.aout: vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
- install:
--	sh $(srctree)/$(boot)/install.sh $(KERNELRELEASE) $(KBUILD_IMAGE) \
--		System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- archheaders:
- 	$(Q)$(MAKE) $(build)=arch/sparc/kernel/syscalls all
-diff --git a/arch/sparc/boot/install.sh b/arch/sparc/boot/install.sh
-old mode 100644
-new mode 100755
-index b32851eae693..4f130f3f30d6
---- a/arch/sparc/boot/install.sh
-+++ b/arch/sparc/boot/install.sh
-@@ -15,28 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
--	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install - same as make zlilo
- 
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 63d50f65b828..5e1f21aae12b 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -271,8 +271,7 @@ $(BOOT_TARGETS): vmlinux
- 
- PHONY += install
- install:
--	$(CONFIG_SHELL) $(srctree)/$(boot)/install.sh $(KERNELRELEASE) \
--		$(KBUILD_IMAGE) System.map "$(INSTALL_PATH)"
-+	$(call cmd,install)
- 
- PHONY += vdso_install
- vdso_install:
-diff --git a/arch/x86/boot/install.sh b/arch/x86/boot/install.sh
-old mode 100644
-new mode 100755
-index d13ec1c38640..0849f4b42745
---- a/arch/x86/boot/install.sh
-+++ b/arch/x86/boot/install.sh
-@@ -15,28 +15,6 @@
- #   $2 - kernel image file
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
--#
--
--verify () {
--	if [ ! -f "$1" ]; then
--		echo ""                                                   1>&2
--		echo " *** Missing file: $1"                              1>&2
--		echo ' *** You need to run "make" before "make install".' 1>&2
--		echo ""                                                   1>&2
--		exit 1
-- 	fi
--}
--
--# Make sure the files actually exist
--verify "$2"
--verify "$3"
--
--# User may have a custom install script
--
--if [ -x ~/bin/${INSTALLKERNEL} ]; then exec ~/bin/${INSTALLKERNEL} "$@"; fi
--if [ -x /sbin/${INSTALLKERNEL} ]; then exec /sbin/${INSTALLKERNEL} "$@"; fi
--
--# Default install - same as make zlilo
- 
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
-diff --git a/scripts/install.sh b/scripts/install.sh
-new file mode 100755
-index 000000000000..88c56250f669
---- /dev/null
-+++ b/scripts/install.sh
-@@ -0,0 +1,41 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Copyright (C) 1995 by Linus Torvalds
-+#
-+# Adapted from code in arch/i386/boot/Makefile by H. Peter Anvin
-+# Common code factored out by Masahiro Yamada
-+
-+set -e
-+
-+# Make sure the files actually exist
-+for file in "${KBUILD_IMAGE}" System.map
-+do
-+	if [ ! -f "${file}" ]; then
-+		echo >&2
-+		echo >&2 " *** Missing file: ${file}"
-+		echo >&2 ' *** You need to run "make" before "make install".'
-+		echo >&2
-+		exit 1
-+	fi
-+done
-+
-+# installkernel(8) says the parameters are like follows:
-+#
-+#   installkernel version zImage System.map [directory]
-+
-+set -- "${KERNELRELEASE}" "${KBUILD_IMAGE}" System.map "${INSTALL_PATH}"
-+
-+# User/arch may have a custom install script
-+for file in "${HOME}/bin/${INSTALLKERNEL}"		\
-+	    "/sbin/${INSTALLKERNEL}"			\
-+	    "${srctree}/arch/${SRCARCH}/install.sh"	\
-+	    "${srctree}/arch/${SRCARCH}/boot/install.sh"
-+do
-+	if [ -x "${file}" ]; then
-+		exec "${file}" "$@"
-+	fi
-+done
-+
-+echo "No install script found" >&2
-+exit 1
 -- 
-2.32.0
-
+Best Regards
+Masahiro Yamada
