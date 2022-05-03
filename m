@@ -2,91 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD23C517BB1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 03:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0DC6517BD8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 04:15:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbiECBcY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 May 2022 21:32:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
+        id S229790AbiECCGu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 May 2022 22:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiECBcW (ORCPT
+        with ESMTP id S229489AbiECCGt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 May 2022 21:32:22 -0400
-X-Greylist: delayed 233 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 02 May 2022 18:28:50 PDT
-Received: from condef-01.nifty.com (condef-01.nifty.com [202.248.20.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FEF60D6;
-        Mon,  2 May 2022 18:28:50 -0700 (PDT)
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-01.nifty.com with ESMTP id 24313Ssi000782;
-        Tue, 3 May 2022 10:03:28 +0900
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2430wEQd008425;
-        Tue, 3 May 2022 09:58:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2430wEQd008425
+        Mon, 2 May 2022 22:06:49 -0400
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472563A73F;
+        Mon,  2 May 2022 19:03:18 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 243235RR024149;
+        Tue, 3 May 2022 11:03:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 243235RR024149
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651539495;
-        bh=X5yyCYnmChLJWpoXfwlLy3Yqy1jj1u5sgNOnl2YeT+8=;
+        s=dec2015msa; t=1651543385;
+        bh=xjOYr6omwY+Qzfpy1fAsMIIAC1MzOb2s83hA5zKDTrc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aRZ+3CIUS9z02RmoL6+keYfwec6SGR8l55vY8O7YN/YD8fA9t+YbxYUoUg3cqIxOz
-         7fS/W0toHGLlh1J4q5O+BQW6cZfc82tuWAsBNfozPKIZGpxDw7kwWVv9jFEWbg6Vb3
-         KSDrXCCPSLt2n56dM78W27r4IOXaYu1FDzEHhUH+prkClQWxpLjguUIksVR23AGl6K
-         9yMsGHR4nUxEUogDPdvGUI6jkjCesNhgh3oMFMjeYD8RcmtcZx2e3HWRv1v0yRUBBs
-         SCu/OdFZwzKhNaAD3DHa8+QbV/qS+xAznq2ut1qKO3k63WknYCuACGNW2ZUWMNC3/f
-         +1wneat+0RA+A==
-X-Nifty-SrcIP: [209.85.216.49]
-Received: by mail-pj1-f49.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso776908pjb.5;
-        Mon, 02 May 2022 17:58:14 -0700 (PDT)
-X-Gm-Message-State: AOAM531QEn2sAb+gni98iwGRuMK6bwuLy5czofNjjNHx7mbY8CAF9q2v
-        dpooWwn3PwcRPyBmIAIATsNmE22tns5RTGIcpuA=
-X-Google-Smtp-Source: ABdhPJz+NT1ytlT70sSlhO329TCvsmWaO6n7IEVV8ssLDz1hwnrwWgFpFLcb6+3gsOZ1Cyq8cWbiLDuibQJ8QIabxoU=
-X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
- t23-20020a17090ae51700b001d75bbdf9f0mr2001475pjy.77.1651539493892; Mon, 02
- May 2022 17:58:13 -0700 (PDT)
+        b=Bss1hGRlBeW/D1ryasZhvq0Rb1Wcpqf+Ka2dsaw3lnInZjMUlf0uRw2sXaz1yJbec
+         ptGkFVATZb1a4+vzLKqycumfOq7+w/r6iHaGoZ0AZ9YDCh5t6yvPJ2VMgMsdPgcLpy
+         C3qbKMqqQHFl7f0DQZHjw7/3x67X+EveMeJS+5K81Ntq9+KQjpfQJQ/rTiLnEVPO8b
+         uxHb/jBpqgoI62ONWVph64uaQy0uU19531Rsz4VvU/hwSrj9DoGavw9qj1QrbD1BnH
+         l9IyB3GewfQD4Fga2GXvqHYbCjr7Tgrkf7lw3CeUBFIXKLTy6WHenV/E9oTnSNayY4
+         Jv9K9GWeGCIPg==
+X-Nifty-SrcIP: [209.85.210.171]
+Received: by mail-pf1-f171.google.com with SMTP id j6so13639807pfe.13;
+        Mon, 02 May 2022 19:03:05 -0700 (PDT)
+X-Gm-Message-State: AOAM533XoMdyH/+r2VPp88jugXmcXEd+3Ke/Un+k1rMNOzyFnlqBzKsC
+        0NKKypoCijbYyoxL+w+nxLcyR6zA9flGxN4d1lo=
+X-Google-Smtp-Source: ABdhPJybuWEMOUVTbNe+mLw8tJxZLLEX8d0sEpIfFwiuGG78gUczd0ZkwWPhzhHA7Dj3mTHn6HCyJ+v54nTnxuIuLD8=
+X-Received: by 2002:a63:6989:0:b0:3c2:3c19:d661 with SMTP id
+ e131-20020a636989000000b003c23c19d661mr3878546pgc.352.1651543384634; Mon, 02
+ May 2022 19:03:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-2-alexandr.lobakin@intel.com>
-In-Reply-To: <20220209185752.1226407-2-alexandr.lobakin@intel.com>
+References: <20220430110409.256858-1-masahiroy@kernel.org> <871qxda2jf.fsf@mpe.ellerman.id.au>
+In-Reply-To: <871qxda2jf.fsf@mpe.ellerman.id.au>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 3 May 2022 09:57:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS0SLmpCHB8W=D6kGmfb5S+ESjY674P6q7RiO7faD=wqQ@mail.gmail.com>
-Message-ID: <CAK7LNAS0SLmpCHB8W=D6kGmfb5S+ESjY674P6q7RiO7faD=wqQ@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] modpost: fix removing numeric suffixes
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     linux-hardening@vger.kernel.org, X86 ML <x86@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Bruce Schlobohm <bruce.schlobohm@intel.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Marios Pomonis <pomonis@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+Date:   Tue, 3 May 2022 11:01:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARk=eNUfTuC7_nnUnCCbQCvdy7=PNkMSt6QYZvW_zKUyQ@mail.gmail.com>
+Message-ID: <CAK7LNARk=eNUfTuC7_nnUnCCbQCvdy7=PNkMSt6QYZvW_zKUyQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: drop $(objtree)/ prefix support for clean-files
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        clang-built-linux <llvm@lists.linux.dev>
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -97,60 +68,66 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 10, 2022 at 3:59 AM Alexander Lobakin
-<alexandr.lobakin@intel.com> wrote:
+On Sun, May 1, 2022 at 8:57 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
 >
-> `-z unique-symbol` linker flag which is planned to use with FG-KASLR
-> to simplify livepatching (hopefully globally later on) triggers the
-> following:
+> Masahiro Yamada <masahiroy@kernel.org> writes:
+> > I think this hack is a bad idea. arch/powerpc/boot/Makefile is the
+> > only user. Let's stop doing this.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  arch/powerpc/boot/Makefile | 4 ++--
 >
-> ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 >
-> The reason is that for now the condition from remove_dot():
+> cheers
 >
-> if (m && (s[n + m] == '.' || s[n + m] == 0))
->
-> which was designed to test if it's a dot or a '\0' after the suffix
-> is never satisfied.
-> This is due to that `s[n + m]` always points to the last digit of a
-> numeric suffix, not on the symbol next to it (from a custom debug
-> print added to modpost):
->
-> param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
->
-> So it's off-by-one and was like that since 2014.
-> Fix this for the sake of upcoming features, but don't bother
-> stable-backporting, as it's well hidden -- apart from that LD flag,
-> can be triggered only by GCC LTO which never landed upstream.
->
-> Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
-> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> ---
 
-
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Applied to linux-kbuild.
 
 
 
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 6bfa33217914..4648b7afe5cc 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1986,7 +1986,7 @@ static char *remove_dot(char *s)
->
->         if (n && s[n]) {
->                 size_t m = strspn(s + n + 1, "0123456789");
-> -               if (m && (s[n + m] == '.' || s[n + m] == 0))
-> +               if (m && (s[n + m + 1] == '.' || s[n + m + 1] == 0))
->                         s[n] = 0;
->
->                 /* strip trailing .lto */
-> --
-> 2.34.1
->
+> >  scripts/Makefile.clean     | 8 +-------
+> >  2 files changed, 3 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+> > index 4b4827c475c6..008bf0bff186 100644
+> > --- a/arch/powerpc/boot/Makefile
+> > +++ b/arch/powerpc/boot/Makefile
+> > @@ -453,8 +453,8 @@ clean-files += $(image-) $(initrd-) cuImage.* dtbImage.* treeImage.* \
+> >  clean-kernel-base := vmlinux.strip vmlinux.bin
+> >  clean-kernel := $(addsuffix .gz,$(clean-kernel-base))
+> >  clean-kernel += $(addsuffix .xz,$(clean-kernel-base))
+> > -# If not absolute clean-files are relative to $(obj).
+> > -clean-files += $(addprefix $(objtree)/, $(clean-kernel))
+> > +# clean-files are relative to $(obj).
+> > +clean-files += $(addprefix ../../../, $(clean-kernel))
+> >
+> >  WRAPPER_OBJDIR := /usr/lib/kernel-wrapper
+> >  WRAPPER_DTSDIR := /usr/lib/kernel-wrapper/dts
+> > diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+> > index 74cb1c5c3658..878cec648959 100644
+> > --- a/scripts/Makefile.clean
+> > +++ b/scripts/Makefile.clean
+> > @@ -36,13 +36,7 @@ __clean-files      := \
+> >
+> >  __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
+> >
+> > -# clean-files is given relative to the current directory, unless it
+> > -# starts with $(objtree)/ (which means "./", so do not add "./" unless
+> > -# you want to delete a file from the toplevel object directory).
+> > -
+> > -__clean-files   := $(wildcard                                               \
+> > -                $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
+> > -                $(filter $(objtree)/%, $(__clean-files)))
+> > +__clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
+> >
+> >  # ==========================================================================
+> >
+> > --
+> > 2.32.0
+
 
 
 -- 
