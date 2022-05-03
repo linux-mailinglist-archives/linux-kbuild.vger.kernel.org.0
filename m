@@ -2,55 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC960516488
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 May 2022 15:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD23C517BB1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 May 2022 03:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244714AbiEANTl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 May 2022 09:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S229709AbiECBcY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 May 2022 21:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239413AbiEANTk (ORCPT
+        with ESMTP id S229598AbiECBcW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 May 2022 09:19:40 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588C21EC57;
-        Sun,  1 May 2022 06:16:13 -0700 (PDT)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 241DFtO4024407;
-        Sun, 1 May 2022 22:15:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 241DFtO4024407
+        Mon, 2 May 2022 21:32:22 -0400
+X-Greylist: delayed 233 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 02 May 2022 18:28:50 PDT
+Received: from condef-01.nifty.com (condef-01.nifty.com [202.248.20.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FEF60D6;
+        Mon,  2 May 2022 18:28:50 -0700 (PDT)
+Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-01.nifty.com with ESMTP id 24313Ssi000782;
+        Tue, 3 May 2022 10:03:28 +0900
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 2430wEQd008425;
+        Tue, 3 May 2022 09:58:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2430wEQd008425
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651410956;
-        bh=AOIjAWrhKV1p2owuFi8VBq5wKJbXGOpCPHDjqLJqvLs=;
+        s=dec2015msa; t=1651539495;
+        bh=X5yyCYnmChLJWpoXfwlLy3Yqy1jj1u5sgNOnl2YeT+8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oW1yjkY80WIV/jyNezHDi2oYe67Lz96zrD/LzGXzp4p2scrINuSJ5IvaZTmA3OfnE
-         s1kcjeR/a58MdxjiM3WjoG76Chy+RFEMJ1wHPNUbJ87f8j/SaddwSO3flaNUVQyGHq
-         4ioi9lfMfDsNl7S2f07cPRIsHpknT/HBknk5kDYvZJ7n4oZUP4WEWPFKy+D92OR/G5
-         tjVzFDrtYwFXY1S8HTQSInlUAO65AR19iRzrW7sNFzGwBpb0zDgAq68DSM+/w/2clf
-         zcwLOmKolZVm51MQPHbnjBBOFf6jkJmaFajb4rUssLFudcm9XrzwxSdGfNDpyPThLB
-         5954qjsDhbPnA==
-X-Nifty-SrcIP: [209.85.216.41]
-Received: by mail-pj1-f41.google.com with SMTP id cx11-20020a17090afd8b00b001d9fe5965b3so12231552pjb.3;
-        Sun, 01 May 2022 06:15:56 -0700 (PDT)
-X-Gm-Message-State: AOAM532R6g5sBagJjCyfgti5s0pOpsQ/4ORoyTI4CHcDmfmzqhYU9LVe
-        wB3qYyRQ7NCO5ggo0UVh/yUPQzhMjiEdVsc/rKA=
-X-Google-Smtp-Source: ABdhPJy5vHMvKZ3oLvS7GLckKahydyX4ESGuqSxLI4QfdpHXAbaXBfQi9IO5a1QJs0ZwOT0FdarzoO+6uYEjXUtGxOg=
-X-Received: by 2002:a17:902:bf07:b0:158:d334:852f with SMTP id
- bi7-20020a170902bf0700b00158d334852fmr7657549plb.136.1651410955372; Sun, 01
- May 2022 06:15:55 -0700 (PDT)
+        b=aRZ+3CIUS9z02RmoL6+keYfwec6SGR8l55vY8O7YN/YD8fA9t+YbxYUoUg3cqIxOz
+         7fS/W0toHGLlh1J4q5O+BQW6cZfc82tuWAsBNfozPKIZGpxDw7kwWVv9jFEWbg6Vb3
+         KSDrXCCPSLt2n56dM78W27r4IOXaYu1FDzEHhUH+prkClQWxpLjguUIksVR23AGl6K
+         9yMsGHR4nUxEUogDPdvGUI6jkjCesNhgh3oMFMjeYD8RcmtcZx2e3HWRv1v0yRUBBs
+         SCu/OdFZwzKhNaAD3DHa8+QbV/qS+xAznq2ut1qKO3k63WknYCuACGNW2ZUWMNC3/f
+         +1wneat+0RA+A==
+X-Nifty-SrcIP: [209.85.216.49]
+Received: by mail-pj1-f49.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso776908pjb.5;
+        Mon, 02 May 2022 17:58:14 -0700 (PDT)
+X-Gm-Message-State: AOAM531QEn2sAb+gni98iwGRuMK6bwuLy5czofNjjNHx7mbY8CAF9q2v
+        dpooWwn3PwcRPyBmIAIATsNmE22tns5RTGIcpuA=
+X-Google-Smtp-Source: ABdhPJz+NT1ytlT70sSlhO329TCvsmWaO6n7IEVV8ssLDz1hwnrwWgFpFLcb6+3gsOZ1Cyq8cWbiLDuibQJ8QIabxoU=
+X-Received: by 2002:a17:90a:e517:b0:1d7:5bbd:f9f0 with SMTP id
+ t23-20020a17090ae51700b001d75bbdf9f0mr2001475pjy.77.1651539493892; Mon, 02
+ May 2022 17:58:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220424190811.1678416-1-masahiroy@kernel.org>
- <20220424190811.1678416-7-masahiroy@kernel.org> <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
-In-Reply-To: <CAKwvOdmDiD11Az02U1i8OtxL49V3SH1ORRj8C5jy6Btv3LFY_g@mail.gmail.com>
+References: <20220209185752.1226407-1-alexandr.lobakin@intel.com> <20220209185752.1226407-2-alexandr.lobakin@intel.com>
+In-Reply-To: <20220209185752.1226407-2-alexandr.lobakin@intel.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 1 May 2022 22:14:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATAL_VVtLxM5eUyBnUzduQw7h28yuXNGVWK44pZERqbOA@mail.gmail.com>
-Message-ID: <CAK7LNATAL_VVtLxM5eUyBnUzduQw7h28yuXNGVWK44pZERqbOA@mail.gmail.com>
-Subject: Re: [PATCH 06/27] modpost: use bool type where appropriate
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Tue, 3 May 2022 09:57:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS0SLmpCHB8W=D6kGmfb5S+ESjY674P6q7RiO7faD=wqQ@mail.gmail.com>
+Message-ID: <CAK7LNAS0SLmpCHB8W=D6kGmfb5S+ESjY674P6q7RiO7faD=wqQ@mail.gmail.com>
+Subject: Re: [PATCH v10 01/15] modpost: fix removing numeric suffixes
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     linux-hardening@vger.kernel.org, X86 ML <x86@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Bruce Schlobohm <bruce.schlobohm@intel.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Marios Pomonis <pomonis@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        clang-built-linux <llvm@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
@@ -61,308 +97,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 3:34 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Feb 10, 2022 at 3:59 AM Alexander Lobakin
+<alexandr.lobakin@intel.com> wrote:
 >
-> /On Sun, Apr 24, 2022 at 12:09 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Use 'bool' to clarify that the valid value is true or false.
-> >
-> > Here is a small note for the conversion.
-> >
-> > Strictly speaking, module::gpl_compatible was not boolean because
-> > new_module() initialized it to -1. Maybe, -1 was used to represent the
-> > license is 'unknown', but it is not useful.
-> >
-> > Since commit 1d6cd3929360 ("modpost: turn missing MODULE_LICENSE() into
-> > error"), unknown module license is not allowed anyway.
-> >
-> > I changed the initializer "= -1" to "= true". This has no functional
-> > change.
-> >
-> > The current code:
-> >
-> >     if (!mod->gpl_compatible)
-> >             check_for_gpl_usage(exp->export, basename, exp->name);
-> >
-> > ... only checks whether gpl_compabilt is zero or not:
+> `-z unique-symbol` linker flag which is planned to use with FG-KASLR
+> to simplify livepatching (hopefully globally later on) triggers the
+> following:
 >
-> s/gpl_compabilt/gpl_compatible/
+> ERROR: modpost: "param_set_uint.0" [vmlinux] is a static EXPORT_SYMBOL
 >
-> Also the trailing `:` should perhaps be `.`.
+> The reason is that for now the condition from remove_dot():
 >
-> Shouldn't gpl_compatible default to false, until proven otherwise?
-> What happens if you default to false? Perhaps an identifier like
-> `maybe_gpl_compatible` would be more descriptive?
-
-
-The init value should be 'true'.
-
-In v2, I split this change into a separate patch,
-and added some comments.
-
-https://patchwork.kernel.org/project/linux-kbuild/patch/20220501084032.1025918-3-masahiroy@kernel.org/
-
-I hope it answered your question.
-
-
-
-
-> Also, if we're going to rename a few vars, consider using prefixes
-> like is_*, has_*, or should_* for some of these to improve the
-> readability for boolean variables.
-
-
-OK, I renamed it to is_gpl_compatible in v2.
-
-
-
-
-
-
-> Otherwise LGTM.
+> if (m && (s[n + m] == '.' || s[n + m] == 0))
 >
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 60 +++++++++++++++++++++----------------------
-> >  scripts/mod/modpost.h | 10 ++++----
-> >  2 files changed, 35 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index f9cbb6b6b7a5..52dd07a36379 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -23,20 +23,20 @@
-> >  #include "../../include/linux/license.h"
-> >
-> >  /* Are we using CONFIG_MODVERSIONS? */
-> > -static int modversions;
-> > +static bool modversions;
-> >  /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
-> > -static int all_versions;
-> > +static bool all_versions;
-> >  /* If we are modposting external module set to 1 */
-> > -static int external_module;
-> > +static bool external_module;
-> >  /* Only warn about unresolved symbols */
-> > -static int warn_unresolved;
-> > +static bool warn_unresolved;
-> >  /* How a symbol is exported */
-> >  static int sec_mismatch_count;
-> > -static int sec_mismatch_warn_only = true;
-> > +static bool sec_mismatch_warn_only = true;
-> >  /* ignore missing files */
-> > -static int ignore_missing_files;
-> > +static bool ignore_missing_files;
-> >  /* If set to 1, only warn (instead of error) about missing ns imports */
-> > -static int allow_missing_ns_imports;
-> > +static bool allow_missing_ns_imports;
-> >
-> >  static bool error_occurred;
-> >
-> > @@ -187,7 +187,7 @@ static struct module *new_module(const char *modname)
-> >         /* add to list */
-> >         strcpy(mod->name, modname);
-> >         mod->is_vmlinux = (strcmp(modname, "vmlinux") == 0);
-> > -       mod->gpl_compatible = -1;
-> > +       mod->gpl_compatible = true;
-> >         mod->next = modules;
-> >         modules = mod;
-> >
-> > @@ -203,10 +203,10 @@ struct symbol {
-> >         struct symbol *next;
-> >         struct module *module;
-> >         unsigned int crc;
-> > -       int crc_valid;
-> > +       bool crc_valid;
-> >         char *namespace;
-> > -       unsigned int weak:1;
-> > -       unsigned int is_static:1;  /* 1 if symbol is not global */
-> > +       bool weak;
-> > +       bool is_static;         /* true if symbol is not global */
-> >         enum export  export;       /* Type of export */
-> >         char name[];
-> >  };
-> > @@ -230,7 +230,7 @@ static inline unsigned int tdb_hash(const char *name)
-> >   * Allocate a new symbols for use in the hash of exported symbols or
-> >   * the list of unresolved symbols per module
-> >   **/
-> > -static struct symbol *alloc_symbol(const char *name, unsigned int weak,
-> > +static struct symbol *alloc_symbol(const char *name, bool weak,
-> >                                    struct symbol *next)
-> >  {
-> >         struct symbol *s = NOFAIL(malloc(sizeof(*s) + strlen(name) + 1));
-> > @@ -239,7 +239,7 @@ static struct symbol *alloc_symbol(const char *name, unsigned int weak,
-> >         strcpy(s->name, name);
-> >         s->weak = weak;
-> >         s->next = next;
-> > -       s->is_static = 1;
-> > +       s->is_static = true;
-> >         return s;
-> >  }
-> >
-> > @@ -250,7 +250,7 @@ static struct symbol *new_symbol(const char *name, struct module *module,
-> >         unsigned int hash;
-> >
-> >         hash = tdb_hash(name) % SYMBOL_HASH_SIZE;
-> > -       symbolhash[hash] = alloc_symbol(name, 0, symbolhash[hash]);
-> > +       symbolhash[hash] = alloc_symbol(name, false, symbolhash[hash]);
-> >
-> >         return symbolhash[hash];
-> >  }
-> > @@ -419,7 +419,7 @@ static void sym_set_crc(const char *name, unsigned int crc)
-> >                 return;
-> >
-> >         s->crc = crc;
-> > -       s->crc_valid = 1;
-> > +       s->crc_valid = true;
-> >  }
-> >
-> >  static void *grab_file(const char *filename, size_t *size)
-> > @@ -716,9 +716,9 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
-> >                         sym_add_exported(name, mod, export);
-> >                 }
-> >                 if (strcmp(symname, "init_module") == 0)
-> > -                       mod->has_init = 1;
-> > +                       mod->has_init = true;
-> >                 if (strcmp(symname, "cleanup_module") == 0)
-> > -                       mod->has_cleanup = 1;
-> > +                       mod->has_cleanup = true;
-> >                 break;
-> >         }
-> >  }
-> > @@ -2008,9 +2008,9 @@ static void read_symbols(const char *modname)
-> >                         error("missing MODULE_LICENSE() in %s\n", modname);
-> >                 while (license) {
-> >                         if (license_is_gpl_compatible(license))
-> > -                               mod->gpl_compatible = 1;
-> > +                               mod->gpl_compatible = true;
-> >                         else {
-> > -                               mod->gpl_compatible = 0;
-> > +                               mod->gpl_compatible = false;
-> >                                 break;
-> >                         }
-> >                         license = get_next_modinfo(&info, "license", license);
-> > @@ -2053,7 +2053,7 @@ static void read_symbols(const char *modname)
-> >                                                        sym->st_name));
-> >
-> >                         if (s)
-> > -                               s->is_static = 0;
-> > +                               s->is_static = false;
-> >                 }
-> >         }
-> >
-> > @@ -2073,7 +2073,7 @@ static void read_symbols(const char *modname)
-> >          * the automatic versioning doesn't pick it up, but it's really
-> >          * important anyhow */
-> >         if (modversions)
-> > -               mod->unres = alloc_symbol("module_layout", 0, mod->unres);
-> > +               mod->unres = alloc_symbol("module_layout", false, mod->unres);
-> >  }
-> >
-> >  static void read_symbols_from_files(const char *filename)
-> > @@ -2305,7 +2305,7 @@ static void add_depends(struct buffer *b, struct module *mod)
-> >                 if (s->module->seen)
-> >                         continue;
-> >
-> > -               s->module->seen = 1;
-> > +               s->module->seen = true;
-> >                 p = strrchr(s->module->name, '/');
-> >                 if (p)
-> >                         p++;
-> > @@ -2422,10 +2422,10 @@ static void read_dump(const char *fname)
-> >                 mod = find_module(modname);
-> >                 if (!mod) {
-> >                         mod = new_module(modname);
-> > -                       mod->from_dump = 1;
-> > +                       mod->from_dump = true;
-> >                 }
-> >                 s = sym_add_exported(symname, mod, export_no(export));
-> > -               s->is_static = 0;
-> > +               s->is_static = false;
-> >                 sym_set_crc(symname, crc);
-> >                 sym_update_namespace(symname, namespace);
-> >         }
-> > @@ -2503,7 +2503,7 @@ int main(int argc, char **argv)
-> >         while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-> >                 switch (opt) {
-> >                 case 'e':
-> > -                       external_module = 1;
-> > +                       external_module = true;
-> >                         break;
-> >                 case 'i':
-> >                         *dump_read_iter =
-> > @@ -2512,28 +2512,28 @@ int main(int argc, char **argv)
-> >                         dump_read_iter = &(*dump_read_iter)->next;
-> >                         break;
-> >                 case 'm':
-> > -                       modversions = 1;
-> > +                       modversions = true;
-> >                         break;
-> >                 case 'n':
-> > -                       ignore_missing_files = 1;
-> > +                       ignore_missing_files = true;
-> >                         break;
-> >                 case 'o':
-> >                         dump_write = optarg;
-> >                         break;
-> >                 case 'a':
-> > -                       all_versions = 1;
-> > +                       all_versions = true;
-> >                         break;
-> >                 case 'T':
-> >                         files_source = optarg;
-> >                         break;
-> >                 case 'w':
-> > -                       warn_unresolved = 1;
-> > +                       warn_unresolved = true;
-> >                         break;
-> >                 case 'E':
-> >                         sec_mismatch_warn_only = false;
-> >                         break;
-> >                 case 'N':
-> > -                       allow_missing_ns_imports = 1;
-> > +                       allow_missing_ns_imports = true;
-> >                         break;
-> >                 case 'd':
-> >                         missing_namespace_deps = optarg;
-> > diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> > index a85dcec3669a..4085bf5b33aa 100644
-> > --- a/scripts/mod/modpost.h
-> > +++ b/scripts/mod/modpost.h
-> > @@ -1,4 +1,5 @@
-> >  /* SPDX-License-Identifier: GPL-2.0 */
-> > +#include <stdbool.h>
-> >  #include <stdio.h>
-> >  #include <stdlib.h>
-> >  #include <stdarg.h>
-> > @@ -116,11 +117,10 @@ struct module {
-> >         struct module *next;
-> >         int gpl_compatible;
-> >         struct symbol *unres;
-> > -       int from_dump;  /* 1 if module was loaded from *.symvers */
-> > -       int is_vmlinux;
-> > -       int seen;
-> > -       int has_init;
-> > -       int has_cleanup;
-> > +       bool from_dump;         /* true if module was loaded from *.symvers */
-> > +       bool is_vmlinux;
-> > +       bool seen;
-> > +       bool has_init, has_cleanup;
-> >         struct buffer dev_table_buf;
-> >         char         srcversion[25];
-> >         // Missing namespace dependencies
-> > --
-> > 2.32.0
-> >
+> which was designed to test if it's a dot or a '\0' after the suffix
+> is never satisfied.
+> This is due to that `s[n + m]` always points to the last digit of a
+> numeric suffix, not on the symbol next to it (from a custom debug
+> print added to modpost):
 >
+> param_set_uint.0, s[n + m] is '0', s[n + m + 1] is '\0'
 >
+> So it's off-by-one and was like that since 2014.
+> Fix this for the sake of upcoming features, but don't bother
+> stable-backporting, as it's well hidden -- apart from that LD flag,
+> can be triggered only by GCC LTO which never landed upstream.
+>
+> Fixes: fcd38ed0ff26 ("scripts: modpost: fix compilation warning")
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> ---
+
+
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+>  scripts/mod/modpost.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 6bfa33217914..4648b7afe5cc 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1986,7 +1986,7 @@ static char *remove_dot(char *s)
+>
+>         if (n && s[n]) {
+>                 size_t m = strspn(s + n + 1, "0123456789");
+> -               if (m && (s[n + m] == '.' || s[n + m] == 0))
+> +               if (m && (s[n + m + 1] == '.' || s[n + m + 1] == 0))
+>                         s[n] = 0;
+>
+>                 /* strip trailing .lto */
 > --
-> Thanks,
-> ~Nick Desaulniers
-
+> 2.34.1
+>
 
 
 -- 
