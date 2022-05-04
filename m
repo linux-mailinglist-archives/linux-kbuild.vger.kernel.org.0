@@ -2,123 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DA251B08F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 May 2022 23:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1FA51B46E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 02:09:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbiEDVbb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 May 2022 17:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43674 "EHLO
+        id S232605AbiEEAGj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 May 2022 20:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347126AbiEDVba (ORCPT
+        with ESMTP id S1351198AbiEDX6x (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 May 2022 17:31:30 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AD75131E;
-        Wed,  4 May 2022 14:27:52 -0700 (PDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244JMSOl005392;
-        Wed, 4 May 2022 21:27:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=uG2cuZvxA/+CYu9Mwm0/55GfutEUGI00AFnLdQHDLcc=;
- b=Za+bFClkcZI6+yLno4HDgZMEnNPExsuK2xIkJVJMWr6BZ3UN/P/9rU3dmqOWGiayfx+P
- maTx9BVPz6n7K31lUE8vU9bZ6xXRHIPdDkx6f4NNcoz8vP5QAJhXd/tbvJVR06pDDTj8
- /k8ARufXGbYpaYDsuKtJDDG/rl3R1+2iijiXuHMpSzMNePc/rd/5bb+UwohhwqXtLqCk
- rsljVm7B3o9l/4tkHLUAVinnzwohulQmzO1+saYrJp3YdUKxQaECcWKfdZ7ghWd8Tvvd
- XxDvL4cqfASxfmAKHsr67LMvMsuQlWcRHU/Qs4iAe+YyhfrlB2kmdou6w/b1q//7Q9y2 ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fuyka24td-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 May 2022 21:27:42 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 244L6JOi009223;
-        Wed, 4 May 2022 21:27:41 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fuyka24t7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 May 2022 21:27:41 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 244KqPXe023256;
-        Wed, 4 May 2022 21:27:41 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma05wdc.us.ibm.com with ESMTP id 3frvra5bep-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 04 May 2022 21:27:41 +0000
-Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 244LReit15663456
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 4 May 2022 21:27:40 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 55C90BE053;
-        Wed,  4 May 2022 21:27:40 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 35851BE054;
-        Wed,  4 May 2022 21:27:39 +0000 (GMT)
-Received: from arbab-laptop.localdomain (unknown [9.160.71.212])
-        by b03ledav005.gho.boulder.ibm.com (Postfix) with SMTP;
-        Wed,  4 May 2022 21:27:38 +0000 (GMT)
-Received: by arbab-laptop.localdomain (Postfix, from userid 152845)
-        id B858A1DF790; Wed,  4 May 2022 16:27:36 -0500 (CDT)
-From:   Reza Arbab <arbab@linux.ibm.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     "J . Bruce Fields" <bfields@fieldses.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts/prune-kernel: Use kernel-install if available
-Date:   Wed,  4 May 2022 16:27:14 -0500
-Message-Id: <20220504212714.152837-1-arbab@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
+        Wed, 4 May 2022 19:58:53 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D974ECFA
+        for <linux-kbuild@vger.kernel.org>; Wed,  4 May 2022 16:54:12 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id k25-20020a056830169900b00605f215e55dso1932947otr.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 May 2022 16:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
+        b=Dn1MT8x7p4Rbn+pctwVkt7IgIdUxT0LRLjox/JaF9ttsZ2N8sUUglHFRxQa3sl75aK
+         h1U1JpCoOjPff8rV+LL0edQuBh+YvYlTbZ4zx127Qa80qMcS49J0d2nS2s7mVVadwp/M
+         vGp6wV8qQhR9tMRiQjyWHIJslgvG4HigF7p24aLxixJ1l99K68kLikab9Y0HgtSpkDYW
+         0+riuhXlj9dAnGs04evyYz4sFXKtm0FlJKiBI2Dtbo7ebvKr6E7XJkxgxzCXhReMwL1D
+         yv9OUeo9KjH+/RIlVXefhsYivAQRdlwo604eWoXrrvRFVxcSgXwgPis+UtVhyLpBWx3z
+         WyWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ampHH5WJLIBWSsxWwzVjbk5pO9UBFxn81pZ6QIDzZtY=;
+        b=Lf3TYeWgBn7gD1Y3/L5u/O9sY7drFapRV5aH7WXbrWmGvL1TSWYC4/onKx2enQMaKS
+         cYDPX11PR12F594IX5bQIsTdehRRWh86HVCQjtoZYTsoPUA2huTAjSjzDtEnpM2bEsHc
+         lQ2sef8Z07HBYK2u0dYwRauKWv10pVC83mxInMJLZspNdL8FVzXyPCgNPg3MI4yRTZfS
+         dOfO1FO9NLQZuNIGtLH2RXLhMIQuEJYrrje50Hy6pQBk+tm5MSai8tpzSlBycOxBzXaM
+         XTHkkxCOEU4XYrKWfueSvxwFmrx33oQBhJMhdczhjV0qDv9SwVdrE/R2evj+XDgHvG6x
+         7r3Q==
+X-Gm-Message-State: AOAM533cIKRoZL1d4oDDtu3mZQx/gZoJiDFejn+/WCdnFDVXInHlDB2b
+        OGJWfBbL6NKFkL/YZuPmKg5jFNArAd5kffQSwSBGl6IpRESFcA==
+X-Google-Smtp-Source: ABdhPJyXbFHNtxfp8+qt+M9kuv/iG7XfFeFFPd7I4/fmpdxuycMtmf6dIJw5ghtZAT2CwgvAVE/kUl0HxsirxLIU8v0=
+X-Received: by 2002:a9d:6b16:0:b0:605:e0eb:d3d6 with SMTP id
+ g22-20020a9d6b16000000b00605e0ebd3d6mr8263208otp.213.1651708440302; Wed, 04
+ May 2022 16:54:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: UVRWZzirs79AQa0aZQdoRcca5gsIKBU4
-X-Proofpoint-ORIG-GUID: TbXZe023WkTytbhFasi6BMGrRz4UO_-9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-04_05,2022-05-04_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0 spamscore=0
- mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=844 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205040122
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:6802:1a9:0:0:0:0 with HTTP; Wed, 4 May 2022 16:53:59
+ -0700 (PDT)
+Reply-To: ortegainvestmmentforrealinvest@gmail.com
+From:   Info <joybhector64@gmail.com>
+Date:   Thu, 5 May 2022 05:23:59 +0530
+Message-ID: <CAP7KLYgH9LcKHS-KgR0zObHAgC6Fr3D+dOJSbDKurTc_12+iFw@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:343 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [joybhector64[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [joybhector64[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.5 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If the new-kernel-pkg utility isn't present, try using kernel-install.
-This is what the %preun scriptlet in scripts/package/mkspec does too.
+-- 
+I am an investor. I came from the USA and I have many investments all
+over the world.
 
-Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
----
-Hope I've sent this to the right people. get_maintainer.pl came up
-blank, but kbuild seems like the nearest match in MAINTAINERS.
-
- scripts/prune-kernel | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/prune-kernel b/scripts/prune-kernel
-index e8aa940bc0a9..dadfd0e47f89 100755
---- a/scripts/prune-kernel
-+++ b/scripts/prune-kernel
-@@ -16,6 +16,10 @@ do
-                 rm -f "/boot/initramfs-$f.img" "/boot/System.map-$f"
-                 rm -f "/boot/vmlinuz-$f"   "/boot/config-$f"
-                 rm -rf "/lib/modules/$f"
--                new-kernel-pkg --remove $f
-+                if [ -x "$(command -v new-kernel-pkg)" ]; then
-+                        new-kernel-pkg --remove $f
-+                elif [ -x "$(command -v kernel-install)" ]; then
-+                        kernel-install remove $f
-+                fi
-         fi
- done
---=20
-2.27.0
-
+I want you to partner with me to invest in your country I am into many
+investment such as real Estate or buying of properties i can also
+invest money in any of existing business with equity royalty or by %
+percentage so on,
+Warm regards
