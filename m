@@ -2,197 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F177251AEFA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 May 2022 22:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DA251B08F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 May 2022 23:27:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245676AbiEDU1Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 May 2022 16:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S230133AbiEDVbb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 May 2022 17:31:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240316AbiEDU1Y (ORCPT
+        with ESMTP id S1347126AbiEDVba (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 May 2022 16:27:24 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD15D4F44C;
-        Wed,  4 May 2022 13:23:38 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.49.211]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MPowd-1nQ1aU0uUl-00MqjQ; Wed, 04 May 2022 22:23:05 +0200
-Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 665993C01C;
-        Wed,  4 May 2022 22:23:01 +0200 (CEST)
-Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 36837724; Wed,  4 May 2022 22:22:59 +0200 (CEST)
-Date:   Wed, 4 May 2022 22:22:59 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wed, 4 May 2022 17:31:30 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AD75131E;
+        Wed,  4 May 2022 14:27:52 -0700 (PDT)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244JMSOl005392;
+        Wed, 4 May 2022 21:27:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=uG2cuZvxA/+CYu9Mwm0/55GfutEUGI00AFnLdQHDLcc=;
+ b=Za+bFClkcZI6+yLno4HDgZMEnNPExsuK2xIkJVJMWr6BZ3UN/P/9rU3dmqOWGiayfx+P
+ maTx9BVPz6n7K31lUE8vU9bZ6xXRHIPdDkx6f4NNcoz8vP5QAJhXd/tbvJVR06pDDTj8
+ /k8ARufXGbYpaYDsuKtJDDG/rl3R1+2iijiXuHMpSzMNePc/rd/5bb+UwohhwqXtLqCk
+ rsljVm7B3o9l/4tkHLUAVinnzwohulQmzO1+saYrJp3YdUKxQaECcWKfdZ7ghWd8Tvvd
+ XxDvL4cqfASxfmAKHsr67LMvMsuQlWcRHU/Qs4iAe+YyhfrlB2kmdou6w/b1q//7Q9y2 ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fuyka24td-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 04 May 2022 21:27:42 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 244L6JOi009223;
+        Wed, 4 May 2022 21:27:41 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fuyka24t7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 04 May 2022 21:27:41 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 244KqPXe023256;
+        Wed, 4 May 2022 21:27:41 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma05wdc.us.ibm.com with ESMTP id 3frvra5bep-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 04 May 2022 21:27:41 +0000
+Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 244LReit15663456
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 4 May 2022 21:27:40 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 55C90BE053;
+        Wed,  4 May 2022 21:27:40 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 35851BE054;
+        Wed,  4 May 2022 21:27:39 +0000 (GMT)
+Received: from arbab-laptop.localdomain (unknown [9.160.71.212])
+        by b03ledav005.gho.boulder.ibm.com (Postfix) with SMTP;
+        Wed,  4 May 2022 21:27:38 +0000 (GMT)
+Received: by arbab-laptop.localdomain (Postfix, from userid 152845)
+        id B858A1DF790; Wed,  4 May 2022 16:27:36 -0500 (CDT)
+From:   Reza Arbab <arbab@linux.ibm.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v2 21/26] genksyms: adjust the output format for .cmd
- files
-Message-ID: <YnLgo+y5tR86hBL5@bergen.fjasle.eu>
-References: <20220501084032.1025918-1-masahiroy@kernel.org>
- <20220501084032.1025918-22-masahiroy@kernel.org>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     "J . Bruce Fields" <bfields@fieldses.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/prune-kernel: Use kernel-install if available
+Date:   Wed,  4 May 2022 16:27:14 -0500
+Message-Id: <20220504212714.152837-1-arbab@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220501084032.1025918-22-masahiroy@kernel.org>
-Jabber-ID: nicolas@jabber.no
-X-Operating-System: Debian GNU/Linux bookworm/sid
-X-Provags-ID: V03:K1:My2Sy57WDCTl+dHhJAdllzvu0KkMWTC94Kpwc583XPVyqzWdbyt
- rx4oxJ1qrfOO0hffaL2uuG2tVwm7cooY3DxFloeuGV+7r+Gm3RuyzkQcbhqSiIbGLshkAcz
- borSfPWEKWusn7FdJ36OJgN/ciUOVOY0cnd3ekHolVw6mDyOaPrC+KqOImrOCCkhTNJQzEq
- G+W3FukXpmdW6p46olmlQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6vHfwB7BZzQ=:ociXP/tp4QcKx+kYpZn9fE
- I0EIbmMcEF/uIT1iUypRY5Umi8DuiREmdU/PM7s/dxgGURy8mO2MQBB/lIwjwecLVOOZRrwhu
- Oc6Mgp1fu/Ys8Rdc0ZfWUHyWlNNv6kvBzD17T7lyekl3lNR0HK5qqbdoA05EwZSheTxC8m/q+
- POxjwvoJwSwlpGVl1w4bD9U5TNE7VCtcBYmY42+8KPDi0XyZCfYvN7TAhwD2nKN1Hhot/Vajy
- j3eFbCB1CTsNKxK+wvPL3JBb8XalwWAnRp1g4S00osQ0t2Dc9Xlo/AlTq76Q+h24lXsDY33ZC
- 454NqWT91OM5mLYpgBEIh3OuKJd2cnkQNN3JKoq3sVBU1ZmSOcKPzGCtkcWZHtsfegcziElGi
- ZF/8aHkiL4mlF4egeoVmNxul2v7VsqBnmiHEyMMp3FeuVOrd9bcNz0Bpjf1+jd8iaHo2c3eMJ
- L4/0UllON57/Zzid5itSQCQHQ6TYHz0X8R0fG7Z2fOfpax/YRI+K1CJCAU1rZXJyOeaBFk9xv
- UNlVNBcdVoDD25CxW0QbPbEeI+c/YZ739HGFhB+uaZkMTmQ7loPlpdGzUHvQvc9e6aY7cqiuJ
- n43D0He7j9y26k/mz8+BF4yHOWoUIJKjf/M2DUZiuLETJB0L+FRLJi78flR5Wf67+3Sx7Sm0o
- 2yTlh3EkmB4rWLh/mc7fTwdJXedvveXcdTYgFWnlHpX/nYdp5PwVGPhYjyI9TMILD0j4=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UVRWZzirs79AQa0aZQdoRcca5gsIKBU4
+X-Proofpoint-ORIG-GUID: TbXZe023WkTytbhFasi6BMGrRz4UO_-9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-04_05,2022-05-04_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0 spamscore=0
+ mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=844 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205040122
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On sø. 01. mai 2022 kl. 17.40 Masahiro Yamada wrote:
-> genksyms output symbol versions in the linker script format.
+If the new-kernel-pkg utility isn't present, try using kernel-install.
+This is what the %preun scriptlet in scripts/package/mkspec does too.
 
-output -> outputs ?
+Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
+---
+Hope I've sent this to the right people. get_maintainer.pl came up
+blank, but kbuild seems like the nearest match in MAINTAINERS.
 
-> The output format depends on CONFIG_MODULE_REL_CRCS.
+ scripts/prune-kernel | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Looking at the patch itself, I think the sentence above should be 
-inverted, as all rel_crc special handling is removed.  Or did I get it 
-wrong?
+diff --git a/scripts/prune-kernel b/scripts/prune-kernel
+index e8aa940bc0a9..dadfd0e47f89 100755
+--- a/scripts/prune-kernel
++++ b/scripts/prune-kernel
+@@ -16,6 +16,10 @@ do
+                 rm -f "/boot/initramfs-$f.img" "/boot/System.map-$f"
+                 rm -f "/boot/vmlinuz-$f"   "/boot/config-$f"
+                 rm -rf "/lib/modules/$f"
+-                new-kernel-pkg --remove $f
++                if [ -x "$(command -v new-kernel-pkg)" ]; then
++                        new-kernel-pkg --remove $f
++                elif [ -x "$(command -v kernel-install)" ]; then
++                        kernel-install remove $f
++                fi
+         fi
+ done
+--=20
+2.27.0
 
-Kind regards,
-Nicolas
-
-> 
-> Now, symbol versions are passed to modpost as plain text data,
-> we can simplify the genksyms code.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
-> Changes in v2:
->   - New patch
-> 
->  scripts/Makefile.build      |  9 ---------
->  scripts/genksyms/genksyms.c | 17 ++++-------------
->  2 files changed, 4 insertions(+), 22 deletions(-)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 10092efb61ac..1f480e4ff70a 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -128,7 +128,6 @@ $(obj)/%.i: $(src)/%.c FORCE
->  
->  genksyms = scripts/genksyms/genksyms		\
->  	$(if $(1), -T $(2))			\
-> -	$(if $(CONFIG_MODULE_REL_CRCS), -R)	\
->  	$(if $(KBUILD_PRESERVE), -p)		\
->  	-r $(or $(wildcard $(2:.symtypes=.symref)), /dev/null)
->  
-> @@ -166,18 +165,10 @@ ifdef CONFIG_MODVERSIONS
->  # o modpost will extract versions from the .cmd file and create linker
->  #   scripts used to link the kernel and/or modules.
->  
-> -genksyms_format_rel_crc := [^_]*__crc_\([^ ]*\) = \.; LONG(\([^)]*\)).*
-> -genksyms_format_normal := __crc_\(.*\) = \(.*\);
-> -genksyms_format := $(if $(CONFIG_MODULE_REL_CRCS),$(genksyms_format_rel_crc),$(genksyms_format_normal))
-> -
->  gen_symversions =								\
->  	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
->  		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
-> -		    > $@.symversions;						\
-> -		sed -n 's/$(genksyms_format)/$(pound)SYMVER \1 \2/p' $@.symversions \
->  			>> $(dot-target).cmd;					\
-> -	else									\
-> -		rm -f $@.symversions;						\
->  	fi
->  
->  cmd_gen_symversions_c =	$(call gen_symversions,c)
-> diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
-> index 4827c5abe5b7..ec5ad4405483 100644
-> --- a/scripts/genksyms/genksyms.c
-> +++ b/scripts/genksyms/genksyms.c
-> @@ -33,7 +33,7 @@ char *cur_filename;
->  int in_source_file;
->  
->  static int flag_debug, flag_dump_defs, flag_reference, flag_dump_types,
-> -	   flag_preserve, flag_warnings, flag_rel_crcs;
-> +	   flag_preserve, flag_warnings;
->  
->  static int errors;
->  static int nsyms;
-> @@ -680,11 +680,7 @@ void export_symbol(const char *name)
->  		if (flag_dump_defs)
->  			fputs(">\n", debugfile);
->  
-> -		/* Used as a linker script. */
-> -		printf(!flag_rel_crcs ? "__crc_%s = 0x%08lx;\n" :
-> -		       "SECTIONS { .rodata : ALIGN(4) { "
-> -		       "__crc_%s = .; LONG(0x%08lx); } }\n",
-> -		       name, crc);
-> +		printf("#SYMVER %s 0x%08lx\n", name, crc);
->  	}
->  }
->  
-> @@ -745,7 +741,6 @@ static void genksyms_usage(void)
->  	      "  -q                    Disable warnings (default)\n"
->  	      "  -h                    Print this message\n"
->  	      "  -V                    Print the release version\n"
-> -	      "  -R                    Emit section relative symbol CRCs\n"
->  #endif				/* __GNU_LIBRARY__ */
->  	      , stderr);
->  }
-> @@ -766,14 +761,13 @@ int main(int argc, char **argv)
->  		{"preserve", 0, 0, 'p'},
->  		{"version", 0, 0, 'V'},
->  		{"help", 0, 0, 'h'},
-> -		{"relative-crc", 0, 0, 'R'},
->  		{0, 0, 0, 0}
->  	};
->  
-> -	while ((o = getopt_long(argc, argv, "s:dwqVDr:T:phR",
-> +	while ((o = getopt_long(argc, argv, "s:dwqVDr:T:ph",
->  				&long_opts[0], NULL)) != EOF)
->  #else				/* __GNU_LIBRARY__ */
-> -	while ((o = getopt(argc, argv, "s:dwqVDr:T:phR")) != EOF)
-> +	while ((o = getopt(argc, argv, "s:dwqVDr:T:ph")) != EOF)
->  #endif				/* __GNU_LIBRARY__ */
->  		switch (o) {
->  		case 'd':
-> @@ -813,9 +807,6 @@ int main(int argc, char **argv)
->  		case 'h':
->  			genksyms_usage();
->  			return 0;
-> -		case 'R':
-> -			flag_rel_crcs = 1;
-> -			break;
->  		default:
->  			genksyms_usage();
->  			return 1;
-> -- 
-> 2.32.0
-
--- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
