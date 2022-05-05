@@ -2,59 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50C1A51B84A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 08:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA36C51B8C9
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 09:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239792AbiEEHAh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 May 2022 03:00:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
+        id S1343762AbiEEHaA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 May 2022 03:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236957AbiEEHAe (ORCPT
+        with ESMTP id S1343736AbiEEH34 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 May 2022 03:00:34 -0400
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com [210.131.2.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 198F7377EF;
-        Wed,  4 May 2022 23:56:54 -0700 (PDT)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 2456uUBv002675;
-        Thu, 5 May 2022 15:56:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 2456uUBv002675
+        Thu, 5 May 2022 03:29:56 -0400
+Received: from conuserg-12.nifty.com (conuserg-12.nifty.com [210.131.2.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDBAB31DE9;
+        Thu,  5 May 2022 00:26:17 -0700 (PDT)
+Received: from grover.sesame (133-32-177-133.west.xps.vectant.ne.jp [133.32.177.133]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 2457Neni019426;
+        Thu, 5 May 2022 16:23:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 2457Neni019426
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651733791;
-        bh=i8UVQkDD1UoDas2ND/0n+dx2bVcfUGCIy5PTWE5iI2U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NtasHN6CYnJgzyHeGmjakUgOvG3aQKwjwNspzBvJfa1nSTNKB4VJeRjgFr0h5iWGJ
-         Ed2Et83jp97YZI9+ZUWaVzBXPPX1vZ//SjsMzPahP6YGDI5Rd6UKLEL/MHair6kyzE
-         HPhD5JAqaR9pf4QesMJeU20UDYZQYyN+9Eq9t/5sTApSPPHiolvlKR3iSxpM9YwyXe
-         2SUg+dGMYYWojipEOySJ7oKWhzNz6zcZYI7ZbcxDIqt71lS+B1o/lBT2V8FMZjjC44
-         pAno5SkQ/NzVS7IwoMVpMOfRvBVdrIQlZgTvw4h4vP7BDlaSmNWsGYuPIPixYu9ei/
-         PJTBm3RAS79dg==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id c9so2868684plh.2;
-        Wed, 04 May 2022 23:56:31 -0700 (PDT)
-X-Gm-Message-State: AOAM5311GHW8mMR+MGIR17B/xRk2rCgDmGgXiEvAmLV8Y+9CX++l37uF
-        WTAUnh9wisV+08zzPQpBX0G5goKwElr2M4sYZeo=
-X-Google-Smtp-Source: ABdhPJxsF51fbTyL6C4bazzUfCl2jPYlFrYotwR5hNcMGm8bZWKjxRNEqo5gx4CM+pyfrjnfAbsIB5F+gLE6/gs6RWU=
-X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
- s7-20020a170902988700b001516e1c7082mr25314570plp.162.1651733790231; Wed, 04
- May 2022 23:56:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220501084032.1025918-1-masahiroy@kernel.org>
-In-Reply-To: <20220501084032.1025918-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1651735421;
+        bh=mq8Yk8ot1m2mhjLX32XL2W0Bgs0dGB51vVKxKbSTMUk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T77AYbWp+W8B/eXgnFGulan20TeHw3N6W7RIXt54h6dPGoOqBWyaZNhM/USm2COY1
+         1ai4VjljO6SS+KIZdz9zDlbPcqhQnBQeKneHyAHJdZ84G+BLsISEwrf5tO5Dr/i9PB
+         F94bzoe3Oo0TSu1N115G9q5JVECDckPxmFdLpg9iBzUQAI0aY2wPXdhmYVFSHyMMFO
+         q9se3e2KHp4ASisYM7uhuvaAfDDmUKe07fp1pOQ7PQebdARYuQLzr56U6xU38UYJDq
+         pBOrMk+PhVZ1hXHhscAEgaCyhjpTKX5PIofvTZP38NtlwKytBpwbg0AN2yAxcYmtWJ
+         JIz/mJfS9d9Bw==
+X-Nifty-SrcIP: [133.32.177.133]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 5 May 2022 15:55:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ3JmpfJRU4xJisuZCzpN7OkK078MP5okBT-PD=N1R9jg@mail.gmail.com>
-Message-ID: <CAK7LNAQ3JmpfJRU4xJisuZCzpN7OkK078MP5okBT-PD=N1R9jg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/26] kbuild: yet another series of cleanups (modpost
- and LTO)
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
+        Nicolas Schier a <nicolas@fjasle.eu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-um@lists.infradead.org,
+        linux-s390@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        clang-built-linux <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+        Sami Tolvanen <samitolvanen@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v3 00/15] kbuild: yet another series of cleanups (modpost, LTO, MODULE_REL_CRCS)
+Date:   Thu,  5 May 2022 16:22:29 +0900
+Message-Id: <20220505072244.1155033-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -64,80 +58,65 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 1, 2022 at 5:42 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->
-> This is the third batch of cleanups in this development cycle.
->
-> Major changes in v2:
->
->  - V1 did not work with CONFIG_MODULE_REL_CRCS.
->    I fixed this for v2.
->
->  - Reflect some review comments in v1
->
->  - Refactor the code more
->
->  - Avoid too long argument error
->
->
->
-> Masahiro Yamada (26):
->   modpost: use bool type where appropriate
->   modpost: change mod->gpl_compatible to bool type
->   modpost: import include/linux/list.h
->   modpost: traverse modules in order
->   modpost: add sym_add_unresolved() helper
->   modpost: traverse unresolved symbols in order
->   modpost: use doubly linked list for dump_lists
->   modpost: traverse the namespace_list in order
->   modpost: dump Module.symvers in the same order of modules.order
->   modpost: move static EXPORT_SYMBOL check to check_exports()
->   modpost: make multiple export error
->   modpost: make sym_add_exported() always allocate a new symbol
->   modpost: split new_symbol() to symbol allocation and hash table
->     addition
->   modpost: mitigate false-negatives for static EXPORT_SYMBOL checks
->   kbuild: record symbol versions in *.cmd files
->   kbuild: generate a list of objects in vmlinux
->   modpost: extract symbol versions from *.cmd files
->   modpost: generate linker script to collect symbol versions
->   kbuild: embed symbol versions at final link of vmlinux or modules
->   kbuild: stop merging *.symversions
->   genksyms: adjust the output format for .cmd files
->   kbuild: do not create *.prelink.o for Clang LTO or IBT
->   kbuild: make built-in.a rule robust against too long argument error
->   kbuild: make *.mod rule robust against too long argument error
->   modpost: simplify the ->is_static initialization
->   modpost: use hlist for hash table implementation
 
-Applied 01-13 to linux-kbuild
-with Nick's reviewed-by.
+This is the third batch of cleanups in this development cycle.
 
-I will send v3 for the rest.
+Major changes in v3:
 
->  .gitignore                  |   1 +
->  Makefile                    |   1 +
->  scripts/Kbuild.include      |   4 +
->  scripts/Makefile.build      | 118 +++------
->  scripts/Makefile.lib        |   7 -
->  scripts/Makefile.modfinal   |   6 +-
->  scripts/Makefile.modpost    |  10 +-
->  scripts/genksyms/genksyms.c |  17 +-
->  scripts/link-vmlinux.sh     |  34 +--
->  scripts/mod/file2alias.c    |   2 -
->  scripts/mod/list.h          | 265 +++++++++++++++++++
->  scripts/mod/modpost.c       | 501 ++++++++++++++++++++++--------------
->  scripts/mod/modpost.h       |  24 +-
->  scripts/mod/sumversion.c    |   8 +-
->  14 files changed, 650 insertions(+), 348 deletions(-)
->  create mode 100644 scripts/mod/list.h
->
-> --
-> 2.32.0
->
+ - Generate symbol CRCs as C code, and remove CONFIG_MODULE_REL_CRCS.
 
+Major changes in v2:
+
+ - V1 did not work with CONFIG_MODULE_REL_CRCS.
+   I fixed this for v2.
+
+ - Reflect some review comments in v1
+
+ - Refactor the code more
+
+ - Avoid too long argument error
+
+
+Masahiro Yamada (15):
+  modpost: mitigate false-negatives for static EXPORT_SYMBOL checks
+  modpost: change the license of EXPORT_SYMBOL to bool type
+  modpost: merge add_{intree_flag,retpoline,staging_flag} to add_header
+  modpost: move *.mod.c generation to write_mod_c_files()
+  kbuild: generate a list of objects in vmlinux
+  kbuild: record symbol versions in *.cmd files
+  modpost: extract symbol versions from *.cmd files
+  kbuild: link symbol CRCs at final link, removing
+    CONFIG_MODULE_REL_CRCS
+  kbuild: stop merging *.symversions
+  genksyms: adjust the output format to modpost
+  kbuild: do not create *.prelink.o for Clang LTO or IBT
+  modpost: simplify the ->is_static initialization
+  modpost: use hlist for hash table implementation
+  kbuild: make built-in.a rule robust against too long argument error
+  kbuild: make *.mod rule robust against too long argument error
+
+ arch/powerpc/Kconfig         |   1 -
+ arch/s390/Kconfig            |   1 -
+ arch/um/Kconfig              |   1 -
+ include/asm-generic/export.h |  22 +-
+ include/linux/export.h       |  30 +--
+ include/linux/symversion.h   |  13 +
+ init/Kconfig                 |   4 -
+ kernel/module.c              |  10 +-
+ scripts/Kbuild.include       |   4 +
+ scripts/Makefile.build       | 118 +++------
+ scripts/Makefile.lib         |   7 -
+ scripts/Makefile.modfinal    |   5 +-
+ scripts/Makefile.modpost     |   9 +-
+ scripts/genksyms/genksyms.c  |  18 +-
+ scripts/link-vmlinux.sh      |  46 ++--
+ scripts/mod/file2alias.c     |   2 -
+ scripts/mod/list.h           |  52 ++++
+ scripts/mod/modpost.c        | 449 ++++++++++++++++++++---------------
+ scripts/mod/modpost.h        |   2 +
+ 19 files changed, 402 insertions(+), 392 deletions(-)
+ create mode 100644 include/linux/symversion.h
 
 -- 
-Best Regards
-Masahiro Yamada
+2.32.0
+
