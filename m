@@ -2,58 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8943151C15E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 15:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF17F51C158
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 15:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbiEENxE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 May 2022 09:53:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37726 "EHLO
+        id S242038AbiEENy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 May 2022 09:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380092AbiEENxB (ORCPT
+        with ESMTP id S1380177AbiEENyJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 May 2022 09:53:01 -0400
-Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B03580F3;
-        Thu,  5 May 2022 06:49:17 -0700 (PDT)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 245DmkEn024632;
-        Thu, 5 May 2022 22:48:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 245DmkEn024632
+        Thu, 5 May 2022 09:54:09 -0400
+X-Greylist: delayed 23050 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 05 May 2022 06:50:27 PDT
+Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B2421C4;
+        Thu,  5 May 2022 06:50:23 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 245Do2Vm001524;
+        Thu, 5 May 2022 22:50:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 245Do2Vm001524
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1651758527;
-        bh=IwgRHAG5zKPpb5J9wkpkLch62sbAeAXe6UUEy7oZWx8=;
+        s=dec2015msa; t=1651758603;
+        bh=9oRpkNgyXXtV+zgGcTivzSiWJg6PL7lzsKUtb+il+xA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NflHOQ1SchzCR927Orbp99xHnhXDwx7JXWhpuBdOf/cUqIo6ylza5ViSTZ7IBceOT
-         m7jWAdq5TunKPvbD29oIs9McC7ob3Q69bPLQtO2A9Ms5UiwdREp+7m0GwUQxQiiU/l
-         LIVS398bOHNSvzLoWWUIhWY2A+s4IA6J2OaKgeeZ0maCi5sWsUwInNYax4jqlN5XjW
-         hnmz7yusN4hbezVU0p96lLLzlIKtjFdmXXgsKWx2TcK2f38VvpkZptcu7UT07vcTwc
-         pnbjO3YtH0M7tDN+LxnHW4KbKN4Rb+zGVGZ7qJ4+TI/DjpvmsHs2Qo/xOn2gy6OVMq
-         XHV6zYVLmwfNA==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id w5-20020a17090aaf8500b001d74c754128so8100056pjq.0;
-        Thu, 05 May 2022 06:48:46 -0700 (PDT)
-X-Gm-Message-State: AOAM530jDBej785LKza5OOXLDAIHEYUEibKhvohCa0BSlO9A7bj9tujf
-        bZ7ZLhctlxOU8Kt+gs7pgTjKrVwL4bFsSfnX8/I=
-X-Google-Smtp-Source: ABdhPJzApibcjGgodp1cj6GknF4zl8wLJYozCpjDCgLel5+3apjJYN7oU5/9F2ILR+v/DVL9JLafRpIVkNmZ+N0NzwQ=
-X-Received: by 2002:a17:902:7891:b0:15e:cae9:7620 with SMTP id
- q17-20020a170902789100b0015ecae97620mr7726753pll.136.1651758526119; Thu, 05
- May 2022 06:48:46 -0700 (PDT)
+        b=WCAi+X3iW2LWnS+cyU6Xwt+mVMFWGKNgvm1N4fQyjnqbm5kc3n8AZNfmfQahJf44C
+         8baCi4AzET7HA49g1FxlljYCIcyH27XetjJU5oHET938gKf0mwwJvz2T8HhpMNLCrz
+         P9Pn3Km3/Y/vQeek7U0RGRx1wEMV/zynJog1koCSG/7blY0+bz+o/+V+nd0dhDVIgT
+         ObLR1jGvcZqTTJusj3s304q3S0HOyD8i5NlnZKlgrayMMnTlwQhkOi3xewdpgkQ2UG
+         FMtXR+0Z3J9CI9yvcXTbq4t0xxUsKdPB9BdEjyOOS3D5O8xVFTCPswe5Ah2kSLCHdl
+         WLmJgONxSW2YA==
+X-Nifty-SrcIP: [209.85.214.174]
+Received: by mail-pl1-f174.google.com with SMTP id n18so4453578plg.5;
+        Thu, 05 May 2022 06:50:03 -0700 (PDT)
+X-Gm-Message-State: AOAM5337OApzlSjvMivzBuGPOcIlt85F07dCzPAk70PrPMKs1ZJpu0TO
+        ALyzMqaQ7j0d3brF4XksznGsKpYAul0EsDH8fk8=
+X-Google-Smtp-Source: ABdhPJwUvU2dd6I2MVotZAWGiD+mCtj6djZTY+lh8nRnnAK5x12OI9taA02MBGobfNqjKVY/3aiklbcYcNl4MlrBSIM=
+X-Received: by 2002:a17:90a:8405:b0:1bc:d521:b2c9 with SMTP id
+ j5-20020a17090a840500b001bcd521b2c9mr6301241pjn.119.1651758602352; Thu, 05
+ May 2022 06:50:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220501084032.1025918-1-masahiroy@kernel.org>
- <20220501084032.1025918-22-masahiroy@kernel.org> <YnLgo+y5tR86hBL5@bergen.fjasle.eu>
-In-Reply-To: <YnLgo+y5tR86hBL5@bergen.fjasle.eu>
+References: <20220505072244.1155033-1-masahiroy@kernel.org> <20220505072244.1155033-3-masahiroy@kernel.org>
+In-Reply-To: <20220505072244.1155033-3-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 5 May 2022 22:47:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASMNbOVwE7xMX6=R7cQwcoifwcQvfc37_2PyjQC5jFa6w@mail.gmail.com>
-Message-ID: <CAK7LNASMNbOVwE7xMX6=R7cQwcoifwcQvfc37_2PyjQC5jFa6w@mail.gmail.com>
-Subject: Re: [PATCH v2 21/26] genksyms: adjust the output format for .cmd files
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Thu, 5 May 2022 22:48:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAREQt5rPGK8zsti_UA-dGFKfqHsVWbSgMLw-yLoeNkJeA@mail.gmail.com>
+Message-ID: <CAK7LNAREQt5rPGK8zsti_UA-dGFKfqHsVWbSgMLw-yLoeNkJeA@mail.gmail.com>
+Subject: Re: [PATCH v3 02/15] modpost: change the license of EXPORT_SYMBOL to
+ bool type
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     clang-built-linux <clang-built-linux@googlegroups.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
+        Nicolas Schier a <nicolas@fjasle.eu>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        linux-um@lists.infradead.org,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_SOFTFAIL,
         T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
@@ -63,27 +71,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 5, 2022 at 5:23 AM Nicolas Schier <nicolas@fjasle.eu> wrote:
+On Thu, May 5, 2022 at 4:24 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On s=C3=B8. 01. mai 2022 kl. 17.40 Masahiro Yamada wrote:
-> > genksyms output symbol versions in the linker script format.
+> Currently, enum export is tristate, but export_unknown does not make
+> sense in any way.
 >
-> output -> outputs ?
+> If the symbol name starts with "__ksymtab_", but the section name
+> does not start with "___ksymtab+" or "___ksymtab_gpl+", it is not
+> an exported symbol. The variable name just happens to start with
+> "__ksymtab_". Do not call sym_add_exported() in this case.
 >
-> > The output format depends on CONFIG_MODULE_REL_CRCS.
->
-> Looking at the patch itself, I think the sentence above should be
-> inverted, as all rel_crc special handling is removed.  Or did I get it
-> wrong?
+> __ksymtab_* is internally by EXPORT_SYMBOL(_GPL) but somebody may
 
-I admit this commit description is unclear.
-
-In v3, the patch is simpler and the commit message is clearer.
-
-Thanks.
+I mean
+"... is internally used by ..."
 
 
 
---=20
+
+-- 
 Best Regards
 Masahiro Yamada
