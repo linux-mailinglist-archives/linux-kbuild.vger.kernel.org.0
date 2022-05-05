@@ -2,31 +2,31 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F01251CA79
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 22:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BF9751CA84
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 May 2022 22:24:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354083AbiEEUYi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 May 2022 16:24:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42192 "EHLO
+        id S1385801AbiEEU16 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 May 2022 16:27:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236322AbiEEUYh (ORCPT
+        with ESMTP id S1384858AbiEEU15 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 May 2022 16:24:37 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0114B4BB8C;
-        Thu,  5 May 2022 13:20:52 -0700 (PDT)
+        Thu, 5 May 2022 16:27:57 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98CC5F8E0;
+        Thu,  5 May 2022 13:24:13 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.98.182]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MGgRW-1na0dH2Qr4-00DsuE; Thu, 05 May 2022 22:19:45 +0200
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mz9EL-1o0vC22a9b-00wFu7; Thu, 05 May 2022 22:22:53 +0200
 Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 2B3143C088; Thu,  5 May 2022 22:19:42 +0200 (CEST)
+        id 9326E3C088; Thu,  5 May 2022 22:22:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1651781982; bh=bg+HVLXZ4GeOEztHmsf/QJzV8C4FIObgcJiyzv+H0UM=;
+        t=1651782169; bh=gLnf95DDjaMYGCRgX6K1aWAnNa4DMAQkns7Hsushh60=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PAx9fB2NHoFbOqmE6IzPcukGKSh96UrYF6rKFC9M4htsjy3UYGxuyQw6ayrvxTE1R
-         HbcOqeXamS48kIlbn2I5kDCN6+f+R7SaFOehW4a61Ip56uWYLaDwyN2s4imiUAzFuE
-         aezSEmR+YT6F+jpOeNEh8WPL0bXstai+AlPRU1oA=
-Date:   Thu, 5 May 2022 22:19:42 +0200
+        b=P5JqnzKqtCgrYbwEuOhr7agnhA9+gQXyvraZM/aNsViPYwCcmXRoB0dY8HOQW2LE5
+         kRtHvppRbVwP87SX7/jDtlvgKxxbcffwdHVginnFLXVfXr1beojclNn2h078mxS1z1
+         9QMmT/PWzqeujd3d3jGPQuxQtQuuSt//isIYhAZI=
+Date:   Thu, 5 May 2022 22:22:49 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
@@ -38,139 +38,95 @@ Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
         Nick Desaulniers <ndesaulniers@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
         Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH v3 09/15] kbuild: stop merging *.symversions
-Message-ID: <YnQxXsVKDZwj9ML7@fjasle.eu>
+Subject: Re: [PATCH v3 10/15] genksyms: adjust the output format to modpost
+Message-ID: <YnQyGUlhvUIZwoNy@fjasle.eu>
 References: <20220505072244.1155033-1-masahiroy@kernel.org>
- <20220505072244.1155033-10-masahiroy@kernel.org>
+ <20220505072244.1155033-11-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220505072244.1155033-10-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:kLv07Zu9KjSI8dVtarU8l8sxPufYBTVjB5tuKOltZ/T9hk437XX
- vNQ8NEBvRXubh7ts7FDOU2bMa4E55pDRJDTQNO77MACY5JbN+i20cUNkkZfWpaF6VKXKNsO
- K6ZEEHtGEvsnSVoXklrgpTo5J5l7CIEDsKJ4KoactoMHkKWNef3Lt1Zb6Uqthrmqhijy68i
- o6vPO+d07ACl7HYX2WrsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GEBew1HkSyw=:CtA2dALYABuAeqnB9s6zbz
- WOrkOByaGQn5pcQXLlYJM2W0SjTSxLOzGdZATyfGrSRH7h0O6V/HOp9oWzPg6xX9BKpKjRfOn
- IzWVAC9fLV+eqByCp5JRUpiImfbkHtks/O4PQjJjfjf+mw+CK+der90kd6OzfEP41/QFVd1kP
- iy7yqhYjAG1ixEkux1zPphXuSrfepTDIM5k2rAA/zLwT7Pf0cnlhCESbBcgZL5LjOh2dAYTV9
- IYkDFZq0yo4kBhkGibz85xtPz0L2Echql/qhbkWnZswwoALs6XjTkaYyIu6Jt8Sp0BrNlLwE2
- eGLy710OJ42xqDt1sGCZZczpo+ZjSUC1pbgFG6Lr198tjT/8EZgQZNNsw+caQ8OqUmXJEz89b
- IGxjrPuNhFxo4jLPceIrjw7I/UxkEHOlbvpBXFWHmHCn0LHBHGKwAEohy2mtbu9gErq48ktUG
- 9MeCflRvY1pQyEytdMLaCm1jRgvZQTbhPrLP7K8xsjjhgiG8mC422czSvsktOQWd6T8Q+Ui1C
- Q3TZctSJ2xLF0gQMkExGmab4W9imwAAXop4ZuL4Pta0gslhicvoU3LrzpAWW+FScK5zfNp+eQ
- 13LkT6YoChWDUfO1PogcQ6bSZlf7PwmjNy0lbIHtliTLRwupX5uEeysoyWib+0CY5ycIMBYBY
- q8ViV1QYV6Ct7wPgJCPvb4hHgOCtAr60Jh40I5rVKat8vlZw8F8wpZF+x6Jo0R/XDUQ4=
+In-Reply-To: <20220505072244.1155033-11-masahiroy@kernel.org>
+X-Provags-ID: V03:K1:RUI2NxERijqBLuHI7G+nXGlaQN7ojuvdXw0yIKPmaAmlM/WXDvD
+ z+undfnS5/BQmDavRN0dHs0z6ogRT8PP96LkZFU2gGTqewRhjkyZjh4El221JnzIHz6JwSJ
+ FIhTrT6LlR9hlmohtlQUd6uMFu6QJ7kd2iTahnc9SV5tIegCWreRierRRGI87knT1tQKDev
+ 5SuWioT/YknSjZKC8ulFg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jxZ5y2jNwbs=:j0VaPvAClzfPiR1zMMPS2V
+ 4Blib3kzqTqZt1lgsARx53lSLe9k1NMGOsYT5OVcHQu4avv8lOHyCqM9ge5kRBsupEaTAiEDp
+ YZvw50YwnVmqQi2z5eHO7+xqfM2iaEAj8EwyYJV5eiCo34hRU0J2uw6Ci3L0x4cOjIIPgx9/1
+ zrcgC0WyzTJt9xSdNOKt0ektBE71fExhkTfIvbB1iEOfhOHXpF8jd0Ymtb0E8gOpN5eWtnVnB
+ wG6sDDKzE74ixKhLuiFNjzicAIlE4GuGpkzVaBidxwpjMmDm2UeZrWYuJPKY7s/x3CCknfg/8
+ WZn/PYyJjRa3LU9540K7cbgLBLPtalY1P8OwfhLXDst1Rjrb4WzFa3YuV+2aw6QjxcQr99jxo
+ YrA1gYvz6DCU9L+AZTrv+JYfyE7wGJqgW+qy11WUnp1Gobv3OoFfQOBFfqELZonNPBSZ4eE4U
+ XtlQV1ubC6gXN8m7nhZY3WwKKOswQGQ+cfwMy9MkT95n+ctFcpxNJrqVNM4T+3z6t8srLnLiu
+ 0/Mwgj0E1+RWwtUWEpRSSLSBj7QOBfYMDywGzq5JMDZQbXNiB5yMXV7TM7WvPZVi2iO3EYdQQ
+ 6TMgU4M620I5XBRPj1A7DVrOvt4A/uVy2Y44MtohxyNtOCaq4srTazIQazf69a2RHeiYwmpaJ
+ gyM61KOlwm1QMxusvpBmDh/WQ4qBNSIr1JDl4Ir2cAq1H3uxxCTd6skGJOE975VRrmMw=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 05, 2022 at 04:22:38PM +0900 Masahiro Yamada wrote:
-> Now modpost reads symbol versions from .*.cmd files.
+On Thu, May 05, 2022 at 04:22:39PM +0900 Masahiro Yamada wrote:
+> Make genksyms output symbol versions in the format modpost expects,
+> so the 'sed' is unneeded.
 > 
-> These merged *.symversions are not used any more.
+> This commit makes *.symversions completely unneeded.
+> 
+> I will keep *.symversions in .gitignore and 'make clean' for a while.
+> Otherwise, some people might be upset with 'git status'.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 > 
-> (no changes since v1)
+> (no changes since v2)
 > 
->  scripts/Makefile.build  | 21 ++-------------------
->  scripts/link-vmlinux.sh | 15 ---------------
->  2 files changed, 2 insertions(+), 34 deletions(-)
+> Changes in v2:
+>   - New patch
+> 
+>  scripts/Makefile.build      | 6 ------
+>  scripts/genksyms/genksyms.c | 3 +--
+>  2 files changed, 1 insertion(+), 8 deletions(-)
 > 
 > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index ddd9080fc028..dff9220135c4 100644
+> index dff9220135c4..461998a2ad2b 100644
 > --- a/scripts/Makefile.build
 > +++ b/scripts/Makefile.build
-> @@ -390,17 +390,6 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
->  $(subdir-builtin): $(obj)/%/built-in.a: $(obj)/% ;
->  $(subdir-modorder): $(obj)/%/modules.order: $(obj)/% ;
+> @@ -165,16 +165,10 @@ ifdef CONFIG_MODVERSIONS
+>  # o modpost will extract versions from that file and create *.c files that will
+>  #   be compiled and linked to the kernel and/or modules.
 >  
-> -# combine symversions for later processing
-> -ifeq ($(CONFIG_LTO_CLANG) $(CONFIG_MODVERSIONS),y y)
-> -      cmd_update_lto_symversions =					\
-> -	rm -f $@.symversions						\
-> -	$(foreach n, $(filter-out FORCE,$^),				\
-> -		$(if $(shell test -s $(n).symversions && echo y),	\
-> -			; cat $(n).symversions >> $@.symversions))
-> -else
-> -      cmd_update_lto_symversions = echo >/dev/null
-> -endif
+> -genksyms_format := __crc_\(.*\) = \(.*\);
 > -
->  #
->  # Rule to compile a set of .o files into one .a file (without symbol table)
->  #
-> @@ -408,11 +397,8 @@ endif
->  quiet_cmd_ar_builtin = AR      $@
->        cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+>  gen_symversions =								\
+>  	if $(NM) $@ 2>/dev/null | grep -q __ksymtab; then			\
+>  		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
+> -		    > $@.symversions;						\
+> -		sed -n 's/$(genksyms_format)/$(pound)SYMVER \1 \2/p' $@.symversions \
+>  			>> $(dot-target).cmd;					\
+> -	else									\
+> -		rm -f $@.symversions;						\
+>  	fi
 >  
-> -quiet_cmd_ar_and_symver = AR      $@
-> -      cmd_ar_and_symver = $(cmd_update_lto_symversions); $(cmd_ar_builtin)
-> -
->  $(obj)/built-in.a: $(real-obj-y) FORCE
-> -	$(call if_changed,ar_and_symver)
-> +	$(call if_changed,ar_builtin)
+>  cmd_gen_symversions_c =	$(call gen_symversions,c)
+> diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
+> index 6e6933ae7911..f5dfdb9d80e9 100644
+> --- a/scripts/genksyms/genksyms.c
+> +++ b/scripts/genksyms/genksyms.c
+> @@ -680,8 +680,7 @@ void export_symbol(const char *name)
+>  		if (flag_dump_defs)
+>  			fputs(">\n", debugfile);
 >  
->  #
->  # Rule to create modules.order file
-> @@ -432,16 +418,13 @@ $(obj)/modules.order: $(obj-m) FORCE
->  #
->  # Rule to compile a set of .o files into one .a file (with symbol table)
->  #
-> -quiet_cmd_ar_lib = AR      $@
-> -      cmd_ar_lib = $(cmd_update_lto_symversions); $(cmd_ar)
->  
->  $(obj)/lib.a: $(lib-y) FORCE
-> -	$(call if_changed,ar_lib)
-> +	$(call if_changed,ar)
->  
->  ifneq ($(CONFIG_LTO_CLANG)$(CONFIG_X86_KERNEL_IBT),)
->  quiet_cmd_link_multi-m = AR [M]  $@
->  cmd_link_multi-m =						\
-> -	$(cmd_update_lto_symversions);				\
->  	rm -f $@; 						\
->  	$(AR) cDPrsT $@ @$(patsubst %.o,%.mod,$@)
->  else
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 2742b7dd089a..07333181938b 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -56,20 +56,6 @@ gen_initcalls()
->  		> .tmp_initcalls.lds
+> -		/* Used as a linker script. */
+> -		printf("__crc_%s = 0x%08lx;\n", name, crc);
+> +		printf("#SYMVER %s 0x%08lx\n", name, crc);
+>  	}
 >  }
 >  
-> -# If CONFIG_LTO_CLANG is selected, collect generated symbol versions into
-> -# .tmp_symversions.lds
-> -gen_symversions()
-> -{
-> -	info GEN .tmp_symversions.lds
-> -	rm -f .tmp_symversions.lds
-> -
-> -	for o in ${KBUILD_VMLINUX_OBJS} ${KBUILD_VMLINUX_LIBS}; do
-> -		if [ -f ${o}.symversions ]; then
-> -			cat ${o}.symversions >> .tmp_symversions.lds
-> -		fi
-> -	done
-> -}
-> -
->  # Link of vmlinux.o used for section mismatch analysis
->  # ${1} output file
->  modpost_link()
-> @@ -299,7 +285,6 @@ cleanup()
->  	rm -f .btf.*
->  	rm -f .tmp_System.map
->  	rm -f .tmp_initcalls.lds
-> -	rm -f .tmp_symversions.lds
->  	rm -f .tmp_vmlinux*
->  	rm -f System.map
->  	rm -f vmlinux
 > -- 
 > 2.32.0
 
